@@ -102,12 +102,14 @@ O(0)          0.000e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(298 K,   1 atm)
+	Phase               SI** log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.05    -25.15   -3.10  H2
 	H2O(g)           -1.50      0.00    1.50  H2O
 	O2(g)           -39.19    -42.08   -2.89  O2
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -179,7 +181,7 @@ O(0)          0.000e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(298 K,  98 atm)
+	Phase               SI** log IAP   log K(298 K,  98 atm)
 
 	CH4(g)            1.91     -1.05   -2.96  CH4	 Pressure  98.4 atm, phi 0.819
 	CO2(g)           -7.29     -8.86   -1.57  CO2	 Pressure   0.0 atm, phi 0.613
@@ -187,6 +189,8 @@ O(0)          0.000e+00
 	H2O(g)           -1.47     -0.00    1.47  H2O
 	O2(g)           -74.87    -77.81   -2.94  O2
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 ------------------
 End of simulation.
@@ -197,6 +201,6 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.02 Seconds.
+End of Run after 0.01 Seconds.
 ------------------------------
 

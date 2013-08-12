@@ -21,46 +21,27 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/pitzer.dat
-	PITZER
-	b0
-	  K+  Cl-  0.04808  -758.48  -4.7062 0.010072  -3.7599e-6
-WARNING: Redefinition of parameter, K+ Cl-
-
-	b1
-	  K+  Cl-  0.2168  0  -6.895  2.262e-2  -9.293e-6  -1e5
-WARNING: Redefinition of parameter, K+ Cl-
-
-	c0
-	  K+  Cl-  -7.88E-04  91.27  0.58643  -1.298e-3  4.9567e-7
-WARNING: Redefinition of parameter, K+ Cl-
-
+	PRINT
+	 warnings 0
+	 echo_input false
 	SOLUTION 1
 	 K 10e3
 	 Cl 10e3
-	PHASES
-	Sylvite
-		KCl  = K+ + Cl-
-		log_k	   0.90
-		delta_h 16
-		analytical_expression  -50.571  9.8815e-2  1.3135e4  0  -1.3754e6  -7.393e-5
-		Vm 37.5
 	EQUILIBRIUM_PHASES 1
 	 Sylvite 0 10
 	REACTION_TEMPERATURE 1
 	10 20 25 30 40 50 60 70 80 90 100 120 130 140 150 160 180 200 220 250 280 300
 	USER_GRAPH 1
 	-chart_title "Sylvite solubility"
-	-axis_titles "mol KCl / kgw" "temperature / oC"
+	-axis_titles "temperature / oC" "mol KCl / kgw"
 	10 data 4.15, 4.544, 4.79, 4.963, 5.358, 5.727, 6.122, 6.491, 6.862, 7.207, 7.503, 8.023, 8.344, 8.665, 9.01, 9.38, 10.144, 10.835, 11.649, 12.953, 14.283, 15.682
 	20 dim c(30)
 	30 for i = 1 to 22
 	40   read c(i)
 	50 next i
-	60 plot_xy c(step_no), tc, line_width = 0, color = Red
-	70 plot_xy tot("K"), tc, symbol_size = 0, color = Red
+	60 plot_xy tc, c(step_no), line_width = 0, color = Red
+	70 plot_xy tc, tot("K"),   symbol_size = 0, color = Red
 	-end
-	PRINT
-	 status false
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -114,11 +95,13 @@ K             1.000e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(298 K,   1 atm)
+	Phase               SI** log IAP   log K(298 K,   1 atm)
 
 	H2O(g)           -1.68     -0.18    1.50  H2O
 	Sylvite           0.81      1.72    0.90  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -183,11 +166,13 @@ K             4.109e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(283 K,   1 atm)
+	Phase               SI** log IAP   log K(283 K,   1 atm)
 
 	H2O(g)           -1.97     -0.06    1.91  H2O
 	Sylvite           0.00      0.71    0.71  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 2.
 
@@ -248,11 +233,13 @@ K             4.574e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(293 K,   1 atm)
+	Phase               SI** log IAP   log K(293 K,   1 atm)
 
 	H2O(g)           -1.70     -0.07    1.63  H2O
 	Sylvite           0.00      0.84    0.84  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 3.
 
@@ -313,11 +300,13 @@ K             4.791e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(298 K,   1 atm)
+	Phase               SI** log IAP   log K(298 K,   1 atm)
 
 	H2O(g)           -1.58     -0.07    1.50  H2O
 	Sylvite           0.00      0.90    0.90  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 4.
 
@@ -378,11 +367,13 @@ K             4.999e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(303 K,   1 atm)
+	Phase               SI** log IAP   log K(303 K,   1 atm)
 
 	H2O(g)           -1.46     -0.08    1.38  H2O
 	Sylvite           0.00      0.95    0.95  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 5.
 
@@ -443,11 +434,13 @@ K             5.393e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(313 K,   1 atm)
+	Phase               SI** log IAP   log K(313 K,   1 atm)
 
 	H2O(g)           -1.22     -0.09    1.14  H2O
 	Sylvite           0.00      1.04    1.04  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 6.
 
@@ -508,11 +501,13 @@ K             5.763e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(323 K,   1 atm)
+	Phase               SI** log IAP   log K(323 K,   1 atm)
 
 	H2O(g)           -1.01     -0.09    0.92  H2O
 	Sylvite           0.00      1.12    1.12  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 7.
 
@@ -573,11 +568,13 @@ K             6.116e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(333 K,   1 atm)
+	Phase               SI** log IAP   log K(333 K,   1 atm)
 
 	H2O(g)           -0.81     -0.10    0.71  H2O
 	Sylvite           0.00      1.18    1.18  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 8.
 
@@ -638,11 +635,13 @@ K             6.457e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(343 K,   1 atm)
+	Phase               SI** log IAP   log K(343 K,   1 atm)
 
 	H2O(g)           -0.62     -0.11    0.51  H2O
 	Sylvite           0.00      1.23    1.23  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 9.
 
@@ -703,11 +702,13 @@ K             6.791e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(353 K,   1 atm)
+	Phase               SI** log IAP   log K(353 K,   1 atm)
 
 	H2O(g)           -0.45     -0.11    0.33  H2O
 	Sylvite           0.00      1.27    1.27  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 10.
 
@@ -768,11 +769,13 @@ K             7.119e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(363 K,   1 atm)
+	Phase               SI** log IAP   log K(363 K,   1 atm)
 
 	H2O(g)           -0.28     -0.12    0.16  H2O
 	Sylvite           0.00      1.30    1.30  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 11.
 
@@ -833,11 +836,13 @@ K             7.445e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(373 K,   1 atm)
+	Phase               SI** log IAP   log K(373 K,   1 atm)
 
 	H2O(g)           -0.13     -0.12    0.00  H2O
 	Sylvite           0.00      1.33    1.33  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 12.
 
@@ -899,11 +904,13 @@ K             8.095e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(393 K,   1 atm)
+	Phase               SI** log IAP   log K(393 K,   1 atm)
 
 	H2O(g)            0.15     -0.13   -0.28  H2O
 	Sylvite           0.00      1.36    1.36  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 13.
 
@@ -965,11 +972,13 @@ K             8.421e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(403 K,   2 atm)
+	Phase               SI** log IAP   log K(403 K,   2 atm)
 
 	H2O(g)            0.28     -0.14   -0.42  H2O
 	Sylvite           0.00      1.37    1.37  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 14.
 
@@ -1031,11 +1040,13 @@ K             8.748e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(413 K,   3 atm)
+	Phase               SI** log IAP   log K(413 K,   3 atm)
 
 	H2O(g)            0.40     -0.14   -0.54  H2O
 	Sylvite           0.00      1.37    1.37  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 15.
 
@@ -1097,11 +1108,13 @@ K             9.077e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(423 K,   3 atm)
+	Phase               SI** log IAP   log K(423 K,   3 atm)
 
 	H2O(g)            0.51     -0.15   -0.66  H2O
 	Sylvite           0.00      1.36    1.36  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 16.
 
@@ -1163,11 +1176,13 @@ K             9.408e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(433 K,   4 atm)
+	Phase               SI** log IAP   log K(433 K,   4 atm)
 
 	H2O(g)            0.62     -0.15   -0.77  H2O
 	Sylvite          -0.00      1.35    1.35  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 17.
 
@@ -1229,11 +1244,13 @@ K             1.008e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(453 K,   7 atm)
+	Phase               SI** log IAP   log K(453 K,   7 atm)
 
 	H2O(g)            0.82     -0.16   -0.97  H2O
 	Sylvite          -0.00      1.31    1.31  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 18.
 
@@ -1295,11 +1312,13 @@ K             1.075e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(473 K,  11 atm)
+	Phase               SI** log IAP   log K(473 K,  11 atm)
 
 	H2O(g)            0.99     -0.16   -1.15  H2O
 	Sylvite           0.00      1.25    1.25  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 19.
 
@@ -1361,11 +1380,13 @@ K             1.146e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(493 K,  16 atm)
+	Phase               SI** log IAP   log K(493 K,  16 atm)
 
 	H2O(g)            1.15     -0.16   -1.32  H2O
 	Sylvite           0.00      1.16    1.16  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 20.
 
@@ -1427,11 +1448,13 @@ K             1.269e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(523 K,  27 atm)
+	Phase               SI** log IAP   log K(523 K,  27 atm)
 
 	H2O(g)            1.36     -0.17   -1.53  H2O
 	Sylvite           0.00      0.97    0.97  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 21.
 
@@ -1493,11 +1516,13 @@ K             1.513e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(553 K,  42 atm)
+	Phase               SI** log IAP   log K(553 K,  42 atm)
 
 	H2O(g)            1.54     -0.17   -1.71  H2O
 	Sylvite           0.00      0.71    0.71  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 Reaction step 22.
 
@@ -1559,11 +1584,13 @@ K             2.000e+01
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(573 K,  56 atm)
+	Phase               SI** log IAP   log K(573 K,  56 atm)
 
 	H2O(g)            1.66     -0.16   -1.82  H2O
 	Sylvite          -0.06      0.41    0.47  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 ------------------
 End of simulation.
@@ -1574,6 +1601,6 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.09 Seconds.
+End of Run after 0.08 Seconds.
 ------------------------------
 

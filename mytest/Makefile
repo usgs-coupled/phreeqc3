@@ -310,13 +310,7 @@ all: alkalinity.out \
 	NaKCl.out \
 	NaMgCl.out \
 	14C_isotopes.out \
-	str_f.out \
-	anhy_K2SO4.out \
-	anhy_Na2SO4.out \
-	anhy_NaCl.out \
-	gyps_Na2SO4.out \
-	gypsum.out 
-	
+	str_f.out  
 # NaX.out
 
 clean:
