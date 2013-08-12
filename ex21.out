@@ -143,13 +143,15 @@ O(0)          0.000e+00
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(298 K,   1 atm)
+	Phase               SI** log IAP   log K(298 K,   1 atm)
 
 	H2(g)           -22.05    -25.15   -3.10  H2
 	H2O(g)           -1.50     -0.00    1.50  H2O
 	Halite           -7.60     -6.03    1.57  NaCl
 	O2(g)           -39.19    -42.08   -2.89  O2
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 ------------------
 End of simulation.
@@ -516,7 +518,7 @@ Sr            5.050e-04
 
 ------------------------------Saturation indices-------------------------------
 
-	Phase               SI   log IAP   log K(296 K,   1 atm)
+	Phase               SI** log IAP   log K(296 K,   1 atm)
 
 	Anhydrite        -0.65     -4.91   -4.26  CaSO4
 	Aragonite        -0.18     -8.50   -8.32  CaCO3
@@ -532,6 +534,8 @@ Sr            5.050e-04
 	Strontianite     -0.94    -10.21   -9.27  SrCO3
 	Sylvite          -4.55     -3.67    0.88  KCl
 
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
 
 ------------------
 End of simulation.
@@ -957,6 +961,6 @@ WARNING: No dispersivities were read; disp = 0 assumed.
 	END	
 	END
 -------------------------------
-End of Run after 20.92 Seconds.
+End of Run after 20.93 Seconds.
 -------------------------------
 
