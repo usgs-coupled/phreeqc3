@@ -1,56 +1,40 @@
-..\ClrClass_release\phreeqcpp.exe    cc_P
-..\ClrClass_release\phreeqcpp.exe    CH4_conc_PR_IS
-..\ClrClass_release\phreeqcpp.exe    CO2_4M_NaCl
-..\ClrClass_release\phreeqcpp.exe    CO2_anal
-..\ClrClass_release\phreeqcpp.exe    CO2_conc_PR_EQ
-..\ClrClass_release\phreeqcpp.exe    CO2_conc_PR_GP
-..\ClrClass_release\phreeqcpp.exe    CO2_conc_PR_IS
-..\ClrClass_release\phreeqcpp.exe    CO2_K_H
-..\ClrClass_release\phreeqcpp.exe    CO2_Na2SO4
-..\ClrClass_release\phreeqcpp.exe    co2_t30
-..\ClrClass_release\phreeqcpp.exe    co2_tc
-..\ClrClass_release\phreeqcpp.exe    co2_VP
-..\ClrClass_release\phreeqcpp.exe    fix_P
-..\ClrClass_release\phreeqcpp.exe    fix_V
-..\ClrClass_release\phreeqcpp.exe    gas_fix_P
-..\ClrClass_release\phreeqcpp.exe    gas_fix_V
-..\ClrClass_release\phreeqcpp.exe    gypsum_P
-..\ClrClass_release\phreeqcpp.exe    gypsum_P2
-..\ClrClass_release\phreeqcpp.exe    mV_SO4_rho
-..\ClrClass_release\phreeqcpp.exe    mV1_rho
-..\ClrClass_release\phreeqcpp.exe    mV2_rho
-..\ClrClass_release\phreeqcpp.exe    N2_conc_PR_IS
-..\ClrClass_release\phreeqcpp.exe    NaCl
-..\ClrClass_release\phreeqcpp.exe    O2_conc_PR_IS
-..\ClrClass_release\phreeqcpp.exe    P_CO2_Na2SO4
-..\ClrClass_release\phreeqcpp.exe    P_Vm
-..\ClrClass_release\phreeqcpp.exe    phi_Angus
-..\ClrClass_release\phreeqcpp.exe    phi_CO2-CH4_GP
-..\ClrClass_release\phreeqcpp.exe    phi_Duan_PR
-..\ClrClass_release\phreeqcpp.exe    phi_Duan_PR_EQ
-..\ClrClass_release\phreeqcpp.exe    PR_EQ
-..\ClrClass_release\phreeqcpp.exe    PR_EQ_GP
-..\ClrClass_release\phreeqcpp.exe    PR_equil
-..\ClrClass_release\phreeqcpp.exe    PR_equil2
-..\ClrClass_release\phreeqcpp.exe    PR_mx_new
-..\ClrClass_release\phreeqcpp.exe    PR_initial_gas
-..\ClrClass_release\phreeqcpp.exe    PR_initial_gas_noredox
-..\ClrClass_release\phreeqcpp.exe    PR_mx_new
-..\ClrClass_release\phreeqcpp.exe    ternary
-..\ClrClass_release\phreeqcpp.exe    water_vp1
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+..\ClrRelease\phreeqc.exe    cc_P
+..\ClrRelease\phreeqc.exe    CH4_conc_PR_IS
+..\ClrRelease\phreeqc.exe    CO2_4M_NaCl
+..\ClrRelease\phreeqc.exe    CO2_anal
+..\ClrRelease\phreeqc.exe    CO2_conc_PR_EQ
+..\ClrRelease\phreeqc.exe    CO2_conc_PR_GP
+..\ClrRelease\phreeqc.exe    CO2_conc_PR_IS
+..\ClrRelease\phreeqc.exe    CO2_K_H
+..\ClrRelease\phreeqc.exe    CO2_Na2SO4
+..\ClrRelease\phreeqc.exe    co2_t30
+..\ClrRelease\phreeqc.exe    co2_tc
+..\ClrRelease\phreeqc.exe    co2_VP
+..\ClrRelease\phreeqc.exe    fix_P
+..\ClrRelease\phreeqc.exe    fix_V
+..\ClrRelease\phreeqc.exe    gas_fix_P
+..\ClrRelease\phreeqc.exe    gas_fix_V
+..\ClrRelease\phreeqc.exe    gypsum_P
+..\ClrRelease\phreeqc.exe    gypsum_P2
+..\ClrRelease\phreeqc.exe    mV_SO4_rho
+..\ClrRelease\phreeqc.exe    mV1_rho
+..\ClrRelease\phreeqc.exe    mV2_rho
+..\ClrRelease\phreeqc.exe    N2_conc_PR_IS
+..\ClrRelease\phreeqc.exe    NaCl
+..\ClrRelease\phreeqc.exe    O2_conc_PR_IS
+..\ClrRelease\phreeqc.exe    P_CO2_Na2SO4
+..\ClrRelease\phreeqc.exe    P_Vm
+..\ClrRelease\phreeqc.exe    phi_Angus
+..\ClrRelease\phreeqc.exe    phi_CO2-CH4_GP
+..\ClrRelease\phreeqc.exe    phi_Duan_PR
+..\ClrRelease\phreeqc.exe    phi_Duan_PR_EQ
+..\ClrRelease\phreeqc.exe    PR_EQ
+..\ClrRelease\phreeqc.exe    PR_EQ_GP
+..\ClrRelease\phreeqc.exe    PR_equil
+..\ClrRelease\phreeqc.exe    PR_equil2
+..\ClrRelease\phreeqc.exe    PR_mx_new
+..\ClrRelease\phreeqc.exe    PR_initial_gas
+..\ClrRelease\phreeqc.exe    PR_initial_gas_noredox
+..\ClrRelease\phreeqc.exe    PR_mx_new
+..\ClrRelease\phreeqc.exe    ternary
+..\ClrRelease\phreeqc.exe    water_vp1
