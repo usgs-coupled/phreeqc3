@@ -47,7 +47,7 @@ public:
 	inline bool Get_have_punch_name(void)                             {return this->have_punch_name;}
 	inline std::ostream* Get_punch_ostream(void)                      {return this->punch_ostream;}
 
-	inline void Set_file_name(int i);
+	void Set_file_name(int i);
 	inline void Set_file_name(std::string s)                          {this->file_name = s;}
 	inline void Set_new_def(bool tf)                                  {this->new_def = tf;}
 	inline void Set_punch_ostream(std::ostream * os)                  {this->punch_ostream = os;}
