@@ -1,0 +1,239 @@
+   Input file: gas9
+  Output file: gas9.out
+Database file: ../database/llnl.dat
+
+------------------
+Reading data base.
+------------------
+
+	LLNL_AQUEOUS_MODEL_PARAMETERS
+	NAMED_EXPRESSIONS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/llnl.dat
+	SOLUTION 3
+	temperature 25
+	Na 300
+	Cl 300 charge
+	GAS_PHASE 3
+	fixed_volume
+	volume 9
+	temperature 25
+	Ar(g)             1.328045
+	He(g)             0.061155
+	H2(g)             0.0604
+	Ne(g)             0.0604
+	SAVE GAS_PHASE 3
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 3.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               3.000e-001  3.000e-001  Charge balance
+	Na               3.000e-001  3.000e-001
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   0.990
+                           Ionic strength  =  2.928e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.207e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                  Electrical balance (eq)  = -1.225e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.110507e+002
+                                  Total O  = 5.552533e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.374e-007  9.538e-008    -6.862    -7.021    -0.159     (0)  
+   H+             1.243e-007  1.000e-007    -6.906    -7.000    -0.094      0.00
+   H2O            5.553e+001  9.899e-001     1.744    -0.004     0.000     18.07
+Cl(-1)       3.000e-001
+   Cl-            2.928e-001  1.987e-001    -0.533    -0.702    -0.168     (0)  
+   NaCl           7.242e-003  7.242e-003    -2.140    -2.140     0.000     (0)  
+   HCl            4.462e-009  4.462e-009    -8.350    -8.350     0.000     (0)  
+Cl(1)        7.843e-037
+   HClO           5.681e-037  5.681e-037   -36.246   -36.246     0.000     (0)  
+   ClO-           2.162e-037  1.532e-037   -36.665   -36.815    -0.150     (0)  
+Cl(3)        0.000e+000
+   ClO2-          0.000e+000  0.000e+000   -65.673   -65.822    -0.150     (0)  
+   HClO2          0.000e+000  0.000e+000   -69.652   -69.652     0.000     (0)  
+Cl(5)        0.000e+000
+   ClO3-          0.000e+000  0.000e+000   -80.819   -80.978    -0.159     (0)  
+Cl(7)        0.000e+000
+   ClO4-          0.000e+000  0.000e+000  -100.276  -100.435    -0.159     (0)  
+H(0)         1.481e-025
+   H2             7.406e-026  7.935e-026   -25.130   -25.100     0.030     (0)  
+Na           3.000e-001
+   Na+            2.928e-001  2.074e-001    -0.533    -0.683    -0.150     (0)  
+   NaCl           7.242e-003  7.242e-003    -2.140    -2.140     0.000     (0)  
+   NaOH           3.413e-009  3.413e-009    -8.467    -8.467     0.000     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -42.034   -42.004     0.030     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI** log IAP   log K(298 K,   1 atm)
+
+	Cl2(g)          -39.40    -36.40    2.99  Cl2
+	H2(g)           -22.00    -25.10   -3.10  H2
+	H2O(g)           -1.59     -0.00    1.59  H2O
+	Halite           -2.95     -1.39    1.56  NaCl
+	HCl(g)          -14.00     -7.70    6.30  HCl
+	Ice              -0.14     -0.00    0.14  H2O
+	Na              -50.56     16.82   67.37  Na
+	Na(g)           -64.04     16.82   80.86  Na
+	Na2O            -54.79     12.63   67.42  Na2O
+	O2(g)           -39.11    -42.00   -2.89  O2
+
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 3.	
+Using gas phase 3.	
+
+-----------------------------------Gas phase-----------------------------------
+
+Total pressure:  1.50      atmospheres 
+    Gas volume:  9.00e+000 liters
+  Molar volume:  1.63e+001 liters/mole
+
+                                                        Moles in gas
+                                            ----------------------------------
+Component                log P           P     Initial       Final       Delta
+
+Ar(g)                     0.12  1.323e+000  4.885e-001  4.867e-001 -1.857e-003
+H2(g)                    -1.22  6.028e-002  2.222e-002  2.217e-002 -4.453e-005
+He(g)                    -1.21  6.109e-002  2.250e-002  2.247e-002 -2.376e-005
+Ne(g)                    -1.22  6.033e-002  2.222e-002  2.219e-002 -2.751e-005
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ar               1.857e-003  1.857e-003
+	Cl               3.000e-001  3.000e-001
+	He               2.376e-005  2.376e-005
+	Na               3.000e-001  3.000e-001
+	Ne               2.751e-005  2.751e-005
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -6.390      Adjusted to redox equilibrium
+                        Activity of water  =   0.990
+                           Ionic strength  =  2.928e-001
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  1.207e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.00
+                           Pressure (atm)  =  1.50
+                  Electrical balance (eq)  = -1.224e-013
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                                  Total H  = 1.110507e+002
+                                  Total O  = 5.552533e+001
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-            1.374e-007  9.538e-008    -6.862    -7.021    -0.159     (0)  
+   H+             1.243e-007  1.000e-007    -6.906    -7.000    -0.094      0.00
+   H2O            5.553e+001  9.899e-001     1.744    -0.004     0.000     18.07
+Ar           1.857e-003
+   Ar             1.857e-003  1.857e-003    -2.731    -2.731     0.000     (0)  
+Cl(-1)       3.000e-001
+   Cl-            2.928e-001  1.987e-001    -0.533    -0.702    -0.168     (0)  
+   NaCl           7.242e-003  7.242e-003    -2.140    -2.140     0.000     (0)  
+   HCl            4.462e-009  4.462e-009    -8.350    -8.350     0.000     (0)  
+Cl(1)        0.000e+000
+   HClO           0.000e+000  0.000e+000   -57.025   -57.025     0.000     (0)  
+   ClO-           0.000e+000  0.000e+000   -57.445   -57.594    -0.150     (0)  
+Cl(3)        0.000e+000
+   ClO2-          0.000e+000  0.000e+000  -107.232  -107.381    -0.150     (0)  
+   HClO2          0.000e+000  0.000e+000  -111.212  -111.212     0.000     (0)  
+Cl(5)        0.000e+000
+   ClO3-          0.000e+000  0.000e+000  -143.158  -143.316    -0.159     (0)  
+Cl(7)        0.000e+000
+   ClO4-          0.000e+000  0.000e+000  -183.394  -183.553    -0.159     (0)  
+H(0)         8.916e-005
+   H2             4.458e-005  4.776e-005    -4.351    -4.321     0.030     (0)  
+He(0)        2.376e-005
+   He             2.376e-005  2.376e-005    -4.624    -4.624     0.000     (0)  
+Na           3.000e-001
+   Na+            2.928e-001  2.074e-001    -0.533    -0.683    -0.150     (0)  
+   NaCl           7.242e-003  7.242e-003    -2.140    -2.140     0.000     (0)  
+   NaOH           3.413e-009  3.413e-009    -8.467    -8.467     0.000     (0)  
+Ne           2.751e-005
+   Ne             2.751e-005  2.751e-005    -4.561    -4.561     0.000     (0)  
+O(0)         0.000e+000
+   O2             0.000e+000  0.000e+000   -83.593   -83.563     0.030     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI** log IAP   log K(298 K,   2 atm)
+
+	Ar(g)             0.12     -2.73   -2.85  Ar
+	Cl2(g)          -60.18    -57.18    2.99  Cl2
+	H2(g)            -1.22     -4.32   -3.10  H2
+	H2O(g)           -1.59     -0.00    1.59  H2O
+	Halite           -2.95     -1.39    1.56  NaCl
+	HCl(g)          -14.00     -7.70    6.30  HCl
+	He(g)            -1.21     -4.62   -3.41  He
+	Ice              -0.14     -0.00    0.14  H2O
+	Na              -40.17     27.21   67.37  Na
+	Na(g)           -53.65     27.21   80.86  Na
+	Na2O            -54.79     12.63   67.42  Na2O
+	Ne(g)            -1.22     -4.56   -3.34  Ne
+	O2(g)           -80.67    -83.56   -2.89  O2
+
+**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.
+For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 1.674 Seconds.
+-------------------------------
+

@@ -316,7 +316,8 @@ all: alkalinity.out \
 	anhy_NaCl.out \
 	gyps_NaCl.out \
 	gyps_Na2SO4.out \
-	gypsum.out 
+	gypsum.out \
+	gas9.out
 
 # NaX.out
 
