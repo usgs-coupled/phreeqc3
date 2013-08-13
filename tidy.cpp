@@ -875,17 +875,6 @@ tidy_gas_phase(void)
 		cxxGasPhase *gas_phase_ptr = &(it->second);
 		PR = false;
 		P = 0.0;
-		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
-		{
-			if (gas_phase_ptr->Get_solution_equilibria())
-			{
-				input_error++;
-				error_string = sformatf(
-					"Gas phase %d: cannot use '-equilibrium' option with fixed pressure gas phase.",
-					gas_phase_ptr->Get_n_user());
-				error_msg(error_string, CONTINUE);
-			}
-		}
 		std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
 		for (size_t j = 0; j < gc.size(); j++)
 		{
@@ -905,109 +894,126 @@ tidy_gas_phase(void)
 				if (phase_ptr->t_c > 0 && phase_ptr->p_c > 0)
 					PR = true;
 			}
-			gas_phase_ptr->Set_pr_in(PR);
+		}
+		gas_phase_ptr->Set_pr_in(PR);
+
+		if (gas_phase_ptr->Get_new_def())   // true GAS_PHASE, false GAS_PHASE_MODIFY
+		{
+			for (size_t j = 0; j < gc.size(); j++)
+			{
+				gas_phase_ptr->Set_new_def(false);
 				/*
 				*   Fixed pressure
 				*/
-			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
-			{
-				/* calculate moles */
-				if (gc[j].Get_p_read() != NAN)
+				if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 				{
-					P += gc[j].Get_p_read();
-					gc[j].Set_moles(
-						gc[j].Get_p_read() * gas_phase_ptr->Get_volume() /
-						R_LITER_ATM / gas_phase_ptr->Get_temperature());
-				}
-				else
-				{
-					input_error++;
-					error_string = sformatf(
-						"Gas phase %d: partial pressure of gas component %s not defined.",
-						gas_phase_ptr->Get_n_user(), gc[j].Get_phase_name().c_str());
-					error_msg(error_string, CONTINUE);
-				}
-			}
-			else
-			{
-				/*
-				*   Fixed volume
-				*/
-				if (!gas_phase_ptr->Get_solution_equilibria())
-				{
+					if (gas_phase_ptr->Get_solution_equilibria())
+					{
+						input_error++;
+						error_string = sformatf(
+							"Gas phase %d: cannot use '-equilibrium' option with fixed pressure gas phase.",
+							gas_phase_ptr->Get_n_user());
+						error_msg(error_string, CONTINUE);
+					}
+					/* calculate moles */
 					if (gc[j].Get_p_read() != NAN)
 					{
 						P += gc[j].Get_p_read();
-						gc[j].Set_moles (
-							gc[j].Get_p_read() *
-							gas_phase_ptr->Get_volume() / R_LITER_ATM /
-							gas_phase_ptr->Get_temperature());
+						gc[j].Set_moles(
+							gc[j].Get_p_read() * gas_phase_ptr->Get_volume() /
+							R_LITER_ATM / gas_phase_ptr->Get_temperature());
 					}
 					else
 					{
 						input_error++;
 						error_string = sformatf(
-							"Gas phase %d: moles of gas component %s not defined.",
-							gas_phase_ptr->Get_n_user(),
-							gc[j].Get_phase_name().c_str());
+							"Gas phase %d: partial pressure of gas component %s not defined.",
+							gas_phase_ptr->Get_n_user(), gc[j].Get_phase_name().c_str());
 						error_msg(error_string, CONTINUE);
 					}
 				}
-			}
-		}
-
-		gas_phase_ptr->Set_gas_comps(gc);
-
-		if (PR && P > 0)
-		{
-			std::vector<struct phase *> phase_ptrs;
-			for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
-			{
-				int k;
-				struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &k, FALSE);
-				if (gc[j].Get_p_read() == 0)
-					continue;
-				phase_ptr->moles_x = gc[j].Get_p_read() / P;
-				phase_ptrs.push_back(phase_ptr);
-			}
-			V_m = calc_PR(phase_ptrs, P, gas_phase_ptr->Get_temperature(), 0);
-			gas_phase_ptr->Set_v_m(V_m);
-			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
-			{
-				gas_phase_ptr->Set_total_p(P);
-			}
-			std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
-			for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
-			{
-				int k;
-				struct phase *phase_ptr = phase_bsearch(gc[j].Get_phase_name().c_str(), &k, FALSE);
-				if (gc[j].Get_p_read() == 0)
+				else
 				{
-					gc[j].Set_moles(0.0);
-				} else
-				{
-					gc[j].Set_moles(phase_ptr->moles_x * gas_phase_ptr->Get_volume() / V_m);
-					gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gc[j].Get_moles());
+					/*
+					*   Fixed volume
+					*/
+					if (!gas_phase_ptr->Get_solution_equilibria())
+					{
+						if (gc[j].Get_p_read() != NAN)
+						{
+							P += gc[j].Get_p_read();
+							gc[j].Set_moles (
+								gc[j].Get_p_read() *
+								gas_phase_ptr->Get_volume() / R_LITER_ATM /
+								gas_phase_ptr->Get_temperature());
+						}
+						else
+						{
+							input_error++;
+							error_string = sformatf(
+								"Gas phase %d: moles of gas component %s not defined.",
+								gas_phase_ptr->Get_n_user(),
+								gc[j].Get_phase_name().c_str());
+							error_msg(error_string, CONTINUE);
+						}
+					}
 				}
 			}
+
 			gas_phase_ptr->Set_gas_comps(gc);
-		}
-		/* 
-		*   Duplicate gas phase, only if not solution equilibria
-		*/
-		if (!gas_phase_ptr->Get_solution_equilibria())
-		{
-			n_user = gas_phase_ptr->Get_n_user();
-			last = gas_phase_ptr->Get_n_user_end();
-			gas_phase_ptr->Set_n_user_end(n_user);
-			for (int j = n_user + 1; j <= last; j++)
+
+			if (PR && P > 0)
 			{
-				Utilities::Rxn_copy(Rxn_gas_phase_map, n_user, j);
+				std::vector<struct phase *> phase_ptrs;
+				for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
+				{
+					int k;
+					struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &k, FALSE);
+					if (gc[j].Get_p_read() == 0)
+						continue;
+					phase_ptr->moles_x = gc[j].Get_p_read() / P;
+					phase_ptrs.push_back(phase_ptr);
+				}
+				V_m = calc_PR(phase_ptrs, P, gas_phase_ptr->Get_temperature(), 0);
+				gas_phase_ptr->Set_v_m(V_m);
+				if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
+				{
+					gas_phase_ptr->Set_total_p(P);
+				}
+				std::vector<cxxGasComp> gc = gas_phase_ptr->Get_gas_comps();
+				for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
+				{
+					int k;
+					struct phase *phase_ptr = phase_bsearch(gc[j].Get_phase_name().c_str(), &k, FALSE);
+					if (gc[j].Get_p_read() == 0)
+					{
+						gc[j].Set_moles(0.0);
+					} else
+					{
+						gc[j].Set_moles(phase_ptr->moles_x *
+							gas_phase_ptr->Get_volume() / V_m);
+						gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gc[j].Get_moles());
+					}
+				}
+				gas_phase_ptr->Set_gas_comps(gc);
 			}
-		}
-		else
-		{
-			gas_phase_ptr->Set_new_def(true);
+			/* 
+			*   Duplicate gas phase, only if not solution equilibria
+			*/
+			if (!gas_phase_ptr->Get_solution_equilibria())
+			{
+				n_user = gas_phase_ptr->Get_n_user();
+				last = gas_phase_ptr->Get_n_user_end();
+				gas_phase_ptr->Set_n_user_end(n_user);
+				for (int j = n_user + 1; j <= last; j++)
+				{
+					Utilities::Rxn_copy(Rxn_gas_phase_map, n_user, j);
+				}
+			}
+			else
+			{
+				gas_phase_ptr->Set_new_def(true);
+			}
 		}
 	}
 	return (OK);
