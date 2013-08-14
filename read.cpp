@@ -4676,7 +4676,7 @@ read_selected_output(void)
 	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
 	if (n_user == 1 && so != SelectedOutput_map.end())
 	{
-	  // n_user = 1, old definition, keep old definition
+		// n_user = 1, old definition, keep old definition
 		SelectedOutput & so_ref = so->second;
 		temp_selected_output.Set_active           ( so_ref.Get_active() );
 		temp_selected_output.Set_inverse          ( so_ref.Get_inverse() );
@@ -4702,13 +4702,13 @@ read_selected_output(void)
 	}
 	else if (n_user == 1 && so == SelectedOutput_map.end())
 	{
-	  // n_user = 1, new definition, do nothing use; constructor default
+		// n_user = 1, new definition, do nothing use; constructor default
 	}
 	else 
 	{
-              // n_user != 1 then reset false
+		// n_user != 1 then reset false
 
-	        temp_selected_output.Reset(false);
+		temp_selected_output.Reset(false);
 	}
 
 	CParser parser(this->phrq_io);
@@ -5031,7 +5031,6 @@ read_selected_output(void)
 	
 	if (temp_selected_output.Get_new_def() || so == SelectedOutput_map.end())
 	{
-
 		// delete if exists
 		if (so != SelectedOutput_map.end())
 		{
@@ -5041,28 +5040,20 @@ read_selected_output(void)
 		// store new selected output
 		SelectedOutput_map[n_user] = temp_selected_output;
 
-		//{{
-		//if (!SelectedOutput_map[n_user].Get_have_punch_name())
-		//{
-			assert(SelectedOutput_map[n_user].Get_punch_ostream() == 0);
-		//}}
-			if (punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
+		if (punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
+		{
+			if (this->phrq_io)
 			{
-				if (this->phrq_io)
-				{
-					SelectedOutput_map[n_user].Set_punch_ostream(this->phrq_io->Get_punch_ostream());
-					this->phrq_io->Set_punch_ostream(NULL);
-				}
+				SelectedOutput_map[n_user].Set_punch_ostream(this->phrq_io->Get_punch_ostream());
+				this->phrq_io->Set_punch_ostream(NULL);
 			}
-			else
-			{
-				error_string = sformatf( "Can`t open file, %s.", SelectedOutput_map[n_user].Get_file_name().c_str());
-				input_error++;
-				error_msg(error_string, CONTINUE);
-			}
-		//{{
-		//}
-		//}}
+		}
+		else
+		{
+			error_string = sformatf( "Can`t open file, %s.", SelectedOutput_map[n_user].Get_file_name().c_str());
+			input_error++;
+			error_msg(error_string, CONTINUE);
+		}
 	}
 
 	//if (!have_punch_name)
