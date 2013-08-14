@@ -578,8 +578,8 @@ print_gas_phase(void)
 			   (double) gas_phase_ptr->Get_volume()));
 	if(gas_phase_ptr->Get_total_moles() > 0)
 		output_msg(sformatf("  Molar volume: %10.2e liters/mole",
-				    (double) (gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles())));
-	if (!numerical_fixed_volume && ((PR && gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles() <= 0.03) || (PR && gas_phase_ptr->Get_v_m() <= 0.03)))
+				    (double) (gas_phase_ptr->Get_v_m())));
+	if (!numerical_fixed_volume && ((PR && gas_phase_ptr->Get_v_m() <= 0.016)))
 		output_msg(" WARNING: Program limit for Peng-Robinson.\n");
 	else
 		output_msg("\n");
@@ -590,7 +590,7 @@ print_gas_phase(void)
 
 	output_msg(sformatf("\n%68s\n%78s\n", "Moles in gas",
 			   "----------------------------------"));
-	if (gas_phase_ptr->Get_v_m() >= 0.03)
+	if (PR)
 		output_msg(sformatf( "%-11s%12s%12s%7s%12s%12s%12s\n\n", "Component",
 			   "log P", "P", "phi", "Initial", "Final", "Delta"));
 	else
