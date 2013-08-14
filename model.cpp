@@ -2712,14 +2712,14 @@ calc_gas_pressures(void)
 			if (gas_phase_ptr->Get_total_moles() > 0)
 			{
 				V_m = gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles();
-				if (V_m < 0.03)
+				if (V_m < 0.016)
 				{
-					V_m = 0.03;
+					V_m = 0.016;
 				} else if (V_m > 1e4)
 				{
 					V_m = 1e4;
 				}
-				if (gas_phase_ptr->Get_v_m() > 0.03)
+				if (gas_phase_ptr->Get_v_m() > 0.016)
 				{
 					if (V_m < 0.04)
 						V_m = (9. * gas_phase_ptr->Get_v_m() + V_m) / 10;
