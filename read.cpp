@@ -4674,8 +4674,9 @@ read_selected_output(void)
 
 	// find if it exists
 	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
-	if (so != SelectedOutput_map.end())
+	if (n_user == 1 && so != SelectedOutput_map.end())
 	{
+	  // n_user = 1, old definition, keep old definition
 		SelectedOutput & so_ref = so->second;
 		temp_selected_output.Set_active           ( so_ref.Get_active() );
 		temp_selected_output.Set_inverse          ( so_ref.Get_inverse() );
@@ -4699,9 +4700,15 @@ read_selected_output(void)
 		temp_selected_output.Set_have_punch_name  ( so_ref.Get_have_punch_name() );
 		temp_selected_output.Set_file_name        ( so_ref.Get_file_name() );
 	}
-	else if(n_user != 1)
+	else if (n_user == 1 && so == SelectedOutput_map.end())
 	{
-		temp_selected_output.Reset(false);
+	  // n_user = 1, new definition, do nothing use; constructor default
+	}
+	else 
+	{
+              // n_user != 1 then reset false
+
+	        temp_selected_output.Reset(false);
 	}
 
 	CParser parser(this->phrq_io);
@@ -5035,8 +5042,8 @@ read_selected_output(void)
 		SelectedOutput_map[n_user] = temp_selected_output;
 
 		//{{
-		if (!SelectedOutput_map[n_user].Get_have_punch_name())
-		{
+		//if (!SelectedOutput_map[n_user].Get_have_punch_name())
+		//{
 			assert(SelectedOutput_map[n_user].Get_punch_ostream() == 0);
 		//}}
 			if (punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
@@ -5054,7 +5061,7 @@ read_selected_output(void)
 				error_msg(error_string, CONTINUE);
 			}
 		//{{
-		}
+		//}
 		//}}
 	}
 
