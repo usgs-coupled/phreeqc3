@@ -5040,15 +5040,7 @@ read_selected_output(void)
 		// store new selected output
 		SelectedOutput_map[n_user] = temp_selected_output;
 
-		if (punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
-		{
-			if (this->phrq_io)
-			{
-				SelectedOutput_map[n_user].Set_punch_ostream(this->phrq_io->Get_punch_ostream());
-				this->phrq_io->Set_punch_ostream(NULL);
-			}
-		}
-		else
+		if (!punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
 		{
 			error_string = sformatf( "Can`t open file, %s.", SelectedOutput_map[n_user].Get_file_name().c_str());
 			input_error++;
