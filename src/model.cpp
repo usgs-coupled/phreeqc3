@@ -2714,22 +2714,21 @@ calc_gas_pressures(void)
 				V_m = gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles();
 				if (V_m < 0.016)
 				{
-					V_m = 0.016;
+						V_m = 0.016;
 				} else if (V_m > 1e4)
 				{
 					V_m = 1e4;
 				}
-				if (gas_phase_ptr->Get_v_m() > 0.016)
-				{
-					if (V_m < 0.04)
-						V_m = (9. * gas_phase_ptr->Get_v_m() + V_m) / 10;
-					else if (V_m < 0.045)
-						V_m = (6. * gas_phase_ptr->Get_v_m() + V_m) / 7;
-					else if (V_m < 0.07)
-						V_m = (3. * gas_phase_ptr->Get_v_m() + V_m) / 4;
-					else
-						V_m = (1. * gas_phase_ptr->Get_v_m() + V_m) / 2;
-				}
+				if (V_m < 0.02)
+					V_m = (8. * gas_phase_ptr->Get_v_m() + V_m) / 9;
+				else if (V_m < 0.03)
+					V_m = (6. * gas_phase_ptr->Get_v_m() + V_m) / 7;
+				else if (V_m < 0.05)
+					V_m = (4. * gas_phase_ptr->Get_v_m() + V_m) / 5;
+				else if (V_m < 0.07)
+					V_m = (2. * gas_phase_ptr->Get_v_m() + V_m) / 3;
+				else
+					V_m = (1. * gas_phase_ptr->Get_v_m() + V_m) / 2;
 				if (iterations > 99)
 				{
 					//V_m *= 1; /* debug */
