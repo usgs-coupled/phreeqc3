@@ -1,9 +1,8 @@
 # Anhydrite solubility in NaCl
 DATABASE pitzer.dat
-PRINT; -reset false 
+PRINT; -reset false
 INCLUDE$ Pabalan.dat
 
-END
 SOLUTION 1
 pH 7 charge
 -temp 100
@@ -15,9 +14,10 @@ REACTION 1
 NaCl 1; 0 1e-5 5*0.02 0.1 4*0.2 16*0.5
 INCREMENTAL_REACTIONS true
 USER_GRAPH
--chart_title "Anhydrite solubility"
+-chart_title "Anhydrite solubility in NaCl solutions"
 -axis_titles "NaCl / (mol/kgw)" "CaSO4 / (mol/kgw)"
 -axis_scale x_axis 0 8.5
+-axis_scale y_axis 0 0.05
 -plot_tsv_file anh_nacl.csv
 -connect_simulations false
 10 graph_x tot("Na")
@@ -29,18 +29,18 @@ REACTION_TEMPERATURE
 150
 REACTION_PRESSURE
 1
-END 
+END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1
 REACTION_TEMPERATURE
 200
 REACTION_PRESSURE
 1
-END 
+END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1
 REACTION_TEMPERATURE
 100
 REACTION_PRESSURE
 987
-END 
+END

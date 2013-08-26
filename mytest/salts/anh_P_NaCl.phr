@@ -1,0 +1,82 @@
+# Modeling Blount and Dickson's summary table, anhydrite in NaCl, 100 - 200 oC
+# 1 - 1e3 bar
+DATABASE pitzer.dat
+INCLUDE$ Pabalan.dat
+PRINT; -reset false
+
+SOLUTION 1
+ -temp 100
+REACTION 1
+NaCl 1; 0 5*0.2 10*0.5
+INCREMENTAL_REACTIONS true
+EQUILIBRIUM_PHASES 1
+ Anhydrite
+USER_GRAPH
+-connect_simulations false
+-initial_solutions false
+-plot_tsv_file anh_P_100tc.csv
+-chart_title "Anhydrite solubility f(NaCl, P, 100 oC)"
+-axis_titles "NaCl / mol/kgw" "CaSO4 / mol/kgw"
+-axis_scale y_axis 0 0.05
+30 graph_x tot("Na")
+60 graph_y tot("Ca")
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_PRESSURE
+493
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_PRESSURE
+987
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE 1
+ 150
+USER_GRAPH 1; -detach
+USER_GRAPH 2
+-connect_simulations false
+-initial_solutions false
+-plot_tsv_file anh_P_150tc.csv
+-chart_title "Anhydrite solubility f(NaCl, P, 150 oC)"
+-axis_titles "NaCl / mol/kgw" "CaSO4 / mol/kgw"
+30 graph_x tot("Na")
+60 graph_y tot("Ca")
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1; USE reaction_temperature 1
+REACTION_PRESSURE
+493
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1; USE reaction_temperature 1
+REACTION_PRESSURE
+987
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1
+REACTION_TEMPERATURE 1
+ 200
+USER_GRAPH 2; -detach
+USER_GRAPH 3
+-connect_simulations false
+-initial_solutions false
+-plot_tsv_file anh_P_200tc.csv
+-chart_title "Anhydrite solubility f(NaCl, P, 200 oC)"
+-axis_titles "NaCl / mol/kgw" "CaSO4 / mol/kgw"
+-axis_scale y_axis 0 0.03
+30 graph_x tot("Na")
+60 graph_y tot("Ca")
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1; USE reaction_temperature 1
+REACTION_PRESSURE
+493
+END
+
+USE solution 1; USE equilibrium_phases 1; USE reaction 1; USE reaction_temperature 1
+REACTION_PRESSURE
+987
+END

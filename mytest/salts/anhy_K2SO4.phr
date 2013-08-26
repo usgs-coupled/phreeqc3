@@ -8,7 +8,7 @@ EQUILIBRIUM_PHASES
 Anhydrite 0 0.15; Syngenite 0 0
 END
 PRINT; -reset false
- 
+
 USE solution 1
 REACTION 1
   K2SO4 1; 1e-4 5*0.004 5*0.04 20*0.1
@@ -18,11 +18,12 @@ Anhydrite 0 0.15;
 Goergeyite 0 0
 Arcanite 0.06 0
 Syngenite 0 0
-USER_GRAPH 
+USER_GRAPH
 -connect_simulations false
 -chart_title "Anhydrite/Goergeyite/Syngenite solubility"
--axis_titles "Na2SO4 / (mol/kgw)" "CaSO4 / (mol/kgw)"
+-axis_titles "K2SO4 / (mol/kgw)" "CaSO4 / (mol/kgw)"
 -axis_scale x_axis 0 2
+-axis_scale y_axis 0 0.01
 -plot_tsv_file Ca_K2SO4.csv
 40 graph_x tot("K") / 2
 60 graph_y tot("Ca")/1
@@ -32,7 +33,7 @@ REACTION_TEMPERATURE
  150
 USE solution 1; USE reaction 1; USE equilibrium_phases 1
 END
- 
+
 REACTION_TEMPERATURE
  200
 USE solution 1; USE reaction 1; USE equilibrium_phases 1

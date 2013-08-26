@@ -1,0 +1,31 @@
+# DATABASE PHREEQC.DAT
+DATABASE PITZER.DAT
+INCLUDE$ Pabalan.dat
+PRINT; -reset false
+
+SOLUTION 1
+ pH 7 charge
+ -temp 30
+EQUILIBRIUM_PHASES
+ Halite 0.004
+REACTION_PRESSURE
+ 1 2000 in 15
+USER_GRAPH
+# -headings p model
+ -chart_title "Halite solubility f(P), 30 oC"
+ -axis_titles "Pressure / bar" " Halite solubility / mol/kgw"
+ -axis_scale x_axis 0 2e3
+ # -plot_csv_file halite.dat
+10  data  1.000, 1.000, 2.160e+01, 2.981e+02, 3.067e+02, 4.104e+02, 8.121e+02, 8.726e+02, 1.214e+03, 1.257e+03, 1.292e+03, 1.417e+03, 1.438e+03, 1.909e+03
+12 DIM p(14)
+20  for i = 1 to 14
+30    read p(i)
+40  next i
+50  data 6.158, 6.170, 6.175, 6.233, 6.234, 6.266, 6.329, 6.330, 6.361, 6.361, 6.360, 6.395, 6.395, 6.492
+52 dim c(14)
+60  for i = 1 to 14
+70    read c(i)
+80  next i
+100 plot_xy pressure * 1.013, tot("Na"), symbol_size = 0
+110 if step_no <= 14 then plot_xy p(step_no), c(step_no), color = Red , line_width = 0
+END

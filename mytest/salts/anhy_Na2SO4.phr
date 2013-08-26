@@ -2,28 +2,66 @@
 DATABASE pitzer.dat
 INCLUDE$ Pabalan.dat
 PRINT; -reset false
- 
+PITZER
+-B0;  Ca+2  SO4-2  0
+-B1;  Ca+2  SO4-2      3.5464913E+00     0.0000000E+00     0.0000000E+00      5.7660324E-03       0.0000000E+00       0.0000000E+00
+-B2;  Ca+2  SO4-2          -5.9292993E+01      0.0000000E+00      0.0000000E+00     -4.4349421E-01     -3.9585237E-06       0.0000000E+00
+-C0;  Ca+2  SO4-2           1.1391705E-01      0.0000000E+00      0.0000000E+00      0.0000000E+00      0.0000000E+00       0.0000000E+00
+-THETA;  Ca+2  Na+       9.2206481E-02      0.0000000E+00      0.0000000E+00     -4.2882759E-04      1.2077614E-06       0.0000000E+00
+-THETA; Cl-  SO4-2        3.0000000E-02      0.0000000E+00      0.0000000E+00      0.0000000E+00
+-PSI
+  Ca+2  Cl-  SO4-2      -1.2157754E-01      0.0000000E+00      0.0000000E+00     -1.2134836E-03      0.0000000E+00       0.0000000E+00
+  Ca+2  Na+  Cl-       -1.4819930E-02      0.0000000E+00      0.0000000E+00     -5.1960370E-06      0.0000000E+00        0.0000000E+00
+  Cl-  Na+  SO4-2      0.0000000E+00      0.0000000E+00      0.0000000E+00      0.0000000E+00
+  Ca+2  Na+  SO4-2      -5.5000000E-02      1.7225440E+01      0.0000000E+00      0.0000000E+00      0.0000000E+00       0.0000000E+00
+PHASES
+Anhydrite
+	CaSO4 = Ca+2 + SO4-2
+	-analytical_expression  0.423  -1.579e-2  24.12
+	-analytical_expression        5.0087487E+00     -2.2099355E-02     -7.9640732E+02      0.0000000E+00
+	-Vm 46.1 # 136.14 / 2.95
+Glauberite
+	Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
+	log_k	-5.31
+	-analytical_expression  217.343  0  -9278  -77.425
+	-analytical_expression       2.1814205E+02      0.0000000E+00     -9.2853073E+03      -7.7735088E+01
+	-Vm 100.4
+Gypsum
+	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
+	-log_k	-4.58
+	-delta_h -0.109 kcal
+	# -analytical_expression  93.7  5.99E-03  -4e3  -35.019 # phreeqc.dat
+	# -analytical_expression  81.274  0  -3764  -29.6044 # pitzer.dat
+	-analytical_expression        8.2380883E+01      0.0000000E+00     -3.8045249E+03     -2.9995187E+01
+	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
+Thenardite
+	Na2SO4 = 2 Na+ + SO4-2
+	-log_k -0.35
+	 -delta_h  0
+	-analytical_expression      5.2360386E+01      8.0359592E-02      0.0000000E+00     -2.8333953E+01      0.0000000E+00      -7.3253051E-05
+	Vm 52.9
+
 
 SOLUTION 1
  -temp 100; pH 7 charge
 EQUILIBRIUM_PHASES
 Anhydrite 0 0.15; Glauberite 0 0
 END
- 
+
 USE solution 1
 REACTION
   Na2SO4 1; 1e-4 0.02 24*0.17
 INCREMENTAL_REACTIONS true
-EQUILIBRIUM_PHASES
+EQUILIBRIUM_PHASES 1
 Anhydrite 0 0.15;
 Thenardite 0 0
 Glauberite 0 0
-USER_GRAPH 
-# -axis_scale x_axis 0 1.5
+USER_GRAPH
+ -axis_scale x_axis 0 3.25
 -axis_scale y_axis 0 0.01
 -connect_simulations false
 -axis_titles "Na2SO4 / (mol/kgw)" "CaSO4 / (mol/kgw)"
--chart_title "Anhydrite/Glauberite solubility"
+-chart_title "Anhydrite/Glauberite solubility in Na2SO4 solutions"
 -plot_tsv_file casf_na.csv
 40 graph_x tot("Na") / 2
 60 graph_y tot("Ca")/1
@@ -33,7 +71,7 @@ REACTION_TEMPERATURE
  150
 USE solution 1; USE reaction 1; USE equilibrium_phases 1
 END
- 
+
 REACTION_TEMPERATURE
  200
 USE solution 1; USE reaction 1; USE equilibrium_phases 1

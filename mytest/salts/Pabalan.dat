@@ -37,6 +37,7 @@ PITZER
 -B2;  Mg+2  SO4-2  -32.45  0  -3.236e3  21.812  -1.8859e-2
 -C0;  Mg+2  SO4-2  2.875e-2  0  -2.084  1.1428e-2  -8.228e-6
 
+# Na+ and SO4-2 recalc'd from Holmes and Mesmer
 -B0;  Na+  SO4-2  2.73e-02  0  -5.8  9.89e-03  0  -1.563e+05
 -B1;  Na+  SO4-2  0.956  2.663e3  0  1.158e-2  0  -3.194e5
 -C0;  Na+  SO4-2  3.418e-3  -384  0  -8.451e-4  0  5.177e4
@@ -58,31 +59,31 @@ PITZER
 
 # from anhydrite/gypsum/glauberite in Na2SO4/NaCl solutions, 0.5 - 200 oC
 -B0;  Ca+2  SO4-2   0
--B1;  Ca+2  SO4-2   3.617  0  0  5.32e-3
--B2;  Ca+2  SO4-2  -67.73  0  0  0.49  -1.2e-3
--C0;  Ca+2  SO4-2   0.157
--THETA;  Ca+2  Na+  6.83e-2  0  0  3.38e-4  5.5e-7
+-B1;  Ca+2  SO4-2  3.546  0  0  5.77e-3
+-B2;  Ca+2  SO4-2  -59.3  0  0  -0.443  -3.96e-6
+-C0;  Ca+2  SO4-2  0.114
+-THETA;  Ca+2  Na+  9.22e-2  0  0  -4.29e-4  1.21e-6
 -THETA; Cl-  SO4-2  0.03
 -PSI
- Ca+2  Cl-  SO4-2  -0.11  0  0  -1.43e-3
- Ca+2  Cl-  Na+    -8.3e-3  0  0  -8.3e-5
- Cl-   Na+  SO4-2   0
- Ca+2  Na+  SO4-2  -0.055  52.8
+  Ca+2  Cl-  SO4-2  -0.122  0  0  -1.21e-3
+  Ca+2  Cl-  Na+  -1.48e-2  0  0  -5.2e-6
+  Cl-  Na+  SO4-2  0
+  Ca+2  Na+  SO4-2  -0.055  17.2
 
 # from anhydrite/goergeyite/syngenite in K2SO4, 100 - 200 oC
--PSI;  Ca+2  K+  SO4-2  -0.0526
--THETA;  Ca+2  K+  -3e-3  0  0  2.12e-4 # 0.032
+-PSI;  Ca+2  K+  SO4-2  -0.0365
+-THETA;  Ca+2  K+  -5.35e-3  0  0  3.08e-4
 
 
 PHASES
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
-	-analytical_expression  5.533  -2.265e-2  -912.1
+	-analytical_expression  5.009  -2.21e-2  -796.4
 	-Vm 46.1 # 136.14 / 2.95
 Arcanite
 	K2SO4  =  SO4-2 + 2 K+
 	log_k	   -1.776; -delta_h 5 kcal
-	-analytical_expression  674.28  0.304347  -18037  -280.305  0  -1.44055e-4
+	-analytical_expression   674.142  0.30423  -18037  -280.236  0  -1.44055e-4
 	# Note, the Linke and Seidell data may give subsaturation in other xpt's, SI = -0.06
 	-Vm 65.5
 Bischofite
@@ -98,7 +99,7 @@ Carnallite
 Epsomite
 	MgSO4:7H2O  =  Mg+2 + SO4-2 + 7 H2O
 	log_k	   -1.881
-	 -analytical_expression  4.479  -6.99e-3  -1.265e3
+	-analytical_expression  4.479  -6.99e-3  -1.265e3
 	Vm 147
 Glaserite
 	NaK3(SO4)2 =  Na+ + 3K+ + 2SO4-2
@@ -108,24 +109,24 @@ Glaserite
 Glauberite
 	Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
 	log_k	-5.31
-	-analytical_expression  216.03  0  -9180.4  -77.022
+	-analytical_expression  218.142  0  -9285  -77.735
 	-Vm 100.4
 Goergeyite
 	K2Ca5(SO4)6H2O = 2K+ + 5Ca+2 + 6SO4-2 + H2O
 	log_k -29.5
-	-analytical_expression  1058.62  0  -52300  -368.7555
+	-analytical_expression  1056.787  0  -52300  -368.06
 	-Vm  295.9
 Gypsum
 	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
 	-log_k	-4.58
 	-delta_h -0.109 kcal
 	# -analytical_expression  93.7  5.99E-03  -4e3  -35.019 # phreeqc.dat
-	-analytical_expression  85.292  0  -3984.9  -30.937 # pitzer.dat
+	-analytical_expression  82.381  0  -3804.5  -29.9952 # pitzer.dat
 	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
 Halite
 	NaCl  =  Cl- + Na+
 	log_k  1.570
-	-analytical_expression 0  2.005e-2  105.7 -0.9782  0 -2.6308e-5
+	-analytical_expression 159.605  8.4294e-2  -3975.6  -66.857  0  -4.9364e-5
 	-Vm 27.1
 Hexahydrite
 	MgSO4:6H2O  =  Mg+2 + SO4-2 + 6 H2O
@@ -155,12 +156,12 @@ Sylvite
 	Vm 37.5
 Syngenite
 	K2Ca(SO4)2:H2O  =  2K+ + Ca+2 + 2SO4-2 + H2O
-	log_k	    -6.4 
-	-delta_h   -33.2
+	log_k	    -6.43
+	-delta_h   -32.65
 	-Vm  127.3
 Thenardite
 	Na2SO4 = 2 Na+ + SO4-2
-	-analytical_expression  -2.215  1.552e-2  0  0  0  -3.086e-5 # 34 - 215 oC
+	-analytical_expression  57.185  8.6024e-2  0  -30.8341  0  -7.6905e-5 # 34 - 215 oC
 	-Vm 52.9
 
 PRINT; -echo_input true
