@@ -38,14 +38,17 @@ do
 	sed 's/USEMAP/style="width:65%" USEMAP/g' $i > t
 	mv t $i
 done
-echo                     Done USEMAP
-echo (1) Need to mannually delete extra table of contents in phreeqc3.htm
-echo 
-echo (2) Need to fix ../contents.hhc.
-echo     50651149_78104 replaced with 50581517_78104 for REACTION_TEMPERATURE_RAW
+echo                     Done USEMAP	
+
+./UpdateContents.bash
+
+#cd HTML; egrep '<H1 CLASS="FM1stOrderHeadingTOC">' -A1 -v phreeqc3.htm > temp3; mv temp3 phreeqc3.htm
+
+
+echo "(1) Need to mannually delete extra table of contents in phreeqc3.htm"
 echo
-echo     Easiest way is to global change from 50651149 to 50581517, for example
-echo     There are probably only 8-10 global changes that need to be made.
-echo
-echo (3) Make sure examples 18 and 19 are correct. HTML from FrameMaker has the
+echo "(2) Make sure examples 18 and 19 are correct. HTML from FrameMaker has the"
 echo     same entry for both (Madison).
+echo
+echo "(3) Compile HTML, double click on phreeqc3.hhp and hit compile button
+echo
