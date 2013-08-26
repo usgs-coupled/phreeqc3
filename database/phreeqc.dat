@@ -79,9 +79,9 @@ Na+ = Na+
 	-gamma	4.0	 0.075
 	-gamma	4.08 0.082 # halite solubility
 	-dw	 1.33e-9
-	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  4.0  0.162  47.67  -3.09e-3  0.725 # supcrt modified
+	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # supcrt modified
 # for calculating densities (rho) when I > 3...
-#	-Vm  1.403  -2.285  4.419  -2.726  -5.125e-5  2.0  0.162  47.67  -3.09e-3  0.4
+#	  -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45
 K+ = K+
 	-gamma	3.5	0.015
 	-dw	 1.96e-9
@@ -118,15 +118,15 @@ Cl- = Cl-
 CO3-2 = CO3-2
 	-gamma	5.4	0.0
 	-dw	 0.955e-9
-	-Vm  6.95  0  0  -5.98  8.32  0  -0.115  167  -0.026  1 # supcrt modified
+	-Vm   5.95  0  0  -5.67  6.85  0  1.37  106  -3.43e-2  1 # supcrt modified
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
 	-dw	 1.07e-9
-	-Vm  8.0  2.51  -42.5 5.41  4.23 0 0 0 0 1 # supcrt modified
+	-Vm   8  2.3  -46.04  6.245  3.82  0  0  0  0  1 # supcrt modified
 NO3- = NO3-
 	-gamma	3.0	0.0
 	-dw	 1.9e-9
-	-Vm  6.392  6.78  0  -3.06  0.449  0  0.80  0  -1.05e-2  1 # supcrt modified
+	-Vm   6.32  6.78  0  -3.06  0.346  0  0.93  0  -1.2e-2  1 # supcrt modified
 #AmmH+ = AmmH+
 #	-gamma	2.5	0.0
 #	-dw	 1.98e-9
@@ -202,7 +202,7 @@ CO3-2 + H+ = HCO3-
 	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
 	-gamma	5.4	0.0
 	-dw	 1.18e-9
-	-Vm  8.60  0  -12.0  0  1.643  0  0  167  0  1 # supcrt modified
+	-Vm   8.472  0  -11.5  0  1.56  0  0  146  3.16e-3  1 # supcrt modified
 CO3-2 + 2 H+ = CO2 + H2O
 	-log_k	16.681
 	-delta_h -5.738	kcal
@@ -351,11 +351,11 @@ Ca+2 + H2PO4- = CaH2PO4+
 	-log_k	1.408
 	-delta_h 3.4 kcal
 	-gamma  5.4  0.0 
-#Ca+2 + F- = CaF+
-#	-log_k	0.94
-#	-delta_h 4.120	kcal
-#	-Vm  .9846  -5.3773  7.8635  -2.5567  .6911 5.5 # supcrt
-#	-gamma  5.5  0.0 
+# Ca+2 + F- = CaF+
+	# -log_k	0.94
+	# -delta_h 4.120	kcal
+	# -Vm  .9846  -5.3773  7.8635  -2.5567  .6911 5.5 # supcrt
+	# -gamma  5.5  0.0 
 Mg+2 + H2O = MgOH+ + H+
 	-log_k	-11.44
 	-delta_h 15.952 kcal
@@ -400,18 +400,17 @@ Na+ + CO3-2 = NaCO3-
 	-log_k	1.27
 	-delta_h 8.91 kcal
 	-dw 5.85e-10
-	-Vm  3.99  0  15.3  -8.12  3.11  0  2.7  0  0.026  1
-	#-gamma	5.4	0.0
+	-Vm   3.89  -8.23e-4  20  -9.44  3.02  9.05e-3  3.07  0  2.33e-2  1
 Na+ + HCO3- = NaHCO3
 	-log_k  -0.25
 	-delta_h  -1 kcal
 	-dw 6.73e-10
-	-Vm  0.51
+	-Vm  0.431
 Na+ + SO4-2 = NaSO4-
 	-log_k	0.7
 	-delta_h 1.120	kcal
 	-dw 6.18e-10
-	-Vm  1e-5  19.3  1.07  -2.05  3.41  0  4.7  0  0  0.77 # not in supcrt
+	-Vm   1e-5  16.4  -6.78e-2  -1.05  4.14  0  6.86  0  2.42e-2  0.53 # not in supcrt
 	-gamma	5.4	0.0
 Na+ + HPO4-2 = NaHPO4-
 	-log_k	0.29
@@ -425,6 +424,7 @@ K+ + SO4-2 = KSO4-
 	-analytical  3.106  0.0  -673.6
 	-dw 7.46e-10
 	-gamma	5.4	0.0
+	-Vm  6.8  7.06 3.0   -2.07  1.1  0  0  0  0  1 # supcrt modified
 K+ + HPO4-2 = KHPO4-
 	-log_k	0.29
 	-gamma	5.4	0.0
@@ -922,13 +922,13 @@ Gypsum
 	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
 	-log_k	-4.58
 	-delta_h -0.109 kcal
-	-analytic	68.2401	0.0	-3221.51	-25.0627
+	-analytical_expression  93.7  5.99E-03  -4e3  -35.019
 	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
 	-log_k	-4.36
 	-delta_h -1.710 kcal
-	-analytic  84.90  0  -3135.12  -31.79 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
+	-analytical_expression  84.637  0  -3129.3  -31.69 # 50 - 160oC, 1 - 1e3 atm, anhydrite dissolution, Blount and Dickson, 1973, Am. Mineral. 58, 323.
 	-Vm 46.1 # 136.14 / 2.95
 Celestite
 	SrSO4 = Sr+2 + SO4-2
@@ -1078,7 +1078,8 @@ Halite
 Sylvite
 	KCl  = K+ + Cl-
 	log_k	   0.900
-	-analytic     3.984     0.0	 -919.55
+	-delta_h  8.5
+	# -analytic     3.984     0.0	 -919.55
 	Vm 37.5
 CO2(g)
 	CO2 = CO2
@@ -1253,9 +1254,9 @@ EXCHANGE_SPECIES
 
 	NH4+ + X- = NH4X
 	log_k   0.6
-	-gamma  2.5     0.0
+	-gamma	2.5	0.0
 	delta_h  -2.4   # Laudelout et al., 1968
-	
+
 #	AmmH+ + X- = AmmHX
 #	-log_k	0.6
 #	-gamma	2.5	0.0
@@ -1278,8 +1279,7 @@ EXCHANGE_SPECIES
 
 	Ba+2 + 2X- = BaX2
 	-log_k	0.91
-	-gamma	5.0	0.0
-	-gamma	4.0  0.153 # Barite solubility
+	-gamma	4.0  0.153
 	-delta_h  4.5	# Laudelout et al., 1968
 
 	Mn+2 + 2X- = MnX2
@@ -1313,7 +1313,6 @@ EXCHANGE_SPECIES
 	AlOH+2 + 2X- = AlOHX2
 	-log_k	0.89
 	-gamma	0.0	0.0
-	-gamma	5.4	0.0
 
 SURFACE_MASTER_SPECIES
 	Hfo_s	Hfo_sOH
@@ -1624,6 +1623,7 @@ Pyrite
 # Example of KINETICS data block for Organic_C rate:
 #	KINETICS 1
 #	Organic_C
+#		-formula C
 #		-tol	1e-8
 #	      # m in mol/kgw
 #		-m0	5e-3
