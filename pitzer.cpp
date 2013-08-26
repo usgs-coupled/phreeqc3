@@ -835,8 +835,8 @@ pitzer(void)
 	   CSUM, PHIMAC, OSMOT, BMXP, ETHEAP, CMX, BMX, PHI,
 	   BMXPHI, PHIPHI, AW, A, B;
 	 */
-	LDBLE CONV, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
-		B;
+	LDBLE CONV, XX, OSUM, BIGZ, DI, F, F1, F2, F_var, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
+		B, B1, B2;
 	LDBLE I, TK;
 	int LNEUT;
 	/*
@@ -845,8 +845,8 @@ pitzer(void)
 	   C
 	 */
 	CONV = 1.0 / log(10.0);
-	XX = 0.0e0;
-	OSUM = 0.0e0;
+	XX = 0.0;
+	OSUM = 0.0;
 	LNEUT = FALSE;
 	/*n
 	   I = *I_X;
@@ -913,22 +913,35 @@ pitzer(void)
 	   C
 	 */
 	B = 1.2;
-	F = -A0 * (DI / (1.0e0 + B * DI) + 2.0e0 * log(1.0e0 + B * DI) / B);
-	XXX = 2.0e0 * DI;
+	F = F1 = F2 = -A0 * (DI / (1.0 + B * DI) + 2.0 * log(1.0 + B * DI) / B);
+	if (patm_x > 1.0)
+	{
+		LDBLE pap;
+		pap = (7e-5 + 1.93e-9 * pow(TK - 250.0, 2.0)) * patm_x;
+		B1 = B - (pap > 0.2 ? 0.2 : pap);
+		pap = (9.65e-10 * pow(TK - 263.0, 2.773)) * pow(patm_x, 0.623);
+		//pap = (-5.22e-4 + 7.19e-8 * pow(TK - 263.0, 2.0)) * pow(patm_x, 0.623);
+		B2 = B - (pap > 0.2 ? 0.2 : pap);
+		if (B1 != 0)
+			F1 = -A0 * (DI / (1.0 + B1 * DI) + 2.0 * log(1.0 + B1 * DI) / B1);
+		if (B2 != 0)
+			F2 = -A0 * (DI / (1.0 + B2 * DI) + 2.0 * log(1.0 + B2 * DI) / B2);
+	}
+	XXX = 2.0 * DI;
 	XXX =
-		(1.0e0 - (1.0e0 + XXX - XXX * XXX * 0.5e0) * exp(-XXX)) / (XXX * XXX);
+		(1.0 - (1.0 + XXX - XXX * XXX * 0.5) * exp(-XXX)) / (XXX * XXX);
 	/*GAMCLM=F+I*2.0e0*(BCX(1,IK,IC)+BCX(2,IK,IC)*XXX)+1.5e0*BCX(4,IK,IC)*I*I; */
 	/*GAMCLM=F+I*2.0e0*(mcb0->U.b0 + mcb1->U.b1*XXX) + 1.5e0*mcc0->U.c0*I*I; */
 	/*GAMCLM = F + I * 2.0e0 * (mcb0->p + mcb1->p * XXX) + 1.5e0 * mcc0->p * I * I; */
-	GAMCLM = F;
+	GAMCLM = F1;
 	if (mcb0 != NULL)
-		GAMCLM += I * 2.0e0 * mcb0->p;
+		GAMCLM += I * 2.0 * mcb0->p;
 	if (mcb1 != NULL)
-		GAMCLM += I * 2.0e0 * mcb1->p * XXX;
+		GAMCLM += I * 2.0 * mcb1->p * XXX;
 	if (mcc0 != NULL)
-		GAMCLM += 1.5e0 * mcc0->p * I * I;
-	CSUM = 0.0e0;
-	OSMOT = -(A0) * pow(I, (LDBLE) 1.5e0) / (1.0e0 + B * DI);
+		GAMCLM += 1.5 * mcc0->p * I * I;
+	CSUM = 0.0;
+	OSMOT = -(A0) * pow(I, (LDBLE) 1.5) / (1.0 + B * DI);
 	/*
 	 *  Calculate ethetas
 	 */
@@ -953,6 +966,7 @@ pitzer(void)
 		z1 = spec[i1]->z;
 		param = pitz_params[i]->p;
 		l_alpha = pitz_params[i]->alpha;
+		F_var = 0;
 		switch (pitz_params[i]->type)
 		{
 		case TYPE_B0:
@@ -963,7 +977,7 @@ pitzer(void)
 		case TYPE_B1:
 			if (param != 0.0)
 			{
-				F += M[i0] * M[i1] * param * GP(l_alpha * DI) / I;
+				F_var = M[i0] * M[i1] * param * GP(l_alpha * DI) / I;
 				LGAMMA[i0] += M[i1] * 2.0 * param * G(l_alpha * DI);
 				LGAMMA[i1] += M[i0] * 2.0 * param * G(l_alpha * DI);
 				OSMOT += M[i0] * M[i1] * param * exp(-l_alpha * DI);
@@ -972,7 +986,7 @@ pitzer(void)
 		case TYPE_B2:
 			if (param != 0.0)
 			{
-				F += M[i0] * M[i1] * param * GP(l_alpha * DI) / I;
+				F_var = M[i0] * M[i1] * param * GP(l_alpha * DI) / I;
 				LGAMMA[i0] += M[i1] * 2.0 * param * G(l_alpha * DI);
 				LGAMMA[i1] += M[i0] * 2.0 * param * G(l_alpha * DI);
 				OSMOT += M[i0] * M[i1] * param * exp(-l_alpha * DI);
@@ -980,7 +994,7 @@ pitzer(void)
 			break;
 		case TYPE_C0:
 			CSUM +=
-				M[i0] * M[i1] * pitz_params[i]->p / (2.0e0 *
+				M[i0] * M[i1] * pitz_params[i]->p / (2.0 *
 													 sqrt(fabs(z0 * z1)));
 			LGAMMA[i0] += M[i1] * BIGZ * param / (2.0 * sqrt(fabs(z0 * z1)));
 			LGAMMA[i1] += M[i0] * BIGZ * param / (2.0 * sqrt(fabs(z0 * z1)));
@@ -1000,7 +1014,7 @@ pitzer(void)
 			{
 				etheta = pitz_params[i]->thetas->etheta;
 				ethetap = pitz_params[i]->thetas->ethetap;
-				F += M[i0] * M[i1] * ethetap;
+				F_var = M[i0] * M[i1] * ethetap;
 				LGAMMA[i0] += 2.0 * M[i1] * etheta;
 				LGAMMA[i1] += 2.0 * M[i0] * etheta;
 				OSMOT += M[i0] * M[i1] * (etheta + I * ethetap);
@@ -1062,6 +1076,9 @@ pitzer(void)
 			error_msg("TYPE_Other in pitz_param list.", STOP);
 			break;
 		}
+	F += F_var;
+	F1 += F_var;
+	F2 += F_var;
 	}
 
 	/*
@@ -1070,13 +1087,19 @@ pitzer(void)
 
 	for (i = 0; i < count_cations; i++)
 	{
-		z0 = spec[i]->z;
-		LGAMMA[i] += z0 * z0 * F + fabs(z0) * CSUM;
+		if (!IPRSNT[i])
+			continue;
+		z0 = fabs(spec[i]->z);
+		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
+		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
 	}
 	for (i = 2 * count_s; i < 2 * count_s + count_anions; i++)
 	{
-		z0 = spec[i]->z;
-		LGAMMA[i] += z0 * z0 * F + fabs(z0) * CSUM;
+		if (!IPRSNT[i])
+			continue;
+		z0 = fabs(spec[i]->z);
+		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
+		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
 	}
 	/*
 	   C
@@ -1100,13 +1123,13 @@ pitzer(void)
 		}
 	}
 
-	COSMOT = 1.0e0 + 2.0e0 * OSMOT / OSUM;
+	COSMOT = 1.0 + 2.0 * OSMOT / OSUM;
 	/*
 	   C
 	   C     CALCULATE THE ACTIVITY OF WATER
 	   C
 	 */
-	AW = exp(-OSUM * COSMOT / 55.50837e0);
+	AW = exp(-OSUM * COSMOT / 55.50837);
 	/*
 	if (AW > 1.0)
 		AW = 1.0;

@@ -568,10 +568,10 @@ print_gas_phase(void)
 	print_centered("Gas phase");
 	output_msg(sformatf("Total pressure: %5.2f      atmospheres",
 			   (double) gas_phase_ptr->Get_total_p()));
-	if (PR)
-		output_msg("          (Peng-Robinson calculation)\n");
-	else if (gas_phase_ptr->Get_total_p() >= 1500)
+	if (gas_phase_ptr->Get_total_p() >= 1500)
 		output_msg(" WARNING: Program limit.\n");
+	else if (PR)
+		output_msg("          (Peng-Robinson calculation)\n");
 	else
 		output_msg(" \n");
 	output_msg(sformatf("    Gas volume: %10.2e liters\n",
@@ -589,7 +589,7 @@ print_gas_phase(void)
 				(double) (gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles())));
 		}
 	}
-	if (!numerical_fixed_volume && ((PR && gas_phase_ptr->Get_v_m() <= 0.016)))
+	if (/*!numerical_fixed_volume && */((PR && gas_phase_ptr->Get_v_m() <= 0.016)))
 		output_msg(" WARNING: Program limit for Peng-Robinson.\n");
 	else
 		output_msg("\n");
@@ -1216,7 +1216,7 @@ print_saturation_indices(void)
  *   Print heading
  */
 	print_centered("Saturation indices");
-	output_msg(sformatf("\t%-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI**",
+	output_msg(sformatf("  %-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI**",
 			   "log IAP", "log K(", int(tk_x), " K, ", int(floor(patm_x + 0.5)), " atm)"));
 
 	for (i = 0; i < count_phases; i++)
@@ -1251,7 +1251,7 @@ print_saturation_indices(void)
 		}
 		si = -lk + iap;
 
-		output_msg(sformatf("\t%-15s%7.2f  %8.2f%8.2f  %s",
+		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
 				   phases[i]->name, (double) si, (double) iap, (double) lk,
 				   phases[i]->formula));
 		if (gas && phases[i]->pr_in && phases[i]->pr_p)
@@ -1280,8 +1280,8 @@ print_saturation_indices(void)
 		output_msg("\n");
 	}
 	output_msg(sformatf("\n%s\n%s", 
-		"**For a gas, SI = log10(fugacity). For ideal gases, fugacity = pressure / 1 atm.",
-		"For a Peng-Robinson gas, fugacity = pressure * phi / 1 atm"));
+		"**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.",
+		"  For ideal gases, phi = 1."));
 	output_msg("\n\n");
 
 	return (OK);
@@ -1435,9 +1435,9 @@ print_species(void)
 		}
 		else
 		{
-			output_msg(sformatf("%67s%11s\n", "Unscaled", "Unscaled"));
-			output_msg(sformatf("\t%-15s%12s%12s%10s%10s%10s\n", " ",
-					   " ", "Unscaled", "Log   ", "Log   ", "Log "));
+			output_msg(sformatf("%60s%10s\n", "Unscaled", "Unscaled"));
+			output_msg(sformatf("%40s%10s%10s%10s%10s\n",
+					   "Unscaled", "Log", "Log", "Log", "mole V"));
 		}
 	}
 	else
@@ -2136,7 +2136,7 @@ print_totals(void)
 		dens = calc_dens();
 		output_msg(sformatf("%45s%9.5f", "Density (g/cm3)  = ",
 			   (double) dens));
-		if (dens > 1.999) output_msg(sformatf("%18s\n", " (Program's limit)"));
+		if (dens > 1.999) output_msg(sformatf("%18s\n", " (Program limit)"));
 		else output_msg(sformatf("\n"));
 		output_msg(sformatf("%45s%9.5f\n", "     Volume (L)  = ",
 			   (double) calc_solution_volume()));
