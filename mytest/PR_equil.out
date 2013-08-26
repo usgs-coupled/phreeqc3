@@ -168,13 +168,13 @@ N2(g)              1.97   9.334e+01  0.974   3.974e+00   3.977e+00   3.300e-03
                         Activity of water  =   0.995
                            Ionic strength  =   3.358e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.713e-11
+                 Total alkalinity (eq/kg)  =   1.766e-11
                        Total CO2 (mol/kg)  =   2.225e-01
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  = 103.92
-                  Electrical balance (eq)  =  -8.665e-13
+                  Electrical balance (eq)  =  -1.397e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  22
+                               Iterations  =  24
                                   Total H  = 1.110132e+02
                                   Total O  = 5.595155e+01
 
@@ -259,6 +259,13 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
+WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
 Using solution 7.	
@@ -299,9 +306,9 @@ N2(g)              2.00   1.003e+02  0.975   0.000e+00   4.309e-08   4.309e-08
                        Total CO2 (mol/kg)  =   2.868e-01
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  = 114.76
-                  Electrical balance (eq)  =   1.819e-16
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  72
+                  Electrical balance (eq)  =  -3.591e-17
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  34
                                   Total H  = 1.110132e+02
                                   Total O  = 5.608024e+01
 
@@ -362,9 +369,9 @@ WARNING: Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output
 	 GAS_PHASE_MODIFY 8
 		  -volume             1
 		      -comp  CO2(g)
-		-moles   6.208162102301e-01
+		-moles   6.208162102323e-01
 		-comp N2(g) 
-	-moles   4.309493526810e+00
+	-moles   4.309493526813e+00
 	USE gas_phase 8
 	 USE solution 7
 	END
@@ -388,7 +395,7 @@ Total pressure: 114.76      atmospheres          (Peng-Robinson calculation)
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)             1.16   1.445e+01  0.658   6.208e-01   6.208e-01   5.166e-09
+CO2(g)             1.16   1.445e+01  0.658   6.208e-01   6.208e-01   5.165e-09
 N2(g)              2.00   1.003e+02  0.975   4.309e+00   4.309e+00   4.261e-08
 
 -----------------------------Solution composition------------------------------
@@ -412,9 +419,9 @@ N2(g)              2.00   1.003e+02  0.975   4.309e+00   4.309e+00   4.261e-08
                        Total CO2 (mol/kg)  =   2.868e-01
                       Temperature (deg C)  =  25.00
                            Pressure (atm)  = 114.76
-                  Electrical balance (eq)  =   2.101e-16
+                  Electrical balance (eq)  =   4.721e-17
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  41
+                               Iterations  =  19
                                   Total H  = 1.110132e+02
                                   Total O  = 5.608024e+01
 
@@ -427,20 +434,20 @@ N2(g)              2.00   1.003e+02  0.975   4.309e+00   4.309e+00   4.261e-08
    OH-             3.033e-11   2.966e-11   -10.518   -10.528    -0.010     -3.71
    H2O             5.551e+01   9.941e-01     1.744    -0.003     0.000     17.98
 C(-4)         2.290e-36
-   CH4             2.290e-36   2.290e-36   -35.640   -35.640     0.000     32.22
+   CH4             2.290e-36   2.291e-36   -35.640   -35.640     0.000     32.22
 C(4)          2.868e-01
    CO2             2.864e-01   2.865e-01    -0.543    -0.543     0.000     29.57
    HCO3-           3.835e-04   3.751e-04    -3.416    -3.426    -0.010     24.81
    CO3-2           5.866e-11   5.369e-11   -10.232   -10.270    -0.038     -4.40
 H(0)          1.737e-18
-   H2              8.683e-19   8.683e-19   -18.061   -18.061     0.000     28.55
+   H2              8.683e-19   8.684e-19   -18.061   -18.061     0.000     28.55
 N(-3)         1.627e-11
-   NH4+            1.627e-11   1.590e-11   -10.789   -10.798    -0.010     18.15
+   NH4+            1.627e-11   1.591e-11   -10.789   -10.798    -0.010     18.15
    NH3             2.344e-17   2.344e-17   -16.630   -16.630     0.000     24.55
 N(0)          1.139e-01
    N2              5.693e-02   5.693e-02    -1.245    -1.245     0.000     29.29
 N(3)          0.000e+00
-   NO2-            0.000e+00   0.000e+00   -49.830   -49.839    -0.010     24.93
+   NO2-            0.000e+00   0.000e+00   -49.830   -49.840    -0.010     24.93
 N(5)          0.000e+00
    NO3-            0.000e+00   0.000e+00   -63.521   -63.531    -0.010     29.38
 O(0)          0.000e+00
