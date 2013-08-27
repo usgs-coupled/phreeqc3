@@ -317,7 +317,11 @@ all: alkalinity.out \
 	gyps_NaCl.out \
 	gyps_Na2SO4.out \
 	gypsum.out \
-	gas9.out
+	gas9.out \
+	Halite_P.out \
+	anh_P_NaCl.out \
+	gypsum_P5.out 
+	
 
 # NaX.out
 
