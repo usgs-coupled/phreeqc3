@@ -2125,7 +2125,7 @@ punch_model_heading(struct inverse *inv_ptr)
 		{
 
 			std::string tok1(col_name[i]);
-			tok1.append("_max");
+			tok1.append("_min");
 			std::string tok2(col_name[i]);
 			tok2.append("_max");
 
@@ -2278,15 +2278,15 @@ punch_model(struct inverse *inv_ptr)
 		*/
 		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) (error / SCALE_EPSILON));
-			fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) scaled_error);
-			fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) max_pct);
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) (error / SCALE_EPSILON));
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) scaled_error);
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) max_pct);
 		}
 		else
 		{
-			fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) (error / SCALE_EPSILON));
-			fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) scaled_error);
-			fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) max_pct);
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) (error / SCALE_EPSILON));
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) scaled_error);
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) max_pct);
 		}
 		/*
 		*   write solution fractions
@@ -2304,15 +2304,15 @@ punch_model(struct inverse *inv_ptr)
 				d3 = 0.0;
 			if (!current_selected_output->Get_high_precision())
 			{
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) d1);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) d2);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) d3);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d3);
 			}
 			else
 			{
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) d1);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) d2);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) d3);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d3);
 			}
 		}
 		/*
@@ -2331,15 +2331,15 @@ punch_model(struct inverse *inv_ptr)
 				d3 = 0.0;
 			if (!current_selected_output->Get_high_precision())
 			{
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) d1);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) d2);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%15.4e\t", (double) d3);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d3);
 			}
 			else
 			{
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) d1);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) d2);
-				fpunchf(inverse_heading_names[n_user_punch_index++].c_str(), "%20.12e\t", (double) d3);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d3);
 			}
 		}
 		punch_msg("\n");
