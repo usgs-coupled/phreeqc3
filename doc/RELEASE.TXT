@@ -4,14 +4,6 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         svn ****
         --------
         
-        A revised version of the manual is now  distributed as a
-	compiled HTML file (phreeqc3.chm). It has corrections and
-	new features highlighted in forest green.
-
-        --------
-        svn ****
-        --------
-        
         Now can have multiple SELECTED_OUTPUT n and USER_PUNCH n.
 	SELECTED_OUTPUT 1 has the same functionality as previous
 	versions of SELECTED_OUTPUT, with a set of default print
@@ -42,6 +34,49 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         to be removed and its file closed; the data for 
         SELECTED_OUTPUT i will be defined entirely by the new 
         data block. 
+
+        --------
+        svn 7962
+        --------
+        
+        Database modifications:
+        
+        pitzer.dat: Parameters have been reordered to alphabetical order.
+
+        phreeqc.dat and Amm.dat: Vm refit for aqueous species Na+, CO3-2, SO4-2, NO3-, 
+        HCO3-, NaCO3-, NaHCO3, NaSO4, KSO4. Analytical expression adjusted for gypsum, 
+        anhydrite, and sylvite (delta H).        
+        
+        --------
+        svn 7916
+        --------
+        
+        Addition of a temperature-dependent pressure correction for the Debye-Hueckel term
+	for the Pitzer formulation. An empirical, temperature-dependent pressure correction
+	has been introduced in the Debye-Hueckel part of Pitzer's equation for gamma
+	(activity coefficient), which lets the factor B vary from 1.2 to 1. Pitzer defined
+	this number to be 1.2 for all pressures and temperatures.
+        
+        For monovalent species the correction is:
+	     pap = (7e-5 + 1.93e-9 * (TK - 250)^ 2.0) * patm_x
+	For divalent species the correction is:
+	     pap = (9.65e-10 * (TK - 263)^ 2.773) * (patm_x^0.623)
+	In both cases, pap is limited to less than 0.2.
+	
+	The factor B in the Debye-Hueckel factor is
+	     B = 1.2 - pap
+	     
+	The Debye-Hueckel factor is
+	     F = = -A0 * (DI / (1.0 + B * DI) + 2.0 * log(1.0 + B * DI) / B)
+	where DI is the square root of the ionic strength.
+
+        --------
+        svn 7972
+        --------
+        
+        A revised version of the manual is now  distributed as a
+	compiled HTML file (phreeqc3.chm). It has corrections and
+	new features highlighted in forest green.        
         
         --------
         svn 7896
