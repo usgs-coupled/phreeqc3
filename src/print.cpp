@@ -2524,7 +2524,7 @@ punch_ss_assemblage(void)
 						}
 						if (!current_selected_output->Get_high_precision())
 						{
-							fpunchf(sformatf("ss_%s", current_selected_output->Get_s_s()[k].first.c_str()),
+							fpunchf(sformatf("s_%s", current_selected_output->Get_s_s()[k].first.c_str()),
 									"%12.4e\t", (double) moles);
 						}
 						else
