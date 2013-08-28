@@ -472,7 +472,19 @@ numtostr(char * Result, LDBLE n)
 /*  if ((n != 0 && fabs(n) < 1e-2) || fabs(n) >= 1e12) { */
 	if (ceil(n) == floor(n))
 	{
-		if (PhreeqcPtr->punch.high_precision == FALSE)
+		//if (PhreeqcPtr->current_selected_output != NULL &&
+		//	!PhreeqcPtr->current_selected_output->Get_high_precision())
+		//{
+		//	sprintf(l_s, "%12.0f", (double) n);
+		//}
+		//else
+		//{
+		//	sprintf(l_s, "%20.0f", (double) n);
+		//}
+		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ? 
+			PhreeqcPtr->current_selected_output->Get_high_precision() : 
+			PhreeqcPtr->high_precision;
+		if (!temp_high_precision)
 		{
 			sprintf(l_s, "%12.0f", (double) n);
 		}
@@ -483,7 +495,10 @@ numtostr(char * Result, LDBLE n)
 	}
 	else
 	{
-		if (PhreeqcPtr->punch.high_precision == FALSE)
+		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ? 
+			PhreeqcPtr->current_selected_output->Get_high_precision() : 
+			PhreeqcPtr->high_precision;
+		if (!temp_high_precision)
 		{
 			sprintf(l_s, "%12.4e", (double) n);
 		}
@@ -4423,10 +4438,14 @@ cmdpunch(struct LOC_exec *LINK)
 			continue;
 		}
 		n = expr(LINK);
+		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ? 
+			PhreeqcPtr->current_selected_output->Get_high_precision() : 
+			PhreeqcPtr->high_precision;
 		if (n.stringval)
 		{
 /*      fputs(n.UU.sval, stdout); */
-			if (PhreeqcPtr->punch.high_precision == FALSE)
+
+			if (!temp_high_precision)
 			{
 				if (strlen(n.UU.sval) <= 12)
 				{
@@ -4450,7 +4469,7 @@ cmdpunch(struct LOC_exec *LINK)
 			}
 			PhreeqcPtr->PHRQ_free(n.UU.sval);
 		}
-		else if (PhreeqcPtr->punch.high_precision == FALSE)
+		else if (!temp_high_precision)
 		{
 			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.4e\t", (double) n.UU.val);
 		}

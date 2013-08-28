@@ -132,7 +132,7 @@ log_msg(const char * str)
 // punch ostream methods
 // ---------------------------------------------------------------------- */
 bool PHRQ_io::
-punch_open(const char *file_name, std::ios_base::openmode mode)
+punch_open(const char *file_name, std::ios_base::openmode mode, int n_user)
 /* ---------------------------------------------------------------------- */
 {
 	return ofstream_open(&punch_ostream, file_name, mode);

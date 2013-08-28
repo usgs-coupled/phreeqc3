@@ -96,6 +96,7 @@ initialize(void)
 	hcreate_multi((unsigned) max_elements, &elements_hash_table);
 	hcreate_multi((unsigned) max_s, &species_hash_table);
 	hcreate_multi((unsigned) max_phases, &phases_hash_table);
+#ifdef SKIP_OLD_SELECTED_OUTPUT
 /*
  *   Initialize punch
  */
@@ -169,7 +170,7 @@ initialize(void)
 		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
 	if (punch.calculate_values == NULL)
 		malloc_error();
-
+#endif
 	// one save_values
 	save_values =
 		(struct save_values *) PHRQ_malloc(sizeof(struct save_values));
@@ -190,6 +191,7 @@ initialize(void)
 	user_print->varbase = NULL;
 	user_print->loopbase = NULL;
 
+#ifdef SKIP
 	// user_punch
 	user_punch = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
 	if (user_punch == NULL)
@@ -202,6 +204,7 @@ initialize(void)
 	if (user_punch_headings == NULL)
 		malloc_error();
 	user_punch_count_headings = 0;
+#endif
 #if defined PHREEQ98
 /*
  *   user_graph

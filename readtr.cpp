@@ -960,7 +960,7 @@ dump_cpp(void)
  * dumps solution compositions to file
  */
 
-	int i, j, l;
+	int j, l;
 
 	if (dump_in == FALSE || pr.dump == FALSE)
 		return (OK);
@@ -1004,106 +1004,113 @@ dump_cpp(void)
 		sprintf(token, "false\n");
 		fs << token;
 	}
+	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin();
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
+	{
+		current_selected_output = &(so_it->second);
 
-	sprintf(token, "SELECTED_OUTPUT\n");
-	fs << token;
-	sprintf(token, "\t-file  %-15s\n", "sel_o$$$.prn");
-	fs << token;
-	if (punch.count_totals != 0)
-	{
-		sprintf(token, "\t-tot ");
-		fs << token;
-		for (i = 0; i < punch.count_totals; i++)
+		sprintf(token, "SELECTED_OUTPUT %d\n", current_selected_output->Get_n_user());
+		fs << token ;
+		//sprintf(token, "\t-file  %-15s\n", "sel_o$$$.prn");
+		//fs << token;
+		fs << "\t-file  " << "sel_o$$$" << current_selected_output->Get_n_user() << ".prn\n";
+		//if (punch.count_totals != 0)
+		if (current_selected_output->Get_totals().size() > 0)
 		{
-			sprintf(token, "  %s", punch.totals[i].name);
+			sprintf(token, "\t-tot ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_totals()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_molalities != 0)
-	{
-		sprintf(token, "\t-mol ");
-		fs << token;
-		for (i = 0; i < punch.count_molalities; i++)
+		if (current_selected_output->Get_molalities().size() > 0)
 		{
-			sprintf(token, "  %s", punch.molalities[i].name);
+			sprintf(token, "\t-mol ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_molalities().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_molalities()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_activities != 0)
-	{
-		sprintf(token, "\t-act ");
-		fs << token;
-		for (i = 0; i < punch.count_activities; i++)
+		if (current_selected_output->Get_activities().size() > 0)
 		{
-			sprintf(token, "  %s", punch.activities[i].name);
+			sprintf(token, "\t-act ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_activities().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_activities()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_pure_phases != 0)
-	{
-		sprintf(token, "\t-equ ");
-		fs << token;
-		for (i = 0; i < punch.count_pure_phases; i++)
+		if (current_selected_output->Get_pure_phases().size() > 0)
 		{
-			sprintf(token, "  %s", punch.pure_phases[i].name);
+			sprintf(token, "\t-equ ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_pure_phases().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_pure_phases()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_si != 0)
-	{
-		sprintf(token, "\t-si ");
-		fs << token;
-		for (i = 0; i < punch.count_si; i++)
+		if (current_selected_output->Get_si().size() > 0)
 		{
-			sprintf(token, "  %s", punch.si[i].name);
+			sprintf(token, "\t-si ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_si()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_gases != 0)
-	{
-		sprintf(token, "\t-gas ");
-		fs << token;
-		for (i = 0; i < punch.count_gases; i++)
+		if (current_selected_output->Get_gases().size() > 0)
 		{
-			sprintf(token, "  %s", punch.gases[i].name);
+			sprintf(token, "\t-gas ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_gases().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_gases()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_s_s != 0)
-	{
-		sprintf(token, "\t-solid_solutions ");
-		fs << token;
-		for (i = 0; i < punch.count_s_s; i++)
+		if (current_selected_output->Get_s_s().size() > 0)
 		{
-			sprintf(token, "  %s", punch.s_s[i].name);
+			sprintf(token, "\t-solid_solutions ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_s_s().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_s_s()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
-	}
-	if (punch.count_kinetics != 0)
-	{
-		sprintf(token, "\t-kin ");
-		fs << token;
-		for (i = 0; i < punch.count_kinetics; i++)
+		if (current_selected_output->Get_kinetics().size() > 0)
 		{
-			sprintf(token, "  %s", punch.kinetics[i].name);
+			sprintf(token, "\t-kin ");
+			fs << token;
+			for (size_t i = 0; i < current_selected_output->Get_kinetics().size(); i++)
+			{
+				sprintf(token, "  %s", current_selected_output->Get_kinetics()[i].first.c_str());
+				fs << token;
+			}
+			sprintf(token, "\n");
 			fs << token;
 		}
-		sprintf(token, "\n");
-		fs << token;
 	}
 	sprintf(token, "TRANSPORT\n");
 	fs << token;
@@ -1120,7 +1127,7 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-timest %13.5e\n", (double) timest);
 	fs << token;
-	if (punch.high_precision == FALSE)
+	if (!high_precision)
 	{
 		sprintf(token, "\t-diffc  %13.5e\n", (double) diffc);
 		fs << token;
@@ -1144,7 +1151,7 @@ dump_cpp(void)
 	}
 	sprintf(token, "\t-length\n");
 	fs << token;
-	for (i = 0; i < count_cells; i++)
+	for (int i = 0; i < count_cells; i++)
 	{
 		sprintf(token, "%12.3e", (double) cell_data[i].length);
 		fs << token;
@@ -1158,9 +1165,9 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-disp\n");
 	fs << token;
-	for (i = 0; i < count_cells; i++)
+	for (int i = 0; i < count_cells; i++)
 	{
-		if (punch.high_precision == FALSE)
+		if (!high_precision)
 		{
 			sprintf(token, "%12.3e", (double) cell_data[i].disp);
 			fs << token;
@@ -1185,7 +1192,7 @@ dump_cpp(void)
 	else
 		j = count_cells;
 	l = 0;
-	for (i = 0; i < j; i++)
+	for (int i = 0; i < j; i++)
 	{
 		if (cell_data[i].punch != TRUE)
 			continue;
@@ -1207,7 +1214,7 @@ dump_cpp(void)
 	else
 		j = count_cells;
 	l = 0;
-	for (i = 0; i < j; i++)
+	for (int i = 0; i < j; i++)
 	{
 		if (cell_data[i].print != TRUE)
 			continue;

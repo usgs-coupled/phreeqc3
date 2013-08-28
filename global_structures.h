@@ -284,6 +284,7 @@ struct name_phase
 	const char *name;
 	struct phase *phase;
 };
+#ifdef SKIP
 struct punch
 {
 	int in;
@@ -327,7 +328,7 @@ struct punch
 	int charge_balance;
 	int percent_error;
 };
-
+#endif
 struct Change_Surf
 {
 	const char *comp_name;
