@@ -185,7 +185,7 @@ clean_up(void)
 	cell_data = (struct cell_data *) free_check_null(cell_data);
 
 /* punch */
-
+#ifdef SKIP
 	punch.totals = (struct name_master *) free_check_null(punch.totals);
 	punch.molalities =
 		(struct name_species *) free_check_null(punch.molalities);
@@ -197,19 +197,26 @@ clean_up(void)
 	punch.gases = (struct name_phase *) free_check_null(punch.gases);
 	punch.s_s = (struct name_phase *) free_check_null(punch.s_s);
 	punch.kinetics = (struct name_phase *) free_check_null(punch.kinetics);
+#endif
 	advection_punch = (int *) free_check_null(advection_punch);
 	advection_print = (int *) free_check_null(advection_print);
+#ifdef SKIP
 	punch.isotopes = (struct name_master *) free_check_null(punch.isotopes);
 	punch.calculate_values =
 		(struct name_master *) free_check_null(punch.calculate_values);
+#endif
+	SelectedOutput_map.clear();
+	UserPunch_map.clear();
 
 /*  user_print and user_punch */
 	rate_free(user_print);
+#ifdef SKIP
 	rate_free(user_punch);
 	user_print = (struct rate *) free_check_null(user_print);
 
 	user_punch = (struct rate *) free_check_null(user_punch);
 	user_punch_headings = (const char **) free_check_null(user_punch_headings);
+#endif
 
 	/*
 	   Free llnl aqueous model parameters
@@ -344,8 +351,8 @@ clean_up(void)
 
 /* free user database name if defined */
 	user_database = (char *) free_check_null(user_database);
-	selected_output_file_name =
-		(char *) free_check_null(selected_output_file_name);
+	//selected_output_file_name =
+	//	(char *) free_check_null(selected_output_file_name);
 	dump_file_name = (char *) free_check_null(dump_file_name);
 #ifdef PHREEQCI_GUI
 	free_spread();

@@ -78,7 +78,7 @@ public:
 	bool Get_log_on(void)							{return this->log_on;}
 
 	// punch_ostream
-	virtual bool punch_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
+	virtual bool punch_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out, int n_user = 1);
 	void punch_flush(void);
 	void punch_close(void);
 	virtual void punch_msg(const char * str);

@@ -28,6 +28,8 @@
 #include "runner.h"
 #include "dumper.h"
 #include "PHRQ_io.h"
+#include "SelectedOutput.h"
+#include "UserPunch.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -233,7 +235,7 @@ public:
 	void output_msg(const char * str);
 
 	// punch_ostream
-	bool punch_open(const char *file_name);
+	bool punch_open(const char *file_name, int n_user);
 	void punch_flush(void);
 	void punch_close(void);
 	void punch_msg(const char * str);
@@ -1142,7 +1144,8 @@ protected:
 	* ---------------------------------------------------------------------- */
 
 	struct model last_model;
-	struct punch punch;
+	//struct punch punch;
+	bool high_precision;
 
 	/* ----------------------------------------------------------------------
 	*   Temperatures
@@ -1517,9 +1520,9 @@ protected:
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
 	struct rate *user_print;
-	struct rate *user_punch;
-	const char **user_punch_headings;
-	int user_punch_count_headings;
+	//struct rate *user_punch;
+	//const char **user_punch_headings;
+	//int user_punch_count_headings;
 	int n_user_punch_index;
 
 	int fpunchf_user_s_warning;
@@ -1612,7 +1615,13 @@ protected:
 	int llnl_count_temp, llnl_count_adh, llnl_count_bdh, llnl_count_bdot,
 		llnl_count_co2_coefs;
 
-	char *selected_output_file_name;
+	//char *selected_output_file_name;
+	std::map<int, SelectedOutput> SelectedOutput_map;
+	SelectedOutput * current_selected_output;
+	
+	std::map <int, UserPunch> UserPunch_map;
+	UserPunch * current_user_punch;
+
 	char *dump_file_name;
 	int remove_unstable_phases;
 	std::string screen_string;
@@ -1664,7 +1673,7 @@ protected:
 	int first_read_input;
 	char *user_database;
 
-	int have_punch_name;
+	//int have_punch_name;
 	/* VP: Density Start */
 	int print_density;
 	/* VP: Density End */
@@ -1746,6 +1755,7 @@ protected:
 	FILE *netpath_file;
 	int count_inverse_models, count_pat_solutions;
 	int min_position[32], max_position[32], now[32];
+	std::vector <std::string> inverse_heading_names;
 
 	/* kinetics.cpp ------------------------------- */
 public:

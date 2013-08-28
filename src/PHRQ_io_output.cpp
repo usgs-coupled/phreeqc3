@@ -67,7 +67,7 @@ get_forward_output_to_log(void)
 void Phreeqc::
 fpunchf_heading(const char *name)
 {
-	if (pr.punch == TRUE && punch.in == TRUE)
+	if (pr.punch == TRUE && current_selected_output != NULL)
 	{
 		punch_msg(name);
 	}
@@ -113,11 +113,16 @@ void Phreeqc::
 fpunchf_user(int user_index, const char *format, double d)
 {
 	const char *name;
-
+	
+	if (current_user_punch == NULL)
+		return;
 	// check headings
+	//if (user_index < user_punch_count_headings)
+	int user_punch_count_headings = (int) current_user_punch->Get_headings().size();
 	if (user_index < user_punch_count_headings)
 	{
-		name = user_punch_headings[user_index];
+		//name = user_punch_headings[user_index];
+		name = current_user_punch->Get_headings()[user_index].c_str();
 	}
 	else
 	{
@@ -146,11 +151,15 @@ void Phreeqc::
 fpunchf_user(int user_index, const char *format, char * d)
 {
 	const char *name;
-
+	
+	if (current_user_punch == NULL)
+		return;
+	int user_punch_count_headings = (int) current_user_punch->Get_headings().size();
 	// check headings
 	if (user_index < user_punch_count_headings)
 	{
-		name = user_punch_headings[user_index];
+		//name = user_punch_headings[user_index];
+		name = current_user_punch->Get_headings()[user_index].c_str();
 	}
 	else
 	{
@@ -976,11 +985,11 @@ output_msg(const char * str)
 
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
-punch_open(const char *file_name)
+punch_open(const char *file_name, int n_user)
 /* ---------------------------------------------------------------------- */
 {
 	if (phrq_io)
-		return this->phrq_io->punch_open(file_name);
+		return this->phrq_io->punch_open(file_name, std::ios_base::out, n_user);
 	return false;
 }
 /* ---------------------------------------------------------------------- */

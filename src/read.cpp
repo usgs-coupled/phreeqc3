@@ -16,6 +16,8 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+#include "SelectedOutput.h"
+#include "UserPunch.h"
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -4588,7 +4590,486 @@ read_save(void)
 	/* empty, eof, keyword, print */
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_selected_output(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Read data for to output to flat file
+ */
+	int value;
+	int return_value, opt, opt_save;
+	char *next_char;
+	const char *opt_list[] = {
+		"file",					/* 0 */
+		"totals",				/* 1 */
+		"molalities",			/* 2 */
+		"activities",			/* 3 */
+		"pure_phases",			/* 4 */
+		"si",					/* 5 */
+		"saturation_indices",	/* 6 */
+		"gases",				/* 7 */
+		"equilibrium_phases",	/* 8 */
+		"equilibria",       	/* 9 */
+		"equilibrium",			/* 10 */
+		"pure",					/* 11 */
+		"inverse",				/* 12 */
+		"kinetic_reactants",	/* 13 */
+		"kinetics",				/* 14 */
+		"solid_solutions",		/* 15 */
+		"inverse_modeling",		/* 16 */
+		"reset",				/* 17 */
+		"simulation",			/* 18 */
+		"sim",					/* 19 */
+		"state",				/* 20 */
+		"solution",				/* 21 */
+		"soln",					/* 22 */
+		"distance",				/* 23 */
+		"dist",					/* 24 */
+		"time",					/* 25 */
+		"step",					/* 26 */
+		"reaction",				/* 27 */
+		"rxn",					/* 28 */
+		"temperature",			/* 29 */
+		"temp",					/* 30 */
+		"ph",					/* 31 */
+		"pe",					/* 32 */
+		"alkalinity",			/* 33 */
+		"alk",					/* 34 */
+		"ionic_strength",		/* 35 */
+		"mu",					/* 36 */
+		"water",				/* 37 */
+		"high_precision",		/* 38 */
+		"user_punch",			/* 39 */
+		"mol",					/* 40 */
+		"kin",					/* 41 */
+		"charge_balance",		/* 42 */
+		"percent_error",		/* 43 */
+		"selected_out",			/* 44 */
+		"selected_output",		/* 45 */
+		"isotopes",				/* 46 */
+		"calculate_values",		/* 47 */
+		"equilibrium_phase",    /* 48 */
+		"active"                /* 49 */
+	};
+	int count_opt_list = 50;
 
+	int i, l;
+	char file_name[MAX_LENGTH], token[MAX_LENGTH];
+
+	char *ptr;
+	ptr = line;
+	int n_user, n_user_end;
+	char *description;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+
+	SelectedOutput temp_selected_output;
+	temp_selected_output.Set_new_def(false);
+	temp_selected_output.Set_file_name(n_user);
+	temp_selected_output.Set_n_user(n_user);
+	temp_selected_output.Set_n_user_end(n_user_end);
+	temp_selected_output.Set_description(description);
+	free_check_null(description);
+
+	// find if it exists
+	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
+	if (n_user == 1 && so != SelectedOutput_map.end())
+	{
+		// n_user = 1, old definition, keep old definition
+		SelectedOutput & so_ref = so->second;
+		temp_selected_output.Set_active           ( so_ref.Get_active() );
+		temp_selected_output.Set_inverse          ( so_ref.Get_inverse() );
+		temp_selected_output.Set_sim              ( so_ref.Get_sim() );
+		temp_selected_output.Set_state            ( so_ref.Get_state() );
+		temp_selected_output.Set_soln             ( so_ref.Get_soln() );
+		temp_selected_output.Set_dist             ( so_ref.Get_dist() );
+		temp_selected_output.Set_time             ( so_ref.Get_time() );
+		temp_selected_output.Set_step             ( so_ref.Get_step() );
+		temp_selected_output.Set_rxn              ( so_ref.Get_rxn() );
+		temp_selected_output.Set_temp             ( so_ref.Get_temp() );
+		temp_selected_output.Set_ph               ( so_ref.Get_ph() );
+		temp_selected_output.Set_pe               ( so_ref.Get_pe() );
+		temp_selected_output.Set_alk              ( so_ref.Get_alk() );
+		temp_selected_output.Set_mu               ( so_ref.Get_mu() );
+		temp_selected_output.Set_water            ( so_ref.Get_water() );
+		temp_selected_output.Set_high_precision   ( so_ref.Get_high_precision() );
+		temp_selected_output.Set_user_punch       ( so_ref.Get_user_punch() );
+		temp_selected_output.Set_charge_balance   ( so_ref.Get_charge_balance() );
+		temp_selected_output.Set_percent_error    ( so_ref.Get_percent_error() );
+		temp_selected_output.Set_have_punch_name  ( so_ref.Get_have_punch_name() );
+		temp_selected_output.Set_file_name        ( so_ref.Get_file_name() );
+	}
+	else if (n_user == 1 && so == SelectedOutput_map.end())
+	{
+		// n_user = 1, new definition, do nothing use; constructor default
+	}
+	else 
+	{
+		// n_user != 1 then reset false
+
+		temp_selected_output.Reset(false);
+	}
+
+	CParser parser(this->phrq_io);
+
+/*
+ *   Read eqn from file and call parser
+ */
+	opt_save = OPTION_ERROR;
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_DEFAULT)
+		{
+			opt = opt_save;
+		}
+		opt_save = opt;
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_DEFAULT:
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in SELECTED_OUTPUT keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		case 0:				/* file name */
+			temp_selected_output.Set_new_def(true);
+			if (string_trim(next_char) != EMPTY)
+			{
+				strcpy(file_name, next_char);
+				temp_selected_output.Set_file_name(file_name);
+				temp_selected_output.Set_have_punch_name(true);
+			}
+			opt_save = OPTION_ERROR;
+			break;
+		case 1:				/* totals */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				if (i != UPPER && token[0] != '[')
+				{
+					error_string = sformatf( "Expected element name to"
+							" begin with upper case letter.");
+					warning_msg(error_string);
+				}
+				else
+				{
+					std::pair< std::string, void *> t_pair(token, NULL);
+					temp_selected_output.Get_totals().push_back(t_pair);
+				}
+			}
+			break;
+		case 2:				/* molalities */
+		case 40:				/* mol */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				if (i != UPPER && token[0] != '(' && (token[0] != '['))
+				{
+					error_string = sformatf( "Expected species name to"
+							" begin with upper case letter.");
+					warning_msg(error_string);
+				}
+				else
+				{
+					std::pair< std::string, void *> t_pair(token, NULL);
+					temp_selected_output.Get_molalities().push_back(t_pair);
+				}
+			}
+			break;
+		case 3:				/* activities */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				if (i != UPPER && token[0] != '(' && (token[0] != '['))
+				{
+					error_string = sformatf( "Expected species name to"
+							" begin with upper case letter.");
+					warning_msg(error_string);
+				}
+				else
+				{
+					std::pair< std::string, void *> t_pair(token, NULL);
+					temp_selected_output.Get_activities().push_back(t_pair);
+				}
+			}
+			break;
+		case 4:				/* pure_phases */
+		case 8:				/* equilibrium_phases */
+		case 9:				/* equilibria */
+		case 10:			/* equilibrium */
+		case 11:			/* pure */
+		case 48:            /* equilibrium_phase */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				std::pair< std::string, void *> t_pair(token, NULL);
+				temp_selected_output.Get_pure_phases().push_back(t_pair);
+			}
+			break;
+		case 5:				/* si */
+		case 6:				/* saturation_index */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				std::pair< std::string, void *> t_pair(token, NULL);
+				temp_selected_output.Get_si().push_back(t_pair);
+			}
+			break;
+		case 7:				/* gases */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				std::pair< std::string, void *> t_pair(token, NULL);
+				temp_selected_output.Get_gases().push_back(t_pair);
+			}
+			break;
+		case 12:				/* inverse */
+		case 16:				/* inverse_modeling */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_inverse(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 13:				/* kinetic_reactants */
+		case 14:				/* kinetics */
+		case 41:				/* kin */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				std::pair< std::string, void *> t_pair(token, NULL);
+				temp_selected_output.Get_kinetics().push_back(t_pair);
+			}
+			break;
+		case 15:				/* solid_solutions */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				std::pair< std::string, void *> t_pair(token, NULL);
+				temp_selected_output.Get_s_s().push_back(t_pair);
+			}
+			break;
+		case 46:				/* isotopes */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				if (i != UPPER && token[0] != '[')
+				{
+					error_string = sformatf( "Expected element name to"
+							" begin with upper case letter.");
+					warning_msg(error_string);
+				}
+				else
+				{
+					std::pair< std::string, void *> t_pair(token, NULL);
+					temp_selected_output.Get_isotopes().push_back(t_pair);
+				}
+			}
+			break;
+		case 47:				/* calculate_values */
+			temp_selected_output.Set_new_def(true);
+			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
+			{
+				std::pair< std::string, void *> t_pair(token, NULL);
+				temp_selected_output.Get_calculate_values().push_back(t_pair);
+			}
+			break;
+		case 17:				/* reset */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			/* matches print order */
+			temp_selected_output.Reset(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 18:				/* simulation */
+		case 19:				/* sim */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_sim(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 20:				/* state */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_state(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 21:				/* solution */
+		case 22:				/* soln */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_soln(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 23:				/* distance */
+		case 24:				/* dist */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_dist(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 25:				/* time */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_time(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 26:				/* step */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_step(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 27:				/* reaction */
+		case 28:				/* rxn */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_rxn(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 29:				/* temperature */
+		case 30:				/* temp */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_temp(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 31:				/* ph */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_ph(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 32:				/* pe */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_pe(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 33:				/* alkalinity */
+		case 34:				/* alk */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_alk(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 35:				/* ionic strength */
+		case 36:				/* mu */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_mu(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 37:				/* water */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_water(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 38:				/* high_precision */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_high_precision(value!=FALSE);
+			if (n_user == 1)
+			{
+				high_precision = (value != FALSE);
+			}
+			if (value == TRUE)
+			{
+				convergence_tolerance = 1e-12;
+			}
+			opt_save = OPTION_ERROR;
+			break;
+		case 39:				/* user_punch */
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_user_punch(value!=FALSE);
+			if (so != SelectedOutput_map.end())
+			{
+				so->second.Set_user_punch(value!=FALSE);
+			}			opt_save = OPTION_ERROR;
+			break;
+		case 42:				/* charge_balance */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_charge_balance(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 43:				/* percent_error */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_percent_error(value!=FALSE);
+			opt_save = OPTION_ERROR;
+			break;
+		case 44:				/* selected_out */
+		case 45:				/* selected_output */
+			//warning_msg("Use PRINT; -selected_output, not SELECTED_OUTPUT; -selected_output");
+			//value = get_true_false(next_char, TRUE);
+			//temp_selected_output.Set_active(value!=FALSE);
+			//opt_save = OPTION_ERROR;
+			//break;
+		case 49:				/* active */
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_active(value!=FALSE);
+			if (so != SelectedOutput_map.end())
+			{
+				so->second.Set_active(value!=FALSE);
+			}
+			opt_save = OPTION_ERROR;
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	
+	if (temp_selected_output.Get_new_def() || so == SelectedOutput_map.end())
+	{
+		// delete if exists
+		if (so != SelectedOutput_map.end())
+		{
+			SelectedOutput_map.erase(so);
+		}
+
+		// store new selected output
+		SelectedOutput_map[n_user] = temp_selected_output;
+
+		if (punch_open(SelectedOutput_map[n_user].Get_file_name().c_str(), n_user))
+		{
+			if (phrq_io)
+			{
+				SelectedOutput_map[n_user].Set_punch_ostream(phrq_io->Get_punch_ostream());
+				phrq_io->Set_punch_ostream(NULL);
+			}
+		}
+		else
+		{
+			error_string = sformatf( "Can`t open file, %s.", SelectedOutput_map[n_user].Get_file_name().c_str());
+			input_error++;
+			error_msg(error_string, CONTINUE);
+		}
+	}
+
+	//if (!have_punch_name)
+	//{
+	//	punch_close();
+	//	if (!punch_open("selected.out"))
+	//	{
+	//		error_string = sformatf( "Can`t open file, %s.", "selected.out");
+	//		input_error++;
+	//		error_msg(error_string, CONTINUE);
+	//	}
+	//}
+
+	return (return_value);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_selected_output(void)
@@ -5046,6 +5527,7 @@ read_selected_output(void)
 
 	return (return_value);
 }
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solution(void)
@@ -8772,7 +9254,155 @@ read_user_print(void)
 /*	output_msg(sformatf( "%s", rates[0].commands));
  */ return (return_value);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_user_punch(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *      Reads basic code with which to calculate rates
+ *
+ *      Arguments:
+ *	 none
+ *
+ *      Returns:
+ *	 KEYWORD if keyword encountered, input_error may be incremented if
+ *		    a keyword is encountered in an unexpected position
+ *	 EOF     if eof encountered while reading mass balance concentrations
+ *	 ERROR   if error occurred reading data
+ *
+ */
+	int length, line_length;
+	int return_value, opt, opt_save;
+	std::string stdtoken;
+	char *next_char;
+	const char *opt_list[] = {
+		"start",				/* 0 */
+		"end",					/* 1 */
+		"heading",				/* 2 */
+		"headings"				/* 3 */
+	};
+	int count_opt_list = 4;
 
+	opt_save = OPTION_DEFAULT;
+/*
+ *   Read lines
+ */
+
+	int n_user, n_user_end;
+	char *description;
+	char *ptr;
+	ptr = line;
+	read_number_description(ptr, &n_user, &n_user_end, &description);
+
+	UserPunch temp_user_punch;
+	temp_user_punch.Set_PhreeqcPtr(this);
+	temp_user_punch.Set_n_user(n_user);
+	temp_user_punch.Set_n_user_end(n_user_end);
+	temp_user_punch.Set_description(description);
+	free_check_null(description);
+
+	//std::map < int, UserPunch >::iterator up = UserPunch_map.find(n_user);
+	//if (up != UserPunch_map.end())
+	//{
+	//	UserPunch_map.erase(up);
+	//}
+	
+	// Malloc rate structure
+	struct rate *r = (struct rate *) PHRQ_malloc(sizeof(struct rate));
+	if (r == NULL) malloc_error();
+	r->new_def = TRUE;
+	r->linebase = NULL;
+	r->varbase = NULL;
+	r->loopbase = NULL;
+	r->name = string_hsave("user defined Basic punch routine");
+
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_DEFAULT)
+		{
+			opt = opt_save;
+		}
+		opt_save = OPTION_DEFAULT;
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in USER_PUNCH keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		case 0:				/* start */
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 1:				/* end */
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 2:				/* headings */
+		case 3:				/* heading */
+			while (copy_token(stdtoken, &next_char) != EMPTY)
+			{
+				temp_user_punch.Get_headings().push_back(stdtoken);
+			}
+			break;
+		case OPTION_DEFAULT:	/* read first command */
+			{
+				r->commands = (char *) PHRQ_malloc(sizeof(char));
+				if (r->commands == NULL) malloc_error();
+				r->commands[0] = '\0';
+			}
+			//rate_free(user_punch);
+			//user_punch->new_def = TRUE;
+			//user_punch->commands = (char *) PHRQ_malloc(sizeof(char));
+			//if (user_punch->commands == NULL)
+			//	malloc_error();
+			//user_punch->commands[0] = '\0';
+			//user_punch->linebase = NULL;
+			//user_punch->varbase = NULL;
+			//user_punch->loopbase = NULL;
+			//user_punch->name =
+			//	string_hsave("user defined Basic punch routine");
+		case OPT_1:			/* read command */
+			length = (int) strlen(r->commands);
+			line_length = (int) strlen(line);
+			r->commands = (char *) PHRQ_realloc(r->commands,
+				(size_t) (length + line_length + 2) * sizeof(char));
+			if (r->commands == NULL) malloc_error();
+
+			r->commands[length] = ';';
+			r->commands[length + 1] = '\0';
+			strcat((r->commands), line);
+			//length = (int) strlen(user_punch->commands);
+			//line_length = (int) strlen(line);
+			//user_punch->commands =
+			//	(char *) PHRQ_realloc(user_punch->commands,
+			//						  (size_t) (length + line_length +
+			//									2) * sizeof(char));
+			//if (user_punch->commands == NULL)
+			//	malloc_error();
+			//user_punch->commands[length] = ';';
+			//user_punch->commands[length + 1] = '\0';
+			//strcat((user_punch->commands), line);
+			opt_save = OPT_1;
+			break;
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	
+	UserPunch_map[n_user] = temp_user_punch;
+	UserPunch_map[n_user].Set_rate(r);
+
+	return (return_value);
+}
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_user_punch(void)
@@ -8884,7 +9514,7 @@ read_user_punch(void)
 	}
 	return (return_value);
 }
-
+#endif
 #if defined PHREEQ98 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

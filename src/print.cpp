@@ -162,31 +162,50 @@ punch_all(void)
 			chart_handler.Punch_user_graph(this);
 	}
 #endif
-	if (pr.hdf == FALSE && (punch.in == FALSE || pr.punch == FALSE))
+	//if (pr.hdf == FALSE && (punch.in == FALSE || pr.punch == FALSE))
+	if (pr.hdf == FALSE && (SelectedOutput_map.size() == 0 || pr.punch == FALSE))
 		return (OK);
-	punch_identifiers();
-	punch_totals();
-	punch_molalities();
-	punch_activities();
-	punch_pp_assemblage();
-	punch_saturation_indices();
-	punch_gas_phase();
-	punch_kinetics();
-	punch_ss_assemblage();
-	punch_isotopes();
-	punch_calculate_values();
-	punch_user_punch();
-/*
- *   new line for punch_file
- */
-	punch_msg("\n");
+	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin();
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
+	{
+		current_selected_output = &(so_it->second);
+		if (pr.punch == FALSE ||
+			current_selected_output == NULL ||
+			!current_selected_output->Get_active() /* || 
+			current_selected_output->Get_punch_ostream() == NULL*/)
+			continue;
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
 
-/*
- *   signal end of row
- */
-	fpunchf_end_row("\n");
-	punch_flush();
+		// UserPunch
+		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());
+		current_user_punch = up_it == UserPunch_map.end() ? NULL : &(up_it->second);
 
+		punch_identifiers();
+		punch_totals();
+		punch_molalities();
+		punch_activities();
+		punch_pp_assemblage();
+		punch_saturation_indices();
+		punch_gas_phase();
+		punch_kinetics();
+		punch_ss_assemblage();
+		punch_isotopes();
+		punch_calculate_values();
+		punch_user_punch();
+		/*
+		*   new line for punch_file
+		*/
+		punch_msg("\n");
+
+		/*
+		*   signal end of row
+		*/
+		fpunchf_end_row("\n");
+		punch_flush();
+	}
+	current_selected_output = NULL;
+	current_user_punch = NULL;
+	phrq_io->Set_punch_ostream(NULL);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -2391,12 +2410,13 @@ punch_gas_phase(void)
 /*
  *   Prints selected gas phase data
  */
-	int i;
+	//int i;
 	LDBLE p, total_moles, volume;
 	LDBLE moles;
 	bool PR = false;
 
-	if (punch.count_gases <= 0)
+	//if (punch.count_gases <= 0)
+	if (current_selected_output->Get_gases().size() == 0)
 		return (OK);
 	p = 0.0;
 	total_moles = 0.0;
@@ -2435,7 +2455,7 @@ punch_gas_phase(void)
 		volume = gas_phase_ptr->Get_volume();
 
 	}
-	if (punch.high_precision == FALSE)
+	if (!current_selected_output->Get_high_precision())
 	{
 		fpunchf("pressure", "%12.4e\t", (double) p);
 		fpunchf("total mol", "%12.4e\t", (double) total_moles);
@@ -2447,17 +2467,17 @@ punch_gas_phase(void)
 		fpunchf("total mol", "%20.12e\t", (double) total_moles);
 		fpunchf("volume", "%20.12e\t", (double) volume);
 	}
-	for (i = 0; i < punch.count_gases; i++)
+	for (size_t i = 0; i < current_selected_output->Get_gases().size(); i++)
 	{
 		moles = 0.0;
-		if (gas_phase_ptr != NULL && punch.gases[i].phase != NULL)
+		if (gas_phase_ptr != NULL && current_selected_output->Get_gases()[i].second != NULL)
 		{
 			for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 			{
 				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
 				int k;
 				struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
-				if (phase_ptr != punch.gases[i].phase)
+				if (phase_ptr != current_selected_output->Get_gases()[i].second)
 					continue;
 				moles = phase_ptr->moles_x;
 				if (moles <= MIN_TOTAL)
@@ -2465,13 +2485,13 @@ punch_gas_phase(void)
 				break;
 			}
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("g_%s", punch.gases[i].name), "%12.4e\t", (double) moles);
+			fpunchf(sformatf("g_%s", current_selected_output->Get_gases()[i].first.c_str()), "%12.4e\t", (double) moles);
 		}
 		else
 		{
-			fpunchf(sformatf("g_%s", punch.gases[i].name), "%20.12e\t",
+			fpunchf(sformatf("g_%s", current_selected_output->Get_gases()[i].first.c_str()), "%20.12e\t",
 					(double) moles);
 		}
 	}
@@ -2485,27 +2505,27 @@ punch_ss_assemblage(void)
 /*
  *   Prints solid solution composition if present
  */
-	int j, k;
+	//int j, k;
 	int found;
 	LDBLE moles;
 
 /*
  *   Print solid solutions
  */
-	for (k = 0; k < punch.count_s_s; k++)
+	for (size_t k = 0; k < current_selected_output->Get_s_s().size(); k++)
 	{
 		found = FALSE;
 		if (use.Get_ss_assemblage_ptr() != NULL)
 		{
 			std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
-			for (j = 0; j < (int) ss_ptrs.size(); j++)
+			for (int j = 0; j < (int) ss_ptrs.size(); j++)
 			{
 				cxxSS * ss_ptr = ss_ptrs[j];
 				for (int i = 0; i < (int) ss_ptr->Get_ss_comps().size(); i++)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[i]);
 
-					if (strcmp_nocase(punch.s_s[k].name, comp_ptr->Get_name().c_str()) == 0)
+					if (strcmp_nocase(current_selected_output->Get_s_s()[k].first.c_str(), comp_ptr->Get_name().c_str()) == 0)
 					{
 						if (ss_ptr->Get_ss_in())
 						{
@@ -2515,14 +2535,14 @@ punch_ss_assemblage(void)
 						{
 							moles = 0;
 						}
-						if (punch.high_precision == FALSE)
+						if (!current_selected_output->Get_high_precision())
 						{
-							fpunchf(sformatf("s_%s", punch.s_s[k].name),
+							fpunchf(sformatf("s_%s", current_selected_output->Get_s_s()[k].first.c_str()),
 									"%12.4e\t", (double) moles);
 						}
 						else
 						{
-							fpunchf(sformatf("s_%s", punch.s_s[k].name),
+							fpunchf(sformatf("s_%s", current_selected_output->Get_s_s()[k].first.c_str()),
 									"%20.12e\t", (double) moles);
 						}
 						found = TRUE;
@@ -2535,13 +2555,13 @@ punch_ss_assemblage(void)
 		}
 		if (found == FALSE)
 		{
-			if (punch.high_precision == FALSE)
+			if (!current_selected_output->Get_high_precision())
 			{
-				fpunchf(sformatf("s_%s", punch.s_s[k].name), "%12.4e\t", (double) 0.0);
+				fpunchf(sformatf("s_%s", current_selected_output->Get_s_s()[k].first.c_str()), "%12.4e\t", (double) 0.0);
 			}
 			else
 			{
-				fpunchf(sformatf("s_%s", punch.s_s[k].name), "%20.12e\t",
+				fpunchf(sformatf("s_%s", current_selected_output->Get_s_s()[k].first.c_str()), "%20.12e\t",
 						(double) 0.0);
 			}
 		}
@@ -2557,37 +2577,37 @@ punch_totals(void)
 /*
  *   Print total concentrations of elements, molality and moles.
  */
-	int j;
+	//int j;
 	LDBLE molality;
 
-	for (j = 0; j < punch.count_totals; j++)
+	for (size_t j = 0; j < current_selected_output->Get_totals().size(); j++)
 	{
-		if (punch.totals[j].master == NULL)
+		if (current_selected_output->Get_totals()[j].second == NULL)
 		{
 			molality = 0.0;
 		}
-		else if (punch.totals[j].master->primary == TRUE)
+		else if (((struct master *) current_selected_output->Get_totals()[j].second)->primary == TRUE)
 		{
-			if (strncmp(punch.totals[j].name, "Alkalinity", 20) == 0)
+			if (strncmp(current_selected_output->Get_totals()[j].first.c_str(), "Alkalinity", 20) == 0)
 			{
 				molality = total_alkalinity / mass_water_aq_x;
 			} else
 			{
-				molality = punch.totals[j].master->total_primary / mass_water_aq_x;
+				molality = ((struct master *) current_selected_output->Get_totals()[j].second)->total_primary / mass_water_aq_x;
 			}
 		}
 		else
 		{
-			molality = punch.totals[j].master->total / mass_water_aq_x;
+			molality = ((struct master *) current_selected_output->Get_totals()[j].second)->total / mass_water_aq_x;
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("%s(mol/kgw)", punch.totals[j].name),
+			fpunchf(sformatf("%s(mol/kgw)", current_selected_output->Get_totals()[j].first.c_str()),
 					"%12.4e\t", (double) molality);
 		}
 		else
 		{
-			fpunchf(sformatf("%s(mol/kgw)", punch.totals[j].name),
+			fpunchf(sformatf("%s(mol/kgw)", current_selected_output->Get_totals()[j].first.c_str()),
 					"%20.12e\t", (double) molality);
 		}
 	}
@@ -2602,25 +2622,25 @@ punch_molalities(void)
 /*
  *   Print concentrations of species (aq, ex, surf)
  */
-	int j;
+	//int j;
 	LDBLE molality;
 
-	for (j = 0; j < punch.count_molalities; j++)
+	for (size_t j = 0; j < current_selected_output->Get_molalities().size(); j++)
 	{
 		molality = 0.0;
-		if (punch.molalities[j].s != NULL
-			&& punch.molalities[j].s->in == TRUE)
+		if (current_selected_output->Get_molalities()[j].second != NULL
+			&& ((struct species *) current_selected_output->Get_molalities()[j].second)->in == TRUE)
 		{
-			molality = punch.molalities[j].s->moles / mass_water_aq_x;
+			molality = ((struct species *) current_selected_output->Get_molalities()[j].second)->moles / mass_water_aq_x;
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("m_%s(mol/kgw)", punch.molalities[j].name),
+			fpunchf(sformatf("m_%s(mol/kgw)", current_selected_output->Get_molalities()[j].first.c_str()),
 					"%12.4e\t", (double) molality);
 		}
 		else
 		{
-			fpunchf(sformatf("m_%s(mol/kgw)", punch.molalities[j].name),
+			fpunchf(sformatf("m_%s(mol/kgw)", current_selected_output->Get_molalities()[j].first.c_str()),
 					"%20.12e\t", (double) molality);
 		}
 	}
@@ -2635,26 +2655,26 @@ punch_activities(void)
 /*
  *   Print concentrations of species (aq, ex, surf)
  */
-	int j;
+	//int j;
 	LDBLE la;
 
-	for (j = 0; j < punch.count_activities; j++)
+	for (size_t j = 0; j < current_selected_output->Get_activities().size(); j++)
 	{
 		la = -999.999;
-		if (punch.activities[j].s != NULL
-			&& punch.activities[j].s->in == TRUE)
+		if (current_selected_output->Get_activities()[j].second != NULL
+			&& ((struct species *) current_selected_output->Get_activities()[j].second)->in == TRUE)
 		{
 			/*la = punch.activities[j].s->lm + punch.activities[j].s->lg; */
-			la = log_activity(punch.activities[j].s->name);
+			la = log_activity(current_selected_output->Get_activities()[j].first.c_str());
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("la_%s", punch.activities[j].name), "%12.4e\t",
+			fpunchf(sformatf("la_%s", current_selected_output->Get_activities()[j].first.c_str()), "%12.4e\t",
 					(double) la);
 		}
 		else
 		{
-			fpunchf(sformatf("la_%s", punch.activities[j].name),
+			fpunchf(sformatf("la_%s", current_selected_output->Get_activities()[j].first.c_str()),
 					"%20.12e\t", (double) la);
 		}
 	}
@@ -2669,15 +2689,15 @@ punch_pp_assemblage(void)
 /*
  *   Prints masses of selected pure_phases in pp_assemblage
  */
-	int i, j;
+	//int i, j;
 	LDBLE moles, delta_moles;
-	for (i = 0; i < punch.count_pure_phases; i++)
+	for (size_t i = 0; i < current_selected_output->Get_pure_phases().size(); i++)
 	{
 		delta_moles = 0;
 		moles = 0.0;
-		if (punch.pure_phases[i].phase != NULL)
+		if (current_selected_output->Get_pure_phases()[i].second != NULL)
 		{
-			for (j = 0; j < count_unknowns; j++)
+			for (int j = 0; j < count_unknowns; j++)
 			{
 				if (x == NULL || x[j]->type != PP)
 					continue;
@@ -2686,7 +2706,7 @@ punch_pp_assemblage(void)
 /*
  *   Print pure phase assemblage data
  */
-				if (punch.pure_phases[i].phase != x[j]->phase)
+				if (current_selected_output->Get_pure_phases()[i].second != x[j]->phase)
 					continue;
 				if (state != TRANSPORT && state != PHAST)
 				{
@@ -2704,16 +2724,16 @@ punch_pp_assemblage(void)
 				break;
 			}
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(punch.pure_phases[i].name, "%12.4e\t", (double) moles);
-			fpunchf(sformatf("d_%s", punch.pure_phases[i].name), "%12.4e\t",
+			fpunchf(current_selected_output->Get_pure_phases()[i].first.c_str(), "%12.4e\t", (double) moles);
+			fpunchf(sformatf("d_%s", current_selected_output->Get_pure_phases()[i].first.c_str()), "%12.4e\t",
 					(double) delta_moles);
 		}
 		else
 		{
-			fpunchf(punch.pure_phases[i].name, "%20.12e\t", (double) moles);
-			fpunchf(sformatf("d_%s", punch.pure_phases[i].name),
+			fpunchf(current_selected_output->Get_pure_phases()[i].first.c_str(), "%20.12e\t", (double) moles);
+			fpunchf(sformatf("d_%s", current_selected_output->Get_pure_phases()[i].first.c_str()),
 					"%20.12e\t", (double) delta_moles);
 		}
 	}
@@ -2738,9 +2758,9 @@ punch_identifiers(void)
 	int i, l;
 	char token[MAX_LENGTH];
 
-	if (punch.in == FALSE)
-		return (OK);
-	if (punch.high_precision == FALSE)
+	//if (punch.in == FALSE)
+	//	return (OK);
+	if (!current_selected_output->Get_high_precision())
 	{
 		l = 12;
 		sformat = "%12s\t";
@@ -2759,7 +2779,7 @@ punch_identifiers(void)
  *   simulation or simul_tr
  */
 
-	if (punch.sim == TRUE)
+	if (current_selected_output->Get_sim())
 	{
 		if (state != TRANSPORT && state != PHAST)
 		{
@@ -2770,7 +2790,7 @@ punch_identifiers(void)
 			fpunchf(PHAST_NULL("sim"), dformat, simul_tr);
 		}
 	}
-	if (punch.state == TRUE)
+	if (current_selected_output->Get_state())
 	{
 		switch (state)
 		{
@@ -2808,7 +2828,7 @@ punch_identifiers(void)
 /*
  *   solution number or cell number and time
  */
-	if (punch.soln == TRUE)
+	if (current_selected_output->Get_soln())
 	{
 		if (state == TRANSPORT || state == PHAST)
 		{
@@ -2842,7 +2862,7 @@ punch_identifiers(void)
 			}
 		}
 	}
-	if (punch.dist == TRUE)
+	if (current_selected_output->Get_dist())
 	{
 		if (state == ADVECTION)
 		{
@@ -2858,7 +2878,7 @@ punch_identifiers(void)
 			fpunchf(PHAST_NULL("dist_x"), dformat, -99);
 		}
 	}
-	if (punch.time == TRUE)
+	if (current_selected_output->Get_time())
 	{
 		LDBLE reaction_time = kin_time_x;
 		if (state == REACTION && incremental_reactions == TRUE
@@ -2924,7 +2944,7 @@ punch_identifiers(void)
 /*
  *   reaction or transport step
  */
-	if (punch.step == TRUE)
+	if (current_selected_output->Get_step())
 	{
 		if (state == REACTION)
 		{
@@ -2943,9 +2963,9 @@ punch_identifiers(void)
 			fpunchf(PHAST_NULL("step"), dformat, -99);
 		}
 	}
-	if (punch.ph == TRUE)
+	if (current_selected_output->Get_ph())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("pH", "%12g\t", (double) (-s_hplus->la));
 		}
@@ -2954,9 +2974,9 @@ punch_identifiers(void)
 			fpunchf("pH", "%20.12e\t", (double) (-s_hplus->la));
 		}
 	}
-	if (punch.pe == TRUE)
+	if (current_selected_output->Get_pe())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("pe", "%12g\t", (double) (-s_eminus->la));
 		}
@@ -2965,11 +2985,11 @@ punch_identifiers(void)
 			fpunchf("pe", "%20.12e\t", (double) (-s_eminus->la));
 		}
 	}
-	if (punch.rxn == TRUE)
+	if (current_selected_output->Get_rxn())
 	{
 		if (state >= REACTION && use.Get_reaction_in() == TRUE)
 		{
-			if (punch.high_precision == FALSE)
+			if (!current_selected_output->Get_high_precision())
 			{
 				fpunchf("reaction", "%12.4e\t", (double) step_x);
 			}
@@ -2980,7 +3000,7 @@ punch_identifiers(void)
 		}
 		else
 		{
-			if (punch.high_precision == FALSE)
+			if (!current_selected_output->Get_high_precision())
 			{
 				fpunchf("reaction", "%12d\t", -99);
 			}
@@ -2990,9 +3010,9 @@ punch_identifiers(void)
 			}
 		}
 	}
-	if (punch.temp == TRUE)
+	if (current_selected_output->Get_temp())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("temp(C)", "%12.3f\t", (double) tc_x);
 		}
@@ -3001,9 +3021,9 @@ punch_identifiers(void)
 			fpunchf("temp(C)", "%20.12e\t", (double) tc_x);
 		}
 	}
-	if (punch.alk == TRUE)
+	if (current_selected_output->Get_alk())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("Alk(eq/kgw)", "%12g\t",
 					(double) (total_alkalinity / mass_water_aq_x));
@@ -3014,9 +3034,9 @@ punch_identifiers(void)
 					(double) (total_alkalinity / mass_water_aq_x));
 		}
 	}
-	if (punch.mu == TRUE)
+	if (current_selected_output->Get_mu())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("mu", "%12g\t", (double) mu_x);
 		}
@@ -3025,9 +3045,9 @@ punch_identifiers(void)
 			fpunchf("mu", "%20.12e\t", (double) mu_x);
 		}
 	}
-	if (punch.water == TRUE)
+	if (current_selected_output->Get_water())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("mass_H2O", "%12g\t", (double) mass_water_aq_x);
 		}
@@ -3036,9 +3056,9 @@ punch_identifiers(void)
 			fpunchf("mass_H2O", "%20.12e\t", (double) mass_water_aq_x);
 		}
 	}
-	if (punch.charge_balance == TRUE)
+	if (current_selected_output->Get_charge_balance())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("charge(eq)", "%12g\t", (double) cb_x);
 		}
@@ -3047,9 +3067,9 @@ punch_identifiers(void)
 			fpunchf("charge(eq)", "%20.12e\t", (double) cb_x);
 		}
 	}
-	if (punch.percent_error == TRUE)
+	if (current_selected_output->Get_percent_error())
 	{
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
 			fpunchf("pct_err", "%12g\t",
 					(double) (100 * cb_x / total_ions_x));
@@ -3073,13 +3093,13 @@ punch_saturation_indices(void)
 /*
  *   Prints saturation indices of selected phases
  */
-	int i;
+	//int i;
 	LDBLE si, iap;
 	struct rxn_token *rxn_ptr;
 
-	for (i = 0; i < punch.count_si; i++)
+	for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
 	{
-		if (punch.si[i].phase == NULL || punch.si[i].phase->in == FALSE)
+		if (current_selected_output->Get_si()[i].second == NULL || ((struct phase *) current_selected_output->Get_si()[i].second)->in == FALSE)
 		{
 			si = -999.999;
 		}
@@ -3089,20 +3109,20 @@ punch_saturation_indices(void)
  *   Print saturation index
  */
 			iap = 0.0;
-			for (rxn_ptr = punch.si[i].phase->rxn_x->token + 1;
+			for (rxn_ptr = ((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x->token + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				iap += rxn_ptr->s->la * rxn_ptr->coef;
 			}
-			si = -punch.si[i].phase->lk + iap;
+			si = -((struct phase *) current_selected_output->Get_si()[i].second)->lk + iap;
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("si_%s", punch.si[i].name), "%12.4f\t", (double) si);
+			fpunchf(sformatf("si_%s", current_selected_output->Get_si()[i].first.c_str()), "%12.4f\t", (double) si);
 		}
 		else
 		{
-			fpunchf(sformatf("si_%s", punch.si[i].name), "%20.12e\t", (double) si);
+			fpunchf(sformatf("si_%s", current_selected_output->Get_si()[i].first.c_str()), "%20.12e\t", (double) si);
 		}
 	}
 	return (OK);
@@ -3131,7 +3151,7 @@ punch_kinetics(void)
 			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, -2);
 		}
 	}
-	for (int i = 0; i < punch.count_kinetics; i++)
+	for (size_t i = 0; i < current_selected_output->Get_kinetics().size(); i++)
 	{
 		moles = 0.0;
 		delta_moles = 0.0;
@@ -3141,7 +3161,7 @@ punch_kinetics(void)
 			{
 				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 				if (strcmp_nocase
-					(punch.kinetics[i].name,
+					(current_selected_output->Get_kinetics()[i].first.c_str(),
 					 kinetics_comp_ptr->Get_rate_name().c_str()) == 0)
 				{
 					if (state != TRANSPORT && state != PHAST)
@@ -3160,18 +3180,18 @@ punch_kinetics(void)
 				}
 			}
 		}
-		if (punch.high_precision == FALSE)
+		if (!current_selected_output->Get_high_precision())
 		{
-			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%12.4e\t",
+			fpunchf(sformatf("k_%s", current_selected_output->Get_kinetics()[i].first.c_str()), "%12.4e\t",
 					(double) moles);
-			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%12.4e\t",
+			fpunchf(sformatf("dk_%s", current_selected_output->Get_kinetics()[i].first.c_str()), "%12.4e\t",
 					(double) delta_moles);
 		}
 		else
 		{
-			fpunchf(sformatf("k_%s", punch.kinetics[i].name), "%20.12e\t",
+			fpunchf(sformatf("k_%s", current_selected_output->Get_kinetics()[i].first.c_str()), "%20.12e\t",
 					(double) moles);
-			fpunchf(sformatf("dk_%s", punch.kinetics[i].name), "%20.12e\t",
+			fpunchf(sformatf("dk_%s", current_selected_output->Get_kinetics()[i].first.c_str()), "%20.12e\t",
 					(double) delta_moles);
 		}
 	}
@@ -3188,8 +3208,13 @@ punch_user_punch(void)
 	char l_command[] = "run";
 
 	n_user_punch_index = 0;
-	if (punch.user_punch == FALSE)
-		return (OK);
+	//if (punch.user_punch == FALSE)
+	//	return (OK);
+	if (current_user_punch == NULL || !current_selected_output->Get_user_punch())
+		return OK;
+
+	struct rate * user_punch = current_user_punch->Get_rate();
+
 	if (user_punch->commands == NULL)
 		return (OK);
 	if (user_punch->new_def == TRUE)

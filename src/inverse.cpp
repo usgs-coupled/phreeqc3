@@ -26,11 +26,12 @@ inverse_models(void)
 	if (count_inverse <= 0) return OK;
 	// Revert to previous headings after inverse modeling
 	std::vector<std::string> old_headings;
-	int i;
-	for (i = 0; i < user_punch_count_headings; i++)
-	{
-		old_headings.push_back(user_punch_headings[i]);
-	}
+	//int i;
+
+	//for (i = 0; i < user_punch_count_headings; i++)
+	//{
+	//	old_headings.push_back(user_punch_headings[i]);
+	//}
 
 	array1 = NULL;
 	inv_zero = NULL;
@@ -134,15 +135,15 @@ inverse_models(void)
 		}
 	}
 
-	user_punch_count_headings = (int) old_headings.size();
-	user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
-		(size_t) (user_punch_count_headings + 1) * sizeof(char *));
-	if (user_punch_headings == NULL)
-		malloc_error();
-	for (i = 0; i < user_punch_count_headings; i++)
-	{
-		user_punch_headings[i] = string_hsave(old_headings[i].c_str());
-	}
+	//user_punch_count_headings = (int) old_headings.size();
+	//user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
+	//	(size_t) (user_punch_count_headings + 1) * sizeof(char *));
+	//if (user_punch_headings == NULL)
+	//	malloc_error();
+	//for (i = 0; i < user_punch_count_headings; i++)
+	//{
+	//	user_punch_headings[i] = string_hsave(old_headings[i].c_str());
+	//}
 	return (OK);
 }
 
@@ -158,7 +159,7 @@ setup_inverse(struct inverse *inv_ptr)
 	int max;
 	int count_rows_t;
 	int column, row;
-	int temp, temppun;
+	int temp;
 	LDBLE isotope_number;
 	LDBLE f, coef, cb, conc;
 	char token[MAX_LENGTH];
@@ -180,11 +181,12 @@ setup_inverse(struct inverse *inv_ptr)
 	carbon = 1;
 	temp = pr.status;
 	pr.status = FALSE;
-	temppun = punch.in;
-	punch.in = FALSE;
+
+	// current_selected_output is NULL at this point
 	carbon_derivs(inv_ptr);
 	pr.status = temp;
-	punch.in = temppun;
+
+	//current_selected_output->Set_inverse(temp_inv);
 	state = INVERSE;
 /* 
  *   tidy isotopes if necessary
@@ -2074,76 +2076,174 @@ int Phreeqc::
 punch_model_heading(struct inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
+	/*
+	*   Prints model headings to selected output file
+	*/
+	int i;
+	char token[MAX_LENGTH];
+
+	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
+	{
+		// set punch file
+		current_selected_output = &(so_it->second);
+		if (pr.punch == FALSE ||
+			current_selected_output == NULL || 
+			!current_selected_output->Get_inverse() ||
+			!current_selected_output->Get_active())
+			continue;
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
+
+		int l = (!current_selected_output->Get_high_precision()) ? 15 : 20;
+		inverse_heading_names.clear();
+		/*
+		*  Print sum of residuals and maximum fractional error
+		*/
+		inverse_heading_names.push_back(sformatf("%*s\t", l, "Sum_resid"));
+		inverse_heading_names.push_back(sformatf("%*s\t", l, "Sum_Delta/U"));
+		inverse_heading_names.push_back(sformatf("%*s\t", l, "MaxFracErr"));
+
+		/*
+		*   Print solution numbers
+		*/
+		for (i = 0; i < inv_ptr->count_solns; i++)
+		{
+			sprintf(token, "Soln_%d", inv_ptr->solns[i]);
+			std::string tok1(token);
+			tok1.append("_min");
+			std::string tok2(token);
+			tok2.append("_max");
+
+			inverse_heading_names.push_back(sformatf("%*s\t", l, token));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+		}
+		/*
+		*   Print phase names
+		*/
+		for (i = col_phases; i < col_redox; i++)
+		{
+
+			std::string tok1(col_name[i]);
+			tok1.append("_min");
+			std::string tok2(col_name[i]);
+			tok2.append("_max");
+
+			inverse_heading_names.push_back(sformatf("%*s\t", l, col_name[i]));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+		}
+
+		size_t j;
+		for (j = 0; j < inverse_heading_names.size(); j++)
+		{
+			fpunchf_heading(inverse_heading_names[j].c_str());
+			//user_punch_headings[j] = string_hsave(heading_names[j].c_str());
+		}
+		fpunchf_heading("\n");
+	}
+	current_selected_output = NULL;
+	phrq_io->Set_punch_ostream(NULL);
+	/*
+	*   Flush buffer after each model
+	*/
+	punch_flush();
+	return (OK);
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+punch_model_heading(struct inverse *inv_ptr)
+/* ---------------------------------------------------------------------- */
+{
 /*
  *   Prints model headings to selected output file
  */
 	int i;
 	char token[MAX_LENGTH];
-	if (punch.in == FALSE || pr.punch == FALSE || punch.inverse == FALSE)
-		return (OK);
+	//if (/*punch.in == FALSE ||*/ pr.punch == FALSE || punch.inverse == FALSE)
+	//	return (OK);
 	std::vector<std::string> heading_names;
-	int l = (punch.high_precision == FALSE) ? 15 : 20;
-
-/*
- *  Print sum of residuals and maximum fractional error
- */
-	heading_names.push_back(sformatf("%*s\t", l, "Sum_resid"));
-	heading_names.push_back(sformatf("%*s\t", l, "Sum_Delta/U"));
-	heading_names.push_back(sformatf("%*s\t", l, "MaxFracErr"));
-
-/*
- *   Print solution numbers
- */
-	for (i = 0; i < inv_ptr->count_solns; i++)
+	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
 	{
-		sprintf(token, "Soln_%d", inv_ptr->solns[i]);
-		std::string tok1(token);
-		tok1.append("_min");
-		std::string tok2(token);
-		tok2.append("_max");
+		// set punch file
+		current_selected_output = &(so_it->second);
+		if (pr.punch == FALSE ||
+			current_selected_output == NULL || 
+			current_selected_output->punch_ostream == NULL ||
+			!current_selected_output->Get_inverse() ||
+			!current_selected_output->Get_active())
+			continue;
+		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
 
-		heading_names.push_back(sformatf("%*s\t", l, token));
-		heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
-		heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+		int l = (!current_selected_output->Get_high_precision()) ? 15 : 20;
+		heading_names.clear();
+		/*
+		*  Print sum of residuals and maximum fractional error
+		*/
+		heading_names.push_back(sformatf("%*s\t", l, "Sum_resid"));
+		heading_names.push_back(sformatf("%*s\t", l, "Sum_Delta/U"));
+		heading_names.push_back(sformatf("%*s\t", l, "MaxFracErr"));
+
+		/*
+		*   Print solution numbers
+		*/
+		for (i = 0; i < inv_ptr->count_solns; i++)
+		{
+			sprintf(token, "Soln_%d", inv_ptr->solns[i]);
+			std::string tok1(token);
+			tok1.append("_min");
+			std::string tok2(token);
+			tok2.append("_max");
+
+			heading_names.push_back(sformatf("%*s\t", l, token));
+			heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
+			heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+		}
+		/*
+		*   Print phase names
+		*/
+		for (i = col_phases; i < col_redox; i++)
+		{
+
+			std::string tok1(col_name[i]);
+			tok1.append("_max");
+			std::string tok2(col_name[i]);
+			tok2.append("_max");
+
+			heading_names.push_back(sformatf("%*s\t", l, col_name[i]));
+			heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
+			heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
+
+		}
+
+		size_t j;
+
+		// punch headings
+		//user_punch_count_headings = (int) heading_names.size();
+		//user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
+		//	(size_t) (user_punch_count_headings + 1) * sizeof(char *));
+		//if (user_punch_headings == NULL)
+		//	malloc_error();
+
+		for (j = 0; j < heading_names.size(); j++)
+		{
+			fpunchf_heading(heading_names[j].c_str());
+			//user_punch_headings[j] = string_hsave(heading_names[j].c_str());
+		}
+		fpunchf_heading("\n");
 	}
-/*
- *   Print phase names
- */
-	for (i = col_phases; i < col_redox; i++)
-	{
-
-		std::string tok1(col_name[i]);
-		tok1.append("_max");
-		std::string tok2(col_name[i]);
-		tok2.append("_max");
-
-		heading_names.push_back(sformatf("%*s\t", l, col_name[i]));
-		heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
-		heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
-
-	}
-
-	size_t j;
-
-	user_punch_count_headings = (int) heading_names.size();
-	user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
-		(size_t) (user_punch_count_headings + 1) * sizeof(char *));
-	if (user_punch_headings == NULL)
-		malloc_error();
-
-	for (j = 0; j < heading_names.size(); j++)
-	{
-		fpunchf_heading(heading_names[j].c_str());
-		user_punch_headings[j] = string_hsave(heading_names[j].c_str());
-	}
-	fpunchf_heading("\n");
+	current_selected_output = NULL;
+	phrq_io->Set_punch_ostream(NULL);
+	inverse_heading_names = heading_names;
 /*
  *   Flush buffer after each model
  */
 	punch_flush();
 	return (OK);
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_model(struct inverse *inv_ptr)
@@ -2154,84 +2254,103 @@ punch_model(struct inverse *inv_ptr)
  */
 	int i;
 	LDBLE d1, d2, d3;
-	if (punch.in == FALSE || pr.punch == FALSE || punch.inverse == FALSE)
-		return (OK);
-	n_user_punch_index = 0;
-/*
- *   write residual info
- */
-	if (punch.high_precision == FALSE)
-	{
-		fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) (error / SCALE_EPSILON));
-		fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) scaled_error);
-		fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) max_pct);
-	}
-	else
-	{
-		fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) (error / SCALE_EPSILON));
-		fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) scaled_error);
-		fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) max_pct);
-	}
-/*
- *   write solution fractions
- */
-	for (i = 0; i < inv_ptr->count_solns; i++)
-	{
-		d1 = inv_delta1[i];
-		d2 = min_delta[i];
-		d3 = max_delta[i];
-		if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == TRUE)
-			d1 = 0.0;
-		if (equal(d2, 0.0, MIN_TOTAL_INVERSE) == TRUE)
-			d2 = 0.0;
-		if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
-			d3 = 0.0;
-		if (punch.high_precision == FALSE)
-		{
-			fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) d1);
-			fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) d2);
-			fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) d3);
-		}
-		else
-		{
-			fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) d1);
-			fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) d2);
-			fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) d3);
-		}
-	}
-/*
- *   write phase transfers
- */
-	for (i = col_phases; i < col_redox; i++)
-	{
-		d1 = inv_delta1[i];
-		d2 = min_delta[i];
-		d3 = max_delta[i];
-		if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == TRUE)
-			d1 = 0.0;
-		if (equal(d2, 0.0, MIN_TOTAL_INVERSE) == TRUE)
-			d2 = 0.0;
-		if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
-			d3 = 0.0;
-		if (punch.high_precision == FALSE)
-		{
-			fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) d1);
-			fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) d2);
-			fpunchf_user(n_user_punch_index++, "%15.4e\t", (double) d3);
-		}
-		else
-		{
-			fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) d1);
-			fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) d2);
-			fpunchf_user(n_user_punch_index++, "%20.12e\t", (double) d3);
-		}
-	}
-	punch_msg("\n");
+	//if (punch.in == FALSE || pr.punch == FALSE || punch.inverse == FALSE)
+	//	return (OK);
 
-/*
- *   Flush buffer after each model
- */
-	punch_flush();
+	UserPunch temp_user_punch;
+	current_user_punch = & temp_user_punch;
+	temp_user_punch.Set_headings(inverse_heading_names);
+
+	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
+	{
+		current_selected_output = &(so_it->second);
+		if (pr.punch == FALSE ||
+			current_selected_output == NULL || 
+			!current_selected_output->Get_inverse() ||
+			!current_selected_output->Get_active())
+			continue;
+		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
+		
+		n_user_punch_index = 0;
+		/*
+		*   write residual info
+		*/
+		if (!current_selected_output->Get_high_precision())
+		{
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) (error / SCALE_EPSILON));
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) scaled_error);
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) max_pct);
+		}
+		else
+		{
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) (error / SCALE_EPSILON));
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) scaled_error);
+			fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) max_pct);
+		}
+		/*
+		*   write solution fractions
+		*/
+		for (i = 0; i < inv_ptr->count_solns; i++)
+		{
+			d1 = inv_delta1[i];
+			d2 = min_delta[i];
+			d3 = max_delta[i];
+			if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == TRUE)
+				d1 = 0.0;
+			if (equal(d2, 0.0, MIN_TOTAL_INVERSE) == TRUE)
+				d2 = 0.0;
+			if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
+				d3 = 0.0;
+			if (!current_selected_output->Get_high_precision())
+			{
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d3);
+			}
+			else
+			{
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d3);
+			}
+		}
+		/*
+		*   write phase transfers
+		*/
+		for (i = col_phases; i < col_redox; i++)
+		{
+			d1 = inv_delta1[i];
+			d2 = min_delta[i];
+			d3 = max_delta[i];
+			if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == TRUE)
+				d1 = 0.0;
+			if (equal(d2, 0.0, MIN_TOTAL_INVERSE) == TRUE)
+				d2 = 0.0;
+			if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
+				d3 = 0.0;
+			if (!current_selected_output->Get_high_precision())
+			{
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%15.4e\t", (double) d3);
+			}
+			else
+			{
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d1);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d2);
+				fpunchf(trim(inverse_heading_names[n_user_punch_index++]).c_str(), "%20.12e\t", (double) d3);
+			}
+		}
+		punch_msg("\n");
+
+		/*
+		*   Flush buffer after each model
+		*/
+		punch_flush();
+	}
+	current_selected_output = NULL;
+	phrq_io->Set_punch_ostream(NULL);
 	return (OK);
 }
 

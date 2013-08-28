@@ -223,6 +223,10 @@ void Phreeqc::init(void)
 	last_model.count_surface_charge = -1;
 	last_model.surface_charge       = NULL;
 
+	current_selected_output         = NULL;
+	current_user_punch              = NULL;
+	high_precision                  = false;
+#ifdef SKIP
 	//struct punch punch;
 /*
  *	 Initialize punch
@@ -266,7 +270,7 @@ void Phreeqc::init(void)
 	punch.user_punch		= TRUE;
 	punch.charge_balance	= FALSE;
 	punch.percent_error		= FALSE;
-
+#endif
 	// auto Rxn_temperature_map;
 	// auto Rxn_pressure_map;
 
@@ -638,9 +642,11 @@ void Phreeqc::init(void)
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
 	user_print				= NULL;
+#ifdef SKIP
 	user_punch				= NULL;
 	user_punch_headings		= NULL;
 	user_punch_count_headings = 0;
+#endif
 	n_user_punch_index      = 0;
 	fpunchf_user_s_warning  = 0;
 	fpunchf_user_buffer[0]  = 0;
@@ -728,7 +734,7 @@ void Phreeqc::init(void)
 	llnl_count_bdot			= 0;
 	llnl_co2_coefs			= 0;
 	llnl_count_co2_coefs	= 0;
-	selected_output_file_name = NULL;
+	//selected_output_file_name = NULL;
 	dump_file_name			= NULL;
 	remove_unstable_phases  = FALSE;
 	// auto screen_string;
@@ -770,7 +776,7 @@ void Phreeqc::init(void)
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
 	user_database			= NULL;
-	have_punch_name			= FALSE;
+	//have_punch_name			= FALSE;
 	print_density		    = 0;
 	zeros                   = NULL;	
 	zeros_max			    = 1;
@@ -1157,6 +1163,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
  *	 Initialize punch
  */
 	//-- skip punch, accept init
+	high_precision = pSrc->high_precision;
 
 	Rxn_temperature_map = pSrc->Rxn_temperature_map;
 	Rxn_pressure_map = pSrc->Rxn_pressure_map;
@@ -1791,6 +1798,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		user_print->varbase = NULL;
 		user_print->loopbase = NULL;
 	}
+
+	// For now, User Punch is not copied
+#ifdef SKIP
 	/*
 		user_punch				= NULL;
 	*/
@@ -1821,6 +1831,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			user_punch_headings[i] = string_hsave(pSrc->user_punch_headings[i]);
 		}
 	}
+#endif
 	n_user_punch_index      = pSrc->n_user_punch_index;
 	fpunchf_user_s_warning  = pSrc->fpunchf_user_s_warning;
 	//fpunchf_user_buffer[0]  = 0;
@@ -1942,6 +1953,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		if (llnl_co2_coefs == NULL) malloc_error();
 		memcpy(llnl_co2_coefs, pSrc->llnl_co2_coefs, (size_t) llnl_count_co2_coefs * sizeof(LDBLE));
 	}
+
+	// Not implemented for now
+	//SelectedOutput_map = pSrc->SelectedOutput_map;
+	SelectedOutput_map.clear();
+
 	//selected_output_file_name = NULL;
 	//dump_file_name			= NULL;
 	//remove_unstable_phases  = FALSE;
@@ -2051,7 +2067,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
 	user_database			= string_duplicate(pSrc->user_database);
-	have_punch_name			= pSrc->have_punch_name;
+	//have_punch_name			= pSrc->have_punch_name;
 	print_density		    = pSrc->print_density;
 #ifdef SKIP
 	zeros                   = NULL;	
