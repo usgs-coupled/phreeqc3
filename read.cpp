@@ -4978,10 +4978,10 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			value = get_true_false(next_char, TRUE);
 			temp_selected_output.Set_high_precision(value!=FALSE);
-			if (n_user == 1)
-			{
-				high_precision = (value != FALSE);
-			}
+			//if (n_user == 1)
+			//{
+			//	high_precision = (value != FALSE);
+			//}
 			if (value == TRUE)
 			{
 				convergence_tolerance = 1e-12;
@@ -8341,10 +8341,11 @@ read_print(void)
 		"isotope_alphas",		/* 36 */
 		"censor_species",		/* 37 */
 		"alkalinity",			/* 38 */
-		"equilibrium_phase"     /* 39 */
+		"equilibrium_phase",    /* 39 */
+		"high_precision"        /* 40 */
 	};
 
-	int count_opt_list = 40;
+	int count_opt_list = 41;
 	int value;
 /*
  *   Read flags:
@@ -8508,6 +8509,10 @@ read_print(void)
 			break;
 		case 38:				/* alkalinity */
 			pr.alkalinity = get_true_false(next_char, TRUE);
+			break;
+		case 40:				/* high_precision */
+			value = get_true_false(next_char, TRUE);
+			high_precision = (value != FALSE);
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
