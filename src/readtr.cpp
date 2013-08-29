@@ -1127,12 +1127,12 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-timest %13.5e\n", (double) timest);
 	fs << token;
-	if (!high_precision)
-	{
-		sprintf(token, "\t-diffc  %13.5e\n", (double) diffc);
-		fs << token;
-	}
-	else
+	//if (!high_precision)
+	//{
+	//	sprintf(token, "\t-diffc  %13.5e\n", (double) diffc);
+	//	fs << token;
+	//}
+	//else
 	{
 		sprintf(token, "\t-diffc  %20.12e\n", (double) diffc);
 		fs << token;
@@ -1167,12 +1167,12 @@ dump_cpp(void)
 	fs << token;
 	for (int i = 0; i < count_cells; i++)
 	{
-		if (!high_precision)
-		{
-			sprintf(token, "%12.3e", (double) cell_data[i].disp);
-			fs << token;
-		}
-		else
+		//if (!high_precision)
+		//{
+		//	sprintf(token, "%12.3e", (double) cell_data[i].disp);
+		//	fs << token;
+		//}
+		//else
 		{
 			sprintf(token, "%20.12e", (double) cell_data[i].disp);
 			fs << token;
