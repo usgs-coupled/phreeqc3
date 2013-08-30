@@ -28,11 +28,13 @@ clean_up(void)
 #if defined MULTICHART
 	chart_handler.End_timer();
 	output_flush();
+#if 0
 	// Wait for charts to end
 	while (0 != this->chart_handler.Get_active_charts())
 	{
 		System::Threading::Thread::Sleep(60);
 	}
+#endif
 #endif
 
 	description_x = (char *) free_check_null(description_x);

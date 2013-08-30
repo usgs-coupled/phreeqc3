@@ -18,12 +18,10 @@ namespace zdg_ui2 {
 // Form1 is only used with MULTICHART
 	public ref class ChartObj : public System::Object
 	{
-	public: Phreeqc* phreeqc_ptr;
 	public: ChartObject* chartobject_ptr;
 	public:	ChartObj(ChartObject* ptr)
 			{
 				this->chartobject_ptr = ptr;
-				this->phreeqc_ptr = this->chartobject_ptr->Get_phreeqc();
 			}
 	};
 
@@ -33,8 +31,10 @@ namespace zdg_ui2 {
 	public:	Form1(ChartObject *ptr)
 			{
 				this->chartobject_ptr = ptr;
-				this->phreeqc_ptr = chartobject_ptr->Get_phreeqc();
-				this->phreeqc_ptr->Get_chart_handler().Increment_active_charts();
+				if (Phreeqc* ptr = this->chartobject_ptr->Get_phreeqc())
+				{
+					ptr->Get_chart_handler().Increment_active_charts();
+				}
 				InitializeComponent();
 				col_use = 0;
 				symbol_use = 0;
@@ -71,9 +71,12 @@ namespace zdg_ui2 {
 				{
 					chart->Set_done(true);
 					System::Threading::Interlocked::Exchange(this->chartobject_ptr->usingResource, 0);
+					if (Phreeqc* ptr = chart->Get_phreeqc())
+					{
+						ptr->Get_chart_handler().Decrement_active_charts();
+						chart->Set_phreeqc(NULL);
+					}
 				}
-				this->phreeqc_ptr->Get_chart_handler().Decrement_active_charts();
-				this->phreeqc_ptr = NULL;
 				this->chartobject_ptr = NULL;
 			}
 
@@ -98,7 +101,10 @@ namespace zdg_ui2 {
 				 if (LogX && chart->Get_axis_scale_x()[4] == 10.0 && 
 					 Curves[i]->Get_x()[i2] <= 0)
 				 {
-					 this->phreeqc_ptr->warning_msg("Obtained x_value <= 0, removing point...");
+					 if (Phreeqc* ptr = chart->Get_phreeqc())
+					 {
+						 ptr->warning_msg("Obtained x_value <= 0, removing point...");
+					 }
 					 //axis_scale_x[4] = NA; /* if reverting to linear... */
 					 //LogX = false;
 					 return true;
@@ -109,14 +115,20 @@ namespace zdg_ui2 {
 				 {
 					 if (Curves[i]->Get_y_axis() == 2 && LogY2)
 					 {
-						 this->phreeqc_ptr->warning_msg("Obtained sy_value <= 0, removing point......");
+						 if (Phreeqc* ptr = chart->Get_phreeqc())
+						 {
+							 ptr->warning_msg("Obtained sy_value <= 0, removing point......");
+						 }
 						 //axis_scale_y2[4] = NA;
 						 //LogY2 = false;
 						 return true;
 					 }
 					 else if (LogY)
 					 {
-						 this->phreeqc_ptr->warning_msg("Obtained y_value <= 0, removing point......");
+						 if (Phreeqc* ptr = chart->Get_phreeqc())
+						 {
+							 ptr->warning_msg("Obtained y_value <= 0, removing point......");
+						 }
 						 //axis_scale_y[4] = NA;
 						 //LogY = false;
 						 return true;
@@ -541,7 +553,10 @@ namespace zdg_ui2 {
 			{
 				if (this->chartobject_ptr != NULL)
 				{
-					this->phreeqc_ptr->error_msg(estring.c_str(), CONTINUE);
+					if (Phreeqc* ptr = this->chartobject_ptr->Get_phreeqc())
+					{
+						ptr->error_msg(estring.c_str(), CONTINUE);
+					}
 				}
 				else
 				{
@@ -1071,7 +1086,6 @@ namespace zdg_ui2 {
 	public: ZedGraph::ZedGraphControl ^zg1;
 	private: System::Windows::Forms::Timer ^timer1;
 	private: System::ComponentModel::Container ^components;
-	private: Phreeqc * phreeqc_ptr;
 			 ChartObject * chartobject_ptr;
 
 	public:
