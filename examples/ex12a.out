@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: ../examples/ex12a
   Output file: ex12a.out
 Database file: ../database/phreeqc.dat
@@ -19,6 +20,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
+	database ../database/phreeqc.dat
 	TITLE Example 12a.--Advective and diffusive transport of heat and solutes.
 	      Constant boundary condition at one end, closed at other.
 	      The problem is designed so that temperature should equal Na-conc 
@@ -114,7 +116,7 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	  2080 RETURN
 	END
 	SELECTED_OUTPUT
-	   user_punch false
+	   active        false     # See also PRINT; selected_output false
 	SOLUTION 1-57   24.0 mM KNO3
 	    units mol/kgw
 	    temp  0                 # Incoming solution 0C
@@ -132,14 +134,13 @@ WARNING: Dispersivities were read for 1 cells. Last value is used till cell 20.
 	SELECTED_OUTPUT
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 60.
 WARNING: No dispersivities were read; disp = 0 assumed.
-	   user_punch   true
+	   active        true      # See also PRINT; selected_output false
 	END
 	SOLUTION                    # Initial solution calculation for pure water
 	PRINT
 	   reset      false        # Initial solution calculation not printed
 	   user_print true
-	SELECTED_OUTPUT
-	   high_precision false    # Controls precision for USER_PRINT too.
+	   high_precision false    # formerly USER_PRINT precision controlled by SELECTED_OUTPUT
 	USER_PRINT
 	  10  PRINT "             Error in Cl concentration Error in Na concentration"
 	  20  PRINT "             ------------------------- -------------------------"    
@@ -166,6 +167,6 @@ WARNING: No dispersivities were read; disp = 0 assumed.
   8.5000e+00   3.8231e-06   2.9867e-07  -2.2212e-09  -8.8983e-11 
 
 ------------------------------
-End of Run after 1.26 Seconds.
+End of Run after 1.27 Seconds.
 ------------------------------
 

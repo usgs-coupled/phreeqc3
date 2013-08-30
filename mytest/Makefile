@@ -320,8 +320,8 @@ all: alkalinity.out \
 	gas9.out \
 	Halite_P.out \
 	anh_P_NaCl.out \
-	gypsum_P5.out 
-	
+	gypsum_P5.out \
+	multi_punch.out
 
 # NaX.out
 
