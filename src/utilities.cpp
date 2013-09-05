@@ -31,6 +31,83 @@ add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)
 	return (OK);
 }
 
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct element *surf_elt_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	struct elt_list *elt_list_ptr1;
+
+	if (elt_list_ptr == NULL || surf_elt_ptr == NULL)
+		return (OK);
+
+	// determine if surf_elt_ptr is first surface
+	bool first_surface = true;
+	for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
+		elt_list_ptr1++)
+	{
+		if (elt_list_ptr1->elt->master->type == SURF)
+		{
+			if (elt_list_ptr1->elt == surf_elt_ptr)
+			{
+				first_surface = true;
+				break;
+			} 
+			else
+			{
+				first_surface = false;
+				break;
+			}
+		}
+	}
+	if (first_surface)
+	{
+		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
+			elt_list_ptr1++)
+		{
+			if (count_elts >= max_elts)
+			{
+				space((void **) ((void *) &elt_list), count_elts, &max_elts,
+					sizeof(struct elt_list));
+			}
+			if (elt_list_ptr1->elt == surf_elt_ptr)
+			{
+				elt_list[count_elts].elt = elt_list_ptr1->elt;
+				elt_list[count_elts].coef = elt_list_ptr1->coef * coef; 
+				count_elts++;
+			}
+			else if (elt_list_ptr1->elt->master->type == SURF)
+			{
+				continue;
+			}
+			else
+			{
+				elt_list[count_elts].elt = elt_list_ptr1->elt;
+				elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
+				count_elts++; 
+			}
+		}
+	}
+	else
+	{
+		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
+			elt_list_ptr1++)
+		{
+			if (count_elts >= max_elts)
+			{
+				space((void **) ((void *) &elt_list), count_elts, &max_elts,
+					sizeof(struct elt_list));
+			}
+			if (elt_list_ptr1->elt == surf_elt_ptr)
+			{
+				elt_list[count_elts].elt = elt_list_ptr1->elt;
+				elt_list[count_elts].coef = elt_list_ptr1->coef * coef; 
+				count_elts++;
+			}
+		}
+	}
+	return (OK);
+}
 int Phreeqc::
 add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 /* ---------------------------------------------------------------------- */
@@ -49,7 +126,6 @@ add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 	}
 	return (OK);
 }
-
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
