@@ -1050,6 +1050,7 @@ public:
 	// utilities.cpp -------------------------------
 public:
 	int add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef);
+	int add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct element *surf_elt_ptr);
 	int add_elt_list(const cxxNameDouble & nd, LDBLE coef);
 protected:
 	int backspace_screen(int spaces);

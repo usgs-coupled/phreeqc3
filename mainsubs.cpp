@@ -1624,6 +1624,8 @@ xsurface_save(int n_user)
 				{
 					add_elt_list(species_list[j].s->next_elt,
 								 species_list[j].s->moles);
+					//add_elt_list_multi_surf(species_list[j].s->next_elt,
+					//			 species_list[j].s->moles, x[i]->master[0]->elt);
 					charge += species_list[j].s->moles * species_list[j].s->z;
 				}
 			}

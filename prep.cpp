@@ -3371,7 +3371,8 @@ setup_surface(void)
 				continue;
 			/*
 			 *   Check that data not already given
-			 */ if (master_ptr->in != FALSE)
+			 */ 
+			if (master_ptr->in != FALSE)
 			{
 				error_string = sformatf(
 						"Analytical data entered twice for %s.",
