@@ -4762,7 +4762,7 @@ read_selected_output(void)
 				}
 				else
 				{
-					std::pair< std::string, void *> t_pair(token, NULL);
+					std::pair< std::string, void *> t_pair(token, ((void *)0));
 					temp_selected_output.Get_totals().push_back(t_pair);
 				}
 			}
@@ -4780,7 +4780,7 @@ read_selected_output(void)
 				}
 				else
 				{
-					std::pair< std::string, void *> t_pair(token, NULL);
+					std::pair< std::string, void *> t_pair(token, ((void *)0));
 					temp_selected_output.Get_molalities().push_back(t_pair);
 				}
 			}
@@ -4797,7 +4797,7 @@ read_selected_output(void)
 				}
 				else
 				{
-					std::pair< std::string, void *> t_pair(token, NULL);
+					std::pair< std::string, void *> t_pair(token, ((void *)0));
 					temp_selected_output.Get_activities().push_back(t_pair);
 				}
 			}
@@ -4811,7 +4811,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
 			{
-				std::pair< std::string, void *> t_pair(token, NULL);
+				std::pair< std::string, void *> t_pair(token, ((void *)0));
 				temp_selected_output.Get_pure_phases().push_back(t_pair);
 			}
 			break;
@@ -4820,7 +4820,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
 			{
-				std::pair< std::string, void *> t_pair(token, NULL);
+				std::pair< std::string, void *> t_pair(token, ((void *)0));
 				temp_selected_output.Get_si().push_back(t_pair);
 			}
 			break;
@@ -4828,7 +4828,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
 			{
-				std::pair< std::string, void *> t_pair(token, NULL);
+				std::pair< std::string, void *> t_pair(token, ((void *)0));
 				temp_selected_output.Get_gases().push_back(t_pair);
 			}
 			break;
@@ -4845,7 +4845,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
 			{
-				std::pair< std::string, void *> t_pair(token, NULL);
+				std::pair< std::string, void *> t_pair(token, ((void *)0));
 				temp_selected_output.Get_kinetics().push_back(t_pair);
 			}
 			break;
@@ -4853,7 +4853,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
 			{
-				std::pair< std::string, void *> t_pair(token, NULL);
+				std::pair< std::string, void *> t_pair(token, ((void *)0));
 				temp_selected_output.Get_s_s().push_back(t_pair);
 			}
 			break;
@@ -4869,7 +4869,7 @@ read_selected_output(void)
 				}
 				else
 				{
-					std::pair< std::string, void *> t_pair(token, NULL);
+					std::pair< std::string, void *> t_pair(token, ((void *)0));
 					temp_selected_output.Get_isotopes().push_back(t_pair);
 				}
 			}
@@ -4878,7 +4878,7 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
 			{
-				std::pair< std::string, void *> t_pair(token, NULL);
+				std::pair< std::string, void *> t_pair(token, ((void *)0));
 				temp_selected_output.Get_calculate_values().push_back(t_pair);
 			}
 			break;
