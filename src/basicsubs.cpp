@@ -3611,7 +3611,7 @@ basic_callback(double x1, double x2, char * str)
 	}
 	if (basic_fortran_callback_ptr != NULL)
 	{
-		return (*basic_fortran_callback_ptr) (&local_x1, &local_x2, str, strlen(str));
+		return (*basic_fortran_callback_ptr) (&local_x1, &local_x2, str, (int) strlen(str));
 	}
 	return 0;
 }
