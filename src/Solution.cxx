@@ -244,7 +244,6 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	this->totals.dump_raw(s_oss, indent + 2);
 
 	// Isotopes
-	s_oss << indent1;
 	{
 		for (std::map < std::string, cxxSolutionIsotope >::const_iterator it =
 			this->isotopes.begin(); it != isotopes.end(); ++it)

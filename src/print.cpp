@@ -2821,6 +2821,9 @@ punch_identifiers(void)
 		case 8:
 			strcpy(token, "transp");
 			break;
+		default:
+			strcpy(token, "unknown");
+			break;
 		}
 		fpunchf(PHAST_NULL("state"), sformat, token);
 
