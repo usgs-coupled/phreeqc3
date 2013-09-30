@@ -212,6 +212,7 @@ clean_up(void)
 
 /*  user_print and user_punch */
 	rate_free(user_print);
+	user_print = (struct rate *) free_check_null(user_print);
 #ifdef SKIP
 	rate_free(user_punch);
 	user_print = (struct rate *) free_check_null(user_print);
