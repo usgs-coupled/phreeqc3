@@ -4699,6 +4699,9 @@ read_selected_output(void)
 		temp_selected_output.Set_percent_error    ( so_ref.Get_percent_error() );
 		temp_selected_output.Set_have_punch_name  ( so_ref.Get_have_punch_name() );
 		temp_selected_output.Set_file_name        ( so_ref.Get_file_name() );
+#if PHREEQCI_GUI
+		assert(false);
+#endif
 	}
 	else if (n_user == 1 && so == SelectedOutput_map.end())
 	{
