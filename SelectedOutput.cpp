@@ -77,23 +77,23 @@ void
 SelectedOutput::Reset(bool value)
 {
 	// as-is vars
-	sim            = value;
-	state          = value;
-	soln           = value;
-	dist           = value;
-	time           = value;
+	Set_sim(value);
+	Set_state(value);
+	Set_soln(value);
+	Set_dist(value);
+	Set_time(value);
 
-	step           = value;
-	ph             = value;
-	pe             = value;
-	rxn            = value;
-	temp           = value;
+	Set_step(value);
+	Set_ph(value);
+	Set_pe(value);
+	Set_rxn(value);
+	Set_temp(value);
 
-	alk            = value;
-	mu             = value;
-	water          = value;
-	charge_balance = value;
-	percent_error  = value;
+	Set_alk(value);
+	Set_mu(value);
+	Set_water(value);
+	Set_charge_balance(value);
+	Set_percent_error(value);
 }
 
 void
