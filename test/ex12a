@@ -4,6 +4,11 @@
 NAME=ex12a
 DB=phreeqc.dat
 
+if [ ! -e ../database/phreeqc.dat ]
+then
+  cp $DBDIR/$DB ../database/.
+fi
+
 : ${PHREEQC=phreeqc}
 ${PHREEQC} $DATADIR/$NAME $NAME.out $DBDIR/$DB $NAME.log
 result=$?
