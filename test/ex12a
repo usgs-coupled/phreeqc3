@@ -6,11 +6,17 @@ DB=phreeqc.dat
 
 if [ ! -e ../database/phreeqc.dat ]
 then
+  DBCOPIED=Yes
   cp $DBDIR/$DB ../database/.
 fi
 
 : ${PHREEQC=phreeqc}
 ${PHREEQC} $DATADIR/$NAME $NAME.out $DBDIR/$DB $NAME.log
 result=$?
+
+if [ "$DBCOPIED" -eq "Yes" ]
+then
+  rm ../database/$DB
+fi
 
 exit $result
