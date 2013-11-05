@@ -52,6 +52,8 @@ phreeqc_SOURCES=\
 	ReadClass.cxx\
 	runner.cpp\
 	runner.h\
+	SelectedOutput.cpp\
+	SelectedOutput.h\
 	Solution.cxx\
 	Solution.h\
 	SolutionIsotope.cxx\
@@ -78,6 +80,8 @@ phreeqc_SOURCES=\
 	Temperature.h\
 	Use.cpp\
 	Use.h\
+	UserPunch.cpp\
+	UserPunch.h\
 	Utils.cxx\
 	Utils.h\
 	advection.cpp\
