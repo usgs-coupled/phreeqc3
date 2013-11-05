@@ -1457,6 +1457,7 @@ xsolution_save(int n_user)
 								/* does include surface charge after step */
 	temp_solution.Set_mass_water(mass_water_aq_x);
 	temp_solution.Set_total_alkalinity(total_alkalinity);
+	temp_solution.Set_soln_vol(this->calc_solution_volume());
 /*
  *   Copy pe data
  */

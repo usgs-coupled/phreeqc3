@@ -51,6 +51,8 @@ class cxxSolution:public cxxNumKeyword
 	void Set_mass_water(LDBLE l_mass_water)             {this->mass_water = l_mass_water;}
 	LDBLE Get_total_alkalinity() const                  {return this->total_alkalinity;}
 	void Set_total_alkalinity(LDBLE l_total_alkalinity) {this->total_alkalinity = l_total_alkalinity;}
+	LDBLE Get_soln_vol() const                          {return this->soln_vol;}
+	void Set_soln_vol(LDBLE t)                          {this->soln_vol = t;}
 	cxxNameDouble & Get_totals(void)                    {return this->totals;}
 	const cxxNameDouble & Get_totals(void)const         {return this->totals;}
 	void Set_totals(cxxNameDouble & nd)
@@ -119,6 +121,7 @@ class cxxSolution:public cxxNumKeyword
 	LDBLE cb;
 	LDBLE mass_water;
 	LDBLE density;
+	LDBLE soln_vol;
 	LDBLE total_alkalinity;
 	cxxNameDouble totals;
 	cxxNameDouble master_activity;
