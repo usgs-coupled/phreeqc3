@@ -39,6 +39,7 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	this->cb = 0.0;
 	this->density = 1.0;
 	this->mass_water = 1.0;
+	this->soln_vol = 1.0;
 	this->total_alkalinity = 0.0;
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
@@ -71,6 +72,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->density                    = rhs.density;
 		this->cb                         = rhs.cb;
 		this->mass_water                 = rhs.mass_water;
+		this->soln_vol                   = rhs.soln_vol;
 		this->total_alkalinity           = rhs.total_alkalinity;
 		this->totals		             = rhs.totals;
 		this->master_activity            = rhs.master_activity;
@@ -176,6 +178,9 @@ cxxSolution::dump_xml(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "soln_mass_water=\"" << this->mass_water << "\"" << "\n";
 
 	s_oss << indent1;
+	s_oss << "soln_vol=\"" << this->soln_vol << "\"" << "\n";
+
+	s_oss << indent1;
 	s_oss << "soln_total_alkalinity=\"" << this->
 		total_alkalinity << "\"" << "\n";
 
@@ -270,6 +275,10 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	// new identifier
 	s_oss << indent1;
 	s_oss << "-mass_water                " << this->mass_water << "\n";
+
+	// new identifier
+	s_oss << indent1;
+	s_oss << "-soln_vol                  " << this->soln_vol << "\n";
 
 	// new identifier
 	s_oss << indent1;
@@ -896,6 +905,17 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
+
+		case 23:				// soln_vol
+			if (!(parser.get_iss() >> this->soln_vol))
+			{
+				this->soln_vol = 1.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for solution volume.",
+								 PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1221,6 +1241,7 @@ cxxSolution::zero()
 	this->cb = 0.0;
 	this->density = 1.0;
 	this->mass_water = 0.0;
+	this->soln_vol = 1.0;
 	this->total_alkalinity = 0.0;
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
@@ -1251,6 +1272,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->cb += addee.cb * extensive;
 	this->density = f1 * this->density + f2 * addee.density;
 	this->mass_water += addee.mass_water * extensive;
+	this->soln_vol += addee.soln_vol * extensive;
 	this->total_alkalinity += addee.total_alkalinity * extensive;
 	this->totals.add_extensive(addee.totals, extensive);
 	this->master_activity.add_log_activities(addee.master_activity, f1, f2);
@@ -1270,6 +1292,7 @@ cxxSolution::multiply(LDBLE extensive)
 	this->total_o *= extensive;
 	this->cb *= extensive;
 	this->mass_water *= extensive;
+	this->soln_vol *= extensive;
 	this->total_alkalinity *= extensive;
 	this->totals.multiply(extensive);
 	this->Multiply_isotopes(extensive);
@@ -1404,6 +1427,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("cb"),	                                // 19
 	std::vector< std::string >::value_type("charge_balance"),	                    // 20
 	std::vector< std::string >::value_type("density"),	                            // 21
-	std::vector< std::string >::value_type("pressure") 	                            // 22
+	std::vector< std::string >::value_type("pressure"),	                            // 22
+	std::vector< std::string >::value_type("soln_vol") 	                            // 23
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

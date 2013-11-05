@@ -291,16 +291,12 @@ calc_solution_volume(void)
 		if (master_ptr->primary == TRUE)
 		{
 			total_mass += master_ptr->total_primary * master_ptr->gfw; 
-			//if (master_ptr->total_primary > 0)
-			//	std::cerr << master_ptr->elt->name << "  " << master_ptr->total_primary << "\n";
 		}
 	}
 	LDBLE rho = calc_dens();
 	LDBLE vol = 1e-3 * total_mass / rho;
 	return (vol);
-
 }
-/* DP: End function for interval halving */
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
