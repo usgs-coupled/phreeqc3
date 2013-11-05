@@ -14,7 +14,7 @@ fi
 ${PHREEQC} $DATADIR/$NAME $NAME.out $DBDIR/$DB $NAME.log
 result=$?
 
-if [ "$DBCOPIED" -eq "Yes" ]
+if [ "$DBCOPIED" == "Yes" ]
 then
   rm ../database/$DB
 fi
