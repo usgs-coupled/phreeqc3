@@ -321,7 +321,8 @@ all: alkalinity.out \
 	Halite_P.out \
 	anh_P_NaCl.out \
 	gypsum_P5.out \
-	multi_punch.out
+	multi_punch.out \
+	rho_H3PO4.out
 
 # NaX.out
 
