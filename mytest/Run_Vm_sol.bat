@@ -22,4 +22,4 @@
 ..\ClrRelease\phreeqc.exe Vm_SrCl2_sol
 ..\ClrRelease\phreeqc.exe Vm0_tc
 ..\ClrRelease\phreeqc.exe y_H2O
- 
+..\ClrRelease\phreeqc.exe rho_H3PO4
