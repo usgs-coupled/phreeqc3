@@ -3,34 +3,34 @@
 #   critical temperatures and pressures of gases used in Peng-Robinson's EOS.
 # Details are given at the end of this file.
 SOLUTION_MASTER_SPECIES
-H	H+	     -1.     H	       1.008
-H(1)     H+	     -1.     0.0
-E	e-	     0.0     0.0	     0.0
-O	H2O	    0.0     O	       16.00
-O(-2)    H2O	    0.0     0.0
-Ca       Ca+2	   0.0     Ca	      40.08
-Mg       Mg+2	   0.0     Mg	      24.305
-Na       Na+	    0.0     Na	      22.9898
-K	K+	     0.0     K	       39.0983
-Fe       Fe+2	   0.0     Fe	      55.847
-Mn       Mn+2	   0.0     Mn	      54.938
-Ba       Ba+2	   0.0     Ba	      137.33
-Sr       Sr+2	   0.0     Sr	      87.62
-Cl       Cl-	    0.0     Cl	      35.453
-C	CO3-2	  2.0     HCO3	    12.0111
-C(4)     CO3-2	  2.0     HCO3	    12.0111
-Alkalinity CO3-2	1.0     Ca0.5(CO3)0.5   50.05
-S	SO4-2	  0.0     SO4	     32.064
-S(6)     SO4-2	  0.0     SO4
-B	B(OH)3	 0.0     B	       10.81
-Li       Li+	    0.0     Li	      6.941
-Br       Br-	    0.0     Br	      79.904
-# redox-uncoupled gases
-Hdg		Hdg	0	Hdg	2.016 # H2 gas
-Oxg		Oxg	0	Oxg	32 # Oxygen gas
-Mtg		Mtg	0.0	Mtg	16.032 # CH4 gas
-Sg		H2Sg	1.0	H2Sg	34.08
-Ntg		Ntg	0	Ntg	28.0134 # N2 gas
+H		H+	-1	H		1.008
+H(1)		H+	-1	0.0
+E		e-	 0	0.0		0.0
+O		H2O	 0	O		16.00
+O(-2)		H2O	 0	0.0
+Ca		Ca+2	 0	Ca		40.08
+Mg		Mg+2	 0	Mg		24.305
+Na		Na+	 0	Na		22.9898
+K		K+	 0	K		39.0983
+Fe		Fe+2	 0	Fe		55.847
+Mn		Mn+2	 0	Mn		54.938
+Ba		Ba+2	 0	Ba		137.33
+Sr		Sr+2	 0	Sr		87.62
+Cl		Cl-	 0	Cl		35.453
+C		CO3-2	 2	HCO3		12.0111
+C(4)		CO3-2	 2	HCO3		12.0111
+Alkalinity	CO3-2	 1	Ca0.5(CO3)0.5	50.05
+S		SO4-2	 0	SO4		32.064
+S(6)		SO4-2	 0	SO4
+B		B(OH)3	 0	B		10.81
+Li		Li+	 0	Li		6.941
+Br		Br-	 0	Br		79.904
+# redox-uncoupled gases	
+Hdg		Hdg	 0	Hdg		2.016 # H2 gas
+Oxg		Oxg	 0	Oxg		32 # Oxygen gas
+Mtg		Mtg	 0.0	Mtg		16.032 # CH4 gas
+Sg		H2Sg	 1.0	H2Sg		34.08
+Ntg		Ntg	 0	Ntg		28.0134 # N2 gas
 
 SOLUTION_SPECIES
 H+ = H+
@@ -39,48 +39,48 @@ e- = e-
 H2O = H2O
 Li+ = Li+
 	-dw	 1.03e-9
-	-Vm   -.0237   -.0690   11.5800   -2.7761 .4862 6 # supcrt
+	-Vm   4.65  -0.069  10.2  -2.78  2.96e-3  6  -18.1  -3.44  -2.33e-2  -1.67e-2 # ref. 2 and Ellis, 1968, J. Chem. Soc. A, 1138, I.S. < 10
 Na+ = Na+
 	-dw	 1.33e-9
-	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # supcrt modified
+	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # ref. 1
 # for calculating densities (rho) when I > 3...
 	# -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45
 K+ = K+
 	-dw	 1.96e-9
-	-Vm  3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.70  0  1 # supcrt modified
+	-Vm  3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.70  0  1 # ref. 1
 Mg+2 = Mg+2
 	-dw	 0.705e-9
-	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # supcrt modified
+	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # ref. 1
 Ca+2 = Ca+2
 	-dw	 0.793e-9
-	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # supcrt modified
+	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # ref. 1
 Sr+2 = Sr+2
 	-dw	 0.794e-9
-	-Vm  -1.57e-2  -10.15  10.18  -2.36  0.860  5.26  0.859  -27.0  -4.1e-3  1.97 # supcrt modified
+	-Vm  -1.57e-2  -10.15  10.18  -2.36  0.860  5.26  0.859  -27.0  -4.1e-3  1.97 # ref. 1
 Ba+2 = Ba+2
 	-dw	 0.848e-9
-	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # supcrt modified
+	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # ref. 1
 Mn+2 = Mn+2
 	-dw	 0.688e-9
-	-Vm   -.1016   -8.0295   8.9060   -2.4471  1.4006 6 # supcrt
+	-Vm  -1.10  -8.03  4.08  -2.45  1.4  6  8.07  0  -1.51e-2  0.118 # ref. 2
 Fe+2 = Fe+2
 	-dw	 0.719e-9
-	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1 # supcrt modified
+	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1 # ref. 1
 Cl- = Cl-
 	-dw	 2.03e-9
-	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # supcrt modified
+	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # ref. 1
 CO3-2 = CO3-2
 	-dw	 0.955e-9
-	-Vm  4.91  0  0  -5.41  4.76  0  0.386  89.7  -1.57e-2  1 # supcrt modified
+	-Vm  4.91  0  0  -5.41  4.76  0  0.386  89.7  -1.57e-2  1 # ref. 1
 SO4-2 = SO4-2
 	-dw	 1.07e-9
-	-Vm  -7.77  43.17  141.1  -42.45  3.794  0  4.97  26.5  -5.77e-2  0.45 # supcrt modified
+	-Vm  -7.77  43.17  141.1  -42.45  3.794  0  4.97  26.5  -5.77e-2  0.45 # ref. 1
 B(OH)3 = B(OH)3
 	-dw	1.1e-9
 	-Vm 7.0643   8.8547   3.5844   -3.1451 -.2000  # supcrt
 Br- = Br-
 	-dw	 2.01e-9
-	-Vm  5.2690   6.5940   4.7450   -3.1430 1.3858 # supcrt
+	-Vm   7.05  3.95  2.03  -3.14  2.07  0  -0.983  39.9  4.05e-3  1 # ref. 2
 # redox-uncoupled gases
 Hdg = Hdg # H2
 	-dw	 5.13e-9
@@ -101,25 +101,25 @@ H2Sg = H2Sg # H2S
 H2O = OH- + H+
 	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
 	-dw	 5.27e-9
-	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # supcrt modified
+	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # ref. 1
 CO3-2 + H+ = HCO3-
 	log_k	   10.3393
 	delta_h -3.561  kcal
 	-analytic    107.8975    0.03252849  -5151.79   -38.92561    563713.9
 	-dw	 1.18e-9
-	-Vm  8.54  0  -11.7  0  1.6  0  0  116  0  1 # supcrt modified
+	-Vm  8.54  0  -11.7  0  1.6  0  0  116  0  1 # ref. 1
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k	   16.6767
 	delta_h	 -5.738  kcal
 	-analytic    464.1965    0.09344813  -26986.16	-165.75951   2248628.9
 	-dw	 1.92e-9
-	-Vm  20.85  -46.93  -79.0  27.9  -0.193 # supcrt modified
+	-Vm  20.85  -46.93  -79.0  27.9  -0.193 # ref. 1
 SO4-2 + H+ = HSO4-
 	log_k	   1.979
 	delta_h 4.91    kcal
 	-analytic   -5.3585   0.0183412   557.2461
 	-dw	 1.33e-9
-	-Vm 8.2 9.2590   2.1108   -3.1618 1.1748  0 -0.3 15 0 1 # supcrt modified
+	-Vm 8.2 9.2590   2.1108   -3.1618 1.1748  0 -0.3 15 0 1 # ref. 1
 H2Sg = HSg- + H+
 	log_k	-6.994
 	delta_h 5.30	kcal
@@ -845,33 +845,18 @@ END
 #   Volumina at I = 0 are obtained using supcrt92 formulas (Johnson et al., 1992, CG 18, 899).
 #   41.84 transforms cal/bar/mol into cm3/mol.
 #   pb is pressure in bar.
-#   W * QBrn is the Born volume, calculated from Wref and the pressure dependence of the 
-#     dielectric constant of water (f(P, T), see below).
+#   W * QBrn is the energy of solvation, calculated from W and the pressure dependence of the 
+#     Born equation.
 #   z is charge of the solute species.
-#   Av is the Debye-Hueckel limiting slope.
-#   a0 is the ion-size parameter in the extended Debye-Hueckel parameter:
+#   Av is the Debye-Hückel limiting slope.
+#   a0 is the ion-size parameter in the extended Debye-Hückel equation:
 #     f(I^0.5) = I^0.5) / (1 + a0 * DH_B * I^0.5),
 #     a0 = -gamma x for cations, = 0 for anions.
-# Av (P, T) is calculated using the dielectric constant of water from Bradley and Pitzer, 1979, JPC 83, 1599,
-#   and the compressibility of pure water.
-# The density of pure water at water saturation pressure is calculated with eqn 2.6 from
-#   Wagner and Pruss, 2002, J. Phys. Chem. Ref. Data 31, 387. At higher P,T with polynomials
-#   interpolated from IAPWS table 3 (2007).
+# For details, consult ref. 1.
 #
-# Data for species' parameters, commented with ‘# supcrt modified’, were fitted from data
-#   compiled by Laliberte, 2009, J. Chem. Eng. Data 54, 1725, + additions, see Appelo, Parkhurst and Post (in prep.)
-# H+ has the reference volume of 0 at all P, T and I.
-# For Cl-, parameters were obtained from densities of HCl solutions up to 176 oC, 1 - 280 atm.
-# The numbers for cations were extracted from the densities of cation-Cl-solutions.
-# Other anions and OH- then follow from the measured densities of cation-anion solutions.
-# Water dissociation was fitted from Bandura and Lvov, 2006, J. Phys. Chem. Ref. Data, 35, 15, 0-200 oC, 1-2000 atm.
-#                           --------------------
-# If -Vm is not defined, the a-f values from -Millero a b c d e f (if available) will be used for calculating
-#   Vm(t, I) = a + b * t + c * t^2 + z^2 / 2 * Av * I^0.5 + (d + e * t + f * t^2) * I
-#   t is temperature in oC.
+# ref. 1: Appelo, Parkhurst and Post, 2014. Geochim. Cosmochim. Acta 125, 49–67. 
+# ref. 2: Procedures from ref. 1 using data compiled by Laliberté, 2009, J. Chem. Eng. Data 54, 1725.
 #
-# redox-uncoupled gases have been added for H2 (Hdg), O2 (Oxg), CH4 (Mtg), N2 (Ntg),
-#   H2S (H2Sg, species HSg-, etc.).
 #
 # =============================================================================================
 # It remains the responsibility of the user to check the calculated results, for example with
