@@ -6,7 +6,6 @@
 ..\ClrRelease\phreeqc.exe Vm_BaCl2_sol
 ..\ClrRelease\phreeqc.exe Vm_CaCl2_sol
 ..\ClrRelease\phreeqc.exe Vm_HCl_sol
-..\ClrRelease\phreeqc.exe Vm_K2CO3_sol
 ..\ClrRelease\phreeqc.exe Vm_KCl_sol
 ..\ClrRelease\phreeqc.exe Vm_KHCO3_sol
 ..\ClrRelease\phreeqc.exe Vm_MgCl2_sol

@@ -276,7 +276,6 @@ all: alkalinity.out \
 	Vm_BaCl2_sol.out \
 	Vm_CaCl2_sol.out \
 	Vm_HCl_sol.out \
-	Vm_K2CO3_sol.out \
 	Vm_KCl_sol.out \
 	Vm_KHCO3_sol.out \
 	Vm_MgCl2_sol.out \
