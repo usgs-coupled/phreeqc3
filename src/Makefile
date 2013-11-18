@@ -58,13 +58,14 @@ am__phreeqc_SOURCES_DIST = class_main.cpp cxxKinetics.cxx \
 	PHRQ_io.cpp PHRQ_io.h PPassemblage.cxx PPassemblage.h \
 	PPassemblageComp.cxx PPassemblageComp.h Pressure.cxx \
 	Pressure.h Reaction.cxx Reaction.h ReadClass.cxx runner.cpp \
-	runner.h Solution.cxx Solution.h SolutionIsotope.cxx \
-	SolutionIsotope.h SSassemblage.cxx SSassemblage.h SS.cxx SS.h \
-	SScomp.cxx SScomp.h StorageBin.cxx StorageBin.h \
-	StorageBinList.cpp StorageBinList.h Surface.cxx Surface.h \
-	SurfaceCharge.cxx SurfaceCharge.h SurfaceComp.cxx \
-	SurfaceComp.h System.cxx System.h Temperature.cxx \
-	Temperature.h Use.cpp Use.h Utils.cxx Utils.h advection.cpp \
+	runner.h SelectedOutput.cpp SelectedOutput.h Solution.cxx \
+	Solution.h SolutionIsotope.cxx SolutionIsotope.h \
+	SSassemblage.cxx SSassemblage.h SS.cxx SS.h SScomp.cxx \
+	SScomp.h StorageBin.cxx StorageBin.h StorageBinList.cpp \
+	StorageBinList.h Surface.cxx Surface.h SurfaceCharge.cxx \
+	SurfaceCharge.h SurfaceComp.cxx SurfaceComp.h System.cxx \
+	System.h Temperature.cxx Temperature.h Use.cpp Use.h \
+	UserPunch.cpp UserPunch.h Utils.cxx Utils.h advection.cpp \
 	basicsubs.cpp cl1.cpp cvdense.cpp cvdense.h cvode.cpp cvode.h \
 	dense.cpp dense.h dw.cpp gases.cpp global_structures.h \
 	input.cpp integrate.cpp inverse.cpp isotopes.cpp kinetics.cpp \
@@ -85,20 +86,21 @@ am_phreeqc_OBJECTS = class_main.$(OBJEXT) cxxKinetics.$(OBJEXT) \
 	Phreeqc.$(OBJEXT) PHRQ_base.$(OBJEXT) PHRQ_io.$(OBJEXT) \
 	PPassemblage.$(OBJEXT) PPassemblageComp.$(OBJEXT) \
 	Pressure.$(OBJEXT) Reaction.$(OBJEXT) ReadClass.$(OBJEXT) \
-	runner.$(OBJEXT) Solution.$(OBJEXT) SolutionIsotope.$(OBJEXT) \
-	SSassemblage.$(OBJEXT) SS.$(OBJEXT) SScomp.$(OBJEXT) \
-	StorageBin.$(OBJEXT) StorageBinList.$(OBJEXT) \
+	runner.$(OBJEXT) SelectedOutput.$(OBJEXT) Solution.$(OBJEXT) \
+	SolutionIsotope.$(OBJEXT) SSassemblage.$(OBJEXT) SS.$(OBJEXT) \
+	SScomp.$(OBJEXT) StorageBin.$(OBJEXT) StorageBinList.$(OBJEXT) \
 	Surface.$(OBJEXT) SurfaceCharge.$(OBJEXT) \
 	SurfaceComp.$(OBJEXT) System.$(OBJEXT) Temperature.$(OBJEXT) \
-	Use.$(OBJEXT) Utils.$(OBJEXT) advection.$(OBJEXT) \
-	basicsubs.$(OBJEXT) cl1.$(OBJEXT) cvdense.$(OBJEXT) \
-	cvode.$(OBJEXT) dense.$(OBJEXT) dw.$(OBJEXT) gases.$(OBJEXT) \
-	input.$(OBJEXT) integrate.$(OBJEXT) inverse.$(OBJEXT) \
-	isotopes.$(OBJEXT) kinetics.$(OBJEXT) mainsubs.$(OBJEXT) \
-	model.$(OBJEXT) nvector.$(OBJEXT) nvector_serial.$(OBJEXT) \
-	parse.$(OBJEXT) phqalloc.$(OBJEXT) PHRQ_io_output.$(OBJEXT) \
-	pitzer.$(OBJEXT) pitzer_structures.$(OBJEXT) prep.$(OBJEXT) \
-	print.$(OBJEXT) read.$(OBJEXT) readtr.$(OBJEXT) sit.$(OBJEXT) \
+	Use.$(OBJEXT) UserPunch.$(OBJEXT) Utils.$(OBJEXT) \
+	advection.$(OBJEXT) basicsubs.$(OBJEXT) cl1.$(OBJEXT) \
+	cvdense.$(OBJEXT) cvode.$(OBJEXT) dense.$(OBJEXT) dw.$(OBJEXT) \
+	gases.$(OBJEXT) input.$(OBJEXT) integrate.$(OBJEXT) \
+	inverse.$(OBJEXT) isotopes.$(OBJEXT) kinetics.$(OBJEXT) \
+	mainsubs.$(OBJEXT) model.$(OBJEXT) nvector.$(OBJEXT) \
+	nvector_serial.$(OBJEXT) parse.$(OBJEXT) phqalloc.$(OBJEXT) \
+	PHRQ_io_output.$(OBJEXT) pitzer.$(OBJEXT) \
+	pitzer_structures.$(OBJEXT) prep.$(OBJEXT) print.$(OBJEXT) \
+	read.$(OBJEXT) readtr.$(OBJEXT) sit.$(OBJEXT) \
 	smalldense.$(OBJEXT) spread.$(OBJEXT) step.$(OBJEXT) \
 	structures.$(OBJEXT) sundialsmath.$(OBJEXT) tally.$(OBJEXT) \
 	tidy.$(OBJEXT) transport.$(OBJEXT) utilities.$(OBJEXT) \
@@ -125,11 +127,11 @@ DIST_SOURCES = $(am__phreeqc_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run aclocal-1.11
-AMTAR = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run tar
-AUTOCONF = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run autoconf
-AUTOHEADER = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run autoheader
-AUTOMAKE = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run automake-1.11
+ACLOCAL = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/missing --run aclocal-1.11
+AMTAR = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/missing --run tar
+AUTOCONF = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/missing --run autoconf
+AUTOHEADER = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/missing --run autoheader
+AUTOMAKE = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/missing --run automake-1.11
 AWK = gawk
 CPPFLAGS = 
 CXX = g++
@@ -155,7 +157,7 @@ LIBGMP = -lgmp
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run makeinfo
+MAKEINFO = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = phreeqc
@@ -170,10 +172,10 @@ SET_MAKE =
 SHELL = /bin/sh
 STRIP = 
 VERSION = 3.0.0-7109
-abs_builddir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/src
-abs_srcdir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/src
-abs_top_builddir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk
-abs_top_srcdir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk
+abs_builddir = /lobo02home/dlpark/programs/phreeqc3-trunk/src
+abs_srcdir = /lobo02home/dlpark/programs/phreeqc3-trunk/src
+abs_top_builddir = /lobo02home/dlpark/programs/phreeqc3-trunk
+abs_top_srcdir = /lobo02home/dlpark/programs/phreeqc3-trunk
 ac_ct_CXX = g++
 am__include = include
 am__leading_dot = .
@@ -192,7 +194,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/install-sh
+install_sh = ${SHELL} /lobo02home/dlpark/programs/phreeqc3-trunk/config/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -226,13 +228,14 @@ phreeqc_SOURCES = class_main.cpp cxxKinetics.cxx cxxKinetics.h \
 	PHRQ_io.cpp PHRQ_io.h PPassemblage.cxx PPassemblage.h \
 	PPassemblageComp.cxx PPassemblageComp.h Pressure.cxx \
 	Pressure.h Reaction.cxx Reaction.h ReadClass.cxx runner.cpp \
-	runner.h Solution.cxx Solution.h SolutionIsotope.cxx \
-	SolutionIsotope.h SSassemblage.cxx SSassemblage.h SS.cxx SS.h \
-	SScomp.cxx SScomp.h StorageBin.cxx StorageBin.h \
-	StorageBinList.cpp StorageBinList.h Surface.cxx Surface.h \
-	SurfaceCharge.cxx SurfaceCharge.h SurfaceComp.cxx \
-	SurfaceComp.h System.cxx System.h Temperature.cxx \
-	Temperature.h Use.cpp Use.h Utils.cxx Utils.h advection.cpp \
+	runner.h SelectedOutput.cpp SelectedOutput.h Solution.cxx \
+	Solution.h SolutionIsotope.cxx SolutionIsotope.h \
+	SSassemblage.cxx SSassemblage.h SS.cxx SS.h SScomp.cxx \
+	SScomp.h StorageBin.cxx StorageBin.h StorageBinList.cpp \
+	StorageBinList.h Surface.cxx Surface.h SurfaceCharge.cxx \
+	SurfaceCharge.h SurfaceComp.cxx SurfaceComp.h System.cxx \
+	System.h Temperature.cxx Temperature.h Use.cpp Use.h \
+	UserPunch.cpp UserPunch.h Utils.cxx Utils.h advection.cpp \
 	basicsubs.cpp cl1.cpp cvdense.cpp cvdense.h cvode.cpp cvode.h \
 	dense.cpp dense.h dw.cpp gases.cpp global_structures.h \
 	input.cpp integrate.cpp inverse.cpp isotopes.cpp kinetics.cpp \
@@ -349,6 +352,7 @@ include ./$(DEPDIR)/ReadClass.Po
 include ./$(DEPDIR)/SS.Po
 include ./$(DEPDIR)/SSassemblage.Po
 include ./$(DEPDIR)/SScomp.Po
+include ./$(DEPDIR)/SelectedOutput.Po
 include ./$(DEPDIR)/Solution.Po
 include ./$(DEPDIR)/SolutionIsotope.Po
 include ./$(DEPDIR)/StorageBin.Po
@@ -359,6 +363,7 @@ include ./$(DEPDIR)/SurfaceComp.Po
 include ./$(DEPDIR)/System.Po
 include ./$(DEPDIR)/Temperature.Po
 include ./$(DEPDIR)/Use.Po
+include ./$(DEPDIR)/UserPunch.Po
 include ./$(DEPDIR)/Utils.Po
 include ./$(DEPDIR)/advection.Po
 include ./$(DEPDIR)/basicsubs.Po
