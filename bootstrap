@@ -12,5 +12,8 @@ if [ ! -f doc/NOTICE ];then
   ln -s NOTICE.TXT doc/NOTICE
 fi
 
-exec autoreconf -fvi
+if [ ! -f doc/phreeqc3.chm ];then
+  ln -s ../HTMLversion/phreeqc3.chm doc/phreeqc3.chm
+fi
 
+exec autoreconf -fvi

@@ -8,6 +8,7 @@ DOCS= \
 	Phreeqc_2_1999_manual.pdf \
 	Phreeqc_3_2013_manual.pdf \
 	phreeqc.txt \
+	phreeqc3.chm \
 	README \
 	RELEASE \
 	wrir02-4172.pdf
