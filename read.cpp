@@ -5034,12 +5034,6 @@ read_selected_output(void)
 	
 	if (temp_selected_output.Get_new_def() || so == SelectedOutput_map.end())
 	{
-		// delete if exists
-		if (so != SelectedOutput_map.end())
-		{
-			SelectedOutput_map.erase(so);
-		}
-
 		// store new selected output
 		SelectedOutput_map[n_user] = temp_selected_output;
 
