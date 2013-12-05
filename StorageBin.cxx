@@ -732,7 +732,7 @@ cxxStorageBin::read_raw(CParser & parser)
 					lt = parser.check_line("read_raw", false, true, true, false);
 					if (lt == PHRQ_io::LT_KEYWORD)
 						break;
-					if (lt != PHRQ_io::LT_EOF)
+					if (lt == PHRQ_io::LT_EOF)
 						goto END_OF_SIMULATION_INPUT;
 				}
 			}
