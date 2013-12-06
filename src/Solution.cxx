@@ -1241,7 +1241,7 @@ cxxSolution::zero()
 	this->cb = 0.0;
 	this->density = 1.0;
 	this->mass_water = 0.0;
-	this->soln_vol = 1.0;
+	this->soln_vol = 0.0;
 	this->total_alkalinity = 0.0;
 	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
@@ -1271,6 +1271,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->total_o += addee.total_o * extensive;
 	this->cb += addee.cb * extensive;
 	this->density = f1 * this->density + f2 * addee.density;
+	this->patm = f1 * this->patm + f2 * addee.patm;
 	this->mass_water += addee.mass_water * extensive;
 	this->soln_vol += addee.soln_vol * extensive;
 	this->total_alkalinity += addee.total_alkalinity * extensive;
