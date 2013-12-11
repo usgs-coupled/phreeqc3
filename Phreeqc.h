@@ -1920,7 +1920,7 @@ protected:
 	friend class TestSelectedOutput;
 	friend class IPhreeqcMMS;
 	friend class IPhreeqcPhast;
-	friend class Reaction_module;
+	friend class PhreeqcRM;
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
