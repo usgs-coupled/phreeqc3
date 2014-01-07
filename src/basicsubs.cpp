@@ -288,9 +288,9 @@ calc_solution_volume(void)
 	{
 		if (master[i]->s->type != AQ) continue;
 		struct master *master_ptr = master[i];
-		if (master_ptr->primary == TRUE)
+		if (master_ptr->primary == TRUE && strcmp(master_ptr->elt->name, "Alkalinity"))
 		{
-			total_mass += master_ptr->total_primary * master_ptr->gfw; 
+			total_mass += master_ptr->total_primary * master_ptr->elt->gfw; 
 		}
 	}
 	LDBLE rho = calc_dens();

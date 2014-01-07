@@ -1,0 +1,10 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1
+# K 1e3; C(4) 0.5e3; C(-4) 0.5e3
+K 1e3; Alkalinity 0.5e3; C(-4) 0.5e3; S 1e3
+USER_PRINT
+10 print 'Volume (L) =',(tot("H") * gfw("H") + tot("O") * gfw("O") + tot("K") * gfw("K") + tot("C") * gfw("C") + tot("S") * gfw("S") ) / rho / 1e3, soln_vol 
+END
+SOLUTION 1
+# K 1e3; C(4) 0.5e3; C(-4) 0.5e3
+K 1e3; C(4) .5439e3; C(-4) 0.5e3; S 1e3
