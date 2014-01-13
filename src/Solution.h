@@ -75,12 +75,14 @@ class cxxSolution:public cxxNumKeyword
 	}
 	void Create_initial_data()
 	{
-		delete initial_data;
+		if (this->initial_data != NULL)
+			delete initial_data;
 		initial_data = new cxxISolution;
 	}
 	void Destroy_initial_data()
 	{
-		delete initial_data;
+		if (this->initial_data != NULL)
+			delete initial_data;
 		initial_data = NULL;
 	}
 
