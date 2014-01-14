@@ -1816,7 +1816,6 @@ clear(void)
 	{
 		master[i]->in = FALSE;
 		master[i]->unknown = NULL;
-		master[i]->total = 0.0;
 		if (solution_ptr->Get_initial_data())
 		{
 			master[i]->pe_rxn = solution_ptr->Get_initial_data()->Get_default_pe();
