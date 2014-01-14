@@ -3593,6 +3593,9 @@ void Phreeqc::
 basic_free(void)
 {
 	delete this->basic_interpreter;
+   
+   // Reset pointer to make sure we cannot attempt to free it twice (which obviously will result in a crash)
+   this->basic_interpreter = 0;
 }
 
 double Phreeqc::
