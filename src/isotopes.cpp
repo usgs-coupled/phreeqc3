@@ -564,21 +564,24 @@ calculate_isotope_moles(struct element *elt_ptr,
 		}
 		count_isotopes++;
 	}
-	std::map<std::string, cxxISolutionComp>::iterator it = solution_ptr->Get_initial_data()->Get_comps().begin();
-	for ( ; it != solution_ptr->Get_initial_data()->Get_comps().end(); it++)
+	if (solution_ptr->Get_initial_data() != NULL)
 	{
-		master_isotope_ptr = master_isotope_search(it->first.c_str());
-		if (master_isotope_ptr == NULL)
-			continue;
-		if (master_isotope_ptr->elt != elt_ptr)
-			continue;
-		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(struct master_isotope));
-		if (list[count_isotopes].minor_isotope == FALSE)
+		std::map<std::string, cxxISolutionComp>::iterator it = solution_ptr->Get_initial_data()->Get_comps().begin();
+		for ( ; it != solution_ptr->Get_initial_data()->Get_comps().end(); it++)
 		{
-			total_is_major = list[count_isotopes].total_is_major;
+			master_isotope_ptr = master_isotope_search(it->first.c_str());
+			if (master_isotope_ptr == NULL)
+				continue;
+			if (master_isotope_ptr->elt != elt_ptr)
+				continue;
+			memcpy(&(list[count_isotopes]), master_isotope_ptr,
+				sizeof(struct master_isotope));
+			if (list[count_isotopes].minor_isotope == FALSE)
+			{
+				total_is_major = list[count_isotopes].total_is_major;
+			}
+			count_isotopes++;
 		}
-		count_isotopes++;
 	}
 	/*
 	 *   Loop to calculate isotope molalities

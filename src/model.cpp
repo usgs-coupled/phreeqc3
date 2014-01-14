@@ -2733,11 +2733,11 @@ calc_gas_pressures(void)
 				{
 					//V_m *= 1; /* debug */
 					numerical_fixed_volume = true;
-					switch_numerical = true;
+					//switch_numerical = true;
 					warning_msg
 						("Numerical method failed, switching to numerical derivatives.");
 					prep();
-					switch_numerical = false;
+					//switch_numerical = false;
 				}
 			} else
 				V_m = 1.0;
@@ -5189,12 +5189,19 @@ free_model_allocs(void)
 	delta = (LDBLE *) free_check_null(delta);
 	residual = (LDBLE *) free_check_null(residual);
 	s_x = (struct species **) free_check_null(s_x);
+	count_s_x = 0;
 	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
+	count_sum_mb1 = 0;
 	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
+	count_sum_mb2 = 0;
 	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
+	count_sum_jacob0 = 0;
 	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
+	count_sum_jacob1 = 0;
 	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
+	count_sum_jacob2 = 0;
 	sum_delta = (struct list2 *) free_check_null(sum_delta);
+	count_sum_delta = 0;
 	return (OK);
 }
 

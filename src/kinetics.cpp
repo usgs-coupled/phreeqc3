@@ -1512,6 +1512,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 				"Numerical method failed on all combinations of convergence parameters");
 		error_msg(error_string, STOP);
 	}
+	numerical_fixed_volume = false;
 	if (converge == MASS_BALANCE)
 	{
 		return (MASS_BALANCE);

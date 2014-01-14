@@ -356,6 +356,10 @@ read(const char *line_in, cxxSolution *solution_ptr)
  *   Check for units info
  */
 	CParser parser(this->io);
+	if (solution_ptr->Get_initial_data() == NULL)
+	{
+		error_msg("Initial_data instance not defined in cxxISolutionComp::read", 1);
+	}
 	if (parser.check_units(token1, alk, false, solution_ptr->Get_initial_data()->Get_units().c_str(), false) == CParser::PARSER_OK)
 	{
 		if (parser.check_units(token1, alk, false, solution_ptr->Get_initial_data()->Get_units().c_str(), true) == CParser::PARSER_OK)

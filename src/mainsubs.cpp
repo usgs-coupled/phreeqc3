@@ -1563,6 +1563,37 @@ xsolution_save(int n_user)
 			it->second.Set_total(mass_water_aq_x / gfw_water);
 		}
 	}
+#ifdef SKIP
+/*
+ * Bug-fix
+ * Create and initialize intial data (this object should always be present even if it is left empty)
+ */
+ 
+   temp_solution.Create_initial_data();
+   cxxISolution* initialData = temp_solution.Get_initial_data();
+
+   initialData->Set_units( "Mol/kgw" );
+
+   // Copy totals to initialdata when present
+   if ( !temp_solution.Get_totals().empty() )
+   {
+      cxxNameDouble& totals = temp_solution.Get_totals();
+
+      for (cxxNameDouble::iterator jit = totals.begin(); jit != totals.end(); jit++)
+      {
+         std::string compName( jit->first );
+         double compConc = jit->second;
+
+         SolutionCompMap& comps = initialData->Get_comps();
+
+         cxxISolutionComp& tempComp = comps[ compName ];
+
+         tempComp.Set_description( compName.c_str() );
+         tempComp.Set_input_conc( compConc / temp_solution.Get_mass_water());
+         tempComp.Set_units( initialData->Get_units().c_str() );
+      }
+   } 
+#endif 
 /*
  *   Save solution
  */

@@ -53,9 +53,9 @@ prep(void)
  *   X are set.
  */
 
-	if (!same_model && !switch_numerical)
-		numerical_fixed_volume = false;
-	if (same_model == FALSE || switch_numerical)
+	//if (!same_model && !switch_numerical)
+	//	numerical_fixed_volume = false;
+	if (same_model == FALSE /*|| switch_numerical*/)
 	{
 		clear();
 		setup_unknowns();
@@ -1804,6 +1804,8 @@ clear(void)
 	else
 	{
 		default_pe_x = "pe";
+		cxxChemRxn chem_rxn;
+		pe_x[default_pe_x] = chem_rxn;
 	}
 
 /*
@@ -1814,14 +1816,13 @@ clear(void)
 	{
 		master[i]->in = FALSE;
 		master[i]->unknown = NULL;
+		master[i]->total = 0.0;
 		if (solution_ptr->Get_initial_data())
 		{
-			//master[i]->pe_rxn = string_hsave(solution_ptr->Get_initial_data()->Get_default_pe().c_str());
 			master[i]->pe_rxn = solution_ptr->Get_initial_data()->Get_default_pe();
 		}
 		else
 		{
-			//master[i]->pe_rxn = string_hsave("pe");
 			master[i]->pe_rxn = pe_str;
 		}
 /*
@@ -1865,7 +1866,37 @@ clear(void)
  *   Free arrays used in model   
  */
 	free_model_allocs();
+#ifdef SKIP
+   // Bug-fix
+   // The standard implementation of clear() sets the unknown pointer of some of the
+   // masters to NULL. However, the function quick_setup presumes that a master pointer
+   // is valid when the masters total is larger than zero. This results in a crash
+   // when the unknown pointer is dereferenced. The same goes for the secondary master 
+   // species.
+   //
+   // Perhaps this should be part of the 'Clear master species solution-dependent data'-loop above?!
+   for ( int i = 0; i < count_master; i++ )
+   {
+      if (master[i]->s->type == SURF_PSI)
+         continue;
 
+      if ( master[i]->s == s_eminus ||
+            master[i]->s == s_hplus ||
+            master[i]->s == s_h2o   || 
+            master[i]->s == s_h2    || 
+            master[i]->s == s_o2 )
+               continue;
+
+      if (master[i]->total > 0 )
+      {
+         // Make sure masters total is set to zero when unknown pointer for master species is not set
+         if ( ( master[i]->s->secondary && !master[i]->s->secondary->unknown ) || !master[i]->unknown )
+         {
+            master[i]->total = 0.0;
+         }
+      }
+   }
+#endif   
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1881,10 +1912,10 @@ convert_units(cxxSolution *solution_ptr)
 	struct master *master_ptr;
 	std::string token;
 	if (!solution_ptr->Get_new_def() || !solution_ptr->Get_initial_data())
-	{
-		input_error++;
-		error_msg("Missing data for convert_units");
-	}
+   {
+      input_error++;
+      error_msg("Missing data for convert_units");
+   }
 /*
  *   Convert units
  */
@@ -2753,8 +2784,32 @@ write_mass_action_eqn_x(int stop)
 						 trxn.token[i].coef, FALSE);
 				if (equal(coef_e, 0.0, TOL) == FALSE)
 				{
+					assert(pe_x.find(trxn.token[i].s->secondary->pe_rxn) != pe_x.end());
 					cxxChemRxn &rxn_ref = pe_x[trxn.token[i].s->secondary->pe_rxn];
 					trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
+#ifdef SKIP
+                   // Bugfix
+                   // Prevent inserting entry with empty string key in pe_x map
+                   // This will result in "Cannot find master species for redox couple"
+                   // in function tidy_redox which in turn will result in non-convergence e.g. in deck GCM_1D_STflash_CPA.INP.
+                   // This differs from the 2.18 behaviour where pe_x array is never
+                   // updated as a side effect of a lookup operation.
+
+                   std::map < std::string, cxxChemRxn >::iterator chemRxnIt = pe_x.find(trxn.token[i].s->secondary->pe_rxn);
+                   if ( chemRxnIt == pe_x.end() )
+                   {
+					cxxChemRxn &rxn_ref = pe_x[trxn.token[i].s->secondary->pe_rxn];
+					trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
+                      // Create temporary rxn object and add reactions together
+                      cxxChemRxn rxn;
+                      trxn_add(rxn, trxn.token[i].coef * coef_e, FALSE);
+                   }
+                   else
+                   {
+                      // Get reaction referred to by iterator and add reactions together
+                      trxn_add(chemRxnIt->second, trxn.token[i].coef * coef_e, FALSE);
+                   }
+#endif
 				}
 			}
 		}
@@ -5833,6 +5888,8 @@ save_model(void)
 	current_mu = NAN;
 	mu_terms_in_logk = true;
 
+	last_model.numerical_fixed_volume = numerical_fixed_volume;
+
 	return (OK);
 }
 
@@ -5885,6 +5942,8 @@ check_same_model(void)
 	{
 		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 		if (last_model.gas_phase == NULL)
+			return (FALSE);
+		if (last_model.numerical_fixed_volume != numerical_fixed_volume)
 			return (FALSE);
 		if (last_model.count_gas_phase != (int) gas_phase_ptr->Get_gas_comps().size())
 			return (FALSE);

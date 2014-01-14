@@ -402,7 +402,7 @@ void Phreeqc::init(void)
 	last_patm_x             = 1;
 	numerical_fixed_volume  = false;
 	force_numerical_fixed_volume = false;
-	switch_numerical        = false;
+	//switch_numerical        = false;
 	ph_x                    = 0;
 	solution_pe_x           = 0;
 	mu_x                    = 0;
@@ -1290,7 +1290,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	last_patm_x             = 1;
 	numerical_fixed_volume  = false;
 	force_numerical_fixed_volume = false;
-	switch_numerical        = false;
+	//switch_numerical        = false;
 	ph_x                    = 0;
 	solution_pe_x           = 0;
 	mu_x                    = 0;

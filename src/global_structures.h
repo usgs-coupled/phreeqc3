@@ -265,6 +265,7 @@ struct model
 	int count_surface_charge;
 	const char **surface_charge;
 	LDBLE pressure;
+	bool numerical_fixed_volume;
 };
 
 

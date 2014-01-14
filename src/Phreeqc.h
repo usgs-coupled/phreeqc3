@@ -1314,7 +1314,7 @@ protected:
 	LDBLE last_patm_x;
 	bool numerical_fixed_volume;
 	bool force_numerical_fixed_volume;
-	bool switch_numerical;
+	//bool switch_numerical;
 	LDBLE ph_x;
 	LDBLE solution_pe_x;
 	LDBLE mu_x;
