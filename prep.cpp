@@ -2786,7 +2786,6 @@ write_mass_action_eqn_x(int stop)
 					std::map < std::string, cxxChemRxn >::iterator chemRxnIt = pe_x.find(trxn.token[i].s->secondary->pe_rxn);
 					if ( chemRxnIt == pe_x.end() )
 					{
-						error_msg("pe undefined in Phreeqc::write_mass_action_eqn_x", 1);
 						cxxChemRxn &rxn_ref = pe_x[trxn.token[i].s->secondary->pe_rxn];
 						trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
 						// Create temporary rxn object and add reactions together
