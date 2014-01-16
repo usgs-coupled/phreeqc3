@@ -322,7 +322,8 @@ all: alkalinity.out \
 	gypsum_P5.out \
 	multi_punch.out \
 	rho_H3PO4.out \
-	soln_vol.out
+	soln_vol.out \
+	Vm_LiCl_sol
 
 # NaX.out
 

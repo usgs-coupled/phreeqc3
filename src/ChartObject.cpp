@@ -53,7 +53,7 @@ cxxNumKeyword(io)
 	Color_vector.push_back("Blue");
 	Color_vector.push_back("Orange");
 	Color_vector.push_back("Magenta");
-	Color_vector.push_back("Yellow");
+//	Color_vector.push_back("Yellow");
 	Color_vector.push_back("Black");
 	Color_vector.push_back("Cyan");
 	Color_vector.push_back("Brown");
