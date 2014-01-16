@@ -2314,12 +2314,12 @@ run_simulations(void)
 /* ---------------------------------------------------------------------- */
 {
 	char token[MAX_LENGTH];
-#ifdef SKIP_KEEP
+//#ifdef SKIP_KEEP
 #if defined(WIN32)
 	unsigned int old_exponent_format;
 	old_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
-#endif
+//#endif
 /*
  *   Prepare error handling
  */
