@@ -97,7 +97,7 @@ read_delete(void)
 	std::istringstream iss_in;
 	return_value = streamify_to_next_keyword(iss_in);
 	CParser parser(iss_in, phrq_io);
-	assert(!reading_database());
+	//assert(!reading_database());
 
 	//For testing, need to read line to get started
 	parser.set_echo_file(CParser::EO_NONE);
