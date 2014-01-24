@@ -168,7 +168,6 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 	return(list_c.size());
 }
-
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
 	// phrq_io
@@ -2466,4 +2465,47 @@ Phreeqc &Phreeqc::operator=(const Phreeqc &rhs)
 	this->initialize();
 	this->InternalCopy(&rhs);
 	return *this;
+}
+
+int Phreeqc::next_user_number(Keywords::KEYWORDS key)
+{
+	switch (key)
+	{
+	case Keywords::KEY_REACTION_TEMPERATURE:
+		return Utilities::Rxn_next_user_number(Rxn_temperature_map);
+		break;
+	case Keywords::KEY_REACTION_PRESSURE:
+		return Utilities::Rxn_next_user_number(Rxn_pressure_map);
+		break;
+	case Keywords::KEY_SURFACE:
+		return Utilities::Rxn_next_user_number(Rxn_surface_map);
+		break;
+	case Keywords::KEY_EXCHANGE:
+		return Utilities::Rxn_next_user_number(Rxn_exchange_map);
+		break;
+	case Keywords::KEY_KINETICS:
+		return Utilities::Rxn_next_user_number(Rxn_kinetics_map);
+		break;
+	case Keywords::KEY_MIX:
+		return Utilities::Rxn_next_user_number(Rxn_mix_map);
+		break;
+	case Keywords::KEY_REACTION:
+		return Utilities::Rxn_next_user_number(Rxn_reaction_map);
+		break;
+	case Keywords::KEY_GAS_PHASE:
+		return Utilities::Rxn_next_user_number(Rxn_gas_phase_map);
+		break;
+	case Keywords::KEY_SOLID_SOLUTIONS:
+		return Utilities::Rxn_next_user_number(Rxn_ss_assemblage_map);
+		break;
+	case Keywords::KEY_EQUILIBRIUM_PHASES:
+		return Utilities::Rxn_next_user_number(Rxn_pp_assemblage_map);
+		break;
+	case Keywords::KEY_SOLUTION:
+		return Utilities::Rxn_next_user_number(Rxn_solution_map);
+		break;
+	default:
+		assert(false);
+		return -999;
+	}
 }

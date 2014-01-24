@@ -1122,6 +1122,7 @@ protected:
 public:
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
+	int next_user_number(Keywords::KEYWORDS key);
 	size_t list_components(std::list<std::string> &list_c);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
 protected:
@@ -1986,6 +1987,17 @@ namespace Utilities
 		{
 			return (NULL);
 		}
+	}
+
+	template < typename T >
+	int Rxn_next_user_number(std::map < int, T > &b)
+	{
+		int ret = 0;
+		if (b.size() != 0)
+		{
+			ret = b.rbegin()->first + 1;
+		}
+		return ret;
 	}
 
 	template < typename T >
