@@ -323,7 +323,8 @@ all: alkalinity.out \
 	multi_punch.out \
 	rho_H3PO4.out \
 	soln_vol.out \
-	Vm_LiCl_sol
+	Vm_LiCl_sol.out \
+	negative_user_number.out 
 
 # NaX.out
 
