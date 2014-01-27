@@ -478,7 +478,16 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 36:				/* initial_time */
-			sscanf(next_char, SCANFORMAT, &initial_total_time);
+			if (copy_token(token, &next_char, &l) == DIGIT)
+				sscanf(token, SCANFORMAT, &initial_total_time);
+			{
+				std::string stdtoken;
+				j = copy_token(stdtoken, &next_char);
+				if (j == UPPER || j == LOWER)
+				{
+					initial_total_time = Utilities::convert_time(initial_total_time, stdtoken, "s");
+				}
+			}
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 37:				/* warning */

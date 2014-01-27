@@ -2832,7 +2832,10 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 		delta_v[j] = 0.0;
 	}
 	delta_v[9] = 1.0;
-	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+/* Vmax, dmax...
+	delta_v[10] = 999.0;
+	delta_v[11] = 1.0; */
+	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT /*SCANFORMAT SCANFORMAT */,
 		/* a1..a4 */
 		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
 		/* wref */
@@ -2841,6 +2844,8 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 		&(delta_v[5]),
 		/* c1..c4 */
 		&(delta_v[6]), &(delta_v[7]), &(delta_v[8]), &(delta_v[9]));
+		/* vmax, dmax 
+		&(delta_v[10]), &(delta_v[11])); */
 	if (j < 1)
 	{
 		input_error++;
@@ -5034,6 +5039,12 @@ read_selected_output(void)
 	
 	if (temp_selected_output.Get_new_def() || so == SelectedOutput_map.end())
 	{
+		// delete if exists
+		if (so != SelectedOutput_map.end())
+		{
+			SelectedOutput_map.erase(so);
+		}
+
 		// store new selected output
 		SelectedOutput_map[n_user] = temp_selected_output;
 
@@ -8054,7 +8065,18 @@ read_advection(void)
 			}
 			break;
 		case 15:				/* initial_time */
-			sscanf(next_char, SCANFORMAT, &initial_total_time);
+			char token[MAX_LENGTH];
+			int j;
+			if (copy_token(token, &next_char, &j) == DIGIT)
+				sscanf(token, SCANFORMAT, &initial_total_time);
+			{
+				std::string stdtoken;
+				j = copy_token(stdtoken, &next_char);
+				if (j == UPPER || j == LOWER)
+				{
+					initial_total_time = Utilities::convert_time(initial_total_time, stdtoken, "s");
+				}
+			}
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 16:				/* warning */
