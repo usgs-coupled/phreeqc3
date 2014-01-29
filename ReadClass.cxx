@@ -700,6 +700,9 @@ run_as_cells(void)
 	{
 		int i = *it;
 		if (i < 0) continue;
+		if (Utilities::Rxn_find(Rxn_solution_map, i) == NULL
+			&& Utilities::Rxn_find(Rxn_mix_map, i) == NULL)
+			continue;
 		initial_total_time = initial_total_time_save;
 		set_advection(i, TRUE, TRUE, i);
 /*
