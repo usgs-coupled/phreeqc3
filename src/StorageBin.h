@@ -28,6 +28,7 @@ class cxxStorageBin: public PHRQ_base
 	cxxStorageBin(cxxUse &use_ref, PHRQ_io *io=NULL);
 	virtual ~cxxStorageBin();
 
+	void Copy(int destination, int source);
 	void Remove(int n);
 	void Clear(void);
 

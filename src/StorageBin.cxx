@@ -116,6 +116,99 @@ PHRQ_base(io)
 cxxStorageBin::~cxxStorageBin()
 {
 }
+void
+cxxStorageBin::Copy(int destination, int source)
+{
+	this->Remove(destination);
+	// Solution
+	{
+		std::map < int, cxxSolution >::iterator it = this->Solutions.find(source);
+		if (it != this->Solutions.end())
+		{
+			this->Set_Solution(destination, &(it->second));
+		}
+	}
+
+	// Exchange
+	{
+		std::map < int, cxxExchange >::iterator it = this->Exchangers.find(source);
+		if (it != this->Exchangers.end())
+		{
+			this->Set_Exchange(destination, &(it->second));
+		}
+	}
+
+	// gas_phase
+	{
+		std::map < int, cxxGasPhase >::iterator it = this->GasPhases.find(source);
+		if (it != this->GasPhases.end())
+		{
+			this->Set_GasPhase(destination, &(it->second));
+		}
+	}
+	// kinetics
+	{
+		std::map < int, cxxKinetics >::iterator it = this->Kinetics.find(source);
+		if (it != this->Kinetics.end())
+		{
+			this->Set_Kinetics(destination, &(it->second));
+		}
+	}
+	// pp_assemblage
+	{
+		std::map < int, cxxPPassemblage >::iterator it = this->PPassemblages.find(source);
+		if (it != this->PPassemblages.end())
+		{
+			this->Set_PPassemblage(destination, &(it->second));
+		}
+	}
+	// ss_assemblage
+	{
+		std::map < int, cxxSSassemblage >::iterator it = this->SSassemblages.find(source);
+		if (it != this->SSassemblages.end())
+		{
+			this->Set_SSassemblage(destination, &(it->second));
+		}
+	}
+	// surface
+	{
+		std::map < int, cxxSurface >::iterator it = this->Surfaces.find(source);
+		if (it != this->Surfaces.end())
+		{
+			this->Set_Surface(destination, &(it->second));
+		}
+	}
+	// mix
+	{
+		std::map < int, cxxMix >::iterator it =	this->Mixes.find(source);
+		if (it != this->Mixes.end())
+		{
+			this->Set_Mix(destination, &(it->second));
+		}
+	}
+	// reaction
+	{
+		std::map < int, cxxReaction >::iterator it = this->Reactions.find(source);
+		if (it != this->Reactions.end())
+		{
+			this->Set_Reaction(destination, &(it->second));
+		}
+	}
+	// reaction temperature
+	{
+		std::map < int, cxxTemperature >::iterator it = this->Temperatures.find(source);
+		if (it != this->Temperatures.end())
+		{
+			this->Set_Temperature(destination, &(it->second));
+		}
+	}
+
+	// reaction pressure
+	{
+		this->Set_Pressure(destination, Utilities::Rxn_find(this->Pressures, source));
+	}
+}
+
 cxxSolution *
 cxxStorageBin::Get_Solution(int n_user)
 {
