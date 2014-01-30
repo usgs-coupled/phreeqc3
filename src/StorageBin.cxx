@@ -119,6 +119,8 @@ cxxStorageBin::~cxxStorageBin()
 void
 cxxStorageBin::Copy(int destination, int source)
 {
+	if (destination == source)
+		return;
 	this->Remove(destination);
 	// Solution
 	{
