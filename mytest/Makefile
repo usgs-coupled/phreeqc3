@@ -326,7 +326,8 @@ all: alkalinity.out \
 	Vm_LiCl_sol.out \
 	negative_user_number.out \
 	run_cell_range.out \
-	punch_ostream.out
+	punch_ostream.out \
+	modify_ignore.out
 
 # NaX.out
 

@@ -541,7 +541,7 @@ close_ostreams(void)
 
 	streams.insert(output_ostream);
 	streams.insert(log_ostream);
-//	streams.insert(punch_ostream);   // Should be removed in ~SelectedOutput
+//	streams.insert(punch_ostream);   // Should be deleted in ~SelectedOutput
 #ifdef ERROR_OSTREAM
 	streams.insert(error_ostream);
 #else
