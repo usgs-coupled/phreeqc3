@@ -2869,7 +2869,7 @@ punch_identifiers(void)
 	{
 		if (state == ADVECTION)
 		{
-			fpunchf(PHAST_NULL("dist_x"), dformat, use.Get_n_solution_user());
+			fpunchf(PHAST_NULL("dist_x"), gformat, (double)use.Get_n_solution_user());
 		}
 		else if (state == TRANSPORT)
 		{
@@ -2878,7 +2878,7 @@ punch_identifiers(void)
 		}
 		else
 		{
-			fpunchf(PHAST_NULL("dist_x"), dformat, -99);
+			fpunchf(PHAST_NULL("dist_x"), gformat, (double)-99);
 		}
 	}
 	if (current_selected_output->Get_time())
@@ -2935,12 +2935,12 @@ punch_identifiers(void)
 			}
 			else
 			{
-				fpunchf(PHAST_NULL("time"), dformat, advection_step);
+				fpunchf(PHAST_NULL("time"), gformat, (double)advection_step);
 			}
 		}
 		else
 		{
-			fpunchf(PHAST_NULL("time"), dformat, -99);
+			fpunchf(PHAST_NULL("time"), gformat, (double)-99);
 		}
 	}
 
