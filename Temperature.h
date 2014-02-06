@@ -20,7 +20,7 @@ class cxxTemperature:public cxxNumKeyword
 
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check = false);
 	int read(CParser & parser);
 	LDBLE Temperature_for_step(int step_number);
 	std::vector<LDBLE> & Get_temps(void) {return temps;}

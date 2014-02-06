@@ -229,7 +229,7 @@ cxxTemperature::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) 
 }
 
 void
-cxxTemperature::read_raw(CParser & parser)
+cxxTemperature::read_raw(CParser & parser, bool check)
 {
 	LDBLE d;
 	CParser::TOKEN_TYPE k;
@@ -335,21 +335,24 @@ cxxTemperature::read_raw(CParser & parser)
 			break;
 	}
 	// members that must be defined
-	if (equalIncrements_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.
-			error_msg
-			("Equal_increments not defined for REACTION_TEMPERATURE_RAW input.",
-			 PHRQ_io::OT_CONTINUE);
-	}
-	if (countTemps_defined == false)
-	{
-		parser.incr_input_error();
-		parser.
-			error_msg
-			("Count_temps not defined for REACTION_TEMPERATURE_RAW input.",
-			 PHRQ_io::OT_CONTINUE);
+		if (equalIncrements_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg
+				("Equal_increments not defined for REACTION_TEMPERATURE_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (countTemps_defined == false)
+		{
+			parser.incr_input_error();
+			parser.
+				error_msg
+				("Count_temps not defined for REACTION_TEMPERATURE_RAW input.",
+				PHRQ_io::OT_CONTINUE);
+		}
 	}
 }
 /* ---------------------------------------------------------------------- */

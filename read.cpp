@@ -355,6 +355,9 @@ read_input(void)
 		case Keywords::KEY_REACTION_MODIFY:
 			Utilities::Rxn_read_modify(Rxn_reaction_map, Rxn_new_reaction, this);
 			break;
+		case Keywords::KEY_REACTION_TEMPERATURE_MODIFY:
+			Utilities::Rxn_read_modify(Rxn_temperature_map, Rxn_new_temperature, this);
+			break;
 		//case LAST_C_KEYWORD + 22:		//reaction_temperature_modify
 		//	keyword[LAST_C_KEYWORD + 22].keycount++;
 		//	read_reaction_temperature_modify();
@@ -364,6 +367,9 @@ read_input(void)
 			break;
 		case Keywords::KEY_REACTION_PRESSURE_RAW:
 			Utilities::Rxn_read_raw(Rxn_pressure_map, Rxn_new_pressure, this);
+			break;
+		case Keywords::KEY_REACTION_PRESSURE_MODIFY:
+			Utilities::Rxn_read_modify(Rxn_pressure_map, Rxn_new_pressure, this);
 			break;
 		default:
 			error_msg("Error in keyword switch", STOP);

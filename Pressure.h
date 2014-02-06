@@ -21,7 +21,7 @@ class cxxPressure:public cxxNumKeyword
 	void dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out=NULL) const;
 
 	int read(CParser & parser);
-	void read_raw(CParser & parser);
+	void read_raw(CParser & parser, bool check = false);
 	LDBLE Pressure_for_step(int step_number);
 	std::vector<LDBLE> & Get_pressures(void) {return pressures;}
 	const std::vector<LDBLE> & Get_pressures(void)const {return pressures;}

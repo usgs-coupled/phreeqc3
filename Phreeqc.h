@@ -2062,6 +2062,7 @@ namespace Utilities
 		return phreeqc_cookie->cleanup_after_parser(parser);
 	}
 
+#ifdef SKIP
 	template < typename T >
 	int Rxn_read_modify(std::map < int, T > &m, std::set < int > &s, Phreeqc * phreeqc_cookie)
 	{
@@ -2082,6 +2083,45 @@ namespace Utilities
 			std::ostringstream errstr;
 			errstr <<  "Could not find " << key_name << " " << nk.Get_n_user() << " to modify.\n";
 			phreeqc_cookie->error_msg(errstr.str().c_str(), PHRQ_io::OT_STOP);
+		}
+
+		entity_ptr->read_raw(parser, false);
+		entity_ptr->Set_n_user(nk.Get_n_user());
+		entity_ptr->Set_n_user_end(nk.Get_n_user_end());
+		entity_ptr->Set_description(nk.Get_description());
+		s.insert(entity_ptr->Get_n_user());
+
+		return phreeqc_cookie->cleanup_after_parser(parser);
+	}
+#endif
+
+	template < typename T >
+	int Rxn_read_modify(std::map < int, T > &m, std::set < int > &s, Phreeqc * phreeqc_cookie)
+	{
+		typename std::map < int, T >::iterator it;
+		
+		CParser parser(phreeqc_cookie->Get_phrq_io());
+
+		std::string key_name;
+		std::string::iterator b = parser.line().begin();
+		std::string::iterator e = parser.line().end();
+		CParser::copy_token(key_name, b, e);
+
+		cxxNumKeyword nk;
+		nk.read_number_description(parser);
+		T * entity_ptr = Utilities::Rxn_find(m, nk.Get_n_user());
+		if (!entity_ptr)
+		{
+			std::ostringstream errstr;
+			errstr <<  "Could not find " << key_name << " " << nk.Get_n_user() << ", ignoring modify data.\n";
+			phreeqc_cookie->warning_msg(errstr.str().c_str());
+			//phreeqc_cookie->error_msg(errstr.str().c_str(), PHRQ_io::OT_STOP);
+
+			// Don't throw, read data into dummy entity, then ignore
+			T entity;
+			entity_ptr = &entity;
+			entity_ptr->read_raw(parser, false);
+			return phreeqc_cookie->cleanup_after_parser(parser);
 		}
 
 		entity_ptr->read_raw(parser, false);

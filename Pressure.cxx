@@ -192,7 +192,7 @@ cxxPressure::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 }
 
 void
-cxxPressure::read_raw(CParser & parser)
+cxxPressure::read_raw(CParser & parser, bool check)
 {
 	// clear steps for modify operation, if pressures are read
 	bool cleared_once = false;
@@ -294,17 +294,20 @@ cxxPressure::read_raw(CParser & parser)
 			break;
 	}
 	// members that must be defined
-	if (equalIncrements_defined == false)
+	if (check)
 	{
-		parser.incr_input_error();
-		parser.error_msg("Equal_increments not defined for REACTION_PRESSURE_RAW input.", 
-			PHRQ_io::OT_CONTINUE);
-	}
-	if (count_defined == false)
-	{
-		parser.incr_input_error();
-		parser.error_msg("Count_temps not defined for REACTION_PRESSURE_RAW input.",
-			 PHRQ_io::OT_CONTINUE);
+		if (equalIncrements_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Equal_increments not defined for REACTION_PRESSURE_RAW input.", 
+				PHRQ_io::OT_CONTINUE);
+		}
+		if (count_defined == false)
+		{
+			parser.incr_input_error();
+			parser.error_msg("Count_temps not defined for REACTION_PRESSURE_RAW input.",
+				 PHRQ_io::OT_CONTINUE);
+		}
 	}
 }
 #ifdef SKIP
