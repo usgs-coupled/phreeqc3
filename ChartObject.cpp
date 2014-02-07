@@ -401,6 +401,11 @@ ChartObject::Read(CParser & parser)
 			/* End of modifications */
 		case 15: /* active */
 			this->active = parser.get_true_false(next_char, true);
+			if (this->active && this->Get_connect_simulations())
+			{
+				this->ColumnOffset = 0;//this->Curves.size();
+				this->new_ug = false;
+			}
 			break;
 			/* End of modifications */
 		case 16: /* batch */
