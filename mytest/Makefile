@@ -327,7 +327,8 @@ all: alkalinity.out \
 	negative_user_number.out \
 	run_cell_range.out \
 	punch_ostream.out \
-	modify_ignore.out
+	modify_ignore.out \
+	connect_graph
 
 # NaX.out
 

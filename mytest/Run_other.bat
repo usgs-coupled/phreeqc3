@@ -4,4 +4,5 @@
 ..\ClrRelease\phreeqc.exe Sat_P_rho
 #..\ClrRelease\phreeqc.exe CaKMgNaCl
 ..\ClrRelease\phreeqc.exe rho25
+..\ClrRelease\phreeqc.exe connect_graph
  

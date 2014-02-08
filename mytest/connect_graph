@@ -1,0 +1,34 @@
+DATABASE ../database/phreeqc.dat
+# PHASES; NaCl; NaCl = Na+ + Cl-; log_k 0
+PRINT; -reset false
+USER_GRAPH; #-active false
+-connect_simulations true
+10 graph_x sim_no 
+20 graph_y tot("Na"), tot("Cl")
+SOLUTION 3; Cl 24; Na 24
+REACTION 1
+END
+USER_GRAPH; -active false
+SOLUTION 3; Cl 24; Na 24
+REACTION 1
+END
+
+USER_GRAPH 1; -active true
+SOLUTION 3; Cl 24; Na 24
+REACTION 1
+END
+# USER_GRAPH; -active false
+SOLUTION 3; Cl 24; Na 24
+REACTION 1
+END
+
+# USER_GRAPH; -active true
+SOLUTION 3; Cl 24; Na 24
+REACTION 1
+END
+# USER_GRAPH; -active false
+SOLUTION 3; Cl 24; Na 24
+REACTION 1
+END
+
+
