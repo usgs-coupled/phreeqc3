@@ -779,13 +779,14 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE dav, lav, mixf, maxmix, corr_disp, diffc_here, mD;
+	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD;
 	int i, l_nmix;
 
-	std::vector<LDBLE> m;
+	std::vector<LDBLE> m, m1;
 	for(i = 0; i < count_cells + 1; i++)
 	{
 		m.push_back(0);
+		m1.push_back(0);
 	}
 	if (multi_Dflag == TRUE)
 		diffc_here = 0.0;
@@ -806,6 +807,7 @@ init_mix(void)
 
 	for (i = 1; i < count_cells; i++)
 	{
+// find mix with lower numbered cell...
 		lav = (cell_data[i - 1].length + cell_data[i].length) / 2;
 		if (ishift != 0)
 			dav = (cell_data[i - 1].disp + cell_data[i].disp) / 2;
@@ -813,8 +815,8 @@ init_mix(void)
 			dav = 0;
 
 		mixf = (diffc_here * timest / lav + dav) * corr_disp / cell_data[i].length;
-		if (mixf > maxmix)
-			maxmix = mixf;
+		//if (mixf > maxmix)
+		//	maxmix = mixf;
 		m[i] = mixf;			/* m[i] has mixf with lower cell */
 		if (multi_Dflag == TRUE)
 		{
@@ -822,6 +824,13 @@ init_mix(void)
 			if (mD > maxmix)
 				maxmix = mD;
 		}
+
+// and with higher numbered cell...
+		mixf = (diffc_here * timest / lav + dav) * corr_disp / cell_data[i - 1].length;
+		mf12 = m[i] + mixf;
+		if (mf12 > maxmix)
+			maxmix = mf12;
+		m1[i] = mixf;			/* m1[i] has mixf with higher cell */
 	}
 /*
  * Also for boundary cells
@@ -835,8 +844,9 @@ init_mix(void)
 			dav = 0;
 
 		mixf = (diffc_here * timest / lav + dav) / lav;
-		if (mixf > maxmix)
-			maxmix = mixf;
+		mf12 = m1[1] + 2 * mixf;
+		if (mf12 > maxmix)
+			maxmix = mf12;
 		m[0] = 2 * mixf;
 		if (multi_Dflag == TRUE)
 		{
@@ -857,9 +867,10 @@ init_mix(void)
 			dav = 0;
 
 		mixf = (diffc_here * timest / lav + dav) / lav;
-		if (mixf > maxmix)
-			maxmix = mixf;
-		m[count_cells] = 2 * mixf;
+		mf12 = m[count_cells - 1] + 2 * mixf;
+		if (mf12 > maxmix)
+			maxmix = mf12;
+		m1[count_cells] = 2 * mixf;
 		if (multi_Dflag == TRUE)
 		{
 			mD = diffc_max * timest / (lav * lav);
@@ -882,10 +893,7 @@ init_mix(void)
 	}
 	else
 	{
-		if ((bcon_first == 1) || (bcon_last == 1))
-			l_nmix = 1 + (int) floor(4.5 * maxmix);
-		else
-			l_nmix = 1 + (int) floor(3.0 * maxmix);
+		l_nmix = 1 + (int) floor(1.5 * maxmix);
 
 		if ((ishift != 0) && ((bcon_first == 1) || (bcon_last == 1)))
 		{
@@ -896,7 +904,10 @@ init_mix(void)
 			l_nmix = (int) ceil(l_nmix * mcd_substeps);
 
 		for (i = 0; i <= count_cells; i++)
+		{
 			m[i] /= l_nmix;
+			m1[i] /= l_nmix;
+		}
 	}
 	/*
 	 * Fill mix structure
@@ -904,28 +915,16 @@ init_mix(void)
 	
 	if (l_nmix != 0)
 	{
-/*
- * max_mix brings n_user outside range of active cells
- * mix[n].n_user = mix[n].n_user_end = -999 has same effect
- * but max_mix keeps mix in sort order in case mix_bsearch
- * is used
- */
 		for (i = 1; i <= count_cells; i++)
 		{
 			cxxMix temp_mix;
-			dav = 0;
-/*
- * again, max_mix brings n_user outside range of active cells, etc...
- */
 			temp_mix.Set_n_user(i);
 			temp_mix.Set_n_user_end(i);
+
 			temp_mix.Add(i - 1, m[i - 1]);
+			temp_mix.Add(i + 1, m1[i]);
+			temp_mix.Add(i, 1.0 - m[i - 1] - m1[i]);
 
-			dav += m[i - 1];
-			temp_mix.Add(i + 1, m[i]);
-
-			dav += m[i];
-			temp_mix.Add(i, 1.0 - dav);
 			Dispersion_mix_map[i] = temp_mix;
 		}
 	}
