@@ -4,6 +4,7 @@
 #include "../../resource.h"
 #endif
 #else
+#include <assert.h>
 #define _ASSERTE assert
 #endif
 #include <stdlib.h>
