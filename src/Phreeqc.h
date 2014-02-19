@@ -1971,7 +1971,11 @@ namespace Utilities
 		typename T::const_iterator it;
 		for (it = b.begin(); it != b.end(); ++it)
 		{
-			it->second.dump_raw(s_oss, indent);
+			// Adding logic to dump only non-negative entities
+			if (it->second.Get_n_user() >= 0)
+			{
+				it->second.dump_raw(s_oss, indent);
+			}
 		}
 		return;
 	}
