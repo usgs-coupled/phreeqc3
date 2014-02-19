@@ -856,7 +856,7 @@ dump_ostream(std::ostream& os)
 			for (it = dump_info.Get_solution().begin(); it != dump_info.Get_solution().end(); it++)
 			{
 				cxxSolution *p = Utilities::Rxn_find(Rxn_solution_map, *it);
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -878,7 +878,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxPPassemblage *p = Utilities::Rxn_find(Rxn_pp_assemblage_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -899,7 +899,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxExchange *p = Utilities::Rxn_find(Rxn_exchange_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -921,7 +921,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxSurface *p = Utilities::Rxn_find(Rxn_surface_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -942,7 +942,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxSSassemblage *p = Utilities::Rxn_find(Rxn_ss_assemblage_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -963,7 +963,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxGasPhase *p = Utilities::Rxn_find(Rxn_gas_phase_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -985,7 +985,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxKinetics *p = Utilities::Rxn_find(Rxn_kinetics_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -1006,7 +1006,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxMix *p = Utilities::Rxn_find(Rxn_mix_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -1028,7 +1028,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxReaction *p = Utilities::Rxn_find(Rxn_reaction_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -1050,7 +1050,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxTemperature *p = Utilities::Rxn_find(Rxn_temperature_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
@@ -1071,7 +1071,7 @@ dump_ostream(std::ostream& os)
 			{
 				cxxPressure *p = Utilities::Rxn_find(Rxn_pressure_map, *it);
 
-				if (p != NULL)
+				if (p != NULL && p->Get_n_user() >= 0)
 				{
 					p->dump_raw(os, 0);
 				}
