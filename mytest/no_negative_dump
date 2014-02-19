@@ -1,0 +1,61 @@
+DATABASE ../database/minteq.dat
+SOLUTION 0
+   Na   0.5
+   Cl   0.5
+END
+
+PHASES
+
+Ferrihydrite
+	Fe(OH)3 + 3H+ = Fe+3 + 3H2O
+	log_k	3.191
+	delta_h	-73.374	kJ
+	
+EQUILIBRIUM_PHASES 1-50
+
+	 Ferrihydrite  0  0.08e-3
+	
+SOLUTION 1-50
+	Na  10
+	Cl  10
+	
+END
+
+SURFACE 1-50
+	Hfo_wOH Ferrihydrite equilibrium_phase 0.2 	5.33e4	
+	Hfo_sOH Ferrihydrite equilibrium_phase 0.005
+	-equil 1
+END
+
+#injection
+TRANSPORT
+	-cells 50
+	-shifts 10
+	-time_step 8640
+	-lengths 1
+	-dispersivities 0.1
+	-diffusion_coefficient 10e-9
+	-boundary_conditions   flux flux
+ 	-flow_direction	forward
+END
+	
+DUMP	
+	-file no_negative_dump.dmp
+	-append false
+	-all
+END
+DUMP
+	-append
+	-solution -1 -2 0 1
+	-surface -1 -2 0 1
+	-equilibrium_phases -1 -2 0 1
+	-kinetics -1 -2 0 1
+	-exchange -1 -2 0 1
+	-gas_phase -1 -2 0 1
+	-solid_solution -1 -2 0 1
+	-reaction -1 -2 0 1
+	-reaction_temperature -1 -2 0 1
+	-reaction_pressure -1 -2 0 1
+	-mix -1 -2 0 1
+	
+END

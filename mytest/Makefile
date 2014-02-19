@@ -328,7 +328,9 @@ all: alkalinity.out \
 	run_cell_range.out \
 	punch_ostream.out \
 	modify_ignore.out \
-	connect_graph
+	connect_graph \
+	varaiable_cell_diffusion.out \
+	no_negative_dump.out
 
 # NaX.out
 
