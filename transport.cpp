@@ -826,11 +826,11 @@ init_mix(void)
 		}
 
 // and with higher numbered cell...
-		mixf = (diffc_here * timest / lav + dav) * corr_disp / cell_data[i - 1].length;
-		mf12 = m[i] + mixf;
-		if (mf12 > maxmix)
-			maxmix = mf12;
-		m1[i] = mixf;			/* m1[i] has mixf with higher cell */
+			mixf = (diffc_here * timest / lav + dav) * corr_disp / cell_data[i - 1].length;
+			mf12 = m[i] + mixf;
+			if (mf12 > maxmix && !multi_Dflag)
+				maxmix = mf12;
+			m1[i] = mixf;			/* m1[i] has mixf with higher cell */
 	}
 /*
  * Also for boundary cells
@@ -845,7 +845,7 @@ init_mix(void)
 
 		mixf = (diffc_here * timest / lav + dav) / lav;
 		mf12 = m1[1] + 2 * mixf;
-		if (mf12 > maxmix)
+		if (mf12 > maxmix && !multi_Dflag)
 			maxmix = mf12;
 		m[0] = 2 * mixf;
 		if (multi_Dflag == TRUE)
@@ -868,11 +868,12 @@ init_mix(void)
 
 		mixf = (diffc_here * timest / lav + dav) / lav;
 		mf12 = m[count_cells - 1] + 2 * mixf;
-		if (mf12 > maxmix)
+		if (mf12 > maxmix && !multi_Dflag)
 			maxmix = mf12;
 		m1[count_cells] = 2 * mixf;
 		if (multi_Dflag == TRUE)
 		{
+			m[count_cells] = 2 * mixf;
 			mD = diffc_max * timest / (lav * lav);
 			if (mD > maxmix)
 				maxmix = mD;
@@ -893,8 +894,17 @@ init_mix(void)
 	}
 	else
 	{
-		l_nmix = 1 + (int) floor(1.5 * maxmix);
-
+		if (!multi_Dflag)
+		{
+			l_nmix = 1 + (int) floor(1.5 * maxmix);
+		}
+		else
+		{
+			if ((bcon_first == 1) || (bcon_last == 1))
+				l_nmix = 1 + (int) floor(4.5 * maxmix);
+			else
+				l_nmix = 1 + (int) floor(3.0 * maxmix);
+		}
 		if ((ishift != 0) && ((bcon_first == 1) || (bcon_last == 1)))
 		{
 			if (l_nmix < 2)
@@ -922,9 +932,16 @@ init_mix(void)
 			temp_mix.Set_n_user_end(i);
 
 			temp_mix.Add(i - 1, m[i - 1]);
+			if (multi_Dflag)
+			{
+				temp_mix.Add(i + 1, m[i]);
+				temp_mix.Add(i, 1.0 - m[i - 1] - m[i]);
+			}
+			else
+			{
 			temp_mix.Add(i + 1, m1[i]);
 			temp_mix.Add(i, 1.0 - m[i - 1] - m1[i]);
-
+			}
 			Dispersion_mix_map[i] = temp_mix;
 		}
 	}
