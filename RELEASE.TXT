@@ -1,10 +1,74 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+
+        --------
+        svn 8520
+        --------
+        
+        Changes in MCD to accomodate unequal cell lengths.
+        
+        --------
+        svn 8502
+        --------
+        
+        Modified not to DUMP temporary entities with negative user numbers.        
+
+        --------
+        svn 8484
+        --------
+        
+        Modified to allow diffusion calculations in TRANSPORT with unequal
+        cell lengths.
+
+        --------
+        svn 8469
+        --------
+        
+        Logic for connecting points in USER_GRAPH was revised.
+
+        --------
+        svn 8453
+        --------
+        
+        Error where punch file was deleted twice if there was a Basic error.
+        No longer an error if you try to modify a non-existing entity (SOLUTION,
+        EXCHANGE, etc), only a warning.
+        
+        --------
+        svn 8378
+        --------
+        
+        Removed yellow from colors for graphing; it was sometimes hard to see.
+        Changed Li molar volume in pitzer.dat, Amm.dat, and phreeqc.dat.
+
+        -------------
+        svn 8371-8375
+        -------------
+        
+        Multiple bug fixes pointed out by Marco De-Vroed. Set basic_interpreter 
+        to NULL after deleting. Revised handling of initial data for initial-solution
+        calculations. Revised logic for switching to numerical derivatives for 
+        high-pressure calculations, the variable switch_numerical was removed.
+        
         --------
         svn 8356
         --------
         
         Fixed bug with solution volume in initial solutions
         containing Alkalinity.
+
+        --------
+        svn 8301
+        --------
+
+        Density was not stored with the solution after a calculation.
+        
+        --------
+        svn 8293
+        --------
+        
+        Solution volume was not initialized in zero(), and pressure was not set correctly
+        when mixing solutions.
+        
 
 Version 3.1.1: December 6, 2013
 
