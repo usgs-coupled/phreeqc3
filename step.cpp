@@ -1211,6 +1211,13 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 
 	if (gas_phase_ptr == NULL)
 		return (OK);
+// set gas pressure to reaction_pressure...
+	if (use.Get_pressure_ptr() != NULL && gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
+	{
+		gas_phase_ptr->Set_total_p(patm_x);
+		k_temp(tc_x, patm_x);
+	}
+
 /*
  *   Check that all elements are in solution for phases with zero mass
  */
