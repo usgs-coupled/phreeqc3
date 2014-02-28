@@ -1302,6 +1302,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::map<int, cxxSolution> Rxn_solution_map;
 	std::vector<cxxSolution> unnumbered_solutions;
+	bool save_species;
 
 	/*----------------------------------------------------------------------
 	*   Global solution

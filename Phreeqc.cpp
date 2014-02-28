@@ -389,6 +389,7 @@ void Phreeqc::init(void)
 	*---------------------------------------------------------------------- */
 	// auto Rxn_solution_map;
 	// auto unnumbered_solutions;
+	save_species = false;
 	/*----------------------------------------------------------------------
 	*   Global solution
 	*---------------------------------------------------------------------- */
@@ -1274,6 +1275,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Solution
 	*---------------------------------------------------------------------- */
 	Rxn_solution_map = pSrc->Rxn_solution_map;
+	save_species = pSrc->save_species;
 	// auto Rxn_solution_map;
 	// auto unnumbered_solutions;
 	/*----------------------------------------------------------------------

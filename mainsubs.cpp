@@ -1594,6 +1594,14 @@ xsolution_save(int n_user)
       }
    } 
 #endif 
+   if (this->save_species)
+   {
+	   temp_solution.Get_species_map().clear();
+	   for (int i = 0; i < this->count_s_x; i++)
+	   {
+		   temp_solution.Get_species_map()[s_x[i]->number] = s_x[i]->moles;
+	   }
+   }
 /*
  *   Save solution
  */
