@@ -330,7 +330,8 @@ all: alkalinity.out \
 	modify_ignore.out \
 	connect_graph \
 	varaiable_cell_diffusion.out \
-	no_negative_dump.out
+	no_negative_dump.out \
+	reaction_pressure_gas.out
 
 # NaX.out
 

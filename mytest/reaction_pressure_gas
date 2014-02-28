@@ -1,0 +1,71 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION_MASTER_SPECIES
+    Ar            Ar               0     Ar              39.948
+SOLUTION_SPECIES
+Ar = Ar
+    log_k     0
+PHASES
+Ar(g)
+    Ar = Ar
+    log_k     -2.8587
+    delta_h   -12.0081 kJ
+    -analytical_expression -7.4387 0.0078991 0 0 198300 0
+    -T_c     150.687
+    -P_c     47.994
+    -Omega   0.00
+SOLUTION 1
+    temp      25
+    pH        7 CO2(g) -3.4
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Ar        1 Ar(g)      -2.03152
+    C         1 charge
+    Na        1
+    # Ntg       1 Ntg(g)     -0.10746
+    # Oxg       1 Oxg(g)     -0.67882
+    -water    1 # kg
+END
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 1
+    -volume 1
+    -temperature 25
+    Ar(g)     0.0093
+    CO2(g)    0.00038
+    # Ntg(g)    0.7808
+    # Oxg(g)    0.2095
+USE solution 1
+SAVE solution 1
+SAVE gas_phase 1
+USER_PRINT
+10 print gas_vm
+END
+USE solution 1
+USE gas_phase 1
+REACTION_PRESSURE 
+    100 200
+REACTION 1
+Ar 1; 1
+SAVE gas_phase 2
+END
+SOLUTION 1
+USE gas_phase 2
+END
+SOLUTION 1
+USE gas_phase 2
+REACTION_PRESSURE
+100.
+END
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 150
+    -volume 1
+    -temperature 25
+    Ar(g)     0.0093
+    CO2(g)    0.00038
+    # Ntg(g)    0.7808
+    # Oxg(g)    0.2095
+SOLUTION 1
+END

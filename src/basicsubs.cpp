@@ -922,9 +922,13 @@ find_gas_vm(void)
 			return (0);
 		if (gas_unknown->moles < 1e-12)
 			return (0);
+		gas_phase_ptr->Set_total_moles(gas_unknown->moles);
+		gas_phase_ptr->Set_volume(gas_phase_ptr->Get_total_moles() * R_LITER_ATM * tk_x /
+			gas_phase_ptr->Get_total_p());
+		if (gas_phase_ptr->Get_v_m() >= 0.01)
+			gas_phase_ptr->Set_volume(gas_phase_ptr->Get_v_m() * gas_unknown->moles);
 	}
-	// also for non-PR gas phases...
-	return (gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles());
+	return gas_phase_ptr->Get_volume() / gas_phase_ptr->Get_total_moles();
 }
 
 /* ---------------------------------------------------------------------- */
@@ -3593,9 +3597,6 @@ void Phreeqc::
 basic_free(void)
 {
 	delete this->basic_interpreter;
-   
-   // Reset pointer to make sure we cannot attempt to free it twice (which obviously will result in a crash)
-   this->basic_interpreter = 0;
 }
 
 double Phreeqc::
