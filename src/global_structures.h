@@ -160,7 +160,7 @@
 // Typedefs and structure definitions
 //
 typedef enum { kcal, cal, kjoules, joules } DELTA_H_UNIT;
-typedef enum { cm3_per_mol } DELTA_V_UNIT;
+typedef enum { cm3_per_mol, dm3_per_mol, m3_per_mol } DELTA_V_UNIT;
 enum entity_type
 { Solution, Reaction, Exchange, Surface, Gas_phase, Pure_phase, Ss_phase,
 	Kinetics, Mix, Temperature, Pressure, UnKnown

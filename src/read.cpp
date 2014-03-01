@@ -2987,11 +2987,13 @@ read_phase_vm(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 		{
 			/* Convert dm3/mol to cm3/mol */
 			factor = 1e3;
+			*units = dm3_per_mol;
 		}
 		else if (strstr(token, "m3") != NULL)
 		{
 			/* Convert m3/mol to cm3/mol */
 			factor = 1e6;
+			*units = m3_per_mol;
 		}
 
 		for (int i = 0; i < 1; i++)
