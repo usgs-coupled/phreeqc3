@@ -78,6 +78,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->master_activity            = rhs.master_activity;
 		this->species_gamma              = rhs.species_gamma;
 		this->isotopes                   = rhs.isotopes;
+		this->species_map                = rhs.species_map;
 		if (this->initial_data)
 			delete initial_data;
 		if (rhs.initial_data != NULL)
@@ -1279,6 +1280,21 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->master_activity.add_log_activities(addee.master_activity, f1, f2);
 	this->species_gamma.add_intensive(addee.species_gamma, f1, f2);
 	this->Add_isotopes(addee.isotopes, f2, extensive);
+	{
+		// Add species
+		std::map<int, double>::const_iterator it = addee.species_map.begin();
+		for ( ; it != addee.species_map.end(); it++)
+		{
+			if (this->species_map.find(it->first) != this->species_map.end())
+			{
+				this->species_map[it->first] = this->species_map[it->first] * f1 + it->second * f2;
+			}
+			else
+			{
+				this->species_map[it->first] = it->second;
+			}
+		}
+	}
 }
 
 void
