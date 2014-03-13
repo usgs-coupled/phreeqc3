@@ -295,6 +295,19 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 	s_oss << "-gammas" << "\n";
 	this->species_gamma.dump_raw(s_oss, indent + 2);
 
+	// species_map
+	if (species_map.size() > 0)
+	{
+		s_oss << indent1;
+		s_oss << "-species_map" << "\n";
+		std::map<int, double>::const_iterator it = this->species_map.begin();
+		for ( ; it != species_map.end(); it++)
+		{
+			s_oss << indent2;
+			s_oss << it->first << " " << it->second << "\n";
+		}
+	}
+
 	return;
 }
 
@@ -917,6 +930,33 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
+
+		case 24:				// species_map
+			{
+				int s_num;
+				if (parser.peek_token() != CParser::TT_EMPTY)
+				{
+					if (!(parser.get_iss() >> s_num))
+					{
+						parser.incr_input_error();
+						parser.error_msg("Expected integer for species number.",
+										 PHRQ_io::OT_CONTINUE);
+					}
+					else
+					{
+						double d; 
+						if (!(parser.get_iss() >> d))
+						{
+							parser.incr_input_error();
+							parser.error_msg("Expected double for species concentration.",
+											 PHRQ_io::OT_CONTINUE);
+						}
+						this->species_map[s_num] = d;
+					}
+				}
+				opt_save = 24;
+			}
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1445,6 +1485,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("charge_balance"),	                    // 20
 	std::vector< std::string >::value_type("density"),	                            // 21
 	std::vector< std::string >::value_type("pressure"),	                            // 22
-	std::vector< std::string >::value_type("soln_vol") 	                            // 23
+	std::vector< std::string >::value_type("soln_vol"),	                            // 23
+	std::vector< std::string >::value_type("species_map") 	                        // 24
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
