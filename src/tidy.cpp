@@ -300,24 +300,28 @@ tidy_model(void)
 /*
  *   make sure essential species are defined
  */
-	if (new_model)
+	//if (new_model)
 	{
 		if (s_h2o == NULL)
 		{
 			input_error++;
-			error_msg("H2O not defined.", STOP);
+			//error_msg("H2O not defined.", STOP);
+			error_msg("H2O not defined.", CONTINUE);
 		}
-		if (s_h2o->primary == NULL)
+		else
 		{
-			input_error++;
-			error_msg("H2O, primary master species for O, not defined.",
-				CONTINUE);
-		}
-		if (s_h2o->secondary == NULL)
-		{
-			input_error++;
-			error_msg("H2O, secondary master species for O(-2), not defined.",
-				CONTINUE);
+			if (s_h2o->primary == NULL)
+			{
+				input_error++;
+				error_msg("H2O, primary master species for O, not defined.",
+					CONTINUE);
+			}
+			if (s_h2o->secondary == NULL)
+			{
+				input_error++;
+				error_msg("H2O, secondary master species for O(-2), not defined.",
+					CONTINUE);
+			}
 		}
 		if (s_hplus == NULL && s_h3oplus == NULL)
 		{
