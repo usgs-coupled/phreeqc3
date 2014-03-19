@@ -109,6 +109,8 @@ pitzer_tidy(void)
 			continue;
 		if (s[i] == s_h2o)
 			continue;
+		if (s[i]->type == EX || s[i]->type == SURF) 
+			continue;
 		if (s[i]->z < -.001)
 		{
 			anions[count_anions++] = s[i];
@@ -538,6 +540,28 @@ pitzer_tidy(void)
 	   }
 	   }
 	 */
+	/* remake map */
+	{
+		pitz_param_map.clear();
+		for (size_t j = 0; j < count_pitz_param; j++)
+		{	
+			std::set< std::string > header;
+			for (int i = 0; i < 3; i++)
+			{
+				if (pitz_params[j]->species[i] != NULL) header.insert(pitz_params[j]->species[i]);
+			}
+			std::ostringstream key_str;
+			key_str << pitz_params[j]->type << " ";
+			std::set< std::string >::iterator it = header.begin();
+			for(; it != header.end(); ++it)
+			{
+				key_str << *it << " ";
+			}
+			std::string key = key_str.str().c_str();
+			pitz_param_map[key] = j;
+		}
+		assert ((int) pitz_param_map.size() == count_pitz_param);
+	}
 	return OK;
 }
 
