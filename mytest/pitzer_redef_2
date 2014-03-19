@@ -1,0 +1,37 @@
+DATABASE ../database/pitzer.dat
+SOLUTION_MASTER_SPECIES
+Al		Al+3	0	Al		26.9815
+SOLUTION_SPECIES
+Al+3 = Al+3
+	-dw	 0.559e-9
+	-Vm   -2.28  -17.1  10.9  -2.07  2.87  9  0  0  5.5e-3  1 # ref. 2 and Barta and Hepler, 1986, Can. J.C. 64, 353.
+# Al+3 + H2O = AlOH+2 + H+
+	# -log_k	-5.0
+	# -delta_h 11.49	kcal
+	# -analytic	-38.253	0.0	-656.27	14.327
+	# -Vm   -1.46  -11.4  10.2  -2.31  1.67  5.4  0  0  0  1  # ref. 2 and Barta and Hepler, 1986, Can. J. Chem. 64, 353.
+USER_GRAPH 2
+-axis_titles "AlCl3 / (mol/kgw)" "osmotic"
+-connect_simulations false
+10 graph_x tot("Al") : graph_y osmotic
+-end
+
+PITZER
+-B0
+ Al+3    Cl-   0.7346  2.109e3  0  2.011e-2
+SOLUTION 1
+REACTION 1
+AlCl3 1; 1
+END
+
+PITZER
+-B0
+ Al+3    Cl-   0.7346  2.109e3  0  2.011e-2
+USE solution 1; USE reaction 1 # Not OK
+END
+
+PITZER
+-B0
+ Al+3    Cl-   0.7346  2.109e3  0  2.011e-2
+USE solution 1; USE reaction 1 # Not OK
+END

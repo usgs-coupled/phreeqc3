@@ -1,0 +1,367 @@
+   Input file: pitzer_redef_2
+  Output file: pitzer_redef_2.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SOLUTION_MASTER_SPECIES
+	Al		Al+3	0	Al		26.9815
+	SOLUTION_SPECIES
+	Al+3 = Al+3
+		dw	 0.559e-9
+		vm   -2.28  -17.1  10.9  -2.07  2.87  9  0  0  5.5e-3  1 # ref. 2 and Barta and Hepler, 1986, Can. J.C. 64, 353.
+	USER_GRAPH 2
+	-axis_titles "AlCl3 / (mol/kgw)" "osmotic"
+	-connect_simulations false
+	10 graph_x tot("Al") : graph_y osmotic
+	-end
+	PITZER
+	b0
+	 Al+3    Cl-   0.7346  2.109e3  0  2.011e-2
+	SOLUTION 1
+	REACTION 1
+	AlCl3 1
+	 1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (µS/cm, 25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.006e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.216e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.216e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   3
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99988
+                         Density of water  =   0.99704
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           -1.50     -0.00    1.50  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	AlCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	Cl                   3.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.000e+00   1.000e+00
+	Cl                3.000e+00   3.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.490      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 80640
+                          Density (g/cm³)  =   1.10510
+                               Volume (L)  =   1.02555
+                        Activity of water  =   0.906
+                           Ionic strength  =   6.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.216e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.216e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.37168
+                         Density of water  =   0.99704
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.720e-07   2.835e-08    -6.565    -7.548    -0.982      4.71
+   H+              2.708e-07   3.235e-07    -6.567    -6.490     0.077      0.00
+   H2O             5.551e+01   9.059e-01     1.744    -0.043     0.000     18.07
+Al            1.000e+00
+   Al+3            1.000e+00   3.462e-02     0.000    -1.461    -1.461    -37.70
+Cl            3.000e+00
+   Cl-             3.000e+00   1.834e+00     0.477     0.263    -0.214     20.09
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           -1.55     -0.04    1.50  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	PITZER
+	b0
+	 Al+3    Cl-   0.7346  2.109e3  0  2.011e-2
+WARNING: Redefinition of parameter, Al+3 Cl-
+
+	USE solution 1
+	 USE reaction 1 # Not OK
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	AlCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	Cl                   3.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.000e+00   1.000e+00
+	Cl                3.000e+00   3.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.490      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 80640
+                          Density (g/cm³)  =   1.10510
+                               Volume (L)  =   1.02555
+                        Activity of water  =   0.906
+                           Ionic strength  =   6.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.216e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.216e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.37168
+                         Density of water  =   0.99704
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.720e-07   2.835e-08    -6.565    -7.548    -0.982      4.71
+   H+              2.708e-07   3.235e-07    -6.567    -6.490     0.077      0.00
+   H2O             5.551e+01   9.059e-01     1.744    -0.043     0.000     18.07
+Al            1.000e+00
+   Al+3            1.000e+00   3.462e-02     0.000    -1.461    -1.461    -37.70
+Cl            3.000e+00
+   Cl-             3.000e+00   1.834e+00     0.477     0.263    -0.214     20.09
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           -1.55     -0.04    1.50  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	PITZER
+	b0
+	 Al+3    Cl-   0.7346  2.109e3  0  2.011e-2
+WARNING: Redefinition of parameter, Al+3 Cl-
+
+	USE solution 1
+	 USE reaction 1 # Not OK
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	AlCl3                1.00000
+
+	                 Relative
+	Element             moles
+	Al                   1.00000
+	Cl                   3.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.000e+00   1.000e+00
+	Cl                3.000e+00   3.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.490      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 80640
+                          Density (g/cm³)  =   1.10510
+                               Volume (L)  =   1.02555
+                        Activity of water  =   0.906
+                           Ionic strength  =   6.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.216e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.216e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  17
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   1.37168
+                         Density of water  =   0.99704
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.720e-07   2.835e-08    -6.565    -7.548    -0.982      4.71
+   H+              2.708e-07   3.235e-07    -6.567    -6.490     0.077      0.00
+   H2O             5.551e+01   9.059e-01     1.744    -0.043     0.000     18.07
+Al            1.000e+00
+   Al+3            1.000e+00   3.462e-02     0.000    -1.461    -1.461    -37.70
+Cl            3.000e+00
+   Cl-             3.000e+00   1.834e+00     0.477     0.263    -0.214     20.09
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           -1.55     -0.04    1.50  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+-------------------------------
+End of Run after 1.473 Seconds.
+-------------------------------
+
