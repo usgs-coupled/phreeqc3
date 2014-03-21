@@ -73,6 +73,8 @@ sit_tidy(void)
 			continue;
 		if (s[i] == s_h2o)
 			continue;
+		if (s[i]->type == EX || s[i]->type == SURF) 
+			continue;
 		if (s[i]->z < -.001)
 		{
 			anions[sit_count_anions++] = s[i];
@@ -112,6 +114,27 @@ sit_tidy(void)
 				error_msg(error_string, CONTINUE);
 			}
 		}
+	}	/* remake map */
+	{
+		sit_param_map.clear();
+		for (int j = 0; j < count_sit_param; j++)
+		{	
+			std::set< std::string > header;
+			for (int i = 0; i < 3; i++)
+			{
+				if (sit_params[j]->species[i] != NULL) header.insert(sit_params[j]->species[i]);
+			}
+			std::ostringstream key_str;
+			key_str << sit_params[j]->type << " ";
+			std::set< std::string >::iterator it = header.begin();
+			for(; it != header.end(); ++it)
+			{
+				key_str << *it << " ";
+			}
+			std::string key = key_str.str().c_str();
+			sit_param_map[key] = j;
+		}
+		assert ((int) sit_param_map.size() == count_sit_param);
 	}
 	if (get_input_errors() > 0) return (ERROR);
 	return OK;
