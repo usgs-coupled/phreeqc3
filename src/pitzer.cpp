@@ -543,7 +543,7 @@ pitzer_tidy(void)
 	/* remake map */
 	{
 		pitz_param_map.clear();
-		for (size_t j = 0; j < count_pitz_param; j++)
+		for (int j = 0; j < count_pitz_param; j++)
 		{	
 			std::set< std::string > header;
 			for (int i = 0; i < 3; i++)
