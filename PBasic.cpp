@@ -133,7 +133,8 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 				else
 				{
-					putchar('\n');
+					/*    putchar('\n');*/
+					output_msg("\n");
 				}
 			}
 		}
@@ -213,7 +214,8 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			else
 			{
-				putchar('\n');
+				/*    putchar('\n');*/
+				output_msg("\n");
 			}
 		}
 	}
@@ -284,7 +286,8 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 			}
 			else
 			{
-				putchar('\n');
+				/*    putchar('\n');*/
+				output_msg("\n");
 			}
 		}
 	}
@@ -352,7 +355,8 @@ basic_main(char *commands)
 			}
 			else
 			{
-				putchar('\n');
+				/*    putchar('\n');*/
+				output_msg("\n");
 			}
 		}
 	}
