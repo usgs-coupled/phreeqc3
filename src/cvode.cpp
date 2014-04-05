@@ -516,12 +516,16 @@ CVodeMalloc(integertype N, RhsFn f, realtype t0, N_Vector y0,
 	booleantype allocOK, ioptExists, roptExists, neg_abstol, ewtsetOK;
 	int maxord;
 	CVodeMem cv_mem;
+#if !defined(R_SO)
 	FILE *fp;
+#endif
 	int i, k;
 
 	/* Check for legal input parameters */
 
+#if !defined(R_SO)
 	fp = (errfp == NULL) ? stdout : errfp;
+#endif
 
 	if (y0 == NULL)
 	{
@@ -659,7 +663,9 @@ CVodeMalloc(integertype N, RhsFn f, realtype t0, N_Vector y0,
 	cv_mem->cv_optIn = optIn;
 	cv_mem->cv_iopt = iopt;
 	cv_mem->cv_ropt = ropt;
+#if !defined(R_SO)
 	cv_mem->cv_errfp = fp;
+#endif
 	tn = t0;
 	machenv = machEnv;
 
@@ -789,11 +795,14 @@ CVReInit(void *cvode_mem, RhsFn f, realtype t0, N_Vector y0,
 	booleantype ioptExists, roptExists, neg_abstol, ewtsetOK;
 	int maxord, i, k;
 	CVodeMem cv_mem;
+#if !defined(R_SO)
 	FILE *fp;
-
+#endif
 	/* Check for legal input parameters */
 
+#if !defined(R_SO)
 	fp = (errfp == NULL) ? stdout : errfp;
+#endif
 
 	if (cvode_mem == NULL)
 	{
@@ -916,7 +925,9 @@ CVReInit(void *cvode_mem, RhsFn f, realtype t0, N_Vector y0,
 	cv_mem->cv_optIn = optIn;
 	cv_mem->cv_iopt = iopt;
 	cv_mem->cv_ropt = ropt;
+#if !defined(R_SO)
 	cv_mem->cv_errfp = fp;
+#endif
 	tn = t0;
 	machenv = machEnv;
 
@@ -3079,7 +3090,9 @@ CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr, int *kflagPtr,
 		CVMEM warning_msg("CVDoErrorTest");
 		/*exit(8); */
 		CVMEM error_msg("CVDoErrorTest", 1 /* STOP */ );
+#if !defined(R_SO)
 		exit(4);
+#endif
 	}
 	nfe++;
 	N_VScale(h, tempv, zn[1]);

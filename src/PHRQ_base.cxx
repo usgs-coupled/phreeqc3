@@ -35,8 +35,10 @@ error_msg(const std::string & stdstr, int stop)
 	}
 	else
 	{
+#if !defined(R_SO)
 		std::cerr << msg.str().c_str();
 		std::cout << msg.str().c_str();
+#endif
 	}
 	if (stop != 0)
 	{
@@ -53,8 +55,10 @@ warning_msg(const std::string & stdstr)
 	}
 	else
 	{
+#if !defined(R_SO)
 		std::cerr << stdstr << "\n";
 		std::cout << stdstr << "\n";
+#endif
 	}
 }
 
@@ -67,7 +71,9 @@ output_msg(const std::string & stdstr)
 	}
 	else
 	{
+#if !defined(R_SO)
 		std::cout << stdstr << "\n";
+#endif
 	}
 }
 
@@ -80,7 +86,9 @@ screen_msg(const std::string & stdstr)
 	}
 	else
 	{
+#if !defined(R_SO)
 		std::cerr << stdstr << "\n";
+#endif
 	}
 }
 
@@ -93,6 +101,8 @@ echo_msg(const std::string & stdstr)
 	}
 	else
 	{
+#if !defined(R_SO)
 		std::cout << stdstr << "\n";
+#endif
 	}
 }

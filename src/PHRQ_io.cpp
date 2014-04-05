@@ -177,13 +177,17 @@ error_open(const char *file_name, std::ios_base::openmode mode)
 	{
 		if (!ofstream_open(&error_ostream, file_name, mode))
 		{
+#if !defined(R_SO)
 			error_ostream = &std::cerr;
+#endif
 			return false;
 		}
 	}
 	else
 	{
+#if !defined(R_SO)
 		error_ostream = &std::cerr;
+#endif
 	}
 	return true;
 }
@@ -572,9 +576,12 @@ void PHRQ_io::
 safe_close(std::ostream **stream_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	if (*stream_ptr != &std::cerr &&
+	if (
+#if !defined(R_SO)
+		*stream_ptr != &std::cerr &&
 		*stream_ptr != &std::cout &&
 		*stream_ptr != &std::clog &&
+#endif
 		*stream_ptr != NULL)
 	{
 		delete *stream_ptr;
@@ -585,10 +592,13 @@ void PHRQ_io::
 safe_close(FILE **file_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	if (*file_ptr != NULL &&
+	if (
+#if !defined(R_SO)
 		*file_ptr != stderr &&
 		*file_ptr != stdout &&
-		*file_ptr != stdin )
+		*file_ptr != stdin &&
+#endif
+		*file_ptr != NULL)
 	{
 		fclose(*file_ptr);
 		*file_ptr = NULL;

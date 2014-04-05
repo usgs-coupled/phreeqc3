@@ -706,7 +706,9 @@
 
 		/* Error File */
 
+#if !defined(R_SO)
 		FILE *cv_errfp;			/* CVODE error messages are sent to errfp */
+#endif
 
 		/* Pointer to Machine Environment-Specific Information */
 

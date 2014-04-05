@@ -247,7 +247,11 @@ RESTART:   // if limiting rates, jump to here
 	}
 	if (count > 2)
 	{
+#if !defined(R_SO)
 		fprintf(stderr, "Too many limit_rates-.\n");
+#else
+		error_msg("Too many limit_rates-.\n");
+#endif
 	}
 	else
 	{
@@ -256,7 +260,11 @@ RESTART:   // if limiting rates, jump to here
 	}
 	if (count > 2)
 	{
+#if !defined(R_SO)
 		fprintf(stderr, "Too many limit_rates+.\n");
+#else
+		error_msg("Too many limit_rates+.\n");
+#endif
 	}
 	return (OK);
 }
