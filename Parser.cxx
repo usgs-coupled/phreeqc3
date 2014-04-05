@@ -651,7 +651,9 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 	std::string::iterator opt_ptr;
 	std::string option;
 
+#if !defined(R_SO)
 	fprintf(stderr, "Did not think this get_option was called\n");
+#endif
 	//
 	// Read line
 	//
@@ -728,7 +730,9 @@ CParser::get_option(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// database_file == NULL
 			{
+#if !defined(R_SO)
 				std::cout << "\t" << m_line_save << "\n";
+#endif
 			}
 		}
 	}
@@ -1098,7 +1102,9 @@ CParser::getOptionFromLastLine(const std::vector < std::string > &opt_list,
 		{
 			if (true)			// database_file == NULL
 			{
+#if !defined(R_SO)
 				std::cout << "\t" << m_line_save << "\n";
+#endif
 			}
 		}
 	}

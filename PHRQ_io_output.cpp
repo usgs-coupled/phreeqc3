@@ -207,7 +207,9 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 	try {
 		if (phrq_io == NULL) 
 		{
+#if !defined(R_SO)
 			std::cerr << "No PHRQ_io output handler defined in process_file_names" << "\n";
+#endif
 		}
 /*
  *   Prep for get_line
@@ -404,7 +406,9 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 	try {
 		if (phrq_io == NULL) 
 		{
+#if !defined(R_SO)
 			std::cerr << "No PHRQ_io output handler defined in process_file_names" << "\n";
+#endif
 		}
 /*
  *   Prep for get_line
@@ -599,10 +603,12 @@ open_input_stream(char *query, char *default_name, std::ios_base::openmode mode,
 		strcpy(name, default_name);
 		if (!batch )
 		{
+#if !defined(R_SO)
 #ifdef ERROR_OSTREAM
 			phrq_io->Set_error_ostream(&std::cerr);
 #else
 			phrq_io->Set_error_file(stderr);
+#endif
 #endif
 			screen_msg(sformatf("%s\n", query));
 			if (default_name[0] != '\0')
@@ -623,10 +629,12 @@ open_input_stream(char *query, char *default_name, std::ios_base::openmode mode,
 		new_stream = new std::ifstream(name, mode);
 		if (new_stream == NULL || !new_stream->is_open())
 		{
+#if !defined(R_SO)
 #ifdef ERROR_OSTREAM
 			phrq_io->Set_error_ostream(&std::cerr);
 #else
 			phrq_io->Set_error_file(stderr);
+#endif
 #endif
 			error_string = sformatf( "\nERROR: Cannot open file, %s.\n", name);
 			screen_msg(error_string);
@@ -674,10 +682,12 @@ open_output_stream(char *query, char *default_name, std::ios_base::openmode mode
 		strcpy(name, default_name);
 		if (!batch )
 		{
+#if !defined(R_SO)
 #ifdef ERROR_OSTREAM
 			phrq_io->Set_error_ostream(&std::cerr);
 #else
 			phrq_io->Set_error_file(stderr);
+#endif
 #endif
 			
 			screen_msg(sformatf("%s\n", query));
@@ -699,10 +709,12 @@ open_output_stream(char *query, char *default_name, std::ios_base::openmode mode
 		new_stream = new std::ofstream(name, mode);
 		if (new_stream == NULL || !new_stream->is_open())
 		{
+#if !defined(R_SO)
 #ifdef ERROR_OSTREAM
 			phrq_io->Set_error_ostream(&std::cerr);
 #else
 			phrq_io->Set_error_file(stderr);
+#endif
 #endif
 			error_string = sformatf( "\nERROR: Cannot open file, %s.\n", name);
 			screen_msg(error_string);
@@ -747,10 +759,12 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 		strcpy(name, default_name);
 		if (!batch )
 		{
+#if !defined(R_SO)
 #ifdef ERROR_OSTREAM
 			phrq_io->Set_error_ostream(&std::cerr);
 #else
 			phrq_io->Set_error_file(stderr);
+#endif
 #endif
 			screen_msg(sformatf("%s\n", query));
 			if (default_name[0] != '\0')
@@ -771,10 +785,12 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 		new_stream = new std::ofstream(name, mode);
 		if (new_stream == NULL || !new_stream->is_open())
 		{
+#if !defined(R_SO)
 #ifdef ERROR_OSTREAM
 			phrq_io->Set_error_ostream(&std::cerr);
 #else
 			phrq_io->Set_error_file(stderr);
+#endif
 #endif
 			
 			error_string = sformatf( "\nERROR: Cannot open file, %s.\n", name);
