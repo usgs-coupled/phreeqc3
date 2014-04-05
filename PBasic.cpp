@@ -4063,7 +4063,8 @@ cmdload(bool merging, char * name, struct LOC_exec *LINK)
 		parseinput(&l_buf);
 		if (curline == 0)
 		{
-			printf("Bad line in file\n");
+			/*      printf("Bad line in file\n"); */
+			output_msg("Bad line in file\n");
 			disposetokens(&l_buf);
 		}
 	}
@@ -4359,8 +4360,9 @@ cmdrenum(struct LOC_exec *LINK)
 						l1 = l1->next;
 					if (l1 == NULL)
 					{
-						printf("Undefined line %ld in line %ld\n", lnum,
-							   l->num2);
+						/*      printf("Undefined line %ld in line %ld\n", lnum,
+							   l->num2); */
+						output_msg(PhreeqcPtr->sformatf("Undefined line %ld in line %ld\n", lnum, l->num2));
 					}
 					else
 					{
