@@ -98,7 +98,7 @@ class cxxStorageBin: public PHRQ_base
 	void read_raw(CParser & parser);
 	int read_raw_keyword(CParser & parser);
 
-	//void add(struct system *sys_ptr);
+	void Add(cxxStorageBin &src, int n);
 
 	//cxxSolution *mix_cxxSolutions(cxxMix &mixmap);
 	cxxExchange *mix_cxxExchange(cxxMix & mixmap);

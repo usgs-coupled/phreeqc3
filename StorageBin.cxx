@@ -117,6 +117,75 @@ cxxStorageBin::~cxxStorageBin()
 {
 }
 void
+cxxStorageBin::Add(cxxStorageBin &src, int n)
+{
+	// Solution
+	if (src.Get_Solution(n) != NULL)
+	{
+		this->Set_Solution(n, src.Get_Solution(n));
+	}
+
+	// Exchange
+	if (src.Get_Exchange(n) != NULL)
+	{
+		this->Set_Exchange(n, src.Get_Exchange(n));
+	}
+
+	// gas_phase
+	if (src.Get_GasPhase(n) != NULL)
+	{
+		this->Set_GasPhase(n, src.Get_GasPhase(n));
+	}
+
+	// kinetics
+	if (src.Get_Kinetics(n) != NULL)
+	{
+		this->Set_Kinetics(n, src.Get_Kinetics(n));
+	}
+
+	// pp_assemblage
+	if (src.Get_PPassemblage(n) != NULL)
+	{
+		this->Set_PPassemblage(n, src.Get_PPassemblage(n));
+	}
+
+	// ss_assemblage
+	if (src.Get_SSassemblage(n) != NULL)
+	{
+		this->Set_SSassemblage(n, src.Get_SSassemblage(n));
+	}
+
+	// surface
+	if (src.Get_Surface(n) != NULL)
+	{
+		this->Set_Surface(n, src.Get_Surface(n));
+	}
+
+	// mix
+	if (src.Get_Mix(n) != NULL)
+	{
+		this->Set_Mix(n, src.Get_Mix(n));
+	}
+
+	// reaction
+	if (src.Get_Reaction(n) != NULL)
+	{
+		this->Set_Reaction(n, src.Get_Reaction(n));
+	}
+
+	// reaction temperature
+	if (src.Get_Temperature(n) != NULL)
+	{
+		this->Set_Temperature(n, src.Get_Temperature(n));
+	}
+
+	// reaction pressure
+	if (src.Get_Pressure(n) != NULL)
+	{
+		this->Set_Pressure(n, src.Get_Pressure(n));
+	}
+}
+void
 cxxStorageBin::Copy(int destination, int source)
 {
 	if (destination == source)
