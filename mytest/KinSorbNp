@@ -1,0 +1,223 @@
+DATABASE ../database/phreeqc.dat
+# Kinetic sorption of Np compare to equilibrium calculation
+# with identical element [Np]
+SOLUTION_MASTER_SPECIES
+   Np            NpO2+2         0            Np             237.048 
+   
+SOLUTION_SPECIES
++1.000NpO2+2          = NpO2+2
+     log_k     0            #
+     
++1.000NpO2+2     +1.000e-          = NpO2+
+     log_k     19.59        #
+     delta_h  -117.448      kJ/mol        #
+     # Enthalpy of formation:             -978.181      kJ/mol        01LEM/FUG
+
++1.000NpO2+     -1.000H+     +1.000H2O          = NpO2(OH)
+    log_k    -8.90         #WANG et al.
+   delta_h   64.785       kJ/mol        #
+     #Enthalpy of formation:             -1199.226     kJ/mol        
+
+
++1.000NpO2+     +1.000CO3-2          = NpO2(CO3)-
+     log_k     4.6         #WANG et al.
+   delta_h   59.904       kJ/mol        #
+      #Enthalpy of formation:             -1593.507     kJ/mol        
+
+
++1.000NpO2+     +2.000CO3-2          = NpO2(CO3)2-3
+     log_k     7.0         #WANG et al.
+     delta_h   39.027       kJ/mol        #
+      #Enthalpy of formation:             -2289.614     kJ/mol        
+
+
++1.000NpO2+     +3.000CO3-2          = NpO2(CO3)3-5
+  log_k     8.5          #WANG et al.
+     delta_h  -13.249       kJ/mol        #
+      #Enthalpy of formation:             -3017.12      kJ/mol        01LEM/FUG
+
+# [Np] definition	
+SOLUTION_MASTER_SPECIES
+   [Np]            [Np]O2+2         0            [Np]             237.048 
+   
+SOLUTION_SPECIES
++1.000[Np]O2+2          = [Np]O2+2
+     log_k     0            #
+     
++1.000[Np]O2+2     +1.000e-          = [Np]O2+
+     log_k     19.59        #
+     delta_h  -117.448      kJ/mol        #
+     # Enthalpy of formation:             -978.181      kJ/mol        01LEM/FUG
+
++1.000[Np]O2+     -1.000H+     +1.000H2O          = [Np]O2(OH)
+    log_k    -8.90         #WANG et al.
+   delta_h   64.785       kJ/mol        #
+     #Enthalpy of formation:             -1199.226     kJ/mol        
+
+
++1.000[Np]O2+     +1.000CO3-2          = [Np]O2(CO3)-
+     log_k     4.6         #WANG et al.
+   delta_h   59.904       kJ/mol        #
+      #Enthalpy of formation:             -1593.507     kJ/mol        
+
+
++1.000[Np]O2+     +2.000CO3-2          = [Np]O2(CO3)2-3
+     log_k     7.0         #WANG et al.
+     delta_h   39.027       kJ/mol        #
+      #Enthalpy of formation:             -2289.614     kJ/mol        
+
+
++1.000[Np]O2+     +3.000CO3-2          = [Np]O2(CO3)3-5
+  log_k     8.5          #WANG et al.
+     delta_h  -13.249       kJ/mol        #
+      #Enthalpy of formation:             -3017.12      kJ/mol        01LEM/FUG
+
+# Surface species
+SURFACE_MASTER_SPECIES
+    Hfo_s       Hfo_sOH
+ 
+SURFACE_SPECIES
+Hfo_sOH = Hfo_sOH
+    log_k     0
+H+ + Hfo_sOH = Hfo_sOH2+
+    log_k     7.29
+Hfo_sOH = Hfo_sO- + H+
+    log_k     -8.93
+H2O + Hfo_sOH + [Np]O2+ = Hfo_sOH[Np]O3- + 2H+
+    log_k     -11.26
+ 
+PHASES
+Fix_H+
+H+ = H+
+-log_k 0.0
+ 
+Fix_pe
+e- = e-
+log_k  0.0
+
+EQUILIBRIUM_PHASES 1
+Fix_H+	-9.7 NaOH	10
+Fix_pe	-3.41 O2(g)	10
+
+END
+SOLUTION 0
+    pH        9.7
+    pe        3.41
+    Na	  1 charge
+END
+SURFACE 1
+-site_units density
+-no_edl
+#Hfo_s 2.31e-11 600 1e-8
+ Hfo_s 2.31 600 1e-3
+ -equil 0
+END
+ 
+RATES
+    kin_surfs_Np
+-start
+#10 Boltzm = exp(-38.924 * edl("Psi"))
+#12 put(Boltzm, 99)
+20 r_f = kin("kin_surfs_oh") * act("NpO2+") #* Boltzm
+30 r_b = m / (10^-11.26) * act("H+") * act("H+")
+40 moles = parm(1) * (r_f - r_b) * time
+50 put(moles, 1)
+60 save -moles
+#70 PRINT "kin_surfs_Np", - moles
+-end
+    kin_surfs_h
+-start
+#10 Boltzm = get(99)
+20 r_f = kin("kin_surfs_oh") * act("H+") #* Boltzm
+30 r_b = m / (10^7.29)
+40 moles = parm(1) * (r_f - r_b) * time
+50 put(moles, 2)
+60 save -moles
+#70 PRINT "kin_surfs_h", - moles
+-end
+    kin_surfs_o
+-start
+#10 Boltzm = get(99)
+20 r_f = kin("kin_surfs_oh")
+30 r_b = m / (10^-8.93) * act("H+")# * Boltzm
+40 moles = parm(1) * (r_f - r_b) * time
+50 put(-moles, 3)
+60 save -moles
+#70 PRINT "kin_surfs_o", - moles
+-end
+    kin_surfs_oh
+-start
+10 r = get(1) + get(2) - get(3)
+20 moles = m - r
+40 save m - moles
+#50 PRINT "kin_surfs_oh", m - moles
+-end
+ 
+KINETICS  1
+kin_surfs_Np
+	-formula NpO3 1.  
+	-m0         0       
+	-parm   1.0000000E+04 #0         -parm  5e2 
+kin_surfs_o
+	-formula H -1.        
+	-m0         2.752e-07
+	-parm   1.0000000E+04 #1.82e-4;  -parm  5e2
+kin_surfs_h
+	-formula H  +1.        
+	-m0         2.597e-07
+	-parm   1.0000000E+04 #1.82e-4;  -parm  5e2
+kin_surfs_oh
+	-formula OH 0.        
+	-m0         1.766e-06;					     #0
+-step 1 3 10 30 100 300 1000 3000 10000 30000 100000 
+-cvode true
+END 
+
+INCREMENTAL_REACTIONS true
+ 
+USE equilibrium_phases 1
+USE kinetics 1
+USE surface 1
+ 
+SOLUTION 1 #RN cocktail
+    temp      25 #use default due to enthalpy
+    pH        9.7
+    pe        3.41
+    redox     pe
+    units     mg/l
+    density   1
+    A  	  1.25e-006 Mol/l
+    C         3 as HCO3
+    Na        53.7 charge
+    Np        1.25e-06 Mol/l
+    [Np]        1.25e-06 Mol/l
+     -water   1 # kg
+
+USER_GRAPH 1
+    -headings               Time Kin(Np) Kin(O) Kin(H) Kin(OH) MOL(Hfo[Np])
+    -axis_titles            "Time, in seconds" "Kinetic Reactant, in moles" ""
+    -axis_scale x_axis      auto auto auto auto log
+    -axis_scale y_axis      auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 graph_x sim_time
+20 graph_y KIN("kin_surfs_Np"), KIN("kin_surfs_o"), KIN("kin_surfs_h"), KIN("kin_surfs_oh")
+30 graph_Y MOL("Hfo_sOH[Np]O3-") * TOT("water")
+  -end
+    -active                 true
+
+USER_PRINT
+10 PRINT "Np       ", -11.26, log10( KIN("kin_surfs_Np") * act("H+")^2 / (KIN("kin_surfs_oh") * act("NpO2+") * act("H2O")) ) 
+20 PRINT "O        ", -8.93,  log10( KIN("kin_surfs_o") * act("H+") / KIN("kin_surfs_oh") ) 
+30 PRINT "OH       ", 7.29,   log10( KIN("kin_surfs_h") / (KIN("kin_surfs_oh") * act("H+"))  ) 
+40 PRINT "Surf     ", 2.301e-06, KIN("kin_surfs_oh") + KIN("kin_surfs_h")  + KIN("kin_surfs_o")  + KIN("kin_surfs_Np") 
+50 PRINT "Tot Np   ", 1.250e-06, TOT("Np") * TOT("water") + KIN("kin_surfs_Np")
+100 PRINT
+110 PRINT "Hfo Np   ", -11.26, log10( MOL("Hfo_sOH[Np]O3-") * act("H+")^2 / (MOL("Hfo_sOH") * act("[Np]O2+") * act("H2O")) ) 
+120 PRINT "Hfo O    ", -8.93,  log10( MOL("Hfo_sO-") * act("H+") / MOL("Hfo_sOH") ) 
+130 PRINT "Hfo OH   ", 7.29,   log10( MOL("Hfo_sOH2+") / (MOL("Hfo_sOH") * act("H+"))  ) 
+140 PRINT "Hfo      ", 2.301e-06, (MOL("Hfo_sOH") + MOL("Hfo_sOH2+")  + MOL("Hfo_sO-")  + MOL("Hfo_sOH[Np]O3-")) * TOT("Water") 
+150 PRINT "Tot [Np] ", 1.250e-06, (TOT("[Np]") + MOL("Hfo_sOH[Np]O3-")) * TOT("Water")
+END

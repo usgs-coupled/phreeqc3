@@ -332,7 +332,8 @@ all: alkalinity.out \
 	varaiable_cell_diffusion.out \
 	no_negative_dump.out \
 	reaction_pressure_gas.out \
-	pitzer_redef_2.out
+	pitzer_redef_2.out \
+	KinSorbNp.out
 
 # NaX.out
 
