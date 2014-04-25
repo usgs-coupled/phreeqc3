@@ -36,7 +36,7 @@ cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 	pr_in = false;
 	temperature = 298.15;
 }
-
+#ifdef SKIP
 cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 		cxxMix & mx, int l_n_user, PHRQ_io * io)
 : cxxNumKeyword(io)
@@ -86,6 +86,90 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 			this->total_p += entity_ptr->total_p * it->second;
 			this->volume += entity_ptr->volume * it->second;
 			this->v_m += entity_ptr->v_m * it->second;
+		}
+		cxxGasPhase *gas_phase_ptr = Utilities::Rxn_find(entity_map, it->first);
+		if (gas_phase_ptr)
+		{
+			std::vector<cxxGasComp> add_comps = gas_phase_ptr->Get_gas_comps();
+			for (size_t i = 0; i < add_comps.size(); i++)
+			{
+				comp_it = comp_map.find(add_comps[i].Get_phase_name());
+				if (comp_it != comp_map.end())
+				{
+					comp_it->second.add(add_comps[i], it->second);
+				}
+				else
+				{
+					cxxGasComp gc(add_comps[i]);
+					gc.multiply(it->second);
+					comp_map[add_comps[i].Get_phase_name()] = gc;
+				}
+			}
+
+		}
+	}
+
+	// put map into vector
+	this->gas_comps.clear();
+	std::vector<cxxGasComp> gc;
+	for (comp_it = comp_map.begin(); comp_it != comp_map.end(); comp_it++)
+	{
+		this->gas_comps.push_back(comp_it->second);
+	}
+}
+#endif
+cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
+		cxxMix & mx, int l_n_user, PHRQ_io * io)
+: cxxNumKeyword(io)
+{
+	this->n_user = this->n_user_end = l_n_user;
+	total_p = 0;
+	volume = 0;
+	v_m = 0;
+	pr_in = false;
+	bool first = true;
+//
+//   Mix
+//
+	// accumulate in map
+	std::map<std::string, cxxGasComp> comp_map;
+	std::map<std::string, cxxGasComp>::iterator comp_it;
+
+	const std::map < int, LDBLE > & mixcomps = mx.Get_mixComps();
+	std::map < int, LDBLE >::const_iterator it;
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
+	{
+		if (entity_map.find(it->first) != entity_map.end())
+		{
+			const cxxGasPhase *entity_ptr =	&(entity_map.find(it->first)->second);
+			if (first)
+			{
+				this->new_def = entity_ptr->new_def;
+				this->solution_equilibria = entity_ptr->solution_equilibria;
+				this->n_solution = entity_ptr->n_solution;
+				this->type = entity_ptr->type;
+				this->total_p = entity_ptr->total_p * it->second;
+				this->total_moles = entity_ptr->total_moles * it->second;
+				this->volume = entity_ptr->volume * it->second;
+				this->v_m = entity_ptr->v_m * it->second;
+				this->pr_in = entity_ptr->pr_in;
+				this->temperature = entity_ptr->temperature;
+				first = false;
+			}
+			else
+			{
+				if (this->type != entity_ptr->type)
+				{
+					std::ostringstream oss;
+					oss << "Cannot mix two gas_phases with differing types.";
+					error_msg(oss.str().c_str(), CONTINUE);
+					return;
+				}
+
+				this->total_p += entity_ptr->total_p * it->second;
+				this->volume += entity_ptr->volume * it->second;
+				this->v_m += entity_ptr->v_m * it->second;
+			}
 		}
 		cxxGasPhase *gas_phase_ptr = Utilities::Rxn_find(entity_map, it->first);
 		if (gas_phase_ptr)
