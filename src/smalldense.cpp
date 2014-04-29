@@ -257,6 +257,7 @@ denprint(realtype ** a, integertype n)
 {
 	integertype i, j;
 
+#if !defined(R_SO)
 	printf("\n");
 	for (i = 0; i < n; i++)
 	{
@@ -267,4 +268,5 @@ denprint(realtype ** a, integertype n)
 		printf("\n");
 	}
 	printf("\n");
+#endif
 }
