@@ -46,6 +46,8 @@ cxxNumKeyword(io)
 	cvode_steps = 100;
 	cvode_order = 5;
 	totals.type = cxxNameDouble::ND_ELT_MOLES;
+	equalIncrements = false;
+	count = 0;
 //
 //   Mix
 //
