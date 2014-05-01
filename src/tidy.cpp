@@ -322,6 +322,12 @@ tidy_model(void)
 				error_msg("H2O, secondary master species for O(-2), not defined.",
 					CONTINUE);
 			}
+			if (s_h2o->type != H2O)
+			{
+				input_error++;
+				error_msg("H2O can only be defined in SOLUTION_SPECIES.",
+					CONTINUE);
+			}
 		}
 		if (s_hplus == NULL && s_h3oplus == NULL)
 		{

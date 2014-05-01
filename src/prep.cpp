@@ -2821,6 +2821,15 @@ add_potential_factor(void)
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
 
+	if (use.Get_surface_ptr() == NULL)
+	{
+		input_error++;
+		error_string = sformatf(
+				"SURFACE not defined for surface species %s",
+				trxn.token[0].name);
+		error_msg(error_string, CONTINUE);
+		return(OK);
+	}
 	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL)
 		return (OK);
 	sum_z = 0.0;
@@ -2911,7 +2920,15 @@ add_cd_music_factors(int n)
 	std::string token;
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
-
+	if (use.Get_surface_ptr() == NULL)
+	{
+		input_error++;
+		error_string = sformatf(
+				"SURFACE not defined for surface species %s",
+				trxn.token[0].name);
+		error_msg(error_string, CONTINUE);
+		return(OK);
+	}
 	if (use.Get_surface_ptr()->Get_type() != cxxSurface::CD_MUSIC)
 		return (OK);
 	master_ptr = NULL;
@@ -3031,7 +3048,15 @@ add_surface_charge_balance(void)
 
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
-
+	if (use.Get_surface_ptr() == NULL)
+	{
+		input_error++;
+		error_string = sformatf(
+				"SURFACE not defined for surface species %s",
+				trxn.token[0].name);
+		error_msg(error_string, CONTINUE);
+		return(OK);
+	}
 	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL)
 		return (OK);
 	master_ptr = NULL;
@@ -3090,7 +3115,15 @@ add_cd_music_charge_balances(int n)
 
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
-
+	if (use.Get_surface_ptr() == NULL)
+	{
+		input_error++;
+		error_string = sformatf(
+				"SURFACE not defined for surface species %s",
+				trxn.token[0].name);
+		error_msg(error_string, CONTINUE);
+		return(OK);
+	}
 	if (use.Get_surface_ptr()->Get_type() != cxxSurface::CD_MUSIC)
 		return (OK);
 	master_ptr = NULL;
