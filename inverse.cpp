@@ -2790,9 +2790,18 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 		memcpy(&(array_out[row * max_column_count]), &(array_out[i * max_column_count]),
 		       (size_t) max_column_count * sizeof(LDBLE));
  */
-		memcpy(&(array_out[row * max_column_count]),
-			   &(array_out[i * max_column_count]),
-			   (size_t) (*n + 1) * sizeof(LDBLE));
+		if (i > row)
+		{
+			if ((row*max_column_count + (*n + 1)) >= (i * max_column_count))
+			{
+				assert(false);
+			}
+
+
+			memcpy(&(array_out[row * max_column_count]),
+				&(array_out[i * max_column_count]),
+				(size_t) (*n + 1) * sizeof(LDBLE));
+		}
 		row_back_l[row] = i;
 		row++;
 		k1++;
@@ -2826,9 +2835,17 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 		memcpy(&(array_out[row * max_column_count]), &(array_out[i * max_column_count]),
 		       (size_t) max_column_count * sizeof(LDBLE));
  */
-		memcpy(&(array_out[row * max_column_count]),
-			   &(array_out[i * max_column_count]),
-			   (size_t) (*n + 1) * sizeof(LDBLE));
+
+		if (i > row)
+		{
+			if ((row*max_column_count + (*n + 1)) >= (i * max_column_count))
+			{
+				assert(false);
+			}
+			memcpy(&(array_out[row * max_column_count]),
+				&(array_out[i * max_column_count]),
+				(size_t) (*n + 1) * sizeof(LDBLE));
+		}
 		row_back_l[row] = i;
 		row++;
 		l1++;
@@ -2861,9 +2878,17 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 		memcpy(&(array_out[row * max_column_count]), &(array_out[i * max_column_count]),
 		       (size_t) max_column_count * sizeof(LDBLE));
  */
-		memcpy(&(array_out[row * max_column_count]),
-			   &(array_out[i * max_column_count]),
-			   (size_t) (*n + 1) * sizeof(LDBLE));
+
+		if (i > row)
+		{
+			if ((row*max_column_count + (*n + 1)) >= (i * max_column_count))
+			{
+				assert(false);
+			}
+			memcpy(&(array_out[row * max_column_count]),
+				&(array_out[i * max_column_count]),
+				(size_t) (*n + 1) * sizeof(LDBLE));
+		}
 		row_back_l[row] = i;
 		row++;
 		m1++;
