@@ -23,6 +23,8 @@
 #include "sundialstypes.h"
 #include "nvector.h"
 
+#undef SS
+
 /******************************************************************
  *                                                                *
  * CVODE is used to solve numerically the ordinary initial value  *
