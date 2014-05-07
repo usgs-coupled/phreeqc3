@@ -164,7 +164,7 @@ transport(void)
 				{
 					fill_spec(cell_no);
 				}
-				if ((cell_data[k - 1].punch == TRUE))
+				if (cell_data[k - 1].punch == TRUE)
 					punch_all();
 				if ((cell_data[k - 1].print == TRUE)
 					&& (transport_step % print_modulus == 0))

@@ -8476,11 +8476,14 @@ read_print(void)
 				{
 					char * tptr = token;
 					get_num(&tptr, &num);
-					status_interval = (int) floor(num);
+					num = floor(num);
+					if (num < 0.0) num = 0.0;
+					//status_interval = (int) floor(num);
+					status_interval = (clock_t) num;
 				}
 			}
-			if (status_interval < 0)
-				status_interval = 0;
+			//if (status_interval < 0)
+			//	status_interval = 0;
 			break;
 		case 20:				/* inverse */
 		case 27:				/* inverse_modeling */
