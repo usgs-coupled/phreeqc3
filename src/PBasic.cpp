@@ -18,7 +18,7 @@
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
 /* "p2c"  Copyright (C) 1989, 1990, 1991 Free Software Foundation.
- * By Dave Gillespie, daveg@csvax.cs.caltech.edu.  Version --VERSION--.
+ * By Dave Gillespie, daveg@csvax.cs.caltech.edu.  Version 1.20.
  * This file may be copied, modified, etc. in any way.  It is not restricted
  * by the licence agreement accompanying p2c itself.
  */
