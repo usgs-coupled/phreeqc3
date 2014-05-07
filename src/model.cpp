@@ -4417,8 +4417,8 @@ residuals(void)
 			{
 				/* eqns A-6 and A-7 */
 				sinh_constant =
-					sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
-						 tk_x * 1000);
+					//sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
+					//	 tk_x * 1000);
 					sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) *
 						 tk_x * 1000);
 				/*
