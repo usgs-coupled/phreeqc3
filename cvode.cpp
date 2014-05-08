@@ -1,21 +1,65 @@
 /*#define DEBUG_CVODE*/
-/*******************************************************************
- *                                                                 *
- * File          : cvode.c                                         *
- * Programmers   : Scott D. Cohen, Alan C. Hindmarsh, Radu Serban, *
- *                 and Dan Shumaker @ LLNL                         *
- * Version of    : 24 July 2002                                    *
- *-----------------------------------------------------------------*
- * Copyright (c) 2002, The Regents of the University of California * 
- * Produced at the Lawrence Livermore National Laboratory          *
- * All rights reserved                                             *
- * For details, see sundials/cvode/LICENSE                         *
- *-----------------------------------------------------------------*
- * This is the implementation file for the main CVODE integrator.  *
- * It is independent of the CVODE linear solver in use.            *
- *                                                                 *
- *******************************************************************/
-#include "nvector_serial.h"	
+/**************************************************************************
+ *                                                                        *
+ * File          : cvode.c                                                *
+ * Programmers   : Scott D. Cohen, Alan C. Hindmarsh, Radu Serban,        *
+ *                 and Dan Shumaker @ LLNL                                *
+ * Version of    : 24 July 2002                                           *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California        *
+ * Produced at the Lawrence Livermore National Laboratory                 *
+ * All rights reserved                                                    *
+ * For details, see LICENSE below                                         *
+ *------------------------------------------------------------------------*
+ * This is the implementation file for the main CVODE integrator.         *
+ * It is independent of the CVODE linear solver in use.                   *
+ *                                                                        *
+ *------------------------------------------------------------------------*
+ * LICENSE                                                                *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California.       *
+ * Produced at the Lawrence Livermore National Laboratory.                *
+ * Written by S.D. Cohen, A.C. Hindmarsh, R. Serban,                      *
+ *            D. Shumaker, and A.G. Taylor.                               *
+ * UCRL-CODE-155951    (CVODE)                                            *
+ * UCRL-CODE-155950    (CVODES)                                           *
+ * UCRL-CODE-155952    (IDA)                                              *
+ * UCRL-CODE-237203    (IDAS)                                             *
+ * UCRL-CODE-155953    (KINSOL)                                           *
+ * All rights reserved.                                                   *
+ *                                                                        *
+ * This file is part of SUNDIALS.                                         *
+ *                                                                        *
+ * Redistribution and use in source and binary forms, with or without     *
+ * modification, are permitted provided that the following conditions     *
+ * are met:                                                               *
+ *                                                                        *
+ * 1. Redistributions of source code must retain the above copyright      *
+ * notice, this list of conditions and the disclaimer below.              *
+ *                                                                        *
+ * 2. Redistributions in binary form must reproduce the above copyright   *
+ * notice, this list of conditions and the disclaimer (as noted below)    *
+ * in the documentation and/or other materials provided with the          *
+ * distribution.                                                          *
+ *                                                                        *
+ * 3. Neither the name of the UC/LLNL nor the names of its contributors   *
+ * may be used to endorse or promote products derived from this software  *
+ * without specific prior written permission.                             *
+ *                                                                        *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    *
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      *
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS      *
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE         *
+ * REGENTS OF THE UNIVERSITY OF CALIFORNIA, THE U.S. DEPARTMENT OF ENERGY *
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,        *
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       *
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  *
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  *
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    *
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  *
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   *
+ **************************************************************************/
+#include "nvector_serial.h"
 #define Ith(v,i)	NV_Ith_S(v,i-1)
 /************************************************************/
 /******************* BEGIN Imports **************************/
@@ -32,7 +76,7 @@
 #define MACHENV machEnv->phreeqc_ptr->
 #define CVMEM cv_mem->cv_machenv->phreeqc_ptr->
 #define MACHENV_MALLOC MACHENV
-#define CVMEM_MALLOC CVMEM  
+#define CVMEM_MALLOC CVMEM
 
 #include "phqalloc.h"
 /* WARNING don`t include any headers below here */
@@ -503,7 +547,7 @@ static int CVHandleFailure(CVodeMem cv_mem, int kflag);
  error occurs during initialization, it is reported to the file
  whose file pointer is errfp and NULL is returned. Otherwise, the
  pointer to successfully initialized problem memory is returned.
- 
+
 *****************************************************************/
 
 void *
@@ -782,7 +826,7 @@ CVodeMalloc(integertype N, RhsFn f, realtype t0, N_Vector y0,
  file whose file pointer is errfp.
  The return value is SUCCESS = 0 if no errors occurred, or
  a negative value otherwise.
- 
+
 *****************************************************************/
 
 int
@@ -1047,7 +1091,7 @@ CVReInit(void *cvode_mem, RhsFn f, realtype t0, N_Vector y0,
 
 /********************* CVode ****************************************
 
- This routine is the main driver of the CVODE package. 
+ This routine is the main driver of the CVODE package.
 
  It integrates over a time interval defined by the user, by calling
  CVStep to do internal time steps.
@@ -1148,7 +1192,7 @@ CVode(void *cvode_mem, realtype tout, N_Vector yout, realtype * t, int itask)
 			}
 		}
 
-		/* On the first call, call f at (t0,y0), set zn[1] = y'(t0), 
+		/* On the first call, call f at (t0,y0), set zn[1] = y'(t0),
 		   set initial h (from H0 or CVHin), and scale zn[1] by h   */
 		CVMEM cvode_rate_sim_time = CVMEM cvode_rate_sim_time_start + tn;
 		CVMEM cvode_step_fraction = 0;
@@ -1380,9 +1424,9 @@ CVode(void *cvode_mem, realtype tout, N_Vector yout, realtype * t, int itask)
  This routine computes the k-th derivative of the interpolating
  polynomial at the time t and stores the result in the vector dky.
  The formula is:
-          q 
-   dky = SUM c(j,k) * (t - tn)^(j-k) * h^(-j) * zn[j] , 
-         j=k 
+          q
+   dky = SUM c(j,k) * (t - tn)^(j-k) * h^(-j) * zn[j] ,
+         j=k
  where c(j,k) = j*(j-1)*...*(j-k+1), q is the current order, and
  zn[j] is the j-th column of the Nordsieck history array.
 
@@ -1566,7 +1610,7 @@ CVAllocVectors(CVodeMem cv_mem, integertype neq, int maxord, M_Env machEnv)
 }
 
 /***************** CVFreeVectors *********************************
-  
+
  This routine frees the CVODE vectors allocated in CVAllocVectors.
 
 ******************************************************************/
@@ -1585,7 +1629,7 @@ CVFreeVectors(CVodeMem cv_mem, int maxord)
 }
 
 /*********************** CVEwtSet **************************************
-  
+
  This routine is responsible for setting the error weight vector ewt,
  according to tol_type, as follows:
 
@@ -1599,7 +1643,7 @@ CVFreeVectors(CVodeMem cv_mem, int maxord)
   considered undefined after the FALSE return from CVEwtSet.
 
   All the real work is done in the routines CVEwtSetSS, CVEwtSetSV.
- 
+
 ***********************************************************************/
 
 static booleantype
@@ -1666,13 +1710,13 @@ CVEwtSetSV(CVodeMem cv_mem, N_Vector ycur)
 
 /******************* CVHin ***************************************
 
- This routine computes a tentative initial step size h0. 
+ This routine computes a tentative initial step size h0.
  If tout is too close to tn (= t0), then CVHin returns FALSE and
- h remains uninitialized. Otherwise, CVHin sets h to the chosen 
+ h remains uninitialized. Otherwise, CVHin sets h to the chosen
  value h0 and returns TRUE.
 
  The algorithm used seeks to find h0 as a solution of
-       (WRMS norm of (h0^2 ydd / 2)) = 1, 
+       (WRMS norm of (h0^2 ydd / 2)) = 1,
  where ydd = estimated second derivative of y.
 
 *****************************************************************/
@@ -1695,9 +1739,9 @@ CVHin(CVodeMem cv_mem, realtype tout)
 	if (tdist < TWO * tround)
 		return (FALSE);
 
-	/* Set lower and upper bounds on h0, and take geometric mean 
+	/* Set lower and upper bounds on h0, and take geometric mean
 	   Exit with this value if the bounds cross each other       */
-	
+
 	hlb = HLB_FACTOR * tround;
 	hub = CVUpperBoundH0(cv_mem, tdist);
 	hg = RSqrt(hlb * hub);
@@ -1828,7 +1872,7 @@ CVYddNorm(CVodeMem cv_mem, realtype hg)
 }
 
 /********************* CVStep **************************************
- 
+
  This routine performs one internal cvode step, from tn to tn + h.
  It calls other routines to do all the work.
 
@@ -2088,7 +2132,7 @@ CVStep(CVodeMem cv_mem)
 #endif
 	etamax = (nst <= SMALL_NST) ? ETAMX2 : ETAMX3;
 
-	/*  Finally, we rescale the acor array to be the 
+	/*  Finally, we rescale the acor array to be the
 	   estimated local error vector. */
 
 	N_VScale(ONE / tq[2], acor, acor);
@@ -2169,7 +2213,7 @@ CVAdjustAdams(CVodeMem cv_mem, int deltaq)
 	}
 
 	/* On an order decrease, each zn[j] is adjusted by a multiple
-	   of zn[q].  The coefficients in the adjustment are the 
+	   of zn[q].  The coefficients in the adjustment are the
 	   coefficients of the polynomial x*x*(x+xi_1)*...*(x+xi_j),
 	   integrated, where xi_j = [t_n - t_(n-j)]/h.               */
 
@@ -2195,8 +2239,8 @@ CVAdjustAdams(CVodeMem cv_mem, int deltaq)
 /********************** CVAdjustBDF *******************************
 
  This is a high level routine which handles adjustments to the
- history array on a change of order by deltaq in the case that 
- lmm == BDF.  CVAdjustBDF calls CVIncreaseBDF if deltaq = +1 and 
+ history array on a change of order by deltaq in the case that
+ lmm == BDF.  CVAdjustBDF calls CVIncreaseBDF if deltaq = +1 and
  CVDecreaseBDF if deltaq = -1 to do the actual work.
 
 ******************************************************************/
@@ -2217,11 +2261,11 @@ CVAdjustBDF(CVodeMem cv_mem, int deltaq)
 
 /******************** CVIncreaseBDF **********************************
 
- This routine adjusts the history array on an increase in the 
- order q in the case that lmm == BDF.  
- A new column zn[q+1] is set equal to a multiple of the saved 
+ This routine adjusts the history array on an increase in the
+ order q in the case that lmm == BDF.
+ A new column zn[q+1] is set equal to a multiple of the saved
  vector (= acor) in zn[qmax].  Then each zn[j] is adjusted by
- a multiple of zn[q+1].  The coefficients in the adjustment are the 
+ a multiple of zn[q+1].  The coefficients in the adjustment are the
  coefficients of the polynomial x*x*(x+xi_1)*...*(x+xi_(q-1)),
  where xi_j = [t_n - t_(n-j)]/h.
 
@@ -2262,8 +2306,8 @@ CVIncreaseBDF(CVodeMem cv_mem)
 
 /********************* CVDecreaseBDF ******************************
 
- This routine adjusts the history array on a decrease in the 
- order q in the case that lmm == BDF.  
+ This routine adjusts the history array on a decrease in the
+ order q in the case that lmm == BDF.
  Each zn[j] is adjusted by a multiple of zn[q].  The coefficients
  in the adjustment are the coefficients of the polynomial
  x*x*(x+xi_1)*...*(x+xi_(q-2)), where xi_j = [t_n - t_(n-j)]/h.
@@ -2339,7 +2383,7 @@ CVPredict(CVodeMem cv_mem)
 /************************** CVSet *********************************
 
  This routine is a high level routine which calls CVSetAdams or
- CVSetBDF to set the polynomial l, the test quantity array tq, 
+ CVSetBDF to set the polynomial l, the test quantity array tq,
  and the related variables  rl1, gamma, and gamrat.
 
 ******************************************************************/
@@ -2407,7 +2451,7 @@ CVSetAdams(CVodeMem cv_mem)
 
  This routine generates in m[] the coefficients of the product
  polynomial needed for the Adams l and tq coefficients for q > 1.
-  
+
 ******************************************************************/
 
 static realtype
@@ -2471,7 +2515,7 @@ CVAdamsFinish(CVodeMem cv_mem, realtype m[], realtype M[], realtype hsum)
 }
 
 /****************** CVAltSum **************************************
-  
+
  CVAltSum returns the value of the alternating sum
    sum (i= 0 ... iend) [ (-1)^i * (a[i] / (i + k)) ].
  If iend < 0 then CVAltSum returns 0.
@@ -2503,7 +2547,7 @@ CVAltSum(int iend, realtype a[], int k)
 
  This routine computes the coefficients l and tq in the case
  lmm == BDF.  CVSetBDF calls CVSetTqBDF to set the test
- quantity array tq. 
+ quantity array tq.
 
  The components of the array l are the coefficients of a
  polynomial Lambda(x) = l_0 + l_1 x + ... + l_q x^q, given by
@@ -2612,7 +2656,7 @@ CVnls(CVodeMem cv_mem, int nflag)
 
 /***************** CVnlsFunctional ********************************
 
- This routine attempts to solve the nonlinear system using 
+ This routine attempts to solve the nonlinear system using
  functional iteration (no matrices involved).
 
 ******************************************************************/
@@ -2695,8 +2739,8 @@ CVnlsFunctional(CVodeMem cv_mem)
 
 /*********************** CVnlsNewton **********************************
 
- This routine handles the Newton iteration. It calls lsetup if 
- indicated, calls CVNewtonIteration to perform the iteration, and 
+ This routine handles the Newton iteration. It calls lsetup if
+ indicated, calls CVNewtonIteration to perform the iteration, and
  retries a failed attempt at Newton iteration if that is indicated.
  See return values at top of this file.
 
@@ -2800,7 +2844,7 @@ CVnlsNewton(CVodeMem cv_mem, int nflag)
 					   ier));
 #endif
 		}
-		/* If there is a convergence failure and the Jacobian-related 
+		/* If there is a convergence failure and the Jacobian-related
 		   data appears not to be current, loop again with a call to lsetup
 		   in which convfail=FAIL_BAD_J.  Otherwise return.                 */
 		if (ier != TRY_AGAIN_CVODE)
@@ -2813,11 +2857,11 @@ CVnlsNewton(CVodeMem cv_mem, int nflag)
 /********************** CVNewtonIteration ****************************
 
  This routine performs the Newton iteration. If the iteration succeeds,
- it returns the value SOLVED. If not, it may signal the CVnlsNewton 
+ it returns the value SOLVED. If not, it may signal the CVnlsNewton
  routine to call lsetup again and reattempt the iteration, by
- returning the value TRY_AGAIN_CVODE. (In this case, CVnlsNewton must set 
- convfail to FAIL_BAD_J before calling setup again). 
- Otherwise, this routine returns one of the appropriate values 
+ returning the value TRY_AGAIN_CVODE. (In this case, CVnlsNewton must set
+ convfail to FAIL_BAD_J before calling setup again).
+ Otherwise, this routine returns one of the appropriate values
  SOLVE_FAIL_UNREC or CONV_FAIL back to CVnlsNewton.
 
 *********************************************************************/
@@ -2895,7 +2939,7 @@ CVNewtonIteration(CVodeMem cv_mem)
 		mnewt = ++m;
 
 		/* Stop at maxcor iterations or if iter. seems to be diverging.
-		   If still not converged and Jacobian data is not current, 
+		   If still not converged and Jacobian data is not current,
 		   signal to try the solution again                            */
 		if ((m == maxcor) || ((m >= 2) && (del > RDIV * delp)))
 		{
@@ -2929,7 +2973,7 @@ CVNewtonIteration(CVodeMem cv_mem)
 
  This routine takes action on the return value nflag = *nflagPtr
  returned by CVnls, as follows:
- 
+
  If CVnls succeeded in solving the nonlinear system, then
  CVHandleNFlag returns the constant DO_ERROR_TEST, which tells CVStep
  to perform the error test.
@@ -2943,10 +2987,10 @@ CVNewtonIteration(CVodeMem cv_mem)
  If it failed due to an unrecoverable failure in solve, then we return
  the value SOLVE_FAILED.
 
- Otherwise, a recoverable failure occurred when solving the 
- nonlinear system (CVnls returned nflag == CONV_FAIL). 
+ Otherwise, a recoverable failure occurred when solving the
+ nonlinear system (CVnls returned nflag == CONV_FAIL).
    In this case, we return the value REP_CONV_FAIL if ncf is now
-   equal to MXNCF or |h| = hmin. 
+   equal to MXNCF or |h| = hmin.
    If not, we set *nflagPtr = PREV_CONV_FAIL and return the value
    PREDICT_AGAIN, telling CVStep to reattempt the step.
 
@@ -3008,14 +3052,14 @@ CVRestore(CVodeMem cv_mem, realtype saved_t)
 
 /******************* CVDoErrorTest ********************************
 
- This routine performs the local error test. 
- The weighted local error norm dsm is loaded into *dsmPtr, and 
+ This routine performs the local error test.
+ The weighted local error norm dsm is loaded into *dsmPtr, and
  the test dsm ?<= 1 is made.
 
- If the test passes, CVDoErrorTest returns TRUE. 
+ If the test passes, CVDoErrorTest returns TRUE.
 
- If the test fails, we undo the step just taken (call CVRestore), 
- set *nflagPtr to PREV_ERR_FAIL, and return FALSE. 
+ If the test fails, we undo the step just taken (call CVRestore),
+ set *nflagPtr to PREV_ERR_FAIL, and return FALSE.
 
  If MXNEF error test failures have occurred or if ABS(h) = hmin,
  we set *kflagPtr = REP_ERR_FAIL. (Otherwise *kflagPtr has the
@@ -3102,7 +3146,7 @@ CVDoErrorTest(CVodeMem cv_mem, int *nflagPtr, int *kflagPtr,
 /*************** CVCompleteStep **********************************
 
  This routine performs various update operations when the solution
- to the nonlinear system has passed the local error test. 
+ to the nonlinear system has passed the local error test.
  We increment the step counter nst, record the values hu and qu,
  update the tau array, and apply the corrections to the zn array.
  The tau[i] are the last q values of h, with tau[1] the most recent.
@@ -3141,8 +3185,8 @@ CVCompleteStep(CVodeMem cv_mem)
 
  This routine handles the setting of stepsize and order for the
  next step -- hprime and qprime.  Along with hprime, it sets the
- ratio eta = hprime/h.  It also updates other state variables 
- related to a change of step size or order. 
+ ratio eta = hprime/h.  It also updates other state variables
+ related to a change of step size or order.
 
 ******************************************************************/
 
@@ -3171,7 +3215,7 @@ CVPrepareNextStep(CVodeMem cv_mem, realtype dsm)
 		return;
 	}
 
-	/* If qwait = 0, consider an order change.   etaqm1 and etaqp1 are 
+	/* If qwait = 0, consider an order change.   etaqm1 and etaqp1 are
 	   the ratios of new to old h at orders q-1 and q+1, respectively.
 	   CVChooseEta selects the largest; CVSetEta adjusts eta and acor */
 	qwait = 2;
@@ -3259,7 +3303,7 @@ CVComputeEtaqp1(CVodeMem cv_mem)
 /******************* CVChooseEta **********************************
 
  Given etaqm1, etaq, etaqp1 (the values of eta for qprime =
- q - 1, q, or q + 1, respectively), this routine chooses the 
+ q - 1, q, or q + 1, respectively), this routine chooses the
  maximum eta value, sets eta to that value, and sets qprime to the
  corresponding value of q.  If there is a tie, the preference
  order is to (1) keep the same order, then (2) decrease the order,
@@ -3340,7 +3384,7 @@ CVHandleFailure(CVodeMem cv_mem, int kflag)
 		}
 		return (SETUP_FAILURE);
 	case SOLVE_FAILED:
-		{	
+		{
 			char * error_string = CVMEM sformatf(MSG_SOLVE_FAILED, (double) tn);
 			CVMEM warning_msg(error_string);
 		}
@@ -3415,21 +3459,21 @@ CVBDFStab(CVodeMem cv_mem)
 	}
 	else
 	{
-		/* Otherwise, let order increase happen, and 
+		/* Otherwise, let order increase happen, and
 		   reset stability limit counter, nscon.     */
 		nscon = 0;
 	}
 }
 
 /********************* CVsldet ************************************
-  This routine detects stability limitation using stored scaled 
+  This routine detects stability limitation using stored scaled
   derivatives data. CVsldet returns the magnitude of the
   dominate characteristic root, rr. The presents of a stability
-  limit is indicated by rr > "something a little less then 1.0",  
+  limit is indicated by rr > "something a little less then 1.0",
   and a positive kflag. This routine should only be called if
   order is greater than or equal to 3, and data has been collected
-  for 5 time steps. 
- 
+  for 5 time steps.
+
   Returned values:
      kflag = 1 -> Found stable characteristic root, normal matrix case
      kflag = 2 -> Found stable characteristic root, quartic solution
@@ -3440,14 +3484,14 @@ CVBDFStab(CVodeMem cv_mem)
      kflag = 6 -> Found stability violation, quartic solution,
                   with Newton correction
 
-     kflag < 0 -> No stability limitation, 
+     kflag < 0 -> No stability limitation,
                   or could not compute limitation.
 
      kflag = -1 -> Min/max ratio of ssdat too small.
      kflag = -2 -> For normal matrix case, vmax > vrrt2*vrrt2
      kflag = -3 -> For normal matrix case, The three ratios
                    are inconsistent.
-     kflag = -4 -> Small coefficient prevents elimination of quartics.  
+     kflag = -4 -> Small coefficient prevents elimination of quartics.
      kflag = -5 -> R value from quartics not consistent.
      kflag = -6 -> No corrected root passes test on qk values
      kflag = -7 -> Trouble solving for sigsq.
@@ -3532,8 +3576,8 @@ CVsldet(CVodeMem cv_mem)
 	}							/* End of k loop */
 
 	/* Isolate normal or nearly-normal matrix case. Three quartic will
-	   have common or nearly-common roots in this case. 
-	   Return a kflag = 1 if this procedure works. If three root 
+	   have common or nearly-common roots in this case.
+	   Return a kflag = 1 if this procedure works. If three root
 	   differ more than vrrt2, return error kflag = -3.    */
 
 	vmin = MIN(vrat[1], MIN(vrat[2], vrat[3]));

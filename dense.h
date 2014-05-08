@@ -1,42 +1,86 @@
 #ifndef _INC_DENSE_H
 #define _INC_DENSE_H
-/*******************************************************************
- *                                                                 *
- * File          : dense.h                                         *
- * Programmers   : Scott D. Cohen, Alan C. Hindmarsh, and          *
- *                 Radu Serban @ LLNL                              *
- * Version of    : 26 June 2002                                    *
- *-----------------------------------------------------------------*
- * Copyright (c) 2002, The Regents of the University of California *
- * Produced at the Lawrence Livermore National Laboratory          *
- * All rights reserved                                             *
- * For details, see sundials/shared/LICENSE                        *
- *-----------------------------------------------------------------*
- * This is the header file for a generic DENSE linear solver       *
- * package.  The routines listed in this file all use type         *
- * DenseMat, defined below, for matrices.  These routines in turn  *
- * call routines in the smalldense.h/smalldense.c module, which    *
- * use the type realtype** for matrices.  This separation allows   *
- * for possible modifications in which matrices of type DenseMat   *
- * may not be stored contiguously, while small matrices can still  *
- * be treated with the routines in smalldense.                     *
- *                                                                 * 
- * Routines that work with the type DenseMat begin with "Dense".   *
- * The DenseAllocMat function allocates a dense matrix for use in  *
- * the other DenseMat routines listed in this file. Matrix         *
- * storage details are given in the documentation for the type     *
- * DenseMat. The DenseAllocPiv function allocates memory for       *
- * pivot information. The storage allocated by DenseAllocMat and   *
- * DenseAllocPiv is deallocated by the routines DenseFreeMat and   *
- * DenseFreePiv, respectively. The DenseFactor and DenseBacksolve  *
- * routines perform the actual solution of a dense linear system.  *
- *                                                                 *
- * Routines that work with realtype** begin with "den" (except for *
- * the factor and solve routines which are called gefa and gesl,   *
- * respectively). The underlying matrix storage is described in    *
- * the documentation for denalloc in smalldense.h                  *
- *                                                                 *
- *******************************************************************/
+/**************************************************************************
+ *                                                                        *
+ * File          : dense.h                                                *
+ * Programmers   : Scott D. Cohen, Alan C. Hindmarsh, and                 *
+ *                 Radu Serban @ LLNL                                     *
+ * Version of    : 26 June 2002                                           *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California        *
+ * Produced at the Lawrence Livermore National Laboratory                 *
+ * All rights reserved                                                    *
+ * For details, see LICENSE below                                         *
+ *------------------------------------------------------------------------*
+ * This is the header file for a generic DENSE linear solver              *
+ * package.  The routines listed in this file all use type                *
+ * DenseMat, defined below, for matrices.  These routines in turn         *
+ * call routines in the smalldense.h/smalldense.c module, which           *
+ * use the type realtype** for matrices.  This separation allows          *
+ * for possible modifications in which matrices of type DenseMat          *
+ * may not be stored contiguously, while small matrices can still         *
+ * be treated with the routines in smalldense.                            *
+ *                                                                        *
+ * Routines that work with the type DenseMat begin with "Dense".          *
+ * The DenseAllocMat function allocates a dense matrix for use in         *
+ * the other DenseMat routines listed in this file. Matrix                *
+ * storage details are given in the documentation for the type            *
+ * DenseMat. The DenseAllocPiv function allocates memory for              *
+ * pivot information. The storage allocated by DenseAllocMat and          *
+ * DenseAllocPiv is deallocated by the routines DenseFreeMat and          *
+ * DenseFreePiv, respectively. The DenseFactor and DenseBacksolve         *
+ * routines perform the actual solution of a dense linear system.         *
+ *                                                                        *
+ * Routines that work with realtype** begin with "den" (except for        *
+ * the factor and solve routines which are called gefa and gesl,          *
+ * respectively). The underlying matrix storage is described in           *
+ * the documentation for denalloc in smalldense.h                         *
+ *                                                                        *
+ *------------------------------------------------------------------------*
+ * LICENSE                                                                *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California.       *
+ * Produced at the Lawrence Livermore National Laboratory.                *
+ * Written by S.D. Cohen, A.C. Hindmarsh, R. Serban,                      *
+ *            D. Shumaker, and A.G. Taylor.                               *
+ * UCRL-CODE-155951    (CVODE)                                            *
+ * UCRL-CODE-155950    (CVODES)                                           *
+ * UCRL-CODE-155952    (IDA)                                              *
+ * UCRL-CODE-237203    (IDAS)                                             *
+ * UCRL-CODE-155953    (KINSOL)                                           *
+ * All rights reserved.                                                   *
+ *                                                                        *
+ * This file is part of SUNDIALS.                                         *
+ *                                                                        *
+ * Redistribution and use in source and binary forms, with or without     *
+ * modification, are permitted provided that the following conditions     *
+ * are met:                                                               *
+ *                                                                        *
+ * 1. Redistributions of source code must retain the above copyright      *
+ * notice, this list of conditions and the disclaimer below.              *
+ *                                                                        *
+ * 2. Redistributions in binary form must reproduce the above copyright   *
+ * notice, this list of conditions and the disclaimer (as noted below)    *
+ * in the documentation and/or other materials provided with the          *
+ * distribution.                                                          *
+ *                                                                        *
+ * 3. Neither the name of the UC/LLNL nor the names of its contributors   *
+ * may be used to endorse or promote products derived from this software  *
+ * without specific prior written permission.                             *
+ *                                                                        *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    *
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      *
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS      *
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE         *
+ * REGENTS OF THE UNIVERSITY OF CALIFORNIA, THE U.S. DEPARTMENT OF ENERGY *
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,        *
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       *
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  *
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  *
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    *
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  *
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   *
+ **************************************************************************/
 #ifndef _dense_h
 #define _dense_h
 
@@ -121,8 +165,8 @@
  * returns the storage allocated (type DenseMat). DenseAllocMat   *
  * returns NULL if the request for matrix storage cannot be       *
  * satisfied. See the above documentation for the type DenseMat   *
- * for matrix storage details.                                    * 
- *                                                                * 
+ * for matrix storage details.                                    *
+ *                                                                *
  ******************************************************************/
 
 	DenseMat DenseAllocMat(integertype N);
@@ -140,7 +184,7 @@
  * information is an array of N integers and this routine returns *
  * the pointer to the memory it allocates. If the request for     *
  * pivot storage cannot be satisfied, DenseAllocPiv returns NULL. *
- *                                                                * 
+ *                                                                *
  ******************************************************************/
 
 	integertype *DenseAllocPiv(integertype N);
