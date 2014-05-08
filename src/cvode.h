@@ -1,20 +1,64 @@
 #ifndef _INC_CVODE_H
 #define _INC_CVODE_H
-/*******************************************************************
- *                                                                 *
- * File          : cvode.h                                         *
- * Programmers   : Scott D. Cohen, Alan C. Hindmarsh, Radu Serban  *
- *                 and Dan Shumaker @ LLNL                         *
- * Version of    : 26 June 2002                                    *
- *-----------------------------------------------------------------*
- * Copyright (c) 2002, The Regents of the University of California * 
- * Produced at the Lawrence Livermore National Laboratory          *
- * All rights reserved                                             *
- * For details, see sundials/cvode/LICENSE                         *
- *-----------------------------------------------------------------*
- * This is the interface file for the main CVODE integrator.       *
- *                                                                 *
- *******************************************************************/
+/**************************************************************************
+ *                                                                        *
+ * File          : cvode.h                                                *
+ * Programmers   : Scott D. Cohen, Alan C. Hindmarsh, Radu Serban         *
+ *                 and Dan Shumaker @ LLNL                                *
+ * Version of    : 26 June 2002                                           *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California        *
+ * Produced at the Lawrence Livermore National Laboratory                 *
+ * All rights reserved                                                    *
+ * For details, see LICENSE below                                         *
+ *------------------------------------------------------------------------*
+ * This is the interface file for the main CVODE integrator.              *
+ *                                                                        *
+ *------------------------------------------------------------------------*
+ * LICENSE                                                                *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California.       *
+ * Produced at the Lawrence Livermore National Laboratory.                *
+ * Written by S.D. Cohen, A.C. Hindmarsh, R. Serban,                      *
+ *            D. Shumaker, and A.G. Taylor.                               *
+ * UCRL-CODE-155951    (CVODE)                                            *
+ * UCRL-CODE-155950    (CVODES)                                           *
+ * UCRL-CODE-155952    (IDA)                                              *
+ * UCRL-CODE-237203    (IDAS)                                             *
+ * UCRL-CODE-155953    (KINSOL)                                           *
+ * All rights reserved.                                                   *
+ *                                                                        *
+ * This file is part of SUNDIALS.                                         *
+ *                                                                        *
+ * Redistribution and use in source and binary forms, with or without     *
+ * modification, are permitted provided that the following conditions     *
+ * are met:                                                               *
+ *                                                                        *
+ * 1. Redistributions of source code must retain the above copyright      *
+ * notice, this list of conditions and the disclaimer below.              *
+ *                                                                        *
+ * 2. Redistributions in binary form must reproduce the above copyright   *
+ * notice, this list of conditions and the disclaimer (as noted below)    *
+ * in the documentation and/or other materials provided with the          *
+ * distribution.                                                          *
+ *                                                                        *
+ * 3. Neither the name of the UC/LLNL nor the names of its contributors   *
+ * may be used to endorse or promote products derived from this software  *
+ * without specific prior written permission.                             *
+ *                                                                        *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    *
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      *
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS      *
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE         *
+ * REGENTS OF THE UNIVERSITY OF CALIFORNIA, THE U.S. DEPARTMENT OF ENERGY *
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,        *
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       *
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  *
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  *
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    *
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  *
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   *
+ **************************************************************************/
 #ifndef _cvode_h
 #define _cvode_h
 
@@ -95,11 +139,11 @@
 /******************************************************************
  *                                                                *
  * Type : RhsFn                                                   *
- *----------------------------------------------------------------*        
+ *----------------------------------------------------------------*
  * The f function which defines the right hand side of the ODE    *
  * system y' = f(t,y) must have type RhsFn.                       *
  * f takes as input the problem size N, the independent variable  *
- * value t, and the dependent variable vector y.  It stores the   * 
+ * value t, and the dependent variable vector y.  It stores the   *
  * result of f(t,y) in the vector ydot.  The y and ydot arguments *
  * are of type N_Vector.                                          *
  * (Allocation of memory for ydot is handled within CVODE.)       *
@@ -124,7 +168,7 @@
  *                                                                *
  * N       is the number of equations in the ODE system.          *
  *                                                                *
- * f       is the right hand side function in y' = f(t,y).        *          
+ * f       is the right hand side function in y' = f(t,y).        *
  *                                                                *
  * t0      is the initial value of t.                             *
  *                                                                *
@@ -195,7 +239,7 @@
  *       (*reltol) and either (*abstol), for a scalar absolute    *
  *       tolerance, or the components of abstol, for a vector     *
  *       absolute tolerance.                                      *
- *                                                                * 
+ *                                                                *
  * If successful, CVodeMalloc returns a pointer to initialized    *
  * problem memory. This pointer should be passed to CVode. If     *
  * an initialization error occurs, CVodeMalloc prints an error    *
@@ -401,7 +445,7 @@
  * BAD_DKY : The dky argument was NULL.                           *
  *                                                                *
  * DKY_NO_MEM : The cvode_mem argument was NULL.                  *
- *                                                                * 
+ *                                                                *
  ******************************************************************/
 
 
@@ -452,7 +496,7 @@
  *                the solver in its attempt to reach tout.        *
  *                Optional input. (Default = 500).                *
  *                                                                *
- * iopt[MXHNIL] : maximum number of warning messages issued by the* 
+ * iopt[MXHNIL] : maximum number of warning messages issued by the*
  *                solver that t + h = t on the next internal step.*
  *                A value of -1 means no such messages are issued.*
  *                Optional input. (Default = 10).                 *
@@ -760,7 +804,7 @@
  * NO_FAILURES : Either this is the first cv_setup call for this  *
  *               step, or the local error test failed on the      *
  *               previous attempt at this step (but the Newton    *
- *               iteration converged).                            * 
+ *               iteration converged).                            *
  *                                                                *
  * FAIL_BAD_J  : This value is passed to cv_lsetup if             *
  *                                                                *

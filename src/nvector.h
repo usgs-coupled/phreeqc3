@@ -1,44 +1,88 @@
-/*******************************************************************
- *                                                                 *
- * File          : nvector.h                                       *
- * Programmers   : Radu Serban, LLNL                               *
- * Version of    : 26 June 2002                                    *
- *-----------------------------------------------------------------*
- * Copyright (c) 2002, The Regents of the University of California *
- * Produced at the Lawrence Livermore National Laboratory          *
- * All rights reserved                                             *
- * For details, see sundials/shared/LICENSE                        *
- *-----------------------------------------------------------------*
- * This is the header file for a generic NVECTOR package.          *
- * It defines the N_Vector and M_Env structures:                   *
- *   M_Env has an implementation-dependent 'content' field         *
- *         which contains the data needed to generate a new        *
- *         nvector in that implementation and an 'ops' filed       *
- *         which is a structure listing operations acting on       *
- *         such nvectors.                                          *
- *   N_Vector has an implementation-dependent 'content' field      *
- *         which contains the description and actual data of       *
- *         the nvector and a 'menv' field which points to the      *
- *         M_Env structure used in creating the nvector.           * 
- *                                                                 *
- * Part I of this file contains type declarations for the          *
- * the following structures: _generic_M_Env, _generic_N_Vector,    *
- * and _generic_N_Vector_Ops, as well as references to pointers    *
- * to such structures (M_Env and N_Vector).                        *
- *                                                                 *
- * Part II of this file contains the prototypes for the vector     *
- * kernels which operate on N_Vector.                              * 
- *                                                                 *
- * A particular implementation of an NVECTOR package must then     *
- * specify the 'content' fields of M_Env and N_Vector, define      *
- * the propotypes for kernel operations on those N_Vectors         *
- * (NOTE: kernel routine names must be unique to that              *
- * implementation), and finally provide an initialization          *
- * routine (which generates an M_Env with that particular          *
- * 'content' field and links the defined vector kernel routines    *
- * into the 'ops' field).                                          *
- *                                                                 *
- *******************************************************************/
+/**************************************************************************
+ *                                                                        *
+ * File          : nvector.h                                              *
+ * Programmers   : Radu Serban, LLNL                                      *
+ * Version of    : 26 June 2002                                           *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California        *
+ * Produced at the Lawrence Livermore National Laboratory                 *
+ * All rights reserved                                                    *
+ * For details, see LICENSE below                                         *
+ *------------------------------------------------------------------------*
+ * This is the header file for a generic NVECTOR package.                 *
+ * It defines the N_Vector and M_Env structures:                          *
+ *   M_Env has an implementation-dependent 'content' field                *
+ *         which contains the data needed to generate a new               *
+ *         nvector in that implementation and an 'ops' filed              *
+ *         which is a structure listing operations acting on              *
+ *         such nvectors.                                                 *
+ *   N_Vector has an implementation-dependent 'content' field             *
+ *         which contains the description and actual data of              *
+ *         the nvector and a 'menv' field which points to the             *
+ *         M_Env structure used in creating the nvector.                  *
+ *                                                                        *
+ * Part I of this file contains type declarations for the                 *
+ * the following structures: _generic_M_Env, _generic_N_Vector,           *
+ * and _generic_N_Vector_Ops, as well as references to pointers           *
+ * to such structures (M_Env and N_Vector).                               *
+ *                                                                        *
+ * Part II of this file contains the prototypes for the vector            *
+ * kernels which operate on N_Vector.                                     *
+ *                                                                        *
+ * A particular implementation of an NVECTOR package must then            *
+ * specify the 'content' fields of M_Env and N_Vector, define             *
+ * the propotypes for kernel operations on those N_Vectors                *
+ * (NOTE: kernel routine names must be unique to that                     *
+ * implementation), and finally provide an initialization                 *
+ * routine (which generates an M_Env with that particular                 *
+ * 'content' field and links the defined vector kernel routines           *
+ * into the 'ops' field).                                                 *
+ *                                                                        *
+ *------------------------------------------------------------------------*
+ * LICENSE                                                                *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California.       *
+ * Produced at the Lawrence Livermore National Laboratory.                *
+ * Written by S.D. Cohen, A.C. Hindmarsh, R. Serban,                      *
+ *            D. Shumaker, and A.G. Taylor.                               *
+ * UCRL-CODE-155951    (CVODE)                                            *
+ * UCRL-CODE-155950    (CVODES)                                           *
+ * UCRL-CODE-155952    (IDA)                                              *
+ * UCRL-CODE-237203    (IDAS)                                             *
+ * UCRL-CODE-155953    (KINSOL)                                           *
+ * All rights reserved.                                                   *
+ *                                                                        *
+ * This file is part of SUNDIALS.                                         *
+ *                                                                        *
+ * Redistribution and use in source and binary forms, with or without     *
+ * modification, are permitted provided that the following conditions     *
+ * are met:                                                               *
+ *                                                                        *
+ * 1. Redistributions of source code must retain the above copyright      *
+ * notice, this list of conditions and the disclaimer below.              *
+ *                                                                        *
+ * 2. Redistributions in binary form must reproduce the above copyright   *
+ * notice, this list of conditions and the disclaimer (as noted below)    *
+ * in the documentation and/or other materials provided with the          *
+ * distribution.                                                          *
+ *                                                                        *
+ * 3. Neither the name of the UC/LLNL nor the names of its contributors   *
+ * may be used to endorse or promote products derived from this software  *
+ * without specific prior written permission.                             *
+ *                                                                        *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    *
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      *
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS      *
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE         *
+ * REGENTS OF THE UNIVERSITY OF CALIFORNIA, THE U.S. DEPARTMENT OF ENERGY *
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,        *
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       *
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  *
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  *
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    *
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  *
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   *
+ **************************************************************************/
 
 class Phreeqc;
 #ifndef included_nvector_h
@@ -99,7 +143,7 @@ class Phreeqc;
 
 /* A machine environment is a structure with an implementation
    dependent 'content' representation (used to generate a new vector
-   in that implementation), a set of operations defined in the above 
+   in that implementation), a set of operations defined in the above
    structure, and an ID tag */
 	struct _generic_M_Env
 	{
@@ -110,7 +154,7 @@ class Phreeqc;
 	};
 
 /* A vector is a structure with an implementation dependent content
-   representation and a pointer to the machine environment 
+   representation and a pointer to the machine environment
    corresponding to that implementation */
 	struct _generic_N_Vector
 	{

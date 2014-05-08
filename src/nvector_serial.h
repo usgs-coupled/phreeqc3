@@ -1,59 +1,103 @@
 #ifndef _INC_NVECTOR_SERIAL_H
 #define _INC_NVECTOR_SERIAL_H
-/*******************************************************************
- *                                                                 *
- * File          : nvector_serial.h                                *
- * Programmers   : Scott D. Cohen, Alan C. Hindmarsh,              *
- *               : Radu Serban, and Allan G. Taylor, LLNL          *
- * Version of    : 26 June 2002                                    *
- *-----------------------------------------------------------------*
- * Copyright (c) 2002, The Regents of the University of California *
- * Produced at the Lawrence Livermore National Laboratory          *
- * All rights reserved                                             *
- * For details, see sundials/shared/LICENSE                        *
- *-----------------------------------------------------------------*
- * This is the header file for a serial implementation of the      *
- * NVECTOR package.                                                *
- *                                                                 *
- * Part I of this file contains declarations which are specific    *
- * to the particular machine environment in which this version     *
- * of the vector package is to be used. This includes the          *
- * typedef for the 'content' fields of the structures M_Env and    *
- * N_Vector (M_EnvSerialContent and N_VectorSerialContent,         *
- * respectively).                                                  *
- *                                                                 *
- * Part II of this file defines accessor macros that allow the     *
- * user to use efficiently the type N_Vector without making        *
- * explicit references to its underlying representation.           *
- *                                                                 *
- * Part III of this file contains the prototype for the            *
- * initialization routine specific to this implementation          *
- * (M_EnvInit_Serial) as well as prototypes for the vector         *
- * kernels which operate on the serial N_Vector. These             *
- * prototypes are unique to this particular implementation of      *
- * the vector package.                                             *
- *                                                                 *
- * NOTES:                                                          *
- *                                                                 *
- * The definitions of the generic M_Env and N_Vector structures    *
- * are in the header file nvector.h.                               *
- *                                                                 *
- * The definitions of the types realtype and integertype are in    *
- * the header file sundialstypes.h and these may be changed        *
- * according to the user's needs. The sundialstypes.h file also    *
- * contains the definition for the type booleantype.               *
- *                                                                 *
- * N_Vector arguments to arithmetic kernels need not be            *
- * distinct. Thus, for example, the call                           *
- *         N_VLinearSum_Serial(a,x,b,y,y);   y <- ax+by            *
- * is legal.                                                       *
- *                                                                 * 
- * This version of nvector is for the ordinary sequential          *
- * machine environment. In the documentation given below, N is     *
- * the length of all N_Vector parameters and x[i] denotes the      *
- * ith component of the N_Vector x, where 0 <= i <= N-1.           *
- *                                                                 *
- *******************************************************************/
+/**************************************************************************
+ *                                                                        *
+ * File          : nvector_serial.h                                       *
+ * Programmers   : Scott D. Cohen, Alan C. Hindmarsh,                     *
+ *               : Radu Serban, and Allan G. Taylor, LLNL                 *
+ * Version of    : 26 June 2002                                           *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California        *
+ * Produced at the Lawrence Livermore National Laboratory                 *
+ * All rights reserved                                                    *
+ * For details, see LICENSE below                                         *
+ *------------------------------------------------------------------------*
+ * This is the header file for a serial implementation of the             *
+ * NVECTOR package.                                                       *
+ *                                                                        *
+ * Part I of this file contains declarations which are specific           *
+ * to the particular machine environment in which this version            *
+ * of the vector package is to be used. This includes the                 *
+ * typedef for the 'content' fields of the structures M_Env and           *
+ * N_Vector (M_EnvSerialContent and N_VectorSerialContent,                *
+ * respectively).                                                         *
+ *                                                                        *
+ * Part II of this file defines accessor macros that allow the            *
+ * user to use efficiently the type N_Vector without making               *
+ * explicit references to its underlying representation.                  *
+ *                                                                        *
+ * Part III of this file contains the prototype for the                   *
+ * initialization routine specific to this implementation                 *
+ * (M_EnvInit_Serial) as well as prototypes for the vector                *
+ * kernels which operate on the serial N_Vector. These                    *
+ * prototypes are unique to this particular implementation of             *
+ * the vector package.                                                    *
+ *                                                                        *
+ * NOTES:                                                                 *
+ *                                                                        *
+ * The definitions of the generic M_Env and N_Vector structures           *
+ * are in the header file nvector.h.                                      *
+ *                                                                        *
+ * The definitions of the types realtype and integertype are in           *
+ * the header file sundialstypes.h and these may be changed               *
+ * according to the user's needs. The sundialstypes.h file also           *
+ * contains the definition for the type booleantype.                      *
+ *                                                                        *
+ * N_Vector arguments to arithmetic kernels need not be                   *
+ * distinct. Thus, for example, the call                                  *
+ *         N_VLinearSum_Serial(a,x,b,y,y);   y <- ax+by                   *
+ * is legal.                                                              *
+ *                                                                        *
+ * This version of nvector is for the ordinary sequential                 *
+ * machine environment. In the documentation given below, N is            *
+ * the length of all N_Vector parameters and x[i] denotes the             *
+ * ith component of the N_Vector x, where 0 <= i <= N-1.                  *
+ *                                                                        *
+ *------------------------------------------------------------------------*
+ * LICENSE                                                                *
+ *------------------------------------------------------------------------*
+ * Copyright (c) 2002, The Regents of the University of California.       *
+ * Produced at the Lawrence Livermore National Laboratory.                *
+ * Written by S.D. Cohen, A.C. Hindmarsh, R. Serban,                      *
+ *            D. Shumaker, and A.G. Taylor.                               *
+ * UCRL-CODE-155951    (CVODE)                                            *
+ * UCRL-CODE-155950    (CVODES)                                           *
+ * UCRL-CODE-155952    (IDA)                                              *
+ * UCRL-CODE-237203    (IDAS)                                             *
+ * UCRL-CODE-155953    (KINSOL)                                           *
+ * All rights reserved.                                                   *
+ *                                                                        *
+ * This file is part of SUNDIALS.                                         *
+ *                                                                        *
+ * Redistribution and use in source and binary forms, with or without     *
+ * modification, are permitted provided that the following conditions     *
+ * are met:                                                               *
+ *                                                                        *
+ * 1. Redistributions of source code must retain the above copyright      *
+ * notice, this list of conditions and the disclaimer below.              *
+ *                                                                        *
+ * 2. Redistributions in binary form must reproduce the above copyright   *
+ * notice, this list of conditions and the disclaimer (as noted below)    *
+ * in the documentation and/or other materials provided with the          *
+ * distribution.                                                          *
+ *                                                                        *
+ * 3. Neither the name of the UC/LLNL nor the names of its contributors   *
+ * may be used to endorse or promote products derived from this software  *
+ * without specific prior written permission.                             *
+ *                                                                        *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    *
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      *
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS      *
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE         *
+ * REGENTS OF THE UNIVERSITY OF CALIFORNIA, THE U.S. DEPARTMENT OF ENERGY *
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,        *
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       *
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  *
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  *
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    *
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  *
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   *
+ **************************************************************************/
 #ifndef included_nvector_serial_h
 #define included_nvector_serial_h
 
@@ -66,7 +110,7 @@
  * Serial implementaion of M_Env and N_Vector                   *
  ****************************************************************/
 
-/* The serial implementation of the machine environment has 
+/* The serial implementation of the machine environment has
    ID tag 'serial' */
 #define ID_TAG_S "serial"
 
@@ -80,8 +124,8 @@
 
 	typedef struct _M_EnvSerialContent *M_EnvSerialContent;
 
-/* The serial implementation of the N_Vector 'content' 
-   structure contains the length of the vector and a pointer 
+/* The serial implementation of the N_Vector 'content'
+   structure contains the length of the vector and a pointer
    to an array of realtype components */
 
 	struct _N_VectorSerialContent
@@ -148,11 +192,11 @@
  * (3) ME_CONTENT_S, NV_CONTENT_S                               *
  *                                                              *
  *     These routines give access to the contents of the serial *
- *     machine environment and N_Vector, respectively.          * 
+ *     machine environment and N_Vector, respectively.          *
  *                                                              *
  *     The assignment m_cont = ME_CONTENT_S(machenv) sets       *
  *     m_cont to be a pointer to the serial machine             *
- *     environment content structure.                           * 
+ *     environment content structure.                           *
  *                                                              *
  *     The assignment v_cont = NV_CONTENT_S(v) sets             *
  *     v_cont to be a pointer to the serial N_Vector content    *
@@ -166,7 +210,7 @@
  *     The assignment v_data=NV_DATA_S(v) sets v_data to be     *
  *     a pointer to the first component of v. The assignment    *
  *     NV_DATA_S(v)=v_data sets the component array of v to     *
- *     be v_data by storing the pointer v_data.                 *  
+ *     be v_data by storing the pointer v_data.                 *
  *                                                              *
  *     The assignment v_len=NV_LENGTH_S(v) sets v_len to be     *
  *     the length of v. The call NV_LENGTH_S(v)=len_v sets      *
@@ -277,7 +321,7 @@
 	void M_EnvFree_Serial(M_Env machenv);
 
 /*--------------------------------------------------------------*
- * Serial implementations of the vector operations              * 
+ * Serial implementations of the vector operations              *
  *                                                              *
  * For a complete description of each of the following routines *
  * see the header file nvector.h                                *
