@@ -63,7 +63,7 @@ set_pr_in_false(void)
 	{
 		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
-		{	
+		{
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			int k;
 			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
@@ -151,7 +151,7 @@ punch_all(void)
 	{
 		use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, -2));
 	}
-#if defined PHREEQ98 
+#if defined PHREEQ98
 	if (pr.user_graph == TRUE)
 	{
 		punch_user_graph();
@@ -171,7 +171,7 @@ punch_all(void)
 		current_selected_output = &(so_it->second);
 		if (pr.punch == FALSE ||
 			current_selected_output == NULL ||
-			!current_selected_output->Get_active() /* || 
+			!current_selected_output->Get_active() /* ||
 			current_selected_output->Get_punch_ostream() == NULL*/)
 			continue;
 		phrq_io->Set_punch_ostream(current_selected_output->Get_punch_ostream());
@@ -630,7 +630,7 @@ print_gas_phase(void)
 	{
 /*
  *   Calculate partial pressure
- */ 
+ */
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
 		int k;
 		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
@@ -677,7 +677,7 @@ print_gas_phase(void)
 				   (double) lp,
 				   (double) phase_ptr->p_soln_x,
 				   (double) phase_ptr->pr_phi,
-				   (double) initial_moles, 
+				   (double) initial_moles,
 				   (double) moles,
 				   (double) delta_moles));
 		}
@@ -686,7 +686,7 @@ print_gas_phase(void)
 				   phase_ptr->name,
 				   (double) lp,
 				   (double) phase_ptr->p_soln_x,
-				   (double) initial_moles, 
+				   (double) initial_moles,
 				   (double) moles,
 				   (double) delta_moles));
 		if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x == 90)
@@ -938,7 +938,7 @@ print_kinetics(void)
 					}
 				}
 			}
-			else 
+			else
 			{
 				if (reaction_step > kinetics_ptr->Get_count())
 				{
@@ -1201,7 +1201,7 @@ print_saturation_indices(void)
 	struct rxn_token *rxn_ptr;
 	struct reaction *reaction_ptr;
 	bool gas = true;
- 
+
 	if (pr.saturation_indices == FALSE || pr.all == FALSE)
 		return (OK);
 	if (state == INITIAL_SOLUTION)
@@ -1279,7 +1279,7 @@ print_saturation_indices(void)
 			{
 				output_msg(sformatf("\t%s%5.1f%s%5.3f",
 					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi));
-			} else 
+			} else
 			{
 				for (int j = 0; j < count_unknowns; j++)
 				{
@@ -1298,7 +1298,7 @@ print_saturation_indices(void)
 		phases[i]->pr_in = false;
 		output_msg("\n");
 	}
-	output_msg(sformatf("\n%s\n%s", 
+	output_msg(sformatf("\n%s\n%s",
 		"**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.",
 		"  For ideal gases, phi = 1."));
 	output_msg("\n\n");
@@ -1338,7 +1338,7 @@ print_pp_assemblage(void)
 	{
 		if (x[j]->type != PP)
 			continue;
-		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);	
+		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
 		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
 /*
  *   Print saturation index
@@ -1701,7 +1701,7 @@ print_surface(void)
 #endif
 						   (double) charge_ptr->Get_specific_area()));
 #ifdef NO_UTF8_ENCODING
-				output_msg(sformatf("\t%11.3e  m2 for %11.3e g\n\n",,
+				output_msg(sformatf("\t%11.3e  m2 for %11.3e g\n\n",
 #else
 				output_msg(sformatf("\t%11.3e  m² for %11.3e g\n\n",
 #endif
@@ -2251,7 +2251,7 @@ print_totals(void)
 	output_msg(sformatf("%45s%6.2f\n", "Temperature (°C)  = ",
 #endif
 			   (double) tc_x));
-	
+
 	if (patm_x != 1.0)
 	{
 		/* only print if different than default */
@@ -2447,7 +2447,7 @@ print_using(void)
 	{
 		if (state != TRANSPORT || transport_step > 0)
 		{
-			cxxReaction *reaction_ptr = Utilities::Rxn_find(Rxn_reaction_map, use.Get_n_reaction_user()); 
+			cxxReaction *reaction_ptr = Utilities::Rxn_find(Rxn_reaction_map, use.Get_n_reaction_user());
 			output_msg(sformatf("Using reaction %d.\t%s\n",
 					   use.Get_n_reaction_user(), reaction_ptr->Get_description().c_str()));
 		}
@@ -2518,7 +2518,7 @@ punch_gas_phase(void)
 		p = gas_phase_ptr->Get_total_p();
 		total_moles = gas_phase_ptr->Get_total_moles();
 		//volume = total_moles * R_LITER_ATM * tk_x / gas_phase_ptr->Get_total_p();
- 		//if (gas_phase_ptr->Get_v_m() > 0.03) 
+ 		//if (gas_phase_ptr->Get_v_m() > 0.03)
  		//	volume = 0.03 * gas_phase_ptr->Get_total_moles();
 		volume = gas_phase_ptr->Get_volume();
 
@@ -2971,7 +2971,7 @@ punch_identifiers(void)
 					}
 				}
 			}
-			else 
+			else
 			{
 				if (reaction_step > use.Get_kinetics_ptr()->Get_count())
 				{
@@ -3307,7 +3307,7 @@ punch_user_punch(void)
 	return (OK);
 }
 
-#if defined PHREEQ98  
+#if defined PHREEQ98
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_user_graph(void)
@@ -3474,7 +3474,7 @@ punch_user_graph(void)
 	{
 		chart->Add_new_series();
 	}
-		
+
 	chart->Set_colnr(chart->Get_ColumnOffset());
 	chart->Initialize_graph_pts();
 	if (chart->Get_rate_new_def())
@@ -3519,7 +3519,7 @@ char * Phreeqc::
 sformatf(const char *format, ...)
 {
 	bool success = false;
-	do 
+	do
 	{
 		va_list args;
 		va_start(args, format);
@@ -3529,7 +3529,7 @@ sformatf(const char *format, ...)
 		if (!success)
 		{
 			sformatf_buffer_size *= 2;
-			sformatf_buffer = (char *) PHRQ_realloc(sformatf_buffer, sformatf_buffer_size * sizeof(char)); 
+			sformatf_buffer = (char *) PHRQ_realloc(sformatf_buffer, sformatf_buffer_size * sizeof(char));
 			if (sformatf_buffer == NULL) malloc_error();
 		}
 	}
