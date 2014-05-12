@@ -3772,6 +3772,13 @@ check_isotopes(struct inverse *inv_ptr)
 
 				/* use solution-defined uncertainties second */
 			}
+			else if (inv_ptr->i_u[i].count_uncertainties > 0
+				&& inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].count_uncertainties - 1] != NAN)
+			{
+				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].count_uncertainties - 1]);
+
+				/* use solution-defined uncertainties second */
+			}
 			else if (kit->second.Get_ratio_uncertainty() != NAN)
 			{
 				kit->second.Set_x_ratio_uncertainty(
