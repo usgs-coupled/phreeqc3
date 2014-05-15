@@ -162,7 +162,6 @@ END
 SURFACE 1001 Medium A
 -no_edl
 SOH   1.0 1 1
-#-eq 1001
 END
 USE solution 1001
 USE surface 1001
@@ -174,34 +173,43 @@ END
 USE solution 1001
 SURFACE 1002 Medium B
 -no_edl
-#-eq 1001
 BOH   10.0 1 1
-SAVE solution 41-44
-SAVE surface  41-44
+SAVE solution 11
+SAVE surface  11
+#SAVE solution 21-22
+#SAVE surface  21-22
+#SAVE solution 41-44
+#SAVE surface  41-44
 END
 
 TRANSPORT
     -cells                 21
-    -shifts                1100 # 360
+    #-cells                 42
+    #-cells                 84
+    -shifts                1100 
+    #-shifts                2200 
+    #-shifts                4400
     -time_step             4.545454545 # 18.18181818 # seconds
     #-time_step             2.272727273
     #-time_step             1.136363636
     -boundary_conditions   constant flux
     -lengths               21*0.1
     #-lengths               42*0.05
-    #-lengths               84*0.05
+    #-lengths               84*0.025
     -dispersivities        10*0.01 1*0.06 10*0.01
     #-dispersivities        20*0.01 2*0.06 20*0.01
     #-dispersivities        40*0.01 4*0.06 40*0.01
     -print_frequency       60
 USER_GRAPH 1
     -headings               Time X1 X2 X3 X4 #OH-
-    -axis_titles            "Time, seconds" "Concentration, mmol/kgs" ""
+    -axis_titles            "Time" "Concentration, mol/kgw" ""
     -initial_solutions      false
     -connect_simulations    true
     -plot_concentration_vs  t
   -start
 5 if (cell_no <> 21) then goto 1000
+#5 if (cell_no <> 42) then goto 1000
+#5 if (cell_no <> 84) then goto 1000
 10 C0 = MOL("H+")
 20 C1 = MOL("OH-")
 30 C2 = MOL("H[X3]+") * (TOT("[X3]")>0)
@@ -221,11 +229,14 @@ USER_GRAPH 1
 1000 REM
   -end
     -active                 true
+
 END
 COPY solution 1001 0
 END
 TRANSPORT
-    -shifts                1100
+    -shifts                110
+#    -shifts                220
+#    -shifts                440
 
 
 
