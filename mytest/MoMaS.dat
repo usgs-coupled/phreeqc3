@@ -1,0 +1,30 @@
+SOLUTION_MASTER_SPECIES
+    H             H+              -1     H               1.008
+    H(0)          H2               0     H              
+    H(1)          H+              -1     0              
+    E             e-               0     0               1.008
+    O             H2O              0     O               16
+    O(0)          O2               0     O              
+    O(-2)         H2O              0     0              
+
+SOLUTION_SPECIES
+H+ = H+
+    log_k     0
+    -gamma    9 0
+    -dw       9.31e-009
+e- = e-
+    log_k     0
+H2O = H2O
+    log_k     0
+H2O = OH- + H+
+    -analytical_expression 293.29227 0.1360833 -10576.913 -123.73158 0 -6.996455e-005
+    -gamma    3.5 0
+    -dw       5.27e-009
+2H2O = O2 + 4H+ + 4e-
+    log_k     -86.08
+    delta_h   134.79 kcal
+    -dw       2.35e-009
+2H+ + 2e- = H2
+    log_k     -3.15
+    delta_h   -1.759 kcal
+    -dw       5.13e-009
