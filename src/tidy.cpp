@@ -3007,7 +3007,11 @@ tidy_species(void)
 		if (master[i]->gfw <= 0.0)
 		{
 			if (master[i]->type >= EMINUS) continue;
-			if ((strcmp(master[i]->elt->name, "E") != 0) && (strcmp(master[i]->elt->name, "e") != 0))
+			if ((strcmp(master[i]->elt->name, "E") != 0) && 
+			    (strcmp(master[i]->elt->name, "e") != 0) &&
+			    (strcmp(master[i]->elt->name, "H(1)") != 0) &&
+			    (strcmp(master[i]->elt->name, "O(-2)") != 0)
+			    )
 			{
 				input_error++;
 				error_string = sformatf(

@@ -1,0 +1,2031 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: KinSorbNp
+  Output file: KinSorbNp.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SOLUTION_MASTER_SPECIES
+	   Np            NpO2+2         0            Np             237.048 
+	SOLUTION_SPECIES
+	+1.000NpO2+2          = NpO2+2
+	     log_k     0            #
+	+1.000NpO2+2     +1.000e-          = NpO2+
+	     log_k     19.59        #
+	     delta_h  -117.448      kJ/mol        #
+	+1.000NpO2+     -1.000H+     +1.000H2O          = NpO2(OH)
+	    log_k    -8.90         #WANG et al.
+	   delta_h   64.785       kJ/mol        #
+	+1.000NpO2+     +1.000CO3-2          = NpO2(CO3)-
+	     log_k     4.6         #WANG et al.
+	   delta_h   59.904       kJ/mol        #
+	+1.000NpO2+     +2.000CO3-2          = NpO2(CO3)2-3
+	     log_k     7.0         #WANG et al.
+	     delta_h   39.027       kJ/mol        #
+	+1.000NpO2+     +3.000CO3-2          = NpO2(CO3)3-5
+	  log_k     8.5          #WANG et al.
+	     delta_h  -13.249       kJ/mol        #
+	SOLUTION_MASTER_SPECIES
+	   [Np]            [Np]O2+2         0            [Np]             237.048 
+	SOLUTION_SPECIES
+	+1.000[Np]O2+2          = [Np]O2+2
+	     log_k     0            #
+	+1.000[Np]O2+2     +1.000e-          = [Np]O2+
+	     log_k     19.59        #
+	     delta_h  -117.448      kJ/mol        #
+	+1.000[Np]O2+     -1.000H+     +1.000H2O          = [Np]O2(OH)
+	    log_k    -8.90         #WANG et al.
+	   delta_h   64.785       kJ/mol        #
+	+1.000[Np]O2+     +1.000CO3-2          = [Np]O2(CO3)-
+	     log_k     4.6         #WANG et al.
+	   delta_h   59.904       kJ/mol        #
+	+1.000[Np]O2+     +2.000CO3-2          = [Np]O2(CO3)2-3
+	     log_k     7.0         #WANG et al.
+	     delta_h   39.027       kJ/mol        #
+	+1.000[Np]O2+     +3.000CO3-2          = [Np]O2(CO3)3-5
+	  log_k     8.5          #WANG et al.
+	     delta_h  -13.249       kJ/mol        #
+	SURFACE_MASTER_SPECIES
+	    Hfo_s       Hfo_sOH
+	SURFACE_SPECIES
+	Hfo_sOH = Hfo_sOH
+	    log_k     0
+	H+ + Hfo_sOH = Hfo_sOH2+
+	    log_k     7.29
+	Hfo_sOH = Hfo_sO- + H+
+	    log_k     -8.93
+	H2O + Hfo_sOH + [Np]O2+ = Hfo_sOH[Np]O3- + 2H+
+	    log_k     -11.26
+	PHASES
+	Fix_H+
+	H+ = H+
+	log_k 0.0
+	Fix_pe
+	e- = e-
+	log_k  0.0
+	EQUILIBRIUM_PHASES 1
+	Fix_H+	-9.7 NaOH	10
+	Fix_pe	-3.41 O2(g)	10
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 0
+	    pH        9.7
+	    pe        3.41
+	    Na	  1 charge
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Na                5.115e-05   5.115e-05  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700    
+                                       pe  =   3.410    
+       Specific Conductance (µS/cm, 25°C)  = 12
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   5.115e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.115e-05
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   4.663e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   5
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550627e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.115e-05   5.073e-05    -4.291    -4.295    -0.004     -4.13
+   H+              2.012e-10   1.995e-10    -9.696    -9.700    -0.004      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            5.115e-05
+   Na+             5.115e-05   5.073e-05    -4.291    -4.295    -0.004     -1.51
+   NaOH            2.573e-19   2.573e-19   -18.590   -18.589     0.000     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SURFACE 1
+	site_units density
+	no_edl
+	 Hfo_s 2.31 600 1e-3
+	 equilibrate 0
+	END
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Hfo           
+	 -1.965e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.966e-06       0.854   1.966e-06      -5.706
+	Hfo_sOH           3.339e-07       0.145   3.339e-07      -6.476
+	Hfo_sOH2+         1.299e-09       0.001   1.299e-09      -8.886
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	RATES
+	    kin_surfs_Np
+	start
+	20 r_f = kin("kin_surfs_oh") * act("NpO2+") #* Boltzm
+	30 r_b = m / (10^-11.26) * act("H+") * act("H+")
+	40 moles = parm(1) * (r_f - r_b) * time
+	50 put(moles, 1)
+	60 save -moles
+	end
+	    kin_surfs_h
+	start
+	20 r_f = kin("kin_surfs_oh") * act("H+") #* Boltzm
+	30 r_b = m / (10^7.29)
+	40 moles = parm(1) * (r_f - r_b) * time
+	50 put(moles, 2)
+	60 save -moles
+	end
+	    kin_surfs_o
+	start
+	20 r_f = kin("kin_surfs_oh")
+	30 r_b = m / (10^-8.93) * act("H+")# * Boltzm
+	40 moles = parm(1) * (r_f - r_b) * time
+	50 put(-moles, 3)
+	60 save -moles
+	end
+	    kin_surfs_oh
+	start
+	10 r = get(1) + get(2) - get(3)
+	20 moles = m - r
+	40 save m - moles
+	end
+	KINETICS  1
+	kin_surfs_Np
+		formula NpO3 1.  
+		m0         0       
+		parms   1.0000000E+04 #0         -parm  5e2 
+	kin_surfs_o
+		formula H -1.        
+		m0         2.752e-07
+		parms   1.0000000E+04 #1.82e-4;  -parm  5e2
+	kin_surfs_h
+		formula H  +1.        
+		m0         2.597e-07
+		parms   1.0000000E+04 #1.82e-4;  -parm  5e2
+	kin_surfs_oh
+		formula OH 0.        
+		m0         1.766e-06
+	steps 1 3 10 30 100 300 1000 3000 10000 30000 100000 
+	cvode true
+	END 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	INCREMENTAL_REACTIONS true
+	USE equilibrium_phases 1
+	USE kinetics 1
+	USE surface 1
+	SOLUTION 1 #RN cocktail
+	    temp      25 #use default due to enthalpy
+	    pH        9.7
+	    pe        3.41
+	    redox     pe
+	    units     mg/l
+	    density   1
+	    A  	  1.25e-006 Mol/l
+	    C         3 as HCO3
+	    Na        53.7 charge
+	    Np        1.25e-06 Mol/l
+	    [Np]        1.25e-06 Mol/l
+	     water   1 # kg
+	USER_GRAPH 1
+	    -headings               Time Kin(Np) Kin(O) Kin(H) Kin(OH) MOL(Hfo[Np])
+	    -axis_titles            "Time, in seconds" "Kinetic Reactant, in moles" ""
+	    -axis_scale x_axis      auto auto auto auto log
+	    -axis_scale y_axis      auto auto auto auto log
+	    -initial_solutions      false
+	    -connect_simulations    true
+	    -plot_concentration_vs  x
+	  -start
+	10 graph_x sim_time
+	20 graph_y KIN("kin_surfs_Np"), KIN("kin_surfs_o"), KIN("kin_surfs_h"), KIN("kin_surfs_oh")
+	30 graph_Y MOL("Hfo_sOH[Np]O3-") * TOT("water")
+	  -end
+	    -active                 true
+	USER_PRINT
+	10 PRINT "Np       ", -11.26, log10( KIN("kin_surfs_Np") * act("H+")^2 / (KIN("kin_surfs_oh") * act("NpO2+") * act("H2O")) ) 
+	20 PRINT "O        ", -8.93,  log10( KIN("kin_surfs_o") * act("H+") / KIN("kin_surfs_oh") ) 
+	30 PRINT "OH       ", 7.29,   log10( KIN("kin_surfs_h") / (KIN("kin_surfs_oh") * act("H+"))  ) 
+	40 PRINT "Surf     ", 2.301e-06, KIN("kin_surfs_oh") + KIN("kin_surfs_h")  + KIN("kin_surfs_o")  + KIN("kin_surfs_Np") 
+	50 PRINT "Tot Np   ", 1.250e-06, TOT("Np") * TOT("water") + KIN("kin_surfs_Np")
+	100 PRINT
+	110 PRINT "Hfo Np   ", -11.26, log10( MOL("Hfo_sOH[Np]O3-") * act("H+")^2 / (MOL("Hfo_sOH") * act("[Np]O2+") * act("H2O")) ) 
+	120 PRINT "Hfo O    ", -8.93,  log10( MOL("Hfo_sO-") * act("H+") / MOL("Hfo_sOH") ) 
+	130 PRINT "Hfo OH   ", 7.29,   log10( MOL("Hfo_sOH2+") / (MOL("Hfo_sOH") * act("H+"))  ) 
+	140 PRINT "Hfo      ", 2.301e-06, (MOL("Hfo_sOH") + MOL("Hfo_sOH2+")  + MOL("Hfo_sO-")  + MOL("Hfo_sOH[Np]O3-")) * TOT("Water") 
+	150 PRINT "Tot [Np] ", 1.250e-06, (TOT("[Np]") + MOL("Hfo_sOH[Np]O3-")) * TOT("Water")
+	END
+WARNING: Could not find element in database, A.
+	Concentration is set to zero.
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01 WARNING: Zero divide in BASIC line
+ 10  PRINT "Np       ", -11.26, log10( KIN("kin_surfs_Np") * act("H+")^2 / (KIN("kin_surfs_oh") * act("NpO2+") * act("H2O")) ).
+Value set to zero.
+        -inf 
+O          -8.9300e+00 WARNING: Zero divide in BASIC line
+ 20  PRINT "O        ", -8.93,  log10( KIN("kin_surfs_o") * act("H+") / KIN("kin_surfs_oh") ).
+Value set to zero.
+        -inf 
+OH          7.2900e+00 WARNING: Zero divide in BASIC line
+ 30  PRINT "OH       ", 7.29,   log10( KIN("kin_surfs_h") / (KIN("kin_surfs_oh") * act("H+"))  ).
+Value set to zero.
+        -inf 
+Surf        2.3010e-06            0 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.2611e+01 
+Hfo O      -8.9300e+00  -9.7000e+00 
+Hfo OH      7.2900e+00   9.7000e+00 
+Hfo         2.3010e-06   4.0000e-99 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.098e-04   1.098e-04  Charge balance
+	Np                1.250e-06   1.250e-06
+	[Np]              1.250e-06   1.250e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700    
+                                       pe  =   3.410    
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.123e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -5.793e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   6
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.248   -88.248     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.939e-05   3.890e-05    -4.405    -4.410    -0.005     24.66
+   CO3-2           9.616e-06   9.143e-06    -5.017    -5.039    -0.022     -5.35
+   NpO2(CO3)-      5.991e-08   5.916e-08    -7.222    -7.228    -0.006     (0)  
+   [Np]O2(CO3)-    5.991e-08   5.916e-08    -7.222    -7.228    -0.006     (0)  
+   NaCO3-          1.870e-08   1.846e-08    -7.728    -7.734    -0.006     -1.05
+   CO2             1.745e-08   1.745e-08    -7.758    -7.758     0.000     29.09
+   NaHCO3          2.372e-09   2.372e-09    -8.625    -8.625     0.000      1.80
+   NpO2(CO3)2-3    1.523e-10   1.359e-10    -9.817    -9.867    -0.050     (0)  
+   [Np]O2(CO3)2-3   1.523e-10   1.359e-10    -9.817    -9.867    -0.050     (0)  
+   NpO2(CO3)3-5    5.392e-14   3.928e-14   -13.268   -13.406    -0.138     (0)  
+   [Np]O2(CO3)3-5   5.392e-14   3.928e-14   -13.268   -13.406    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.098e-04
+   Na+             1.098e-04   1.084e-04    -3.959    -3.965    -0.005     -1.51
+   NaCO3-          1.870e-08   1.846e-08    -7.728    -7.734    -0.006     -1.05
+   NaHCO3          2.372e-09   2.372e-09    -8.625    -8.625     0.000      1.80
+   NaOH            5.500e-19   5.500e-19   -18.260   -18.260     0.000     (0)  
+Np            1.250e-06
+   NpO2(OH)        1.025e-06   1.025e-06    -5.989    -5.989     0.000     (0)  
+   NpO2+           1.646e-07   1.625e-07    -6.784    -6.789    -0.006     (0)  
+   NpO2(CO3)-      5.991e-08   5.916e-08    -7.222    -7.228    -0.006     (0)  
+   NpO2(CO3)2-3    1.523e-10   1.359e-10    -9.817    -9.867    -0.050     (0)  
+   NpO2(CO3)3-5    5.392e-14   3.928e-14   -13.268   -13.406    -0.138     (0)  
+   NpO2+2          1.130e-23   1.074e-23   -22.947   -22.969    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          1.250e-06
+   [Np]O2(OH)      1.025e-06   1.025e-06    -5.989    -5.989     0.000     (0)  
+   [Np]O2+         1.646e-07   1.625e-07    -6.784    -6.789    -0.006     (0)  
+   [Np]O2(CO3)-    5.991e-08   5.916e-08    -7.222    -7.228    -0.006     (0)  
+   [Np]O2(CO3)2-3   1.523e-10   1.359e-10    -9.817    -9.867    -0.050     (0)  
+   [Np]O2(CO3)3-5   5.392e-14   3.928e-14   -13.268   -13.406    -0.138     (0)  
+   [Np]O2+2        1.130e-23   1.074e-23   -22.947   -22.969    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1 seconds  (Incremented time: 1 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      4.813e-10   4.813e-10   NpO3                      1
+	kin_surfs_o       1.469e-06   1.745e-06   H                        -1
+	kin_surfs_h      -1.325e-10   2.596e-07   H                         1
+	kin_surfs_oh     -1.470e-06   2.963e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.5400e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.6426e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -2.791e-07
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -3.675e-07
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.101e-04   1.101e-04
+	Np                1.250e-06   1.250e-06
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.115e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  49
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.248   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.943e-05   3.894e-05    -4.404    -4.410    -0.005     24.66
+   CO3-2           9.625e-06   9.152e-06    -5.017    -5.039    -0.022     -5.35
+   NpO2(CO3)-      5.994e-08   5.919e-08    -7.222    -7.228    -0.006     (0)  
+   NaCO3-          1.876e-08   1.852e-08    -7.727    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    1.525e-10   1.361e-10    -9.817    -9.866    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    5.406e-14   3.937e-14   -13.267   -13.405    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.101e-04
+   Na+             1.101e-04   1.087e-04    -3.958    -3.964    -0.005     -1.51
+   NaCO3-          1.876e-08   1.852e-08    -7.727    -7.732    -0.006     -1.05
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.514e-19   5.514e-19   -18.259   -18.258     0.000     (0)  
+Np            1.250e-06
+   NpO2(OH)        1.025e-06   1.025e-06    -5.989    -5.989     0.000     (0)  
+   NpO2+           1.645e-07   1.625e-07    -6.784    -6.789    -0.006     (0)  
+   NpO2(CO3)-      5.994e-08   5.919e-08    -7.222    -7.228    -0.006     (0)  
+   NpO2(CO3)2-3    1.525e-10   1.361e-10    -9.817    -9.866    -0.050     (0)  
+   NpO2(CO3)3-5    5.406e-14   3.937e-14   -13.267   -13.405    -0.138     (0)  
+   NpO2+2          1.129e-23   1.073e-23   -22.947   -22.969    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 2.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 3 seconds  (Incremented time: 4 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      1.437e-09   1.918e-09   NpO3                      1
+	kin_surfs_o      -8.897e-10   1.744e-06   H                        -1
+	kin_surfs_h      -3.960e-10   2.592e-07   H                         1
+	kin_surfs_oh     -1.511e-10   2.961e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.4799e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.6421e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -2.027e-10
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -2.358e-10
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.101e-04   1.101e-04
+	Np                1.248e-06   1.248e-06
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.115e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  13
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.248   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.943e-05   3.894e-05    -4.404    -4.410    -0.005     24.66
+   CO3-2           9.625e-06   9.152e-06    -5.017    -5.039    -0.022     -5.35
+   NpO2(CO3)-      5.987e-08   5.912e-08    -7.223    -7.228    -0.006     (0)  
+   NaCO3-          1.876e-08   1.852e-08    -7.727    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    1.523e-10   1.359e-10    -9.817    -9.867    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    5.399e-14   3.933e-14   -13.268   -13.405    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.101e-04
+   Na+             1.101e-04   1.087e-04    -3.958    -3.964    -0.005     -1.51
+   NaCO3-          1.876e-08   1.852e-08    -7.727    -7.732    -0.006     -1.05
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.514e-19   5.514e-19   -18.259   -18.258     0.000     (0)  
+Np            1.248e-06
+   NpO2(OH)        1.024e-06   1.024e-06    -5.990    -5.990     0.000     (0)  
+   NpO2+           1.643e-07   1.623e-07    -6.784    -6.790    -0.006     (0)  
+   NpO2(CO3)-      5.987e-08   5.912e-08    -7.223    -7.228    -0.006     (0)  
+   NpO2(CO3)2-3    1.523e-10   1.359e-10    -9.817    -9.867    -0.050     (0)  
+   NpO2(CO3)3-5    5.399e-14   3.933e-14   -13.268   -13.405    -0.138     (0)  
+   NpO2+2          1.128e-23   1.072e-23   -22.948   -22.970    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 3.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 10 seconds  (Incremented time: 14 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      4.727e-09   6.645e-09   NpO3                      1
+	kin_surfs_o      -2.925e-09   1.741e-06   H                        -1
+	kin_surfs_h      -1.306e-09   2.579e-07   H                         1
+	kin_surfs_oh     -4.967e-10   2.956e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.4257e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.6407e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -6.669e-10
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -7.772e-10
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.101e-04   1.101e-04
+	Np                1.243e-06   1.243e-06
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.115e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  13
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.248   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.943e-05   3.894e-05    -4.404    -4.410    -0.005     24.66
+   CO3-2           9.625e-06   9.152e-06    -5.017    -5.038    -0.022     -5.35
+   NpO2(CO3)-      5.965e-08   5.890e-08    -7.224    -7.230    -0.006     (0)  
+   NaCO3-          1.876e-08   1.852e-08    -7.727    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    1.517e-10   1.354e-10    -9.819    -9.868    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    5.379e-14   3.918e-14   -13.269   -13.407    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.101e-04
+   Na+             1.101e-04   1.087e-04    -3.958    -3.964    -0.005     -1.51
+   NaCO3-          1.876e-08   1.852e-08    -7.727    -7.732    -0.006     -1.05
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.514e-19   5.514e-19   -18.259   -18.258     0.000     (0)  
+Np            1.243e-06
+   NpO2(OH)        1.020e-06   1.020e-06    -5.991    -5.991     0.000     (0)  
+   NpO2+           1.637e-07   1.617e-07    -6.786    -6.791    -0.006     (0)  
+   NpO2(CO3)-      5.965e-08   5.890e-08    -7.224    -7.230    -0.006     (0)  
+   NpO2(CO3)2-3    1.517e-10   1.354e-10    -9.819    -9.868    -0.050     (0)  
+   NpO2(CO3)3-5    5.379e-14   3.918e-14   -13.269   -13.407    -0.138     (0)  
+   NpO2+2          1.124e-23   1.068e-23   -22.949   -22.971    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 4.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 30 seconds  (Incremented time: 44 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      1.367e-08   2.032e-08   NpO3                      1
+	kin_surfs_o      -8.439e-09   1.732e-06   H                        -1
+	kin_surfs_h      -3.800e-09   2.541e-07   H                         1
+	kin_surfs_oh     -1.433e-09   2.942e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.3765e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.6363e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -1.929e-09
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -2.258e-09
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.101e-04   1.101e-04
+	Np                1.230e-06   1.230e-06
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.115e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  14
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.248   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.943e-05   3.894e-05    -4.404    -4.410    -0.005     24.66
+   CO3-2           9.625e-06   9.152e-06    -5.017    -5.038    -0.022     -5.35
+   NpO2(CO3)-      5.899e-08   5.825e-08    -7.229    -7.235    -0.006     (0)  
+   NaCO3-          1.876e-08   1.853e-08    -7.727    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    1.501e-10   1.339e-10    -9.824    -9.873    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    5.320e-14   3.875e-14   -13.274   -13.412    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.101e-04
+   Na+             1.101e-04   1.087e-04    -3.958    -3.964    -0.005     -1.51
+   NaCO3-          1.876e-08   1.853e-08    -7.727    -7.732    -0.006     -1.05
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.514e-19   5.515e-19   -18.259   -18.258     0.000     (0)  
+Np            1.230e-06
+   NpO2(OH)        1.009e-06   1.009e-06    -5.996    -5.996     0.000     (0)  
+   NpO2+           1.619e-07   1.599e-07    -6.791    -6.796    -0.006     (0)  
+   NpO2(CO3)-      5.899e-08   5.825e-08    -7.229    -7.235    -0.006     (0)  
+   NpO2(CO3)2-3    1.501e-10   1.339e-10    -9.824    -9.873    -0.050     (0)  
+   NpO2(CO3)3-5    5.320e-14   3.875e-14   -13.274   -13.412    -0.138     (0)  
+   NpO2+2          1.111e-23   1.056e-23   -22.954   -22.976    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.820e-15   -13.917   -14.055    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 5.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 100 seconds  (Incremented time: 144 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      4.332e-08   6.364e-08   NpO3                      1
+	kin_surfs_o      -2.665e-08   1.706e-06   H                        -1
+	kin_surfs_h      -1.214e-08   2.419e-07   H                         1
+	kin_surfs_oh     -4.527e-09   2.897e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.3246e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.6218e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -6.111e-09
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -7.200e-09
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.101e-04   1.101e-04
+	Np                1.186e-06   1.186e-06
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.114e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  22
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.943e-05   3.894e-05    -4.404    -4.410    -0.005     24.66
+   CO3-2           9.626e-06   9.152e-06    -5.017    -5.038    -0.022     -5.35
+   NpO2(CO3)-      5.692e-08   5.620e-08    -7.245    -7.250    -0.006     (0)  
+   NaCO3-          1.876e-08   1.853e-08    -7.727    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    1.448e-10   1.292e-10    -9.839    -9.889    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    5.133e-14   3.739e-14   -13.290   -13.427    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.822e-15   -13.917   -14.054    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.101e-04
+   Na+             1.101e-04   1.087e-04    -3.958    -3.964    -0.005     -1.51
+   NaCO3-          1.876e-08   1.853e-08    -7.727    -7.732    -0.006     -1.05
+   NaHCO3          2.380e-09   2.380e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.515e-19   5.515e-19   -18.258   -18.258     0.000     (0)  
+Np            1.186e-06
+   NpO2(OH)        9.732e-07   9.732e-07    -6.012    -6.012     0.000     (0)  
+   NpO2+           1.562e-07   1.542e-07    -6.806    -6.812    -0.006     (0)  
+   NpO2(CO3)-      5.692e-08   5.620e-08    -7.245    -7.250    -0.006     (0)  
+   NpO2(CO3)2-3    1.448e-10   1.292e-10    -9.839    -9.889    -0.050     (0)  
+   NpO2(CO3)3-5    5.133e-14   3.739e-14   -13.290   -13.427    -0.138     (0)  
+   NpO2+2          1.072e-23   1.019e-23   -22.970   -22.992    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.878    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.416e-11   3.048e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.822e-15   -13.917   -14.054    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 6.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 300 seconds  (Incremented time: 444 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      1.172e-07   1.808e-07   NpO3                      1
+	kin_surfs_o      -7.173e-08   1.634e-06   H                        -1
+	kin_surfs_h      -3.326e-08   2.087e-07   H                         1
+	kin_surfs_oh     -1.218e-08   2.775e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.2729e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.5762e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -1.653e-08
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -1.968e-08
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.101e-04   1.101e-04
+	Np                1.069e-06   1.069e-06
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.198e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.113e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  28
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.944e-05   3.894e-05    -4.404    -4.410    -0.005     24.66
+   CO3-2           9.627e-06   9.153e-06    -5.017    -5.038    -0.022     -5.35
+   NpO2(CO3)-      5.130e-08   5.065e-08    -7.290    -7.295    -0.006     (0)  
+   NaCO3-          1.877e-08   1.853e-08    -7.727    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.877    -0.006     (0)  
+   NaHCO3          2.381e-09   2.381e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    1.305e-10   1.165e-10    -9.884    -9.934    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.417e-11   3.049e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    4.628e-14   3.371e-14   -13.335   -13.472    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.825e-15   -13.917   -14.054    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.101e-04
+   Na+             1.101e-04   1.087e-04    -3.958    -3.964    -0.005     -1.51
+   NaCO3-          1.877e-08   1.853e-08    -7.727    -7.732    -0.006     -1.05
+   NaHCO3          2.381e-09   2.381e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.516e-19   5.516e-19   -18.258   -18.258     0.000     (0)  
+Np            1.069e-06
+   NpO2(OH)        8.770e-07   8.771e-07    -6.057    -6.057     0.000     (0)  
+   NpO2+           1.408e-07   1.390e-07    -6.851    -6.857    -0.006     (0)  
+   NpO2(CO3)-      5.130e-08   5.065e-08    -7.290    -7.295    -0.006     (0)  
+   NpO2(CO3)2-3    1.305e-10   1.165e-10    -9.884    -9.934    -0.050     (0)  
+   NpO2(CO3)3-5    4.628e-14   3.371e-14   -13.335   -13.472    -0.138     (0)  
+   NpO2+2          9.662e-24   9.184e-24   -23.015   -23.037    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.877    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.417e-11   3.049e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.211e-14   8.825e-15   -13.917   -14.054    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 7.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1000 seconds  (Incremented time: 1444 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      2.837e-07   4.645e-07   NpO3                      1
+	kin_surfs_o      -1.721e-07   1.462e-06   H                        -1
+	kin_surfs_h      -8.235e-08   1.263e-07   H                         1
+	kin_surfs_oh     -2.923e-08   2.483e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.2137e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   9.4066e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -4.002e-08
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -4.848e-08
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.102e-04   1.102e-04
+	Np                7.856e-07   7.856e-07
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.199e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.111e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  36
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.945e-05   3.895e-05    -4.404    -4.409    -0.005     24.66
+   CO3-2           9.630e-06   9.156e-06    -5.016    -5.038    -0.022     -5.35
+   NpO2(CO3)-      3.770e-08   3.722e-08    -7.424    -7.429    -0.006     (0)  
+   NaCO3-          1.878e-08   1.854e-08    -7.726    -7.732    -0.006     -1.05
+   CO2             1.747e-08   1.747e-08    -7.758    -7.758     0.000     29.09
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.877    -0.006     (0)  
+   NaHCO3          2.383e-09   2.383e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    9.596e-11   8.561e-11   -10.018   -10.067    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.419e-11   3.050e-11   -10.466   -10.516    -0.050     (0)  
+   NpO2(CO3)3-5    3.403e-14   2.479e-14   -13.468   -13.606    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.212e-14   8.832e-15   -13.916   -14.054    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.102e-04
+   Na+             1.102e-04   1.088e-04    -3.958    -3.963    -0.005     -1.51
+   NaCO3-          1.878e-08   1.854e-08    -7.726    -7.732    -0.006     -1.05
+   NaHCO3          2.383e-09   2.383e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.518e-19   5.518e-19   -18.258   -18.258     0.000     (0)  
+Np            7.856e-07
+   NpO2(OH)        6.444e-07   6.444e-07    -6.191    -6.191     0.000     (0)  
+   NpO2+           1.034e-07   1.021e-07    -6.985    -6.991    -0.006     (0)  
+   NpO2(CO3)-      3.770e-08   3.722e-08    -7.424    -7.429    -0.006     (0)  
+   NpO2(CO3)2-3    9.596e-11   8.561e-11   -10.018   -10.067    -0.050     (0)  
+   NpO2(CO3)3-5    3.403e-14   2.479e-14   -13.468   -13.606    -0.138     (0)  
+   NpO2+2          7.098e-24   6.747e-24   -23.149   -23.171    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.343e-08   1.326e-08    -7.872    -7.877    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.419e-11   3.050e-11   -10.466   -10.516    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.212e-14   8.832e-15   -13.916   -14.054    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 8.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 3000 seconds  (Incremented time: 4444 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      3.616e-07   8.261e-07   NpO3                      1
+	kin_surfs_o      -2.234e-07   1.238e-06   H                        -1
+	kin_surfs_h      -1.003e-07   2.604e-08   H                         1
+	kin_surfs_oh     -3.794e-08   2.103e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.1547e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   8.7928e+00 
+Surf        2.3010e-06   2.3009e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -5.102e-08
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -5.962e-08
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.102e-04   1.102e-04
+	Np                4.239e-07   4.239e-07
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.199e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.108e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  40
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.946e-05   3.897e-05    -4.404    -4.409    -0.005     24.66
+   CO3-2           9.633e-06   9.159e-06    -5.016    -5.038    -0.022     -5.35
+   NpO2(CO3)-      2.035e-08   2.010e-08    -7.691    -7.697    -0.006     (0)  
+   NaCO3-          1.880e-08   1.856e-08    -7.726    -7.731    -0.006     -1.05
+   CO2             1.748e-08   1.748e-08    -7.757    -7.757     0.000     29.09
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NaHCO3          2.385e-09   2.385e-09    -8.623    -8.623     0.000      1.80
+   NpO2(CO3)2-3    5.182e-11   4.623e-11   -10.286   -10.335    -0.050     (0)  
+   [Np]O2(CO3)2-3   3.421e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   NpO2(CO3)3-5    1.838e-14   1.339e-14   -13.736   -13.873    -0.138     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.841e-15   -13.916   -14.053    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.102e-04
+   Na+             1.102e-04   1.088e-04    -3.958    -3.963    -0.005     -1.51
+   NaCO3-          1.880e-08   1.856e-08    -7.726    -7.731    -0.006     -1.05
+   NaHCO3          2.385e-09   2.385e-09    -8.623    -8.623     0.000      1.80
+   NaOH            5.520e-19   5.520e-19   -18.258   -18.258     0.000     (0)  
+Np            4.239e-07
+   NpO2(OH)        3.477e-07   3.477e-07    -6.459    -6.459     0.000     (0)  
+   NpO2+           5.581e-08   5.511e-08    -7.253    -7.259    -0.006     (0)  
+   NpO2(CO3)-      2.035e-08   2.010e-08    -7.691    -7.697    -0.006     (0)  
+   NpO2(CO3)2-3    5.182e-11   4.623e-11   -10.286   -10.335    -0.050     (0)  
+   NpO2(CO3)3-5    1.838e-14   1.339e-14   -13.736   -13.873    -0.138     (0)  
+   NpO2+2          3.831e-24   3.641e-24   -23.417   -23.439    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.421e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.841e-15   -13.916   -14.053    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 9.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 10000 seconds  (Incremented time: 14444 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np      1.484e-07   9.745e-07   NpO3                      1
+	kin_surfs_o      -1.039e-07   1.135e-06   H                        -1
+	kin_surfs_h      -2.604e-08   0.000e+00   H                         1
+	kin_surfs_oh     -1.764e-08   1.927e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.1250e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00         -inf 
+Surf        2.3010e-06   2.3018e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01  -2.094e-08
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01  -1.764e-08
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.102e-04   1.102e-04
+	Np                2.755e-07   2.755e-07
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.199e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.107e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  47
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.947e-05   3.897e-05    -4.404    -4.409    -0.005     24.66
+   CO3-2           9.634e-06   9.160e-06    -5.016    -5.038    -0.022     -5.35
+   NaCO3-          1.880e-08   1.857e-08    -7.726    -7.731    -0.006     -1.05
+   CO2             1.748e-08   1.748e-08    -7.757    -7.757     0.000     29.09
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NpO2(CO3)-      1.323e-08   1.306e-08    -7.878    -7.884    -0.006     (0)  
+   NaHCO3          2.385e-09   2.385e-09    -8.622    -8.622     0.000      1.80
+   [Np]O2(CO3)2-3   3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   NpO2(CO3)2-3    3.369e-11   3.006e-11   -10.473   -10.522    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.845e-15   -13.916   -14.053    -0.138     (0)  
+   NpO2(CO3)3-5    1.195e-14   8.706e-15   -13.923   -14.060    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.102e-04
+   Na+             1.102e-04   1.088e-04    -3.958    -3.963    -0.005     -1.51
+   NaCO3-          1.880e-08   1.857e-08    -7.726    -7.731    -0.006     -1.05
+   NaHCO3          2.385e-09   2.385e-09    -8.622    -8.622     0.000      1.80
+   NaOH            5.521e-19   5.521e-19   -18.258   -18.258     0.000     (0)  
+Np            2.755e-07
+   NpO2(OH)        2.260e-07   2.260e-07    -6.646    -6.646     0.000     (0)  
+   NpO2+           3.628e-08   3.582e-08    -7.440    -7.446    -0.006     (0)  
+   NpO2(CO3)-      1.323e-08   1.306e-08    -7.878    -7.884    -0.006     (0)  
+   NpO2(CO3)2-3    3.369e-11   3.006e-11   -10.473   -10.522    -0.050     (0)  
+   NpO2(CO3)3-5    1.195e-14   8.706e-15   -13.923   -14.060    -0.138     (0)  
+   NpO2+2          2.490e-24   2.366e-24   -23.604   -23.626    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.845e-15   -13.916   -14.053    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 10.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 30000 seconds  (Incremented time: 44444 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np     -4.297e-09   9.702e-07   NpO3                      1
+	kin_surfs_o       3.033e-09   1.138e-06   H                        -1
+	kin_surfs_h       7.494e-10   7.494e-10   H                         1
+	kin_surfs_oh      5.150e-10   1.932e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.1260e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   7.2888e+00 
+Surf        2.3010e-06   2.3018e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01   6.062e-10
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01   5.035e-10
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.102e-04   1.102e-04
+	Np                2.798e-07   2.798e-07
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.199e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.107e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  26
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.947e-05   3.897e-05    -4.404    -4.409    -0.005     24.66
+   CO3-2           9.634e-06   9.160e-06    -5.016    -5.038    -0.022     -5.35
+   NaCO3-          1.880e-08   1.857e-08    -7.726    -7.731    -0.006     -1.05
+   CO2             1.748e-08   1.748e-08    -7.757    -7.757     0.000     29.09
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NpO2(CO3)-      1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NaHCO3          2.385e-09   2.385e-09    -8.622    -8.622     0.000      1.80
+   [Np]O2(CO3)2-3   3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   NpO2(CO3)2-3    3.421e-11   3.052e-11   -10.466   -10.515    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.845e-15   -13.916   -14.053    -0.138     (0)  
+   NpO2(CO3)3-5    1.214e-14   8.842e-15   -13.916   -14.053    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.102e-04
+   Na+             1.102e-04   1.088e-04    -3.958    -3.963    -0.005     -1.51
+   NaCO3-          1.880e-08   1.857e-08    -7.726    -7.731    -0.006     -1.05
+   NaHCO3          2.385e-09   2.385e-09    -8.622    -8.622     0.000      1.80
+   NaOH            5.521e-19   5.521e-19   -18.258   -18.258     0.000     (0)  
+Np            2.798e-07
+   NpO2(OH)        2.295e-07   2.295e-07    -6.639    -6.639     0.000     (0)  
+   NpO2+           3.684e-08   3.638e-08    -7.434    -7.439    -0.006     (0)  
+   NpO2(CO3)-      1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NpO2(CO3)2-3    3.421e-11   3.052e-11   -10.466   -10.515    -0.050     (0)  
+   NpO2(CO3)3-5    1.214e-14   8.842e-15   -13.916   -14.053    -0.138     (0)  
+   NpO2+2          2.528e-24   2.403e-24   -23.597   -23.619    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.845e-15   -13.916   -14.053    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 11.
+
+Using solution 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 100000 seconds  (Incremented time: 144444 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	kin_surfs_Np     -3.537e-11   9.702e-07   NpO3                      1
+	kin_surfs_o       2.839e-11   1.138e-06   H                        -1
+	kin_surfs_h       2.158e-12   7.516e-10   H                         1
+	kin_surfs_oh      4.821e-12   1.932e-07   OH                        0
+
+----------------------------------User print-----------------------------------
+
+Np         -1.1260e+01  -1.1260e+01 
+O          -8.9300e+00  -8.9300e+00 
+OH          7.2900e+00   7.2900e+00 
+Surf        2.3010e-06   2.3018e-06 
+Tot Np      1.2500e-06   1.2501e-06 
+
+Hfo Np     -1.1260e+01  -1.1260e+01 
+Hfo O      -8.9300e+00  -8.9300e+00 
+Hfo OH      7.2900e+00   7.2900e+00 
+Hfo         2.3010e-06   2.3014e-06 
+Tot [Np]    1.2500e-06   1.2501e-06 
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Fix_H+           -9.70    -9.70      0.00
+	 NaOH               is reactant       1.000e+01   1.000e+01   4.990e-12
+Fix_pe           -3.41    -3.41      0.00
+	 O2                 is reactant       1.000e+01   1.000e+01   2.309e-12
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	 -2.107e-06  Surface charge, eq
+Hfo_s         
+	  2.301e-06  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sO-           1.137e-06       0.494   1.137e-06      -5.944
+	Hfo_sOH[Np]O3-    9.702e-07       0.422   9.702e-07      -6.013
+	Hfo_sOH           1.931e-07       0.084   1.931e-07      -6.714
+	Hfo_sOH2+         7.514e-10       0.000   7.514e-10      -9.124
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.917e-05   4.917e-05
+	Na                1.102e-04   1.102e-04
+	Np                2.799e-07   2.799e-07
+	[Np]              2.799e-07   2.799e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.700      Charge balance
+                                       pe  =   3.410      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 18
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.199e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.107e-04
+                       Total CO2 (mol/kg)  =   4.917e-05
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.419e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.06
+                               Iterations  =  13
+                                  Total H  = 1.110125e+02
+                                  Total O  = 5.550642e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.138e-05   5.073e-05    -4.289    -4.295    -0.006     -4.13
+   H+              2.020e-10   1.995e-10    -9.695    -9.700    -0.005      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -88.247   -88.247     0.000     32.22
+C(4)          4.917e-05
+   HCO3-           3.947e-05   3.897e-05    -4.404    -4.409    -0.005     24.66
+   CO3-2           9.634e-06   9.160e-06    -5.016    -5.038    -0.022     -5.35
+   NaCO3-          1.880e-08   1.857e-08    -7.726    -7.731    -0.006     -1.05
+   CO2             1.748e-08   1.748e-08    -7.757    -7.757     0.000     29.09
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NpO2(CO3)-      1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NaHCO3          2.385e-09   2.385e-09    -8.622    -8.622     0.000      1.80
+   [Np]O2(CO3)2-3   3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   NpO2(CO3)2-3    3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.845e-15   -13.916   -14.053    -0.138     (0)  
+   NpO2(CO3)3-5    1.214e-14   8.843e-15   -13.916   -14.053    -0.138     (0)  
+H(0)          8.531e-30
+   H2              4.266e-30   4.266e-30   -29.370   -29.370     0.000     28.61
+Na            1.102e-04
+   Na+             1.102e-04   1.088e-04    -3.958    -3.963    -0.005     -1.51
+   NaCO3-          1.880e-08   1.857e-08    -7.726    -7.731    -0.006     -1.05
+   NaHCO3          2.385e-09   2.385e-09    -8.622    -8.622     0.000      1.80
+   NaOH            5.521e-19   5.521e-19   -18.258   -18.258     0.000     (0)  
+Np            2.799e-07
+   NpO2(OH)        2.295e-07   2.295e-07    -6.639    -6.639     0.000     (0)  
+   NpO2+           3.685e-08   3.638e-08    -7.434    -7.439    -0.006     (0)  
+   NpO2(CO3)-      1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   NpO2(CO3)2-3    3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   NpO2(CO3)3-5    1.214e-14   8.843e-15   -13.916   -14.053    -0.138     (0)  
+   NpO2+2          2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+O(0)          4.582e-34
+   O2              2.291e-34   2.291e-34   -33.640   -33.640     0.000     30.40
+[Np]          2.799e-07
+   [Np]O2(OH)      2.296e-07   2.296e-07    -6.639    -6.639     0.000     (0)  
+   [Np]O2+         3.685e-08   3.639e-08    -7.434    -7.439    -0.006     (0)  
+   [Np]O2(CO3)-    1.344e-08   1.327e-08    -7.872    -7.877    -0.006     (0)  
+   [Np]O2(CO3)2-3   3.422e-11   3.053e-11   -10.466   -10.515    -0.050     (0)  
+   [Np]O2(CO3)3-5   1.214e-14   8.845e-15   -13.916   -14.053    -0.138     (0)  
+   [Np]O2+2        2.529e-24   2.404e-24   -23.597   -23.619    -0.022     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -85.40    -88.25   -2.84  CH4
+  CO2(g)           -6.30     -7.76   -1.46  CO2
+  Fix_H+           -9.70     -9.70    0.00  H+
+  Fix_pe           -3.41     -3.41    0.00  e-
+  H2(g)           -26.27    -29.37   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -30.75    -33.64   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+------------------------------
+End of Run after 0.09 Seconds.
+------------------------------
+
