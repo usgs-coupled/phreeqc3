@@ -3001,6 +3001,21 @@ tidy_species(void)
 			s[i]->equiv = surface_coef;
 		}
 	}
+	
+	for (i = 0; i < count_master; i++)
+	{
+		if (master[i]->gfw <= 0.0)
+		{
+			if (master[i]->type >= EMINUS) continue;
+			if ((strcmp(master[i]->elt->name, "E") != 0) && (strcmp(master[i]->elt->name, "e") != 0))
+			{
+				input_error++;
+				error_string = sformatf(
+					"Gram formula wt in SOLUTION_MASTER_SPECIES should not be <= 0.0, %s.\n", master[i]->elt->name);
+				error_msg(error_string, CONTINUE);
+			}
+		}
+	}
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

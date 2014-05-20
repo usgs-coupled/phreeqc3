@@ -373,13 +373,13 @@ calc_logk_s(const char *name)
 		{
 			l_logk[i] = 0.0;
 		}
-		if (s_ptr->moles)
-			select_log_k_expression(s_ptr->rxn_x->logk, l_logk);
-		else
-		{
+		//if (s_ptr->moles)
+			//select_log_k_expression(s_ptr->rxn_x->logk, l_logk);
+		    select_log_k_expression(s_ptr->rxn->logk, l_logk);
+		//{
 			// perhaps calculate species' delta_v if absent?
-			select_log_k_expression(s_ptr->rxn_s->logk, l_logk);
-		}
+		//	select_log_k_expression(s_ptr->rxn_s->logk, l_logk);
+		//}
 		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 		return (lk);
