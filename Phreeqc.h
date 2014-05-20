@@ -123,6 +123,7 @@ public:
 	LDBLE pr_phi(const char *phase_name);
 	LDBLE saturation_ratio(const char *phase_name);
 	int saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si);
+	int solution_number(void);
 	LDBLE solution_sum_secondary(const char *total_name);
 	LDBLE sum_match_gases(const char *stemplate, const char *name);
 	LDBLE sum_match_species(const char *stemplate, const char *name);

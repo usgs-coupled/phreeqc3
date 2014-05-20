@@ -1484,7 +1484,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		&& use.Get_kinetics_ptr()->Get_use_cvode())
 	{
 		error_string = sformatf(
-				"Numerical method failed on all parameter combinations, retrying integration");
+				"Numerical method failed on all parameter combinations, retrying integration, cell/soln %d", this->solution_number());
 		warning_msg(error_string);
 		converge = MASS_BALANCE;
 	}
@@ -1517,7 +1517,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		sum_species();
 		print_all();
 		error_string = sformatf(
-				"Numerical method failed on all combinations of convergence parameters");
+				"Numerical method failed on all combinations of convergence parameters, cell/soln/mix %d", this->solution_number());
 		error_msg(error_string, STOP);
 	}
 	numerical_fixed_volume = false;
