@@ -3006,6 +3006,8 @@ factor(struct LOC_exec * LINK)
 			n.UU.val = 1;
 			break;
 		}
+		n.UU.val = PhreeqcPtr->solution_number();
+#ifdef SKIP
 		if (PhreeqcPtr->state == TRANSPORT)
 		{
 			n.UU.val = PhreeqcPtr->cell_no;
@@ -3033,6 +3035,7 @@ factor(struct LOC_exec * LINK)
 				n.UU.val = PhreeqcPtr->use.Get_n_solution_user();
 			}
 		}
+#endif
 		break;
 
 	case toksim_no:
