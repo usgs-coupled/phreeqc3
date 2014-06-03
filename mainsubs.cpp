@@ -643,7 +643,7 @@ initial_solutions(int print)
 
 			if (converge == ERROR || converge1 == ERROR)
 			{
-				error_msg("Model failed to converge for initial solution.",
+				error_msg(sformatf("%s %d.", "Model failed to converge for initial solution ", solution_ref.Get_n_user()),
 						  STOP);
 			}
 			n_user = solution_ref.Get_n_user();
