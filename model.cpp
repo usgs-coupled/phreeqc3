@@ -1941,7 +1941,7 @@ jacobian_sums(void)
 			// factors for tanh attenuation to make ah2o positive
 			LDBLE y_sum = ah2o_unknown->f;
 			LDBLE x_h2o = mass_water_aq_x;
-			LDBLE a = 0.017;
+			LDBLE a = AH2O_FACTOR;
 			LDBLE lim = 95.0 - 100.0*a*y_sum/x_h2o;
 			LDBLE factor = -a*(x_h2o*(-0.5*tanh(lim) - 0.5) + (50.0*a*y_sum - 47.5 * x_h2o) / (cosh(lim)*cosh(lim))) /
 				(x_h2o*x_h2o);
@@ -1966,7 +1966,7 @@ jacobian_sums(void)
 		{
 			for (i = 0; i < count_unknowns; i++)
 			{
-				array[ah2o_unknown->number * (count_unknowns + 1) + i] *= -0.017;
+				array[ah2o_unknown->number * (count_unknowns + 1) + i] *= -AH2O_FACTOR;
 			}
 			array[ah2o_unknown->number * (count_unknowns + 1) + ah2o_unknown->number] -=
 				mass_water_aq_x * exp(s_h2o->la * LOG_10);
@@ -3956,14 +3956,19 @@ residuals(void)
 			{
 				// a = 0.017; Y = sum(m(i)); X = Mw (mass of water)
 				// Aw = (1 - a y/x) 0.5 (tanh(100 (0.95 - ay/x)) + 1) + 0.05 (0.5 (1 - tanh(100(0.95 - ay/x))))
-				residual[i] =  exp(s_h2o->la * LOG_10) - ((1.0 - 0.017 * x[i]->f/mass_water_aq_x) *
-					0.5*(tanh(100.0*(0.95 - 0.017*x[i]->f/mass_water_aq_x)) + 1) +
-					0.05*0.5*(1.0 - tanh(100.0*(0.95 - 0.017*x[i]->f/mass_water_aq_x)))) ;
+				//residual[i] =  exp(s_h2o->la * LOG_10) - ((1.0 - 0.017 * x[i]->f/mass_water_aq_x) *
+				//	0.5*(tanh(100.0*(0.95 - 0.017*x[i]->f/mass_water_aq_x)) + 1) +
+				//	0.05*0.5*(1.0 - tanh(100.0*(0.95 - 0.017*x[i]->f/mass_water_aq_x)))) ;
+				residual[i] =  exp(s_h2o->la * LOG_10) - ((1.0 - AH2O_FACTOR * x[i]->f/mass_water_aq_x) *
+					0.5*(tanh(100.0*(0.95 - AH2O_FACTOR*x[i]->f/mass_water_aq_x)) + 1) +
+					0.05*0.5*(1.0 - tanh(100.0*(0.95 - AH2O_FACTOR*x[i]->f/mass_water_aq_x)))) ;
 			}
 			else
 			{
+				//residual[i] = mass_water_aq_x * exp(s_h2o->la * LOG_10) - mass_water_aq_x +
+				//	0.017 * x[i]->f;
 				residual[i] = mass_water_aq_x * exp(s_h2o->la * LOG_10) - mass_water_aq_x +
-					0.017 * x[i]->f;
+					AH2O_FACTOR * x[i]->f;
 			}
 
 			if (pitzer_model || sit_model)

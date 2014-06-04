@@ -22,6 +22,7 @@
 #define PASCAL_PER_ATM 1.01325E5 /* conversion from atm to Pa */
 #define AVOGADRO 6.02252e23		/* atoms / mole */
 #define pi 3.14159265358979
+#define AH2O_FACTOR 0.017
 
 #define TRUE 1
 #define FALSE 0
