@@ -382,6 +382,8 @@ clean_up(void)
 	count_isotope_ratio = 0;
 	count_isotope_alpha = 0;
 
+	default_data_base = (char *) free_check_null(default_data_base);
+	sformatf_buffer = (char *) free_check_null(sformatf_buffer);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
