@@ -38,10 +38,7 @@ Phreeqc::~Phreeqc(void)
 {
 
 	clean_up();
-
-	free_check_null(default_data_base);
-	free_check_null(sformatf_buffer);
-
+	
 	PHRQ_free_all();
 	if (phrq_io == &ioInstance)
 	{
@@ -974,7 +971,7 @@ void Phreeqc::init(void)
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
-	default_data_base       = string_duplicate("phreeqc.dat");
+		default_data_base       = string_duplicate("phreeqc.dat");
 #ifdef PHREEQ98
 	int outputlinenr;
 	char *LogFileNameC;
@@ -1035,8 +1032,8 @@ void Phreeqc::init(void)
 	/* print.cpp ------------------------------- */
 	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
 	if (sformatf_buffer == NULL) 
-		malloc_error();
-	sformatf_buffer_size = 256;
+			malloc_error();
+		sformatf_buffer_size = 256;
 #ifdef PHREEQ98
 	int colnr, rownr;
 	int graph_initial_solutions;
@@ -2454,9 +2451,6 @@ Phreeqc &Phreeqc::operator=(const Phreeqc &rhs)
 
 	// clean up this here
 	this->clean_up();
-
-	this->free_check_null(default_data_base);
-	this->free_check_null(sformatf_buffer);
 
 	this->PHRQ_free_all();
 	if (this->phrq_io == &this->ioInstance)
