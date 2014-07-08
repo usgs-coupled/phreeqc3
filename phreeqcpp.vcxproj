@@ -45,7 +45,6 @@
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
@@ -96,7 +95,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(DEV_GMP_INC_MT);.\src;.\src\phreeqc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_PHRQ_ALLOC;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_MEMORY_DEBUG;USE_PHRQ_ALLOCxxx;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;INVERSE_CL1MP;_DEBUG;WIN32;_CONSOLE;DOS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
