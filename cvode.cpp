@@ -72,7 +72,9 @@
 #include "sundialsmath.h"
 
 #include "Phreeqc.h"
+#if !defined(WIN32_MEMORY_DEBUG)
 #define malloc MACHENV_MALLOC PHRQ_malloc
+#endif
 #define MACHENV machEnv->phreeqc_ptr->
 #define CVMEM cv_mem->cv_machenv->phreeqc_ptr->
 #define MACHENV_MALLOC MACHENV

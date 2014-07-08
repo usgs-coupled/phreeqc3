@@ -72,7 +72,9 @@
 
 
 #include "Phreeqc.h"
+#if !defined(WIN32_MEMORY_DEBUG)
 #define malloc PHRQ_malloc
+#endif
 #define MACHENV machEnv->phreeqc_ptr->
 #define CVMEM cv_mem->cv_machenv->phreeqc_ptr->
 #define MACHENV_MALLOC MACHENV
@@ -306,7 +308,11 @@ CVDense(void *cvode_mem, CVDenseJacFn djac, void *jac_data)
 	lfree = CVDenseFree;
 
 	/* Get memory for CVDenseMemRec */
+#if defined(WIN32_MEMORY_DEBUG)
+	lmem = cvdense_mem = (CVDenseMem) malloc(sizeof(CVDenseMemRec));
+#else
 	lmem = cvdense_mem = (CVDenseMem) CVMEM_MALLOC malloc(sizeof(CVDenseMemRec));
+#endif
 	if (cvdense_mem == NULL)
 	{
 		CVMEM warning_msg( MSG_MEM_FAIL);

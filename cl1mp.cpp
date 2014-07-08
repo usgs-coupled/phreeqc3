@@ -1109,6 +1109,7 @@ cl1mp(int k, int l, int m, int n,
 		mpf_clear(cu[i]);
 	}
 	cu = (mpf_t *) free_check_null(cu);
+	mpf_clear(zero);
 	mpf_clear(dummy);
 	mpf_clear(dummy1);
 	mpf_clear(sum);

@@ -3452,6 +3452,7 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || elt_varrec->stringvar != 1)
 				snerr(": Cannot find element string variable");
 			free_dim_stringvar(elt_varrec);
+			*elt_varrec->UU.U1.sval = (char *) PhreeqcPtr->free_check_null(*elt_varrec->UU.U1.sval);
 
 			// right parenthesis
 			LINK->t = LINK->t->next;
