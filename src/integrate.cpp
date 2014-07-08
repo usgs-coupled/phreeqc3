@@ -728,7 +728,6 @@ calc_all_donnan(void)
 	int cd_m;
 	LDBLE new_g, f_psi, surf_chrg_eq, psi_avg, f_sinh, A_surf, ratio_aq;
 	LDBLE new_g2, f_psi2, surf_chrg_eq2, psi_avg2, dif, var1;
-	LDBLE cz, cm, cp;
 
 	if (use.Get_surface_ptr() == NULL)
 		return (OK);
@@ -736,8 +735,6 @@ calc_all_donnan(void)
 	//		 tk_x * mu_x);
 	f_sinh = sqrt(8000.0 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000.0) *
 			 tk_x * mu_x);
-	cz = cm = 1.0;
-	cp = 1.0;
 /*
  *   calculate g for each surface...
  */
