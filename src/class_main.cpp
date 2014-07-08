@@ -31,12 +31,21 @@ main(int argc, char *argv[])
 	 * heap's linked list - This will allow us to catch any
 	 * inadvertent use of freed memory
 	 */
+#ifdef SKIP
+	// Send messages (leaks) to stderr
+    _CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_FILE );
+    _CrtSetReportFile( _CRT_ERROR, _CRTDBG_FILE_STDERR );
+    _CrtSetReportMode( _CRT_WARN, _CRTDBG_MODE_FILE );
+    _CrtSetReportFile( _CRT_WARN, _CRTDBG_FILE_STDERR );
+    _CrtSetReportMode( _CRT_ASSERT, _CRTDBG_MODE_FILE );
+    _CrtSetReportFile( _CRT_ASSERT, _CRTDBG_FILE_STDERR );
+#endif
 	tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	//tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;
 	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
 	///tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;
 	_CrtSetDbgFlag(tmpDbgFlag);
-	//_crtBreakAlloc = 329203;
+	//_crtBreakAlloc = 31195;
 #endif
 #ifdef SKIP
 //Set the x86 floating-point control word according to what
@@ -236,7 +245,6 @@ main_method(int argc, char *argv[])
 	{
 		return errors;
 	}
-	output_close();
 	return 0;
 }
 #endif //TEST_COPY

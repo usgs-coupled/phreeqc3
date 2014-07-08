@@ -9431,7 +9431,7 @@ read_user_punch(void)
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
 	}
-	
+	UserPunch_map.erase(n_user); 
 	UserPunch_map[n_user] = temp_user_punch;
 	UserPunch_map[n_user].Set_rate(r);
 
