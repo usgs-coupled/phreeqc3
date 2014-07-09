@@ -838,14 +838,14 @@ N_VMinQuotient_Serial(N_Vector num, N_Vector denom)
 void
 N_VPrint_Serial(N_Vector x)
 {
-	integertype /*i,*/ N;
+	integertype N;
 	realtype *xd;
 
 	N = NV_LENGTH_S(x);
 	xd = NV_DATA_S(x);
 
 #if !defined(R_SO)
-	for (i = 0; i < N; i++)
+	for (integertype i = 0; i < N; i++)
 		printf("%11.8g\n", (double) (*xd++));
 
 	printf("\n");

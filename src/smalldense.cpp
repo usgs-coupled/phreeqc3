@@ -299,9 +299,8 @@ denfree(realtype ** a)
 void
 denprint(realtype ** a, integertype n)
 {
-	//integertype i, j;
-
 #if !defined(R_SO)
+	integertype i, j;
 	printf("\n");
 	for (i = 0; i < n; i++)
 	{
