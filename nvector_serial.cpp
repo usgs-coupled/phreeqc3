@@ -838,7 +838,7 @@ N_VMinQuotient_Serial(N_Vector num, N_Vector denom)
 void
 N_VPrint_Serial(N_Vector x)
 {
-	integertype i, N;
+	integertype /*i,*/ N;
 	realtype *xd;
 
 	N = NV_LENGTH_S(x);
