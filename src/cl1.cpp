@@ -442,12 +442,15 @@ cl1(int k, int l, int m, int n,
 /* switch row ia with row iout, use memcpy */
 		if (xmax > l_toler)
 		{
-			memcpy((void *) &(scratch[0]), (void *) &(q2[ia * q_dim]),
-				   (size_t) n2 * sizeof(LDBLE));
-			memcpy((void *) &(q2[ia * q_dim]), (void *) &(q2[iout * q_dim]),
-				   (size_t) n2 * sizeof(LDBLE));
-			memcpy((void *) &(q2[iout * q_dim]), (void *) &(scratch[0]),
-				   (size_t) n2 * sizeof(LDBLE));
+			if (ia != iout)
+			{
+				memcpy((void *) &(scratch[0]), (void *) &(q2[ia * q_dim]),
+					   (size_t) n2 * sizeof(LDBLE));
+				memcpy((void *) &(q2[ia * q_dim]), (void *) &(q2[iout * q_dim]),
+					   (size_t) n2 * sizeof(LDBLE));
+				memcpy((void *) &(q2[iout * q_dim]), (void *) &(scratch[0]),
+					   (size_t) n2 * sizeof(LDBLE));
+			}
 /* L320: */
 /* set pivot to row ia, column in */
 			iout = ia;
@@ -701,12 +704,15 @@ cl1(int k, int l, int m, int n,
 /* L540: */
 		++ia;
 /* switch row */
-		memcpy((void *) &(scratch[0]), (void *) &(q2[ia * q_dim]),
-			   (size_t) n2 * sizeof(LDBLE));
-		memcpy((void *) &(q2[ia * q_dim]), (void *) &(q2[i * q_dim]),
-			   (size_t) n2 * sizeof(LDBLE));
-		memcpy((void *) &(q2[i * q_dim]), (void *) &(scratch[0]),
-			   (size_t) n2 * sizeof(LDBLE));
+		if (ia != i)
+		{
+			memcpy((void *) &(scratch[0]), (void *) &(q2[ia * q_dim]),
+				   (size_t) n2 * sizeof(LDBLE));
+			memcpy((void *) &(q2[ia * q_dim]), (void *) &(q2[i * q_dim]),
+				   (size_t) n2 * sizeof(LDBLE));
+			memcpy((void *) &(q2[i * q_dim]), (void *) &(scratch[0]),
+				   (size_t) n2 * sizeof(LDBLE));
+		}
 /* L550: */
 	}
 /* L560: */
