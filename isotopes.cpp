@@ -22,8 +22,8 @@ read_isotopes(void)
  *
  */
 
-	int j, l;
-	struct master_isotope *master_isotope_ptr, *master_isotope_ptr_major;
+	int l;
+	struct master_isotope *master_isotope_ptr;
 	char token[MAX_LENGTH];
 	struct element *elt_ptr;
 
@@ -76,7 +76,7 @@ read_isotopes(void)
 			 *  Save an isotope
 			 */
 			master_isotope_ptr = NULL;
-			j = copy_token(token, &next_char, &l);
+			copy_token(token, &next_char, &l);
 			master_isotope_ptr = master_isotope_store(token, TRUE);
 			master_isotope_ptr->elt = elt_ptr;
 			master_isotope_ptr->minor_isotope = TRUE;
@@ -130,7 +130,6 @@ read_isotopes(void)
 			}
 			elt_ptr = element_store(token);
 			master_isotope_ptr = master_isotope_store(token, TRUE);
-			master_isotope_ptr_major = master_isotope_ptr;
 			master_isotope_ptr->elt = elt_ptr;
 			master_isotope_ptr->minor_isotope = FALSE;
 			master_isotope_ptr->total_is_major = FALSE;
@@ -162,7 +161,7 @@ read_calculate_values(void)
  *
  */
 	char *ptr;
-	int l, length, line_length, n;
+	int l, length, line_length;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct calculate_value *calculate_value_ptr;
@@ -177,7 +176,6 @@ read_calculate_values(void)
 /*
  *   Read advection number (not currently used)
  */
-	n = -1;
 	ptr = line;
 	read_number_description(ptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
@@ -281,7 +279,7 @@ read_isotope_ratios(void)
  *
  */
 	char *ptr;
-	int l, n;
+	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_ratio *isotope_ratio_ptr;
@@ -295,7 +293,6 @@ read_isotope_ratios(void)
 /*
  *   Read number (not currently used)
  */
-	n = -1;
 	ptr = line;
 	read_number_description(ptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
@@ -381,7 +378,7 @@ read_isotope_alphas(void)
  *
  */
 	char *ptr;
-	int l, n;
+	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_alpha *isotope_alpha_ptr;
@@ -395,7 +392,6 @@ read_isotope_alphas(void)
 /*
  *   Read number (not currently used)
  */
-	n = -1;
 	ptr = line;
 	read_number_description(ptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
@@ -957,7 +953,6 @@ print_isotope_ratios(void)
 	int print_isotope;
 	struct master *master_ptr;
 	struct master_isotope *master_isotope_ptr;
-	struct isotope_ratio *isotope_ratio_ptr;
 	char token[MAX_LENGTH];
 
 
@@ -993,7 +988,6 @@ print_isotope_ratios(void)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		isotope_ratio_ptr = isotope_ratio[j];
 		master_isotope_ptr =
 			master_isotope_search(isotope_ratio[j]->isotope_name);
 		/*
@@ -1021,7 +1015,6 @@ print_isotope_alphas(void)
 	int i, j;
 	int print_isotope;
 	struct master *master_ptr;
-	struct isotope_alpha *isotope_alpha_ptr;
 	char token[MAX_LENGTH];
 	LDBLE log_alpha;
 
@@ -1060,7 +1053,6 @@ print_isotope_alphas(void)
 	{
 		if (isotope_alpha[j]->value == MISSING)
 			continue;
-		isotope_alpha_ptr = isotope_alpha[j];
 		/*
 		 *  Print isotope ratio
 		 */

@@ -23,12 +23,10 @@ transport(void)
 
 	int punch_boolean;
 	LDBLE step_fraction;
-	LDBLE cb_tol;
 
 	state = TRANSPORT;
 	diffc_tr = diffc;
 	diffc_max = 0.0;
-	cb_tol = 1e-9;
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
 /*	mass_water_switch = TRUE; */
 /*
@@ -2979,7 +2977,7 @@ disp_surf(LDBLE DDt)
  *		       but only mobile surface_comp's (Dw > 0) and their surface_charge's are transported.
  */
 {
-	int i, i1, i2, k, k1, n1, n2; 
+	int i, i1, i2, k, k1; 
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store, mcd_mixf;
 	LDBLE lav, A_ij, por, Dp1, Dp2;
@@ -2991,9 +2989,6 @@ disp_surf(LDBLE DDt)
  */
 	viscos_f = viscosity();
 	viscos_f = tk_x * 0.88862 / (298.15 * viscos_f);
-
-	n1 = 0;
-	n2 = n1 + 1;
 
 	cxxSurface surface_n1, surface_n2;
 	cxxSurface *surface_n2_ptr;
@@ -3334,7 +3329,6 @@ disp_surf(LDBLE DDt)
 /*
  * Step 4. Dispersion/diffusion is done. New surfaces can be copied in the cell's surface...
  */
-	n2 = 0;
 	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
 	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{
@@ -3654,7 +3648,7 @@ diff_stag_surf(int mobile_cell)
  *  for any cell in MCD, need only include the mixing factors for higher numbered cells.
  */
 {
-	int i, i1, i2, k, k1, n1, n2, ns;
+	int i, i1, i2, k, k1, ns;
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store;
 	LDBLE Dp1, Dp2;
@@ -3722,7 +3716,6 @@ diff_stag_surf(int mobile_cell)
 			if (surface_n1_ptr != NULL)
 			{
 				surface_n1 = *surface_n1_ptr;
-				n1 = 0;
 			}
 			/* if not found... */
 			else
@@ -3758,7 +3751,6 @@ diff_stag_surf(int mobile_cell)
 			/* if not found... */
 			else
 			{
-				n2 = 1;
 				/* copy it from surface_ptr2... */
 				if (surface_ptr2 != NULL)
 				{
@@ -3941,7 +3933,6 @@ diff_stag_surf(int mobile_cell)
 /*
  * Step 4. Diffusion is done. New surfaces can be copied in the cells...
  */
-	n2 = 0;
 	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
 	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{

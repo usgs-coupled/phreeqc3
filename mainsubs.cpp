@@ -1223,7 +1223,6 @@ xexchange_save(int n_user)
  */
 	int i, j;
 	char token[MAX_LENGTH];
-	int count_comps;
 
 	LDBLE charge;
 	if (use.Get_exchange_ptr() == NULL)
@@ -1245,7 +1244,6 @@ xexchange_save(int n_user)
 /*
  *   Write exch_comp structure for each exchange component
  */
-	count_comps = 0;
 	for (i = 0; i < count_unknowns; i++)
 	{
 		if (x[i]->type == EXCH)
@@ -1889,7 +1887,6 @@ step_save_exch(int n_user)
  *
  *   input:  n_user is user exchange number of target
  */
-	bool found;
 
 	if (use.Get_exchange_ptr() == NULL)
 		return (OK);
@@ -1911,7 +1908,6 @@ step_save_exch(int n_user)
 	{
 		if (master[i]->s->type != EX)
 			continue;
-		found = false;
 		std::string e(master[i]->elt->name);
 		for (size_t j = 0; j < temp_exchange.Get_exchange_comps().size(); j++)
 		{
@@ -2291,7 +2287,7 @@ copy_entities(void)
 	copy_temperature.count = 0;
 	copy_pressure.count = 0;
 	new_copy = FALSE;
-	return (OK);
+	return return_value;
 }
 
 /* ---------------------------------------------------------------------- */

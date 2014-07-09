@@ -895,8 +895,6 @@ build_tally_table(void)
  *   stores in global variable first_user_number.
  */
 	int j, k, l, n, p, save_print_use;
-	int count_tt_reaction, count_tt_exchange, count_tt_surface,
-		count_tt_gas_phase;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	struct phase *phase_ptr;
 	char token[MAX_LENGTH];
@@ -932,60 +930,40 @@ build_tally_table(void)
  */
 	if (Rxn_reaction_map.size() > 0)
 	{
-		count_tt_reaction = 1;
 		n = count_tally_table_columns;
 		extend_tally_table();
 		tally_table[n].name = string_hsave("Reaction");
 		tally_table[n].type = Reaction;
-	}
-	else
-	{
-		count_tt_reaction = 0;
 	}
 /*
  *   add one for exchangers
  */
 	if (Rxn_exchange_map.size() > 0)
 	{
-		count_tt_exchange = 1;
 		n = count_tally_table_columns;
 		extend_tally_table();
 		tally_table[n].name = string_hsave("Exchange");
 		tally_table[n].type = Exchange;
-	}
-	else
-	{
-		count_tt_exchange = 0;
 	}
 /*
  *   add one for surface
  */
 	if (Rxn_surface_map.size() > 0)
 	{
-		count_tt_surface = 1;
 		n = count_tally_table_columns;
 		extend_tally_table();
 		tally_table[n].name = string_hsave("Surface");
 		tally_table[n].type = Surface;
-	}
-	else
-	{
-		count_tt_surface = 0;
 	}
 /*
  *   add one for gases
  */
 	if (Rxn_gas_phase_map.size() > 0)
 	{
-		count_tt_gas_phase = 1;
 		n = count_tally_table_columns;
 		extend_tally_table();
 		tally_table[n].name = string_hsave("Gas_phase");
 		tally_table[n].type = Gas_phase;
-	}
-	else
-	{
-		count_tt_gas_phase = 0;
 	}
 /*
  *   Count pure phases

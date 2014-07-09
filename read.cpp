@@ -1849,7 +1849,6 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
-	int count_isotopes;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	char *ptr1;
 	std::vector <cxxSolutionIsotope> isotopes;
@@ -1873,7 +1872,6 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
  */
 	inverse_ptr->phases[inverse_ptr->count_phases].constraint = EITHER;
 	inverse_ptr->phases[inverse_ptr->count_phases].force = FALSE;
-	count_isotopes = 0;
 	for (;;)
 	{
 		cxxSolutionIsotope temp_isotope;
@@ -7659,7 +7657,6 @@ read_surface_master_species(void)
 	int l, return_value;
 	char *ptr, *ptr1;
 	LDBLE l_z;
-	struct master *m_ptr;
 	struct species *s_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	int opt, opt_save;
@@ -7671,7 +7668,6 @@ read_surface_master_species(void)
 	int count_opt_list = 0;
 	opt_save = OPTION_DEFAULT;
 	return_value = UNKNOWN;
-	m_ptr = NULL;
 	for (;;)
 	{
 		opt = get_option(opt_list, count_opt_list, &next_char);
@@ -7727,7 +7723,6 @@ read_surface_master_species(void)
 			master[count_master] = master_alloc();
 			master[count_master]->type = SURF;
 			master[count_master]->elt = element_store(token);
-			m_ptr = master[count_master];
 			if (copy_token(token, &ptr, &l) != UPPER && token[0] != '[')
 			{
 				parse_error++;
@@ -10731,7 +10726,7 @@ read_named_logk(void)
  *
  */
 
-	int j, l;
+	int l;
 	int i, empty;
 	struct logk *logk_ptr;
 	char token[MAX_LENGTH];
@@ -10934,7 +10929,7 @@ read_named_logk(void)
  *   Get space for logk information
  */
 			logk_ptr = NULL;
-			j = copy_token(token, &next_char, &l);
+			copy_token(token, &next_char, &l);
 
 			logk_ptr = logk_store(token, TRUE);
 /*

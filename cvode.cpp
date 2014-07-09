@@ -3510,7 +3510,7 @@ CVsldet(CVodeMem cv_mem)
 	realtype drr[4], rrc[4], sqmx[4], qjk[4][4], vrat[5], qc[6][4], qco[6][4];
 	realtype rr, rrcut, vrrtol, vrrt2, sqtol, rrtol;
 	realtype smink, smaxk, sumrat, sumrsq, vmin, vmax, drrmax, adrr;
-	realtype small_cvode, tem, sqmax, saqk, qp, s, sqmaxk, saqj, sqmin;
+	realtype /*small_cvode,*/ tem, sqmax, saqk, qp, s, sqmaxk, saqj, sqmin;
 	realtype rsa, rsb, rsc, rsd, rse, rd1a, rd1b, rd1c, rd1d;
 	realtype rd2a, rd2b, rd2c, rd3a, rd3b, cest1, corr1;
 	realtype ratp, ratm, qfac1, qfac2, bb, rrb;
@@ -3620,7 +3620,7 @@ CVsldet(CVodeMem cv_mem)
 
 		if (ABS(qco[1][1]) < TINY * ssmax[1])
 		{
-			small_cvode = qco[1][1];
+			//small_cvode = qco[1][1];
 			kflag = -4;
 			return (kflag);
 		}
@@ -3641,7 +3641,7 @@ CVsldet(CVodeMem cv_mem)
 
 		if (ABS(qco[2][2]) < TINY * ssmax[2])
 		{
-			small_cvode = qco[2][2];
+			//small_cvode = qco[2][2];
 			kflag = -4;
 			return (kflag);
 		}
@@ -3654,7 +3654,7 @@ CVsldet(CVodeMem cv_mem)
 
 		if (ABS(qco[4][3]) < TINY * ssmax[3])
 		{
-			small_cvode = qco[4][3];
+			//small_cvode = qco[4][3];
 			kflag = -4;
 			return (kflag);
 		}
@@ -3777,6 +3777,7 @@ CVsldet(CVodeMem cv_mem)
 		rd2c = rd1c - rd1d;
 		rd3a = rd2a - rd2b;
 		rd3b = rd2b - rd2c;
+		rd3b = rd3b;
 
 		if (ABS(rd1b) < TINY * smax[k])
 		{

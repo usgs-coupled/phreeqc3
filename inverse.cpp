@@ -21,7 +21,7 @@ inverse_models(void)
  *   Go through list of inverse models, make calculations
  *   for any marked "new".
  */
-	int n, print1;
+	int n/*, print1*/;
 	char string[MAX_LENGTH];
 	if (count_inverse <= 0) return OK;
 	// Revert to previous headings after inverse modeling
@@ -51,7 +51,6 @@ inverse_models(void)
 	bad = NULL;
 	minimal = NULL;
 
-	print1 = TRUE;
 	state = INVERSE;
 	dl_type_x = cxxSurface::NO_DL;
 
@@ -3172,8 +3171,6 @@ test_cl1_solution(void)
  */
 	int i, j;
 	LDBLE sum;
-	int local_debug_inverse = debug_inverse;
-	local_debug_inverse = TRUE;
 /*
  *   Check equalities
  */
@@ -3252,7 +3249,7 @@ test_cl1_solution(void)
 		}
 	}
 
-	return (OK);
+	return (rv);
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

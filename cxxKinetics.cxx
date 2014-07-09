@@ -209,8 +209,6 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 	bool cvode_steps_defined(false);
 	bool cvode_order_defined(false);
 	bool steps_defined(false);
-	bool equalIncrements_defined(false);
-	bool count_defined(false);
 
 	for (;;)
 	{
@@ -387,7 +385,6 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected boolean value for equalIncrements.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			equalIncrements_defined = true;
 			break;
 		case 10:				// count
 			if (!(parser.get_iss() >> this->count))
@@ -397,7 +394,6 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected integer value for count.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			count_defined = true;
 			break;
 
 		}

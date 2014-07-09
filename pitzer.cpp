@@ -852,7 +852,7 @@ pitzer(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i, i0, i1, i2;
-	LDBLE param, l_alpha, z0, z1, z2;
+	LDBLE param, l_alpha, z0, z1;
 	LDBLE etheta, ethetap;
 	/*
 	   LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, 
@@ -862,7 +862,6 @@ pitzer(void)
 	LDBLE CONV, XX, OSUM, BIGZ, DI, F, F1, F2, F_var, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
 		B, B1, B2;
 	LDBLE I, TK;
-	int LNEUT;
 	/*
 	   C
 	   C     INITIALIZE
@@ -871,7 +870,6 @@ pitzer(void)
 	CONV = 1.0 / log(10.0);
 	XX = 0.0;
 	OSUM = 0.0;
-	LNEUT = FALSE;
 	/*n
 	   I = *I_X;
 	   TK = *TK_X;
@@ -1054,7 +1052,6 @@ pitzer(void)
 			i2 = pitz_params[i]->ispec[2];
 			if (IPRSNT[i2] == FALSE)
 				continue;
-			z2 = spec[i2]->z;
 			LGAMMA[i0] += M[i1] * M[i2] * param;
 			LGAMMA[i1] += M[i0] * M[i2] * param;
 			LGAMMA[i2] += M[i0] * M[i1] * param;
@@ -1261,18 +1258,15 @@ C
 */
 	LDBLE *AK;
 	LDBLE L_Z;
-	int II;
 	int i;
 
 	if (X <= 1.0e0)
 	{
-		II = 1;
 		L_Z = 4.0e0 * pow(X, (LDBLE) 0.2e0) - 2.0e0;
 		AK = &AKX[0];
 	}
 	else
 	{
-		II = 2;
 		L_Z = 40.0e0 * pow(X, (LDBLE) -1.0e-1) / 9.0e0 - 22.0e0 / 9.0e0;
 		AK = &AKX[21];
 	}
@@ -2052,11 +2046,10 @@ int Phreeqc::
 check_gammas_pz(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE old_aw, old_mu, tol;
+	LDBLE /*old_aw,*/ old_mu, tol;
 	int converge, i;
 
 	old_mu = mu_x;
-	old_aw = s_h2o->la;
 	pitzer();
 	molalities(TRUE);
 	mb_sums();

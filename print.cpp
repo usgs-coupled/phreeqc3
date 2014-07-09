@@ -2823,21 +2823,19 @@ punch_identifiers(void)
 	const char *sformat;
 	const char *dformat;
 	const char *gformat;
-	int i, l;
+	int i;
 	char token[MAX_LENGTH];
 
 	//if (punch.in == FALSE)
 	//	return (OK);
 	if (!current_selected_output->Get_high_precision())
 	{
-		l = 12;
 		sformat = "%12s\t";
 		dformat = "%12d\t";
 		gformat = "%12g\t";
 	}
 	else
 	{
-		l = 20;
 		sformat = "%20s\t";
 		dformat = "%20d\t";
 		gformat = "%20g\t";

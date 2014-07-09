@@ -38,7 +38,6 @@ bool dumper::Read(CParser & parser)
 	std::istream::pos_type next_char;
 	std::string token;
 	int opt_save;
-	bool useLastLine(false);
 
 	opt_save = CParser::OPT_DEFAULT;
 	bool cleared_once = false;
@@ -211,7 +210,6 @@ bool dumper::Read(CParser & parser)
 			parser.error_msg("Unknown input reading DUMP definition.",
 							 PHRQ_io::OT_CONTINUE);
 			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
-			useLastLine = false;
 			return_value = false;
 			break;
 		}

@@ -372,8 +372,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 	bool type_defined(false);
 	bool total_p_defined(false);
 	bool volume_defined(false);
-	bool v_m_defined(false);
-	bool pr_in_defined(false);
 
 	for (;;)
 	{
@@ -457,7 +455,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for v_m.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			v_m_defined = true;
 			useLastLine = false;
 			break;
 		case 4:				// component
@@ -509,7 +506,6 @@ cxxGasPhase::read_raw(CParser & parser, bool check)
 			{
 				this->pr_in = (i == 0) ? false : true;
 			}
-			pr_in_defined = true;
 			useLastLine = false;
 			break;
 		case 7:				// new_def

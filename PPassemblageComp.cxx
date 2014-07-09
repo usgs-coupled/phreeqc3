@@ -113,13 +113,11 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 
 	opt_save = CParser::OPT_ERROR;
 	bool si_defined(false);
-	bool si_org_defined(false);
 	bool moles_defined(false);
 	bool delta_defined(false);
 	bool initial_moles_defined(false);
 	bool dissolve_only_defined(false);
 	bool force_equality_defined(false);
-	bool precipitate_only_defined(false);
 
 	for (;;)
 	{
@@ -238,7 +236,6 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected boolean value for precipitate_only.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			precipitate_only_defined = true;
 			if (this->precipitate_only)
 			{
 				this->dissolve_only = false;
@@ -252,7 +249,6 @@ cxxPPassemblageComp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for si_org.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			si_org_defined = true;
 			break;
 		case 10:				// totals
 			if (this->totals.read_raw(parser, next_char) !=	CParser::PARSER_OK)

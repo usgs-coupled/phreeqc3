@@ -200,14 +200,12 @@ cxxExchange::read_raw(CParser & parser, bool check)
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
-	int opt_save;
 	bool useLastLine(false);
 
 	// Read exchange number and description
 	this->read_number_description(parser);
 	this->Set_new_def(false);
 	
-	opt_save = CParser::OPT_ERROR;
 	bool pitzer_exchange_gammas_defined(false);
 
 	for (;;)
@@ -329,7 +327,6 @@ cxxExchange::read_raw(CParser & parser, bool check)
 					("Expected element name and molality for Exchange totals.",
 					PHRQ_io::OT_CONTINUE);
 			}
-			opt_save = 6;
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)

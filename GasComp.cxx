@@ -67,9 +67,7 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
 	std::string token;
-	int opt_save;
 
-	opt_save = CParser::OPT_ERROR;
 	bool moles_defined(false);
 	int opt;
 	for (;;)
@@ -145,12 +143,13 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 void
 cxxGasComp::add(const cxxGasComp & addee, LDBLE extensive)
 {
-	LDBLE ext1, ext2, f1, f2;
+	//LDBLE ext1, ext2;
 	if (extensive == 0.0)
 		return;
 	if (addee.phase_name.size() == 0)
 		return;
 
+	/*
 	ext1 = this->moles;
 	ext2 = addee.moles * extensive;
 	if (ext1 + ext2 != 0)
@@ -163,6 +162,7 @@ cxxGasComp::add(const cxxGasComp & addee, LDBLE extensive)
 		f1 = 0.5;
 		f2 = 0.5;
 	}
+	*/
 
 	assert(this->phase_name == addee.phase_name);
 

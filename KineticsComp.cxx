@@ -145,7 +145,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 	bool tol_defined(false);
 	bool m_defined(false);
 	bool m0_defined(false);
-	bool moles_defined(false);
 	bool d_params_defined(false);
 
 	for (;;)
@@ -214,7 +213,6 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 				parser.error_msg("Expected numeric value for moles.",
 								 PHRQ_io::OT_CONTINUE);
 			}
-			moles_defined = true;
 			break;
 
 		case 5:				// namecoef
