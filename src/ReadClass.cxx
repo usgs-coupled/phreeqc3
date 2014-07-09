@@ -257,8 +257,6 @@ int Phreeqc::
 delete_entities(void)
 /* ---------------------------------------------------------------------- */
 {
-	int return_value;
-	return_value = OK;
 	if (!delete_info.Get_solution().Get_defined() &&
 		!delete_info.Get_pp_assemblage().Get_defined() &&
 		!delete_info.Get_exchange().Get_defined() &&

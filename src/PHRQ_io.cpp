@@ -685,8 +685,6 @@ get_line(void)
  *      OK,
  *      OPTION
  */
-	int i;
-	bool empty;
 	std::string stdtoken;
 	bool continue_loop = true;;
 
@@ -704,8 +702,6 @@ get_line(void)
 			/*
 			*   Eliminate all characters after # sign as a comment
 			*/
-			i = -1;
-			empty = true;
 			/*
 			*   Get line, check for eof
 			*/

@@ -136,7 +136,7 @@ quick_setup(void)
  *       been accumulated in array master, usually by subroutine step.
  *   Updates essential information for the model.
  */
-	int i, j, k;
+	int i;
 	for (i = 0; i < count_master; i++)
 	{
 		if (master[i]->s->type == SURF_PSI)
@@ -188,7 +188,6 @@ quick_setup(void)
 /*
  *   pp_assemblage
  */
-	j = 0;
 	for (i = 0; i < count_unknowns; i++)
 	{
 		if (x[i]->type == PP)
@@ -299,8 +298,6 @@ quick_setup(void)
 				break;
 			}
 		}
-		j = 0;
-		k = 0;
 		for (; i < count_unknowns; i++)
 		{
 			if (x[i]->type == SURFACE_CB)
@@ -4137,7 +4134,7 @@ int Phreeqc::
 setup_pure_phases(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE si_org;
+	//LDBLE si_org;
 /*
  *   Fills in data for pure_phase assemglage in unknown structure
  */
@@ -4163,7 +4160,7 @@ setup_pure_phases(void)
 		x[count_unknowns]->moles = comp_ptr->Get_moles();
 		x[count_unknowns]->phase = phase_ptr;
 		x[count_unknowns]->si = comp_ptr->Get_si();
-		si_org = comp_ptr->Get_si_org();
+		//si_org = comp_ptr->Get_si_org();
 		/* si_org is used for Peng-Robinson gas, with the fugacity
 		   coefficient added later in adjust_pure_phases,
 		   when rxn_x has been defined for each phase in the model */

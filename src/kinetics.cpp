@@ -3135,16 +3135,15 @@ void Phreeqc::
 f(integertype N, realtype t, N_Vector y, N_Vector ydot,
 			  void *f_data)
 {
-	int n_reactions, n_user;
-	LDBLE step_fraction;
+	int n_user;
+	//LDBLE step_fraction;
 	cxxKinetics *kinetics_ptr;
 	Phreeqc *pThis = (Phreeqc *) f_data;
 
 	pThis->cvode_error = FALSE;
-	n_reactions = pThis->cvode_n_reactions;
 	n_user = pThis->cvode_n_user;
 	kinetics_ptr = (cxxKinetics *) pThis->cvode_kinetics_ptr;
-	step_fraction = pThis->cvode_step_fraction;
+	//step_fraction = pThis->cvode_step_fraction;
 	pThis->rate_sim_time = pThis->cvode_rate_sim_time;
 
 	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)

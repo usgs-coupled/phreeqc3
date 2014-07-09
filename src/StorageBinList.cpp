@@ -145,7 +145,6 @@ bool StorageBinList::Read(CParser & parser)
 	std::string token;
 	int opt_save;
 
-	bool useLastLine(false);
 	opt_save = CParser::OPT_DEFAULT;
 	// reset cells
 	this->cell.Clear();
@@ -283,7 +282,6 @@ bool StorageBinList::Read(CParser & parser)
 			parser.error_msg("Unknown input reading DELETE definition.",
 							 PHRQ_io::OT_CONTINUE);
 			parser.error_msg(parser.line().c_str(), PHRQ_io::OT_CONTINUE);
-			useLastLine = false;
 			return_value = false;
 			break;
 		}
