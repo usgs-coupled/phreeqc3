@@ -240,7 +240,8 @@ read_solution_spread(void)
 			{
 				numbers = 0;
 				strings = 0;
-				for (int i = 0; i < heading->count; i++)
+				//for (int i = 0; i < heading->count; i++)
+				for (int i = 0; i < row_ptr->count; i++)
 				{
 					if (row_ptr->type_vector[i] == STRING)
 					{
