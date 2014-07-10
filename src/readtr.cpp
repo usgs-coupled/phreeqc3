@@ -36,7 +36,7 @@ read_transport(void)
  */
 	char *ptr;
 	int i, j, l;
-	int old_cells, max;
+	int old_cells, max, all_cells;
 	int count_length, count_disp, count_punch, count_print;
 	int count_length_alloc, count_disp_alloc;
 	char token[MAX_LENGTH];
@@ -103,6 +103,8 @@ read_transport(void)
 	{
 		correct_disp = FALSE;
 		old_cells = 0;
+		max = 0;
+		all_cells = 0;
 	}
 	else
 		old_cells = count_cells;
@@ -660,15 +662,29 @@ read_transport(void)
 /*
  *   Allocate space for cell_data
  */
-	cell_data =
-		(struct cell_data *) PHRQ_realloc(cell_data,
-										  (size_t) (max *
-													(1 +
-													 stag_data->count_stag) +
-													1) *
-										  sizeof(struct cell_data));
+	cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
+		(size_t) (max *	(1 + stag_data->count_stag) + 1) * sizeof(struct cell_data));
 	if (cell_data == NULL)
 		malloc_error();
+
+	// initialize new cells
+	int all_cells_now = max * (1 + stag_data->count_stag) + 1;
+	if (all_cells_now > all_cells)
+	{
+		for (int i = all_cells; i < all_cells_now; i++)
+		{
+			cell_data[i].length = 1.0;
+			cell_data[i].mid_cell_x = 1.0;
+			cell_data[i].disp = 1.0;
+			cell_data[i].temp = 25.0;
+			cell_data[i].por = 0.1;
+			cell_data[i].por_il = 0.01;
+			cell_data[i].punch = FALSE;
+			cell_data[i].print = FALSE;
+		}
+		all_cells = all_cells_now;
+	}
+
 /*
  *   Fill in data for lengths
  */
