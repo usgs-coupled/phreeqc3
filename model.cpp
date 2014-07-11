@@ -2727,7 +2727,7 @@ calc_gas_pressures(void)
 					V_m = (2. * gas_phase_ptr->Get_v_m() + V_m) / 3;
 				else
 					V_m = (1. * gas_phase_ptr->Get_v_m() + V_m) / 2;
-				if (iterations > 99)
+				if (iterations > 99 && numerical_fixed_volume == false)
 				{
 					//V_m *= 1; /* debug */
 					numerical_fixed_volume = true;

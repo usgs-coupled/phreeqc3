@@ -1365,6 +1365,7 @@ protected:
 	int dump_modulus;
 	int transport_warnings;
 	struct cell_data *cell_data;
+	int old_cells, max_cells, all_cells;
 	int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
 	LDBLE default_Dw;		/* default species diffusion coefficient in water at 25oC, m2/s */

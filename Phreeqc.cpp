@@ -448,7 +448,10 @@ void Phreeqc::init(void)
 	dump_in                  = FALSE;
 	dump_modulus             = 0;
 	transport_warnings       = TRUE;
-	cell_data                = FALSE;
+	cell_data                = NULL;
+	old_cells                = 0;
+	max_cells                = 0;
+	all_cells                = 0;
 	multi_Dflag              = FALSE;
 	interlayer_Dflag         = FALSE;
 	default_Dw               = 0;
@@ -1350,6 +1353,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		if (cell_data == NULL) malloc_error();
 		memcpy(cell_data, pSrc->cell_data, ((size_t) (count_cells * sizeof(struct cell_data))));
 	}
+	old_cells = pSrc->old_cells;
+	max_cells = pSrc->max_cells;
+	all_cells = pSrc->all_cells;
 	multi_Dflag              = pSrc->multi_Dflag;
 	interlayer_Dflag         = pSrc->interlayer_Dflag;
 	default_Dw               = pSrc->default_Dw;
