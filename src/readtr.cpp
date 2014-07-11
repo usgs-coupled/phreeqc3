@@ -36,7 +36,6 @@ read_transport(void)
  */
 	char *ptr;
 	int i, j, l;
-	int old_cells, max, all_cells;
 	int count_length, count_disp, count_punch, count_print;
 	int count_length_alloc, count_disp_alloc;
 	char token[MAX_LENGTH];
@@ -103,7 +102,7 @@ read_transport(void)
 	{
 		correct_disp = FALSE;
 		old_cells = 0;
-		max = 0;
+		max_cells = 0;
 		all_cells = 0;
 	}
 	else
@@ -637,14 +636,14 @@ read_transport(void)
 /*
  *   Determine number of cells
  */
-	max = count_cells;
-	if (count_length > max)
-		max = count_length;
-	if (count_disp > max)
-		max = count_disp;
-	if (max > count_cells)
+	max_cells = count_cells;
+	if (count_length > max_cells)
+		max_cells = count_length;
+	if (count_disp > max_cells)
+		max_cells = count_disp;
+	if (max_cells > count_cells)
 	{
-		if (max == count_length)
+		if (max_cells == count_length)
 		{
 			sprintf(token,
 					"Number of cells is increased to number of 'lengths' %d.",
@@ -663,12 +662,12 @@ read_transport(void)
  *   Allocate space for cell_data
  */
 	cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
-		(size_t) (max *	(1 + stag_data->count_stag) + 1) * sizeof(struct cell_data));
+		(size_t) (max_cells *	(1 + stag_data->count_stag) + 1) * sizeof(struct cell_data));
 	if (cell_data == NULL)
 		malloc_error();
 
 	// initialize new cells
-	int all_cells_now = max * (1 + stag_data->count_stag) + 1;
+	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 1;
 	if (all_cells_now > all_cells)
 	{
 		for (int i = all_cells; i < all_cells_now; i++)
@@ -690,12 +689,12 @@ read_transport(void)
  */
 	if (count_length == 0)
 	{
-		if (old_cells < max)
+		if (old_cells < max_cells)
 		{
 			error_string = sformatf(
 					"No cell-lengths were read; length = 1 m assumed.");
 			warning_msg(error_string);
-			for (i = 0; i < max; i++)
+			for (i = 0; i < max_cells; i++)
 				cell_data[i].length = 1.0;
 		}
 	}
@@ -705,35 +704,35 @@ read_transport(void)
 		{
 			cell_data[i].length = length[i];
 		}
-		if (max > count_length)
+		if (max_cells > count_length)
 		{
 			error_string = sformatf(
 					"Cell-lengths were read for %d cells. Last value is used till cell %d.",
-					count_length, max);
+					count_length, max_cells);
 			warning_msg(error_string);
-			for (i = count_length - 1; i < max; i++)
+			for (i = count_length - 1; i < max_cells; i++)
 				cell_data[i].length = length[count_length - 1];
 		}
 	}
 	cell_data[0].mid_cell_x = cell_data[0].length / 2;
-	for (i = 1; i < max; i++)
+	for (i = 1; i < max_cells; i++)
 	{
 		cell_data[i].mid_cell_x = cell_data[i - 1].mid_cell_x +
 			(cell_data[i - 1].length + cell_data[i].length) / 2;
 	}
-	cell_data[max].mid_cell_x =
-		cell_data[max - 1].mid_cell_x + cell_data[max - 1].length;
+	cell_data[max_cells].mid_cell_x =
+		cell_data[max_cells - 1].mid_cell_x + cell_data[max_cells - 1].length;
 /*
  *   Fill in data for dispersivities
  */
 	if (count_disp == 0)
 	{
-		if (old_cells < max)
+		if (old_cells < max_cells)
 		{
 			error_string = sformatf(
 					"No dispersivities were read; disp = 0 assumed.");
 			warning_msg(error_string);
-			for (i = 0; i < max; i++)
+			for (i = 0; i < max_cells; i++)
 				cell_data[i].disp = 0.0;
 		}
 	}
@@ -741,23 +740,23 @@ read_transport(void)
 	{
 		for (i = 0; i < count_disp; i++)
 			cell_data[i].disp = disp[i];
-		if (max > count_disp)
+		if (max_cells > count_disp)
 		{
 			error_string = sformatf(
 					"Dispersivities were read for %d cells. Last value is used till cell %d.",
-					count_disp, max);
+					count_disp, max_cells);
 			warning_msg(error_string);
-			for (i = count_disp - 1; i < max; i++)
+			for (i = count_disp - 1; i < max_cells; i++)
 				cell_data[i].disp = disp[count_disp - 1];
 		}
 	}
-	count_cells = max;
+	count_cells = max_cells;
 /*
  *  Account for stagnant cells
  */
 	if (stag_data->count_stag > 0)
 	{
-		max = count_cells * (1 + stag_data->count_stag) + 1;
+		max_cells = count_cells * (1 + stag_data->count_stag) + 1;
 		for (i = 0; i < count_cells; i++)
 		{
 			for (l = 1; l <= stag_data->count_stag; l++)
@@ -770,11 +769,11 @@ read_transport(void)
  */
 	if (count_punch != 0)
 	{
-		for (i = 0; i < max; i++)
+		for (i = 0; i < max_cells; i++)
 			cell_data[i].punch = FALSE;
 		for (i = 0; i < count_punch; i++)
 		{
-			if (punch_temp[i] > max || punch_temp[i] < 1)
+			if (punch_temp[i] > max_cells || punch_temp[i] < 1)
 			{
 				error_string = sformatf(
 						"Cell number for punch is out of range, %d. Request ignored.",
@@ -786,18 +785,18 @@ read_transport(void)
 		}
 	}
 	else if (simul_tr == 1)
-		for (i = 0; i < max; i++)
+		for (i = 0; i < max_cells; i++)
 			cell_data[i].punch = TRUE;
 /*
  *   Fill in data for print
  */
 	if (count_print != 0)
 	{
-		for (i = 0; i < max; i++)
+		for (i = 0; i < max_cells; i++)
 			cell_data[i].print = FALSE;
 		for (i = 0; i < count_print; i++)
 		{
-			if (print_temp[i] > max || print_temp[i] < 1)
+			if (print_temp[i] > max_cells || print_temp[i] < 1)
 			{
 				error_string = sformatf(
 						"Cell number for print is out of range, %d. Request ignored.",
@@ -809,7 +808,7 @@ read_transport(void)
 		}
 	}
 	else if (simul_tr == 1)
-		for (i = 0; i < max; i++)
+		for (i = 0; i < max_cells; i++)
 			cell_data[i].print = TRUE;
 /*
  *   Fill in porosities
@@ -822,7 +821,7 @@ read_transport(void)
 		error_msg(error_string, CONTINUE);
 
 	}
-	for (i = 0; i < max; i++)
+	for (i = 0; i < max_cells; i++)
 	{
 		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);

@@ -1751,8 +1751,10 @@ Restart:
 		molalities(TRUE);
 		if (max_unknowns > pz_max_unknowns) 
 		{
-		  base = (LDBLE *) free_check_null(base);
-		  goto Restart;
+			base = (LDBLE *) free_check_null(base);
+			gammas_pz();
+			jacobian_sums();
+			goto Restart;
 		}
 		if (full_pitzer == TRUE)
 			pitzer();
