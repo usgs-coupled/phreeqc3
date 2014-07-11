@@ -5,7 +5,8 @@ PHREEQC=../src/Class_release_64/phreeqc
 #PHREEQC=../src/Class_debug_64/phreeqc
 
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc.exe
+#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
 endif
 
@@ -326,10 +327,10 @@ all: alkalinity.out \
 	Vm_LiCl_sol.out \
 	negative_user_number.out \
 	run_cell_range.out \
-	punch_ostream.out \
+	punch_stream.out \
 	modify_ignore.out \
 	connect_graph \
-	varaiable_cell_diffusion.out \
+	variable_cell_diffusion.out \
 	no_negative_dump.out \
 	reaction_pressure_gas.out \
 	pitzer_redef_2.out \
