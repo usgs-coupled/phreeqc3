@@ -1,0 +1,24 @@
+DATABASE ../database/wateq4f.dat
+# *******************************************************
+# ***** Run this example using the wateq4f database *****
+# *******************************************************
+SOLUTION_MASTER_SPECIES
+#Mg		Mg+2	0	0		#24.312
+#O		H2O	0	0		16
+#O(-2)           H2O     0       0    
+SOLUTION_SPECIES # The reaction below just repeats what is in WATEQ4F
+#NO2 secondary master species   400
+        NO3- + 2H+ + 2e- = NO2- + H2O 
+        log_k           28.57
+        delta_h -43.76 kcal
+
+SOLUTION 1
+
+PRINT
+-reset false
+-user_print true
+
+USER_PRINT
+-start
+135 PRINT "LOG10(K) =",-LK_SPECIES("NO2-")
+-end
