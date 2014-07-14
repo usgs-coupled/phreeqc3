@@ -104,6 +104,7 @@ LDBLE Phreeqc::
 calc_SC(void)
 /* ---------------------------------------------------------------------- */
 {
+#ifdef SKIP
 	int i;
 	LDBLE lm, a, l_z, Dw, SC, ff;
 
@@ -155,7 +156,160 @@ calc_SC(void)
 	SC *= 0.88862 / viscosity();
 
 	return (SC);
+#endif
+	int i;
+	LDBLE viscos, lm, a, ka, l_z, Dw, SC, ff, sqrt_mu;
+	boolean DebOns_sc = false;
+	viscos = viscosity();
+	sqrt_mu = sqrt(mu_x);
+
+	SC = 0;
+	for (i = 0; i < count_species_list; i++)
+	{
+		if (species_list[i].s->dw_a)
+		{
+			DebOns_sc = true;
+			break;
+		}
+		if (species_list[i].s->type > HPLUS)
+			continue;
+		if (i > 0
+			&& strcmp(species_list[i].s->name,
+					  species_list[i - 1].s->name) == 0)
+			continue;
+		if (species_list[i].s == s_h2o)
+			continue;
+		if ((Dw = species_list[i].s->dw) == 0)
+			continue;
+		if ((l_z = fabs(species_list[i].s->z)) == 0)
+			continue;
+
+		lm = species_list[i].s->lm;
+		if (lm > -9)
+		{
+			ka = DH_B * (species_list[i].s->dha ? species_list[i].s->dha : 4.0);
+			if (mu_x > 1)
+				ka *= pow(mu_x, 0.15);
+			else
+				ka *= pow(mu_x, 0.25); //sqrt_mu;
+			ff = pow((int) 10, -l_z * l_z * DH_A * sqrt_mu / (1 + ka));
+			ff = pow(ff, 0.7 / sqrt(l_z));
+			//ff = pow(ff, 0.6);
+			a = species_list[i].s->moles / mass_water_aq_x * ff;
+			if (species_list[i].s->dw_t)
+				Dw *= exp(species_list[i].s->dw_t / tk_x - species_list[i].s->dw_t / 298.15);
+			SC += a * l_z * l_z * Dw;
+		}
+	}
+	if (!DebOns_sc)
+	{
+		SC *= 1e7 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298160.0);
+		SC *= 0.89 / viscos_0;
+		return (SC);
+	}
+
+/*Debye-Onsager according to Robinson and Stokes, 1954, JACS 75, 1991, 
+     but with sqrt charge multiplier for B2 and mu^ff dependent ka */
+	LDBLE q, B1, B2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, z_plus, z_min, t1, t2, Dw_SC;
+
+	m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = z_plus = z_min = 0;
+	SC = 0;
+	for (i = 0; i < count_species_list; i++)
+	{
+		if (species_list[i].s->type > HPLUS)
+			continue;
+		if (i > 0
+			&& strcmp(species_list[i].s->name,
+					  species_list[i - 1].s->name) == 0)
+			continue;
+		if (species_list[i].s == s_h2o)
+			continue;
+		if ((Dw = species_list[i].s->dw) == 0)
+			continue;
+		if ((l_z = species_list[i].s->z) == 0)
+			continue;
+
+		lm = species_list[i].s->lm;
+		if (lm > -9)
+		{
+			if (species_list[i].s->dw_t)
+				Dw *= exp(species_list[i].s->dw_t / tk_x - species_list[i].s->dw_t / 298.15);
+			if (l_z > 0)
+			{
+				m_plus += species_list[i].s->moles;
+				t1 = species_list[i].s->moles * l_z;
+				eq_plus += t1;
+				t1 *= Dw;
+				z_plus += l_z * t1;
+				eq_dw_plus += t1;
+			}
+			else
+			{
+				m_min += species_list[i].s->moles;
+				t1 = species_list[i].s->moles * l_z;
+				eq_min -= t1;
+				t1 *= Dw;
+				z_min += l_z * t1;
+				eq_dw_min -= t1;
+			}
+		}
+	}
+	// average |z|, with z's weighted by eq*Dw...
+	q = (z_plus + z_min) / (eq_dw_plus + eq_dw_min);
+	z_plus = eq_plus / m_plus; // |z1|
+	z_min = eq_min / m_min;    // |z2|
+	// q = average |z| / (|z1| + |z2|)
+	q /= (z_plus + z_min);
+	t1 = pow(1.60218e-19, 2)  / (6 * pi);
+	B1 = t1  / (2 * 8.8542e-12 * eps_r * 1.38066e-23 * tk_x) *
+		q / (1 + sqrt(q)) * DH_B * 1e10 * z_plus * z_min;  // DH_B is per Angstrom (*1e10)
+	t2 = 1e3 * calc_solution_volume();
+	t2 = viscos_0 * (1 + 2.5 * V_solutes / t2);
+	B2 = t1 * AVOGADRO / viscos * DH_B * 1e17;  // DH_B per Angstrom (*1e10), viscos in mPa.s (*1e3), B2 in cm2 (*1e4)
+
+	Dw_SC = 0.89 / viscos * 1e4 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298160.0);
+	for (i = 0; i < count_species_list; i++)
+	{
+		if (species_list[i].s->type > HPLUS)
+			continue;
+		if (i > 0
+			&& strcmp(species_list[i].s->name,
+					  species_list[i - 1].s->name) == 0)
+			continue;
+		if (species_list[i].s == s_h2o)
+			continue;
+		if ((Dw = species_list[i].s->dw) == 0)
+			continue;
+		if ((l_z = fabs(species_list[i].s->z)) == 0)
+			continue;
+
+		lm = species_list[i].s->lm;
+		if (lm > -9)
+		{
+			Dw *= Dw_SC;
+			if (species_list[i].s->dw_t)
+				Dw *= exp(species_list[i].s->dw_t / tk_x - species_list[i].s->dw_t / 298.15);
+			a = (species_list[i].s->dw_a ? species_list[i].s->dw_a : 3.5);
+			ka = DH_B * a;
+			if (species_list[i].s->dw_a_exp)
+				ka *= pow((double) mu_x, species_list[i].s->dw_a_exp);
+			else
+				ka *= sqrt_mu;
+
+			// Falkenhagen...
+			/*SC += under(lm) * l_z * l_z * (Dw - B2 * l_z * sqrt_mu / (1 + ka)) * (1 - B1 * sqrt_mu /
+					((1 + ka) * (1 + ka * sqrt(q) + ka * ka / 6)));*/
+
+			t1 = (Dw - (B1 * Dw + B2) *	sqrt_mu / (1 + ka));
+			//t1 = (Dw - (B1 * Dw + B2 * sqrt(l_z)) *	sqrt_mu / (1 + ka));
+			//t1 = (Dw - (B1 * Dw + B2 * l_z * l_z) *	sqrt_mu / (1 + ka));
+			if (t1 > 0)
+				SC += under(lm) * l_z * l_z * t1;
+		}
+	}
+	return (SC * 1e3);
 }
+
 
 /* VP: Density Start */
 /* ---------------------------------------------------------------------- */

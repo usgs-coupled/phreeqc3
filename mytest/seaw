@@ -1,0 +1,38 @@
+
+# DATABASE c:\phreeqc\database\pitzer.dat; INCLUDE$ ..\DebOns_pz.dat
+DATABASE ../database/phreeqc.dat; INCLUDE$ ./DebOns_phr.dat
+
+#PRINT; -reset false;
+
+SOLUTION 1  Seawater
+ pH      8.3
+ Na      485
+ K        10.6
+ Mg       55.1
+ Ca       10.7
+ Cl      566
+ S        30.6
+
+REACTION_TEMPERATURE 
+0 50 in 11
+USER_GRAPH
+-chart_title "Density and viscosity of seawater and pure water"
+-axis_titles "temperature / °C" "density / (kg/L)" "viscosity / (mPa s)"
+-axis_scale x_axis 0 50
+-axis_scale y_axis 0.98 1.03
+-axis_scale sy_axis 0.6 2.1 0.3
+-connect_simulations false
+-plot_tsv_file seaw.dat
+
+10 graph_x tc 
+20 graph_y rho
+30 graph_sy viscos 
+80 if sim_no = 1 then print tc, sc
+50 SA = tot("Na") * gfw("Na") + tot("K") * gfw("K") + tot("Mg") * gfw("Mg") + tot("Ca") * gfw("Ca") + tot("Cl") * gfw("Cl") + tot("S") * gfw("SO4")
+60 SA = SA / (SA + 1e3)
+70 if step_no = 1 and sim_no = 1 then print 'Absolute Salinity', SA * 1e3
+
+END
+
+SOLUTION; USE reaction_temperature 1
+END

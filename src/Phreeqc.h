@@ -684,6 +684,7 @@ public:
 	/* VP: Density Start */
 	int read_millero_abcdef (char *ptr, LDBLE * abcdef);
 	/* VP: Density End */
+	int read_viscosity_parms(char *ptr, LDBLE * Jones_Dole);
 	int read_copy(void);
 	int read_debug(void);
 	int read_delta_h_only(char *ptr, LDBLE * delta_h,
@@ -1682,6 +1683,7 @@ protected:
 	/* VP: Density Start */
 	int print_density;
 	/* VP: Density End */
+	int print_viscosity;
 
 	LDBLE *zeros;
 	int zeros_max;
@@ -1695,6 +1697,7 @@ protected:
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
+	LDBLE viscos, viscos_0; // viscosity of the solution, of pure water
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume

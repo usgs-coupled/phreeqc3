@@ -1,0 +1,33 @@
+database ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION; temp 0
+REACTION_PRESSURE
+0 1e3 in 21
+USER_GRAPH
+-axis_titles "pressure / Mpa" "viscosity / (mPa s)"
+-axis_scale x_axis 0 100
+-connect_simulations false
+-plot_tsv_file viscos_0.dat
+10 graph_x pressure * 1.01325e-1
+20 graph_y viscos
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE
+25
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE
+100
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE
+200
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE
+300
+END

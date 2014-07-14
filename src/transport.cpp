@@ -7,6 +7,10 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+
+//#ifndef SQR
+//#define SQR(A)    ((A) * (A))
+//#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 transport(void)
@@ -23,10 +27,12 @@ transport(void)
 
 	int punch_boolean;
 	LDBLE step_fraction;
+	LDBLE cb_tol;
 
 	state = TRANSPORT;
 	diffc_tr = diffc;
 	diffc_max = 0.0;
+	cb_tol = 1e-9;
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
 /*	mass_water_switch = TRUE; */
 /*
@@ -1465,13 +1471,14 @@ fill_spec(int l_cell_no)
 		por_il = temp_il_factor = 0.0;
 /*
  * correct diffusion coefficient for temperature and viscosity, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
+ *   modify viscosity effect: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15), SC data from Robinson and Stokes, 1959
  */
 	viscos = viscosity();
 /*
  * put temperature factor in por_factor which corrects for porous medium...
  */
-	temp_factor *= tk_x * 0.88862 / (298.15 * viscos);
-	temp_il_factor *= tk_x * 0.88862 / (298.15 * viscos);
+	temp_factor *= tk_x * 0.89 / (298.15 * viscos);
+	temp_il_factor *= tk_x * 0.89 / (298.15 * viscos);
 
 	count_spec = count_exch_spec = 0;
 /*
@@ -1562,8 +1569,12 @@ fill_spec(int l_cell_no)
 					sol_D[l_cell_no].spec[count_spec].Dwt =
 						default_Dw * temp_il_factor;
 				else
-					sol_D[l_cell_no].spec[count_spec].Dwt =
-						s_ptr2->dw * temp_il_factor;
+				{
+					if (s_ptr->dw_t)
+						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw * exp(s_ptr2->dw_t / tk_x - s_ptr2->dw_t / 298.15) * temp_il_factor;
+					else
+						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw * temp_il_factor;
+				}
 				count_exch_spec++;
 				count_spec++;
 			}
@@ -1586,7 +1597,12 @@ fill_spec(int l_cell_no)
 				sol_D[l_cell_no].spec[count_spec].Dwt =
 					default_Dw * temp_factor;
 			else
-				sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * temp_factor;
+			{
+				if (s_ptr->dw_t)
+					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15) * temp_factor;
+				else
+					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * temp_factor;
+			}
 			if (sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) >
 				diffc_max)
 				diffc_max =
@@ -2977,7 +2993,7 @@ disp_surf(LDBLE DDt)
  *		       but only mobile surface_comp's (Dw > 0) and their surface_charge's are transported.
  */
 {
-	int i, i1, i2, k, k1; 
+	int i, i1, i2, k, k1, n1, n2; 
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store, mcd_mixf;
 	LDBLE lav, A_ij, por, Dp1, Dp2;
@@ -2988,7 +3004,10 @@ disp_surf(LDBLE DDt)
  * temperature and viscosity correction for MCD coefficient, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
  */
 	viscos_f = viscosity();
-	viscos_f = tk_x * 0.88862 / (298.15 * viscos_f);
+	viscos_f = tk_x * 0.89 / (298.15 * viscos_f);
+
+	n1 = 0;
+	n2 = n1 + 1;
 
 	cxxSurface surface_n1, surface_n2;
 	cxxSurface *surface_n2_ptr;
@@ -3329,6 +3348,7 @@ disp_surf(LDBLE DDt)
 /*
  * Step 4. Dispersion/diffusion is done. New surfaces can be copied in the cell's surface...
  */
+	n2 = 0;
 	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
 	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{
@@ -3648,7 +3668,7 @@ diff_stag_surf(int mobile_cell)
  *  for any cell in MCD, need only include the mixing factors for higher numbered cells.
  */
 {
-	int i, i1, i2, k, k1, ns;
+	int i, i1, i2, k, k1, n1, n2, ns;
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store;
 	LDBLE Dp1, Dp2;
@@ -3659,7 +3679,7 @@ diff_stag_surf(int mobile_cell)
  * temperature and viscosity correction for MCD coefficient, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
  */
 	viscos_f = viscosity();
-	viscos_f = tk_x * 0.88862 / (298.15 * viscos_f);
+	viscos_f = tk_x * 0.89 / (298.15 * viscos_f);
 
 	cxxSurface surface_n1, surface_n2;
 	cxxSurface *surface_n1_ptr = &surface_n1;
@@ -3716,6 +3736,7 @@ diff_stag_surf(int mobile_cell)
 			if (surface_n1_ptr != NULL)
 			{
 				surface_n1 = *surface_n1_ptr;
+				n1 = 0;
 			}
 			/* if not found... */
 			else
@@ -3751,6 +3772,7 @@ diff_stag_surf(int mobile_cell)
 			/* if not found... */
 			else
 			{
+				n2 = 1;
 				/* copy it from surface_ptr2... */
 				if (surface_ptr2 != NULL)
 				{
@@ -3933,6 +3955,7 @@ diff_stag_surf(int mobile_cell)
 /*
  * Step 4. Diffusion is done. New surfaces can be copied in the cells...
  */
+	n2 = 0;
 	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
 	for ( ; jit != Rxn_temp_surface_map.end(); jit++)
 	{
@@ -4050,11 +4073,132 @@ LDBLE Phreeqc::
 viscosity(void)
 /* ---------------------------------------------------------------------- */
 {
-  LDBLE viscos;
 /* from Atkins, 1994. Physical Chemistry, 5th ed. */
-	viscos =
-		pow((LDBLE) 10.,
-			-(1.37023 * (tc_x - 20) +
-			  0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
-  return viscos;
+	//viscos =
+	//	pow((LDBLE) 10.,
+	//		-(1.37023 * (tc_x - 20) +
+	//		  0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
+/* Huber et al., 2009, J. Phys. Chem. Ref. Data, Vol. 38, 101-125 */
+	LDBLE H[4] = { 1.67752, 2.20462,  0.6366564, -0.241605 };
+    LDBLE Tb = tk_x / 647.096, denom = H[0], mu0;
+	int i, j, i1;
+	for (i = 1; i < 4; i++)
+		denom += H[i] / pow(Tb, i);
+	mu0 = 100.0 * sqrt(Tb) / denom;
+
+	LDBLE H2[42] = 
+	{ 5.20094e-1, 2.22531e-1, -2.81378e-1, 1.61913e-1, -3.25372e-2, 0,          0,
+      8.50895e-2, 9.99115e-1, -9.06851e-1, 2.57399e-1,  0,          0,          0,
+     -1.08374,    1.88797,    -7.72479e-1, 0,           0,          0,          0,
+     -2.89555e-1, 1.26613,    -4.89837e-1, 0,           6.98452e-2, 0,         -4.35673e-3,
+      0,          0,          -2.57040e-1, 0,           0,          8.72102e-3, 0,
+	  0,          1.20573e-1,  0,          0,           0,          0,         -5.93264e-4 };
+	LDBLE Rb = rho_0 / 0.322, Tb_1, Rb_1, S1 = 0.0, S2, mu1;
+	Tb_1 = 1.0 / Tb - 1.0; Rb_1 = Rb - 1.0;
+	for (i = 0; i < 6; i++)
+	{
+		S2 = 0.0;
+		for (j = 0; j < 7; j++)
+		{
+			i1 = 7 * i;
+			if (!H2[i1 + j])
+				continue;
+			if (j)
+				S2 += H2[i1 + j] * pow(Rb_1, j);
+			else
+				S2 += H2[i1];
+		}
+		if (i)
+			S1 += S2 * pow(Tb_1, i);
+		else
+			S1 += S2;
+	}
+	mu1 = exp(Rb * S1);
+	viscos_0 = viscos = mu0 * mu1 / 1e3;
+
+/* (modified) Jones-Dole eqn for viscosity: 
+      viscos / (viscos_0 * (1 + 2.5 * V_solutes / V_tot)) = 1 + A * eq_tot^0.5 + Sum(B_i * m_i) + Sum(D_i * m_i * mu_x^d3_i)
+	  A calculated from Falkenhagen-Dole
+	  B_i = b1 + b2*exp(-b3 * tc), b1..3 in Jones_Dole[0..2], read in SOLUTION_SPECIES
+	  D_i = d1 * exp(-d2 * tc), d1, 2 in Jones_Dole[3, 4]
+	  d3_i in Jones_Dole[5]
+
+	 A from Falkenhagen-Dole for a salt:
+	 A = 4.3787e-14 * TK**1.5 / (eps_r**0.5)* (z1 + z2)**-0.5 / (D1 * D2) * psi
+	 psi = (D1*z2 + D2*z1)/4 - z1*z2 * (D1-D2)**2 / ((D1*z1 + D2*z2)**0.5 + ((D1 + D2) * (z1 + z2))**0.5)**2
+	 D1, z1 for the cation, D2, |z2| for the anion of the salt.
+	 We use the harmonic mean of the Dw's, and the arithmetic mean of the z's,
+	 both weighted by the equivalent concentration.
+ */
+	LDBLE D1, D2, z1, z2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, t1;
+	LDBLE A, psi, Bc = 0, Dc = 0, Dw, l_z, lm;
+
+	m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = 0;
+	for (i = 0; i < count_species_list; i++)
+	{
+		if (species_list[i].s->type > HPLUS)
+			continue;
+		if (i > 0
+			&& strcmp(species_list[i].s->name,
+					  species_list[i - 1].s->name) == 0)
+			continue;
+		if (species_list[i].s == s_h2o)
+			continue;
+		lm = species_list[i].s->lm;
+		if (lm > -9 && 
+			(species_list[i].s->Jones_Dole[0] || species_list[i].s->Jones_Dole[1] || species_list[i].s->Jones_Dole[3]))
+		{
+			t1 = species_list[i].s->moles / mass_water_aq_x;
+			//for optimizing temperature coeff's...
+			if (species_list[i].s->Jones_Dole[6] || species_list[i].s->Jones_Dole[7])
+			{
+				species_list[i].s->Jones_Dole[0] = species_list[i].s->Jones_Dole[6] - 
+					species_list[i].s->Jones_Dole[1] * exp(-species_list[i].s->Jones_Dole[2] * 25.0);
+				species_list[i].s->Jones_Dole[3] =  
+					species_list[i].s->Jones_Dole[7] / exp(-species_list[i].s->Jones_Dole[4] * 25.0);
+			}
+			// find B * m and D * m * mu^d3
+			Bc += (species_list[i].s->Jones_Dole[0] + 
+				species_list[i].s->Jones_Dole[1] * exp(-species_list[i].s->Jones_Dole[2] * tc_x)) *
+				t1;
+			Dc += (species_list[i].s->Jones_Dole[3] * exp(-species_list[i].s->Jones_Dole[4] * tc_x)) *
+				t1 * pow(mu_x, species_list[i].s->Jones_Dole[5]);
+			//output_msg(sformatf("\t%s\t%e\t%e\t%e\n", species_list[i].s->name, t1, Bc, Dc ));
+		}
+		// find A...
+		if ((Dw = species_list[i].s->dw) == 0)
+			continue;
+		if ((l_z = species_list[i].s->z) == 0)
+			continue;
+		if (lm > -9)
+		{
+			if (species_list[i].s->dw_t)
+				Dw *= exp(species_list[i].s->dw_t / tk_x - species_list[i].s->dw_t / 298.15);
+			if (l_z > 0)
+			{
+				m_plus += species_list[i].s->moles;
+				t1 = species_list[i].s->moles * l_z;
+				eq_plus += t1;
+				eq_dw_plus += t1 / Dw;
+			}
+			else
+			{
+				m_min += species_list[i].s->moles;
+				t1 = species_list[i].s->moles * l_z;
+				eq_min -= t1;
+				eq_dw_min -= t1 / Dw;
+			}
+		}
+	}
+	z1 = eq_plus / m_plus;     z2 = eq_min / m_min;
+	D1 = eq_plus / eq_dw_plus; D2 = eq_min / eq_dw_min;
+
+	t1 = (D1 - D2) / (sqrt(D1 * z1 + D2 * z2) + sqrt((D1 + D2) * (z1 + z2)));
+	psi = (D1 * z2 + D2 * z1) / 4.0 - z1 * z2 * t1 * t1;
+	A = 4.3787e-14 * pow(tk_x, 1.5) / (sqrt(eps_r * (z1 + z2)) * (D1 * D2)) * psi;
+	t1 = 1e3 * calc_solution_volume();
+	t1 = viscos_0 * (1 + 2.5 * V_solutes / t1);
+	viscos = t1 + A * sqrt((eq_plus + eq_min) / 2 / mass_water_aq_x) + t1 * (Bc + Dc);
+
+	return viscos;
 }

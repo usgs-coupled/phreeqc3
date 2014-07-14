@@ -1,0 +1,51 @@
+
+# DATABASE c:\phreeqc\database\pitzer.dat; INCLUDE$ ..\DebOns_pz.dat
+DATABASE ../database/phreeqc.dat; INCLUDE$ ./DebOns_phr.dat
+
+#PRINT; -reset false;
+
+SOLUTION
+INCREMENTAL_REACTIONS true
+REACTION 1
+NaCl 1
+1e-3 10*0.01 9*0.1 9*0.6
+ 
+USER_GRAPH 1
+-connect_simulations false
+-plot_tsv_file vNaCl_25.dat
+-axis_titles "salt concentration / (mol/kgw)" "viscosity / (mPa s)"
+10 graph_x tot("Cl") 
+20 graph_y viscos
+END
+
+USE solution 1
+REACTION 1
+KCl 1
+1e-3 10*0.01 9*0.1 10*0.4
+USER_GRAPH
+-plot_tsv_file vKCl_25.dat
+END
+
+USE solution 1
+REACTION 1
+MgCl2 1
+1e-3 10*0.01 9*0.1 10*0.5
+USER_GRAPH 1; -detach
+USER_GRAPH 2
+-connect_simulations false
+-headings dif
+-plot_tsv_file vMgCl2_25.dat
+-axis_titles "salt concentration / (mol/kgw)" "viscosity / (mPa s)"
+10 graph_x tot("Cl") / 2
+20 graph_y viscos
+END
+
+USE solution 1
+REACTION 1
+CaCl2 1
+1e-3 10*0.01 9*0.1 11*0.8
+USER_GRAPH 2
+-plot_tsv_file vCaCl2_25.dat
+END
+
+

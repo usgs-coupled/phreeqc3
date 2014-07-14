@@ -1,0 +1,134 @@
+
+# DATABASE c:\phreeqc\database\pitzer.dat; INCLUDE$ ..\DebOns_pz.dat
+DATABASE c:\phreeqc\database\phreeqc.dat; INCLUDE$ ..\DebOns_phr.dat
+
+PRINT; -reset false; 
+
+SOLUTION_SPREAD
+#-HB data rcalc'd to 25°C; McCleskey, 2011, JCED 56, 317
+-units mol/kgw
+number	Na	S(6)	pH
+1	2.000E-04	1.000E-04	7 charge
+2	2.000E-03	1.000E-03	7 charge
+3	2.000E-02	1.000E-02	7 charge
+4	7.016E-02	3.508E-02	7 charge
+5	1.424E-01	7.120E-02	7 charge
+6	2.002E-01	1.001E-01	7 charge
+7	2.147E-01	1.074E-01	7 charge
+8	2.871E-01	1.436E-01	7 charge
+9	3.617E-01	1.808E-01	7 charge
+10	3.978E-01	1.989E-01	7 charge
+11	4.343E-01	2.171E-01	7 charge
+12	5.111E-01	2.556E-01	7 charge
+13	5.860E-01	2.930E-01	7 charge
+14	6.630E-01	3.315E-01	7 charge
+15	7.402E-01	3.701E-01	7 charge
+16	8.196E-01	4.098E-01	7 charge
+17	8.991E-01	4.495E-01	7 charge
+18	9.788E-01	4.894E-01	7 charge
+19	1.059E+00	5.294E-01	7 charge
+20	1.141E+00	5.704E-01	7 charge
+21	1.223E+00	6.116E-01	7 charge
+22	1.308E+00	6.538E-01	7 charge
+23	1.392E+00	6.962E-01	7 charge
+24	1.477E+00	7.387E-01	7 charge
+25	1.565E+00	7.823E-01	7 charge
+26	1.740E+00	8.700E-01	7 charge
+27	1.920E+00	9.601E-01	7 charge
+28	2.104E+00	1.052E+00	7 charge
+29	2.293E+00	1.147E+00	7 charge
+30	2.485E+00	1.243E+00	7 charge
+31	2.684E+00	1.342E+00	7 charge
+32	2.885E+00	1.443E+00	7 charge
+33	3.091E+00	1.545E+00	7 charge
+34	3.302E+00	1.651E+00	7 charge
+35	3.518E+00	1.759E+00	7 charge
+36	3.966E+00	1.983E+00	7 charge
+USER_GRAPH
+-initial_solutions true
+-axis_titles "mol/kgw" "Equivalent Conductance / (mS/cm)"
+  -headings Na2SO4
+  10 DATA 128.80, 120.75, 106.40, 94.35, 88.20, 81.87, 81.98, 77.30, 74.06, 72.45, 71.98, 69.71, 67.87, 66.23, 64.61, 62.99, 61.53, 60.06, 58.80, 57.21, 55.92, 54.53, 53.30, 52.12, 51.00, 48.81, 46.67, 44.61, 42.69, 41.00, 39.55, 38.18, 36.90, 35.55, 34.64, 32.13
+20 dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("S"), HB(cell_no) , line_width = 0
+40 plot_xy tot("S"),  SC / tot("S") / 2e3, symbol = None, color = Red
+END
+
+SOLUTION_SPREAD
+#-HB data rcalc'd to 25°C; McCleskey, 2011, JCED 56, 317
+-units mol/kgw
+number	K	S(6)	pH
+1	2.040E-04	1.020E-04	7 charge4
+2	2.100E-03	1.050E-03	7 charge4
+3	2.122E-02	1.061E-02	7 charge6
+4	5.816E-02	2.908E-02	7 charge0
+5	1.164E-01	5.822E-02	7 charge0
+6	1.748E-01	8.742E-02	7 charge3
+7	2.096E-01	1.048E-01	7 charge7
+8	2.334E-01	1.167E-01	7 charge2
+9	2.941E-01	1.470E-01	7 charge
+10	3.549E-01	1.775E-01	7 charge
+11	4.058E-01	2.029E-01	7 charge
+12	4.159E-01	2.079E-01	7 charge
+13	4.790E-01	2.395E-01	7 charge
+14	5.403E-01	2.702E-01	7 charge
+15	6.039E-01	3.019E-01	7 charge
+16	6.676E-01	3.338E-01	7 charge
+17	7.335E-01	3.667E-01	7 charge
+18	7.975E-01	3.987E-01	7 charge
+19	8.638E-01	4.319E-01	7 charge
+20	9.304E-01	4.652E-01	7 charge
+21	9.566E-01	4.783E-01	7 charge
+22	9.971E-01	4.985E-01	7 charge
+23	1.066E+00	5.331E-01	7 charge
+24	1.135E+00	5.677E-01	7 charge
+25	1.205E+00	6.024E-01	7 charge
+26	1.275E+00	6.373E-01	7 charge
+USER_GRAPH
+-initial_solutions true
+  -headings K2SO4
+   10 DATA 155.64, 143.14, 126.06, 111.20, 107.20, 103.23, 100.67, 100.22, 96.93, 94.74, 91.30, 92.88, 91.07, 90.00, 88.44, 87.16, 85.84, 84.80, 83.56, 82.47, 81.55, 81.52, 80.30, 79.22, 78.24, 77.26
+20 dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("S"), HB(cell_no) , line_width = 0
+40 plot_xy tot("S"),  SC / tot("S") / 2e3, symbol = None, color = Green 
+END
+ 
+ 
+SOLUTION_SPREAD
+#-HB data
+-units mol/kgw
+-temp 20
+number	Mg	S(6)	pH
+1 	1e-5	1e-5	7 charge # labda_0
+2 	4.207E-02	4.207E-02	7 charge
+3 	8.412E-02	8.412E-02	7 charge
+4 	1.692E-01	1.692E-01	7 charge
+5 	2.564E-01	2.564E-01	7 charge
+6 	3.456E-01	3.456E-01	7 charge
+7 	4.369E-01	4.369E-01	7 charge
+8 	5.294E-01	5.294E-01	7 charge
+9 	6.251E-01	6.251E-01	7 charge
+10	7.219E-01	7.219E-01	7 charge
+11	8.211E-01	8.211E-01	7 charge
+12	9.225E-01	9.225E-01	7 charge
+13	1.132E+00	1.132E+00	7 charge
+14	1.351E+00	1.351E+00	7 charge
+15	1.581E+00	1.581E+00	7 charge
+16	1.823E+00	1.823E+00	7 charge
+17	2.077E+00	2.077E+00	7 charge
+18	2.347E+00	2.347E+00	7 charge
+19	2.630E+00	2.630E+00	7 charge
+20	2.930E+00	2.930E+00	7 charge
+USER_GRAPH
+  -headings MgSO4
+  10 DATA 2.38, 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 40000, 42700, 48400, 53300, 55200, 53700, 51100, 48800, 45900, 42300
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("S"), HB(cell_no) / tot("S") / 2e3, line_width = 0
+32 data  1.0, 1.025, 1.052, 1.110, 1.175, 1.247, 1.325, 1.408, 1.495, 1.590, 1.699, 1.825, 2.100, 2.407, 2.803, 3.353, 4.139, 5.189, 6.485, 8.050
+34 restore 32 : dim vc(50) : for i = 1 to cell_no : READ vc(i) : next i
+36 print vc(cell_no), viscos
+40 plot_xy tot("S"),  SC / tot("S") / 2e3, symbol = None, color = Blue  
+END
+
+
+

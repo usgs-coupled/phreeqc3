@@ -1,0 +1,38 @@
+
+# DATABASE c:\phreeqc\database\pitzer.dat; INCLUDE$ ..\DebOns_pz.dat
+DATABASE ../database/phreeqc.dat; INCLUDE$ ./DebOns_phr.dat
+
+PRINT; -reset false;
+
+SOLUTION
+INCREMENTAL_REACTIONS true
+REACTION 1
+Na2SO4 1
+10*1e-3 9*1e-2 10*0.2
+USER_GRAPH
+-connect_simulations false
+-plot_tsv_file vNa_K2SO4_25.dat
+-axis_titles "salt concentration / (mol/kgw)" "viscosity / (mPa s)"
+10 graph_x tot("S")
+20 graph_y viscos
+END
+
+USE solution 1
+REACTION 1
+K2SO4 1
+10*1e-3 9*1e-2 3*0.3
+END
+
+USE solution 1
+REACTION 1
+MgSO4 1
+10*1e-4 9*1e-2 10*0.3
+USER_GRAPH 1; -detach
+USER_GRAPH 2
+-plot_tsv_file vMgSO4_25.dat
+-connect_simulations false
+-axis_titles "salt concentration / (mol/kgw)" "viscosity / (mPa s)"
+10 graph_x tot("S")
+20 graph_y viscos
+END
+ 

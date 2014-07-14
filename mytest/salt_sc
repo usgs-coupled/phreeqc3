@@ -1,0 +1,156 @@
+
+# DATABASE c:\phreeqc\database\pitzer.dat; INCLUDE$ ..\DebOns_pz.dat
+DATABASE ../database/phreeqc.dat; INCLUDE$ ./DebOns_phr.dat
+
+#PRINT; -reset false; -user_print true
+
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+number	K	Cl	pH	density #     HB_SC
+1 	0.067	0.067	7 charge	1.0014 #     8200
+2 	0.134	0.134	7 charge	1.0045 #     15700
+3 	0.202	0.202	7 charge	1.0077 #     22700
+4 	0.270	0.270	7 charge	1.0109 #     29500
+5 	0.340	0.340	7 charge	1.0142 #     36500
+6 	0.409	0.409	7 charge	1.0173 #     43600
+7 	0.478	0.478	7 charge	1.0205 #     50600
+8 	0.549	0.549	7 charge	1.0238 #     57600
+9 	0.690	0.690	7 charge	1.0302 #     71900
+10	0.834	0.834	7 charge	1.0368 #     86200
+11	0.979	0.979	7 charge	1.0434 #     100000
+12	1.052	1.052	7 charge	1.0467 #     108000
+USER_GRAPH 
+  -headings KCl
+  -axis_titles "Handbook of Chemistry and Physics: SC / (mmho/cm)" "PHREEQC"
+  -axis_scale x_axis 0 120
+  -axis_scale y_axis 0 120
+  -initial_solutions true
+  10 DATA 8200, 15700, 22700, 29500, 36500, 43600, 50600, 57600, 71900, 86200, 100000, 108000
+  20 dim HB(12)
+  30 for i = 1 to cell_no 
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+#  70 print 'KCl', cell_no , rho
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+number	Na	Cl	pH	density #     HB_SC
+1 	0.0855	0.0855	7 charge	1.0018 #     8200
+2 	0.1728	0.1728	7 charge	1.0054 #     16000
+3 	0.2583	0.2583	7 charge	1.0089 #     23200
+4 	0.3456	0.3456	7 charge	1.0124 #     30200
+5 	0.4346	0.4346	7 charge	1.0160 #     37100
+6 	0.5236	0.5236	7 charge	1.0196 #     44000
+7 	0.6125	0.6125	7 charge	1.0231 #     50700
+8 	0.6844	0.6844	7 charge	1.0260 #     56000
+9 	0.8658	0.8658	7 charge	1.0332 #     68900
+10	1.0318	1.0318	7 charge	1.0397 #     80000
+11	1.3689	1.3689	7 charge	1.0528 #     101000
+12	1.6769	1.6769	7 charge	1.0646 #     118000
+USER_GRAPH 
+  -headings NaCl
+  10 DATA 8200, 16000, 23200, 30200, 37100, 44000, 50700, 56000, 68900, 80000, 101000, 118000
+  20 dim HB(12)
+  30 for i = 1 to cell_no
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+#  70 print 'NaCl', cell_no , rho
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+number	Ca	Cl	pH	density #     HB_SC
+1 	4.50E-02	9.00E-02	7 charge	1.0023 #     8100
+2 	9.10E-02	1.82E-01	7 charge	1.0065 #     15700
+3 	1.37E-01	2.74E-01	7 charge	1.0107 #     22700
+4 	1.83E-01	3.66E-01	7 charge	1.0148 #     29400
+5 	2.30E-01	4.60E-01	7 charge	1.0190 #     36100
+6 	2.77E-01	5.54E-01	7 charge	1.0232 #     42600
+7 	3.24E-01	6.48E-01	7 charge	1.0274 #     48900
+8 	3.72E-01	7.44E-01	7 charge	1.0317 #     55100
+9 	4.69E-01	9.38E-01	7 charge	1.0402 #     67000
+10	5.67E-01	1.13E+00	7 charge	1.0488 #     78300
+11	6.67E-01	1.33E+00	7 charge	1.0575 #     88700
+12	8.20E-01	1.64E+00	7 charge	1.0707 #     103000
+USER_GRAPH 
+  -headings CaCl2
+  10 DATA 8100, 15700, 22700, 29400, 36100, 42600, 48900, 55100, 67000, 78300, 88700, 103000
+  20 dim HB(12)
+  30 for i = 1 to cell_no
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+#  70 print 'CaCl2', cell_no , rho
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+number	Mg	Cl	pH	density #     HB_SC
+1 	0.0525	1.05E-01	7 charge	1.0024 #     8600
+2 	0.1060	2.12E-01	7 charge	1.0066 #     16600
+3 	0.2131	4.26E-01	7 charge	1.0149 #     31200
+4 	0.3223	6.45E-01	7 charge	1.0233 #     44500
+5 	0.4326	8.65E-01	7 charge	1.0317 #     56400
+6 	0.5460	1.09E+00	7 charge	1.0402 #     66900
+7 	0.6605	1.32E+00	7 charge	1.0487 #     77200
+8 	0.7770	1.55E+00	7 charge	1.0573 #     86400
+9 	0.8946	1.79E+00	7 charge	1.0660 #     94500
+10	1.0143	2.03E+00	7 charge	1.0747 #     102000
+USER_GRAPH 
+  -headings MgCl2
+  10 DATA 8600, 16600, 31200, 44500, 56400, 66900, 77200, 86400, 94500, 102000
+  20 dim HB(10)
+  30 for i = 1 to cell_no
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+#  70 print 'MgCl2', cell_no , rho
+END
+SOLUTION_SPREAD
+#-HB data
+-units mol/kgw
+-temp 20
+number	Mg	S	pH
+1 	0e-5    	0e-5      	7 charge # labda_0
+REACTION 1
+MgSO4 1
+4.207E-02, 8.412E-02, 1.692E-01, 2.564E-01, 3.456E-01, 4.369E-01, 5.294E-01, 6.251E-01, 7.219E-01, 8.211E-01, 9.225E-01, 1.132E+00, 1.351E+00, 1.581E+00, 1.823E+00, 2.077E+00, 2.347E+00, 2.630E+00, 2.930E+00
+USER_GRAPH
+  -headings MgSO4
+  -initial_solutions false
+  10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 40000, 42700, 48400, 53300, 55200, 53700, 51100, 48800, 45900, 42300
+  20 restore 10 : dim HB(50) : for i = 1 to step_no : READ HB(i) : next i
+  60 plot_xy HB(step_no) / 1e3, SC / 1e3, line_width = 0
+END
+SOLUTION_MASTER_SPECIES
+La	La+3    0.0     La	138.9055
+N		NO3-	0	N		14.0067
+SOLUTION_SPECIES
+La+3 = La+3; log_k 0.0; -gamma 9.0 0.0
+ -dw 6.36e-10
+NO3- = NO3-
+	-gamma	3.0	0
+	-dw	 1.9e-9  200
+NO3- + La+3  =  LaNO3+2; -gamma 4.5 0.0; log_k 0.58
+ -dw 1.2e-9 # a rough estimate
+La+3 + Cl-  =  LaCl+2; -gamma 4.5 0.0; log_k 0.31
+ -dw 1.2e-9 # a rough estimate
+SOLUTION 1; temp 20
+reaction 1
+ La(NO3)3 1; 0.0311     0.0625  0.0945  0.1268  0.1600  0.1936  0.2277  0.2625  0.2979
+USER_GRAPH 
+  -headings La(NO3)3
+  -initial_solutions false
+  10 DATA  7800,  14200, 20100, 25600, 31100, 36000, 40600, 45000, 49500
+  20 dim HB(9)
+  30 for i = 1 to 9
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(step_no) / 1e3, SC / 1e3, line_width = 0, color = red
+  70 if step_no = 1 then xy = 0 else xy = 120
+  80 if step_no < 3 then plot_xy xy, xy, color = black, symbol = None
+END
