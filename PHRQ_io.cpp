@@ -58,10 +58,7 @@ ofstream_open(std::ostream **os, const char *file_name, std::ios_base::openmode 
 		*os = ofs;
 		return true;
 	}
-	if (ofs)
-	{
-		delete ofs;
-	}
+	delete ofs;
 	return false;
 }
 
