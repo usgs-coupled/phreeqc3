@@ -138,6 +138,16 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 			}
 		}
+		catch (PhreeqcStop s)
+		{
+			// clean up memory
+			disposetokens(&buf);
+			PhreeqcPtr->PHRQ_free(inbuf);
+			*lnbase = (void *) linebase;
+			*vbase = (void *) varbase;
+			*lpbase = (void *) loopbase;
+			throw s;
+		}
 	}
 	while (!(exitflag || P_eof()));
 	/*  exit(EXIT_SUCCESS); */
