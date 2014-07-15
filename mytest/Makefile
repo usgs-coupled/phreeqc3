@@ -4,6 +4,9 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 PHREEQC=../src/Class_release_64/phreeqc
 #PHREEQC=../src/Class_debug_64/phreeqc
 
+#VALGRIND=valgrind --leak-check=full
+VALGRIND=
+
 ifeq ($(CFG), CYGWIN)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
@@ -11,7 +14,7 @@ ifeq ($(CFG), CYGWIN)
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
-	time $(PHREEQC) $< $<.out xxx $<.log
+	time $(VALGRIND) $(PHREEQC) $< $<.out xxx $<.log
 #	mv phreeqc.log $<.log
 #	gprof $(PHREEQC) > $<.gprof
 
