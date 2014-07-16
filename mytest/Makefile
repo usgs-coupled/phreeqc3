@@ -294,7 +294,7 @@ all: alkalinity.out \
 	Vm_NH4Cl_sol.out \
 	Vm_SrCl2_sol.out \
 	rho_CaNaCl.out \
-	rho_CaKNaCl.out \
+	rho_CaKMgNaCl.out \
 	co2_VP.out \
 	phi_CO2-CH4_GP.out \
 	rho_MgCaCl.out \
