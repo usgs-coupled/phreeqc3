@@ -138,6 +138,7 @@ all: alkalinity.out \
 	run_cells.out \
 	s1.out \
 	salt_ec.out \
+	salt_ec_chart.out \
 	samemodel.out \
 	saver.out \
 	saunders.out \
@@ -170,6 +171,7 @@ all: alkalinity.out \
 	ss_r.out \
 	sys_ex.out \
 	sys_gas.out \
+	t2.out \
 	t922.out \
 	test_sit.out \
 	transport.out \
@@ -178,6 +180,7 @@ all: alkalinity.out \
 	user_print.out \
 	using.out \
 	volume-zero.out \
+	y_H2O.out \
 	zn.test.out \
 	zero_modify.out \
 	ex1.out \
@@ -291,6 +294,7 @@ all: alkalinity.out \
 	Vm_NH4Cl_sol.out \
 	Vm_SrCl2_sol.out \
 	rho_CaNaCl.out \
+	rho_CaKNaCl.out \
 	co2_VP.out \
 	phi_CO2-CH4_GP.out \
 	rho_MgCaCl.out \
@@ -332,12 +336,13 @@ all: alkalinity.out \
 	run_cell_range.out \
 	punch_stream.out \
 	modify_ignore.out \
-	connect_graph \
+	connect_graph.out \
 	variable_cell_diffusion.out \
 	no_negative_dump.out \
 	reaction_pressure_gas.out \
 	pitzer_redef_2.out \
-	KinSorbNp.out
+	KinSorbNp.out \
+	lkspecies.out
 
 # NaX.out
 
