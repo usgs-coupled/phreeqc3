@@ -342,7 +342,8 @@ all: alkalinity.out \
 	reaction_pressure_gas.out \
 	pitzer_redef_2.out \
 	KinSorbNp.out \
-	lkspecies.out
+	lkspecies.out \
+	Nardi.out
 
 # NaX.out
 
