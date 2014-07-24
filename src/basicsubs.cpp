@@ -490,7 +490,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 			Utilities::replace("_", " ", token);
 			std::string::iterator b = token.begin();
 			std::string::iterator e = token.end();
-			CParser::copy_token(token, b, e);
+			CParser::copy_token(name, b, e);
 		}
 		if (surface_name != NULL)
 		{
