@@ -3900,7 +3900,10 @@ tidy_min_surface(void)
 			}
 
 			/* area */
-			surface_charge_ptr->Set_grams(jit->second.Get_moles());
+			if (surface_charge_ptr)
+			{
+				surface_charge_ptr->Set_grams(jit->second.Get_moles());
+			}
 /*
  *   make sure surface elements are in phase
  *   logically necessary for mass balance and to avoid negative concentrations when dissolving phase
