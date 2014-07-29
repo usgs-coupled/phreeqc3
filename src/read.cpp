@@ -9190,7 +9190,9 @@ read_rates(void)
 			break;
 	}
 /*	output_msg(sformatf( "%s", rates[0].commands));
- */ return (return_value);
+ */ 
+	rates_map.clear();
+	return (return_value);
 }
 
 /* ---------------------------------------------------------------------- */

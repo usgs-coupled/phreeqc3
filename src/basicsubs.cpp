@@ -281,9 +281,11 @@ calc_solution_volume(void)
  */
 	LDBLE total_mass = 0;
 	LDBLE gfw;
-	compute_gfw("H", &gfw);
+	//compute_gfw("H", &gfw);
+	gfw = s_hplus->primary->gfw;
 	total_mass = total_h_x * gfw;
-	compute_gfw("O", &gfw);
+	//compute_gfw("O", &gfw);
+	gfw = s_h2o->primary->gfw;
 	total_mass += total_o_x * gfw;
 
 	for (int i = 0; i < count_master; i++)
