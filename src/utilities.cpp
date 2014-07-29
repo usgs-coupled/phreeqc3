@@ -291,6 +291,15 @@ compute_gfw(const char *string, LDBLE * gfw)
  *    Input:  string contains a chemical formula
  *    Output:  gfw contains the calculated gfw
  */
+	std::string str(string);
+	std::map<std::string, double>::iterator it;
+	it = gfw_map.find(str);
+	if (it != gfw_map.end())
+	{
+		*gfw = it->second;
+		return OK;
+	}
+
 	int i;
 	char token[MAX_LENGTH];
 	char *ptr;
@@ -312,6 +321,7 @@ compute_gfw(const char *string, LDBLE * gfw)
 		}
 		*gfw += elt_list[i].coef * (elt_list[i].elt)->gfw;
 	}
+	gfw_map[str] = *gfw;
 	return (OK);
 }
 

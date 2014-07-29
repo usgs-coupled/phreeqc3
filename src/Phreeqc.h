@@ -1912,6 +1912,7 @@ protected:
 #endif
 	/* utilities.cpp ------------------------------- */
 	int spinner;
+	std::map<std::string, double> gfw_map;
 
 	/* new after release of Version 3 */
 	std::map<std::string, std::vector < std::string> > sum_species_map; 
