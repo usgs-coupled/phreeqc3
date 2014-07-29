@@ -9135,7 +9135,10 @@ read_rates(void)
 		case OPTION_DEFAULT:	/* read rate name */
 			ptr = line;
 			copy_token(token, &ptr, &l);
-			rate_ptr = rate_search(token, &n);
+			{
+				const char *name = string_hsave(token);
+				rate_ptr = rate_search(name, &n);
+			}
 			if (rate_ptr == NULL)
 			{
 				rates =
