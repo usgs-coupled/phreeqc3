@@ -137,6 +137,12 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 
 	const std::map < int, LDBLE > & mixcomps = mx.Get_mixComps();
 	std::map < int, LDBLE >::const_iterator it;
+	this->total_p  = 0;
+	double sum_fractions = 0.0;
+	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
+	{
+		sum_fractions += it->second;
+	}
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
 		if (entity_map.find(it->first) != entity_map.end())
@@ -148,7 +154,7 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 				this->solution_equilibria = entity_ptr->solution_equilibria;
 				this->n_solution = entity_ptr->n_solution;
 				this->type = entity_ptr->type;
-				this->total_p = entity_ptr->total_p * it->second;
+				this->total_p += entity_ptr->total_p  * it->second / sum_fractions;
 				this->total_moles = entity_ptr->total_moles * it->second;
 				this->volume = entity_ptr->volume * it->second;
 				this->v_m = entity_ptr->v_m * it->second;
