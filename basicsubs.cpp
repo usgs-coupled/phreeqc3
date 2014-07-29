@@ -230,7 +230,8 @@ calc_dens(void)
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 		  continue;
 
-		compute_gfw(s_x[i]->name, &gfw);
+		//compute_gfw(s_x[i]->name, &gfw);
+		gfw = s_x[i]->gfw;
 		M_T += s_x[i]->moles * gfw;
 		V_solutes += s_x[i]->moles * s_x[i]->logk[vm_tc];
 	}

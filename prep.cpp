@@ -1207,7 +1207,9 @@ build_model(void)
 				space((void **) ((void *) &s_x), count_s_x + 1,
 					  &max_s_x, sizeof(struct species *));
 			}
+			compute_gfw(s[i]->name, &s[i]->gfw);
 			s_x[count_s_x++] = s[i];
+			
 /*
  *   Write mass action equation for current model
  */
