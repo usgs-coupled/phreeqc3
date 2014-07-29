@@ -183,17 +183,14 @@ build_fixed_volume_gas(void)
 				{
 					master_ptr = rxn_ptr->s->secondary;
 				}
-				else
+				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
 				{
 					master_ptr = rxn_ptr->s->primary;
 				}
-				if (master_ptr == NULL)
+				else
 				{
-					error_string = sformatf(
-							"Element needed for gas component, %s, is not in model.",
-							phase_ptr->name);
-					warning_msg(error_string);
-					continue;
+					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr->s->la = -999.0;
 				}
 				if (debug_prep == TRUE)
 				{
@@ -265,9 +262,14 @@ build_fixed_volume_gas(void)
 				{
 					master_ptr = rxn_ptr->s->secondary;
 				}
-				else 
+				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
 				{
 					master_ptr = rxn_ptr->s->primary;
+				}
+				else
+				{
+					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr->s->la = -999.0;
 				}
 
 				if (master_ptr == NULL)

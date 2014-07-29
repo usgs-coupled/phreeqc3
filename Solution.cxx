@@ -1067,6 +1067,14 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	// Don`t bother to update activities?
 	//this->Update(const_nd);
 	this->totals = const_nd;
+	cxxNameDouble::iterator it;
+	for (it = this->totals.begin(); it != this->totals.end(); it++)
+	{
+		if (it->second < 1e-14)
+		{
+			it->second = 0.0;
+		}
+	}
 }
 void
 cxxSolution::Update_activities(const cxxNameDouble &original_tot)
