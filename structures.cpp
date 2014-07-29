@@ -1649,6 +1649,19 @@ rate_search(const char *name, int *n)
  *      if found, the address of the pp_assemblage element
  *      if not found, NULL
  */
+	std::string str(name);
+	std::map<std::string, int>::iterator it;
+	it = rates_map.find(str);
+	if (it != rates_map.end())
+	{
+		*n = it->second;
+		if (*n >= 0)
+		{
+			return &(rates[it->second]);
+		}
+		return NULL;
+	}
+
 	int i;
 	*n = -1;
 	for (i = 0; i < count_rates; i++)
@@ -1656,12 +1669,14 @@ rate_search(const char *name, int *n)
 		if (strcmp_nocase(rates[i].name, name) == 0)
 		{
 			*n = i;
+			rates_map[str] = i;
 			return (&(rates[i]));
 		}
 	}
 /*
  *   rate name not found
  */
+	rates_map[str] = *n;
 	return (NULL);
 }
 
