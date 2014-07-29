@@ -1913,7 +1913,7 @@ protected:
 	/* utilities.cpp ------------------------------- */
 	int spinner;
 	std::map<std::string, double> gfw_map;
-	std::map<std::string, int> rates_map;
+	std::map<const char *, int> rates_map;
 
 	/* new after release of Version 3 */
 	std::map<std::string, std::vector < std::string> > sum_species_map; 
