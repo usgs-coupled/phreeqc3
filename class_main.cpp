@@ -366,7 +366,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		copy_token(token, &ptr, &l);
 		strcpy(token, default_name);
 		strcat(token, ".out");
-		std::ofstream * local_output_stream;
+		std::ofstream * local_output_stream = NULL;
 		if (argc <= 1)
 		{
 			local_output_stream = open_output_stream(query, token, std::ios_base::out, false);
@@ -444,7 +444,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 			strcpy(token, default_data_base);
 		}
 
-		std::ifstream * local_database_file;
+		std::ifstream * local_database_file = NULL;
 		if (argc <= 1)
 		{
 			local_database_file = open_input_stream(query, token, std::ios_base::in, false);
