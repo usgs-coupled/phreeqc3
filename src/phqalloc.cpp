@@ -27,8 +27,9 @@ PHRQ_malloc(size_t size)
 
 	if (p == NULL)
 		return NULL;
-
+#if !defined(NDEBUG)
 	memset(p, 0, sizeof(PHRQMemHeader) + size);
+#endif
 	p->pNext = NULL;
 
 	if ((p->pPrev = s_pTail) != NULL)
@@ -199,10 +200,12 @@ PHRQ_realloc(void *ptr, size_t size
 	if (p != NULL)
 	{
 		p->size = new_size;
+#if !defined(NDEBUG)
 		if (new_size > old_size)
 		{
 			memset((char *) p + old_size, 0, new_size - old_size);
 		}
+#endif
 	}
 
 	if (p == NULL)
