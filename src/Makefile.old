@@ -179,8 +179,9 @@ ifeq ($(CFG), CLASS_RELEASE_64)
   CXX          = g++
   PROFILE      = 
   CXXFLAGS     = $(PROFILE) -Wall -pedantic -O3 $(DEFINES) $(INCLUDES) # -g 
+#  CXXFLAGS     = -fprofile-arcs -ftest-coverage  $(DEFINES) $(INCLUDES) # -g 
   OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = $(PROFILE) -lm ${CL1MP_LIB} ${HASH_STYLE}
+  LD_FLAGS     = $(PROFILE) -lm ${CL1MP_LIB} ${HASH_STYLE} # -L/usr/lib/gcc/x86_64-redhat-linux/4.4.4 -lgcov
 endif
 
 # -----------------------------------------------------------------------------
