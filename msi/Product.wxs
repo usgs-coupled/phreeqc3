@@ -13,7 +13,11 @@
            Manufacturer="$(var.Manufacturer)"
            UpgradeCode="$(var.UpgradeGuid)">
     
-    <Package InstallerVersion="300" Compressed="yes" />
+    <?if $(sys.BUILDARCH)=x64 ?>
+    <Package InstallerVersion="400" Compressed="yes" Platform="x64"/>
+    <?else?>
+    <Package InstallerVersion="400" Compressed="yes" Platform="x86"/>
+    <?endif?>
 
     <!-- Prereqs -->
     <PropertyRef Id="NETFRAMEWORK20"/>
