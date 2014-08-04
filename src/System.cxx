@@ -88,7 +88,7 @@ cxxSystem::totalize(Phreeqc * phreeqc_ptr)
 	}
 	if (this->surface != NULL)
 	{
-		this->ssassemblage->totalize(phreeqc_ptr);
+		this->surface->totalize();
 		this->totals.add_extensive(this->surface->Get_totals(), 1.0);
 	}
 	return;
