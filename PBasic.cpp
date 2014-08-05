@@ -110,7 +110,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PBasicStop& e)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -138,7 +138,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 			}
 		}
-		catch (const PhreeqcStop& s)
+		catch (const PhreeqcStop&)
 		{
 			// clean up memory
 			disposetokens(&buf);
@@ -214,7 +214,7 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PhreeqcStop& e)
+		catch (const PhreeqcStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -279,7 +279,7 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PhreeqcStop& e)
+		catch (const PhreeqcStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -355,7 +355,7 @@ basic_main(char *commands)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PhreeqcStop& e)
+		catch (const PhreeqcStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -3135,9 +3135,14 @@ factor(struct LOC_exec * LINK)
 									 (size_t) (s_v.count_subscripts +
 											   1) * sizeof(int));
 			if (s_v.subscripts == NULL)
+			{
 				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts] = i;
-			s_v.count_subscripts++;
+			}
+			else
+			{
+				s_v.subscripts[s_v.count_subscripts] = i;
+				s_v.count_subscripts++;
+			}
 		}
 
 		/* get other subscripts */
@@ -4866,7 +4871,10 @@ cmdwhile(struct LOC_exec *LINK)
 
 	l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 	if (l == NULL)
+	{
 		PhreeqcPtr->malloc_error();
+		return;
+	}
 	l->next = loopbase;
 	loopbase = l;
 	l->kind = whileloop;
@@ -4969,7 +4977,10 @@ cmdgosub(struct LOC_exec *LINK)
 
 	l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 	if (l == NULL)
+	{
 		PhreeqcPtr->malloc_error();
+		return;
+	}
 	l->next = loopbase;
 	loopbase = l;
 	l->kind = gosubloop;
@@ -5244,9 +5255,14 @@ cmddim(struct LOC_exec *LINK)
 		{
 			v->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc(j * sizeof(LDBLE));
 			if (v->UU.U0.arr == NULL)
+			{
 				PhreeqcPtr->malloc_error();
-			for (i = 0; i < j; i++)
-				v->UU.U0.arr[i] = 0.0;
+			}
+			else
+			{
+				for (i = 0; i < j; i++)
+					v->UU.U0.arr[i] = 0.0;
+			}
 		}
 		if (!iseos(LINK))
 			require(tokcomma, LINK);
@@ -5527,7 +5543,7 @@ exec(void)
 		}
 		while (stmtline != NULL);
 	}
-	catch (const PhreeqcStop& e)
+	catch (const PhreeqcStop)
 	{
 		//_Ltry1:
 		if (P_escapecode == -20)

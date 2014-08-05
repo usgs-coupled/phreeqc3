@@ -903,26 +903,28 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 		LDBLE coef = it->second;
 		if (elt_ptr == NULL)
 		{
-
 			assert (false);
-		}
-		master_ptr = elt_ptr->primary;
-		if (master_ptr == NULL)
-		{
-			// error msg has been called in reaction_calc
-			continue;
-		}
-		if (master_ptr->s == s_hplus)
-		{
-			total_h_x += coef * step_x * step_fraction;
-		}
-		else if (master_ptr->s == s_h2o)
-		{
-			total_o_x += coef * step_x * step_fraction;
 		}
 		else
 		{
-			master_ptr->total += coef * step_x * step_fraction;
+			master_ptr = elt_ptr->primary;
+			if (master_ptr == NULL)
+			{
+				// error msg has been called in reaction_calc
+				continue;
+			}
+			if (master_ptr->s == s_hplus)
+			{
+				total_h_x += coef * step_x * step_fraction;
+			}
+			else if (master_ptr->s == s_h2o)
+			{
+				total_o_x += coef * step_x * step_fraction;
+			}
+			else
+			{
+				master_ptr->total += coef * step_x * step_fraction;
+			}
 		}
 	}
 	return (OK);
@@ -1184,17 +1186,20 @@ add_kinetics(cxxKinetics *kinetics_ptr)
 					it->first.c_str());
 			error_msg(error_string, STOP);
 		}
-		if (master_ptr->s == s_hplus)
-		{
-			total_h_x += coef;
-		}
-		else if (master_ptr->s == s_h2o)
-		{
-			total_o_x += coef;
-		}
 		else
 		{
-			master_ptr->total += coef;
+			if (master_ptr->s == s_hplus)
+			{
+				total_h_x += coef;
+			}
+			else if (master_ptr->s == s_h2o)
+			{
+				total_o_x += coef;
+			}
+			else
+			{
+				master_ptr->total += coef;
+			}
 		}
 	}
 	return (OK);

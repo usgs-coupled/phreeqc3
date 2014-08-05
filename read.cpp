@@ -646,7 +646,10 @@ read_exchange_species(void)
 					(struct name_coef *)
 					PHRQ_malloc(sizeof(struct name_coef));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			else
 			{
@@ -660,7 +663,10 @@ read_exchange_species(void)
 																(struct
 																 name_coef)));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
@@ -698,7 +704,10 @@ read_exchange_species(void)
 					(struct name_coef *)
 					PHRQ_malloc(sizeof(struct name_coef));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			else
 			{
@@ -712,7 +721,10 @@ read_exchange_species(void)
 																(struct
 																 name_coef)));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK);
+				}
 			}
 			i = sscanf(next_char, SCANFORMAT,
 					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
@@ -1834,7 +1846,10 @@ read_inv_isotopes(struct inverse *inverse_ptr, char *ptr)
 													  1) *
 											sizeof(struct inv_isotope));
 	if (inverse_ptr->i_u == NULL)
+	{
 		malloc_error();
+		return (OK);
+	}
 	inverse_ptr->i_u[inverse_ptr->count_i_u].elt_name = redox_name;
 	inverse_ptr->i_u[inverse_ptr->count_i_u].isotope_number = isotope_number;
 /*
@@ -2584,7 +2599,10 @@ read_list_ints(char **ptr, int *count_ints, int positive)
 				(int *) PHRQ_realloc(int_list,
 									 (size_t) (*count_ints) * sizeof(int));
 			if (int_list == NULL)
+			{
 				malloc_error();
+				return (NULL);
+			}
 			int_list[(*count_ints) - 1] = value;
 			if (value <= 0 && positive == TRUE)
 			{
@@ -2632,7 +2650,10 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 	{
 		int_list = (int *) PHRQ_malloc(sizeof(int));
 		if (int_list == NULL)
+		{
 			malloc_error();
+			return (NULL);
+		}
 		*count_ints = 0;
 	}
 	ptr_save = *ptr;
@@ -2646,7 +2667,10 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 				(int *) PHRQ_realloc(int_list,
 									 (size_t) (*count_ints) * sizeof(int));
 			if (int_list == NULL)
+			{
 				malloc_error();
+				return (NULL);
+			}
 			int_list[(*count_ints) - 1] = value;
 			if (value <= 0 && positive == TRUE)
 			{
@@ -2687,7 +2711,10 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 												 (size_t) (*count_ints) *
 												 sizeof(int));
 						if (int_list == NULL)
+						{
 							malloc_error();
+							return (NULL);
+						}
 						int_list[(*count_ints) - 1] = i;
 					}
 				}
@@ -6823,7 +6850,10 @@ read_surface_species(void)
 					(struct name_coef *)
 					PHRQ_malloc(sizeof(struct name_coef));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK):
+				}
 			}
 			else
 			{
@@ -6837,7 +6867,10 @@ read_surface_species(void)
 																(struct
 																 name_coef)));
 				if (s_ptr->add_logk == NULL)
+				{
 					malloc_error();
+					return (OK):
+				}
 			}
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
@@ -9190,10 +9223,15 @@ read_rates(void)
 									  (size_t) (length + line_length +
 												2) * sizeof(char));
 			if (rate_ptr->commands == NULL)
+			{
 				malloc_error();
-			rate_ptr->commands[length] = ';';
-			rate_ptr->commands[length + 1] = '\0';
-			strcat((rate_ptr->commands), line);
+			}
+			else
+			{
+				rate_ptr->commands[length] = ';';
+				rate_ptr->commands[length + 1] = '\0';
+				strcat((rate_ptr->commands), line);
+			}
 			opt_save = OPT_1;
 			break;
 		}
