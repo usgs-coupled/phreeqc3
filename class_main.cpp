@@ -490,7 +490,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		*db_cookie = new std::ifstream(db_file, std::ios_base::in);
 		*input_cookie = new std::ifstream(in_file, std::ios_base::in);
 	}
-	catch (PhreeqcStop e)
+	catch (const PhreeqcStop& e)
 	{
 		return get_input_errors();
 	}
@@ -681,7 +681,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		*db_cookie = new std::ifstream(db_file, std::ios_base::in);
 		*input_cookie = new std::ifstream(in_file, std::ios_base::in);
 	}
-	catch (PhreeqcStop e)
+	catch (const PhreeqcStop& e)
 	{
 		return get_input_errors();
 	}

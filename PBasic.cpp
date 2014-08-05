@@ -110,7 +110,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PBasicStop& e)
 		{
 			if (P_escapecode != -20)
 			{
@@ -138,7 +138,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 				}
 			}
 		}
-		catch (PhreeqcStop s)
+		catch (const PhreeqcStop& s)
 		{
 			// clean up memory
 			disposetokens(&buf);
@@ -146,7 +146,7 @@ basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
 			*lnbase = (void *) linebase;
 			*vbase = (void *) varbase;
 			*lpbase = (void *) loopbase;
-			throw s;
+			throw;  // rethrow
 		}
 	}
 	while (!(exitflag || P_eof()));
@@ -214,7 +214,7 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PhreeqcStop& e)
 		{
 			if (P_escapecode != -20)
 			{
@@ -279,7 +279,7 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PhreeqcStop& e)
 		{
 			if (P_escapecode != -20)
 			{
@@ -355,7 +355,7 @@ basic_main(char *commands)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (PBasicStop e)
+		catch (const PhreeqcStop& e)
 		{
 			if (P_escapecode != -20)
 			{
@@ -3159,9 +3159,9 @@ factor(struct LOC_exec * LINK)
 												   1) * sizeof(int));
 				if (s_v.subscripts == NULL)
 					PhreeqcPtr->malloc_error();
-				s_v.subscripts[s_v.count_subscripts] = j;
-				s_v.count_subscripts++;
-			}
+					s_v.subscripts[s_v.count_subscripts] = j;
+					s_v.count_subscripts++;
+				}
 			else
 			{
 				/* get right parentheses */
@@ -5155,13 +5155,13 @@ cmdon(struct LOC_exec *LINK)
 		l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 		if (l == NULL)
 			PhreeqcPtr->malloc_error();
-		l->next = loopbase;
-		loopbase = l;
-		l->kind = gosubloop;
-		l->homeline = stmtline;
-		l->hometok = LINK->t;
-		LINK->t = LINK->t->next;
-	}
+			l->next = loopbase;
+			loopbase = l;
+			l->kind = gosubloop;
+			l->homeline = stmtline;
+			l->hometok = LINK->t;
+			LINK->t = LINK->t->next;
+		}
 	else
 		require(tokgoto, LINK);
 	if (i < 1)
@@ -5517,7 +5517,7 @@ exec(void)
 		}
 		while (stmtline != NULL);
 	}
-	catch (PBasicStop e)
+	catch (const PhreeqcStop& e)
 	{
 		//_Ltry1:
 		if (P_escapecode == -20)
