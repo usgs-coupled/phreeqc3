@@ -667,13 +667,18 @@ elt_list_save(void)
 		(struct elt_list *) PHRQ_malloc((size_t) (count_elts + 1) *
 										sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
-		malloc_error();
-	for (j = 0; j < count_elts; j++)
 	{
-		elt_list_ptr[j].elt = elt_list[j].elt;
-		elt_list_ptr[j].coef = elt_list[j].coef;
+		malloc_error();
 	}
-	elt_list_ptr[count_elts].elt = NULL;
+	else
+	{
+		for (j = 0; j < count_elts; j++)
+		{
+			elt_list_ptr[j].elt = elt_list[j].elt;
+			elt_list_ptr[j].coef = elt_list[j].coef;
+		}
+		elt_list_ptr[count_elts].elt = NULL;
+	}
 	return (elt_list_ptr);
 }
 /* ---------------------------------------------------------------------- */
@@ -686,17 +691,22 @@ NameDouble2elt_list(const cxxNameDouble &nd)
  */
 	struct elt_list *elt_list_ptr = (struct elt_list *) PHRQ_malloc((nd.size() + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
-		malloc_error();
-	cxxNameDouble::const_iterator it = nd.begin();
-	int i = 0;
-	for( ; it != nd.end(); it++)
 	{
-		elt_list_ptr[i].elt = element_store(it->first.c_str());
-		elt_list_ptr[i].coef = it->second;
-		i++;
+		malloc_error();
 	}
-	elt_list_ptr[i].elt = NULL;
-	elt_list_ptr[i].coef = 0;
+	else
+	{
+		cxxNameDouble::const_iterator it = nd.begin();
+		int i = 0;
+		for( ; it != nd.end(); it++)
+		{
+			elt_list_ptr[i].elt = element_store(it->first.c_str());
+			elt_list_ptr[i].coef = it->second;
+			i++;
+		}
+		elt_list_ptr[i].elt = NULL;
+		elt_list_ptr[i].coef = 0;
+	}
 	return (elt_list_ptr);
 }
 /* **********************************************************************

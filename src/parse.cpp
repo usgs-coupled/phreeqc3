@@ -151,13 +151,18 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 		(struct elt_list *) PHRQ_malloc((size_t) (count_elts + 1) *
 										sizeof(struct elt_list));
 	if (*elt_ptr == NULL)
-		malloc_error();
-	for (i = 0; i < count_elts; i++)
 	{
-		(*elt_ptr)[i].elt = elt_list[i].elt;
-		(*elt_ptr)[i].coef = -elt_list[i].coef;
+		malloc_error();
 	}
-	(*elt_ptr)[count_elts].elt = NULL;
+	else
+	{
+		for (i = 0; i < count_elts; i++)
+		{
+			(*elt_ptr)[i].elt = elt_list[i].elt;
+			(*elt_ptr)[i].coef = -elt_list[i].coef;
+		}
+		(*elt_ptr)[count_elts].elt = NULL;
+	}
 /*
  *   Debugging print of parsed equation
 	trxn_print();

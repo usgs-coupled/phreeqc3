@@ -840,11 +840,14 @@ read_exchange_species(void)
 				error_string = sformatf( "Copying exchange to phases.");
 				error_msg(error_string, CONTINUE);
 			}
-			phase_ptr->formula = s_ptr->name;
-			phase_ptr->check_equation = FALSE;
-			phase_ptr->type = EX;
-			phase_ptr->next_elt = elt_list_dup(s_ptr->next_elt);
-			phase_ptr->rxn = rxn_dup(s_ptr->rxn);
+			else
+			{
+				phase_ptr->formula = s_ptr->name;
+				phase_ptr->check_equation = FALSE;
+				phase_ptr->type = EX;
+				phase_ptr->next_elt = elt_list_dup(s_ptr->next_elt);
+				phase_ptr->rxn = rxn_dup(s_ptr->rxn);
+			}
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -9158,12 +9161,17 @@ read_rates(void)
 			rate_ptr->new_def = TRUE;
 			rate_ptr->commands = (char *) PHRQ_malloc(sizeof(char));
 			if (rate_ptr->commands == NULL)
+			{
 				malloc_error();
-			rate_ptr->commands[0] = '\0';
-			rate_ptr->name = string_hsave(token);
-			rate_ptr->linebase = NULL;
-			rate_ptr->varbase = NULL;
-			rate_ptr->loopbase = NULL;
+			}
+			else
+			{
+				rate_ptr->commands[0] = '\0';
+				rate_ptr->name = string_hsave(token);
+				rate_ptr->linebase = NULL;
+				rate_ptr->varbase = NULL;
+				rate_ptr->loopbase = NULL;
+			}
 			opt_save = OPT_1;
 			break;
 		case OPT_1:			/* read command */
@@ -9392,7 +9400,7 @@ read_user_punch(void)
 			{
 				r->commands = (char *) PHRQ_malloc(sizeof(char));
 				if (r->commands == NULL) malloc_error();
-				r->commands[0] = '\0';
+				else r->commands[0] = '\0';
 			}
 			//rate_free(user_punch);
 			//user_punch->new_def = TRUE;
@@ -9410,11 +9418,16 @@ read_user_punch(void)
 			line_length = (int) strlen(line);
 			r->commands = (char *) PHRQ_realloc(r->commands,
 				(size_t) (length + line_length + 2) * sizeof(char));
-			if (r->commands == NULL) malloc_error();
-
-			r->commands[length] = ';';
-			r->commands[length + 1] = '\0';
-			strcat((r->commands), line);
+			if (r->commands == NULL)
+			{
+				malloc_error();
+			}
+			else
+			{
+				r->commands[length] = ';';
+				r->commands[length + 1] = '\0';
+				strcat((r->commands), line);
+			}
 			//length = (int) strlen(user_punch->commands);
 			//line_length = (int) strlen(line);
 			//user_punch->commands =

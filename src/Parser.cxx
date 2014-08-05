@@ -28,17 +28,19 @@ m_next_keyword(Keywords::KEY_NONE)
 	{
 		error_msg("This parser constructor requires non-null phrq_io", PHRQ_io::OT_STOP);
 	}
-	m_line_save = io->Get_m_line();
-	m_line = io->Get_m_line();
-	m_line_type = io->Get_m_line_type();
-	m_line_iss.str(m_line);
-	m_line_iss.seekg(0, std::ios_base::beg);
-	m_line_iss.clear();
-	echo_file = EO_ALL;
-	echo_stream = EO_NONE;
-	accumulate = false;
-	phrq_io_only = true;
-	
+	else
+	{
+		m_line_save = io->Get_m_line();
+		m_line = io->Get_m_line();
+		m_line_type = io->Get_m_line_type();
+		m_line_iss.str(m_line);
+		m_line_iss.seekg(0, std::ios_base::beg);
+		m_line_iss.clear();
+		echo_file = EO_ALL;
+		echo_stream = EO_NONE;
+		accumulate = false;
+		phrq_io_only = true;
+	}
 }
 
 CParser::CParser(std::istream & input, PHRQ_io *io):

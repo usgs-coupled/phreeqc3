@@ -229,11 +229,16 @@ read_calculate_values(void)
 			calculate_value_ptr->commands =
 				(char *) PHRQ_malloc(sizeof(char));
 			if (calculate_value_ptr->commands == NULL)
+			{
 				malloc_error();
-			calculate_value_ptr->commands[0] = '\0';
-			calculate_value_ptr->linebase = NULL;
-			calculate_value_ptr->varbase = NULL;
-			calculate_value_ptr->loopbase = NULL;
+			}
+			else
+			{
+				calculate_value_ptr->commands[0] = '\0';
+				calculate_value_ptr->linebase = NULL;
+				calculate_value_ptr->varbase = NULL;
+				calculate_value_ptr->loopbase = NULL;
+			}
 			opt_save = OPT_1;
 			break;
 
@@ -1518,15 +1523,18 @@ master_isotope_init(struct master_isotope *master_isotope_ptr)
 /*
  *   set pointers in structure to NULL
  */
-	master_isotope_ptr->name = NULL;
-	master_isotope_ptr->master = NULL;
-	master_isotope_ptr->elt = NULL;
-	master_isotope_ptr->units = NULL;
-	master_isotope_ptr->standard = 0;
-	master_isotope_ptr->ratio = 0;
-	master_isotope_ptr->moles = 0;
-	master_isotope_ptr->total_is_major = 0;
-	master_isotope_ptr->minor_isotope = 1;
+	if (master_isotope_ptr)
+	{
+		master_isotope_ptr->name = NULL;
+		master_isotope_ptr->master = NULL;
+		master_isotope_ptr->elt = NULL;
+		master_isotope_ptr->units = NULL;
+		master_isotope_ptr->standard = 0;
+		master_isotope_ptr->ratio = 0;
+		master_isotope_ptr->moles = 0;
+		master_isotope_ptr->total_is_major = 0;
+		master_isotope_ptr->minor_isotope = 1;
+	}
 
 	return (OK);
 }
@@ -1685,11 +1693,14 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 /*
  *   set pointers in structure to NULL
  */
-	calculate_value_ptr->name = NULL;
-	calculate_value_ptr->commands = NULL;
-	calculate_value_ptr->linebase = NULL;
-	calculate_value_ptr->varbase = NULL;
-	calculate_value_ptr->loopbase = NULL;
+	if (calculate_value_ptr)
+	{
+		calculate_value_ptr->name = NULL;
+		calculate_value_ptr->commands = NULL;
+		calculate_value_ptr->linebase = NULL;
+		calculate_value_ptr->varbase = NULL;
+		calculate_value_ptr->loopbase = NULL;
+	}
 
 	return (OK);
 }
@@ -1869,10 +1880,13 @@ isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr)
 /*
  *   set pointers in structure to NULL
  */
-	isotope_ratio_ptr->name = NULL;
-	isotope_ratio_ptr->isotope_name = NULL;
-	isotope_ratio_ptr->ratio = MISSING;
-	isotope_ratio_ptr->converted_ratio = MISSING;
+	if (isotope_ratio_ptr)
+	{
+		isotope_ratio_ptr->name = NULL;
+		isotope_ratio_ptr->isotope_name = NULL;
+		isotope_ratio_ptr->ratio = MISSING;
+		isotope_ratio_ptr->converted_ratio = MISSING;
+	}
 
 	return (OK);
 }
@@ -2028,9 +2042,12 @@ isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr)
 /*
  *   set pointers in structure to NULL
  */
-	isotope_alpha_ptr->name = NULL;
-	isotope_alpha_ptr->named_logk = NULL;
-	isotope_alpha_ptr->value = MISSING;
+	if (isotope_alpha_ptr)
+	{
+		isotope_alpha_ptr->name = NULL;
+		isotope_alpha_ptr->named_logk = NULL;
+		isotope_alpha_ptr->value = MISSING;
+	}
 
 	return (OK);
 }

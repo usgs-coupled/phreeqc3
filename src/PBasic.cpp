@@ -3158,10 +3158,15 @@ factor(struct LOC_exec * LINK)
 										 (size_t) (s_v.count_subscripts +
 												   1) * sizeof(int));
 				if (s_v.subscripts == NULL)
+				{
 					PhreeqcPtr->malloc_error();
+				}
+				else
+				{
 					s_v.subscripts[s_v.count_subscripts] = j;
 					s_v.count_subscripts++;
 				}
+			}
 			else
 			{
 				/* get right parentheses */
@@ -5154,7 +5159,11 @@ cmdon(struct LOC_exec *LINK)
 	{
 		l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 		if (l == NULL)
+		{
 			PhreeqcPtr->malloc_error();
+		}
+		else
+		{
 			l->next = loopbase;
 			loopbase = l;
 			l->kind = gosubloop;
@@ -5162,6 +5171,7 @@ cmdon(struct LOC_exec *LINK)
 			l->hometok = LINK->t;
 			LINK->t = LINK->t->next;
 		}
+	}
 	else
 		require(tokgoto, LINK);
 	if (i < 1)
