@@ -3548,7 +3548,7 @@ tidy_kin_exchange(void)
 					input_error++;
 					error_string = sformatf( "Master species not in database "
 							"for %s, skipping element.",
-							elt_ptr->name);
+							kit->first.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
