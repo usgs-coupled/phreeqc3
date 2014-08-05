@@ -214,7 +214,7 @@ basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PhreeqcStop&)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -279,7 +279,7 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PhreeqcStop&)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -355,7 +355,7 @@ basic_main(char *commands)
 			}
 			while (!(exitflag || P_eof()));
 		}
-		catch (const PhreeqcStop&)
+		catch (const PBasicStop&)
 		{
 			if (P_escapecode != -20)
 			{
@@ -5543,7 +5543,7 @@ exec(void)
 		}
 		while (stmtline != NULL);
 	}
-	catch (const PhreeqcStop)
+	catch (const PBasicStop&)
 	{
 		//_Ltry1:
 		if (P_escapecode == -20)
