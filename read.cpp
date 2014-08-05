@@ -6852,7 +6852,7 @@ read_surface_species(void)
 				if (s_ptr->add_logk == NULL)
 				{
 					malloc_error();
-					return (OK):
+					return (OK);
 				}
 			}
 			else
@@ -6869,7 +6869,7 @@ read_surface_species(void)
 				if (s_ptr->add_logk == NULL)
 				{
 					malloc_error();
-					return (OK):
+					return (OK);
 				}
 			}
 			/* read name */
