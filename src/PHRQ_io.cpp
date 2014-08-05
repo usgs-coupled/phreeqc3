@@ -795,7 +795,10 @@ get_line(void)
 					error_msg(errstr.str().c_str(), OT_STOP);
 #endif
 				}
-				this->push_istream(next_stream);
+				else
+				{
+					this->push_istream(next_stream);
+				}
 				continue;
 			}
 		}

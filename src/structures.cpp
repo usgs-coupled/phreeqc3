@@ -727,7 +727,7 @@ inverse_alloc(void)
  *      return: OK
  */
 {
-	struct inverse *inverse_ptr;
+	struct inverse *inverse_ptr = NULL;
 
 	count_inverse++;
 	inverse =
@@ -735,7 +735,10 @@ inverse_alloc(void)
 										(size_t) count_inverse *
 										sizeof(struct inverse));
 	if (inverse == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr = &(inverse[count_inverse - 1]);
 /*
  *   Initialize variables
@@ -755,16 +758,25 @@ inverse_alloc(void)
 	inverse_ptr->uncertainties =
 		(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
 	if (inverse_ptr->uncertainties == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	inverse_ptr->ph_uncertainties =
 		(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
 	if (inverse_ptr->ph_uncertainties == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	inverse_ptr->force_solns = (int *) PHRQ_malloc((size_t) sizeof(int));
 	if (inverse_ptr->force_solns == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	inverse_ptr->dalk_dph = NULL;
 	inverse_ptr->dalk_dc = NULL;
@@ -774,7 +786,10 @@ inverse_alloc(void)
 	inverse_ptr->elts =
 		(struct inv_elts *) PHRQ_malloc((size_t) sizeof(struct inv_elts));
 	if (inverse_ptr->elts == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr->elts[0].name = NULL;
 	inverse_ptr->elts[0].uncertainties = NULL;
 
@@ -782,7 +797,10 @@ inverse_alloc(void)
 		(struct inv_isotope *) PHRQ_malloc((size_t)
 										   sizeof(struct inv_isotope));
 	if (inverse_ptr->isotopes == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr->isotopes[0].isotope_name = NULL;
 	inverse_ptr->isotopes[0].isotope_number = 0;
 	inverse_ptr->isotopes[0].elt_name = NULL;
@@ -791,7 +809,10 @@ inverse_alloc(void)
 		(struct inv_isotope *) PHRQ_malloc((size_t)
 										   sizeof(struct inv_isotope));
 	if (inverse_ptr->i_u == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 	inverse_ptr->i_u[0].isotope_name = NULL;
 	inverse_ptr->i_u[0].isotope_number = 0;
 	inverse_ptr->i_u[0].elt_name = NULL;
@@ -799,7 +820,10 @@ inverse_alloc(void)
 	inverse_ptr->phases =
 		(struct inv_phases *) PHRQ_malloc((size_t) sizeof(struct inv_phases));
 	if (inverse_ptr->phases == NULL)
+	{
 		malloc_error();
+		return inverse_ptr;
+	}
 
 	return (inverse_ptr);
 }
@@ -3612,17 +3636,26 @@ copier_add(struct copier *copier_ptr, int n_user, int start, int end)
 			(int *) PHRQ_realloc(copier_ptr->n_user,
 								 (size_t) (copier_ptr->max * sizeof(int)));
 		if (copier_ptr->n_user == NULL)
+		{
 			malloc_error();
+			return (OK);
+		}
 		copier_ptr->start =
 			(int *) PHRQ_realloc(copier_ptr->start,
 								 (size_t) (copier_ptr->max * sizeof(int)));
 		if (copier_ptr->start == NULL)
+		{
 			malloc_error();
+			return (OK);
+		}
 		copier_ptr->end =
 			(int *) PHRQ_realloc(copier_ptr->end,
 								 (size_t) (copier_ptr->max * sizeof(int)));
 		if (copier_ptr->end == NULL)
+		{
 			malloc_error();
+			return (OK);
+		}
 	}
 	copier_ptr->n_user[copier_ptr->count] = n_user;
 	copier_ptr->start[copier_ptr->count] = start;

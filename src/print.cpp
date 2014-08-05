@@ -3557,7 +3557,10 @@ print_alkalinity(void)
 		(struct species_list *)
 		PHRQ_malloc((size_t) (count_s_x * sizeof(struct species_list)));
 	if (alk_list == NULL)
+	{
 		malloc_error();
+		return (OK);
+	}
 	j = 0;
 	for (i = 0; i < count_s_x; i++)
 	{

@@ -2975,6 +2975,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return (ERROR);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
@@ -3004,6 +3005,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return (ERROR);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
@@ -3023,6 +3025,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return (ERROR);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
@@ -3079,6 +3082,7 @@ add_surface_charge_balance(void)
 		error_string = sformatf(
 				"No surface master species found for surface species.");
 		error_msg(error_string, STOP);
+		return(OK);
 	}
 /*
  *  Find potential unknown for surface species
@@ -3090,6 +3094,7 @@ add_surface_charge_balance(void)
 		error_string = sformatf(
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
+		return(OK);
 	}
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 /*

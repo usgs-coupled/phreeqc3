@@ -345,11 +345,16 @@ read_solution_spread(void)
 						1) *
 						sizeof(struct iso));
 					if (soln_defaults.iso == NULL)
+					{
 						malloc_error();
-					soln_defaults.iso[i].name = string_hsave(token.c_str());
-					soln_defaults.iso[i].value = NAN;
-					soln_defaults.iso[i].uncertainty = NAN;
-					soln_defaults.count_iso++;
+					}
+					else
+					{
+						soln_defaults.iso[i].name = string_hsave(token.c_str());
+						soln_defaults.iso[i].value = NAN;
+						soln_defaults.iso[i].uncertainty = NAN;
+						soln_defaults.count_iso++;
+					}
 				}
 
 				/* read and store isotope ratio uncertainty */
@@ -418,11 +423,16 @@ read_solution_spread(void)
 						1) *
 						sizeof(struct iso));
 					if (soln_defaults.iso == NULL)
+					{
 						malloc_error();
-					soln_defaults.iso[i].name = string_hsave(token.c_str());
-					soln_defaults.iso[i].value = NAN;
-					soln_defaults.iso[i].uncertainty = NAN;
-					soln_defaults.count_iso++;
+					}
+					else
+					{
+						soln_defaults.iso[i].name = string_hsave(token.c_str());
+						soln_defaults.iso[i].value = NAN;
+						soln_defaults.iso[i].uncertainty = NAN;
+						soln_defaults.count_iso++;
+					}
 				}
 				/* read and store isotope ratio */
 				if (copy_token(token, &next_char) != DIGIT)
@@ -923,29 +933,44 @@ string_to_spread_row(char *string)
 	/* possible memory error if length of line is smaller than previous line */
 	char *token;
 	char *ptr;
-	struct spread_row *spread_row_ptr;
+	struct spread_row *spread_row_ptr = NULL;
 /*
  *   Allocate space
  */
 	token = (char *) PHRQ_malloc(strlen(line) + 1);
 	if (token == NULL)
+	{
 		malloc_error();
+		return spread_row_ptr;
+	}
 	spread_row_ptr =
 		(struct spread_row *) PHRQ_malloc((size_t) sizeof(struct spread_row));
 	if (spread_row_ptr == NULL)
+	{
 		malloc_error();
+		return spread_row_ptr;
+	}
 	spread_row_ptr->char_vector =
 		(char **) PHRQ_malloc((size_t) spread_length * sizeof(char *));
 	if (spread_row_ptr->char_vector == NULL)
+	{
 		malloc_error();
+		return spread_row_ptr;
+	}
 	spread_row_ptr->d_vector =
 		(LDBLE *) PHRQ_malloc((size_t) spread_length * sizeof(LDBLE));
 	if (spread_row_ptr->d_vector == NULL)
+	{
 		malloc_error();
+		return spread_row_ptr;
+	}
 	spread_row_ptr->type_vector =
 		(int *) PHRQ_malloc((size_t) spread_length * sizeof(int));
 	if (spread_row_ptr->type_vector == NULL)
+	{
 		malloc_error();
+		return spread_row_ptr;
+	}
 	spread_row_ptr->count = 0;
 	spread_row_ptr->empty = 0;
 	spread_row_ptr->string = 0;
@@ -964,19 +989,28 @@ string_to_spread_row(char *string)
 				(char **) PHRQ_realloc(spread_row_ptr->char_vector,
 									   (size_t) spread_length * sizeof(char *));
 			if (spread_row_ptr->char_vector == NULL)
+			{
 				malloc_error();
+				return spread_row_ptr;
+			}
 
 			spread_row_ptr->d_vector =
 				(LDBLE *) PHRQ_realloc(spread_row_ptr->d_vector,
 									   (size_t) spread_length * sizeof(LDBLE));
 			if (spread_row_ptr->d_vector == NULL)
+			{
 				malloc_error();
+				return spread_row_ptr;
+			}
 
 			spread_row_ptr->type_vector =
 				(int *) PHRQ_realloc(spread_row_ptr->type_vector,
 									 (size_t) spread_length * sizeof(int));
 			if (spread_row_ptr->type_vector == NULL)
+			{
 				malloc_error();
+				return spread_row_ptr;
+			}
 		}
 		j = copy_token_tab(token, &ptr, &l);
 		if (j == EOL)

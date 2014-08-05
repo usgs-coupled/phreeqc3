@@ -792,7 +792,10 @@ Restart:
 	}
 	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
 	if (base == NULL)
+	{
 		malloc_error();
+		return OK;
+	}
 	for (i = 0; i < count_unknowns; i++)
 	{
 		base[i] = residual[i];

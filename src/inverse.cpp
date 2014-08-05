@@ -3579,7 +3579,10 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 	isotopes =
 		(struct isotope *) PHRQ_malloc((size_t) sizeof(struct isotope));
 	if (isotopes == NULL)
+	{
 		malloc_error();
+		return (0);
+	}
 	count_isotopes = 0;
 
 	for (i = 0; i < inv_ptr->count_isotopes; i++)
@@ -3615,7 +3618,10 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 														  1) *
 												sizeof(struct isotope));
 			if (isotopes == NULL)
+			{
 				malloc_error();
+				return (0);
+			}
 			isotopes[count_isotopes].primary = primary_ptr;
 			isotopes[count_isotopes].master = primary_ptr;
 			isotopes[count_isotopes].isotope_number = isotope_number;
@@ -3647,7 +3653,10 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 															  1) *
 													sizeof(struct isotope));
 				if (isotopes == NULL)
+				{
 					malloc_error();
+					return (0);
+				}
 				isotopes[count_isotopes].primary = primary_ptr;
 				isotopes[count_isotopes].master = master[k];
 				isotopes[count_isotopes].isotope_number = isotope_number;
