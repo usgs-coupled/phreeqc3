@@ -2877,7 +2877,10 @@ add_potential_factor(void)
 		  "No potential unknown found for surface species %s.", token.c_str());
 		error_msg(error_string, STOP);
 	}
-	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
+	else
+	{
+		master_ptr = unknown_ptr->master[0];	/* potential for surface component */
+	}
 /*
  *   Make sure there is space
  */
@@ -4639,9 +4642,14 @@ unknown_alloc_master(void)
 
 	master_ptr = (struct master **) PHRQ_malloc(2 * sizeof(struct master *));
 	if (master_ptr == NULL)
+	{
 		malloc_error();
-	master_ptr[0] = NULL;
-	master_ptr[1] = NULL;
+	}
+	else
+	{
+		master_ptr[0] = NULL;
+		master_ptr[1] = NULL;
+	}
 	return (master_ptr);
 }
 
