@@ -1122,6 +1122,7 @@ reactions(void)
 //		}
 //	}
 	/* last_model.force_prep = TRUE; */
+	rate_sim_time = 0;
 	return (OK);
 }
 

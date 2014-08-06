@@ -188,62 +188,77 @@ main_method(int argc, char *argv[])
 	_CrtSetDbgFlag(tmpDbgFlag);
 	//_crtBreakAlloc = 9482;
 #endif
-
-	phast = FALSE;
-/*
- *   Open input/output files
- */
-	errors = process_file_names(argc, argv, &db_cookie, &input_cookie, TRUE);
-	if (errors != 0)
+	try
 	{
-		return errors;
-	}
+		phast = FALSE;
+		/*
+		*   Open input/output files
+		*/
+		errors = process_file_names(argc, argv, &db_cookie, &input_cookie, TRUE);
+		if (errors != 0)
+		{
+			return errors;
+		}
 #ifdef DOS
-	write_banner();
+		write_banner();
 #endif
 
-/*
- *   Initialize arrays
- */
-	errors = do_initialize();
-	if (errors != 0)
-	{
-		return errors;
+		/*
+		*   Initialize arrays
+		*/
+		errors = do_initialize();
+		if (errors != 0)
+		{
+			return errors;
+		}
+		/*
+		*   Load database into memory
+		*/
+		this->phrq_io->push_istream(db_cookie);
+		errors = read_database();
+		this->phrq_io->clear_istream();
+
+		if (errors != 0)
+		{
+			return errors;
+		}
+
+		/*
+		*   Read input data for simulation
+		*/
+
+		this->phrq_io->push_istream(input_cookie);
+		errors = run_simulations();
+
+		//Phreeqc mycopy(*this);
+		this->phrq_io->clear_istream();
+
+		if (errors != 0)
+		{
+			return errors;
+		}
+		/*
+		*   Display successful status
+		*/
+		pr.headings = TRUE;
+		errors = do_status();
+		if (errors != 0)
+		{
+			return errors;
+		}
 	}
-/*
- *   Load database into memory
- */
-	this->phrq_io->push_istream(db_cookie);
-	errors = read_database();
-	this->phrq_io->clear_istream();
-
-	if (errors != 0)
+	catch (...)
 	{
-		return errors;
-	}
-
-/*
- *   Read input data for simulation
- */
-
-	this->phrq_io->push_istream(input_cookie);
-	errors = run_simulations();
-
-	//Phreeqc mycopy(*this);
-	this->phrq_io->clear_istream();
-
-	if (errors != 0)
-	{
-		return errors;
-	}
-/*
- *   Display successful status
- */
-	pr.headings = TRUE;
-	errors = do_status();
-	if (errors != 0)
-	{
-		return errors;
+		int e = get_input_errors();
+		std::cerr << "Unhandled exception in PHREEQC." << std::endl;
+		if (e > 0)
+		{
+			return e;
+		}
+		else
+		{
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -490,7 +505,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		*db_cookie = new std::ifstream(db_file, std::ios_base::in);
 		*input_cookie = new std::ifstream(in_file, std::ios_base::in);
 	}
-	catch (const PhreeqcStop& e)
+	catch (const PhreeqcStop&)
 	{
 		return get_input_errors();
 	}
