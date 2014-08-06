@@ -1,0 +1,3380 @@
+   Input file: jm_trans
+  Output file: jm_trans.out
+Database file: jm_trans.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE jm_trans.dat
+	PHASES
+	Uraninite      573
+	        UO2 + 4H+ = U+4 + 2H2O 
+	        log_k           -4.8
+	        delta_h -18.610 kcal
+	RATES
+	Uraninite
+	start
+	 1  REM SA = 1.58e-3 
+	 2  REM VOL = .25
+	 3  REM note rate constant currently defined in mole/min rates converted to Seconds 
+	 4  REM rate law is in (mole)(l)(m^-2)(atm^-.5)(min^-1)
+	 10 if(si("Uraninite")>=0) then goto 50
+	 15 if (m <= 0) then goto 50
+	 20 rate = 2.8e-7*parm(1)*((10^SI("O2(g)"))^0.5)*(1 - SR("Schoepite"))*((m/m0)^.67)
+	 30 moles = rate * time
+	 40 if (moles > m) then moles = m
+	 50 save moles
+	end
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	KNOBS
+	iterations  5000
+	step_size 50
+	pe_step_size 2
+	SOLUTION 1
+	units mg/L
+	O(0)  235
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	O(0)              1.469e-02   1.469e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.567e-11
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.567e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.552091e+01
+
+---------------------------------Redox couples---------------------------------
+
+	Redox couple             pe  Eh (volts)
+
+	O(-2)/O(0)          13.9865      0.8274
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     (0)  
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+O(0)          1.469e-02
+   O2              7.345e-03   7.345e-03    -2.134    -2.134     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.00    -25.15   -3.15  H2
+  H2O(g)           -1.51     -0.00    1.51  H2O
+  O2(g)             0.83     -2.13   -2.96  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	USE SOLUTION 1 
+	Reaction  9
+	NaHCO3 0.012
+	SAVE SOLUTION 0
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 9.	
+
+Reaction 9.	
+
+	  1.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	NaHCO3               0.01200
+
+	                 Relative
+	Element             moles
+	C                    0.01200
+	H                    0.01200
+	Na                   0.01200
+	O                    0.03600
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.214      Charge balance
+                                       pe  =  12.773      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.204e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.200e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  33
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555691e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.832e-06   1.638e-06    -5.737    -5.786    -0.049     (0)  
+   H+              6.732e-09   6.108e-09    -8.172    -8.214    -0.042      0.00
+   H2O             5.551e+01   9.995e-01     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -147.348  -147.347     0.001     (0)  
+C(4)          1.200e-02
+   HCO3-           1.165e-02   1.046e-02    -1.934    -1.980    -0.047     (0)  
+   CO2             1.433e-04   1.437e-04    -3.844    -3.842     0.001     (0)  
+   CO3-2           1.237e-04   8.032e-05    -3.908    -4.095    -0.187     (0)  
+   NaHCO3          6.261e-05   6.278e-05    -4.203    -4.202     0.001     (0)  
+   NaCO3-          1.785e-05   1.596e-05    -4.748    -4.797    -0.049     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -45.125   -45.124     0.001     (0)  
+Na            1.200e-02
+   Na+             1.192e-02   1.067e-02    -1.924    -1.972    -0.048     (0)  
+   NaHCO3          6.261e-05   6.278e-05    -4.203    -4.202     0.001     (0)  
+   NaCO3-          1.785e-05   1.596e-05    -4.748    -4.797    -0.049     (0)  
+O(0)          1.469e-02
+   O2              7.345e-03   7.366e-03    -2.134    -2.133     0.001     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)         -144.49   -147.35   -2.86  CH4
+  CO2(g)           -2.37     -3.84   -1.47  CO2
+  H2(g)           -41.97    -45.12   -3.15  H2
+  H2O(g)           -1.51     -0.00    1.51  H2O
+  Nahcolite        -3.40     -3.95   -0.55  NaHCO3
+  Natron           -6.73     -8.04   -1.31  Na2CO3:10H2O
+  O2(g)             0.83     -2.13   -2.96  O2
+  Thermonatrite    -8.16     -8.04    0.13  Na2CO3:H2O
+  Trona           -11.20    -11.99   -0.80  NaHCO3:Na2CO3:2H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	PRINT
+	si false
+	species false
+	SELECTED_OUTPUT
+	    file                 jm_trans.sel
+	    totals               U  S Fe
+	    si  Pyrite Uraninite O2(g) Schoepite
+	USER_PUNCH
+	headings TIME_days pH U_ppm O2_PPM  SULFATE Uraninite_KIN SR_SCHOEPITE C(4)_as_HCO3
+	start
+	2  PUNCH TOTAL_TIME/86400
+	5  PUNCH -LA("H+")
+	10 PUNCH TOT("U")*238*1000
+	30 PUNCH TOT("O(0)")*16*1000
+	36 PUNCH TOT("S(6)")*96*1000
+	40 PUNCH KIN("Uraninite")
+	55 PUNCH SR("Schoepite")
+	60 PUNCH TOT("C(4)")*61*1000 
+	end  
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0	
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0002
+	    m0       0.0002
+	    parms    0.00178
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 3.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -6.545e-05   1.346e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 6.545e-05   6.545e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.115      Charge balance
+                                       pe  =  12.871      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.241e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.213e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  72
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555704e+01
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT
+	    shifts                5
+	    time_step             57600 # seconds
+	    dispersivities        10
+	    initial_time          0 # seconds
+	END
+WARNING: No cell-lengths were read; length = 1 m assumed.
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 5.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 6.545e-05   6.545e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.115      Charge balance
+                                       pe  =  12.871      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.241e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.213e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555704e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 6.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.930e-05   8.526e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.930e-05   4.930e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.140      Charge balance
+                                       pe  =  12.847      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.232e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.210e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.619e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  67
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555701e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 6.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.545e-05   4.981e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.545e-05   3.545e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.161      Charge balance
+                                       pe  =  12.826      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.224e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.207e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  68
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555698e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 6.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.391e-05   2.589e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.391e-05   2.391e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.178      Charge balance
+                                       pe  =  12.809      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.218e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.205e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  73
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555696e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 6.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.466e-05   1.123e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.466e-05   1.466e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.192      Charge balance
+                                       pe  =  12.795      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.212e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.203e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.567e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  60
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555694e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 6.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -7.084e-06   4.146e-06   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 7.084e-06   7.084e-06
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.203      Charge balance
+                                       pe  =  12.783      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.208e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.201e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  54
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555692e+01
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0	
+	KINETICS 1	
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0006
+	    m0       0.0006
+	    parms    0.0051
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 3
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 6.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.882e-04   4.118e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.882e-04   1.882e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.940      Charge balance
+                                       pe  =  13.046      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.309e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.238e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  81
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555728e+01
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT 
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 7.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.882e-04   1.882e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.940      Charge balance
+                                       pe  =  13.046      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.309e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.238e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555728e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 8.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.440e-04   2.679e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.440e-04   1.440e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.001      Charge balance
+                                       pe  =  12.985      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.284e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.229e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  55
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555720e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 8.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.057e-04   1.621e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.057e-04   1.057e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.056      Charge balance
+                                       pe  =  12.930      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.263e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.221e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  61
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555712e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 8.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -7.337e-05   8.876e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 7.337e-05   7.337e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.104      Charge balance
+                                       pe  =  12.883      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.245e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.215e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  71
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555705e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 8.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.697e-05   4.179e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.697e-05   4.697e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.143      Charge balance
+                                       pe  =  12.843      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.230e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.209e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555700e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 8.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.650e-05   1.530e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.650e-05   2.650e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.174      Charge balance
+                                       pe  =  12.813      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.219e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.205e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.567e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 146
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555696e+01
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0021
+	    m0       0.0021
+	    parms    0.01686
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 8.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -6.186e-04   1.481e-03   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 6.186e-04   6.186e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.515      Charge balance
+                                       pe  =  13.468      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.537e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.324e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.569e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  62
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555814e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 9.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 6.186e-04   6.186e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.515      Charge balance
+                                       pe  =  13.468      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.537e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.324e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.570e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555814e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 10.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.850e-04   9.963e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.850e-04   4.850e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.619      Charge balance
+                                       pe  =  13.364      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.470e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.297e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.751e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  59
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555788e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 10.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.664e-04   6.300e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.664e-04   3.664e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.730      Charge balance
+                                       pe  =  13.254      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.407e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.273e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  62
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555764e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 10.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.636e-04   3.664e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.636e-04   2.636e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.844      Charge balance
+                                       pe  =  13.141      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.351e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.253e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  65
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555743e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 10.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.774e-04   1.890e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.774e-04   1.774e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.954      Charge balance
+                                       pe  =  13.031      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.303e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.235e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  76
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555726e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 10.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.082e-04   8.077e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.082e-04   1.082e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.052      Charge balance
+                                       pe  =  12.934      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.265e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.222e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  58
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555712e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0002
+	    m0       0.0002
+	    parms    0.0015
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 10.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -5.629e-05   1.437e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 5.629e-05   5.629e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.129      Charge balance
+                                       pe  =  12.857      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.236e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.211e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.597e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  65
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555702e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 11.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 5.629e-05   5.629e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.129      Charge balance
+                                       pe  =  12.857      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.236e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.211e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.598e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555702e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 12.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.456e-05   9.915e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.456e-05   4.456e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.147      Charge balance
+                                       pe  =  12.840      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.229e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.209e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  68
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555700e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 12.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.421e-05   6.494e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.421e-05   3.421e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.163      Charge balance
+                                       pe  =  12.824      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.223e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.207e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  63
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555698e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 12.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.524e-05   3.970e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.524e-05   2.524e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.176      Charge balance
+                                       pe  =  12.811      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.218e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.205e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  69
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555696e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 12.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.765e-05   2.206e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.765e-05   1.765e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.188      Charge balance
+                                       pe  =  12.799      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.214e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.204e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555694e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 12.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.143e-05   1.063e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.143e-05   1.143e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.197      Charge balance
+                                       pe  =  12.790      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.211e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.202e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  54
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555693e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0008
+	    m0       0.0008
+	    parms    0.00642
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 3
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 12.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.382e-04   5.618e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.382e-04   2.382e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.875      Charge balance
+                                       pe  =  13.110      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.337e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.248e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.855e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  63
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555738e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 14.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 13.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.382e-04   2.382e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.875      Charge balance
+                                       pe  =  13.110      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.337e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.248e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.884e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555738e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 14.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.855e-04   3.762e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.855e-04   1.855e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.944      Charge balance
+                                       pe  =  13.042      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.308e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.237e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.587e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  74
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555728e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 14.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.393e-04   2.369e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.393e-04   1.393e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.007      Charge balance
+                                       pe  =  12.979      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.282e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.228e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.589e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  54
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555719e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 14.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -9.977e-05   1.371e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 9.977e-05   9.977e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.064      Charge balance
+                                       pe  =  12.922      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.260e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.220e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  60
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555711e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 14.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -6.682e-05   7.032e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 6.682e-05   6.682e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.113      Charge balance
+                                       pe  =  12.873      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.241e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.213e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  74
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555704e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 14.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.052e-05   2.980e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.052e-05   4.052e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.153      Charge balance
+                                       pe  =  12.834      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.227e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.208e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  71
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555699e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 15.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1	#6
+	Uraninite	
+	m	0.0018
+	m0	0.0018
+	parms  	0.01459
+	    tol      1e-008
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 14.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -5.363e-04   1.264e-03   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 5.363e-04   5.363e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.577      Charge balance
+                                       pe  =  13.406      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.496e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.307e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.580e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  69
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555798e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 16.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT 	
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 15.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 5.363e-04   5.363e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.577      Charge balance
+                                       pe  =  13.406      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.496e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.307e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.584e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555798e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.186e-04   8.451e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.186e-04   4.186e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.679      Charge balance
+                                       pe  =  13.305      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.435e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.284e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  60
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555774e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.146e-04   5.305e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.146e-04   3.146e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.786      Charge balance
+                                       pe  =  13.199      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.379e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.263e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  64
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555754e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.250e-04   3.055e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.250e-04   2.250e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.892      Charge balance
+                                       pe  =  13.093      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.330e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.245e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  66
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555736e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.502e-04   1.553e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.502e-04   1.502e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.992      Charge balance
+                                       pe  =  12.994      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.288e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.230e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  58
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555721e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -9.048e-05   6.482e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 9.048e-05   9.048e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.078      Charge balance
+                                       pe  =  12.908      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.255e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.218e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  61
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555709e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 17.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0005
+	    m0       0.0005
+	    parms    0.0045
+	    tol      1e-08
+	steps       57600 1
+	steps       57600 
+	runge_kutta 6
+	bad_step_max 500
+	TRANSPORT 
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.649e-04   3.351e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.649e-04   1.649e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.972      Charge balance
+                                       pe  =  13.014      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.296e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.233e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.711e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  59
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555724e+01
+
+Reaction step 2.
+
+Using solution 0.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.266e-09   5.000e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.266e-09   3.266e-09
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.214      Charge balance
+                                       pe  =  12.773      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.204e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.200e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  78
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555691e+01
+
+Reaction step 3.
+
+Using solution 0.	Solution after simulation 16.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.649e-04   3.351e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.649e-04   1.649e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.972      Charge balance
+                                       pe  =  13.014      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.296e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.233e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.711e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  59
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555724e+01
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 16.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 9.048e-05   9.048e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.078      Charge balance
+                                       pe  =  12.908      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.255e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.218e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555709e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 17.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.239e-04   2.112e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.239e-04   1.239e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.029      Charge balance
+                                       pe  =  12.957      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.273e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.225e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.566e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  56
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555716e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 17.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -8.877e-05   1.224e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 8.877e-05   8.877e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.081      Charge balance
+                                       pe  =  12.906      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.254e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.218e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  63
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555709e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 17.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -5.952e-05   6.290e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 5.952e-05   5.952e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.124      Charge balance
+                                       pe  =  12.862      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.237e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.212e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555703e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 17.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.616e-05   2.675e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.616e-05   3.616e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.160      Charge balance
+                                       pe  =  12.827      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.224e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.207e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  67
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555698e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 17.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.690e-05   9.851e-06   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.690e-05   1.690e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.189      Charge balance
+                                       pe  =  12.798      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.214e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.203e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  67
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555694e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 18.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.006
+	    m0       0.006
+	    parms    0.049
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 17.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.653e-03   4.347e-03   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.653e-03   1.653e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.127      Charge balance
+                                       pe  =  13.847      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.864e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.531e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.824e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 229
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.556021e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 19.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT 
+	    initial_time          0 # seconds
+	END	
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 18.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.653e-03   1.653e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.127      Charge balance
+                                       pe  =  13.847      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.864e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.531e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.792e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.556021e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 19.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.359e-03   2.988e-03   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.359e-03   1.359e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.185      Charge balance
+                                       pe  =  13.791      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.807e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.472e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.583e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 238
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555962e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 19.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.065e-03   1.923e-03   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.065e-03   1.065e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.276      Charge balance
+                                       pe  =  13.703      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.724e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.413e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.620e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 168
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555904e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 19.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -7.876e-04   1.135e-03   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 7.876e-04   7.876e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.407      Charge balance
+                                       pe  =  13.574      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.616e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.357e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.208e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 169
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555848e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 19.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -5.406e-04   5.946e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 5.406e-04   5.406e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.573      Charge balance
+                                       pe  =  13.410      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.498e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.308e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.761e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 151
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555799e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 19.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.353e-04   2.593e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.353e-04   3.353e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.763      Charge balance
+                                       pe  =  13.222      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.390e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.267e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.570e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 158
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555758e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 20.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0004
+	    m0       0.0004
+	    parms    0.00342
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 19.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.262e-04   2.738e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.262e-04   1.262e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.026      Charge balance
+                                       pe  =  12.960      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.275e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.225e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  56
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555716e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 21.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT 
+	    initial_time          0 # seconds
+	END
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 20.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.262e-04   1.262e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.026      Charge balance
+                                       pe  =  12.960      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.275e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.225e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.565e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555716e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 21.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -9.636e-05   1.774e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 9.636e-05   9.636e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.070      Charge balance
+                                       pe  =  12.917      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.258e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.219e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.569e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  60
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555710e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 21.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -7.053e-05   1.069e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 7.053e-05   7.053e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.108      Charge balance
+                                       pe  =  12.879      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.244e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.214e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  73
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555705e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 21.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.876e-05   5.811e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.876e-05   4.876e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.141      Charge balance
+                                       pe  =  12.846      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.231e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.210e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  69
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555701e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 21.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -3.103e-05   2.707e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 3.103e-05   3.103e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.167      Charge balance
+                                       pe  =  12.819      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.222e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.206e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  61
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555697e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 21.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.735e-05   9.725e-06   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.735e-05   1.735e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.188      Charge balance
+                                       pe  =  12.799      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.214e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.203e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 129
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555694e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 22.
+-------------------------------------
+
+	PRINT
+		selected_output false
+	USE solution 0
+	KINETICS 1
+	Uraninite
+	    formula  Uraninite  1
+	    m        0.0005
+	    m0       0.0005
+	    parms    0.00396
+	    tol      1e-08
+	steps       57600 
+	step_divide 1
+	runge_kutta 6
+	bad_step_max 500
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	Solution after simulation 21.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.475e-04   3.525e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.475e-04   1.475e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.996      Charge balance
+                                       pe  =  12.990      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.286e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.229e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  55
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555720e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 23.
+-------------------------------------
+
+	PRINT
+		selected_output true
+	TRANSPORT 	
+	    initial_time          0 # seconds
+	END
+------------------------------------
+Column data retained from former run
+------------------------------------
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 1.	Solution after simulation 22.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.475e-04   1.475e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.996      Charge balance
+                                       pe  =  12.990      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.286e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.229e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555720e+01
+
+Transport step   1.
+
+Using solution 1.	Solution after simulation 23.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      57600 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -1.151e-04   2.374e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 1.151e-04   1.151e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.042      Charge balance
+                                       pe  =  12.944      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.268e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.223e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.566e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  62
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555714e+01
+
+Transport step   2.
+
+Using solution 1.	Solution after simulation 23.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      115200 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -8.680e-05   1.506e-04   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 8.680e-05   8.680e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.084      Charge balance
+                                       pe  =  12.903      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.253e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  60
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555708e+01
+
+Transport step   3.
+
+Using solution 1.	Solution after simulation 23.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      172800 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -6.249e-05   8.813e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 6.249e-05   6.249e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.120      Charge balance
+                                       pe  =  12.867      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.239e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.212e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.676e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555703e+01
+
+Transport step   4.
+
+Using solution 1.	Solution after simulation 23.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      230400 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -4.221e-05   4.592e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 4.221e-05   4.221e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.150      Charge balance
+                                       pe  =  12.836      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.228e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.208e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555699e+01
+
+Transport step   5.
+
+Using solution 1.	Solution after simulation 23.
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time:      288000 seconds
+	Time step: 57600 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Uraninite        -2.594e-05   1.998e-05   Uraninite                 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.200e-02   1.200e-02
+	Na                1.200e-02   1.200e-02
+	U                 2.594e-05   2.594e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.175      Charge balance
+                                       pe  =  12.812      Adjusted to redox equilibrium
+                        Activity of water  =   0.999
+                           Ionic strength  =   1.219e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.205e-02
+                       Total CO2 (mol/kg)  =   1.200e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.564e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  70
+                                  Total H  = 1.110244e+02
+                                  Total O  = 5.555696e+01
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 24.
+-------------------------------------
+
+-------------------------------
+End of Run after 1.502 Seconds.
+-------------------------------
+

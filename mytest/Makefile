@@ -343,7 +343,8 @@ all: alkalinity.out \
 	pitzer_redef_2.out \
 	KinSorbNp.out \
 	lkspecies.out \
-	Nardi.out
+	Nardi.out \
+	jm_trans.out
 
 # NaX.out
 

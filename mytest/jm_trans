@@ -1,0 +1,290 @@
+DATABASE jm_trans.dat
+PHASES
+Uraninite      573
+        UO2 + 4H+ = U+4 + 2H2O 
+        log_k           -4.8
+        delta_h -18.610 kcal
+RATES
+Uraninite
+-start
+ 1  REM SA = 1.58e-3 
+ 2  REM VOL = .25
+ 3  REM note rate constant currently defined in mole/min rates converted to Seconds 
+ 4  REM rate law is in (mole)(l)(m^-2)(atm^-.5)(min^-1)
+ 10 if(si("Uraninite")>=0) then goto 50
+ 15 if (m <= 0) then goto 50
+ 20 rate = 2.8e-7*parm(1)*((10^SI("O2(g)"))^0.5)*(1 - SR("Schoepite"))*((m/m0)^.67)
+ 30 moles = rate * time
+ 40 if (moles > m) then moles = m
+ 50 save moles
+-end
+
+END
+
+KNOBS
+-iterations  5000
+-step_size 50
+-pe_step_size 2
+
+SOLUTION 1
+units mg/L
+O(0)  235
+END
+
+USE SOLUTION 1 
+Reaction  9
+NaHCO3 0.012
+SAVE SOLUTION 0
+END
+
+PRINT
+-si false
+-species false
+
+SELECTED_OUTPUT
+    -file                 jm_trans.sel
+    -totals               U  S Fe
+    -si  Pyrite Uraninite O2(g) Schoepite
+
+USER_PUNCH
+-headings TIME_days pH U_ppm O2_PPM  SULFATE Uraninite_KIN SR_SCHOEPITE C(4)_as_HCO3
+-start
+2  PUNCH TOTAL_TIME/86400
+5  PUNCH -LA("H+")
+10 PUNCH TOT("U")*238*1000
+30 PUNCH TOT("O(0)")*16*1000
+36 PUNCH TOT("S(6)")*96*1000
+40 PUNCH KIN("Uraninite")
+55 PUNCH SR("Schoepite")
+60 PUNCH TOT("C(4)")*61*1000 
+-end  
+END
+
+# bottle 1
+PRINT
+	-selected_output false
+USE solution 0	
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0002
+    -m0       0.0002
+    -parms    0.00178
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT
+    -shifts                5
+    -time_step             57600 # seconds
+    -dispersivities        10
+    -initial_time          0 # seconds
+END
+	
+# bottle 2
+PRINT
+	-selected_output false
+USE solution 0	
+KINETICS 1	
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0006
+    -m0       0.0006
+    -parms    0.0051
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT 
+    -initial_time          0 # seconds
+END	
+
+# bottle 3
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0021
+    -m0       0.0021
+    -parms    0.01686
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT
+    -initial_time          0 # seconds
+END	
+
+# bottle 4
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0002
+    -m0       0.0002
+    -parms    0.0015
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT
+    -initial_time          0 # seconds
+END	
+	
+# bottle 5
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0008
+    -m0       0.0008
+    -parms    0.00642
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT
+    -initial_time          0 # seconds
+END	
+	
+# bottle 6
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1	#6
+Uraninite	
+-m	0.0018
+-m0	0.0018
+parms  	0.01459
+    -tol      1e-008
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT 	
+    -initial_time          0 # seconds
+END	
+	
+# bottle 7
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0005
+    -m0       0.0005
+    -parms    0.0045
+    -tol      1e-08
+-steps       57600 1
+-steps       57600 
+-runge_kutta 6
+-bad_step_max 500
+TRANSPORT 
+    -initial_time          0 # seconds
+END	
+
+# bottle 8
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.006
+    -m0       0.006
+    -parms    0.049
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT 
+    -initial_time          0 # seconds
+END	
+
+# bottle 9
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0004
+    -m0       0.0004
+    -parms    0.00342
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT 
+    -initial_time          0 # seconds
+END
+
+# bottle 10
+PRINT
+	-selected_output false
+USE solution 0
+KINETICS 1
+Uraninite
+    -formula  Uraninite  1
+    -m        0.0005
+    -m0       0.0005
+    -parms    0.00396
+    -tol      1e-08
+-steps       57600 
+-step_divide 1
+-runge_kutta 6
+-bad_step_max 500
+SAVE solution 1
+END
+PRINT
+	-selected_output true
+TRANSPORT 	
+    -initial_time          0 # seconds
+END
+
