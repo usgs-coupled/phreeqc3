@@ -157,7 +157,7 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 				this->total_p += entity_ptr->total_p  * it->second / sum_fractions;
 				this->total_moles = entity_ptr->total_moles * it->second;
 				this->volume = entity_ptr->volume * it->second;
-				this->v_m = entity_ptr->v_m * it->second;
+				this->v_m = entity_ptr->v_m * it->second / sum_fractions;
 				this->pr_in = entity_ptr->pr_in;
 				this->temperature = entity_ptr->temperature;
 				first = false;
