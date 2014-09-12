@@ -1126,6 +1126,7 @@ public:
 	int next_user_number(Keywords::KEYWORDS key);
 	size_t list_components(std::list<std::string> &list_c);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
+	void Set_run_cells_one_step(const bool tf) {this->run_cells_one_step = tf;}
 protected:
 	void init(void);
 
@@ -1419,7 +1420,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */
-
+	bool run_cells_one_step;
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
