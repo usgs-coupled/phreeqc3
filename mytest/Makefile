@@ -344,7 +344,8 @@ all: alkalinity.out \
 	KinSorbNp.out \
 	lkspecies.out \
 	Nardi.out \
-	jm_trans.out
+	jm_trans.out \
+	andsurfcomlex4.out
 
 # NaX.out
 
