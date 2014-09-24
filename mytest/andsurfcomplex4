@@ -1,0 +1,899 @@
+DATABASE ../database/phreeqc.dat
+# DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.6-7757\database\phreeqc.dat
+# DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.6-7757\database\phreeqc.dat
+TITLE Example 22.--Compare experimental CO2 solubilities at high CO2 pressure 
+   with Peng-Robinson calc'ns with fixed-volume gas_phase, 39.
+SURFACE_MASTER_SPECIES
+    Oil_s           Oil_sNH+
+    Oil_w           Oil_wCOOH
+    Ca_s          Ca_sOH
+    Ca_w          Ca_wCO3H
+SURFACE_SPECIES
+Oil_sNH+ = Oil_sNH+
+    log_k     0
+Oil_wCOOH = Oil_wCOOH
+    log_k     0
+Ca_sOH = Ca_sOH
+    log_k     0
+Ca_wCO3H = Ca_wCO3H
+    log_k     0
+Oil_sNH+ = Oil_sN + H+
+    log_k     -6.0
+Oil_wCOOH = Oil_wCOO-1 + H+
+    log_k     -5.0
+Oil_wCOOH + Ca+2 = Oil_wCOOCa+ + H+
+    log_k     -3.8
+Ca_sOH + H+ = Ca_sOH2+
+    log_k     11.8
+Ca_sOH + HCO3- = Ca_sCO3- + H2O
+    log_k     5.8
+Ca_wCO3H = Ca_wCO3- +H+
+    log_k     -5.1
+Ca_wCO3H + Ca+2 = Ca_wCO3Ca+ + H+
+    log_k    -2.6
+ SURFACE 1
+#  number of sites of this binding site [mol/mol] substance, surface area per gram
+#  mass of solid (g)
+Oil_sNH+ 1.67e-6  600. 0.09
+Oil_wCOOH 1.67e-6
+Ca_sOH   1.0e-6   600.  0.09
+Ca_wCO3H  1.0e-6
+END
+ GAS_PHASE 1
+  REACTION 1
+CO2 1  ; 0.0001 0.0002 0.0003 0.0004 0.0005 0.0006 0.0007 0.0008 0.0009 
+         0.001 0.0011 0.0012 0.0013 0.0014 0.0015 0.0016 0.0017 0.0018 0.0019  0.0020 \
+         0.0025 0.0030 0.0035 0.0040 0.0045 0.0050 0.0055  0.0060 0.0065 0.0070 0.0075 0.0080 0.0085 0.0090 \
+         0.01 0.015 0.02 0.03 0.04 0.05 0.06 0.07 0.09 0.11 0.13 0.145 0.16 \
+              0.18  0.22 0.24 0.26 0.3 0.4 0.5 0.8 1.2 1.7 2.3 3.0 3.8 4.7
+ INCREMENTAL_REACTIONS true
+
+SELECTED_OUTPUT
+        -file   ex22bnew.sel
+USER_PUNCH 1
+
+
+-headings cwa, density, rhoo,  GA,  H+, Na+, Cl-,  OH-,  HCO3-,  CO3-2,  CaCO3,  CaHCO3+,  CO2,  Ca+2,  CaOH+, NaCO3-, \
+ NaHCO3, Ckapone, Ckaptwo, Ckapthree, Ckapfour, Ckapfive, Ckapsix, ominh, cooil, coco2,  Oil_sNH+, Oil_sN,\
+                  Oil_wCOOH, Oil_wCOO-, Oil_wCOOCa+, Ca_sOH, Ca_wCO3H, Ca_sOH2+, Ca_sCO3-, Ca_wCO3-, Ca_wCO3Ca+, EDL_oil, EDL_Ca  
+5         GA = 0.001 * (1000 +  MOL("H+") * GFW("H+") + MOL("Na+")*GFW("Na+")+ MOL("Cl-")*GFW("Cl-")+ MOL("OH-")* GFW("OH-")+ \
+                MOL("HCO3-")*GFW("HCO3-")+ \ 
+                MOL("CO3-2")* GFW("CO3-2")+ MOL("CaCO3") * GFW("CaCO3")+ \
+                MOL("CaHCO3+") * GFW("CaHCO3+")+  MOL("CO2") * GFW("CO2")+ \
+                MOL("Ca+2") * GFW("Ca+2")+ MOL("CaOH+")*GFW("CaOH+")+ \
+                MOL("NaCO3-") * GFW("NaCO3-")+ MOL("NaHCO3") * GFW("NaHCO3")) / RHO
+6 carb = MOL("HCO3-") + MOL("CO3-2") + MOL("CaCO3") + MOL("CaHCO3+") + MOL("CO2") + \
+       MOL("NaCO3-") + MOL("NaHCO3") 
+7 hydr = MOL("H+")  + MOL("OH-") + MOL("HCO3-") + MOL("CaHCO3+") + \
+         MOL("CaOH+") + MOL("NaHCO3") 
+8 oxyg = MOL("OH-") + 3.0 * MOL("HCO3-") + 3.0 * MOL("CO3-2") + 3.0 * MOL("CaCO3") + \
+        3.0 * MOL("CaHCO3+") + 2.0 * MOL("CO2") + MOL("CaOH+") + \
+        3.0 * MOL("NaCO3-")  + 3.0 * MOL("NaHCO3") 
+9 calc = MOL("CaCO3") + MOL("CaHCO3+") + MOL("Ca+2") + MOL("CaOH+")
+10 natr = MOL("Na+") + MOL("NaCO3-") +  MOL("NaHCO3") 
+11 chlr = MOL("Cl-")
+12 ominh = 2* oxyg - hydr
+13 coco2 = 2.5 * MOL("CO2") / GA
+14 if coco2 > 18 then coco2 = 18.0
+15 cooil = (1.0 - coco2 / 18.44) * 4.9605 : rem corrected formula
+16 rhoo = coco2 + cooil
+25 cwa = 1.0 / GA / 0.018
+26 PUNCH cwa, RHO, rhoo,  GA, log(MOL("H+") / GA) , log(MOL("Na+")/GA), log(MOL("Cl-")/GA), log(MOL("OH-")/ GA), \
+                log(MOL("HCO3-")/GA), \ 
+                log(MOL("CO3-2")/ GA), log(MOL("CaCO3") / GA), \
+                log(MOL("CaHCO3+") / GA),  log(MOL("CO2") / GA), \
+                log(MOL("Ca+2") / GA), log(MOL("CaOH+")/GA), \
+                log(MOL("NaCO3-") / GA), log(MOL("NaHCO3") / GA), \
+                log (carb / GA), log (hydr / GA), log (oxyg / GA), log (calc / GA), \
+                log (natr / GA), log (chlr / GA), log(ominh /GA), log (cooil), log(coco2), log( MOL("Oil_sNH+") / GA), log( MOL("Oil_sN")/ GA),\
+                log(MOL("Oil_wCOOH") / GA), log(MOL("Oil_wCOO-") / GA), log(MOL("Oil_wCOOCa+") / GA), \
+                log(MOL("Ca_sOH") / GA), log(MOL("Ca_wCO3H") /GA), log(MOL("Ca_sOH2+")/GA), log(MOL("Ca_sCO3-")/GA), \
+                 log( MOL("Ca_wCO3-")/GA), log(MOL("Ca_wCO3Ca+")/GA) , EDL("Charge", "Oil"), EDL("Charge", "Ca")
+END
+SOLUTION 1
+# 1
+temperature 39
+Na 2
+Cl 2
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+#  USE gas_phase 1
+ USE SURFACE 1
+USE gas_phase 1
+ USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+# USER_GRAPH 2
+# -headings 39C, 0
+# USER_GRAPH 1
+# -headings 39C, 0w/w
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+# 2
+temperature 39
+Na 5
+Cl 5
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+ USER_PUNCH 1
+END
+
+SOLUTION 1
+# 3
+temperature 39
+Na 10
+Cl 10
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+USE SURFACE 1
+USE gas_phase 1 
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+END
+
+SOLUTION 1
+temperature 39
+# 4
+Na 20
+Cl 20
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 5
+Na 30
+Cl 30
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+ 
+SOLUTION 1
+temperature 39
+# 6
+Na 40
+Cl 40
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 7
+Na 50
+Cl 50
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 8
+Na 60
+Cl 60
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 9
+Na 70
+Cl 70
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 10
+Na 80
+Cl 80
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 11
+Na 90
+Cl 90
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 12
+Na 100
+Cl 100
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 13
+Na 150
+Cl 150
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 14
+Na 200
+Cl 200
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 15
+Na 250
+Cl 250
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 15b
+Na 250
+Cl 250
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 16
+Na 300
+Cl 300
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 17
+Na 350
+Cl 350
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 18
+Na 400
+Cl 400
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 19
+Na 450
+Cl 450
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 20
+Na 500
+Cl 500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 21
+Na 550
+Cl 550
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 22
+Na 600
+Cl 600
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 23
+Na 650
+Cl 650
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 24
+Na 700
+Cl 700
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 25
+Na 750
+Cl 750
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 26
+Na 800
+Cl 800
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 27
+Na 850
+Cl 850
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 28
+Na 900
+Cl 900
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 29
+Na 950
+Cl 950
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 30
+Na 1000
+Cl 1000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 31
+Na 1500
+Cl 1500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 32
+Na 2000
+Cl 2000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 33
+Na 2500
+Cl 2500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 34
+Na 3000
+Cl 3000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+# USER_GRAPH 2
+# -headings 39C, 0
+# USER_GRAPH 1
+# -headings 39C, 0w/w%
+# END
+SOLUTION 1
+temperature 39
+# 35
+Na 3500
+Cl 3500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+# USER_GRAPH 2
+# -headings 39C, 0
+# USER_GRAPH 1
+# -headings 39C, 0w/w
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 36
+Na 4000
+Cl 4000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+ USER_PUNCH 1
+END
+
+SOLUTION 1
+temperature 39
+# 37
+Na 4500
+Cl 4500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+END
+
+SOLUTION 1
+temperature 39
+# 38
+Na 5000
+Cl 5000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 39
+Na 5500
+Cl 5500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+ 
+SOLUTION 1
+temperature 39
+# 40
+Na 6000
+Cl 6000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 41
+Na 6500
+Cl 6500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 42
+Na 7000
+Cl 7000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 43
+Na 7500
+Cl 7500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 44
+Na 8000
+Cl 8000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 45
+Na 8500
+Cl 8500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 46
+Na 9000
+Cl 9000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 47
+Na 9500
+Cl 9500
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+Na 10000
+Cl 10000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END
+
+SOLUTION 1
+temperature 39
+# 49
+Na 10000
+Cl 10000
+EQUILIBRIUM PHASES 1
+calcite 
+# SAVE SOLUTION 1
+ USE SURFACE 1
+USE gas_phase 1
+USE reaction 1
+REACTION_TEMPERATURE 2
+ 39
+USER_PUNCH 1
+ END

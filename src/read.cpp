@@ -9393,6 +9393,7 @@ read_user_punch(void)
 	// Malloc rate structure
 	struct rate *r = (struct rate *) PHRQ_malloc(sizeof(struct rate));
 	if (r == NULL) malloc_error();
+	r->commands = NULL;
 	r->new_def = TRUE;
 	r->linebase = NULL;
 	r->varbase = NULL;
