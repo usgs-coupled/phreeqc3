@@ -1670,7 +1670,7 @@ rate_free(struct rate *rate_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct rate * Phreeqc::
-rate_search(const char *name, int *n)
+rate_search(const char *name_in, int *n)
 /* ---------------------------------------------------------------------- */
 {
 /*   Linear search of the structure array "rates" for name.
@@ -1684,6 +1684,10 @@ rate_search(const char *name, int *n)
  *      if not found, NULL
  */
 	std::map<const char *, int>::iterator it;
+
+	const char * name;
+	name = string_hsave(name_in);
+
 	it = rates_map.find(name);
 	if (it != rates_map.end())
 	{
