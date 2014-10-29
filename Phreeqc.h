@@ -86,7 +86,7 @@ public:
 	void basic_free(void);
 	double basic_callback(double x1, double x2, char * str);
 	void register_basic_callback(double ( *fcn)(double x1, double x2, const char *str, void *cookie), void *cookie1);
-	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, int l));
+	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l));
 
 	LDBLE activity(const char *species_name);
 	LDBLE activity_coefficient(const char *species_name);
@@ -1712,7 +1712,7 @@ protected:
 	PBasic * basic_interpreter;
 	double (*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
 	void *basic_callback_cookie;
-	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, int l);
+	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
