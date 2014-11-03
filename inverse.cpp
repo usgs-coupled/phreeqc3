@@ -5242,6 +5242,7 @@ set_initial_solution(int n_user_old, int n_user_new)
 {
 	cxxSolution *solution_ptr;
 	Utilities::Rxn_copy(Rxn_solution_map, n_user_old, n_user_new);
+	Rxn_new_solution.insert(n_user_new);
 	solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n_user_new);
 	solution_ptr->Set_new_def(true);
 	if (solution_ptr->Get_initial_data() == NULL)
