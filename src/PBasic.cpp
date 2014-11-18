@@ -1590,6 +1590,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokcallback:
 			output_msg("CALLBACK");
 			break;
+		case tokdiff_c:
+			output_msg("DIFF_C");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3528,6 +3531,13 @@ factor(struct LOC_exec * LINK)
 
 		}
 		break;
+	case tokdiff_c:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_c(str);
+		}
+		break;
+			
 	case tokval:
 		l_s = strfactor(LINK);
 		tok1 = LINK->t;
@@ -6819,7 +6829,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

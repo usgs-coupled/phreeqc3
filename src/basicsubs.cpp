@@ -98,7 +98,24 @@ aqueous_vm(const char *species_name)
 	}
 	return (g);
 }
+LDBLE Phreeqc::
+diff_c(const char *species_name)
+/* ---------------------------------------------------------------------- */
+{
+	struct species *s_ptr;
+	LDBLE g;
 
+	s_ptr = s_search(species_name);
+	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
+	{
+		g = s_ptr->dw;
+	}
+	else
+	{
+		g = 0;
+	}
+	return (g);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_SC(void)
