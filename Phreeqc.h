@@ -92,6 +92,7 @@ public:
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
 	LDBLE aqueous_vm(const char *species_name);
+	LDBLE diff_c(const char *species_name);
 	LDBLE calc_SC(void);
 	/* VP: Density Start */
 	LDBLE calc_dens(void);

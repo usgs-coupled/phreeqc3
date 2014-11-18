@@ -321,7 +321,8 @@ public:
 		tokstr_e_,
 		tokeq_frac,
 		tokequiv_frac,
-		tokcallback
+		tokcallback,
+		tokdiff_c
 	};
 
 #if !defined(PHREEQCI_GUI)
