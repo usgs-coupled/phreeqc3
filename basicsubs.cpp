@@ -2697,7 +2697,8 @@ system_total_aq(void)
  */
 	for (i = 0; i < count_s_x; i++)
 	{
-		if (s_x[i]->type != AQ)
+		//if (s_x[i]->type != AQ)
+		if (s_x[i]->type > AQ)
 			continue;
 		sys[count_sys].name = string_duplicate(s_x[i]->name);
 		sys[count_sys].moles = s_x[i]->moles;
