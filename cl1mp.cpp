@@ -1,3 +1,4 @@
+#ifdef INVERSE_CL1MP
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -1130,3 +1131,4 @@ cl1mp(int k, int l, int m, int n,
 	kode = (int *) free_check_null(kode);
 	return 0;
 }
+#endif // INVERSE_CL1MP

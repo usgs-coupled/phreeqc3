@@ -1592,7 +1592,7 @@ get_bits(unsigned long bits, int position, int number)
  *   Returns number of bits from position and below.
  *   position begins at 0.
  */
-	return ((bits >> (position + 1 - number)) & ~(~0 << number));
+	return ((bits >> (position + 1 - number)) & ~(~0ul << number));
 }
 
 /* ---------------------------------------------------------------------- */
