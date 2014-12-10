@@ -1,0 +1,11 @@
+..\ClrRelease\phreeqc.exe    Fabuss
+..\ClrRelease\phreeqc.exe    Fabuss_seaw
+..\ClrRelease\phreeqc.exe    Goldsack 
+..\ClrRelease\phreeqc.exe    K2SO4 
+..\ClrRelease\phreeqc.exe    MgSO4 
+..\ClrRelease\phreeqc.exe    Na2SO4
+..\ClrRelease\phreeqc.exe    NaKCl
+..\ClrRelease\phreeqc.exe    Ruby 
+..\ClrRelease\phreeqc.exe    TOC_sea
+..\ClrRelease\phreeqc.exe    Yang_mix 
+..\ClrRelease\phreeqc.exe    Zhang_mix 

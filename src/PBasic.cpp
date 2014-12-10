@@ -1590,6 +1590,12 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokcallback:
 			output_msg("CALLBACK");
 			break;
+		case tokviscos:
+			output_msg("VISCOS");
+			break;
+		case tokviscos_0:
+			output_msg("VISCOS_0");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3318,6 +3324,16 @@ factor(struct LOC_exec * LINK)
 		{
 			const char * str = stringfactor(STR1, LINK);
  			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+		}
+ 		break;
+  	case tokviscos:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
+		}
+ 		break;
+  	case tokviscos_0:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos_0;
 		}
  		break;
 
@@ -6819,7 +6835,9 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos",             PBasic::tokviscos),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

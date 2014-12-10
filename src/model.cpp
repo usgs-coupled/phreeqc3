@@ -57,13 +57,17 @@ model(void)
 	{
 
 		l_kode = model_pz();
+		if (l_kode == OK)
+			/* calculate viscosity (viscos_0 and viscos) once, they are used several times */
+			viscosity();
 		unset_inert_moles();
 		return l_kode;
 	}
 	if (sit_model == TRUE)
 	{
-
 		l_kode = model_sit();
+		if (l_kode == OK)
+			viscosity();
 		unset_inert_moles();
 		return l_kode;
 	}
@@ -249,6 +253,8 @@ model(void)
 	{
 		return (ERROR);
 	}
+	/* calculate viscosity (viscos_0 and viscos) once, they are used several times */
+	viscosity();
 	return (OK);
 }
 

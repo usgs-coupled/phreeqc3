@@ -1,0 +1,21 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION 1
+ pH 8.22
+ Na 485; K 10.6;         Mg 55.1;  Ca 10.7
+ Cl 566; Alkalinity 2.4; S(6) 29.3
+REACTION_TEMPERATURE 1
+0 200 in 11
+USER_GRAPH 1
+10 plot_xy tc, viscos
+END
+
+SOLUTION 1
+ pH 8.22
+ Na 485; K 10.6;         Mg 55.1;  Ca 10.7
+ Cl 566; Alkalinity 2.4; S(6) 29.3
+REACTION 1
+H2O -1 ; 50 in 11
+USER_GRAPH 1; -detach
+USER_GRAPH 2
+-initial_solutions true
+10 plot_xy tot("water"), viscos

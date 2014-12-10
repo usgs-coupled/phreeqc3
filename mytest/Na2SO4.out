@@ -1,7 +1,6 @@
-WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: Na2SO4
   Output file: Na2SO4.out
-Database file: ../database/pitzer.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -10,20 +9,17 @@ Reading data base.
 	SOLUTION_MASTER_SPECIES
 	SOLUTION_SPECIES
 	PHASES
-	PITZER
 	EXCHANGE_MASTER_SPECIES
 	EXCHANGE_SPECIES
 	SURFACE_MASTER_SPECIES
 	SURFACE_SPECIES
+	RATES
 	END
 ------------------------------------
 Reading input data for simulation 1.
 ------------------------------------
 
-	DATABASE ../database/pitzer.dat
-	PRINT
-	 warnings 0
-	 echo_input false
+	DATABASE ../database/phreeqc.dat
 	SOLUTION 1
 	EQUILIBRIUM_PHASES 1
 	 Mirabilite 0 12
@@ -31,10 +27,12 @@ Reading input data for simulation 1.
 	REACTION_TEMPERATURE 1
 	 0 34 in 20
 	USER_GRAPH 1
-	-chart_title "Mirabilite/Thenardite solubility"
-	-axis_titles "mol Na2SO4 / kgw" "temperature / oC"
+	-chart_title "Mirabilite / Thenardite solubility"
+	-axis_titles "mol Na2SO4 / kgw" "Temperature / ºC"
+	-connect_simulations false
 	-plot_csv_file Na2SO4.csv
-	70 plot_xy tot("S"), tc, symbol_size = 0, color = Red
+	10 graph_x tot("S")
+	20 graph_y tc
 	-end
 	SAVE solution 1
 	END
@@ -57,37 +55,40 @@ Initial solution 1.
        Specific Conductance (µS/cm, 25°C)  = 0
                           Density (g/cm³)  =   0.99704
                                Volume (L)  =   1.00297
+                        Viscosity (mPa s)  =   0.89002
                         Activity of water  =   1.000
-                           Ionic strength  =   1.006e-07
+                           Ionic strength  =   1.007e-07
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.216e-09
+                 Total alkalinity (eq/kg)  =   1.217e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.216e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
-                               Iterations  =   3
-                         Gamma iterations  =   2
-                      Osmotic coefficient  =   0.99988
-                         Density of water  =   0.99704
+                               Iterations  =   0
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
    OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
-   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
-   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2O(g)           -1.50     -0.00    1.50  H2O
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -107,61 +108,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -2.55     -2.55    1.200e+01   1.168e+01  -3.167e-01
-Thenardite       -2.32    -2.50     -0.18    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -2.55     -2.55    1.200e+01   1.166e+01  -3.422e-01
+Thenardite       -2.31    -2.49     -0.18    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                5.993e-01   6.335e-01
-	S                 2.996e-01   3.167e-01
+	Na                6.447e-01   6.845e-01
+	S                 3.224e-01   3.422e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.681      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 0°C)  = 16525
-                          Density (g/cm³)  =   1.03939
-                               Volume (L)  =   1.06029
-                        Activity of water  =   0.989
-                           Ionic strength  =   8.989e-01
-                       Mass of water (kg)  =   1.057e+00
-                 Total alkalinity (eq/kg)  =   1.151e-09
+                                       pH  =   7.651      Charge balance
+                                       pe  =  12.422      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 0°C)  = 14754
+                          Density (g/cm³)  =   1.04208
+                               Volume (L)  =   1.06544
+                        Viscosity (mPa s)  =   2.04257
+                        Activity of water  =   0.987
+                           Ionic strength  =   6.069e-01
+                       Mass of water (kg)  =   1.062e+00
+                 Total alkalinity (eq/kg)  =   1.146e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =   0.00
-                  Electrical balance (eq)  =  -1.311e-09
+                  Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  18
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.69725
-                         Density of water  =   0.99984
-                                  Total H  = 1.173470e+02
-                                  Total O  = 5.994041e+01
+                                  Total H  = 1.178574e+02
+                                  Total O  = 6.029770e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             9.192e-08   5.469e-08    -7.037    -7.262    -0.225     -4.50
-   H+              4.067e-08   2.083e-08    -7.391    -7.681    -0.291      0.00
-   H2O             5.551e+01   9.888e-01     1.744    -0.005     0.000     18.02
-Na            5.993e-01
-   Na+             5.993e-01   3.248e-01    -0.222    -0.488    -0.266     -2.05
-S(6)          2.996e-01
-   SO4-2           2.996e-01   3.007e-02    -0.523    -1.522    -0.998     13.74
-   HSO4-           5.009e-08   3.078e-08    -7.300    -7.512    -0.211     38.04
+   OH-             8.119e-08   5.090e-08    -7.090    -7.293    -0.203     -4.95
+   H+              2.922e-08   2.234e-08    -7.534    -7.651    -0.117      0.00
+   H2O             5.551e+01   9.866e-01     1.744    -0.006     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -43.239   -43.178     0.061     28.65
+Na            6.447e-01
+   Na+             4.646e-01   3.378e-01    -0.333    -0.471    -0.138     -2.32
+   NaSO4-          1.801e-01   7.466e-02    -0.745    -1.127    -0.382     16.44
+   NaOH            1.495e-18   1.719e-18   -17.825   -17.765     0.061     (0)  
+O(0)          2.506e-15
+   O2              1.253e-15   1.441e-15   -14.902   -14.841     0.061     27.49
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -131.873  -132.075    -0.203     18.97
+   H2S             0.000e+00   0.000e+00  -132.435  -132.375     0.061     37.01
+   S-2             0.000e+00   0.000e+00  -137.479  -138.154    -0.675     (0)  
+S(6)          3.224e-01
+   NaSO4-          1.801e-01   7.466e-02    -0.745    -1.127    -0.382     16.44
+   SO4-2           1.423e-01   2.841e-02    -0.847    -1.547    -0.700     10.67
+   HSO4-           5.082e-08   3.806e-08    -7.294    -7.419    -0.126     37.91
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(273 K,   1 atm)
 
-  H2O(g)           -2.21     -0.00    2.21  H2O
+  H2(g)           -40.17    -43.18   -3.01  H2
+  H2O(g)           -2.22     -0.01    2.21  H2O
+  H2S(g)         -131.66   -139.73   -8.07  H2S
   Mirabilite        0.00     -2.55   -2.55  Na2SO4:10H2O
-  Thenardite       -2.32     -2.50   -0.18  Na2SO4
+  O2(g)           -12.18    -14.84   -2.66  O2
+  Sulfur          -97.75    -92.23    5.52  S
+  Thenardite       -2.31     -2.49   -0.18  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -177,61 +190,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -2.44     -2.44    1.200e+01   1.163e+01  -3.675e-01
-Thenardite       -2.19    -2.38     -0.19    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -2.44     -2.44    1.200e+01   1.161e+01  -3.891e-01
+Thenardite       -2.18    -2.37     -0.19    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.893e-01   7.349e-01
-	S                 3.446e-01   3.675e-01
+	Na                7.272e-01   7.782e-01
+	S                 3.636e-01   3.891e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.655      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 1°C)  = 18276
-                          Density (g/cm³)  =   1.04483
-                               Volume (L)  =   1.07041
-                        Activity of water  =   0.987
-                           Ionic strength  =   1.034e+00
-                       Mass of water (kg)  =   1.066e+00
-                 Total alkalinity (eq/kg)  =   1.141e-09
+                                       pH  =   7.620      Charge balance
+                                       pe  =  12.285      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 1°C)  = 16789
+                          Density (g/cm³)  =   1.04702
+                               Volume (L)  =   1.07482
+                        Viscosity (mPa s)  =   1.95419
+                        Activity of water  =   0.985
+                           Ionic strength  =   6.752e-01
+                       Mass of water (kg)  =   1.070e+00
+                 Total alkalinity (eq/kg)  =   1.137e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =   1.79
-                  Electrical balance (eq)  =  -1.685e-09
+                  Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =  18
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.68738
-                         Density of water  =   0.99993
-                                  Total H  = 1.183616e+02
-                                  Total O  = 6.065061e+01
+                                  Total H  = 1.187941e+02
+                                  Total O  = 6.095339e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.046e-07   6.117e-08    -6.980    -7.213    -0.233     -4.04
-   H+              4.447e-08   2.216e-08    -7.352    -7.655    -0.303      0.00
-   H2O             5.551e+01   9.873e-01     1.744    -0.006     0.000     18.02
-Na            6.893e-01
-   Na+             6.893e-01   3.644e-01    -0.162    -0.438    -0.277     -1.76
-S(6)          3.446e-01
-   SO4-2           3.446e-01   3.121e-02    -0.463    -1.506    -1.043     14.77
-   HSO4-           5.899e-08   3.555e-08    -7.229    -7.449    -0.220     38.43
+   OH-             9.113e-08   5.632e-08    -7.040    -7.249    -0.209     -4.58
+   H+              3.156e-08   2.401e-08    -7.501    -7.620    -0.119      0.00
+   H2O             5.551e+01   9.850e-01     1.744    -0.007     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.918   -42.851     0.068     28.64
+Na            7.272e-01
+   Na+             5.194e-01   3.779e-01    -0.285    -0.423    -0.138     -2.06
+   NaSO4-          2.078e-01   8.191e-02    -0.682    -1.087    -0.404     17.42
+   NaOH            1.822e-18   2.128e-18   -17.740   -17.672     0.068     (0)  
+O(0)          2.626e-15
+   O2              1.313e-15   1.534e-15   -14.882   -14.814     0.068     27.79
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -130.779  -130.988    -0.209     19.28
+   H2S             0.000e+00   0.000e+00  -131.359  -131.292     0.068     37.03
+   S-2             0.000e+00   0.000e+00  -136.343  -137.035    -0.693     (0)  
+S(6)          3.636e-01
+   NaSO4-          2.078e-01   8.191e-02    -0.682    -1.087    -0.404     17.42
+   SO4-2           1.558e-01   2.971e-02    -0.807    -1.527    -0.720     11.55
+   HSO4-           5.843e-08   4.409e-08    -7.233    -7.356    -0.122     38.28
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(274 K,   1 atm)
 
+  H2(g)           -39.83    -42.85   -3.02  H2
   H2O(g)           -2.16     -0.01    2.15  H2O
+  H2S(g)         -130.55   -138.61   -8.06  H2S
   Mirabilite        0.00     -2.44   -2.44  Na2SO4:10H2O
-  Thenardite       -2.19     -2.38   -0.19  Na2SO4
+  O2(g)           -12.13    -14.81   -2.68  O2
+  Sulfur          -96.95    -91.48    5.47  S
+  Thenardite       -2.18     -2.37   -0.19  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -247,61 +272,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -2.33     -2.33    1.200e+01   1.157e+01  -4.268e-01
-Thenardite       -2.07    -2.27     -0.20    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -2.33     -2.33    1.200e+01   1.156e+01  -4.425e-01
+Thenardite       -2.06    -2.26     -0.20    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                7.926e-01   8.536e-01
-	S                 3.963e-01   4.268e-01
+	Na                8.196e-01   8.850e-01
+	S                 4.098e-01   4.425e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.629      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 3°C)  = 19983
-                          Density (g/cm³)  =   1.05094
-                               Volume (L)  =   1.08238
-                        Activity of water  =   0.986
-                           Ionic strength  =   1.189e+00
-                       Mass of water (kg)  =   1.077e+00
-                 Total alkalinity (eq/kg)  =   1.129e-09
+                                       pH  =   7.589      Charge balance
+                                       pe  =  12.144      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 3°C)  = 18883
+                          Density (g/cm³)  =   1.05244
+                               Volume (L)  =   1.08564
+                        Viscosity (mPa s)  =   1.87804
+                        Activity of water  =   0.983
+                           Ionic strength  =   7.496e-01
+                       Mass of water (kg)  =   1.080e+00
+                 Total alkalinity (eq/kg)  =   1.127e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =   3.58
-                  Electrical balance (eq)  =  -2.943e-09
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                  Electrical balance (eq)  =   1.474e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  18
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.67755
-                         Density of water  =   0.99997
-                                  Total H  = 1.195481e+02
-                                  Total O  = 6.148117e+01
+                                  Total H  = 1.198620e+02
+                                  Total O  = 6.170093e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.188e-07   6.831e-08    -6.925    -7.166    -0.240     -3.57
-   H+              4.847e-08   2.352e-08    -7.314    -7.629    -0.314      0.00
-   H2O             5.551e+01   9.856e-01     1.744    -0.006     0.000     18.02
-Na            7.926e-01
-   Na+             7.926e-01   4.087e-01    -0.101    -0.389    -0.288     -1.48
-S(6)          3.963e-01
-   SO4-2           3.963e-01   3.230e-02    -0.402    -1.491    -1.089     15.76
-   HSO4-           6.919e-08   4.087e-08    -7.160    -7.389    -0.229     38.80
+   OH-             1.020e-07   6.213e-08    -6.992    -7.207    -0.215     -4.22
+   H+              3.407e-08   2.579e-08    -7.468    -7.589    -0.121      0.00
+   H2O             5.551e+01   9.832e-01     1.744    -0.007     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.589   -42.514     0.075     28.64
+Na            8.196e-01
+   Na+             5.797e-01   4.226e-01    -0.237    -0.374    -0.137     -1.82
+   NaSO4-          2.399e-01   8.973e-02    -0.620    -1.047    -0.427     18.37
+   NaOH            2.210e-18   2.626e-18   -17.656   -17.581     0.075     (0)  
+O(0)          2.581e-15
+   O2              1.290e-15   1.533e-15   -14.889   -14.814     0.075     28.08
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -129.647  -129.862    -0.215     19.56
+   H2S             0.000e+00   0.000e+00  -130.244  -130.169     0.075     37.04
+   S-2             0.000e+00   0.000e+00  -135.169  -135.879    -0.710     (0)  
+S(6)          4.098e-01
+   NaSO4-          2.399e-01   8.973e-02    -0.620    -1.047    -0.427     18.37
+   SO4-2           1.699e-01   3.096e-02    -0.770    -1.509    -0.739     12.39
+   HSO4-           6.677e-08   5.089e-08    -7.175    -7.293    -0.118     38.62
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(276 K,   1 atm)
 
+  H2(g)           -39.49    -42.51   -3.03  H2
   H2O(g)           -2.11     -0.01    2.10  H2O
+  H2S(g)         -129.40   -137.45   -8.05  H2S
   Mirabilite        0.00     -2.33   -2.33  Na2SO4:10H2O
-  Thenardite       -2.07     -2.27   -0.20  Na2SO4
+  O2(g)           -12.12    -14.81   -2.70  O2
+  Sulfur          -96.13    -90.71    5.42  S
+  Thenardite       -2.06     -2.26   -0.20  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -317,61 +354,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -2.23     -2.23    1.200e+01   1.150e+01  -4.963e-01
-Thenardite       -1.95    -2.16     -0.21    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -2.23     -2.23    1.200e+01   1.150e+01  -5.035e-01
+Thenardite       -1.94    -2.14     -0.21    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                9.112e-01   9.927e-01
-	S                 4.556e-01   4.963e-01
+	Na                9.233e-01   1.007e+00
+	S                 4.617e-01   5.035e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.604      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 5°C)  = 21593
-                          Density (g/cm³)  =   1.05779
-                               Volume (L)  =   1.09655
-                        Activity of water  =   0.984
-                           Ionic strength  =   1.367e+00
-                       Mass of water (kg)  =   1.089e+00
-                 Total alkalinity (eq/kg)  =   1.116e-09
+                                       pH  =   7.558      Charge balance
+                                       pe  =  11.998      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 5°C)  = 20929
+                          Density (g/cm³)  =   1.05839
+                               Volume (L)  =   1.09812
+                        Viscosity (mPa s)  =   1.81334
+                        Activity of water  =   0.981
+                           Ionic strength  =   8.308e-01
+                       Mass of water (kg)  =   1.091e+00
+                 Total alkalinity (eq/kg)  =   1.115e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =   5.37
-                  Electrical balance (eq)  =  -6.430e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  20
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.66787
-                         Density of water  =   0.99996
-                                  Total H  = 1.209393e+02
-                                  Total O  = 6.245504e+01
+                               Iterations  =  19
+                                  Total H  = 1.210832e+02
+                                  Total O  = 6.255574e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.346e-07   7.617e-08    -6.871    -7.118    -0.247     -3.09
-   H+              5.267e-08   2.491e-08    -7.278    -7.604    -0.325      0.00
-   H2O             5.551e+01   9.837e-01     1.744    -0.007     0.000     18.02
-Na            9.112e-01
-   Na+             9.112e-01   4.582e-01    -0.040    -0.339    -0.299     -1.22
-S(6)          4.556e-01
-   SO4-2           4.556e-01   3.332e-02    -0.341    -1.477    -1.136     16.71
-   HSO4-           8.082e-08   4.675e-08    -7.092    -7.330    -0.238     39.15
+   OH-             1.137e-07   6.834e-08    -6.944    -7.165    -0.221     -3.88
+   H+              3.675e-08   2.770e-08    -7.435    -7.558    -0.123      0.00
+   H2O             5.551e+01   9.812e-01     1.744    -0.008     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.253   -42.169     0.083     28.63
+Na            9.233e-01
+   Na+             6.462e-01   4.727e-01    -0.190    -0.325    -0.136     -1.60
+   NaSO4-          2.771e-01   9.816e-02    -0.557    -1.008    -0.451     19.30
+   NaOH            2.668e-18   3.230e-18   -17.574   -17.491     0.083     (0)  
+O(0)          2.389e-15
+   O2              1.195e-15   1.446e-15   -14.923   -14.840     0.083     28.34
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -128.481  -128.702    -0.221     19.82
+   H2S             0.000e+00   0.000e+00  -129.094  -129.011     0.083     37.06
+   S-2             0.000e+00   0.000e+00  -133.962  -134.688    -0.726     (0)  
+S(6)          4.617e-01
+   NaSO4-          2.771e-01   9.816e-02    -0.557    -1.008    -0.451     19.30
+   SO4-2           1.845e-01   3.212e-02    -0.734    -1.493    -0.759     13.17
+   HSO4-           7.584e-08   5.853e-08    -7.120    -7.233    -0.113     38.95
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(278 K,   1 atm)
 
+  H2(g)           -39.13    -42.17   -3.04  H2
   H2O(g)           -2.05     -0.01    2.05  H2O
-  Mirabilite        0.00     -2.23   -2.23  Na2SO4:10H2O
-  Thenardite       -1.95     -2.16   -0.21  Na2SO4
+  H2S(g)         -128.21   -136.26   -8.05  H2S
+  Mirabilite       -0.00     -2.23   -2.23  Na2SO4:10H2O
+  O2(g)           -12.12    -14.84   -2.72  O2
+  Sulfur          -95.27    -89.90    5.37  S
+  Thenardite       -1.94     -2.14   -0.21  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -387,61 +436,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -2.12     -2.12    1.200e+01   1.142e+01  -5.781e-01
-Thenardite       -1.83    -2.04     -0.22    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -2.12     -2.12    1.200e+01   1.143e+01  -5.736e-01
+Thenardite       -1.82    -2.03     -0.22    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                1.047e+00   1.156e+00
-	S                 5.236e-01   5.781e-01
+	Na                1.040e+00   1.147e+00
+	S                 5.199e-01   5.736e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.579      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 7°C)  = 23050
-                          Density (g/cm³)  =   1.06550
-                               Volume (L)  =   1.11335
-                        Activity of water  =   0.982
-                           Ionic strength  =   1.571e+00
-                       Mass of water (kg)  =   1.104e+00
-                 Total alkalinity (eq/kg)  =   1.102e-09
+                                       pH  =   7.527      Charge balance
+                                       pe  =  11.877      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 7°C)  = 23036
+                          Density (g/cm³)  =   1.06494
+                               Volume (L)  =   1.11257
+                        Viscosity (mPa s)  =   1.75952
+                        Activity of water  =   0.979
+                           Ionic strength  =   9.190e-01
+                       Mass of water (kg)  =   1.103e+00
+                 Total alkalinity (eq/kg)  =   1.103e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =   7.16
-                  Electrical balance (eq)  =  -1.218e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.65845
-                         Density of water  =   0.99989
-                                  Total H  = 1.225750e+02
-                                  Total O  = 6.360005e+01
+                               Iterations  =  18
+                                  Total H  = 1.224848e+02
+                                  Total O  = 6.353689e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.522e-07   8.482e-08    -6.818    -7.072    -0.254     -2.59
-   H+              5.700e-08   2.634e-08    -7.244    -7.579    -0.335      0.00
-   H2O             5.551e+01   9.815e-01     1.744    -0.008     0.000     18.02
-Na            1.047e+00
-   Na+             1.047e+00   5.136e-01     0.020    -0.289    -0.309     -0.97
-S(6)          5.236e-01
-   SO4-2           5.236e-01   3.427e-02    -0.281    -1.465    -1.184     17.64
-   HSO4-           9.405e-08   5.324e-08    -7.027    -7.274    -0.247     39.48
+   OH-             1.264e-07   7.491e-08    -6.898    -7.125    -0.227     -3.54
+   H+              3.964e-08   2.975e-08    -7.402    -7.527    -0.125      0.00
+   H2O             5.551e+01   9.789e-01     1.744    -0.009     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.966   -41.874     0.092     28.63
+Na            1.040e+00
+   Na+             7.195e-01   5.289e-01    -0.143    -0.277    -0.134     -1.38
+   NaSO4-          3.203e-01   1.072e-01    -0.494    -0.970    -0.475     20.22
+   NaOH            3.206e-18   3.962e-18   -17.494   -17.402     0.092     (0)  
+O(0)          2.718e-15
+   O2              1.359e-15   1.679e-15   -14.867   -14.775     0.092     28.59
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -127.510  -127.737    -0.227     20.07
+   H2S             0.000e+00   0.000e+00  -128.140  -128.048     0.092     37.07
+   S-2             0.000e+00   0.000e+00  -132.951  -133.693    -0.742     (0)  
+S(6)          5.199e-01
+   NaSO4-          3.203e-01   1.072e-01    -0.494    -0.970    -0.475     20.22
+   SO4-2           1.996e-01   3.320e-02    -0.700    -1.479    -0.779     13.92
+   HSO4-           8.562e-08   6.708e-08    -7.067    -7.173    -0.106     39.25
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(280 K,   1 atm)
 
+  H2(g)           -38.83    -41.87   -3.04  H2
   H2O(g)           -2.00     -0.01    1.99  H2O
+  H2S(g)         -127.22   -135.26   -8.04  H2S
   Mirabilite        0.00     -2.12   -2.12  Na2SO4:10H2O
-  Thenardite       -1.83     -2.04   -0.22  Na2SO4
+  O2(g)           -12.04    -14.77   -2.74  O2
+  Sulfur          -94.57    -89.24    5.33  S
+  Thenardite       -1.82     -2.03   -0.22  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -457,61 +518,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -2.03     -2.03    1.200e+01   1.133e+01  -6.745e-01
-Thenardite       -1.71    -1.93     -0.22    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -2.03     -2.03    1.200e+01   1.135e+01  -6.544e-01
+Thenardite       -1.70    -1.92     -0.22    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                1.203e+00   1.349e+00
-	S                 6.015e-01   6.745e-01
+	Na                1.171e+00   1.309e+00
+	S                 5.854e-01   6.544e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.556      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 8°C)  = 24308
-                          Density (g/cm³)  =   1.07415
-                               Volume (L)  =   1.13330
-                        Activity of water  =   0.979
-                           Ionic strength  =   1.804e+00
-                       Mass of water (kg)  =   1.122e+00
-                 Total alkalinity (eq/kg)  =   1.084e-09
+                                       pH  =   7.495      Charge balance
+                                       pe  =  11.744      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 8°C)  = 25185
+                          Density (g/cm³)  =   1.07217
+                               Volume (L)  =   1.12935
+                        Viscosity (mPa s)  =   1.71638
+                        Activity of water  =   0.976
+                           Ionic strength  =   1.015e+00
+                       Mass of water (kg)  =   1.118e+00
+                 Total alkalinity (eq/kg)  =   1.088e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =   8.95
-                  Electrical balance (eq)  =  -1.220e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.64948
-                         Density of water  =   0.99978
-                                  Total H  = 1.245033e+02
-                                  Total O  = 6.494980e+01
+                               Iterations  =  17
+                                  Total H  = 1.241012e+02
+                                  Total O  = 6.466838e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.715e-07   9.431e-08    -6.766    -7.025    -0.260     -2.08
-   H+              6.139e-08   2.780e-08    -7.212    -7.556    -0.344      0.00
-   H2O             5.551e+01   9.791e-01     1.744    -0.009     0.000     18.02
-Na            1.203e+00
-   Na+             1.203e+00   5.759e-01     0.080    -0.240    -0.320     -0.72
-S(6)          6.015e-01
-   SO4-2           6.014e-01   3.514e-02    -0.221    -1.454    -1.233     18.54
-   HSO4-           1.090e-07   6.035e-08    -6.962    -7.219    -0.257     39.79
+   OH-             1.399e-07   8.181e-08    -6.854    -7.087    -0.233     -3.21
+   H+              4.277e-08   3.196e-08    -7.369    -7.495    -0.127      0.00
+   H2O             5.551e+01   9.764e-01     1.744    -0.010     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.658   -41.556     0.102     28.63
+Na            1.171e+00
+   Na+             8.003e-01   5.922e-01    -0.097    -0.228    -0.131     -1.18
+   NaSO4-          3.706e-01   1.170e-01    -0.431    -0.932    -0.501     21.13
+   NaOH            3.835e-18   4.845e-18   -17.416   -17.315     0.102     (0)  
+O(0)          2.729e-15
+   O2              1.364e-15   1.724e-15   -14.865   -14.764     0.102     28.82
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -126.448  -126.681    -0.233     20.30
+   H2S             0.000e+00   0.000e+00  -127.093  -126.992     0.102     37.08
+   S-2             0.000e+00   0.000e+00  -131.850  -132.608    -0.758     (0)  
+S(6)          5.854e-01
+   NaSO4-          3.706e-01   1.170e-01    -0.431    -0.932    -0.501     21.13
+   SO4-2           2.149e-01   3.415e-02    -0.668    -1.467    -0.799     14.64
+   HSO4-           9.603e-08   7.662e-08    -7.018    -7.116    -0.098     39.53
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(282 K,   1 atm)
 
+  H2(g)           -38.51    -41.56   -3.05  H2
   H2O(g)           -1.95     -0.01    1.94  H2O
-  Mirabilite        0.00     -2.03   -2.03  Na2SO4:10H2O
-  Thenardite       -1.71     -1.93   -0.22  Na2SO4
+  H2S(g)         -126.14   -134.18   -8.04  H2S
+  Mirabilite       -0.00     -2.03   -2.03  Na2SO4:10H2O
+  O2(g)           -12.01    -14.76   -2.76  O2
+  Sulfur          -93.79    -88.51    5.28  S
+  Thenardite       -1.70     -1.92   -0.22  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -527,61 +600,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.93     -1.93    1.200e+01   1.121e+01  -7.885e-01
-Thenardite       -1.59    -1.82     -0.23    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.93     -1.93    1.200e+01   1.125e+01  -7.482e-01
+Thenardite       -1.58    -1.81     -0.23    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                1.381e+00   1.577e+00
-	S                 6.904e-01   7.885e-01
+	Na                1.319e+00   1.496e+00
+	S                 6.593e-01   7.482e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.534      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 10°C)  = 25329
-                          Density (g/cm³)  =   1.08385
-                               Volume (L)  =   1.15703
-                        Activity of water  =   0.976
-                           Ionic strength  =   2.071e+00
-                       Mass of water (kg)  =   1.142e+00
-                 Total alkalinity (eq/kg)  =   1.065e-09
+                                       pH  =   7.464      Charge balance
+                                       pe  =  11.600      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 10°C)  = 27354
+                          Density (g/cm³)  =   1.08019
+                               Volume (L)  =   1.14894
+                        Viscosity (mPa s)  =   1.68397
+                        Activity of water  =   0.974
+                           Ionic strength  =   1.120e+00
+                       Mass of water (kg)  =   1.135e+00
+                 Total alkalinity (eq/kg)  =   1.072e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  10.74
-                  Electrical balance (eq)  =  -1.224e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  22
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.64117
-                         Density of water  =   0.99963
-                                  Total H  = 1.267820e+02
-                                  Total O  = 6.654492e+01
+                               Iterations  =  18
+                                  Total H  = 1.259763e+02
+                                  Total O  = 6.598094e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.928e-07   1.047e-07    -6.715    -6.980    -0.265     -1.53
-   H+              6.574e-08   2.927e-08    -7.182    -7.534    -0.351      0.00
-   H2O             5.551e+01   9.764e-01     1.744    -0.010     0.000     18.02
-Na            1.381e+00
-   Na+             1.381e+00   6.458e-01     0.140    -0.190    -0.330     -0.48
-S(6)          6.904e-01
-   SO4-2           6.904e-01   3.593e-02    -0.161    -1.445    -1.284     19.43
-   HSO4-           1.260e-07   6.810e-08    -6.900    -7.167    -0.267     40.08
+   OH-             1.542e-07   8.899e-08    -6.812    -7.051    -0.239     -2.88
+   H+              4.617e-08   3.435e-08    -7.336    -7.464    -0.128      0.00
+   H2O             5.551e+01   9.737e-01     1.744    -0.012     0.000     18.02
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.326   -41.214     0.112     28.62
+Na            1.319e+00
+   Na+             8.896e-01   6.638e-01    -0.051    -0.178    -0.127     -0.99
+   NaSO4-          4.291e-01   1.274e-01    -0.367    -0.895    -0.527     22.02
+   NaOH            4.565e-18   5.907e-18   -17.341   -17.229     0.112     (0)  
+O(0)          2.392e-15
+   O2              1.196e-15   1.548e-15   -14.922   -14.810     0.112     29.04
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -125.284  -125.523    -0.239     20.53
+   H2S             0.000e+00   0.000e+00  -125.945  -125.833     0.112     37.09
+   S-2             0.000e+00   0.000e+00  -130.649  -131.422    -0.774     (0)  
+S(6)          6.593e-01
+   NaSO4-          4.291e-01   1.274e-01    -0.367    -0.895    -0.527     22.02
+   SO4-2           2.302e-01   3.496e-02    -0.638    -1.456    -0.819     15.32
+   HSO4-           1.070e-07   8.720e-08    -6.971    -7.059    -0.089     39.80
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(283 K,   1 atm)
 
+  H2(g)           -38.16    -41.21   -3.06  H2
   H2O(g)           -1.90     -0.01    1.89  H2O
+  H2S(g)         -124.96   -132.99   -8.03  H2S
   Mirabilite        0.00     -1.93   -1.93  Na2SO4:10H2O
-  Thenardite       -1.59     -1.82   -0.23  Na2SO4
+  O2(g)           -12.04    -14.81   -2.77  O2
+  Sulfur          -92.94    -87.70    5.23  S
+  Thenardite       -1.58     -1.81   -0.23  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -597,61 +682,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.83     -1.83    1.200e+01   1.108e+01  -9.235e-01
-Thenardite       -1.48    -1.72     -0.24    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -1.83     -1.83    1.200e+01   1.114e+01  -8.577e-01
+Thenardite       -1.46    -1.70     -0.24    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                1.583e+00   1.847e+00
-	S                 7.917e-01   9.235e-01
+	Na                1.486e+00   1.715e+00
+	S                 7.429e-01   8.577e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.512      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 12°C)  = 26097
-                          Density (g/cm³)  =   1.09468
-                               Volume (L)  =   1.18531
-                        Activity of water  =   0.973
-                           Ionic strength  =   2.375e+00
-                       Mass of water (kg)  =   1.166e+00
-                 Total alkalinity (eq/kg)  =   1.043e-09
+                                       pH  =   7.432      Charge balance
+                                       pe  =  11.481      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 12°C)  = 29526
+                          Density (g/cm³)  =   1.08910
+                               Volume (L)  =   1.17195
+                        Viscosity (mPa s)  =   1.66270
+                        Activity of water  =   0.971
+                           Ionic strength  =   1.234e+00
+                       Mass of water (kg)  =   1.155e+00
+                 Total alkalinity (eq/kg)  =   1.054e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  12.53
-                  Electrical balance (eq)  =  -1.232e-09
+                  Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.63377
-                         Density of water  =   0.99944
-                                  Total H  = 1.294815e+02
-                                  Total O  = 6.843455e+01
+                               Iterations  =  20
+                                  Total H  = 1.281673e+02
+                                  Total O  = 6.751463e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             2.160e-07   1.162e-07    -6.666    -6.935    -0.269     -0.95
-   H+              6.991e-08   3.076e-08    -7.155    -7.512    -0.357      0.00
-   H2O             5.551e+01   9.732e-01     1.744    -0.012     0.000     18.03
-Na            1.583e+00
-   Na+             1.583e+00   7.245e-01     0.200    -0.140    -0.340     -0.25
-S(6)          7.917e-01
-   SO4-2           7.917e-01   3.663e-02    -0.101    -1.436    -1.335     20.30
-   HSO4-           1.450e-07   7.650e-08    -6.839    -7.116    -0.278     40.37
+   OH-             1.693e-07   9.639e-08    -6.771    -7.016    -0.245     -2.55
+   H+              4.989e-08   3.697e-08    -7.302    -7.432    -0.130      0.00
+   H2O             5.551e+01   9.706e-01     1.744    -0.013     0.000     18.03
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.043   -40.919     0.123     28.62
+Na            1.486e+00
+   Na+             9.884e-01   7.452e-01    -0.005    -0.128    -0.123     -0.81
+   NaSO4-          4.974e-01   1.385e-01    -0.303    -0.858    -0.555     22.91
+   NaOH            5.407e-18   7.183e-18   -17.267   -17.144     0.123     (0)  
+O(0)          2.565e-15
+   O2              1.283e-15   1.704e-15   -14.892   -14.768     0.123     29.24
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -124.312  -124.557    -0.245     20.74
+   H2S             0.000e+00   0.000e+00  -124.988  -124.865     0.123     37.10
+   S-2             0.000e+00   0.000e+00  -129.641  -130.430    -0.789     (0)  
+S(6)          7.429e-01
+   NaSO4-          4.974e-01   1.385e-01    -0.303    -0.858    -0.555     22.91
+   SO4-2           2.455e-01   3.560e-02    -0.610    -1.449    -0.839     15.98
+   HSO4-           1.184e-07   9.890e-08    -6.927    -7.005    -0.078     40.05
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(285 K,   1 atm)
 
+  H2(g)           -37.86    -40.92   -3.06  H2
   H2O(g)           -1.85     -0.01    1.84  H2O
-  Mirabilite        0.00     -1.83   -1.83  Na2SO4:10H2O
-  Thenardite       -1.48     -1.72   -0.24  Na2SO4
+  H2S(g)         -123.96   -131.99   -8.03  H2S
+  Mirabilite       -0.00     -1.83   -1.83  Na2SO4:10H2O
+  O2(g)           -11.98    -14.77   -2.79  O2
+  Sulfur          -92.23    -87.04    5.19  S
+  Thenardite       -1.46     -1.70   -0.24  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -667,61 +764,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.74     -1.74    1.200e+01   1.092e+01  -1.084e+00
-Thenardite       -1.36    -1.61     -0.25    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.74     -1.74    1.200e+01   1.101e+01  -9.869e-01
+Thenardite       -1.35    -1.60     -0.25    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                1.813e+00   2.167e+00
-	S                 9.067e-01   1.084e+00
+	Na                1.676e+00   1.974e+00
+	S                 8.379e-01   9.869e-01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.491      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 14°C)  = 26620
-                          Density (g/cm³)  =   1.10671
-                               Volume (L)  =   1.21909
-                        Activity of water  =   0.970
-                           Ionic strength  =   2.720e+00
-                       Mass of water (kg)  =   1.195e+00
-                 Total alkalinity (eq/kg)  =   1.018e-09
+                                       pH  =   7.400      Charge balance
+                                       pe  =  11.342      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 14°C)  = 31680
+                          Density (g/cm³)  =   1.09904
+                               Volume (L)  =   1.19922
+                        Viscosity (mPa s)  =   1.65348
+                        Activity of water  =   0.967
+                           Ionic strength  =   1.359e+00
+                       Mass of water (kg)  =   1.178e+00
+                 Total alkalinity (eq/kg)  =   1.033e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  14.32
-                  Electrical balance (eq)  =  -1.245e-09
+                  Electrical balance (eq)  =  -1.221e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.62758
-                         Density of water  =   0.99920
-                                  Total H  = 1.326871e+02
-                                  Total O  = 7.067849e+01
+                               Iterations  =  22
+                                  Total H  = 1.307508e+02
+                                  Total O  = 6.932309e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             2.412e-07   1.287e-07    -6.618    -6.890    -0.273     -0.33
-   H+              7.372e-08   3.225e-08    -7.132    -7.491    -0.359      0.00
-   H2O             5.551e+01   9.697e-01     1.744    -0.013     0.000     18.03
-Na            1.813e+00
-   Na+             1.813e+00   8.135e-01     0.258    -0.090    -0.348     -0.02
-S(6)          9.067e-01
-   SO4-2           9.067e-01   3.726e-02    -0.043    -1.429    -1.386     21.16
-   HSO4-           1.664e-07   8.555e-08    -6.779    -7.068    -0.289     40.64
+   OH-             1.850e-07   1.039e-07    -6.733    -6.983    -0.250     -2.22
+   H+              5.398e-08   3.984e-08    -7.268    -7.400    -0.132      0.00
+   H2O             5.551e+01   9.671e-01     1.744    -0.015     0.000     18.03
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.721   -40.586     0.136     28.62
+Na            1.676e+00
+   Na+             1.098e+00   8.384e-01     0.041    -0.077    -0.117     -0.63
+   NaSO4-          5.775e-01   1.504e-01    -0.238    -0.823    -0.584     23.80
+   NaOH            6.372e-18   8.713e-18   -17.196   -17.060     0.136     (0)  
+O(0)          2.243e-15
+   O2              1.122e-15   1.534e-15   -14.950   -14.814     0.136     29.43
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -123.180  -123.430    -0.250     20.94
+   H2S             0.000e+00   0.000e+00  -123.870  -123.734     0.136     37.11
+   S-2             0.000e+00   0.000e+00  -128.474  -129.278    -0.804     (0)  
+S(6)          8.379e-01
+   NaSO4-          5.775e-01   1.504e-01    -0.238    -0.823    -0.584     23.80
+   SO4-2           2.604e-01   3.604e-02    -0.584    -1.443    -0.859     16.62
+   HSO4-           1.299e-07   1.118e-07    -6.886    -6.952    -0.065     40.29
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(287 K,   1 atm)
 
+  H2(g)           -37.52    -40.59   -3.07  H2
   H2O(g)           -1.80     -0.01    1.79  H2O
+  H2S(g)         -122.81   -130.83   -8.02  H2S
   Mirabilite        0.00     -1.74   -1.74  Na2SO4:10H2O
-  Thenardite       -1.36     -1.61   -0.25  Na2SO4
+  O2(g)           -12.01    -14.81   -2.81  O2
+  Sulfur          -91.39    -86.25    5.14  S
+  Thenardite       -1.35     -1.60   -0.25  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -737,61 +846,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.65     -1.65    1.200e+01   1.073e+01  -1.275e+00
-Thenardite       -1.24    -1.50     -0.26    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -1.65     -1.65    1.200e+01   1.086e+01  -1.141e+00
+Thenardite       -1.23    -1.49     -0.26    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                2.073e+00   2.549e+00
-	S                 1.037e+00   1.275e+00
+	Na                1.893e+00   2.282e+00
+	S                 9.464e-01   1.141e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.472      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 16°C)  = 26938
-                          Density (g/cm³)  =   1.12001
-                               Volume (L)  =   1.25952
-                        Activity of water  =   0.966
-                           Ionic strength  =   3.110e+00
-                       Mass of water (kg)  =   1.230e+00
-                 Total alkalinity (eq/kg)  =   9.892e-10
+                                       pH  =   7.366      Charge balance
+                                       pe  =  11.231      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 16°C)  = 33800
+                          Density (g/cm³)  =   1.11020
+                               Volume (L)  =   1.23188
+                        Viscosity (mPa s)  =   1.65784
+                        Activity of water  =   0.963
+                           Ionic strength  =   1.496e+00
+                       Mass of water (kg)  =   1.206e+00
+                 Total alkalinity (eq/kg)  =   1.009e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  16.11
-                  Electrical balance (eq)  =  -1.268e-09
+                  Electrical balance (eq)  =  -2.149e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.62289
-                         Density of water  =   0.99893
-                                  Total H  = 1.365043e+02
-                                  Total O  = 7.335056e+01
+                               Iterations  =  17
+                                  Total H  = 1.338323e+02
+                                  Total O  = 7.148013e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             2.683e-07   1.425e-07    -6.571    -6.846    -0.275      0.34
-   H+              7.694e-08   3.373e-08    -7.114    -7.472    -0.358      0.00
-   H2O             5.551e+01   9.657e-01     1.744    -0.015     0.000     18.04
-Na            2.073e+00
-   Na+             2.073e+00   9.143e-01     0.317    -0.039    -0.356      0.20
-S(6)          1.037e+00
-   SO4-2           1.037e+00   3.780e-02     0.016    -1.423    -1.438     22.01
-   HSO4-           1.904e-07   9.524e-08    -6.720    -7.021    -0.301     40.90
+   OH-             2.010e-07   1.115e-07    -6.697    -6.953    -0.256     -1.89
+   H+              5.851e-08   4.301e-08    -7.233    -7.366    -0.134      0.00
+   H2O             5.551e+01   9.632e-01     1.744    -0.016     0.000     18.04
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.456   -40.306     0.150     28.62
+Na            1.893e+00
+   Na+             1.221e+00   9.460e-01     0.087    -0.024    -0.111     -0.47
+   NaSO4-          6.718e-01   1.632e-01    -0.173    -0.787    -0.615     24.69
+   NaOH            7.471e-18   1.054e-17   -17.127   -16.977     0.150     (0)  
+O(0)          2.466e-15
+   O2              1.233e-15   1.740e-15   -14.909   -14.760     0.150     29.62
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -122.262  -122.519    -0.256     21.14
+   H2S             0.000e+00   0.000e+00  -122.967  -122.817     0.150     37.12
+   S-2             0.000e+00   0.000e+00  -127.523  -128.343    -0.819     (0)  
+S(6)          9.464e-01
+   NaSO4-          6.718e-01   1.632e-01    -0.173    -0.787    -0.615     24.69
+   SO4-2           2.746e-01   3.626e-02    -0.561    -1.441    -0.879     17.25
+   HSO4-           1.415e-07   1.258e-07    -6.849    -6.900    -0.051     40.52
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(289 K,   1 atm)
 
-  H2O(g)           -1.75     -0.02    1.74  H2O
-  Mirabilite        0.00     -1.65   -1.65  Na2SO4:10H2O
-  Thenardite       -1.24     -1.50   -0.26  Na2SO4
+  H2(g)           -37.23    -40.31   -3.08  H2
+  H2O(g)           -1.76     -0.02    1.74  H2O
+  H2S(g)         -121.87   -129.88   -8.02  H2S
+  Mirabilite       -0.00     -1.65   -1.65  Na2SO4:10H2O
+  O2(g)           -11.94    -14.76   -2.82  O2
+  Sulfur          -90.72    -85.62    5.10  S
+  Thenardite       -1.23     -1.49   -0.26  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -807,61 +928,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.56     -1.56    1.200e+01   1.050e+01  -1.503e+00
-Thenardite       -1.13    -1.39     -0.27    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -1.56     -1.56    1.200e+01   1.067e+01  -1.327e+00
+Thenardite       -1.11    -1.38     -0.27    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                2.365e+00   3.005e+00
-	S                 1.183e+00   1.503e+00
+	Na                2.143e+00   2.655e+00
+	S                 1.071e+00   1.327e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.454      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 17°C)  = 27115
-                          Density (g/cm³)  =   1.13462
-                               Volume (L)  =   1.30808
-                        Activity of water  =   0.961
-                           Ionic strength  =   3.548e+00
-                       Mass of water (kg)  =   1.271e+00
-                 Total alkalinity (eq/kg)  =   9.572e-10
+                                       pH  =   7.332      Charge balance
+                                       pe  =  11.121      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 17°C)  = 35878
+                          Density (g/cm³)  =   1.12278
+                               Volume (L)  =   1.27159
+                        Viscosity (mPa s)  =   1.67804
+                        Activity of water  =   0.959
+                           Ionic strength  =   1.647e+00
+                       Mass of water (kg)  =   1.239e+00
+                 Total alkalinity (eq/kg)  =   9.817e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  17.89
-                  Electrical balance (eq)  =  -1.307e-09
+                  Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.61998
-                         Density of water  =   0.99861
-                                  Total H  = 1.410667e+02
-                                  Total O  = 7.654423e+01
+                               Iterations  =  20
+                                  Total H  = 1.375620e+02
+                                  Total O  = 7.409089e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             2.975e-07   1.576e-07    -6.527    -6.802    -0.276      1.06
-   H+              7.935e-08   3.519e-08    -7.100    -7.454    -0.353      0.00
-   H2O             5.551e+01   9.612e-01     1.744    -0.017     0.000     18.04
-Na            2.365e+00
-   Na+             2.365e+00   1.029e+00     0.374     0.012    -0.361      0.41
-S(6)          1.183e+00
-   SO4-2           1.183e+00   3.826e-02     0.073    -1.417    -1.490     22.86
-   HSO4-           2.172e-07   1.056e-07    -6.663    -6.977    -0.313     41.14
+   OH-             2.172e-07   1.188e-07    -6.663    -6.925    -0.262     -1.54
+   H+              6.358e-08   4.656e-08    -7.197    -7.332    -0.135      0.00
+   H2O             5.551e+01   9.587e-01     1.744    -0.018     0.000     18.04
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.189   -40.025     0.165     28.61
+Na            2.143e+00
+   Na+             1.359e+00   1.071e+00     0.133     0.030    -0.103     -0.30
+   NaSO4-          7.834e-01   1.767e-01    -0.106    -0.753    -0.647     25.60
+   NaOH            8.714e-18   1.273e-17   -17.060   -16.895     0.165     (0)  
+O(0)          2.631e-15
+   O2              1.315e-15   1.922e-15   -14.881   -14.716     0.165     29.79
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -121.337  -121.598    -0.262     21.33
+   H2S             0.000e+00   0.000e+00  -122.054  -121.890     0.165     37.13
+   S-2             0.000e+00   0.000e+00  -126.566  -127.401    -0.834     (0)  
+S(6)          1.071e+00
+   NaSO4-          7.834e-01   1.767e-01    -0.106    -0.753    -0.647     25.60
+   SO4-2           2.878e-01   3.621e-02    -0.541    -1.441    -0.900     17.87
+   HSO4-           1.526e-07   1.410e-07    -6.816    -6.851    -0.034     40.73
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(291 K,   1 atm)
 
+  H2(g)           -36.94    -40.02   -3.08  H2
   H2O(g)           -1.71     -0.02    1.69  H2O
-  Mirabilite        0.00     -1.56   -1.56  Na2SO4:10H2O
-  Thenardite       -1.13     -1.39   -0.27  Na2SO4
+  H2S(g)         -120.92   -128.93   -8.01  H2S
+  Mirabilite       -0.00     -1.56   -1.56  Na2SO4:10H2O
+  O2(g)           -11.88    -14.72   -2.84  O2
+  Sulfur          -90.04    -84.98    5.05  S
+  Thenardite       -1.11     -1.38   -0.27  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -877,61 +1010,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.48     -1.48    1.200e+01   1.022e+01  -1.777e+00
-Thenardite       -1.01    -1.28     -0.28    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.48     -1.48    1.200e+01   1.044e+01  -1.558e+00
+Thenardite       -1.00    -1.27     -0.28    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                2.692e+00   3.554e+00
-	S                 1.346e+00   1.777e+00
+	Na                2.433e+00   3.115e+00
+	S                 1.216e+00   1.558e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.436      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 19°C)  = 27243
-                          Density (g/cm³)  =   1.15056
-                               Volume (L)  =   1.36673
-                        Activity of water  =   0.956
-                           Ionic strength  =   4.038e+00
-                       Mass of water (kg)  =   1.320e+00
-                 Total alkalinity (eq/kg)  =   9.213e-10
+                                       pH  =   7.296      Charge balance
+                                       pe  =  11.031      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 19°C)  = 37909
+                          Density (g/cm³)  =   1.13709
+                               Volume (L)  =   1.32078
+                        Viscosity (mPa s)  =   1.71803
+                        Activity of water  =   0.954
+                           Ionic strength  =   1.815e+00
+                       Mass of water (kg)  =   1.281e+00
+                 Total alkalinity (eq/kg)  =   9.500e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  19.68
-                  Electrical balance (eq)  =  -1.375e-09
+                  Electrical balance (eq)  =  -1.248e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.61909
-                         Density of water  =   0.99827
-                                  Total H  = 1.465499e+02
-                                  Total O  = 8.038246e+01
+                               Iterations  =  20
+                                  Total H  = 1.421634e+02
+                                  Total O  = 7.731186e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             3.287e-07   1.743e-07    -6.483    -6.759    -0.276      1.83
-   H+              8.069e-08   3.661e-08    -7.093    -7.436    -0.343      0.00
-   H2O             5.551e+01   9.560e-01     1.744    -0.020     0.000     18.05
-Na            2.692e+00
-   Na+             2.692e+00   1.160e+00     0.430     0.065    -0.365      0.62
-S(6)          1.346e+00
-   SO4-2           1.346e+00   3.863e-02     0.129    -1.413    -1.542     23.70
-   HSO4-           2.470e-07   1.164e-07    -6.607    -6.934    -0.327     41.38
+   OH-             2.331e-07   1.259e-07    -6.633    -6.900    -0.268     -1.19
+   H+              6.931e-08   5.057e-08    -7.159    -7.296    -0.137      0.00
+   H2O             5.551e+01   9.536e-01     1.744    -0.021     0.000     18.05
+H(0)          2.178e-40
+   H2              1.089e-40   1.654e-40   -39.963   -39.781     0.182     28.61
+Na            2.433e+00
+   Na+             1.516e+00   1.220e+00     0.181     0.086    -0.094     -0.15
+   NaSO4-          9.167e-01   1.911e-01    -0.038    -0.719    -0.681     26.53
+   NaOH            1.011e-17   1.535e-17   -16.995   -16.814     0.182     (0)  
+O(0)          3.267e-15
+   O2              1.634e-15   2.482e-15   -14.787   -14.605     0.182     29.96
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -120.560  -120.828    -0.268     21.51
+   H2S             0.000e+00   0.000e+00  -121.291  -121.110     0.182     37.14
+   S-2             0.000e+00   0.000e+00  -125.761  -126.611    -0.849     (0)  
+S(6)          1.216e+00
+   NaSO4-          9.167e-01   1.911e-01    -0.038    -0.719    -0.681     26.53
+   SO4-2           2.996e-01   3.585e-02    -0.524    -1.446    -0.922     18.47
+   HSO4-           1.628e-07   1.573e-07    -6.788    -6.803    -0.015     40.94
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(292 K,   1 atm)
 
+  H2(g)           -36.69    -39.78   -3.09  H2
   H2O(g)           -1.66     -0.02    1.64  H2O
+  H2S(g)         -120.12   -128.12   -8.01  H2S
   Mirabilite        0.00     -1.48   -1.48  Na2SO4:10H2O
-  Thenardite       -1.01     -1.28   -0.28  Na2SO4
+  O2(g)           -11.75    -14.61   -2.85  O2
+  Sulfur          -89.46    -84.45    5.01  S
+  Thenardite       -1.00     -1.27   -0.28  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -947,61 +1092,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.40     -1.40    1.200e+01   9.891e+00  -2.109e+00
-Thenardite       -0.89    -1.17     -0.28    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.40     -1.40    1.200e+01   1.015e+01  -1.849e+00
+Thenardite       -0.88    -1.16     -0.28    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                3.057e+00   4.218e+00
-	S                 1.528e+00   2.109e+00
+	Na                2.774e+00   3.698e+00
+	S                 1.387e+00   1.849e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.420      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 21°C)  = 27436
-                          Density (g/cm³)  =   1.16787
-                               Volume (L)  =   1.43816
-                        Activity of water  =   0.950
-                           Ionic strength  =   4.585e+00
-                       Mass of water (kg)  =   1.380e+00
-                 Total alkalinity (eq/kg)  =   8.814e-10
+                                       pH  =   7.258      Charge balance
+                                       pe  =  10.870      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 21°C)  = 39900
+                          Density (g/cm³)  =   1.15356
+                               Volume (L)  =   1.38327
+                        Viscosity (mPa s)  =   1.78393
+                        Activity of water  =   0.948
+                           Ionic strength  =   2.005e+00
+                       Mass of water (kg)  =   1.333e+00
+                 Total alkalinity (eq/kg)  =   9.126e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  21.47
-                  Electrical balance (eq)  =  -1.863e-09
+                  Electrical balance (eq)  =  -1.101e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  23
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.62042
-                         Density of water  =   0.99789
-                                  Total H  = 1.531964e+02
-                                  Total O  = 8.503497e+01
+                               Iterations  =  21
+                                  Total H  = 1.479882e+02
+                                  Total O  = 8.138925e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             3.618e-07   1.925e-07    -6.441    -6.715    -0.274      2.67
-   H+              8.071e-08   3.798e-08    -7.093    -7.420    -0.327      0.00
-   H2O             5.551e+01   9.500e-01     1.744    -0.022     0.000     18.05
-Na            3.057e+00
-   Na+             3.057e+00   1.312e+00     0.485     0.118    -0.367      0.83
-S(6)          1.528e+00
-   SO4-2           1.528e+00   3.890e-02     0.184    -1.410    -1.594     24.54
-   HSO4-           2.802e-07   1.277e-07    -6.552    -6.894    -0.341     41.61
+   OH-             2.482e-07   1.323e-07    -6.605    -6.879    -0.273     -0.81
+   H+              7.589e-08   5.515e-08    -7.120    -7.258    -0.139      0.00
+   H2O             5.551e+01   9.476e-01     1.744    -0.023     0.000     18.05
+H(0)          5.115e-40
+   H2              2.558e-40   4.059e-40   -39.592   -39.392     0.201     28.61
+Na            2.774e+00
+   Na+             1.696e+00   1.399e+00     0.229     0.146    -0.084      0.01
+   NaSO4-          1.078e+00   2.063e-01     0.032    -0.685    -0.718     27.49
+   NaOH            1.166e-17   1.850e-17   -16.933   -16.733     0.201     (0)  
+O(0)          2.020e-15
+   O2              1.010e-15   1.603e-15   -14.996   -14.795     0.201     30.11
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -119.197  -119.470    -0.273     21.69
+   H2S             0.000e+00   0.000e+00  -119.940  -119.739     0.201     37.15
+   S-2             0.000e+00   0.000e+00  -124.371  -125.236    -0.864     (0)  
+S(6)          1.387e+00
+   NaSO4-          1.078e+00   2.063e-01     0.032    -0.685    -0.718     27.49
+   SO4-2           3.092e-01   3.512e-02    -0.510    -1.454    -0.945     19.08
+   HSO4-           1.714e-07   1.746e-07    -6.766    -6.758     0.008     41.14
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(294 K,   1 atm)
 
+  H2(g)           -36.30    -39.39   -3.09  H2
   H2O(g)           -1.62     -0.02    1.59  H2O
+  H2S(g)         -118.73   -126.73   -8.00  H2S
   Mirabilite        0.00     -1.40   -1.40  Na2SO4:10H2O
-  Thenardite       -0.89     -1.17   -0.28  Na2SO4
+  O2(g)           -11.93    -14.80   -2.87  O2
+  Sulfur          -88.45    -83.48    4.97  S
+  Thenardite       -0.88     -1.16   -0.28  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1017,61 +1174,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.32     -1.32    1.200e+01   9.483e+00  -2.517e+00
-Thenardite       -0.77    -1.06     -0.29    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.32     -1.32    1.200e+01   9.769e+00  -2.231e+00
+Thenardite       -0.76    -1.05     -0.29    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                3.464e+00   5.035e+00
-	S                 1.732e+00   2.517e+00
+	Na                3.183e+00   4.462e+00
+	S                 1.591e+00   2.231e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.406      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 23°C)  = 27830
-                          Density (g/cm³)  =   1.18663
-                               Volume (L)  =   1.52626
-                        Activity of water  =   0.943
-                           Ionic strength  =   5.196e+00
-                       Mass of water (kg)  =   1.454e+00
-                 Total alkalinity (eq/kg)  =   8.368e-10
+                                       pH  =   7.218      Charge balance
+                                       pe  =  10.769      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 23°C)  = 41887
+                          Density (g/cm³)  =   1.17275
+                               Volume (L)  =   1.46565
+                        Viscosity (mPa s)  =   1.88571
+                        Activity of water  =   0.941
+                           Ionic strength  =   2.223e+00
+                       Mass of water (kg)  =   1.402e+00
+                 Total alkalinity (eq/kg)  =   8.677e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  23.26
-                  Electrical balance (eq)  =  -3.095e-09
+                  Electrical balance (eq)  =  -2.488e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  23
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.62410
-                         Density of water  =   0.99747
-                                  Total H  = 1.613597e+02
-                                  Total O  = 9.074928e+01
+                               Iterations  =  19
+                                  Total H  = 1.556330e+02
+                                  Total O  = 8.674063e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             3.971e-07   2.127e-07    -6.401    -6.672    -0.271      3.57
-   H+              7.918e-08   3.928e-08    -7.101    -7.406    -0.304      0.00
-   H2O             5.551e+01   9.433e-01     1.744    -0.025     0.000     18.06
-Na            3.464e+00
-   Na+             3.464e+00   1.489e+00     0.540     0.173    -0.367      1.03
-S(6)          1.732e+00
-   SO4-2           1.732e+00   3.905e-02     0.239    -1.408    -1.647     25.37
-   HSO4-           3.171e-07   1.392e-07    -6.499    -6.856    -0.357     41.83
+   OH-             2.620e-07   1.377e-07    -6.582    -6.861    -0.279     -0.40
+   H+              8.358e-08   6.051e-08    -7.078    -7.218    -0.140      0.00
+   H2O             5.551e+01   9.405e-01     1.744    -0.027     0.000     18.06
+H(0)          9.173e-40
+   H2              4.586e-40   7.652e-40   -39.339   -39.116     0.222     28.61
+Na            3.183e+00
+   Na+             1.907e+00   1.621e+00     0.280     0.210    -0.071      0.16
+   NaSO4-          1.275e+00   2.225e-01     0.106    -0.653    -0.758     28.52
+   NaOH            1.337e-17   2.231e-17   -16.874   -16.651     0.222     (0)  
+O(0)          2.061e-15
+   O2              1.030e-15   1.719e-15   -14.987   -14.765     0.222     30.26
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -118.288  -118.568    -0.279     21.88
+   H2S             0.000e+00   0.000e+00  -119.043  -118.821     0.222     37.16
+   S-2             0.000e+00   0.000e+00  -123.439  -124.319    -0.880     (0)  
+S(6)          1.591e+00
+   NaSO4-          1.275e+00   2.225e-01     0.106    -0.653    -0.758     28.52
+   SO4-2           3.160e-01   3.395e-02    -0.500    -1.469    -0.969     19.71
+   HSO4-           1.775e-07   1.923e-07    -6.751    -6.716     0.035     41.33
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(296 K,   1 atm)
 
+  H2(g)           -36.02    -39.12   -3.10  H2
   H2O(g)           -1.57     -0.03    1.55  H2O
+  H2S(g)         -117.79   -125.79   -8.00  H2S
   Mirabilite        0.00     -1.32   -1.32  Na2SO4:10H2O
-  Thenardite       -0.77     -1.06   -0.29  Na2SO4
+  O2(g)           -11.89    -14.76   -2.88  O2
+  Sulfur          -87.77    -82.85    4.92  S
+  Thenardite       -0.76     -1.05   -0.29  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1087,61 +1256,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.24     -1.24    1.200e+01   8.971e+00  -3.029e+00
-Thenardite       -0.65    -0.95     -0.30    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -1.24     -1.24    1.200e+01   9.239e+00  -2.761e+00
+Thenardite       -0.63    -0.93     -0.30    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                3.919e+00   6.058e+00
-	S                 1.960e+00   3.029e+00
+	Na                3.687e+00   5.521e+00
+	S                 1.844e+00   2.761e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.393      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 28598
-                          Density (g/cm³)  =   1.20694
-                               Volume (L)  =   1.63711
-                        Activity of water  =   0.935
-                           Ionic strength  =   5.879e+00
-                       Mass of water (kg)  =   1.546e+00
-                 Total alkalinity (eq/kg)  =   7.869e-10
+                                       pH  =   7.174      Charge balance
+                                       pe  =  10.693      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 25°C)  = 43922
+                          Density (g/cm³)  =   1.19573
+                               Volume (L)  =   1.58016
+                        Viscosity (mPa s)  =   2.04289
+                        Activity of water  =   0.932
+                           Ionic strength  =   2.481e+00
+                       Mass of water (kg)  =   1.497e+00
+                 Total alkalinity (eq/kg)  =   8.125e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.05
-                  Electrical balance (eq)  =  -7.515e-09
+                  Electrical balance (eq)  =  -1.161e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  24
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.63020
-                         Density of water  =   0.99703
-                                  Total H  = 1.715886e+02
-                                  Total O  = 9.790954e+01
+                               Iterations  =  19
+                                  Total H  = 1.662232e+02
+                                  Total O  = 9.415375e+01
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             4.346e-07   2.348e-07    -6.362    -6.629    -0.267      4.56
-   H+              7.591e-08   4.049e-08    -7.120    -7.393    -0.273      0.00
-   H2O             5.551e+01   9.354e-01     1.744    -0.029     0.000     18.07
-Na            3.919e+00
-   Na+             3.919e+00   1.700e+00     0.593     0.230    -0.363      1.23
-S(6)          1.960e+00
-   SO4-2           1.960e+00   3.902e-02     0.292    -1.409    -1.701     26.22
-   HSO4-           3.579e-07   1.507e-07    -6.446    -6.822    -0.376     42.03
+   OH-             2.733e-07   1.415e-07    -6.563    -6.849    -0.286      0.05
+   H+              9.281e-08   6.692e-08    -7.032    -7.174    -0.142      0.00
+   H2O             5.551e+01   9.319e-01     1.744    -0.031     0.000     18.07
+H(0)          1.471e-39
+   H2              7.354e-40   1.302e-39   -39.133   -38.885     0.248     28.61
+Na            3.687e+00
+   Na+             2.162e+00   1.906e+00     0.335     0.280    -0.055      0.31
+   NaSO4-          1.525e+00   2.398e-01     0.183    -0.620    -0.803     29.62
+   NaOH            1.523e-17   2.697e-17   -16.817   -16.569     0.248     (0)  
+O(0)          2.508e-15
+   O2              1.254e-15   2.220e-15   -14.902   -14.654     0.248     30.41
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -117.556  -117.842    -0.286     22.06
+   H2S             0.000e+00   0.000e+00  -118.323  -118.075     0.248     37.16
+   S-2             0.000e+00   0.000e+00  -122.688  -123.584    -0.896     (0)  
+S(6)          1.844e+00
+   NaSO4-          1.525e+00   2.398e-01     0.183    -0.620    -0.803     29.62
+   SO4-2           3.188e-01   3.223e-02    -0.497    -1.492    -0.995     20.35
+   HSO4-           1.797e-07   2.100e-07    -6.746    -6.678     0.068     41.52
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
+  H2(g)           -35.78    -38.89   -3.10  H2
   H2O(g)           -1.53     -0.03    1.50  H2O
-  Mirabilite        0.00     -1.24   -1.24  Na2SO4:10H2O
-  Thenardite       -0.65     -0.95   -0.30  Na2SO4
+  H2S(g)         -117.02   -125.02   -7.99  H2S
+  Mirabilite       -0.00     -1.24   -1.24  Na2SO4:10H2O
+  O2(g)           -11.76    -14.65   -2.89  O2
+  Sulfur          -87.22    -82.34    4.88  S
+  Thenardite       -0.63     -0.93   -0.30  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1157,61 +1338,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.16     -1.16    1.200e+01   8.311e+00  -3.689e+00
-Thenardite       -0.52    -0.83     -0.31    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.16     -1.16    1.200e+01   8.437e+00  -3.563e+00
+Thenardite       -0.49    -0.80     -0.31    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                4.432e+00   7.379e+00
-	S                 2.216e+00   3.689e+00
+	Na                4.340e+00   7.125e+00
+	S                 2.170e+00   3.563e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.381      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 26°C)  = 29981
-                          Density (g/cm³)  =   1.22906
-                               Volume (L)  =   1.78079
-                        Activity of water  =   0.926
-                           Ionic strength  =   6.649e+00
-                       Mass of water (kg)  =   1.665e+00
-                 Total alkalinity (eq/kg)  =   7.307e-10
+                                       pH  =   7.125      Charge balance
+                                       pe  =  10.527      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 26°C)  = 46172
+                          Density (g/cm³)  =   1.22428
+                               Volume (L)  =   1.75440
+                        Viscosity (mPa s)  =   2.29457
+                        Activity of water  =   0.921
+                           Ionic strength  =   2.801e+00
+                       Mass of water (kg)  =   1.642e+00
+                 Total alkalinity (eq/kg)  =   7.409e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  26.84
-                  Electrical balance (eq)  =  -2.537e-08
+                  Electrical balance (eq)  =  -1.170e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  25
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.63880
-                         Density of water  =   0.99655
-                                  Total H  = 1.847977e+02
-                                  Total O  = 1.071559e+02
+                               Iterations  =  21
+                                  Total H  = 1.822640e+02
+                                  Total O  = 1.053823e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             4.744e-07   2.590e-07    -6.324    -6.587    -0.263      5.65
-   H+              7.075e-08   4.161e-08    -7.150    -7.381    -0.231      0.00
-   H2O             5.551e+01   9.263e-01     1.744    -0.033     0.000     18.08
-Na            4.432e+00
-   Na+             4.432e+00   1.955e+00     0.647     0.291    -0.355      1.42
-S(6)          2.216e+00
-   SO4-2           2.216e+00   3.875e-02     0.346    -1.412    -1.757     27.07
-   HSO4-           4.030e-07   1.617e-07    -6.395    -6.791    -0.397     42.23
+   OH-             2.806e-07   1.430e-07    -6.552    -6.845    -0.293      0.59
+   H+              1.043e-07   7.491e-08    -6.982    -7.125    -0.144      0.00
+   H2O             5.551e+01   9.209e-01     1.744    -0.036     0.000     18.08
+H(0)          3.622e-39
+   H2              1.811e-39   3.452e-39   -38.742   -38.462     0.280     28.60
+Na            4.340e+00
+   Na+             2.485e+00   2.297e+00     0.395     0.361    -0.034      0.48
+   NaSO4-          1.854e+00   2.581e-01     0.268    -0.588    -0.856     30.89
+   NaOH            1.724e-17   3.285e-17   -16.764   -16.483     0.280     (0)  
+O(0)          1.213e-15
+   O2              6.067e-16   1.156e-15   -15.217   -14.937     0.280     30.54
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -116.052  -116.345    -0.293     22.26
+   H2S             0.000e+00   0.000e+00  -116.832  -116.552     0.280     37.17
+   S-2             0.000e+00   0.000e+00  -121.170  -122.083    -0.913     (0)  
+S(6)          2.170e+00
+   NaSO4-          1.854e+00   2.581e-01     0.268    -0.588    -0.856     30.89
+   SO4-2           3.156e-01   2.979e-02    -0.501    -1.526    -1.025     21.04
+   HSO4-           1.755e-07   2.259e-07    -6.756    -6.646     0.110     41.71
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(299 K,   1 atm)
 
-  H2O(g)           -1.49     -0.03    1.46  H2O
+  H2(g)           -35.36    -38.46   -3.11  H2
+  H2O(g)           -1.49     -0.04    1.46  H2O
+  H2S(g)         -115.48   -123.47   -7.99  H2S
   Mirabilite        0.00     -1.16   -1.16  Na2SO4:10H2O
-  Thenardite       -0.52     -0.83   -0.31  Na2SO4
+  O2(g)           -12.03    -14.94   -2.91  O2
+  Sulfur          -86.09    -81.25    4.84  S
+  Thenardite       -0.49     -0.80   -0.31  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1227,61 +1420,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.09     -1.09    1.200e+01   7.418e+00  -4.582e+00
-Thenardite       -0.39    -0.70     -0.32    0.000e+00           0   0.000e+00
+Mirabilite        0.00    -1.09     -1.09    1.200e+01   6.985e+00  -5.015e+00
+Thenardite       -0.34    -0.66     -0.32    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                5.020e+00   9.164e+00
-	S                 2.510e+00   4.582e+00
+	Na                5.269e+00   1.003e+01
+	S                 2.635e+00   5.015e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.370      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 28°C)  = 32376
-                          Density (g/cm³)  =   1.25341
-                               Volume (L)  =   1.97574
-                        Activity of water  =   0.916
-                           Ionic strength  =   7.530e+00
-                       Mass of water (kg)  =   1.826e+00
-                 Total alkalinity (eq/kg)  =   6.663e-10
+                                       pH  =   7.067      Charge balance
+                                       pe  =  10.634      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 28°C)  = 49083
+                          Density (g/cm³)  =   1.26282
+                               Volume (L)  =   2.07149
+                        Viscosity (mPa s)  =   2.74847
+                        Activity of water  =   0.905
+                           Ionic strength  =   3.239e+00
+                       Mass of water (kg)  =   1.904e+00
+                 Total alkalinity (eq/kg)  =   6.391e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  28.63
-                  Electrical balance (eq)  =  -1.229e-09
+                  Electrical balance (eq)  =  -1.274e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  26
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.64998
-                         Density of water  =   0.99605
-                                  Total H  = 2.026564e+02
-                                  Total O  = 1.196570e+02
+                               Iterations  =  19
+                                  Total H  = 2.113170e+02
+                                  Total O  = 1.257194e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             5.169e-07   2.853e-07    -6.287    -6.545    -0.258      6.87
-   H+              6.360e-08   4.263e-08    -7.197    -7.370    -0.174      0.00
-   H2O             5.551e+01   9.156e-01     1.744    -0.038     0.000     18.09
-Na            5.020e+00
-   Na+             5.020e+00   2.275e+00     0.701     0.357    -0.344      1.62
-S(6)          2.510e+00
-   SO4-2           2.510e+00   3.814e-02     0.400    -1.419    -1.818     27.96
-   HSO4-           4.527e-07   1.714e-07    -6.344    -6.766    -0.422     42.42
+   OH-             2.806e-07   1.405e-07    -6.552    -6.852    -0.301      1.27
+   H+              1.198e-07   8.562e-08    -6.921    -7.067    -0.146      0.00
+   H2O             5.551e+01   9.053e-01     1.744    -0.043     0.000     18.09
+H(0)          2.559e-39
+   H2              1.280e-39   2.698e-39   -38.893   -38.569     0.324     28.60
+Na            5.269e+00
+   Na+             2.937e+00   2.905e+00     0.468     0.463    -0.005      0.66
+   NaSO4-          2.332e+00   2.780e-01     0.368    -0.556    -0.924     32.47
+   NaOH            1.935e-17   4.080e-17   -16.713   -16.389     0.324     (0)  
+O(0)          6.405e-15
+   O2              3.202e-15   6.752e-15   -14.495   -14.171     0.324     30.67
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -116.670  -116.971    -0.301     22.48
+   H2S             0.000e+00   0.000e+00  -117.466  -117.142     0.324     37.18
+   S-2             0.000e+00   0.000e+00  -121.782  -122.715    -0.933     (0)  
+S(6)          2.635e+00
+   NaSO4-          2.332e+00   2.780e-01     0.368    -0.556    -0.924     32.47
+   SO4-2           3.024e-01   2.619e-02    -0.519    -1.582    -1.062     21.83
+   HSO4-           1.602e-07   2.363e-07    -6.795    -6.627     0.169     41.91
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(301 K,   1 atm)
 
+  H2(g)           -35.46    -38.57   -3.11  H2
   H2O(g)           -1.45     -0.04    1.41  H2O
+  H2S(g)         -116.05   -124.04   -7.98  H2S
   Mirabilite        0.00     -1.09   -1.09  Na2SO4:10H2O
-  Thenardite       -0.39     -0.70   -0.32  Na2SO4
+  O2(g)           -11.25    -14.17   -2.92  O2
+  Sulfur          -86.54    -81.74    4.80  S
+  Thenardite       -0.34     -0.66   -0.32  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1297,61 +1502,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -1.02     -1.02    1.200e+01   6.119e+00  -5.881e+00
-Thenardite       -0.24    -0.57     -0.33    0.000e+00           0   0.000e+00
+Mirabilite       -0.00    -1.02     -1.02    1.200e+01   1.851e+00  -1.015e+01
+Thenardite       -0.10    -0.43     -0.33    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                5.711e+00   1.176e+01
-	S                 2.855e+00   5.881e+00
+	Na                7.176e+00   2.030e+01
+	S                 3.588e+00   1.015e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.361      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 30°C)  = 36566
-                          Density (g/cm³)  =   1.28078
-                               Volume (L)  =   2.26022
-                        Activity of water  =   0.903
-                           Ionic strength  =   8.566e+00
-                       Mass of water (kg)  =   2.060e+00
-                 Total alkalinity (eq/kg)  =   5.906e-10
+                                       pH  =   6.982      Charge balance
+                                       pe  =  -1.457      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 30°C)  = 42985
+                          Density (g/cm³)  =   1.33431
+                               Volume (L)  =   3.20015
+                        Viscosity (mPa s)  =   4.06634
+                        Activity of water  =   0.874
+                           Ionic strength  =   4.107e+00
+                       Mass of water (kg)  =   2.828e+00
+                 Total alkalinity (eq/kg)  =   4.301e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  30.42
-                  Electrical balance (eq)  =  -1.282e-09
+                  Electrical balance (eq)  =  -1.576e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  26
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.66400
-                         Density of water  =   0.99552
-                                  Total H  = 2.286302e+02
-                                  Total O  = 1.378387e+02
+                               Iterations  =  34
+                                  Total H  = 3.139882e+02
+                                  Total O  = 1.975893e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             5.624e-07   3.136e-07    -6.250    -6.504    -0.254      8.27
-   H+              5.437e-08   4.356e-08    -7.265    -7.361    -0.096      0.00
-   H2O             5.551e+01   9.026e-01     1.744    -0.045     0.000     18.10
-Na            5.711e+00
-   Na+             5.711e+00   2.695e+00     0.757     0.431    -0.326      1.82
-S(6)          2.855e+00
-   SO4-2           2.855e+00   3.699e-02     0.456    -1.432    -1.888     28.91
-   HSO4-           5.074e-07   1.787e-07    -6.295    -6.748    -0.453     42.60
+   OH-             2.609e-07   1.270e-07    -6.584    -6.896    -0.313      2.52
+   H+              1.467e-07   1.041e-07    -6.833    -6.982    -0.149      0.00
+   H2O             5.551e+01   8.736e-01     1.744    -0.059     0.000     18.10
+H(0)          4.639e-15
+   H2              2.319e-15   5.972e-15   -14.635   -14.224     0.411     28.60
+Na            7.176e+00
+   Na+             3.848e+00   4.383e+00     0.585     0.642     0.057      0.93
+   NaSO4-          3.329e+00   3.011e-01     0.522    -0.521    -1.043     35.27
+   NaOH            2.161e-17   5.564e-17   -16.665   -16.255     0.411     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.742   -62.331     0.411     30.80
+S(-2)         3.731e-20
+   HS-             3.251e-20   1.582e-20   -19.488   -19.801    -0.313     22.79
+   H2S             4.795e-21   1.235e-20   -20.319   -19.908     0.411     37.18
+   S-2             2.423e-25   2.643e-26   -24.616   -25.578    -0.962     (0)  
+S(6)          3.588e+00
+   NaSO4-          3.329e+00   3.011e-01     0.522    -0.521    -1.043     35.27
+   SO4-2           2.595e-01   1.939e-02    -0.586    -1.712    -1.127     23.02
+   HSO4-           1.137e-07   2.215e-07    -6.944    -6.655     0.290     42.16
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(303 K,   1 atm)
 
-  H2O(g)           -1.41     -0.04    1.37  H2O
-  Mirabilite        0.00     -1.02   -1.02  Na2SO4:10H2O
-  Thenardite       -0.24     -0.57   -0.33  Na2SO4
+  H2(g)           -11.11    -14.22   -3.11  H2
+  H2O(g)           -1.43     -0.06    1.37  H2O
+  H2S(g)          -18.80    -26.78   -7.98  H2S
+  Mirabilite       -0.00     -1.02   -1.02  Na2SO4:10H2O
+  O2(g)           -59.40    -62.33   -2.93  O2
+  Sulfur          -13.62     -8.86    4.76  S
+  Thenardite       -0.10     -0.43   -0.33  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1367,61 +1584,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite        0.00    -0.95     -0.95    1.200e+01   3.973e+00  -8.027e+00
-Thenardite       -0.09    -0.42     -0.33    0.000e+00           0   0.000e+00
+Mirabilite       -0.06    -1.00     -0.95    1.200e+01           0  -1.200e+01
+Thenardite       -0.05    -0.38     -0.33    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.563e+00   1.605e+01
-	S                 3.282e+00   8.027e+00
+	Na                7.590e+00   2.400e+01
+	S                 3.795e+00   1.200e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.352      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 32°C)  = 44487
-                          Density (g/cm³)  =   1.31279
-                               Volume (L)  =   2.73187
-                        Activity of water  =   0.886
-                           Ionic strength  =   9.845e+00
-                       Mass of water (kg)  =   2.446e+00
-                 Total alkalinity (eq/kg)  =   4.972e-10
+                                       pH  =   6.947      Charge balance
+                                       pe  =  10.473      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 32°C)  = 43213
+                          Density (g/cm³)  =   1.34768
+                               Volume (L)  =   3.61097
+                        Viscosity (mPa s)  =   4.24104
+                        Activity of water  =   0.867
+                           Ionic strength  =   4.303e+00
+                       Mass of water (kg)  =   3.162e+00
+                 Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  32.21
-                  Electrical balance (eq)  =  -1.686e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  27
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.68148
-                         Density of water  =   0.99496
-                                  Total H  = 2.715562e+02
-                                  Total O  = 1.678868e+02
+                               Iterations  =  24
+                                  Total H  = 3.510124e+02
+                                  Total O  = 2.235062e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             6.114e-07   3.431e-07    -6.214    -6.465    -0.251      9.96
-   H+              4.299e-08   4.443e-08    -7.367    -7.352     0.014      0.00
-   H2O             5.551e+01   8.862e-01     1.744    -0.052     0.000     18.11
-Na            6.563e+00
-   Na+             6.563e+00   3.291e+00     0.817     0.517    -0.300      2.04
-S(6)          3.282e+00
-   SO4-2           3.282e+00   3.498e-02     0.516    -1.456    -1.972     29.96
-   HSO4-           5.679e-07   1.814e-07    -6.246    -6.741    -0.496     42.78
+   OH-             2.733e-07   1.321e-07    -6.563    -6.879    -0.316      2.85
+   H+              1.594e-07   1.129e-07    -6.798    -6.947    -0.150      0.00
+   H2O             5.551e+01   8.666e-01     1.744    -0.062     0.000     18.11
+H(0)          7.085e-39
+   H2              3.542e-39   9.542e-39   -38.451   -38.020     0.430     28.60
+Na            7.590e+00
+   Na+             4.049e+00   4.759e+00     0.607     0.678     0.070      1.01
+   NaSO4-          3.541e+00   3.003e-01     0.549    -0.522    -1.072     35.83
+   NaOH            2.334e-17   6.286e-17   -16.632   -16.202     0.430     (0)  
+O(0)          4.778e-15
+   O2              2.389e-15   6.434e-15   -14.622   -14.191     0.430     30.92
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -114.871  -115.186    -0.316     22.93
+   H2S             0.000e+00   0.000e+00  -115.710  -115.280     0.430     37.19
+   S-2             0.000e+00   0.000e+00  -119.978  -120.948    -0.970     (0)  
+S(6)          3.795e+00
+   NaSO4-          3.541e+00   3.003e-01     0.549    -0.522    -1.072     35.83
+   SO4-2           2.541e-01   1.832e-02    -0.595    -1.737    -1.142     23.51
+   HSO4-           1.136e-07   2.364e-07    -6.945    -6.626     0.318     42.29
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(305 K,   1 atm)
 
-  H2O(g)           -1.38     -0.05    1.32  H2O
-  Mirabilite        0.00     -0.95   -0.95  Na2SO4:10H2O
-  Thenardite       -0.09     -0.42   -0.33  Na2SO4
+  H2(g)           -34.90    -38.02   -3.12  H2
+  H2O(g)           -1.38     -0.06    1.32  H2O
+  H2S(g)         -114.16   -122.13   -7.98  H2S
+  Mirabilite       -0.06     -1.00   -0.95  Na2SO4:10H2O
+  O2(g)           -11.25    -14.19   -2.94  O2
+  Sulfur          -85.16    -80.44    4.72  S
+  Thenardite       -0.05     -0.38   -0.33  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1437,61 +1666,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Mirabilite       -0.03    -0.91     -0.88    1.200e+01           0  -1.200e+01
-Thenardite       -0.00    -0.34     -0.34    0.000e+00   8.756e-01   8.756e-01
+Mirabilite       -0.12    -1.00     -0.88    1.200e+01           0  -1.200e+01
+Thenardite       -0.03    -0.38     -0.34    0.000e+00           0   0.000e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                7.036e+00   2.225e+01
-	S                 3.518e+00   1.112e+01
+	Na                7.590e+00   2.400e+01
+	S                 3.795e+00   1.200e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.340      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 34°C)  = 51735
-                          Density (g/cm³)  =   1.32926
-                               Volume (L)  =   3.56745
-                        Activity of water  =   0.877
-                           Ionic strength  =   1.055e+01
+                                       pH  =   6.924      Charge balance
+                                       pe  =  10.288      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 34°C)  = 45332
+                          Density (g/cm³)  =   1.34681
+                               Volume (L)  =   3.61332
+                        Viscosity (mPa s)  =   4.04786
+                        Activity of water  =   0.867
+                           Ionic strength  =   4.314e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  34.00
-                  Electrical balance (eq)  =  -1.345e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  29
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.69041
-                         Density of water  =   0.99437
+                               Iterations  =  22
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.200039e+02
+                                  Total O  = 2.235062e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             6.695e-07   3.743e-07    -6.174    -6.427    -0.252     10.94
-   H+              3.809e-08   4.571e-08    -7.419    -7.340     0.079      0.00
-   H2O             5.551e+01   8.770e-01     1.744    -0.057     0.000     18.12
-Na            7.036e+00
-   Na+             7.036e+00   3.668e+00     0.847     0.564    -0.283      2.16
-S(6)          3.518e+00
-   SO4-2           3.518e+00   3.372e-02     0.546    -1.472    -2.018     30.53
-   HSO4-           6.310e-07   1.893e-07    -6.200    -6.723    -0.523     42.91
+   OH-             2.944e-07   1.420e-07    -6.531    -6.848    -0.317      2.94
+   H+              1.683e-07   1.191e-07    -6.774    -6.924    -0.150      0.00
+   H2O             5.551e+01   8.666e-01     1.744    -0.062     0.000     18.12
+H(0)          1.812e-38
+   H2              9.059e-39   2.446e-38   -38.043   -37.612     0.431     28.60
+Na            7.590e+00
+   Na+             4.054e+00   4.766e+00     0.608     0.678     0.070      1.05
+   NaSO4-          3.536e+00   2.966e-01     0.548    -0.528    -1.076     35.83
+   NaOH            2.506e-17   6.766e-17   -16.601   -16.170     0.431     (0)  
+O(0)          2.557e-15
+   O2              1.278e-15   3.452e-15   -14.893   -14.462     0.431     31.04
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -113.427  -113.743    -0.317     23.02
+   H2S             0.000e+00   0.000e+00  -114.265  -113.833     0.431     37.20
+   S-2             0.000e+00   0.000e+00  -118.505  -119.477    -0.973     (0)  
+S(6)          3.795e+00
+   NaSO4-          3.536e+00   2.966e-01     0.548    -0.528    -1.076     35.83
+   SO4-2           2.593e-01   1.856e-02    -0.586    -1.731    -1.145     23.80
+   HSO4-           1.258e-07   2.633e-07    -6.900    -6.580     0.321     42.39
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(307 K,   1 atm)
 
+  H2(g)           -34.49    -37.61   -3.12  H2
   H2O(g)           -1.34     -0.06    1.28  H2O
-  Mirabilite       -0.03     -0.91   -0.88  Na2SO4:10H2O
-  Thenardite       -0.00     -0.34   -0.34  Na2SO4
+  H2S(g)         -112.69   -120.67   -7.97  H2S
+  Mirabilite       -0.12     -1.00   -0.88  Na2SO4:10H2O
+  O2(g)           -11.51    -14.46   -2.95  O2
+  Sulfur          -84.09    -79.41    4.68  S
+  Thenardite       -0.03     -0.38   -0.34  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1525,59 +1766,71 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite       -0.00    -0.34     -0.34    2.000e+00   2.000e+00   0.000e+00
+Thenardite       -0.00    -0.34     -0.34    2.000e+00   1.441e+00  -5.586e-01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                7.036e+00   2.225e+01
-	S                 3.518e+00   1.112e+01
+	Na                7.944e+00   2.512e+01
+	S                 3.972e+00   1.256e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.340      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 34°C)  = 51735
-                          Density (g/cm³)  =   1.32926
-                               Volume (L)  =   3.56746
-                        Activity of water  =   0.877
-                           Ionic strength  =   1.055e+01
+                                       pH  =   6.915      Charge balance
+                                       pe  =  -1.446      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 34°C)  = 43724
+                          Density (g/cm³)  =   1.35862
+                               Volume (L)  =   3.64029
+                        Viscosity (mPa s)  =   4.35844
+                        Activity of water  =   0.861
+                           Ionic strength  =   4.472e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  34.00
-                  Electrical balance (eq)  =  -1.345e-09
+                  Electrical balance (eq)  =  -1.215e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   1
-                         Gamma iterations  =   1
-                      Osmotic coefficient  =   0.69041
-                         Density of water  =   0.99437
+                               Iterations  =  20
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.200039e+02
+                                  Total O  = 2.257406e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             6.695e-07   3.743e-07    -6.174    -6.427    -0.252     10.94
-   H+              3.809e-08   4.571e-08    -7.419    -7.340     0.079      0.00
-   H2O             5.551e+01   8.770e-01     1.744    -0.057     0.000     18.12
-Na            7.036e+00
-   Na+             7.036e+00   3.668e+00     0.847     0.564    -0.283      2.16
-S(6)          3.518e+00
-   SO4-2           3.518e+00   3.372e-02     0.546    -1.472    -2.018     30.53
-   HSO4-           6.310e-07   1.893e-07    -6.200    -6.723    -0.523     42.91
+   OH-             2.873e-07   1.380e-07    -6.542    -6.860    -0.318      3.15
+   H+              1.721e-07   1.217e-07    -6.764    -6.915    -0.151      0.00
+   H2O             5.551e+01   8.607e-01     1.744    -0.065     0.000     18.12
+H(0)          5.359e-15
+   H2              2.680e-15   7.503e-15   -14.572   -14.125     0.447     28.60
+Na            7.944e+00
+   Na+             4.222e+00   5.096e+00     0.625     0.707     0.082      1.09
+   NaSO4-          3.722e+00   2.985e-01     0.571    -0.525    -1.096     36.29
+   NaOH            2.512e-17   7.034e-17   -16.600   -16.153     0.447     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -61.888   -61.441     0.447     31.04
+S(-2)         3.754e-20
+   HS-             3.286e-20   1.579e-20   -19.483   -19.802    -0.318     23.06
+   H2S             4.682e-21   1.311e-20   -20.330   -19.882     0.447     37.20
+   S-2             2.701e-25   2.851e-26   -24.568   -25.545    -0.977     (0)  
+S(6)          3.972e+00
+   NaSO4-          3.722e+00   2.985e-01     0.571    -0.525    -1.096     36.29
+   SO4-2           2.499e-01   1.747e-02    -0.602    -1.758    -1.155     23.96
+   HSO4-           1.148e-07   2.532e-07    -6.940    -6.597     0.343     42.42
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(307 K,   1 atm)
 
-  H2O(g)           -1.34     -0.06    1.28  H2O
-  Mirabilite       -0.03     -0.91   -0.88  Na2SO4:10H2O
+  H2(g)           -11.01    -14.12   -3.12  H2
+  H2O(g)           -1.34     -0.07    1.28  H2O
+  H2S(g)          -18.74    -26.72   -7.97  H2S
+  Mirabilite       -0.12     -0.99   -0.88  Na2SO4:10H2O
+  O2(g)           -58.49    -61.44   -2.95  O2
+  Sulfur          -13.62     -8.95    4.68  S
   Thenardite       -0.00     -0.34   -0.34  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1594,60 +1847,72 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -0.44     -0.44    2.000e+00   3.032e+00   1.032e+00
+Thenardite       -0.00    -0.44     -0.44    2.000e+00   3.561e+00   1.561e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.384e+00   2.018e+01
-	S                 3.192e+00   1.009e+01
+	Na                6.603e+00   2.088e+01
+	S                 3.301e+00   1.044e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.195      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 54°C)  = 61539
-                          Density (g/cm³)  =   1.29516
-                               Volume (L)  =   3.54817
-                        Activity of water  =   0.890
-                           Ionic strength  =   9.575e+00
+                                       pH  =   6.735      Charge balance
+                                       pe  =   9.798      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 54°C)  = 79712
+                          Density (g/cm³)  =   1.30209
+                               Volume (L)  =   3.56710
+                        Viscosity (mPa s)  =   2.07858
+                        Activity of water  =   0.882
+                           Ionic strength  =   3.961e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  54.11
-                  Electrical balance (eq)  =  -1.689e-09
+                  Electrical balance (eq)  =  -1.212e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   7
-                         Gamma iterations  =   3
-                      Osmotic coefficient  =   0.67237
-                         Density of water  =   0.98612
+                               Iterations  =   6
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.158750e+02
+                                  Total O  = 2.172617e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.815e-06   9.701e-07    -5.741    -6.013    -0.272     10.39
-   H+              7.719e-08   6.388e-08    -7.112    -7.195    -0.082      0.00
-   H2O             5.551e+01   8.905e-01     1.744    -0.050     0.000     18.27
-Na            6.384e+00
-   Na+             6.384e+00   3.120e+00     0.805     0.494    -0.311      2.06
-S(6)          3.192e+00
-   SO4-2           3.192e+00   3.698e-02     0.504    -1.432    -1.936     29.75
-   HSO4-           1.737e-06   5.248e-07    -5.760    -6.280    -0.520     43.71
+   OH-             7.009e-07   3.332e-07    -6.154    -6.477    -0.323      2.90
+   H+              2.626e-07   1.842e-07    -6.581    -6.735    -0.154      0.00
+   H2O             5.551e+01   8.821e-01     1.744    -0.054     0.000     18.27
+H(0)          3.764e-37
+   H2              1.882e-37   4.685e-37   -36.725   -36.329     0.396     28.59
+Na            6.603e+00
+   Na+             3.631e+00   3.939e+00     0.560     0.595     0.035      1.29
+   NaSO4-          2.972e+00   2.512e-01     0.473    -0.600    -1.073     33.95
+   NaOH            5.272e-17   1.312e-16   -16.278   -15.882     0.396     (0)  
+O(0)          4.303e-12
+   O2              2.151e-12   5.355e-12   -11.667   -11.271     0.396     32.12
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -110.358  -110.681    -0.323     23.57
+   H2S             0.000e+00   0.000e+00  -111.153  -110.757     0.396     37.24
+   S-2             0.000e+00   0.000e+00  -115.081  -116.075    -0.994     (0)  
+S(6)          3.301e+00
+   NaSO4-          2.972e+00   2.512e-01     0.473    -0.600    -1.073     33.95
+   SO4-2           3.296e-01   2.320e-02    -0.482    -1.634    -1.152     25.81
+   HSO4-           4.379e-07   8.378e-07    -6.359    -6.077     0.282     43.17
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(327 K,   1 atm)
 
+  H2(g)           -33.19    -36.33   -3.14  H2
   H2O(g)           -0.88     -0.05    0.83  H2O
-  Mirabilite       -0.69     -0.95   -0.26  Na2SO4:10H2O
-  Thenardite        0.00     -0.44   -0.44  Na2SO4
+  H2S(g)         -109.47   -117.42   -7.94  H2S
+  Mirabilite       -0.73     -0.99   -0.26  Na2SO4:10H2O
+  O2(g)            -8.23    -11.27   -3.05  O2
+  Sulfur          -81.96    -77.69    4.26  S
+  Thenardite       -0.00     -0.44   -0.44  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1663,60 +1928,72 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -0.56     -0.56    2.000e+00   3.568e+00   1.568e+00
+Thenardite       -0.00    -0.56     -0.56    2.000e+00   4.542e+00   2.542e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.045e+00   1.911e+01
-	S                 3.022e+00   9.556e+00
+	Na                5.982e+00   1.892e+01
+	S                 2.991e+00   9.458e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.095      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 74°C)  = 68015
-                          Density (g/cm³)  =   1.27117
-                               Volume (L)  =   3.55526
-                        Activity of water  =   0.898
-                           Ionic strength  =   9.067e+00
+                                       pH  =   6.599      Charge balance
+                                       pe  =   9.399      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 74°C)  = 120914
+                          Density (g/cm³)  =   1.26826
+                               Volume (L)  =   3.55241
+                        Viscosity (mPa s)  =   1.26985
+                        Activity of water  =   0.892
+                           Ionic strength  =   3.705e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  74.22
-                  Electrical balance (eq)  =  -1.451e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   8
-                         Gamma iterations  =   3
-                      Osmotic coefficient  =   0.65775
-                         Density of water  =   0.97530
+                               Iterations  =  11
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.137314e+02
+                                  Total O  = 2.133379e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             4.211e-06   2.211e-06    -5.376    -5.655    -0.280     10.01
-   H+              1.236e-07   8.037e-08    -6.908    -7.095    -0.187      0.00
-   H2O             5.551e+01   8.981e-01     1.744    -0.047     0.000     18.47
-Na            6.045e+00
-   Na+             6.045e+00   2.762e+00     0.781     0.441    -0.340      2.01
-S(6)          3.022e+00
-   SO4-2           3.022e+00   3.647e-02     0.480    -1.438    -1.918     28.75
-   HSO4-           4.087e-06   1.213e-06    -5.389    -5.916    -0.527     44.29
+   OH-             1.504e-06   7.008e-07    -5.823    -6.154    -0.332      2.51
+   H+              3.630e-07   2.520e-07    -6.440    -6.599    -0.159      0.00
+   H2O             5.551e+01   8.922e-01     1.744    -0.050     0.000     18.47
+H(0)          4.000e-36
+   H2              2.000e-36   4.693e-36   -35.699   -35.329     0.370     28.58
+Na            5.982e+00
+   Na+             3.348e+00   3.398e+00     0.525     0.531     0.006      1.45
+   NaSO4-          2.634e+00   2.168e-01     0.421    -0.664    -1.085     31.78
+   NaOH            1.015e-16   2.381e-16   -15.994   -15.623     0.370     (0)  
+O(0)          5.532e-09
+   O2              2.766e-09   6.491e-09    -8.558    -8.188     0.370     32.96
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -108.267  -108.598    -0.332     23.72
+   H2S             0.000e+00   0.000e+00  -109.010  -108.639     0.370     37.28
+   S-2             0.000e+00   0.000e+00  -112.639  -113.661    -1.022     (0)  
+S(6)          2.991e+00
+   NaSO4-          2.634e+00   2.168e-01     0.421    -0.664    -1.085     31.78
+   SO4-2           3.567e-01   2.410e-02    -0.448    -1.618    -1.170     26.89
+   HSO4-           1.140e-06   2.053e-06    -5.943    -5.688     0.255     43.57
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(347 K,   1 atm)
 
-  H2O(g)           -0.48     -0.05    0.44  H2O
-  Mirabilite       -1.15     -1.02    0.13  Na2SO4:10H2O
-  Thenardite        0.00     -0.56   -0.56  Na2SO4
+  H2(g)           -32.20    -35.33   -3.13  H2
+  H2O(g)           -0.49     -0.05    0.44  H2O
+  H2S(g)         -107.27   -115.20   -7.93  H2S
+  Mirabilite       -1.18     -1.05    0.13  Na2SO4:10H2O
+  O2(g)            -5.09     -8.19   -3.10  O2
+  Sulfur          -80.54    -76.64    3.90  S
+  Thenardite       -0.00     -0.56   -0.56  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1732,59 +2009,71 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -0.68     -0.68    2.000e+00   3.746e+00   1.746e+00
+Thenardite        0.00    -0.68     -0.68    2.000e+00   4.938e+00   2.938e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                5.932e+00   1.876e+01
-	S                 2.966e+00   9.378e+00
+	Na                5.732e+00   1.812e+01
+	S                 2.866e+00   9.062e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.029      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 94°C)  = 68819
-                          Density (g/cm³)  =   1.25351
-                               Volume (L)  =   3.58514
-                        Activity of water  =   0.903
-                           Ionic strength  =   8.898e+00
+                                       pH  =   6.493      Charge balance
+                                       pe  =   8.302      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 94°C)  = 153835
+                          Density (g/cm³)  =   1.24734
+                               Volume (L)  =   3.56685
+                        Viscosity (mPa s)  =   0.89244
+                        Activity of water  =   0.897
+                           Ionic strength  =   3.552e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  94.33
-                  Electrical balance (eq)  =  -1.349e-09
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  10
-                         Gamma iterations  =   4
-                      Osmotic coefficient  =   0.63619
-                         Density of water  =   0.96235
+                               Iterations  =  22
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.130186e+02
+                                  Total O  = 2.117528e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             8.762e-06   4.510e-06    -5.057    -5.346    -0.288      9.78
-   H+              1.706e-07   9.353e-08    -6.768    -7.029    -0.261      0.00
-   H2O             5.551e+01   9.030e-01     1.744    -0.044     0.000     18.72
-Na            5.932e+00
-   Na+             5.932e+00   2.504e+00     0.773     0.399    -0.375      2.01
-S(6)          2.966e+00
-   SO4-2           2.966e+00   3.295e-02     0.472    -1.482    -1.954     27.92
-   HSO4-           8.591e-06   2.436e-06    -5.066    -5.613    -0.547     44.79
+   OH-             2.870e-06   1.303e-06    -5.542    -5.885    -0.343      1.88
+   H+              4.693e-07   3.215e-07    -6.329    -6.493    -0.164      0.00
+   H2O             5.551e+01   8.967e-01     1.744    -0.047     0.000     18.72
+H(0)          9.171e-34
+   H2              4.586e-34   1.039e-33   -33.339   -32.983     0.355     28.57
+Na            5.732e+00
+   Na+             3.209e+00   3.090e+00     0.506     0.490    -0.016      1.60
+   NaSO4-          2.523e+00   1.937e-01     0.402    -0.713    -1.115     29.48
+   NaOH            1.777e-16   4.025e-16   -15.750   -15.395     0.355     (0)  
+O(0)          3.907e-09
+   O2              1.954e-09   4.427e-09    -8.709    -8.354     0.355     33.70
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00  -100.653  -100.996    -0.343     23.61
+   H2S             0.000e+00   0.000e+00  -101.323  -100.968     0.355     37.30
+   S-2             0.000e+00   0.000e+00  -104.689  -105.748    -1.058     (0)  
+S(6)          2.866e+00
+   NaSO4-          2.523e+00   1.937e-01     0.402    -0.713    -1.115     29.48
+   SO4-2           3.431e-01   2.164e-02    -0.465    -1.665    -1.200     27.48
+   HSO4-           2.401e-06   4.209e-06    -5.620    -5.376     0.244     43.74
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(367 K,   1 atm)
 
-  H2O(g)           -0.14     -0.04    0.09  H2O
-  Mirabilite       -1.44     -1.13    0.32  Na2SO4:10H2O
+  H2(g)           -29.87    -32.98   -3.11  H2
+  H2O(g)           -0.14     -0.05    0.09  H2O
+  H2S(g)          -99.55   -107.49   -7.94  H2S
+  Mirabilite       -1.47     -1.16    0.32  Na2SO4:10H2O
+  O2(g)            -5.24     -8.35   -3.11  O2
+  Sulfur          -74.95    -71.38    3.57  S
   Thenardite        0.00     -0.68   -0.68  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1801,60 +2090,72 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -0.84     -0.84    2.000e+00   3.704e+00   1.704e+00
+Thenardite        0.00    -0.84     -0.84    2.000e+00   4.997e+00   2.997e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                5.959e+00   1.884e+01
-	S                 2.979e+00   9.420e+00
+	Na                5.695e+00   1.801e+01
+	S                 2.847e+00   9.003e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.991      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 114°C)  = 63477
-                          Density (g/cm³)  =   1.23795
-                               Volume (L)  =   3.63506
-                        Activity of water  =   0.907
-                           Ionic strength  =   8.938e+00
+                                       pH  =   6.409      Charge balance
+                                       pe  =   7.392      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 114°C)  = 180152
+                          Density (g/cm³)  =   1.23414
+                               Volume (L)  =   3.59831
+                        Viscosity (mPa s)  =   0.68437
+                        Activity of water  =   0.898
+                           Ionic strength  =   3.452e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 114.44
-                           Pressure (atm)  =  1.49
-                  Electrical balance (eq)  =  -1.459e-09
+                           Pressure (atm)  =  1.47
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  11
-                         Gamma iterations  =   4
-                      Osmotic coefficient  =   0.60673
-                         Density of water  =   0.94752
+                               Iterations  =  31
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.131875e+02
+                                  Total O  = 2.115199e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.678e-05   8.368e-06    -4.775    -5.077    -0.302      9.63
-   H+              2.147e-07   1.021e-07    -6.668    -6.991    -0.323      0.00
-   H2O             5.551e+01   9.069e-01     1.744    -0.042     0.000     19.01
-Na            5.959e+00
-   Na+             5.959e+00   2.287e+00     0.775     0.359    -0.416      2.04
-S(6)          2.979e+00
-   SO4-2           2.979e+00   2.789e-02     0.474    -1.554    -2.029     27.55
-   HSO4-           1.657e-05   4.391e-06    -4.781    -5.357    -0.577     45.30
+   OH-             4.931e-06   2.168e-06    -5.307    -5.664    -0.357      0.96
+   H+              5.785e-07   3.903e-07    -6.238    -6.409    -0.171      0.00
+   H2O             5.551e+01   8.980e-01     1.744    -0.047     0.000     19.01
+H(0)          8.053e-32
+   H2              4.027e-32   8.916e-32   -31.395   -31.050     0.345     28.57
+Na            5.695e+00
+   Na+             3.150e+00   2.892e+00     0.498     0.461    -0.037      1.76
+   NaSO4-          2.545e+00   1.768e-01     0.406    -0.752    -1.158     26.98
+   NaOH            2.831e-16   6.268e-16   -15.548   -15.203     0.345     (0)  
+O(0)          6.114e-09
+   O2              3.057e-09   6.769e-09    -8.515    -8.169     0.345     34.43
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00   -94.555   -94.912    -0.357     23.27
+   H2S             0.000e+00   0.000e+00   -95.128   -94.783     0.345     37.32
+   S-2             0.000e+00   0.000e+00   -98.273   -99.374    -1.101     (0)  
+S(6)          2.847e+00
+   NaSO4-          2.545e+00   1.768e-01     0.406    -0.752    -1.158     26.98
+   SO4-2           3.023e-01   1.744e-02    -0.520    -1.759    -1.239     27.79
+   HSO4-           4.352e-06   7.568e-06    -5.361    -5.121     0.240     43.73
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(387 K,   1 atm)
 
-  H2O(g)            0.17     -0.04   -0.21  H2O
-  Mirabilite       -1.58     -1.26    0.32  Na2SO4:10H2O
+  H2(g)           -27.98    -31.05   -3.07  H2
+  H2O(g)            0.16     -0.05   -0.21  H2O
+  H2S(g)          -93.35   -101.32   -7.97  H2S
+  Mirabilite       -1.62     -1.30    0.32  Na2SO4:10H2O
+  O2(g)            -5.06     -8.17   -3.11  O2
+  Sulfur          -70.46    -67.18    3.27  S
   Thenardite        0.00     -0.84   -0.84  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1871,60 +2172,72 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -1.01     -1.01    2.000e+00   3.569e+00   1.569e+00
+Thenardite        0.00    -1.01     -1.01    2.000e+00   4.839e+00   2.839e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.044e+00   1.911e+01
-	S                 3.022e+00   9.556e+00
+	Na                5.795e+00   1.832e+01
+	S                 2.897e+00   9.161e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.978      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 134°C)  = 53471
-                          Density (g/cm³)  =   1.22001
-                               Volume (L)  =   3.70429
-                        Activity of water  =   0.911
-                           Ionic strength  =   9.066e+00
+                                       pH  =   6.338      Charge balance
+                                       pe  =   6.530      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 134°C)  = 202344
+                          Density (g/cm³)  =   1.22600
+                               Volume (L)  =   3.64045
+                        Viscosity (mPa s)  =   0.55774
+                        Activity of water  =   0.897
+                           Ionic strength  =   3.390e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 134.56
-                           Pressure (atm)  =  2.78
-                  Electrical balance (eq)  =  -5.140e-09
+                           Pressure (atm)  =  2.74
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  14
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.57081
-                         Density of water  =   0.93093
+                               Iterations  =  40
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.137294e+02
+                                  Total O  = 2.121503e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             3.010e-05   1.435e-05    -4.521    -4.843    -0.322      9.44
-   H+              2.556e-07   1.053e-07    -6.593    -6.978    -0.385      0.00
-   H2O             5.551e+01   9.110e-01     1.744    -0.040     0.000     19.35
-Na            6.044e+00
-   Na+             6.044e+00   2.070e+00     0.781     0.316    -0.465      2.13
-S(6)          3.022e+00
-   SO4-2           3.022e+00   2.263e-02     0.480    -1.645    -2.126     27.95
-   HSO4-           2.984e-05   7.291e-06    -4.525    -5.137    -0.612     45.90
+   OH-             7.660e-06   3.245e-06    -5.116    -5.489    -0.373     -0.31
+   H+              6.925e-07   4.590e-07    -6.160    -6.338    -0.179      0.00
+   H2O             5.551e+01   8.973e-01     1.744    -0.047     0.000     19.35
+H(0)          5.361e-30
+   H2              2.681e-30   5.851e-30   -29.572   -29.233     0.339     28.56
+Na            5.795e+00
+   Na+             3.144e+00   2.759e+00     0.497     0.441    -0.057      1.95
+   NaSO4-          2.651e+00   1.620e-01     0.423    -0.790    -1.214     24.20
+   NaOH            4.097e-16   8.943e-16   -15.387   -15.048     0.339     (0)  
+O(0)          6.424e-09
+   O2              3.212e-09   7.011e-09    -8.493    -8.154     0.339     35.22
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00   -88.811   -89.184    -0.373     22.70
+   H2S             0.000e+00   0.000e+00   -89.261   -88.922     0.339     37.33
+   S-2             0.000e+00   0.000e+00   -92.229   -93.379    -1.151     (0)  
+S(6)          2.897e+00
+   NaSO4-          2.651e+00   1.620e-01     0.423    -0.790    -1.214     24.20
+   SO4-2           2.463e-01   1.274e-02    -0.608    -1.895    -1.286     27.92
+   HSO4-           6.967e-06   1.220e-05    -5.157    -4.914     0.243     43.56
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(407 K,   3 atm)
 
-  H2O(g)            0.43     -0.04   -0.48  H2O
-  Mirabilite       -1.57     -1.42    0.15  Na2SO4:10H2O
+  H2(g)           -26.21    -29.23   -3.02  H2
+  H2O(g)            0.43     -0.05   -0.48  H2O
+  H2S(g)          -87.51    -95.52   -8.01  H2S
+  Mirabilite       -1.63     -1.48    0.15  Na2SO4:10H2O
+  O2(g)            -5.08     -8.15   -3.08  O2
+  Sulfur          -66.20    -63.19    3.01  S
   Thenardite        0.00     -1.01   -1.01  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1941,61 +2254,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -1.22     -1.22    2.000e+00   3.429e+00   1.429e+00
+Thenardite       -0.00    -1.22     -1.22    2.000e+00   4.531e+00   2.531e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.133e+00   1.939e+01
-	S                 3.066e+00   9.696e+00
+	Na                5.989e+00   1.894e+01
+	S                 2.995e+00   9.469e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   6.986      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 154°C)  = 41415
-                          Density (g/cm³)  =   1.19589
-                               Volume (L)  =   3.79562
-                        Activity of water  =   0.916
-                           Ionic strength  =   9.199e+00
+                                       pH  =   6.274      Charge balance
+                                       pe  =   5.692      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 154°C)  = 220390
+                          Density (g/cm³)  =   1.22136
+                               Volume (L)  =   3.69008
+                        Viscosity (mPa s)  =   0.47585
+                        Activity of water  =   0.895
+                           Ionic strength  =   3.366e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 154.67
-                           Pressure (atm)  =  4.87
-                  Electrical balance (eq)  =  -1.362e-09
+                           Pressure (atm)  =  4.76
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  15
-                         Gamma iterations  =   5
-                      Osmotic coefficient  =   0.53030
-                         Density of water  =   0.91260
+                               Iterations  =  48
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.142888e+02
+                                  Total O  = 2.133822e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             5.098e-05   2.300e-05    -4.293    -4.638    -0.346      9.10
-   H+              2.952e-07   1.032e-07    -6.530    -6.986    -0.457      0.00
-   H2O             5.551e+01   9.159e-01     1.744    -0.038     0.000     19.74
-Na            6.133e+00
-   Na+             6.133e+00   1.840e+00     0.788     0.265    -0.523      2.29
-S(6)          3.066e+00
-   SO4-2           3.066e+00   1.781e-02     0.487    -1.749    -2.236     29.55
-   HSO4-           5.068e-05   1.133e-05    -4.295    -4.946    -0.651     46.70
+   OH-             1.076e-05   4.362e-06    -4.968    -5.360    -0.392     -2.03
+   H+              8.192e-07   5.321e-07    -6.087    -6.274    -0.187      0.00
+   H2O             5.551e+01   8.950e-01     1.744    -0.048     0.000     19.74
+H(0)          3.088e-28
+   H2              1.544e-28   3.351e-28   -27.811   -27.475     0.337     28.56
+Na            5.989e+00
+   Na+             3.180e+00   2.673e+00     0.502     0.427    -0.075      2.20
+   NaSO4-          2.809e+00   1.461e-01     0.449    -0.835    -1.284     21.03
+   NaOH            5.360e-16   1.163e-15   -15.271   -14.934     0.337     (0)  
+O(0)          3.967e-09
+   O2              1.983e-09   4.306e-09    -8.703    -8.366     0.337     36.15
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00   -83.208   -83.600    -0.392     21.87
+   H2S             0.000e+00   0.000e+00   -83.509   -83.172     0.337     37.34
+   S-2             0.000e+00   0.000e+00   -86.344   -87.552    -1.208     (0)  
+S(6)          2.995e+00
+   NaSO4-          2.809e+00   1.461e-01     0.449    -0.835    -1.284     21.03
+   SO4-2           1.858e-01   8.437e-03    -0.731    -2.074    -1.343     27.99
+   HSO4-           9.937e-06   1.782e-05    -5.003    -4.749     0.254     43.24
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(427 K,   5 atm)
 
-  H2O(g)            0.67     -0.04   -0.71  H2O
-  Mirabilite       -1.44     -1.60   -0.16  Na2SO4:10H2O
-  Thenardite        0.00     -1.22   -1.22  Na2SO4
+  H2(g)           -24.51    -27.47   -2.97  H2
+  H2O(g)            0.66     -0.05   -0.71  H2O
+  H2S(g)          -81.80    -89.87   -8.08  H2S
+  Mirabilite       -1.54     -1.70   -0.16  Na2SO4:10H2O
+  O2(g)            -5.34     -8.37   -3.03  O2
+  Sulfur          -62.01    -59.24    2.77  S
+  Thenardite       -0.00     -1.22   -1.22  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2011,60 +2336,72 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -1.46     -1.46    2.000e+00   3.375e+00   1.375e+00
+Thenardite        0.00    -1.46     -1.46    2.000e+00   4.102e+00   2.102e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.167e+00   1.950e+01
-	S                 3.083e+00   9.750e+00
+	Na                6.261e+00   1.980e+01
+	S                 3.130e+00   9.898e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.016      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 174°C)  = 30042
-                          Density (g/cm³)  =   1.16238
-                               Volume (L)  =   3.91162
-                        Activity of water  =   0.922
-                           Ionic strength  =   9.250e+00
+                                       pH  =   6.208      Charge balance
+                                       pe  =   5.039      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 174°C)  = 234551
+                          Density (g/cm³)  =   1.21959
+                               Volume (L)  =   3.74546
+                        Viscosity (mPa s)  =   0.42179
+                        Activity of water  =   0.891
+                           Ionic strength  =   3.389e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 174.78
-                           Pressure (atm)  =  8.09
-                  Electrical balance (eq)  =  -1.341e-09
+                           Pressure (atm)  =  7.82
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  22
-                         Gamma iterations  =   7
-                      Osmotic coefficient  =   0.48766
-                         Density of water  =   0.89252
+                               Iterations  =  56
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.145046e+02
+                                  Total O  = 2.150997e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             8.178e-05   3.474e-05    -4.087    -4.459    -0.372      8.39
-   H+              3.375e-07   9.633e-08    -6.472    -7.016    -0.544      0.00
-   H2O             5.551e+01   9.219e-01     1.744    -0.035     0.000     20.19
-Na            6.167e+00
-   Na+             6.167e+00   1.592e+00     0.790     0.202    -0.588      2.57
-S(6)          3.083e+00
-   SO4-2           3.083e+00   1.372e-02     0.489    -1.863    -2.352     32.71
-   HSO4-           8.145e-05   1.663e-05    -4.089    -4.779    -0.690     47.73
+   OH-             1.360e-05   5.241e-06    -4.867    -5.281    -0.414     -4.31
+   H+              9.750e-07   6.189e-07    -6.011    -6.208    -0.197      0.00
+   H2O             5.551e+01   8.914e-01     1.744    -0.050     0.000     20.19
+H(0)          7.655e-27
+   H2              3.827e-27   8.352e-27   -26.417   -26.078     0.339     28.55
+Na            6.261e+00
+   Na+             3.260e+00   2.630e+00     0.513     0.420    -0.093      2.54
+   NaSO4-          3.001e+00   1.273e-01     0.477    -0.895    -1.373     17.39
+   NaOH            6.288e-16   1.372e-15   -15.201   -14.863     0.339     (0)  
+O(0)          6.432e-09
+   O2              3.216e-09   7.018e-09    -8.493    -8.154     0.339     37.30
+S(-2)         0.000e+00
+   HS-             0.000e+00   0.000e+00   -78.968   -79.382    -0.414     20.73
+   H2S             0.000e+00   0.000e+00   -79.093   -78.754     0.339     37.34
+   S-2             0.000e+00   0.000e+00   -81.846   -83.120    -1.275     (0)  
+S(6)          3.130e+00
+   NaSO4-          3.001e+00   1.273e-01     0.477    -0.895    -1.373     17.39
+   SO4-2           1.293e-01   5.027e-03    -0.888    -2.299    -1.410     28.20
+   HSO4-           1.262e-05   2.377e-05    -4.899    -4.624     0.275     42.78
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(447 K,   8 atm)
 
-  H2O(g)            0.89     -0.04   -0.92  H2O
-  Mirabilite       -1.20     -1.81   -0.62  Na2SO4:10H2O
+  H2(g)           -23.18    -26.08   -2.90  H2
+  H2O(g)            0.87     -0.05   -0.92  H2O
+  H2S(g)          -77.43    -85.59   -8.16  H2S
+  Mirabilite       -1.34     -1.96   -0.61  Na2SO4:10H2O
+  O2(g)            -5.19     -8.15   -2.97  O2
+  Sulfur          -58.81    -56.26    2.55  S
   Thenardite        0.00     -1.46   -1.46  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -2081,60 +2418,72 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -1.73     -1.73    2.000e+00   3.496e+00   1.496e+00
+Thenardite        0.00    -1.73     -1.73    2.000e+00   3.543e+00   1.543e+00
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                6.090e+00   1.926e+01
-	S                 3.045e+00   9.629e+00
+	Na                6.614e+00   2.091e+01
+	S                 3.307e+00   1.046e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.066      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 194°C)  = 21184
-                          Density (g/cm³)  =   1.11745
-                               Volume (L)  =   4.05351
-                        Activity of water  =   0.929
-                           Ionic strength  =   9.135e+00
+                                       pH  =   6.133      Charge balance
+                                       pe  =   4.346      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 194°C)  = 241913
+                          Density (g/cm³)  =   1.22128
+                               Volume (L)  =   3.80522
+                        Viscosity (mPa s)  =   0.39256
+                        Activity of water  =   0.886
+                           Ionic strength  =   3.472e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 194.89
-                           Pressure (atm)  = 12.82
-                  Electrical balance (eq)  =  -1.357e-09
+                           Pressure (atm)  = 12.23
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  23
-                         Gamma iterations  =   7
-                      Osmotic coefficient  =   0.44599
-                         Density of water  =   0.87057
+                               Iterations  =  63
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.140206e+02
+                                  Total O  = 2.173332e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.240e-04   4.983e-05    -3.907    -4.302    -0.396      6.97
-   H+              3.870e-07   8.589e-08    -6.412    -7.066    -0.654      0.00
-   H2O             5.551e+01   9.292e-01     1.744    -0.032     0.000     20.69
-Na            6.090e+00
-   Na+             6.090e+00   1.336e+00     0.785     0.126    -0.659      3.03
-S(6)          3.045e+00
-   SO4-2           3.045e+00   1.034e-02     0.484    -1.985    -2.469     37.72
-   HSO4-           1.236e-04   2.310e-05    -3.908    -4.636    -0.728     49.00
+   OH-             1.535e-05   5.573e-06    -4.814    -5.254    -0.440     -7.36
+   H+              1.190e-06   7.354e-07    -5.925    -6.133    -0.209      0.00
+   H2O             5.551e+01   8.862e-01     1.744    -0.052     0.000     20.69
+H(0)          2.356e-25
+   H2              1.178e-25   2.621e-25   -24.929   -24.582     0.347     28.55
+Na            6.614e+00
+   Na+             3.390e+00   2.635e+00     0.530     0.421    -0.109      3.04
+   NaSO4-          3.224e+00   1.053e-01     0.508    -0.977    -1.486     13.06
+   NaOH            6.548e-16   1.456e-15   -15.184   -14.837     0.347     (0)  
+O(0)          3.557e-09
+   O2              1.778e-09   3.956e-09    -8.750    -8.403     0.347     38.81
+S(-2)         0.000e+00
+   H2S             0.000e+00   0.000e+00   -74.177   -73.830     0.347     37.34
+   HS-             0.000e+00   0.000e+00   -74.258   -74.698    -0.440     19.21
+   S-2             0.000e+00   0.000e+00   -76.901   -78.254    -1.352     (0)  
+S(6)          3.307e+00
+   NaSO4-          3.224e+00   1.053e-01     0.508    -0.977    -1.486     13.06
+   SO4-2           8.259e-02   2.665e-03    -1.083    -2.574    -1.491     28.86
+   HSO4-           1.416e-05   2.903e-05    -4.849    -4.537     0.312     42.19
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(468 K,  13 atm)
+  Phase               SI** log IAP   log K(468 K,  12 atm)
 
-  H2O(g)            1.08     -0.03   -1.11  H2O
-  Mirabilite       -0.86     -2.05   -1.19  Na2SO4:10H2O
+  H2(g)           -21.75    -24.58   -2.83  H2
+  H2O(g)            1.06     -0.05   -1.11  H2O
+  H2S(g)          -72.58    -80.83   -8.25  H2S
+  Mirabilite       -1.07     -2.26   -1.19  Na2SO4:10H2O
+  O2(g)            -5.51     -8.40   -2.89  O2
+  Sulfur          -55.22    -52.87    2.35  S
   Thenardite        0.00     -1.73   -1.73  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -2151,61 +2500,73 @@ Using temperature 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Thenardite        0.00    -2.05     -2.05    2.000e+00   3.820e+00   1.820e+00
+Thenardite        0.00    -2.04     -2.04    2.000e+00   2.775e+00   7.753e-01
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Na                5.885e+00   1.861e+01
-	S                 2.943e+00   9.304e+00
+	Na                7.100e+00   2.245e+01
+	S                 3.550e+00   1.122e+01
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.132      Charge balance
-                                       pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 215°C)  = 15154
-                          Density (g/cm³)  =   1.06177
-                               Volume (L)  =   4.22270
-                        Activity of water  =   0.937
-                           Ionic strength  =   8.828e+00
+                                       pH  =   6.038      Charge balance
+                                       pe  =   3.865      Adjusted to redox equilibrium
+       Specific Conductance (µS/cm, 215°C)  = 239253
+                          Density (g/cm³)  =   1.22945
+                               Volume (L)  =   3.86865
+                        Viscosity (mPa s)  =   0.39132 (solute contributions limited to 200 °C)
+                        Activity of water  =   0.878
+                           Ionic strength  =   3.645e+00
                        Mass of water (kg)  =   3.162e+00
                  Total alkalinity (eq/kg)  =   3.847e-10
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 215.00
-                           Pressure (atm)  = 19.52
-                  Electrical balance (eq)  =  -1.476e-09
+                           Pressure (atm)  = 18.29
+                  Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  23
-                         Gamma iterations  =   6
-                      Osmotic coefficient  =   0.40726
-                         Density of water  =   0.84657
+                               Iterations  =  75
                                   Total H  = 3.510124e+02
-                                  Total O  = 2.127238e+02
+                                  Total O  = 2.204049e+02
 
 ----------------------------Distribution of species----------------------------
 
-                                                    MacInnes  MacInnes
-                                MacInnes       Log       Log       Log    mole V
+                                               Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.770e-04   6.774e-05    -3.752    -4.169    -0.417      4.38
-   H+              4.473e-07   7.372e-08    -6.349    -7.132    -0.783      0.00
-   H2O             5.551e+01   9.373e-01     1.744    -0.028     0.000     21.28
-Na            5.885e+00
-   Na+             5.885e+00   1.091e+00     0.770     0.038    -0.732      3.75
-S(6)          2.943e+00
-   SO4-2           2.942e+00   7.531e-03     0.469    -2.123    -2.592     44.91
-   HSO4-           1.766e-04   3.017e-05    -3.753    -4.520    -0.767     50.44
+   OH-             1.522e-05   5.143e-06    -4.818    -5.289    -0.471    -11.43
+   H+              1.528e-06   9.159e-07    -5.816    -6.038    -0.222      0.00
+   H2O             5.551e+01   8.785e-01     1.744    -0.056     0.000     21.28
+H(0)          2.969e-24
+   H2              1.485e-24   3.437e-24   -23.828   -23.464     0.365     28.55
+Na            7.100e+00
+   Na+             3.598e+00   2.713e+00     0.556     0.433    -0.123      3.76
+   NaSO4-          3.502e+00   8.105e-02     0.544    -1.091    -1.636      7.79
+   NaOH            5.943e-16   1.376e-15   -15.226   -14.861     0.365     (0)  
+O(0)          6.495e-09
+   O2              3.247e-09   7.517e-09    -8.488    -8.124     0.365     40.88
+S(-2)         0.000e+00
+   H2S             0.000e+00   0.000e+00   -70.684   -70.320     0.365     37.33
+   HS-             0.000e+00   0.000e+00   -71.001   -71.472    -0.471     17.27
+   S-2             0.000e+00   0.000e+00   -73.442   -74.887    -1.444     (0)  
+S(6)          3.550e+00
+   NaSO4-          3.502e+00   8.105e-02     0.544    -1.091    -1.636      7.79
+   SO4-2           4.772e-02   1.226e-03    -1.321    -2.911    -1.590     30.75
+   HSO4-           1.369e-05   3.244e-05    -4.864    -4.489     0.375     41.53
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(488 K,  20 atm)
+  Phase               SI** log IAP   log K(488 K,  18 atm)
 
-  H2O(g)            1.25     -0.03   -1.28  H2O
-  Mirabilite       -0.45     -2.33   -1.88  Na2SO4:10H2O
-  Thenardite        0.00     -2.05   -2.05  Na2SO4
+  H2(g)           -20.71    -23.46   -2.76  H2
+  H2O(g)            1.22     -0.06   -1.28  H2O
+  H2S(g)          -69.14    -77.51   -8.37  H2S
+  Mirabilite       -0.73     -2.61   -1.88  Na2SO4:10H2O
+  O2(g)            -5.31     -8.12   -2.81  O2
+  Sulfur          -52.68    -50.51    2.16  S
+  Thenardite        0.00     -2.04   -2.04  Na2SO4
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2218,7 +2579,7 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-------------------------------
-End of Run after 0.09 Seconds.
-------------------------------
+-------------------------------
+End of Run after 0.608 Seconds.
+-------------------------------
 

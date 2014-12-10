@@ -2225,6 +2225,21 @@ print_totals(void)
 			   (double) calc_solution_volume()));
 	}
 /* VP: Density End */
+	if (print_viscosity)
+	{
+		output_msg(sformatf("%45s%9.5f", "Viscosity (mPa s)  = ",
+			   (double) viscos));
+		if (tc_x > 200 && !pure_water) 
+		{
+			output_msg(sformatf("%18s\n", 
+#ifdef NO_UTF8_ENCODING
+				   " (solute contributions limited to 200 oC)"));
+#else
+				   " (solute contributions limited to 200 °C)"));
+#endif
+		}
+		else output_msg(sformatf("\n"));
+	}
 	output_msg(sformatf("%45s%7.3f\n", "Activity of water  = ",
 			   exp(s_h2o->la * LOG_10)));
 	output_msg(sformatf("%45s%11.3e\n", "Ionic strength  = ",

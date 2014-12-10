@@ -782,6 +782,7 @@ void Phreeqc::init(void)
 	user_database			= NULL;
 	//have_punch_name			= FALSE;
 	print_density		    = 0;
+	print_viscosity		    = 0;
 	zeros                   = NULL;	
 	zeros_max			    = 1;
 	cell_pore_volume	    = 0;
@@ -974,7 +975,7 @@ void Phreeqc::init(void)
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
-		default_data_base       = string_duplicate("phreeqc.dat");
+	default_data_base       = string_duplicate("phreeqc.dat");
 #ifdef PHREEQ98
 	int outputlinenr;
 	char *LogFileNameC;

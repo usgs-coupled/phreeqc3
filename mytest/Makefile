@@ -344,8 +344,14 @@ all: alkalinity.out \
 	KinSorbNp.out \
 	lkspecies.out \
 	Nardi.out \
-	jm_trans.out
-
+	jm_trans.out \
+	Fabuss.out \
+	Fabuss_seaw.out \
+	Goldsack.out \ 
+	Ruby.out \ 
+	TOC_sea.out \
+	Yang_mix.out \ 
+	Zhang_mix 
 # NaX.out
 
 clean:

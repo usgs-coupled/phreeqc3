@@ -666,6 +666,9 @@ struct species
 	LDBLE gfw;					/* gram formula wt of species */
 	LDBLE z;					/* charge of species */
 	LDBLE dw;					/* tracer diffusion coefficient in water at 25oC, m2/s */
+	LDBLE dw_t;					/* correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15) */
+	LDBLE dw_a;					/* ion size parm for calc'ng SC = SC0 - (B1 * SC0 + B2) * kk * dw_a / (1 + kk * dw_a) */
+	LDBLE dw_a_exp;				/* power term for ionic strength correction of dw_a */
 	LDBLE erm_ddl;				/* enrichment factor in DDL */
 	LDBLE equiv;				/* equivalents in exchange species */
 	LDBLE alk;					/* alkalinity of species, used for cec in exchange */
@@ -676,6 +679,7 @@ struct species
 	LDBLE dha, dhb, a_f;		/* WATEQ Debye Huckel a and b-dot; active_fraction coef for exchange species */
 	LDBLE lk;					/* log10 k at working temperature */
 	LDBLE logk[MAX_LOG_K_INDICES];				/* log kt0, delh, 6 coefficients analytical expression + volume terms */
+	LDBLE Jones_Dole[9];		/* 7 coefficients analytical expression for B, D and anion terms in Jones_Dole viscosity eqn, 8 and 9 only used for optimizing */
 /* VP: Density Start */
 	LDBLE millero[7];		    /* regression coefficients to calculate temperature dependent phi_0 and b_v of Millero density model */
 	/* VP: Density End */
