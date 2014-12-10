@@ -322,6 +322,7 @@ public:
 		tokeq_frac,
 		tokequiv_frac,
 		tokcallback,
+		tokdiff_c,
 		tokviscos,
 		tokviscos_0
 	};

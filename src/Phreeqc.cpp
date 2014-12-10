@@ -345,6 +345,7 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
+	run_cells_one_step = false;
 	// auto Rxn_reaction_map;
 	/*----------------------------------------------------------------------
 	*   Gas phase
@@ -795,6 +796,8 @@ void Phreeqc::init(void)
 	sys_tot                 = 0;
 
 	V_solutes               = 0.0;
+	viscos                  = 0.0;
+	viscos_0	            = 0.0;
 	rho_0                   = 0;
 	kappa_0                 = 0.0;
 	p_sat                   = 0.0;
@@ -1233,6 +1236,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Irreversible reaction
 	*---------------------------------------------------------------------- */
 	Rxn_reaction_map = pSrc->Rxn_reaction_map;
+	run_cells_one_step = pSrc->run_cells_one_step;
 	/*----------------------------------------------------------------------
 	*   Gas phase
 	*---------------------------------------------------------------------- */

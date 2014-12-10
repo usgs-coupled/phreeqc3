@@ -345,6 +345,8 @@ all: alkalinity.out \
 	lkspecies.out \
 	Nardi.out \
 	jm_trans.out \
+	andsurfcomlex4.out \
+	diff_c.out \
 	Fabuss.out \
 	Fabuss_seaw.out \
 	Goldsack.out \ 

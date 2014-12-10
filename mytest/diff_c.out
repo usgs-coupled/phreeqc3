@@ -1,0 +1,167 @@
+   Input file: diff_c
+  Output file: diff_c.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	solution
+		Na	1
+		C	1
+	user_print
+	10 n = sys("aq",count, name$, type$, moles)
+	20 for i=1 to count
+	30 print name$(i), diff_c(name$(i))
+	40 c$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+	50 for j = 1 to count_s
+	60 print "    ", elt$(j), coef(j)
+	70 next j
+	80 next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+Na+   1.3300e-09 
+     Na            1 
+     charge            1 
+HCO3-   1.1800e-09 
+     C            1 
+     H            1 
+     O            3 
+     charge           -1 
+CO2   1.9200e-09 
+     C            1 
+     O            2 
+     charge            0 
+NaHCO3   6.7300e-10 
+     C            1 
+     H            1 
+     Na            1 
+     O            3 
+     charge            0 
+CO3-2   9.5500e-10 
+     C            1 
+     O            3 
+     charge           -2 
+OH-   5.2700e-09 
+     H            1 
+     O            1 
+     charge           -1 
+NaCO3-   5.8500e-10 
+     C            1 
+     Na            1 
+     O            3 
+     charge           -1 
+NaOH            0 
+     H            1 
+     Na            1 
+     O            1 
+     charge            0 
+H2   5.1300e-09 
+     H            2 
+     charge            0 
+CH4   1.8500e-09 
+     C            1 
+     H            4 
+     charge            0 
+O2   2.3500e-09 
+     O            2 
+     charge            0 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (µS/cm, 25°C)  = 84
+                          Density (g/cm³)  =   0.99710
+                               Volume (L)  =   1.00299
+                        Activity of water  =   1.000
+                           Ionic strength  =   9.111e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.220e-04
+                       Total CO2 (mol/kg)  =   1.000e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.780e-04
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   9.77
+                               Iterations  =   5
+                                  Total H  = 1.110133e+02
+                                  Total O  = 5.550904e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.047e-07   1.012e-07    -6.980    -6.995    -0.015     -4.11
+   H+              1.033e-07   1.000e-07    -6.986    -7.000    -0.014      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00   -67.358   -67.358     0.000     32.22
+C(4)          1.000e-03
+   HCO3-           8.207e-04   7.936e-04    -3.086    -3.100    -0.015     24.68
+   CO2             1.784e-04   1.784e-04    -3.749    -3.749     0.000     29.09
+   NaHCO3          4.311e-07   4.312e-07    -6.365    -6.365     0.000      1.80
+   CO3-2           4.258e-07   3.722e-07    -6.371    -6.429    -0.058     -5.28
+   NaCO3-          6.928e-09   6.696e-09    -8.159    -8.174    -0.015     -1.03
+H(0)          1.416e-25
+   H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+Na            1.000e-03
+   Na+             9.996e-04   9.662e-04    -3.000    -3.015    -0.015     -1.48
+   NaHCO3          4.311e-07   4.312e-07    -6.365    -6.365     0.000      1.80
+   NaCO3-          6.928e-09   6.696e-09    -8.159    -8.174    -0.015     -1.03
+   NaOH            9.778e-21   9.780e-21   -20.010   -20.010     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)          -64.52    -67.36   -2.84  CH4
+  CO2(g)           -2.29     -3.75   -1.46  CO2
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.143 Seconds.
+-------------------------------
+

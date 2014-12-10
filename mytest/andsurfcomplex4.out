@@ -1,0 +1,69 @@
+   Input file: andsurfcomplex4
+  Output file: andsurfcomplex4.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	TITLE Example 22.--Compare experimental CO2 solubilities at high CO2 pressure 
+	   with Peng-Robinson calc'ns with fixed-volume gas_phase, 39.
+	SURFACE_MASTER_SPECIES
+	    Oil_s           Oil_sNH+
+	    Oil_w           Oil_wCOOH
+	    Ca_s          Ca_sOH
+	    Ca_w          Ca_wCO3H
+	SURFACE_SPECIES
+	Oil_sNH+ = Oil_sNH+
+	    log_k     0
+	Oil_wCOOH = Oil_wCOOH
+	    log_k     0
+	Ca_sOH = Ca_sOH
+	    log_k     0
+	Ca_wCO3H = Ca_wCO3H
+	    log_k     0
+	Oil_sNH+ = Oil_sN + H+
+	    log_k     -6.0
+	Oil_wCOOH = Oil_wCOO-1 + H+
+	    log_k     -5.0
+	Oil_wCOOH + Ca+2 = Oil_wCOOCa+ + H+
+	    log_k     -3.8
+	Ca_sOH + H+ = Ca_sOH2+
+	    log_k     11.8
+	Ca_sOH + HCO3- = Ca_sCO3- + H2O
+	    log_k     5.8
+	Ca_wCO3H = Ca_wCO3- +H+
+	    log_k     -5.1
+	Ca_wCO3H + Ca+2 = Ca_wCO3Ca+ + H+
+	    log_k    -2.6
+	 SURFACE 1
+	Oil_sNH+ 1.67e-6  600. 0.09
+	Oil_wCOOH 1.67e-6
+	Ca_sOH   1.0e-6   600.  0.09
+	Ca_wCO3H  1.0e-6
+	END
+-----
+TITLE
+-----
+
+ Example 22.--Compare experimental CO2 solubilities at high CO2 pressure 
+   with Peng-Robinson calc'ns with fixed-volume gas_phase, 39.
+
+------------------
+End of simulation.
+------------------
+

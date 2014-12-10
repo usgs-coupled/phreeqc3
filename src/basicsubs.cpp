@@ -98,7 +98,24 @@ aqueous_vm(const char *species_name)
 	}
 	return (g);
 }
+LDBLE Phreeqc::
+diff_c(const char *species_name)
+/* ---------------------------------------------------------------------- */
+{
+	struct species *s_ptr;
+	LDBLE g;
 
+	s_ptr = s_search(species_name);
+	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
+	{
+		g = s_ptr->dw;
+	}
+	else
+	{
+		g = 0;
+	}
+	return (g);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_SC(void)
@@ -2826,7 +2843,8 @@ system_total_aq(void)
  */
 	for (i = 0; i < count_s_x; i++)
 	{
-		if (s_x[i]->type != AQ)
+		//if (s_x[i]->type != AQ)
+		if (s_x[i]->type > AQ)
 			continue;
 		sys[count_sys].name = string_duplicate(s_x[i]->name);
 		sys[count_sys].moles = s_x[i]->moles;
@@ -3809,7 +3827,7 @@ Phreeqc::register_basic_callback(double (*fcn)(double x1, double x2, const char 
 }
 
 void 
-Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, int l))
+Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l))
 {
 	this->basic_fortran_callback_ptr = fcn;
 }

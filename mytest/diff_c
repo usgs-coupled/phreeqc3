@@ -1,0 +1,14 @@
+database ../database/phreeqc.dat
+solution
+	Na	1
+	C	1
+user_print
+10 n = sys("aq",count, name$, type$, moles)
+20 for i=1 to count
+30 print name$(i), diff_c(name$(i))
+40 c$ = SPECIES_FORMULA(name$(i), count_s, elt$, coef)
+50 for j = 1 to count_s
+60 print "    ", elt$(j), coef(j)
+70 next j
+80 next i
+END
