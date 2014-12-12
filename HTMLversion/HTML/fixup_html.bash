@@ -44,7 +44,8 @@ do
 done
 echo                     Done USEMAP	
 
-./UpdateContents.bash
+bash ./UpdateContents.bash
+echo                     Done UpdateContents
 
 # Fix example 19 in phreeqc3.htm
 export HEAD19='CLASS="XRef">Modeling Cd+2 Sorption With Linear, Freundlich, and Langmuir Isotherms, and With a Deterministic Distribution of Sorption Sites for Organic Matter, Clay Minerals, and Iron Oxyhydroxides</A></A></A></P>'
