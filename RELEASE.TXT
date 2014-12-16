@@ -1,5 +1,45 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
         --------
+        svn 9084
+        --------
+        Fixed warnings identified by CRAN.
+        
+        --------
+        svn 9073
+        --------
+        Aqueous species H+ was missing from the list of species returned by
+        SYS("aq", count, name$, type$, moles).
+        
+        --------
+        svn 9072
+        --------
+        Added Basic function diff_c, which returns the diffusion coefficient
+        for a species at 25 C.
+        
+        For example,
+        d = DIFF_C("CO3-2")
+        
+        --------
+        svn 9029
+        --------
+        In inverse modeling, the writing of input files for NetpathXL was 
+        incorrect. Revisions to the program had eliminated a speciation
+        calculation necessary to provide the correct values. 
+        
+        --------
+        svn 9000
+        --------
+        Kinetic names were not saved correctly to allow unique retrival by name. 
+        The error could have lead to misidentification of kinetic reactions for a
+        cell.
+        
+        --------
+        svn 8957
+        --------
+        Uninitialized variable for commands of USER_PUNCH.
+
+Version 3.1.4: August 20, 2014 
+        --------
         svn 8925
         --------
         
