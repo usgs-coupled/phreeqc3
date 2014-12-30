@@ -26,6 +26,7 @@ cxxNameDouble::cxxNameDouble()
 	// default constructor for cxxNameDouble 
 	//
 {
+	this->type = ND_ELT_MOLES;
 }
 
 cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr)
