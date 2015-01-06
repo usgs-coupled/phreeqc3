@@ -24,6 +24,7 @@ cxxPPassemblage::cxxPPassemblage(PHRQ_io * io)
 	//
 :	cxxNumKeyword(io)
 {
+	new_def = false;
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
 }
 
