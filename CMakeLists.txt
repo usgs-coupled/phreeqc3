@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (phreeqc)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
 IF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
@@ -146,17 +144,6 @@ src/transport.cpp
 src/utilities.cpp
 )
 
-##{{find_package(GMP)
-##{{
-##{{# define INVERSE_CL1MP
-##{{IF(USE_GMP)
-##{{  SET(GMP_INCLUDE_DIR $ENV{DEV_GMP_INC_MT})
-##{{  SET(GMP_LIBRARIES $ENV{DEV_GMP_INC_MT})
-##{{  INCLUDE_DIRECTORIES(${GMP_INCLUDE_DIR})
-##{{  SET(phreeqc_SOURCES ${phreeqc_SOURCES} src/cl1mp.cpp)
-##{{  set(LINK_LIBS ${LINK_LIBS} ${SZIP_LIBRARIES})
-##{{ENDIF(USE_GMP)
-
 
 option(PHRQC_USE_GMP "Use GNU Multiple Precision library" "OFF")
 if (PHRQC_USE_GMP)
@@ -166,13 +153,16 @@ else (PHRQC_USE_GMP)
   mark_as_advanced(FORCE GMP_INCLUDE_PATH GMP_LIBRARY)
 endif (PHRQC_USE_GMP)
 
+
 if (PHRQC_USE_GMP)
   if (GMP_INCLUDE_PATH)
     SET(phreeqc_SOURCES ${phreeqc_SOURCES} src/cl1mp.cpp)
   endif (GMP_INCLUDE_PATH)
 endif (PHRQC_USE_GMP)
 
+
 add_executable(phreeqc ${phreeqc_SOURCES})
+
 
 if (PHRQC_USE_GMP)
   if (GMP_INCLUDE_PATH)
