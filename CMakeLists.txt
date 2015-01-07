@@ -166,6 +166,20 @@ else (PHRQC_USE_GMP)
   mark_as_advanced(FORCE GMP_INCLUDE_PATH GMP_LIBRARY)
 endif (PHRQC_USE_GMP)
 
-
+if (PHRQC_USE_GMP)
+  if (GMP_INCLUDE_PATH)
+    SET(phreeqc_SOURCES ${phreeqc_SOURCES} src/cl1mp.cpp)
+  endif (GMP_INCLUDE_PATH)
+endif (PHRQC_USE_GMP)
 
 add_executable(phreeqc ${phreeqc_SOURCES})
+
+if (PHRQC_USE_GMP)
+  if (GMP_INCLUDE_PATH)
+    ADD_DEFINITIONS(-DINVERSE_CL1MP)
+    include_directories(${GMP_INCLUDE_PATH})
+  endif (GMP_INCLUDE_PATH)
+  if (GMP_LIBRARY)
+    target_link_libraries(phreeqc ${GMP_LIBRARY})
+  endif(GMP_LIBRARY)
+endif (PHRQC_USE_GMP)
