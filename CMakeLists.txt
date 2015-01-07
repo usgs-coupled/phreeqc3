@@ -3,9 +3,6 @@ project (phreeqc)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-##{{option(USE_GMP
-##{{       "Use GNU Multiple Precision library" OFF)
-
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
 IF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
@@ -17,12 +14,6 @@ ENDIF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
 IF(WIN32)
   ADD_DEFINITIONS(-DDOS)
 ENDIF(WIN32)
-
-##{{# define INVERSE_CL1MP
-##{{IF(USE_GMP)
-##{{  ADD_DEFINITIONS(-DINVERSE_CL1MP)
-##{{ENDIF(USE_GMP)
-
 
 SET(phreeqc_SOURCES
 src/class_main.cpp
@@ -167,14 +158,14 @@ src/utilities.cpp
 ##{{ENDIF(USE_GMP)
 
 
+option(PHRQC_USE_GMP "Use GNU Multiple Precision library" "OFF")
+if (PHRQC_USE_GMP)
+  find_path(GMP_INCLUDE_PATH gmp.h)
+  find_library(GMP_LIBRARY gmp)
+else (PHRQC_USE_GMP)
+  mark_as_advanced(FORCE GMP_INCLUDE_PATH GMP_LIBRARY)
+endif (PHRQC_USE_GMP)
 
-option(PHRQC_ENABLE_HDF5 "Enable or disable HDF5 interface" "OFF")
-if (PHRQC_ENABLE_HDF5)
-  find_path(HDF5_INCLUDE_PATH hdf5.h)
-  find_library(HDF5_LIBRARY hdf5)
-else (PHRQC_ENABLE_HDF5)
-  mark_as_advanced(FORCE HDF5_INCLUDE_PATH HDF5_LIBRARY)
-endif (PHRQC_ENABLE_HDF5)
 
 
 add_executable(phreeqc ${phreeqc_SOURCES})
