@@ -173,3 +173,6 @@ if (PHRQC_USE_GMP)
     target_link_libraries(phreeqc ${GMP_LIBRARY})
   endif(GMP_LIBRARY)
 endif (PHRQC_USE_GMP)
+
+
+install (TARGETS phreeqc DESTINATION bin)
