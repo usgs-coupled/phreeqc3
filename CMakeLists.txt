@@ -1,7 +1,12 @@
 cmake_minimum_required (VERSION 2.6)
 project (phreeqc)
 
+include(GNUInstallDirs)
+
 MESSAGE( STATUS "  DOCDIR: ${DOCDIR}")
+MESSAGE( STATUS "  CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
+MESSAGE( STATUS "  CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
+MESSAGE( STATUS "  CMAKE_INSTALL_DOCDIR: ${CMAKE_INSTALL_DOCDIR}")
 
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
@@ -177,7 +182,7 @@ if (PHRQC_USE_GMP)
 endif (PHRQC_USE_GMP)
 
 
-install (TARGETS phreeqc DESTINATION bin)
+install (TARGETS phreeqc DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 
 # subdirectories
