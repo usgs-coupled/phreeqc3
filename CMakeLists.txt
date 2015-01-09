@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.6)
 project (phreeqc)
 
+MESSAGE( STATUS "  DOCDIR: ${DOCDIR}")
+
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
 IF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
@@ -176,3 +178,11 @@ endif (PHRQC_USE_GMP)
 
 
 install (TARGETS phreeqc DESTINATION bin)
+
+
+# subdirectories
+add_subdirectory(HTMLversion)
+add_subdirectory(database)
+add_subdirectory(doc)
+add_subdirectory(examples)
+
