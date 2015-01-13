@@ -11,5 +11,9 @@ phreeqc.txt
 wrir02-4172.pdf
 )
 
-install (FILES ${phreeqc_ROOT} DESTINATION ${CMAKE_INSTALL_PREFIX})
+IF(WIN32)
+  install (FILES ${phreeqc_ROOT} DESTINATION ${CMAKE_INSTALL_PREFIX})
+ELSE()
+  install (FILES ${phreeqc_ROOT} DESTINATION ${CMAKE_INSTALL_DOCDIR})
+ENDIF()
 install (FILES ${phreeqc_DOC} DESTINATION ${CMAKE_INSTALL_DOCDIR})
