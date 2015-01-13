@@ -10,4 +10,8 @@ sit.dat
 wateq4f.dat
 )
 
-install (FILES ${phreeqc_DATABASE} DESTINATION database)
+IF(WIN32)
+  install (FILES ${phreeqc_DATABASE} DESTINATION database)
+ELSE()
+  install (FILES ${phreeqc_DATABASE} DESTINATION ${CMAKE_INSTALL_DOCDIR}/database)
+ENDIF()

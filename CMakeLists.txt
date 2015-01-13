@@ -1,12 +1,21 @@
 cmake_minimum_required (VERSION 2.6)
 project (phreeqc)
 
+#IF(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
+#  SET(CMAKE_INSTALL_DOCDIR "doc")
+#ENDIF()
+
+# overide docdir on windows
+if(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
+  set(CMAKE_INSTALL_DOCDIR "" CACHE PATH "documentation root (doc)")
+  set(CMAKE_INSTALL_DOCDIR "doc")
+endif()
+
 include(GNUInstallDirs)
 
-MESSAGE( STATUS "  DOCDIR: ${DOCDIR}")
-MESSAGE( STATUS "  CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
-MESSAGE( STATUS "  CMAKE_INSTALL_BINDIR: ${CMAKE_INSTALL_BINDIR}")
-MESSAGE( STATUS "  CMAKE_INSTALL_DOCDIR: ${CMAKE_INSTALL_DOCDIR}")
+##IF(WIN32)
+##  SET(CMAKE_INSTALL_DOCDIR "doc")
+##ENDIF()
 
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later

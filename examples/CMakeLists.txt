@@ -44,4 +44,8 @@ Zn1e_4
 Zn1e_7
 )
 
-install (FILES ${phreeqc_EXAMPLES} DESTINATION examples)
+IF(WIN32)
+  install (FILES ${phreeqc_EXAMPLES} DESTINATION examples)
+ELSE()
+  install (FILES ${phreeqc_EXAMPLES} DESTINATION ${CMAKE_INSTALL_DOCDIR}/examples)
+ENDIF()
