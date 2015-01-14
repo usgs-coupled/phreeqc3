@@ -1,10 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (phreeqc)
 
-#IF(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
-#  SET(CMAKE_INSTALL_DOCDIR "doc")
-#ENDIF()
-
 # overide docdir on windows
 if(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
   set(CMAKE_INSTALL_DOCDIR "" CACHE PATH "documentation root (doc)")
@@ -12,10 +8,6 @@ if(WIN32 AND NOT CMAKE_INSTALL_DOCDIR)
 endif()
 
 include(GNUInstallDirs)
-
-##IF(WIN32)
-##  SET(CMAKE_INSTALL_DOCDIR "doc")
-##ENDIF()
 
 # Disable deprecation warnings for standard C and STL functions in VS2005
 # and later
@@ -195,7 +187,6 @@ install (TARGETS phreeqc DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 
 # subdirectories
-add_subdirectory(HTMLversion)
 add_subdirectory(database)
 add_subdirectory(doc)
 add_subdirectory(examples)
