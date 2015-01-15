@@ -68,7 +68,7 @@ $(PKG_64) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build64
 	ssh -q $(HOST64) 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64/$(NAME)-$(VER)-$(REL)'
-	ssh -q $(HOST64) 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make LDFLAGS=-all-static LIBGMP=/usr/lib64/libgmp.a'
+	ssh -q $(HOST64) 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build64 && make -j 10 LDFLAGS=-all-static LIBGMP=/usr/lib64/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build64 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
@@ -97,7 +97,7 @@ $(PKG_32) : $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc
 
 $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/src/phreeqc : $(NAME)-$(VER)-$(REL)/_build32
 	ssh -q $(HOST32) 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && ../configure --prefix=$(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32/$(NAME)-$(VER)-$(REL)'
-	ssh -q $(HOST32) 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
+	ssh -q $(HOST32) 'cd $(TOP_DIR)/$(NAME)-$(VER)-$(REL)/_build32 && make -j 10 LDFLAGS=-all-static LIBGMP=/usr/lib/libgmp.a'
 
 $(NAME)-$(VER)-$(REL)/_build32 : $(CONF_PKG)
 	rm -rf $(NAME)-$(VER)-$(REL)
