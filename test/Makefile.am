@@ -9,11 +9,12 @@ TESTS = ex1 ex2 ex2b ex3 ex4 ex5 ex6 ex7 ex8 ex9 ex10 ex11 ex12 ex12a ex13a \
 
 EXTRA_DIST = $(TESTS) test.sh check.sh clean.sh
 
-TESTS_ENVIRONMENT = top_srcdir=$(top_srcdir) PATH=.$(PATH_SEPARATOR)../src$(PATH_SEPARATOR)$$PATH \
+TESTS_ENVIRONMENT = top_srcdir=$(top_srcdir) \
+                    PATH=.$(PATH_SEPARATOR)../src$(PATH_SEPARATOR)$$PATH \
                     PHREEQC=`echo phreeqc|sed '$(transform)'` \
                     DATADIR=$(top_srcdir)/examples \
-                    DBDIR=$(top_srcdir)/database \
-                    $(SHELL)
+                    DBDIR=$(top_srcdir)/database
+
 
 EX1=ex1.out ex1.log
 EX2=ex2.out ex2.log ex2.sel ex2b.out ex2b.log
@@ -41,7 +42,7 @@ EX21=ex21.out ex21.log radial
 EX22=ex22.out ex22.log
 
 
-DISTCLEANFILES=$(EX1) $(EX2) $(EX3) $(EX4) $(EX5) $(EX6) $(EX7) $(EX8) $(EX9) \
+CLEANFILES=$(EX1) $(EX2) $(EX3) $(EX4) $(EX5) $(EX6) $(EX7) $(EX8) $(EX9) \
                $(EX10) $(EX11) $(EX12) $(EX13) $(EX14) $(EX15) $(EX16) \
                $(EX17) $(EX17) $(EX18) $(EX19) $(EX20) $(EX21) $(EX22) \
                phreeqc.log
