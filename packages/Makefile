@@ -43,7 +43,7 @@ $(CONF_PKG) : $(TARBALL)
 	cd $(NAME)-src-$(VER)-$(REL) && autoreconf -fvi
 	cd $(NAME)-src-$(VER)-$(REL) && mkdir _build
 	cd $(NAME)-src-$(VER)-$(REL) && cd _build && ../configure
-	cd $(NAME)-src-$(VER)-$(REL) && cd _build && make distcheck
+	cd $(NAME)-src-$(VER)-$(REL) && cd _build && $(MAKE) distcheck
 	mv $(NAME)-src-$(VER)-$(REL)/_build/$(CONF_PKG) .
 	rm -rf $(NAME)-src-$(VER)-$(REL)
 
