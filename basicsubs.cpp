@@ -98,6 +98,58 @@ aqueous_vm(const char *species_name)
 	}
 	return (g);
 }
+
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+sa_declercq(double sa_type, double Sa, double d, double m, double m0, double gfw)
+/* ---------------------------------------------------------------------- */
+{
+	if (sa_type == 0) 
+	{
+		// surface-area-calculation-Fixed_Surface
+		return Sa;
+	}
+	else if (sa_type == 1)
+		// surface-area-calculation-Square
+	{
+		double mass0 = m0 * gfw;
+		double V0 = mass0 / d;
+		double St0 = mass0 * Sa;        // total surface
+		double a0 = pow(V0, 1.0/3.0);   // side length
+		double Sp0 = 6.0 * a0*a0;       // surface particle
+		double np = St0 / Sp0;          // number of particles
+	    double RATS = Sa / St0;
+		double mass = m * gfw;
+		double V = mass / d;
+		double a = pow(V, 1.0/3.0); 
+		double St = 6.0 * a*a*np;
+		return St * RATS;               // total current surface
+	}
+	else if (sa_type == 2)
+	{
+		//double pi = 3.14159265359;
+		double mass0 = m0 * gfw;
+		double V0 = mass0 / d;                         // volume
+		double St0 = mass0 * Sa;                       // total surface
+		double a0 = pow(3.0 * V0/(4.0 * pi), 1.0/3.0); // ((3*V0)/(4 * 3.14159265359))^(1/3)  
+		double Sp0 = (4.0 * pi) * a0 * a0;             // surface particle
+		double np = St0 / Sp0;                         // number of particles
+		double RATS = Sa / St0;
+ 
+		double mass = m * gfw;
+		double V = mass / d;
+		double a = pow(3.0 * V/(4.0 * pi), 1.0/3.0);  //((3*V)/(4 * 3.14159265359))^(1/3)
+		double St = 4.0 * pi * a * a * np;
+		return St * RATS;                             // total current surface
+	}
+	error_string = sformatf( "Unknown surface area type in SA_DECLERCQ %d.", (int) sa_type);
+	error_msg(error_string, CONTINUE);
+	input_error++;
+	return (MISSING);
+ 
+}
+
+/* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 diff_c(const char *species_name)
 /* ---------------------------------------------------------------------- */
@@ -2698,7 +2750,7 @@ system_total_aq(void)
 	for (i = 0; i < count_s_x; i++)
 	{
 		//if (s_x[i]->type != AQ)
-		if (s_x[i]->type > AQ)
+		if (s_x[i]->type > HPLUS)
 			continue;
 		sys[count_sys].name = string_duplicate(s_x[i]->name);
 		sys[count_sys].moles = s_x[i]->moles;
