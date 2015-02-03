@@ -1593,6 +1593,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokdiff_c:
 			output_msg("DIFF_C");
 			break;
+		case toksa_declercq:
+			output_msg("SA_DECLERCQ");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3531,6 +3534,42 @@ factor(struct LOC_exec * LINK)
 
 		}
 		break;
+
+	case toksa_declercq:
+		{
+			double type, sa, d, m, m0, gfw;
+
+			// left parenthesis
+			require(toklp, LINK);
+
+			// first double arugument, type
+			type = realfactor(LINK);
+			require(tokcomma, LINK);
+
+			// second double arugument, Sa
+			sa = realfactor(LINK);
+			require(tokcomma, LINK);
+			
+			// third double arugument, Sa
+			d = realfactor(LINK);
+			require(tokcomma, LINK);
+
+			// fourth double arugument, m
+			m = realfactor(LINK);
+			require(tokcomma, LINK);
+
+			// fifth double arugument, m0
+			m0 = realfactor(LINK);
+			require(tokcomma, LINK);
+
+			// sixth double arugument, gfw
+			gfw = realfactor(LINK);
+			require(tokrp, LINK);
+
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sa_declercq(type, sa, d, m, m0, gfw);
+		}
+		break;
+
 	case tokdiff_c:
 		{
 			const char * str = stringfactor(STR1, LINK);
@@ -6830,7 +6869,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
