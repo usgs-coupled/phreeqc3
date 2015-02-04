@@ -1,6 +1,5 @@
-# Halite?sylvite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
+# Halite/sylvite solubility f(T) Pabalan & Pitzer, 1987, fig. 15
 DATABASE pitzer.dat
-INCLUDE$ Pabalan.dat
 # 
 SOLUTION 1
  pH 7 charge
@@ -13,10 +12,11 @@ REACTION 1
 Na 1 K -1; 1e-4 40*0.5 0.99989
 INCREMENTAL_REACTIONS true
 USER_GRAPH 1
--headings x 0.oC
+-headings x    0 ºC
 -chart_title "Halite/Sylvite solubility curves"
 -axis_titles "mol KCl / kgw" "mol NaCl / kgw"
 -plot_csv_file NaKCl.csv
+-axis_scale y_axis 0 8
 10 graph_x tot("K")
 20 graph_y tot("Na")
 # 30 graph_sy SI("Halite"), SI("Sylvite")
@@ -28,26 +28,26 @@ USE solution 1; USE equilibrium_phases 1; USE reaction 1
 REACTION_TEMPERATURE 2
 40
 USER_GRAPH 1
--headings x 40.oC
+-headings x  40 ºC
 END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1
 REACTION_TEMPERATURE 2
 100
 USER_GRAPH 1
--headings x 100.oC
+-headings x 100 ºC
 END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1
 REACTION_TEMPERATURE 2
 150
 USER_GRAPH 1
--headings x 150.oC
+-headings x 150 ºC
 END
 
 USE solution 1; USE equilibrium_phases 1; USE reaction 1
 REACTION_TEMPERATURE 2
 200
 USER_GRAPH 1
--headings x 200.oC
+-headings x 200 ºC
 END

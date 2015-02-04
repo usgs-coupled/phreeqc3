@@ -346,7 +346,8 @@ all: alkalinity.out \
 	Nardi.out \
 	jm_trans.out \
 	andsurfcomlex4.out \
-	diff_c.out
+	diff_c.out \
+	cc_1barCO2.out
 
 # NaX.out
 

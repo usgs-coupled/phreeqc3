@@ -5,6 +5,7 @@
 ..\ClrRelease\phreeqc.exe    cc_P0 
 ..\ClrRelease\phreeqc.exe    cc_P2 
 ..\ClrRelease\phreeqc.exe    cc_P3 
+..\ClrRelease\phreeqc.exe    cc_1barCO2
 ..\ClrRelease\phreeqc.exe    CO2_4M_NaCl 
 ..\ClrRelease\phreeqc.exe    CO2_Na2SO4 
 ..\ClrRelease\phreeqc.exe    co2_t30 
