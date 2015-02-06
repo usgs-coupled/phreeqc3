@@ -235,7 +235,7 @@ Calcite
 	CaCO3 = CO3-2 + Ca+2
 	log_k	   -8.406
 	delta_h -2.297 kcal
-	-analytic     -171.8329    -0.077993    2839.319    71.595
+	-analytic   -237.04  -0.1077  0  102.25  6.79e5 # ref. 3 + data from Ellis, 1959, Plummer and Busenberg, 1982 
 	-Vm 36.9
 Carnallite
 	KMgCl3:6H2O  =  K+ + Mg+2 + 3Cl- + 6H2O
@@ -523,7 +523,7 @@ PITZER
   H+        SO4-2     0.0298
   HCO3-     K+        0.0296        0           0           0.996E-3
   HCO3-     Mg+2      0.329
-  HCO3-     Na+      -0.028  # ref. 3
+  HCO3-     Na+      -0.018  # ref. 3 + new -analytic for calcite
   HCO3-     Sr+2      0.12
   HSO4-     K+       -0.0003
   HSO4-     Mg+2      0.4746
@@ -553,7 +553,7 @@ PITZER
   Br-       Sr+2      1.7115        0           0           6.5325E-3
   Ca+2      Br-       1.613         0           0           6.0375E-3
   Ca+2      Cl-       1.614         0           0           7.63e-3    -8.19e-7   # ref. 3
-  Ca+2      HCO3-     2.977         0           0           1.22        0  1.43e7 # ref. 3
+  Ca+2      HCO3-     2.977 # ref. 3 + new -analytic for calcite
   Ca+2      HSO4-     2.53
   Ca+2      OH-      -0.2303
   Ca+2      SO4-2     3.546         0           0           5.77e-3               # ref. 3
@@ -573,7 +573,7 @@ PITZER
   H+        HSO4-     0.5556
   HCO3-     K+        0.25          0           0           1.104E-3              # ref. 3
   HCO3-     Mg+2      0.6072
-  HCO3-     Na+       0.415  # ref. 3
+  HCO3-     Na+       0     # ref. 3 + new -analytic for calcite
   HSO4-     K+        0.1735
   HSO4-     Mg+2      1.729
   HSO4-     Na+       0.398
@@ -591,7 +591,7 @@ PITZER
   Ca+2      OH-      -5.72                                                        
   Ca+2      SO4-2   -59.3           0           0        -0.443       -3.96e-6    # ref. 3
   Fe+2      SO4-2   -42.0                                                         
-  HCO3-     Na+       0             0           0        -0.11                    # ref. 3           
+  HCO3-     Na+       8.22          0           0        -0.049                   # ref. 3 + new -analytic for calcite           
   Mg+2      SO4-2   -32.45          0          -3.236e3  21.812       -1.8859e-2  # ref. 3
   Mn+2      SO4-2   -40.0
   SO4-2     Sr+2    -54.24          0           0          -0.42
@@ -693,7 +693,6 @@ PITZER
   Br-       Na+       H+        -0.012
   Br-       Na+       OH-       -0.018
   Ca+2      Cl-       H+        -0.015
-  Ca+2      Cl-       HCO3-      0        0    0  -0.025        # ref. 3 + CaCl2 brine correction
   Ca+2      Cl-       K+        -0.025
   Ca+2      Cl-       Mg+2      -0.012
   Ca+2      Cl-       Na+       -1.48e-2  0    0  -5.2e-6       # ref. 3
@@ -709,7 +708,7 @@ PITZER
   Cl-       H+        Mg+2      -0.011
   Cl-       H+        Na+       -0.004
   Cl-       HCO3-     Mg+2      -0.096
-  Cl-       HCO3-     Na+        0        0    0   2.19e-4      # ref. 3
+  Cl-       HCO3-     Na+        0                              # ref. 3 + new -analytic for calcite
   Cl-       HSO4-     H+         0.013
   Cl-       HSO4-     Na+       -0.006
   Cl-       K+        Mg+2      -0.022  -14.27                  # ref. 3
