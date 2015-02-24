@@ -79,6 +79,7 @@ inverse_models(void)
 				{
 					error_string = sformatf( "Can`t open file, %s.", string);
 					error_msg(error_string, STOP);
+					exit(4);
 				}
 				count_inverse_models = 0;
 				count_pat_solutions = 0;
@@ -4081,6 +4082,7 @@ dump_netpath(struct inverse *inverse_ptr)
 	{
 		error_string = sformatf( "Can`t open file, %s.", inverse_ptr->netpath);
 		error_msg(error_string, STOP);
+		exit(4);
 	}
 	add_to_file("netpath.fil", inverse_ptr->netpath);
 
@@ -5273,11 +5275,12 @@ add_to_file(const char *filename, const char *string)
 	if (model_file == NULL)
 	{
 		model_file = fopen(filename, "w");
-		if (model_file == NULL)
-		{
-			error_string = sformatf( "Can`t open file, %s.", filename);
-			error_msg(error_string, STOP);
-		}
+	}
+	if (model_file == NULL)
+	{
+		error_string = sformatf( "Can`t open file, %s.", filename);
+		error_msg(error_string, STOP);
+		exit(4);
 	}
 	i = 0;
 	/*

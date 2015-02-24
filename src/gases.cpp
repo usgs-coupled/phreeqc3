@@ -269,7 +269,10 @@ build_fixed_volume_gas(void)
 				else
 				{
 					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
-					master_ptr->s->la = -999.0;
+					if (master_ptr && master_ptr->s)
+					{
+						master_ptr->s->la = -999.0;
+					}
 				}
 
 				if (master_ptr == NULL)

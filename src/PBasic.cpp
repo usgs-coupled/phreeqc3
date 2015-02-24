@@ -482,7 +482,10 @@ numtostr(char * Result, LDBLE n)
 
 	l_s = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
 	if (l_s == NULL)
+	{
 		PhreeqcPtr->malloc_error();
+		exit(4);
+	}
 	l_s[PhreeqcPtr->max_line - 1] = '\0';
 /*  if ((n != 0 && fabs(n) < 1e-2) || fabs(n) >= 1e12) { */
 	if (ceil(n) == floor(n))
@@ -604,7 +607,10 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 					m = j + 1;
 				t->UU.sp = (char *) PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
 				if (t->UU.sp == NULL)
+				{
 					PhreeqcPtr->malloc_error();
+					exit(4);
+				}
 				strncpy(t->UU.sp, l_inbuf + begin - 1, j);
 				t->UU.sp[j] = '\0';
 /* p2c: basic.p, line 415:
@@ -726,7 +732,10 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 								m = 256;
 							t->UU.sp = (char *) PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
 							if (t->UU.sp == NULL)
+							{
 								PhreeqcPtr->malloc_error();
+								exit(4);
+							}
 							sprintf(t->UU.sp, "%.*s",
 									(int) (strlen(l_inbuf) - i + 1),
 									l_inbuf + i - 1);
@@ -743,7 +752,10 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 						{
 							v = (varrec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(varrec));
 							if (v == NULL)
+							{
 								PhreeqcPtr->malloc_error();
+								exit(4);
+							}
 							v->UU.U0.arr = NULL;
 							v->next = varbase;
 							varbase = v;
@@ -1670,7 +1682,10 @@ parseinput(tokenrec ** l_buf)
 	{
 		l1 = (linerec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(linerec));
 		if (l1 == NULL)
+		{
 			PhreeqcPtr->malloc_error();
+			exit(4);
+		}
 		l1->next = l;
 		if (l0 == NULL)
 			linebase = l1;
@@ -1854,6 +1869,7 @@ require(int k, struct LOC_exec *LINK)
 			strcpy(str, ": missing ");
 			snerr(strcat(str, item->first.c_str()));
 		}
+		exit(4);
 	}
 	LINK->t = LINK->t->next;
 }
@@ -1865,7 +1881,10 @@ skipparen(struct LOC_exec *LINK)
 	do
 	{
 		if (LINK->t == NULL)
+		{
 			snerr(": parenthesis missing");
+			exit(4);
+		}
 		if (LINK->t->kind == tokrp || LINK->t->kind == tokcomma)
 			goto _L1;
 		if (LINK->t->kind == toklp)
@@ -1888,7 +1907,10 @@ findvar(struct LOC_exec *LINK)
 	long FORLIM;
 
 	if (LINK->t == NULL || LINK->t->kind != tokvar)
+	{
 		snerr(": can`t find variable");
+		exit(4);
+	}
 	v = LINK->t->UU.vp;
 	LINK->t = LINK->t->next;
 	if (LINK->t == NULL || LINK->t->kind != toklp)
@@ -2533,15 +2555,21 @@ factor(struct LOC_exec * LINK)
 			/* return number of species */
 			LINK->t = LINK->t->next;
 			count_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
+			{
 				snerr(": can`t find variable");
+				exit(4);
+			}
 
 			/* return number of names of species */
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			names_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || names_varrec->stringvar != 1)
+			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
+			{
 				snerr(": can`t find name of species");
+				exit(4);
+			}
 
 			/* return number of types of species */
 			LINK->t = LINK->t->next;
@@ -2585,13 +2613,22 @@ factor(struct LOC_exec * LINK)
 			int count_sys = PhreeqcPtr->count_sys;
 			names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 			if (names_arg == NULL)
+			{
 				PhreeqcPtr->malloc_error();
+				exit(4);
+			}
 			types_arg = (char **)PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 			if (types_arg == NULL)
+			{
 				PhreeqcPtr->malloc_error();
+				exit(4);
+			}
 			moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
 			if (moles_arg == NULL)
+			{
 				PhreeqcPtr->malloc_error();
+				exit(4);
+			}
 			names_arg[0] = NULL;
 			types_arg[0] = NULL;
 			moles_arg[0] = 0;
@@ -2650,6 +2687,7 @@ factor(struct LOC_exec * LINK)
 			/*
 			*  Parse arguments
 			*/
+			arg_num = -1;
 			if (LINK->t != NULL && LINK->t->kind == tokcomma)
 			{
 				LINK->t = LINK->t->next;
@@ -2676,14 +2714,18 @@ factor(struct LOC_exec * LINK)
 			else
 			{
 				snerr(": Expected 4 arguments for list_s_s");
+				exit(4);
 			}
 			require(tokrp, LINK);
 
 			if (arg_num > 1)
 			{
 				free_dim_stringvar(names_varrec);
-				PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
-				moles_varrec->UU.U0.arr = NULL;
+				if (moles_varrec)
+				{
+					PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
+					moles_varrec->UU.U0.arr = NULL;
+				}
 			}
 			/*
 			*  Call subroutine
@@ -2703,10 +2745,16 @@ factor(struct LOC_exec * LINK)
 				*/
 				names_varrec->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char *));
 				if (names_varrec->UU.U1.sarr == NULL)
+				{
 					PhreeqcPtr->malloc_error();
+					exit(4);
+				}
 				moles_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
 				if (moles_varrec->UU.U0.arr == NULL)
+				{
 					PhreeqcPtr->malloc_error();
+					exit(4);
+				}
 
 				// first position not used
 				names_varrec->UU.U1.sarr[0] = NULL;
@@ -2901,10 +2949,16 @@ factor(struct LOC_exec * LINK)
 			*/
 			elts_varrec->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char *));
 			if (elts_varrec->UU.U1.sarr == NULL)
+			{
 				PhreeqcPtr->malloc_error();
+				exit(4);
+			}
 			coef_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
 			if (coef_varrec->UU.U0.arr == NULL)
+			{
 				PhreeqcPtr->malloc_error();
+				exit(4);
+			}
 
 			// first position not used
 			elts_varrec->UU.U1.sarr[0] = NULL;
@@ -3777,15 +3831,32 @@ sexpr(struct LOC_exec * LINK)
 		{
 			if (n.stringval)
 			{
-				m = (int) strlen(n.UU.sval) + (int) strlen(n2.UU.sval) + 1;
+				m = 1;
+				if (n.UU.sval)
+				{
+					m += (int) strlen(n.UU.sval);
+				}
+				if (n2.UU.sval)
+				{
+					m += (int) strlen(n2.UU.sval);
+				}
+				//m = (int) strlen(n.UU.sval) + (int) strlen(n2.UU.sval) + 1;
 				if (m < 256)
 					m = 256;
 
 				n.UU.sval = (char *) PhreeqcPtr->PHRQ_realloc(n.UU.sval, (size_t) m * sizeof(char));
 				if (n.UU.sval == NULL)
+				{
 					PhreeqcPtr->malloc_error();
-				strcat(n.UU.sval, n2.UU.sval);
-				PhreeqcPtr->PHRQ_free(n2.UU.sval);
+				}
+				else
+				{
+					if (n2.UU.sval)
+					{
+						strcat(n.UU.sval, n2.UU.sval);
+						PhreeqcPtr->PHRQ_free(n2.UU.sval);
+					}
+				}
 			}
 			else
 				n.UU.val += n2.UU.val;
@@ -4127,7 +4198,10 @@ cmdload(bool merging, char * name, struct LOC_exec *LINK)
 		f = fopen(STR1, "r");
 	}
 	if (f == NULL)
+	{
 		_EscIO(FileNotFound);
+		return;
+	}
 	while (fgets(inbuf, 256, f) != NULL)
 	{
 		TEMP = strchr(inbuf, '\n');
@@ -4860,9 +4934,14 @@ cmdfor(struct LOC_exec *LINK)
 	}
 	l = (looprec *) PhreeqcPtr->PHRQ_calloc(1, sizeof(looprec));
 	if (l == NULL)
+	{
 		PhreeqcPtr->malloc_error();
-	*l = lr;
-	loopbase = l;
+	}
+	else
+	{
+		*l = lr;
+		loopbase = l;
+	}
 }
 
 void PBasic::
@@ -5295,6 +5374,11 @@ cmddim(struct LOC_exec *LINK)
 		if (v->stringvar)
 		{
 			v->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc(j * sizeof(char *));
+			if (!v->UU.U1.sarr)
+			{
+				PhreeqcPtr->malloc_error();
+				exit(4);
+			}
 			if (v->UU.U1.sarr == NULL)
 				PhreeqcPtr->malloc_error();
 			for (i = 0; i < j; i++)
@@ -5326,12 +5410,16 @@ cmderase(struct LOC_exec *LINK)
 	do
 	{
 		if (LINK->t == NULL || LINK->t->kind != tokvar)
+		{
 			snerr(": error in DIM command");
-
-		v = LINK->t->UU.vp;
-		LINK->t = LINK->t->next;
-		clearvar(v);
-		if (!iseos(LINK)) require(tokcomma, LINK);
+		}
+		else
+		{
+			v = LINK->t->UU.vp;
+			LINK->t = LINK->t->next;
+			clearvar(v);
+			if (!iseos(LINK)) require(tokcomma, LINK);
+		}
 	}
 	while (!iseos(LINK));
 }

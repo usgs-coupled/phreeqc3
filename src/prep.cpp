@@ -44,6 +44,7 @@ prep(void)
 	{
 		error_msg("Solution needed for calculation not found, stopping.",
 				  STOP);
+		exit(4);
 	}
 	description_x = (char *) free_check_null(description_x);
 	description_x = string_duplicate(solution_ptr->Get_description().c_str());
@@ -595,7 +596,10 @@ build_gas_phase(void)
 				else
 				{
 					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
-					master_ptr->s->la = -999.0;
+					if (master_ptr && master_ptr->s)
+					{
+						master_ptr->s->la = -999.0;
+					}
 				}
 				if (master_ptr == NULL)
 				{
@@ -3146,11 +3150,12 @@ add_cd_music_charge_balances(int n)
 			break;
 		}
 	}
-	if (i >= count_elts)
+	if (i >= count_elts || master_ptr == NULL)
 	{
 		error_string = sformatf(
 				"No surface master species found for surface species.");
 		error_msg(error_string, STOP);
+		return ERROR;
 	}
 	/*
 	 *  Find potential unknown for plane 0
@@ -5538,7 +5543,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	}
 	d_v -= p_ptr->logk[vm0];
 	r_ptr->logk[delta_v] = d_v;
-	if (!strcmp(r_ptr->token[0].name, "H2O(g)"))
+	if (r_ptr->token[0].name && !strcmp(r_ptr->token[0].name, "H2O(g)"))
 		r_ptr->logk[delta_v] = 0.0;
 
 	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
@@ -6124,6 +6129,7 @@ build_min_exch(void)
 		error_string = sformatf( "Exchange %d not found.",
 				use.Get_n_exchange_user());
 		error_msg(error_string, CONTINUE);
+		return ERROR;
 	}
 	n_user = exchange_ptr->Get_n_user();
 	if (!exchange_ptr->Get_related_phases())
