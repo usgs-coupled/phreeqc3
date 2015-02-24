@@ -2302,10 +2302,10 @@ CVIncreaseBDF(CVodeMem cv_mem)
 	if (L >= 0 && L <= qmax)
 	{
 		N_VScale(A1, zn[qmax], zn[L]);
-	}
-	for (j = 2; j <= q; j++)
-	{
-		N_VLinearSum(l[j], zn[L], ONE, zn[j], zn[j]);
+		for (j = 2; j <= q; j++)
+		{
+			N_VLinearSum(l[j], zn[L], ONE, zn[j], zn[j]);
+		}
 	}
 }
 
