@@ -1,4 +1,4 @@
-AM_CPPFLAGS=-I$(top_srcdir)/src -I$(top_srcdir)/src/phreeqc
+AM_CPPFLAGS=-I$(top_srcdir)/src -I$(top_srcdir)/src/PhreeqcKeywords
 
 bin_PROGRAMS = phreeqc
 
@@ -23,8 +23,6 @@ phreeqc_SOURCES=\
 	ISolution.h\
 	ISolutionComp.cxx\
 	ISolutionComp.h\
-	Keywords.cpp\
-	Keywords.h\
 	KineticsComp.cxx\
 	KineticsComp.h\
 	NameDouble.cxx\
@@ -37,6 +35,8 @@ phreeqc_SOURCES=\
 	PBasic.h\
 	Phreeqc.cpp\
 	Phreeqc.h\
+	PhreeqcKeywords/Keywords.cpp\
+	PhreeqcKeywords/Keywords.h\
 	PHRQ_base.cxx\
 	PHRQ_base.h\
 	PHRQ_io.cpp\

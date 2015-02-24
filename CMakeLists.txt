@@ -41,8 +41,6 @@ src/ISolution.cxx
 src/ISolution.h
 src/ISolutionComp.cxx
 src/ISolutionComp.h
-src/Keywords.cpp
-src/Keywords.h
 src/KineticsComp.cxx
 src/KineticsComp.h
 src/NameDouble.cxx
@@ -55,6 +53,8 @@ src/PBasic.cpp
 src/PBasic.h
 src/Phreeqc.cpp
 src/Phreeqc.h
+src/PhreeqcKeywords/Keywords.cpp
+src/PhreeqcKeywords/Keywords.h
 src/PHRQ_base.cxx
 src/PHRQ_base.h
 src/PHRQ_io.cpp
@@ -151,6 +151,9 @@ src/tidy.cpp
 src/transport.cpp
 src/utilities.cpp
 )
+
+
+include_directories(src/PhreeqcKeywords)
 
 
 option(PHRQC_USE_GMP "Use GNU Multiple Precision library" "OFF")
