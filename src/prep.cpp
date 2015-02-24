@@ -195,9 +195,11 @@ quick_setup(void)
 		{
 			cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 			std::map<std::string, cxxPPassemblageComp>::iterator it;
-			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
-			assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
-			cxxPPassemblageComp * comp_ptr = &(it->second);
+			//it =  pp_assemblage_ptr->Get_pp_assemblage_comps().find(x[i]->pp_assemblage_comp_name);
+			cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[i]->pp_assemblage_comp_name);
+			assert(comp_ptr != NULL);
+			//assert(it != pp_assemblage_ptr->Get_pp_assemblage_comps().end());
+			//cxxPPassemblageComp * comp_ptr = &(it->second);
 			x[i]->pp_assemblage_comp_ptr = comp_ptr;
 			x[i]->moles = comp_ptr->Get_moles();
 			/* A. Crapsi */
