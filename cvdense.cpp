@@ -378,7 +378,8 @@ CVReInitDense(void *cvode_mem, CVDenseJacFn djac, void *jac_data)
 	cv_mem = (CVodeMem) cvode_mem;
 	if (cv_mem == NULL)
 	{							/* CVode reports this error */
-		CVMEM warning_msg( MSG_CVMEM_NULL);
+		//CVMEM warning_msg( MSG_CVMEM_NULL);
+		std::cerr << MSG_CVMEM_NULL << std::endl;
 		return (LMEM_FAIL);
 	}
 
