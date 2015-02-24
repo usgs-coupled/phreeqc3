@@ -6,7 +6,7 @@ AC_INIT([phreeqc], [3.0.0-7109], [dlpark@usgs.gov])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign no-define subdir-objects])
 AC_CONFIG_SRCDIR([src/class_main.cpp])
 
 AC_DEFINE(NDEBUG)
