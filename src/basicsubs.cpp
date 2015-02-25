@@ -2078,6 +2078,129 @@ surf_total(const char *total_name, const char *surface_name)
  */
 	int j;
 
+	if (use.Get_surface_ptr() == NULL || surface_name == NULL || total_name == NULL)
+		return (0);
+
+	bool redox = false;
+	if (strstr(total_name, "(") != NULL)
+	{
+		redox = true;
+	}
+	if (!redox)
+	{
+		return surf_total_no_redox(total_name, surface_name);
+	}
+/*
+ *   Find surface...
+ */
+	for (j = 0; j < count_unknowns; j++)
+	{
+		if (x[j]->type != SURFACE)
+			continue;
+		
+		std::string token;
+		token = x[j]->master[0]->elt->name;
+		replace("_", " ", token);
+		std::string::iterator b = token.begin();
+		std::string::iterator e = token.end();
+		std::string name;
+		CParser::copy_token(name, b, e);
+		if (strcmp(name.c_str(), surface_name) == 0)
+				break;
+	}
+	if (j >= count_unknowns)
+		return (0);
+/*
+ *   find total moles for redox state
+ */
+	LDBLE t = 0;
+	for (j = 0; j < count_s_x; j++)
+	{
+		if (s_x[j]->type != SURF)
+			continue;
+
+		std::string token;
+		bool match = false; 
+
+		// find if surface matches 
+		for (int i = 0; s_x[j]->next_elt[i].elt != NULL; i++)
+		{
+			if (s_x[j]->next_elt[i].elt->master->type != SURF) continue;
+
+			//strcpy(token, s_x[j]->next_elt[i].elt->name);
+			//replace("_", " ", token);
+			//ptr = token;
+			//copy_token(name, &ptr, &k);
+			token = s_x[j]->next_elt[i].elt->name;
+			replace("_", " ", token);
+			std::string::iterator b = token.begin();
+			std::string::iterator e = token.end();
+			std::string name;
+			CParser::copy_token(name, b, e);
+			if (strcmp(name.c_str(), surface_name) == 0)
+			{
+				match = true;
+				break;
+			}
+		}
+		if (!match) continue;
+
+		// surface matches, now match element or redox state
+		struct rxn_token *rxn_ptr;
+		for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		{
+			if (redox && rxn_ptr->s->secondary)
+			{
+				token = rxn_ptr->s->secondary->elt->name;
+			}
+			else if (!redox && rxn_ptr->s->secondary)
+			{
+				token = rxn_ptr->s->secondary->elt->primary->elt->name;
+			}
+			else if (!redox && rxn_ptr->s->primary)
+			{
+				token = rxn_ptr->s->primary->elt->name;
+			}
+			else
+			{
+				continue;
+			}
+			if (strcmp(token.c_str(), total_name) == 0)
+			{
+				t += rxn_ptr->coef * s_x[j]->moles;
+				break;
+			}
+			else
+			// sum all sites in case total_name is a surface name without underscore surf ("Hfo_w", "Hfo")
+			{
+				if (rxn_ptr->s->type == SURF)
+				{
+					if (token.find("_") != std::string::npos)
+					{
+						token = token.substr(0, token.find("_"));
+					}
+					if (strcmp(token.c_str(), total_name) == 0)
+					{
+						t += rxn_ptr->coef * s_x[j]->moles;
+						break;
+					}
+				}
+			}
+		}
+	}
+	return t;
+}
+#ifdef SKIP
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+surf_total(const char *total_name, const char *surface_name)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Provides total moles in LDBLE layer
+ */
+	int j;
+
 	if (use.Get_surface_ptr() == NULL || surface_name == NULL)
 		return (0);
 
@@ -2186,10 +2309,10 @@ surf_total(const char *total_name, const char *surface_name)
 	}
 	return t;
 }
-#ifdef SKIP
+#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-surf_total(const char *total_name, const char *surface_name)
+surf_total_no_redox(const char *total_name, const char *surface_name)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2273,7 +2396,6 @@ surf_total(const char *total_name, const char *surface_name)
 	}
 	return (0);
 }
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 total(const char *total_name)

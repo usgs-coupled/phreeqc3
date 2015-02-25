@@ -133,6 +133,7 @@ public:
 	int match_elts_in_species(const char *name, const char *stemplate);
 	int extract_bracket(char **string, char *bracket_string);
 	LDBLE surf_total(const char *total_name, const char *surface_name);
+	LDBLE surf_total_no_redox(const char *total_name, const char *surface_name);
 	static int system_species_compare(const void *ptr1, const void *ptr2);
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 		char ***types, LDBLE ** moles);

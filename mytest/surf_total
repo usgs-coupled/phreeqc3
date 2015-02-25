@@ -1,0 +1,60 @@
+database ../database/phreeqc.dat
+SURFACE_MASTER_SPECIES    # identify surface binding-site name and corresponding surface master species
+Surfo SurfoH          # this is the acid Surface binding-site name=Surfoa Surface master species=SurfoaH 
+Surfca SurfcaOH               # this is CaOH Surface binding-site name=Surfca Surface master species=SurfcaOH 
+SURFACE_SPECIES
+SurfoH  = SurfoH                  ; log_k   0.0
+SurfoH  = Surfo- + H+             ; log_k  -3.98  ; delta_h 0  kJ
+SurfoH + Ca+2 = SurfoCa+ + H+     ; log_k  -2.2  ; delta_h 0 kJ
+SurfoH + Mg+2 = SurfoMg+ + H+     ; log_k  -3.3  ; delta_h 0 kJ
+SurfcaOH = SurfcaOH                       ; log_k   0.0
+SurfcaOH  + H+      = SurfcaOH2+          ; log_k   9.81 ; delta_h 0  kJ  
+SurfcaOH2+ + SO4-2  = SurfcaSO4- + H2O    ; log_k   3.3  ; delta_h 0  kJ  
+##Surfo- + SurfcaOH2+ = SurfcaOHSurfoH;  log_k   -5.4  ; delta_h 0  kJ
+
+SOLUTION 0
+ temp 100; units ppm
+ pH 8.5 
+ C 122.0336 as HCO3 ; Cl 4467.078 ; S 2305.68 as SO4-2  ; Mg 1093.725 ; Ca 521.014 ; Na 1149.4885;  K 390.98 ; 
+END
+
+SOLUTION 1-10
+ temp 100; units ppm; 
+ pH 8.5 
+C 549.15 as HCO3 ; Cl 37935.0; Mg 194.44 ; Ca 1162.3 ; Na 22990.0;  K 195.49 ; 
+END
+
+EXCHANGE 1-10
+ X 0.0006 ; -equil 1   
+SURFACE 1-10   
+ -equil 1                  # in equilibrium with solution 1
+ -sites_units density      # can be absolute or density default listed as absolute
+ Surfo   2.00 10.00 30.  # sites per square nanometer, specific_area_per_gram m^2/g, grams (1.66 micromoles/m^2)
+ Surfca      1.15 10.00 30.  # sites per square nanometer, specific_area_per_gram m^2/g, grams (6.7 get ballpark figures moles/m^2)
+EQUILIBRIUM_PHASES 1-10
+ Calcite  0.0 
+END
+
+SELECTED_OUTPUT   1
+-reset false
+-file surf_total.sel
+USER_PUNCH   1
+-headings Surfca Surfca(O) Surfca(H) Surfca(charge) Surfo Surfo(charge) Surfo(O) Surfo(H) Surfo(Ca)
+10  PUNCH SURF("Surfca", "Surfca")
+20  PUNCH SURF("O", "Surfca")
+30  PUNCH SURF("H", "Surfca")
+40  PUNCH EDL("charge", "Surfca")
+50  PUNCH SURF("Surfo", "Surfo")
+60  PUNCH EDL("charge", "Surfo")
+70  PUNCH SURF("O", "Surfo")
+80  PUNCH SURF("H", "Surfo")
+90  PUNCH SURF("Ca", "Surfo")
+
+DUMP
+-surface  1
+END 
+
+RUN_CELLS
+-CELLS  1
+END 
+
