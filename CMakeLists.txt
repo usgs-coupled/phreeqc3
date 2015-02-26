@@ -158,7 +158,7 @@ src/utilities.cpp
 )
 
 
-include_directories(src/PhreeqcKeywords)
+include_directories("${PROJECT_SOURCE_DIR}/src/PhreeqcKeywords")
 
 
 option(PHRQC_USE_GMP "Use GNU Multiple Precision library" "OFF")
