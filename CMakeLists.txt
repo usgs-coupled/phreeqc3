@@ -19,9 +19,14 @@ ENDIF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
 # define DOS
 IF(WIN32)
   ADD_DEFINITIONS(-DDOS)
+  ADD_DEFINITIONS(-D_CONSOLE)
 ENDIF(WIN32)
 
+
 SET(phreeqc_SOURCES
+src/ChartHandler.cpp
+src/ChartObject.cpp
+src/CurveObject.cpp
 src/class_main.cpp
 src/cxxKinetics.cxx
 src/cxxKinetics.h
@@ -171,6 +176,99 @@ if (PHRQC_USE_GMP)
   endif (GMP_INCLUDE_PATH)
 endif (PHRQC_USE_GMP)
 
+if (MSVC)
+
+  # Copy Release to ClrRelease
+  SET(CMAKE_CXX_FLAGS_CLRRELEASE ${CMAKE_CXX_FLAGS_RELEASE} CACHE STRING
+      "Flags used by the C++ compiler during ClrRelease builds."
+      FORCE)
+  SET(CMAKE_C_FLAGS_CLRRELEASE ${CMAKE_C_FLAGS_RELEASE} CACHE STRING
+      "Flags used by the C compiler during ClrRelease builds."
+      FORCE)
+  SET(CMAKE_EXE_LINKER_FLAGS_CLRRELEASE
+      ${CMAKE_EXE_LINKER_FLAGS_RELEASE} CACHE STRING
+      "Flags used for linking binaries during ClrRelease builds."
+      FORCE)
+  SET(CMAKE_SHARED_LINKER_FLAGS_CLRRELEASE
+      ${CMAKE_SHARED_LINKER_FLAGS_RELEASE} CACHE STRING
+      "Flags used by the shared libraries linker during ClrRelease builds."
+      FORCE)
+  MARK_AS_ADVANCED(
+      CMAKE_CXX_FLAGS_CLRRELEASE
+      CMAKE_C_FLAGS_CLRRELEASE
+      CMAKE_EXE_LINKER_FLAGS_CLRRELEASE
+      CMAKE_SHARED_LINKER_FLAGS_CLRRELEASE )
+
+
+  # Copy Debug to ClrDebug
+  SET(CMAKE_CXX_FLAGS_CLRDEBUG ${CMAKE_CXX_FLAGS_DEBUG} CACHE STRING
+      "Flags used by the C++ compiler during ClrDebug builds."
+      FORCE)
+  SET(CMAKE_C_FLAGS_CLRDEBUG ${CMAKE_C_FLAGS_DEBUG} CACHE STRING
+      "Flags used by the C compiler during ClrDebug builds."
+      FORCE)
+  SET(CMAKE_EXE_LINKER_FLAGS_CLRDEBUG
+      ${CMAKE_EXE_LINKER_FLAGS_DEBUG} CACHE STRING
+      "Flags used for linking binaries during ClrDebug builds."
+      FORCE)
+  SET(CMAKE_SHARED_LINKER_FLAGS_CLRDEBUG
+      ${CMAKE_SHARED_LINKER_FLAGS_DEBUG} CACHE STRING
+      "Flags used by the shared libraries linker during ClrDebug builds."
+      FORCE)
+  MARK_AS_ADVANCED(
+      CMAKE_CXX_FLAGS_CLRDEBUG
+      CMAKE_C_FLAGS_CLRDEBUG
+      CMAKE_EXE_LINKER_FLAGS_CLRDEBUG
+      CMAKE_SHARED_LINKER_FLAGS_CLRDEBUG )
+
+      
+  # Remove /EHsc from CMAKE_CXX_FLAGS
+  STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+  STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+  SET(CMAKE_CXX_FLAGS
+      "${CMAKE_CXX_FLAGS}" CACHE STRING
+      "Flags used by the compiler during all build types."
+      FORCE)
+  
+  # Add /EHsc to CMAKE_CXX_FLAGS_RELEASE
+  STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+  STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+  SET(CMAKE_CXX_FLAGS_RELEASE
+      "/EHsc ${CMAKE_CXX_FLAGS_RELEASE}" CACHE STRING
+      "Flags used by the compiler during Release build types."
+      FORCE)      
+
+  # Add /EHsc to CMAKE_CXX_FLAGS_DEBUG
+  STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+  STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+  SET(CMAKE_CXX_FLAGS_DEBUG
+      "/EHsc ${CMAKE_CXX_FLAGS_DEBUG}" CACHE STRING
+      "Flags used by the compiler during Debug build types."
+      FORCE)
+
+  # Add /EHa and /clr to CMAKE_CXX_FLAGS_CLRRELEASE
+  STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS_CLRRELEASE ${CMAKE_CXX_FLAGS_CLRRELEASE})
+  STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS_CLRRELEASE ${CMAKE_CXX_FLAGS_CLRRELEASE})
+  SET(CMAKE_CXX_FLAGS_CLRRELEASE
+      "-DMULTICHART /EHa ${CMAKE_CXX_FLAGS_CLRRELEASE} /clr" CACHE STRING
+      "Flags used by the compiler during ClrRelease builds."
+      FORCE)
+
+  # Add /EHa and /clr to CMAKE_CXX_FLAGS_CLRDEBUG
+  STRING(REPLACE "/EHsc " "" CMAKE_CXX_FLAGS_CLRDEBUG ${CMAKE_CXX_FLAGS_CLRDEBUG})
+  STRING(REPLACE " /EHsc" "" CMAKE_CXX_FLAGS_CLRDEBUG ${CMAKE_CXX_FLAGS_CLRDEBUG})
+  STRING(REPLACE " /RTC1" " " CMAKE_CXX_FLAGS_CLRDEBUG "${CMAKE_CXX_FLAGS_CLRDEBUG}")
+  STRING(REPLACE "/RTC1 " " " CMAKE_CXX_FLAGS_CLRDEBUG "${CMAKE_CXX_FLAGS_CLRDEBUG}")
+  SET(CMAKE_CXX_FLAGS_CLRDEBUG
+      "-DMULTICHART /EHa ${CMAKE_CXX_FLAGS_CLRDEBUG} /clr" CACHE STRING
+      "Flags used by the compiler during ClrDebug builds."
+      FORCE)
+
+  SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;ClrDebug;ClrRelease" CACHE STRING 
+  "Semicolon separated list of supported configuration types."
+  FORCE)
+endif (MSVC)
+
 
 add_executable(phreeqc ${phreeqc_SOURCES})
 
@@ -194,3 +292,8 @@ add_subdirectory(database)
 add_subdirectory(doc)
 add_subdirectory(examples)
 
+
+# Setup references for /CLR
+if (MSVC)
+  set_target_properties(phreeqc PROPERTIES VS_DOTNET_REFERENCES "System;System.Drawing;System.Windows.Forms;${CMAKE_CURRENT_SOURCE_DIR}/src/ZedGraph.dll")  
+endif (MSVC)
