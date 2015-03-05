@@ -1577,10 +1577,18 @@ print_surface(void)
  */
 
 	s_h2o->lm = s_h2o->la;
+	if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+	{
+		output_msg(sformatf("%-14s\n", "Diffuse Double Layer Surface-Complexation Model\n"));
+	}
+	else if (use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
+	{
+		output_msg(sformatf("%-14s\n", "Constant Capacitance Surface-Complexation Model\n"));
+	}
 	for (int j = 0; j < count_unknowns; j++)
 	{
 		/*if (use.Get_surface_ptr()->edl == TRUE) { */
-		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
@@ -1608,7 +1616,7 @@ print_surface(void)
 					   (double) x[j]->f));
 		}
 		/*if (use.Get_surface_ptr()->edl == TRUE && diffuse_layer_x == FALSE) { */
-		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL && dl_type_x == cxxSurface::NO_DL)
+		if ((use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM) && dl_type_x == cxxSurface::NO_DL)
 		{
 			charge = x[j]->f;
 		}
@@ -1640,6 +1648,11 @@ print_surface(void)
 #else
 				output_msg(sformatf("\tundefined  sigma, C/m²\n"));
 #endif
+			}
+			if (use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
+			{			
+				output_msg(sformatf("\t%11.3e  capacitance, F/m^2\n",
+					   (double) (charge_ptr->Get_capacitance0())));
 			}
 			output_msg(sformatf("\t%11.3e  psi, V\n",
 					   (double) (x[j]->master[0]->s->la * 2 * R_KJ_DEG_MOL *

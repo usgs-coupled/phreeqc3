@@ -1679,7 +1679,7 @@ xsurface_save(int n_user)
 			}
 			comp_ptr->Set_charge_balance(charge);
 		}
-		else if (x[i]->type == SURFACE_CB && use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+		else if (x[i]->type == SURFACE_CB && (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM))
 		{
 			cxxSurfaceCharge *charge_ptr = temp_surface.Find_charge(x[i]->surface_charge);
 			assert(charge_ptr);
@@ -1977,7 +1977,7 @@ step_save_surf(int n_user)
 	/*
 	 *   Update grams
 	 */
-	if ((surface_ptr->Get_type() == cxxSurface::DDL || surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
+	if ((surface_ptr->Get_type() == cxxSurface::DDL || surface_ptr->Get_type() == cxxSurface::CCM || surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
 		&& surface_ptr->Get_related_rate() && use.Get_kinetics_ptr() != NULL)
 	{
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)

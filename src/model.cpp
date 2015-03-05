@@ -1981,35 +1981,61 @@ jacobian_sums(void)
  */
 	if (surface_unknown != NULL && dl_type_x == cxxSurface::NO_DL)
 	{
-		sinh_constant =
-			//sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
-			//	 1000);
-			sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
-				 1000);
-		for (i = 0; i < count_unknowns; i++)
+		if (use.Get_surface_ptr()->Get_type() != cxxSurface::CCM)
 		{
-			cxxSurfaceCharge *charge_ptr = NULL;
-			if (x[i]->type == SURFACE_CB)
+			sinh_constant =
+				//sqrt(8 * EPSILON * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
+				//	 1000);
+				sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x *
+				1000);
+			for (i = 0; i < count_unknowns; i++)
 			{
-				charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
-			}
-			if (x[i]->type == SURFACE_CB && charge_ptr->Get_grams() > 0)
-			{
-				for (j = 0; j < count_unknowns; j++)
+				cxxSurfaceCharge *charge_ptr = NULL;
+				if (x[i]->type == SURFACE_CB)
 				{
-					array[x[i]->number * (count_unknowns + 1) + j] *=
-						F_C_MOL / (charge_ptr->Get_specific_area() *
-								   charge_ptr->Get_grams());
+					charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
 				}
-				array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
-					sinh_constant * sqrt(mu_x) *
-					cosh(x[i]->master[0]->s->la * LOG_10);
-				if (mu_unknown != NULL)
+				if (x[i]->type == SURFACE_CB && charge_ptr->Get_grams() > 0)
 				{
-					array[x[i]->number * (count_unknowns + 1) +
-						  mu_unknown->number] -=
-						0.5 * sinh_constant / sqrt(mu_x) *
-						sinh(x[i]->master[0]->s->la * LOG_10);
+					for (j = 0; j < count_unknowns; j++)
+					{
+						array[x[i]->number * (count_unknowns + 1) + j] *=
+							F_C_MOL / (charge_ptr->Get_specific_area() *
+							charge_ptr->Get_grams());
+					}
+					array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
+						sinh_constant * sqrt(mu_x) *
+						cosh(x[i]->master[0]->s->la * LOG_10);
+					if (mu_unknown != NULL)
+					{
+						array[x[i]->number * (count_unknowns + 1) +
+							mu_unknown->number] -=
+							0.5 * sinh_constant / sqrt(mu_x) *
+							sinh(x[i]->master[0]->s->la * LOG_10);
+					}
+				}
+			}
+		}
+		else
+		{
+			for (i = 0; i < count_unknowns; i++)
+			{
+				cxxSurfaceCharge *charge_ptr = NULL;
+				if (x[i]->type == SURFACE_CB)
+				{
+					charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+				}
+				if (x[i]->type == SURFACE_CB && charge_ptr->Get_grams() > 0)
+				{
+					for (j = 0; j < count_unknowns; j++)
+					{
+						array[x[i]->number * (count_unknowns + 1) + j] *=
+							F_C_MOL / (charge_ptr->Get_specific_area() *
+							charge_ptr->Get_grams());
+					}
+					array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
+						charge_ptr->Get_capacitance0() * 2 * R_KJ_DEG_MOL *
+								 tk_x * LOG_10 / F_KJ_V_EQ;
 				}
 			}
 		}
@@ -3524,7 +3550,7 @@ reset(void)
 
 			/* recalculate g's for component */
 			if (dl_type_x != cxxSurface::NO_DL
-				&& (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL
+				&& (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM
 					|| (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC
 						&& x[i]->type == SURFACE_CB2)))
 			{
@@ -4347,6 +4373,60 @@ residuals(void)
 					output_msg(sformatf(
 							   "Failed Residual A %d: %s %d %e\n",
 							   iterations, x[i]->description, i, residual[i]));
+				converge = FALSE;
+			}
+		}		
+		else if (x[i]->type == SURFACE_CB && use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
+		{
+			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+			if (charge_ptr->Get_grams() == 0)
+			{
+				residual[i] = 0.0;
+			}
+			else if (dl_type_x != cxxSurface::NO_DL)
+			{
+				residual[i] = -x[i]->f;
+			}
+			else
+			{
+				residual[i] =
+					charge_ptr->Get_capacitance0() * x[i]->master[0]->s->la * 2 * R_KJ_DEG_MOL *
+								 tk_x * LOG_10 / F_KJ_V_EQ -
+					x[i]->f * F_C_MOL / (charge_ptr->Get_specific_area() *
+										 charge_ptr->Get_grams());
+			}
+			if (debug_model == TRUE)
+			{
+				output_msg(sformatf( "Charge/Potential\n"));
+				if (charge_ptr->Get_grams() > 0)
+				{
+					output_msg(sformatf(
+							   "\tSum of surface charge %e eq\n",
+							   (double) (x[i]->f
+										 /* F_C_MOL / (x[i]->surface_charge->specific_area * x[i]->surface_charge->grams) */
+							   )));
+				}
+				else
+				{
+					output_msg(sformatf( "\tResidual %e\n",
+							   (double) x[i]->f));
+				}
+				output_msg(sformatf( "\t				grams %g\n",
+						   (double) charge_ptr->Get_grams()));
+				output_msg(sformatf( "\tCharge from potential %e eq\n",
+						   (double) (charge_ptr->Get_capacitance0() * x[i]->master[0]->s->la * 2 * R_KJ_DEG_MOL *
+								 tk_x * LOG_10 / F_KJ_V_EQ)));
+				output_msg(sformatf( "\t			      Psi %e\n",
+						   (double) (x[i]->master[0]->s->la * 2 * R_KJ_DEG_MOL *
+								 tk_x * LOG_10 / F_KJ_V_EQ)));
+			}
+			if (charge_ptr->Get_grams() > MIN_RELATED_SURFACE
+				&& fabs(residual[i]) > l_toler)
+			{
+				if (print_fail)
+					output_msg(sformatf(
+							   "Failed Residual %d: %s %d %e\n", iterations,
+							   x[i]->description, i, residual[i]));
 				converge = FALSE;
 			}
 		}

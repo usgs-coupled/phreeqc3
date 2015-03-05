@@ -2836,7 +2836,7 @@ add_potential_factor(void)
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
-	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL)
+	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL && use.Get_surface_ptr()->Get_type() != cxxSurface::CCM)
 		return (OK);
 	sum_z = 0.0;
 	master_ptr = NULL;
@@ -3069,7 +3069,7 @@ add_surface_charge_balance(void)
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
-	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL)
+	if (use.Get_surface_ptr()->Get_type() != cxxSurface::DDL && use.Get_surface_ptr()->Get_type() != cxxSurface::CCM)
 		return (OK);
 	master_ptr = NULL;
 /*
@@ -3492,7 +3492,7 @@ setup_surface(void)
 			x[count_unknowns]->potential_unknown = NULL;
 			count_unknowns++;
 			/*if (use.Get_surface_ptr()->edl == FALSE) continue; */
-			if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+			if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
 			{
 				/*
 				 *   Setup surface-potential unknown
