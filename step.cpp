@@ -553,12 +553,12 @@ add_surface(cxxSurface *surface_ptr)
 			}
 		}
 	}
-	if (surface_ptr->Get_type() != cxxSurface::DDL && surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
+	if (surface_ptr->Get_type() != cxxSurface::DDL && surface_ptr->Get_type() != cxxSurface::CCM && surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
 		return (OK);
 	for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
 	{
 		cxxSurfaceCharge *charge_ptr = &(surface_ptr->Get_surface_charges()[i]);
-		if (surface_ptr->Get_type() == cxxSurface::DDL || surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
+		if (surface_ptr->Get_type() == cxxSurface::DDL || surface_ptr->Get_type() == cxxSurface::CCM || surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
 		{
 			cb_x += charge_ptr->Get_charge_balance();
 		}
