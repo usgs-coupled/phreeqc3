@@ -3048,6 +3048,17 @@ tidy_surface(void)
 		}
 		//if (!kit->second.Get_new_def()) continue;
 		surface_ptr = &(kit->second);
+		// ccm incompatible with Donnan or diffuse_layer
+		if (surface_ptr->Get_type() == cxxSurface::CCM)
+		{
+			if (surface_ptr->Get_dl_type() == cxxSurface::BORKOVEK_DL || surface_ptr->Get_dl_type() == cxxSurface::DONNAN_DL)
+			{
+					input_error++;
+					error_string = "Cannot use -diffuse_layer or -donnan calculation with Constant Capacity Model.";
+					error_msg(error_string, CONTINUE);
+					continue;
+			}
+		}
 		for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 		{
 			cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
