@@ -69,6 +69,7 @@
 #define SURF_PSI 7
 #define SURF_PSI1 8
 #define SURF_PSI2 9
+#define NICA 10
 
 /* unknown types */
 #define MB 10
@@ -790,6 +791,8 @@ struct phase
  									   master species */
 	const char * pe_rxn;
  	int minor_isotope;
+	LDBLE nica_p;
+	LDBLE nica_b;
 };
 /*----------------------------------------------------------------------
  *   Unknowns

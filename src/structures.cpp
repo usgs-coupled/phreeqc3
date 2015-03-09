@@ -1053,6 +1053,7 @@ master_alloc(void)
 	ptr->rxn_secondary = NULL;
 	ptr->pe_rxn = NULL;
 	ptr->minor_isotope = FALSE;
+	ptr->distribution_width = 1.0;
 	return (ptr);
 }
 

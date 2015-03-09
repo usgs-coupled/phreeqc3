@@ -172,6 +172,12 @@ read_input(void)
 		case Keywords::KEY_SURFACE:
 			read_surface();
 			break;
+		case Keywords::KEY_NICA_MASTER_SPECIES:
+			read_nica_master_species();
+			break;
+		case Keywords::KEY_NICA_SPECIES:
+			read_nica_species();
+			break;
 		case Keywords::KEY_REACTION_TEMPERATURE:
 			read_temperature();
 			break;
@@ -7358,6 +7364,13 @@ read_surface(void)
 		case 13:			    /* ccm */
 			temp_surface.Set_type(cxxSurface::CCM);
 			copy_token(token1, &next_char);
+			if (charge_ptr == NULL)
+			{
+				error_msg("A surface must be defined before the capacitance is defined.\n",
+					 CONTINUE);
+				input_error++;
+				break;
+			}
 			if (sscanf(token1.c_str(), SCANFORMAT, &dummy) != 1)
 			{
 				error_msg("Expected capacitance for constant_capacitance model.\n",
@@ -7371,8 +7384,8 @@ read_surface(void)
 			}
 
 			/* constant capacitance model not implemented yet */
-			error_msg("Constant capacitance model not implemented.", CONTINUE);
-			input_error++;
+			//error_msg("Constant capacitance model not implemented.", CONTINUE);
+			//input_error++;
 
 			break;
 		case OPTION_DEFAULT:
@@ -7623,7 +7636,7 @@ read_surface(void)
 	/*
 	 *   Make sure surface area is defined
 	 */
-	if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CD_MUSIC)
+	if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CCM || temp_surface.Get_type() == cxxSurface::CD_MUSIC)
 	{
 		for (size_t i = 0; i < temp_surface.Get_surface_charges().size(); i++)
 		{
@@ -7657,7 +7670,7 @@ read_surface(void)
 			temp_surface.Set_dl_type(cxxSurface::NO_DL);
 		}
 	}
-	else if (temp_surface.Get_type() == cxxSurface::DDL)
+	else if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CCM)
 	{
 		/* all values of dl_type are valid */
 	}

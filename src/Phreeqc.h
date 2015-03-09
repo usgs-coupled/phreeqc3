@@ -720,6 +720,8 @@ public:
 	int read_entity_mix(std::map<int, cxxMix> &mix_map);
 	//int read_solution_mix(void);
 	int read_named_logk(void);
+	int read_nica_master_species(void);
+	int read_nica_species(void);
 	int read_phases(void);
 	int read_print(void);
 	int read_pp_assemblage(void);

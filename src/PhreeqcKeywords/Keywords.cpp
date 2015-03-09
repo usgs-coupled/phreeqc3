@@ -140,7 +140,9 @@ std::map<const std::string, Keywords::KEYWORDS>::value_type("mix_solid_solutions
 std::map<const std::string, Keywords::KEYWORDS>::value_type("solid_solution_mix", 	        Keywords::KEY_SSASSEMBLAGE_MIX),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("mix_solid_solution", 	        Keywords::KEY_SSASSEMBLAGE_MIX),
 std::map<const std::string, Keywords::KEYWORDS>::value_type("surface_mix", 	                Keywords::KEY_SURFACE_MIX),
-std::map<const std::string, Keywords::KEYWORDS>::value_type("mix_surface", 	                Keywords::KEY_SURFACE_MIX)
+std::map<const std::string, Keywords::KEYWORDS>::value_type("mix_surface", 	                Keywords::KEY_SURFACE_MIX),
+std::map<const std::string, Keywords::KEYWORDS>::value_type("nica_master_species",          Keywords::KEY_NICA_MASTER_SPECIES),
+std::map<const std::string, Keywords::KEYWORDS>::value_type("nica_species",                 Keywords::KEY_NICA_SPECIES)
 };
 const std::map<const std::string, Keywords::KEYWORDS> Keywords::phreeqc_keywords(temp_keywords, temp_keywords + sizeof temp_keywords / sizeof temp_keywords[0]);
 
@@ -220,6 +222,8 @@ std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_GAS_PH
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_KINETICS_MIX,		            "KINETICS_MIX"),	
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_PPASSEMBLAGE_MIX,		        "EQUILIBRIUM_PHASES_MIX"),
 std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SSASSEMBLAGE_MIX,		        "SOLID_SOLUTIONS_MIX"),	
-std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SURFACE_MIX,		            "SURFACE_MIX")	
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_SURFACE_MIX,		            "SURFACE_MIX"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_NICA_MASTER_SPECIES,		    "NICA_MASTER_SPECIES"),
+std::map<Keywords::KEYWORDS, const std::string>::value_type(Keywords::KEY_NICA_SPECIES,                 "NICA_SPECIES")
 };
 const std::map<Keywords::KEYWORDS, const std::string> Keywords::phreeqc_keyword_names(temp_keyword_names, temp_keyword_names + sizeof temp_keyword_names / sizeof temp_keyword_names[0]);

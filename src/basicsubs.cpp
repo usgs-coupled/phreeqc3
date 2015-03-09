@@ -540,7 +540,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	int j;
 	for (j = 0; j < count_unknowns; j++)
 	{
-		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
 		{
 			if (x[j]->type != SURFACE_CB)
 				continue;
@@ -582,7 +582,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	 */
 	if (strcmp_nocase("psi", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
 		{
 			return ((LDBLE) (x[j]->master[0]->s->la * 2 * R_KJ_DEG_MOL *
 							 tk_x * LOG_10 / F_KJ_V_EQ));
@@ -636,7 +636,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("charge", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL && dl_type_x == cxxSurface::NO_DL)
+		if ((use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM) && dl_type_x == cxxSurface::NO_DL)
 		{
 			return ((LDBLE) (x[j]->f));
 		}
@@ -682,7 +682,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	else if (strcmp_nocase("sigma", total_name) == 0)
 	{
-		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL)
+		if (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
 		{
 			cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 			if (dl_type_x != cxxSurface::NO_DL)

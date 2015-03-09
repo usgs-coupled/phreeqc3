@@ -154,16 +154,24 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 				this->solution_equilibria = entity_ptr->solution_equilibria;
 				this->n_solution = entity_ptr->n_solution;
 				this->type = entity_ptr->type;
-				this->total_p += entity_ptr->total_p  * it->second / sum_fractions;
 				this->total_moles = entity_ptr->total_moles * it->second;
 				this->volume = entity_ptr->volume * it->second;
-				this->v_m = entity_ptr->v_m * it->second / sum_fractions;
+				if (sum_fractions > 0.0)
+				{
+					this->v_m = entity_ptr->v_m * it->second / sum_fractions;
+					this->total_p += entity_ptr->total_p  * it->second / sum_fractions;
+				}
+				else
+				{
+					this->v_m = 0.0;
+					this->total_p = 0.0;
+				}
 				this->pr_in = entity_ptr->pr_in;
 				this->temperature = entity_ptr->temperature;
 				first = false;
-			}
-			else
-			{
+				}
+				else
+				{
 				if (this->type != entity_ptr->type)
 				{
 					std::ostringstream oss;
