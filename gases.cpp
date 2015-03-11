@@ -474,7 +474,7 @@ calc_PR(void)
 				it = 0;
 				halved = false;
 				ddp = 1e-9;
-				v1 = vinit = 0.429;
+				v1 = vinit = 0.729;
 				dp_dv = f_Vm(v1, this);
 				while (fabs(dp_dv) > 1e-11 && it < 40)
 				{
@@ -483,7 +483,10 @@ calc_PR(void)
 					v1 -= (dp_dv * ddp / (dp_dv - dp_dv2));
 					if (!halved && (v1 > vinit || v1 < 0.03))
 					{
-						vinit -= 0.05;
+						if (vinit > 0.329)
+							vinit -= 0.1;
+						else
+							vinit -=0.05;
 						if (vinit < 0.03)
 						{
 							vinit = halve(f_Vm, 0.03, 1.0, 1e-3);
