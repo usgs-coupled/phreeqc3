@@ -1,0 +1,32 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION_MASTER_SPECIES
+A	A	0.	A	1. # for SO2
+SOLUTION_SPECIES
+A = A
+PHASES
+A(g)
+	A = A
+	log_k -99
+	-T_c 430.8 # SO2 critical properties
+	-P_c 78.84
+	-Omega 0.245
+END
+PRINT; -reset false
+USER_GRAPH 1
+	-chart_title "P/V for SO2 gas"
+	-axis_titles "Vm / (L/mol)" "Pressure / atm"
+	-start
+	10 PLOT_XY 1/sys("A"), pressure
+	-end
+SOLUTION 1 pure water
+	pressure 1e-3
+	temp 40	
+	pH 7 charge
+GAS_PHASE 1
+	-fixed_volume
+	A(g) 0
+REACTION 1
+	A 1
+	10*0.3 5*2 4*2 3*0.2
+INCREMENTAL_REACTIONS true
+END
