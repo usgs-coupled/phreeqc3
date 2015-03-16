@@ -3210,6 +3210,10 @@ tidy_solutions(void)
 		// put unnumbered solutions in map
 		for (size_t i = 0; i < unnumbered_solutions.size(); i++)
 		{
+			if (use.Get_n_solution_user() < 0)
+			{
+				use.Set_n_solution_user(last + 1);
+			}
 			unnumbered_solutions[i].Set_n_user_both(++last);
 			Rxn_solution_map[last] = unnumbered_solutions[i];
 			Rxn_new_solution.insert(last);
