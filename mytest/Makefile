@@ -349,7 +349,8 @@ all: alkalinity.out \
 	diff_c.out \
 	cc_1barCO2.out \
 	surf_total.out \
-	peng_SO2.out
+	peng_SO2.out \
+	num_spread.out
 
 # NaX.out
 
