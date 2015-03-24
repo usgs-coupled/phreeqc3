@@ -2580,6 +2580,10 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	{
 		system_total_gas();
 	}
+	else if (strcmp_nocase(total_name, "equi") == 0)
+	{
+		system_total_equi();
+	}
 	else
 	{
 		if (strstr(total_name, "(") == NULL)
@@ -2968,6 +2972,33 @@ system_total_gas(void)
 		count_sys++;
 		space((void **) ((void *) &sys), count_sys, &max_sys,
 			  sizeof(struct system_species));
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+system_total_equi(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *  Equilibrium phases
+ */
+	if (use.Get_pp_assemblage_ptr() == NULL)
+		return (OK);
+	std::map <std::string, cxxPPassemblageComp > comps = use.Get_pp_assemblage_ptr()->Get_pp_assemblage_comps();
+	std::map <std::string, cxxPPassemblageComp >::iterator it = comps.begin();
+	for  ( ; it != comps.end(); it++)
+	{
+			cxxPPassemblageComp *comp_ptr = &(it->second);
+			int l;
+			struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			sys[count_sys].name = string_duplicate(phase_ptr->name);
+			sys[count_sys].moles = comp_ptr->Get_moles();
+			sys_tot += sys[count_sys].moles;
+			sys[count_sys].type = string_duplicate("equi");
+			count_sys++;
+			space((void **) ((void *) &sys), count_sys, &max_sys,
+				  sizeof(struct system_species));
 	}
 	return (OK);
 }
