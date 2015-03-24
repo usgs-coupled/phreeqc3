@@ -146,6 +146,7 @@ public:
 	int system_total_ex(void);
 	int system_total_surf(void);
 	int system_total_gas(void);
+	int system_total_equi(void);
 	int system_total_ss(void);
 	int system_total_elt(const char *total_name);
 	int system_total_elt_secondary(const char *total_name);
