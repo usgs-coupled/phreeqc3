@@ -1,0 +1,15 @@
+DATABASE ../database/phreeqc.dat
+SOLUTION
+END
+USE solution 1
+EQUILIBRIUM_PHASES
+	Calcite  0    10
+	Dolomite 0    10
+	CO2(g)   -2.0 10
+USER_PRINT
+10 t = SYS("equi", count, name$, type$, moles)
+15 PRINT "Number of equilibrium phases: ", count
+20 for i = 1 to count
+30   PRINT PAD(name$(i),20), moles(i)
+40 next i
+END
