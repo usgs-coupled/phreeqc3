@@ -79,8 +79,16 @@ pitz_param_read(char *string, int n)
 	ptr = string;
 	for (i = 0; i < n; i++)
 	{
-		if (copy_token(token, &ptr, &l) == EMPTY)
+		int j = copy_token(token, &ptr, &l);
+		if (j == EMPTY)
 			return (NULL);
+		if (j != UPPER)
+		{
+			input_error++;
+			std::ostringstream err;
+			err << "Wrong number of species for a Pitzer parameter.\n"  << line;
+			error_msg(err.str().c_str(), CONTINUE);
+		}
 		pzp.species[i] = string_hsave(token);
 	}
 	k = 0;
