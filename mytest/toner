@@ -1,0 +1,22 @@
+#database ../database/SUPERPHREEQC72.dat
+database ../database/frezchem.dat
+#database ../database/pitzer.dat
+
+PITZER
+-MacInnes   false
+-use_etheta true
+-redox      false
+END
+SOLUTION 1
+    temp      25
+    pH        7  # charge
+    pe        4
+    redox     pe
+    units     mol/kgw
+    density   1
+    Ca        1
+    Cl        2
+    -water    1 # kg
+REACTION_TEMPERATURE
+-80 20 in 11 steps
+END

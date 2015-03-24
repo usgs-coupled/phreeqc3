@@ -351,7 +351,8 @@ all: alkalinity.out \
 	surf_total.out \
 	peng_SO2.out \
 	num_spread.out \
-	sys_equi.out
+	sys_equi.out \
+	toner.out
 
 # NaX.out
 
