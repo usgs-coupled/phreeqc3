@@ -824,6 +824,7 @@ void Phreeqc::init(void)
 	x_arg_max               = 0; 
 	res_arg_max             = 0; 
 	scratch_max             = 0;
+#ifdef SKIP
 	/* dw.cpp ------------------------------- */
 	/* COMMON /QQQQ/ */	
 	Q0                      = 0;
@@ -843,6 +844,7 @@ void Phreeqc::init(void)
 	B2T                     = 0;
 	B1TT                    = 0;
 	B2TT                    = 0;
+#endif
 	/* gases.cpp ------------------------------- */
 	a_aa_sum                = 0;
 	b2                      = 0;
