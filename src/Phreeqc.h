@@ -252,7 +252,7 @@ public:
 	void fpunchf_user(int user_index, const char *format, double d);
 	void fpunchf_user(int user_index, const char *format, char * d);
 	int fpunchf_end_row(const char *format);
-
+#ifdef SKIP
 	// dw.cpp -------------------------------
 	int BB(LDBLE T);
 	LDBLE PS(LDBLE T);
@@ -260,7 +260,7 @@ public:
 	int DFIND(LDBLE * DOUT, LDBLE P, LDBLE D, LDBLE T);
 	int QQ(LDBLE T, LDBLE D);
 	LDBLE BASE(LDBLE D);
-
+#endif
 	// input.cpp -------------------------------
 	int reading_database(void);
 	void set_reading_database(int reading_database);
@@ -526,8 +526,10 @@ public:
 	int set_pz(int initial);
 	int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);	
+#ifdef SKIP
 	LDBLE DC(LDBLE T);
 	int DW(LDBLE T);
+#endif
 	int ISPEC(const char *name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
@@ -1721,7 +1723,7 @@ protected:
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
 	int x_arg_max, res_arg_max, scratch_max;
-
+#ifdef SKIP
 	/* dw.cpp ------------------------------- */
 	/* COMMON /QQQQ/ */
 	LDBLE Q0, Q5;
@@ -1729,7 +1731,7 @@ protected:
 	LDBLE Z, DZ, Y;
 	LDBLE G1, G2, GF;
 	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
-
+#endif
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
 
