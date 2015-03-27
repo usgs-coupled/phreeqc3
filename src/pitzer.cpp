@@ -186,7 +186,7 @@ pitzer_tidy(void)
 				continue;
 			pitz_params[i]->ispec[j] = ISPEC(pitz_params[i]->species[j]);
 			if ((j < 2 && pitz_params[i]->ispec[j] == -1) ||
-				(j == 3
+				(j == 2
 				 && (pitz_params[i]->type == TYPE_PSI
 					 || pitz_params[i]->type == TYPE_ZETA)
 				 && pitz_params[i]->ispec[j] == -1))
