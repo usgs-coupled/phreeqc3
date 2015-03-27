@@ -86,7 +86,11 @@ public:
 	void basic_free(void);
 	double basic_callback(double x1, double x2, char * str);
 	void register_basic_callback(double ( *fcn)(double x1, double x2, const char *str, void *cookie), void *cookie1);
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l));
+#else
+	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str));
+#endif
 
 	LDBLE activity(const char *species_name);
 	LDBLE activity_coefficient(const char *species_name);
@@ -1718,7 +1722,11 @@ protected:
 	PBasic * basic_interpreter;
 	double (*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
 	void *basic_callback_cookie;
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
+#else
+	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str);
+#endif
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
