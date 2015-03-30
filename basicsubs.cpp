@@ -408,25 +408,38 @@ calc_logk_p(const char *name)
 	int i, j;
 	char token[MAX_LENGTH];
 	struct phase *phase_ptr;
-	LDBLE lk;
+	LDBLE lk=-999.9;
 	LDBLE l_logk[MAX_LOG_K_INDICES];
 
 	strcpy(token, name);
 	phase_ptr = phase_bsearch(token, &j, FALSE);
+
 	if (phase_ptr != NULL)
-	{
+	{		
+		struct reaction *reaction_ptr;
+		if (phase_ptr->replaced)
+			reaction_ptr = phase_ptr->rxn_s;
+		else
+			reaction_ptr = phase_ptr->rxn;
+		/*
+		*   Print saturation index
+		*/
+		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+			phase_ptr->logk[vm0];
+		if (reaction_ptr->logk[delta_v])
+			mu_terms_in_logk = true;
 		for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
 		}
-		select_log_k_expression(phase_ptr->logk, l_logk);
-		add_other_logk(l_logk, phase_ptr->count_add_logk, phase_ptr->add_logk);
+		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
+		select_log_k_expression(reaction_ptr->logk, l_logk);
+		add_other_logk(l_logk, phase_ptr->count_add_logk, phase_ptr->add_logk); 
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
-		return (lk);
 	}
-	return (-999.99);
+	return (lk);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_s(const char *name)
@@ -458,7 +471,36 @@ calc_logk_s(const char *name)
 	}
 	return (-999.99);
 }
+#endif
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_logk_s(const char *name)
+/* ---------------------------------------------------------------------- */
+{
+	int i;
+	char token[MAX_LENGTH];
+	struct species *s_ptr;
+	LDBLE lk, l_logk[MAX_LOG_K_INDICES];
 
+	strcpy(token, name);
+	s_ptr = s_search(token);
+	if (s_ptr != NULL)
+	{
+		if (s_ptr->logk[vm_tc])
+		/* calculate delta_v for the reaction... */
+			s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
+		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			l_logk[i] = 0.0;
+		}
+		select_log_k_expression(s_ptr->logk, l_logk);
+		mu_terms_in_logk = true;
+		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
+		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+		return (lk);
+	}
+	return (-999.99);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_surface_charge(const char *surface_name)
