@@ -89,7 +89,7 @@ public:
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l));
 #else
-	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str));
+	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, int l));
 #endif
 
 	LDBLE activity(const char *species_name);
@@ -1725,7 +1725,7 @@ protected:
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
 #else
-	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str);
+	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, int l);
 #endif
 
 	/* cl1.cpp ------------------------------- */
