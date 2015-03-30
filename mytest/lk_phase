@@ -1,0 +1,30 @@
+database ../database/phreeqc.dat
+TITLE Solubility calcite
+SOLUTION
+REACTION_TEMPERATURE
+0 25 60 100 150 200
+EQUILIBRIUM_PHASES
+calcite
+USER_GRAPH 1
+-headings legend P_sat
+-axis_scale x_axis 0 200
+-connect_simulation false
+-start
+10 GRAPH_X TC
+20 GRAPH_Y LK_PHASE("Calcite")
+-end
+END
+ 
+SOLUTION 2
+user_print
+10 PRINT LK_PHASE("Calcite")
+15 PRINT LA("Ca+2") + LA("CO3-2") - SI("Calcite")
+20 PRINT LK_SPECIES("HCO3-")
+30 PRINT LA("HCO3-") - LA("H+") - LA("CO3-2") 
+USE REACTION_TEMPERATURE
+REACTION_PRESSURE
+500
+EQUILIBRIUM_PHASES
+calcite
+USER_GRAPH 1;-headings legend 500_atm
+END

@@ -1,20 +1,22 @@
 CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
-PHREEQC=../src/Class_release_64/phreeqc
+#PHREEQC=../src/Class_release_64/phreeqc
+#TIME=time
 #PHREEQC=../src/Class_debug_64/phreeqc
-
+PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
+TIME=
 #VALGRIND=valgrind --leak-check=full
 VALGRIND=
 
-ifeq ($(CFG), CYGWIN)
+ifeq ($(CFG1), windows32)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
-	time $(VALGRIND) $(PHREEQC) $< $<.out xxx $<.log
+	$(TIME) $(VALGRIND) $(PHREEQC) $< $<.out xxx $<.log
 #	mv phreeqc.log $<.log
 #	gprof $(PHREEQC) > $<.gprof
 
@@ -352,10 +354,77 @@ all: alkalinity.out \
 	peng_SO2.out \
 	num_spread.out \
 	sys_equi.out \
-	toner.out
+	toner.out \
+	lk_phase.out
 
 # NaX.out
 
+pitzer: \
+	anh_P_NaCl.out \
+	anhy_K2SO4.out \
+	anhy_Na2SO4.out \
+	anhy_NaCl.out \
+	Barite_MCl2.out \
+	Barite_NaCl.out \
+	Carnallite.out \
+	cc_1barCO2.out \
+	CO2_4M_NaCl.out \
+	CO2_Na2SO4.out \
+	evap.out \
+	evap_sea.out \
+	ex10_pz.out \
+	exch_kin_related_pz.out \
+	exch_related_pz.out \
+	fixed_volume_gas_pz.out \
+	gyps_Na2SO4.out \
+	gyps_NaCl.out \
+	gypsum.out \
+	gypsum_P2.out \
+	gypsum_P5.out \
+	halite.out \
+	Halite_P.out \
+	K2SO4.out \
+	KCl.out \
+	KCl-SO4.out \
+	local_min_pz.out \
+	MgCl-SO4.out \
+	MgCl2.out \
+	mgcl2mgso4_pz.out \
+	MgSO4.out \
+	Na2SO4.out \
+	NaCl.out \
+	NaCl-SO4.out \
+	NaCl_temp.out \
+	NaKCl.out \
+	NaMgCl.out 
+
+frezchem: \
+	anh_P_NaCl.out \
+	anhy_K2SO4.out \
+	anhy_Na2SO4.out \
+	anhy_NaCl.out \
+	Carnallite.out \
+	evap_sea.out \
+	ex10_pz.out \
+	exch_kin_related_pz.out \
+	exch_related_pz.out \
+	fixed_volume_gas_pz.out \
+	gyps_Na2SO4.out \
+	gyps_NaCl.out \
+	gypsum.out \
+	gypsum_P2.out \
+	gypsum_P5.out \
+	halite.out \
+	Halite_P.out \
+	K2SO4.out \
+	KCl-SO4.out \
+	MgCl-SO4.out \
+	mgcl2mgso4_pz.out \
+	Na2SO4.out \
+	NaCl-SO4.out \
+	NaKCl.out \
+	NaMgCl.out 
+	
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv
 
