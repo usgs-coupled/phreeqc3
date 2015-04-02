@@ -3297,6 +3297,10 @@ factor(struct LOC_exec * LINK)
 
 	case tokcell_pore_volume:
 	case tokporevolume:
+		{
+			double x1 = (double) PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_pore_volume");
+		}
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_pore_volume;
 		break;
 
@@ -3306,13 +3310,24 @@ factor(struct LOC_exec * LINK)
 		break;
 /* VP: Density End */
 	case tokcell_volume:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_volume;
+		{
+			double x1 = (double) PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_volume");
+		}
 		break;
 	case tokcell_porosity:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_porosity;
+		{
+			double x1 = (double) PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_porosity");
+		}
+		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_porosity;
 		break;
 	case tokcell_saturation:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_saturation;
+		{
+			double x1 = (double) PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_saturation");
+		}
+		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_saturation;
 		break;
 	case toksc:
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_SC();
