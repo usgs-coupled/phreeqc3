@@ -19034,15 +19034,15 @@ RATES
 #K-feldspar
 ###########
 #
-# Sverdrup and Warfvinge, 1995, Estimating field weathering rates 
-# using laboratory kinetics: Reviews in minreralogy and geochemistry,
+# Sverdrup and Warfvinge, 1995, Estimating field weathering rates
+# using laboratory kinetics: Reviews in mineralogy and geochemistry,
 # vol. 31, p. 485-541.
 #
-# As described in: 
+# As described in:
 # Appelo and Postma, 2005, Geochemistry, groundwater
 # and pollution, 2nd Edition: A.A. Balkema Publishers,
 # p. 162-163 and 395-399.
-# 
+#
 # Assume soil is 10% K-feldspar by mass in 1 mm spheres (radius 0.5 mm)
 # Assume density of rock and Kspar is 2600 kg/m^3 = 2.6 kg/L
 # GFW Kspar 0.278 kg/mol
@@ -19057,7 +19057,7 @@ RATES
 #   Mass of sphere 2600 x 5.24e-13                        = 1.36e-9  kg Kspar/sphere
 #   Moles of Kspar in sphere 1.36e-9/0.278                = 4.90e-9  mol Kspar/sphere
 #   Surface area of one sphere 4 x pi x r^2               = 3.14e-8  m^2/sphere
-#   Specific area of K-feldspar in sphere 3.14e-8/4.90e-9 = 6.41     m^2/mol Kspar
+#   Specific area of K-feldspar in sphere 3.14e-8/4.90e-9 = 6.41 m^2/mol Kspar
 #
 #
 # Example of KINETICS data block for K-feldspar rate:
@@ -19066,64 +19066,66 @@ RATES
 #               -m0 2.18            # 10% Kspar, 0.1 mm cubes
 #               -m  2.18            # Moles per L pore space
 #               -parms 6.41  0.1    # m^2/mol Kspar, fraction adjusts lab rate to field rate
+#               -time 1.5 year in 40
 
 K-feldspar
  -start
 1   REM Sverdrup and Warfvinge, 1995, mol m^-2 s^-1
 2   REM PARM(1) = Specific area of Kspar m^2/mol Kspar
 3   REM PARM(2) = Adjusts lab rate to field rate
-4   REM temp corr: from A&P, p. 162. E (kJ/mol) / R / 2.303 = H in H*(1/T-1/298)
+4   REM temp corr: from A&P, p. 162. E (kJ/mol) / R / 2.303 = H in H*(1/T-1/281)
 5   REM K-Feldspar parameters
-10  DATA 11.7, 0.5, 4e-6, 0.4, 500e-6, 0.15, 14.5, 0.14, 0.15, 13.1
+10  DATA 11.7, 0.5, 4e-6, 0.4, 500e-6, 0.15, 14.5, 0.14, 0.15, 13.1, 0.3
 20  RESTORE 10
-30  READ pK_H, n_H, lim_Al, x_Al, lim_BC, x_BC, pK_H2O, z_Al, z_BC, pK_OH
+30  READ pK_H, n_H, lim_Al, x_Al, lim_BC, x_BC, pK_H2O, z_Al, z_BC, pK_OH, o_OH
 40  DATA 3500, 2000, 2500, 2000
 50  RESTORE 40
 60  READ e_H, e_H2O, e_OH, e_CO2
 70  pk_CO2 = 13
 80  n_CO2 = 0.6
 100 REM Generic rate follows
-110 dif_temp = 1/TK - 1/271
+110 dif_temp = 1/TK - 1/281
 120 BC       = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
 130 REM rate by H+
 140 pk_H     = pk_H + e_H * dif_temp
 150 rate_H   = 10^-pk_H * ACT("H+")^n_H / ((1 + ACT("Al+3") / lim_Al)^x_Al * (1 + BC / lim_BC)^x_BC)
-160 REM rate by hydrolosis
+160 REM rate by hydrolysis
 170 pk_H2O   = pk_H2O + e_H2O * dif_temp
 180 rate_H2O = 10^-pk_H2O / ((1 + ACT("Al+3") / lim_Al)^z_Al * (1 + BC / lim_BC)^z_BC)
 190 REM rate by OH-
 200 pk_OH    = pk_OH + e_OH * dif_temp
-210 rate_OH  = 10^-pk_OH 
+210 rate_OH  = 10^-pk_OH * ACT("OH-")^o_OH
 220 REM rate by CO2
 230 pk_CO2   = pk_CO2 + e_CO2 * dif_temp
-240 rate_CO2 = 10^-pk_CO2 * (10^SI("CO2(g)"))^n_CO2
+240 rate_CO2 = 10^-pk_CO2 * (SR("CO2(g)"))^n_CO2
 250 rate     = rate_H + rate_H2O + rate_OH + rate_CO2
-260 area     = PARM(1) * M0 *(M/M0)^0.67 
+260 area     = PARM(1) * M0 *(M/M0)^0.67
 270 rate     = PARM(2) * area * rate * (1-SR("K-feldspar"))
 280 moles    = rate * TIME
 290 SAVE moles
  -end
- 
- 
+
+
 ###########
 #Albite
 ###########
 #
-# Sverdrup and Warfvinge, 1995, Estimating field weathering rates 
-# using laboratory kinetics: Reviews in minreralogy and geochemistry,
+# Sverdrup and Warfvinge, 1995, Estimating field weathering rates
+# using laboratory kinetics: Reviews in mineralogy and geochemistry,
 # vol. 31, p. 485-541.
 #
-# As described in: 
+# As described in:
 # Appelo and Postma, 2005, Geochemistry, groundwater
 # and pollution, 2nd Edition: A.A. Balkema Publishers,
 # p. 162-163 and 395-399.
-# 
+#
 # Example of KINETICS data block for Albite rate:
 #       KINETICS 1
 #       Albite
-#               -m0 0.46            # 2% Albite, 0.1 mm cubes       
+#               -m0 0.46            # 2% Albite, 0.1 mm cubes
 #               -m  0.46            # Moles per L pore space
 #               -parms 6.04  0.1    # m^2/mol Albite, fraction adjusts lab rate to field rate
+#               -time 1.5 year in 40
 #
 # Assume soil is 2% Albite by mass in 1 mm spheres (radius 0.5 mm)
 # Assume density of rock and Albite is 2600 kg/m^3 = 2.6 kg/L
@@ -19139,40 +19141,40 @@ K-feldspar
 #   Mass of sphere 2600 x 5.24e-13                        = 1.36e-9  kg Albite/sphere
 #   Moles of Albite in sphere 1.36e-9/0.278               = 5.20e-9  mol Albite/sphere
 #   Surface area of one sphere 4 x pi x r^2               = 3.14e-8  m^2/sphere
-#   Specific area of Albite in sphere 3.14e-8/4.90e-9     = 6.04     m^2/mol Albite
+#   Specific area of Albite in sphere 3.14e-8/4.90e-9     = 6.04 m^2/mol Albite
 
 Albite
  -start
 1   REM Sverdrup and Warfvinge, 1995, mol m^-2 s^-1
 2   REM PARM(1) = Specific area of Albite m^2/mol Albite
 3   REM PARM(2) = Adjusts lab rate to field rate
-4   REM temp corr: from A&P, p. 162. E (kJ/mol) / R / 2.303 = H in H*(1/T-1/298)
+4   REM temp corr: from A&P, p. 162. E (kJ/mol) / R / 2.303 = H in H*(1/T-1/281)
 5   REM Albite parameters
-10  DATA 11.5, 0.5, 4e-6, 0.4, 500e-6, 0.2, 13.7, 0.14, 0.15, 11.8
+10  DATA 11.5, 0.5, 4e-6, 0.4, 500e-6, 0.2, 13.7, 0.14, 0.15, 11.8, 0.3
 20  RESTORE 10
-30  READ pK_H, n_H, lim_Al, x_Al, lim_BC, x_BC, pK_H2O, z_Al, z_BC, pK_OH
+30  READ pK_H, n_H, lim_Al, x_Al, lim_BC, x_BC, pK_H2O, z_Al, z_BC, pK_OH, o_OH
 40  DATA 3500, 2000, 2500, 2000
 50  RESTORE 40
 60  READ e_H, e_H2O, e_OH, e_CO2
 70  pk_CO2 = 13
 80  n_CO2 = 0.6
 100 REM Generic rate follows
-110 dif_temp = 1/TK - 1/271
+110 dif_temp = 1/TK - 1/281
 120 BC       = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
 130 REM rate by H+
 140 pk_H     = pk_H + e_H * dif_temp
 150 rate_H   = 10^-pk_H * ACT("H+")^n_H / ((1 + ACT("Al+3") / lim_Al)^x_Al * (1 + BC / lim_BC)^x_BC)
-160 REM rate by hydrolosis
+160 REM rate by hydrolysis
 170 pk_H2O   = pk_H2O + e_H2O * dif_temp
 180 rate_H2O = 10^-pk_H2O / ((1 + ACT("Al+3") / lim_Al)^z_Al * (1 + BC / lim_BC)^z_BC)
 190 REM rate by OH-
 200 pk_OH    = pk_OH + e_OH * dif_temp
-210 rate_OH  = 10^-pk_OH 
+210 rate_OH  = 10^-pk_OH * ACT("OH-")^o_OH
 220 REM rate by CO2
 230 pk_CO2   = pk_CO2 + e_CO2 * dif_temp
-240 rate_CO2 = 10^-pk_CO2 * (10^SI("CO2(g)"))^n_CO2
+240 rate_CO2 = 10^-pk_CO2 * (SR("CO2(g)"))^n_CO2
 250 rate     = rate_H + rate_H2O + rate_OH + rate_CO2
-260 area     = PARM(1) * M0 *(M/M0)^0.67 
+260 area     = PARM(1) * M0 *(M/M0)^0.67
 270 rate     = PARM(2) * area * rate * (1-SR("Albite"))
 280 moles    = rate * TIME
 290 SAVE moles
@@ -19188,7 +19190,7 @@ Albite
 # -tol   1e-8
 # -m0    3.e-3
 # -m     3.e-3
-# -parms 1.67e8   0.6  # cm^2/mol calcite, exp factor
+# -parms 1.67e5   0.6  # cm^2/mol calcite, exp factor
 # -time  1 day
 
 Calcite
@@ -19215,24 +19217,25 @@ Calcite
 #######
 #Pyrite
 #######
-# 
-# Williamson, M.A. and Rimstidt, J.D., 1994, 
+#
+# Williamson, M.A. and Rimstidt, J.D., 1994,
 # Geochimica et Cosmochimica Acta, v. 58, p. 5443-5454,
 # rate equation is mol m^-2 s^-1.
 #
 # Example of KINETICS data block for pyrite rate:
 #       KINETICS 1
-#       Pyrite  
+#       Pyrite
 #               -tol    1e-8
 #               -m0     5.e-4
 #               -m      5.e-4
-#               -parms  3.3     0.67     .5      -0.11 
+#               -parms  0.3     0.67     .5      -0.11
+#               -time 1 day in 10
 Pyrite
   -start
 1   REM        Williamson and Rimstidt, 1994
 2   REM        PARM(1) = log10(specific area), log10(m^2 per mole pyrite)
 3   REM        PARM(2) = exp for (M/M0)
-4   REM        PARM(3) = exp for O2 
+4   REM        PARM(3) = exp for O2
 5   REM        PARM(4) = exp for H+
 
 10  REM Dissolution in presence of DO
@@ -19251,8 +19254,10 @@ Pyrite
 # Example of KINETICS data block for SOC (sediment organic carbon):
 #       KINETICS 1
 #       Organic_C
+#               -formula C
 #               -tol    1e-8
 #               -m      5e-3   # SOC in mol
+#               -time 30 year in 15
 Organic_C
  -start
 1   REM      Additive Monod kinetics for SOC (sediment organic carbon)
@@ -19265,10 +19270,10 @@ Organic_C
 50  k_O2  = 1.57e-9    # 1/sec
 60  k_NO3 = 1.67e-11   # 1/sec
 70  k_SO4 = 1.e-13     # 1/sec
-80  rate  = k_O2 * mO2/(2.94e-4 + mO2) 
+80  rate  = k_O2 * mO2/(2.94e-4 + mO2)
 90  rate  = rate + k_NO3 * mNO3/(1.55e-4 + mNO3)
 100 rate  = rate + k_SO4 * mSO4/(1.e-4 + mSO4)
-110 moles = rate * M * TIME
+110 moles = rate * M * (M/M0) * TIME
 200 SAVE moles
  -end
 
@@ -19285,19 +19290,20 @@ Organic_C
 #               -tol    1.e-7
 #               -m0     0.1
 #               -m      0.1
+#               -time 0.5 day in 10
 Pyrolusite
   -start
-10  if (M <= 0.0) THEN GOTO 200
+10  if (M <= 0) THEN GOTO 200
 20  sr_pl = SR("Pyrolusite")
-30  if (sr_pl > 1.0) THEN GOTO 100
-40  REM sr_pl <= 1.0, undersaturated
+30  if (sr_pl > 1) THEN GOTO 100
+40  REM sr_pl <= 1, undersaturated
 50  Fe_t = TOT("Fe(2)")
-60  if Fe_t < 1.e-8 then goto 200
+60  if Fe_t < 1e-8 then goto 200
 70  moles = 6.98e-5 * Fe_t  * (M/M0)^0.67 * TIME * (1 - sr_pl)
 80  GOTO 200
-100 REM sr_pl > 1.0, supersaturated
-110 Mn_t = TOT("Mn")
-120 moles = 2e-3 * 6.98e-5 * (1-sr_pl) * TIME 
+100 REM sr_pl > 1, supersaturated
+110 moles = 2e-3 * 6.98e-5 * (1 - sr_pl) * TIME
 200 SAVE moles * SOLN_VOL
   -end
 END
+
