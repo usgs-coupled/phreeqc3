@@ -1461,29 +1461,33 @@ SURFACE_SPECIES
 	-log_k	20.62
 
 RATES
+
+###########
+#Quartz
+###########
+#
 #######
 # Example of quartz kinetic rates block:
-#KINETICS
-#Quartz
-#-m0  158.8	    # 90 % Qu
-#-parms 23.13  1.5
-#-step 3.1536e8 in 10
-#-tol 1e-12
+#	KINETICS
+#	Quartz
+#		-m0  158.8	    # 90 % Qu
+#		-parms 0.146  1.5
+#		-step 3.1536e8 in 10
+#		-tol 1e-12
 
-# Rate definition:
- Quartz
+Quartz
   -start
- #1 rem Specific rate k from Rimstidt and Barnes, 1980, GCA 44,1683
- #2 rem  k = 10^-13.7 mol/m2/s (25 C), Ea = 90 kJ/mol
- #2 rem  sp. rate * parm(2) due to salts (Dove and Rimstidt, MSA Rev. 29, 259)
- #4 rem  parm(1) = A (m2) recalc's to mol/s
- #5 rem  parm(2) salt correction: (1 + 1.5 * c_Na (mM)), < 35
+1  REM  Specific rate k from Rimstidt and Barnes, 1980, GCA 44,1683
+2  REM  k = 10^-13.7 mol/m2/s (25 C), Ea = 90 kJ/mol
+3  REM  sp. rate * parm(2) due to salts (Dove and Rimstidt, MSA Rev. 29, 259)
+4  REM  PARM(1) = Specific area of Quartz, m^2/mol Quartz
+5  REM  PARM(2) = salt correction: (1 + 1.5 * c_Na (mM)), < 35
 
- 10 dif_temp = 1/TK - 1/298
-  20 pk_w = 13.7 + 4700.4 * dif_temp
-  40 moles = parm(1) * parm(2) * (m/m0)^0.67 * 10^-pk_w * (1 -  SR("Quartz"))
+10 dif_temp = 1/TK - 1/298
+20 pk_w = 13.7 + 4700.4 * dif_temp
+40 moles = PARM(1) * M0 * PARM(2) * (M/M0)^0.67 * 10^-pk_w * (1 -  SR("Quartz"))
 #			 Integrate...
-  50 save moles * time
+50 SAVE moles * TIME
   -end
 
 ###########
