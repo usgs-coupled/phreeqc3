@@ -355,7 +355,8 @@ all: alkalinity.out \
 	num_spread.out \
 	sys_equi.out \
 	toner.out \
-	lk_phase.out
+	lk_phase.out \
+	calcite_rate.out
 
 # NaX.out
 
