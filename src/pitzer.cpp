@@ -1356,6 +1356,7 @@ pitzer_clean_up(void)
 			(struct pitz_param *) free_check_null(pitz_params[i]);
 	}
 	count_pitz_param = 0;
+	pitz_param_map.clear();
 	pitz_params = (struct pitz_param **) free_check_null(pitz_params);
 	for (i = 0; i < count_theta_param; i++)
 	{
