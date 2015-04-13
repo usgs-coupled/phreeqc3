@@ -1,0 +1,250 @@
+   Input file: CFAscmtest
+  Output file: CFAscmtest.out
+Database file: C:\Program Files (x86)\USGS\Phreeqc Interactive 3.1.4-8929\database\Amm.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.1.4-8929\database\Amm.dat
+	SOLUTION 1 
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+       Specific Conductance (µS/cm, 25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.007e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SURFACE MASTER SPECIES
+		SurfCFA_Ca		SurfCFA_CaOH
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+		SurfCFA_F		SurfCFA_F
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+		SurfCFA_OPO3	SurfCFA_OPO3H2
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+	SURFACE SPECIES
+		SurfCFA_CaOH = SurfCFA_CaOH
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   0
+ERROR: Unknown option.
+ERROR: 		-log_k   0
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   0
+		SurfCFA_OPO3H2 = SurfCFA_OPO3H2
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   0
+ERROR: Unknown option.
+ERROR: 		-log_k   0
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   0
+		SurfCFA_F = SurfCFA_F
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   0
+ERROR: Unknown option.
+ERROR: 		-log_k   0
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   0
+		SurfCFA_OPO3H2 = SurfCFA_CaOPO3H- + H+
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   -1.11
+ERROR: Unknown option.
+ERROR: 		-log_k   -1.11
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   -1.11
+		SurfCFA_OPO3H2 + Na+ = SurfCFA_OPO3Na- + 2H+
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   -11.08
+ERROR: Unknown option.
+ERROR: 		-log_k   -11.08
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   -11.08
+		SurfCFA_CaOH + H+ = SurfCFA_CaOH2
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   8.41	
+ERROR: Unknown option.
+ERROR: 		-log_k   8.41	
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   8.41	
+		SurfCFA_OH  + H+ + F- = SurfCFA_CaF
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   11.40
+ERROR: Unknown option.
+ERROR: 		-log_k   11.40
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   11.40
+		SurfCFA_F = SurfCFA_OH + H+ + F- 
+ERROR: Character string expected to be 'equilibrium_phase' or 'kinetics' to relate surface to mineral or kinetic reaction.
+
+			-log_k   -8.78
+ERROR: Unknown option.
+ERROR: 		-log_k   -8.78
+ERROR: Unknown input in SURFACE keyword.
+ERROR: 		-log_k   -8.78
+	SURFACE 1
+	    equilibrate with solution 1
+	    sites_units 		density
+	    SurfCFA_CaOH		2.48       13.9       2.28
+	    SurfCFA_OPO3H2	2.48
+	    SurfCFA_F		1.24
+	    SurfCFA_CaOH		CFA	kinetic_reactant  3.00818E-07	0.031981932
+	    SurfCFA_OPO3H2	CFA	kinetic_reactant  3.00818E-07	0.031981932
+	    SurfCFA_F		CFA	kinetic_reactant  1.50409E-07	0.031981932
+	SURFACE 2
+	    equilibrate with solution 2
+	    sites_units 		density
+	    SurfCFA_CaOH		2.48       13.9       2.28
+	    SurfCFA_OPO3H2	2.48
+	    SurfCFA_F		1.24
+	    SurfCFA_CaOH		CFA	kinetic_reactant  3.00818E-07	0.031981932
+	    SurfCFA_OPO3H2	CFA	kinetic_reactant  3.00818E-07	0.031981932
+	    SurfCFA_F		CFA	kinetic_reactant  1.50409E-07	0.031981932	
+	SURFACE 3
+	    equilibrate with solution 3
+	    sites_units 		density
+	    SurfCFA_CaOH		2.48       13.9       2.28
+	    SurfCFA_OPO3H2	2.48
+	    SurfCFA_F		1.24
+	    SurfCFA_CaOH		CFA	kinetic_reactant  3.00818E-07	0.031981932
+	    SurfCFA_OPO3H2	CFA	kinetic_reactant  3.00818E-07	0.031981932
+	    SurfCFA_F		CFA	kinetic_reactant  1.50409E-07	0.031981932
+	END
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: No surface master species for surface component SurfCFA_CaOH, 
+ERROR: No surface master species for surface component SurfCFA_F, 
+ERROR: No surface master species for surface component SurfCFA_OPO3H2, 
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: No surface master species for surface component SurfCFA_CaOH, 
+ERROR: No surface master species for surface component SurfCFA_F, 
+ERROR: No surface master species for surface component SurfCFA_OPO3H2, 
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: No surface master species for surface component SurfCFA_CaOH, 
+ERROR: No surface master species for surface component SurfCFA_F, 
+ERROR: No surface master species for surface component SurfCFA_OPO3H2, 
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_CaOH
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_F
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_OPO3H2
+ERROR: Error in SURFACE related to KINETICS. 
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_CaOH
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_F
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_OPO3H2
+ERROR: Error in SURFACE related to KINETICS. 
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_CaOH
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_F
+ERROR: Master species not in database for A_, skipping element.
+ERROR: Master species not in database for Surf, skipping element.
+ERROR: Surface formula does not contain a surface master species, SurfCFA_OPO3H2
+ERROR: Error in SURFACE related to KINETICS. 
+ERROR: Calculations terminating due to input errors.
+Stopping.

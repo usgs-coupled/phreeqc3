@@ -424,7 +424,8 @@ frezchem: \
 	Na2SO4.out \
 	NaCl-SO4.out \
 	NaKCl.out \
-	NaMgCl.out 
+	NaMgCl.out \
+	CFAscmtest.out 
 	
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv

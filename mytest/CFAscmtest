@@ -1,0 +1,66 @@
+DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.1.4-8929\database\Amm.dat
+#DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.1.5-9113\database\pht3d_datab.dat
+SOLUTION 1 
+END
+SURFACE MASTER SPECIES
+	SurfCFA_Ca		SurfCFA_CaOH
+	SurfCFA_F		SurfCFA_F
+	SurfCFA_OPO3	SurfCFA_OPO3H2
+	
+SURFACE SPECIES
+	SurfCFA_CaOH = SurfCFA_CaOH
+		-log_k   0
+
+	SurfCFA_OPO3H2 = SurfCFA_OPO3H2
+		-log_k   0
+
+	SurfCFA_F = SurfCFA_F
+		-log_k   0
+
+	SurfCFA_OPO3H2 = SurfCFA_CaOPO3H- + H+
+		-log_k   -1.11
+
+	SurfCFA_OPO3H2 + Na+ = SurfCFA_OPO3Na- + 2H+
+		-log_k   -11.08
+
+	SurfCFA_CaOH + H+ = SurfCFA_CaOH2
+		-log_k   8.41	
+
+	SurfCFA_OH  + H+ + F- = SurfCFA_CaF
+		-log_k   11.40
+
+	SurfCFA_F = SurfCFA_OH + H+ + F- 
+		-log_k   -8.78
+
+SURFACE 1
+    -equilibrate with solution 1
+    -sites_units 		density
+    SurfCFA_CaOH		2.48       13.9       2.28
+    SurfCFA_OPO3H2	2.48
+    SurfCFA_F		1.24
+
+    SurfCFA_CaOH		CFA	kinetic_reactant  3.00818E-07	0.031981932
+    SurfCFA_OPO3H2	CFA	kinetic_reactant  3.00818E-07	0.031981932
+    SurfCFA_F		CFA	kinetic_reactant  1.50409E-07	0.031981932
+SURFACE 2
+    -equilibrate with solution 2
+    -sites_units 		density
+    SurfCFA_CaOH		2.48       13.9       2.28
+    SurfCFA_OPO3H2	2.48
+    SurfCFA_F		1.24
+
+    SurfCFA_CaOH		CFA	kinetic_reactant  3.00818E-07	0.031981932
+    SurfCFA_OPO3H2	CFA	kinetic_reactant  3.00818E-07	0.031981932
+    SurfCFA_F		CFA	kinetic_reactant  1.50409E-07	0.031981932	
+SURFACE 3
+    -equilibrate with solution 3
+    -sites_units 		density
+    SurfCFA_CaOH		2.48       13.9       2.28
+    SurfCFA_OPO3H2	2.48
+    SurfCFA_F		1.24
+
+    SurfCFA_CaOH		CFA	kinetic_reactant  3.00818E-07	0.031981932
+    SurfCFA_OPO3H2	CFA	kinetic_reactant  3.00818E-07	0.031981932
+    SurfCFA_F		CFA	kinetic_reactant  1.50409E-07	0.031981932
+
+END
