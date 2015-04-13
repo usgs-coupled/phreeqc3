@@ -4172,6 +4172,14 @@ tidy_kin_surface(void)
 		if (!surface_ptr->Get_related_rate())
 			continue;
 		kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n);
+		if (kinetics_ptr == NULL)
+		{
+				input_error++;
+				error_string = sformatf(
+						"Error in SURFACE related to KINETICS. ");
+				error_msg(error_string, CONTINUE);
+				continue;
+		}
 		for (size_t k = 0; k < kinetics_ptr->Get_kinetics_comps().size(); k++)
 		{
 			cxxKineticsComp *kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
@@ -4237,6 +4245,34 @@ tidy_kin_surface(void)
 			}
 			for (int j = 0; j < count_elts; j++)
 			{
+				if (elt_list[j].elt == NULL)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Cannot identify elements in kinetics component %s.",
+						comp_ptr_save->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_list[j].elt->primary == NULL )
+				{
+					input_error++;
+					error_string = sformatf(
+						"Cannot identify primary element in kinetics component %s.",
+						comp_ptr_save->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_list[j].elt->primary->s == NULL)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Cannot identify primary species for an element in kinetics component %s.",
+						comp_ptr_save->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+
 				if (elt_list[j].elt->primary->s->type <= H2O)
 				{
 					int l;
