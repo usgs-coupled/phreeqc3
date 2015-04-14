@@ -49,6 +49,11 @@ pitz_param_init(struct pitz_param *pitz_param_ptr)
 	}
 	pitz_param_ptr->alpha = 0.0;
 	pitz_param_ptr->thetas = NULL;
+	pitz_param_ptr->os_coef = 0.;
+	for (i = 0; i < 3; i++)
+	{
+		pitz_param_ptr->ln_coef[i] = 0.0;
+	}
 	return (OK);
 }
 
@@ -82,7 +87,7 @@ pitz_param_read(char *string, int n)
 		int j = copy_token(token, &ptr, &l);
 		if (j == EMPTY)
 			return (NULL);
-		if (j != UPPER)
+		if (j != UPPER && token[0] != '(')
 		{
 			input_error++;
 			std::ostringstream err;
