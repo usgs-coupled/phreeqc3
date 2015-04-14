@@ -4,13 +4,14 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 #PHREEQC=../src/Class_release_64/phreeqc
 #TIME=time
 #PHREEQC=../src/Class_debug_64/phreeqc
-PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
+#PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
+PHREEQC=../src/Class_release_64/phreeqc
 TIME=
-#VALGRIND=valgrind --leak-check=full
-VALGRIND=
+VALGRIND=valgrind --leak-check=full
+#VALGRIND=
 
 ifeq ($(CFG1), windows32)
-   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc.exe
+   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
 endif
@@ -347,7 +348,7 @@ all: alkalinity.out \
 	lkspecies.out \
 	Nardi.out \
 	jm_trans.out \
-	andsurfcomlex4.out \
+	andsurfcomplex4.out \
 	diff_c.out \
 	cc_1barCO2.out \
 	surf_total.out \
@@ -356,7 +357,8 @@ all: alkalinity.out \
 	sys_equi.out \
 	toner.out \
 	lk_phase.out \
-	calcite_rate.out
+	calcite_rate.out \
+	CFAscmtest.out 
 
 # NaX.out
 
@@ -424,9 +426,8 @@ frezchem: \
 	Na2SO4.out \
 	NaCl-SO4.out \
 	NaKCl.out \
-	NaMgCl.out \
-	CFAscmtest.out 
-	
+	NaMgCl.out
+
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv
 
