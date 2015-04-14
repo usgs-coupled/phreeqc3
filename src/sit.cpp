@@ -482,6 +482,7 @@ sit_clean_up(void)
 	}
 	count_sit_param = 0;
 	sit_params = (struct pitz_param **) free_check_null(sit_params);
+	sit_param_map.clear();
 	sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
 	sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
 	spec = (struct species **) free_check_null(spec);
