@@ -15,3 +15,4 @@ IF(WIN32)
 ELSE()
   install (FILES ${phreeqc_DATABASE} DESTINATION ${CMAKE_INSTALL_DOCDIR}/database)
 ENDIF()
+
