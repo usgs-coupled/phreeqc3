@@ -932,7 +932,7 @@ public:
 	struct unknown *unknown_alloc(void);
 	int unknown_delete(int i);
 	int unknown_free(struct unknown *unknown_ptr);
-	int entity_exists(char *name, int n_user);
+	int entity_exists(const char *name, int n_user);
 	static int inverse_compare(const void *ptr1, const void *ptr2);
 	int inverse_free(struct inverse *inverse_ptr);
 	static int kinetics_compare_int(const void *ptr1, const void *ptr2);
