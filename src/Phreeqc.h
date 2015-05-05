@@ -801,6 +801,7 @@ public:
 	int sit_initial_guesses(void);
 	int sit_revise_guesses(void);
 	int PTEMP_SIT(LDBLE tk);
+	void sit_make_lists(void);
 	int jacobian_sit(void);
 
 	// spread.cpp -------------------------------
@@ -1890,6 +1891,7 @@ protected:
 	int sit_MAXCATIONS, sit_FIRSTANION, sit_MAXNEUTRAL;
 	int *sit_IPRSNT;
 	LDBLE *sit_M, *sit_LGAMMA;
+	std::vector<int> s_list, cation_list, neutral_list, anion_list, ion_list, param_list;
 
 	/* tidy.cpp ------------------------------- */
 	LDBLE a0, a1, kc, kb;
