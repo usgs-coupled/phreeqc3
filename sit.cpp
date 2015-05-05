@@ -287,7 +287,7 @@ calc_sit_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 	}
 	return OK;
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 sit(void)
@@ -465,7 +465,218 @@ sit(void)
 	}
 	return (OK);
 }
+#endif
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+sit(void)
+/* ---------------------------------------------------------------------- */
+{
+  int i, i0, i1;
+  LDBLE param, z0, z1;
+  LDBLE A, AGAMMA, T;
+	/*
+	   LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, 
+	   CSUM, PHIMAC, OSMOT, BMXP, ETHEAP, CMX, BMX, PHI,
+	   BMXPHI, PHIPHI, AW, A, B;
+	 */
+/*
+	LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
+		B;
+*/
+	LDBLE XI, XX, OSUM, DI, F, OSMOT, B;
+	LDBLE I, TK;
+	/*
+	   C
+	   C     INITIALIZE
+	   C
+	 */
+	//CONV = 1.0 / log(10.0);
+	XI = 0.0e0;
+	XX = 0.0e0;
+	OSUM = 0.0e0;
+	/*n
+	   I = *I_X;
+	   TK = *TK_X;
+	 */
+	I = mu_x;
+	TK = tk_x;
+	/*      DH_AB(TK, &A, &B); */
+	/*
+	   C
+	   C     TRANSFER DATA FROM TO sit_M
+	   C
+	 */
+	double log_min = log10(MIN_TOTAL);
+	for (size_t j = 0; j < s_list.size(); j++)
+	{
+		i = s_list[j];
+		if (spec[i]->lm > log_min)
+		{
+			sit_M[i] = under(spec[i]->lm);
+		}
+		else
+		{
+			sit_M[i] = 0.0;
+		}
+	}
+	//for (i = 0; i < 3 * count_s; i++)
+	//{
+	//	sit_IPRSNT[i] = FALSE;
+	//	sit_M[i] = 0.0;
+	//	if (spec[i] != NULL && spec[i]->in == TRUE)
+	//	{
+	//		if (spec[i]->type == EX ||
+	//			spec[i]->type == SURF || spec[i]->type == SURF_PSI)
+	//			continue;
+	//		sit_M[i] = under(spec[i]->lm);
+	//		if (sit_M[i] > MIN_TOTAL)
+	//			sit_IPRSNT[i] = TRUE;
+	//	}
+	//}
+	/*
+	   C
+	   C     COMPUTE SIT COEFFICIENTS' TEMPERATURE DEPENDENCE
+	   C
+	 */
+	PTEMP_SIT(TK);
+	for (size_t j = 0; j < s_list.size(); j++)
+	{
+		int i = s_list[j];
+		sit_LGAMMA[i] = 0.0;
+		XX = XX + sit_M[i] * fabs(spec[i]->z);
+		XI = XI + sit_M[i] * spec[i]->z * spec[i]->z;
+		OSUM = OSUM + sit_M[i];
+	}
+	//for (i = 0; i < 2 * count_s + sit_count_anions; i++)
+	//{
+	//	sit_LGAMMA[i] = 0.0;
+	//	if (sit_IPRSNT[i] == TRUE)
+	//	{
+	//		XX = XX + sit_M[i] * fabs(spec[i]->z);
+	//		XI = XI + sit_M[i] * spec[i]->z * spec[i]->z;
+	//		OSUM = OSUM + sit_M[i];
+	//	}
+	//}
+	I = XI / 2.0e0;
+	I = mu_x;   // Added equation for MU
+	DI = sqrt(I);
+	/*
+	   C
+	   C     CALCULATE F & GAMCLM
+	   C
+	 */
+	AGAMMA = 3*sit_A0; /* Grenthe p 379 */
+	A = AGAMMA / log(10.0);
+	/*
+	*  F is now for log10 gamma
+	*/
 
+	B = 1.5;
+	F = -A * (DI / (1.0e0 + B * DI));
+
+
+	/*OSMOT = -(sit_A0) * pow(I, 1.5e0) / (1.0e0 + B * DI);*/
+	T = 1.0 + B*DI;
+	OSMOT = -2.0*A/(B*B*B)*(T - 2.0*log(T) - 1.0/T);
+	/*
+	 *  Sums for sit_LGAMMA, and OSMOT
+	 *  epsilons are tabulated for log10 gamma (not ln gamma)
+	 */
+	//for (i = 0; i < count_sit_param; i++)
+	//{
+	for (size_t j = 0; j < param_list.size(); j++)
+	{
+		int i = param_list[j];
+		i0 = sit_params[i]->ispec[0];
+		i1 = sit_params[i]->ispec[1];
+		//if (sit_IPRSNT[i0] == FALSE || sit_IPRSNT[i1] == FALSE) continue;
+		z0 = spec[i0]->z;
+		z1 = spec[i1]->z;
+		param = sit_params[i]->p;
+		switch (sit_params[i]->type)
+		{
+		case TYPE_SIT_EPSILON:
+			sit_LGAMMA[i0] += sit_M[i1] * param;
+			sit_LGAMMA[i1] += sit_M[i0] * param;
+			if (z0 == 0.0 && z1 == 0.0)
+			{
+				OSMOT += sit_M[i0] * sit_M[i1] * param / 2.0;
+			}
+			else
+			{
+				OSMOT += sit_M[i0] * sit_M[i1] * param;
+			}
+			break;
+		case TYPE_SIT_EPSILON_MU:
+			sit_LGAMMA[i0] += sit_M[i1] * I * param;
+			sit_LGAMMA[i1] += sit_M[i0] * I * param;
+			OSMOT += sit_M[i0] * sit_M[i1] * param;
+			if (z0 == 0.0 && z1 == 0.0)
+			{
+				OSMOT += sit_M[i0] * sit_M[i1] * param * I / 2.0;
+			}
+			else
+			{
+				OSMOT += sit_M[i0] * sit_M[i1] * param * I;
+			}
+			break;
+		default:
+		case TYPE_Other:
+			error_msg("TYPE_Other in pitz_param list.", STOP);
+			break;
+		}
+	}
+
+	/*
+	 *  Add F and CSUM terms to sit_LGAMMA
+	 */
+	for (size_t j = 0; j < ion_list.size(); j++)
+	{
+		int i = ion_list[j];
+		z0 = spec[i]->z;
+		sit_LGAMMA[i] += z0 * z0 * F;
+	}
+	//for (i = 0; i < sit_count_cations; i++)
+	//{
+	//	z0 = spec[i]->z;
+	//	sit_LGAMMA[i] += z0 * z0 * F;
+	//}
+	//for (i = 2 * count_s; i < 2 * count_s + sit_count_anions; i++)
+	//{
+	//	z0 = spec[i]->z;
+	//	sit_LGAMMA[i] += z0 * z0 * F;
+	//}
+	/*
+	   C
+	   C     CONVERT TO MACINNES CONVENTION
+	   C
+	 */
+	/*COSMOT = 1.0e0 + 2.0e0 * OSMOT / OSUM;*/
+	COSMOT = 1.0e0 + OSMOT*log(10.0) / OSUM;
+	/*
+	   C
+	   C     CALCULATE THE ACTIVITY OF WATER
+	   C
+	 */
+	AW = exp(-OSUM * COSMOT / 55.50837e0);
+	/*if (AW > 1.0) AW = 1.0;*/
+	/*s_h2o->la=log10(AW); */
+	mu_x = I;
+	for (size_t j = 0; j < s_list.size(); j++)
+	{
+		int i = s_list[j];
+		spec[i]->lg_pitzer = sit_LGAMMA[i];
+	}
+//	for (i = 0; i < 2 * count_s + sit_count_anions; i++)
+//	{
+//		if (sit_IPRSNT[i] == FALSE)	continue;
+//		spec[i]->lg_pitzer = sit_LGAMMA[i];
+///*
+//		   output_msg(sformatf( "%d %s:\t%e\t%e\t%e\t%e \n", i, spec[i]->name, sit_M[i], spec[i]->la, spec[i]->lg_pitzer, spec[i]->lg));
+//*/
+//	}
+	return (OK);
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 sit_clean_up(void)
@@ -1003,6 +1214,7 @@ model_sit(void)
 	{
 		full_pitzer = FALSE;
 	}
+	sit_make_lists();
 	for (;;)
 	{
 		mb_gases();
@@ -1345,6 +1557,7 @@ gammas_sit()
 
 	return (OK);
 }
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 PTEMP_SIT(LDBLE TK)
@@ -1373,4 +1586,88 @@ C     Set DW0
 	OTEMP = TK;
 	OPRESS = patm_x;
 	return OK;
+}
+#endif
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+PTEMP_SIT(LDBLE TK)
+/* ---------------------------------------------------------------------- */
+{
+/*
+C
+C     SUBROUTINE TO CALUCLATE TEMPERATURE DEPENDENCE OF PITZER PARAMETER
+C
+*/
+	LDBLE TR = 298.15;
+
+	if (fabs(TK - OTEMP) < 0.001 && fabs(patm_x - OPRESS) < 0.1)	return OK; 
+/*
+C     Set DW0
+*/
+	DW0 = rho_0 = calc_rho_0(TK - 273.15, patm_x);
+	VP = patm_x;
+	for (size_t j = 0; j < param_list.size(); j++)
+	{
+		int i = param_list[j];
+		calc_sit_param(sit_params[i], TK, TR);
+	}
+	calc_dielectrics(TK - 273.15, patm_x);
+	sit_A0 = A0;
+	OTEMP = TK;
+	OPRESS = patm_x;
+	return OK;
+}
+
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+sit_make_lists(void)
+/* ---------------------------------------------------------------------- */
+{
+	double log_min = log10(MIN_TOTAL);
+	s_list.clear();
+	cation_list.clear();
+	neutral_list.clear();
+	anion_list.clear();
+	ion_list.clear();
+	param_list.clear();
+	for (int i = 0; i < 3 * count_s; i++)
+	{
+		sit_IPRSNT[i] = FALSE;
+		sit_M[i] = 0.0;
+		if (spec[i] != NULL && spec[i]->in == TRUE)
+		{
+			if (spec[i]->type == EX ||
+				spec[i]->type == SURF || spec[i]->type == SURF_PSI)
+				continue;	
+			sit_IPRSNT[i] = TRUE;	
+			s_list.push_back(i);	
+			if (i < count_s)
+			{
+				cation_list.push_back(i);
+			}
+			if (i >= count_s && i < 2*count_s)
+			{
+				neutral_list.push_back(i);
+			}
+			if (i >= 2*count_s)
+			{
+				anion_list.push_back(i);
+			}
+			if (i < count_s || i >= 2*count_s)
+			{
+				ion_list.push_back(i);
+			}
+			if (spec[i]->lm > log_min)
+			{
+				sit_M[i] = under(spec[i]->lm);
+			}
+		}
+	}
+	for (int i = 0; i < count_sit_param; i++)
+	{
+		int i0 = sit_params[i]->ispec[0];
+		int i1 = sit_params[i]->ispec[1];
+		if (sit_IPRSNT[i0] == FALSE || sit_IPRSNT[i1] == FALSE) continue;
+		param_list.push_back(i);
+	}
 }
