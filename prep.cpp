@@ -123,6 +123,7 @@ prep(void)
 	{
 		error_msg("Program stopping due to input errors.", STOP);
 	}
+	if (sit_model) sit_make_lists();
 	return (OK);
 }
 
