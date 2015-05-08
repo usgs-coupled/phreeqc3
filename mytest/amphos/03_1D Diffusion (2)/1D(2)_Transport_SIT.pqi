@@ -1,0 +1,764 @@
+#DATABASE C:\Users\davidg.AMPHOS21\Desktop\Parkhurst\03_1D Diffusion (2)\PHREEQC_SIT.dat
+database ./PHREEQC_SIT.dat
+TITLE - 1D(1) Diffusion SIT
+
+SOLUTION_SPECIES
+
+H2O + 0.01e- = H2O-0.01
+     log_k   -8.0
+
+EXCHANGE_MASTER_SPECIES
+Cox 	Cox-
+
+EXCHANGE_SPECIES
+	Cox- = Cox-
+	log_k 0.00  
+	Cox- + Na+ = CoxNa		
+	log_k 0.00
+	Cox- + K+ = CoxK
+	log_k 1.20
+	2Cox- + Ca+2 = Cox2Ca
+	log_k	0.70
+	2Cox- + Mg+2 = Cox2Mg
+	log_k 0.70
+	2Cox- + Fe+2 = Cox2Fe
+	log_k 0.80
+	2Cox- + Sr+2 = Cox2Sr
+	log_k 0.60
+
+RATES
+    Water_xxx
+-start
+10 REM
+22 If (TOT("water")>1.0) then goto 36
+23 If (TOT("water")<1.0) then X=1-TOT("water")
+33 moles = X
+34 if (moles>M) then moles=M
+35 Goto 200
+36 X=TOT("water")-1
+37 moles = -X
+40 if (moles>M) then moles=M
+80 Goto 200
+200 SAVE moles
+-end
+
+    Water
+-start
+10 REM
+20 diff = 1 - TOT("water")
+30 k = 1e-6
+40 rate = k * diff
+50 moles = rate * TIME
+200 SAVE moles
+#200 SAVE 0.0
+-end
+
+	Microcline   #dissolution only 
+ -start
+   1 rem parm1: acidic Ea (kJ/mol)
+   2 rem parm2: acidic log K
+   3 rem parm3: n_acid
+   4 rem parm4: neutral Ea (kJ/mol)
+   5 rem parm5: neutral log K
+   6 rem parm6: basic Ea (kJ/mol)
+   7 rem parm7: basic log K
+   8 rem parm8: n_basic
+   9 rem parm9: surface area in m2/kgw
+   
+   10    dif_temp = 1/TK - 1/298.15
+   12    if (M <= 0) then goto 200
+   15    if (SI("microcline")>0) then goto 200
+   20    Acidic_arrhenius_term = 1*EXP(parm(1)/0.008314*dif_temp)
+   30    acidic_rate = 10^parm(2)*Acidic_arrhenius_term
+   40    acidic_rate = acidic_rate*ACT("H+")^parm(3)*(1 - SR("microcline")) 
+   50    Neutral_arrhenius_term = 1*1*EXP(parm(4)/0.008314*dif_temp)
+   60    neutral_rate = 10^parm(5)*Neutral_arrhenius_term*(1 - SR("microcline"))
+   70    Basic_arrhenius_term = 1*EXP(parm(6)/0.008314*dif_temp)
+   80    Basic_rate = 10^parm(7)*Basic_arrhenius_term
+   90    Basic_rate = Basic_rate*ACT("OH-")^parm(8)*(1 - SR("microcline")) 
+  100    rate = acidic_rate + neutral_rate + Basic_rate
+  110    rate = rate*parm(9)
+  120    moles = rate*TIME
+  200    SAVE moles
+ -end
+
+
+Ripidolite_Cca-2  #precipitation is allowed
+ -start
+   1 rem parm1: acidic Ea (kJ/mol)
+   2 rem parm2: acidic log K
+   3 rem parm3: n_acid
+   4 rem parm4: neutral Ea (kJ/mol)
+   5 rem parm5: neutral log K
+   6 rem parm6: basic Ea (kJ/mol)
+   7 rem parm7: basic log K
+   8 rem parm8: n_basic
+   9 rem parm9: surface area in m2/kgw
+   
+   10    dif_temp = 1/TK - 1/298.15
+   12    if (M <= 0) then goto 200
+   15    if (SI("Ripidolite_Cca-2")>0) then goto 140
+   20    Acidic_arrhenius_term = 1*EXP(parm(1)/0.008314*dif_temp)
+   30    acidic_rate = 10^parm(2)*Acidic_arrhenius_term
+   40    acidic_rate = acidic_rate*ACT("H+")^parm(3)*(1 - SR("Ripidolite_Cca-2")) 
+   50    Neutral_arrhenius_term = 1*1*EXP(parm(4)/0.008314*dif_temp)
+   60    neutral_rate = 10^parm(5)*Neutral_arrhenius_term*(1 - SR("Ripidolite_Cca-2"))
+#   70    Basic_arrhenius_term = 1*EXP(parm(6)/0.008314*dif_temp)
+#   80    Basic_rate = 10^parm(7)*Basic_arrhenius_term
+#   90    Basic_rate = Basic_rate*ACT("OH-")^parm(8)*(1 - SR("Ripidolite_Cca-2")) 
+#  100    rate = acidic_rate + neutral_rate + Basic_rate
+  105    rate = acidic_rate + neutral_rate
+  110    rate = rate*parm(9)
+  120    moles = rate*TIME
+  130    Goto 200
+  140    rate = 0.000000000000001#*(1 - SR("Ripidolite_Cca-2")) 
+ 150    moles = -rate*TIME
+  200    SAVE moles
+ -end
+
+	
+Illite_Imt-2  #precipitation is allowed
+ -start
+   1 rem parm1: acidic Ea (kJ/mol)
+   2 rem parm2: acidic log K
+   3 rem parm3: n_acid
+   4 rem parm4: neutral Ea (kJ/mol)
+   5 rem parm5: neutral log K
+   6 rem parm6: basic Ea (kJ/mol)
+   7 rem parm7: basic log K
+   8 rem parm8: n_basic
+   9 rem parm9: surface area in m2/kgw
+   
+   10    dif_temp = 1/TK - 1/298.15
+   12    if (M <= 0) then goto 200
+   15    if (SI("Illite_Imt-2")>0) then goto 140
+   20    Acidic_arrhenius_term = 1*EXP(parm(1)/0.008314*dif_temp)
+   30    acidic_rate = 10^parm(2)*Acidic_arrhenius_term
+   40    acidic_rate = acidic_rate*ACT("H+")^parm(3)*(1 - SR("Illite_Imt-2")) 
+   50    Neutral_arrhenius_term = 1*1*EXP(parm(4)/0.008314*dif_temp)
+   60    neutral_rate = 10^parm(5)*Neutral_arrhenius_term*(1 - SR("Illite_Imt-2"))
+   70    Basic_arrhenius_term = 1*EXP(parm(6)/0.008314*dif_temp)
+   80    Basic_rate = 10^parm(7)*Basic_arrhenius_term
+   90    Basic_rate = Basic_rate*ACT("OH-")^parm(8)*(1 - SR("Illite_Imt-2")) 
+  100    rate = acidic_rate + neutral_rate + Basic_rate
+  110    rate = rate*parm(9)
+  120    moles = rate*TIME
+  130    Goto 200
+  140    rate = 0.000000000000001#*(1 - SR("Illite_Imt-2")) 
+  150    moles = -rate*TIME
+  200    SAVE moles
+ -end
+
+Montmo-Mg_Ca0.3  #precipitation is allowed
+ -start
+   1 rem parm1: acidic Ea (kJ/mol)
+   2 rem parm2: acidic log K
+   3 rem parm3: n_acid
+   4 rem parm4: neutral Ea (kJ/mol)
+   5 rem parm5: neutral log K
+   6 rem parm6: basic Ea (kJ/mol)
+   7 rem parm7: basic log K
+   8 rem parm8: n_basic
+   9 rem parm9: surface area in m2/kgw
+   
+   10    dif_temp = 1/TK - 1/298.15
+   12    if (M <= 0) then goto 200
+   15    if (SI("Montmo-Mg_Ca0.3")>0) then goto  140
+   20    Acidic_arrhenius_term = 1*EXP(parm(1)/0.008314*dif_temp)
+   30    acidic_rate = 10^parm(2)*Acidic_arrhenius_term
+   40    acidic_rate = acidic_rate*ACT("H+")^parm(3)*(1 - SR("Montmo-Mg_Ca0.3")) 
+   50    Neutral_arrhenius_term = 1*1*EXP(parm(4)/0.008314*dif_temp)
+   60    neutral_rate = 10^parm(5)*Neutral_arrhenius_term*(1 - SR("Montmo-Mg_Ca0.3"))
+   70    Basic_arrhenius_term = 1*EXP(parm(6)/0.008314*dif_temp)
+   80    Basic_rate = 10^parm(7)*Basic_arrhenius_term
+   90    Basic_rate = Basic_rate*ACT("OH-")^parm(8)*(1 - SR("Montmo-Mg_Ca0.3")) 
+  100    rate = acidic_rate + neutral_rate + Basic_rate
+  110    rate = rate*parm(9)
+  120    moles = rate*TIME
+  130    Goto 200
+  140    rate = 0.000000000000001#*(1 - SR("Montmo-Mg_Ca0.3")) 
+  150    moles = -rate*TIME
+  200    SAVE moles
+ -end
+
+
+Albite-low   #dissolution only
+ -start
+   1 rem parm1: acidic Ea (kJ/mol)
+   2 rem parm2: acidic log K
+   3 rem parm3: n_acid
+   4 rem parm4: neutral Ea (kJ/mol)
+   5 rem parm5: neutral log K
+   6 rem parm6: basic Ea (kJ/mol)
+   7 rem parm7: basic log K
+   8 rem parm8: n_basic
+   9 rem parm9: surface area in m2/kgw
+   
+   10    dif_temp = 1/TK - 1/298.15
+   12    if (M <= 0) then goto 200
+   15    if (SI("Albite-low")>0) then goto 200
+   20    Acidic_arrhenius_term = 1*EXP(parm(1)/0.008314*dif_temp)
+   30    acidic_rate = 10^parm(2)*Acidic_arrhenius_term
+   40    acidic_rate = acidic_rate*ACT("H+")^parm(3)*(1 - SR("albite-low")) 
+   50    Neutral_arrhenius_term = 1*1*EXP(parm(4)/0.008314*dif_temp)
+   60    neutral_rate = 10^parm(5)*Neutral_arrhenius_term*(1 - SR("albite-low"))
+   70    Basic_arrhenius_term = 1*EXP(parm(6)/0.008314*dif_temp)
+   80    Basic_rate = 10^parm(7)*Basic_arrhenius_term
+   90    Basic_rate = Basic_rate*ACT("OH-")^parm(8)*(1 - SR("albite-low")) 
+  100    rate = acidic_rate + neutral_rate + Basic_rate
+  110    rate = rate*parm(9)
+  120    moles = rate*TIME
+  200    SAVE moles
+ -end
+
+
+############################################
+##          PROBLEM DEFINITION            ##
+############################################
+
+#####################
+##Output definition##
+##################### 
+
+SELECTED_OUTPUT
+    -file                 1D(1)_Transport_SIT.out
+    -user_punch           true
+    -high_precision       true
+    -simulation           false
+    -state                false
+    -solution             true
+    -time                 true
+    -step                 true
+    -ph                   true
+    -pe                   true
+    -reaction             false
+    -temperature          true
+    -alkalinity           false
+    -ionic_strength       true
+    -water                true
+    -charge_balance       true
+    -percent_error        false
+    -totals               Al  C  Ca  Cl  Fe  K  Mg Cr
+                          Na  S  U  Ba P N Si
+    -molalities           H2 CoxNa CoxK Cox2Ca Cox2Mg Cox2Sr Cox2Fe
+    -equilibrium_phases   Goethite  H2(g) Magnetite 
+                          Gibbsite Barite  Ferrihydrite(am) Quartz
+				  Epsonite Gypsum Cr(OH)3(cr) Dolomite Magnesite(nat)  Hydroxyapatite
+				  UO2:2H2O(am) CaU2O7:3H2O(cr) Becquerelite(syn) UO2:2H2O(am) U2O7Na2(s) Sodium-compreignacite Uranophane	
+				  Portlandite Calcite Ettringite C3AH6 C3FH6 CSH1.6 CSH1.2 CSH0.8 Hydrotalcite Pyrite
+                          Berthierine Celestite Cronstedtite Greenalite Siderite 
+                          Lizardite Brucite
+    -saturation_indices   Goethite  H2(g) Magnetite 
+                          Gibbsite Barite  CoS(alpha) Ferrihydrite(am) Quartz
+				  Epsonite Gypsum Cr(OH)3(cr) Dolomite Magnesite(nat)  Hydroxyapatite
+				  UO2:2H2O(am) CaU2O7:3H2O(cr) Becquerelite(syn) UO2:2H2O(am) U2O7Na2(s) Sodium-compreignacite Uranophane	
+				  Portlandite Calcite Ettringite C3AH6 C3FH6 CSH1.6 CSH1.2 CSH0.8 Hydrotalcite Pyrite
+                          Berthierine Celestite Cronstedtite Greenalite Siderite 
+                          Lizardite Brucite
+    -kinetic_reactants    Water Illite_Imt-2 Microcline Ripidolite_Cca-2 
+  
+USER_PUNCH
+-headings N(+5) N(-3) S(+6) S(-2) Fe(+3) Fe(+2) Cr(+6) Cr(+3) C(-4) C(4) NaH3SiO4
+-start
+10 PUNCH TOT("N(5)") TOT("N(-3)") TOT("S(6)") TOT("S(-2)") TOT("Fe(3)") TOT("Fe(2)") TOT("Cr(6)") TOT("Cr(3)") TOT("C(-4)") TOT("C(4)")
+-end
+
+SOLUTION 1-2  ##Concrete
+    temp      25
+    pH        12.50
+    pe        -10.03 #Eh=-0.67 
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al    4.85e-5
+    C     7.34e-6
+    Ca    2.18e-2
+    Cl    4.11e-2
+    Fe    2.87e-7
+    K     7.15e-4
+    Mg    3.28e-9
+    Na    4.13e-2
+    S     1.07e-4
+    Si    5.84e-6
+    Sr    2.22e-4
+    -water    1 # kg
+knobs
+#-debug_model
+#-step 5
+#-pe   2
+#-try 1
+SOLUTION 3-9  ##Waste
+	temp      25
+    pH        10.93
+    pe        2.08 #N(V)/N(-III)
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al        3.51e-5
+    Ba	  1.26e-7
+    C         3.43e-4
+    Ca        1.44e-2
+    Cl        4.00e-2
+    Cr        1.02e-5
+    Fe        3.83e-9
+    K         3.00e-1
+    Mg        4.35e-3
+    N  	  1.72 
+    Na        4.729
+    P		  1.57e-9
+    S         1.63
+    Si        4.43e-2
+    U		  4.51e-9    
+    -water    1 # kg
+
+SOLUTION 10-11 #Concrete
+    temp      25
+    pH        12.50
+    pe        -10.03 #Eh=-0.67 
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al    4.85e-5
+    C     7.34e-6
+    Ca    2.18e-2
+    Cl    4.11e-2
+    Fe    2.87e-7
+    K     7.15e-4
+    Mg    3.28e-9
+    Na    4.13e-2
+    S     1.07e-4
+    Si    5.84e-6
+    Sr    2.22e-4
+    -water    1 # kg
+
+SOLUTION 12-25	#30-43 Concrete Backfill
+    temp      25
+    pH        12.50
+    pe        -10.03 #Eh=-0.67 
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al    4.85e-5
+    C     7.34e-6
+    Ca    2.18e-2
+    Cl    4.11e-2
+    Fe    2.87e-7
+    K     7.15e-4
+    Mg    3.28e-9
+    Na    4.13e-2
+    S     1.07e-4
+    Si    5.84e-6
+    Sr    2.22e-4
+    -water    1 # kg
+
+SOLUTION 26-38	#44-52 Concrete Wall
+    temp      25
+    pH        12.50
+    pe        -10.03 #Eh=-0.67 
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al    4.85e-5
+    C     7.34e-6
+    Ca    2.18e-2
+    Cl    4.11e-2
+    Fe    2.87e-7
+    K     7.15e-4
+    Mg    3.28e-9
+    Na    4.13e-2
+    S     1.07e-4
+    Si    5.84e-6
+    Sr    2.22e-4
+    -water    1 # kg
+
+SOLUTION 39-63	#53-87 COX-EDZ
+    temp      25
+    pH        7.1
+    pe        -2.88
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al        8.25e-008
+    C         0.00337
+    Ca        0.008
+    Cl        0.041
+    Fe        4.52e-005
+    K         0.000714
+    Mg        0.00544
+    Na        0.0412
+    S(-2)      5.19e-010
+    S(6)      0.0127
+    Si        0.000182
+    Sr        0.000222
+    -water    1 # kg
+
+SOLUTION 64-128	#88-152 COX
+    temp      25
+    pH        7.1
+    pe        -2.88
+    redox     pe
+    units     mol/kgw
+    density   1
+    Al        8.25e-008
+    C         0.00337
+    Ca        0.008
+    Cl        0.041
+    Fe        4.52e-005
+    K         0.000714
+    Mg        0.00544
+    Na        0.0412
+    S(-2)      5.19e-010
+    S(6)      0.0127
+    Si        0.000182
+    Sr        0.000222
+    -water    1 # kg
+END
+######################
+##Equilibrium_phases##
+###################### 
+
+                  EQUILIBRIUM_PHASES 1-2  ##Concrete
+                  C3AH6 	0	1.41
+                  C3FH6 	0	0.55
+                  Calcite	0	0.0034
+                  CSH1.6	0	10.01
+                  Ettringite	0	1.07
+                  Hydrotalcite 0	0.54
+                  Portlandite	0	3.01
+                  Pyrite	0	0.07
+                  ####Secondary phases####
+                  Gypsum	0	0
+                  CSH1.2	0	0
+                  CSH0.8	0	0
+                  Quartz	0	0
+                  Brucite	0	0
+                  Lizardite	0	0
+                  Becquerelite(syn)	0	0
+                  CaU2O7:3H2O(cr)	0	0
+                  UO2:2H2O(am)	0	0
+                  UO2(OH)2(beta) 	0	0
+                  U2O7Na2(s) 		0	0
+                  Uranophane		0	0
+                  Cr(OH)3(cr)	0	0
+                  
+                  EQUILIBRIUM_PHASES 3-9  ##Waste
+                  Barite	0	3.94
+                  Calcite	0	1.18
+                  Brucite	0	1.18
+                  Ferrihydrite(am)	0	0.18
+                  Cr(OH)3(cr)	0	0.30
+                  Gibbsite	0	0.03
+                  Quartz	0	23.51
+                  Magnesite(nat)	0	0.11
+                  Gypsum	0	0.06
+                  Hydroxyapatite	0	0.07
+                  U2O7Na2(s) 		0	0.06
+                  ####Secondary phases####
+                  Portlandite	0	0
+                  Dolomite	0	0
+                  Epsonite	0	0
+                  Becquerelite(syn)	0	0
+                  CaU2O7:3H2O(cr)	0	0
+                  UO2:2H2O(am)	0	0
+                  UO2(OH)2(beta) 	0	0
+                  
+                  Sodium-compreignacite 0	0
+         
+         EQUILIBRIUM_PHASES 10-11 #Concrete
+         C3AH6 	0	1.41
+         C3FH6 	0	0.55
+         Calcite	0	0.0034
+         CSH1.6	0	10.01
+         Ettringite	0	1.07
+         Hydrotalcite 0	0.54
+         Portlandite	0	3.01
+         Pyrite	0	0.07
+         ####Secondary phases####
+         Gypsum	0	0
+         CSH1.2	0	0
+         CSH0.8	0	0
+         Quartz	0	0
+         Brucite	0	0
+         Lizardite	0	0
+         Becquerelite(syn)	0	0
+         CaU2O7:3H2O(cr)	0	0
+         UO2:2H2O(am)	0	0
+         UO2(OH)2(beta) 	0	0
+         U2O7Na2(s) 		0	0
+         Uranophane		0	0
+         Cr(OH)3(cr)	0	0
+         
+         
+         EQUILIBRIUM_PHASES 12-25 #Concrete Backfill
+         C3AH6 	0	1.41
+         C3FH6 	0	0.55
+         Calcite	0	0.0034
+         CSH1.6	0	10.01
+         Ettringite	0	1.07
+         Hydrotalcite 0	0.54
+         Portlandite	0	3.01
+         Pyrite	0	0.07
+         ####Secondary phases####
+         Gypsum	0	0
+         CSH1.2	0	0
+         CSH0.8	0	0
+         Quartz	0	0
+         Brucite	0	0
+         Lizardite	0	0
+         Becquerelite(syn)	0	0
+         CaU2O7:3H2O(cr)	0	0
+         UO2:2H2O(am)	0	0
+         UO2(OH)2(beta) 	0	0
+         U2O7Na2(s) 		0	0
+         Uranophane		0	0
+         Cr(OH)3(cr)	0	0
+         
+         
+         EQUILIBRIUM_PHASES 26-38 #Concrete Wall
+         C3AH6 	0	1.41
+         C3FH6 	0	0.55
+         Calcite	0	0.0034
+         CSH1.6	0	10.01
+         Ettringite	0	1.07
+         Hydrotalcite 0	0.54
+         Portlandite	0	3.01
+         Pyrite	0	0.07
+         ####Secondary phases####
+         Gypsum	0	0
+         CSH1.2	0	0
+         CSH0.8	0	0
+         Quartz	0	0
+         Brucite	0	0
+         Lizardite	0	0
+         Becquerelite(syn)	0	0
+         CaU2O7:3H2O(cr)	0	0
+         UO2:2H2O(am)	0	0
+         UO2(OH)2(beta) 	0	0
+         U2O7Na2(s) 		0	0
+         Uranophane		0	0
+         Cr(OH)3(cr)	0	0
+         
+         
+         EQUILIBRIUM_PHASES 39-63 #COX-EDZ
+         Calcite   0 23.60
+         Dolomite  0 1.53
+         Siderite  0 1.94
+         Pyrite	0	0.75
+         Quartz	0	43.06
+         ###secondary phases###
+         Celestite 0 0
+         Magnetite 0 0
+         Gypsum	0	0
+         Lizardite	0	0
+         Brucite	0	0
+         Becquerelite(syn)	0	0
+         CaU2O7:3H2O(cr)	0	0
+         UO2:2H2O(am)	0	0
+         UO2(OH)2(beta) 	0	0
+         U2O7Na2(s) 		0	0
+         Uranophane		0	0
+         Cr(OH)3(cr)	0	0
+         
+         Hydrotalcite	0	0
+         CSH1.6	0	0
+         CSH1.2	0	0
+         CSH0.8	0	0
+         
+         
+         EQUILIBRIUM_PHASES 64-128 #COX
+         Calcite   0 26.23
+         Dolomite  0 1.69
+         Siderite  0 2.16
+         Pyrite	0	0.83
+         Quartz	0	47.85
+         ###secondary phases###
+         Celestite 0 0
+         Magnetite  0 0
+         Gypsum	0	0
+         Lizardite	0	0
+         Brucite	0	0
+         Becquerelite(syn)	0	0
+         CaU2O7:3H2O(cr)	0	0
+         UO2:2H2O(am)	0	0
+         UO2(OH)2(beta) 	0	0
+         U2O7Na2(s) 		0	0
+         Uranophane		0	0
+         Cr(OH)3(cr)	0	0
+
+
+####################
+##Exchange species##
+#################### 
+
+
+         EXCHANGE 39-63  # Callox-EDZ
+         CoxNa			0.9927
+         CoxK			0.2736
+         Cox2Ca		1.1943
+         Cox2Mg		0.8262
+         Cox2Fe		0.0072
+         Cox2Sr		0.0261
+         
+         EXCHANGE 64-128 # Callox
+         CoxNa			1.103
+         CoxK			0.304
+         Cox2Ca		1.327
+         Cox2Mg		0.918
+         Cox2Fe		0.008
+         Cox2Sr		0.029
+
+##################
+##Kinetic phases##
+################## 
+                  KINETICS 1-2 #Concrete
+                  Water
+                  	-formula (H2O)1
+                  	-m	100000
+                  	-m0	100000
+                  	-tol	1e-8
+                  -cvode true 
+                  -cvode_steps 100
+                  -cvode_order 5 
+                  
+                  KINETICS 10-11 #Concrete
+                  Water
+                  	-formula (H2O)1
+                  	-m	100000
+                  	-m0	100000
+                  	-tol	1e-8
+                  -cvode true 
+                  -cvode_steps 100
+                  -cvode_order 5 
+         
+         KINETICS 12-25 #Concrete Backfill
+         Water
+         	-formula (H2O)1
+         	-m	100000
+         	-m0	100000
+         	-tol	1e-8
+         -cvode true 
+         -cvode_steps 100
+         -cvode_order 5 
+         
+         KINETICS 26-38 #Concrete wall
+         Water
+         	-formula (H2O)1
+         	-m	100000
+         	-m0	100000
+         	-tol	1e-8
+         -cvode true 
+         -cvode_steps 100
+         -cvode_order 5 
+         
+         KINETICS 39-63  ##COX-EDZ
+         Illite_Imt-2
+                -m0 5.60
+         	       -m  5.60
+         	       -parms 36.0 -11.0 0.52 35.0 -16.48 58.0 -11.50 0.38 67475
+         
+         
+         Microcline
+         	       -m0 0.81
+         	       -m  0.81
+         	       -parms 51.7 -10.06 0.5 38 -12.41 94 -21.2 -0.823 18
+         
+         
+         Ripidolite_Cca-2
+         	       -m0 0.40
+         	       -m  0.40
+         	       -parms 17.0 -8.08 0.28 16.0 -16.19 16.0 -8.16 0.34 333
+         
+         
+         Water
+         	-formula (H2O)1
+         	-m	100000
+         	-m0	100000
+         	-tol	1e-8
+         -cvode true 
+         -cvode_steps 100
+         -cvode_order 5 
+         
+         KINETICS 64-128 ##COX
+         Illite_Imt-2
+         	       -m0 6.22
+         	       -m  6.22
+         	       -parms 36.0 -11.0 0.52 35.0 -16.48 58.0 -11.50 0.38 74946
+         
+         
+         Microcline
+         	       -m0 0.90
+         	       -m  0.90
+         	       -parms 51.7 -10.06 0.5 38 -12.41 94 -21.2 -0.823 20
+         
+         
+         Ripidolite_Cca-2
+         	       -m0 0.45
+         	       -m  0.45
+         	       -parms 17.0 -8.08 0.28 16.0 -16.19 16.0 -8.16 0.34 375
+         
+         
+         Water
+         	-formula (H2O)1
+         	-m	100000
+         	-m0	100000
+         	-tol	1e-8
+         -cvode true 
+         -cvode_steps 100
+         -cvode_order 5 
+
+KNOBS
+         -iterations	200
+#         -debug_model 
+#         -diag
+#         -try 1
+#         -step 10
+#         -pe 1.1
+#         -convergence_tolerance 1e-8
+         -tolerance 1e-17
+#	-log
+
+PRINT
+#	-reset false
+	-si false
+TRANSPORT 
+    -cells                 128
+    -shifts                10
+    -time_step             31.5 # 4.32e7 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed closed
+    -lengths               0.08 # 128*0.08
+    -diffusion_coefficient 1.48e-11
+    -punch_frequency       100
+
+#INCREMENTAL_REACTIONS true
+
+END
+TRANSPORT 
+    -shifts                10
+    -time_step             315   
+END
+TRANSPORT 
+    -shifts                10
+    -time_step             3150 
+END
+TRANSPORT 
+    -shifts                10
+    -time_step             31500 
+END
+TRANSPORT 
+    -shifts                1000
+    -time_step             3.15e5       # 3.15e8 
+END
+TRANSPORT 
+    -shifts                900
+    -time_step             3.15e6       # 3.15e9
+TRANSPORT 
+    -shifts                900
+    -time_step             3.15e7 
+TRANSPORT 
+    -shifts                900
+    -time_step             3.15e8
+END
+#TRANSPORT 
+#    -shifts                7300
+#    -time_step             4.32e7 # seconds #
