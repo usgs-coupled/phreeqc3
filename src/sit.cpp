@@ -837,12 +837,14 @@ sit_revise_guesses(void)
 	int l_iter, max_iter, repeat, fail;
 	LDBLE weight, f;
 
-	max_iter = 10;
+	max_iter = 100;
 	/* gammas(mu_x); */
 	l_iter = 0;
 	repeat = TRUE;
-	fail = FALSE;;
-	while (repeat == TRUE)
+	fail = FALSE;
+	double d = 2;
+	double logd = log10(d);
+	while (repeat == TRUE && fail == FALSE)
 	{
 		l_iter++;
 		if (debug_set == TRUE)
@@ -917,18 +919,18 @@ sit_revise_guesses(void)
 				else if (f == 0)
 				{
 					repeat = TRUE;
-					x[i]->master[0]->s->la += 5;
+					x[i]->master[0]->s->la += logd;
 /*!!!!*/ if (x[i]->master[0]->s->la < -999.)
 						x[i]->master[0]->s->la = MIN_RELATED_LOG_ACTIVITY;
 				}
 				else if (fail == TRUE && f < 1.5 * fabs(x[i]->moles))
 				{
 					continue;
-				}
+					}
 				else if (f > 1.5 * fabs(x[i]->moles)
-						 || f < 1e-5 * fabs(x[i]->moles))
+						 || f < 1.0/d * fabs(x[i]->moles))
 				{
-					weight = (f < 1e-5 * fabs(x[i]->moles)) ? 0.3 : 1.0;
+					weight = (f < 1.0/d * fabs(x[i]->moles)) ? 0.3 : 1.0;
 					if (x[i]->moles <= 0)
 					{
 						x[i]->master[0]->s->la = MIN_RELATED_LOG_ACTIVITY;
@@ -957,10 +959,10 @@ sit_revise_guesses(void)
 					continue;
 				}
 				if (f > 1.5 * fabs(x[i]->moles)
-					|| f < 1e-5 * fabs(x[i]->moles))
+					|| f < 1.0/d * fabs(x[i]->moles))
 				{
 					repeat = TRUE;
-					weight = (f < 1e-5 * fabs(x[i]->moles)) ? 0.3 : 1.0;
+					weight = (f < 1.0/d * fabs(x[i]->moles)) ? 0.3 : 1.0;
 					x[i]->master[0]->s->la += weight *
 						log10(fabs(x[i]->moles / x[i]->sum));
 					if (debug_set == TRUE)

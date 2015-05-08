@@ -1244,7 +1244,8 @@ ineq(int in_kode)
 		}
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY &&
 			x[i]->type != ALK &&
-			x[i]->type != GAS_MOLES && x[i]->type != SS_MOLES
+			x[i]->type != GAS_MOLES && x[i]->type != SS_MOLES &&
+			x[i]->type != PITZER_GAMMA
 			/* && x[i]->type != PP */
 			)
 		{
@@ -1302,7 +1303,7 @@ ineq(int in_kode)
 			}
 			l_count_rows++;
 		}
-		else if (x[i]->type == PITZER_GAMMA)
+		else if (x[i]->type == PITZER_GAMMA && full_pitzer == TRUE)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(array[i * (count_unknowns + 1)]),
