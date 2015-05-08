@@ -1309,7 +1309,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	{
 		if (j == 1)
 		{
-			always_full_pitzer = TRUE;
+			/*always_full_pitzer = TRUE;*/
 			if (pe_step_size <= small_pe_step && step_size <= small_step)
 				continue;
 			itmax *= 2;
@@ -1338,6 +1338,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		}
 		else if (j == 4)
 		{
+			always_full_pitzer = TRUE;
 			itmax *= 2;
 			if (diagonal_scale == TRUE)
 			{
@@ -1469,6 +1470,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		pp_column_scale = old_pp_column_scale;
 		aqueous_only = 0;
 		negative_concentrations = FALSE;
+		always_full_pitzer = FALSE;
 		if (converge == TRUE)
 		{
 			break;

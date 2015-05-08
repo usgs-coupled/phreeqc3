@@ -1,0 +1,224 @@
+#DATABASE C:\Users\davidg.AMPHOS21\Desktop\Parkhurst\02_1D Diffusion (1)\PHREEQC_SIT.dat
+database ./PHREEQC_SIT.dat
+TITLE  TEST CASE 7. CLAY PLUG/CONCRETE PLUG INTERACTION. 1D DIFFUSION MODEL
+
+SOLUTION_MASTER_SPECIES
+    Z             Z                0     1               1
+    Y             Y                0     1               1
+SOLUTION_SPECIES
+
+H2O + 0.01e- = H2O-0.01
+     log_k   -9.0
+
+Z = Z
+	log_k 0.0
+
+Y = Y
+	log_k 0.0
+
+EXCHANGE_MASTER_SPECIES
+Cox Cox-
+
+EXCHANGE_SPECIES
+Cox- = Cox-
+log_k 0.00  
+Cox- + Na+ = CoxNa		
+log_k 0.00
+Cox- + K+ = CoxK
+log_k 1.20
+2Cox- + Ca+2 = Cox2Ca
+log_k	0.70
+2Cox- + Mg+2 = Cox2Mg
+log_k 0.70
+2Cox- + Fe+2 = Cox2Fe
+log_k 0.80
+2Cox- + Sr+2 = Cox2Sr
+log_k 0.60
+
+
+#####################
+##transport##########
+##################### 
+TRANSPORT ###revise & complete
+    -cells                 40
+    -shifts                100 # 18165
+    -time_step             1.74e6 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed closed
+    -lengths               0.05
+    -diffusion_coefficient 1.44e-010
+    -thermal_diffusion     2   1.44e-10
+    -punch_cells		   1 10  18 19 20 21 22 23 30 40 
+    -punch_frequency       10
+    -dump                  dump.file
+    -dump_frequency        1
+    -dump_restart          1
+
+#####################
+##aqueous solutions##
+#####################
+
+
+SOLUTION 1-20   #bentonite
+        units   mol/kgw
+        density 1.000
+        temp    25.0
+      pH               7.104
+      pe               -2.88
+	Al               8.25e-008  
+	C                3.37e-003  
+	Ca               8.00e-003  
+	Cl               4.10e-002
+	Fe               4.52e-005  
+	K                7.140e-004 
+	Mg               5.440e-003 
+	Na               4.12e-002 
+	S                1.27e-002
+	Si               1.82e-004  
+	Sr               2.22e-004
+	Z                1.000e-007  
+
+SOLUTION 21-40 #cement
+      units   mol/kgw
+      pH      13.309
+      pe      5.911
+      density 1.000
+ 	Al               6.211e-005  
+	C                1.293e-004  
+	Ca               1.377e-003 
+	Cl               7.621e-002  
+	Fe               7.067e-007 
+	K                2.961e-001  
+	Mg               1.111e-009 
+	Na               9.434e-002  
+	S                2.672e-003  
+	Si               9.345e-005  
+	Y 		     1.000e-007
+
+######################
+##equilibrium phases##
+######################
+
+EQUILIBRIUM_PHASES 1-20   #bentonite
+calcite 	0 	26.23
+celestite 	0     1.32e-5
+dolomite  	0 	1.69
+quartz  	0 	43.06
+siderite 	0 	2.16
+pyrite 	0 	0.75
+Berthierine(FeIII) 0 	0
+Cronstedtite-th 0 	0 
+Greenalite  0 	0 
+Vermiculite-Mg 0	0
+magnetite   0 	0 
+
+#added from cement, they may ppt because of diffusion
+CSH1.6                0 	0
+Portlandite           0 	0
+Hydrotalcite          0 	0 
+Ettringite            0 	0      
+monocarboaluminate    0 	0
+C3FH6                 0 	0            
+CSH0.8    			0 	0
+CSH1.2    			0 	0
+Lizardite 			0	0
+SiO2(am)  			0 	0
+
+#other additions
+Ferrihydrite(am)        0     0
+
+
+
+EQUILIBRIUM_PHASES 21-40
+
+CSH1.6                0.0   6.956      
+Portlandite           0.0   9.4205
+Hydrotalcite          0.0   0.0744 
+Ettringite            0.0   0.2574      
+Calcite               0.0   0.7333
+monocarboaluminate    0.0   0.4523
+C3FH6                 0.0   0.0876            
+CSH0.8    			0 	0
+CSH1.2    			0 	0
+Greenalite 			0 	0
+Lizardite 			0	0
+Magnetite 			0 	0
+siderite  			0 	0
+SiO2(am)  			0 	0
+Vermiculite-Mg 	0 	0
+
+
+#added from bentonite, they may ppt because of diffusion
+celestite 	0     0
+dolomite  	0 	0
+quartz  	0 	0
+pyrite 	0 	0
+Berthierine(FeIII) 0 	0
+Cronstedtite-th 0 	0 
+Greenalite  0 	0 
+
+#other additions
+Ferrihydrite(am)        0     0
+
+
+  ## kinetic rate not considered because of small calculation time
+
+
+######################
+##exchange############
+######################
+
+EXCHANGE  1-20   #bentonite
+Cox2Ca   1.327
+CoxNa    1.104
+Cox2Mg   0.9181
+CoxK     0.3046
+Cox2Sr   0.02895
+Cox2Fe    0.007997
+
+#Cox             5.973e+000 mol
+
+
+######################
+##selected_output#####
+######################
+
+
+SELECTED_OUTPUT
+    -file                 1D_1_Transport_SIT.out
+    -user_punch           true
+    -high_precision       true
+    -simulation           false
+    -state                false
+    -solution             true
+    -time                 true
+    -step                 true
+    -ph                   true
+    -pe                   true
+    -reaction             false
+    -temperature          true
+    -alkalinity           false
+    -ionic_strength       true
+    -water                true
+    -charge_balance       true
+    -percent_error        false
+    -totals               Al  C  Ca  Cl  Fe  K  Mg 
+                          Na  S(6) S(-2)  Si  Z  Y 
+    -molalities           CoxNa Cox2Ca Cox2Mg Cox2Sr CoxK Cox2Fe
+    -equilibrium_phases   Calcite  CSH0.8  CSH1.2  Ettringite  C3FH6 
+                          Magnetite  SiO2(am)  Greenalite  Vermiculite-Mg
+                          Lizardite siderite portlandite CSH1.6 Hydrotalcite monocarboaluminate
+				  celestite dolomite quartz pyrite berthierine(FeIII) cronstedtite-th 
+                          Ferrihydrite(am)  Ferryhydrite
+    -saturation_indices   Calcite  CSH0.8  CSH1.2  Ettringite  C3FH6 
+                          Magnetite  SiO2(am)  Greenalite  Vermiculite-Mg
+                          Lizardite siderite portlandite CSH1.6 Hydrotalcite monocarboaluminate
+				  celestite dolomite quartz pyrite berthierine(FeIII) cronstedtite-th  
+                          Ferrihydrite(am)  Ferryhydrite
+
+
+
+PRINT 
+#-reset false
+
+END
