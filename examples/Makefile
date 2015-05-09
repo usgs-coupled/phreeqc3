@@ -68,11 +68,11 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(examplesdir)"
 DATA = $(dist_examples_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run aclocal-1.11
-AMTAR = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run tar
-AUTOCONF = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run autoconf
-AUTOHEADER = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run autoheader
-AUTOMAKE = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run automake-1.11
+ACLOCAL = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/missing --run aclocal-1.11
+AMTAR = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/missing --run tar
+AUTOCONF = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/missing --run autoconf
+AUTOHEADER = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/missing --run autoheader
+AUTOMAKE = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/missing --run automake-1.11
 AWK = gawk
 CPPFLAGS = 
 CXX = g++
@@ -80,7 +80,7 @@ CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"phreeqc\" -DPACKAGE_TARNAME=\"phreeqc\" -DPACKAGE_VERSION=\"3.0.0-7109\" -DPACKAGE_STRING=\"phreeqc\ 3.0.0-7109\" -DPACKAGE_BUGREPORT=\"dlpark@usgs.gov\" -DPACKAGE=\"phreeqc\" -DVERSION=\"3.0.0-7109\" -DNDEBUG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_FLOAT_H=1 -DHAVE_LIMITS_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STDDEF_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_STDLIB_H=1 -DHAVE_REALLOC=1 -DHAVE_MEMMOVE=1 -DHAVE_MEMSET=1 -DHAVE_STRCHR=1 -DHAVE_STRCSPN=1 -DHAVE_STRTOL=1 -DHAVE_FLOOR=1 -DHAVE_POW=1 -DHAVE_SQRT=1 -DHAVE_ISFINITE=/\*\*/ -DHAVE_FINITE=/\*\*/ -DHAVE_ISNAN=1 -DINVERSE_CL1MP=1
+DEFS = -DPACKAGE_NAME=\"phreeqc\" -DPACKAGE_TARNAME=\"phreeqc\" -DPACKAGE_VERSION=\"3.0.0-7109\" -DPACKAGE_STRING=\"phreeqc\ 3.0.0-7109\" -DPACKAGE_BUGREPORT=\"dlpark@usgs.gov\" -DNDEBUG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_FLOAT_H=1 -DHAVE_LIMITS_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STDDEF_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_STDLIB_H=1 -DHAVE_REALLOC=1 -DHAVE_MEMMOVE=1 -DHAVE_MEMSET=1 -DHAVE_STRCHR=1 -DHAVE_STRCSPN=1 -DHAVE_STRTOL=1 -DHAVE_FLOOR=1 -DHAVE_POW=1 -DHAVE_SQRT=1 -DHAVE_ISFINITE=/\*\*/ -DHAVE_FINITE=/\*\*/ -DHAVE_ISNAN=1 -DINVERSE_CL1MP=1
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
@@ -98,7 +98,7 @@ LIBGMP = -lgmp
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/missing --run makeinfo
+MAKEINFO = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = phreeqc
@@ -113,10 +113,10 @@ SET_MAKE =
 SHELL = /bin/sh
 STRIP = 
 VERSION = 3.0.0-7109
-abs_builddir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/examples
-abs_srcdir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/examples
-abs_top_builddir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk
-abs_top_srcdir = /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk
+abs_builddir = /raid/home/dlpark/programs/phreeqc3-trunk/examples
+abs_srcdir = /raid/home/dlpark/programs/phreeqc3-trunk/examples
+abs_top_builddir = /raid/home/dlpark/programs/phreeqc3-trunk
+abs_top_srcdir = /raid/home/dlpark/programs/phreeqc3-trunk
 ac_ct_CXX = g++
 am__include = include
 am__leading_dot = .
@@ -135,7 +135,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /lobo02home/dlpark/charlton/programs/phreeqc/phreeqc3-trunk/config/install-sh
+install_sh = ${SHELL} /raid/home/dlpark/programs/phreeqc3-trunk/config/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -155,6 +155,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
+EXTRA_DIST = CMakeLists.txt
 
 # Docs
 #
