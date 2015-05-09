@@ -21,9 +21,6 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/pitzer.dat
-	PRINT
-	 warnings 0
-	 echo_input false
 	SOLUTION 1
 	REACTION_TEMPERATURE 
 	0, 25, 30, 35, 40, 45, 50#, 55, 60, 65, 70, 100, 120, 140, 160, 170, 180, 190, 200
@@ -31,7 +28,7 @@ Reading input data for simulation 1.
 	Epsomite 0 10
 	USER_GRAPH 1
 	-chart_title "MgSO4-hydrates' solubility"
-	-axis_titles "temperature / oC" "mol MgSO4 / kgw"
+	-axis_titles "Temperature / ºC" "mol MgSO4 / kgw"
 	-axis_scale x_axis 0 210
 	-connect_simulations false
 	-plot_csv_file MgSO4.csv
@@ -1096,6 +1093,12 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using pure phase assemblage 3.	
 Using temperature 3.	
@@ -1119,8 +1122,8 @@ Kieserite         0.00    -1.12     -1.12    1.000e+01   4.623e+00  -5.377e+00
                                        pH  =   4.824      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (µS/cm, 65°C)  = 1066870
-                          Density (g/cm³)  =   1.41299
-                               Volume (L)  =   1.23429
+                          Density (g/cm³)  =   1.41297
+                               Volume (L)  =   1.23430
                         Activity of water  =   0.789
                            Ionic strength  =   1.961e+01
                        Mass of water (kg)  =   1.097e+00
@@ -1128,10 +1131,10 @@ Kieserite         0.00    -1.12     -1.12    1.000e+01   4.623e+00  -5.377e+00
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  65.00
-                  Electrical balance (eq)  =  -1.226e-09
+                  Electrical balance (eq)  =  -2.434e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  26
-                         Gamma iterations  =  26
+                               Iterations  =  37
+                         Gamma iterations  =   8
                       Osmotic coefficient  =   1.34002
                          Density of water  =   0.98054
                                   Total H  = 1.217655e+02
@@ -1144,13 +1147,13 @@ Kieserite         0.00    -1.12     -1.12    1.000e+01   4.623e+00  -5.377e+00
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
    H+              1.086e-06   1.498e-05    -5.964    -4.824     1.140      0.00
-   OH-             3.970e-07   6.619e-09    -6.401    -8.179    -1.778     23.37
+   OH-             3.970e-07   6.619e-09    -6.401    -8.179    -1.778     23.38
    H2O             5.551e+01   7.893e-01     1.744    -0.103     0.000     18.37
 Mg            4.902e+00
    Mg+2            4.902e+00   1.425e+01     0.690     1.154     0.463    -14.12
    MgOH+           2.900e-05   2.531e-05    -4.538    -4.597    -0.059     (0)  
 S(6)          4.902e+00
-   SO4-2           4.902e+00   6.710e-03     0.690    -2.173    -2.864     35.63
+   SO4-2           4.902e+00   6.710e-03     0.690    -2.173    -2.864     35.64
    HSO4-           2.831e-05   3.118e-05    -4.548    -4.506     0.042     44.26
 
 ------------------------------Saturation indices-------------------------------
@@ -1849,7 +1852,7 @@ End of simulation.
 Reading input data for simulation 4.
 ------------------------------------
 
-------------------------------
-End of Run after 0.12 Seconds.
-------------------------------
+-----------------------------
+End of Run after 0.1 Seconds.
+-----------------------------
 

@@ -7,8 +7,8 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 #PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
 PHREEQC=../src/Class_release_64/phreeqc
 TIME=
-VALGRIND=valgrind --leak-check=full
-#VALGRIND=
+#VALGRIND=valgrind --leak-check=full
+VALGRIND=
 
 ifeq ($(CFG1), windows32)
    PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc

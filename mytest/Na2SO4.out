@@ -21,9 +21,6 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/pitzer.dat
-	PRINT
-	 warnings 0
-	 echo_input false
 	SOLUTION 1
 	EQUILIBRIUM_PHASES 1
 	 Mirabilite 0 12
@@ -31,10 +28,12 @@ Reading input data for simulation 1.
 	REACTION_TEMPERATURE 1
 	 0 34 in 20
 	USER_GRAPH 1
-	-chart_title "Mirabilite/Thenardite solubility"
-	-axis_titles "mol Na2SO4 / kgw" "temperature / oC"
+	-chart_title "Mirabilite / Thenardite solubility"
+	-axis_titles "mol Na2SO4 / kgw" "Temperature / ºC"
+	-connect_simulations false
 	-plot_csv_file Na2SO4.csv
-	70 plot_xy tot("S"), tc, symbol_size = 0, color = Red
+	10 graph_x tot("S")
+	20 graph_y tc
 	-end
 	SAVE solution 1
 	END
