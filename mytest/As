@@ -22,19 +22,23 @@ REACTION 1
 SURFACE 1
 #  surface coupled to mineral,   sites/mol   m2/mol
    Hfo_wOH            Goethite   0.1         5.28e4
+   Hfo_sOH            Goethite   0.01        
    -equil   1
 USER_PRINT
 10 as5s = surf("As(5)", "Hfo")
-15 PRINT "As(5) sorbed: ", as5s
-20 as3s = surf("As(3)", "Hfo")
-25 PRINT "As(3) sorbed: ", as3s
-30 ass = surf ("As", "Hfo")
-35 PRINT "As sorbed:    ", ass
-40 hfo_w = surf ("Hfo_w", "Hfo")
-45 PRINT "SURF(Hfo_w, Hfo): ", hfo_w, TOT("Hfo_w")
-50 hfo = surf ("Hfo", "Hfo")
-#55 PRINT "SURF(Hfo, Hfo):   ", hfo
-55 PRINT "SURF(Hfo, Hfo):   ", Surf("Hfo")
+20 PRINT  "As(5) sorbed:       ", as5s
+30 as3s = surf("As(3)", "Hfo")
+40 PRINT  "As(3) sorbed:       ", as3s
+50 ass = surf ("As", "Hfo")
+60 PRINT  "As sorbed:          ", ass
+70 hfo_w = surf ("Hfo_w", "Hfo")
+80 PRINT  "SURF(Hfo_w, Hfo):   ", hfo_w, TOT("Hfo_w")
+90 hfo_s = surf ("Hfo_s", "Hfo")
+100 PRINT "SURF(Hfo_s, Hfo):   ", hfo_s, TOT("Hfo_s")
+110 hfo = surf ("Hfo", "Hfo")
+120 PRINT "SURF(Hfo, Hfo):     ", hfo
+130 h = surf ("H", "Hfo")
+140 PRINT "SURF(H, Hfo):       ", h
 
 USER_GRAPH
 -head mmol_O2 ug_As/L Kd pH Goethite Fe+2*1e4 As(5)_sorbed #f_As(3)*10 Kd_SO4*1e4 Hfo_wOH2+*1e6

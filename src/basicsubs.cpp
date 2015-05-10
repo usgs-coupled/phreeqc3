@@ -2130,8 +2130,11 @@ surf_total(const char *total_name, const char *surface_name)
 	}
 	if (!redox)
 	{
-		return surf_total_no_redox(total_name, surface_name);
-	}
+		if (strcmp(total_name, "H") == 0 || strcmp(total_name, "O") == 0)
+		{
+			return surf_total_no_redox(total_name, surface_name);
+		}
+	}	
 /*
  *   Find surface...
  */
