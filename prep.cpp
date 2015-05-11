@@ -5028,6 +5028,8 @@ switch_bases(void)
 	{
 		if (x[i]->type != MB)
 			continue;
+		if (x[i]->type == PITZER_GAMMA)
+			break;
 		first = 0;
 		la = x[i]->master[0]->s->la;
 		for (j = 1; x[i]->master[j] != NULL; j++)
@@ -5056,7 +5058,7 @@ switch_bases(void)
 					   x[i]->master[0]->s->name, iterations, la, x[i]->master[0]->s->la);
  */
 			x[i]->master[0]->s->la = la;
-
+			x[i]->la = la;
 			log_msg(sformatf( "Switching bases to %s.\tIteration %d\n",
 					   x[i]->master[0]->s->name, iterations));
 			return_value = TRUE;
