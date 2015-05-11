@@ -894,19 +894,19 @@ sit_revise_guesses(void)
 			if (x[i] == ph_unknown || x[i] == pe_unknown)
 				continue;
 			if (x[i]->type == MB ||
-/*			    x[i]->type == ALK || */
-				x[i]->type == CB ||
-				x[i]->type == SOLUTION_PHASE_BOUNDARY ||
-				x[i]->type == EXCH || x[i]->type == SURFACE)
+				/*			    x[i]->type == ALK || */
+					x[i]->type == CB ||
+					x[i]->type == SOLUTION_PHASE_BOUNDARY ||
+					x[i]->type == EXCH || x[i]->type == SURFACE)
 			{
 
 				if (debug_set == TRUE)
 				{
 					output_msg(sformatf(
-							   "\n\t%5s  at beginning of set %d: %e\t%e\t%e\n",
-							   x[i]->description, l_iter, (double) x[i]->sum,
-							   (double) x[i]->moles,
-							   (double) x[i]->master[0]->s->la));
+						"\n\t%5s  at beginning of set %d: %e\t%e\t%e\n",
+						x[i]->description, l_iter, (double) x[i]->sum,
+						(double) x[i]->moles,
+						(double) x[i]->master[0]->s->la));
 				}
 				if (fabs(x[i]->moles) < 1e-30)
 					x[i]->moles = 0;
@@ -923,12 +923,8 @@ sit_revise_guesses(void)
 /*!!!!*/ if (x[i]->master[0]->s->la < -999.)
 						x[i]->master[0]->s->la = MIN_RELATED_LOG_ACTIVITY;
 				}
-				else if (fail == TRUE && f < 1.5 * fabs(x[i]->moles))
-				{
-					continue;
-					}
-				else if (f > 1.5 * fabs(x[i]->moles)
-						 || f < 1.0/d * fabs(x[i]->moles))
+				else if (f > d * fabs(x[i]->moles)
+					|| f < 1.0/d * fabs(x[i]->moles))
 				{
 					weight = (f < 1.0/d * fabs(x[i]->moles)) ? 0.3 : 1.0;
 					if (x[i]->moles <= 0)
@@ -944,10 +940,10 @@ sit_revise_guesses(void)
 					if (debug_set == TRUE)
 					{
 						output_msg(sformatf(
-								   "\t%5s not converged in set %d: %e\t%e\t%e\n",
-								   x[i]->description, l_iter,
-								   (double) x[i]->sum, (double) x[i]->moles,
-								   (double) x[i]->master[0]->s->la));
+							"\t%5s not converged in set %d: %e\t%e\t%e\n",
+							x[i]->description, l_iter,
+							(double) x[i]->sum, (double) x[i]->moles,
+							(double) x[i]->master[0]->s->la));
 					}
 				}
 			}
@@ -1297,7 +1293,10 @@ model_sit(void)
 			{
 				full_pitzer = FALSE;
 			}
-			molalities(TRUE);
+			if (molalities(FALSE) == ERROR)
+			{
+				sit_revise_guesses();
+			}
 			if (use.Get_surface_ptr() != NULL &&
 				use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
 				use.Get_surface_ptr()->Get_related_phases() == TRUE)
@@ -1305,6 +1304,17 @@ model_sit(void)
 			mb_sums();
 			mb_gases();
 			mb_ss();
+/*
+ *   Switch bases if necessary
+ */
+			if (switch_bases() == TRUE)
+			{
+				
+				count_basis_change++;
+				count_unknowns -= (int) s_list.size();
+				reprep();
+				full_pitzer = false;
+			}
 			/* debug
 			   species_list_sort();
 			   sum_species();
