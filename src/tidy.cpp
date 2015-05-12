@@ -3808,6 +3808,7 @@ tidy_min_surface(void)
 			assert(false);
 		}
 		cxxSurface *surface_ptr = &(kit->second);
+		if (!surface_ptr->Get_new_def()) continue;
 		//if (!surface_ptr->Get_new_def())
 		//	continue;
 		//if (surface_ptr->Get_n_user() < 0)
