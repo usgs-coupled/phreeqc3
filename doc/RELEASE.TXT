@@ -1,4 +1,100 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+
+        --------
+        svn 9639
+        --------
+        After reading a dumped surface (SURFACE_RAW), it was later processed 
+        incorrectly, resulting in a mass loss of the elements that were attached 
+        to the surface.
+        
+        --------
+        svn 9639
+        --------
+        Revised SIT database from Amphos (sit.dat). Version 9a, released 7/28/2014. 
+        
+        --------
+        svn 9639
+        --------
+        Revised numerical method for SIT aqueous model. Optimized processing of lists
+        of SIT parameters, revised method to obtain initial values of master variables,
+        added basis switching. 
+
+        --------
+        svn 9462
+        --------
+        RATES definitions were revised in all databases. The area parameter
+        was changed to specifice area (area per mole of reactant). Also, for aqueous kinetic
+        reactions, the solution volume was added explicitly. The changes
+        were made to facilitate a new version of PHAST that uses a representative
+        volume that does not have one liter of water. 
+        
+        --------
+        svn 9434
+        --------
+        Basic function lk_phase did not account for pressure properly. 
+        
+        --------
+        svn 9424
+        --------
+        IPhreeqc Basic callback was modified to use ISO_C_BINDING. IPhreeqc
+        will ultimately be a Fortran module.
+        
+        --------
+        svn 9386
+        --------
+        Basic function SYS was missing the "equi" option to return
+        the equilibrium phases in the current system.
+        
+	USER_PRINT
+	10 t = SYS("equi", count, name$, type$, moles)
+	15 PRINT "Number of equilibrium phases: ", count
+	20 for i = 1 to count
+	30   PRINT PAD(name$(i),20), moles(i)
+	40 next i
+	END
+        
+        t     is the total number of moles of equilibrium phases
+        count is the number of equilibrium phases
+        name$ is an array with the names of the equilibrium phases
+        type$ is an array with "equi" for each equilibrium phase
+        moles is an array with the number of moles of each equilibrium phase
+        
+
+        --------
+        svn 9386
+        --------
+        New frezchem.dat database from Jonathon Toner and the 
+        developers of the frezchem code (Toner and Sletten (2013),
+        Marion and coworkers). Frezchem is a Pitzer model for temperatures
+        of 0 C and below. 
+        
+        --------
+        svn 9345
+        --------
+        Initial solution number for a reaction calculation is now assigned 
+        for SOLUTION_SPREAD in all cases.
+        
+        --------
+        svn 9345
+        --------
+        Adjustment to the Peng-Robinson calculation for example with SO2.
+
+        --------
+        svn 9324
+        --------
+        Added constant capacitance model to SURFACE
+        
+        SURFACE
+           -ccm 0.2
+        
+        where 0.2 is the capacitance.
+        
+        --------
+        svn 9324
+        --------
+        Fixed divide by zero if gas phase components had all zero partial
+        pressures.
+        
         --------
         svn 9309
         --------
