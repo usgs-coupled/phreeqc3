@@ -358,7 +358,8 @@ all: alkalinity.out \
 	toner.out \
 	lk_phase.out \
 	calcite_rate.out \
-	CFAscmtest.out 
+	CFAscmtest.out \
+	sar.out
 
 # NaX.out
 

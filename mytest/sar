@@ -1,0 +1,64 @@
+DATABASE sar.dat
+SOLUTION 1	Initial solution along flow path
+        -temp   	           26.21
+         pH                 6.85
+         pe                 -2.311
+    -units 		mmol/kgw
+    Ca            2.644710579
+    Mg            1.530108588
+    Na            1.283177757
+    K            0.115083627
+    Fe_di            0.101527387
+    Cl                 0.394889008   charge
+    Alkalinity         9.046347783
+    S(6)            0.002081945
+    As_three            0.002295733
+    As_five            0.000573933
+    P            0.025828281   as PO4
+    Mn            0.003713277
+    Si            0.619563244
+END   
+
+EQUILIBRIUM_PHASES 1
+   Fe(OH)3(a) 0    0.71
+END
+
+EXCHANGE 1
+   X   0.098036750
+  -equilibrate 1
+END
+
+SURFACE 1				      # sites per mole, 	specific area per mole
+     	Hfo_wOH Fe(OH)3(a) equilibrium_phase  0.2        6.41E+04    #typically weak sites per mole are 0.2
+        Hfo_sOH Fe(OH)3(a) equilibrium_phase  0.005           # typically weak sites per mole are 0.005
+
+
+        Sscm_wOH                        5.12E-04     257.21    3.19  #site density mol/mol specific surface are mol/m2 and Goethite content 3.19 mol/L
+        Sscm_sOH                        1.28E-05                     # strong site is = weak site*0.025
+        -equil  1
+END
+
+REACTION_TEMPERATURE
+10
+END
+
+RUN_CELLS
+   -cell 1
+END
+
+DUMP	
+	-file sar.dmp
+	-append false
+	-all 
+END
+
+DELETE
+	-all
+END
+
+INCLUDE$ manual.dmp
+END
+
+RUN_CEllS
+   -cell 1
+END
