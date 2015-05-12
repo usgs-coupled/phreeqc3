@@ -1,10 +1,9 @@
 # PHREEQC database
-# Base de Donnee ANDRA - THERMO_CHIMIE
+# Thermodynamic database ANDRA – THERMOCHIMIE (www.thermochimie-tdb.com)
 # Version 9a
-# Nom : Groupement de laboratoires ThermoChimie
-# BDD Date : 7/28/2014
-# Crée le 7/28/2014
-# Remarque : no comment
+# Nom: ThermoChimie project
+# BDD Date: 7/28/2014
+# Comment: no comment
 
 NAMED_EXPRESSIONS
 
@@ -72,7 +71,7 @@ H(0)          H2             0            H             1.0079
 Hf            Hf+4          -4            Hf            178.49
 Hg            Hg+2           0            Hg            200.59
 Hg(+2)        Hg+2           0            Hg            200.59
-Hg(+1)        Hg2+2          0            Hg2           401.18
+Hg(+1)        Hg+            0            Hg            200.59
 Ho            Ho+3           0            Ho            164.9303
 I             I-             0            I             126.9045
 I(+5)         IO3-           0            I             126.9045
@@ -321,7 +320,7 @@ HfF2+2 ClO4- 0.47
 HfNO3+3 ClO4- 0.91
 Hg(SeO3)2-2 Na+ 0.008
 Hg+2 Cl- 0.168
-Hg2+2 Cl- 0.054
+Hg+ Cl- 0.054
 Ho(CO3)+ Cl- 0.129
 Ho(CO3)+ ClO4- 0.17
 Ho(CO3)2- Na+ -0.14
@@ -1187,11 +1186,11 @@ SOLUTION_SPECIES
      # Enthalpy of formation:           14.3        #kJ/mol        #05OLI/NOL
      -analytic 1.35922E+1 0E+0 -3.10023E+4 0E+0 0E+0
 
-2.000Hg+2     + 1.000H2O     - 2.000H+     - 0.500O2     = Hg2+2
-     log_k   -12.200     
-     delta_h  106.213    #kJ/mol        
+1.000Hg+2     + 0.500H2O     - 1.000H+     - 0.2500O2     = Hg+
+     log_k   -6.100     
+     delta_h  53.107    #kJ/mol        
      # Enthalpy of formation:           166.87        #kJ/mol        #01LEM/FUG
-     -analytic 6.40769E+0 0E+0 -5.54788E+3 0E+0 0E+0
+     -analytic -6.09069E+0 0E+0 2.77396E+0 0E+0 0E+0
 
 1.000I-     + 1.500O2     = IO3-
      log_k    17.410     #92GRE/FUG
@@ -11655,7 +11654,7 @@ HfO2     = - 4.000H+     + 1.000Hf+4     + 2.000H2O
      -analytic -5.6E+0 0E+0 0E+0 0E+0 0E+0
 
 Hg2SeO3(s)
-Hg2SeO3     = 1.000SeO3-2     + 1.000Hg2+2
+Hg2SeO3     = 1.000SeO3-2     + 2.000Hg+
      log_k   -15.200     #05OLI/NOL
      # delta_h  0.000     #kJ/mol        
      # Enthalpy of formation:                   #kJ/mol        
