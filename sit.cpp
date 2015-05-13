@@ -1379,7 +1379,8 @@ model_sit(void)
 			   count_infeasible));
 	log_msg(sformatf( "Number of basis changes: %d\n\n",
 			   count_basis_change));
-	log_msg(sformatf( "Number of iterations: %d\n\n", iterations));
+	log_msg(sformatf( "Number of iterations: %d\n", iterations));
+	log_msg(sformatf( "Number of gamma iterations: %d\n\n", gamma_iterations));
 	debug_model = debug_model_save;
 	set_forward_output_to_log(FALSE);
 	if (stop_program == TRUE)
