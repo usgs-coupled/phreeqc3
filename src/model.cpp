@@ -1672,8 +1672,31 @@ ineq(int in_kode)
 	{
 		output_msg(sformatf( "k, l, m\t%d\t%d\t%d\n", k, l, m));
 	}
-
+#define SHRINK_ARRAY
+#ifdef SHRINK_ARRAY
+	if (sit_model && full_pitzer == FALSE)
+	{
+		n = count_unknowns - (int) s_list.size();
+		for (int i = 0; i < l_count_rows; i++)
+		{
+			//for (int j = 0; j < n; j++)
+			//{
+			//	ineq_array[i*(n+2) + j] = ineq_array[i*(count_unknowns+2) +j];
+			//}
+			if (i > 0)
+			{
+				memcpy((void *) &ineq_array[i*(n+2)], (void *) &ineq_array[i*(count_unknowns+2)], (size_t) (n) * sizeof(LDBLE));
+			}
+			ineq_array[i*(n+2) + n] = ineq_array[i*(count_unknowns+2) + count_unknowns];
+		}
+	}
+	else
+	{
+		n = count_unknowns;			/* columns in A, C, E */
+	}
+#else
 	n = count_unknowns;			/* columns in A, C, E */
+#endif
 	l_klmd = max_row_count - 2;
 	l_nklmd = n + l_klmd;
 	l_n2d = n + 2;
@@ -1687,7 +1710,7 @@ ineq(int in_kode)
 	{
 		l_kode = 1;
 	}
-	l_iter = 2*(count_unknowns + l_count_rows);
+	l_iter = 2*(n + l_count_rows);
 /*
  *   Allocate space for arrays
  */
@@ -1787,10 +1810,13 @@ ineq(int in_kode)
 	}
 #endif
 /*   Copy delta1 into delta and scale */
-
-	memcpy((void *) &(delta[0]), (void *) &(delta1[0]),
+#ifdef SHRINK_ARRAY	
+	memcpy((void *) &(delta[0]), (void *) &(zero[0]),
 		   (size_t) count_unknowns * sizeof(LDBLE));
-	for (i = 0; i < count_unknowns; i++)
+#endif
+	memcpy((void *) &(delta[0]), (void *) &(delta1[0]),
+		   (size_t) n * sizeof(LDBLE));
+	for (i = 0; i < n; i++)
 		delta[i] *= normal[i];
 /*
  *   Rescale columns of array
