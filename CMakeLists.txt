@@ -269,8 +269,8 @@ if (MSVC)
   FORCE)
 endif (MSVC)
 
-
 add_executable(phreeqc ${phreeqc_SOURCES})
+set_target_properties(phreeqc PROPERTIES DEBUG_POSTFIX "d")
 
 
 if (PHRQC_USE_GMP)
@@ -283,9 +283,12 @@ if (PHRQC_USE_GMP)
   endif(GMP_LIBRARY)
 endif (PHRQC_USE_GMP)
 
-
-install (TARGETS phreeqc DESTINATION ${CMAKE_INSTALL_BINDIR})
-
+if (WIN32)
+  install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}/Release" CONFIGURATIONS Debug Release)
+  install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}/ClrRelease" CONFIGURATIONS ClrDebug ClrRelease)
+else()
+  install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endif()
 
 # subdirectories
 add_subdirectory(database)
