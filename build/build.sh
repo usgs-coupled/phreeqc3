@@ -175,11 +175,11 @@ reconf() {
 build() {
   (rm -fr ${instdir}/* && \
   cd ${objdir} && \
-  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=ClrRelease && \
+  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=ClrRelease /p:Platform=x64 && \
   cd ${objdir} && \
-  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release && \
+  MSBuild.exe phreeqcpp.2005.sln /p:Configuration=Release /p:Platform=x64 && \
   cd ${objdir}/msi && \
-  MSBuild.exe msi.sln /p:Configuration=Release /p:TargetName=${FULLPKG} /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Patch=${PATCH} /p:Build=${REL} )
+  MSBuild.exe msi.sln /p:Configuration=Release /p:Platform=x64 /p:TargetName=${FULLPKG}-x64 /p:Major=${MAJOR} /p:Minor=${MINOR} /p:Patch=${PATCH} /p:Build=${REL} )
 }
 check() {
   (cd ${objdir} && \
@@ -191,7 +191,7 @@ clean() {
 }
 install() {
   (rm -fr ${instdir}/${FULLPKG}.msi && \
-  /usr/bin/install -m 755 "${objdir}/msi/bin/Release/${FULLPKG}.msi" ${instdir}/. && \
+  /usr/bin/install -m 755 "${objdir}/msi/bin/Release/${FULLPKG}-x64.msi" ${instdir}/. && \
   /usr/bin/install -m 755 "${objdir}/doc/README.Win.txt" ${instdir}/. && \
   /usr/bin/install -m 755 "${objdir}/doc/RELEASE.TXT" ${instdir}/. && \
   /usr/bin/install -m 755 "dist.sh"  ${instdir}/dist.sh && \
