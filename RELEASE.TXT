@@ -1,4 +1,27 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+
+        --------
+        svn 9665
+        --------
+        See README.IPhreeqc.TXT for additional information about the IPhreeqc Module.
+
+        The IPhreeqc module has been updated to use CMake (build process manager)
+        for Visual Studio builds. CMake can be downloaded from http://www.cmake.org.
+     
+        Fortran, you will need to include the source file IPhreeqc_interface.F90
+        in your project files. This file defines the IPhreeqc Fortran module.
+     
+        For example:
+
+        USE IPhreeqc
+        INTEGER(KIND=4) id
+        id = CreateIPhreeqc()
+        
+        This replaces the need to use the include files IPhreeqc.f.inc/IPhreeqc.f90.inc.
+
+        You will need to link to the IPhreeqc(d).lib/libiphreeqc.a that is created
+        during the build process.
+
         --------
         svn 9639
         --------
