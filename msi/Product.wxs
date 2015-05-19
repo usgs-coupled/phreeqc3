@@ -13,11 +13,11 @@
            Manufacturer="$(var.Manufacturer)"
            UpgradeCode="$(var.UpgradeGuid)">
     
-    <?if $(sys.BUILDARCH)=x64 ?>
+<?if $(sys.BUILDARCH)=x64 ?>
     <Package InstallerVersion="400" Compressed="yes" Platform="x64"/>
-    <?else?>
+<?else?>
     <Package InstallerVersion="400" Compressed="yes" Platform="x86"/>
-    <?endif?>
+<?endif?>
 
     <!-- Prereqs -->
     <PropertyRef Id="NETFRAMEWORK20"/>
@@ -53,6 +53,23 @@
     <!-- directory structure -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <!-- program files -->
+<?if $(sys.BUILDARCH)=x64 ?>
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="APPLICATIONFOLDER" Name="$(var.FolderName)">
+          <Directory Id="bin" Name="bin">
+            <Directory Id="Release" Name="Release"/>
+            <Directory Id="ClrRelease" Name="ClrRelease"/>
+          </Directory>
+          <Directory Id="database" Name="database"/>
+          <Directory Id="doc" Name="doc"/>
+          <Directory Id="examples" Name="examples"/>
+          <Directory Id="src" Name="src">
+            <Directory Id="PhreeqcKeywords" Name="PhreeqcKeywords"/>
+          </Directory>
+          <Directory Id="test" Name="test"/>
+        </Directory>
+      </Directory>
+<?else?>
       <Directory Id="ProgramFilesFolder">
         <Directory Id="APPLICATIONFOLDER" Name="$(var.FolderName)">
           <Directory Id="bin" Name="bin">
@@ -63,10 +80,12 @@
           <Directory Id="doc" Name="doc"/>
           <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
+            <Directory Id="PhreeqcKeywords" Name="PhreeqcKeywords"/>
           </Directory>
           <Directory Id="test" Name="test"/>
         </Directory>
       </Directory>
+<?endif?>
       <!-- start menu -->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="$(var.FullName)"/>
@@ -246,8 +265,6 @@
         <File Id="fil1A987CAE67BC1A7318DFFA714356F79C" Source="..\src\ISolution.h" />
         <File Id="fil6EC38E3B06EB9E46ABD82B74CB547D12" Source="..\src\ISolutionComp.cxx" />
         <File Id="fil05B20337D187FCC1B3EC15E475DC09E1" Source="..\src\ISolutionComp.h" />
-        <File Id="fil6400E100FC96EE175BE28B9B6FD0612B" Source="..\src\Keywords.cpp" />
-        <File Id="fil75E2BCB85BB0F8CD1626331B43110AEB" Source="..\src\Keywords.h" />
         <File Id="fil2D2B41C8129F17B599A86EE462B89913" Source="..\src\KineticsComp.cxx" />
         <File Id="filBDC6C8402ECAE19E1477D43A09FFA7DC" Source="..\src\KineticsComp.h" />
         <File Id="fil06D2A2C2548AFE74E9781BD91BF743AE" Source="..\src\Makefile"/>
@@ -369,6 +386,14 @@
       </Component>
     </DirectoryRef>
 
+    <!-- PhreeqcKeywords -->
+    <DirectoryRef Id="PhreeqcKeywords">
+      <Component Id="PhreeqcKeywords" Guid="{8F9A37B6-0384-4388-912B-896B27036C2E}">
+        <File Id="fil6400E100FC96EE175BE28B9B6FD0612B" Source="..\src\PhreeqcKeywords\Keywords.cpp" />
+        <File Id="fil75E2BCB85BB0F8CD1626331B43110AEB" Source="..\src\PhreeqcKeywords\Keywords.h" />
+      </Component>
+    </DirectoryRef>
+
     <!-- test -->
     <DirectoryRef Id="test">
       <Component Id="test" Guid="F65BCF27-C9F9-49a2-A6BD-F63A887CB57C">
@@ -388,12 +413,26 @@
     <!-- phreeqc.exe -->
     <DirectoryRef Id="Release">
       <Component Id="phreeqc.exe" Guid="*">
+<?if $(sys.BUILDARCH)=x64 ?>
+        <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\x64\Release\phreeqc.exe" />
+<?else?>
         <File Id="phreeqc.exe" Name="phreeqc.exe" Source="..\Release\phreeqc.exe" />
+<?endif?>
       </Component>
     </DirectoryRef>
 
     <!-- clr phreeqc.exe -->
     <DirectoryRef Id="ClrRelease">
+<?if $(sys.BUILDARCH)=x64 ?>
+      <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86_x64.msm" DiskId="1" />
+      <Merge Id="CRT Policy" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\policy_8_0_Microsoft_VC80_CRT_x86_x64.msm" DiskId="1" />
+      <Component Id="CLR.phreeqc.exe" Guid="*">
+        <File Id="CLR.phreeqc.exe" Name="phreeqc.exe" Source="..\x64\ClrRelease\phreeqc.exe" />
+      </Component>
+      <Component Id="CLR.phreeqc.exe.config" Guid="*">
+        <File Id="CLR.phreeqc.exe.config" Name="phreeqc.exe.config" Source="..\x64\ClrRelease\phreeqc.exe.config" />
+      </Component>
+<?else?>
       <Merge Id="CRT" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\microsoft_vc80_crt_x86.msm" DiskId="1" />
       <Merge Id="CRT Policy" Language="1033" SourceFile="$(env.DEV_MERGE_DIR)\policy_8_0_Microsoft_VC80_CRT_x86.msm" DiskId="1" />
       <Component Id="CLR.phreeqc.exe" Guid="*">
@@ -402,6 +441,7 @@
       <Component Id="CLR.phreeqc.exe.config" Guid="*">
         <File Id="CLR.phreeqc.exe.config" Name="phreeqc.exe.config" Source="..\ClrRelease\phreeqc.exe.config" />
       </Component>
+<?endif?>
     </DirectoryRef>
 
     <!-- clr phreeqc.exe -->
@@ -458,6 +498,7 @@
       </Feature>
       <Feature Id="Source" Title="Source Code" Description="This component contains the program source code." AllowAdvertise="system" Level="1">
         <ComponentRef Id="src" />
+        <ComponentRef Id="PhreeqcKeywords" />
       </Feature>
       <Feature Id="LocalMachine" Display="hidden" Level="0">
         <Condition Level="1">ALLUSERS=1</Condition>

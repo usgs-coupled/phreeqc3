@@ -11,6 +11,18 @@
   <?define Version=$(var.Major).$(var.Minor).$(var.Build)?>
 
   <?define Manufacturer="U.S. Geological Survey"?>
+<?if $(sys.BUILDARCH)=x64 ?>
+  <?define UpgradeGuid=BE70EB53-A0C5-42d0-B0B3-552CEA0E41E5?>
+  <?define Description="USGS $(var.Name) x64 $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build) Installer"?>
+  <?define DiskPrompt="USGS $(var.Name) x64 $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build) Installation [1]"?>
+  <?define PrgMenu="$(var.Name) x64 $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>
+  <?define Shortcut="$(var.Name) x64 Reference"?>
+  <?define FeatureTitle="$(var.Name) x64 $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>
+  <?define Cabinet=phreeqcx64.cab?>
+  <?define FullName="$(var.Name) x64 $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>
+  <?define FolderName="phreeqc-$(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)-x64"?>  
+  <?define Comments="$(var.Name) x64 component"?>
+<?else?>
   <?define UpgradeGuid=0AC6BDD7-D312-4682-A564-747A740F2E12?>
   <?define Description="USGS $(var.Name) $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build) Installer"?>
   <?define DiskPrompt="USGS $(var.Name) $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build) Installation [1]"?>
@@ -19,6 +31,7 @@
   <?define FeatureTitle="$(var.Name) $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>
   <?define Cabinet=phreeqc.cab?>
   <?define FullName="$(var.Name) $(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>
-  <?define FolderName="phreeqc-$(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>  
+  <?define FolderName="phreeqc-$(var.Major).$(var.Minor).$(var.Patch)-$(var.Build)"?>
   <?define Comments="$(var.Name) component"?>
+  <?endif?>
 </Include>
