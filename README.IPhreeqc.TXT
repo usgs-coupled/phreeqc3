@@ -276,11 +276,15 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 	install directory selected in CMake.
 
 		Libraries that can be installed:
-			IPhreeqc.lib
-			IPhreeqcd.lib
-			IPhreeqc.dll
-			IPhreeqcd.dll
-			ZedGraph.dll (CLR/Charting)
+			IPhreeqc.lib       (Release)
+			IPhreeqcd.lib      (Debug)
+			IPhreeqcmsr.lib    (MinSizeRel)
+			IPhreeqcrwdi.lib   (RelWithDebInfo)
+			IPhreeqc.dll       (Release Shared)
+			IPhreeqcd.dll      (Debug Shared)
+			IPhreeqcmsr.dll    (MinSizeRel Shared)
+			IPhreeqcrwdi.dll   (RelWithDebInfo Shared)		
+			ZedGraph.dll       (CLR/Charting)
 
 		Include files:
 			C++ and C headers for user's code:	
