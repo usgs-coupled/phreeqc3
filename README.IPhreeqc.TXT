@@ -241,6 +241,10 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 		library and header files will be saved. It is suggested that
 		an INSTALL directory be defined inside the directory chosen 
 		for the binaries.
+	(3) BUILD_CLR_LIBS--If checked, will compile the CLR version of the
+	        library. This will enable the charting capabilities of
+	        phreeqc through the use of Zedgraph.  This option is only
+	        available if BUILD_SHARED_LIBS is checked.
 	(4) IPHREEQC_FORTRAN_TESTING--Sets whether the test calculations
 		(tests directory) will include Fortran test files. A Fortran
 		compiler is required. 
@@ -276,11 +280,12 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 			IPhreeqcd.lib
 			IPhreeqc.dll
 			IPhreeqcd.dll
+			ZedGraph.dll (CLR/Charting)
 
 		Include files:
 			C++ and C headers for user's code:	
-				IPhreeqc.hpp        (C++ header)
-				IPhreeqc.h          (C header)
+				IPhreeqc.hpp         (C++ header)
+				IPhreeqc.h           (C header)
 
 			Optionally, may need one or more of the following:
 				Var.h                (IPhreeqc VAR structure)
@@ -304,6 +309,10 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 
 		Documentation files:
 			html/index.html       (IPhreeqc API documentation)
+
+	Note: In order to use the CLR version (Charting) the Zedgraph.dll file
+	must be registered either by installing the Phreeqc or the PhreeqcI MSI,
+	or through the use of the Visual Studio Tool gacutil.
 
 -----------------------------------------------------------------------------------        			
 F. Using the library
