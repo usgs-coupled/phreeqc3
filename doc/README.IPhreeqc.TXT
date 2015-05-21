@@ -192,6 +192,8 @@ D. Linux compiling, testing, and installing the IPhreeqc library
 		/usr/local/share/doc/iphreeqc/IPhreeqc.pdf
 		/usr/local/share/doc/iphreeqc/html/index.html (IPhreeqc API)
 		/usr/local/share/doc/iphreeqc/RELEASE (Release notes)
+		/usr/local/share/doc/iphreeqc/README (this readme file)
+		/usr/local/share/doc/iphreeqc/NOTICE (User rights notice)
 
 	Databases: 
 		/usr/local/share/doc/iphreeqc/database
@@ -199,8 +201,9 @@ D. Linux compiling, testing, and installing the IPhreeqc library
 	Advection example for Fortran, C++, and C: 
 		/usr/local/share/doc/iphreeqc/examples
 		
-	Fortran interfaces
-		/usr/local/share/doc/iphreeqc/src
+	Fortran interface
+		/usr/local/share/doc/iphreeqc/src/IPhreeqc_interface.F90
+			
     
 -----------------------------------------------------------------------------------
 E. Windows compiling, testing, and installing the IPhreeqc library
@@ -269,6 +272,9 @@ E. Windows compiling, testing, and installing the IPhreeqc library
   E.3. Compile and install IPhreeqc
 
 	Open the Visual Studio solution in the build directory defined in CMake.
+	
+	The default configuration is "Debug". If you want a release libraries
+	(or dlls) and examples,	change the configuration to "Release".
 
 	Build ALL_BUILD. IPhreeqc is compiled.
 
@@ -281,7 +287,7 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 	files, phreeqc database files, and documentation are installed in the
 	install directory selected in CMake.
 
-		Install\library directory may include:
+		Install\library directory (lib or dll) may include:
 			IPhreeqc.lib       (Release)
 			IPhreeqcd.lib      (Debug)
 			IPhreeqcmsr.lib    (MinSizeRel)
@@ -319,8 +325,10 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 				
 		Install\doc files:
 			IPhreeqc.pdf          IPhreeqc journal article
-			RELEASE               Release notes
 			html\index.html       IPhreeqc API documentation
+			RELEASE               Release notes
+			README                This readme file
+			NOTICE                User rights notice 
 
 		Install\examples files:
 			c, cpp, fortran       Advection example
