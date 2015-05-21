@@ -200,7 +200,7 @@ D. Linux compiling, testing, and installing the IPhreeqc library
 		/usr/local/share/doc/iphreeqc/examples
 		
 	Fortran interfaces
-		/usr/local/share/doc/iphreeqc/src???
+		/usr/local/share/doc/iphreeqc/src
     
 -----------------------------------------------------------------------------------
 E. Windows compiling, testing, and installing the IPhreeqc library
