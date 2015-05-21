@@ -319,6 +319,7 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 				
 		Install\doc files:
 			IPhreeqc.pdf          IPhreeqc journal article
+			RELEASE               Release notes
 			html\index.html       IPhreeqc API documentation
 
 		Install\examples files:
