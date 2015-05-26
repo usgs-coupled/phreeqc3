@@ -166,8 +166,8 @@ D. Linux compiling, testing, and installing the IPhreeqc library
 	make check
 	
   D.7.  Install the IPhreeqc library. By default the program is installed in /usr/local/bin
-	and /usr/local/share/doc/iphreeqc-@VERSION@-@REVISION@. Alternatively, the directory defined
-	by --prefix in the configure command is used. 
+	and /usr/local/share/doc/iphreeqc. Alternatively, the directory defined by --prefix
+	in the configure command is used. 
     
     	make install
     	
