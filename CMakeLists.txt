@@ -290,6 +290,9 @@ else()
   install (TARGETS phreeqc DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 
+# tests
+enable_testing()
+
 # subdirectories
 add_subdirectory(database)
 add_subdirectory(doc)
