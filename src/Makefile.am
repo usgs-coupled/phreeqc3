@@ -1,3 +1,14 @@
+EXTRA_DIST=\
+	ChartHandler.cpp\
+	ChartHandler.h\
+	ChartObject.cpp\
+	ChartObject.h\
+	CurveObject.cpp\
+	CurveObject.h\
+	Form1.h\
+	Form1.resX\
+	ZedGraph.dll	
+
 AM_CPPFLAGS=-I$(top_srcdir)/src -I$(top_srcdir)/src/PhreeqcKeywords
 
 bin_PROGRAMS = phreeqc

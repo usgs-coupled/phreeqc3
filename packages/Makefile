@@ -28,7 +28,7 @@ TARBALL := $(NAME)-src-$(VER)-$(REL).tar.gz
 
 REPOS_PATH ?= trunk
 
-all : $(CONF_PKG) $(PKG_32) $(PKG_64)
+all : $(CONF_PKG)  #### $(PKG_32) $(PKG_64)
 	rm -rf $(NAME)-$(VER)-$(REL)
 	@echo "DATE=$(DATE)"       >> history
 	@echo "VER=$(VER)"         >> history
