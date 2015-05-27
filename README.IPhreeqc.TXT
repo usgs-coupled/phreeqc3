@@ -34,7 +34,6 @@ A. Distribution file
         iphreeqc-@VERSION@-@REVISION@.tar.gz      Linux
         iphreeqc-@VERSION@-@REVISION@.zip         Windows
 
-
 -----------------------------------------------------------------------------------
 B. Documentation
 -----------------------------------------------------------------------------------
@@ -82,31 +81,30 @@ B. Documentation
 	   to the geochemical model PHREEQC: U.S. Geological Survey Fact Sheet
 	   FS-031-02, 2 p.
 
-
 -----------------------------------------------------------------------------------
 C. Downloading and unzipping the distribution file
 -----------------------------------------------------------------------------------
 
 	Follow the steps using gunzip, 7zip, or other compression program that can unzip a tar.gz/zip file:
 
-	Steps in extracting files                   	Explanation
-	----------------------------------------    	-----------------------------------
-	gunzip iphreeqc-@VERSION@-@REVISION@.tar.gz	Uncompress the tar.gz file.
-	tar -xvpof iphreeqc-@VERSION@-@REVISION@.tar	Extract files from the tar file.
+	Steps in extracting files                       Explanation
+	----------------------------------------        -----------------------------------
+	gunzip iphreeqc-@VERSION@-@REVISION@.tar.gz     Uncompress the tar.gz file.
+	tar -xvpof iphreeqc-@VERSION@-@REVISION@.tar    Extract files from the tar file.
 
 	The directory iphreeqc-@VERSION@-@REVISION@ is created when the files are
 	extracted; if this directory already exists, you may want to delete or rename
 	it before extracting the files. The following directory structure is created 
 	(the contents of each directory are shown to the right):
 
-	iphreeqc-@VERSION@-@REVISION@			Source code and configure/CMake files
-	     ./config        				More configure files
-	     ./database      				Database files for PHREEQC
-	     ./doc           				Documentation files 
-	     ./examples         			Advection example for Fortran, C++, and C
-	     ./src           				Source code for IPhreeqc
-	     ./tests         				Tests that check that C++, C, and Fortran(optional)
-	     						are able to compile, link and run.
+	iphreeqc-@VERSION@-@REVISION@                   Source code and configure/CMake files
+	     ./config                                   More configure files
+	     ./database                                 Database files for PHREEQC
+	     ./doc                                      Documentation files 
+	     ./examples                                 Advection example for Fortran, C++, and C
+	     ./src                                      Source code for IPhreeqc
+	     ./tests                                    Tests that check that C++, C, and Fortran(optional)
+                                                        are able to compile, link and run.
 
 	Note:  A compiled executable is not included in the distribution.
 
@@ -185,8 +183,10 @@ D. Linux compiling, testing, and installing the IPhreeqc library
 		/usr/local/include/IPhreeqc.hpp         (C++ header)
 		
 		Optionally, user's code may need one or more of the following:
-		/usr/local/include/Var.h                (IPhreeqc VAR structure)
-		/usr/local/include/IPhreeqcCallbacks.h  (IPhreeqc callbacks)
+		/usr/local/include/Var.h                
+		/usr/local/include/IPhreeqcCallbacks.h  
+		/usr/local/include/Keywords.h
+		/usr/local/include/PHRQ_io.h
 	
 	Documentation:
 		/usr/local/share/doc/iphreeqc/IPhreeqc.pdf
@@ -197,6 +197,16 @@ D. Linux compiling, testing, and installing the IPhreeqc library
 
 	Databases: 
 		/usr/local/share/doc/iphreeqc/database
+			Amm.dat
+			frezchem.dat
+			iso.dat
+			llnl.dat
+			minteq.dat
+			minteq.v4.dat
+			phreeqc.dat
+			pitzer.dat
+			sit.dat
+			wateq4f.dat
 		
 	Advection example for Fortran, C++, and C: 
 		/usr/local/share/doc/iphreeqc/examples
@@ -254,7 +264,12 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 	        library. This will enable the charting capabilities of
 	        phreeqc through the use of Zedgraph.  This option is only
 	        available if BUILD_SHARED_LIBS is checked.
-	(4) IPHREEQC_FORTRAN_TESTING--Sets whether the test calculations
+	(4) IPHREEQC_ENABLE_MODULE--Uncheck if you want to
+		use the deprecated (old-style) include file (IPhreeqc.f90.inc 
+		or IPhreeqc.f.inc) to define IPhreeqc in Fortran files.
+		Leave checked to use IPhreeqc as a Fortran module (USE IPhreeqc), 
+		which is recommended. Leave checked if not using Fortran. 
+	(5) IPHREEQC_FORTRAN_TESTING--Sets whether the test calculations
 		(tests directory) will include Fortran test files. A Fortran
 		compiler is required. 
 	
@@ -303,9 +318,11 @@ E. Windows compiling, testing, and installing the IPhreeqc library
 				IPhreeqc.hpp         (C++ header)
 				IPhreeqc.h           (C header)
 
-			Optionally, may need one or more of the following:
-				Var.h                (IPhreeqc VAR structure)
-				IPhreeqcCallbacks.h  (IPhreeqc callbacks)
+			Optionally, you may need one or more of the following:
+				Var.h                
+				IPhreeqcCallbacks.h  
+				Keywords.h
+				PHRQ_io.h
 
 		Install\src files:
 			To use IPhreeqc in Fortran:
