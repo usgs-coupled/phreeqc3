@@ -179,7 +179,7 @@ ChartHandler::End_timer()
 			}
 #endif
 			it->second->Set_end_timer(true);
-			it->second->Set_phreeqc(NULL);
+			//it->second->Set_phreeqc(NULL);
 #if defined(__cplusplus_cli)
 			int n = System::Threading::Interlocked::Exchange(it->second->usingResource, 0);
 			assert(n == 6);

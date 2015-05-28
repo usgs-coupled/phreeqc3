@@ -74,7 +74,7 @@ namespace zdg_ui2 {
 					if (Phreeqc* ptr = chart->Get_phreeqc())
 					{
 						ptr->Get_chart_handler().Decrement_active_charts();
-						chart->Set_phreeqc(NULL);
+						//chart->Set_phreeqc(NULL);
 					}
 				}
 				this->chartobject_ptr = NULL;
@@ -640,9 +640,9 @@ namespace zdg_ui2 {
 							{
 								//double x = ip[i]->X;
 								f_out.width(12);
-								f_out << ip[i2]->X << "\t";
+								f_out << ip[(int) i2]->X << "\t";
 								f_out.width(12);
-								f_out << ip[i2]->Y << "\t";
+								f_out << ip[(int) i2]->Y << "\t";
 							}
 							else if (i2 < max_points)
 							{
