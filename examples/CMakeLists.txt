@@ -50,6 +50,60 @@ else()
   install (FILES ${phreeqc_EXAMPLES} DESTINATION ${CMAKE_INSTALL_DOCDIR}/examples)
 endif()
 
+# ex2b.tsv
+configure_file (
+  "ex2b.tsv"
+  "ex2b.tsv"
+  )
+
+# ex19_meas.tsv
+configure_file (
+  "ex19_meas.tsv"
+  "ex19_meas.tsv"
+  )
+
+# ex20-c13.tsv
+configure_file (
+  "ex20-c13.tsv"
+  "ex20-c13.tsv"
+  )
+
+# ex20-c14.tsv
+configure_file (
+  "ex20-c14.tsv"
+  "ex20-c14.tsv"
+  )
+
+# ex21_Cl_tr_rad.tsv
+configure_file (
+  "ex21_Cl_tr_rad.tsv"
+  "ex21_Cl_tr_rad.tsv"
+  )
+
+# ex21_Cs_rad.tsv
+configure_file (
+  "ex21_Cs_rad.tsv"
+  "ex21_Cs_rad.tsv"
+  )
+
+# ex21_HTO_rad.tsv
+configure_file (
+  "ex21_HTO_rad.tsv"
+  "ex21_HTO_rad.tsv"
+  )
+
+# ex21_Na_tr_rad.tsv
+configure_file (
+  "ex21_Na_tr_rad.tsv"
+  "ex21_Na_tr_rad.tsv"
+  )
+
+# co2.tsv
+configure_file (
+  "co2.tsv"
+  "co2.tsv"
+  )
+
 # ex1
 add_test(NAME ex1
 COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex1 ex1.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex1.log
