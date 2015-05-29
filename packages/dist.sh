@@ -160,7 +160,7 @@ fi
 VERSION_LONG="$ver_major.$ver_minor.$ver_patch.$REVISION_SVN"
 
 SED_FILES="$DISTPATH/configure.ac \
-           $DISTPATH/doc/README.Linux.txt \
+           $DISTPATH/doc/README.Phreeqc.TXT \
            $DISTPATH/doc/RELEASE.TXT"
 
 for vsn_file in $SED_FILES
@@ -187,7 +187,7 @@ do
 done
 
 mv $DISTPATH/doc/RELEASE.TXT           $DISTPATH/doc/RELEASE
-mv $DISTPATH/doc/README.Linux.txt      $DISTPATH/doc/README
+mv $DISTPATH/doc/README.Phreeqc.TXT    $DISTPATH/doc/README
 mv $DISTPATH/doc/NOTICE.TXT            $DISTPATH/doc/NOTICE
 mv $DISTPATH/HTMLversion/phreeqc3.chm  $DISTPATH/doc/phreeqc3.chm                
 
