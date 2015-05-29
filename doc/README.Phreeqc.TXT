@@ -22,13 +22,12 @@ Notepad++ interface is available at http://www.hydrochemistry.eu/downl.html.)
 
     A. Distribution files
     B. Documentation
-    C. Installing the Windows executable version
-  	
-    D. Compiling, testing, installing for Linux
-    E. Compiling, testing, installing for Windows
+    C. Installing the Windows batch version of PHREEQC with executable
+    D. Compiling and installing the Windows batch version of PHREEQC without executable
+    E. Compiling and installing the Linux batch version of PHREEQC 
     F. Running PHREEQC
-    F. Description of test cases
-    G. Contacts
+    G. Description of test cases
+    H. Contacts
 
 -----------------------------------------------------------------------------------
 A. Distribution files
@@ -84,7 +83,7 @@ Charlton, S.R., and Parkhurst, D.L., 2002, PhreeqcI--A graphical user interface
    FS-031-02, 2 p.
     
 -----------------------------------------------------------------------------------   
-C. Installing the batch version of PHREEQC with executable
+C. Installing the Windows batch version of PHREEQC with executable
 -----------------------------------------------------------------------------------
 
 Note: the person installing the software generally must have administrator 
@@ -93,6 +92,8 @@ rights.
 To install the batch version, double-click phreeqc-@VERSION@-@REVISION@.msi to
 execute the installation program and follow the directions on the screen. The batch
 version is completely independent from the GUI version.
+
+The installation sets environmental variables PATH, PATH_PHREEQC, and PHREEQC_ROOT.
     
 -----------------------------------------------------------------------------------   
 D. Compiling and installing the Windows batch version of PHREEQC without executable
@@ -323,22 +324,22 @@ E.8. Install the program.
     
     Databases: 
     
-        install/share/doc/phreeqc/database
-            Amm.dat
-            frezchem.dat
-            iso.dat
-            llnl.dat
-            minteq.dat
-            minteq.v4.dat
-            phreeqc.dat
-            pitzer.dat
-            sit.dat
-            wateq4f.dat
+      install/share/doc/phreeqc/database
+         Amm.dat
+         frezchem.dat
+         iso.dat
+         llnl.dat
+         minteq.dat
+         minteq.v4.dat
+         phreeqc.dat
+         pitzer.dat
+         sit.dat
+         wateq4f.dat
     
     Example input files:
     
-        install/share/doc/phreeqc/examples
-            Input files for 22 examples documented in the Phreeqc 3 manual
+      install/share/doc/phreeqc/examples
+         Input files for 22 examples documented in the Phreeqc 3 manual
 
 -----------------------------------------------------------------------------------
 F. Running PHREEQC
@@ -368,34 +369,15 @@ program can be executed from a command line with any of the commands below.
                                  and screen output is directed to the
                                  file screen_output.
 
-If phreeqc is not located in a directory in PATh, the executable may be copied to the
+If phreeqc is not located in a directory in PATH, the executable may be copied to the
 current directory. In addition the default database file, phreeqc.dat, or another
 desired database may need to be in the current directory.
 
-The shell variable PHREEQC_DATABASE can be used to specify the default
-database. 
-
-For Linux:
-
-In the C shell, this variable can be set (assuming your database
-is named /home/jdoe/local/project/mydata.dat) with the command:
-
-  setenv PHREEQC_DATABASE /home/jdoe/local/project/mydata.dat
-
-In the Bourne or Korn shell, this variable can be set with the command:
-
-  export PHREEQC_DATABASE=/home/jdoe/local/project/mydata.dat
-
-The shell variable can be set permanently by including the appropriate command
-in a file that is read when the shell is initiated, frequently $HOME/.login or
-$HOME/.profile. If this shell variable is not set, the default database is
-assumed to be phreeqc.dat in the current directory.  
-
-For Windows:
-???
+PHREEQC is run by a script on Linux and a batch file on Windows. The environmental 
+variable PHREEQC_DATABASE can be used to specify a default database.
 
 ----------------------------------------------------------------------------------- 
-F. Description of test cases
+G. Description of test cases
 -----------------------------------------------------------------------------------
 
 The tests are described in the table below, where 'test' corresponds
@@ -456,7 +438,7 @@ test  description of test and files
  22   Modeling gas solubilities: CO2 at high pressures
 
 -----------------------------------------------------------------------------------
-G. Contacts
+H. Contacts
 -----------------------------------------------------------------------------------
 
 Inquiries about this software distribution should be directed to:
