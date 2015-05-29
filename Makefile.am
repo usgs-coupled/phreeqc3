@@ -1,4 +1,14 @@
-EXTRA_DIST = CMakeLists.txt
+EXTRA_DIST= \
+	CMakeLists.txt \
+	co2.tsv \
+	ex19_meas.tsv \
+	ex20-c13.tsv \
+	ex20-c14.tsv \
+	ex21_Cl_tr_rad.tsv \
+	ex21_Cs_rad.tsv \
+	ex21_HTO_rad.tsv \
+	ex21_Na_tr_rad.tsv \
+	ex2b.tsv
 
 # Docs
 #
@@ -10,7 +20,6 @@ EXAMPLES= \
 	ex1 \
 	ex2 \
 	ex2b \
-	ex2b.tsv \
 	ex3 \
 	ex4 \
 	ex5 \
@@ -36,17 +45,10 @@ EXAMPLES= \
 	ex17b \
 	ex18 \
 	ex19 \
-	ex19_meas.tsv \
 	ex19b \
 	ex20a \
 	ex20b \
-	ex20-c13.tsv \
-	ex20-c14.tsv \
 	ex21 \
-	ex21_Cl_tr_rad.tsv \
-	ex21_Cs_rad.tsv \
-	ex21_HTO_rad.tsv \
-	ex21_Na_tr_rad.tsv \
 	ex22 \
 	Zn1e_4 \
 	Zn1e_7
