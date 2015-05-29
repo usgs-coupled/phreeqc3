@@ -1,4 +1,5 @@
 SET(phreeqc_EXAMPLES
+co2.tsv
 ex1
 ex2
 ex2b
@@ -49,6 +50,10 @@ if(WIN32)
 else()
   install (FILES ${phreeqc_EXAMPLES} DESTINATION ${CMAKE_INSTALL_DOCDIR}/examples)
 endif()
+
+#
+# copy tsv files to output directories
+#
 
 # ex2b.tsv
 configure_file (
@@ -103,6 +108,10 @@ configure_file (
   "co2.tsv"
   "co2.tsv"
   )
+  
+#
+# run examples for testing
+#
 
 # ex1
 add_test(NAME ex1
