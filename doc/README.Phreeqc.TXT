@@ -93,6 +93,9 @@ To install the batch version, double-click phreeqc-@VERSION@-@REVISION@.msi to
 execute the installation program and follow the directions on the screen. The batch
 version is completely independent from the GUI version.
 
+Default installation is in the directory:
+C:\Program Files\USGS\phreeqc-@VERSION@-@REVISION@-x64
+
 The installation sets environmental variables PATH, PATH_PHREEQC, and PHREEQC_ROOT.
     
 -----------------------------------------------------------------------------------   
@@ -137,7 +140,7 @@ D.3.  Generate a Visual Studio solution
    
       Fill in the top two lines:
          Where is the source code: 
-            The top level directory (ie c:/iphreeqc-@VERSION@-@REVISION@).
+            The top level directory (ie c:/phreeqc-@VERSION@-@REVISION@).
          Where to build the binaries: 
             A new directory. It is suggested that the name of the directory include
 	    the characteristics of the library that is built, including the VS
