@@ -20,15 +20,19 @@ M64 := $(shell ssh -q $(HOST64) 'uname -m')
 
 CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
 
+CMAKE_PKG := $(NAME)-$(VER)-$(REL).zip
+
 PKG_32 := $(NAME)-$(VER)-$(REL).$(M32).tar.gz
 
 PKG_64 := $(NAME)-$(VER)-$(REL).$(M64).tar.gz
 
 TARBALL := $(NAME)-src-$(VER)-$(REL).tar.gz
 
+ZIPBALL := $(NAME)-src-$(VER)-$(REL).zip
+
 REPOS_PATH ?= trunk
 
-all : $(CONF_PKG)  #### $(PKG_32) $(PKG_64)
+all : $(CONF_PKG) $(CMAKE_PKG)  #### $(PKG_32) $(PKG_64)
 	rm -rf $(NAME)-$(VER)-$(REL)
 	@echo "DATE=$(DATE)"       >> history
 	@echo "VER=$(VER)"         >> history
@@ -46,6 +50,19 @@ $(CONF_PKG) : $(TARBALL)
 	cd $(NAME)-src-$(VER)-$(REL) && cd _build && $(MAKE) distcheck
 	mv $(NAME)-src-$(VER)-$(REL)/_build/$(CONF_PKG) .
 	rm -rf $(NAME)-src-$(VER)-$(REL)
+
+cmake : $(CMAKE_PKG)
+
+$(CMAKE_PKG) : $(ZIPBALL) $(CONF_PKG)
+	rm -rf $(NAME)-$(VER)-$(REL)
+	unzip $(ZIPBALL)
+	cd $(NAME)-src-$(VER)-$(REL) && autoreconf -fvi
+	cd $(NAME)-src-$(VER)-$(REL) && mkdir _build
+	cd $(NAME)-src-$(VER)-$(REL) && cd _build && ../configure
+	cd $(NAME)-src-$(VER)-$(REL) && cd _build && $(MAKE) dist-zip
+	mv $(NAME)-src-$(VER)-$(REL)/_build/$(CMAKE_PKG) .
+	rm -rf $(NAME)-src-$(VER)-$(REL)
+
 
 64 : $(PKG_64)
 
@@ -117,6 +134,11 @@ endif
 	@echo "Creating $(TARBALL)"
 	@rm -f $(TARBALL)
 	time ./dist.sh -v $(VER) -r $(REL) -d $(DATE) -pr $(REPOS_PATH) 2>&1 | tee dist-$(REL).log
+
+$(ZIPBALL) : $(TARBALL)
+	@echo "Creating $(ZIPBALL)"
+	@rm -f $(ZIPBALL)
+	time ./dist.sh -v $(VER) -r $(REL) -d $(DATE) -pr $(REPOS_PATH) -win 2>&1 | tee distw-$(REL).log
 
 usage:
 	@echo ""

@@ -180,7 +180,7 @@ do
    -e "s/@M64@/$M64/g" \
     < "$vsn_file" > "$vsn_file.tmp"
   mv -f "$vsn_file.tmp" "$vsn_file"
-  if [ -n "$WIN" ]; then
+  if [ -n "$WIN" ] && [ "$vsn_file" != "$DISTPATH/configure.ac" ]; then
     unix2dos "$vsn_file"
   fi  
   cp "$vsn_file" "$vsn_file.dist"
@@ -191,24 +191,46 @@ mv $DISTPATH/doc/README.Phreeqc.TXT    $DISTPATH/doc/README
 mv $DISTPATH/doc/NOTICE.TXT            $DISTPATH/doc/NOTICE
 mv $DISTPATH/HTMLversion/phreeqc3.chm  $DISTPATH/doc/phreeqc3.chm                
 
-echo "Rolling $DISTNAME.tar ..."
-(cd "$DIST_SANDBOX" > /dev/null && tar c "$DISTNAME") > \
-"$DISTNAME.tar"
+if [ -n "$WIN" ]; then
+  echo "Rolling $DISTNAME.zip ..."
+  (cd "$DIST_SANDBOX" > /dev/null && zip -q -r - "$DISTNAME") > \
+  "$DISTNAME.zip"
 
-echo "Compressing to $DISTNAME.tar.gz ..."
-gzip -9f "$DISTNAME.tar"
-echo "Removing sandbox..."
-rm -rf "$DIST_SANDBOX"
+  echo "Removing sandbox..."
+  rm -rf "$DIST_SANDBOX"
 
-echo ""
-echo "Done:"
-ls -l "$DISTNAME.tar.gz"
-echo ""
-echo "md5sums:"
-md5sum "$DISTNAME.tar.gz"
-type sha1sum > /dev/null 2>&1
-if [ $? -eq 0 ]; then
   echo ""
-  echo "sha1sums:"
-  sha1sum "$DISTNAME.tar.gz"
+  echo "Done:"
+  ls -l "$DISTNAME.zip"
+  echo ""
+  echo "md5sums:"
+  md5sum "$DISTNAME.zip"
+  type sha1sum > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    echo ""
+    echo "sha1sums:"
+    sha1sum "$DISTNAME.zip"
+  fi
+else
+  echo "Rolling $DISTNAME.tar ..."
+  (cd "$DIST_SANDBOX" > /dev/null && tar c "$DISTNAME") > \
+  "$DISTNAME.tar"
+
+  echo "Compressing to $DISTNAME.tar.gz ..."
+  gzip -9f "$DISTNAME.tar"
+  echo "Removing sandbox..."
+  rm -rf "$DIST_SANDBOX"
+
+  echo ""
+  echo "Done:"
+  ls -l "$DISTNAME.tar.gz"
+  echo ""
+  echo "md5sums:"
+  md5sum "$DISTNAME.tar.gz"
+  type sha1sum > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    echo ""
+    echo "sha1sums:"
+    sha1sum "$DISTNAME.tar.gz"
+  fi
 fi
