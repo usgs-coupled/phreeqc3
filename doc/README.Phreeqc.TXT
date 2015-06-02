@@ -96,6 +96,14 @@ version is completely independent from the GUI version.
 Default installation is in the directory:
 C:\Program Files\USGS\phreeqc-@VERSION@-@REVISION@-x64
 
+which includes subdirectories:
+   bin\
+   database\
+   doc\
+   examples\
+   src\
+   test\
+
 The installation sets environmental variables PATH, PATH_PHREEQC, and PHREEQC_ROOT.
     
 -----------------------------------------------------------------------------------   
@@ -182,11 +190,17 @@ D.4. Compile and install PHREEQC
  
    Build INSTALL. 
    
-      The libraries, header files, Fortran module source files, PHREEQC database
-      files, and documentation are installed in the install directory selected in
-      CMake.
+      The executables, PHREEQC database files, and documentation are installed in the
+      install directory selected in CMake (denoted "install" in the following
+      descriptions).
+      
+   Install:
+      RELEASE.txt                           Release notes
+      README.txt                            this readme file
+      NOTICE.txt                            User rights notice
  
-   Install\library directory (lib or dll) may include:
+   Install\bin directory:
+      Subdirectories with executables
 
    Install\Database files:
       Amm.dat
@@ -204,18 +218,15 @@ D.4. Compile and install PHREEQC
       Phreeqc_3_2013_manual.pdf         Manual for PHREEQC version 3
       Phreeqc_2_1999_manual.pdf         Manual for PHREEQC version 2
       phreeqc.txt                       Short explanation for PHREEQC
-      RELEASE                           Release notes
-      README                            this readme file
-      NOTICE                            User rights notice
       phreeqc3.chm                      Latest PHREEQC documentation
+      wrir02-4172.pdf                   Documenation of isotope calculations
     
- 
    Install\examples files:
       Input files for the 22 examples described in the version 3 manual
  
-   Note: In order to use the CLR version (Charting) the Zedgraph.dll file
-   must be registered either by installing the Phreeqc or the PhreeqcI MSI,
-   or through the use of the Visual Studio Tool gacutil.
+   Note: In order to use the CLR version (Charting) the Zedgraph.dll file must be
+   registered either by installing the Phreeqc batch version with executable or the
+   PhreeqcI MSI, or through the use of the Visual Studio Tool gacutil.
   
 -----------------------------------------------------------------------------------   
 E. Compiling and installing the Linux batch version of PHREEQC 
@@ -319,11 +330,12 @@ E.8. Install the program.
       install/share/doc/phreeqc
          Phreeqc_3_2013_manual.pdf         Manual for Phreeqc version 3
          Phreeqc_2_1999_manual.pdf         Manual for Phreeqc version 2
+         wrir02-4172.pdf                   Documenation of isotope calculations
          phreeqc.txt                       Short explanation for Phreeqc
          RELEASE                           Release notes
          README                            this readme file
          NOTICE                            User rights notice
-            ???phreeqc3.chm
+         phreeqc3.chm                      Compiled HTML documentation
     
     Databases: 
     
