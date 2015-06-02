@@ -165,7 +165,7 @@ fi
 SED_FILES="$DISTPATH/phreeqc_version.h \
            $DISTPATH/src/class_main.cpp \
            $DISTPATH/doc/RELEASE.TXT \
-           $DISTPATH/doc/README.Win.txt"
+           $DISTPATH/doc/README.Phreeqc.TXT"
 
 for vsn_file in $SED_FILES
 do
@@ -192,9 +192,9 @@ do
   cp "$vsn_file" "$vsn_file.dist"
 done
 
-cp $DISTPATH/doc/RELEASE.TXT       $DISTPATH/RELEASE.TXT
-cp $DISTPATH/doc/README.Win.txt    $DISTPATH/README.TXT
-cp $DISTPATH/doc/NOTICE.TXT        $DISTPATH/NOTICE.TXT
+cp $DISTPATH/doc/RELEASE.TXT         $DISTPATH/RELEASE.TXT
+cp $DISTPATH/doc/README.Phreeqc.TXT  $DISTPATH/README.TXT
+cp $DISTPATH/doc/NOTICE.TXT          $DISTPATH/NOTICE.TXT
 
 if [ -z "$ZIP" ]; then
   echo "Rolling $DISTNAME.tar ..."
