@@ -163,9 +163,9 @@ E. Linux compiling, testing, and installing the IPhreeqc library
     	--prefix=dir specifies the directory for installation of the
     		library. Default is /usr/local, $HOME would install
     		to your home directory.
-    	--disable-fortran-test specifies that you do not want to include the Fortran test
-    		files during "make check", which compiles, links, and runs programs that
-    		use IPhreeqc.
+    	--enable-fortran-test=yes specifies that you do want to include the Fortran test
+    		files during "make check", which compiles, links, and runs programs 
+    		that use IPhreeqc.
     		
 	Run configure as follows:	
     	
@@ -177,9 +177,9 @@ E. Linux compiling, testing, and installing the IPhreeqc library
 	
     	Optionally, use -j n--where n is the number of compilations make runs in parallel.
 	
-  E.6.  Compile and run the test cases. The files in the directory tests are compiled and linked
-	to the IPhreeqc library. The Fortran files are optionally included (--enable-fortran-test
-	configure option).
+  E.6.  Compile and run the test cases. The files in the directory tests are compiled
+	and linked to the IPhreeqc library. The Fortran files are optionally included
+	(--enable-fortran-test configure option).
 	
 	make check
 	
@@ -363,9 +363,9 @@ F. Windows compiling, testing, and installing the IPhreeqc library
 		Install\doc files:
 			IPhreeqc.pdf          IPhreeqc journal article
 			html\index.html       IPhreeqc API documentation
-			RELEASE               Release notes
-			README                This readme file
 			NOTICE                User rights notice 
+			README                This readme file
+			RELEASE               Release notes
 
 		Install\examples files:
 			c, cpp, fortran       Advection example
