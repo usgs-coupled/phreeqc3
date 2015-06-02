@@ -192,7 +192,7 @@ clean() {
 install() {
   (rm -fr ${instdir}/${FULLPKG}.msi && \
   /usr/bin/install -m 755 "${objdir}/msi/bin/x64/Release/${FULLPKG}-x64.msi" ${instdir}/. && \
-  /usr/bin/install -m 755 "${objdir}/doc/README.Win.txt" ${instdir}/. && \
+  /usr/bin/install -m 755 "${objdir}/doc/README.Phreeqc.TXT" ${instdir}/. && \
   /usr/bin/install -m 755 "${objdir}/doc/RELEASE.TXT" ${instdir}/. && \
   /usr/bin/install -m 755 "dist.sh"  ${instdir}/dist.sh && \
   /usr/bin/install -m 755 "build.sh" ${instdir}/build.sh && \
