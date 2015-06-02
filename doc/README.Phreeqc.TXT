@@ -152,7 +152,7 @@ D.3.  Generate a Visual Studio solution
          Where to build the binaries: 
             A new directory. It is suggested that the name of the directory include
 	    the characteristics of the library that is built, including the VS
-	    version, 32/64 bit, dll/lib. for example, vs2012_64_dll.
+	    version, and 32/64 bit, such as VS2012_x64.
  	
    Click Configure. 
       From the pulldown menu select the 64-bit version for your Visual Studio.
