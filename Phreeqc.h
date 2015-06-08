@@ -524,6 +524,7 @@ public:
 	struct theta_param *theta_param_search(LDBLE zj, LDBLE zk);
 	struct theta_param *theta_param_alloc(void);
 	int theta_param_init(struct theta_param *theta_param_ptr);
+	void pitzer_make_lists(void);
 	int gammas_pz(void);
 	int model_pz(void);
 	int pitzer(void);
@@ -543,12 +544,13 @@ public:
 	LDBLE GP(LDBLE Y);
 	int ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE * etheta,
 		LDBLE * ethetap);
-	int BDK(LDBLE X);
+	void ETHETA_PARAMS(LDBLE X, LDBLE& JAY, LDBLE& JPRIME );
+	//int BDK(LDBLE X);
 	int pitzer_initial_guesses(void);
 	int pitzer_revise_guesses(void);
 	int PTEMP(LDBLE TK);
-	LDBLE JAY(LDBLE X);
-	LDBLE JPRIME(LDBLE Y);
+	//LDBLE JAY(LDBLE X);
+	//LDBLE JPRIME(LDBLE Y);
 	int jacobian_pz(void);
 
 	// pitzer_structures.cpp -------------------------------
