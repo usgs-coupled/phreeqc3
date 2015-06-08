@@ -847,7 +847,6 @@ calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 	}
 	return OK;
 }
-#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 pitzer(void)
@@ -1182,7 +1181,7 @@ pitzer(void)
 	 */
 	return (OK);
 }
-#endif
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 pitzer(void)
@@ -1560,6 +1559,7 @@ pitzer(void)
 	 */
 	return (OK);
 }
+#endif
 #ifdef SKIP
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
@@ -2736,7 +2736,8 @@ pitzer_make_lists(void)
 	{
 		IPRSNT[i] = FALSE;
 		M[i] = 0.0;
-		if (spec[i] != NULL && spec[i]->in == TRUE)
+		if ((spec[i] != NULL && spec[i]->in == TRUE) ||
+			(ICON == TRUE && i == IC))
 		{
 			if (spec[i]->type == EX ||
 				spec[i]->type == SURF || spec[i]->type == SURF_PSI)
@@ -2765,10 +2766,10 @@ pitzer_make_lists(void)
 			}
 		}
 	}	
-	if (ICON == TRUE)
-	{
-		IPRSNT[IC] = TRUE;
-	}
+	//if (ICON == TRUE)
+	//{
+	//	IPRSNT[IC] = TRUE;
+	//}
 	for (int i = 0; i < count_pitz_param; i++)
 	{
 		/*
