@@ -1212,7 +1212,7 @@ model_sit(void)
 	{
 		full_pitzer = FALSE;
 	}
-	sit_make_lists();
+	//sit_make_lists();
 	for (;;)
 	{
 		mb_gases();
@@ -1651,15 +1651,15 @@ sit_make_lists(void)
 		{
 		case 0:
 			min = 0;
-			max = count_cations;
+			max = sit_count_cations;
 			break;
 		case 1:
 			min = count_s;
-			max = count_s + count_neutrals;
+			max = count_s + sit_count_neutrals;
 			break;
 		case 2:
 			min = 2*count_s;
-			max = 2*count_s + count_anions;
+			max = 2*count_s + sit_count_anions;
 			break;
 		}
 		for (int i = min; i < max; i++)
