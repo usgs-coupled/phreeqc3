@@ -2,7 +2,7 @@
 #include "phqalloc.h"
 #include "Exchange.h"
 #include "Solution.h"
-
+#define PITZER_LISTS
 #define PITZER
 
 /* ---------------------------------------------------------------------- */
@@ -762,19 +762,27 @@ C
 C     SUBROUTINE TO CALUCLATE TEMPERATURE DEPENDENCE OF PITZER PARAMETER
 C
 */
-	int i;
 	LDBLE TR = 298.15;
 
 	if (fabs(TK - OTEMP) < 0.001 && fabs(patm_x - OPRESS) < 0.1)
 		return OK;
 	DW0 = rho_0 = calc_rho_0(TK - 273.15, patm_x);
 	VP = patm_x;
+#if !defined(PITZER_LISTS)
+	int i;
 	for (i = 0; i < count_pitz_param; i++)
 	//for (size_t j = 0; j < param_list.size(); j++)
 	{
 		//int i = param_list[j];
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
+#else
+	for (size_t j = 0; j < param_list.size(); j++)
+	{
+		int i = param_list[j];
+		calc_pitz_param(pitz_params[i], TK, TR);
+	}
+#endif
 	calc_dielectrics(TK - 273.15, patm_x);
 	OTEMP = TK;
 	OPRESS = patm_x;
@@ -847,6 +855,7 @@ calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 	}
 	return OK;
 }
+#if !defined(PITZER_LISTS)
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 pitzer(void)
@@ -1181,7 +1190,7 @@ pitzer(void)
 	 */
 	return (OK);
 }
-#ifdef SKIP
+#else
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 pitzer(void)
@@ -2380,6 +2389,9 @@ model_pz(void)
 	{
 		full_pitzer = FALSE;
 	}
+#if defined(PITZER_LISTS)
+	pitzer_make_lists();
+#endif
 	for (;;)
 	{
 		mb_gases();
@@ -2732,6 +2744,7 @@ pitzer_make_lists(void)
 	anion_list.clear();
 	ion_list.clear();
 	param_list.clear();
+	OTEMP = -100.0;
 	for (int i = 0; i < 3 * count_s; i++)
 	{
 		IPRSNT[i] = FALSE;

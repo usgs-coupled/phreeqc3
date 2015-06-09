@@ -1643,6 +1643,7 @@ sit_make_lists(void)
 	anion_list.clear();
 	ion_list.clear();
 	param_list.clear();
+	OTEMP = -100.0;
 	for (int i = 0; i < 3 * count_s; i++)
 	{
 		sit_IPRSNT[i] = FALSE;
