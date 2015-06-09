@@ -771,9 +771,7 @@ C
 #if !defined(PITZER_LISTS)
 	int i;
 	for (i = 0; i < count_pitz_param; i++)
-	//for (size_t j = 0; j < param_list.size(); j++)
 	{
-		//int i = param_list[j];
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
 #else
@@ -782,6 +780,9 @@ C
 		int i = param_list[j];
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
+	calc_pitz_param(mcb0, TK, TR);
+	calc_pitz_param(mcb1, TK, TR);
+	calc_pitz_param(mcc0, TK, TR);
 #endif
 	calc_dielectrics(TK - 273.15, patm_x);
 	OTEMP = TK;
@@ -1227,6 +1228,7 @@ pitzer(void)
 	   C     TRANSFER DATA FROM TO M
 	   C
 	 */
+#ifdef SKIP
  	double log_min = log10(MIN_TOTAL);
  	for (size_t j = 0; j < s_list.size(); j++)
  	{
@@ -1240,6 +1242,7 @@ pitzer(void)
  			M[i] = 0.0;
  		}
  	}
+#endif
 #ifdef SKIP
 	for (i = 0; i < 3 * count_s; i++)
 	{
@@ -1256,6 +1259,21 @@ pitzer(void)
 		}
 	}
 #endif
+ 	for (size_t j = 0; j < s_list.size(); j++)
+ 	{
+ 		i = s_list[j];
+		IPRSNT[i] = FALSE;
+		M[i] = 0.0;
+		if (spec[i] != NULL && spec[i]->in == TRUE)
+		{
+			if (spec[i]->type == EX ||
+				spec[i]->type == SURF || spec[i]->type == SURF_PSI)
+				continue;
+			M[i] = under(spec[i]->lm);
+			if (M[i] > MIN_TOTAL)
+				IPRSNT[i] = TRUE;
+		}
+	}	
 	if (ICON == TRUE)
 	{
 		IPRSNT[IC] = TRUE;
@@ -1280,15 +1298,17 @@ pitzer(void)
 		XX = XX + M[i] * fabs(spec[i]->z);
 		OSUM = OSUM + M[i];
 	}
-	//for (i = 0; i < 2 * count_s + count_anions; i++)
-	//{
-	//	LGAMMA[i] = 0.0;
-	//	if (IPRSNT[i] == TRUE)
-	//	{
-	//		XX = XX + M[i] * fabs(spec[i]->z);
-	//		OSUM = OSUM + M[i];
-	//	}
-	//}
+#ifdef SKIP
+	for (i = 0; i < 2 * count_s + count_anions; i++)
+	{
+		LGAMMA[i] = 0.0;
+		if (IPRSNT[i] == TRUE)
+		{
+			XX = XX + M[i] * fabs(spec[i]->z);
+			OSUM = OSUM + M[i];
+		}
+	}
+#endif
 	/*
 	   C
 	   C     EQUATION (8)
@@ -1476,7 +1496,6 @@ pitzer(void)
 	/*
 	 *  Add F and CSUM terms to LGAMMA
 	 */
-
 	for (size_t j = 0; j < ion_list.size(); j++)
 	{
 		int i = ion_list[j];
@@ -1484,22 +1503,24 @@ pitzer(void)
 		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
 		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
 	}
-	//for (i = 0; i < count_cations; i++)
-	//{
-	//	if (!IPRSNT[i])
-	//		continue;
-	//	z0 = fabs(spec[i]->z);
-	//	F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
-	//	LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
-	//}
-	//for (i = 2 * count_s; i < 2 * count_s + count_anions; i++)
-	//{
-	//	if (!IPRSNT[i])
-	//		continue;
-	//	z0 = fabs(spec[i]->z);
-	//	F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
-	//	LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
-	//}
+#ifdef SKIP
+	for (i = 0; i < count_cations; i++)
+	{
+		if (!IPRSNT[i])
+			continue;
+		z0 = fabs(spec[i]->z);
+		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
+		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
+	}
+	for (i = 2 * count_s; i < 2 * count_s + count_anions; i++)
+	{
+		if (!IPRSNT[i])
+			continue;
+		z0 = fabs(spec[i]->z);
+		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
+		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
+	}
+#endif
 	/*
 	   C
 	   C     CONVERT TO MACINNES CONVENTION
@@ -1518,13 +1539,15 @@ pitzer(void)
 			int i = s_list[j];
 			LGAMMA[i] = LGAMMA[i] + spec[i]->z * PHIMAC;
 		}
-		//for (i = 0; i < 2 * count_s + count_anions; i++)
-		//{
-		//	if (IPRSNT[i] == TRUE)
-		//	{
-		//		LGAMMA[i] = LGAMMA[i] + spec[i]->z * PHIMAC;
-		//	}
-		//}
+#ifdef SKIP
+		for (i = 0; i < 2 * count_s + count_anions; i++)
+		{
+			if (IPRSNT[i] == TRUE)
+			{
+				LGAMMA[i] = LGAMMA[i] + spec[i]->z * PHIMAC;
+			}
+		}
+#endif
 	}
 
 	COSMOT = 1.0 + 2.0 * OSMOT / OSUM;
@@ -1545,16 +1568,18 @@ pitzer(void)
 		int i = s_list[j];
 		spec[i]->lg_pitzer = LGAMMA[i] * CONV;
 	}
-	//for (i = 0; i < 2 * count_s + count_anions; i++)
-	//{
-	//	if (IPRSNT[i] == FALSE)
-	//		continue;
-	//	/*spec[i]->lg=LGAMMA[i]*CONV; */
-	//	spec[i]->lg_pitzer = LGAMMA[i] * CONV;
-	//	/*
-	//	   output_msg(sformatf( "%d %s:\t%e\t%e\t%e\t%e \n", i, spec[i]->name, M[i], spec[i]->la, spec[i]->lg_pitzer, spec[i]->lg));
-	//	 */
-	//}
+#ifdef SKIP
+	for (i = 0; i < 2 * count_s + count_anions; i++)
+	{
+		if (IPRSNT[i] == FALSE)
+			continue;
+		/*spec[i]->lg=LGAMMA[i]*CONV; */
+		spec[i]->lg_pitzer = LGAMMA[i] * CONV;
+		/*
+		   output_msg(sformatf( "%d %s:\t%e\t%e\t%e\t%e \n", i, spec[i]->name, M[i], spec[i]->la, spec[i]->lg_pitzer, spec[i]->lg));
+		 */
+	}
+#endif
 	/*
 	   output_msg(sformatf( "OSUM: %e\n", OSUM));
 	   output_msg(sformatf( "OSMOT: %e\n", OSMOT));
