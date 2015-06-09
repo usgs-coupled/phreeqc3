@@ -1216,10 +1216,6 @@ pitzer(void)
 	CONV = 1.0 / log(10.0);
 	XX = 0.0;
 	OSUM = 0.0;
-	/*n
-	   I = *I_X;
-	   TK = *TK_X;
-	 */
 	I = mu_x;
 	TK = tk_x;
 	/*      DH_AB(TK, &A, &B); */
@@ -1228,37 +1224,6 @@ pitzer(void)
 	   C     TRANSFER DATA FROM TO M
 	   C
 	 */
-#ifdef SKIP
- 	double log_min = log10(MIN_TOTAL);
- 	for (size_t j = 0; j < s_list.size(); j++)
- 	{
- 		i = s_list[j];
- 		if (spec[i]->lm > log_min)
- 		{
- 			M[i] = under(spec[i]->lm);
- 		}
- 		else
- 		{
- 			M[i] = 0.0;
- 		}
- 	}
-#endif
-#ifdef SKIP
-	for (i = 0; i < 3 * count_s; i++)
-	{
-		IPRSNT[i] = FALSE;
-		M[i] = 0.0;
-		if (spec[i] != NULL && spec[i]->in == TRUE)
-		{
-			if (spec[i]->type == EX ||
-				spec[i]->type == SURF || spec[i]->type == SURF_PSI)
-				continue;
-			M[i] = under(spec[i]->lm);
-			if (M[i] > MIN_TOTAL)
-				IPRSNT[i] = TRUE;
-		}
-	}
-#endif
  	for (size_t j = 0; j < s_list.size(); j++)
  	{
  		i = s_list[j];
@@ -1279,13 +1244,6 @@ pitzer(void)
 		IPRSNT[IC] = TRUE;
 	}
 	/*
-	   ICON = 0;
-	   M[1] = 1.40070736;
-	   M[4] = 2.52131086E-05;
-	   M[140] = 4.59985435E-09;
-	 */
-
-	/*
 	   C
 	   C     COMPUTE PITZER COEFFICIENTS' TEMPERATURE DEPENDENCE
 	   C
@@ -1298,17 +1256,6 @@ pitzer(void)
 		XX = XX + M[i] * fabs(spec[i]->z);
 		OSUM = OSUM + M[i];
 	}
-#ifdef SKIP
-	for (i = 0; i < 2 * count_s + count_anions; i++)
-	{
-		LGAMMA[i] = 0.0;
-		if (IPRSNT[i] == TRUE)
-		{
-			XX = XX + M[i] * fabs(spec[i]->z);
-			OSUM = OSUM + M[i];
-		}
-	}
-#endif
 	/*
 	   C
 	   C     EQUATION (8)
@@ -1338,9 +1285,6 @@ pitzer(void)
 	}
 	XXX = 2.0 * DI;
 	XXX = (1.0 - (1.0 + XXX - XXX * XXX * 0.5) * exp(-XXX)) / (XXX * XXX);
-	/*GAMCLM=F+I*2.0e0*(BCX(1,IK,IC)+BCX(2,IK,IC)*XXX)+1.5e0*BCX(4,IK,IC)*I*I; */
-	/*GAMCLM=F+I*2.0e0*(mcb0->U.b0 + mcb1->U.b1*XXX) + 1.5e0*mcc0->U.c0*I*I; */
-	/*GAMCLM = F + I * 2.0e0 * (mcb0->p + mcb1->p * XXX) + 1.5e0 * mcc0->p * I * I; */
 	GAMCLM = F1;
 	if (mcb0 != NULL)
 		GAMCLM += I * 2.0 * mcb0->p;
@@ -1367,14 +1311,11 @@ pitzer(void)
 	/*
 	 *  Sums for F, LGAMMA, and OSMOT
 	 */
-	//for (i = 0; i < count_pitz_param; i++)
  	for (size_t j = 0; j < param_list.size(); j++)
  	{
  		int i = param_list[j];
 		i0 = pitz_params[i]->ispec[0];
 		i1 = pitz_params[i]->ispec[1];
-		//if (IPRSNT[i0] == FALSE || IPRSNT[i1] == FALSE)
-		//	continue;
 		z0 = spec[i0]->z;
 		z1 = spec[i1]->z;
 		param = pitz_params[i]->p;
@@ -1431,12 +1372,6 @@ pitzer(void)
 				LGAMMA[i0] += 2.0 * M[i1] * etheta;
 				LGAMMA[i1] += 2.0 * M[i0] * etheta;
 				OSMOT += M[i0] * M[i1] * (etheta + I * ethetap);
-				/*
-				   F += M[i0]*M[i1]*ETHETAP(z0, z1, I);
-				   LGAMMA[i0] += 2.0*M[i1]*(ETHETA(z0, z1, I) ); 
-				   LGAMMA[i1] += 2.0*M[i0]*(ETHETA(z0, z1, I) ); 
-				   OSMOT += M[i0]*M[i1]*(ETHETA(z0, z1, I) + I*ETHETAP(z0, z1, I) ); 
-				 */
 			}
 			break;
 		case TYPE_PSI:
@@ -1488,9 +1423,9 @@ pitzer(void)
 			error_msg("TYPE_Other in pitz_param list.", STOP);
 			break;
 		}
-	F += F_var;
-	F1 += F_var;
-	F2 += F_var;
+		F += F_var;
+		F1 += F_var;
+		F2 += F_var;
 	}
 
 	/*
@@ -1503,24 +1438,6 @@ pitzer(void)
 		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
 		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
 	}
-#ifdef SKIP
-	for (i = 0; i < count_cations; i++)
-	{
-		if (!IPRSNT[i])
-			continue;
-		z0 = fabs(spec[i]->z);
-		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
-		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
-	}
-	for (i = 2 * count_s; i < 2 * count_s + count_anions; i++)
-	{
-		if (!IPRSNT[i])
-			continue;
-		z0 = fabs(spec[i]->z);
-		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
-		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
-	}
-#endif
 	/*
 	   C
 	   C     CONVERT TO MACINNES CONVENTION
@@ -1539,15 +1456,6 @@ pitzer(void)
 			int i = s_list[j];
 			LGAMMA[i] = LGAMMA[i] + spec[i]->z * PHIMAC;
 		}
-#ifdef SKIP
-		for (i = 0; i < 2 * count_s + count_anions; i++)
-		{
-			if (IPRSNT[i] == TRUE)
-			{
-				LGAMMA[i] = LGAMMA[i] + spec[i]->z * PHIMAC;
-			}
-		}
-#endif
 	}
 
 	COSMOT = 1.0 + 2.0 * OSMOT / OSUM;
@@ -1568,25 +1476,6 @@ pitzer(void)
 		int i = s_list[j];
 		spec[i]->lg_pitzer = LGAMMA[i] * CONV;
 	}
-#ifdef SKIP
-	for (i = 0; i < 2 * count_s + count_anions; i++)
-	{
-		if (IPRSNT[i] == FALSE)
-			continue;
-		/*spec[i]->lg=LGAMMA[i]*CONV; */
-		spec[i]->lg_pitzer = LGAMMA[i] * CONV;
-		/*
-		   output_msg(sformatf( "%d %s:\t%e\t%e\t%e\t%e \n", i, spec[i]->name, M[i], spec[i]->la, spec[i]->lg_pitzer, spec[i]->lg));
-		 */
-	}
-#endif
-	/*
-	   output_msg(sformatf( "OSUM: %e\n", OSUM));
-	   output_msg(sformatf( "OSMOT: %e\n", OSMOT));
-	   output_msg(sformatf( "COSMOT: %e\n", COSMOT));
-	   output_msg(sformatf( "F: %e\n", F));
-	   output_msg(sformatf( "AW: %e\n", AW));
-	 */
 	/*
 	 *I_X = I;
 	 *COSMOT_X = COSMOT;
@@ -1594,104 +1483,6 @@ pitzer(void)
 	return (OK);
 }
 #endif
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-JAY(LDBLE X)
-/* ---------------------------------------------------------------------- */
-/*
-C
-C     FUNCTION TO CALCULATE JAY AND JPRIME
-C
-C     J0 AND J1, USED IN CALCULATION OF ETHETA AND ETHEAP
-C
-*/
-{
-	LDBLE JAY;
-	BDK(X);
-	JAY = X / 4.0e0 - 1.0e0 + 0.5e0 * (BK[0] - BK[2]);
-	return JAY;
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-JPRIME(LDBLE L_Y)
-/* ---------------------------------------------------------------------- */
-{
-	LDBLE L_DZ;
-	BDK(L_Y);
-	if (L_Y > 1.0e0)
-	{
-		L_DZ = -4.0e0 * pow(L_Y, (LDBLE) -1.1e0) / 9.0e0;
-	}
-	else
-	{
-		L_DZ = 0.8e0 * pow(L_Y, (LDBLE) -0.8e0);
-	}
-	return (L_Y * (.25e0 + L_DZ * (DK[0] - DK[2]) / 2.0e0));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-BDK(LDBLE X)
-/* ---------------------------------------------------------------------- */
-/*
-C
-C     NUMERICAL APPROXIMATION TO THE INTEGRALS IN THE EXPRESSIONS FOR J0
-C     AND J1.  CHEBYSHEV APPROXIMATION IS USED.  THE CONSTANTS 'AK' ARE
-C     DEFINED IN BLOCK COMMON.
-C
-*/
-/*
-C
-C     AK IS USED TO CALCULATE HIGHER ORDER ELECTROSTATIC TERMS IN
-C     SUBROUTINE PITZER
-C
-*/
-{
-	LDBLE AKX[42] = {
-		1.925154014814667e0, -.060076477753119e0, -.029779077456514e0,
-		-.007299499690937e0, 0.000388260636404e0, 0.000636874599598e0,
-		0.000036583601823e0, -.000045036975204e0, -.000004537895710e0,
-		0.000002937706971e0, 0.000000396566462e0, -.000000202099617e0,
-		-.000000025267769e0, 0.000000013522610e0, 0.000000001229405e0,
-		-.000000000821969e0, -.000000000050847e0, 0.000000000046333e0,
-		0.000000000001943e0, -.000000000002563e0, -.000000000010991e0,
-		0.628023320520852e0, 0.462762985338493e0, 0.150044637187895e0,
-		-.028796057604906e0, -.036552745910311e0, -.001668087945272e0,
-		0.006519840398744e0, 0.001130378079086e0, -.000887171310131e0,
-		-.000242107641309e0, 0.000087294451594e0, 0.000034682122751e0,
-		-.000004583768938e0, -.000003548684306e0, -.000000250453880e0,
-		0.000000216991779e0, 0.000000080779570e0, 0.000000004558555e0,
-		-.000000006944757e0, -.000000002849257e0, 0.000000000237816e0
-	};
-/*
-      LDBLE PRECISION AK, BK, DK
-      COMMON / MX8 / AK(0:20,2),BK(0:22),DK(0:22)
-*/
-	LDBLE *AK;
-	LDBLE L_Z;
-	int i;
-
-	if (X <= 1.0e0)
-	{
-		L_Z = 4.0e0 * pow(X, (LDBLE) 0.2e0) - 2.0e0;
-		AK = &AKX[0];
-	}
-	else
-	{
-		L_Z = 40.0e0 * pow(X, (LDBLE) -1.0e-1) / 9.0e0 - 22.0e0 / 9.0e0;
-		AK = &AKX[21];
-	}
-	for (i = 20; i >= 0; i--)
-	{
-		BK[i] = L_Z * BK[i + 1] - BK[i + 2] + AK[i];
-		DK[i] = BK[i + 1] + L_Z * DK[i + 1] - DK[i + 2];
-	}
-	return OK;
-}
-#endif
-
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 G(LDBLE L_Y)
@@ -1719,47 +1510,12 @@ GP(LDBLE L_Y)
 	}
 	return d;
 }
-#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE * etheta, LDBLE * ethetap)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE XCON, ZZ;
-	LDBLE XJK, XJJ, XKK;
-
-	*etheta = 0.0;
-	*ethetap = 0.0;
-	if (ZJ == ZK)
-		return (OK);
-	XCON = 6.0e0 * A0 * sqrt(I);
-	ZZ = ZJ * ZK;
-/*
-C
-C     NEXT 3 ARE EQUATION (A1)
-C
-*/
-	XJK = XCON * ZZ;
-	XJJ = XCON * ZJ * ZJ;
-	XKK = XCON * ZK * ZK;
-/*
-C
-C     EQUATION (A3)
-C
-*/
-	*etheta =
-		ZZ * (JAY(XJK) - JAY(XJJ) / 2.0e0 - JAY(XKK) / 2.0e0) / (4.0e0 * I);
-	*ethetap =
-		ZZ * (JPRIME(XJK) - JPRIME(XJJ) / 2.0e0 -
-			  JPRIME(XKK) / 2.0e0) / (8.0e0 * I * I) - *etheta / I;
-	return (OK);
-}
-#endif
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE * etheta, LDBLE * ethetap)
-/* ---------------------------------------------------------------------- */
-{
+	/* Revised ETHETAS code thanks to Wouter Falkena and the MoReS team, June, 2015 */
    *etheta = 0.0;
    *ethetap = 0.0;
 
@@ -2415,7 +2171,7 @@ model_pz(void)
 		full_pitzer = FALSE;
 	}
 #if defined(PITZER_LISTS)
-	pitzer_make_lists();
+	//pitzer_make_lists();
 #endif
 	for (;;)
 	{
