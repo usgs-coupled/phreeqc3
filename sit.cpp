@@ -1643,37 +1643,56 @@ sit_make_lists(void)
 	anion_list.clear();
 	ion_list.clear();
 	param_list.clear();
-	OTEMP = -100.0;
-	for (int i = 0; i < 3 * count_s; i++)
+	OTEMP = -100.0;	
+	for (int j = 0; j < 3; j++)
 	{
-		sit_IPRSNT[i] = FALSE;
-		sit_M[i] = 0.0;
-		if (spec[i] != NULL && spec[i]->in == TRUE)
+		int min, max;
+		switch (j)
 		{
-			if (spec[i]->type == EX ||
-				spec[i]->type == SURF || spec[i]->type == SURF_PSI)
-				continue;	
-			sit_IPRSNT[i] = TRUE;	
-			s_list.push_back(i);	
-			if (i < count_s)
+		case 0:
+			min = 0;
+			max = count_cations;
+			break;
+		case 1:
+			min = count_s;
+			max = count_s + count_neutrals;
+			break;
+		case 2:
+			min = 2*count_s;
+			max = 2*count_s + count_anions;
+			break;
+		}
+		for (int i = min; i < max; i++)
+		{
+			sit_IPRSNT[i] = FALSE;
+			sit_M[i] = 0.0;
+			if (spec[i] != NULL && spec[i]->in == TRUE)
 			{
-				cation_list.push_back(i);
-			}
-			if (i >= count_s && i < 2*count_s)
-			{
-				neutral_list.push_back(i);
-			}
-			if (i >= 2*count_s)
-			{
-				anion_list.push_back(i);
-			}
-			if (i < count_s || i >= 2*count_s)
-			{
-				ion_list.push_back(i);
-			}
-			if (spec[i]->lm > log_min)
-			{
-				sit_M[i] = under(spec[i]->lm);
+				if (spec[i]->type == EX ||
+					spec[i]->type == SURF || spec[i]->type == SURF_PSI)
+					continue;	
+				sit_IPRSNT[i] = TRUE;	
+				s_list.push_back(i);	
+				if (i < count_s)
+				{
+					cation_list.push_back(i);
+				}
+				if (i >= count_s && i < 2*count_s)
+				{
+					neutral_list.push_back(i);
+				}
+				if (i >= 2*count_s)
+				{
+					anion_list.push_back(i);
+				}
+				if (i < count_s || i >= 2*count_s)
+				{
+					ion_list.push_back(i);
+				}
+				if (spec[i]->lm > log_min)
+				{
+					sit_M[i] = under(spec[i]->lm);
+				}
 			}
 		}
 	}
