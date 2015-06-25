@@ -103,6 +103,7 @@ public:
 	void Set_diffuse_layer_totals(cxxNameDouble & nd) {this->diffuse_layer_totals = nd;}
 	std::map<LDBLE, cxxSurfDL> &Get_g_map(void) {return g_map;}
 	void Set_g_map(std::map<LDBLE, cxxSurfDL> & t) {g_map = t;}
+	std::map<int, double> & Get_dl_species_map(void)       {return this->dl_species_map;}
 
 protected:
 	std::string name;
@@ -117,6 +118,7 @@ protected:
 	LDBLE sigma0, sigma1, sigma2, sigmaddl;
 	std::map<LDBLE, cxxSurfDL> g_map;
 	const static std::vector < std::string > vopts;
+	std::map<int, double> dl_species_map;
 };
 
 #endif // !defined(SURFACECHARGE_H_INCLUDED)
