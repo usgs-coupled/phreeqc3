@@ -1534,7 +1534,7 @@ xsolution_save(int n_user)
  */
 		temp_solution.Get_totals()[master[i]->elt->name] = master[i]->total;
 	}
-	if (pitzer_model == TRUE || sit_model == TRUE)
+	if (pitzer_model == TRUE || sit_model == TRUE || this->save_species)
 	{
 		for (int j = 0; j < count_s_x; j++)
 		{
@@ -1603,7 +1603,7 @@ xsolution_save(int n_user)
 		   {
 			   temp_solution.Get_species_map()[s_x[i]->number] = s_x[i]->moles / temp_solution.Get_soln_vol();
 		   }
-	   }
+	   }	 
    }
 /*
  *   Save solution
@@ -1731,6 +1731,28 @@ xsurface_save(int n_user)
 			}
 		}
 	}
+	if (!(dl_type_x == cxxSurface::NO_DL))
+	{
+		cxxSurface *surface_ptr = &temp_surface;
+		for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
+		{
+			cxxSurfaceCharge & charge_ref = surface_ptr->Get_surface_charges()[i];
+			double mass_water_surface = charge_ref.Get_mass_water();
+			for (int j = 0; j < count_s_x; j++)
+			{
+				if (s_x[j]->type > HPLUS)
+					continue;
+				double molality = under(s_x[j]->lm);
+				double g = charge_ref.Get_g_map()[s_x[j]->z].Get_g();
+				double moles_excess = mass_water_aq_x * molality * (g * s_x[j]->erm_ddl +
+					mass_water_surface /
+					mass_water_aq_x * (s_x[j]->erm_ddl - 1));
+				double c = (mass_water_surface * molality + moles_excess) / mass_water_surface;
+				charge_ref.Get_dl_species_map()[s_x[j]->number] = c;
+			}
+		}
+	} 
+
 /*
  *   Finish up
  */
