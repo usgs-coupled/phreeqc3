@@ -79,6 +79,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->species_gamma              = rhs.species_gamma;
 		this->isotopes                   = rhs.isotopes;
 		this->species_map                = rhs.species_map;
+		this->log_gamma_map              = rhs.log_gamma_map;
 		if (this->initial_data)
 			delete initial_data;
 		if (rhs.initial_data != NULL)
@@ -308,6 +309,18 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 		}
 	}
 
+	// log_gamma_map
+	if (log_gamma_map.size() > 0)
+	{
+		s_oss << indent1;
+		s_oss << "-log_gamma_map" << "\n";
+		std::map<int, double>::const_iterator it = this->log_gamma_map.begin();
+		for ( ; it != log_gamma_map.end(); it++)
+		{
+			s_oss << indent2;
+			s_oss << it->first << " " << it->second << "\n";
+		}
+	}
 	return;
 }
 
@@ -957,6 +970,32 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				opt_save = 24;
 			}
 			break;
+		case 25:				// log_gamma_map
+			{
+				int s_num;
+				if (parser.peek_token() != CParser::TT_EMPTY)
+				{
+					if (!(parser.get_iss() >> s_num))
+					{
+						parser.incr_input_error();
+						parser.error_msg("Expected integer for species number.",
+										 PHRQ_io::OT_CONTINUE);
+					}
+					else
+					{
+						double d; 
+						if (!(parser.get_iss() >> d))
+						{
+							parser.incr_input_error();
+							parser.error_msg("Expected double for species concentration.",
+											 PHRQ_io::OT_CONTINUE);
+						}
+						this->log_gamma_map[s_num] = d;
+					}
+				}
+				opt_save = 25;
+			}
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1342,6 +1381,19 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 				this->species_map[it->first] = it->second;
 			}
 		}
+		// Add gammas
+		std::map<int, double>::const_iterator git = addee.log_gamma_map.begin();
+		for ( ; git != addee.log_gamma_map.end(); git++)
+		{
+			if (this->log_gamma_map.find(git->first) != this->log_gamma_map.end())
+			{
+				this->log_gamma_map[git->first] = this->log_gamma_map[git->first] * f1 + git->second * f2;
+			}
+			else
+			{
+				this->log_gamma_map[git->first] = it->second;
+			}
+		}
 	}
 }
 
@@ -1494,6 +1546,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("density"),	                            // 21
 	std::vector< std::string >::value_type("pressure"),	                            // 22
 	std::vector< std::string >::value_type("soln_vol"),	                            // 23
-	std::vector< std::string >::value_type("species_map") 	                        // 24
+	std::vector< std::string >::value_type("species_map"), 	                        // 24
+	std::vector< std::string >::value_type("log_gamma_map") 	                    // 25
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

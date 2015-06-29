@@ -1534,7 +1534,7 @@ xsolution_save(int n_user)
  */
 		temp_solution.Get_totals()[master[i]->elt->name] = master[i]->total;
 	}
-	if (pitzer_model == TRUE || sit_model == TRUE || this->save_species)
+	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
 		for (int j = 0; j < count_s_x; j++)
 		{
@@ -1604,6 +1604,15 @@ xsolution_save(int n_user)
 			   temp_solution.Get_species_map()[s_x[i]->number] = s_x[i]->moles / temp_solution.Get_soln_vol();
 		   }
 	   }	 
+	   // saves gamma
+	   temp_solution.Get_log_gamma_map().clear();
+	   for (int i = 0; i < this->count_s_x; i++)
+	   {
+		   if (s_x[i]->type <= H2O)
+		   {
+			   temp_solution.Get_log_gamma_map()[s_x[i]->number] = s_x[i]->lg;
+		   }
+	   }
    }
 /*
  *   Save solution
