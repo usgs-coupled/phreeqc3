@@ -98,6 +98,20 @@ cxxSurfaceCharge::dump_raw(std::ostream & s_oss, unsigned int indent) const
 	s_oss << "-diffuse_layer_totals" << "\n";
 	this->diffuse_layer_totals.dump_raw(s_oss, indent + 1);
 
+	// DL species
+	//s_oss << indent0;
+	//s_oss << "-diffuse_layer_species" << "\n";
+	if (dl_species_map.size() > 0)
+	{
+		s_oss << indent0;
+		s_oss << "-diffuse_layer_species" << "\n";
+		std::map<int, double>::const_iterator it = this->dl_species_map.begin();
+		for ( ; it != dl_species_map.end(); it++)
+		{
+			s_oss << indent1;
+			s_oss << it->first << " " << it->second << "\n";
+		}
+	}
 	s_oss << indent0 << "# Surface workspace variables #\n";
 	s_oss << indent0 << "-sigma0                  " << this->sigma0 << "\n";
 	s_oss << indent0 << "-sigma1                  " << this->sigma1 << "\n";
@@ -321,6 +335,33 @@ cxxSurfaceCharge::read_raw(CParser & parser, bool check)
 					git->second.Set_psi_to_z(dummy);
 			}
 			break;
+		case 16:				// dl_species_map
+			int s_num;
+			if (parser.peek_token() != CParser::TT_EMPTY)
+			{
+				if (!(parser.get_iss() >> s_num))
+				{
+					parser.incr_input_error();
+					parser.error_msg("Expected integer for species number.",
+						PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					double d; 
+					if (!(parser.get_iss() >> d))
+					{
+						parser.incr_input_error();
+						parser.error_msg("Expected double for species concentration.",
+							PHRQ_io::OT_CONTINUE);
+					}
+					this->dl_species_map[s_num] = d;
+				}
+			}
+			opt_save = 16;
+
+
+
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -435,6 +476,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("sigma1"),	            // 12 
 	std::vector< std::string >::value_type("sigma2"),	            // 13 
 	std::vector< std::string >::value_type("sigmaddl"),	            // 14
-	std::vector< std::string >::value_type("g_map") 	            // 15
+	std::vector< std::string >::value_type("g_map"),	            // 15
+	std::vector< std::string >::value_type("diffuse_layer_species") // 16
 };									   
 const std::vector< std::string > cxxSurfaceCharge::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
