@@ -1445,6 +1445,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("SURF");
 			break;
 
+		case tokedl_species:
+			output_msg("EDL_SPECIES");
+			break;
+
 		case tokstep_no:
 			output_msg("STEP_NO");
 			break;
@@ -2674,6 +2678,107 @@ factor(struct LOC_exec * LINK)
 			PhreeqcPtr->free_check_null(names_arg);
 			PhreeqcPtr->free_check_null(types_arg);
 			PhreeqcPtr->free_check_null(moles_arg);
+		}
+		break;
+
+	case tokedl_species:
+		{
+			double area, thickness;
+			require(toklp, LINK);
+			const char *surf_name = stringfactor(STR1, LINK);
+			require(tokcomma, LINK);
+			// variable for number of species
+			LINK->t = LINK->t->next;
+			count_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
+			{
+				snerr(": can`t find variable");
+				exit(4);
+			}
+			require(tokcomma, LINK);
+			// variable for species names
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			names_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
+			{
+				snerr(": can`t find name of species");
+				exit(4);
+			}
+			// variable for species concentrations
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			moles_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
+				snerr(": can`t find concentrations of species");
+			LINK->t = LINK->t->next;
+			// variable for area
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			varrec *area_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || area_varrec->stringvar != 0)
+				snerr(": can`t find area varaiable");
+			LINK->t = LINK->t->next;
+			// varaiable for thickness
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			varrec *thickness_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || thickness_varrec->stringvar != 0)
+				snerr(": can`t find thickness variable");
+			LINK->t = LINK->t->next;
+			require(tokrp, LINK);
+
+			free_dim_stringvar(names_varrec);
+			PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
+			moles_varrec->UU.U0.arr = NULL;
+
+			// Call subroutine
+			if (parse_all)
+			{
+				PhreeqcPtr->sys_tot = 0;
+				PhreeqcPtr->count_sys = 1000;
+				int count_sys = PhreeqcPtr->count_sys;
+				names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
+				if (names_arg == NULL)
+				{
+					PhreeqcPtr->malloc_error();
+					exit(4);
+				}
+				moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
+				if (moles_arg == NULL)
+				{
+					PhreeqcPtr->malloc_error();
+					exit(4);
+				}
+				names_arg[0] = NULL;
+				moles_arg[0] = 0;
+				count_species = (LDBLE) count_sys;
+				n.UU.val = 0;
+			}
+			else
+			{
+				//n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
+				//	&(types_arg), &(moles_arg));
+				n.UU.val = PhreeqcPtr->edl_species(surf_name, &count_species, &(names_arg), &(moles_arg), &area, &thickness);
+			}
+			/*
+			*  fill in varrec structures
+			*/
+			*count_varrec->UU.U0.val = count_species;
+			names_varrec->UU.U1.sarr = names_arg;
+			moles_varrec->UU.U0.arr = moles_arg;
+			*area_varrec->UU.U0.val = area;
+			*thickness_varrec->UU.U0.val = thickness;
+
+			for (i = 0; i < maxdims; i++)
+			{
+				names_varrec->dims[i] = 0;
+				moles_varrec->dims[i] = 0;
+			}
+			names_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
+			moles_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
+			names_varrec->numdims = 1;
+			moles_varrec->numdims = 1;
 		}
 		break;
 
@@ -6970,7 +7075,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
