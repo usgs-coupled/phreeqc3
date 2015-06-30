@@ -1749,16 +1749,23 @@ xsurface_save(int n_user)
 			double mass_water_surface = charge_ref.Get_mass_water();
 			for (int j = 0; j < count_s_x; j++)
 			{
-				if (s_x[j]->type > HPLUS)
+				if (s_x[j]->type > H2O)
 					continue;
 				double molality = under(s_x[j]->lm);
+				double moles_excess = mass_water_aq_x * molality * charge_ref.Get_g_map()[s_x[j]->z].Get_g();
+				double moles_surface = mass_water_surface * molality + moles_excess;
+				charge_ref.Get_dl_species_map()[s_x[j]->number] = moles_surface/mass_water_surface;
+#ifdef SKIP
 				double g = charge_ref.Get_g_map()[s_x[j]->z].Get_g();
 				double moles_excess = mass_water_aq_x * molality * (g * s_x[j]->erm_ddl +
 					mass_water_surface /
 					mass_water_aq_x * (s_x[j]->erm_ddl - 1));
 				double c = (mass_water_surface * molality + moles_excess) / mass_water_surface;
 				charge_ref.Get_dl_species_map()[s_x[j]->number] = c;
+#endif
 			}
+			//charge_ref.Get_dl_species_map()[s_h2o->number] = 0.0;
+			charge_ref.Get_dl_species_map()[s_h2o->number] = 1.0/gfw_water;
 		}
 	} 
 

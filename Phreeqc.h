@@ -111,6 +111,8 @@ public:
 	LDBLE calc_logk_s(const char *name);
 	LDBLE calc_surface_charge(const char *surface_name);
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
+	LDBLE edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles, LDBLE * area, LDBLE * thickness);
+	int get_edl_species(cxxSurfaceCharge & charge_ref);
 	LDBLE equi_phase(const char *phase_name);
 	LDBLE equi_phase_delta(const char *phase_name);
 	LDBLE equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name);

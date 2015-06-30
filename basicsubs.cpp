@@ -2581,7 +2581,133 @@ total_mole(const char *total_name)
 	}
 	return (t);
 }
+
 /* ---------------------------------------------------------------------- */
+int Phreeqc::
+get_edl_species(cxxSurfaceCharge & charge_ref)
+/* ---------------------------------------------------------------------- */
+{
+
+	double mass_water_surface = charge_ref.Get_mass_water();
+	space((void **) ((void *) &sys), count_s_x, &max_sys, sizeof(struct system_species));
+	count_sys = 0;
+	for (int j = 0; j < count_s_x; j++)
+	{
+		if (s_x[j]->type == H2O)
+		{
+			sys[count_sys].name = string_duplicate(s_x[j]->name);
+			sys[count_sys].moles = mass_water_surface / gfw_water;
+			sys_tot += sys[count_sys].moles;
+		}
+		else if (s_x[j]->type < H2O)
+		{
+			double molality = under(s_x[j]->lm);
+			double moles_excess = mass_water_aq_x * molality * charge_ref.Get_g_map()[s_x[j]->z].Get_g();
+			double moles_surface = mass_water_surface * molality + moles_excess;
+			sys[count_sys].name = string_duplicate(s_x[j]->name);
+			sys[count_sys].moles = moles_surface;
+			sys_tot += sys[count_sys].moles;
+			count_sys++;
+#ifdef SKIP
+			double g = charge_ref.Get_g_map()[s_x[j]->z].Get_g();
+			double moles_excess = mass_water_aq_x * molality * (g * s_x[j]->erm_ddl +
+				mass_water_surface /
+				mass_water_aq_x * (s_x[j]->erm_ddl - 1));
+			double c = (mass_water_surface * molality + moles_excess) / mass_water_surface;
+			charge_ref.Get_dl_species_map()[s_x[j]->number] = c;
+#endif
+		}
+		else
+		{
+			continue;
+		}
+	}
+#ifdef SKIP
+/*
+ *   Provides total moles in system and lists of species/phases in sort order
+ */
+	int i;
+/*
+ *   find total moles in aq, surface, and exchange
+ */
+
+	for (i = 0; i < count_s_x; i++)
+	{
+		//if (s_x[i]->type != AQ)
+		if (s_x[i]->type > HPLUS)
+			continue;
+		sys[count_sys].name = string_duplicate(s_x[i]->name);
+		sys[count_sys].moles = s_x[i]->moles;
+		sys_tot += sys[count_sys].moles;
+		sys[count_sys].type = string_duplicate("aq");
+		count_sys++;
+		space((void **) ((void *) &sys), count_sys, &max_sys,
+			  sizeof(struct system_species));
+	}
+	
+#endif
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles, LDBLE * area, LDBLE * thickness)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Provides total moles in system and lists of species/phases in sort order
+ */
+	int i;
+	sys_tot = 0;
+	count_sys = 0;
+	max_sys = 100;
+	space((void **) ((void *) &sys), INIT, &max_sys,
+		  sizeof(struct system_species));
+	if (!(dl_type_x == cxxSurface::NO_DL))
+	{
+		cxxSurface *surface_ptr = use.Get_surface_ptr();
+		for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
+		{
+			cxxSurfaceCharge & charge_ref = surface_ptr->Get_surface_charges()[i];
+			if (strcmp(charge_ref.Get_name().c_str(), surf_name) == 0)
+			{	
+				get_edl_species(charge_ref);
+				*area = charge_ref.Get_specific_area() * charge_ref.Get_grams();
+				*thickness = surface_ptr->Get_thickness();
+				break;
+			}
+		}
+	}
+	/*
+	 *   Sort system species
+	 */
+	if (count_sys > 1)
+	{
+		qsort(sys, (size_t) count_sys,
+			  (size_t) sizeof(struct system_species), system_species_compare);
+	}
+	/*
+	 * malloc space
+	 */
+	*names = (char **) PHRQ_malloc((size_t) (count_sys + 1) * sizeof(char *));
+	if (names == NULL)
+		malloc_error();
+	*moles = (LDBLE *) PHRQ_malloc((size_t) (count_sys + 1) * sizeof(LDBLE));
+	if (moles == NULL)
+		malloc_error();
+
+	(*names)[0] = NULL;
+	(*moles)[0] = 0;
+	for (i = 0; i < count_sys; i++)
+	{
+		(*names)[i + 1] = sys[i].name;
+		(*moles)[i + 1] = sys[i].moles;
+	}
+	*count = (LDBLE) count_sys;
+
+	PHRQ_free(sys);
+	return (sys_tot);
+}				
+				/* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 system_total(const char *total_name, LDBLE * count, char ***names,
 			 char ***types, LDBLE ** moles)
