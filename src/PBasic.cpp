@@ -2688,21 +2688,19 @@ factor(struct LOC_exec * LINK)
 			const char *surf_name = stringfactor(STR1, LINK);
 			require(tokcomma, LINK);
 			// variable for number of species
-			LINK->t = LINK->t->next;
 			count_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
 			{
-				snerr(": can`t find variable");
+				snerr(": Missing or wrong type count variable.");
 				exit(4);
 			}
-			require(tokcomma, LINK);
 			// variable for species names
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			names_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
 			{
-				snerr(": can`t find name of species");
+				snerr(": Missing or wrong type name variable.");
 				exit(4);
 			}
 			// variable for species concentrations
@@ -2710,21 +2708,19 @@ factor(struct LOC_exec * LINK)
 			require(tokcomma, LINK);
 			moles_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
-				snerr(": can`t find concentrations of species");
-			LINK->t = LINK->t->next;
+				snerr(": Missing or wrong type moles variable.");
 			// variable for area
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			varrec *area_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || area_varrec->stringvar != 0)
-				snerr(": can`t find area varaiable");
-			LINK->t = LINK->t->next;
+				snerr(": Missing or wrong type area varaiable.");
 			// varaiable for thickness
 			LINK->t = LINK->t->next;
 			require(tokcomma, LINK);
 			varrec *thickness_varrec = LINK->t->UU.vp;
 			if (LINK->t->kind != tokvar || thickness_varrec->stringvar != 0)
-				snerr(": can`t find thickness variable");
+				snerr(": Missing or wrong type thickness variable.");
 			LINK->t = LINK->t->next;
 			require(tokrp, LINK);
 

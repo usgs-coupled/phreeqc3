@@ -1,0 +1,28 @@
+DATABASE ../database/phreeqc.dat
+
+SOLUTION 1
+   pH    1.95
+   -units    mol/kgw
+   Na    1e-2
+   Cl     1e-2 charge  # can't balance the charge like this?
+   Ca    1e-3
+END
+SURFACE 1
+   Hfo_sOH 1.0 2  1000
+   Hfo_wOH 0.05 
+   -donnan
+   -equil 1
+END
+USE solution 1
+USE surface 1
+USER_PRINT
+10 t = EDL_SPECIES("Hfo", count, name$, mole, area, thickness)
+20 PRINT "Surface: Hfo"
+30 PRINT "Area:       ", area
+40 PRINT "Thickness:  ", thickness
+45 PRINT "Volume:     ", area * thickness
+50 for i = 1 to count
+60   PRINT PAD(name$(i),20), mole(i)
+70 next i
+END
+
