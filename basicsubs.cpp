@@ -2598,6 +2598,7 @@ get_edl_species(cxxSurfaceCharge & charge_ref)
 			sys[count_sys].name = string_duplicate(s_x[j]->name);
 			sys[count_sys].moles = mass_water_surface / gfw_water;
 			sys_tot += sys[count_sys].moles;
+			count_sys++;
 		}
 		else if (s_x[j]->type < H2O)
 		{
