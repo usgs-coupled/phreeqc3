@@ -1,6 +1,47 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
         --------
+        svn 9915
+        --------
+        New Basic function EDL_SPECIES returns the moles of
+        species in the electrical double layer. Applies when -DONNAN or 
+        -DIFFUSE_LAYER are defined in SURFACE calculations.
+
+
+	EDL_SPECIES(surf$, count, name$, moles, area, thickness)
+	
+	The function returns the total number of moles of species in the 
+	diffuse layer. The arguments to the function are as follows:
+	
+	surf$ is the name of a surface, such as "Hfo", excluding
+		the site type (such as "_s").
+	count is the number of species in the diffuse layer.
+	name$ is an array of size count that contains the
+		names of aqueous species in the diffuse layer
+		of surface surf$.
+	moles is an array of size count that contains the number
+		of moles of each aqueous species in the diffuse layer
+		of surface surf$.
+	area  is the area of the surface in m^2.
+	thickness is the thickness of the diffuse layer in m.
+	
+	The volume of the diffuse layer is area * thickness, and
+	the concentrations of the species in the diffuse layer are
+	the number of moles divided by the volume.
+        
+        Example:
+10 t = EDL_SPECIES("Hfo", count, name$, moles, area, thickness)
+20 PRINT "Surface: Hfo"
+30 PRINT "Area:       ", area
+40 PRINT "Thickness:  ", thickness
+45 PRINT "Volume:     ", area * thickness
+50 for i = 1 to count
+60   PRINT PAD(name$(i),20), moles(i)
+70 next i	
+
+Version 3.2.1: July 7, 2015 
+
+        --------
         svn 9930
         --------
         PhreeqcRM had a serious error in the convertion of units from transport 
