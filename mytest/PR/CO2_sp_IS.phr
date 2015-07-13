@@ -1,0 +1,138 @@
+# DATABASE c:\phreeqc\database\phreeqc.dat
+# INCLUDE$ c:\dos\p\p_db\pest\CO2_Plum\co2_pes_phr.dat
+
+DATABASE pitzer.dat
+# or when using phreeqc.dat, uncomment:
+# SOLUTION_SPECIES
+# CO3-2 + 2 H+ = CO2 + H2O
+	# log_k	16.681
+	# delta_h -5.738	kcal
+	# -analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	# -dw	 1.92e-9
+	# -Vm   7.29  0.92  2.07  -1.23  -1.60 # ref. 1 + McBride et al. 2015, JCED 60, 171
+# 2CO2 = (CO2)2 # new VM("CO2"), for CO2 solubilities at high P, 0 - 150°C
+	# -analytical_expression  8.68  -0.0103  -2190
+	# -Vm   14.58  1.84  4.14  -2.46  -3.20
+# PHASES
+# CO2(g)
+	# CO2 = CO2
+	# log_k	-1.468
+	# delta_h -4.776 kcal
+	# -analytic   10.5624  -2.3547e-2  -3972.8  0  5.8746e5  1.9194e-5
+	# -T_c  304.2 # critical T, K
+	# -P_c   72.80 # critical P, atm
+	# -Omega 0.225 # acentric factor
+
+PRINT; -reset false; -warnings 0
+
+PRINT; -reset false
+SOLUTION 1
+SELECTED_OUTPUT; -reset false; -file co2_25.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 1000 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 25' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ # 22   punch 'EQUILIBRIUM_PHASES 1' + sc$ + ' CO2(g) ' + str$(log10((i))) + EOL$
+ # 24   punch 'GAS_PHASE 1' + sc$ + ' -fixed_volume' + sc$ + ' volume 0.01 ' + sc$ + ' CO2(g) ' + str$((i)) + sc$ + ' H2O(g) 0.1' + EOL$
+ 30 next i
+END
+
+PRINT; -selected_out false
+PRINT; -reset false; -echo_input true
+USER_GRAPH
+ -chart_title "Using: Initial Equilibrations"
+ -plot_csv_file co2.dat
+ -axis_titles "Pressure / atm" "CO2 / (mol/kgw)"
+ -axis_scale x_axis 0 600
+ -axis_scale y_axis 0 2
+ -initial_solutions true
+ 10 x = PR_P("CO2(g)")
+ 20 graph_x pressure # tot("Na")
+ 30 graph_y tot("C(4)")
+ -end
+INCLUDE$ co2_25.prn
+END
+
+SOLUTION
+PRINT; -selected_out true
+SELECTED_OUTPUT; file co2_50.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 1000 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 50' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 22   punch 'EQUILIBRIUM_PHASES 1' + sc$ + ' CO2(g) ' + str$(log10((i))) + EOL$
+ 24   punch 'GAS_PHASE 1' + sc$ + ' -fixed_volume' + sc$ + ' volume 1 ' + sc$ + ' CO2(g) ' + str$((i)) + sc$ + ' H2O(g) 0.1' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false; -connect_simulations false; -initial_solutions false
+
+END
+
+PRINT; -selected_out false
+USER_GRAPH
+ -active true;  -connect_simulations true
+INCLUDE$ co2_50.prn
+END
+
+SOLUTION
+PRINT; -selected_out true
+SELECTED_OUTPUT; file co2_75.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 1000 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 75' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 22   punch 'EQUILIBRIUM_PHASES 1' + sc$ + ' CO2(g) ' + str$(log10((i))) + EOL$
+ 24   punch 'GAS_PHASE 1' + sc$ + ' -fixed_volume' + sc$ + ' volume 1 ' + sc$ + ' CO2(g) ' + str$((i)) + sc$ + ' H2O(g) 0.1' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false;  -connect_simulations false; -initial_solutions false
+
+END
+
+PRINT; -selected_out false
+USER_GRAPH
+ -active true; -connect_simulations true
+INCLUDE$ co2_75.prn
+END
+
+SOLUTION
+PRINT; -selected_out true
+SELECTED_OUTPUT; file co2_100.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 1000 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 100' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 22   punch 'EQUILIBRIUM_PHASES 1' + sc$ + ' CO2(g) ' + str$(log10((i))) + EOL$
+ 24   punch 'GAS_PHASE 1' + sc$ + ' -fixed_volume' + sc$ + ' volume 1 ' + sc$ + ' CO2(g) ' + str$((i)) + sc$ + ' H2O(g) 1' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false;  -connect_simulations false
+ -initial_solutions false
+END
+
+PRINT; -selected_out false
+USER_GRAPH
+ -active true; -connect_simulations true-
+INCLUDE$ co2_100.prn
+END
+
+SOLUTION
+PRINT; -selected_out true
+SELECTED_OUTPUT; file co2_150.prn
+USER_PUNCH
+  1 sc$ = chr$(59)
+ 10 for i = 1.1 to 1000 step 20
+ 20   punch 'SOLUTION 1' + sc$ + ' -temp 150' + sc$ + ' pH 3 charge' + EOL$ + 'C(4) 1 CO2(g) ' + str$(log10(i)) + sc$ + '-pressure ' + str$(i) + EOL$ + 'END' + EOL$
+ 22   punch 'EQUILIBRIUM_PHASES 1' + sc$ + ' CO2(g) ' + str$(log10((i))) + EOL$
+  24   punch 'GAS_PHASE 1' + sc$ + ' -fixed_volume' + sc$ + ' volume 1 ' + sc$ + ' CO2(g) ' + str$(i) + sc$ + ' H2O(g) 10' + EOL$
+ 30 next i
+USER_GRAPH
+ -active false;  -connect_simulations false
+END
+
+PRINT; -selected_out false
+USER_GRAPH
+ -active true; -connect_simulations true
+ -initial_solutions false
+INCLUDE$ co2_150.prn
+END

@@ -1,0 +1,164 @@
+DATABASE pitzer.dat
+# or when using phreeqc.dat, uncomment:
+# SOLUTION_SPECIES
+# CO3-2 + 2 H+ = CO2 + H2O
+	# log_k	16.681
+	# delta_h -5.738	kcal
+	# -analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	# -dw	 1.92e-9
+	# -Vm   7.29  0.92  2.07  -1.23  -1.60 # ref. 1 + McBride et al. 2015, JCED 60, 171
+
+SOLUTION 1
+temp 1.5
+pH 4 charge
+C 0.4815e3 # tC = 1e3 / 18.016 / (1/xC - 1)
+
+REACTION_PRESSURE 1
+1 1000 in 11
+PRINT; -reset false
+USER_GRAPH 1 Density of CO2-H2O, x_CO2 = 8.6e-3
+-axis_titles "pressure / (MPa)" "density / (g/L)"
+-plot_tsv_file McBride_rho.tsv
+-connect_simulations false
+10 graph_x pressure / 10 * 1.01325
+20 graph_y rho * 1e3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+23
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+50.3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+75.2
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+100.3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+125.4
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+150.8
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+176
+END
+
+SOLUTION 1
+temp 1.5
+pH 4 charge
+C 0.948e3 # xC = 0.0168
+
+REACTION_PRESSURE 1
+1 1000 in 11
+PRINT; -reset false
+USER_GRAPH 1; -detach
+USER_GRAPH 2 Density of CO2-H2O, x_CO2 = 0.0168
+-axis_titles "pressure / (MPa)" "density / (g/L)"
+-plot_tsv_file McBride_rho2.tsv
+-connect_simulations false
+10 graph_x pressure / 10 * 1.01325
+20 graph_y rho * 1e3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+23
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+50.3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+75.2
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+100.3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+125.4
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+150.8
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+176
+END
+
+SOLUTION 1
+temp 1.5
+pH 4 charge
+C 1.546e3 # xC = 0.0271
+
+REACTION_PRESSURE 1
+1 1000 in 11
+PRINT; -reset false
+USER_GRAPH 2; -detach
+USER_GRAPH 3 Density of CO2-H2O, x_CO2 = 0.0271
+-axis_titles "pressure / (MPa)" "density / (g/L)"
+-plot_tsv_file McBride_rho3.tsv
+-connect_simulations false
+10 graph_x pressure / 10 * 1.01325
+20 graph_y rho * 1e3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+23
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+50.3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+75.2
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+100.3
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+125.4
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+150.8
+END
+
+USE solution 1; USE reaction_pressure 1
+REACTION_TEMPERATURE 1
+176
+END

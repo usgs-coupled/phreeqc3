@@ -359,7 +359,10 @@ all: alkalinity.out \
 	lk_phase.out \
 	calcite_rate.out \
 	CFAscmtest.out \
-	sar.out
+	sar.out \
+	CO2_sp_IS.out \
+	Hebach.out \
+	McBride_rho.out 
 
 # NaX.out
 
