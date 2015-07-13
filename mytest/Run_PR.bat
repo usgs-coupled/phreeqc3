@@ -7,6 +7,7 @@
 ..\ClrRelease\phreeqc.exe    CO2_conc_PR_IS
 ..\ClrRelease\phreeqc.exe    CO2_K_H
 ..\ClrRelease\phreeqc.exe    CO2_Na2SO4
+..\ClrRelease\phreeqc.exe    CO2_sp_IS
 ..\ClrRelease\phreeqc.exe    co2_t30
 ..\ClrRelease\phreeqc.exe    co2_tc
 ..\ClrRelease\phreeqc.exe    co2_VP
@@ -16,6 +17,8 @@
 ..\ClrRelease\phreeqc.exe    gas_fix_V
 ..\ClrRelease\phreeqc.exe    gypsum_P
 ..\ClrRelease\phreeqc.exe    gypsum_P2
+..\ClrRelease\phreeqc.exe    Hebach
+..\ClrRelease\phreeqc.exe    McBride_rho
 ..\ClrRelease\phreeqc.exe    mV_SO4_rho
 ..\ClrRelease\phreeqc.exe    mV1_rho
 ..\ClrRelease\phreeqc.exe    mV2_rho
