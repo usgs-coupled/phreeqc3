@@ -1,0 +1,21 @@
+DATABASE ../database/pitzer.dat
+PRINT; -reset false
+SOLUTION 1
+temp 39.6
+pH 7 charge
+# KNOBS; -tolerance 1e-13
+GAS_PHASE 1
+-fixed_volume; -volume 0.1
+CO2(g) 1e-3; H2O(g) 0.01
+REACTION 1
+CO2 1; 0 10*0.3
+INCREMENTAL_REACTIONS true
+USER_GRAPH
+ -chart_title "Data from Hebach et al., 2004, JCED 49, 950"
+ # -plot_csv_file Hebach.dat
+ -axis_titles "Pressure / atm" "rho / (g/L)"
+ -connect_simulations false
+ 20 graph_x pressure # tot("Na")
+ 30 graph_y rho*1e3
+ 40 graph_sy step_no
+END

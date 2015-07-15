@@ -1,8 +1,39 @@
-#database ../database/phreeqc.dat
-DATABASE ../database/Amm.dat
+database ../database/Amm.dat
 # for comparing solubilities measured in ternary (or more) gas-mixtures
 # Here: K_Henry in H2O/CO2/CH4 at 102 oC, 10-50 MPa,
 #   Qin et al., 2008, J. Chem. Eng. Data 53, 1246–1249
+# or when using phreeqc.dat, uncomment:
+SOLUTION_SPECIES
+CO3-2 + 2 H+ = CO2 + H2O
+	log_k	16.681
+	delta_h -5.738	kcal
+	-analytic	464.1965	0.09344813	-26986.16	-165.75951	2248628.9
+	-dw	 1.92e-9
+	-Vm   7.29  0.92  2.07  -1.23  -1.60 # ref. 1 + McBride et al. 2015, JCED 60, 171
+2CO2 = (CO2)2 # new VM("CO2"), for CO2 solubilities at high P, 0 - 150°C
+	-analytical_expression  8.68  -0.0103  -2190
+	-Vm   14.58  1.84  4.14  -2.46  -3.20
+PHASES
+CO2(g)
+	CO2 = CO2
+	log_k	-1.468
+	delta_h -4.776 kcal
+	-analytic   10.5624  -2.3547e-2  -3972.8  0  5.8746e5  1.9194e-5
+	-T_c  304.2 # critical T, K
+	-P_c   72.80 # critical P, atm
+	-Omega 0.225 # acentric factor
+
+SOLUTION_SPECIES
+Mtg = Mtg # CH4
+	-dw	 1.85e-9
+	-Vm   9.01  -1.11  0  -1.85  -1.50 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
+PHASES
+Mtg(g)
+	Mtg = Mtg
+	-log_k -2.8
+	-analytic -18.897 .0225 2799
+	-T_c  190.6 ; -P_c   45.40 ; -Omega 0.008
+
 #PRINT; -reset false
 SOLUTION 1
 pH 7 charge
