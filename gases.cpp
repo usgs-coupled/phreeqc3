@@ -455,7 +455,16 @@ calc_PR(void)
 	if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME)
 	{
 		V_m = gas_phase_ptr->Get_volume() / m_sum;
-		P = R_TK / (V_m - b_sum) - a_aa_sum / (V_m * (V_m + 2 * b_sum) - b2);
+		P = 0.0;
+		while (P <= 0)
+		{
+			P = R_TK / (V_m - b_sum) - a_aa_sum / (V_m * (V_m + 2 * b_sum) - b2);
+			if (P <= 0.0) 
+			{
+				V_m *= 2.0;
+				//a_aa_sum /= 2.0;
+			}
+		}
 		if (iterations > 0 && P < 150 && V_m < 1.01)
 		{
 			// check for 3-roots...
