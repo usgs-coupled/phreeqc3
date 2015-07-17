@@ -566,6 +566,7 @@ gammas(LDBLE mu)
 	LDBLE c1, c2, a, b;
 	LDBLE muhalf, equiv;
 	/* Initialize */
+	if (mu <= 0) mu = 1e-10;
 	if (pitzer_model == TRUE)
 		return gammas_pz();
 	if (sit_model == TRUE)
