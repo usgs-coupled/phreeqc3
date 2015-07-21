@@ -2428,7 +2428,7 @@ molalities(int allow_overflow)
 				dl_ref.Set_drelated_moles(s_ptr->moles * s_ptr->erm_ddl * charge_ref.Get_specific_area() *
 					use.Get_surface_ptr()->Get_thickness() / mass_water_aq_x);
 			}
-			s_ptr->tot_g_moles = s_ptr->moles * (1 + total_g /* s_ptr->erm_ddl */ );
+			s_ptr->tot_g_moles = s_ptr->moles * (1 + total_g * s_ptr->erm_ddl);
 
 			/* note that dg is for cb, act water, mu eqns */
 			/* dg_total_g for mole balance eqns */

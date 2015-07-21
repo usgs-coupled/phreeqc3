@@ -1,0 +1,42 @@
+database ../database/phreeqc.dat
+SOLUTION 1
+pH 7 charge
+Na 1; K 1; Cl 2
+-water 0.1
+SOLUTION_SPECIES
+Na+ = Na+
+	-gamma	4.0	 0.075
+	-gamma	4.08 0.082 # halite solubility
+	-dw	 1.33e-9  126
+	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # ref. 1
+-erm_ddl 1.5
+DUMP; file erm.prn; -surface 1
+USER_PRINT
+10 print 'sys Na =', sys("Na"), 'sys("K") =', sys("K"), 'sys("Cl") =', sys("Cl"), edl("Na")
+# END
+SURFACE_MASTER_SPECIES
+Su Su-
+Su_a Su_a-
+Sua Sua-
+SURFACE_SPECIES
+Su- = Su-
+Su_a- = Su_a-
+Sua- = Sua-
+SURFACE 1
+Su 1e-3 1e3 1
+# Sua 1e-5 1e3 1
+# Su_a 1e-5 1e3 1
+-donnan 
+-equil 1
+# USER_PRINT
+# 10 print sys("Na"), sys("K"), sys("Cl") edl("Na"), edl("water")
+SAVE surface 1
+# KNOBS; -debug_model true; -debug_diffuse_layer true
+END
+
+USE surface 1
+# USE solution 1
+SOLUTION 2
+K 1; Cl 1
+# DUMP; file c:\dos\P\su.prn; -surface 1
+END
