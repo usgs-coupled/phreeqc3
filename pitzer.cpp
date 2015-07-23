@@ -780,9 +780,18 @@ C
 		int i = param_list[j];
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
-	calc_pitz_param(mcb0, TK, TR);
-	calc_pitz_param(mcb1, TK, TR);
-	calc_pitz_param(mcc0, TK, TR);
+	if (mcb0) 
+	{
+		calc_pitz_param(mcb0, TK, TR);
+	}
+	if (mcb1)
+	{
+		calc_pitz_param(mcb1, TK, TR);
+	}
+	if (mcc0)
+	{
+		calc_pitz_param(mcc0, TK, TR);
+	}
 #endif
 	calc_dielectrics(TK - 273.15, patm_x);
 	OTEMP = TK;
