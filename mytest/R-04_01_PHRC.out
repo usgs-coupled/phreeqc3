@@ -1,0 +1,199 @@
+   Input file: R-04_01_PHRC
+  Output file: R-04_01_PHRC.out
+Database file: ./THEREDA_PIT_PHRC_r04.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	END
+WARNING: No KCl interaction parameters, turning off MacInnis scaling.
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ./THEREDA_PIT_PHRC_r04.dat
+	SOLUTION 1
+	    temp      25
+	    pH        9
+	    pe        4
+	    redox     pe
+	    units     mmol/kgw
+	    density   1
+	    Na(1)     1 Mol/kgw
+	    Cl(-1)    1 Mol/kgw    charge
+	    water    1 # kg
+	EQUILIBRIUM_PHASES 1
+	    NpO2(OH)_fresh(am) 0 10
+	    pH_Fix      -9.0    HCl       10.0
+	PHASES
+	        pH_Fix
+	        H+ = H+
+	        log_k  0.0
+	PITZER
+	macinnes   false
+	use_etheta true
+	redox      false
+	SELECTED_OUTPUT
+	    file                 1.out
+	    reset                false
+	    totals               Np(5)
+	    molalities           NpO2+  NpO2(OH)  NpO2(OH)2-  H+
+	    activities           H2O
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl(-1)            1.000e+00   1.000e+00  Charge balance
+	Na(1)             1.000e+00   1.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.000    
+                                       pe  =   4.000    
+                        Activity of water  =   0.967
+                           Ionic strength  =   1.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.878e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  14
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.93623
+                                  Total H  = 1.110169e+02
+                                  Total O  = 5.550845e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    Unscaled  Unscaled
+                                Unscaled       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.699e-05   9.646e-06    -4.770    -5.016    -0.246     (0)  
+   H+              1.150e-09   1.000e-09    -8.939    -9.000    -0.061      0.00
+   H2              7.843e-30   7.843e-30   -29.105   -29.105     0.000     (0)  
+   H2O             5.551e+01   9.668e-01     1.744    -0.015     0.000     18.07
+Cl(-1)        1.000e+00
+   Cl-             1.000e+00   6.571e-01    -0.000    -0.182    -0.182     (0)  
+Na(1)         1.000e+00
+   Na+             1.000e+00   6.571e-01    -0.000    -0.182    -0.182     (0)  
+O(0)          1.520e-31
+   O2              7.598e-32   7.598e-32   -31.119   -31.119     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           40.03     -0.01  -40.05  H2O
+  Halite           -1.95     -0.36    1.59  NaCl
+  pH_Fix           -9.00     -9.00    0.00  H+
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using pure phase assemblage 1.	
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+NpO2(OH)_fresh(am)   -0.00     5.30      5.30    1.000e+01   1.000e+01  -2.763e-04
+pH_Fix           -9.00    -9.00      0.00
+	 HCl                is reactant       1.000e+01   1.000e+01  -2.748e-04
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e+00   1.000e+00
+	Na                1.000e+00   1.000e+00
+	Np                2.763e-04   2.763e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.000      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+                        Activity of water  =   0.967
+                           Ionic strength  =   1.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   0.000e+00
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   5.175e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.93626
+                                  Total H  = 1.110174e+02
+                                  Total O  = 5.550928e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    Unscaled  Unscaled
+                                Unscaled       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.699e-05   9.646e-06    -4.770    -5.016    -0.246     (0)  
+   H+              1.150e-09   1.000e-09    -8.939    -9.000    -0.061      0.00
+   H2              7.843e-30   7.843e-30   -29.105   -29.105     0.000     (0)  
+   H2O             5.551e+01   9.668e-01     1.744    -0.015     0.000     18.07
+Cl(-1)        1.000e+00
+   Cl-             1.000e+00   6.573e-01     0.000    -0.182    -0.182     (0)  
+Na(1)         1.000e+00
+   Na+             1.000e+00   6.571e-01    -0.000    -0.182    -0.182     (0)  
+Np(4)         2.180e-31
+   Np+4            2.180e-31   3.597e-34   -30.662   -33.444    -2.782     (0)  
+Np(5)         2.763e-04
+   NpO2+           2.748e-04   2.064e-04    -3.561    -3.685    -0.124     (0)  
+   NpO2(OH)        1.462e-06   1.000e-06    -5.835    -6.000    -0.165     (0)  
+   NpO2(OH)2-      1.636e-09   4.846e-10    -8.786    -9.315    -0.528     (0)  
+O(0)          1.520e-31
+   O2              7.598e-32   7.598e-32   -31.119   -31.119     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           40.03     -0.01  -40.05  H2O
+  Halite           -1.95     -0.36    1.59  NaCl
+  NpO2(OH)_fresh(am)  -0.00      5.30    5.30  NpO2(OH)
+  pH_Fix           -9.00     -9.00    0.00  H+
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.094 Seconds.
+-------------------------------
+

@@ -1,0 +1,35 @@
+DATABASE ./THEREDA_PIT_PHRC_r04.dat
+SOLUTION 1
+    temp      25
+    pH        9
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Na(1)     1 Mol/kgw
+    Cl(-1)    1 Mol/kgw    charge
+    -water    1 # kg
+
+EQUILIBRIUM_PHASES 1
+    NpO2(OH)_fresh(am) 0 10
+    pH_Fix      -9.0    HCl       10.0
+
+PHASES
+        pH_Fix
+        H+ = H+
+        log_k  0.0
+
+PITZER
+-MacInnes   false
+-use_etheta true
+-redox      false
+
+SELECTED_OUTPUT
+    -file                 1.out
+    -reset                false
+    -totals               Np(5)
+    -molalities           NpO2+  NpO2(OH)  NpO2(OH)2-  H+
+    -activities           H2O
+
+END
+

@@ -362,7 +362,8 @@ all: alkalinity.out \
 	sar.out \
 	CO2_sp_IS.out \
 	Hebach.out \
-	McBride_rho.out 
+	McBride_rho.out \
+	R-04_01_PHRC
 
 # NaX.out
 

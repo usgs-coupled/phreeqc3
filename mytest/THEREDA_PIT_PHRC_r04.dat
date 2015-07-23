@@ -1,0 +1,803 @@
+#########################################
+# Date:	2012-11-29
+# Time:	14:52:58
+# Exporter-Version:	V1.1.3[2012-03-01]
+# Polythermal data:	no
+#########################################
+
+SOLUTION_MASTER_SPECIES
+#
+#element species                  alk   gfw                      gfw_element
+#
+E        e-                       0.00  0.000000                 0.000549
+O        H2O                      0.00  18.015300                15.999400
+H        H+                       0.00  1.007390                 1.007940
+Cl       Cl-                      0.00  35.454000                35.453000
+Na       Na+                      0.00  22.989221                22.989769
+Np       Np+4                     0.00  237.046000               237.048200
+O(-2)    H2O                      0.00  18.015300                15.999400
+H(1)     H+                       0.00  1.007390                 1.007940
+Cl(-1)   Cl-                      0.00  35.454000                35.453000
+Na(1)    Na+                      0.00  22.989221                22.989769
+Np(4)    Np+4                     0.00  237.046000               237.048200
+O(0)     O2                       0.00  31.998800                15.999400
+# ATTENTION: The following PCON is not included because of the following reasons:
+  # enabled: false
+  # equilibrium constraint: No equilibrium
+# Cl(7)    ClO4-                    0.00  99.451000                35.453000
+# ATTENTION: The following PCON is not included because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# Np(3)    Np+3                     0.00  237.046600               237.048200
+Np(5)    NpO2+                    0.00  269.046500               237.048200
+# ATTENTION: The following PCON is not included because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# Np(6)    NpO2+2                   0.00  269.045900               237.048200
+
+SOLUTION_SPECIES
+
+####### PrimaryMaster Species ########
+e- = e-
+        log_k     0.000
+        # value not set in THEREDA
+        # ref. state data
+        #   DFG298 = 0 J mol-1, calculation mode CGHF
+        #   DFH298 = 0 J mol-1, Definition/Convention
+        #   S298   = 130.68 J mol-1 K-1, COX/WAG1989
+
+
+H2O = H2O
+        log_k     0.000
+        # value not set in THEREDA
+        # ref. state data
+        #   DFG298 = -237140.3161 J mol-1, calculation mode CGHF
+        #   DFH298 = -285830 J mol-1, GUI/FAN2003
+        #   S298   = 69.95 J mol-1 K-1, GUI/FAN2003
+
+
+H+ = H+
+        log_k     0.000
+        # value not set in THEREDA
+        # ref. state data
+        #   DFG298 = 0 J mol-1, GUI/FAN2003
+        #   DFH298 = 0 J mol-1, GUI/FAN2003
+        #   S298   = 0 J mol-1 K-1, GUI/FAN2003
+
+
+Cl- = Cl-
+        log_k     0.000
+        # value not set in THEREDA
+        # ref. state data
+        #   DFG298 = -131218.368925 J mol-1, calculation mode CGHF
+        #   DFH298 = -167080 J mol-1, GUI/FAN2003
+        #   S298   = 56.6 J mol-1 K-1, GUI/FAN2003
+
+
+Na+ = Na+
+        log_k     0.000
+        # value not set in THEREDA
+        # ref. state data
+        #   DFG298 = -261952.8935 J mol-1, calculation mode CGHF
+        #   DFH298 = -240340 J mol-1, GUI/FAN2003
+        #   S298   = 58.45 J mol-1 K-1, GUI/FAN2003
+
+
+Np+4 = Np+4
+        log_k     0.000
+        # value not set in THEREDA
+        # ref. state data
+        #   DFG298 = -491773.6565 J mol-1, calculation mode CGHF
+        #   DFH298 = -556022 J mol-1, GUI/FAN2003
+        #   S298   = -426.39 J mol-1 K-1, GUI/FAN2003
+
+
+
+####### SecondaryMaster Species ########
+
++2.000 H+                   +2.000 e-                   = H2
+       log_k      -3.1055
+#      -a_e   -7.645285E+01 -6.533210E-03  3.037267E+03  2.631234E+01 -0.000000E+00
+#      -gamma      0.00    0.00
+#      Ref.: Hummel, W., Berner, U., Curti, E., Pearson, F.J., Thoenen, T. (2002).
+#      Nagra/PSI Chemical Thermodynamic Data Base 01/01. Universal
+#      Publishers/uPublish.com, Parkland, Florida.
+
+ +2.00 H2O -4.00 H+ -4.00 e- = 1 O2
+        log_k     -83.090
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CF
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = 0 J mol-1, calculation mode CGHF
+        #   DFH298 = 0 J mol-1, Definition/Convention
+        #   S298   = 205.152 J mol-1 K-1, COX/WAG1989
+
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # equilibrium constraint: No equilibrium
+#  +1.00 Cl- +4.00 H2O -8.00 H+ -8.00 e- = 1 ClO4-
+#         log_k     -187.786
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CR
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = -7890.541325 J mol-1, calculation mode CGHF
+        #   DFH298 = -128100 J mol-1, GRE/FUG1992
+        #   S298   = 184 J mol-1 K-1, GRE/FUG1992
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +1.00 Np+4 +1.00 e- = 1 Np+3
+#         log_k     3.695
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -512864.871804 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -527184 J mol-1, GUI/FAN2003
+        #   S298   = -193.586591 J mol-1 K-1, calculation mode CGHF
+#
+
+ +2.00 H2O -4.00 H+ +1.00 Np+4 -1.00 e- = 1 NpO2+
+        log_k     -10.212
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CR
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = -907765.1256 J mol-1, calculation mode CGHF
+        #   DFH298 = -978181 J mol-1, GUI/FAN2003
+        #   S298   = -45.904 J mol-1 K-1, GUI/FAN2003
+
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +2.00 H2O -4.00 H+ +1.00 Np+4 -2.00 e- = 1 NpO2+2
+#         log_k     -29.803
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CR
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = -795939.34015 J mol-1, calculation mode CGHF
+        #   DFH298 = -860733 J mol-1, GUI/FAN2003
+        #   S298   = -92.387 J mol-1 K-1, GUI/FAN2003
+#
+
+
+####### Product Species ########
+ +1.00 H2O -1.00 H+ = 1 OH-
+        log_k     -14.001
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CR
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = -157221.19901114 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +2.00 H2O -2.00 H+ +1.00 Np+4 = 1 Np(OH)2+2
+#         log_k     0.350
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -, NotYetDetermined
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +3.00 H2O -3.00 H+ +1.00 Np+4 = 1 Np(OH)3+
+#         log_k     -2.800
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 3, 2
+        # LOGK298 value reference: NEC/KIM2001
+        # ref. state data
+        #   DFG298 = -, NotYetDetermined
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +4.00 H2O -4.00 H+ +1.00 Np+4 = 1 Np(OH)4
+#         log_k     -8.300
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 2, 1, 2
+        # LOGK298 value reference: NEC/KIM2001
+        # ref. state data
+        #   DFG298 = -, NotYetDetermined
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# Np(OH)+2 = Np(OH)+2
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +1.00 H2O -1.00 H+ +1.00 Np+4 = 1 Np(OH)+3
+#         log_k     0.550
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -, NotYetDetermined
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# NpCl+3 = NpCl+3
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+ +2.00 H2O -2.00 H+ +1.00 NpO2+ = 1 NpO2(OH)2-
+        log_k     -23.600
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -1247336.127888 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+
+
+ +1.00 H2O -1.00 H+ +1.00 NpO2+ = 1 NpO2(OH)
+        log_k     -11.300
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -1080404.6443269 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+#  +1.00 Cl- +1.00 NpO2+2 = 1 NpO2Cl+
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+
+PHASES
+
+####### Solid Phases ########
+Halite
+        1 NaCl =  +1.00 Cl- +1.00 Na+
+        log_k     1.586
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CR
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = -384117.754084 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: disabled because validity of Pitzer parameters doesnt extend to saturation conditions
+# Na(OH)(cr)
+#         1 Na(OH) =  +1.00 H2O -1.00 H+ +1.00 Na+
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# Np(OH)4(am)
+#         Np(OH)4(am) = Np(OH)4(am)
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # equilibrium constraint: Dissociation
+# Np2O5(cr)
+#         1 Np2O5 =  +1.00 H2O -2.00 H+ +2.00 NpO2+
+#         log_k     7.800
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 3, 1, 1
+        # LOGK298 value reference: LEM/FUG2001
+        # ref. state data
+        #   DFG298 = -2008147.8930071 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # equilibrium constraint: No equilibrium
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# NpO2(cr)
+#         NpO2(cr) = NpO2(cr)
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # equilibrium constraint: Dissociation
+# NpO2(OH)_aged(s)
+#         1 NpO2(OH) =  +1.00 H2O -1.00 H+ +1.00 NpO2+
+#         log_k     4.700
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -1118077.6764209 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+#
+
+NpO2(OH)_fresh(am)
+        1 NpO2(OH) =  +1.00 H2O -1.00 H+ +1.00 NpO2+
+        log_k     5.300
+        # datatype: LOGK298, si unit: -
+        # calculation mode: Entered
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: 1, 1, 1
+        # LOGK298 value reference: GUI/FAN2003
+        # ref. state data
+        #   DFG298 = -1114652.8553215 J mol-1, calculation mode CRLOGK
+        #   DFH298 = -, NotYetDetermined
+        #   S298   = -, NotYetDetermined
+
+
+# ATTENTION: PCON is not included in data block because of the following reasons:
+  # enabled: false
+  # description: Pcon is currently excluded from the data block, because it will be subject to a future release!
+# NpO2.5_hyd(s)
+#         NpO2.5_hyd(s) = NpO2.5_hyd(s)
+#         log_k     0.000
+#         # value not set in THEREDA
+#
+
+
+####### Gases ########
+H2O(g)
+        1 H2O =  +1.00 H2O
+        log_k     -40.046
+        # datatype: LOGK298, si unit: -
+        # internally calculated, calculation mode: CR
+        # datatype category: R (Reaction Data)
+        # evaluation data quality, data class, data source: -1, -1, -1
+        # ref. state data
+        #   DFG298 = -228581.88429125 J mol-1, calculation mode CTPFUNC
+        #   DFH298 = -241826 J mol-1, calculation mode CR
+        #   S298   = 188.835 J mol-1 K-1, calculation mode CR
+
+
+
+############### PITZER BLOCK #############################################
+PITZER
+-redox  FALSE
+
+
+############### all beta0 values #############################################
+-B0
+H+                      Cl-                     0.17621966566818
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     Cl-                     0.075280443855103
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     OH-                     0.10436084822611
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Np+4                    Cl-                     1.32
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 4, 0, 5
+        # beta0 value reference: NEC2000
+
+NpO2+                   Cl-                     0.1415
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 1, 0, 1
+        # beta0 value reference: NEC1997
+
+
+
+############### all beta1 values #############################################
+-B1
+H+                      Cl-                     0.29952169751078
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     Cl-                     0.27692209143527
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     OH-                     0.1245819743129
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Np+4                    Cl-                     13.5
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 4, 0, 5
+        # beta1 value reference: NEC2000
+
+NpO2+                   Cl-                     0.281
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 1, 0, 1
+        # beta1 value reference: NEC1997
+
+
+
+############### all beta2 values #############################################
+-B2
+
+
+############### all cphi values #############################################
+-C0
+Na+                     Cl-                     0.0014079559794209
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     OH-                     0.0021542996464021
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+
+
+############### all alpha1 and alpha2 values #############################################
+-ALPHAS
+#Ion1                   Ion2                    Alpha1   Alpha2
+H+                      Cl-                     2
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     Cl-                     2
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     OH-                     2
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Np+4                    Cl-                     2
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 4, 0, 5
+        # alpha value reference: NEC2000
+
+NpO2+                   Cl-                     2
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 1, 0, 1
+        # alpha value reference: NEC1997
+
+
+
+############### all theta values #############################################
+-THETA
+Na+                     H+                      0.034538
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: 3, 1, 4
+
+NpO2(OH)2-              Cl-                     -0.24
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 1, 0, 1
+        # theta value reference: FAN/NEC1995
+
+OH-                     Cl-                     -0.05507306101229
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+
+
+############### all lamda values #############################################
+-LAMDA
+NpO2(OH)                Cl-                     -0.19
+        # datatype: IP298, si unit: -
+        # calculation mode: Entered
+        # evaluation data quality, ip class, data source: 1, 0, 1
+        # lamda value reference: FAN/NEC1995
+
+
+
+############### all psi values #############################################
+-PSI
+Na+                     Cl-                     OH-                     -0.0042736390951054
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+Na+                     H+                      Cl-                     -0.002511022945222
+        # datatype: IP298, si unit: -
+        # internally calculated, calculation mode: CTPFUNC
+        # evaluation data quality, ip class, data source: -1, 1, -1
+
+############### References #############################################
+# NEC1997
+#    Type: Report
+#    Language: German
+#    Title: Kenntnisstand zur aquatischen Chemie und Thermodynamik von pentavalenten Actiniden.
+#    Author: Neck, V.
+#    Year: 1997
+
+# NEC2000
+#    Type: Report
+#    Language: German
+#    Title: Kenntnisstand zur aquatischen Chemie und Thermodynamik von tetravalenten Actiniden.
+#    Author: Neck, V.
+#    Year: 2000
+#    Publisher: Institut für Nukleare Entsorgung
+
+# PAN/CAM1998
+#    Type: Journal
+#    Language: English
+#    Title: The Characterization of Np2O5(c) and its Dissolution in CO2-free Aqueous Solution at pH 6 to 13 at 25°C
+#    Author: Campbell, A. B., Pan, P.
+#    Pubname: Radiochimica Acta
+#    Year: 1998
+#    Volume: 81
+#    Page: 73-82
+
+# WAG/EVA1982
+#    Type: Book
+#    Language: English
+#    Title: The NBS tables of chemical thermodynamic properties: Selected values for inorganic and C1 and C2 organic substances in SI units
+#    Author: Bailey, S. M., Churney, K. L., Evans, W. H., Halow, I., Nuttall, R. L., Parker, V. B., Schumm, R. H., Wagman, D. D.
+#    Year: 1982
+#    Volume: 11. Suppl. 2
+#    Page: 1-392
+#    Publisher: American Chemical Society
+#    ISBN_ISSN: ISBN-10: 0883184176 / ISBN-13: 9780883184172
+
+# VOI/SUK2011
+#    Type: Report
+#    Language: English
+#    Title: Thermodynamic standard functions for pure water
+#    Author: Sukhanov, D., Voigt, W.
+#    Year: 2011
+
+# ALT/BRE2011
+#    Type: Report
+#    Language: German
+#    Title: THEREDA - Thermodynamische Referenzdatenbasis
+#    Author: Altmaier, M., Brendler, V., Bube, C., Marquardt, C., Moog, H. C., Richter, A., Scharge, T., Voigt, W., Wilhelm, S., Wilms, T., Wollmann, G.
+#    Year: 2011
+#    Publisher: GRS
+#    ISBN_ISSN: 978-3-939355-41-0
+#    Location: Köln
+
+# HAR/MOL1984
+#    Type: Journal
+#    Language: English
+#    Title: The prediction of mineral solubilities in natural waters: Na-K-Mg-Ca-H-Cl-SO4-OH-HCO3-CO3-CO2-H2O system to high ionic strengths  at 25°C
+#    Author: Harvie, C. E., Møller, N., Weare, J. H.
+#    Pubname: Geochimica et Cosmochimica Acta
+#    Year: 1984
+#    Volume: 48 / 4
+#    Page: 723-751
+#    Publisher: Elsevier Ltd.
+#    Doi: 10.1016/0016-7037(84)90098-X
+#    Puburl: http://www.sciencedirect.com/science/article/pii/001670378490098X
+
+# LEM/FUG2001
+#    Type: Book
+#    Language: English
+#    Title: Chemical Thermodynamics Vol. 4. Chemical Thermodynamics of Neptunium and Plutonium.
+#    Author: Fuger, J., Lemire, R. J., Nitsche, H., Potter, P., Rand, M. H., Rydberg, J., Spahiu, K., Sullivan, J. C., Ullman, W. J., Vitorge, P., Wanner, H.
+#    Year: 2001
+#    Volume: 4
+#    Page: 872
+#    Publisher: Elsevier Science Publ.
+#    ISBN_ISSN: 978-0444503794
+#    Location: North-Holland, Amsterdam
+
+# GRE/MOL1989
+#    Type: Journal
+#    Language: English
+#    Title: The prediction of mineral solubilities in natural waters: A chemical equilibrium model for the Na-K-Ca-Cl-SO4-H2O system to high concentration from 0 to 250°C
+#    Author: Greenberg, J. P., Møller, N.
+#    Pubname: Geochimica et Cosmochimica Acta
+#    Year: 1989
+#    Volume: 53 / 10
+#    Page: 2503-2518
+#    Publisher: Elsevier Ltd.
+#    Doi: 10.1016/0016-7037(89)90124-5
+#    Puburl: http://www.sciencedirect.com/science/article/pii/0016703789901245
+
+# COX/WAG1989
+#    Type: Book
+#    Language: English
+#    Title: CODATA Key Values for Thermodynamics
+#    Author: Cox, J. D., Medvedev, V. A., Wagman, D. D.
+#    Year: 1989
+#    Publisher: Hemisphere Publ. Corp.
+#    Location: New York
+
+# GRE/FUG1992
+#    Type: Book
+#    Language: English
+#    Title: Chemical Thermodynamics of Uranium
+#    Author: Fuger, J., Grenthe, I., Konings, R. J. M., Lemire, R. J., Muller, A. B., Nguyen-Trung, C., Wanner, H.
+#    Editors: H. Wanner and I. Forest
+#    Year: 1992
+#    Publisher: Elsevier Science Publ.
+#    ISBN_ISSN: 978-0444893819
+#    Location: North-Holland, Amsterdam
+
+# GUI/FAN2003
+#    Type: Book
+#    Language: English
+#    Title: UPDATE ON THE CHEMICAL THERMODYNAMICS OF URANIUM. NEPTUNIUM. PLUTONIUM. AMERICIUM AND TECHNETIUM
+#    Author: Ben-Said, K., Domenech-Orti, C., Fanghänel, T., Fuger, J., Grenthe, I., Guillaumont, R., Illemassene, M., Mompean, F. J., Neck, V., Palmer, D. A., Rand, M. H.
+#    Year: 2003
+#    Publisher: NUCLEAR ENERGY AGENCY ORGANISATION FOR ECONOMIC CO-OPERATION AND DEVELOPMENT
+#    ISBN_ISSN: 978-0444514011
+#    Location: Issy-les-Moulineaux (France)
+
+# WIE2006
+#    Type: Journal
+#    Language: English
+#    Title: Atomic weights of the elements 2005 (IUPAC Technical Report)
+#    Author: Wieser, M. E.
+#    Pubname: Pure and Applied Chemistry
+#    Year: 2006
+#    Volume: 78 / 11
+#    Page: 2051-2066
+#    Publisher: IUPAC
+#    Doi: 10.1351/pac200678112051
+#    Puburl: http://iupac.org/publications/pac/78/11/2051/
+
+# NEC/KIM2001
+#    Type: Journal
+#    Language: English
+#    Title: Solubility and Hydrolysis of Tetravalent Actinides
+#    Author: Kim, J. I., Neck, V.
+#    Pubname: Radiochimica Acta
+#    Year: 2001
+#    Volume: 89
+#    Page: 1-16
+#    Publisher: Oldenbourg Wissenschaftsverlag
+#    Doi: 10.1524/ract.2001.89.1.001
+#    Puburl: http://www.oldenbourg-link.com/doi/abs/10.1524/ract.2001.89.1.001
+#    Location: München
+
+# FAN/NEC1995
+#    Type: Journal
+#    Language: English
+#    Title: Thermodynamics of Neptunium(V) in Concentrated Salt Solutions. II. Ion Interaction (Pitzer) Parameters for Np(V) Hydrolysis Species and Carbonate Complexes
+#    Author: Fanghänel, T., Kim, J. I., Neck, V.
+#    Pubname: Radiochimica Acta
+#    Year: 1995
+#    Volume: 69  / 3
+#    Page: 169-176
+#    Publisher: Oldenbourg Verlag
+#    Location: München
+
+############### END - References #######################################
+
+############### Appendix ###############################################
+## temperature functions ###############################################
+# EQ3/6: f(T)=a+b*(1/T-1/298.15)+c*ln(T/298.15)+d*(T-298.15)
+# Maier-Kelley: f(T)=a+b*T+c/(T^2)
+# NEA-transformed: f(T)=a+b*T+c*(T^2)+d/T+e/(T^2)+f*ln(T)
+# NEA-transformed-2: f(T)=a+b*T+c*(T^2)+d*(T^2)*ln(T)+e*(T^3)+f*(T^4)
+# NEA-extended: f(T)=a+b*T+c*T*ln(T)+d*(T^2)+e*(T^3)+f/T
+# NEA: f(T)=a+b*T+c*(T^2)+d/T+e/(T^2)
+# Pitzer-function: f(T)=a/T+b+c*ln(T)+d*T+e*(T^2)+f/(T^2)
+
+## calculation modes ###################################################
+# CGHR: Gibbs-Helmholtz-Relation (reaction): DRG298 = DRH298 - T DRS298
+# CTPFUNC: Calculated from temperature-/pressure function
+# CRLOGK: Calculated with -RT ln(10) LOGK298
+# CGHF: Gibbs-Helmholtz-Relation (formation): DFG298 = DFH298 - T*DFS298. (DFS298 not saved in the databank but calculated internally)
+# CR: Calculated from formation and reaction data of all other reactants
+# Entered: Value has not been internally calculated but rather directly taken from the literature.
+# CF: Calculated from formation data (DFG298, DFH298, or S298) of the reactants
+# NotYetDetermined: The calcmode has not been determined yet.
+
+## evaluation data quality #############################################
+# -1: Internally calculated
+# 0: By definition / convention fixed value
+# 1: Reliable datum
+# 2: Datum is reliable within the given range of error, but error is relatively high (because of experimental problems, errors in utilized auxiliary data, or uncertainties due to unappropriate analogy-data or methods of estimation)
+# 3: Questionable value (uncertain model for speciation, uncertain auxiliary data), but nevertheless suitable and necessary for the description of experimental data in the system of interest
+# 4: Suitability for modelling or correctness not yet determined
+# 5: Scrutinized and deemed inapplicable for modeling (due to experimental shortcomings or inadequate assumptions in the course of processing experimental data or inadequate estimation procedures)
+# 6: Data quality not yet entered (to be done)
+
+## evaluation data class ###############################################
+# -1: Internally calculated with CalcMode CR, CGHR or CRLOG
+# 0: By definition / convention fixed value
+# 1: Value based upon experimental equilibrium data in aqueous solution
+# 2: Chemical analogue value, based upon experimental equilibrium data in aqueous solution
+# 3: Estimated value, based upon founded correlations and models for reaction data
+# 4: Origin of value not reported; data class cannot be determined
+# 5: Not consistent with other data in THEREDA
+# 6: Data class not yet entered (to be done)
+
+## evaluation data source ##############################################
+# -1: Internally calculated
+# 0: By definition / convention fixed value
+# 1: Value taken from an international review (e. g. CODATA, NEA-TDB) or from an internationally acknowledged review article
+# 2: Value taken from an institutional review
+# 6: Data source not yet entered (to be done)
+# 5: Value is based upon internal sources not available to the public, but available to editors of THEREDA
+# 4: Value is based upon a single publicly accessible publication (paper, report)
+# 3: Value is based upon a number of publicly accessible publications (paper, report)
+
+## evaluation ip class #################################################
+# -1: Internally calculated with CalcMode CTPFUNC
+# 0: By definition / convention fixed value
+# 1: Value based upon experimental equilibrium data
+# 2: Chemical analogue value, based upon experimental equilibrium data
+# 3: Estimated value, based upon founded correlations and models
+# 4: Tentative value for unknown interaction coefficients which cannot be estimated
+# 5: Not consistent with other data in THEREDA
+# 6: IPClass not yet entered (to be done)
+
+############### END - Appendix #########################################
+END
+
