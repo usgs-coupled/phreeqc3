@@ -14,9 +14,11 @@ HOST32 := lobo07
 
 HOST64 := lobo02
 
-M32 := $(shell ssh -q $(HOST32) 'uname -m')
+#M32 := $(shell ssh -q $(HOST32) 'uname -m')
+M32 := i686
 
-M64 := $(shell ssh -q $(HOST64) 'uname -m')
+#M64 := $(shell ssh -q $(HOST64) 'uname -m')
+M64 := x86_64
 
 CONF_PKG := $(NAME)-$(VER)-$(REL).tar.gz
 

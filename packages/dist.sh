@@ -116,12 +116,12 @@ VER_UC=`echo $VERSION | sed -e "y/$LOWER/$UPPER/"`
 
 # format date string
 RELEASE_DATE="`date -d $RDATE  "+%B %e, %G"`"
-GCC_VER_64="`ssh -q lobo2 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
-GCC_VER="`ssh -q lobo7 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
-KERNEL_VER_64="`ssh -q lobo2 'uname -r'`"
-KERNEL_VER="`ssh -q lobo7 'uname -r'`"
-M32="`ssh -q lobo7 'uname -m'`"
-M64="`ssh -q lobo2 'uname -m'`"
+##GCC_VER_64="`ssh -q lobo2 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
+##GCC_VER="`ssh -q lobo7 'gcc -v 2>&1 | egrep ^gcc | sed "s/version //"'`"
+##KERNEL_VER_64="`ssh -q lobo2 'uname -r'`"
+##KERNEL_VER="`ssh -q lobo7 'uname -r'`"
+##M32="`ssh -q lobo7 'uname -m'`"
+##M64="`ssh -q lobo2 'uname -m'`"
 
 if [ -z "$REPOS_PATH" ]; then
   REPOS_PATH="branches/$VERSION"
