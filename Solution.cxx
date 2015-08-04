@@ -1391,7 +1391,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 			}
 			else
 			{
-				this->log_gamma_map[git->first] = it->second;
+				this->log_gamma_map[git->first] = git->second;
 			}
 		}
 	}
