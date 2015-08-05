@@ -404,7 +404,13 @@ pitzer: \
 	NaCl-SO4.out \
 	NaCl_temp.out \
 	NaKCl.out \
-	NaMgCl.out 
+	NaMgCl.out \
+	erm.out \
+	co2_pressure_bug.out \
+	edl_species.out \
+	R-04_01_PHRC.out \
+	McBride_rho.out
+
 
 frezchem: \
 	anh_P_NaCl.out \

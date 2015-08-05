@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: Hebach
   Output file: Hebach.out
 Database file: ../database/pitzer.dat
@@ -37,7 +38,7 @@ Reading input data for simulation 1.
 	 -plot_csv_file Hebach.dat
 	 -axis_titles "Pressure / atm" "rho / (g/L)"
 	 -connect_simulations false
-	 20 graph_x pressure 
+	 20 graph_x pressure # tot("Na")
 	 30 graph_y rho*1e3
 	END
 -------------------------------------------
@@ -81,8 +82,8 @@ Initial solution 1.
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.195e-07   1.194e-07    -6.923    -6.923    -0.000     -3.99
    H+              1.195e-07   1.194e-07    -6.923    -6.923    -0.000      0.00
+   OH-             1.195e-07   1.194e-07    -6.923    -6.923    -0.000     -3.99
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.09
 
 ------------------------------Saturation indices-------------------------------
@@ -242,7 +243,7 @@ H2O(g)            -1.36   4.330e-02  0.948   1.654e-04   1.799e-04   1.443e-05
                            Pressure (atm)  =  5.72
                   Electrical balance (eq)  =  -5.358e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 114
+                               Iterations  = 116
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.99686
                          Density of water  =   0.99598
@@ -770,7 +771,7 @@ H2O(g)            -1.16   6.976e-02  0.597   3.306e-04   3.998e-04   6.917e-05
                            Pressure (atm)  = 47.15
                   Electrical balance (eq)  =  -2.627e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 124
+                               Iterations  = 127
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.98005
                          Density of water  =   0.99781
@@ -946,7 +947,7 @@ H2O(g)            -1.04   9.197e-02  0.457   5.047e-04   6.743e-04   1.696e-04
                            Pressure (atm)  = 62.61
                   Electrical balance (eq)  =  -2.988e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 128
+                               Iterations  = 130
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.97645
                          Density of water  =   0.99850
@@ -1034,7 +1035,7 @@ H2O(g)            -0.96   1.087e-01  0.388   6.743e-04   9.591e-04   2.848e-04
                            Pressure (atm)  = 68.18
                   Electrical balance (eq)  =  -3.086e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 123
+                               Iterations  = 126
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.97555
                          Density of water  =   0.99874
@@ -1420,12 +1421,6 @@ C(4)          1.319e+00
 Reaction step 16.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
 Using solution 1.	
 Using gas phase 1.	
 Using reaction 1.	
@@ -1474,14 +1469,14 @@ H2O(g)            -0.57   2.686e-01  0.158   3.881e-03   4.947e-03   1.065e-03
                         Activity of water  =   0.977
                            Ionic strength  =   8.342e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.609e-12
+                 Total alkalinity (eq/kg)  =   3.948e-12
                        Total CO2 (mol/kg)  =   1.338e+00
                          Temperature (°C)  =  29.60
                            Pressure (atm)  = 82.41
-                  Electrical balance (eq)  =  -3.609e-12
+                  Electrical balance (eq)  =  -3.948e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  21
-                         Gamma iterations  =  21
+                               Iterations  = 134
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   0.97483
                          Density of water  =   0.99937
                                   Total H  = 1.110026e+02
@@ -1562,11 +1557,11 @@ H2O(g)            -0.44   3.629e-01  0.119   4.947e-03   6.069e-03   1.122e-03
                         Activity of water  =   0.976
                            Ionic strength  =   8.512e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.852e-12
+                 Total alkalinity (eq/kg)  =   4.191e-12
                        Total CO2 (mol/kg)  =   1.366e+00
                          Temperature (°C)  =  29.60
                            Pressure (atm)  = 100.47
-                  Electrical balance (eq)  =  -3.851e-12
+                  Electrical balance (eq)  =  -4.190e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 139
                          Gamma iterations  =   3
@@ -1650,11 +1645,11 @@ H2O(g)            -0.29   5.092e-01  0.086   6.069e-03   7.210e-03   1.141e-03
                         Activity of water  =   0.976
                            Ionic strength  =   8.762e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   4.385e-12
+                 Total alkalinity (eq/kg)  =   4.724e-12
                        Total CO2 (mol/kg)  =   1.405e+00
                          Temperature (°C)  =  29.60
                            Pressure (atm)  = 129.44
-                  Electrical balance (eq)  =  -4.384e-12
+                  Electrical balance (eq)  =  -4.723e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 149
                          Gamma iterations  =   3
@@ -1738,11 +1733,11 @@ H2O(g)            -0.14   7.241e-01  0.063   7.210e-03   8.334e-03   1.124e-03
                         Activity of water  =   0.975
                            Ionic strength  =   9.107e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.872e-12
+                 Total alkalinity (eq/kg)  =   5.210e-12
                        Total CO2 (mol/kg)  =   1.451e+00
                          Temperature (°C)  =  29.60
                            Pressure (atm)  = 171.82
-                  Electrical balance (eq)  =  -4.871e-12
+                  Electrical balance (eq)  =  -5.210e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 170
                          Gamma iterations  =   4
@@ -1826,11 +1821,11 @@ H2O(g)             0.01   1.025e+00  0.046   8.334e-03   9.403e-03   1.069e-03
                         Activity of water  =   0.974
                            Ionic strength  =   9.565e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   5.335e-12
+                 Total alkalinity (eq/kg)  =   5.674e-12
                        Total CO2 (mol/kg)  =   1.505e+00
                          Temperature (°C)  =  29.60
                            Pressure (atm)  = 230.54
-                  Electrical balance (eq)  =  -5.334e-12
+                  Electrical balance (eq)  =  -5.673e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 190
                          Gamma iterations  =   4
@@ -1871,6 +1866,18 @@ WARNING: Maximum iterations exceeded, 200
 WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 400
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 400
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-14 ...
 
 Using solution 1.	
 Using gas phase 1.	
@@ -1920,14 +1927,14 @@ H2O(g)             0.16   1.429e+00  0.035   9.403e-03   1.038e-02   9.775e-04
                         Activity of water  =   0.973
                            Ionic strength  =   1.016e-03
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.768e-12
+                 Total alkalinity (eq/kg)  =   6.544e-12
                        Total CO2 (mol/kg)  =   1.564e+00
                          Temperature (°C)  =  29.60
                            Pressure (atm)  = 309.28
-                  Electrical balance (eq)  =  -4.767e-12
+                  Electrical balance (eq)  =  -6.542e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =  17
+                               Iterations  = 166
+                         Gamma iterations  =   5
                       Osmotic coefficient  =   0.97057
                          Density of water  =   1.00921
                                   Total H  = 1.109918e+02
@@ -2068,6 +2075,12 @@ C(4)          3.674e-06
 Reaction step 2.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 2.	
@@ -2123,7 +2136,7 @@ H2O(g)            -1.12   7.552e-02  0.944   2.781e-04   3.042e-04   2.610e-05
                            Pressure (atm)  =  6.68
                   Electrical balance (eq)  =  -1.046e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 126
+                               Iterations  =  25
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.99548
                          Density of water  =   0.99261
@@ -2295,13 +2308,13 @@ H2O(g)            -1.06   8.618e-02  0.832   3.360e-04   3.753e-04   3.929e-05
                         Activity of water  =   0.992
                            Ionic strength  =   4.906e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.263e-12
+                 Total alkalinity (eq/kg)  =   1.264e-12
                        Total CO2 (mol/kg)  =   4.494e-01
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 20.89
-                  Electrical balance (eq)  =  -1.263e-12
+                  Electrical balance (eq)  =  -1.264e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 129
+                               Iterations  = 121
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.98677
                          Density of water  =   0.99323
@@ -2473,11 +2486,11 @@ H2O(g)            -0.99   1.014e-01  0.711   4.250e-04   4.896e-04   6.464e-05
                         Activity of water  =   0.987
                            Ionic strength  =   6.234e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.518e-12
+                 Total alkalinity (eq/kg)  =   1.519e-12
                        Total CO2 (mol/kg)  =   7.236e-01
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 36.63
-                  Electrical balance (eq)  =  -1.518e-12
+                  Electrical balance (eq)  =  -1.519e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 123
                          Gamma iterations  =   3
@@ -2562,13 +2575,13 @@ H2O(g)            -0.95   1.118e-01  0.648   4.896e-04   5.767e-04   8.703e-05
                         Activity of water  =   0.985
                            Ionic strength  =   6.755e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.658e-12
+                 Total alkalinity (eq/kg)  =   1.659e-12
                        Total CO2 (mol/kg)  =   8.480e-01
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 45.08
-                  Electrical balance (eq)  =  -1.658e-12
+                  Electrical balance (eq)  =  -1.659e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 128
+                               Iterations  = 129
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.97503
                          Density of water  =   0.99428
@@ -2651,11 +2664,11 @@ H2O(g)            -0.90   1.249e-01  0.582   5.767e-04   6.985e-04   1.219e-04
                         Activity of water  =   0.983
                            Ionic strength  =   7.197e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.945e-12
+                 Total alkalinity (eq/kg)  =   1.946e-12
                        Total CO2 (mol/kg)  =   9.598e-01
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 53.82
-                  Electrical balance (eq)  =  -1.945e-12
+                  Electrical balance (eq)  =  -1.946e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 125
                          Gamma iterations  =   3
@@ -2740,11 +2753,11 @@ H2O(g)            -0.85   1.419e-01  0.515   6.985e-04   8.763e-04   1.778e-04
                         Activity of water  =   0.982
                            Ionic strength  =   7.557e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.319e-12
+                 Total alkalinity (eq/kg)  =   2.320e-12
                        Total CO2 (mol/kg)  =   1.054e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 62.58
-                  Electrical balance (eq)  =  -2.319e-12
+                  Electrical balance (eq)  =  -2.320e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 128
                          Gamma iterations  =   3
@@ -2829,13 +2842,13 @@ H2O(g)            -0.79   1.639e-01  0.448   8.763e-04   1.144e-03   2.679e-04
                         Activity of water  =   0.981
                            Ionic strength  =   7.831e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.571e-12
+                 Total alkalinity (eq/kg)  =   2.572e-12
                        Total CO2 (mol/kg)  =   1.127e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 70.77
-                  Electrical balance (eq)  =  -2.571e-12
+                  Electrical balance (eq)  =  -2.572e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 131
+                               Iterations  = 128
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96681
                          Density of water  =   0.99540
@@ -2918,13 +2931,13 @@ H2O(g)            -0.72   1.917e-01  0.384   1.144e-03   1.549e-03   4.047e-04
                         Activity of water  =   0.980
                            Ionic strength  =   8.012e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.181e-12
+                 Total alkalinity (eq/kg)  =   3.182e-12
                        Total CO2 (mol/kg)  =   1.175e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 77.57
-                  Electrical balance (eq)  =  -3.181e-12
+                  Electrical balance (eq)  =  -3.182e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 156
+                               Iterations  = 127
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96540
                          Density of water  =   0.99569
@@ -3007,11 +3020,11 @@ H2O(g)            -0.65   2.253e-01  0.328   1.549e-03   2.134e-03   5.854e-04
                         Activity of water  =   0.979
                            Ionic strength  =   8.117e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.233e-12
+                 Total alkalinity (eq/kg)  =   3.234e-12
                        Total CO2 (mol/kg)  =   1.201e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 82.42
-                  Electrical balance (eq)  =  -3.233e-12
+                  Electrical balance (eq)  =  -3.234e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 122
                          Gamma iterations  =   3
@@ -3096,13 +3109,13 @@ H2O(g)            -0.58   2.646e-01  0.280   2.134e-03   2.917e-03   7.822e-04
                         Activity of water  =   0.979
                            Ionic strength  =   8.177e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.670e-12
+                 Total alkalinity (eq/kg)  =   3.671e-12
                        Total CO2 (mol/kg)  =   1.216e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 85.92
                   Electrical balance (eq)  =  -3.670e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 122
+                               Iterations  = 132
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96419
                          Density of water  =   0.99606
@@ -3185,13 +3198,13 @@ H2O(g)            -0.51   3.123e-01  0.238   2.917e-03   3.880e-03   9.632e-04
                         Activity of water  =   0.979
                            Ionic strength  =   8.232e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.736e-12
+                 Total alkalinity (eq/kg)  =   3.737e-12
                        Total CO2 (mol/kg)  =   1.228e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 89.81
-                  Electrical balance (eq)  =  -3.736e-12
+                  Electrical balance (eq)  =  -3.737e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 124
+                               Iterations  = 121
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96383
                          Density of water  =   0.99623
@@ -3274,13 +3287,13 @@ H2O(g)            -0.43   3.751e-01  0.199   3.880e-03   4.991e-03   1.111e-03
                         Activity of water  =   0.979
                            Ionic strength  =   8.311e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.840e-12
+                 Total alkalinity (eq/kg)  =   3.841e-12
                        Total CO2 (mol/kg)  =   1.244e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 96.25
-                  Electrical balance (eq)  =  -3.839e-12
+                  Electrical balance (eq)  =  -3.840e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 131
+                               Iterations  = 130
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96335
                          Density of water  =   0.99650
@@ -3314,6 +3327,12 @@ C(4)          1.244e+00
 Reaction step 16.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 2.	
@@ -3363,14 +3382,14 @@ H2O(g)            -0.33   4.632e-01  0.162   4.991e-03   6.213e-03   1.222e-03
                         Activity of water  =   0.978
                            Ionic strength  =   8.430e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   4.175e-12
+                 Total alkalinity (eq/kg)  =   4.034e-12
                        Total CO2 (mol/kg)  =   1.267e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 107.32
-                  Electrical balance (eq)  =  -4.174e-12
+                  Electrical balance (eq)  =  -4.033e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 144
-                         Gamma iterations  =   3
+                               Iterations  =  64
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   0.96269
                          Density of water  =   0.99698
                                   Total H  = 1.110001e+02
@@ -3452,11 +3471,11 @@ H2O(g)            -0.23   5.895e-01  0.129   6.213e-03   7.507e-03   1.294e-03
                         Activity of water  =   0.978
                            Ionic strength  =   8.601e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   4.584e-12
+                 Total alkalinity (eq/kg)  =   4.442e-12
                        Total CO2 (mol/kg)  =   1.296e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 124.96
-                  Electrical balance (eq)  =  -4.583e-12
+                  Electrical balance (eq)  =  -4.442e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 140
                          Gamma iterations  =   4
@@ -3541,11 +3560,11 @@ H2O(g)            -0.11   7.686e-01  0.101   7.507e-03   8.833e-03   1.327e-03
                         Activity of water  =   0.977
                            Ionic strength  =   8.833e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.844e-12
+                 Total alkalinity (eq/kg)  =   4.702e-12
                        Total CO2 (mol/kg)  =   1.333e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 151.06
-                  Electrical balance (eq)  =  -4.843e-12
+                  Electrical balance (eq)  =  -4.702e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 152
                          Gamma iterations  =   4
@@ -3630,13 +3649,13 @@ H2O(g)             0.01   1.016e+00  0.078   8.833e-03   1.015e-02   1.321e-03
                         Activity of water  =   0.976
                            Ionic strength  =   9.138e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   5.776e-12
+                 Total alkalinity (eq/kg)  =   5.635e-12
                        Total CO2 (mol/kg)  =   1.376e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 187.59
-                  Electrical balance (eq)  =  -5.775e-12
+                  Electrical balance (eq)  =  -5.633e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 164
+                               Iterations  = 166
                          Gamma iterations  =   4
                       Osmotic coefficient  =   0.95947
                          Density of water  =   1.00042
@@ -3719,11 +3738,11 @@ H2O(g)             0.13   1.349e+00  0.061   1.015e-02   1.143e-02   1.277e-03
                         Activity of water  =   0.976
                            Ionic strength  =   9.530e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   6.265e-12
+                 Total alkalinity (eq/kg)  =   6.124e-12
                        Total CO2 (mol/kg)  =   1.426e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 236.76
-                  Electrical balance (eq)  =  -6.264e-12
+                  Electrical balance (eq)  =  -6.122e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 180
                          Gamma iterations  =   4
@@ -3808,11 +3827,11 @@ H2O(g)             0.25   1.783e+00  0.048   1.143e-02   1.263e-02   1.195e-03
                         Activity of water  =   0.975
                            Ionic strength  =   1.002e-03
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   6.774e-12
+                 Total alkalinity (eq/kg)  =   6.632e-12
                        Total CO2 (mol/kg)  =   1.480e+00
                          Temperature (°C)  =  39.60
                            Pressure (atm)  = 301.19
-                  Electrical balance (eq)  =  -6.772e-12
+                  Electrical balance (eq)  =  -6.630e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 198
                          Gamma iterations  =   4
@@ -4011,7 +4030,7 @@ H2O(g)            -0.90   1.272e-01  0.942   4.528e-04   4.968e-04   4.404e-05
                            Pressure (atm)  =  7.55
                   Electrical balance (eq)  =  -3.146e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 117
+                               Iterations  = 125
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.99454
                          Density of water  =   0.98845
@@ -4100,7 +4119,7 @@ H2O(g)            -0.87   1.358e-01  0.885   4.968e-04   5.503e-04   5.351e-05
                            Pressure (atm)  = 15.30
                   Electrical balance (eq)  =  -5.965e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 118
+                               Iterations  = 119
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.98922
                          Density of water  =   0.98879
@@ -4189,7 +4208,7 @@ H2O(g)            -0.84   1.458e-01  0.827   5.503e-04   6.160e-04   6.572e-05
                            Pressure (atm)  = 23.41
                   Electrical balance (eq)  =  -6.571e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 119
+                               Iterations  = 134
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.98407
                          Density of water  =   0.98914
@@ -4278,7 +4297,7 @@ H2O(g)            -0.80   1.577e-01  0.767   6.160e-04   6.985e-04   8.241e-05
                            Pressure (atm)  = 31.90
                   Electrical balance (eq)  =  -9.618e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 123
+                               Iterations  = 144
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.97912
                          Density of water  =   0.98951
@@ -4456,7 +4475,7 @@ H2O(g)            -0.72   1.896e-01  0.643   8.043e-04   9.438e-04   1.395e-04
                            Pressure (atm)  = 49.98
                   Electrical balance (eq)  =  -1.239e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 125
+                               Iterations  = 133
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.97011
                          Density of water  =   0.99029
@@ -4579,12 +4598,6 @@ C(4)          8.728e-01
 Reaction step 9.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -4634,14 +4647,14 @@ H2O(g)            -0.62   2.388e-01  0.516   1.133e-03   1.396e-03   2.626e-04
                         Activity of water  =   0.983
                            Ionic strength  =   7.291e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.080e-12
+                 Total alkalinity (eq/kg)  =   2.151e-12
                        Total CO2 (mol/kg)  =   9.589e-01
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 68.88
-                  Electrical balance (eq)  =  -2.080e-12
+                  Electrical balance (eq)  =  -2.150e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =  17
+                               Iterations  = 126
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   0.96288
                          Density of water  =   0.99111
                                   Total H  = 1.110097e+02
@@ -4723,13 +4736,13 @@ H2O(g)            -0.56   2.731e-01  0.453   1.396e-03   1.765e-03   3.698e-04
                         Activity of water  =   0.982
                            Ionic strength  =   7.565e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.543e-12
+                 Total alkalinity (eq/kg)  =   2.613e-12
                        Total CO2 (mol/kg)  =   1.028e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 77.94
-                  Electrical balance (eq)  =  -2.543e-12
+                  Electrical balance (eq)  =  -2.613e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 129
+                               Iterations  = 128
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96020
                          Density of water  =   0.99150
@@ -4763,6 +4776,12 @@ C(4)          1.028e+00
 Reaction step 11.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -4784,46 +4803,46 @@ Reaction 3.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure: 22.15      atmospheres          (Peng-Robinson calculation)
+Total pressure: 86.16      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e-01 liters
-  Molar volume:   2.38e-02 liters/mole
-   P * Vm / RT:  0.01990  (Compressibility Factor Z) 
+  Molar volume:   1.61e-01 liters/mole
+   P * Vm / RT:  0.52198  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.05   8.996e-01 84.775   5.020e-01   1.706e-01  -3.314e-01
-H2O(g)             1.33   2.125e+01  0.006   1.765e-03   4.032e+00   4.030e+00
+CO2(g)             1.93   8.584e+01  0.662   5.020e-01   6.207e-01   1.187e-01
+H2O(g)            -0.50   3.156e-01  0.394   1.765e-03   2.282e-03   5.168e-04
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 1.649e+00   1.529e+00
+	C                 1.079e+00   1.079e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.065      Charge balance
+                                       pH  =   3.129      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 49°C)  = 562
-                          Density (g/cm³)  =   1.00264
-                               Volume (L)  =   0.99206
-                        Activity of water  =   0.973
-                           Ionic strength  =   9.068e-04
-                       Mass of water (kg)  =   9.274e-01
-                 Total alkalinity (eq/kg)  =   2.741e-12
-                       Total CO2 (mol/kg)  =   1.649e+00
+       Specific Conductance (µS/cm, 49°C)  = 483
+                          Density (g/cm³)  =   1.00089
+                               Volume (L)  =   1.04652
+                        Activity of water  =   0.982
+                           Ionic strength  =   7.769e-04
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   2.797e-12
+                       Total CO2 (mol/kg)  =   1.079e+00
                          Temperature (°C)  =  49.70
-                           Pressure (atm)  = 22.15
-                  Electrical balance (eq)  =  -2.541e-12
+                           Pressure (atm)  = 86.16
+                  Electrical balance (eq)  =  -2.797e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 153
-                         Gamma iterations  =   3
-                      Osmotic coefficient  =   0.93613
-                         Density of water  =   0.98909
-                                  Total H  = 1.029492e+02
-                                  Total O  = 5.453334e+01
+                               Iterations  =  44
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.95821
+                         Density of water  =   0.99185
+                                  Total H  = 1.110080e+02
+                                  Total O  = 5.766249e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -4831,20 +4850,20 @@ H2O(g)             1.33   2.125e+01  0.006   1.765e-03   4.032e+00   4.030e+00
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              9.068e-04   8.606e-04    -3.042    -3.065    -0.023      0.00
-   OH-             6.309e-11   6.184e-11   -10.200   -10.209    -0.009     -3.82
-   H2O             5.551e+01   9.726e-01     1.744    -0.012     0.000     18.21
-C(4)          1.649e+00
-   CO2             1.648e+00   1.450e+00     0.217     0.161    -0.056     35.62
-   HCO3-           9.068e-04   8.888e-04    -3.042    -3.051    -0.009     25.80
-   CO3-2           7.737e-11   6.886e-11   -10.111   -10.162    -0.051     -2.72
+   H+              7.769e-04   7.436e-04    -3.110    -3.129    -0.019      0.00
+   OH-             7.795e-11   7.619e-11   -10.108   -10.118    -0.010     -3.89
+   H2O             5.551e+01   9.815e-01     1.744    -0.008     0.000     18.16
+C(4)          1.079e+00
+   CO2             1.079e+00   9.920e-01     0.033    -0.003    -0.036     35.55
+   HCO3-           7.769e-04   7.593e-04    -3.110    -3.120    -0.010     25.88
+   CO3-2           8.185e-11   7.285e-11   -10.087   -10.138    -0.051     -2.26
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(322 K,  22 atm)
+  Phase               SI** log IAP   log K(322 K,  86 atm)
 
-  CO2(g)            1.88      0.16   -1.72  CO2	 Pressure   0.9 atm, phi 84.775
-  H2O(g)           -0.93     -0.01    0.92  H2O	 Pressure  21.3 atm, phi 0.006
+  CO2(g)            1.75     -0.00   -1.76  CO2	 Pressure  85.8 atm, phi 0.662
+  H2O(g)           -0.91     -0.01    0.90  H2O	 Pressure   0.3 atm, phi 0.394
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4873,46 +4892,46 @@ Reaction 3.
 
 -----------------------------------Gas phase-----------------------------------
 
-Total pressure: 22.24      atmospheres          (Peng-Robinson calculation)
+Total pressure: 93.30      atmospheres          (Peng-Robinson calculation)
     Gas volume:   1.00e-01 liters
-  Molar volume:   2.38e-02 liters/mole
-   P * Vm / RT:  0.01999  (Compressibility Factor Z) 
+  Molar volume:   1.32e-01 liters/mole
+   P * Vm / RT:  0.46469  (Compressibility Factor Z) 
 
                                                         Moles in gas
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)            -0.01   9.783e-01 84.775   1.706e-01   1.847e-01   1.407e-02
-H2O(g)             1.33   2.126e+01  0.006   4.032e+00   4.015e+00  -1.695e-02
+CO2(g)             1.97   9.294e+01  0.636   6.207e-01   7.549e-01   1.342e-01
+H2O(g)            -0.44   3.669e-01  0.341   2.282e-03   2.980e-03   6.981e-04
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 1.817e+00   1.685e+00
+	C                 1.115e+00   1.115e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.048      Charge balance
+                                       pH  =   3.121      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 49°C)  = 585
-                          Density (g/cm³)  =   1.00394
-                               Volume (L)  =   0.99791
-                        Activity of water  =   0.970
-                           Ionic strength  =   9.451e-04
-                       Mass of water (kg)  =   9.277e-01
-                 Total alkalinity (eq/kg)  =   2.720e-12
-                       Total CO2 (mol/kg)  =   1.817e+00
+       Specific Conductance (µS/cm, 49°C)  = 492
+                          Density (g/cm³)  =   1.00149
+                               Volume (L)  =   1.04747
+                        Activity of water  =   0.981
+                           Ionic strength  =   7.916e-04
+                       Mass of water (kg)  =   9.999e-01
+                 Total alkalinity (eq/kg)  =   3.837e-12
+                       Total CO2 (mol/kg)  =   1.115e+00
                          Temperature (°C)  =  49.70
-                           Pressure (atm)  = 22.24
-                  Electrical balance (eq)  =  -2.523e-12
+                           Pressure (atm)  = 93.30
+                  Electrical balance (eq)  =  -3.837e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 112
+                               Iterations  = 125
                          Gamma iterations  =   3
-                      Osmotic coefficient  =   0.92963
-                         Density of water  =   0.98909
-                                  Total H  = 1.029832e+02
-                                  Total O  = 5.486215e+01
+                      Osmotic coefficient  =   0.95682
+                         Density of water  =   0.99216
+                                  Total H  = 1.110066e+02
+                                  Total O  = 5.773348e+01
 
 ----------------------------Distribution of species----------------------------
 
@@ -4920,20 +4939,20 @@ H2O(g)             1.33   2.126e+01  0.006   4.032e+00   4.015e+00  -1.695e-02
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              9.451e-04   8.948e-04    -3.025    -3.048    -0.024      0.00
-   OH-             6.047e-11   5.932e-11   -10.218   -10.227    -0.008     -3.82
-   H2O             5.551e+01   9.700e-01     1.744    -0.013     0.000     18.21
-C(4)          1.817e+00
-   CO2             1.816e+00   1.577e+00     0.259     0.198    -0.061     35.62
-   HCO3-           9.451e-04   9.272e-04    -3.025    -3.033    -0.008     25.80
-   CO3-2           7.762e-11   6.909e-11   -10.110   -10.161    -0.051     -2.72
+   H+              7.916e-04   7.571e-04    -3.102    -3.121    -0.019      0.00
+   OH-             7.697e-11   7.523e-11   -10.114   -10.124    -0.010     -3.90
+   H2O             5.551e+01   9.809e-01     1.744    -0.008     0.000     18.16
+C(4)          1.115e+00
+   CO2             1.114e+00   1.022e+00     0.047     0.009    -0.038     35.54
+   HCO3-           7.916e-04   7.737e-04    -3.102    -3.111    -0.010     25.89
+   CO3-2           8.256e-11   7.345e-11   -10.083   -10.134    -0.051     -2.21
 
 ------------------------------Saturation indices-------------------------------
 
-  Phase               SI** log IAP   log K(322 K,  22 atm)
+  Phase               SI** log IAP   log K(322 K,  93 atm)
 
-  CO2(g)            1.92      0.20   -1.72  CO2	 Pressure   1.0 atm, phi 84.775
-  H2O(g)           -0.93     -0.01    0.92  H2O	 Pressure  21.3 atm, phi 0.006
+  CO2(g)            1.77      0.01   -1.76  CO2	 Pressure  92.9 atm, phi 0.636
+  H2O(g)           -0.90     -0.01    0.89  H2O	 Pressure   0.4 atm, phi 0.341
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4941,12 +4960,6 @@ C(4)          1.817e+00
 Reaction step 13.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -4977,8 +4990,8 @@ Total pressure: 99.76      atmospheres          (Peng-Robinson calculation)
                                             ----------------------------------
 Component         log P           P    phi     Initial       Final       Delta
 
-CO2(g)             2.00   9.934e+01  0.613   1.847e-01   8.990e-01   7.143e-01
-H2O(g)            -0.37   4.281e-01  0.293   4.015e+00   3.874e-03  -4.011e+00
+CO2(g)             2.00   9.934e+01  0.613   7.549e-01   8.990e-01   1.441e-01
+H2O(g)            -0.37   4.281e-01  0.293   2.980e-03   3.874e-03   8.939e-04
 
 -----------------------------Solution composition------------------------------
 
@@ -4996,16 +5009,16 @@ H2O(g)            -0.37   4.281e-01  0.293   4.015e+00   3.874e-03  -4.011e+00
                         Activity of water  =   0.981
                            Ionic strength  =   8.026e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.560e-12
+                 Total alkalinity (eq/kg)  =   4.539e-12
                        Total CO2 (mol/kg)  =   1.141e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 99.76
-                  Electrical balance (eq)  =  -3.560e-12
+                  Electrical balance (eq)  =  -4.538e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  18
-                         Gamma iterations  =  18
+                               Iterations  = 143
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   0.95582
-                         Density of water  =   0.99243
+                         Density of water  =   0.99244
                                   Total H  = 1.110048e+02
                                   Total O  = 5.778432e+01
 
@@ -5085,11 +5098,11 @@ H2O(g)            -0.30   5.019e-01  0.251   3.874e-03   4.955e-03   1.081e-03
                         Activity of water  =   0.980
                            Ionic strength  =   8.125e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.642e-12
+                 Total alkalinity (eq/kg)  =   4.620e-12
                        Total CO2 (mol/kg)  =   1.163e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 106.58
-                  Electrical balance (eq)  =  -3.641e-12
+                  Electrical balance (eq)  =  -4.620e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 125
                          Gamma iterations  =   3
@@ -5174,11 +5187,11 @@ H2O(g)            -0.23   5.942e-01  0.213   4.955e-03   6.196e-03   1.241e-03
                         Activity of water  =   0.980
                            Ionic strength  =   8.232e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   4.099e-12
+                 Total alkalinity (eq/kg)  =   5.077e-12
                        Total CO2 (mol/kg)  =   1.185e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 115.18
-                  Electrical balance (eq)  =  -4.098e-12
+                  Electrical balance (eq)  =  -5.077e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 127
                          Gamma iterations  =   3
@@ -5263,11 +5276,11 @@ H2O(g)            -0.15   7.137e-01  0.179   6.196e-03   7.564e-03   1.368e-03
                         Activity of water  =   0.979
                            Ionic strength  =   8.364e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.594e-12
+                 Total alkalinity (eq/kg)  =   5.572e-12
                        Total CO2 (mol/kg)  =   1.211e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 127.07
-                  Electrical balance (eq)  =  -4.593e-12
+                  Electrical balance (eq)  =  -5.571e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 131
                          Gamma iterations  =   3
@@ -5352,11 +5365,11 @@ H2O(g)            -0.06   8.717e-01  0.148   7.564e-03   9.023e-03   1.458e-03
                         Activity of water  =   0.979
                            Ionic strength  =   8.531e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.981e-12
+                 Total alkalinity (eq/kg)  =   5.960e-12
                        Total CO2 (mol/kg)  =   1.241e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 143.77
-                  Electrical balance (eq)  =  -4.980e-12
+                  Electrical balance (eq)  =  -5.959e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 142
                          Gamma iterations  =   4
@@ -5441,11 +5454,11 @@ H2O(g)             0.03   1.081e+00  0.121   9.023e-03   1.053e-02   1.510e-03
                         Activity of water  =   0.978
                            Ionic strength  =   8.743e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   5.646e-12
+                 Total alkalinity (eq/kg)  =   6.625e-12
                        Total CO2 (mol/kg)  =   1.276e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 166.75
-                  Electrical balance (eq)  =  -5.645e-12
+                  Electrical balance (eq)  =  -6.623e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 150
                          Gamma iterations  =   4
@@ -5530,11 +5543,11 @@ H2O(g)             0.13   1.357e+00  0.099   1.053e-02   1.205e-02   1.522e-03
                         Activity of water  =   0.978
                            Ionic strength  =   9.007e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   6.028e-12
+                 Total alkalinity (eq/kg)  =   7.006e-12
                        Total CO2 (mol/kg)  =   1.317e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 197.55
-                  Electrical balance (eq)  =  -6.026e-12
+                  Electrical balance (eq)  =  -7.005e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 160
                          Gamma iterations  =   4
@@ -5619,11 +5632,11 @@ H2O(g)             0.23   1.712e+00  0.080   1.205e-02   1.355e-02   1.496e-03
                         Activity of water  =   0.977
                            Ionic strength  =   9.335e-04
                        Mass of water (kg)  =   9.997e-01
-                 Total alkalinity (eq/kg)  =   6.400e-12
+                 Total alkalinity (eq/kg)  =   7.379e-12
                        Total CO2 (mol/kg)  =   1.362e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 237.80
-                  Electrical balance (eq)  =  -6.399e-12
+                  Electrical balance (eq)  =  -7.377e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 173
                          Gamma iterations  =   4
@@ -5708,11 +5721,11 @@ H2O(g)             0.34   2.164e+00  0.066   1.355e-02   1.498e-02   1.431e-03
                         Activity of water  =   0.976
                            Ionic strength  =   9.737e-04
                        Mass of water (kg)  =   9.997e-01
-                 Total alkalinity (eq/kg)  =   6.953e-12
+                 Total alkalinity (eq/kg)  =   7.931e-12
                        Total CO2 (mol/kg)  =   1.412e+00
                          Temperature (°C)  =  49.70
                            Pressure (atm)  = 289.32
-                  Electrical balance (eq)  =  -6.951e-12
+                  Electrical balance (eq)  =  -7.929e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 186
                          Gamma iterations  =   4
@@ -5911,16 +5924,16 @@ H2O(g)            -0.71   1.971e-01  0.941   6.823e-04   7.485e-04   6.619e-05
                         Activity of water  =   0.998
                            Ionic strength  =   2.655e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.975e-16
+                 Total alkalinity (eq/kg)  =   4.297e-13
                        Total CO2 (mol/kg)  =   1.298e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  =  8.16
-                  Electrical balance (eq)  =  -2.975e-16
+                  Electrical balance (eq)  =  -4.297e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  27
-                         Gamma iterations  =  27
+                               Iterations  =  34
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   0.99404
-                         Density of water  =   0.98412
+                         Density of water  =   0.98377
                                   Total H  = 1.110110e+02
                                   Total O  = 5.576503e+01
 
@@ -6000,13 +6013,13 @@ H2O(g)            -0.68   2.104e-01  0.885   7.485e-04   8.282e-04   7.973e-05
                         Activity of water  =   0.995
                            Ionic strength  =   3.735e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.347e-13
+                 Total alkalinity (eq/kg)  =   7.641e-13
                        Total CO2 (mol/kg)  =   2.560e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 16.46
-                  Electrical balance (eq)  =  -3.346e-13
+                  Electrical balance (eq)  =  -7.641e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 127
+                               Iterations  = 118
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.98825
                          Density of water  =   0.98448
@@ -6089,11 +6102,11 @@ H2O(g)            -0.65   2.258e-01  0.827   8.282e-04   9.251e-04   9.688e-05
                         Activity of water  =   0.993
                            Ionic strength  =   4.541e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.057e-13
+                 Total alkalinity (eq/kg)  =   8.351e-13
                        Total CO2 (mol/kg)  =   3.781e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 25.09
-                  Electrical balance (eq)  =  -4.057e-13
+                  Electrical balance (eq)  =  -8.351e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 119
                          Gamma iterations  =   3
@@ -6178,11 +6191,11 @@ H2O(g)            -0.61   2.439e-01  0.769   9.251e-04   1.045e-03   1.197e-04
                         Activity of water  =   0.991
                            Ionic strength  =   5.196e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   7.501e-13
+                 Total alkalinity (eq/kg)  =   1.180e-12
                        Total CO2 (mol/kg)  =   4.951e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 34.08
-                  Electrical balance (eq)  =  -7.501e-13
+                  Electrical balance (eq)  =  -1.179e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 122
                          Gamma iterations  =   3
@@ -6267,11 +6280,11 @@ H2O(g)            -0.58   2.654e-01  0.710   1.045e-03   1.196e-03   1.507e-04
                         Activity of water  =   0.989
                            Ionic strength  =   5.749e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   8.388e-13
+                 Total alkalinity (eq/kg)  =   1.268e-12
                        Total CO2 (mol/kg)  =   6.056e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 43.41
-                  Electrical balance (eq)  =  -8.388e-13
+                  Electrical balance (eq)  =  -1.268e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 123
                          Gamma iterations  =   3
@@ -6307,6 +6320,12 @@ C(4)          6.056e-01
 Reaction step 7.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -6356,13 +6375,13 @@ H2O(g)            -0.54   2.912e-01  0.650   1.196e-03   1.389e-03   1.935e-04
                         Activity of water  =   0.988
                            Ionic strength  =   6.221e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.061e-12
+                 Total alkalinity (eq/kg)  =   1.597e-12
                        Total CO2 (mol/kg)  =   7.083e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 53.06
-                  Electrical balance (eq)  =  -1.061e-12
+                  Electrical balance (eq)  =  -1.597e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 144
+                               Iterations  =  47
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96747
                          Density of water  =   0.98607
@@ -6445,13 +6464,13 @@ H2O(g)            -0.49   3.226e-01  0.590   1.389e-03   1.642e-03   2.531e-04
                         Activity of water  =   0.986
                            Ionic strength  =   6.624e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.494e-12
+                 Total alkalinity (eq/kg)  =   2.030e-12
                        Total CO2 (mol/kg)  =   8.014e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 62.93
-                  Electrical balance (eq)  =  -1.494e-12
+                  Electrical balance (eq)  =  -2.030e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 130
+                               Iterations  = 126
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.96320
                          Density of water  =   0.98650
@@ -6534,13 +6553,13 @@ H2O(g)            -0.44   3.610e-01  0.530   1.642e-03   1.978e-03   3.360e-04
                         Activity of water  =   0.985
                            Ionic strength  =   6.963e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.134e-12
+                 Total alkalinity (eq/kg)  =   2.670e-12
                        Total CO2 (mol/kg)  =   8.829e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 72.85
-                  Electrical balance (eq)  =  -2.134e-12
+                  Electrical balance (eq)  =  -2.670e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 126
+                               Iterations  = 135
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.95945
                          Density of water  =   0.98693
@@ -6623,11 +6642,11 @@ H2O(g)            -0.39   4.080e-01  0.471   1.978e-03   2.427e-03   4.487e-04
                         Activity of water  =   0.984
                            Ionic strength  =   7.241e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   2.839e-12
+                 Total alkalinity (eq/kg)  =   3.375e-12
                        Total CO2 (mol/kg)  =   9.513e-01
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 82.59
-                  Electrical balance (eq)  =  -2.839e-12
+                  Electrical balance (eq)  =  -3.375e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 129
                          Gamma iterations  =   3
@@ -6663,6 +6682,12 @@ C(4)          9.513e-01
 Reaction step 11.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -6712,14 +6737,14 @@ H2O(g)            -0.33   4.651e-01  0.416   2.427e-03   3.022e-03   5.948e-04
                         Activity of water  =   0.983
                            Ionic strength  =   7.464e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.238e-12
+                 Total alkalinity (eq/kg)  =   3.829e-12
                        Total CO2 (mol/kg)  =   1.006e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 91.88
-                  Electrical balance (eq)  =  -3.238e-12
+                  Electrical balance (eq)  =  -3.829e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 154
-                         Gamma iterations  =   3
+                               Iterations  =  38
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   0.95379
                          Density of water  =   0.98775
                                   Total H  = 1.110065e+02
@@ -6807,14 +6832,14 @@ H2O(g)            -0.27   5.336e-01  0.364   3.022e-03   3.792e-03   7.699e-04
                         Activity of water  =   0.982
                            Ionic strength  =   7.641e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.881e-12
+                 Total alkalinity (eq/kg)  =   4.408e-12
                        Total CO2 (mol/kg)  =   1.049e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 100.59
-                  Electrical balance (eq)  =  -3.881e-12
+                  Electrical balance (eq)  =  -4.408e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  17
-                         Gamma iterations  =  17
+                               Iterations  =  38
+                         Gamma iterations  =   4
                       Osmotic coefficient  =   0.95182
                          Density of water  =   0.98813
                                   Total H  = 1.110049e+02
@@ -6896,13 +6921,13 @@ H2O(g)            -0.21   6.149e-01  0.318   3.792e-03   4.752e-03   9.604e-04
                         Activity of water  =   0.982
                            Ionic strength  =   7.785e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   4.119e-12
+                 Total alkalinity (eq/kg)  =   4.646e-12
                        Total CO2 (mol/kg)  =   1.083e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 108.94
-                  Electrical balance (eq)  =  -4.119e-12
+                  Electrical balance (eq)  =  -4.646e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 125
+                               Iterations  = 138
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.95026
                          Density of water  =   0.98849
@@ -6985,13 +7010,13 @@ H2O(g)            -0.15   7.117e-01  0.276   4.752e-03   5.900e-03   1.148e-03
                         Activity of water  =   0.981
                            Ionic strength  =   7.912e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   4.469e-12
+                 Total alkalinity (eq/kg)  =   4.996e-12
                        Total CO2 (mol/kg)  =   1.112e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 117.51
-                  Electrical balance (eq)  =  -4.468e-12
+                  Electrical balance (eq)  =  -4.996e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 137
+                               Iterations  = 138
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.94893
                          Density of water  =   0.98885
@@ -7025,12 +7050,6 @@ C(4)          1.112e+00
 Reaction step 15.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -7080,14 +7099,14 @@ H2O(g)            -0.08   8.286e-01  0.238   5.900e-03   7.219e-03   1.319e-03
                         Activity of water  =   0.981
                            Ionic strength  =   8.038e-04
                        Mass of water (kg)  =   9.999e-01
-                 Total alkalinity (eq/kg)  =   3.922e-12
+                 Total alkalinity (eq/kg)  =   5.114e-12
                        Total CO2 (mol/kg)  =   1.139e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 127.23
-                  Electrical balance (eq)  =  -3.921e-12
+                  Electrical balance (eq)  =  -5.113e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  19
-                         Gamma iterations  =  19
+                               Iterations  = 135
+                         Gamma iterations  =   3
                       Osmotic coefficient  =   0.94769
                          Density of water  =   0.98927
                                   Total H  = 1.109981e+02
@@ -7120,6 +7139,12 @@ C(4)          1.139e+00
 Reaction step 16.
 
 WARNING: Numerical method failed, switching to numerical derivatives.
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
 Using solution 1.	
 Using gas phase 1.	
 Using temperature 3.	
@@ -7169,13 +7194,13 @@ H2O(g)            -0.01   9.726e-01  0.205   7.219e-03   8.680e-03   1.461e-03
                         Activity of water  =   0.980
                            Ionic strength  =   8.175e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.297e-12
+                 Total alkalinity (eq/kg)  =   5.444e-12
                        Total CO2 (mol/kg)  =   1.167e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 139.15
-                  Electrical balance (eq)  =  -4.296e-12
+                  Electrical balance (eq)  =  -5.443e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 136
+                               Iterations  =  62
                          Gamma iterations  =   4
                       Osmotic coefficient  =   0.94640
                          Density of water  =   0.98978
@@ -7258,13 +7283,13 @@ H2O(g)             0.06   1.153e+00  0.174   8.680e-03   1.025e-02   1.570e-03
                         Activity of water  =   0.980
                            Ionic strength  =   8.334e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.564e-12
+                 Total alkalinity (eq/kg)  =   5.712e-12
                        Total CO2 (mol/kg)  =   1.197e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 154.40
-                  Electrical balance (eq)  =  -4.563e-12
+                  Electrical balance (eq)  =  -5.711e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 155
+                               Iterations  = 142
                          Gamma iterations  =   4
                       Osmotic coefficient  =   0.94500
                          Density of water  =   0.99043
@@ -7347,13 +7372,13 @@ H2O(g)             0.14   1.380e+00  0.147   1.025e-02   1.189e-02   1.644e-03
                         Activity of water  =   0.979
                            Ionic strength  =   8.523e-04
                        Mass of water (kg)  =   9.998e-01
-                 Total alkalinity (eq/kg)  =   4.865e-12
+                 Total alkalinity (eq/kg)  =   6.012e-12
                        Total CO2 (mol/kg)  =   1.231e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 174.12
-                  Electrical balance (eq)  =  -4.863e-12
+                  Electrical balance (eq)  =  -6.011e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 147
+                               Iterations  = 152
                          Gamma iterations  =   4
                       Osmotic coefficient  =   0.94344
                          Density of water  =   0.99127
@@ -7436,11 +7461,11 @@ H2O(g)             0.22   1.666e+00  0.124   1.189e-02   1.358e-02   1.681e-03
                         Activity of water  =   0.979
                            Ionic strength  =   8.749e-04
                        Mass of water (kg)  =   9.997e-01
-                 Total alkalinity (eq/kg)  =   5.328e-12
+                 Total alkalinity (eq/kg)  =   6.476e-12
                        Total CO2 (mol/kg)  =   1.269e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 199.48
-                  Electrical balance (eq)  =  -5.326e-12
+                  Electrical balance (eq)  =  -6.474e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 152
                          Gamma iterations  =   4
@@ -7525,11 +7550,11 @@ H2O(g)             0.31   2.025e+00  0.104   1.358e-02   1.526e-02   1.680e-03
                         Activity of water  =   0.978
                            Ionic strength  =   9.018e-04
                        Mass of water (kg)  =   9.997e-01
-                 Total alkalinity (eq/kg)  =   6.201e-12
+                 Total alkalinity (eq/kg)  =   7.349e-12
                        Total CO2 (mol/kg)  =   1.311e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 231.66
-                  Electrical balance (eq)  =  -6.199e-12
+                  Electrical balance (eq)  =  -7.346e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 162
                          Gamma iterations  =   4
@@ -7614,11 +7639,11 @@ H2O(g)             0.39   2.469e+00  0.088   1.526e-02   1.690e-02   1.642e-03
                         Activity of water  =   0.977
                            Ionic strength  =   9.340e-04
                        Mass of water (kg)  =   9.997e-01
-                 Total alkalinity (eq/kg)  =   6.856e-12
+                 Total alkalinity (eq/kg)  =   8.004e-12
                        Total CO2 (mol/kg)  =   1.356e+00
                          Temperature (°C)  =  58.80
                            Pressure (atm)  = 271.97
-                  Electrical balance (eq)  =  -6.854e-12
+                  Electrical balance (eq)  =  -8.002e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  = 172
                          Gamma iterations  =   4
@@ -7659,7 +7684,7 @@ End of simulation.
 Reading input data for simulation 5.
 ------------------------------------
 
--------------------------------
-End of Run after 2.581 Seconds.
--------------------------------
+------------------------------
+End of Run after 0.71 Seconds.
+------------------------------
 
