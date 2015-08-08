@@ -64,6 +64,7 @@
           <Directory Id="doc" Name="doc"/>
           <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
+            <Directory Id="common" Name="common"/>
             <Directory Id="PhreeqcKeywords" Name="PhreeqcKeywords"/>
           </Directory>
           <Directory Id="test" Name="test"/>
@@ -80,6 +81,7 @@
           <Directory Id="doc" Name="doc"/>
           <Directory Id="examples" Name="examples"/>
           <Directory Id="src" Name="src">
+            <Directory Id="common" Name="common"/>
             <Directory Id="PhreeqcKeywords" Name="PhreeqcKeywords"/>
           </Directory>
           <Directory Id="test" Name="test"/>
@@ -276,17 +278,11 @@
         <File Id="fil84A0EAF06F34DD528A35811EBCCCF837" Source="..\src\NumKeyword.h" />
         <File Id="fil1FC36ABE9668FCFF64C37FD524C81C9D" Source="..\src\PBasic.cpp" />
         <File Id="fil28BB6F712AA7331E363A5B44F8DAD244" Source="..\src\PBasic.h" />
-        <File Id="fil74DE8EC04BE67C9ECF4BF7724A6FA1D7" Source="..\src\PHRQ_base.cxx" />
-        <File Id="filC4170C8187D017A87724E89721411B27" Source="..\src\PHRQ_base.h" />
-        <File Id="filB3ECE96664AEC978D4AE009973B6E02A" Source="..\src\PHRQ_io.cpp" />
-        <File Id="filA7A776E74CEA2976BE4A259A156B7EE8" Source="..\src\PHRQ_io.h" />
         <File Id="fil691953EA384E9DAA71907C47ED1AC7E0" Source="..\src\PHRQ_io_output.cpp" />
         <File Id="fil9F76C302ED82FA5EC40A5110E747937A" Source="..\src\PPassemblage.cxx" />
         <File Id="fil452F7E278ADFB07F0F6E5DC5222C74C4" Source="..\src\PPassemblage.h" />
         <File Id="fil3EA5475B118C3E1342DB4653C1A59C06" Source="..\src\PPassemblageComp.cxx" />
         <File Id="filF9B63AA157C41ED6FFE6E453F521A45C" Source="..\src\PPassemblageComp.h" />
-        <File Id="fil9A98E26372BD9B064B93AB2EC62BC9B4" Source="..\src\Parser.cxx" />
-        <File Id="fil6A041F997A61FDB3E3FC666AEEEFDE9D" Source="..\src\Parser.h" />
         <File Id="filAF8B1CCA93BA0D501E08DA37C511919B" Source="..\src\Phreeqc.cpp" />
         <File Id="fil1BF74775827EF4015657B3A2BCB00417" Source="..\src\Phreeqc.h" />
         <File Id="fil33F63CB6ACAE1AED952ABC8E6FE88396" Source="..\src\Pressure.cxx" />
@@ -324,8 +320,6 @@
         <File Id="fil9992624F3D00EBCFB3D88AD39D2FC5B8" Source="..\src\Use.h" />
         <File Id="fil903A3B662CACC2924D87D3E0C3EC64CD" Source="..\src\UserPunch.cpp" />
         <File Id="filABA04005CD1AA59318DF9994F334DE8C" Source="..\src\UserPunch.h" />
-        <File Id="filB0534B05654C3DCF0F0F7D139FC4C4CB" Source="..\src\Utils.cxx" />
-        <File Id="filF8962495B2AFD1BD4B9523247E85B1AB" Source="..\src\Utils.h" />
         <File Id="fil7096E07498A949E0C7EA9AAD4D4A58D8" Source="..\src\advection.cpp" />
         <File Id="fil7A2ED04338F7DEA565AD153F302ECB5A" Source="..\src\basicsubs.cpp" />
         <File Id="filC2DB32AA52BE92CC4A649EC8A42240A1" Source="..\src\chart_icon.gif" />
@@ -362,7 +356,6 @@
         <File Id="filA9C8DC3BF7CD71B46E8D12DD1EB01E6E" Source="..\src\phqalloc.cpp" />
         <File Id="filAD33C5D183EF3FF0897CBA2711D40EA2" Source="..\src\phqalloc.h" />
         <File Id="filE304E2C2BA41B24E621097AF8B45B74A" Source="..\src\phreex.ico" />
-        <File Id="fil57F93199E7D9F7C7B638981FC76B8672" Source="..\src\phrqtype.h" />
         <File Id="fil86EFCAB8B6D785E06AB845DEA9285563" Source="..\src\pitzer.cpp" />
         <File Id="fil373CC68467C58032A3563300A0988AF8" Source="..\src\pitzer_structures.cpp" />
         <File Id="fil760C091344458D59057BE3E5F05DF370" Source="..\src\prep.cpp" />
@@ -384,6 +377,21 @@
         <File Id="fil3A11B59F16F3E8A2AB0A083F20511DEF" Source="..\src\tidy.cpp" />
         <File Id="fil8E947D3677972C115CE5179877F35B4A" Source="..\src\transport.cpp" />
         <File Id="filEFC15448183325AF335ABC834F1446B7" Source="..\src\utilities.cpp" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- common -->
+    <DirectoryRef Id="common">
+      <Component Id="common" Guid="*">
+        <File Id="fil9A98E26372BD9B064B93AB2EC62BC9B4" Source="..\src\common\Parser.cxx" />
+        <File Id="fil6A041F997A61FDB3E3FC666AEEEFDE9D" Source="..\src\common\Parser.h" />
+        <File Id="fil74DE8EC04BE67C9ECF4BF7724A6FA1D7" Source="..\src\common\PHRQ_base.cxx" />
+        <File Id="filC4170C8187D017A87724E89721411B27" Source="..\src\common\PHRQ_base.h" />
+        <File Id="filB3ECE96664AEC978D4AE009973B6E02A" Source="..\src\common\PHRQ_io.cpp" />
+        <File Id="filA7A776E74CEA2976BE4A259A156B7EE8" Source="..\src\common\PHRQ_io.h" />
+        <File Id="fil57F93199E7D9F7C7B638981FC76B8672" Source="..\src\common\phrqtype.h" />
+        <File Id="filB0534B05654C3DCF0F0F7D139FC4C4CB" Source="..\src\common\Utils.cxx" />
+        <File Id="filF8962495B2AFD1BD4B9523247E85B1AB" Source="..\src\common\Utils.h" />
       </Component>
     </DirectoryRef>
 
@@ -500,6 +508,7 @@
       <Feature Id="Source" Title="Source Code" Description="This component contains the program source code." AllowAdvertise="system" Level="1">
         <ComponentRef Id="src" />
         <ComponentRef Id="PhreeqcKeywords" />
+        <ComponentRef Id="common" />
       </Feature>
       <Feature Id="LocalMachine" Display="hidden" Level="0">
         <Condition Level="1">ALLUSERS=1</Condition>
