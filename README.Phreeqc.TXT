@@ -37,7 +37,7 @@ A. Distribution files
    for Windows and Linux:
     
 phreeqc-@VERSION@-@REVISION@.msi         64-bit batch version with executable
-					 compiled by using Microsoft Visual C++ 2005
+				compiled by using Microsoft Visual C++ 2005
 phreeqc-@VERSION@-@REVISION@.zip         For compilation on Windows					 
 phreeqc-@VERSION@-@REVISION@.tar.gz      For compilation on Linux
 
@@ -155,14 +155,15 @@ D.3.  Generate a Visual Studio solution
 	    version, and 32/64 bit, such as VS2012_x64.
  	
    Click Configure. 
-      From the pulldown menu select the 64-bit version for your Visual Studio.
-      Normally, the default radio button should be sufficient. Click Finish.
+      From the pulldown menu of the cmake-gui popup, select the 64-bit version 
+      for your Visual Studio. Normally, the default radio button should be 
+      sufficient. Click Finish.
  	
    Options in the top panel:
       (1) CMAKE_INSTALL_PREFIX--Sets the the install directory where the 
              library and header files will be saved. It is suggested that
- 		an INSTALL directory be defined inside the directory chosen 
- 		for the binaries.
+ 	     an INSTALL directory be defined inside the directory chosen 
+ 	     for the binaries.
  	
    Click Configure until the screen is not red. If the screen remains red, you will
    have to deal with the CMake error messages.
@@ -187,9 +188,7 @@ D.4. Compile and install PHREEQC
    Build RUN_TESTS. Programs that test IPhreeqc are compiled and run, and optionally
    (CMake IPHREEQC_FORTRAN_TESTING option) the Fortran test project.
  	
- 
    Build INSTALL. 
-   
       The executables, PHREEQC database files, and documentation are installed in the
       install directory selected in CMake (denoted "install" in the following
       descriptions).
@@ -299,7 +298,7 @@ E.5.  Run configure
 
 E.6.  Compile the program
     
-    make [-j 4]
+    make [-j n]
 
     Optionally, use -j n--where n is the number of compilations make runs in parallel.
     
