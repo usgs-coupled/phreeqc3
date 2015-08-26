@@ -32,8 +32,7 @@ The following distribution file (containing the software, databases, examples an
 documentation) are available at
 http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html.
 
-phreeqci-@VERSION@-@REVISION@.msi--GUI compiled by using Microsoft Visual C++
-                                2005
+phreeqci-@VERSION@-@REVISION@.msi--GUI compiled by using Microsoft Visual C++ 2005
 
 -----------------------------------------------------------------------------------                   
 B. Documentation
