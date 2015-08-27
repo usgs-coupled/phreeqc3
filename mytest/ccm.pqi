@@ -1,0 +1,148 @@
+DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.2.2-10160\database\phreeqc.dat
+#####################################################################
+# Constant capacitance model                                        #
+# Hayes, K.F., Redden, George, Ela, Wendel, and Leckie, J.O.,       #
+# 1991, Surface complexation odels--An evaluation of model          #
+# parameter estimation using FITEQL and oxide mineral titration     #
+# data: Journal of Colloid and Interface Science, v. 142, no. 2,    #
+# p. 448-469.                                                       #
+#####################################################################
+SURFACE_MASTER_SPECIES
+    Surf        SurfOH   
+SURFACE_SPECIES
+SurfOH = SurfOH
+    log_k     0.0 
+SOLUTION_SPECIES
+H+ = H+
+H2O = OH- + H+
+	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
+#### 
+# Rutile 0.001
+####
+SURFACE_SPECIES
+SurfOH + H+ = SurfOH2+
+    log_k     2.8  
+SurfOH = SurfO- + H+
+    log_k     -9.2 
+SOLUTION 1
+      -units mol/kgw
+	Na   0.0009
+      Cl   0.0009
+END
+SURFACE 1
+    -sites DENSITY
+    Surf       10         20        12       # Rutile
+	-ccm 1.0 # F/m^2
+END
+USE solution 1
+USE surface 1
+REACTION
+	NaOH 1
+      0.0002
+SAVE solution 1
+SAVE surface 1
+END
+USER_GRAPH 1
+    -headings               acid 0.001
+    -axis_titles            "Total Acid Added (Moles/Liter)" "-Log[H+]" ""
+    -chart_title            "CCM"
+    -axis_scale y_axis      4 10 auto auto
+    -initial_solutions      false
+    -connect_simulations    false
+    -plot_concentration_vs  x
+  -start
+10 graph_x  RXN - 0.0002
+20 graph_y  -LA("H+")
+  -end
+    -active                 true
+END
+USE solution 1
+USE surface 1
+REACTION
+	HCl 1
+      0.0003 in 30 steps
+END
+PRINT
+   -user_graph false
+END
+#### 
+# Rutile 0.01
+#### 
+SURFACE_SPECIES
+SurfOH + H+ = SurfOH2+
+    log_k     3.1
+SurfOH = SurfO- + H+
+    log_k     -8.8
+SOLUTION 1
+      -units mol/kgw
+	Na   0.01
+      Cl   0.01
+END
+SURFACE 1
+    -sites DENSITY
+    Surf       10         20        12       # Rutile
+	-ccm 1.0
+END
+USE solution 1
+USE surface 1
+REACTION
+	NaOH 1
+      0.0002
+SAVE solution 1
+SAVE surface 1
+END
+PRINT
+-user_graph true
+USER_GRAPH 1
+    -headings               acid 0.01
+END
+
+USE solution 1
+USE surface 1
+REACTION
+	HCl 1
+      0.0003 in 30 steps
+END
+PRINT
+   -user_graph false
+END
+#### 
+# Rutile 0.1
+#### 
+SURFACE_SPECIES
+SurfOH + H+ = SurfOH2+
+    log_k     3.5
+SurfOH = SurfO- + H+
+    log_k     -8.1
+SOLUTION 1
+      -units mol/kgw
+	Na   0.1
+      Cl   0.1
+END
+SURFACE 1
+    -sites DENSITY
+    Surf       10         20        12       # Rutile
+	-ccm 1.0
+END
+USE solution 1
+USE surface 1
+REACTION
+	NaOH 1
+      0.0002
+SAVE solution 1
+SAVE surface 1
+END
+PRINT
+-user_graph true
+USER_GRAPH 1
+    -headings               acid 0.1
+END
+USE solution 1
+USE surface 1
+REACTION
+	HCl 1
+      0.0003 in 30 steps
+END
+
+
+
