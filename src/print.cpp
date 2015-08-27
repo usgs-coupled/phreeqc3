@@ -329,8 +329,13 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	}
 	else
 	{
+		LDBLE exp_g =  charge_ptr->Get_g_map()[1].Get_g() * mass_water_aq_x / mass_water_surface + 1;
+		LDBLE psi_DL = -log(exp_g) * R_KJ_DEG_MOL * tk_x / F_KJ_V_EQ;
 		output_msg(sformatf(
-				   "\n\tTotal moles in diffuse layer (excluding water), Donnan calculation \n\n"));
+				   "\n\tTotal moles in diffuse layer (excluding water), Donnan calculation."));
+		output_msg(sformatf(
+				   "\n\tDonnan Layer potential, psi_DL = %10.3e V.\n\tBoltzmann factor, exp(-psi_DL * F / RT) = %9.3e (= c_DL / c_free if z is +1).\n\n",
+					 psi_DL, exp_g));
 	}
 	output_msg(sformatf("\tElement       \t     Moles\n"));
 	for (j = 0; j < count_elts; j++)
@@ -2238,6 +2243,23 @@ print_totals(void)
 			   (double) calc_solution_volume()));
 	}
 /* VP: Density End */
+#ifdef NPP
+	if (print_viscosity)
+	{
+		output_msg(sformatf("%45s%9.5f", "Viscosity (mPa s)  = ",
+			   (double) viscos));
+		if (tc_x > 200 && !pure_water) 
+		{
+			output_msg(sformatf("%18s\n", 
+#ifdef NO_UTF8_ENCODING
+				   " (solute contributions limited to 200 oC)"));
+#else
+				   " (solute contributions limited to 200 °C)"));
+#endif
+		}
+		else output_msg(sformatf("\n"));
+	}
+#endif
 	output_msg(sformatf("%45s%7.3f\n", "Activity of water  = ",
 			   exp(s_h2o->la * LOG_10)));
 	output_msg(sformatf("%45s%11.3e\n", "Ionic strength  = ",
