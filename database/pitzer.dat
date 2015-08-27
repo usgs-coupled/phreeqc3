@@ -94,8 +94,8 @@ Oxg = Oxg # O2
 	-dw	 2.35e-9
 	-Vm   5.7889  6.3536  3.2528  -3.0417   -0.3943 # supcrt
 Mtg = Mtg # CH4
-	-dw	 1.85e-9
-	-Vm 7.7 # CH4 solubility, 25-100C, 1-700atm
+	-dw   1.85e-9
+	-Vm   9.01  -1.11  0  -1.85  -1.50 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
 Ntg = Ntg # N2
 	-dw	 1.96e-9
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
@@ -475,7 +475,7 @@ Ntg(g)
 	T_c  126.2 ; -P_c   33.50 ; -Omega 0.039
 Mtg(g)
 	Mtg = Mtg
-	-analytic -2.4027e+001 4.7146e-003 3.7227e+002 6.4264e+000 2.3362e+005
+	-analytic   10.44  -7.65e-3  -6669  0  1.014e6 # CH4 solubilities 25 - 100°C
 	T_c  190.6 ; -P_c   45.40 ; -Omega 0.008
 H2Sg(g)
 	H2Sg  =  H+ + HSg-
