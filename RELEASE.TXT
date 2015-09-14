@@ -1,4 +1,31 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+
+	---------------
+	svn 10160-10244
+	---------------
+	PhreeqcRM: Revised code to minimize memory footprint for MPI. Revised the logic
+	so that some variables, like porosity and saturation, have only the values
+	related to the cells that are defined to each worker. Previously, each worker
+	had lists of these variables for all nxyz cells in the model. The changes
+	should decrease the total amount of memory needed for MPI runs using PhreeqcRM.
+
+        ---------------
+        svn 10231&10237
+        ---------------
+        IPhreeqc: Fixed a bug in the Fortran module, where logical variables (such as
+	print control) could be set to true, but not back to false.
+
+        ---------
+        svn 10177
+        ---------
+        PHREEQC: Additional print for Donnan layer.
+
+        ---------
+        svn 10176
+        ---------
+        Pitzer.dat: Updates to CO2 and CH4 in pitzer.dat affecting gas solubilities.
+
+Version 3.2.2: August 24, 2015 
         ---------
         svn 10118
         ---------
