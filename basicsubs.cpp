@@ -4033,6 +4033,7 @@ basic_free(void)
 	delete this->basic_interpreter;
 }
 
+#ifndef SWIG_DIRECTOR
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 double Phreeqc::
 basic_callback(double x1, double x2, char * str)
@@ -4079,3 +4080,14 @@ Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, 
 	this->basic_fortran_callback_ptr = fcn;
 }
 #endif
+
+#else     /* SWIG_DIRECTOR */
+
+double Phreeqc::
+basic_callback(double x1, double x2, const char * str)
+{
+	return 2014.;
+}
+
+
+#endif    /* SWIG_DIRECTOR */
