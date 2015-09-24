@@ -1736,6 +1736,10 @@ protected:
 #else
 	double (*basic_fortran_callback_ptr) (double *x1, double *x2, const char *str, int l);
 #endif
+#if defined(SWIG) || defined(SWIG_IPHREEQC)
+	class BasicCallback *basicCallback;
+    void SetCallback(BasicCallback *cb) { basicCallback = cb; }
+#endif
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;

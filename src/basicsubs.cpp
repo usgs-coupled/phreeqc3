@@ -4033,7 +4033,22 @@ basic_free(void)
 	delete this->basic_interpreter;
 }
 
-#ifndef SWIG_DIRECTOR
+#if defined(SWIG) || defined(SWIG_IPHREEQC)
+
+#include "BasicCallback.h"
+
+double Phreeqc::
+basic_callback(double x1, double x2, const char * str)
+{
+	if (this->basicCallback)
+	{
+		return this->basicCallback->Callback(x1, x2, str);
+	}
+	return 0.0;
+}
+
+#else  /* defined(SWIG) || defined(SWIG_IPHREEQC) */
+
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
 double Phreeqc::
 basic_callback(double x1, double x2, char * str)
@@ -4081,13 +4096,4 @@ Phreeqc::register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, 
 }
 #endif
 
-#else     /* SWIG_DIRECTOR */
-
-double Phreeqc::
-basic_callback(double x1, double x2, const char * str)
-{
-	return 2014.;
-}
-
-
-#endif    /* SWIG_DIRECTOR */
+#endif  /* defined(SWIG) || defined(SWIG_IPHREEQC) */
