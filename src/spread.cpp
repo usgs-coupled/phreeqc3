@@ -1112,6 +1112,14 @@ string_to_spread_row(char *string)
 				strtod(token, NULL);
 			spread_row_ptr->type_vector[spread_row_ptr->count] = NUMBER;
 		}
+		else
+		{
+			input_error++;
+			error_msg("Unknown input in string_to_spread_row keyword.", CONTINUE);
+			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, token);
+			error_msg(error_string, CONTINUE);
+			error_msg(line_save, CONTINUE);
+		}
 		spread_row_ptr->count++;
 	}
 /*
@@ -1212,7 +1220,7 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 /*
  *   Check what we have
  */
-	if (isupper((int) c))
+	if (isupper((int) c) || c == '[')
 	{
 		return_value = UPPER;
 	}
