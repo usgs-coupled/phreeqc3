@@ -3239,6 +3239,7 @@ tidy_solutions(void)
 		if (it == Rxn_solution_map.end())
 		{
 			assert(false);
+			continue;
 		}
 		cxxSolution &solution_ref = it->second;
 		//if (solution_ref.Get_new_def())
