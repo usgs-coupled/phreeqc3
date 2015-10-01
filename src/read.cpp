@@ -5756,6 +5756,14 @@ read_solution(void)
 					error_string = sformatf( "Expected isotope name to"
 						" begin with an isotopic number.");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "In read_solution\n");
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "token:     ", token.c_str());
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "next_char: ", next_char);
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "line_save: ", line_save);
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
 				temp_isotope.Set_isotope_name(token.c_str());
