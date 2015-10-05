@@ -3159,6 +3159,35 @@ read_millero_abcdef (char *ptr, LDBLE * abcdef)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+read_viscosity_parms(char *ptr, LDBLE * Jones_Dole)
+/* ---------------------------------------------------------------------- */
+{
+  int j;
+/*
+ *   Read .
+ */
+  for (j = 0; j <= 9; j++)
+  {
+    Jones_Dole[j] = 0.0;
+  }
+  j =
+    sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	&(Jones_Dole[0]), &(Jones_Dole[1]), &(Jones_Dole[2]), &(Jones_Dole[3]), &(Jones_Dole[4]), &(Jones_Dole[5]), &(Jones_Dole[6]), &(Jones_Dole[7]), &(Jones_Dole[8]), &(Jones_Dole[9]));
+  if (j < 1)
+  {
+    input_error++;
+    error_msg ("Expecting numeric values for viscosity calculation.",
+	       CONTINUE);
+    return (ERROR);
+  }
+  // The B0 are for 25°C, subtract the temperature factor...
+  if (Jones_Dole[1] != 0)
+	Jones_Dole[0] -= Jones_Dole[1] * exp(Jones_Dole[2] * 25.0);
+  return (OK);
+}
+
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 read_incremental_reactions(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -5609,9 +5638,10 @@ read_solution(void)
 		"isotope",				/* 9 */
 		"water",				/* 10 */
 		"press",				/* 11 */
-		"pressure"				/* 12 */
+		"pressure",				/* 12 */
+		"potential"				/* 13 */
 	};
-	int count_opt_list = 13;
+	int count_opt_list = 14;
 /*
  *   Read solution number and description
  */
@@ -5756,14 +5786,6 @@ read_solution(void)
 					error_string = sformatf( "Expected isotope name to"
 						" begin with an isotopic number.");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "In read_solution\n");
-					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "\t%s\t%s\n", "token:     ", token.c_str());
-					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "\t%s\t%s\n", "next_char: ", next_char);
-					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "\t%s\t%s\n", "line_save: ", line_save);
-					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
 				temp_isotope.Set_isotope_name(token.c_str());
@@ -5847,6 +5869,18 @@ read_solution(void)
 				else
 				{
 					temp_solution.Set_patm(dummy);
+				}
+			}
+			break;
+		case 13: /* potential, Volt */
+			{
+				if (sscanf(next_char, SCANFORMAT, &dummy) != 1)
+				{
+					temp_solution.Set_potV(0);
+				}
+				else
+				{
+					temp_solution.Set_potV(dummy);
 				}
 			}
 			break;
@@ -5950,9 +5984,10 @@ read_species(void)
 /* VP: Density Start */
 		"millero",				/* 21 */
 /* VP: Density End */
-		"vm"		/* 22, parms for molar volume, a1..a4 and w_ref from supcrt, I terms */
+		"vm",		    /* 22, parms for molar volume, a1..a4 and w_ref from supcrt, I terms */
+		"viscosity"		/* 23, b and d parms for viscosity, (b1 + b2 * exp(-b3 * tc)) * c + (d1 * exp(-d2 * tc)) * c ^ d3 */
 	};
-	int count_opt_list = 23;
+	int count_opt_list = 24;
 
 	association = TRUE;
 	s_ptr = NULL;
@@ -6259,7 +6294,9 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			i = sscanf(next_char, SCANFORMAT, &s_ptr->dw);
+			s_ptr->dw_t = s_ptr->dw_a = s_ptr->dw_a_exp = 0;
+			i = sscanf(next_char, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT, &s_ptr->dw, &s_ptr->dw_t,
+				&s_ptr->dw_a, &s_ptr->dw_a_exp);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 20:				/* enrichment factor in the DDL */
@@ -6317,6 +6354,20 @@ read_species(void)
 			read_aq_species_vm_parms(next_char, &s_ptr->logk[vma1]);
 			//vm_read = true;
 			print_density = OK;
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 23:            /* viscosity parms for the Jones-Dole eqn */
+			if (s_ptr == NULL)
+			{
+				error_string = sformatf(
+					"No reaction defined before option, %s.",
+				opt_list[opt]);
+				error_msg(error_string, CONTINUE);
+				input_error++;
+				break;
+			}
+			read_viscosity_parms(next_char, &s_ptr->Jones_Dole[0]);
+			print_viscosity = OK;
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:

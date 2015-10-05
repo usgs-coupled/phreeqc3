@@ -2975,7 +2975,7 @@ punch_identifiers(void)
 		else if (state == TRANSPORT)
 		{
 			fpunchf(PHAST_NULL("dist_x"), gformat,
-					(double) cell_data[cell - 1].mid_cell_x);
+					(double) cell_data[cell].mid_cell_x);
 		}
 		else
 		{

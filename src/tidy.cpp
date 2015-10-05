@@ -981,11 +981,8 @@ tidy_gas_phase(void)
 					struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j_PR].Get_phase_name().c_str(), &k, FALSE);
 					if (gc[j_PR].Get_p_read() == 0)
 						continue;
-					if (phase_ptr)
-					{
-						phase_ptr->moles_x = gc[j_PR].Get_p_read() / P;
-						phase_ptrs.push_back(phase_ptr);
-					}
+					phase_ptr->moles_x = gc[j_PR].Get_p_read() / P;
+					phase_ptrs.push_back(phase_ptr);
 				}
 				V_m = calc_PR(phase_ptrs, P, gas_phase_ptr->Get_temperature(), 0);
 				gas_phase_ptr->Set_v_m(V_m);
@@ -1002,11 +999,9 @@ tidy_gas_phase(void)
 						gc[j_PR].Set_moles(0.0);
 					} else
 					{
-						if (phase_ptr)
-						{
-							gc[j_PR].Set_moles(phase_ptr->moles_x *	gas_phase_ptr->Get_volume() / V_m);
-							gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gc[j_PR].Get_moles());
-						}
+						gc[j_PR].Set_moles(phase_ptr->moles_x *
+							gas_phase_ptr->Get_volume() / V_m);
+						gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() + gc[j_PR].Get_moles());
 					}
 				}
 			}
@@ -3239,7 +3234,6 @@ tidy_solutions(void)
 		if (it == Rxn_solution_map.end())
 		{
 			assert(false);
-			continue;
 		}
 		cxxSolution &solution_ref = it->second;
 		//if (solution_ref.Get_new_def())

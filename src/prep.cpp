@@ -3990,6 +3990,16 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 	if (V_m)
 	{
 		P = R_TK / (V_m - b_sum) - a_aa_sum / (V_m * (V_m + 2 * b_sum) - b2);
+		//P = 0.0;
+		//while (P <= 0)
+		//{
+		//	P = R_TK / (V_m - b_sum) - a_aa_sum / (V_m * (V_m + 2 * b_sum) - b2);
+		//	if (P <= 0.0)
+		//	{
+		//		V_m *= 2.0;
+		//	//a_aa_sum /= 2.0;
+		//	}
+		//}
 		if (iterations > 0 && P < 150 && V_m < 1.01)
 		{
 			// check for 3-roots...

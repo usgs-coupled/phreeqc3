@@ -484,9 +484,7 @@ numtostr(char * Result, LDBLE n)
 	if (l_s == NULL)
 	{
 		PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 		exit(4);
-#endif
 	}
 	l_s[PhreeqcPtr->max_line - 1] = '\0';
 /*  if ((n != 0 && fabs(n) < 1e-2) || fabs(n) >= 1e12) { */
@@ -611,9 +609,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 				if (t->UU.sp == NULL)
 				{
 					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 					exit(4);
-#endif
 				}
 				strncpy(t->UU.sp, l_inbuf + begin - 1, j);
 				t->UU.sp[j] = '\0';
@@ -738,9 +734,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 							if (t->UU.sp == NULL)
 							{
 								PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 								exit(4);
-#endif
 							}
 							sprintf(t->UU.sp, "%.*s",
 									(int) (strlen(l_inbuf) - i + 1),
@@ -760,9 +754,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 							if (v == NULL)
 							{
 								PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 								exit(4);
-#endif
 							}
 							v->UU.U0.arr = NULL;
 							v->next = varbase;
@@ -1620,6 +1612,18 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case toksa_declercq:
 			output_msg("SA_DECLERCQ");
 			break;
+		case tokviscos:
+			output_msg("VISCOS");
+			break;
+		case tokviscos_0:
+			output_msg("VISCOS_0");
+			break;
+		case tokrho_0:
+			output_msg("RHO_0");
+			break;
+		case tokcurrent_a:
+			output_msg("CURRENT_A");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -1696,9 +1700,7 @@ parseinput(tokenrec ** l_buf)
 		if (l1 == NULL)
 		{
 			PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 			exit(4);
-#endif
 		}
 		l1->next = l;
 		if (l0 == NULL)
@@ -1883,9 +1885,7 @@ require(int k, struct LOC_exec *LINK)
 			strcpy(str, ": missing ");
 			snerr(strcat(str, item->first.c_str()));
 		}
-#if !defined(R_SO)
 		exit(4);
-#endif
 	}
 	LINK->t = LINK->t->next;
 }
@@ -1899,9 +1899,7 @@ skipparen(struct LOC_exec *LINK)
 		if (LINK->t == NULL)
 		{
 			snerr(": parenthesis missing");
-#if !defined(R_SO)
 			exit(4);
-#endif
 		}
 		if (LINK->t->kind == tokrp || LINK->t->kind == tokcomma)
 			goto _L1;
@@ -1927,9 +1925,7 @@ findvar(struct LOC_exec *LINK)
 	if (LINK->t == NULL || LINK->t->kind != tokvar)
 	{
 		snerr(": can`t find variable");
-#if !defined(R_SO)
 		exit(4);
-#endif
 	}
 	v = LINK->t->UU.vp;
 	LINK->t = LINK->t->next;
@@ -2251,7 +2247,7 @@ factor(struct LOC_exec * LINK)
 					break;
 				}
 				else
-					n.UU.val = PhreeqcPtr->cell_data[i - 1].por;
+					n.UU.val = PhreeqcPtr->cell_data[i].por;
 				break;
 			}
 			else
@@ -2578,9 +2574,7 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
 			{
 				snerr(": can`t find variable");
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 
 			/* return number of names of species */
@@ -2590,9 +2584,7 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
 			{
 				snerr(": can`t find name of species");
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 
 			/* return number of types of species */
@@ -2639,25 +2631,19 @@ factor(struct LOC_exec * LINK)
 			if (names_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			types_arg = (char **)PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 			if (types_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
 			if (moles_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			names_arg[0] = NULL;
 			types_arg[0] = NULL;
@@ -2718,9 +2704,7 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
 			{
 				snerr(": Missing or wrong type count variable.");
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			// variable for species names
 			LINK->t = LINK->t->next;
@@ -2729,9 +2713,7 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
 			{
 				snerr(": Missing or wrong type name variable.");
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			// variable for species concentrations
 			LINK->t = LINK->t->next;
@@ -2768,17 +2750,13 @@ factor(struct LOC_exec * LINK)
 				if (names_arg == NULL)
 				{
 					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 					exit(4);
-#endif
 				}
 				moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
 				if (moles_arg == NULL)
 				{
 					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 					exit(4);
-#endif
 				}
 				names_arg[0] = NULL;
 				moles_arg[0] = 0;
@@ -2849,9 +2827,7 @@ factor(struct LOC_exec * LINK)
 			else
 			{
 				snerr(": Expected 4 arguments for list_s_s");
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			require(tokrp, LINK);
 
@@ -2884,17 +2860,13 @@ factor(struct LOC_exec * LINK)
 				if (names_varrec->UU.U1.sarr == NULL)
 				{
 					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 					exit(4);
-#endif
 				}
 				moles_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
 				if (moles_varrec->UU.U0.arr == NULL)
 				{
 					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 					exit(4);
-#endif
 				}
 
 				// first position not used
@@ -3092,17 +3064,13 @@ factor(struct LOC_exec * LINK)
 			if (elts_varrec->UU.U1.sarr == NULL)
 			{
 				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			coef_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
 			if (coef_varrec->UU.U0.arr == NULL)
 			{
 				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 
 			// first position not used
@@ -3152,7 +3120,7 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state == TRANSPORT)
 		{
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell - 1].mid_cell_x;
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell].mid_cell_x;
 		}
 		else if (PhreeqcPtr->state == ADVECTION)
 		{
@@ -3518,6 +3486,30 @@ factor(struct LOC_exec * LINK)
   	case toksoln_vol:
  		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_solution_volume();
  		break;
+  	case tokvm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+		}
+ 		break;
+  	case tokviscos:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
+		}
+ 		break;
+  	case tokviscos_0:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos_0;
+		}
+ 		break;
+	case tokrho_0:
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rho_0;
+		break;
+	case tokcurrent_a:
+		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_x;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_A;
+		break;
+
 	case toklog10:
 		{
 			LDBLE t = realfactor(LINK);
@@ -3531,12 +3523,6 @@ factor(struct LOC_exec * LINK)
 			//}
 		}
 		break;
-  	case tokvm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
-		}
- 		break;
 
 	case toksin:
 		n.UU.val = sin(realfactor(LINK));
@@ -4507,7 +4493,7 @@ cmdchange_por(struct LOC_exec *LINK)
 	require(tokrp, LINK);
 	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
 		&& j != PhreeqcPtr->count_cells + 1)
-		PhreeqcPtr->cell_data[j - 1].por = TEMP;
+		PhreeqcPtr->cell_data[j].por = TEMP;
 }
 
 void PBasic::
@@ -5534,9 +5520,7 @@ cmddim(struct LOC_exec *LINK)
 			if (!v->UU.U1.sarr)
 			{
 				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
 				exit(4);
-#endif
 			}
 			if (v->UU.U1.sarr == NULL)
 				PhreeqcPtr->malloc_error();
@@ -7118,7 +7102,11 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos",             PBasic::tokviscos),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

@@ -106,11 +106,11 @@ step(LDBLE step_fraction)
 		tc_x = t_ptr->Temperature_for_step(step_number);
 	}
 	if ((state == TRANSPORT) && (transport_step != 0) &&
-		(cell > 0) && (cell != count_cells + 1))
+		(cell > 0) && (cell != count_cells + 1)) // ** needs potV correction
 	{
-		difftemp = tc_x - cell_data[cell - 1].temp;
-		cell_data[cell - 1].temp += difftemp / tempr;
-		tc_x = cell_data[cell - 1].temp;
+		difftemp = tc_x - cell_data[cell].temp;
+		cell_data[cell].temp += difftemp / tempr;
+		tc_x = cell_data[cell].temp;
 	}
 /*
  *   Pressure
@@ -305,6 +305,7 @@ xsolution_zero(void)
 
 	tc_x = 0.0;
 	patm_x = 0;
+	potV_x = 0;
 	ph_x = 0.0;
 	solution_pe_x = 0.0;
 	mu_x = 0.0;
@@ -357,6 +358,7 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	tc_x += solution_ptr->Get_tc() * intensive;
 	ph_x += solution_ptr->Get_ph() * intensive;
 	patm_x += solution_ptr->Get_patm() * intensive;
+	potV_x += solution_ptr->Get_potV() * intensive;
 	solution_pe_x += solution_ptr->Get_pe() * intensive;
 	mu_x += solution_ptr->Get_mu() * intensive;
 	ah2o_x += solution_ptr->Get_ah2o() * intensive;
