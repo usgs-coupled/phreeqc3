@@ -1,6 +1,12 @@
 #if !defined(NAMEDOUBLE_H_INCLUDED)
 #define NAMEDOUBLE_H_INCLUDED
 
+#if defined(_WINDLL)
+#define IPQ_DLL_EXPORT __declspec(dllexport)
+#else
+#define IPQ_DLL_EXPORT
+#endif
+
 #include <cassert>				// assert
 #include <map>					// std::map
 #include <string>				// std::string
@@ -11,7 +17,7 @@ class Phreeqc;
 #include "phrqtype.h"
 class cxxISolutionComp;
 
-class cxxNameDouble:public
+class IPQ_DLL_EXPORT cxxNameDouble:public
 	std::map < std::string, LDBLE >
 {
 
