@@ -526,7 +526,7 @@ copy_title(char *token_ptr, char **ptr, int *length)
 /*
  *   Check what we have
  */
-	if (isupper((int) c))
+	if (isupper((int) c) || c == '[')
 	{
 		return_value = UPPER;
 	}

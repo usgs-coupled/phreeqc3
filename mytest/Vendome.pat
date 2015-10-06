@@ -50,7 +50,7 @@
              0*    # 34SH2S
              1     # Well number
 1.  01S-02E-01 DCB 1 Harrison, Nace 
-       4.31309     # C
+       4.31311     # C
       0.205339     # S
        88.5882     # CA
              0*    # AL
@@ -79,7 +79,7 @@
            6.5     # PH
       0.572678     # H2CO3
       0.018179     # CO3
-       4.31309     # CARBONATES
+       4.31311     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -100,7 +100,7 @@
              0*    # 34SH2S
              2     # Well number
 1.  01S-03E-03 ABA 1        Vendome Well 
-        6.3638     # C
+       6.36382     # C
       0.366296     # S
        2.37964     # CA
              0*    # AL
@@ -129,7 +129,7 @@
           7.14     # PH
       0.812802     # H2CO3
      0.0125752     # CO3
-        6.3638     # CARBONATES
+       6.36382     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -150,9 +150,9 @@
              0*    # 34SH2S
              3     # Well number
 2. Solution after simulation 3.
-       5.67586     # C
+       5.64798     # C
       0.130006     # S
-       2.52092     # CA
+       2.51151     # CA
              0*    # AL
      0.0200009     # MG
      0.0600026     # NA
@@ -174,12 +174,12 @@
       0.130006     # SO4
              0*    # N15
              0*    # RS of N
-   1.47791e-15     # DOX
-       4.80483     # HCO3
-       7.10242     # PH
-      0.862421     # H2CO3
-    0.00839547     # CO3
-       5.67586     # CARBONATES
+   1.47792e-15     # DOX
+         4.786     # HCO3
+       7.10539     # PH
+      0.853349     # H2CO3
+    0.00840342     # CO3
+       5.64798     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -200,7 +200,7 @@
              0*    # 34SH2S
              4     # Well number
 2.  01S-02E-01 DCB 1 Harrison, Nace 
-       4.31309     # C
+       4.31311     # C
       0.205339     # S
        88.5882     # CA
              0*    # AL
@@ -229,7 +229,7 @@
            6.5     # PH
       0.572678     # H2CO3
       0.018179     # CO3
-       4.31309     # CARBONATES
+       4.31311     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+
@@ -250,7 +250,7 @@
              0*    # 34SH2S
              5     # Well number
 2.  01S-03E-03 ABA 1        Vendome Well 
-       5.76406     # C
+       5.74575     # C
       0.366296     # S
        2.37964     # CA
              0*    # AL
@@ -275,11 +275,11 @@
              0*    # N15
             -3     # RS of N
              0*    # DOX
-       5.01665     # HCO3
+       5.00069     # HCO3
           7.14     # PH
-      0.735972     # H2CO3
-     0.0114374     # CO3
-       5.76406     # CARBONATES
+       0.73364     # H2CO3
+      0.011402     # CO3
+       5.74575     # CARBONATES
              0*    # FE2+
              0*    # FE3+
              0*    # MN2+

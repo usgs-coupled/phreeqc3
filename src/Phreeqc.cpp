@@ -184,6 +184,10 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 
 	// initialize data members
 	init();
+
+#if defined(SWIG) || defined(SWIG_IPHREEQC)
+	basicCallback = NULL;
+#endif
 }
 void Phreeqc::init(void)
 {

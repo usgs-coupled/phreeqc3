@@ -908,7 +908,9 @@ punch_calculate_values(void)
 				"Definition not found for CALCULATE_VALUES %s.",
 				current_selected_output->Get_calculate_values()[i].first.c_str());
 			error_msg(error_string, STOP);
+#if !defined(R_SO)
 			exit(4);
+#endif
 		}
 
 		if (calculate_value_ptr->calculated == FALSE)

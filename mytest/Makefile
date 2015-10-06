@@ -362,8 +362,11 @@ all: alkalinity.out \
 	sar.out \
 	CO2_sp_IS.out \
 	Hebach.out \
-	McBride_rho.out \
-	R-04_01_PHRC
+	erm.out \
+	co2_pressure_bug.out \
+	edl_species.out \
+	R-04_01_PHRC.out \
+	McBride_rho.out
 
 # NaX.out
 
@@ -404,12 +407,7 @@ pitzer: \
 	NaCl-SO4.out \
 	NaCl_temp.out \
 	NaKCl.out \
-	NaMgCl.out \
-	erm.out \
-	co2_pressure_bug.out \
-	edl_species.out \
-	R-04_01_PHRC.out \
-	McBride_rho.out
+	NaMgCl.out 
 
 
 frezchem: \
