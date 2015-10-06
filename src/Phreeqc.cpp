@@ -196,6 +196,8 @@ void Phreeqc::init(void)
 	current_pa                      = NAN;
 	current_mu                      = NAN;
 	mu_terms_in_logk                = true;
+	current_A                       = 0.0;
+	current_x                       = 0.0;
 
 	/* ----------------------------------------------------------------------
 	*   STRUCTURES

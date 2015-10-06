@@ -51,7 +51,7 @@ transport(void)
 	diffc_tr = diffc;
 	diffc_max = 0.0;
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
-	dV_dcell = 0.0;
+	dV_dcell = current_A = 0.0;
 
 /*	mass_water_switch = TRUE; */
 /*
@@ -187,6 +187,12 @@ transport(void)
 				(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 			if (current_cells == NULL)
 				malloc_error();
+			for (int i = 0; i < count_cells + 1; i++)
+			{
+				current_cells[i].dif = 0.0;
+				current_cells[i].ele = 0.0;
+				current_cells[i].R = 0.0;
+			}
 		}
 	}
 /*
