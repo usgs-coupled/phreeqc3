@@ -193,7 +193,7 @@ read_transport(void)
 		case 2:				/* print */
 		case 20:				/* print_cells */
 			print_temp =
-				read_list_ints_range(&next_char, &count_print, TRUE,
+				read_list_ints_range(&next_char, &count_print, FALSE,
 									 print_temp);
 			opt_save = 2;
 			break;
@@ -353,7 +353,7 @@ read_transport(void)
 		case 21:				/* selected_cells */
 		case 30:				/* punch_cells */
 			punch_temp =
-				read_list_ints_range(&next_char, &count_punch, TRUE,
+				read_list_ints_range(&next_char, &count_punch, FALSE,
 									 punch_temp);
 			opt_save = 10;
 			break;
@@ -662,12 +662,12 @@ read_transport(void)
  *   Allocate space for cell_data
  */
 	cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
-		(size_t) (max_cells *	(1 + stag_data->count_stag) + 1) * sizeof(struct cell_data));
+		(size_t) (max_cells *	(1 + stag_data->count_stag) + 2) * sizeof(struct cell_data));
 	if (cell_data == NULL)
 		malloc_error();
 
 	// initialize new cells
-	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 1;
+	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
 	if (all_cells_now > all_cells)
 	{
 		for (int i = all_cells; i < all_cells_now; i++)
@@ -678,6 +678,7 @@ read_transport(void)
 			cell_data[i].temp = 25.0;
 			cell_data[i].por = 0.1;
 			cell_data[i].por_il = 0.01;
+			cell_data[i].potV = 0;
 			cell_data[i].punch = FALSE;
 			cell_data[i].print = FALSE;
 		}
@@ -694,15 +695,15 @@ read_transport(void)
 			error_string = sformatf(
 					"No cell-lengths were read; length = 1 m assumed.");
 			warning_msg(error_string);
-			for (i = 0; i < max_cells; i++)
+			for (i = 1; i <= max_cells; i++)
 				cell_data[i].length = 1.0;
 		}
 	}
 	else
 	{
-		for (i = 0; i < count_length; i++)
+		for (i = 1; i <= count_length; i++)
 		{
-			cell_data[i].length = length[i];
+			cell_data[i].length = length[i - 1];
 		}
 		if (max_cells > count_length)
 		{
@@ -710,18 +711,19 @@ read_transport(void)
 					"Cell-lengths were read for %d cells. Last value is used till cell %d.",
 					count_length, max_cells);
 			warning_msg(error_string);
-			for (i = count_length - 1; i < max_cells; i++)
-				cell_data[i].length = length[count_length - 1];
+			for (i = count_length; i <= max_cells; i++)
+				cell_data[i + 1].length = length[count_length - 1];
 		}
 	}
-	cell_data[0].mid_cell_x = cell_data[0].length / 2;
-	for (i = 1; i < max_cells; i++)
+	cell_data[0].mid_cell_x = 0;
+	cell_data[1].mid_cell_x = cell_data[1].length / 2;
+	for (i = 2; i <= max_cells; i++)
 	{
 		cell_data[i].mid_cell_x = cell_data[i - 1].mid_cell_x +
 			(cell_data[i - 1].length + cell_data[i].length) / 2;
 	}
-	cell_data[max_cells].mid_cell_x =
-		cell_data[max_cells - 1].mid_cell_x + cell_data[max_cells - 1].length;
+	cell_data[max_cells + 1].mid_cell_x =
+		cell_data[max_cells].mid_cell_x + cell_data[max_cells].length / 2;
 /*
  *   Fill in data for dispersivities
  */
@@ -732,22 +734,22 @@ read_transport(void)
 			error_string = sformatf(
 					"No dispersivities were read; disp = 0 assumed.");
 			warning_msg(error_string);
-			for (i = 0; i < max_cells; i++)
+			for (i = 1; i <= max_cells; i++)
 				cell_data[i].disp = 0.0;
 		}
 	}
 	else
 	{
-		for (i = 0; i < count_disp; i++)
-			cell_data[i].disp = disp[i];
+		for (i = 1; i <= count_disp; i++)
+			cell_data[i].disp = disp[i - 1];
 		if (max_cells > count_disp)
 		{
 			error_string = sformatf(
 					"Dispersivities were read for %d cells. Last value is used till cell %d.",
 					count_disp, max_cells);
 			warning_msg(error_string);
-			for (i = count_disp - 1; i < max_cells; i++)
-				cell_data[i].disp = disp[count_disp - 1];
+			for (i = count_disp; i <= max_cells; i++)
+				cell_data[i + 1].disp = disp[count_disp - 1];
 		}
 	}
 	count_cells = max_cells;
@@ -756,8 +758,8 @@ read_transport(void)
  */
 	if (stag_data->count_stag > 0)
 	{
-		max_cells = count_cells * (1 + stag_data->count_stag) + 1;
-		for (i = 0; i < count_cells; i++)
+		max_cells = count_cells * (1 + stag_data->count_stag) + 2;
+		for (i = 1; i <= count_cells; i++)
 		{
 			for (l = 1; l <= stag_data->count_stag; l++)
 				cell_data[i + 1 + l * count_cells].mid_cell_x =
@@ -769,11 +771,11 @@ read_transport(void)
  */
 	if (count_punch != 0)
 	{
-		for (i = 0; i < max_cells; i++)
+		for (i = 0; i < all_cells; i++)
 			cell_data[i].punch = FALSE;
 		for (i = 0; i < count_punch; i++)
 		{
-			if (punch_temp[i] > max_cells || punch_temp[i] < 1)
+			if (punch_temp[i] > all_cells - 1 || punch_temp[i] < 0)
 			{
 				error_string = sformatf(
 						"Cell number for punch is out of range, %d. Request ignored.",
@@ -781,22 +783,22 @@ read_transport(void)
 				warning_msg(error_string);
 			}
 			else
-				cell_data[punch_temp[i] - 1].punch = TRUE;
+				cell_data[punch_temp[i]].punch = TRUE;
 		}
 	}
 	else if (simul_tr == 1)
-		for (i = 0; i < max_cells; i++)
+		for (i = 1; i < all_cells; i++)
 			cell_data[i].punch = TRUE;
 /*
  *   Fill in data for print
  */
 	if (count_print != 0)
 	{
-		for (i = 0; i < max_cells; i++)
+		for (i = 0; i < all_cells; i++)
 			cell_data[i].print = FALSE;
 		for (i = 0; i < count_print; i++)
 		{
-			if (print_temp[i] > max_cells || print_temp[i] < 1)
+			if (print_temp[i] > all_cells - 1 || print_temp[i] < 0)
 			{
 				error_string = sformatf(
 						"Cell number for print is out of range, %d. Request ignored.",
@@ -804,11 +806,11 @@ read_transport(void)
 				warning_msg(error_string);
 			}
 			else
-				cell_data[print_temp[i] - 1].print = TRUE;
+				cell_data[print_temp[i]].print = TRUE;
 		}
 	}
 	else if (simul_tr == 1)
-		for (i = 0; i < max_cells; i++)
+		for (i = 1; i < all_cells; i++)
 			cell_data[i].print = TRUE;
 /*
  *   Fill in porosities
@@ -821,7 +823,7 @@ read_transport(void)
 		error_msg(error_string, CONTINUE);
 
 	}
-	for (i = 0; i < max_cells; i++)
+	for (i = 1; i < all_cells; i++)
 	{
 		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
@@ -1175,7 +1177,7 @@ dump_cpp(void)
 	}
 	sprintf(token, "\t-length\n");
 	fs << token;
-	for (int i = 0; i < count_cells; i++)
+	for (int i = 1; i <= count_cells; i++)
 	{
 		sprintf(token, "%12.3e", (double) cell_data[i].length);
 		fs << token;
@@ -1189,7 +1191,7 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-disp\n");
 	fs << token;
-	for (int i = 0; i < count_cells; i++)
+	for (int i = 1; i <= count_cells; i++)
 	{
 		if (!high_precision)
 		{
@@ -1216,7 +1218,7 @@ dump_cpp(void)
 	else
 		j = count_cells;
 	l = 0;
-	for (int i = 0; i < j; i++)
+	for (int i = 1; i <= j; i++)
 	{
 		if (cell_data[i].punch != TRUE)
 			continue;
@@ -1238,7 +1240,7 @@ dump_cpp(void)
 	else
 		j = count_cells;
 	l = 0;
-	for (int i = 0; i < j; i++)
+	for (int i = 1; i <= j; i++)
 	{
 		if (cell_data[i].print != TRUE)
 			continue;

@@ -2124,6 +2124,10 @@ s_init(struct species *s_ptr)
 	{
 		s_ptr->dz[i] = 0.0;
 	}
+	for (i = 0; i < 9; i++)
+	{
+		s_ptr->Jones_Dole[i] = 0.0;
+	}
 	return (OK);
 }
 
