@@ -4207,6 +4207,12 @@ read_pp_assemblage(void)
 			if (j == EMPTY)
 				continue;
 			j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+			if (dummy < 0)
+			{
+				error_string = sformatf( "Moles of mineral < 0, reset to 0.");
+				dummy = 0;
+				warning_msg(error_string);
+			}
 			comp->Set_moles(dummy);
 			if (j != 1)
 			{
