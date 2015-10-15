@@ -1281,11 +1281,14 @@ pitzer(void)
 	F = F1 = F2 = -A0 * (DI / (1.0 + B * DI) + 2.0 * log(1.0 + B * DI) / B);
 	if (patm_x > 1.0)
 	{
-		LDBLE pap;
+		LDBLE pap = 0.0;
 		pap = (7e-5 + 1.93e-9 * pow(TK - 250.0, 2.0)) * patm_x;
 		B1 = B - (pap > 0.2 ? 0.2 : pap);
-		pap = (9.65e-10 * pow(TK - 263.0, 2.773)) * pow(patm_x, 0.623);
-		//pap = (-5.22e-4 + 7.19e-8 * pow(TK - 263.0, 2.0)) * pow(patm_x, 0.623);
+		if (TK > 263.0)
+		{
+			pap = (9.65e-10 * pow(TK - 263.0, 2.773)) * pow(patm_x, 0.623);
+			//pap = (-5.22e-4 + 7.19e-8 * pow(TK - 263.0, 2.0)) * pow(patm_x, 0.623);
+		}
 		B2 = B - (pap > 0.2 ? 0.2 : pap);
 		if (B1 != 0)
 			F1 = -A0 * (DI / (1.0 + B1 * DI) + 2.0 * log(1.0 + B1 * DI) / B1);
