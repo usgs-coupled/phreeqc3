@@ -1,6 +1,32 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
         ---------
+        svn 10393
+        ---------
+	PhreeqcRM: Efficiency calculation generated NaN for OpenMP calculations.
+	
+        ---------
+        svn 10385
+        ---------
+	PHREEQC: Fixed formula for pressure dependence of B1, B2, F1, F2 in the Pitzer formulation. 
+	Previously had a limit of -10C; temperatures less than -10 produced a floating point exception
+	and convergence failure.
+
+        ---------
+        svn 10364
+        ---------
+	IPhreeqc and PhreeqcRM: Debug version asserted when trying to write an error message to std::cerr.
+	
+        ---------
+        svn 10359
+        ---------
+	PhreeqcRM: Added methods and documentation for RM_GetEndCell and RM_GetStartCell for C and Fortran. 
+	C++ methods already existed. The methods give the range of chemistry cell numbers that are assigned
+	by each worker (OpenMP) or process (MPI). If rebalancing is enabled, these numbers may change as
+	cells are shifted among workers or processes.
+
+Version 3.3.2 (10335): October 2, 2015 
+        ---------
         svn 10332
         ---------
         PhreeqcRM: Bug in configure scripts required developer zlib to be installed. Now
