@@ -1,5 +1,10 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
-
+        ---------
+        svn 10409
+        ---------
+	PhreeqcRM: C function clock() does not provide sufficient resolution. Efficiency calculation
+	generated NaN, and rebalancing was poor. Revised to use MPI and OpenMP timers when available.
+	
         ---------
         svn 10393
         ---------
@@ -20,7 +25,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
         ---------
         svn 10359
         ---------
-	PhreeqcRM: Added methods and documentation for RM_GetEndCell and RM_GetStartCell for C and Fortran. 
+	PhreeqcRM: Added methods and documentation for RM_GetEndCell and RM_GetStartCell for C and Fortran.
 	C++ methods already existed. The methods give the range of chemistry cell numbers that are assigned
 	by each worker (OpenMP) or process (MPI). If rebalancing is enabled, these numbers may change as
 	cells are shifted among workers or processes.
