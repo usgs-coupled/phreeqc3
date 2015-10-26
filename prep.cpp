@@ -2398,6 +2398,11 @@ mb_for_species_aq(int n)
 		{
 			continue;
 		}
+		else if (master_ptr->unknown == NULL)
+		{
+			//std::cerr << "NULL: " << master_ptr->s->name << std::endl;
+			continue;
+		}
 		else if (master_ptr->unknown->type == SOLUTION_PHASE_BOUNDARY)
 		{
 			continue;
