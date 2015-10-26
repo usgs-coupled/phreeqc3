@@ -1,4 +1,15 @@
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 alkalinity_101.sel
+    -reset                false
+USER_PUNCH 101
+    -headings SC
+    -start
+10 str_exp$ = STR_E$(SC, 10, 3)
+20 round = VAL(str_exp$)
+30 PUNCH STR_F$(round, 12, 3)
+    -end
+END
 PRINT
 	-alkalinity
 SOLUTION 1 Fixed Carbon, Fixed Na, Fixed pH
