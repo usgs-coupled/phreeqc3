@@ -1,4 +1,19 @@
 DATABASE ../database/llnl.dat
+SELECTED_OUTPUT 101
+    -file                 all_llnl_101.sel
+USER_PUNCH 101
+    -headings Mu
+    -start
+10 x = MU
+20 GOSUB 1000
+30 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1030 PUNCH STR_F$(round, 12, 9)
+1040 RETURN
+    -end
+END
 solution 1
 Ag	 1
 Al       1

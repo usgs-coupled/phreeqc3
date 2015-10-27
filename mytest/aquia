@@ -1,4 +1,17 @@
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 aquia_101.sel
+USER_PUNCH 101
+    -headings Mu
+    -start
+10 x = MU
+20 GOSUB 1000
+30 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1030 PUNCH STR_F$(round, 12, 9)
+1040 RETURN
 EXCHANGE_SPECIES
   H+ + X- = HX; log_k 3.0; -gamma 9.0 0.0 3.4
   Na+ + X- = NaX; log_k -0.5; -gamma 4.0 0.075 0.5
