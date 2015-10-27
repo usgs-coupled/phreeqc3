@@ -1,4 +1,18 @@
 DATABASE ../database/wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 as.ex_101.sel
+USER_PUNCH 101
+    -headings Mu
+    -start
+10 x = MU
+20 GOSUB 1000
+30 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1030 PUNCH STR_F$(round, 12, 9)
+1040 RETURN
+END
 SOLUTION_SPREAD
                 Description	    Date	 Units	          Cr	    Co	 Mo	 V	 Temperature	   pH	          Eh	     Density	   Ca	    Mg	  Na	          K	  Cl	        S(6)	     Fetotal	  S(-2)	  Si	      N(-3)	    B	 P	   Al	           F	 N(5)	       Fe(2)	       Fe(3)	 Cs	          Li	    Sr	    Ba	 Rb	 I	          Br	    Mn	          Cu	    Zn	          Cd	          Pb	        N(3)	    Ni	 Ag	   As(total)	       As(3)	       As(5)	 Fulvate	 Humate	 Se(total)	 Se(-2)	 Se(4)	 Se(6)	 U(total)	 U(4)	 U(6)	   pe
                           	        	      	            	      	   	  	            	     	            	            	     	      	    	           	    	            	            	 as H2S	    	           	     	  	     	            	     	            	            	   	            	      	      	   	  	            	      	            	      	            	            	            	      	   	            	            	            	        	       	          	       	      	      	         	     	     	     

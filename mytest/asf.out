@@ -23,6 +23,19 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/llnl.dat
+	SELECTED_OUTPUT 101
+	    file                 asf_101.sel
+	USER_PUNCH 101
+	    headings Mu
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1030 PUNCH STR_F$(round, 12, 9)
+	1040 RETURN
 	SOLUTION_SPECIES
 	1.0000 H2AsO4- + 1.0000 H+ + 1.0000 F-  =  HAsO3F- +1.0000 H2O
 	        llnl_gamma           4.0    
@@ -28323,6 +28336,6 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.54 Seconds.
+End of Run after 0.56 Seconds.
 ------------------------------
 
