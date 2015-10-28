@@ -19,13 +19,13 @@ for %%f in (*_101.sel) do (
   set ff=%%f
   call :test !ff:_101.sel=!
 )
-echo failed=!failed!
+REM echo failed=!failed!
 exit /b !failed!
 goto :EOF
 
 :test
 echo Testing %1
-move %1_101.sel %1_101.sel.expected
+move %1_101.sel %1_101.sel.expected > NUL
 ..\x64\Release\phreeqc %1 %1.out xxx %1.log
 diff %1_101.sel %1_101.sel.expected > %1.diff
 if %ERRORLEVEL% NEQ 0 (
