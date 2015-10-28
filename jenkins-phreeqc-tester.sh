@@ -18,10 +18,6 @@ test(){
   fi
 }
 
-#{{
-sed -i -e 's/8.0/7.0/g' alkalinity
-#}}
-
 for f in *_101.sel; do
   f=`echo "${f}" | sed 's/_101\.sel$//'`
   test "${f}"
