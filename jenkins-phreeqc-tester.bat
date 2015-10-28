@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 setlocal ENABLEDELAYEDEXPANSION
 set failed=0
 
@@ -24,11 +24,12 @@ exit /b !failed!
 goto :EOF
 
 :test
-echo %1
+echo Testing %1
 move %1_101.sel %1_101.sel.expected
 ..\x64\Release\phreeqc %1 %1.out xxx %1.log
 diff %1_101.sel %1_101.sel.expected > %1.diff
 if %ERRORLEVEL% NEQ 0 (
+  echo "  FAILED"
   set failed=1
 )
 goto :EOF
