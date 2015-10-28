@@ -8,13 +8,13 @@ USER_PUNCH 101
     -start
 10 x = MU
 20 GOSUB 1000
-30 PUNCH STR_F$(round, 12, 9)
+30 PUNCH STR_F$(round, 12, 8)
 110 x = SC
 120 GOSUB 1000
-130 PUNCH STR_F$(round, 12, 3)
+130 PUNCH STR_F$(round, 12, 2)
 999 END
 1000 REM Rounding function 
-1010 str_exp$ = STR_E$(x, 10, 3)
+1010 str_exp$ = STR_E$(x, 10, 2)
 1020 round = VAL(str_exp$)
 1040 RETURN
     -end
