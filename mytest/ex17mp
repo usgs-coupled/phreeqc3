@@ -1,4 +1,21 @@
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 ex17mp_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 TITLE Example 17.--Inverse modeling of Black Sea water evaporation
 SOLUTION 1  Black Sea water
         units   mg/L
@@ -24,6 +41,9 @@ SOLUTION 2  Composition during halite precipitation
         Cl      187900
         Br      2670
         C       1       CO2(g) -3.5
+END
+SELECTED_OUTPUT 101
+     -active false
 INVERSE_MODELING
         -solution 1 2
         -uncertainties .025

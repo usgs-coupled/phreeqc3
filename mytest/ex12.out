@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 ex12_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	knobs
 		logfile
 	TITLE 
@@ -47,25 +64,6 @@ Reading input data for simulation 1.
 	        S(6)    76200
 	        Cl      187900
 	        Br      2670
-	INVERSE_MODELING
-	        solutions 1 2
-	        uncertainties .025
-	        phases
-	                H2O     pre
-	                gypsum  pre
-	                halite  pre
-	        balances 
-	                Alkalinity 1.0
-	                Br
-	                K
-	                Mg
-	PHASES
-	H2O
-	        H2O = H2O
-	        log_k   0.0
-	Halite
-	        NaCl = Na+ + Cl- 
-	        log_k   1.582
 	END
 -----
 TITLE
@@ -159,9 +157,8 @@ S(6)          1.527e-02
   Anhydrite        -1.24     -5.52   -4.28  CaSO4
   Gypsum           -0.94     -5.52   -4.58  CaSO4:2H2O
   H2(g)           -24.05    -27.15   -3.10  H2
-  H2O              -0.00     -0.00    0.00  H2O
   H2O(g)           -1.51     -0.00    1.50  H2O
-  Halite           -3.03     -1.44    1.58  NaCl
+  Halite           -3.01     -1.44    1.57  NaCl
   O2(g)           -35.20    -38.09   -2.89  O2
   Sylvite          -4.09     -3.19    0.90  KCl
 
@@ -240,15 +237,44 @@ S(6)          8.986e-01
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
   H2(g)           -24.05    -27.15   -3.10  H2
-  H2O              -0.10     -0.10    0.00  H2O
   H2O(g)           -1.60     -0.10    1.50  H2O
-  Halite           -0.23      1.35    1.58  NaCl
+  Halite           -0.22      1.35    1.57  NaCl
   O2(g)           -35.38    -38.27   -2.89  O2
   Sylvite          -0.88      0.02    0.90  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+			active false        
+	INVERSE_MODELING
+	        solutions 1 2
+	        uncertainties .025
+	        phases
+	                H2O     pre
+	                gypsum  pre
+	                halite  pre
+	        balances 
+	                Alkalinity 1.0
+	                Br
+	                K
+	                Mg
+	PHASES
+	H2O
+	        H2O = H2O
+	        log_k   0.0
+	Halite
+	        NaCl = Na+ + Cl- 
+	        log_k   1.582
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -315,10 +341,10 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.02 Seconds.
+End of Run after 0.03 Seconds.
 ------------------------------
 

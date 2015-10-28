@@ -23,6 +23,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/llnl.dat
+	SELECTED_OUTPUT 101
+	    file                 febmp_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	SOLUTION 1 EKATI LLCF
 	    temp      8
 	    pH        6.5
@@ -81,27 +98,6 @@ Reading input data for simulation 1.
 	    B         0.015
 	    Fe        0.005
 	    water    1 # kg
-	INVERSE_MODELING 1
-	    solutions      1        2
-	    uncertainty    0.1      0.1
-	    phases
-	        Chrysotile        dis
-	        Fe(OH)3
-	        Gypsum
-	        Halite
-	        Pyrite            dis
-	        Saponite-Ca
-	        Saponite-K
-	        Saponite-Mg
-	        Saponite-Na
-	        Fayalite          dis
-	        Forsterite        dis
-	        SiO2(am)          pre
-	        CO2(g)
-	        Calcite
-	    multiple_precision   true
-	    mp_tolerance         1e-010
-	    mineral_water     true
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -1622,6 +1618,38 @@ Zn            4.590e-08
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	    active false
+	INVERSE_MODELING 1
+	    solutions      1        2
+	    uncertainty    0.1      0.1
+	    phases
+	        Chrysotile        dis
+	        Fe(OH)3
+	        Gypsum
+	        Halite
+	        Pyrite            dis
+	        Saponite-Ca
+	        Saponite-K
+	        Saponite-Mg
+	        Saponite-Na
+	        Fayalite          dis
+	        Forsterite        dis
+	        SiO2(am)          pre
+	        CO2(g)
+	        Calcite
+	    multiple_precision   true
+	    mp_tolerance         1e-010
+	    mineral_water     true
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -2864,7 +2892,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
 	INVERSE_MODELING 1
@@ -2946,7 +2974,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 3.
+Reading input data for simulation 4.
 ------------------------------------
 
 	INVERSE_MODELING 1
@@ -4047,7 +4075,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 4.
+Reading input data for simulation 5.
 ------------------------------------
 
 	INVERSE_MODELING 1
@@ -4129,7 +4157,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 5.
+Reading input data for simulation 6.
 ------------------------------------
 
 ------------------------------

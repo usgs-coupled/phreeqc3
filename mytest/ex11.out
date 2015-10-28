@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 ex11_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	knobs
 		logfile
 	TITLE Example 11.--Inverse modeling of Sierra springs
@@ -46,32 +63,6 @@ Reading input data for simulation 1.
 	        Alkalinity      0.895
 	        S(6)            0.025
 	        Cl              0.03
-	INVERSE_MODELING 1
-	        solutions 1 2
-	        uncertainty 0.025
-	        range
-	        phases
-	                Halite
-	                Gypsum
-	                Kaolinite               precip
-	                Ca-montmorillonite      precip
-	                CO2(g)
-	                Calcite
-	                Chalcedony              precip
-	                Biotite                 dissolve
-	                Plagioclase             dissolve
-	        balances
-	                Ca      0.05     0.025
-	PHASES
-	Halite
-	        NaCl = Na+ + Cl-
-	        log_k  0.0
-	Biotite
-	        KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
-	        log_k  0.0
-	Plagioclase
-	        Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O =                 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
-	        log_k  0.0
 	END
 -----
 TITLE
@@ -191,7 +182,7 @@ Si            2.730e-04
   Gypsum           -4.62     -9.20   -4.58  CaSO4:2H2O
   H2(g)           -20.45    -23.55   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -8.75     -8.75    0.00  NaCl
+  Halite          -10.32     -8.75    1.57  NaCl
   O2(g)           -42.39    -45.28   -2.89  O2
   Quartz            0.42     -3.56   -3.98  SiO2
   Sepiolite       -10.82      4.94   15.76  Mg2Si3O7.5OH:3H2O
@@ -311,7 +302,7 @@ Si            4.100e-04
   Gypsum           -3.77     -8.35   -4.58  CaSO4:2H2O
   H2(g)           -21.65    -24.75   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -8.14     -8.14    0.00  NaCl
+  Halite           -9.71     -8.14    1.57  NaCl
   O2(g)           -39.99    -42.88   -2.89  O2
   Quartz            0.59     -3.39   -3.98  SiO2
   Sepiolite        -7.17      8.59   15.76  Mg2Si3O7.5OH:3H2O
@@ -323,6 +314,43 @@ Si            4.100e-04
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+			active false        
+	INVERSE_MODELING 1
+	        solutions 1 2
+	        uncertainty 0.025
+	        range
+	        phases
+	                Halite
+	                Gypsum
+	                Kaolinite               precip
+	                Ca-montmorillonite      precip
+	                CO2(g)
+	                Calcite
+	                Chalcedony              precip
+	                Biotite                 dissolve
+	                Plagioclase             dissolve
+	        balances
+	                Ca      0.05     0.025
+	PHASES
+	Halite
+	        NaCl = Na+ + Cl-
+	        log_k  0.0
+	Biotite
+	        KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
+	        log_k  0.0
+	Plagioclase
+	        Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O =                 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
+	        log_k  0.0
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -464,10 +492,10 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.04 Seconds.
+End of Run after 0.05 Seconds.
 ------------------------------
 

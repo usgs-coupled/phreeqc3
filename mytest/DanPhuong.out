@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE LangmuirAs_wateq4f.dat
+	SELECTED_OUTPUT 101
+	    file                 DanPhuong_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	PHASES
 	Fe(OH)3As
 	Fe(OH)2.925(AsO4)0.025 + 2.925H+ = Fe+3 + 2.925H2O + 0.025AsO4-3	
@@ -626,6 +643,6 @@ WARNING: Maximum iterations exceeded, 200
 WARNING: Numerical method failed with this set of convergence parameters.
 
 ------------------------------
-End of Run after 2.42 Seconds.
+End of Run after 2.45 Seconds.
 ------------------------------
 

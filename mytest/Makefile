@@ -201,7 +201,9 @@ all: alkalinity.out \
 	ex11.out \
 	ex12.out \
 	ex20_debug.out \
-	ex6.cvode.out ex9.cvode.out ex15.cvode.out \
+	ex6.cvode.out \
+        ex9.cvode.out \
+        ex15.cvode.out \
 	colt1.out \
 	colt2.out \
 	colt3.out \
@@ -210,8 +212,11 @@ all: alkalinity.out \
 	colt5.out \
 	minteq.out \
 	minteqv4.out \
-	ex16mp.out ex17mp.out ex18mp.out \
-	feb.out febmp.out \
+	ex16mp.out \
+	ex17mp.out \
+	ex18mp.out \
+	feb.out \
+	febmp.out \
 	katz.out \
 	np.testmp.out \
 	oxygenmp.out \

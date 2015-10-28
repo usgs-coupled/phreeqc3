@@ -1,6 +1,23 @@
 database ../database/phreeqc.dat
 # ADDITIONAL THERMO DATA
 #  Define cobalt master species and normal species
+SELECTED_OUTPUT 101
+    -file                 is_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 SOLUTION_MASTER_SPECIES
           Co   Co+2   0.0   Co          58.9332     
 SOLUTION_SPECIES

@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 ex17mp_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	TITLE Example 17.--Inverse modeling of Black Sea water evaporation
 	SOLUTION 1  Black Sea water
 	        units   mg/L
@@ -46,21 +63,6 @@ Reading input data for simulation 1.
 	        Cl      187900
 	        Br      2670
 	        C       1       CO2(g) -3.5
-	INVERSE_MODELING
-	        solutions 1 2
-	        uncertainties .025
-	        range
-	        balances 
-	                Br
-	                K
-	                Mg
-	        phases
-	                H2O(g)  
-	                Calcite 
-	                CO2(g)  
-	                Gypsum  
-	                Halite  
-		multiple_precision
 	END
 -----
 TITLE
@@ -283,6 +285,32 @@ S(6)          8.986e-01
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	     active false
+	INVERSE_MODELING
+	        solutions 1 2
+	        uncertainties .025
+	        range
+	        balances 
+	                Br
+	                K
+	                Mg
+	        phases
+	                H2O(g)  
+	                Calcite 
+	                CO2(g)  
+	                Gypsum  
+	                Halite  
+		multiple_precision
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -357,7 +385,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
 ------------------------------

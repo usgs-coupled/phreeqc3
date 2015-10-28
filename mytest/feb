@@ -1,4 +1,21 @@
 DATABASE ../database/llnl.dat
+SELECTED_OUTPUT 101
+    -file                 feb_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 SOLUTION 1 EKATI LLCF
     temp      8
     pH        6.5
@@ -57,6 +74,9 @@ SOLUTION 2 EKATI Discharge
     B         0.015
     Fe        0.005
     -water    1 # kg
+END
+SELECTED_OUTPUT 101
+    -active false
 INVERSE_MODELING 1
     -solutions      1        2
     -uncertainty    0.1      0.1

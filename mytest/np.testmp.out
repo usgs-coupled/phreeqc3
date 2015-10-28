@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 np.testmp_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	knobs
 		logfile
 	PRINT
@@ -47,39 +64,6 @@ Reading input data for simulation 1.
 		Alkalinity	0.895
 		S(6)		0.025
 		Cl		0.03
-	INVERSE_MODELING 1
-		solutions 1 2
-		uncertainty 0.05
-		phases
-			Halite
-			Gypsum
-			Kaolinite   	pre
-			Ca-montmorillonite   pre
-			CO2(g)
-			Calcite
-			Chalcedony	pre
-			Biotite    	dis
-			Plagioclase     dis
-		multiple_precision
-	PHASES
-		Halite
-		NaCl = Na+ + Cl-
-		log_k	0.0
-		Biotite
-		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
-		log_k	0.0
-		Plagioclase
-		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
-		log_k	0.0
-		H2O(g)
-		H2O = H2O
-		log_k	0.0
-		NaX
-		NaX = Na+ + X- 
-		log_k	0.0
-		CaX2
-		CaX2 = Ca+2 + 2X- 
-		log_k	0.0
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -192,8 +176,8 @@ Si            2.730e-04
   Dolomite         -6.89    -23.98  -17.09  CaMg(CO3)2
   Gypsum           -4.62     -9.20   -4.58  CaSO4:2H2O
   H2(g)           -20.45    -23.55   -3.10  H2
-  H2O(g)           -0.00     -0.00    0.00  H2O
-  Halite           -8.75     -8.75    0.00  NaCl
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite          -10.32     -8.75    1.57  NaCl
   O2(g)           -42.39    -45.28   -2.89  O2
   Quartz            0.42     -3.56   -3.98  SiO2
   Sepiolite       -10.82      4.94   15.76  Mg2Si3O7.5OH:3H2O
@@ -312,8 +296,8 @@ Si            4.100e-04
   Dolomite         -3.99    -21.08  -17.09  CaMg(CO3)2
   Gypsum           -3.77     -8.35   -4.58  CaSO4:2H2O
   H2(g)           -21.65    -24.75   -3.10  H2
-  H2O(g)           -0.00     -0.00    0.00  H2O
-  Halite           -8.14     -8.14    0.00  NaCl
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -9.71     -8.14    1.57  NaCl
   O2(g)           -39.99    -42.88   -2.89  O2
   Quartz            0.59     -3.39   -3.98  SiO2
   Sepiolite        -7.17      8.59   15.76  Mg2Si3O7.5OH:3H2O
@@ -325,6 +309,50 @@ Si            4.100e-04
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	    active false	
+	INVERSE_MODELING 1
+		solutions 1 2
+		uncertainty 0.05
+		phases
+			Halite
+			Gypsum
+			Kaolinite   	pre
+			Ca-montmorillonite   pre
+			CO2(g)
+			Calcite
+			Chalcedony	pre
+			Biotite    	dis
+			Plagioclase     dis
+		multiple_precision
+	PHASES
+		Halite
+		NaCl = Na+ + Cl-
+		log_k	0.0
+		Biotite
+		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
+		log_k	0.0
+		Plagioclase
+		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
+		log_k	0.0
+		H2O(g)
+		H2O = H2O
+		log_k	0.0
+		NaX
+		NaX = Na+ + X- 
+		log_k	0.0
+		CaX2
+		CaX2 = Ca+2 + 2X- 
+		log_k	0.0
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -525,9 +553,11 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
+	SELECTED_OUTPUT 101
+	    active true	
 	SOLUTION 1 Inflow
 		units   mmol/kgw
 		pH 	8.1
@@ -549,61 +579,6 @@ Reading input data for simulation 2.
 		S(6)	291.427
 		C(4)	6.304
 		Si	0.5
-	INVERSE_MODELING 1
-		solutions 1 2
-		uncertainty 0.05
-		tolerance 1e-10
-		balances
-			Alkalinity 0.05
-		phases
-			Halite		p
-			Aragonite	p
-			CO2(g)		p
-			Mirabilite	p
-			H2O(g)
-			Anorthite
-			Albite
-			Chalcedony
-			Montmorillonite-Aberdeen
-			Montmorillonite-BelleFourche	
-			Kaolinite   	pre
-			Sepiolite	
-		multiple_precision
-	PHASES
-		Halite
-		NaCl = Na+ + Cl-
-		log_k	0.0
-		Biotite
-		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
-		log_k	0.0
-		Plagioclase
-		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
-		log_k	0.0
-		H2O(g)
-		H2O = H2O
-		log_k	0.0
-		Brucite             19
-		Mg(OH)2 + 2H+ = Mg+2 + 2H2O 
-		log_k	16.84
-		delta_h	-27.1 kcal
-		Sylvite
-		KCl = K+ + Cl-
-		log_k	0.0
-		NaX
-		NaX = Na+ + X- 
-		log_k	0.0
-		CaX2
-		CaX2 = Ca+2 + 2X- 
-		log_k	0.0
-		Mirabilite
-		Na2SO4:10H2O = 2Na+ + SO4-2 + 10H2O
-		log_k	0.0
-		Montmorillonite-Aberdeen        116
-		(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 + 9.16H2O + 0.84H+ = 0.14H+ + 0.14Na+ + 0.14K+ + 0.45Mg+2 + 0.33Fe+3 + 1.47Al(OH)4- + 3.82H4SiO4
-		log_k	-29.688	
-		Montmorillonite-BelleFourche    115
-		(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 + 10H2O = 0.09H+ + 0.09Na+ + 0.09K+ + 0.29Mg+2 + 0.24Fe+3 + 1.57Al(OH)4- + 3.93H4SiO4
-		log_k	-34.913	
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -709,7 +684,6 @@ Si            5.000e-04
 
   Anhydrite        -2.25     -6.53   -4.28  CaSO4
   Aragonite         0.76     -7.58   -8.34  CaCO3
-  Brucite          -3.67     13.17   16.84  Mg(OH)2
   Calcite           0.90     -7.58   -8.48  CaCO3
   Chalcedony        0.24     -3.31   -3.55  SiO2
   Chrysotile        0.69     32.90   32.20  Mg3Si2O5(OH)4
@@ -719,13 +693,12 @@ Si            5.000e-04
   H2(g)           -24.25    -27.35   -3.10  H2
   H2O(g)           -0.00     -0.00    0.00  H2O
   Halite           -4.18     -4.18    0.00  NaCl
-  Mirabilite       -7.66     -7.66    0.00  Na2SO4:10H2O
   O2(g)           -34.79    -37.68   -2.89  O2
   Quartz            0.67     -3.31   -3.98  SiO2
   Sepiolite         0.66     16.42   15.76  Mg2Si3O7.5OH:3H2O
   Sepiolite(d)     -2.24     16.42   18.66  Mg2Si3O7.5OH:3H2O
   SiO2(a)          -0.60     -3.31   -2.71  SiO2
-  Sylvite          -5.52     -5.52    0.00  KCl
+  Sylvite          -6.42     -5.52    0.90  KCl
   Talc              4.88     26.28   21.40  Mg3Si4O10(OH)2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -831,7 +804,6 @@ Si            5.000e-04
 
   Anhydrite        -0.34     -4.62   -4.28  CaSO4
   Aragonite        -0.01     -8.35   -8.34  CaCO3
-  Brucite          -2.06     14.78   16.84  Mg(OH)2
   Calcite           0.13     -8.35   -8.48  CaCO3
   Chalcedony        1.09     -2.46   -3.55  SiO2
   Chrysotile        7.32     39.52   32.20  Mg3Si2O5(OH)4
@@ -841,18 +813,83 @@ Si            5.000e-04
   H2(g)           -23.05    -26.15   -3.10  H2
   H2O(g)           -0.10     -0.10    0.00  H2O
   Halite            1.52      1.52    0.00  NaCl
-  Mirabilite       -1.76     -1.76    0.00  Na2SO4:10H2O
   O2(g)           -37.39    -40.28   -2.89  O2
   Quartz            1.52     -2.46   -3.98  SiO2
   Sepiolite         6.27     22.03   15.76  Mg2Si3O7.5OH:3H2O
   Sepiolite(d)      3.37     22.03   18.66  Mg2Si3O7.5OH:3H2O
   SiO2(a)           0.25     -2.46   -2.71  SiO2
-  Sylvite          -0.46     -0.46    0.00  KCl
+  Sylvite          -1.36     -0.46    0.90  KCl
   Talc             13.30     34.70   21.40  Mg3Si4O10(OH)2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	    active false	
+	INVERSE_MODELING 1
+		solutions 1 2
+		uncertainty 0.05
+		tolerance 1e-10
+		balances
+			Alkalinity 0.05
+		phases
+			Halite		p
+			Aragonite	p
+			CO2(g)		p
+			Mirabilite	p
+			H2O(g)
+			Anorthite
+			Albite
+			Chalcedony
+			Montmorillonite-Aberdeen
+			Montmorillonite-BelleFourche	
+			Kaolinite   	pre
+			Sepiolite	
+		multiple_precision
+	PHASES
+		Halite
+		NaCl = Na+ + Cl-
+		log_k	0.0
+		Biotite
+		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
+		log_k	0.0
+		Plagioclase
+		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
+		log_k	0.0
+		H2O(g)
+		H2O = H2O
+		log_k	0.0
+		Brucite             19
+		Mg(OH)2 + 2H+ = Mg+2 + 2H2O 
+		log_k	16.84
+		delta_h	-27.1 kcal
+		Sylvite
+		KCl = K+ + Cl-
+		log_k	0.0
+		NaX
+		NaX = Na+ + X- 
+		log_k	0.0
+		CaX2
+		CaX2 = Ca+2 + 2X- 
+		log_k	0.0
+		Mirabilite
+		Na2SO4:10H2O = 2Na+ + SO4-2 + 10H2O
+		log_k	0.0
+		Montmorillonite-Aberdeen        116
+		(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 + 9.16H2O + 0.84H+ = 0.14H+ + 0.14Na+ + 0.14K+ + 0.45Mg+2 + 0.33Fe+3 + 1.47Al(OH)4- + 3.82H4SiO4
+		log_k	-29.688	
+		Montmorillonite-BelleFourche    115
+		(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 + 10H2O = 0.09H+ + 0.09Na+ + 0.09K+ + 0.29Mg+2 + 0.24Fe+3 + 1.57Al(OH)4- + 3.93H4SiO4
+		log_k	-34.913	
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -1467,9 +1504,11 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 3.
+Reading input data for simulation 5.
 ------------------------------------
 
+	SELECTED_OUTPUT 101
+	    active true	
 	SOLUTION 1 
 		units   mg/l
 		temp	17
@@ -1488,67 +1527,6 @@ Reading input data for simulation 3.
 		Na	140
 		Alkalinity	367 as HCO3
 		S(6)	13
-	INVERSE_MODELING 1
-		solutions 1 2
-		uncertainty 0.03
-		balances
-		phases
-			CH2O
-			Calcite
-			Goethite
-			Pyrite
-			CaX2
-			MgX2
-			NaX
-			Gypsum
-		multiple_precision
-	PHASES
-		Halite
-		NaCl = Na+ + Cl-
-		log_k	0.0
-		Biotite
-		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
-		log_k	0.0
-		Plagioclase
-		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
-		log_k	0.0
-		H2O(g)
-		H2O = H2O
-		log_k	0.0
-		Brucite             19
-		Mg(OH)2 + 2H+ = Mg+2 + 2H2O 
-		log_k		16.84	
-		delta_h	-27.1 kcal
-		Sylvite
-		KCl = K+ + Cl-
-		log_k	0.0
-		NaX
-		NaX = Na+ + X- 
-		log_k	0.0
-		CaX2
-		CaX2 = Ca+2 + 2X- 
-		log_k	0.0
-		MgX2
-		MgX2 = Mg+2 + 2X- 
-		log_k	0.0
-		HX
-		HX = H+ + X-
-		log_k	0.0
-		KX
-		KX = K+ + X-
-		log_k	0.0
-		Mirabilite
-		Na2SO4:10H2O = 2Na+ + SO4-2 + 10H2O
-		log_k	0.0
-		Montmorillonite-Aberdeen        116
-		(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 + 9.16H2O + 0.84H+ = 0.14H+ + 0.14Na+ + 0.14K+ + 0.45Mg+2 + 0.33Fe+3 + 1.47Al(OH)4- + 3.82H4SiO4
-		log_k	-29.688
-		Montmorillonite-BelleFourche    115
-		(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 + 10H2O = 0.09H+ + 0.09Na+ + 0.09K+ + 0.29Mg+2 + 0.24Fe+3 + 1.57Al(OH)4- + 3.93H4SiO4
-		log_k	-34.913
-		CH2O
-		CH2O + H2O = CO2 + 4H+ + 4e-
-		log_k	0.0
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -1643,7 +1621,6 @@ S(6)          1.978e-04
   Aragonite        -0.23     -8.52   -8.29  CaCO3
   Brucite          -5.60     11.78   17.39  Mg(OH)2
   Calcite          -0.08     -8.52   -8.44  CaCO3
-  CH2O            -50.17    -50.17    0.00  CH2O
   CO2(g)           -2.40     -3.77   -1.37  CO2
   Dolomite         -0.41    -17.31  -16.90  CaMg(CO3)2
   Gypsum           -2.44     -7.02   -4.58  CaSO4:2H2O
@@ -1744,7 +1721,6 @@ S(6)          1.354e-04
   Aragonite        -0.28     -8.58   -8.30  CaCO3
   Brucite          -4.74     12.51   17.25  Mg(OH)2
   Calcite          -0.13     -8.58   -8.45  CaCO3
-  CH2O            -53.88    -53.88    0.00  CH2O
   CO2(g)           -2.89     -4.28   -1.39  CO2
   Dolomite         -0.17    -17.12  -16.95  CaMg(CO3)2
   Gypsum           -3.77     -8.35   -4.58  CaSO4:2H2O
@@ -1756,6 +1732,78 @@ S(6)          1.354e-04
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	    active false	
+	INVERSE_MODELING 1
+		solutions 1 2
+		uncertainty 0.03
+		balances
+		phases
+			CH2O
+			Calcite
+			Goethite
+			Pyrite
+			CaX2
+			MgX2
+			NaX
+			Gypsum
+		multiple_precision
+	PHASES
+		Halite
+		NaCl = Na+ + Cl-
+		log_k	0.0
+		Biotite
+		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
+		log_k	0.0
+		Plagioclase
+		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
+		log_k	0.0
+		H2O(g)
+		H2O = H2O
+		log_k	0.0
+		Brucite             19
+		Mg(OH)2 + 2H+ = Mg+2 + 2H2O 
+		log_k		16.84	
+		delta_h	-27.1 kcal
+		Sylvite
+		KCl = K+ + Cl-
+		log_k	0.0
+		NaX
+		NaX = Na+ + X- 
+		log_k	0.0
+		CaX2
+		CaX2 = Ca+2 + 2X- 
+		log_k	0.0
+		MgX2
+		MgX2 = Mg+2 + 2X- 
+		log_k	0.0
+		HX
+		HX = H+ + X-
+		log_k	0.0
+		KX
+		KX = K+ + X-
+		log_k	0.0
+		Mirabilite
+		Na2SO4:10H2O = 2Na+ + SO4-2 + 10H2O
+		log_k	0.0
+		Montmorillonite-Aberdeen        116
+		(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 + 9.16H2O + 0.84H+ = 0.14H+ + 0.14Na+ + 0.14K+ + 0.45Mg+2 + 0.33Fe+3 + 1.47Al(OH)4- + 3.82H4SiO4
+		log_k	-29.688
+		Montmorillonite-BelleFourche    115
+		(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 + 10H2O = 0.09H+ + 0.09Na+ + 0.09K+ + 0.29Mg+2 + 0.24Fe+3 + 1.57Al(OH)4- + 3.93H4SiO4
+		log_k	-34.913
+		CH2O
+		CH2O + H2O = CO2 + 4H+ + 4e-
+		log_k	0.0
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -1894,9 +1942,11 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 4.
+Reading input data for simulation 7.
 ------------------------------------
 
+	SELECTED_OUTPUT 101
+	    active true
 	SOLUTION 1 Site 404, background
 		units   mg/l
 		temp	19
@@ -1945,73 +1995,6 @@ Reading input data for simulation 4.
 		S(6)	3300
 		Si	96
 		Al	10
-	INVERSE_MODELING 1
-		solutions 1 2 3
-		uncertainty 0.05
-		phases
-			Calcite
-			CO2(g)
-			Gypsum
-			Albite		dis
-			O2(g)		dis
-			Gibbsite
-			Goethite
-			Dolomite	dis
-			MnOOH
-			Kaolinite
-			Chalcedony
-		multiple_precision
-		censor_mp 1e-20
-	PHASES
-		Halite
-		NaCl = Na+ + Cl-
-		log_k	0.0
-		Biotite
-		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
-		log_k	0.0
-		Plagioclase
-		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
-		log_k	0.0
-		H2O(g)
-		H2O = H2O
-		log_k	0.0
-		Brucite             19
-		Mg(OH)2 + 2H+ = Mg+2 + 2H2O 
-		log_k	16.84
-		delta_h	-27.1 kcal
-		Sylvite
-		KCl = K+ + Cl-
-		log_k	0.0
-		NaX
-		NaX = Na+ + X- 
-		log_k	0.0
-		CaX2
-		CaX2 = Ca+2 + 2X- 
-		log_k	0.0
-		MgX2
-		MgX2 = Mg+2 + 2X- 
-		log_k	0.0
-		HX
-		HX = H+ + X-
-		log_k	0.0
-		KX
-		KX = K+ + X-
-		log_k	0.0
-		Mirabilite
-		Na2SO4:10H2O = 2Na+ + SO4-2 + 10H2O
-		log_k	0.0
-		Montmorillonite-Aberdeen        116
-		(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 + 9.16H2O + 0.84H+ = 0.14H+ + 0.14Na+ + 0.14K+ + 0.45Mg+2 + 0.33Fe+3 + 1.47Al(OH)4- + 3.82H4SiO4
-		log_k	-29.688
-		Montmorillonite-BelleFourche    115
-		(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 + 10H2O = 0.09H+ + 0.09Na+ + 0.09K+ + 0.29Mg+2 + 0.24Fe+3 + 1.57Al(OH)4- + 3.93H4SiO4
-		log_k	-34.913
-		CH2O
-		CH2O + H2O = CO2 + 4H+ + 4e-
-		log_k	0.0
-		MnOOH
-		MnOOH + H2O = Mn+3 + 3OH-
-		log_k	0.0
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -2152,7 +2135,6 @@ Si            5.328e-04
   Hausmannite      -5.59     56.95   62.54  Mn3O4
   Manganite        -1.47     23.87   25.34  MnOOH
   Mirabilite       -9.85     -9.85    0.00  Na2SO4:10H2O
-  MnOOH           -44.63    -44.63    0.00  MnOOH
   O2(g)            -0.89     -3.73   -2.85  O2
   Pyrochroite      -5.98      9.22   15.20  Mn(OH)2
   Pyrolusite       -3.84     38.52   42.36  MnO2:H2O
@@ -2361,7 +2343,6 @@ Si            1.687e-03
   Manganite       -10.43     14.91   25.34  MnOOH
   Melanterite      -1.57     -3.87   -2.30  FeSO4:7H2O
   Mirabilite       -6.24     -6.24    0.00  Na2SO4:10H2O
-  MnOOH           -53.75    -53.75    0.00  MnOOH
   O2(g)            -1.94     -4.78   -2.84  O2
   Plagioclase       5.53      5.53    0.00  Na0.62Ca0.37Al1.38Si2.625O8
   Pyrochroite     -11.29      3.91   15.20  Mn(OH)2
@@ -2572,7 +2553,6 @@ Si            1.606e-03
   Manganite        -8.75     16.59   25.34  MnOOH
   Melanterite      -2.36     -4.65   -2.30  FeSO4:7H2O
   Mirabilite       -6.94     -6.94    0.00  Na2SO4:10H2O
-  MnOOH           -52.08    -52.08    0.00  MnOOH
   O2(g)            -1.88     -4.72   -2.84  O2
   Plagioclase       6.74      6.74    0.00  Na0.62Ca0.37Al1.38Si2.625O8
   Pyrochroite     -10.15      5.05   15.20  Mn(OH)2
@@ -2588,6 +2568,84 @@ Si            1.606e-03
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	    active false	
+	INVERSE_MODELING 1
+		solutions 1 2 3
+		uncertainty 0.05
+		phases
+			Calcite
+			CO2(g)
+			Gypsum
+			Albite		dis
+			O2(g)		dis
+			Gibbsite
+			Goethite
+			Dolomite	dis
+			MnOOH
+			Kaolinite
+			Chalcedony
+		multiple_precision
+		censor_mp 1e-20
+	PHASES
+		Halite
+		NaCl = Na+ + Cl-
+		log_k	0.0
+		Biotite
+		KMg3AlSi3O10(OH)2 + 6H+ + 4H2O = K+ + 3Mg+2 + Al(OH)4- + 3H4SiO4 
+		log_k	0.0
+		Plagioclase
+		Na0.62Ca0.37Al1.38Si2.625O8 + 5.5 H+ + 2.5H2O = 0.62Na+ + 0.37Ca+2 + 1.38Al+3 + 2.625H4SiO4
+		log_k	0.0
+		H2O(g)
+		H2O = H2O
+		log_k	0.0
+		Brucite             19
+		Mg(OH)2 + 2H+ = Mg+2 + 2H2O 
+		log_k	16.84
+		delta_h	-27.1 kcal
+		Sylvite
+		KCl = K+ + Cl-
+		log_k	0.0
+		NaX
+		NaX = Na+ + X- 
+		log_k	0.0
+		CaX2
+		CaX2 = Ca+2 + 2X- 
+		log_k	0.0
+		MgX2
+		MgX2 = Mg+2 + 2X- 
+		log_k	0.0
+		HX
+		HX = H+ + X-
+		log_k	0.0
+		KX
+		KX = K+ + X-
+		log_k	0.0
+		Mirabilite
+		Na2SO4:10H2O = 2Na+ + SO4-2 + 10H2O
+		log_k	0.0
+		Montmorillonite-Aberdeen        116
+		(HNaK)0.14Mg0.45Fe0.33Al1.47Si3.82O10(OH)2 + 9.16H2O + 0.84H+ = 0.14H+ + 0.14Na+ + 0.14K+ + 0.45Mg+2 + 0.33Fe+3 + 1.47Al(OH)4- + 3.82H4SiO4
+		log_k	-29.688
+		Montmorillonite-BelleFourche    115
+		(HNaK)0.09Mg0.29Fe0.24Al1.57Si3.93O10(OH)2 + 10H2O = 0.09H+ + 0.09Na+ + 0.09K+ + 0.29Mg+2 + 0.24Fe+3 + 1.57Al(OH)4- + 3.93H4SiO4
+		log_k	-34.913
+		CH2O
+		CH2O + H2O = CO2 + 4H+ + 4e-
+		log_k	0.0
+		MnOOH
+		MnOOH + H2O = Mn+3 + 3OH-
+		log_k	0.0
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -6021,9 +6079,11 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 5.
+Reading input data for simulation 9.
 ------------------------------------
 
+	SELECTED_OUTPUT 101
+	    active true
 	SOLUTION 1 Recharge number 3
 		units   mmol/kgw
 		temp	9.9
@@ -6061,62 +6121,6 @@ Reading input data for simulation 5.
 		log_k 0.0
 	SOLUTION_MASTER_SPECIES
 		Z	Z	0.0	1.	1.
-	INVERSE_MODELING 1
-		solutions 1 2 
-		uncertainty 0.05 0.01
-		minimal
-		range
-		balances
-			Na	0.05 0.1
-			Fe(2) 	1.0
-		phases
-			Calcite
-			Dolomite	dis
-			CH2O		dis
-			Goethite
-			Pyrite		pre
-			Anhydrite	dis
-			Anhydrite1	dis
-			HX
-			CaX2            pre	
-			NaX
-			Halite
-			Sylvite
-		multiple_precision
-	PHASES
-		Pyrite
-		FeS2Z0.156 + 2H+ + 2e- = Fe+2 + 2HS- + 0.156Z
-		log_k	0.0
-		Anhydrite
-		CaSO4Z0.120 = Ca+2 + SO4-2 + 0.120Z
-		log_k	0.0
-		Anhydrite1
-		CaSO4Z0.110 = Ca+2 + SO4-2 + 0.110Z
-		log_k	0.0
-		Halite
-		NaCl = Na+ + Cl-
-		log_k	0.0
-		Sylvite
-		KCl = K+ + Cl-
-		log_k	0.0
-		NaX
-		NaX = Na+ + X- 
-		log_k	0.0
-		CaX2
-		CaX2 = Ca+2 + 2X- 
-		log_k	0.0
-		MgX2
-		MgX2 = Mg+2 + 2X- 
-		log_k	0.0
-		HX
-		HX = H+ + X-
-		log_k	0.0
-		KX
-		KX = K+ + X-
-		log_k	0.0
-		CH2O
-		CH2O + H2O = CO2 + 4H+ + 4e-
-		log_k	0.0
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -6234,8 +6238,7 @@ Z             1.760e-05
 
   Phase               SI** log IAP   log K(283 K,   1 atm)
 
-  Anhydrite        -7.66     -7.66    0.00  CaSO4Z0.120
-  Anhydrite1       -7.61     -7.61    0.00  CaSO4Z0.110
+  Anhydrite        -2.97     -7.09   -4.12  CaSO4
   Aragonite        -0.20     -8.46   -8.25  CaCO3
   Brucite          -5.95     11.95   17.90  Mg(OH)2
   Calcite          -0.05     -8.46   -8.41  CaCO3
@@ -6382,8 +6385,7 @@ Z             2.330e-03
 
   Phase               SI** log IAP   log K(336 K,   1 atm)
 
-  Anhydrite        -5.13     -5.13    0.00  CaSO4Z0.120
-  Anhydrite1       -5.11     -5.11    0.00  CaSO4Z0.110
+  Anhydrite        -0.07     -4.82   -4.75  CaSO4
   Aragonite         0.20     -8.47   -8.67  CaCO3
   Brucite          -4.44     10.16   14.59  Mg(OH)2
   Calcite           0.32     -8.47   -8.79  CaCO3
@@ -6400,7 +6402,7 @@ Z             2.330e-03
   Melanterite      -8.06     -9.91   -1.85  FeSO4:7H2O
   Mirabilite       -5.53     -5.53    0.00  Na2SO4:10H2O
   O2(g)           -45.40    -48.47   -3.07  O2
-  Pyrite           -2.68     -2.68    0.00  FeS2Z0.156
+  Pyrite           15.27     -2.27  -17.54  FeS2
   Siderite         -2.46    -13.56  -11.10  FeCO3
   Sulfur            5.18      9.27    4.09  S
   Sylvite          -4.59     -4.59    0.00  KCl
@@ -6408,6 +6410,73 @@ Z             2.330e-03
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	SELECTED_OUTPUT 101
+	    active false	
+	INVERSE_MODELING 1
+		solutions 1 2 
+		uncertainty 0.05 0.01
+		minimal
+		range
+		balances
+			Na	0.05 0.1
+			Fe(2) 	1.0
+		phases
+			Calcite
+			Dolomite	dis
+			CH2O		dis
+			Goethite
+			Pyrite		pre
+			Anhydrite	dis
+			Anhydrite1	dis
+			HX
+			CaX2            pre	
+			NaX
+			Halite
+			Sylvite
+		multiple_precision
+	PHASES
+		Pyrite
+		FeS2Z0.156 + 2H+ + 2e- = Fe+2 + 2HS- + 0.156Z
+		log_k	0.0
+		Anhydrite
+		CaSO4Z0.120 = Ca+2 + SO4-2 + 0.120Z
+		log_k	0.0
+		Anhydrite1
+		CaSO4Z0.110 = Ca+2 + SO4-2 + 0.110Z
+		log_k	0.0
+		Halite
+		NaCl = Na+ + Cl-
+		log_k	0.0
+		Sylvite
+		KCl = K+ + Cl-
+		log_k	0.0
+		NaX
+		NaX = Na+ + X- 
+		log_k	0.0
+		CaX2
+		CaX2 = Ca+2 + 2X- 
+		log_k	0.0
+		MgX2
+		MgX2 = Mg+2 + 2X- 
+		log_k	0.0
+		HX
+		HX = H+ + X-
+		log_k	0.0
+		KX
+		KX = K+ + X-
+		log_k	0.0
+		CH2O
+		CH2O + H2O = CO2 + 4H+ + 4e-
+		log_k	0.0
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -6563,11 +6632,11 @@ Summary of inverse modeling:
 End of simulation.
 ------------------
 
-------------------------------------
-Reading input data for simulation 6.
-------------------------------------
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
 
 ------------------------------
-End of Run after 6.64 Seconds.
+End of Run after 6.58 Seconds.
 ------------------------------
 

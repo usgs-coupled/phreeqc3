@@ -1,6 +1,23 @@
 # Fraction of H2O in the gas phase of a H2O + CO2 mixture
 # Data from Spycher et al. 2003, GCA 67, 3015.
 DATABASE ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 y_H2O_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 #PRINT; -reset false
 SOLUTION 1
 REACTION 1

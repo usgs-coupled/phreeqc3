@@ -21,9 +21,25 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 saver_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	knobs
 		logfile
-		iterations 400
 	PRINT
 		status false
 	SURFACE 1-2
@@ -518,7 +534,7 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
-WARNING: Maximum iterations exceeded, 400
+WARNING: Maximum iterations exceeded, 100
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
@@ -3037,6 +3053,6 @@ Reading input data for simulation 4.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.99 Seconds.
+End of Run after 0.31 Seconds.
 ------------------------------
 

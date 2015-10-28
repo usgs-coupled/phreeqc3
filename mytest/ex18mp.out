@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 ex18mp_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	TITLE Example 18.--Inverse modeling of Madison aquifer
 	SOLUTION 1 Recharge number 3
 	        units   mmol/kgw
@@ -56,40 +73,6 @@ Reading input data for simulation 1.
 	        isotope      13C     -2.3    0.2   
 	        isotope      34S(6)  16.3    1.5   
 	        isotope      34S(-2) -22.1   7     
-	INVERSE_MODELING 1
-	        solutions 1 2 
-	        uncertainty 0.05
-	        range
-	        isotopes
-	                13C
-	                34S
-	        balances
-	                Fe(2)   1.0
-	                ph      0.1
-	        phases
-	                Dolomite        dis     13C     3.0     2
-	                Calcite         pre     13C     -1.5    1
-	                Anhydrite       dis     34S     13.5    2
-	                CH2O            dis     13C     -25.0   5
-	                Goethite
-	                Pyrite          pre     34S     -22.    2
-	                CaX2            pre
-	                Ca.75Mg.25X2    pre
-	                MgX2            pre
-	                NaX
-	                Halite
-	                Sylvite
-		multiple_precision
-	PHASES
-	   Sylvite
-	        KCl = K+ + Cl-
-	        log_k  0.0
-	   CH2O
-	        CH2O + H2O = CO2 + 4H+ + 4e-
-	        log_k  0.0
-	EXCHANGE_SPECIES
-	        0.75Ca+2 + 0.25Mg+2 + 2X- = Ca.75Mg.25X2
-	        log_k   0.0
 	END
 -----
 TITLE
@@ -213,7 +196,6 @@ S(6)          1.600e-04
   Anhydrite        -2.97     -7.09   -4.12  CaSO4
   Aragonite        -0.20     -8.46   -8.25  CaCO3
   Calcite          -0.05     -8.46   -8.41  CaCO3
-  CH2O            -33.73    -33.73    0.00  CH2O
   CO2(g)           -2.26     -3.53   -1.27  CO2
   Dolomite         -0.27    -16.99  -16.72  CaMg(CO3)2
   Gypsum           -2.50     -7.09   -4.59  CaSO4:2H2O
@@ -223,7 +205,7 @@ S(6)          1.600e-04
   Melanterite      -7.87    -10.28   -2.41  FeSO4:7H2O
   O2(g)           -58.39    -61.15   -2.76  O2
   Siderite         -0.86    -11.66  -10.79  FeCO3
-  Sylvite          -9.47     -9.47    0.00  KCl
+  Sylvite         -10.29     -9.47    0.82  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -355,7 +337,6 @@ S(6)          1.986e-02
   Anhydrite        -0.07     -4.82   -4.75  CaSO4
   Aragonite         0.20     -8.47   -8.67  CaCO3
   Calcite           0.32     -8.47   -8.79  CaCO3
-  CH2O            -14.59    -14.59    0.00  CH2O
   CO2(g)           -0.94     -2.74   -1.80  CO2
   Dolomite          0.38    -17.49  -17.87  CaMg(CO3)2
   FeS(ppt)         -1.03     -4.94   -3.92  FeS
@@ -370,11 +351,56 @@ S(6)          1.986e-02
   Pyrite            7.98     -9.57  -17.54  FeS2
   Siderite         -2.47    -13.56  -11.10  FeCO3
   Sulfur           -2.12      1.98    4.09  S
-  Sylvite          -4.59     -4.59    0.00  KCl
+  Sylvite          -5.66     -4.59    1.07  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 101
+	     active false
+	INVERSE_MODELING 1
+	        solutions 1 2 
+	        uncertainty 0.05
+	        range
+	        isotopes
+	                13C
+	                34S
+	        balances
+	                Fe(2)   1.0
+	                ph      0.1
+	        phases
+	                Dolomite        dis     13C     3.0     2
+	                Calcite         pre     13C     -1.5    1
+	                Anhydrite       dis     34S     13.5    2
+	                CH2O            dis     13C     -25.0   5
+	                Goethite
+	                Pyrite          pre     34S     -22.    2
+	                CaX2            pre
+	                Ca.75Mg.25X2    pre
+	                MgX2            pre
+	                NaX
+	                Halite
+	                Sylvite
+		multiple_precision
+	PHASES
+	   Sylvite
+	        KCl = K+ + Cl-
+	        log_k  0.0
+	   CH2O
+	        CH2O + H2O = CO2 + 4H+ + 4e-
+	        log_k  0.0
+	EXCHANGE_SPECIES
+	        0.75Ca+2 + 0.25Mg+2 + 2X- = Ca.75Mg.25X2
+	        log_k   0.0
+	END
 ---------------------------------------------
 Beginning of inverse modeling 1 calculations.
 ---------------------------------------------
@@ -560,7 +586,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
 ------------------------------

@@ -1,4 +1,21 @@
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 ex18mp_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 TITLE Example 18.--Inverse modeling of Madison aquifer
 SOLUTION 1 Recharge number 3
         units   mmol/kgw
@@ -34,6 +51,9 @@ SOLUTION 2 Mysse
         -i      13C     -2.3    0.2   
         -i      34S(6)  16.3    1.5   
         -i      34S(-2) -22.1   7     
+END
+SELECTED_OUTPUT 101
+     -active false
 INVERSE_MODELING 1
         -solutions 1 2 
         -uncertainty 0.05

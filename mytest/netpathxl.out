@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 netpathxl_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	SOLUTION_SPREAD
 	 Number	                                     Description	 Units	 Redox	   Temp	    pH	 pe	       Ca	       Mg	        Na	       K	        Cl	   S(6)	   Alkalinity	         C(4)	    Fe	    Mn	    Al	     F	      Si	      Br	     I	     Ba	    Li	      Sr	   N(5)	  N(-3)	    P	 O(0)	 S(-2)	 N(0)	  C(-4)	     13C	     14C	 34S(6)	 34S(-2)	      2H	 3H	    18O	 87Sr	 15N(0)	 15N(5)	 15N(-3)	 15N(3)	 Density
 	      	                                                	      	      	       	      	   	    as Ca	    as Mg	     as Na	    as K	     as Cl	 as SO4	 gfw 50.04289	 gfw 50.04289	 as Fe	 as Mn	 as Al	  as F	 as SiO2	   as Br	  as I	  as Ba	 as Li	   as Sr	   as N	   as N	 as P	 as O	  as S	 as N	 as CH4	        	        	       	        	        	   	       	     	       	       	        	       	        
@@ -5635,6 +5652,8 @@ End of simulation.
 Reading input data for simulation 4.
 ------------------------------------
 
+	SELECTED_OUTPUT 101
+			active false
 	INVERSE_MODELING 1 Vendome Well
 	    lon_netpath Vendome
 	    pat_netpath Vendome
@@ -5853,6 +5872,6 @@ Reading input data for simulation 5.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.11 Seconds.
+End of Run after 0.12 Seconds.
 ------------------------------
 

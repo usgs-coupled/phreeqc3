@@ -1,5 +1,22 @@
 DATABASE ../database/phreeqc.dat
 #DATABASE phreeqd.dat
+SELECTED_OUTPUT 101
+    -file                 sc1_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 #KNOBS; -iter 400
 SURFACE_MASTER_SPECIES; Su_a Su_a; Su_b Su_b
 SURFACE_SPECIES; Su_a = Su_a; log_k 0; Su_b = Su_b; log_k 0

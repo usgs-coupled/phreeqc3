@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 ddl_flux_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	SOLUTION_MASTER_SPECIES
 	Hto     Hto             0.0     1       1
 	Na_tr   Na_tr+          0.0     1       1
@@ -901,7 +918,7 @@ WARNING: Negative concentration in MCD: added 3.903e-05 moles Sr_tr in cell 5
 WARNING: Negative concentration in MCD: added 1.9e-07 moles Na_tr in cell 5.
 WARNING: Negative concentration in MCD: added 1.1e-07 moles Na_tr in cell 7.
 WARNING: Negative concentration in MCD: added 2.5e-05 moles Sr_tr in cell 7.
-------------------------------
-End of Run after 6.07 Seconds.
-------------------------------
+-----------------------------
+End of Run after 6.1 Seconds.
+-----------------------------
 

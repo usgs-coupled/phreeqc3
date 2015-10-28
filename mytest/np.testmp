@@ -1,4 +1,21 @@
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 np.testmp_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 x = MU
+20 GOSUB 1000
+30 PUNCH STR_F$(round, 12, 9)
+110 x = SC
+120 GOSUB 1000
+130 PUNCH STR_F$(round, 12, 3)
+999 END
+1000 REM Rounding function 
+1010 str_exp$ = STR_E$(x, 10, 3)
+1020 round = VAL(str_exp$)
+1040 RETURN
+    -end
 knobs
 	-log
 PRINT
@@ -28,7 +45,9 @@ SOLUTION 2
 	Alkalinity	0.895
 	S(6)		0.025
 	Cl		0.03
-	
+END
+SELECTED_OUTPUT 101
+    -active false	
 INVERSE_MODELING 1
 	-solutions 1 2
 	-uncertainty 0.05
@@ -71,6 +90,8 @@ PHASES
 	CaX2 = Ca+2 + 2X- 
 	-log_k	0.0
 END
+SELECTED_OUTPUT 101
+    -active true	
 #
 #   Great Salt Lake, problem 2
 #
@@ -95,6 +116,9 @@ SOLUTION 2 Lake
 	S(6)	291.427
 	C(4)	6.304
 	Si	0.5
+END
+SELECTED_OUTPUT 101
+    -active false	
 	
 INVERSE_MODELING 1
 	-solutions 1 2
@@ -172,6 +196,8 @@ PHASES
 	-log_k	-34.913	
 
 END
+SELECTED_OUTPUT 101
+    -active true	
 #
 #   Coastal Plain, problem 3
 #
@@ -207,7 +233,9 @@ SOLUTION 2
 #	Fe(3)   0.001
 #	C(-4)   0.001
 #	S(-2) 	0.001
-
+END
+SELECTED_OUTPUT 101
+    -active false	
 INVERSE_MODELING 1
 	-solutions 1 2
 	-uncertainty 0.03
@@ -297,6 +325,8 @@ PHASES
 	-log_k	0.0
 
 END
+SELECTED_OUTPUT 101
+    -active true
 #
 #   Pinal Ck, problem 4
 #
@@ -348,6 +378,9 @@ SOLUTION 3 Site 402, final water
 	S(6)	3300
 	Si	96
 	Al	10
+END
+SELECTED_OUTPUT 101
+    -active false	
 
 INVERSE_MODELING 1
 	-solutions 1 2 3
@@ -440,6 +473,8 @@ PHASES
 	-log_k	0.0
 
 END
+SELECTED_OUTPUT 101
+    -active true
 #
 #   Madison Aquifer, problem 6
 #
@@ -482,6 +517,9 @@ SOLUTION_SPECIES
 
 SOLUTION_MASTER_SPECIES
 	Z	Z	0.0	1.	1.
+END
+SELECTED_OUTPUT 101
+    -active false	
 
 INVERSE_MODELING 1
 	-solutions 1 2 

@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/Amm.dat
+	SELECTED_OUTPUT 101
+	    file                 densities_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	SOLUTION_SPREAD
 	    temp 10.5          # The temperature (Celsius) that is given to samples with undefined temperature. Default: 25 oC.
 	    ph 7.0           # idem for pH
@@ -15539,6 +15556,6 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.18 Seconds.
+End of Run after 0.19 Seconds.
 ------------------------------
 

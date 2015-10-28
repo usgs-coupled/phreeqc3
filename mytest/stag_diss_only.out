@@ -23,6 +23,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/llnl.dat
+	SELECTED_OUTPUT 101
+	    file                 stag_diss_only_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	PHASES
 	Hydrotalcite
 	    Mg4Al2(OH)14(H2O)3 + 14H+ = 2Al+3 + 17H2O + 4Mg+2
@@ -41,6 +58,6 @@ Reading input data for simulation 1.
 WARNING: No cell-lengths were read; length = 1 m assumed.
 WARNING: No dispersivities were read; disp = 0 assumed.
 ------------------------------
-End of Run after 0.33 Seconds.
+End of Run after 0.35 Seconds.
 ------------------------------
 

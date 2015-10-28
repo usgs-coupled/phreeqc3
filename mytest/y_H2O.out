@@ -21,6 +21,23 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/Amm.dat
+	SELECTED_OUTPUT 101
+	    file                 y_H2O_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 x = MU
+	20 GOSUB 1000
+	30 PUNCH STR_F$(round, 12, 9)
+	110 x = SC
+	120 GOSUB 1000
+	130 PUNCH STR_F$(round, 12, 3)
+	999 END
+	1000 REM Rounding function 
+	1010 str_exp$ = STR_E$(x, 10, 3)
+	1020 round = VAL(str_exp$)
+	1040 RETURN
+	    end
 	SOLUTION 1
 	REACTION 1
 	 CO2 1
@@ -7614,7 +7631,7 @@ End of simulation.
 Reading input data for simulation 4.
 ------------------------------------
 
------------------------------
-End of Run after 0.1 Seconds.
------------------------------
+------------------------------
+End of Run after 0.11 Seconds.
+------------------------------
 
