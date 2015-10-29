@@ -28,6 +28,7 @@ echo Testing %1
 move %1_101.sel %1_101.sel.expected > NUL
 ..\x64\Release\phreeqc %1 %1.out xxx %1.log
 diff %1_101.sel %1_101.sel.expected > %1.diff
+reldiff %1
 if %ERRORLEVEL% NEQ 0 (
   echo "  FAILED"
   set failed=1
