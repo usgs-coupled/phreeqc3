@@ -223,19 +223,18 @@ all: alkalinity.out \
 	spread_redox.out \
 	raw.out \
 	ppdump.out \
-	errorinp.out \
 	diel.out \
 	H_K.out \
 	Sat_P_rho.out \
 	densities.out \
 	cc_P.out \
 	CH4_conc_PR_IS.out \
-	CO2_4M_NaCl.out \
 	CO2_anal.out \
 	CO2_conc_PR_EQ.out \
 	CO2_conc_PR_GP.out \
 	CO2_conc_PR_IS.out \
 	CO2_K_H.out \
+	CO2_4M_NaCl.out \
 	CO2_Na2SO4.out \
 	co2_t30.out \
 	co2_tc.out \
@@ -270,8 +269,6 @@ all: alkalinity.out \
 	cc_P0.out \
 	cc_P2.out \
 	cc_P3.out \
-	CO2_4M_NaCl.out \
-	CO2_Na2SO4.out \
 	co2_t30.out \
 	co2_tc.out \
 	evap_sea.out \

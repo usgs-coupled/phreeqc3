@@ -1,5 +1,13 @@
 # data from Villafafila Garcia, 2005, PhD thesis Lyngby DK, fig. 5-3
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 co2_tc_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION_SPECIES
 CO3-2 + 2 H+ = CO2 + H2O
 	log_k	16.681

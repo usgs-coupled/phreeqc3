@@ -1,5 +1,13 @@
 # Halite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
 DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 NaCl_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 INCLUDE$ Pabalan.dat
 # DATABASE c:\phreeqc\database\llnl.dat
 # DATABASE c:\phreeqc\database\pitzer.dat

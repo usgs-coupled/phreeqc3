@@ -1,6 +1,14 @@
 # Compare expt data of O2 solubility at high O2 pressure and
 #   Peng-Robinson calc's with initial solution equilibria.
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 O2_conc_PR_IS_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION 1
 # SOLUTION_SPECIES
 # 2 H2O = O2 + 4 H+ + 4 e-

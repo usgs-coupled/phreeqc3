@@ -1,6 +1,14 @@
 # Compare expt data of N2 solubility at high N2 pressure and
 #   Peng-Robinson calc's with initial solution equilibria.
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 N2_conc_PR_IS_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 
 SOLUTION 1
 N 1 N2(g) 1.4

@@ -1,5 +1,13 @@
 # data from Duan and Li, 2008, GCA 72, 5128
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 cc_P3_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION_SPECIES
 Ca+2 + CO3-2 + H+ = CaHCO3+
 	log_k	-100 # remove this complex, data from Ellis, 1963 and Segnit et al. 1962.

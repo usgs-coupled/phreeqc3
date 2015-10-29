@@ -21,6 +21,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 cc_P0_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION 1
 	 pH 7 charge
 	EQUILIBRIUM_PHASES

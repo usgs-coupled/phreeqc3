@@ -1,6 +1,14 @@
 # Peng-Robinson gives different phi's in mixtures than
 # in pure gas
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 PR_equil2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION 1
 C(-4) 1 CH4(g) 2 # equilibrium with a pure gas
  C(4) 1 CO2(g) 2

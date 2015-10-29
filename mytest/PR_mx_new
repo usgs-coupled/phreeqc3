@@ -1,6 +1,14 @@
 # Add CO2, N2, CH4 to a fixed_volume gas_phase
 # # Plot and calculate fugacity coeff's and pressures
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 PR_mx_new_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION 1
 GAS_PHASE 1
  -fixed_volume

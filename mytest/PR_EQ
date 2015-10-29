@@ -1,5 +1,13 @@
 # Peng-Robinson via equilibrium_phases.
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 PR_EQ_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION 0
  pH 7 charge
  N 1 N2(g) -0.1
