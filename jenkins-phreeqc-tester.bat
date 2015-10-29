@@ -7,7 +7,7 @@ set PATH=%PATH%;%PATH_DIFF%
 
 cd mytest
 
-REM sed -i -e "s/8.0/7.0/g" alkalinity
+sed -i -e "s/8.0/7.0/g" alkalinity
 
 REM move alkalinity_101.sel alkalinity_101.sel.expected
 REM ..\x64\Release\phreeqc alkalinity alkalinity.out xxx alkalinity.log
