@@ -23,7 +23,7 @@ move %1_101.sel %1_101.sel.expected > NUL
 ..\x64\Release\phreeqc %1 %1.out xxx %1.log
 diff %1_101.sel %1_101.sel.expected > %1.diff
 SET FILESIZE=%~z1
-FOR %I in (%1.diff) do SET FILESIZE=%~zI
+FOR %%i in (%1.diff) do SET FILESIZE=%%~zi
 echo %FILESIZE%
 reldiff %1
 if %ERRORLEVEL% NEQ 0 (
