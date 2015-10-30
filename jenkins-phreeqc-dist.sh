@@ -139,15 +139,15 @@ echo "     executable's revision: $REVISION_SVN"
 echo "     constructed from path: /$REPOS_PATH"
 echo "              release date: $RELEASE_DATE"
 
-rm -rf "$DIST_SANDBOX"
-mkdir "$DIST_SANDBOX"
-echo "Removed and recreated $DIST_SANDBOX"
+# rm -rf "$DIST_SANDBOX"
+# mkdir "$DIST_SANDBOX"
+# echo "Removed and recreated $DIST_SANDBOX"
 
-echo "Exporting revision $REVISION of phreeqc into sandbox..."
-(cd "$DIST_SANDBOX" && \
- 	${SVN:-svn} export -q $EXTRA_EXPORT_OPTIONS --ignore-externals -r "$REVISION" \
-	     "http://internalbrr.cr.usgs.gov/svn_GW/phreeqc3/$REPOS_PATH" \
-	     "$DISTNAME")
+# echo "Exporting revision $REVISION of phreeqc into sandbox..."
+# (cd "$DIST_SANDBOX" && \
+#  	${SVN:-svn} export -q $EXTRA_EXPORT_OPTIONS --ignore-externals -r "$REVISION" \
+# 	     "http://internalbrr.cr.usgs.gov/svn_GW/phreeqc3/$REPOS_PATH" \
+# 	     "$DISTNAME")
 
 ver_major=`echo $VERSION | cut -d '.' -f 1`
 ver_minor=`echo $VERSION | cut -d '.' -f 2`
@@ -191,46 +191,46 @@ mv $DISTPATH/doc/README.Phreeqc.TXT    $DISTPATH/doc/README
 mv $DISTPATH/doc/NOTICE.TXT            $DISTPATH/doc/NOTICE
 mv $DISTPATH/HTMLversion/phreeqc3.chm  $DISTPATH/doc/phreeqc3.chm                
 
-if [ -n "$WIN" ]; then
-  echo "Rolling $DISTNAME.zip ..."
-  (cd "$DIST_SANDBOX" > /dev/null && zip -q -r - "$DISTNAME") > \
-  "$DISTNAME.zip"
+# if [ -n "$WIN" ]; then
+#   echo "Rolling $DISTNAME.zip ..."
+#   (cd "$DIST_SANDBOX" > /dev/null && zip -q -r - "$DISTNAME") > \
+#   "$DISTNAME.zip"
 
-  echo "Removing sandbox..."
-  rm -rf "$DIST_SANDBOX"
+#   echo "Removing sandbox..."
+#   rm -rf "$DIST_SANDBOX"
 
-  echo ""
-  echo "Done:"
-  ls -l "$DISTNAME.zip"
-  echo ""
-  echo "md5sums:"
-  md5sum "$DISTNAME.zip"
-  type sha1sum > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    echo ""
-    echo "sha1sums:"
-    sha1sum "$DISTNAME.zip"
-  fi
-else
-  echo "Rolling $DISTNAME.tar ..."
-  (cd "$DIST_SANDBOX" > /dev/null && tar c "$DISTNAME") > \
-  "$DISTNAME.tar"
+#   echo ""
+#   echo "Done:"
+#   ls -l "$DISTNAME.zip"
+#   echo ""
+#   echo "md5sums:"
+#   md5sum "$DISTNAME.zip"
+#   type sha1sum > /dev/null 2>&1
+#   if [ $? -eq 0 ]; then
+#     echo ""
+#     echo "sha1sums:"
+#     sha1sum "$DISTNAME.zip"
+#   fi
+# else
+#   echo "Rolling $DISTNAME.tar ..."
+#   (cd "$DIST_SANDBOX" > /dev/null && tar c "$DISTNAME") > \
+#   "$DISTNAME.tar"
 
-  echo "Compressing to $DISTNAME.tar.gz ..."
-  gzip -9f "$DISTNAME.tar"
-  echo "Removing sandbox..."
-  rm -rf "$DIST_SANDBOX"
+#   echo "Compressing to $DISTNAME.tar.gz ..."
+#   gzip -9f "$DISTNAME.tar"
+#   echo "Removing sandbox..."
+#   rm -rf "$DIST_SANDBOX"
 
-  echo ""
-  echo "Done:"
-  ls -l "$DISTNAME.tar.gz"
-  echo ""
-  echo "md5sums:"
-  md5sum "$DISTNAME.tar.gz"
-  type sha1sum > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    echo ""
-    echo "sha1sums:"
-    sha1sum "$DISTNAME.tar.gz"
-  fi
-fi
+#   echo ""
+#   echo "Done:"
+#   ls -l "$DISTNAME.tar.gz"
+#   echo ""
+#   echo "md5sums:"
+#   md5sum "$DISTNAME.tar.gz"
+#   type sha1sum > /dev/null 2>&1
+#   if [ $? -eq 0 ]; then
+#     echo ""
+#     echo "sha1sums:"
+#     sha1sum "$DISTNAME.tar.gz"
+#   fi
+# fi
