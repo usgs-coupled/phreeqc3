@@ -22,12 +22,13 @@ echo Testing %1
 move %1_101.sel %1_101.sel.expected > NUL
 ..\x64\Release\phreeqc %1 %1.out xxx %1.log
 diff %1_101.sel %1_101.sel.expected > %1.diff
-SET FILESIZE=%~z1
-FOR %%i in (%1.diff) do SET FILESIZE=%%~zi
-echo %FILESIZE%
+for %%i in (%1.diff) do set FILESIZE=%%~zi
+if %FILESIZE% EQ 0 (
+  del %1.diff
+)
 reldiff %1
 if %ERRORLEVEL% NEQ 0 (
-  echo "  FAILED"
+  echo   FAILED
   set failed=1
 )
 goto :EOF
