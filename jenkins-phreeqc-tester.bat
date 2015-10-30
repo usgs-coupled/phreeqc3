@@ -23,7 +23,7 @@ move %1_101.sel %1_101.sel.expected > NUL
 ..\x64\Release\phreeqc %1 %1.out xxx %1.log
 diff %1_101.sel %1_101.sel.expected > %1.diff
 for %%i in (%1.diff) do set FILESIZE=%%~zi
-if %FILESIZE% EQ 0 (
+if %FILESIZE% EQU 0 (
   del %1.diff
 )
 reldiff %1
