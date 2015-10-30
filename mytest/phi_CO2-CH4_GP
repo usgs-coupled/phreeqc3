@@ -1,5 +1,13 @@
 # Calculate phi_CO2 with P_Mtg at 25, 50, 100 oC.
 DATABASE ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 phi_CO2-CH4_GP_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 #PRINT; -reset false; -user_print true
 #KNOBS; -iter 4000; #-diagonal_scale true; -tolerance 1e-19; -step_size 10; -pe_step_size 5 # aids convergence
 SOLUTION 1 pH 7 charge

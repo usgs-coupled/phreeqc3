@@ -21,6 +21,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/wateq4f.dat
+	SELECTED_OUTPUT 101
+	    file                 lkspecies_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION_MASTER_SPECIES
 	SOLUTION_SPECIES # The reaction below just repeats what is in WATEQ4F
 	        NO3- + 2H+ + 2e- = NO2- + H2O 
@@ -34,6 +42,6 @@ Reading input data for simulation 1.
 LOG10(K) =  -2.8570e+01 
 
 ------------------------------
-End of Run after 0.03 Seconds.
+End of Run after 0.04 Seconds.
 ------------------------------
 

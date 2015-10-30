@@ -1,6 +1,14 @@
 #database ../database/SUPERPHREEQC72.dat
 database ../database/frezchem.dat
 #database ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 toner_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 
 PITZER
 -MacInnes   false

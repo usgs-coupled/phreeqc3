@@ -269,13 +269,8 @@ all: alkalinity.out \
 	cc_P0.out \
 	cc_P2.out \
 	cc_P3.out \
-	co2_t30.out \
-	co2_tc.out \
 	evap_sea.out \
-	gypsum_P.out \
-	gypsum_P2.out \
 	halite.out \
-	P_CO2_Na2SO4.out \
 	seaw_anhyd.out \
 	SrSO4_P.out \
 	SrSO4_tc.out \

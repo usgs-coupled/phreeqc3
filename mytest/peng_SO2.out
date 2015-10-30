@@ -21,6 +21,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 peng_SO2_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION_MASTER_SPECIES
 	A	A	0.	A	1. # for SO2
 	SOLUTION_SPECIES
@@ -86,6 +94,6 @@ WARNING: Numerical method failed with this set of convergence parameters.
 WARNING: Trying smaller step size, pe step size 10, 5 ... 
 
 ------------------------------
-End of Run after 0.04 Seconds.
+End of Run after 0.05 Seconds.
 ------------------------------
 

@@ -1,5 +1,13 @@
 #DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 Vm0_tc_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 #PRINT; -reset false; -user_print true
 SOLUTION 1
  Na 1e-5; K 1e-5; Mg 1e-5; Ca 1e-5; Sr 1e-5; Ba 1e-5

@@ -21,6 +21,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	database ../database/phreeqc.dat # contains Dw's since version 2.17
+	SELECTED_OUTPUT 101
+	    file                 co2_VP_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION 1
 	temp 25 # 40.09
 	REACTION 1

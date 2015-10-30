@@ -1,5 +1,13 @@
 # compare pKw from Bandura and Lvov with PHREEQC
 DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 pKw_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION 1; pH 7 charge
 END
  

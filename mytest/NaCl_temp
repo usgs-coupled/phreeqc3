@@ -1,6 +1,14 @@
 # Halite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
 #DATABASE c:\phreeqc\database\pitzer.dat
 DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 NaCl_temp_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 PITZER
 -B0;  Na+  Cl-  7.552E-2  0  1.518  -6.257E-3  3.052E-6
 -B1;  Na+  Cl-  0.2771  -819.8  -5.793  1.358e-2  -4.281e-6

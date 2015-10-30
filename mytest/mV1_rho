@@ -1,6 +1,14 @@
 #[ Plot molar volumes at "infinite" dilution
 #]
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 mV1_rho_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 #PRINT; -reset false; -user_print true
 REACTION_TEMPERATURE 1
  0 230 in 21

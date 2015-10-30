@@ -1,6 +1,14 @@
 # Mirabilite/Thenardite solubility f(T), from Pabalan & Pitzer, 1987, GCA 51, 2429
 # gamma's for SO4-2 optimized on Holmes and Mesmer
 DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 Na2SO4_phr_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION_SPECIES
 SO4-2 = SO4-2;	-gamma	     2.6878744E+00    -1.9968622E-01
 Na+ + SO4-2 = NaSO4-; -log_k -1e5

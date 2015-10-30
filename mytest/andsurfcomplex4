@@ -1,6 +1,14 @@
 DATABASE ../database/phreeqc.dat
 # DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.6-7757\database\phreeqc.dat
 # DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.0.6-7757\database\phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 andsurfcomplex4_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 TITLE Example 22.--Compare experimental CO2 solubilities at high CO2 pressure 
    with Peng-Robinson calc'ns with fixed-volume gas_phase, 39.
 SURFACE_MASTER_SPECIES

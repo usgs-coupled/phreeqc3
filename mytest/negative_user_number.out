@@ -21,6 +21,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	database ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 negative_user_number_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION 0-2
 	SOLUTION 3
 	 water 1.20637158e+000
@@ -605,6 +613,8 @@ Reading input data for simulation 3.
 		step_size      1.000e+02
 		pe_step_size      1.000e+01
 		diagonal_scale      false
+	SELECTED_OUTPUT 101
+		file  sel_o$$$101.prn
 	TRANSPORT
 		cells      1
 		shifts     1     0
