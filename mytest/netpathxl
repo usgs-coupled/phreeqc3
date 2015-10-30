@@ -5,17 +5,8 @@ SELECTED_OUTPUT 101
 USER_PUNCH 101
     -headings Mu SC
     -start
-10 x = MU
-20 GOSUB 1000
-30 PUNCH STR_F$(round, 12, 9)
-110 x = SC
-120 GOSUB 1000
-130 PUNCH STR_F$(round, 12, 3)
-999 END
-1000 REM Rounding function 
-1010 str_exp$ = STR_E$(x, 10, 3)
-1020 round = VAL(str_exp$)
-1040 RETURN
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
     -end
 SOLUTION_SPREAD
  Number	                                     Description	 Units	 Redox	   Temp	    pH	 pe	       Ca	       Mg	        Na	       K	        Cl	   S(6)	   Alkalinity	         C(4)	    Fe	    Mn	    Al	     F	      Si	      Br	     I	     Ba	    Li	      Sr	   N(5)	  N(-3)	    P	 O(0)	 S(-2)	 N(0)	  C(-4)	     13C	     14C	 34S(6)	 34S(-2)	      2H	 3H	    18O	 87Sr	 15N(0)	 15N(5)	 15N(-3)	 15N(3)	 Density

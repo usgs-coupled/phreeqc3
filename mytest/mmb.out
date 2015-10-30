@@ -26,17 +26,8 @@ Reading input data for simulation 1.
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
-	10 x = MU
-	20 GOSUB 1000
-	30 PUNCH STR_F$(round, 12, 9)
-	110 x = SC
-	120 GOSUB 1000
-	130 PUNCH STR_F$(round, 12, 3)
-	999 END
-	1000 REM Rounding function 
-	1010 str_exp$ = STR_E$(x, 10, 3)
-	1020 round = VAL(str_exp$)
-	1040 RETURN
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
 	    end
 	USER_PRINT
 	 start
@@ -428,6 +419,6 @@ EB =   9.3457e-08 total water   9.9998e-01   5.8612e+00 Na =   9.9583e-04 Cl =  
 sys_Ca =   2.0981e-05 a_Ca =   6.9653e-10 a_Na =   9.6120e-04 
 
 ------------------------------
-End of Run after 7.35 Seconds.
+End of Run after 7.42 Seconds.
 ------------------------------
 

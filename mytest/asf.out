@@ -26,16 +26,11 @@ Reading input data for simulation 1.
 	SELECTED_OUTPUT 101
 	    file                 asf_101.sel
 	USER_PUNCH 101
-	    headings Mu
+	    headings Mu SC
 	    start
-	10 x = MU
-	20 GOSUB 1000
-	30 END
-	1000 REM Rounding function 
-	1010 str_exp$ = STR_E$(x, 10, 3)
-	1020 round = VAL(str_exp$)
-	1030 PUNCH STR_F$(round, 12, 9)
-	1040 RETURN
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION_SPECIES
 	1.0000 H2AsO4- + 1.0000 H+ + 1.0000 F-  =  HAsO3F- +1.0000 H2O
 	        llnl_gamma           4.0    
@@ -28336,6 +28331,6 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.56 Seconds.
+End of Run after 0.54 Seconds.
 ------------------------------
 

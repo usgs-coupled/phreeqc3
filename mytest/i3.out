@@ -26,17 +26,8 @@ Reading input data for simulation 1.
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
-	10 x = MU
-	20 GOSUB 1000
-	30 PUNCH STR_F$(round, 12, 8)
-	110 x = SC
-	120 GOSUB 1000
-	130 PUNCH STR_F$(round, 12, 2)
-	999 END
-	1000 REM Rounding function 
-	1010 str_exp$ = STR_E$(x, 10, 2)
-	1020 round = VAL(str_exp$)
-	1040 RETURN
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
 	    end
 	SOLUTION_MASTER_SPECIES
 	 A A 0 A 1
@@ -320,7 +311,7 @@ WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying reduced tolerance 1e-16 ...
 
-------------------------------
-End of Run after 0.31 Seconds.
-------------------------------
+-----------------------------
+End of Run after 0.3 Seconds.
+-----------------------------
 

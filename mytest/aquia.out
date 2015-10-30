@@ -21,6 +21,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 aquia_101.sel
+	USER_PUNCH 101
+	    headings Mu
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	EXCHANGE_SPECIES
 	  H+ + X- = HX
 	 log_k 3.0
@@ -53,6 +61,8 @@ Beginning of initial solution calculations.
 -------------------------------------------
 
 Initial solution 0.	
+
+WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
 -----------------------------Solution composition------------------------------
 
@@ -1014,6 +1024,6 @@ WARNING: Maximum iterations exceeded, 100
 WARNING: Numerical method failed with this set of convergence parameters.
 
 -------------------------------
-End of Run after 35.94 Seconds.
+End of Run after 36.24 Seconds.
 -------------------------------
 

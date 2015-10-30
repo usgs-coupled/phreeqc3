@@ -22,6 +22,14 @@ Reading input data for simulation 1.
 
 	DATABASE ../database/phreeqc.dat
 	TITLE Example 1.--Molybdophosphate speciation in catalysis.
+	SELECTED_OUTPUT 101
+	    file                 aj1_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION 1  Molybdophosphate speciation profile.
 			units   mmol/l
 			pH      1.00

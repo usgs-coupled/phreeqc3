@@ -26,26 +26,9 @@ Reading input data for simulation 1.
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
-	10 x = MU
-	20 GOSUB 1000
-	30 PUNCH STR_F$(round, 12, 9)
-	110 x = SC
-	120 GOSUB 1000
-	130 PUNCH STR_F$(round, 12, 3)
-	999 END
-	1000 REM Rounding function 
-	1010 str_exp$ = STR_E$(x, 10, 3)
-	1020 round = VAL(str_exp$)
-	1040 RETURN
-	END
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 2.
-------------------------------------
-
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION 10 Test solution
 	    temp      25
 	    pH        7
@@ -179,7 +162,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 3.
+Reading input data for simulation 2.
 ------------------------------------
 
 	SURFACE 1
@@ -193,7 +176,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 4.
+Reading input data for simulation 3.
 ------------------------------------
 
 	EQUILIBRIUM_PHASES  1
@@ -204,7 +187,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 5.
+Reading input data for simulation 4.
 ------------------------------------
 
 	SOLID_SOLUTION 1
@@ -254,7 +237,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 6.
+Reading input data for simulation 5.
 ------------------------------------
 
 	KINETICS
@@ -270,7 +253,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 7.
+Reading input data for simulation 6.
 ------------------------------------
 
 	GAS_PHASE 1
@@ -287,7 +270,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 8.
+Reading input data for simulation 7.
 ------------------------------------
 
 	EXCHANGE 1
@@ -313,7 +296,7 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 9.
+Reading input data for simulation 8.
 ------------------------------------
 
 	REACTION
@@ -324,9 +307,9 @@ Reading input data for simulation 9.
 End of simulation.
 ------------------
 
--------------------------------------
-Reading input data for simulation 10.
--------------------------------------
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
 
 	USE solution 10
 	USE surface 1
@@ -554,7 +537,7 @@ Beginning of batch-reaction calculations.
 Reaction step 1.
 
 Using solution 10.	Test solution
-Using exchange 1.	Exchange assemblage after simulation 8.
+Using exchange 1.	Exchange assemblage after simulation 7.
 Using surface 1.	
 Using pure phase assemblage 1.	
 Using solid solution assemblage 1.	
@@ -622,7 +605,7 @@ RXN:                                                    1.0000e-04
 S_S(Siderite):                                          6.6864e-02 
 SC:                                                     8.2766e+04 
 SI(Siderite):                                          -8.5430e-03 
-SIM_NO:                                                         10 
+SIM_NO:                                                          9 
 SIM_TIME:                                                 86400000 
 SR(Smithsonite):                                        9.8052e-01 
 STEP_NO:                                                         1 
@@ -1089,7 +1072,7 @@ End of simulation.
 ------------------
 
 -------------------------------------
-Reading input data for simulation 11.
+Reading input data for simulation 10.
 -------------------------------------
 
 ------------------------------
