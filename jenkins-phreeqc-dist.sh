@@ -130,8 +130,10 @@ else
 fi
 
 DISTNAME="phreeqc-src-${VERSION}${VER_NUMTAG}"
-DIST_SANDBOX=.dist_sandbox
-DISTPATH="$DIST_SANDBOX/$DISTNAME"
+# DIST_SANDBOX=.dist_sandbox
+# DISTPATH="$DIST_SANDBOX/$DISTNAME"
+DISTPATH="."
+
 
 echo "Distribution will be named: $DISTNAME"
 echo " release branch's revision: $REVISION"
