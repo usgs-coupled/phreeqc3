@@ -547,9 +547,10 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 		"desc",					/* 12 */
 		"descriptor",			/* 13 */
 		"pressure",				/* 14 */
-		"press"				    /* 15 */
+		"press",			    /* 15 */
+		"potential"			    /* 16 */
 	};
-	int count_opt_list = 16;
+	int count_opt_list = 17;
 
 /*
  *      look for solution number
@@ -613,6 +614,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 	temp_solution.Set_description(description);
 	temp_solution.Set_tc(defaults.temp);
 	temp_solution.Set_patm(defaults.pressure);
+	temp_solution.Set_potV(0);
 	temp_solution.Set_ph(defaults.ph);
 	temp_solution.Set_density(defaults.density);
 	temp_solution.Set_pe(defaults.pe);
@@ -924,6 +926,14 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 				if (sscanf(next_char, SCANFORMAT, &dummy) == 1)
 				{
 					temp_solution.Set_patm(dummy);
+				}
+			}
+			break;
+		case 16:				/* pote, V */
+			{
+				if (sscanf(next_char, SCANFORMAT, &dummy) == 1)
+				{
+					temp_solution.Set_potV(dummy);
 				}
 			}
 			break;
