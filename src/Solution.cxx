@@ -29,6 +29,7 @@ cxxSolution::cxxSolution(PHRQ_io * io)
 	this->io = io;
 	this->new_def = false;
 	this->patm = 1.0;
+	this->potV = 0.0;
 	this->tc = 25.0;
 	this->ph = 7.0;
 	this->pe = 4.0;
@@ -62,6 +63,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->description                = rhs.description;
 		this->new_def                    = rhs.new_def;
 		this->patm                       = rhs.patm;
+		this->potV                       = rhs.potV;
 		this->tc                         = rhs.tc;
 		this->ph                         = rhs.ph;
 		this->pe                         = rhs.pe;
@@ -228,6 +230,9 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 
 	s_oss << indent1;
 	s_oss << "-pressure                  " << this->patm << "\n";
+
+	s_oss << indent1;
+	s_oss << "-potential                 " << this->potV << "\n";
 
 	// new identifier
 	s_oss << indent1;
@@ -996,6 +1001,18 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				opt_save = 25;
 			}
 			break;
+
+		case 26:				// potential
+			if (!(parser.get_iss() >> this->potV))
+			{
+				this->potV = 0.0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for potential (V).",
+					PHRQ_io::OT_CONTINUE);
+			}
+			opt_save = CParser::OPT_DEFAULT;
+			break;
+
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1335,6 +1352,7 @@ cxxSolution::zero()
 	this->master_activity.type = cxxNameDouble::ND_SPECIES_LA;
 	this->species_gamma.type = cxxNameDouble::ND_SPECIES_GAMMA;
 	this->patm = 1.0;
+	this->potV = 0.0;
 	this->initial_data = NULL;
 }
 
@@ -1360,6 +1378,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->cb += addee.cb * extensive;
 	this->density = f1 * this->density + f2 * addee.density;
 	this->patm = f1 * this->patm + f2 * addee.patm;
+	this->potV = f1 * this->potV + f2 * addee.potV;
 	this->mass_water += addee.mass_water * extensive;
 	this->soln_vol += addee.soln_vol * extensive;
 	this->total_alkalinity += addee.total_alkalinity * extensive;

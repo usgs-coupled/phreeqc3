@@ -44,7 +44,7 @@ initialize(void)
 /*
  *   Allocate space
  */
-	space((void **) ((void *) &cell_data), INIT, &count_cells,
+	space((void **) ((void *) &cell_data), INIT, &count_cells + 2,
 		  sizeof(struct cell_data));
 
 	space((void **) ((void *) &elements), INIT, &max_elements,
@@ -630,6 +630,7 @@ initial_solutions(int print)
 			}
 			converge1 = check_residuals();
 			sum_species();
+			viscosity();
 			add_isotopes(solution_ref);
 			punch_all();
 			print_all();
@@ -751,6 +752,7 @@ initial_exchangers(int print)
 			converge = model();
 			converge1 = check_residuals();
 			sum_species();
+			viscosity();
 			species_list_sort();
 			print_exchange();
 			xexchange_save(n_user);
@@ -1445,6 +1447,7 @@ xsolution_save(int n_user)
 	temp_solution.Set_description(description_x);
 	temp_solution.Set_tc(tc_x);
 	temp_solution.Set_patm(patm_x);
+	temp_solution.Set_potV(potV_x);
 	temp_solution.Set_ph(ph_x);
 	temp_solution.Set_pe(solution_pe_x);
 	temp_solution.Set_mu(mu_x);

@@ -1,0 +1,114 @@
+# check with analytical calc'n of the current:
+# sample with por = 0.1, diam 0.1 m, 30 mm long = 23.6 mL water
+# c = 0.3M NaCl, D = 1e-9 for all solutes, 3 V / 30 mm:
+# J_E(Na) = -(1e-9 * 0.1) * 0.3e3  * 96485 / (8.3145 * 298)  * (3 - 0) / (30e-3 - 0) = -1.168e-4 * 7.85e-4 =
+#   -9.175e-8  eq (Na+)/s * F = -8.85 mC/s = -8.85 mA due to Na
+# Total current : J_E(Na+) + -J_E(Cl-) = 2 * -8.85 = 17.7 mA
+
+# D_Cl- = 2e-9 ? Then D_NaCl = 1.33, and the current is 17.7 * 1.33 = 23.6 mA
+
+# With phreeqc.dat: Dw (25°C)): Na+ = 1.33e-9, Cl- 2.03e-9 : current = 1.61 * 17.7 = 28.5 mA
+ 
+DATABASE ../database/wateq4f.dat
+# SOLUTION_SPECIES
+# Cl- = Cl-; -Dw                 2.0e-9
+
+EQUILIBRIUM_PHASES 0; H2(g) 0 0 # for bubbling out H2
+EQUILIBRIUM_PHASES 101; O2(g) 0 0 # ... and O2
+
+SOLUTION 0
+pH 7 charge; Cl 300; Na 300
+SOLUTION 1-100
+-water 23.56e-5 # kg water in a cell
+pH 7 charge; Cl 300; Na 300
+SOLUTION 101
+-water 1
+pH 7 charge; Cl 300; Na 300
+potential 3
+END
+
+#PRINT; -reset false
+TRANSPORT
+-cells 100
+-lengths 30e-5
+-boundary_conditions 1 1
+-multi_d true 1e-9 0.1 0.0 1
+-flow_direction diffusion_only
+-time_step 1 sec 1
+-shifts 100
+-punch_frequency 5
+-punch_cells 0-101
+-print_cell 50
+-print_frequency 5
+
+USER_GRAPH 1 current
+-headings t current_A from conc`s in cell 0
+-axis_titles "time / hour" "current / mA"
+-initial_solutions true
+-axis_scale x_axis 0 100
+1 if cell_no > 0 then end
+2 if step_no > 0 then 10
+3 put(mol("Na+") * tot("water"), 2) : put(mol("H+") * tot("water"), 3)  : put(total_time , 1)
+4 put(mol("Cl-") * tot("water"), 4) : put(mol("OH-") * tot("water"), 5)
+5 end
+10 graph_x total_time / 3600
+20 graph_sy -1e3 * current_A
+30 c =       (mol("Na+") * tot("water") - get(2)) : put(mol("Na+") * tot("water"), 2)
+# 32 c = c +    (mol("H+") * tot("water") - get(3)) :  put(mol("H+") * tot("water"), 3)
+40 c2 =      (mol("Cl-") * tot("water") - get(4)) : put(mol("Cl-") * tot("water"), 4)
+# 42 c2 = c2 + (mol("OH-") * tot("water") - get(5)) : put(mol("OH-") * tot("water"), 5)
+50 graph_sy (c + -c2) / (total_time - get(1)) * 96485 * 1e3
+60 put(total_time , 1)
+
+USER_GRAPH 2 Na- and Cl-concentration
+-connect_simulations false
+-plot_concentration_vs dist
+-initial_solutions true
+-axis_scale x_axis 0 30
+-axis_titles  "Distance in column / mm" "Na / (mol/kgw)" "Cl / (mol/kgw)"
+1 if (floor(step_no / 50) <> step_no / 50) then end
+2 if total_time < 100 then end
+10 graph_x dist * 1e3
+20 graph_y tot("Na")
+30 graph_sy tot("Cl")
+
+USER_GRAPH 3 potential
+-connect_simulations false
+-plot_concentration_vs dist
+-initial_solutions true
+-axis_scale x_axis 0 30
+-axis_titles  "Distance in column / mm" "potential / Volt"
+1 if (floor(step_no / 50) <> step_no / 50) then end
+2 if total_time < 100 then end
+10 graph_x dist * 1e3
+20 graph_y pot_V
+
+USER_GRAPH 4 pH
+-initial_solutions true
+-connect_simulations false
+-plot_concentration_vs dist
+-axis_scale x_axis 0 30
+-axis_titles  "Distance in column / mm" pH
+1 if (floor(step_no / 20) <> step_no / 20) then end
+2 if sim_no = 2 and step_no > 0 then end
+3 if sim_no = 3 and step_no = 0 then end
+10 graph_x dist * 1e3
+20 graph_y  -LA("H+")
+
+USER_GRAPH 5 redox potential
+-initial_solutions true
+-connect_simulations false
+-plot_concentration_vs dist
+-axis_scale x_axis 0 30
+-axis_titles  "Distance in column / mm" 'Eh / Volt'
+1 if (floor(step_no / 20) <> step_no / 20) then end
+2 if sim_no = 2 and step_no > 0 then end
+3 if sim_no = 3 and step_no = 0 then end
+10 graph_x dist * 1e3
+20 graph_y  -LA("e-") * 0.059
+END
+
+TRANSPORT
+-time_step 1 hour 1
+END
+

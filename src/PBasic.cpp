@@ -1620,6 +1620,21 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case toksa_declercq:
 			output_msg("SA_DECLERCQ");
 			break;
+		case tokviscos:
+			output_msg("VISCOS");
+			break;
+		case tokviscos_0:
+			output_msg("VISCOS_0");
+			break;
+		case tokrho_0:
+			output_msg("RHO_0");
+			break;
+		case tokcurrent_a:
+			output_msg("CURRENT_A");
+			break;
+		case tokpot_v:
+			output_msg("POT_V");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -2251,7 +2266,7 @@ factor(struct LOC_exec * LINK)
 					break;
 				}
 				else
-					n.UU.val = PhreeqcPtr->cell_data[i - 1].por;
+					n.UU.val = PhreeqcPtr->cell_data[i].por;
 				break;
 			}
 			else
@@ -3152,7 +3167,7 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state == TRANSPORT)
 		{
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell - 1].mid_cell_x;
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell].mid_cell_x;
 		}
 		else if (PhreeqcPtr->state == ADVECTION)
 		{
@@ -3518,6 +3533,33 @@ factor(struct LOC_exec * LINK)
   	case toksoln_vol:
  		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_solution_volume();
  		break;
+  	case tokvm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+		}
+ 		break;
+  	case tokviscos:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
+		}
+ 		break;
+  	case tokviscos_0:
+		{
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos_0;
+		}
+ 		break;
+	case tokrho_0:
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rho_0;
+		break;
+	case tokcurrent_a:
+		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_x;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_A;
+		break;
+	case tokpot_v:
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->use.Get_solution_ptr()->Get_potV();
+		break;
+
 	case toklog10:
 		{
 			LDBLE t = realfactor(LINK);
@@ -3531,12 +3573,6 @@ factor(struct LOC_exec * LINK)
 			//}
 		}
 		break;
-  	case tokvm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
-		}
- 		break;
 
 	case toksin:
 		n.UU.val = sin(realfactor(LINK));
@@ -4507,7 +4543,7 @@ cmdchange_por(struct LOC_exec *LINK)
 	require(tokrp, LINK);
 	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
 		&& j != PhreeqcPtr->count_cells + 1)
-		PhreeqcPtr->cell_data[j - 1].por = TEMP;
+		PhreeqcPtr->cell_data[j].por = TEMP;
 }
 
 void PBasic::
@@ -7118,7 +7154,12 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos",             PBasic::tokviscos),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

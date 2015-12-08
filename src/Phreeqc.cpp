@@ -196,7 +196,8 @@ void Phreeqc::init(void)
 	current_pa                      = NAN;
 	current_mu                      = NAN;
 	mu_terms_in_logk                = true;
-
+	current_A                       = 0.0;
+	current_x                       = 0.0;
 	/* ----------------------------------------------------------------------
 	*   STRUCTURES
 	* ---------------------------------------------------------------------- */
@@ -406,6 +407,7 @@ void Phreeqc::init(void)
 	tk_x                    = 0;
 	patm_x                  = 1;
 	last_patm_x             = 1;
+	potV_x                  = 0;
 	numerical_fixed_volume  = false;
 	force_numerical_fixed_volume = false;
 	//switch_numerical        = false;
@@ -713,7 +715,9 @@ void Phreeqc::init(void)
 	/* from float.h, sets tolerance for cl1 routine */
 	ineq_tol                = pow((long double) 10, (long double) -LDBL_DIG);
 #else
-	ineq_tol                = pow((double) 10, (double) -DBL_DIG);
+	//ineq_tol                = pow((double) 10, (double) -DBL_DIG);
+// appt:
+	ineq_tol                = pow((double) 10, (double) -DBL_DIG + 2);
 #endif
 	convergence_tolerance   = 1e-8;	
 	step_size				= 100.;
@@ -787,6 +791,7 @@ void Phreeqc::init(void)
 	user_database			= NULL;
 	//have_punch_name			= FALSE;
 	print_density		    = 0;
+	print_viscosity		    = 0;
 	zeros                   = NULL;	
 	zeros_max			    = 1;
 	cell_pore_volume	    = 0;
@@ -799,6 +804,8 @@ void Phreeqc::init(void)
 	sys_tot                 = 0;
 
 	V_solutes               = 0.0;
+	viscos                  = 0.0;
+	viscos_0                = 0.0;
 	rho_0                   = 0;
 	kappa_0                 = 0.0;
 	p_sat                   = 0.0;
@@ -981,7 +988,7 @@ void Phreeqc::init(void)
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
-		default_data_base       = string_duplicate("phreeqc.dat");
+	default_data_base       = string_duplicate("phreeqc.dat");
 #ifdef PHREEQ98
 	int outputlinenr;
 	char *LogFileNameC;
@@ -1357,9 +1364,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	if (count_cells > 0)
 	{
 		cell_data = (struct cell_data *) free_check_null(cell_data);
-		cell_data = (struct cell_data *) PHRQ_malloc((size_t) (count_cells * sizeof(struct cell_data)));
+		cell_data = (struct cell_data *) PHRQ_malloc((size_t) ((count_cells + 2) * sizeof(struct cell_data)));
 		if (cell_data == NULL) malloc_error();
-		memcpy(cell_data, pSrc->cell_data, ((size_t) (count_cells * sizeof(struct cell_data))));
+		memcpy(cell_data, pSrc->cell_data, ((size_t) ((count_cells + 2) * sizeof(struct cell_data))));
 	}
 	old_cells = pSrc->old_cells;
 	max_cells = pSrc->max_cells;

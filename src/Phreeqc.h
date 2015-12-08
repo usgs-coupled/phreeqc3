@@ -702,6 +702,7 @@ public:
 	/* VP: Density Start */
 	int read_millero_abcdef (char *ptr, LDBLE * abcdef);
 	/* VP: Density End */
+	int read_viscosity_parms(char *ptr, LDBLE * Jones_Dole);
 	int read_copy(void);
 	int read_debug(void);
 	int read_delta_h_only(char *ptr, LDBLE * delta_h,
@@ -1050,9 +1051,11 @@ public:
 	int reformat_surf(const char *comp_name, LDBLE fraction, const char *new_comp_name,
 		LDBLE new_Dw, int cell);
 	LDBLE viscosity(void);
+	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	int find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no);
+	void define_ct_structures(void);
 	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec);
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
@@ -1335,6 +1338,7 @@ protected:
 	LDBLE tk_x;
 	LDBLE patm_x;
 	LDBLE last_patm_x;
+	LDBLE potV_x;
 	bool numerical_fixed_volume;
 	bool force_numerical_fixed_volume;
 	//bool switch_numerical;
@@ -1703,9 +1707,11 @@ protected:
 	int print_density;
 	/* VP: Density End */
 
+	int print_viscosity;
 	LDBLE *zeros;
 	int zeros_max;
 
+	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
@@ -1931,6 +1937,7 @@ protected:
 	int nmix, heat_nmix;
 	LDBLE heat_mix_f_imm, heat_mix_f_m;
 	int warn_MCD_X, warn_fixed_Surf;
+	LDBLE current_x, current_A; // current: coulomb * s, ampere
 
 #ifdef PHREEQ98
 	int AutoLoadOutputFile, CreateToC;
