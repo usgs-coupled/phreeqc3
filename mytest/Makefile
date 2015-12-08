@@ -363,7 +363,8 @@ all: alkalinity.out \
 	co2_pressure_bug.out \
 	edl_species.out \
 	R-04_01_PHRC.out \
-	McBride_rho.out
+	McBride_rho.out \
+	current1
 
 # NaX.out
 
