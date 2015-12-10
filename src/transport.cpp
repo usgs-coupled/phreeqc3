@@ -7,6 +7,17 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+#include "Parallelizer.h"
+#include "PhreeqcRM.h"
+#include "IPhreeqcPhast.h"
+#include "IPhreeqc.hpp"
+#ifdef USE_MPI
+#include <mpi.h>
+#define CLOCK MPI_Wtime
+#elif USE_OPENMP
+#include <omp.h>
+#define CLOCK omp_get_wtime
+#endif
 
 LDBLE F_Re3 = F_C_MOL / (R_KJ_DEG_MOL * 1e3);
 LDBLE tk_x2; // average tx_x of icell and jcell
@@ -56,7 +67,24 @@ transport(void)
 	diffc_max = 0.0;
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
 	dV_dcell = current_A = 0.0;
+	double rm_time = 0.0;
+	double phreeqc_time = 0.0;
+	double rm_comm_time = 0.0;
+	double rm_calc_time = 0.0;
 
+#ifdef PHREEQC_PARALLEL
+	Parallelizer *phreeqcrm_ptr;
+#ifdef USE_MPI
+	int nxyz = count_cells + 2;
+	MPI_Bcast(&nxyz, 1, MPI_INT, 0, MPI_COMM_WORLD);
+	phreeqcrm_ptr = new Parallelizer(nxyz, MPI_COMM_WORLD, this->phrq_io);
+#else
+	phreeqcrm_ptr = new Parallelizer(count_cells + 1, 6, this->phrq_io);
+#endif
+	phreeqcrm_ptr->SetPhreeqcPtr(this);
+	phreeqcrm_ptr->Initialize();
+#endif
+	
 /*	mass_water_switch = TRUE; */
 /*
  *   Check existence of solutions
@@ -470,7 +498,33 @@ transport(void)
 				}
 				if (multi_Dflag)
 					multi_D(stagkin_time, 1, FALSE);
+#ifdef PHREEQC_PARALLEL
+				double time_rm_start = CLOCK();
+				// move data to workers
+				phreeqcrm_ptr->Phreeqc2RM(this);
+				rm_comm_time += (CLOCK() - time_rm_start);
+				double time_rm_calc_start = CLOCK();
+				// Run cells
+				phreeqcrm_ptr->SetTimeStep(kin_time);
+				phreeqcrm_ptr->RunCellsParallel();
+				rm_time += (CLOCK() - time_rm_start);
+				rm_calc_time += (CLOCK() - time_rm_calc_start);
+				//std::cerr << phreeqcrm_ptr->GetErrorString() << std::endl;
+				// move data back to phreeqc
+#ifdef SKIP
+				phreeqcrm_ptr->RM2Phreeqc(this);
+#endif
+#endif
 
+#ifdef PHREEQC_PARALLELyyy
+				// Copy to PhreeqcRM
+				// Run reactions
+				// Copy to PHREEQC
+				// Do other stuff
+
+#else
+				
+				time_rm_start = CLOCK();
 				for (i = 0; i <= count_cells + 1; i++)
 				{
 					//if (!dV_dcell && (i == 0 || i == count_cells + 1))
@@ -493,6 +547,8 @@ transport(void)
 						run_reactions(i, kin_time, NOMIX, step_fraction);
 					else
 						run_reactions(i, kin_time, DISP, step_fraction);
+						//run_reactions(i, kin_time, NOMIX, step_fraction);
+						//run_reactions(i, kin_time, DISP, step_fraction);
 					if (multi_Dflag)
 						fill_spec(i);
 
@@ -534,6 +590,10 @@ transport(void)
 						}
 					}
 				}
+				phreeqc_time += (CLOCK() - time_rm_start);
+				std::cerr << "RM: " << rm_time << "    PHREEQC: " << phreeqc_time << std::endl;
+				std::cerr << "RM comm: " << rm_comm_time << "    RM calc: " << rm_calc_time << std::endl;
+#endif
 				Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
 
 				/* Stagnant zone mixing after completion of each
@@ -739,6 +799,16 @@ transport(void)
 			{
 				heat_mix(heat_nmix);
 				/* equilibrate again ... */
+#ifdef PHREEQC_PARALLEL
+				// move data to workers
+				phreeqcrm_ptr->Phreeqc2RM(this);
+				// Run cells
+				phreeqcrm_ptr->RunCells();
+				// move data back to phreeqc
+#ifdef SKIP
+				phreeqcrm_ptr->RM2phreeqc(this);
+#endif
+#endif
 				for (i = 1; i <= count_cells; i++)
 				{
 					cell_no = i;
@@ -889,6 +959,12 @@ transport(void)
 	initial_total_time += rate_sim_time;
 	rate_sim_time = 0;
 	mass_water_switch = FALSE;
+#ifdef PHREEQC_PARALLEL
+#ifdef USE_MPI
+	phreeqcrm_ptr->MpiWorkerBreak();
+#endif
+	delete phreeqcrm_ptr;
+#endif
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
