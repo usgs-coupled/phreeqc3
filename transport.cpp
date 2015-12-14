@@ -896,7 +896,7 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD, dx = 0;
+	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD; //, dx = 0;
 	int i, l_nmix;
 
 	//std::vector<LDBLE> m, m1;
@@ -1792,6 +1792,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	char token[MAX_LENGTH];
 	LDBLE mixf, temp;
 
+	first_c = last_c = -1;
 	current_x = sum_R = 0.0;
 	if (dV_dcell)
 		find_current = loop_f_c = 1; // calculate J_ij once for all cells, find smallest j_x, next with this j_x.
@@ -2140,6 +2141,13 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	cxxSurface *s_ptr1, *s_ptr2;
 	cxxSurfaceCharge *s_charge_ptr, *s_charge_ptr1, *s_charge_ptr2;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
+
+	k_il = 0;
+	A_ij_il = mixf_il = 0.0;
+	Dz2c_il = 0.0;
+	cec1 = cec2 = cec12 = rc1 = rc2 = 0.0;
+	V_M_il = NULL;
+	dV = 0.0;
 
 	/* check for immediate return and interlayer diffusion calcs... */
 	if (interlayer_Dflag)
@@ -4335,6 +4343,18 @@ viscosity(void)
 	mu1 = exp(Rb * S1);
 	viscos_0 = viscos = mu0 * mu1 / 1e3;
 	viscos_0_25 = 0.8900239182946;
+
+	//#define OLD_VISCOSITY
+#ifdef OLD_VISCOSITY
+	viscos =
+		pow((LDBLE) 10.,
+			-(1.37023 * (tc_x - 20) +
+			  0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
+/* Huber et al., 2009, J. Phys. Chem. Ref. Data, Vol. 38, 101-125 */
+	viscos_0 = viscos;
+	viscos_0_25 = 0.88862;
+#endif
+
 	return viscos;
 }
 /* ---------------------------------------------------------------------- */

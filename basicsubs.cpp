@@ -218,7 +218,6 @@ calc_SC(void)
 	 SC_T = SC_298 * (viscos_298 / viscos_T)
  */
 	SC *= viscos_0_25 / viscos;
-
 	return (SC);
 # endif
 	for (i = 0; i < count_s_x; i++)
@@ -249,6 +248,7 @@ calc_SC(void)
 	     Dw_T = Dw_298 * (T / 298) * (viscos_298 / viscos_T) give:
 	 SC_T = SC_298 * (viscos_298 / viscos_T)
  */
+	viscosity();
 	SC *= viscos_0_25 / viscos;
 
 	return (SC);
