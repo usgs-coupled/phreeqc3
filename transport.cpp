@@ -4344,7 +4344,7 @@ viscosity(void)
 	viscos_0 = viscos = mu0 * mu1 / 1e3;
 	viscos_0_25 = 0.8900239182946;
 
-	//#define OLD_VISCOSITY
+#define OLD_VISCOSITY
 #ifdef OLD_VISCOSITY
 	viscos =
 		pow((LDBLE) 10.,
