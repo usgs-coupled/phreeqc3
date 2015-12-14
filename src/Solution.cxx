@@ -1566,6 +1566,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("pressure"),	                            // 22
 	std::vector< std::string >::value_type("soln_vol"),	                            // 23
 	std::vector< std::string >::value_type("species_map"), 	                        // 24
-	std::vector< std::string >::value_type("log_gamma_map") 	                    // 25
+	std::vector< std::string >::value_type("log_gamma_map"), 	                    // 25
+	std::vector< std::string >::value_type("potential") 	                        // 26
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
