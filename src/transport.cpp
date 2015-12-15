@@ -35,10 +35,11 @@ struct V_M
 };
 struct CT /* contains the mcd transfer in a timestep for all cells, for free + DL water */
 {
-	LDBLE dl_s, A_ij, Dz2c, Dz2c_dl, visc1, visc2, J_ij_sum;
-	int J_ij_count_spec, J_ij_il_count_spec;
-	struct V_M *v_m, *v_m_il;
-	struct J_ij *J_ij, *J_ij_il;
+        LDBLE dl_s, A_ij, Dz2c, Dz2c_dl, visc1, visc2, J_ij_sum;
+        LDBLE A_ij_il, Dz2c_il, mixf_il;
+        int J_ij_count_spec, J_ij_il_count_spec;
+        struct V_M *v_m, *v_m_il;
+        struct J_ij *J_ij, *J_ij_il;
 } *ct = NULL;
 struct MOLES_ADDED /* total moles added to balance negative conc's */
 {
