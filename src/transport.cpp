@@ -119,6 +119,28 @@ transport(void)
 		ct = (struct CT *) PHRQ_malloc((size_t) (all_cells) * sizeof(struct CT));
 		if (ct == NULL)
 			malloc_error();
+		{
+			for (int i = 0; i < all_cells; i++)
+			{
+				ct[i].dl_s = 0.0;
+				ct[i].A_ij = 0.0;
+				ct[i].Dz2c = 0.0;
+				ct[i].Dz2c_dl = 0.0;
+				ct[i].visc1 = 0.0;
+				ct[i].visc2 = 0.0;
+				ct[i].J_ij_sum = 0.0;
+				ct[i].A_ij_il = 0.0;
+				ct[i].Dz2c_il = 0.0;
+				ct[i].mixf_il = 0.0;
+				ct[i].A_ij_il = 0.0;
+				ct[i].J_ij_count_spec = -1;
+				ct[i].J_ij_il_count_spec = -1;
+				ct[i].v_m = NULL;
+				ct[i].v_m_il = NULL;
+				ct[i].J_ij = NULL;
+				ct[i].J_ij_il = NULL;
+			}
+		}
 
 		moles_added = (struct MOLES_ADDED *) PHRQ_malloc((size_t) (count_elements) * sizeof(struct MOLES_ADDED));
 		if (moles_added == NULL)
