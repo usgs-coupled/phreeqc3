@@ -1126,8 +1126,7 @@ ineq(int in_kode)
 			if (x[i]->phase->in == FALSE)
 				continue;		
 			// delay removing phase
-			int delay = 0;
-			if (x[i]->moles > 0.0 || x[i]->f <= 0.0 || iterations == 0 || delay == 0)
+			if (x[i]->moles > 0.0 || x[i]->f <= 0.0 || iterations == 0 || equi_delay == 0)
 			{
 				x[i]->iteration = iterations;
 			}
@@ -1137,7 +1136,7 @@ ineq(int in_kode)
 				continue;
 			/*   Undersaturated and no mass, ignore */
 			if (x[i]->f > 0e-8 && x[i]->moles <= 0
-				&& iterations >= x[i]->iteration + delay
+				&& iterations >= x[i]->iteration + equi_delay
 				&& comp_ptr->Get_add_formula().size() == 0)
 			{
 				continue;
