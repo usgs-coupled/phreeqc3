@@ -7,16 +7,20 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+#ifdef PHREEQC_PARALLEL
 #include "Parallelizer.h"
 #include "PhreeqcRM.h"
 #include "IPhreeqcPhast.h"
 #include "IPhreeqc.hpp"
+#endif
 #ifdef USE_MPI
 #include <mpi.h>
 #define CLOCK MPI_Wtime
 #elif USE_OPENMP
 #include <omp.h>
 #define CLOCK omp_get_wtime
+#else
+#define CLOCK clock
 #endif
 
 LDBLE F_Re3 = F_C_MOL / (R_KJ_DEG_MOL * 1e3);
@@ -80,7 +84,7 @@ transport(void)
 	MPI_Bcast(&nxyz, 1, MPI_INT, 0, MPI_COMM_WORLD);
 	phreeqcrm_ptr = new Parallelizer(nxyz, MPI_COMM_WORLD, this->phrq_io);
 #else
-	phreeqcrm_ptr = new Parallelizer(count_cells + 1, 6, this->phrq_io);
+	phreeqcrm_ptr = new Parallelizer(count_cells + 1, 3, this->phrq_io);
 #endif
 	phreeqcrm_ptr->SetPhreeqcPtr(this);
 	phreeqcrm_ptr->Initialize();
@@ -521,8 +525,8 @@ transport(void)
 				}
 				if (multi_Dflag)
 					multi_D(stagkin_time, 1, FALSE);
-#ifdef PHREEQC_PARALLEL
 				double time_rm_start = CLOCK();
+#ifdef PHREEQC_PARALLEL
 				// move data to workers
 				phreeqcrm_ptr->Phreeqc2RM(this);
 				rm_comm_time += (CLOCK() - time_rm_start);
