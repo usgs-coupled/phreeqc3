@@ -2243,6 +2243,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	cxxSurfaceCharge *s_charge_ptr, *s_charge_ptr1, *s_charge_ptr2;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
+	cec1 = cec2 = cec12 = rc1 = rc2 = 0.0;
+	dV = 0.0;
+
 	/* check for immediate return and interlayer diffusion calcs... */
 	if (interlayer_Dflag)
 	{
