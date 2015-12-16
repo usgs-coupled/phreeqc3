@@ -534,9 +534,7 @@ transport(void)
 				rm_calc_time += (CLOCK() - time_rm_calc_start);
 				//std::cerr << phreeqcrm_ptr->GetErrorString() << std::endl;
 				// move data back to phreeqc
-#ifdef SKIP
-				phreeqcrm_ptr->RM2Phreeqc(this);
-#endif
+				//phreeqcrm_ptr->RM2Phreeqc(this);
 #endif
 
 #ifdef PHREEQC_PARALLELyyy
@@ -614,6 +612,7 @@ transport(void)
 				phreeqc_time += (CLOCK() - time_rm_start);
 				std::cerr << "RM: " << rm_time << "    PHREEQC: " << phreeqc_time << std::endl;
 				std::cerr << "RM comm: " << rm_comm_time << "    RM calc: " << rm_calc_time << std::endl;
+				std::cerr << "    transport_step: " << transport_step << "  j: " << j << std::endl;
 #endif
 				if (!dV_dcell)
 					Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
@@ -992,7 +991,7 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD; #, dx = 0;
+	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD; //, dx = 0;
 	int i, l_nmix;
 
 	//std::vector<LDBLE> m, m1;
@@ -1969,7 +1968,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						dV = dV_dcell * count_cells;
 						for (i1 = 0; i1 <= count_cells; i1 ++)
 						{
-							dVc = current_cells[i1].R / sum_R * dV;
+							dVc = (sum_R != 0.0) ? current_cells[i1].R / sum_R * dV : 0.0;
 							if (i1 < count_cells)
 								cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
 							jx =  current_cells[i1].ele * dVc / dV_dcell;
@@ -2130,7 +2129,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	{
 
 		ct[i].J_ij = (struct J_ij *) free_check_null(ct[i].J_ij);
-		ct[icell].J_ij_il = (struct J_ij *) free_check_null(ct[icell].J_ij_il);
+		ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
 		ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
 
 	}
@@ -3004,7 +3003,14 @@ dV_dcell2 :
 			}
 		}
 		//current_cells[icell].ele += current_cells[icell].dif;
-		dV *= current_x / (current_cells[icell].ele * ct[icell].A_ij * DDt);
+		if (current_cells[icell].ele * ct[icell].A_ij * DDt != 0.0)
+		{
+			dV *= current_x / (current_cells[icell].ele * ct[icell].A_ij * DDt);
+		}
+		else
+		{
+			dV = 0.0;
+		}
 	}
 	for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 	{
@@ -3077,7 +3083,8 @@ dV_dcell2 :
 		//current_cells[icell].dif *= ct[icell].A_ij * DDt;
 		current_cells[icell].ele *= ct[icell].A_ij * DDt;
 		//current_cells[icell].ele += current_cells[icell].dif;
-		current_cells[icell].R = current_cells[0].ele / current_cells[icell].ele;
+		//current_cells[icell].R = current_cells[0].ele / current_cells[icell].ele;
+		current_cells[icell].R = (current_cells[icell].ele != 0.0) ? current_cells[0].ele / current_cells[icell].ele : 0.0;
 		sum_R += current_cells[icell].R;
 		return(il_calcs);
 	}
