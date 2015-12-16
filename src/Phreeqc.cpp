@@ -725,6 +725,7 @@ void Phreeqc::init(void)
 	diagonal_scale			= FALSE;
 	mass_water_switch		= FALSE;
 	delay_mass_water		= FALSE;
+	equi_delay      		= 0;
 	dampen_ah2o             = false;
 	censor					= 0.0;
 	aqueous_only			= 0;
@@ -1909,6 +1910,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	diagonal_scale			= pSrc->diagonal_scale;
 	mass_water_switch		= pSrc->mass_water_switch;
 	delay_mass_water		= pSrc->delay_mass_water;
+	equi_delay      		= pSrc->equi_delay;
 	dampen_ah2o             = pSrc->dampen_ah2o;
 	censor					= pSrc->censor;
 	aqueous_only			= pSrc->aqueous_only;

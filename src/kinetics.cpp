@@ -1265,6 +1265,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	old_pe = pe_step_size;
 	old_min_value = min_value;
 	old_pp_column_scale = pp_column_scale;
+	int old_equi_delay = equi_delay;
 
 	if (state == TRANSPORT || state == PHAST)
 	{
@@ -1338,6 +1339,14 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		}
 		else if (j == 4)
 		{
+			if (equi_delay > 0)
+			{
+				equi_delay = 0;
+			}
+			else
+			{
+				equi_delay = 1;
+			}
 			always_full_pitzer = TRUE;
 			itmax *= 2;
 			if (diagonal_scale == TRUE)
@@ -1468,6 +1477,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		pe_step_size = old_pe;
 		min_value = old_min_value;
 		pp_column_scale = old_pp_column_scale;
+		equi_delay = old_equi_delay;
 		aqueous_only = 0;
 		negative_concentrations = FALSE;
 		always_full_pitzer = FALSE;
