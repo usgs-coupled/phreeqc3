@@ -157,13 +157,13 @@ ifeq ($(CFG), CLASS_DEBUG_64)
 	CL1MP_OBJS=cl1mp.o
 	CL1MP_LIB=libgmp.a 
   endif
-  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
-  VPATH        = ..:../PhreeqcKeywords:../common
-  INCLUDES     = -I.. -I../PhreeqcKeywords -I../common
+  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) -DPHREEQC_PARALLEL -DUSE_OPENMP
+  VPATH        = ..:../PhreeqcKeywords:../common:../PhreeqcRM:../PhreeqcRM/IPhreeqcPhast:../PhreeqcRM/IPhreeqcPhast/IPhreeqc
+  INCLUDES     = -I.. -I../PhreeqcKeywords -I../common -I../PhreeqcRM -I../PhreeqcRM/IPhreeqcPhast -I../PhreeqcRM/IPhreeqcPhast/IPhreeqc
   CXX          = g++
-  CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES) 
-  OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE}
+  CXXFLAGS     = -Wall -g $(DEFINES) $(INCLUDES) -fopenmp
+  OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS) $(PARALLELIZER_OBJS)
+  LD_FLAGS     = -lm ${CL1MP_LIB} ${HASH_STYLE} -lgomp
 endif
 
 ifeq ($(CFG), CLASS_RELEASE_64)
@@ -173,15 +173,15 @@ ifeq ($(CFG), CLASS_RELEASE_64)
 	CL1MP_OBJS=cl1mp.o
 	CL1MP_LIB=/usr/lib64/libgmp.a 
   endif
-  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) # -DUSE_PHRQ_ALLOC # -DR_SO 
-  VPATH        = ..:../PhreeqcKeywords:../common
-  INCLUDES     = -I.. -I../PhreeqcKeywords -I../common
+  DEFINES      = -DNDEBUG $(DEFINE_INVERSE_CL1MP) -DPHREEQC_PARALLEL -DUSE_OPENMP # -DUSE_PHRQ_ALLOC # -DR_SO 
+  VPATH        = ..:../PhreeqcKeywords:../common:../PhreeqcRM:../PhreeqcRM/IPhreeqcPhast:../PhreeqcRM/IPhreeqcPhast/IPhreeqc
+  INCLUDES     = -I.. -I../PhreeqcKeywords -I../common -I../PhreeqcRM -I../PhreeqcRM/IPhreeqcPhast -I../PhreeqcRM/IPhreeqcPhast/IPhreeqc
   CXX          = g++
   PROFILE      = 
-  CXXFLAGS     = $(PROFILE) -Wall -pedantic -O3 $(DEFINES) $(INCLUDES) # -g 
+  CXXFLAGS     = $(PROFILE) -Wall -pedantic -O3 $(DEFINES) $(INCLUDES)  -fopenmp 
 #  CXXFLAGS     = -fprofile-arcs -ftest-coverage  $(DEFINES) $(INCLUDES) # -g 
-  OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS)
-  LD_FLAGS     = $(PROFILE) -lm ${CL1MP_LIB} ${HASH_STYLE} # -L/usr/lib/gcc/x86_64-redhat-linux/4.4.4 -lgcov
+  OBJECT_FILES = $(CLASS_FILES) $(COMMON_COBJS) $(COMMON_CXXOBJS) $(CL1MP_OBJS) $(PARALLELIZER_OBJS)
+  LD_FLAGS     = $(PROFILE) -lm ${CL1MP_LIB} ${HASH_STYLE} -lgomp # -L/usr/lib/gcc/x86_64-redhat-linux/4.4.4 -lgcov
 endif
 
 # -----------------------------------------------------------------------------
@@ -273,6 +273,16 @@ COMMON_CXXOBJS = \
 	       UserPunch.o \
 	       Utils.o 
 
+PARALLELIZER_OBJS = \
+	       Parallelizer.o \
+	       PhreeqcRM.o \
+	       IPhreeqcPhast.o \
+	       IPhreeqcPhastLib.o \
+	       IPhreeqc.o \
+	       IPhreeqcLib.o \
+	       Var.o \
+               CSelectedOutput.o
+
 # -----------------------------------------------------------------------------
 #  Assign dependents to target on dependency line & link options on command 
 #  line. Command line is initiated with a tab. ($@ is an internal macro for 
@@ -288,6 +298,7 @@ ${PROGRAM} : ${OBJECT_FILES}
 #
 #  CXX files
 #
+
 cxxKinetics.o: ../cxxKinetics.cxx ../common/Utils.h ../common/phrqtype.h \
  ../Phreeqc.h ../common/phrqtype.h ../cvdense.h ../cvode.h \
  ../sundialstypes.h ../nvector.h ../dense.h ../smalldense.h ../runner.h \
@@ -582,11 +593,12 @@ class_main.o: ../class_main.cpp ../Phreeqc.h ../common/phrqtype.h \
  ../SelectedOutput.h ../NumKeyword.h ../UserPunch.h ../Pressure.h \
  ../cxxMix.h ../Use.h ../Surface.h ../SurfaceComp.h ../NameDouble.h \
  ../common/Parser.h ../common/PHRQ_base.h ../common/PHRQ_io.h \
- ../SurfaceCharge.h ../global_structures.h ../NA.h ../Solution.h \
- ../SolutionIsotope.h ../ISolution.h ../ISolutionComp.h ../Reaction.h \
- ../PPassemblage.h ../PPassemblageComp.h ../Exchange.h ../ExchComp.h \
- ../GasPhase.h ../GasComp.h ../SSassemblage.h ../SS.h ../SScomp.h \
- ../cxxKinetics.h ../KineticsComp.h
+ ../SurfaceCharge.h ../global_structures.h ../NA.h ../Parallelizer.h \
+ ../PhreeqcRM/PhreeqcRM.h ../NameDouble.h ../PhreeqcRM/IrmResult.h \
+ ../Solution.h ../SolutionIsotope.h ../ISolution.h ../ISolutionComp.h \
+ ../Reaction.h ../PPassemblage.h ../PPassemblageComp.h ../Exchange.h \
+ ../ExchComp.h ../GasPhase.h ../GasComp.h ../SSassemblage.h ../SS.h \
+ ../SScomp.h ../cxxKinetics.h ../KineticsComp.h
 CurveObject.o: ../CurveObject.cpp
 cvdense.o: ../cvdense.cpp ../cvdense.h ../cvode.h ../sundialstypes.h \
  ../common/phrqtype.h ../nvector.h ../dense.h ../smalldense.h \
@@ -708,6 +720,25 @@ nvector.o: ../nvector.cpp ../nvector.h ../sundialstypes.h \
  ../common/phrqtype.h
 nvector_serial.o: ../nvector_serial.cpp ../nvector_serial.h ../nvector.h \
  ../sundialstypes.h ../common/phrqtype.h ../sundialsmath.h
+Parallelizer.o: ../Parallelizer.cpp ../Parallelizer.h \
+ ../PhreeqcRM/PhreeqcRM.h ../NameDouble.h ../common/Parser.h \
+ ../common/PHRQ_base.h ../PhreeqcKeywords/Keywords.h ../common/PHRQ_io.h \
+ ../common/phrqtype.h ../PhreeqcRM/IrmResult.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../common/PHRQ_base.h \
+ ../StorageBin.h ../System.h ../NameDouble.h ../common/PHRQ_io.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h ../StorageBin.h \
+ ../Phreeqc.h ../cvdense.h ../cvode.h ../sundialstypes.h ../nvector.h \
+ ../dense.h ../smalldense.h ../runner.h ../StorageBinList.h ../dumper.h \
+ ../SelectedOutput.h ../NumKeyword.h ../UserPunch.h ../Pressure.h \
+ ../cxxMix.h ../Use.h ../Surface.h ../SurfaceComp.h ../SurfaceCharge.h \
+ ../global_structures.h ../NA.h ../Solution.h ../SolutionIsotope.h \
+ ../ISolution.h ../ISolutionComp.h ../Exchange.h ../ExchComp.h \
+ ../GasPhase.h ../GasComp.h ../cxxKinetics.h ../KineticsComp.h \
+ ../PPassemblage.h ../PPassemblageComp.h ../SSassemblage.h ../SS.h \
+ ../SScomp.h ../Temperature.h
 parse.o: ../parse.cpp ../Phreeqc.h ../common/phrqtype.h ../cvdense.h \
  ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h ../smalldense.h \
  ../runner.h ../StorageBinList.h ../common/PHRQ_base.h ../dumper.h \
@@ -914,7 +945,13 @@ transport.o: ../transport.cpp ../common/Utils.h ../common/phrqtype.h \
  ../global_structures.h ../NA.h ../phqalloc.h ../Exchange.h ../ExchComp.h \
  ../GasPhase.h ../GasComp.h ../PPassemblage.h ../PPassemblageComp.h \
  ../SSassemblage.h ../SS.h ../SScomp.h ../cxxKinetics.h ../KineticsComp.h \
- ../Solution.h ../SolutionIsotope.h ../ISolution.h ../ISolutionComp.h
+ ../Solution.h ../SolutionIsotope.h ../ISolution.h ../ISolutionComp.h \
+ ../Parallelizer.h ../PhreeqcRM/PhreeqcRM.h ../NameDouble.h \
+ ../PhreeqcRM/IrmResult.h ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h \
+ ../StorageBin.h ../System.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h
 Use.o: ../Use.cpp ../Use.h
 UserPunch.o: ../UserPunch.cpp ../UserPunch.h ../NumKeyword.h \
  ../common/PHRQ_base.h ../Phreeqc.h ../common/phrqtype.h ../cvdense.h \
@@ -943,6 +980,135 @@ PHRQ_base.o: ../common/PHRQ_base.cxx ../common/PHRQ_base.h \
 Utils.o: ../common/Utils.cxx ../common/Utils.h ../common/phrqtype.h \
  ../common/Parser.h ../common/PHRQ_base.h ../PhreeqcKeywords/Keywords.h \
  ../common/PHRQ_io.h
+PhreeqcRM.o: ../PhreeqcRM/PhreeqcRM.cpp ../PhreeqcRM/PhreeqcRM.h \
+ ../NameDouble.h ../common/Parser.h ../common/PHRQ_base.h \
+ ../PhreeqcKeywords/Keywords.h ../common/PHRQ_io.h ../common/phrqtype.h \
+ ../PhreeqcRM/IrmResult.h ../common/PHRQ_base.h ../common/PHRQ_io.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../StorageBin.h ../System.h \
+ ../NameDouble.h ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhastLib.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../System.h ../cxxMix.h \
+ ../NumKeyword.h ../Solution.h ../SolutionIsotope.h ../ISolution.h \
+ ../ISolutionComp.h ../global_structures.h ../Surface.h ../SurfaceComp.h \
+ ../SurfaceCharge.h ../NA.h ../Exchange.h ../ExchComp.h ../Surface.h \
+ ../PPassemblage.h ../PPassemblageComp.h ../SSassemblage.h ../SS.h \
+ ../SScomp.h ../cxxKinetics.h ../KineticsComp.h ../GasPhase.h \
+ ../GasComp.h ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CSelectedOutput.hxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CVar.hxx ../Phreeqc.h ../cvdense.h \
+ ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h ../smalldense.h \
+ ../runner.h ../StorageBinList.h ../dumper.h ../SelectedOutput.h \
+ ../UserPunch.h ../Pressure.h ../cxxMix.h ../Use.h
+RM_interface_C.o: ../PhreeqcRM/RM_interface_C.cpp \
+ ../PhreeqcRM/PhreeqcRM.h ../NameDouble.h ../common/Parser.h \
+ ../common/PHRQ_base.h ../PhreeqcKeywords/Keywords.h ../common/PHRQ_io.h \
+ ../common/phrqtype.h ../PhreeqcRM/IrmResult.h \
+ ../PhreeqcRM/RM_interface_C.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhastLib.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../common/PHRQ_base.h \
+ ../StorageBin.h ../System.h ../NameDouble.h ../common/PHRQ_io.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h ../Phreeqc.h \
+ ../cvdense.h ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h \
+ ../smalldense.h ../runner.h ../StorageBinList.h ../dumper.h \
+ ../SelectedOutput.h ../NumKeyword.h ../UserPunch.h ../Pressure.h \
+ ../cxxMix.h ../Use.h ../Surface.h ../SurfaceComp.h ../SurfaceCharge.h \
+ ../global_structures.h ../NA.h
+RM_interface_F.o: ../PhreeqcRM/RM_interface_F.cpp \
+ ../PhreeqcRM/PhreeqcRM.h ../NameDouble.h ../common/Parser.h \
+ ../common/PHRQ_base.h ../PhreeqcKeywords/Keywords.h ../common/PHRQ_io.h \
+ ../common/phrqtype.h ../PhreeqcRM/IrmResult.h \
+ ../PhreeqcRM/RM_interface_F.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhastLib.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../common/PHRQ_base.h \
+ ../StorageBin.h ../System.h ../NameDouble.h ../common/PHRQ_io.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h ../Phreeqc.h \
+ ../cvdense.h ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h \
+ ../smalldense.h ../runner.h ../StorageBinList.h ../dumper.h \
+ ../SelectedOutput.h ../NumKeyword.h ../UserPunch.h ../Pressure.h \
+ ../cxxMix.h ../Use.h ../Surface.h ../SurfaceComp.h ../SurfaceCharge.h \
+ ../global_structures.h ../NA.h
+IPhreeqcPhastLib.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhastLib.cpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../common/PHRQ_io.h ../PhreeqcKeywords/Keywords.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../common/PHRQ_base.h \
+ ../StorageBin.h ../System.h ../NameDouble.h ../common/Parser.h \
+ ../common/PHRQ_base.h ../common/PHRQ_io.h ../common/phrqtype.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhastLib.h
+IPhreeqcPhast.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.cxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqcPhast.h ../common/PHRQ_base.h \
+ ../StorageBin.h ../System.h ../NameDouble.h ../common/Parser.h \
+ ../common/PHRQ_base.h ../PhreeqcKeywords/Keywords.h ../common/PHRQ_io.h \
+ ../common/phrqtype.h ../common/PHRQ_io.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h ../Phreeqc.h ../cvdense.h \
+ ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h ../smalldense.h \
+ ../runner.h ../StorageBinList.h ../dumper.h ../SelectedOutput.h \
+ ../NumKeyword.h ../UserPunch.h ../Pressure.h ../cxxMix.h ../Use.h \
+ ../Surface.h ../SurfaceComp.h ../SurfaceCharge.h ../global_structures.h \
+ ../NA.h ../Solution.h ../SolutionIsotope.h ../ISolution.h \
+ ../ISolutionComp.h ../GasPhase.h ../GasComp.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CSelectedOutput.hxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CVar.hxx
+CSelectedOutput.o: \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CSelectedOutput.cpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Debug.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CSelectedOutput.hxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CVar.hxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h
+fwrap1.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap1.cpp
+fwrap2.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap2.cpp
+fwrap3.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap3.cpp
+fwrap4.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap4.cpp
+fwrap5.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap5.cpp
+fwrap6.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap6.cpp
+fwrap7.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap7.cpp
+fwrap8.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap8.cpp
+fwrap.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/fwrap.cpp
+IPhreeqc.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.cpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h ../common/PHRQ_io.h \
+ ../PhreeqcKeywords/Keywords.h ../Phreeqc.h ../common/phrqtype.h \
+ ../cvdense.h ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h \
+ ../smalldense.h ../runner.h ../StorageBinList.h ../common/PHRQ_base.h \
+ ../dumper.h ../SelectedOutput.h ../NumKeyword.h ../UserPunch.h \
+ ../Pressure.h ../cxxMix.h ../Use.h ../Surface.h ../SurfaceComp.h \
+ ../NameDouble.h ../common/Parser.h ../common/PHRQ_base.h \
+ ../common/PHRQ_io.h ../SurfaceCharge.h ../global_structures.h ../NA.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/thread.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Version.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Debug.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/ErrorReporter.hxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CSelectedOutput.hxx \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/CVar.hxx ../SelectedOutput.h \
+ ../dumper.h
+IPhreeqc_interface_F.o: \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc_interface_F.cpp \
+ ../common/phrqtype.h ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc_interface_F.h
+IPhreeqcLib.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcLib.cpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqc.hpp \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/IPhreeqcCallbacks.h \
+ ../common/PHRQ_io.h ../PhreeqcKeywords/Keywords.h \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/thread.h
+pp_sys.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/pp_sys.cpp
+Var.o: ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.c \
+ ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/Var.h
 
 
 # -----------------------------------------------------------------------------
@@ -951,7 +1117,10 @@ clean:
 
 dependencies:
 	mkdir -p $(CLASS_DEBUG_DIR) 
-	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. -I../PhreeqcKeywords -I../common ../*.cxx ../*.cpp ../PhreeqcKeywords/*.cpp ../common/*.cxx
+	cd $(CLASS_DEBUG_DIR); gcc -MM -I.. -I../PhreeqcKeywords -I../common ../*.cxx ../*.cpp ../PhreeqcKeywords/*.cpp ../common/*.cxx \
+	   -I../PhreeqcRM ../PhreeqcRM/*.cpp \
+	   -I../PhreeqcRM/IPhreeqcPhast ../PhreeqcRM/IPhreeqcPhast/*.cpp ../PhreeqcRM/IPhreeqcPhast/*.cxx \
+	   -I../PhreeqcRM/IPhreeqcPhast/IPhreeqc ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/*.cpp ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/*.c
 
 tester:
 	cd ../mytest; make clean; make -k -j 1 $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
