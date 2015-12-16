@@ -992,7 +992,7 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD, dx = 0;
+	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD; #, dx = 0;
 	int i, l_nmix;
 
 	//std::vector<LDBLE> m, m1;
@@ -1887,6 +1887,9 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	int first_c, last_c, last_c2 = 0;
 	char token[MAX_LENGTH];
 	LDBLE mixf, temp;
+
+	icell = jcell = -1;
+	first_c = last_c = -1;
 
 	current_x = sum_R = 0.0;
 	if (dV_dcell)
