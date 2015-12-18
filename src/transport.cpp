@@ -2129,14 +2129,14 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	m_s = (struct M_S *) free_check_null(m_s);
 
-	for (i = 0; i < all_cells; i++)
-	{
+    for (i = first_c; i < last_c2; i++)
+    {
+            ct[i].J_ij = (struct J_ij *) free_check_null(ct[i].J_ij);
+            if (il_calcs)
+                    ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
+            ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
 
-		ct[i].J_ij = (struct J_ij *) free_check_null(ct[i].J_ij);
-		ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
-		ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
-
-	}
+    }
 	return (OK);
 }
 
