@@ -4,10 +4,12 @@
 #include <map>
 #include <vector>
 #include <sstream>
+class Phreeqc;
 class Dictionary
 {
 public:
 	Dictionary(void);
+	Dictionary(std::string & words_string);
 	~Dictionary(void);
 	int Find(std::string str);
 	int MapSize() {return (int) this->dictionary_map.size();}
@@ -19,6 +21,8 @@ protected:
 	std::map<std::string, int> dictionary_map;
 	std::vector<std::string> words;
 	std::ostringstream dictionary_oss;
+
 };
+
 #endif // !defined(DICTIONARY_H_INCLUDED)
 

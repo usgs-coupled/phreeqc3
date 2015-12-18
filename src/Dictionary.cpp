@@ -2,6 +2,16 @@
 Dictionary::Dictionary(void)
 {
 }
+
+Dictionary::Dictionary(std::string & words_string)
+{
+	std::istringstream words_stream(words_string);
+	std::string str;
+	while (words_stream >> str)
+	{
+		this->Find(str);
+	}
+}
 Dictionary::~Dictionary(void)
 {
 }
