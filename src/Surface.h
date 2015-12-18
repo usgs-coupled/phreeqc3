@@ -73,7 +73,9 @@ public:
 	void Set_solution_equilibria(bool tf) {solution_equilibria = tf;}
 	int Get_n_solution(void)const {return n_solution;}
 	void Set_n_solution(int i) {n_solution = i;}
-
+	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
+	
 protected:
 	std::vector < cxxSurfaceComp > surface_comps;
 	std::vector < cxxSurfaceCharge > surface_charges;

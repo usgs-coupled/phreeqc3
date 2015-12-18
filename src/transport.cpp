@@ -72,6 +72,7 @@ transport(void)
 	diffc_max = 0.0;
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
 	dV_dcell = current_A = 0.0;
+	current_cells = NULL;
 	double rm_time = 0.0;
 	double phreeqc_time = 0.0;
 	double rm_comm_time = 0.0;
@@ -976,7 +977,7 @@ transport(void)
 		ct = (struct CT *) free_check_null(ct);
 		moles_added = (struct MOLES_ADDED *) free_check_null(moles_added);
 	}
-	if (dV_dcell)
+	//if (dV_dcell)
 		free_check_null(current_cells);
 
 	initial_total_time += rate_sim_time;

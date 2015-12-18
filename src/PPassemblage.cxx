@@ -321,7 +321,49 @@ Find(const std::string name_in)
 	}
 	return comp;
 }
+/* ---------------------------------------------------------------------- */
+void
+cxxPPassemblage::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+/* ---------------------------------------------------------------------- */
+{
+	/* int n_user; */
+	ints.push_back(this->n_user);
+	ints.push_back(this->new_def ? 1 : 0);
+	ints.push_back((int) this->pp_assemblage_comps.size());
+	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
+		 this->pp_assemblage_comps.begin(); it != this->pp_assemblage_comps.end();
+		 it++)
+	{
+		(*it).second.mpi_pack(dictionary, ints, doubles);
+	}
+	this->eltList.mpi_pack(dictionary, ints, doubles);
+	this->assemblage_totals.mpi_pack(dictionary, ints, doubles);
+}
 
+/* ---------------------------------------------------------------------- */
+void
+cxxPPassemblage::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+	std::vector < double >&doubles, int &ii, int &dd)
+/* ---------------------------------------------------------------------- */
+{
+	/* int n_user; */
+	this->n_user = ints[ii++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	this->new_def = (ints[ii++] != 0);
+	int count = ints[ii++];
+	this->pp_assemblage_comps.clear();
+	for (int n = 0; n < count; n++)
+	{
+		cxxPPassemblageComp ppc;
+		ppc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+		std::string str(ppc.Get_name());
+		this->pp_assemblage_comps[str] = ppc;
+	}
+	this->eltList.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->assemblage_totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+}
 const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("eltlist"),	        // 0
 	std::vector< std::string >::value_type("component"),	    // 1

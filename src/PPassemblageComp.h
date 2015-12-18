@@ -60,6 +60,8 @@ class cxxPPassemblageComp: public PHRQ_base
 
 	void add(const cxxPPassemblageComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
+	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 
 protected:
 	std::string name;

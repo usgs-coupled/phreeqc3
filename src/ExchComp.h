@@ -104,8 +104,10 @@ class cxxExchComp: public PHRQ_base
 
 	void add(const cxxExchComp & comp, LDBLE extensive);
 	void multiply(LDBLE extensive);
+	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 
-  protected:
+protected:
 	std::string formula;
 	// EXCHANGE_MODIFY candidates
 	cxxNameDouble totals;
