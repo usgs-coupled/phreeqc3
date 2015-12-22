@@ -41,6 +41,8 @@ IRM_RESULT Parallelizer::Initialize()
 	{
 		this->phreeqcrm_io->error_msg("Database name not defined.", true);
 	}
+	// Additional keywords from input file
+	this->RunString(true, false, false, this->phreeqc_ptr->definitions_for_parallelizer.str());
 	this->SetRebalanceFraction(0.0);
 	this->SetScreenOn(false);
 	std::vector<int> mask;

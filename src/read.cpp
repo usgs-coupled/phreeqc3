@@ -429,6 +429,7 @@ read_exchange_species(void)
 
 	association = TRUE;
 	s_ptr = NULL;
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 /*
  *   Read eqn from file and call parser
  */
@@ -866,6 +867,7 @@ read_exchange_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	return (return_value);
 }
@@ -1153,6 +1155,7 @@ read_exchange_master_species(void)
 	struct element *elts_ptr;
 	struct species *s_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	for (;;)
 	{
 		j = check_line("Exchange species equation", FALSE, TRUE, TRUE, TRUE);
@@ -1160,6 +1163,7 @@ read_exchange_master_species(void)
 		{
 			break;
 		}
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 /*
  *   Get element name with valence, allocate space, store
  */
@@ -3248,6 +3252,7 @@ read_master_species(void)
 	struct species *s_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	elts_ptr = NULL;
 	for (;;)
 	{
@@ -3256,6 +3261,7 @@ read_master_species(void)
 		{
 			break;
 		}
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 /*
  *   Get element name with valence, allocate space, store
  */
@@ -3821,7 +3827,7 @@ read_phases(void)
 		"vm"	/* 15, molar volume, must replace delta_v */
 	};
 	int count_opt_list = 16;
-
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	association = FALSE;
 /*
  *   Read eqn from file and call parser
@@ -4092,6 +4098,7 @@ read_phases(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	return (return_value);
 }
@@ -4741,6 +4748,7 @@ read_selected_output(void)
 	ptr = line;
 	int n_user, n_user_end;
 	char *description;
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	read_number_description(ptr, &n_user, &n_user_end, &description);
 
 	SelectedOutput temp_selected_output;
@@ -5109,6 +5117,7 @@ read_selected_output(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	
 	if (temp_selected_output.Get_new_def() || so == SelectedOutput_map.end())
@@ -6004,7 +6013,7 @@ read_species(void)
 		"viscosity"		/* 23, b and d parms for viscosity, (b1 + b2 * exp(-b3 * tc)) * c + (d1 * exp(-d2 * tc)) * c ^ d3 */
 	};
 	int count_opt_list = 24;
-
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	association = TRUE;
 	s_ptr = NULL;
 /*
@@ -6499,6 +6508,7 @@ read_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	return (return_value);
 }
@@ -6765,7 +6775,7 @@ read_surface_species(void)
 		"vm"					/* 18 */
 	};
 	int count_opt_list = 19;
-
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	association = TRUE;
 	/*
 	 *   Read eqn from file and call parser
@@ -7144,6 +7154,7 @@ read_surface_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	return (return_value);
 }
@@ -7787,6 +7798,7 @@ read_surface_master_species(void)
 	int count_opt_list = 0;
 	opt_save = OPTION_DEFAULT;
 	return_value = UNKNOWN;
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	for (;;)
 	{
 		opt = get_option(opt_list, count_opt_list, &next_char);
@@ -7877,6 +7889,7 @@ read_surface_master_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	return (return_value);
 }
@@ -9210,6 +9223,7 @@ read_rates(void)
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 /*
  *   Read advection number (not currently used)
  */
@@ -9319,6 +9333,7 @@ read_rates(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 /*	output_msg(sformatf( "%s", rates[0].commands));
  */ 
@@ -9352,7 +9367,7 @@ read_user_print(void)
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
-
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -9414,6 +9429,7 @@ read_user_print(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 /*	output_msg(sformatf( "%s", rates[0].commands));
  */ return (return_value);
@@ -9447,7 +9463,7 @@ read_user_punch(void)
 		"headings"				/* 3 */
 	};
 	int count_opt_list = 4;
-
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -9565,6 +9581,7 @@ read_user_punch(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	UserPunch_map.erase(n_user); 
 	UserPunch_map[n_user] = temp_user_punch;
@@ -9727,7 +9744,7 @@ read_user_graph(void)
 	};
 	int count_opt_list = 14;
 	int i;
-
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -9933,6 +9950,7 @@ read_user_graph(void)
 
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 #ifdef PHREEQ98
 	for (i = 0; i < user_graph_count_headings; i++)
@@ -10888,6 +10906,7 @@ read_named_logk(void)
 	};
 	int count_opt_list = 11;
 	logk_ptr = NULL;
+	if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 /*
  *   Read name followed by options
  */
@@ -11080,6 +11099,7 @@ read_named_logk(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+		if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 	}
 	return (return_value);
 }

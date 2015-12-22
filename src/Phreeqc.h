@@ -1778,6 +1778,7 @@ protected:
 	/* input.cpp ------------------------------- */
 	int check_line_return;  
 	int reading_db;
+	std::ostringstream definitions_for_parallelizer;
 
 	/* integrate.cpp ------------------------------- */
 	LDBLE midpoint_sv;
