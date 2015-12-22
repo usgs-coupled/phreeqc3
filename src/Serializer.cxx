@@ -9,104 +9,76 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "Surface.h"
-Serializer::Serializer(void)
+Serializer::Serializer(PHRQ_io *io)
+	: PHRQ_base(io)
 {
 }
 Serializer::~Serializer(void)
 {
 }
-bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool include_t, bool include_p)
+bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool include_t, bool include_p, PHRQ_io *io)
 {
-	this->ints.push_back(end - start + 1);
 	for (int i = start; i <= end; i++)
 	{
 		cxxSolution *soln_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_solution_map(), i);
 		if (soln_ptr)
 		{
-			ints.push_back(1);
+			ints.push_back((int) PT_SOLUTION);
 			soln_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
 		}
 		// Exchangers
 		{
-		cxxExchange *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_exchange_map(), i);
-		if (entity_ptr)
-		{
-			ints.push_back(1);
-			entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
-		}
+			cxxExchange *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_exchange_map(), i);
+			if (entity_ptr)
+			{
+				ints.push_back((int) PT_EXCHANGE);
+				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			}
 		}
 		// GasPhases
 		{
-		cxxGasPhase *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_gas_phase_map(), i);
-		if (entity_ptr)
-		{
-			ints.push_back(1);
-			entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
-		}
+			cxxGasPhase *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_gas_phase_map(), i);
+			if (entity_ptr)
+			{
+				ints.push_back((int) PT_GASPHASE);
+				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			}
 		}
 		// Kinetics
 		{
-		cxxKinetics *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_kinetics_map(), i);
-		if (entity_ptr)
-		{
-			ints.push_back(1);
-			entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
-		}
+			cxxKinetics *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_kinetics_map(), i);
+			if (entity_ptr)
+			{
+				ints.push_back((int) PT_KINETICS);
+				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			}
 		}
 		// PPassemblages
 		{
-		cxxPPassemblage *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_pp_assemblage_map(), i);
-		if (entity_ptr)
-		{
-			ints.push_back(1);
-			entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
-		}
+			cxxPPassemblage *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_pp_assemblage_map(), i);
+			if (entity_ptr)
+			{
+				ints.push_back((int) PT_PPASSEMBLAGE);
+				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			}
 		}
 		// SSassemblages
 		{
-		cxxSSassemblage *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_ss_assemblage_map(), i);
-		if (entity_ptr)
-		{
-			ints.push_back(1);
-			entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
-		}
+			cxxSSassemblage *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_ss_assemblage_map(), i);
+			if (entity_ptr)
+			{
+				ints.push_back((int) PT_SSASSEMBLAGE);
+				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			}
 		}
 		// Surfaces
 		{
-		cxxSurface *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_surface_map(), i);
-		if (entity_ptr)
-		{
-			ints.push_back(1);
-			entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
-		}
-		else
-		{
-			ints.push_back(0);
-		}
+			cxxSurface *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_surface_map(), i);
+			if (entity_ptr)
+			{
+				ints.push_back((int) PT_SURFACES);
+				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			}
 		}
 		// Temperature
 		if (include_t)
@@ -114,17 +86,9 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			cxxTemperature *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_temperature_map(), i);
 			if (entity_ptr)
 			{
-				ints.push_back(1);
+				ints.push_back((int) PT_TEMPERATURE);
 				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
 			}
-			else
-			{
-				ints.push_back(0);
-			}
-		}			
-		else
-		{
-			ints.push_back(0);
 		}
 		// Pressure
 		if (include_p)
@@ -132,18 +96,10 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			cxxPressure *entity_ptr = Utilities::Rxn_find(phreeqc_ref.Get_Rxn_pressure_map(), i);
 			if (entity_ptr)
 			{
-				ints.push_back(1);
+				ints.push_back((int) PT_PRESSURE);
 				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
 			}
-			else
-			{
-				ints.push_back(0);
-			}
 		}			
-		else
-		{
-			ints.push_back(0);
-		}
 	}	
 	return true;
 }
@@ -153,81 +109,89 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 {
 	int ii = 0;
 	int dd = 0;
-	int count = ints[ii++];
-	for (int i = 0; i < count; i++)
+	while (ii < ints.size())
 	{
-		// Solution
-		if (ints[ii++] == 1)
+		PACK_TYPE type = (PACK_TYPE) ints[ii++];
+		switch (type)
 		{
-			cxxSolution soln;
-			soln.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = soln.Get_n_user();
-			phreeqc_ref.Get_Rxn_solution_map()[n_user] = soln;
-		}
-		
-		// Exchanger
-		if (ints[ii++] == 1)
-		{
-			cxxExchange entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_exchange_map()[n_user] = entity;
-		}
-		// GasPhase
-		if (ints[ii++] == 1)
-		{
-			cxxGasPhase entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_gas_phase_map()[n_user] = entity;
-		}
-		// Kinetics
-		if (ints[ii++] == 1)
-		{
-			cxxKinetics entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_kinetics_map()[n_user] = entity;
-		}
-		// PPassemblages
-		if (ints[ii++] == 1)
-		{
-			cxxPPassemblage entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_pp_assemblage_map()[n_user] = entity;
-		}
-		// SSassemblages
-		if (ints[ii++] == 1)
-		{
-			cxxSSassemblage entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_ss_assemblage_map()[n_user] = entity;
-		}
-		// Surfaces
-		if (ints[ii++] == 1)
-		{
-			cxxSurface entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_surface_map()[n_user] = entity;
-		}
-		// Temperature
-		if (ints[ii++] == 1)
-		{
-			cxxTemperature entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_temperature_map()[n_user] = entity;
-		}
-		// Pressure
-		if (ints[ii++] == 1)
-		{
-			cxxPressure entity;
-			entity.mpi_unpack(this->dictionary, ints, doubles, ii, dd);
-			int n_user = entity.Get_n_user();
-			phreeqc_ref.Get_Rxn_pressure_map()[n_user] = entity;
+		case PT_SOLUTION:	
+			{
+				cxxSolution soln;
+				soln.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = soln.Get_n_user();
+				//std::cerr << "unpacked solution " << n_user << std::endl;
+				phreeqc_ref.Get_Rxn_solution_map()[n_user] = soln;
+			}
+			break;
+		case PT_EXCHANGE:	
+			{
+				cxxExchange entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_exchange_map()[n_user] = entity;
+			}
+			break;
+		case PT_GASPHASE:
+			{
+				cxxGasPhase entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_gas_phase_map()[n_user] = entity;
+			}
+			break;
+		case PT_KINETICS:	
+			{
+				cxxKinetics entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_kinetics_map()[n_user] = entity;
+			}
+			break;
+		case PT_PPASSEMBLAGE:	
+			{
+				cxxPPassemblage entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				//std::cerr << "unpacked pp assemblage " << n_user << std::endl;
+				phreeqc_ref.Get_Rxn_pp_assemblage_map()[n_user] = entity;
+			}
+			break;
+		case PT_SSASSEMBLAGE:	
+			{
+				cxxSSassemblage entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_ss_assemblage_map()[n_user] = entity;
+			}
+			break;
+		case PT_SURFACES:	
+			{
+				cxxSurface entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_surface_map()[n_user] = entity;
+			}
+			break;
+		case PT_TEMPERATURE:
+			{
+				cxxTemperature entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_temperature_map()[n_user] = entity;
+			}
+			break;
+		case PT_PRESSURE:	
+			{
+				cxxPressure entity;
+				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				int n_user = entity.Get_n_user();
+				phreeqc_ref.Get_Rxn_pressure_map()[n_user] = entity;
+			}
+			break;
+		default:
+			std::cerr << "Unknown pack type in deserialize " << type << std::endl;
+			exit(4);
+			break;
 		}
 	}
 	return true;

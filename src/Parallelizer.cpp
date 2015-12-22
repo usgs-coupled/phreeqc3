@@ -17,6 +17,9 @@
 #ifdef USE_OPENMP
 #include <omp.h>
 #endif
+#ifdef USE_MPI
+#include "Serializer.h"
+#endif
 
 Parallelizer::Parallelizer(int nxyz_arg, MP_TYPE data_for_parallel_processing, PHRQ_io *io)
 : PhreeqcRM(nxyz_arg, data_for_parallel_processing, io)
@@ -42,6 +45,8 @@ IRM_RESULT Parallelizer::Initialize()
 	return IRM_OK;
 }
 #ifdef USE_MPI
+//#define USE_DUMP
+#ifdef USE_DUMP
 IRM_RESULT Parallelizer::Phreeqc2RM(Phreeqc *phreeqc_ptr)
 {
     int method_number = 1000;
@@ -90,6 +95,126 @@ IRM_RESULT Parallelizer::Phreeqc2RM(Phreeqc *phreeqc_ptr)
 	}
 	return IRM_OK;
 }
+#else   
+//Mpi_pack
+IRM_RESULT Parallelizer::Phreeqc2RM(Phreeqc *phreeqc_ptr)
+{
+    int method_number = 1000;
+	if (this->GetMpiMyself() == 0)
+	{
+		MPI_Bcast(&method_number, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+	}
+	for (int i = 0; i < this->GetMpiTasks(); i++)
+	{
+		if (this->GetMpiMyself() == 0 || this->GetMpiMyself() == i)
+		{
+
+			if (this->GetMpiMyself() == i && i == 0)
+			{
+				cxxStorageBin sb;
+				for (int j = this->start_cell[i]; j <= this->end_cell[i]; j++)
+				{
+					phreeqc_ptr->phreeqc2cxxStorageBin(sb, j);
+				}
+				this->workers[0]->Get_PhreeqcPtr()->cxxStorageBin2phreeqc(sb);
+				std::cerr << "Root: " << this->start_cell[i] << " " << this->end_cell[i] << std::endl;
+				continue;
+			}
+			if (this->GetMpiMyself() == 0)
+			{
+#define PACK
+#if !defined(PACK)
+				Serializer serial;
+				serial.Serialize(*phreeqc_ptr, this->start_cell[i], this->end_cell[i], false, false);
+				int sizes[3];
+				sizes[0] = (int) serial.GetDictionary().GetDictionaryOss().str().size();
+				sizes[1] = (int) serial.GetInts().size();
+				sizes[2] = (int) serial.GetDoubles().size();
+				MPI_Send(&sizes[0], 3, MPI_INT, i, 0, MPI_COMM_WORLD);
+				MPI_Send(serial.GetDictionary().GetDictionaryOss().str().c_str(), sizes[0], MPI_CHAR, i, 0, MPI_COMM_WORLD);
+				MPI_Send(&serial.GetInts()[0], sizes[1], MPI_INT, i, 0, MPI_COMM_WORLD);
+				MPI_Send(&serial.GetDoubles()[0], sizes[2], MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
+#else
+				Serializer serial;
+				serial.Serialize(*phreeqc_ptr, this->start_cell[i], this->end_cell[i], false, false);
+				int sizes[4];
+				
+				int total_size = (int) (serial.GetDictionary().GetDictionaryOss().str().size() * sizeof(char));
+				total_size += (int) (serial.GetInts().size() * sizeof(int));
+				total_size += (int) (serial.GetDoubles().size() * sizeof(double));
+				total_size += 1000;
+				int position=0;
+				char *buffer = new char[total_size];
+
+				MPI_Pack(serial.GetDictionary().GetDictionaryOss().str().c_str(), (int) serial.GetDictionary().GetDictionaryOss().str().size(), 
+					MPI_CHAR, buffer, total_size, &position, MPI_COMM_WORLD);
+				MPI_Pack(&(serial.GetInts()[0]), (int) serial.GetInts().size(), 
+					MPI_INT, buffer, total_size, &position, MPI_COMM_WORLD);
+				MPI_Pack(&(serial.GetDoubles()[0]), (int) serial.GetDoubles().size(), 
+					MPI_DOUBLE, buffer, total_size, &position, MPI_COMM_WORLD);
+
+				sizes[0] = position;
+				sizes[1] = (int) serial.GetDictionary().GetDictionaryOss().str().size();
+				sizes[2] = (int) serial.GetInts().size();
+				sizes[3] = (int) serial.GetDoubles().size();
+				MPI_Send(&sizes, 4, MPI_INT, i, 0, MPI_COMM_WORLD);
+				MPI_Send(buffer, position, MPI_PACKED, i, 0, MPI_COMM_WORLD);
+				delete [] buffer;
+#endif
+			}
+			else if (this->GetMpiMyself() == i)
+			{
+#if !defined(PACK)
+				MPI_Status mpi_status;
+				int sizes[3];
+				MPI_Recv(&sizes[0], 3, MPI_INT, 0, 0, MPI_COMM_WORLD, &mpi_status);
+				Serializer serial;
+				std::string  string_buffer;
+				string_buffer.resize(sizes[0]);
+				MPI_Recv((void *) &string_buffer[0], sizes[0], MPI_CHAR, 0, 0, MPI_COMM_WORLD, &mpi_status);
+				Dictionary dictionary(string_buffer);
+				std::vector<int> ints;
+				ints.resize(sizes[1], 0);
+				MPI_Recv((void *) &(ints[0]), sizes[1] + 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &mpi_status);
+				std::vector<double> doubles;
+				doubles.resize(sizes[2],0.0);
+				MPI_Recv((void *) &doubles[0], sizes[2], MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &mpi_status);
+				IPhreeqcPhast * phast_iphreeqc_worker = this->workers[0];
+				serial.Deserialize(*phast_iphreeqc_worker->Get_PhreeqcPtr(), dictionary, ints, doubles);
+#else
+				MPI_Status mpi_status;
+				int sizes[4];
+				MPI_Recv(&sizes[0], 4, MPI_INT, 0, 0, MPI_COMM_WORLD, &mpi_status);
+
+				Serializer serial;
+				std::string  string_buffer;
+				string_buffer.resize(sizes[1]);
+				std::vector<int> ints;
+				ints.resize(sizes[2], 0);
+				std::vector<double> doubles;
+				doubles.resize(sizes[3],0.0);
+				char *buffer = new char[sizes[0]];
+				MPI_Recv((void *) buffer, sizes[0], MPI_PACKED, 0, 0, MPI_COMM_WORLD, &mpi_status);
+
+				int position = 0;
+				MPI_Unpack(buffer, sizes[0], &position, &(string_buffer[0]), sizes[1],
+					MPI_CHAR, MPI_COMM_WORLD);
+				MPI_Unpack(buffer, sizes[0], &position, &(ints[0]), sizes[2],
+					MPI_INT, MPI_COMM_WORLD);
+				MPI_Unpack(buffer, sizes[0], &position, &(doubles[0]), sizes[3],
+					MPI_DOUBLE, MPI_COMM_WORLD);
+
+				Dictionary dictionary(string_buffer);
+				IPhreeqcPhast * phast_iphreeqc_worker = this->workers[0];
+				serial.Deserialize(*phast_iphreeqc_worker->Get_PhreeqcPtr(), dictionary, ints, doubles);
+				delete [] buffer;
+#endif
+			}
+		}
+	}
+	return IRM_OK;
+}
+#endif
 #else
 IRM_RESULT Parallelizer::Phreeqc2RM(Phreeqc *phreeqc_ptr)
 {
@@ -184,8 +309,85 @@ IRM_RESULT Parallelizer::Phreeqc2RM(Phreeqc *phreeqc_ptr)
 #endif
 #ifdef USE_MPI
 IRM_RESULT Parallelizer::RM2Phreeqc(Phreeqc *phreeqc_ptr)
+//Serialize
 {
-	// move data to phreeqc
+    int method_number = 1001;
+	if (this->GetMpiMyself() == 0)
+	{
+		MPI_Bcast(&method_number, 1, MPI_INTEGER, 0, MPI_COMM_WORLD);
+	}
+	for (int i = 0; i < this->GetMpiTasks(); i++)
+	{
+		if (this->GetMpiMyself() == 0 || this->GetMpiMyself() == i)
+		{
+
+			if (this->GetMpiMyself() == i && i == 0)
+			{
+				cxxStorageBin sb;
+				for (int j = this->start_cell[i]; j <= this->end_cell[i]; j++)
+				{
+					this->workers[0]->Get_PhreeqcPtr()->phreeqc2cxxStorageBin(sb, j);
+				}
+				phreeqc_ptr->cxxStorageBin2phreeqc(sb);
+				continue;
+			}
+			if (this->GetMpiMyself() == 0)
+			{
+				MPI_Status mpi_status;
+				int sizes[4];
+				MPI_Recv(&sizes[0], 4, MPI_INT, i, 0, MPI_COMM_WORLD, &mpi_status);
+
+				Serializer serial;
+				std::string  string_buffer;
+				string_buffer.resize(sizes[1]);
+				std::vector<int> ints;
+				ints.resize(sizes[2], 0);
+				std::vector<double> doubles;
+				doubles.resize(sizes[3],0.0);
+				char *buffer = new char[sizes[0]];
+				MPI_Recv((void *) buffer, sizes[0], MPI_PACKED, i, 0, MPI_COMM_WORLD, &mpi_status);
+
+				int position = 0;
+				MPI_Unpack(buffer, sizes[0], &position, &(string_buffer[0]), sizes[1],
+					MPI_CHAR, MPI_COMM_WORLD);
+				MPI_Unpack(buffer, sizes[0], &position, &(ints[0]), sizes[2],
+					MPI_INT, MPI_COMM_WORLD);
+				MPI_Unpack(buffer, sizes[0], &position, &(doubles[0]), sizes[3],
+					MPI_DOUBLE, MPI_COMM_WORLD);
+
+				Dictionary dictionary(string_buffer);
+				serial.Deserialize(*phreeqc_ptr, dictionary, ints, doubles);
+				delete [] buffer;
+			}
+			else if (this->GetMpiMyself() == i)
+			{
+				Serializer serial;
+				serial.Serialize(*this->GetWorkers()[0]->Get_PhreeqcPtr(), this->start_cell[i], this->end_cell[i], false, false);
+				int sizes[4];
+				int total_size = (int) (serial.GetDictionary().GetDictionaryOss().str().size() * sizeof(char));
+				total_size += (int) (serial.GetInts().size() * sizeof(int));
+				total_size += (int) (serial.GetDoubles().size() * sizeof(double));
+				total_size += 1000;
+				int position=0;
+				char *buffer = new char[total_size];
+
+				MPI_Pack(serial.GetDictionary().GetDictionaryOss().str().c_str(), (int) serial.GetDictionary().GetDictionaryOss().str().size(), 
+					MPI_CHAR, buffer, total_size, &position, MPI_COMM_WORLD);
+				MPI_Pack(&(serial.GetInts()[0]), (int) serial.GetInts().size(), 
+					MPI_INT, buffer, total_size, &position, MPI_COMM_WORLD);
+				MPI_Pack(&(serial.GetDoubles()[0]), (int) serial.GetDoubles().size(), 
+					MPI_DOUBLE, buffer, total_size, &position, MPI_COMM_WORLD);
+
+				sizes[0] = position;
+				sizes[1] = (int) serial.GetDictionary().GetDictionaryOss().str().size();
+				sizes[2] = (int) serial.GetInts().size();
+				sizes[3] = (int) serial.GetDoubles().size();
+				MPI_Send(&sizes, 4, MPI_INT, 0, 0, MPI_COMM_WORLD);
+				MPI_Send(buffer, position, MPI_PACKED, 0, 0, MPI_COMM_WORLD);
+				delete [] buffer;
+			}
+		}
+	}
 	return IRM_OK;
 }
 #else

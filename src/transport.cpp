@@ -12,6 +12,7 @@
 #include "PhreeqcRM.h"
 #include "IPhreeqcPhast.h"
 #include "IPhreeqc.hpp"
+#include "Serializer.h"
 #endif
 #ifdef USE_MPI
 #include <mpi.h>
@@ -528,6 +529,15 @@ transport(void)
 					multi_D(stagkin_time, 1, FALSE);
 				double time_rm_start = CLOCK();
 #ifdef PHREEQC_PARALLEL
+				{
+					//Serializer serial;
+					//serial.Serialize(*this, 0, count_cells + 1, false, false);
+					////this->Rxn_solution_map.clear();
+					//Dictionary d1(serial.GetDictionary().GetDictionaryOss().str());
+					//Serializer serial1;
+					//serial1.Deserialize(*this, d1, serial.GetInts(), serial.GetDoubles());
+
+				}
 				// move data to workers
 				phreeqcrm_ptr->Phreeqc2RM(this);
 				rm_comm_time += (CLOCK() - time_rm_start);
@@ -539,7 +549,7 @@ transport(void)
 				rm_calc_time += (CLOCK() - time_rm_calc_start);
 				//std::cerr << phreeqcrm_ptr->GetErrorString() << std::endl;
 				// move data back to phreeqc
-				//phreeqcrm_ptr->RM2Phreeqc(this);
+				phreeqcrm_ptr->RM2Phreeqc(this);
 #endif
 
 #ifdef PHREEQC_PARALLELyyy
