@@ -384,7 +384,7 @@ cxxPPassemblageComp::multiply(LDBLE extensive)
 	this->initial_moles *= extensive;
 }
 void
-cxxPPassemblageComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxPPassemblageComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 	ints.push_back(dictionary.Find(this->name));
@@ -397,11 +397,11 @@ cxxPPassemblageComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 	ints.push_back( this->force_equality ? 1 : 0);
 	ints.push_back(this->dissolve_only ? 1 : 0);
 	ints.push_back(this->precipitate_only ? 1 : 0);
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 }
 
 void
-cxxPPassemblageComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
+cxxPPassemblageComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->name = dictionary.GetWords()[ints[ii++]];
 	this->add_formula = dictionary.GetWords()[ints[ii++]];
@@ -413,7 +413,7 @@ cxxPPassemblageComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&int
 	this->force_equality = (ints[ii++] != 0);
 	this->dissolve_only = (ints[ii++] != 0);
 	this->precipitate_only = (ints[ii++] != 0);
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 }
 
 

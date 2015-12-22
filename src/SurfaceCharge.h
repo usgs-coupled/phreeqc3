@@ -53,8 +53,8 @@ public:
 	void Set_dg(LDBLE t) {dg = t;}
 	LDBLE Get_psi_to_z(void) const {return psi_to_z;}
 	void Set_psi_to_z(LDBLE t) {psi_to_z = t;}
-	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
+	void Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 	
 protected:
 	LDBLE g;
@@ -106,8 +106,8 @@ public:
 	std::map<LDBLE, cxxSurfDL> &Get_g_map(void) {return g_map;}
 	void Set_g_map(std::map<LDBLE, cxxSurfDL> & t) {g_map = t;}
 	std::map<int, double> & Get_dl_species_map(void)       {return this->dl_species_map;}
-	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
+	void Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 
 protected:
 	std::string name;

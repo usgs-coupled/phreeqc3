@@ -462,7 +462,7 @@ cxxSurfaceCharge::multiply(LDBLE extensive)
 	this->diffuse_layer_totals.multiply(extensive);
 }
 void
-cxxSurfaceCharge::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSurfaceCharge::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 
@@ -474,7 +474,7 @@ cxxSurfaceCharge::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 	doubles.push_back(this->la_psi);
 	doubles.push_back(this->capacitance[0]);
 	doubles.push_back(this->capacitance[1]);
-	this->diffuse_layer_totals.mpi_pack(dictionary, ints, doubles);
+	this->diffuse_layer_totals.Serialize(dictionary, ints, doubles);
 	doubles.push_back(this->sigma0);
 	doubles.push_back(this->sigma1);
 	doubles.push_back(this->sigma2);
@@ -485,7 +485,7 @@ cxxSurfaceCharge::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 		for (it = this->g_map.begin(); it != this->g_map.end(); it++) 
 		{
 			doubles.push_back(it->first);
-			it->second.mpi_pack(dictionary, ints, doubles);
+			it->second.Serialize(dictionary, ints, doubles);
 		}
 	}
 	ints.push_back((int) this->dl_species_map.size());
@@ -500,7 +500,7 @@ cxxSurfaceCharge::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 }
 
 void
-cxxSurfaceCharge::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSurfaceCharge::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->name = dictionary.GetWords()[ints[ii++]];
@@ -511,7 +511,7 @@ cxxSurfaceCharge::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 	this->la_psi = doubles[dd++];
 	this->capacitance[0] = doubles[dd++];
 	this->capacitance[1] = doubles[dd++];
-	this->diffuse_layer_totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->diffuse_layer_totals.Deserialize(dictionary, ints, doubles, ii, dd);
 	this->sigma0 = doubles[dd++];
 	this->sigma1 = doubles[dd++];
 	this->sigma2 = doubles[dd++];
@@ -523,7 +523,7 @@ cxxSurfaceCharge::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 		{
 			double d = doubles[dd++];
 			cxxSurfDL sdl;
-			sdl.mpi_unpack(dictionary, ints, doubles, ii, dd);
+			sdl.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->g_map[d] = sdl;
 		}
 	}
@@ -541,7 +541,7 @@ cxxSurfaceCharge::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 
 }
 void
-cxxSurfDL::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSurfDL::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 	doubles.push_back(this->g);
@@ -550,7 +550,7 @@ cxxSurfDL::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 }
 
 void
-cxxSurfDL::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSurfDL::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->g = doubles[dd++];

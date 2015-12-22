@@ -447,12 +447,12 @@ cxxSurfaceComp::multiply(LDBLE extensive)
 	this->charge_balance *= extensive;
 }
 void
-cxxSurfaceComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxSurfaceComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	ints.push_back(dictionary.Find(this->formula));
 	doubles.push_back(this->formula_z);
 	doubles.push_back(this->moles);
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 	doubles.push_back(this->la);
 	ints.push_back(dictionary.Find(this->charge_name));
 	doubles.push_back(this->charge_balance);
@@ -464,12 +464,12 @@ cxxSurfaceComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std:
 }
 
 void
-cxxSurfaceComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
+cxxSurfaceComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->formula = dictionary.GetWords()[ints[ii++]];
 	this->formula_z = doubles[dd++];
 	this->moles = doubles[dd++];
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 	this->la = doubles[dd++];
 	this->charge_name = dictionary.GetWords()[ints[ii++]];
 	this->charge_balance = doubles[dd++];

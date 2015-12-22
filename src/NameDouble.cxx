@@ -599,7 +599,7 @@ cxxNameDouble::sort_second(void)
 	return myvec;
 }
 void
-cxxNameDouble::mpi_pack(Dictionary &dictionary, std::vector < int >&ints,
+cxxNameDouble::Serialize(Dictionary &dictionary, std::vector < int >&ints,
 						std::vector < double >&doubles)
 {
 	ints.push_back((int) (*this).size());
@@ -611,7 +611,7 @@ cxxNameDouble::mpi_pack(Dictionary &dictionary, std::vector < int >&ints,
 	}
 }
 void
-cxxNameDouble::mpi_unpack(Dictionary &dictionary, std::vector<int> &ints, std::vector<double> &doubles, int &ii, int &dd)
+cxxNameDouble::Deserialize(Dictionary &dictionary, std::vector<int> &ints, std::vector<double> &doubles, int &ii, int &dd)
 {
 	this->clear();
 	int count = ints[ii++];

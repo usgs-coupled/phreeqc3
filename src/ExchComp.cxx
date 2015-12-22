@@ -408,10 +408,10 @@ cxxExchComp::multiply(LDBLE extensive)
 }
 
 void
-cxxExchComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxExchComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	ints.push_back(dictionary.Find(this->formula));
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 	doubles.push_back(this->la);
 	doubles.push_back(this->charge_balance);
 	ints.push_back(dictionary.Find(this->phase_name));
@@ -421,11 +421,11 @@ cxxExchComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::ve
 }
 
 void
-cxxExchComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxExchComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->formula = dictionary.GetWords()[ints[ii++]];
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 	this->la = doubles[dd++];
 	this->charge_balance = doubles[dd++];
 	this->phase_name = dictionary.GetWords()[ints[ii++]];

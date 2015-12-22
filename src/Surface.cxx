@@ -747,7 +747,7 @@ Sort_comps(void)
 }
 /* ---------------------------------------------------------------------- */
 void
-cxxSurface::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSurface::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 /* ---------------------------------------------------------------------- */
 {
@@ -757,14 +757,14 @@ cxxSurface::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 	{
 		for (size_t i = 0; i < this->surface_comps.size(); i++)
 		{
-			surface_comps[i].mpi_pack(dictionary, ints, doubles);
+			surface_comps[i].Serialize(dictionary, ints, doubles);
 		}	
 	}
 	ints.push_back((int) this->surface_charges.size());
 	{
 		for (size_t i = 0; i < 	this->surface_charges.size(); i++)
 		{
-			surface_charges[i].mpi_pack(dictionary, ints, doubles);
+			surface_charges[i].Serialize(dictionary, ints, doubles);
 		}
 	}
 	ints.push_back(this->new_def ? 1 : 0);
@@ -777,7 +777,7 @@ cxxSurface::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 	doubles.push_back(this->DDL_viscosity);
 	doubles.push_back(this->DDL_limit);
 	ints.push_back(this->transport ? 1 : 0);
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 	ints.push_back(this->solution_equilibria ? 1 : 0);
 	ints.push_back((int) this->n_solution);
 
@@ -785,7 +785,7 @@ cxxSurface::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 
 /* ---------------------------------------------------------------------- */
 void
-cxxSurface::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSurface::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 /* ---------------------------------------------------------------------- */
 {
@@ -798,7 +798,7 @@ cxxSurface::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 		for (int n = 0; n < count; n++)
 		{
 			cxxSurfaceComp sc;
-			sc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+			sc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->surface_comps.push_back(sc);
 		}
 	}
@@ -808,7 +808,7 @@ cxxSurface::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 		for (int n = 0; n < count; n++)
 		{
 			cxxSurfaceCharge sc;
-			sc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+			sc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->surface_charges.push_back(sc);
 		}
 	}
@@ -822,7 +822,7 @@ cxxSurface::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 	this->DDL_viscosity = doubles[dd++];
 	this->DDL_limit = doubles[dd++];
 	this->transport = (ints[ii++] != 0);
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 	this->solution_equilibria = (ints[ii++] != 0);
 	this->n_solution = ints[ii++];
 

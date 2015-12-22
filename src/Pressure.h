@@ -30,8 +30,8 @@ class cxxPressure:public cxxNumKeyword
 	void Set_count(int i) {count = i;}
 	bool Get_equalIncrements(void) const {return equalIncrements;}
 	void Set_equalIncrements(bool tf) {equalIncrements = tf;}
-	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
+	void Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 	
 protected:
 	std::vector < LDBLE >pressures;

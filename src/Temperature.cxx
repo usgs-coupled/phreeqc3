@@ -411,7 +411,7 @@ Get_countTemps(void) const
 	return (int) this->temps.size();
 }
 void
-cxxTemperature::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxTemperature::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	ints.push_back(this->n_user);
 	{
@@ -426,7 +426,7 @@ cxxTemperature::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std:
 }
 
 void
-cxxTemperature::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxTemperature::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->n_user = ints[ii++];

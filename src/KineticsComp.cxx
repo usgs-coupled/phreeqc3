@@ -308,10 +308,10 @@ cxxKineticsComp::multiply(LDBLE extensive)
 	this->moles *= extensive;
 }
 void
-cxxKineticsComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxKineticsComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	ints.push_back(dictionary.Find(this->rate_name));
-	this->namecoef.mpi_pack(dictionary, ints, doubles);
+	this->namecoef.Serialize(dictionary, ints, doubles);
 	doubles.push_back(this->tol);
 	doubles.push_back(this->m);
 	doubles.push_back(this->m0);
@@ -322,13 +322,13 @@ cxxKineticsComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std
 	}
 	doubles.push_back(this->moles);
 	doubles.push_back(this->initial_moles);
-	this->moles_of_reaction.mpi_pack(dictionary, ints, doubles);
+	this->moles_of_reaction.Serialize(dictionary, ints, doubles);
 }
 void
-cxxKineticsComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
+cxxKineticsComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->rate_name = dictionary.GetWords()[ints[ii++]];
-	this->namecoef.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->namecoef.Deserialize(dictionary, ints, doubles, ii, dd);
 	this->tol = doubles[dd++];
 	this->m = doubles[dd++];
 	this->m0 = doubles[dd++];
@@ -340,7 +340,7 @@ cxxKineticsComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, s
 	}
 	this->moles = doubles[dd++];
 	this->initial_moles = doubles[dd++];
-	this->moles_of_reaction.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->moles_of_reaction.Deserialize(dictionary, ints, doubles, ii, dd);
 }
 const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("rate_name_not_used"),	// 0

@@ -568,14 +568,14 @@ Current_step(bool incremental_reactions, int reaction_step) const
 	return kin_time;
 }
 void
-cxxKinetics::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxKinetics::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 	ints.push_back(this->n_user);
 	ints.push_back((int) this->kinetics_comps.size());
 	for (size_t i = 0; i < this->kinetics_comps.size(); i++)
 	{
-		this->kinetics_comps[i].mpi_pack(dictionary, ints, doubles);
+		this->kinetics_comps[i].Serialize(dictionary, ints, doubles);
 	}
 	ints.push_back((int) this->steps.size());
 	for (size_t i = 0; i < this->steps.size(); i++)
@@ -590,11 +590,11 @@ cxxKinetics::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 	ints.push_back(this->use_cvode ? 1 : 0);
 	ints.push_back(this->cvode_steps);
 	ints.push_back(this->cvode_order);
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 }
 
 void
-cxxKinetics::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxKinetics::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->n_user = ints[ii++];
@@ -606,7 +606,7 @@ cxxKinetics::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 	for (int i = 0; i < n; i++)
 	{
 		cxxKineticsComp kc;
-		kc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+		kc.Deserialize(dictionary, ints, doubles, ii, dd);
 		this->kinetics_comps.push_back(kc);
 	}
 	n = ints[ii++];
@@ -623,7 +623,7 @@ cxxKinetics::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 	this->use_cvode = (ints[ii++] != 0);
 	this->cvode_steps = ints[ii++];
 	this->cvode_order = ints[ii++];
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 }
 
 

@@ -533,7 +533,7 @@ cxxSS::Find(const char * comp_name)
 	return NULL;
 }
 void
-cxxSS::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSS::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 	ints.push_back(dictionary.Find(this->name));
@@ -543,7 +543,7 @@ cxxSS::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 		ints.push_back((int) ss_comps.size());
 		for (size_t i = 0; i < ss_comps.size(); i++)
 		{
-			ss_comps[i].mpi_pack(dictionary, ints, doubles);
+			ss_comps[i].Serialize(dictionary, ints, doubles);
 		}
 	}
 	doubles.push_back(this->a0);
@@ -564,12 +564,12 @@ cxxSS::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 	doubles.push_back(this->total_moles);
 	doubles.push_back(this->dn);
 	ints.push_back(this->ss_in ? 1 : 0);
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 
 }
 
 void
-cxxSS::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSS::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->name = dictionary.GetWords()[ints[ii++]];
@@ -581,7 +581,7 @@ cxxSS::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 		for (int i = 0; i < count; i++)
 		{
 			cxxSScomp ssc;
-			ssc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+			ssc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->ss_comps.push_back(ssc);
 		}
 	}
@@ -604,7 +604,7 @@ cxxSS::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 	this->total_moles = doubles[dd++];
 	this->dn = doubles[dd++];
 	this->ss_in = (ints[ii++] != 0);
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 
 }
 

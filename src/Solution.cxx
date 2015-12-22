@@ -1544,7 +1544,7 @@ cxxSolution::Multiply_isotopes(LDBLE extensive)
 
 /* ---------------------------------------------------------------------- */
 void
-cxxSolution::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSolution::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 /* ---------------------------------------------------------------------- */
 {
@@ -1572,15 +1572,15 @@ cxxSolution::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 /*
  *	struct conc *totals;
 */
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 /*
  *	struct master_activity *master_activity;
  */
-	this->master_activity.mpi_pack(dictionary, ints, doubles);
+	this->master_activity.Serialize(dictionary, ints, doubles);
 /*
  *	struct master_activity *species_gamma
  */
-	this->species_gamma.mpi_pack(dictionary, ints, doubles);
+	this->species_gamma.Serialize(dictionary, ints, doubles);
 /*
  *  isotopes
  */
@@ -1590,7 +1590,7 @@ cxxSolution::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 		for (it = isotopes.begin(); it != isotopes.end(); it++) 
 		{
 			ints.push_back(dictionary.Find(it->first));
-			it->second.mpi_pack(dictionary, ints, doubles);
+			it->second.Serialize(dictionary, ints, doubles);
 		}
 	}
 /*
@@ -1621,7 +1621,7 @@ cxxSolution::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 
 /* ---------------------------------------------------------------------- */
 void
-cxxSolution::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
+cxxSolution::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
 /* ---------------------------------------------------------------------- */
 {
 	this->n_user = ints[ii++];
@@ -1646,15 +1646,15 @@ cxxSolution::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::
 /*
  *	struct conc *totals;
 */
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 /*
  *	struct master_activity *master_activity;
  */
-	this->master_activity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->master_activity.Deserialize(dictionary, ints, doubles, ii, dd);
 /*
  *	struct master_activity *species_gamma;
  */
-	this->species_gamma.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->species_gamma.Deserialize(dictionary, ints, doubles, ii, dd);
 /*
  *  isotopes
  */
@@ -1665,7 +1665,7 @@ cxxSolution::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::
 		{
 			std::string str = dictionary.GetWords()[ints[ii++]];
 			cxxSolutionIsotope iso;
-			iso.mpi_unpack(dictionary, ints, doubles, ii, dd);
+			iso.Deserialize(dictionary, ints, doubles, ii, dd);
 			isotopes[str] = iso;
 		}
 	}

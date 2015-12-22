@@ -323,7 +323,7 @@ Find(const std::string name_in)
 }
 /* ---------------------------------------------------------------------- */
 void
-cxxPPassemblage::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxPPassemblage::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 /* ---------------------------------------------------------------------- */
 {
 	/* int n_user; */
@@ -334,15 +334,15 @@ cxxPPassemblage::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std
 		 this->pp_assemblage_comps.begin(); it != this->pp_assemblage_comps.end();
 		 it++)
 	{
-		(*it).second.mpi_pack(dictionary, ints, doubles);
+		(*it).second.Serialize(dictionary, ints, doubles);
 	}
-	this->eltList.mpi_pack(dictionary, ints, doubles);
-	this->assemblage_totals.mpi_pack(dictionary, ints, doubles);
+	this->eltList.Serialize(dictionary, ints, doubles);
+	this->assemblage_totals.Serialize(dictionary, ints, doubles);
 }
 
 /* ---------------------------------------------------------------------- */
 void
-cxxPPassemblage::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxPPassemblage::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 /* ---------------------------------------------------------------------- */
 {
@@ -357,12 +357,12 @@ cxxPPassemblage::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 	for (int n = 0; n < count; n++)
 	{
 		cxxPPassemblageComp ppc;
-		ppc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+		ppc.Deserialize(dictionary, ints, doubles, ii, dd);
 		std::string str(ppc.Get_name());
 		this->pp_assemblage_comps[str] = ppc;
 	}
-	this->eltList.mpi_unpack(dictionary, ints, doubles, ii, dd);
-	this->assemblage_totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->eltList.Deserialize(dictionary, ints, doubles, ii, dd);
+	this->assemblage_totals.Deserialize(dictionary, ints, doubles, ii, dd);
 }
 const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("eltlist"),	        // 0

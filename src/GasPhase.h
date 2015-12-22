@@ -67,8 +67,8 @@ class cxxGasPhase:public cxxNumKeyword
 	void Set_temperature(LDBLE t) {temperature = t;};
 	LDBLE Calc_total_moles(void)const;
 	cxxGasComp *Find_comp(const char * comp_name);
-	void mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
-	void mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
+	void Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 
 protected:
 	void add(const cxxGasPhase & addee, LDBLE extensive);

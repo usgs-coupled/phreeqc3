@@ -286,7 +286,7 @@ cxxSolutionIsotope::multiply(LDBLE extensive)
 	this->total *= extensive;
 }
 void 
-cxxSolutionIsotope::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxSolutionIsotope::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	doubles.push_back(this->isotope_number);
 	ints.push_back(dictionary.Find(this->elt_name));
@@ -299,7 +299,7 @@ cxxSolutionIsotope::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
 	doubles.push_back(this->coef);
 }
 void 
-cxxSolutionIsotope::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
+cxxSolutionIsotope::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->isotope_number = doubles[dd++];
 	this->elt_name = dictionary.GetWords()[ints[ii++]];

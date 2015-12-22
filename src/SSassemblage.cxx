@@ -289,7 +289,7 @@ Find(const std::string &s)
 	return NULL;
 }
 void
-cxxSSassemblage::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSSassemblage::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 	/* int n_user; */
@@ -299,15 +299,15 @@ cxxSSassemblage::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 		std::map < std::string, cxxSS >::iterator it;
 		for (it = this->SSs.begin(); it != this->SSs.end();	it++)
 		{
-			(*it).second.mpi_pack(dictionary, ints, doubles);
+			(*it).second.Serialize(dictionary, ints, doubles);
 		}
 	}
 	ints.push_back(this->new_def ? 1 : 0);
-	this->totals.mpi_pack(dictionary, ints, doubles);
+	this->totals.Serialize(dictionary, ints, doubles);
 }
 
 void
-cxxSSassemblage::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSSassemblage::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 
@@ -320,13 +320,13 @@ cxxSSassemblage::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints,
 		for (int n = 0; n < count; n++)
 		{
 			cxxSS ssc;
-			ssc.mpi_unpack(dictionary, ints, doubles, ii, dd);
+			ssc.Deserialize(dictionary, ints, doubles, ii, dd);
 			std::string str(ssc.Get_name());
 			this->SSs[str] = ssc;
 		}
 	}
 	this->new_def = (ints[ii++] != 0);
-	this->totals.mpi_unpack(dictionary, ints, doubles, ii, dd);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
 
 }
 

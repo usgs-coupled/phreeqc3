@@ -400,7 +400,7 @@ Get_count(void) const
 	return (int) this->pressures.size();
 }
 void
-cxxPressure::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxPressure::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	ints.push_back(this->n_user);
 	{
@@ -416,7 +416,7 @@ cxxPressure::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::ve
 }
 
 void
-cxxPressure::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxPressure::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->n_user = ints[ii++];

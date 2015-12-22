@@ -180,7 +180,7 @@ cxxGasComp::multiply(LDBLE extensive)
 	this->initial_moles *= extensive;
 }
 void
-cxxGasComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+cxxGasComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
 {
 	ints.push_back(dictionary.Find(this->phase_name));
 	doubles.push_back(this->moles);
@@ -189,7 +189,7 @@ cxxGasComp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, std::vec
 }
 
 void
-cxxGasComp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxGasComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 	this->phase_name = dictionary.GetWords()[ints[ii++]];

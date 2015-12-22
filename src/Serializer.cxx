@@ -24,7 +24,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 		if (soln_ptr)
 		{
 			ints.push_back((int) PT_SOLUTION);
-			soln_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+			soln_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 		}
 		// Exchangers
 		{
@@ -32,7 +32,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_EXCHANGE);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// GasPhases
@@ -41,7 +41,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_GASPHASE);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// Kinetics
@@ -50,7 +50,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_KINETICS);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// PPassemblages
@@ -59,7 +59,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_PPASSEMBLAGE);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// SSassemblages
@@ -68,7 +68,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_SSASSEMBLAGE);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// Surfaces
@@ -77,7 +77,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_SURFACES);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// Temperature
@@ -87,7 +87,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_TEMPERATURE);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}
 		// Pressure
@@ -97,7 +97,7 @@ bool Serializer::Serialize(Phreeqc &phreeqc_ref, int start, int end, bool includ
 			if (entity_ptr)
 			{
 				ints.push_back((int) PT_PRESSURE);
-				entity_ptr->mpi_pack(this->dictionary, this->ints, this->doubles);
+				entity_ptr->Serialize(this->dictionary, this->ints, this->doubles);
 			}
 		}			
 	}	
@@ -117,7 +117,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_SOLUTION:	
 			{
 				cxxSolution soln;
-				soln.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				soln.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = soln.Get_n_user();
 				//std::cerr << "unpacked solution " << n_user << std::endl;
 				phreeqc_ref.Get_Rxn_solution_map()[n_user] = soln;
@@ -126,7 +126,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_EXCHANGE:	
 			{
 				cxxExchange entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_exchange_map()[n_user] = entity;
 			}
@@ -134,7 +134,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_GASPHASE:
 			{
 				cxxGasPhase entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_gas_phase_map()[n_user] = entity;
 			}
@@ -142,7 +142,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_KINETICS:	
 			{
 				cxxKinetics entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_kinetics_map()[n_user] = entity;
 			}
@@ -150,7 +150,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_PPASSEMBLAGE:	
 			{
 				cxxPPassemblage entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				//std::cerr << "unpacked pp assemblage " << n_user << std::endl;
 				phreeqc_ref.Get_Rxn_pp_assemblage_map()[n_user] = entity;
@@ -159,7 +159,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_SSASSEMBLAGE:	
 			{
 				cxxSSassemblage entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_ss_assemblage_map()[n_user] = entity;
 			}
@@ -167,7 +167,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_SURFACES:	
 			{
 				cxxSurface entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_surface_map()[n_user] = entity;
 			}
@@ -175,7 +175,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_TEMPERATURE:
 			{
 				cxxTemperature entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_temperature_map()[n_user] = entity;
 			}
@@ -183,7 +183,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 		case PT_PRESSURE:	
 			{
 				cxxPressure entity;
-				entity.mpi_unpack(dictionary, ints, doubles, ii, dd);
+				entity.Deserialize(dictionary, ints, doubles, ii, dd);
 				int n_user = entity.Get_n_user();
 				phreeqc_ref.Get_Rxn_pressure_map()[n_user] = entity;
 			}

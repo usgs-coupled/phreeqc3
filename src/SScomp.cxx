@@ -279,7 +279,7 @@ cxxSScomp::multiply(LDBLE extensive)
 	this->initial_moles *= extensive;
 }
 void
-cxxSScomp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSScomp::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles)
 {
 
@@ -298,7 +298,7 @@ cxxSScomp::mpi_pack(Dictionary & dictionary, std::vector < int >&ints,
 }
 
 void
-cxxSScomp::mpi_unpack(Dictionary & dictionary, std::vector < int >&ints, 
+cxxSScomp::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
 	std::vector < double >&doubles, int &ii, int &dd)
 {
 
