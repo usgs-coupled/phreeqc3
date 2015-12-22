@@ -256,6 +256,8 @@ read_input(void)
 #if defined(SWIG_SHARED_OBJ)
 				warning_msg("DATABASE keyword is ignored by IPhreeqc.");
 #else
+				
+				user_database = (char *) free_check_null(user_database);
 				user_database = string_duplicate(ptr);
 				if (string_trim(user_database) == EMPTY)
 				{

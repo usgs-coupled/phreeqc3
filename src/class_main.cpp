@@ -488,6 +488,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				copy_token(token, &ptr, &l);
 				if (strcmp_nocase(token, "database") == 0)
 				{
+					user_database = (char *) free_check_null(user_database);
 #ifdef PHREEQ98
 					user_database = string_duplicate(prefix_database_dir(ptr));
 #else
@@ -552,6 +553,9 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		}
 		local_database_file->close();
 		delete local_database_file;
+		
+		user_database = (char *) free_check_null(user_database);
+		user_database = string_duplicate(token);
 		screen_msg(sformatf("Database file: %s\n\n", token));
 		strcpy(db_file, token);
 #ifdef NPP
@@ -566,7 +570,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		/*
 		*   local cleanup
 		*/
-		user_database = (char *) free_check_null(user_database);
+		//user_database = (char *) free_check_null(user_database);
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 
@@ -684,6 +688,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				copy_token(token, &ptr, &l);
 				if (strcmp_nocase(token, "database") == 0)
 				{
+					user_database = (char *) free_check_null(user_database);
 #ifdef PHREEQ98
 					user_database = string_duplicate(prefix_database_dir(ptr));
 #else
@@ -758,6 +763,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		*   local cleanup
 		*/
 		user_database = (char *) free_check_null(user_database);
+		user_database = string_duplicate(token);
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 

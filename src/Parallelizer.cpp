@@ -33,7 +33,14 @@ Parallelizer::~Parallelizer(void)
 
 IRM_RESULT Parallelizer::Initialize()
 {
-	this->LoadDatabase(this->phreeqc_ptr->user_database); 
+	if (this->phreeqc_ptr->user_database)
+	{
+		this->LoadDatabase(this->phreeqc_ptr->user_database); 
+	}
+	else
+	{
+		this->phreeqcrm_io->error_msg("Database name not defined.", true);
+	}
 	this->SetRebalanceFraction(0.0);
 	this->SetScreenOn(false);
 	std::vector<int> mask;
