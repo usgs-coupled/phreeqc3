@@ -111,13 +111,9 @@ IRM_RESULT Parallelizer::Phreeqc2RM(Phreeqc *phreeqc_ptr)
 
 			if (this->GetMpiMyself() == i && i == 0)
 			{
-				cxxStorageBin sb;
-				for (int j = this->start_cell[i]; j <= this->end_cell[i]; j++)
-				{
-					phreeqc_ptr->phreeqc2cxxStorageBin(sb, j);
-				}
-				this->workers[0]->Get_PhreeqcPtr()->cxxStorageBin2phreeqc(sb);
-				std::cerr << "Root: " << this->start_cell[i] << " " << this->end_cell[i] << std::endl;
+				Serializer serial;
+				serial.Serialize(*phreeqc_ptr, this->start_cell[i], this->end_cell[i], false, false);
+				serial.Deserialize(*this->GetWorkers()[0]->Get_PhreeqcPtr(), serial.GetDictionary(), serial.GetInts(), serial.GetDoubles());
 				continue;
 			}
 			if (this->GetMpiMyself() == 0)
@@ -323,12 +319,9 @@ IRM_RESULT Parallelizer::RM2Phreeqc(Phreeqc *phreeqc_ptr)
 
 			if (this->GetMpiMyself() == i && i == 0)
 			{
-				cxxStorageBin sb;
-				for (int j = this->start_cell[i]; j <= this->end_cell[i]; j++)
-				{
-					this->workers[0]->Get_PhreeqcPtr()->phreeqc2cxxStorageBin(sb, j);
-				}
-				phreeqc_ptr->cxxStorageBin2phreeqc(sb);
+				Serializer serial;
+				serial.Serialize(*this->GetWorkers()[0]->Get_PhreeqcPtr(), this->start_cell[i], this->end_cell[i], false, false);
+				serial.Deserialize(*phreeqc_ptr, serial.GetDictionary(), serial.GetInts(), serial.GetDoubles());
 				continue;
 			}
 			if (this->GetMpiMyself() == 0)
