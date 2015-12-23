@@ -74,12 +74,12 @@ transport(void)
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
 	dV_dcell = current_A = 0.0;
 	current_cells = NULL;
-	double rm_time = 0.0;
 	double phreeqc_time = 0.0;
-	double rm_comm_time = 0.0;
-	double rm_calc_time = 0.0;
 
 #ifdef PHREEQC_PARALLEL
+	double rm_time = 0.0;
+	double rm_comm_time = 0.0;
+	double rm_calc_time = 0.0;
 	Parallelizer *phreeqcrm_ptr;
 #ifdef USE_MPI
 	int nxyz = count_cells + 2;
@@ -529,15 +529,6 @@ transport(void)
 					multi_D(stagkin_time, 1, FALSE);
 				double time_rm_start = CLOCK();
 #ifdef PHREEQC_PARALLEL
-				{
-					//Serializer serial;
-					//serial.Serialize(*this, 0, count_cells + 1, false, false);
-					////this->Rxn_solution_map.clear();
-					//Dictionary d1(serial.GetDictionary().GetDictionaryOss().str());
-					//Serializer serial1;
-					//serial1.Deserialize(*this, d1, serial.GetInts(), serial.GetDoubles());
-
-				}
 				// move data to workers
 				phreeqcrm_ptr->Phreeqc2RM(this);
 				rm_comm_time += (CLOCK() - time_rm_start);
@@ -547,19 +538,10 @@ transport(void)
 				phreeqcrm_ptr->RunCellsParallel();
 				rm_time += (CLOCK() - time_rm_start);
 				rm_calc_time += (CLOCK() - time_rm_calc_start);
-				//std::cerr << phreeqcrm_ptr->GetErrorString() << std::endl;
 				// move data back to phreeqc
 				phreeqcrm_ptr->RM2Phreeqc(this);
 #endif
 
-#ifdef PHREEQC_PARALLELyyy
-				// Copy to PhreeqcRM
-				// Run reactions
-				// Copy to PHREEQC
-				// Do other stuff
-
-#else
-				
 				time_rm_start = CLOCK();
 				for (i = 0; i <= count_cells + 1; i++)
 				{
@@ -625,6 +607,8 @@ transport(void)
 					}
 				}
 				phreeqc_time += (CLOCK() - time_rm_start);
+
+#ifdef PHREEQC_PARALLEL
 				std::cerr << "RM: " << rm_time << "    PHREEQC: " << phreeqc_time << std::endl;
 				std::cerr << "RM comm: " << rm_comm_time << "    RM calc: " << rm_calc_time << std::endl;
 				std::cerr << "    transport_step: " << transport_step << "  j: " << j << std::endl;
@@ -1904,6 +1888,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	icell = jcell = -1;
 	first_c = last_c = -1;
+        il_calcs = -1;
 
 	current_x = sum_R = 0.0;
 	if (dV_dcell)
@@ -4466,6 +4451,7 @@ viscosity(void)
 	mu1 = exp(Rb * S1);
 	viscos_0 = viscos = mu0 * mu1 / 1e3;
 	viscos_0_25 = 0.8900239182946;
+//#define OLD_VISCOSITY
 #ifdef OLD_VISCOSITY
 /* from Atkins, 1994. Physical Chemistry, 5th ed. */
 	viscos =

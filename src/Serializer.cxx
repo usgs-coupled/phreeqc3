@@ -109,7 +109,7 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 {
 	int ii = 0;
 	int dd = 0;
-	while (ii < ints.size())
+	while (ii < (int) ints.size())
 	{
 		PACK_TYPE type = (PACK_TYPE) ints[ii++];
 		switch (type)

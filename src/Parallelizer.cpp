@@ -507,7 +507,7 @@ IRM_RESULT Parallelizer::RunCellsParallel()
 			}
 			phreeqc_ptr->phrq_io->Set_punch_ostream(phreeqc_ptr->current_selected_output->Get_punch_ostream());
 			std::vector<double> so;	
-			int col = this->GetSelectedOutputColumnCount();
+			//int col = this->GetSelectedOutputColumnCount();
 			status = this->GetSelectedOutput(so);
 			for (int i = 0; i < this->GetSelectedOutputRowCount(); i++)
 			{
