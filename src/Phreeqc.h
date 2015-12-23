@@ -1383,6 +1383,7 @@ protected:
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	int count_cells;
+	int cell_data_max_cells;
 	int count_shifts;
 	int ishift;
 	int bcon_first;

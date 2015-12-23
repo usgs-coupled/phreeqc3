@@ -44,8 +44,21 @@ initialize(void)
 /*
  *   Allocate space
  */
-	space((void **) ((void *) &cell_data), INIT, &count_cells + 2,
-		  sizeof(struct cell_data));
+	cell_data_max_cells = count_cells + 2;
+	space((void **) ((void *) &cell_data), INIT, &cell_data_max_cells,
+		sizeof(struct cell_data));
+	for (int i = 0; i < cell_data_max_cells; i++)
+	{
+		cell_data[i].length = 1.0;
+		cell_data[i].mid_cell_x = 1.0;
+		cell_data[i].disp = 1.0;
+		cell_data[i].temp = 25.0;
+		cell_data[i].por = 0.1;
+		cell_data[i].por_il = 0.01;
+		cell_data[i].potV = 0;
+		cell_data[i].punch = FALSE;
+		cell_data[i].print = FALSE;
+	}
 
 	space((void **) ((void *) &elements), INIT, &max_elements,
 		  sizeof(struct element *));

@@ -661,8 +661,11 @@ read_transport(void)
 /*
  *   Allocate space for cell_data
  */
-	cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
-		(size_t) (max_cells *	(1 + stag_data->count_stag) + 2) * sizeof(struct cell_data));
+	//cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
+	//	(size_t) (max_cells *	(1 + stag_data->count_stag) + 2) * sizeof(struct cell_data));
+	int cells_needed = max_cells *	(1 + stag_data->count_stag) + 2;
+	space((void **) ((void *) &cell_data), cells_needed, &cell_data_max_cells,
+		sizeof(struct cell_data));
 	if (cell_data == NULL)
 		malloc_error();
 

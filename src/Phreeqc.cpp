@@ -438,6 +438,7 @@ void Phreeqc::init(void)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = 1;
+	cell_data_max_cells      = count_cells;
 	count_shifts             = 1;
 	ishift                   = 1;
 	bcon_first = bcon_last   = 3;
@@ -1342,6 +1343,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = pSrc->count_cells;
+	cell_data_max_cells      = pSrc->cell_data_max_cells;
 	count_shifts             = pSrc->count_shifts;
 	ishift                   = pSrc->ishift;
 	bcon_first				 = pSrc->bcon_first;
