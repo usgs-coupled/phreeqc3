@@ -1,5 +1,6 @@
 #if !defined(PARALLELIZER_H_INCLUDED)
 #define PARALLELIZER_H_INCLUDED
+#ifdef PHREEQC_PARALLEL
 #include "PhreeqcRM.h"
 #include <vector>
 #include <list>
@@ -20,4 +21,5 @@ public:
 
 	Phreeqc *phreeqc_ptr;
 };
+#endif
 #endif // !defined(PARALLELIZER_H_INCLUDED)

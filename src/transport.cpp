@@ -4466,6 +4466,14 @@ viscosity(void)
 	mu1 = exp(Rb * S1);
 	viscos_0 = viscos = mu0 * mu1 / 1e3;
 	viscos_0_25 = 0.8900239182946;
+#ifdef OLD_VISCOSITY
+/* from Atkins, 1994. Physical Chemistry, 5th ed. */
+	viscos =
+		pow((LDBLE) 10.,
+			-(1.37023 * (tc_x - 20) +
+			  0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
+	viscos_0_25 = 0.88862;
+#endif
 	return viscos;
 }
 /* ---------------------------------------------------------------------- */

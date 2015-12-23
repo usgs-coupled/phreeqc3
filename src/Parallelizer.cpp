@@ -1,3 +1,4 @@
+#ifdef PHREEQC_PARALLEL
 #include "Parallelizer.h"
 #include "IPhreeqcPhast.h"
 #include "IPhreeqc.h"
@@ -525,3 +526,4 @@ IRM_RESULT Parallelizer::RunCellsParallel()
 	}
 	return IRM_OK;
 }
+#endif
