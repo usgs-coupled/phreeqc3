@@ -657,6 +657,60 @@ cxxGasPhase::Find_comp(const char * comp_name)
 	}
 	return NULL;
 }
+void
+cxxGasPhase::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
+{
+	ints.push_back(this->n_user);
+	ints.push_back((this->type == cxxGasPhase::GP_PRESSURE) ? 0 : 1);
+	doubles.push_back(this->total_p);
+	doubles.push_back(this->volume);
+	ints.push_back((int) this->gas_comps.size());
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		this->gas_comps[i].Serialize(dictionary, ints, doubles);
+	}
+	ints.push_back(this->new_def ? 1 : 0);
+	ints.push_back(this->solution_equilibria ? 1 : 0);
+	ints.push_back(this->n_solution);
+	doubles.push_back(this->temperature);
+	doubles.push_back(this->total_moles);
+	doubles.push_back(this->v_m);
+	ints.push_back(this->pr_in ? 1 : 0);
+	this->totals.Serialize(dictionary, ints, doubles);
+
+}
+
+void
+cxxGasPhase::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
+	std::vector < double >&doubles, int &ii, int &dd)
+{
+	this->n_user = ints[ii++];
+	this->n_user_end = this->n_user;
+	this->description = " ";
+
+	this->type = (ints[ii++] == 0) ? cxxGasPhase::GP_PRESSURE : this->type = cxxGasPhase::GP_VOLUME;
+	this->total_p = doubles[dd++];
+	this->volume = doubles[dd++];
+	int count = ints[ii++];
+	this->gas_comps.clear();
+	for (int i = 0; i < count; i++)
+	{
+		cxxGasComp gc;
+		gc.Deserialize(dictionary, ints, doubles, ii, dd);
+		this->gas_comps.push_back(gc);
+	}
+	this->new_def = (ints[ii++] != 0) ? 1 : 0;
+	this->solution_equilibria = (ints[ii++] != 0) ? 1 : 0;
+	this->n_solution = ints[ii++];
+	this->temperature = doubles[dd++];
+	this->total_moles = doubles[dd++];
+	this->v_m = doubles[dd++];
+	this->pr_in = (ints[ii++] != 0);
+	this->totals.Deserialize(dictionary, ints, doubles, ii, dd);
+
+}
+
+
 const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("type"),				    //0
 	std::vector< std::string >::value_type("total_p"),				//1

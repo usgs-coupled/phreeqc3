@@ -15,6 +15,7 @@
 class Phreeqc;
 #include "Parser.h"
 #include "phrqtype.h"
+class Dictionary;
 class cxxISolutionComp;
 
 class IPQ_DLL_EXPORT cxxNameDouble:public
@@ -60,6 +61,8 @@ class IPQ_DLL_EXPORT cxxNameDouble:public
 	{
 		(*this)[str] = d;
 	}
+	void Serialize(Dictionary &dictionary, std::vector<int> &ints, std::vector<double> &doubles);
+	void Deserialize(Dictionary &dictionary, std::vector<int> &ints, std::vector<double> &doubles, int &ii, int &dd);
 
 	enum ND_TYPE type;
 

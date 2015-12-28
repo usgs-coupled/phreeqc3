@@ -1146,6 +1146,19 @@ public:
 	size_t list_components(std::list<std::string> &list_c);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
 	void Set_run_cells_one_step(const bool tf) {this->run_cells_one_step = tf;}
+
+
+	std::map<int, cxxSolution> & Get_Rxn_solution_map() {return this->Rxn_solution_map;}
+	std::map<int, cxxExchange> & Get_Rxn_exchange_map() {return this->Rxn_exchange_map;}
+	std::map<int, cxxGasPhase> & Get_Rxn_gas_phase_map() {return this->Rxn_gas_phase_map;}
+	std::map<int, cxxKinetics> & Get_Rxn_kinetics_map() {return this->Rxn_kinetics_map;}
+	std::map<int, cxxPPassemblage> & Get_Rxn_pp_assemblage_map() {return this->Rxn_pp_assemblage_map;}
+	std::map<int, cxxSSassemblage> & Get_Rxn_ss_assemblage_map() {return this->Rxn_ss_assemblage_map;}
+	std::map<int, cxxSurface> & Get_Rxn_surface_map() {return this->Rxn_surface_map;}
+	std::map<int, cxxTemperature> & Get_Rxn_temperature_map() {return this->Rxn_temperature_map;}
+	std::map<int, cxxPressure> & Get_Rxn_pressure_map() {return this->Rxn_pressure_map;}
+
+
 protected:
 	void init(void);
 

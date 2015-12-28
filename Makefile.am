@@ -38,6 +38,8 @@ phreeqc_SOURCES=\
 	cxxMix.h\
 	dense.cpp\
 	dense.h\
+	Dictionary.cpp\
+	Dictionary.h\
 	dumper.cpp\
 	dumper.h\
 	dw.cpp\
@@ -102,6 +104,8 @@ phreeqc_SOURCES=\
 	runner.h\
 	SelectedOutput.cpp\
 	SelectedOutput.h\
+	Serializer.cxx\
+	Serializer.h\
 	sit.cpp\
 	smalldense.cpp\
 	smalldense.h\
