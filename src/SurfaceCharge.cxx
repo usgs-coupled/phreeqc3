@@ -11,6 +11,7 @@
 #include "Phreeqc.h"
 #include "SurfaceCharge.h"
 #include "phqalloc.h"
+#include "Dictionary.h"
 
 
 //////////////////////////////////////////////////////////////////////
@@ -459,6 +460,102 @@ cxxSurfaceCharge::multiply(LDBLE extensive)
 	this->charge_balance *= extensive;
 	this->mass_water *= extensive;
 	this->diffuse_layer_totals.multiply(extensive);
+}
+void
+cxxSurfaceCharge::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
+	std::vector < double >&doubles)
+{
+
+	ints.push_back(dictionary.Find(this->name));
+	doubles.push_back(this->specific_area);
+	doubles.push_back(this->grams);
+	doubles.push_back(this->charge_balance);
+	doubles.push_back(this->mass_water);
+	doubles.push_back(this->la_psi);
+	doubles.push_back(this->capacitance[0]);
+	doubles.push_back(this->capacitance[1]);
+	this->diffuse_layer_totals.Serialize(dictionary, ints, doubles);
+	doubles.push_back(this->sigma0);
+	doubles.push_back(this->sigma1);
+	doubles.push_back(this->sigma2);
+	doubles.push_back(this->sigmaddl);
+	ints.push_back((int) this->g_map.size());
+	{
+		std::map<LDBLE, cxxSurfDL>::iterator it;
+		for (it = this->g_map.begin(); it != this->g_map.end(); it++) 
+		{
+			doubles.push_back(it->first);
+			it->second.Serialize(dictionary, ints, doubles);
+		}
+	}
+	ints.push_back((int) this->dl_species_map.size());
+	{
+		std::map<int, double>::iterator it;
+		for (it = this->dl_species_map.begin(); it != this->dl_species_map.end(); it++) 
+		{
+			ints.push_back(it->first);
+			doubles.push_back(it->second);
+		}
+	}
+}
+
+void
+cxxSurfaceCharge::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
+	std::vector < double >&doubles, int &ii, int &dd)
+{
+	this->name = dictionary.GetWords()[ints[ii++]];
+	this->specific_area = doubles[dd++];
+	this->grams = doubles[dd++];
+	this->charge_balance = doubles[dd++];
+	this->mass_water = doubles[dd++];
+	this->la_psi = doubles[dd++];
+	this->capacitance[0] = doubles[dd++];
+	this->capacitance[1] = doubles[dd++];
+	this->diffuse_layer_totals.Deserialize(dictionary, ints, doubles, ii, dd);
+	this->sigma0 = doubles[dd++];
+	this->sigma1 = doubles[dd++];
+	this->sigma2 = doubles[dd++];
+	this->sigmaddl = doubles[dd++];
+	{
+		this->g_map.clear();
+		int count = ints[ii++];
+		for (int i = 0; i < count; i++)
+		{
+			double d = doubles[dd++];
+			cxxSurfDL sdl;
+			sdl.Deserialize(dictionary, ints, doubles, ii, dd);
+			this->g_map[d] = sdl;
+		}
+	}
+	{
+		this->dl_species_map.clear();
+		int count = ints[ii++];
+		for (int i = 0; i < count; i++)
+		{
+			int j = ints[ii++];
+			double d = doubles[dd++];
+			dl_species_map[j] = d;
+		}
+	}
+
+
+}
+void
+cxxSurfDL::Serialize(Dictionary & dictionary, std::vector < int >&ints, 
+	std::vector < double >&doubles)
+{
+	doubles.push_back(this->g);
+	doubles.push_back(this->dg);
+	doubles.push_back(this->psi_to_z);
+}
+
+void
+cxxSurfDL::Deserialize(Dictionary & dictionary, std::vector < int >&ints, 
+	std::vector < double >&doubles, int &ii, int &dd)
+{
+	this->g = doubles[dd++];
+	this->dg = doubles[dd++];
+	this->psi_to_z = doubles[dd++];
 }
 const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("name"),	                // 0 

@@ -27,6 +27,8 @@ SET(phreeqc_SOURCES
 src/ChartHandler.cpp
 src/ChartObject.cpp
 src/CurveObject.cpp
+src/Dictionary.cpp
+src/Dictionary.h
 src/ExchComp.cxx
 src/ExchComp.h
 src/Exchange.cxx
@@ -70,6 +72,8 @@ src/SScomp.cxx
 src/SScomp.h
 src/SelectedOutput.cpp
 src/SelectedOutput.h
+src/Serializer.cxx
+src/Serializer.h
 src/Solution.cxx
 src/Solution.h
 src/SolutionIsotope.cxx
