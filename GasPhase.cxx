@@ -688,7 +688,7 @@ cxxGasPhase::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 	this->n_user_end = this->n_user;
 	this->description = " ";
 
-	this->type = (ints[ii++] == 0) ? cxxGasPhase::GP_PRESSURE : this->type = cxxGasPhase::GP_VOLUME;
+	this->type = (ints[ii++] == 0) ? cxxGasPhase::GP_PRESSURE : cxxGasPhase::GP_VOLUME;
 	this->total_p = doubles[dd++];
 	this->volume = doubles[dd++];
 	int count = ints[ii++];
