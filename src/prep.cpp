@@ -3657,7 +3657,7 @@ setup_surface(void)
 	if (use.Get_surface_ptr()->Get_related_phases())
 	{
 		cxxPPassemblage *pp_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, use.Get_n_surface_user());
-		for (size_t i = 0; i < (int) use.Get_surface_ptr()->Get_surface_comps().size(); i++)
+		for (size_t i = 0; i < use.Get_surface_ptr()->Get_surface_comps().size(); i++)
 		{
 			if (use.Get_surface_ptr()->Get_surface_comps()[i].Get_phase_name().size() > 0)
 			{
@@ -3722,7 +3722,7 @@ setup_surface(void)
 	if (use.Get_surface_ptr()->Get_related_rate())
 	{		
 		cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_surface_user());
-		for (size_t i = 0; i < (int) use.Get_surface_ptr()->Get_surface_comps().size(); i++)
+		for (size_t i = 0; i < use.Get_surface_ptr()->Get_surface_comps().size(); i++)
 		{
 			if (use.Get_surface_ptr()->Get_surface_comps()[i].Get_rate_name().size() > 0)
 			{
