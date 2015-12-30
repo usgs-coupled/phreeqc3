@@ -6151,6 +6151,8 @@ check_same_model(void)
 						(kinetics_ptr->Find(use.Get_surface_ptr()->Get_surface_comps()[i].Get_rate_name()) == NULL))
 				{
 					Rxn_new_surface.insert(use.Get_n_surface_user());
+					cxxSurface *surf_ptr = Utilities::Rxn_find(Rxn_surface_map, use.Get_n_surface_user());
+					surf_ptr->Set_new_def(true);
 					this->tidy_kin_surface();
 					return (FALSE);
 				}
