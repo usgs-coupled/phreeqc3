@@ -4071,10 +4071,10 @@ tidy_kin_surface(void)
 			assert(false);
 		}
 		cxxSurface *surface_ptr = &(it->second);
-		//if (!surface_ptr->Get_new_def())
-		//	continue;
-		//if (surface_ptr->Get_n_user() < 0)
-		//	continue;
+		if (!surface_ptr->Get_new_def())
+			continue;
+		if (surface_ptr->Get_n_user() < 0)
+			continue;
 		int n = surface_ptr->Get_n_user();
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
@@ -4161,8 +4161,15 @@ tidy_kin_surface(void)
 				free_check_null(temp_formula);
 			}
 			{
-				cxxNameDouble nd = elt_list_NameDouble();
-				comp_ptr->Set_totals(nd);
+				if (surface_ptr->Get_new_def())
+				{
+					cxxNameDouble nd = elt_list_NameDouble();
+					comp_ptr->Set_totals(nd);
+				}
+				else
+				{
+					comp_ptr->Get_totals()[comp_ptr->Get_master_element()] = conc;
+				}
 			}
 
 			/* area */
