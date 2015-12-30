@@ -3917,8 +3917,15 @@ tidy_min_surface(void)
 				free_check_null(temp_formula);
 			}
 			{
-				cxxNameDouble nd = elt_list_NameDouble();
-				surface_comp_ptr->Set_totals(nd);
+				if (surface_ptr->Get_new_def())
+				{
+					cxxNameDouble nd = elt_list_NameDouble();
+					surface_comp_ptr->Set_totals(nd);
+				}
+				else
+				{
+					surface_comp_ptr->Get_totals()[surface_comp_ptr->Get_master_element()] = conc;
+				}
 			}
 
 			/* area */
