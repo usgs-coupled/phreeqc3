@@ -3815,10 +3815,10 @@ tidy_min_surface(void)
 		}
 		cxxSurface *surface_ptr = &(kit->second);
 		if (!surface_ptr->Get_new_def()) continue;
-		//if (!surface_ptr->Get_new_def())
-		//	continue;
-		//if (surface_ptr->Get_n_user() < 0)
-		//	continue;
+		if (!surface_ptr->Get_new_def())
+			continue;
+		if (surface_ptr->Get_n_user() < 0)
+			continue;
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
 			cxxSurfaceComp *surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
@@ -3938,40 +3938,6 @@ tidy_min_surface(void)
 				get_elts_in_species(&ptr, 1.0);
 				free_check_null(temp_formula);
 			}
-#ifdef SKIP
-			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
-			{
-				cxxSurfaceComp *comp_jj_ptr = &(surface_ptr->Get_surface_comps()[jj]);
-					continue;
-				if (surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
-				{
-					char * temp_formula = string_duplicate(comp_jj_ptr->Get_formula().c_str());
-					char *ptr = temp_formula;
-					get_elts_in_species(&ptr,
-										-comp_jj_ptr->Get_phase_proportion());
-					free_check_null(temp_formula);
-				}
-				else
-				{
-					struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
-					if (elt_ptr->master->s->z != 0.0)
-					{
-						input_error++;
-						error_string = sformatf(
-								"Master species of surface, %s, must be uncharged if the number of sites is related to a phase.",
-								elt_ptr->master->s->name);
-						error_msg(error_string, CONTINUE);
-					}
-					{
-						char * temp_name = string_duplicate(elt_ptr->master->s->name);
-						char *ptr = temp_name;
-						get_elts_in_species(&ptr,
-										-comp_jj_ptr->Get_phase_proportion());
-						free_check_null(temp_name);
-					}
-				}
-			}
-#endif
 			// Revise logic for surface related to mineral
 			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
 			{
