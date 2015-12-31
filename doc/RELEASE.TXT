@@ -1,5 +1,37 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
         ---------
+        svn 10632
+        ---------
+	PhreeqcRM: Revised transfer of data for MPI when rebalancing. Serializes lists of
+	characters, integers, and doubles, instead of writing full "dump" version of each
+	reaction. Is much faster for cell transfers when rebalancing among processes.
+	
+        ---------
+        svn 10630
+        ---------
+	PhreeqcRM: Fixed bug when transferring data for MPI. Surface related to kinetics lost
+	concentrations of sorbed elements.
+	
+        ---------
+        svn 10585
+        ---------
+	Phreeqc: New set of convergence parameters that delay the removal of an unstable
+	phase by 1 iteration. Also new KNOBS identifier, -equi_delay n, where n is the 
+	number of iterations to retain an unstable phase.
+	
+        ---------
+        svn 10537
+        ---------
+	Phreeqc: Comments for K-spar and Albite RATEs were incorrect for phreeqc.dat and
+	wateq4f.dat
+	
+        ---------
+        svn 10521
+        ---------
+	PhreeqcRM: Provided better error message for CreateMapping errors.
+	
+Version 3.3.3 (10424): October 23, 2015 
+        ---------
         svn 10409
         ---------
 	PhreeqcRM: C function clock() does not provide sufficient resolution. Efficiency calculation
