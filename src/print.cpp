@@ -2220,11 +2220,12 @@ print_totals(void)
 	EC = calc_SC();
 	if (EC > 0)
 	{
-		output_msg(sformatf("%36s%i%7s%i\n",
+		//output_msg(sformatf("%36s%i%7s%i\n",
+		output_msg(sformatf("%35s%3.0f%7s%i\n",
 #ifdef NO_UTF8_ENCODING
-				   "Specific Conductance (uS/cm, ", (int) tc_x, "oC)  = ", (int) EC));
+				   "Specific Conductance (uS/cm, ", tc_x, "oC)  = ", (int) EC));
 #else
-				   "Specific Conductance (µS/cm, ", (int) tc_x, "°C)  = ", (int) EC));
+				   "Specific Conductance (µS/cm, ", tc_x, "°C)  = ", (int) EC));
 #endif
 	}
 /* VP: Density Start */

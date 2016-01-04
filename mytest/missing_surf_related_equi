@@ -1,0 +1,29 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 missing_surf_related_equi_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 2
+SURFACE 2  #first line from Hoa mai: Langmuir As(III)-2.phrq
+#Langmuir 4.44e-3 1 1  # 529 g/L *8.4e-6 mol site /g = 4.44e-3 mol site
+# see file  conversion conc sites  to site per liter.xlsx
+Hfo_sOH goethite equi 0.07 8.9e3 # 0.1 mol sites / mol Goethite, surface area 8.9e3 m2/mol #From Helle's relation
+-equilibrate 2
+EQUILIBRIUM_PHASES 2
+Goethite 0 1
+END
+EQUILIBRIUM_PHASES_RAW       2 
+  # EXCHANGE_MODIFY candidates; use new_def=true #
+  -new_def                   0
+  -eltList                   # List of all elements in phases and alternate reactions
+  # PPassemblage workspace variables #
+  -assemblage_totals
+END
+use solution 2 
+use surface 2
+use equilibrium_phases 2
+END
