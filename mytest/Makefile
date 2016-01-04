@@ -364,7 +364,10 @@ all: alkalinity.out \
 	edl_species.out \
 	R-04_01_PHRC.out \
 	McBride_rho.out \
-	Ca-As-Mahoney.out
+	Ca-As-Mahoney.out \
+	missing_surf_related_equi.out \
+	missing_surf_related_kin.out \
+	SC_temp.out
 
 # NaX.out
 
