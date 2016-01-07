@@ -651,8 +651,11 @@ SOLUTION 1-20
 EXCHANGE 1-20
     X       0.06
     -equilibrate with solution 1
+END
 
-TRANSPORT  forward
+###########################################################################################
+
+TRANSPORT  1 pumping
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
@@ -661,45 +664,33 @@ TRANSPORT  forward
     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
     -warnings              false
     -punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping1.xls 
 	-reset false 
-
 USER_PUNCH 
 	-headings hours  Si pH Mn(2) Fe(tot) Fe(2) MnX2 FeX2 Fe(3) O2 Fe(OH)3(a) Katalsurf eqFe_goethite Ferrorhodochrosite Manganite
 	10 PUNCH SIM_TIME/(60*60), 28000*TOT("Si"), -LA("H+"), 55000*TOT("Mn_di"), 56000*TOT("Fe_di")+ 56000*TOT("Fe_tri"), 56000*TOT("Fe_di"), 55000*MOL("Mn_diX2"), 56000*MOL("Fe_diX2"), 56000*TOT("Fe_tri"), 32000*MOL("O2"), 107000*EQUI("Fe_tri(OH)3(a)") , 107000*EQUI("Katalsurf"),  89000*EQUI("Fe_goethite"), 231000*EQUI("Ferrorhodochrosite"), 88000*EQUI("Manganite")
-
 PRINT
 -reset false
-
 END
 
-
-TITLE 1 stoppage 12 часа
-
+TITLE 1 stoppage 
 TRANSPORT diffusion_only
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 
-
 COPY solution 201 21
-
 TRANSPORT back
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
--warnings              false
 
 SELECTED_OUTPUT 
 	-file Mn-pumping-out1.xls 
@@ -709,54 +700,27 @@ SELECTED_OUTPUT
 END
 
 
-
-TITLE Вторая pumping 
-
+##################
+TITLE 2 pumping 
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
+    -punch_cells 1
 SELECTED_OUTPUT
 	-file Mn-pumping2.xls 
 	-reset false 
 	-molalities
- -dist    true
-
+    	-dist    true
 USER_PUNCH 
 	-headings hours  Si pH Mn(2) Fe(tot) Fe(2) MnX2 FeX2 Fe(3) O2 Fe(OH)3(a) Katalsurf eqFe_goethite  Ferrorhodochrosite   Manganite
 	10 PUNCH SIM_TIME/(60*60), 28000*TOT("Si"), -LA("H+"), 55000*TOT("Mn_di"), 56000*TOT("Fe_di")+ 56000*TOT("Fe_tri"), 56000*TOT("Fe_di"), 55000*MOL("Mn_diX2"), 56000*MOL("Fe_diX2"), 56000*TOT("Fe_tri"), 32000*MOL("O2"), 107000*EQUI("Fe_tri(OH)3(a)") , 107000*EQUI("Katalsurf"),  89000*EQUI("Fe_goethite"), 231000*EQUI("Ferrorhodochrosite"), 88000*EQUI("Manganite")
--end
-
-PRINT
--reset false
-
-
-
 END
 
-
 TITLE 2 stoppage 12 часа
-
-USE Solution 1-20 after simulation 4
-
-USE surface 1-20 after simulation 4
-
-USE EXCHANGE 1-20 after simulation 4
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 4
-
-
-USE KINETICS 1-20 after simulation 4
-
 TRANSPORT
     -cells                 20
     -shifts                12
@@ -766,220 +730,96 @@ TRANSPORT
 
 END
 
-
 TITLE 2 откачка
-
-USE Solution 1-20 after simulation 5
-
-USE surface 1-20 after simulation 5
-
-USE EXCHANGE 1-20 after simulation 5
- USE EQUILIBRIUM_PHASES 1-10  after simulation 5
-
-USE KINETICS 1-20  after simulation 5
-#-reset false
-
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
  SELECTED_OUTPUT 
 	-file Mn-pumping-out2.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
-PRINT
--reset false
 END
 
-
-
-
 ##################
-
-
 TITLE 3 pumping 
-
-
 COPY solution 200 0
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-       -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
+    -punch_cells 1
 
 SELECTED_OUTPUT
 	-file Mn-pumping3.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-PRINT
--reset false
-
-
-
 END
 
 TITLE 3 stoppage 12 часа
-
-USE Solution 1-20 after simulation 7
-
-USE surface 1-20 after simulation 7
-
-USE EXCHANGE 1-20 after simulation 7
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 7
-
-USE KINETICS 1-20 after simulation 7
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 3 откачка
-
-USE Solution 1-20 after simulation 8
-
-USE surface 1-20 after simulation 8
-
-USE EXCHANGE 1-20 after simulation 8
- USE EQUILIBRIUM_PHASES 1-10  after simulation 8
-
-USE KINETICS 1-20  after simulation 8
-#-reset false
-
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-      -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
 
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out3.xls
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-PRINT
--reset false
-
-
-
 END
+
 ###################################
 TITLE 4 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping4.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-PRINT
--reset false
-
-
-
 END
 
 TITLE 4 stoppage 12 часа
-
-USE Solution 1-20 after simulation 10
-
-USE surface 1-20 after simulation 10
-
-USE EXCHANGE 1-20 after simulation 10
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 10
-
-USE KINETICS 1-20 after simulation 10
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 4 откачка
-
-USE Solution 1-20 after simulation 11
-
-USE surface 1-20 after simulation 11
-
-USE EXCHANGE 1-20 after simulation 11
-
-USE EQUILIBRIUM_PHASES 1-10  after simulation 11
-
-USE KINETICS 1-20  after simulation 11
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
- -warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out4.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
-
 END
+
 ######################
 TITLE 5 pumping 
-
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -987,213 +827,100 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
-#-punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping5.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
-
 END
 
 TITLE 5 stoppage 12 часа
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 5 откачка
-
-USE Solution 1-20 after simulation 14
-
-USE surface 1-20 after simulation 14
-
-USE EXCHANGE 1-20 after simulation 14
- USE EQUILIBRIUM_PHASES 1-20  after simulation 14
-
-USE KINETICS 1-20  after simulation 14
-#-reset false
-
-COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-       -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out5.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
 #######################
 TITLE 6 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-       -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
-##-punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping6.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
 
 TITLE 6 stoppage 12 часа
-
-USE Solution 1-20 after simulation 16
-
-USE surface 1-20 after simulation 16
-
-USE EXCHANGE 1-20 after simulation 16
- USE EQUILIBRIUM_PHASES 1-20  after simulation 16
-
-
-USE KINETICS 1-20 after simulation 16
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 6 откачка
-
-USE Solution 1-20 after simulation 17
-
-USE surface 1-20 after simulation 17
-
-USE EXCHANGE 1-20 after simulation 17
- USE EQUILIBRIUM_PHASES 1-20  after simulation 17
-
-USE KINETICS 1-20  after simulation 17
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out6.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
 
 TITLE 7 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
-#-punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping7.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
 
 TITLE 7 stoppage 12 часа
-
-USE Solution 1-20 after simulation 19
-
-USE surface 1-20 after simulation 19
-
-USE EXCHANGE 1-20 after simulation 19
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 19
-
-USE KINETICS 1-20 after simulation 19
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 7 откачка
-
-USE Solution 1-20 after simulation 20
-
-USE surface 1-20 after simulation 20
-
-USE EXCHANGE 1-20 after simulation 20
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 20
-
-USE KINETICS 1-20  after simulation 20
-#-reset false
-
-COPY solution 201 21
-
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
- -warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out7.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
 ###############
@@ -1205,146 +932,71 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping8.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 8 stoppage 12 часа
-
-USE Solution 1-20 after simulation 22
-
-USE surface 1-20 after simulation 22
-
-USE EXCHANGE 1-20 after simulation 22
- USE EQUILIBRIUM_PHASES 1-20  after simulation 22
-
-
-USE KINETICS 1-20 after simulation 22
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 8 откачка
-
-USE Solution 1-20 after simulation 23
-
-USE surface 1-20 after simulation 23
-
-USE EXCHANGE 1-20 after simulation 23
- USE EQUILIBRIUM_PHASES 1-20  after simulation 23
-
-USE KINETICS 1-20  after simulation 23
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out8.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
-###########
 ###############
 TITLE 9 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping9.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 9 stoppage 12 часа
-
-USE Solution 1-20 after simulation 25
-
-USE surface 1-20 after simulation 25
-
-USE EXCHANGE 1-20 after simulation 25
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 25
-
-USE KINETICS 1-20 after simulation 25
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 9 откачка
-
-USE Solution 1-20 after simulation 26
-
-USE surface 1-20 after simulation 26
-
-USE EXCHANGE 1-20 after simulation 26
- USE EQUILIBRIUM_PHASES 1-20  after simulation 26
-
-USE KINETICS 1-20  after simulation 26
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out9.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
 
 END
 ###############
 TITLE 10 pumping 
-
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -1352,419 +1004,198 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping10.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 10 stoppage 12 часа
-
-USE Solution 1-20 after simulation 28
-
-USE surface 1-20 after simulation 28
-
-USE EXCHANGE 1-20 after simulation 28
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 28
-
-USE KINETICS 1-20 after simulation 28
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 10 откачка
-
-USE Solution 1-20 after simulation 29
-
-USE surface 1-20 after simulation 29
-
-USE EXCHANGE 1-20 after simulation 29
- USE EQUILIBRIUM_PHASES 1-20  after simulation 29
-
-USE KINETICS 1-20  after simulation 29
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out10.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-############
 ###############
 TITLE 11 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping11.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 11 stoppage 12 часа
-
-USE Solution 1-20 after simulation 31
-
-USE surface 1-20 after simulation 31
-
-USE EXCHANGE 1-20 after simulation 31
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 31
-
-USE KINETICS 1-20 after simulation 31
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 11 откачка
-
-USE Solution 1-20 after simulation 32
-
-USE surface 1-20 after simulation 32
-
-USE EXCHANGE 1-20 after simulation 32
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 32
-
-USE KINETICS 1-20  after simulation 32
-#-reset false
-
 COPY solution 201 21
-
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out11.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
 ###############
 TITLE 12 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping12.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 12 stoppage 12 часа
-
-USE Solution 1-20 after simulation 34
-
-USE surface 1-20 after simulation 34
-
-USE EXCHANGE 1-20 after simulation 34
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 34
-
-USE KINETICS 1-20 after simulation 34
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 12 откачка
-
-USE Solution 1-20 after simulation 35
-
-USE surface 1-20 after simulation 35
-
-USE EXCHANGE 1-20 after simulation 35
- USE EQUILIBRIUM_PHASES 1-20  after simulation 35
-
-USE KINETICS 1-20  after simulation 35
-#-reset false
-
 COPY solution 201 21
-
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out12.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
 END
 ###############
 TITLE 13 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping13.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 13 stoppage 12 часа
-
-USE Solution 1-20 after simulation 37
-
-USE surface 1-20 after simulation 37
-
-USE EXCHANGE 1-20 after simulation 37
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 37
-
-USE KINETICS 1-20 after simulation 37
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 13 откачка
-
-USE Solution 1-20 after simulation 38
-
-USE surface 1-20 after simulation 38
-
-USE EXCHANGE 1-20 after simulation 38
- USE EQUILIBRIUM_PHASES 1-20  after simulation 38
-
-USE KINETICS 1-20  after simulation 38
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out13.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
 ###############
 TITLE 14 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping14.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 14 stoppage 12 часа
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 14 откачка
-
-USE Solution 1-20 after simulation 41
-
-USE surface 1-20 after simulation 41
-
-USE EXCHANGE 1-20 after simulation 41
- USE EQUILIBRIUM_PHASES 1-20  after simulation 41
-
-USE KINETICS 1-20  after simulation 41
-#-reset false
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out14.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
-###########
 ###############
 TITLE 15 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping15.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 15 stoppage 12 часа
-
-USE Solution 1-20 after simulation 43
-
-USE surface 1-20 after simulation 43
-
-USE EXCHANGE 1-20 after simulation 43
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 43
-
-USE KINETICS 1-20 after simulation 43
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 15 откачка
-
-USE Solution 1-20 after simulation 44
-
-USE surface 1-20 after simulation 44
-
-USE EXCHANGE 1-20 after simulation 44
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 44
-
-USE KINETICS 1-20  after simulation 44
-#-reset false
-
 COPY solution 201 21
 TRANSPORT
     -cells                 20
@@ -1772,11 +1203,7 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out15.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
 
@@ -1784,131 +1211,77 @@ END
 ##############
 ###############
 TITLE 16 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping16.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-TITLE 16 stoppage 12 часа
 
+TITLE 16 stoppage 12 часа
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 16 pumping out
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out16.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ###############
 TITLE 17 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping17.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 17 stoppage 12 часа
-
-USE Solution 1-20 after simulation 49
-
-USE surface 1-20 after simulation 49
-
-USE EXCHANGE 1-20 after simulation 49
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 49
-
-USE KINETICS 1-20 after simulation 49
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 17 откачка
-
-USE Solution 1-20 after simulation 50
-
-USE surface 1-20 after simulation 50
-
-USE EXCHANGE 1-20 after simulation 50
- USE EQUILIBRIUM_PHASES 1-20  after simulation 50
-
-USE KINETICS 1-20  after simulation 50
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out17.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-##########3
-TITLE 18 pumping 
 
+###############
+TITLE 18 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -1916,147 +1289,71 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping18.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 18 stoppage 12 часа
-
-USE Solution 1-20 after simulation 52
-
-USE surface 1-20 after simulation 52
-
-USE EXCHANGE 1-20 after simulation 52
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 52
-
-USE KINETICS 1-20 after simulation 52
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 18 откачка
-
-USE Solution 1-20 after simulation 53
-
-USE surface 1-20 after simulation 53
-
-USE EXCHANGE 1-20 after simulation 53
- USE EQUILIBRIUM_PHASES 1-20  after simulation 53
-
-USE KINETICS 1-20  after simulation 53
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out18.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ###############
-##########
 TITLE 19 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-        -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping19.xls
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 19 stoppage 12 часа
-
-USE Solution 1-20 after simulation 55
-
-USE surface 1-20 after simulation 55
-
-USE EXCHANGE 1-20 after simulation 55
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 55
-
-USE KINETICS 1-20 after simulation 55
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 19 откачка
-
-USE Solution 1-20 after simulation 56
-
-USE surface 1-20 after simulation 56
-
-USE EXCHANGE 1-20 after simulation 56
- USE EQUILIBRIUM_PHASES 1-20  after simulation 56
-
-USE KINETICS 1-20  after simulation 56
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out19.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
 END
 
-##########3
+###############
 TITLE 20 pumping 
-
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -2064,69 +1361,32 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping20.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 20 stoppage 12 часа
-
-USE Solution 1-20 after simulation 58
-
-USE surface 1-20 after simulation 58
-
-USE EXCHANGE 1-20 after simulation 58
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 58
-
-USE KINETICS 1-20 after simulation 58
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 20 откачка
-
-USE Solution 1-20 after simulation 59
-
-USE surface 1-20 after simulation 59
-
-USE EXCHANGE 1-20 after simulation 59
- USE EQUILIBRIUM_PHASES 1-20  after simulation 59
-
-USE KINETICS 1-20  after simulation 59
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out20.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-
-
 
 ########################################################################
 ########################################################################
@@ -2138,164 +1398,80 @@ END
 ########################################################################
 ########################################################################
 
-
+###############
 TITLE 21 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping21.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 21 stoppage 12 часа
-
-USE Solution 1-20 after simulation 61
-
-USE surface 1-20 after simulation 61
-
-USE EXCHANGE 1-20 after simulation 61
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 61
-
-USE KINETICS 1-20 after simulation 61
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 21 откачка
-
-USE Solution 1-20 after simulation 62
-
-USE surface 1-20 after simulation 62
-
-USE EXCHANGE 1-20 after simulation 62
- USE EQUILIBRIUM_PHASES 1-20  after simulation 62
-
-USE KINETICS 1-20  after simulation 62
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-       -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out21.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########3
 TITLE 22 pumping 
-
-
 COPY solution 200 0
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-       -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping22.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 22 stoppage 12 часа
-
-USE Solution 1-20 after simulation 64
-
-USE surface 1-20 after simulation 64
-
-USE EXCHANGE 1-20 after simulation 64
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 64
-
-USE KINETICS 1-20 after simulation 64
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 22 откачка
-
-USE Solution 1-20 after simulation 65
-
-USE surface 1-20 after simulation 65
-
-USE EXCHANGE 1-20 after simulation 65
- USE EQUILIBRIUM_PHASES 1-20  after simulation 65
-
-USE KINETICS 1-20  after simulation 65
-#-reset false
-
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out22.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-#####################
-##########3
 TITLE 23 pumping 
-
-
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -2303,74 +1479,35 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping23.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 23 stoppage 12 часа
-
-USE Solution 1-20 after simulation 67
-
-USE surface 1-20 after simulation 67
-
-USE EXCHANGE 1-20 after simulation 67
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 67
-
-USE KINETICS 1-20 after simulation 67
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 23 откачка
-
-USE Solution 1-20 after simulation 68
-
-USE surface 1-20 after simulation 68
-
-USE EXCHANGE 1-20 after simulation 68
- USE EQUILIBRIUM_PHASES 1-20  after simulation 68
-
-USE KINETICS 1-20  after simulation 68
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out23.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-#####################
-##########3
-TITLE 24 pumping 
 
+################
+TITLE 24 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -2378,75 +1515,35 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping24.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 24 stoppage 12 часа
-
-USE Solution 1-20 after simulation 70
-
-USE surface 1-20 after simulation 70
-
-USE EXCHANGE 1-20 after simulation 70
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 70
-
-USE KINETICS 1-20 after simulation 70
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 24 откачка
-
-USE Solution 1-20 after simulation 71
-
-USE surface 1-20 after simulation 71
-
-USE EXCHANGE 1-20 after simulation 71
- USE EQUILIBRIUM_PHASES 1-20  after simulation 71
-
-USE KINETICS 1-20  after simulation 71
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out24.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########3
 TITLE 25 pumping 
-
-
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -2454,148 +1551,71 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping25.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 25 stoppage 12 часа
-
-USE Solution 1-20 after simulation 73
-
-USE surface 1-20 after simulation 73
-
-USE EXCHANGE 1-20 after simulation 73
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 73
-
-USE KINETICS 1-20 after simulation 73
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 25 откачка
-
-USE Solution 1-20 after simulation 74
-
-USE surface 1-20 after simulation 74
-
-USE EXCHANGE 1-20 after simulation 74
- USE EQUILIBRIUM_PHASES 1-20  after simulation 74
-
-USE KINETICS 1-20  after simulation 74
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out25.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-#####################
-##########3
 TITLE 26 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping26.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 26 stoppage 12 часа
-
-USE Solution 1-20 after simulation 76
-
-USE surface 1-20 after simulation 76
-
-USE EXCHANGE 1-20 after simulation 76
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 76
-
-USE KINETICS 1-20 after simulation 76
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 26 откачка
-
-USE Solution 1-20 after simulation 77
-
-USE surface 1-20 after simulation 77
-
-USE EXCHANGE 1-20 after simulation 77
- USE EQUILIBRIUM_PHASES 1-20  after simulation 77
-
-USE KINETICS 1-20  after simulation 77
-#-reset false
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out26.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-#####################
-##########3
-TITLE 27 pumping 
 
+################
+TITLE 27 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -2603,72 +1623,35 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping27.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 27 stoppage 12 часа
-
-USE Solution 1-20 after simulation 79
-
-USE surface 1-20 after simulation 79
-
-USE EXCHANGE 1-20 after simulation 79
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 79
-
-USE KINETICS 1-20 after simulation 79
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 27 откачка
-
-USE Solution 1-20 after simulation 80
-
-USE surface 1-20 after simulation 80
-
-USE EXCHANGE 1-20 after simulation 80
- USE EQUILIBRIUM_PHASES 1-20  after simulation 80
-
-USE KINETICS 1-20  after simulation 80
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out27.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-################
-#####################
-##########3
-TITLE 28 pumping 
 
+################
+TITLE 28 pumping 
 COPY solution 200 0
 
 TRANSPORT
@@ -2677,126 +1660,57 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping28.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 28 stoppage 12 часа
-
-USE Solution 1-20 after simulation 82
-
-USE surface 1-20 after simulation 82
-
-USE EXCHANGE 1-20 after simulation 82
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 82
-
-USE KINETICS 1-20 after simulation 82
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 28 откачка
-
-USE Solution 1-20 after simulation 83
-
-USE surface 1-20 after simulation 83
-
-USE EXCHANGE 1-20 after simulation 83
- USE EQUILIBRIUM_PHASES 1-20  after simulation 83
-
-USE KINETICS 1-20  after simulation 83
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out28.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########3
 TITLE 29 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping29.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 29 stoppage 12 часа
-
-USE Solution 1-20 after simulation 85
-
-USE surface 1-20 after simulation 85
-
-USE EXCHANGE 1-20 after simulation 85
- USE EQUILIBRIUM_PHASES 1-20  after simulation 85
-
-USE KINETICS 1-20 after simulation 85
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 29 откачка
-
-USE Solution 1-20 after simulation 86
-
-USE surface 1-20 after simulation 86
-
-USE EXCHANGE 1-20 after simulation 86
- USE EQUILIBRIUM_PHASES 1-20  after simulation 86
-
-USE KINETICS 1-20  after simulation 86
-#-reset false
-
 COPY solution 201 21
 TRANSPORT
     -cells                 20
@@ -2804,96 +1718,49 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out29.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########3
 TITLE 30 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping30.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 30 stoppage 12 часа
-
-USE Solution 1-20 after simulation 88
-
-USE surface 1-20 after simulation 88
-
-USE EXCHANGE 1-20 after simulation 88
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 88
-
-USE KINETICS 1-20 after simulation 88
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 30 откачка
-
-USE Solution 1-20 after simulation 89
-
-USE surface 1-20 after simulation 89
-
-USE EXCHANGE 1-20 after simulation 89
- USE EQUILIBRIUM_PHASES 1-20  after simulation 89
-
-USE KINETICS 1-20  after simulation 89
-#-reset false
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out30.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-################
-#####################
-##########3
-TITLE 31 pumping 
 
+################
+TITLE 31 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -2901,157 +1768,71 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping31.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 31 stoppage 12 часа
-
-USE Solution 1-20 after simulation 91
-
-USE surface 1-20 after simulation 91
-
-USE EXCHANGE 1-20 after simulation 91
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 91
-
-USE KINETICS 1-20 after simulation 91
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 31 откачка
-
-USE Solution 1-20 after simulation 92
-
-USE surface 1-20 after simulation 92
-
-USE EXCHANGE 1-20 after simulation 92
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 92
-
-USE KINETICS 1-20  after simulation 92
-#-reset false
-
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out31.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########3
 TITLE 32 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping32.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 32 stoppage 12 часа
-
-USE Solution 1-20 after simulation 94
-
-USE surface 1-20 after simulation 94
-
-USE EXCHANGE 1-20 after simulation 94
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 94
-
-
-USE KINETICS 1-20 after simulation 94
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 32 откачка
-
-USE Solution 1-20 after simulation 95
-
-USE surface 1-20 after simulation 95
-
-USE EXCHANGE 1-20 after simulation 95
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 95
-
-USE KINETICS 1-20  after simulation 95
-#-reset false
-
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out32.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-#####################
-##########3
-TITLE 33 pumping 
 
+################
+TITLE 33 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -3059,73 +1840,35 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping33.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 33 stoppage 12 часа
-
-USE Solution 1-20 after simulation 97
-
-USE surface 1-20 after simulation 97
-
-USE EXCHANGE 1-20 after simulation 97
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 97
-
-USE KINETICS 1-20 after simulation 97
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 33 откачка
-
-USE Solution 1-20 after simulation 98
-
-USE surface 1-20 after simulation 98
-
-USE EXCHANGE 1-20 after simulation 98
- USE EQUILIBRIUM_PHASES 1-20  after simulation 98
-
-USE KINETICS 1-20  after simulation 98
-#-reset false
-
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out33.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-################
-#####################
-#########
-TITLE 34 pumping 
 
+################
+TITLE 34 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -3133,282 +1876,139 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping34.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 34 stoppage 12 часа
-
-USE Solution 1-20 after simulation 100
-
-USE surface 1-20 after simulation 100
-
-USE EXCHANGE 1-20 after simulation 100
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 100
-
-USE KINETICS 1-20 after simulation 100
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 34 откачка
-
-USE Solution 1-20 after simulation 101
-
-USE surface 1-20 after simulation 101
-
-USE EXCHANGE 1-20 after simulation 101
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 101
-
-USE KINETICS 1-20  after simulation 101
-#-reset false
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out34.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-#####################
-##########3
 TITLE 35 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping35.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 35 stoppage 12 часа
-
-USE Solution 1-20 after simulation 103
-
-USE surface 1-20 after simulation 103
-
-USE EXCHANGE 1-20 after simulation 103
- USE EQUILIBRIUM_PHASES 1-20  after simulation 103
-
-USE KINETICS 1-20 after simulation 100
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 35 откачка
-
-USE Solution 1-20 after simulation 104
-
-USE surface 1-20 after simulation 104
-
-USE EXCHANGE 1-20 after simulation 104
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 104
-
-USE KINETICS 1-20 after simulation 104
-
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out35.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########3
 TITLE 36 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping36.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 36 stoppage 12 часа
-
-USE Solution 1-20 after simulation 106
-
-USE surface 1-20 after simulation 106
-
-USE EXCHANGE 1-20 after simulation 106
- USE EQUILIBRIUM_PHASES 1-20  after simulation 106
-
-
-USE KINETICS 1-20 after simulation 106
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 36 откачка
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out36.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-#####################
-##########
-
 TITLE 37 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping37.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 37 stoppage 12 часа
-
-USE Solution 1-20 after simulation 109
-
-USE surface 1-20 after simulation 109
-
-USE EXCHANGE 1-20 after simulation 109
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 109
-
-USE KINETICS 1-20 after simulation 109
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 37 откачка
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                14
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out37.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
 
@@ -3424,141 +2024,78 @@ END
 
 
 TITLE 38 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping38.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 38 stoppage 12 часа
-
-USE Solution 1-20 after simulation 112
-
-USE surface 1-20 after simulation 112
-
-USE EXCHANGE 1-20 after simulation 112
- USE EQUILIBRIUM_PHASES 1-20  after simulation 112
-
-
-USE KINETICS 1-20 after simulation 112
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 38 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out38.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-
 TITLE 39 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping39.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 
 TITLE 39 stoppage 12 часа
-
-USE Solution 1-20 after simulation 115
-
-USE surface 1-20 after simulation 115
-
-USE EXCHANGE 1-20 after simulation 115
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 115
-
-USE KINETICS 1-20 after simulation 115
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 39 откачка
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out39.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-
-
 TITLE 40 pumping 
-
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -3566,247 +2103,107 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping40.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 40 stoppage 12 часа
-
-USE Solution 1-20 after simulation 118
-
-USE surface 1-20 after simulation 118
-
-USE EXCHANGE 1-20 after simulation 118
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 118
-
-USE KINETICS 1-20 after simulation 118
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 40 откачка
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out40.xls 
-	-reset false 
-	-molalities
-	Fetri_sOFe_di+
-	Fetri_sOHCa+2   
-	Fetri_sOH2+  
-	Fetri_sOMn_di+  
-	Fetri_sOFe_diOH 
-	Fetri_sOH     
-	Fetri_sOHSr+2  
-	Fetri_sO-      
-	Fetri_wOH2+   
-	Fetri_wCO3H    
-	Fetri_wOFe_di+  
-	Fetri_wOFe_diOH 
-	Fetri_wOH       
-	Fetri_wCO3-    
-	Fetri_wOMn_di+
-	Fetri_wO-   
-	Fetri_wOCa+  
-	Fetri_wSO4- 
-	Fetri_wOHSO4-2  
-	Fetri_wH2SiO4- 
-	Fetri_wOH3SiO4-2 
-	Fetri_wOSr+   
-	Fetri_wOSrOH  
-	CaX2   
-	Fe_diX2    
-	NaX      
-	Mn_diX2  
-	SrX2     
-      MgX2
-	KX
-      -totals
-
-	C  
-	Ca  
-	Cl     
-	Fe_di  
-	Mn_di   
-	Na   
-	S      
-	
-      -dist    true
-USER_PUNCH 
-	-headings hours  Si pH Mn(2) Fe(tot) Fe(2) MnX2 FeX2 Fe(3) O2 Fe(OH)3(a) Katalsurf eqFe_goethite  Ferrorhodochrosite   Manganite
-	10 PUNCH SIM_TIME/(60*60), 28000*TOT("Si"), -LA("H+"), 55000*TOT("Mn_di"), 56000*TOT("Fe_di")+ 56000*TOT("Fe_tri"), 56000*TOT("Fe_di"), 55000*MOL("Mn_diX2"), 56000*MOL("Fe_diX2"), 56000*TOT("Fe_tri"), 32000*MOL("O2"), 107000*EQUI("Fe_tri(OH)3(a)") , 107000*EQUI("Katalsurf"),  89000*EQUI("Fe_goethite"), 231000*EQUI("Ferrorhodochrosite"), 88000*EQUI("Manganite")
--end
-PRINT
--reset false
-
-
-
+	INCLUDE$ ferrorodochrosite_fail.inc
 END
+
 ################
-##########3
 TITLE 41 pumping 
-
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping41.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 41 stoppage 12 часа
-
-USE Solution 1-20 after simulation 121
-
-USE surface 1-20 after simulation 121
-
-USE EXCHANGE 1-20 after simulation 121
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 121
-
-USE KINETICS 1-20 after simulation 121
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 41 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out41.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 42 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping42.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 42 stoppage 12 часа
-
-USE Solution 1-20 after simulation 124
-
-USE surface 1-20 after simulation 124
-
-USE EXCHANGE 1-20 after simulation 124
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 124
-
-USE KINETICS 1-20 after simulation 124
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 42 откачка
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out42.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-##########3
-TITLE 43 pumping 
 
+################
+TITLE 43 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -3814,134 +2211,71 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping43.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 43 stoppage 12 часа
-
-USE Solution 1-20 after simulation 127
-
-USE surface 1-20 after simulation 127
-
-USE EXCHANGE 1-20 after simulation 127
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 127
-
-USE KINETICS 1-20 after simulation 127
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
-
 END
 
-
 TITLE 43 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out43.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 44 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping44.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 44 stoppage 12 часа
-
-USE Solution 1-20 after simulation 130
-
-USE surface 1-20 after simulation 130
-
-USE EXCHANGE 1-20 after simulation 130
- 
-USE EQUILIBRIUM_PHASES 1-20  after simulation 130
-
-USE KINETICS 1-20 after simulation 130
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
-
 END
 
-
 TITLE 44 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out44.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-##########3
-TITLE 45 pumping 
 
+################
+TITLE 45 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -3949,63 +2283,35 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping45.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 45 stoppage 12 часа
-
-USE Solution 1-20 after simulation 133
-
-USE surface 1-20 after simulation 133
-
-USE EXCHANGE 1-20 after simulation 133
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 133
-
-USE KINETICS 1-20 after simulation 133
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 45 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out45.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-################
-##########3
-TITLE 46 pumping 
 
+################
+TITLE 46 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -4013,197 +2319,107 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping46.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 46 stoppage 12 часа
-
-USE Solution 1-20 after simulation 136
-
-USE surface 1-20 after simulation 136
-
-USE EXCHANGE 1-20 after simulation 136
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 136
-
-
-USE KINETICS 1-20 after simulation 136
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
 END
 
-
 TITLE 46 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out46.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 47 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping47.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 47 stoppage 12 часа
-
-USE Solution 1-20 after simulation 139
-
-USE surface 1-20 after simulation 139
-
-USE EXCHANGE 1-20 after simulation 139
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 139
-
-
-USE KINETICS 1-20 after simulation 139
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 47 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out47.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 48 pumping 
-
 COPY solution 200 0
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping48.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 48 stoppage 12 часа
-
-USE Solution 1-20 after simulation 142
-
-USE surface 1-20 after simulation 142
-
-USE EXCHANGE 1-20 after simulation 142
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 142
-
-
-USE KINETICS 1-20 after simulation 142
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 48 откачка
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-  -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out48.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-################
-##########3
-TITLE 49 pumping 
 
+################
+TITLE 49 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -4211,594 +2427,323 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping49.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 49 stoppage 12 часа
-
-USE Solution 1-20 after simulation 145
-
-USE surface 1-20 after simulation 145
-
-USE EXCHANGE 1-20 after simulation 145
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 145
-
-USE KINETICS 1-20 after simulation 145
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 49 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out49.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 50 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
- -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping50.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 50 stoppage 12 часа
-
-USE Solution 1-20 after simulation 148
-
-USE surface 1-20 after simulation 148
-
-USE EXCHANGE 1-20 after simulation 148
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 148
-
-USE KINETICS 1-20 after simulation 148
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 50 откачка
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
--lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out50.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 51 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping51.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 51 stoppage 12 часа
-
-USE Solution 1-20 after simulation 151
-
-USE surface 1-20 after simulation 151
-
-USE EXCHANGE 1-20 after simulation 151
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 151
-
-USE KINETICS 1-20 after simulation 151
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 51 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out51.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 52 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping52.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 52 stoppage 12 часа
-
-USE Solution 1-20 after simulation 154
-
-USE surface 1-20 after simulation 154
-
-USE EXCHANGE 1-20 after simulation 154
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 154
-
-USE KINETICS 1-20 after simulation 154
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 52 откачка
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out52.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-########## 4 месяц
+
 ################
 TITLE 53 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping53.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 53 stoppage 12 часа
-
-USE Solution 1-20 after simulation 157
-
-USE surface 1-20 after simulation 157
-
-USE EXCHANGE 1-20 after simulation 157
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 157
-
-USE KINETICS 1-20 after simulation 157
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 53 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out53.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 54 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping54.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 54 stoppage 12 часа
-
-USE Solution 1-20 after simulation 160
-
-USE surface 1-20 after simulation 160
-
-USE EXCHANGE 1-20 after simulation 160
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 160
-
-USE KINETICS 1-20 after simulation 160
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
-
 END
 
-
 TITLE 54 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out54.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 55 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
-#-punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping55.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 55 stoppage 12 часа
-
-USE Solution 1-20 after simulation 163
-
-USE surface 1-20 after simulation 163
-
-USE EXCHANGE 1-20 after simulation 163
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 163
-
-USE KINETICS 1-20 after simulation 163
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 55 откачка
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out55.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 56 pumping 
-
 COPY solution 200 0
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping56.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 56 stoppage 12 часа
-
-USE Solution 1-20 after simulation 166
-
-USE surface 1-20 after simulation 166
-
-USE EXCHANGE 1-20 after simulation 166
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 166
-
-USE KINETICS 1-20 after simulation 166
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 56 откачка
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out56.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 57 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping57.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 57 stoppage 12 часа
-
-USE Solution 1-20 after simulation 169
-
-USE surface 1-20 after simulation 169
-
-USE EXCHANGE 1-20 after simulation 169
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 169
-
-USE KINETICS 1-20 after simulation 169
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 57 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out57.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
-################
-##########3
-TITLE 58 pumping 
 
+################
+TITLE 58 pumping 
 COPY solution 200 0
 TRANSPORT
     -cells                 20
@@ -4806,720 +2751,391 @@ TRANSPORT
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping58.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 58 stoppage 12 часа
-
-USE Solution 1-20 after simulation 172
-
-USE surface 1-20 after simulation 172
-
-USE EXCHANGE 1-20 after simulation 172
- USE EQUILIBRIUM_PHASES 1-20  after simulation 172
-
-
-USE KINETICS 1-20 after simulation 172
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 58 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out58.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 59 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping59.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 59 stoppage 12 часа
-
-USE Solution 1-20 after simulation 175
-
-USE surface 1-20 after simulation 175
-
-USE EXCHANGE 1-20 after simulation 175
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 175
-
-USE KINETICS 1-20 after simulation 175
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 59 откачка
-
 COPY solution 201 21
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out59.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 60 pumping 
-
 COPY solution 200 0
-
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping60.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 60 stoppage 12 часа
-
-USE Solution 1-20 after simulation 178
-
-USE surface 1-20 after simulation 178
-
-USE EXCHANGE 1-20 after simulation 178
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 178
-
-USE KINETICS 1-20 after simulation 178
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 60 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out60.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 61 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping61.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 61 stoppage 12 часа
-
-USE Solution 1-20 after simulation 181
-
-USE surface 1-20 after simulation 181
-
-USE EXCHANGE 1-20 after simulation 181
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 181
-
-USE KINETICS 1-20 after simulation 181
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 61 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out61.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 62 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping62.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 62 stoppage 12 часа
-
-USE Solution 1-20 after simulation 184
-
-USE surface 1-20 after simulation 184
-
-USE EXCHANGE 1-20 after simulation 184
- USE EQUILIBRIUM_PHASES 1-20  after simulation 184
-
-
-USE KINETICS 1-20 after simulation 184
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
-
 
 TITLE 62 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out62.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 63 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping63.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 63 stoppage 12 часа
-
-USE Solution 1-20 after simulation 187
-
-USE surface 1-20 after simulation 187
-
-USE EXCHANGE 1-20 after simulation 187
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 187
-
-USE KINETICS 1-20 after simulation 187
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 63 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out63.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 63 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping63.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 TITLE 63 stoppage 12 часа
-
-USE Solution 1-20 after simulation 190
-
-USE surface 1-20 after simulation 190
-
-USE EXCHANGE 1-20 after simulation 190
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 190
-
-USE KINETICS 1-20 after simulation 190
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 63 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out63.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
+
 ################
-##########3
 TITLE 64 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping64.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 64 stoppage 12 часа
-
-USE Solution 1-20 after simulation 193
-
-USE surface 1-20 after simulation 193
-
-USE EXCHANGE 1-20 after simulation 193
- USE EQUILIBRIUM_PHASES 1-20  after simulation 193
-
-
-USE KINETICS 1-20 after simulation 193
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 64 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out64.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 65 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping65.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 65 stoppage 12 часа
-
-USE Solution 1-20 after simulation 196
-
-USE surface 1-20 after simulation 196
-
-USE EXCHANGE 1-20 after simulation 196
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 196
-
-USE KINETICS 1-20 after simulation 196
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 65 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out65.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 ################
-##########3
 TITLE 66 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping66.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-
 END
+
 TITLE 66 stoppage 12 часа
-
-USE Solution 1-20 after simulation 199
-
-USE surface 1-20 after simulation 199
-
-USE EXCHANGE 1-20 after simulation 199
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 199
-
-USE KINETICS 1-20 after simulation 199
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 66 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out65.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
-##########################3
+
+################
 TITLE 67 pumping 
-
 COPY solution 200 0
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        forward
     -boundary_conditions   flux flux
-   -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
--punch_cells 1
-
 SELECTED_OUTPUT
 	-file Mn-pumping67.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
-PRINT
--reset false
-
-
-
 END
+
 TITLE 67 stoppage 12 часа
-
-USE Solution 1-20 after simulation 202
-
-USE surface 1-20 after simulation 202
-
-USE EXCHANGE 1-20 after simulation 202
-
-USE EQUILIBRIUM_PHASES 1-20  after simulation 202
-
-USE KINETICS 1-20 after simulation 202
-
 TRANSPORT
     -cells                 20
     -shifts                12
     -time_step             3600 # seconds
     -flow_direction        diffusion_only
     -boundary_conditions   closed flux
-
-
 END
 
-
 TITLE 67 откачка
-
 COPY solution 201 21
-
-
 TRANSPORT
     -cells                 20
     -shifts                24
     -time_step             3600 # seconds = 0.1 day
     -flow_direction        back #forward
     -boundary_conditions   flux flux
-    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
-
--warnings              false
-
- SELECTED_OUTPUT 
+SELECTED_OUTPUT 
 	-file Mn-pumping-out67.xls 
 	INCLUDE$ ferrorodochrosite_fail.inc
-
 END
 ################
 
