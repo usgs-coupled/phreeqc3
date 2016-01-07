@@ -1,5 +1,13 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
         ---------
+        svn 10640
+        ---------
+	PhreeqcRM: Advection example in C and C++ had wrong MPI type for integer transfers.
+	Example code in documentation also had wrong MPI type for some integer transfers. 
+	Integer transfers in Fortran should use MPI_INTEGER, while integer transfers in 
+	C and C++ should use MPI_INT.
+
+        ---------
         svn 10632
         ---------
 	PhreeqcRM: Revised transfer of data for MPI when rebalancing. Serializes lists of
