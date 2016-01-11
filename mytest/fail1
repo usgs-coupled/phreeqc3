@@ -1,0 +1,133 @@
+DATABASE Phmaster14.dat
+SELECTED_OUTPUT 101
+    -file                 fail1_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1 
+END 
+EQUILIBRIUM_PHASES 1
+	CO2(g)  -3.4  10
+	O2(g)  -0.7  10
+	    Gypsum  0 0
+	    Barite    0 0
+	    CaMoO4    0.27 0
+	    CuMoO4    0 0
+	    FeMoO4    0 0
+	    Ferrihydrite 0 0
+	    PbMoO4    0 0
+	    Carnotite 0 0
+	SURFACE 1
+	    Hfo_wOH Ferrihydrite  equilibrium_phase -0.0948481047899    53400
+	    Hfo_sOH Ferrihydrite    equilibrium_phase -0.0023712026197
+	SURFACE 2-4
+	    Hfo_wOH Ferrihydrite  equilibrium_phase 0.073105590872    53400
+	    Hfo_sOH Ferrihydrite    equilibrium_phase 0.0018276397718
+	EQUILIBRIUM_PHASES 2-4
+	CO2(g)  -3.4  10
+	O2(g)  -0.7  10
+	    Gypsum  0 0
+	    Barite    0 0
+	    CaMoO4    0 0
+	    CuMoO4    0 0
+	    FeMoO4    0 0
+	    Ferrihydrite 0 0
+	    PbMoO4    0 0
+	    Carnotite 0 0
+	SOLUTION_MASTER_SPECIES
+	Amm		AmmH+	0	AmmH		18
+	Mjwtp   Mjwtp   0.0  100 100
+	Msue   Msue   0.0  100 100
+	Mdwat   Mdwat   0.0  100 100
+	Mroff   Mroff   0.0  100 100
+	Mrs   Mrs  0.0  100 100
+	Mgw   Mgw   0.0  100 100
+	Mpit  Mpit  0.0  100 100
+	SOLUTION_SPECIES
+	Mjwtp = Mjwtp
+	log_k 0.0
+	Msue = Msue
+	log_k 0.0
+	Mpit = Mpit
+	log_k 0.0
+	Mdwat = Mdwat
+	log_k 0.0
+	Mrs = Mrs
+	log_k 0.0
+	Mroff = Mroff
+	log_k 0.0
+	Mgw = Mgw
+	log_k 0.0
+	AmmH+ = AmmH+
+		log_k	0
+		  gamma	2.5	0
+	AmmH+ = Amm + H+
+		log_k	-9.252
+		delta_h 12.48	kcal
+	AmmH+ + SO4-2 = AmmHSO4-
+		log_k	1.11
+	EXCHANGE_SPECIES
+		AmmH+ + X- = AmmHX
+		log_k	0.6
+		 gamma	2.5	0
+	PRINT
+	    alkalinity            false
+	    echo_input            true
+	    eh                    false
+	    equilibrium_phases    true
+	    exchange              false
+	    gas_phase             false
+	    headings              false
+	    inverse               false
+	    kinetics              false
+	    other                 false
+	    saturation_indices    false
+	    solid_solutions       false
+	    species               false
+	    surface               true
+	    totals                false
+	    user_print            false
+	    selected_output       true
+	    status                true
+	    warnings              100
+	PHASES
+	Amm(g)
+		Amm = Amm
+		log_k	1.77
+		delta_h -8.170	kcal
+	Fix_H+
+	    H+ = H+
+	    log_k     0
+	Fix_pE
+	    e- = e-
+	    log_k     0
+	Al(OH)3(am)
+		Al(OH)3 + 3H+ = Al+3 + 3H2O
+		log_k	10.8
+		delta_h	-111	kJ
+	END
+	SOLUTION 1110 Rain & snow
+	    temp      4
+	    pH        7
+	    pe        4
+	    redox     pe
+	    units    mg/l
+	    density   1
+	    water    1
+	     Mrs 1
+	END
+	USE solution 1110
+	EQUILIBRIUM_PHASES 1111 Atmosphere interaction with precipitation
+	    CO2(g)    -3.4 10
+	    O2(g)     -0.7 10
+	SAVE solution 100
+	KNOBS
+	    iterations            150
+	    convergence_tolerance 1e-008
+	    tolerance             1e-015
+	    step_size             50
+	    pe_step_size          5
+	END

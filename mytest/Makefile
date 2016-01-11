@@ -408,7 +408,10 @@ pitzer: \
 	NaCl-SO4.out \
 	NaCl_temp.out \
 	NaKCl.out \
-	NaMgCl.out 
+	NaMgCl.out \
+	fail1.out \
+	fail2.out \
+	fail3.out
 
 
 frezchem: \
