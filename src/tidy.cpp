@@ -3969,6 +3969,14 @@ tidy_min_surface(void)
 							error_msg(error_string);
 							continue;
 						}
+						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name == NULL)
+						{
+							input_error++;
+							error_string = sformatf("Unknown master species definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
+								surface_ptr->Get_n_user());
+							error_msg(error_string);
+							continue;
+						}
 						if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
 						{
 							error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
