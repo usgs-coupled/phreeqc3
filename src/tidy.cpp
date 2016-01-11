@@ -3961,13 +3961,20 @@ tidy_min_surface(void)
 
 						// Warn if not master species and charge balanced
 						struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
+						if (elt_ptr->master == NULL)
+						{
+							input_error++;
+							error_string = sformatf("Unknown element definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
+								surface_ptr->Get_n_user());
+							error_msg(error_string);
+							continue;
+						}
 						if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
 						{
 							error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
 								elt_ptr->master->s->name);
 							warning_msg(error_string);
 						}
-						else
 						if (elt_ptr->master->s->z != 0.0)
 						{
 							error_string = sformatf(
@@ -4926,6 +4933,15 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 
 	tol = 1e-6;
 	rt = ss_ptr->Get_tk() * R_KJ_DEG_MOL;
+	if (ss_ptr->Get_ss_comps().size() < 2)
+	{
+		input_error++;
+		error_string = sformatf(
+				"Two components not defined for solid solution ",
+				ss_ptr->Get_name().c_str());
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	int k;
