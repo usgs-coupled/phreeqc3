@@ -140,3 +140,7 @@ Invoke-Expression "$MsBuild $opts_clr"
 [string]$opts_msi="msi\msi.sln /p:Configuration=Release /p:Platform=x64 /p:TargetName=$Env:FULLPKG-x64 /p:Major=$Env:ver_major /p:Minor=$Env:ver_minor /p:Patch=$Env:ver_patch /p:Build=$Env:REL"
 Invoke-Expression "$MsBuild $opts_msi"
 
+# copy docs
+New-Item ".\dist" -ItemType directory
+Copy-Item doc\README.Phreeqc.TXT dist\README.Phreeqc.${Env:REL}.TXT
+Copy-Item doc\RELEASE.TXT dist\RELEASE.${Env:REL}.TXT
