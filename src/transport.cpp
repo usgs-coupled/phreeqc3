@@ -541,9 +541,9 @@ transport(void)
 				rm_calc_time += (CLOCK() - time_rm_calc_start);
 				// move data back to phreeqc
 				phreeqcrm_ptr->RM2Phreeqc(this);
-//#endif
+#endif
 
-//#ifdef PHREEQC_PARALLELyyy
+#ifdef PHREEQC_PARALLELyyy
 				// Copy to PhreeqcRM
 				// Run reactions
 				// Copy to PHREEQC
