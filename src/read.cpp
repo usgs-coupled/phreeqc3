@@ -4010,6 +4010,7 @@ read_phases(void)
  */
 			phase_ptr = NULL;
 			ptr = line;
+			if (reading_db == 0) definitions_for_parallelizer << line << "\n";
 			copy_token(token, &ptr, &l);
 /*
  *   Get and parse equation
