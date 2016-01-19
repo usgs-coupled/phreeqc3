@@ -619,15 +619,17 @@ initial_solutions(int print)
 			k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
 			set(TRUE);
 			always_full_pitzer = FALSE;
+			bool diag = (diagonal_scale == TRUE) ? true : false;
+			diagonal_scale = TRUE;
 			converge = model();
-			if (converge == ERROR && diagonal_scale == FALSE)
+			if (converge == ERROR /*&& diagonal_scale == FALSE*/)
 			{
 				diagonal_scale = TRUE;
 				always_full_pitzer = TRUE;
 				set(TRUE);
 				converge = model();
-				diagonal_scale = FALSE;
 			}
+			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
 			add_isotopes(solution_ref);
