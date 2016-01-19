@@ -1444,13 +1444,18 @@ solution_check(void)
 	for (i = 0; i < count_master; i++)
 	{
 		master_ptr = master[i];
-		if (master_ptr->total >= 0.0)
-			continue;
-		if (master_ptr->total > -MIN_TOTAL)
+		if (master_ptr->total <= MIN_TOTAL && master_ptr->total >= -MIN_TOTAL)
 		{
 			master_ptr->total = 0;
 			continue;
 		}
+		if (master_ptr->total >= 0.0)
+			continue;
+		//if (master_ptr->total > -MIN_TOTAL)
+		//{
+		//	master_ptr->total = 0;
+		//	continue;
+		//}
 		if (master_ptr->s == s_eminus || master_ptr->s == s_h2o
 			|| master_ptr->s == s_hplus || master_ptr->s == s_h3oplus)
 		{
