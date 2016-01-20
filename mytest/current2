@@ -1,6 +1,11 @@
 # Steady state analytical solution, 
 # K. Krabbenhøft, J. Krabbenhøft / Cement and Concrete Research 38 (2008) 77–88
-DATABASE c:\phreeqc\database\wateq4f.dat
+DATABASE ../database/wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 current2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
 EQUILIBRIUM_PHASES 0; H2(g) 0 0 # for bubbling out H2
 EQUILIBRIUM_PHASES 26; O2(g) 0 0 # ... and O2
 
