@@ -624,6 +624,8 @@ transport(void)
 				//std::cerr << "RM: " << rm_time << "    PHREEQC: " << phreeqc_time << std::endl;
 				//std::cerr << "RM comm: " << rm_comm_time << "    RM calc: " << rm_calc_time << std::endl;
 				//std::cerr << "    transport_step: " << transport_step << "  j: " << j << std::endl;
+				/*
+				*/
 #endif
 				if (!dV_dcell)
 					Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
@@ -1897,6 +1899,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	icell = jcell = -1;
 	first_c = last_c = -1;
+	il_calcs = -1;
 
 	current_x = sum_R = sum_Rd = 0.0;
 	if (dV_dcell)
@@ -2259,6 +2262,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	LDBLE g, g_i, g_j;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
+	por_il12 = A_i = A_j =0.0;
 	cec1 = cec2 = cec12 = rc1 = rc2 = 0.0;
 	dV = 0.0;
 
