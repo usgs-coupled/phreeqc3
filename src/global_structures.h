@@ -1042,8 +1042,7 @@ struct sol_D
 struct J_ij
 {
 	const char *name;
-	LDBLE tot1, tot2;  /* species change in cells i and j */
-	int sol_D_number;  /* the number of the species in sol_D */
+	LDBLE tot1;        /* species change in cells i and j */
 };
 struct M_S
 {

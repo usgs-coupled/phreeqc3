@@ -113,6 +113,8 @@ class cxxSolution:public cxxNumKeyword
 	void Update(const cxxNameDouble &nd);
 	void Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble &nd);
 	void Update_activities(const cxxNameDouble &original_tot);
+	void Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
+	void Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
 
   protected:
 	bool new_def;

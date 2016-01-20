@@ -438,6 +438,7 @@ void Phreeqc::init(void)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = 1;
+	cell_data_max_cells      = count_cells;
 	count_shifts             = 1;
 	ishift                   = 1;
 	bcon_first = bcon_last   = 3;
@@ -714,10 +715,11 @@ void Phreeqc::init(void)
 #ifdef USE_LONG_DOUBLE
 	/* from float.h, sets tolerance for cl1 routine */
 	ineq_tol                = pow((long double) 10, (long double) -LDBL_DIG);
+#elif WIN32
+// appt:
+	ineq_tol                = pow((double) 10, (double) -DBL_DIG + 2);
 #else
 	ineq_tol                = pow((double) 10, (double) -DBL_DIG);
-// appt:
-	//ineq_tol                = pow((double) 10, (double) -DBL_DIG + 2);
 #endif
 	convergence_tolerance   = 1e-8;	
 	step_size				= 100.;
@@ -1341,6 +1343,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = pSrc->count_cells;
+	cell_data_max_cells      = pSrc->cell_data_max_cells;
 	count_shifts             = pSrc->count_shifts;
 	ishift                   = pSrc->ishift;
 	bcon_first				 = pSrc->bcon_first;
