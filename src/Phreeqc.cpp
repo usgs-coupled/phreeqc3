@@ -722,7 +722,7 @@ void Phreeqc::init(void)
 	pe_step_size_now        = pe_step_size;
 	pp_scale				= 1.0;
 	pp_column_scale			= 1.0;
-	diagonal_scale			= TRUE;
+	diagonal_scale			= FALSE;
 	mass_water_switch		= FALSE;
 	delay_mass_water		= FALSE;
 	equi_delay      		= 0;
