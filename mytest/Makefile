@@ -364,7 +364,11 @@ all: alkalinity.out \
 	edl_species.out \
 	R-04_01_PHRC.out \
 	McBride_rho.out \
-	current1
+	current1.out \
+	harm_mean.out \
+	current_analytical.out \
+	current2.out \
+	uphill_NP.out
 
 # NaX.out
 
@@ -433,7 +437,7 @@ frezchem: \
 	Na2SO4.out \
 	NaCl-SO4.out \
 	NaKCl.out \
-	NaMgCl.out
+	NaMgCl.out 
 
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv
