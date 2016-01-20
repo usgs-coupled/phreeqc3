@@ -1,5 +1,5 @@
+DATABASE C:\Programs\phreeqc3-trunk\database\llnl.dat
 #DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 2.18.5570\database\llnl.dat
-DATABASE ../database/llnl.dat
 
 ###########################################################################################
 
@@ -356,22 +356,28 @@ RATES
   5   k = 50.1
  10  Mn_di = MOL("Mn_di(OH)2")
  20  if (Mn_di <= 0) then goto 200
- 40  moles =  Mn_di* k* MOL("O2")* TIME
+ 30  c = Mn_di
+ 35  f = c / (1e-14 + c) 
+ 40  moles =  Mn_di* k* MOL("O2")* TIME # * f
 200 SAVE moles
 -end
     Mn_tri-Fedi_ox
 -start
   5   k = 1^6
  10  Mn_tri = MOL("Mn_tri+3")
- 20  if (Mn_tri <= 0) then goto 200      
- 40  moles =  Mn_tri*TOT("Fe_di")*TIME
+ 20  if (Mn_tri <= 0) then goto 200 
+ 30  c = Mn_tri
+ 35  f = c / (1e-14 + c) 
+ 40  moles =  Mn_tri*TOT("Fe_di")*TIME # * f
 200 SAVE moles
 -end
     Fe_tri-OMn_di+
 -start
  50 k = 10^(-0.16)
  60 if ((MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+"))<=0) then goto 200
-100 moles = (k*(MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+")))*MOL("O2")*TIME 
+ 70  c = MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+")
+ 80  f = c / (1e-14 + c) 
+100 moles = (k*(MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+")))*MOL("O2")*TIME # * f
 200 SAVE moles 
 -end
 
@@ -398,7 +404,9 @@ RATES
  5  k = 0
 20 if EQUI("Fe_tri(OH)3(a)") > 2.5*0.001869 then  k = 0.00015
 30 if EQUI("Fe_tri(OH)3(a)") <= 0 then goto 50
-40 moles =  k*EQUI("Fe_tri(OH)3(a)")*TIME
+ 35  c =EQUI("Fe_tri(OH)3(a)")
+ 36  f = c / (1e-14 + c) 
+40 moles =  k*EQUI("Fe_tri(OH)3(a)")*TIME # * f
 50 SAVE moles
 -end
     Fe_di+2
@@ -406,7 +414,9 @@ RATES
   5 k =7.9e-6  
  10 Fe_di = MOL("Fe_di+2") 
  20 if (Fe_di <= 0) then goto 200 
-100 moles = (k*Fe_di )*MOL("O2")* TIME  
+ 35  c = Fe_di
+ 36  f = c / (1e-14 + c) 
+100 moles = (k*Fe_di )*MOL("O2")* TIME # * f 
 200 SAVE moles 
 -end
     Fe_di(OH)+
@@ -414,7 +424,9 @@ RATES
   5  k = 25.1
  10 Fe_diOH = MOL("Fe_diOH+") 
  20 if (Fe_diOH <= 0) then goto 200 
- 50 k = 0.7752*(2.71828^(0.1404*TC))
+ 35  c = Fe_diOH
+ 36  f = c / (1e-14 + c) 
+ 50 k = 0.7752*(2.71828^(0.1404*TC)) # * f
 100 moles = (k*Fe_diOH)*MOL("O2")* TIME  
 200 SAVE moles 
 -end
@@ -423,22 +435,28 @@ RATES
   5  k = 7.94e6
  10 Fe_diOHdi = MOL("Fe_di(OH)2") 
  20 if (Fe_diOHdi <= 0) then goto 200 
+ 35  c = Fe_diOHdi
+ 36  f = c / (1e-14 + c) 
  50 k = 246320*(2.71828^(0.1404*TC))
-100 moles = (k*Fe_diOHdi)*MOL("O2")* TIME  
+100 moles = (k*Fe_diOHdi)*MOL("O2")* TIME # * f
 200 SAVE moles 
 -end
     Fe_tri-OFe+
 -start
  50 k = 5.01 
  60 if ((MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH"))<= 0) then goto 200
-100 moles = (k*(MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH")))*MOL("O2")*TIME 
+ 75  c = MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH")
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*(MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH")))*MOL("O2")*TIME # * f
 200 SAVE moles 
 -end
     Fe_tri-OFeOH
 -start
  50 k = 5.01
  60 if ((MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+"))<= 0) then goto 200
-100 moles = (k*(MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+")))*MOL("O2")*TIME  
+ 75  c = MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+")
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*(MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+")))*MOL("O2")*TIME # * f
 200 SAVE moles 
 -end
     Fe_diX2
@@ -446,14 +464,18 @@ RATES
   5 k = 0.3*1.88e-3*((TOT("X"))*1000) 
  10 Fe_diX = MOL("Fe_diX2") 
  20 if (Fe_diX <= 0) then goto 200 
-100 moles = (k*Fe_diX )*MOL("O2")* TIME  
+ 75  c = Fe_diX
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*Fe_diX )*MOL("O2")* TIME # * f
 200 SAVE moles 
 -end
     Ferrihydrite-goethite
 -start
  10 k = 8.022e-8*2
  50 if EQUI("Fe_tri(OH)3(a)") <= 0 then goto 200
-100 moles = (k*EQUI("Fe_tri(OH)3(a)"))* TIME  
+ 75  c = EQUI("Fe_tri(OH)3(a)")
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*EQUI("Fe_tri(OH)3(a)"))* TIME # * f
 200 SAVE moles 
 -end
 
@@ -505,6 +527,7 @@ SOLUTION 200
     Cl(-1)    0.8
     Fe_di 0
     Mn_di  1
+    #Mn_tri  1e-10
     Na        8.6
     Ca       24
     O(0)      11.5
@@ -525,6 +548,7 @@ SOLUTION 201
     Cl(-1)    0.8
     Fe_di 22
     Mn_di  1.05
+    #Mn_tri  1e-10
     Na        8.6
     Ca        26
     Si        38.6
@@ -594,6 +618,7 @@ Mn_tri-Fedi_ox
 -step_divide 1
 -runge_kutta 3
 -bad_step_max 1000
+#-cvode
 
 SURFACE 1-20
 	Fetri_wOH Fe_tri(OH)3(a) equilibrium_phase 0.21 64200 
@@ -623,6 +648,7 @@ SOLUTION 0
     Cl(-1)    0.8
     Fe_di     0.1
     Mn_di     1
+    #Mn_tri  1e-10
     Na        8.6
     O(0)      11.5
     S(6)      2
@@ -643,6 +669,7 @@ SOLUTION 1-20
     Cl(-1)    0.8
     Fe_di     22
     Mn_di     1.05
+    #Mn_tri  1e-10
     Na        8.6
     S(6)      2
     Si        38.6
@@ -665,6 +692,10 @@ TRANSPORT  1 pumping
     -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
     -warnings              false
     -punch_cells 1
+KNOBS
+  #-diag
+  #-debug_model
+  #-tol 1e-20
 SELECTED_OUTPUT
 	-file Mn-pumping1.xls 
 	-reset false 
