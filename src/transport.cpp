@@ -32,7 +32,7 @@ struct CURRENT_CELLS
 {
 	LDBLE dif, ele, R; // diffusive and electric components, relative cell resistance
 } *current_cells;
-LDBLE sum_R; // sum of R
+LDBLE sum_R, sum_Rd; // sum of R, sum of (current_cells[0].dif - current_cells[i].dif) * R
 struct V_M   // For calculating Vinograd and McBain's zero-charge, diffusive tranfer of individual solutes
 {
 	LDBLE grad, D, z, c, zc, Dz, Dzc, Dzc_dl, g_dl;
@@ -43,7 +43,6 @@ struct CT /* summed parts of V_M and mcd transfer in a timestep for all cells, f
 {
 	LDBLE dl_s, Dz2c, Dz2c_dl, visc1, visc2, J_ij_sum;
 	LDBLE A_ij_il, Dz2c_il, mixf_il;
-	LDBLE Dh_Cat, Dh_Ani; // harmonic mean correction for cations and anions
 	int J_ij_count_spec, J_ij_il_count_spec;
 	struct V_M *v_m, *v_m_il;
 	struct J_ij *J_ij, *J_ij_il;
@@ -88,7 +87,7 @@ transport(void)
 	MPI_Bcast(&nxyz, 1, MPI_INT, 0, MPI_COMM_WORLD);
 	phreeqcrm_ptr = new Parallelizer(nxyz, MPI_COMM_WORLD, this->phrq_io);
 #else
-	phreeqcrm_ptr = new Parallelizer(count_cells + 1, 2, this->phrq_io);
+	phreeqcrm_ptr = new Parallelizer(count_cells + 1, 3, this->phrq_io);
 #endif
 	phreeqcrm_ptr->SetPhreeqcPtr(this);
 	phreeqcrm_ptr->Initialize();
@@ -160,9 +159,6 @@ transport(void)
 			sol_D[i].exch_total = 0;
 			sol_D[i].x_max = 0;
 			sol_D[i].spec = NULL;
-
-			ct[i].J_ij = NULL;
-			ct[i].v_m = NULL;
 		}
 		for (i = 0; i < count_elements; i++)
 		{
@@ -328,7 +324,6 @@ transport(void)
 		/*
 		* stagnant mix factors go in mix[0 .. count_cells]
 		*/
-
 	}
 	/*
 	* mix[] is extended in init_mix(), to accommodate column mix factors
@@ -530,6 +525,15 @@ transport(void)
 					multi_D(stagkin_time, 1, FALSE);
 				double time_rm_start = CLOCK();
 #ifdef PHREEQC_PARALLEL
+				{
+					//Serializer serial;
+					//serial.Serialize(*this, 0, count_cells + 1, false, false);
+					////this->Rxn_solution_map.clear();
+					//Dictionary d1(serial.GetDictionary().GetDictionaryOss().str());
+					//Serializer serial1;
+					//serial1.Deserialize(*this, d1, serial.GetInts(), serial.GetDoubles());
+
+				}
 				// move data to workers
 				phreeqcrm_ptr->Phreeqc2RM(this);
 				rm_comm_time += (CLOCK() - time_rm_start);
@@ -539,6 +543,7 @@ transport(void)
 				phreeqcrm_ptr->RunCellsParallel();
 				rm_time += (CLOCK() - time_rm_start);
 				rm_calc_time += (CLOCK() - time_rm_calc_start);
+				//std::cerr << phreeqcrm_ptr->GetErrorString() << std::endl;
 				// move data back to phreeqc
 				phreeqcrm_ptr->RM2Phreeqc(this);
 #endif
@@ -615,11 +620,11 @@ transport(void)
 						}
 					}
 				}
-				phreeqc_time += (CLOCK() - time_rm_start);
+				//phreeqc_time += (CLOCK() - time_rm_start);
+				//std::cerr << "RM: " << rm_time << "    PHREEQC: " << phreeqc_time << std::endl;
+				//std::cerr << "RM comm: " << rm_comm_time << "    RM calc: " << rm_calc_time << std::endl;
+				//std::cerr << "    transport_step: " << transport_step << "  j: " << j << std::endl;
 #endif
-				std::cerr << "RM: " << rm_time << "    PHREEQC: " << phreeqc_time << std::endl;
-				std::cerr << "RM comm: " << rm_comm_time << "    RM calc: " << rm_calc_time << std::endl;
-				std::cerr << "    transport_step: " << transport_step << "  j: " << j << std::endl;
 				if (!dV_dcell)
 					Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
 				/* Stagnant zone mixing after completion of each
@@ -1875,10 +1880,14 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	*      NOTE. Define the water content of stagnant cells relative to the
 	*      mobile cell (with, for example, 1 kg water)
 	*      Define properties of each interface only 1 time with MIX.
-	* If an electrical field is applied (dV_dcell != 0), the currents j_i = current_cells[i].ele (C * s)
-	are calculated for all cells. Then dV is distributed according to
-	relative cell resistance, R_i / sum_R, and the smallest j_x is the current_x (C * s),
-	equal for all cells.
+	 * If an electrical field is applied (dV_dcell != 0), the currents j_i = current_cells[i].ele + dif (C * s)
+	        are calculated for all cells. Then the ele part from cell 0 -> 1 is calculated:
+			current_x = (j_0d + j_0e) = j_0 = j_1 = ... = j_i
+			j_0e * (R0 + R1 + ...) + (j_0d - j_1d) * R1 + ... + (j_0d - j_id) * Ri = Vtot
+			or
+			j_0e * Sum_R + Sum_Rd = Vtot.
+			Ri = dV_dcell / j_ie, the relative cell resistance.
+			Solve j_0e, find (V1 - V0) = j_0e * R0. j_1e = current_x - j_1d, find (V2 - V1) = j_1e * R1, etc.
 	*/
 	int icell, jcell, i, l, n, length, length2, il_calcs;
 	int i1, loop_f_c;
@@ -1889,7 +1898,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	icell = jcell = -1;
 	first_c = last_c = -1;
 
-	current_x = sum_R = 0.0;
+	current_x = sum_R = sum_Rd = 0.0;
 	if (dV_dcell)
 		find_current = loop_f_c = 1; // calculate J_ij once for all cells, find smallest j_x, next with this j_x.
 	else
@@ -1962,17 +1971,17 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						continue;
 					else
 					{
-						LDBLE dV, dVc, jx;
+						LDBLE dVc, j_0e;
 						// distribute dV_dcell according to relative resistance, calculate current_x
-						dV = dV_dcell * count_cells;
-						for (i1 = 0; i1 <= count_cells; i1++)
+						j_0e = (dV_dcell * count_cells - sum_Rd) / sum_R;
+						dVc = j_0e * current_cells[0].R;
+						cell_data[1].potV = cell_data[0].potV + dVc;
+						current_x = j_0e + current_cells[0].dif;
+						for (i1 = 1; i1 <= count_cells; i1 ++)
 						{
-							dVc = (sum_R != 0.0) ? current_cells[i1].R / sum_R * dV : 0.0;
+							dVc = current_cells[i1].R * (current_x - current_cells[i1].dif);
 							if (i1 < count_cells)
 								cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
-							jx = current_cells[i1].ele * dVc / dV_dcell;
-							if (i1 == 0 || (abs(jx) < abs(current_x)))
-								current_x = jx;
 						}
 						find_current = 0;
 						continue;
@@ -2244,7 +2253,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	LDBLE Sum_zM, aq_il1, aq_il2;
 	LDBLE por_il1, por_il2, por_il12;
 	LDBLE cec1, cec2, cec12, rc1, rc2;
-	LDBLE dV, c1, c2, D_harm, zcCat, zcAni, SS_DzcCat, SS_DzcAni;
+	LDBLE dV, c1, c2;
 	cxxSurface *s_ptr1, *s_ptr2;
 	cxxSurfaceCharge *s_charge_ptr, *s_charge_ptr1, *s_charge_ptr2;
 	LDBLE g, g_i, g_j;
@@ -2423,9 +2432,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	aqt_j = aq_j + dl_aq_j;
 	f_free_i = aq_i / aqt_i;
 	f_free_j = aq_j / aqt_j;
-
-
-
 
 	if (il_calcs)
 	{
@@ -3152,52 +3158,25 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	if (dV_dcell)
 	{
-		// Find D_harm and Dh,i for electrodiffusion...
-		D_harm = zcCat = zcAni = SS_DzcCat = SS_DzcAni = 0;
-		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
-		{
-			if (!ct[icell].v_m[i].z)
-				continue;
-			if (ct[icell].v_m[i].z > 0)
-			{
-				zcCat += ct[icell].v_m[i].zc;
-				SS_DzcCat += ct[icell].v_m[i].Dzc;
-			}
-			else
-			{
-				zcAni += ct[icell].v_m[i].zc;
-				SS_DzcAni += ct[icell].v_m[i].Dzc;
-			}
-			D_harm += 1e-9 * abs(ct[icell].v_m[i].zc) / ct[icell].v_m[i].D;
-		}
-		if (D_harm)
-			D_harm = (zcCat - zcAni) * 1e-9 / D_harm;
-
-		// factor for diffusion coefficient Dh,i = Dh_Cat * Di, for zero-charge transport
-		ct[icell].Dh_Cat = D_harm * zcCat / SS_DzcCat;
-		ct[icell].Dh_Ani = D_harm * zcAni / SS_DzcAni;
-
-		current_cells[icell].ele = 0;
+		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dum = dV_dcell * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
 			if (!ct[icell].v_m[i].z)
 				continue;
-			if (ct[icell].v_m[i].z > 0)
-				dum2 = ct[icell].Dh_Cat;
-			else
-				dum2 = ct[icell].Dh_Ani;
 			current_cells[icell].ele -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].zc * ct[icell].v_m[i].D * dum2 * dum;
+				ct[icell].v_m[i].zc * ct[icell].v_m[i].D * dum;
+			current_cells[icell].dif -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
+				ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
 		}
-		current_cells[icell].R = current_cells[0].ele / current_cells[icell].ele;
+		current_cells[icell].R = dV_dcell / current_cells[icell].ele;
 		sum_R += current_cells[icell].R;
+		sum_Rd += (current_cells[0].dif - current_cells[icell].dif) * current_cells[icell].R;
 		return(il_calcs);
 	}
 
 	// dV_dcell, 2nd pass, current_x has been calculated, and
-	// voltage has been adapted to give equal current in the cells
-	// but it may change if current is not linear with dV...
+	// voltage has been adapted to give equal current in the cells.
 dV_dcell2:
 
 	ct[icell].J_ij_sum = 0;
@@ -3242,14 +3221,8 @@ dV_dcell2:
 		}
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
-			//if (ct[icell].v_m[i].z > 0) // this gives zero-charge transport, but can't calculate www.hydrochemistry.eu/exmpls/uphill.html
-			//	dum2 = ct[icell].Dh_Cat;
-			//else if(ct[icell].v_m[i].z < 0)
-			//	dum2 = ct[icell].Dh_Ani;
-			//else
-			dum2 = 1;
-			ct[icell].J_ij[i].tot1 = -ct[icell].v_m[i].D * dum2 * ct[icell].v_m[i].grad;
-			if (ct[icell].v_m[i].z && ct[icell].Dz2c > 0)
+			ct[icell].J_ij[i].tot1 = -ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
+			if (abs(dV_dcell) < 1e-10 && ct[icell].v_m[i].z && ct[icell].Dz2c > 0)
 				ct[icell].J_ij[i].tot1 += Sum_zM * ct[icell].v_m[i].Dzc / ct[icell].Dz2c;
 			ct[icell].J_ij[i].tot1 *= ct[icell].v_m[i].b_ij * DDt;
 			ct[icell].J_ij_sum += ct[icell].v_m[i].z * ct[icell].J_ij[i].tot1;
@@ -3259,34 +3232,26 @@ dV_dcell2:
 	if (dV_dcell)
 	{
 		// perhaps adapt dV for getting equal current...
-		current_cells[icell].ele = 0;
+		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dV = cell_data[jcell].potV - cell_data[icell].potV;
 		dum = dV * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
 			if (!ct[icell].v_m[i].z)
 				continue;
-			if (ct[icell].v_m[i].z > 0)
-				dum2 = ct[icell].Dh_Cat;
-			else
-				dum2 = ct[icell].Dh_Ani;
 			current_cells[icell].ele -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].zc * ct[icell].v_m[i].D * dum2 * dum;
+				ct[icell].v_m[i].zc * ct[icell].v_m[i].D * dum;
+			current_cells[icell].dif -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
+				ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
 		}
-		dV *= current_x / current_cells[icell].ele;
+		dV *= (current_x - current_cells[icell].dif) / current_cells[icell].ele;
 		dum = dV * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
 			if (!ct[icell].v_m[i].z)
 				continue;
-			if (ct[icell].v_m[i].z > 0)
-				dum2 = ct[icell].Dh_Cat;
-			else
-				dum2 = ct[icell].Dh_Ani;
-			ct[icell].J_ij[i].tot1 -= ct[icell].v_m[i].D * dum2 * ct[icell].v_m[i].b_ij *
+			ct[icell].J_ij[i].tot1 -= ct[icell].v_m[i].D * ct[icell].v_m[i].b_ij *
 				ct[icell].v_m[i].zc * dum * DDt;
-			//ct[icell].J_ij_sum += ct[icell].v_m[i].D * dum2 * ct[icell].v_m[i].b_ij *
-			//	ct[icell].v_m[i].zc * dum * DDt * ct[icell].v_m[i].z;
 		}
 		current_A = current_x * F_C_MOL;
 	}
