@@ -14,15 +14,15 @@ REACTION_TEMPERATURE
 USER_PRINT
  10 if step_no > 0 then goto 100
 	 20 put(SC, 1)
-	 30 viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC)) # mPa.s
-	 40 put (viscos, 2)
+	 30 my_viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC)) # mPa.s
+	 40 put (my_viscos, 2)
 	 50 put (TK, 3)
 	 60 goto 200
  100 print 'Temperatures (C) :    ', get(3) - 273.15, ' / ', TC
- 110 viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC))
- 112 print 'Viscosities (mPa.s):  ', get(2), ' / ', viscos
+ 110 my_viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC))
+ 112 print 'Viscosities (mPa.s):  ', get(2), ' / ', my_viscos
  120 print 'Ratio of calc.d SC.s: ', get(1) / SC
- 130 print 'Ratio of Dw.s :       ', viscos / get(2)
+ 130 print 'Ratio of Dw.s :       ', my_viscos / get(2)
  200 end
 END
 SOLUTION 2

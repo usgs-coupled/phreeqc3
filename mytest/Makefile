@@ -5,7 +5,7 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 #TIME=time
 #PHREEQC=../src/Class_debug_64/phreeqc
 #PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
-PHREEQC=../src/Class_release_64/phreeqc
+PHREEQC=../src/release/phreeqc
 TIME=
 #VALGRIND=valgrind --leak-check=full
 VALGRIND=
