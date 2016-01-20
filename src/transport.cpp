@@ -75,12 +75,12 @@ transport(void)
 	transp_surf = warn_fixed_Surf = warn_MCD_X = 0;
 	dV_dcell = current_A = 0.0;
 	current_cells = NULL;
+
+#ifdef PHREEQC_PARALLEL
 	double rm_time = 0.0;
 	double phreeqc_time = 0.0;
 	double rm_comm_time = 0.0;
 	double rm_calc_time = 0.0;
-
-#ifdef PHREEQC_PARALLEL
 	Parallelizer *phreeqcrm_ptr;
 #ifdef USE_MPI
 	int nxyz = count_cells + 2;

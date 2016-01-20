@@ -1,5 +1,7 @@
 #include "Phreeqc.h"
+#ifdef PHREEQC_PARALLEL
 #include "Parallelizer.h"
+#endif
 #include "NameDouble.h"
 #include "Solution.h"
 #include "Reaction.h"
