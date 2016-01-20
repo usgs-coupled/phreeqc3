@@ -662,10 +662,9 @@ read_transport(void)
  *   Allocate space for cell_data
  */
 	cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
-		(size_t) (max_cells *	(1 + stag_data->count_stag) + 2) * sizeof(struct cell_data));
+		(size_t)(max_cells *	(1 + stag_data->count_stag) + 2) * sizeof(struct cell_data));
 	if (cell_data == NULL)
 		malloc_error();
-
 	// initialize new cells
 	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
 	if (all_cells_now > all_cells)
@@ -986,7 +985,7 @@ dump_cpp(void)
  * dumps solution compositions to file
  */
 
-	int j, l;
+	int l;
 
 	if (dump_in == FALSE || pr.dump == FALSE)
 		return (OK);
@@ -1213,16 +1212,16 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-punch_cells");
 	fs << token;
-	if (stag_data->count_stag > 0)
-		j = 1 + (1 + stag_data->count_stag) * count_cells;
-	else
-		j = count_cells;
+	//if (stag_data->count_stag > 0)
+	//	j = 1 + (1 + stag_data->count_stag) * count_cells;
+	//else
+	//	j = count_cells;
 	l = 0;
-	for (int i = 1; i <= j; i++)
+	for (int i = 0; i < all_cells; i++)
 	{
 		if (cell_data[i].punch != TRUE)
 			continue;
-		sprintf(token, "  %d", i + 1);
+		sprintf(token, "  %d", i);
 		fs << token;
 		l++;
 		if ((l % 20) == 0)
@@ -1235,16 +1234,16 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-print_cells");
 	fs << token;
-	if (stag_data->count_stag > 0)
-		j = 1 + (1 + stag_data->count_stag) * count_cells;
-	else
-		j = count_cells;
+	//if (stag_data->count_stag > 0)
+	//	j = 1 + (1 + stag_data->count_stag) * count_cells;
+	//else
+	//	j = count_cells;
 	l = 0;
-	for (int i = 1; i <= j; i++)
+	for (int i = 0; i < all_cells; i++)
 	{
 		if (cell_data[i].print != TRUE)
 			continue;
-		sprintf(token, "  %d", i + 1);
+		sprintf(token, "  %d", i);
 		fs << token;
 		l++;
 		if ((l % 20) == 0)

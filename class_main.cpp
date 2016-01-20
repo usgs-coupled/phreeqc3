@@ -1,5 +1,5 @@
 #include "Phreeqc.h"
-
+#include "Parallelizer.h"
 #include "NameDouble.h"
 #include "Solution.h"
 #include "Reaction.h"
@@ -11,6 +11,10 @@
 #include "cxxKinetics.h"
 //#include <sys/signal.h>
 //#include <fenv.h>
+#if defined(USE_MPI)
+#include <mpi.h>
+int worker_tasks(int *task_number, void * cookie);
+#endif
 /* ----------------------------------------------------------------------
  *   MAIN
  * ---------------------------------------------------------------------- */
@@ -69,8 +73,72 @@ unsigned int cwOriginal = _controlfp(cw, MCW_EM); //Set it.
                             //Restore the original value when done:
                             //_controlfp(cwOriginal, MCW_EM);
 #endif
+#if defined(USE_MPI)
+	int mpi_tasks, mpi_myself;
+	if (MPI_Init(&argc, &argv) != MPI_SUCCESS)
+	{
+		return EXIT_FAILURE;
+	}
+
+	if (MPI_Comm_size(MPI_COMM_WORLD, &mpi_tasks) != MPI_SUCCESS)
+	{
+		return EXIT_FAILURE;
+	}
+
+	if (MPI_Comm_rank(MPI_COMM_WORLD, &mpi_myself) != MPI_SUCCESS)
+	{
+		return EXIT_FAILURE;
+	}
+	if (mpi_myself > 0)
+	{
+		for (;;)
+		{
+			//MPI_Status mpi_status;
+			int task_no;
+			MPI_Bcast(&task_no, 1, MPI_INT, 0, MPI_COMM_WORLD);
+			if (task_no > 0)
+			{
+				Parallelizer *phreeqcrm_ptr = new Parallelizer(task_no, MPI_COMM_WORLD);
+				phreeqcrm_ptr->SetMpiWorkerCallbackC(worker_tasks);
+				phreeqcrm_ptr->SetMpiWorkerCallbackCookie(phreeqcrm_ptr);
+				phreeqcrm_ptr->MpiWorker();
+				delete phreeqcrm_ptr;
+				//{
+				//	std::ostringstream os;
+				//	os << "Worker " << mpi_myself << " deleting Parallelizer. " << std::endl;
+				//	std::cerr << os.str();
+				//}
+			}
+			else 
+			{
+				break;
+			}
+		}
+		{
+			std::ostringstream os;
+			os << "End worker " << mpi_myself << std::endl;
+			std::cerr << os.str();
+		}
+		MPI_Barrier(MPI_COMM_WORLD);
+		MPI_Finalize();
+		return 0;
+	}
+#endif
 	Phreeqc phreeqc_instance;
-	return phreeqc_instance.main_method(argc, argv);
+	int return_value =  phreeqc_instance.main_method(argc, argv);
+
+#if defined(USE_MPI)	
+	int task_no = 0;
+	MPI_Bcast(&task_no, 1, MPI_INT, 0, MPI_COMM_WORLD);
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Finalize();
+	{
+		std::ostringstream os;
+		os << "End master " << mpi_myself << std::endl;
+		std::cerr << os.str();
+	}
+#endif
+	return return_value;
 }
 //#define TEST_COPY
 #ifdef TEST_COPY
@@ -420,6 +488,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				copy_token(token, &ptr, &l);
 				if (strcmp_nocase(token, "database") == 0)
 				{
+					user_database = (char *) free_check_null(user_database);
 #ifdef PHREEQ98
 					user_database = string_duplicate(prefix_database_dir(ptr));
 #else
@@ -484,6 +553,9 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		}
 		local_database_file->close();
 		delete local_database_file;
+		
+		user_database = (char *) free_check_null(user_database);
+		user_database = string_duplicate(token);
 		screen_msg(sformatf("Database file: %s\n\n", token));
 		strcpy(db_file, token);
 #ifdef NPP
@@ -498,7 +570,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		/*
 		*   local cleanup
 		*/
-		user_database = (char *) free_check_null(user_database);
+		//user_database = (char *) free_check_null(user_database);
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 
@@ -616,6 +688,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				copy_token(token, &ptr, &l);
 				if (strcmp_nocase(token, "database") == 0)
 				{
+					user_database = (char *) free_check_null(user_database);
 #ifdef PHREEQ98
 					user_database = string_duplicate(prefix_database_dir(ptr));
 #else
@@ -690,6 +763,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		*   local cleanup
 		*/
 		user_database = (char *) free_check_null(user_database);
+		user_database = string_duplicate(token);
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 
@@ -920,5 +994,25 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 #endif
 	}
 	return (new_stream);
+}
+#endif
+
+#ifdef USE_MPI
+int worker_tasks(int *task_number, void * cookie)
+{
+	Parallelizer *phreeqcrm_ptr = (Parallelizer *) cookie;
+	Phreeqc *phreeqc_ptr = phreeqcrm_ptr->GetPhreeqcPtr();
+    if (*task_number == 1000)
+    {
+        phreeqcrm_ptr->Phreeqc2RM(phreeqc_ptr);
+    }
+	else if (*task_number == 1001)
+	{
+		phreeqcrm_ptr->RM2Phreeqc(phreeqc_ptr);
+	}
+	else
+	{
+	}
+    return 0;
 }
 #endif
