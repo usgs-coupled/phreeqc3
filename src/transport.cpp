@@ -105,7 +105,6 @@ transport(void)
 				ct[i].A_ij_il = 0.0;
 				ct[i].Dz2c_il = 0.0;
 				ct[i].mixf_il = 0.0;
-				ct[i].A_ij_il = 0.0;
 				ct[i].J_ij_count_spec = -1;
 				ct[i].J_ij_il_count_spec = -1;
 				ct[i].v_m = NULL;
@@ -900,6 +899,13 @@ transport(void)
 			sol_D[i].spec = (struct spec *) free_check_null(sol_D[i].spec);
 		}
 		sol_D = (struct sol_D *) free_check_null(sol_D);
+		for (int i = 0; i < all_cells; i++)
+		{
+			ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
+			ct[i].v_m_il = (struct V_M *) free_check_null(ct[i].v_m_il);
+			ct[i].J_ij = (struct J_ij *) free_check_null(ct[i].J_ij);
+			ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
+		}
 		ct = (struct CT *) free_check_null(ct);
 		moles_added = (struct MOLES_ADDED *) free_check_null(moles_added);
 	}
@@ -2198,7 +2204,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	if (dV_dcell && !find_current)
 		goto dV_dcell2;
 
-	ct[icell].v_m = ct[icell].v_m_il = NULL;
+	ct[icell].v_m = (struct V_M *) free_check_null(ct[icell].v_m);
+	ct[icell].v_m_il = (struct V_M *) free_check_null(ct[icell].v_m_il);
+	//ct[icell].v_m = ct[icell].v_m_il = NULL;
 	if (stagnant)
 	{
 		if (!il_calcs && (cell_data[icell].por < multi_Dpor_lim
