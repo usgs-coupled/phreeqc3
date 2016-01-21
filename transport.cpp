@@ -1596,6 +1596,21 @@ fill_spec(int l_cell_no)
 		sizeof(struct spec));
 	if (sol_D[l_cell_no].spec == NULL)
 		malloc_error();
+	{
+		for (int i = 0; i < count_species_list; i++)
+		{
+			sol_D[l_cell_no].spec[i].name = NULL;
+			sol_D[l_cell_no].spec[i].aq_name = NULL;
+			sol_D[l_cell_no].spec[i].type = -1;
+			sol_D[l_cell_no].spec[i].a = 0.0;
+			sol_D[l_cell_no].spec[i].lm = 0.0;
+			sol_D[l_cell_no].spec[i].lg = 0.0;
+			sol_D[l_cell_no].spec[i].c = 0.0;
+			sol_D[l_cell_no].spec[i].z = 0.0;
+			sol_D[l_cell_no].spec[i].Dwt = 0.0;
+			sol_D[l_cell_no].spec[i].erm_ddl = 0.0;
+		}
+	}
 
 	sol_D[l_cell_no].tk_x = tk_x;
 
@@ -1767,9 +1782,24 @@ fill_spec(int l_cell_no)
 		(struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec,
 		(size_t)count_spec *
 		sizeof(struct spec));
+
 	if (sol_D[l_cell_no].spec == NULL)
 		malloc_error();
-
+		{
+		for (int i = 0; i < count_spec; i++)
+		{
+			sol_D[l_cell_no].spec[i].name = NULL;
+			sol_D[l_cell_no].spec[i].aq_name = NULL;
+			sol_D[l_cell_no].spec[i].type = -1;
+			sol_D[l_cell_no].spec[i].a = 0.0;
+			sol_D[l_cell_no].spec[i].lm = 0.0;
+			sol_D[l_cell_no].spec[i].lg = 0.0;
+			sol_D[l_cell_no].spec[i].c = 0.0;
+			sol_D[l_cell_no].spec[i].z = 0.0;
+			sol_D[l_cell_no].spec[i].Dwt = 0.0;
+			sol_D[l_cell_no].spec[i].erm_ddl = 0.0;
+		}
+	}
 	sol_D[l_cell_no].count_spec = count_spec;
 	sol_D[l_cell_no].count_exch_spec = count_exch_spec;
 
