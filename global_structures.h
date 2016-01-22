@@ -1038,6 +1038,7 @@ struct sol_D
 	int count_exch_spec;		/* number of exchange species */
 	LDBLE exch_total, x_max, tk_x;	/* total moles of X-, max X- in transport step in sol_D[1], tk */
 	struct spec *spec;
+	int spec_size;
 };
 struct J_ij
 {
