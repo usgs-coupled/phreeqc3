@@ -907,6 +907,10 @@ transport(void)
 			ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
 		}
 		ct = (struct CT *) free_check_null(ct);
+		for (int i = 0; i < count_elements; i++)
+		{
+			moles_added[i].name = (char *) free_check_null(moles_added[i].name);
+		}
 		moles_added = (struct MOLES_ADDED *) free_check_null(moles_added);
 	}
 	//if (dV_dcell)
@@ -2215,6 +2219,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	LDBLE g, g_i, g_j;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
+	dl_aq_i = dl_aq_j = 0.0;
 	por_il12 = A_i = A_j =0.0;
 	cec1 = cec2 = cec12 = rc1 = rc2 = 0.0;
 	dV = 0.0;
