@@ -2579,6 +2579,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		ct[icell].v_m[i].Dzc = 0.0;
 		ct[icell].v_m[i].Dzc_dl = 0.0;
 		ct[icell].v_m[i].g_dl = 1.0;
+		ct[icell].v_m[i].b_ij = 0.0;
 		ct[icell].v_m[i].o_c = 1;
 	}
 	ct[icell].Dz2c = ct[icell].Dz2c_dl = ct[icell].Dz2c_il = 0.0;
@@ -2603,12 +2604,14 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			ct[icell].v_m_il[i].grad = 0.0;
 			ct[icell].v_m_il[i].D = 0.0;
 			ct[icell].v_m_il[i].z = 0.0;
+			ct[icell].v_m_il[i].c = 0.0;
 			ct[icell].v_m_il[i].zc = 0.0;
 			ct[icell].v_m_il[i].Dz = 0.0;
 			ct[icell].v_m_il[i].Dzc = 0.0;
-			//ct[icell].v_m_il[i].Dzc_dl = 0.0;
-			//ct[icell].v_m_il[i].g_dl = 1.0;
-			//ct[icell].v_m_il[i].o_c = 1;
+			ct[icell].v_m_il[i].Dzc_dl = 0.0;
+			ct[icell].v_m_il[i].g_dl = 1.0;
+			ct[icell].v_m_il[i].b_ij = 0.0;
+			ct[icell].v_m_il[i].o_c = 1;
 		}
 	}
 	/*
