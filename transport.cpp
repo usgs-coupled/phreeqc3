@@ -192,7 +192,7 @@ transport(void)
 		{
 			input_error++;
 			error_string = sformatf(
-				"Electrical Field (potential) was defined, but needs -mult_D, \n\t and is not possible with -stagnant or with advective flow.");
+				"Electrical Field (potential) was defined, but needs -multi_D, \n\t and is not possible with -stagnant or with advective flow.");
 			error_msg(error_string, CONTINUE);
 			free_check_null(sol_D);
 		}
@@ -337,8 +337,8 @@ transport(void)
 	/*
 	* Define stagnant/mobile mix structure, if not read explicitly.
 	*
-	* With count_stag = 1, mix factors are calculated from exchange factor à
-	* (= exch_f), mobile é_m (= th_m) and immobile é_im (= th_im) porosity.
+	* With count_stag = 1, mix factors are calculated from exchange factor ï¿½
+	* (= exch_f), mobile ï¿½_m (= th_m) and immobile ï¿½_im (= th_im) porosity.
 	* These variables are read under keyword TRANSPORT, after stagnant, in
 	* structure stag_data.
 	* MIX 'cell_no' in input file can be an alternative for the calculation here.
@@ -926,7 +926,7 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD; //, dx = 0;
+	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD;
 	int i, l_nmix;
 	LDBLE *m, *m1;
 	m = (LDBLE *)PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
@@ -1937,11 +1937,10 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						dVc = j_0e * current_cells[0].R;
 						cell_data[1].potV = cell_data[0].potV + dVc;
 						current_x = j_0e + current_cells[0].dif;
-						for (i1 = 1; i1 <= count_cells; i1 ++)
+						for (i1 = 1; i1 < count_cells; i1 ++)
 						{
 							dVc = current_cells[i1].R * (current_x - current_cells[i1].dif);
-							if (i1 < count_cells)
-								cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
+							cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
 						}
 						find_current = 0;
 						continue;
@@ -2517,7 +2516,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				ct[icell].A_ij_il = A_j * por_il12 /
 				((cell_data[1].por - por_il12) * interlayer_tortf);
 
-
 			A_j /= tort_j;
 			A_i = A_j;
 		}
@@ -2887,7 +2885,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 							if (dl_aq_j)
 								ct[icell].v_m[k].g_dl = (1 + g_j * aq_j / dl_aq_j) * sol_D[jcell].spec[j].erm_ddl;
 							if (dl_aq_i)
-								dum1 = (1 + g_i * aq_i / dl_aq_i) * sol_D[icell].spec[i].erm_ddl;
+								dum1 = (1 + g_i * aq_i / dl_aq_i) * sol_D[jcell].spec[j].erm_ddl;
 						}
 					}
 					b_i = A_i * (f_free_i + (1 - f_free_i) * dum1 / ct[icell].visc1);
@@ -3189,7 +3187,7 @@ dV_dcell2:
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
 			ct[icell].J_ij[i].tot1 = -ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
-			if (abs(dV_dcell) < 1e-10 && ct[icell].v_m[i].z && ct[icell].Dz2c > 0)
+			if (!dV_dcell && ct[icell].v_m[i].z && ct[icell].Dz2c > 0)
 				ct[icell].J_ij[i].tot1 += Sum_zM * ct[icell].v_m[i].Dzc / ct[icell].Dz2c;
 			ct[icell].J_ij[i].tot1 *= ct[icell].v_m[i].b_ij * DDt;
 			ct[icell].J_ij_sum += ct[icell].v_m[i].z * ct[icell].J_ij[i].tot1;
