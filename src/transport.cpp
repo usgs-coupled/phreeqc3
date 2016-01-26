@@ -1613,6 +1613,7 @@ fill_spec(int l_cell_no)
 			sol_D[l_cell_no].spec[i].c = 0.0;
 			sol_D[l_cell_no].spec[i].z = 0.0;
 			sol_D[l_cell_no].spec[i].Dwt = 0.0;
+			sol_D[l_cell_no].spec[i].dw_t = 0.0;
 			sol_D[l_cell_no].spec[i].erm_ddl = 0.0;
 		}
 	}
@@ -1650,6 +1651,7 @@ fill_spec(int l_cell_no)
 	*/
 	temp_factor *= tk_x * viscos_0_25 / (298.15 * viscos);
 	temp_il_factor *= tk_x * viscos_0_25 / (298.15 * viscos);
+	sol_D[l_cell_no].viscos_f = tk_x * viscos_0_25 / (298.15 * viscos);
 
 	count_spec = count_exch_spec = 0;
 	/*
@@ -1711,12 +1713,7 @@ fill_spec(int l_cell_no)
 				sol_D[l_cell_no].spec[count_spec].type = EX;
 				sol_D[l_cell_no].spec[count_spec].c = dum2;
 				sol_D[l_cell_no].spec[count_spec].lg = s_ptr->lg - log10(dum);
-				sol_D[l_cell_no].spec[count_spec].a = dum2 * pow(10,
-					sol_D
-					[l_cell_no].
-					spec
-					[count_spec].
-					lg);
+				sol_D[l_cell_no].spec[count_spec].a = dum2 * pow(10, sol_D[l_cell_no].spec[count_spec].lg);
 				sol_D[l_cell_no].exch_total = master_ptr->total;
 				if (transport_step == 0 && !x_max_done)
 				{
@@ -1741,10 +1738,13 @@ fill_spec(int l_cell_no)
 					default_Dw * temp_il_factor;
 				else
 				{
-					if (s_ptr->dw_t)
-						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw * exp(s_ptr2->dw_t / 298.15 - s_ptr2->dw_t / tk_x) * temp_il_factor;
+					if (s_ptr2->dw_t)
+					{
+						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw *
+							exp(s_ptr2->dw_t / 298.15 - s_ptr2->dw_t / tk_x) * temp_il_factor;
+						sol_D[l_cell_no].spec[count_spec].dw_t = s_ptr2->dw_t;
+					}
 					else
-
 						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw * temp_il_factor;
 				}
 				count_exch_spec++;
@@ -1765,19 +1765,20 @@ fill_spec(int l_cell_no)
 			sol_D[l_cell_no].spec[count_spec].lg = s_ptr->lg;
 			sol_D[l_cell_no].spec[count_spec].z = s_ptr->z;
 			if (s_ptr->dw == 0)
-				sol_D[l_cell_no].spec[count_spec].Dwt =
-				default_Dw * temp_factor;
+				sol_D[l_cell_no].spec[count_spec].Dwt = default_Dw * temp_factor;
 			else
 			{
 				if (s_ptr->dw_t)
-					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15) * temp_factor;
+				{
+					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * 
+						exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15) * temp_factor;
+					sol_D[l_cell_no].spec[count_spec].dw_t = s_ptr->dw_t;
+				}
 				else
 					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * temp_factor;
 			}
-			if (sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) >
-				diffc_max)
-				diffc_max =
-				sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn);
+			if (sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) > diffc_max)
+				diffc_max = sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn);
 			sol_D[l_cell_no].spec[count_spec].erm_ddl = s_ptr->erm_ddl;
 
 			count_spec++;
@@ -1804,6 +1805,7 @@ fill_spec(int l_cell_no)
 				sol_D[l_cell_no].spec[i].c = 0.0;
 				sol_D[l_cell_no].spec[i].z = 0.0;
 				sol_D[l_cell_no].spec[i].Dwt = 0.0;
+				sol_D[l_cell_no].spec[i].dw_t = 0.0;
 				sol_D[l_cell_no].spec[i].erm_ddl = 0.0;
 			}
 		}
@@ -2627,9 +2629,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	while (i < i_max || j < j_max)
 	{
 		if (j == j_max
-			|| (i < i_max
-			&& strcmp(sol_D[icell].spec[i].name,
-			sol_D[jcell].spec[j].name) < 0))
+			|| (i < i_max 
+			&& strcmp(sol_D[icell].spec[i].name, sol_D[jcell].spec[j].name) < 0))
 		{
 			/* species 'name' is only in icell */
 			if (il_calcs && sol_D[icell].spec[i].type == EX)
@@ -2746,22 +2747,30 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 								dum2 = (1 + g_j * aq_j / dl_aq_j) * sol_D[icell].spec[i].erm_ddl;
 						}
 					}
-					b_i = A_i * (f_free_i + (1 - f_free_i) * ct[icell].v_m[k].g_dl / ct[icell].visc1);
+					b_i = A_i * sol_D[icell].spec[i].Dwt * (f_free_i + (1 - f_free_i) * ct[icell].v_m[k].g_dl / ct[icell].visc1);
 					b_j = A_j * (f_free_j + (1 - f_free_j) * dum2 / ct[icell].visc2);
-					if (icell == 0)
-						ct[icell].v_m[k].b_ij = b_j;
-					else if (icell == count_cells)
+					if (icell == count_cells)
 						ct[icell].v_m[k].b_ij = b_i;
 					else
-						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
-
-					ct[icell].v_m[k].D = sol_D[icell].spec[i].Dwt;
+					{
+						if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
+							b_j *= sol_D[icell].spec[i].Dwt;
+						else
+						{
+							dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f;
+							dum2 *= exp(sol_D[icell].spec[i].dw_t / sol_D[jcell].tk_x - sol_D[icell].spec[i].dw_t / sol_D[icell].tk_x);
+							dum2 *= sol_D[jcell].viscos_f;
+							b_j *= dum2;
+						}
+						if (icell == 0)
+							ct[icell].v_m[k].b_ij = b_j;
+						else
+							ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+					}
 
 					ct[icell].v_m[k].c = c1;
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c1;
-					ct[icell].v_m[k].Dz = ct[icell].v_m[k].D * ct[icell].v_m[k].z;
-					ct[icell].v_m[k].Dzc = ct[icell].v_m[k].Dz * c1;
-					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].Dzc * ct[icell].v_m[k].z;
+					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 					k++;
 				}
 			}
@@ -2851,7 +2860,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					}
 
 					g_i = g_j = dum1 = 0;
-					if (ct[icell].dl_s > 0)
+					if (ct[jcell].dl_s > 0)
 					{
 						if (ct[icell].v_m[k].z)
 						{
@@ -2889,21 +2898,29 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						}
 					}
 					b_i = A_i * (f_free_i + (1 - f_free_i) * dum1 / ct[icell].visc1);
-					b_j = A_j * (f_free_j + (1 - f_free_j) * ct[icell].v_m[k].g_dl / ct[icell].visc2);
+					b_j = A_j * sol_D[jcell].spec[j].Dwt * (f_free_j + (1 - f_free_j) * ct[icell].v_m[k].g_dl / ct[icell].visc2);
 					if (icell == 0)
 						ct[icell].v_m[k].b_ij = b_j;
-					else if (icell == count_cells)
-						ct[icell].v_m[k].b_ij = b_i;
 					else
-						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
-
-					ct[icell].v_m[k].D = sol_D[jcell].spec[j].Dwt;
+					{
+						if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
+							b_j *= sol_D[jcell].spec[j].Dwt;
+						else
+						{
+							dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f;
+							dum2 *= exp(sol_D[jcell].spec[j].dw_t / sol_D[icell].tk_x - sol_D[jcell].spec[j].dw_t / sol_D[jcell].tk_x);
+							dum2 *= sol_D[icell].viscos_f;
+							b_i *= dum2;
+						}
+						if (icell == count_cells)
+							ct[icell].v_m[k].b_ij = b_i;
+						else
+							ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+					}
 
 					ct[icell].v_m[k].c = c2;
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c2;
-					ct[icell].v_m[k].Dz = ct[icell].v_m[k].D * ct[icell].v_m[k].z;
-					ct[icell].v_m[k].Dzc = ct[icell].v_m[k].Dz * c2;
-					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].Dzc * ct[icell].v_m[k].z;
+					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 					k++;
 				}
 			}
@@ -2936,11 +2953,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				if (stagnant)
 				{
 					ct[icell].J_ij[k].name = sol_D[icell].spec[i].name;
-					if (sol_D[icell].spec[i].Dwt == 0 || sol_D[jcell].spec[j].Dwt == 0)
-						ct[icell].v_m[k].D = 0.0;
-					else
-						ct[icell].v_m[k].D = (sol_D[icell].spec[i].Dwt + sol_D[jcell].spec[j].Dwt) / 2;
-
+					ct[icell].v_m[k].D = (sol_D[icell].spec[i].Dwt + sol_D[jcell].spec[j].Dwt) / 2;
 					ct[icell].v_m[k].z = sol_D[icell].spec[i].z;
 					ct[icell].v_m[k].Dz = ct[icell].v_m[k].D * ct[icell].v_m[k].z;
 					ct[icell].v_m[k].grad = (sol_D[jcell].spec[j].c - sol_D[icell].spec[i].c);
@@ -3081,8 +3094,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 							}
 						}
 					}
-					b_i = A_i * (f_free_i + (1 - f_free_i) * ct[icell].v_m[k].g_dl / ct[icell].visc1);
-					b_j = A_j * (f_free_j + (1 - f_free_j) * dum2 / ct[icell].visc2);
+					b_i = A_i * sol_D[icell].spec[i].Dwt * (f_free_i + (1 - f_free_i) * ct[icell].v_m[k].g_dl / ct[icell].visc1);
+					b_j = A_j * sol_D[jcell].spec[j].Dwt * (f_free_j + (1 - f_free_j) * dum2 / ct[icell].visc2);
 					if (icell == 0)
 						ct[icell].v_m[k].b_ij = b_j;
 					else if (icell == count_cells)
@@ -3090,16 +3103,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					else
 						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
 
-					if (sol_D[icell].spec[i].Dwt == 0 || sol_D[jcell].spec[j].Dwt == 0)
-						ct[icell].v_m[k].D = 0.0;
-					else
-						ct[icell].v_m[k].D = (sol_D[icell].spec[i].Dwt + sol_D[jcell].spec[j].Dwt) / 2;
-
 					ct[icell].v_m[k].c = c1 + c2;
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * ct[icell].v_m[k].c;
-					ct[icell].v_m[k].Dz = ct[icell].v_m[k].D * ct[icell].v_m[k].z;
-					ct[icell].v_m[k].Dzc = ct[icell].v_m[k].Dz * ct[icell].v_m[k].c;
-					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].Dzc * ct[icell].v_m[k].z;
+					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 
 					ddlm = sol_D[jcell].spec[j].lm - sol_D[icell].spec[i].lm;
 					if (fabs(ddlm) > 1e-10)
@@ -3130,9 +3136,9 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 			if (!ct[icell].v_m[i].z)
 				continue;
 			current_cells[icell].ele -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].zc * ct[icell].v_m[i].D * dum;
+				ct[icell].v_m[i].zc * dum;
 			current_cells[icell].dif -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
+				ct[icell].v_m[i].grad;
 		}
 		current_cells[icell].R = dV_dcell / current_cells[icell].ele;
 		sum_R += current_cells[icell].R;
@@ -3182,13 +3188,13 @@ dV_dcell2:
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
 			if (ct[icell].v_m[i].z)
-				Sum_zM += ct[icell].v_m[i].b_ij * ct[icell].v_m[i].Dz * ct[icell].v_m[i].grad;
+				Sum_zM += ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z * ct[icell].v_m[i].grad;
 		}
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
-			ct[icell].J_ij[i].tot1 = -ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
+			ct[icell].J_ij[i].tot1 = -ct[icell].v_m[i].grad;
 			if (!dV_dcell && ct[icell].v_m[i].z && ct[icell].Dz2c > 0)
-				ct[icell].J_ij[i].tot1 += Sum_zM * ct[icell].v_m[i].Dzc / ct[icell].Dz2c;
+				ct[icell].J_ij[i].tot1 += Sum_zM * ct[icell].v_m[i].zc / ct[icell].Dz2c;
 			ct[icell].J_ij[i].tot1 *= ct[icell].v_m[i].b_ij * DDt;
 			ct[icell].J_ij_sum += ct[icell].v_m[i].z * ct[icell].J_ij[i].tot1;
 		}
@@ -3205,9 +3211,9 @@ dV_dcell2:
 			if (!ct[icell].v_m[i].z)
 				continue;
 			current_cells[icell].ele -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].zc * ct[icell].v_m[i].D * dum;
+				ct[icell].v_m[i].zc * dum;
 			current_cells[icell].dif -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].D * ct[icell].v_m[i].grad;
+				ct[icell].v_m[i].grad;
 		}
 		dV *= (current_x - current_cells[icell].dif) / current_cells[icell].ele;
 		dum = dV * F_Re3 / tk_x2;
@@ -3215,7 +3221,7 @@ dV_dcell2:
 		{
 			if (!ct[icell].v_m[i].z)
 				continue;
-			ct[icell].J_ij[i].tot1 -= ct[icell].v_m[i].D * ct[icell].v_m[i].b_ij *
+			ct[icell].J_ij[i].tot1 -= ct[icell].v_m[i].b_ij *
 				ct[icell].v_m[i].zc * dum * DDt;
 		}
 		current_A = current_x * F_C_MOL;
