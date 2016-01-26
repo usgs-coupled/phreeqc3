@@ -1030,6 +1030,7 @@ struct spec
 	LDBLE c;					/* concentration for AQ, equivalent fraction for EX */
 	LDBLE z;					/* charge number */
 	LDBLE Dwt;					/* temperature corrected free water diffusion coefficient, m2/s */
+	LDBLE dw_t;					/* temperature factor for Dw */
 	LDBLE erm_ddl;				/* enrichment factor in ddl */
 };
 struct sol_D
@@ -1037,6 +1038,7 @@ struct sol_D
 	int count_spec;				/* number of aqueous + exchange species */
 	int count_exch_spec;		/* number of exchange species */
 	LDBLE exch_total, x_max, tk_x;	/* total moles of X-, max X- in transport step in sol_D[1], tk */
+	LDBLE viscos_f;	            /* (tk_x * viscos_0_25) / (298 * viscos) */
 	struct spec *spec;
 	int spec_size;
 };

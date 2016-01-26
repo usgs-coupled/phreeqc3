@@ -36,12 +36,12 @@ read_transport(void)
  */
 	char *ptr;
 	int i, j, l;
-	int count_length, count_disp, count_punch, count_print;
-	int count_length_alloc, count_disp_alloc;
+	int count_length, count_disp, count_punch, count_print, count_por;
+	int count_length_alloc, count_disp_alloc, count_por_alloc;
 	char token[MAX_LENGTH];
 	char *description;
 	int n_user, n_user_end;
-	LDBLE *length, *disp;
+	LDBLE *length, *disp, *pors;
 	int *punch_temp, *print_temp;
 	int return_value, opt, opt_save;
 	char *next_char, *next_char_save;
@@ -89,9 +89,11 @@ read_transport(void)
 		"warnings",				/* 38 */
 		"thermal_diffusion",	/* 39 */
 		"multi_d",				/* 40 */
-		"interlayer_d"			/* 41 */
+		"interlayer_d",			/* 41 */
+		"porosities",			/* 42 */
+		"porosity"				/* 43 */
 	};
-	int count_opt_list = 42;
+	int count_opt_list = 44;
 
 	strcpy(file_name, "phreeqc.dmp");
 /*
@@ -107,17 +109,21 @@ read_transport(void)
 	}
 	else
 		old_cells = count_cells;
-	count_length = count_disp = count_punch = count_print = 0;
+	count_length = count_disp = count_punch = count_print = count_por = 0;
 
 	length = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
 	if (length == NULL)
 		malloc_error();
 
-	disp = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
+	disp = (LDBLE *)PHRQ_malloc(sizeof(LDBLE));
 	if (disp == NULL)
 		malloc_error();
 
-	punch_temp = (int *) PHRQ_malloc(sizeof(int));
+	pors = (LDBLE *)PHRQ_malloc(sizeof(LDBLE));
+	if (pors == NULL)
+		malloc_error();
+
+	punch_temp = (int *)PHRQ_malloc(sizeof(int));
 	if (punch_temp == NULL)
 		malloc_error();
 
@@ -125,7 +131,7 @@ read_transport(void)
 	if (print_temp == NULL)
 		malloc_error();
 
-	count_length_alloc = count_disp_alloc = 1;
+	count_length_alloc = count_disp_alloc = count_por_alloc = 1;
 	transport_start = 1;
 /*
  *   Read transport number (not currently used)
@@ -629,6 +635,18 @@ read_transport(void)
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
+		case 42:				/* porosities */
+		case 43:				/* porosity */
+			if (read_line_LDBLEs
+				(next_char, &pors, &count_por,
+				&count_por_alloc) == ERROR)
+			{
+				input_error++;
+				error_msg("Reading porosities in TRANSPORT keyword.\n",
+					CONTINUE);
+			}
+			opt_save = OPTION_DEFAULT;
+			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -641,6 +659,8 @@ read_transport(void)
 		max_cells = count_length;
 	if (count_disp > max_cells)
 		max_cells = count_disp;
+	if (count_por > max_cells)
+		max_cells = count_por;
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -650,21 +670,24 @@ read_transport(void)
 					count_length);
 			warning_msg(token);
 		}
+		else if (max_cells == count_disp)
+		{
+			sprintf(token,
+				"Number of cells is increased to number of dispersivities %d.",
+				count_disp);
+			warning_msg(token);
+		}
 		else
 		{
 			sprintf(token,
-					"Number of cells is increased to number of dispersivities %d.",
-					count_disp);
+				"Number of cells is increased to number of porosities %d.",
+				count_por);
 			warning_msg(token);
 		}
 	}
 /*
  *   Allocate space for cell_data
  */
-	//cell_data = (struct cell_data *) PHRQ_realloc(cell_data,
-	//	(size_t)(max_cells * (1 + stag_data->count_stag) + 2) * sizeof(struct cell_data));
-	//if (cell_data == NULL)
-	//	malloc_error();
 	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
 	space((void **) ((void *) &cell_data), all_cells_now, &cell_data_max_cells,
 		sizeof(struct cell_data));
@@ -734,7 +757,7 @@ read_transport(void)
 		if (old_cells < max_cells)
 		{
 			error_string = sformatf(
-					"No dispersivities were read; disp = 0 assumed.");
+				"No dispersivities were read; disp = 0 assumed.");
 			warning_msg(error_string);
 			for (i = 1; i <= max_cells; i++)
 				cell_data[i].disp = 0.0;
@@ -747,11 +770,44 @@ read_transport(void)
 		if (max_cells > count_disp)
 		{
 			error_string = sformatf(
-					"Dispersivities were read for %d cells. Last value is used till cell %d.",
-					count_disp, max_cells);
+				"Dispersivities were read for %d cells. Last value is used till cell %d.",
+				count_disp, max_cells);
 			warning_msg(error_string);
 			for (i = count_disp; i <= max_cells; i++)
 				cell_data[i + 1].disp = disp[count_disp - 1];
+		}
+	}
+/*
+ *   Fill in data for porosities
+ */
+	if (count_por == 0)
+	{
+		if (old_cells < max_cells && multi_Dflag)
+		{
+			multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
+			if (multi_Dpor > 1e-10)
+				error_string = sformatf(
+				"No porosities were read; used the value %8.2e from -multi_D.", multi_Dpor);
+			else
+				error_string = sformatf(
+				"No porosities were read; used the minimal value %8.2e from -multi_D.", multi_Dpor);
+			warning_msg(error_string);
+			for (i = 1; i <= max_cells; i++)
+				cell_data[i].por = multi_Dpor;
+		}
+	}
+	else
+	{
+		for (i = 1; i <= count_por; i++)
+			cell_data[i].por = pors[i - 1];
+		if (max_cells > count_por)
+		{
+			error_string = sformatf(
+				"Porosities were read for %d cells. Last value is used till cell %d.",
+				count_por, max_cells);
+			warning_msg(error_string);
+			for (i = count_por; i <= max_cells; i++)
+				cell_data[i + 1].por = pors[count_por - 1];
 		}
 	}
 	count_cells = max_cells;
@@ -825,11 +881,11 @@ read_transport(void)
 		error_msg(error_string, CONTINUE);
 
 	}
-	for (i = 1; i < all_cells; i++)
+	for (i = 0; i < all_cells; i++)
 	{
-		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
+		//multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
-		cell_data[i].por = multi_Dpor;
+		//cell_data[i].por = multi_Dpor;
 		cell_data[i].por_il = interlayer_Dpor;
 	}
 /*
@@ -871,7 +927,7 @@ read_transport(void)
  */
 	if (simul_tr > 1)
 	{
-		if ((count_length == 0) && (count_disp == 0))
+		if ((count_length == 0) && (count_disp == 0) && (count_por == 0))
 			dup_print("Column data retained from former run", TRUE);
 	}
 /*
@@ -963,9 +1019,7 @@ read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
 			if ((*count_d) + n > (*count_alloc))
 			{
 				*count_alloc *= 2;
-				*d = (LDBLE *) PHRQ_realloc(*d,
-											(size_t) (*count_alloc) *
-											sizeof(LDBLE));
+				*d = (LDBLE *) PHRQ_realloc(*d, (size_t) (*count_alloc) * sizeof(LDBLE));
 				if (*d == NULL)
 					malloc_error();
 			}
