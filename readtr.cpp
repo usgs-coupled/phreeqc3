@@ -977,6 +977,7 @@ read_transport(void)
  */
 	length = (LDBLE *) free_check_null(length);
 	disp = (LDBLE *) free_check_null(disp);
+	pors = (LDBLE *) free_check_null(pors);
 	punch_temp = (int *) free_check_null(punch_temp);
 	print_temp = (int *) free_check_null(print_temp);
 
