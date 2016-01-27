@@ -703,7 +703,7 @@ read_transport(void)
 			cell_data[i].mid_cell_x = 1.0;
 			cell_data[i].disp = 1.0;
 			cell_data[i].temp = 25.0;
-			cell_data[i].por = 0.1;
+			cell_data[i].por = -0.1;   //Fix for Jenkins !!!!!!!!!!!!
 			cell_data[i].por_il = 0.01;
 			cell_data[i].punch = FALSE;
 			cell_data[i].print = FALSE;
@@ -883,9 +883,12 @@ read_transport(void)
 	}
 	for (i = 0; i < max_cells; i++)
 	{
-		//multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
+		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);    //Fix for Jenkins !!!!!!!!!!!!
+		if (cell_data[i].por < 0)
+		{
+			cell_data[i].por = multi_Dpor;                         //Fix for Jenkins !!!!!!!!!!!!
+		}
 		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
-		//cell_data[i].por = multi_Dpor;
 		cell_data[i].por_il = interlayer_Dpor;
 	}
 /*
