@@ -1,5 +1,45 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
         ---------
+        svn 10759
+        ---------
+	Created an option to enter cell-porosties in keyword TRANSPORT:
+
+		-porosities 0.3 0.29 0.28  # porosities of cells 1, 2, 3-n, used for calculating
+					   # tortuosity in multicomponent diffusion calculations. The
+					   # numbers entered here take precedence over the value given
+					   # with -multi_D. If one stagnant layer is defined together with
+					   # an exchange-factor > 0 ('-stagnant 1 4e-6 0.3 0.1'), the
+					   # mobile (here = 0.3) and immobile (here = 0.1) porosities
+					   # defined with -stagnant are used.
+
+	The electric potential can be defined in keyword SOLUTION:
+		-potential 3 # Volt
+
+	The effect of an electrical field on multicomponent diffusion (electro-migration) is calculated with
+	the Nernst-Planck equation if one of the 2 column end-cell solutions has a potential different from 0
+	(SOLUTION 0, SOLUTION cells + 1). For examples of electro-migration, see
+	http://www.hydrochemistry.eu/exmpls/electro_dif.html
+
+	Added special BASIC functions for obtaining parameters calculated in electro-migration:
+		CURRENT_A          # the current (A) through the column
+		POT_V              # potential (V) in a cell
+
+	If the properties in a regular column (surface areas, lengths, double layers, 
+	tortuosities, diffusion coefficients) are different for the two cells, the harmonic 
+	mean is used for calculating the mass transfer (Appelo et al., 2010, Geochim. Cosmochim. 
+	Acta 74, 1201-1219).
+
+	A temperature damping factor was added for the temperature effect of viscosity on the diffusion
+	coefficient of a solute species:
+
+SOLUTION_SPECIES
+H+ = H+
+	-dw	 9.31e-9  831 # Dw(TK) = 9.31e-9 * exp(831 / TK - 831 / 298.15) * TK * 0.89 / (298.15 * viscos)
+
+	The equation was proposed by Smolyakov, according to Anderko and Lencka, 1997, Ind. Chem. Eng. Res.
+	36, 1932–1943.
+
+        ---------
         svn 10409
         ---------
 	PhreeqcRM: C function clock() does not provide sufficient resolution. Efficiency calculation
