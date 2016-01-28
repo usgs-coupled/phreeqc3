@@ -337,8 +337,8 @@ transport(void)
 	/*
 	* Define stagnant/mobile mix structure, if not read explicitly.
 	*
-	* With count_stag = 1, mix factors are calculated from exchange factor �
-	* (= exch_f), mobile �_m (= th_m) and immobile �_im (= th_im) porosity.
+	* With count_stag = 1, mix factors are calculated from exchange factor alpha
+	* (= exch_f), mobile th_m and immobile th_im porosity.
 	* These variables are read under keyword TRANSPORT, after stagnant, in
 	* structure stag_data.
 	* MIX 'cell_no' in input file can be an alternative for the calculation here.
@@ -1588,7 +1588,7 @@ fill_spec(int l_cell_no)
 	struct master *master_ptr;
 	LDBLE dum, dum2;
 	LDBLE lm;
-	LDBLE por, por_il, temp_factor, temp_il_factor, viscos;
+	LDBLE por, por_il, viscos_f, viscos_il_f, viscos;
 	bool x_max_done = false;
 
 	s_ptr2 = NULL;
@@ -1620,7 +1620,7 @@ fill_spec(int l_cell_no)
 
 	sol_D[l_cell_no].tk_x = tk_x;
 
-	temp_factor = temp_il_factor = 1.0;
+	viscos_f = viscos_il_f = 1.0;
 	if (l_cell_no == 0)
 	{
 		por = cell_data[1].por;
@@ -1637,10 +1637,10 @@ fill_spec(int l_cell_no)
 		por_il = cell_data[l_cell_no].por_il;
 	}
 	if (por < multi_Dpor_lim)
-		por = temp_factor = 0.0;
+		por = viscos_f = 0.0;
 
 	if (por_il < interlayer_Dpor_lim)
-		por_il = temp_il_factor = 0.0;
+		por_il = viscos_il_f = 0.0;
 	/*
 	* correct diffusion coefficient for temperature and viscosity, D_T = D_298 * Tk * viscos_298 / (298 * viscos)
 	*   modify viscosity effect: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15), SC data from Robinson and Stokes, 1959
@@ -1649,8 +1649,8 @@ fill_spec(int l_cell_no)
 	/*
 	* put temperature factor in por_factor which corrects for porous medium...
 	*/
-	temp_factor *= tk_x * viscos_0_25 / (298.15 * viscos);
-	temp_il_factor *= tk_x * viscos_0_25 / (298.15 * viscos);
+	viscos_f *= tk_x * viscos_0_25 / (298.15 * viscos);
+	viscos_il_f *= tk_x * viscos_0_25 / (298.15 * viscos);
 	sol_D[l_cell_no].viscos_f = tk_x * viscos_0_25 / (298.15 * viscos);
 
 	count_spec = count_exch_spec = 0;
@@ -1735,17 +1735,17 @@ fill_spec(int l_cell_no)
 				sol_D[l_cell_no].spec[count_spec].z = s_ptr2->z;
 				if (s_ptr2->dw == 0)
 					sol_D[l_cell_no].spec[count_spec].Dwt =
-					default_Dw * temp_il_factor;
+					default_Dw * viscos_il_f;
 				else
 				{
 					if (s_ptr2->dw_t)
 					{
 						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw *
-							exp(s_ptr2->dw_t / 298.15 - s_ptr2->dw_t / tk_x) * temp_il_factor;
+							exp(s_ptr2->dw_t / 298.15 - s_ptr2->dw_t / tk_x) * viscos_il_f;
 						sol_D[l_cell_no].spec[count_spec].dw_t = s_ptr2->dw_t;
 					}
 					else
-						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw * temp_il_factor;
+						sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr2->dw * viscos_il_f;
 				}
 				count_exch_spec++;
 				count_spec++;
@@ -1765,17 +1765,17 @@ fill_spec(int l_cell_no)
 			sol_D[l_cell_no].spec[count_spec].lg = s_ptr->lg;
 			sol_D[l_cell_no].spec[count_spec].z = s_ptr->z;
 			if (s_ptr->dw == 0)
-				sol_D[l_cell_no].spec[count_spec].Dwt = default_Dw * temp_factor;
+				sol_D[l_cell_no].spec[count_spec].Dwt = default_Dw * viscos_f;
 			else
 			{
 				if (s_ptr->dw_t)
 				{
 					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * 
-						exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15) * temp_factor;
+						exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15) * viscos_f;
 					sol_D[l_cell_no].spec[count_spec].dw_t = s_ptr->dw_t;
 				}
 				else
-					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * temp_factor;
+					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * viscos_f;
 			}
 			if (sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) > diffc_max)
 				diffc_max = sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn);
