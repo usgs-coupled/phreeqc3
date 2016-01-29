@@ -782,7 +782,7 @@ read_transport(void)
  */
 	if (count_por == 0)
 	{
-		if (old_cells < max_cells && multi_Dflag)
+		if (old_cells <= max_cells && multi_Dflag)
 		{
 			multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 			if (multi_Dpor > 1e-10)
@@ -792,23 +792,49 @@ read_transport(void)
 				error_string = sformatf(
 				"No porosities were read; used the minimal value %8.2e from -multi_D.", multi_Dpor);
 			warning_msg(error_string);
-			for (i = 0; i < max_cells; i++)
+			for (i = 0; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;
 		}
 	}
 	else
 	{
-		for (i = 0; i < count_por; i++)
-			cell_data[i].por = pors[i];
-		if (max_cells > count_por)
+		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
 		{
 			error_string = sformatf(
-				"Porosities were read for %d cells. Last value is used till cell %d.",
-				count_por, max_cells);
+				"Mobile porosities were read, but mobile/immobile porosity was also defined in -stagnant. Using the values from -stagnant for mobile/immobile exchange and tortuosity factors.");
 			warning_msg(error_string);
-			for (i = count_por - 1; i < max_cells; i++)
-				cell_data[i].por = pors[count_por - 1];
+			for (i = 1; i <= max_cells; i++)
+				cell_data[i].por = stag_data->th_m;
+			for (i++; i <= 2 * max_cells + 1; i++)
+				cell_data[i].por = stag_data->th_im;
 		}
+		else
+		{
+			for (i = 0; i < count_por; i++)
+				cell_data[i].por = pors[i];
+			if (max_cells > count_por)
+			{
+				error_string = sformatf(
+					"Porosities were read for %d cells. Last value is used till cell %d.",
+					count_por, max_cells);
+				warning_msg(error_string);
+				for (i = count_por - 1; i <= max_cells; i++)
+					cell_data[i].por = pors[count_por - 1];
+			}
+		}
+	}
+	if (interlayer_Dflag && !multi_Dflag)
+	{
+		input_error++;
+		error_string = sformatf(
+			"-multi_D must be defined, when -interlayer_D true.");
+		error_msg(error_string, CONTINUE);
+
+	}
+	for (i = 0; i < all_cells; i++)
+	{
+		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
+		cell_data[i].por_il = interlayer_Dpor;
 	}
 	count_cells = max_cells;
 /*
@@ -870,27 +896,6 @@ read_transport(void)
 	else if (simul_tr == 1)
 		for (i = 0; i < max_cells; i++)
 			cell_data[i].print = TRUE;
-/*
- *   Fill in porosities
- */
-	if (interlayer_Dflag && !multi_Dflag)
-	{
-		input_error++;
-		error_string = sformatf(
-				"-multi_D must be defined, when -interlayer_D true.");
-		error_msg(error_string, CONTINUE);
-
-	}
-	for (i = 0; i < max_cells; i++)
-	{
-		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);    //Fix for Jenkins !!!!!!!!!!!!
-		//if (cell_data[i].por < 0)
-		{
-			cell_data[i].por = multi_Dpor;                         //Fix for Jenkins !!!!!!!!!!!!
-		}
-		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
-		cell_data[i].por_il = interlayer_Dpor;
-	}
 /*
  *   Calculate dump_modulus
  */
