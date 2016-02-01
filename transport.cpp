@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -909,7 +909,7 @@ transport(void)
 		ct = (struct CT *) free_check_null(ct);
 		for (int i = 0; i < count_elements; i++)
 		{
-			moles_added[i].name = (char *) free_check_null(moles_added[i].name);
+			moles_added[i].name = (char *)free_check_null(moles_added[i].name);
 		}
 		moles_added = (struct MOLES_ADDED *) free_check_null(moles_added);
 	}
@@ -1770,7 +1770,7 @@ fill_spec(int l_cell_no)
 			{
 				if (s_ptr->dw_t)
 				{
-					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * 
+					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw *
 						exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15) * viscos_f;
 					sol_D[l_cell_no].spec[count_spec].dw_t = s_ptr->dw_t;
 				}
@@ -1841,14 +1841,14 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	*      NOTE. Define the water content of stagnant cells relative to the
 	*      mobile cell (with, for example, 1 kg water)
 	*      Define properties of each interface only 1 time with MIX.
-	 * If an electrical field is applied (dV_dcell != 0), the currents j_i = current_cells[i].ele + dif (C * s)
-	        are calculated for all cells. Then the ele part from cell 0 -> 1 is calculated:
-			current_x = (j_0d + j_0e) = j_0 = j_1 = ... = j_i
-			j_0e * (R0 + R1 + ...) + (j_0d - j_1d) * R1 + ... + (j_0d - j_id) * Ri = Vtot
-			or
-			j_0e * Sum_R + Sum_Rd = Vtot.
-			Ri = dV_dcell / j_ie, the relative cell resistance.
-			Solve j_0e, find (V1 - V0) = j_0e * R0. j_1e = current_x - j_1d, find (V2 - V1) = j_1e * R1, etc.
+	* If an electrical field is applied (dV_dcell != 0), the currents j_i = current_cells[i].ele + dif (C * s)
+	are calculated for all cells. Then the ele part from cell 0 -> 1 is calculated:
+	current_x = (j_0d + j_0e) = j_0 = j_1 = ... = j_i
+	j_0e * (R0 + R1 + ...) + (j_0d - j_1d) * R1 + ... + (j_0d - j_id) * Ri = Vtot
+	or
+	j_0e * Sum_R + Sum_Rd = Vtot.
+	Ri = dV_dcell / j_ie, the relative cell resistance.
+	Solve j_0e, find (V1 - V0) = j_0e * R0. j_1e = current_x - j_1d, find (V2 - V1) = j_1e * R1, etc.
 	*/
 	int icell, jcell, i, l, n, length, length2, il_calcs;
 	int i1, loop_f_c;
@@ -1939,7 +1939,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						dVc = j_0e * current_cells[0].R;
 						cell_data[1].potV = cell_data[0].potV + dVc;
 						current_x = j_0e + current_cells[0].dif;
-						for (i1 = 1; i1 < count_cells; i1 ++)
+						for (i1 = 1; i1 < count_cells; i1++)
 						{
 							dVc = current_cells[i1].R * (current_x - current_cells[i1].dif);
 							cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
@@ -2102,7 +2102,6 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		if (il_calcs)
 			ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
 		ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
-
 	}
 	return (OK);
 }
@@ -2221,7 +2220,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
 	dl_aq_i = dl_aq_j = 0.0;
-	por_il12 = A_i = A_j =0.0;
+	por_il12 = A_i = A_j = 0.0;
 	cec1 = cec2 = cec12 = rc1 = rc2 = 0.0;
 	dV = 0.0;
 
@@ -2629,7 +2628,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	while (i < i_max || j < j_max)
 	{
 		if (j == j_max
-			|| (i < i_max 
+			|| (i < i_max
 			&& strcmp(sol_D[icell].spec[i].name, sol_D[jcell].spec[j].name) < 0))
 		{
 			/* species 'name' is only in icell */
@@ -2695,7 +2694,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					ct[icell].v_m[k].z = sol_D[icell].spec[i].z;
 					ct[icell].v_m[k].grad = -sol_D[icell].spec[i].c; /* assume d log(gamma) / d log(c) = 0 */
 					c1 = sol_D[icell].spec[i].c / 2;
-					if (dV_dcell)
+					if (dV_dcell && ct[icell].v_m[k].z)
 					{
 						// compare diffusive and electromotive forces
 						dum = ct[icell].v_m[k].grad;
@@ -2769,8 +2768,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					}
 
 					ct[icell].v_m[k].c = c1;
-					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c1;
-					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
+					if (ct[icell].v_m[k].z)
+					{
+						ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c1;
+						ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
+					}
 					k++;
 				}
 			}
@@ -2844,7 +2846,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					ct[icell].v_m[k].z = sol_D[jcell].spec[j].z;
 					ct[icell].v_m[k].grad = sol_D[jcell].spec[j].c;  /* assume d log(gamma) / d log(c) = 0 */
 					c2 = sol_D[jcell].spec[j].c / 2;
-					if (dV_dcell)
+					if (dV_dcell && ct[icell].v_m[k].z)
 					{
 						// compare diffuse and electromotive forces
 						dum = ct[icell].v_m[k].grad;
@@ -2858,7 +2860,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 							continue;
 						}
 					}
-
 					g_i = g_j = dum1 = 0;
 					if (ct[jcell].dl_s > 0)
 					{
@@ -2904,7 +2905,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					else
 					{
 						if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
-							b_j *= sol_D[jcell].spec[j].Dwt;
+							b_i *= sol_D[jcell].spec[j].Dwt;
 						else
 						{
 							dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f;
@@ -2917,10 +2918,12 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						else
 							ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
 					}
-
 					ct[icell].v_m[k].c = c2;
-					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c2;
-					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
+					if (ct[icell].v_m[k].z)
+					{
+						ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c2;
+						ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
+					}
 					k++;
 				}
 			}
@@ -2988,7 +2991,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						}
 						else
 							c_dl = c1;
-
 						if (dl_aq_j > 0)
 						{
 							g = s_charge_ptr2->Get_g_map()[ct[icell].v_m[k].z].Get_g();
@@ -3035,7 +3037,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					ct[icell].v_m[k].grad = (sol_D[jcell].spec[j].c - sol_D[icell].spec[i].c);
 					c1 = sol_D[icell].spec[i].c / 2;
 					c2 = sol_D[jcell].spec[j].c / 2;
-					if (dV_dcell)
+					if (dV_dcell && ct[icell].v_m[k].z)
 					{
 						// compare diffuse and electromotive forces
 						dum = ct[icell].v_m[k].grad;
@@ -3053,7 +3055,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 							continue;
 						}
 					}
-					ct[icell].v_m[k].c = (c1 + c2);
 					g_i = g_j = dum2 = 0;
 					if (ct[icell].dl_s > 0)
 					{
@@ -3102,11 +3103,12 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						ct[icell].v_m[k].b_ij = b_i;
 					else
 						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
-
 					ct[icell].v_m[k].c = c1 + c2;
-					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * ct[icell].v_m[k].c;
-					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
-
+					if (ct[icell].v_m[k].z)
+					{
+						ct[icell].v_m[k].zc = ct[icell].v_m[k].z * ct[icell].v_m[k].c;
+						ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
+					}
 					ddlm = sol_D[jcell].spec[j].lm - sol_D[icell].spec[i].lm;
 					if (fabs(ddlm) > 1e-10)
 						ct[icell].v_m[k].grad *= (1 + (sol_D[jcell].spec[j].lg - sol_D[icell].spec[i].lg) / ddlm);
@@ -3232,7 +3234,6 @@ dV_dcell2:
 	*/
 	if (il_calcs && ct[icell].Dz2c_il != 0 && ct[icell].J_ij_il_count_spec > 0)
 	{
-
 		cxxExchange *ex_ptr1 = Utilities::Rxn_find(Rxn_exchange_map, icell);
 		cxxExchange *ex_ptr2 = Utilities::Rxn_find(Rxn_exchange_map, jcell);
 		Sum_zM = 0.0;
@@ -4585,13 +4586,13 @@ viscosity(void)
 	mu1 = exp(Rb * S1);
 	viscos_0 = viscos = mu0 * mu1 / 1e3;
 	viscos_0_25 = 0.8900239182946;
-//#define OLD_VISCOSITY
+	//#define OLD_VISCOSITY
 #ifdef OLD_VISCOSITY
-/* from Atkins, 1994. Physical Chemistry, 5th ed. */
+	/* from Atkins, 1994. Physical Chemistry, 5th ed. */
 	viscos =
 		pow((LDBLE) 10.,
-			-(1.37023 * (tc_x - 20) +
-			  0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
+		-(1.37023 * (tc_x - 20) +
+		0.000836 * (tc_x - 20) * (tc_x - 20)) / (109 + tc_x));
 	viscos_0_25 = 0.88862;
 #endif
 	return viscos;
