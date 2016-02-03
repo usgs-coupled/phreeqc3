@@ -792,7 +792,8 @@ read_transport(void)
 				error_string = sformatf(
 				"No porosities were read; used the minimal value %8.2e from -multi_D.", multi_Dpor);
 			warning_msg(error_string);
-			for (i = old_cells + 1; i < all_cells; i++)
+			//for (i = old_cells + 1; i < all_cells; i++)
+			for (i = old_cells; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;
 		}
 	}
@@ -896,7 +897,37 @@ read_transport(void)
 	else if (simul_tr == 1)
 		for (i = 0; i < max_cells; i++)
 			cell_data[i].print = TRUE;
+//#define OLD_POROSITY
+#if defined(OLD_POROSITY)
+/*
+ *   Fill in porosities
+ */
+	if (interlayer_Dflag && !multi_Dflag)
+	{
+		input_error++;
+		error_string = sformatf(
+				"-multi_D must be defined, when -interlayer_D true.");
+		error_msg(error_string, CONTINUE);
 
+	}
+	for (i = 0; i < max_cells; i++)
+	{
+		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);    //Fix for Jenkins !!!!!!!!!!!!
+		//if (cell_data[i].por < 0)
+		{
+			cell_data[i].por = multi_Dpor;                         //Fix for Jenkins !!!!!!!!!!!!
+		}
+		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
+		cell_data[i].por_il = interlayer_Dpor;
+	}
+#endif
+	//{
+	//	for (int i = 0; i < all_cells; i++)
+	//	{
+	//		std::cerr << i << "  " << cell_data[i].por << std::endl;
+	//	}
+	//}
+	
 /*
  *   Calculate dump_modulus
  */
