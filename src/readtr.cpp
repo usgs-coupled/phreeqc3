@@ -645,7 +645,7 @@ read_transport(void)
 				error_msg("Reading porosities in TRANSPORT keyword.\n",
 					CONTINUE);
 			}
-			opt_save = OPTION_DEFAULT;
+			opt_save = 42;
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
