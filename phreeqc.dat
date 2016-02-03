@@ -41,7 +41,7 @@ N(+5)		NO3-	0	N
 N(+3)		NO2-	0	N
 N(0)		N2	0	N
 N(-3)	        NH4+	0	N		14.0067
-#Amm		AmmH+	0	AmmH		17.0
+#Amm		AmmH+	0	AmmH		17.031
 B		H3BO3	0	B		10.81
 P		PO4-3	2.0	P		30.9738
 F		F-	0	F		18.9984
@@ -63,28 +63,27 @@ Ntg		Ntg	0	Ntg		28.0134 # N2 gas
 SOLUTION_SPECIES
 H+ = H+
 	-gamma	9.0	0
-
-	-dw	 9.31e-9
+	-dw	 9.31e-9  831 # Dw(TK) = 9.31e-9 * exp(831 / TK - 831 / 298.15) * TK * 0.89 / (298.15 * viscos)
 e- = e-
 H2O = H2O
 Ca+2 = Ca+2
 	-gamma	5.0	0.1650
-	-dw	 0.793e-9
+	-dw	 0.793e-9  60
 	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # ref. 1
 Mg+2 = Mg+2
 	-gamma	5.5	0.20
-	-dw	 0.705e-9
+	-dw	 0.705e-9  24 
 	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # ref. 1
 Na+ = Na+
 	-gamma	4.0	 0.075
 	-gamma	4.08 0.082 # halite solubility
-	-dw	 1.33e-9
+	-dw	 1.33e-9  126
 	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # ref. 1
 # for calculating densities (rho) when I > 3...
 	# -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45
 K+ = K+
 	-gamma	3.5	0.015
-	-dw	 1.96e-9
+	-dw	 1.96e-9  262	
 	-Vm  3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.7  0  1 # ref. 1
 Fe+2 = Fe+2
 	-gamma	6.0	0
@@ -103,11 +102,11 @@ Al+3 = Al+3
 Ba+2 = Ba+2
 	-gamma  5.0  0
 	-gamma	4.0  0.153 # Barite solubility
-	-dw 0.848e-9
+	-dw 0.848e-9  46
 	-Vm  2.063  -10.06  1.9534  -2.36  0.4218  5  1.58  -12.03  -8.35e-3  1 # ref. 1
 Sr+2 = Sr+2
 	-gamma	5.260	0.121
-	-dw	 0.794e-9
+	-dw	 0.794e-9  161
 	-Vm  -1.57e-2  -10.15  10.18  -2.36  0.860  5.26  0.859  -27.0  -4.1e-3  1.97 # ref. 1
 H4SiO4 = H4SiO4
 	-dw	 1.10e-9
@@ -115,7 +114,7 @@ H4SiO4 = H4SiO4
 Cl- = Cl-
 	-gamma	3.5	  0.015
 	-gamma	3.63  0.017 # cf. pitzer.dat
-	-dw	 2.03e-9
+	-dw	 2.03e-9  194
 	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # ref. 1
 CO3-2 = CO3-2
 	-gamma	5.4	0
@@ -123,15 +122,15 @@ CO3-2 = CO3-2
 	-Vm  5.95  0  0  -5.67  6.85  0  1.37  106  -0.0343  1 # ref. 1
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
-	-dw	 1.07e-9
+	-dw	 1.07e-9  108
 	-Vm  8.0  2.3  -46.04  6.245  3.82  0  0  0  0  1 # ref. 1
 NO3- = NO3-
 	-gamma	3.0	0
-	-dw	 1.9e-9
+	-dw	 1.9e-9  219
 	-Vm  6.32  6.78  0  -3.06  0.346  0  0.93  0  -0.012  1 # ref. 1
 #AmmH+ = AmmH+
 #	-gamma	2.5	0
-#	-dw	 1.98e-9
+#	-dw	 1.98e-9  377
 #	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
 H3BO3 = H3BO3
 	-dw	1.1e-9
@@ -146,11 +145,11 @@ F- = F-
 	-Vm   0.928  1.36  6.27  -2.84  1.84  0  0  -0.318  0  1 # ref. 2
 Li+ = Li+
 	-gamma	6.0	0
-	-dw	 1.03e-9
+	-dw	 1.03e-9  80
 	-Vm  -0.419  -0.069  13.16  -2.78  0.416  0  0.296  -12.4  -2.74e-3  1.26 # ref. 2 and Ellis, 1968, J. Chem. Soc. A, 1138
 Br- = Br-
 	-gamma	3.0	0
-	-dw	 2.01e-9
+	-dw	 2.01e-9  258
 	-Vm   6.72  2.85  4.21  -3.14  1.38  0  -9.56e-2  7.08  -1.56e-3  1 # ref. 2
 Zn+2 = Zn+2
 	-gamma	5.0	0
@@ -174,9 +173,8 @@ Oxg = Oxg # O2
 	-dw	 2.35e-9
 	-Vm  5.7889  6.3536  3.2528  -3.0417  -0.3943 # supcrt
 Mtg = Mtg # CH4
-	-dw	 1.85e-9
-
-	-Vm 7.7 # CH4 solubility, 25-100C, 1-700atm
+	-dw   1.85e-9
+	-Vm   9.01  -1.11  0  -1.85  -1.50 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
 Ntg = Ntg # N2
 	-dw	 1.96e-9
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
@@ -187,7 +185,7 @@ H2Sg = H2Sg # H2S
 H2O = OH- + H+
 	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
 	-gamma	3.5	0
-	-dw	 5.27e-9
+	-dw	 5.27e-9  470
 	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # ref. 1
 2 H2O = O2 + 4 H+ + 4 e-
 	-log_k	-86.08
@@ -219,7 +217,7 @@ CO3-2 + 2 H+ = CO2 + H2O
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-log_k	41.071
 	-delta_h -61.039 kcal
-	-dw	 1.85e-9
+	-dw   1.85e-9
 	-Vm   9.01  -1.11  0  -1.85  -1.50 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
 SO4-2 + H+ = HSO4-
 	-log_k	1.988
@@ -248,7 +246,7 @@ H2Sg = HSg- + H+
 	-log_k	-6.994
 	-delta_h 5.30	kcal
 	-analytical  11.17  -0.02386  -3279.0
-	-dw	 2.1e-9
+	-dw	 1.73e-9
 	-Vm  5.0119  4.9799  3.4765  -2.9849  1.4410 # supcrt
 NO3- + 2 H+ + 2 e- = NO2- + H2O
 	-log_k	28.570
@@ -265,9 +263,8 @@ NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
 	-log_k	119.077
 	-delta_h -187.055	kcal	
 	-gamma	2.5	0
-	-dw	 1.98e-9
-	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1	
-	
+	-dw	 1.98e-9  377
+	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
 #AmmH+ = Amm + H+
 NH4+ = NH3 + H+
 	-log_k	-9.252
@@ -947,7 +944,7 @@ Gypsum
 	-log_k	-4.58
 	-delta_h -0.109 kcal
 	-analytic	68.2401	0.0	-3221.51	-25.0627
-
+	-analytical_expression  93.7  5.99E-03  -4e3  -35.019 # Appelo, submitted
 	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
@@ -1127,52 +1124,35 @@ O2(g)
 	O2 = O2
 	-log_k   -2.8983
 	-analytic -7.5001 7.8981e-3 0.0 0.0 2.0027e5
-
-	-T_c  154.6
-	-P_c   49.80
-	-Omega 0.021
+	-T_c  154.6; -P_c   49.80; -Omega 0.021
 H2(g)
 	H2 = H2
 	-log_k	   -3.1050
 	-delta_h -4.184  kJ
 	-analytic   -9.3114    4.6473e-3   -49.335    1.4341    1.2815e5
-
-	-T_c  33.2
-	-P_c   12.80
-	-Omega -0.225
+	-T_c  33.2; -P_c   12.80; -Omega -0.225
 N2(g)
 	N2 = N2
 	-log_k		 -3.1864
 	-analytic -58.453 1.818e-3  3199  17.909 -27460
-
-	-T_c  126.2
-	-P_c   33.50
-	-Omega 0.039
+	-T_c  126.2; -P_c   33.50; -Omega 0.039
 H2S(g)
 	H2S  =  H+ + HS-
 	-log_k	   -7.9759
 	-analytic -97.354 -3.1576e-2 1.8285e3 37.44 28.56
-
-	-T_c  373.2
-	-P_c  88.20
-	-Omega 0.1
+	-T_c  373.2; -P_c  88.20; -Omega 0.1
 CH4(g)
 	CH4 = CH4
-	-log_k	   -2.8502
+	-log_k -2.8
 	-analytic   10.44  -7.65e-3  -6669  0  1.014e6 # CH4 solubilities 25 - 100°C
-	-T_c  190.6
-	-P_c   45.40
-	-Omega 0.008
+	-T_c  190.6 ; -P_c   45.40 ; -Omega 0.008
 #Amm(g)
 #	Amm = Amm
 NH3(g)
 	NH3 = NH3	
 	-log_k	   1.7966
 	-analytic -18.758 3.3670e-4 2.5113e3 4.8619 39.192
-
-	-T_c  405.6
-	-P_c   111.3
-	-Omega 0.25
+	-T_c  405.6; -P_c   111.3; -Omega 0.25
 # redox-uncoupled gases
 Oxg(g)
 	Oxg = Oxg
@@ -1815,19 +1795,18 @@ END
 #                        -Vm a1 a2 a3 a4 W a0 i1 i2 i3 i4
 # The volume (cm3/mol) is
 #    Vm(T, pb, I) = 41.84 * (a1 * 0.1 + a2 * 100 / (2600 + pb)  + a3 / (T - 228) +
-#                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * QBrn)
+#                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * 1e5 * QBrn)
 #                   + z^2 / 2 * Av * f(I^0.5)
 #                   + (i1 + i2 / (T - 228) + i3 * (T - 228)) * I^i4
 #   Volumina at I = 0 are obtained using supcrt92 formulas (Johnson et al., 1992, CG 18, 899).
 #   41.84 transforms cal/bar/mol into cm3/mol.
 #   pb is pressure in bar.
-#   W * QBrn is the energy of solvation, calculated from W and the pressure dependence of the 
-
-#     Born equation.
+#   W * QBrn is the energy of solvation, QBrn is the pressure dependence of the Born equation,
+#     W is fitted on measured solution densities.
 #   z is charge of the solute species.
-#   Av is the Debye-Hückel limiting slope.
+#   Av is the Debye-Hückel limiting slope (DH_AV in PHREEQC basic).
 #   a0 is the ion-size parameter in the extended Debye-Hückel equation:
-#     f(I^0.5) = I^0.5) / (1 + a0 * DH_B * I^0.5),
+#     f(I^0.5) = I^0.5 / (1 + a0 * DH_B * I^0.5),
 #     a0 = -gamma x for cations, = 0 for anions.
 # For details, consult ref. 1.
 #
