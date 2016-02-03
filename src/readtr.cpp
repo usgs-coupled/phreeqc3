@@ -659,8 +659,8 @@ read_transport(void)
 		max_cells = count_length;
 	if (count_disp > max_cells)
 		max_cells = count_disp;
-	if (count_por > max_cells)
-		max_cells = count_por;
+	//if (count_por > max_cells)
+	//	max_cells = count_por;
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -677,13 +677,13 @@ read_transport(void)
 				count_disp);
 			warning_msg(token);
 		}
-		else
-		{
-			sprintf(token,
-				"Number of cells is increased to number of porosities %d.",
-				count_por);
-			warning_msg(token);
-		}
+		//else
+		//{
+		//	sprintf(token,
+		//		"Number of cells is increased to number of porosities %d.",
+		//		count_por);
+		//	warning_msg(token);
+		//}
 	}
 /*
  *   Allocate space for cell_data
@@ -703,7 +703,7 @@ read_transport(void)
 			cell_data[i].mid_cell_x = 1.0;
 			cell_data[i].disp = 1.0;
 			cell_data[i].temp = 25.0;
-			cell_data[i].por = 0.1;   //Fix for Jenkins !!!!!!!!!!!!
+			cell_data[i].por = 0.3;   
 			cell_data[i].por_il = 0.01;
 			cell_data[i].punch = FALSE;
 			cell_data[i].print = FALSE;
@@ -782,7 +782,7 @@ read_transport(void)
  */
 	if (count_por == 0)
 	{
-		if (old_cells <= max_cells && multi_Dflag)
+		if (old_cells < all_cells && multi_Dflag)
 		{
 			multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 			if (multi_Dpor > 1e-10)
@@ -792,7 +792,7 @@ read_transport(void)
 				error_string = sformatf(
 				"No porosities were read; used the minimal value %8.2e from -multi_D.", multi_Dpor);
 			warning_msg(error_string);
-			for (i = 0; i < all_cells; i++)
+			for (i = old_cells + 1; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;
 		}
 	}
@@ -816,9 +816,9 @@ read_transport(void)
 			{
 				error_string = sformatf(
 					"Porosities were read for %d cells. Last value is used till cell %d.",
-					count_por, max_cells);
+					count_por, all_cells - 1);
 				warning_msg(error_string);
-				for (i = count_por - 1; i <= max_cells; i++)
+				for (i = count_por - 1; i < all_cells; i++)
 					cell_data[i].por = pors[count_por - 1];
 			}
 		}
