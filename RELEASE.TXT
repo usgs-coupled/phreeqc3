@@ -1,4 +1,34 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+
+	---------
+	svn 10804
+	---------
+	PHREEQC: Created an option to enter cell porosities in keyword TRANSPORT, which was
+	motivated by the need to define porosities for a variable-porosity multicomponent diffusion 
+	problem. Previously the Basic function CHANGE_POR had to be used to allow variable porosity.
+
+		-porosities 0.3 0.29 0.28  # porosities of cells 1, 2, 3-n, used for calculating
+					   # tortuosity in multicomponent diffusion calculations. The
+					   # numbers entered here take precedence over the value given
+					   # with -multi_D. If one stagnant layer is defined together with
+					   # an exchange-factor > 0 ('-stagnant 1 4e-6 0.3 0.1'), the
+					   # mobile (here = 0.3) and immobile (here = 0.1) porosities
+					   # defined with -stagnant are used.
+					   
+	---------
+	svn 10770
+	---------
+	IPhreeqc: Added optional argument sl to GetSelectedOutputValue in Fortran. The revised method
+	is as follows, where sl is a new optional argument. 
+	
+	CHARACTER(LEN=40) :: sv
+	status = GetSelectedOutputValue(id, i, j, vt, dv, sv, sl)
+	
+	In the example, if the character string generated in IPhreeqc and stored in sv is 40 characters or
+	less, the value of sl will be 0. If the character string generated in IPhreeqc was greater than
+	40 characters, the truncated string is stored in sv, but the value of sl will contain the length
+	of the string before truncation.
+
 	---------
 	svn 10668
 	---------
