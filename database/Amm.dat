@@ -88,10 +88,12 @@ K+ = K+
 Fe+2 = Fe+2
 	-gamma	6.0	0
 	-dw	 0.719e-9
-	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1 # ref. 
+
+	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1 # ref. 1
 Mn+2 = Mn+2
 	-gamma	6.0	0
 	-dw	 0.688e-9
+
 	-Vm  -1.10  -8.03  4.08  -2.45  1.4  6  8.07  0  -1.51e-2  0.118 # ref. 2
 Al+3 = Al+3
 	-gamma	9.0	0
@@ -126,10 +128,10 @@ NO3- = NO3-
 	-gamma	3.0	0
 	-dw	 1.9e-9  219
 	-Vm  6.32  6.78  0  -3.06  0.346  0  0.93  0  -0.012  1 # ref. 1
-AmmH+ = AmmH+
-	-gamma	2.5	0
-	-dw	 1.98e-9  377
-	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
+#AmmH+ = AmmH+
+#	-gamma	2.5	0
+#	-dw	 1.98e-9  377
+#	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
 H3BO3 = H3BO3
 	-dw	1.1e-9
 	-Vm 7.0643  8.8547  3.5844  -3.1451 -.2000  # supcrt
@@ -257,7 +259,14 @@ NO3- + 2 H+ + 2 e- = NO2- + H2O
 	-delta_h -312.130	kcal
 	-dw	 1.96e-9
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
-AmmH+ = Amm + H+
+NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
+	-log_k	119.077
+	-delta_h -187.055	kcal	
+	-gamma	2.5	0
+	-dw	 1.98e-9  377
+	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
+#AmmH+ = Amm + H+
+NH4+ = NH3 + H+
 	-log_k	-9.252
 	-delta_h 12.48	kcal
 	-analytic  0.6322  -0.001225  -2835.76
@@ -269,7 +278,8 @@ AmmH+ = Amm + H+
 #	-gamma	2.5	0
 #	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
 
-AmmH+ + SO4-2 = AmmHSO4-
+#AmmH+ + SO4-2 = AmmHSO4-
+NH4+ + SO4-2 = NH4SO4-
 	-log_k	1.11
 	-Vm   14.0  0  -35.2  0  0  0  12.3  0  -0.141  1 # ref. 2
 H3BO3 = H2BO3- + H+
@@ -1497,7 +1507,7 @@ Quartz
 # and pollution, 2nd Edition: A.A. Balkema Publishers,
 # p. 162-163 and 395-399.
 #
-# Assume soil is 10% K-feldspar by mass in 1 mm spheres (radius 0.5 mm)
+# Assume soil is 10% K-feldspar by mass in 1 mm spheres (radius 0.05 mm)
 # Assume density of rock and Kspar is 2600 kg/m^3 = 2.6 kg/L
 # GFW Kspar 0.278 kg/mol
 #
@@ -1581,7 +1591,7 @@ K-feldspar
 #               -parms 6.04  0.1    # m^2/mol Albite, fraction adjusts lab rate to field rate
 #               -time 1.5 year in 40
 #
-# Assume soil is 2% Albite by mass in 1 mm spheres (radius 0.5 mm)
+# Assume soil is 2% Albite by mass in 1 mm spheres (radius 0.05 mm)
 # Assume density of rock and Albite is 2600 kg/m^3 = 2.6 kg/L
 # GFW Albite 0.262 kg/mol
 #
@@ -1593,9 +1603,9 @@ K-feldspar
 # Specific area calculation:
 #   Volume of sphere 4/3 x pi x r^3                       = 5.24e-13 m^3 Albite/sphere
 #   Mass of sphere 2600 x 5.24e-13                        = 1.36e-9  kg Albite/sphere
-#   Moles of Albite in sphere 1.36e-9/0.278               = 5.20e-9  mol Albite/sphere
+#   Moles of Albite in sphere 1.36e-9/0.262               = 5.20e-9  mol Albite/sphere
 #   Surface area of one sphere 4 x pi x r^2               = 3.14e-8  m^2/sphere
-#   Specific area of Albite in sphere 3.14e-8/4.90e-9     = 6.04 m^2/mol Albite
+#   Specific area of Albite in sphere 3.14e-8/5.20e-9     = 6.04 m^2/mol Albite
 
 Albite
  -start
