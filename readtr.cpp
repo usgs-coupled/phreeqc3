@@ -896,30 +896,7 @@ read_transport(void)
 	else if (simul_tr == 1)
 		for (i = 0; i < max_cells; i++)
 			cell_data[i].print = TRUE;
-//#define TONY
-#if !defined(TONY)
-/*
- *   Fill in porosities
- */
-	if (interlayer_Dflag && !multi_Dflag)
-	{
-		input_error++;
-		error_string = sformatf(
-				"-multi_D must be defined, when -interlayer_D true.");
-		error_msg(error_string, CONTINUE);
 
-	}
-	for (i = 0; i < max_cells; i++)
-	{
-		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);    //Fix for Jenkins !!!!!!!!!!!!
-		//if (cell_data[i].por < 0)
-		{
-			cell_data[i].por = multi_Dpor;                         //Fix for Jenkins !!!!!!!!!!!!
-		}
-		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
-		cell_data[i].por_il = interlayer_Dpor;
-	}
-#endif
 /*
  *   Calculate dump_modulus
  */
