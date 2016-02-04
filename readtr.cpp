@@ -792,8 +792,8 @@ read_transport(void)
 				error_string = sformatf(
 				"No porosities were read; used the minimal value %8.2e from -multi_D.", multi_Dpor);
 			warning_msg(error_string);
-			//for (i = old_cells + 1; i < all_cells; i++)
-			for (i = old_cells; i < all_cells; i++)
+			for (i = old_cells + 1; i < all_cells; i++)
+			//for (i = old_cells; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;
 		}
 	}
@@ -897,7 +897,7 @@ read_transport(void)
 	else if (simul_tr == 1)
 		for (i = 1; i < all_cells; i++)
 			cell_data[i].print = TRUE;
-	/*
+/*
 	*   Calculate dump_modulus
 	*/
 	if (dump_in == TRUE)
