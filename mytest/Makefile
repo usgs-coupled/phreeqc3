@@ -367,7 +367,8 @@ all: alkalinity.out \
 	Ca-As-Mahoney.out \
 	missing_surf_related_equi.out \
 	missing_surf_related_kin.out \
-	SC_temp.out
+	SC_temp.out \
+	feedwater.out
 
 # NaX.out
 
