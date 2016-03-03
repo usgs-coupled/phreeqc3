@@ -23,71 +23,71 @@ Na<Sup CLASS="Superscript">
 <DIV>
 <MAP NAME="phreeqc3-333">
 </MAP>
-<IMG SRC="phreeqc3-333.gif" USEMAP="#phreeqc3-333">
+<IMG SRC="phreeqc3-333.png" style="width:65%" USEMAP="#phreeqc3-333">
 </DIV>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1504124"></A>For calculating diffusion, one needs to account for the different diffusion coefficients of the tracers, the effect of the filters, and the properties of the clay. Figure 22 presents a schematic diagram of the processes in the clay (Appelo and others, 2010). The pores in the clay are lined with clay minerals that have a negative surface charge. The charge is partly neutralized by cations that are bound to the surface and partly by the electrostatic double layer that extends some distance into the pore. The double layer contains an excess of cations (counter-ions, in general) and a deficit of anions (co-ions, in general). In swelling clay minerals, such as montmorillonite, cations in the interlayer space also neutralize part of the negative charge. In comparison with concentration gradients that drive diffusion in free (uncharged) pore water, the gradient for a cation is magnified in the double layer, whereas the gradient for an anion is diminished, and the gradient for a neutral species remains the same. The charge in the double layer lowers the dielectric permittivity of the water, which enhances the ion-association of cations and anions into neutral species. Also, the viscosity of water may be higher than in free pore water. Where double layers overlap in pore constrictions, anions are impeded and forced to take longer paths, whereas cations and neutral species pass through unhindered.</P>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1504128"></A>PHREEQC has capabilities to model many of these diffusion processes. An averaged double layer composition can be calculated by using the identifier -Donnan in keyword <A HREF="phreeqc3-45.htm#50515969_56392" CLASS="XRef">SURFACE</A>, which, in essence, neutralizes the surface charge. Solute species can be assigned an enrichment factor in the Donnan pore space to emulate the additional concentration change as a result of different ion association. For diffusion, the viscosity can be set differently with respect to free pore water. In this example, all these properties are adjusted for the tracers tritium (HTO), Na+, Cs+ and Cl- to simulate experimental results.</P>
 <P CLASS="BodyText">
-<A NAME="50515983_pgfId-1644515"></A>The experiments to be modeled were done in a radial diffusion cell, shown in figure.23. The radial cell enables measurement of diffusion parallel to the bedding plane of the clay (Van Loon and others, 2004). A solution with tracers is circulated at the surface of the inner filter, and another solution with the same major ions, but without tracers, contacts the surface of the outer filter. The latter solution is removed regularly and analyzed for the tracer that has diffused through the filters and the clay. Meanwhile, the outer solution is replaced by fresh solution, thus, maintaining tracer concentrations near zero in the outer solution. In the simulations, low solubility phases were defined to maintain small concentrations of tracers in the outer solution. The moles of precipitates of these phases give the accumulated mass that has diffused through the column.</P>
+<A NAME="50515983_pgfId-1644515"></A>The experiments to be modeled were done in a radial diffusion cell, shown in figure 23. The radial cell enables measurement of diffusion parallel to the bedding plane of the clay (Van Loon and others, 2004). A solution with tracers is circulated at the surface of the inner filter, and another solution with the same major ions, but without tracers, contacts the surface of the outer filter. The latter solution is removed regularly and analyzed for the tracer that has diffused through the filters and the clay. Meanwhile, the outer solution is replaced by fresh solution, thus, maintaining tracer concentrations near zero in the outer solution. In the simulations, low solubility phases were defined to maintain small concentrations of tracers in the outer solution. The moles of precipitates of these phases give the accumulated mass that has diffused through the column.</P>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1646036"></A>For a linear column, PHREEQC calculates diffusion automatically by using the parameters entered with identifier -multi_D in keyword <A HREF="phreeqc3-49.htm#50515969_87317" CLASS="XRef">TRANSPORT</A>. However, diffusion in the experiment is radial, and the filters have different properties than the clay. Also, the boundary solutions for the default (linear) column have a constant composition, whereas we want to know the concentration changes in these solutions during the diffusion experiment. All these experimental details can be simulated for a stagnant column by defining mixing factors among the individual cells with keyword <A HREF="phreeqc3-27.htm#50515969_23725" CLASS="XRef">MIX</A>.</P>
 <P CLASS="BodyText">
-<A NAME="50515983_pgfId-1646061"></A>The mixing factors can be derived from Fick&#8217;s diffusion equations, <IMG SRC="phreeqc3-334.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-335.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1646061"></A>The mixing factors can be derived from Fick&#8217;s diffusion equations, <IMG SRC="phreeqc3-334.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-335.png" ALIGN="MIDDLE">
 , which transform to finite differences for an arbitrarily shaped cell j:</P>
 <DIV>
 <MAP NAME="phreeqc3-336">
 </MAP>
-<IMG SRC="phreeqc3-336.gif" USEMAP="#phreeqc3-336">
+<IMG SRC="phreeqc3-336.png" style="width:65%" USEMAP="#phreeqc3-336">
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515983_pgfId-1418073"></A><A NAME="50515983_40211"></A> <IMG SRC="phreeqc3-337.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1418073"></A><A NAME="50515983_40211"></A> <IMG SRC="phreeqc3-337.png" ALIGN="MIDDLE">
 ,	(44)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50515983_pgfId-1504169"></A>where <IMG SRC="phreeqc3-338.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1504169"></A>where <IMG SRC="phreeqc3-338.png" ALIGN="MIDDLE">
  is the concentration in cell <EM CLASS="Emphasis">
 j</EM>
- at the current time (mol/m3), <IMG SRC="phreeqc3-339.gif" ALIGN="BASELINE">
+ at the current time (mol/m3), <IMG SRC="phreeqc3-339.png" ALIGN="MIDDLE">
  is the concentration in cell <EM CLASS="Emphasis">
 j</EM>
- after the time step, Dw is the tracer diffusion coefficient (m2/s), <IMG SRC="phreeqc3-340.gif" ALIGN="BASELINE">
- is the time step (s), i is an adjacent cell, <IMG SRC="phreeqc3-341.gif" ALIGN="BASELINE">
- is the porosity over the interface of cells i and j (unitless), Gij is the geometrical factor that corrects for tortuosity of the porous medium (unitless), hij is the distance between midpoints of the cells (m), Aij is the shared surface area of cells i and j (m2), Vj is the volume of cell j (m3), and fbc is a factor for boundary cells (unitless). The summation is for all cells (up to n) adjacent to j. When hij is equal for all cells, a central difference algorithm is obtained that has second-order accuracy [O(h)2] (Appelo and others, 2008). It is therefore advantageous to make the grid regular. However, the same accuracy is achievable for a heterogeneous domain, even with widely variable gridsize, if the harmonic mean of the parameters in <IMG SRC="phreeqc3-342.gif" ALIGN="BASELINE">
+ after the time step, Dw is the tracer diffusion coefficient (m2/s), <IMG SRC="phreeqc3-340.png" ALIGN="MIDDLE">
+ is the time step (s), i is an adjacent cell, <IMG SRC="phreeqc3-341.png" ALIGN="MIDDLE">
+ is the porosity over the interface of cells i and j (unitless), Gij is the geometrical factor that corrects for tortuosity of the porous medium (unitless), hij is the distance between midpoints of the cells (m), Aij is the shared surface area of cells i and j (m2), Vj is the volume of cell j (m3), and fbc is a factor for boundary cells (unitless). The summation is for all cells (up to n) adjacent to j. When hij is equal for all cells, a central difference algorithm is obtained that has second-order accuracy [O(h)2] (Appelo and others, 2008). It is therefore advantageous to make the grid regular. However, the same accuracy is achievable for a heterogeneous domain, even with widely variable gridsize, if the harmonic mean of the parameters in <IMG SRC="phreeqc3-342.png" ALIGN="MIDDLE">
  is used. These parameters together, translate the tracer diffusion coefficient Dw into the effective diffusion coefficient De.</P>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1504179"></A>The harmonic mean can be derived in general (omitting the activity coefficient to simplify the formulas) as follows. The fluxes inside cells i and j and over the interface of the two cells must be the same and are given by:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515983_pgfId-1418095"></A><A NAME="50515983_78194"></A><IMG SRC="phreeqc3-343.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1418095"></A><A NAME="50515983_78194"></A><IMG SRC="phreeqc3-343.png" ALIGN="MIDDLE">
 ,	(45)</H3>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515983_pgfId-1418100"></A><A NAME="50515983_34933"></A><IMG SRC="phreeqc3-344.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1418100"></A><A NAME="50515983_34933"></A><IMG SRC="phreeqc3-344.png" ALIGN="MIDDLE">
 , and	(46)</H3>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515983_pgfId-1418105"></A><A NAME="50515983_77764"></A><IMG SRC="phreeqc3-345.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1418105"></A><A NAME="50515983_77764"></A><IMG SRC="phreeqc3-345.png" ALIGN="MIDDLE">
 ,	(47)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50515983_pgfId-1443041"></A>where h is the cell length (m), and cij is the concentration at the interface. Substituting <IMG SRC="phreeqc3-346.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1443041"></A>where h is the cell length (m), and cij is the concentration at the interface. Substituting <IMG SRC="phreeqc3-346.png" ALIGN="MIDDLE">
  = gi, in <A HREF="phreeqc3-76.htm#50515983_34933" CLASS="XRef">equation 46</A> and similarly in <A HREF="phreeqc3-76.htm#50515983_77764" CLASS="XRef">equation 47</A>, the two equations can be combined while eliminating the concentration cij to give:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515983_pgfId-1478346"></A><A NAME="50515983_79751"></A><IMG SRC="phreeqc3-347.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1478346"></A><A NAME="50515983_79751"></A><IMG SRC="phreeqc3-347.png" ALIGN="MIDDLE">
 .	(48)</H3>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1478348"></A>Multiplying the flux by the surface area, the time step, and the boundary factor, and dividing by the volume of the cell for which the concentration change is calculated (here, cell j), the mixing factor is obtained:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515983_pgfId-1442927"></A><A NAME="50515983_83544"></A><IMG SRC="phreeqc3-348.gif" ALIGN="BASELINE">
+<A NAME="50515983_pgfId-1442927"></A><A NAME="50515983_83544"></A><IMG SRC="phreeqc3-348.png" ALIGN="MIDDLE">
 ,	(49)</H3>
 <P CLASS="BodyTextFlush">
 <A NAME="50515983_pgfId-1470781"></A>where fbc is 2 for cells in contact with a constant concentration cell, and 1 otherwise. When calculating mixf, Vj is set to 10<Sup CLASS="Superscript">
@@ -1883,29 +1883,29 @@ j</EM>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1560877"></A>Three transport calculations with different tracers can be run with the input file (1) HTO, (2) 36Cl, and (3) 22Na and Cs together. To perform one of these three calculations, uncomment the appropriate line defining the tracer(s) in <A HREF="phreeqc3-41.htm#50515969_30253" CLASS="XRef">SOLUTION</A> 3. Note that the length of the Cs experiment is about 1,000 days compared to less than 50 days for the other experiments; consequently, the Cs calculation is 20 times longer than the others. </P>
 <P CLASS="BodyText">
-<A NAME="50515983_pgfId-1694822"></A>The results of the three calculations are shown in figures <A HREF="../examples.htm#50515983_82769" CLASS="XRef">See Mass outflow (red) and corresponding flux (green) by diffusion through the radial cell for (A) HTO, (B) 36Cl-, (C) 22Na+, and (D) Cs+. Lines are modeled; symbols indicate measured data.</A> and <A HREF="../examples.htm#50515983_75478" CLASS="XRef">See Concentration profiles in the filters and free pore water in the clay (blue), and total moles per kilogram water in the double-layer water in the clay (red) at the end of the calculations in the radial cell for (A) HTO, (B) 36Cl-, (C) 22Na+, and (D) Cs+. Vertical lines indicate the positions of the filters.</A>. As shown, the arrival times of the tracers that accumulate in the outer solution are delayed by the storage in pore water and the sorption on minerals in the clay. The delay increases in the order 36Cl- &lt; HTO &lt; 22Na+ &lt; Cs+ (fig..24). The total storage can be obtained from the graphs by extrapolating the straight-line segment of the accumulated mass to time zero (fig..24) and reading the value from the secondary Y-axis (a negative number, because mass is lost). The flux, the derivative of the mass with time, shows that the accumulation of HTO, and of Cs+ in particular, decreases during the experiment (fig..24) because the concentration is diminishing in the tracer solution. The volume of the solution with HTO, the first experiment performed, was relatively small (0.2 L) and insufficient to maintain a constant concentration for the inner solution. Sorption of Cs+ is so strong (more than 99.5 percent of Cs+ resides in the solid phase) that 1 L of inner solution simply contains insufficient mass to fill all the sorption sites on the clay. Figure 25 shows on the primary Y axis the concentration profile at the end of the diffusion periods, including concentrations in the inner filter, the free pore water of the clay, and the outer filter. The figure shows on the secondary Y axis the total moles, which includes moles sorbed and moles dissolved in free and double layer water, expressed per kilogram of total water. The two concentrations are the same for HTO (the concentration of HTO is the same in free and in double layer water), the free pore-water concentration of Cl- is twice the total concentration (the concentration of Cl- in the double layer is smaller than in free pore water), and the free pore-water concentrations of Na+, and particularly of Cs+, are smaller than the total concentrations because the cations have a higher concentration in the double layer than in free pore water, and because cations are sorbed on the surface and exchange sites.</P>
+<A NAME="50515983_pgfId-1694822"></A>The results of the three calculations are shown in figures <A HREF="../examples.htm#50515983_82769" CLASS="XRef">See Mass outflow (red) and corresponding flux (green) by diffusion through the radial cell for (A) HTO, (B) 36Cl-, (C) 22Na+, and (D) Cs+. Lines are modeled; symbols indicate measured data.</A> and <A HREF="../examples.htm#50515983_75478" CLASS="XRef">See Concentration profiles in the filters and free pore water in the clay (blue), and total moles per kilogram water in the double-layer water in the clay (red) at the end of the calculations in the radial cell for (A) HTO, (B) 36Cl-, (C) 22Na+, and (D) Cs+. Vertical lines indicate the positions of the filters.</A>. As shown, the arrival times of the tracers that accumulate in the outer solution are delayed by the storage in pore water and the sorption on minerals in the clay. The delay increases in the order 36Cl- &lt; HTO &lt; 22Na+ &lt; Cs+ (fig. 24). The total storage can be obtained from the graphs by extrapolating the straight-line segment of the accumulated mass to time zero (fig. 24) and reading the value from the secondary Y-axis (a negative number, because mass is lost). The flux, the derivative of the mass with time, shows that the accumulation of HTO, and of Cs+ in particular, decreases during the experiment (fig. 24) because the concentration is diminishing in the tracer solution. The volume of the solution with HTO, the first experiment performed, was relatively small (0.2 L) and insufficient to maintain a constant concentration for the inner solution. Sorption of Cs+ is so strong (more than 99.5 percent of Cs+ resides in the solid phase) that 1 L of inner solution simply contains insufficient mass to fill all the sorption sites on the clay. Figure 25 shows on the primary Y axis the concentration profile at the end of the diffusion periods, including concentrations in the inner filter, the free pore water of the clay, and the outer filter. The figure shows on the secondary Y axis the total moles, which includes moles sorbed and moles dissolved in free and double layer water, expressed per kilogram of total water. The two concentrations are the same for HTO (the concentration of HTO is the same in free and in double layer water), the free pore-water concentration of Cl- is twice the total concentration (the concentration of Cl- in the double layer is smaller than in free pore water), and the free pore-water concentrations of Na+, and particularly of Cs+, are smaller than the total concentrations because the cations have a higher concentration in the double layer than in free pore water, and because cations are sorbed on the surface and exchange sites.</P>
 <DIV>
 <MAP NAME="phreeqc3-349">
 </MAP>
-<IMG SRC="phreeqc3-349.gif" USEMAP="#phreeqc3-349">
+<IMG SRC="phreeqc3-349.png" style="width:65%" USEMAP="#phreeqc3-349">
 </DIV>
 <DIV>
 <MAP NAME="phreeqc3-350">
 </MAP>
-<IMG SRC="phreeqc3-350.gif" USEMAP="#phreeqc3-350">
+<IMG SRC="phreeqc3-350.png" style="width:65%" USEMAP="#phreeqc3-350">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50515983_pgfId-1694866"></A>The model simulates the experimental results very well (fig..24), except for Cs+. The calculated arrival time of Cs+ is almost 100 days later than observed and then the mass accumulates too slowly. This behavior of Cs+ has been found in many similar experiments. It has been modeled by increasing the diffusion coefficient and decreasing the sorption capacity for Cs+ relative to batch experiments; these adjustments can be easily incorporated in this example.</P>
+<A NAME="50515983_pgfId-1694866"></A>The model simulates the experimental results very well (fig. 24), except for Cs+. The calculated arrival time of Cs+ is almost 100 days later than observed and then the mass accumulates too slowly. This behavior of Cs+ has been found in many similar experiments. It has been modeled by increasing the diffusion coefficient and decreasing the sorption capacity for Cs+ relative to batch experiments; these adjustments can be easily incorporated in this example.</P>
 <Pre CLASS="ComputerInput10"><A NAME="50515983_pgfId-1694921"></A>The diffusion of Cs+ can be increased by setting interlayer diffusion to true in Line 430: </Pre>
 <Pre CLASS="ComputerInput10"><A NAME="50515983_pgfId-1694922"></A>  430  interlayer_D$ = 'true'  </Pre>
 <P CLASS="BodyTextFlush">
 <A NAME="50515983_pgfId-1694923"></A>(It is of interest to see the different effects of interlayer diffusion on 22Na+ and on Cs+.)</P>
 <P CLASS="BodyText">
-<A NAME="50515983_pgfId-1561190"></A>The results, shown in figure.26, illustrate that the arrival time of Cs+ can be matched by increasing diffusion, but that the mass accumulates too quickly. Another option for reducing the delay of the tracer arrival is to decrease the sorption of Cs+, either by decreasing the moles of surface and exchange sites or by decreasing the complexation constants, or both. By adjusting both the sorption and the diffusion coefficient, it may be possible to simulate the experimental data for Cs+. However, it remains difficult to explain why the sorption capacity is different between batch and diffusion experiments for Cs+, but not for the other cations. </P>
+<A NAME="50515983_pgfId-1561190"></A>The results, shown in figure 26, illustrate that the arrival time of Cs+ can be matched by increasing diffusion, but that the mass accumulates too quickly. Another option for reducing the delay of the tracer arrival is to decrease the sorption of Cs+, either by decreasing the moles of surface and exchange sites or by decreasing the complexation constants, or both. By adjusting both the sorption and the diffusion coefficient, it may be possible to simulate the experimental data for Cs+. However, it remains difficult to explain why the sorption capacity is different between batch and diffusion experiments for Cs+, but not for the other cations. </P>
 <DIV>
 <MAP NAME="phreeqc3-351">
 </MAP>
-<IMG SRC="phreeqc3-351.gif" USEMAP="#phreeqc3-351">
+<IMG SRC="phreeqc3-351.png" style="width:65%" USEMAP="#phreeqc3-351">
 </DIV>
 <P CLASS="BodyText">
 <A NAME="50515983_pgfId-1509938"></A>Alternatively, and in line with the heterogeneous distribution of Cs+ in the clay after the experiment, the relatively fast arrival time can be modeled with a dual-porosity structure in which the pore space is subdivided into continuous and stagnant pores that can exchange by diffusion. The continuous pores allow Cs+ to move more rapidly through the clay than is calculated for a homogeneous medium, depending on the proportion, the flow velocity, and the diffusional exchange with the stagnant pores. With <A HREF="phreeqc3-76.htm#50515983_83544" CLASS="XRef">equation 49</A>, and some effort, the dual-porosity structure can be introduced in the Basic program. Otherwise, the C program that is given as supplementary information in Appelo and others (2010) can be used. Similarly to the Basic program, the C program writes a complete PHREEQC input file for diffusion of Cs+, but in a dual porosity clay; in addition, the program permits distributing the surface and exchange sites differently between the stagnant and continuous pores.</P>
