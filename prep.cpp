@@ -5717,7 +5717,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	mu_terms_in_logk = false;
 	for (i = 0; i < count_s_x; i++)
 	{
-		if (s_x[i]->rxn_x->logk[vm_tc])
+		//if (s_x[i]->rxn_x->logk[vm_tc])
 		/* calculate delta_v for the reaction... */
 			s_x[i]->rxn_x->logk[delta_v] = calc_delta_v(s_x[i]->rxn_x, false);
 		if (tc == current_tc && s_x[i]->rxn_x->logk[delta_v] == 0)

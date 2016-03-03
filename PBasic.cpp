@@ -1529,6 +1529,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokrho:
 			output_msg("RHO");
 			break;
+		case tokrho_0:
+			output_msg("RHO_0");
+			break;
 /* VP: Density End */
 		case tokcell_volume:
 			output_msg("CELL_VOLUME");
@@ -3451,6 +3454,9 @@ factor(struct LOC_exec * LINK)
 /* VP : Density Start */
 	case tokrho:
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_dens();
+		break;
+	case tokrho_0:
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rho_0;
 		break;
 /* VP: Density End */
 	case tokcell_volume:
@@ -7118,7 +7124,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",                PBasic::tokrho_0)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

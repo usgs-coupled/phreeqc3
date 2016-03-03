@@ -2263,7 +2263,7 @@ print_totals(void)
 #endif
 	output_msg(sformatf("%45s%7.3f\n", "Activity of water  = ",
 			   exp(s_h2o->la * LOG_10)));
-	output_msg(sformatf("%45s%11.3e\n", "Ionic strength  = ",
+	output_msg(sformatf("%45s%11.3e\n", "Ionic strength (mol/kgw)  = ",
 			   (double) mu_x));
 	output_msg(sformatf("%45s%11.3e\n", "Mass of water (kg)  = ",
 			   (double) mass_water_aq_x));
