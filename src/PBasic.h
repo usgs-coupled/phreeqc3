@@ -279,6 +279,7 @@ public:
 		tokgamma,
 		toklg,
 		tokrho,
+		tokrho_0,
 		tokcell_volume,
 		tokcell_pore_volume,
 		tokcell_porosity,
