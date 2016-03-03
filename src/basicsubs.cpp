@@ -486,7 +486,7 @@ calc_logk_s(const char *name)
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
-		//if (s_ptr->logk[vm_tc])
+		if (s_ptr->logk[vm_tc])
 		/* calculate delta_v for the reaction... */
 			s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
 		for (i = 0; i < MAX_LOG_K_INDICES; i++)
