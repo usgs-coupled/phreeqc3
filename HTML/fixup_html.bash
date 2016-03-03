@@ -39,7 +39,7 @@ echo                     Done Figure.
 for i in *.htm;  
 do
 	echo $i
-	sed 's/USEMAP/style="width:65%" USEMAP/g' $i > t
+	sed 's/png" USEMAP/png" style="width:65%" USEMAP/g' $i > t
 	mv t $i
 done
 echo                     Done USEMAP	
