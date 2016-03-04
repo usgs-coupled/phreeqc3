@@ -1,7 +1,5 @@
 #include "Phreeqc.h"
-#ifdef PHREEQC_PARALLEL
-#include "Parallelizer.h"
-#endif
+
 #include "NameDouble.h"
 #include "Solution.h"
 #include "Reaction.h"
@@ -13,7 +11,6 @@
 #include "cxxKinetics.h"
 //#include <sys/signal.h>
 //#include <fenv.h>
-
 /* ----------------------------------------------------------------------
  *   MAIN
  * ---------------------------------------------------------------------- */
@@ -48,7 +45,7 @@ main(int argc, char *argv[])
 	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
 	///tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;
 	_CrtSetDbgFlag(tmpDbgFlag);
-	//_crtBreakAlloc = 185092;
+	//_crtBreakAlloc = 31195;
 #endif
 #ifdef SKIP
 //Set the x86 floating-point control word according to what
@@ -72,11 +69,8 @@ unsigned int cwOriginal = _controlfp(cw, MCW_EM); //Set it.
                             //Restore the original value when done:
                             //_controlfp(cwOriginal, MCW_EM);
 #endif
-
 	Phreeqc phreeqc_instance;
-	int return_value =  phreeqc_instance.main_method(argc, argv);
-
-	return return_value;
+	return phreeqc_instance.main_method(argc, argv);
 }
 //#define TEST_COPY
 #ifdef TEST_COPY
@@ -337,7 +331,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
  *   Prepare error handling
  */
 	try {
-		if (phrq_io == NULL)
+		if (phrq_io == NULL) 
 		{
 			std::cerr << "No PHRQ_io output handler defined in process_file_names" << "\n";
 		}
@@ -447,7 +441,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 			error_string = sformatf( "Error opening file, %s.", in_file);
 			error_msg(error_string, STOP);
 		}
-
+		
 /*
  *   Open data base
  */
@@ -508,7 +502,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		/*
 		*   local cleanup
 		*/
-		//user_database = (char *) free_check_null(user_database);
+		user_database = (char *) free_check_null(user_database);
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 
@@ -538,7 +532,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
  *   Prepare error handling
  */
 	try {
-		if (phrq_io == NULL)
+		if (phrq_io == NULL) 
 		{
 			std::cerr << "No PHRQ_io output handler defined in process_file_names" << "\n";
 		}
@@ -647,7 +641,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 			error_string = sformatf( "Error opening file, %s.", in_file);
 			error_msg(error_string, STOP);
 		}
-
+		
 /*
  *   Open data base
  */
@@ -747,7 +741,11 @@ open_input_stream(char *query, char *default_name, std::ios_base::openmode mode,
 			{
 				screen_msg(sformatf("Default: %s\n", default_name));
 			}
-			fgets(name, MAX_LENGTH, stdin);
+			char *s_ptr = fgets(name, MAX_LENGTH, stdin);
+			if (s_ptr == NULL)
+			{
+			    std::cerr << "Failed defining name." << std::endl;
+			}
 			l = (int) strlen(name);
 			name[l - 1] = '\0';
 			if (name[0] == '\0')
@@ -774,7 +772,7 @@ open_input_stream(char *query, char *default_name, std::ios_base::openmode mode,
 #endif
 			error_flush();
 			batch = FALSE;
-			continue;
+			continue;		
 		}
 		break;
 	}
@@ -803,7 +801,7 @@ open_output_stream(char *query, char *default_name, std::ios_base::openmode mode
 #else
 	FILE * error_file_save = phrq_io->Get_error_file();
 #endif
-
+	
 	for (;;)
 	{
 /*
@@ -817,13 +815,17 @@ open_output_stream(char *query, char *default_name, std::ios_base::openmode mode
 #else
 			phrq_io->Set_error_file(stderr);
 #endif
-
+			
 			screen_msg(sformatf("%s\n", query));
 			if (default_name[0] != '\0')
 			{
 				screen_msg(sformatf("Default: %s\n", default_name));
 			}
-			fgets(name, MAX_LENGTH, stdin);
+			char *s_ptr = fgets(name, MAX_LENGTH, stdin);
+			if (s_ptr == NULL)
+			{
+			    std::cerr << "Failed defining name." << std::endl;
+			}
 			l = (int) strlen(name);
 			name[l - 1] = '\0';
 			if (name[0] == '\0')
@@ -846,7 +848,7 @@ open_output_stream(char *query, char *default_name, std::ios_base::openmode mode
 			screen_msg(error_string);
 			error_flush();
 			batch = FALSE;
-			continue;
+			continue;		
 		}
 		break;
 	}
@@ -875,7 +877,7 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 #else
 		FILE * error_file_save = phrq_io->Get_error_file();
 #endif
-
+	
 
 	for (;;)
 	{
@@ -895,7 +897,11 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 			{
 				screen_msg(sformatf("Default: %s\n", default_name));
 			}
-			fgets(name, MAX_LENGTH, stdin);
+			char *s_ptr = fgets(name, MAX_LENGTH, stdin);
+			if (s_ptr == NULL)
+			{
+			    std::cerr << "Failed defining name." << std::endl;
+			}
 			l = (int) strlen(name);
 			name[l - 1] = '\0';
 			if (name[0] == '\0')
@@ -918,7 +924,7 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 			screen_msg(error_string);
 			error_flush();
 			batch = FALSE;
-			continue;
+			continue;		
 		}
 		break;
 	}
@@ -934,4 +940,3 @@ open_output_file(char *query, char *default_name, std::ios_base::openmode mode, 
 	return (new_stream);
 }
 #endif
-

@@ -3815,10 +3815,10 @@ tidy_min_surface(void)
 		}
 		cxxSurface *surface_ptr = &(kit->second);
 		if (!surface_ptr->Get_new_def()) continue;
-		//if (!surface_ptr->Get_new_def())
-		//	continue;
-		//if (surface_ptr->Get_n_user() < 0)
-		//	continue;
+		if (!surface_ptr->Get_new_def())
+			continue;
+		if (surface_ptr->Get_n_user() < 0)
+			continue;
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
 			cxxSurfaceComp *surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
@@ -3917,8 +3917,15 @@ tidy_min_surface(void)
 				free_check_null(temp_formula);
 			}
 			{
-				cxxNameDouble nd = elt_list_NameDouble();
-				surface_comp_ptr->Set_totals(nd);
+				if (surface_ptr->Get_new_def())
+				{
+					cxxNameDouble nd = elt_list_NameDouble();
+					surface_comp_ptr->Set_totals(nd);
+				}
+				else
+				{
+					surface_comp_ptr->Get_totals()[surface_comp_ptr->Get_master_element()] = conc;
+				}
 			}
 
 			/* area */
@@ -3938,40 +3945,6 @@ tidy_min_surface(void)
 				get_elts_in_species(&ptr, 1.0);
 				free_check_null(temp_formula);
 			}
-#ifdef SKIP
-			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
-			{
-				cxxSurfaceComp *comp_jj_ptr = &(surface_ptr->Get_surface_comps()[jj]);
-					continue;
-				if (surface_ptr->Get_type() == cxxSurface::CD_MUSIC)
-				{
-					char * temp_formula = string_duplicate(comp_jj_ptr->Get_formula().c_str());
-					char *ptr = temp_formula;
-					get_elts_in_species(&ptr,
-										-comp_jj_ptr->Get_phase_proportion());
-					free_check_null(temp_formula);
-				}
-				else
-				{
-					struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
-					if (elt_ptr->master->s->z != 0.0)
-					{
-						input_error++;
-						error_string = sformatf(
-								"Master species of surface, %s, must be uncharged if the number of sites is related to a phase.",
-								elt_ptr->master->s->name);
-						error_msg(error_string, CONTINUE);
-					}
-					{
-						char * temp_name = string_duplicate(elt_ptr->master->s->name);
-						char *ptr = temp_name;
-						get_elts_in_species(&ptr,
-										-comp_jj_ptr->Get_phase_proportion());
-						free_check_null(temp_name);
-					}
-				}
-			}
-#endif
 			// Revise logic for surface related to mineral
 			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
 			{
@@ -3988,13 +3961,28 @@ tidy_min_surface(void)
 
 						// Warn if not master species and charge balanced
 						struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
+						if (elt_ptr->master == NULL)
+						{
+							input_error++;
+							error_string = sformatf("Unknown element definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
+								surface_ptr->Get_n_user());
+							error_msg(error_string);
+							continue;
+						}
+						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name == NULL)
+						{
+							input_error++;
+							error_string = sformatf("Unknown master species definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
+								surface_ptr->Get_n_user());
+							error_msg(error_string);
+							continue;
+						}
 						if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
 						{
 							error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
 								elt_ptr->master->s->name);
 							warning_msg(error_string);
 						}
-						else
 						if (elt_ptr->master->s->z != 0.0)
 						{
 							error_string = sformatf(
@@ -4071,10 +4059,10 @@ tidy_kin_surface(void)
 			assert(false);
 		}
 		cxxSurface *surface_ptr = &(it->second);
-		//if (!surface_ptr->Get_new_def())
-		//	continue;
-		//if (surface_ptr->Get_n_user() < 0)
-		//	continue;
+		if (!surface_ptr->Get_new_def())
+			continue;
+		if (surface_ptr->Get_n_user() < 0)
+			continue;
 		int n = surface_ptr->Get_n_user();
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
@@ -4161,8 +4149,15 @@ tidy_kin_surface(void)
 				free_check_null(temp_formula);
 			}
 			{
-				cxxNameDouble nd = elt_list_NameDouble();
-				comp_ptr->Set_totals(nd);
+				if (surface_ptr->Get_new_def())
+				{
+					cxxNameDouble nd = elt_list_NameDouble();
+					comp_ptr->Set_totals(nd);
+				}
+				else
+				{
+					comp_ptr->Get_totals()[comp_ptr->Get_master_element()] = conc;
+				}
 			}
 
 			/* area */
@@ -4946,6 +4941,15 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 
 	tol = 1e-6;
 	rt = ss_ptr->Get_tk() * R_KJ_DEG_MOL;
+	if (ss_ptr->Get_ss_comps().size() < 2)
+	{
+		input_error++;
+		error_string = sformatf(
+				"Two components not defined for solid solution ",
+				ss_ptr->Get_name().c_str());
+		error_msg(error_string, CONTINUE);
+		return (ERROR);
+	}
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	int k;

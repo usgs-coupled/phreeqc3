@@ -3576,7 +3576,6 @@ factor(struct LOC_exec * LINK)
 			//}
 		}
 		break;
-
 	case toksin:
 		n.UU.val = sin(realfactor(LINK));
 		break;
@@ -3826,7 +3825,7 @@ factor(struct LOC_exec * LINK)
  			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_c(str);
 		}
 		break;
-	
+			
 	case toksetdiff_c:
 		{
 			double d;

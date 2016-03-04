@@ -1288,7 +1288,7 @@ pitzer(void)
 			pap = 0;
 		else
 			pap = (9.65e-10 * pow(TK - 263.0, 2.773)) * pow(patm_x, 0.623);
-		//pap = (-5.22e-4 + 7.19e-8 * pow(TK - 263.0, 2.0)) * pow(patm_x, 0.623);
+			//pap = (-5.22e-4 + 7.19e-8 * pow(TK - 263.0, 2.0)) * pow(patm_x, 0.623);
 		B2 = B - (pap > 0.2 ? 0.2 : pap);
 		if (B1 != 0)
 			F1 = -A0 * (DI / (1.0 + B1 * DI) + 2.0 * log(1.0 + B1 * DI) / B1);

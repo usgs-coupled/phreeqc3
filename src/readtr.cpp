@@ -21,19 +21,19 @@ int Phreeqc::
 read_transport(void)
 /* ---------------------------------------------------------------------- */
 {
-	/*
-	*      Reads advection and column information
-	*
-	*      Arguments:
-	*         none
-	*
-	*      Returns:
-	*         KEYWORD if keyword encountered, input_error may be incremented if
-	*                    a keyword is encountered in an unexpected position
-	*         EOF     if eof encountered while reading mass balance concentrations
-	*         ERROR   if error occurred reading data
-	*
-	*/
+/*
+ *      Reads advection and column information
+ *
+ *      Arguments:
+ *         none
+ *
+ *      Returns:
+ *         KEYWORD if keyword encountered, input_error may be incremented if
+ *                    a keyword is encountered in an unexpected position
+ *         EOF     if eof encountered while reading mass balance concentrations
+ *         ERROR   if error occurred reading data
+ *
+ */
 	char *ptr;
 	int i, j, l;
 	int count_length, count_disp, count_punch, count_print, count_por;
@@ -96,9 +96,9 @@ read_transport(void)
 	int count_opt_list = 44;
 
 	strcpy(file_name, "phreeqc.dmp");
-	/*
-	*   Initialize
-	*/
+/*
+ *   Initialize
+ */
 	simul_tr++;
 	if (simul_tr == 1)
 	{
@@ -111,7 +111,7 @@ read_transport(void)
 		old_cells = count_cells;
 	count_length = count_disp = count_punch = count_print = count_por = 0;
 
-	length = (LDBLE *)PHRQ_malloc(sizeof(LDBLE));
+	length = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
 	if (length == NULL)
 		malloc_error();
 
@@ -127,25 +127,25 @@ read_transport(void)
 	if (punch_temp == NULL)
 		malloc_error();
 
-	print_temp = (int *)PHRQ_malloc(sizeof(int));
+	print_temp = (int *) PHRQ_malloc(sizeof(int));
 	if (print_temp == NULL)
 		malloc_error();
 
 	count_length_alloc = count_disp_alloc = count_por_alloc = 1;
 	transport_start = 1;
-	/*
-	*   Read transport number (not currently used)
-	*/
+/*
+ *   Read transport number (not currently used)
+ */
 	ptr = line;
 	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *)free_check_null(description);
-	/*
-	*   Set use data to last read
-	*/
+	description = (char *) free_check_null(description);
+/*
+ *   Set use data to last read
+ */
 	use.Set_trans_in(true);
-	/*
-	*   Read lines
-	*/
+/*
+ *   Read lines
+ */
 	opt_save = OPTION_DEFAULT;
 	return_value = UNKNOWN;
 	for (;;)
@@ -190,7 +190,7 @@ read_transport(void)
 					input_error++;
 					error_msg
 						("Expected shift direction, -1, 0, 1. Use -direction instead.",
-						CONTINUE);
+						 CONTINUE);
 					ishift = 1;
 				}
 			}
@@ -200,7 +200,7 @@ read_transport(void)
 		case 20:				/* print_cells */
 			print_temp =
 				read_list_ints_range(&next_char, &count_print, FALSE,
-				print_temp);
+									 print_temp);
 			opt_save = 2;
 			break;
 		case 3:				/* selected_output */
@@ -211,7 +211,7 @@ read_transport(void)
 			if (punch_modulus <= 0)
 			{
 				error_string = sformatf(
-					"Punch frequency must be greater than 0. Frequency set to 1000.");
+						"Punch frequency must be greater than 0. Frequency set to 1000.");
 				warning_msg(error_string);
 				punch_modulus = 1000;
 			}
@@ -231,7 +231,7 @@ read_transport(void)
 					input_error++;
 					error_msg
 						("Expected boundary condition to be 'constant' (1), 'closed' (2) , or 'flux' (3).",
-						CONTINUE);
+						 CONTINUE);
 				}
 			}
 			else if (i == EMPTY)
@@ -247,7 +247,7 @@ read_transport(void)
 				input_error++;
 				error_msg
 					("Expected boundary condition to be 'constant', 'closed', or 'flux'.",
-					CONTINUE);
+					 CONTINUE);
 			}
 
 			/* last cell boundary condition */
@@ -261,7 +261,7 @@ read_transport(void)
 					input_error++;
 					error_msg
 						("Expected boundary condition to be 'constant' (1), 'closed' (2) , or 'flux' (3).",
-						CONTINUE);
+						 CONTINUE);
 				}
 			}
 			else if (i == EMPTY)
@@ -277,7 +277,7 @@ read_transport(void)
 				input_error++;
 				error_msg
 					("Expected boundary condition to be 'constant', 'closed', or 'flux'.",
-					CONTINUE);
+					 CONTINUE);
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -304,7 +304,7 @@ read_transport(void)
 			{
 				mcd_substeps = 1.0;
 				warning_msg("Substep factor in MCD must be >= 1.0\n"
-					"mcd_substeps = 1.0 assumed.");
+							"mcd_substeps = 1.0 assumed.");
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -324,7 +324,7 @@ read_transport(void)
 				tempr = 1;
 				warning_msg
 					("Temperature retardation factor < 1 is not possible.\n"
-					"Temperature retardation factor = 1 assumed.");
+					 "Temperature retardation factor = 1 assumed.");
 			}
 			j = copy_token(token, &next_char, &l);
 			if (j == DIGIT)
@@ -335,11 +335,11 @@ read_transport(void)
 		case 24:				/* lengths */
 			if (read_line_LDBLEs
 				(next_char, &length, &count_length,
-				&count_length_alloc) == ERROR)
+				 &count_length_alloc) == ERROR)
 			{
 				input_error++;
 				error_msg("Reading lengths in TRANSPORT keyword.\n",
-					CONTINUE);
+						  CONTINUE);
 			}
 			opt_save = 8;
 			break;
@@ -351,7 +351,7 @@ read_transport(void)
 			{
 				input_error++;
 				error_msg("Reading dispersivities in TRANSPORT keyword.\n",
-					CONTINUE);
+						  CONTINUE);
 			}
 			opt_save = 9;
 			break;
@@ -360,7 +360,7 @@ read_transport(void)
 		case 30:				/* punch_cells */
 			punch_temp =
 				read_list_ints_range(&next_char, &count_punch, FALSE,
-				punch_temp);
+									 punch_temp);
 			opt_save = 10;
 			break;
 		case 11:				/* stagnant */
@@ -371,7 +371,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expecting number of stagnant layers.");
+							"Expecting number of stagnant layers.");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -384,7 +384,7 @@ read_transport(void)
 					{
 						input_error++;
 						error_string = sformatf(
-							"Expecting exchange factor for stagnant layers.");
+								"Expecting exchange factor for stagnant layers.");
 						error_msg(error_string, CONTINUE);
 						break;
 					}
@@ -393,7 +393,7 @@ read_transport(void)
 					{
 						input_error++;
 						error_string = sformatf(
-							"Expecting porosity in the mobile zone.");
+								"Expecting porosity in the mobile zone.");
 						error_msg(error_string, CONTINUE);
 						break;
 					}
@@ -402,7 +402,7 @@ read_transport(void)
 					{
 						input_error++;
 						error_string = sformatf(
-							"Expecting porosity in the immobile zone.");
+								"Expecting porosity in the immobile zone.");
 						error_msg(error_string, CONTINUE);
 						break;
 					}
@@ -428,7 +428,7 @@ read_transport(void)
 				input_error++;
 				error_msg
 					("Expected flow direction to be 'forward', 'back', or 'no_flow'.",
-					CONTINUE);
+					 CONTINUE);
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -452,7 +452,7 @@ read_transport(void)
 			if (print_modulus <= 0)
 			{
 				error_string = sformatf(
-					"Print frequency must be greater than 0. Frequency set to 1000.");
+						"Print frequency must be greater than 0. Frequency set to 1000.");
 				warning_msg(error_string);
 				print_modulus = 1000;
 			}
@@ -513,7 +513,7 @@ read_transport(void)
 				input_error++;
 				error_msg
 					("Expected multicomponent diffusion flag: 'true' or 'false'.",
-					CONTINUE);
+					 CONTINUE);
 			}
 			default_Dw = 1e-9;
 			multi_Dpor = 0.3;
@@ -528,7 +528,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expected default species diffusion coefficient in water at 25oC, m2/s.");
+							"Expected default species diffusion coefficient in water at 25oC, m2/s.");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -542,7 +542,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expected porosity to calculate diffusion coefficient.");
+							"Expected porosity to calculate diffusion coefficient.");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -556,7 +556,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expected porosity limit for diffusive transport.");
+							"Expected porosity limit for diffusive transport.");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -569,7 +569,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expected exponent for porosity reduction of diffusion coefficient (Dp = Dw * (por)^n).");
+							"Expected exponent for porosity reduction of diffusion coefficient (Dp = Dw * (por)^n).");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -588,7 +588,7 @@ read_transport(void)
 				input_error++;
 				error_msg
 					("Expected interlayer diffusion flag: 'true' or 'false'.",
-					CONTINUE);
+					 CONTINUE);
 			}
 			interlayer_Dpor = 0.1;
 			interlayer_Dpor_lim = 0.0;
@@ -601,7 +601,7 @@ read_transport(void)
 				if (sscanf(token, SCANFORMAT, &interlayer_Dpor) != 1)
 				{
 					input_error++;
-					error_string = sformatf("Expected interlayer porosity.");
+					error_string = sformatf( "Expected interlayer porosity.");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -615,7 +615,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expected interlayer porosity limit for diffusive transport.");
+							"Expected interlayer porosity limit for diffusive transport.");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -628,7 +628,7 @@ read_transport(void)
 				{
 					input_error++;
 					error_string = sformatf(
-						"Expected interlayer tortuosity factor (Dp = Dw /t_f).");
+							"Expected interlayer tortuosity factor (Dp = Dw /t_f).");
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -651,9 +651,9 @@ read_transport(void)
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
 	}
-	/*
-	*   Determine number of cells
-	*/
+/*
+ *   Determine number of cells
+ */
 	max_cells = count_cells;
 	if (count_length > max_cells)
 		max_cells = count_length;
@@ -666,8 +666,8 @@ read_transport(void)
 		if (max_cells == count_length)
 		{
 			sprintf(token,
-				"Number of cells is increased to number of 'lengths' %d.",
-				count_length);
+					"Number of cells is increased to number of 'lengths' %d.",
+					count_length);
 			warning_msg(token);
 		}
 		else if (max_cells == count_disp)
@@ -685,9 +685,9 @@ read_transport(void)
 		//	warning_msg(token);
 		//}
 	}
-	/*
-	*   Allocate space for cell_data
-	*/
+/*
+ *   Allocate space for cell_data
+ */
 	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
 	space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells,
 		sizeof(struct cell_data));
@@ -701,7 +701,7 @@ read_transport(void)
 			cell_data[i].mid_cell_x = 1.0;
 			cell_data[i].disp = 1.0;
 			cell_data[i].temp = 25.0;
-			cell_data[i].por = 0.3;
+			cell_data[i].por = 0.3;   
 			cell_data[i].por_il = 0.01;
 			cell_data[i].potV = 0;
 			cell_data[i].punch = FALSE;
@@ -710,15 +710,15 @@ read_transport(void)
 		all_cells = all_cells_now;
 	}
 
-	/*
-	*   Fill in data for lengths
-	*/
+/*
+ *   Fill in data for lengths
+ */
 	if (count_length == 0)
 	{
 		if (old_cells < max_cells)
 		{
 			error_string = sformatf(
-				"No cell-lengths were read; length = 1 m assumed.");
+					"No cell-lengths were read; length = 1 m assumed.");
 			warning_msg(error_string);
 			for (i = 1; i <= max_cells; i++)
 				cell_data[i].length = 1.0;
@@ -733,8 +733,8 @@ read_transport(void)
 		if (max_cells > count_length)
 		{
 			error_string = sformatf(
-				"Cell-lengths were read for %d cells. Last value is used till cell %d.",
-				count_length, max_cells);
+					"Cell-lengths were read for %d cells. Last value is used till cell %d.",
+					count_length, max_cells);
 			warning_msg(error_string);
 			for (i = count_length; i <= max_cells; i++)
 				cell_data[i + 1].length = length[count_length - 1];
@@ -749,9 +749,9 @@ read_transport(void)
 	}
 	cell_data[max_cells + 1].mid_cell_x =
 		cell_data[max_cells].mid_cell_x + cell_data[max_cells].length / 2;
-	/*
-	*   Fill in data for dispersivities
-	*/
+/*
+ *   Fill in data for dispersivities
+ */
 	if (count_disp == 0)
 	{
 		if (old_cells < max_cells)
@@ -777,9 +777,9 @@ read_transport(void)
 				cell_data[i + 1].disp = disp[count_disp - 1];
 		}
 	}
-	/*
-	*   Fill in data for porosities
-	*/
+/*
+ *   Fill in data for porosities
+ */
 	if (count_por == 0)
 	{
 		if (old_cells < all_cells && multi_Dflag)
@@ -838,9 +838,9 @@ read_transport(void)
 		cell_data[i].por_il = interlayer_Dpor;
 	}
 	count_cells = max_cells;
-	/*
-	*  Account for stagnant cells
-	*/
+/*
+ *  Account for stagnant cells
+ */
 	if (stag_data->count_stag > 0)
 	{
 		max_cells = count_cells * (1 + stag_data->count_stag) + 2;
@@ -848,12 +848,12 @@ read_transport(void)
 		{
 			for (l = 1; l <= stag_data->count_stag; l++)
 				cell_data[i + 1 + l * count_cells].mid_cell_x =
-				cell_data[i].mid_cell_x;
+					cell_data[i].mid_cell_x;
 		}
 	}
-	/*
-	*   Fill in data for punch
-	*/
+/*
+ *   Fill in data for punch
+ */
 	if (count_punch != 0)
 	{
 		for (i = 0; i < all_cells; i++)
@@ -863,8 +863,8 @@ read_transport(void)
 			if (punch_temp[i] > all_cells - 1 || punch_temp[i] < 0)
 			{
 				error_string = sformatf(
-					"Cell number for punch is out of range, %d. Request ignored.",
-					punch_temp[i]);
+						"Cell number for punch is out of range, %d. Request ignored.",
+						punch_temp[i]);
 				warning_msg(error_string);
 			}
 			else
@@ -874,9 +874,9 @@ read_transport(void)
 	else if (simul_tr == 1)
 		for (i = 1; i < all_cells; i++)
 			cell_data[i].punch = TRUE;
-	/*
-	*   Fill in data for print
-	*/
+/*
+ *   Fill in data for print
+ */
 	if (count_print != 0)
 	{
 		for (i = 0; i < all_cells; i++)
@@ -886,8 +886,8 @@ read_transport(void)
 			if (print_temp[i] > all_cells - 1 || print_temp[i] < 0)
 			{
 				error_string = sformatf(
-					"Cell number for print is out of range, %d. Request ignored.",
-					print_temp[i]);
+						"Cell number for print is out of range, %d. Request ignored.",
+						print_temp[i]);
 				warning_msg(error_string);
 			}
 			else
@@ -897,9 +897,40 @@ read_transport(void)
 	else if (simul_tr == 1)
 		for (i = 1; i < all_cells; i++)
 			cell_data[i].print = TRUE;
+//#define OLD_POROSITY
+#if defined(OLD_POROSITY)
 /*
-	*   Calculate dump_modulus
-	*/
+ *   Fill in porosities
+ */
+	if (interlayer_Dflag && !multi_Dflag)
+	{
+		input_error++;
+		error_string = sformatf(
+				"-multi_D must be defined, when -interlayer_D true.");
+		error_msg(error_string, CONTINUE);
+
+	}
+	for (i = 0; i < max_cells; i++)
+	{
+		multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);    //Fix for Jenkins !!!!!!!!!!!!
+		//if (cell_data[i].por < 0)
+		{
+			cell_data[i].por = multi_Dpor;                         //Fix for Jenkins !!!!!!!!!!!!
+		}
+		interlayer_Dpor = (interlayer_Dpor < 1e-10 ? 1e-10 : interlayer_Dpor);
+		cell_data[i].por_il = interlayer_Dpor;
+	}
+#endif
+	//{
+	//	for (int i = 0; i < all_cells; i++)
+	//	{
+	//		std::cerr << i << "  " << cell_data[i].por << std::endl;
+	//	}
+	//}
+	
+/*
+ *   Calculate dump_modulus
+ */
 	if (dump_in == TRUE)
 	{
 		if (dump_modulus == 0)
@@ -914,14 +945,14 @@ read_transport(void)
 		{
 			input_error++;
 			error_string = sformatf(
-				"Starting shift for transport, %d, is greater than number of shifts, %d.",
-				transport_start, count_shifts);
+					"Starting shift for transport, %d, is greater than number of shifts, %d.",
+					transport_start, count_shifts);
 			error_msg(error_string, CONTINUE);
 		}
 	}
-	/*
-	*  Check boundary conditions
-	*/
+/*
+ *  Check boundary conditions
+ */
 	if ((ishift != 0) && ((bcon_first == 2) || (bcon_last == 2)))
 	{
 		warning_msg
@@ -931,17 +962,17 @@ read_transport(void)
 		if (bcon_last == 2)
 			bcon_last = 3;
 	}
-	/*
-	*  Retain data from previous run
-	*/
+/*
+ *  Retain data from previous run
+ */
 	if (simul_tr > 1)
 	{
 		if ((count_length == 0) && (count_disp == 0) && (count_por == 0))
 			dup_print("Column data retained from former run", TRUE);
 	}
-	/*
-	*  Check heat_diffc
-	*/
+/*
+ *  Check heat_diffc
+ */
 	if (heat_diffc < 0)
 		heat_diffc = diffc;
 	else if (stag_data->count_stag == 1)
@@ -952,14 +983,14 @@ read_transport(void)
 			{
 				input_error++;
 				error_string = sformatf(
-					"Must enter diffusion coefficient (-diffc) when modeling thermal diffusion.");
+						"Must enter diffusion coefficient (-diffc) when modeling thermal diffusion.");
 				error_msg(error_string, CONTINUE);
 			}
 			else if (heat_diffc > diffc)
 			{
 				error_string = sformatf(
-					"Thermal diffusion is calculated assuming exchange factor was for\n\t effective (non-thermal) diffusion coefficient = %e.",
-					(double)diffc);
+						"Thermal diffusion is calculated assuming exchange factor was for\n\t effective (non-thermal) diffusion coefficient = %e.",
+						(double) diffc);
 				warning_msg(error_string);
 			}
 		}
@@ -969,7 +1000,7 @@ read_transport(void)
 			{
 				input_error++;
 				error_string = sformatf(
-					"Must enter value for mobile/stagnant exchange factor when modeling thermal diffusion.");
+						"Must enter value for mobile/stagnant exchange factor when modeling thermal diffusion.");
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -978,17 +1009,17 @@ read_transport(void)
 	{
 		input_error++;
 		error_string = sformatf(
-			"Only one stagnant layer permitted (-stag) when modeling thermal diffusion.");
+				"Only one stagnant layer permitted (-stag) when modeling thermal diffusion.");
 		error_msg(error_string, CONTINUE);
 	}
-	/*
-	*   free storage for length, disp, punch
-	*/
-	length = (LDBLE *)free_check_null(length);
-	disp = (LDBLE *)free_check_null(disp);
-	pors = (LDBLE *)free_check_null(pors);
-	punch_temp = (int *)free_check_null(punch_temp);
-	print_temp = (int *)free_check_null(print_temp);
+/*
+ *   free storage for length, disp, punch
+ */
+	length = (LDBLE *) free_check_null(length);
+	disp = (LDBLE *) free_check_null(disp);
+	pors = (LDBLE *) free_check_null(pors);
+	punch_temp = (int *) free_check_null(punch_temp);
+	print_temp = (int *) free_check_null(print_temp);
 
 	if (dump_in == TRUE)
 	{
@@ -1048,9 +1079,9 @@ int Phreeqc::
 dump_cpp(void)
 /* ---------------------------------------------------------------------- */
 {
-	/*
-	* dumps solution compositions to file
-	*/
+/*
+ * dumps solution compositions to file
+ */
 
 	int l;
 
@@ -1063,26 +1094,26 @@ dump_cpp(void)
 	std::ofstream fs(dump_file_name_cpp.c_str());
 	if (!fs.is_open())
 	{
-		error_string = sformatf("Can`t open file, %s.", dump_file_name_cpp.c_str());
+		error_string = sformatf( "Can`t open file, %s.", dump_file_name_cpp.c_str());
 		input_error++;
 		error_msg(error_string, CONTINUE);
 		return (OK);
 	}
-
+	
 	fs << "# Dumpfile" << "\n" << "# Transport simulation " << simul_tr << "  Shift " << transport_step << "\n" << "#" << "\n";
 	phreeqcBin.dump_raw(fs, 0);
 	fs << "END" << "\n";
 
 	char token[MAX_LENGTH];
 	sprintf(token, "KNOBS\n");
-	fs << token;
+	fs << token; 
 	sprintf(token, "\t-iter%15d\n", itmax);
+	fs << token; 
+	sprintf(token, "\t-tol %15.3e\n", (double) ineq_tol);
+	fs << token; 
+	sprintf(token, "\t-step%15.3e\n", (double) step_size);
 	fs << token;
-	sprintf(token, "\t-tol %15.3e\n", (double)ineq_tol);
-	fs << token;
-	sprintf(token, "\t-step%15.3e\n", (double)step_size);
-	fs << token;
-	sprintf(token, "\t-pe_s%15.3e\n", (double)pe_step_size);
+	sprintf(token, "\t-pe_s%15.3e\n", (double) pe_step_size);
 	fs << token;
 	sprintf(token, "\t-diag      ");
 	fs << token;
@@ -1097,12 +1128,12 @@ dump_cpp(void)
 		fs << token;
 	}
 	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin();
-	for (; so_it != SelectedOutput_map.end(); so_it++)
+	for ( ; so_it != SelectedOutput_map.end(); so_it++)
 	{
 		current_selected_output = &(so_it->second);
 
 		sprintf(token, "SELECTED_OUTPUT %d\n", current_selected_output->Get_n_user());
-		fs << token;
+		fs << token ;
 		//sprintf(token, "\t-file  %-15s\n", "sel_o$$$.prn");
 		//fs << token;
 		fs << "\t-file  " << "sel_o$$$" << current_selected_output->Get_n_user() << ".prn\n";
@@ -1217,19 +1248,19 @@ dump_cpp(void)
 	fs << token;
 	sprintf(token, "\t-bcon  %6d%6d\n", bcon_first, bcon_last);
 	fs << token;
-	sprintf(token, "\t-timest %13.5e\n", (double)timest);
+	sprintf(token, "\t-timest %13.5e\n", (double) timest);
 	fs << token;
 	if (!high_precision)
 	{
-		sprintf(token, "\t-diffc  %13.5e\n", (double)diffc);
+		sprintf(token, "\t-diffc  %13.5e\n", (double) diffc);
 		fs << token;
 	}
 	else
 	{
-		sprintf(token, "\t-diffc  %20.12e\n", (double)diffc);
+		sprintf(token, "\t-diffc  %20.12e\n", (double) diffc);
 		fs << token;
 	}
-	sprintf(token, "\t-tempr  %13.5e\n", (double)tempr);
+	sprintf(token, "\t-tempr  %13.5e\n", (double) tempr);
 	fs << token;
 	if (correct_disp == TRUE)
 	{
@@ -1245,7 +1276,7 @@ dump_cpp(void)
 	fs << token;
 	for (int i = 1; i <= count_cells; i++)
 	{
-		sprintf(token, "%12.3e", (double)cell_data[i].length);
+		sprintf(token, "%12.3e", (double) cell_data[i].length);
 		fs << token;
 		if (i > 0 && (i % 8) == 0)
 		{
@@ -1261,12 +1292,12 @@ dump_cpp(void)
 	{
 		if (!high_precision)
 		{
-			sprintf(token, "%12.3e", (double)cell_data[i].disp);
+			sprintf(token, "%12.3e", (double) cell_data[i].disp);
 			fs << token;
 		}
 		else
 		{
-			sprintf(token, "%20.12e", (double)cell_data[i].disp);
+			sprintf(token, "%20.12e", (double) cell_data[i].disp);
 			fs << token;
 		}
 		if (i > 0 && (i % 8) == 0)
@@ -1335,9 +1366,9 @@ int Phreeqc::
 dump(void)
 /* ---------------------------------------------------------------------- */
 {
-	/*
-	* dumps solution compositions to file
-	*/
+/*
+ * dumps solution compositions to file
+ */
 	if (dump_in == FALSE || pr.dump == FALSE)
 		return (OK);
 

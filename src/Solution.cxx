@@ -1010,7 +1010,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				parser.incr_input_error();
 				parser.error_msg("Expected numeric value for potential (V).",
 					PHRQ_io::OT_CONTINUE);
-		}
+			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
 			
