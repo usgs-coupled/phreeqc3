@@ -1617,6 +1617,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokdiff_c:
 			output_msg("DIFF_C");
 			break;
+		case toksetdiff_c:
+			output_msg("SETDIFF_C");
+			break;
 		case toksa_declercq:
 			output_msg("SA_DECLERCQ");
 			break;
@@ -3823,7 +3826,25 @@ factor(struct LOC_exec * LINK)
  			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_c(str);
 		}
 		break;
+	
+	case toksetdiff_c:
+		{
+			double d;
+
+			require(toklp, LINK);
+
+			const char * str = stringfactor(STR1, LINK);
+			require(tokcomma, LINK);
+
+			// double arugument
+			d = realexpr(LINK);
+			require(tokrp, LINK);
+
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->setdiff_c(str, d);
 			
+			//PhreeqcPtr->PHRQ_free((void *) str);
+		}
+		break;
 	case tokval:
 		l_s = strfactor(LINK);
 		tok1 = LINK->t;
@@ -7159,7 +7180,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 
