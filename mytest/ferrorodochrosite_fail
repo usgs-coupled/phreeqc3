@@ -1,0 +1,3175 @@
+DATABASE C:\Programs\phreeqc3-trunk\database\llnl.dat
+#DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 2.18.5570\database\llnl.dat
+
+###########################################################################################
+
+SOLUTION_MASTER_SPECIES
+    Mn_di         Mn_di+2          0     Mn_di           54.938
+    Mn_tri        Mn_tri+3         0     Mn_tri          54.938
+    Amm           AmmH+            0     AmmH            18
+    Fe_di         Fe_di+2          0     Fe_di           55.847
+    Fe_tri        Fe_tri+3         0     Fe_tri          55.847
+    Fe_goethite   Fe_goethite+3    0     Fe_goethite     55.847
+    Katalsurf     Katalsurf+3      0     Katalsurf       56
+    Oxalate       Oxalate-2        0     88              88
+
+###########################################################################################
+
+SOLUTION_SPECIES
+AmmH+ = AmmH+
+    log_k     0
+    -gamma    2.5 0
+AmmH+ = Amm + H+
+    log_k     -9.252
+    delta_h   12.48 kcal
+AmmH+ + SO4-2 = AmmHSO4-
+    log_k     1.11
+Mn_di+2 = Mn_di+2
+    log_k     0
+Mn_tri+3 = Mn_tri+3
+    log_k     0
+Mn_di+2 + 2NO3- = Mn_di(NO3)2
+    log_k     0.6
+    -llnl_gamma 3
+2H2O + Mn_di+2 = Mn_di(OH)2 + 2H+
+    log_k     -22.2
+    -llnl_gamma 3
+3H2O + Mn_di+2 = Mn_di(OH)3- + 3H+
+    log_k     -34.2278
+    -llnl_gamma 4
+4H2O + Mn_di+2 = Mn_di(OH)4-2 + 4H+
+    log_k     -48.3
+    -llnl_gamma 4
+3H2O + 2Mn_di+2 = Mn_di2(OH)3+ + 3H+
+    log_k     -23.9
+    -llnl_gamma 4
+H2O + 2Mn_di+2 = Mn_di2OH+3 + H+
+    log_k     -10.56
+    -llnl_gamma 5
+HCO3- + Mn_di+2 = Mn_diCO3 + H+
+    log_k     -5.8088
+    -llnl_gamma 3
+Cl- + Mn_di+2 = Mn_diCl+
+    log_k     0.3013
+    delta_h   18.3134 kJ
+    -analytical_expression 87.072 0.040361 -2178.6 -36.966 -34.022 0
+    -llnl_gamma 4
+3Cl- + Mn_di+2 = Mn_diCl3-
+    log_k     -0.3324
+    -llnl_gamma 4
+F- + Mn_di+2 = Mn_diF+
+    log_k     1.43
+    -llnl_gamma 4
+H+ + HPO4-2 + Mn_di+2 = Mn_diH2PO4+
+    log_k     8.5554
+    -llnl_gamma 4
+HCO3- + Mn_di+2 = Mn_diHCO3+
+    log_k     0.8816
+    -llnl_gamma 4
+HPO4-2 + Mn_di+2 = Mn_diHPO4
+    log_k     3.58
+    -llnl_gamma 3
+Mn_di+2 + NO3- = Mn_diNO3+
+    log_k     0.2
+    -llnl_gamma 4
+H2O + Mn_di+2 = Mn_diOH+ + H+
+    log_k     -10.59
+    -llnl_gamma 4
+HPO4-2 + Mn_di+2 = Mn_diPO4- + H+
+    log_k     -5.1318
+    -llnl_gamma 4
+Mn_di+2 + SO4-2 = Mn_diSO4
+    log_k     2.3529
+    delta_h   14.1168 kJ
+    -analytical_expression 294.48 0.085294 -8136.6 -117.29 -127.05 0
+    -llnl_gamma 3
+Mn_di+2 + SeO4-2 = Mn_diSeO4
+    log_k     2.43
+    -llnl_gamma 3
+2H+ + Oxalate-2 = H2Oxalate
+    log_k     5.516
+Oxalate-2 = Oxalate-2
+    log_k     0
+H+ + Oxalate-2 = HOxalate-
+    log_k     4.266
+Katalsurf+3 = Katalsurf+3
+    log_k     0
+3H2O + Katalsurf+3 = Katalsurf(OH)3 + 3H+
+    log_k     50
+    -llnl_gamma 3
+Fe_goethite+3 = Fe_goethite+3
+    log_k     0
+Fe_goethite+3 + 2H2O = Fe_goethite(OH)2+ + 2H+
+    log_k     -5.67
+Fe_goethite+3 + 3H2O = Fe_goethite(OH)3 + 3H+
+    log_k     -12
+    -llnl_gamma 3
+Fe_di+2 = Fe_di+2
+    log_k     0
+Fe_tri+3 = Fe_tri+3
+    log_k     0
+Fe_di+2 + 2H2O = Fe_di(OH)2 + 2H+
+    log_k     -20.6
+    -llnl_gamma 3
+Fe_tri+3 + 2H2O = Fe_tri(OH)2+ + 2H+
+    log_k     -5.67
+    -llnl_gamma 4
+Fe_tri+3 + 3H2O = Fe_tri(OH)3 + 3H+
+    log_k     -12
+    -llnl_gamma 3
+Fe_di+2 + 3H2O = Fe_di(OH)3- + 3H+
+    log_k     -31
+    -llnl_gamma 4
+Fe_tri+3 + 4H2O = Fe_tri(OH)4- + 4H+
+    log_k     -21.6
+    -llnl_gamma 4
+Fe_di+2 + 4H2O = Fe_di(OH)4-2 + 4H+
+    log_k     -46
+    -llnl_gamma 4
+Fe_tri+3 + 2SO4-2 = Fe_tri(SO4)2-
+    log_k     3.2137
+    -llnl_gamma 4
+2Fe_tri+3 + 2H2O = Fe_tri2(OH)2+4 + 2H+
+    log_k     -2.95
+    -llnl_gamma 5.5
+3Fe_tri+3 + 4H2O = Fe_tri3(OH)4+5 + 4H+
+    log_k     -6.3
+    -llnl_gamma 6
+Fe_di+2 + HCO3- = Fe_diCO3 + H+
+    log_k     -5.5988
+    -llnl_gamma 3
+Fe_tri+3 + HCO3- = Fe_triCO3+ + H+
+    log_k     -0.6088
+    delta_h   -50.208 kJ
+    -analytical_expression 171 0.080413 -432.17 -78.449 -6.7948 0
+    -llnl_gamma 4
+Cl- + Fe_di+2 = Fe_diCl+
+    log_k     -0.1605
+    delta_h   3.02503 kJ
+    -analytical_expression 82.435 0.037755 -1476.5 -35.918 -23.064 0
+    -llnl_gamma 4
+Cl- + Fe_tri+3 = Fe_triCl+2
+    log_k     -0.8108
+    delta_h   36.6421 kJ
+    -analytical_expression 161.86 0.059436 -5191.3 -65.852 -81.053 0
+    -llnl_gamma 4.5
+2Cl- + Fe_di+2 = Fe_diCl2
+    log_k     -2.4541
+    delta_h   6.46846 kJ
+    -analytical_expression 191.71 0.07807 -4104.8 -82.292 -64.108 0
+    -llnl_gamma 3
+2Cl- + Fe_tri+3 = Fe_triCl2+
+    log_k     2.13
+    -llnl_gamma 4
+4Cl- + Fe_tri+3 = Fe_triCl4-
+    log_k     -0.79
+    -llnl_gamma 4
+4Cl- + Fe_di+2 = Fe_diCl4-2
+    log_k     -1.9
+    -analytical_expression -241.08 -0.0060086 9797.9 84.084 152.96 0
+    -llnl_gamma 4
+F- + Fe_di+2 = Fe_diF+
+    log_k     1.36
+    -llnl_gamma 4
+F- + Fe_tri+3 = Fe_triF+2
+    log_k     4.1365
+    delta_h   14.327 kJ
+    -analytical_expression 175.46 0.063754 -4316.6 -71.052 -67.408 0
+    -llnl_gamma 4.5
+2F- + Fe_tri+3 = Fe_triF2+
+    log_k     8.3498
+    delta_h   23.9776 kJ
+    -analytical_expression 290.8 0.10393 -7211.8 -116.88 -112.62 0
+    -llnl_gamma 4
+Fe_di+2 + H+ + HPO4-2 = Fe_diH2PO4+
+    log_k     2.7
+    -llnl_gamma 4
+Fe_tri+3 + H+ + HPO4-2 = Fe_triH2PO4+2
+    log_k     4.17
+    -llnl_gamma 4.5
+Fe_di+2 + HCO3- = Fe_diHCO3+
+    log_k     2.72
+    -llnl_gamma 4
+Fe_di+2 + HPO4-2 = Fe_diHPO4
+    log_k     3.6
+    -llnl_gamma 3
+Fe_tri+3 + HPO4-2 = Fe_triHPO4+
+    log_k     10.18
+    -llnl_gamma 4
+Fe_tri+3 + NO2- = Fe_triNO2+2
+    log_k     3.15
+    -llnl_gamma 4.5
+Fe_tri+3 + NO3- = Fe_triNO3+2
+    log_k     1
+    -llnl_gamma 4.5
+Fe_di+2 + H2O = Fe_diOH+ + H+
+    log_k     -9.5
+    -llnl_gamma 4
+Fe_tri+3 + H2O = Fe_triOH+2 + H+
+    log_k     -2.19
+    -llnl_gamma 4.5
+Fe_di+2 + HPO4-2 = Fe_diPO4- + H+
+    log_k     -4.3918
+    -llnl_gamma 4
+Fe_di+2 + SO4-2 = Fe_diSO4
+    log_k     2.2
+    -llnl_gamma 3
+Fe_tri+3 + SO4-2 = Fe_triSO4+
+    log_k     1.9276
+    delta_h   27.181 kJ
+    -analytical_expression 251.78 0.1008 -6097.7 -104.83 -95.223 0
+    -llnl_gamma 4
+Fe_di+2 + 2Oxalate-2 = Fe_di(Oxalate)2-2
+    log_k     5.9
+Fe_di+2 + Oxalate-2 = Fe_diOxalate
+    log_k     3.97
+    
+###########################################################################################
+
+SURFACE_MASTER_SPECIES
+    Fetri_s       Fetri_sOH    
+    Fetri_w       Fetri_wOH   
+
+###########################################################################################
+
+SURFACE_SPECIES
+Fe_di+2 + Hfo_wOH = Hfo_wOFe_di+ + H+
+    log_k     -1.99
+Fe_di+2 + H2O + Hfo_wOH = Hfo_wOFe_diOH + 2H+
+    log_k     -8.39
+Fe_di+2 + Hfo_sOH = Hfo_sOFe_di+ + H+
+    log_k     -1.99
+Fe_di+2 + H2O + Hfo_sOH = Hfo_sOFe_diOH + 2H+
+    log_k     -8.39
+Fetri_sOH = Fetri_sOH
+    log_k     0
+Fetri_wOH = Fetri_wOH
+    log_k     0
+Fetri_sOH + H+ = Fetri_sOH2+
+    log_k     7.29
+Fetri_sOH = Fetri_sO- + H+
+    log_k     -8.93
+Fetri_wOH + H+ = Fetri_wOH2+
+    log_k     7.29
+Fetri_wOH = Fetri_wO- + H+
+    log_k     -8.93
+Fe_di+2 + Fetri_wOH = Fetri_wOFe_di+ + H+
+    log_k     -1.99
+Fe_di+2 + Fetri_wOH + H2O = Fetri_wOFe_diOH + 2H+
+    log_k     -8.39
+Fe_di+2 + Fetri_sOH = Fetri_sOFe_di+ + H+
+    log_k     0.7
+Fe_di+2 + Fetri_sOH + H2O = Fetri_sOFe_diOH + 2H+
+    log_k     -8.39
+Fetri_wOH + H+ + H2SiO4-2 = Fetri_wH2SiO4- + H2O
+    log_k     15.9
+Fetri_wOH + H2SiO4-2 = Fetri_wOH3SiO4-2
+    log_k     8.3
+CO3-2 + Fetri_wOH + H+ = Fetri_wCO3- + H2O
+    log_k     12.78
+CO3-2 + Fetri_wOH + 2H+ = Fetri_wCO3H + H2O
+    log_k     20.37
+
+#Environ. Sci. Technol. 2002, 36, 3096-3103
+#Surface Complexation of Ferrous Iron and Carbonate on Ferrihydrite and the Mobilization of Arsenic 
+#C.A.J. APPELO, M.J.J. VANDERWEIDEN, C. TOURNASSAT, L. CHARLET
+
+Ca+2 + Fetri_sOH = Fetri_sOHCa+2
+    log_k     4.97
+Ca+2 + Fetri_wOH = Fetri_wOCa+ + H+
+    log_k     -5.85
+Fetri_sOH + Sr+2 = Fetri_sOHSr+2
+    log_k     5.01
+Fetri_wOH + Sr+2 = Fetri_wOSr+ + H+
+    log_k     -6.58
+Fetri_wOH + H2O + Sr+2 = Fetri_wOSrOH + 2H+
+    log_k     -17.6
+Ba+2 + Fetri_sOH = Fetri_sOHBa+2
+    log_k     5.46
+Ba+2 + Fetri_wOH = Fetri_wOBa+ + H+
+    log_k     -7.2
+Cd+2 + Fetri_sOH = Fetri_sOCd+ + H+
+    log_k     0.47
+Cd+2 + Fetri_wOH = Fetri_wOCd+ + H+
+    log_k     -2.91
+Fetri_sOH + Zn+2 = Fetri_sOZn+ + H+
+    log_k     0.99
+Fetri_wOH + Zn+2 = Fetri_wOZn+ + H+
+    log_k     -1.99
+Cu+2 + Fetri_sOH = Fetri_sOCu+ + H+
+    log_k     2.89
+Cu+2 + Fetri_wOH = Fetri_wOCu+ + H+
+    log_k     0.6
+Fetri_sOH + Pb+2 = Fetri_sOPb+ + H+
+    log_k     4.65
+Fetri_wOH + Pb+2 = Fetri_wOPb+ + H+
+    log_k     0.3
+Fetri_wOH + Mg+2 = Fetri_wOMg+ + H+
+    log_k     -4.6
+Fetri_sOH + Mn_di+2 = Fetri_sOMn_di+ + H+
+    log_k     -0.4
+Fetri_wOH + Mn_di+2 = Fetri_wOMn_di+ + H+
+    log_k     -3.5
+Fetri_wOH + 3H+ + PO4-3 = Fetri_wH2PO4 + H2O
+    log_k     31.29
+Fetri_wOH + 2H+ + PO4-3 = Fetri_wHPO4- + H2O
+    log_k     25.39
+Fetri_wOH + H+ + PO4-3 = Fetri_wPO4-2 + H2O
+    log_k     17.72
+B(OH)3 + Fetri_wOH = Fetri_wH2BO3 + H2O
+    log_k     0.62
+Fetri_wOH + H+ + SO4-2 = Fetri_wSO4- + H2O
+    log_k     7.78
+Fetri_wOH + SO4-2 = Fetri_wOHSO4-2
+    log_k     0.79
+F- + Fetri_wOH + H+ = Fetri_wF + H2O
+    log_k     8.7
+F- + Fetri_wOH = Fetri_wOHF-
+    log_k     1.6
+Fetri_wOH + H2O + UO2+2 = Fetri_wOHUO3 + 2H+
+    log_k     -3.05
+Fetri_wOH + UO2+2 = Fetri_wOHUO2+2
+    log_k     6.63
+Fetri_sOH + H2O + UO2+2 = Fetri_sOHUO3 + 2H+
+    log_k     -3.05
+Fetri_sOH + UO2+2 = Fetri_sOHUO2+2
+    log_k     6.63
+
+###########################################################################################
+
+EXCHANGE_SPECIES
+Fe_di+2 + 2X- = Fe_diX2
+    log_k     0.44
+    -llnl_gamma 6
+Mn_di+2 + 2X- = Mn_diX2
+    log_k     0.52
+    -llnl_gamma 6
+AmmH+ + X- = AmmHX
+    log_k     0.6
+    -gamma    2.5 0
+
+###########################################################################################
+
+RATES
+    Mn_di
+-start
+  5   k = 50.1
+ 10  Mn_di = MOL("Mn_di(OH)2")
+ 20  if (Mn_di <= 0) then goto 200
+ 30  c = Mn_di
+ 35  f = c / (1e-14 + c) 
+ 40  moles =  Mn_di* k* MOL("O2")* TIME # * f
+200 SAVE moles
+-end
+    Mn_tri-Fedi_ox
+-start
+  5   k = 1^6
+ 10  Mn_tri = MOL("Mn_tri+3")
+ 20  if (Mn_tri <= 0) then goto 200 
+ 30  c = Mn_tri
+ 35  f = c / (1e-14 + c) 
+ 40  moles =  Mn_tri*TOT("Fe_di")*TIME # * f
+200 SAVE moles
+-end
+    Fe_tri-OMn_di+
+-start
+ 50 k = 10^(-0.16)
+ 60 if ((MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+"))<=0) then goto 200
+ 70  c = MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+")
+ 80  f = c / (1e-14 + c) 
+100 moles = (k*(MOL("Fetri_wOMn_di+")+MOL("Fetri_sOMn_di+")))*MOL("O2")*TIME # * f
+200 SAVE moles 
+-end
+
+#Katalsurf 
+#    -start
+#		5  k = 0
+#          20 if EQUI("Katalsurf") > 2.5*0.001869 then  k = 10.0010010
+#		40 moles = 	k*EQUI("Katalsurf")*TIME
+#		50 SAVE moles
+#	-end
+
+#Katalsurf 
+#   -start
+#		5  k = 0
+#           10 if EQUI("Katalsurf") > EQUI("Fe_tri(OH)3(a)") then k = 0.000005
+#           20 if EQUI("Katalsurf") > 2.5*0.001869 then  k = 0.000005
+#           30 if EQUI("Katalsurf") <= 0 then goto 50
+#	     40 moles = 	k*EQUI("Katalsurf")*TIME
+#     50 SAVE moles
+#	-end
+
+    Katalsurf
+-start
+ 5  k = 0
+20 if EQUI("Fe_tri(OH)3(a)") > 2.5*0.001869 then  k = 0.00015
+30 if EQUI("Fe_tri(OH)3(a)") <= 0 then goto 50
+ 35  c =EQUI("Fe_tri(OH)3(a)")
+ 36  f = c / (1e-14 + c) 
+40 moles =  k*EQUI("Fe_tri(OH)3(a)")*TIME # * f
+50 SAVE moles
+-end
+    Fe_di+2
+-start
+  5 k =7.9e-6  
+ 10 Fe_di = MOL("Fe_di+2") 
+ 20 if (Fe_di <= 0) then goto 200 
+ 35  c = Fe_di
+ 36  f = c / (1e-14 + c) 
+100 moles = (k*Fe_di )*MOL("O2")* TIME # * f 
+200 SAVE moles 
+-end
+    Fe_di(OH)+
+-start
+  5  k = 25.1
+ 10 Fe_diOH = MOL("Fe_diOH+") 
+ 20 if (Fe_diOH <= 0) then goto 200 
+ 35  c = Fe_diOH
+ 36  f = c / (1e-14 + c) 
+ 50 k = 0.7752*(2.71828^(0.1404*TC)) # * f
+100 moles = (k*Fe_diOH)*MOL("O2")* TIME  
+200 SAVE moles 
+-end
+    Fe_di(OH)2
+-start
+  5  k = 7.94e6
+ 10 Fe_diOHdi = MOL("Fe_di(OH)2") 
+ 20 if (Fe_diOHdi <= 0) then goto 200 
+ 35  c = Fe_diOHdi
+ 36  f = c / (1e-14 + c) 
+ 50 k = 246320*(2.71828^(0.1404*TC))
+100 moles = (k*Fe_diOHdi)*MOL("O2")* TIME # * f
+200 SAVE moles 
+-end
+    Fe_tri-OFe+
+-start
+ 50 k = 5.01 
+ 60 if ((MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH"))<= 0) then goto 200
+ 75  c = MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH")
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*(MOL("Fetri_wOFe_diOH")+MOL("Fetri_sOFe_diOH")))*MOL("O2")*TIME # * f
+200 SAVE moles 
+-end
+    Fe_tri-OFeOH
+-start
+ 50 k = 5.01
+ 60 if ((MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+"))<= 0) then goto 200
+ 75  c = MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+")
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*(MOL("Fetri_wOFe_di+")+MOL("Fetri_sOFe_di+")))*MOL("O2")*TIME # * f
+200 SAVE moles 
+-end
+    Fe_diX2
+-start
+  5 k = 0.3*1.88e-3*((TOT("X"))*1000) 
+ 10 Fe_diX = MOL("Fe_diX2") 
+ 20 if (Fe_diX <= 0) then goto 200 
+ 75  c = Fe_diX
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*Fe_diX )*MOL("O2")* TIME # * f
+200 SAVE moles 
+-end
+    Ferrihydrite-goethite
+-start
+ 10 k = 8.022e-8*2
+ 50 if EQUI("Fe_tri(OH)3(a)") <= 0 then goto 200
+ 75  c = EQUI("Fe_tri(OH)3(a)")
+ 76  f = c / (1e-14 + c) 
+100 moles = (k*EQUI("Fe_tri(OH)3(a)"))* TIME # * f
+200 SAVE moles 
+-end
+
+###########################################################################################
+
+PHASES
+Ferrorhodochrosite
+    Mn_diFe_di(CO3)2 + 2H+ = Fe_di+2 + 2HCO3- + Mn_di+2
+    log_k     -1.58524842653238
+    delta_h   -21.3426 kJ
+    #-analytical_expression -161.95 -0.049344 5093.7 64.402 79.531 0
+Rhodochrosite
+    Mn_diCO3 + H+ = HCO3- + Mn_di+2
+    log_k     -0.1928
+    delta_h   -21.3426 kJ
+    -analytical_expression -161.95 -0.049344 5093.7 64.402 79.531 0
+Fe_goethite
+    Fe_goethiteOOH + 3H+ = Fe_goethite+3 + 2H2O
+    log_k     -30
+Goethite
+    Fe_triOOH + 3H+ = Fe_tri+3 + 2H2O
+    log_k     -30
+    delta_h   -61.9291 kJ
+pH_Fix
+    H+ = H+
+    log_k     0
+Katalsurf
+    Katalsurf(OH)3 + 3H+ = 3H2O + Katalsurf+3
+    log_k     -70
+Fe_tri(OH)3(a)
+    Fe_tri(OH)3 + 3H+ = Fe_tri+3 + 3H2O
+    log_k     5.6556
+    delta_h   -84.0824 kJ
+Manganite
+    Mn_triO(OH) + 3H+ = 2H2O + Mn_tri+3
+    log_k     -0.1646
+
+END
+
+###########################################################################################
+SOLUTION 200
+    temp      6
+    pH        6.31
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    S(6)      2
+    Cl(-1)    0.8
+    Fe_di 0
+    Mn_di  1
+    #Mn_tri  1e-10
+    Na        8.6
+    Ca       24
+    O(0)      11.5
+    Si        25.7
+    Sr        0.16
+    Ba 0.122
+    C(4)      260#170 charge
+    -water    1 # kg
+END
+SOLUTION 201
+    temp      6
+    pH        6.2
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    S(6)      2
+    Cl(-1)    0.8
+    Fe_di 22
+    Mn_di  1.05
+    #Mn_tri  1e-10
+    Na        8.6
+    Ca        26
+    Si        38.6
+    Sr        0.16
+    Ba 0.122
+    C(4)      404 #
+END
+
+KINETICS 1-20
+Fe_tri-OMn_di+
+    -formula  Mn_di  -1 Mn_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Mn_di
+    -formula  Mn_di  -1 Mn_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Katalsurf
+    -formula  Fe_tri(OH)3(a)  -10
+    -m        1
+    -m0       1
+    -tol      1e-08
+Fe_di+2
+    -formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Fe_di(OH)+
+    -formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Fe_di(OH)2
+    -formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Fe_tri-OFe+
+    -formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Fe_tri-OFeOH
+    -formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Fe_diX2
+    #-formula  Fe_di  -1 Fe_tri  1
+    -formula  Fe_diX2 -1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Ferrihydrite-goethite
+    -formula  Fe_goethite  1 Fe_tri(OH)3  -1 H2O  1
+    -m        1
+    -m0       1
+    -tol      1e-08
+Mn_tri-Fedi_ox
+    -formula  Fe_di  -1 Fe_tri  1 Mn_di  1 Mn_tri  -1
+    -m        1
+    -m0       1
+    -tol      1e-08
+-steps       1
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 1000
+#-cvode
+
+SURFACE 1-20
+	Fetri_wOH Fe_tri(OH)3(a) equilibrium_phase 0.21 64200 
+	Fetri_sOH Fe_tri(OH)3(a) equilibrium_phase 0.0054			
+       -equilibrate 1
+
+
+EQUILIBRIUM_PHASES 1-20
+      Manganite      0 0
+      Fe_tri(OH)3(a) 0 0.0
+      Fe_goethite    0 0.0
+#	pH_Fix      -5.0    HCl       10.0
+      Katalsurf      0 0	
+#	Rhodochrosite -1.35   0.01
+      Ferrorhodochrosite 0 0.01
+
+SOLUTION 0
+    temp      6
+    pH        6.31
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    Ba        0.122
+    C(4)      240
+    Ca        24
+    Cl(-1)    0.8
+    Fe_di     0.1
+    Mn_di     1
+    #Mn_tri  1e-10
+    Na        8.6
+    O(0)      11.5
+    S(6)      2
+    Si        25.7
+    Sr        0.16
+    -water    1 # kg
+
+SOLUTION 1-20
+    temp      6
+    pH        6.2
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    Ba        0.122
+    C(4)      404
+    Ca        26
+    Cl(-1)    0.8
+    Fe_di     22
+    Mn_di     1.05
+    #Mn_tri  1e-10
+    Na        8.6
+    S(6)      2
+    Si        38.6
+    Sr        0.16
+    -water    1 # kg
+    
+EXCHANGE 1-20
+    X       0.06
+    -equilibrate with solution 1
+END
+
+###########################################################################################
+
+TRANSPORT  1 pumping
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+    -lengths  4.40 1.82 1.40 1.18 1.04 0.94 0.86 0.80 0.75 0.71 0.68 0.65 0.62 0.60 0.58 0.56 0.54 0.53 0.51 0.50
+    -warnings              false
+    -punch_cells 1
+KNOBS
+  #-diag
+  #-debug_model
+  #-tol 1e-20
+SELECTED_OUTPUT
+	-file Mn-pumping1.xls 
+	-reset false 
+USER_PUNCH 
+	-headings hours  Si pH Mn(2) Fe(tot) Fe(2) MnX2 FeX2 Fe(3) O2 Fe(OH)3(a) Katalsurf eqFe_goethite Ferrorhodochrosite Manganite
+	10 PUNCH SIM_TIME/(60*60), 28000*TOT("Si"), -LA("H+"), 55000*TOT("Mn_di"), 56000*TOT("Fe_di")+ 56000*TOT("Fe_tri"), 56000*TOT("Fe_di"), 55000*MOL("Mn_diX2"), 56000*MOL("Fe_diX2"), 56000*TOT("Fe_tri"), 32000*MOL("O2"), 107000*EQUI("Fe_tri(OH)3(a)") , 107000*EQUI("Katalsurf"),  89000*EQUI("Fe_goethite"), 231000*EQUI("Ferrorhodochrosite"), 88000*EQUI("Manganite")
+PRINT
+-reset false
+END
+
+TITLE 1 stoppage 
+TRANSPORT diffusion_only
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 
+COPY solution 201 21
+TRANSPORT back
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+
+SELECTED_OUTPUT 
+	-file Mn-pumping-out1.xls 
+	-reset false 
+	-molalities
+ 	-dist    true
+END
+
+
+##################
+TITLE 2 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+    -punch_cells 1
+SELECTED_OUTPUT
+	-file Mn-pumping2.xls 
+	-reset false 
+	-molalities
+    	-dist    true
+USER_PUNCH 
+	-headings hours  Si pH Mn(2) Fe(tot) Fe(2) MnX2 FeX2 Fe(3) O2 Fe(OH)3(a) Katalsurf eqFe_goethite  Ferrorhodochrosite   Manganite
+	10 PUNCH SIM_TIME/(60*60), 28000*TOT("Si"), -LA("H+"), 55000*TOT("Mn_di"), 56000*TOT("Fe_di")+ 56000*TOT("Fe_tri"), 56000*TOT("Fe_di"), 55000*MOL("Mn_diX2"), 56000*MOL("Fe_diX2"), 56000*TOT("Fe_tri"), 32000*MOL("O2"), 107000*EQUI("Fe_tri(OH)3(a)") , 107000*EQUI("Katalsurf"),  89000*EQUI("Fe_goethite"), 231000*EQUI("Ferrorhodochrosite"), 88000*EQUI("Manganite")
+END
+
+TITLE 2 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+
+END
+
+TITLE 2 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+ SELECTED_OUTPUT 
+	-file Mn-pumping-out2.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+##################
+TITLE 3 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+    -punch_cells 1
+
+SELECTED_OUTPUT
+	-file Mn-pumping3.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 3 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 3 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+
+SELECTED_OUTPUT 
+	-file Mn-pumping-out3.xls
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###################################
+TITLE 4 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping4.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 4 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 4 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out4.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+######################
+TITLE 5 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping5.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 5 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 5 откачка
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out5.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+#######################
+TITLE 6 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping6.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 6 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 6 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out6.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 7 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping7.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+
+TITLE 7 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 7 откачка
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out7.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 8 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping8.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 8 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 8 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out8.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 9 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping9.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 9 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 9 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out9.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+
+END
+###############
+TITLE 10 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping10.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 10 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 10 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out10.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+###############
+TITLE 11 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping11.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 11 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 11 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out11.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+###############
+TITLE 12 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping12.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 12 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 12 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out12.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+###############
+TITLE 13 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping13.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 13 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 13 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out13.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 14 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping14.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 14 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 14 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out14.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 15 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping15.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 15 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 15 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out15.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+
+END
+##############
+###############
+TITLE 16 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping16.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 16 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 16 pumping out
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out16.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 17 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping17.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 17 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 17 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out17.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 18 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping18.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 18 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 18 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out18.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 19 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping19.xls
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 19 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 19 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out19.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+###############
+TITLE 20 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping20.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 20 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 20 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out20.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########## Откачка полуторного объема - 2 месяц работы установки
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+
+###############
+TITLE 21 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping21.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 21 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 21 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out21.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 22 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping22.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 22 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 22 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out22.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 23 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping23.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 23 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 23 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out23.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 24 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping24.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 24 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 24 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out24.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 25 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping25.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 25 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 25 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out25.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 26 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping26.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 26 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 26 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out26.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 27 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping27.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 27 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 27 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out27.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 28 pumping 
+COPY solution 200 0
+
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping28.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 28 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 28 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out28.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 29 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping29.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 29 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 29 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out29.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 30 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping30.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 30 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 30 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out30.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 31 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping31.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 31 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 31 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out31.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 32 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping32.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 32 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 32 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out32.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 33 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping33.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 33 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 33 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out33.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 34 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping34.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 34 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 34 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out34.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 35 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping35.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 35 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 35 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out35.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 36 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping36.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 36 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 36 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out36.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 37 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping37.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 37 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 37 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                14
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out37.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########## Откачка удвоенного объема - 3 и 4 месяцы работы установки
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+
+
+TITLE 38 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping38.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 38 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 38 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out38.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 39 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping39.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 39 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 39 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out39.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 40 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping40.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 40 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 40 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out40.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 41 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping41.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 41 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 41 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out41.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 42 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping42.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 42 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 42 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out42.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 43 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping43.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 43 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 43 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out43.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 44 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping44.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 44 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 44 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out44.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 45 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping45.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 45 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 45 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out45.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 46 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping46.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 46 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 46 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out46.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 47 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping47.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 47 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 47 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out47.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 48 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping48.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 48 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 48 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out48.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 49 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping49.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 49 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 49 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out49.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 50 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping50.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 50 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 50 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out50.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 51 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping51.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 51 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 51 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out51.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 52 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping52.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 52 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 52 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out52.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 53 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping53.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 53 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 53 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out53.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 54 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping54.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 54 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 54 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out54.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 55 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping55.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 55 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 55 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out55.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 56 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping56.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 56 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 56 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out56.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 57 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping57.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 57 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 57 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out57.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 58 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping58.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 58 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 58 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out58.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 59 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping59.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 59 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 59 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out59.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 60 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping60.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 60 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 60 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out60.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 61 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping61.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 61 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 61 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out61.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 62 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping62.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 62 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 62 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out62.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 63 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping63.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 63 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 63 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out63.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 63 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping63.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 63 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 63 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out63.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 64 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping64.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 64 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 64 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out64.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 65 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping65.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 65 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 65 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out65.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 66 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping66.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 66 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 66 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out65.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+################
+TITLE 67 pumping 
+COPY solution 200 0
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT
+	-file Mn-pumping67.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+
+TITLE 67 stoppage 12 часа
+TRANSPORT
+    -cells                 20
+    -shifts                12
+    -time_step             3600 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed flux
+END
+
+TITLE 67 откачка
+COPY solution 201 21
+TRANSPORT
+    -cells                 20
+    -shifts                24
+    -time_step             3600 # seconds = 0.1 day
+    -flow_direction        back #forward
+    -boundary_conditions   flux flux
+SELECTED_OUTPUT 
+	-file Mn-pumping-out67.xls 
+	INCLUDE$ ferrorodochrosite_fail.inc
+END
+################
+
+
+

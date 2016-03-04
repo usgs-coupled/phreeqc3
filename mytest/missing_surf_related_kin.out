@@ -1,0 +1,392 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: missing_surf_related_kin
+  Output file: missing_surf_related_kin.out
+Database file: ../database/wateq4f.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/wateq4f.dat
+	SELECTED_OUTPUT 101
+	    file                 missing_surf_related_kin_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SURFACE_MASTER_SPECIES
+	Langmuir Langmuir
+	SURFACE_SPECIES
+	Langmuir = Langmuir
+	Langmuir + H3AsO3 = LangmuirH3AsO3
+	log_k 3.176 # Hoa Mai's constantsee Sorption_dp.xls
+	mole_balance LangmuirH3AsO3
+	SOLUTION_SPECIES
+	    H2O + 0.01e- = H2O-0.01
+	   log_k -9
+	PHASES
+	Fe(OH)3As
+	    Fe(OH)2.9964(AsO4)0.0012 + 2.9964H+ = Fe+3 + 2.9964H2O + 0.0012AsO4-3
+		log_k	 0.391  #4.891-3.5 SI = -4.5, 0.891 #4.891-4 SI = -4   #	4.891- 5 = -0.109 for SI=-5
+	CCalcite
+	CaCO3 = Ca+2 + CO3-2
+		log_k	 -8.23  #-8.48 + 0.25 = SI 0.24
+		delta_h -2.297 kcal
+	SSiderite                          #from PHREEQC.DAT
+		FeCO3 = Fe+2 + CO3-2
+		log_k	-9.89  #SI = 1.  -10.89 + 1. = -9.89
+		delta_h  -2.480 kcal
+	RATES
+	CCalcite
+		start
+	5	if (m <= 0.0) then goto 210
+	7	sr_CC = sr("CCalcite")
+	10	if (sr_CC >= 1.0) then goto 210
+	40	moles =  m0*(2.381e-11) * (m/m0)^3.0 * time * (1-sr_CC) #change gamma from 3.5 to 2.5 to 1.5 #increase k from 3.5e-3 to 7e-3 #k decreased by 100x from 7.5e-4
+	70	if moles > m then moles = m
+	210	save moles
+		end
+	SSiderite
+		start
+	7	sr_SS = sr("SSiderite")
+	40	moles = (3.175e-12) * time * (1-sr_SS)  # decrease k from 9e-3 to 4e-3 to 2e-3* (m/m0)^1.0
+	210	save moles
+		end
+	Fe(OH)3As
+		start
+	5	if (m <= 0.0) then goto 210
+	7	sr_fe = sr("Fe(OH)3As")
+	10	if (sr_fe >= 1.0) then goto 210
+	40	moles =  m0*(2.54e-11) * (m/m0)^1.5 * time * (1-sr_fe)  #(m/m0)^2   #RT7b6 K = 0.5e-3  
+	70	if moles > m then moles = m
+	210	save moles
+		end
+	Organic                # rate name
+	     start
+	5	if (m <= 0.0) then goto 20
+	10 moles = m0*(9.333e-12) * (m/m0)^2.5  #KInCser7c2 gamma from 3.0 to 2.5    #serie7b 4e-4/1.36 = 2.94e-4
+	11	if moles > m then moles = m
+	20 save moles * time  
+	     end
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 2
+	SURFACE 2  #first line from Hoa mai: Langmuir As(III)-2.phrq
+	Langmuir Fe(OH)3As kin 0.07 8.9e3 # 0.1 mol sites / mol Goethite, surface area 8.9e3 m2/mol #From Helle's relation
+	equilibrate 2
+	KINETICS 2
+	SSiderite
+	m0 0.0
+	bad_step_max 50000
+	cvode true 
+	Organic              # rate name
+	formula C
+	m0 1.36  # 0.27% org C
+	Fe(OH)3As
+	m0 0.394 #65 umol/g 0.461 #=76 umol/g, 0.516 #85 umol/g
+	KINETICS 3 #"Pleistocene"
+	SSiderite
+	m0 0.0
+	bad_step_max 50000
+	cvode true 
+	Organic              # rate name
+	formula C
+	m0 0.0653  # 0.013% org C
+	Fe(OH)3As
+	m0 0.00394 #0.65 umol/g 0.461 #=76 umol/g, 0.516 #85 umol/g
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.082e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.173e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.06
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.002e-07   1.001e-07    -6.999    -6.999    -0.000     (0)  
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O-0.01        9.120e-10   9.120e-10    -9.040    -9.040    -0.000     (0)  
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.00    -25.15   -3.15  H2
+  H2O(g)           -1.51      0.00    1.51  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 2.	
+
+Diffuse Double Layer Surface-Complexation Model
+
+Langmuir      
+	  0.000e+00  Surface charge, eq
+	  0.000e+00  sigma, C/m²
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  8.900e+03  specific area, m²/mol Fe(OH)3As
+	  3.507e+03  m² for   3.940e-01 moles of Fe(OH)3As
+
+
+Langmuir      
+	  2.758e-02  moles	[0.07 mol/(mol kinetic reactant Fe(OH)3As)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Langmuir          2.758e-02       1.000   2.758e-02      -1.559
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 2.	
+Using surface 2.	
+Using kinetics 2.	
+
+Kinetics 2.	
+
+	Time step: 1 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	SSiderite        -0.000e+00   0.000e+00   SSiderite                 1
+	Organic          -1.269e-11   1.360e+00   C                         1
+	Fe(OH)3As        -1.001e-11   3.940e-01   Fe(OH)3As                 1
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Langmuir      
+	  0.000e+00  Surface charge, eq
+	  0.000e+00  sigma, C/m²
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  8.900e+03  specific area, m²/mol Fe(OH)3As
+	  3.507e+03  m² for   3.940e-01 moles of Fe(OH)3As
+
+
+Langmuir      
+	  2.758e-02  moles	[0.07 mol/(mol kinetic reactant Fe(OH)3As)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Langmuir          2.758e-02       1.000   2.758e-02      -1.559
+	LangmuirH3AsO3    1.172e-14       0.000   1.172e-14     -13.931
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	As                2.854e-16   2.854e-16
+	C                 1.269e-11   1.269e-11
+	Fe                1.001e-11   1.001e-11
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -3.220      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                           Ionic strength  =   1.001e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.266e-10
+                       Total CO2 (mol/kg)  =   1.269e-11
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.173e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.06
+                               Iterations  =  79
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     (0)  
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O-0.01        1.077e-09   1.077e-09    -8.968    -8.968    -0.000     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+As(3)         2.854e-16
+   H3AsO3          2.834e-16   2.834e-16   -15.548   -15.548     0.000     (0)  
+   H2AsO3-         2.007e-18   2.007e-18   -17.697   -17.698    -0.000     (0)  
+   H4AsO3+         1.405e-23   1.404e-23   -22.852   -22.853    -0.000     (0)  
+   HAsO3-2         4.010e-26   4.004e-26   -25.397   -25.398    -0.001     (0)  
+   AsO3-3          8.016e-35   7.989e-35   -34.096   -34.097    -0.001     (0)  
+As(5)         3.894e-23
+   H2AsO4-         2.300e-23   2.300e-23   -22.638   -22.638    -0.000     (0)  
+   HAsO4-2         1.593e-23   1.591e-23   -22.798   -22.798    -0.001     (0)  
+   H3AsO4          4.588e-28   4.588e-28   -27.338   -27.338     0.000     (0)  
+   AsO4-3          3.574e-28   3.562e-28   -27.447   -27.448    -0.001     (0)  
+C(-4)         3.316e-18
+   CH4             3.316e-18   3.316e-18   -17.479   -17.479     0.000     (0)  
+C(4)          1.269e-11
+   HCO3-           1.036e-11   1.036e-11   -10.985   -10.985    -0.000     (0)  
+   CO2             2.328e-12   2.328e-12   -11.633   -11.633     0.000     (0)  
+   CO3-2           4.864e-15   4.857e-15   -14.313   -14.314    -0.001     (0)  
+   FeHCO3+         1.032e-20   1.032e-20   -19.986   -19.987    -0.000     (0)  
+   FeCO3           1.160e-21   1.161e-21   -20.935   -20.935     0.000     (0)  
+Fe(2)         1.001e-11
+   Fe+2            9.976e-12   9.961e-12   -11.001   -11.002    -0.001     (0)  
+   FeOH+           3.151e-14   3.150e-14   -13.502   -13.502    -0.000     (0)  
+   Fe(OH)2         2.681e-18   2.681e-18   -17.572   -17.572     0.000     (0)  
+   FeHCO3+         1.032e-20   1.032e-20   -19.986   -19.987    -0.000     (0)  
+   FeCO3           1.160e-21   1.161e-21   -20.935   -20.935     0.000     (0)  
+   Fe(OH)3-        9.966e-22   9.962e-22   -21.001   -21.002    -0.000     (0)  
+Fe(3)         2.817e-19
+   Fe(OH)3         1.577e-19   1.577e-19   -18.802   -18.802     0.000     (0)  
+   Fe(OH)2+        1.225e-19   1.224e-19   -18.912   -18.912    -0.000     (0)  
+   Fe(OH)4-        1.439e-21   1.439e-21   -20.842   -20.842    -0.000     (0)  
+   FeOH+2          3.703e-23   3.697e-23   -22.431   -22.432    -0.001     (0)  
+   Fe+3            5.745e-28   5.726e-28   -27.241   -27.242    -0.001     (0)  
+   Fe2(OH)2+4      0.000e+00   0.000e+00   -43.432   -43.434    -0.003     (0)  
+   Fe3(OH)4+5      0.000e+00   0.000e+00   -60.022   -60.026    -0.004     (0)  
+H(0)          3.907e-11
+   H2              1.954e-11   1.954e-11   -10.709   -10.709     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -70.962   -70.962     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Arsenolite      -29.72    -31.10   -1.38  As2O3
+  As2O5(cr)       -62.90    -54.68    8.23  As2O5
+  As_native       -14.35    -26.89  -12.53  As
+  CH4(g)          -14.62    -17.48   -2.86  CH4
+  Claudetite      -29.76    -31.10   -1.34  As2O3
+  CO2(g)          -10.17    -11.63   -1.47  CO2
+  Fe(OH)3(a)      -11.13     -6.24    4.89  Fe(OH)3
+  Fe(OH)3As        -6.69     -6.30    0.39  Fe(OH)2.9964(AsO4)0.0012
+  Fe3(OH)8        -29.71     -9.49   20.22  Fe3(OH)8
+  Goethite         -5.24     -6.24   -1.00  FeOOH
+  H2(g)            -7.56    -10.71   -3.15  H2
+  H2O(g)           -1.51     -0.00    1.51  H2O
+  Hematite         -8.48    -12.48   -4.01  Fe2O3
+  Maghemite       -18.87    -12.48    6.39  Fe2O3
+  Magnetite       -13.22     -9.49    3.74  Fe3O4
+  O2(g)           -68.07    -70.96   -2.89  O2
+  Scorodite       -34.44    -54.69  -20.25  FeAsO4:2H2O
+  Siderite        -14.43    -25.32  -10.89  FeCO3
+  Siderite(d)(3)  -14.87    -25.32  -10.45  FeCO3
+  SSiderite       -15.43    -25.32   -9.89  FeCO3
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	KINETICS_RAW                 2 
+	  -step_divide               1
+	  -rk                        3
+	  -bad_step_max              50000
+	  -use_cvode                 1
+	  -cvode_steps               100
+	  -cvode_order               5
+	  -component                 CCalcite
+	      -tol                   1e-008
+	      -m                     2.9999999999296
+	      -m0                    3
+	      -namecoef
+	        CCalcite             1
+	      -d_params
+	      -moles                 7.0420469455712e-011
+	      -initial_moles         10
+	  -equal_increments           0
+	  -count                     0
+	  -steps             
+	    1 
+	  -totals 
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	use solution 2 
+	use surface 2
+	use kinetics 2
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+ERROR: Kinetic reaction, Fe(OH)3As, related to surface, Langmuir, not found in Kinetics 2
+ERROR: Kinetic reaction, Fe(OH)3As, related to surface, Langmuir, not found in Kinetics 2
+ERROR: Program terminating due to input errors.
+Stopping.

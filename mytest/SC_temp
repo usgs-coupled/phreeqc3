@@ -1,0 +1,25 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 SC_temp_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1 
+END 
+
+SOLUTION 2 
+END
+
+MIX 1 
+1 0.333
+2 0.666
+END
+MIX 1 
+1 0.333
+2 0.666
+reaction_temperature 1
+120
+END

@@ -1,0 +1,158 @@
+DATABASE ./Phmaster14.dat
+SELECTED_OUTPUT 101
+    -file                 Ca-As-Mahoney_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+PHASES
+Fix_H+
+	H+ = H+
+	log_k 0.
+
+Fix_e-
+	e- = e-
+	log_k 0.
+
+Ca5(AsO4)3OH_jbm_bb99
+	#Ca5(AsO4)3OH = 5Ca+2 + 3AsO4-3 + OH-
+	#log_k           -38.04
+	Ca(AsO4)0.6(OH)0.2 = Ca+2 + 0.6AsO4-3 + 0.2OH-
+	log_k           -7.608
+
+#  Ca3(AsO4)2:3.67H2O_bb99
+#          Ca3(AsO4)2:3.67H2O = 3Ca+2 + 2AsO4-3 + 3.67H2O
+#          log_k           -21.00
+Ca3(AsO4)2:3.67H2O_bb99
+#          Ca3(AsO4)2:3.67H2O = 3Ca+2 + 2AsO4-3 + 3.67H2O
+#          log_k           -21.00
+	Ca(AsO4)0.666666666666666667:1.223H2O = Ca+2 + 0.666666666666666667AsO4-3 + 1.223H2O
+	log_k  -7.00
+       
+  Ca4(AsO4)2(OH)2:4H2O_bb99
+          #Ca4(AsO4)2(OH)2:4H2O = 4Ca+2 + 2AsO4-3 + 2OH- + 4H2O
+          #log_k           -29.20
+          Ca(AsO4)0.5(OH)0.5:H2O = Ca+2 + 0.5AsO4-3 + 0.5OH- + H2O
+          log_k           -7.3
+          
+
+  Ca5H2(AsO4)4:9H2O_bb99
+          #Ca5H2(AsO4)4:9H2O = 5Ca+2 + 2AsO4-3 + 2HAsO4-2 + 9H2O
+          #log_k  -30.690
+          CaH0.4(AsO4)0.8:1.8H2O = Ca+2 + 0.4AsO4-3 + 0.4HAsO4-2 + 1.8H2O
+          log_k  -6.138
+
+  KNOBS
+#    -c 1e-10               # doesn't help
+#    -pe_step_size  3
+#    -step_size   3        # solves the problem
+#     -convergence 1e-8
+#     -step_size 3
+#     -pe        1.1
+#     -iter 400
+
+  SELECTED_OUTPUT
+  -high_precision TRUE  # causes failure
+
+SOLUTION 1
+units mg/L
+	temp      25
+	pH        1.5
+	units     mg/L
+	As        800.0
+	Ca        2200
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+	Fix_H+ -11.9328859060403 Ca(OH)2 10   # NaOH solves the problem
+		-force_equality true
+	Fix_e- 10.0335570469799 O2(g) 100
+		-force_equality true
+	Ca3(AsO4)2:3.67H2O_bb99   0  0
+	Ca5(AsO4)3OH_jbm_bb99     0  0
+	Ca5H2(AsO4)4:9H2O_bb99    0  0
+	Ca4(AsO4)2(OH)2:4H2O_bb99 0  0
+END
+KNOBS
+	-pe_step_size  3
+	-step_size   3        # solves the problem
+  
+SELECTED_OUTPUT
+	-high_precision TRUE  # causes failure
+  
+SOLUTION 1
+	units mg/L
+	temp      25
+	pH        1.5
+	units     mg/L
+	As        800.0
+	Ca        2200
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+	Fix_H+ -11.9328859060403 Ca(OH)2 10   # NaOH solves the problem
+		-force_equality true
+	Fix_e- 10.0335570469799 O2(g) 100
+		-force_equality true
+	Ca3(AsO4)2:3.67H2O_bb99   0  0
+	Ca5(AsO4)3OH_jbm_bb99     0  0
+	Ca5H2(AsO4)4:9H2O_bb99    0  0
+	Ca4(AsO4)2(OH)2:4H2O_bb99 0  0
+END
+SOLUTION_SPECIES
+	H2O + 0.01e- = H2O-0.01
+	log_k -9
+KNOBS
+  step_size 3
+  pe_step_size        1.1
+  iterations 400
+
+SOLUTION 1
+	units mg/L
+	temp     25
+	pH        1.5
+	As        800.0
+	Ca        2200
+END
+
+USE solution 1
+
+EQUILIBRIUM_PHASES 1
+	Fix_H+ -12.1543624161074 Ca(OH)2 10
+		force_equality true
+	Fix_e- 10.9395973154362 O2(g) 100
+		force_equality true
+	Ca3(AsO4)2:3.67H2O_bb99   0  0
+	Ca5(AsO4)3OH_jbm_bb99     0  0
+	Ca5H2(AsO4)4:9H2O_bb99    0  0
+	Ca4(AsO4)2(OH)2:4H2O_bb99 0  0
+END 
+KNOBS
+	step_size 3
+	pe_step_size        1.1
+	iterations 400
+
+SOLUTION 1
+	units mg/L
+	temp     25
+	pH        1.5
+	As        800.0
+	Ca        2200
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+	Fix_H+ -12.3020134228188 Ca(OH)2 10
+		-force_equality true
+	Fix_e- 11.8456375838926 O2(g) 100
+		-force_equality true
+	Ca3(AsO4)2:3.67H2O_bb99   0  0
+	Ca5(AsO4)3OH_jbm_bb99     0  0
+	Ca5H2(AsO4)4:9H2O_bb99    0  0
+	Ca4(AsO4)2(OH)2:4H2O_bb99 0  0
+END

@@ -11,9 +11,10 @@ USER_PUNCH 101
     -end
 #PRINT; -reset false
 KNOBS
-	-step 5
-	-pe   2
-	-iter 300
+#	-step 3
+#	-pe   1.5
+#	-iter 400
+#	-diag
 SOLUTION 1 pH 7 charge
 GAS_PHASE 6
     -fixed_volume
@@ -30,7 +31,7 @@ USER_GRAPH
  20 graph_x x
  30 graph_y tot("C(4)")
  -end
-
+INCREMENTAL_REACTIONS
 REACTION
  CO2 1; 27 in 26
 END

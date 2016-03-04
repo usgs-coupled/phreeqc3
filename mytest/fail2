@@ -1,0 +1,25 @@
+DATABASE Phmaster14.dat
+SELECTED_OUTPUT 101
+    -file                 fail2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1 
+END 
+EQUILIBRIUM_PHASES 1
+        CO2(g)  -3.4  10
+        O2(g)  -0.7  10
+        Ferrihydrite 0 0
+        PbMoO4    0 0
+        Carnotite 0 0
+SURFACE 1
+        Hfo_wOH Ferrihydrite  equilibrium_phase 0.15    53400
+# ERROR missing number(s)
+        Hfo_sOH Ferrihydrite    equilibrium_phase #0.01
+SURFACE 2-4
+        Hfo_wOH Ferrihydrite  equilibrium_phase 0.09    53400
+        Hfo_sOH Ferrihydrite    equilibrium_phase 0.00225
+END

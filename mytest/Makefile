@@ -368,7 +368,12 @@ all: alkalinity.out \
 	harm_mean.out \
 	current_analytical.out \
 	current2.out \
-	uphill_NP.out
+	uphill_NP.out \
+	Ca-As-Mahoney.out \
+	missing_surf_related_equi.out \
+	missing_surf_related_kin.out \
+	SC_temp.out \
+	feedwater.out
 
 # NaX.out
 
@@ -409,7 +414,10 @@ pitzer: \
 	NaCl-SO4.out \
 	NaCl_temp.out \
 	NaKCl.out \
-	NaMgCl.out 
+	NaMgCl.out \
+	fail1.out \
+	fail2.out \
+	fail3.out
 
 
 frezchem: \

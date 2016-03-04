@@ -1,0 +1,143 @@
+DATABASE ../database/wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 missing_surf_related_kin_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SURFACE_MASTER_SPECIES
+Langmuir Langmuir
+SURFACE_SPECIES
+Langmuir = Langmuir
+Langmuir + H3AsO3 = LangmuirH3AsO3
+-log_k 3.176 # Hoa Mai's constantsee Sorption_dp.xls
+-mole_balance LangmuirH3AsO3
+
+SOLUTION_SPECIES
+    H2O + 0.01e- = H2O-0.01
+   -log_k -9
+
+PHASES
+Fe(OH)3As
+    Fe(OH)2.9964(AsO4)0.0012 + 2.9964H+ = Fe+3 + 2.9964H2O + 0.0012AsO4-3
+	log_k	 0.391  #4.891-3.5 SI = -4.5, 0.891 #4.891-4 SI = -4   #	4.891- 5 = -0.109 for SI=-5
+
+
+CCalcite
+CaCO3 = Ca+2 + CO3-2
+#Ca(CO3)0.99967(HAsO3)0.00033 = Ca+2 + 0.99967CO3-2 + 0.00033HAsO3-2
+	log_k	 -8.23  #-8.48 + 0.25 = SI 0.24
+	delta_h -2.297 kcal
+
+SSiderite                          #from PHREEQC.DAT
+	FeCO3 = Fe+2 + CO3-2
+	log_k	-9.89  #SI = 1.  -10.89 + 1. = -9.89
+	delta_h  -2.480 kcal
+RATES
+CCalcite
+	-start
+5	if (m <= 0.0) then goto 210
+7	sr_CC = sr("CCalcite")
+10	if (sr_CC >= 1.0) then goto 210
+40	moles =  m0*(2.381e-11) * (m/m0)^3.0 * time * (1-sr_CC) #change gamma from 3.5 to 2.5 to 1.5 #increase k from 3.5e-3 to 7e-3 #k decreased by 100x from 7.5e-4
+70	if moles > m then moles = m
+210	save moles
+	-end
+
+SSiderite
+	-start
+#5	if (m <= 0.0) then goto 210
+7	sr_SS = sr("SSiderite")
+40	moles = (3.175e-12) * time * (1-sr_SS)  # decrease k from 9e-3 to 4e-3 to 2e-3* (m/m0)^1.0
+210	save moles
+	-end
+
+Fe(OH)3As
+	-start
+5	if (m <= 0.0) then goto 210
+7	sr_fe = sr("Fe(OH)3As")
+10	if (sr_fe >= 1.0) then goto 210
+40	moles =  m0*(2.54e-11) * (m/m0)^1.5 * time * (1-sr_fe)  #(m/m0)^2   #RT7b6 K = 0.5e-3  
+70	if moles > m then moles = m
+210	save moles
+	-end
+
+Organic                # rate name
+     -start
+5	if (m <= 0.0) then goto 20
+10 moles = m0*(9.333e-12) * (m/m0)^2.5  #KInCser7c2 gamma from 3.0 to 2.5    #serie7b 4e-4/1.36 = 2.94e-4
+11	if moles > m then moles = m
+20 save moles * time  
+     -end
+END
+SOLUTION 2
+SURFACE 2  #first line from Hoa mai: Langmuir As(III)-2.phrq
+#Langmuir 4.44e-3 1 1  # 529 g/L *8.4e-6 mol site /g = 4.44e-3 mol site
+# see file  conversion conc sites  to site per liter.xlsx
+Langmuir Fe(OH)3As kin 0.07 8.9e3 # 0.1 mol sites / mol Goethite, surface area 8.9e3 m2/mol #From Helle's relation
+-equilibrate 2
+KINETICS 2
+SSiderite
+-m0 0.0
+-bad_step_max 50000
+-cvode true 
+
+#CCalcite
+#-m0 0 #0.1   #*****check effect calc diss on Fe(III) red #ændret fra 0 til 0.1 for evt at undgå "negative moles in solution"
+
+
+Organic              # rate name
+-formula C
+-m0 1.36  # 0.27% org C
+
+
+Fe(OH)3As
+-m0 0.394 #65 umol/g 0.461 #=76 umol/g, 0.516 #85 umol/g
+
+KINETICS 3 #"Pleistocene"
+SSiderite
+-m0 0.0
+-bad_step_max 50000
+-cvode true 
+
+Organic              # rate name
+-formula C
+-m0 0.0653  # 0.013% org C
+
+
+Fe(OH)3As
+-m0 0.00394 #0.65 umol/g 0.461 #=76 umol/g, 0.516 #85 umol/g
+END
+KINETICS_RAW                 2 
+  # KINETICS_MODIFY candidate identifiers #
+  -step_divide               1
+  -rk                        3
+  -bad_step_max              50000
+  -use_cvode                 1
+  -cvode_steps               100
+  -cvode_order               5
+  -component                 CCalcite
+      # KINETICS_MODIFY candidate identifiers #
+      -tol                   1e-008
+      -m                     2.9999999999296
+      -m0                    3
+      -namecoef
+        CCalcite             1
+      -d_params
+        
+      # KineticsComp workspace variables #
+      -moles                 7.0420469455712e-011
+      -initial_moles         10
+  -equal_increments           0
+  -count                     0
+  -steps             
+    1 
+  # KINETICS workspace variables #
+  -totals 
+END
+use solution 2 
+use surface 2
+use kinetics 2
+END
