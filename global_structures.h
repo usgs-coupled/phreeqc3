@@ -838,6 +838,7 @@ struct unknown
 	LDBLE V_m;
 	LDBLE pressure;
 	int mb_number;
+	int iteration;
 };
 
 /*----------------------------------------------------------------------

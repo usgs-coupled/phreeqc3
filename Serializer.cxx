@@ -189,8 +189,10 @@ Serializer::Deserialize(Phreeqc &phreeqc_ref, Dictionary &dictionary, std::vecto
 			}
 			break;
 		default:
+#if !defined(R_SO)
 			std::cerr << "Unknown pack type in deserialize " << type << std::endl;
 			exit(4);
+#endif
 			break;
 		}
 	}

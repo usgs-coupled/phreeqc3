@@ -8330,11 +8330,12 @@ read_debug(void)
 		"convergence_tolerance",	/* 14 */
 		"numerical_derivatives",	/* 15 */
 		"tries",					/* 16 */
-		"try",						/* 17 */
-		"numerical_fixed_volume",    /* 18 */
-		"force_numerical_fixed_volume"    /* 19 */
+		"try",						       /* 17 */
+		"numerical_fixed_volume",          /* 18 */
+		"force_numerical_fixed_volume",    /* 19 */
+		"equi_delay"                       /* 20 */
 	};
-	int count_opt_list = 20;
+	int count_opt_list = 21;
 /*
  *   Read parameters:
  *	ineq_tol;
@@ -8426,6 +8427,9 @@ read_debug(void)
 			break;
 		case 19:				/* debug_inverse */
 			force_numerical_fixed_volume = (get_true_false(next_char, TRUE) == TRUE);
+			break;
+		case 20:				/* equi_delay */
+			sscanf(next_char, "%d", &equi_delay);
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)

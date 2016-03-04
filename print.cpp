@@ -2220,11 +2220,12 @@ print_totals(void)
 	EC = calc_SC();
 	if (EC > 0)
 	{
-		output_msg(sformatf("%36s%i%7s%i\n",
+		//output_msg(sformatf("%36s%i%7s%i\n",
+		output_msg(sformatf("%35s%3.0f%7s%i\n",
 #ifdef NO_UTF8_ENCODING
-				   "Specific Conductance (uS/cm, ", (int) tc_x, "oC)  = ", (int) EC));
+				   "Specific Conductance (uS/cm, ", tc_x, "oC)  = ", (int) EC));
 #else
-				   "Specific Conductance (µS/cm, ", (int) tc_x, "°C)  = ", (int) EC));
+				   "Specific Conductance (µS/cm, ", tc_x, "°C)  = ", (int) EC));
 #endif
 	}
 /* VP: Density Start */
@@ -2262,7 +2263,7 @@ print_totals(void)
 #endif
 	output_msg(sformatf("%45s%7.3f\n", "Activity of water  = ",
 			   exp(s_h2o->la * LOG_10)));
-	output_msg(sformatf("%45s%11.3e\n", "Ionic strength  = ",
+	output_msg(sformatf("%45s%11.3e\n", "Ionic strength (mol/kgw)  = ",
 			   (double) mu_x));
 	output_msg(sformatf("%45s%11.3e\n", "Mass of water (kg)  = ",
 			   (double) mass_water_aq_x));

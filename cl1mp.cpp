@@ -36,7 +36,7 @@ cl1mp(int k, int l, int m, int n,
 	int iout = 0;
 	// static i runs faster
 	int i, j;
-	int maxit, n1, n2;
+	int maxit, n1; //, n2;
 	int ia, ii, kk, nk, js;
 	int in = 0;
 	int iphase, kforce;
@@ -221,7 +221,7 @@ cl1mp(int k, int l, int m, int n,
 /* Function Body */
 	maxit = *iter;
 	n1 = n + 1;
-	n2 = n + 2;
+	//	n2 = n + 2;
 	nk = n + k;
 	nkl = nk + l;
 	klm = k + l + m;

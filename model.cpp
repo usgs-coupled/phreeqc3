@@ -1125,15 +1125,19 @@ ineq(int in_kode)
 			/* not in model, ignore */
 			if (x[i]->phase->in == FALSE)
 				continue;		
+			// delay removing phase
+			if (x[i]->moles > 0.0 || x[i]->f <= 0.0 || iterations == 0 || equi_delay == 0)
+			{
+				x[i]->iteration = iterations;
+			}
 			cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 			//if (it->second.Get_force_equality())
 			if (comp_ptr->Get_force_equality())
 				continue;
 			/*   Undersaturated and no mass, ignore */
-			//if (x[i]->f > 1e-14/*0e-8*/ && x[i]->moles <= 0
 			if (x[i]->f > 0e-8 && x[i]->moles <= 0
-				//&& it->second.Get_add_formula().size() == 0)
-					&& comp_ptr->Get_add_formula().size() == 0)
+				&& iterations >= x[i]->iteration + equi_delay
+				&& comp_ptr->Get_add_formula().size() == 0)
 			{
 				continue;
 			}
