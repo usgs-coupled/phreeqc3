@@ -1,8 +1,11 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
-        ---------
-        svn 10759
-        ---------
-	Created an option to enter cell-porosties in keyword TRANSPORT:
+
+	---------
+	svn 10804
+	---------
+	PHREEQC: Created an option to enter cell porosities in keyword TRANSPORT, which was
+	motivated by the need to define porosities for a variable-porosity multicomponent diffusion 
+	problem. Previously the Basic function CHANGE_POR had to be used to allow variable porosity.
 
 		-porosities 0.3 0.29 0.28  # porosities of cells 1, 2, 3-n, used for calculating
 					   # tortuosity in multicomponent diffusion calculations. The
@@ -11,15 +14,15 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 					   # an exchange-factor > 0 ('-stagnant 1 4e-6 0.3 0.1'), the
 					   # mobile (here = 0.3) and immobile (here = 0.1) porosities
 					   # defined with -stagnant are used.
-
+					   
 	The electric potential can be defined in keyword SOLUTION:
 		-potential 3 # Volt
-
+	
 	The effect of an electrical field on multicomponent diffusion (electro-migration) is calculated with
 	the Nernst-Planck equation if one of the 2 column end-cell solutions has a potential different from 0
 	(SOLUTION 0, SOLUTION cells + 1). For examples of electro-migration, see
 	http://www.hydrochemistry.eu/exmpls/electro_dif.html
-
+	
 	Added special BASIC functions for obtaining parameters calculated in electro-migration:
 		CURRENT_A          # the current (A) through the column
 		POT_V              # potential (V) in a cell
@@ -28,7 +31,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	tortuosities, diffusion coefficients) are different for the two cells, the harmonic 
 	mean is used for calculating the mass transfer (Appelo et al., 2010, Geochim. Cosmochim. 
 	Acta 74, 1201-1219).
-
+	
 	A temperature damping factor was added for the temperature effect of viscosity on the diffusion
 	coefficient of a solute species:
 
@@ -39,6 +42,38 @@ H+ = H+
 	The equation was proposed by Smolyakov, according to Anderko and Lencka, 1997, Ind. Chem. Eng. Res.
 	36, 1932–1943.
 
+        ---------
+        svn 10632
+        ---------
+	PhreeqcRM: Revised transfer of data for MPI when rebalancing. Serializes lists of
+	characters, integers, and doubles, instead of writing full "dump" version of each
+	reaction. Is much faster for cell transfers when rebalancing among processes.
+	
+        ---------
+        svn 10630
+        ---------
+	PhreeqcRM: Fixed bug when transferring data for MPI. Surface related to kinetics lost
+	concentrations of sorbed elements.
+	
+        ---------
+        svn 10585
+        ---------
+	Phreeqc: New set of convergence parameters that delay the removal of an unstable
+	phase by 1 iteration. Also new KNOBS identifier, -equi_delay n, where n is the 
+	number of iterations to retain an unstable phase.
+	
+        ---------
+        svn 10537
+        ---------
+	Phreeqc: Comments for K-spar and Albite RATEs were incorrect for phreeqc.dat and
+	wateq4f.dat
+	
+        ---------
+        svn 10521
+        ---------
+	PhreeqcRM: Provided better error message for CreateMapping errors.
+	
+Version 3.3.3 (10424): October 23, 2015 
         ---------
         svn 10409
         ---------
@@ -208,7 +243,7 @@ Version 3.2.2: August 24, 2015
         --------
         New Basic function EDL_SPECIES returns the moles of
         species in the electrical double layer. Applies when -DONNAN or 
-        -DIFFUSE_LAYER is defined in SURFACE calculations.
+        -DIFFUSE_LAYER are defined in SURFACE calculations.
 
 
 	EDL_SPECIES(surf$, count, name$, moles, area, thickness)
@@ -248,7 +283,7 @@ Version 3.2.1: July 7, 2015
         svn 9930
         --------
         PhreeqcRM had a serious error in the convertion of units from transport 
-        to the module. The error occurred when using H2O as a component and mg/L 
+        to themodule. The error occurred when using H2O as a component and mg/L 
         as the transport unit. 
 
 
