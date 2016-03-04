@@ -323,6 +323,7 @@ public:
 		tokequiv_frac,
 		tokcallback,
 		tokdiff_c,
+		toksetdiff_c,
 		toksa_declercq,
 		tokedl_species,
 		tokviscos,

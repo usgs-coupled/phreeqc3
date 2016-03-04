@@ -158,8 +158,31 @@ diff_c(const char *species_name)
 	LDBLE g;
 
 	s_ptr = s_search(species_name);
-	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
+	if (s_ptr != NULL /*&& s_ptr->in != FALSE && s_ptr->type < EMINUS*/)
 	{
+		g = s_ptr->dw;
+		if (s_ptr->dw_t)
+				g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
+		g *= viscos_0_25 / viscos;
+	}
+	else
+	{
+		g = 0;
+	}
+	return (g);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+setdiff_c(const char *species_name, double d)
+/* ---------------------------------------------------------------------- */
+{
+	struct species *s_ptr;
+	LDBLE g;
+
+	s_ptr = s_search(species_name);
+	if (s_ptr != NULL)
+	{
+		s_ptr->dw = d;
 		g = s_ptr->dw;
 		if (s_ptr->dw_t)
 				g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
