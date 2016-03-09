@@ -3727,7 +3727,7 @@ setup_surface(void)
 	 *   check related kinetics
 	 */
 	if (use.Get_surface_ptr()->Get_related_rate())
-	{		
+	{
 		cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_surface_user());
 		for (size_t i = 0; i < use.Get_surface_ptr()->Get_surface_comps().size(); i++)
 		{
@@ -5717,8 +5717,8 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	mu_terms_in_logk = false;
 	for (i = 0; i < count_s_x; i++)
 	{
-		if (s_x[i]->rxn_x->logk[vm_tc])
-		/* calculate delta_v for the reaction... */
+		//if (s_x[i]->rxn_x->logk[vm_tc])
+		/* calculate delta_v for the reaction, assume Vm = 0 if not defined for a species... */
 			s_x[i]->rxn_x->logk[delta_v] = calc_delta_v(s_x[i]->rxn_x, false);
 		if (tc == current_tc && s_x[i]->rxn_x->logk[delta_v] == 0)
 			continue;
@@ -6149,7 +6149,7 @@ check_same_model(void)
 					surf_ptr->Set_new_def(true);
 					this->tidy_min_surface();
 					return (FALSE);
-				}
+		}
 			}
 			if (use.Get_surface_ptr()->Get_surface_comps()[i].Get_rate_name().size() > 0)
 			{

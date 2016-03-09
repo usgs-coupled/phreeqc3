@@ -188,16 +188,31 @@ transport(void)
 
 	if (dV_dcell)
 	{
-		if (stag_data->count_stag || !multi_Dflag || ishift)
+		if (/*stag_data->count_stag || */!multi_Dflag || ishift)
 		{
 			input_error++;
 			error_string = sformatf(
-				"Electrical Field (potential) was defined, but needs -multi_D, \n\t and is not possible with -stagnant or with advective flow.");
+				//"Electrical Field (potential) was defined, but needs -multi_D, \n\t and is not possible with -stagnant or with advective flow.");
+			"Electrical Field (potential) was defined, but needs -multi_D, \n\t and is not possible with advective flow.");
 			error_msg(error_string, CONTINUE);
 			free_check_null(sol_D);
 		}
 		else
 		{
+			if (bcon_first != 1)
+			{
+				bcon_first = 1;
+				error_string = sformatf(
+					"Electrical Field (potential) was defined, assuming constant boundary condition for first cell.");
+				warning_msg(error_string);
+			}
+			if (bcon_last != 1)
+			{
+				bcon_last = 1;
+				error_string = sformatf(
+					"Electrical Field (potential) was defined, assuming constant boundary condition for last cell.");
+				warning_msg(error_string);
+			}
 			current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t)
 				(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 			if (current_cells == NULL)
@@ -512,12 +527,12 @@ transport(void)
 						run_reactions(i, kin_time, NOMIX, step_fraction);
 					else
 						run_reactions(i, kin_time, DISP, step_fraction);
-					if (multi_Dflag)
+					if (multi_Dflag && j < nmix)
 						fill_spec(i);
 
 					/* punch and output file */
 					if ((ishift == 0) && (j == nmix)
-						&& ((stag_data->count_stag == 0)
+						&& ((stag_data->count_stag == 0) || i == 0
 						|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
 					{
 						if ((cell_data[i].punch == TRUE)
@@ -569,8 +584,18 @@ transport(void)
 					else
 						punch_boolean = FALSE;
 					for (i = 1; i <= count_cells; i++)
-						mix_stag(i, stagkin_time, punch_boolean,
-						step_fraction);
+						mix_stag(i, stagkin_time, punch_boolean, step_fraction);
+					if (punch_boolean
+						&& ((cell_data[i].punch == TRUE && transport_step % punch_modulus == 0)
+						|| (cell_data[i].print == TRUE && transport_step % print_modulus == 0)))
+					{
+						cell_no = i;
+						run_reactions(i, 0, NOMIX, 0);
+						if (cell_data[i].punch == TRUE)
+							punch_all();
+						if (cell_data[i].print == TRUE)
+							print_all();
+					}
 				}
 			}
 		}
@@ -682,7 +707,7 @@ transport(void)
 					transport_step, 0, i, max_iter);
 				status(0, token);
 				run_reactions(i, kin_time, NOMIX, step_fraction);
-				if (multi_Dflag == TRUE)
+				if (multi_Dflag == TRUE && j < nmix)
 					fill_spec(i);
 				if (iterations > max_iter)
 					max_iter = iterations;
@@ -800,10 +825,10 @@ transport(void)
 					run_reactions(i, kin_time, NOMIX, step_fraction);
 				else
 					run_reactions(i, kin_time, DISP, step_fraction);
-				if (multi_Dflag == TRUE)
+				if (multi_Dflag == TRUE && j < nmix)
 					fill_spec(i);
-				if ((j == nmix) && ((stag_data->count_stag == 0) ||
-					(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
+				if ((j == nmix) && (stag_data->count_stag == 0 || i == 0
+					|| (i != 1 + count_cells && Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 				{
 					if ((cell_data[i].punch == TRUE)
 						&& (transport_step % punch_modulus == 0))
@@ -817,8 +842,8 @@ transport(void)
 				saver();
 
 				/* maybe sorb a surface component... */
-				if ((j == nmix) && ((stag_data->count_stag == 0) ||
-					(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
+				if ((j == nmix) && ((stag_data->count_stag == 0)
+					|| (Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 				{
 					if (change_surf_count > 0)
 					{
@@ -853,6 +878,17 @@ transport(void)
 					punch_boolean = FALSE;
 				for (i = 1; i <= count_cells; i++)
 					mix_stag(i, stagkin_time, punch_boolean, step_fraction);
+				if (punch_boolean
+					&& ((cell_data[i].punch == TRUE && transport_step % punch_modulus == 0)
+					|| (cell_data[i].print == TRUE && transport_step % print_modulus == 0)))
+				{
+					cell_no = i;
+					run_reactions(i, 0, NOMIX, 0);
+					if (cell_data[i].punch == TRUE)
+						punch_all();
+					if (cell_data[i].print == TRUE)
+						print_all();
+				}
 			}
 		}
 		if (dump_modulus != 0 && (transport_step % dump_modulus) == 0)
@@ -1861,7 +1897,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	il_calcs = -1;
 
 	current_x = sum_R = sum_Rd = 0.0;
-	if (dV_dcell)
+	if (dV_dcell && !stagnant)
 		find_current = loop_f_c = 1; // calculate J_ij once for all cells, find smallest j_x, next with this j_x.
 	else
 		find_current = loop_f_c = 0;
@@ -1956,11 +1992,13 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				{
 					tot1_h = tot1_o = tot2_h = tot2_o = 0.0;
 					m_s = (struct M_S *) free_check_null(m_s);
-					m_s = (struct M_S *) PHRQ_malloc((size_t)count_elements *
+					count_m_s = (ct[icell].J_ij_count_spec < count_elements ?
+						ct[icell].J_ij_count_spec : count_elements);
+					m_s = (struct M_S *) PHRQ_malloc((size_t)count_m_s *
 						sizeof(struct M_S));
 					if (m_s == NULL)
 						malloc_error();
-					for (i1 = 0; i1 < count_elements; i1++)
+					for (i1 = 0; i1 < count_m_s; i1++)
 					{
 						m_s[i1].name = NULL;
 						m_s[i1].tot1 = 0;
@@ -1978,7 +2016,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, icell));
 					use.Get_solution_ptr()->Set_total_h(use.Get_solution_ptr()->Get_total_h() - tot1_h);
 					use.Get_solution_ptr()->Set_total_o(use.Get_solution_ptr()->Get_total_o() - tot1_o);
-					if (dV_dcell && i > 0)
+					if (dV_dcell && i > 0 && !stagnant)
 					{
 						use.Get_solution_ptr()->Set_potV(cell_data[icell].potV);
 					}
@@ -2043,7 +2081,37 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		for (it = use.Get_solution_ptr()->Get_totals().begin();
 			it != use.Get_solution_ptr()->Get_totals().end(); it++)
 		{
+			if (strcmp(it->first.c_str(), "H(0)") == 0)
+				continue;
+			if (strcmp(it->first.c_str(), "O(0)") == 0)
+				continue;
 			LDBLE moles = it->second;
+			if (moles < 0 && ct[i].dl_s)
+			{
+				use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
+				cxxSurface * s_ptr = use.Get_surface_ptr();
+				cxxSurfaceCharge * charge_ptr;
+				for (size_t j = 0; j < s_ptr->Get_surface_charges().size(); j++)
+				{
+					if (s_ptr->Get_dl_type() == cxxSurface::DONNAN_DL)
+					{
+						charge_ptr = &(s_ptr->Get_surface_charges()[j]);
+						break;
+					}
+				}
+				cxxNameDouble::iterator jit;
+				for (jit = charge_ptr->Get_diffuse_layer_totals().begin(); jit != charge_ptr->Get_diffuse_layer_totals().end(); jit++)
+				{
+					if (strcmp(jit->first.c_str(), "H") == 0 || strcmp(jit->first.c_str(), "O") == 0)
+						continue;
+					if (strcmp(jit->first.c_str(), it->first.c_str()) == 0)
+					{
+						moles += jit->second;
+						it->second += jit->second;
+						jit->second = 0;
+					}
+				}
+			}
 			if (moles < 0)
 			{
 				temp = moles;
@@ -2241,7 +2309,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	else
 		il_calcs = 0;
 
-	if (dV_dcell && !find_current)
+	if (dV_dcell && !find_current && !stagnant)
 		goto dV_dcell2;
 
 	ct[icell].v_m = (struct V_M *) free_check_null(ct[icell].v_m);
@@ -3129,7 +3197,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	ct[icell].J_ij_count_spec = i_max = k;
 	ct[icell].J_ij_il_count_spec = k_il;
 
-	if (dV_dcell)
+	if (dV_dcell && !stagnant)
 	{
 		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dum = dV_dcell * F_Re3 / tk_x2;
@@ -3201,8 +3269,11 @@ dV_dcell2:
 			ct[icell].J_ij_sum += ct[icell].v_m[i].z * ct[icell].J_ij[i].tot1;
 		}
 	}
+	// ensure that icell has dl water when checking negative conc's in MCD
+	ct[icell].dl_s = dl_aq_i;
+	ct[jcell].dl_s = dl_aq_j;
 
-	if (dV_dcell)
+	if (dV_dcell && !stagnant)
 	{
 		// perhaps adapt dV for getting equal current...
 		current_cells[icell].ele = current_cells[icell].dif = 0;
