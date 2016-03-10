@@ -569,6 +569,9 @@ setup_inverse(struct inverse *inv_ptr)
 				{
 					row = master_ptr->in;
 				}
+				assert(row * max_column_count + column < max_column_count * max_row_count);
+				assert(row >= 0);
+				assert(column >= 0);
 				array[row * max_column_count + column] =
 					rxn_ptr->token[j].coef;
 				/* if coefficient of element is not 1.0 in master species */

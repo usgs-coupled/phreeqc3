@@ -3259,15 +3259,16 @@ read_master_species(void)
 			space((void **) ((void *) &master), count_master + 1,
 				  &max_master, sizeof(struct master *));
 		}
-		master[count_master] = master_alloc();
+		master[count_master++] = master_alloc();
 /*
  *   Set type to AQ
  */
-		master[count_master]->type = AQ;
+		master[count_master-1]->type = AQ;
 /*
  *   Save element name
  */
-		master[count_master]->elt = element_store(token);
+		master[count_master-1]->elt = element_store(token);
+		std::string ename = token;
 /*
  *   Save pointer to species data for master species
  */
@@ -3283,20 +3284,33 @@ read_master_species(void)
 		s_ptr = s_search(token);
 		if (s_ptr != NULL)
 		{
-			master[count_master]->s = s_ptr;
+			master[count_master-1]->s = s_ptr;
 		}
 		else
 		{
 			ptr1 = token;
 			get_token(&ptr1, token1, &l_z, &l);
-			master[count_master]->s = s_store(token1, l_z, FALSE);
+			master[count_master-1]->s = s_store(token1, l_z, FALSE);
+		}
+		
+		std::string sname = token;
+		replace("("," ", ename);
+		std::istringstream iss(ename);
+		iss >> ename;
+		if (ename != "e" && ename != "E" && ename != "Alkalinity" && std::string::npos == sname.find(ename))
+		{
+			input_error++;
+			std::ostringstream oss;
+			oss << "Master species, " << sname << " must contain the element, " << ename;
+			error_msg(oss.str().c_str(), CONTINUE);
+			continue;
 		}
 
 /*
  *   Read alkalinity for species
  */
 		copy_token(token, &ptr, &l);
-		i = sscanf(token, SCANFORMAT, &master[count_master]->alk);
+		i = sscanf(token, SCANFORMAT, &master[count_master-1]->alk);
 		if (i != 1)
 		{
 			input_error++;
@@ -3320,11 +3334,11 @@ read_master_species(void)
 		i = copy_token(token, &ptr, &l);
 		if (i == DIGIT)
 		{
-			sscanf(token, SCANFORMAT, &master[count_master]->gfw);
+			sscanf(token, SCANFORMAT, &master[count_master-1]->gfw);
 		}
 		else if (i == UPPER)
 		{
-			master[count_master]->gfw_formula = string_hsave(token);
+			master[count_master-1]->gfw_formula = string_hsave(token);
 		}
 		else
 		{
@@ -3346,13 +3360,13 @@ read_master_species(void)
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
-		if (strchr(master[count_master]->elt->name, '(') == NULL)
+		if (strchr(master[count_master-1]->elt->name, '(') == NULL)
 		{
-			master[count_master]->primary = TRUE;
+			master[count_master-1]->primary = TRUE;
 			/* Read gram formula weight for primary */
-			if (strcmp(master[count_master]->elt->name, "E") != 0)
+			if (strcmp(master[count_master-1]->elt->name, "E") != 0)
 			{
-				elts_ptr = master[count_master]->elt;
+				elts_ptr = master[count_master-1]->elt;
 				i = copy_token(token, &ptr, &l);
 				if (i == DIGIT)
 				{
@@ -3380,9 +3394,8 @@ read_master_species(void)
 		}
 		else
 		{
-			master[count_master]->primary = FALSE;
+			master[count_master-1]->primary = FALSE;
 		}
-		count_master++;
 		if (count_master >= max_master)
 		{
 			space((void **) ((void *) &master), count_master, &max_master,
