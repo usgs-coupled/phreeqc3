@@ -527,7 +527,7 @@ transport(void)
 						run_reactions(i, kin_time, NOMIX, step_fraction);
 					else
 						run_reactions(i, kin_time, DISP, step_fraction);
-					if (multi_Dflag && j < nmix)
+					if (multi_Dflag)
 						fill_spec(i);
 
 					/* punch and output file */
@@ -707,7 +707,7 @@ transport(void)
 					transport_step, 0, i, max_iter);
 				status(0, token);
 				run_reactions(i, kin_time, NOMIX, step_fraction);
-				if (multi_Dflag == TRUE && j < nmix)
+				if (multi_Dflag == TRUE)
 					fill_spec(i);
 				if (iterations > max_iter)
 					max_iter = iterations;
@@ -825,7 +825,7 @@ transport(void)
 					run_reactions(i, kin_time, NOMIX, step_fraction);
 				else
 					run_reactions(i, kin_time, DISP, step_fraction);
-				if (multi_Dflag == TRUE && j < nmix)
+				if (multi_Dflag == TRUE)
 					fill_spec(i);
 				if ((j == nmix) && (stag_data->count_stag == 0 || i == 0
 					|| (i != 1 + count_cells && Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
@@ -1624,7 +1624,7 @@ fill_spec(int l_cell_no)
 	struct master *master_ptr;
 	LDBLE dum, dum2;
 	LDBLE lm;
-	LDBLE por, por_il, viscos_f, viscos_il_f, viscos;
+	LDBLE por, por_il, viscos_f, viscos_il_f, viscos, l_z, l_g, ff;
 	bool x_max_done = false;
 
 	s_ptr2 = NULL;
@@ -1812,6 +1812,20 @@ fill_spec(int l_cell_no)
 				}
 				else
 					sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw * viscos_f;
+			}
+			if (correct_Dw)
+			{
+				if ((l_z = fabs(s_x[i]->z)) == 0)
+				{ // first approximation for neutral species (HTO), but is viscosity dependent
+					l_z = 1;
+					l_g = -DH_A * (sqrt(mu_x) / (1 + sqrt(mu_x)));
+				}
+				else
+					l_g = s_ptr->lg;
+				ff = (mu_x < .36 * l_z ? 0.6 / sqrt(l_z) : sqrt(mu_x) / l_z);
+				ff *= l_g;
+				if (ff > 0) ff = 0; // is viscosity dependent (ff > 0 in KCl)
+				sol_D[l_cell_no].spec[count_spec].Dwt *= under(ff);
 			}
 			if (sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) > diffc_max)
 				diffc_max = sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn);

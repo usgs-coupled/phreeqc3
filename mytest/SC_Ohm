@@ -1,0 +1,26 @@
+DATABASE ../database/phreeqc.dat
+#PRINT; -reset false
+SOLUTION 0-1; -water 1e3; Cl 0.1; Na 0.1
+SOLUTION 2;   -water 1e3; Cl 0.1; Na 0.1
+potential 1
+END
+TRANSPORT
+-boundary_conditions 1 1
+-multi_d true 1e-9 1 0.0 1 true
+-flow_direction diffusion_only
+-time_step 1; -punch_cells 1; -shifts 1
+USER_GRAPH
+-initial_solutions false
+-axis_titles "NaCl / (mol/kgw)" "Specific Conductance / (mS/cm)"
+-axis_scale x_axis 0 2.001
+-headings PHREEQC`s SC Ohm`s law
+10 if get(1) > 0 then plot_xy get(1), get(2) / 1e3, symbol_size = 3, y_axis = 2 
+20 if get(1) > 0 then plot_xy get(1), -current_a * 10, symbol = Square, symbol_size = 8, line_width = 2
+30 put(tot("Cl"), 1) : put(SC, 2)
+END
+
+REACTION 0-2
+NaCl 1; 200
+TRANSPORT
+-shifts 11
+END

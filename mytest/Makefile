@@ -373,7 +373,8 @@ all: alkalinity.out \
 	missing_surf_related_equi.out \
 	missing_surf_related_kin.out \
 	SC_temp.out \
-	feedwater.out
+	feedwater.out \
+	SC_Ohm.out
 
 # NaX.out
 

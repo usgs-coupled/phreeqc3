@@ -1408,6 +1408,7 @@ protected:
 	int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
 	LDBLE default_Dw;		/* default species diffusion coefficient in water at 25oC, m2/s */
+	int correct_Dw;         /* if true, Dw is adapted in calc_SC */
 	LDBLE multi_Dpor;		/* uniform porosity of free porewater in solid medium */
 	LDBLE interlayer_Dpor;	/* uniform porosity of interlayer space of montmorillonite in solid medium */
 	LDBLE multi_Dpor_lim;	/* limiting free porewater porosity where transport stops */
