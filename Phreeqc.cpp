@@ -279,7 +279,7 @@ void Phreeqc::init(void)
 	MIN_LM = -30.0;			    /* minimum log molality allowed before molality set to zero */
 	LOG_ZERO_MOLALITY = -30;	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
 	MIN_RELATED_LOG_ACTIVITY = -30;
-	MIN_TOTAL = 1e-18;
+	MIN_TOTAL = 1e-25;
 	MIN_TOTAL_SS = MIN_TOTAL/100;
 	MIN_RELATED_SURFACE = MIN_TOTAL*100;
 	// auto Rxn_temperature_map;
