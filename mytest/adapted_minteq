@@ -2,7 +2,6 @@ DATABASE adapted_minteq.dat
 KNOBS
 #-min_total 1e-18
 -tol 1e-20
-#-tol 1e-17
 SELECTED_OUTPUT 101
     -file                 adapted_minteq_101.sel
 USER_PUNCH 101
@@ -45,8 +44,6 @@ SURFACE 1-40
 Hfo_s      5.9533E-05   600 1.057901145
 Hfo_w      0.002381319
 end 
-#KNOBS
-#-conv 1e-10
 TRANSPORT
  -cells       40
  -shifts       5000
@@ -57,8 +54,8 @@ TRANSPORT
  -dispersivities    0
  -diffusion_coefficient 0
  -stagnant       0 
--print_cells      10
--print_frequency   10
+#-print_cells      10
+-print_frequency   1000
 #-punch_cells      10
 #-punch_frequency   10 
 
