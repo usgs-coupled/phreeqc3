@@ -1,0 +1,65 @@
+DATABASE adapted_minteq.dat
+SELECTED_OUTPUT 101
+    -file                 adapted_minteq_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+PHASES
+Fix_H+
+  H+ = H+
+  log_k 0.
+Fix_pe
+  e- = e-
+  log_k 0.
+  
+SOLUTION 0
+pH 3
+Na 10
+Cl 10
+Sb 1E-03 # 10^-3 mmol = 1 µmol
+EQUILIBRIUM_PHASES 
+Fix_H+ -3 NaOH  
+   -force_equality true
+Fix_pe -2 O2(g)   10
+   -force_equality true
+END
+
+SOLUTION 1-40
+pH 3
+Na 10
+Cl 10
+EQUILIBRIUM_PHASES
+Fix_H+ -3 NaOH   
+   -force_equality true
+Fix_pe -2 O2(g)   10
+   -force_equality true
+SURFACE 1-40
+Hfo_s      5.9533E-05   600 1.057901145
+Hfo_w      0.002381319
+end 
+KNOBS
+-conv 1e-10
+TRANSPORT
+ -cells       40
+ -shifts       500
+ -time_step      208.33
+ -flow_direction     forward
+ -boundary_conditions    flux flux
+ -lengths       250
+ -dispersivities    0
+ -diffusion_coefficient 0
+ -stagnant       0 
+ #-print_cells      10
+ #-print_frequency   10
+ #-punch_cells      10
+ #-punch_frequency   10 
+
+USER_GRAPH
+10 graph_x DIST
+20 graph_y Log10(TOT("Sb"))
+
+END

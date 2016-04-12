@@ -1598,6 +1598,13 @@ protected:
 	int stop_program;
 	int incremental_reactions;
 
+	double MIN_LM;
+	double LOG_ZERO_MOLALITY;
+	double MIN_TOTAL;
+	double MIN_TOTAL_SS;
+	double MIN_RELATED_SURFACE;
+	double MIN_RELATED_LOG_ACTIVITY;
+
 	int count_strings;
 	int max_strings;
 
