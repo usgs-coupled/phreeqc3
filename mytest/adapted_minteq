@@ -1,6 +1,7 @@
 DATABASE adapted_minteq.dat
 KNOBS
--min_total 1e-15
+#-min_total 1e-18
+-tol 1e-20
 #-tol 1e-17
 SELECTED_OUTPUT 101
     -file                 adapted_minteq_101.sel
@@ -44,11 +45,11 @@ SURFACE 1-40
 Hfo_s      5.9533E-05   600 1.057901145
 Hfo_w      0.002381319
 end 
-KNOBS
--conv 1e-10
+#KNOBS
+#-conv 1e-10
 TRANSPORT
  -cells       40
- -shifts       500
+ -shifts       5000
  -time_step      208.33
  -flow_direction     forward
  -boundary_conditions    flux flux
@@ -58,8 +59,8 @@ TRANSPORT
  -stagnant       0 
 -print_cells      10
 -print_frequency   10
--punch_cells      10
--punch_frequency   10 
+#-punch_cells      10
+#-punch_frequency   10 
 
 USER_GRAPH
 10 graph_x DIST
