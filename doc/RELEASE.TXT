@@ -1,6 +1,86 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
 	---------
+	svn 10952
+	---------
+	PhreeqcRM: InitialPhreeqcCell2Module method had incorrect indexing when using a mapping of model
+	cells to chemistry cells that was not 1-to-1. The result was incorrect values for porosity, rv, and
+	saturation.
+	
+	---------
+	svn 10932
+	---------
+	PHREEQC: Additional error checking. In SOLUTION_MASTER_SPECIES the master species must contain the
+	element name.
+
+	---------
+	svn 10929
+	---------
+	PHREEQC: If an aqueous species lacked a molar volume parameter (Vm), then the change in molar volume
+	for reactions involving that species were not calculated correctly. Now summations of molar volumes,
+	including zero for the species, are calculated.
+
+	---------
+	svn 10892
+	---------
+	PHREEQC: Added Vm values for Gibbsite, Kaolinite, Albite, Anorthite, K-feldspar, Ca-Montmorillonite,
+	Talc, Illite, Chrysotile, Sepiolite, Hematite, Goethite, Pyrite, and Mackinawite for the phreeqc.dat
+	and Amm.dat databases.
+	
+	---------
+	svn 10877
+	---------
+	PHREEQC and PhreeqcI: PhreeqcI has updated documentation through the Help menu. All entries in green
+	font are modifications, corrections, or new features.
+
+	Corrected description of "EQUI" option of the SYS function. 
+	
+	-porosities is now an option in TRANSPORT for defining a heterogeneous distribution of porosity for
+	-multi_d calculations.
+	
+	RHO_0 is a new Basic function that gives the density of pure water at the current temperature.
+	
+	EDL_SPECIES(surf$, count, name$, moles, area, thickness)
+	
+	Returns the total number of moles of species in the diffuse layer. The arguments to the function are
+	as follows: surf$ is the name of a surface, such as "Hfo", excluding the site type (such as "_s");
+	count is the number of species in the diffuse layer; name$ is an array of size count that contains
+	the names of aqueous species in the diffuse layer of surface surf$; moles is an array of size count
+	that contains the number of moles of each aqueous species in the diffuse layer of surface surf$;
+	area is the area of the surface in m^2; thickness is the thickness of the diffuse layer in m. The
+	function applies when -donnan or -diffuse_layer is defined in SURFACE calculations.
+	
+	Corrected description of "EQUI" option of the SYS function. 
+	
+	---------
+	svn 10874
+	---------
+	
+	PHREEQC: Corrected description of "EQUI" option of the SYS function. PhreeqcI has updated
+	documentation through the help. All entries in green font are modifications, corrections, or new
+	features.
+	
+	---------
+	svn 10844
+	---------
+	PhreeqcI: Changed the way the current working directory is set. Now, the current working directory
+	is not changed when browsing for and changing the database.
+	
+	---------
+	svn 10843
+	---------
+	PhreeqcI: SOLUTION_SPREAD did not import correctly when using the P4W tab of PhreeqcI to generate
+	the an example problem.
+	
+	---------
+	svn 10834
+	---------
+	PHREEQC: In converting units of mass to moles per kilogram of water, it is possible to calculate a negative
+	mass of water. This problem is now trapped, and an error message is issued.
+
+Version 3.3.5 (10806): February 3, 2016
+
+	---------
 	svn 10804
 	---------
 	PHREEQC: Created an option to enter cell porosities in keyword TRANSPORT, which was
