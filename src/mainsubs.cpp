@@ -2375,7 +2375,7 @@ run_simulations(void)
 {
 	char token[MAX_LENGTH];
 //#ifdef SKIP_KEEP
-#if defined(WIN32)
+#if defined(_MSC_VER) && (_MSC_VER < 1900)  // removed in vs2015
 	unsigned int old_exponent_format;
 	old_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
