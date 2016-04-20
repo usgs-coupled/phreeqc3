@@ -4767,6 +4767,7 @@ read_selected_output(void)
 	else if (n_user == 1 && so == SelectedOutput_map.end())
 	{
 		// n_user = 1, new definition, do nothing use; constructor default
+		temp_selected_output.Set_new_def(true);
 	}
 	else 
 	{
