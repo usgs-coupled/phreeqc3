@@ -3185,7 +3185,7 @@ punch_identifiers(void)
 					(double) (100 * cb_x / total_ions_x));
 		}
 	}
-
+	punch_flush();
 	return (OK);
 }
 
