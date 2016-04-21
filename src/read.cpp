@@ -8374,7 +8374,7 @@ read_debug(void)
 			break;
 		case 21:				/* minimum_total */
 		case 22:				/* min_total */
-			sscanf(next_char, "%d", &MIN_TOTAL);
+			sscanf(next_char, SCANFORMAT, &MIN_TOTAL);
 			MIN_TOTAL_SS = MIN_TOTAL/100;
 			MIN_RELATED_SURFACE = MIN_TOTAL*100;
 			break;
