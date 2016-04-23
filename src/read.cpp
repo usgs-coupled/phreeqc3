@@ -4774,6 +4774,10 @@ read_selected_output(void)
 		// n_user != 1 then reset false
 
 		temp_selected_output.Reset(false);
+		if (so == SelectedOutput_map.end())
+		{
+			temp_selected_output.Set_new_def(true);
+		}
 	}
 
 	CParser parser(this->phrq_io);
