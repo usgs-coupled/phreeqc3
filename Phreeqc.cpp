@@ -470,6 +470,7 @@ void Phreeqc::init(void)
 	multi_Dn                 = 0;
 	interlayer_tortf         = 100.0;
 	cell_no                  = 0;
+	fix_current              = 0.0;
 	/*----------------------------------------------------------------------
 	*   Advection data
 	*---------------------------------------------------------------------- */
@@ -1385,6 +1386,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	multi_Dn                 = pSrc->multi_Dn;
 	interlayer_tortf         = pSrc->interlayer_tortf;
 	cell_no                  = pSrc->cell_no;
+	fix_current              = pSrc->fix_current;
 	/*----------------------------------------------------------------------
 	*   Advection data
 	*---------------------------------------------------------------------- */
