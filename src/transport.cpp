@@ -1995,7 +1995,8 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						current_x = j_0e + current_cells[0].dif;
 						if (fix_current)
 						{
-							int sign = (signbit(current_x) == 0 ? 1 : -1);
+							//int sign = (signbit(current_x) == 0 ? 1 : -1);
+							int sign = (current_x >= 0) ? 1 : -1;
 							current_x = sign * fix_current;
 							j_0e = current_x - current_cells[0].dif;
 						}
