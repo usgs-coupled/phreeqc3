@@ -1955,7 +1955,7 @@ protected:
 	int nmix, heat_nmix;
 	LDBLE heat_mix_f_imm, heat_mix_f_m;
 	int warn_MCD_X, warn_fixed_Surf;
-	LDBLE current_x, current_A; // current: coulomb * s, ampere
+	LDBLE current_x, current_A, fix_current; // current: coulomb / s, Ampere, fixed current (Ampere)
 
 #ifdef PHREEQ98
 	int AutoLoadOutputFile, CreateToC;

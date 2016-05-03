@@ -91,9 +91,10 @@ read_transport(void)
 		"multi_d",				/* 40 */
 		"interlayer_d",			/* 41 */
 		"porosities",			/* 42 */
-		"porosity"				/* 43 */
+		"porosity",				/* 43 */
+		"fix_current"			/* 44 */
 	};
-	int count_opt_list = 44;
+	int count_opt_list = 45;
 
 	strcpy(file_name, "phreeqc.dmp");
 	/*
@@ -665,6 +666,19 @@ read_transport(void)
 			}
 			opt_save = 42;
 			break;
+		case 44:				/* fix_current */
+			if (copy_token(token, &next_char, &l) == DIGIT)
+			{
+				sscanf(token, SCANFORMAT, &fix_current);
+				fix_current = fabs(fix_current);
+			}
+			else
+			{
+				warning_msg("Expected the fixed value for the current (Ampere).");
+				fix_current = 0.0;
+			}
+			opt_save = OPTION_DEFAULT;
+			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -938,13 +952,6 @@ read_transport(void)
 		cell_data[i].por_il = interlayer_Dpor;
 	}
 #endif
-	//{
-	//	for (int i = 0; i < all_cells; i++)
-	//	{
-	//		std::cerr << i << "  " << cell_data[i].por << std::endl;
-	//	}
-	//}
-	
 /*
 	*   Calculate dump_modulus
 	*/

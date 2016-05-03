@@ -105,8 +105,8 @@ transport(void)
 				ct[i].A_ij_il = 0.0;
 				ct[i].Dz2c_il = 0.0;
 				ct[i].mixf_il = 0.0;
-				ct[i].J_ij_count_spec = -1;
-				ct[i].J_ij_il_count_spec = -1;
+				ct[i].J_ij_count_spec = 0;
+				ct[i].J_ij_il_count_spec = 0;
 				ct[i].v_m = NULL;
 				ct[i].v_m_il = NULL;
 				ct[i].J_ij = NULL;
@@ -186,6 +186,12 @@ transport(void)
 		}
 	}
 
+	if (fix_current && !dV_dcell)
+	{
+		warning_msg("fix_current (A) was defined, but potential in a boundary cell was not.\n\tUsing 1e-8 V in cell 0 for calculating the potentials.");
+		cell_data[0].potV = 1e-8;
+		dV_dcell = 1;
+	}
 	if (dV_dcell)
 	{
 		if (/*stag_data->count_stag || */!multi_Dflag || ishift)
@@ -1815,7 +1821,7 @@ fill_spec(int l_cell_no)
 			}
 			if (correct_Dw)
 			{
-				if ((l_z = fabs(s_x[i]->z)) == 0)
+				if ((l_z = fabs(s_ptr->z)) == 0)
 				{ // first approximation for neutral species (HTO), but is viscosity dependent
 					l_z = 1;
 					l_g = -DH_A * (sqrt(mu_x) / (1 + sqrt(mu_x)));
@@ -1912,7 +1918,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	current_x = sum_R = sum_Rd = 0.0;
 	if (dV_dcell && !stagnant)
-		find_current = loop_f_c = 1; // calculate J_ij once for all cells, find smallest j_x, next with this j_x.
+		find_current = loop_f_c = 1; // calculate J_ij once for all cells, loop to dV_dcell2.
 	else
 		find_current = loop_f_c = 0;
 
@@ -1984,12 +1990,23 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					else
 					{
 						LDBLE dVc, j_0e;
-						// distribute dV_dcell according to relative resistance, calculate current_x
+						// distribute dV_dcell according to relative resistance, calculate current_x if not fixed
 						j_0e = (dV_dcell * count_cells - sum_Rd) / sum_R;
+						current_x = j_0e + current_cells[0].dif;
+						if (fix_current)
+						{
+							int sign = (signbit(current_x) == 0 ? 1 : -1);
+							current_x = sign * fix_current;
+							j_0e = current_x - current_cells[0].dif;
+						}
 						dVc = j_0e * current_cells[0].R;
 						cell_data[1].potV = cell_data[0].potV + dVc;
-						current_x = j_0e + current_cells[0].dif;
 						for (i1 = 1; i1 < count_cells; i1++)
+						{
+							dVc = current_cells[i1].R * (current_x - current_cells[i1].dif);
+							cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
+						}
+						if (fix_current)
 						{
 							dVc = current_cells[i1].R * (current_x - current_cells[i1].dif);
 							cell_data[i1 + 1].potV = cell_data[i1].potV + dVc;
@@ -2030,7 +2047,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, icell));
 					use.Get_solution_ptr()->Set_total_h(use.Get_solution_ptr()->Get_total_h() - tot1_h);
 					use.Get_solution_ptr()->Set_total_o(use.Get_solution_ptr()->Get_total_o() - tot1_o);
-					if (dV_dcell && i > 0 && !stagnant)
+					if (dV_dcell && (i > 0 || fix_current) && !stagnant)
 					{
 						use.Get_solution_ptr()->Set_potV(cell_data[icell].potV);
 					}
@@ -2062,6 +2079,10 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					use.Get_solution_ptr()->Set_total_h(dummy + tot1_h);
 					dummy = use.Get_solution_ptr()->Get_total_o();
 					use.Get_solution_ptr()->Set_total_o(dummy + tot1_o);
+					if (i == count_cells && fix_current && !stagnant)
+					{
+						use.Get_solution_ptr()->Set_potV(cell_data[icell].potV);
+					}
 					for (l = 0; l < count_m_s; l++)
 					{
 						length = (int)strlen(m_s[l].name);
@@ -2329,29 +2350,31 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	ct[icell].v_m = (struct V_M *) free_check_null(ct[icell].v_m);
 	ct[icell].v_m_il = (struct V_M *) free_check_null(ct[icell].v_m_il);
 	//ct[icell].v_m = ct[icell].v_m_il = NULL;
-	if (stagnant)
+	if (!il_calcs)
 	{
-		if (!il_calcs && (cell_data[icell].por < multi_Dpor_lim
-			|| cell_data[jcell].por < multi_Dpor_lim))
-			return (OK);
-	}
-	else
-	{							/* regular column... */
-		if (icell == 0)
+		if (stagnant)
 		{
-			if (!il_calcs && cell_data[1].por < multi_Dpor_lim)
-				return (OK);
-		}
-		else if (icell == count_cells)
-		{
-			if (!il_calcs && cell_data[count_cells].por < multi_Dpor_lim)
+			if (cell_data[icell].por < multi_Dpor_lim
+				|| cell_data[jcell].por < multi_Dpor_lim)
 				return (OK);
 		}
 		else
-		{
-			if (!il_calcs && (cell_data[icell].por < multi_Dpor_lim
-				|| cell_data[jcell].por < multi_Dpor_lim))
+		{							/* regular column... */
+			if ((icell == 0 && cell_data[1].por < multi_Dpor_lim)
+				||(icell == count_cells && cell_data[count_cells].por < multi_Dpor_lim)
+				|| (icell !=0 && icell != count_cells && (cell_data[icell].por < multi_Dpor_lim
+					|| cell_data[jcell].por < multi_Dpor_lim)))
+			{
+				if (dV_dcell)
+				{
+					current_cells[icell].R = -1e15;
+					current_cells[icell].ele = dV_dcell / current_cells[icell].R;
+					current_cells[icell].dif = 0;
+					sum_R += current_cells[icell].R;
+					sum_Rd += current_cells[0].dif * current_cells[icell].R;
+				}
 				return (OK);
+			}
 		}
 	}
 
@@ -3283,7 +3306,7 @@ dV_dcell2:
 			ct[icell].J_ij_sum += ct[icell].v_m[i].z * ct[icell].J_ij[i].tot1;
 		}
 	}
-	// ensure that icell has dl water when checking negative conc's in MCD
+	// assure that icell has dl water when checking negative conc's in MCD
 	ct[icell].dl_s = dl_aq_i;
 	ct[jcell].dl_s = dl_aq_j;
 
