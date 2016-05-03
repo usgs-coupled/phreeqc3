@@ -186,6 +186,7 @@ all: alkalinity.out \
 	y_H2O.out \
 	zn.test.out \
 	zero_modify.out \
+	Clogging.out \
 	ex1.out \
 	ex2.out \
 	ex3.out \
