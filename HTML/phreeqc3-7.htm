@@ -7,68 +7,68 @@
 <TITLE> CALCULATE_VALUES</TITLE><HR><P> | <A HREF="phreeqc3-8.htm">Next</A> || <A HREF="phreeqc3-6.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50515969_pgfId-472128"></A><A NAME="50515969_35035"></A>CALCULATE_VALUES</H2>
+<A NAME="50548737_pgfId-472128"></A><A NAME="50548737_35035"></A>CALCULATE_VALUES</H2>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-472129"></A>This keyword data block allows the definition of Basic functions that can be used in other PHREEQC Basic programs or to display isotopic compositions as defined in the <A HREF="phreeqc3-22.htm#50515969_17508" CLASS="XRef">ISOTOPE_ALPHAS</A> and <A HREF="phreeqc3-23.htm#50515969_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data blocks. Isotope ratios are the ratio of moles of a minor isotope to moles of a major isotope in an aqueous, gas, or mineral species. Isotope alphas are the ratio of two isotope ratios, which is the fractionation factor between two species. The data block is used primarily to display results from the isotopic simulations, but also can be used to write Basic functions to simplify Basic programming for <A HREF="phreeqc3-32.htm#50515969_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50515969_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50515969_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-53.htm#50515969_56415" CLASS="XRef">USER_PUNCH</A>.</P>
+<A NAME="50548737_pgfId-472129"></A>This keyword data block allows the definition of Basic functions that can be used in other PHREEQC Basic programs or to display isotopic compositions as defined in the <A HREF="phreeqc3-22.htm#50548737_17508" CLASS="XRef">ISOTOPE_ALPHAS</A> and <A HREF="phreeqc3-23.htm#50548737_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data blocks. Isotope ratios are the ratio of moles of a minor isotope to moles of a major isotope in an aqueous, gas, or mineral species. Isotope alphas are the ratio of two isotope ratios, which is the fractionation factor between two species. The data block is used primarily to display results from the isotopic simulations, but also can be used to write Basic functions to simplify Basic programming for <A HREF="phreeqc3-32.htm#50548737_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50548737_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50548737_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-53.htm#50548737_56415" CLASS="XRef">USER_PUNCH</A>.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-472133"></A><A NAME="50515969_66686"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475025"></A>Line 0: CALCULATE_VALUES</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-476080"></A>Line 1: R(D)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475026"></A>Line 2: -start</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475027"></A>Line 3:   10  ratio = -9999.999</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475028"></A>Line 3a:  20  if (TOT(&quot;D&quot;) &lt;= 0) THEN GOTO 100</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475029"></A>Line 3b:  30  total_D = TOT(&quot;D&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475030"></A>Line 3c:  40  total_H = TOT(&quot;H&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475031"></A>Line 3d:  50  ratio = total_D/total_H</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475032"></A>Line 3e:  100 SAVE ratio</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-475033"></A>Line 4: -end</pre>
+<A NAME="50548737_pgfId-472133"></A><A NAME="50548737_66686"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475025"></A>Line 0: CALCULATE_VALUES</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-476080"></A>Line 1: R(D)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475026"></A>Line 2: -start</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475027"></A>Line 3:   10  ratio = -9999.999</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475028"></A>Line 3a:  20  if (TOT(&quot;D&quot;) &lt;= 0) THEN GOTO 100</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475029"></A>Line 3b:  30  total_D = TOT(&quot;D&quot;)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475030"></A>Line 3c:  40  total_H = TOT(&quot;H&quot;)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475031"></A>Line 3d:  50  ratio = total_D/total_H</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475032"></A>Line 3e:  100 SAVE ratio</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-475033"></A>Line 4: -end</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-472144"></A><A NAME="50515969_88298"></A>Explanation</H6>
+<A NAME="50548737_pgfId-472144"></A><A NAME="50548737_88298"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-472145"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-472145"></A>Line 0: <STRONG CLASS="Bold">
 CALCULATE_VALUES</STRONG>
 </P>
 <P CLASS="Body1">
-<A NAME="50515969_pgfId-472146"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-472146"></A><STRONG CLASS="Bold">
 CALCULATE_VALUES</STRONG>
  is the keyword for the data block. No other data are input on the keyword line.</P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-472147"></A>Line 1: <EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-472147"></A>Line 1: <EM CLASS="Emphasis">
 name of Basic function</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-472149"></A><EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-472149"></A><EM CLASS="Emphasis">
 name of Basic function</EM>
 --Alphanumeric character string that defines the name of the Basic function; no spaces are allowed. The function defined in this example would be evaluated in other PHREEQC Basic programs by using CALC_VALUE(&#8220;R(D)&#8221;).</P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-476135"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-476135"></A>Line 2: <STRONG CLASS="Bold">
 -start</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-476136"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-476136"></A><STRONG CLASS="Bold">
 -start</STRONG>
 --Identifier marks the beginning of a Basic program. Optional.</P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-476137"></A>Line 3: <EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-476137"></A>Line 3: <EM CLASS="Emphasis">
 numbered Basic statement</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-476138"></A><EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-476138"></A><EM CLASS="Emphasis">
 numbered Basic statement</EM>
 --A valid Basic language statement that must be numbered. The statements are evaluated in numerical order. The statement &#8220;SAVE <EM CLASS="Emphasis">
 expression</EM>
 &#8221; must be included in the list of statements, where the value of <EM CLASS="Emphasis">
 expression </EM>
-is the result that is returned from the Basic function. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50515973_44206" CLASS="XRef">The Basic Interpreter</A> (tables <A HREF="phreeqc3-54.htm#50515973_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50515973_27680" CLASS="XRef">8</A>). </P>
+is the result that is returned from the Basic function. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50548741_44206" CLASS="XRef">The Basic Interpreter</A> (tables <A HREF="phreeqc3-54.htm#50548741_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50548741_27680" CLASS="XRef">8</A>). </P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-476148"></A>Line 4: <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-476148"></A>Line 4: <STRONG CLASS="Bold">
 -end</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-476149"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-476149"></A><STRONG CLASS="Bold">
 -end</STRONG>
 --Identifier marks the end of a Basic function. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
 END</STRONG>
@@ -76,9 +76,9 @@ END</STRONG>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-472186"></A><A NAME="50515969_61506"></A>Notes</H6>
+<A NAME="50548737_pgfId-472186"></A><A NAME="50548737_61506"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-472187"></A>The <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-472187"></A>The <STRONG CLASS="Bold">
 CALCULATE_VALUES</STRONG>
  data block is used to write Basic functions. These functions have no arguments and return a single numeric result defined in the line with the SAVE command. The functions may be called from other PHREEQC Basic programs by using the function CALC_VALUE(&#8220;<EM CLASS="Emphasis">
 function_name</EM>
@@ -88,27 +88,27 @@ function_name</EM>
 CALCULATE_VALUES</STRONG>
  data block. </P>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-481923"></A>The <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-481923"></A>The <STRONG CLASS="Bold">
 CALCULATE_VALUES</STRONG>
  data block is used primarily to implement isotopic calculations as described in Thorstenson and Parkhurst (2002, 2004), but could be used for other purposes as well. The database <EM CLASS="Emphasis">
 iso.dat</EM>
  contains many instances of Basic functions in <STRONG CLASS="Bold">
 CALCULATE_VALUES</STRONG>
- data blocks. Basic functions have been written to calculate isotope ratios (moles of minor isotope divided by moles of major isotope) for a large number of isotopes and aqueous, gas, and mineral species. The example given at the beginning of this section calculates the ratio of deuterium to hydrogen in an aqueous solution. The functions also are used to calculate ratios of isotope ratios (alphas), which are equal to the fractionation factors among species. These functions are then specified in the <A HREF="phreeqc3-22.htm#50515969_17508" CLASS="XRef">ISOTOPE_ALPHAS</A> and <A HREF="phreeqc3-23.htm#50515969_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data blocks to enable listing isotopic ratios and alphas in the output file. The functions also can be used in Basic programs in <A HREF="phreeqc3-32.htm#50515969_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50515969_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50515969_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-53.htm#50515969_56415" CLASS="XRef">USER_PUNCH</A> data blocks. </P>
+ data blocks. Basic functions have been written to calculate isotope ratios (moles of minor isotope divided by moles of major isotope) for a large number of isotopes and aqueous, gas, and mineral species. The example given at the beginning of this section calculates the ratio of deuterium to hydrogen in an aqueous solution. The functions also are used to calculate ratios of isotope ratios (alphas), which are equal to the fractionation factors among species. These functions are then specified in the <A HREF="phreeqc3-22.htm#50548737_17508" CLASS="XRef">ISOTOPE_ALPHAS</A> and <A HREF="phreeqc3-23.htm#50548737_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data blocks to enable listing isotopic ratios and alphas in the output file. The functions also can be used in Basic programs in <A HREF="phreeqc3-32.htm#50548737_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50548737_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50548737_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-53.htm#50548737_56415" CLASS="XRef">USER_PUNCH</A> data blocks. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-717498"></A><A NAME="50515969_47801"></A>Example problems</H6>
+<A NAME="50548737_pgfId-717498"></A><A NAME="50548737_47801"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-717552"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-717552"></A>The keyword <STRONG CLASS="Bold">
 CALCULATE_VALUES</STRONG>
  is used in the database iso.dat.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-472275"></A><A NAME="50515969_60845"></A>Related keywords</H6>
+<A NAME="50548737_pgfId-472275"></A><A NAME="50548737_60845"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-472294"></A><A HREF="phreeqc3-22.htm#50515969_17508" CLASS="XRef">ISOTOPE_ALPHAS</A>, <A HREF="phreeqc3-23.htm#50515969_17097" CLASS="XRef">ISOTOPE_RATIOS</A>, <A HREF="phreeqc3-32.htm#50515969_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50515969_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50515969_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-53.htm#50515969_56415" CLASS="XRef">USER_PUNCH</A>.</P>
+<A NAME="50548737_pgfId-472294"></A><A HREF="phreeqc3-22.htm#50548737_17508" CLASS="XRef">ISOTOPE_ALPHAS</A>, <A HREF="phreeqc3-23.htm#50548737_17097" CLASS="XRef">ISOTOPE_RATIOS</A>, <A HREF="phreeqc3-32.htm#50548737_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50548737_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50548737_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-53.htm#50548737_56415" CLASS="XRef">USER_PUNCH</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-8.htm">Next</A> || <A HREF="phreeqc3-6.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
