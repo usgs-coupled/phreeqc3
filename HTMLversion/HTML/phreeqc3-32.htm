@@ -7,87 +7,87 @@
 <TITLE> RATES</TITLE><HR><P> | <A HREF="phreeqc3-33.htm">Next</A> || <A HREF="phreeqc3-31.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50515969_pgfId-255343"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255343"></A><STRONG CLASS="Bold">
 RATES</STRONG>
-<A NAME="50515969_97907"></A></H2>
+<A NAME="50548737_97907"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-255344"></A>This keyword data block is used to define mathematical rate expressions for kinetic reactions. General rate formulas are defined in the <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255344"></A>This keyword data block is used to define mathematical rate expressions for kinetic reactions. General rate formulas are defined in the <STRONG CLASS="Bold">
 RATES</STRONG>
- data block and specific kinetic parameters for batch reaction or transport are defined in the <A HREF="phreeqc3-24.htm#50515969_55637" CLASS="XRef">KINETICS</A> data block.</P>
+ data block and specific kinetic parameters for batch reaction or transport are defined in the <A HREF="phreeqc3-24.htm#50548737_55637" CLASS="XRef">KINETICS</A> data block.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-255345"></A><A NAME="50515969_14859"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255346"></A>Line 0:  RATES </pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255347"></A>Line 1:	Calcite</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255348"></A>Line 2:	-start</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255349"></A>Basic: 1   rem M = current number of moles of calcite</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-323055"></A>Basic: 2   rem M0 = number of moles of calcite initially present</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-323056"></A>Basic: 3   rem PARM(1) = A/V, cm^2/L </pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255350"></A>Basic: 4   rem PARM(2) = exponent for M/M0</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-323067"></A>Basic: 10  si_cc = SI(&quot;Calcite&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255351"></A>Basic: 20  if (M &lt;= 0 and si_cc &lt; 0) then goto 200</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255352"></A>Basic: 30    k1 = 10^(0.198 - 444.0 / TK )</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255353"></A>Basic: 40    k2 = 10^(2.84 - 2177.0 / TK)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255354"></A>Basic: 50    if TC &lt;= 25 then k3 = 10^(-5.86 - 317.0 / TK )</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255355"></A>Basic: 60    if TC &gt; 25 then k3  = 10^(-1.1 - 1737.0 / TK )</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255356"></A>Basic: 70    t = 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255357"></A>Basic: 80    if M0 &gt; 0 then t = M/M0</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255358"></A>Basic: 90    if t = 0 then t = 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255359"></A>Basic: 100   area = PARM(1) * (t)^PARM(2)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255360"></A>Basic: 110   rf = k1*ACT(&quot;H+&quot;)+k2*ACT(&quot;CO2&quot;)+k3*ACT(&quot;H2O&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255361"></A>Basic: 120   rem 1e-3 converts mmol to mol</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-323884"></A>Basic: 130   rate = area * 1e-3 * rf * (1 - 10^(2/3*si_cc))</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255362"></A>Basic: 140   moles = rate * TIME</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255369"></A>Basic: 200 SAVE moles</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255370"></A>Line 3:	-end</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255371"></A>Line 1a:	Pyrite</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255372"></A>Line 2a:	-start</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255373"></A>Basic: 1   rem  PARM(1) = log10(A/V, 1/dm)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-323864"></A>Basic: 2   rem  PARM(2) = exp for (M/M0)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255374"></A>Basic: 3   rem  PARM(3) = exp for O2</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-323869"></A>Basic: 4   rem  PARM(4) = exp for H+</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255375"></A>Basic: 10  if (M &lt;= 0) then goto 200</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255376"></A>Basic: 20  if (SI(&quot;Pyrite&quot;) &gt;= 0) then goto 200</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255377"></A>Basic: 30    lograte = -10.19 + PARM(1) + PARM(2)*LOG10(M/M0)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255378"></A>Basic: 40    lograte = lograte + PARM(3)*LM(&quot;O2&quot;) + PARM(4)*LM(&quot;H+&quot;)</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255379"></A>Basic: 50    moles = (10^lograte) * TIME</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255380"></A>Basic: 60    if (moles &gt; M) then moles = M</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-324293"></A>Basic: 200 SAVE moles</pre>
-<pre CLASS="ComputerInput"><A NAME="50515969_pgfId-255383"></A>Line 3a:	-end</pre>
+<A NAME="50548737_pgfId-255345"></A><A NAME="50548737_14859"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255346"></A>Line 0:  RATES </pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255347"></A>Line 1:	Calcite</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255348"></A>Line 2:	-start</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255349"></A>Basic: 1   rem M = current number of moles of calcite</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-323055"></A>Basic: 2   rem M0 = number of moles of calcite initially present</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-323056"></A>Basic: 3   rem PARM(1) = A/V, cm^2/L </pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255350"></A>Basic: 4   rem PARM(2) = exponent for M/M0</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-323067"></A>Basic: 10  si_cc = SI(&quot;Calcite&quot;)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255351"></A>Basic: 20  if (M &lt;= 0 and si_cc &lt; 0) then goto 200</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255352"></A>Basic: 30    k1 = 10^(0.198 - 444.0 / TK )</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255353"></A>Basic: 40    k2 = 10^(2.84 - 2177.0 / TK)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255354"></A>Basic: 50    if TC &lt;= 25 then k3 = 10^(-5.86 - 317.0 / TK )</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255355"></A>Basic: 60    if TC &gt; 25 then k3  = 10^(-1.1 - 1737.0 / TK )</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255356"></A>Basic: 70    t = 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255357"></A>Basic: 80    if M0 &gt; 0 then t = M/M0</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255358"></A>Basic: 90    if t = 0 then t = 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255359"></A>Basic: 100   area = PARM(1) * (t)^PARM(2)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255360"></A>Basic: 110   rf = k1*ACT(&quot;H+&quot;)+k2*ACT(&quot;CO2&quot;)+k3*ACT(&quot;H2O&quot;)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255361"></A>Basic: 120   rem 1e-3 converts mmol to mol</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-323884"></A>Basic: 130   rate = area * 1e-3 * rf * (1 - 10^(2/3*si_cc))</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255362"></A>Basic: 140   moles = rate * TIME</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255369"></A>Basic: 200 SAVE moles</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255370"></A>Line 3:	-end</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255371"></A>Line 1a:	Pyrite</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255372"></A>Line 2a:	-start</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255373"></A>Basic: 1   rem  PARM(1) = log10(A/V, 1/dm)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-323864"></A>Basic: 2   rem  PARM(2) = exp for (M/M0)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255374"></A>Basic: 3   rem  PARM(3) = exp for O2</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-323869"></A>Basic: 4   rem  PARM(4) = exp for H+</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255375"></A>Basic: 10  if (M &lt;= 0) then goto 200</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255376"></A>Basic: 20  if (SI(&quot;Pyrite&quot;) &gt;= 0) then goto 200</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255377"></A>Basic: 30    lograte = -10.19 + PARM(1) + PARM(2)*LOG10(M/M0)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255378"></A>Basic: 40    lograte = lograte + PARM(3)*LM(&quot;O2&quot;) + PARM(4)*LM(&quot;H+&quot;)</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255379"></A>Basic: 50    moles = (10^lograte) * TIME</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255380"></A>Basic: 60    if (moles &gt; M) then moles = M</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-324293"></A>Basic: 200 SAVE moles</pre>
+<pre CLASS="ComputerInput"><A NAME="50548737_pgfId-255383"></A>Line 3a:	-end</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-255384"></A><A NAME="50515969_44821"></A>Explanation</H6>
+<A NAME="50548737_pgfId-255384"></A><A NAME="50548737_44821"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-255385"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255385"></A>Line 0: <STRONG CLASS="Bold">
 RATES</STRONG>
  </P>
 <P CLASS="Body1">
-<A NAME="50515969_pgfId-255386"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255386"></A><STRONG CLASS="Bold">
 RATES</STRONG>
  is the keyword for the data block. No other data are input on the keyword line.</P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-255387"></A>Line 1: <EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-255387"></A>Line 1: <EM CLASS="Emphasis">
 name of rate expression</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-255388"></A><EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-255388"></A><EM CLASS="Emphasis">
 name of rate expression</EM>
 --Alphanumeric character string that identifies the rate expression; no spaces are allowed.</P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-255389"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255389"></A>Line 2: <STRONG CLASS="Bold">
 -start</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-255390"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255390"></A><STRONG CLASS="Bold">
 -start</STRONG>
 --Identifier marks the beginning of a Basic program by which the moles of reaction for a time subinterval are calculated. </P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-255391"></A>Basic:<EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-255391"></A>Basic:<EM CLASS="Emphasis">
  numbered Basic statement</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-557087"></A><EM CLASS="Emphasis">
+<A NAME="50548737_pgfId-557087"></A><EM CLASS="Emphasis">
 numbered Basic statement</EM>
 --A valid Basic language statement that must be numbered. The statements are evaluated in numerical order. The sequence of statements must extrapolate the rate of reaction over the time subinterval given by the internally defined variable TIME. There must be a statement &#8220;<STRONG CLASS="Bold">
 SAVE</STRONG>
@@ -95,13 +95,13 @@ SAVE</STRONG>
 expression</EM>
 &#8221;, where the value of <EM CLASS="Emphasis">
 expression </EM>
-is the moles of reaction that are transferred during time subinterval TIME. Statements and functions that are available through the Basic interpreter are listed in the section on the Basic interpreter. Parameters defined in the <A HREF="phreeqc3-24.htm#50515969_55637" CLASS="XRef">KINETICS</A> data block also are available through the Basic array PARM.</P>
+is the moles of reaction that are transferred during time subinterval TIME. Statements and functions that are available through the Basic interpreter are listed in the section on the Basic interpreter. Parameters defined in the <A HREF="phreeqc3-24.htm#50548737_55637" CLASS="XRef">KINETICS</A> data block also are available through the Basic array PARM.</P>
 <P CLASS="Body-indent">
-<A NAME="50515969_pgfId-255399"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255399"></A>Line 3: <STRONG CLASS="Bold">
 -end</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50515969_pgfId-255400"></A><STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255400"></A><STRONG CLASS="Bold">
 -end</STRONG>
 --Identifier marks the end of a Basic program by which the number of moles of a reaction for a time subinterval is calculated. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
 END</STRONG>
@@ -109,268 +109,268 @@ END</STRONG>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-255401"></A><A NAME="50515969_35191"></A>Notes</H6>
+<A NAME="50548737_pgfId-255401"></A><A NAME="50548737_35191"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-545097"></A>A Basic interpreter (David Gillespie, Synaptics, Inc., San Jose, Calif., written commun., 1997) distributed with the Linux operating system (Free Software Foundation, Inc.) is embedded in PHREEQC. The Basic interpreter is used during the integration of the kinetic reactions to evaluate the moles of reaction progress for a time subinterval. A Basic program for each kinetic reaction must be included in the input or database file. Each program must stand alone with its own set of variables and numbered statement lines. There is no conflict in using the same variable names or line numbers in separate rate programs. </P>
+<A NAME="50548737_pgfId-545097"></A>A Basic interpreter (David Gillespie, Synaptics, Inc., San Jose, Calif., written commun., 1997) distributed with the Linux operating system (Free Software Foundation, Inc.) is embedded in PHREEQC. The Basic interpreter is used during the integration of the kinetic reactions to evaluate the moles of reaction progress for a time subinterval. A Basic program for each kinetic reaction must be included in the input or database file. Each program must stand alone with its own set of variables and numbered statement lines. There is no conflict in using the same variable names or line numbers in separate rate programs. </P>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-584192"></A>It is possible to transfer data among rates with the special Basic statements PUT and GET (see <A HREF="phreeqc3-54.htm#50515973_44206" CLASS="XRef">The Basic Interpreter</A>). The programs are used to calculate the instantaneous rate of reaction and extrapolate that rate for a time subinterval given by the variable &#8220;TIME&#8221; (calcite, line 140; pyrite line 50). TIME is an internally generated and variable time substep, and its value cannot be changed. The total moles of reaction must be returned to the main program with a SAVE command (line 200 in each example). Note that moles of reaction are returned, not the rate of the reaction. Moles are counted positive when the solution concentration of the reactant increases.</P>
+<A NAME="50548737_pgfId-584192"></A>It is possible to transfer data among rates with the special Basic statements PUT and GET (see <A HREF="phreeqc3-54.htm#50548741_44206" CLASS="XRef">The Basic Interpreter</A>). The programs are used to calculate the instantaneous rate of reaction and extrapolate that rate for a time subinterval given by the variable &#8220;TIME&#8221; (calcite, line 140; pyrite line 50). TIME is an internally generated and variable time substep, and its value cannot be changed. The total moles of reaction must be returned to the main program with a SAVE command (line 200 in each example). Note that moles of reaction are returned, not the rate of the reaction. Moles are counted positive when the solution concentration of the reactant increases.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50515969_pgfId-545113"></A>Table 5. <A NAME="50515969_21664"></A>Description of Basic program for calcite kinetics given in example for <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-545113"></A>Table 5. <A NAME="50548737_21664"></A>Description of Basic program for calcite kinetics given in example for <STRONG CLASS="Bold">
 RATES</STRONG>
  data block.</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50515969_pgfId-545117"></A>Line number</P>
+<A NAME="50548737_pgfId-545117"></A>Line number</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50515969_pgfId-545119"></A>Function</P>
+<A NAME="50548737_pgfId-545119"></A>Function</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545121"></A>1-4</P>
+<A NAME="50548737_pgfId-545121"></A>1-4</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545123"></A>Comments.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545125"></A>10</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545127"></A>Calculate calcite saturation index.</P>
+<A NAME="50548737_pgfId-545123"></A>Comments.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545129"></A>20</P>
+<A NAME="50548737_pgfId-545125"></A>10</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545131"></A>If undersaturated and no moles of calcite, exit; moles=0 by default.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545133"></A>30-60</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545135"></A>Calculate temperature dependence of constants k1, k2, and k3.</P>
+<A NAME="50548737_pgfId-545127"></A>Calculate calcite saturation index.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545137"></A>70-90</P>
+<A NAME="50548737_pgfId-545129"></A>20</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545139"></A>Calculate ratio of current moles of calcite to initial moles of calcite; set ratio to 1 if no moles of calcite are present.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545141"></A>100</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545143"></A>Calculate surface area.</P>
+<A NAME="50548737_pgfId-545131"></A>If undersaturated and no moles of calcite, exit; moles=0 by default.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545145"></A>110</P>
+<A NAME="50548737_pgfId-545133"></A>30-60</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545147"></A>Calculate forward rate.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545149"></A>130</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-545151"></A>Calculate overall rate, factor of 1e-3 converts rate to moles from millimoles.</P>
+<A NAME="50548737_pgfId-545135"></A>Calculate temperature dependence of constants k1, k2, and k3.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545153"></A>140</P>
+<A NAME="50548737_pgfId-545137"></A>70-90</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545155"></A>Calculate moles of reaction over time interval given by TIME. Note that the multiplication of the rate by TIME must be present in one of the Basic lines.</P>
+<A NAME="50548737_pgfId-545139"></A>Calculate ratio of current moles of calcite to initial moles of calcite; set ratio to 1 if no moles of calcite are present.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545157"></A>200</P>
+<A NAME="50548737_pgfId-545141"></A>100</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-545159"></A>Return moles of reaction for time subinterval with &#8220;SAVE&#8221;. A SAVE statement must always be present in a rate program.</P>
+<A NAME="50548737_pgfId-545143"></A>Calculate surface area.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545145"></A>110</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545147"></A>Calculate forward rate.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545149"></A>130</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545151"></A>Calculate overall rate, factor of 1e-3 converts rate to moles from millimoles.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545153"></A>140</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545155"></A>Calculate moles of reaction over time interval given by TIME. Note that the multiplication of the rate by TIME must be present in one of the Basic lines.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545157"></A>200</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-545159"></A>Return moles of reaction for time subinterval with &#8220;SAVE&#8221;. A SAVE statement must always be present in a rate program.</P>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-323408"></A>The first example estimates the rate of calcite dissolution or precipitation on the basis of a rate expression from Plummer and others (1978) (see also equations 101 and 106, Parkhurst and Appelo, 1999). The forward rate is given by</P>
+<A NAME="50548737_pgfId-323408"></A>The first example estimates the rate of calcite dissolution or precipitation on the basis of a rate expression from Plummer and others (1978) (see also equations 101 and 106, Parkhurst and Appelo, 1999). The forward rate is given by</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515969_pgfId-323413"></A><A NAME="50515969_33569"></A><IMG SRC="phreeqc3-79.png" ALIGN="MIDDLE">
+<A NAME="50548737_pgfId-323413"></A><A NAME="50548737_33569"></A><IMG SRC="phreeqc3-79.gif" ALIGN="BASELINE">
 ,	(1)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50515969_pgfId-323423"></A>where square brackets indicate activity and <IMG SRC="phreeqc3-80.png" ALIGN="MIDDLE">
-, <IMG SRC="phreeqc3-81.png" ALIGN="MIDDLE">
-, and <IMG SRC="phreeqc3-82.png" ALIGN="MIDDLE">
- are functions of temperature (Plummer and others, 1978). In a pure calcite-water system with fixed <IMG SRC="phreeqc3-83.png" ALIGN="MIDDLE">
+<A NAME="50548737_pgfId-323423"></A>where square brackets indicate activity and <IMG SRC="phreeqc3-80.gif" ALIGN="BASELINE">
+, <IMG SRC="phreeqc3-81.gif" ALIGN="BASELINE">
+, and <IMG SRC="phreeqc3-82.gif" ALIGN="BASELINE">
+ are functions of temperature (Plummer and others, 1978). In a pure calcite-water system with fixed <IMG SRC="phreeqc3-83.gif" ALIGN="BASELINE">
 , the overall rate for calcite (forward rate minus backward rate) is approximated by</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515969_pgfId-323468"></A><A NAME="50515969_34976"></A><IMG SRC="phreeqc3-84.png" ALIGN="MIDDLE">
+<A NAME="50548737_pgfId-323468"></A><A NAME="50548737_34976"></A><IMG SRC="phreeqc3-84.gif" ALIGN="BASELINE">
 ,	(2)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50515969_pgfId-323472"></A>where <IMG SRC="phreeqc3-85.png" ALIGN="MIDDLE">
+<A NAME="50548737_pgfId-323472"></A>where <IMG SRC="phreeqc3-85.gif" ALIGN="BASELINE">
  is mmol cm<Sup CLASS="Superscript">
 -2</Sup>
 s<Sup CLASS="Superscript">
 -1</Sup>
-(millimole per square centimeter per second). Equation <A HREF="phreeqc3-32.htm#50515969_34976" CLASS="XRef">2</A> is implemented in Basic for the first example above. Explanations of the Basic lines for this rate expression are given in <A HREF="phreeqc3-32.htm#50515969_21664" CLASS="XRef">table 5</A>.</P>
+(millimole per square centimeter per second). Equation <A HREF="phreeqc3-32.htm#50548737_34976" CLASS="XRef">2</A> is implemented in Basic for the first example above. Explanations of the Basic lines for this rate expression are given in <A HREF="phreeqc3-32.htm#50548737_21664" CLASS="XRef">table 5</A>.</P>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-323473"></A>The second example is for the dissolution of pyrite in the presence of dissolved oxygen from Williamson and Rimstidt (1994):</P>
+<A NAME="50548737_pgfId-323473"></A>The second example is for the dissolution of pyrite in the presence of dissolved oxygen from Williamson and Rimstidt (1994):</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50515969_pgfId-323477"></A><IMG SRC="phreeqc3-86.png" ALIGN="MIDDLE">
+<A NAME="50548737_pgfId-323477"></A><IMG SRC="phreeqc3-86.gif" ALIGN="BASELINE">
 ,	(3)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50515969_pgfId-323478"></A>where parentheses indicate molality. This rate is based on detailed measurements in solutions of varying compositions and shows a square root dependence on the molality of oxygen and a small dependence on pH. This rate is applicable only for dissolution in the presence of oxygen and will be incorrect near equilibrium when oxygen is depleted. Explanations of the Basic lines for this rate expression are given in <A HREF="phreeqc3-32.htm#50515969_29341" CLASS="XRef">table 6</A>. </P>
+<A NAME="50548737_pgfId-323478"></A>where parentheses indicate molality. This rate is based on detailed measurements in solutions of varying compositions and shows a square root dependence on the molality of oxygen and a small dependence on pH. This rate is applicable only for dissolution in the presence of oxygen and will be incorrect near equilibrium when oxygen is depleted. Explanations of the Basic lines for this rate expression are given in <A HREF="phreeqc3-32.htm#50548737_29341" CLASS="XRef">table 6</A>. </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50515969_pgfId-499224"></A>Table 6. <A NAME="50515969_29341"></A>Description of Basic program for pyrite dissolution kinetics given in example for <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-499224"></A>Table 6. <A NAME="50548737_29341"></A>Description of Basic program for pyrite dissolution kinetics given in example for <STRONG CLASS="Bold">
 RATES</STRONG>
  data block.</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50515969_pgfId-499228"></A>Line number</P>
+<A NAME="50548737_pgfId-499228"></A>Line number</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50515969_pgfId-499230"></A>Function</P>
+<A NAME="50548737_pgfId-499230"></A>Function</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499232"></A>1-4</P>
+<A NAME="50548737_pgfId-499232"></A>1-4</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499234"></A>Comments.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-499236"></A>10</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-499238"></A>Checks that pyrite is still available, otherwise exits with value of moles=0 by default.</P>
+<A NAME="50548737_pgfId-499234"></A>Comments.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499240"></A>20</P>
+<A NAME="50548737_pgfId-499236"></A>10</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499242"></A>Checks that the solution is undersaturated (the rate is for dissolution only), otherwise exits with value of moles=0.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-499244"></A>30, 40</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-499246"></A>Calculate log of the rate of pyrite dissolution.</P>
+<A NAME="50548737_pgfId-499238"></A>Checks that pyrite is still available, otherwise exits with value of moles=0 by default.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499248"></A>50</P>
+<A NAME="50548737_pgfId-499240"></A>20</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499250"></A>Calculate the moles of pyrite dissolution over time interval given by TIME. </P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-499252"></A>60</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody">
-<A NAME="50515969_pgfId-499254"></A>Limits pyrite dissolution to remaining moles of pyrite.</P>
+<A NAME="50548737_pgfId-499242"></A>Checks that the solution is undersaturated (the rate is for dissolution only), otherwise exits with value of moles=0.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499256"></A>200</P>
+<A NAME="50548737_pgfId-499244"></A>30, 40</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody">
-<A NAME="50515969_pgfId-499258"></A>Return moles of reaction for time subinterval with SAVE. A SAVE statement must always be present in a rate program.</P>
+<A NAME="50548737_pgfId-499246"></A>Calculate log of the rate of pyrite dissolution.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-499248"></A>50</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-499250"></A>Calculate the moles of pyrite dissolution over time interval given by TIME. </P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-499252"></A>60</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-499254"></A>Limits pyrite dissolution to remaining moles of pyrite.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-499256"></A>200</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50548737_pgfId-499258"></A>Return moles of reaction for time subinterval with SAVE. A SAVE statement must always be present in a rate program.</P>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-780918"></A>Some special statements and functions have been added to the Basic interpreter to allow access to quantities that may be needed in rate expressions. These functions are listed in <A HREF="phreeqc3-54.htm#50515973_44206" CLASS="XRef">The Basic Interpreter</A>, <A HREF="phreeqc3-54.htm#50515973_27680" CLASS="XRef">table 8</A>. Standard Basic statements that are implemented in the interpreter are listed in <A HREF="phreeqc3-54.htm#50515973_44206" CLASS="XRef">The Basic Interpreter</A>, <A HREF="phreeqc3-54.htm#50515973_51264" CLASS="XRef">table 7</A>. Upper or lower case may be used for statement, function, and variable names. String variable names must end with the character &#8220;$&#8221;. </P>
+<A NAME="50548737_pgfId-780918"></A>Some special statements and functions have been added to the Basic interpreter to allow access to quantities that may be needed in rate expressions. These functions are listed in <A HREF="phreeqc3-54.htm#50548741_44206" CLASS="XRef">The Basic Interpreter</A>, <A HREF="phreeqc3-54.htm#50548741_27680" CLASS="XRef">table 8</A>. Standard Basic statements that are implemented in the interpreter are listed in <A HREF="phreeqc3-54.htm#50548741_44206" CLASS="XRef">The Basic Interpreter</A>, <A HREF="phreeqc3-54.htm#50548741_51264" CLASS="XRef">table 7</A>. Upper or lower case may be used for statement, function, and variable names. String variable names must end with the character &#8220;$&#8221;. </P>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-780912"></A>The PRINT command in Basic programs is useful for debugging rate expressions. It can be used to write quantities to the output file to check that rates are calculated correctly. However, the PRINT command will write to the output file every time a rate is evaluated, which may be many times per time step. The sequence of information from PRINT statements in <A HREF="phreeqc3-32.htm#50515969_97907" CLASS="XRef">RATES</A> definitions may be difficult to interpret because of the automatic time-step adjustment of the integration method.</P>
+<A NAME="50548737_pgfId-780912"></A>The PRINT command in Basic programs is useful for debugging rate expressions. It can be used to write quantities to the output file to check that rates are calculated correctly. However, the PRINT command will write to the output file every time a rate is evaluated, which may be many times per time step. The sequence of information from PRINT statements in <A HREF="phreeqc3-32.htm#50548737_97907" CLASS="XRef">RATES</A> definitions may be difficult to interpret because of the automatic time-step adjustment of the integration method.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-255778"></A><A NAME="50515969_98707"></A>Example problems</H6>
+<A NAME="50548737_pgfId-255778"></A><A NAME="50548737_98707"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-255782"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50548737_pgfId-255782"></A>The keyword <STRONG CLASS="Bold">
 RATES </STRONG>
-is used in example problems <A HREF="phreeqc3-61.htm#50515983_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-64.htm#50515983_39217" CLASS="XRef">9</A>, and <A HREF="phreeqc3-70.htm#50515983_40270" CLASS="XRef">15</A>. It is also found in the Amm.dat, llnl.dat, phreeqc.dat, and wateq4f.dat databases.</P>
+is used in example problems <A HREF="phreeqc3-61.htm#50548751_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-64.htm#50548751_39217" CLASS="XRef">9</A>, and <A HREF="phreeqc3-70.htm#50548751_40270" CLASS="XRef">15</A>. It is also found in the Amm.dat, llnl.dat, phreeqc.dat, and wateq4f.dat databases.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50515969_pgfId-255783"></A><A NAME="50515969_47568"></A>Related keywords</H6>
+<A NAME="50548737_pgfId-255783"></A><A NAME="50548737_47568"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50515969_pgfId-255793"></A><A HREF="phreeqc3-6.htm#50515969_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-24.htm#50515969_55637" CLASS="XRef">KINETICS</A>, and <A HREF="phreeqc3-49.htm#50515969_87317" CLASS="XRef">TRANSPORT</A>.</P>
+<A NAME="50548737_pgfId-255793"></A><A HREF="phreeqc3-6.htm#50548737_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-24.htm#50548737_55637" CLASS="XRef">KINETICS</A>, and <A HREF="phreeqc3-49.htm#50548737_87317" CLASS="XRef">TRANSPORT</A>.</P>
 </DIV>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-33.htm">Next</A> || <A HREF="phreeqc3-31.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
