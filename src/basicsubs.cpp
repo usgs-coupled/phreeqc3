@@ -2756,6 +2756,10 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	{
 		system_total_equi();
 	}
+	else if (strcmp_nocase(total_name, "kin") == 0)
+	{
+		system_total_kin();
+	}
 	else
 	{
 		if (strstr(total_name, "(") == NULL)
@@ -2816,6 +2820,64 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	return (sys_tot);
 }
 
+/* ---------------------------------------------------------------------- */
+std::string Phreeqc::
+kinetics_formula(std::string kin_name, cxxNameDouble &stoichiometry)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *   Returns formula of kinetic reactant
+ *   Also returns arrays of elements and stoichiometry in stoichiometry
+ */
+	stoichiometry.clear();
+	std::string formula;
+
+	if (use.Get_kinetics_ptr() == NULL)
+		return (formula);
+	std::vector <cxxKineticsComp> comps = use.Get_kinetics_ptr()->Get_kinetics_comps();
+	count_elts = 0;
+	paren_count = 0;
+	for  (size_t i=0 ; i < comps.size(); i++)
+	{
+			cxxKineticsComp *comp_ptr = &comps[i]; 
+			if (kin_name == comp_ptr->Get_rate_name().c_str())
+			{
+				cxxNameDouble nd = comp_ptr->Get_namecoef();
+				cxxNameDouble::iterator it = nd.begin();
+				for ( ; it != nd.end(); it++)
+				{
+					// Try Phases
+					int l; 
+					struct phase *phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+					if (phase_ptr != NULL)
+					{
+						add_elt_list(phase_ptr->next_elt, it->second);
+					}
+					else
+					{
+						// add formula
+						std::string name = it->first;
+						LDBLE coef = it->second;
+						char * temp_name = string_duplicate(name.c_str());
+						char *ptr = temp_name;
+						get_elts_in_species(&ptr, coef);
+						free_check_null(temp_name);
+					}
+				}
+				formula.append(kin_name);
+				//elt_list[count_elts].elt = NULL;
+				if (count_elts > 0)
+				{
+					qsort(elt_list, (size_t) count_elts,
+						(size_t) sizeof(struct elt_list), elt_list_compare);
+					elt_list_combine();
+				}
+				stoichiometry = elt_list_NameDouble();
+				break;
+			}
+	}
+	return (formula);
+}
 /* ---------------------------------------------------------------------- */
 std::string Phreeqc::
 phase_formula(std::string phase_name, cxxNameDouble &stoichiometry)
@@ -3168,6 +3230,30 @@ system_total_equi(void)
 			sys[count_sys].moles = comp_ptr->Get_moles();
 			sys_tot += sys[count_sys].moles;
 			sys[count_sys].type = string_duplicate("equi");
+			count_sys++;
+			space((void **) ((void *) &sys), count_sys, &max_sys,
+				  sizeof(struct system_species));
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+system_total_kin(void)
+/* ---------------------------------------------------------------------- */
+{
+/*
+ *  Equilibrium phases
+ */
+	if (use.Get_kinetics_ptr() == NULL)
+		return (OK);
+	std::vector <cxxKineticsComp> comps = use.Get_kinetics_ptr()->Get_kinetics_comps();
+	for  (size_t i=0 ; i < comps.size(); i++)
+	{
+			cxxKineticsComp *comp_ptr = &comps[i]; 
+			sys[count_sys].name = string_duplicate(comp_ptr->Get_rate_name().c_str());
+			sys[count_sys].moles = comp_ptr->Get_m();
+			sys_tot += sys[count_sys].moles;
+			sys[count_sys].type = string_duplicate("kin");
 			count_sys++;
 			space((void **) ((void *) &sys), count_sys, &max_sys,
 				  sizeof(struct system_species));

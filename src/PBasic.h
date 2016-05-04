@@ -295,6 +295,8 @@ public:
 		tokeol_,
 		tokceil,
 		tokfloor,
+		tokkinetics_formula,
+		tokkinetics_formula_,
 		tokphase_formula,
 		tokphase_formula_,
 		tokspecies_formula,
