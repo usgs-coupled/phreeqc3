@@ -369,7 +369,8 @@ all: alkalinity.out \
 	missing_surf_related_kin.out \
 	SC_temp.out \
 	feedwater.out \
-	adapted_minteq.out
+	adapted_minteq.out \
+	sys_kin.out
 
 # NaX.out
 
