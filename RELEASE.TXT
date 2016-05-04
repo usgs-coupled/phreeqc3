@@ -1,6 +1,29 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
 	---------
+	svn 11152
+	---------
+	Added two new Basic functions related to KINETICS.
+	
+	n$ = KINETICS_FORMULA$("Albite", count, elt$, coef)
+	
+	This function searches for a kinetic reaction definition (Albite, in the example). If found, n$
+	is set equal to the first argument (Albite), otherwise an empty string is returned. The
+	function returns these values: count is the number of items in the arrays elt$ and coef; elt$
+	is a list of element names in the formula for the kinetic reaction; and coef is a numeric
+	array containing the number of atoms of each element in the kinetic-reaction formula, in the
+	order defined by elt$, which is alphabetical by element.
+	
+	m = SYS("kin", count , name$ , type$ , moles)
+	
+	This function identifies all of the kinetic reactants in the current KINETICS definition
+	and returns the sum of moles of all kinetic reactants. Count is number of kinetic
+	reactants. Name$ contains the kinetic reactant names. Type$ is “kin”. Moles contains the
+	moles of each kinetic reactant. The chemical formula used in the kinetic reaction can be
+	determined by using a reaction name from Name$ as the first argument of the
+	KINETICS_FORMULA$ Basic function.
+	
+	---------
 	svn 11106
 	---------
 	Updated the online manual 
