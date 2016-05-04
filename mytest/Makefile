@@ -370,7 +370,8 @@ all: alkalinity.out \
 	SC_temp.out \
 	feedwater.out \
 	adapted_minteq.out \
-	sys_kin.out
+	sys_kin.out \
+	unequal.out
 
 # NaX.out
 
