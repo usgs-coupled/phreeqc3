@@ -968,7 +968,8 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE dav, lav, mixf, mf12, maxmix, corr_disp, diffc_here, mD;
+	LDBLE lav, dav, mf12, maxmix, corr_disp, diffc_here, mD;
+	bool warning = false;
 	int i, l_nmix;
 	LDBLE *m, *m1;
 	m = (LDBLE *)PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
@@ -995,62 +996,73 @@ init_mix(void)
 	{
 		if (dV_dcell)
 			dV_dcell = (cell_data[count_cells + 1].potV - cell_data[0].potV) / count_cells;
-		for (i = 1; i < count_cells; i++)
+		for (i = 1; i <= count_cells; i++)
 		{
+			// estimate the number of mixes
 			lav = (cell_data[i + 1].length + cell_data[i].length) / 2;
-			if (ishift != 0)
-				dav = (cell_data[i + 1].disp + cell_data[i].disp) / 2;
-			else
-				dav = 0;
-			mixf = dav * corr_disp / cell_data[i + 1].length;
-			if (mixf > maxmix)
-				maxmix = mixf;
-			m[i] = mixf;			/* m[i] has mixf with lower cell */
 			mD = diffc_max * timest / (lav * lav);
 			if (mD > maxmix)
 				maxmix = mD;
+			if (ishift != 0)
+			{
+	/* define dispersive mixing (diffusion is done in multi_D),
+	with harmonic mean of cell properties (manual eqn 49):
+	M1 = -a1 * (v1 * timest / 2) * A1 * (c12 - c1) / (h1 / 2)
+	a1 is dispersivity in cell 1, A1 = V1 / h1, v1 * timest / 2 = h1 / 2.
+	All cells have equal V in advective transport, delta(c) = M1 / V1.
+	*/
+				if (i < count_cells)
+				{
+					if (cell_data[i].disp)
+						dav = cell_data[i].length / cell_data[i].disp;
+					if (cell_data[i + 1].disp)
+						dav += cell_data[i + 1].length / cell_data[i + 1].disp;
+					if (dav)
+						m1[i] = 2 * corr_disp / dav;		/* m1[i] has mixf with higher cell */
+				}
+				if (i > 1)
+				{
+					if (cell_data[i].disp)
+						dav = cell_data[i].length / cell_data[i].disp;
+					if (cell_data[i - 1].disp)
+						dav += cell_data[i - 1].length / cell_data[i - 1].disp;
+					if (dav)
+						m[i] = 2 * corr_disp / dav;		/* m[i] has mixf with lower cell */
+				}
+				mf12 = m[i] + m1[i];
+				if (mf12 > maxmix)
+					maxmix = mf12;
+			}
 		}
 		/*
 		* Also for boundary cells
 		*/
 		if (bcon_first == 1)
 		{
-			lav = cell_data[1].length;
-			if (ishift != 0)
-				dav = cell_data[1].disp;
-			else
-				dav = 0;
-
-			mixf = dav / lav;
-			if (mixf > maxmix)
-				maxmix = mixf;
-			m[0] = 2 * mixf;
-			mD = diffc_max * timest / (lav * lav);
+			mD = 2 * diffc_max * timest / (cell_data[1].length * cell_data[1].length);
 			if (mD > maxmix)
 				maxmix = mD;
+			if (ishift != 0)
+			{
+				m[1] = 2 * cell_data[1].disp / cell_data[1].length * corr_disp;
+				mf12 = m[1] + m1[1];
+				if (mf12 > maxmix)
+					maxmix = mf12;
+			}
 		}
-		else
-			m[0] = 0;
-
 		if (bcon_last == 1)
 		{
-			lav = cell_data[count_cells].length;
-			if (ishift != 0)
-				dav = cell_data[count_cells].disp;
-			else
-				dav = 0;
-
-			mixf = dav / lav;
-			if (mixf > maxmix)
-				maxmix = mixf;
-			m[count_cells] = 2 * mixf;
-			mD = diffc_max * timest / (lav * lav);
+			mD = 2 * diffc_max * timest / (cell_data[count_cells].length * cell_data[count_cells].length);
 			if (mD > maxmix)
 				maxmix = mD;
+			if (ishift != 0)
+			{
+				m1[count_cells] = 2 * cell_data[count_cells].disp / cell_data[count_cells].length * corr_disp;
+				mf12 = m[count_cells] + m1[count_cells];
+				if (mf12 > maxmix)
+					maxmix = mf12;
+			}
 		}
-		else
-			m[count_cells] = 0;
-
 		/*
 		* Find number of mixes
 		*/
@@ -1062,12 +1074,12 @@ init_mix(void)
 		}
 		else
 		{
-			if ((bcon_first == 1) || (bcon_last == 1))
-				l_nmix = 1 + (int)floor(4.5 * maxmix);
+			if (bcon_first == 1 || bcon_last == 1)
+				l_nmix = 1 + (int)floor(2.25 * maxmix);
 			else
-				l_nmix = 1 + (int)floor(3.0 * maxmix);
+				l_nmix = 1 + (int)floor(1.5 * maxmix);
 
-			if ((ishift != 0) && ((bcon_first == 1) || (bcon_last == 1)))
+			if (ishift != 0 && (bcon_first == 1 || bcon_last == 1))
 			{
 				if (l_nmix < 2)
 					l_nmix = 2;
@@ -1075,24 +1087,20 @@ init_mix(void)
 			if (mcd_substeps > 1)
 				l_nmix = (int)ceil(l_nmix * mcd_substeps);
 
-			for (i = 0; i <= count_cells; i++)
-				m[i] /= l_nmix;
-		}
-		/*
-		* Fill mix structure
-		*/
-
-		if (l_nmix != 0)
-		{
 			for (i = 1; i <= count_cells; i++)
 			{
+				m[i] /= l_nmix;
+				m1[i] /= l_nmix;
+				/*
+				* Fill mix structure
+				*/
 				cxxMix temp_mix;
 				temp_mix.Set_n_user(i);
 				temp_mix.Set_n_user_end(i);
 
-				temp_mix.Add(i - 1, m[i - 1]);
-				temp_mix.Add(i + 1, m[i]);
-				temp_mix.Add(i, 1.0 - m[i - 1] - m[i]);
+				temp_mix.Add(i - 1, m[i]);
+				temp_mix.Add(i + 1, m1[i]);
+				temp_mix.Add(i, 1.0 - m[i] - m1[i]);
 				Dispersion_mix_map[i] = temp_mix;
 			}
 		}
@@ -1102,73 +1110,81 @@ init_mix(void)
 	}
 	else // multi_D false
 	{
-		diffc_here = diffc_tr;
+		diffc_here = 2 * diffc_tr * timest;
 		/*
 		* Define mixing factors among inner cells
 		*/
-		for (i = 1; i < count_cells; i++)
+		for (i = 1; i <= count_cells; i++)
 		{
-			// find mix with lower numbered cell...
-			lav = (cell_data[i + 1].length + cell_data[i].length) / 2;
-			if (ishift != 0)
-				dav = (cell_data[i + 1].disp + cell_data[i].disp) / 2;
-			else
-				dav = 0;
-
-			mixf = (diffc_here * timest / lav + dav) * corr_disp / cell_data[i + 1].length;
-			m[i] = mixf;			/* m[i] has mixf with lower cell */
-
-			// and with higher numbered cell...
-			mixf = (diffc_here * timest / lav + dav) * corr_disp / cell_data[i].length;
-			mf12 = m[i] + mixf;
+			if (i < count_cells)
+			{
+				// find mix with higher numbered cell...
+				if (ishift != 0)
+				{
+					if (cell_data[i].disp)
+						dav = cell_data[i].length / cell_data[i].disp;
+					if (cell_data[i + 1].disp)
+						dav += cell_data[i + 1].length / cell_data[i + 1].disp;
+					if (dav)
+						m1[i] = 2 / dav;
+				}
+				// add diffusive mixf...
+				m1[i] += diffc_here /
+					(cell_data[i].length * cell_data[i].length + cell_data[i].length * cell_data[i + 1].length);
+				m1[i] *= corr_disp;		/* m1[i] has mixf with higher cell */
+			}
+			if (i > 1)
+			{
+				// and with lower numbered cell...
+				if (ishift != 0)
+				{
+					if (cell_data[i].disp)
+						dav = cell_data[i].length / cell_data[i].disp;
+					if (cell_data[i - 1].disp)
+						dav += cell_data[i - 1].length / cell_data[i - 1].disp;
+					if (dav)
+						m[i] = 2 / dav;
+				}
+				// add diffusive mixf...
+				m[i] += diffc_here /
+					(cell_data[i].length * cell_data[i].length + cell_data[i].length * cell_data[i - 1].length);
+				m[i] *= corr_disp;		/* m[i] has mixf with lower numbered cell */
+				if (m[i] != m1[i - 1] && !warning && m[i] / (2 / dav) > 1.00001)
+				{
+					warning_msg("Unequal cell-lengths may give mass-balance error, consider using -multi_D");
+					warning = true;
+				}
+			}
+			mf12 = m[i] + m1[i];
 			if (mf12 > maxmix)
 				maxmix = mf12;
-			m1[i] = mixf;			/* m1[i] has mixf with higher cell */
 		}
 		/*
 		* Also for boundary cells
 		*/
 		if (bcon_first == 1)
 		{
-			lav = cell_data[1].length;
+			m[1] = diffc_here / (cell_data[1].length * cell_data[1].length);
 			if (ishift != 0)
-				dav = cell_data[1].disp;
-			else
-				dav = 0;
-
-			mixf = (diffc_here * timest / lav + dav) / lav;
-			mf12 = m1[1] + 2 * mixf;
+				m[1] += cell_data[1].disp / cell_data[1].length;
+			mf12 = m[1] + m1[1];
 			if (mf12 > maxmix)
 				maxmix = mf12;
-			m[0] = 2 * mixf;
 		}
-		else
-			m[0] = 0;
-
 		if (bcon_last == 1)
 		{
-			lav = cell_data[count_cells].length;
+			m1[count_cells] = diffc_here / (cell_data[count_cells].length * cell_data[count_cells].length);
 			if (ishift != 0)
-				dav = cell_data[count_cells].disp;
-			else
-				dav = 0;
-
-			mixf = (diffc_here * timest / lav + dav) / lav;
-			mf12 = m[count_cells - 1] + 2 * mixf;
-			if (mf12 > maxmix && !multi_Dflag)
+				m1[count_cells] += cell_data[count_cells].disp / cell_data[count_cells].length;
+			mf12 = m[count_cells] + m1[count_cells];
+			if (mf12 > maxmix)
 				maxmix = mf12;
-			m1[count_cells] = 2 * mixf;
 		}
-		else
-			m[count_cells] = 0;
-
 		/*
 		* Find number of mixes
 		*/
 		if (maxmix == 0)
-		{
 			l_nmix = 0;
-		}
 		else
 		{
 			l_nmix = 1 + (int)floor(1.5 * maxmix);
@@ -1179,27 +1195,20 @@ init_mix(void)
 					l_nmix = 2;
 			}
 
-			for (i = 0; i <= count_cells; i++)
+			for (i = 1; i <= count_cells; i++)
 			{
 				m[i] /= l_nmix;
 				m1[i] /= l_nmix;
-			}
-		}
-		/*
-		* Fill mix structure
-		*/
-
-		if (l_nmix != 0)
-		{
-			for (i = 1; i <= count_cells; i++)
-			{
+				/*
+				* Fill mix structure
+				*/
 				cxxMix temp_mix;
 				temp_mix.Set_n_user(i);
 				temp_mix.Set_n_user_end(i);
 
-				temp_mix.Add(i - 1, m[i - 1]);
+				temp_mix.Add(i - 1, m[i]);
 				temp_mix.Add(i + 1, m1[i]);
-				temp_mix.Add(i, 1.0 - m[i - 1] - m1[i]);
+				temp_mix.Add(i, 1.0 - m[i] - m1[i]);
 				Dispersion_mix_map[i] = temp_mix;
 			}
 		}
