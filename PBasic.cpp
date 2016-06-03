@@ -1587,6 +1587,9 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokvm:
  			output_msg("VM"); // mole volume of aqueous solute
  			break;
+ 		case tokphase_vm:
+ 			output_msg("PHASE_VM"); // mole volume of a phase 
+ 			break;
  		case tokdh_a:
  			output_msg("DH_A"); // Debye-Hueckel A
  			break;
@@ -3651,6 +3654,12 @@ factor(struct LOC_exec * LINK)
 		{
 			const char * str = stringfactor(STR1, LINK);
  			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+		}
+ 		break;
+  	case tokphase_vm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
 		}
  		break;
 
@@ -7237,7 +7246,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula",   PBasic::tokkinetics_formula),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula$",  PBasic::tokkinetics_formula)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula$",  PBasic::tokkinetics_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

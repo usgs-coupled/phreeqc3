@@ -327,7 +327,8 @@ public:
 		tokcallback,
 		tokdiff_c,
 		toksa_declercq,
-		tokedl_species
+		tokedl_species,
+		tokphase_vm
 	};
 
 #if !defined(PHREEQCI_GUI)
