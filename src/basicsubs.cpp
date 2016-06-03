@@ -98,7 +98,26 @@ aqueous_vm(const char *species_name)
 	}
 	return (g);
 }
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+phase_vm(const char *phase_name)
+/* ---------------------------------------------------------------------- */
+{
+	struct phase *phase_ptr;
+	int l;
+	LDBLE g;
 
+	phase_ptr = phase_bsearch(phase_name, &l, FALSE);
+	if (phase_ptr == NULL)
+	{
+		g = 0.0;
+	}
+	else
+	{
+		g = phase_ptr->logk[vm0];
+	}
+	return (g);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 sa_declercq(double sa_type, double Sa, double d, double m, double m0, double gfw)

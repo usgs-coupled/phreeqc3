@@ -1,0 +1,19 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 phase_vm_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 0
+Ca 1
+Mg 1
+C  1 charge
+USER_PRINT
+10 x = SYS("phases", count, name$, type$, moles)
+20 FOR i = 1 to count
+30    PRINT PAD(name$(i),20), PHASE_VM(name$(i))
+40 NEXT i
+END

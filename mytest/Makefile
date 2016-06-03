@@ -371,7 +371,8 @@ all: alkalinity.out \
 	feedwater.out \
 	adapted_minteq.out \
 	sys_kin.out \
-	unequal.out
+	unequal.out \
+	phase_vm.out
 
 # NaX.out
 

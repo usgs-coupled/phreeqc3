@@ -100,6 +100,7 @@ public:
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
 	LDBLE aqueous_vm(const char *species_name);
+	LDBLE phase_vm(const char *phase_name);
 	LDBLE diff_c(const char *species_name);
 	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
 	LDBLE calc_SC(void);
