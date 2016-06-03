@@ -7,591 +7,591 @@
 <TITLE> Example 3--Mixing</TITLE><HR><P> | <A HREF="phreeqc3-59.htm">Next</A> || <A HREF="phreeqc3-57.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50548751_pgfId-1591338"></A>Example 3--<A NAME="50548751_51496"></A>Mixing</H2>
+<A NAME="50622479_pgfId-1591338"></A>Example 3--<A NAME="50622479_51496"></A>Mixing</H2>
 <P CLASS="BodyText">
-<A NAME="50548751_pgfId-1414646"></A>This example demonstrates the capabilities of PHREEQC to perform a series of geochemical simulations, with the final simulations relying on results from previous simulations within the same run. The example investigates diagenetic reactions that may occur in zones where seawater mixes with carbonate groundwater. The example is divided into five simulations, labeled part A through part E in <A HREF="phreeqc3-58.htm#50548751_51866" CLASS="XRef">table 15</A>. </P>
+<A NAME="50622479_pgfId-1414646"></A>This example demonstrates the capabilities of PHREEQC to perform a series of geochemical simulations, with the final simulations relying on results from previous simulations within the same run. The example investigates diagenetic reactions that may occur in zones where seawater mixes with carbonate groundwater. The example is divided into five simulations, labeled part A through part E in <A HREF="phreeqc3-58.htm#50622479_51866" CLASS="XRef">table 15</A>. </P>
 <P CLASS="BodyText">
-<A NAME="50548751_pgfId-1696292"></A>&nbsp;</P>
+<A NAME="50622479_pgfId-1696292"></A>&nbsp;</P>
 <P CLASS="BodyTextFlush">
-<A NAME="50548751_pgfId-1551088"></A>	(A) Carbonate groundwater is defined by equilibrating pure water with calcite at a <IMG SRC="phreeqc3-221.png" ALIGN="MIDDLE">
+<A NAME="50622479_pgfId-1551088"></A>	(A) Carbonate groundwater is defined by equilibrating pure water with calcite at a <IMG SRC="phreeqc3-221.gif" ALIGN="BASELINE">
  of 10<Sup CLASS="Superscript">
 -2.0</Sup>
  atm.</P>
 <P CLASS="BodyTextFlush">
-<A NAME="50548751_pgfId-1551095"></A> 	(B) Seawater is defined by using the major-ion data given in <A HREF="phreeqc3-56.htm#50548751_38811" CLASS="XRef">table 9</A>. </P>
+<A NAME="50622479_pgfId-1551095"></A> 	(B) Seawater is defined by using the major-ion data given in <A HREF="phreeqc3-56.htm#50622479_38811" CLASS="XRef">table 9</A>. </P>
 <P CLASS="BodyTextFlush">
-<A NAME="50548751_pgfId-1696316"></A> 	(C) The two solutions are mixed together in the proportions 70 percent groundwater and 30 percent seawater. </P>
+<A NAME="50622479_pgfId-1696316"></A> 	(C) The two solutions are mixed together in the proportions 70 percent groundwater and 30 percent seawater. </P>
 <P CLASS="BodyTextFlush">
-<A NAME="50548751_pgfId-1696317"></A>	(D) The mixture is equilibrated with calcite and dolomite. </P>
+<A NAME="50622479_pgfId-1696317"></A>	(D) The mixture is equilibrated with calcite and dolomite. </P>
 <P CLASS="BodyTextFlush">
-<A NAME="50548751_pgfId-1551116"></A> 	(E) The mixture is equilibrated with calcite only to investigate the chemical evolution if dolomite precipitation is assumed to be negligible.</P>
+<A NAME="50622479_pgfId-1551116"></A> 	(E) The mixture is equilibrated with calcite only to investigate the chemical evolution if dolomite precipitation is assumed to be negligible.</P>
 <P CLASS="BodyText">
-<A NAME="50548751_pgfId-1667639"></A>The input for part A (<A HREF="phreeqc3-58.htm#50548751_51866" CLASS="XRef">table 15</A>) consists of (a) the definition of pure water with <A HREF="phreeqc3-41.htm#50548737_30253" CLASS="XRef">SOLUTION</A> input, and (b) the definition of a pure-phase assemblage with <A HREF="phreeqc3-13.htm#50548737_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> input. In the definition of the phases, only a saturation index was given for each phase. Because it was not entered, the amount of each phase defaults to 10.0 mol, which is essentially an unlimited supply for most phases. The batch reaction is implicitly defined to be the equilibration of the first solution defined in this simulation with the first pure-phase assemblage defined in the simulation. (Explicit definition of batch-reaction entities is done with the <A HREF="phreeqc3-50.htm#50548737_78143" CLASS="XRef">USE</A> keyword.) The <A HREF="phreeqc3-37.htm#50548737_81857" CLASS="XRef">SAVE</A> keyword instructs the program to save the batch-reaction solution composition from the final batch-reaction step as solution number 1. Thus, when the simulation begins, solution number 1 is pure water. After the batch-reaction calculations for the simulation are completed, the batch-reaction solution--water in equilibrium with calcite and CO<Sub CLASS="Subscript">
+<A NAME="50622479_pgfId-1667639"></A>The input for part A (<A HREF="phreeqc3-58.htm#50622479_51866" CLASS="XRef">table 15</A>) consists of (a) the definition of pure water with <A HREF="phreeqc3-41.htm#50622465_30253" CLASS="XRef">SOLUTION</A> input, and (b) the definition of a pure-phase assemblage with <A HREF="phreeqc3-13.htm#50622465_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> input. In the definition of the phases, only a saturation index was given for each phase. Because it was not entered, the amount of each phase defaults to 10.0 mol, which is essentially an unlimited supply for most phases. The batch reaction is implicitly defined to be the equilibration of the first solution defined in this simulation with the first pure-phase assemblage defined in the simulation. (Explicit definition of batch-reaction entities is done with the <A HREF="phreeqc3-50.htm#50622465_78143" CLASS="XRef">USE</A> keyword.) The <A HREF="phreeqc3-37.htm#50622465_81857" CLASS="XRef">SAVE</A> keyword instructs the program to save the batch-reaction solution composition from the final batch-reaction step as solution number 1. Thus, when the simulation begins, solution number 1 is pure water. After the batch-reaction calculations for the simulation are completed, the batch-reaction solution--water in equilibrium with calcite and CO<Sub CLASS="Subscript">
 2</Sub>
 --is stored as solution 1.<STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50548751_47678"></A>   </P>
+<A NAME="50622479_47678"></A>   </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50548751_pgfId-1677229"></A>Table 15. <A NAME="50548751_51866"></A>Input file for example 3.</P>
+<A NAME="50622479_pgfId-1677229"></A>Table 15. <A NAME="50622479_51866"></A>Input file for example 3.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677231"></A>TITLE Example 3, part A.--Calcite equilibrium at log Pco2 = -2.0 and 25C.        </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677231"></A>TITLE Example 3, part A.--Calcite equilibrium at log Pco2 = -2.0 and 25C.        </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677233"></A>SOLUTION 1  Pure water</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677233"></A>SOLUTION 1  Pure water</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677235"></A>        pH      7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677235"></A>        pH      7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677237"></A>        temp    25.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677237"></A>        temp    25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677239"></A>EQUILIBRIUM_PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677239"></A>EQUILIBRIUM_PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677241"></A>        CO2(g)          -2.0    </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677241"></A>        CO2(g)          -2.0    </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677243"></A>        Calcite         0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677243"></A>        Calcite         0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677245"></A>SAVE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677245"></A>SAVE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677247"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677247"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677249"></A>TITLE Example 3, part B.--Definition of seawater.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677249"></A>TITLE Example 3, part B.--Definition of seawater.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677251"></A>SOLUTION 2  Seawater</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677251"></A>SOLUTION 2  Seawater</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677253"></A>        units   ppm</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677253"></A>        units   ppm</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677255"></A>        pH      8.22</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677255"></A>        pH      8.22</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677257"></A>        pe      8.451</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677257"></A>        pe      8.451</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677259"></A>        density 1.023</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677259"></A>        density 1.023</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677261"></A>        temp    25.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677261"></A>        temp    25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677263"></A>        Ca              412.3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677263"></A>        Ca              412.3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677265"></A>        Mg              1291.8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677265"></A>        Mg              1291.8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677267"></A>        Na              10768.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677267"></A>        Na              10768.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677319"></A>        K               399.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677319"></A>        K               399.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1677317"></A>        Si              4.28</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1677317"></A>        Si              4.28</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743712"></A>        Cl              19353.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743712"></A>        Cl              19353.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743710"></A>        Alkalinity      141.682 as HCO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743710"></A>        Alkalinity      141.682 as HCO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743708"></A>        S(6)            2712.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743708"></A>        S(6)            2712.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743706"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743706"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743704"></A>TITLE Example 3, part C.--Mix 70% groundwater, 30% seawater.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743704"></A>TITLE Example 3, part C.--Mix 70% groundwater, 30% seawater.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743702"></A>MIX 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743702"></A>MIX 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743700"></A>        1      0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743700"></A>        1      0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743698"></A>        2      0.3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743698"></A>        2      0.3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743696"></A>SAVE solution   3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743696"></A>SAVE solution   3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743694"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743694"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743692"></A>TITLE Example 3, part D.--Equilibrate mixture with calcite and dolomite.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743692"></A>TITLE Example 3, part D.--Equilibrate mixture with calcite and dolomite.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743690"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743690"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743688"></A>        Calcite         0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743688"></A>        Calcite         0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743686"></A>        Dolomite        0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743686"></A>        Dolomite        0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743684"></A>USE solution 3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743684"></A>USE solution 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743682"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743682"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743680"></A>TITLE Example 3, part E.--Equilibrate mixture with calcite only.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743680"></A>TITLE Example 3, part E.--Equilibrate mixture with calcite only.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743678"></A>EQUILIBRIUM_PHASES 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743678"></A>EQUILIBRIUM_PHASES 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743676"></A>        Calcite         0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743676"></A>        Calcite         0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743674"></A>USE solution 3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743674"></A>USE solution 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50548751_pgfId-1743672"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50622479_pgfId-1743672"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50548751_pgfId-1667756"></A>Part B defines the composition of seawater, which is stored as solution number 2. Part C mixes groundwater, (solution 1) with seawater (solution 2) in a closed system in which <IMG SRC="phreeqc3-222.png" ALIGN="MIDDLE">
- is calculated, not specified. The <A HREF="phreeqc3-27.htm#50548737_23725" CLASS="XRef">MIX</A> keyword is used to define the mixing fractions (approximate mixing volumes) of each solution in the mixture. The <A HREF="phreeqc3-37.htm#50548737_81857" CLASS="XRef">SAVE</A> keyword causes the mixture to be saved as solution number 3. The <A HREF="phreeqc3-27.htm#50548737_23725" CLASS="XRef">MIX</A> keyword allows the mixing of an unlimited number of solutions in whatever fractions are specified. The fractions (volumes) need not sum to 1.0. If the fractions were 7.0 and 3.0 instead of 0.7 and 0.3, the number of moles of each element in solution 1 (including hydrogen and oxygen) would be multiplied by 7.0, the number of moles of each element in solution 2 would be multiplied by 3.0, and the resulting moles of elements would be added together. The mass of water in the mixture would be approximately 10 kg (7.0 from solution 1 and 3.0 from solution 2) instead of approximately 1 kg when the fractions are 0.7 and 0.3. The concentrations in the mixture would be the same for both sets of mixing fractions because the relative proportions of solution 1 and solution 2 are the same. However, during subsequent reactions it would take 10 times more mole transfer for mixing fractions 7.0 and 3.0 than shown in <A HREF="phreeqc3-58.htm#50548751_15698" CLASS="XRef">table 16</A> because the mass of water would be 10 times greater in that system.</P>
+<A NAME="50622479_pgfId-1667756"></A>Part B defines the composition of seawater, which is stored as solution number 2. Part C mixes groundwater, (solution 1) with seawater (solution 2) in a closed system in which <IMG SRC="phreeqc3-222.gif" ALIGN="BASELINE">
+ is calculated, not specified. The <A HREF="phreeqc3-27.htm#50622465_23725" CLASS="XRef">MIX</A> keyword is used to define the mixing fractions (approximate mixing volumes) of each solution in the mixture. The <A HREF="phreeqc3-37.htm#50622465_81857" CLASS="XRef">SAVE</A> keyword causes the mixture to be saved as solution number 3. The <A HREF="phreeqc3-27.htm#50622465_23725" CLASS="XRef">MIX</A> keyword allows the mixing of an unlimited number of solutions in whatever fractions are specified. The fractions (volumes) need not sum to 1.0. If the fractions were 7.0 and 3.0 instead of 0.7 and 0.3, the number of moles of each element in solution 1 (including hydrogen and oxygen) would be multiplied by 7.0, the number of moles of each element in solution 2 would be multiplied by 3.0, and the resulting moles of elements would be added together. The mass of water in the mixture would be approximately 10 kg (7.0 from solution 1 and 3.0 from solution 2) instead of approximately 1 kg when the fractions are 0.7 and 0.3. The concentrations in the mixture would be the same for both sets of mixing fractions because the relative proportions of solution 1 and solution 2 are the same. However, during subsequent reactions it would take 10 times more mole transfer for mixing fractions 7.0 and 3.0 than shown in <A HREF="phreeqc3-58.htm#50622479_15698" CLASS="XRef">table 16</A> because the mass of water would be 10 times greater in that system.</P>
 <P CLASS="BodyText">
-<A NAME="50548751_pgfId-1344743"></A>Part D equilibrates the mixture with calcite and dolomite. The <A HREF="phreeqc3-50.htm#50548737_78143" CLASS="XRef">USE</A> keyword specifies that solution number 3, which is the mixture from part C, is to be the solution with which the phases will equilibrate. By  defining the phase assemblage with &#8220;<A HREF="phreeqc3-13.htm#50548737_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 1&#8221;, the phase assemblage replaces the previous assemblage number 1 that was defined in part A. Part E performs a similar calculation to part D, but uses phase assemblage 2, which does not contain dolomite as a reactant.</P>
+<A NAME="50622479_pgfId-1344743"></A>Part D equilibrates the mixture with calcite and dolomite. The <A HREF="phreeqc3-50.htm#50622465_78143" CLASS="XRef">USE</A> keyword specifies that solution number 3, which is the mixture from part C, is to be the solution with which the phases will equilibrate. By  defining the phase assemblage with &#8220;<A HREF="phreeqc3-13.htm#50622465_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 1&#8221;, the phase assemblage replaces the previous assemblage number 1 that was defined in part A. Part E performs a similar calculation to part D, but uses phase assemblage 2, which does not contain dolomite as a reactant.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50548751_pgfId-1344750"></A>Table 16. <STRONG CLASS="Bold">
+<A NAME="50622479_pgfId-1344750"></A>Table 16. <STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50548751_15698"></A>Selected results for example 3.</P>
+<A NAME="50622479_15698"></A>Selected results for example 3.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50548751_pgfId-1344751"></A>[Simulation A generates carbonate groundwater; B defines seawater; C mixes a fraction of 0.7 of A with 0.3 of B, with no other reaction; D equilibrates the mixture with calcite and dolomite; and E equilibrates the mixture with calcite only. Mole transfer is relative to the moles in the phase assemblage; positive numbers indicate an increase in the amount of the phase present, that is, precipitation; negative numbers indicate a decrease in the amount of the phase present, or dissolution. Saturation index: &#8220;--&#8221; indicates saturation index calculation not possible because one of the constituent elements was not in solution. Mole transfer: &#8220;--&#8221; indicates no mole transfer of this mineral was allowed in the simulation]</P>
+<A NAME="50622479_pgfId-1344751"></A>[Simulation A generates carbonate groundwater; B defines seawater; C mixes a fraction of 0.7 of A with 0.3 of B, with no other reaction; D equilibrates the mixture with calcite and dolomite; and E equilibrates the mixture with calcite only. Mole transfer is relative to the moles in the phase assemblage; positive numbers indicate an increase in the amount of the phase present, that is, precipitation; negative numbers indicate a decrease in the amount of the phase present, or dissolution. Saturation index: &#8220;--&#8221; indicates saturation index calculation not possible because one of the constituent elements was not in solution. Mole transfer: &#8220;--&#8221; indicates no mole transfer of this mineral was allowed in the simulation]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="2" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344769"></A>Simulation</P>
+<A NAME="50622479_pgfId-1344769"></A>Simulation</P>
 </TH>
 <TH ROWSPAN="2" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344771"></A>pH</P>
+<A NAME="50622479_pgfId-1344771"></A>pH</P>
 </TH>
 <TH ROWSPAN="2" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344776"></A>log <IMG SRC="phreeqc3-223.png" ALIGN="MIDDLE">
+<A NAME="50622479_pgfId-1344776"></A>log <IMG SRC="phreeqc3-223.gif" ALIGN="BASELINE">
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="2">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344778"></A>Saturation index</P>
+<A NAME="50622479_pgfId-1344778"></A>Saturation index</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50548751_pgfId-1344782"></A>&nbsp;</P>
+<A NAME="50622479_pgfId-1344782"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="3">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344784"></A>Mole transfer, millimoles</P>
+<A NAME="50622479_pgfId-1344784"></A>Mole transfer, millimoles</P>
 </TH>
 </TR>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344796"></A>Calcite</P>
+<A NAME="50622479_pgfId-1344796"></A>Calcite</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344798"></A>Dolomite</P>
+<A NAME="50622479_pgfId-1344798"></A>Dolomite</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344800"></A>&nbsp;</P>
+<A NAME="50622479_pgfId-1344800"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344802"></A>CO<Sub CLASS="Subscript">
+<A NAME="50622479_pgfId-1344802"></A>CO<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344804"></A>Calcite</P>
+<A NAME="50622479_pgfId-1344804"></A>Calcite</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50548751_pgfId-1344806"></A>Dolomite</P>
+<A NAME="50622479_pgfId-1344806"></A>Dolomite</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50548751_pgfId-1344808"></A>A</P>
+<A NAME="50622479_pgfId-1344808"></A>A</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344810"></A>7.292</LI>
+<A NAME="50622479_pgfId-1344810"></A>7.292</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344812"></A>-2.00</LI>
+<A NAME="50622479_pgfId-1344812"></A>-2.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344814"></A>0.00</LI>
+<A NAME="50622479_pgfId-1344814"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344816"></A>--</LI>
+<A NAME="50622479_pgfId-1344816"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344818"></A>&nbsp;</LI>
+<A NAME="50622479_pgfId-1344818"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344820"></A>-1.993</LI>
+<A NAME="50622479_pgfId-1344820"></A>-1.993</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344822"></A>-1.657</LI>
+<A NAME="50622479_pgfId-1344822"></A>-1.657</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344824"></A>--</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50548751_pgfId-1344826"></A>B</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344828"></A>8.220</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344830"></A>-3.48</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344832"></A>0.68</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344834"></A>2.24</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344836"></A>&nbsp;</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344838"></A>--</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344840"></A>--</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344842"></A>--</LI>
+<A NAME="50622479_pgfId-1344824"></A>--</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50548751_pgfId-1344844"></A>C</P>
+<A NAME="50622479_pgfId-1344826"></A>B</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344846"></A>7.263</LI>
+<A NAME="50622479_pgfId-1344828"></A>8.220</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344848"></A>-2.20</LI>
+<A NAME="50622479_pgfId-1344830"></A>-3.48</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344850"></A>-0.24</LI>
+<A NAME="50622479_pgfId-1344832"></A>0.68</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344852"></A>0.25</LI>
+<A NAME="50622479_pgfId-1344834"></A>2.24</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344854"></A>&nbsp;</LI>
+<A NAME="50622479_pgfId-1344836"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344856"></A>--</LI>
+<A NAME="50622479_pgfId-1344838"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344858"></A>--</LI>
+<A NAME="50622479_pgfId-1344840"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344860"></A>--</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50548751_pgfId-1344862"></A>D</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344864"></A>7.083</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344866"></A>-2.05</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344868"></A>0.00</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344870"></A>0.00</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344872"></A>&nbsp;</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344874"></A>--</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344876"></A>-15.61</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344878"></A>7.853</LI>
+<A NAME="50622479_pgfId-1344842"></A>--</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50548751_pgfId-1344880"></A>E</P>
+<A NAME="50622479_pgfId-1344844"></A>C</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344882"></A>7.472</LI>
+<A NAME="50622479_pgfId-1344846"></A>7.263</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344884"></A>-2.39</LI>
+<A NAME="50622479_pgfId-1344848"></A>-2.20</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344886"></A>0.00</LI>
+<A NAME="50622479_pgfId-1344850"></A>-0.24</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344888"></A>0.72</LI>
+<A NAME="50622479_pgfId-1344852"></A>0.25</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344890"></A>&nbsp;</LI>
+<A NAME="50622479_pgfId-1344854"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344892"></A>--</LI>
+<A NAME="50622479_pgfId-1344856"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344894"></A>-0.085</LI>
+<A NAME="50622479_pgfId-1344858"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50548751_pgfId-1344896"></A>--</LI>
+<A NAME="50622479_pgfId-1344860"></A>--</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50622479_pgfId-1344862"></A>D</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344864"></A>7.083</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344866"></A>-2.05</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344868"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344870"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344872"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344874"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344876"></A>-15.61</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344878"></A>7.853</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50622479_pgfId-1344880"></A>E</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344882"></A>7.472</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344884"></A>-2.39</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344886"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344888"></A>0.72</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344890"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344892"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344894"></A>-0.085</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50622479_pgfId-1344896"></A>--</LI>
 </UL>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50548751_pgfId-1414637"></A>Selected results from the output for <A HREF="phreeqc3-58.htm#50548751_51496" CLASS="XRef">See Mixing</A> are presented in <A HREF="phreeqc3-58.htm#50548751_15698" CLASS="XRef">table 16</A>. The groundwater produced by part A is in equilibrium with calcite and has a log <IMG SRC="phreeqc3-224.png" ALIGN="MIDDLE">
+<A NAME="50622479_pgfId-1414637"></A>Selected results from the output for <A HREF="phreeqc3-58.htm#50622479_51496" CLASS="XRef">See Mixing</A> are presented in <A HREF="phreeqc3-58.htm#50622479_15698" CLASS="XRef">table 16</A>. The groundwater produced by part A is in equilibrium with calcite and has a log <IMG SRC="phreeqc3-224.gif" ALIGN="BASELINE">
  of -2.0, as specified by the input. The moles of CO<Sub CLASS="Subscript">
 2</Sub>
- in the phase assemblage decreased by about 2.0 mmol, which means that about 2.0 mmol dissolved into solution. Likewise, about 1.7 mmol of calcite dissolved. Part B defined seawater, which is calculated to have slightly greater than atmospheric carbon dioxide (-3.48 compared to about -3.5), and is supersaturated with calcite (saturation index 0.68) and dolomite (2.24). No mole transfers of minerals were allowed for part B. Part C performed the mixing and calculated the equilibrium distribution of species in the mixture, again with no mole transfers of the minerals allowed. The resulting log <IMG SRC="phreeqc3-225.png" ALIGN="MIDDLE">
+ in the phase assemblage decreased by about 2.0 mmol, which means that about 2.0 mmol dissolved into solution. Likewise, about 1.7 mmol of calcite dissolved. Part B defined seawater, which is calculated to have slightly greater than atmospheric carbon dioxide (-3.48 compared to about -3.5), and is supersaturated with calcite (saturation index 0.68) and dolomite (2.24). No mole transfers of minerals were allowed for part B. Part C performed the mixing and calculated the equilibrium distribution of species in the mixture, again with no mole transfers of the minerals allowed. The resulting log <IMG SRC="phreeqc3-225.gif" ALIGN="BASELINE">
  is -2.20, calcite is undersaturated, and dolomite is supersaturated. The saturation indices indicate that thermodynamically, dolomitization should occur; that is, calcite dissolves and dolomite precipitates. Part D calculates the amounts of calcite and dolomite that should react. To produce equilibrium, 15.61 mmol of calcite should dissolve and 7.853 mmol of dolomite should precipitate. Dolomitization is not observed to occur in present-day mixing zone environments, even though dolomite is the thermodynamically stable phase. The lack of significant dolomitization is due to the slow reaction kinetics of dolomite formation. Therefore, part E simulates what would happen if dolomite does not precipitate; in that case, only a very small amount of calcite dissolves (0.085 mmol) for this mixing ratio. </P>
 <HR><P> | <A HREF="phreeqc3-59.htm">Next</A> || <A HREF="phreeqc3-57.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
