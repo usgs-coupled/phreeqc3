@@ -1149,7 +1149,7 @@ init_mix(void)
 				m[i] += diffc_here /
 					(cell_data[i].length * cell_data[i].length + cell_data[i].length * cell_data[i - 1].length);
 				m[i] *= corr_disp;		/* m[i] has mixf with lower numbered cell */
-				if (m[i] != m1[i - 1] && !warning && m[i] / (2 / dav) > 1.00001)
+				if (m[i] != m1[i - 1] && !warning && (!dav || m[i] / (2 / dav) > 1.00001))
 				{
 					warning_msg("Unequal cell-lengths may give mass-balance error, consider using -multi_D");
 					warning = true;
@@ -2006,7 +2006,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						{
 							//int sign = (signbit(current_x) == 0 ? 1 : -1);
 							int sign = (current_x >= 0) ? 1 : -1;
-							current_x = sign * fix_current;
+							current_x = sign * fix_current / F_C_MOL;
 							j_0e = current_x - current_cells[0].dif;
 						}
 						dVc = j_0e * current_cells[0].R;
@@ -2357,6 +2357,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	if (dV_dcell && !find_current && !stagnant)
 		goto dV_dcell2;
 
+	ct[icell].J_ij_count_spec = 0;
 	ct[icell].v_m = (struct V_M *) free_check_null(ct[icell].v_m);
 	ct[icell].v_m_il = (struct V_M *) free_check_null(ct[icell].v_m_il);
 	//ct[icell].v_m = ct[icell].v_m_il = NULL;
@@ -2669,7 +2670,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		}
 	}
 	/* diffuse... */
-	ct[icell].J_ij_count_spec = 0;
 	ct[icell].J_ij_sum = 0.0;
 	/*
 	* malloc sufficient space...
