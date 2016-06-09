@@ -1,6 +1,6 @@
 README.PhreeqcI.txt
 
-       PhreeqcI Version 3.3.8  June  8, 2016
+       PhreeqcI Version @VERSION@  @VER_DATE@
 
        A graphical user interface to:
        
@@ -32,7 +32,7 @@ The following distribution file (containing the software, databases, examples an
 documentation) are available at
 http://wwwbrr.cr.usgs.gov/projects/GWC_coupled/phreeqc/index.html.
 
-phreeqci-3.3.8-11248.msi--GUI compiled by using Microsoft Visual C++ 2005
+phreeqci-@VERSION@-@REVISION@.msi--GUI compiled by using Microsoft Visual C++ 2005
 
 -----------------------------------------------------------------------------------                   
 B. Documentation
@@ -85,21 +85,21 @@ C. Installing and running the GUI PhreeqcI
 Note: the person installing the software generally must have administrator 
 rights.
 
-To install the GUI, double-click phreeqci-3.3.8-11248.msi to execute
+To install the GUI, double-click phreeqci-@VERSION@-@REVISION@.msi to execute
 the installation program and follow the directions on the screen. The GUI is
 completely independent from the batch version.
 
 To execute the GUI, access the program through the start menus of Windows. 
 
 By default, PhreeqcI is installed in the directory 
-C:\Program Files (x86)\USGS\phreeqci-3.3.8-11248.  
+C:\Program Files (x86)\USGS\phreeqci-@VERSION@-@REVISION@.  
 This is the recommended installation directory, but you may use other
 directories or disk drives.
 
 Note that program components not installed initially can be installed later,
 and any components damaged (for example, by inadvertently overwriting the
 directory) can be reinstalled by double-clicking
-phreeqci-3.3.8-11248.msi--a maintenance version of the installation
+phreeqci-@VERSION@-@REVISION@.msi--a maintenance version of the installation
 program will be executed.
 
 
