@@ -372,7 +372,8 @@ all: alkalinity.out \
 	adapted_minteq.out \
 	sys_kin.out \
 	unequal.out \
-	phase_vm.out
+	phase_vm.out \
+	low_p.out
 
 # NaX.out
 
