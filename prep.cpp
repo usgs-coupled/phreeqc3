@@ -4099,6 +4099,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			P = 1.;
 	} else
 	{
+		if (P < 1e-10) P = 1e-10;
 		r3[1] = b_sum - R_TK / P;
 		r3_12 = r3[1] * r3[1];
 		r3[2] = -3.0 * b2 + (a_aa_sum - R_TK * 2.0 * b_sum) / P;
