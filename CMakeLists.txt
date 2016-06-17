@@ -121,7 +121,6 @@ src/dense.cpp
 src/dense.h
 src/dumper.cpp
 src/dumper.h
-src/dw.cpp
 src/gases.cpp
 src/global_structures.h
 src/input.cpp
