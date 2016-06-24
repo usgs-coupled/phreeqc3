@@ -1,9 +1,45 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
+
+	---------
+	svn 11304
+	---------
+	PHREEQC: The file dw.cpp was removed from the source code. It contained obsolete
+	code inherited from PHRQPITZ to calculate the density of water.
+	
+	---------
+	svn 11284
+	---------
+	PhreeqcRM: Order of header files was changed to put mpi.h first to avoid potential header 
+	conflicts with some MPI implementations.
+	
+	---------
+	svn 11255
+	---------
+	PHREEQC: The Peng-Robinson gas calculation failed with very smally gas partial pressures. 
+	Code was modified to set a minimum of 1e-10 atm for the calculation.
+	
+	---------
+	svn 11255
+	---------
+	PhreeqcI: File/registry virtualizatioin was disabled. Windows allowed users to write into
+	system directories (Probram Files for instance) even though they did not have sufficient
+	permissions. The files were actually stored in another directory in the user's profile. 
+	The files are difficult to find, and, under some conditions, PhreeqcI would fail. Now,
+	it is not allowed to write into directories for which the user does not have write
+	permission.
+	
+	---------
+	svn 11201
+	---------
+	PHREEQC: Added new Basic function PHASE_VM("Calcite"). The function returns the molar volume
+	for a mineral. The molar volume is defined for the mineral in PHASES with the -vm option. 
+	Use the Basic function GAS_VM for gas components.
+	
 	---------
 	svn 11152
 	---------
-	Added two new Basic functions related to KINETICS.
+	PHREEQC: Added two new Basic functions related to KINETICS.
 	
 	n$ = KINETICS_FORMULA$("Albite", count, elt$, coef)
 	
