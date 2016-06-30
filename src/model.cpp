@@ -1679,7 +1679,7 @@ ineq(int in_kode)
 	}
 #define SHRINK_ARRAY
 #ifdef SHRINK_ARRAY
-	if ((sit_model || pitzer_model) && full_pitzer == FALSE)
+	if ((sit_model /* || pitzer_model*/) && full_pitzer == FALSE)
 	{
 		n = count_unknowns - (int) s_list.size();
 		for (int i = 0; i < l_count_rows; i++)
