@@ -1679,19 +1679,19 @@ ineq(int in_kode)
 	}
 #define SHRINK_ARRAY
 #ifdef SHRINK_ARRAY
-	if ((sit_model /* || pitzer_model*/) && full_pitzer == FALSE)
+	if ((sit_model || pitzer_model) && full_pitzer == FALSE)
 	{
 		n = count_unknowns - (int) s_list.size();
 		for (int i = 0; i < l_count_rows; i++)
 		{
-			//for (int j = 0; j < n; j++)
-			//{
-			//	ineq_array[i*(n+2) + j] = ineq_array[i*(count_unknowns+2) +j];
-			//}
-			if (i > 0)
+			for (int j = 0; j < n; j++)
 			{
-				memcpy((void *) &ineq_array[i*(n+2)], (void *) &ineq_array[i*(count_unknowns+2)], (size_t) (n) * sizeof(LDBLE));
+				ineq_array[i*(n+2) + j] = ineq_array[i*(count_unknowns+2) +j];
 			}
+			//if (i > 0)
+			//{
+			//	memcpy((void *) &ineq_array[i*(n+2)], (void *) &ineq_array[i*(count_unknowns+2)], (size_t) (n) * sizeof(LDBLE));
+			//}
 			ineq_array[i*(n+2) + n] = ineq_array[i*(count_unknowns+2) + count_unknowns];
 		}
 	}
