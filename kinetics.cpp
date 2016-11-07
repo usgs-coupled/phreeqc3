@@ -230,8 +230,12 @@ RESTART:   // if limiting rates, jump to here
 						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
 							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
 						{
-							master_ptr = master_bsearch(ptr);
-							master_ptr->total = 0.0;
+							//master_ptr = master_bsearch(ptr);
+							master_ptr = master_bsearch(surface_comp_ptr->Get_master_element().c_str());
+							if (master_ptr != NULL) 
+							{
+								master_ptr->total = 0.0;
+							}
 						}
 						else
 						{
