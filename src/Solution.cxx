@@ -1103,6 +1103,7 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	this->total_h = h_tot;
 	this->total_o = o_tot;
 	this->cb = charge;
+	this->mass_water = o_tot / 55.5;
 
 	// Don`t bother to update activities?
 	this->Update(const_nd);
