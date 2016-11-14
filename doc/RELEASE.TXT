@@ -1,5 +1,28 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 	---------
+	svn 11942
+	---------
+	PHREEQC: Updated sit.dat to version 9b0 from www.thermochimie-tdb.com. Changed
+	documentation of some RATES definitions in Amm.dat to have the correct diameter
+	assumed for mineral grains.
+
+	---------
+	svn 11915
+	---------
+	Phreeqc: Bug when surface was related to kinetics and the proportion of sites to
+	kinetic reactant was zero (not common). The bug caused a segmentation-fault crash.
+	
+	---------
+	svn 11914
+	---------
+	PhreeqcRM: Previously, the guess for the unknown for mass of water was the value
+	from the last time step. For widely varying saturaations, the old value
+	caused nonconvergence for the cell. Now the mass of water is estimated from the
+	updated value of the moles of oxygen in the cell.
+
+Version 3.3.8: September 13, 2016 (svn 11728)
+
+	---------
 	svn 11559
 	---------
 	PhreeqcRM: Added comment to output that user-grid cell numbers are 0 based (C-like).
