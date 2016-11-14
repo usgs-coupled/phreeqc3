@@ -29,9 +29,29 @@ Reading input data for simulation 1.
 	10 PUNCH STR_F$(MU, 20, 12)
 	20 PUNCH STR_F$(SC, 20, 10)
 	    end
-	PRINT
-	 warnings 0
-	 echo_input false
+	PHASES
+	Thenardite
+		Na2SO4 = 2 Na+ + SO4-2
+		analytical_expression  57.185  8.6024e-2  0  -30.8341  0  -7.6905e-5 # ref. 3
+		vm 52.9
+	Mirabilite
+		Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+		analytical_expression  -301.9326  -0.16232  0  141.078 # ref. 3
+		Vm 216
+	Glauberite
+		Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
+		log_k	   -5.31
+		analytical_expression  218.142  0  -9285  -77.735 # ref. 3
+		Vm 100.4	
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
 	SOLUTION 1
 	 temp 25
 	 pH 7 charge
@@ -77,8 +97,8 @@ Initial solution 1.
                                 MacInnes       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.006e-07   1.006e-07    -6.997    -6.997    -0.000      0.00
    OH-             1.006e-07   1.006e-07    -6.997    -6.997    -0.000     -4.14
+   H+              1.006e-07   1.006e-07    -6.997    -6.997    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 
 ------------------------------Saturation indices-------------------------------
@@ -95,12 +115,44 @@ End of simulation.
 ------------------
 
 ------------------------------------
-Reading input data for simulation 2.
+Reading input data for simulation 3.
 ------------------------------------
 
 	PRINT
 	 reset false
+WARNING: Element Na is contained in Mirabilite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Na is contained in Glauberite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Na is contained in Thenardite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Glauberite, is not in model.
+WARNING: Element in phase, Thenardite, is not in model.
+WARNING: Element Na is contained in Glauberite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Na is contained in Thenardite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Glauberite, is not in model.
+WARNING: Element in phase, Thenardite, is not in model.
+WARNING: Element Na is contained in Glauberite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Na is contained in Thenardite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Glauberite, is not in model.
+WARNING: Element in phase, Thenardite, is not in model.
+WARNING: Element Na is contained in Glauberite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Na is contained in Thenardite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Glauberite, is not in model.
+WARNING: Element in phase, Thenardite, is not in model.
+WARNING: Element Na is contained in Glauberite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element Na is contained in Thenardite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Glauberite, is not in model.
+WARNING: Element in phase, Thenardite, is not in model.
 ------------------------------
-End of Run after 0.26 Seconds.
+End of Run after 3.34 Seconds.
 ------------------------------
 
