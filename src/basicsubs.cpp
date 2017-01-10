@@ -3246,7 +3246,8 @@ system_total_equi(void)
 			int l;
 			struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 			sys[count_sys].name = string_duplicate(phase_ptr->name);
-			sys[count_sys].moles = comp_ptr->Get_moles();
+			//sys[count_sys].moles = comp_ptr->Get_moles();
+			sys[count_sys].moles = equi_phase(sys[count_sys].name);
 			sys_tot += sys[count_sys].moles;
 			sys[count_sys].type = string_duplicate("equi");
 			count_sys++;
