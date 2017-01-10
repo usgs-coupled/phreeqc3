@@ -374,7 +374,8 @@ all: alkalinity.out \
 	unequal.out \
 	phase_vm.out \
 	low_p.out \
-	Ratework.out
+	Ratework.out \
+	sys_equi_fix.out
 
 # NaX.out
 
