@@ -1253,9 +1253,15 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	int old_diag, old_itmax;
 	LDBLE old_tol, old_min_value, old_step, old_pe, old_pp_column_scale;
 	LDBLE small_pe_step, small_step;
+#ifdef SOMETHING
 	std::auto_ptr<cxxPPassemblage> pp_assemblage_save(NULL);
 	std::auto_ptr<cxxSSassemblage> ss_assemblage_save(NULL);
 	std::auto_ptr<cxxKinetics> kinetics_save(NULL);
+#else
+	std::unique_ptr<cxxPPassemblage> pp_assemblage_save=NULL;
+	std::unique_ptr<cxxSSassemblage> ss_assemblage_save=NULL;
+	std::unique_ptr<cxxKinetics> kinetics_save=NULL;
+#endif
 
 	
 	small_pe_step = 5.;
