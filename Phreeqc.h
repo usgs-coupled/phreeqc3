@@ -2006,7 +2006,11 @@ public:
 #endif /*defined (PHREEQ98) || defined (_MSC_VER)*/
 
 #if defined(HAVE_ISFINITE)
-#  define PHR_ISFINITE(x) isfinite(x)
+#  if __GNUC__ && (__cplusplus >= 201103L)
+#    define PHR_ISFINITE(x) std::isfinite(x)
+#  else
+#    define PHR_ISFINITE(x) isfinite(x)
+#  endif
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)
 #elif defined(HAVE_ISNAN)
