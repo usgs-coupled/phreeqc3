@@ -1,7 +1,6 @@
 #!/bin/sh
 failed=0
 rel_error=1e-3
-cd src || exit
 
 ./bootstrap     || exit
 mkdir -p _build || exit
