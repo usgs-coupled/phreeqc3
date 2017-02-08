@@ -5,16 +5,18 @@ CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 #TIME=time
 #PHREEQC=../src/Class_debug_64/phreeqc
 #PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
-PHREEQC=../src/Class_release_64/phreeqc
+#PHREEQC=../src/Class_release_64/phreeqc
+PHREEQC=C:/Programs/phreeqc3-trunk/x64/Release/phreeqc.exe
+
 TIME=
 #VALGRIND=valgrind --leak-check=full --track-origins=yes
 VALGRIND=
 
-ifeq ($(CFG1), windows32)
-   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc
+#ifeq ($(CFG1), windows32)
+#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
-endif
+#endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
 	$(TIME) $(VALGRIND) $(PHREEQC) $< $<.out xxx $<.log
