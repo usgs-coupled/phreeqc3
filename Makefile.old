@@ -1,5 +1,5 @@
-CFG1 :=`uname`
-CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
+#CFG1 :=`uname`
+#CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
 
 INPUT=../examples
 PHREEQCDAT=../database/phreeqc.dat
@@ -8,13 +8,14 @@ ISODAT=../database/iso.dat
 
 #PHREEQC=../src/Class_release_64/phreeqc
 #PHREEQC=../src/Class_debug_64/phreeqc
-PHREEQC=../src/Class_release_64/phreeqc
+#PHREEQC=../src/Class_release_64/phreeqc
+PHREEQC=C:/Programs/phreeqc3-trunk/x64/Release/phreeqc.exe
 
 #VALGRIND=valgrind --leak-check=full
 VALGRIND=
 
 ifeq ($(CFG), CYGWIN)
-   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc.exe
+#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc.exe
 #   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Debug/phreeqc.exe
 endif
 
