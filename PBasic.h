@@ -279,6 +279,7 @@ public:
 		tokgamma,
 		toklg,
 		tokrho,
+		tokrho_0,
 		tokcell_volume,
 		tokcell_pore_volume,
 		tokcell_porosity,
@@ -294,6 +295,8 @@ public:
 		tokeol_,
 		tokceil,
 		tokfloor,
+		tokkinetics_formula,
+		tokkinetics_formula_,
 		tokphase_formula,
 		tokphase_formula_,
 		tokspecies_formula,
@@ -328,9 +331,9 @@ public:
 		tokedl_species,
 		tokviscos,
 		tokviscos_0,
-		tokrho_0,
 		tokcurrent_a,
-		tokpot_v
+		tokpot_v,
+		tokphase_vm
 	};
 
 #if !defined(PHREEQCI_GUI)

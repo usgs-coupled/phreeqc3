@@ -100,6 +100,7 @@ public:
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
 	LDBLE aqueous_vm(const char *species_name);
+	LDBLE phase_vm(const char *phase_name);
 	LDBLE diff_c(const char *species_name);
 	LDBLE setdiff_c(const char *species_name, double d);
 	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
@@ -148,6 +149,7 @@ public:
 	static int system_species_compare(const void *ptr1, const void *ptr2);
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 		char ***types, LDBLE ** moles);
+	std::string kinetics_formula(std::string kinetics_name, cxxNameDouble &stoichiometry);
 	std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 	std::string species_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 	LDBLE list_ss(std::string ss_name, cxxNameDouble &composition);
@@ -158,6 +160,7 @@ public:
 	int system_total_surf(void);
 	int system_total_gas(void);
 	int system_total_equi(void);
+	int system_total_kin(void);
 	int system_total_ss(void);
 	int system_total_elt(const char *total_name);
 	int system_total_elt_secondary(const char *total_name);
@@ -1605,6 +1608,13 @@ protected:
 	int stop_program;
 	int incremental_reactions;
 
+	double MIN_LM;
+	double LOG_ZERO_MOLALITY;
+	double MIN_TOTAL;
+	double MIN_TOTAL_SS;
+	double MIN_RELATED_SURFACE;
+	double MIN_RELATED_LOG_ACTIVITY;
+
 	int count_strings;
 	int max_strings;
 
@@ -2008,7 +2018,11 @@ public:
 #endif /*defined (PHREEQ98) || defined (_MSC_VER)*/
 
 #if defined(HAVE_ISFINITE)
-#  define PHR_ISFINITE(x) isfinite(x)
+#  if __GNUC__ && (__cplusplus >= 201103L)
+#    define PHR_ISFINITE(x) std::isfinite(x)
+#  else
+#    define PHR_ISFINITE(x) isfinite(x)
+#  endif
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)
 #elif defined(HAVE_ISNAN)

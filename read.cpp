@@ -4807,12 +4807,17 @@ read_selected_output(void)
 	else if (n_user == 1 && so == SelectedOutput_map.end())
 	{
 		// n_user = 1, new definition, do nothing use; constructor default
+		temp_selected_output.Set_new_def(true);
 	}
 	else 
 	{
 		// n_user != 1 then reset false
 
 		temp_selected_output.Reset(false);
+		if (so == SelectedOutput_map.end())
+		{
+			temp_selected_output.Set_new_def(true);
+		}
 	}
 
 	CParser parser(this->phrq_io);
@@ -8346,9 +8351,11 @@ read_debug(void)
 		"try",						       /* 17 */
 		"numerical_fixed_volume",          /* 18 */
 		"force_numerical_fixed_volume",    /* 19 */
-		"equi_delay"                       /* 20 */
+		"equi_delay",                      /* 20 */
+		"minimum_total",                   /* 21 */  
+		"min_total"                        /* 22 */   
 	};
-	int count_opt_list = 21;
+	int count_opt_list = 23;
 /*
  *   Read parameters:
  *	ineq_tol;
@@ -8443,6 +8450,12 @@ read_debug(void)
 			break;
 		case 20:				/* equi_delay */
 			sscanf(next_char, "%d", &equi_delay);
+			break;
+		case 21:				/* minimum_total */
+		case 22:				/* min_total */
+			sscanf(next_char, SCANFORMAT, &MIN_TOTAL);
+			MIN_TOTAL_SS = MIN_TOTAL/100;
+			MIN_RELATED_SURFACE = MIN_TOTAL*100;
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)

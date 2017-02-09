@@ -15,15 +15,16 @@ PROGRAM = phreeqc
 MPI_DIR=/usr/lib64/openmpi
 
 CFG1 :=`uname`
-CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
-ifeq ($(CFG), CYGWIN)
-	SPOOL=>
-	SPOOL2=2>&1
-else
+CFG :=$(shell echo $(CFG1) | sed "s/Linux.*/Linux/")
+ifeq ($(CFG), Linux)
 	SPOOL=>&
 	SPOOL2=
+	CONCAT=;
+else
+	SPOOL=>
+	SPOOL2=2>&1
+	CONCAT=&
 endif
-
 all: release_openmp
 
 Debug: debug
@@ -235,7 +236,6 @@ COMMON_COBJS =  \
 	       cvdense.o \
 	       cvode.o \
 	       dense.o \
-	       dw.o \
 	       gases.o \
 	       input.o \
 	       integrate.o \
@@ -685,14 +685,6 @@ Dictionary.o: ../Dictionary.cpp ../Dictionary.h
 dumper.o: ../dumper.cpp ../dumper.h ../StorageBinList.h \
  ../common/PHRQ_base.h ../common/Parser.h ../common/PHRQ_base.h \
  ../PhreeqcKeywords/Keywords.h ../common/PHRQ_io.h ../common/PHRQ_io.h
-dw.o: ../dw.cpp ../Phreeqc.h ../common/phrqtype.h ../cvdense.h ../cvode.h \
- ../sundialstypes.h ../nvector.h ../dense.h ../smalldense.h ../runner.h \
- ../StorageBinList.h ../common/PHRQ_base.h ../dumper.h \
- ../common/PHRQ_io.h ../PhreeqcKeywords/Keywords.h ../SelectedOutput.h \
- ../NumKeyword.h ../UserPunch.h ../Pressure.h ../cxxMix.h ../Use.h \
- ../Surface.h ../SurfaceComp.h ../NameDouble.h ../common/Parser.h \
- ../common/PHRQ_base.h ../common/PHRQ_io.h ../SurfaceCharge.h \
- ../global_structures.h ../NA.h
 gases.o: ../gases.cpp ../Phreeqc.h ../common/phrqtype.h ../cvdense.h \
  ../cvode.h ../sundialstypes.h ../nvector.h ../dense.h ../smalldense.h \
  ../runner.h ../StorageBinList.h ../common/PHRQ_base.h ../dumper.h \
@@ -1161,8 +1153,9 @@ dependencies:
 	   -I../PhreeqcRM/IPhreeqcPhast/IPhreeqc ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/*.cpp ../PhreeqcRM/IPhreeqcPhast/IPhreeqc/*.c
 
 tester:
-	cd ../mytest; make clean; make -k -j 1 $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
-	cd ../examples; make -f Makefile.old clean; make -f Makefile.old -k -j 1 $(SPOOL) make.out $(SPOOL2); make -f Makefile.old diff $(SPOOL) diff.out $(SPOOL2)
+#	cd ../mytest; make clean; make -k -j 1 $(SPOOL) make.out $(SPOOL2); make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../mytest $(CONCAT) make clean $(CONCAT) make -k -j 1 $(SPOOL) make.out $(SPOOL2) $(CONCAT) make diff $(SPOOL) diff.out $(SPOOL2)
+	cd ../examples $(CONCAT) make -f Makefile.old clean $(CONCAT) make -f Makefile.old -k -j 1 $(SPOOL) make.out $(SPOOL2) $(CONCAT) make -f Makefile.old diff $(SPOOL) diff.out $(SPOOL2)
 	svn status -q ../mytest 
 	svn status -q ../examples
 
