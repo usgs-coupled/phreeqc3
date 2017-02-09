@@ -1645,6 +1645,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokpot_v:
 			output_msg("POT_V");
 			break;
+		case tokt_sc:
+			output_msg("T_SC");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3658,6 +3661,12 @@ factor(struct LOC_exec * LINK)
  			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
 		}
  		break;
+  	case tokphase_vm:
+		{
+			const char * str = stringfactor(STR1, LINK);
+ 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
+		}
+ 		break;
   	case tokviscos:
 		{
  			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
@@ -3675,6 +3684,12 @@ factor(struct LOC_exec * LINK)
 	case tokpot_v:
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->use.Get_solution_ptr()->Get_potV();
 		break;
+	case tokt_sc:
+		{
+			const char * str = stringfactor(STR1, LINK);
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_t_sc(str);
+		}
+		break;
 
 	case toklog10:
 		{
@@ -3689,13 +3704,6 @@ factor(struct LOC_exec * LINK)
 			//}
 		}
 		break;
-  	case tokphase_vm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
-		}
- 		break;
-
 	case toksin:
 		n.UU.val = sin(realfactor(LINK));
 		break;
@@ -7303,6 +7311,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",              PBasic::tokt_sc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);

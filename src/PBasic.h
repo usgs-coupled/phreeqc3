@@ -310,6 +310,7 @@ public:
 		tokerase,
 		tokeps_r,
 		tokvm,
+		tokphase_vm,
 		tokdh_a,
 		tokdh_b,
 		tokdh_av,
@@ -333,7 +334,7 @@ public:
 		tokviscos_0,
 		tokcurrent_a,
 		tokpot_v,
-		tokphase_vm
+		tokt_sc
 	};
 
 #if !defined(PHREEQCI_GUI)
