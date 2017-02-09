@@ -63,37 +63,37 @@ Ntg		Ntg	0	Ntg		28.0134 # N2 gas
 SOLUTION_SPECIES
 H+ = H+
 	-gamma	9.0	0
-	-dw	 9.31e-9  831 # Dw(TK) = 9.31e-9 * exp(831 / TK - 831 / 298.15) * TK * 0.89 / (298.15 * viscos)
+	-dw	9.31e-9  763  0.46  1e-10 # The dw parameters are defined in ref. 3.
+# Dw(TK) = 9.31e-9 * exp(763 / TK - 763 / 298.15) * TK * 0.89 / (298.15 * viscos)
+# Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
 e- = e-
 H2O = H2O
 Ca+2 = Ca+2
 	-gamma	5.0	0.1650
-	-dw	 0.793e-9  60
+	-dw	0.793e-9  97  3.4  24.6
 	-Vm  -0.3456  -7.252  6.149  -2.479  1.239  5  1.60  -57.1  -6.12e-3  1 # ref. 1
 Mg+2 = Mg+2
 	-gamma	5.5	0.20
-	-dw	 0.705e-9  24 
+	-dw	0.705e-9  111  2.4  13.7
 	-Vm  -1.410  -8.6  11.13  -2.39  1.332  5.5  1.29  -32.9  -5.86e-3  1 # ref. 1
 Na+ = Na+
 	-gamma	4.0	 0.075
 	-gamma	4.08 0.082 # halite solubility
-	-dw	 1.33e-9  126
+	-dw	1.33e-9  122  1.52  3.70
 	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # ref. 1
 # for calculating densities (rho) when I > 3...
 	# -Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.45
 K+ = K+
 	-gamma	3.5	0.015
-	-dw	 1.96e-9  262	
+	-dw	1.96e-9  395  2.0  21
 	-Vm  3.322  -1.473  6.534  -2.712  9.06e-2  3.5  0  29.7  0  1 # ref. 1
 Fe+2 = Fe+2
 	-gamma	6.0	0
 	-dw	 0.719e-9
-
 	-Vm  -0.3255  -9.687  1.536  -2.379  0.3033  6  -4.21e-2  39.7  0  1 # ref. 1
 Mn+2 = Mn+2
 	-gamma	6.0	0
 	-dw	 0.688e-9
-
 	-Vm  -1.10  -8.03  4.08  -2.45  1.4  6  8.07  0  -1.51e-2  0.118 # ref. 2
 Al+3 = Al+3
 	-gamma	9.0	0
@@ -114,23 +114,23 @@ H4SiO4 = H4SiO4
 Cl- = Cl-
 	-gamma	3.5	  0.015
 	-gamma	3.63  0.017 # cf. pitzer.dat
-	-dw	 2.03e-9  194
+	-dw	2.03e-9  194  1.6  6.9
 	-Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # ref. 1
 CO3-2 = CO3-2
 	-gamma	5.4	0
-	-dw	 0.955e-9
+	-dw	0.955e-9  0  1.14  2.7
 	-Vm  5.95  0  0  -5.67  6.85  0  1.37  106  -0.0343  1 # ref. 1
 SO4-2 = SO4-2
 	-gamma	5.0	-0.04
-	-dw	 1.07e-9  108
+	-dw	1.07e-9  34  2.08  13.4
 	-Vm  8.0  2.3  -46.04  6.245  3.82  0  0  0  0  1 # ref. 1
 NO3- = NO3-
 	-gamma	3.0	0
-	-dw	 1.9e-9  219
+	-dw	1.9e-9  202  2.0  4.0
 	-Vm  6.32  6.78  0  -3.06  0.346  0  0.93  0  -0.012  1 # ref. 1
 #AmmH+ = AmmH+
 #	-gamma	2.5	0
-#	-dw	 1.98e-9  377
+#	-dw	1.98e-9  312  0.95  4.53
 #	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
 H3BO3 = H3BO3
 	-dw	1.1e-9
@@ -173,7 +173,7 @@ Oxg = Oxg # O2
 	-dw	 2.35e-9
 	-Vm  5.7889  6.3536  3.2528  -3.0417  -0.3943 # supcrt
 Mtg = Mtg # CH4
-	-dw	 1.85e-9
+	-dw   1.85e-9
 	-Vm   9.01  -1.11  0  -1.85  -1.50 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
 Ntg = Ntg # N2
 	-dw	 1.96e-9
@@ -185,7 +185,7 @@ H2Sg = H2Sg # H2S
 H2O = OH- + H+
 	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
 	-gamma	3.5	0
-	-dw	 5.27e-9  470
+	-dw	 5.27e-9  548  0.53  1e-10
 	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # ref. 1
 2 H2O = O2 + 4 H+ + 4 e-
 	-log_k	-86.08
@@ -201,8 +201,8 @@ CO3-2 + H+ = HCO3-
 	-log_k	10.329
 	-delta_h -3.561	kcal
 	-analytic	107.8871	0.03252849	-5151.79	-38.92561	563713.9
-	-gamma	5.4	0
-	-dw	 1.18e-9
+	-gamma	5.4      0
+	-dw	1.18e-9  0  1.43  1e-10
 	-Vm  8.472  0  -11.5  0  1.56  0  0  146  3.16e-3  1 # ref. 1
 CO3-2 + 2 H+ = CO2 + H2O
 	-log_k	16.681
@@ -217,7 +217,7 @@ CO3-2 + 2 H+ = CO2 + H2O
 CO3-2 + 10 H+ + 8 e- = CH4 + 3 H2O
 	-log_k	41.071
 	-delta_h -61.039 kcal
-	-dw	 1.85e-9
+	-dw   1.85e-9
 	-Vm   9.01  -1.11  0  -1.85  -1.50 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
 SO4-2 + H+ = HSO4-
 	-log_k	1.988
@@ -263,9 +263,9 @@ NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
 	-log_k	119.077
 	-delta_h -187.055	kcal	
 	-gamma	2.5	0
-	-dw	 1.98e-9  377
-	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1	
-#AmmH+ = Amm + H+
+	-dw	1.98e-9  312  0.95  4.53
+	-Vm  4.837  2.345  5.522  -2.88 1.096  3  -1.456  75.0  7.17e-3  1 # ref. 1
+
 NH4+ = NH3 + H+
 	-log_k	-9.252
 	-delta_h 12.48	kcal
@@ -403,7 +403,7 @@ Na+ + OH- = NaOH
 Na+ + CO3-2 = NaCO3-
 	-log_k	1.27
 	-delta_h 8.91 kcal
-	-dw 5.85e-10
+	-dw  1.2e-9  0  1e-10  1e-10
 	-Vm  3.89  -8.23e-4  20  -9.44  3.02  9.05e-3  3.07  0  0.0233  1 # ref. 1
 Na+ + HCO3- = NaHCO3
 	-log_k  -0.25
@@ -414,7 +414,7 @@ Na+ + SO4-2 = NaSO4-
 	-log_k	0.7
 	-delta_h 1.120	kcal
 	-gamma	5.4	0
-	-dw 6.18e-10
+	-dw  1.33e-9  0  0.57  1e-10
 	-Vm  1e-5  16.4  -0.0678  -1.05  4.14  0  6.86  0  0.0242  0.53 # ref. 1
 Na+ + HPO4-2 = NaHPO4-
 	-log_k	0.29
@@ -428,7 +428,7 @@ K+ + SO4-2 = KSO4-
 	-delta_h 2.250	kcal
 	-analytical  3.106  0.0  -673.6
 	-gamma	5.4	0
-	-dw 7.46e-10
+	-dw  1.5e-9  0  1e-10  1e10
 	-Vm  6.8  7.06 3.0   -2.07  1.1  0  0  0  0  1 # ref. 1
 K+ + HPO4-2 = KHPO4-
 	-log_k	0.29
@@ -1824,7 +1824,8 @@ END
 # ref. 1: Appelo, Parkhurst and Post, 2014. Geochim. Cosmochim. Acta 125, 49–67. 
 # ref. 2: Procedures from ref. 1 using data compiled by Laliberté, 2009, J. Chem. Eng. Data 54, 1725.
 #
-#
 # =============================================================================================
 # It remains the responsibility of the user to check the calculated results, for example with
 #   measured solubilities as a function of (P, T).
+
+# ref. 3. Appelo, submitted.
