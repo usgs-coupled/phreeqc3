@@ -4096,10 +4096,11 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			}
 		}
 		if (P <= 0) // iterations = -1
-			P = 1.;
+			P = 1;
 	} else
 	{
-		if (P < 1e-10) P = 1e-10;
+		if (P < 1e-10)
+			P = 1e-10;
 		r3[1] = b_sum - R_TK / P;
 		r3_12 = r3[1] * r3[1];
 		r3[2] = -3.0 * b2 + (a_aa_sum - R_TK * 2.0 * b_sum) / P;
@@ -5719,7 +5720,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	for (i = 0; i < count_s_x; i++)
 	{
 		//if (s_x[i]->rxn_x->logk[vm_tc])
-		/* calculate delta_v for the reaction, assume Vm = 0 if not defined for a species... */
+		/* calculate delta_v for the reaction... */
 			s_x[i]->rxn_x->logk[delta_v] = calc_delta_v(s_x[i]->rxn_x, false);
 		if (tc == current_tc && s_x[i]->rxn_x->logk[delta_v] == 0)
 			continue;

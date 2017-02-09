@@ -132,19 +132,19 @@
 #define MAX_LM 3.0				/* maximum log molality allowed in intermediate iterations */
 #define MAX_M 1000.0
 #ifdef USE_DECIMAL128
-//#define MIN_LM -80.0			/* minimum log molality allowed before molality set to zero */
-//#define LOG_ZERO_MOLALITY -80	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
-//#define MIN_TOTAL 1e-60
-//#define MIN_TOTAL_SS MIN_TOTAL/100
-//#define MIN_RELATED_SURFACE MIN_TOTAL*100
-//#define MIN_RELATED_LOG_ACTIVITY -60
+// #define MIN_LM -80.0			/* minimum log molality allowed before molality set to zero */
+// #define LOG_ZERO_MOLALITY -80	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
+// #define MIN_TOTAL 1e-60
+// #define MIN_TOTAL_SS MIN_TOTAL/100
+// #define MIN_RELATED_SURFACE MIN_TOTAL*100
+// #define MIN_RELATED_LOG_ACTIVITY -60
 #else
-//#define MIN_LM -30.0			/* minimum log molality allowed before molality set to zero */
-//#define LOG_ZERO_MOLALITY -30	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
-//#define MIN_TOTAL 1e-25
-//#define MIN_TOTAL_SS MIN_TOTAL/100
-//#define MIN_RELATED_SURFACE MIN_TOTAL*100
-//#define MIN_RELATED_LOG_ACTIVITY -30
+// #define MIN_LM -30.0			/* minimum log molality allowed before molality set to zero */
+// #define LOG_ZERO_MOLALITY -30	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
+// #define MIN_TOTAL 1e-25
+// #define MIN_TOTAL_SS MIN_TOTAL/100
+// #define MIN_RELATED_SURFACE MIN_TOTAL*100
+// #define MIN_RELATED_LOG_ACTIVITY -30
 #endif
 #define REF_PRES_PASCAL 1.01325E5   /* Reference pressure: 1 atm */
 /*
@@ -668,8 +668,11 @@ struct species
 	LDBLE z;					/* charge of species */
 	LDBLE dw;					/* tracer diffusion coefficient in water at 25oC, m2/s */
 	LDBLE dw_t;					/* correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15) */
-	LDBLE dw_a;					/* ion size parm for calc'ng SC = SC0 - (B1 * SC0 + B2) * kk * dw_a / (1 + kk * dw_a) */
-	LDBLE dw_a_exp;				/* power term for ionic strength correction of dw_a */
+	LDBLE dw_a;					/* parms for calc'ng SC = SC0 * exp(-dw_a * z * mu^0.5 / (1 + DH_B * dw_a2 * mu^0.5)) */
+	LDBLE dw_a2;				/*  */
+	LDBLE dw_a_visc;			/* viscosity correction of SC */
+	LDBLE dw_t_SC;				/* contribution to SC, for calc'ng transport number with BASIC */
+	LDBLE dw_corr;				/* dw corrected for TK and mu */
 	LDBLE erm_ddl;				/* enrichment factor in DDL */
 	LDBLE equiv;				/* equivalents in exchange species */
 	LDBLE alk;					/* alkalinity of species, used for cec in exchange */
@@ -1046,7 +1049,7 @@ struct sol_D
 struct J_ij
 {
 	const char *name;
-	LDBLE tot1;        /* species change in cells i and j */
+	LDBLE tot1, tot2;        /* species change in cells i and j */
 };
 struct M_S
 {

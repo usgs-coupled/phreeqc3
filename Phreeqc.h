@@ -112,6 +112,7 @@ public:
 	LDBLE calc_logk_p(const char *name);
 	LDBLE calc_logk_s(const char *name);
 	LDBLE calc_surface_charge(const char *surface_name);
+	LDBLE calc_t_sc(const char *name);
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
 	LDBLE edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles, LDBLE * area, LDBLE * thickness);
 	int get_edl_species(cxxSurfaceCharge & charge_ref);
@@ -1748,6 +1749,7 @@ protected:
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
+	LDBLE SC; // specific conductance mS/cm
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
@@ -1792,7 +1794,6 @@ protected:
 	/* input.cpp ------------------------------- */
 	int check_line_return;  
 	int reading_db;
-	std::ostringstream definitions_for_parallelizer;
 
 	/* integrate.cpp ------------------------------- */
 	LDBLE midpoint_sv;
@@ -1991,7 +1992,6 @@ protected:
 	friend class IPhreeqcMMS;
 	friend class IPhreeqcPhast;
 	friend class PhreeqcRM;
-	friend class Parallelizer;
 
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
@@ -2021,7 +2021,7 @@ public:
 #  if __GNUC__ && (__cplusplus >= 201103L)
 #    define PHR_ISFINITE(x) std::isfinite(x)
 #  else
-#    define PHR_ISFINITE(x) isfinite(x)
+#  define PHR_ISFINITE(x) isfinite(x)
 #  endif
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)

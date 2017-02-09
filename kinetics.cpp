@@ -1646,6 +1646,7 @@ set_and_run(int i, int use_mix, int use_kinetics, int nsaver,
 		converge = model();
 	}
 	sum_species();
+	viscosity();
 	return (converge);
 }
 
