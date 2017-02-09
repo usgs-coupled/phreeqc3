@@ -1,0 +1,248 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: sys_kin
+  Output file: sys_kin.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 sys_kin_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.007e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	RATES
+	CaCl2
+	start
+	10 rate = 1e-5
+	20 save rate * time
+	end
+	Calcite
+	start
+	10 rate = 2e-5
+	20 save rate * time
+	end
+	USE solution 1
+	KINETICS 1
+	steps 5
+	CaCl2
+		formula CaCl2- 1 H2O 1 H2O+ -1
+		m0 1
+	Calcite
+		formula calcite 2 H2O(g) 1
+		m0 2
+	USER_PRINT
+	10 t = SYS("kin", count, name$, type$, moles)
+	12 PRINT "SYS result: ", t
+	15 PRINT "Number of kinetic reactants: ", count
+	20 for i = 1 to count
+	30   PRINT PAD(name$(i),20), moles(i)
+	40   f$ = KINETICS_FORMULA$(name$(i), count_form, elt_form$, coef_form)
+	50   for j = 1 to count_form
+	60     PRINT "      ", PAD(elt_form$(j), 10), coef_form(j)
+	70   next j
+	80 next i
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	CaCl2            -5.000e-05   1.000e+00   CaCl2-                    1
+	                                          H2O                       1
+	                                          H2O+                     -1
+	Calcite          -1.000e-04   2.000e+00   H2O(g)                    1
+	                                          calcite                   2
+
+----------------------------------User print-----------------------------------
+
+SYS result:    2.9998e+00 
+Number of kinetic reactants:             2 
+Calcite                1.9999e+00 
+       C                     2 
+       Ca                    2 
+       H                     2 
+       O                     7 
+CaCl2                  9.9995e-01 
+       Ca                    1 
+       Cl                    2 
+       H                     0 
+       O                     0 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 2.000e-04   2.000e-04
+	Ca                2.500e-04   2.500e-04
+	Cl                1.000e-04   1.000e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  10.042      Charge balance
+                                       pe  =   8.650      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 69
+                          Density (g/cm³)  =   0.99707
+                               Volume (L)  =   1.00296
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   7.548e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.000e-04
+                       Total CO2 (mol/kg)  =   2.000e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  33
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.550692e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.149e-04   1.114e-04    -3.940    -3.953    -0.014     -4.11
+   H+              9.361e-11   9.086e-11   -10.029   -10.042    -0.013      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -132.783  -132.783     0.000     35.46
+C(4)          2.000e-04
+   HCO3-           1.150e-04   1.115e-04    -3.939    -3.953    -0.013     24.68
+   CO3-2           6.508e-05   5.754e-05    -4.187    -4.240    -0.053     -5.29
+   CaCO3           1.963e-05   1.963e-05    -4.707    -4.707     0.000    -14.60
+   CaHCO3+         2.978e-07   2.888e-07    -6.526    -6.539    -0.013      9.67
+   CO2             2.277e-08   2.278e-08    -7.643    -7.643     0.000     34.43
+   (CO2)2          9.520e-18   9.522e-18   -17.021   -17.021     0.000     68.87
+Ca            2.500e-04
+   Ca+2            2.297e-04   2.031e-04    -3.639    -3.692    -0.054    -18.16
+   CaCO3           1.963e-05   1.963e-05    -4.707    -4.707     0.000    -14.60
+   CaOH+           3.826e-07   3.709e-07    -6.417    -6.431    -0.014     (0)  
+   CaHCO3+         2.978e-07   2.888e-07    -6.526    -6.539    -0.013      9.67
+Cl            1.000e-04
+   Cl-             1.000e-04   9.693e-05    -4.000    -4.014    -0.014     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.533   -40.533     0.000     28.61
+O(0)          9.693e-12
+   O2              4.847e-12   4.847e-12   -11.315   -11.314     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Aragonite         0.40     -7.93   -8.34  CaCO3
+  Calcite           0.55     -7.93   -8.48  CaCO3
+  CH4(g)         -129.98   -132.78   -2.80  CH4
+  CO2(g)           -6.17     -7.64   -1.47  CO2
+  H2(g)           -37.43    -40.53   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)            -8.42    -11.31   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.015 Seconds.
+-------------------------------
+

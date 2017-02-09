@@ -1,0 +1,161 @@
+DATABASE  ../database/wateq4f.dat   # phreeqd.dat
+SELECTED_OUTPUT 101
+    -file                 unequal_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end  
+TITLE  Reacteur29
+ 
+  
+  
+SOLUTION_MASTER_SPECIES  
+Hto     Hto     0     Hto   20  
+Clb     Clb-    0     Clb   36  
+  
+SOLUTION_SPECIES  
+Hto  = Hto     ; log_k 0.0 ; -gamma  1e10  0 
+Clb- = Clb-    ; log_k 0.0 ; -gamma  1e10  0 
+  
+H2O + 0.01 e- = H2O-0.01          ;   log_k  -9    
+  
+NO3- + 9 H+ + 8 e- = NH3 + 3 H2O  ;   log_k  -110    
+  
+  
+PHASES  
+Fix_pH    ;  H+ = H+   ; log_k 0.0  
+
+  
+#***********************************************************************#  
+  
+PRINT  ; -reset false
+# -species             false
+# -saturation_indices  false  
+# -status              false  
+# -selected_output    false  
+  
+# KNOBS  
+# -iter  2001;  -pe_step  2.5   ; -step  5  ;-diag true  
+# -convergence_tolerance  1e-8  
+# -tolerance  1e-17  
+     
+SOLUTION  0 Inlet solution  
+-temp  23
+ 
+-pH  7.3  charge
+-pe  6  O2(g)   -30 
+-water  0.1706e-3
+units  mmol/L  
+Na     43.900
+K      1.030
+Ca     6.300
+Mg     8.600
+Sr     0.330
+Cl     36.710
+S(6)   15.760
+Br   3.800
+C(4)   3.360   CO2(g)  -2.0
+# -potential 1e-10
+GAS_PHASE 0  
+-fixed pressure  
+-pressure   0.01
+CO2(g)      0.01
+  
+SAVE SOLUTION 0  
+END  
+  
+
+  
+SOLUTION  1-35  
+-temp   23
+-pH     7.2
+-pe     -2.5
+-water  0.1706e-3
+units  mmol/L  
+Na      63.000
+K       0.890
+Ca      8.700
+Mg      7.600
+Sr      0.300
+Cl      41.000
+S(6)    15.600   charge
+C(4)    3.340  Calcite 0.0
+Si      0.180
+Al      0.010e-3
+Fe(2)   3.400e-2
+Ni      1.200e-3
+Cs      0.003e-3
+  
+SAVE SOLUTION  1-35
+END  
+
+USE SOLUTION 1    #Pulse  
+REACTION 1001  
+   NaClb   1 
+1e-9   mol  
+SAVE SOLUTION 1     
+END    
+
+  
+PRINT  ; -user_print true
+# -selected_output    true  
+#SELECTED_OUTPUT   
+#-active             true  
+   
+# *******************************************************   
+TRANSPORT  
+-cells     35                
+-lengths   1*50e-3 1*0.500e-3  6*0.324e-3  20*1.253e-3   6*0.324e-3    1*50e-3
+-flow_direction          Forward  
+-boundary_conditions     Flux   Flux  
+-diffusion_coefficient  6e-11
+-dispersivities        35*0.005
+# -correct_disp         true  
+# -punch_cells          35
+# -print_cells           1-11 27-35
+# -punch_frequency       1
+# -print_frequency       5
+-shifts                50#200
+-time_step             61859
+-multi_d true 6e-11 1 0.05 1.0
+
+# USER_PRINT
+USER_GRAPH 1
+-connect_simulations false
+-axis_titles "distance / mm" "Clb / (mol/kgw)"
+10 end_cell = 35 : end_shift = 50 : pfr = 5
+20 if cell_no < end_cell then 40
+30 if step_no < end_shift then put(tot("Clb") * tot("water") + get(1), 1)
+40 if ceil(step_no / (end_shift / pfr)) <> step_no / (end_shift / pfr) then end 
+50 graph_x dist * 1e3 : graph_y tot("Clb")
+60 if step_no < end_shift then end
+70 put(tot("Clb") * tot("water") + get(1), 1)
+80 if cell_no = end_cell then print chr$(13), 'mass_balance on Clb = ', get(1) - 1e-9
+-end
+USER_GRAPH 2
+-axis_titles "time / days" "Clb / umol/kgw"
+10 if cell_no < 35 then end
+20 graph_x total_time / (24 * 3600) : graph_y tot("Clb") * 1e6
+-end 
+  
+# SELECTED_OUTPUT  # 1  
+# -file   R29_TestV3_e3.prn
+# -reset       false  
+
+# -user_punch  true  
+
+   
+  
+# USER_PUNCH #1   
+# -start      
+# -headings  cell_no  Time(d)  36Cl  
+ # 5  PUNCH   CELL_NO     
+# 20  PUNCH   Total_time/86400   
+# 110  PUNCH  TOT("Clb")*10^6  
+# -end      
+   
+END   
+  
+   

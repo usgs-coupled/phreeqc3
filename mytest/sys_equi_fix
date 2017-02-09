@@ -1,0 +1,41 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 sys_equi_fix_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PHASES
+Fix_H+; H+ = H+; log_k 0.
+
+USER_PRINT
+10 totequi = SYS("equi",count,name$,t$,moles)
+20 IF (count <= 0) THEN 100
+30 FOR i = 1 TO count
+40    PRINT SIM_NO, STEP_NO, PAD(name$(i),20), PAD(t$(i),10), moles(i)
+50 NEXT I
+100 END
+
+SOLUTION 1
+-units mol/kgw
+pH 7
+Ca 1e-1
+Cl 2e-1
+
+EQUILIBRIUM_PHASES
+Calcite 0 0
+CO2(g) -3.5 10
+Fix_H+ -10 NaOH
+SAVE solution 2
+SAVE equilibrium_phases 2
+END
+
+USE solution 2
+USE equilibrium_phases 2
+EQUILIBRIUM_PHASES
+Calcite 0 0
+CO2(g) -3.5 10
+Fix_H+ -10 NaOH
+END

@@ -8,9 +8,23 @@ USER_PUNCH 101
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
-INCLUDE$ Pabalan.dat
+#INCLUDE$ Pabalan.dat
 #PRINT; -reset false
-
+PHASES
+Thenardite
+	Na2SO4 = 2 Na+ + SO4-2
+	-analytical_expression  57.185  8.6024e-2  0  -30.8341  0  -7.6905e-5 # ref. 3
+	-Vm 52.9
+Mirabilite
+	Na2SO4:10H2O  =  SO4-2 + 2 Na+ + 10 H2O
+	-analytical_expression  -301.9326  -0.16232  0  141.078 # ref. 3
+	Vm 216
+Glauberite
+	Na2Ca(SO4)2  =  Ca+2 + 2 Na+ + 2 SO4-2
+	log_k	   -5.31
+	-analytical_expression  218.142  0  -9285  -77.735 # ref. 3
+	Vm 100.4	
+END
 SOLUTION 1
  -temp 25; pH 7 charge
 END

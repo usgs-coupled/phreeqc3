@@ -241,7 +241,7 @@ Initial solution 1.	Canadian Shield Brine T-93.
                          Temperature (°C)  =  18.00
                   Electrical balance (eq)  =  -3.031e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -2.32
-                               Iterations  =  23
+                               Iterations  =  27
                          Gamma iterations  =   7
                       Osmotic coefficient  =   1.63823
                          Density of water  =   0.99859
@@ -363,6 +363,9 @@ Reading input data for simulation 3.
 		 Alkalinity 19. as HCO3
 	EQUILIBRIUM_PHASES
 		Calcite	    0	CO2(g)	10.
+	REACTION
+	CO2 1
+	-0.00437
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -502,6 +505,21 @@ Reaction step 1.
 
 Using solution 1.	Canadian Shield Brine T-93.
 Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 -4.370e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CO2                  1.00000
+
+	                 Relative
+	Element             moles
+	C                    1.00000
+	O                    2.00000
 
 -------------------------------Phase assemblage--------------------------------
 
@@ -509,7 +527,7 @@ Using pure phase assemblage 1.
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
 Calcite           0.00    -8.43     -8.43
-	 CO2                is reactant       1.000e+01   1.000e+01   4.370e-03
+	 CO2                is reactant       1.000e+01   1.000e+01  -4.942e-07
 
 -----------------------------Solution composition------------------------------
 
@@ -662,6 +680,9 @@ Reading input data for simulation 4.
 		 Alkalinity 19. as HCO3
 	EQUILIBRIUM_PHASES
 		Calcite	    0	CO2(g)	10.
+	REACTION
+	CO2 1
+	-0.0128
 	END
 -------------------------------------------
 Beginning of initial solution calculations.
@@ -698,7 +719,7 @@ Initial solution 1.	Canadian Shield Brine T-93.
                          Temperature (°C)  =  18.00
                   Electrical balance (eq)  =  -3.031e-01
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -2.32
-                               Iterations  =  23
+                               Iterations  =  27
                          Gamma iterations  =   7
                       Osmotic coefficient  =   1.63823
                          Density of water  =   0.99859
@@ -801,6 +822,21 @@ Reaction step 1.
 
 Using solution 1.	Canadian Shield Brine T-93.
 Using pure phase assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	 -1.280e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CO2                  1.00000
+
+	                 Relative
+	Element             moles
+	C                    1.00000
+	O                    2.00000
 
 -------------------------------Phase assemblage--------------------------------
 
@@ -808,7 +844,7 @@ Using pure phase assemblage 1.
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
 Calcite           0.00    -8.43     -8.43
-	 CO2                is reactant       1.000e+01   1.001e+01   1.289e-02
+	 CO2                is reactant       1.000e+01   1.000e+01   9.265e-05
 
 -----------------------------Solution composition------------------------------
 
@@ -1030,8 +1066,8 @@ Anhydrite         0.00    -4.25     -4.25    1.000e+01   9.995e+00  -4.950e-03
 Bischofite        0.00     4.59      4.59    1.000e+02   8.441e+01  -1.559e+01
 CO2(g)           -3.50    -4.97     -1.47    1.000e+01   1.000e+01   4.513e-04
 Carnallite        0.00     4.42      4.42    1.000e+01   9.956e+00  -4.362e-02
-Halite            0.00     1.58      1.58    1.000e+01   9.798e+00  -2.019e-01
-Kieserite         0.00    -0.27     -0.27    1.000e+01   9.929e+00  -7.096e-02
+Halite           -0.00     1.58      1.58    1.000e+01   9.798e+00  -2.019e-01
+Kieserite        -0.00    -0.27     -0.27    1.000e+01   9.929e+00  -7.096e-02
 Magnesite         0.00    -7.83     -7.83    1.000e+01   9.999e+00  -5.922e-04
 
 -----------------------------Solution composition------------------------------
@@ -1051,17 +1087,17 @@ Magnesite         0.00    -7.83     -7.83    1.000e+01   9.999e+00  -5.922e-04
                                        pH  =   5.954      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
        Specific Conductance (µS/cm, 25°C)  = 1515016
-                          Density (g/cm³)  =   1.32603
-                               Volume (L)  =   3.17047
+                          Density (g/cm³)  =   1.32602
+                               Volume (L)  =   3.17050
                         Activity of water  =   0.318
                            Ionic strength  =   1.763e+01
                        Mass of water (kg)  =   2.691e+00
                  Total alkalinity (eq/kg)  =   4.401e-04
                        Total CO2 (mol/kg)  =   5.234e-05
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.409e-09
+                  Electrical balance (eq)  =  -1.297e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 145
+                               Iterations  = 155
                          Gamma iterations  =  10
                       Osmotic coefficient  =   3.60310
                          Density of water  =   0.99704
@@ -1075,13 +1111,13 @@ Magnesite         0.00    -7.83     -7.83    1.000e+01   9.999e+00  -5.922e-04
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
    H+              5.463e-08   1.112e-06    -7.263    -5.954     1.309      0.00
-   OH-             3.991e-08   2.891e-09    -7.399    -8.539    -1.140     19.03
+   OH-             3.991e-08   2.891e-09    -7.399    -8.539    -1.140     19.04
    H2O             5.551e+01   3.177e-01     1.744    -0.498     0.000     18.07
 C(4)          5.234e-05
-   HCO3-           3.842e-05   1.400e-06    -4.415    -5.854    -1.438     57.82
+   HCO3-           3.842e-05   1.400e-06    -4.415    -5.854    -1.438     57.83
    MgCO3           1.242e-05   1.242e-05    -4.906    -4.906     0.000    -17.09
    CO2             1.402e-06   1.076e-05    -5.853    -4.968     0.885     34.43
-   CO3-2           9.867e-08   5.763e-11    -7.006   -10.239    -3.234     21.90
+   CO3-2           9.867e-08   5.763e-11    -7.006   -10.239    -3.234     21.91
 Ca            1.839e-03
    Ca+2            1.839e-03   8.383e-03    -2.735    -2.077     0.659     -9.96
 Cl            1.171e+01
@@ -1089,7 +1125,7 @@ Cl            1.171e+01
 K             1.621e-02
    K+              1.621e-02   1.751e-03    -1.790    -2.757    -0.967     17.12
 Mg            5.836e+00
-   Mg+2            5.835e+00   2.543e+02     0.766     2.405     1.639    -12.87
+   Mg+2            5.835e+00   2.543e+02     0.766     2.405     1.639    -12.86
    MgOH+           3.766e-04   1.127e-04    -3.424    -3.948    -0.524     (0)  
    MgCO3           1.242e-05   1.242e-05    -4.906    -4.906     0.000    -17.09
 Na            7.501e-02
@@ -1121,12 +1157,12 @@ S(6)          2.820e-02
   Goergeyite       -0.07    -29.44  -29.37  K2Ca5(SO4)6H2O
   Gypsum           -0.65     -5.25   -4.60  CaSO4:2H2O
   H2O(g)           -2.00     -0.50    1.50  H2O
-  Halite            0.00      1.58    1.58  NaCl
+  Halite           -0.00      1.58    1.58  NaCl
   Hexahydrite      -1.19     -2.76   -1.57  MgSO4:6H2O
   Huntite          -4.70      5.54   10.24  CaMg3(CO3)4
   Kainite          -1.24     -1.43   -0.19  KMgClSO4:3H2O
   Kalicinite       -9.01    -18.95   -9.94  KHCO3
-  Kieserite         0.00     -0.27   -0.27  MgSO4:H2O
+  Kieserite        -0.00     -0.27   -0.27  MgSO4:H2O
   Labile_S         -7.95    -13.62   -5.67  Na4Ca(SO4)3:2H2O
   Leonhardite      -0.87     -1.76   -0.89  MgSO4:4H2O
   Leonite          -5.47     -9.45   -3.98  K2Mg(SO4)2:4H2O
@@ -1258,7 +1294,10 @@ WARNING: Anhydrite, Pure phase with add formula has not converged.
 	 SI may be a local minimum.	Residual: 7.844024e-01
 
 WARNING: Anhydrite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 6.803735e-01
+	 SI may be a local minimum.	Residual: 5.804166e-01
+
+WARNING: Anhydrite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 7.075195e-02
 
 Using solution 1.	Pure water
 Using pure phase assemblage 1.	
@@ -1295,10 +1334,10 @@ Gypsum            0.00    -4.60     -4.60    1.000e+01   9.961e+00  -3.875e-02
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.210e-09
+                  Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  64
-                         Gamma iterations  =  18
+                               Iterations  =  56
+                         Gamma iterations  =  16
                       Osmotic coefficient  =   1.43434
                          Density of water  =   0.99704
                                   Total H  = 1.111674e+02
@@ -1515,7 +1554,7 @@ Halite            0.00     1.58      1.58    1.000e+02   9.387e+01  -6.129e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  18
+                               Iterations  =  20
                          Gamma iterations  =   5
                       Osmotic coefficient  =   1.28532
                          Density of water  =   0.99704
@@ -1637,9 +1676,9 @@ Halite            0.00     1.19      1.19    1.000e+02   9.212e+01  -7.877e+00
 
                                        pH  =   5.140      Charge balance
                                        pe  =   4.000      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 200°C)  = 948319
-                          Density (g/cm³)  =   1.11232
-                               Volume (L)  =   1.31291
+      Specific Conductance (µS/cm, 200°C)  = 979756
+                          Density (g/cm³)  =   1.11229
+                               Volume (L)  =   1.31295
                         Activity of water  =   0.742
                            Ionic strength  =   7.877e+00
                        Mass of water (kg)  =   1.000e+00
@@ -1647,11 +1686,11 @@ Halite            0.00     1.19      1.19    1.000e+02   9.212e+01  -7.877e+00
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  = 200.00
-                           Pressure (atm)  = 11.44
+                           Pressure (atm)  = 11.41
                   Electrical balance (eq)  =  -1.216e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  24
-                         Gamma iterations  =   5
+                               Iterations  =  29
+                         Gamma iterations  =   6
                       Osmotic coefficient  =   1.05054
                          Density of water  =   0.86467
                                   Total H  = 1.110124e+02
@@ -1663,7 +1702,7 @@ Halite            0.00     1.19      1.19    1.000e+02   9.212e+01  -7.877e+00
                                 Unscaled       Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             2.594e-06   4.941e-07    -5.586    -6.306    -0.720      3.59
+   OH-             2.594e-06   4.941e-07    -5.586    -6.306    -0.720      3.60
    H+              2.593e-06   7.238e-06    -5.586    -5.140     0.446      0.00
    H2O             5.551e+01   7.422e-01     1.744    -0.129     0.000     20.84
 Cl            7.877e+00
@@ -2108,7 +2147,7 @@ Calcite           0.00    -8.50     -8.50    1.000e+01   1.000e+01  -2.813e-04
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.219e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  10
+                               Iterations  =  12
                          Gamma iterations  =   3
                       Osmotic coefficient  =   0.92369
                          Density of water  =   0.99704
@@ -2635,7 +2674,7 @@ Initial solution 1.
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.217e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
-                               Iterations  =  17
+                               Iterations  =  16
                          Gamma iterations  =   4
                       Osmotic coefficient  =   0.90359
                          Density of water  =   0.99704
@@ -2926,7 +2965,7 @@ Gypsum            0.00    -4.60     -4.60
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.217e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
-                               Iterations  =  23
+                               Iterations  =  24
                          Gamma iterations  =   6
                       Osmotic coefficient  =   0.98840
                          Density of water  =   0.99704
@@ -3182,7 +3221,7 @@ End of simulation.
 Reading input data for simulation 18.
 -------------------------------------
 
-------------------------------
-End of Run after 0.18 Seconds.
-------------------------------
+-------------------------------
+End of Run after 0.093 Seconds.
+-------------------------------
 

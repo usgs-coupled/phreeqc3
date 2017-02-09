@@ -106,6 +106,9 @@ SOLUTION 1 Canadian Shield Brine T-93.
 	 Alkalinity 19. as HCO3
 EQUILIBRIUM_PHASES
 	Calcite	    0	CO2(g)	10.
+REACTION
+CO2 1
+-0.00437
 END
 #Test Problem 1d: Canadian Shield Brine T-93, calcite equil. No scale
 #0060020000 0 1       0.0
@@ -144,6 +147,9 @@ SOLUTION 1 Canadian Shield Brine T-93.
 	 Alkalinity 19. as HCO3
 EQUILIBRIUM_PHASES
 	Calcite	    0	CO2(g)	10.
+REACTION
+CO2 1
+-0.0128
 END
 #Test Problem 2: Sea Water Invariant Point (equilibration with reaction).
 #0130020000 3 7       0.0

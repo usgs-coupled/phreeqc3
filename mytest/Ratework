@@ -1,0 +1,52 @@
+DATABASE ../database/llnl.dat
+SELECTED_OUTPUT 101
+    -file                 Ratework_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+    temp      25
+    pH        7
+    pe        4
+    redox     pe
+    units     mol/kgw
+    density   1
+    C         3
+    H(0)      3
+    Na        3
+    -water    1 # kg
+
+END
+RATES
+    Forsterite
+-start
+10 k = -9.33^-10
+20 rate = k * (1- SR("Forsterite"))
+30 moles = rate * TIME
+40 SAVE moles
+50 END
+-end
+END
+
+USE solution 1
+SELECTED_OUTPUT 1
+    -file                 selected_output_1.sel
+    -kinetic_reactants    Forsterite
+KINETICS 1
+Forsterite
+    -formula  Mg2SiO4  1 H  1
+    -m        0.001193
+    -m0       0.00142
+    -tol      1e-08
+-steps       2592000 in 10 steps # seconds
+-step_divide 1
+-runge_kutta 3
+-bad_step_max 500
+
+SURFACE 1
+    Hfo_w Forsterite      kinetic           0   600
+END
+

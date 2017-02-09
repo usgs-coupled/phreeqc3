@@ -1,0 +1,34 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 low_p_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+TITLE Fe_redox_speciation
+PHASES
+Fix_H+
+    H+ = H+
+    log_k     0
+SOLUTION 1
+    temp      25
+    pH        3
+    pe        4
+    redox     pe
+    units     mol/kgw
+    density   1
+    Cl        0.1 charge
+    Fe(2)     0.001
+    Na        0.1
+    -water    1 # kg
+EQUILIBRIUM_PHASES
+   Fix_H+   -8.9  NaOH
+SAVE solution 2
+END
+USE solution 2
+EQUILIBRIUM_PHASES 1
+    Fix_H+    -8.9 NaOH      10
+    O2(g)     -51 10
+END
