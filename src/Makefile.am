@@ -42,7 +42,6 @@ phreeqc_SOURCES=\
 	Dictionary.h\
 	dumper.cpp\
 	dumper.h\
-	dw.cpp\
 	Exchange.cxx\
 	Exchange.h\
 	ExchComp.cxx\

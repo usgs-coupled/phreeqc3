@@ -10,7 +10,7 @@ cd ../mytest || exit
 test(){
   echo "Testing ${1}"
   mv "${1}_101.sel" "${1}_101.sel.expected"
-  make "${1}.out" > /dev/null
+  make "${1}.out" PHREEQC=../src/Class_release_64/phreeqc > /dev/null
   diff "${1}_101.sel" "${1}_101.sel.expected"  > "${1}.diff"
   numdiff --relative-tolerance"=${rel_error}" "${1}_101.sel" "${1}_101.sel.expected"  > "${1}.numdiff"
   if [ "$?" != "0" ]; then

@@ -1812,12 +1812,14 @@ pitzer_revise_guesses(void)
 	int l_iter, max_iter, repeat, fail;
 	LDBLE weight, f;
 
-	max_iter = 10;
+	max_iter = 100;
 	/* gammas(mu_x); */
 	l_iter = 0;
 	repeat = TRUE;
-	fail = FALSE;;
-	while (repeat == TRUE)
+	fail = FALSE;
+	double d = 2;
+	double logd = log10(d);
+	while (repeat == TRUE && fail == FALSE)
 	{
 		l_iter++;
 		if (debug_set == TRUE)
@@ -1892,18 +1894,14 @@ pitzer_revise_guesses(void)
 				else if (f == 0)
 				{
 					repeat = TRUE;
-					x[i]->master[0]->s->la += 5;
+					x[i]->master[0]->s->la += logd;
 /*!!!!*/ if (x[i]->master[0]->s->la < -999.)
 						x[i]->master[0]->s->la = MIN_RELATED_LOG_ACTIVITY;
 				}
-				else if (fail == TRUE && f < 1.5 * fabs(x[i]->moles))
+				else if (f > d * fabs(x[i]->moles)
+					|| f < 1.0/d * fabs(x[i]->moles))
 				{
-					continue;
-				}
-				else if (f > 1.5 * fabs(x[i]->moles)
-						 || f < 1e-5 * fabs(x[i]->moles))
-				{
-					weight = (f < 1e-5 * fabs(x[i]->moles)) ? 0.3 : 1.0;
+					weight = (f < 1.0/d * fabs(x[i]->moles)) ? 0.3 : 1.0;
 					if (x[i]->moles <= 0)
 					{
 						x[i]->master[0]->s->la = MIN_RELATED_LOG_ACTIVITY;
@@ -1932,10 +1930,10 @@ pitzer_revise_guesses(void)
 					continue;
 				}
 				if (f > 1.5 * fabs(x[i]->moles)
-					|| f < 1e-5 * fabs(x[i]->moles))
+					|| f < 1.0/d * fabs(x[i]->moles))
 				{
 					repeat = TRUE;
-					weight = (f < 1e-5 * fabs(x[i]->moles)) ? 0.3 : 1.0;
+					weight = (f < 1.0/d * fabs(x[i]->moles)) ? 0.3 : 1.0;
 					x[i]->master[0]->s->la += weight *
 						log10(fabs(x[i]->moles / x[i]->sum));
 					if (debug_set == TRUE)
@@ -2266,7 +2264,10 @@ model_pz(void)
 			{
 				full_pitzer = FALSE;
 			}
-			molalities(TRUE);
+			if (molalities(FALSE) == ERROR)
+			{
+				pitzer_revise_guesses();
+			}
 			if (use.Get_surface_ptr() != NULL &&
 				use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
 				use.Get_surface_ptr()->Get_related_phases())
@@ -2274,6 +2275,17 @@ model_pz(void)
 			mb_sums();
 			mb_gases();
 			mb_ss();
+/*
+ *   Switch bases if necessary
+ */
+			if (switch_bases() == TRUE)
+			{
+				
+				count_basis_change++;
+				count_unknowns -= (int) s_list.size();
+				reprep();
+				full_pitzer = false;
+			}
 			/* debug
 			   species_list_sort();
 			   sum_species();
