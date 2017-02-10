@@ -377,6 +377,7 @@ all: alkalinity.out \
 	missing_surf_related_kin.out \
 	SC_temp.out \
 	feedwater.out \
+	SC_Ohm.out \
 	adapted_minteq.out \
 	sys_kin.out \
 	unequal.out \
