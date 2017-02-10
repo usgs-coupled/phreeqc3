@@ -4774,7 +4774,8 @@ viscosity(void)
 		// parms for A...
 		if ((l_z = s_x[i]->z) == 0)
 			continue;
-		if (Dw == s_x[i]->dw)
+		Dw = s_x[i]->dw;
+		if (Dw)
 		{
 			Dw *= (0.89 / viscos_0 * tk_x / 298.15);
 			if (s_x[i]->dw_t)
