@@ -1,5 +1,14 @@
 DATABASE ../database/phreeqc.dat
 #PRINT; -reset false
+SELECTED_OUTPUT 101
+    -file                 SC_Ohm_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
 SOLUTION 0-1; -water 1e3; Cl 0.1; Na 0.1
 SOLUTION 2;   -water 1e3; Cl 0.1; Na 0.1
 potential 1
