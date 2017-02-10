@@ -4,8 +4,8 @@ CFG :=$(shell echo $(CFG1) | sed "s/Linux.*/Linux/")
 #TIME=time
 TIME=
 
-VALGRIND=valgrind --leak-check=full --track-origins=yes
-#VALGRIND=
+#VALGRIND=valgrind --leak-check=full --track-origins=yes
+VALGRIND=
 
 ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
@@ -263,7 +263,6 @@ all: alkalinity.out \
 	Barite_MCl2.out \
 	Barite_NaCl.out \
 	Barite_tc.out \
-	cc_P.out \
 	cc_P0.out \
 	cc_P2.out \
 	cc_P3.out \
@@ -367,15 +366,21 @@ all: alkalinity.out \
 	missing_surf_related_kin.out \
 	SC_temp.out \
 	feedwater.out \
+	current_analytical.out \
+	current1.out \
+	current2.out \
+	uphill_NP.out \
 	SC_Ohm.out \
 	adapted_minteq.out \
 	sys_kin.out \
+	harm_mean.out \
 	unequal.out \
 	phase_vm.out \
 	low_p.out \
 	Ratework.out \
 	salt_sc.out \
-	IL_flux.out
+	IL_flux.out \
+	Clogging.out \
 	sys_equi_fix.out
 
 # NaX.out
