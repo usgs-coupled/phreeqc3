@@ -50,7 +50,7 @@ transport(void)
 	char token[MAX_LENGTH];
 	LDBLE kin_time, stagkin_time, kin_time_save;
 
-	int punch_boolean;
+	int punch_boolean = 0;
 	LDBLE step_fraction;
 
 	state = TRANSPORT;
@@ -970,7 +970,7 @@ int Phreeqc::
 init_mix(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE lav, dav, mf12, maxmix, corr_disp, diffc_here, mD;
+	LDBLE lav, dav = 0.0, mf12, maxmix, corr_disp, diffc_here, mD;
 	bool warning = false;
 	int i, l_nmix;
 	LDBLE *m, *m1;
@@ -2153,7 +2153,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 			{
 				use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
 				cxxSurface * s_ptr = use.Get_surface_ptr();
-				cxxSurfaceCharge * charge_ptr;
+				cxxSurfaceCharge * charge_ptr = NULL;
 				for (size_t j = 0; j < s_ptr->Get_surface_charges().size(); j++)
 				{
 					if (s_ptr->Get_dl_type() == cxxSurface::DONNAN_DL)
@@ -2346,16 +2346,15 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	*/
 	int i, i_max, j, j_max, k, k_il, only_counter, il_calcs;
 	int i1;
-	LDBLE A1, A2, ddlm, aq1, aq2, t_aq1, t_aq2, f_free_i, f_free_j;
+	LDBLE A1 = 0.0, A2 = 0.0, ddlm, aq1, aq2, t_aq1, t_aq2, f_free_i, f_free_j;
 	LDBLE dl_aq1, dl_aq2, c_dl, dum, dum1, dum2, tort1, tort2, b_i, b_j;
 	LDBLE Sum_zM, aq_il1, aq_il2;
-	LDBLE por_il1, por_il2, por_il12;
-	LDBLE cec1, cec2, cec12, rc1, rc2;
+	LDBLE por_il1, por_il2, por_il12 = 0.0;
+	LDBLE cec1, cec2, cec12 = 0.0, rc1 = 0.0, rc2 = 0.0;
 	LDBLE dV, c1, c2;
 	cxxSurface *s_ptr1, *s_ptr2;
 	cxxSurfaceCharge *s_charge_ptr, *s_charge_ptr1, *s_charge_ptr2;
 	LDBLE g, g_i, g_j;
-	LDBLE dV_temp = 0;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 
 	il_calcs = (interlayer_Dflag ? 1 : 0);
@@ -4729,7 +4728,7 @@ viscosity(void)
 	both weighted by the equivalent concentration.
 	*/
 	LDBLE D1, D2, z1, z2, m_plus, m_min, eq_plus, eq_min, eq_dw_plus, eq_dw_min, t1, t2, ta;
-	LDBLE A, psi, Bc = 0, Dc = 0, Dw, l_z, f_z, lm, V_an, m_an, V_Cl, tc;
+	LDBLE A, psi, Bc = 0, Dc = 0, Dw = 0.0, l_z, f_z, lm, V_an, m_an, V_Cl, tc;
 
 	m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = V_an = m_an = V_Cl = ta = 0;
 
@@ -4775,7 +4774,7 @@ viscosity(void)
 		// parms for A...
 		if ((l_z = s_x[i]->z) == 0)
 			continue;
-		if (Dw = s_x[i]->dw)
+		if (Dw == s_x[i]->dw)
 		{
 			Dw *= (0.89 / viscos_0 * tk_x / 298.15);
 			if (s_x[i]->dw_t)
