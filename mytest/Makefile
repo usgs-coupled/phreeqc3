@@ -1,22 +1,18 @@
 CFG1 :=`uname`
-CFG :=$(shell echo $(CFG1) | sed "s/CYGWIN.*/CYGWIN/")
+CFG :=$(shell echo $(CFG1) | sed "s/Linux.*/Linux/")
 
-#PHREEQC=../src/Class_release_64/phreeqc
 #TIME=time
-#PHREEQC=../src/Class_debug_64/phreeqc
-#PHREEQC=C:\Programs\phreeqc3-trunk\x64\Release\phreeqc.exe
-#PHREEQC=../src/Class_release_64/phreeqc
-PHREEQC=C:/Programs/phreeqc3-trunk/x64/Release/phreeqc.exe
-
 TIME=
-#VALGRIND=valgrind --leak-check=full --track-origins=yes
-VALGRIND=
 
-#ifeq ($(CFG1), windows32)
-#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Release/phreeqc
-#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_release/phreeqcpp.exe
-#   PHREEQC=/cygdrive/c/Programs/phreeqc3-trunk/Class_debug/phreeqcpp.exe
-#endif
+VALGRIND=valgrind --leak-check=full --track-origins=yes
+#VALGRIND=
+
+ifeq ($(CFG), Linux)
+	PHREEQC=../src/Class_release_64/phreeqc
+#	PHREEQC=../src/Class_debug_64/phreeqc
+else
+	PHREEQC=../x64/Release/phreeqc.exe
+endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
 	$(TIME) $(VALGRIND) $(PHREEQC) $< $<.out xxx $<.log
@@ -188,7 +184,6 @@ all: alkalinity.out \
 	y_H2O.out \
 	zn.test.out \
 	zero_modify.out \
-	Clogging.out \
 	ex1.out \
 	ex2.out \
 	ex3.out \
@@ -367,11 +362,6 @@ all: alkalinity.out \
 	edl_species.out \
 	R-04_01_PHRC.out \
 	McBride_rho.out \
-	current1.out \
-	harm_mean.out \
-	current_analytical.out \
-	current2.out \
-	uphill_NP.out \
 	Ca-As-Mahoney.out \
 	missing_surf_related_equi.out \
 	missing_surf_related_kin.out \
@@ -456,7 +446,7 @@ frezchem: \
 	Na2SO4.out \
 	NaCl-SO4.out \
 	NaKCl.out \
-	NaMgCl.out 
+	NaMgCl.out
 
 clean:
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv
