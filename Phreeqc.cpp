@@ -470,6 +470,7 @@ void Phreeqc::init(void)
 	multi_Dflag              = FALSE;
 	interlayer_Dflag         = FALSE;
 	default_Dw               = 0;
+	correct_Dw               = 0;
 	multi_Dpor               = 0;
 	interlayer_Dpor          = 0.1;
 	multi_Dpor_lim           = 0;
