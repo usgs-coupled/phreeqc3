@@ -366,9 +366,7 @@ all: alkalinity.out \
 	missing_surf_related_kin.out \
 	SC_temp.out \
 	feedwater.out \
-	current_analytical.out \
 	current1.out \
-	current2.out \
 	uphill_NP.out \
 	SC_Ohm.out \
 	adapted_minteq.out \
@@ -384,6 +382,9 @@ all: alkalinity.out \
 	sys_equi_fix.out
 
 # NaX.out
+
+current: current2 \
+	current_analytical
 
 pitzer: \
 	anh_P_NaCl.out \
@@ -426,8 +427,7 @@ pitzer: \
 	fail1.out \
 	fail2.out \
 	fail3.out
-
-
+	
 frezchem: \
 	anh_P_NaCl.out \
 	anhy_K2SO4.out \

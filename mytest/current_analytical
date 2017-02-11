@@ -1,6 +1,6 @@
 # Steady state analytical solution, 
 # K. Krabbenhøft, J. Krabbenhøft / Cement and Concrete Research 38 (2008) 77–88
-DATABASE ../database/wateq4f.dat
+DATABASE ../database/phreeqc.dat
 SELECTED_OUTPUT 101
     -file                 current_analytical_101.sel
 USER_PUNCH 101
@@ -35,10 +35,10 @@ TRANSPORT
 -multi_d true 1e-9 0.1 0.0 2
 -flow_direction diffusion_only
 -time_step 1 hour 1
-#-shifts 1000
--shifts 1
-#-punch_frequency 1000
--punch_frequency 1
+-shifts 1000
+#-shifts 1
+-punch_frequency 1000
+#-punch_frequency 1
 -punch_cells 0-101
 #-print_frequency 1000
 -print_frequency 1
