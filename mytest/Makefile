@@ -378,12 +378,12 @@ all: alkalinity.out \
 	Ratework.out \
 	salt_sc.out \
 	IL_flux.out \
-	Clogging.out \
 	sys_equi_fix.out
 
 # NaX.out
 
 current: current2 \
+	Clogging.out \
 	current_analytical
 
 pitzer: \
