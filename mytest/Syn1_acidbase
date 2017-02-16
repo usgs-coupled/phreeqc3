@@ -1,0 +1,114 @@
+DATABASE ../database/phreeqc.dat
+TITLE test_acid / base 0.001 M Syn-1
+SELECTED_OUTPUT 101
+    -file                 Syn1_acidbase_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+EXCHANGE_MASTER_SPECIES
+    X             X-     
+EXCHANGE 1
+    X-    0.0002625
+    -pitzer_exchange_gammas true
+EXCHANGE_SPECIES
+X- = X-
+    log_k     0
+H+ + X- = XH
+    log_k     2
+Ca+2 + 2X- = X2Ca
+    log_k     3
+SURFACE_MASTER_SPECIES
+    Clay_e        Hfo_sOH-0.5  
+    X             X-     
+SURFACE 1
+    -sites DENSITY
+    Hfo_sOH-0.5    4         18.92     0.15
+        -capacitance 1.17   1.17
+    -cd_music
+    X-         50        75.68     0.6
+        -capacitance 1.17      1.17
+    -cd_music
+SURFACE_SPECIES
+Hfo_sOH-0.5 = Hfo_sOH-0.5
+    log_k     0
+    -cd_music -0.5 0 0 0 0
+    -no_check
+H+ + Hfo_sOH-0.5 = Hfo_sOH+0.5
+    log_k     4.5
+    -cd_music 0.5 0 0 0 0
+    -no_check
+Cl- + H+ + Hfo_sOH-0.5 = Hfo_sOH2Cl-0.5
+    log_k     -8
+    -cd_music 0.5 -1 0 0 0
+    -no_check
+Ca+2 + 2Hfo_sOH-0.5 = 2(Hfo_sOH)2Ca+
+    log_k     15
+    -cd_music -1 2 0 0 0
+    -no_check
+SOLUTION_SPECIES
+Ca+2 = Ca+2
+    log_k     0
+    delta_h   -1592.4 kJ
+Cl- = Cl-
+    log_k     0
+    delta_h   -378 kJ
+H2O = OH- + H+
+    log_k     -14
+    delta_h   13.362 kcal
+Ca+2 + H2O = CaOH+ + H+
+    log_k     -12.6
+Ca+2 + 2H2O = Ca(OH)2 + 2H+
+    log_k     -24.17
+SOLUTION 1
+    temp      25
+    pH        7
+    pe        4
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Ca        0.001 mol/kgw
+    Cl        0.002 mol/kgw
+    -water    1 # kg
+PHASES
+Fix_H+
+    H+ = H+
+    log_k     0
+USER_PUNCH 1
+    -headings pH range
+    -start
+10 FOR i = 3 to 9 STEP 0.25
+20 a$ = EOL$ + "USE solution 1" + CHR$(59) + " USE surface 1" + EOL$
+30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
+40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
+50 a$ = a$ + "END" + EOL$
+60 PUNCH a$
+70 NEXT i
+    -end
+SELECTED_OUTPUT 1
+    -file                 Syn1_acidbase.sel
+    -pH                   true
+    -ionic_strength       true
+    -percent_error        true
+    -totals               Ca  Clay_e  X  Cl
+    -molalities           Ca+2  H+  CaOH+  Ca(OH)2
+                          (Hfo_sOH)2Ca+  Hfo_sOH+0.5  Hfo_sOH-0.5  Hfo_sOH2Cl-0.5
+                          Hfo_sOHCa+2
+    -active               true
+    -user_punch           true
+USER_GRAPH 1
+    -axis_titles            "pH" "Moles" ""
+    -chart_title            "pH vs molarity"
+    -axis_scale x_axis      3 9 auto auto
+    -axis_scale y_axis      0.001 1e-25 auto auto
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 GRAPH_X -LA("H+")
+20 GRAPH_Y MOL("H+"), MOL("OH-"), MOL("CaOH+"), MOL("Ca(OH)2")
+  -end
+    -active                 true
+END

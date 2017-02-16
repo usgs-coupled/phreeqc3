@@ -1,0 +1,305 @@
+   Input file: Syn1_acidbase
+  Output file: Syn1_acidbase.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	TITLE test_acid / base 0.001 M Syn-1
+	SELECTED_OUTPUT 101
+	    file                 Syn1_acidbase_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	EXCHANGE_MASTER_SPECIES
+	    X             X-     
+	EXCHANGE 1
+	    X-    0.0002625
+	    pitzer_exchange_gammas true
+	EXCHANGE_SPECIES
+	X- = X-
+	    log_k     0
+	H+ + X- = XH
+	    log_k     2
+	Ca+2 + 2X- = X2Ca
+	    log_k     3
+	SURFACE_MASTER_SPECIES
+	    Clay_e        Hfo_sOH-0.5  
+	    X             X-     
+	SURFACE 1
+	    sites DENSITY
+	    Hfo_sOH-0.5    4         18.92     0.15
+	        capacitances 1.17   1.17
+	    cd_music
+	    X-         50        75.68     0.6
+	        capacitances 1.17      1.17
+	    cd_music
+	SURFACE_SPECIES
+	Hfo_sOH-0.5 = Hfo_sOH-0.5
+	    log_k     0
+	    cd_music -0.5 0 0 0 0
+	    no_check
+	H+ + Hfo_sOH-0.5 = Hfo_sOH+0.5
+	    log_k     4.5
+	    cd_music 0.5 0 0 0 0
+	    no_check
+	Cl- + H+ + Hfo_sOH-0.5 = Hfo_sOH2Cl-0.5
+	    log_k     -8
+	    cd_music 0.5 -1 0 0 0
+	    no_check
+	Ca+2 + 2Hfo_sOH-0.5 = 2(Hfo_sOH)2Ca+
+	    log_k     15
+	    cd_music -1 2 0 0 0
+	    no_check
+	SOLUTION_SPECIES
+	Ca+2 = Ca+2
+	    log_k     0
+	    delta_h   -1592.4 kJ
+	Cl- = Cl-
+	    log_k     0
+	    delta_h   -378 kJ
+	H2O = OH- + H+
+	    log_k     -14
+	    delta_h   13.362 kcal
+	Ca+2 + H2O = CaOH+ + H+
+	    log_k     -12.6
+	Ca+2 + 2H2O = Ca(OH)2 + 2H+
+	    log_k     -24.17
+	SOLUTION 1
+	    temp      25
+	    pH        7
+	    pe        4
+	    redox     pe
+	    units     mmol/kgw
+	    density   1
+	    Ca        0.001 mol/kgw
+	    Cl        0.002 mol/kgw
+	    water    1 # kg
+	PHASES
+	Fix_H+
+	    H+ = H+
+	    log_k     0
+	USER_PUNCH 1
+	    headings pH range
+	    start
+	10 FOR i = 3 to 9 STEP 0.25
+	20 a$ = EOL$ + "USE solution 1" + CHR$(59) + " USE surface 1" + EOL$
+	30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
+	40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
+	50 a$ = a$ + "END" + EOL$
+	60 PUNCH a$
+	70 NEXT i
+	    end
+	SELECTED_OUTPUT 1
+	    file                 Syn1_acidbase.sel
+	    ph                   true
+	    ionic_strength       true
+	    percent_error        true
+	    totals               Ca  Clay_e  X  Cl
+	    molalities           Ca+2  H+  CaOH+  Ca(OH)2
+	                          (Hfo_sOH)2Ca+  Hfo_sOH+0.5  Hfo_sOH-0.5  Hfo_sOH2Cl-0.5
+	                          Hfo_sOHCa+2
+	    active               true
+	    user_punch           true
+	USER_GRAPH 1
+	    -axis_titles            "pH" "Moles" ""
+	    -chart_title            "pH vs molarity"
+	    -axis_scale x_axis      3 9 auto auto
+	    -axis_scale y_axis      0.001 1e-25 auto auto
+	    -initial_solutions      false
+	    -connect_simulations    true
+	    -plot_concentration_vs  x
+	  -start
+	10 GRAPH_X -LA("H+")
+	20 GRAPH_Y MOL("H+"), MOL("OH-"), MOL("CaOH+"), MOL("Ca(OH)2")
+	  -end
+	    -active                 true
+	END
+-----
+TITLE
+-----
+
+ test_acid / base 0.001 M Syn-1
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-03   1.000e-03
+	Cl                2.000e-03   2.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99715
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   3.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.577e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -2.577e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.062e-07   9.999e-08    -6.974    -7.000    -0.026     (0)  
+   H+              1.057e-07   1.000e-07    -6.976    -7.000    -0.024      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Ca            1.000e-03
+   Ca+2            1.000e-03   7.869e-04    -3.000    -3.104    -0.104     (0)  
+   CaOH+           2.098e-09   1.976e-09    -8.678    -8.704    -0.026     (0)  
+   Ca(OH)2         5.316e-14   5.319e-14   -13.274   -13.274     0.000     (0)  
+Cl            2.000e-03
+   Cl-             2.000e-03   1.884e-03    -2.699    -2.725    -0.026     (0)  
+H(0)          1.415e-25
+   H2              7.075e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Fix_H+           -7.00     -7.00    0.00  H+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+Using solution 1.	
+Using exchange 1.	
+Using surface 1.	
+
+------------------------------Surface composition------------------------------
+
+Hfo           
+	  0.000e+00  Surface charge, plane 0, eq
+	  0.000e+00  Surface charge, plane 1, eq
+	  0.000e+00  Surface charge, plane 2, eq
+	  0.000e+00  Sum of surface charge, all planes, eq
+
+	  0.000e+00  sigma, plane 0, C/m²
+	  0.000e+00  sigma, plane 1, C/m²
+	  0.000e+00  sigma, plane 2, C/m²
+	  0.000e+00  sigma, diffuse layer, C/m²
+
+	 -0.000e+00  psi, plane 0, V
+	 -0.000e+00  psi, plane 1, V
+	 -0.000e+00  psi, plane 2, V
+
+	  1.000e+00  exp(-F*psi/RT), plane 0
+	  1.000e+00  exp(-F*psi/RT), plane 1
+	  1.000e+00  exp(-F*psi/RT), plane 2
+
+	  1.170e+00  capacitance 0-1, F/m^2
+	  1.170e+00  capacitance 1-2, F/m^2
+	  1.892e+01  specific area, m^2/g
+	  2.838e+00  m^2 for   1.500e-01 g
+
+
+Hfo_s         
+	  1.885e-05  moles
+	                                        Mole                     Log
+	Species                    Moles    Fraction    Molality    Molality
+
+	Hfo_sO-                1.875e-05       0.995   1.875e-05      -4.727
+	Hfo_sOH                9.513e-08       0.005   9.513e-08      -7.022
+	Hfo_sOH2+              1.105e-11       0.000   1.106e-11     -10.956
+	Hfo_sOHCa+2            6.110e-24       0.000   6.110e-24     -23.214
+
+X             
+	 -4.032e-03  Surface charge, plane 0, eq
+	  0.000e+00  Surface charge, plane 1, eq
+	  0.000e+00  Surface charge, plane 2, eq
+	 -4.032e-03  Sum of surface charge, all planes, eq
+
+	 -8.569e+00  sigma, plane 0, C/m²
+	  0.000e+00  sigma, plane 1, C/m²
+	  0.000e+00  sigma, plane 2, C/m²
+	  8.569e+00  sigma, diffuse layer, C/m²
+
+	 -1.505e+01  psi, plane 0, V
+	 -7.723e+00  psi, plane 1, V
+	 -3.995e-01  psi, plane 2, V
+
+	 2.314e+254  exp(-F*psi/RT), plane 0
+	 3.624e+130  exp(-F*psi/RT), plane 1
+	  5.674e+06  exp(-F*psi/RT), plane 2
+
+	  1.170e+00  capacitance 0-1, F/m^2
+	  1.170e+00  capacitance 1-2, F/m^2
+	  7.568e+01  specific area, m^2/g
+	  4.541e+01  m^2 for   6.000e-01 g
+
+
+X             
+	  4.032e-03  moles
+	                                        Mole                     Log
+	Species                    Moles    Fraction    Molality    Molality
+
+	XH                     2.032e-03       0.504   2.032e-03      -2.692
+	X2Ca                   9.924e-04       0.492   9.925e-04      -3.003
+	CaX2                   7.568e-06       0.004   7.568e-06      -5.121
+
+-----------------------------Exchange composition------------------------------
+
+X                4.032e-03 molERROR: Exchange unknown has no exchange component for exchanger X.
+Is the same name used for a SURFACE and an EXCHANGER?
+Stopping.

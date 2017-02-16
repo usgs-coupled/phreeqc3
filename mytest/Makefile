@@ -369,6 +369,7 @@ all: alkalinity.out \
 	adapted_minteq.out \
 	sys_kin.out \
 	unequal.out \
+	Syn1_acidbase.out \
 	phase_vm.out \
 	low_p.out \
 	Ratework.out \
