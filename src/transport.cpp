@@ -132,323 +132,146 @@ transport(void)
 			moles_added[i].moles = 0;
 		}
 	}
-	/* check solution 0 */
-	use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, 0));
-	if (!use.Get_solution_ptr())
+	try 
 	{
-		if (ishift == 1)
+		/* check solution 0 */
+		use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, 0));
+		if (!use.Get_solution_ptr())
 		{
-			input_error++;
-			error_string = sformatf(
-				"Solution 0 is needed for transport, but is not defined.");
-			error_msg(error_string, CONTINUE);
-		}
-		else
-			Utilities::Rxn_copy(Rxn_solution_map, 1, 0);
-	}
-	else
-	{
-		if ((cell_data[0].potV = use.Get_solution_ptr()->Get_potV()))
-			dV_dcell = 1;
-	}
-
-	/* check solution count_cells */
-	use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, count_cells + 1));
-	if (!use.Get_solution_ptr())
-	{
-		if (ishift == -1)
-		{
-			input_error++;
-			error_string = sformatf(
-				"Solution %d is needed for transport, but is not defined.",
-				count_cells + 1);
-			error_msg(error_string, CONTINUE);
-		}
-		else
-			Utilities::Rxn_copy(Rxn_solution_map, count_cells, count_cells + 1);
-	}
-	else
-	{
-		if ((cell_data[count_cells + 1].potV = use.Get_solution_ptr()->Get_potV()))
-			dV_dcell = 1;
-	}
-	/*
-	*   Initialize temperature in stagnant cells ...
-	*/
-	for (n = 1; n <= stag_data->count_stag; n++)
-	{
-		for (i = 1; i <= count_cells; i++)
-		{
-			k = i + 1 + n * count_cells;
-			use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, k));
-			if (use.Get_solution_ptr() != NULL)
-				cell_data[k].temp = use.Get_solution_ptr()->Get_tc();
-		}
-	}
-
-	if (fix_current && !dV_dcell)
-	{
-		warning_msg("fix_current (A) was defined, but potential in a boundary cell was not.\n\tUsing 1e-8 V in cell 0 for calculating the potentials.");
-		cell_data[0].potV = 1e-8;
-		dV_dcell = 1;
-	}
-	if (dV_dcell)
-	{
-		if (ishift)
-		{
-			input_error++;
-			error_string = sformatf(
-				"Electro-diffusion cannot be combined with advective transport.");
-			error_msg(error_string, CONTINUE);
-			free_check_null(sol_D);
-		}
-		if (!multi_Dflag)
-		{
-			input_error++;
-			error_string = sformatf(
-				"Electrical Field (potential) was defined, but needs -multi_D.");
-			error_msg(error_string, CONTINUE);
-			free_check_null(sol_D);
-		}
-		else
-		{
-			if (bcon_first != 1)
+			if (ishift == 1)
 			{
-				bcon_first = 1;
+				input_error++;
 				error_string = sformatf(
-					"Electrical Field (potential) was defined, assuming constant boundary condition for first cell.");
-				warning_msg(error_string);
+					"Solution 0 is needed for transport, but is not defined.");
+				error_msg(error_string, CONTINUE);
 			}
-			if (bcon_last != 1)
-			{
-				bcon_last = 1;
-				error_string = sformatf(
-					"Electrical Field (potential) was defined, assuming constant boundary condition for last cell.");
-				warning_msg(error_string);
-			}
-			current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t) 
-				(count_cells + 1) * sizeof(struct CURRENT_CELLS));
-			if (current_cells == NULL)
-				malloc_error();
-			for (int i = 0; i < count_cells + 1; i++)
-			{
-				current_cells[i].dif = 0.0;
-				current_cells[i].ele = 0.0;
-				current_cells[i].R = 0.0;
-			}
+			else
+				Utilities::Rxn_copy(Rxn_solution_map, 1, 0);
 		}
-	}
-	/*
-	* First equilibrate solutions
-	*/
-	dup_print("Equilibrating initial solutions", TRUE);
-	transport_step = 0;
-	for (i = 0; i <= count_cells + 1; i++)
-	{
-		if ((bcon_first == 2 && i == 0) ||
-			(bcon_last == 2 && i == count_cells + 1))
-			continue;
-		set_initial_moles(i);
-		cell_no = i;
-		set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
-		if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_transport())
-			transp_surf = TRUE;
-		if (transp_surf && !multi_Dflag)
+		else
 		{
-			error_string = sformatf(
-				"-multi_d must be defined for surface transport");
-			error_msg(error_string, CONTINUE);
+			if ((cell_data[0].potV = use.Get_solution_ptr()->Get_potV()))
+				dV_dcell = 1;
 		}
-		if (multi_Dflag == TRUE)
-		{
-			fill_spec(cell_no);
-		}
-		if (cell_data[i].punch == TRUE)
-			punch_all();
-		if (cell_data[i].print == TRUE)
-			print_all();
 
-		/*    if (i > 0 && i <= count_cells)*/
-		saver();
-	}
-	/*
-	* Also stagnant cells
-	*/
-	for (n = 1; n <= stag_data->count_stag; n++)
-	{
-		for (i = 1; i <= count_cells; i++)
+		/* check solution count_cells */
+		use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, count_cells + 1));
+		if (!use.Get_solution_ptr())
 		{
-			k = i + 1 + n * count_cells;
-			cell_no = k;
-			if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
+			if (ishift == -1)
 			{
-				set_initial_moles(k);
-				set_and_run_wrapper(k, NOMIX, FALSE, k, 0.0);
-				if (multi_Dflag == TRUE)
+				input_error++;
+				error_string = sformatf(
+					"Solution %d is needed for transport, but is not defined.",
+					count_cells + 1);
+				error_msg(error_string, CONTINUE);
+			}
+			else
+				Utilities::Rxn_copy(Rxn_solution_map, count_cells, count_cells + 1);
+		}
+		else
+		{
+			if ((cell_data[count_cells + 1].potV = use.Get_solution_ptr()->Get_potV()))
+				dV_dcell = 1;
+		}
+		/*
+		*   Initialize temperature in stagnant cells ...
+		*/
+		for (n = 1; n <= stag_data->count_stag; n++)
+		{
+			for (i = 1; i <= count_cells; i++)
+			{
+				k = i + 1 + n * count_cells;
+				use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, k));
+				if (use.Get_solution_ptr() != NULL)
+					cell_data[k].temp = use.Get_solution_ptr()->Get_tc();
+			}
+		}
+
+		if (fix_current && !dV_dcell)
+		{
+			warning_msg("fix_current (A) was defined, but potential in a boundary cell was not.\n\tUsing 1e-8 V in cell 0 for calculating the potentials.");
+			cell_data[0].potV = 1e-8;
+			dV_dcell = 1;
+		}
+		if (dV_dcell)
+		{
+			if (ishift)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Electro-diffusion cannot be combined with advective transport.");
+				error_msg(error_string, CONTINUE);
+				free_check_null(sol_D);
+			}
+			if (!multi_Dflag)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Electrical Field (potential) was defined, but needs -multi_D.");
+				error_msg(error_string, CONTINUE);
+				free_check_null(sol_D);
+			}
+			else
+			{
+				if (bcon_first != 1)
 				{
-					fill_spec(cell_no);
+					bcon_first = 1;
+					error_string = sformatf(
+						"Electrical Field (potential) was defined, assuming constant boundary condition for first cell.");
+					warning_msg(error_string);
 				}
-				if (cell_data[k].punch == TRUE)
-					punch_all();
-				if ((cell_data[k].print == TRUE)
-					&& (transport_step % print_modulus == 0))
-					print_all();
-				saver();
+				if (bcon_last != 1)
+				{
+					bcon_last = 1;
+					error_string = sformatf(
+						"Electrical Field (potential) was defined, assuming constant boundary condition for last cell.");
+					warning_msg(error_string);
+				}
+				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t) 
+					(count_cells + 1) * sizeof(struct CURRENT_CELLS));
+				if (current_cells == NULL)
+					malloc_error();
+				for (int i = 0; i < count_cells + 1; i++)
+				{
+					current_cells[i].dif = 0.0;
+					current_cells[i].ele = 0.0;
+					current_cells[i].R = 0.0;
+				}
 			}
 		}
-	}
-	/*
-	*  Initialize mixing factors, define kinetics times
-	*  for multicomponent diffusion, limit mixing by diffc_max (usually from H+)
-	*/
-	if (multi_Dflag == TRUE)
-		diffc_tr = diffc_max;
-	if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
-	{
-		/* multi_D calc's are OK if all cells have the same amount of water */
-		/* if (multi_Dflag == TRUE)
-		{
-		sprintf(token, "multi_D calc's and stagnant: define MIXing factors explicitly, or \n\t give all cells the same amount of water.");
-		warning_msg(token);
-		}
-		*/
-
-		Rxn_mix_map.clear();
-
 		/*
-		* stagnant mix factors go in mix[0 .. count_cells]
+		* First equilibrate solutions
 		*/
-	}
-	/*
-	* mix[] is extended in init_mix(), to accommodate column mix factors
-	*/
-	nmix = init_mix();
-	heat_nmix = init_heat_mix(nmix);
-	if (nmix < 2)
-		stagkin_time = timest;
-	else
-		stagkin_time = timest / nmix;
-	if (ishift != 0)
-		kin_time = timest / (1 + nmix);
-	else
-		kin_time = stagkin_time;
-	kin_time_save = kin_time;
-
-	/* Reaction defined for a shift... */
-	if (!ishift)
-	{
-		if (nmix < 2)
-			step_fraction = 1.0;
-		else
-			step_fraction = 1.0 / nmix;
-	}
-	else
-		step_fraction = 1.0 / (1.0 + nmix);
-	/*
-	*   Set boundary conditions, transport direction
-	*/
-	last_model.force_prep = TRUE;
-	if ((ishift == 0) || (bcon_first == 1) || (bcon_last == 1))
-		b_c = 1;
-	else
-		b_c = 0;
-	if (ishift >= 0)
-	{
-		last_c = count_cells;
-		first_c = 1;
-	}
-	else
-	{
-		last_c = 1;
-		first_c = count_cells;
-	}
-	/*
-	* Define stagnant/mobile mix structure, if not read explicitly.
-	*
-	* With count_stag = 1, mix factors are calculated from exchange factor alpha
-	* (= exch_f), mobile th_m and immobile th_im porosity.
-	* These variables are read under keyword TRANSPORT, after stagnant, in
-	* structure stag_data.
-	* MIX 'cell_no' in input file can be an alternative for the calculation here.
-	*/
-	if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
-	{
-		b = stag_data->th_m / (stag_data->th_m + stag_data->th_im);
-		f = exp(-stag_data->exch_f * stagkin_time / (b * stag_data->th_im));
-		mix_f_imm = b - b * f;
-		mix_f_m = mix_f_imm * stag_data->th_im / stag_data->th_m;
-		for (j = 1; j <= count_cells; j++)
-		{
-			j_imm = j + (1 + count_cells);
-			if (Utilities::Rxn_find(Rxn_solution_map, j) == NULL)
-				error_msg
-				("Could not find mobile cell solution in TRANSPORT.",
-				STOP);
-			if (Utilities::Rxn_find(Rxn_solution_map, j_imm) == NULL)
-				//error_msg
-				//("Could not find immobile cell solution in TRANSPORT.",
-				//STOP);
-				continue;
-			water_m = Utilities::Rxn_find(Rxn_solution_map, j)->Get_mass_water();
-			water_imm = Utilities::Rxn_find(Rxn_solution_map, j_imm)->Get_mass_water();
-			/*
-			* Define C_m = (1 - mix_f_m) * C_m0  +  mix_f_m) * C_im0
-			*/
-			{
-				cxxMix temp_mix;
-				temp_mix.Set_n_user(j);
-				temp_mix.Set_n_user_end(j);
-				temp_mix.Add(j, 1 - mix_f_m);
-				temp_mix.Add(j_imm, mix_f_m * water_m / water_imm);
-				Rxn_mix_map[j] = temp_mix;
-			}
-			/*
-			* Define C_im = mix_f_imm * C_m0  +  (1 - mix_f_imm) * C_im0,  or...
-			*/
-			{
-				cxxMix temp_mix;
-				temp_mix.Set_n_user(j_imm);
-				temp_mix.Set_n_user_end(j_imm);
-				temp_mix.Add(j_imm, 1 - mix_f_imm);
-				temp_mix.Add(j, mix_f_imm * water_imm / water_m);
-				Rxn_mix_map[j_imm] = temp_mix;
-			}
-		}
-
-		if (heat_nmix > 0)
-		{
-			/*
-			* Assumption: D_e used for calculating exch_f in input file equals diffc
-			*/
-			f = stag_data->exch_f * (heat_diffc - diffc) / diffc / tempr;
-			f = exp(-f * stagkin_time / (b * stag_data->th_im));
-			heat_mix_f_imm = b - b * f;
-			heat_mix_f_m =
-				heat_mix_f_imm * stag_data->th_im / stag_data->th_m;
-		}
-	}
-	/*
-	*   Stop if error
-	*/
-	if (get_input_errors() > 0)
-	{
-		error_msg("Program terminating due to input errors.", STOP);
-	}
-	/*
-	* Now transport
-	*/
-	max_iter = 0;
-	for (transport_step = transport_start; transport_step <= count_shifts;
-		transport_step++)
-	{
-		/*
-		*  Set initial moles of phases
-		*/
+		dup_print("Equilibrating initial solutions", TRUE);
+		transport_step = 0;
 		for (i = 0; i <= count_cells + 1; i++)
 		{
-			if (!dV_dcell && (i == 0 || i == count_cells + 1))
+			if ((bcon_first == 2 && i == 0) ||
+				(bcon_last == 2 && i == count_cells + 1))
 				continue;
 			set_initial_moles(i);
+			cell_no = i;
+			set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
+			if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_transport())
+				transp_surf = TRUE;
+			if (transp_surf && !multi_Dflag)
+			{
+				error_string = sformatf(
+					"-multi_d must be defined for surface transport");
+				error_msg(error_string, CONTINUE);
+			}
+			if (multi_Dflag == TRUE)
+			{
+				fill_spec(cell_no);
+			}
+			if (cell_data[i].punch == TRUE)
+				punch_all();
+			if (cell_data[i].print == TRUE)
+				print_all();
+
+			/*    if (i > 0 && i <= count_cells)*/
+			saver();
 		}
 		/*
 		* Also stagnant cells
@@ -462,28 +285,499 @@ transport(void)
 				if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
 				{
 					set_initial_moles(k);
+					set_and_run_wrapper(k, NOMIX, FALSE, k, 0.0);
+					if (multi_Dflag == TRUE)
+					{
+						fill_spec(cell_no);
+					}
+					if (cell_data[k].punch == TRUE)
+						punch_all();
+					if ((cell_data[k].print == TRUE)
+						&& (transport_step % print_modulus == 0))
+						print_all();
+					saver();
 				}
 			}
 		}
 		/*
-		* Start diffusing if boundary cond = 1, (fixed c, or closed)
+		*  Initialize mixing factors, define kinetics times
+		*  for multicomponent diffusion, limit mixing by diffc_max (usually from H+)
 		*/
-		if (b_c == 1)
+		if (multi_Dflag == TRUE)
+			diffc_tr = diffc_max;
+		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
 		{
-			/* For half of mixing steps */
-			for (j = 1; j <= floor((LDBLE)nmix / 2); j++)
+			/* multi_D calc's are OK if all cells have the same amount of water */
+			/* if (multi_Dflag == TRUE)
 			{
-				rate_sim_time_start =
+			sprintf(token, "multi_D calc's and stagnant: define MIXing factors explicitly, or \n\t give all cells the same amount of water.");
+			warning_msg(token);
+			}
+			*/
+
+			Rxn_mix_map.clear();
+
+			/*
+			* stagnant mix factors go in mix[0 .. count_cells]
+			*/
+		}
+		/*
+		* mix[] is extended in init_mix(), to accommodate column mix factors
+		*/
+		nmix = init_mix();
+		heat_nmix = init_heat_mix(nmix);
+		if (nmix < 2)
+			stagkin_time = timest;
+		else
+			stagkin_time = timest / nmix;
+		if (ishift != 0)
+			kin_time = timest / (1 + nmix);
+		else
+			kin_time = stagkin_time;
+		kin_time_save = kin_time;
+
+		/* Reaction defined for a shift... */
+		if (!ishift)
+		{
+			if (nmix < 2)
+				step_fraction = 1.0;
+			else
+				step_fraction = 1.0 / nmix;
+		}
+		else
+			step_fraction = 1.0 / (1.0 + nmix);
+		/*
+		*   Set boundary conditions, transport direction
+		*/
+		last_model.force_prep = TRUE;
+		if ((ishift == 0) || (bcon_first == 1) || (bcon_last == 1))
+			b_c = 1;
+		else
+			b_c = 0;
+		if (ishift >= 0)
+		{
+			last_c = count_cells;
+			first_c = 1;
+		}
+		else
+		{
+			last_c = 1;
+			first_c = count_cells;
+		}
+		/*
+		* Define stagnant/mobile mix structure, if not read explicitly.
+		*
+		* With count_stag = 1, mix factors are calculated from exchange factor alpha
+		* (= exch_f), mobile th_m and immobile th_im porosity.
+		* These variables are read under keyword TRANSPORT, after stagnant, in
+		* structure stag_data.
+		* MIX 'cell_no' in input file can be an alternative for the calculation here.
+		*/
+		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		{
+			b = stag_data->th_m / (stag_data->th_m + stag_data->th_im);
+			f = exp(-stag_data->exch_f * stagkin_time / (b * stag_data->th_im));
+			mix_f_imm = b - b * f;
+			mix_f_m = mix_f_imm * stag_data->th_im / stag_data->th_m;
+			for (j = 1; j <= count_cells; j++)
+			{
+				j_imm = j + (1 + count_cells);
+				if (Utilities::Rxn_find(Rxn_solution_map, j) == NULL)
+					error_msg
+					("Could not find mobile cell solution in TRANSPORT.",
+					STOP);
+				if (Utilities::Rxn_find(Rxn_solution_map, j_imm) == NULL)
+					//error_msg
+						//("Could not find immobile cell solution in TRANSPORT.",
+							//STOP);
+								continue;
+				water_m = Utilities::Rxn_find(Rxn_solution_map, j)->Get_mass_water();
+				water_imm = Utilities::Rxn_find(Rxn_solution_map, j_imm)->Get_mass_water();
+				/*
+				* Define C_m = (1 - mix_f_m) * C_m0  +  mix_f_m) * C_im0
+				*/
+				{
+					cxxMix temp_mix;
+					temp_mix.Set_n_user(j);
+					temp_mix.Set_n_user_end(j);
+					temp_mix.Add(j, 1 - mix_f_m);
+					temp_mix.Add(j_imm, mix_f_m * water_m / water_imm);
+					Rxn_mix_map[j] = temp_mix;
+				}
+				/*
+				* Define C_im = mix_f_imm * C_m0  +  (1 - mix_f_imm) * C_im0,  or...
+				*/
+				{
+					cxxMix temp_mix;
+					temp_mix.Set_n_user(j_imm);
+					temp_mix.Set_n_user_end(j_imm);
+					temp_mix.Add(j_imm, 1 - mix_f_imm);
+					temp_mix.Add(j, mix_f_imm * water_imm / water_m);
+					Rxn_mix_map[j_imm] = temp_mix;
+				}
+			}
+
+			if (heat_nmix > 0)
+			{
+				/*
+				* Assumption: D_e used for calculating exch_f in input file equals diffc
+				*/
+				f = stag_data->exch_f * (heat_diffc - diffc) / diffc / tempr;
+				f = exp(-f * stagkin_time / (b * stag_data->th_im));
+				heat_mix_f_imm = b - b * f;
+				heat_mix_f_m =
+					heat_mix_f_imm * stag_data->th_im / stag_data->th_m;
+			}
+		}
+		/*
+		*   Stop if error
+		*/
+		if (get_input_errors() > 0)
+		{
+			error_msg("Program terminating due to input errors.", STOP);
+		}
+		/*
+		* Now transport
+		*/
+		max_iter = 0;
+		for (transport_step = transport_start; transport_step <= count_shifts;
+			transport_step++)
+		{
+			/*
+			*  Set initial moles of phases
+			*/
+			for (i = 0; i <= count_cells + 1; i++)
+			{
+				if (!dV_dcell && (i == 0 || i == count_cells + 1))
+					continue;
+				set_initial_moles(i);
+			}
+			/*
+			* Also stagnant cells
+			*/
+			for (n = 1; n <= stag_data->count_stag; n++)
+			{
+				for (i = 1; i <= count_cells; i++)
+				{
+					k = i + 1 + n * count_cells;
+					cell_no = k;
+					if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
+					{
+						set_initial_moles(k);
+					}
+				}
+			}
+			/*
+			* Start diffusing if boundary cond = 1, (fixed c, or closed)
+			*/
+			if (b_c == 1)
+			{
+				/* For half of mixing steps */
+				for (j = 1; j <= floor((LDBLE)nmix / 2); j++)
+				{
+					rate_sim_time_start =
+						(transport_step - 1) * timest + (j - 1) * kin_time;
+					rate_sim_time = rate_sim_time_start + kin_time;
+
+					mixrun = j;
+					if (multi_Dflag && j == floor((LDBLE)nmix / 2))
+					{
+						//sprintf(token,
+						//		"Transport step %3d. Multicomponent diffusion run %3d.",
+						//		transport_step, j);
+						//dup_print(token, FALSE);
+					}
+					else if (!multi_Dflag)
+					{
+						sprintf(token, "Transport step %3d. Mixrun %3d.",
+							transport_step, j);
+						dup_print(token, FALSE);
+					}
+
+					if (heat_nmix > 0)
+					{
+						heat_mix(heat_nmix);
+						/* equilibrate again ... */
+						for (i = 1; i <= count_cells; i++)
+						{
+							cell_no = i;
+							set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
+							if (multi_Dflag)
+								fill_spec(i);
+							saver();
+						}
+					}
+					/* Go through cells */
+					if (transp_surf)
+					{
+						if (disp_surf(stagkin_time) == ERROR)
+							error_msg("Error in surface transport, stopping.",
+							STOP);
+					}
+					if (multi_Dflag)
+						multi_D(stagkin_time, 1, FALSE);
+
+					for (i = 0; i <= count_cells + 1; i++)
+					{
+						if (!dV_dcell && (i == 0 || i == count_cells + 1))
+							continue;
+						if (iterations > max_iter)
+							max_iter = iterations;
+						cell_no = i;
+						mixrun = j;
+						if (multi_Dflag)
+							sprintf(token,
+							"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
+							transport_step, j, i, max_iter);
+						else
+							sprintf(token,
+							"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
+							transport_step, j, i, max_iter);
+						status(0, token);
+
+						if (i == 0 || i == count_cells + 1)
+							run_reactions(i, kin_time, NOMIX, step_fraction);
+						else
+							run_reactions(i, kin_time, DISP, step_fraction);
+						if (multi_Dflag)
+							fill_spec(i);
+
+						/* punch and output file */
+						if ((ishift == 0) && (j == nmix)
+							&& ((stag_data->count_stag == 0) || i == 0
+							|| (i == count_cells + 1 && stag_data->count_stag != 1) /*
+																					|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0*/))
+						{
+							if ((cell_data[i].punch == TRUE)
+								&& (transport_step % punch_modulus == 0))
+								punch_all();
+							if ((cell_data[i].print == TRUE)
+								&& (transport_step % print_modulus == 0))
+								print_all();
+						}
+						if (i > 1)
+							Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
+						saver();
+
+						/* maybe sorb a surface component... */
+						if ((ishift == 0) && (j == nmix)
+							&& ((stag_data->count_stag == 0)
+							|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
+						{
+							if (change_surf_count > 0)
+							{
+								for (k = 0; k < change_surf_count; k++)
+								{
+									if (change_surf[k].cell_no != i)
+										break;
+									reformat_surf(change_surf[k].comp_name,
+										change_surf[k].fraction,
+										change_surf[k].new_comp_name,
+										change_surf[k].new_Dw,
+										change_surf[k].cell_no);
+									change_surf[k].cell_no = -99;
+								}
+								change_surf_count = 0;
+							}
+						}
+					}
+
+					if (!dV_dcell)
+						Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
+					/* Stagnant zone mixing after completion of each
+					diffusive/dispersive step ...  */
+					rate_sim_time_start =
+						(transport_step - 1) * timest + (j - 1) * stagkin_time;
+					rate_sim_time = rate_sim_time_start + stagkin_time;
+
+					if (stag_data->count_stag > 0)
+					{
+						if ((ishift == 0) && (j == nmix))
+							punch_boolean = TRUE;
+						else
+							punch_boolean = FALSE;
+						for (i = 1; i <= count_cells; i++)
+						{
+							mix_stag(i, stagkin_time, punch_boolean, step_fraction);
+						}
+						// i == 1 + count_cells...
+						if (stag_data->count_stag == 1 && punch_boolean)
+						{
+							run_reactions(i, 0, NOMIX, 0);
+							cell_no = i;
+							if (cell_data[i].punch && (transport_step % punch_modulus == 0))
+								punch_all();
+							if (cell_data[i].print && (transport_step % print_modulus == 0))
+								print_all();
+						}
+					}
+				}
+			}
+			/*
+			* Advective transport
+			*/
+			if (ishift != 0)
+			{
+				sprintf(token, "Transport step %3d.", transport_step);
+				dup_print(token, FALSE);
+				if (b_c == 1)
+					rate_sim_time_start =
 					(transport_step - 1) * timest + (j - 1) * kin_time;
+				else
+					rate_sim_time_start = (transport_step - 1) * timest;
 				rate_sim_time = rate_sim_time_start + kin_time;
 
-				mixrun = j;
-				if (multi_Dflag && j == floor((LDBLE)nmix / 2))
+				/* halftime kinetics for resident water in first cell ... */
+				if (Utilities::Rxn_find(Rxn_kinetics_map, first_c) != NULL && count_cells > 1)
 				{
-					//sprintf(token,
-					//		"Transport step %3d. Multicomponent diffusion run %3d.",
-					//		transport_step, j);
-					//dup_print(token, FALSE);
+					cell_no = first_c;
+					kin_time = kin_time_save / 2;
+					run_reactions(first_c, kin_time, NOMIX, 0.0);
+					saver();
+					kin_time = kin_time_save;
+				}
+
+				/* for each cell in column */
+				for (i = last_c; i != (first_c - ishift); i -= ishift)
+					Utilities::Rxn_copy(Rxn_solution_map, i - ishift, i);
+
+				/* if boundary_solutions must be flushed by the flux from the column...
+				if (ishift == 1 && bcon_last == 3)
+				solution_duplicate (last_c, last_c + 1);
+				else if (ishift == -1 && bcon_first == 3)
+				solution_duplicate (last_c, last_c - 1);
+				*/
+				if (transp_surf)
+				{
+					for (i = last_c + ishift; i != (first_c - ishift);
+						i -= ishift)
+					{
+						if ((ishift == 1 && i == last_c + 1 && bcon_last != 3) ||
+							(ishift == -1 && i == last_c - 1 && bcon_first != 3))
+							continue;
+						cxxSurface * surface_ptr = Utilities::Rxn_find(Rxn_surface_map, i - ishift);
+						if (surface_ptr == NULL)
+						{
+							if ((Utilities::Rxn_find(Rxn_surface_map, i) != NULL) &&
+								((i == 0 && bcon_first == 3)
+								|| (i == count_cells + 1 && bcon_last == 3)))
+							{
+								Rxn_surface_map.erase(i);
+							}
+							continue;
+						}
+						if (surface_ptr->Get_transport())
+						{
+							cxxSurface * surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
+							if (surface_ptr1 == NULL)
+							{
+								cxxSurface surf;
+								surf.Set_n_user(i);
+								surf.Set_n_user_end(i);
+								Rxn_surface_map[i] = surf;
+							}
+							if (i == first_c)
+							{
+								Rxn_surface_map[i] = mobile_surface_copy(surface_ptr, i, false);
+							}
+							else
+							{
+								Rxn_surface_map[i] = mobile_surface_copy(surface_ptr, i, true);
+							}
+						}
+					}
+				}
+
+				/*
+				* thermal diffusion when nmix = 0...
+				*/
+				if ((nmix == 0) && (heat_nmix > 0))
+				{
+					heat_mix(heat_nmix);
+					/* equilibrate again ... */
+					for (i = 1; i <= count_cells; i++)
+					{
+						cell_no = i;
+						set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
+						if (multi_Dflag)
+							fill_spec(i);
+						saver();
+					}
+				}
+
+				for (i = 1; i <= count_cells; i++)
+				{
+					if (i == first_c && count_cells > 1)
+						kin_time /= 2;
+					cell_no = i;
+					mixrun = 0;
+					if (multi_Dflag)
+						sprintf(token,
+						"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
+						transport_step, 0, i, max_iter);
+					else
+						sprintf(token,
+						"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
+						transport_step, 0, i, max_iter);
+					status(0, token);
+					run_reactions(i, kin_time, NOMIX, step_fraction);
+					if (multi_Dflag == TRUE)
+						fill_spec(i);
+					if (iterations > max_iter)
+						max_iter = iterations;
+					if ((nmix == 0) && ((stag_data->count_stag == 0)))
+					{
+						if (cell_data[i].punch && (transport_step % punch_modulus == 0))
+							punch_all();
+						if (cell_data[i].print && (transport_step % print_modulus == 0))
+							print_all();
+					}
+					if (i == first_c && count_cells > 1)
+						kin_time = kin_time_save;
+					saver();
+
+					/* maybe sorb a surface component... */
+					if ((nmix == 0) && ((stag_data->count_stag == 0) ||
+						(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
+					{
+						if (change_surf_count > 0)
+						{
+							for (k = 0; k < change_surf_count; k++)
+							{
+								if (change_surf[k].cell_no != i)
+									break;
+								reformat_surf(change_surf[k].comp_name,
+									change_surf[k].fraction,
+									change_surf[k].new_comp_name,
+									change_surf[k].new_Dw,
+									change_surf[k].cell_no);
+								change_surf[k].cell_no = -99;
+							}
+							change_surf_count = 0;
+						}
+					}
+
+					/* If nmix is zero, stagnant zone mixing after
+					advective step ... */
+					if ((nmix == 0) && (stag_data->count_stag > 0))
+					{
+						mix_stag(i, stagkin_time, TRUE, step_fraction);
+					}
+				}
+			}
+			/*
+			* Further dispersive and diffusive transport
+			*/
+			if (b_c != 1)
+				j = 1;
+			for (j = j; j <= nmix; j++)
+			{
+				if (multi_Dflag && j == nmix && (transport_step % print_modulus == 0))
+				{
+					sprintf(token,
+						"Transport step %3d. Multicomponent diffusion run %3d.",
+						transport_step, j);
+					dup_print(token, FALSE);
 				}
 				else if (!multi_Dflag)
 				{
@@ -491,6 +785,11 @@ transport(void)
 						transport_step, j);
 					dup_print(token, FALSE);
 				}
+				rate_sim_time_start =
+					(transport_step - 1) * timest + (j - 1) * kin_time;
+				if (ishift != 0)
+					rate_sim_time_start += kin_time;
+				rate_sim_time = rate_sim_time_start + kin_time;
 
 				if (heat_nmix > 0)
 				{
@@ -505,16 +804,16 @@ transport(void)
 						saver();
 					}
 				}
-				/* Go through cells */
 				if (transp_surf)
 				{
 					if (disp_surf(stagkin_time) == ERROR)
-						error_msg("Error in surface transport, stopping.",
-						STOP);
+						error_msg("Error in surface transport, stopping.", STOP);
 				}
-				if (multi_Dflag)
+
+				if (multi_Dflag == TRUE)
 					multi_D(stagkin_time, 1, FALSE);
 
+				/* for each cell in column */
 				for (i = 0; i <= count_cells + 1; i++)
 				{
 					if (!dV_dcell && (i == 0 || i == count_cells + 1))
@@ -537,20 +836,14 @@ transport(void)
 						run_reactions(i, kin_time, NOMIX, step_fraction);
 					else
 						run_reactions(i, kin_time, DISP, step_fraction);
-					if (multi_Dflag)
+					if (multi_Dflag == TRUE)
 						fill_spec(i);
-
-					/* punch and output file */
-					if ((ishift == 0) && (j == nmix)
-						&& ((stag_data->count_stag == 0) || i == 0
-						|| (i == count_cells + 1 && stag_data->count_stag != 1) /*
-																				|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0*/))
+					if (j == nmix && (stag_data->count_stag == 0 || i == 0
+						|| (i == 1 + count_cells && stag_data->count_stag != 1)))
 					{
-						if ((cell_data[i].punch == TRUE)
-							&& (transport_step % punch_modulus == 0))
+						if (cell_data[i].punch && (transport_step % punch_modulus == 0))
 							punch_all();
-						if ((cell_data[i].print == TRUE)
-							&& (transport_step % print_modulus == 0))
+						if (cell_data[i].print && (transport_step % print_modulus == 0))
 							print_all();
 					}
 					if (i > 1)
@@ -558,9 +851,8 @@ transport(void)
 					saver();
 
 					/* maybe sorb a surface component... */
-					if ((ishift == 0) && (j == nmix)
-						&& ((stag_data->count_stag == 0)
-						|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
+					if ((j == nmix) && ((stag_data->count_stag == 0)
+						|| (Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 					{
 						if (change_surf_count > 0)
 						{
@@ -579,18 +871,17 @@ transport(void)
 						}
 					}
 				}
-
 				if (!dV_dcell)
 					Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
 				/* Stagnant zone mixing after completion of each
-				diffusive/dispersive step ...  */
+				diffusive/dispersive step ... */
 				rate_sim_time_start =
 					(transport_step - 1) * timest + (j - 1) * stagkin_time;
 				rate_sim_time = rate_sim_time_start + stagkin_time;
 
 				if (stag_data->count_stag > 0)
 				{
-					if ((ishift == 0) && (j == nmix))
+					if (j == nmix)
 						punch_boolean = TRUE;
 					else
 						punch_boolean = FALSE;
@@ -598,329 +889,58 @@ transport(void)
 					{
 						mix_stag(i, stagkin_time, punch_boolean, step_fraction);
 					}
-					// i == 1 + count_cells...
-					if (stag_data->count_stag == 1 && punch_boolean)
-					{
-						run_reactions(i, 0, NOMIX, 0);
-						cell_no = i;
-						if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-							punch_all();
-						if (cell_data[i].print && (transport_step % print_modulus == 0))
-							print_all();
-					}
 				}
-			}
-		}
-		/*
-		* Advective transport
-		*/
-		if (ishift != 0)
-		{
-			sprintf(token, "Transport step %3d.", transport_step);
-			dup_print(token, FALSE);
-			if (b_c == 1)
-				rate_sim_time_start =
-				(transport_step - 1) * timest + (j - 1) * kin_time;
-			else
-				rate_sim_time_start = (transport_step - 1) * timest;
-			rate_sim_time = rate_sim_time_start + kin_time;
-
-			/* halftime kinetics for resident water in first cell ... */
-			if (Utilities::Rxn_find(Rxn_kinetics_map, first_c) != NULL && count_cells > 1)
-			{
-				cell_no = first_c;
-				kin_time = kin_time_save / 2;
-				run_reactions(first_c, kin_time, NOMIX, 0.0);
-				saver();
-				kin_time = kin_time_save;
-			}
-
-			/* for each cell in column */
-			for (i = last_c; i != (first_c - ishift); i -= ishift)
-				Utilities::Rxn_copy(Rxn_solution_map, i - ishift, i);
-
-			/* if boundary_solutions must be flushed by the flux from the column...
-			if (ishift == 1 && bcon_last == 3)
-			solution_duplicate (last_c, last_c + 1);
-			else if (ishift == -1 && bcon_first == 3)
-			solution_duplicate (last_c, last_c - 1);
-			*/
-			if (transp_surf)
-			{
-				for (i = last_c + ishift; i != (first_c - ishift);
-					i -= ishift)
+				// i == 1 + count_cells...
+				if (stag_data->count_stag == 1 && punch_boolean)
 				{
-					if ((ishift == 1 && i == last_c + 1 && bcon_last != 3) ||
-						(ishift == -1 && i == last_c - 1 && bcon_first != 3))
-						continue;
-					cxxSurface * surface_ptr = Utilities::Rxn_find(Rxn_surface_map, i - ishift);
-					if (surface_ptr == NULL)
-					{
-						if ((Utilities::Rxn_find(Rxn_surface_map, i) != NULL) &&
-							((i == 0 && bcon_first == 3)
-							|| (i == count_cells + 1 && bcon_last == 3)))
-						{
-							Rxn_surface_map.erase(i);
-						}
-						continue;
-					}
-					if (surface_ptr->Get_transport())
-					{
-						cxxSurface * surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
-						if (surface_ptr1 == NULL)
-						{
-							cxxSurface surf;
-							surf.Set_n_user(i);
-							surf.Set_n_user_end(i);
-							Rxn_surface_map[i] = surf;
-						}
-						if (i == first_c)
-						{
-							Rxn_surface_map[i] = mobile_surface_copy(surface_ptr, i, false);
-						}
-						else
-						{
-							Rxn_surface_map[i] = mobile_surface_copy(surface_ptr, i, true);
-						}
-					}
-				}
-			}
-
-			/*
-			* thermal diffusion when nmix = 0...
-			*/
-			if ((nmix == 0) && (heat_nmix > 0))
-			{
-				heat_mix(heat_nmix);
-				/* equilibrate again ... */
-				for (i = 1; i <= count_cells; i++)
-				{
+					run_reactions(i, 0, NOMIX, 0);
 					cell_no = i;
-					set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
-					if (multi_Dflag)
-						fill_spec(i);
-					saver();
-				}
-			}
-
-			for (i = 1; i <= count_cells; i++)
-			{
-				if (i == first_c && count_cells > 1)
-					kin_time /= 2;
-				cell_no = i;
-				mixrun = 0;
-				if (multi_Dflag)
-					sprintf(token,
-					"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
-					transport_step, 0, i, max_iter);
-				else
-					sprintf(token,
-					"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
-					transport_step, 0, i, max_iter);
-				status(0, token);
-				run_reactions(i, kin_time, NOMIX, step_fraction);
-				if (multi_Dflag == TRUE)
-					fill_spec(i);
-				if (iterations > max_iter)
-					max_iter = iterations;
-				if ((nmix == 0) && ((stag_data->count_stag == 0)))
-				{
 					if (cell_data[i].punch && (transport_step % punch_modulus == 0))
 						punch_all();
 					if (cell_data[i].print && (transport_step % print_modulus == 0))
 						print_all();
 				}
-				if (i == first_c && count_cells > 1)
-					kin_time = kin_time_save;
-				saver();
-
-				/* maybe sorb a surface component... */
-				if ((nmix == 0) && ((stag_data->count_stag == 0) ||
-					(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
-				{
-					if (change_surf_count > 0)
-					{
-						for (k = 0; k < change_surf_count; k++)
-						{
-							if (change_surf[k].cell_no != i)
-								break;
-							reformat_surf(change_surf[k].comp_name,
-								change_surf[k].fraction,
-								change_surf[k].new_comp_name,
-								change_surf[k].new_Dw,
-								change_surf[k].cell_no);
-							change_surf[k].cell_no = -99;
-						}
-						change_surf_count = 0;
-					}
-				}
-
-				/* If nmix is zero, stagnant zone mixing after
-				advective step ... */
-				if ((nmix == 0) && (stag_data->count_stag > 0))
-				{
-					mix_stag(i, stagkin_time, TRUE, step_fraction);
-				}
 			}
+			if (dump_modulus != 0 && (transport_step % dump_modulus) == 0)
+				dump();
 		}
-		/*
-		* Further dispersive and diffusive transport
-		*/
-		if (b_c != 1)
-			j = 1;
-		for (j = j; j <= nmix; j++)
+		screen_msg("\n");
+
+		if (multi_Dflag && moles_added[0].moles > 0)
 		{
-			if (multi_Dflag && j == nmix && (transport_step % print_modulus == 0))
-			{
-				sprintf(token,
-					"Transport step %3d. Multicomponent diffusion run %3d.",
-					transport_step, j);
-				dup_print(token, FALSE);
-			}
-			else if (!multi_Dflag)
-			{
-				sprintf(token, "Transport step %3d. Mixrun %3d.",
-					transport_step, j);
-				dup_print(token, FALSE);
-			}
-			rate_sim_time_start =
-				(transport_step - 1) * timest + (j - 1) * kin_time;
-			if (ishift != 0)
-				rate_sim_time_start += kin_time;
-			rate_sim_time = rate_sim_time_start + kin_time;
-
-			if (heat_nmix > 0)
-			{
-				heat_mix(heat_nmix);
-				/* equilibrate again ... */
-				for (i = 1; i <= count_cells; i++)
-				{
-					cell_no = i;
-					set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
-					if (multi_Dflag)
-						fill_spec(i);
-					saver();
-				}
-			}
-			if (transp_surf)
-			{
-				if (disp_surf(stagkin_time) == ERROR)
-					error_msg("Error in surface transport, stopping.", STOP);
-			}
-
-			if (multi_Dflag == TRUE)
-				multi_D(stagkin_time, 1, FALSE);
-
-			/* for each cell in column */
-			for (i = 0; i <= count_cells + 1; i++)
-			{
-				if (!dV_dcell && (i == 0 || i == count_cells + 1))
-					continue;
-				if (iterations > max_iter)
-					max_iter = iterations;
-				cell_no = i;
-				mixrun = j;
-				if (multi_Dflag)
-					sprintf(token,
-					"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
-					transport_step, j, i, max_iter);
-				else
-					sprintf(token,
-					"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
-					transport_step, j, i, max_iter);
-				status(0, token);
-
-				if (i == 0 || i == count_cells + 1)
-					run_reactions(i, kin_time, NOMIX, step_fraction);
-				else
-					run_reactions(i, kin_time, DISP, step_fraction);
-				if (multi_Dflag == TRUE)
-					fill_spec(i);
-				if (j == nmix && (stag_data->count_stag == 0 || i == 0
-					|| (i == 1 + count_cells && stag_data->count_stag != 1)))
-				{
-					if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-						punch_all();
-					if (cell_data[i].print && (transport_step % print_modulus == 0))
-						print_all();
-				}
-				if (i > 1)
-					Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
-				saver();
-
-				/* maybe sorb a surface component... */
-				if ((j == nmix) && ((stag_data->count_stag == 0)
-					|| (Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
-				{
-					if (change_surf_count > 0)
-					{
-						for (k = 0; k < change_surf_count; k++)
-						{
-							if (change_surf[k].cell_no != i)
-								break;
-							reformat_surf(change_surf[k].comp_name,
-								change_surf[k].fraction,
-								change_surf[k].new_comp_name,
-								change_surf[k].new_Dw,
-								change_surf[k].cell_no);
-							change_surf[k].cell_no = -99;
-						}
-						change_surf_count = 0;
-					}
-				}
-			}
-			if (!dV_dcell)
-				Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
-			/* Stagnant zone mixing after completion of each
-			diffusive/dispersive step ... */
-			rate_sim_time_start =
-				(transport_step - 1) * timest + (j - 1) * stagkin_time;
-			rate_sim_time = rate_sim_time_start + stagkin_time;
-
-			if (stag_data->count_stag > 0)
-			{
-				if (j == nmix)
-					punch_boolean = TRUE;
-				else
-					punch_boolean = FALSE;
-				for (i = 1; i <= count_cells; i++)
-				{
-					mix_stag(i, stagkin_time, punch_boolean, step_fraction);
-				}
-			}
-			// i == 1 + count_cells...
-			if (stag_data->count_stag == 1 && punch_boolean)
-			{
-				run_reactions(i, 0, NOMIX, 0);
-				cell_no = i;
-				if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-					punch_all();
-				if (cell_data[i].print && (transport_step % print_modulus == 0))
-					print_all();
-			}
-		}
-		if (dump_modulus != 0 && (transport_step % dump_modulus) == 0)
-			dump();
-	}
-	screen_msg("\n");
-
-	if (multi_Dflag && moles_added[0].moles > 0)
-	{
-		sprintf(token,
-			"\nFor balancing negative concentrations in MCD, added in total to the system:");
-		if (phrq_io)
-			phrq_io->warning_msg(token);
-		for (i = 0; i < count_elements; i++)
-		{
-			if (!moles_added[i].moles)
-				break;
 			sprintf(token,
-				"\t %.4e moles %s.",
-				(double)moles_added[i].moles, moles_added[i].name);
+				"\nFor balancing negative concentrations in MCD, added in total to the system:");
 			if (phrq_io)
 				phrq_io->warning_msg(token);
+			for (i = 0; i < count_elements; i++)
+			{
+				if (!moles_added[i].moles)
+					break;
+				sprintf(token,
+					"\t %.4e moles %s.",
+					(double)moles_added[i].moles, moles_added[i].name);
+				if (phrq_io)
+					phrq_io->warning_msg(token);
+			}
 		}
 	}
+	catch (...)
+	{
+		transport_cleanup();
+	    throw;
+	}
+	transport_cleanup();
+	initial_total_time += rate_sim_time;
+	rate_sim_time = 0;
+	mass_water_switch = FALSE;
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+transport_cleanup(void)
+/* ---------------------------------------------------------------------- */
+{
+	int i;
 	/*
 	* free mix structures
 	*/
@@ -957,13 +977,7 @@ transport(void)
 		}
 		moles_added = (struct MOLES_ADDED *) free_check_null(moles_added);
 	}
-	//if (dV_dcell)
-	free_check_null(current_cells);
-
-	initial_total_time += rate_sim_time;
-	rate_sim_time = 0;
-	mass_water_switch = FALSE;
-	return (OK);
+	current_cells = (struct CURRENT_CELLS *) free_check_null(current_cells);
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
