@@ -1069,6 +1069,7 @@ public:
 	cxxSurface mobile_surface_copy(cxxSurface *surface_old_ptr,
 		int n_user_new,
 		bool move_old);
+	void transport_cleanup(void);
 	int init_mix(void);
 	int init_heat_mix(int nmix);
 	int heat_mix(int heat_nmix);
