@@ -373,11 +373,16 @@ all: alkalinity.out \
 	sys_kin.out \
 	harm_mean.out \
 	unequal.out \
+	Syn1_acidbase.out \
 	phase_vm.out \
 	low_p.out \
 	Ratework.out \
 	salt_sc.out \
 	IL_flux.out \
+	SC_Ohm1.out \
+	salt_sc1.out \
+	McClesk.out \
+	stuyfz.out \
 	sys_equi_fix.out
 
 # NaX.out

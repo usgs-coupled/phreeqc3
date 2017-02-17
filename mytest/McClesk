@@ -1,0 +1,90 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 McClesk_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT; -reset false
+ 
+SOLUTION_SPREAD
+-units mol/kgw
+number	Cl	K	pH #	KCl	Cl mol/L
+1 	1.0058e-01	1.0058e-01	7 charge	#	128.96	0.1
+2 	1.2581e-01	1.2581e-01	7 charge	#	127.40	0.125
+3 	1.5107e-01	1.5107e-01	7 charge	#	126.11	0.15
+4 	1.7638e-01	1.7638e-01	7 charge	#	125.01	0.175
+5 	2.0172e-01	2.0172e-01	7 charge	#	124.08	0.2
+6 	2.5251e-01	2.5251e-01	7 charge	#	122.43	0.25
+7 	3.0345e-01	3.0345e-01	7 charge	#	121.09	0.3
+8 	4.0577e-01	4.0577e-01	7 charge	#	118.96	0.4
+9 	5.0869e-01	5.0869e-01	7 charge	#	117.27	0.5
+10	6.1220e-01	6.1220e-01	7 charge	#	115.88	0.6
+11	7.1640e-01	7.1640e-01	7 charge	#	114.69	0.7
+12	8.2114e-01	8.2114e-01	7 charge	#	113.65	0.8
+13	9.2659e-01	9.2659e-01	7 charge	#	112.72	0.9
+14	1.0327e+00	1.0327e+00	7 charge	#	111.87	1.0
+15	1.2470e+00	1.2470e+00	7 charge	#	110.30	1.2
+16	1.4639e+00	1.4639e+00	7 charge	#	108.92	1.4
+17	1.6838e+00	1.6838e+00	7 charge	#	107.64	1.6
+18	1.9068e+00	1.9068e+00	7 charge	#	106.43	1.8
+19	2.1327e+00	2.1327e+00	7 charge	#	105.23	2.0
+20	2.7117e+00	2.7117e+00	7 charge	#	102.38	2.5
+21	3.3126e+00	3.3126e+00	7 charge	#	 99.46	3.0
+22	3.9371e+00	3.9371e+00	7 charge	#	 96.54	3.5
+23	4.5877e+00	4.5877e+00	7 charge	#	 93.46	4.0
+
+ 
+USER_GRAPH 1
+-axis_titles "Cl / mol/kgw" "SC / (mS/cm)"
+-headings KCl Phreeqc McCl
+-initial_solutions true
+10 DATA 128.22, 126.58, 125.22, 124.03, 123.02, 121.21, 119.71, 117.27, 115.27, 113.57, 112.06, 110.72, 109.49, 108.33, 106.14, 104.17, 102.28, 100.47, 98.68, 94.39, 90.07, 85.82, 81.49, 122.62, 117.18, 115.29, 108.70, 103.80, 99.56, 95.66, 92.02, 88.60, 123.05, 115.56, 108.85, 99.62, 92.35,     0.4903, 0.4903, 0.4905, 0.4902, 0.4901, 0.490, 0.4898, 0.4892, 0.4887, 0.4875, 0.4857
+20 restore 10 : dim HB(50) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("Cl"), tot("Cl") * HB(cell_no), line_width = 0
+32 plot_xy tot("Cl"), SC / 1e3, color = Red, symbol_size = 0
+50 T = tc : sqrt_mu = mu^0.5
+60 gosub 2000
+80 plot_xy tot("Cl"), m_sc, color = Green, symbol_size = 0
+
+1999 end
+2000 REM calculate molal conductance from McClesky, returns m_sc, the specific conductance in mS/cm
+2010 l0_H = -0.01414 * T^2 + 5.355 * T + 224.2	 : A_H = -0.00918 * T^2 + 1.842 * T + 39.23	 : B_H = 0.3	 : l_H = l0_H - A_H * sqrt_mu / (1 + B_H * sqrt_mu)
+2020 l0_Li = 0.002628 * T^2 + 0.7079 * T + 19.20	 : A_Li = 0.00412 * T^2 + 0.4632 * T + 13.71	 : B_Li = 0.2	 : l_Li = l0_Li - A_Li * sqrt_mu / (1 + B_Li * sqrt_mu)
+2030 l0_Na = 0.003763 * T^2 + 0.8770 * T + 26.23	 : A_Na  =  0.00027 * T^2 + 1.141 * T + 32.07 	 : B_Na = 1.7	 : l_Na = l0_Na - A_Na * sqrt_mu / (1 + B_Na * sqrt_mu)
+2040 l0_K =  0.003046 * T^2 + 1.261 * T + 40.70 	 : A_K   =  0.00535 * T^2 + 0.9316 * T + 22.59	 : B_K = 1.5 	 : l_K = l0_K - A_K * sqrt_mu / (1 + B_K * sqrt_mu)
+2050 l0_Cs = 0.003453 * T^2 + 1.249 * T + 43.94	 : A_Cs = 0.00646 * T^2 + 0.7023 * T + 21.79	 : B_Cs = 1.3	 : l_Cs = l0_Cs - A_Cs * sqrt_mu / (1 + B_Cs * sqrt_mu)
+2060 l0_NH4 = 0.003341 * T^2 + 1.285 * T + 39.04	 : A_NH4 = 0.00132 * T^2 + 0.6070 * T + 11.19	 : B_NH4 = 0.3	 : l_NH4 = l0_NH4 - A_NH4 * sqrt_mu / (1 + B_NH4 * sqrt_mu)
+2070 l0_Ca2 = 0.009645 * T^2 + 1.984 * T + 62.28	 : A_Ca2 = 0.03174 * T^2 + 2.334 * T + 132.3	 : B_Ca2 = 2.8	 : l_Ca2 = l0_Ca2 - A_Ca2 * sqrt_mu / (1 + B_Ca2 * sqrt_mu)
+2080 l0_Mg2 = 0.01068 * T^2 + 1.695 * T + 57.16	 : A_Mg2 = 0.02453 * T^2 + 1.915 * T + 80.50	 : B_Mg2 = 2.1	 : l_Mg2 = l0_Mg2 - A_Mg2 * sqrt_mu / (1 + B_Mg2 * sqrt_mu)
+2090 l0_Ba2 = 0.01059 * T^2 + 2.090 * T + 68.10	 : A_Ba2 = 0.03127 * T^2 + 2.248 * T + 93.91	 : B_Ba2 = 1.9	 : l_Ba2 = l0_Ba2 - A_Ba2 * sqrt_mu / (1 + B_Ba2 * sqrt_mu)
+2100 l0_Sr2 = 0.006649 * T^2 + 2.069 * T + 61.63	 : A_Sr2 = 0.00702 * T^2 + 0.9009 * T + 33.41	 : B_Sr2 = 0.1	 : l_Sr2 = l0_Sr2 - A_Sr2 * sqrt_mu / (1 + B_Sr2 * sqrt_mu)
+2110 l0_SO42 = 0.01037 * T^2 + 2.838 * T + 82.37	 : A_SO42 = 0.03324 * T^2 + 5.889 * T + 193.5	 : B_SO42 = 2.6	 : l_SO42 = l0_SO42 - A_SO42 * sqrt_mu / (1 + B_SO42 * sqrt_mu)
+2120 l0_Cl = 0.003817 * T^2 + 1.337 * T + 40.99	 : A_Cl = 0.00613 * T^2 + 0.9469 * T + 22.01	 : B_Cl = 1.5	 : l_Cl = l0_Cl - A_Cl * sqrt_mu / (1 + B_Cl * sqrt_mu)
+2130 l0_F = 0.002764 * T^2 + 1.087 * T + 26.66	 : A_F = 0.00178 * T^2 + 0.6202 * T + 19.34	 : B_F = 0.5	 : l_F = l0_F - A_F * sqrt_mu / (1 + B_F * sqrt_mu)
+2140 l0_Br = 0.000709 * T^2 + 1.477 * T + 40.91	 : A_Br = 0.00251 * T^2 + 0.5398 * T + 12.01	 : B_Br = 0.1	 : l_Br = l0_Br - A_Br * sqrt_mu / (1 + B_Br * sqrt_mu)
+2150 l0_CO32 = -0.000326 * T^2 + 2.998 * T + 64.03	 : A_CO32 = -0.00181 * T^2 + 5.542 * T + 120.2	 : B_CO32 = 2.3	 : l_CO32 = l0_CO32 - A_CO3 * sqrt_mu / (1 + B_CO32 * sqrt_mu)
+2160 l0_HCO3 = 0.000614 * T^2 + 0.9048 * T + 21.14	 : A_HCO3 = -0.00503 * T^2 + 0.8957 * T + 10.97	 : B_HCO3 = 0.1	 : l_HCO3 = l0_HCO3 - A_HCO3 * sqrt_mu / (1 + B_HCO3 * sqrt_mu)
+2170 l0_NO3 = 0.001925 * T^2 + 1.214 * T + 39.90	 : A_NO3 = 0.00118 * T^2 + 0.5045 * T + 23.31	 : B_NO3 = 0.1	 : l_NO3 = l0_NO3 - A_NO3 * sqrt_mu / (1 + B_NO3 * sqrt_mu)
+2180 l0_OH = 0.003396 * T^2 + 2.925 * T + 121.3	 : A_OH = 0.00933 * T^2 + 0.1086 * T + 35.90	 : B_OH = 0.01	 : l_OH = l0_OH - A_OH * sqrt_mu / (1 + B_OH * sqrt_mu)
+2190 l0_Al3 = 0.02376 * T^2 + 3.227 * T + 90.24	 : A_Al3 = 0.06484 * T^2 + 5.149 * T + 76.79	 : B_Al3 = 3.0	 : l_Al3 = l0_Al3 - A_Al3 * sqrt_mu / (1 + B_Al3 * sqrt_mu)
+2200 l0_Cu2 = 0.00818 * T^2 + 1.939 * T + 53.26	 : A_Cu2 = 0.0292 * T^2 + 6.745 * T + 151.5	 : B_Cu2 = 8.0	 : l_Cu2 = l0_Cu2 - A_Cu2 * sqrt_mu / (1 + B_Cu2 * sqrt_mu)
+2210 l0_Fe2 = 0.009939 * T^2 + 1.878 * T + 54.80	 : A_Fe2 = 0.03997 * T^2 + 3.217 * T + 164.5	 : B_Fe2 = 4.0	 : l_Fe2 = l0_Fe2 - A_Fe2 * sqrt_mu / (1 + B_Fe2 * sqrt_mu)
+2220 l0_Fe3 = 0.02077 * T^2 + 4.390 * T + 82.42	 : A_Fe3 = -0.09676 * T^2 + 20.76 * T - 22.18	 : B_Fe3 = 4.0	 : l_Fe3 = l0_Fe3 - A_Fe3 * sqrt_mu / (1 + B_Fe3 * sqrt_mu)
+2230 l0_Mn2 = 0.01275 * T^2 + 2.109 * T + 46.19	 : A_Mn2 = 0.1071 * T^2 + 9.023 * T + 135.4	 : B_Mn2 = 7.6	 : l_Mn2 = l0_Mn2 - A_Mn2 * sqrt_mu / (1 + B_Mn2 * sqrt_mu)
+2240 l0_Zn2 = 0.01249 * T^2 + 1.912 * T + 48.20	 : A_Zn2 = 0.08284 * T^2 + 5.188 * T + 75.73	 : B_Zn2 = 7.0	 : l_Zn2 = l0_Zn2 - A_Zn2 * sqrt_mu / (1 + B_Zn2 * sqrt_mu)
+2250 l0_KSO4 = -0.002439 * T^2 + 4.253 * T + 129.7	 : A_KSO4 = -0.01576 * T^2 + 6.210 * T + 146.8	 : B_KSO4 = 1.3	 : l_KSO4 = l0_KSO4 - A_KSO4 * sqrt_mu / (1 + B_KSO4 * sqrt_mu)
+2260 l0_NaSO4 = 0.002309 * T^2 + 5.459 * T + 219.2	 : A_NaSO4 = 0.01454 * T^2 + 5.193 * T + 253.6	 : B_NaSO4 = 0.5	 : l_NaSO4 = l0_NaSO4 - A_NaSO4 * sqrt_mu / (1 + B_NaSO4 * sqrt_mu)
+2270 l0_HSO4 = 0.000927 * T^2 + 0.8337 * T + 29.56	 : A_HSO4 = 0.02887 * T^2 + 0.8730 * T + 36.25	 : B_HSO4 = 7.0	 : l_HSO4 = l0_HSO4 - A_HSO4 * sqrt_mu / (1 + B_HSO4 * sqrt_mu)
+2280 l0_NaCO3 = 0.00336 * T^2 + 3.845 * T + 89.51	 : A_NaCO3 =0.00061 * T^2 + 6.387 * T + 141.7	 : B_NaCO3 = 2.0	 : l_NaCO3 = l0_NaCO3 - A_NaCO3 * sqrt_mu / (1 + B_NaCO3 * sqrt_mu)
+2290 m_sc = mol("K+") * l_K + mol("Na+") * l_Na + mol("H+") * l_H + mol("Li+") * l_Li + mol("Cs+") * l_Cs + mol("AmmH+") * l_NH4 +\
+ mol("Ca+2") * l_Ca2 + mol("Mg+2") * l_Mg2 + mol("Ba+2") * l_Ba2 + mol("Sr+2") * l_Sr2 +\
+ mol("SO4-2") * l_SO42 + mol("Cl-") * l_Cl + mol("F-") * l_F + mol("Br-") * l_Br +\
+ mol("CO3-2") * l_CO32 + mol("HCO3-") * l_HCO3 + mol("NO3-") * l_NO3 + mol("OH-") * l_OH +\
+ mol("Al+3") * l_Al3 + mol("Cu+2") * l_Cu2 + mol("Fe+2") * l_Fe2 + mol("Fe+3") * l_Fe3 +\
+ mol("Mn+2") * l_Mn2 + mol("Zn+2") * l_Zn2 + mol("KSO4-") * l_KSO4 + mol("NaSO4-") * l_NaSO4 +\
+ mol("HSO4-") * l_HSO4 + mol("NaCO3-") * l_NaCO3
+2300 RETURN 
+

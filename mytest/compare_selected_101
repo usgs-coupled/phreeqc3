@@ -1,0 +1,21 @@
+#!/bin/sh
+failed=0
+rel_error=1e-3
+test(){
+  echo "Testing ${1}"
+  mv "${1}_101.sel" "${1}_101.sel.expected"
+  svn update "${1}_101.sel"
+  diff "${1}_101.sel" "${1}_101.sel.expected"  > "${1}.diff"
+  /home/dlpark/bin/numdiff --relative-tolerance"=${rel_error}" "${1}_101.sel" "${1}_101.sel.expected"  > "${1}.numdiff"
+  if [ "$?" != "0" ]; then
+    echo "  FAILED"
+    head "${1}.diff"
+    failed=1
+  fi
+  cp "${1}_101.sel.expected" "${1}_101.sel" 
+}
+
+for f in *_101.sel; do
+  f=`echo "${f}" | sed 's/_101\.sel$//'`
+  test "${f}"
+done
