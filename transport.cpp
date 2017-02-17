@@ -1,4 +1,4 @@
-﻿#include "Utils.h"
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -2073,6 +2073,12 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						m_s[i1].tot2 = 0;
 					}
 					count_m_s = 0;
+				}
+				if (ct[icell].J_ij == NULL)
+				{
+					error_string = sformatf( "Null pointer for fill_m_s.\n"
+						"Consider using more substeps in TRANSPORT; -time_step.");
+					error_msg(error_string, STOP);
 				}
 				fill_m_s(ct[icell].J_ij, ct[icell].J_ij_count_spec);
 
@@ -4731,7 +4737,7 @@ viscosity(void)
 	Jones_Dole[6] contains the anion factor, 1 for Cl-, variable for other anions
 	f_z = (z * z + |z|) / 2, the contribution of the ion to mu_x, if z = 0: f_z = mu_x / m_i
 	f_I = variable, depends on d3_i > 1, or d3_i < 1.
-	tc is limited to 200°C.
+	tc is limited to 200�C.
 
 
 	A from Falkenhagen-Dole for a salt:

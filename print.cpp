@@ -482,6 +482,13 @@ print_exchange(void)
 			output_msg(sformatf("%-14s%12.3e mol", name,
 					   (double) master_ptr->unknown->moles));
 			cxxExchange *exchange_ptr = (cxxExchange *) (use.Get_exchange_ptr());
+			if (master_ptr->unknown->exch_comp == NULL)
+			{		
+				error_string = sformatf("Exchange unknown has no exchange component for exchanger %s."
+					"\nIs the same name used for a SURFACE and an EXCHANGER?",
+					master_ptr->unknown->description);
+				error_msg(error_string, STOP);
+			}
 			const cxxExchComp *exchange_comp_ptr = exchange_ptr->Find_comp(master_ptr->unknown->exch_comp);
 			assert(exchange_comp_ptr);
 			if (exchange_comp_ptr->Get_phase_name().size() > 0)

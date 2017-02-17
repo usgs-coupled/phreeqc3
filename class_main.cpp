@@ -495,7 +495,9 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 #endif
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
+#ifdef NPP
 		output_msg(sformatf("Using PHREEQC: version 3.3.9 Ampère, compiled November 23, 2016\n"));
+#endif
 		output_msg(sformatf("Database file: %s\n\n", token));
 #ifdef NPP
 		output_flush();
