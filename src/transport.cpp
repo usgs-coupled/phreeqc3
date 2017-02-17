@@ -2074,12 +2074,12 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					}
 					count_m_s = 0;
 				}
-				//if (ct[icell].J_ij == NULL)
-				//{
-				//	error_string = sformatf( "Null pointer for fill_m_s.\n"
-				//		"Consider using more substeps in TRANSPORT; -time_step.");
-				//	error_msg(error_string, STOP);
-				//}
+				if (ct[icell].J_ij == NULL && ct[icell].J_ij_count_spec > 0)
+				{
+					error_string = sformatf( "Null pointer for fill_m_s.\n"
+						"Consider using more substeps in TRANSPORT; -time_step.");
+					error_msg(error_string, STOP);
+				}
 				fill_m_s(ct[icell].J_ij, ct[icell].J_ij_count_spec);
 
 				/*
