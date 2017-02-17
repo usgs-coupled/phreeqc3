@@ -3191,6 +3191,7 @@ unknown_alloc(void)
 	unknown_ptr->si = 0.0;
 	unknown_ptr->s = NULL;
 	unknown_ptr->exch_comp = NULL;
+	unknown_ptr->pp_assemblage_comp_name = NULL;
 	unknown_ptr->pp_assemblage_comp_ptr = NULL;
 	unknown_ptr->ss_name = NULL;
 	unknown_ptr->ss_ptr = NULL;
@@ -3209,6 +3210,11 @@ unknown_alloc(void)
 	unknown_ptr->surface_charge = NULL;
 	unknown_ptr->mass_water = 0.0;
 	unknown_ptr->dissolve_only = FALSE;
+	unknown_ptr->inert_moles = 0.0;
+	unknown_ptr->V_m = 0.0;
+	unknown_ptr->pressure = 0.0;
+	unknown_ptr->mb_number = 0;
+	unknown_ptr->iteration = 0;
 
 	return (unknown_ptr);
 }
