@@ -64,11 +64,11 @@ Initial solution 0.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 0
+      Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99704
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.007e-07
+                 Ionic strength (mol/kgw)  =   1.007e-07
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.217e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -117,11 +117,11 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.451e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -215,7 +215,7 @@ Using surface 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  6.635e-17  Surface + diffuse layer charge, eq
+	  6.570e-17  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -1.888e-01  psi, V
@@ -255,11 +255,11 @@ Su
 
                                        pH  =   7.992      Charge balance
                                        pe  =   9.833      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 2
+      Specific Conductance (µS/cm,  25°C)  = 2
                           Density (g/cm³)  =   0.99704
                                Volume (L)  =   0.48546
                         Activity of water  =   1.000
-                           Ionic strength  =   1.745e-05
+                 Ionic strength (mol/kgw)  =   1.745e-05
                        Mass of water (kg)  =   4.840e-01
                  Total alkalinity (eq/kg)  =   9.879e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -320,6 +320,7 @@ Reading input data for simulation 2.
 	SELECTED_OUTPUT
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
 WARNING: No dispersivities were read; disp = 0 assumed.
+WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 	 file d1.prn
 	 reset false
 	USER_PUNCH
@@ -390,11 +391,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -417,7 +418,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.789e-15   -14.238   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -444,7 +445,7 @@ Using surface 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  9.827e-16  Surface + diffuse layer charge, eq
+	  9.838e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.653e-02  psi, V
@@ -484,11 +485,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.509      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -511,7 +512,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.478e-14
-   H2              7.388e-15   7.389e-15   -14.131   -14.131     0.000     28.61
+   H2              7.388e-15   7.390e-15   -14.131   -14.131     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -578,11 +579,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -672,11 +673,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -766,11 +767,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -860,11 +861,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -954,11 +955,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1048,11 +1049,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1142,11 +1143,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1236,11 +1237,11 @@ Su
 
                                        pH  =   7.000      Charge balance
                                        pe  =  -1.456      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1298,7 +1299,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -6.917e-17  Surface + diffuse layer charge, eq
+	 -8.090e-12  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -1.283e-01  psi, V
@@ -1337,12 +1338,12 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.187      Charge balance
-                                       pe  =  -2.235      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 23
+                                       pe  =  -2.236      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 23
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   0.19978
                         Activity of water  =   1.000
-                           Ionic strength  =   1.861e-04
+                 Ionic strength (mol/kgw)  =   1.861e-04
                        Mass of water (kg)  =   1.992e-01
                  Total alkalinity (eq/kg)  =  -6.447e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1364,13 +1365,13 @@ Su
    H2O             1.087e+02   1.000e+00     2.036    -0.000     0.000     18.07
 Cl            1.861e-04
    Cl-             1.861e-04   1.832e-04    -3.730    -3.737    -0.007     18.06
-H(0)          1.770e-11
-   H2              8.851e-12   8.852e-12   -11.053   -11.053     0.000     28.61
+H(0)          1.772e-11
+   H2              8.860e-12   8.861e-12   -11.053   -11.053     0.000     28.61
 Na            1.854e-04
    Na+             1.854e-04   1.826e-04    -3.732    -3.739    -0.007     -1.50
    NaOH            2.840e-22   2.841e-22   -21.547   -21.547     0.000     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.274   -70.274     0.000     30.40
+   O2              0.000e+00   0.000e+00   -70.275   -70.275     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1418,7 +1419,7 @@ Su
 	Cl            	  3.8973e-06
 	H             	  1.9050e-06
 	Na            	  1.0020e-03
-	O             	  1.0314e-10
+	O             	  1.0313e-10
 
 Su            
 	  1.000e-03  moles
@@ -1438,11 +1439,11 @@ Su
 
                                        pH  =   6.027      Charge balance
                                        pe  =  12.960      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 63
+      Specific Conductance (µS/cm,  25°C)  = 63
                           Density (g/cm³)  =   0.99706
                                Volume (L)  =   0.26772
                         Activity of water  =   1.000
-                           Ionic strength  =   5.074e-04
+                 Ionic strength (mol/kgw)  =   5.074e-04
                        Mass of water (kg)  =   2.669e-01
                  Total alkalinity (eq/kg)  =  -9.518e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1470,7 +1471,7 @@ Na            5.065e-04
    Na+             5.065e-04   4.937e-04    -3.295    -3.307    -0.011     -1.49
    NaOH            5.319e-22   5.320e-22   -21.274   -21.274     0.000     (0)  
 O(0)          1.477e-10
-   O2              7.385e-11   7.386e-11   -10.132   -10.132     0.000     30.40
+   O2              7.384e-11   7.385e-11   -10.132   -10.132     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1498,7 +1499,7 @@ Mixture 3.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.724e-16  Surface + diffuse layer charge, eq
+	  1.713e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -9.402e-02  psi, V
@@ -1538,11 +1539,11 @@ Su
 
                                        pH  =   6.098      Charge balance
                                        pe  =  12.914      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 91
+      Specific Conductance (µS/cm,  25°C)  = 90
                           Density (g/cm³)  =   0.99707
                                Volume (L)  =   0.28690
                         Activity of water  =   1.000
-                           Ionic strength  =   7.338e-04
+                 Ionic strength (mol/kgw)  =   7.338e-04
                        Mass of water (kg)  =   2.861e-01
                  Total alkalinity (eq/kg)  =  -8.081e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1569,8 +1570,8 @@ H(0)          0.000e+00
 Na            7.329e-04
    Na+             7.329e-04   7.109e-04    -3.135    -3.148    -0.013     -1.48
    NaOH            9.022e-22   9.023e-22   -21.045   -21.045     0.000     (0)  
-O(0)          1.872e-10
-   O2              9.359e-11   9.361e-11   -10.029   -10.029     0.000     30.40
+O(0)          1.871e-10
+   O2              9.357e-11   9.359e-11   -10.029   -10.029     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1598,7 +1599,7 @@ Mixture 4.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  7.438e-17  Surface + diffuse layer charge, eq
+	 -9.132e-12  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.970e-02  psi, V
@@ -1638,11 +1639,11 @@ Su
 
                                        pH  =   6.235      Charge balance
                                        pe  =  12.787      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 108
+      Specific Conductance (µS/cm,  25°C)  = 108
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.29516
                         Activity of water  =   1.000
-                           Ionic strength  =   8.766e-04
+                 Ionic strength (mol/kgw)  =   8.766e-04
                        Mass of water (kg)  =   2.943e-01
                  Total alkalinity (eq/kg)  =  -5.831e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1698,7 +1699,7 @@ Mixture 5.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -6.640e-16  Surface + diffuse layer charge, eq
+	 -1.213e-11  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.774e-02  psi, V
@@ -1738,11 +1739,11 @@ Su
 
                                        pH  =   6.398      Charge balance
                                        pe  =  12.596      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 117
+      Specific Conductance (µS/cm,  25°C)  = 117
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.29874
                         Activity of water  =   1.000
-                           Ionic strength  =   9.509e-04
+                 Ionic strength (mol/kgw)  =   9.509e-04
                        Mass of water (kg)  =   2.979e-01
                  Total alkalinity (eq/kg)  =  -3.872e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1770,7 +1771,7 @@ Na            9.505e-04
    Na+             9.505e-04   9.182e-04    -3.022    -3.037    -0.015     -1.48
    NaOH            2.323e-21   2.324e-21   -20.634   -20.634     0.000     (0)  
 O(0)          1.579e-10
-   O2              7.893e-11   7.894e-11   -10.103   -10.103     0.000     30.40
+   O2              7.893e-11   7.895e-11   -10.103   -10.103     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1838,11 +1839,11 @@ Su
 
                                        pH  =   6.564      Charge balance
                                        pe  =  12.398      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 121
+      Specific Conductance (µS/cm,  25°C)  = 121
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30017
                         Activity of water  =   1.000
-                           Ionic strength  =   9.832e-04
+                 Ionic strength (mol/kgw)  =   9.832e-04
                        Mass of water (kg)  =   2.993e-01
                  Total alkalinity (eq/kg)  =  -2.439e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1870,7 +1871,7 @@ Na            9.829e-04
    Na+             9.829e-04   9.489e-04    -3.007    -3.023    -0.015     -1.48
    NaOH            3.517e-21   3.518e-21   -20.454   -20.454     0.000     (0)  
 O(0)          1.172e-10
-   O2              5.861e-11   5.862e-11   -10.232   -10.232     0.000     30.40
+   O2              5.860e-11   5.861e-11   -10.232   -10.232     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1898,7 +1899,7 @@ Mixture 7.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -2.613e-16  Surface + diffuse layer charge, eq
+	 -2.630e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.665e-02  psi, V
@@ -1938,11 +1939,11 @@ Su
 
                                        pH  =   6.712      Charge balance
                                        pe  =  12.156      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 122
+      Specific Conductance (µS/cm,  25°C)  = 122
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30068
                         Activity of water  =   1.000
-                           Ionic strength  =   9.950e-04
+                 Ionic strength (mol/kgw)  =   9.950e-04
                        Mass of water (kg)  =   2.998e-01
                  Total alkalinity (eq/kg)  =  -1.465e-07
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1969,8 +1970,8 @@ H(0)          0.000e+00
 Na            9.948e-04
    Na+             9.948e-04   9.603e-04    -3.002    -3.018    -0.015     -1.48
    NaOH            5.012e-21   5.013e-21   -20.300   -20.300     0.000     (0)  
-O(0)          4.930e-11
-   O2              2.465e-11   2.466e-11   -10.608   -10.608     0.000     30.40
+O(0)          4.929e-11
+   O2              2.465e-11   2.465e-11   -10.608   -10.608     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1998,7 +1999,7 @@ Mixture 8.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -8.066e-17  Surface + diffuse layer charge, eq
+	 -8.132e-17  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.656e-02  psi, V
@@ -2037,12 +2038,12 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.828      Charge balance
-                                       pe  =  11.766      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+                                       pe  =  11.765      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30084
                         Activity of water  =   1.000
-                           Ionic strength  =   9.988e-04
+                 Ionic strength (mol/kgw)  =   9.988e-04
                        Mass of water (kg)  =   2.999e-01
                  Total alkalinity (eq/kg)  =  -8.335e-08
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2065,21 +2066,21 @@ Su
 Cl            9.987e-04
    Cl-             9.987e-04   9.636e-04    -3.001    -3.016    -0.016     18.07
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -40.337   -40.337     0.000     28.61
+   H2              0.000e+00   0.000e+00   -40.336   -40.336     0.000     28.61
 Na            9.986e-04
    Na+             9.986e-04   9.639e-04    -3.001    -3.016    -0.015     -1.48
    NaOH            6.557e-21   6.559e-21   -20.183   -20.183     0.000     (0)  
-O(0)          3.933e-12
-   O2              1.966e-12   1.967e-12   -11.706   -11.706     0.000     30.40
+O(0)          3.914e-12
+   O2              1.957e-12   1.958e-12   -11.708   -11.708     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -37.24    -40.34   -3.10  H2
+  H2(g)           -37.23    -40.34   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -7.60     -6.03    1.57  NaCl
-  O2(g)            -8.81    -11.71   -2.89  O2
+  O2(g)            -8.82    -11.71   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2098,7 +2099,7 @@ Mixture 9.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  2.049e-16  Surface + diffuse layer charge, eq
+	  2.017e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.654e-02  psi, V
@@ -2118,7 +2119,7 @@ Su
 	Cl            	  8.0685e-06
 	H             	  1.3152e-07
 	Na            	  1.0079e-03
-	O             	  6.9949e-10
+	O             	  6.7500e-10
 
 Su            
 	  1.000e-03  moles
@@ -2137,12 +2138,12 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.902      Charge balance
-                                       pe  =  -2.927      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+                                       pe  =  -2.928      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30088
                         Activity of water  =   1.000
-                           Ionic strength  =   9.998e-04
+                 Ionic strength (mol/kgw)  =   9.998e-04
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =  -4.613e-08
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2159,18 +2160,18 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.303e-07   1.260e-07    -6.885    -6.900    -0.015      0.00
-   OH-             8.328e-08   8.035e-08    -7.079    -7.095    -0.016     -4.11
-   H2O             7.219e+01   1.000e+00     1.859    -0.000     0.000     18.07
-Cl            1.000e-03
-   Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
-H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.280   -41.280     0.000     28.61
-Na            1.000e-03
-   Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
-   NaOH            7.753e-21   7.755e-21   -20.111   -20.110     0.000     (0)  
-O(0)          3.029e-10
-   O2              1.514e-10   1.515e-10    -9.820    -9.820     0.000     30.40
+   H+              1.298e-07   1.254e-07    -6.887    -6.902    -0.015      0.00
+   OH-             8.363e-08   8.069e-08    -7.078    -7.093    -0.016     -4.11
+   H2O             7.220e+01   1.000e+00     1.859    -0.000     0.000     18.07
+Cl            9.997e-04
+   Cl-             9.997e-04   9.646e-04    -3.000    -3.016    -0.016     18.07
+H(0)          1.602e-11
+   H2              8.011e-12   8.013e-12   -11.096   -11.096     0.000     28.61
+Na            9.997e-04
+   Na+             9.997e-04   9.649e-04    -3.000    -3.016    -0.015     -1.48
+   NaOH            7.784e-21   7.786e-21   -20.109   -20.109     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -70.188   -70.188     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2179,7 +2180,7 @@ O(0)          3.029e-10
   H2(g)            -8.00    -11.10   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -7.60     -6.03    1.57  NaCl
-  O2(g)           -67.29    -70.18   -2.89  O2
+  O2(g)           -67.30    -70.19   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2198,7 +2199,7 @@ Mixture 10.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -5.460e-15  Surface + diffuse layer charge, eq
+	  9.454e-17  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.653e-02  psi, V
@@ -2218,7 +2219,7 @@ Su
 	Cl            	  8.0705e-06
 	H             	  1.2146e-07
 	Na            	  1.0080e-03
-	O             	  7.3449e-10
+	O             	  7.3448e-10
 
 Su            
 	  1.000e-03  moles
@@ -2238,11 +2239,11 @@ Su
 
                                        pH  =   6.936      Charge balance
                                        pe  =  11.893      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 123
+      Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30089
                         Activity of water  =   1.000
-                           Ionic strength  =   1.000e-03
+                 Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =  -2.915e-08
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2265,12 +2266,12 @@ Su
 Cl            9.999e-04
    Cl-             9.999e-04   9.648e-04    -3.000    -3.016    -0.016     18.07
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -40.829   -40.829     0.000     28.61
-Na            1.000e-03
-   Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
-   NaOH            8.482e-21   8.484e-21   -20.071   -20.071     0.000     (0)  
-O(0)          3.798e-11
-   O2              1.899e-11   1.899e-11   -10.722   -10.721     0.000     30.40
+   H2              0.000e+00   0.000e+00   -40.808   -40.808     0.000     28.61
+Na            9.999e-04
+   Na+             9.999e-04   9.651e-04    -3.000    -3.015    -0.015     -1.48
+   NaOH            8.436e-21   8.438e-21   -20.074   -20.074     0.000     (0)  
+O(0)          3.446e-11
+   O2              1.723e-11   1.723e-11   -10.764   -10.764     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2293,6 +2294,6 @@ Reading input data for simulation 3.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.173 Seconds.
+End of Run after 0.192 Seconds.
 -------------------------------
 

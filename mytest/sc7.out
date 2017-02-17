@@ -97,7 +97,7 @@ Initial solution 1.
                                        pH  =   7.000    
                                        pe  =  13.652      Equilibrium with O2(g)
                         Activity of water  =   1.000
-                           Ionic strength  =   4.000e-03
+                 Ionic strength (mol/kgw)  =   4.000e-03
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.591e-09
                     Total carbon (mol/kg)  =   0.000e+00
@@ -183,7 +183,7 @@ Initial solution 0.
                                        pH  =   7.000    
                                        pe  =  13.652      Equilibrium with O2(g)
                         Activity of water  =   1.000
-                           Ionic strength  =   1.300e-02
+                 Ionic strength (mol/kgw)  =   1.300e-02
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.773e-06
                     Total carbon (mol/kg)  =   0.000e+00
@@ -392,7 +392,7 @@ Hfo_w
                                        pH  =   7.000      Charge balance
                                        pe  =  13.652      Adjusted to redox equilibrium
                         Activity of water  =   1.000
-                           Ionic strength  =   1.300e-02
+                 Ionic strength (mol/kgw)  =   1.300e-02
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.773e-06
                     Total carbon (mol/kg)  =   0.000e+00
@@ -486,6 +486,7 @@ Reading input data for simulation 3.
 	 reset false
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
 WARNING: Dispersivities were read for 1 cells. Last value is used till cell 10.
+WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 ----------------------------------User print-----------------------------------
 
 
@@ -8918,6 +8919,7 @@ Adapting surface in            0
 
 Diffuse Double Layer Surface-Complexation Model
 
+WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 ----------------------------------User print-----------------------------------
 
 
@@ -18034,34 +18036,34 @@ Sfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 4.589e-04 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.9642e-26
+	Ca            	  7.9641e-26
 	Cl            	  1.9869e-13
-	H             	  2.0024e-17
+	H             	  2.0025e-17
 	Na            	  4.1432e-20
-	O             	  8.9220e-17
-	U             	  5.3100e-18
+	O             	  8.9221e-17
+	U             	  5.3101e-18
 
 Sfo_s         
-	  4.116e-13  moles
+	  4.117e-13  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Sfo_sOH           2.881e-13       0.700   2.881e-13     -12.541
+	Sfo_sOH           2.881e-13       0.700   2.881e-13     -12.540
 	Sfo_sO-           1.055e-13       0.256   1.055e-13     -12.977
 	Sfo_sOH2+         1.802e-14       0.044   1.802e-14     -13.744
-	Sfo_sOHCa+2       6.298e-18       0.000   6.298e-18     -17.201
-	Sfo_sOHUO2+2      7.779e-20       0.000   7.779e-20     -19.109
+	Sfo_sOHCa+2       6.300e-18       0.000   6.300e-18     -17.201
+	Sfo_sOHUO2+2      7.782e-20       0.000   7.782e-20     -19.109
 
 Sfo_w         
-	  1.605e-11  moles
+	  1.606e-11  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Sfo_wOH           9.100e-12       0.567   9.100e-12     -11.041
-	Sfo_wO-           3.333e-12       0.208   3.333e-12     -11.477
-	Sfo_wOUO2+        3.050e-12       0.190   3.050e-12     -11.516
-	Sfo_wOH2+         5.692e-13       0.035   5.692e-13     -12.245
-	Sfo_wOCa+         9.388e-19       0.000   9.388e-19     -18.027
+	Sfo_wOH           9.103e-12       0.567   9.103e-12     -11.041
+	Sfo_wO-           3.334e-12       0.208   3.334e-12     -11.477
+	Sfo_wOUO2+        3.051e-12       0.190   3.051e-12     -11.516
+	Sfo_wOH2+         5.694e-13       0.035   5.694e-13     -12.245
+	Sfo_wOCa+         9.391e-19       0.000   9.391e-19     -18.027
 
 ----------------------------------User print-----------------------------------
 
@@ -19023,7 +19025,7 @@ Sfo
 	  2.057e-02  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  8.693e-15  m² for   1.449e-17 g
 
@@ -19034,7 +19036,7 @@ Sfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 4.832e-04 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.3343e-34
+	Ca            	  5.3342e-34
 	Cl            	  1.8530e-21
 	H             	  2.1456e-25
 	Na            	  4.2980e-28
@@ -19042,26 +19044,26 @@ Sfo
 	U             	  5.6912e-26
 
 Sfo_s         
-	  4.117e-21  moles
+	  4.118e-21  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Sfo_sOH           2.880e-21       0.700   2.880e-21     -20.541
+	Sfo_sOH           2.881e-21       0.700   2.881e-21     -20.541
 	Sfo_sO-           1.057e-21       0.257   1.057e-21     -20.976
-	Sfo_sOH2+         1.797e-22       0.044   1.797e-22     -21.745
-	Sfo_sOHCa+2       4.815e-26       0.000   4.815e-26     -25.317
-	Sfo_sOHUO2+2      7.748e-28       0.000   7.748e-28     -27.111
+	Sfo_sOH2+         1.798e-22       0.044   1.798e-22     -21.745
+	Sfo_sOHCa+2       4.816e-26       0.000   4.816e-26     -25.317
+	Sfo_sOHUO2+2      7.751e-28       0.000   7.751e-28     -27.111
 
 Sfo_w         
 	  1.606e-19  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Sfo_wOH           9.101e-20       0.567   9.101e-20     -19.041
-	Sfo_wO-           3.341e-20       0.208   3.341e-20     -19.476
-	Sfo_wOUO2+        3.046e-20       0.190   3.046e-20     -19.516
-	Sfo_wOH2+         5.679e-21       0.035   5.679e-21     -20.246
-	Sfo_wOCa+         7.196e-27       0.000   7.196e-27     -26.143
+	Sfo_wOH           9.104e-20       0.567   9.104e-20     -19.041
+	Sfo_wO-           3.342e-20       0.208   3.342e-20     -19.476
+	Sfo_wOUO2+        3.047e-20       0.190   3.047e-20     -19.516
+	Sfo_wOH2+         5.682e-21       0.035   5.682e-21     -20.246
+	Sfo_wOCa+         7.198e-27       0.000   7.198e-27     -26.143
 
 ----------------------------------User print-----------------------------------
 
@@ -19972,7 +19974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.514e-12  Surface + diffuse layer charge, eq
+	  1.513e-12  Surface + diffuse layer charge, eq
 	  3.225e-06  Surface charge, eq
 	  2.055e-02  sigma, C/m²
 	  1.235e-01  psi, V
@@ -20018,12 +20020,12 @@ Hfo_w
 	Hfo_wOCa+         7.942e-12       0.000   7.942e-12     -11.100
 
 Sfo           
-	  3.292e-24  Surface + diffuse layer charge, eq
+	  3.291e-24  Surface + diffuse layer charge, eq
 	 -2.196e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -20061,7 +20063,7 @@ Sfo_w
 	Sfo_wO-           2.158e-26       0.000   2.158e-26     -25.666
 	Sfo_wOUO2+        1.730e-26       0.000   1.730e-26     -25.762
 	Sfo_wOH2+         3.371e-27       0.000   3.371e-27     -26.472
-	Sfo_wOCa+         2.830e-33       0.000   2.830e-33     -32.548
+	Sfo_wOCa+         2.829e-33       0.000   2.829e-33     -32.548
 
 ----------------------------------User print-----------------------------------
 
@@ -20972,7 +20974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.762e-13  Surface + diffuse layer charge, eq
+	  2.760e-13  Surface + diffuse layer charge, eq
 	  1.552e-06  Surface charge, eq
 	  1.837e-02  sigma, C/m²
 	  1.180e-01  psi, V
@@ -21018,12 +21020,12 @@ Hfo_w
 	Hfo_wOCa+         4.004e-12       0.000   4.004e-12     -11.398
 
 Sfo           
-	  4.594e-24  Surface + diffuse layer charge, eq
+	  4.593e-24  Surface + diffuse layer charge, eq
 	 -3.715e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -21972,7 +21974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.134e-12  Surface + diffuse layer charge, eq
+	  2.135e-12  Surface + diffuse layer charge, eq
 	  7.164e-07  Surface charge, eq
 	  1.587e-02  sigma, C/m²
 	  1.108e-01  psi, V
@@ -22018,12 +22020,12 @@ Hfo_w
 	Hfo_wOCa+         2.308e-12       0.000   2.308e-12     -11.637
 
 Sfo           
-	  2.308e-25  Surface + diffuse layer charge, eq
+	  2.302e-25  Surface + diffuse layer charge, eq
 	 -5.597e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -22057,7 +22059,7 @@ Sfo_w
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Sfo_wOH           5.367e-26       0.000   5.367e-26     -25.270
+	Sfo_wOH           5.366e-26       0.000   5.366e-26     -25.270
 	Sfo_wO-           3.329e-26       0.000   3.329e-26     -25.478
 	Sfo_wOUO2+        9.725e-27       0.000   9.725e-27     -26.012
 	Sfo_wOH2+         1.982e-27       0.000   1.982e-27     -26.703
@@ -22118,7 +22120,7 @@ Hfo_w
 	Hfo_wOCa+         8.012e-12       0.000   8.012e-12     -11.096
 
 Sfo           
-	  4.107e-24  Surface + diffuse layer charge, eq
+	  4.106e-24  Surface + diffuse layer charge, eq
 	 -2.125e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -22972,7 +22974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.243e-13  Surface + diffuse layer charge, eq
+	  1.240e-13  Surface + diffuse layer charge, eq
 	  5.084e-07  Surface charge, eq
 	  1.463e-02  sigma, C/m²
 	  1.068e-01  psi, V
@@ -23023,7 +23025,7 @@ Sfo
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -23049,8 +23051,8 @@ Sfo_s
 	Sfo_sOH           5.495e-26       0.000   5.495e-26     -25.260
 	Sfo_sO-           3.933e-26       0.000   3.933e-26     -25.405
 	Sfo_sOH2+         1.759e-27       0.000   1.759e-27     -26.755
-	Sfo_sOHCa+2       1.307e-31       0.000   1.307e-31     -30.884
-	Sfo_sOHUO2+2      3.443e-33       0.000   3.443e-33     -32.463
+	Sfo_sOHCa+2       1.306e-31       0.000   1.306e-31     -30.884
+	Sfo_sOHUO2+2      3.442e-33       0.000   3.442e-33     -32.463
 
 Sfo_w         
 	  1.000e-25  moles
@@ -23972,7 +23974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  4.502e-13  Surface + diffuse layer charge, eq
+	  4.495e-13  Surface + diffuse layer charge, eq
 	  2.830e-07  Surface charge, eq
 	  1.307e-02  sigma, C/m²
 	  1.013e-01  psi, V
@@ -24018,12 +24020,12 @@ Hfo_w
 	Hfo_wOCa+         8.814e-13       0.000   8.814e-13     -12.055
 
 Sfo           
-	  4.308e-26  Surface + diffuse layer charge, eq
+	  4.952e-26  Surface + diffuse layer charge, eq
 	 -7.935e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -24050,7 +24052,7 @@ Sfo_s
 	Sfo_sO-           4.511e-26       0.000   4.511e-26     -25.346
 	Sfo_sOH2+         1.351e-27       0.000   1.351e-27     -26.869
 	Sfo_sOHCa+2       7.626e-32       0.000   7.626e-32     -31.118
-	Sfo_sOHUO2+2      2.074e-33       0.000   2.074e-33     -32.683
+	Sfo_sOHUO2+2      2.073e-33       0.000   2.073e-33     -32.683
 
 Sfo_w         
 	  1.000e-25  moles
@@ -24118,7 +24120,7 @@ Hfo_w
 	Hfo_wOCa+         2.587e-12       0.000   2.587e-12     -11.587
 
 Sfo           
-	  3.959e-24  Surface + diffuse layer charge, eq
+	  3.962e-24  Surface + diffuse layer charge, eq
 	 -4.985e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -24218,7 +24220,7 @@ Hfo_w
 	Hfo_wOCa+         7.104e-12       0.000   7.104e-12     -11.148
 
 Sfo           
-	  9.835e-24  Surface + diffuse layer charge, eq
+	  9.834e-24  Surface + diffuse layer charge, eq
 	 -2.968e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -24972,7 +24974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.753e-14  Surface + diffuse layer charge, eq
+	  1.750e-14  Surface + diffuse layer charge, eq
 	  1.675e-07  Surface charge, eq
 	  1.195e-02  sigma, C/m²
 	  9.687e-02  psi, V
@@ -25018,12 +25020,12 @@ Hfo_w
 	Hfo_wOCa+         4.962e-13       0.000   4.962e-13     -12.304
 
 Sfo           
-	 -7.940e-25  Surface + diffuse layer charge, eq
+	 -7.918e-25  Surface + diffuse layer charge, eq
 	 -8.990e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -25118,7 +25120,7 @@ Hfo_w
 	Hfo_wOCa+         1.561e-12       0.000   1.561e-12     -11.807
 
 Sfo           
-	  3.074e-24  Surface + diffuse layer charge, eq
+	  3.076e-24  Surface + diffuse layer charge, eq
 	 -6.536e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -25218,7 +25220,7 @@ Hfo_w
 	Hfo_wOCa+         4.109e-12       0.000   4.109e-12     -11.386
 
 Sfo           
-	  8.966e-24  Surface + diffuse layer charge, eq
+	  8.969e-24  Surface + diffuse layer charge, eq
 	 -4.411e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -25972,7 +25974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  5.141e-15  Surface + diffuse layer charge, eq
+	  5.132e-15  Surface + diffuse layer charge, eq
 	  9.709e-08  Surface charge, eq
 	  1.107e-02  sigma, C/m²
 	  9.312e-02  psi, V
@@ -26018,12 +26020,12 @@ Hfo_w
 	Hfo_wOCa+         2.565e-13       0.000   2.565e-13     -12.591
 
 Sfo           
-	 -2.434e-24  Surface + diffuse layer charge, eq
+	 -2.433e-24  Surface + diffuse layer charge, eq
 	 -9.828e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -26048,7 +26050,7 @@ Sfo_s
 
 	Sfo_sO-           5.271e-26       0.000   5.271e-26     -25.278
 	Sfo_sOH           4.600e-26       0.000   4.600e-26     -25.337
-	Sfo_sOH2+         9.197e-28       0.000   9.197e-28     -27.036
+	Sfo_sOH2+         9.196e-28       0.000   9.196e-28     -27.036
 	Sfo_sOHCa+2       2.659e-32       0.000   2.659e-32     -31.575
 	Sfo_sOHUO2+2      9.508e-34       0.000   9.508e-34     -33.022
 
@@ -26118,7 +26120,7 @@ Hfo_w
 	Hfo_wOCa+         9.303e-13       0.000   9.303e-13     -12.031
 
 Sfo           
-	  4.386e-25  Surface + diffuse layer charge, eq
+	  4.402e-25  Surface + diffuse layer charge, eq
 	 -8.034e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -26218,7 +26220,7 @@ Hfo_w
 	Hfo_wOCa+         2.607e-12       0.000   2.607e-12     -11.584
 
 Sfo           
-	  5.301e-24  Surface + diffuse layer charge, eq
+	  5.303e-24  Surface + diffuse layer charge, eq
 	 -5.487e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -26972,7 +26974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.787e-14  Surface + diffuse layer charge, eq
+	  2.785e-14  Surface + diffuse layer charge, eq
 	  5.626e-08  Surface charge, eq
 	  1.040e-02  sigma, C/m²
 	  9.011e-02  psi, V
@@ -27018,12 +27020,12 @@ Hfo_w
 	Hfo_wOCa+         1.231e-13       0.000   1.231e-13     -12.910
 
 Sfo           
-	 -3.240e-24  Surface + diffuse layer charge, eq
-	 -1.039e-25  Surface charge, eq
+	 -3.239e-24  Surface + diffuse layer charge, eq
+	 -1.040e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -27118,7 +27120,7 @@ Hfo_w
 	Hfo_wOCa+         5.363e-13       0.000   5.363e-13     -12.271
 
 Sfo           
-	 -9.082e-25  Surface + diffuse layer charge, eq
+	 -9.073e-25  Surface + diffuse layer charge, eq
 	 -9.125e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -27218,7 +27220,7 @@ Hfo_w
 	Hfo_wOCa+         1.623e-12       0.000   1.623e-12     -11.790
 
 Sfo           
-	  3.012e-24  Surface + diffuse layer charge, eq
+	  3.013e-24  Surface + diffuse layer charge, eq
 	 -6.980e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -27318,7 +27320,7 @@ Hfo_w
 	Hfo_wOCa+         4.010e-12       0.000   4.010e-12     -11.397
 
 Sfo           
-	  8.802e-24  Surface + diffuse layer charge, eq
+	  8.803e-24  Surface + diffuse layer charge, eq
 	 -4.710e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -27972,7 +27974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  3.071e-16  Surface + diffuse layer charge, eq
+	  3.068e-16  Surface + diffuse layer charge, eq
 	  3.397e-08  Surface charge, eq
 	  9.913e-03  sigma, C/m²
 	  8.781e-02  psi, V
@@ -28023,7 +28025,7 @@ Sfo
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -28049,7 +28051,7 @@ Sfo_s
 	Sfo_sO-           5.626e-26       0.000   5.626e-26     -25.250
 	Sfo_sOH           4.309e-26       0.000   4.309e-26     -25.366
 	Sfo_sOH2+         7.560e-28       0.000   7.560e-28     -27.121
-	Sfo_sOHCa+2       9.867e-33       0.000   9.867e-33     -32.006
+	Sfo_sOHCa+2       9.866e-33       0.000   9.866e-33     -32.006
 	Sfo_sOHUO2+2      5.591e-34       0.000   5.591e-34     -33.252
 
 Sfo_w         
@@ -28060,7 +28062,7 @@ Sfo_w
 	Sfo_wO-           5.500e-26       0.000   5.500e-26     -25.260
 	Sfo_wOH           4.212e-26       0.000   4.212e-26     -25.375
 	Sfo_wOUO2+        2.418e-27       0.000   2.418e-27     -26.616
-	Sfo_wOH2+         7.391e-28       0.000   7.391e-28     -27.131
+	Sfo_wOH2+         7.390e-28       0.000   7.390e-28     -27.131
 	Sfo_wOCa+         1.622e-34       0.000   1.622e-34     -33.790
 
 ----------------------------------User print-----------------------------------
@@ -28218,7 +28220,7 @@ Hfo_w
 	Hfo_wOCa+         1.001e-12       0.000   1.001e-12     -12.000
 
 Sfo           
-	  1.100e-24  Surface + diffuse layer charge, eq
+	  1.101e-24  Surface + diffuse layer charge, eq
 	 -8.291e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -28318,7 +28320,7 @@ Hfo_w
 	Hfo_wOCa+         2.469e-12       0.000   2.469e-12     -11.608
 
 Sfo           
-	  6.082e-24  Surface + diffuse layer charge, eq
+	  6.083e-24  Surface + diffuse layer charge, eq
 	 -6.097e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -28972,7 +28974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.274e-16  Surface + diffuse layer charge, eq
+	  1.273e-16  Surface + diffuse layer charge, eq
 	  2.061e-08  Surface charge, eq
 	  9.511e-03  sigma, C/m²
 	  8.583e-02  psi, V
@@ -29018,12 +29020,12 @@ Hfo_w
 	Hfo_wOCa+         2.600e-14       0.000   2.600e-14     -13.585
 
 Sfo           
-	 -4.114e-24  Surface + diffuse layer charge, eq
+	 -4.111e-24  Surface + diffuse layer charge, eq
 	 -1.095e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -29050,7 +29052,7 @@ Sfo_s
 	Sfo_sOH           4.238e-26       0.000   4.238e-26     -25.373
 	Sfo_sOH2+         7.221e-28       0.000   7.221e-28     -27.141
 	Sfo_sOHCa+2       6.133e-33       0.000   6.133e-33     -32.212
-	Sfo_sOHUO2+2      4.544e-34       0.000   4.544e-34     -33.343
+	Sfo_sOHUO2+2      4.543e-34       0.000   4.543e-34     -33.343
 
 Sfo_w         
 	  1.000e-25  moles
@@ -29118,7 +29120,7 @@ Hfo_w
 	Hfo_wOCa+         1.434e-13       0.000   1.434e-13     -12.844
 
 Sfo           
-	 -2.855e-24  Surface + diffuse layer charge, eq
+	 -2.852e-24  Surface + diffuse layer charge, eq
 	 -1.061e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -29218,7 +29220,7 @@ Hfo_w
 	Hfo_wOCa+         5.848e-13       0.000   5.848e-13     -12.233
 
 Sfo           
-	  2.074e-25  Surface + diffuse layer charge, eq
+	  2.108e-25  Surface + diffuse layer charge, eq
 	 -9.480e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -29318,7 +29320,7 @@ Hfo_w
 	Hfo_wOCa+         1.555e-12       0.000   1.555e-12     -11.808
 
 Sfo           
-	  4.590e-24  Surface + diffuse layer charge, eq
+	  4.591e-24  Surface + diffuse layer charge, eq
 	 -7.539e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -29972,7 +29974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -2.053e-16  Surface + diffuse layer charge, eq
+	 -2.052e-16  Surface + diffuse layer charge, eq
 	  1.261e-08  Surface charge, eq
 	  9.155e-03  sigma, C/m²
 	  8.401e-02  psi, V
@@ -30018,12 +30020,12 @@ Hfo_w
 	Hfo_wOCa+         1.166e-14       0.000   1.166e-14     -13.933
 
 Sfo           
-	 -4.307e-24  Surface + diffuse layer charge, eq
+	 -4.304e-24  Surface + diffuse layer charge, eq
 	 -1.108e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -30118,7 +30120,7 @@ Hfo_w
 	Hfo_wOCa+         6.832e-14       0.000   6.832e-14     -13.165
 
 Sfo           
-	 -3.529e-24  Surface + diffuse layer charge, eq
+	 -3.525e-24  Surface + diffuse layer charge, eq
 	 -1.098e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -30218,7 +30220,7 @@ Hfo_w
 	Hfo_wOCa+         3.188e-13       0.000   3.188e-13     -12.496
 
 Sfo           
-	 -1.448e-24  Surface + diffuse layer charge, eq
+	 -1.443e-24  Surface + diffuse layer charge, eq
 	 -1.039e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -30318,7 +30320,7 @@ Hfo_w
 	Hfo_wOCa+         9.697e-13       0.000   9.697e-13     -12.013
 
 Sfo           
-	  2.490e-24  Surface + diffuse layer charge, eq
+	  2.492e-24  Surface + diffuse layer charge, eq
 	 -8.783e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -30418,7 +30420,7 @@ Hfo_w
 	Hfo_wOCa+         2.235e-12       0.000   2.235e-12     -11.651
 
 Sfo           
-	  7.845e-24  Surface + diffuse layer charge, eq
+	  7.846e-24  Surface + diffuse layer charge, eq
 	 -6.419e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -31018,12 +31020,12 @@ Hfo_w
 	Hfo_wOCa+         5.209e-15       0.000   5.209e-15     -14.283
 
 Sfo           
-	 -4.446e-24  Surface + diffuse layer charge, eq
+	 -4.445e-24  Surface + diffuse layer charge, eq
 	 -1.117e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -31118,7 +31120,7 @@ Hfo_w
 	Hfo_wOCa+         3.149e-14       0.000   3.149e-14     -13.502
 
 Sfo           
-	 -3.924e-24  Surface + diffuse layer charge, eq
+	 -3.922e-24  Surface + diffuse layer charge, eq
 	 -1.121e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -31218,7 +31220,7 @@ Hfo_w
 	Hfo_wOCa+         1.640e-13       0.000   1.640e-13     -12.785
 
 Sfo           
-	 -2.627e-24  Surface + diffuse layer charge, eq
+	 -2.624e-24  Surface + diffuse layer charge, eq
 	 -1.102e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -31318,7 +31320,7 @@ Hfo_w
 	Hfo_wOCa+         5.736e-13       0.000   5.736e-13     -12.241
 
 Sfo           
-	  6.495e-25  Surface + diffuse layer charge, eq
+	  6.529e-25  Surface + diffuse layer charge, eq
 	 -9.910e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -31418,7 +31420,7 @@ Hfo_w
 	Hfo_wOCa+         1.431e-12       0.000   1.431e-12     -11.844
 
 Sfo           
-	  5.210e-24  Surface + diffuse layer charge, eq
+	  5.213e-24  Surface + diffuse layer charge, eq
 	 -7.724e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -31518,7 +31520,7 @@ Hfo_w
 	Hfo_wOCa+         3.050e-12       0.000   3.050e-12     -11.516
 
 Sfo           
-	  1.139e-23  Surface + diffuse layer charge, eq
+	  1.140e-23  Surface + diffuse layer charge, eq
 	 -5.727e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -31972,7 +31974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -8.366e-16  Surface + diffuse layer charge, eq
+	 -8.364e-16  Surface + diffuse layer charge, eq
 	  4.716e-09  Surface charge, eq
 	  8.483e-03  sigma, C/m²
 	  8.040e-02  psi, V
@@ -32018,12 +32020,12 @@ Hfo_w
 	Hfo_wOCa+         2.327e-15       0.000   2.327e-15     -14.633
 
 Sfo           
-	 -4.535e-24  Surface + diffuse layer charge, eq
+	 -4.534e-24  Surface + diffuse layer charge, eq
 	 -1.124e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -32118,7 +32120,7 @@ Hfo_w
 	Hfo_wOCa+         1.434e-14       0.000   1.434e-14     -13.843
 
 Sfo           
-	 -4.216e-24  Surface + diffuse layer charge, eq
+	 -4.215e-24  Surface + diffuse layer charge, eq
 	 -1.135e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -32218,7 +32220,7 @@ Hfo_w
 	Hfo_wOCa+         8.003e-14       0.000   8.003e-14     -13.097
 
 Sfo           
-	 -3.294e-24  Surface + diffuse layer charge, eq
+	 -3.292e-24  Surface + diffuse layer charge, eq
 	 -1.142e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -32318,7 +32320,7 @@ Hfo_w
 	Hfo_wOCa+         3.188e-13       0.000   3.188e-13     -12.497
 
 Sfo           
-	 -1.047e-24  Surface + diffuse layer charge, eq
+	 -1.044e-24  Surface + diffuse layer charge, eq
 	 -1.076e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -32418,7 +32420,7 @@ Hfo_w
 	Hfo_wOCa+         8.923e-13       0.000   8.923e-13     -12.049
 
 Sfo           
-	  3.322e-24  Surface + diffuse layer charge, eq
+	  3.325e-24  Surface + diffuse layer charge, eq
 	 -8.991e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -32518,7 +32520,7 @@ Hfo_w
 	Hfo_wOCa+         1.957e-12       0.000   1.957e-12     -11.708
 
 Sfo           
-	  8.885e-24  Surface + diffuse layer charge, eq
+	  8.887e-24  Surface + diffuse layer charge, eq
 	 -7.021e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -32618,7 +32620,7 @@ Hfo_w
 	Hfo_wOCa+         3.960e-12       0.000   3.960e-12     -11.402
 
 Sfo           
-	  1.548e-23  Surface + diffuse layer charge, eq
+	  1.549e-23  Surface + diffuse layer charge, eq
 	 -4.836e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -32972,7 +32974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.305e-17  Surface + diffuse layer charge, eq
+	 -1.304e-17  Surface + diffuse layer charge, eq
 	  2.886e-09  Surface charge, eq
 	  8.152e-03  sigma, C/m²
 	  7.853e-02  psi, V
@@ -33023,7 +33025,7 @@ Sfo
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -33060,7 +33062,7 @@ Sfo_w
 	Sfo_wO-           5.743e-26       0.000   5.743e-26     -25.241
 	Sfo_wOH           4.107e-26       0.000   4.107e-26     -25.387
 	Sfo_wOUO2+        8.888e-28       0.000   8.888e-28     -27.051
-	Sfo_wOH2+         6.727e-28       0.000   6.727e-28     -27.172
+	Sfo_wOH2+         6.726e-28       0.000   6.726e-28     -27.172
 	Sfo_wOCa+         1.745e-35       0.000   1.745e-35     -34.758
 
 ----------------------------------User print-----------------------------------
@@ -33118,7 +33120,7 @@ Hfo_w
 	Hfo_wOCa+         6.489e-15       0.000   6.489e-15     -14.188
 
 Sfo           
-	 -4.387e-24  Surface + diffuse layer charge, eq
+	 -4.386e-24  Surface + diffuse layer charge, eq
 	 -1.144e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -33218,7 +33220,7 @@ Hfo_w
 	Hfo_wOCa+         3.780e-14       0.000   3.780e-14     -13.423
 
 Sfo           
-	 -3.756e-24  Surface + diffuse layer charge, eq
+	 -3.755e-24  Surface + diffuse layer charge, eq
 	 -1.165e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -33318,7 +33320,7 @@ Hfo_w
 	Hfo_wOCa+         1.660e-13       0.000   1.660e-13     -12.780
 
 Sfo           
-	 -2.307e-24  Surface + diffuse layer charge, eq
+	 -2.304e-24  Surface + diffuse layer charge, eq
 	 -1.137e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -33418,7 +33420,7 @@ Hfo_w
 	Hfo_wOCa+         5.294e-13       0.000   5.294e-13     -12.276
 
 Sfo           
-	  6.681e-25  Surface + diffuse layer charge, eq
+	  6.706e-25  Surface + diffuse layer charge, eq
 	 -1.005e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -33518,7 +33520,7 @@ Hfo_w
 	Hfo_wOCa+         1.254e-12       0.000   1.254e-12     -11.902
 
 Sfo           
-	  5.645e-24  Surface + diffuse layer charge, eq
+	  5.648e-24  Surface + diffuse layer charge, eq
 	 -8.322e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -34023,7 +34025,7 @@ Sfo
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -34049,7 +34051,7 @@ Sfo_s
 	Sfo_sO-           5.798e-26       0.000   5.798e-26     -25.237
 	Sfo_sOH           4.128e-26       0.000   4.128e-26     -25.384
 	Sfo_sOH2+         6.734e-28       0.000   6.734e-28     -27.172
-	Sfo_sOHCa+2       6.217e-34       0.000   6.217e-34     -33.206
+	Sfo_sOHCa+2       6.216e-34       0.000   6.216e-34     -33.206
 	Sfo_sOHUO2+2      1.431e-34       0.000   1.431e-34     -33.844
 
 Sfo_w         
@@ -34072,7 +34074,7 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.100e-18  Surface + diffuse layer charge, eq
+	 -5.681e-15  Surface + diffuse layer charge, eq
 	  5.447e-09  Surface charge, eq
 	  8.579e-03  sigma, C/m²
 	  8.093e-02  psi, V
@@ -34118,7 +34120,7 @@ Hfo_w
 	Hfo_wOCa+         2.939e-15       0.000   2.939e-15     -14.532
 
 Sfo           
-	 -4.496e-24  Surface + diffuse layer charge, eq
+	 -4.495e-24  Surface + diffuse layer charge, eq
 	 -1.151e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -34218,7 +34220,7 @@ Hfo_w
 	Hfo_wOCa+         1.749e-14       0.000   1.749e-14     -13.757
 
 Sfo           
-	 -4.101e-24  Surface + diffuse layer charge, eq
+	 -4.100e-24  Surface + diffuse layer charge, eq
 	 -1.179e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -34318,7 +34320,7 @@ Hfo_w
 	Hfo_wOCa+         8.220e-14       0.000   8.220e-14     -13.085
 
 Sfo           
-	 -3.131e-24  Surface + diffuse layer charge, eq
+	 -3.129e-24  Surface + diffuse layer charge, eq
 	 -1.176e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -34418,7 +34420,7 @@ Hfo_w
 	Hfo_wOCa+         2.944e-13       0.000   2.944e-13     -12.531
 
 Sfo           
-	 -7.302e-25  Surface + diffuse layer charge, eq
+	 -7.282e-25  Surface + diffuse layer charge, eq
 	 -1.086e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -34518,7 +34520,7 @@ Hfo_w
 	Hfo_wOCa+         7.794e-13       0.000   7.794e-13     -12.108
 
 Sfo           
-	  3.913e-24  Surface + diffuse layer charge, eq
+	  3.915e-24  Surface + diffuse layer charge, eq
 	 -9.521e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -34618,7 +34620,7 @@ Hfo_w
 	Hfo_wOCa+         1.620e-12       0.000   1.620e-12     -11.791
 
 Sfo           
-	  9.904e-24  Surface + diffuse layer charge, eq
+	  9.907e-24  Surface + diffuse layer charge, eq
 	 -7.442e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -34972,7 +34974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.352e-19  Surface + diffuse layer charge, eq
+	 -1.351e-19  Surface + diffuse layer charge, eq
 	  1.088e-09  Surface charge, eq
 	  7.532e-03  sigma, C/m²
 	  7.486e-02  psi, V
@@ -35018,12 +35020,12 @@ Hfo_w
 	Hfo_wOCa+         2.109e-16       0.000   2.109e-16     -15.676
 
 Sfo           
-	 -4.660e-24  Surface + diffuse layer charge, eq
+	 -4.665e-24  Surface + diffuse layer charge, eq
 	 -1.141e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -35072,7 +35074,7 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  9.984e-19  Surface + diffuse layer charge, eq
+	  9.979e-19  Surface + diffuse layer charge, eq
 	  3.361e-09  Surface charge, eq
 	  8.253e-03  sigma, C/m²
 	  7.911e-02  psi, V
@@ -35118,7 +35120,7 @@ Hfo_w
 	Hfo_wOCa+         1.334e-15       0.000   1.334e-15     -14.875
 
 Sfo           
-	 -4.571e-24  Surface + diffuse layer charge, eq
+	 -4.574e-24  Surface + diffuse layer charge, eq
 	 -1.157e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -35218,7 +35220,7 @@ Hfo_w
 	Hfo_wOCa+         8.027e-15       0.000   8.027e-15     -14.095
 
 Sfo           
-	 -4.316e-24  Surface + diffuse layer charge, eq
+	 -4.317e-24  Surface + diffuse layer charge, eq
 	 -1.188e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -35318,7 +35320,7 @@ Hfo_w
 	Hfo_wOCa+         3.930e-14       0.000   3.930e-14     -13.406
 
 Sfo           
-	 -3.621e-24  Surface + diffuse layer charge, eq
+	 -3.622e-24  Surface + diffuse layer charge, eq
 	 -1.199e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -35418,7 +35420,7 @@ Hfo_w
 	Hfo_wOCa+         1.539e-13       0.000   1.539e-13     -12.813
 
 Sfo           
-	 -2.044e-24  Surface + diffuse layer charge, eq
+	 -2.043e-24  Surface + diffuse layer charge, eq
 	 -1.143e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -35518,7 +35520,7 @@ Hfo_w
 	Hfo_wOCa+         4.583e-13       0.000   4.583e-13     -12.339
 
 Sfo           
-	  1.228e-24  Surface + diffuse layer charge, eq
+	  1.230e-24  Surface + diffuse layer charge, eq
 	 -1.051e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -35618,7 +35620,7 @@ Hfo_w
 	Hfo_wOCa+         1.032e-12       0.000   1.032e-12     -11.986
 
 Sfo           
-	  6.862e-24  Surface + diffuse layer charge, eq
+	  6.864e-24  Surface + diffuse layer charge, eq
 	 -8.726e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -35972,7 +35974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  4.119e-17  Surface + diffuse layer charge, eq
+	  4.118e-17  Surface + diffuse layer charge, eq
 	  6.720e-10  Surface charge, eq
 	  7.265e-03  sigma, C/m²
 	  7.321e-02  psi, V
@@ -36018,12 +36020,12 @@ Hfo_w
 	Hfo_wOCa+         9.410e-17       0.000   9.410e-17     -16.026
 
 Sfo           
-	 -4.677e-24  Surface + diffuse layer charge, eq
+	 -4.679e-24  Surface + diffuse layer charge, eq
 	 -1.144e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -36072,7 +36074,7 @@ Adapting surface in            2
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  6.813e-19  Surface + diffuse layer charge, eq
+	  6.812e-19  Surface + diffuse layer charge, eq
 	  2.076e-09  Surface charge, eq
 	  7.933e-03  sigma, C/m²
 	  7.727e-02  psi, V
@@ -36118,7 +36120,7 @@ Hfo_w
 	Hfo_wOCa+         6.070e-16       0.000   6.070e-16     -15.217
 
 Sfo           
-	 -4.620e-24  Surface + diffuse layer charge, eq
+	 -4.622e-24  Surface + diffuse layer charge, eq
 	 -1.162e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -36218,7 +36220,7 @@ Hfo_w
 	Hfo_wOCa+         3.675e-15       0.000   3.675e-15     -14.435
 
 Sfo           
-	 -4.448e-24  Surface + diffuse layer charge, eq
+	 -4.451e-24  Surface + diffuse layer charge, eq
 	 -1.195e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -36318,7 +36320,7 @@ Hfo_w
 	Hfo_wOCa+         1.840e-14       0.000   1.840e-14     -13.735
 
 Sfo           
-	 -4.008e-24  Surface + diffuse layer charge, eq
+	 -4.010e-24  Surface + diffuse layer charge, eq
 	 -1.213e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -36418,7 +36420,7 @@ Hfo_w
 	Hfo_wOCa+         7.652e-14       0.000   7.652e-14     -13.116
 
 Sfo           
-	 -2.954e-24  Surface + diffuse layer charge, eq
+	 -2.955e-24  Surface + diffuse layer charge, eq
 	 -1.181e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -36518,7 +36520,7 @@ Hfo_w
 	Hfo_wOCa+         2.524e-13       0.000   2.524e-13     -12.598
 
 Sfo           
-	 -8.045e-25  Surface + diffuse layer charge, eq
+	 -8.038e-25  Surface + diffuse layer charge, eq
 	 -1.125e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -36618,7 +36620,7 @@ Hfo_w
 	Hfo_wOCa+         6.307e-13       0.000   6.307e-13     -12.200
 
 Sfo           
-	  3.236e-24  Surface + diffuse layer charge, eq
+	  3.238e-24  Surface + diffuse layer charge, eq
 	 -9.855e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -36718,7 +36720,7 @@ Hfo_w
 	Hfo_wOCa+         1.221e-12       0.000   1.221e-12     -11.913
 
 Sfo           
-	  9.639e-24  Surface + diffuse layer charge, eq
+	  9.641e-24  Surface + diffuse layer charge, eq
 	 -8.506e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.303e-01  psi, V
@@ -36972,7 +36974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  4.531e-19  Surface + diffuse layer charge, eq
+	  4.527e-19  Surface + diffuse layer charge, eq
 	  4.176e-10  Surface charge, eq
 	  7.040e-03  sigma, C/m²
 	  7.177e-02  psi, V
@@ -37018,12 +37020,12 @@ Hfo_w
 	Hfo_wOCa+         4.161e-17       0.000   4.161e-17     -16.381
 
 Sfo           
-	 -4.687e-24  Surface + diffuse layer charge, eq
+	 -4.689e-24  Surface + diffuse layer charge, eq
 	 -1.147e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -37118,7 +37120,7 @@ Hfo_w
 	Hfo_wOCa+         2.758e-16       0.000   2.758e-16     -15.559
 
 Sfo           
-	 -4.650e-24  Surface + diffuse layer charge, eq
+	 -4.653e-24  Surface + diffuse layer charge, eq
 	 -1.167e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -37218,7 +37220,7 @@ Hfo_w
 	Hfo_wOCa+         1.685e-15       0.000   1.685e-15     -14.773
 
 Sfo           
-	 -4.540e-24  Surface + diffuse layer charge, eq
+	 -4.543e-24  Surface + diffuse layer charge, eq
 	 -1.201e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -37318,7 +37320,7 @@ Hfo_w
 	Hfo_wOCa+         8.522e-15       0.000   8.522e-15     -14.069
 
 Sfo           
-	 -4.252e-24  Surface + diffuse layer charge, eq
+	 -4.254e-24  Surface + diffuse layer charge, eq
 	 -1.222e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -37418,7 +37420,7 @@ Hfo_w
 	Hfo_wOCa+         3.676e-14       0.000   3.676e-14     -13.435
 
 Sfo           
-	 -3.566e-24  Surface + diffuse layer charge, eq
+	 -3.567e-24  Surface + diffuse layer charge, eq
 	 -1.203e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -37618,7 +37620,7 @@ Hfo_w
 	Hfo_wOCa+         3.625e-13       0.000   3.625e-13     -12.441
 
 Sfo           
-	  9.580e-25  Surface + diffuse layer charge, eq
+	  9.585e-25  Surface + diffuse layer charge, eq
 	 -1.075e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -37718,7 +37720,7 @@ Hfo_w
 	Hfo_wOCa+         7.615e-13       0.000   7.615e-13     -12.118
 
 Sfo           
-	  5.984e-24  Surface + diffuse layer charge, eq
+	  5.986e-24  Surface + diffuse layer charge, eq
 	 -9.692e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.303e-01  psi, V
@@ -37972,7 +37974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -2.172e-20  Surface + diffuse layer charge, eq
+	 -2.163e-20  Surface + diffuse layer charge, eq
 	  2.612e-10  Surface charge, eq
 	  6.855e-03  sigma, C/m²
 	  7.056e-02  psi, V
@@ -38018,12 +38020,12 @@ Hfo_w
 	Hfo_wOCa+         1.821e-17       0.000   1.821e-17     -16.740
 
 Sfo           
-	 -4.694e-24  Surface + diffuse layer charge, eq
+	 -4.695e-24  Surface + diffuse layer charge, eq
 	 -1.149e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -38046,7 +38048,7 @@ Sfo_s
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Sfo_sO-           5.825e-26       0.000   5.825e-26     -25.235
+	Sfo_sO-           5.826e-26       0.000   5.826e-26     -25.235
 	Sfo_sOH           4.108e-26       0.000   4.108e-26     -25.386
 	Sfo_sOH2+         6.635e-28       0.000   6.635e-28     -27.178
 	Sfo_sOHCa+2       1.041e-34       0.000   1.041e-34     -33.982
@@ -38059,7 +38061,7 @@ Sfo_w
 
 	Sfo_wO-           5.817e-26       0.000   5.817e-26     -25.235
 	Sfo_wOH           4.102e-26       0.000   4.102e-26     -25.387
-	Sfo_wOH2+         6.626e-28       0.000   6.626e-28     -27.179
+	Sfo_wOH2+         6.625e-28       0.000   6.625e-28     -27.179
 	Sfo_wOUO2+        1.736e-28       0.000   1.736e-28     -27.760
 	Sfo_wOCa+         1.900e-36       0.000   1.900e-36     -35.721
 
@@ -38118,7 +38120,7 @@ Hfo_w
 	Hfo_wOCa+         1.246e-16       0.000   1.246e-16     -15.904
 
 Sfo           
-	 -4.671e-24  Surface + diffuse layer charge, eq
+	 -4.672e-24  Surface + diffuse layer charge, eq
 	 -1.171e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.246e-01  psi, V
@@ -38218,7 +38220,7 @@ Hfo_w
 	Hfo_wOCa+         7.732e-16       0.000   7.732e-16     -15.112
 
 Sfo           
-	 -4.600e-24  Surface + diffuse layer charge, eq
+	 -4.602e-24  Surface + diffuse layer charge, eq
 	 -1.206e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -38318,7 +38320,7 @@ Hfo_w
 	Hfo_wOCa+         3.933e-15       0.000   3.933e-15     -14.405
 
 Sfo           
-	 -4.414e-24  Surface + diffuse layer charge, eq
+	 -4.416e-24  Surface + diffuse layer charge, eq
 	 -1.229e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -38372,7 +38374,7 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  1.140e-17  Surface + diffuse layer charge, eq
+	  1.141e-17  Surface + diffuse layer charge, eq
 	  1.638e-08  Surface charge, eq
 	  9.338e-03  sigma, C/m²
 	  8.495e-02  psi, V
@@ -38418,7 +38420,7 @@ Hfo_w
 	Hfo_wOCa+         1.730e-14       0.000   1.730e-14     -13.762
 
 Sfo           
-	 -3.965e-24  Surface + diffuse layer charge, eq
+	 -3.967e-24  Surface + diffuse layer charge, eq
 	 -1.217e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -38518,7 +38520,7 @@ Hfo_w
 	Hfo_wOCa+         6.476e-14       0.000   6.476e-14     -13.189
 
 Sfo           
-	 -2.937e-24  Surface + diffuse layer charge, eq
+	 -2.938e-24  Surface + diffuse layer charge, eq
 	 -1.209e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -38618,7 +38620,7 @@ Hfo_w
 	Hfo_wOCa+         1.953e-13       0.000   1.953e-13     -12.709
 
 Sfo           
-	 -8.564e-25  Surface + diffuse layer charge, eq
+	 -8.568e-25  Surface + diffuse layer charge, eq
 	 -1.138e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -38718,7 +38720,7 @@ Hfo_w
 	Hfo_wOCa+         4.493e-13       0.000   4.493e-13     -12.347
 
 Sfo           
-	  2.603e-24  Surface + diffuse layer charge, eq
+	  2.604e-24  Surface + diffuse layer charge, eq
 	 -1.066e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.303e-01  psi, V
@@ -38818,7 +38820,7 @@ Hfo_w
 	Hfo_wOCa+         7.586e-13       0.000   7.586e-13     -12.120
 
 Sfo           
-	  6.717e-24  Surface + diffuse layer charge, eq
+	  6.718e-24  Surface + diffuse layer charge, eq
 	 -9.771e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.304e-01  psi, V
@@ -38918,7 +38920,7 @@ Hfo_w
 	Hfo_wOCa+         9.757e-13       0.000   9.757e-13     -12.011
 
 Sfo           
-	  9.663e-24  Surface + diffuse layer charge, eq
+	  9.665e-24  Surface + diffuse layer charge, eq
 	 -8.937e-26  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.292e-01  psi, V
@@ -38972,7 +38974,7 @@ Adapting surface in            1
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.760e-21  Surface + diffuse layer charge, eq
+	  1.446e-16  Surface + diffuse layer charge, eq
 	  1.643e-10  Surface charge, eq
 	  6.707e-03  sigma, C/m²
 	  6.958e-02  psi, V
@@ -39023,7 +39025,7 @@ Sfo
 	undefined  sigma, C/m²
 	  1.232e-01  psi, V
 	 -4.796e+00  -F*psi/RT
-	  8.260e-03  exp(-F*psi/RT)
+	  8.259e-03  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
 
@@ -39218,7 +39220,7 @@ Hfo_w
 	Hfo_wOCa+         3.545e-16       0.000   3.545e-16     -15.450
 
 Sfo           
-	 -4.640e-24  Surface + diffuse layer charge, eq
+	 -4.641e-24  Surface + diffuse layer charge, eq
 	 -1.210e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.268e-01  psi, V
@@ -39318,7 +39320,7 @@ Hfo_w
 	Hfo_wOCa+         1.815e-15       0.000   1.815e-15     -14.741
 
 Sfo           
-	 -4.519e-24  Surface + diffuse layer charge, eq
+	 -4.521e-24  Surface + diffuse layer charge, eq
 	 -1.234e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.285e-01  psi, V
@@ -39418,7 +39420,7 @@ Hfo_w
 	Hfo_wOCa+         8.051e-15       0.000   8.051e-15     -14.094
 
 Sfo           
-	 -4.221e-24  Surface + diffuse layer charge, eq
+	 -4.223e-24  Surface + diffuse layer charge, eq
 	 -1.225e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.287e-01  psi, V
@@ -39518,7 +39520,7 @@ Hfo_w
 	Hfo_wOCa+         3.105e-14       0.000   3.105e-14     -13.508
 
 Sfo           
-	 -3.556e-24  Surface + diffuse layer charge, eq
+	 -3.558e-24  Surface + diffuse layer charge, eq
 	 -1.229e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.298e-01  psi, V
@@ -39618,7 +39620,7 @@ Hfo_w
 	Hfo_wOCa+         9.947e-14       0.000   9.947e-14     -13.002
 
 Sfo           
-	 -2.142e-24  Surface + diffuse layer charge, eq
+	 -2.143e-24  Surface + diffuse layer charge, eq
 	 -1.182e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.294e-01  psi, V
@@ -39718,7 +39720,7 @@ Hfo_w
 	Hfo_wOCa+         2.482e-13       0.000   2.482e-13     -12.605
 
 Sfo           
-	  2.749e-25  Surface + diffuse layer charge, eq
+	  2.745e-25  Surface + diffuse layer charge, eq
 	 -1.137e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.303e-01  psi, V
@@ -39918,7 +39920,7 @@ Hfo_w
 	Hfo_wOCa+         5.940e-13       0.000   5.940e-13     -12.226
 
 Sfo           
-	  5.205e-24  Surface + diffuse layer charge, eq
+	  5.206e-24  Surface + diffuse layer charge, eq
 	 -1.000e-25  Surface charge, eq
 	undefined  sigma, C/m²
 	  1.292e-01  psi, V
@@ -39964,6 +39966,6 @@ Sfo_w
 	Sfo_wOCa+         4.452e-34       0.000   4.452e-34     -33.351
 
 -------------------------------
-End of Run after 1.418 Seconds.
+End of Run after 1.389 Seconds.
 -------------------------------
 

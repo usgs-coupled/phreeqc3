@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: SC_Ohm1
   Output file: SC_Ohm1.out
 Database file: ../database/phreeqc.dat
@@ -187,7 +188,7 @@ WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 	-headings Ohm`s law PHREEQC`s SC
 	10 if get(1) > 0 then plot_xy get(1), -current_a * 10, symbol_size = 3
 	20 if get(1) > 0 then plot_xy get(1), get(2) / 1e3, y_axis = 2, symbol = Square, symbol_size = 8, line_width = 2
-	30 put(tot("Cl"), 1) : put(SC, 2) 
+	30 put(tot("Cl"), 1) : put(SC, 2) # TRANSPORT calc`n after adding REACTION
 	END
 ------------------------------------
 Beginning of transport calculations.
@@ -2458,7 +2459,7 @@ Reading input data for simulation 5.
 	 -connect_simulations true
 	-headings Dw: correct false
 	10 if sim_no > 5 then plot_xy get(1), -current_a * 10, symbol_size = 7, symbol = XCross , color = Red
-	30 put(tot("Cl"), 1) : put(SC, 2) 
+	30 put(tot("Cl"), 1) : put(SC, 2) # TRANSPORT calc`n after adding REACTION
 	REACTION 0-2
 	TRANSPORT
 	multi_d true 1e-9 1 0.0 1 false
@@ -6195,7 +6196,7 @@ End of simulation.
 Reading input data for simulation 8.
 ------------------------------------
 
-------------------------------
-End of Run after 2.14 Seconds.
-------------------------------
+-------------------------------
+End of Run after 0.032 Seconds.
+-------------------------------
 

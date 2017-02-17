@@ -383,13 +383,14 @@ all: alkalinity.out \
 	salt_sc1.out \
 	McClesk.out \
 	stuyfz.out \
+	opa_col3.out \
 	sys_equi_fix.out
 
 # NaX.out
 
-current: current2 \
+current: current2.out \
 	Clogging.out \
-	current_analytical
+	current_analytical.out
 
 pitzer: \
 	anh_P_NaCl.out \

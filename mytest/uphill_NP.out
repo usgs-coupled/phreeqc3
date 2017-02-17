@@ -26,6 +26,9 @@ Reading input data for simulation 1.
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION 0
 	 pH 6 charge
 	 N(5) 1e-3
@@ -47,6 +50,7 @@ Reading input data for simulation 1.
 	USER_GRAPH 1
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 10.
 WARNING: No dispersivities were read; disp = 0 assumed.
+WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 	 -headings  dist H+ NO3- Na+ Cl-
 	 -axis_scale y_axis 0.0 0.12
 	 -axis_scale x_axis 0.0 10 5 2.5
@@ -82,11 +86,11 @@ Initial solution 0.
 
                                        pH  =   6.001      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 12
+      Specific Conductance (µS/cm,  25°C)  = 12
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.010e-04
+                 Ionic strength (mol/kgw)  =   1.010e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -1.000e-06
                     Total carbon (mol/kg)  =   0.000e+00
@@ -144,11 +148,11 @@ Initial solution 1.
 
                                        pH  =   4.007      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   2.000e-04
+                 Ionic strength (mol/kgw)  =   2.000e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -1.000e-04
                     Total carbon (mol/kg)  =   0.000e+00
@@ -214,11 +218,11 @@ Using solution 1.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -285,11 +289,11 @@ Using solution 2.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -356,11 +360,11 @@ Using solution 3.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -427,11 +431,11 @@ Using solution 4.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -498,11 +502,11 @@ Using solution 5.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -569,11 +573,11 @@ Using solution 6.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -640,11 +644,11 @@ Using solution 7.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -711,11 +715,11 @@ Using solution 8.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -782,11 +786,11 @@ Using solution 9.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -853,11 +857,11 @@ Using solution 10.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -924,11 +928,11 @@ Using solution 11.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1003,11 +1007,11 @@ Mixture 1.
 
                                        pH  =   5.048      Charge balance
                                        pe  =  14.532      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 17
+      Specific Conductance (µS/cm,  25°C)  = 17
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.152e-04
+                 Ionic strength (mol/kgw)  =   1.152e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.058e-06
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1080,11 +1084,11 @@ Mixture 2.
 
                                        pH  =   4.564      Charge balance
                                        pe  =  15.140      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 25
+      Specific Conductance (µS/cm,  25°C)  = 25
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.406e-04
+                 Ionic strength (mol/kgw)  =   1.406e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -2.766e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1157,11 +1161,11 @@ Mixture 3.
 
                                        pH  =   4.331      Charge balance
                                        pe  =  15.426      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 33
+      Specific Conductance (µS/cm,  25°C)  = 33
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.600e-04
+                 Ionic strength (mol/kgw)  =   1.600e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -4.735e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1234,11 +1238,11 @@ Mixture 4.
 
                                        pH  =   4.191      Charge balance
                                        pe  =  15.595      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 40
+      Specific Conductance (µS/cm,  25°C)  = 40
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.743e-04
+                 Ionic strength (mol/kgw)  =   1.743e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -6.534e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1311,11 +1315,11 @@ Mixture 5.
 
                                        pH  =   4.107      Charge balance
                                        pe  =  15.697      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 46
+      Specific Conductance (µS/cm,  25°C)  = 46
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.847e-04
+                 Ionic strength (mol/kgw)  =   1.847e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -7.943e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1388,11 +1392,11 @@ Mixture 6.
 
                                        pH  =   4.058      Charge balance
                                        pe  =  15.756      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 49
+      Specific Conductance (µS/cm,  25°C)  = 50
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.916e-04
+                 Ionic strength (mol/kgw)  =   1.916e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -8.895e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1465,11 +1469,11 @@ Mixture 7.
 
                                        pH  =   4.031      Charge balance
                                        pe  =  15.787      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 52
+      Specific Conductance (µS/cm,  25°C)  = 52
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.958e-04
+                 Ionic strength (mol/kgw)  =   1.958e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.457e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1542,11 +1546,11 @@ Mixture 8.
 
                                        pH  =   4.018      Charge balance
                                        pe  =  15.803      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 53
+      Specific Conductance (µS/cm,  25°C)  = 53
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.980e-04
+                 Ionic strength (mol/kgw)  =   1.980e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.751e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1619,11 +1623,11 @@ Mixture 9.
 
                                        pH  =   4.012      Charge balance
                                        pe  =  15.811      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 53
+      Specific Conductance (µS/cm,  25°C)  = 53
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.991e-04
+                 Ionic strength (mol/kgw)  =   1.991e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.888e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1696,11 +1700,11 @@ Mixture 10.
 
                                        pH  =   4.010      Charge balance
                                        pe  =  15.813      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 53
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.995e-04
+                 Ionic strength (mol/kgw)  =   1.995e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.940e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1799,11 +1803,11 @@ Initial solution 0.
 
                                        pH  =   6.001      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 12
+      Specific Conductance (µS/cm,  25°C)  = 12
                           Density (g/cm³)  =   0.99705
                                Volume (L)  = 100296.74420
                         Activity of water  =   1.000
-                           Ionic strength  =   1.010e-04
+                 Ionic strength (mol/kgw)  =   1.010e-04
                        Mass of water (kg)  =   1.000e+05
                  Total alkalinity (eq/kg)  =  -1.000e-06
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1861,11 +1865,11 @@ Initial solution 1.
 
                                        pH  =   4.007      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   2.000e-04
+                 Ionic strength (mol/kgw)  =   2.000e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -1.000e-04
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1923,11 +1927,11 @@ Initial solution 10.
 
                                        pH  =   4.007      Charge balance
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   2.000e-04
+                 Ionic strength (mol/kgw)  =   2.000e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -1.000e-04
                     Total carbon (mol/kg)  =   0.000e+00
@@ -1990,6 +1994,7 @@ Reading input data for simulation 3.
 	 multi_d true 1e-9 1 0.0 1.0 # Default D_w m2/s, porosity, porosity limit, exponent
 	USER_GRAPH 2 Nernst-Planck solution
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 9.
+WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 	-init false
 	 -axis_scale y_axis 0.0 0.12
 	 -axis_scale x_axis 0.0 10 5 2.5
@@ -2029,11 +2034,11 @@ Using solution 1.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2100,11 +2105,11 @@ Using solution 2.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2171,11 +2176,11 @@ Using solution 3.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2242,11 +2247,11 @@ Using solution 4.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2313,11 +2318,11 @@ Using solution 5.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2384,11 +2389,11 @@ Using solution 6.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2455,11 +2460,11 @@ Using solution 7.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2526,11 +2531,11 @@ Using solution 8.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2597,11 +2602,11 @@ Using solution 9.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2668,11 +2673,11 @@ Using solution 10.
 
                                        pH  =   4.007      Charge balance
                                        pe  =  15.816      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.999e-04
+                 Ionic strength (mol/kgw)  =   1.999e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -9.987e-05
                     Total carbon (mol/kg)  =   0.000e+00
@@ -2739,67 +2744,67 @@ Mixture 1.
 
 	Elements           Molality       Moles
 
-	Cl                9.210e-05   9.210e-05
-	N                 2.436e-05   2.436e-05
-	Na                1.070e-04   1.070e-04
+	Cl                9.473e-05   9.473e-05
+	N                 2.275e-05   2.275e-05
+	Na                1.052e-04   1.052e-04
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   5.072      Charge balance
-                                       pe  =  14.327      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 16
+                                       pH  =   4.916      Charge balance
+                                       pe  =  14.684      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 18
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.155e-04
+                 Ionic strength (mol/kgw)  =   1.175e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -8.567e-06
+                 Total alkalinity (eq/kg)  =  -1.230e-05
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.143e-13
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                  Electrical balance (eq)  =  -3.173e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   2
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550630e+01
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550629e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              8.568e-06   8.464e-06    -5.067    -5.072    -0.005      0.00
-   OH-             1.211e-09   1.196e-09    -8.917    -8.922    -0.005     -4.13
+   H+              1.230e-05   1.215e-05    -4.910    -4.916    -0.005      0.00
+   OH-             8.439e-10   8.334e-10    -9.074    -9.079    -0.005     -4.13
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            9.210e-05
-   Cl-             9.210e-05   9.096e-05    -4.036    -4.041    -0.005     18.05
+Cl            9.473e-05
+   Cl-             9.473e-05   9.355e-05    -4.024    -4.029    -0.005     18.05
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.948   -41.948     0.000     28.61
+   H2              0.000e+00   0.000e+00   -42.350   -42.350     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.892   -50.897    -0.005     17.94
-   NH3             0.000e+00   0.000e+00   -55.069   -55.069     0.000     24.42
-N(0)          9.382e-07
-   N2              4.691e-07   4.691e-07    -6.329    -6.329     0.000     29.29
-N(3)          1.384e-15
-   NO2-            1.384e-15   1.367e-15   -14.859   -14.864    -0.005     24.95
-N(5)          2.342e-05
-   NO3-            2.342e-05   2.313e-05    -4.630    -4.636    -0.005     29.47
-Na            1.070e-04
-   Na+             1.070e-04   1.056e-04    -3.971    -3.976    -0.005     -1.51
-   NaOH            1.263e-23   1.263e-23   -22.899   -22.898     0.000     (0)  
-O(0)          6.576e-09
-   O2              3.288e-09   3.288e-09    -8.483    -8.483     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -52.197   -52.203    -0.005     17.94
+   NH3             0.000e+00   0.000e+00   -56.531   -56.531     0.000     24.42
+N(0)          1.789e-08
+   N2              8.945e-09   8.946e-09    -8.048    -8.048     0.000     29.29
+N(3)          5.330e-16
+   NO2-            5.330e-16   5.264e-16   -15.273   -15.279    -0.005     24.95
+N(5)          2.274e-05
+   NO3-            2.274e-05   2.245e-05    -4.643    -4.649    -0.005     29.47
+Na            1.052e-04
+   Na+             1.052e-04   1.039e-04    -3.978    -3.984    -0.005     -1.51
+   NaOH            8.655e-24   8.655e-24   -23.063   -23.063     0.000     (0)  
+O(0)          4.177e-08
+   O2              2.089e-08   2.089e-08    -7.680    -7.680     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -38.85    -41.95   -3.10  H2
+  H2(g)           -39.25    -42.35   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -9.59     -8.02    1.57  NaCl
-  N2(g)            -3.15     -6.33   -3.18  N2
-  NH3(g)          -56.87    -55.07    1.80  NH3
-  O2(g)            -5.59     -8.48   -2.89  O2
+  Halite           -9.58     -8.01    1.57  NaCl
+  N2(g)            -4.87     -8.05   -3.18  N2
+  NH3(g)          -58.33    -56.53    1.80  NH3
+  O2(g)            -4.79     -7.68   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2816,67 +2821,67 @@ Mixture 2.
 
 	Elements           Molality       Moles
 
-	Cl                8.476e-05   8.476e-05
-	N                 5.789e-05   5.789e-05
-	Na                1.145e-04   1.145e-04
+	Cl                8.920e-05   8.920e-05
+	N                 5.680e-05   5.680e-05
+	Na                1.102e-04   1.102e-04
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.613      Charge balance
-                                       pe  =  14.894      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 24
+                                       pH  =   4.452      Charge balance
+                                       pe  =  15.271      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 28
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.392e-04
+                 Ionic strength (mol/kgw)  =   1.459e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -2.469e-05
+                 Total alkalinity (eq/kg)  =  -3.577e-05
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   5.314e-12
+                  Electrical balance (eq)  =   5.666e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
-                                  Total O  = 5.550640e+01
+                                  Total O  = 5.550639e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              2.469e-05   2.436e-05    -4.607    -4.613    -0.006      0.00
-   OH-             4.212e-10   4.155e-10    -9.376    -9.381    -0.006     -4.13
+   H+              3.577e-05   3.528e-05    -4.447    -4.452    -0.006      0.00
+   OH-             2.909e-10   2.869e-10    -9.536    -9.542    -0.006     -4.13
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            8.476e-05
-   Cl-             8.476e-05   8.361e-05    -4.072    -4.078    -0.006     18.06
+Cl            8.920e-05
+   Cl-             8.920e-05   8.796e-05    -4.050    -4.056    -0.006     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -42.165   -42.165     0.000     28.61
+   H2              0.000e+00   0.000e+00   -42.596   -42.596     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.472   -50.478    -0.006     17.95
-   NH3             0.000e+00   0.000e+00   -55.109   -55.109     0.000     24.42
-N(0)          3.475e-06
-   N2              1.738e-06   1.738e-06    -5.760    -5.760     0.000     29.29
-N(3)          1.955e-15
-   NO2-            1.955e-15   1.928e-15   -14.709   -14.715    -0.006     24.95
-N(5)          5.442e-05
-   NO3-            5.442e-05   5.368e-05    -4.264    -4.270    -0.006     29.47
-Na            1.145e-04
-   Na+             1.145e-04   1.129e-04    -3.941    -3.947    -0.006     -1.51
-   NaOH            4.692e-24   4.692e-24   -23.329   -23.329     0.000     (0)  
-O(0)          1.779e-08
-   O2              8.896e-09   8.897e-09    -8.051    -8.051     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -51.860   -51.866    -0.006     17.95
+   NH3             0.000e+00   0.000e+00   -56.657   -56.657     0.000     24.42
+N(0)          5.493e-08
+   N2              2.746e-08   2.746e-08    -7.561    -7.561     0.000     29.29
+N(3)          7.542e-16
+   NO2-            7.542e-16   7.437e-16   -15.122   -15.129    -0.006     24.95
+N(5)          5.674e-05
+   NO3-            5.674e-05   5.595e-05    -4.246    -4.252    -0.006     29.47
+Na            1.102e-04
+   Na+             1.102e-04   1.086e-04    -3.958    -3.964    -0.006     -1.51
+   NaOH            3.117e-24   3.117e-24   -23.506   -23.506     0.000     (0)  
+O(0)          1.300e-07
+   O2              6.498e-08   6.498e-08    -7.187    -7.187     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -39.06    -42.16   -3.10  H2
+  H2(g)           -39.50    -42.60   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.59     -8.02    1.57  NaCl
-  N2(g)            -2.58     -5.76   -3.18  N2
-  NH3(g)          -56.91    -55.11    1.80  NH3
-  O2(g)            -5.16     -8.05   -2.89  O2
+  N2(g)            -4.39     -7.56   -3.18  N2
+  NH3(g)          -58.45    -56.66    1.80  NH3
+  O2(g)            -4.29     -7.19   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2893,25 +2898,25 @@ Mixture 3.
 
 	Elements           Molality       Moles
 
-	Cl                8.448e-05   8.448e-05
-	N                 7.642e-05   7.642e-05
-	Na                1.143e-04   1.143e-04
+	Cl                8.928e-05   8.928e-05
+	N                 7.752e-05   7.752e-05
+	Na                1.089e-04   1.089e-04
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.391      Charge balance
-                                       pe  =  15.164      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 31
+                                       pH  =   4.244      Charge balance
+                                       pe  =  15.529      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 37
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.555e-04
+                 Ionic strength (mol/kgw)  =   1.667e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -4.118e-05
+                 Total alkalinity (eq/kg)  =  -5.781e-05
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   7.963e-12
+                  Electrical balance (eq)  =   2.128e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
@@ -2922,38 +2927,38 @@ Mixture 3.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              4.118e-05   4.060e-05    -4.385    -4.391    -0.006      0.00
-   OH-             2.529e-10   2.493e-10    -9.597    -9.603    -0.006     -4.13
+   H+              5.781e-05   5.697e-05    -4.238    -4.244    -0.006      0.00
+   OH-             1.803e-10   1.777e-10    -9.744    -9.750    -0.006     -4.13
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            8.448e-05
-   Cl-             8.448e-05   8.327e-05    -4.073    -4.079    -0.006     18.06
+Cl            8.928e-05
+   Cl-             8.928e-05   8.796e-05    -4.049    -4.056    -0.006     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -42.261   -42.261     0.000     28.61
+   H2              0.000e+00   0.000e+00   -42.697   -42.697     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.299   -50.306    -0.006     17.95
-   NH3             0.000e+00   0.000e+00   -55.159   -55.159     0.000     24.42
-N(0)          5.397e-06
-   N2              2.699e-06   2.699e-06    -5.569    -5.569     0.000     29.29
-N(3)          2.042e-15
-   NO2-            2.042e-15   2.013e-15   -14.690   -14.696    -0.006     24.95
-N(5)          7.102e-05
-   NO3-            7.102e-05   7.000e-05    -4.149    -4.155    -0.006     29.47
-Na            1.143e-04
-   Na+             1.143e-04   1.127e-04    -3.942    -3.948    -0.006     -1.51
-   NaOH            2.809e-24   2.809e-24   -23.551   -23.551     0.000     (0)  
-O(0)          2.777e-08
-   O2              1.388e-08   1.388e-08    -7.858    -7.858     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -51.712   -51.719    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -56.719   -56.719     0.000     24.42
+N(0)          8.326e-08
+   N2              4.163e-08   4.163e-08    -7.381    -7.381     0.000     29.29
+N(3)          8.158e-16
+   NO2-            8.158e-16   8.037e-16   -15.088   -15.095    -0.007     24.95
+N(5)          7.743e-05
+   NO3-            7.743e-05   7.628e-05    -4.111    -4.118    -0.007     29.47
+Na            1.089e-04
+   Na+             1.089e-04   1.073e-04    -3.963    -3.969    -0.006     -1.50
+   NaOH            1.906e-24   1.906e-24   -23.720   -23.720     0.000     (0)  
+O(0)          2.069e-07
+   O2              1.034e-07   1.034e-07    -6.985    -6.985     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -39.16    -42.26   -3.10  H2
+  H2(g)           -39.60    -42.70   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.60     -8.03    1.57  NaCl
-  N2(g)            -2.39     -5.57   -3.18  N2
-  NH3(g)          -56.95    -55.16    1.80  NH3
-  O2(g)            -4.97     -7.86   -2.89  O2
+  N2(g)            -4.20     -7.38   -3.18  N2
+  NH3(g)          -58.51    -56.72    1.80  NH3
+  O2(g)            -4.09     -6.99   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2970,25 +2975,25 @@ Mixture 4.
 
 	Elements           Molality       Moles
 
-	Cl                8.738e-05   8.738e-05
-	N                 8.601e-05   8.601e-05
-	Na                1.106e-04   1.106e-04
+	Cl                9.227e-05   9.227e-05
+	N                 8.888e-05   8.888e-05
+	Na                1.055e-04   1.055e-04
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.250      Charge balance
-                                       pe  =  15.341      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 37
+                                       pH  =   4.128      Charge balance
+                                       pe  =  15.676      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 44
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.676e-04
+                 Ionic strength (mol/kgw)  =   1.811e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -5.700e-05
+                 Total alkalinity (eq/kg)  =  -7.560e-05
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.921e-12
+                  Electrical balance (eq)  =   2.419e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
@@ -2999,38 +3004,38 @@ Mixture 4.
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              5.700e-05   5.618e-05    -4.244    -4.250    -0.006      0.00
-   OH-             1.829e-10   1.802e-10    -9.738    -9.744    -0.007     -4.13
+   H+              7.560e-05   7.446e-05    -4.121    -4.128    -0.007      0.00
+   OH-             1.381e-10   1.359e-10    -9.860    -9.867    -0.007     -4.13
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            8.738e-05
-   Cl-             8.738e-05   8.609e-05    -4.059    -4.065    -0.006     18.06
+Cl            9.227e-05
+   Cl-             9.227e-05   9.085e-05    -4.035    -4.042    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -42.332   -42.332     0.000     28.61
+   H2              0.000e+00   0.000e+00   -42.758   -42.758     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.249   -50.256    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -55.249   -55.249     0.000     24.42
-N(0)          5.804e-06
-   N2              2.902e-06   2.902e-06    -5.537    -5.537     0.000     29.29
-N(3)          1.958e-15
-   NO2-            1.958e-15   1.929e-15   -14.708   -14.715    -0.007     24.95
-N(5)          8.021e-05
-   NO3-            8.021e-05   7.901e-05    -4.096    -4.102    -0.007     29.47
-Na            1.106e-04
-   Na+             1.106e-04   1.090e-04    -3.956    -3.963    -0.006     -1.50
-   NaOH            1.963e-24   1.963e-24   -23.707   -23.707     0.000     (0)  
-O(0)          3.852e-08
-   O2              1.926e-08   1.926e-08    -7.715    -7.715     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -51.661   -51.668    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -56.784   -56.784     0.000     24.42
+N(0)          9.335e-08
+   N2              4.667e-08   4.667e-08    -7.331    -7.331     0.000     29.29
+N(3)          8.143e-16
+   NO2-            8.143e-16   8.017e-16   -15.089   -15.096    -0.007     24.95
+N(5)          8.879e-05
+   NO3-            8.879e-05   8.741e-05    -4.052    -4.058    -0.007     29.47
+Na            1.055e-04
+   Na+             1.055e-04   1.038e-04    -3.977    -3.984    -0.007     -1.50
+   NaOH            1.411e-24   1.412e-24   -23.850   -23.850     0.000     (0)  
+O(0)          2.730e-07
+   O2              1.365e-07   1.365e-07    -6.865    -6.865     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -39.23    -42.33   -3.10  H2
+  H2(g)           -39.66    -42.76   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.60     -8.03    1.57  NaCl
-  N2(g)            -2.36     -5.54   -3.18  N2
-  NH3(g)          -57.05    -55.25    1.80  NH3
-  O2(g)            -4.82     -7.72   -2.89  O2
+  N2(g)            -4.16     -7.33   -3.18  N2
+  NH3(g)          -58.58    -56.78    1.80  NH3
+  O2(g)            -3.97     -6.86   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3047,67 +3052,67 @@ Mixture 5.
 
 	Elements           Molality       Moles
 
-	Cl                9.116e-05   9.116e-05
-	N                 9.148e-05   9.148e-05
-	Na                1.066e-04   1.066e-04
+	Cl                9.568e-05   9.568e-05
+	N                 9.497e-05   9.497e-05
+	Na                1.026e-04   1.026e-04
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.154      Charge balance
-                                       pe  =  15.471      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 42
+                                       pH  =   4.062      Charge balance
+                                       pe  =  15.777      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 49
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.778e-04
+                 Ionic strength (mol/kgw)  =   1.906e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -7.117e-05
+                 Total alkalinity (eq/kg)  =  -8.797e-05
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.212e-12
+                  Electrical balance (eq)  =   7.387e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
-                                  Total O  = 5.550649e+01
+                                  Total O  = 5.550650e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              7.117e-05   7.011e-05    -4.148    -4.154    -0.007      0.00
-   OH-             1.466e-10   1.444e-10    -9.834    -9.841    -0.007     -4.13
+   H+              8.797e-05   8.662e-05    -4.056    -4.062    -0.007      0.00
+   OH-             1.187e-10   1.169e-10    -9.925    -9.932    -0.007     -4.13
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            9.116e-05
-   Cl-             9.116e-05   8.976e-05    -4.040    -4.047    -0.007     18.06
+Cl            9.568e-05
+   Cl-             9.568e-05   9.417e-05    -4.019    -4.026    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -42.400   -42.400     0.000     28.61
+   H2              0.000e+00   0.000e+00   -42.828   -42.828     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.293   -50.300    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -55.390   -55.390     0.000     24.42
-N(0)          4.842e-06
-   N2              2.421e-06   2.421e-06    -5.616    -5.616     0.000     29.29
-N(3)          1.811e-15
-   NO2-            1.811e-15   1.783e-15   -14.742   -14.749    -0.007     24.95
-N(5)          8.664e-05
-   NO3-            8.664e-05   8.531e-05    -4.062    -4.069    -0.007     29.47
-Na            1.066e-04
-   Na+             1.066e-04   1.050e-04    -3.972    -3.979    -0.007     -1.50
-   NaOH            1.516e-24   1.516e-24   -23.819   -23.819     0.000     (0)  
-O(0)          5.258e-08
-   O2              2.629e-08   2.629e-08    -7.580    -7.580     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -51.782   -51.789    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -56.971   -56.971     0.000     24.42
+N(0)          6.414e-08
+   N2              3.207e-08   3.207e-08    -7.494    -7.494     0.000     29.29
+N(3)          7.402e-16
+   NO2-            7.402e-16   7.284e-16   -15.131   -15.138    -0.007     24.95
+N(5)          9.491e-05
+   NO3-            9.491e-05   9.340e-05    -4.023    -4.030    -0.007     29.47
+Na            1.026e-04
+   Na+             1.026e-04   1.010e-04    -3.989    -3.996    -0.007     -1.50
+   NaOH            1.180e-24   1.180e-24   -23.928   -23.928     0.000     (0)  
+O(0)          3.775e-07
+   O2              1.888e-07   1.888e-07    -6.724    -6.724     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -39.30    -42.40   -3.10  H2
+  H2(g)           -39.73    -42.83   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -9.60     -8.03    1.57  NaCl
-  N2(g)            -2.44     -5.62   -3.18  N2
-  NH3(g)          -57.19    -55.39    1.80  NH3
-  O2(g)            -4.69     -7.58   -2.89  O2
+  Halite           -9.59     -8.02    1.57  NaCl
+  N2(g)            -4.32     -7.49   -3.18  N2
+  NH3(g)          -58.77    -56.97    1.80  NH3
+  O2(g)            -3.83     -6.72   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3124,67 +3129,67 @@ Mixture 6.
 
 	Elements           Molality       Moles
 
-	Cl                9.469e-05   9.469e-05
-	N                 9.513e-05   9.513e-05
-	Na                1.036e-04   1.036e-04
+	Cl                9.837e-05   9.837e-05
+	N                 9.828e-05   9.828e-05
+	Na                1.008e-04   1.008e-04
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.087      Charge balance
-                                       pe  =  15.575      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 47
+                                       pH  =   4.026      Charge balance
+                                       pe  =  15.904      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 52
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.867e-04
+                 Ionic strength (mol/kgw)  =   1.966e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -8.308e-05
+                 Total alkalinity (eq/kg)  =  -9.580e-05
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.883e-13
+                  Electrical balance (eq)  =   6.177e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
-                                  Total O  = 5.550650e+01
+                                  Total O  = 5.550651e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              8.308e-05   8.181e-05    -4.080    -4.087    -0.007      0.00
-   OH-             1.257e-10   1.237e-10    -9.901    -9.908    -0.007     -4.13
+   H+              9.580e-05   9.430e-05    -4.019    -4.026    -0.007      0.00
+   OH-             1.091e-10   1.073e-10    -9.962    -9.969    -0.007     -4.12
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            9.469e-05
-   Cl-             9.469e-05   9.320e-05    -4.024    -4.031    -0.007     18.06
+Cl            9.837e-05
+   Cl-             9.837e-05   9.679e-05    -4.007    -4.014    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -42.475   -42.475     0.000     28.61
+   H2              0.000e+00   0.000e+00   -43.010   -43.010     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.435   -50.441    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -55.599   -55.599     0.000     24.42
-N(0)          3.120e-06
-   N2              1.560e-06   1.560e-06    -5.807    -5.807     0.000     29.29
-N(3)          1.616e-15
-   NO2-            1.616e-15   1.591e-15   -14.791   -14.798    -0.007     24.95
-N(5)          9.201e-05
-   NO3-            9.201e-05   9.056e-05    -4.036    -4.043    -0.007     29.47
-Na            1.036e-04
-   Na+             1.036e-04   1.020e-04    -3.985    -3.991    -0.007     -1.50
-   NaOH            1.262e-24   1.262e-24   -23.899   -23.899     0.000     (0)  
-O(0)          7.440e-08
-   O2              3.720e-08   3.720e-08    -7.429    -7.429     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -52.420   -52.427    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -57.646   -57.646     0.000     24.42
+N(0)          1.005e-08
+   N2              5.027e-09   5.027e-09    -8.299    -8.299     0.000     29.29
+N(3)          5.044e-16
+   NO2-            5.044e-16   4.962e-16   -15.297   -15.304    -0.007     24.95
+N(5)          9.827e-05
+   NO3-            9.827e-05   9.668e-05    -4.008    -4.015    -0.007     29.47
+Na            1.008e-04
+   Na+             1.008e-04   9.923e-05    -3.996    -4.003    -0.007     -1.50
+   NaOH            1.065e-24   1.065e-24   -23.973   -23.973     0.000     (0)  
+O(0)          8.717e-07
+   O2              4.358e-07   4.359e-07    -6.361    -6.361     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -39.37    -42.48   -3.10  H2
+  H2(g)           -39.91    -43.01   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.59     -8.02    1.57  NaCl
-  N2(g)            -2.63     -5.81   -3.18  N2
-  NH3(g)          -57.39    -55.60    1.80  NH3
-  O2(g)            -4.54     -7.43   -2.89  O2
+  N2(g)            -5.12     -8.30   -3.18  N2
+  NH3(g)          -59.44    -57.65    1.80  NH3
+  O2(g)            -3.47     -6.36   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3201,67 +3206,67 @@ Mixture 7.
 
 	Elements           Molality       Moles
 
-	Cl                9.756e-05   9.756e-05
-	N                 9.780e-05   9.780e-05
-	Na                1.016e-04   1.016e-04
+	Cl                1.004e-04   1.004e-04
+	N                 1.003e-04   1.003e-04
+	Na                9.968e-05   9.968e-05
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.040      Charge balance
-                                       pe  =  15.684      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 51
+                                       pH  =   4.003      Charge balance
+                                       pe  =  16.049      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 54
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   1.943e-04
+                 Ionic strength (mol/kgw)  =   2.007e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -9.273e-05
+                 Total alkalinity (eq/kg)  =  -1.010e-04
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.143e-14
+                  Electrical balance (eq)  =   4.629e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
-                                  Total O  = 5.550651e+01
+                                  Total O  = 5.550652e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              9.273e-05   9.128e-05    -4.033    -4.040    -0.007      0.00
-   OH-             1.127e-10   1.109e-10    -9.948    -9.955    -0.007     -4.12
+   H+              1.010e-04   9.938e-05    -3.996    -4.003    -0.007      0.00
+   OH-             1.035e-10   1.018e-10    -9.985    -9.992    -0.007     -4.12
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            9.756e-05
-   Cl-             9.756e-05   9.600e-05    -4.011    -4.018    -0.007     18.06
+Cl            1.004e-04
+   Cl-             1.004e-04   9.874e-05    -3.998    -4.006    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -42.596   -42.596     0.000     28.61
+   H2              0.000e+00   0.000e+00   -43.253   -43.253     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -50.802   -50.809    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -56.014   -56.014     0.000     24.42
-N(0)          1.064e-06
-   N2              5.318e-07   5.318e-07    -6.274    -6.274     0.000     29.29
-N(3)          1.286e-15
-   NO2-            1.286e-15   1.265e-15   -14.891   -14.898    -0.007     24.95
-N(5)          9.673e-05
-   NO3-            9.673e-05   9.518e-05    -4.014    -4.021    -0.007     29.47
-Na            1.016e-04
-   Na+             1.016e-04   9.995e-05    -3.993    -4.000    -0.007     -1.50
-   NaOH            1.108e-24   1.108e-24   -23.955   -23.955     0.000     (0)  
-O(0)          1.300e-07
-   O2              6.498e-08   6.499e-08    -7.187    -7.187     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -53.338   -53.345    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -58.587   -58.587     0.000     24.42
+N(0)          7.082e-10
+   N2              3.541e-10   3.541e-10    -9.451    -9.451     0.000     29.29
+N(3)          2.941e-16
+   NO2-            2.941e-16   2.893e-16   -15.531   -15.539    -0.007     24.95
+N(5)          1.003e-04
+   NO3-            1.003e-04   9.867e-05    -3.999    -4.006    -0.007     29.47
+Na            9.968e-05
+   Na+             9.968e-05   9.807e-05    -4.001    -4.008    -0.007     -1.50
+   NaOH            9.988e-25   9.988e-25   -24.001   -24.001     0.000     (0)  
+O(0)          2.670e-06
+   O2              1.335e-06   1.335e-06    -5.874    -5.874     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -39.50    -42.60   -3.10  H2
+  H2(g)           -40.15    -43.25   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -9.59     -8.02    1.57  NaCl
-  N2(g)            -3.10     -6.27   -3.18  N2
-  NH3(g)          -57.81    -56.01    1.80  NH3
-  O2(g)            -4.29     -7.19   -2.89  O2
+  Halite           -9.58     -8.01    1.57  NaCl
+  N2(g)            -6.28     -9.45   -3.18  N2
+  NH3(g)          -60.38    -58.59    1.80  NH3
+  O2(g)            -2.98     -5.87   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3278,67 +3283,67 @@ Mixture 8.
 
 	Elements           Molality       Moles
 
-	Cl                1.000e-04   1.000e-04
-	N                 1.001e-04   1.001e-04
-	Na                9.991e-05   9.991e-05
+	Cl                1.021e-04   1.021e-04
+	N                 1.020e-04   1.020e-04
+	Na                9.862e-05   9.862e-05
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   4.006      Charge balance
-                                       pe  =  16.078      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 54
+                                       pH  =   3.984      Charge balance
+                                       pe  =  16.175      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 56
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   2.001e-04
+                 Ionic strength (mol/kgw)  =   2.041e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -1.002e-04
+                 Total alkalinity (eq/kg)  =  -1.055e-04
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.117e-14
+                  Electrical balance (eq)  =   1.006e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
-                                  Total O  = 5.550652e+01
+                                  Total O  = 5.550653e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.002e-04   9.863e-05    -3.999    -4.006    -0.007      0.00
-   OH-             1.043e-10   1.026e-10    -9.982    -9.989    -0.007     -4.12
+   H+              1.055e-04   1.038e-04    -3.977    -3.984    -0.007      0.00
+   OH-             9.914e-11   9.752e-11   -10.004   -10.011    -0.007     -4.12
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            1.000e-04
-   Cl-             1.000e-04   9.842e-05    -4.000    -4.007    -0.007     18.06
+Cl            1.021e-04
+   Cl-             1.021e-04   1.005e-04    -3.991    -3.998    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -43.318   -43.318     0.000     28.61
+   H2              0.000e+00   0.000e+00   -43.468   -43.468     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -53.605   -53.613    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -58.851   -58.851     0.000     24.42
-N(0)          3.289e-10
-   N2              1.644e-10   1.645e-10    -9.784    -9.784     0.000     29.29
-N(3)          2.527e-16
-   NO2-            2.527e-16   2.486e-16   -15.597   -15.604    -0.007     24.95
-N(5)          1.001e-04
-   NO3-            1.001e-04   9.845e-05    -4.000    -4.007    -0.007     29.47
-Na            9.991e-05
-   Na+             9.991e-05   9.829e-05    -4.000    -4.007    -0.007     -1.50
-   NaOH            1.009e-24   1.009e-24   -23.996   -23.996     0.000     (0)  
-O(0)          3.601e-06
-   O2              1.800e-06   1.800e-06    -5.745    -5.745     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -54.155   -54.162    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -59.422   -59.422     0.000     24.42
+N(0)          6.691e-11
+   N2              3.345e-11   3.346e-11   -10.476   -10.476     0.000     29.29
+N(3)          1.821e-16
+   NO2-            1.821e-16   1.791e-16   -15.740   -15.747    -0.007     24.95
+N(5)          1.020e-04
+   NO3-            1.020e-04   1.003e-04    -3.992    -3.999    -0.007     29.47
+Na            9.862e-05
+   Na+             9.862e-05   9.702e-05    -4.006    -4.013    -0.007     -1.50
+   NaOH            9.461e-25   9.461e-25   -24.024   -24.024     0.000     (0)  
+O(0)          7.197e-06
+   O2              3.599e-06   3.599e-06    -5.444    -5.444     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -40.22    -43.32   -3.10  H2
+  H2(g)           -40.37    -43.47   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.58     -8.01    1.57  NaCl
-  N2(g)            -6.61     -9.78   -3.18  N2
-  NH3(g)          -60.65    -58.85    1.80  NH3
-  O2(g)            -2.85     -5.74   -2.89  O2
+  N2(g)            -7.30    -10.48   -3.18  N2
+  NH3(g)          -61.22    -59.42    1.80  NH3
+  O2(g)            -2.55     -5.44   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3355,67 +3360,67 @@ Mixture 9.
 
 	Elements           Molality       Moles
 
-	Cl                1.023e-04   1.023e-04
-	N                 1.022e-04   1.022e-04
-	Na                9.837e-05   9.837e-05
+	Cl                1.041e-04   1.041e-04
+	N                 1.039e-04   1.039e-04
+	Na                9.726e-05   9.726e-05
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.981      Charge balance
-                                       pe  =  16.229      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 56
+                                       pH  =   3.963      Charge balance
+                                       pe  =  16.287      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 58
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   2.045e-04
+                 Ionic strength (mol/kgw)  =   2.080e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -1.061e-04
+                 Total alkalinity (eq/kg)  =  -1.107e-04
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.611e-12
+                  Electrical balance (eq)  =   2.790e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
                                   Total H  = 1.110125e+02
-                                  Total O  = 5.550653e+01
+                                  Total O  = 5.550654e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.061e-04   1.044e-04    -3.974    -3.981    -0.007      0.00
-   OH-             9.855e-11   9.694e-11   -10.006   -10.014    -0.007     -4.12
+   H+              1.107e-04   1.089e-04    -3.956    -3.963    -0.007      0.00
+   OH-             9.447e-11   9.291e-11   -10.025   -10.032    -0.007     -4.12
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            1.023e-04
-   Cl-             1.023e-04   1.006e-04    -3.990    -3.997    -0.007     18.06
+Cl            1.041e-04
+   Cl-             1.041e-04   1.024e-04    -3.982    -3.990    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -43.571   -43.571     0.000     28.61
+   H2              0.000e+00   0.000e+00   -43.650   -43.650     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -54.560   -54.568    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -59.831   -59.830     0.000     24.42
-N(0)          2.078e-11
-   N2              1.039e-11   1.039e-11   -10.983   -10.983     0.000     29.29
-N(3)          1.440e-16
-   NO2-            1.440e-16   1.416e-16   -15.842   -15.849    -0.007     24.95
-N(5)          1.022e-04
-   NO3-            1.022e-04   1.005e-04    -3.991    -3.998    -0.007     29.47
-Na            9.837e-05
-   Na+             9.837e-05   9.677e-05    -4.007    -4.014    -0.007     -1.50
-   NaOH            9.380e-25   9.380e-25   -24.028   -24.028     0.000     (0)  
-O(0)          1.156e-05
-   O2              5.782e-06   5.783e-06    -5.238    -5.238     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -54.834   -54.841    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -60.122   -60.122     0.000     24.42
+N(0)          9.373e-12
+   N2              4.687e-12   4.687e-12   -11.329   -11.329     0.000     29.29
+N(3)          1.219e-16
+   NO2-            1.219e-16   1.199e-16   -15.914   -15.921    -0.007     24.95
+N(5)          1.039e-04
+   NO3-            1.039e-04   1.021e-04    -3.984    -3.991    -0.007     29.47
+Na            9.726e-05
+   Na+             9.726e-05   9.566e-05    -4.012    -4.019    -0.007     -1.50
+   NaOH            8.887e-25   8.888e-25   -24.051   -24.051     0.000     (0)  
+O(0)          1.666e-05
+   O2              8.332e-06   8.333e-06    -5.079    -5.079     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -40.47    -43.57   -3.10  H2
+  H2(g)           -40.55    -43.65   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.58     -8.01    1.57  NaCl
-  N2(g)            -7.81    -10.98   -3.18  N2
-  NH3(g)          -61.63    -59.83    1.80  NH3
-  O2(g)            -2.35     -5.24   -2.89  O2
+  N2(g)            -8.15    -11.33   -3.18  N2
+  NH3(g)          -61.92    -60.12    1.80  NH3
+  O2(g)            -2.19     -5.08   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3426,67 +3431,67 @@ Using solution 10.	Solution after simulation 3.
 
 	Elements           Molality       Moles
 
-	Cl                1.033e-04   1.033e-04
-	N                 1.031e-04   1.031e-04
-	Na                9.763e-05   9.763e-05
+	Cl                1.054e-04   1.054e-04
+	N                 1.051e-04   1.051e-04
+	Na                9.626e-05   9.626e-05
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   3.971      Charge balance
-                                       pe  =  16.280      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 57
+                                       pH  =   3.949      Charge balance
+                                       pe  =  16.345      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 59
                           Density (g/cm³)  =   0.99705
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
-                           Ionic strength  =   2.064e-04
+                 Ionic strength (mol/kgw)  =   2.105e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -1.088e-04
+                 Total alkalinity (eq/kg)  =  -1.142e-04
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.509e-12
+                  Electrical balance (eq)  =   8.662e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   2
-                                  Total H  = 1.110125e+02
-                                  Total O  = 5.550651e+01
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550650e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   H+              1.088e-04   1.070e-04    -3.964    -3.971    -0.007      0.00
-   OH-             9.617e-11   9.459e-11   -10.017   -10.024    -0.007     -4.12
+   H+              1.142e-04   1.123e-04    -3.942    -3.949    -0.007      0.00
+   OH-             9.162e-11   9.010e-11   -10.038   -10.045    -0.007     -4.12
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Cl            1.033e-04
-   Cl-             1.033e-04   1.016e-04    -3.986    -3.993    -0.007     18.06
+Cl            1.054e-04
+   Cl-             1.054e-04   1.036e-04    -3.977    -3.985    -0.007     18.06
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -43.652   -43.652     0.000     28.61
+   H2              0.000e+00   0.000e+00   -43.738   -43.738     0.000     28.61
 N(-3)         0.000e+00
-   NH4+            0.000e+00   0.000e+00   -54.859   -54.867    -0.007     17.95
-   NH3             0.000e+00   0.000e+00   -60.140   -60.140     0.000     24.42
-N(0)          8.734e-12
-   N2              4.367e-12   4.367e-12   -11.360   -11.360     0.000     29.29
-N(3)          1.206e-16
-   NO2-            1.206e-16   1.186e-16   -15.919   -15.926    -0.007     24.95
-N(5)          1.031e-04
-   NO3-            1.031e-04   1.014e-04    -3.987    -3.994    -0.007     29.47
-Na            9.763e-05
-   Na+             9.763e-05   9.603e-05    -4.010    -4.018    -0.007     -1.50
-   NaOH            9.083e-25   9.083e-25   -24.042   -24.042     0.000     (0)  
-O(0)          1.680e-05
-   O2              8.401e-06   8.401e-06    -5.076    -5.076     0.000     30.40
+   NH4+            0.000e+00   0.000e+00   -55.152   -55.160    -0.007     17.95
+   NH3             0.000e+00   0.000e+00   -60.454   -60.454     0.000     24.42
+N(0)          3.721e-12
+   N2              1.860e-12   1.860e-12   -11.730   -11.730     0.000     29.29
+N(3)          1.008e-16
+   NO2-            1.008e-16   9.915e-17   -15.996   -16.004    -0.007     24.95
+N(5)          1.051e-04
+   NO3-            1.051e-04   1.033e-04    -3.978    -3.986    -0.007     29.47
+Na            9.626e-05
+   Na+             9.626e-05   9.467e-05    -4.017    -4.024    -0.007     -1.50
+   NaOH            8.529e-25   8.530e-25   -24.069   -24.069     0.000     (0)  
+O(0)          2.495e-05
+   O2              1.247e-05   1.247e-05    -4.904    -4.904     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -40.55    -43.65   -3.10  H2
+  H2(g)           -40.64    -43.74   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -9.58     -8.01    1.57  NaCl
-  N2(g)            -8.18    -11.36   -3.18  N2
-  NH3(g)          -61.94    -60.14    1.80  NH3
-  O2(g)            -2.18     -5.08   -2.89  O2
+  N2(g)            -8.55    -11.73   -3.18  N2
+  NH3(g)          -62.25    -60.45    1.80  NH3
+  O2(g)            -2.01     -4.90   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3500,6 +3505,6 @@ Reading input data for simulation 4.
 ------------------------------------
 
 ------------------------------
-End of Run after 0.13 Seconds.
+End of Run after 0.07 Seconds.
 ------------------------------
 

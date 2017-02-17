@@ -110,7 +110,7 @@ WARNING: Equivalent wt for alkalinity should be Ca.5(CO3).5. Using 50.0455 g/eq.
                                        pH  =   7.750    
                                        pe  =   4.000    
                         Activity of water  =   1.000
-                           Ionic strength  =   2.138e-02
+                 Ionic strength (mol/kgw)  =   2.138e-02
                        Mass of water (kg)  =   1.000e+00
                     Total carbon (mol/kg)  =   1.188e-02
                        Total CO2 (mol/kg)  =   1.188e-02
@@ -708,7 +708,7 @@ WARNING: Equivalent wt for alkalinity should be Ca.5(CO3).5. Using 50.0455 g/eq.
                                        pH  =   8.820    
                                        pe  =   9.900    
                         Activity of water  =   0.956
-                           Ionic strength  =   1.360e+00
+                 Ionic strength (mol/kgw)  =   1.360e+00
                        Mass of water (kg)  =   1.000e+00
                     Total carbon (mol/kg)  =   1.521e-01
                        Total CO2 (mol/kg)  =   1.521e-01
@@ -1308,7 +1308,7 @@ Montmorillonite-Ca   -0.00   -45.03    -45.03    1.000e+01   9.961e+00  -3.897e-
                                        pH  =   8.566      Charge balance
                                        pe  =  10.397      Adjusted to redox equilibrium
                         Activity of water  =   0.956
-                           Ionic strength  =   1.352e+00
+                 Ionic strength (mol/kgw)  =   1.352e+00
                        Mass of water (kg)  =   9.997e-01
                  Total alkalinity (eq/kg)  =   1.917e-01
                        Total CO2 (mol/kg)  =   1.522e-01
@@ -2101,7 +2101,7 @@ X                1.000e+00 mol
                                        pH  =   7.290      Charge balance
                                        pe  =   6.585      Adjusted to redox equilibrium
                         Activity of water  =   0.962
-                           Ionic strength  =   1.427e+00
+                 Ionic strength (mol/kgw)  =   1.427e+00
                        Mass of water (kg)  =   9.999e-01
                  Total alkalinity (eq/kg)  =   1.517e-01
                        Total CO2 (mol/kg)  =   1.522e-01
@@ -2812,18 +2812,6 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-16 ...
-
-WARNING: Maximum iterations exceeded, 400
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-14 ...
-
 Using solution 2.	Average Leachate concentrations from Lambton
 Using exchange 1.	Exchange assemblage after simulation 1.
 Using surface 1.	
@@ -2848,8 +2836,8 @@ Gibbsite         -0.85     7.26      8.11    0.000e+00           0   0.000e+00
 Goethite          0.00    -1.00     -1.00    0.000e+00   1.263e-04   1.263e-04
 Gypsum            0.00    -4.58     -4.58    0.000e+00   6.236e-02   6.236e-02
 Hydroxyapatite    0.00    -3.42     -3.42    0.000e+00   5.182e-02   5.182e-02
-Illite           -0.00   -40.27    -40.27    1.000e+01   1.005e+01   4.576e-02
-Kaolinite         0.00     7.44      7.43    0.000e+00   5.797e+00   5.797e+00
+Illite            0.00   -40.27    -40.27    1.000e+01   1.005e+01   4.576e-02
+Kaolinite        -0.00     7.43      7.43    0.000e+00   5.797e+00   5.797e+00
 Mackinawite     -71.18   -75.83     -4.65    0.000e+00           0   0.000e+00
 Manganite         0.00    25.34     25.34    0.000e+00   8.174e-04   8.174e-04
 Montmorillonite-Ca   -0.00   -45.03    -45.03    1.000e+01   4.921e+00  -5.079e+00
@@ -2912,20 +2900,20 @@ X                1.000e+00 mol
 	                               Equiv-    Equivalent      Log 
 	Species             Moles      alents      Fraction     Gamma
 
-	NaX               6.053e-01   6.053e-01   6.053e-01    -0.000
-	CaX2              1.972e-01   3.945e-01   3.945e-01    -0.000
-	SrX2              7.158e-05   1.432e-04   1.432e-04    -0.000
-	KX                4.204e-05   4.204e-05   4.204e-05    -0.000
-	BaX2              9.459e-07   1.892e-06   1.892e-06    -0.000
-	MnX2              4.015e-10   8.029e-10   8.029e-10    -0.000
-	ZnX2              8.756e-12   1.751e-11   1.751e-11    -0.000
-	HX                5.141e-12   5.141e-12   5.141e-12    -0.000
-	MgX2              4.447e-12   8.894e-12   8.894e-12    -0.000
-	CuX2              3.034e-14   6.069e-14   6.069e-14    -0.000
-	PbX2              3.910e-15   7.820e-15   7.820e-15    -0.000
-	FeX2              1.598e-23   3.197e-23   3.197e-23    -0.000
-	AlX3              4.409e-30   1.323e-29   1.323e-29    -0.000
-	NH4X              8.319e-31   8.319e-31   8.319e-31    -0.000
+	NaX               6.053e-01   6.053e-01   6.053e-01     0.000
+	CaX2              1.972e-01   3.945e-01   3.945e-01     0.000
+	SrX2              7.158e-05   1.432e-04   1.432e-04     0.000
+	KX                4.204e-05   4.204e-05   4.204e-05     0.000
+	BaX2              9.459e-07   1.892e-06   1.892e-06     0.000
+	MnX2              4.015e-10   8.029e-10   8.029e-10     0.000
+	ZnX2              8.756e-12   1.751e-11   1.751e-11     0.000
+	HX                5.141e-12   5.141e-12   5.141e-12     0.000
+	MgX2              4.447e-12   8.894e-12   8.894e-12     0.000
+	CuX2              3.034e-14   6.069e-14   6.069e-14     0.000
+	PbX2              3.910e-15   7.820e-15   7.820e-15     0.000
+	FeX2              1.598e-23   3.197e-23   3.197e-23     0.000
+	AlX3              4.409e-30   1.323e-29   1.323e-29     0.000
+	NH4X              8.319e-31   8.319e-31   8.319e-31     0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -2960,14 +2948,14 @@ X                1.000e+00 mol
                                        pH  =  12.239      Charge balance
                                        pe  =  -1.822      Adjusted to redox equilibrium
                         Activity of water  =   0.955
-                           Ionic strength  =   1.817e+00
+                 Ionic strength (mol/kgw)  =   1.817e+00
                        Mass of water (kg)  =   8.732e-01
                  Total alkalinity (eq/kg)  =   2.923e-01
                        Total CO2 (mol/kg)  =   4.775e-06
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -4.548e-04
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.02
-                               Iterations  =  96
+                               Iterations  =  51
                                   Total H  = 9.739228e+01
                                   Total O  = 4.914825e+01
 
@@ -3468,7 +3456,7 @@ Zn            9.228e-04
   H2O(g)           -1.53     -0.02    1.51  H2O
   H2S(g)          -69.53    -70.53   -1.00  H2S
   Halite           -1.91     -0.33    1.58  NaCl
-  Halloysite       -5.06      7.44   12.50  Al2Si2O5(OH)4
+  Halloysite       -5.06      7.43   12.50  Al2Si2O5(OH)4
   Hausmannite       4.61     65.64   61.03  Mn3O4
   Hematite          2.03     -1.98   -4.01  Fe2O3
   Hinsdalite      -46.59    -49.09   -2.50  PbAl3PO4SO4(OH)6
@@ -3477,13 +3465,13 @@ Zn            9.228e-04
   Hydrocerussite  -18.02    -35.48  -17.46  Pb(OH)2:2PbCO3
   Hydromagnesite  -54.14    -62.90   -8.76  Mg5(CO3)4(OH)2:4H2O
   Hydroxyapatite    0.00     -3.42   -3.42  Ca5(PO4)3OH
-  Illite           -0.00    -40.27  -40.27  K0.6Mg0.25Al2.3Si3.5O10(OH)2
+  Illite            0.00    -40.27  -40.27  K0.6Mg0.25Al2.3Si3.5O10(OH)2
   Jarosite(ss)    -43.08    -52.91   -9.83  (K0.77Na0.03H0.2)Fe3(SO4)2(OH)6
   Jarosite-K      -42.41    -51.62   -9.21  KFe3(SO4)2(OH)6
   Jarosite-Na     -41.48    -46.76   -5.28  NaFe3(SO4)2(OH)6
   JarositeH       -53.46    -58.85   -5.39  (H3O)Fe3(SO4)2(OH)6
   Jurbanite       -17.39    -20.62   -3.23  AlOHSO4
-  Kaolinite         0.00      7.44    7.43  Al2Si2O5(OH)4
+  Kaolinite        -0.00      7.43    7.43  Al2Si2O5(OH)4
   Kmica             5.69     18.39   12.70  KAl3Si3O10(OH)2
   Langite          -1.80     14.99   16.79  Cu4(OH)6SO4:H2O
   Larnakite        -8.81     -9.09   -0.28  PbO:PbSO4
@@ -3630,6 +3618,6 @@ Reading input data for simulation 5.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.187 Seconds.
+End of Run after 0.067 Seconds.
 -------------------------------
 

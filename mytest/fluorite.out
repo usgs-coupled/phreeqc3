@@ -51,11 +51,11 @@ Initial solution 1.
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 43
+      Specific Conductance (µS/cm,  25°C)  = 43
                           Density (g/cm³)  =   0.99706
                                Volume (L)  =   1.00296
                         Activity of water  =   1.000
-                           Ionic strength  =   6.438e-04
+                 Ionic strength (mol/kgw)  =   6.438e-04
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -4.046e-08
                     Total carbon (mol/kg)  =   0.000e+00
@@ -128,13 +128,13 @@ WARNING: Maximum iterations exceeded, 200
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
-WARNING: Trying reduced tolerance 1e-16 ...
+WARNING: Trying reduced tolerance 1e-14 ...
 
 WARNING: Maximum iterations exceeded, 200
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
-WARNING: Trying increased tolerance 1e-14 ...
+WARNING: Trying increased tolerance 1e-12 ...
 
 WARNING: Maximum iterations exceeded, 200
 
@@ -146,7 +146,7 @@ WARNING: Maximum iterations exceeded, 200
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
-WARNING: Trying diagonal scaling and reduced tolerance 1e-16 ...
+WARNING: Trying diagonal scaling and reduced tolerance 1e-14 ...
 
 WARNING: Maximum iterations exceeded, 200
 
@@ -164,6 +164,12 @@ WARNING: Maximum iterations exceeded, 200
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
+WARNING: Trying delay removal of equilibrium phases 1 ...
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
 WARNING: Trying increased scaling 1e-09 ...
 
 WARNING: Maximum iterations exceeded, 200
@@ -178,6 +184,9 @@ WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Adding inequality to make concentrations greater than zero.
 
+WARNING: Fluorite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 3.564528e-01
+
 Using solution 1.	
 Using pure phase assemblage 1.	
 
@@ -186,80 +195,80 @@ Using pure phase assemblage 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Fluorite          0.00   -10.60    -10.60
-	 CaSO4:2H2O         is reactant       1.000e+01   1.000e+01  -1.334e-04
+Fluorite         -0.15   -10.75    -10.60
+	 CaSO4:2H2O         is reactant       1.000e+01   1.000e+01   1.000e-10
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Ca                3.829e-04   3.829e-04
+	Ca                2.495e-04   2.495e-04
 	F                 2.895e-04   2.895e-04
-	S                 1.334e-04   1.334e-04
+	S                 0.000e+00   0.000e+00
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   7.001      Charge balance
-                                       pe  =  10.843      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 76
-                          Density (g/cm³)  =   0.99708
-                               Volume (L)  =   1.00297
+                                       pH  =   7.000      Charge balance
+                                       pe  =  10.844      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 43
+                          Density (g/cm³)  =   0.99706
+                               Volume (L)  =   1.00296
                         Activity of water  =   1.000
-                           Ionic strength  =   1.152e-03
+                 Ionic strength (mol/kgw)  =   6.438e-04
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =  -4.045e-08
+                 Total alkalinity (eq/kg)  =  -4.046e-08
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.095e-04
- Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  16.16
-                               Iterations  =  27
-                                  Total H  = 1.110130e+02
-                                  Total O  = 5.550702e+01
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  26.57
+                               Iterations  =  17
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.053e-07   1.014e-07    -6.977    -6.994    -0.017     -4.11
-   H+              1.035e-07   9.983e-08    -6.985    -7.001    -0.016      0.00
+   OH-             1.042e-07   1.012e-07    -6.982    -6.995    -0.013     -4.11
+   H+              1.028e-07   1.000e-07    -6.988    -7.000    -0.012      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-Ca            3.829e-04
-   Ca+2            3.766e-04   3.239e-04    -3.424    -3.490    -0.065    -18.13
-   CaSO4           6.293e-06   6.294e-06    -5.201    -5.201     0.000      7.50
-   CaOH+           5.595e-10   5.385e-10    -9.252    -9.269    -0.017     (0)  
-   CaHSO4+         4.291e-12   4.130e-12   -11.367   -11.384    -0.017     (0)  
+Ca            2.495e-04
+   Ca+2            2.495e-04   2.226e-04    -3.603    -3.653    -0.050    -18.16
+   CaOH+           3.802e-10   3.694e-10    -9.420    -9.433    -0.013     (0)  
+   CaSO4           0.000e+00   0.000e+00   -41.803   -41.803     0.000      7.50
+   CaHSO4+         0.000e+00   0.000e+00   -47.972   -47.985    -0.013     (0)  
 F             2.895e-04
-   F-              2.895e-04   2.786e-04    -3.538    -3.555    -0.017     -1.31
-   HF              4.170e-08   4.171e-08    -7.380    -7.380     0.000     12.50
-   HF2-            4.631e-11   4.458e-11   -10.334   -10.351    -0.017     22.06
-H(0)          2.904e-39
+   F-              2.895e-04   2.812e-04    -3.538    -3.551    -0.013     -1.32
+   HF              4.217e-08   4.217e-08    -7.375    -7.375     0.000     12.50
+   HF2-            4.683e-11   4.550e-11   -10.329   -10.342    -0.013     22.05
+H(0)          2.905e-39
    H2              1.452e-39   1.453e-39   -38.838   -38.838     0.000     28.61
 O(0)          3.951e-15
    O2              1.975e-15   1.976e-15   -14.704   -14.704     0.000     30.40
 S(-2)         0.000e+00
-   HS-             0.000e+00   0.000e+00  -120.047  -120.064    -0.017     20.61
-   H2S             0.000e+00   0.000e+00  -120.123  -120.123     0.000     37.16
-   S-2             0.000e+00   0.000e+00  -125.915  -125.981    -0.066     (0)  
-S(6)          1.334e-04
-   SO4-2           1.271e-04   1.093e-04    -3.896    -3.962    -0.066     14.52
-   CaSO4           6.293e-06   6.294e-06    -5.201    -5.201     0.000      7.50
-   HSO4-           1.102e-09   1.061e-09    -8.958    -8.974    -0.017     40.28
-   CaHSO4+         4.291e-12   4.130e-12   -11.367   -11.384    -0.017     (0)  
+   HS-             0.000e+00   0.000e+00  -156.489  -156.501    -0.013     20.60
+   H2S             0.000e+00   0.000e+00  -156.560  -156.560     0.000     37.16
+   S-2             0.000e+00   0.000e+00  -162.370  -162.419    -0.050     (0)  
+S(6)          0.000e+00
+   SO4-2           0.000e+00   0.000e+00   -40.350   -40.400    -0.050     14.49
+   CaSO4           0.000e+00   0.000e+00   -41.803   -41.803     0.000      7.50
+   HSO4-           0.000e+00   0.000e+00   -45.400   -45.412    -0.013     40.27
+   CaHSO4+         0.000e+00   0.000e+00   -47.972   -47.985    -0.013     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  Anhydrite        -3.17     -7.45   -4.28  CaSO4
-  Fluorite          0.00    -10.60  -10.60  CaF2
-  Gypsum           -2.87     -7.45   -4.58  CaSO4:2H2O
+  Anhydrite       -39.77    -44.05   -4.28  CaSO4
+  Fluorite         -0.15    -10.75  -10.60  CaF2
+  Gypsum          -39.47    -44.05   -4.58  CaSO4:2H2O
   H2(g)           -35.74    -38.84   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  H2S(g)         -119.07   -127.06   -7.99  H2S
+  H2S(g)         -155.51   -163.50   -7.99  H2S
   O2(g)           -11.81    -14.70   -2.89  O2
-  Sulfur          -89.32    -84.43    4.88  S
+  Sulfur         -125.75   -120.87    4.88  S
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -272,7 +281,7 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
--------------------------------
-End of Run after 0.031 Seconds.
--------------------------------
+------------------------------
+End of Run after 0.03 Seconds.
+------------------------------
 

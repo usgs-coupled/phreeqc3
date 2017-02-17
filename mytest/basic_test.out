@@ -65,11 +65,11 @@ Initial solution 10.	Test solution
 
                                        pH  =   7.000    
                                        pe  =   4.000    
-       Specific Conductance (µS/cm, 25°C)  = 82998
+      Specific Conductance (µS/cm,  25°C)  = 82958
                           Density (g/cm³)  =   1.03635
                                Volume (L)  =   1.02165
                         Activity of water  =   0.966
-                           Ionic strength  =   1.007e+00
+                 Ionic strength (mol/kgw)  =   1.007e+00
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.687e-03
                        Total CO2 (mol/kg)  =   1.000e-03
@@ -357,6 +357,7 @@ Reading input data for simulation 9.
 	340 PRINT "Print"
 	350 PUT(x, i1)
 	360 PRINT "RHO:                                                 ", RHO
+	365 PRINT "RHO_0:                                               ", RHO_0
 	370 PRINT "RTRIM(a$):                                           ", RTRIM(a$)
 	380 PRINT "RXN:                                                 ", RXN
 	390 PRINT "S_S(Siderite):                                       ", S_S("Siderite")
@@ -375,7 +376,7 @@ Reading input data for simulation 9.
 	520 PRINT "SYS(H, count_species, names$, types$, moles):        ", SYS("H", count_species, names$, types$, moles)
 	530 PRINT "                                                     ", PAD(names$(1), 12), values(1)
 	540 PRINT "SYS(elements, count, names$, types$, values):        ", SYS("elements", count, names$, types$, values)
-	550 PRINT "                                                     ", PAD(names$(1), 12), values(1)
+	550 PRINT "                                                     ", PAD(names$(3), 12), values(1)
 	560 PRINT "SYS(ex, count, names$, types$, values):              ", SYS("ex", count, names$, types$, values)
 	570 PRINT "                                                     ", PAD(names$(1), 12), values(1)
 	580 PRINT "SYS(gas, count, names$, types$, values):             ", SYS("gas", count, names$, types$, values)
@@ -572,7 +573,7 @@ ALK:                                                    3.6905e-02
 CALC_VALUE:                                           ERROR: CALC_VALUE Basic function, Acidity not found.
  -1.0000e+04 
 CELL_NO:                                                        10 
-CHARGE_BALANCE:                                         3.1158e-12 
+CHARGE_BALANCE:                                         3.0805e-12 
 DESCRIPTION:                                          Test solution 
 DIST:                                                            0 
 EDL(P,Hfo):                                             1.2277e-06 
@@ -600,10 +601,11 @@ OSMOTIC:                                                         0
 PAD(a$, 20):                                             abc   def         
 Print 
 RHO:                                                    1.0401e+00 
+RHO_0:                                                  9.9704e-01 
 RTRIM(a$):                                               abc   def 
 RXN:                                                    1.0000e-04 
 S_S(Siderite):                                          6.6864e-02 
-SC:                                                     8.2756e+04 
+SC:                                                     8.2626e+04 
 SI(Siderite):                                          -8.5430e-03 
 SIM_NO:                                                          9 
 SIM_TIME:                                                 86400000 
@@ -618,7 +620,7 @@ SYS(aq, count, names$, types$, values):                 2.0489e+00
 SYS(H, count_species, names$, types$, moles):           1.1102e+02 
                                                       H2O            9.9391e-01 
 SYS(elements, count, names$, types$, values):           2.0548e+00 
-                                                      H              1.1101e+02 
+                                                      O              1.1101e+02 
 SYS(ex, count, names$, types$, values):                 9.9121e-04 
                                                       NaX            9.8243e-04 
 SYS(gas, count, names$, types$, values):                3.6764e-02 
@@ -775,7 +777,7 @@ FeZnCO3                                     1.66e-01
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -3.438e-14  Surface + diffuse layer charge, eq
+	 -3.439e-14  Surface + diffuse layer charge, eq
 	 -2.806e-04  Surface charge, eq
 	 -4.513e-02  sigma, C/m²
 	 -1.911e-02  psi, V
@@ -866,17 +868,17 @@ X                1.000e-03 mol
 
                                        pH  =   6.892      Charge balance
                                        pe  =   8.683      Adjusted to redox equilibrium
-       Specific Conductance (µS/cm, 25°C)  = 82755
+      Specific Conductance (µS/cm,  25°C)  = 82626
                           Density (g/cm³)  =   1.04013
                                Volume (L)  =   1.02130
                         Activity of water  =   0.965
-                           Ionic strength  =   1.021e+00
+                 Ionic strength (mol/kgw)  =   1.021e+00
                        Mass of water (kg)  =   9.991e-01
                  Total alkalinity (eq/kg)  =   3.690e-02
                        Total CO2 (mol/kg)  =   2.860e-02
                          Temperature (°C)  =  25.00
                            Pressure (atm)  =  0.90
-                  Electrical balance (eq)  =   3.116e-12
+                  Electrical balance (eq)  =   3.081e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =  18
                                   Total H  = 1.110139e+02
@@ -1076,6 +1078,6 @@ Reading input data for simulation 10.
 -------------------------------------
 
 -------------------------------
-End of Run after 0.031 Seconds.
+End of Run after 0.027 Seconds.
 -------------------------------
 
