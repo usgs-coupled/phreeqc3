@@ -1806,13 +1806,13 @@ END
 #                        -Vm a1 a2 a3 a4 W a0 i1 i2 i3 i4
 # The volume (cm3/mol) is
 #    Vm(T, pb, I) = 41.84 * (a1 * 0.1 + a2 * 100 / (2600 + pb)  + a3 / (T - 228) +
-#                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * 1e5 * QBrn)
+#                            a4 * 1e4 / (2600 + pb) / (T - 228) - W * QBrn)
 #                   + z^2 / 2 * Av * f(I^0.5)
 #                   + (i1 + i2 / (T - 228) + i3 * (T - 228)) * I^i4
 #   Volumina at I = 0 are obtained using supcrt92 formulas (Johnson et al., 1992, CG 18, 899).
 #   41.84 transforms cal/bar/mol into cm3/mol.
 #   pb is pressure in bar.
-#   W * QBrn is the energy of solvation, QBrn is the pressure dependence of the Born equation,
+#   W * QBrn is the energy of solvation, calculated from W and the pressure dependence of the Born equation,
 #     W is fitted on measured solution densities.
 #   z is charge of the solute species.
 #   Av is the Debye-Hückel limiting slope (DH_AV in PHREEQC basic).
