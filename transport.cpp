@@ -1712,12 +1712,6 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				}
 				count_m_s = 0;
 			}
-			//if (J_ij == NULL)
-			//{
-			//	error_string = sformatf( "Null pointer for fill_m_s.\n"
-			//		"Consider using more substeps in TRANSPORT; -time_step.");
-			//	error_msg(error_string, STOP);
-			//}
 			fill_m_s(J_ij, J_ij_count_spec);
 
 			/*
@@ -2009,6 +2003,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	V_M = V_M_il = NULL;
 	/* check for immediate return and interlayer diffusion calcs... */
+	J_ij_count_spec = 0;
+	J_ij_sum = 0.0;
 	if (interlayer_Dflag)
 	{
 		il_calcs = 1;
@@ -2323,8 +2319,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		}
 	}
 	/* diffuse... */
-	J_ij_count_spec = 0;
-	J_ij_sum = 0.0;
 	/*
 	 * malloc sufficient space...
 	 */
