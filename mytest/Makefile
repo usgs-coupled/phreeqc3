@@ -373,7 +373,9 @@ all: alkalinity.out \
 	phase_vm.out \
 	low_p.out \
 	Ratework.out \
-	sys_equi_fix.out
+	sys_equi_fix.out \
+	pr_h2o.out \
+	ex7_T_P.out
 
 # NaX.out
 

@@ -328,7 +328,8 @@ public:
 		tokdiff_c,
 		toksa_declercq,
 		tokedl_species,
-		tokphase_vm
+		tokphase_vm,
+		tokaphi
 	};
 
 #if !defined(PHREEQCI_GUI)

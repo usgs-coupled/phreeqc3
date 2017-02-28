@@ -1874,6 +1874,7 @@ protected:
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
+	struct pitz_param *aphi;
 	struct species **spec, **cations, **anions, **neutrals;
 	int count_cations, count_anions, count_neutrals;
 	int MAXCATIONS, FIRSTANION, MAXNEUTRAL;
