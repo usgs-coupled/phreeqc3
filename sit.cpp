@@ -697,6 +697,7 @@ sit_clean_up(void)
 	sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
 	sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
 	spec = (struct species **) free_check_null(spec);
+	aphi = (struct pitz_param *) free_check_null(aphi);
 	sit_M = (LDBLE *) free_check_null(sit_M);
 
 	return OK;

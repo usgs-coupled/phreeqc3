@@ -3727,7 +3727,7 @@ setup_surface(void)
 	 *   check related kinetics
 	 */
 	if (use.Get_surface_ptr()->Get_related_rate())
-	{		
+	{
 		cxxKinetics *kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_surface_user());
 		for (size_t i = 0; i < use.Get_surface_ptr()->Get_surface_comps().size(); i++)
 		{
@@ -4099,7 +4099,8 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			P = 1.;
 	} else
 	{
-		if (P < 1e-10) P = 1e-10;
+		if (P < 1e-10)
+			P = 1e-10;
 		r3[1] = b_sum - R_TK / P;
 		r3_12 = r3[1] * r3[1];
 		r3[2] = -3.0 * b2 + (a_aa_sum - R_TK * 2.0 * b_sum) / P;
@@ -4142,11 +4143,6 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 			continue;
 		}
 		phase_ptr->pr_p = phase_ptr->fraction_x * P;
-		//if (phase_ptr->t_c == 0.0 || phase_ptr->p_c == 0.0)
-		//{
-		//	phase_ptr->pr_phi = 1;
-		//	continue;
-		//}
 		rz = P * V_m / R_TK;
 		A = a_aa_sum * P / (R_TK * R_TK);
 		B = b_sum * P / R_TK;
@@ -4154,12 +4150,17 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		if (rz > B)
 		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
-				  log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
+				log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
 			if (phi > 4.44)
 				phi = 4.44;
 		}
 		else
 			phi = -3.0; // fugacity coefficient > 0.05
+		if (/*!strcmp(phase_ptr->name, "H2O(g)") && */phi < -3)
+		{
+			// avoid such phi...
+			phi = -3;
+		}
 		phase_ptr->pr_phi = exp(phi);
 		phase_ptr->pr_si_f = phi / LOG_10;
 		// for initial equilibrations, adapt log_k of the gas phase...
@@ -6150,7 +6151,7 @@ check_same_model(void)
 					surf_ptr->Set_new_def(true);
 					this->tidy_min_surface();
 					return (FALSE);
-				}
+		}
 			}
 			if (use.Get_surface_ptr()->Get_surface_comps()[i].Get_rate_name().size() > 0)
 			{

@@ -634,9 +634,10 @@ read_pitzer(void)
 		"eta",					/* 15 */
 		"etheta",				/* 16 */
 		"use_etheta",			/* 17 */
-		"lambda"                /* 18 */
+		"lambda",               /* 18 */
+		"aphi"                  /* 19 */
 	};
-	int count_opt_list = 19;
+	int count_opt_list = 20;
 	/*
 	 *   Read lines
 	 */
@@ -664,7 +665,15 @@ read_pitzer(void)
 			if (pzp_ptr != NULL)
 			{
 				pzp_ptr->type = pzp_type;
-				pitz_param_store(pzp_ptr, false);
+				if (pzp_type == TYPE_APHI)
+				{
+					aphi = (struct pitz_param *) free_check_null(aphi);
+					aphi = pzp_ptr;
+				}
+				else
+				{
+					pitz_param_store(pzp_ptr, false);
+				}
 			}
 			break;
 		case OPTION_ERROR:
@@ -744,6 +753,11 @@ read_pitzer(void)
 			opt_save = OPTION_ERROR;
 			use_etheta = get_true_false(next_char, TRUE);
 			break;
+		case 19:				/* aphi */
+			pzp_type = TYPE_APHI;
+			n = 0;
+			opt_save = OPTION_DEFAULT;
+			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -779,6 +793,10 @@ C
 	{
 		int i = param_list[j];
 		calc_pitz_param(pitz_params[i], TK, TR);
+	}
+	if (aphi)
+	{
+		calc_pitz_param(aphi, TK, TR);
 	}
 	if (mcb0) 
 	{
@@ -856,6 +874,9 @@ calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 		break;
 	case TYPE_ETA:
 		pz_ptr->U.eta = param;
+		break;
+	case TYPE_APHI:
+		pz_ptr->U.aphi = param;
 		break;
 	case TYPE_Other:
 	default:
@@ -1668,6 +1689,7 @@ pitzer_clean_up(void)
 	LGAMMA = (LDBLE *) free_check_null(LGAMMA);
 	IPRSNT = (int *) free_check_null(IPRSNT);
 	spec = (struct species **) free_check_null(spec);
+	aphi = (struct pitz_param *) free_check_null(aphi);
 	M = (LDBLE *) free_check_null(M);
 
 	return OK;

@@ -1018,6 +1018,7 @@ void Phreeqc::init(void)
 	OTEMP					= -100.;
 	OPRESS					= -100.;
 	A0                      = 0;	
+	aphi                    = NULL;
 	spec                    = NULL;
 	cations                 = NULL;
 	anions                  = NULL;
