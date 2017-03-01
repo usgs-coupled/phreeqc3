@@ -1,4 +1,4 @@
-﻿#include "Utils.h"
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -132,7 +132,7 @@ transport(void)
 			moles_added[i].moles = 0;
 		}
 	}
-	try 
+	try
 	{
 		/* check solution 0 */
 		use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, 0));
@@ -228,7 +228,7 @@ transport(void)
 						"Electrical Field (potential) was defined, assuming constant boundary condition for last cell.");
 					warning_msg(error_string);
 				}
-				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t) 
+				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t)
 					(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 				if (current_cells == NULL)
 					malloc_error();

@@ -334,7 +334,9 @@ public:
 		tokviscos_0,
 		tokcurrent_a,
 		tokpot_v,
-		tokt_sc
+		tokt_sc,
+		tokphase_vm,
+		tokaphi
 	};
 
 #if !defined(PHREEQCI_GUI)
