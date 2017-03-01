@@ -1,0 +1,62 @@
+DATABASE ../database/phreeqc.dat
+TITLE Example 7.--Organic decomposition with fixed-pressure and
+                  fixed-volume gas phases
+SELECTED_OUTPUT 101
+    -file                 ex7_T_P_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_MASTER_SPECIES
+N(-3)    NH4+           0.0     N
+SOLUTION_SPECIES
+NH4+ = NH3 + H+
+        log_k           -9.252
+        delta_h 12.48   kcal
+        -analytic    0.6322    -0.001225     -2835.76
+
+NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O
+        log_k           119.077
+        delta_h -187.055        kcal
+        -gamma    2.5000    0.0000
+PHASES
+NH3(g)
+        NH3 = NH3
+        log_k           1.770
+        delta_h -8.170  kcal
+
+Ntg(g)
+	Ntg = Ntg
+	-analytic -58.453 1.81800e-3  3199  17.909 -27460
+	-T_c  126.2 ; -P_c   33.50 ; -Omega 0.039
+	#-log_k -30
+	#-T_c 150; -P_c 3e3 
+SOLUTION 1
+EQUILIBRIUM_PHASES 1
+        Calcite
+        CO2(g)  -1.5
+SAVE solution 1
+END
+#  Simulation 2: Decomposition of organic matter, CH2O(NH3).07,
+#  at fixed pressure of 1.1 atm
+USE solution 1
+GAS_PHASE 1 Fixed-pressure gas phase
+        -fixed_pressure
+        -pressure       1.1
+        CO2(g)          0
+        CH4(g)          0
+        N2(g)           0
+        H2O(g)          0
+        #Ntg(g)          1e-3 # 1e-3
+REACTION 1
+        CH2O(NH3)0.07     1.0
+        1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol
+	#  1.  mmol
+REACTION_TEMPERATURE
+50
+REACTION_PRESSURE
+50
+END
+

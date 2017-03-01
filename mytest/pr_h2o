@@ -1,0 +1,52 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 pr_h2o_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+KNOBS
+-step 2
+-pe 2
+-iter 1000
+PHASES
+H2O(g)
+	H2O = H2O
+	-log_k  1.506; delta_h -44.03 kJ
+	-t_c  647.3
+	-p_c  217.60
+	-omega 0.344
+	-analytic   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+	# -log_k -10
+# Ntg(g)
+	# Ntg = Ntg; -log_k -30
+	# -analytic -58.453 1.81800e-3  3199  17.909 -27460
+# -T_c 150; -P_c 3e3 
+solution
+temp 30
+pH  7 charge
+Na 1.562e0
+Cl 1.562e0
+# -water 10
+END
+GAS_PHASE
+-fixed_pressure
+-pressure 10
+H2O(g) 1e-20
+# Ntg(g) 1e-22
+END
+# PRINT; -reset false
+REACTION_PRESSURE 1
+0.1 50 in 10
+# 0.04202
+# 20
+REACTION_TEMPERATURE 
+50
+USE solution 1
+USE gas_phase 1
+USER_GRAPH 
+20 plot_xy pressure, PR_PHI("H2O(g)")
+30 plot_xy pressure, gas_p * GAS_VM / (0.08206 * tk), y_axis = 2 
+END

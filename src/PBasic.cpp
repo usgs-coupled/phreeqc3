@@ -1590,6 +1590,9 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokphase_vm:
  			output_msg("PHASE_VM"); // mole volume of a phase 
  			break;
+ 		case tokaphi:
+ 			output_msg("APHI"); // mole volume of a phase 
+ 			break;
  		case tokdh_a:
  			output_msg("DH_A"); // Debye-Hueckel A
  			break;
@@ -3628,6 +3631,9 @@ factor(struct LOC_exec * LINK)
  		break;
 	case tokeps_r:
 		n.UU.val = PhreeqcPtr->eps_r;
+		break;
+	case tokaphi:
+		n.UU.val = PhreeqcPtr->A0;
 		break;
 	case tokdh_a:
 		n.UU.val = PhreeqcPtr->DH_A;
@@ -7312,7 +7318,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",              PBasic::tokt_sc),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("aphi",               PBasic::tokaphi)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

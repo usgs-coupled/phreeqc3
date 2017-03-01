@@ -255,6 +255,11 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	if (pitzer_model || sit_model)
 	{
 		A0 = DH_B * e2_DkT / 6.0;
+		if (pitzer_model && aphi != NULL)
+		{
+			calc_pitz_param(aphi, T, 298.15);
+			A0 = aphi->p;
+		}
 	}
 
 	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
