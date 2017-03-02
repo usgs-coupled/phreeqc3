@@ -8,6 +8,7 @@ dist_database_DATA=$(DATABASE)
 
 DATABASE=\
 	Amm.dat\
+	ColdChem.dat\
 	frezchem.dat\
 	iso.dat\
 	llnl.dat\
