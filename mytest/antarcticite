@@ -1,0 +1,28 @@
+DATABASE ../database/ColdChem.dat
+SELECTED_OUTPUT 101
+    -file                 antarcticite_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+    SOLUTION
+temp -10
+EQUILIBRIUM_PHASES
+Antarcticite  0 30
+REACTION_TEMPERATURE
+-75 0 in 40 steps
+USER_GRAPH 1
+    -headings               TK A(phi) Antarc_dissolved
+    -axis_titles            "Temperature, Kelvin" "A(phi)" "Moles dissolved"
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 GRAPH_X TK
+20 GRAPH_Y APHI
+30 GRAPH_SY 30 - EQUI("Antarcticite")
+  -end
+    -active                 true
+END
