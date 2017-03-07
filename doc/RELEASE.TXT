@@ -1,11 +1,42 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
-
+	---------
+	svn 12480
+	---------	
+	PHREEQC: Added the ColdChem.dat database developed by Toner and
+	Catling, Journal of Chemical & Engineering Data, 2017, DOI: 10.1021/
+	acs.jced.6b00812. It is a comprehensive Pitzer model in the Na-K-Ca-Mg-
+	Cl system valid for low temperature, from 298.15 to < 200 K.
+	PHREEQC was modified to allow definition of the temperature dependence
+	of A(phi) in the Pitzer formulation through a new option, -APHI, in 
+	the PITZER keyword. The coefficients of the APHI expression are the
+	same as the temperature dependence of other Pitzer parameters.
+	A new Basic function, APHI, has been added to give the value of 
+	the parameter in the current calculation.
+	
+	---------
+	svn 12475
+	---------	
+	PHREEQC: Added logic to limit the range of the fugacity	coefficient.
+	
+	---------
+	svn 12462
+	---------	
+	PHREEQC: Change to avoid potential NULL pointer in -multi_D
+	calculations.
+	
+	---------
+	svn 12439
+	---------
+	PHREEQC: Error check that the same element name was not used for
+	both a SURFACE and and EXCHANGEr, which caused a NULL pointer. Some variables in the unknown
+	structure are now initialized.
+	
 	---------
 	svn 12319
 	---------
-	PhreeqcRM: The Fortran version of RM_SpeciesConcentrations2Module
-	did not provide the correct return value. Generally, -3 was returned
-	(IRM_INVALIDARG), even if the method worked properly and should have 
+	PhreeqcRM: The Fortran version of RM_SpeciesConcentrations2Module did
+	not provide the correct return value. Generally, -3 was returned
+	(IRM_INVALIDARG), even if the method worked properly and should have
 	returned 0 (IRM_OK).
 
 Version 3.3.10: January 12, 2017 (svn 12220)
