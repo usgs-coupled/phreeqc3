@@ -7,69 +7,69 @@
 <TITLE> The Basic Interpreter</TITLE><HR><P> | <A HREF="phreeqc3-55.htm">Next</A> || <A HREF="phreeqc3-53.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM1stOrderHeading">
-<A NAME="50634757_pgfId-470977"></A><A NAME="50634757_44206"></A>The Basic Interpreter</H2>
+<A NAME="50495493_pgfId-470977"></A><A NAME="50495493_44206"></A>The Basic Interpreter</H2>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-505723"></A>PHREEQC has an embedded Basic interpreter (David Gillespie, Synaptics, Inc., San Jose, Calif., written commun., 1997; distributed with the Linux operating system, Free Software Foundation, Inc.). Basic is a computer language with statements on numbered lines. The statements are much like the formulas entered in a spreadsheet cell, but Basic allows, in addition, the conditional statements and looping operations of a programming language. Variables can be defined at will, given a value, and used in subsequent lines. Variable names must start with a letter, which can be followed by any number of letters and numbers, and the variable's name must be different from the general and PHREEQC Basic functions. Names ending with a &#8220;$&#8221; are for strings. Thus, </P>
-<pre CLASS="ComputerInput"><A NAME="50634757_pgfId-505724"></A>10 A = 1.246 20 A$ = 'A equals 1.246' </pre>
+<A NAME="50495493_pgfId-505723"></A>PHREEQC has an embedded Basic interpreter (David Gillespie, Synaptics, Inc., San Jose, Calif., written commun., 1997; distributed with the Linux operating system, Free Software Foundation, Inc.). Basic is a computer language with statements on numbered lines. The statements are much like the formulas entered in a spreadsheet cell, but Basic allows, in addition, the conditional statements and looping operations of a programming language. Variables can be defined at will, given a value, and used in subsequent lines. Variable names must start with a letter, which can be followed by any number of letters and numbers, and the variable's name must be different from the general and PHREEQC Basic functions. Names ending with a &#8220;$&#8221; are for strings. Thus, </P>
+<pre CLASS="ComputerInput"><A NAME="50495493_pgfId-505724"></A>10 A = 1.246 20 A$ = 'A equals 1.246' </pre>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-504055"></A>is perfect. </P>
+<A NAME="50495493_pgfId-504055"></A>is perfect. </P>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-947773"></A>In Basic you can use the operators &#8220;+&#8221;, &#8220;-&#8221;, &#8220;*&#8221;, &#8220;/&#8221;, and &#8220;=&#8221;, just as in written equations. A single variable is used on the left side of the equals sign. Expressions in parentheses, &#8220;(expression)&#8221;, are evaluated first, and then used in the more general expression. Exponentiation is done with the ^ sign: 2^2 = 4. The standard Basic and special PHREEQC Basic functions are listed in tables <A HREF="phreeqc3-54.htm#50634757_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50634757_27680" CLASS="XRef">8</A>, respectively.</P>
+<A NAME="50495493_pgfId-947773"></A>In Basic you can use the operators &#8220;+&#8221;, &#8220;-&#8221;, &#8220;*&#8221;, &#8220;/&#8221;, and &#8220;=&#8221;, just as in written equations. A single variable is used on the left side of the equals sign. Expressions in parentheses, &#8220;(expression)&#8221;, are evaluated first, and then used in the more general expression. Exponentiation is done with the ^ sign: 2^2 = 4. The standard Basic and special PHREEQC Basic functions are listed in tables <A HREF="phreeqc3-54.htm#50495493_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50495493_27680" CLASS="XRef">8</A>, respectively.</P>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-947780"></A>Basic programs are executed in line number order, regardless of the order used for writing the lines (but, for good programming, keep the number order intact). Basic variables, functions, and statements are case insensitive. Initially, a numeric variable is zero, and a string is empty, &#8220;&#8221;. The scope of variables is limited to the program unit where they are defined (<A HREF="phreeqc3-32.htm#50634753_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50634753_55085" CLASS="XRef">USER_PRINT</A>, <A HREF="phreeqc3-53.htm#50634753_56415" CLASS="XRef">USER_PUNCH</A>, or <A HREF="phreeqc3-7.htm#50634753_35035" CLASS="XRef">CALCULATE_VALUES</A> data block). Numeric data can be transferred between program units with the functions PUT and GET (see <A HREF="phreeqc3-54.htm#50634757_27680" CLASS="XRef">table 8</A>). However, in multithreaded and multiprocessor applications (for instance, PHAST, Parkhurst and others, 2010), PUT and GET may not work correctly. </P>
+<A NAME="50495493_pgfId-947780"></A>Basic programs are executed in line number order, regardless of the order used for writing the lines (but, for good programming, keep the number order intact). Basic variables, functions, and statements are case insensitive. Initially, a numeric variable is zero, and a string is empty, &#8220;&#8221;. The scope of variables is limited to the program unit where they are defined (<A HREF="phreeqc3-32.htm#50495489_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50495489_55085" CLASS="XRef">USER_PRINT</A>, <A HREF="phreeqc3-53.htm#50495489_56415" CLASS="XRef">USER_PUNCH</A>, or <A HREF="phreeqc3-7.htm#50495489_35035" CLASS="XRef">CALCULATE_VALUES</A> data block). Numeric data can be transferred between program units with the functions PUT and GET (see <A HREF="phreeqc3-54.htm#50495493_27680" CLASS="XRef">table 8</A>). However, in multithreaded and multiprocessor applications (for instance, PHAST, Parkhurst and others, 2010), PUT and GET may not work correctly. </P>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-515335"></A>Basic in PHREEQC is quite powerful, and it could be used for other purposes than manipulating variables in PHREEQC. For example, the following input file (illustrated in figure 3) plots the sine function from 0 to 360 degrees: </P>
-<pre CLASS="ComputerInput"><A NAME="50634757_pgfId-515348"></A>SOLUTION 1 REACTION; H2O 0; 0 in 21 USER_GRAPH -axis_titles 'ANGLE, IN DEGREES' 'SINE(ANGLE)' -axis_scale x_axis 0 360 90 10 pi = 2 * arctan(1e20) 20 i = pi * (step_no - 1) / 10 30 graph_x i * 180 / pi 40 graph_y sin(i) END</pre>
+<A NAME="50495493_pgfId-515335"></A>Basic in PHREEQC is quite powerful, and it could be used for other purposes than manipulating variables in PHREEQC. For example, the following input file (illustrated in figure 3) plots the sine function from 0 to 360 degrees: </P>
+<pre CLASS="ComputerInput"><A NAME="50495493_pgfId-515348"></A>SOLUTION 1 REACTION; H2O 0; 0 in 21 USER_GRAPH -axis_titles 'ANGLE, IN DEGREES' 'SINE(ANGLE)' -axis_scale x_axis 0 360 90 10 pi = 2 * arctan(1e20) 20 i = pi * (step_no - 1) / 10 30 graph_x i * 180 / pi 40 graph_y sin(i) END</pre>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-515689"></A>Originally, the Basic interpreter was a unique feature of PHREEQC version 2, aimed at calculating rates for kinetic geochemical processes. Rate expressions for kinetic reactions can have various forms, and they tend to be redefined or updated frequently as more data become available. In a PHREEQC input file, the rates can be adapted easily by the user as necessary. Because rate expressions often depend on conditions (for example, the rate expression may be different for mineral dissolution and precipitation), the conditional &#8220;if&#8221; statement of Basic can be necessary. Special Basic functions (<A HREF="phreeqc3-54.htm#50634757_27680" CLASS="XRef">table 8</A>) have been written to retrieve geochemical quantities that frequently are used in kinetic rate expressions, such as molalities, activities, saturation indices, and moles of reactants.</P>
+<A NAME="50495493_pgfId-515689"></A>Originally, the Basic interpreter was a unique feature of PHREEQC version 2, aimed at calculating rates for kinetic geochemical processes. Rate expressions for kinetic reactions can have various forms, and they tend to be redefined or updated frequently as more data become available. In a PHREEQC input file, the rates can be adapted easily by the user as necessary. Because rate expressions often depend on conditions (for example, the rate expression may be different for mineral dissolution and precipitation), the conditional &#8220;if&#8221; statement of Basic can be necessary. Special Basic functions (<A HREF="phreeqc3-54.htm#50495493_27680" CLASS="XRef">table 8</A>) have been written to retrieve geochemical quantities that frequently are used in kinetic rate expressions, such as molalities, activities, saturation indices, and moles of reactants.</P>
 <DIV>
 <MAP NAME="phreeqc3-212">
 </MAP>
-<IMG SRC="phreeqc3-212.png" style="width:65%" USEMAP="#phreeqc3-212">
+<IMG SRC="phreeqc3-212.gif" USEMAP="#phreeqc3-212">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-533737"></A>PHREEQC calculations generate a large number of geochemical quantities, possibly distributed in space and time as well. Rather than storing or writing all of these quantities for a run, small Basic programs in the data blocks <A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50634753_55085" CLASS="XRef">USER_PRINT</A> and <A HREF="phreeqc3-53.htm#50634753_56415" CLASS="XRef">USER_PUNCH</A> can be used to print selected items or to calculate and graph specific numbers such as sums of species or concentrations in milligrams per liter. Also, the implementation of isotopes as individual chemical components relies heavily on Basic programs in the <A HREF="phreeqc3-7.htm#50634753_35035" CLASS="XRef">CALCULATE_VALUES</A> data block, where Basic is used to calculate specific isotopic ratios, such as of carbon-13 in various bicarbonate species. Functions defined in <A HREF="phreeqc3-7.htm#50634753_35035" CLASS="XRef">CALCULATE_VALUES</A> data blocks can be used in any Basic program within PHREEQC.    </P>
+<A NAME="50495493_pgfId-533737"></A>PHREEQC calculations generate a large number of geochemical quantities, possibly distributed in space and time as well. Rather than storing or writing all of these quantities for a run, small Basic programs in the data blocks <A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-52.htm#50495489_55085" CLASS="XRef">USER_PRINT</A> and <A HREF="phreeqc3-53.htm#50495489_56415" CLASS="XRef">USER_PUNCH</A> can be used to print selected items or to calculate and graph specific numbers such as sums of species or concentrations in milligrams per liter. Also, the implementation of isotopes as individual chemical components relies heavily on Basic programs in the <A HREF="phreeqc3-7.htm#50495489_35035" CLASS="XRef">CALCULATE_VALUES</A> data block, where Basic is used to calculate specific isotopic ratios, such as of carbon-13 in various bicarbonate species. Functions defined in <A HREF="phreeqc3-7.htm#50495489_35035" CLASS="XRef">CALCULATE_VALUES</A> data blocks can be used in any Basic program within PHREEQC.    </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634757_pgfId-956383"></A>Table 7. <A NAME="50634757_51264"></A>Standard Basic statements and functions.</P>
+<A NAME="50495493_pgfId-956383"></A>Table 7. <A NAME="50495493_51264"></A>Standard Basic statements and functions.</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634757_pgfId-956387"></A>Basic Statements and Functions</P>
+<A NAME="50495493_pgfId-956387"></A>Basic Statements and Functions</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634757_pgfId-956389"></A>Explanation</P>
+<A NAME="50495493_pgfId-956389"></A>Explanation</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956391"></A>+, -, *, /</P>
+<A NAME="50495493_pgfId-956391"></A>+, -, *, /</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956393"></A>Add, subtract, multiply, and divide.</P>
+<A NAME="50495493_pgfId-956393"></A>Add, subtract, multiply, and divide.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956395"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956395"></A><EM CLASS="Emphasis">
 string1 + string2</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956397"></A>String concatenation. </P>
+<A NAME="50495493_pgfId-956397"></A>String concatenation. </P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956399"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956399"></A><EM CLASS="Emphasis">
 a</EM>
  ^ <EM CLASS="Emphasis">
 b</EM>
@@ -77,56 +77,56 @@ b</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956404"></A>Exponentiation, <IMG SRC="phreeqc3-213.png" ALIGN="MIDDLE">
+<A NAME="50495493_pgfId-956404"></A>Exponentiation, <IMG SRC="phreeqc3-213.gif" ALIGN="BASELINE">
 .</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956406"></A>&lt;, &gt;, &lt;=, &gt;=, &lt;&gt;, =,</P>
+<A NAME="50495493_pgfId-956406"></A>&lt;, &gt;, &lt;=, &gt;=, &lt;&gt;, =,</P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956407"></A>AND, OR, XOR, NOT</P>
+<A NAME="50495493_pgfId-956407"></A>AND, OR, XOR, NOT</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956409"></A>Relational and Boolean operators.</P>
+<A NAME="50495493_pgfId-956409"></A>Relational and Boolean operators.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956411"></A>ABS(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956411"></A>ABS(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956413"></A>Absolute value.</P>
+<A NAME="50495493_pgfId-956413"></A>Absolute value.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956415"></A>ARCTAN(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956415"></A>ARCTAN(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956417"></A>Arctangent function.</P>
+<A NAME="50495493_pgfId-956417"></A>Arctangent function.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956419"></A>ASC(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956419"></A>ASC(<EM CLASS="Emphasis">
 character</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956421"></A>ASCII value for <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956421"></A>ASCII value for <EM CLASS="Emphasis">
 character.</EM>
 </P>
 </TD>
@@ -134,53 +134,53 @@ character.</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956423"></A>CHR$(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956423"></A>CHR$(<EM CLASS="Emphasis">
 number</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956425"></A>Convert ASCII number to character.</P>
+<A NAME="50495493_pgfId-956425"></A>Convert ASCII number to character.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956427"></A>CEIL(a)</P>
+<A NAME="50495493_pgfId-956427"></A>CEIL(a)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956429"></A>Smallest integer not less than a.</P>
+<A NAME="50495493_pgfId-956429"></A>Smallest integer not less than a.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956431"></A>COS(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956431"></A>COS(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956433"></A>Cosine function.</P>
+<A NAME="50495493_pgfId-956433"></A>Cosine function.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956435"></A>DATA <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956435"></A>DATA <EM CLASS="Emphasis">
 list</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956437"></A>List of data.</P>
+<A NAME="50495493_pgfId-956437"></A>List of data.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956439"></A>DIM <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956439"></A>DIM <EM CLASS="Emphasis">
 a</EM>
 (<EM CLASS="Emphasis">
 n</EM>
@@ -188,66 +188,66 @@ n</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956441"></A>Define a dimensioned variable. </P>
+<A NAME="50495493_pgfId-956441"></A>Define a dimensioned variable. </P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956443"></A>END</P>
+<A NAME="50495493_pgfId-956443"></A>END</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956445"></A>Ends the program</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956447"></A>EOL$</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956449"></A>End of line string that is appropriate for the operating system.</P>
+<A NAME="50495493_pgfId-956445"></A>Ends the program</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956451"></A>ERASE v</P>
+<A NAME="50495493_pgfId-956447"></A>EOL$</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956453"></A>Revert the Basic variable to an undimensioned variable so that it can be used as a scalar or dimensioned with another DIM statement. Applies only to variables that have been dimensioned with a DIM statement.</P>
+<A NAME="50495493_pgfId-956449"></A>End of line string that is appropriate for the operating system.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956455"></A>EXP(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956451"></A>ERASE v</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-956453"></A>Revert the Basic variable to an undimensioned variable so that it can be used as a scalar or dimensioned with another DIM statement. Applies only to variables that have been dimensioned with a DIM statement.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-956455"></A>EXP(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956460"></A><IMG SRC="phreeqc3-214.png" ALIGN="MIDDLE">
+<A NAME="50495493_pgfId-956460"></A><IMG SRC="phreeqc3-214.gif" ALIGN="BASELINE">
 .</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956462"></A>FLOOR(a)</P>
+<A NAME="50495493_pgfId-956462"></A>FLOOR(a)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956464"></A>Largest integer not greater than a.</P>
+<A NAME="50495493_pgfId-956464"></A>Largest integer not greater than a.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956466"></A>FOR<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956466"></A>FOR<EM CLASS="Emphasis">
  i</EM>
  = <EM CLASS="Emphasis">
 n</EM>
@@ -257,43 +257,43 @@ STEP<EM CLASS="Emphasis">
  k</EM>
 </P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956467"></A>NEXT <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956467"></A>NEXT <EM CLASS="Emphasis">
 i</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956469"></A>&#8220;For&#8221; loop.</P>
+<A NAME="50495493_pgfId-956469"></A>&#8220;For&#8221; loop.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956471"></A>GOSUB <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956471"></A>GOSUB <EM CLASS="Emphasis">
 line</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956473"></A>Go to subroutine at line number.</P>
+<A NAME="50495493_pgfId-956473"></A>Go to subroutine at line number.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956475"></A>GOTO <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956475"></A>GOTO <EM CLASS="Emphasis">
 line</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956477"></A>Go to line number.</P>
+<A NAME="50495493_pgfId-956477"></A>Go to line number.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956479"></A>IF (<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956479"></A>IF (<EM CLASS="Emphasis">
 expr</EM>
 ) THEN <EM CLASS="Emphasis">
 statement</EM>
@@ -303,13 +303,13 @@ statement</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956481"></A>If, then, else statement (on one line; a &#8220;&#92;&#8221; may be used to concatenate lines).</P>
+<A NAME="50495493_pgfId-956481"></A>If, then, else statement (on one line; a &#8220;&#92;&#8221; may be used to concatenate lines).</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956483"></A>INSTR(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956483"></A>INSTR(<EM CLASS="Emphasis">
 a$</EM>
 . <EM CLASS="Emphasis">
 b$</EM>
@@ -317,7 +317,7 @@ b$</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956485"></A>The character position of the beginning of string <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956485"></A>The character position of the beginning of string <EM CLASS="Emphasis">
 b$</EM>
  in <EM CLASS="Emphasis">
 a$</EM>
@@ -327,13 +327,13 @@ a$</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956487"></A>LEN(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956487"></A>LEN(<EM CLASS="Emphasis">
 string</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956489"></A>Number of characters in <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956489"></A>Number of characters in <EM CLASS="Emphasis">
 string.</EM>
 </P>
 </TD>
@@ -341,37 +341,37 @@ string.</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956491"></A>LOG(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956491"></A>LOG(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956493"></A>Natural logarithm.</P>
+<A NAME="50495493_pgfId-956493"></A>Natural logarithm.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956495"></A>LOG10(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956495"></A>LOG10(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956497"></A>Base 10 logarithm.</P>
+<A NAME="50495493_pgfId-956497"></A>Base 10 logarithm.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956499"></A>LTRIM(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956499"></A>LTRIM(<EM CLASS="Emphasis">
 a</EM>
 $)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956501"></A>Trims white space from the beginning of string <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956501"></A>Trims white space from the beginning of string <EM CLASS="Emphasis">
 a$</EM>
 .</P>
 </TD>
@@ -379,23 +379,23 @@ a$</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956503"></A>MID$(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956503"></A>MID$(<EM CLASS="Emphasis">
 string, n</EM>
 )</P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956504"></A>MID$(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956504"></A>MID$(<EM CLASS="Emphasis">
 string, n, m</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956506"></A>Extract characters from position <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956506"></A>Extract characters from position <EM CLASS="Emphasis">
 n</EM>
  to end of <EM CLASS="Emphasis">
 string.</EM>
 </P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956507"></A>Extract <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956507"></A>Extract <EM CLASS="Emphasis">
 m</EM>
  characters from <EM CLASS="Emphasis">
 string</EM>
@@ -407,7 +407,7 @@ n</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956509"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956509"></A><EM CLASS="Emphasis">
 a</EM>
  MOD <EM CLASS="Emphasis">
 b</EM>
@@ -415,7 +415,7 @@ b</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956511"></A>Returns remainder of <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956511"></A>Returns remainder of <EM CLASS="Emphasis">
 a</EM>
  / <EM CLASS="Emphasis">
 b</EM>
@@ -425,7 +425,7 @@ b</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956513"></A>ON <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956513"></A>ON <EM CLASS="Emphasis">
 expr</EM>
  GOTO <EM CLASS="Emphasis">
 line1</EM>
@@ -433,7 +433,7 @@ line1</EM>
 line2</EM>
 , ...</P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956514"></A>ON <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956514"></A>ON <EM CLASS="Emphasis">
 expr</EM>
  GOSUB <EM CLASS="Emphasis">
 line1</EM>
@@ -443,7 +443,7 @@ line2</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956516"></A>If the value of the expression, rounded to an integer, is <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956516"></A>If the value of the expression, rounded to an integer, is <EM CLASS="Emphasis">
 N</EM>
 , go to the <EM CLASS="Emphasis">
 N</EM>
@@ -455,7 +455,7 @@ N</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956518"></A>PAD(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956518"></A>PAD(<EM CLASS="Emphasis">
 a$</EM>
 , <EM CLASS="Emphasis">
 i</EM>
@@ -463,7 +463,7 @@ i</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956520"></A>Pads <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956520"></A>Pads <EM CLASS="Emphasis">
 a$</EM>
  with spaces to a total of <EM CLASS="Emphasis">
 i</EM>
@@ -479,33 +479,33 @@ i</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956522"></A>READ </P>
+<A NAME="50495493_pgfId-956522"></A>READ </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956524"></A>Read from DATA statement.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956526"></A>REM</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956528"></A>At beginning of line, line is a remark with no effect on the calculations.</P>
+<A NAME="50495493_pgfId-956524"></A>Read from DATA statement.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956530"></A>RESTORE <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956526"></A>REM</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-956528"></A>At beginning of line, line is a remark with no effect on the calculations.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-956530"></A>RESTORE <EM CLASS="Emphasis">
 line</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956532"></A>Set pointer to DATA statement at<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956532"></A>Set pointer to DATA statement at<EM CLASS="Emphasis">
  line</EM>
  for subsequent READ.</P>
 </TD>
@@ -513,23 +513,23 @@ line</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956534"></A>RETURN</P>
+<A NAME="50495493_pgfId-956534"></A>RETURN</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956536"></A>Return from subroutine.</P>
+<A NAME="50495493_pgfId-956536"></A>Return from subroutine.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956538"></A>RTRIM(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956538"></A>RTRIM(<EM CLASS="Emphasis">
 a$</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956540"></A>Trims white space from the end of string <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956540"></A>Trims white space from the end of string <EM CLASS="Emphasis">
 a$</EM>
 .</P>
 </TD>
@@ -537,13 +537,13 @@ a$</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956542"></A>SGN(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956542"></A>SGN(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956544"></A>Sign of <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956544"></A>Sign of <EM CLASS="Emphasis">
 a</EM>
 , +1 or -1.</P>
 </TD>
@@ -551,25 +551,25 @@ a</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956546"></A>SIN(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956546"></A>SIN(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956548"></A>Sine function.</P>
+<A NAME="50495493_pgfId-956548"></A>Sine function.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956550"></A>SQR(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956550"></A>SQR(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956552"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956552"></A><EM CLASS="Emphasis">
 a</EM>
 <Sup CLASS="Superscript">
 2</Sup>
@@ -579,38 +579,38 @@ a</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956554"></A>SQRT(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956554"></A>SQRT(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956559"></A><IMG SRC="phreeqc3-215.png" ALIGN="MIDDLE">
+<A NAME="50495493_pgfId-956559"></A><IMG SRC="phreeqc3-215.gif" ALIGN="BASELINE">
 .</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956561"></A>STR$(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956561"></A>STR$(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956563"></A>Convert number to a string. The string may or may not have an exponential format depending on the value of a.</P>
+<A NAME="50495493_pgfId-956563"></A>Convert number to a string. The string may or may not have an exponential format depending on the value of a.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956565"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-956565"></A><EM CLASS="ChangeFont">
 STR_E$(a,w,d)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956567"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-956567"></A><EM CLASS="ChangeFont">
 Converts number (a) to a string with exponential format (for example, &#8220;-1.234e-002&#8221;). The width of the string is w (or longer if more characters are needed), and the number of decimal places is d.</EM>
 </P>
 </TD>
@@ -618,13 +618,13 @@ Converts number (a) to a string with exponential format (for example, &#8220;-1.
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956569"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-956569"></A><EM CLASS="ChangeFont">
 STR_F$(a,w,d)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956571"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-956571"></A><EM CLASS="ChangeFont">
 Converts number (a) to a string that has no exponent (for example, &#8220;-0.01234&#8221;). The width of the string is w (or longer if more characters are needed), and the number of decimal places is d.</EM>
 </P>
 </TD>
@@ -632,25 +632,25 @@ Converts number (a) to a string that has no exponent (for example, &#8220;-0.012
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956573"></A>TAN(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956573"></A>TAN(<EM CLASS="Emphasis">
 a</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956575"></A>Tangent function.</P>
+<A NAME="50495493_pgfId-956575"></A>Tangent function.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956577"></A>TRIM(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956577"></A>TRIM(<EM CLASS="Emphasis">
 a$</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956579"></A>Trims white space from the beginning and end of string <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956579"></A>Trims white space from the beginning and end of string <EM CLASS="Emphasis">
 a$</EM>
 .</P>
 </TD>
@@ -658,79 +658,93 @@ a$</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956581"></A>VAL(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956581"></A>VAL(<EM CLASS="Emphasis">
 string</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956583"></A>Convert string to number.</P>
+<A NAME="50495493_pgfId-956583"></A>Convert string to number.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956585"></A>WHILE (<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-956585"></A>WHILE (<EM CLASS="Emphasis">
 expression</EM>
 )</P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956586"></A>WEND</P>
+<A NAME="50495493_pgfId-956586"></A>WEND</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-956588"></A>&#8220;While&#8221; loop.</P>
+<A NAME="50495493_pgfId-956588"></A>&#8220;While&#8221; loop.</P>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50634757_pgfId-534440"></A>   </P>
+<A NAME="50495493_pgfId-534440"></A>   </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634757_pgfId-963240"></A>Table 8. <STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963240"></A>Table 8. <STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50634757_27680"></A>Special Basic statements and functions for PHREEQC.</P>
+<A NAME="50495493_27680"></A>Special Basic statements and functions for PHREEQC.</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634757_pgfId-963244"></A>Special PHREEQC <BR>
+<A NAME="50495493_pgfId-963244"></A>Special PHREEQC <BR>
 Statement or Function</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634757_pgfId-963246"></A>Explanation</P>
+<A NAME="50495493_pgfId-963246"></A>Explanation</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963248"></A>ACT(&quot;HCO3-&quot;)</P>
+<A NAME="50495493_pgfId-963248"></A>ACT(&quot;HCO3-&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963250"></A>Activity of an aqueous, exchange, or surface species.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963252"></A>ALK</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963254"></A>Alkalinity of solution, equivalents per kilogram water.</P>
+<A NAME="50495493_pgfId-963250"></A>Activity of an aqueous, exchange, or surface species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963256"></A>CALC_VALUE(&quot;R(D)_OH-&quot;)</P>
+<A NAME="50495493_pgfId-963252"></A>ALK</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963261"></A>Value calculated by Basic function (here, &#8220;R(D)_OH-&#8221;) defined in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-7.htm#50634753_35035" CLASS="XRef"></A>CALCULATE_VALUES<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963254"></A>Alkalinity of solution, equivalents per kilogram water.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-964058"></A><EM CLASS="ChangeFont">
+APHI</EM>
+</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-964060"></A><EM CLASS="ChangeFont">
+The A(phi) parameter of the Pitzer formulation of aqueous thermodynamics at the current solution conditions.</EM>
+</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963256"></A>CALC_VALUE(&quot;R(D)_OH-&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963261"></A>Value calculated by Basic function (here, &#8220;R(D)_OH-&#8221;) defined in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-7.htm#50495489_35035" CLASS="XRef"></A>CALCULATE_VALUES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block.</P>
@@ -739,16 +753,16 @@ Statement or Function</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963263"></A>CELL_NO</P>
+<A NAME="50495493_pgfId-963263"></A>CELL_NO</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963271"></A>Cell number in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50634753_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963271"></A>Cell number in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-49.htm#50495489_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  or <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50634753_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50495489_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  calculations; otherwise solution or mix number.</P>
@@ -757,12 +771,12 @@ Statement or Function</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963273"></A>CHANGE_POR(0.21, cell_no)</P>
+<A NAME="50495493_pgfId-963273"></A>CHANGE_POR(0.21, cell_no)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963275"></A>Modifies the porosity in a cell, used only in multicomponent diffusion calculations (keyword <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50634753_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963275"></A>Modifies the porosity in a cell, used only in multicomponent diffusion calculations (keyword <STRONG CLASS="Bold">
+<A HREF="phreeqc3-49.htm#50495489_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 ). Here, porosity of cell cell_no is set to 0.21.</P>
@@ -771,16 +785,16 @@ Statement or Function</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963280"></A>CHANGE_SURF(&quot;Hfo&quot;, 0.2, &quot;Sorbedhfo&quot;, 0, cell_no)</P>
+<A NAME="50495493_pgfId-963280"></A>CHANGE_SURF(&quot;Hfo&quot;, 0.2, &quot;Sorbedhfo&quot;, 0, cell_no)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963285"></A>Changes the diffusion coefficient of (part of) a surface (<STRONG CLASS="Bold">
-<A HREF="phreeqc3-45.htm#50634753_56392" CLASS="XRef"></A>SURFACE<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963285"></A>Changes the diffusion coefficient of (part of) a surface (<STRONG CLASS="Bold">
+<A HREF="phreeqc3-45.htm#50495489_56392" CLASS="XRef"></A>SURFACE<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 ), and renames the surface (if names are different). This function is for modeling transport, deposition, and remobilization of colloids. It is used in conjunction with multicomponent diffusion in a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50634753_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+<A HREF="phreeqc3-49.htm#50495489_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block. Here: take a fraction 0.2 of &#8220;Hfo&#8221; and rename it &#8220;Sorbedhfo&#8221; with a diffusion coefficient of 0, in cell cell_no. The diffusion coefficient of zero means that &#8220;Sorbedhfo&#8221; is not transported.</P>
@@ -789,33 +803,33 @@ Statement or Function</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963290"></A>CHARGE_BALANCE</P>
+<A NAME="50495493_pgfId-963290"></A>CHARGE_BALANCE</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963292"></A>Charge balance of a solution, equivalents.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963294"></A>DESCRIPTION</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963296"></A>Description associated with current solution or current mixture.</P>
+<A NAME="50495493_pgfId-963292"></A>Charge balance of a solution, equivalents.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963298"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963294"></A>DESCRIPTION</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963296"></A>Description associated with current solution or current mixture.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963298"></A><EM CLASS="ChangeFont">
 DIFF_C(&#8220;CO3-2&#8221;)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963300"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963300"></A><EM CLASS="ChangeFont">
 Diffusion coefficient at 25 C for the specified aqueous species.</EM>
 </P>
 </TD>
@@ -823,11 +837,11 @@ Diffusion coefficient at 25 C for the specified aqueous species.</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963302"></A>DH_A</P>
+<A NAME="50495493_pgfId-963302"></A>DH_A</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963304"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963304"></A><EM CLASS="Emphasis">
 Debye-H&uuml;ckel A parameter in the activity coefficient equation, (mol/kg)</EM>
 <Sup CLASS="Superscript">
 -0.5</Sup>
@@ -837,11 +851,11 @@ Debye-H&uuml;ckel A parameter in the activity coefficient equation, (mol/kg)</EM
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963306"></A>DH_Av</P>
+<A NAME="50495493_pgfId-963306"></A>DH_Av</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963308"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963308"></A><EM CLASS="Emphasis">
 Debye-H&uuml;ckel limiting slope of specific volume vs. ionic strength, </EM>
 (cm<Sup CLASS="Superscript">
 3</Sup>
@@ -855,11 +869,11 @@ Debye-H&uuml;ckel limiting slope of specific volume vs. ionic strength, </EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963310"></A>DH_B</P>
+<A NAME="50495493_pgfId-963310"></A>DH_B</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963312"></A><EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963312"></A><EM CLASS="Emphasis">
 Debye-H&uuml;ckel B parameter in the activity coefficient equation, </EM>
 angstrom<Sup CLASS="Superscript">
 -1</Sup>
@@ -873,16 +887,16 @@ angstrom<Sup CLASS="Superscript">
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963314"></A>DIST</P>
+<A NAME="50495493_pgfId-963314"></A>DIST</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963322"></A>Distance to midpoint of cell in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50634753_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963322"></A>Distance to midpoint of cell in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-49.htm#50495489_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  calculations, cell number in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50634753_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50495489_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  calculations, &#8220;-99&#8221; in all other calculations.</P>
@@ -891,13 +905,13 @@ angstrom<Sup CLASS="Superscript">
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963324"></A>EDL(&quot;As&quot;, &quot;Hfo&quot;)</P>
+<A NAME="50495493_pgfId-963324"></A>EDL(&quot;As&quot;, &quot;Hfo&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963326"></A>Moles of element in the diffuse layer of a surface. The number of moles does not include the specifically sorbed species. The surface name should be used, not a surface site name (that is, no underscore). The first argument can have several special values, which return information for the surface: &#8220;charge&#8221;, surface charge, in equivalents; &#8220;sigma&#8221;, surface charge density, coulombs per square meter; &#8220;psi&#8221;, potential, Volts; &#8220;water&#8221;, mass of water in the diffuse layer, kg.</P>
+<A NAME="50495493_pgfId-963326"></A>Moles of element in the diffuse layer of a surface. The number of moles does not include the specifically sorbed species. The surface name should be used, not a surface site name (that is, no underscore). The first argument can have several special values, which return information for the surface: &#8220;charge&#8221;, surface charge, in equivalents; &#8220;sigma&#8221;, surface charge density, coulombs per square meter; &#8220;psi&#8221;, potential, Volts; &#8220;water&#8221;, mass of water in the diffuse layer, kg.</P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963327"></A>For CD-MUSIC surfaces, charge, sigma and psi can be requested for the 0, 1 and 2 planes: <BR>
+<A NAME="50495493_pgfId-963327"></A>For CD-MUSIC surfaces, charge, sigma and psi can be requested for the 0, 1 and 2 planes: <BR>
 EDL(&quot;Charge&quot;, &quot;Goe&quot;) # Charge (eq) at the zero-plane of Goe (Goethite) <BR>
 EDL(&quot;Charge1&quot;, &quot;Goe&quot;) # Charge (eq) at plane 1 of Goe <BR>
 EDL(&quot;Charge2&quot;, &quot;Goe&quot;) # Charge (eq) at plane 2 of Goe <BR>
@@ -907,14 +921,14 @@ and similar for &#8220;sigma&#8221; and &#8220;psi&#8221;.</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963329"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963329"></A><EM CLASS="ChangeFont">
 EDL_SPECIES(surf$, count, name$, moles, area, thickness)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963331"></A><EM CLASS="ChangeFont">
-Returns the total number of moles of species in the diffuse layer. The The arguments to the function are as follows: surf$ is the name of a surface, such as &quot;Hfo&quot;, excluding the site type (such as &quot;_s&quot;); count is the number of species in the diffuse layer; name$ is an array of size count that contains the names of aqueous species in the diffuse layer of surface surf$; moles is an array of size count that contains the number of moles of each aqueous species in the diffuse layer of surface surf$; area  is the area of the surface in m^2; thickness is the thickness of the diffuse layer in m. The function applies when -donnan or -diffuse_layer is defined in <A HREF="phreeqc3-45.htm#50634753_56392" CLASS="XRef"></A>SURFACE<EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963331"></A><EM CLASS="ChangeFont">
+Returns the total number of moles of species in the diffuse layer. The The arguments to the function are as follows: surf$ is the name of a surface, such as &quot;Hfo&quot;, excluding the site type (such as &quot;_s&quot;); count is the number of species in the diffuse layer; name$ is an array of size count that contains the names of aqueous species in the diffuse layer of surface surf$; moles is an array of size count that contains the number of moles of each aqueous species in the diffuse layer of surface surf$; area  is the area of the surface in m^2; thickness is the thickness of the diffuse layer in m. The function applies when -donnan or -diffuse_layer is defined in <A HREF="phreeqc3-45.htm#50495489_56392" CLASS="XRef"></A>SURFACE<EM CLASS="ChangeFont">
 </EM>
  calculations.</EM>
 </P>
@@ -923,53 +937,53 @@ Returns the total number of moles of species in the diffuse layer. The The argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963336"></A>EOL$</P>
+<A NAME="50495493_pgfId-963336"></A>EOL$</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963338"></A>End of line character, which is equivalent to &#8220;&#92;n&#8221; in the C programming language.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963340"></A>EPS_R</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963342"></A>Relative dielectric constant.</P>
+<A NAME="50495493_pgfId-963338"></A>End of line character, which is equivalent to &#8220;&#92;n&#8221; in the C programming language.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963344"></A>EQUI(&quot;Calcite&quot;)</P>
+<A NAME="50495493_pgfId-963340"></A>EPS_R</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963346"></A>Moles of a phase in the equilibrium-phase assemblage.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963348"></A>EQUI_DELTA(&quot;Calcite&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963350"></A>Moles of a phase in the equilibrium-phase assemblage that reacted during the current calculation.</P>
+<A NAME="50495493_pgfId-963342"></A>Relative dielectric constant.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963352"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963344"></A>EQUI(&quot;Calcite&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963346"></A>Moles of a phase in the equilibrium-phase assemblage.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963348"></A>EQUI_DELTA(&quot;Calcite&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963350"></A>Moles of a phase in the equilibrium-phase assemblage that reacted during the current calculation.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963352"></A><EM CLASS="ChangeFont">
 EQUIV_FRAC(&quot;(Hfo_w)2Al+&quot;, eq, x$)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963354"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963354"></A><EM CLASS="ChangeFont">
 Equivalent fraction of an exchange or surface species relative to the total number of equivalents of exchange or surface sites. The second argument returns the number of sites per mole of species. The third argument returns the site name (&#8220;Hfo_w&#8221; in the example). If an exchange or surface species is not found with the given name, the function returns zero; the second argument is zero, and the third argument is an empty string.</EM>
 </P>
 </TD>
@@ -977,7 +991,7 @@ Equivalent fraction of an exchange or surface species relative to the total numb
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963356"></A>EXISTS(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963356"></A>EXISTS(<EM CLASS="Emphasis">
 i1</EM>
 [<EM CLASS="Emphasis">
 , i2, ...</EM>
@@ -985,53 +999,53 @@ i1</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963358"></A>Determines if a value has been stored with a PUT statement for the list of one or more subscripts.The function equals 1 if a value has been stored and 0 if no value has been stored. Values are stored in global storage with PUT and are accessible by any Basic program. See description of PUT for more details.</P>
+<A NAME="50495493_pgfId-963358"></A>Determines if a value has been stored with a PUT statement for the list of one or more subscripts.The function equals 1 if a value has been stored and 0 if no value has been stored. Values are stored in global storage with PUT and are accessible by any Basic program. See description of PUT for more details.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963360"></A>GAMMA(&quot;H+&quot;)</P>
+<A NAME="50495493_pgfId-963360"></A>GAMMA(&quot;H+&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963362"></A>Activity coefficient of a species.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963364"></A>GAS(&quot;CO2(g)&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963366"></A>Moles of a gas component in the gas phase.</P>
+<A NAME="50495493_pgfId-963362"></A>Activity coefficient of a species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963368"></A>GAS_P</P>
+<A NAME="50495493_pgfId-963364"></A>GAS(&quot;CO2(g)&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963370"></A>Pressure of the GAS_PHASE (atm), either specified for a fixed-pressure gas phase, or calculated for a fixed-volume gas phase. Related functions are PR_P and PRESSURE.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963372"></A>GAS_VM</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963374"></A>Molar volume (L/mol, liter per mole) of the GAS_PHASE (calculated with Peng-Robinson).</P>
+<A NAME="50495493_pgfId-963366"></A>Moles of a gas component in the gas phase.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963376"></A>GET(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963368"></A>GAS_P</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963370"></A>Pressure of the GAS_PHASE (atm), either specified for a fixed-pressure gas phase, or calculated for a fixed-volume gas phase. Related functions are PR_P and PRESSURE.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963372"></A>GAS_VM</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963374"></A>Molar volume (L/mol, liter per mole) of the GAS_PHASE (calculated with Peng-Robinson).</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963376"></A>GET(<EM CLASS="Emphasis">
 i1</EM>
 [<EM CLASS="Emphasis">
 , i2, ...</EM>
@@ -1039,42 +1053,42 @@ i1</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963378"></A>Retrieves the value that is identified by the list of one or more subscripts.Value is zero if PUT has not been used to store a value for the set of subscripts. Values stored in global storage with PUT are accessible by any Basic program. See description of PUT for more details.</P>
+<A NAME="50495493_pgfId-963378"></A>Retrieves the value that is identified by the list of one or more subscripts.Value is zero if PUT has not been used to store a value for the set of subscripts. Values stored in global storage with PUT are accessible by any Basic program. See description of PUT for more details.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963380"></A>GET_POR(10)</P>
+<A NAME="50495493_pgfId-963380"></A>GET_POR(10)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963382"></A>Porosity in a cell (here, cell 10), used in conjunction with Basic function CHANGE_POR in multicomponent diffusion.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963384"></A>GFW(&quot;CaCO3&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963386"></A>Returns the gram formula weight of the specified formula.</P>
+<A NAME="50495493_pgfId-963382"></A>Porosity in a cell (here, cell 10), used in conjunction with Basic function CHANGE_POR in multicomponent diffusion.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963388"></A>GRAPH_X tot(&quot;Ca&quot;) * 40.08e3</P>
+<A NAME="50495493_pgfId-963384"></A>GFW(&quot;CaCO3&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963393"></A>Used in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963386"></A>Returns the gram formula weight of the specified formula.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963388"></A>GRAPH_X tot(&quot;Ca&quot;) * 40.08e3</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963393"></A>Used in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block to define the X values for points. Here, Ca in mg/L is the X value for points of the chart. See the description of the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  keyword for more details.</P>
@@ -1083,12 +1097,12 @@ i1</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963398"></A>GRAPH_Y tot(&quot;F&quot;) * 19e3</P>
+<A NAME="50495493_pgfId-963398"></A>GRAPH_Y tot(&quot;F&quot;) * 19e3</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963400"></A>Used in USER_GRAPH data block to define the Y values for points plotted on the primary Y axis. Here, F in mg/L is the Y value for points. See the description of the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963400"></A>Used in USER_GRAPH data block to define the Y values for points plotted on the primary Y axis. Here, F in mg/L is the Y value for points. See the description of the <STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
  </STRONG>
 keyword for more details.</P>
@@ -1097,16 +1111,16 @@ keyword for more details.</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963405"></A>GRAPH_SY-la(&quot;H+&quot;)</P>
+<A NAME="50495493_pgfId-963405"></A>GRAPH_SY-la(&quot;H+&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963410"></A>Used in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963410"></A>Used in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block to define the Y values for points plotted on the secondary Y axis. Here, pH is the Y value for points plotted on the secondary Y axis. See the description of the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
  </STRONG>
 keyword for more details.</P>
@@ -1115,12 +1129,12 @@ keyword for more details.</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963415"></A>ISO(&quot;[18O]&quot;), ISO(&quot;R(D)_H3O+&quot;)</P>
+<A NAME="50495493_pgfId-963415"></A>ISO(&quot;[18O]&quot;),    ISO(&quot;R(D)_H3O+&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963417"></A>Isotopic composition in the input units (for example, permil) for an isotope (here, [18O]) or an isotope ratio defined in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-23.htm#50634753_17097" CLASS="XRef"></A>ISOTOPE_RATIOS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963417"></A>Isotopic composition in the input units (for example, permil) for an isotope (here, [18O]) or an isotope ratio defined in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-23.htm#50495489_17097" CLASS="XRef"></A>ISOTOPE_RATIOS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  (here, &#8220;R(D)_H3O+&#8221;).</P>
@@ -1129,12 +1143,12 @@ keyword for more details.</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963422"></A>ISO_UNIT(&quot;[18O]&quot;), ISO(&quot;R(D)_H3O+&quot;)</P>
+<A NAME="50495493_pgfId-963422"></A>ISO_UNIT(&quot;[18O]&quot;), ISO_UNIT(&quot;R(D)_H3O+&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963424"></A>String value for the input units (for example, &#8220;permil&#8221;) for an isotope or an isotope ratio defined in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-23.htm#50634753_17097" CLASS="XRef"></A>ISOTOPE_RATIOS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963424"></A>String value for the input units (for example, &#8220;permil&#8221;) for an isotope or an isotope ratio defined in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-23.htm#50495489_17097" CLASS="XRef"></A>ISOTOPE_RATIOS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 .</P>
@@ -1143,43 +1157,43 @@ keyword for more details.</P>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963429"></A>KAPPA</P>
+<A NAME="50495493_pgfId-963429"></A>KAPPA</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963431"></A>Compressibility of pure water at current pressure and temperature.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963433"></A>KIN(&quot;CH2O&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963435"></A>Moles of a kinetic reactant.</P>
+<A NAME="50495493_pgfId-963431"></A>Compressibility of pure water at current pressure and temperature.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963437"></A>KIN_DELTA(&quot;CH2O&quot;)</P>
+<A NAME="50495493_pgfId-963433"></A>KIN(&quot;CH2O&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963439"></A>Moles of a kinetic reactant that reacted during the current calculation.</P>
+<A NAME="50495493_pgfId-963435"></A>Moles of a kinetic reactant.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963441"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963437"></A>KIN_DELTA(&quot;CH2O&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963439"></A>Moles of a kinetic reactant that reacted during the current calculation.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963441"></A><EM CLASS="ChangeFont">
 KIN_TIME</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963443"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963443"></A><EM CLASS="ChangeFont">
 Time interval in seconds of the last kinetic integration. KIN_DELTA(&quot;CH2O&quot;)/KIN_TIME will give the average rate over the time interval for reaction CH2O.</EM>
 </P>
 </TD>
@@ -1187,13 +1201,13 @@ Time interval in seconds of the last kinetic integration. KIN_DELTA(&quot;CH2O&q
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963445"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963445"></A><EM CLASS="ChangeFont">
 KINETICS_FORMULA$(&quot;Albite&quot;, count, elt$, coef)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963447"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963447"></A><EM CLASS="ChangeFont">
 KINETICS_FORMULA$ returns a string that contains the first argument of the argument list if the kinetic reaction defined by the first argument is found, or a blank string if not. In addition, values are returned for count, elt$, and coef. Count is the dimension of the elt$ and coef arrays. Elt$ is a character array with the name of each element in the chemical formula defined for the kinetic reaction. Coef is a numeric array containing the number of atoms of each element in the kinetic reaction formula, in the order defined by elt$, which is alphabetical by element. </EM>
 </P>
 </TD>
@@ -1201,42 +1215,42 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963449"></A>LA(&quot;HCO3-&quot;)</P>
+<A NAME="50495493_pgfId-963449"></A>LA(&quot;HCO3-&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963451"></A>Log10 of activity of an aqueous, exchange, or surface species.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963453"></A>LG(&quot;H+&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963455"></A>Log10 of the activity coefficient for an aqueous species.</P>
+<A NAME="50495493_pgfId-963451"></A>Log10 of activity of an aqueous, exchange, or surface species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963457"></A>LIST_S_S(&quot;Carbonate_s_s&quot;, count, comp$, moles)</P>
+<A NAME="50495493_pgfId-963453"></A>LG(&quot;H+&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963459"></A>Returns the sum of the moles of components in a solid solution and the composition of the solid solution. The first argument is an input value specifying the name of the solid solution. Count is an output variable containing the number of components in the solid solution. Comp$ is an output character array containing the names of each component in the solid solution. Moles is an output numeric array containing the number of moles of each component, in the order defined by Comp$. Arrays are in sort order by number of moles.</P>
+<A NAME="50495493_pgfId-963455"></A>Log10 of the activity coefficient for an aqueous species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963461"></A>LK_NAMED(&quot;Log_alpha_D_OH-/H2O(l)&quot;)</P>
+<A NAME="50495493_pgfId-963457"></A>LIST_S_S(&quot;Carbonate_s_s&quot;, count, comp$, moles)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963466"></A>The value calculated by a named expression defined in the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-28.htm#50634753_79962" CLASS="XRef"></A>NAMED_EXPRESSIONS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963459"></A>Returns the sum of the moles of components in a solid solution and the composition of the solid solution. The first argument is an input value specifying the name of the solid solution. Count is an output variable containing the number of components in the solid solution. Comp$ is an output character array containing the names of each component in the solid solution. Moles is an output numeric array containing the number of moles of each component, in the order defined by Comp$. Arrays are in sort order by number of moles.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963461"></A>LK_NAMED(&quot;Log_alpha_D_OH-/H2O(l)&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963466"></A>The value calculated by a named expression defined in the <STRONG CLASS="Bold">
+<A HREF="phreeqc3-28.htm#50495489_79962" CLASS="XRef"></A>NAMED_EXPRESSIONS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block.</P>
@@ -1245,12 +1259,12 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963468"></A>LK_PHASE(&quot;Calcite&quot;)</P>
+<A NAME="50495493_pgfId-963468"></A>LK_PHASE(&quot;Calcite&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963473"></A>Log10 of the equilibrium constant for a phase defined in the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-29.htm#50634753_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963473"></A>Log10 of the equilibrium constant for a phase defined in the <STRONG CLASS="Bold">
+<A HREF="phreeqc3-29.htm#50495489_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block.</P>
@@ -1259,32 +1273,32 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963475"></A>LK_SPECIES(&quot;HCO3-&quot;)</P>
+<A NAME="50495493_pgfId-963475"></A>LK_SPECIES(&quot;HCO3-&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963477"></A>Log10 of the equilibrium constant for an aqueous, exchange, or surface species.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963479"></A>LM(&quot;HCO3-&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963481"></A>Log10 of molality of an aqueous, exchange, or surface species.</P>
+<A NAME="50495493_pgfId-963477"></A>Log10 of the equilibrium constant for an aqueous, exchange, or surface species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963483"></A>M</P>
+<A NAME="50495493_pgfId-963479"></A>LM(&quot;HCO3-&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963488"></A>Current moles of the kinetic reactant for which the rate is being calculated (see <STRONG CLASS="Bold">
-<A HREF="phreeqc3-24.htm#50634753_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963481"></A>Log10 of molality of an aqueous, exchange, or surface species.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963483"></A>M</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963488"></A>Current moles of the kinetic reactant for which the rate is being calculated (see <STRONG CLASS="Bold">
+<A HREF="phreeqc3-24.htm#50495489_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 ).</P>
@@ -1293,12 +1307,12 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963490"></A>M0</P>
+<A NAME="50495493_pgfId-963490"></A>M0</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963495"></A>Initial moles of the kinetic reactant for which the rate is being calculated (see <STRONG CLASS="Bold">
-<A HREF="phreeqc3-24.htm#50634753_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963495"></A>Initial moles of the kinetic reactant for which the rate is being calculated (see <STRONG CLASS="Bold">
+<A HREF="phreeqc3-24.htm#50495489_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 ).</P>
@@ -1307,12 +1321,12 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963497"></A>MISC1(&quot;Ca(x)Sr(1-x)SO4&quot;)</P>
+<A NAME="50495493_pgfId-963497"></A>MISC1(&quot;Ca(x)Sr(1-x)SO4&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963499"></A>Mole fraction of component 2 at the beginning of the miscibility gap, returns 1.0 if there is no miscibility gap (see <STRONG CLASS="Bold">
-<A HREF="phreeqc3-40.htm#50634753_77444" CLASS="XRef"></A>SOLID_SOLUTIONS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963499"></A>Mole fraction of component 2 at the beginning of the miscibility gap, returns 1.0 if there is no miscibility gap (see <STRONG CLASS="Bold">
+<A HREF="phreeqc3-40.htm#50495489_77444" CLASS="XRef"></A>SOLID_SOLUTIONS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 ).</P>
@@ -1321,12 +1335,12 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963504"></A>MISC2(&quot;Ca(x)Sr(1-x)SO4&quot;)</P>
+<A NAME="50495493_pgfId-963504"></A>MISC2(&quot;Ca(x)Sr(1-x)SO4&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963506"></A>Mole fraction of component 2 at the end of the miscibility gap, returns 1.0 if there is no miscibility gap (see <STRONG CLASS="Bold">
-<A HREF="phreeqc3-40.htm#50634753_77444" CLASS="XRef"></A>SOLID_SOLUTIONS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963506"></A>Mole fraction of component 2 at the end of the miscibility gap, returns 1.0 if there is no miscibility gap (see <STRONG CLASS="Bold">
+<A HREF="phreeqc3-40.htm#50495489_77444" CLASS="XRef"></A>SOLID_SOLUTIONS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 ).</P>
@@ -1335,44 +1349,44 @@ KINETICS_FORMULA$ returns a string that contains the first argument of the argum
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963511"></A>MOL(&quot;HCO3-&quot;)</P>
+<A NAME="50495493_pgfId-963511"></A>MOL(&quot;HCO3-&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963513"></A>Molality of an aqueous, exchange, or surface species.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963515"></A>MU</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963517"></A>Ionic strength of the solution.</P>
+<A NAME="50495493_pgfId-963513"></A>Molality of an aqueous, exchange, or surface species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963519"></A>OSMOTIC</P>
+<A NAME="50495493_pgfId-963515"></A>MU</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963521"></A>Osmotic coefficient if using the Pitzer or SIT aqueous model, otherwise 0.0, unitless.</P>
+<A NAME="50495493_pgfId-963517"></A>Ionic strength of the solution.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963523"></A>PARM(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963519"></A>OSMOTIC</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963521"></A>Osmotic coefficient if using the Pitzer or SIT aqueous model, otherwise 0.0, unitless.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963523"></A>PARM(<EM CLASS="Emphasis">
 i</EM>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963528"></A>The ith item in the parameter array defined in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-24.htm#50634753_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963528"></A>The ith item in the parameter array defined in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-24.htm#50495489_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block.</P>
@@ -1381,17 +1395,17 @@ i</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963530"></A>PERCENT_ERROR</P>
+<A NAME="50495493_pgfId-963530"></A>PERCENT_ERROR</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963532"></A>Percent charge-balance error [100(cations-|anions|)/(cations + |anions|)], unitless.</P>
+<A NAME="50495493_pgfId-963532"></A>Percent charge-balance error [100(cations-|anions|)/(cations + |anions|)], unitless.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963534"></A>PHASE_FORMULA<EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963534"></A>PHASE_FORMULA<EM CLASS="ChangeFont">
 $</EM>
 (&quot;Dolomite<EM CLASS="Emphasis">
 &quot;)</EM>
@@ -1399,13 +1413,13 @@ $</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963536"></A>With a single argument, PHASE_FORMULA$ returns a string that contains the chemical formula for the phase; in this example, &#8220;CaMg(CO3)2&#8221;.</P>
+<A NAME="50495493_pgfId-963536"></A>With a single argument, PHASE_FORMULA$ returns a string that contains the chemical formula for the phase; in this example, &#8220;CaMg(CO3)2&#8221;.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963538"></A>PHASE_FORMULA<EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963538"></A>PHASE_FORMULA<EM CLASS="ChangeFont">
 $</EM>
 (&quot;Dolomite&quot;, <EM CLASS="Emphasis">
 count</EM>
@@ -1417,7 +1431,7 @@ coef)</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963540"></A>With four arguments, PHASE_FORMULA$ returns a string that contains the chemical formula for the phase, and, in addition, returns values for <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963540"></A>With four arguments, PHASE_FORMULA$ returns a string that contains the chemical formula for the phase, and, in addition, returns values for <EM CLASS="Emphasis">
 count</EM>
 , <EM CLASS="Emphasis">
 elt$</EM>
@@ -1439,13 +1453,13 @@ elt$, which is alphabetical by element.</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963908"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963908"></A><EM CLASS="ChangeFont">
 PHASE_VM(&quot;Calcite&quot;)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963910"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963910"></A><EM CLASS="ChangeFont">
 Returns the molar volume for a mineral. The molar volume is defined for the mineral in PHASES with the -vm option. Use the Basic function GAS_VM for gas components.</EM>
 </P>
 </TD>
@@ -1453,16 +1467,16 @@ Returns the molar volume for a mineral. The molar volume is defined for the mine
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963542"></A>PLOT_XY tot(&quot;Ca&quot;) * 40.08e3, tot(&quot;F&quot;) * 19e3, color = Blue, symbol = Circle, symbol_size = 6, y-axis = 1, line_width = 0</P>
+<A NAME="50495493_pgfId-963542"></A>PLOT_XY tot(&quot;Ca&quot;) * 40.08e3, tot(&quot;F&quot;) * 19e3, color = Blue, symbol = Circle, symbol_size = 6, y-axis = 1, line_width = 0</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963547"></A>Used in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963547"></A>Used in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block to define the points to chart; here, Ca in mg/L is the X value for points, F in mg/L is the Y value for points, the symbols are blue circles, the points are plotted relative to the Y axis, and no line connects the points. See the description of the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  keyword for more details.</P>
@@ -1471,57 +1485,57 @@ Returns the molar volume for a mineral. The molar volume is defined for the mine
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963552"></A>PRINT</P>
+<A NAME="50495493_pgfId-963552"></A>PRINT</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963554"></A>Write to output file.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963556"></A>PR_P(&quot;CO2(g)&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963558"></A>Pressure (atm) of a gas component in a Peng-Robinson GAS_PHASE.</P>
+<A NAME="50495493_pgfId-963554"></A>Write to output file.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963560"></A>PR_PHI(&quot;CO2(g)&quot;)</P>
+<A NAME="50495493_pgfId-963556"></A>PR_P(&quot;CO2(g)&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963562"></A>Fugacity coefficient of a gas component in a Peng-Robinson GAS_PHASE.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963564"></A>PRESSURE</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963566"></A>Current pressure applied to the solution (atm). PRESSURE is a specified value except for fixed-volume GAS_PHASE calculations.</P>
+<A NAME="50495493_pgfId-963558"></A>Pressure (atm) of a gas component in a Peng-Robinson GAS_PHASE.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963568"></A>PUNCH</P>
+<A NAME="50495493_pgfId-963560"></A>PR_PHI(&quot;CO2(g)&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963570"></A>Write to selected-output file.</P>
+<A NAME="50495493_pgfId-963562"></A>Fugacity coefficient of a gas component in a Peng-Robinson GAS_PHASE.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963572"></A>PUT(<EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963564"></A>PRESSURE</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963566"></A>Current pressure applied to the solution (atm). PRESSURE is a specified value except for fixed-volume GAS_PHASE calculations.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963568"></A>PUNCH</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963570"></A>Write to selected-output file.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963572"></A>PUT(<EM CLASS="Emphasis">
 x</EM>
 , <EM CLASS="Emphasis">
 i1</EM>
@@ -1531,7 +1545,7 @@ i1</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963574"></A>Saves value of <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963574"></A>Saves value of <EM CLASS="Emphasis">
 x</EM>
  in global storage that is identified by a sequence of one or more subscripts. Value of <EM CLASS="Emphasis">
 x</EM>
@@ -1544,27 +1558,27 @@ i1</EM>
 [<EM CLASS="Emphasis">
 , i2, ...</EM>
 ]). PUT may be used in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-7.htm#50634753_35035" CLASS="XRef"></A>CALCULATE_VALUES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-7.htm#50495489_35035" CLASS="XRef"></A>CALCULATE_VALUES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 , <STRONG CLASS="Bold">
-<A HREF="phreeqc3-32.htm#50634753_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-32.htm#50495489_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 , <STRONG CLASS="Bold">
-<A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
+<A HREF="phreeqc3-51.htm#50495489_26121" CLASS="XRef"></A>USER_GRAPH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 , <STRONG CLASS="Bold">
-<A HREF="phreeqc3-52.htm#50634753_55085" CLASS="XRef"></A>USER_PRINT<STRONG CLASS="Bold">
+<A HREF="phreeqc3-52.htm#50495489_55085" CLASS="XRef"></A>USER_PRINT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
 , or <STRONG CLASS="Bold">
-<A HREF="phreeqc3-53.htm#50634753_56415" CLASS="XRef"></A>USER_PUNCH<STRONG CLASS="Bold">
+<A HREF="phreeqc3-53.htm#50495489_56415" CLASS="XRef"></A>USER_PUNCH<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  Basic programs to store a value. The value may be retrieved by any of these Basic programs. The value persists until overwritten by using a PUT statement with the same set of subscripts, or until the end of the run. For a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-24.htm#50634753_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
+<A HREF="phreeqc3-24.htm#50495489_55637" CLASS="XRef"></A>KINETICS<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block, the Basic programs for the rate expressions are evaluated in the order in which they are defined in the input file. Use of PUT and GET in parallel processing environments may be unreliable.</P>
@@ -1573,13 +1587,13 @@ i1</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963594"></A>QBRN</P>
+<A NAME="50495493_pgfId-963594"></A>QBRN</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963596"></A>The Born parameter for calculating the temperature dependence of the specific volume of an aqueous species at infinite dilution. This is the pressure derivative of the relative dielectric constant of water multiplied by 41.84 bar cm<Sup CLASS="Superscript">
+<A NAME="50495493_pgfId-963596"></A>The Born parameter for calculating the temperature dependence of the specific volume of an aqueous species at infinite dilution. This is the pressure derivative of the relative dielectric constant of water multiplied by 41.84 bar cm<Sup CLASS="Superscript">
 3</Sup>
-/cal (bar cubic centimeter per calorie): <IMG SRC="phreeqc3-216.png" ALIGN="MIDDLE">
+/cal (bar cubic centimeter per calorie): <IMG SRC="phreeqc3-216.gif" ALIGN="BASELINE">
 , cm<Sup CLASS="Superscript">
 3</Sup>
 /mol</P>
@@ -1588,23 +1602,23 @@ i1</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963601"></A>RHO</P>
+<A NAME="50495493_pgfId-963601"></A>RHO</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963603"></A>Density of solution, kilograms per liter. </P>
+<A NAME="50495493_pgfId-963603"></A>Density of solution, kilograms per liter. </P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963605"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963605"></A><EM CLASS="ChangeFont">
 RHO_0</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963607"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963607"></A><EM CLASS="ChangeFont">
 Density of pure water at the current temperature and pressure, kilograms per liter. </EM>
 </P>
 </TD>
@@ -1612,14 +1626,14 @@ Density of pure water at the current temperature and pressure, kilograms per lit
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963609"></A>RXN</P>
+<A NAME="50495493_pgfId-963609"></A>RXN</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963614"></A>Moles of reaction as defined in <STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963614"></A>Moles of reaction as defined in <STRONG CLASS="Bold">
 -steps</STRONG>
  in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-33.htm#50634753_75635" CLASS="XRef"></A>REACTION<STRONG CLASS="Bold">
+<A HREF="phreeqc3-33.htm#50495489_75635" CLASS="XRef"></A>REACTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block for a batch-reaction calculation; otherwise zero.</P>
@@ -1628,12 +1642,12 @@ Density of pure water at the current temperature and pressure, kilograms per lit
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963616"></A>SAVE </P>
+<A NAME="50495493_pgfId-963616"></A>SAVE </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963618"></A>Moles of kinetic reactant for a time step in a rates function or the value returned from a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-7.htm#50634753_35035" CLASS="XRef"></A>CALCULATE_VALUES<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963618"></A>Moles of kinetic reactant for a time step in a rates function or the value returned from a <STRONG CLASS="Bold">
+<A HREF="phreeqc3-7.htm#50495489_35035" CLASS="XRef"></A>CALCULATE_VALUES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  function. </P>
@@ -1642,21 +1656,21 @@ Density of pure water at the current temperature and pressure, kilograms per lit
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963623"></A>SC</P>
+<A NAME="50495493_pgfId-963623"></A>SC</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963625"></A>Specific conductance, microsiemens per centimeter. </P>
+<A NAME="50495493_pgfId-963625"></A>Specific conductance, microsiemens per centimeter. </P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963627"></A>SI(&quot;Calcite&quot;)</P>
+<A NAME="50495493_pgfId-963627"></A>SI(&quot;Calcite&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963632"></A>Saturation index of a phase,<IMG SRC="phreeqc3-217.png" ALIGN="MIDDLE">
+<A NAME="50495493_pgfId-963632"></A>Saturation index of a phase,<IMG SRC="phreeqc3-217.gif" ALIGN="BASELINE">
  log 10 of the ion activity product divided by equilibrium constant. <EM CLASS="ChangeFont">
 For gases, this value is equal to log10(fugacity). For ideal gases, fugacity equals partial pressure. For Peng-Robinson gases, the Basic functions PR_P and PR_PHI can be used to obtain the gas partial pressure and the fugacity coefficient.</EM>
 </P>
@@ -1665,12 +1679,12 @@ For gases, this value is equal to log10(fugacity). For ideal gases, fugacity equ
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963634"></A>SIM_NO</P>
+<A NAME="50495493_pgfId-963634"></A>SIM_NO</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963639"></A>Simulation number, equals one more than the number of <STRONG CLASS="Bold">
-<A HREF="phreeqc3-12.htm#50634753_63178" CLASS="XRef"></A>END<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963639"></A>Simulation number, equals one more than the number of <STRONG CLASS="Bold">
+<A HREF="phreeqc3-12.htm#50495489_63178" CLASS="XRef"></A>END<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  statements before current simulation.</P>
@@ -1679,33 +1693,33 @@ For gases, this value is equal to log10(fugacity). For ideal gases, fugacity equ
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963641"></A>SIM_TIME</P>
+<A NAME="50495493_pgfId-963641"></A>SIM_TIME</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963643"></A>Time from the beginning of a kinetic batch-reaction or transport calculation, in seconds.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963645"></A>SOLN_VOL</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963647"></A>Volume of the solution, in liters.</P>
+<A NAME="50495493_pgfId-963643"></A>Time from the beginning of a kinetic batch-reaction or transport calculation, in seconds.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963649"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963645"></A>SOLN_VOL</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963647"></A>Volume of the solution, in liters.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963649"></A><EM CLASS="ChangeFont">
 SPECIES_FORMULA$(&quot;AlOH4-&quot;, count, elt$, coef)</EM>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963651"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963651"></A><EM CLASS="ChangeFont">
 SPECIES_FORMULA$ returns a string that contains the type of the species--&#8220;aq&#8221;, &#8220;ex&#8221;, &#8220;surf&#8221;, or &#8220;none&#8221; if the species name is not found. In addition, values are returned for count, elt$, and coef. Count is the dimension of the elt$ and coef arrays. Elt$ is a character array with the name of each element in the chemical formula for the species plus an entry for &#8220;charge&#8221; (the charge number of the species). Coef is a numeric array containing the number of atoms of each element in the species formula, in the order defined by elt$, which is alphabetical by element. </EM>
 </P>
 </TD>
@@ -1713,11 +1727,11 @@ SPECIES_FORMULA$ returns a string that contains the type of the species--&#8220;
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963653"></A>SR(&quot;Calcite&quot;)</P>
+<A NAME="50495493_pgfId-963653"></A>SR(&quot;Calcite&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963658"></A>Saturation ratio of a phase,<IMG SRC="phreeqc3-218.png" ALIGN="MIDDLE">
+<A NAME="50495493_pgfId-963658"></A>Saturation ratio of a phase,<IMG SRC="phreeqc3-218.gif" ALIGN="BASELINE">
 , ion activity product divided by equilibrium constant. <EM CLASS="ChangeFont">
 For gases, SR returns the fugacity of the gas (P*phi/1 atm).</EM>
 </P>
@@ -1726,16 +1740,16 @@ For gases, SR returns the fugacity of the gas (P*phi/1 atm).</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963660"></A>STEP_NO</P>
+<A NAME="50495493_pgfId-963660"></A>STEP_NO</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963668"></A>Step number in batch-reaction calculations, or shift number in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50634753_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963668"></A>Step number in batch-reaction calculations, or shift number in <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50495489_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  and <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50634753_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+<A HREF="phreeqc3-49.htm#50495489_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  calculations.</P>
@@ -1744,57 +1758,57 @@ For gases, SR returns the fugacity of the gas (P*phi/1 atm).</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963670"></A>SUM_GAS(&quot;template&quot;, &quot;element&quot;)</P>
+<A NAME="50495493_pgfId-963670"></A>SUM_GAS(&quot;template&quot;, &quot;element&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963672"></A>Sums number of moles of the element in gases that match the template. The template selects a set of gases. For example, a template of &#8220;{C,[13C],[14C]}{O,[18O]}2&#8221; selects all the isotopic variants of CO2(g). Multiple elements at a stoichiometric position are separated by commas within braces; an asterisk (*) in the template matches any element. The number of moles of &#8220;element&#8221; is calculated by summing the stoichiometric coefficient of the element times the moles of the gas for all selected gases. </P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963674"></A>SUM_SPECIES(&quot;template&quot;, &quot;element&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963676"></A>Sums number of moles of the element in aqueous, exchange, and surface species that match the template. The template selects a set of species. For example, a template of &#8220;*HCO3*&#8221; selects all bicarbonate species. Multiple elements at a stoichiometric position are separated by commas within braces; an asterisk (*) in the template matches any element. The number of moles of &#8220;element&#8221; is calculated by summing the stoichiometric coefficient of the element times the moles of the species for all selected species.</P>
+<A NAME="50495493_pgfId-963672"></A>Sums number of moles of the element in gases that match the template. The template selects a set of gases. For example, a template of &#8220;{C,[13C],[14C]}{O,[18O]}2&#8221; selects all the isotopic variants of CO2(g). Multiple elements at a stoichiometric position are separated by commas within braces; an asterisk (*) in the template matches any element. The number of moles of &#8220;element&#8221; is calculated by summing the stoichiometric coefficient of the element times the moles of the gas for all selected gases. </P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963678"></A>SUM_S_S(&quot;s_s_name&quot;, &quot;element&quot;)</P>
+<A NAME="50495493_pgfId-963674"></A>SUM_SPECIES(&quot;template&quot;, &quot;element&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963680"></A>Sums number of moles of the element in the specified solid solution.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963682"></A>SURF(&quot;element&quot;, &quot;surface&quot;)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963684"></A>Number of moles of the element sorbed on the surface. The second argument should be the surface name, not the surface-site name (that is, no underscore). A redox state may be specified; for example, &#8220;As&#8221; or &#8220;As(5)&#8221; is permitted.</P>
+<A NAME="50495493_pgfId-963676"></A>Sums number of moles of the element in aqueous, exchange, and surface species that match the template. The template selects a set of species. For example, a template of &#8220;*HCO3*&#8221; selects all bicarbonate species. Multiple elements at a stoichiometric position are separated by commas within braces; an asterisk (*) in the template matches any element. The number of moles of &#8220;element&#8221; is calculated by summing the stoichiometric coefficient of the element times the moles of the species for all selected species.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963686"></A>SYS(&quot;element&quot;)</P>
+<A NAME="50495493_pgfId-963678"></A>SUM_S_S(&quot;s_s_name&quot;, &quot;element&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963688"></A>With a single argument, SYS calculates the number of moles of the element in all phases (solution, equilibrium phases, surfaces, exchangers, solid solutions, and gas phase) in the reaction calculation. </P>
+<A NAME="50495493_pgfId-963680"></A>Sums number of moles of the element in the specified solid solution.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963690"></A>SYS(&quot;element&quot;, <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963682"></A>SURF(&quot;element&quot;, &quot;surface&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963684"></A>Number of moles of the element sorbed on the surface. The second argument should be the surface name, not the surface-site name (that is, no underscore). A redox state may be specified; for example, &#8220;As&#8221; or &#8220;As(5)&#8221; is permitted.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963686"></A>SYS(&quot;element&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963688"></A>With a single argument, SYS calculates the number of moles of the element in all phases (solution, equilibrium phases, surfaces, exchangers, solid solutions, and gas phase) in the reaction calculation. </P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963690"></A>SYS(&quot;element&quot;, <EM CLASS="Emphasis">
 count</EM>
 , <EM CLASS="Emphasis">
 name$</EM>
@@ -1806,7 +1820,7 @@ moles</EM>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963692"></A>With five arguments, SYS returns the number of moles of the element in all phases in the reaction calculation (solution, equilibrium phases, surfaces, exchangers, solid solutions, and gas phase), and, in addition, returns values for <EM CLASS="Emphasis">
+<A NAME="50495493_pgfId-963692"></A>With five arguments, SYS returns the number of moles of the element in all phases in the reaction calculation (solution, equilibrium phases, surfaces, exchangers, solid solutions, and gas phase), and, in addition, returns values for <EM CLASS="Emphasis">
 count_species</EM>
 , <EM CLASS="Emphasis">
 name$</EM>
@@ -1830,19 +1844,19 @@ Moles</EM>
 moles</EM>
  array is equal to the return value of the SYS function. </P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963693"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963693"></A>&nbsp;</P>
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963694"></A>The five-argument form of SYS accepts the following arguments in place of &#8220;element&#8221;: </P>
+<A NAME="50495493_pgfId-963694"></A>The five-argument form of SYS accepts the following arguments in place of &#8220;element&#8221;: </P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963696"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963696"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963698"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963698"></A>&#8220;<STRONG CLASS="Bold">
 elements</STRONG>
 &#8221; returns the total number of moles of elements solution, exchangers, and surfaces in the calculation, other than H and O. <EM CLASS="Emphasis">
 Count</EM>
@@ -1858,18 +1872,18 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963700"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963700"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963702"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963702"></A>&#8220;<STRONG CLASS="Bold">
 phases</STRONG>
 &#8221; returns the maximum saturation index of all pure phases appropriate for the calculation. <EM CLASS="Emphasis">
 Count</EM>
  is number of pure phases. <EM CLASS="Emphasis">
 Name$</EM>
  contains the phase names as defined in the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-29.htm#50634753_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-29.htm#50495489_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block. <EM CLASS="Emphasis">
@@ -1882,11 +1896,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963707"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963707"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963709"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963709"></A>&#8220;<STRONG CLASS="Bold">
 aq</STRONG>
 &#8221; returns the sum of moles of all aqueous species in the calculation. <EM CLASS="Emphasis">
 Count</EM>
@@ -1902,11 +1916,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963711"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963711"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963713"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963713"></A><EM CLASS="ChangeFont">
 &#8220;equi&#8221; returns the sum of moles of all equilibrium phases in the calculation. Count is number of equilibrium phases. Name$ contains the equilibrium phase names. Type$ is &#8220;equi&#8221;. Moles contains the moles of each equilibrium phase.</EM>
 </P>
 </TD>
@@ -1914,11 +1928,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963715"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963715"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963717"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963717"></A>&#8220;<STRONG CLASS="Bold">
 ex</STRONG>
 &#8221; returns the sum of moles of all exchange species in the calculation. <EM CLASS="Emphasis">
 Count</EM>
@@ -1934,11 +1948,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963763"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963763"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963769"></A><EM CLASS="ChangeFont">
+<A NAME="50495493_pgfId-963769"></A><EM CLASS="ChangeFont">
 &#8220;kin&#8221; returns the sum of moles of all kinetic reactants in the calculation. Count is number of kinetic reactants. Name$ contains the kinetic reactant names. Type$ is &#8220;kin&#8221;. Moles contains the moles of each kinetic reactant. The chemical formula used in the kinetic reaction can be determined by using a reaction name from Name$ as the first argument of the KINETICS_FORMULA$ Basic function.</EM>
 </P>
 </TD>
@@ -1946,11 +1960,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963719"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963719"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963721"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963721"></A>&#8220;<STRONG CLASS="Bold">
 surf</STRONG>
 &#8221; returns the sum of moles of all surface species in the calculation. <EM CLASS="Emphasis">
 Count</EM>
@@ -1966,11 +1980,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963723"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963723"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963725"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963725"></A>&#8220;<STRONG CLASS="Bold">
 s_s</STRONG>
 &#8221; returns sum of moles of all solid-solution components in the calculation. <EM CLASS="Emphasis">
 Count</EM>
@@ -1986,11 +2000,11 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963727"></A>&nbsp;</P>
+<A NAME="50495493_pgfId-963727"></A>&nbsp;</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963729"></A>&#8220;<STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963729"></A>&#8220;<STRONG CLASS="Bold">
 gas</STRONG>
 &#8221; returns sum of moles of all gas components in the calculation. <EM CLASS="Emphasis">
 Count</EM>
@@ -2006,61 +2020,61 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963731"></A>S_S(&quot;Magnesite&quot;)</P>
+<A NAME="50495493_pgfId-963731"></A>S_S(&quot;Magnesite&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963733"></A>Current moles of a solid-solution component.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963735"></A>TC</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963737"></A>Temperature in Celsius.</P>
+<A NAME="50495493_pgfId-963733"></A>Current moles of a solid-solution component.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963739"></A>TK</P>
+<A NAME="50495493_pgfId-963735"></A>TC</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963741"></A>Temperature in Kelvin.</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963743"></A>TIME</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963745"></A>Time interval for which moles of reaction are calculated in rate programs, automatically set in the time-step algorithm of the numerical integration method, in seconds.</P>
+<A NAME="50495493_pgfId-963737"></A>Temperature in Celsius.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963747"></A>TOT(&quot;Fe(2)&quot;)</P>
+<A NAME="50495493_pgfId-963739"></A>TK</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963749"></A>Total molality of element or element redox state. TOT(&#8220;water&#8221;) is total mass of water, in kilograms.</P>
+<A NAME="50495493_pgfId-963741"></A>Temperature in Kelvin.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963751"></A>TOTAL_TIME</P>
+<A NAME="50495493_pgfId-963743"></A>TIME</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963753"></A>Cumulative time (seconds) including all advective (for which <STRONG CLASS="Bold">
+<A NAME="50495493_pgfId-963745"></A>Time interval for which moles of reaction are calculated in rate programs, automatically set in the time-step algorithm of the numerical integration method, in seconds.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963747"></A>TOT(&quot;Fe(2)&quot;)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963749"></A>Total molality of element or element redox state. TOT(&#8220;water&#8221;) is total mass of water, in kilograms.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963751"></A>TOTAL_TIME</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495493_pgfId-963753"></A>Cumulative time (seconds) including all advective (for which <STRONG CLASS="Bold">
 -time_step</STRONG>
  is defined) and advective-dispersive transport simulations from the beginning of the run or from last <STRONG CLASS="Bold">
 -initial_time</STRONG>
@@ -2070,21 +2084,21 @@ Moles</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963755"></A>TOTMOLE(&quot;Ca&quot;)</P>
+<A NAME="50495493_pgfId-963755"></A>TOTMOLE(&quot;Ca&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963757"></A>Moles of an element or element valence state in solution. TOTMOLE has two special values for the argument: &#8220;water&#8221;, moles of water in solution; and &#8220;charge&#8221;, equivalents of charge imbalance in solutions (same as Basic function CHARGE_BALANCE). Note the Basic function TOT returns moles per kilogram water, whereas TOTMOLE returns moles.</P>
+<A NAME="50495493_pgfId-963757"></A>Moles of an element or element valence state in solution. TOTMOLE has two special values for the argument: &#8220;water&#8221;, moles of water in solution; and &#8220;charge&#8221;, equivalents of charge imbalance in solutions (same as Basic function CHARGE_BALANCE). Note the Basic function TOT returns moles per kilogram water, whereas TOTMOLE returns moles.</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963759"></A>VM(&quot;Na+&quot;)</P>
+<A NAME="50495493_pgfId-963759"></A>VM(&quot;Na+&quot;)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634757_pgfId-963761"></A>Returns the specific volume (cm<Sup CLASS="Superscript">
+<A NAME="50495493_pgfId-963761"></A>Returns the specific volume (cm<Sup CLASS="Superscript">
 3</Sup>
 /mol) of a SOLUTION_SPECIES, relative to VM(&#8220;H+&#8221;) = 0, a function of temperature, pressure, and ionic strength.</P>
 </TD>
