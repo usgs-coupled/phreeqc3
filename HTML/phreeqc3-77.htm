@@ -7,329 +7,329 @@
 <TITLE> Example 22--Modeling Gas Solubilities: CO2 at High Pressures</TITLE><HR><P> | <A HREF="phreeqc3-78.htm">Next</A> || <A HREF="phreeqc3-76.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50634767_pgfId-1509943"></A>Example 22--<A NAME="50634767_97000"></A>Modeling Gas Solubilities: CO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1509943"></A>Example 22--<A NAME="50495503_97000"></A>Modeling Gas Solubilities: CO<Sub CLASS="Subscript">
 2</Sub>
  at High Pressures</H2>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1660618"></A>The solubility of gas i is given by <IMG SRC="phreeqc3-352.png" ALIGN="MIDDLE">
-, where m is the molality, &#947; is the activity coefficient in water, KH is the equilibrium constant, P is the partial pressure, and &#966; is the fugacity coefficient (the activity coefficient in the gas phase). PHREEQC calculates the fugacity coefficient with the Peng-Robinson equation of state (Peng and Robinson, 1976) from the critical pressure and temperature, and the acentric factor of the gas in a gas mixture to obtain the limiting volume and the attraction factor in the Van der Waals equation. The fugacity coefficient is close to 1 when the total pressure of the gas phase is less than about 10 atm, and it can be neglected in the solubility calculation. At higher pressures, the effect can be substantial, as shown for CO2 in figure 27. At low pressures, the concentration of CO2 increases near-linearly with pressure. At 25 &#176;C and pressures higher than 62 atm, the concentration increases more gradually because the fugacity coefficient drops rapidly.</P>
+<A NAME="50495503_pgfId-1660618"></A>The solubility of gas i is given by <IMG SRC="phreeqc3-352.gif" ALIGN="BASELINE">
+, where m is the molality, &#947; is the activity coefficient in water, KH is the equilibrium constant, P is the partial pressure, and &#966; is the fugacity coefficient (the activity coefficient in the gas phase). PHREEQC calculates the fugacity coefficient with the Peng-Robinson equation of state (Peng and Robinson, 1976) from the critical pressure and temperature, and the acentric factor of the gas in a gas mixture to obtain the limiting volume and the attraction factor in the Van der Waals equation. The fugacity coefficient is close to 1 when the total pressure of the gas phase is less than about 10 atm, and it can be neglected in the solubility calculation. At higher pressures, the effect can be substantial, as shown for CO2 in figure.27. At low pressures, the concentration of CO2 increases near-linearly with pressure. At 25 &#176;C and pressures higher than 62 atm, the concentration increases more gradually because the fugacity coefficient drops rapidly.</P>
 <DIV>
 <MAP NAME="phreeqc3-353">
 </MAP>
-<IMG SRC="phreeqc3-353.png" style="width:65%" USEMAP="#phreeqc3-353">
+<IMG SRC="phreeqc3-353.gif" USEMAP="#phreeqc3-353">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1645557"></A>The aqueous concentrations for a point in figure 27 can be calculated by initial equilibrium in the <A HREF="phreeqc3-41.htm#50634753_30253" CLASS="XRef">SOLUTION</A>:</P>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645561"></A>SOLUTION</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645562"></A>  pH 3 charge</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645563"></A>  -pressure 1000</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645564"></A>  C(4) 100 CO2(g) 3 # 1000 atm</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645572"></A>END</Pre>
+<A NAME="50495503_pgfId-1645557"></A>The aqueous concentrations for a point in figure.27 can be calculated by initial equilibrium in the <A HREF="phreeqc3-41.htm#50495489_30253" CLASS="XRef">SOLUTION</A>:</P>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1645561"></A>SOLUTION</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1645562"></A>  pH 3 charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1645563"></A>  -pressure 1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1645564"></A>  C(4) 100 CO2(g) 3 # 1000 atm</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1645572"></A>END</Pre>
 <P CLASS="BodyTextFlush">
-<A NAME="50634767_pgfId-1645576"></A>or with <A HREF="phreeqc3-13.htm#50634753_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>:</P>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1548094"></A>SOLUTION</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1503869"></A>  -pressure 1000</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1502938"></A>EQUILIBRIUM_PHASES</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1502939"></A>  CO2(g) 3 # 1000 atm</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1502868"></A>END</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694951"></A>&nbsp;</Pre>
+<A NAME="50495503_pgfId-1645576"></A>or with <A HREF="phreeqc3-13.htm#50495489_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>:</P>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1548094"></A>SOLUTION</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1503869"></A>  -pressure 1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1502938"></A>EQUILIBRIUM_PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1502939"></A>  CO2(g) 3 # 1000 atm</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1502868"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694951"></A>&nbsp;</Pre>
 <P CLASS="BodyTextFlush">
-<A NAME="50634767_pgfId-1502870"></A>For these two options the solutions or the equilibrium phases need to be redefined for each pressure, either by explicitly repeating the keywords in the file, or by writing an input file in Basic and reading it in with <A HREF="phreeqc3-18.htm#50634753_74991" CLASS="XRef">INCLUDE$</A>.</P>
+<A NAME="50495503_pgfId-1502870"></A>For these two options the solutions or the equilibrium phases need to be redefined for each pressure, either by explicitly repeating the keywords in the file, or by writing an input file in Basic and reading it in with <A HREF="phreeqc3-18.htm#50495489_74991" CLASS="XRef">INCLUDE$</A>.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1661008"></A>Another option is to use a fixed-volume <A HREF="phreeqc3-17.htm#50634753_83409" CLASS="XRef">GAS_PHASE</A> and let the pressure increase by adding CO2 with keyword <A HREF="phreeqc3-33.htm#50634753_75635" CLASS="XRef">REACTION</A> (<A HREF="phreeqc3-77.htm#50634767_42767" CLASS="XRef">table 61</A>). This option permits other gases to be included; for example, H2O, for which the pressure and fugacity coefficient also will be calculated. Furthermore, the pressure of the solution does not need to be defined as in the options above because it will change with the pressure of the gas phase.  </P>
+<A NAME="50495503_pgfId-1661008"></A>Another option is to use a fixed-volume <A HREF="phreeqc3-17.htm#50495489_83409" CLASS="XRef">GAS_PHASE</A> and let the pressure increase by adding CO2 with keyword <A HREF="phreeqc3-33.htm#50495489_75635" CLASS="XRef">REACTION</A> (<A HREF="phreeqc3-77.htm#50495503_42767" CLASS="XRef">table 61</A>). This option permits other gases to be included; for example, H2O, for which the pressure and fugacity coefficient also will be calculated. Furthermore, the pressure of the solution does not need to be defined as in the options above because it will change with the pressure of the gas phase.  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1661017"></A>Table 61. <A NAME="50634767_42767"></A>Input file for example 22.</P>
+<A NAME="50495503_pgfId-1661017"></A>Table 61. <A NAME="50495503_42767"></A>Input file for example 22.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661019"></A>TITLE Example 22.--Compare experimental CO2 solubilities at high CO2 pressure </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661019"></A>TITLE Example 22.--Compare experimental CO2 solubilities at high CO2 pressure </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661021"></A>   with Peng-Robinson calc'ns with fixed-volume gas_phase, 25, 50, 75, 100 oC.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661021"></A>   with Peng-Robinson calc'ns with fixed-volume gas_phase, 25, 50, 75, 100 oC.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661023"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661023"></A>SOLUTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661025"></A>GAS_PHASE 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661025"></A>GAS_PHASE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661027"></A>    -fixed_volume</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661027"></A>    -fixed_volume</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661029"></A>    CO2(g) 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661029"></A>    CO2(g) 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661031"></A>    H2O(g) 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661031"></A>    H2O(g) 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661033"></A>REACTION</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661033"></A>REACTION</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661035"></A> CO2 1; 0 27*1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661035"></A> CO2 1; 0 27*1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661037"></A>INCREMENTAL_REACTIONS true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661037"></A>INCREMENTAL_REACTIONS true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661039"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661039"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661041"></A>USER_GRAPH 1 Example 22, CO2 solubility at high pressures, 25 - 100C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661041"></A>USER_GRAPH 1 Example 22, CO2 solubility at high pressures, 25 - 100C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661043"></A> -plot_tsv_file co2.tsv</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661043"></A> -plot_tsv_file co2.tsv</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661045"></A> -axis_titles &quot;Pressure, in atmospheres&quot; &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661045"></A> -axis_titles &quot;Pressure, in atmospheres&quot; &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661047"></A>              &quot;CO2 concentration, in moles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661047"></A>              &quot;CO2 concentration, in moles per kilogram water&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661049"></A> -axis_scale x_axis 0 500</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661049"></A> -axis_scale x_axis 0 500</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661051"></A> -axis_scale y_axis 0 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661051"></A> -axis_scale y_axis 0 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661053"></A> -connect_simulations false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661053"></A> -connect_simulations false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661055"></A> 10 graph_x PR_P(&quot;CO2(g)&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661055"></A> 10 graph_x PR_P(&quot;CO2(g)&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661057"></A> 20 graph_y TOT(&quot;C(4)&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661057"></A> 20 graph_y TOT(&quot;C(4)&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661059"></A> -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661059"></A> -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661061"></A>USER_GRAPH 2 Example 22, P-Vm of CO2 gas, 25 - 100C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661061"></A>USER_GRAPH 2 Example 22, P-Vm of CO2 gas, 25 - 100C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661063"></A> -headings 25C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661063"></A> -headings 25C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661065"></A> -axis_titles &quot;Molar volume of CO2 gas, in liters per mole&quot; &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661065"></A> -axis_titles &quot;Molar volume of CO2 gas, in liters per mole&quot; &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661067"></A>              &quot;CO2 pressure, in atmospheres&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661067"></A>              &quot;CO2 pressure, in atmospheres&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661069"></A> -axis_scale x_axis 0 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661069"></A> -axis_scale x_axis 0 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661071"></A> -axis_scale y_axis 0 500</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661071"></A> -axis_scale y_axis 0 500</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661073"></A> -connect_simulations false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661073"></A> -connect_simulations false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661075"></A> 10 plot_xy gas_vm, gas_p symbol = None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661075"></A> 10 plot_xy gas_vm, gas_p symbol = None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661077"></A> -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661077"></A> -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661079"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661079"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661081"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661081"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661083"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661083"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661085"></A>USE gas_phase 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661085"></A>USE gas_phase 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661087"></A>USE reaction 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661087"></A>USE reaction 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661089"></A>REACTION_TEMPERATURE 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661089"></A>REACTION_TEMPERATURE 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661091"></A> 50</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661091"></A> 50</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1661093"></A>USER_GRAPH 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1661093"></A>USER_GRAPH 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1663783"></A> -headings 50C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1663783"></A> -headings 50C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1663781"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1663781"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694961"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694961"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694959"></A>USE gas_phase 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694959"></A>USE gas_phase 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694957"></A>USE reaction 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694957"></A>USE reaction 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764037"></A>REACTION_TEMPERATURE 3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764037"></A>REACTION_TEMPERATURE 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764035"></A> 75</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764035"></A> 75</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764033"></A>USER_GRAPH 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764033"></A>USER_GRAPH 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764031"></A> -headings 75C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764031"></A> -headings 75C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764029"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764029"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764027"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764027"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764025"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764025"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764023"></A>USE gas_phase 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764023"></A>USE gas_phase 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764021"></A>USE reaction 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764021"></A>USE reaction 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764019"></A>REACTION_TEMPERATURE 4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764019"></A>REACTION_TEMPERATURE 4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764017"></A> 100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764017"></A> 100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764015"></A>USER_GRAPH 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764015"></A>USER_GRAPH 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764013"></A> -headings 100C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764013"></A> -headings 100C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1764011"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1764011"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1663764"></A>Figure 28 shows a plot of the gas pressure as a function of the molar volume at four temperatures, 25, 50, 75, and 100 &#176;C. At 50 &#176;C and higher, the graph displays a smooth increase of the gas pressure with decreasing volume. However, at 25 &#176;C the curve flattens out between 0.07 and 0.15 L/mol. The constant pressure for decreasing volume indicates that CO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1663764"></A>Figure 28 shows a plot of the gas pressure as a function of the molar volume at four temperatures, 25, 50, 75, and 100 &#176;C. At 50 &#176;C and higher, the graph displays a smooth increase of the gas pressure with decreasing volume. However, at 25 &#176;C the curve flattens out between 0.07 and 0.15 L/mol. The constant pressure for decreasing volume indicates that CO<Sub CLASS="Subscript">
 2</Sub>
  gas becomes liquid when it is compressed to less than   0.141 L/mol at 25 &#176;C. At 0.068 L/mol all the gas has been liquefied, and further decrease of the molar volume then results again in pressure increase. The gas/liquid transition appears in the cubic Van der Waals equation (the basis of Peng-Robinson&#8217;s equation), when it has three roots at temperatures below the critical temperature of the gas (31 &#176;C for CO<Sub CLASS="Subscript">
 2</Sub>
@@ -337,57 +337,57 @@
 <DIV>
 <MAP NAME="phreeqc3-354">
 </MAP>
-<IMG SRC="phreeqc3-354.png" style="width:65%" USEMAP="#phreeqc3-354">
+<IMG SRC="phreeqc3-354.gif" USEMAP="#phreeqc3-354">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1510757"></A>When the pressure is calculated from the molar volume of the gas or the gas mixture, PHREEQC checks whether the equation has three roots. If so, it will test whether another root can be found at a larger molar volume; the root with the maximum pressure will be used as the solution of the equation. Thus, the gas pressure may remain constant (or, possibly even decrease slightly because the parameters in a gas-mixture may change) even when the molar volume decreases. The gas liquefaction may result in small kinks in the calculated solubility curve (calculated by equilibrating a solution with a <A HREF="phreeqc3-17.htm#50634753_83409" CLASS="XRef">GAS_PHASE</A>), and one is visible in figure 27 at 65 atm and 25 &#176;C.</P>
+<A NAME="50495503_pgfId-1510757"></A>When the pressure is calculated from the molar volume of the gas or the gas mixture, PHREEQC checks whether the equation has three roots. If so, it will test whether another root can be found at a larger molar volume; the root with the maximum pressure will be used as the solution of the equation. Thus, the gas pressure may remain constant (or, possibly even decrease slightly because the parameters in a gas-mixture may change) even when the molar volume decreases. The gas liquefaction may result in small kinks in the calculated solubility curve (calculated by equilibrating a solution with a <A HREF="phreeqc3-17.htm#50495489_83409" CLASS="XRef">GAS_PHASE</A>), and one is visible in figure.27 at 65 atm and 25 &#176;C.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695006"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695006"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695017"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695017"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695024"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695024"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695031"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695031"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695038"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695038"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695045"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695045"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695052"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695052"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695059"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695059"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695066"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695066"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695073"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695073"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695080"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695080"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695087"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695087"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695094"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695094"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695101"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695101"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695108"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695108"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695115"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695115"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695122"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695122"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695129"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695129"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695136"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695136"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695143"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695143"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695150"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695150"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695157"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695157"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695164"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695164"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1695171"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-1695171"></A>&nbsp;</P>
 <HR><P> | <A HREF="phreeqc3-78.htm">Next</A> || <A HREF="phreeqc3-76.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

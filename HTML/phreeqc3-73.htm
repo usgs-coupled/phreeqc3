@@ -7,30 +7,30 @@
 <TITLE> Example 18--Inverse Modeling of the Madison Aquifer</TITLE><HR><P> | <A HREF="phreeqc3-74.htm">Next</A> || <A HREF="phreeqc3-72.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50634767_pgfId-1459688"></A>Example 18--<A NAME="50634767_35722"></A>Inverse Modeling of the Madison Aquifer</H2>
+<A NAME="50495503_pgfId-1459688"></A>Example 18--<A NAME="50495503_35722"></A>Inverse Modeling of the Madison Aquifer</H2>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1409920"></A>In this example, inverse modeling, including isotope mole-balance modeling, is applied to the evolution of water in the Madison aquifer in Montana. Plummer and others (1990) used mole-balance modeling to quantify the extent of dedolomitization at locations throughout the aquifer. In the dedolomitization process, anhydrite dissolution causes the precipitation of calcite and dissolution of dolomite. Additional reactions identified by mole-balance modeling include sulfate reduction, cation exchange, and halite and sylvite dissolution (Plummer and others, 1990). <IMG SRC="phreeqc3-281.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1409920"></A>In this example, inverse modeling, including isotope mole-balance modeling, is applied to the evolution of water in the Madison aquifer in Montana. Plummer and others (1990) used mole-balance modeling to quantify the extent of dedolomitization at locations throughout the aquifer. In the dedolomitization process, anhydrite dissolution causes the precipitation of calcite and dissolution of dolomite. Additional reactions identified by mole-balance modeling include sulfate reduction, cation exchange, and halite and sylvite dissolution (Plummer and others, 1990). <IMG SRC="phreeqc3-281.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C and <IMG SRC="phreeqc3-282.png" ALIGN="MIDDLE">
+C and <IMG SRC="phreeqc3-282.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S data were used to corroborate the mole-balance models and carbon-14 was used to estimate groundwater ages (Plummer and others, 1990). Initial and final water samples were selected from a flow path that extends from north-central Wyoming northeast across Montana (Plummer and others, 1990, flow path 3). This pair of water samples was selected specifically because it was one of the few pairs that showed a relatively large discrepancy between previous mole-balance approaches and the mole-balance approach of PHREEQC, which includes uncertainties; results for most sample pairs were not significantly different between the two approaches. In addition, this pair of samples was selected because it was modeled in detail in Plummer and others (1990) to determine the sensitivity of mole-balance results to various model assumptions and was used as an example in the netpath manual (Plummer and others, 1994, example 6). Results of PHREEQC calculations are compared to netpath calculations. This example is also discussed in Parkhurst (1997).</P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50634767_pgfId-1409733"></A><A NAME="50634767_60888"></A>Water Compositions and Reactants</H4>
+<A NAME="50495503_pgfId-1409733"></A><A NAME="50495503_60888"></A>Water Compositions and Reactants</H4>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1480851"></A>The initial water for mole-balance modeling (solution 1, <A HREF="phreeqc3-73.htm#50634767_14937" CLASS="XRef">table 52</A>) is the recharge water for flow path 3 (Plummer and others, 1990). This calcium-magnesium-bicarbonate water is typical of recharge water in a terrain containing calcite and dolomite. The final water (solution 2, <A HREF="phreeqc3-73.htm#50634767_14937" CLASS="XRef">table 52</A>) is a sodium-calcium-sulfate water (with significant chloride concentration) (Plummer and others, 1990, &#8220;Mysse Flowing Well&#8221;). This water has a charge imbalance of +3.24 meq/kgw (milliequivalent per kilogram water) and contains measurable sulfide. An uncertainty limit of 5 percent was assigned to all chemical data, except iron, for the initial and final waters. The 5-percent uncertainty limit was chosen for the initial water because of spatial uncertainty in the location of a recharge water that is on the same flow path as the final water, and for the final water because it was near the smallest uncertainty limit necessary to obtain charge balance. Iron was assigned an uncertainty limit of 100 percent because of the small concentrations. An uncertainty limit of 0.1 unit was assigned to pH, which is a conservative estimate because of possible CO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1480851"></A>The initial water for mole-balance modeling (solution 1, <A HREF="phreeqc3-73.htm#50495503_14937" CLASS="XRef">table 52</A>) is the recharge water for flow path 3 (Plummer and others, 1990). This calcium-magnesium-bicarbonate water is typical of recharge water in a terrain containing calcite and dolomite. The final water (solution 2, <A HREF="phreeqc3-73.htm#50495503_14937" CLASS="XRef">table 52</A>) is a sodium-calcium-sulfate water (with significant chloride concentration) (Plummer and others, 1990, &#8220;Mysse Flowing Well&#8221;). This water has a charge imbalance of +3.24 meq/kgw (milliequivalent per kilogram water) and contains measurable sulfide. An uncertainty limit of 5 percent was assigned to all chemical data, except iron, for the initial and final waters. The 5-percent uncertainty limit was chosen for the initial water because of spatial uncertainty in the location of a recharge water that is on the same flow path as the final water, and for the final water because it was near the smallest uncertainty limit necessary to obtain charge balance. Iron was assigned an uncertainty limit of 100 percent because of the small concentrations. An uncertainty limit of 0.1 unit was assigned to pH, which is a conservative estimate because of possible CO<Sub CLASS="Subscript">
 2</Sub>
- degassing at this sampling site (L.N. Plummer, U.S. Geological Survey, written commun., 1996). <IMG SRC="phreeqc3-283.png" ALIGN="MIDDLE">
+ degassing at this sampling site (L.N. Plummer, U.S. Geological Survey, written commun., 1996). <IMG SRC="phreeqc3-283.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C values increase from the initial water to the final water (-7.0 permil to -2.3 permil), as do <IMG SRC="phreeqc3-284.png" ALIGN="MIDDLE">
+C values increase from the initial water to the final water (-7.0 permil to -2.3 permil), as do <IMG SRC="phreeqc3-284.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
-S values (9.7 permil to 16.3 permil). Uncertainty limits for isotopic values of the initial solution were set to one-half the range in isotopic composition in four recharge waters from flow paths 3 and 4 (Plummer and others, 1990) (<A HREF="phreeqc3-73.htm#50634767_14937" CLASS="XRef">table 52</A>). Similarly, uncertainty limits for isotopic values of the final water were set to one-half the range in isotopic composition in the samples from the distal end of flow path 3 (Plummer and others, 1990) (<A HREF="phreeqc3-73.htm#50634767_14937" CLASS="XRef">table 52</A>).</P>
+S values (9.7 permil to 16.3 permil). Uncertainty limits for isotopic values of the initial solution were set to one-half the range in isotopic composition in four recharge waters from flow paths 3 and 4 (Plummer and others, 1990) (<A HREF="phreeqc3-73.htm#50495503_14937" CLASS="XRef">table 52</A>). Similarly, uncertainty limits for isotopic values of the final water were set to one-half the range in isotopic composition in the samples from the distal end of flow path 3 (Plummer and others, 1990) (<A HREF="phreeqc3-73.htm#50495503_14937" CLASS="XRef">table 52</A>).</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1444269"></A>Reactants considered by Plummer and others (1990) were dolomite, calcite, anhydrite, organic matter (CH<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1444269"></A>Reactants considered by Plummer and others (1990) were dolomite, calcite, anhydrite, organic matter (CH<Sub CLASS="Subscript">
 2</Sub>
 O), goethite, pyrite, Ca/Na<Sub CLASS="Subscript">
 2</Sub>
@@ -44,22 +44,22 @@ O), goethite, pyrite, Ca/Na<Sub CLASS="Subscript">
 2</Sub>
  is expected to be gained from or lost to a gas phase, and methane gain or loss was considered to be unlikely (Plummer and others, 1990). Therefore, CO<Sub CLASS="Subscript">
 2</Sub>
- gas and methane were not included as reactants in the PHREEQC mole-balance modeling. The uncertainty limits for the isotopic compositions of dissolving phases were taken from data presented in Plummer and others (1990) with slight modifications as follows: <IMG SRC="phreeqc3-285.png" ALIGN="MIDDLE">
+ gas and methane were not included as reactants in the PHREEQC mole-balance modeling. The uncertainty limits for the isotopic compositions of dissolving phases were taken from data presented in Plummer and others (1990) with slight modifications as follows: <IMG SRC="phreeqc3-285.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C of dolomite, 1 to 5 permil; <IMG SRC="phreeqc3-286.png" ALIGN="MIDDLE">
+C of dolomite, 1 to 5 permil; <IMG SRC="phreeqc3-286.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C of organic carbon, -30 to -20 permil; <IMG SRC="phreeqc3-287.png" ALIGN="MIDDLE">
+C of organic carbon, -30 to -20 permil; <IMG SRC="phreeqc3-287.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
-S of anhydrite, 11.5 to 15.5 permil. The <IMG SRC="phreeqc3-288.png" ALIGN="MIDDLE">
+S of anhydrite, 11.5 to 15.5 permil. The <IMG SRC="phreeqc3-288.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C of precipitating calcite depends on the isotopic evolution of the solution and is affected by isotopic fractionation. The fractionation equations are not included in PHREEQC, so it is necessary to assume a compositional range of calcite that represents the average isotopic composition of the precipitating calcite. The average isotopic composition of precipitating calcite from netpath calculations was about -1.5 permil (Plummer and others, 1994) and an uncertainty limit of 1.0 permil was selected to account for uncertainties in fractionation factors. All carbon-14 modeling was done with netpath by using mole transfers from PHREEQC models. The <IMG SRC="phreeqc3-289.png" ALIGN="MIDDLE">
+C of precipitating calcite depends on the isotopic evolution of the solution and is affected by isotopic fractionation. The fractionation equations are not included in PHREEQC, so it is necessary to assume a compositional range of calcite that represents the average isotopic composition of the precipitating calcite. The average isotopic composition of precipitating calcite from netpath calculations was about -1.5 permil (Plummer and others, 1994) and an uncertainty limit of 1.0 permil was selected to account for uncertainties in fractionation factors. All carbon-14 modeling was done with netpath by using mole transfers from PHREEQC models. The <IMG SRC="phreeqc3-289.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
-S of precipitating pyrite was estimated to be -22 permil (Plummer and others, 1990) with an uncertainty limit of 2 permil; sensitivity analysis indicated that the isotopic value for the precipitating pyrite had little effect on mole transfers. The input file for PHREEQC is shown in <A HREF="phreeqc3-73.htm#50634767_76134" CLASS="XRef">table 53</A>. Note that the log <EM CLASS="Emphasis">
+S of precipitating pyrite was estimated to be -22 permil (Plummer and others, 1990) with an uncertainty limit of 2 permil; sensitivity analysis indicated that the isotopic value for the precipitating pyrite had little effect on mole transfers. The input file for PHREEQC is shown in <A HREF="phreeqc3-73.htm#50495503_76134" CLASS="XRef">table 53</A>. Note that the log <EM CLASS="Emphasis">
 K</EM>
  values for sylvite, CH<Sub CLASS="Subscript">
 2</Sub>
@@ -79,250 +79,250 @@ K</EM>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1693822"></A>Table 52. <A NAME="50634767_14937"></A>Analytical data for solutions used in example 18.</P>
+<A NAME="50495503_pgfId-1693822"></A>Table 52. <A NAME="50495503_14937"></A>Analytical data for solutions used in example 18.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50634767_pgfId-1693823"></A>[Charge balance is milliequivalents per kilogram water. All other data are in millimoles per kilogram water, except pH, <IMG SRC="phreeqc3-290.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693823"></A>[Charge balance is milliequivalents per kilogram water. All other data are in millimoles per kilogram water, except pH, <IMG SRC="phreeqc3-290.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C, <IMG SRC="phreeqc3-291.png" ALIGN="MIDDLE">
+C, <IMG SRC="phreeqc3-291.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S, and <Sup CLASS="Superscript">
 14</Sup>
-C; Fe(2), ferrous iron; TDIC, total dissolved inorganic carbon; <IMG SRC="phreeqc3-292.png" ALIGN="MIDDLE">
+C; Fe(2), ferrous iron; TDIC, total dissolved inorganic carbon; <IMG SRC="phreeqc3-292.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C,  carbon-13 of TDIC in permil relative to PDB (Pee Dee Belemnite standard); <IMG SRC="phreeqc3-293.png" ALIGN="MIDDLE">
+C,  carbon-13 of TDIC in permil relative to PDB (Pee Dee Belemnite standard); <IMG SRC="phreeqc3-293.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
-S(6), sulfur-34 of sulfate in permil relative to CDT (Canyon Diablo Troilite standard); <IMG SRC="phreeqc3-294.png" ALIGN="MIDDLE">
+S(6), sulfur-34 of sulfate in permil relative to CDT (Canyon Diablo Troilite standard); <IMG SRC="phreeqc3-294.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S(-2), sulfur-34 of total sulfide in permil relative to CDT; <Sup CLASS="Superscript">
 14</Sup>
-C, carbon-14 in percent modern carbon; <IMG SRC="phreeqc3-295.png" ALIGN="MIDDLE">
+C, carbon-14 in percent modern carbon; <IMG SRC="phreeqc3-295.gif" ALIGN="BASELINE">
 , indicates the uncertainty limit assigned in inverse modeling; --, not measured]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-1693847"></A>Analyte</P>
+<A NAME="50495503_pgfId-1693847"></A>Analyte</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-1693849"></A>Solution 1</P>
+<A NAME="50495503_pgfId-1693849"></A>Solution 1</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-1693851"></A>Solution 2</P>
+<A NAME="50495503_pgfId-1693851"></A>Solution 2</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693853"></A>Temperature, &#176;C</P>
+<A NAME="50495503_pgfId-1693853"></A>Temperature, &#176;C</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693855"></A>9.9</LI>
+<A NAME="50495503_pgfId-1693855"></A>9.9</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693857"></A>63.0</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693859"></A>pH</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693861"></A>7.55</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693863"></A>6.61</LI>
+<A NAME="50495503_pgfId-1693857"></A>63.0</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693865"></A>Ca</P>
+<A NAME="50495503_pgfId-1693859"></A>pH</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693867"></A>1.20</LI>
+<A NAME="50495503_pgfId-1693861"></A>7.55</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693869"></A>11.28</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693871"></A>Mg</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693873"></A>1.01</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693875"></A>4.54</LI>
+<A NAME="50495503_pgfId-1693863"></A>6.61</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693877"></A>Na</P>
+<A NAME="50495503_pgfId-1693865"></A>Ca</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693879"></A>0.02</LI>
+<A NAME="50495503_pgfId-1693867"></A>1.20</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693881"></A>31.89</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693883"></A>K</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693885"></A>0.02</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693887"></A>2.54</LI>
+<A NAME="50495503_pgfId-1693869"></A>11.28</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693889"></A>Fe(2)</P>
+<A NAME="50495503_pgfId-1693871"></A>Mg</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693891"></A>0.001</LI>
+<A NAME="50495503_pgfId-1693873"></A>1.01</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693893"></A>0.0004</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693895"></A>TDIC</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693897"></A>4.30</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693899"></A>6.87</LI>
+<A NAME="50495503_pgfId-1693875"></A>4.54</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693901"></A>SO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1693877"></A>Na</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693879"></A>0.02</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693881"></A>31.89</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495503_pgfId-1693883"></A>K</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693885"></A>0.02</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693887"></A>2.54</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495503_pgfId-1693889"></A>Fe(2)</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693891"></A>0.001</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693893"></A>0.0004</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495503_pgfId-1693895"></A>TDIC</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693897"></A>4.30</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50495503_pgfId-1693899"></A>6.87</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50495503_pgfId-1693901"></A>SO<Sub CLASS="Subscript">
 4</Sub>
 </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693903"></A>0.16</LI>
+<A NAME="50495503_pgfId-1693903"></A>0.16</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693905"></A>19.86</LI>
+<A NAME="50495503_pgfId-1693905"></A>19.86</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693907"></A>H<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1693907"></A>H<Sub CLASS="Subscript">
 2</Sub>
 S</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693909"></A>0</LI>
+<A NAME="50495503_pgfId-1693909"></A>0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693911"></A>0.26</LI>
+<A NAME="50495503_pgfId-1693911"></A>0.26</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693913"></A>Cl</P>
+<A NAME="50495503_pgfId-1693913"></A>Cl</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693915"></A>0.02</LI>
+<A NAME="50495503_pgfId-1693915"></A>0.02</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693917"></A>17.85</LI>
+<A NAME="50495503_pgfId-1693917"></A>17.85</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693922"></A><IMG SRC="phreeqc3-296.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693922"></A><IMG SRC="phreeqc3-296.gif" ALIGN="BASELINE">
  <Sup CLASS="Superscript">
 13</Sup>
 C</P>
@@ -330,22 +330,22 @@ C</P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693927"></A>-7.0</LI>
-<IMG SRC="phreeqc3-297.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693927"></A>-7.0</LI>
+<IMG SRC="phreeqc3-297.gif" ALIGN="BASELINE">
 .</UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693932"></A>-2.3</LI>
-<IMG SRC="phreeqc3-298.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693932"></A>-2.3</LI>
+<IMG SRC="phreeqc3-298.gif" ALIGN="BASELINE">
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693937"></A><IMG SRC="phreeqc3-299.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693937"></A><IMG SRC="phreeqc3-299.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S(6)</P>
@@ -353,22 +353,22 @@ S(6)</P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693942"></A>9.7</LI>
-<IMG SRC="phreeqc3-300.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693942"></A>9.7</LI>
+<IMG SRC="phreeqc3-300.gif" ALIGN="BASELINE">
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693947"></A>16.3</LI>
-<IMG SRC="phreeqc3-301.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693947"></A>16.3</LI>
+<IMG SRC="phreeqc3-301.gif" ALIGN="BASELINE">
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693952"></A><IMG SRC="phreeqc3-302.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693952"></A><IMG SRC="phreeqc3-302.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S(-2)</P>
@@ -376,52 +376,52 @@ S(-2)</P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693954"></A>--</LI>
+<A NAME="50495503_pgfId-1693954"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693959"></A>-22.1</LI>
-<IMG SRC="phreeqc3-303.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1693959"></A>-22.1</LI>
+<IMG SRC="phreeqc3-303.gif" ALIGN="BASELINE">
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693961"></A><Sup CLASS="Superscript">
+<A NAME="50495503_pgfId-1693961"></A><Sup CLASS="Superscript">
 14</Sup>
 C </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693963"></A>52.3</LI>
+<A NAME="50495503_pgfId-1693963"></A>52.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693965"></A>0.8</LI>
+<A NAME="50495503_pgfId-1693965"></A>0.8</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-1693967"></A>Charge balance</P>
+<A NAME="50495503_pgfId-1693967"></A>Charge balance</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693969"></A>+0.11</LI>
+<A NAME="50495503_pgfId-1693969"></A>+0.11</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-3-">
-<A NAME="50634767_pgfId-1693971"></A>+3.24</LI>
+<A NAME="50495503_pgfId-1693971"></A>+3.24</LI>
 </UL>
 </TD>
 </TR>
@@ -429,401 +429,401 @@ C </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1658442"></A>Table 53. <A NAME="50634767_76134"></A>Input file for example 18.</P>
+<A NAME="50495503_pgfId-1658442"></A>Table 53. <A NAME="50495503_76134"></A>Input file for example 18.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658444"></A>TITLE Example 18.--Inverse modeling of Madison aquifer</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658444"></A>TITLE Example 18.--Inverse modeling of Madison aquifer</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658446"></A>SOLUTION 1 Recharge number 3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658446"></A>SOLUTION 1 Recharge number 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658448"></A>        units   mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658448"></A>        units   mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658450"></A>        temp    9.9</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658450"></A>        temp    9.9</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658452"></A>        pe      0.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658452"></A>        pe      0.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658454"></A>        pH      7.55</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658454"></A>        pH      7.55</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658456"></A>        Ca      1.2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658456"></A>        Ca      1.2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658458"></A>        Mg      1.01</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658458"></A>        Mg      1.01</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658460"></A>        Na      0.02</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658460"></A>        Na      0.02</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658462"></A>        K       0.02</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658462"></A>        K       0.02</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658464"></A>        Fe(2)   0.001</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658464"></A>        Fe(2)   0.001</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658466"></A>        Cl      0.02</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658466"></A>        Cl      0.02</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658468"></A>        S(6)    0.16</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658468"></A>        S(6)    0.16</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658470"></A>        S(-2)   0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658470"></A>        S(-2)   0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658472"></A>        C(4)    4.30</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658472"></A>        C(4)    4.30</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658474"></A>        -i      13C     -7.0    1.4    </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658474"></A>        -i      13C     -7.0    1.4    </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658476"></A>        -i      34S     9.7     0.9    </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658476"></A>        -i      34S     9.7     0.9    </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658478"></A>SOLUTION 2 Mysse</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658478"></A>SOLUTION 2 Mysse</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658480"></A>        units   mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658480"></A>        units   mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658482"></A>        temp    63.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658482"></A>        temp    63.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658484"></A>        pH      6.61</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658484"></A>        pH      6.61</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658486"></A>        pe      0.      </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658486"></A>        pe      0.      </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658488"></A>        redox   S(6)/S(-2)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658488"></A>        redox   S(6)/S(-2)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658490"></A>        Ca      11.28</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658490"></A>        Ca      11.28</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658492"></A>        Mg      4.54</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658492"></A>        Mg      4.54</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658494"></A>        Na      31.89</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658494"></A>        Na      31.89</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658496"></A>        K       2.54</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658496"></A>        K       2.54</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658498"></A>        Fe(2)   0.0004</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658498"></A>        Fe(2)   0.0004</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658500"></A>        Cl      17.85</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658500"></A>        Cl      17.85</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658502"></A>        S(6)    19.86</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658502"></A>        S(6)    19.86</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658504"></A>        S(-2)   0.26</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658504"></A>        S(-2)   0.26</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658506"></A>        C(4)    6.87</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658506"></A>        C(4)    6.87</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658508"></A>        -i      13C     -2.3    0.2   </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658508"></A>        -i      13C     -2.3    0.2   </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658510"></A>        -i      34S(6)  16.3    1.5   </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658510"></A>        -i      34S(6)  16.3    1.5   </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658512"></A>        -i      34S(-2) -22.1   7     </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658512"></A>        -i      34S(-2) -22.1   7     </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658514"></A>INVERSE_MODELING 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658514"></A>INVERSE_MODELING 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658516"></A>        -solutions 1 2 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658516"></A>        -solutions 1 2 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658518"></A>        -uncertainty 0.05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658518"></A>        -uncertainty 0.05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1658520"></A>        -range</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1658520"></A>        -range</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694374"></A>        -isotopes</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694374"></A>        -isotopes</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694372"></A>                13C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694372"></A>                13C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694370"></A>                34S</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1694370"></A>                34S</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758263"></A>        -balances</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758263"></A>        -balances</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758261"></A>                Fe(2)   1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758261"></A>                Fe(2)   1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758259"></A>                pH      0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758259"></A>                pH      0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758257"></A>        -phases</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758257"></A>        -phases</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758255"></A>                Dolomite        dis     13C     3.0     2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758255"></A>                Dolomite        dis     13C     3.0     2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758253"></A>                Calcite         pre     13C     -1.5    1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758253"></A>                Calcite         pre     13C     -1.5    1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758251"></A>                Anhydrite       dis     34S     13.5    2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758251"></A>                Anhydrite       dis     34S     13.5    2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758249"></A>                CH2O            dis     13C     -25.0   5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758249"></A>                CH2O            dis     13C     -25.0   5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758247"></A>                Goethite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758247"></A>                Goethite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758245"></A>                Pyrite          pre     34S     -22.    2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758245"></A>                Pyrite          pre     34S     -22.    2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758243"></A>                CaX2            pre</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758243"></A>                CaX2            pre</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758241"></A>                Ca.75Mg.25X2    pre</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758241"></A>                Ca.75Mg.25X2    pre</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758239"></A>                MgX2            pre</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758239"></A>                MgX2            pre</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758237"></A>                NaX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758237"></A>                NaX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758235"></A>                Halite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758235"></A>                Halite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758233"></A>                Sylvite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758233"></A>                Sylvite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758231"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758231"></A>PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758229"></A>   Sylvite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758229"></A>   Sylvite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758227"></A>        KCl = K+ + Cl-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758227"></A>        KCl = K+ + Cl-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758225"></A>        -log_k  0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758225"></A>        -log_k  0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758223"></A>   CH2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758223"></A>   CH2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758221"></A>        CH2O + H2O = CO2 + 4H+ + 4e-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758221"></A>        CH2O + H2O = CO2 + 4H+ + 4e-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758219"></A>        -log_k  0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758219"></A>        -log_k  0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758217"></A>EXCHANGE_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758217"></A>EXCHANGE_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758215"></A>        0.75Ca+2 + 0.25Mg+2 + 2X- = Ca.75Mg.25X2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758215"></A>        0.75Ca+2 + 0.25Mg+2 + 2X- = Ca.75Mg.25X2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758213"></A>        log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758213"></A>        log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1758211"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50495503_pgfId-1758211"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1409304"></A>Mole-balance calculations included equations for all elements in the reactive phases (listed under the identifier <STRONG CLASS="Bold">
+<A NAME="50495503_pgfId-1409304"></A>Mole-balance calculations included equations for all elements in the reactive phases (listed under the identifier <STRONG CLASS="Bold">
 -phases</STRONG>
-) and for <IMG SRC="phreeqc3-304.png" ALIGN="MIDDLE">
+) and for <IMG SRC="phreeqc3-304.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
-S and <IMG SRC="phreeqc3-305.png" ALIGN="MIDDLE">
+S and <IMG SRC="phreeqc3-305.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C. netpath calculations included isotopic fractionation equations to calculate the <IMG SRC="phreeqc3-306.png" ALIGN="MIDDLE">
+C. netpath calculations included isotopic fractionation equations to calculate the <IMG SRC="phreeqc3-306.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C of the final water, thus accounting for fractionation during precipitation, whereas PHREEQC calculated only a mole-balance equation on <IMG SRC="phreeqc3-307.png" ALIGN="MIDDLE">
+C of the final water, thus accounting for fractionation during precipitation, whereas PHREEQC calculated only a mole-balance equation on <IMG SRC="phreeqc3-307.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C. The adjusted concentrations (original data plus calculated <IMG SRC="phreeqc3-308.png" ALIGN="MIDDLE">
-s) from the PHREEQC results were rerun with netpath to obtain carbon-14 ages and to consider the fractionation effects of calcite precipitation. One netpath calculation used the charge-balancing option to identify the effects of charge-balance errors. The charge-balance option of netpath adjusts the concentrations of all cationic elements by a fraction, <IMG SRC="phreeqc3-309.png" ALIGN="MIDDLE">
-, and of all anionic elements by a fraction <IMG SRC="phreeqc3-310.png" ALIGN="MIDDLE">
+C. The adjusted concentrations (original data plus calculated <IMG SRC="phreeqc3-308.gif" ALIGN="BASELINE">
+s) from the PHREEQC results were rerun with netpath to obtain carbon-14 ages and to consider the fractionation effects of calcite precipitation. One netpath calculation used the charge-balancing option to identify the effects of charge-balance errors. The charge-balance option of netpath adjusts the concentrations of all cationic elements by a fraction, <IMG SRC="phreeqc3-309.gif" ALIGN="BASELINE">
+, and of all anionic elements by a fraction <IMG SRC="phreeqc3-310.gif" ALIGN="BASELINE">
  to achieve charge balance for the solution. (The charge-balance option of netpath was improved in version 2.13 to produce exact charge balance; previous versions produced only approximate charge balance.)</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1409196"></A>For all netpath calculations (including the ones that used PHREEQC-adjusted concentrations), carbon dioxide was included as a potentially reactive phase, but the <IMG SRC="phreeqc3-311.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-1409196"></A>For all netpath calculations (including the ones that used PHREEQC-adjusted concentrations), carbon dioxide was included as a potentially reactive phase, but the <IMG SRC="phreeqc3-311.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
-S of anhydrite was adjusted to produce zero mole transfer of carbon dioxide. The <IMG SRC="phreeqc3-312.png" ALIGN="MIDDLE">
+S of anhydrite was adjusted to produce zero mole transfer of carbon dioxide. The <IMG SRC="phreeqc3-312.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C of dolomite and organic matter were adjusted within their uncertainty limits to reproduce the <IMG SRC="phreeqc3-313.png" ALIGN="MIDDLE">
+C of dolomite and organic matter were adjusted within their uncertainty limits to reproduce the <IMG SRC="phreeqc3-313.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
 C of the final solution as nearly as possible.</P>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50634767_pgfId-341413"></A><A NAME="50634767_81562"></A>Madison Aquifer Results and Discussion</H4>
+<A NAME="50495503_pgfId-341413"></A><A NAME="50495503_81562"></A>Madison Aquifer Results and Discussion</H4>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-341414"></A>The predominant reactions determined by mole-balance modeling are dedolomitization, ion exchange, halite dissolution, and sulfate reduction, as listed in <A HREF="phreeqc3-73.htm#50634767_42411" CLASS="XRef">table 54</A> for the various modeling options discussed next. The driving force for dedolomitization is dissolution of anhydrite (about 20 mmol/kgw, <A HREF="phreeqc3-73.htm#50634767_42411" CLASS="XRef">table 54</A>), which causes calcite precipitation and dolomite dissolution. Some of the calcium from anhydrite dissolution and (or) magnesium from dolomite dissolution is taken up by ion-exchange sites, which release sodium to solution. About 15 mmol/kgw of halite dissolves. Sulfate and iron oxyhydroxide reduction by organic matter leads to precipitation of pyrite. </P>
+<A NAME="50495503_pgfId-341414"></A>The predominant reactions determined by mole-balance modeling are dedolomitization, ion exchange, halite dissolution, and sulfate reduction, as listed in <A HREF="phreeqc3-73.htm#50495503_42411" CLASS="XRef">table 54</A> for the various modeling options discussed next. The driving force for dedolomitization is dissolution of anhydrite (about 20 mmol/kgw, <A HREF="phreeqc3-73.htm#50495503_42411" CLASS="XRef">table 54</A>), which causes calcite precipitation and dolomite dissolution. Some of the calcium from anhydrite dissolution and (or) magnesium from dolomite dissolution is taken up by ion-exchange sites, which release sodium to solution. About 15 mmol/kgw of halite dissolves. Sulfate and iron oxyhydroxide reduction by organic matter leads to precipitation of pyrite. </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1444227"></A>Table 54. <A NAME="50634767_42411"></A>Mole-balance results for example 18.</P>
+<A NAME="50495503_pgfId-1444227"></A>Table 54. <A NAME="50495503_42411"></A>Mole-balance results for example 18.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50634767_pgfId-369240"></A>[Results are in millimoles per kilogram water, unless otherwise noted. <Sup CLASS="Superscript">
+<A NAME="50495503_pgfId-369240"></A>[Results are in millimoles per kilogram water, unless otherwise noted. <Sup CLASS="Superscript">
 14</Sup>
-C, carbon-14 in percent modern carbon (pmc); <IMG SRC="phreeqc3-314.png" ALIGN="MIDDLE">
+C, carbon-14 in percent modern carbon (pmc); <IMG SRC="phreeqc3-314.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
-C, carbon-13 in permil rPDB (Pee Dee Belemnite); <IMG SRC="phreeqc3-315.png" ALIGN="MIDDLE">
+C, carbon-13 in permil rPDB (Pee Dee Belemnite); <IMG SRC="phreeqc3-315.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S, sulfur-34 in permil CDT (Canyon Diablo Troilite); CH<Sub CLASS="Subscript">
@@ -833,31 +833,31 @@ O represents organic matter; Positive numbers for mineral mass transfer indicate
 <TR>
 <TH ROWSPAN="2" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369266"></A>Result</P>
+<A NAME="50495503_pgfId-369266"></A>Result</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369268"></A>Ca/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369268"></A>Ca/Na<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369621"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-369621"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="2">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369270"></A>Mg/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369270"></A>Mg/Na<Sub CLASS="Subscript">
 2</Sub>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading">
-<A NAME="50634767_pgfId-369577"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-369577"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="3">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369274"></A>Ca<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369274"></A>Ca<Sub CLASS="Subscript">
 0.75</Sub>
 Mg<Sub CLASS="Subscript">
 0.25</Sub>
@@ -867,46 +867,46 @@ Mg<Sub CLASS="Subscript">
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369282"></A>NETPATH <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-369282"></A>NETPATH <EM CLASS="Emphasis">
 A</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369623"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-369623"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369284"></A>NETPATH <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-369284"></A>NETPATH <EM CLASS="Emphasis">
 B</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369286"></A>PHREEQC <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-369286"></A>PHREEQC <EM CLASS="Emphasis">
 B</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369579"></A>&nbsp;</P>
+<A NAME="50495503_pgfId-369579"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369288"></A>NETPATH <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-369288"></A>NETPATH <EM CLASS="Emphasis">
 C</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369290"></A>NETPATH <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-369290"></A>NETPATH <EM CLASS="Emphasis">
 C'<BR>
 </EM>
 Charge balanced</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50634767_pgfId-369292"></A>PHREEQC <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-369292"></A>PHREEQC <EM CLASS="Emphasis">
 C</EM>
 </P>
 </TH>
@@ -914,59 +914,59 @@ C</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369294"></A>Ca/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369294"></A>Ca/Na<Sub CLASS="Subscript">
 2</Sub>
  exchange</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369296"></A>8.3</LI>
+<A NAME="50495503_pgfId-369296"></A>8.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369625"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369625"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369298"></A>--</LI>
+<A NAME="50495503_pgfId-369298"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369300"></A>--</LI>
+<A NAME="50495503_pgfId-369300"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369581"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369581"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369302"></A>--</LI>
+<A NAME="50495503_pgfId-369302"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369304"></A>--</H6>
+<A NAME="50495503_pgfId-369304"></A>--</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369306"></A>--</H6>
+<A NAME="50495503_pgfId-369306"></A>--</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369308"></A>Ca<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369308"></A>Ca<Sub CLASS="Subscript">
 0.75</Sub>
 Mg<Sub CLASS="Subscript">
 0.25</Sub>
@@ -977,104 +977,104 @@ Mg<Sub CLASS="Subscript">
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369310"></A>--</LI>
+<A NAME="50495503_pgfId-369310"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369627"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369627"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369312"></A>--</LI>
+<A NAME="50495503_pgfId-369312"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369314"></A>--</LI>
+<A NAME="50495503_pgfId-369314"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369583"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369583"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369316"></A>8.3</LI>
+<A NAME="50495503_pgfId-369316"></A>8.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369318"></A>7.6</H6>
+<A NAME="50495503_pgfId-369318"></A>7.6</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369320"></A>7.7</H6>
+<A NAME="50495503_pgfId-369320"></A>7.7</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369322"></A>Mg/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369322"></A>Mg/Na<Sub CLASS="Subscript">
 2</Sub>
  exchange</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369324"></A>--</LI>
+<A NAME="50495503_pgfId-369324"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369629"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369629"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369326"></A>8.3</LI>
+<A NAME="50495503_pgfId-369326"></A>8.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369328"></A>7.7</LI>
+<A NAME="50495503_pgfId-369328"></A>7.7</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369585"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369585"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369330"></A>--</LI>
+<A NAME="50495503_pgfId-369330"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369332"></A>--</H6>
+<A NAME="50495503_pgfId-369332"></A>--</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369334"></A>--</H6>
+<A NAME="50495503_pgfId-369334"></A>--</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369336"></A>Dolomite [CaMg(CO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369336"></A>Dolomite [CaMg(CO<Sub CLASS="Subscript">
 3</Sub>
 )<Sub CLASS="Subscript">
 2</Sub>
@@ -1083,564 +1083,564 @@ Mg<Sub CLASS="Subscript">
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369338"></A>3.5</LI>
+<A NAME="50495503_pgfId-369338"></A>3.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369631"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369631"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369340"></A>11.8</LI>
+<A NAME="50495503_pgfId-369340"></A>11.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369342"></A>11.2</LI>
+<A NAME="50495503_pgfId-369342"></A>11.2</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369587"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369587"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369344"></A>5.6</LI>
+<A NAME="50495503_pgfId-369344"></A>5.6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369346"></A>5.3</H6>
+<A NAME="50495503_pgfId-369346"></A>5.3</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369348"></A>5.4</H6>
+<A NAME="50495503_pgfId-369348"></A>5.4</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369350"></A>Calcite (CaCO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369350"></A>Calcite (CaCO<Sub CLASS="Subscript">
 3</Sub>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369352"></A>-5.3</LI>
+<A NAME="50495503_pgfId-369352"></A>-5.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369633"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369633"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369354"></A>-21.8</LI>
+<A NAME="50495503_pgfId-369354"></A>-21.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369356"></A>-23.9</LI>
+<A NAME="50495503_pgfId-369356"></A>-23.9</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369589"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369589"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369358"></A>-9.4</LI>
+<A NAME="50495503_pgfId-369358"></A>-9.4</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369360"></A>-12.3</H6>
+<A NAME="50495503_pgfId-369360"></A>-12.3</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369362"></A>-12.1</H6>
+<A NAME="50495503_pgfId-369362"></A>-12.1</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369364"></A>Anhydrite (CaSO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369364"></A>Anhydrite (CaSO<Sub CLASS="Subscript">
 4</Sub>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369366"></A>20.1</LI>
+<A NAME="50495503_pgfId-369366"></A>20.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369635"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369635"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369368"></A>20.1</LI>
+<A NAME="50495503_pgfId-369368"></A>20.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369370"></A>22.9</LI>
+<A NAME="50495503_pgfId-369370"></A>22.9</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369591"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369591"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369372"></A>20.1</LI>
+<A NAME="50495503_pgfId-369372"></A>20.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369374"></A>22.5</H6>
+<A NAME="50495503_pgfId-369374"></A>22.5</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369376"></A>22.5</H6>
+<A NAME="50495503_pgfId-369376"></A>22.5</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369378"></A>CH<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369378"></A>CH<Sub CLASS="Subscript">
 2</Sub>
 O</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369380"></A>0.8</LI>
+<A NAME="50495503_pgfId-369380"></A>0.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369637"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369637"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369382"></A>0.8</LI>
+<A NAME="50495503_pgfId-369382"></A>0.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369384"></A>4.1</LI>
+<A NAME="50495503_pgfId-369384"></A>4.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369593"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369593"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369386"></A>0.8</LI>
+<A NAME="50495503_pgfId-369386"></A>0.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369388"></A>4.3</H6>
+<A NAME="50495503_pgfId-369388"></A>4.3</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369390"></A>3.5</H6>
+<A NAME="50495503_pgfId-369390"></A>3.5</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369392"></A>Goethite (FeOOH)</P>
+<A NAME="50495503_pgfId-369392"></A>Goethite (FeOOH)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369394"></A>0.1</LI>
+<A NAME="50495503_pgfId-369394"></A>0.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369639"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369639"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369396"></A>0.1</LI>
+<A NAME="50495503_pgfId-369396"></A>0.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369398"></A>1.0</LI>
+<A NAME="50495503_pgfId-369398"></A>1.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369595"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369595"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369400"></A>0.1</LI>
+<A NAME="50495503_pgfId-369400"></A>0.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369402"></A>1.0</H6>
+<A NAME="50495503_pgfId-369402"></A>1.0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369404"></A>0.8</H6>
+<A NAME="50495503_pgfId-369404"></A>0.8</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369406"></A>Pyrite (FeS<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369406"></A>Pyrite (FeS<Sub CLASS="Subscript">
 2</Sub>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369408"></A>-0.1</LI>
+<A NAME="50495503_pgfId-369408"></A>-0.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369641"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369641"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369410"></A>-0.1</LI>
+<A NAME="50495503_pgfId-369410"></A>-0.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369412"></A>-1.0</LI>
+<A NAME="50495503_pgfId-369412"></A>-1.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369597"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369597"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369414"></A>-0.1</LI>
+<A NAME="50495503_pgfId-369414"></A>-0.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369416"></A>-1.0</H6>
+<A NAME="50495503_pgfId-369416"></A>-1.0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369418"></A>-0.8</H6>
+<A NAME="50495503_pgfId-369418"></A>-0.8</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369420"></A>Halite (NaCl)</P>
+<A NAME="50495503_pgfId-369420"></A>Halite (NaCl)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369422"></A>15.3</LI>
+<A NAME="50495503_pgfId-369422"></A>15.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369643"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369643"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369424"></A>15.3</LI>
+<A NAME="50495503_pgfId-369424"></A>15.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369426"></A>15.3</LI>
+<A NAME="50495503_pgfId-369426"></A>15.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369599"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369599"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369428"></A>15.3</LI>
+<A NAME="50495503_pgfId-369428"></A>15.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369430"></A>15.8</H6>
+<A NAME="50495503_pgfId-369430"></A>15.8</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369432"></A>15.3</H6>
+<A NAME="50495503_pgfId-369432"></A>15.3</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369434"></A>Sylvite (KCl)</P>
+<A NAME="50495503_pgfId-369434"></A>Sylvite (KCl)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369436"></A>2.5</LI>
+<A NAME="50495503_pgfId-369436"></A>2.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369645"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369645"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369438"></A>2.5</LI>
+<A NAME="50495503_pgfId-369438"></A>2.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369440"></A>2.5</LI>
+<A NAME="50495503_pgfId-369440"></A>2.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369601"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369601"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369442"></A>2.5</LI>
+<A NAME="50495503_pgfId-369442"></A>2.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369444"></A>2.5</H6>
+<A NAME="50495503_pgfId-369444"></A>2.5</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369446"></A>2.5</H6>
+<A NAME="50495503_pgfId-369446"></A>2.5</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369448"></A>Carbon dioxide (CO<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-369448"></A>Carbon dioxide (CO<Sub CLASS="Subscript">
 2</Sub>
 )</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369450"></A>0.0</LI>
+<A NAME="50495503_pgfId-369450"></A>0.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369647"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369647"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369452"></A>0.0</LI>
+<A NAME="50495503_pgfId-369452"></A>0.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369454"></A>--</LI>
+<A NAME="50495503_pgfId-369454"></A>--</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369603"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369603"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369456"></A>0.0</LI>
+<A NAME="50495503_pgfId-369456"></A>0.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369458"></A>0.0</H6>
+<A NAME="50495503_pgfId-369458"></A>0.0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369460"></A>--</H6>
+<A NAME="50495503_pgfId-369460"></A>--</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369462"></A><Sup CLASS="Superscript">
+<A NAME="50495503_pgfId-369462"></A><Sup CLASS="Superscript">
 14</Sup>
 C, reaction adjusted </P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369464"></A>12.5</LI>
+<A NAME="50495503_pgfId-369464"></A>12.5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369649"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369649"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369466"></A>0.6</LI>
+<A NAME="50495503_pgfId-369466"></A>0.6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369468"></A>0.4</LI>
+<A NAME="50495503_pgfId-369468"></A>0.4</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369605"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369605"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369470"></A>5.9</LI>
+<A NAME="50495503_pgfId-369470"></A>5.9</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369472"></A>3.8</H6>
+<A NAME="50495503_pgfId-369472"></A>3.8</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369474"></A>3.8</H6>
+<A NAME="50495503_pgfId-369474"></A>3.8</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369476"></A>Apparent age (year)</P>
+<A NAME="50495503_pgfId-369476"></A>Apparent age (year)</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369478"></A>22,700</LI>
+<A NAME="50495503_pgfId-369478"></A>22,700</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369651"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369651"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369480"></A>-2,200</LI>
+<A NAME="50495503_pgfId-369480"></A>-2,200</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369482"></A>-5,400</LI>
+<A NAME="50495503_pgfId-369482"></A>-5,400</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369607"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369607"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369484"></A>16,500</LI>
+<A NAME="50495503_pgfId-369484"></A>16,500</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369486"></A>13,000</H6>
+<A NAME="50495503_pgfId-369486"></A>13,000</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369488"></A>12,900</H6>
+<A NAME="50495503_pgfId-369488"></A>12,900</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369493"></A><IMG SRC="phreeqc3-316.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-369493"></A><IMG SRC="phreeqc3-316.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S, Anhydrite </P>
@@ -1648,52 +1648,52 @@ S, Anhydrite </P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369495"></A>15.6</LI>
+<A NAME="50495503_pgfId-369495"></A>15.6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369653"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369653"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369497"></A>15.6</LI>
+<A NAME="50495503_pgfId-369497"></A>15.6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369499"></A>12.8</LI>
+<A NAME="50495503_pgfId-369499"></A>12.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369609"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369609"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369501"></A>15.6</LI>
+<A NAME="50495503_pgfId-369501"></A>15.6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369503"></A>12.5</H6>
+<A NAME="50495503_pgfId-369503"></A>12.5</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369505"></A>13.4</H6>
+<A NAME="50495503_pgfId-369505"></A>13.4</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369510"></A><IMG SRC="phreeqc3-317.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-369510"></A><IMG SRC="phreeqc3-317.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
 C, Dolomite </P>
@@ -1701,52 +1701,52 @@ C, Dolomite </P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369512"></A>3.6</LI>
+<A NAME="50495503_pgfId-369512"></A>3.6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369655"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369655"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369514"></A>1.0</LI>
+<A NAME="50495503_pgfId-369514"></A>1.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369516"></A>3.0</LI>
+<A NAME="50495503_pgfId-369516"></A>3.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369611"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369611"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369518"></A>1.9</LI>
+<A NAME="50495503_pgfId-369518"></A>1.9</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369520"></A>5.0</H6>
+<A NAME="50495503_pgfId-369520"></A>5.0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369522"></A>5.0</H6>
+<A NAME="50495503_pgfId-369522"></A>5.0</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369527"></A><IMG SRC="phreeqc3-318.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-369527"></A><IMG SRC="phreeqc3-318.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
 C, CH<Sub CLASS="Subscript">
@@ -1756,52 +1756,52 @@ O </P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369529"></A>-25.0</LI>
+<A NAME="50495503_pgfId-369529"></A>-25.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369657"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369657"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369531"></A>-30.0</LI>
+<A NAME="50495503_pgfId-369531"></A>-30.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369533"></A>-21.4</LI>
+<A NAME="50495503_pgfId-369533"></A>-21.4</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369613"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369613"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369535"></A>-25.0</LI>
+<A NAME="50495503_pgfId-369535"></A>-25.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369537"></A>-20.0</H6>
+<A NAME="50495503_pgfId-369537"></A>-20.0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369539"></A>-20.0</H6>
+<A NAME="50495503_pgfId-369539"></A>-20.0</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369544"></A>Calculated <IMG SRC="phreeqc3-319.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-369544"></A>Calculated <IMG SRC="phreeqc3-319.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
 C, final water</P>
@@ -1809,52 +1809,52 @@ C, final water</P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369546"></A>-2.3</LI>
+<A NAME="50495503_pgfId-369546"></A>-2.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369659"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369659"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369548"></A>-2.2</LI>
+<A NAME="50495503_pgfId-369548"></A>-2.2</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369550"></A>-3.0</LI>
+<A NAME="50495503_pgfId-369550"></A>-3.0</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369615"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369615"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369552"></A>-2.3</LI>
+<A NAME="50495503_pgfId-369552"></A>-2.3</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369554"></A>-4.3</H6>
+<A NAME="50495503_pgfId-369554"></A>-4.3</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369556"></A>-3.3</H6>
+<A NAME="50495503_pgfId-369556"></A>-3.3</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50634767_pgfId-369561"></A>Calculated <IMG SRC="phreeqc3-320.png" ALIGN="MIDDLE">
+<A NAME="50495503_pgfId-369561"></A>Calculated <IMG SRC="phreeqc3-320.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 34</Sup>
 S, final water</P>
@@ -1862,51 +1862,51 @@ S, final water</P>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369563"></A>15.8</LI>
+<A NAME="50495503_pgfId-369563"></A>15.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369661"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369661"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369565"></A>15.8</LI>
+<A NAME="50495503_pgfId-369565"></A>15.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369567"></A>16.1</LI>
+<A NAME="50495503_pgfId-369567"></A>16.1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369617"></A>&nbsp;</LI>
+<A NAME="50495503_pgfId-369617"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-4-">
-<A NAME="50634767_pgfId-369569"></A>15.8</LI>
+<A NAME="50495503_pgfId-369569"></A>15.8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50634767_pgfId-369571"></A>15.9</H6>
+<A NAME="50495503_pgfId-369571"></A>15.9</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-45-">
-<A NAME="50634767_pgfId-369573"></A>16.0</H6>
+<A NAME="50495503_pgfId-369573"></A>16.0</H6>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1558518"></A>Plummer and others (1990) realized that the stoichiometry of the exchange reaction was not well defined and considered two variations on these reactions in the sensitivity analysis of the mole-balance model. Pure Ca/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1558518"></A>Plummer and others (1990) realized that the stoichiometry of the exchange reaction was not well defined and considered two variations on these reactions in the sensitivity analysis of the mole-balance model. Pure Ca/Na<Sub CLASS="Subscript">
 2</Sub>
  exchange and pure Mg/Na<Sub CLASS="Subscript">
 2</Sub>
@@ -1914,13 +1914,13 @@ S, final water</P>
 A</EM>
  and <EM CLASS="Emphasis">
 B</EM>
-, <A HREF="phreeqc3-73.htm#50634767_42411" CLASS="XRef">table 54</A>). When PHREEQC was run with these two reactants, a model was found with Mg/Na<Sub CLASS="Subscript">
+, <A HREF="phreeqc3-73.htm#50495503_42411" CLASS="XRef">table 54</A>). When PHREEQC was run with these two reactants, a model was found with Mg/Na<Sub CLASS="Subscript">
 2 </Sub>
 (PHREEQC <EM CLASS="Emphasis">
 B</EM>
 ), but no model was found with pure Ca/Na<Sub CLASS="Subscript">
 2</Sub>
- exchange. This difference between netpath and PHREEQC results is attributed to the charge imbalance of the solutions. Solution 2 (<A HREF="phreeqc3-73.htm#50634767_14937" CLASS="XRef">table 52</A>) has a charge imbalance of 3.24 meq/kgw, which is more than 3 percent relative to the sum of cation and anion equivalents. This is not a large percentage error, but the absolute magnitude in milliequivalents is large relative to some of the mole transfers of the mole-balance models. When using the revised mole-balance equations in PHREEQC with Ca/Na<Sub CLASS="Subscript">
+ exchange. This difference between netpath and PHREEQC results is attributed to the charge imbalance of the solutions. Solution 2 (<A HREF="phreeqc3-73.htm#50495503_14937" CLASS="XRef">table 52</A>) has a charge imbalance of 3.24 meq/kgw, which is more than 3 percent relative to the sum of cation and anion equivalents. This is not a large percentage error, but the absolute magnitude in milliequivalents is large relative to some of the mole transfers of the mole-balance models. When using the revised mole-balance equations in PHREEQC with Ca/Na<Sub CLASS="Subscript">
 2</Sub>
  exchange as the only exchange reaction, it is not possible simultaneously to attain mole balance on elements and isotopes, produce charge balance for each solution, and keep uncertainty terms within the specified uncertainty limits. The exchange reaction with the largest calcium component for which a model could be found was about Ca<Sub CLASS="Subscript">
 0.75</Sub>
@@ -1938,7 +1938,7 @@ C'</EM>
 C</EM>
 .</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-341739"></A>One consistent difference between the netpath models without the charge-balance option (netpath <EM CLASS="Emphasis">
+<A NAME="50495503_pgfId-341739"></A>One consistent difference between the netpath models without the charge-balance option (netpath <EM CLASS="Emphasis">
 A</EM>
 , <EM CLASS="Emphasis">
 B</EM>
@@ -1952,7 +1952,7 @@ B</EM>
 B</EM>
 ). However, both models imply a negative carbon-14 age which is impossible, as noted by Plummer and others (1990).</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-341740"></A>The PHREEQC model most similar to the pure Ca/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-341740"></A>The PHREEQC model most similar to the pure Ca/Na<Sub CLASS="Subscript">
 2</Sub>
  exchange model (netpath <EM CLASS="Emphasis">
 A</EM>
@@ -1992,12 +1992,12 @@ C</EM>
 C</EM>
 ' are similar to PHREEQC <EM CLASS="Emphasis">
 C</EM>
- but differ slightly because the uncertainty terms in the PHREEQC model have been calculated to achieve not only charge balance but also to reproduce as closely as possible the observed <IMG SRC="phreeqc3-321.png" ALIGN="MIDDLE">
+ but differ slightly because the uncertainty terms in the PHREEQC model have been calculated to achieve not only charge balance but also to reproduce as closely as possible the observed <IMG SRC="phreeqc3-321.gif" ALIGN="BASELINE">
 <Sup CLASS="Superscript">
 13</Sup>
 C of the final solution. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1429704"></A>One advantage of the revised mole-balance formulation in PHREEQC is that much of the sensitivity analysis that was formerly accomplished by setting up and running multiple models can now be done by including uncertainty limits for all chemical and isotopic data simultaneously. For example, one run of the revised mole-balance formulation determines that no pure Ca/Na<Sub CLASS="Subscript">
+<A NAME="50495503_pgfId-1429704"></A>One advantage of the revised mole-balance formulation in PHREEQC is that much of the sensitivity analysis that was formerly accomplished by setting up and running multiple models can now be done by including uncertainty limits for all chemical and isotopic data simultaneously. For example, one run of the revised mole-balance formulation determines that no pure Ca/Na<Sub CLASS="Subscript">
 2</Sub>
  model can be found even if any or all of the chemical data were adjusted by as much as plus or minus 10 percent. This kind of information would be difficult and time consuming to establish with previous mole-balance formulations. Another improvement is the explicit inclusion of charge-balance constraints. In this example, including the charge-balance constraint requires a change in the exchange reaction and adjustments to solution composition, which have the combined effect of lowering the estimated maximum age of the groundwater by about 10,000 yr. If Mg/Na<Sub CLASS="Subscript">
 2</Sub>
