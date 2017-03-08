@@ -7,1084 +7,1084 @@
 <TITLE> Example 20--Distribution of Isotopes Between Water and Calcite</TITLE><HR><P> | <A HREF="phreeqc3-76.htm">Next</A> || <A HREF="phreeqc3-74.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50634767_pgfId-1418720"></A>Example 20--<A NAME="50634767_33272"></A>Distribution of Isotopes Between Water and Calcite</H2>
+<A NAME="50450447_pgfId-1418720"></A>Example 20--<A NAME="50450447_33272"></A>Distribution of Isotopes Between Water and Calcite</H2>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1559099"></A>The database iso.dat implements the approach to isotope reactions described by Thorstenson and Parkhurst (2002, 2004), in which minor isotopes are treated as individual thermodynamic components. The aqueous and solid species of minor isotopes have slightly different equilibrium constants than those of the major isotopes, which account for fractionation processes. The treatment of isotopes in gases requires a separate species for each isotopic variant of a gas; for example, the isotopic variants of carbon dioxide are CO2, C18OO, C18O2, 13CO2, 13C18OO, and 13C18O2. Similarly, every isotopic variant of a mineral must be included as a component of a solid solution to represent completely the isotopic composition of the solid. The equilibrium constants in iso.dat are derived from empirical fractionation factors, from statistical mechanical theory, or, where no data are available (the most common case), by assuming no fractionation. However, the database is a framework that can be expanded as additional isotopic thermodynamic data become available.</P>
+<A NAME="50450447_pgfId-1559099"></A>The database iso.dat implements the approach to isotope reactions described by Thorstenson and Parkhurst (2002, 2004), in which minor isotopes are treated as individual thermodynamic components. The aqueous and solid species of minor isotopes have slightly different equilibrium constants than those of the major isotopes, which account for fractionation processes. The treatment of isotopes in gases requires a separate species for each isotopic variant of a gas; for example, the isotopic variants of carbon dioxide are CO2, C18OO, C18O2, 13CO2, 13C18OO, and 13C18O2. Similarly, every isotopic variant of a mineral must be included as a component of a solid solution to represent completely the isotopic composition of the solid. The equilibrium constants in iso.dat are derived from empirical fractionation factors, from statistical mechanical theory, or, where no data are available (the most common case), by assuming no fractionation. However, the database is a framework that can be expanded as additional isotopic thermodynamic data become available.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1423540"></A>Example 20 considers the fractionation of oxygen-18, carbon-13, and carbon-14 between solution and calcite under two conditions: (1) in a system where a solution and isotopic solid solution equilibrate with sequential additions of calcite of a specified isotopic composition, hereafter referred to as marine calcite. This system is termed &#8220;closed&#8221; in the sense that all the masses of elements and isotopes that enter the system remain in the system; and (2) in a system where a solution and isotopic solid solution equilibrate with sequential additions of marine calcite, but the isotopic solid solution is removed from the system following equilibration. This system is termed &#8220;open&#8221; in the sense that masses of elements and isotopes are removed from the reaction system at each step. Both systems are isolated from the unsaturated zone, which precludes any further addition of carbon dioxide. The open system is equivalent to calculations in NETPATH that implement isotopic exchange, and the results of the PHREEQC open-system calculation are compared to NETPATH calculations for carbon-13 and carbon-14.</P>
+<A NAME="50450447_pgfId-1423540"></A>Example 20 considers the fractionation of oxygen-18, carbon-13, and carbon-14 between solution and calcite under two conditions: (1) in a system where a solution and isotopic solid solution equilibrate with sequential additions of calcite of a specified isotopic composition, hereafter referred to as marine calcite. This system is termed &#8220;closed&#8221; in the sense that all the masses of elements and isotopes that enter the system remain in the system; and (2) in a system where a solution and isotopic solid solution equilibrate with sequential additions of marine calcite, but the isotopic solid solution is removed from the system following equilibration. This system is termed &#8220;open&#8221; in the sense that masses of elements and isotopes are removed from the reaction system at each step. Both systems are isolated from the unsaturated zone, which precludes any further addition of carbon dioxide. The open system is equivalent to calculations in NETPATH that implement isotopic exchange, and the results of the PHREEQC open-system calculation are compared to NETPATH calculations for carbon-13 and carbon-14.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1444054"></A>Example 20 is divided into two parts: first, the isotopic composition of a marine calcite solid solution in equilibrium with a solution of 0.0 permil oxygen-18 and 0.0 permil carbon-13 is estimated; second, the isotopic evolution of the solution and solid solution are calculated for the closed- and open-reaction systems. In addition to carbon-13 and oxygen-18, carbon-14 is included in the isotopic-evolution calculations, which allows carbon-14 to partition into the solid; however, the calculations do not consider the radioactive decay of carbon-14. </P>
+<A NAME="50450447_pgfId-1444054"></A>Example 20 is divided into two parts: first, the isotopic composition of a marine calcite solid solution in equilibrium with a solution of 0.0 permil oxygen-18 and 0.0 permil carbon-13 is estimated; second, the isotopic evolution of the solution and solid solution are calculated for the closed- and open-reaction systems. In addition to carbon-13 and oxygen-18, carbon-14 is included in the isotopic-evolution calculations, which allows carbon-14 to partition into the solid; however, the calculations do not consider the radioactive decay of carbon-14. </P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50634767_pgfId-1424387"></A><A NAME="50634767_26447"></A>Calculation of the Composition of a Marine Calcite Isotopic Solid Solution</H4>
+<A NAME="50450447_pgfId-1424387"></A><A NAME="50450447_26447"></A>Calculation of the Composition of a Marine Calcite Isotopic Solid Solution</H4>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1424398"></A>The input file that estimates the isotopic composition of calcite in equilibrium with a specified solution isotopic composition is given in <A HREF="phreeqc3-75.htm#50634767_81468" CLASS="XRef">table 57</A>. The first line contains the <A HREF="phreeqc3-9.htm#50634753_88316" CLASS="XRef">DATABASE</A> keyword and indicates that the iso.dat database file must be used for this calculation. The iso.dat database has thousands of aqueous species, many of which are negligibly small for most calculations. The <A HREF="phreeqc3-31.htm#50634753_92102" CLASS="XRef">PRINT</A> data block is used to exclude species from the printed distribution of species for an element or isotope if the species concentration is less than a fraction of 10-6 relative to the total concentration of the element or isotope.   </P>
+<A NAME="50450447_pgfId-1424398"></A>The input file that estimates the isotopic composition of calcite in equilibrium with a specified solution isotopic composition is given in <A HREF="phreeqc3-75.htm#50450447_81468" CLASS="XRef">table 57</A>. The first line contains the <A HREF="phreeqc3-9.htm#50450433_88316" CLASS="XRef">DATABASE</A> keyword and indicates that the iso.dat database file must be used for this calculation. The iso.dat database has thousands of aqueous species, many of which are negligibly small for most calculations. The <A HREF="phreeqc3-31.htm#50450433_92102" CLASS="XRef">PRINT</A> data block is used to exclude species from the printed distribution of species for an element or isotope if the species concentration is less than a fraction of 10-6 relative to the total concentration of the element or isotope.   </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1625362"></A>Table 57. <A NAME="50634767_81468"></A>Input file for example 20A.</P>
+<A NAME="50450447_pgfId-1625362"></A>Table 57. <A NAME="50450447_81468"></A>Input file for example 20A.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625364"></A>DATABASE ../database/iso.dat</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625364"></A>DATABASE ../database/iso.dat</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625366"></A>TITLE Example 20A.--Calculate carbonate solid solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625366"></A>TITLE Example 20A.--Calculate carbonate solid solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625368"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625368"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625370"></A>	-censor_species        1e-006</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625370"></A>	-censor_species        1e-006</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625372"></A>SOLUTION 1 # water to find composition of marine carbonate</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625372"></A>SOLUTION 1 # water to find composition of marine carbonate</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625374"></A>	pH      8.2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625374"></A>	pH      8.2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625376"></A>	Na	1       charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625376"></A>	Na	1       charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625378"></A>	Ca	10      Calcite        0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625378"></A>	Ca	10      Calcite        0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625380"></A>	C	2	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625380"></A>	C	2	</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625382"></A>	[13C]	0       # permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625382"></A>	[13C]	0       # permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625384"></A>	[14C]	0       # pmc</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625384"></A>	[14C]	0       # pmc</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625386"></A>	D	0       # permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625386"></A>	D	0       # permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625388"></A>	[18O]	0       # permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625388"></A>	[18O]	0       # permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625390"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625390"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625392"></A>SOLID_SOLUTION 1 No [14C]</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625392"></A>SOLID_SOLUTION 1 No [14C]</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625394"></A>Calcite </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625394"></A>Calcite </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625396"></A>	-comp	Calcite                 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625396"></A>	-comp	Calcite                 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625398"></A>	-comp	CaCO2[18O](s)           0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625398"></A>	-comp	CaCO2[18O](s)           0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625400"></A>	-comp	CaCO[18O]2(s)           0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625400"></A>	-comp	CaCO[18O]2(s)           0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625402"></A>	-comp	CaC[18O]3(s)            0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625402"></A>	-comp	CaC[18O]3(s)            0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625404"></A>	-comp 	Ca[13C]O3(s)            0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625404"></A>	-comp 	Ca[13C]O3(s)            0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625406"></A>	-comp	Ca[13C]O2[18O](s)       0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625406"></A>	-comp	Ca[13C]O2[18O](s)       0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625408"></A>	-comp	Ca[13C]O[18O]2(s)       0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625408"></A>	-comp	Ca[13C]O[18O]2(s)       0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625410"></A>	-comp	Ca[13C][18O]3(s)        0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625410"></A>	-comp	Ca[13C][18O]3(s)        0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1655666"></A>END 	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1655666"></A>END 	</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1655664"></A>RUN_CELLS</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1655664"></A>RUN_CELLS</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1655662"></A>	-cells 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1655662"></A>	-cells 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694668"></A>USER_PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694668"></A>USER_PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694666"></A>-start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694666"></A>-start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694664"></A>	10 PRINT pad(&quot;Component&quot;, 20), &quot;Mole fraction&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694664"></A>	10 PRINT pad(&quot;Component&quot;, 20), &quot;Mole fraction&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1759802"></A>	20 t = LIST_S_S(&quot;Calcite&quot;, count, name$, moles)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1759802"></A>	20 t = LIST_S_S(&quot;Calcite&quot;, count, name$, moles)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1759800"></A>	30 for i = 1 to count</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1759800"></A>	30 for i = 1 to count</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1759798"></A>	40   PRINT pad(name$(i),20), moles(i)/t</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1759798"></A>	40   PRINT pad(name$(i),20), moles(i)/t</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1759796"></A>	50 next i</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1759796"></A>	50 next i</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1759794"></A>-end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1759794"></A>-end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1759792"></A>END	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1759792"></A>END	</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1444045"></A>The <A HREF="phreeqc3-41.htm#50634753_30253" CLASS="XRef">SOLUTION</A> data block defines an aqueous solution with isotopic composition of 0.0 permil carbon-13 and 0.0 permil oxygen-18, which are approximately the values in seawater. The solution contains dissolved inorganic carbon at a concentration of 2.0 mmol/kgw; the calcium concentration is determined by equilibrium (saturation index 0.0) with pure carbon-12, oxygen-16 calcite; and the sodium concentration is determined by charge balance. In the next simulation, a solid solution is defined that has eight components, but the number of moles of each component is zero. Thus, when reacting, components may precipitate, but no components initially are available to dissolve.</P>
+<A NAME="50450447_pgfId-1444045"></A>The <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A> data block defines an aqueous solution with isotopic composition of 0.0 permil carbon-13 and 0.0 permil oxygen-18, which are approximately the values in seawater. The solution contains dissolved inorganic carbon at a concentration of 2.0 mmol/kgw; the calcium concentration is determined by equilibrium (saturation index 0.0) with pure carbon-12, oxygen-16 calcite; and the sodium concentration is determined by charge balance. In the next simulation, a solid solution is defined that has eight components, but the number of moles of each component is zero. Thus, when reacting, components may precipitate, but no components initially are available to dissolve.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1424560"></A>In the next simulation <A HREF="phreeqc3-36.htm#50634753_78104" CLASS="XRef">RUN_CELLS</A> causes the solution and all of the reactants numbered 1 to react, namely <A HREF="phreeqc3-41.htm#50634753_30253" CLASS="XRef">SOLUTION</A> 1 reacts with <A HREF="phreeqc3-40.htm#50634753_77444" CLASS="XRef">SOLID_SOLUTIONS</A> 1. The solution is initially in equilibrium with a pure carbon-12, oxygen-16 calcite; however, a solid solution of all of the isotopic variants of calcite will be slightly less soluble than this pure solid. Thus, a solid solution should form, but the mole transfers to the solid should be small enough not to affect the isotopic composition of the solution substantially. </P>
+<A NAME="50450447_pgfId-1424560"></A>In the next simulation <A HREF="phreeqc3-36.htm#50450433_78104" CLASS="XRef">RUN_CELLS</A> causes the solution and all of the reactants numbered 1 to react, namely <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A> 1 reacts with <A HREF="phreeqc3-40.htm#50450433_77444" CLASS="XRef">SOLID_SOLUTIONS</A> 1. The solution is initially in equilibrium with a pure carbon-12, oxygen-16 calcite; however, a solid solution of all of the isotopic variants of calcite will be slightly less soluble than this pure solid. Thus, a solid solution should form, but the mole transfers to the solid should be small enough not to affect the isotopic composition of the solution substantially. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1424567"></A>The composition of the isotopic solid solution is printed to the output file, but the printout only contains three significant digits. <A HREF="phreeqc3-52.htm#50634753_55085" CLASS="XRef">USER_PRINT</A> is used to print the mole fractions with greater precision. The function LIST_S_S is used to retrieve the total number of moles of components (t, line 20) in the &#8220;Calcite&#8221; solid solution (as defined in <A HREF="phreeqc3-40.htm#50634753_77444" CLASS="XRef">SOLID_SOLUTIONS</A>) and the name and number of moles of each component (name$ and moles, line 20). From these data, the mole fraction of each component is calculated and printed to the <A HREF="phreeqc3-52.htm#50634753_55085" CLASS="XRef">USER_PRINT</A> section of the output file. </P>
+<A NAME="50450447_pgfId-1424567"></A>The composition of the isotopic solid solution is printed to the output file, but the printout only contains three significant digits. <A HREF="phreeqc3-52.htm#50450433_55085" CLASS="XRef">USER_PRINT</A> is used to print the mole fractions with greater precision. The function LIST_S_S is used to retrieve the total number of moles of components (t, line 20) in the &#8220;Calcite&#8221; solid solution (as defined in <A HREF="phreeqc3-40.htm#50450433_77444" CLASS="XRef">SOLID_SOLUTIONS</A>) and the name and number of moles of each component (name$ and moles, line 20). From these data, the mole fraction of each component is calculated and printed to the <A HREF="phreeqc3-52.htm#50450433_55085" CLASS="XRef">USER_PRINT</A> section of the output file. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1444030"></A>The mole fractions are interpreted as the number of moles of each component in a mole of the solid solution. The mole fractions calculated by the simulation are shown in <A HREF="phreeqc3-75.htm#50634767_73573" CLASS="XRef">table 58</A>. The &#8220;Calcite&#8221; component represents the pure carbon-12, oxygen-16 component, which is approximately 98 percent of the solid; all other components are approximately 1 percent mole fraction or less. </P>
+<A NAME="50450447_pgfId-1444030"></A>The mole fractions are interpreted as the number of moles of each component in a mole of the solid solution. The mole fractions calculated by the simulation are shown in <A HREF="phreeqc3-75.htm#50450447_73573" CLASS="XRef">table 58</A>. The &#8220;Calcite&#8221; component represents the pure carbon-12, oxygen-16 component, which is approximately 98 percent of the solid; all other components are approximately 1 percent mole fraction or less. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1463852"></A>&#8220;Calcite&#8221; is the name of the entire solid solution and also is the name of one of the components in the solid solution. Using &#8220;Calcite&#8221; for the solid solution name allows functions defined in iso.dat to be used to list isotope ratios and isotope alphas in the output file. The &#8220;Isotope Ratios&#8221; part of the printout (not shown) gives the isotopic compositions of the solution and the solid in terms of permil. The isotopic composition of oxygen-18 [R(18)] and carbon-13 [R(13)] in the solution are virtually unchanged from 0 permil. The oxygen-18 composition of the solid [R(18O) Calcite] is approximately 29 permil and the carbon-13 composition of the solid [R(13C) Calcite] is approximately 2 permil.  </P>
+<A NAME="50450447_pgfId-1463852"></A>&#8220;Calcite&#8221; is the name of the entire solid solution and also is the name of one of the components in the solid solution. Using &#8220;Calcite&#8221; for the solid solution name allows functions defined in iso.dat to be used to list isotope ratios and isotope alphas in the output file. The &#8220;Isotope Ratios&#8221; part of the printout (not shown) gives the isotopic compositions of the solution and the solid in terms of permil. The isotopic composition of oxygen-18 [R(18)] and carbon-13 [R(13)] in the solution are virtually unchanged from 0 permil. The oxygen-18 composition of the solid [R(18O) Calcite] is approximately 29 permil and the carbon-13 composition of the solid [R(13C) Calcite] is approximately 2 permil.  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1625698"></A>Table 58. <A NAME="50634767_73573"></A>Mole fractions of isotopic components in a marine carbonate solid solution.</P>
+<A NAME="50450447_pgfId-1625698"></A>Table 58. <A NAME="50450447_73573"></A>Mole fractions of isotopic components in a marine carbonate solid solution.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625700"></A>Component            Mole fraction </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625700"></A>Component            Mole fraction </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625702"></A>Calcite               9.8283e-001 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625702"></A>Calcite               9.8283e-001 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625704"></A>Ca[13C]O3(s)          1.1011e-002 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625704"></A>Ca[13C]O3(s)          1.1011e-002 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625706"></A>CaCO2[18O](s)         6.0825e-003 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625706"></A>CaCO2[18O](s)         6.0825e-003 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625708"></A>Ca[13C]O2[18O](s)     6.8147e-005 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625708"></A>Ca[13C]O2[18O](s)     6.8147e-005 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625710"></A>CaCO[18O]2(s)         1.2548e-005 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625710"></A>CaCO[18O]2(s)         1.2548e-005 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625712"></A>Ca[13C]O[18O]2(s)     1.4058e-007 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625712"></A>Ca[13C]O[18O]2(s)     1.4058e-007 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625714"></A>CaC[18O]3(s)          8.6284e-009 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625714"></A>CaC[18O]3(s)          8.6284e-009 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625716"></A>Ca[13C][18O]3(s)      9.6671e-011 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625716"></A>Ca[13C][18O]3(s)      9.6671e-011 </Pre>
 </TD>
 </TR>
 </TABLE>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50634767_pgfId-1424629"></A><A NAME="50634767_66503"></A>Calculation of Open- and Closed-System Isotopic Evolution of Calcite and Solution</H4>
+<A NAME="50450447_pgfId-1424629"></A><A NAME="50450447_66503"></A>Calculation of Open- and Closed-System Isotopic Evolution of Calcite and Solution</H4>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1444010"></A>The concept for the isotope-evolution calculations is that water that has reacted with carbon dioxide in the unsaturated zone moves into the saturated zone and comes into contact with marine calcite with the composition defined by the previous calculation without further contact with carbon dioxide gas. The marine calcite reacts incrementally with the solution (0.0005 mol per increment), and after a few increments, a solid solution forms. In the open-system calculation, the solution moves on to react with pristine marine calcite, leaving the previously formed solid solution behind. In the closed system, the entire system--previously formed solid solution, increment of marine calcite, and solution--reacts to a new equilibrium. Although the isotopic compositions of the unsaturated zone solution are substantially different from the marine calcite, with sufficient reaction of the marine calcite, the solution will ultimately approach a composition that is in equilibrium with the pure marine calcite for both the open- and closed-system paths. </P>
+<A NAME="50450447_pgfId-1444010"></A>The concept for the isotope-evolution calculations is that water that has reacted with carbon dioxide in the unsaturated zone moves into the saturated zone and comes into contact with marine calcite with the composition defined by the previous calculation without further contact with carbon dioxide gas. The marine calcite reacts incrementally with the solution (0.0005 mol per increment), and after a few increments, a solid solution forms. In the open-system calculation, the solution moves on to react with pristine marine calcite, leaving the previously formed solid solution behind. In the closed system, the entire system--previously formed solid solution, increment of marine calcite, and solution--reacts to a new equilibrium. Although the isotopic compositions of the unsaturated zone solution are substantially different from the marine calcite, with sufficient reaction of the marine calcite, the solution will ultimately approach a composition that is in equilibrium with the pure marine calcite for both the open- and closed-system paths. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1443965"></A>The input file for the open- and closed-system calculations is given in <A HREF="phreeqc3-75.htm#50634767_29793" CLASS="XRef">table 59</A>. As in the previous calculations, iso.dat is used as the database and the species concentrations printed in the distribution of species are censored at 10<Sup CLASS="Superscript">
+<A NAME="50450447_pgfId-1443965"></A>The input file for the open- and closed-system calculations is given in <A HREF="phreeqc3-75.htm#50450447_29793" CLASS="XRef">table 59</A>. As in the previous calculations, iso.dat is used as the database and the species concentrations printed in the distribution of species are censored at 10<Sup CLASS="Superscript">
 -6</Sup>
-. Carbon-14 is included in the calculations, which results in very small concentrations of carbon-14 atoms in solution. These small concentrations can lead to instabilities in the numerical method used to solve the constitutive equations. The <A HREF="phreeqc3-25.htm#50634753_79000" CLASS="XRef">KNOBS</A> data block sets a smaller step size and an alternative equation scaling than the default, which helps in the solution of the equations. Alternatively, results are linear for such small concentrations of carbon-14, and a larger concentration of carbon-14 (say 10 or 100 times larger) could be used to increase numerical stability, provided the results are reduced in the same proportion.  </P>
+. Carbon-14 is included in the calculations, which results in very small concentrations of carbon-14 atoms in solution. These small concentrations can lead to instabilities in the numerical method used to solve the constitutive equations. The <A HREF="phreeqc3-25.htm#50450433_79000" CLASS="XRef">KNOBS</A> data block sets a smaller step size and an alternative equation scaling than the default, which helps in the solution of the equations. Alternatively, results are linear for such small concentrations of carbon-14, and a larger concentration of carbon-14 (say 10 or 100 times larger) could be used to increase numerical stability, provided the results are reduced in the same proportion.  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50634767_pgfId-1625886"></A>Table 59. <A NAME="50634767_29793"></A> Input file for example 20B.</P>
+<A NAME="50450447_pgfId-1625886"></A>Table 59. <A NAME="50450447_29793"></A> Input file for example 20B.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625888"></A>DATABASE ../database/iso.dat</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625888"></A>DATABASE ../database/iso.dat</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625890"></A>TITLE Example 20B.--Isotope evolution.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625890"></A>TITLE Example 20B.--Isotope evolution.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625892"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625892"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625894"></A>	-censor_species        1e-006</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625894"></A>	-censor_species        1e-006</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625896"></A>KNOBS</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625896"></A>KNOBS</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625898"></A>	-diagonal_scale</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625898"></A>	-diagonal_scale</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625900"></A>	-step 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625900"></A>	-step 10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625902"></A>	-pe   5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625902"></A>	-pe   5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625904"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625904"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625906"></A># Open system calculation </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625906"></A># Open system calculation </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1625908"></A># 	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1625908"></A># 	</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635577"></A>SOLID_SOLUTION 1 With [14C]</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635577"></A>SOLID_SOLUTION 1 With [14C]</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635575"></A>Calcite </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635575"></A>Calcite </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635573"></A>	-comp	Calcite                 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635573"></A>	-comp	Calcite                 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635571"></A>	-comp	CaCO2[18O](s)           0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635571"></A>	-comp	CaCO2[18O](s)           0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635569"></A>	-comp	CaCO[18O]2(s)           0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635569"></A>	-comp	CaCO[18O]2(s)           0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635567"></A>	-comp	CaC[18O]3(s)            0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635567"></A>	-comp	CaC[18O]3(s)            0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635565"></A>	-comp 	Ca[13C]O3(s)            0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635565"></A>	-comp 	Ca[13C]O3(s)            0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635563"></A>	-comp	Ca[13C]O2[18O](s)       0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635563"></A>	-comp	Ca[13C]O2[18O](s)       0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1635561"></A>	-comp	Ca[13C]O[18O]2(s)       0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1635561"></A>	-comp	Ca[13C]O[18O]2(s)       0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644387"></A>	-comp	Ca[13C][18O]3(s)        0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644387"></A>	-comp	Ca[13C][18O]3(s)        0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644385"></A>	-comp 	Ca[14C]O3(s)            0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644385"></A>	-comp 	Ca[14C]O3(s)            0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644383"></A>	-comp	Ca[14C]O2[18O](s)       0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644383"></A>	-comp	Ca[14C]O2[18O](s)       0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644381"></A>	-comp	Ca[14C]O[18O]2(s)       0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644381"></A>	-comp	Ca[14C]O[18O]2(s)       0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644379"></A>	-comp	Ca[14C][18O]3(s)        0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644379"></A>	-comp	Ca[14C][18O]3(s)        0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644377"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644377"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644375"></A>REACTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644375"></A>REACTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644373"></A>	Calcite               9.8283e-001 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644373"></A>	Calcite               9.8283e-001 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644371"></A>	Ca[13C]O3(s)          1.1011e-002 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644371"></A>	Ca[13C]O3(s)          1.1011e-002 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644369"></A>	CaCO2[18O](s)         6.0825e-003 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644369"></A>	CaCO2[18O](s)         6.0825e-003 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644367"></A>	Ca[13C]O2[18O](s)     6.8147e-005 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644367"></A>	Ca[13C]O2[18O](s)     6.8147e-005 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644365"></A>	CaCO[18O]2(s)         1.2548e-005 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644365"></A>	CaCO[18O]2(s)         1.2548e-005 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644363"></A>	Ca[13C]O[18O]2(s)     1.4058e-007 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644363"></A>	Ca[13C]O[18O]2(s)     1.4058e-007 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644361"></A>	CaC[18O]3(s)          8.6284e-009 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644361"></A>	CaC[18O]3(s)          8.6284e-009 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644359"></A>	Ca[13C][18O]3(s)      9.6671e-011 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644359"></A>	Ca[13C][18O]3(s)      9.6671e-011 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644357"></A>	0.0005 mole</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644357"></A>	0.0005 mole</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644355"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644355"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644353"></A>USER_PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644353"></A>USER_PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1644351"></A>10 PRINT &quot;Calcite added: &quot;, GET(0) * RXN</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1644351"></A>10 PRINT &quot;Calcite added: &quot;, GET(0) * RXN</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645954"></A>USER_GRAPH 1 Example 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1645954"></A>USER_GRAPH 1 Example 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645952"></A>        -headings Open--Dissolved Open--Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1645952"></A>        -headings Open--Dissolved Open--Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645950"></A>        -chart_title &quot;Oxygen-18&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1645950"></A>        -chart_title &quot;Oxygen-18&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645948"></A>        -axis_titles &quot;Marine calcite reacted, in moles&quot; &quot;Permil&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1645948"></A>        -axis_titles &quot;Marine calcite reacted, in moles&quot; &quot;Permil&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645958"></A>        -axis_scale x_axis 0 0.05 a a </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1645958"></A>        -axis_scale x_axis 0 0.05 a a </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1645956"></A>        -axis_scale y_axis -10 30 a a</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1645956"></A>        -axis_scale y_axis -10 30 a a</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1655672"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1655672"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1655670"></A>10 PUT(GET(0) + 1, 0)   </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1655670"></A>10 PUT(GET(0) + 1, 0)   </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1655668"></A>20 PLOT_XY RXN*GET(0),ISO(&quot;R(18O)&quot;), color=Red, line_w=2, symbol=None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1655668"></A>20 PLOT_XY RXN*GET(0),ISO(&quot;R(18O)&quot;), color=Red, line_w=2, symbol=None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694676"></A>30 PLOT_XY RXN*GET(0),ISO(&quot;R(18O)_Calcite&quot;), color=Green, line_w=2, symbol=None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694676"></A>30 PLOT_XY RXN*GET(0),ISO(&quot;R(18O)_Calcite&quot;), color=Green, line_w=2, symbol=None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694674"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694674"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694672"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694672"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1694670"></A>USER_GRAPH 2 Example 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1694670"></A>USER_GRAPH 2 Example 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760865"></A>        -headings Open--Dissolved Open-Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760865"></A>        -headings Open--Dissolved Open-Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760863"></A>        -chart_title &quot;Carbon-13&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760863"></A>        -chart_title &quot;Carbon-13&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760861"></A>        -axis_titles &quot;Marine calcite reacted, in moles&quot; &quot;Permil&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760861"></A>        -axis_titles &quot;Marine calcite reacted, in moles&quot; &quot;Permil&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760859"></A>        -axis_scale x_axis 0 0.05 a a </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760859"></A>        -axis_scale x_axis 0 0.05 a a </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760857"></A>        -axis_scale y_axis -25 5.0 a a</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760857"></A>        -axis_scale y_axis -25 5.0 a a</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760855"></A>        -plot_tsv  ex20-c13.tsv</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760855"></A>        -plot_tsv  ex20-c13.tsv</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760853"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760853"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760851"></A>10 PLOT_XY RXN*GET(0),ISO(&quot;R(13C)&quot;), color=Red, line_w=2, symbol=None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760851"></A>10 PLOT_XY RXN*GET(0),ISO(&quot;R(13C)&quot;), color=Red, line_w=2, symbol=None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760849"></A>20 PLOT_XY RXN*GET(0),ISO(&quot;R(13C)_Calcite&quot;), color=Green, line_w=2, symbol=None </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760849"></A>20 PLOT_XY RXN*GET(0),ISO(&quot;R(13C)_Calcite&quot;), color=Green, line_w=2, symbol=None </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760847"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760847"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760845"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760845"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760843"></A>USER_GRAPH 3 Example 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760843"></A>USER_GRAPH 3 Example 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760841"></A>        -headings Open--Dissolved Open--Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760841"></A>        -headings Open--Dissolved Open--Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760839"></A>        -chart_title &quot;Carbon-14&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760839"></A>        -chart_title &quot;Carbon-14&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760837"></A>        -axis_titles &quot;Marine calcite reacted, in moles&quot; &quot;Percent modern carbon&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760837"></A>        -axis_titles &quot;Marine calcite reacted, in moles&quot; &quot;Percent modern carbon&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760835"></A>        -axis_scale x_axis 0 0.05 a a </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760835"></A>        -axis_scale x_axis 0 0.05 a a </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760833"></A>        -axis_scale y_axis 0 100 a a</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760833"></A>        -axis_scale y_axis 0 100 a a</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760831"></A>        -plot_tsv  ex20-c14.tsv</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760831"></A>        -plot_tsv  ex20-c14.tsv</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760829"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760829"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760827"></A>10 PLOT_XY RXN*GET(0),ISO(&quot;R(14C)&quot;), color=Red, line_w=2, symbol=None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760827"></A>10 PLOT_XY RXN*GET(0),ISO(&quot;R(14C)&quot;), color=Red, line_w=2, symbol=None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760825"></A>20 PLOT_XY RXN*GET(0),ISO(&quot;R(14C)_Calcite&quot;), color=Green, line_w=2, symbol=None </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760825"></A>20 PLOT_XY RXN*GET(0),ISO(&quot;R(14C)_Calcite&quot;), color=Green, line_w=2, symbol=None </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760823"></A>   -end                                                                            </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760823"></A>   -end                                                                            </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760821"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760821"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760819"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760819"></A>SOLUTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760817"></A>	pH	5  	charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760817"></A>	pH	5  	charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760815"></A>	pe      10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760815"></A>	pe      10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760813"></A>	C	2	CO2(g)  -1.0	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760813"></A>	C	2	CO2(g)  -1.0	</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760811"></A>	[13C]	-25	# permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760811"></A>	[13C]	-25	# permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760809"></A>	[14C]	100	# pmc</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760809"></A>	[14C]	100	# pmc</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760807"></A>	[18O]	-5	# permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760807"></A>	[18O]	-5	# permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760805"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760805"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760803"></A>	-reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760803"></A>	-reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760801"></A>	-file ex20_open</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760801"></A>	-file ex20_open</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760799"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760799"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760797"></A>-start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760797"></A>-start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760795"></A>10 FOR i = 1 to 100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760795"></A>10 FOR i = 1 to 100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760793"></A>20 PUNCH EOL$ + &quot;USE solution 1&quot;      </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760793"></A>20 PUNCH EOL$ + &quot;USE solution 1&quot;      </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760791"></A>30 PUNCH EOL$ + &quot;USE solid_solution 1&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760791"></A>30 PUNCH EOL$ + &quot;USE solid_solution 1&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760789"></A>40 PUNCH EOL$ + &quot;USE reaction 1&quot;      </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760789"></A>40 PUNCH EOL$ + &quot;USE reaction 1&quot;      </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760787"></A>50 PUNCH EOL$ + &quot;SAVE solution 1&quot;     </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760787"></A>50 PUNCH EOL$ + &quot;SAVE solution 1&quot;     </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760785"></A>60 PUNCH EOL$ + &quot;END&quot;                 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760785"></A>60 PUNCH EOL$ + &quot;END&quot;                 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760783"></A>70 NEXT i</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760783"></A>70 NEXT i</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760781"></A>-end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760781"></A>-end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760779"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760779"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760777"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760777"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760775"></A>	-selected_output false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760775"></A>	-selected_output false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760773"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760773"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760771"></A>INCLUDE$ ex20_open</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760771"></A>INCLUDE$ ex20_open</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760769"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760769"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760767"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760767"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760765"></A># Closed system calculation </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760765"></A># Closed system calculation </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760763"></A># </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760763"></A># </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760761"></A>USER_GRAPH 1 Oxygen-18</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760761"></A>USER_GRAPH 1 Oxygen-18</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760759"></A>        -headings Closed--Dissolved Closed--Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760759"></A>        -headings Closed--Dissolved Closed--Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760757"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760757"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760755"></A>10 PUT(GET(1) + 1, 1)   </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760755"></A>10 PUT(GET(1) + 1, 1)   </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760753"></A>20 PLOT_XY RXN*GET(1),ISO(&quot;R(18O)&quot;), color=Blue, line_w=0, symbol=Circle</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760753"></A>20 PLOT_XY RXN*GET(1),ISO(&quot;R(18O)&quot;), color=Blue, line_w=0, symbol=Circle</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760751"></A>30 PLOT_XY RXN*GET(1),ISO(&quot;R(18O)_Calcite&quot;), color=Black, line_w=0, symbol=Circle</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760751"></A>30 PLOT_XY RXN*GET(1),ISO(&quot;R(18O)_Calcite&quot;), color=Black, line_w=0, symbol=Circle</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760749"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760749"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760747"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760747"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760745"></A>USER_GRAPH 2 Carbon-13</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760745"></A>USER_GRAPH 2 Carbon-13</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760743"></A>        -headings Closed--Dissolved Closed--Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760743"></A>        -headings Closed--Dissolved Closed--Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760741"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760741"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760739"></A>10 PLOT_XY RXN*GET(1),ISO(&quot;R(13C)&quot;), color=Blue, line_w=2, symbol=None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760739"></A>10 PLOT_XY RXN*GET(1),ISO(&quot;R(13C)&quot;), color=Blue, line_w=2, symbol=None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760737"></A>20 PLOT_XY RXN*GET(1),ISO(&quot;R(13C)_Calcite&quot;), color=Black, line_w=2, symbol=None </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760737"></A>20 PLOT_XY RXN*GET(1),ISO(&quot;R(13C)_Calcite&quot;), color=Black, line_w=2, symbol=None </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760735"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760735"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760733"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760733"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760731"></A>USER_GRAPH 3 Carbon-14</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760731"></A>USER_GRAPH 3 Carbon-14</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760729"></A>        -headings Closed--Dissolved Closed--Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760729"></A>        -headings Closed--Dissolved Closed--Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760727"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760727"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760725"></A>10 PLOT_XY RXN*GET(1),ISO(&quot;R(14C)&quot;), color=Blue, line_w=2, symbol=None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760725"></A>10 PLOT_XY RXN*GET(1),ISO(&quot;R(14C)&quot;), color=Blue, line_w=2, symbol=None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760723"></A>20 PLOT_XY RXN*GET(1),ISO(&quot;R(14C)_Calcite&quot;), color=Black, line_w=2, symbol=None </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760723"></A>20 PLOT_XY RXN*GET(1),ISO(&quot;R(14C)_Calcite&quot;), color=Black, line_w=2, symbol=None </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760721"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760721"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760719"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760719"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760717"></A>USER_PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760717"></A>USER_PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760715"></A>10 PRINT &quot;Calcite added: &quot;, GET(1), GET(1)*0.0005, RXN</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760715"></A>10 PRINT &quot;Calcite added: &quot;, GET(1), GET(1)*0.0005, RXN</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760713"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760713"></A>SOLUTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760711"></A>	pH	5  	charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760711"></A>	pH	5  	charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760709"></A>	pe      10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760709"></A>	pe      10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760707"></A>	C	2	CO2(g)  -1.0	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760707"></A>	C	2	CO2(g)  -1.0	</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760705"></A>	[13C]	-25	# permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760705"></A>	[13C]	-25	# permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760703"></A>	[14C]	100	# pmc</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760703"></A>	[14C]	100	# pmc</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760701"></A>	[18O]	-5	# permil</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760701"></A>	[18O]	-5	# permil</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760699"></A>END	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760699"></A>END	</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760697"></A>INCREMENTAL_REACTIONS true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760697"></A>INCREMENTAL_REACTIONS true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760695"></A># Alternative to redefinition of REACTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760695"></A># Alternative to redefinition of REACTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760693"></A>#REACTION_MODIFY 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760693"></A>#REACTION_MODIFY 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760691"></A>#	-steps</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760691"></A>#	-steps</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760689"></A>#		0.05</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760689"></A>#		0.05</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760687"></A>#	-equal_increments	1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760687"></A>#	-equal_increments	1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760685"></A>#	-count_steps		100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760685"></A>#	-count_steps		100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760683"></A>REACTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760683"></A>REACTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760681"></A>	Calcite               9.8283e-001 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760681"></A>	Calcite               9.8283e-001 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760679"></A>	Ca[13C]O3(s)          1.1011e-002 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760679"></A>	Ca[13C]O3(s)          1.1011e-002 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760677"></A>	CaCO2[18O](s)         6.0825e-003 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760677"></A>	CaCO2[18O](s)         6.0825e-003 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760675"></A>	Ca[13C]O2[18O](s)     6.8147e-005 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760675"></A>	Ca[13C]O2[18O](s)     6.8147e-005 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760673"></A>	CaCO[18O]2(s)         1.2548e-005 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760673"></A>	CaCO[18O]2(s)         1.2548e-005 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760671"></A>	Ca[13C]O[18O]2(s)     1.4058e-007 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760671"></A>	Ca[13C]O[18O]2(s)     1.4058e-007 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760669"></A>	CaC[18O]3(s)          8.6284e-009 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760669"></A>	CaC[18O]3(s)          8.6284e-009 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760667"></A>	Ca[13C][18O]3(s)      9.6671e-011 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760667"></A>	Ca[13C][18O]3(s)      9.6671e-011 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760665"></A>	0.05 mole in 100 steps</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760665"></A>	0.05 mole in 100 steps</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760663"></A>RUN_CELLS</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760663"></A>RUN_CELLS</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760661"></A>	-cells 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760661"></A>	-cells 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50634767_pgfId-1760659"></A>END	</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1760659"></A>END	</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1425372"></A>As in the previous calculation, a solid solution with zero moles of components is defined in the <A HREF="phreeqc3-40.htm#50634753_77444" CLASS="XRef">SOLID_SOLUTIONS</A> data block; however, this time, four carbon-14 solid components also are defined. A reaction is defined by using the composition of the calcite isotopic solid solution of the previous calculation. The components are present in the proportions given by the mole fractions, but the reaction adds only 0.0005 mol of marine calcite per increment. Next, three <A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef">USER_GRAPH</A> data blocks are defined to display the isotopic composition of oxygen-18, carbon-13, and carbon-14 in the solid and in solution as the reactions proceed.</P>
+<A NAME="50450447_pgfId-1425372"></A>As in the previous calculation, a solid solution with zero moles of components is defined in the <A HREF="phreeqc3-40.htm#50450433_77444" CLASS="XRef">SOLID_SOLUTIONS</A> data block; however, this time, four carbon-14 solid components also are defined. A reaction is defined by using the composition of the calcite isotopic solid solution of the previous calculation. The components are present in the proportions given by the mole fractions, but the reaction adds only 0.0005 mol of marine calcite per increment. Next, three <A HREF="phreeqc3-51.htm#50450433_26121" CLASS="XRef">USER_GRAPH</A> data blocks are defined to display the isotopic composition of oxygen-18, carbon-13, and carbon-14 in the solid and in solution as the reactions proceed.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1425962"></A>The <A HREF="phreeqc3-41.htm#50634753_30253" CLASS="XRef">SOLUTION</A> definition represents an unsaturated zone water. The carbon concentration is determined by equilibrium with a soil-zone partial pressure of 0.1 atm for carbon dioxide gas. Carbon-13 is set to -25 permil to represent an organic matter source of the carbon dioxide. Carbon-14 of the soil gas is assumed to be 100 pmc. Oxygen-18 is arbitrarily set to -5 permil, which is typical of a temperate climate. </P>
+<A NAME="50450447_pgfId-1425962"></A>The <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A> definition represents an unsaturated zone water. The carbon concentration is determined by equilibrium with a soil-zone partial pressure of 0.1 atm for carbon dioxide gas. Carbon-13 is set to -25 permil to represent an organic matter source of the carbon dioxide. Carbon-14 of the soil gas is assumed to be 100 pmc. Oxygen-18 is arbitrarily set to -5 permil, which is typical of a temperate climate. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1443944"></A>The open-system simulation requires a series of calculations where an increment of marine calcite is added to the solution and equilibrated with a solid solution, followed by saving the solution composition. This sequence is repeated 100 times. It is possible to use an editor to create the input file by cutting and pasting 100 copies of the sequence of statements. For compactness, <A HREF="phreeqc3-53.htm#50634753_56415" CLASS="XRef">USER_PUNCH</A> is used to write 100 copies of the sequence into the file ex20_open, which is then included in the input file with an <A HREF="phreeqc3-18.htm#50634753_74991" CLASS="XRef">INCLUDE$</A> statement. The <A HREF="phreeqc3-31.htm#50634753_92102" CLASS="XRef">PRINT</A> data block (or a new definition of  <A HREF="phreeqc3-53.htm#50634753_56415" CLASS="XRef">USER_PUNCH</A>) is necessary to avoid repeatedly writing <A HREF="phreeqc3-53.htm#50634753_56415" CLASS="XRef">USER_PUNCH</A> output to file for each subsequent calculation. </P>
+<A NAME="50450447_pgfId-1443944"></A>The open-system simulation requires a series of calculations where an increment of marine calcite is added to the solution and equilibrated with a solid solution, followed by saving the solution composition. This sequence is repeated 100 times. It is possible to use an editor to create the input file by cutting and pasting 100 copies of the sequence of statements. For compactness, <A HREF="phreeqc3-53.htm#50450433_56415" CLASS="XRef">USER_PUNCH</A> is used to write 100 copies of the sequence into the file ex20_open, which is then included in the input file with an <A HREF="phreeqc3-18.htm#50450433_74991" CLASS="XRef">INCLUDE$</A> statement. The <A HREF="phreeqc3-31.htm#50450433_92102" CLASS="XRef">PRINT</A> data block (or a new definition of  <A HREF="phreeqc3-53.htm#50450433_56415" CLASS="XRef">USER_PUNCH</A>) is necessary to avoid repeatedly writing <A HREF="phreeqc3-53.htm#50450433_56415" CLASS="XRef">USER_PUNCH</A> output to file for each subsequent calculation. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1464436"></A>The closed-system calculation is similar to the open-system calculation. <A HREF="phreeqc3-51.htm#50634753_26121" CLASS="XRef">USER_GRAPH</A> data blocks are used to set the parameters for the closed-system plots, which will be added to the open-system plots. The initial unsaturated-zone water is redefined with <A HREF="phreeqc3-41.htm#50634753_30253" CLASS="XRef">SOLUTION</A>. However, in the closed system, the compositions of both the solution and the solid solution need to be saved after each increment. By saving the compositions at each reaction step, the closed-system definition is actually much simpler than the open system definition. The reaction can be defined as 0.05 mol in 100 steps, and <A HREF="phreeqc3-36.htm#50634753_78104" CLASS="XRef">RUN_CELLS</A> can be used to bring together all the reactants numbered 1 (<A HREF="phreeqc3-33.htm#50634753_75635" CLASS="XRef">REACTION</A> 1, <A HREF="phreeqc3-41.htm#50634753_30253" CLASS="XRef">SOLUTION</A> 1, and <A HREF="phreeqc3-40.htm#50634753_77444" CLASS="XRef">SOLID_SOLUTIONS</A> 1) for the series of 100 calculations. <A HREF="phreeqc3-36.htm#50634753_78104" CLASS="XRef">RUN_CELLS</A> automatically saves the compositions of all reactants after each reaction step. </P>
+<A NAME="50450447_pgfId-1464436"></A>The closed-system calculation is similar to the open-system calculation. <A HREF="phreeqc3-51.htm#50450433_26121" CLASS="XRef">USER_GRAPH</A> data blocks are used to set the parameters for the closed-system plots, which will be added to the open-system plots. The initial unsaturated-zone water is redefined with <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A>. However, in the closed system, the compositions of both the solution and the solid solution need to be saved after each increment. By saving the compositions at each reaction step, the closed-system definition is actually much simpler than the open system definition. The reaction can be defined as 0.05 mol in 100 steps, and <A HREF="phreeqc3-36.htm#50450433_78104" CLASS="XRef">RUN_CELLS</A> can be used to bring together all the reactants numbered 1 (<A HREF="phreeqc3-33.htm#50450433_75635" CLASS="XRef">REACTION</A> 1, <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A> 1, and <A HREF="phreeqc3-40.htm#50450433_77444" CLASS="XRef">SOLID_SOLUTIONS</A> 1) for the series of 100 calculations. <A HREF="phreeqc3-36.htm#50450433_78104" CLASS="XRef">RUN_CELLS</A> automatically saves the compositions of all reactants after each reaction step. </P>
 <DIV>
 <MAP NAME="phreeqc3-332">
 </MAP>
-<IMG SRC="phreeqc3-332.png" style="width:65%" USEMAP="#phreeqc3-332">
+<IMG SRC="phreeqc3-332.gif" USEMAP="#phreeqc3-332">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1424976"></A>The isotopic compositions of the open and closed systems as a function of marine calcite reacted are shown in figure 21. The isotopic compositions begin at the composition of the unsaturated-zone water. Initially, the water is undersaturated with the isotopic solid solution and no solid is present. The vertical lines on panels A, B, and C indicate the point at which a solid solution begins to form. </P>
+<A NAME="50450447_pgfId-1424976"></A>The isotopic compositions of the open and closed systems as a function of marine calcite reacted are shown in figure.21. The isotopic compositions begin at the composition of the unsaturated-zone water. Initially, the water is undersaturated with the isotopic solid solution and no solid is present. The vertical lines on panels A, B, and C indicate the point at which a solid solution begins to form. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1559506"></A>Oxygen-18 is essentially constant in the water and solid through the course of the reactions because the water phase dominates. There are 55.5 mol of oxygen in the water, whereas only 0.05 mol of marine calcite react. Thus, oxygen-18 in the water remains essentially equal to the initial composition of -5.0 permil, although, in detail, there is a slight trend to heavier compositions. The isotopic solid solution in equilibrium with the water is approximately 24 permil. Open- and closed-system calculations give identical results for oxygen-18.</P>
+<A NAME="50450447_pgfId-1559506"></A>Oxygen-18 is essentially constant in the water and solid through the course of the reactions because the water phase dominates. There are 55.5 mol of oxygen in the water, whereas only 0.05 mol of marine calcite react. Thus, oxygen-18 in the water remains essentially equal to the initial composition of -5.0 permil, although, in detail, there is a slight trend to heavier compositions. The isotopic solid solution in equilibrium with the water is approximately 24 permil. Open- and closed-system calculations give identical results for oxygen-18.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1559500"></A>As more and more marine calcite reacts, the carbon-13 isotopic composition of the solid approaches 2 permil, which is the composition of the marine calcite (fig. 21, panel B). The open system approaches the value more quickly than the closed system because only the isotopes in the water are carried forward to the next step and the solid solution (containing some of the lighter isotopes) is left behind. In the closed system, more reaction is needed to approach the marine calcite composition because all the light isotopes from the initial solution remain in the system and must be diluted by more heavy isotopes from the marine calcite. The carbon in the water is about 3.5 permil lighter than the carbon in the solid solution for both the open- and closed-system calculations.</P>
+<A NAME="50450447_pgfId-1559500"></A>As more and more marine calcite reacts, the carbon-13 isotopic composition of the solid approaches 2 permil, which is the composition of the marine calcite (fig..21, panel B). The open system approaches the value more quickly than the closed system because only the isotopes in the water are carried forward to the next step and the solid solution (containing some of the lighter isotopes) is left behind. In the closed system, more reaction is needed to approach the marine calcite composition because all the light isotopes from the initial solution remain in the system and must be diluted by more heavy isotopes from the marine calcite. The carbon in the water is about 3.5 permil lighter than the carbon in the solid solution for both the open- and closed-system calculations.</P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1443872"></A>Initially, all carbon-14 is in the unsaturated-zone water. As marine calcite reacts, the carbon-14 partitions into the solid and asymptotically approaches the point when all carbon-14 is in the solid solution. As with carbon-13, the open-system calculation approaches this point more quickly than the closed system calculation. Fractionation does occur for carbon-14 as it does for carbon-13; the detailed plot in figure 21, panel D, shows that the solid solution is slightly heavier than the solution, but the effect is insignificantly small. Radioactive decay of carbon-14 has been ignored in these calculations; all of the effects of decreasing carbon-14 concentrations in these calculations are the result of partitioning carbon-14 into the solid. If the rate of partitioning carbon-14 into solids is fast relative to the half-life of carbon-14 (approximately 6,000 yr), then it would be an important consideration in carbon-14 groundwater dating. If substantial loss of carbon-14 to the solid were erroneously attributed to radioactive decay, the resulting groundwater ages would be too old. </P>
+<A NAME="50450447_pgfId-1443872"></A>Initially, all carbon-14 is in the unsaturated-zone water. As marine calcite reacts, the carbon-14 partitions into the solid and asymptotically approaches the point when all carbon-14 is in the solid solution. As with carbon-13, the open-system calculation approaches this point more quickly than the closed system calculation. Fractionation does occur for carbon-14 as it does for carbon-13; the detailed plot in figure.21, panel D, shows that the solid solution is slightly heavier than the solution, but the effect is insignificantly small. Radioactive decay of carbon-14 has been ignored in these calculations; all of the effects of decreasing carbon-14 concentrations in these calculations are the result of partitioning carbon-14 into the solid. If the rate of partitioning carbon-14 into solids is fast relative to the half-life of carbon-14 (approximately 6,000 yr), then it would be an important consideration in carbon-14 groundwater dating. If substantial loss of carbon-14 to the solid were erroneously attributed to radioactive decay, the resulting groundwater ages would be too old. </P>
 <P CLASS="BodyText">
-<A NAME="50634767_pgfId-1464513"></A>NETPATH was used to model the effects of isotopic exchange with the marine calcite on the evolution of carbon-13 and carbon-14 from the point that the solid solution forms. The fractionation factors of Deines and others (1974) are used in the iso.dat database and, consequently, the Deines option in NETPATH was used to maintain consistency in the calculations. NETPATH uses an analytical solution to the fractionation equations, whereas PHREEQC calculations used numerical integration with 0.0005 mole reaction steps. NETPATH results and PHREEQC results are very similar (fig. 21, panels B and C), which indicates both that the isotopic approach in PHREEQC is workable and that the reactions steps were sufficiently small to obtain accurate results. </P>
+<A NAME="50450447_pgfId-1464513"></A>NETPATH was used to model the effects of isotopic exchange with the marine calcite on the evolution of carbon-13 and carbon-14 from the point that the solid solution forms. The fractionation factors of Deines and others (1974) are used in the iso.dat database and, consequently, the Deines option in NETPATH was used to maintain consistency in the calculations. NETPATH uses an analytical solution to the fractionation equations, whereas PHREEQC calculations used numerical integration with 0.0005 mole reaction steps. NETPATH results and PHREEQC results are very similar (fig..21, panels B and C), which indicates both that the isotopic approach in PHREEQC is workable and that the reactions steps were sufficiently small to obtain accurate results. </P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-76.htm">Next</A> || <A HREF="phreeqc3-74.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
