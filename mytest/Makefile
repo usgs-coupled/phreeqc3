@@ -384,7 +384,6 @@ all: alkalinity.out \
 	McClesk.out \
 	stuyfz.out \
 	opa_col3.out \
-	sys_equi_fix.out
 	sys_equi_fix.out \
 	pr_h2o.out \
 	ex7_T_P.out \
