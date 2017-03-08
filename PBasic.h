@@ -335,7 +335,6 @@ public:
 		tokcurrent_a,
 		tokpot_v,
 		tokt_sc,
-		tokphase_vm,
 		tokaphi
 	};
 

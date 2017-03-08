@@ -92,9 +92,10 @@ read_transport(void)
 		"interlayer_d",			/* 41 */
 		"porosities",			/* 42 */
 		"porosity",				/* 43 */
-		"fix_current"			/* 44 */
+		"fix_current",			/* 44 */
+		"current"			    /* 45 */
 	};
-	int count_opt_list = 45;
+	int count_opt_list = 46;
 
 	strcpy(file_name, "phreeqc.dmp");
 	/*
@@ -667,6 +668,7 @@ read_transport(void)
 			opt_save = 42;
 			break;
 		case 44:				/* fix_current */
+		case 45:                /* current     */
 			if (copy_token(token, &next_char, &l) == DIGIT)
 			{
 				sscanf(token, SCANFORMAT, &fix_current);
