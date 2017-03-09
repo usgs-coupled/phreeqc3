@@ -3797,6 +3797,7 @@ factor(struct LOC_exec * LINK)
 		}
 		break;
 	case tokeq_frac:
+	case tokequiv_frac:
 		{			
 			// left parenthesis
 			require(toklp, LINK);
