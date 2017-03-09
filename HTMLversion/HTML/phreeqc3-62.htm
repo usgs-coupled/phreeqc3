@@ -7,19 +7,19 @@
 <TITLE> Example 7--Gas-Phase Calculations</TITLE><HR><P> | <A HREF="phreeqc3-63.htm">Next</A> || <A HREF="phreeqc3-61.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50450447_pgfId-502466"></A>Example 7--<A NAME="50450447_44022"></A>Gas-Phase Calculations</H2>
+<A NAME="50462735_pgfId-502466"></A>Example 7--<A NAME="50462735_44022"></A>Gas-Phase Calculations</H2>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1341112"></A>This example demonstrates the capabilities of PHREEQC to model the evolution of gas compositions in equilibrium with a solution with a fixed (total) pressure or a fixed volume of the gas phase. In the case of a fixed-pressure gas phase, a gas bubble forms as soon as the sum of the partial pressures of the component gases exceeds the specified pressure of the gas phase. Once the bubble forms, its volume and composition will vary with the extent of reactions. This case applies to gas bubbles forming in surface water or groundwater at a given depth, where the total pressure is constant. With a fixed-volume gas phase, the aqueous solution is in contact with a head space of a fixed volume, which is typical for a laboratory experiment with a closed bottle. The gas phase always exists in this head space, but its pressure and composition will vary with the reactions. Another way to model gas-liquid reactions in PHREEQC is to maintain a fixed partial pressure by using the <A HREF="phreeqc3-13.htm#50450433_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block. This fixed-partial-pressure approach is illustrated in this example by fixing the CO2 pressure for a <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A>. </P>
+<A NAME="50462735_pgfId-1341112"></A>This example demonstrates the capabilities of PHREEQC to model the evolution of gas compositions in equilibrium with a solution with a fixed (total) pressure or a fixed volume of the gas phase. In the case of a fixed-pressure gas phase, a gas bubble forms as soon as the sum of the partial pressures of the component gases exceeds the specified pressure of the gas phase. Once the bubble forms, its volume and composition will vary with the extent of reactions. This case applies to gas bubbles forming in surface water or groundwater at a given depth, where the total pressure is constant. With a fixed-volume gas phase, the aqueous solution is in contact with a head space of a fixed volume, which is typical for a laboratory experiment with a closed bottle. The gas phase always exists in this head space, but its pressure and composition will vary with the reactions. Another way to model gas-liquid reactions in PHREEQC is to maintain a fixed partial pressure by using the <A HREF="phreeqc3-13.htm#50462721_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block. This fixed-partial-pressure approach is illustrated in this example by fixing the CO2 pressure for a <A HREF="phreeqc3-41.htm#50462721_30253" CLASS="XRef">SOLUTION</A>. </P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-501853"></A>Conceptually, an infinite gas reservoir is assumed for the fixed-partial-pressure approach, for example, water in contact with ambient air. In this case, the partial pressure of a gas component remains constant regardless of the extent of reactions. If the gas reservoir is finite and the total pressure is constant, as in gas bubbles in estuarine and lake sediments and in groundwater, then a fixed-pressure gas phase should be used. If the gas reservoir is finite and its volume is constant, as in a bottle with a fixed head-space, then the fixed-volume gas phase is appropriate.</P>
+<A NAME="50462735_pgfId-501853"></A>Conceptually, an infinite gas reservoir is assumed for the fixed-partial-pressure approach, for example, water in contact with ambient air. In this case, the partial pressure of a gas component remains constant regardless of the extent of reactions. If the gas reservoir is finite and the total pressure is constant, as in gas bubbles in estuarine and lake sediments and in groundwater, then a fixed-pressure gas phase should be used. If the gas reservoir is finite and its volume is constant, as in a bottle with a fixed head-space, then the fixed-volume gas phase is appropriate.</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1553984"></A>In this example, the fixed-partial-pressure approach is used to define a groundwater in equilibrium with a given CO2 pressure and with calcite. The <A HREF="phreeqc3-17.htm#50450433_83409" CLASS="XRef">GAS_PHASE</A> data block is used to model the decomposition of organic matter under fixed-pressure and fixed-volume conditions, with the assumption that carbon, nitrogen, hydrogen, and oxygen are released in the stoichiometry CH<Sub CLASS="Subscript">
+<A NAME="50462735_pgfId-1553984"></A>In this example, the fixed-partial-pressure approach is used to define a groundwater in equilibrium with a given CO2 pressure and with calcite. The <A HREF="phreeqc3-17.htm#50462721_83409" CLASS="XRef">GAS_PHASE</A> data block is used to model the decomposition of organic matter under fixed-pressure and fixed-volume conditions, with the assumption that carbon, nitrogen, hydrogen, and oxygen are released in the stoichiometry CH<Sub CLASS="Subscript">
 2</Sub>
 O(NH<Sub CLASS="Subscript">
 3</Sub>
 )<Sub CLASS="Subscript">
 0.07</Sub>
- by the decomposition reaction. Without electron acceptors, the organic matter decomposes to CH4 and CO2, and NH3 and N2. The carbon and nitrogen will react to redox and gas-solution equilibrium in the model, but it should be noted that these redox reactions require bacterial mediation and are almost always in disequilibrium in groundwater systems. Aqueous carbon species are defined in <A HREF="phreeqc3-42.htm#50450433_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and <A HREF="phreeqc3-43.htm#50450433_96148" CLASS="XRef">SOLUTION_SPECIES</A> of the default databases for two valence states, carbon(+4) and carbon(-4) (methane); no intermediate valence states of carbon are defined. Aqueous nitrogen may occur in the +5, +3, 0, and -3 valence states, depending on the database. The gas components considered here are water vapor (H2O), carbon dioxide (CO<Sub CLASS="Subscript">
+ by the decomposition reaction. Without electron acceptors, the organic matter decomposes to CH4 and CO2, and NH3 and N2. The carbon and nitrogen will react to redox and gas-solution equilibrium in the model, but it should be noted that these redox reactions require bacterial mediation and are almost always in disequilibrium in groundwater systems. Aqueous carbon species are defined in <A HREF="phreeqc3-42.htm#50462721_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and <A HREF="phreeqc3-43.htm#50462721_96148" CLASS="XRef">SOLUTION_SPECIES</A> of the default databases for two valence states, carbon(+4) and carbon(-4) (methane); no intermediate valence states of carbon are defined. Aqueous nitrogen may occur in the +5, +3, 0, and -3 valence states, depending on the database. The gas components considered here are water vapor (H2O), carbon dioxide (CO<Sub CLASS="Subscript">
 2</Sub>
 ), methane (CH<Sub CLASS="Subscript">
 4</Sub>
@@ -29,596 +29,596 @@ O(NH<Sub CLASS="Subscript">
 3</Sub>
 ).</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683502"></A>In the first simulation, the initial water is groundwater in equilibrium with calcite at a partial pressure of carbon dioxide of 10<Sup CLASS="Superscript">
+<A NAME="50462735_pgfId-1683502"></A>In the first simulation, the initial water is groundwater in equilibrium with calcite at a partial pressure of carbon dioxide of 10<Sup CLASS="Superscript">
 -1.5</Sup>
  [log P(CO<Sub CLASS="Subscript">
 2</Sub>
-) = -1.5]. Pure water is defined with the <A HREF="phreeqc3-41.htm#50450433_30253" CLASS="XRef">SOLUTION</A> data block with default values for pH (7.0), pe (4.0), and temperature (25 &#176;C); calcite and carbon dioxide, which dissolve to equilibrium, are defined with <A HREF="phreeqc3-13.htm#50450433_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>. <A HREF="phreeqc3-37.htm#50450433_81857" CLASS="XRef">SAVE</A> is used to save the equilibrated solution so that it can be recalled later in the run (<A HREF="phreeqc3-62.htm#50450447_92449" CLASS="XRef">table 26</A>). <A HREF="phreeqc3-51.htm#50450433_26121" CLASS="XRef">USER_GRAPH</A> data blocks specify data to be plotted, and <A HREF="phreeqc3-38.htm#50450433_20239" CLASS="XRef">SELECTED_OUTPUT</A> defines a file (<EM CLASS="Emphasis">
+) = -1.5]. Pure water is defined with the <A HREF="phreeqc3-41.htm#50462721_30253" CLASS="XRef">SOLUTION</A> data block with default values for pH (7.0), pe (4.0), and temperature (25 &#176;C); calcite and carbon dioxide, which dissolve to equilibrium, are defined with <A HREF="phreeqc3-13.htm#50462721_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>. <A HREF="phreeqc3-37.htm#50462721_81857" CLASS="XRef">SAVE</A> is used to save the equilibrated solution so that it can be recalled later in the run (<A HREF="phreeqc3-62.htm#50462735_92449" CLASS="XRef">table 26</A>). <A HREF="phreeqc3-51.htm#50462721_26121" CLASS="XRef">USER_GRAPH</A> data blocks specify data to be plotted, and <A HREF="phreeqc3-38.htm#50462721_20239" CLASS="XRef">SELECTED_OUTPUT</A> defines a file (<EM CLASS="Emphasis">
 ex7.sel</EM>
 ) to which data (similar to the plotted data) are written for each calculation. As an alternative to writing the selected output file, the data plotted in the charts can be saved to a file by using the pop-up menu that appears when right-clicking the mouse while the cursor is inside a chart.     </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50450447_pgfId-1683524"></A>Table 26. <A NAME="50450447_92449"></A>Input file for example 7.</P>
+<A NAME="50462735_pgfId-1683524"></A>Table 26. <A NAME="50462735_92449"></A>Input file for example 7.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683526"></A>TITLE Example 7.--Organic decomposition with fixed-pressure and</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683526"></A>TITLE Example 7.--Organic decomposition with fixed-pressure and</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683528"></A>                  fixed-volume gas phases</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683528"></A>                  fixed-volume gas phases</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683530"></A>SOLUTION_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683530"></A>SOLUTION_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683532"></A>N(-3)    NH4+           0.0     N</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683532"></A>N(-3)    NH4+           0.0     N</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683534"></A>SOLUTION_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683534"></A>SOLUTION_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683536"></A>NH4+ = NH3 + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683536"></A>NH4+ = NH3 + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683538"></A>        log_k           -9.252</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683538"></A>        log_k           -9.252</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683540"></A>        delta_h 12.48   kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683540"></A>        delta_h 12.48   kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683542"></A>        -analytic    0.6322    -0.001225     -2835.76</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683542"></A>        -analytic    0.6322    -0.001225     -2835.76</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683544"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683544"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683546"></A>NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683546"></A>NO3- + 10 H+ + 8 e- = NH4+ + 3 H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683548"></A>        log_k           119.077</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683548"></A>        log_k           119.077</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683550"></A>        delta_h -187.055        kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683550"></A>        delta_h -187.055        kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683552"></A>        -gamma    2.5000    0.0000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683552"></A>        -gamma    2.5000    0.0000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683554"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683554"></A>PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683556"></A>NH3(g)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683556"></A>NH3(g)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683558"></A>        NH3 = NH3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683558"></A>        NH3 = NH3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683560"></A>        log_k           1.770</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683560"></A>        log_k           1.770</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683562"></A>        delta_h -8.170  kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683562"></A>        delta_h -8.170  kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683564"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683564"></A>SOLUTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683566"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683566"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683568"></A>        Calcite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683568"></A>        Calcite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683570"></A>        CO2(g)  -1.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683570"></A>        CO2(g)  -1.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683572"></A>SAVE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683572"></A>SAVE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683574"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683574"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683576"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683576"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683578"></A>        -file ex7.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683578"></A>        -file ex7.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683580"></A>        -simulation     true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683580"></A>        -simulation     true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1683582"></A>        -state          true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1683582"></A>        -state          true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746676"></A>        -reaction       true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746676"></A>        -reaction       true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746674"></A>        -si CO2(g) CH4(g) N2(g) NH3(g)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746674"></A>        -si CO2(g) CH4(g) N2(g) NH3(g)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746672"></A>        -gas CO2(g) CH4(g) N2(g) NH3(g)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746672"></A>        -gas CO2(g) CH4(g) N2(g) NH3(g)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746670"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746670"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746668"></A>#  Simulation 2: Decomposition of organic matter, CH2O(NH3).07,</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746668"></A>#  Simulation 2: Decomposition of organic matter, CH2O(NH3).07,</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746666"></A>#  at fixed pressure of 1.1 atm</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746666"></A>#  at fixed pressure of 1.1 atm</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746664"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746664"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746662"></A>GAS_PHASE 1 Fixed-pressure gas phase</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746662"></A>GAS_PHASE 1 Fixed-pressure gas phase</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746660"></A>        -fixed_pressure</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746660"></A>        -fixed_pressure</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746658"></A>        -pressure       1.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746658"></A>        -pressure       1.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746656"></A>        CO2(g)          0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746656"></A>        CO2(g)          0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746654"></A>        CH4(g)          0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746654"></A>        CH4(g)          0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746652"></A>        N2(g)           0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746652"></A>        N2(g)           0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746650"></A>        H2O(g)          0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746650"></A>        H2O(g)          0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746648"></A>REACTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746648"></A>REACTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746646"></A>        CH2O(NH3)0.07     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746646"></A>        CH2O(NH3)0.07     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746644"></A>        1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746644"></A>        1. 2. 3. 4. 8. 16. 32 64. 125. 250. 500. 1000. mmol</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746642"></A>USER_GRAPH 1 Example 7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746642"></A>USER_GRAPH 1 Example 7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746640"></A>        -headings Fixed_Pressure: CH4 CO2 N2 H2O #Volume</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746640"></A>        -headings Fixed_Pressure: CH4 CO2 N2 H2O #Volume</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746638"></A>        -chart_title &quot;Gas Composition&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746638"></A>        -chart_title &quot;Gas Composition&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746636"></A>        -axis_titles &quot;Organic matter reacted, in millimoles&quot; &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746636"></A>        -axis_titles &quot;Organic matter reacted, in millimoles&quot; &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746634"></A>        	     &quot;Log(Partial pressure, in atmospheres)&quot; &quot;Volume, in liters&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746634"></A>        	     &quot;Log(Partial pressure, in atmospheres)&quot; &quot;Volume, in liters&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746632"></A>        -axis_scale x_axis 1 1e3 auto auto log</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746632"></A>        -axis_scale x_axis 1 1e3 auto auto log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746630"></A>        -axis_scale y_axis -5.0 1.0 1 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746630"></A>        -axis_scale y_axis -5.0 1.0 1 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746628"></A>        -connect_simulations false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746628"></A>        -connect_simulations false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746626"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746626"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746624"></A>  10 IF GAS(&quot;CH4(g)&quot;) &lt; 1e-10 THEN GOTO 100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746624"></A>  10 IF GAS(&quot;CH4(g)&quot;) &lt; 1e-10 THEN GOTO 100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746622"></A>  20 mM_OM = RXN * 1e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746622"></A>  20 mM_OM = RXN * 1e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746620"></A>  30 PLOT_XY -10, -10, line_width = 0, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746620"></A>  30 PLOT_XY -10, -10, line_width = 0, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746618"></A>  40 PLOT_XY mM_OM, SI(&quot;CH4(g)&quot;), color = Black, symbol = XCross</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746618"></A>  40 PLOT_XY mM_OM, SI(&quot;CH4(g)&quot;), color = Black, symbol = XCross</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746616"></A>  50 PLOT_XY mM_OM, SI(&quot;CO2(g)&quot;), color = Red, symbol = XCross</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746616"></A>  50 PLOT_XY mM_OM, SI(&quot;CO2(g)&quot;), color = Red, symbol = XCross</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746614"></A>  60 PLOT_XY mM_OM, SI(&quot;N2(g)&quot;), color = Teal, symbol = XCross</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746614"></A>  60 PLOT_XY mM_OM, SI(&quot;N2(g)&quot;), color = Teal, symbol = XCross</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746612"></A>  70 PLOT_XY mM_OM, SI(&quot;H2O(g)&quot;), color = Blue, symbol = XCross</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746612"></A>  70 PLOT_XY mM_OM, SI(&quot;H2O(g)&quot;), color = Blue, symbol = XCross</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746610"></A>  100 REM end of program</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746610"></A>  100 REM end of program</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746608"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746608"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746606"></A>USER_GRAPH 2 Example 7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746606"></A>USER_GRAPH 2 Example 7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746604"></A>        -headings  Fixed_P:...Pressure Fixed_P:...Volume</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746604"></A>        -headings  Fixed_P:...Pressure Fixed_P:...Volume</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746602"></A>        -chart_title &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746602"></A>        -chart_title &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746600"></A>            &quot;Total Gas Pressure and Volume&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746600"></A>            &quot;Total Gas Pressure and Volume&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746598"></A>        -axis_titles &quot;Organic matter reacted, in millimoles&quot; &#92;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746598"></A>        -axis_titles &quot;Organic matter reacted, in millimoles&quot; &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746596"></A>                     &quot;Log(Pressure, in atmospheres)&quot; &quot;Volume, in liters&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746596"></A>                     &quot;Log(Pressure, in atmospheres)&quot; &quot;Volume, in liters&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746594"></A>        -axis_scale x_axis 1 1e3 auto auto log</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746594"></A>        -axis_scale x_axis 1 1e3 auto auto log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746592"></A>        -axis_scale y_axis -5.0 1.0 1 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746592"></A>        -axis_scale y_axis -5.0 1.0 1 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746590"></A>        -axis_scale y2_axis 1e-3 1e5 auto auto log</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746590"></A>        -axis_scale y2_axis 1e-3 1e5 auto auto log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746588"></A>        -connect_simulations false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746588"></A>        -connect_simulations false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746586"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746586"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746584"></A>  10 IF GAS(&quot;CH4(g)&quot;) &lt; 1e-10 THEN GOTO 100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746584"></A>  10 IF GAS(&quot;CH4(g)&quot;) &lt; 1e-10 THEN GOTO 100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746582"></A>  20 mM_OM = RXN * 1e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746582"></A>  20 mM_OM = RXN * 1e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746580"></A>  30 moles = (GAS(&quot;CH4(g)&quot;) + GAS(&quot;CO2(g)&quot;) + GAS(&quot;N2(g)&quot;) + GAS(&quot;H2O(g)&quot;))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746580"></A>  30 moles = (GAS(&quot;CH4(g)&quot;) + GAS(&quot;CO2(g)&quot;) + GAS(&quot;N2(g)&quot;) + GAS(&quot;H2O(g)&quot;))</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746578"></A>  40 vol = moles * 0.08207 * TK / 1.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746578"></A>  40 vol = moles * 0.08207 * TK / 1.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746576"></A>  50 PLOT_XY mM_OM, LOG10(1.1), color = Magenta, symbol = XCross</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746576"></A>  50 PLOT_XY mM_OM, LOG10(1.1), color = Magenta, symbol = XCross</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746574"></A>  60 PLOT_XY mM_OM, vol, color = Cyan, symbol = XCross, y_axis = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746574"></A>  60 PLOT_XY mM_OM, vol, color = Cyan, symbol = XCross, y_axis = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746572"></A>  100 REM end of program</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746572"></A>  100 REM end of program</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746570"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746570"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746568"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746568"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746566"></A>#  Simulation 3: Decomposition of organic matter, CH2O(NH3).07,</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746566"></A>#  Simulation 3: Decomposition of organic matter, CH2O(NH3).07,</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746564"></A>#  at fixed volume of 23.19 L</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746564"></A>#  at fixed volume of 23.19 L</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746562"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746562"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746560"></A>USE reaction 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746560"></A>USE reaction 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746558"></A>GAS_PHASE 1 Fixed volume gas phase</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746558"></A>GAS_PHASE 1 Fixed volume gas phase</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746556"></A>        -fixed_volume</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746556"></A>        -fixed_volume</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746554"></A>        -volume         23.19</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746554"></A>        -volume         23.19</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746552"></A>        CO2(g)          0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746552"></A>        CO2(g)          0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746550"></A>        CH4(g)          0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746550"></A>        CH4(g)          0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746548"></A>        N2(g)           0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746548"></A>        N2(g)           0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746546"></A>        H2O(g)          0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746546"></A>        H2O(g)          0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746544"></A>        -equilibrate 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746544"></A>        -equilibrate 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746542"></A>USER_GRAPH 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746542"></A>USER_GRAPH 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746540"></A>        -headings Fixed_Volume: CH4 CO2 N2 H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746540"></A>        -headings Fixed_Volume: CH4 CO2 N2 H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746538"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746538"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746536"></A>  10 mM_OM = RXN * 1e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746536"></A>  10 mM_OM = RXN * 1e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746534"></A>  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746534"></A>  20 PLOT_XY -10, -10, line_width = 0, symbol_size = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746532"></A>  30 PLOT_XY mM_OM, SI(&quot;CH4(g)&quot;), color = Black, symbol = Circle</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746532"></A>  30 PLOT_XY mM_OM, SI(&quot;CH4(g)&quot;), color = Black, symbol = Circle</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746530"></A>  40 PLOT_XY mM_OM, SI(&quot;CO2(g)&quot;), color = Red, symbol = Circle</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746530"></A>  40 PLOT_XY mM_OM, SI(&quot;CO2(g)&quot;), color = Red, symbol = Circle</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746528"></A>  50 PLOT_XY mM_OM, SI(&quot;N2(g)&quot;), color = Teal, symbol = Circle</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746528"></A>  50 PLOT_XY mM_OM, SI(&quot;N2(g)&quot;), color = Teal, symbol = Circle</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746526"></A>  60 PLOT_XY mM_OM, SI(&quot;H2O(g)&quot;), color = Blue, symbol = Circle, symbol_size = 5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746526"></A>  60 PLOT_XY mM_OM, SI(&quot;H2O(g)&quot;), color = Blue, symbol = Circle, symbol_size = 5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746524"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746524"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746522"></A>USER_GRAPH 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746522"></A>USER_GRAPH 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746520"></A>        -headings Fixed_V:...Pressure Fixed_V:...Volume</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746520"></A>        -headings Fixed_V:...Pressure Fixed_V:...Volume</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746518"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746518"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746516"></A>  10 mM_OM = RXN * 1e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746516"></A>  10 mM_OM = RXN * 1e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746514"></A>  20 tot_p = SR(&quot;CH4(g)&quot;) + SR(&quot;CO2(g)&quot;) + SR(&quot;N2(g)&quot;) + SR(&quot;H2O(g)&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746514"></A>  20 tot_p = SR(&quot;CH4(g)&quot;) + SR(&quot;CO2(g)&quot;) + SR(&quot;N2(g)&quot;) + SR(&quot;H2O(g)&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746512"></A>  30 PLOT_XY mM_OM, LOG10(tot_p), color = Magenta, symbol = Circle</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746512"></A>  30 PLOT_XY mM_OM, LOG10(tot_p), color = Magenta, symbol = Circle</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746510"></A>  40 PLOT_XY mM_OM, 23.19, color = Cyan, line_width = 1 symbol = Circle, y_axis = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746510"></A>  40 PLOT_XY mM_OM, 23.19, color = Cyan, line_width = 1 symbol = Circle, y_axis = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746508"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746508"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50450447_pgfId-1746506"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50462735_pgfId-1746506"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683768"></A>In the second simulation, organic matter decomposes with a carbon to nitrogen ratio of 1:0.07 in reaction steps ranging from 1 to 1,000 mmol (<A HREF="phreeqc3-33.htm#50450433_75635" CLASS="XRef">REACTION</A> keyword). A fixed-pressure gas phase will form when the sum of the partial pressures exceeds 1.1 atm; only H2O, CO<Sub CLASS="Subscript">
+<A NAME="50462735_pgfId-1683768"></A>In the second simulation, organic matter decomposes with a carbon to nitrogen ratio of 1:0.07 in reaction steps ranging from 1 to 1,000 mmol (<A HREF="phreeqc3-33.htm#50462721_75635" CLASS="XRef">REACTION</A> keyword). A fixed-pressure gas phase will form when the sum of the partial pressures exceeds 1.1 atm; only H2O, CO<Sub CLASS="Subscript">
 2</Sub>
 , CH<Sub CLASS="Subscript">
 4</Sub>
@@ -626,14 +626,14 @@ ex7.sel</EM>
 2</Sub>
 , and NH<Sub CLASS="Subscript">
 3</Sub>
- enter the gas phase, as defined by the <A HREF="phreeqc3-17.htm#50450433_83409" CLASS="XRef">GAS_PHASE</A> data block. The third simulation uses the same initial solution and reaction. However, the gas phase starts with H2O and CO2 in equilibrium with the initial solution and has a fixed volume of 23.19 L, which is the final volume of the fixed-pressure gas phase in the previous simulation. After 1,000 mmol of reaction, the fixed-pressure and fixed-volume gas phases have (very nearly) the same pressure, volume, and composition, with slightly higher concentrations in the fixed-volume simulations because H2O(g) and CO2(g) entered the volume in the equilibration stage. At the other reaction increments, the pressure, volume, and composition are different for the two gas phases, except for the pressure of water vapor (fig..8). </P>
+ enter the gas phase, as defined by the <A HREF="phreeqc3-17.htm#50462721_83409" CLASS="XRef">GAS_PHASE</A> data block. The third simulation uses the same initial solution and reaction. However, the gas phase starts with H2O and CO2 in equilibrium with the initial solution and has a fixed volume of 23.19 L, which is the final volume of the fixed-pressure gas phase in the previous simulation. After 1,000 mmol of reaction, the fixed-pressure and fixed-volume gas phases have (very nearly) the same pressure, volume, and composition, with slightly higher concentrations in the fixed-volume simulations because H2O(g) and CO2(g) entered the volume in the equilibration stage. At the other reaction increments, the pressure, volume, and composition are different for the two gas phases, except for the pressure of water vapor (fig..8). </P>
 <DIV>
 <MAP NAME="phreeqc3-232">
 </MAP>
 <IMG SRC="phreeqc3-232.gif" USEMAP="#phreeqc3-232">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683499"></A>Figure 8 illustrates the two different approaches of <A HREF="phreeqc3-17.htm#50450433_83409" CLASS="XRef">GAS_PHASE</A>. For the fixed-pressure gas phase, a bubble forms when nearly 3 mmol of reaction have been added. Initially, the composition reflects the solubility of the gases--more than 90 percent CH<Sub CLASS="Subscript">
+<A NAME="50462735_pgfId-1683499"></A>Figure 8 illustrates the two different approaches of <A HREF="phreeqc3-17.htm#50462721_83409" CLASS="XRef">GAS_PHASE</A>. For the fixed-pressure gas phase, a bubble forms when nearly 3 mmol of reaction have been added. Initially, the composition reflects the solubility of the gases--more than 90 percent CH<Sub CLASS="Subscript">
 4</Sub>
  and less than 10 percent CO<Sub CLASS="Subscript">
 2</Sub>
@@ -647,7 +647,7 @@ are minor components (NH<Sub CLASS="Subscript">
 -7 </Sup>
 atm throughout the batch-reaction calculation and are not plotted). The solubility effect lessens as the reaction progresses; CO2 becomes the major carbonate species in the solution as pH decreases. From 200 mmol of reaction onwards, the partial pressures remain nearly constant and the gases reflect the stoichiometry of the organic matter decomposition. The volume of gas produced by the reactions ranges from less than 1 mL at 3 mmol of reaction to 23.19 L after 1,000 mmol of the stoichiometric reaction has been added. The pressure of H2O remains the same throughout because the salinity of the solution remains the same.</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-338377"></A>For the fixed-volume gas phase, the gas phase exists from the beginning of the reaction (fig..8). Initially, the gas is H2O and CO<Sub CLASS="Subscript">
+<A NAME="50462735_pgfId-338377"></A>For the fixed-volume gas phase, the gas phase exists from the beginning of the reaction (fig..8). Initially, the gas is H2O and CO<Sub CLASS="Subscript">
 2</Sub>
 , but as the reaction proceeds, CH<Sub CLASS="Subscript">
 4</Sub>
@@ -659,12 +659,12 @@ atm throughout the batch-reaction calculation and are not plotted). The solubili
 4</Sub>
  partial pressures become nearly equal. All the partial pressures of the fixed-volume gas phases are smaller than the fixed-pressure gas phase up to 1,000 mmol of reaction (except H2O, which remains the same). If the reaction continued beyond 1,000 mmol, the pressure of the fixed-volume gas phase would become greater and greater. Conversely, the volume of the fixed-pressure gas phase is less than the volume of the fixed-volume gas phase until 1,000 mmol of reaction, but would expand further if the reaction continued.</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683836"></A>&nbsp;</P>
+<A NAME="50462735_pgfId-1683836"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683843"></A>&nbsp;</P>
+<A NAME="50462735_pgfId-1683843"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683850"></A>&nbsp;</P>
+<A NAME="50462735_pgfId-1683850"></A>&nbsp;</P>
 <P CLASS="BodyText">
-<A NAME="50450447_pgfId-1683857"></A>&nbsp;</P>
+<A NAME="50462735_pgfId-1683857"></A>&nbsp;</P>
 <HR><P> | <A HREF="phreeqc3-63.htm">Next</A> || <A HREF="phreeqc3-61.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
