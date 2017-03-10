@@ -7,67 +7,67 @@
 <TITLE> INCLUDE$</TITLE><HR><P> | <A HREF="phreeqc3-19.htm">Next</A> || <A HREF="phreeqc3-17.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50462721_pgfId-597640"></A><STRONG CLASS="Bold">
+<A NAME="50552833_pgfId-597640"></A><STRONG CLASS="Bold">
 INCLUDE$</STRONG>
-<A NAME="50462721_74991"></A></H2>
+<A NAME="50552833_74991"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50462721_pgfId-721090"></A><STRONG CLASS="Bold">
+<A NAME="50552833_pgfId-721090"></A><STRONG CLASS="Bold">
  </STRONG>
 This keyword is used to insert the contents of another file into the input or database file. The inserted file may extend the data block of the preceding keyword and (or) add additional keyword data blocks. Files that are inserted may contain further <STRONG CLASS="Bold">
 INCLUDE$</STRONG>
- statements. The files are included dynamically, which means that an input file can write a file with <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> or <A HREF="phreeqc3-53.htm#50462721_56415" CLASS="XRef">USER_PUNCH</A> and subsequently include that file into the input stream.</P>
+ statements. The files are included dynamically, which means that an input file can write a file with <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> or <A HREF="phreeqc3-53.htm#50552833_56415" CLASS="XRef">USER_PUNCH</A> and subsequently include that file into the input stream.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50462721_pgfId-597642"></A><A NAME="50462721_11945"></A>Example </H6>
+<A NAME="50552833_pgfId-597642"></A><A NAME="50552833_11945"></A>Example </H6>
 <P CLASS="BodyTextFlush">
-<A NAME="50462721_pgfId-597643"></A>Input file: </P>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597644"></A>	SOLUTION</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597645"></A>		pH	6</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597646"></A>	INCLUDE$ A</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597647"></A>	END</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597648"></A>&nbsp;</pre>
+<A NAME="50552833_pgfId-597643"></A>Input file: </P>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597644"></A>	SOLUTION</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597645"></A>		pH	6</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597646"></A>	INCLUDE$ A</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597647"></A>	END</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597648"></A>&nbsp;</pre>
 <P CLASS="BodyTextFlush">
-<A NAME="50462721_pgfId-597649"></A>File A: </P>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597650"></A>		Na	2</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597651"></A>		S(6)	1</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597652"></A>	INCLUDE$ B</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597653"></A>&nbsp;</pre>
+<A NAME="50552833_pgfId-597649"></A>File A: </P>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597650"></A>		Na	2</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597651"></A>		S(6)	1</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597652"></A>	INCLUDE$ B</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597653"></A>&nbsp;</pre>
 <P CLASS="BodyTextFlush">
-<A NAME="50462721_pgfId-597654"></A>File B: </P>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597655"></A>	EQUILIBRIUM_PHASES</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597656"></A>		Calcite</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597657"></A>&nbsp;</pre>
+<A NAME="50552833_pgfId-597654"></A>File B: </P>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597655"></A>	EQUILIBRIUM_PHASES</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597656"></A>		Calcite</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597657"></A>&nbsp;</pre>
 <P CLASS="BodyTextFlush">
-<A NAME="50462721_pgfId-597658"></A>Is equivalent to the following input: </P>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597659"></A>	SOLUTION</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597660"></A>		pH	6</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597661"></A>		Na	2</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597662"></A>		S(6)	1</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597663"></A>	EQUILIBRIUM_PHASES</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597664"></A>		Calcite</pre>
-<pre CLASS="ComputerInput"><A NAME="50462721_pgfId-597665"></A>	END</pre>
+<A NAME="50552833_pgfId-597658"></A>Is equivalent to the following input: </P>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597659"></A>	SOLUTION</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597660"></A>		pH	6</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597661"></A>		Na	2</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597662"></A>		S(6)	1</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597663"></A>	EQUILIBRIUM_PHASES</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597664"></A>		Calcite</pre>
+<pre CLASS="ComputerInput"><A NAME="50552833_pgfId-597665"></A>	END</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50462721_pgfId-597666"></A><A NAME="50462721_50195"></A>Notes</H6>
+<A NAME="50552833_pgfId-597666"></A><A NAME="50552833_50195"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50462721_pgfId-597667"></A>The <STRONG CLASS="Bold">
+<A NAME="50552833_pgfId-597667"></A>The <STRONG CLASS="Bold">
 INCLUDE$</STRONG>
- keyword is used to include a file into the input file. The inclusion is done as PHREEQC is processing the input file and running simulations. Thus, it is possible to use a <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> or <A HREF="phreeqc3-38.htm#50462721_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block to write a file that is included at a later point in the run. The keyword may be used in database files or input files. </P>
+ keyword is used to include a file into the input file. The inclusion is done as PHREEQC is processing the input file and running simulations. Thus, it is possible to use a <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> or <A HREF="phreeqc3-38.htm#50552833_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block to write a file that is included at a later point in the run. The keyword may be used in database files or input files. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50462721_pgfId-597668"></A><A NAME="50462721_58450"></A>Example problems</H6>
+<A NAME="50552833_pgfId-597668"></A><A NAME="50552833_58450"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50462721_pgfId-597669"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50552833_pgfId-597669"></A>The keyword <STRONG CLASS="Bold">
 INCLUDE$ </STRONG>
-is used in example problems <A HREF="phreeqc3-63.htm#50462735_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-75.htm#50462735_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-76.htm#50462735_68313" CLASS="XRef">21</A>.</P>
+is used in example problems <A HREF="phreeqc3-63.htm#50552847_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-75.htm#50552847_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-76.htm#50552847_68313" CLASS="XRef">21</A>.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50462721_pgfId-600954"></A><A NAME="50462721_16138"></A>Related keywords</H6>
+<A NAME="50552833_pgfId-600954"></A><A NAME="50552833_16138"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50462721_pgfId-600976"></A><A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> and <A HREF="phreeqc3-38.htm#50462721_20239" CLASS="XRef">SELECTED_OUTPUT</A><STRONG CLASS="Bold">
+<A NAME="50552833_pgfId-600976"></A><A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> and <A HREF="phreeqc3-38.htm#50552833_20239" CLASS="XRef">SELECTED_OUTPUT</A><STRONG CLASS="Bold">
 .</STRONG>
 </P>
 </DIV>
