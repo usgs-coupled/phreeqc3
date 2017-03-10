@@ -1345,6 +1345,7 @@ protected:
 	*   Global solution
 	*---------------------------------------------------------------------- */
 	char *title_x;
+	std::string last_title_x;
 	int new_x;
 	char *description_x;
 	LDBLE tc_x;

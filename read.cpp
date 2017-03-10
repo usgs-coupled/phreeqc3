@@ -7975,6 +7975,7 @@ read_title(void)
 		}
 		strcat(title_x, line);
 	}
+	last_title_x = title_x;
 	return (return_value);
 }
 
