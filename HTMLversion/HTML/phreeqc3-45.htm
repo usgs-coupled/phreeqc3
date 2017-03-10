@@ -7,63 +7,63 @@
 <TITLE> SURFACE</TITLE><HR><P> | <A HREF="phreeqc3-46.htm">Next</A> || <A HREF="phreeqc3-44.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50597889_pgfId-256580"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256580"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
-<A NAME="50597889_56392"></A></H2>
+<A NAME="50479105_56392"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-577580"></A>This keyword data block is used to define the amount and composition of each surface in a surface assemblage. The composition of a surface assemblage can be defined in two ways: (1) implicitly, by specifying that the surface assemblage is in equilibrium with a solution of fixed composition, or (2) explicitly, by defining the amounts of the surfaces in their neutral form (for example, SurfbOH). A surface assemblage may have multiple surfaces and each surface may have multiple binding sites, which are identified by lowercase letters following an underscore. Three types of surfaces are available: DDL (diffuse-double layer) surfaces (Dzombak and Morel, 1990), CD-MUSIC (Charge Distribution MUltiSIte Complexation) surfaces (Hiemstra and Van Riemsdijk, 1996), and non electrostatic surfaces. For DDL and CD-MUSIC surfaces, the composition of the diffuse layer that balances the charged surface can be calculated explicitly (optional). For DDL, the diffuse-layer composition can be calculated by the method of Borkovec and Westall (1983) or by the Donnan approach. For CD-MUSIC, the diffuse-layer composition can be calculated only by the Donnan approach.</P>
+<A NAME="50479105_pgfId-577580"></A>This keyword data block is used to define the amount and composition of each surface in a surface assemblage. The composition of a surface assemblage can be defined in two ways: (1) implicitly, by specifying that the surface assemblage is in equilibrium with a solution of fixed composition, or (2) explicitly, by defining the amounts of the surfaces in their neutral form (for example, SurfbOH). A surface assemblage may have multiple surfaces and each surface may have multiple binding sites, which are identified by lowercase letters following an underscore. Three types of surfaces are available: DDL (diffuse-double layer) surfaces (Dzombak and Morel, 1990), CD-MUSIC (Charge Distribution MUltiSIte Complexation) surfaces (Hiemstra and Van Riemsdijk, 1996), and non electrostatic surfaces. For DDL and CD-MUSIC surfaces, the composition of the diffuse layer that balances the charged surface can be calculated explicitly (optional). For DDL, the diffuse-layer composition can be calculated by the method of Borkovec and Westall (1983) or by the Donnan approach. For CD-MUSIC, the diffuse-layer composition can be calculated only by the Donnan approach.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256582"></A><A NAME="50597889_66990"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256583"></A>Line 0:  SURFACE 1 Surface in equilibrium with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256584"></A>Line 1:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256585"></A>Line 2:	Surfa_w		1.0     1000.     0.33</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256586"></A>Line 2a:	Surfa_s		0.01</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256587"></A>Line 2b:	Surfb		0.5     1000.     0.33</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-509062"></A>Line 0a:  SURFACE 2 Explicit diffuse layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-509063"></A>Line 1a:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-509065"></A>Line 3:	-sites_units		absolute</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-509066"></A>Line 2c:	Surfa_w		1.0	1000.	0.33		</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565062"></A>Line 2d:	Surfa_s		0.01</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-509068"></A>Line 2e:	Surfb		0.5	1000.	0.33		</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-569010"></A>Line 4:	-diffuse_layer		2e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565069"></A>Line 0b: SURFACE 3 CD_MUSIC surface with Donnan layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-507979"></A>Line 1b:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-569082"></A>Line 3a:	-sites_units		density</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-569083"></A>Line 5:	-cd_music</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-569084"></A>Line 2f:	Goe_uni		3.45	96.8	16.52</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-638343"></A>Line 2g:	Goe_tri		2.7</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-638344"></A>Line 6:	-capacitances		0.98	0.73</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-638345"></A>Line 7:	-Donnan		1e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-569077"></A>Line 8:	-only_counter_ions			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565055"></A>Line 0c: SURFACE 4 Sites related to pure phase and kinetic reactant</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-507993"></A>Line 1c:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-507994"></A>Line 9:	Surfc_wOH   Fe(OH)3(a)  equilibrium_phase 0.1     1e5</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-507995"></A>Line 9a:	Surfc_sOH   Fe(OH)3(a)  equilibrium_phase 0.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-507996"></A>Line 9b:	Surfd_sOH   Al(OH)3(a)  kinetic_reactant  0.001   2e4</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-507997"></A>Line 10:	-no_edl </pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565077"></A>Line 0d: SURFACE 5 Clay surface with diffusion through Donnan layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565078"></A>Line 1d:	-equilibrate with solution 5</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565079"></A>Line 2h:	Clay_planar		1.59     37.     1.407e4</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565080"></A>Line 2i:	Clay_ii		0.01</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565081"></A>Line 2j:	Clay_fes		0.85e-3</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565082"></A>Line 7a:	-Donnan		9.6e-10 viscosity 1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565083"></A>Line 8a:	-only_counter_ions true</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565085"></A>Line 0e: SURFACE 6 Clay surface with variable Donnan layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565086"></A>Line 1e:	-equilibrate with solution 6</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565087"></A>Line 2k:	Clay_planar		1.59     37.     1.407e4</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565088"></A>Line 7b:	-Donnan		debye_lengths 3.4 limit_ddl 0.9 viscosity 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565090"></A>Line 0f: SURFACE 7 Colloidal Ferrihydrite particles</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565091"></A>Line 1f:	-equilibrate with solution 7</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565092"></A>Line 2l:	Hfo_w		2.4e-3   600   1.06   Dw 1e-11</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565093"></A>Line 2m:	Hfo_s		6e-5</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-565094"></A>Line 7c:	-Donnan		1e-12</pre>
+<A NAME="50479105_pgfId-256582"></A><A NAME="50479105_66990"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256583"></A>Line 0:  SURFACE 1 Surface in equilibrium with solution 10</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256584"></A>Line 1:	-equilibrate with solution 10</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256585"></A>Line 2:	Surfa_w		1.0     1000.     0.33</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256586"></A>Line 2a:	Surfa_s		0.01</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256587"></A>Line 2b:	Surfb		0.5     1000.     0.33</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-509062"></A>Line 0a:  SURFACE 2 Explicit diffuse layer</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-509063"></A>Line 1a:	-equilibrate with solution 10</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-509065"></A>Line 3:	-sites_units		absolute</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-509066"></A>Line 2c:	Surfa_w		1.0	1000.	0.33		</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565062"></A>Line 2d:	Surfa_s		0.01</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-509068"></A>Line 2e:	Surfb		0.5	1000.	0.33		</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-569010"></A>Line 4:	-diffuse_layer		2e-8</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565069"></A>Line 0b: SURFACE 3 CD_MUSIC surface with Donnan layer</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-507979"></A>Line 1b:	-equilibrate with solution 10</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-569082"></A>Line 3a:	-sites_units		density</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-569083"></A>Line 5:	-cd_music</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-569084"></A>Line 2f:	Goe_uni		3.45	96.8	16.52</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-638343"></A>Line 2g:	Goe_tri		2.7</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-638344"></A>Line 6:	-capacitances		0.98	0.73</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-638345"></A>Line 7:	-Donnan		1e-8</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-569077"></A>Line 8:	-only_counter_ions			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565055"></A>Line 0c: SURFACE 4 Sites related to pure phase and kinetic reactant</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-507993"></A>Line 1c:	-equilibrate with solution 10</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-507994"></A>Line 9:	Surfc_wOH   Fe(OH)3(a)  equilibrium_phase 0.1     1e5</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-507995"></A>Line 9a:	Surfc_sOH   Fe(OH)3(a)  equilibrium_phase 0.001</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-507996"></A>Line 9b:	Surfd_sOH   Al(OH)3(a)  kinetic_reactant  0.001   2e4</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-507997"></A>Line 10:	-no_edl </pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565077"></A>Line 0d: SURFACE 5 Clay surface with diffusion through Donnan layer</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565078"></A>Line 1d:	-equilibrate with solution 5</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565079"></A>Line 2h:	Clay_planar		1.59     37.     1.407e4</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565080"></A>Line 2i:	Clay_ii		0.01</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565081"></A>Line 2j:	Clay_fes		0.85e-3</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565082"></A>Line 7a:	-Donnan		9.6e-10 viscosity 1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565083"></A>Line 8a:	-only_counter_ions true</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565085"></A>Line 0e: SURFACE 6 Clay surface with variable Donnan layer</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565086"></A>Line 1e:	-equilibrate with solution 6</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565087"></A>Line 2k:	Clay_planar		1.59     37.     1.407e4</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565088"></A>Line 7b:	-Donnan		debye_lengths 3.4 limit_ddl 0.9 viscosity 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565090"></A>Line 0f: SURFACE 7 Colloidal Ferrihydrite particles</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565091"></A>Line 1f:	-equilibrate with solution 7</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565092"></A>Line 2l:	Hfo_w		2.4e-3   600   1.06   Dw 1e-11</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565093"></A>Line 2m:	Hfo_s		6e-5</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-565094"></A>Line 7c:	-Donnan		1e-12</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256598"></A><A NAME="50597889_76143"></A>Explanation 1</H6>
+<A NAME="50479105_pgfId-256598"></A><A NAME="50479105_76143"></A>Explanation 1</H6>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-256599"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256599"></A>Line 0: <STRONG CLASS="Bold">
 SURFACE</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -71,11 +71,11 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50597889_pgfId-638339"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638339"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
  is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638340"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638340"></A><EM CLASS="Emphasis">
 number</EM>
 --A positive number designates the surface assemblage and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
 m-n</EM>
@@ -89,17 +89,17 @@ m</EM>
 n</EM>
 , and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638331"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638331"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the surface assemblage.</P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638332"></A>Line 1: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638332"></A>Line 1: <STRONG CLASS="Bold">
 -equilibrate</STRONG>
 <EM CLASS="Emphasis">
  number</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638322"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638322"></A><STRONG CLASS="Bold">
 -equilibrate</STRONG>
 --Indicates that the surface assemblage is defined to be in equilibrium with a given solution composition. Optionally, <STRONG CLASS="Bold">
 equil</STRONG>
@@ -117,11 +117,11 @@ equilibrium</STRONG>
 quilibrium</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638314"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638314"></A><EM CLASS="Emphasis">
 number</EM>
 --Solution number with which the surface assemblage is to be in equilibrium. Any alphabetic characters following the identifier and preceding an integer (&#8220;with solution&#8221; in Line 1) are ignored.</P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638304"></A>Line 2: <EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638304"></A>Line 2: <EM CLASS="Emphasis">
 surface binding site, </EM>
 (<EM CLASS="Emphasis">
 sites </EM>
@@ -135,11 +135,11 @@ Dw</STRONG>
  coefficient</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638305"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638305"></A><EM CLASS="Emphasis">
 surface binding site</EM>
 --Name of a surface binding site.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638306"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638306"></A><EM CLASS="Emphasis">
 sites</EM>
 --Total number of sites for this binding site, in moles; applies when <STRONG CLASS="Bold">
 -sites_units</STRONG>
@@ -147,7 +147,7 @@ sites</EM>
 absolute</STRONG>
 .</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638292"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638292"></A><EM CLASS="Emphasis">
 site density</EM>
 --Site density for this binding site, in sites per square nanometer; applies when <STRONG CLASS="Bold">
 -sites_units</STRONG>
@@ -155,7 +155,7 @@ site density</EM>
 density</STRONG>
 .</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638279"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638279"></A><EM CLASS="Emphasis">
 specific_area_per_gram</EM>
 --Specific area of surface, in m<Sup CLASS="Superscript">
 2</Sup>
@@ -163,7 +163,7 @@ specific_area_per_gram</EM>
 2</Sup>
 /g.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638271"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638271"></A><EM CLASS="Emphasis">
 grams</EM>
 --Mass of solid for calculation of surface area, g (gram); surface area is <EM CLASS="Emphasis">
 grams </EM>
@@ -171,7 +171,7 @@ times<EM CLASS="Emphasis">
  specific_area_per_gram</EM>
 . Default is 0 g.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638260"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638260"></A><STRONG CLASS="Bold">
 Dw</STRONG>
 <EM CLASS="Emphasis">
  coefficient</EM>
@@ -179,11 +179,11 @@ Dw</STRONG>
 2</Sup>
 /s; applies only when <STRONG CLASS="Bold">
 -multi_D </STRONG>
-is true in a <A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef">TRANSPORT</A> calculation. If coefficient &gt; 0, the surface is transported as a colloid with advective, dispersive, and diffusive transport. Default is 0 m<Sup CLASS="Superscript">
+is true in a <A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef">TRANSPORT</A> calculation. If coefficient &gt; 0, the surface is transported as a colloid with advective, dispersive, and diffusive transport. Default is 0 m<Sup CLASS="Superscript">
 2</Sup>
 /s, which means the surface is immobile. </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638248"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638248"></A>Line 3: <STRONG CLASS="Bold">
 -sites_units </STRONG>
 (<STRONG CLASS="Bold">
 absolute</STRONG>
@@ -191,7 +191,7 @@ absolute</STRONG>
 density</STRONG>
 )</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638249"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638249"></A><STRONG CLASS="Bold">
 -sites_units</STRONG>
 --Identifier specifies the units for the sites definition. <STRONG CLASS="Bold">
 Absolute</STRONG>
@@ -215,7 +215,7 @@ ite_units</STRONG>
 ites_units</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638241"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638241"></A><STRONG CLASS="Bold">
 absolute</STRONG>
  or <STRONG CLASS="Bold">
 density</STRONG>
@@ -225,13 +225,13 @@ Absolute</STRONG>
 density</STRONG>
  indicates the site density is given and the number of sites is calculated from the site density and the surface area. </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638232"></A>Line 4: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638232"></A>Line 4: <STRONG CLASS="Bold">
 -diffuse_layer </STRONG>
 [<EM CLASS="Emphasis">
 thickness</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638233"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638233"></A><STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
 --Indicates that the composition of the diffuse layer will be calculated, such that the net surface charge plus the net charge in the diffuse layer will sum to zero. See Notes 1following this section. Either <STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
@@ -255,17 +255,17 @@ diffuse_layer</STRONG>
 iffuse_layer</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638224"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638224"></A><EM CLASS="Emphasis">
 thickness</EM>
 --Thickness of the diffuse layer, m (meter). Default is 10<Sup CLASS="Superscript">
 -8</Sup>
  m (equals 100 angstrom).</P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-736717"></A>Line 5: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-736717"></A>Line 5: <STRONG CLASS="Bold">
 -cd_music </STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-736718"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-736718"></A><STRONG CLASS="Bold">
 -cd_music</STRONG>
 --Indicates that the surfaces in the surface assemblage are CD-MUSIC surfaces. See Notes 1 for using diffuse double layer and <STRONG CLASS="Bold">
 -no_edl</STRONG>
@@ -277,7 +277,7 @@ cd_music</STRONG>
 _music</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-736782"></A>Line 6: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-736782"></A>Line 6: <STRONG CLASS="Bold">
 -capacitances </STRONG>
 <EM CLASS="Emphasis">
 c</EM>
@@ -289,7 +289,7 @@ c</EM>
 2</Sub>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-736783"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-736783"></A><STRONG CLASS="Bold">
 -capacitances</STRONG>
 --Identifier specifies the capacitances for the CD-MUSIC surface. Different surfaces within the surface assemblage may have different capacitances. This option has effect only when <STRONG CLASS="Bold">
 -cd_music</STRONG>
@@ -313,7 +313,7 @@ capacitances</STRONG>
 pacitances</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-736784"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-736784"></A><EM CLASS="Emphasis">
 c</EM>
 <Sub CLASS="Subscript">
 1</Sub>
@@ -321,7 +321,7 @@ c</EM>
 2</Sup>
 . </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-736785"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-736785"></A><EM CLASS="Emphasis">
 c</EM>
 <Sub CLASS="Subscript">
 2</Sub>
@@ -329,7 +329,7 @@ c</EM>
 2</Sup>
 . </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638225"></A>Line 7: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638225"></A>Line 7: <STRONG CLASS="Bold">
 -Donnan </STRONG>
 [(<EM CLASS="Emphasis">
 thickness</EM>
@@ -347,7 +347,7 @@ viscosity</STRONG>
 fraction</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638215"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638215"></A><STRONG CLASS="Bold">
 -Donnan</STRONG>
 --Indicates that the Donnan approach will be used to calculate the composition of the diffuse layer. The identifiers <STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
@@ -367,13 +367,13 @@ Donnan</STRONG>
 nnan</STRONG>
 ] (as with all identifiers, case insensitive).</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638206"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638206"></A><EM CLASS="Emphasis">
 thickness</EM>
 --Thickness of the diffuse layer in meters. Default is 10<Sup CLASS="Superscript">
 -8</Sup>
  m.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638207"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638207"></A><STRONG CLASS="Bold">
 debye_lengths</STRONG>
 <EM CLASS="Emphasis">
  lengths</EM>
@@ -391,7 +391,7 @@ is used, the Debye length is calculated from the ionic strength of the solution.
 lengths</EM>
  times the Debye length (Appelo and Wersin, 2007). </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638189"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638189"></A><STRONG CLASS="Bold">
 limit_ddl</STRONG>
 <EM CLASS="Emphasis">
  limit</EM>
@@ -403,11 +403,11 @@ Limit</EM>
 limit</EM>
  is 0.8.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638181"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638181"></A><STRONG CLASS="Bold">
 viscosity</STRONG>
  <EM CLASS="Emphasis">
 fraction</EM>
---When considering multicomponent diffusion in a <A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef">TRANSPORT</A> calculation (<STRONG CLASS="Bold">
+--When considering multicomponent diffusion in a <A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef">TRANSPORT</A> calculation (<STRONG CLASS="Bold">
 -multi_D</STRONG>
  true), <EM CLASS="Emphasis">
 fraction</EM>
@@ -415,7 +415,7 @@ fraction</EM>
 Fraction </EM>
 is the viscosity in the diffuse layer relative to the viscosity in the free pore space. Default is 1.0. </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638166"></A>Line 8: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638166"></A>Line 8: <STRONG CLASS="Bold">
 -only_counter_ions </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
@@ -423,7 +423,7 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638167"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638167"></A><STRONG CLASS="Bold">
 -only_counter_ions</STRONG>
 --Indicates that the surface charge will be counterbalanced in the diffuse layer with counter-ions only (the sign of charge of counter-ions is opposite to the surface charge). This option has effect only when <STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
@@ -449,7 +449,7 @@ only_counter_ions</STRONG>
 nly_counter_ions</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638159"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638159"></A><EM CLASS="Emphasis">
 (True</EM>
  or <EM CLASS="Emphasis">
 False)</EM>
@@ -467,7 +467,7 @@ f</STRONG>
 alse</STRONG>
 ]. </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638125"></A>Line 9: <EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-638125"></A>Line 9: <EM CLASS="Emphasis">
 surface binding-site formula, name, </EM>
 [(<STRONG CLASS="Bold">
 equilibrium_phase </STRONG>
@@ -477,23 +477,23 @@ or<STRONG CLASS="Bold">
 , sites_per_mole, specific_area_per_mole</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-719065"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-719065"></A><EM CLASS="Emphasis">
 surface binding-site formula</EM>
 --Formula for surface species including stoichiometry of surface site and other surface-complexed elements connected with a pure phase or kinetic reactant. The formula must be charge balanced and is normally the OH-form of the surface binding site. If no elements other than the surface site are included in the formula, then the surface site must be uncharged. If elements are included in the formula and the surface is reacted with a solution, then these elements, in proportion to the mineral present, will be available to desorb and possibly be incorporated in other solids in the system. Further, if the mineral or kinetic reactant is dissolved, these elements will be removed from the solution and (or) other solids in the system in proportion to the mineral or kinetic reactant dissolution.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-719213"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-719213"></A><EM CLASS="Emphasis">
 name</EM>
 --Name of the pure phase or kinetic reactant that has this kind of surface site. If <EM CLASS="Emphasis">
 name</EM>
- is the name of a phase, the moles of the phase in the <A HREF="phreeqc3-13.htm#50597889_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block with the same number as this surface number (4 for Lines 9 and 9a) will be used to determine the number of moles of surface sites (moles of phase times <EM CLASS="Emphasis">
+ is the name of a phase, the moles of the phase in the <A HREF="phreeqc3-13.htm#50479105_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block with the same number as this surface number (4 for Lines 9 and 9a) will be used to determine the number of moles of surface sites (moles of phase times <EM CLASS="Emphasis">
 sites_per_mole</EM>
  equals moles of surface sites). If <EM CLASS="Emphasis">
 name</EM>
- is the rate name for a kinetic reactant, then the moles of the reactant in the <A HREF="phreeqc3-24.htm#50597889_55637" CLASS="XRef">KINETICS</A> data block with the same number as this surface number (4 for line 9b) will be used to determine the number of surface sites (moles of kinetic reactant times <EM CLASS="Emphasis">
+ is the rate name for a kinetic reactant, then the moles of the reactant in the <A HREF="phreeqc3-24.htm#50479105_55637" CLASS="XRef">KINETICS</A> data block with the same number as this surface number (4 for line 9b) will be used to determine the number of surface sites (moles of kinetic reactant times <EM CLASS="Emphasis">
 sites_per_mole</EM>
  equals moles of surface sites). Note that the stoichiometry of the phase or reactant must contain sufficient amounts of the elements in the surface complexes defined in Line 3. In the Example data block 1, there must be at least 0.101 mol of oxygen and hydrogen per mole of Fe(OH)3(a).</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-766688"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-766688"></A><STRONG CLASS="Bold">
 equilibrium_phase </STRONG>
 or<STRONG CLASS="Bold">
  kinetic_reactant</STRONG>
@@ -501,9 +501,9 @@ or<STRONG CLASS="Bold">
 equilibrium_phase</STRONG>
  is used, the <EM CLASS="Emphasis">
 name</EM>
- on the line is a phase defined in an <A HREF="phreeqc3-13.htm#50597889_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block. If <STRONG CLASS="Bold">
+ on the line is a phase defined in an <A HREF="phreeqc3-13.htm#50479105_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block. If <STRONG CLASS="Bold">
 kinetic_reactant</STRONG>
- is used, the name on the line is the rate name for a kinetic reactant defined in a <A HREF="phreeqc3-24.htm#50597889_55637" CLASS="XRef">KINETICS</A> data block. Default is <STRONG CLASS="Bold">
+ is used, the name on the line is the rate name for a kinetic reactant defined in a <A HREF="phreeqc3-24.htm#50479105_55637" CLASS="XRef">KINETICS</A> data block. Default is <STRONG CLASS="Bold">
 equilibrium_phase</STRONG>
 . Optionally, <STRONG CLASS="Bold">
 e</STRONG>
@@ -511,11 +511,11 @@ e</STRONG>
 k</STRONG>
 ; only the first letter is checked. </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-766695"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-766695"></A><EM CLASS="Emphasis">
 sites_per_mole</EM>
 --Moles of surface sites per mole of phase or kinetic reactant, unitless (mol/mol).</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-766696"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-766696"></A><EM CLASS="Emphasis">
 specific_area_per_mole</EM>
 --Specific area of surface, in m<Sup CLASS="Superscript">
 2</Sup>
@@ -523,11 +523,11 @@ specific_area_per_mole</EM>
 2</Sup>
 /mol. </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-638025"></A>Line 10: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638025"></A>Line 10: <STRONG CLASS="Bold">
 -no_edl</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-638026"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638026"></A><STRONG CLASS="Bold">
 -no_edl</STRONG>
 --Indicates that no electrostatic terms will be used in the mass-action equations for surface species and no explicit calculation of the diffuse-layer composition is performed. The identifiers <STRONG CLASS="Bold">
 -no_edl</STRONG>
@@ -551,9 +551,9 @@ o_electrostatic</STRONG>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256622"></A><A NAME="50597889_28369"></A>Notes 1</H6>
+<A NAME="50479105_pgfId-256622"></A><A NAME="50479105_28369"></A>Notes 1</H6>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256623"></A>The databases included with PHREEQC contain thermodynamic data for a diffuse-double-layer surface named &#8220;Hfo&#8221; (Hydrous ferric oxide) that are derived from Dzombak and Morel (1990). Two sites are defined for this surface: a strong binding site, Hfo_s, and a weak binding site, Hfo_w. Note that Dzombak and Morel (1990) used 0.2 mol weak sites and 0.005 mol strong sites per mol Fe, a surface area of 5.33<EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-256623"></A>The databases included with PHREEQC contain thermodynamic data for a diffuse-double-layer surface named &#8220;Hfo&#8221; (Hydrous ferric oxide) that are derived from Dzombak and Morel (1990). Two sites are defined for this surface: a strong binding site, Hfo_s, and a weak binding site, Hfo_w. Note that Dzombak and Morel (1990) used 0.2 mol weak sites and 0.005 mol strong sites per mol Fe, a surface area of 5.33<EM CLASS="Emphasis">
 &#215;</EM>
 10<Sup CLASS="Superscript">
 4</Sup>
@@ -565,7 +565,7 @@ o_electrostatic</STRONG>
 density</STRONG>
  can be used, which calculates the number of sites from the site density (sites per square nanometer), the specific surface area (square meter per gram), and the mass (grams).</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-565777"></A>A surface assemblage can have multiple surfaces, each of which can have multiple site types. <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-565777"></A>A surface assemblage can have multiple surfaces, each of which can have multiple site types. <STRONG CLASS="Bold">
 SURFACE</STRONG>
  1 in Example data block 1 has two surfaces, Surfa and Surfb. Surfa has two binding sites, Surfa_w and Surfa_s; they share the same surface area and have the same electrostatic potential. The link between the two is indicated by the shared surface name, which is followed by an underscore, &#8220;_&#8221;, and other letter(s) to distinguish the two types of sites. The surface area and mass for Surfa must be defined in the input data for at least one of the two binding sites. Surfb has only one kind of binding site and the area and mass must be defined as part of the input for the single binding site. <STRONG CLASS="Bold">
 SURFACE</STRONG>
@@ -577,7 +577,7 @@ SURFACE</STRONG>
 SURFACE</STRONG>
  1. </P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-704368"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-704368"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
  3 defines a CD-MUSIC surface. The data are based on a description of binding on goethite (Hiemstra and Van Riemsdijk, 1996; Rahnemaie and others, 2006) that has two site types (Goe_uni and Goe_tri). The identifiers <STRONG CLASS="Bold">
 -equilibrate</STRONG>
@@ -629,11 +629,11 @@ grams</EM>
 to a small number</EM>
  to avoid the situation where the volume of EDL water becomes unrealistically large.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-665911"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-665911"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
- 4 has one surface, Surfc, which has two binding sites, Surfc_w and Surfc_s. The number of binding sites for these two kinds of sites is determined by the amount of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50597889_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4, where 4 is the same number as the surface number. If <EM CLASS="Emphasis">
+ 4 has one surface, Surfc, which has two binding sites, Surfc_w and Surfc_s. The number of binding sites for these two kinds of sites is determined by the amount of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50479105_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4, where 4 is the same number as the surface number. If <EM CLASS="Emphasis">
 m</EM>
- represents the moles of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50597889_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4, then the number of sites of Surfc_w is 0.1<EM CLASS="Emphasis">
+ represents the moles of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50479105_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4, then the number of sites of Surfc_w is 0.1<EM CLASS="Emphasis">
 m (</EM>
 mol) and of Surfc_s is 0.001<EM CLASS="Emphasis">
 m</EM>
@@ -641,19 +641,19 @@ m</EM>
 m </EM>
 (m<Sup CLASS="Superscript">
 2</Sup>
-). During batch-reaction simulations the moles of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50597889_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4 may change, in which case the number of sites of Surfc will change as will the surface area associated with Surfc. Whenever Fe(OH)3(a) precipitates, the specified amounts of Surfc_wOH and Surfc_sOH are formed and all the species that are surface-complexed and in the electrical double layer will be taken from the elements in the system. These formulas are charge balanced and the OH groups are part of the formula for Fe(OH)3(a). The OH is not used in the initial surface-composition calculation, but is critical when amounts of Fe(OH)3(a) vary. Erroneous results will occur if the formula is not charge balanced, and a warning message will be printed if the elements in the surface complex (other than the surface site itself) are not contained in sufficient quantities in the equilibrium phase or kinetic formula. </P>
+). During batch-reaction simulations the moles of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50479105_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4 may change, in which case the number of sites of Surfc will change as will the surface area associated with Surfc. Whenever Fe(OH)3(a) precipitates, the specified amounts of Surfc_wOH and Surfc_sOH are formed and all the species that are surface-complexed and in the electrical double layer will be taken from the elements in the system. These formulas are charge balanced and the OH groups are part of the formula for Fe(OH)3(a). The OH is not used in the initial surface-composition calculation, but is critical when amounts of Fe(OH)3(a) vary. Erroneous results will occur if the formula is not charge balanced, and a warning message will be printed if the elements in the surface complex (other than the surface site itself) are not contained in sufficient quantities in the equilibrium phase or kinetic formula. </P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-638015"></A>The number of sites of Surfd in <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638015"></A>The number of sites of Surfd in <STRONG CLASS="Bold">
 SURFACE</STRONG>
- 4 is determined by the amount of a kinetic reactant defined in <A HREF="phreeqc3-24.htm#50597889_55637" CLASS="XRef">KINETICS</A> 4, where 4 is the same number as the surface number. Sites related to a kinetic reactant are exactly analogous to sites related to an equilibrium phase. The same restrictions apply--the formula must be charge balanced, and the elements in the surface complex (other than the surface site itself) should be included in the formula of the reactant.</P>
+ 4 is determined by the amount of a kinetic reactant defined in <A HREF="phreeqc3-24.htm#50479105_55637" CLASS="XRef">KINETICS</A> 4, where 4 is the same number as the surface number. Sites related to a kinetic reactant are exactly analogous to sites related to an equilibrium phase. The same restrictions apply--the formula must be charge balanced, and the elements in the surface complex (other than the surface site itself) should be included in the formula of the reactant.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-750106"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-750106"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
  5 is a template for modeling sorption and diffusion in clay rocks; in this case, the Opalinus Clay at Mont Terri in Switzerland (Appelo and others, 2010). A rock dry density of 2.7 kg/L, an overall porosity of 0.161, of which half is accessible for Cl-, a specific surface area of 37 m2/g, and an exchange capacity of 0.114 eq/kg (equivalent per kilogram) are translated to a surface that is defined relative to 1 L of pore water. Thus, 1 L of pore water is in contact with 2.7<EM CLASS="Emphasis">
  &#215; </EM>
 (1 - 0.161) / 0.161 = 14.07 kg rock. The surface has &#8220;clay_planar&#8221; sites that express the bulk exchange capacity of the rock (1.59 mol sites). The measured sorption isotherm for Cs+ indicates the presence of two sites: &#8220;clay_ii&#8221; sites with an intermediate strength for binding Cs+, and &#8220;clay_fes&#8221; sites on the frayed edges of illite with a very strong and very specific binding strength. The number of these sites and the complexation constants for Cs+ and other cations are obtained by fitting the isotherm, while accounting for two sorption types: one type is for surface complexation, which is specific for the various ions; the other type is connected with charge compensation in the Donnan space, which is in principle, the same for all equal-charged ions (although it can be varied with <STRONG CLASS="Bold">
 -erm_DDL</STRONG>
- in keyword <A HREF="phreeqc3-43.htm#50597889_96148" CLASS="XRef">SOLUTION_SPECIES</A> to match observed differences). In <STRONG CLASS="Bold">
+ in keyword <A HREF="phreeqc3-43.htm#50479105_96148" CLASS="XRef">SOLUTION_SPECIES</A> to match observed differences). In <STRONG CLASS="Bold">
 SURFACE</STRONG>
  5, the exclusion of Cl- is modeled with a Donnan pore space that contains only counter-ions (is Cl- free). Thus, it holds 0.5 L water and has a thickness (derived from this volume and the total area) of 0.5<EM CLASS="Emphasis">
 &#215;</EM>
@@ -671,16 +671,16 @@ SURFACE</STRONG>
 -10</Sup>
  m. This thickness equals 1.9 Debye lengths at the ionic strength of the pore water of 0.368, which is in good agreement with anion-exclusion theory (Schofield, 1947; Tournassat and Appelo, 2011).</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-566120"></A>An anion-free Donnan pore space is the simplest option and is in line with traditional calculations in soil science. Perhaps more realistically, the anion exclusion can be modeled with <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-566120"></A>An anion-free Donnan pore space is the simplest option and is in line with traditional calculations in soil science. Perhaps more realistically, the anion exclusion can be modeled with <STRONG CLASS="Bold">
 -only_counter_ions</STRONG>
  false and an increased thickness of the Donnan layer. The fraction of free (uncharged) pore water, ffree, follows from the Cl- accessible pore space and the potential in the Donnan space, &#968;D (V):</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50597889_pgfId-566124"></A><IMG SRC="phreeqc3-156.gif" ALIGN="BASELINE">
+<A NAME="50479105_pgfId-566124"></A><IMG SRC="phreeqc3-156.gif" ALIGN="BASELINE">
 ,	(6)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50597889_pgfId-704527"></A>where &#949;<Sub CLASS="Subscript">
+<A NAME="50479105_pgfId-704527"></A>where &#949;<Sub CLASS="Subscript">
 a</Sub>
  is the accessible porosity (unitless), &#949;<Sub CLASS="Subscript">
 tot</Sub>
@@ -709,7 +709,7 @@ tot</Sub>
 -9</Sup>
  m, or 3.4 Debye lengths.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-566126"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-566126"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
  6 illustrates the option to set the thickness of the Donnan layer to be a number of Debye lengths, &#954;<Sup CLASS="Superscript">
 &#8722;1</Sup>
@@ -738,19 +738,19 @@ SURFACE</STRONG>
 limit_ddl</STRONG>
  0.8).</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-566130"></A>The chemical and physical properties of clay rocks can be measured precisely with diffusion experiments, and PHREEQC can model the experiments by calculating multicomponent diffusion with option <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-566130"></A>The chemical and physical properties of clay rocks can be measured precisely with diffusion experiments, and PHREEQC can model the experiments by calculating multicomponent diffusion with option <STRONG CLASS="Bold">
 -multi_D</STRONG>
- in keyword <A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef">TRANSPORT</A>. With this option, diffusion is calculated separately for the free (uncharged) pore water and the Donnan pore water, while each solute species has its own diffusion coefficient. It is probable that the electrostatic double layer, mimicked by the Donnan pore space in PHREEQC, has properties that are different from free pore water. The dielectric permittivity is lower in an electrostatic field, which will enhance the complexation of charged ions into neutral species. Such complexation will diminish anion exclusion, and will be different for different anions, depending on charge and hydration radius. This effect can be modeled by defining an enrichment factor in the Donnan pore space with<STRONG CLASS="Bold">
+ in keyword <A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef">TRANSPORT</A>. With this option, diffusion is calculated separately for the free (uncharged) pore water and the Donnan pore water, while each solute species has its own diffusion coefficient. It is probable that the electrostatic double layer, mimicked by the Donnan pore space in PHREEQC, has properties that are different from free pore water. The dielectric permittivity is lower in an electrostatic field, which will enhance the complexation of charged ions into neutral species. Such complexation will diminish anion exclusion, and will be different for different anions, depending on charge and hydration radius. This effect can be modeled by defining an enrichment factor in the Donnan pore space with<STRONG CLASS="Bold">
  -erm_ddl</STRONG>
- in keyword <A HREF="phreeqc3-43.htm#50597889_96148" CLASS="XRef">SOLUTION_SPECIES</A>. Furthermore, the viscosity may be higher in the Donnan pore water than in ordinary water, and diffusion would be lower in proportion with the viscosity ratio. PHREEQC allows setting the viscosity ratio as illustrated in <STRONG CLASS="Bold">
+ in keyword <A HREF="phreeqc3-43.htm#50479105_96148" CLASS="XRef">SOLUTION_SPECIES</A>. Furthermore, the viscosity may be higher in the Donnan pore water than in ordinary water, and diffusion would be lower in proportion with the viscosity ratio. PHREEQC allows setting the viscosity ratio as illustrated in <STRONG CLASS="Bold">
 SURFACE</STRONG>
  5 and <STRONG CLASS="Bold">
 SURFACE</STRONG>
  6. (Default is 1.0)</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-566131"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-566131"></A><STRONG CLASS="Bold">
 SURFACE</STRONG>
- 7 defines a diffusion coefficient of 10-11 m2/s for a surface consisting of ferrihydrite particles (Hfo in the database). When the diffusion coefficient is larger than 0, the surface will advect and disperse like a normal solute species in a column defined with keyword <A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
+ 7 defines a diffusion coefficient of 10-11 m2/s for a surface consisting of ferrihydrite particles (Hfo in the database). When the diffusion coefficient is larger than 0, the surface will advect and disperse like a normal solute species in a column defined with keyword <A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
 -multi_D</STRONG>
  true, and it will diffuse in accordance with the diffusion coefficient. The surface must be neutral, either charge-free by itself, or by adding a Donnan layer that neutralizes the surface charge. In <STRONG CLASS="Bold">
 SURFACE</STRONG>
@@ -758,11 +758,11 @@ SURFACE</STRONG>
 SURFACE</STRONG>
  7 is a colloidal particle that can transport heavy metals complexed on its surface while the diffusion coefficient is greater than zero, and it can coagulate with other particles and be deposited depending on chemical or physical conditions in the column by setting the diffusion coefficient to zero with CHANGE_SURF. An example is given at http://www.hydrochemistry.eu/exmpls/colloid.html (accessed June 25, 2012).</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256625"></A>Line 1 requires the program to make a calculation to determine the composition of a surface assemblage, termed an &#8220;initial surface calculation&#8221;. Before any batch-reaction or transport calculations, initial surface calculations are performed to determine the composition of the surface assemblages that would exist in equilibrium with the specified solution (solution 10 for <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256625"></A>Line 1 requires the program to make a calculation to determine the composition of a surface assemblage, termed an &#8220;initial surface calculation&#8221;. Before any batch-reaction or transport calculations, initial surface calculations are performed to determine the composition of the surface assemblages that would exist in equilibrium with the specified solution (solution 10 for <STRONG CLASS="Bold">
 SURFACE</STRONG>
  1 in this Example data block). The composition of the solution will not change during these calculations. In contrast, during a batch-reaction calculation, when a surface assemblage (defined as in Example data block 1 or Example data block 2 of this section) is reacted with a solution with which it is not in equilibrium, both the surface composition and the solution composition will be adjusted to a new equilibrium.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-719514"></A>When<STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-719514"></A>When<STRONG CLASS="Bold">
  -diffuse_layer</STRONG>
  or <STRONG CLASS="Bold">
 -Donnan</STRONG>
@@ -776,7 +776,7 @@ Z</EM>
 soln</Sub>
 , is associated with the solution. In reality, the charged surface plus the diffuse layer surrounding it is electrically neutral and the combination should be removed. This would leave an electrically neutral solution as well. The default formulation is workable; its main defect is that the counter-ions that should be in the diffuse layer are retained in the solution. The model results are adequate, provided solutions and surfaces are not separated or the exact concentrations of aqueous counter-ions are not critical to the investigation.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256628"></A>The <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256628"></A>The <STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
  and <STRONG CLASS="Bold">
 -Donnan</STRONG>
@@ -794,27 +794,27 @@ calculation is much faster and more robust, and gives results that are usually s
 -diffuse_layer</STRONG>
  calculation. </P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-577701"></A>In the <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-577701"></A>In the <STRONG CLASS="Bold">
 -Donnan</STRONG>
  calculation, the concentrations in the diffuse layer are averaged and computed with:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50597889_pgfId-577639"></A><IMG SRC="phreeqc3-158.gif" ALIGN="BASELINE">
+<A NAME="50479105_pgfId-577639"></A><IMG SRC="phreeqc3-158.gif" ALIGN="BASELINE">
 ,                                	(7)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50597889_pgfId-577974"></A>where cDonnan, i is the concentration of species i in the Donnan pore space (mol/L), ci is the concentration in the free (uncharged) solution, erm_DDLi is an enrichment factor (unitless) that can be defined in keyword <A HREF="phreeqc3-43.htm#50597889_96148" CLASS="XRef">SOLUTION_SPECIES</A>, and zi is the charge number (unitless). The potential &#968;D is adjusted to let the charge of the Donnan volume counterbalance the surface charge:</P>
+<A NAME="50479105_pgfId-577974"></A>where cDonnan, i is the concentration of species i in the Donnan pore space (mol/L), ci is the concentration in the free (uncharged) solution, erm_DDLi is an enrichment factor (unitless) that can be defined in keyword <A HREF="phreeqc3-43.htm#50479105_96148" CLASS="XRef">SOLUTION_SPECIES</A>, and zi is the charge number (unitless). The potential &#968;D is adjusted to let the charge of the Donnan volume counterbalance the surface charge:</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50597889_pgfId-578000"></A><IMG SRC="phreeqc3-159.gif" ALIGN="BASELINE">
+<A NAME="50479105_pgfId-578000"></A><IMG SRC="phreeqc3-159.gif" ALIGN="BASELINE">
 ,   	(8)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50597889_pgfId-638002"></A>where &#963;surface is the surface charge (eq/L).   </P>
+<A NAME="50479105_pgfId-638002"></A>where &#963;surface is the surface charge (eq/L).   </P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-638003"></A>Conceptually, the results of using the explicit diffuse-layer calculations are correct--charge imbalances on the surface are balanced in the diffuse layer and the solution remains charge balanced. Great uncertainties exist in the true composition of the diffuse layer and the thickness of the diffuse layer. The ion complexation in the bulk solution is assumed to apply in the diffuse layer, which is unlikely because of changes in the dielectric constant of water near the charged surface. Identifier <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-638003"></A>Conceptually, the results of using the explicit diffuse-layer calculations are correct--charge imbalances on the surface are balanced in the diffuse layer and the solution remains charge balanced. Great uncertainties exist in the true composition of the diffuse layer and the thickness of the diffuse layer. The ion complexation in the bulk solution is assumed to apply in the diffuse layer, which is unlikely because of changes in the dielectric constant of water near the charged surface. Identifier <STRONG CLASS="Bold">
 -erm_ddl</STRONG>
- in keyword <A HREF="phreeqc3-43.htm#50597889_96148" CLASS="XRef">SOLUTION_SPECIES</A> can correct for such effects if needed, but it is a primitive and arbitrary correction. The explicit diffuse layer calculation is based on assumptions that allow the volume of water in the diffuse layer to remain small relative to the solution volume. It is possible, especially for solutions of low ionic strength, for the calculated concentration of an element to be negative in the integrated diffuse layer (calculated with identifier <STRONG CLASS="Bold">
+ in keyword <A HREF="phreeqc3-43.htm#50479105_96148" CLASS="XRef">SOLUTION_SPECIES</A> can correct for such effects if needed, but it is a primitive and arbitrary correction. The explicit diffuse layer calculation is based on assumptions that allow the volume of water in the diffuse layer to remain small relative to the solution volume. It is possible, especially for solutions of low ionic strength, for the calculated concentration of an element to be negative in the integrated diffuse layer (calculated with identifier <STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
 ). In this case, the assumed thickness of the diffuse layer is too small (or perhaps the entire diffuse-layer approach is inappropriate) and the program stops with an error message. The identifier <STRONG CLASS="Bold">
 -only_counter_ions</STRONG>
@@ -826,7 +826,7 @@ than with <STRONG CLASS="Bold">
 -only_counter_ions </STRONG>
 false.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256630"></A>A third alternative for modeling surface-complexation reactions, in addition to the default, <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256630"></A>A third alternative for modeling surface-complexation reactions, in addition to the default, <STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
 , and <STRONG CLASS="Bold">
 -cd_music</STRONG>
@@ -838,7 +838,7 @@ false.</P>
 -no_edl</STRONG>
 .</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256631"></A>For transport calculations, it is much faster in terms of CPU time to use either the default (no explicit diffuse layer calculation) or <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256631"></A>For transport calculations, it is much faster in terms of CPU time to use either the default (no explicit diffuse layer calculation) or <STRONG CLASS="Bold">
 -no_edl</STRONG>
 . However, <STRONG CLASS="Bold">
 -Donnan</STRONG>
@@ -846,25 +846,25 @@ false.</P>
 -diffuse_layer</STRONG>
  can be used to test the sensitivity of the results to diffuse-layer effects.</P>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-509040"></A>After a set of batch-reaction calculations has been simulated, it is possible to save the resulting surface composition with the <A HREF="phreeqc3-37.htm#50597889_81857" CLASS="XRef">SAVE</A> keyword. If the new composition is not saved, the surface composition will remain the same as it was before the batch-reaction calculations. After it has been defined or saved, the surface composition may be used in subsequent simulations through the <A HREF="phreeqc3-50.htm#50597889_78143" CLASS="XRef">USE</A> keyword. By using the <A HREF="phreeqc3-36.htm#50597889_74089" CLASS="XRef">RUN_CELLS</A> data block, the results of the batch-reaction calculations, including the surface-assemblage composition, are automatically saved. In <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50597889_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-509040"></A>After a set of batch-reaction calculations has been simulated, it is possible to save the resulting surface composition with the <A HREF="phreeqc3-37.htm#50479105_81857" CLASS="XRef">SAVE</A> keyword. If the new composition is not saved, the surface composition will remain the same as it was before the batch-reaction calculations. After it has been defined or saved, the surface composition may be used in subsequent simulations through the <A HREF="phreeqc3-50.htm#50479105_78143" CLASS="XRef">USE</A> keyword. By using the <A HREF="phreeqc3-36.htm#50479105_74089" CLASS="XRef">RUN_CELLS</A> data block, the results of the batch-reaction calculations, including the surface-assemblage composition, are automatically saved. In <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50479105_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
- and <A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef">TRANSPORT</A> simulations, the surface assemblages in the column are automatically saved after each shift.</P>
+ and <A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef">TRANSPORT</A> simulations, the surface assemblages in the column are automatically saved after each shift.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256632"></A><A NAME="50597889_69210"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256633"></A>Line 0d:  SURFACE 1 Neutral surface composition</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256634"></A>Line 1:	Surf_wOH		0.3		660.			0.25</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256635"></A>Line 1a:	Surf_sOH		0.003</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256636"></A>Line 2:	Surfc_sOH		Fe(OH)3(a)		equilibrium_phase			0.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50597889_pgfId-256637"></A>Line 2b:	Surfd_sOH		Al(OH)3(a)		kinetic_reactant 			0.001</pre>
+<A NAME="50479105_pgfId-256632"></A><A NAME="50479105_69210"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256633"></A>Line 0d:  SURFACE 1 Neutral surface composition</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256634"></A>Line 1:	Surf_wOH		0.3		660.			0.25</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256635"></A>Line 1a:	Surf_sOH		0.003</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256636"></A>Line 2:	Surfc_sOH		Fe(OH)3(a)		equilibrium_phase			0.001</pre>
+<pre CLASS="ComputerInput"><A NAME="50479105_pgfId-256637"></A>Line 2b:	Surfd_sOH		Al(OH)3(a)		kinetic_reactant 			0.001</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256638"></A><A NAME="50597889_75708"></A>Explanation 2</H6>
+<A NAME="50479105_pgfId-256638"></A><A NAME="50479105_75708"></A>Explanation 2</H6>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-256639"></A>Line 0d: <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256639"></A>Line 0d: <STRONG CLASS="Bold">
 SURFACE</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -872,9 +872,9 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50597889_pgfId-647614"></A>Same as Example data block 1.</P>
+<A NAME="50479105_pgfId-647614"></A>Same as Example data block 1.</P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-647615"></A>Line 1: <EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-647615"></A>Line 1: <EM CLASS="Emphasis">
 surface binding-site formula, </EM>
 (<EM CLASS="Emphasis">
 sites </EM>
@@ -888,11 +888,11 @@ Dw</STRONG>
  coefficient</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-735355"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-735355"></A><EM CLASS="Emphasis">
 surface binding-site formula</EM>
 --Formula for a surface that is charge balanced. </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-789977"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-789977"></A><EM CLASS="Emphasis">
 sites</EM>
 --Total number of sites for this binding site, in moles; applies when <STRONG CLASS="Bold">
 -sites_units</STRONG>
@@ -900,7 +900,7 @@ sites</EM>
 absolute</STRONG>
 .</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-789978"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-789978"></A><EM CLASS="Emphasis">
 site density</EM>
 --Site density for this binding site, in sites per square nanometer; applies when <STRONG CLASS="Bold">
 -sites_units</STRONG>
@@ -908,7 +908,7 @@ site density</EM>
 density</STRONG>
 .</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-789979"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-789979"></A><EM CLASS="Emphasis">
 specific_area_per_gram</EM>
 --Specific area of surface, in m<Sup CLASS="Superscript">
 2</Sup>
@@ -916,7 +916,7 @@ specific_area_per_gram</EM>
 2</Sup>
 /g.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-789980"></A><EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-789980"></A><EM CLASS="Emphasis">
 grams</EM>
 --Mass of solid for calculation of surface area, g (gram); surface area is <EM CLASS="Emphasis">
 grams </EM>
@@ -924,7 +924,7 @@ times<EM CLASS="Emphasis">
  specific_area_per_gram</EM>
 . Default is 0 g.</P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-789981"></A><STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-789981"></A><STRONG CLASS="Bold">
 Dw</STRONG>
 <EM CLASS="Emphasis">
  coefficient</EM>
@@ -932,11 +932,11 @@ Dw</STRONG>
 2</Sup>
 /s; applies only when <STRONG CLASS="Bold">
 -multi_D </STRONG>
-is true in a <A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef">TRANSPORT</A> calculation. If coefficient &gt; 0, the surface is transported as a colloid with advective, dispersive, and diffusive transport. Default is 0 m<Sup CLASS="Superscript">
+is true in a <A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef">TRANSPORT</A> calculation. If coefficient &gt; 0, the surface is transported as a colloid with advective, dispersive, and diffusive transport. Default is 0 m<Sup CLASS="Superscript">
 2</Sup>
 /s, which means the surface is immobile. </P>
 <P CLASS="Body-indent">
-<A NAME="50597889_pgfId-735357"></A>Line 2: <EM CLASS="Emphasis">
+<A NAME="50479105_pgfId-735357"></A>Line 2: <EM CLASS="Emphasis">
 surface binding-site formula, name, </EM>
 [(<STRONG CLASS="Bold">
 equilibrium_phase </STRONG>
@@ -946,33 +946,33 @@ or<STRONG CLASS="Bold">
 , sites_per_mole, specific_area_per_mole </EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50597889_pgfId-508820"></A>Same as Line 9 in Example data block 1.</P>
+<A NAME="50479105_pgfId-508820"></A>Same as Line 9 in Example data block 1.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256647"></A><A NAME="50597889_43469"></A>Notes 2</H6>
+<A NAME="50479105_pgfId-256647"></A><A NAME="50479105_43469"></A>Notes 2</H6>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-508867"></A>The difference between Example data block 2 and Example data block 1 is that no initial surface-composition calculation is performed in Example data block 2. The composition of the surface assemblage must be given precisely (from chemical analysis) and charge-balanced to avoid spurious pH and redox reactions. Additional surfaces and binding sites can be defined by repeating Lines 2 and 9 from Example data block 1. All other identifiers listed for Example data block 1 also can be included. </P>
+<A NAME="50479105_pgfId-508867"></A>The difference between Example data block 2 and Example data block 1 is that no initial surface-composition calculation is performed in Example data block 2. The composition of the surface assemblage must be given precisely (from chemical analysis) and charge-balanced to avoid spurious pH and redox reactions. Additional surfaces and binding sites can be defined by repeating Lines 2 and 9 from Example data block 1. All other identifiers listed for Example data block 1 also can be included. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256650"></A><A NAME="50597889_87151"></A>Example problems</H6>
+<A NAME="50479105_pgfId-256650"></A><A NAME="50479105_87151"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256654"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256654"></A>The keyword <STRONG CLASS="Bold">
 SURFACE</STRONG>
- is used in example problems <A HREF="phreeqc3-63.htm#50597903_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-69.htm#50597903_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-74.htm#50597903_18716" CLASS="XRef">19</A>, and <A HREF="phreeqc3-76.htm#50597903_68313" CLASS="XRef">21</A>.</P>
+ is used in example problems <A HREF="phreeqc3-63.htm#50479119_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-69.htm#50479119_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-74.htm#50479119_18716" CLASS="XRef">19</A>, and <A HREF="phreeqc3-76.htm#50479119_68313" CLASS="XRef">21</A>.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50597889_pgfId-256655"></A><A NAME="50597889_29495"></A>Related keywords</H6>
+<A NAME="50479105_pgfId-256655"></A><A NAME="50479105_29495"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50597889_pgfId-256670"></A><A HREF="phreeqc3-6.htm#50597889_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50597889_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50597889_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50597889_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-36.htm#50597889_74089" CLASS="XRef">RUN_CELLS</A>, <A HREF="phreeqc3-46.htm#50597889_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50597889_92844" CLASS="XRef">SURFACE_SPECIES</A>, <A HREF="phreeqc3-37.htm#50597889_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
+<A NAME="50479105_pgfId-256670"></A><A HREF="phreeqc3-6.htm#50479105_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50479105_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50479105_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50479105_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-36.htm#50479105_74089" CLASS="XRef">RUN_CELLS</A>, <A HREF="phreeqc3-46.htm#50479105_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50479105_92844" CLASS="XRef">SURFACE_SPECIES</A>, <A HREF="phreeqc3-37.htm#50479105_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
 surface</STRONG>
 , <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50597889_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+<A HREF="phreeqc3-49.htm#50479105_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
-, and <A HREF="phreeqc3-50.htm#50597889_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
+, and <A HREF="phreeqc3-50.htm#50479105_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
 surface</STRONG>
 .</P>
 </DIV>
