@@ -1405,6 +1405,10 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("DESCRIPTION");
 			break;
 
+		case toktitle:
+			output_msg("TITLE");
+			break;
+
 		case toksys:
 			output_msg("SYS");
 			break;
@@ -2502,6 +2506,16 @@ factor(struct LOC_exec * LINK)
 				n.UU.sval = PhreeqcPtr->string_duplicate("Unknown");
 			}
 		}
+		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
+		break;
+
+	case toktitle:
+		n.stringval = true;
+		if (strlen(PhreeqcPtr->last_title_x.c_str()) == 0)
+		{
+			PhreeqcPtr->last_title_x = " ";
+		}
+		n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->last_title_x.c_str());
 		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
 		break;
 
@@ -7180,6 +7194,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_s_s",            PBasic::toksum_s_s),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("calc_value",         PBasic::tokcalc_value),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("description",        PBasic::tokdescription),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("title",              PBasic::toktitle),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sys",                PBasic::toksys),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("instr",              PBasic::tokinstr),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ltrim",              PBasic::tokltrim),
