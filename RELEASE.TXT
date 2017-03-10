@@ -1,5 +1,74 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
+	The effect of an electrical field on multicomponent diffusion (electro-migration) is
+	calculated with the Nernst-Planck equation if one of the 2 column end-cell solutions has
+	a potential different from 0 (SOLUTION 0, SOLUTION cells + 1). For examples of electro-
+	migration, see http://www.hydrochemistry.eu/exmpls/electro_dif.html. 
+	
+	A number of new features have been implemented for electro-migration.
+
+	(1) The electric potential can be defined in keyword SOLUTION:
+	
+	SOLUTION 1
+		-potential 3 # Volt
+	
+
+	(2) The electric current in a column experiment can be defined in keyword TRANSPORT:
+	
+	TRANSPORT
+		-current 1e-3 # Ampere
+
+	(3) When using -multi_d and -interlayer_d in TRANSPORT, the
+	porosity for calculating interlayer diffusion is added to the porosity 
+	defined with -porosities or -multi_d. For example:
+	
+	-porosities 0.3 0.29 0.28 ...
+		-multi_d true 1e-9 0.3 0.05 1.0 false
+		-interlayer_d true 0.07 0.01 250
+
+	The total porosities will be 0.37, 0.36, 0.35, ... in cells 1, 2, 3, ...
+	In previous versions, the interlayer porosity was subtracted from the porosity 
+	defined with -multi_d.
+
+	(4) If the properties in a regular column (surface areas, lengths, double layers,
+	tortuosities, diffusion coefficients) are different for the two cells, the harmonic mean
+	is used for calculating the mass transfer (Appelo et al., 2010, Geochim. Cosmochim. Acta
+	74, 1201-1219).
+	
+	(5) The following Basic functions have been added:
+	
+	CURRENT_A      # the current through the column, amps.
+	POT_V          # potential in a cell, volts.
+	T_SC("Cl-")    # The transport- or transference-number of the ion, equal to the 
+	               # fraction of the specific conductance contributed by the species(-).
+	VISCOS         # At present, returns the viscosity of a pure water solution, same as
+	               # VISCOS_0, milliPascal second.
+	VISCOS_0       # Returns the viscosity of a pure water solution at current conditions
+	               # milliPascal second.
+
+	
+	(6) A temperature damping factor and two parameters for ionic strength dependence were added for
+	the calculation of the diffusion coefficient of a solute species:
+
+	SOLUTION_SPECIES
+	H+ = H+
+		-dw	9.31e-9  763  0.46  1e-10
+		
+	where the first number is the diffusion coeficient at 25 C, and the second number is a damping
+	factor for the temperature correction, as proposed by Smolyakov, according to Anderko and Lencka,
+	1997, Ind. Chem. Eng. Res. 36, 1932–1943:
+	
+	Dw(TK) = 9.31e-9 * exp(763 / TK - 763 / 298.15) * TK * 0.89 / (298.15 * viscos).
+	
+	The ionic strength correction is as follows:
+	Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
+
+	---------
+	svn 12545
+	---------	
+	PHREEQC: Added Basic function TITLE, which returns the last TITLE keyword definition (with
+	
+	
 Version 3.3.11: March 10, 2017 (svn 12540)
 	---------
 	svn 12480
@@ -30,8 +99,8 @@ Version 3.3.11: March 10, 2017 (svn 12540)
 	svn 12439
 	---------
 	PHREEQC: Error check that the same element name was not used for
-	both a SURFACE and and EXCHANGEr, which caused a NULL pointer. Some variables in the unknown
-	structure are now initialized.
+	both a SURFACE and and EXCHANGEr, which caused a NULL pointer. 
+	Some variables in the unknown structure are now initialized.
 	
 	---------
 	svn 12319
@@ -279,33 +348,44 @@ Version 3.3.5 (10806): February 3, 2016
 					   # mobile (here = 0.3) and immobile (here = 0.1) porosities
 					   # defined with -stagnant are used.
 					   
-	The electric potential can be defined in keyword SOLUTION:
-		-potential 3 # Volt
+	---------
+	svn 10770
+	---------
+	IPhreeqc: Added optional argument sl to GetSelectedOutputValue in Fortran. The revised method
+	is as follows, where sl is a new optional argument. 
 	
-	The effect of an electrical field on multicomponent diffusion (electro-migration) is calculated with
-	the Nernst-Planck equation if one of the 2 column end-cell solutions has a potential different from 0
-	(SOLUTION 0, SOLUTION cells + 1). For examples of electro-migration, see
-	http://www.hydrochemistry.eu/exmpls/electro_dif.html
+	CHARACTER(LEN=40) :: sv
+	status = GetSelectedOutputValue(id, i, j, vt, dv, sv, sl)
 	
-	Added special BASIC functions for obtaining parameters calculated in electro-migration:
-		CURRENT_A          # the current (A) through the column
-		POT_V              # potential (V) in a cell
+	In the example, if the character string generated in IPhreeqc and stored in sv is 40 characters or
+	less, the value of sl will be 0. If the character string generated in IPhreeqc was greater than
+	40 characters, the truncated string is stored in sv, but the value of sl will contain the length
+	of the string before truncation.
 
-	If the properties in a regular column (surface areas, lengths, double layers, 
-	tortuosities, diffusion coefficients) are different for the two cells, the harmonic 
-	mean is used for calculating the mass transfer (Appelo et al., 2010, Geochim. Cosmochim. 
-	Acta 74, 1201-1219).
+	---------
+	svn 10668
+	---------
+	All programs: Now using Jenkins for continuous integration. 
 	
-	A temperature damping factor was added for the temperature effect of viscosity on the diffusion
-	coefficient of a solute species:
+	---------
+	svn 10664
+	---------
+	PHREEQC: Erroneous input could cause a segmentation fault for surfaces
+	related to minerals or kinetics.
 
-SOLUTION_SPECIES
-H+ = H+
-	-dw	 9.31e-9  831 # Dw(TK) = 9.31e-9 * exp(831 / TK - 831 / 298.15) * TK * 0.89 / (298.15 * viscos)
+        ---------
+        svn 10644
+        ---------
+	PHREEQC: Minor format change for specific conductance.
 
-	The equation was proposed by Smolyakov, according to Anderko and Lencka, 1997, Ind. Chem. Eng. Res.
-	36, 1932–1943.
-
+        ---------
+        svn 10640
+        ---------
+	PhreeqcRM: Advection example in C and C++ had wrong MPI type for integer transfers.
+	Example code in documentation also had wrong MPI type for some integer transfers. 
+	Integer transfers in Fortran should use MPI_INTEGER, while integer transfers in 
+	C and C++ should use MPI_INT.
+	
         ---------
         svn 10632
         ---------
