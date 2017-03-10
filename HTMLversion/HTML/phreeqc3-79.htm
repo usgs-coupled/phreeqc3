@@ -7,251 +7,251 @@
 <TITLE> Appendix A. Keyword Data Blocks for Programmers</TITLE><HR><P> | <A HREF="phreeqc3-80.htm">Next</A> || <A HREF="phreeqc3-78.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM1stOrderHeading">
-<A NAME="50462733_pgfId-525863"></A><A NAME="50462733_35187"></A>Appendix A. Keyword Data Blocks for Programmers</H2>
+<A NAME="50552845_pgfId-525863"></A><A NAME="50552845_35187"></A>Appendix A. Keyword Data Blocks for Programmers</H2>
 <P CLASS="BodyText">
-<A NAME="50462733_pgfId-525864"></A>A number of keywords are intended to be used when scripting or programming with an IPhreeqc module (Charlton and Parkhurst, 2011). The IPhreeqc module provides a set of methods that expose the full capabilities of PHREEQC to other programs and allows retrieval of specified values (as defined in <A HREF="phreeqc3-38.htm#50462721_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-53.htm#50462721_56415" CLASS="XRef">USER_PUNCH</A>). </P>
+<A NAME="50552845_pgfId-525864"></A>A number of keywords are intended to be used when scripting or programming with an IPhreeqc module (Charlton and Parkhurst, 2011). The IPhreeqc module provides a set of methods that expose the full capabilities of PHREEQC to other programs and allows retrieval of specified values (as defined in <A HREF="phreeqc3-38.htm#50552833_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-53.htm#50552833_56415" CLASS="XRef">USER_PUNCH</A>). </P>
 <P CLASS="BodyText">
-<A NAME="50462733_pgfId-525871"></A>One use of an IPhreeqc module is to incorporate geochemical reactions into a transport model. The strategy is to specify reactants for a set of cells in an IPhreeqc module and perform geochemical reactions for a time step with the <A HREF="phreeqc3-36.htm#50462721_78104" CLASS="XRef">RUN_CELLS</A> data block. The solution concentrations are retrieved from the module, transported by the transport model, and returned to the IPhreeqc module for renewed geochemical calculations. A series of keyword data blocks have been written that facilitate transferring and modifying concentration data. These data blocks end with the suffixes <STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-525871"></A>One use of an IPhreeqc module is to incorporate geochemical reactions into a transport model. The strategy is to specify reactants for a set of cells in an IPhreeqc module and perform geochemical reactions for a time step with the <A HREF="phreeqc3-36.htm#50552833_78104" CLASS="XRef">RUN_CELLS</A> data block. The solution concentrations are retrieved from the module, transported by the transport model, and returned to the IPhreeqc module for renewed geochemical calculations. A series of keyword data blocks have been written that facilitate transferring and modifying concentration data. These data blocks end with the suffixes <STRONG CLASS="Bold">
 _MODIFY</STRONG>
  and <STRONG CLASS="Bold">
 _RAW</STRONG>
-. In this reactive-transport strategy, <A HREF="phreeqc3-94.htm#50462733_89789" CLASS="XRef">SOLUTION_MODIFY</A> could be used to update solution concentrations in the IPhreeqc module after a transport step. <A HREF="phreeqc3-94.htm#50462733_89789" CLASS="XRef">SOLUTION_MODIFY</A> is related to <A HREF="phreeqc3-95.htm#50462733_69484" CLASS="XRef">SOLUTION_RAW</A>, which is an input data block that is written by the <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> operation and contains a complete description of a solution composition. <A HREF="phreeqc3-94.htm#50462733_89789" CLASS="XRef">SOLUTION_MODIFY</A> has the same format as <A HREF="phreeqc3-95.htm#50462733_69484" CLASS="XRef">SOLUTION_RAW</A> and allows one or more data items of the solution composition to be modified and also allows new data items (moles of another element in solution, for example) to be added. </P>
+. In this reactive-transport strategy, <A HREF="phreeqc3-94.htm#50552845_89789" CLASS="XRef">SOLUTION_MODIFY</A> could be used to update solution concentrations in the IPhreeqc module after a transport step. <A HREF="phreeqc3-94.htm#50552845_89789" CLASS="XRef">SOLUTION_MODIFY</A> is related to <A HREF="phreeqc3-95.htm#50552845_69484" CLASS="XRef">SOLUTION_RAW</A>, which is an input data block that is written by the <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> operation and contains a complete description of a solution composition. <A HREF="phreeqc3-94.htm#50552845_89789" CLASS="XRef">SOLUTION_MODIFY</A> has the same format as <A HREF="phreeqc3-95.htm#50552845_69484" CLASS="XRef">SOLUTION_RAW</A> and allows one or more data items of the solution composition to be modified and also allows new data items (moles of another element in solution, for example) to be added. </P>
 <P CLASS="BodyText">
-<A NAME="50462733_pgfId-512717"></A>Keyword equivalents to <A HREF="phreeqc3-94.htm#50462733_89789" CLASS="XRef">SOLUTION_MODIFY</A> and <A HREF="phreeqc3-95.htm#50462733_69484" CLASS="XRef">SOLUTION_RAW</A> data blocks exist for equilibrium-phase assemblages, exchange assemblages, gas phases, solid-solution assemblages, surface assemblages, kinetic-reaction assemblages, stoichiometric reactions, reaction pressures, and reaction temperatures. A complete list of <STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-512717"></A>Keyword equivalents to <A HREF="phreeqc3-94.htm#50552845_89789" CLASS="XRef">SOLUTION_MODIFY</A> and <A HREF="phreeqc3-95.htm#50552845_69484" CLASS="XRef">SOLUTION_RAW</A> data blocks exist for equilibrium-phase assemblages, exchange assemblages, gas phases, solid-solution assemblages, surface assemblages, kinetic-reaction assemblages, stoichiometric reactions, reaction pressures, and reaction temperatures. A complete list of <STRONG CLASS="Bold">
 _MODIFY</STRONG>
  and <STRONG CLASS="Bold">
 _RAW</STRONG>
- data blocks is given in <A HREF="phreeqc3-79.htm#50462733_33821" CLASS="XRef">See List of keyword data blocks for scripting and programming.</A>. There is no keyword <STRONG CLASS="Bold">
+ data blocks is given in <A HREF="phreeqc3-79.htm#50552845_33821" CLASS="XRef">See List of keyword data blocks for scripting and programming.</A>. There is no keyword <STRONG CLASS="Bold">
 MIX_RAW</STRONG>
  or <STRONG CLASS="Bold">
 MIX_MODIFY</STRONG>
- because the <A HREF="phreeqc3-27.htm#50462721_23725" CLASS="XRef">MIX</A> data block can be used. Similarly,<STRONG CLASS="Bold">
+ because the <A HREF="phreeqc3-27.htm#50552833_23725" CLASS="XRef">MIX</A> data block can be used. Similarly,<STRONG CLASS="Bold">
  REACTION_TEMPERATURE_MODIFY</STRONG>
  and <STRONG CLASS="Bold">
 REACTION_TEMPERATURE_MODIFY</STRONG>
- data blocks are not needed; the <A HREF="phreeqc3-34.htm#50462721_65966" CLASS="XRef">REACTION_PRESSURE</A> and <A HREF="phreeqc3-35.htm#50462721_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data blocks can be used to modify temperature definitions. The set of <STRONG CLASS="Bold">
+ data blocks are not needed; the <A HREF="phreeqc3-34.htm#50552833_65966" CLASS="XRef">REACTION_PRESSURE</A> and <A HREF="phreeqc3-35.htm#50552833_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data blocks can be used to modify temperature definitions. The set of <STRONG CLASS="Bold">
 _MODIFY</STRONG>
- keywords provides capabilities to change any data item in any reactant. Although transport is expected to apply primarily to solutions, it would be possible to transport exchange assemblages analogously to solutions by transporting the elements that define the composition of exchangers and then updating the exchange composition of a cell by using <A HREF="phreeqc3-82.htm#50462733_49135" CLASS="XRef">EXCHANGE_MODIFY</A> with the results of the transport calculations. </P>
+ keywords provides capabilities to change any data item in any reactant. Although transport is expected to apply primarily to solutions, it would be possible to transport exchange assemblages analogously to solutions by transporting the elements that define the composition of exchangers and then updating the exchange composition of a cell by using <A HREF="phreeqc3-82.htm#50552845_49135" CLASS="XRef">EXCHANGE_MODIFY</A> with the results of the transport calculations. </P>
 <TABLE>
 <CAPTION>
 <H6 CLASS="TableTitle-Appendix">
-<A NAME="50462733_pgfId-528675"></A><A NAME="50462733_33821"></A>List of keyword data blocks for scripting and programming.</H6>
+<A NAME="50552845_pgfId-528675"></A><A NAME="50552845_33821"></A>List of keyword data blocks for scripting and programming.</H6>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50462733_pgfId-528679"></A>Keyword data block</P>
+<A NAME="50552845_pgfId-528679"></A>Keyword data block</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50462733_pgfId-528681"></A>Function</P>
+<A NAME="50552845_pgfId-528681"></A>Function</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528686"></A><A HREF="phreeqc3-80.htm#50462733_84573" CLASS="XRef">EQUILIBRIUM_PHASES_MODIFY</A></P>
+<A NAME="50552845_pgfId-528686"></A><A HREF="phreeqc3-80.htm#50552845_84573" CLASS="XRef">EQUILIBRIUM_PHASES_MODIFY</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528688"></A>Modify the definition of an equilibrium-phase assemblage</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528693"></A><A HREF="phreeqc3-81.htm#50462733_52879" CLASS="XRef">EQUILIBRIUM_PHASES_RAW</A></P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528698"></A>Complete description of an equilibrium-phase assemblage as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528688"></A>Modify the definition of an equilibrium-phase assemblage</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528703"></A><A HREF="phreeqc3-82.htm#50462733_49135" CLASS="XRef">EXCHANGE_MODIFY</A></P>
+<A NAME="50552845_pgfId-528693"></A><A HREF="phreeqc3-81.htm#50552845_52879" CLASS="XRef">EQUILIBRIUM_PHASES_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528705"></A>Modify the definition of an exchange assemblage</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528710"></A><A HREF="phreeqc3-83.htm#50462733_34249" CLASS="XRef">EXCHANGE_RAW</A></P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528715"></A>Complete description of an exchange assemblage as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528698"></A>Complete description of an equilibrium-phase assemblage as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528720"></A><A HREF="phreeqc3-84.htm#50462733_44837" CLASS="XRef">GAS_PHASE_MODIFY</A></P>
+<A NAME="50552845_pgfId-528703"></A><A HREF="phreeqc3-82.htm#50552845_49135" CLASS="XRef">EXCHANGE_MODIFY</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528722"></A>Modify the definition of a gas phase</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528727"></A><A HREF="phreeqc3-85.htm#50462733_70184" CLASS="XRef">GAS_PHASE_RAW</A></P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528732"></A>Complete description of a gas phase as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528705"></A>Modify the definition of an exchange assemblage</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528737"></A><A HREF="phreeqc3-86.htm#50462733_79204" CLASS="XRef">KINETICS_MODIFY</A></P>
+<A NAME="50552845_pgfId-528710"></A><A HREF="phreeqc3-83.htm#50552845_34249" CLASS="XRef">EXCHANGE_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528739"></A>Modify the definition of a kinetic reactant assemblage</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528744"></A><A HREF="phreeqc3-87.htm#50462733_64390" CLASS="XRef">KINETICS_RAW</A></P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528749"></A>Complete description of a kinetic reactant assemblage as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528715"></A>Complete description of an exchange assemblage as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528754"></A><A HREF="phreeqc3-88.htm#50462733_31337" CLASS="XRef">REACTION_MODIFY</A></P>
+<A NAME="50552845_pgfId-528720"></A><A HREF="phreeqc3-84.htm#50552845_44837" CLASS="XRef">GAS_PHASE_MODIFY</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528756"></A>Modify the definition of an irreversible reaction</P>
+<A NAME="50552845_pgfId-528722"></A>Modify the definition of a gas phase</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528761"></A><A HREF="phreeqc3-89.htm#50462733_50923" CLASS="XRef">REACTION_RAW</A></P>
+<A NAME="50552845_pgfId-528727"></A><A HREF="phreeqc3-85.htm#50552845_70184" CLASS="XRef">GAS_PHASE_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528769"></A>Complete description of a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-33.htm#50462721_75635" CLASS="XRef"></A>REACTION<STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-528732"></A>Complete description of a gas phase as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528737"></A><A HREF="phreeqc3-86.htm#50552845_79204" CLASS="XRef">KINETICS_MODIFY</A></P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528739"></A>Modify the definition of a kinetic reactant assemblage</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528744"></A><A HREF="phreeqc3-87.htm#50552845_64390" CLASS="XRef">KINETICS_RAW</A></P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528749"></A>Complete description of a kinetic reactant assemblage as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528754"></A><A HREF="phreeqc3-88.htm#50552845_31337" CLASS="XRef">REACTION_MODIFY</A></P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528756"></A>Modify the definition of an irreversible reaction</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528761"></A><A HREF="phreeqc3-89.htm#50552845_50923" CLASS="XRef">REACTION_RAW</A></P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528769"></A>Complete description of a <STRONG CLASS="Bold">
+<A HREF="phreeqc3-33.htm#50552833_75635" CLASS="XRef"></A>REACTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
- definition as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+ definition as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528771"></A><A HREF="phreeqc3-90.htm#50462733_86080" CLASS="XRef">REACTION_PRESSURE_RAW</A></P>
+<A NAME="50552845_pgfId-528771"></A><A HREF="phreeqc3-90.htm#50552845_86080" CLASS="XRef">REACTION_PRESSURE_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528773"></A>Complete description of a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-34.htm#50462721_65966" CLASS="XRef"></A>REACTION_PRESSURE<STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-528773"></A>Complete description of a <STRONG CLASS="Bold">
+<A HREF="phreeqc3-34.htm#50552833_65966" CLASS="XRef"></A>REACTION_PRESSURE<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
- definition as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+ definition as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528778"></A><A HREF="phreeqc3-91.htm#50462733_78104" CLASS="XRef">REACTION_TEMPERATURE_RAW</A></P>
+<A NAME="50552845_pgfId-528778"></A><A HREF="phreeqc3-91.htm#50552845_78104" CLASS="XRef">REACTION_TEMPERATURE_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528783"></A>Complete description of a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-35.htm#50462721_75016" CLASS="XRef"></A>REACTION_TEMPERATURE<STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-528783"></A>Complete description of a <STRONG CLASS="Bold">
+<A HREF="phreeqc3-35.htm#50552833_75016" CLASS="XRef"></A>REACTION_TEMPERATURE<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
- definition as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+ definition as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528791"></A><A HREF="phreeqc3-92.htm#50462733_81857" CLASS="XRef">SOLID_SOLUTIONS_MODIFY</A></P>
+<A NAME="50552845_pgfId-528791"></A><A HREF="phreeqc3-92.htm#50552845_81857" CLASS="XRef">SOLID_SOLUTIONS_MODIFY</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528793"></A>Modify the definition of a solid-solution assemblage</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528798"></A><A HREF="phreeqc3-93.htm#50462733_63833" CLASS="XRef">SOLID_SOLUTIONS_RAW</A></P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528803"></A>Complete description of a solid-solution assemblage as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528793"></A>Modify the definition of a solid-solution assemblage</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528808"></A><A HREF="phreeqc3-94.htm#50462733_89789" CLASS="XRef">SOLUTION_MODIFY</A></P>
+<A NAME="50552845_pgfId-528798"></A><A HREF="phreeqc3-93.htm#50552845_63833" CLASS="XRef">SOLID_SOLUTIONS_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528810"></A>Modify the definition of a solution composition</P>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528815"></A><A HREF="phreeqc3-95.htm#50462733_69484" CLASS="XRef">SOLUTION_RAW</A></P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528820"></A>Complete description of a solution as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528803"></A>Complete description of a solid-solution assemblage as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528825"></A><A HREF="phreeqc3-96.htm#50462733_78804" CLASS="XRef">SURFACE_MODIFY</A></P>
+<A NAME="50552845_pgfId-528808"></A><A HREF="phreeqc3-94.htm#50552845_89789" CLASS="XRef">SOLUTION_MODIFY</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528827"></A>Modify the definition of a surface-assemblage composition</P>
+<A NAME="50552845_pgfId-528810"></A>Modify the definition of a solution composition</P>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528832"></A><A HREF="phreeqc3-97.htm#50462733_23326" CLASS="XRef">SURFACE_RAW</A></P>
+<A NAME="50552845_pgfId-528815"></A><A HREF="phreeqc3-95.htm#50552845_69484" CLASS="XRef">SOLUTION_RAW</A></P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50462733_pgfId-528837"></A>Complete description of a surface-assemblage composition as written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A></P>
+<A NAME="50552845_pgfId-528820"></A>Complete description of a solution as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528825"></A><A HREF="phreeqc3-96.htm#50552845_78804" CLASS="XRef">SURFACE_MODIFY</A></P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528827"></A>Modify the definition of a surface-assemblage composition</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528832"></A><A HREF="phreeqc3-97.htm#50552845_23326" CLASS="XRef">SURFACE_RAW</A></P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50552845_pgfId-528837"></A>Complete description of a surface-assemblage composition as written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A></P>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50462733_pgfId-512752"></A>The <STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-512752"></A>The <STRONG CLASS="Bold">
 _RAW</STRONG>
- data blocks (and possibly <A HREF="phreeqc3-27.htm#50462721_23725" CLASS="XRef">MIX</A>) are written by the <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> operation and are intended to be used without modification. The <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> operation can be used to save the state of a calculation. The <STRONG CLASS="Bold">
+ data blocks (and possibly <A HREF="phreeqc3-27.htm#50552833_23725" CLASS="XRef">MIX</A>) are written by the <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> operation and are intended to be used without modification. The <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> operation can be used to save the state of a calculation. The <STRONG CLASS="Bold">
 _RAW</STRONG>
- data blocks that are written by <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> can be read by PHREEQC and the entire chemical state of the calculation will be restored to the point where <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> was executed. <A HREF="phreeqc3-11.htm#50462721_49635" CLASS="XRef">DUMP</A> also can be used to transfer data among IPhreeqc modules by dumping the data in one module and reading the data in another.</P>
+ data blocks that are written by <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> can be read by PHREEQC and the entire chemical state of the calculation will be restored to the point where <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> was executed. <A HREF="phreeqc3-11.htm#50552833_49635" CLASS="XRef">DUMP</A> also can be used to transfer data among IPhreeqc modules by dumping the data in one module and reading the data in another.</P>
 <P CLASS="BodyText">
-<A NAME="50462733_pgfId-551684"></A>The use of the <STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-551684"></A>The use of the <STRONG CLASS="Bold">
 _MODIFY</STRONG>
  data blocks is complicated and subject to errors. Any item of data can be changed, but some are used for internal calculations, and changing the value externally has no effect. Some items cannot be reasonably changed, and others are interrelated so that a change to one may require a change to another as well. In particular, the number of moles of elements, including H and O, and the charge balance should not be changed independently because doing so may cause unforeseen pe and (or) pH changes. Varying just the number of moles of a single element (sodium for example) would be equivalent to adding or removing sodium metal from solution, which also would produce unexpected redox and pH reactions. </P>
 <P CLASS="BodyText">
-<A NAME="50462733_pgfId-512777"></A>The <STRONG CLASS="Bold">
+<A NAME="50552845_pgfId-512777"></A>The <STRONG CLASS="Bold">
 _MODIFY</STRONG>
  data blocks are not intended for general use, but can be used by program developers. As such, developers are largely responsible for their use, and only limited support is provided. In the following description of input for <STRONG CLASS="Bold">
 _MODIFY</STRONG>
