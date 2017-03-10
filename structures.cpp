@@ -361,7 +361,7 @@ clean_up(void)
 	free_spread();
 #endif
 	title_x = (char *) free_check_null(title_x);
-
+	last_title_x.clear();
 	count_elements = 0;
 	count_master = 0;
 	count_phases = 0;

@@ -264,6 +264,7 @@ public:
 		toksum_s_s,
 		tokcalc_value,
 		tokdescription,
+		toktitle,
 		toksys,
 		tokinstr,
 		tokltrim,
