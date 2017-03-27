@@ -615,20 +615,46 @@ initial_solutions(int print)
 				dup_print(token, FALSE);
 			}
 			use.Set_solution_ptr(&solution_ref);
-			prep();
-			k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
-			set(TRUE);
-			always_full_pitzer = FALSE;
+			LDBLE d0 = solution_ref.Get_density();
+			LDBLE d1 = 0;
 			bool diag = (diagonal_scale == TRUE) ? true : false;
-			diagonal_scale = TRUE;
-			converge = model();
-			if (converge == ERROR /*&& diagonal_scale == FALSE*/)
+			int count_iterations = 0;
+			for (;;)		
 			{
-				diagonal_scale = TRUE;
-				always_full_pitzer = TRUE;
+				prep();
+				k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
 				set(TRUE);
+				always_full_pitzer = FALSE;
+				
+				diagonal_scale = TRUE;
 				converge = model();
-			}
+				if (converge == ERROR /*&& diagonal_scale == FALSE*/)
+				{
+					diagonal_scale = TRUE;
+					always_full_pitzer = TRUE;
+					set(TRUE);
+					converge = model();
+				}
+				if (solution_ref.Get_initial_data()->Get_calc_density())
+				{
+					solution_ref.Set_density(calc_dens());
+					if (!equal(d0, solution_ref.Get_density(), 1e-8))
+					{
+						d0 = solution_ref.Get_density();
+						if (count_iterations++ < 20) 
+						{
+							diag = (diagonal_scale == TRUE) ? true : false;
+							continue;
+						}
+						else
+						{
+							error_msg(sformatf("%s %d.", "Density calculation failed for initial solution ", solution_ref.Get_n_user()),
+								STOP);
+						}
+					}
+				}
+				break;
+			} 
 			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
