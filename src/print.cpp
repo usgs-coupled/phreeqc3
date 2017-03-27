@@ -2245,8 +2245,12 @@ print_totals(void)
 		output_msg(sformatf("%45s%9.5f", "Density (g/cm³)  = ",
 #endif
 			   (double) dens));
-		if (dens > 1.999) output_msg(sformatf("%18s\n", " (Program limit)"));
-		else output_msg(sformatf("\n"));
+		if (state == INITIAL_SOLUTION && use.Get_solution_ptr()->Get_initial_data()->Get_calc_density())
+		{
+			output_msg(sformatf(" (Iterated) "));
+		}		
+		if (dens > 1.999) output_msg(sformatf("%18s", " (Program limit)"));
+		output_msg(sformatf("\n"));
 		output_msg(sformatf("%45s%9.5f\n", "     Volume (L)  = ",
 			   (double) calc_solution_volume()));
 	}

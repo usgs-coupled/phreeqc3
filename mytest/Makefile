@@ -372,6 +372,7 @@ all: alkalinity.out \
 	Syn1_acidbase.out \
 	phase_vm.out \
 	low_p.out \
+	calc_density.out \
 	Ratework.out \
 	sys_equi_fix.out \
 	pr_h2o.out \
