@@ -928,6 +928,7 @@ struct defaults
 {
 	LDBLE temp;
 	LDBLE density;
+	bool calc_density;
 	const char *units;
 	const char *redox;
 	LDBLE ph;
