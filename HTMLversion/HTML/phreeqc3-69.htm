@@ -7,584 +7,584 @@
 <TITLE> Example 14--Advective Transport, Cation Exchange, Surface Complexation, and Mineral Equilibria</TITLE><HR><P> | <A HREF="phreeqc3-70.htm">Next</A> || <A HREF="phreeqc3-68.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50552847_pgfId-1475131"></A>Example 14--<A NAME="50552847_89290"></A>Advective Transport, Cation Exchange, Surface Complexation, and Mineral Equilibria</H2>
+<A NAME="50528271_pgfId-1475131"></A>Example 14--<A NAME="50528271_89290"></A>Advective Transport, Cation Exchange, Surface Complexation, and Mineral Equilibria</H2>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-339869"></A>This example uses the phase-equilibrium, cation-exchange, and surface-complexation reaction capabilities of PHREEQC in combination with advective-transport capabilities to model the evolution of water in the Central Oklahoma aquifer. The geochemistry of the aquifer has been described by Parkhurst and others (1996). Two predominant water types occur in the aquifer: a calcium magnesium bicarbonate water with pH in the range of 7.0 to 7.5 in the unconfined part of the aquifer and a sodium bicarbonate water with pH in the range of 8.5 to 9.2 in the confined part of the aquifer. In addition, marine-derived sodium chloride brines exist below the aquifer and presumably in fluid inclusions and dead-end pore spaces within the aquifer. Large concentrations of arsenic, selenium, chromium, and uranium occur naturally within the aquifer. Arsenic is associated almost exclusively with the high-pH, sodium bicarbonate water type.</P>
+<A NAME="50528271_pgfId-339869"></A>This example uses the phase-equilibrium, cation-exchange, and surface-complexation reaction capabilities of PHREEQC in combination with advective-transport capabilities to model the evolution of water in the Central Oklahoma aquifer. The geochemistry of the aquifer has been described by Parkhurst and others (1996). Two predominant water types occur in the aquifer: a calcium magnesium bicarbonate water with pH in the range of 7.0 to 7.5 in the unconfined part of the aquifer and a sodium bicarbonate water with pH in the range of 8.5 to 9.2 in the confined part of the aquifer. In addition, marine-derived sodium chloride brines exist below the aquifer and presumably in fluid inclusions and dead-end pore spaces within the aquifer. Large concentrations of arsenic, selenium, chromium, and uranium occur naturally within the aquifer. Arsenic is associated almost exclusively with the high-pH, sodium bicarbonate water type.</P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-339870"></A>The conceptual model for the calculation of this example assumes that brines initially filled the aquifer. The aquifer contains calcite, dolomite, clays with cation-exchange capacity, and hydrous-ferric-oxide surfaces; initially, the cation exchanger and surfaces are in equilibrium with the brine. The aquifer is assumed to be recharged with rainwater that is concentrated by evaporation and equilibrates with calcite and dolomite in the vadose zone. This water then enters the saturated zone and reacts with calcite and dolomite in the presence of the cation exchanger and hydrous-ferric-oxide surfaces. </P>
+<A NAME="50528271_pgfId-339870"></A>The conceptual model for the calculation of this example assumes that brines initially filled the aquifer. The aquifer contains calcite, dolomite, clays with cation-exchange capacity, and hydrous-ferric-oxide surfaces; initially, the cation exchanger and surfaces are in equilibrium with the brine. The aquifer is assumed to be recharged with rainwater that is concentrated by evaporation and equilibrates with calcite and dolomite in the vadose zone. This water then enters the saturated zone and reacts with calcite and dolomite in the presence of the cation exchanger and hydrous-ferric-oxide surfaces. </P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1445180"></A>The calculations use the advective-transport capabilities of PHREEQC with just a single cell representing the saturated zone. A total of 200 pore volumes of recharge water are advected into the cell and, with each pore volume, the water is equilibrated with the minerals, cation exchanger, and the surfaces in the cell. The evolution of water chemistry in the cell represents the evolution of the water chemistry at a point near the top of the saturated zone of the aquifer.</P>
+<A NAME="50528271_pgfId-1445180"></A>The calculations use the advective-transport capabilities of PHREEQC with just a single cell representing the saturated zone. A total of 200 pore volumes of recharge water are advected into the cell and, with each pore volume, the water is equilibrated with the minerals, cation exchanger, and the surfaces in the cell. The evolution of water chemistry in the cell represents the evolution of the water chemistry at a point near the top of the saturated zone of the aquifer.</P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-1445181"></A><A NAME="50552847_13464"></A>Thermodynamic Data</H4>
+<A NAME="50528271_pgfId-1445181"></A><A NAME="50528271_13464"></A>Thermodynamic Data</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1445182"></A>The database <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1445182"></A>The database <EM CLASS="Emphasis">
 wateq4f.dat contains thermodynamic data for the aqueous species of arsenic according to the compilation of Nordstrom and Archer (2003) and the </EM>
-surface complexation constants from Dzombak and Morel (1990). Unfortunately, these two sets of thermodynamic data are not internally consistent because the surface complexation constants were fit by using a different set of thermodynamic constants for arsenic aqueous species. To be consistent in the calculations, the thermodynamic data for both arsenic aqueous speciation and arsenic surface complexation are defined according to Dzombak and Morel (1990). The database phreeqc.dat was used for the calculations with the arsenic thermodynamic data defined with the <A HREF="phreeqc3-42.htm#50552833_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-43.htm#50552833_96148" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-46.htm#50552833_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, and <A HREF="phreeqc3-47.htm#50552833_92844" CLASS="XRef">SURFACE_SPECIES</A> data blocks within the input file. </P>
+surface complexation constants from Dzombak and Morel (1990). Unfortunately, these two sets of thermodynamic data are not internally consistent because the surface complexation constants were fit by using a different set of thermodynamic constants for arsenic aqueous species. To be consistent in the calculations, the thermodynamic data for both arsenic aqueous speciation and arsenic surface complexation are defined according to Dzombak and Morel (1990). The database phreeqc.dat was used for the calculations with the arsenic thermodynamic data defined with the <A HREF="phreeqc3-42.htm#50528257_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-43.htm#50528257_96148" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-46.htm#50528257_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, and <A HREF="phreeqc3-47.htm#50528257_92844" CLASS="XRef">SURFACE_SPECIES</A> data blocks within the input file. </P>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-1445195"></A><A NAME="50552847_48523"></A>Initial Conditions</H4>
+<A NAME="50528271_pgfId-1445195"></A><A NAME="50528271_48523"></A>Initial Conditions</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1530231"></A>Parkhurst and others (1996) provide data from which it is possible to estimate the moles of calcite, dolomite, and cation-exchange sites in the aquifer per liter of water. The weight percent ranges from 0 to 2 percent for calcite and 0 to 7 percent for dolomite, with dolomite much more abundant. Porosity is stated to be 0.22. Cation-exchange capacity for the clay ranges from 20 to 50 meq/100 g (milliequivalent per 100 grams), with an average clay content of 30 percent. For these example calculations, calcite was assumed to be present at 0.1 weight percent and dolomite, at 3 weight percent; by assuming a rock density of 2.7 kg/L, these percentages correspond to 0.1 mol/L for calcite and 1.6 mol/L for dolomite. The number of cation-exchange sites was estimated to be 1.0 eq/L. </P>
+<A NAME="50528271_pgfId-1530231"></A>Parkhurst and others (1996) provide data from which it is possible to estimate the moles of calcite, dolomite, and cation-exchange sites in the aquifer per liter of water. The weight percent ranges from 0 to 2 percent for calcite and 0 to 7 percent for dolomite, with dolomite much more abundant. Porosity is stated to be 0.22. Cation-exchange capacity for the clay ranges from 20 to 50 meq/100 g (milliequivalent per 100 grams), with an average clay content of 30 percent. For these example calculations, calcite was assumed to be present at 0.1 weight percent and dolomite, at 3 weight percent; by assuming a rock density of 2.7 kg/L, these percentages correspond to 0.1 mol/L for calcite and 1.6 mol/L for dolomite. The number of cation-exchange sites was estimated to be 1.0 eq/L. </P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1687429"></A>The amount of arsenic on the surface was estimated from sequential extraction data on core samples (Mosier and others, 1991). Arsenic concentrations in the solid phases generally ranged from 10 to 20 ppm, which corresponds to 1.3 to 2.6 mmol/L arsenic. The number of surface sites were estimated from the amount of extractable iron in sediments, which ranged from 1.6 to 4.4 percent (Mosier and others, 1991). A content of 2 percent iron for the sediments corresponds to 3.4 mol/L of iron. However, most of the iron is in goethite and hematite, which have far fewer surface sites than hydrous ferric oxide. The fraction of iron in hydrous ferric oxide was arbitrarily assumed to be 0.1. Thus, a total of 0.34 mol of iron was assumed to be present as hydrous ferric oxide, and using a value of 0.2 for the number of sites per mole of iron, a total of 0.07 mol of sites per liter was used in the calculations. A gram formula weight of 89 g/mol was used to estimate that the mass of hydrous ferric oxide was 30 g/L (gram per liter). The specific surface area was assumed to be 600 m<Sup CLASS="Superscript">
+<A NAME="50528271_pgfId-1687429"></A>The amount of arsenic on the surface was estimated from sequential extraction data on core samples (Mosier and others, 1991). Arsenic concentrations in the solid phases generally ranged from 10 to 20 ppm, which corresponds to 1.3 to 2.6 mmol/L arsenic. The number of surface sites were estimated from the amount of extractable iron in sediments, which ranged from 1.6 to 4.4 percent (Mosier and others, 1991). A content of 2 percent iron for the sediments corresponds to 3.4 mol/L of iron. However, most of the iron is in goethite and hematite, which have far fewer surface sites than hydrous ferric oxide. The fraction of iron in hydrous ferric oxide was arbitrarily assumed to be 0.1. Thus, a total of 0.34 mol of iron was assumed to be present as hydrous ferric oxide, and using a value of 0.2 for the number of sites per mole of iron, a total of 0.07 mol of sites per liter was used in the calculations. A gram formula weight of 89 g/mol was used to estimate that the mass of hydrous ferric oxide was 30 g/L (gram per liter). The specific surface area was assumed to be 600 m<Sup CLASS="Superscript">
 2</Sup>
 /g.</P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1613065"></A>The brine that initially fills the aquifer was taken from Parkhurst and others (1996) and is given as solution 1 in the input file for this example (<A HREF="phreeqc3-69.htm#50552847_88386" CLASS="XRef">table 37</A>). The pure-phase assemblage containing calcite and dolomite is defined with the <A HREF="phreeqc3-13.htm#50552833_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 1 data block. The brine is first equilibrated with calcite and dolomite and saved again as solution 1 (<A HREF="phreeqc3-37.htm#50552833_81857" CLASS="XRef">SAVE</A> data block). The number of cation exchange sites is defined with <A HREF="phreeqc3-14.htm#50552833_84573" CLASS="XRef">EXCHANGE</A> 1 and the number of surface sites is defined with <A HREF="phreeqc3-45.htm#50552833_56392" CLASS="XRef">SURFACE</A> 1. The initial exchange and the initial surface composition are determined by equilibrium with the brine, after equilibration with calcite and dolomite (note that equilibration of exchangers and surfaces <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1613065"></A>The brine that initially fills the aquifer was taken from Parkhurst and others (1996) and is given as solution 1 in the input file for this example (<A HREF="phreeqc3-69.htm#50528271_88386" CLASS="XRef">table 37</A>). The pure-phase assemblage containing calcite and dolomite is defined with the <A HREF="phreeqc3-13.htm#50528257_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 1 data block. The brine is first equilibrated with calcite and dolomite and saved again as solution 1 (<A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> data block). The number of cation exchange sites is defined with <A HREF="phreeqc3-14.htm#50528257_84573" CLASS="XRef">EXCHANGE</A> 1 and the number of surface sites is defined with <A HREF="phreeqc3-45.htm#50528257_56392" CLASS="XRef">SURFACE</A> 1. The initial exchange and the initial surface composition are determined by equilibrium with the brine, after equilibration with calcite and dolomite (note that equilibration of exchangers and surfaces <EM CLASS="Emphasis">
 before</EM>
  mineral equilibration will yield different results because of buffering by the sorbed elements). The concentration of arsenic in the brine (0.025 &#956;mol/kgw) was determined by trial and error to give a total of approximately 1.8 mmol arsenic on the surface, which is consistent with the sequential extraction data.    </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50552847_pgfId-1613083"></A>Table 37. <A NAME="50552847_88386"></A>Input file for example 14.</P>
+<A NAME="50528271_pgfId-1613083"></A>Table 37. <A NAME="50528271_88386"></A>Input file for example 14.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613085"></A>TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613085"></A>TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613087"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613087"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613089"></A># Use phreeqc.dat</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613089"></A># Use phreeqc.dat</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613091"></A># Dzombak and Morel (1990) aqueous and surface complexation models for arsenic</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613091"></A># Dzombak and Morel (1990) aqueous and surface complexation models for arsenic</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613093"></A># are defined here</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613093"></A># are defined here</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613095"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613095"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613097"></A>SURFACE_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613097"></A>SURFACE_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613099"></A>        Surf    SurfOH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613099"></A>        Surf    SurfOH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613101"></A>SURFACE_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613101"></A>SURFACE_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613103"></A>        SurfOH = SurfOH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613103"></A>        SurfOH = SurfOH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613105"></A>                log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613105"></A>                log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613107"></A>        SurfOH  + H+ = SurfOH2+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613107"></A>        SurfOH  + H+ = SurfOH2+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613109"></A>                log_k   7.29</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613109"></A>                log_k   7.29</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613111"></A>        SurfOH = SurfO- + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613111"></A>        SurfOH = SurfO- + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613113"></A>                log_k   -8.93</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613113"></A>                log_k   -8.93</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613115"></A>        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613115"></A>        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613117"></A>                log_k   29.31</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613117"></A>                log_k   29.31</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613119"></A>        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613119"></A>        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613121"></A>                log_k   23.51</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613121"></A>                log_k   23.51</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613123"></A>        SurfOH + AsO4-3 = SurfOHAsO4-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613123"></A>        SurfOH + AsO4-3 = SurfOHAsO4-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613125"></A>                log_k   10.58</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613125"></A>                log_k   10.58</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613127"></A>SOLUTION_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613127"></A>SOLUTION_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613129"></A>        As       H3AsO4        -1.0     74.9216    74.9216</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613129"></A>        As       H3AsO4        -1.0     74.9216    74.9216</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613131"></A>SOLUTION_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613131"></A>SOLUTION_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613133"></A>        H3AsO4 = H3AsO4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613133"></A>        H3AsO4 = H3AsO4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613135"></A>                log_k           0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613135"></A>                log_k           0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1613137"></A>        H3AsO4 = AsO4-3 + 3H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1613137"></A>        H3AsO4 = AsO4-3 + 3H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753839"></A>                log_k   -20.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753839"></A>                log_k   -20.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753837"></A>        H+ + AsO4-3 = HAsO4-2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753837"></A>        H+ + AsO4-3 = HAsO4-2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753835"></A>                log_k   11.50</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753835"></A>                log_k   11.50</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753833"></A>        2H+ + AsO4-3 = H2AsO4-</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753833"></A>        2H+ + AsO4-3 = H2AsO4-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753831"></A>                log_k           18.46</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753831"></A>                log_k           18.46</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753829"></A>SOLUTION 1 Brine</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753829"></A>SOLUTION 1 Brine</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753827"></A>        pH      5.713</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753827"></A>        pH      5.713</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753825"></A>        pe      4.0     O2(g)   -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753825"></A>        pe      4.0     O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753823"></A>        temp    25.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753823"></A>        temp    25.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753821"></A>        units   mol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753821"></A>        units   mol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753819"></A>        Ca      .4655</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753819"></A>        Ca      .4655</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753817"></A>        Mg      .1609</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753817"></A>        Mg      .1609</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753815"></A>        Na      5.402</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753815"></A>        Na      5.402</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753813"></A>        Cl      6.642           charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753813"></A>        Cl      6.642           charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753811"></A>        C       .00396</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753811"></A>        C       .00396</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753809"></A>        S       .004725</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753809"></A>        S       .004725</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753807"></A>        As      .025 umol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753807"></A>        As      .025 umol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753805"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753805"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753803"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753803"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753801"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753801"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753798"></A>        Dolomite        0.0     1.6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753798"></A>        Dolomite        0.0     1.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753796"></A>        Calcite         0.0     0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753796"></A>        Calcite         0.0     0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753794"></A>SAVE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753794"></A>SAVE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753792"></A># prints initial condition to the selected-output file</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753792"></A># prints initial condition to the selected-output file</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753790"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753790"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753788"></A>        -file ex14.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753788"></A>        -file ex14.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753786"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753786"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753784"></A>        -step</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753784"></A>        -step</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753782"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753782"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753780"></A>        -head  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753780"></A>        -head  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753778"></A>  10 PUNCH TOT(&quot;Ca&quot;), TOT(&quot;Mg&quot;), TOT(&quot;Na&quot;), TOT(&quot;As&quot;)*1e6, -LA(&quot;H+&quot;), SURF(&quot;As&quot;, &quot;Surf&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753778"></A>  10 PUNCH TOT(&quot;Ca&quot;), TOT(&quot;Mg&quot;), TOT(&quot;Na&quot;), TOT(&quot;As&quot;)*1e6, -LA(&quot;H+&quot;), SURF(&quot;As&quot;, &quot;Surf&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753776"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753776"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753774"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753774"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753772"></A># skips print of initial exchange and initial surface to the selected-output file</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753772"></A># skips print of initial exchange and initial surface to the selected-output file</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753770"></A>        -selected_out false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753770"></A>        -selected_out false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753768"></A>EXCHANGE 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753768"></A>EXCHANGE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753766"></A>        -equil with solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753766"></A>        -equil with solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753764"></A>        X       1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753764"></A>        X       1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753762"></A>SURFACE 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753762"></A>SURFACE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753760"></A>        -equil solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753760"></A>        -equil solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753758"></A># assumes 1/10 of iron is HFO</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753758"></A># assumes 1/10 of iron is HFO</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753756"></A>        SurfOH           0.07    600.    30.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753756"></A>        SurfOH           0.07    600.    30.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753754"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753754"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753752"></A>SOLUTION 0 20 x precipitation</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753752"></A>SOLUTION 0 20 x precipitation</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753750"></A>        pH      4.6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753750"></A>        pH      4.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753748"></A>        pe      4.0     O2(g)   -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753748"></A>        pe      4.0     O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753746"></A>        temp    25.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753746"></A>        temp    25.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753744"></A>        units   mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753744"></A>        units   mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753742"></A>        Ca      .191625</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753742"></A>        Ca      .191625</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753740"></A>        Mg      .035797</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753740"></A>        Mg      .035797</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753738"></A>        Na      .122668</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753738"></A>        Na      .122668</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753736"></A>        Cl      .133704</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753736"></A>        Cl      .133704</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753734"></A>        C       .01096</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753734"></A>        C       .01096</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753732"></A>        S       .235153         charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753732"></A>        S       .235153         charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753730"></A>EQUILIBRIUM_PHASES 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753730"></A>EQUILIBRIUM_PHASES 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753728"></A>        Dolomite        0.0     1.6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753728"></A>        Dolomite        0.0     1.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753726"></A>        Calcite         0.0     0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753726"></A>        Calcite         0.0     0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753724"></A>        CO2(g)          -1.5    10.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753724"></A>        CO2(g)          -1.5    10.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753722"></A>SAVE solution 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753722"></A>SAVE solution 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753720"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753720"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753718"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753718"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753716"></A>        -selected_out true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753716"></A>        -selected_out true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753714"></A>		-status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753714"></A>		-status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753712"></A>ADVECTION</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753712"></A>ADVECTION</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753710"></A>        -cells 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753710"></A>        -cells 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753708"></A>        -shifts 200</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753708"></A>        -shifts 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753706"></A>        -print_frequency 200</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753706"></A>        -print_frequency 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753704"></A>USER_GRAPH 1 Example 14</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753704"></A>USER_GRAPH 1 Example 14</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753702"></A>        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753702"></A>        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753700"></A>        -chart_title &quot;Chemical Evolution of the Central Oklahoma Aquifer&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753700"></A>        -chart_title &quot;Chemical Evolution of the Central Oklahoma Aquifer&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753698"></A>        -axis_titles &quot;Pore volumes or shift number&quot; &quot;Log(Concentration, in ppb or molal)&quot; &quot;pH&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753698"></A>        -axis_titles &quot;Pore volumes or shift number&quot; &quot;Log(Concentration, in ppb or molal)&quot; &quot;pH&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753696"></A>        -axis_scale x_axis 0 200</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753696"></A>        -axis_scale x_axis 0 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753694"></A>        -axis_scale y_axis 1e-6 100 auto auto Log</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753694"></A>        -axis_scale y_axis 1e-6 100 auto auto Log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753692"></A>  10 GRAPH_X STEP_NO</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753692"></A>  10 GRAPH_X STEP_NO</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753690"></A>  20 GRAPH_Y TOT(&quot;As&quot;) * 74.92e6, TOT(&quot;Ca&quot;), TOT(&quot;Mg&quot;), TOT(&quot;Na&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753690"></A>  20 GRAPH_Y TOT(&quot;As&quot;) * 74.92e6, TOT(&quot;Ca&quot;), TOT(&quot;Mg&quot;), TOT(&quot;Na&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753688"></A>  30 GRAPH_SY -LA(&quot;H+&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753688"></A>  30 GRAPH_SY -LA(&quot;H+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753686"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753686"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-1444870"></A><A NAME="50552847_69134"></A>Recharge Water</H4>
+<A NAME="50528271_pgfId-1444870"></A><A NAME="50528271_69134"></A>Recharge Water</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1347034"></A>The water entering the saturated zone of the aquifer was assumed to be in equilibrium with calcite and dolomite at a vadose-zone <IMG SRC="phreeqc3-265.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-1347034"></A>The water entering the saturated zone of the aquifer was assumed to be in equilibrium with calcite and dolomite at a vadose-zone <IMG SRC="phreeqc3-265.gif" ALIGN="BASELINE">
  of 10<Sup CLASS="Superscript">
 -1.5</Sup>
- atm. The fourth simulation in the input set (the simulation following the third <A HREF="phreeqc3-12.htm#50552833_63178" CLASS="XRef">END</A> statement) generates this water composition and stores it as solution 0 by using <A HREF="phreeqc3-37.htm#50552833_81857" CLASS="XRef">SAVE</A> (<A HREF="phreeqc3-69.htm#50552847_88386" CLASS="XRef">table 37</A>).</P>
+ atm. The fourth simulation in the input set (the simulation following the third <A HREF="phreeqc3-12.htm#50528257_63178" CLASS="XRef">END</A> statement) generates this water composition and stores it as solution 0 by using <A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> (<A HREF="phreeqc3-69.htm#50528271_88386" CLASS="XRef">table 37</A>).</P>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-339972"></A><A NAME="50552847_72147"></A>Advective-Transport Calculations</H4>
+<A NAME="50528271_pgfId-339972"></A><A NAME="50528271_72147"></A>Advective-Transport Calculations</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1444834"></A>The <A HREF="phreeqc3-6.htm#50552833_87438" CLASS="XRef">ADVECTION</A> data block (<A HREF="phreeqc3-69.htm#50552847_88386" CLASS="XRef">table 37</A>) provides the necessary information to advect the recharge water into the cell representing the saturated zone. A total of 200 shifts is specified, which is equivalent to 200 pore volumes because only a single cell is used in this calculation.</P>
+<A NAME="50528271_pgfId-1444834"></A>The <A HREF="phreeqc3-6.htm#50528257_87438" CLASS="XRef">ADVECTION</A> data block (<A HREF="phreeqc3-69.htm#50528271_88386" CLASS="XRef">table 37</A>) provides the necessary information to advect the recharge water into the cell representing the saturated zone. A total of 200 shifts is specified, which is equivalent to 200 pore volumes because only a single cell is used in this calculation.</P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1444838"></A>The results of the calculations are plotted in figure.15. During the initial five pore volumes, the high concentrations of sodium, calcium, and magnesium decrease such that sodium is the dominant cation and calcium and magnesium concentrations are small. The pH increases to more than 9.0 and arsenic concentrations increase to approximately 100 ppb. Over the next 45 pore volumes, the pH gradually decreases, and the arsenic concentrations decrease to negligible concentrations. At about 100 pore volumes, the calcium and magnesium become the dominant cations, and the pH stabilizes at the pH of the infilling recharge water. </P>
+<A NAME="50528271_pgfId-1444838"></A>The results of the calculations are plotted in figure.15. During the initial five pore volumes, the high concentrations of sodium, calcium, and magnesium decrease such that sodium is the dominant cation and calcium and magnesium concentrations are small. The pH increases to more than 9.0 and arsenic concentrations increase to approximately 100 ppb. Over the next 45 pore volumes, the pH gradually decreases, and the arsenic concentrations decrease to negligible concentrations. At about 100 pore volumes, the calcium and magnesium become the dominant cations, and the pH stabilizes at the pH of the infilling recharge water. </P>
 <DIV>
 <MAP NAME="phreeqc3-266">
 </MAP>
 <IMG SRC="phreeqc3-266.gif" USEMAP="#phreeqc3-266">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1444754"></A>The advective-transport calculations produce three types of water that are similar to water types observed in the aquifer: the initial brine, a sodium bicarbonate water, and a calcium and magnesium bicarbonate water. The calculated pH values are consistent with observations of aquifer water. In the sodium dominated waters, the calculated pH is generally greater than 8.0 and sometimes greater than 9.0; in the calcium magnesium bicarbonate waters, the pH is slightly greater than 7.0. Sensitivity calculations indicate that the maximum pH depends on the amount of exchanger present. Decreasing the number of cation exchange sites decreases the maximum pH. Simulated arsenic concentrations are similar to values observed in the aquifer, where the maximum concentrations are from 75 to 150 ppb. Lower maximum pH values produce lower maximum arsenic concentrations. The stability constant for the surface complexation reactions have been taken directly from the literature; a decrease in the log <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1444754"></A>The advective-transport calculations produce three types of water that are similar to water types observed in the aquifer: the initial brine, a sodium bicarbonate water, and a calcium and magnesium bicarbonate water. The calculated pH values are consistent with observations of aquifer water. In the sodium dominated waters, the calculated pH is generally greater than 8.0 and sometimes greater than 9.0; in the calcium magnesium bicarbonate waters, the pH is slightly greater than 7.0. Sensitivity calculations indicate that the maximum pH depends on the amount of exchanger present. Decreasing the number of cation exchange sites decreases the maximum pH. Simulated arsenic concentrations are similar to values observed in the aquifer, where the maximum concentrations are from 75 to 150 ppb. Lower maximum pH values produce lower maximum arsenic concentrations. The stability constant for the surface complexation reactions have been taken directly from the literature; a decrease in the log <EM CLASS="Emphasis">
 K</EM>
  for the predominant arsenic complexation reaction tends to decrease the maximum arsenic concentration as well. In conclusion, the model results, which were based largely on measured values and literature thermodynamic data, can explain the trends in major ion chemistry, pH, and arsenic concentrations within the aquifer.</P>
 </DIV>

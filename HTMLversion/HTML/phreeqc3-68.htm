@@ -7,32 +7,32 @@
 <TITLE> Example 13--1D Transport in a Dual Porosity Column With Cation Exchange</TITLE><HR><P> | <A HREF="phreeqc3-69.htm">Next</A> || <A HREF="phreeqc3-67.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50552847_pgfId-1565361"></A>Example 13--<A NAME="50552847_22265"></A>1D Transport in a Dual Porosity Column With Cation Exchange</H2>
+<A NAME="50528271_pgfId-1565361"></A>Example 13--<A NAME="50528271_22265"></A>1D Transport in a Dual Porosity Column With Cation Exchange</H2>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-339378"></A>This example demonstrates the capabilities of PHREEQC to calculate flow in a dual-porosity medium with diffusive exchange among the mobile and immobile pores. The flexible input format and the modular definition of additional solutions and reactants in PHREEQC allow inclusion of heterogeneities and various complexities within a 1D column. This example considers a column filled with small clay beads of 2 cm diameter, which act as dual porosity or stagnant zones. Both the first-order exchange approximation and finite differences are applied in this example, and transport of both a conservative and a retarded (by ion exchange) chemical is considered. It is furthermore shown how a heterogeneous column can be modeled by prescribing mixing factors to account for diffusion between mobile and immobile cells with the keyword <A HREF="phreeqc3-27.htm#50552833_23725" CLASS="XRef">MIX</A>.</P>
+<A NAME="50528271_pgfId-339378"></A>This example demonstrates the capabilities of PHREEQC to calculate flow in a dual-porosity medium with diffusive exchange among the mobile and immobile pores. The flexible input format and the modular definition of additional solutions and reactants in PHREEQC allow inclusion of heterogeneities and various complexities within a 1D column. This example considers a column filled with small clay beads of 2 cm diameter, which act as dual porosity or stagnant zones. Both the first-order exchange approximation and finite differences are applied in this example, and transport of both a conservative and a retarded (by ion exchange) chemical is considered. It is furthermore shown how a heterogeneous column can be modeled by prescribing mixing factors to account for diffusion between mobile and immobile cells with the keyword <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A>.</P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-342244"></A><A NAME="50552847_86632"></A>Stagnant Zone Calculation Using the First-Order Exchange Approximation With Implicit Mixing Factors</H4>
+<A NAME="50528271_pgfId-342244"></A><A NAME="50528271_86632"></A>Stagnant Zone Calculation Using the First-Order Exchange Approximation With Implicit Mixing Factors</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1338316"></A>The first example input file, example 13A (<A HREF="phreeqc3-68.htm#50552847_69841" CLASS="XRef">table 33</A>), is for a column with a uniform distribution of the stagnant porosity along the column. The 20 mobile cells are numbered 1 through 20. Each mobile cell, <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1338316"></A>The first example input file, example 13A (<A HREF="phreeqc3-68.htm#50528271_69841" CLASS="XRef">table 33</A>), is for a column with a uniform distribution of the stagnant porosity along the column. The 20 mobile cells are numbered 1 through 20. Each mobile cell, <EM CLASS="Emphasis">
 n</EM>
 , exchanges with one immobile cell, which is numbered 20 + 1 + <EM CLASS="Emphasis">
 n</EM>
- (cells 22 through 41 are immobile cells). All cells are given an identical initial solution and exchange complex, but these could be defined individually for each cell. It also is possible to distribute the immobile cells over the column non-uniformly, simply by omitting solutions for the stagnant cells that are not present. The connections between the mobile-zone and the stagnant-zone cells and among stagnant-zone cells can be varied along the column as well, but this requires that mixing factors among the mobile and immobile cells are prescribed by using the keyword <A HREF="phreeqc3-27.htm#50552833_23725" CLASS="XRef">MIX</A>.</P>
+ (cells 22 through 41 are immobile cells). All cells are given an identical initial solution and exchange complex, but these could be defined individually for each cell. It also is possible to distribute the immobile cells over the column non-uniformly, simply by omitting solutions for the stagnant cells that are not present. The connections between the mobile-zone and the stagnant-zone cells and among stagnant-zone cells can be varied along the column as well, but this requires that mixing factors among the mobile and immobile cells are prescribed by using the keyword <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A>.</P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1529915"></A>As defined in <A HREF="phreeqc3-68.htm#50552847_69841" CLASS="XRef">table 33</A>, the column initially contains a 1 mmol/L KNO<Sub CLASS="Subscript">
+<A NAME="50528271_pgfId-1529915"></A>As defined in <A HREF="phreeqc3-68.htm#50528271_69841" CLASS="XRef">table 33</A>, the column initially contains a 1 mmol/L KNO<Sub CLASS="Subscript">
 3</Sub>
- solution in both the mobile and the stagnant zones (<A HREF="phreeqc3-41.htm#50552833_30253" CLASS="XRef">SOLUTION</A> 1-41). An NaCl-NO<Sub CLASS="Subscript">
+ solution in both the mobile and the stagnant zones (<A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> 1-41). An NaCl-NO<Sub CLASS="Subscript">
 3</Sub>
- solution flows into the column (<A HREF="phreeqc3-41.htm#50552833_30253" CLASS="XRef">SOLUTION</A> 0). An exchange complex with 1 mmol of sites is defined for each cell (<A HREF="phreeqc3-14.htm#50552833_84573" CLASS="XRef">EXCHANGE</A> 1-41), and exchange coefficients are specified to give linear retardation <EM CLASS="Emphasis">
+ solution flows into the column (<A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> 0). An exchange complex with 1 mmol of sites is defined for each cell (<A HREF="phreeqc3-14.htm#50528257_84573" CLASS="XRef">EXCHANGE</A> 1-41), and exchange coefficients are specified to give linear retardation <EM CLASS="Emphasis">
 R</EM>
- = 2 for Na+ (<A HREF="phreeqc3-16.htm#50552833_65476" CLASS="XRef">EXCHANGE_SPECIES</A>). The first <A HREF="phreeqc3-49.htm#50552833_87317" CLASS="XRef">TRANSPORT</A> data block is used to define the physical and flow characteristics of the first transport simulation. The column is 2 m in length and is discretized in 20 cells (<STRONG CLASS="Bold">
+ = 2 for Na+ (<A HREF="phreeqc3-16.htm#50528257_65476" CLASS="XRef">EXCHANGE_SPECIES</A>). The first <A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A> data block is used to define the physical and flow characteristics of the first transport simulation. The column is 2 m in length and is discretized in 20 cells (<STRONG CLASS="Bold">
 -cells</STRONG>
 ) of 0.1 m (<STRONG CLASS="Bold">
 -lengths</STRONG>
 ). A pulse of five shifts (<STRONG CLASS="Bold">
 -shifts</STRONG>
-) of the infilling solution (<A HREF="phreeqc3-41.htm#50552833_30253" CLASS="XRef">SOLUTION</A> 0) is introduced into the column. The length of time for each shift is 3,600 s (<STRONG CLASS="Bold">
+) of the infilling solution (<A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> 0) is introduced into the column. The length of time for each shift is 3,600 s (<STRONG CLASS="Bold">
 -time_step</STRONG>
 ), which results in a velocity in the mobile pores <EM CLASS="Emphasis">
 vm</EM>
@@ -44,7 +44,7 @@ vm</EM>
 -diffusion_coefficient</STRONG>
 ). </P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1530167"></A>The stagnant/mobile interchange is defined by using the first-order exchange approximation. The stagnant zone consists of spheres with radius <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1530167"></A>The stagnant/mobile interchange is defined by using the first-order exchange approximation. The stagnant zone consists of spheres with radius <EM CLASS="Emphasis">
 r</EM>
  = 0.01 m, diffusion coefficient <EM CLASS="Emphasis">
 De</EM>
@@ -62,385 +62,385 @@ fs</EM>
 -stagnant</STRONG>
 ) and immobile porosity &#949;im = 0.1. For the first-order exchange approximation in PHREEQC, a single cell immobile zone and the parameters &#945;, &#949;m and &#949;im are specified with <STRONG CLASS="Bold">
 -stagnant</STRONG>
-. This stagnant zone definition causes each cell in the mobile zone (numbered 1 through 20) to have an associated cell in the immobile zone (numbered 22 through 41). The <A HREF="phreeqc3-31.htm#50552833_92102" CLASS="XRef">PRINT</A> data block is used to eliminate all printing to the output file.</P>
+. This stagnant zone definition causes each cell in the mobile zone (numbered 1 through 20) to have an associated cell in the immobile zone (numbered 22 through 41). The <A HREF="phreeqc3-31.htm#50528257_92102" CLASS="XRef">PRINT</A> data block is used to eliminate all printing to the output file.</P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1544508"></A>Following the pulse of NaCl solution, 10 shifts of 1 mmol KNO<Sub CLASS="Subscript">
+<A NAME="50528271_pgfId-1544508"></A>Following the pulse of NaCl solution, 10 shifts of 1 mmol KNO<Sub CLASS="Subscript">
 3</Sub>
-/L (second <A HREF="phreeqc3-41.htm#50552833_30253" CLASS="XRef">SOLUTION</A> 0) are introduced into the column. The second <A HREF="phreeqc3-49.htm#50552833_87317" CLASS="XRef">TRANSPORT</A> data block does not redefine any of the column or flow characteristics, but specifies that results for cells 1 through 20 (<STRONG CLASS="Bold">
+/L (second <A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> 0) are introduced into the column. The second <A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A> data block does not redefine any of the column or flow characteristics, but specifies that results for cells 1 through 20 (<STRONG CLASS="Bold">
 -punch_cells</STRONG>
 ) be written to the selected output file after 10 shifts (<STRONG CLASS="Bold">
 -punch_frequency</STRONG>
-). The data blocks <A HREF="phreeqc3-38.htm#50552833_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-53.htm#50552833_56415" CLASS="XRef">USER_PUNCH</A> specify the data to be written to the selected-output file, and <A HREF="phreeqc3-51.htm#50552833_26121" CLASS="XRef">USER_GRAPH</A> plots the same data. </P>
+). The data blocks <A HREF="phreeqc3-38.htm#50528257_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-53.htm#50528257_56415" CLASS="XRef">USER_PUNCH</A> specify the data to be written to the selected-output file, and <A HREF="phreeqc3-51.htm#50528257_26121" CLASS="XRef">USER_GRAPH</A> plots the same data. </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50552847_pgfId-1607114"></A>Table 33. <A NAME="50552847_69841"></A>Input file for example 13A: Stagnant zone with implicitly defined mixing factors.</P>
+<A NAME="50528271_pgfId-1607114"></A>Table 33. <A NAME="50528271_69841"></A>Input file for example 13A: Stagnant zone with implicitly defined mixing factors.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607116"></A>TITLE Example 13A.--1 mmol/L NaCl/NO3 enters column with stagnant zones.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607116"></A>TITLE Example 13A.--1 mmol/L NaCl/NO3 enters column with stagnant zones.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607118"></A>                    Implicit definition of first-order exchange model.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607118"></A>                    Implicit definition of first-order exchange model.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607120"></A>SOLUTION 0    # 1 mmol/L NaCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607120"></A>SOLUTION 0    # 1 mmol/L NaCl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607122"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607122"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607124"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607124"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607126"></A>   pe      13.0    O2(g)   -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607126"></A>   pe      13.0    O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607128"></A>   Na       1.0    # Na has Retardation = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607128"></A>   Na       1.0    # Na has Retardation = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607130"></A>   Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607130"></A>   Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607132"></A>   N(5)     1.0    # NO3 is conservative</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607132"></A>   N(5)     1.0    # NO3 is conservative</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607134"></A>#       charge imbalance is no problem ...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607134"></A>#       charge imbalance is no problem ...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607136"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607136"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607138"></A>SOLUTION 1-41  # Column with KNO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607138"></A>SOLUTION 1-41  # Column with KNO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607140"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607140"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607142"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607142"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607144"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607144"></A>   pe      13.0   O2(g)    -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607146"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607146"></A>   K        1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607148"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607148"></A>   N(5)     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607150"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607150"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607152"></A>   K+ + X- = KX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607152"></A>   K+ + X- = KX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607154"></A>   log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607154"></A>   log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607156"></A>   -gamma  3.5     0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607156"></A>   -gamma  3.5     0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1607158"></A>EXCHANGE 1-41</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1607158"></A>EXCHANGE 1-41</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751983"></A>   -equil  1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751983"></A>   -equil  1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751981"></A>   X       1.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751981"></A>   X       1.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751979"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751979"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751977"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751977"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751975"></A>   -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751975"></A>   -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751973"></A>   -echo_input true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751973"></A>   -echo_input true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751971"></A>   -status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751971"></A>   -status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751969"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751969"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751967"></A>   -cells  20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751967"></A>   -cells  20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751965"></A>   -shifts 5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751965"></A>   -shifts 5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751963"></A>   -flow_direction  forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751963"></A>   -flow_direction  forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751961"></A>   -time_step       3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751961"></A>   -time_step       3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751959"></A>   -boundary_conditions   flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751959"></A>   -boundary_conditions   flux  flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751957"></A>   -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751957"></A>   -diffusion_coefficient 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751955"></A>   -lengths         0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751955"></A>   -lengths         0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751953"></A>   -dispersivities  0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751953"></A>   -dispersivities  0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751951"></A>   -stagnant   1  6.8e-6  0.3        0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751951"></A>   -stagnant   1  6.8e-6  0.3        0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751949"></A>#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751949"></A>#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751947"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751947"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751945"></A>SOLUTION 0  # Original solution with KNO3 reenters</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751945"></A>SOLUTION 0  # Original solution with KNO3 reenters</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751943"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751943"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751941"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751941"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751939"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751939"></A>   pe      13.0   O2(g)    -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751937"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751937"></A>   K        1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751935"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751935"></A>   N(5)     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751933"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751933"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751931"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751931"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751929"></A>   -file   ex13a.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751929"></A>   -file   ex13a.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751927"></A>   -reset  false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751927"></A>   -reset  false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751925"></A>   -solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751925"></A>   -solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751923"></A>   -distance       true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751923"></A>   -distance       true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751921"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751921"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751919"></A>   -headings Cl_mmol Na_mmol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751919"></A>   -headings Cl_mmol Na_mmol</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751917"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751917"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751915"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751915"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751913"></A>   -shifts 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751913"></A>   -shifts 10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751911"></A>   -punch_cells        1-20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751911"></A>   -punch_cells        1-20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751909"></A>   -punch_frequency    10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751909"></A>   -punch_frequency    10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751907"></A>USER_GRAPH 1 Example 13A</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751907"></A>USER_GRAPH 1 Example 13A</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751905"></A>   -headings Distance Na Cl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751905"></A>   -headings Distance Na Cl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751903"></A>   -chart_title &quot;Dual Porosity, First-Order Exchange with Implicit Mixing Factors&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751903"></A>   -chart_title &quot;Dual Porosity, First-Order Exchange with Implicit Mixing Factors&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751901"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751901"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751899"></A>   -axis_scale x_axis 0 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751899"></A>   -axis_scale x_axis 0 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751897"></A>   -axis_scale y_axis 0 0.8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751897"></A>   -axis_scale y_axis 0 0.8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751895"></A>   -plot_concentration_vs x</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751895"></A>   -plot_concentration_vs x</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751893"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751893"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751891"></A>  10 GRAPH_X DIST</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751891"></A>  10 GRAPH_X DIST</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751889"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751889"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751887"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751887"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1751885"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1751885"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1607601"></A><STRONG CLASS="Bold">
+<A NAME="50528271_pgfId-1607601"></A><STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50552847_17061"></A>The mixing factors <EM CLASS="Emphasis">
+<A NAME="50528271_17061"></A>The mixing factors <EM CLASS="Emphasis">
 mixfm</EM>
  and <EM CLASS="Emphasis">
 mixfim</EM>
@@ -448,17 +448,17 @@ mixfim</EM>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50552847_pgfId-1338162"></A><A NAME="50552847_27886"></A><IMG SRC="phreeqc3-258.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-1338162"></A><A NAME="50528271_27886"></A><IMG SRC="phreeqc3-258.gif" ALIGN="BASELINE">
 	(24)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50552847_pgfId-339466"></A>where t is the time step, and</P>
+<A NAME="50528271_pgfId-339466"></A>where t is the time step, and</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50552847_pgfId-1413757"></A><A NAME="50552847_24559"></A><IMG SRC="phreeqc3-259.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-1413757"></A><A NAME="50528271_24559"></A><IMG SRC="phreeqc3-259.gif" ALIGN="BASELINE">
 .	(25)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50552847_pgfId-1413758"></A>The retardation factors <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1413758"></A>The retardation factors <EM CLASS="Emphasis">
 R</EM>
 <Sub CLASS="Subscript">
 m</Sub>
@@ -474,13 +474,13 @@ im</Sub>
  mixf</EM>
 <Sub CLASS="Subscript">
 m</Sub>
- because in PHREEQC, the retardation is a consequence of chemical reactions. According to equations <A HREF="phreeqc3-68.htm#50552847_27886" CLASS="XRef">24</A> and <A HREF="phreeqc3-68.htm#50552847_24559" CLASS="XRef">25</A>, for this example, the mixing factors are calculated to be <EM CLASS="Emphasis">
+ because in PHREEQC, the retardation is a consequence of chemical reactions. According to equations <A HREF="phreeqc3-68.htm#50528271_27886" CLASS="XRef">24</A> and <A HREF="phreeqc3-68.htm#50528271_24559" CLASS="XRef">25</A>, for this example, the mixing factors are calculated to be <EM CLASS="Emphasis">
 mixfim</EM>
  = 0.20886 and <EM CLASS="Emphasis">
 mixfm</EM>
  = 0.06962. The mixing factors differ for the mobile cell and the immobile cell to account for the different volumes of mobile and immobile water.</P>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-339491"></A>In PHREEQC, a mixing of mobile and stagnant water is done after each diffusion/dispersion step. This means that the time step decreases when the cells are made smaller and when more diffusive steps (&#8220;mixruns&#8221;) are performed. A 20-cell model as in <A HREF="phreeqc3-68.htm#50552847_69841" CLASS="XRef">table 33</A> has one mixrun. A 100-cell model would have three mixruns, and the time step for calculating <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-339491"></A>In PHREEQC, a mixing of mobile and stagnant water is done after each diffusion/dispersion step. This means that the time step decreases when the cells are made smaller and when more diffusive steps (&#8220;mixruns&#8221;) are performed. A 20-cell model as in <A HREF="phreeqc3-68.htm#50528271_69841" CLASS="XRef">table 33</A> has one mixrun. A 100-cell model would have three mixruns, and the time step for calculating <EM CLASS="Emphasis">
 mixfim</EM>
  would be (3,600/5) / 3 = 240 s. A time step <EM CLASS="Emphasis">
 t</EM>
@@ -489,507 +489,507 @@ mixfim</EM>
  = 0.01614 in the 100-cell model.</P>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-342302"></A><A NAME="50552847_69695"></A>Stagnant Zone Calculation Using the First-Order Exchange Approximation With Explicit Mixing Factors</H4>
+<A NAME="50528271_pgfId-342302"></A><A NAME="50528271_69695"></A>Stagnant Zone Calculation Using the First-Order Exchange Approximation With Explicit Mixing Factors</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1445238"></A>The input file with explicit mixing factors for a uniform distribution of the stagnant zones is given in <A HREF="phreeqc3-68.htm#50552847_94576" CLASS="XRef">table 34</A>. The <A HREF="phreeqc3-41.htm#50552833_30253" CLASS="XRef">SOLUTION</A> data blocks are identical to the previous input file (<A HREF="phreeqc3-68.htm#50552847_69841" CLASS="XRef">table 33</A>). One stagnant layer without further information is defined (-stagnant 1, in the <A HREF="phreeqc3-49.htm#50552833_87317" CLASS="XRef">TRANSPORT</A> data block). The mobile/immobile exchange is set by the mix fraction given in the <A HREF="phreeqc3-27.htm#50552833_23725" CLASS="XRef">MIX</A> data blocks. The results of this input file are identical with the results from the previous input file in which the shortcut notation was used. However, the explicit definition of mix factors illustrates that a non-uniform distribution of the stagnant zones, or other physical properties of the stagnant zone, can be included in PHREEQC simulations by varying the mixing fractions that define the exchange among mobile and immobile cells. </P>
+<A NAME="50528271_pgfId-1445238"></A>The input file with explicit mixing factors for a uniform distribution of the stagnant zones is given in <A HREF="phreeqc3-68.htm#50528271_94576" CLASS="XRef">table 34</A>. The <A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> data blocks are identical to the previous input file (<A HREF="phreeqc3-68.htm#50528271_69841" CLASS="XRef">table 33</A>). One stagnant layer without further information is defined (-stagnant 1, in the <A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A> data block). The mobile/immobile exchange is set by the mix fraction given in the <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A> data blocks. The results of this input file are identical with the results from the previous input file in which the shortcut notation was used. However, the explicit definition of mix factors illustrates that a non-uniform distribution of the stagnant zones, or other physical properties of the stagnant zone, can be included in PHREEQC simulations by varying the mixing fractions that define the exchange among mobile and immobile cells. </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50552847_pgfId-1608018"></A>Table 34. <A NAME="50552847_94576"></A>Input file for example 13B: Stagnant zone with explicitly defined mixing factors.</P>
+<A NAME="50528271_pgfId-1608018"></A>Table 34. <A NAME="50528271_94576"></A>Input file for example 13B: Stagnant zone with explicitly defined mixing factors.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608020"></A>TITLE Example 13B.--1 mmol/l NaCl/NO3 enters column with stagnant zones.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608020"></A>TITLE Example 13B.--1 mmol/l NaCl/NO3 enters column with stagnant zones.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608022"></A>                    Explicit definition of first-order exchange factors.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608022"></A>                    Explicit definition of first-order exchange factors.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608024"></A>SOLUTION 0    # 1 mmol/l NaCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608024"></A>SOLUTION 0    # 1 mmol/l NaCl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608026"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608026"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608028"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608028"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608030"></A>   pe      13.0    O2(g)   -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608030"></A>   pe      13.0    O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608032"></A>   Na       1.0    # Na has Retardation = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608032"></A>   Na       1.0    # Na has Retardation = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608034"></A>   Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608034"></A>   Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608036"></A>   N(5)     1.0    # NO3 is conservative</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608036"></A>   N(5)     1.0    # NO3 is conservative</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608038"></A>#       charge imbalance is no problem ...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608038"></A>#       charge imbalance is no problem ...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608040"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608040"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608042"></A>SOLUTION 1-41  # Column with KNO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608042"></A>SOLUTION 1-41  # Column with KNO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608044"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608044"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608046"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608046"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608048"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608048"></A>   pe      13.0   O2(g)    -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608050"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608050"></A>   K        1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608052"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608052"></A>   N(5)     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1608054"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1608054"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643550"></A>   K+ + X- = KX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643550"></A>   K+ + X- = KX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643548"></A>   log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643548"></A>   log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643546"></A>   -gamma  3.5     0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643546"></A>   -gamma  3.5     0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643544"></A>EXCHANGE 1-41</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643544"></A>EXCHANGE 1-41</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643542"></A>   -equil  1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643542"></A>   -equil  1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643540"></A>   X       1.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643540"></A>   X       1.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643538"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643538"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643536"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643536"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643534"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643534"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643532"></A>        -echo_input true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643532"></A>        -echo_input true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1643530"></A>        -status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1643530"></A>        -status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685623"></A>MIX  1;  1 .93038;      22 .06962       ;MIX  2;         2 .93038;      23 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685623"></A>MIX  1;  1 .93038;      22 .06962       ;MIX  2;         2 .93038;      23 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685621"></A>MIX  3;  3 .93038;      24 .06962       ;MIX  4;         4 .93038;      25 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685621"></A>MIX  3;  3 .93038;      24 .06962       ;MIX  4;         4 .93038;      25 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685619"></A>MIX  5;  5 .93038;      26 .06962       ;MIX  6;         6 .93038;      27 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685619"></A>MIX  5;  5 .93038;      26 .06962       ;MIX  6;         6 .93038;      27 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685617"></A>MIX  7;  7 .93038;      28 .06962       ;MIX  8;         8 .93038;      29 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685617"></A>MIX  7;  7 .93038;      28 .06962       ;MIX  8;         8 .93038;      29 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685615"></A>MIX  9;  9 .93038;      30 .06962       ;MIX 10;        10 .93038;      31 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685615"></A>MIX  9;  9 .93038;      30 .06962       ;MIX 10;        10 .93038;      31 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685613"></A>MIX 11; 11 .93038;      32 .06962       ;MIX 12;        12 .93038;      33 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685613"></A>MIX 11; 11 .93038;      32 .06962       ;MIX 12;        12 .93038;      33 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685611"></A>MIX 13; 13 .93038;      34 .06962       ;MIX 14;        14 .93038;      35 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685611"></A>MIX 13; 13 .93038;      34 .06962       ;MIX 14;        14 .93038;      35 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685609"></A>MIX 15; 15 .93038;      36 .06962       ;MIX 16;        16 .93038;      37 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685609"></A>MIX 15; 15 .93038;      36 .06962       ;MIX 16;        16 .93038;      37 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685607"></A>MIX 17; 17 .93038;      38 .06962       ;MIX 18;        18 .93038;      39 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685607"></A>MIX 17; 17 .93038;      38 .06962       ;MIX 18;        18 .93038;      39 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685605"></A>MIX 19; 19 .93038;      40 .06962       ;MIX 20;        20 .93038;      41 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685605"></A>MIX 19; 19 .93038;      40 .06962       ;MIX 20;        20 .93038;      41 .06962;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685603"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685603"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685601"></A>MIX 22;  1 .20886;      22 .79114       ;MIX 23;         2 .20886;      23 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685601"></A>MIX 22;  1 .20886;      22 .79114       ;MIX 23;         2 .20886;      23 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685599"></A>MIX 24;  3 .20886;      24 .79114       ;MIX 25;         4 .20886;      25 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685599"></A>MIX 24;  3 .20886;      24 .79114       ;MIX 25;         4 .20886;      25 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685597"></A>MIX 26;  5 .20886;      26 .79114       ;MIX 27;         6 .20886;      27 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685597"></A>MIX 26;  5 .20886;      26 .79114       ;MIX 27;         6 .20886;      27 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685595"></A>MIX 28;  7 .20886;      28 .79114       ;MIX 29;         8 .20886;      29 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685595"></A>MIX 28;  7 .20886;      28 .79114       ;MIX 29;         8 .20886;      29 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685593"></A>MIX 30;  9 .20886;      30 .79114       ;MIX 31;        10 .20886;      31 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685593"></A>MIX 30;  9 .20886;      30 .79114       ;MIX 31;        10 .20886;      31 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685591"></A>MIX 32; 11 .20886;      32 .79114       ;MIX 33;        12 .20886;      33 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685591"></A>MIX 32; 11 .20886;      32 .79114       ;MIX 33;        12 .20886;      33 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685589"></A>MIX 34; 13 .20886;      34 .79114       ;MIX 35;        14 .20886;      35 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685589"></A>MIX 34; 13 .20886;      34 .79114       ;MIX 35;        14 .20886;      35 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685587"></A>MIX 36; 15 .20886;      36 .79114       ;MIX 37;        16 .20886;      37 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685587"></A>MIX 36; 15 .20886;      36 .79114       ;MIX 37;        16 .20886;      37 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685585"></A>MIX 38; 17 .20886;      38 .79114       ;MIX 39;        18 .20886;      39 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685585"></A>MIX 38; 17 .20886;      38 .79114       ;MIX 39;        18 .20886;      39 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685583"></A>MIX 40; 19 .20886;      40 .79114       ;MIX 41;        20 .20886;      41 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685583"></A>MIX 40; 19 .20886;      40 .79114       ;MIX 41;        20 .20886;      41 .79114;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685627"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685627"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685625"></A>   -cells  20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685625"></A>   -cells  20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1685629"></A>   -shifts 5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1685629"></A>   -shifts 5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752390"></A>   -flow_direction  forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752390"></A>   -flow_direction  forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752388"></A>   -time_step       3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752388"></A>   -time_step       3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752386"></A>   -boundary_conditions   flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752386"></A>   -boundary_conditions   flux  flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752384"></A>   -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752384"></A>   -diffusion_coefficient 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752382"></A>   -lengths         0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752382"></A>   -lengths         0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752380"></A>   -dispersivities  0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752380"></A>   -dispersivities  0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752378"></A>   -stagnant        1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752378"></A>   -stagnant        1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752376"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752376"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752374"></A>SOLUTION 0  # Original solution reenters</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752374"></A>SOLUTION 0  # Original solution reenters</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752372"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752372"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752370"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752370"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752368"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752368"></A>   pe      13.0   O2(g)    -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752366"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752366"></A>   K        1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752364"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752364"></A>   N(5)     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752362"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752362"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752360"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752360"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752358"></A>   -file   ex13b.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752358"></A>   -file   ex13b.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752356"></A>   -reset  false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752356"></A>   -reset  false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752354"></A>   -distance       true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752354"></A>   -distance       true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752352"></A>   -solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752352"></A>   -solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752350"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752350"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752348"></A>   -headings Cl_mmol Na_mmol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752348"></A>   -headings Cl_mmol Na_mmol</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752346"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752346"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752344"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752344"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752342"></A>   -shifts  10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752342"></A>   -shifts  10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752340"></A>   -punch_cells        1-20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752340"></A>   -punch_cells        1-20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752338"></A>   -punch_frequency    10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752338"></A>   -punch_frequency    10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752336"></A>USER_GRAPH 1 Example 13B</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752336"></A>USER_GRAPH 1 Example 13B</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752334"></A>   -headings Distance Na Cl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752334"></A>   -headings Distance Na Cl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752332"></A>   -chart_title &quot;Dual Porosity, First-Order Exchange with Explicit Mixing Factors&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752332"></A>   -chart_title &quot;Dual Porosity, First-Order Exchange with Explicit Mixing Factors&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752330"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752330"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752328"></A>   -axis_scale x_axis 0 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752328"></A>   -axis_scale x_axis 0 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752326"></A>   -axis_scale y_axis 0 0.8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752326"></A>   -axis_scale y_axis 0 0.8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752324"></A>   -plot_concentration_vs x</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752324"></A>   -plot_concentration_vs x</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752322"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752322"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752320"></A>  10 GRAPH_X DIST</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752320"></A>  10 GRAPH_X DIST</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752318"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752318"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752316"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752316"></A>   -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752314"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752314"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 </DIV>
 <DIV>
 <H4 CLASS="FM3dOrderHeading">
-<A NAME="50552847_pgfId-1317070"></A><A NAME="50552847_37910"></A>Stagnant Zone Calculation Using a Finite Difference Approximation</H4>
+<A NAME="50528271_pgfId-1317070"></A><A NAME="50528271_37910"></A>Stagnant Zone Calculation Using a Finite Difference Approximation</H4>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-339588"></A>The stagnant zone consists of spheres with radius <EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-339588"></A>The stagnant zone consists of spheres with radius <EM CLASS="Emphasis">
 r</EM>
  = 0.01 m. Diffusion into the spheres induces radially symmetric concentration changes according to the differential equation:</P>
 </DIV>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50552847_pgfId-339592"></A><IMG SRC="phreeqc3-260.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-339592"></A><IMG SRC="phreeqc3-260.gif" ALIGN="BASELINE">
 .	(26)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50552847_pgfId-1338012"></A>The calculation in finite differences can therefore be simplified to one (radial) dimension. The calculation follows the theory outlined in Parkhurst and Appelo (1999, section &#8220;Transport in Dual Porosity Media&#8221;). The stagnant zone is divided into a number of layers that mix by diffusion. In this example, the sphere is cut in five equidistant layers with &#916;<EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1338012"></A>The calculation in finite differences can therefore be simplified to one (radial) dimension. The calculation follows the theory outlined in Parkhurst and Appelo (1999, section &#8220;Transport in Dual Porosity Media&#8221;). The stagnant zone is divided into a number of layers that mix by diffusion. In this example, the sphere is cut in five equidistant layers with &#916;<EM CLASS="Emphasis">
 r</EM>
- = 0.002 m. Five stagnant layers are defined under keyword <A HREF="phreeqc3-49.htm#50552833_87317" CLASS="XRef">TRANSPORT</A> with -stagnant 5 (<A HREF="phreeqc3-68.htm#50552847_63916" CLASS="XRef">table 35</A>). Mixing is specified among adjacent cells in the stagnant layers with <A HREF="phreeqc3-27.htm#50552833_23725" CLASS="XRef">MIX</A> data blocks; the mixing factors are calculated by <A HREF="phreeqc3-68.htm#50552847_40135" CLASS="XRef">See ,</A> and <A HREF="phreeqc3-68.htm#50552847_18727" CLASS="XRef">28</A>. For a neighbor cell, the mixing factor is</P>
+ = 0.002 m. Five stagnant layers are defined under keyword <A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A> with -stagnant 5 (<A HREF="phreeqc3-68.htm#50528271_63916" CLASS="XRef">table 35</A>). Mixing is specified among adjacent cells in the stagnant layers with <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A> data blocks; the mixing factors are calculated by <A HREF="phreeqc3-68.htm#50528271_40135" CLASS="XRef">See ,</A> and <A HREF="phreeqc3-68.htm#50528271_18727" CLASS="XRef">28</A>. For a neighbor cell, the mixing factor is</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50552847_pgfId-1316774"></A><A NAME="50552847_40135"></A><IMG SRC="phreeqc3-261.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-1316774"></A><A NAME="50528271_40135"></A><IMG SRC="phreeqc3-261.gif" ALIGN="BASELINE">
 ,	(27)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50552847_pgfId-1316775"></A>and for the central cell, it is</P>
+<A NAME="50528271_pgfId-1316775"></A>and for the central cell, it is</P>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50552847_pgfId-1316780"></A><A NAME="50552847_18727"></A><IMG SRC="phreeqc3-262.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-1316780"></A><A NAME="50528271_18727"></A><IMG SRC="phreeqc3-262.gif" ALIGN="BASELINE">
 ,	(28)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50552847_pgfId-1610117"></A>where, D<Sub CLASS="Subscript">
+<A NAME="50528271_pgfId-1610117"></A>where, D<Sub CLASS="Subscript">
 e</Sub>
  is the effective diffusion coefficient, <EM CLASS="symbol">
 &#916;</EM>
@@ -1011,7 +1011,7 @@ i</EM>
 j</EM>
  (m), and <EM CLASS="Emphasis">
 fbc </EM>
-is the correction factor for boundary cells (dimensionless). The values for mobile cell 1 and associated.    immobile cells are given in <A HREF="phreeqc3-68.htm#50552847_26060" CLASS="XRef">table 36</A>. The cells in the immobile layer are numbered as <EM CLASS="Emphasis">
+is the correction factor for boundary cells (dimensionless). The values for mobile cell 1 and associated.    immobile cells are given in <A HREF="phreeqc3-68.htm#50528271_26060" CLASS="XRef">table 36</A>. The cells in the immobile layer are numbered as <EM CLASS="Emphasis">
 n </EM>
 + (<EM CLASS="Emphasis">
 l </EM>
@@ -1029,467 +1029,467 @@ cells</EM>
 -6</Sup>
  &#215; 0.3 / 0.1 = 1.26&#215;10<Sup CLASS="Superscript">
 -5</Sup>
-). In <A HREF="phreeqc3-68.htm#50552847_26060" CLASS="XRef">table 36</A> the value for <EM CLASS="Emphasis">
+). In <A HREF="phreeqc3-68.htm#50528271_26060" CLASS="XRef">table 36</A> the value for <EM CLASS="Emphasis">
 fbc</EM>
  is 1.72, as calculated with the following equation from Parkhurst and Appelo (1999, equation 127):</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50552847_pgfId-1686275"></A>Table 35. <A NAME="50552847_63916"></A>Input file for example 13C: Stagnant zone with diffusion calculated by finite differences (partial listing).</P>
+<A NAME="50528271_pgfId-1686275"></A>Table 35. <A NAME="50528271_63916"></A>Input file for example 13C: Stagnant zone with diffusion calculated by finite differences (partial listing).</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686277"></A>TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686277"></A>TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686279"></A>                    5 layer stagnant zone with finite differences.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686279"></A>                    5 layer stagnant zone with finite differences.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686281"></A>SOLUTION 0    # 1 mmol/l NaCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686281"></A>SOLUTION 0    # 1 mmol/l NaCl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686283"></A>        units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686283"></A>        units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686285"></A>        pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686285"></A>        pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686287"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686287"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686289"></A>        pe      13.0    O2(g)   -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686289"></A>        pe      13.0    O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686291"></A>        Na       1.0    # Na has Retardation = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686291"></A>        Na       1.0    # Na has Retardation = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686293"></A>        Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686293"></A>        Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686295"></A>        N(5)     1.0    # NO3 is conservative</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686295"></A>        N(5)     1.0    # NO3 is conservative</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686297"></A>#       charge imbalance is no problem ...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686297"></A>#       charge imbalance is no problem ...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686299"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686299"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686301"></A>SOLUTION 1-121</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686301"></A>SOLUTION 1-121</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686303"></A>        units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686303"></A>        units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686305"></A>        pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686305"></A>        pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686307"></A>        pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686307"></A>        pe      13.0   O2(g)    -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686309"></A>        K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686309"></A>        K        1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686311"></A>        N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686311"></A>        N(5)     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686313"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686313"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686315"></A>        K+ + X- = KX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686315"></A>        K+ + X- = KX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686317"></A>        log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686317"></A>        log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686319"></A>        -gamma  3.5     0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686319"></A>        -gamma  3.5     0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686321"></A>EXCHANGE 1-121</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686321"></A>EXCHANGE 1-121</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1686323"></A>        -equilibrate  1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1686323"></A>        -equilibrate  1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753049"></A>        X             1.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753049"></A>        X             1.e-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753047"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753047"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753045"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753045"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753043"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753043"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753041"></A>        -echo_input true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753041"></A>        -echo_input true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753039"></A>MIX    1;    1  0.90712;   22  0.09288</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753039"></A>MIX    1;    1  0.90712;   22  0.09288</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753037"></A>MIX   22;    1  0.57098;   22  0.21656;   42  0.21246</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753037"></A>MIX   22;    1  0.57098;   22  0.21656;   42  0.21246</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753035"></A>MIX   42;   22  0.35027;   42  0.45270;   62  0.19703</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753035"></A>MIX   42;   22  0.35027;   42  0.45270;   62  0.19703</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753033"></A>MIX   62;   42  0.38368;   62  0.44579;   82  0.17053</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753033"></A>MIX   62;   42  0.38368;   62  0.44579;   82  0.17053</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753031"></A>MIX   82;   62  0.46286;   82  0.42143;  102  0.11571</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753031"></A>MIX   82;   62  0.46286;   82  0.42143;  102  0.11571</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753029"></A>MIX  102;   82  0.81000;  102  0.19000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753029"></A>MIX  102;   82  0.81000;  102  0.19000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753027"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753027"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753025"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753025"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753023"></A>#   MIX definitions omitted for mobile cells</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753023"></A>#   MIX definitions omitted for mobile cells</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753021"></A>#   2-19 and associated immobile cells</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753021"></A>#   2-19 and associated immobile cells</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753019"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753019"></A>&nbsp;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753017"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753017"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753015"></A>MIX   20;   20  0.90712;   41  0.09288</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753015"></A>MIX   20;   20  0.90712;   41  0.09288</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753013"></A>MIX   41;   20  0.57098;   41  0.21656;   61  0.21246</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753013"></A>MIX   41;   20  0.57098;   41  0.21656;   61  0.21246</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753011"></A>MIX   61;   41  0.35027;   61  0.45270;   81  0.19703</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753011"></A>MIX   61;   41  0.35027;   61  0.45270;   81  0.19703</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753009"></A>MIX   81;   61  0.38368;   81  0.44579;  101  0.17053</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753009"></A>MIX   81;   61  0.38368;   81  0.44579;  101  0.17053</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753007"></A>MIX  101;   81  0.46286;  101  0.42143;  121  0.11571</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753007"></A>MIX  101;   81  0.46286;  101  0.42143;  121  0.11571</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753005"></A>MIX  121;  101  0.81000;  121  0.19000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753005"></A>MIX  121;  101  0.81000;  121  0.19000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753003"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753003"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1753001"></A>   -cells  20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1753001"></A>   -cells  20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752999"></A>   -shifts 5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752999"></A>   -shifts 5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752997"></A>   -flow_direction  forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752997"></A>   -flow_direction  forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752995"></A>   -time_step       3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752995"></A>   -time_step       3600</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752993"></A>   -boundary_conditions   flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752993"></A>   -boundary_conditions   flux  flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752991"></A>   -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752991"></A>   -diffusion_coefficient 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752989"></A>   -lengths         0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752989"></A>   -lengths         0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752987"></A>   -dispersivities  0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752987"></A>   -dispersivities  0.015</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752985"></A>   -stagnant        5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752985"></A>   -stagnant        5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752983"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752983"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752981"></A>SOLUTION 0  # Original solution reenters</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752981"></A>SOLUTION 0  # Original solution reenters</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752979"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752979"></A>   units   mmol/l</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752977"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752977"></A>   pH       7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752975"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752975"></A>   pe      13.0   O2(g)    -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752973"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752973"></A>   K        1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752971"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752971"></A>   N(5)     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752969"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752969"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752967"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752967"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752965"></A>   -file   ex13c.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752965"></A>   -file   ex13c.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752963"></A>   -reset  false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752963"></A>   -reset  false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752961"></A>   -distance       true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752961"></A>   -distance       true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752959"></A>   -solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752959"></A>   -solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752957"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752957"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752955"></A>   -headings Cl_mmol Na_mmol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752955"></A>   -headings Cl_mmol Na_mmol</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752953"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752953"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752951"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752951"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752949"></A>   -shifts  10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752949"></A>   -shifts  10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752947"></A>   -punch_cells        1-20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752947"></A>   -punch_cells        1-20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752945"></A>   -punch_frequency    10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752945"></A>   -punch_frequency    10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752943"></A>USER_GRAPH 1 Example 13C</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752943"></A>USER_GRAPH 1 Example 13C</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752941"></A>        -headings Distance Na Cl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752941"></A>        -headings Distance Na Cl</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752939"></A>   -chart_title &quot;Dual Porosity, Finite-Difference Approximation&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752939"></A>   -chart_title &quot;Dual Porosity, Finite-Difference Approximation&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752937"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752937"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752935"></A>   -axis_scale x_axis 0 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752935"></A>   -axis_scale x_axis 0 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752933"></A>   -axis_scale y_axis 0 0.8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752933"></A>   -axis_scale y_axis 0 0.8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752931"></A>   -plot_concentration_vs x</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752931"></A>   -plot_concentration_vs x</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752929"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752929"></A>   -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752927"></A>  10 GRAPH_X DIST</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752927"></A>  10 GRAPH_X DIST</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752925"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752925"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752923"></A>    -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752923"></A>    -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50552847_pgfId-1752921"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1752921"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 </DIV>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50552847_pgfId-1509283"></A><A NAME="50552847_47105"></A><IMG SRC="phreeqc3-263.gif" ALIGN="BASELINE">
+<A NAME="50528271_pgfId-1509283"></A><A NAME="50528271_47105"></A><IMG SRC="phreeqc3-263.gif" ALIGN="BASELINE">
 ,	(29)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50552847_pgfId-1509284"></A>where, V<Sub CLASS="Subscript">
+<A NAME="50528271_pgfId-1509284"></A>where, V<Sub CLASS="Subscript">
 m </Sub>
 is the volume of the mobile zone and V<Sub CLASS="Subscript">
 bc</Sub>
@@ -1503,24 +1503,24 @@ fbc</EM>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50552847_pgfId-1686856"></A>Table 36. <A NAME="50552847_26060"></A>Mixing factors for finite difference calculation of diffusion in spheres.</P>
+<A NAME="50528271_pgfId-1686856"></A>Table 36. <A NAME="50528271_26060"></A>Mixing factors for finite difference calculation of diffusion in spheres.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50552847_pgfId-1686857"></A>[-, undefined value for cell]</P>
+<A NAME="50528271_pgfId-1686857"></A>[-, undefined value for cell]</P>
 </CAPTION>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686875"></A>Cell</P>
+<A NAME="50528271_pgfId-1686875"></A>Cell</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686877"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686877"></A><EM CLASS="Emphasis">
 r</EM>
 , m</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686879"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686879"></A><EM CLASS="Emphasis">
 Vj</EM>
 , m<Sup CLASS="Superscript">
 3</Sup>
@@ -1528,7 +1528,7 @@ Vj</EM>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686881"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686881"></A><EM CLASS="Emphasis">
 Aij</EM>
 , m<Sup CLASS="Superscript">
 2</Sup>
@@ -1536,31 +1536,31 @@ Aij</EM>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686883"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686883"></A><EM CLASS="Emphasis">
 hij</EM>
 , m</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686885"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686885"></A><EM CLASS="Emphasis">
 fbc</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686887"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686887"></A><EM CLASS="Emphasis">
 mixfij</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686889"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686889"></A><EM CLASS="Emphasis">
 mixfjj</EM>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50552847_pgfId-1686891"></A><EM CLASS="Emphasis">
+<A NAME="50528271_pgfId-1686891"></A><EM CLASS="Emphasis">
 mixfjk</EM>
 </P>
 </TH>
@@ -1568,341 +1568,341 @@ mixfjk</EM>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50552847_pgfId-1686893"></A>102</P>
+<A NAME="50528271_pgfId-1686893"></A>102</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686895"></A>0.001</LI>
+<A NAME="50528271_pgfId-1686895"></A>0.001</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686897"></A>3.35e-8</LI>
+<A NAME="50528271_pgfId-1686897"></A>3.35e-8</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686899"></A>5.03e-5</LI>
+<A NAME="50528271_pgfId-1686899"></A>5.03e-5</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686901"></A>0.002</LI>
+<A NAME="50528271_pgfId-1686901"></A>0.002</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686903"></A>1</LI>
+<A NAME="50528271_pgfId-1686903"></A>1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686905"></A>0.81</LI>
+<A NAME="50528271_pgfId-1686905"></A>0.81</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686907"></A>0.19</LI>
+<A NAME="50528271_pgfId-1686907"></A>0.19</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686909"></A> -</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50552847_pgfId-1686911"></A> 82</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686913"></A>0.003</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686915"></A>2.35e-7</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686917"></A>2.01e-4</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686919"></A>0.002</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686921"></A>1</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686923"></A>0.463</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686925"></A>0.421</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686927"></A>0.116</LI>
+<A NAME="50528271_pgfId-1686909"></A> -</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50552847_pgfId-1686929"></A> 62</P>
+<A NAME="50528271_pgfId-1686911"></A> 82</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686931"></A>0.005</LI>
+<A NAME="50528271_pgfId-1686913"></A>0.003</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686933"></A>6.37e-7</LI>
+<A NAME="50528271_pgfId-1686915"></A>2.35e-7</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686935"></A>4.52e-4</LI>
+<A NAME="50528271_pgfId-1686917"></A>2.01e-4</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686937"></A>0.002</LI>
+<A NAME="50528271_pgfId-1686919"></A>0.002</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686939"></A>1</LI>
+<A NAME="50528271_pgfId-1686921"></A>1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686941"></A>0.384</LI>
+<A NAME="50528271_pgfId-1686923"></A>0.463</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686943"></A>0.446</LI>
+<A NAME="50528271_pgfId-1686925"></A>0.421</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686945"></A>0.170</LI>
-</UL>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50552847_pgfId-1686947"></A> 42</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686949"></A>0.007</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686951"></A>1.24e-6</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686953"></A>8.04e-4</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686955"></A>0.002</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686957"></A>1</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686959"></A>0.350</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686961"></A>0.453</LI>
-</UL>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<UL>
-<LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686963"></A>0.197</LI>
+<A NAME="50528271_pgfId-1686927"></A>0.116</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50552847_pgfId-1686965"></A> 22</P>
+<A NAME="50528271_pgfId-1686929"></A> 62</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686967"></A>0.009</LI>
+<A NAME="50528271_pgfId-1686931"></A>0.005</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686969"></A>2.04e-6</LI>
+<A NAME="50528271_pgfId-1686933"></A>6.37e-7</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686971"></A>1.26e-3</LI>
+<A NAME="50528271_pgfId-1686935"></A>4.52e-4</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686973"></A>0.002</LI>
+<A NAME="50528271_pgfId-1686937"></A>0.002</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686975"></A>1.72</LI>
+<A NAME="50528271_pgfId-1686939"></A>1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686977"></A>0.571</LI>
+<A NAME="50528271_pgfId-1686941"></A>0.384</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686979"></A>0.217</LI>
+<A NAME="50528271_pgfId-1686943"></A>0.446</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686981"></A>0.212</LI>
+<A NAME="50528271_pgfId-1686945"></A>0.170</LI>
 </UL>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50552847_pgfId-1686983"></A> 1</P>
+<A NAME="50528271_pgfId-1686947"></A> 42</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686985"></A> -</LI>
+<A NAME="50528271_pgfId-1686949"></A>0.007</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686987"></A>1.26e-5</LI>
+<A NAME="50528271_pgfId-1686951"></A>1.24e-6</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686989"></A> -</LI>
+<A NAME="50528271_pgfId-1686953"></A>8.04e-4</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686991"></A> -</LI>
+<A NAME="50528271_pgfId-1686955"></A>0.002</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686993"></A> -</LI>
+<A NAME="50528271_pgfId-1686957"></A>1</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686995"></A> -</LI>
+<A NAME="50528271_pgfId-1686959"></A>0.350</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686997"></A>0.907</LI>
+<A NAME="50528271_pgfId-1686961"></A>0.453</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50552847_pgfId-1686999"></A>0.093</LI>
+<A NAME="50528271_pgfId-1686963"></A>0.197</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50528271_pgfId-1686965"></A> 22</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686967"></A>0.009</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686969"></A>2.04e-6</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686971"></A>1.26e-3</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686973"></A>0.002</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686975"></A>1.72</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686977"></A>0.571</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686979"></A>0.217</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686981"></A>0.212</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50528271_pgfId-1686983"></A> 1</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686985"></A> -</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686987"></A>1.26e-5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686989"></A> -</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686991"></A> -</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686993"></A> -</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686995"></A> -</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686997"></A>0.907</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50528271_pgfId-1686999"></A>0.093</LI>
 </UL>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1316671"></A>Note in <A HREF="phreeqc3-68.htm#50552847_63916" CLASS="XRef">table 35</A> that 121 solutions are defined, 1 through 20 for the mobile cells, and the rest for the immobile cells. The input file is identical with the previous one, except for -stagnant 5 and the mixing factors among the cells. Although not all the mixing factors are shown in <A HREF="phreeqc3-68.htm#50552847_63916" CLASS="XRef">table 35</A>, the remaining mixing factors are identical for subsequent cells and their neighboring stagnant cells. In this example with clay beads, only radial (1D) diffusion is considered, and only mixing among cells in different layers is defined; however, it is possible to include mixing among the immobile cells of adjacent mobile cells.</P>
+<A NAME="50528271_pgfId-1316671"></A>Note in <A HREF="phreeqc3-68.htm#50528271_63916" CLASS="XRef">table 35</A> that 121 solutions are defined, 1 through 20 for the mobile cells, and the rest for the immobile cells. The input file is identical with the previous one, except for -stagnant 5 and the mixing factors among the cells. Although not all the mixing factors are shown in <A HREF="phreeqc3-68.htm#50528271_63916" CLASS="XRef">table 35</A>, the remaining mixing factors are identical for subsequent cells and their neighboring stagnant cells. In this example with clay beads, only radial (1D) diffusion is considered, and only mixing among cells in different layers is defined; however, it is possible to include mixing among the immobile cells of adjacent mobile cells.</P>
 <DIV>
 <MAP NAME="phreeqc3-264">
 </MAP>
 <IMG SRC="phreeqc3-264.gif" USEMAP="#phreeqc3-264">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50552847_pgfId-1524121"></A>Figure 14 compares the concentration profiles in the mobile cells obtained with examples 13A and 13B with example 13C. The basic features of the two simulations are the same. The positions of the peaks, as calculated by the two simulations, are similar. The Cl<Sup CLASS="Superscript">
+<A NAME="50528271_pgfId-1524121"></A>Figure 14 compares the concentration profiles in the mobile cells obtained with examples 13A and 13B with example 13C. The basic features of the two simulations are the same. The positions of the peaks, as calculated by the two simulations, are similar. The Cl<Sup CLASS="Superscript">
 -</Sup>
  peak is near 1.2 m, but would be at about 1.45 m in the absence of stagnant zones. The integrated concentrations in the mobile porosity are about equal for the first-order exchange and the finite difference simulations. The exchange factor <EM CLASS="Emphasis">
 fs</EM>
-&#174;1 = 0.21 for the first-order exchange approximation appears to provide adequate accuracy for this simulation. However, the first-order exchange approximation produces lower peaks and more tailing than the more exact solution obtained with finite differences. Discrepancies can also appear as deviations in the breakthrough curve (Van Genuchten, 1985). The first-order exchange model is probably least accurate when applied to simulating the transport behavior of spheres; other shapes of the stagnant area can give a better correspondence. It is clear that the linear exchange model is much easier to apply because any explicit model requires the preparation of extended lists of mixing factors (notice that a separate simulation with <A HREF="phreeqc3-53.htm#50552833_56415" CLASS="XRef">USER_PUNCH</A> can serve that purpose, as illustrated in examples <A HREF="phreeqc3-63.htm#50552847_58878" CLASS="XRef">8</A> and <A HREF="phreeqc3-76.htm#50552847_68313" CLASS="XRef">21</A>), which change when the discretization is adjusted. The calculation time for a finite difference model with multiple immobile-zone layers also may be considerably longer than for the single immobile-zone layer of the first-order exchange approximation.</P>
+&#174;1 = 0.21 for the first-order exchange approximation appears to provide adequate accuracy for this simulation. However, the first-order exchange approximation produces lower peaks and more tailing than the more exact solution obtained with finite differences. Discrepancies can also appear as deviations in the breakthrough curve (Van Genuchten, 1985). The first-order exchange model is probably least accurate when applied to simulating the transport behavior of spheres; other shapes of the stagnant area can give a better correspondence. It is clear that the linear exchange model is much easier to apply because any explicit model requires the preparation of extended lists of mixing factors (notice that a separate simulation with <A HREF="phreeqc3-53.htm#50528257_56415" CLASS="XRef">USER_PUNCH</A> can serve that purpose, as illustrated in examples <A HREF="phreeqc3-63.htm#50528271_58878" CLASS="XRef">8</A> and <A HREF="phreeqc3-76.htm#50528271_68313" CLASS="XRef">21</A>), which change when the discretization is adjusted. The calculation time for a finite difference model with multiple immobile-zone layers also may be considerably longer than for the single immobile-zone layer of the first-order exchange approximation.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-69.htm">Next</A> || <A HREF="phreeqc3-67.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
