@@ -1,0 +1,64 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 calc_density_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_SPREAD
+-units mmol/L
+-density 1.1 calculate
+Na	Cl	pH	density	
+		charge		
+1000	1000	7		
+END
+SOLUTION_SPREAD
+-units mmol/L
+-density 1.1 calculate
+Na	Cl	pH	density	
+		charge		
+1000	1000	7	1.5		
+END
+SOLUTION_SPREAD
+-units mmol/L
+Na	Cl	pH	density	
+		charge	calculate	
+1000	1000	7	1.2	
+END
+SOLUTION_SPREAD
+-units mmol/L
+-density 1.3 calculate
+Na	Cl	pH	density	
+		charge	calculate	
+1000	1000	7	1.4	
+END
+SOLUTION_SPREAD
+-units mmol/L
+Na	Cl	pH	density	
+		charge		
+1000	1000	7	1	
+END
+SOLUTION 1 
+        units   mg/L
+        pH      8.22
+        pe      8.451
+        density 10.023 calculate
+        temp    25.0
+        redox   O(0)/O(-2)
+        Ca              412.3
+        Mg              1291.8
+        Na              10768.0
+        K               399.1
+        Fe              0.002
+        Mn              0.0002  pe
+        Si              4.28
+        Cl              19353.0
+        Alkalinity      141.682 as HCO3
+        S(6)            2712.0
+        N(5)            0.29    gfw   62.0
+        N(-3)           0.03    as    NH4
+        O(0)            1.0     O2(g) -0.7
+END
+
