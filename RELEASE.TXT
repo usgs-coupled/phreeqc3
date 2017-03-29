@@ -64,12 +64,38 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
 
 	---------
-	svn 12545
+	svn 12623
 	---------	
-	PHREEQC: Added Basic function TITLE, which returns the last TITLE keyword definition (with
+	PHREEQC: Added a new option for a density calculation to SOLUTION
+	and SOLUTION_SPREAD. The speciation calculation for a solution is
+	iterated until the density used in the conversion of units is the
+	same as the density calculated for the solution. It affects solutions 
+	with concentrations defined as per liter (mg/L, for example).
 	
+	Here are three examples for specifying the calculation, where \t
+	indicates a tab.
 	
-Version 3.3.11: March 10, 2017 (svn 12540)
+	SOLUTION
+	-density 1.1 calculate
+	
+	SOLUTION_SPREAD
+	-density 1.2 calculate
+	
+	SOLUTION_SPREAD
+	pH\t        density\t
+	charge\t    calculate\t
+	7.0\t       1.03\t
+	
+	If the calculation is performed, the density in the description of
+	solution part of the output will be identified with "(Iterated)".
+	
+	---------
+	svn 12540
+	---------	
+	PHREEQC: Added new Basic function TITLE, which returns the last
+	definition by a TITLE keyword data block.
+
+Version 3.3.11: March 10, 2017 (svn 12535)
 	---------
 	svn 12480
 	---------	
