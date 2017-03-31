@@ -1340,7 +1340,7 @@ protected:
 	std::map < std::string, cxxChemRxn > pe_x;
 	std::map<std::string, cxxSolutionIsotope> isotopes_x;
 	std::string default_pe_x;
-	cxxSurface::DIFFUSE_LAYER_TYPE dl_type_x;
+	//NICA cxxSurface::DIFFUSE_LAYER_TYPE dl_type_x;
 	LDBLE total_carbon;
 	LDBLE total_co2;
 	LDBLE total_alkalinity;

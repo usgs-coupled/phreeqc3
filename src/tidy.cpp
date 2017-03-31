@@ -5392,7 +5392,7 @@ reset_last_model(void)
 	last_model.add_formula =
 		(const char **) free_check_null(last_model.add_formula);
 	last_model.si = (LDBLE *) free_check_null(last_model.si);
-	last_model.dl_type = cxxSurface::NO_DL;
+	//NICA last_model.dl_type = cxxSurface::NO_DL;
 	last_model.count_surface_comp = 0;
 	last_model.surface_comp =
 		(const char **) free_check_null(last_model.surface_comp);

@@ -18,8 +18,8 @@ class cxxSurface:public cxxNumKeyword
 public:
 	enum SURFACE_TYPE
 	{ UNKNOWN_DL, NO_EDL, DDL, CD_MUSIC, CCM };
-	enum DIFFUSE_LAYER_TYPE
-	{ NO_DL, BORKOVEK_DL, DONNAN_DL };
+	//enum DIFFUSE_LAYER_TYPE
+	//{ NO_DL, BORKOVEK_DL, DONNAN_DL };
 	enum SITES_UNITS
 	{ SITES_ABSOLUTE, SITES_DENSITY };
 
@@ -51,8 +51,8 @@ public:
 	void Set_new_def(bool tf) {new_def = tf;}
 	SURFACE_TYPE Get_type(void) const {return this->type;}
 	void Set_type(SURFACE_TYPE t) {this->type = t;}
-	DIFFUSE_LAYER_TYPE Get_dl_type(void) const {return dl_type;}
-	void Set_dl_type(DIFFUSE_LAYER_TYPE t) {dl_type = t;}
+	//DIFFUSE_LAYER_TYPE Get_dl_type(void) const {return dl_type;}
+	//void Set_dl_type(DIFFUSE_LAYER_TYPE t) {dl_type = t;}
 	SITES_UNITS Get_sites_units(void) const {return sites_units;}
 	void Set_sites_units(SITES_UNITS u) {sites_units = u;}
 	bool Get_only_counter_ions(void) const {return only_counter_ions;}
@@ -79,7 +79,7 @@ protected:
 	std::vector < cxxSurfaceCharge > surface_charges;
 	bool new_def;
 	SURFACE_TYPE type;
-	DIFFUSE_LAYER_TYPE dl_type;
+	//DIFFUSE_LAYER_TYPE dl_type;
 	SITES_UNITS sites_units;
 	bool only_counter_ions;
 	LDBLE thickness;

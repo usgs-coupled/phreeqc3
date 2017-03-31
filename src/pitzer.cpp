@@ -1423,8 +1423,11 @@ set_pz(int initial)
 	s_eminus->la = -solution_ptr->Get_pe();
 	if (initial == TRUE)
 		pitzer_initial_guesses();
-	if (dl_type_x != cxxSurface::NO_DL)
+	//NICA if (dl_type_x != cxxSurface::NO_DL)
+	if (use.Get_surface_ptr() != NULL)
+	{
 		initial_surface_water();
+	}
 	pitzer_revise_guesses();
 	return (OK);
 }
@@ -1963,7 +1966,7 @@ model_pz(void)
 			}
 			molalities(TRUE);
 			if (use.Get_surface_ptr() != NULL &&
-				use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
+				//NICA use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
 				use.Get_surface_ptr()->Get_related_phases())
 				initial_surface_water();
 			mb_sums();

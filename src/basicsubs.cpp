@@ -502,6 +502,7 @@ calc_surface_charge(const char *surface_name)
 	}
 	return (charge);
 }
+#ifdef SKIP_NICA
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 diff_layer_total(const char *total_name, const char *surface_name)
@@ -517,7 +518,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	LDBLE mass_water_surface;
 	LDBLE molality, moles_excess, moles_surface, charge;
 
-	if (use.Get_surface_ptr() == NULL || (dl_type_x == cxxSurface::NO_DL &&
+	if (use.Get_surface_ptr() == NULL || (dl_type_x == cxxSurfaceCharge::NO_DL &&
 									strcmp_nocase("psi", total_name) != 0 &&
 									strcmp_nocase("psi1", total_name) != 0 &&
 									strcmp_nocase("psi2", total_name) != 0 &&
@@ -795,6 +796,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 	}
 	return (0);
 }
+#endif
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::

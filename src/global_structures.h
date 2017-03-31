@@ -257,7 +257,7 @@ struct model
 	const char **add_formula;
 	LDBLE *si;
 
-	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
+	//NICA cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
 	cxxSurface::SURFACE_TYPE surface_type;
 	int only_counter_ions;
 

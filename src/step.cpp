@@ -498,10 +498,13 @@ add_surface(cxxSurface *surface_ptr)
 /*
  *   Add element concentrations on surface to master species totals
  */
-	dl_type_x = surface_ptr->Get_dl_type();
+	//NICA dl_type_x = surface_ptr->Get_dl_type();
 	for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 	{
 		cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
+		cxxSurfaceCharge *charge_ptr = surface_ptr->Find_charge(comp_ptr->Get_charge_name());
+		cxxSurfaceCharge:: DIFFUSE_LAYER_TYPE dl_type_x = charge_ptr->Get_dl_type();
+
 		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
 		if (elt_ptr->master == NULL)
 		{

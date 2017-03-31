@@ -12,6 +12,7 @@
 class cxxSpeciesDL
 {
 public:
+
 	cxxSpeciesDL()
 	{
 		g_moles = dg_g_moles = dx_moles = dh2o_moles = drelated_moles = 0;
@@ -33,13 +34,13 @@ public:
 	LDBLE *Get_dh2o_moles_address(void) {return &dh2o_moles;}
 	LDBLE *Get_drelated_moles_address(void) {return &drelated_moles;}
 
-
 protected:
 	LDBLE g_moles;
 	LDBLE dg_g_moles;			/* g_moles*dgterm */
 	LDBLE dx_moles;
 	LDBLE dh2o_moles;			/* moles*g*Ws/Waq */
 	LDBLE drelated_moles;		/* for related phase */
+	
 };
 class cxxSurfDL
 {
@@ -63,6 +64,8 @@ class cxxSurfaceCharge: public PHRQ_base
 {
 
 public:
+	enum DIFFUSE_LAYER_TYPE
+	{ NO_DL, BORKOVEK_DL, DONNAN_DL };
 
 	cxxSurfaceCharge(PHRQ_io *io=NULL);
 	cxxSurfaceCharge(struct surface_charge *, PHRQ_io *io=NULL);
@@ -104,6 +107,9 @@ public:
 	std::map<LDBLE, cxxSurfDL> &Get_g_map(void) {return g_map;}
 	void Set_g_map(std::map<LDBLE, cxxSurfDL> & t) {g_map = t;}
 
+	DIFFUSE_LAYER_TYPE Get_dl_type(void) const {return dl_type;}
+	void Set_dl_type(DIFFUSE_LAYER_TYPE t) {dl_type = t;}
+
 protected:
 	std::string name;
 	LDBLE specific_area;
@@ -117,6 +123,8 @@ protected:
 	LDBLE sigma0, sigma1, sigma2, sigmaddl;
 	std::map<LDBLE, cxxSurfDL> g_map;
 	const static std::vector < std::string > vopts;
+	
+	DIFFUSE_LAYER_TYPE dl_type;
 };
 
 #endif // !defined(SURFACECHARGE_H_INCLUDED)

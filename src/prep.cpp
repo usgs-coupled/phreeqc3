@@ -9,6 +9,7 @@
 #include "SSassemblage.h"
 #include "SS.h"
 #include "Solution.h"
+#include "SurfaceCharge.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 prep(void)
@@ -896,7 +897,13 @@ build_jacobian_sums(int k)
 /*
  *   Add extra terms for change in dg/dx in diffuse layer model
  */
+#ifdef SKIP_NICA
 		if (s[k]->type >= H2O || dl_type_x == cxxSurface::NO_DL)
+		{
+			continue;
+		}
+#endif
+		if (s[k]->type >= H2O || use.Get_surface_ptr() == NULL)
 		{
 			continue;
 		}
@@ -927,8 +934,14 @@ build_jacobian_sums(int k)
 			for (j = 0; j < count_unknowns; j++)
 			{
 				if (x[j]->type != SURFACE_CB)
+				{
 					continue;
+				}
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+				if (charge_ptr->Get_dl_type() == cxxSurfaceCharge::NO_DL) 
+				{
+					continue;
+				}
 				source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
 				target = &(array[mb_unknowns[i].unknown->number *
 								 (count_unknowns + 1) + x[j]->number]);
@@ -947,10 +960,15 @@ build_jacobian_sums(int k)
 			/* terms for related phases */
 			count_g = 0;
 			for (j = 0; j < count_unknowns; j++)
-			{
-				if (x[j]->type != SURFACE_CB)
+			{				if (x[j]->type != SURFACE_CB)
+				{
 					continue;
+				}
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
+				if (charge_ptr->Get_dl_type() == cxxSurfaceCharge::NO_DL) 
+				{
+					continue;
+				}
 				/* has related phase */
 				cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[j - 1]->surface_comp);
 				if (comp_ptr->Get_phase_name().size() == 0)
@@ -1314,10 +1332,27 @@ build_model(void)
 			build_species_list(i);
 		}
 	}
+#ifdef SKIP_NICA
 	if (dl_type_x != cxxSurface::NO_DL && (pitzer_model == TRUE || sit_model == TRUE))
 	{
 		error_msg("-diffuse_layer option not available for Pizer or SIT model",
 				  STOP);
+	}
+#endif
+	if (use.Get_surface_ptr() != NULL) 
+	{
+		for (int i = 0; i < count_unknowns; i++)
+		{
+			if (x[i]->type == SURFACE_CB)
+			{
+				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+				if (charge_ptr->Get_dl_type() != cxxSurfaceCharge::NO_DL &&
+						(pitzer_model == TRUE || sit_model == TRUE))
+				{
+					error_msg("-diffuse_layer option not available for Pizer or SIT model", STOP);
+				}
+			}
+		}
 	}
 /*
  *   Sum diffuse layer water into hydrogen and oxygen mass balances

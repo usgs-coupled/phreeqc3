@@ -167,7 +167,7 @@ model(void)
 /*				adjust_step_size(); */
 			}
 			if (use.Get_surface_ptr() != NULL &&
-				use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
+				//NICA use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
 				use.Get_surface_ptr()->Get_related_phases())
 				initial_surface_water();
 			mb_sums();
@@ -184,7 +184,7 @@ model(void)
 				gammas(mu_x);
 				molalities(TRUE);
 				if (use.Get_surface_ptr() != NULL &&
-					use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
+					//NICA use.Get_surface_ptr()->Get_dl_type() != cxxSurface::NO_DL &&
 					use.Get_surface_ptr()->Get_related_phases())
 					initial_surface_water();
 				revise_guesses();
@@ -1979,6 +1979,7 @@ jacobian_sums(void)
 /*
  *   Surface charge balance
  */
+#ifdef SKIP_NICA
 	if (surface_unknown != NULL && dl_type_x == cxxSurface::NO_DL)
 	{
 		if (use.Get_surface_ptr()->Get_type() != cxxSurface::CCM)
@@ -2036,6 +2037,57 @@ jacobian_sums(void)
 					array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
 						charge_ptr->Get_capacitance0() * 2 * R_KJ_DEG_MOL *
 								 tk_x * LOG_10 / F_KJ_V_EQ;
+				}
+			}
+		}
+	}
+#endif
+	if (surface_unknown != NULL)
+	{
+		sinh_constant =	sqrt(8 * eps_r * EPSILON_ZERO * (R_KJ_DEG_MOL * 1000) * tk_x * 1000);
+		for (i = 0; i < count_unknowns; i++)
+		{
+			cxxSurfaceCharge *charge_ptr = NULL;
+			if (x[i]->type == SURFACE_CB)
+			{
+				charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+			}
+
+			if (charge_ptr->Get_type() != cxxSurface::CCM)
+			{
+				if (x[i]->type == SURFACE_CB && charge_ptr->Get_grams() > 0)
+				{
+					for (j = 0; j < count_unknowns; j++)
+					{
+						array[x[i]->number * (count_unknowns + 1) + j] *=
+							F_C_MOL / (charge_ptr->Get_specific_area() *
+							charge_ptr->Get_grams());
+					}
+					array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
+						sinh_constant * sqrt(mu_x) *
+						cosh(x[i]->master[0]->s->la * LOG_10);
+					if (mu_unknown != NULL)
+					{
+						array[x[i]->number * (count_unknowns + 1) +
+							mu_unknown->number] -=
+							0.5 * sinh_constant / sqrt(mu_x) *
+							sinh(x[i]->master[0]->s->la * LOG_10);
+					}
+				}
+			}
+			else
+			{
+				if (x[i]->type == SURFACE_CB && charge_ptr->Get_grams() > 0)
+				{
+					for (j = 0; j < count_unknowns; j++)
+					{
+						array[x[i]->number * (count_unknowns + 1) + j] *=
+							F_C_MOL / (charge_ptr->Get_specific_area() *
+							charge_ptr->Get_grams());
+					}
+					array[x[i]->number * (count_unknowns + 1) + x[i]->number] -=
+						charge_ptr->Get_capacitance0() * 2 * R_KJ_DEG_MOL *
+						tk_x * LOG_10 / F_KJ_V_EQ;
 				}
 			}
 		}

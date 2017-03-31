@@ -33,6 +33,7 @@ PHRQ_base(io)
 	capacitance[1] = 5.0;
 	sigma0 = sigma1 = sigma2 = sigmaddl = 0;
 	diffuse_layer_totals.type = cxxNameDouble::ND_ELT_MOLES;
+	dl_type = NO_DL;
 }
 cxxSurfaceCharge::~cxxSurfaceCharge()
 {
