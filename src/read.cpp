@@ -3166,13 +3166,13 @@ read_viscosity_parms(char *ptr, LDBLE * Jones_Dole)
 /*
  *   Read .
  */
-  for (j = 0; j <= 8; j++)
+  for (j = 0; j <= 9; j++)
   {
     Jones_Dole[j] = 0.0;
   }
   j =
-    sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
-	&(Jones_Dole[0]), &(Jones_Dole[1]), &(Jones_Dole[2]), &(Jones_Dole[3]), &(Jones_Dole[4]), &(Jones_Dole[5]), &(Jones_Dole[6]), &(Jones_Dole[7]), &(Jones_Dole[8]));
+    sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	&(Jones_Dole[0]), &(Jones_Dole[1]), &(Jones_Dole[2]), &(Jones_Dole[3]), &(Jones_Dole[4]), &(Jones_Dole[5]), &(Jones_Dole[6]), &(Jones_Dole[7]), &(Jones_Dole[8]), &(Jones_Dole[9]));
   if (j < 1)
   {
     input_error++;
@@ -3180,6 +3180,9 @@ read_viscosity_parms(char *ptr, LDBLE * Jones_Dole)
 	       CONTINUE);
     return (ERROR);
   }
+  // The B0 are for 25°C, subtract the temperature factor...
+  if (Jones_Dole[1] != 0)
+	Jones_Dole[0] -= Jones_Dole[1] * exp(Jones_Dole[2] * 25.0);
   return (OK);
 }
 
@@ -4233,6 +4236,12 @@ read_pp_assemblage(void)
 			if (j == EMPTY)
 				continue;
 			j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+			if (dummy < 0)
+			{
+				error_string = sformatf( "Moles of mineral < 0, reset to 0.");
+				dummy = 0;
+				warning_msg(error_string);
+			}
 			comp->Set_moles(dummy);
 			if (j != 1)
 			{
@@ -5635,9 +5644,10 @@ read_solution(void)
 		"isotope",				/* 9 */
 		"water",				/* 10 */
 		"press",				/* 11 */
-		"pressure"				/* 12 */
+		"pressure",				/* 12 */
+		"potential"				/* 13 */
 	};
-	int count_opt_list = 13;
+	int count_opt_list = 14;
 /*
  *   Read solution number and description
  */
@@ -5782,6 +5792,14 @@ read_solution(void)
 					error_string = sformatf( "Expected isotope name to"
 						" begin with an isotopic number.");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "In read_solution\n");
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "token:     ", token.c_str());
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "next_char: ", next_char);
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
+					error_string = sformatf( "\t%s\t%s\n", "line_save: ", line_save);
+					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
 				temp_isotope.Set_isotope_name(token.c_str());
@@ -5865,6 +5883,18 @@ read_solution(void)
 				else
 				{
 					temp_solution.Set_patm(dummy);
+				}
+			}
+			break;
+		case 13: /* potential, Volt */
+			{
+				if (sscanf(next_char, SCANFORMAT, &dummy) != 1)
+				{
+					temp_solution.Set_potV(0);
+				}
+				else
+				{
+					temp_solution.Set_potV(dummy);
 				}
 			}
 			break;
@@ -6268,7 +6298,7 @@ read_species(void)
 			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
 			break;
-		case 19:				/* tracer diffusion coefficient and temperature factor */
+		case 19:				/* tracer diffusion coefficient */
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
@@ -7401,6 +7431,13 @@ read_surface(void)
 		case 13:			    /* ccm */
 			temp_surface.Set_type(cxxSurface::CCM);
 			copy_token(token1, &next_char);
+			if (charge_ptr == NULL)
+			{
+				error_msg("A surface must be defined before the capacitance is defined.\n",
+					 CONTINUE);
+				input_error++;
+				break;
+			}
 			if (sscanf(token1.c_str(), SCANFORMAT, &dummy) != 1)
 			{
 				error_msg("Expected capacitance for constant_capacitance model.\n",
@@ -7414,8 +7451,8 @@ read_surface(void)
 			}
 
 			/* constant capacitance model not implemented yet */
-			error_msg("Constant capacitance model not implemented.", CONTINUE);
-			input_error++;
+			//error_msg("Constant capacitance model not implemented.", CONTINUE);
+			//input_error++;
 
 			break;
 		case OPTION_DEFAULT:
@@ -7666,7 +7703,7 @@ read_surface(void)
 	/*
 	 *   Make sure surface area is defined
 	 */
-	if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CD_MUSIC)
+	if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CCM || temp_surface.Get_type() == cxxSurface::CD_MUSIC)
 	{
 		for (size_t i = 0; i < temp_surface.Get_surface_charges().size(); i++)
 		{
@@ -7700,7 +7737,7 @@ read_surface(void)
 			temp_surface.Set_dl_type(cxxSurface::NO_DL);
 		}
 	}
-	else if (temp_surface.Get_type() == cxxSurface::DDL)
+	else if (temp_surface.Get_type() == cxxSurface::DDL || temp_surface.Get_type() == cxxSurface::CCM)
 	{
 		/* all values of dl_type are valid */
 	}

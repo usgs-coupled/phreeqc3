@@ -540,8 +540,9 @@ struct cell_data
 	LDBLE mid_cell_x;
 	LDBLE disp;
 	LDBLE temp;
-	LDBLE por;					/* free (uncharged) porewater porosities */
-	LDBLE por_il;				/* interlayer water porosities */
+	LDBLE por;				/* free (uncharged) porewater porosities */
+	LDBLE por_il;			/* interlayer water porosities */
+	LDBLE potV;				/* potential (V) */
 	int punch;
 	int print;
 };
@@ -679,7 +680,7 @@ struct species
 	LDBLE dha, dhb, a_f;		/* WATEQ Debye Huckel a and b-dot; active_fraction coef for exchange species */
 	LDBLE lk;					/* log10 k at working temperature */
 	LDBLE logk[MAX_LOG_K_INDICES];				/* log kt0, delh, 6 coefficients analytical expression + volume terms */
-	LDBLE Jones_Dole[9];		/* 7 coefficients analytical expression for B, D and anion terms in Jones_Dole viscosity eqn, 8 and 9 only used for optimizing */
+	LDBLE Jones_Dole[10];		/* 7 coefficients analytical expression for B, D, anion terms and pressure in Jones_Dole viscosity eqn */
 /* VP: Density Start */
 	LDBLE millero[7];		    /* regression coefficients to calculate temperature dependent phi_0 and b_v of Millero density model */
 	/* VP: Density End */
@@ -1035,13 +1036,14 @@ struct sol_D
 {
 	int count_spec;				/* number of aqueous + exchange species */
 	int count_exch_spec;		/* number of exchange species */
-	LDBLE exch_total, x_max;	/* total moles of X-, max X- in transport step in sol_D[1] */
+	LDBLE exch_total, x_max, tk_x;	/* total moles of X-, max X- in transport step in sol_D[1], tk */
 	struct spec *spec;
 };
 struct J_ij
 {
 	const char *name;
-	LDBLE tot1, tot2;
+	LDBLE tot1, tot2;  /* species change in cells i and j */
+	int sol_D_number;  /* the number of the species in sol_D */
 };
 struct M_S
 {

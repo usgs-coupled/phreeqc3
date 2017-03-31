@@ -84,15 +84,24 @@ public:
 	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	void basic_free(void);
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 	double basic_callback(double x1, double x2, char * str);
+#else
+	double basic_callback(double x1, double x2, const char * str);
+#endif
 	void register_basic_callback(double ( *fcn)(double x1, double x2, const char *str, void *cookie), void *cookie1);
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, char *str, size_t l));
+#else
+	void register_fortran_basic_callback(double ( *fcn)(double *x1, double *x2, const char *str, int l));
+#endif
 
 	LDBLE activity(const char *species_name);
 	LDBLE activity_coefficient(const char *species_name);
 	LDBLE log_activity_coefficient(const char *species_name);
 	LDBLE aqueous_vm(const char *species_name);
 	LDBLE diff_c(const char *species_name);
+	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
 	LDBLE calc_SC(void);
 	/* VP: Density Start */
 	LDBLE calc_dens(void);
@@ -102,6 +111,8 @@ public:
 	LDBLE calc_logk_s(const char *name);
 	LDBLE calc_surface_charge(const char *surface_name);
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
+	LDBLE edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles, LDBLE * area, LDBLE * thickness);
+	int get_edl_species(cxxSurfaceCharge & charge_ref);
 	LDBLE equi_phase(const char *phase_name);
 	LDBLE equi_phase_delta(const char *phase_name);
 	LDBLE equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name);
@@ -132,6 +143,7 @@ public:
 	int match_elts_in_species(const char *name, const char *stemplate);
 	int extract_bracket(char **string, char *bracket_string);
 	LDBLE surf_total(const char *total_name, const char *surface_name);
+	LDBLE surf_total_no_redox(const char *total_name, const char *surface_name);
 	static int system_species_compare(const void *ptr1, const void *ptr2);
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
 		char ***types, LDBLE ** moles);
@@ -144,6 +156,7 @@ public:
 	int system_total_ex(void);
 	int system_total_surf(void);
 	int system_total_gas(void);
+	int system_total_equi(void);
 	int system_total_ss(void);
 	int system_total_elt(const char *total_name);
 	int system_total_elt_secondary(const char *total_name);
@@ -249,7 +262,7 @@ public:
 	void fpunchf_user(int user_index, const char *format, double d);
 	void fpunchf_user(int user_index, const char *format, char * d);
 	int fpunchf_end_row(const char *format);
-
+#ifdef SKIP
 	// dw.cpp -------------------------------
 	int BB(LDBLE T);
 	LDBLE PS(LDBLE T);
@@ -257,7 +270,7 @@ public:
 	int DFIND(LDBLE * DOUT, LDBLE P, LDBLE D, LDBLE T);
 	int QQ(LDBLE T, LDBLE D);
 	LDBLE BASE(LDBLE D);
-
+#endif
 	// input.cpp -------------------------------
 	int reading_database(void);
 	void set_reading_database(int reading_database);
@@ -513,6 +526,7 @@ public:
 	struct theta_param *theta_param_search(LDBLE zj, LDBLE zk);
 	struct theta_param *theta_param_alloc(void);
 	int theta_param_init(struct theta_param *theta_param_ptr);
+	void pitzer_make_lists(void);
 	int gammas_pz(void);
 	int model_pz(void);
 	int pitzer(void);
@@ -523,19 +537,22 @@ public:
 	int set_pz(int initial);
 	int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);	
+#ifdef SKIP
 	LDBLE DC(LDBLE T);
 	int DW(LDBLE T);
+#endif
 	int ISPEC(const char *name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
 	int ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE * etheta,
 		LDBLE * ethetap);
-	int BDK(LDBLE X);
+	void ETHETA_PARAMS(LDBLE X, LDBLE& JAY, LDBLE& JPRIME );
+	//int BDK(LDBLE X);
 	int pitzer_initial_guesses(void);
 	int pitzer_revise_guesses(void);
 	int PTEMP(LDBLE TK);
-	LDBLE JAY(LDBLE X);
-	LDBLE JPRIME(LDBLE Y);
+	//LDBLE JAY(LDBLE X);
+	//LDBLE JPRIME(LDBLE Y);
 	int jacobian_pz(void);
 
 	// pitzer_structures.cpp -------------------------------
@@ -793,6 +810,7 @@ public:
 	int sit_initial_guesses(void);
 	int sit_revise_guesses(void);
 	int PTEMP_SIT(LDBLE tk);
+	void sit_make_lists(void);
 	int jacobian_sit(void);
 
 	// spread.cpp -------------------------------
@@ -924,7 +942,7 @@ public:
 	struct unknown *unknown_alloc(void);
 	int unknown_delete(int i);
 	int unknown_free(struct unknown *unknown_ptr);
-	int entity_exists(char *name, int n_user);
+	int entity_exists(const char *name, int n_user);
 	static int inverse_compare(const void *ptr1, const void *ptr2);
 	int inverse_free(struct inverse *inverse_ptr);
 	static int kinetics_compare_int(const void *ptr1, const void *ptr2);
@@ -1037,6 +1055,7 @@ public:
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	int find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no);
+	void define_ct_structures(void);
 	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec);
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
@@ -1319,6 +1338,7 @@ protected:
 	LDBLE tk_x;
 	LDBLE patm_x;
 	LDBLE last_patm_x;
+	LDBLE potV_x;
 	bool numerical_fixed_volume;
 	bool force_numerical_fixed_volume;
 	//bool switch_numerical;
@@ -1686,10 +1706,12 @@ protected:
 	/* VP: Density Start */
 	int print_density;
 	/* VP: Density End */
+
 	int print_viscosity;
 	LDBLE *zeros;
 	int zeros_max;
 
+	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
@@ -1699,7 +1721,6 @@ protected:
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
-	LDBLE viscos, viscos_0; // viscosity of the solution, of pure water
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
@@ -1716,12 +1737,20 @@ protected:
 	PBasic * basic_interpreter;
 	double (*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
 	void *basic_callback_cookie;
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
 	double (*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
+#else
+	double (*basic_fortran_callback_ptr) (double *x1, double *x2, const char *str, int l);
+#endif
+#if defined(SWIG) || defined(SWIG_IPHREEQC)
+	class BasicCallback *basicCallback;
+    void SetCallback(BasicCallback *cb) { basicCallback = cb; }
+#endif
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
 	int x_arg_max, res_arg_max, scratch_max;
-
+#ifdef SKIP
 	/* dw.cpp ------------------------------- */
 	/* COMMON /QQQQ/ */
 	LDBLE Q0, Q5;
@@ -1729,7 +1758,7 @@ protected:
 	LDBLE Z, DZ, Y;
 	LDBLE G1, G2, GF;
 	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
-
+#endif
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
 
@@ -1880,6 +1909,7 @@ protected:
 	int sit_MAXCATIONS, sit_FIRSTANION, sit_MAXNEUTRAL;
 	int *sit_IPRSNT;
 	LDBLE *sit_M, *sit_LGAMMA;
+	std::vector<int> s_list, cation_list, neutral_list, anion_list, ion_list, param_list;
 
 	/* tidy.cpp ------------------------------- */
 	LDBLE a0, a1, kc, kb;
@@ -1907,6 +1937,7 @@ protected:
 	int nmix, heat_nmix;
 	LDBLE heat_mix_f_imm, heat_mix_f_m;
 	int warn_MCD_X, warn_fixed_Surf;
+	LDBLE current_x, current_A; // current: coulomb * s, ampere
 
 #ifdef PHREEQ98
 	int AutoLoadOutputFile, CreateToC;

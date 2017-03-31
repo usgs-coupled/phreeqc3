@@ -323,8 +323,13 @@ public:
 		tokequiv_frac,
 		tokcallback,
 		tokdiff_c,
+		toksa_declercq,
+		tokedl_species,
 		tokviscos,
-		tokviscos_0
+		tokviscos_0,
+		tokrho_0,
+		tokcurrent_a,
+		tokpot_v
 	};
 
 #if !defined(PHREEQCI_GUI)
