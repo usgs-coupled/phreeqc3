@@ -1,0 +1,33 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 DonnanBug_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PHASES
+Halite; NaCl:32H2O = Na+ + Cl- + 32H2O
+SURFACE_MASTER_SPECIES
+Su_ Su_OH
+SURFACE_SPECIES
+Su_OH = Su_OH
+Su_OH = Su_O- + H+; log_k -12.3
+Su_OH + 2Na+ = Su_ONa2+ + H+; log_k -9.4 # Viallis, Number of sites: 4.8/nm2, surface area (to fit the data) 500 m2/g.
+
+SURFACE 1
+Su_OH Halite eq 30.2 95786 # MW = 191.57. sites = 4.8 * 6.022e23 / (500 * 191.57 * 1e18)
+# Su_OH 1e-10 30.2 95786 # MW = 191.57. sites = 4.8 * 6.022e23 / (500 * 191.57 * 1e18)
+ -donnan debye 2
+ # -donnan 1e-9
+ -equil 1
+EQUILIBRIUM_PHASES
+Halite 0 0
+SOLUTION 1
+REACTION
+NaCl; 2 in 3
+KNOBS
+# -debug_diffuse_layer true
+# -iterations 2
+-conv 1e-12
