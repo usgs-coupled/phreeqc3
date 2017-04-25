@@ -578,11 +578,20 @@ initial_surface_water(void)
 				charge_ptr->Get_specific_area() *
 				charge_ptr->Get_grams();
 		}
-
 		rd = debye_length * use.Get_surface_ptr()->Get_debye_lengths();
 		use.Get_surface_ptr()->Set_thickness(rd);
 
-		if (state == INITIAL_SURFACE)
+		if (!sum_surfs)
+		{
+			for (int i = 0; i < count_unknowns; i++)
+			{
+				if (x[i]->type != SURFACE_CB)
+					continue;
+				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
+				charge_ptr->Set_mass_water(0);
+			}
+		}
+		else if (state == INITIAL_SURFACE)
 		{
 			/* distribute water over DDL (rd) and free pore (r - rd) */
 			/* find r: free pore (m3) = pi * (r - rd)^2 * L, where L = A / (2*pi*r),
@@ -808,6 +817,13 @@ calc_all_donnan(void)
 		for (it = charge_group_map.begin(); it != charge_group_map.end(); it++)
 		{
 			LDBLE z = it->first;
+			if (!ratio_aq)
+			{
+				charge_ptr->Get_g_map()[z].Set_g(0);
+				charge_ptr->Get_g_map()[z].Set_dg(0);
+				converge = true;
+				continue;
+			}
 			new_g = ratio_aq * (exp(cd_m * z * psi_avg) - 1);
 			if (use.Get_surface_ptr()->Get_only_counter_ions() &&
 				((surf_chrg_eq < 0 && z < 0)
@@ -959,7 +975,6 @@ calc_init_donnan(void)
 			{
 				charge_ptr->Get_g_map()[z].Set_dg(-z);
 			}
-
 			/* save g for species */
 			for (int i = 0; i < count_s_x; i++)
 			{
