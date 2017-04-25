@@ -259,7 +259,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	output_msg(sformatf(
 			   "\tWater in diffuse layer: %8.3e kg, %4.1f%% of total DDL-water.\n",
 			   (double) charge_ptr->Get_mass_water(), (double) d));
-	if (use.Get_surface_ptr()->Get_debye_lengths() > 0)
+	if (use.Get_surface_ptr()->Get_debye_lengths() > 0 && d > 0)
 	{
 		sum_surfs = 0.0;
 		for (j = 0; j < count_unknowns; j++)
@@ -284,64 +284,66 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		output_msg(sformatf(
 				   "\n\tSpecies     \t    Moles   \tMoles excess\t      g\n"));
 	}
-	mass_water_surface = charge_ptr->Get_mass_water();
-	count_elts = 0;
-	paren_count = 0;
-	for (j = 0; j < count_s_x; j++)
+	if (mass_water_surface = charge_ptr->Get_mass_water())
 	{
-		if (s_x[j]->type > HPLUS)
-			continue;
-		molality = under(s_x[j]->lm);
-		moles_excess = mass_water_aq_x * molality * (charge_ptr->Get_g_map()[s_x[j]->z].Get_g() *
-			s_x[j]->erm_ddl +
-			mass_water_surface /
-			mass_water_aq_x * (s_x[j]->erm_ddl - 1));
-		moles_surface = mass_water_surface * molality + moles_excess;
-		if (debug_diffuse_layer == TRUE)
+		count_elts = 0;
+		paren_count = 0;
+		for (j = 0; j < count_s_x; j++)
 		{
-			output_msg(sformatf("\t%-12s\t%12.3e\t%12.3e\t%12.3e\n",
-					   s_x[j]->name, moles_surface, moles_excess,
-					   charge_ptr->Get_g_map()[s_x[j]->z].Get_g()));
+			if (s_x[j]->type > HPLUS)
+				continue;
+			molality = under(s_x[j]->lm);
+			moles_excess = mass_water_aq_x * molality * (charge_ptr->Get_g_map()[s_x[j]->z].Get_g() *
+				s_x[j]->erm_ddl +
+				mass_water_surface /
+				mass_water_aq_x * (s_x[j]->erm_ddl - 1));
+			moles_surface = mass_water_surface * molality + moles_excess;
+			if (debug_diffuse_layer == TRUE)
+			{
+				output_msg(sformatf("\t%-12s\t%12.3e\t%12.3e\t%12.3e\n",
+					s_x[j]->name, moles_surface, moles_excess,
+					charge_ptr->Get_g_map()[s_x[j]->z].Get_g()));
+			}
+			/*
+			 *   Accumulate elements in diffuse layer
+			 */
+			add_elt_list(s_x[j]->next_elt, moles_surface);
 		}
-/*
- *   Accumulate elements in diffuse layer
- */
-		add_elt_list(s_x[j]->next_elt, moles_surface);
-	}
-/*
-	strcpy(token, s_h2o->name);
-	ptr = &(token[0]);
-	get_elts_in_species (&ptr, mass_water_surface / gfw_water);
- */
-	if (count_elts > 0)
-	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
-/*
- *   Print totals
- */
-	if (use.Get_surface_ptr()->Get_dl_type() != cxxSurface::DONNAN_DL)
-	{
-		output_msg(sformatf(
-				   "\n\tTotal moles in diffuse layer (excluding water)\n\n"));
-	}
-	else
-	{
-		LDBLE exp_g =  charge_ptr->Get_g_map()[1].Get_g() * mass_water_aq_x / mass_water_surface + 1;
-		LDBLE psi_DL = -log(exp_g) * R_KJ_DEG_MOL * tk_x / F_KJ_V_EQ;
-		output_msg(sformatf(
-				   "\n\tTotal moles in diffuse layer (excluding water), Donnan calculation."));
-		output_msg(sformatf(
-				   "\n\tDonnan Layer potential, psi_DL = %10.3e V.\n\tBoltzmann factor, exp(-psi_DL * F / RT) = %9.3e (= c_DL / c_free if z is +1).\n\n",
-					 psi_DL, exp_g));
-	}
-	output_msg(sformatf("\tElement       \t     Moles\n"));
-	for (j = 0; j < count_elts; j++)
-	{
-		output_msg(sformatf("\t%-14s\t%12.4e\n",
-				   elt_list[j].elt->name, (double) elt_list[j].coef));
+		/*
+			strcpy(token, s_h2o->name);
+			ptr = &(token[0]);
+			get_elts_in_species (&ptr, mass_water_surface / gfw_water);
+			*/
+		if (count_elts > 0)
+		{
+			qsort(elt_list, (size_t)count_elts,
+				(size_t) sizeof(struct elt_list), elt_list_compare);
+			elt_list_combine();
+		}
+		/*
+		 *   Print totals
+		 */
+		if (use.Get_surface_ptr()->Get_dl_type() != cxxSurface::DONNAN_DL)
+		{
+			output_msg(sformatf(
+				"\n\tTotal moles in diffuse layer (excluding water)\n\n"));
+		}
+		else
+		{
+			LDBLE exp_g = charge_ptr->Get_g_map()[1].Get_g() * mass_water_aq_x / mass_water_surface + 1;
+			LDBLE psi_DL = -log(exp_g) * R_KJ_DEG_MOL * tk_x / F_KJ_V_EQ;
+			output_msg(sformatf(
+				"\n\tTotal moles in diffuse layer (excluding water), Donnan calculation."));
+			output_msg(sformatf(
+				"\n\tDonnan Layer potential, psi_DL = %10.3e V.\n\tBoltzmann factor, exp(-psi_DL * F / RT) = %9.3e (= c_DL / c_free if z is +1).\n\n",
+				psi_DL, exp_g));
+		}
+		output_msg(sformatf("\tElement       \t     Moles\n"));
+		for (j = 0; j < count_elts; j++)
+		{
+			output_msg(sformatf("\t%-14s\t%12.4e\n",
+				elt_list[j].elt->name, (double)elt_list[j].coef));
+		}
 	}
 	return (OK);
 }
@@ -2987,7 +2989,7 @@ punch_identifiers(void)
 		else if (state == TRANSPORT)
 		{
 			fpunchf(PHAST_NULL("dist_x"), gformat,
-					(double) cell_data[cell - 1].mid_cell_x);
+					(double) cell_data[cell].mid_cell_x);
 		}
 		else
 		{
