@@ -388,7 +388,8 @@ all: alkalinity.out \
 	sys_equi_fix.out \
 	pr_h2o.out \
 	ex7_T_P.out \
-	antarcticite.out
+	antarcticite.out \
+	DonnanBug.out
 
 # NaX.out
 
