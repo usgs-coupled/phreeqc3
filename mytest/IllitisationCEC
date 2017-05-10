@@ -1,0 +1,127 @@
+#DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.3.8-11728\database\llnl.dat
+DATABASE ../database/llnl.dat
+SELECTED_OUTPUT 101
+    -file                IllitisationCEC_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+SOLUTION
+END
+SOLUTION_MASTER_SPECIES
+#element species        alk     gfw_formula     element_gfw
+[A]  [A]       0.0     [A]        1
+[K]  [K]       0.0     [K]		39
+SOLUTION_SPECIES
+[K] = [K]
+log_k 0
+[A] = [A] 
+log_k 0
+
+
+PHASES
+
+Bentonite
+   -no_check 
+[A] = [A]
+log_k -30
+
+Illite
+        K0.6Mg0.25Al1.8Al0.5Si3.5O10(OH)2 +8.0000 H+  =  + 0.2500 Mg++ + 0.6000 K+ + 2.3000 Al+++ + 3.5000 SiO2 + 5.0000 H2O
+        log_k           9.0260
+	-delta_H	-171.764	kJ/mol	# Calculated enthalpy of reaction	Illite
+        -analytic 2.6069e+001 -1.2553e-003 1.3670e+004 -2.0232e+001 -1.1204e+006
+
+
+
+Montmor-Na
+        Na.33Mg.33Al1.67Si4O10(OH)2 +6.0000 H+  =  + 0.3300 Mg++ + 0.3300 Na+ + 1.6700 Al+++ + 4.0000 H2O + 4.0000 SiO2
+        log_k           2.4844
+	-delta_H	-93.2165	kJ/mol	# Calculated enthalpy of reaction	Montmor-Na
+#	Enthalpy of formation:	-1360.69 kcal/mol
+        -analytic 1.9601e+000 1.1342e-002 1.6051e+004 -1.4718e+001 -1.8160e+006
+#       -Range:  0-300
+
+
+
+
+
+############################################
+############################################
+############################################
+############################################
+############################################
+
+Title TEST
+
+SOLUTION 1
+     temp      130#9.5
+    pH        8
+    pe        4
+    redox     pe
+    units     mg/kgw
+    density   1
+    K         2.6
+
+[K] 2.6
+    Na        25
+Si 7.5
+Fe(2) 3
+Mg 10
+Ca 48
+S 50
+Cl 5
+C 240
+
+
+    -water    1 # kg
+
+#RATES#Huang
+#Illitization
+#-start
+#20  if (m <= 0) then goto 200
+#60  rate =  (80800) *2.71828^(-117150/(8.314*TK))*MOL("K+")*(EQUI("Bentonite")/1)^2
+#200 save rate * time
+#-end
+
+
+RATES #Pytte
+Illitization
+-start
+20  if (m <= 0) then goto 200
+#60  rate =  (80800) *2.71828^(-117150/(8.314*TK))*(MOL("K+")/MOL("Na+"))*(EQUI("Bentonite")/1)^5
+60  rate =  (80800) *2.71828^(-117150/(8.314*TK))*(MOL("[K]")/MOL("Na+"))*(EQUI("Bentonite")/1)^5
+200 save rate * time
+-end
+
+
+EQUILIBRIUM_PHASES 1
+    Bentonite   0 1# Ре забыть вставить в RATES
+    Gibbsite 0 0
+    Quartz   0 0 
+    Illite   0 0
+
+
+
+KINETICS 1
+Illitization
+ -formula Mg+2 0.25  K+ 2.3  Al+3 2.3 H2O 5 SiO2  3.5   [A] -1 #X -0.1
+
+-steps 31557600000 in 30 steps# 1000 years
+INCREMENTAL_REACTIONS true
+EXCHANGE 1
+ X   Bentonite   equilibrium_phase   0.1
+    -equilibrate with solution 1
+
+SELECTED_OUTPUT
+    -file                 ILLITIZATION test.xls
+    -totals               X Mg  Na  Al  Si  K  Cl
+    -equilibrium_phases   Bentonite Gibbsite Quartz  Illite
+-temperature          true
+END
+
+
+
