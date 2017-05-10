@@ -3762,11 +3762,21 @@ tidy_min_exchange(void)
 			}
 			int l;
 			struct phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+			if (phase_ptr != NULL)
 			{
 				char * temp_formula = string_duplicate(phase_ptr->formula);
 				ptr = temp_formula;
 				get_elts_in_species(&ptr, 1.0);
 				free_check_null(temp_formula);
+			}
+			else
+			{
+				input_error++;
+				error_string = sformatf(
+						"Mineral, %s, related to exchanger, %s, not found in Equilibrium_Phases %d",
+						comp_ref.Get_phase_name().c_str(), comp_ref.Get_formula().c_str(), n);
+				error_msg(error_string, CONTINUE);
+				continue;
 			}
 			qsort(elt_list, (size_t) count_elts,
 				  (size_t) sizeof(struct elt_list), elt_list_compare);

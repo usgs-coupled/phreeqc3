@@ -3996,6 +3996,15 @@ read_phases(void)
 				return_value = j;
 				break;
 			}
+			if (j == OPTION)
+			{
+				parse_error++;
+				error_string = sformatf("Expecting equation for phase %s.", token);
+				error_msg(error_string, CONTINUE);
+				error_msg("Parsing equation.", CONTINUE);
+				error_msg(line_save, CONTINUE);
+				break;
+			}
 			if (parse_eq(line, &next_elt, association) == ERROR)
 			{
 				parse_error++;
