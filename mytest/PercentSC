@@ -1,0 +1,64 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 PercentSC_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)
+        units   ppm
+        pH      8.22
+        pe      8.451
+        density 1.023
+        temp    25.0
+        Ca              412.3
+        Mg              1291.8
+        Na              10768.0
+        K               399.1
+        Si              4.28
+        Cl              19353.0
+        Alkalinity      141.682 as HCO3
+        S(6)            2712.0
+USER_PRINT
+10 PRINT "Specific conductance: ", STR_F$(SC,15,1)
+20 PRINT
+30 t = SYS("AQ", count, name$, type$, moles)
+40 DIM spec_sc(count)
+
+100 FOR i = 1 TO count
+110   REM Get charge
+120   t$ = SPECIES_FORMULA$(name$(i), count_s, elt$, coef)
+130   FOR j = 1 TO count_s
+140     IF (elt$(j) = "charge") THEN l_z = ABS(coef(j))
+150   NEXT j
+155   mu_x = MU
+160   l_m = LM(name$(i))
+170   Dw = DIFF_C(name$(i))
+180   l_g = LG(Name$(i))
+190   IF ((l_z = 0) OR (Dw = 0) OR (l_m < -9)) THEN GOTO 300
+200   IF (mu_x < 0.36*l_z) \
+        THEN ff = 0.6 / SQRT(l_z) \
+        ELSE ff = SQRT(mu_x)/l_z 
+210   ff = ff * l_g
+220   IF (ff > 0) THEN ff = 0
+230   a = 10^(l_m + ff)
+240   spec_sc(i) = a * l_z * l_z * Dw
+250   tot_sc = tot_sc + spec_sc(i)
+300 NEXT i
+310 faraday = 96493.5
+320 r = 0.00831470
+330 sc_calc = tot_sc * 1e7 * faraday * faraday / (r * 298160)
+340 visc = 10^(-(1.37023 * (TC - 20) + 0.000836 * (TC - 20) * (TC - 20)) / (109 + TC))
+350 sc_calc = sc_calc * 0.88862 / visc
+400  PRINT "Species      Percentage of SC"
+405  t = 0
+410  FOR i = 1 TO count
+420    IF (spec_sc(i) = 0) THEN GOTO 440
+430    PRINT PAD(name$(i),10), STR_F$(100*spec_sc(i)/tot_sc, 15, 2)
+440  NEXT I
+END
+
+ 
+END

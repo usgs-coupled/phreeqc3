@@ -1,0 +1,246 @@
+   Input file: PercentSC
+  Output file: PercentSC.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 PercentSC_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)
+	        units   ppm
+	        pH      8.22
+	        pe      8.451
+	        density 1.023
+	        temp    25.0
+	        Ca              412.3
+	        Mg              1291.8
+	        Na              10768.0
+	        K               399.1
+	        Si              4.28
+	        Cl              19353.0
+	        Alkalinity      141.682 as HCO3
+	        S(6)            2712.0
+	USER_PRINT
+	10 PRINT "Specific conductance: ", STR_F$(SC,15,1)
+	20 PRINT
+	30 t = SYS("AQ", count, name$, type$, moles)
+	40 DIM spec_sc(count)
+	100 FOR i = 1 TO count
+	110   REM Get charge
+	120   t$ = SPECIES_FORMULA$(name$(i), count_s, elt$, coef)
+	130   FOR j = 1 TO count_s
+	140     IF (elt$(j) = "charge") THEN l_z = ABS(coef(j))
+	150   NEXT j
+	155   mu_x = MU
+	160   l_m = LM(name$(i))
+	170   Dw = DIFF_C(name$(i))
+	180   l_g = LG(Name$(i))
+	190   IF ((l_z = 0) OR (Dw = 0) OR (l_m < -9)) THEN GOTO 300
+	200   IF (mu_x < 0.36*l_z)         THEN ff = 0.6 / SQRT(l_z)         ELSE ff = SQRT(mu_x)/l_z 
+	210   ff = ff * l_g
+	220   IF (ff > 0) THEN ff = 0
+	230   a = 10^(l_m + ff)
+	240   spec_sc(i) = a * l_z * l_z * Dw
+	250   tot_sc = tot_sc + spec_sc(i)
+	300 NEXT i
+	310 faraday = 96493.5
+	320 r = 0.00831470
+	330 sc_calc = tot_sc * 1e7 * faraday * faraday / (r * 298160)
+	340 visc = 10^(-(1.37023 * (TC - 20) + 0.000836 * (TC - 20) * (TC - 20)) / (109 + TC))
+	350 sc_calc = sc_calc * 0.88862 / visc
+	400  PRINT "Species      Percentage of SC"
+	405  t = 0
+	410  FOR i = 1 TO count
+	420    IF (spec_sc(i) = 0) THEN GOTO 440
+	430    PRINT PAD(name$(i),10), STR_F$(100*spec_sc(i)/tot_sc, 15, 2)
+	440  NEXT I
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	SEAWATER FROM NORDSTROM AND OTHERS (1979)
+
+----------------------------------User print-----------------------------------
+
+Specific conductance:          53275.9 
+
+Species      Percentage of SC 
+Cl-                  55.57 
+Na+                  34.24 
+Mg+2                  5.59 
+SO4-2                 2.10 
+K+                    0.98 
+Ca+2                  1.20 
+NaSO4-                0.21 
+HCO3-                 0.09 
+MgHCO3+               0.01 
+KSO4-                 0.01 
+NaCO3-                0.00 
+CaHCO3+               0.00 
+CO3-2                 0.01 
+OH-                   0.00 
+H+                    0.00 
+HSO4-                 0.00 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Alkalinity        2.406e-03   2.406e-03
+	Ca                1.066e-02   1.066e-02
+	Cl                5.657e-01   5.657e-01
+	K                 1.058e-02   1.058e-02
+	Mg                5.507e-02   5.507e-02
+	Na                4.854e-01   4.854e-01
+	S(6)              2.926e-02   2.926e-02
+	Si                7.382e-05   7.382e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   8.220    
+                                       pe  =   8.451    
+      Specific Conductance (µS/cm,  25°C)  = 53275
+                          Density (g/cm³)  =   1.02323
+                               Volume (L)  =   1.01282
+                        Activity of water  =   0.981
+                 Ionic strength (mol/kgw)  =   6.747e-01
+                       Mass of water (kg)  =   1.000e+00
+                    Total carbon (mol/kg)  =   2.182e-03
+                       Total CO2 (mol/kg)  =   2.182e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   7.967e-04
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07
+                               Iterations  =   7
+                                  Total H  = 1.110147e+02
+                                  Total O  = 5.563009e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.705e-06   1.647e-06    -5.568    -5.783    -0.215     -2.63
+   H+              7.984e-09   6.026e-09    -8.098    -8.220    -0.122      0.00
+   H2O             5.551e+01   9.806e-01     1.744    -0.009     0.000     18.07
+C(4)          2.182e-03
+   HCO3-           1.485e-03   1.003e-03    -2.828    -2.999    -0.171     26.98
+   MgHCO3+         2.560e-04   1.610e-04    -3.592    -3.793    -0.201      5.82
+   NaHCO3          1.658e-04   1.936e-04    -3.780    -3.713     0.067      1.80
+   MgCO3           8.748e-05   1.022e-04    -4.058    -3.991     0.067    -17.09
+   NaCO3-          6.682e-05   4.991e-05    -4.175    -4.302    -0.127      2.88
+   CaHCO3+         4.454e-05   3.081e-05    -4.351    -4.511    -0.160      9.96
+   CO3-2           3.753e-05   7.804e-06    -4.426    -5.108    -0.682     -1.97
+   CaCO3           2.703e-05   3.158e-05    -4.568    -4.501     0.067    -14.60
+   CO2             1.186e-05   1.385e-05    -4.926    -4.858     0.067     34.43
+   (CO2)2          3.016e-12   3.523e-12   -11.521   -11.453     0.067     68.87
+Ca            1.066e-02
+   Ca+2            9.634e-03   2.409e-03    -2.016    -2.618    -0.602    -16.69
+   CaSO4           9.548e-04   1.115e-03    -3.020    -2.953     0.067      7.50
+   CaHCO3+         4.454e-05   3.081e-05    -4.351    -4.511    -0.160      9.96
+   CaCO3           2.703e-05   3.158e-05    -4.568    -4.501     0.067    -14.60
+   CaOH+           8.711e-08   6.505e-08    -7.060    -7.187    -0.127     (0)  
+   CaHSO4+         5.915e-11   4.418e-11   -10.228   -10.355    -0.127     (0)  
+Cl            5.657e-01
+   Cl-             5.657e-01   3.568e-01    -0.247    -0.448    -0.200     18.79
+H(0)          5.515e-37
+   H2              2.758e-37   3.221e-37   -36.559   -36.492     0.067     28.61
+K             1.058e-02
+   K+              1.040e-02   6.483e-03    -1.983    -2.188    -0.205      9.66
+   KSO4-           1.756e-04   1.186e-04    -3.755    -3.926    -0.171     34.85
+Mg            5.507e-02
+   Mg+2            4.754e-02   1.372e-02    -1.323    -1.863    -0.540    -20.41
+   MgSO4           7.170e-03   8.375e-03    -2.144    -2.077     0.067      5.84
+   MgHCO3+         2.560e-04   1.610e-04    -3.592    -3.793    -0.201      5.82
+   MgCO3           8.748e-05   1.022e-04    -4.058    -3.991     0.067    -17.09
+   MgOH+           1.151e-05   8.107e-06    -4.939    -5.091    -0.152     (0)  
+Na            4.854e-01
+   Na+             4.785e-01   3.434e-01    -0.320    -0.464    -0.144     -0.50
+   NaSO4-          6.637e-03   4.482e-03    -2.178    -2.349    -0.171     21.21
+   NaHCO3          1.658e-04   1.936e-04    -3.780    -3.713     0.067      1.80
+   NaCO3-          6.682e-05   4.991e-05    -4.175    -4.302    -0.127      2.88
+   NaOH            4.843e-17   5.657e-17   -16.315   -16.247     0.067     (0)  
+O(0)          6.615e-20
+   O2              3.307e-20   3.863e-20   -19.481   -19.413     0.067     30.40
+S(6)          2.926e-02
+   SO4-2           1.432e-02   2.604e-03    -1.844    -2.584    -0.740     17.49
+   MgSO4           7.170e-03   8.375e-03    -2.144    -2.077     0.067      5.84
+   NaSO4-          6.637e-03   4.482e-03    -2.178    -2.349    -0.171     21.21
+   CaSO4           9.548e-04   1.115e-03    -3.020    -2.953     0.067      7.50
+   KSO4-           1.756e-04   1.186e-04    -3.755    -3.926    -0.171     34.85
+   HSO4-           2.042e-09   1.525e-09    -8.690    -8.817    -0.127     40.96
+   CaHSO4+         5.915e-11   4.418e-11   -10.228   -10.355    -0.127     (0)  
+Si            7.382e-05
+   H4SiO4          7.061e-05   8.248e-05    -4.151    -4.084     0.067     52.08
+   H3SiO4-         3.210e-06   2.018e-06    -5.494    -5.695    -0.201     28.72
+   H2SiO4-2        1.096e-10   2.279e-11    -9.960   -10.642    -0.682     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Anhydrite        -0.93     -5.20   -4.28  CaSO4
+  Aragonite         0.61     -7.73   -8.34  CaCO3
+  Calcite           0.75     -7.73   -8.48  CaCO3
+  Chalcedony       -0.52     -4.07   -3.55  SiO2
+  Chrysotile        3.36     35.56   32.20  Mg3Si2O5(OH)4
+  CO2(g)           -3.39     -4.86   -1.47  CO2
+  Dolomite          2.39    -14.70  -17.09  CaMg(CO3)2
+  Gypsum           -0.64     -5.22   -4.58  CaSO4:2H2O
+  H2(g)           -33.39    -36.49   -3.10  H2
+  H2O(g)           -1.51     -0.01    1.50  H2O
+  Halite           -2.48     -0.91    1.57  NaCl
+  O2(g)           -16.52    -19.41   -2.89  O2
+  Quartz           -0.09     -4.07   -3.98  SiO2
+  Sepiolite         1.15     16.91   15.76  Mg2Si3O7.5OH:3H2O
+  Sepiolite(d)     -1.75     16.91   18.66  Mg2Si3O7.5OH:3H2O
+  SiO2(a)          -1.35     -4.07   -2.71  SiO2
+  Sylvite          -3.54     -2.64    0.90  KCl
+  Talc              6.03     27.43   21.40  Mg3Si4O10(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.228 Seconds.
+-------------------------------
+

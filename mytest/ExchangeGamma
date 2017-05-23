@@ -1,0 +1,31 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 ExchangeGamma_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+units mmol/kgw
+Na 1     
+K  2
+Cl 3 charge
+
+EXCHANGE 1
+X 0.02         # moles
+-equilibrate 1 # With infinite volume of the solution
+
+USER_PRINT
+-start
+1 IF STEP_NO = 0 THEN END
+10 print 'log gamma KX                    = ', LG("KX")
+20 print 'log gamma NaX                   = ', LG("NaX")
+30 print 'Log of KX activity coefficient  = ', LOG10(ACT("KX")/ (MOL("KX") / tot("X") ))
+40 print 'Log of NaX activity coefficient = ', LOG10(ACT("NaX")/(MOL("NaX")))
+50 print 'Log of K+ activity coefficient  = ', LOG10(GAMMA("K+")) 
+60 print 'log of Na+ activity coefficient = ', LOG10(GAMMA("Na+"))
+
+-end
+END 

@@ -390,7 +390,9 @@ all: alkalinity.out \
 	ex7_T_P.out \
 	antarcticite.out \
 	DonnanBug.out \
-	IllitisationCEC.out
+	IllitisationCEC.out \
+	PercentSC.out \
+	ExchangeGamma.out
 
 # NaX.out
 
