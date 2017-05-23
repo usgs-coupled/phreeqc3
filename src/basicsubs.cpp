@@ -45,12 +45,14 @@ activity_coefficient(const char *species_name)
 /* ---------------------------------------------------------------------- */
 {
 	struct species *s_ptr;
-	LDBLE g;
+	LDBLE g, dum = 0.0;
 
 	s_ptr = s_search(species_name);
 	if (s_ptr != NULL && s_ptr->in != FALSE && ((s_ptr->type < EMINUS) || (s_ptr->type == EX) || (s_ptr->type == SURF)))
 	{
-		g = pow((LDBLE) 10., s_ptr->lg);
+		if (s_ptr->type == EX && s_ptr->equiv && s_ptr->alk)
+			dum = log10(s_ptr->equiv / s_ptr->alk);
+		g = pow((LDBLE) 10., s_ptr->lg - dum);
 	}
 	else
 	{
@@ -65,12 +67,14 @@ log_activity_coefficient(const char *species_name)
 /* ---------------------------------------------------------------------- */
 {
 	struct species *s_ptr;
-	LDBLE g;
+	LDBLE g, dum = 0.0;
 
 	s_ptr = s_search(species_name);
 	if (s_ptr != NULL && s_ptr->in != FALSE && ((s_ptr->type < EMINUS) || (s_ptr->type == EX) || (s_ptr->type == SURF)))
 	{
-		g = s_ptr->lg;
+		if (s_ptr->type == EX && s_ptr->equiv && s_ptr->alk)
+			dum = log10(s_ptr->equiv / s_ptr->alk);
+		g = s_ptr->lg - dum;
 	}
 	else
 	{
