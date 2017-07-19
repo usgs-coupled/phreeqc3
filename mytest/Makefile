@@ -381,7 +381,8 @@ all: alkalinity.out \
 	DonnanBug.out \
 	IllitisationCEC.out \
 	PercentSC.out \
-	ExchangeGamma.out
+	ExchangeGamma.out \
+	count_database_species_core10.out 
 
 # NaX.out
 
