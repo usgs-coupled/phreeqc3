@@ -1,0 +1,113 @@
+DATABASE ../database/core10.dat
+SELECTED_OUTPUT 101
+    -file                 count_database_species_core10_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PRINT
+# -reset FALSE
+ -user_print TRUE
+
+SOLUTION
+# H and O assumed present
+Al	1
+Alkalinity 1
+B	1
+C	1
+Ca	1
+Cl	1
+Co	1
+Cr	1
+Cu	1
+Eu	1
+Fe	1
+Gd	1
+K	1
+Li	1
+Mg	1
+Mn	1
+Mo	1
+N	1
+Na	1
+Ni	1
+P	1
+S	1
+Sc	1
+Si	1
+Sm	1
+Th	1
+Ti	1
+U	1
+Zn	1
+
+USER_PRINT
+-start
+10 PRINT"Summary of inorganic species (elements)"
+20 totel = SYS("elements", ne, ne$, te$, ve)
+30 npm = ne
+40 FOR i = 1 TO ne
+50 tots = SYS(ne$(i), ns, ns$, ts$, vs)
+60 IF(INSTR(ne$(i), "(") <> 0) THEN 70
+70 IF(INSTR(ne$(i), "(") = 0) THEN 90
+80 npm = npm-1
+90 NEXT i
+100 PRINT"number of primary master species", CHR$(09), "=", CHR$(09), npm
+110 PRINT"number of secondary master species", CHR$(09), "=", CHR$(09), ne-npm
+120 totph = SYS("phases", np, np$, tp$, vp)
+130 ngas = 0
+140 FOR ii = 1 TO np
+150 element$ = np$(ii)
+160 totphs = SYS(element$, nph, nph$, tph$, vph)
+170 g = INSTR(element$, "(g)")+INSTR(element$, "(G)")
+180 IF(g = 0) THEN 200
+190 ngas = ngas+1
+200 NEXT ii
+210 PRINT"number of minerals", CHR$(09), "=", CHR$(09), np-ngas
+220 PRINT"number of gases", CHR$(09), "=", CHR$(09), ngas
+230 totaq = SYS("aq", naq, naq$, taq$, vaq)
+240 PRINT"number of aqueous species", CHR$(09), "=", CHR$(09), naq
+-end
+
+SELECTED_OUTPUT
+-reset FALSE
+-file count_database_species_core10.sel
+
+USER_PUNCH
+-headings primary_master_species secondary_master_species minerals gases aqueous_species
+-start
+10 totel = SYS("elements", ne, ne$, te$, ve)
+20 npm = ne
+30 FOR i = 1 TO ne
+40 tots = SYS(ne$(i), ns, ns$, ts$, vs)
+50 IF(INSTR(ne$(i), "(") <> 0) THEN 60
+60 IF(INSTR(ne$(i), "(") = 0) THEN 80
+70 npm = npm-1
+80 NEXT i
+90 PUNCH npm
+100 PUNCH ne-npm
+110 totph = SYS("phases", np, np$, tp$, vp)
+120 ngas = 0
+130 FOR ii = 1 TO np
+140 element$ = np$(ii)
+150 totphs = SYS(element$, nph, nph$, tph$, vph)
+160 g = INSTR(element$, "(g)")+INSTR(element$, "(G)")
+170 IF(g = 0) THEN 190
+180 ngas = ngas+1
+190 NEXT ii
+200 PUNCH np-ngas
+210 PUNCH ngas
+220 totaq = SYS("aq", naq, naq$, taq$, vaq)
+230 PUNCH naq
+-end
+
+END
+
+USE solution 1
+REACTION_PRESSURE 
+1 200 400 600 800 1000
+REACTION_TEMPERATURE
+25 50 100 150 200 250
+END

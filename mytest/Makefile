@@ -225,7 +225,6 @@ all: alkalinity.out \
 	H_K.out \
 	Sat_P_rho.out \
 	densities.out \
-	cc_P.out \
 	CH4_conc_PR_IS.out \
 	CO2_anal.out \
 	CO2_conc_PR_EQ.out \
@@ -263,6 +262,7 @@ all: alkalinity.out \
 	Barite_MCl2.out \
 	Barite_NaCl.out \
 	Barite_tc.out \
+	cc_P.out \
 	cc_P0.out \
 	cc_P2.out \
 	cc_P3.out \
@@ -392,7 +392,8 @@ all: alkalinity.out \
 	DonnanBug.out \
 	IllitisationCEC.out \
 	PercentSC.out \
-	ExchangeGamma.out
+	ExchangeGamma.out \
+	count_database_species_core10.out 
 
 # NaX.out
 
