@@ -1,5 +1,6 @@
 SET(phreeqc_DATABASE
 Amm.dat
+core10.dat
 ColdChem.dat
 frezchem.dat
 iso.dat
