@@ -64,6 +64,35 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
 
 	---------
+	svn 12774
+	---------	
+	Added new database, core10.dat, contributed by Marc Neveu. The database
+	is derived from phreeqc.dat and llnl.dat, with careful data checking,
+	use of SUPCRT for temperature dependence, and addition of molar volumes
+	for pressure dependence. 
+	
+	Downloaded July 18, 2017 from the following URL
+	https://github.com/MarcNeveu/IcyDwarf/blob/master/IcyDwarf/PHREEQC-3.1.2/core10.dat
+	
+	Please see the following report for details:
+	Neveu, Marc, Desch, S.J., and Castillo-Rogez, J.C., 2017, Aqueous geochemistry in 
+	icy world interiors: Equilibrium fluid, rock, and gas compositions, 
+	and fate of antifreezes and radionuclides, Geochimica et Cosmochimica Acta,
+	v. 212, p. 324-371, http://dx.doi.org/10.1016/j.gca.2017.06.023
+	
+	---------
+	svn 12758
+	---------	
+	PHREEQC: Changed the first parameter in the analytical expression for ethane C2H6.
+	The negative sign was apparently omitted. 
+	
+	---------
+	svn 12712
+	---------	
+	PHREEQC: GAMMA and LG functions were not correct
+	for exchange species. 
+
+	---------
 	svn 12702
 	---------	
 	PHREEQC: Bug fix for when -no_check followed mineral
