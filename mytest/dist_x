@@ -1,0 +1,49 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                dist_x_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+TITLE Example 11.--Transport and cation exchange. 
+SOLUTION 0  CaCl2
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Ca               0.6
+        Cl               1.2
+SOLUTION 1-40  Initial solution for column
+        units            mmol/kgw
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5    O2(g)   -0.68
+        Na               1.0
+        K                0.2
+        N(5)             1.2
+END
+EXCHANGE 1-40
+        -equilibrate 1
+        X                0.0011
+
+TRANSPORT
+        -cells           40
+        -lengths         0.002
+        -shifts          40
+        -time_step       720.0
+        -flow_direction  forward
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9
+        -dispersivities  0.002
+        -correct_disp    true
+        -punch_frequency 1
+
+SELECTED_OUTPUT
+        -file            dist_x.sel
+        -reset           false
+        -step
+        -totals          Na Cl K Ca
+        -high_precision true
+        -distance true
