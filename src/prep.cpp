@@ -4151,8 +4151,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
-			if (phi > 4.44)
-				phi = 4.44;
+			phi = (phi > 4.44 ? 4.44 : (phi < -3 ? -3 : phi));
 		}
 		else
 			phi = -3.0; // fugacity coefficient > 0.05

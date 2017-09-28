@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -132,7 +132,7 @@ transport(void)
 			moles_added[i].moles = 0;
 		}
 	}
-	try
+	try 
 	{
 		/* check solution 0 */
 		use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, 0));
@@ -228,7 +228,7 @@ transport(void)
 						"Electrical Field (potential) was defined, assuming constant boundary condition for last cell.");
 					warning_msg(error_string);
 				}
-				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t)
+				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc((size_t) 
 					(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 				if (current_cells == NULL)
 					malloc_error();
@@ -2118,7 +2118,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					use.Get_solution_ptr()->Set_total_o(dummy + tot2_o);
 					if (i == count_cells && fix_current && !stagnant)
 					{
-						use.Get_solution_ptr()->Set_potV(cell_data[icell].potV);
+						use.Get_solution_ptr()->Set_potV(cell_data[jcell].potV);
 					}
 					for (l = 0; l < count_m_s; l++)
 					{
@@ -4731,7 +4731,7 @@ viscosity(void)
 	Jones_Dole[6] contains the anion factor, 1 for Cl-, variable for other anions
 	f_z = (z * z + |z|) / 2, the contribution of the ion to mu_x, if z = 0: f_z = mu_x / m_i
 	f_I = variable, depends on d3_i > 1, or d3_i < 1.
-	tc is limited to 200°C.
+	tc is limited to 200�C.
 
 
 	A from Falkenhagen-Dole for a salt:
