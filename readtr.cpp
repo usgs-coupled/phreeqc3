@@ -672,7 +672,7 @@ read_transport(void)
 			if (copy_token(token, &next_char, &l) == DIGIT)
 			{
 				sscanf(token, SCANFORMAT, &fix_current);
-				fix_current = fabs(fix_current);
+//				fix_current = fabs(fix_current);
 			}
 			else
 			{
@@ -816,7 +816,7 @@ read_transport(void)
 	*/
 	if (count_por == 0)
 	{
-		if (old_cells < all_cells && multi_Dflag)
+		if (old_cells < all_cells && multi_Dflag && simul_tr == 1)
 		{
 			multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 			if (multi_Dpor > 1e-10)
@@ -824,7 +824,7 @@ read_transport(void)
 				"No porosities were read; used the value %8.2e from -multi_D.", multi_Dpor);
 			else
 				error_string = sformatf(
-				"No porosities were read; used the value %8.2e from -multi_D.", multi_Dpor);
+				"No porosities were read; set to minimal value of 1e-10 for -multi_D.");
 			warning_msg(error_string);
 			for (i = 1; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;

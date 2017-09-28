@@ -725,7 +725,7 @@ void Phreeqc::init(void)
 #ifdef USE_LONG_DOUBLE
 	/* from float.h, sets tolerance for cl1 routine */
 	ineq_tol                = pow((long double) 10, (long double) -LDBL_DIG);
-#elif WIN32
+#elif NPP
 // appt:
 	ineq_tol                = pow((double) 10, (double) -DBL_DIG + 2);
 #else

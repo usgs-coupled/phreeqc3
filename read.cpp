@@ -45,6 +45,7 @@ read_input(void)
 	Rxn_new_ss_assemblage.clear();
 	Rxn_new_surface.clear();
 	Rxn_new_temperature.clear();   // not used
+	phrq_io->Set_echo_on(true);    // **appt
 /*
  *  Initialize keyword counters
  */
@@ -8684,6 +8685,10 @@ read_print(void)
 			break;
 		case 31:				/* echo_input */
 			pr.echo_input = get_true_false(next_char, TRUE);
+			if (pr.echo_input == 0)
+				phrq_io->Set_echo_on(false);
+			else
+				phrq_io->Set_echo_on(true); //**appt
 			break;
 		case 32:				/* warning */
 		case 33:				/* warnings */
