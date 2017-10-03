@@ -894,7 +894,6 @@ Reading input data for simulation 6.
 	 stagnant 2
 	 print_cells 3-4
 	END
-WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 ------------------------------------
 Column data retained from former run
 ------------------------------------
@@ -1159,8 +1158,8 @@ Using pure phase assemblage 3.	Pure-phase assemblage after simulation 6.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Fix_pkcl         -6.00    -6.00      0.00    1.000e+01   1.000e+01  -3.693e-04
-Fix_pnacl       -15.00   -15.00      0.00    1.000e+01   1.000e+01   3.693e-04
+Fix_pkcl         -6.00    -6.00      0.00    1.000e+01   1.000e+01  -7.637e-05
+Fix_pnacl       -15.00   -15.00      0.00    1.000e+01   1.000e+01   7.637e-05
 
 -----------------------------Exchange composition------------------------------
 
@@ -1183,20 +1182,20 @@ X                2.000e-10 mol
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000      Charge balance
-                                       pe  =  11.903      Adjusted to redox equilibrium
+                                       pe  =  11.941      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99712
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.349e-09
+                 Total alkalinity (eq/kg)  =   1.274e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -4.593e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   6
+                               Iterations  =   3
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -1205,20 +1204,20 @@ X                2.000e-10 mol
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.049e-07   1.012e-07    -6.979    -6.995    -0.016     -4.11
-   H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
+   OH-             1.048e-07   1.011e-07    -6.980    -6.995    -0.016     -4.11
+   H+              1.035e-07   1.001e-07    -6.985    -7.000    -0.015      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
 Cl            1.000e-03
    Cl-             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -40.955   -40.955     0.000     28.61
+   H2              0.000e+00   0.000e+00   -41.031   -41.030     0.000     28.61
 K             1.000e-03
    K+              1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
 Na            1.000e-12
    Na+             1.000e-12   1.000e-12   -12.000   -12.000    -0.000     (0)  
-   NaOH            1.011e-29   1.012e-29   -28.995   -28.995     0.000     (0)  
-O(0)          6.767e-11
-   O2              3.383e-11   3.384e-11   -10.471   -10.471     0.000     30.40
+   NaOH            1.011e-29   1.011e-29   -28.995   -28.995     0.000     (0)  
+O(0)          9.592e-11
+   O2              4.796e-11   4.797e-11   -10.319   -10.319     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1226,10 +1225,10 @@ O(0)          6.767e-11
 
   Fix_pkcl         -6.00     -6.00    0.00  KCl
   Fix_pnacl       -15.00    -15.00    0.00  NaCl
-  H2(g)           -37.85    -40.95   -3.10  H2
+  H2(g)           -37.93    -41.03   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite          -16.57    -15.00    1.57  NaCl
-  O2(g)            -7.58    -10.47   -2.89  O2
+  O2(g)            -7.43    -10.32   -2.89  O2
   Sylvite          -6.90     -6.00    0.90  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1240,7 +1239,7 @@ Using exchange 4.	Exchange assemblage after simulation 6.
 
 ----------------------------------User print-----------------------------------
 
-  3.6925e-04 
+  7.6369e-05 
 
 -----------------------------Exchange composition------------------------------
 
@@ -1249,28 +1248,28 @@ X                1.000e-03 mol
 	                               Equiv-    Equivalent      Log 
 	Species             Moles      alents      Fraction     Gamma
 
-	NaX               7.071e-04   7.071e-04   7.071e-01    -0.015
-	KX                2.929e-04   2.929e-04   2.929e-01    -0.016
+	NaX               9.369e-04   9.369e-04   9.369e-01    -0.015
+	KX                6.311e-05   6.311e-05   6.311e-02    -0.016
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
 	Cl                1.000e-03   1.000e-03
-	K                 7.632e-05   7.632e-05
-	Na                9.237e-04   9.237e-04
+	K                 1.326e-05   1.326e-05
+	Na                9.867e-04   9.867e-04
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000      Charge balance
-                                       pe  =  11.822      Adjusted to redox equilibrium
+                                       pe  =  11.598      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 0
                           Density (g/cm³)  =   0.99710
                                Volume (L)  =   1.00297
                         Activity of water  =   1.000
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.352e-09
+                 Total alkalinity (eq/kg)  =   1.427e-09
                     Total carbon (mol/kg)  =   0.000e+00
                        Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
@@ -1291,26 +1290,26 @@ X                1.000e-03 mol
 Cl            1.000e-03
    Cl-             1.000e-03   1.000e-03    -3.000    -3.000    -0.000     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -40.795   -40.795     0.000     28.61
-K             7.632e-05
-   K+              7.632e-05   7.632e-05    -4.117    -4.117    -0.000     (0)  
-Na            9.237e-04
-   Na+             9.237e-04   9.237e-04    -3.034    -3.034    -0.000     (0)  
-   NaOH            9.342e-21   9.344e-21   -20.030   -20.029     0.000     (0)  
-O(0)          3.236e-11
-   O2              1.618e-11   1.618e-11   -10.791   -10.791     0.000     30.40
+   H2              0.000e+00   0.000e+00   -40.346   -40.346     0.000     28.61
+K             1.326e-05
+   K+              1.326e-05   1.326e-05    -4.878    -4.878    -0.000     (0)  
+Na            9.867e-04
+   Na+             9.867e-04   9.867e-04    -3.006    -3.006    -0.000     (0)  
+   NaOH            9.984e-21   9.986e-21   -20.001   -20.001     0.000     (0)  
+O(0)          4.098e-12
+   O2              2.049e-12   2.049e-12   -11.688   -11.688     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  Fix_pkcl         -7.12     -7.12    0.00  KCl
-  Fix_pnacl        -6.03     -6.03    0.00  NaCl
-  H2(g)           -37.69    -40.79   -3.10  H2
+  Fix_pkcl         -7.88     -7.88    0.00  KCl
+  Fix_pnacl        -6.01     -6.01    0.00  NaCl
+  H2(g)           -37.24    -40.35   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -7.60     -6.03    1.57  NaCl
-  O2(g)            -7.90    -10.79   -2.89  O2
-  Sylvite          -8.02     -7.12    0.90  KCl
+  Halite           -7.58     -6.01    1.57  NaCl
+  O2(g)            -8.80    -11.69   -2.89  O2
+  Sylvite          -8.78     -7.88    0.90  KCl
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
