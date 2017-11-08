@@ -102,6 +102,7 @@ public:
 	LDBLE aqueous_vm(const char *species_name);
 	LDBLE phase_vm(const char *phase_name);
 	LDBLE diff_c(const char *species_name);
+	LDBLE setdiff_c(const char *species_name, double d);
 	LDBLE sa_declercq(double type, double sa, double d, double m, double m0, double gfw);
 	LDBLE calc_SC(void);
 	/* VP: Density Start */
@@ -111,6 +112,7 @@ public:
 	LDBLE calc_logk_p(const char *name);
 	LDBLE calc_logk_s(const char *name);
 	LDBLE calc_surface_charge(const char *surface_name);
+	LDBLE calc_t_sc(const char *name);
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
 	LDBLE edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles, LDBLE * area, LDBLE * thickness);
 	int get_edl_species(cxxSurfaceCharge & charge_ref);
@@ -705,6 +707,7 @@ public:
 	/* VP: Density Start */
 	int read_millero_abcdef (char *ptr, LDBLE * abcdef);
 	/* VP: Density End */
+	int read_viscosity_parms(char *ptr, LDBLE * Jones_Dole);
 	int read_copy(void);
 	int read_debug(void);
 	int read_delta_h_only(char *ptr, LDBLE * delta_h,
@@ -1053,9 +1056,11 @@ public:
 	int reformat_surf(const char *comp_name, LDBLE fraction, const char *new_comp_name,
 		LDBLE new_Dw, int cell);
 	LDBLE viscosity(void);
+	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	int find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no);
+	void define_ct_structures(void);
 	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec);
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
@@ -1064,6 +1069,7 @@ public:
 	cxxSurface mobile_surface_copy(cxxSurface *surface_old_ptr,
 		int n_user_new,
 		bool move_old);
+	void transport_cleanup(void);
 	int init_mix(void);
 	int init_heat_mix(int nmix);
 	int heat_mix(int heat_nmix);
@@ -1352,6 +1358,7 @@ protected:
 	LDBLE tk_x;
 	LDBLE patm_x;
 	LDBLE last_patm_x;
+	LDBLE potV_x;
 	bool numerical_fixed_volume;
 	bool force_numerical_fixed_volume;
 	//bool switch_numerical;
@@ -1383,6 +1390,7 @@ protected:
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	int count_cells;
+	int cell_data_max_cells;
 	int count_shifts;
 	int ishift;
 	int bcon_first;
@@ -1406,6 +1414,7 @@ protected:
 	int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
 	LDBLE default_Dw;		/* default species diffusion coefficient in water at 25oC, m2/s */
+	int correct_Dw;         /* if true, Dw is adapted in calc_SC */
 	LDBLE multi_Dpor;		/* uniform porosity of free porewater in solid medium */
 	LDBLE interlayer_Dpor;	/* uniform porosity of interlayer space of montmorillonite in solid medium */
 	LDBLE multi_Dpor_lim;	/* limiting free porewater porosity where transport stops */
@@ -1728,9 +1737,11 @@ protected:
 	int print_density;
 	/* VP: Density End */
 
+	int print_viscosity;
 	LDBLE *zeros;
 	int zeros_max;
 
+	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
@@ -1740,6 +1751,7 @@ protected:
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
+	LDBLE SC; // specific conductance mS/cm
 	LDBLE eps_r; // relative dielectric permittivity
 	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
 	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
@@ -1957,6 +1969,7 @@ protected:
 	int nmix, heat_nmix;
 	LDBLE heat_mix_f_imm, heat_mix_f_m;
 	int warn_MCD_X, warn_fixed_Surf;
+	LDBLE current_x, current_A, fix_current; // current: coulomb / s, Ampere, fixed current (Ampere)
 
 #ifdef PHREEQ98
 	int AutoLoadOutputFile, CreateToC;
@@ -2011,7 +2024,7 @@ public:
 #  if __GNUC__ && (__cplusplus >= 201103L)
 #    define PHR_ISFINITE(x) std::isfinite(x)
 #  else
-#    define PHR_ISFINITE(x) isfinite(x)
+#  define PHR_ISFINITE(x) isfinite(x)
 #  endif
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)

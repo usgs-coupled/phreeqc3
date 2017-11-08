@@ -101,7 +101,8 @@ public:
 	void Set_sigma2(LDBLE d) {this->sigma2 = d;}
 	LDBLE Get_sigmaddl() const {return this->sigmaddl;}
 	void Set_sigmaddl(LDBLE d) {this->sigmaddl = d;}
-	const cxxNameDouble & Get_diffuse_layer_totals(void) const {return this->diffuse_layer_totals;}
+	cxxNameDouble & Get_diffuse_layer_totals(void) { return this->diffuse_layer_totals; }
+	const cxxNameDouble & Get_diffuse_layer_totals(void)const { return this->diffuse_layer_totals; }
 	void Set_diffuse_layer_totals(cxxNameDouble & nd) {this->diffuse_layer_totals = nd;}
 	std::map<LDBLE, cxxSurfDL> &Get_g_map(void) {return g_map;}
 	void Set_g_map(std::map<LDBLE, cxxSurfDL> & t) {g_map = t;}

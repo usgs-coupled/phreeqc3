@@ -45,6 +45,7 @@ read_input(void)
 	Rxn_new_ss_assemblage.clear();
 	Rxn_new_surface.clear();
 	Rxn_new_temperature.clear();   // not used
+	phrq_io->Set_echo_on(true);    // **appt
 /*
  *  Initialize keyword counters
  */
@@ -256,6 +257,8 @@ read_input(void)
 #if defined(SWIG_SHARED_OBJ)
 				warning_msg("DATABASE keyword is ignored by IPhreeqc.");
 #else
+				
+				user_database = (char *) free_check_null(user_database);
 				user_database = string_duplicate(ptr);
 				if (string_trim(user_database) == EMPTY)
 				{
@@ -2883,7 +2886,7 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 	if (j < 1)
 	{
 		input_error++;
-		error_msg("Expecting numeric values for calculating the species molar volume from the supcrt database.",
+		error_msg("Expecting numeric values for calculating the species molar volume.",
 			CONTINUE);
 		return (ERROR);
 	}
@@ -3156,6 +3159,32 @@ read_millero_abcdef (char *ptr, LDBLE * abcdef)
   return (OK);
 }
 /* VP: Density End */
+
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_viscosity_parms(char *ptr, LDBLE * Jones_Dole)
+/* ---------------------------------------------------------------------- */
+{
+  int j;
+/*
+ *   Read .
+ */
+  for (j = 0; j <= 9; j++)
+  {
+    Jones_Dole[j] = 0.0;
+  }
+  j =
+    sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	&(Jones_Dole[0]), &(Jones_Dole[1]), &(Jones_Dole[2]), &(Jones_Dole[3]), &(Jones_Dole[4]), &(Jones_Dole[5]), &(Jones_Dole[6]), &(Jones_Dole[7]), &(Jones_Dole[8]), &(Jones_Dole[9]));
+  if (j < 1)
+  {
+    input_error++;
+    error_msg ("Expecting numeric values for viscosity calculation.",
+	       CONTINUE);
+    return (ERROR);
+  }
+  return (OK);
+}
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -3803,7 +3832,6 @@ read_phases(void)
 		"vm"	/* 15, molar volume, must replace delta_v */
 	};
 	int count_opt_list = 16;
-
 	association = FALSE;
 /*
  *   Read eqn from file and call parser
@@ -4788,7 +4816,6 @@ read_selected_output(void)
 			temp_selected_output.Set_new_def(true);
 		}
 	}
-
 	CParser parser(this->phrq_io);
 
 /*
@@ -5642,9 +5669,10 @@ read_solution(void)
 		"isotope",				/* 9 */
 		"water",				/* 10 */
 		"press",				/* 11 */
-		"pressure"				/* 12 */
+		"pressure",				/* 12 */
+		"potential"				/* 13 */
 	};
-	int count_opt_list = 13;
+	int count_opt_list = 14;
 /*
  *   Read solution number and description
  */
@@ -5906,6 +5934,18 @@ read_solution(void)
 				}
 			}
 			break;
+		case 13: /* potential, Volt */
+			{
+				if (sscanf(next_char, SCANFORMAT, &dummy) != 1)
+				{
+					temp_solution.Set_potV(0);
+				}
+				else
+				{
+					temp_solution.Set_potV(dummy);
+				}
+			}
+			break;
 		case OPTION_DEFAULT:
 /*
  *   Read concentration
@@ -6006,10 +6046,10 @@ read_species(void)
 /* VP: Density Start */
 		"millero",				/* 21 */
 /* VP: Density End */
-		"vm"		/* 22, parms for molar volume, a1..a4 and w_ref from supcrt, I terms */
+		"vm",		    /* 22, parms for molar volume, a1..a4 and w_ref, I terms */
+		"viscosity"		/* 23, b and d parms for viscosity, (b1 + b2 * exp(-b3 * tc)) * c + (d1 * exp(-d2 * tc)) * c ^ d3 */
 	};
-	int count_opt_list = 23;
-
+	int count_opt_list = 24;
 	association = TRUE;
 	s_ptr = NULL;
 /*
@@ -6315,7 +6355,10 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			i = sscanf(next_char, SCANFORMAT, &s_ptr->dw);
+			s_ptr->dw_t = 0;  s_ptr->dw_a = 0; s_ptr->dw_a2 = 0; s_ptr->dw_a_visc = 0;
+			i = sscanf(next_char, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT, &s_ptr->dw, &s_ptr->dw_t,
+				&s_ptr->dw_a, &s_ptr->dw_a2, &s_ptr->dw_a_visc);
+			s_ptr->dw_corr = s_ptr->dw;
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 20:				/* enrichment factor in the DDL */
@@ -6373,6 +6416,20 @@ read_species(void)
 			read_aq_species_vm_parms(next_char, &s_ptr->logk[vma1]);
 			//vm_read = true;
 			print_density = OK;
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 23:            /* viscosity parms for the Jones-Dole eqn */
+			if (s_ptr == NULL)
+			{
+				error_string = sformatf(
+					"No reaction defined before option, %s.",
+				opt_list[opt]);
+				error_msg(error_string, CONTINUE);
+				input_error++;
+				break;
+			}
+			read_viscosity_parms(next_char, &s_ptr->Jones_Dole[0]);
+			print_viscosity = OK;
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
@@ -6754,7 +6811,6 @@ read_surface_species(void)
 		"vm"					/* 18 */
 	};
 	int count_opt_list = 19;
-
 	association = TRUE;
 	/*
 	 *   Read eqn from file and call parser
@@ -8629,6 +8685,10 @@ read_print(void)
 			break;
 		case 31:				/* echo_input */
 			pr.echo_input = get_true_false(next_char, TRUE);
+			if (pr.echo_input == 0)
+				phrq_io->Set_echo_on(false);
+			else
+				phrq_io->Set_echo_on(true); //**appt
 			break;
 		case 32:				/* warning */
 		case 33:				/* warnings */
@@ -9354,7 +9414,6 @@ read_user_print(void)
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
-
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -9449,7 +9508,6 @@ read_user_punch(void)
 		"headings"				/* 3 */
 	};
 	int count_opt_list = 4;
-
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -9729,7 +9787,6 @@ read_user_graph(void)
 	};
 	int count_opt_list = 14;
 	int i;
-
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
