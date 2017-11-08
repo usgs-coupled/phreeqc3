@@ -44,8 +44,21 @@ initialize(void)
 /*
  *   Allocate space
  */
-	space((void **) ((void *) &cell_data), INIT, &count_cells,
+	cell_data_max_cells = count_cells + 2;
+	space((void **) ((void *) &cell_data), INIT, &cell_data_max_cells,
 		  sizeof(struct cell_data));
+	for (int i = 0; i < cell_data_max_cells; i++)
+	{
+		cell_data[i].length = 1.0;
+		cell_data[i].mid_cell_x = 1.0;
+		cell_data[i].disp = 1.0;
+		cell_data[i].temp = 25.0;
+		cell_data[i].por = 0.1;
+		cell_data[i].por_il = 0.01;
+		cell_data[i].potV = 0;
+		cell_data[i].punch = FALSE;
+		cell_data[i].print = FALSE;
+	}
 
 	space((void **) ((void *) &elements), INIT, &max_elements,
 		  sizeof(struct element *));
@@ -658,6 +671,7 @@ initial_solutions(int print)
 			diagonal_scale = (diag) ? TRUE : FALSE;
 			converge1 = check_residuals();
 			sum_species();
+			viscosity();
 			add_isotopes(solution_ref);
 			punch_all();
 			print_all();
@@ -779,6 +793,7 @@ initial_exchangers(int print)
 			converge = model();
 			converge1 = check_residuals();
 			sum_species();
+			viscosity();
 			species_list_sort();
 			print_exchange();
 			xexchange_save(n_user);
@@ -1473,6 +1488,7 @@ xsolution_save(int n_user)
 	temp_solution.Set_description(description_x);
 	temp_solution.Set_tc(tc_x);
 	temp_solution.Set_patm(patm_x);
+	temp_solution.Set_potV(potV_x);
 	temp_solution.Set_ph(ph_x);
 	temp_solution.Set_pe(solution_pe_x);
 	temp_solution.Set_mu(mu_x);

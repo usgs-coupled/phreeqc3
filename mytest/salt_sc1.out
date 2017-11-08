@@ -1,0 +1,4216 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: salt_sc1
+  Output file: salt_sc1.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SELECTED_OUTPUT 101
+	    file                 salt_sc1_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION_SPREAD
+	 temp 20
+	 units mol/L
+	K	Cl#     HB_SC
+	0.067069081	1 charge #     8200
+	0.134138162	1 charge #     15700
+	0.202548625	1 charge #     22700
+	0.270959088	1 charge #     29500
+	0.340710932	1 charge #     36500
+	0.409121395	1 charge #     43600
+	0.478873239	1 charge #     50600
+	0.549966465	1 charge #     57600
+	0.690811536	1 charge #     71900
+	0.83433937	1 charge #     86200
+	0.979208585	1 charge #     100000
+	1.052984574	1 charge #     108000
+	USER_GRAPH
+	  -headings KCl
+	  -axis_titles "Handbook of Chemistry and Physics: SC / (mmho/cm)" "PHREEQC"
+	  -axis_scale x_axis 0 120
+	  -axis_scale y_axis 0 120
+	  -initial_solutions true
+	  10 DATA 8200, 15700, 22700, 29500, 36500, 43600, 50600, 57600, 71900, 86200, 100000, 108000
+	  20 dim HB(12)
+	  30 for i = 1 to 12
+	  40   READ HB(i)
+	  50 next i
+	  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                6.972e-02   6.972e-02  Charge balance
+	K                 6.972e-02   6.972e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 8255
+                          Density (g/cm³)  =   1.00150
+                               Volume (L)  =   1.00369
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   6.972e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.784e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.486e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.93390
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.225e-07   1.000e-07    -6.912    -7.000    -0.088      0.00
+   OH-             8.467e-08   6.830e-08    -7.072    -7.166    -0.093     -4.04
+   H2O             5.551e+01   9.977e-01     1.744    -0.001     0.000     18.05
+Cl            6.972e-02
+   Cl-             6.972e-02   5.536e-02    -1.157    -1.257    -0.100     18.11
+K             6.972e-02
+   K+              6.972e-02   5.536e-02    -1.157    -1.257    -0.100      9.02
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.63     -0.00    1.63  H2O
+  Sylvite          -3.36     -2.51    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.398e-01   1.398e-01  Charge balance
+	K                 1.398e-01   1.398e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 16037
+                          Density (g/cm³)  =   1.00478
+                               Volume (L)  =   1.00562
+                        Activity of water  =   0.995
+                 Ionic strength (mol/kgw)  =   1.398e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.844e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.146e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.91993
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.274e-07   1.000e-07    -6.895    -7.000    -0.105      0.00
+   OH-             8.897e-08   6.814e-08    -7.051    -7.167    -0.116     -3.87
+   H2O             5.551e+01   9.954e-01     1.744    -0.002     0.000     18.05
+Cl            1.398e-01
+   Cl-             1.398e-01   1.040e-01    -0.854    -0.983    -0.128     18.21
+K             1.398e-01
+   K+              1.398e-01   1.040e-01    -0.854    -0.983    -0.128      9.11
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Sylvite          -2.81     -1.97    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 3.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.117e-01   2.117e-01  Charge balance
+	K                 2.117e-01   2.117e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 23731
+                          Density (g/cm³)  =   1.00811
+                               Volume (L)  =   1.00762
+                        Activity of water  =   0.993
+                 Ionic strength (mol/kgw)  =   2.117e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.815e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   7.065e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.91208
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.297e-07   1.000e-07    -6.887    -7.000    -0.113      0.00
+   OH-             9.154e-08   6.798e-08    -7.038    -7.168    -0.129     -3.71
+   H2O             5.551e+01   9.931e-01     1.744    -0.003     0.000     18.05
+Cl            2.117e-01
+   Cl-             2.117e-01   1.510e-01    -0.674    -0.821    -0.147     18.29
+K             2.117e-01
+   K+              2.117e-01   1.510e-01    -0.674    -0.821    -0.147      9.18
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Sylvite          -2.49     -1.64    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 4.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.840e-01   2.840e-01  Charge balance
+	K                 2.840e-01   2.840e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 31239
+                          Density (g/cm³)  =   1.01143
+                               Volume (L)  =   1.00964
+                        Activity of water  =   0.991
+                 Ionic strength (mol/kgw)  =   2.840e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.740e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   2.943e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.90703
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.306e-07   1.000e-07    -6.884    -7.000    -0.116      0.00
+   OH-             9.324e-08   6.782e-08    -7.030    -7.169    -0.138     -3.57
+   H2O             5.551e+01   9.908e-01     1.744    -0.004     0.000     18.05
+Cl            2.840e-01
+   Cl-             2.840e-01   1.962e-01    -0.547    -0.707    -0.161     18.35
+K             2.840e-01
+   K+              2.840e-01   1.962e-01    -0.547    -0.707    -0.161      9.24
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Sylvite          -2.26     -1.41    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 5.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                3.582e-01   3.582e-01  Charge balance
+	K                 3.582e-01   3.582e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 38734
+                          Density (g/cm³)  =   1.01481
+                               Volume (L)  =   1.01172
+                        Activity of water  =   0.988
+                 Ionic strength (mol/kgw)  =   3.582e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.638e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   7.367e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.90348
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.308e-07   1.000e-07    -6.883    -7.000    -0.117      0.00
+   OH-             9.444e-08   6.766e-08    -7.025    -7.170    -0.145     -3.43
+   H2O             5.551e+01   9.884e-01     1.744    -0.005     0.000     18.05
+Cl            3.582e-01
+   Cl-             3.582e-01   2.412e-01    -0.446    -0.618    -0.172     18.41
+K             3.582e-01
+   K+              3.582e-01   2.412e-01    -0.446    -0.618    -0.172      9.29
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Sylvite          -2.08     -1.24    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 6.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                4.313e-01   4.313e-01  Charge balance
+	K                 4.313e-01   4.313e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 45946
+                          Density (g/cm³)  =   1.01811
+                               Volume (L)  =   1.01379
+                        Activity of water  =   0.986
+                 Ionic strength (mol/kgw)  =   4.313e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.522e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   1.454e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.90101
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.305e-07   1.000e-07    -6.884    -7.000    -0.116      0.00
+   OH-             9.526e-08   6.750e-08    -7.021    -7.171    -0.150     -3.30
+   H2O             5.551e+01   9.861e-01     1.744    -0.006     0.000     18.05
+Cl            4.313e-01
+   Cl-             4.313e-01   2.845e-01    -0.365    -0.546    -0.181     18.46
+K             4.313e-01
+   K+              4.313e-01   2.845e-01    -0.365    -0.546    -0.181      9.34
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Sylvite          -1.94     -1.09    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 7.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                5.063e-01   5.063e-01  Charge balance
+	K                 5.063e-01   5.063e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 53172
+                          Density (g/cm³)  =   1.02148
+                               Volume (L)  =   1.01593
+                        Activity of water  =   0.984
+                 Ionic strength (mol/kgw)  =   5.063e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.391e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   2.551e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.89920
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.298e-07   1.000e-07    -6.887    -7.000    -0.113      0.00
+   OH-             9.584e-08   6.734e-08    -7.018    -7.172    -0.153     -3.17
+   H2O             5.551e+01   9.837e-01     1.744    -0.007     0.000     18.05
+Cl            5.063e-01
+   Cl-             5.063e-01   3.281e-01    -0.296    -0.484    -0.188     18.51
+K             5.063e-01
+   K+              5.063e-01   3.281e-01    -0.296    -0.484    -0.188      9.39
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Sylvite          -1.81     -0.97    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 8.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                5.832e-01   5.832e-01  Charge balance
+	K                 5.832e-01   5.832e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 60415
+                          Density (g/cm³)  =   1.02490
+                               Volume (L)  =   1.01813
+                        Activity of water  =   0.981
+                 Ionic strength (mol/kgw)  =   5.832e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.251e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   4.137e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   7
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.89790
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.287e-07   1.000e-07    -6.890    -7.000    -0.110      0.00
+   OH-             9.623e-08   6.718e-08    -7.017    -7.173    -0.156     -3.03
+   H2O             5.551e+01   9.813e-01     1.744    -0.008     0.000     18.05
+Cl            5.832e-01
+   Cl-             5.832e-01   3.720e-01    -0.234    -0.429    -0.195     18.55
+K             5.832e-01
+   K+              5.832e-01   3.720e-01    -0.234    -0.429    -0.195      9.44
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Sylvite          -1.70     -0.86    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 9.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                7.368e-01   7.368e-01  Charge balance
+	K                 7.368e-01   7.368e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 74436
+                          Density (g/cm³)  =   1.03166
+                               Volume (L)  =   1.02256
+                        Activity of water  =   0.976
+                 Ionic strength (mol/kgw)  =   7.368e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.958e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   9.037e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.89647
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.261e-07   1.000e-07    -6.899    -7.000    -0.101      0.00
+   OH-             9.656e-08   6.685e-08    -7.015    -7.175    -0.160     -2.78
+   H2O             5.551e+01   9.765e-01     1.744    -0.010     0.000     18.05
+Cl            7.368e-01
+   Cl-             7.368e-01   4.582e-01    -0.133    -0.339    -0.206     18.64
+K             7.368e-01
+   K+              7.368e-01   4.582e-01    -0.133    -0.339    -0.206      9.53
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Sylvite          -1.52     -0.68    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 10.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                8.953e-01   8.953e-01  Charge balance
+	K                 8.953e-01   8.953e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 88314
+                          Density (g/cm³)  =   1.03853
+                               Volume (L)  =   1.02717
+                        Activity of water  =   0.972
+                 Ionic strength (mol/kgw)  =   8.953e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.653e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   2.017e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89616
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.230e-07   1.000e-07    -6.910    -7.000    -0.090      0.00
+   OH-             9.647e-08   6.651e-08    -7.016    -7.177    -0.162     -2.53
+   H2O             5.551e+01   9.715e-01     1.744    -0.013     0.000     18.05
+Cl            8.953e-01
+   Cl-             8.953e-01   5.454e-01    -0.048    -0.263    -0.215     18.71
+K             8.953e-01
+   K+              8.953e-01   5.454e-01    -0.048    -0.263    -0.215      9.63
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.01    1.63  H2O
+  Sylvite          -1.37     -0.53    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 11.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.057e+00   1.057e+00  Charge balance
+	K                 1.057e+00   1.057e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 101941
+                          Density (g/cm³)  =   1.04544
+                               Volume (L)  =   1.03193
+                        Activity of water  =   0.966
+                 Ionic strength (mol/kgw)  =   1.057e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.343e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.392e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89670
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.195e-07   1.000e-07    -6.923    -7.000    -0.077      0.00
+   OH-             9.605e-08   6.616e-08    -7.018    -7.179    -0.162     -2.28
+   H2O             5.551e+01   9.664e-01     1.744    -0.015     0.000     18.05
+Cl            1.057e+00
+   Cl-             1.057e+00   6.334e-01     0.024    -0.198    -0.222     18.78
+K             1.057e+00
+   K+              1.057e+00   6.334e-01     0.024    -0.198    -0.222      9.72
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.01    1.63  H2O
+  Sylvite          -1.24     -0.40    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 12.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.140e+00   1.140e+00  Charge balance
+	K                 1.140e+00   1.140e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 108745
+                          Density (g/cm³)  =   1.04894
+                               Volume (L)  =   1.03439
+                        Activity of water  =   0.964
+                 Ionic strength (mol/kgw)  =   1.140e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.188e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   4.112e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.89724
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.176e-07   1.000e-07    -6.930    -7.000    -0.070      0.00
+   OH-             9.574e-08   6.598e-08    -7.019    -7.181    -0.162     -2.15
+   H2O             5.551e+01   9.638e-01     1.744    -0.016     0.000     18.05
+Cl            1.140e+00
+   Cl-             1.140e+00   6.783e-01     0.057    -0.169    -0.226     18.82
+K             1.140e+00
+   K+              1.140e+00   6.783e-01     0.057    -0.169    -0.226      9.76
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.02    1.63  H2O
+  Sylvite          -1.18     -0.34    0.84  KCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION_SPREAD
+	 temp 20
+	 units mol/L
+	Na	Cl#     HB_SC
+	0.085557837	1 charge #     8200
+	0.172826831	1 charge #     16000
+	0.258384668	1 charge #     23200
+	0.345653662	1 charge #     30200
+	0.434633812	1 charge #     37100
+	0.523613963	1 charge #     44000
+	0.612594114	1 charge #     50700
+	0.684462697	1 charge #     56000
+	0.865845311	1 charge #     68900
+	1.031827515	1 charge #     80000
+	1.368925394	1 charge #     101000
+	1.676933607	1 charge #     118000
+	USER_GRAPH
+	  -headings NaCl
+	  10 DATA 8200, 16000, 23200, 30200, 37100, 44000, 50700, 56000, 68900, 80000, 101000, 118000
+	  20 dim HB(12)
+	  30 for i = 1 to 12
+	  40   READ HB(i)
+	  50 next i
+	  60 plot_xy HB(cell_no - 12) / 1e3, SC / 1e3, line_width = 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 13.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                8.888e-02   8.888e-02  Charge balance
+	Na                8.888e-02   8.888e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 8562
+                          Density (g/cm³)  =   1.00190
+                               Volume (L)  =   1.00329
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   8.888e-02
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.361e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -6.493e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.93444
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.223e-07   1.000e-07    -6.913    -7.000    -0.087      0.00
+   OH-             8.865e-08   6.825e-08    -7.052    -7.166    -0.114     -3.99
+   H2O             5.551e+01   9.970e-01     1.744    -0.001     0.000     18.05
+Cl            8.888e-02
+   Cl-             8.888e-02   6.907e-02    -1.051    -1.161    -0.110     18.15
+Na            8.888e-02
+   Na+             8.888e-02   7.069e-02    -1.051    -1.151    -0.099     -1.39
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.63     -0.00    1.63  H2O
+  Halite           -3.88     -2.31    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 14.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.799e-01   1.799e-01  Charge balance
+	Na                1.799e-01   1.799e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 16506
+                          Density (g/cm³)  =   1.00562
+                               Volume (L)  =   1.00486
+                        Activity of water  =   0.994
+                 Ionic strength (mol/kgw)  =   1.799e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.947e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -4.214e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92474
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.250e-07   1.000e-07    -6.903    -7.000    -0.097      0.00
+   OH-             9.553e-08   6.805e-08    -7.020    -7.167    -0.147     -3.78
+   H2O             5.551e+01   9.940e-01     1.744    -0.003     0.000     18.05
+Cl            1.799e-01
+   Cl-             1.799e-01   1.305e-01    -0.745    -0.884    -0.139     18.26
+Na            1.799e-01
+   Na+             1.799e-01   1.361e-01    -0.745    -0.866    -0.121     -1.23
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Halite           -3.32     -1.75    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 15.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.695e-01   2.695e-01  Charge balance
+	Na                2.695e-01   2.695e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 23885
+                          Density (g/cm³)  =   1.00925
+                               Volume (L)  =   1.00645
+                        Activity of water  =   0.991
+                 Ionic strength (mol/kgw)  =   2.695e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.467e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.483e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92117
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.249e-07   1.000e-07    -6.903    -7.000    -0.097      0.00
+   OH-             1.003e-07   6.785e-08    -6.999    -7.168    -0.170     -3.60
+   H2O             5.551e+01   9.911e-01     1.744    -0.004     0.000     18.05
+Cl            2.695e-01
+   Cl-             2.695e-01   1.873e-01    -0.569    -0.728    -0.158     18.34
+Na            2.695e-01
+   Na+             2.695e-01   1.985e-01    -0.569    -0.702    -0.133     -1.11
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Halite           -3.00     -1.43    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 16.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                3.613e-01   3.613e-01  Charge balance
+	Na                3.613e-01   3.613e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 31094
+                          Density (g/cm³)  =   1.01292
+                               Volume (L)  =   1.00809
+                        Activity of water  =   0.988
+                 Ionic strength (mol/kgw)  =   3.613e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.950e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.753e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92004
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.236e-07   1.000e-07    -6.908    -7.000    -0.092      0.00
+   OH-             1.041e-07   6.764e-08    -6.983    -7.170    -0.187     -3.42
+   H2O             5.551e+01   9.881e-01     1.744    -0.005     0.000     18.05
+Cl            3.613e-01
+   Cl-             3.613e-01   2.431e-01    -0.442    -0.614    -0.172     18.41
+Na            3.613e-01
+   Na+             3.613e-01   2.617e-01    -0.442    -0.582    -0.140     -1.01
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Halite           -2.77     -1.20    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 17.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                4.553e-01   4.553e-01  Charge balance
+	Na                4.553e-01   4.553e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 38169
+                          Density (g/cm³)  =   1.01665
+                               Volume (L)  =   1.00979
+                        Activity of water  =   0.985
+                 Ionic strength (mol/kgw)  =   4.553e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.413e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -7.826e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92031
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.215e-07   1.000e-07    -6.915    -7.000    -0.085      0.00
+   OH-             1.074e-07   6.743e-08    -6.969    -7.171    -0.202     -3.25
+   H2O             5.551e+01   9.850e-01     1.744    -0.007     0.000     18.05
+Cl            4.553e-01
+   Cl-             4.553e-01   2.985e-01    -0.342    -0.525    -0.183     18.48
+Na            4.553e-01
+   Na+             4.553e-01   3.263e-01    -0.342    -0.486    -0.145     -0.92
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Halite           -2.58     -1.01    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 18.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                5.497e-01   5.497e-01  Charge balance
+	Na                5.497e-01   5.497e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 45002
+                          Density (g/cm³)  =   1.02036
+                               Volume (L)  =   1.01153
+                        Activity of water  =   0.982
+                 Ionic strength (mol/kgw)  =   5.497e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -8.752e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.422e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92149
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.190e-07   1.000e-07    -6.924    -7.000    -0.076      0.00
+   OH-             1.102e-07   6.722e-08    -6.958    -7.173    -0.215     -3.09
+   H2O             5.551e+01   9.819e-01     1.744    -0.008     0.000     18.05
+Cl            5.497e-01
+   Cl-             5.497e-01   3.530e-01    -0.260    -0.452    -0.192     18.53
+Na            5.497e-01
+   Na+             5.497e-01   3.914e-01    -0.260    -0.407    -0.148     -0.84
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Halite           -2.43     -0.86    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 19.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                6.445e-01   6.445e-01  Charge balance
+	Na                6.445e-01   6.445e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 51617
+                          Density (g/cm³)  =   1.02406
+                               Volume (L)  =   1.01329
+                        Activity of water  =   0.979
+                 Ionic strength (mol/kgw)  =   6.445e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.403e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -2.351e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92333
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.162e-07   1.000e-07    -6.935    -7.000    -0.065      0.00
+   OH-             1.128e-07   6.700e-08    -6.948    -7.174    -0.226     -2.93
+   H2O             5.551e+01   9.788e-01     1.744    -0.009     0.000     18.05
+Cl            6.445e-01
+   Cl-             6.445e-01   4.067e-01    -0.191    -0.391    -0.200     18.59
+Na            6.445e-01
+   Na+             6.445e-01   4.573e-01    -0.191    -0.340    -0.149     -0.77
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Halite           -2.30     -0.73    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 20.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                7.214e-01   7.214e-01  Charge balance
+	Na                7.214e-01   7.214e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 56816
+                          Density (g/cm³)  =   1.02704
+                               Volume (L)  =   1.01473
+                        Activity of water  =   0.976
+                 Ionic strength (mol/kgw)  =   7.214e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.742e-10
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.349e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.92517
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.146e-07   6.683e-08    -6.941    -7.175    -0.234     -2.81
+   H+              1.138e-07   1.000e-07    -6.944    -7.000    -0.056      0.00
+   H2O             5.551e+01   9.762e-01     1.744    -0.010     0.000     18.05
+Cl            7.214e-01
+   Cl-             7.214e-01   4.496e-01    -0.142    -0.347    -0.205     18.63
+Na            7.214e-01
+   Na+             7.214e-01   5.112e-01    -0.142    -0.291    -0.150     -0.71
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Halite           -2.21     -0.64    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 21.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                9.166e-01   9.166e-01  Charge balance
+	Na                9.166e-01   9.166e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 69414
+                          Density (g/cm³)  =   1.03451
+                               Volume (L)  =   1.01842
+                        Activity of water  =   0.970
+                 Ionic strength (mol/kgw)  =   9.166e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.144e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -8.026e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.93095
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.188e-07   6.638e-08    -6.925    -7.178    -0.253     -2.50
+   H+              1.074e-07   1.000e-07    -6.969    -7.000    -0.031      0.00
+   H2O             5.551e+01   9.697e-01     1.744    -0.013     0.000     18.05
+Cl            9.166e-01
+   Cl-             9.166e-01   5.571e-01    -0.038    -0.254    -0.216     18.72
+Na            9.166e-01
+   Na+             9.166e-01   6.510e-01    -0.038    -0.186    -0.149     -0.58
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.01    1.63  H2O
+  Halite           -2.01     -0.44    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 22.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.097e+00   1.097e+00  Charge balance
+	Na                1.097e+00   1.097e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 80353
+                          Density (g/cm³)  =   1.04130
+                               Volume (L)  =   1.02189
+                        Activity of water  =   0.964
+                 Ionic strength (mol/kgw)  =   1.097e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.075e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.399e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.93735
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.221e-07   6.597e-08    -6.913    -7.181    -0.267     -2.22
+   H+              1.013e-07   1.000e-07    -6.994    -7.000    -0.006      0.00
+   H2O             5.551e+01   9.636e-01     1.744    -0.016     0.000     18.05
+Cl            1.097e+00
+   Cl-             1.097e+00   6.548e-01     0.040    -0.184    -0.224     18.80
+Na            1.097e+00
+   Na+             1.097e+00   7.843e-01     0.040    -0.105    -0.146     -0.48
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.02    1.63  H2O
+  Halite           -1.86     -0.29    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 23.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.467e+00   1.467e+00  Charge balance
+	Na                1.467e+00   1.467e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 101064
+                          Density (g/cm³)  =   1.05498
+                               Volume (L)  =   1.02916
+                        Activity of water  =   0.951
+                 Ionic strength (mol/kgw)  =   1.467e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.851e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.355e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.95291
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.277e-07   6.509e-08    -6.894    -7.186    -0.293     -1.67
+   H+              8.921e-08   1.000e-07    -7.050    -7.000     0.050      0.00
+   H2O             5.551e+01   9.509e-01     1.744    -0.022     0.000     18.05
+Cl            1.467e+00
+   Cl-             1.467e+00   8.536e-01     0.166    -0.069    -0.235     18.94
+Na            1.467e+00
+   Na+             1.467e+00   1.075e+00     0.166     0.032    -0.135     -0.29
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.66     -0.02    1.63  H2O
+  Halite           -1.61     -0.04    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 24.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.811e+00   1.811e+00  Charge balance
+	Na                1.811e+00   1.811e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 118453
+                          Density (g/cm³)  =   1.06735
+                               Volume (L)  =   1.03606
+                        Activity of water  =   0.939
+                 Ionic strength (mol/kgw)  =   1.811e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.331e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -6.175e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.96964
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.320e-07   6.426e-08    -6.879    -7.192    -0.313     -1.17
+   H+              7.867e-08   1.000e-07    -7.104    -7.000     0.104      0.00
+   H2O             5.551e+01   9.387e-01     1.744    -0.027     0.000     18.05
+Cl            1.811e+00
+   Cl-             1.811e+00   1.038e+00     0.258     0.016    -0.242     19.05
+Na            1.811e+00
+   Na+             1.811e+00   1.371e+00     0.258     0.137    -0.121     -0.13
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.66     -0.03    1.63  H2O
+  Halite           -1.42      0.15    1.57  NaCl
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SOLUTION_SPREAD
+	 temp 20
+	 units mol/L
+	Ca	Cl#     HB_SC
+	4.50E-02	1 charge #     8100
+	9.10E-02	1 charge #     15700
+	1.37E-01	1 charge #     22700
+	1.83E-01	1 charge #     29400
+	2.30E-01	1 charge #     36100
+	2.77E-01	1 charge #     42600
+	3.24E-01	1 charge #     48900
+	3.72E-01	1 charge #     55100
+	4.69E-01	1 charge #     67000
+	5.67E-01	1 charge #     78300
+	6.67E-01	1 charge #     88700
+	8.20E-01	1 charge #     103000
+	USER_GRAPH
+	  -headings CaCl2
+	  10 DATA 8100, 15700, 22700, 29400, 36100, 42600, 48900, 55100, 67000, 78300, 88700, 103000
+	  20 dim HB(12)
+	  30 for i = 1 to 12
+	  40   READ HB(i)
+	  50 next i
+	  60 plot_xy HB(cell_no - 24) / 1e3, SC / 1e3, line_width = 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 25.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                4.674e-02   4.674e-02
+	Cl                9.348e-02   9.348e-02  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 8780
+                          Density (g/cm³)  =   1.00249
+                               Volume (L)  =   1.00269
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   1.402e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -1.464e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   6.869e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.86507
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.270e-07   1.000e-07    -6.896    -7.000    -0.104      0.00
+   OH-             1.123e-07   6.831e-08    -6.949    -7.166    -0.216     -3.87
+   H2O             5.551e+01   9.978e-01     1.744    -0.001     0.000     18.05
+Ca            4.674e-02
+   Ca+2            4.674e-02   1.672e-02    -1.330    -1.777    -0.446    -17.43
+Cl            9.348e-02
+   Cl-             9.348e-02   6.954e-02    -1.029    -1.158    -0.128     18.21
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.63     -0.00    1.63  H2O
+  Portlandite     -10.92    -16.11   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 26.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                9.470e-02   9.470e-02
+	Cl                1.894e-01   1.894e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 16742
+                          Density (g/cm³)  =   1.00684
+                               Volume (L)  =   1.00365
+                        Activity of water  =   0.996
+                 Ionic strength (mol/kgw)  =   2.841e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.523e-09
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   2.135e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.85610
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.373e-07   6.816e-08    -6.862    -7.166    -0.304     -3.57
+   H+              1.288e-07   1.000e-07    -6.890    -7.000    -0.110      0.00
+   H2O             5.551e+01   9.956e-01     1.744    -0.002     0.000     18.05
+Ca            9.470e-02
+   Ca+2            9.470e-02   2.841e-02    -1.024    -1.546    -0.523    -17.20
+Cl            1.894e-01
+   Cl-             1.894e-01   1.308e-01    -0.723    -0.883    -0.161     18.35
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Portlandite     -10.69    -15.88   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 27.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.428e-01   1.428e-01
+	Cl                2.857e-01   2.857e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 24121
+                          Density (g/cm³)  =   1.01116
+                               Volume (L)  =   1.00464
+                        Activity of water  =   0.993
+                 Ionic strength (mol/kgw)  =   4.285e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.265e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   4.250e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.85688
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.602e-07   6.800e-08    -6.795    -7.167    -0.372     -3.30
+   H+              1.276e-07   1.000e-07    -6.894    -7.000    -0.106      0.00
+   H2O             5.551e+01   9.934e-01     1.744    -0.003     0.000     18.05
+Ca            1.428e-01
+   Ca+2            1.428e-01   3.939e-02    -0.845    -1.405    -0.559    -17.04
+Cl            2.857e-01
+   Cl-             2.857e-01   1.886e-01    -0.544    -0.724    -0.180     18.46
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Portlandite     -10.55    -15.74   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 28.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.912e-01   1.912e-01
+	Cl                3.824e-01   3.824e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 31040
+                          Density (g/cm³)  =   1.01547
+                               Volume (L)  =   1.00566
+                        Activity of water  =   0.991
+                 Ionic strength (mol/kgw)  =   5.735e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.751e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   6.930e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.86127
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.826e-07   6.785e-08    -6.738    -7.168    -0.430     -3.05
+   H+              1.251e-07   1.000e-07    -6.903    -7.000    -0.097      0.00
+   H2O             5.551e+01   9.911e-01     1.744    -0.004     0.000     18.05
+Ca            1.912e-01
+   Ca+2            1.912e-01   5.037e-02    -0.719    -1.298    -0.579    -16.91
+Cl            3.824e-01
+   Cl-             3.824e-01   2.444e-01    -0.418    -0.612    -0.194     18.55
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Portlandite     -10.44    -15.63   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 29.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                2.408e-01   2.408e-01
+	Cl                4.815e-01   4.815e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 37704
+                          Density (g/cm³)  =   1.01986
+                               Volume (L)  =   1.00673
+                        Activity of water  =   0.989
+                 Ionic strength (mol/kgw)  =   7.223e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.369e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   1.017e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.86774
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.056e-07   6.769e-08    -6.687    -7.169    -0.482     -2.81
+   H+              1.219e-07   1.000e-07    -6.914    -7.000    -0.086      0.00
+   H2O             5.551e+01   9.888e-01     1.744    -0.005     0.000     18.05
+Ca            2.408e-01
+   Ca+2            2.408e-01   6.192e-02    -0.618    -1.208    -0.590    -16.80
+Cl            4.815e-01
+   Cl-             4.815e-01   3.001e-01    -0.317    -0.523    -0.205     18.63
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Portlandite     -10.36    -15.55   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 30.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                2.905e-01   2.905e-01
+	Cl                5.811e-01   5.811e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 44007
+                          Density (g/cm³)  =   1.02424
+                               Volume (L)  =   1.00781
+                        Activity of water  =   0.986
+                 Ionic strength (mol/kgw)  =   8.716e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.107e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   1.384e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   7
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.87555
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.290e-07   6.752e-08    -6.640    -7.171    -0.530     -2.57
+   H+              1.183e-07   1.000e-07    -6.927    -7.000    -0.073      0.00
+   H2O             5.551e+01   9.863e-01     1.744    -0.006     0.000     18.05
+Ca            2.905e-01
+   Ca+2            2.905e-01   7.403e-02    -0.537    -1.131    -0.594    -16.70
+Cl            5.811e-01
+   Cl-             5.811e-01   3.550e-01    -0.236    -0.450    -0.214     18.70
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Portlandite     -10.28    -15.47   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 31.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                3.405e-01   3.405e-01
+	Cl                6.810e-01   6.810e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 49987
+                          Density (g/cm³)  =   1.02861
+                               Volume (L)  =   1.00893
+                        Activity of water  =   0.984
+                 Ionic strength (mol/kgw)  =   1.021e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.386e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   1.792e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   7
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.88436
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.531e-07   6.735e-08    -6.597    -7.172    -0.575     -2.33
+   H+              1.145e-07   1.000e-07    -6.941    -7.000    -0.059      0.00
+   H2O             5.551e+01   9.839e-01     1.744    -0.007     0.000     18.05
+Ca            3.405e-01
+   Ca+2            3.405e-01   8.689e-02    -0.468    -1.061    -0.593    -16.61
+Cl            6.810e-01
+   Cl-             6.810e-01   4.094e-01    -0.167    -0.388    -0.221     18.77
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Portlandite     -10.21    -15.40   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 32.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                3.917e-01   3.917e-01
+	Cl                7.835e-01   7.835e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 55791
+                          Density (g/cm³)  =   1.03306
+                               Volume (L)  =   1.01008
+                        Activity of water  =   0.981
+                 Ionic strength (mol/kgw)  =   1.175e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.682e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   2.250e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.89424
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.787e-07   6.717e-08    -6.555    -7.173    -0.618     -2.10
+   H+              1.105e-07   1.000e-07    -6.957    -7.000    -0.043      0.00
+   H2O             5.551e+01   9.812e-01     1.744    -0.008     0.000     18.05
+Ca            3.917e-01
+   Ca+2            3.917e-01   1.010e-01    -0.407    -0.996    -0.589    -16.52
+Cl            7.835e-01
+   Cl-             7.835e-01   4.647e-01    -0.106    -0.333    -0.227     18.83
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Portlandite     -10.15    -15.34   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 33.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                4.959e-01   4.959e-01
+	Cl                9.918e-01   9.918e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 66684
+                          Density (g/cm³)  =   1.04204
+                               Volume (L)  =   1.01248
+                        Activity of water  =   0.976
+                 Ionic strength (mol/kgw)  =   1.488e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.315e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.312e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.91648
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.338e-07   6.680e-08    -6.477    -7.175    -0.699     -1.64
+   H+              1.023e-07   1.000e-07    -6.990    -7.000    -0.010      0.00
+   H2O             5.551e+01   9.757e-01     1.744    -0.011     0.000     18.05
+Ca            4.959e-01
+   Ca+2            4.959e-01   1.330e-01    -0.305    -0.876    -0.571    -16.36
+Cl            9.918e-01
+   Cl-             9.918e-01   5.764e-01    -0.004    -0.239    -0.236     18.95
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Portlandite     -10.04    -15.23   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 34.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                6.020e-01   6.020e-01
+	Cl                1.204e+00   1.204e+00  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 76686
+                          Density (g/cm³)  =   1.05107
+                               Volume (L)  =   1.01498
+                        Activity of water  =   0.970
+                 Ionic strength (mol/kgw)  =   1.806e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.011e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   5.528e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.94162
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.952e-07   6.639e-08    -6.403    -7.178    -0.775     -1.18
+   H+              9.409e-08   1.000e-07    -7.026    -7.000     0.026      0.00
+   H2O             5.551e+01   9.698e-01     1.744    -0.013     0.000     18.05
+Ca            6.020e-01
+   Ca+2            6.020e-01   1.717e-01    -0.220    -0.765    -0.545    -16.21
+Cl            1.204e+00
+   Cl-             1.204e+00   6.901e-01     0.081    -0.161    -0.242     19.05
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.01    1.63  H2O
+  Portlandite      -9.93    -15.12   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 35.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                7.112e-01   7.112e-01
+	Cl                1.422e+00   1.422e+00  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 85987
+                          Density (g/cm³)  =   1.06026
+                               Volume (L)  =   1.01761
+                        Activity of water  =   0.963
+                 Ionic strength (mol/kgw)  =   2.134e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.790e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   7.598e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.96969
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             4.650e-07   6.595e-08    -6.333    -7.181    -0.848     -0.72
+   H+              8.599e-08   1.000e-07    -7.066    -7.000     0.066      0.00
+   H2O             5.551e+01   9.634e-01     1.744    -0.016     0.000     18.05
+Ca            7.112e-01
+   Ca+2            7.112e-01   2.197e-01    -0.148    -0.658    -0.510    -16.07
+Cl            1.422e+00
+   Cl-             1.422e+00   8.080e-01     0.153    -0.093    -0.246     19.15
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.02    1.63  H2O
+  Portlandite      -9.83    -15.02   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 36.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                8.801e-01   8.801e-01
+	Cl                1.760e+00   1.760e+00  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 98682
+                          Density (g/cm³)  =   1.07427
+                               Volume (L)  =   1.02179
+                        Activity of water  =   0.953
+                 Ionic strength (mol/kgw)  =   2.640e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.149e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.384e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   1.01680
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.892e-07   6.522e-08    -6.230    -7.186    -0.956     -0.02
+   H+              7.435e-08   1.000e-07    -7.129    -7.000     0.129      0.00
+   H2O             5.551e+01   9.528e-01     1.744    -0.021     0.000     18.05
+Ca            8.801e-01
+   Ca+2            8.801e-01   3.156e-01    -0.055    -0.501    -0.445    -15.86
+Cl            1.760e+00
+   Cl-             1.760e+00   9.935e-01     0.246    -0.003    -0.248     19.29
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.65     -0.02    1.63  H2O
+  Portlandite      -9.68    -14.87   -5.19  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SOLUTION_SPREAD
+	 temp 20
+	 units mol/L
+	Mg	Cl#     HB_SC
+	0.052504463	1 charge #     8600
+	0.106059015	1 charge #     16600
+	0.213168119	1 charge #     31200
+	0.322377402	1 charge #     44500
+	0.432636774	1 charge #     56400
+	0.546046414	1 charge #     66900
+	0.660506143	1 charge #     77200
+	0.777066051	1 charge #     86400
+	0.894676047	1 charge #     94500
+	1.014386223	1 charge #     102000
+	USER_GRAPH
+	  -headings MgCl2
+	  10 DATA 8600, 16600, 31200, 44500, 56400, 66900, 77200, 86400, 94500, 102000
+	  20 dim HB(10)
+	  30 for i = 1 to 10
+	  40   READ HB(i)
+	  50 next i
+	  60 plot_xy HB(cell_no - 36) / 1e3, SC / 1e3, line_width = 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 37.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.090e-01   1.090e-01  Charge balance
+	Mg                5.451e-02   5.451e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 9634
+                          Density (g/cm³)  =   1.00253
+                               Volume (L)  =   1.00265
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.635e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.037e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.285e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.86707
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.263e-07   1.000e-07    -6.899    -7.000    -0.101      0.00
+   OH-             1.088e-07   6.828e-08    -6.963    -7.166    -0.203     -3.82
+   H2O             5.551e+01   9.974e-01     1.744    -0.001     0.000     18.05
+Cl            1.090e-01
+   Cl-             1.090e-01   7.985e-02    -0.963    -1.098    -0.135     18.24
+Mg            5.451e-02
+   Mg+2            5.451e-02   1.959e-02    -1.264    -1.708    -0.445    -20.83
+   MgOH+           2.212e-07   1.946e-07    -6.655    -6.711    -0.056     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -8.57     -3.91    4.65  MgCl2:6H2O
+  Brucite          -5.10    -16.04  -10.94  Mg(OH)2
+  H2O(g)           -1.63     -0.00    1.63  H2O
+  MgCl2_2H2O      -18.89     -3.91   14.98  MgCl2:2H2O
+  MgCl2_4H2O      -10.99     -3.91    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 38.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.205e-01   2.205e-01  Charge balance
+	Mg                1.103e-01   1.103e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 18172
+                          Density (g/cm³)  =   1.00689
+                               Volume (L)  =   1.00358
+                        Activity of water  =   0.995
+                 Ionic strength (mol/kgw)  =   3.308e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.757e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.164e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.86375
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.318e-07   6.810e-08    -6.880    -7.167    -0.287     -3.48
+   H+              1.264e-07   1.000e-07    -6.898    -7.000    -0.102      0.00
+   H2O             5.551e+01   9.949e-01     1.744    -0.002     0.000     18.05
+Cl            2.205e-01
+   Cl-             2.205e-01   1.498e-01    -0.657    -0.824    -0.168     18.39
+Mg            1.103e-01
+   Mg+2            1.103e-01   3.422e-02    -0.958    -1.466    -0.508    -20.59
+   MgOH+           3.704e-07   3.391e-07    -6.431    -6.470    -0.038     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -7.78     -3.13    4.65  MgCl2:6H2O
+  Brucite          -4.86    -15.80  -10.94  Mg(OH)2
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  MgCl2_2H2O      -18.10     -3.12   14.98  MgCl2:2H2O
+  MgCl2_4H2O      -10.20     -3.12    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 39.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                4.444e-01   4.444e-01  Charge balance
+	Mg                2.222e-01   2.222e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 33225
+                          Density (g/cm³)  =   1.01551
+                               Volume (L)  =   1.00556
+                        Activity of water  =   0.989
+                 Ionic strength (mol/kgw)  =   6.666e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   7.012e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.460e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.87953
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.717e-07   6.774e-08    -6.765    -7.169    -0.404     -2.90
+   H+              1.196e-07   1.000e-07    -6.922    -7.000    -0.078      0.00
+   H2O             5.551e+01   9.895e-01     1.744    -0.005     0.000     18.05
+Cl            4.444e-01
+   Cl-             4.444e-01   2.794e-01    -0.352    -0.554    -0.202     18.60
+Mg            2.222e-01
+   Mg+2            2.222e-01   6.419e-02    -0.653    -1.193    -0.539    -20.28
+   MgOH+           6.491e-07   6.326e-07    -6.188    -6.199    -0.011     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -6.98     -2.33    4.65  MgCl2:6H2O
+  Brucite          -4.59    -15.53  -10.94  Mg(OH)2
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  MgCl2_2H2O      -17.29     -2.31   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -9.40     -2.32    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 40.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                6.739e-01   6.739e-01  Charge balance
+	Mg                3.370e-01   3.370e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 46575
+                          Density (g/cm³)  =   1.02421
+                               Volume (L)  =   1.00769
+                        Activity of water  =   0.984
+                 Ionic strength (mol/kgw)  =   1.011e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.067e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   1.526e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   7
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.90465
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.103e-07   6.734e-08    -6.677    -7.172    -0.495     -2.35
+   H+              1.100e-07   1.000e-07    -6.958    -7.000    -0.042      0.00
+   H2O             5.551e+01   9.837e-01     1.744    -0.007     0.000     18.05
+Cl            6.739e-01
+   Cl-             6.739e-01   4.056e-01    -0.171    -0.392    -0.221     18.76
+Mg            3.370e-01
+   Mg+2            3.370e-01   9.993e-02    -0.472    -1.000    -0.528    -20.05
+   MgOH+           9.669e-07   9.790e-07    -6.015    -6.009     0.005     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -6.48     -1.83    4.65  MgCl2:6H2O
+  Brucite          -4.40    -15.34  -10.94  Mg(OH)2
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  MgCl2_2H2O      -16.78     -1.80   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -8.89     -1.81    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 41.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                9.070e-01   9.070e-01  Charge balance
+	Mg                4.535e-01   4.535e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 58489
+                          Density (g/cm³)  =   1.03290
+                               Volume (L)  =   1.00995
+                        Activity of water  =   0.977
+                 Ionic strength (mol/kgw)  =   1.360e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.510e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   7.711e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   8
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.93484
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.495e-07   6.691e-08    -6.603    -7.175    -0.572     -1.82
+   H+              9.994e-08   1.000e-07    -7.000    -7.000     0.000      0.00
+   H2O             5.551e+01   9.773e-01     1.744    -0.010     0.000     18.05
+Cl            9.070e-01
+   Cl-             9.070e-01   5.310e-01    -0.042    -0.275    -0.233     18.90
+Mg            4.535e-01
+   Mg+2            4.535e-01   1.447e-01    -0.343    -0.840    -0.496    -19.84
+   MgOH+           1.360e-06   1.408e-06    -5.866    -5.851     0.015     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -6.10     -1.45    4.65  MgCl2:6H2O
+  Brucite          -4.25    -15.19  -10.94  Mg(OH)2
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  MgCl2_2H2O      -16.39     -1.41   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -8.51     -1.43    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 42.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.148e+00   1.148e+00  Charge balance
+	Mg                5.740e-01   5.740e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 69406
+                          Density (g/cm³)  =   1.04177
+                               Volume (L)  =   1.01236
+                        Activity of water  =   0.970
+                 Ionic strength (mol/kgw)  =   1.722e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.078e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   9.645e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.96983
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.912e-07   6.643e-08    -6.536    -7.178    -0.642     -1.30
+   H+              8.974e-08   1.000e-07    -7.047    -7.000     0.047      0.00
+   H2O             5.551e+01   9.704e-01     1.744    -0.013     0.000     18.05
+Cl            1.148e+00
+   Cl-             1.148e+00   6.601e-01     0.060    -0.180    -0.240     19.02
+Mg            5.740e-01
+   Mg+2            5.740e-01   2.038e-01    -0.241    -0.691    -0.450    -19.64
+   MgOH+           1.876e-06   1.969e-06    -5.727    -5.706     0.021     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -5.79     -1.13    4.65  MgCl2:6H2O
+  Brucite          -4.11    -15.05  -10.94  Mg(OH)2
+  H2O(g)           -1.65     -0.01    1.63  H2O
+  MgCl2_2H2O      -16.06     -1.08   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -8.18     -1.10    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 43.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.393e+00   1.393e+00  Charge balance
+	Mg                6.964e-01   6.964e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 79271
+                          Density (g/cm³)  =   1.05064
+                               Volume (L)  =   1.01490
+                        Activity of water  =   0.963
+                 Ionic strength (mol/kgw)  =   2.089e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.810e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -4.003e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   1.00860
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.353e-07   6.591e-08    -6.475    -7.181    -0.707     -0.78
+   H+              7.996e-08   1.000e-07    -7.097    -7.000     0.097      0.00
+   H2O             5.551e+01   9.628e-01     1.744    -0.016     0.000     18.05
+Cl            1.393e+00
+   Cl-             1.393e+00   7.919e-01     0.144    -0.101    -0.245     19.14
+Mg            6.964e-01
+   Mg+2            6.964e-01   2.821e-01    -0.157    -0.550    -0.392    -19.46
+   MgOH+           2.555e-06   2.705e-06    -5.593    -5.568     0.025     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -5.51     -0.85    4.65  MgCl2:6H2O
+  Brucite          -3.97    -14.91  -10.94  Mg(OH)2
+  H2O(g)           -1.65     -0.02    1.63  H2O
+  MgCl2_2H2O      -15.77     -0.79   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -7.90     -0.82    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 44.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.643e+00   1.643e+00  Charge balance
+	Mg                8.217e-01   8.217e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 88296
+                          Density (g/cm³)  =   1.05960
+                               Volume (L)  =   1.01758
+                        Activity of water  =   0.954
+                 Ionic strength (mol/kgw)  =   2.465e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.778e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.901e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   1.05124
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.830e-07   6.533e-08    -6.417    -7.185    -0.768     -0.26
+   H+              7.070e-08   1.000e-07    -7.151    -7.000     0.151      0.00
+   H2O             5.551e+01   9.544e-01     1.744    -0.020     0.000     18.05
+Cl            1.643e+00
+   Cl-             1.643e+00   9.288e-01     0.216    -0.032    -0.248     19.24
+Mg            8.217e-01
+   Mg+2            8.217e-01   3.884e-01    -0.085    -0.411    -0.325    -19.27
+   MgOH+           3.466e-06   3.692e-06    -5.460    -5.433     0.027     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -5.25     -0.60    4.65  MgCl2:6H2O
+  Brucite          -3.84    -14.78  -10.94  Mg(OH)2
+  H2O(g)           -1.65     -0.02    1.63  H2O
+  MgCl2_2H2O      -15.50     -0.52   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -7.63     -0.56    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 45.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.898e+00   1.898e+00  Charge balance
+	Mg                9.490e-01   9.490e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 96498
+                          Density (g/cm³)  =   1.06857
+                               Volume (L)  =   1.02038
+                        Activity of water  =   0.945
+                 Ionic strength (mol/kgw)  =   2.847e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.060e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -9.454e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   1.09717
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             4.345e-07   6.471e-08    -6.362    -7.189    -0.827      0.26
+   H+              6.212e-08   1.000e-07    -7.207    -7.000     0.207      0.00
+   H2O             5.551e+01   9.453e-01     1.744    -0.024     0.000     18.05
+Cl            1.898e+00
+   Cl-             1.898e+00   1.071e+00     0.278     0.030    -0.249     19.34
+Mg            9.490e-01
+   Mg+2            9.489e-01   5.334e-01    -0.023    -0.273    -0.250    -19.09
+   MgOH+           4.688e-06   5.022e-06    -5.329    -5.299     0.030     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -5.02     -0.36    4.65  MgCl2:6H2O
+  Brucite          -3.71    -14.65  -10.94  Mg(OH)2
+  H2O(g)           -1.66     -0.02    1.63  H2O
+  MgCl2_2H2O      -15.24     -0.26   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -7.39     -0.31    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 46.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                2.159e+00   2.159e+00  Charge balance
+	Mg                1.079e+00   1.079e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 104026
+                          Density (g/cm³)  =   1.07761
+                               Volume (L)  =   1.02333
+                        Activity of water  =   0.935
+                 Ionic strength (mol/kgw)  =   3.238e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   6.787e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.644e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   1.14663
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             4.908e-07   6.403e-08    -6.309    -7.194    -0.885      0.79
+   H+              5.421e-08   1.000e-07    -7.266    -7.000     0.266      0.00
+   H2O             5.551e+01   9.353e-01     1.744    -0.029     0.000     18.05
+Cl            2.159e+00
+   Cl-             2.159e+00   1.219e+00     0.334     0.086    -0.248     19.43
+Mg            1.079e+00
+   Mg+2            1.079e+00   7.352e-01     0.033    -0.134    -0.167    -18.91
+   MgOH+           6.350e-06   6.848e-06    -5.197    -5.164     0.033     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Bischofite       -4.79     -0.14    4.65  MgCl2:6H2O
+  Brucite          -3.58    -14.52  -10.94  Mg(OH)2
+  H2O(g)           -1.66     -0.03    1.63  H2O
+  MgCl2_2H2O      -15.00     -0.02   14.98  MgCl2:2H2O
+  MgCl2_4H2O       -7.16     -0.08    7.08  MgCl2:4H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	SOLUTION_SPREAD
+	 temp 20
+	 units mol/L
+	Mg	S(6)#   HB_SC
+	0.041538589	1 charge #     4100
+	0.08390795	1 charge #     7600
+	0.169477445	1 charge #     13300
+	0.256708482	1 charge #     18400
+	0.345601063	1 charge #     23100
+	0.436155188	1 charge #     27400
+	0.528370857	1 charge #     31100
+	0.62307884	1 charge #     34400
+	0.718617596	1 charge #     37300
+	0.916341281	1 charge #     42700
+	USER_GRAPH
+	  -headings MgSO4
+	  10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 42700
+	  20 dim HB(10)
+	  30 for i = 1 to 10
+	  40   READ HB(i)
+	  50 next i
+	  60 plot_xy HB(cell_no - 46) / 1e3, SC / 1e3, line_width = 0
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 47.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                4.600e-02   4.600e-02
+	S(6)              4.600e-02   4.600e-02  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 6853
+                          Density (g/cm³)  =   1.00396
+                               Volume (L)  =   1.00157
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   1.840e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.951e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.903e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.64518
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.569023e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.377e-07   1.000e-07    -6.861    -7.000    -0.139      0.00
+   OH-             1.069e-07   6.838e-08    -6.971    -7.165    -0.194     -3.77
+   H2O             5.551e+01   9.989e-01     1.744    -0.000     0.000     18.05
+Mg            4.600e-02
+   Mg+2            4.600e-02   1.245e-02    -1.337    -1.905    -0.568    -20.80
+   MgOH+           1.726e-07   1.239e-07    -6.763    -6.907    -0.144     (0)  
+S(6)          4.600e-02
+   SO4-2           4.600e-02   9.920e-03    -1.337    -2.003    -0.666     15.76
+   HSO4-           1.123e-07   8.234e-08    -6.950    -7.084    -0.135     40.25
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -5.29    -16.23  -10.94  Mg(OH)2
+  Epsomite         -2.03     -3.91   -1.89  MgSO4:7H2O
+  H2O(g)           -1.63     -0.00    1.63  H2O
+  Hexahydrite      -2.36     -3.91   -1.55  MgSO4:6H2O
+  Kieserite        -3.72     -3.91   -0.18  MgSO4:H2O
+  Leonhardite      -3.02     -3.91   -0.89  MgSO4:4H2O
+  Pentahydrite     -2.63     -3.91   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 48.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                9.303e-02   9.303e-02
+	S(6)              9.303e-02   9.303e-02  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 12475
+                          Density (g/cm³)  =   1.00974
+                               Volume (L)  =   1.00144
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   3.721e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.130e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -9.360e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   3
+                      Osmotic coefficient  =   0.60200
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.587836e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.497e-07   1.000e-07    -6.825    -7.000    -0.175      0.00
+   OH-             1.262e-07   6.832e-08    -6.899    -7.165    -0.267     -3.40
+   H2O             5.551e+01   9.980e-01     1.744    -0.001     0.000     18.05
+Mg            9.303e-02
+   Mg+2            9.303e-02   1.983e-02    -1.031    -1.703    -0.671    -20.55
+   MgOH+           3.024e-07   1.971e-07    -6.519    -6.705    -0.186     (0)  
+S(6)          9.303e-02
+   SO4-2           9.303e-02   1.374e-02    -1.031    -1.862    -0.831     16.70
+   HSO4-           1.659e-07   1.141e-07    -6.780    -6.943    -0.163     40.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -5.09    -16.03  -10.94  Mg(OH)2
+  Epsomite         -1.69     -3.57   -1.89  MgSO4:7H2O
+  H2O(g)           -1.63     -0.00    1.63  H2O
+  Hexahydrite      -2.02     -3.57   -1.55  MgSO4:6H2O
+  Kieserite        -3.38     -3.57   -0.18  MgSO4:H2O
+  Leonhardite      -2.68     -3.57   -0.89  MgSO4:4H2O
+  Pentahydrite     -2.28     -3.57   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 49.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                1.883e-01   1.883e-01
+	S(6)              1.883e-01   1.883e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 21605
+                          Density (g/cm³)  =   1.02126
+                               Volume (L)  =   1.00138
+                        Activity of water  =   0.996
+                 Ionic strength (mol/kgw)  =   7.534e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.126e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -8.270e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.56506
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.625960e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.633e-07   1.000e-07    -6.787    -7.000    -0.213      0.00
+   OH-             1.576e-07   6.819e-08    -6.802    -7.166    -0.364     -2.76
+   H2O             5.551e+01   9.962e-01     1.744    -0.002     0.000     18.05
+Mg            1.883e-01
+   Mg+2            1.883e-01   3.211e-02    -0.725    -1.493    -0.768    -20.22
+   MgOH+           5.476e-07   3.186e-07    -6.262    -6.497    -0.235     (0)  
+S(6)          1.883e-01
+   SO4-2           1.883e-01   1.794e-02    -0.725    -1.746    -1.021     18.01
+   HSO4-           2.293e-07   1.489e-07    -6.640    -6.827    -0.188     40.61
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.89    -15.83  -10.94  Mg(OH)2
+  Epsomite         -1.37     -3.25   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Hexahydrite      -1.70     -3.25   -1.55  MgSO4:6H2O
+  Kieserite        -3.06     -3.24   -0.18  MgSO4:H2O
+  Leonhardite      -2.36     -3.25   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.96     -3.25   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 50.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                2.860e-01   2.860e-01
+	S(6)              2.860e-01   2.860e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 28770
+                          Density (g/cm³)  =   1.03284
+                               Volume (L)  =   1.00153
+                        Activity of water  =   0.994
+                 Ionic strength (mol/kgw)  =   1.144e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.464e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -6.075e-11
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  12
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.54673
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.665007e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.857e-07   6.807e-08    -6.731    -7.167    -0.436     -2.15
+   H+              1.707e-07   1.000e-07    -6.768    -7.000    -0.232      0.00
+   H2O             5.551e+01   9.944e-01     1.744    -0.002     0.000     18.05
+Mg            2.860e-01
+   Mg+2            2.860e-01   4.354e-02    -0.544    -1.361    -0.817    -19.97
+   MgOH+           7.969e-07   4.312e-07    -6.099    -6.365    -0.267     (0)  
+S(6)          2.860e-01
+   SO4-2           2.860e-01   2.028e-02    -0.544    -1.693    -1.149     19.03
+   HSO4-           2.655e-07   1.683e-07    -6.576    -6.774    -0.198     40.76
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.75    -15.70  -10.94  Mg(OH)2
+  Epsomite         -1.19     -3.07   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Hexahydrite      -1.51     -3.07   -1.55  MgSO4:6H2O
+  Kieserite        -2.87     -3.06   -0.18  MgSO4:H2O
+  Leonhardite      -2.18     -3.06   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.78     -3.07   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 51.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                3.859e-01   3.859e-01
+	S(6)              3.859e-01   3.859e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 34454
+                          Density (g/cm³)  =   1.04450
+                               Volume (L)  =   1.00186
+                        Activity of water  =   0.993
+                 Ionic strength (mol/kgw)  =   1.544e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   8.099e-07
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -2.027e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.53506
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.704988e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.127e-07   6.795e-08    -6.672    -7.168    -0.496     -1.56
+   H+              1.745e-07   1.000e-07    -6.758    -7.000    -0.242      0.00
+   H2O             5.551e+01   9.926e-01     1.744    -0.003     0.000     18.05
+Mg            3.859e-01
+   Mg+2            3.859e-01   5.499e-02    -0.414    -1.260    -0.846    -19.74
+   MgOH+           1.058e-06   5.436e-07    -5.975    -6.265    -0.289     (0)  
+S(6)          3.859e-01
+   SO4-2           3.859e-01   2.170e-02    -0.414    -1.664    -1.250     19.91
+   HSO4-           2.866e-07   1.801e-07    -6.543    -6.744    -0.202     40.89
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.65    -15.60  -10.94  Mg(OH)2
+  Epsomite         -1.06     -2.95   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Hexahydrite      -1.39     -2.94   -1.55  MgSO4:6H2O
+  Kieserite        -2.74     -2.93   -0.18  MgSO4:H2O
+  Leonhardite      -2.05     -2.94   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.65     -2.94   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 52.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                4.882e-01   4.882e-01
+	S(6)              4.882e-01   4.882e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 38957
+                          Density (g/cm³)  =   1.05627
+                               Volume (L)  =   1.00237
+                        Activity of water  =   0.991
+                 Ionic strength (mol/kgw)  =   1.953e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.103e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -4.931e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.52721
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.745915e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.396e-07   6.782e-08    -6.620    -7.169    -0.548     -0.97
+   H+              1.758e-07   1.000e-07    -6.755    -7.000    -0.245      0.00
+   H2O             5.551e+01   9.908e-01     1.744    -0.004     0.000     18.05
+Mg            4.882e-01
+   Mg+2            4.882e-01   6.690e-02    -0.311    -1.175    -0.863    -19.52
+   MgOH+           1.337e-06   6.601e-07    -5.874    -6.180    -0.306     (0)  
+S(6)          4.882e-01
+   SO4-2           4.882e-01   2.254e-02    -0.311    -1.647    -1.336     20.68
+   HSO4-           2.976e-07   1.871e-07    -6.526    -6.728    -0.202     41.00
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.57    -15.51  -10.94  Mg(OH)2
+  Epsomite         -0.96     -2.85   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Hexahydrite      -1.29     -2.85   -1.55  MgSO4:6H2O
+  Kieserite        -2.64     -2.83   -0.18  MgSO4:H2O
+  Leonhardite      -1.95     -2.84   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.56     -2.84   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 53.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                5.929e-01   5.929e-01
+	S(6)              5.929e-01   5.929e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 42489
+                          Density (g/cm³)  =   1.06813
+                               Volume (L)  =   1.00303
+                        Activity of water  =   0.989
+                 Ionic strength (mol/kgw)  =   2.372e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.427e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.007e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.52234
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.787800e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.670e-07   6.770e-08    -6.573    -7.169    -0.596     -0.39
+   H+              1.749e-07   1.000e-07    -6.757    -7.000    -0.243      0.00
+   H2O             5.551e+01   9.889e-01     1.744    -0.005     0.000     18.05
+Mg            5.929e-01
+   Mg+2            5.929e-01   7.969e-02    -0.227    -1.099    -0.872    -19.32
+   MgOH+           1.637e-06   7.848e-07    -5.786    -6.105    -0.319     (0)  
+S(6)          5.929e-01
+   SO4-2           5.929e-01   2.298e-02    -0.227    -1.639    -1.412     21.40
+   HSO4-           3.014e-07   1.907e-07    -6.521    -6.720    -0.199     41.10
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.50    -15.44  -10.94  Mg(OH)2
+  Epsomite         -0.89     -2.77   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.00    1.63  H2O
+  Hexahydrite      -1.21     -2.77   -1.55  MgSO4:6H2O
+  Kieserite        -2.56     -2.74   -0.18  MgSO4:H2O
+  Leonhardite      -1.87     -2.76   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.48     -2.76   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 54.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                7.010e-01   7.010e-01
+	S(6)              7.010e-01   7.010e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 45229
+                          Density (g/cm³)  =   1.08020
+                               Volume (L)  =   1.00387
+                        Activity of water  =   0.987
+                 Ionic strength (mol/kgw)  =   2.804e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.790e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -1.848e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  10
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.52021
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.831038e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.955e-07   6.756e-08    -6.529    -7.170    -0.641      0.21
+   H+              1.723e-07   1.000e-07    -6.764    -7.000    -0.236      0.00
+   H2O             5.551e+01   9.869e-01     1.744    -0.006     0.000     18.05
+Mg            7.010e-01
+   Mg+2            7.010e-01   9.388e-02    -0.154    -1.027    -0.873    -19.11
+   MgOH+           1.967e-06   9.228e-07    -5.706    -6.035    -0.329     (0)  
+S(6)          7.010e-01
+   SO4-2           7.010e-01   2.312e-02    -0.154    -1.636    -1.482     22.07
+   HSO4-           3.000e-07   1.919e-07    -6.523    -6.717    -0.194     41.19
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.43    -15.37  -10.94  Mg(OH)2
+  Epsomite         -0.82     -2.70   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Hexahydrite      -1.14     -2.70   -1.55  MgSO4:6H2O
+  Kieserite        -2.48     -2.67   -0.18  MgSO4:H2O
+  Leonhardite      -1.80     -2.69   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.41     -2.69   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 55.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                8.107e-01   8.107e-01
+	S(6)              8.106e-01   8.106e-01  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 47256
+                          Density (g/cm³)  =   1.09225
+                               Volume (L)  =   1.00487
+                        Activity of water  =   0.985
+                 Ionic strength (mol/kgw)  =   3.243e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.190e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -3.114e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.52079
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.874882e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.250e-07   6.742e-08    -6.488    -7.171    -0.683      0.80
+   H+              1.683e-07   1.000e-07    -6.774    -7.000    -0.226      0.00
+   H2O             5.551e+01   9.849e-01     1.744    -0.007     0.000     18.05
+Mg            8.107e-01
+   Mg+2            8.106e-01   1.097e-01    -0.091    -0.960    -0.869    -18.91
+   MgOH+           2.328e-06   1.076e-06    -5.633    -5.968    -0.335     (0)  
+S(6)          8.106e-01
+   SO4-2           8.106e-01   2.304e-02    -0.091    -1.637    -1.546     22.70
+   HSO4-           2.947e-07   1.913e-07    -6.531    -6.718    -0.188     41.28
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.36    -15.30  -10.94  Mg(OH)2
+  Epsomite         -0.76     -2.64   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Hexahydrite      -1.08     -2.64   -1.55  MgSO4:6H2O
+  Kieserite        -2.42     -2.60   -0.18  MgSO4:H2O
+  Leonhardite      -1.74     -2.62   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.35     -2.63   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 56.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Mg                1.039e+00   1.039e+00
+	S(6)              1.039e+00   1.039e+00  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 49656
+                          Density (g/cm³)  =   1.11684
+                               Volume (L)  =   1.00740
+                        Activity of water  =   0.980
+                 Ionic strength (mol/kgw)  =   4.157e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.145e-06
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =  -7.563e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.53017
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.966354e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.895e-07   6.711e-08    -6.410    -7.173    -0.764      2.01
+   H+              1.564e-07   1.000e-07    -6.806    -7.000    -0.194      0.00
+   H2O             5.551e+01   9.803e-01     1.744    -0.009     0.000     18.05
+Mg            1.039e+00
+   Mg+2            1.039e+00   1.491e-01     0.017    -0.826    -0.843    -18.50
+   MgOH+           3.189e-06   1.456e-06    -5.496    -5.837    -0.340     (0)  
+S(6)          1.039e+00
+   SO4-2           1.039e+00   2.242e-02     0.017    -1.649    -1.666     23.88
+   HSO4-           2.764e-07   1.861e-07    -6.558    -6.730    -0.172     41.43
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  Brucite          -4.23    -15.17  -10.94  Mg(OH)2
+  Epsomite         -0.65     -2.54   -1.89  MgSO4:7H2O
+  H2O(g)           -1.64     -0.01    1.63  H2O
+  Hexahydrite      -0.97     -2.53   -1.55  MgSO4:6H2O
+  Kieserite        -2.30     -2.48   -0.18  MgSO4:H2O
+  Leonhardite      -1.62     -2.51   -0.89  MgSO4:4H2O
+  Pentahydrite     -1.23     -2.52   -1.28  MgSO4:5H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	SOLUTION_MASTER_SPECIES
+	La	La+3    0.0     La	138.9055
+	N		NO3-	0	N		14.0067
+	SOLUTION_SPECIES
+	La+3 = La+3
+	 gamma 9.0 0.0
+	 dw 6.36e-10  0  1.5  12
+	NO3- = NO3-
+		gamma	3.0	0
+		dw	1.9e-9  184  1.85  3.85
+	SOLUTION 1
+	 temp 20
+	reaction 1
+	 La(NO3)3 1
+	 0.0311     0.0625  0.0945  0.1268  0.1600  0.1936  0.2277  0.2625  0.2979
+	USER_GRAPH
+	  -headings La(NO3)3
+	  -initial_solutions false
+	  10 DATA  7800,  14200, 20100, 25600, 31100, 36000, 40600, 45000, 49500
+	  20 dim HB(9)
+	  30 for i = 1 to 9
+	  40   READ HB(i)
+	  50 next i
+	  60 plot_xy HB(step_no) / 1e3, SC / 1e3, line_width = 0, color = red
+	  70 if step_no = 1 then xy = 0 else xy = 120
+	  80 if step_no < 3 then plot_xy xy, xy, color = black, symbol = None
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  20°C)  = 0
+                          Density (g/cm³)  =   0.99820
+                               Volume (L)  =   1.00180
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   8.426e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.155e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  18.73
+                               Iterations  =   3
+                         Gamma iterations  =   2
+                      Osmotic coefficient  =   0.99989
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   OH-             6.848e-08   6.846e-08    -7.164    -7.165    -0.000     -4.36
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.05
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.63     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  3.110e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                3.110e-02   3.110e-02
+	N                 9.330e-02   9.330e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.080      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 8393
+                          Density (g/cm³)  =   1.00829
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   1.866e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.155e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  11
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.66869
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.578612e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.453e-07   8.321e-08    -6.838    -7.080    -0.242      0.00
+   OH-             1.137e-07   8.215e-08    -6.944    -7.085    -0.141     -3.77
+   H2O             5.551e+01   9.985e-01     1.744    -0.001     0.000     18.05
+La            3.110e-02
+   La+3            3.110e-02   8.561e-04    -1.507    -3.067    -1.560     (0)  
+N             9.330e-02
+   NO3-            9.330e-02   6.741e-02    -1.030    -1.171    -0.141     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.63     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 2.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  6.250e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                6.250e-02   6.250e-02
+	N                 1.875e-01   1.875e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.115      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 15272
+                          Density (g/cm³)  =   1.01847
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   3.750e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.156e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  13
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   0.58893
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.606872e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.643e-07   7.677e-08    -6.784    -7.115    -0.330      0.00
+   OH-             1.327e-07   8.893e-08    -6.877    -7.051    -0.174     -3.40
+   H2O             5.551e+01   9.974e-01     1.744    -0.001     0.000     18.05
+La            6.250e-02
+   La+3            6.250e-02   5.573e-04    -1.204    -3.254    -2.050     (0)  
+N             1.875e-01
+   NO3-            1.875e-01   1.256e-01    -0.727    -0.901    -0.174     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.63     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 3.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  9.450e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                9.450e-02   9.450e-02
+	N                 2.835e-01   2.835e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.142      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 21383
+                          Density (g/cm³)  =   1.02885
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.996
+                 Ionic strength (mol/kgw)  =   5.670e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.155e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  14
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.53935
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.635672e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.792e-07   7.217e-08    -6.747    -7.142    -0.395      0.00
+   OH-             1.477e-07   9.451e-08    -6.831    -7.025    -0.194     -3.06
+   H2O             5.551e+01   9.963e-01     1.744    -0.002     0.000     18.05
+La            9.450e-02
+   La+3            9.450e-02   3.858e-04    -1.025    -3.414    -2.389     (0)  
+N             2.835e-01
+   NO3-            2.835e-01   1.814e-01    -0.547    -0.741    -0.194     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 4.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.268e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                1.268e-01   1.268e-01
+	N                 3.804e-01   3.804e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.164      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 26855
+                          Density (g/cm³)  =   1.03933
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.995
+                 Ionic strength (mol/kgw)  =   7.608e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.156e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  14
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.50370
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.664742e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.920e-07   6.852e-08    -6.717    -7.164    -0.448      0.00
+   OH-             1.605e-07   9.945e-08    -6.795    -7.002    -0.208     -2.74
+   H2O             5.551e+01   9.954e-01     1.744    -0.002     0.000     18.05
+La            1.268e-01
+   La+3            1.268e-01   2.815e-04    -0.897    -3.551    -2.654     (0)  
+N             3.804e-01
+   NO3-            3.804e-01   2.357e-01    -0.420    -0.628    -0.208     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 5.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.600e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                1.600e-01   1.600e-01
+	N                 4.800e-01   4.800e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.184      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 31888
+                          Density (g/cm³)  =   1.05010
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.995
+                 Ionic strength (mol/kgw)  =   9.600e-01
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.156e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  16
+                         Gamma iterations  =   5
+                      Osmotic coefficient  =   0.47558
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.694622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              2.037e-07   6.540e-08    -6.691    -7.184    -0.493      0.00
+   OH-             1.721e-07   1.041e-07    -6.764    -6.983    -0.218     -2.43
+   H2O             5.551e+01   9.945e-01     1.744    -0.002     0.000     18.05
+La            1.600e-01
+   La+3            1.600e-01   2.123e-04    -0.796    -3.673    -2.877     (0)  
+N             4.800e-01
+   NO3-            4.800e-01   2.904e-01    -0.319    -0.537    -0.218     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 6.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.936e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                1.936e-01   1.936e-01
+	N                 5.808e-01   5.808e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.203      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 36466
+                          Density (g/cm³)  =   1.06100
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.994
+                 Ionic strength (mol/kgw)  =   1.162e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.155e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  20
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   0.45271
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.724862e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              2.143e-07   6.267e-08    -6.669    -7.203    -0.534      0.00
+   OH-             1.828e-07   1.085e-07    -6.738    -6.964    -0.226     -2.12
+   H2O             5.551e+01   9.937e-01     1.744    -0.003     0.000     18.05
+La            1.936e-01
+   La+3            1.936e-01   1.647e-04    -0.713    -3.783    -3.070     (0)  
+N             5.808e-01
+   NO3-            5.808e-01   3.449e-01    -0.236    -0.462    -0.226     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 7.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.277e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                2.277e-01   2.277e-01
+	N                 6.831e-01   6.831e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.220      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 40657
+                          Density (g/cm³)  =   1.07206
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.993
+                 Ionic strength (mol/kgw)  =   1.366e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.155e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  20
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   0.43346
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.755552e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              2.244e-07   6.023e-08    -6.649    -7.220    -0.571      0.00
+   OH-             1.928e-07   1.128e-07    -6.715    -6.948    -0.233     -1.82
+   H2O             5.551e+01   9.929e-01     1.744    -0.003     0.000     18.05
+La            2.277e-01
+   La+3            2.277e-01   1.305e-04    -0.643    -3.884    -3.242     (0)  
+N             6.831e-01
+   NO3-            6.831e-01   3.998e-01    -0.166    -0.398    -0.233     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 8.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.625e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                2.625e-01   2.625e-01
+	N                 7.875e-01   7.875e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.237      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 44522
+                          Density (g/cm³)  =   1.08334
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.992
+                 Ionic strength (mol/kgw)  =   1.575e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.156e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  20
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   0.41680
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.786872e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              2.339e-07   5.800e-08    -6.631    -7.237    -0.606      0.00
+   OH-             2.024e-07   1.171e-07    -6.694    -6.931    -0.238     -1.51
+   H2O             5.551e+01   9.921e-01     1.744    -0.003     0.000     18.05
+La            2.625e-01
+   La+3            2.625e-01   1.050e-04    -0.581    -3.979    -3.398     (0)  
+N             7.875e-01
+   NO3-            7.875e-01   4.557e-01    -0.104    -0.341    -0.238     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 9.
+
+Using solution 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  2.979e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	La(NO3)3             1.00000
+
+	                 Relative
+	Element             moles
+	La                   1.00000
+	N                    3.00000
+	O                    9.00000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	La                2.979e-01   2.979e-01
+	N                 8.937e-01   8.937e-01
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.252      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  20°C)  = 48077
+                          Density (g/cm³)  =   1.09482
+                               Volume (L)  =   1.00180
+                        Activity of water  =   0.991
+                 Ionic strength (mol/kgw)  =   1.787e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.155e-08
+                    Total carbon (mol/kg)  =   0.000e+00
+                       Total CO2 (mol/kg)  =   0.000e+00
+                         Temperature (°C)  =  20.00
+                  Electrical balance (eq)  =   3.156e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =  19
+                         Gamma iterations  =   6
+                      Osmotic coefficient  =   0.40218
+                         Density of water  =   0.99820
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.818732e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              2.431e-07   5.593e-08    -6.614    -7.252    -0.638      0.00
+   OH-             2.116e-07   1.214e-07    -6.675    -6.916    -0.241     -1.21
+   H2O             5.551e+01   9.914e-01     1.744    -0.004     0.000     18.05
+La            2.979e-01
+   La+3            2.979e-01   8.561e-05    -0.526    -4.067    -3.542     (0)  
+N             8.937e-01
+   NO3-            8.937e-01   5.126e-01    -0.049    -0.290    -0.241     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(293 K,   1 atm)
+
+  H2O(g)           -1.64     -0.00    1.63  H2O
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+-------------------------------
+End of Run after 0.046 Seconds.
+-------------------------------
+

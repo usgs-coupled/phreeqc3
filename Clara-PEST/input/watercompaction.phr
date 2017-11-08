@@ -1,0 +1,8635 @@
+INCLUDE$ compaction_definitions.phr
+#KINETICS 1000-1001
+#EQUILIBRIUM_PHASES 1000-1001
+PRINT
+-status false
+-warnings 0
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1002 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 0
+#
+TITLE Advecting solutions
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.293942
+EXCHANGE_MIX 1
+  0 0.293942
+GAS_PHASE_MIX 1
+  0 0.293942
+KINETICS_MIX 1
+  0 0.293942
+SOLID_SOLUTION_MIX 1
+  0 0.293942
+SURFACE_MIX 1
+  0 0.293942
+END
+TITLE Copy solids to column
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.85144
+REACTION_PRESSURE 1
+   468.387
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               1
+   -shifts              1
+   -time_step           3.94462e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   34.831
+   -initial_time        0
+   -punch_frequency     1
+   -punch_cells         1-1
+   -print_frequency     1
+   -print_cells         1-1
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.772832
+END
+#
+# Beginning of calculations for time 1.25e+006
+#
+TITLE Advecting solutions
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+1   1
+0   0.0461035
+EXCHANGE_MIX -2
+1   1
+0   0.0461035
+GAS_PHASE_MIX -2
+1   1
+0   0.0461035
+KINETICS_MIX -2
+1   1
+0   0.0461035
+SOLID_SOLUTION_MIX -2
+1   1
+0   0.0461035
+SURFACE_MIX -2
+1   1
+0   0.0461035
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.290041
+EXCHANGE_MIX 1
+  0 0.290041
+GAS_PHASE_MIX 1
+  0 0.290041
+KINETICS_MIX 1
+  0 0.290041
+SOLID_SOLUTION_MIX 1
+  0 0.290041
+SURFACE_MIX 1
+  0 0.290041
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.65132
+REACTION_PRESSURE 1
+   468.004
+END
+REACTION_TEMPERATURE 2
+   5.20224
+REACTION_PRESSURE 2
+   472.917
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               2
+   -shifts              1
+   -time_step           3.94462e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   29.6733   36.0721
+   -initial_time        3.94462e+013
+   -punch_frequency     1
+   -punch_cells         1-2
+   -print_frequency     1
+   -print_cells         1-2
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.775169   0.746243
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1002 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 2.5e+006
+#
+TITLE Advecting solutions
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+1   0.792502
+0   0.116779
+EXCHANGE_MIX -2
+1   0.792502
+0   0.116779
+GAS_PHASE_MIX -2
+1   0.792502
+0   0.116779
+KINETICS_MIX -2
+1   0.792502
+0   0.116779
+SOLID_SOLUTION_MIX -2
+1   0.792502
+0   0.116779
+SURFACE_MIX -2
+1   0.792502
+0   0.116779
+EQUILIBRIUM_PHASES_MIX -3
+2   1
+1   0.207498
+EXCHANGE_MIX -3
+2   1
+1   0.207498
+GAS_PHASE_MIX -3
+2   1
+1   0.207498
+KINETICS_MIX -3
+2   1
+1   0.207498
+SOLID_SOLUTION_MIX -3
+2   1
+1   0.207498
+SURFACE_MIX -3
+2   1
+1   0.207498
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.295098
+EXCHANGE_MIX 1
+  0 0.295098
+GAS_PHASE_MIX 1
+  0 0.295098
+KINETICS_MIX 1
+  0 0.295098
+SOLID_SOLUTION_MIX 1
+  0 0.295098
+SURFACE_MIX 1
+  0 0.295098
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.91558
+REACTION_PRESSURE 1
+   468.51
+END
+REACTION_TEMPERATURE 2
+   5.53299
+REACTION_PRESSURE 2
+   473.56
+END
+REACTION_TEMPERATURE 3
+   8.19728
+REACTION_PRESSURE 3
+   478.777
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               3
+   -shifts              1
+   -time_step           5.52246e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   36.484   30.9751   37.6921
+   -initial_time        7.88923e+013
+   -punch_frequency     1
+   -punch_cells         1-3
+   -print_frequency     1
+   -print_cells         1-3
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.772142   0.742591   0.714169
+END
+#
+# Beginning of calculations for time 4.25e+006
+#
+TITLE Advecting solutions
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+1   0.632701
+0   0.157684
+EXCHANGE_MIX -2
+1   0.632701
+0   0.157684
+GAS_PHASE_MIX -2
+1   0.632701
+0   0.157684
+KINETICS_MIX -2
+1   0.632701
+0   0.157684
+SOLID_SOLUTION_MIX -2
+1   0.632701
+0   0.157684
+SURFACE_MIX -2
+1   0.632701
+0   0.157684
+EQUILIBRIUM_PHASES_MIX -3
+2   0.838792
+1   0.367299
+EXCHANGE_MIX -3
+2   0.838792
+1   0.367299
+GAS_PHASE_MIX -3
+2   0.838792
+1   0.367299
+KINETICS_MIX -3
+2   0.838792
+1   0.367299
+SOLID_SOLUTION_MIX -3
+2   0.838792
+1   0.367299
+SURFACE_MIX -3
+2   0.838792
+1   0.367299
+EQUILIBRIUM_PHASES_MIX -4
+3   1
+2   0.161208
+EXCHANGE_MIX -4
+3   1
+2   0.161208
+GAS_PHASE_MIX -4
+3   1
+2   0.161208
+KINETICS_MIX -4
+3   1
+2   0.161208
+SOLID_SOLUTION_MIX -4
+3   1
+2   0.161208
+SURFACE_MIX -4
+3   1
+2   0.161208
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.29141
+EXCHANGE_MIX 1
+  0 0.29141
+GAS_PHASE_MIX 1
+  0 0.29141
+KINETICS_MIX 1
+  0 0.29141
+SOLID_SOLUTION_MIX 1
+  0 0.29141
+SURFACE_MIX 1
+  0 0.29141
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.72671
+REACTION_PRESSURE 1
+   468.148
+END
+REACTION_TEMPERATURE 2
+   5.42289
+REACTION_PRESSURE 2
+   473.346
+END
+REACTION_TEMPERATURE 3
+   8.14104
+REACTION_PRESSURE 3
+   478.666
+END
+REACTION_TEMPERATURE 4
+   10.9106
+REACTION_PRESSURE 4
+   484.17
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               4
+   -shifts              1
+   -time_step           5.52246e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   31.6163   37.8727   32.1829   39.1963
+   -initial_time        1.34117e+014
+   -punch_frequency     1
+   -punch_cells         1-4
+   -print_frequency     1
+   -print_cells         1-4
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.774347   0.74383   0.714722   0.686762
+END
+#
+# Beginning of calculations for time 6e+006
+#
+TITLE Advecting solutions
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+1   0.489223
+0   0.192548
+EXCHANGE_MIX -2
+1   0.489223
+0   0.192548
+GAS_PHASE_MIX -2
+1   0.489223
+0   0.192548
+KINETICS_MIX -2
+1   0.489223
+0   0.192548
+SOLID_SOLUTION_MIX -2
+1   0.489223
+0   0.192548
+SURFACE_MIX -2
+1   0.489223
+0   0.192548
+EQUILIBRIUM_PHASES_MIX -3
+2   0.70275
+1   0.510777
+EXCHANGE_MIX -3
+2   0.70275
+1   0.510777
+GAS_PHASE_MIX -3
+2   0.70275
+1   0.510777
+KINETICS_MIX -3
+2   0.70275
+1   0.510777
+SOLID_SOLUTION_MIX -3
+2   0.70275
+1   0.510777
+SURFACE_MIX -3
+2   0.70275
+1   0.510777
+EQUILIBRIUM_PHASES_MIX -4
+3   0.867537
+2   0.29725
+EXCHANGE_MIX -4
+3   0.867537
+2   0.29725
+GAS_PHASE_MIX -4
+3   0.867537
+2   0.29725
+KINETICS_MIX -4
+3   0.867537
+2   0.29725
+SOLID_SOLUTION_MIX -4
+3   0.867537
+2   0.29725
+SURFACE_MIX -4
+3   0.867537
+2   0.29725
+EQUILIBRIUM_PHASES_MIX -5
+4   1
+3   0.132463
+EXCHANGE_MIX -5
+4   1
+3   0.132463
+GAS_PHASE_MIX -5
+4   1
+3   0.132463
+KINETICS_MIX -5
+4   1
+3   0.132463
+SOLID_SOLUTION_MIX -5
+4   1
+3   0.132463
+SURFACE_MIX -5
+4   1
+3   0.132463
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.288663
+EXCHANGE_MIX 1
+  0 0.288663
+GAS_PHASE_MIX 1
+  0 0.288663
+KINETICS_MIX 1
+  0 0.288663
+SOLID_SOLUTION_MIX 1
+  0 0.288663
+SURFACE_MIX 1
+  0 0.288663
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.59021
+REACTION_PRESSURE 1
+   467.887
+END
+REACTION_TEMPERATURE 2
+   4.94864
+REACTION_PRESSURE 2
+   472.426
+END
+REACTION_TEMPERATURE 3
+   7.73713
+REACTION_PRESSURE 3
+   477.87
+END
+REACTION_TEMPERATURE 4
+   10.5503
+REACTION_PRESSURE 4
+   483.449
+END
+REACTION_TEMPERATURE 5
+   13.4192
+REACTION_PRESSURE 5
+   489.228
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               5
+   -shifts              1
+   -time_step           5.52246e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   28.0981   32.6862   39.1819   33.3214   40.6196
+   -initial_time        1.89342e+014
+   -punch_frequency     1
+   -punch_cells         1-5
+   -print_frequency     1
+   -print_cells         1-5
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.775998   0.749   0.718976   0.690301   0.662699
+END
+#
+# Beginning of calculations for time 7.75e+006
+#
+TITLE Advecting solutions
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+1   0.363563
+0   0.223224
+EXCHANGE_MIX -2
+1   0.363563
+0   0.223224
+GAS_PHASE_MIX -2
+1   0.363563
+0   0.223224
+KINETICS_MIX -2
+1   0.363563
+0   0.223224
+SOLID_SOLUTION_MIX -2
+1   0.363563
+0   0.223224
+SURFACE_MIX -2
+1   0.363563
+0   0.223224
+EQUILIBRIUM_PHASES_MIX -3
+2   0.575448
+1   0.636437
+EXCHANGE_MIX -3
+2   0.575448
+1   0.636437
+GAS_PHASE_MIX -3
+2   0.575448
+1   0.636437
+KINETICS_MIX -3
+2   0.575448
+1   0.636437
+SOLID_SOLUTION_MIX -3
+2   0.575448
+1   0.636437
+SURFACE_MIX -3
+2   0.575448
+1   0.636437
+EQUILIBRIUM_PHASES_MIX -4
+3   0.749527
+2   0.424552
+EXCHANGE_MIX -4
+3   0.749527
+2   0.424552
+GAS_PHASE_MIX -4
+3   0.749527
+2   0.424552
+KINETICS_MIX -4
+3   0.749527
+2   0.424552
+SOLID_SOLUTION_MIX -4
+3   0.749527
+2   0.424552
+SURFACE_MIX -4
+3   0.749527
+2   0.424552
+EQUILIBRIUM_PHASES_MIX -5
+4   0.887443
+3   0.250473
+EXCHANGE_MIX -5
+4   0.887443
+3   0.250473
+GAS_PHASE_MIX -5
+4   0.887443
+3   0.250473
+KINETICS_MIX -5
+4   0.887443
+3   0.250473
+SOLID_SOLUTION_MIX -5
+4   0.887443
+3   0.250473
+SURFACE_MIX -5
+4   0.887443
+3   0.250473
+EQUILIBRIUM_PHASES_MIX -6
+5   1
+4   0.112557
+EXCHANGE_MIX -6
+5   1
+4   0.112557
+GAS_PHASE_MIX -6
+5   1
+4   0.112557
+KINETICS_MIX -6
+5   1
+4   0.112557
+SOLID_SOLUTION_MIX -6
+5   1
+4   0.112557
+SURFACE_MIX -6
+5   1
+4   0.112557
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.286492
+EXCHANGE_MIX 1
+  0 0.286492
+GAS_PHASE_MIX 1
+  0 0.286492
+KINETICS_MIX 1
+  0 0.286492
+SOLID_SOLUTION_MIX 1
+  0 0.286492
+SURFACE_MIX 1
+  0 0.286492
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.48602
+REACTION_PRESSURE 1
+   467.688
+END
+REACTION_TEMPERATURE 2
+   4.59568
+REACTION_PRESSURE 2
+   471.743
+END
+REACTION_TEMPERATURE 3
+   7.0269
+REACTION_PRESSURE 3
+   476.476
+END
+REACTION_TEMPERATURE 4
+   9.90325
+REACTION_PRESSURE 4
+   482.158
+END
+REACTION_TEMPERATURE 5
+   12.8072
+REACTION_PRESSURE 5
+   487.988
+END
+REACTION_TEMPERATURE 6
+   15.7711
+REACTION_PRESSURE 6
+   494.033
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               6
+   -shifts              1
+   -time_step           5.52246e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   25.413   28.9596   33.7009   40.4319   34.4118   41.9789
+   -initial_time        2.44566e+014
+   -punch_frequency     1
+   -punch_cells         1-6
+   -print_frequency     1
+   -print_cells         1-6
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.777307   0.752915   0.726451   0.696748   0.668428   0.64124
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 9.5e+006
+#
+TITLE Advecting solutions
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.376872
+EXCHANGE_MIX -2
+0   0.376872
+GAS_PHASE_MIX -2
+0   0.376872
+KINETICS_MIX -2
+0   0.376872
+SOLID_SOLUTION_MIX -2
+0   0.376872
+SURFACE_MIX -2
+0   0.376872
+EQUILIBRIUM_PHASES_MIX -3
+1   0.590969
+0   0.253509
+EXCHANGE_MIX -3
+1   0.590969
+0   0.253509
+GAS_PHASE_MIX -3
+1   0.590969
+0   0.253509
+KINETICS_MIX -3
+1   0.590969
+0   0.253509
+SOLID_SOLUTION_MIX -3
+1   0.590969
+0   0.253509
+SURFACE_MIX -3
+1   0.590969
+0   0.253509
+EQUILIBRIUM_PHASES_MIX -4
+3   0.0840585
+2   1
+1   0.409031
+EXCHANGE_MIX -4
+3   0.0840585
+2   1
+1   0.409031
+GAS_PHASE_MIX -4
+3   0.0840585
+2   1
+1   0.409031
+KINETICS_MIX -4
+3   0.0840585
+2   1
+1   0.409031
+SOLID_SOLUTION_MIX -4
+3   0.0840585
+2   1
+1   0.409031
+SURFACE_MIX -4
+3   0.0840585
+2   1
+1   0.409031
+EQUILIBRIUM_PHASES_MIX -5
+4   0.454479
+3   0.915941
+EXCHANGE_MIX -5
+4   0.454479
+3   0.915941
+GAS_PHASE_MIX -5
+4   0.454479
+3   0.915941
+KINETICS_MIX -5
+4   0.454479
+3   0.915941
+SOLID_SOLUTION_MIX -5
+4   0.454479
+3   0.915941
+SURFACE_MIX -5
+4   0.454479
+3   0.915941
+EQUILIBRIUM_PHASES_MIX -6
+5   0.752893
+4   0.545521
+EXCHANGE_MIX -6
+5   0.752893
+4   0.545521
+GAS_PHASE_MIX -6
+5   0.752893
+4   0.545521
+KINETICS_MIX -6
+5   0.752893
+4   0.545521
+SOLID_SOLUTION_MIX -6
+5   0.752893
+4   0.545521
+SURFACE_MIX -6
+5   0.752893
+4   0.545521
+EQUILIBRIUM_PHASES_MIX -7
+6   1
+5   0.247107
+EXCHANGE_MIX -7
+6   1
+5   0.247107
+GAS_PHASE_MIX -7
+6   1
+5   0.247107
+KINETICS_MIX -7
+6   1
+5   0.247107
+SOLID_SOLUTION_MIX -7
+6   1
+5   0.247107
+SURFACE_MIX -7
+6   1
+5   0.247107
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.310907
+EXCHANGE_MIX 1
+  0 0.310907
+GAS_PHASE_MIX 1
+  0 0.310907
+KINETICS_MIX 1
+  0 0.310907
+SOLID_SOLUTION_MIX 1
+  0 0.310907
+SURFACE_MIX 1
+  0 0.310907
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.74253
+REACTION_PRESSURE 1
+   470.097
+END
+REACTION_TEMPERATURE 2
+   7.04034
+REACTION_PRESSURE 2
+   476.502
+END
+REACTION_TEMPERATURE 3
+   9.29934
+REACTION_PRESSURE 3
+   480.958
+END
+REACTION_TEMPERATURE 4
+   11.9061
+REACTION_PRESSURE 4
+   486.169
+END
+REACTION_TEMPERATURE 5
+   14.9953
+REACTION_PRESSURE 5
+   492.441
+END
+REACTION_TEMPERATURE 6
+   18.1192
+REACTION_PRESSURE 6
+   498.89
+END
+REACTION_TEMPERATURE 7
+   21.3137
+REACTION_PRESSURE 7
+   505.595
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               7
+   -shifts              1
+   -time_step           3.47126e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   57.797   27.1983   31.0232   36.1601   43.4594   37.0537   45.2785
+   -initial_time        2.99791e+014
+   -punch_frequency     1
+   -punch_cells         1-7
+   -print_frequency     1
+   -print_cells         1-7
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.76283   0.726284   0.702831   0.677044   0.64821   0.62077   0.59451
+END
+#
+# Beginning of calculations for time 1.06e+007
+#
+TITLE Advecting solutions
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.388482
+EXCHANGE_MIX -2
+0   0.388482
+GAS_PHASE_MIX -2
+0   0.388482
+KINETICS_MIX -2
+0   0.388482
+SOLID_SOLUTION_MIX -2
+0   0.388482
+SURFACE_MIX -2
+0   0.388482
+EQUILIBRIUM_PHASES_MIX -3
+1   0.586794
+0   0.278263
+EXCHANGE_MIX -3
+1   0.586794
+0   0.278263
+GAS_PHASE_MIX -3
+1   0.586794
+0   0.278263
+KINETICS_MIX -3
+1   0.586794
+0   0.278263
+SOLID_SOLUTION_MIX -3
+1   0.586794
+0   0.278263
+SURFACE_MIX -3
+1   0.586794
+0   0.278263
+EQUILIBRIUM_PHASES_MIX -4
+3   0.0141226
+2   1
+1   0.413206
+EXCHANGE_MIX -4
+3   0.0141226
+2   1
+1   0.413206
+GAS_PHASE_MIX -4
+3   0.0141226
+2   1
+1   0.413206
+KINETICS_MIX -4
+3   0.0141226
+2   1
+1   0.413206
+SOLID_SOLUTION_MIX -4
+3   0.0141226
+2   1
+1   0.413206
+SURFACE_MIX -4
+3   0.0141226
+2   1
+1   0.413206
+EQUILIBRIUM_PHASES_MIX -5
+4   0.323066
+3   0.985877
+EXCHANGE_MIX -5
+4   0.323066
+3   0.985877
+GAS_PHASE_MIX -5
+4   0.323066
+3   0.985877
+KINETICS_MIX -5
+4   0.323066
+3   0.985877
+SOLID_SOLUTION_MIX -5
+4   0.323066
+3   0.985877
+SURFACE_MIX -5
+4   0.323066
+3   0.985877
+EQUILIBRIUM_PHASES_MIX -6
+5   0.590424
+4   0.676934
+EXCHANGE_MIX -6
+5   0.590424
+4   0.676934
+GAS_PHASE_MIX -6
+5   0.590424
+4   0.676934
+KINETICS_MIX -6
+5   0.590424
+4   0.676934
+SOLID_SOLUTION_MIX -6
+5   0.590424
+4   0.676934
+SURFACE_MIX -6
+5   0.590424
+4   0.676934
+EQUILIBRIUM_PHASES_MIX -7
+6   0.812119
+5   0.409576
+EXCHANGE_MIX -7
+6   0.812119
+5   0.409576
+GAS_PHASE_MIX -7
+6   0.812119
+5   0.409576
+KINETICS_MIX -7
+6   0.812119
+5   0.409576
+SOLID_SOLUTION_MIX -7
+6   0.812119
+5   0.409576
+SURFACE_MIX -7
+6   0.812119
+5   0.409576
+EQUILIBRIUM_PHASES_MIX -8
+7   1
+6   0.187881
+EXCHANGE_MIX -8
+7   1
+6   0.187881
+GAS_PHASE_MIX -8
+7   1
+6   0.187881
+KINETICS_MIX -8
+7   1
+6   0.187881
+SOLID_SOLUTION_MIX -8
+7   1
+6   0.187881
+SURFACE_MIX -8
+7   1
+6   0.187881
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.303834
+EXCHANGE_MIX 1
+  0 0.303834
+GAS_PHASE_MIX 1
+  0 0.303834
+KINETICS_MIX 1
+  0 0.303834
+SOLID_SOLUTION_MIX 1
+  0 0.303834
+SURFACE_MIX 1
+  0 0.303834
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.37853
+REACTION_PRESSURE 1
+   469.398
+END
+REACTION_TEMPERATURE 2
+   7.63228
+REACTION_PRESSURE 2
+   477.664
+END
+REACTION_TEMPERATURE 3
+   11.1271
+REACTION_PRESSURE 3
+   484.604
+END
+REACTION_TEMPERATURE 4
+   13.5252
+REACTION_PRESSURE 4
+   489.443
+END
+REACTION_TEMPERATURE 5
+   16.296
+REACTION_PRESSURE 5
+   495.113
+END
+REACTION_TEMPERATURE 6
+   19.5844
+REACTION_PRESSURE 6
+   501.952
+END
+REACTION_TEMPERATURE 7
+   22.9143
+REACTION_PRESSURE 7
+   508.997
+END
+REACTION_TEMPERATURE 8
+   26.3246
+REACTION_PRESSURE 8
+   516.338
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               8
+   -shifts              1
+   -time_step           3.47126e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   48.4156   61.2173   28.8542   32.9528   38.4601   46.294   39.5265   48.3681
+   -initial_time        3.34503e+014
+   -punch_frequency     1
+   -punch_cells         1-8
+   -print_frequency     1
+   -print_cells         1-8
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.766969   0.720211   0.684603   0.661677   0.636557   0.60852   0.581934   0.556535
+END
+#
+# Beginning of calculations for time 1.17e+007
+#
+TITLE Advecting solutions
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.370455
+EXCHANGE_MIX -2
+0   0.370455
+GAS_PHASE_MIX -2
+0   0.370455
+KINETICS_MIX -2
+0   0.370455
+SOLID_SOLUTION_MIX -2
+0   0.370455
+SURFACE_MIX -2
+0   0.370455
+EQUILIBRIUM_PHASES_MIX -3
+1   0.431481
+0   0.330931
+EXCHANGE_MIX -3
+1   0.431481
+0   0.330931
+GAS_PHASE_MIX -3
+1   0.431481
+0   0.330931
+KINETICS_MIX -3
+1   0.431481
+0   0.330931
+SOLID_SOLUTION_MIX -3
+1   0.431481
+0   0.330931
+SURFACE_MIX -3
+1   0.431481
+0   0.330931
+EQUILIBRIUM_PHASES_MIX -4
+2   0.946833
+1   0.568519
+EXCHANGE_MIX -4
+2   0.946833
+1   0.568519
+GAS_PHASE_MIX -4
+2   0.946833
+1   0.568519
+KINETICS_MIX -4
+2   0.946833
+1   0.568519
+SOLID_SOLUTION_MIX -4
+2   0.946833
+1   0.568519
+SURFACE_MIX -4
+2   0.946833
+1   0.568519
+EQUILIBRIUM_PHASES_MIX -5
+4   0.2234
+3   1
+2   0.0531669
+EXCHANGE_MIX -5
+4   0.2234
+3   1
+2   0.0531669
+GAS_PHASE_MIX -5
+4   0.2234
+3   1
+2   0.0531669
+KINETICS_MIX -5
+4   0.2234
+3   1
+2   0.0531669
+SOLID_SOLUTION_MIX -5
+4   0.2234
+3   1
+2   0.0531669
+SURFACE_MIX -5
+4   0.2234
+3   1
+2   0.0531669
+EQUILIBRIUM_PHASES_MIX -6
+5   0.461198
+4   0.7766
+EXCHANGE_MIX -6
+5   0.461198
+4   0.7766
+GAS_PHASE_MIX -6
+5   0.461198
+4   0.7766
+KINETICS_MIX -6
+5   0.461198
+4   0.7766
+SOLID_SOLUTION_MIX -6
+5   0.461198
+4   0.7766
+SURFACE_MIX -6
+5   0.461198
+4   0.7766
+EQUILIBRIUM_PHASES_MIX -7
+6   0.670758
+5   0.538802
+EXCHANGE_MIX -7
+6   0.670758
+5   0.538802
+GAS_PHASE_MIX -7
+6   0.670758
+5   0.538802
+KINETICS_MIX -7
+6   0.670758
+5   0.538802
+SOLID_SOLUTION_MIX -7
+6   0.670758
+5   0.538802
+SURFACE_MIX -7
+6   0.670758
+5   0.538802
+EQUILIBRIUM_PHASES_MIX -8
+7   0.847775
+6   0.329242
+EXCHANGE_MIX -8
+7   0.847775
+6   0.329242
+GAS_PHASE_MIX -8
+7   0.847775
+6   0.329242
+KINETICS_MIX -8
+7   0.847775
+6   0.329242
+SOLID_SOLUTION_MIX -8
+7   0.847775
+6   0.329242
+SURFACE_MIX -8
+7   0.847775
+6   0.329242
+EQUILIBRIUM_PHASES_MIX -9
+8   1
+7   0.152225
+EXCHANGE_MIX -9
+8   1
+7   0.152225
+GAS_PHASE_MIX -9
+8   1
+7   0.152225
+KINETICS_MIX -9
+8   1
+7   0.152225
+SOLID_SOLUTION_MIX -9
+8   1
+7   0.152225
+SURFACE_MIX -9
+8   1
+7   0.152225
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.298976
+EXCHANGE_MIX 1
+  0 0.298976
+GAS_PHASE_MIX 1
+  0 0.298976
+KINETICS_MIX 1
+  0 0.298976
+SOLID_SOLUTION_MIX 1
+  0 0.298976
+SURFACE_MIX 1
+  0 0.298976
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.12908
+REACTION_PRESSURE 1
+   468.919
+END
+REACTION_TEMPERATURE 2
+   6.73268
+REACTION_PRESSURE 2
+   475.899
+END
+REACTION_TEMPERATURE 3
+   11.2082
+REACTION_PRESSURE 3
+   484.767
+END
+REACTION_TEMPERATURE 4
+   14.89
+REACTION_PRESSURE 4
+   492.226
+END
+REACTION_TEMPERATURE 5
+   17.4206
+REACTION_PRESSURE 5
+   497.439
+END
+REACTION_TEMPERATURE 6
+   20.3477
+REACTION_PRESSURE 6
+   503.556
+END
+REACTION_TEMPERATURE 7
+   23.8259
+REACTION_PRESSURE 7
+   510.947
+END
+REACTION_TEMPERATURE 8
+   27.3519
+REACTION_PRESSURE 8
+   518.574
+END
+REACTION_TEMPERATURE 9
+   30.9679
+REACTION_PRESSURE 9
+   526.538
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               9
+   -shifts              1
+   -time_step           3.47126e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   41.9867   50.8894   64.4599   30.4318   34.7902   40.6501   48.9933   41.8831   51.3119
+   -initial_time        3.69216e+014
+   -punch_frequency     1
+   -punch_cells         1-9
+   -print_frequency     1
+   -print_cells         1-9
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.769837   0.729685   0.683981   0.649113   0.62673   0.602262   0.574994   0.549191   0.524606
+END
+#
+# Beginning of calculations for time 1.28e+007
+#
+TITLE Advecting solutions
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.357735
+EXCHANGE_MIX -2
+0   0.357735
+GAS_PHASE_MIX -2
+0   0.357735
+KINETICS_MIX -2
+0   0.357735
+SOLID_SOLUTION_MIX -2
+0   0.357735
+SURFACE_MIX -2
+0   0.357735
+EQUILIBRIUM_PHASES_MIX -3
+1   0.194817
+0   0.375963
+EXCHANGE_MIX -3
+1   0.194817
+0   0.375963
+GAS_PHASE_MIX -3
+1   0.194817
+0   0.375963
+KINETICS_MIX -3
+1   0.194817
+0   0.375963
+SOLID_SOLUTION_MIX -3
+1   0.194817
+0   0.375963
+SURFACE_MIX -3
+1   0.194817
+0   0.375963
+EQUILIBRIUM_PHASES_MIX -4
+2   0.788529
+1   0.805183
+EXCHANGE_MIX -4
+2   0.788529
+1   0.805183
+GAS_PHASE_MIX -4
+2   0.788529
+1   0.805183
+KINETICS_MIX -4
+2   0.788529
+1   0.805183
+SOLID_SOLUTION_MIX -4
+2   0.788529
+1   0.805183
+SURFACE_MIX -4
+2   0.788529
+1   0.805183
+EQUILIBRIUM_PHASES_MIX -5
+4   0.142522
+3   1
+2   0.211471
+EXCHANGE_MIX -5
+4   0.142522
+3   1
+2   0.211471
+GAS_PHASE_MIX -5
+4   0.142522
+3   1
+2   0.211471
+KINETICS_MIX -5
+4   0.142522
+3   1
+2   0.211471
+SOLID_SOLUTION_MIX -5
+4   0.142522
+3   1
+2   0.211471
+SURFACE_MIX -5
+4   0.142522
+3   1
+2   0.211471
+EQUILIBRIUM_PHASES_MIX -6
+5   0.357922
+4   0.857478
+EXCHANGE_MIX -6
+5   0.357922
+4   0.857478
+GAS_PHASE_MIX -6
+5   0.357922
+4   0.857478
+KINETICS_MIX -6
+5   0.357922
+4   0.857478
+SOLID_SOLUTION_MIX -6
+5   0.357922
+4   0.857478
+SURFACE_MIX -6
+5   0.357922
+4   0.857478
+EQUILIBRIUM_PHASES_MIX -7
+6   0.551475
+5   0.642078
+EXCHANGE_MIX -7
+6   0.551475
+5   0.642078
+GAS_PHASE_MIX -7
+6   0.551475
+5   0.642078
+KINETICS_MIX -7
+6   0.551475
+5   0.642078
+SOLID_SOLUTION_MIX -7
+6   0.551475
+5   0.642078
+SURFACE_MIX -7
+6   0.551475
+5   0.642078
+EQUILIBRIUM_PHASES_MIX -8
+7   0.724227
+6   0.448525
+EXCHANGE_MIX -8
+7   0.724227
+6   0.448525
+GAS_PHASE_MIX -8
+7   0.724227
+6   0.448525
+KINETICS_MIX -8
+7   0.724227
+6   0.448525
+SOLID_SOLUTION_MIX -8
+7   0.724227
+6   0.448525
+SURFACE_MIX -8
+7   0.724227
+6   0.448525
+EQUILIBRIUM_PHASES_MIX -9
+8   0.871894
+7   0.275773
+EXCHANGE_MIX -9
+8   0.871894
+7   0.275773
+GAS_PHASE_MIX -9
+8   0.871894
+7   0.275773
+KINETICS_MIX -9
+8   0.871894
+7   0.275773
+SOLID_SOLUTION_MIX -9
+8   0.871894
+7   0.275773
+SURFACE_MIX -9
+8   0.871894
+7   0.275773
+EQUILIBRIUM_PHASES_MIX -10
+9   1
+8   0.128106
+EXCHANGE_MIX -10
+9   1
+8   0.128106
+GAS_PHASE_MIX -10
+9   1
+8   0.128106
+KINETICS_MIX -10
+9   1
+8   0.128106
+SOLID_SOLUTION_MIX -10
+9   1
+8   0.128106
+SURFACE_MIX -10
+9   1
+8   0.128106
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.295448
+EXCHANGE_MIX 1
+  0 0.295448
+GAS_PHASE_MIX 1
+  0 0.295448
+KINETICS_MIX 1
+  0 0.295448
+SOLID_SOLUTION_MIX 1
+  0 0.295448
+SURFACE_MIX 1
+  0 0.295448
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.94548
+REACTION_PRESSURE 1
+   468.567
+END
+REACTION_TEMPERATURE 2
+   6.09373
+REACTION_PRESSURE 2
+   474.651
+END
+REACTION_TEMPERATURE 3
+   9.86287
+REACTION_PRESSURE 3
+   482.078
+END
+REACTION_TEMPERATURE 4
+   14.5514
+REACTION_PRESSURE 4
+   491.534
+END
+REACTION_TEMPERATURE 5
+   18.4133
+REACTION_PRESSURE 5
+   499.503
+END
+REACTION_TEMPERATURE 6
+   21.0714
+REACTION_PRESSURE 6
+   505.083
+END
+REACTION_TEMPERATURE 7
+   24.149
+REACTION_PRESSURE 7
+   511.64
+END
+REACTION_TEMPERATURE 8
+   27.81
+REACTION_PRESSURE 8
+   519.575
+END
+REACTION_TEMPERATURE 9
+   31.525
+REACTION_PRESSURE 9
+   527.778
+END
+REACTION_TEMPERATURE 10
+   35.3389
+REACTION_PRESSURE 10
+   536.356
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               10
+   -shifts              1
+   -time_step           3.47126e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   37.2546   43.8859   53.2568   67.5821   31.9499   36.5588   42.7605   51.5954   44.1529   54.1426
+   -initial_time        4.03929e+014
+   -punch_frequency     1
+   -punch_cells         1-10
+   -print_frequency     1
+   -print_cells         1-10
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.771934   0.736521   0.697249   0.652382   0.618272   0.596412   0.572538   0.545994   0.520958   0.497179
+END
+#
+# Beginning of calculations for time 1.39e+007
+#
+TITLE Advecting solutions
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.348146
+EXCHANGE_MIX -2
+0   0.348146
+GAS_PHASE_MIX -2
+0   0.348146
+KINETICS_MIX -2
+0   0.348146
+SOLID_SOLUTION_MIX -2
+0   0.348146
+SURFACE_MIX -2
+0   0.348146
+EQUILIBRIUM_PHASES_MIX -3
+0   0.414327
+EXCHANGE_MIX -3
+0   0.414327
+GAS_PHASE_MIX -3
+0   0.414327
+KINETICS_MIX -3
+0   0.414327
+SOLID_SOLUTION_MIX -3
+0   0.414327
+SURFACE_MIX -3
+0   0.414327
+EQUILIBRIUM_PHASES_MIX -4
+2   0.556114
+1   1
+0   0.00165712
+EXCHANGE_MIX -4
+2   0.556114
+1   1
+0   0.00165712
+GAS_PHASE_MIX -4
+2   0.556114
+1   1
+0   0.00165712
+KINETICS_MIX -4
+2   0.556114
+1   1
+0   0.00165712
+SOLID_SOLUTION_MIX -4
+2   0.556114
+1   1
+0   0.00165712
+SURFACE_MIX -4
+2   0.556114
+1   1
+0   0.00165712
+EQUILIBRIUM_PHASES_MIX -5
+4   0.0160851
+3   1
+2   0.443886
+EXCHANGE_MIX -5
+4   0.0160851
+3   1
+2   0.443886
+GAS_PHASE_MIX -5
+4   0.0160851
+3   1
+2   0.443886
+KINETICS_MIX -5
+4   0.0160851
+3   1
+2   0.443886
+SOLID_SOLUTION_MIX -5
+4   0.0160851
+3   1
+2   0.443886
+SURFACE_MIX -5
+4   0.0160851
+3   1
+2   0.443886
+EQUILIBRIUM_PHASES_MIX -6
+5   0.271782
+4   0.983915
+EXCHANGE_MIX -6
+5   0.271782
+4   0.983915
+GAS_PHASE_MIX -6
+5   0.271782
+4   0.983915
+KINETICS_MIX -6
+5   0.271782
+4   0.983915
+SOLID_SOLUTION_MIX -6
+5   0.271782
+4   0.983915
+SURFACE_MIX -6
+5   0.271782
+4   0.983915
+EQUILIBRIUM_PHASES_MIX -7
+6   0.452017
+5   0.728218
+EXCHANGE_MIX -7
+6   0.452017
+5   0.728218
+GAS_PHASE_MIX -7
+6   0.452017
+5   0.728218
+KINETICS_MIX -7
+6   0.452017
+5   0.728218
+SOLID_SOLUTION_MIX -7
+6   0.452017
+5   0.728218
+SURFACE_MIX -7
+6   0.452017
+5   0.728218
+EQUILIBRIUM_PHASES_MIX -8
+7   0.615472
+6   0.547983
+EXCHANGE_MIX -8
+7   0.615472
+6   0.547983
+GAS_PHASE_MIX -8
+7   0.615472
+6   0.547983
+KINETICS_MIX -8
+7   0.615472
+6   0.547983
+SOLID_SOLUTION_MIX -8
+7   0.615472
+6   0.547983
+SURFACE_MIX -8
+7   0.615472
+6   0.547983
+EQUILIBRIUM_PHASES_MIX -9
+8   0.762455
+7   0.384528
+EXCHANGE_MIX -9
+8   0.762455
+7   0.384528
+GAS_PHASE_MIX -9
+8   0.762455
+7   0.384528
+KINETICS_MIX -9
+8   0.762455
+7   0.384528
+SOLID_SOLUTION_MIX -9
+8   0.762455
+7   0.384528
+SURFACE_MIX -9
+8   0.762455
+7   0.384528
+EQUILIBRIUM_PHASES_MIX -10
+9   0.889288
+8   0.237545
+EXCHANGE_MIX -10
+9   0.889288
+8   0.237545
+GAS_PHASE_MIX -10
+9   0.889288
+8   0.237545
+KINETICS_MIX -10
+9   0.889288
+8   0.237545
+SOLID_SOLUTION_MIX -10
+9   0.889288
+8   0.237545
+SURFACE_MIX -10
+9   0.889288
+8   0.237545
+EQUILIBRIUM_PHASES_MIX -11
+10   1
+9   0.110712
+EXCHANGE_MIX -11
+10   1
+9   0.110712
+GAS_PHASE_MIX -11
+10   1
+9   0.110712
+KINETICS_MIX -11
+10   1
+9   0.110712
+SOLID_SOLUTION_MIX -11
+10   1
+9   0.110712
+SURFACE_MIX -11
+10   1
+9   0.110712
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.292555
+EXCHANGE_MIX 1
+  0 0.292555
+GAS_PHASE_MIX 1
+  0 0.292555
+KINETICS_MIX 1
+  0 0.292555
+SOLID_SOLUTION_MIX 1
+  0 0.292555
+SURFACE_MIX 1
+  0 0.292555
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.80384
+REACTION_PRESSURE 1
+   468.296
+END
+REACTION_TEMPERATURE 2
+   5.61195
+REACTION_PRESSURE 2
+   473.713
+END
+REACTION_TEMPERATURE 3
+   8.88998
+REACTION_PRESSURE 3
+   480.146
+END
+REACTION_TEMPERATURE 4
+   12.8192
+REACTION_PRESSURE 4
+   488.012
+END
+REACTION_TEMPERATURE 5
+   17.7144
+REACTION_PRESSURE 5
+   498.048
+END
+REACTION_TEMPERATURE 6
+   21.751
+REACTION_PRESSURE 6
+   506.522
+END
+REACTION_TEMPERATURE 7
+   24.5331
+REACTION_PRESSURE 7
+   512.466
+END
+REACTION_TEMPERATURE 8
+   27.7568
+REACTION_PRESSURE 8
+   519.459
+END
+REACTION_TEMPERATURE 9
+   31.5953
+REACTION_PRESSURE 9
+   527.934
+END
+REACTION_TEMPERATURE 10
+   35.4936
+REACTION_PRESSURE 10
+   536.707
+END
+REACTION_TEMPERATURE 11
+   39.4993
+REACTION_PRESSURE 11
+   545.895
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               11
+   -shifts              1
+   -time_step           3.47126e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   33.604   38.7701   45.7151   55.553   70.6123   33.4247   38.2768   44.8102   54.1186   46.3546
+   56.883
+   -initial_time        4.38641e+014
+   -punch_frequency     1
+   -punch_cells         1-11
+   -print_frequency     1
+   -print_cells         1-11
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.773661   0.74176   0.70705   0.668429   0.624386   0.59099   0.569642   0.546349   0.520538   0.496214
+   0.473227
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 1.5e+007
+#
+TITLE Advecting solutions
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.382101
+EXCHANGE_MIX -2
+0   0.382101
+GAS_PHASE_MIX -2
+0   0.382101
+KINETICS_MIX -2
+0   0.382101
+SOLID_SOLUTION_MIX -2
+0   0.382101
+SURFACE_MIX -2
+0   0.382101
+EQUILIBRIUM_PHASES_MIX -3
+0   0.443564
+EXCHANGE_MIX -3
+0   0.443564
+GAS_PHASE_MIX -3
+0   0.443564
+KINETICS_MIX -3
+0   0.443564
+SOLID_SOLUTION_MIX -3
+0   0.443564
+SURFACE_MIX -3
+0   0.443564
+EQUILIBRIUM_PHASES_MIX -4
+0   0.51748
+EXCHANGE_MIX -4
+0   0.51748
+GAS_PHASE_MIX -4
+0   0.51748
+KINETICS_MIX -4
+0   0.51748
+SOLID_SOLUTION_MIX -4
+0   0.51748
+SURFACE_MIX -4
+0   0.51748
+EQUILIBRIUM_PHASES_MIX -5
+2   0.511052
+1   1
+0   0.138476
+EXCHANGE_MIX -5
+2   0.511052
+1   1
+0   0.138476
+GAS_PHASE_MIX -5
+2   0.511052
+1   1
+0   0.138476
+KINETICS_MIX -5
+2   0.511052
+1   1
+0   0.138476
+SOLID_SOLUTION_MIX -5
+2   0.511052
+1   1
+0   0.138476
+SURFACE_MIX -5
+2   0.511052
+1   1
+0   0.138476
+EQUILIBRIUM_PHASES_MIX -6
+4   0.287336
+3   1
+2   0.488948
+EXCHANGE_MIX -6
+4   0.287336
+3   1
+2   0.488948
+GAS_PHASE_MIX -6
+4   0.287336
+3   1
+2   0.488948
+KINETICS_MIX -6
+4   0.287336
+3   1
+2   0.488948
+SOLID_SOLUTION_MIX -6
+4   0.287336
+3   1
+2   0.488948
+SURFACE_MIX -6
+4   0.287336
+3   1
+2   0.488948
+EQUILIBRIUM_PHASES_MIX -7
+5   0.789472
+4   0.712664
+EXCHANGE_MIX -7
+5   0.789472
+4   0.712664
+GAS_PHASE_MIX -7
+5   0.789472
+4   0.712664
+KINETICS_MIX -7
+5   0.789472
+4   0.712664
+SOLID_SOLUTION_MIX -7
+5   0.789472
+4   0.712664
+SURFACE_MIX -7
+5   0.789472
+4   0.712664
+EQUILIBRIUM_PHASES_MIX -8
+7   0.106899
+6   1
+5   0.210528
+EXCHANGE_MIX -8
+7   0.106899
+6   1
+5   0.210528
+GAS_PHASE_MIX -8
+7   0.106899
+6   1
+5   0.210528
+KINETICS_MIX -8
+7   0.106899
+6   1
+5   0.210528
+SOLID_SOLUTION_MIX -8
+7   0.106899
+6   1
+5   0.210528
+SURFACE_MIX -8
+7   0.106899
+6   1
+5   0.210528
+EQUILIBRIUM_PHASES_MIX -9
+8   0.371409
+7   0.893101
+EXCHANGE_MIX -9
+8   0.371409
+7   0.893101
+GAS_PHASE_MIX -9
+8   0.371409
+7   0.893101
+KINETICS_MIX -9
+8   0.371409
+7   0.893101
+SOLID_SOLUTION_MIX -9
+8   0.371409
+7   0.893101
+SURFACE_MIX -9
+8   0.371409
+7   0.893101
+EQUILIBRIUM_PHASES_MIX -10
+9   0.610691
+8   0.628591
+EXCHANGE_MIX -10
+9   0.610691
+8   0.628591
+GAS_PHASE_MIX -10
+9   0.610691
+8   0.628591
+KINETICS_MIX -10
+9   0.610691
+8   0.628591
+SOLID_SOLUTION_MIX -10
+9   0.610691
+8   0.628591
+SURFACE_MIX -10
+9   0.610691
+8   0.628591
+EQUILIBRIUM_PHASES_MIX -11
+10   0.8181
+9   0.389309
+EXCHANGE_MIX -11
+10   0.8181
+9   0.389309
+GAS_PHASE_MIX -11
+10   0.8181
+9   0.389309
+KINETICS_MIX -11
+10   0.8181
+9   0.389309
+SOLID_SOLUTION_MIX -11
+10   0.8181
+9   0.389309
+SURFACE_MIX -11
+10   0.8181
+9   0.389309
+EQUILIBRIUM_PHASES_MIX -12
+11   1
+10   0.1819
+EXCHANGE_MIX -12
+11   1
+10   0.1819
+GAS_PHASE_MIX -12
+11   1
+10   0.1819
+KINETICS_MIX -12
+11   1
+10   0.1819
+SOLID_SOLUTION_MIX -12
+11   1
+10   0.1819
+SURFACE_MIX -12
+11   1
+10   0.1819
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.310096
+EXCHANGE_MIX 1
+  0 0.310096
+GAS_PHASE_MIX 1
+  0 0.310096
+KINETICS_MIX 1
+  0 0.310096
+SOLID_SOLUTION_MIX 1
+  0 0.310096
+SURFACE_MIX 1
+  0 0.310096
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.7048
+REACTION_PRESSURE 1
+   470.025
+END
+REACTION_TEMPERATURE 2
+   7.30376
+REACTION_PRESSURE 2
+   477.019
+END
+REACTION_TEMPERATURE 3
+   10.3087
+REACTION_PRESSURE 3
+   482.967
+END
+REACTION_TEMPERATURE 4
+   13.8225
+REACTION_PRESSURE 4
+   490.048
+END
+REACTION_TEMPERATURE 5
+   18.0438
+REACTION_PRESSURE 5
+   498.733
+END
+REACTION_TEMPERATURE 6
+   23.3164
+REACTION_PRESSURE 6
+   509.856
+END
+REACTION_TEMPERATURE 7
+   27.6722
+REACTION_PRESSURE 7
+   519.274
+END
+REACTION_TEMPERATURE 8
+   30.6806
+REACTION_PRESSURE 8
+   525.9
+END
+REACTION_TEMPERATURE 9
+   34.1713
+REACTION_PRESSURE 9
+   533.713
+END
+REACTION_TEMPERATURE 10
+   38.3334
+REACTION_PRESSURE 10
+   543.203
+END
+REACTION_TEMPERATURE 11
+   42.5656
+REACTION_PRESSURE 11
+   553.047
+END
+REACTION_TEMPERATURE 12
+   46.9193
+REACTION_PRESSURE 12
+   563.378
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               12
+   -shifts              1
+   -time_step           3.94462e+012
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   56.8247   35.932   41.5141   49.0494   59.7456   76.146   36.1184   41.4165   48.5508   58.7204
+   50.3549   61.8542
+   -initial_time        4.73354e+014
+   -punch_frequency     1
+   -punch_cells         1-12
+   -print_frequency     1
+   -print_cells         1-12
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.763303   0.723536   0.69273   0.658987   0.621522   0.579011   0.546914   0.526459   0.504256   0.479745
+   0.456794   0.435193
+END
+#
+# Beginning of calculations for time 1.5125e+007
+#
+TITLE Advecting solutions
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.389146
+EXCHANGE_MIX -2
+0   0.389146
+GAS_PHASE_MIX -2
+0   0.389146
+KINETICS_MIX -2
+0   0.389146
+SOLID_SOLUTION_MIX -2
+0   0.389146
+SURFACE_MIX -2
+0   0.389146
+EQUILIBRIUM_PHASES_MIX -3
+0   0.46808
+EXCHANGE_MIX -3
+0   0.46808
+GAS_PHASE_MIX -3
+0   0.46808
+KINETICS_MIX -3
+0   0.46808
+SOLID_SOLUTION_MIX -3
+0   0.46808
+SURFACE_MIX -3
+0   0.46808
+EQUILIBRIUM_PHASES_MIX -4
+0   0.535831
+EXCHANGE_MIX -4
+0   0.535831
+GAS_PHASE_MIX -4
+0   0.535831
+KINETICS_MIX -4
+0   0.535831
+SOLID_SOLUTION_MIX -4
+0   0.535831
+SURFACE_MIX -4
+0   0.535831
+EQUILIBRIUM_PHASES_MIX -5
+2   0.506278
+1   1
+0   0.113795
+EXCHANGE_MIX -5
+2   0.506278
+1   1
+0   0.113795
+GAS_PHASE_MIX -5
+2   0.506278
+1   1
+0   0.113795
+KINETICS_MIX -5
+2   0.506278
+1   1
+0   0.113795
+SOLID_SOLUTION_MIX -5
+2   0.506278
+1   1
+0   0.113795
+SURFACE_MIX -5
+2   0.506278
+1   1
+0   0.113795
+EQUILIBRIUM_PHASES_MIX -6
+4   0.166372
+3   1
+2   0.493722
+EXCHANGE_MIX -6
+4   0.166372
+3   1
+2   0.493722
+GAS_PHASE_MIX -6
+4   0.166372
+3   1
+2   0.493722
+KINETICS_MIX -6
+4   0.166372
+3   1
+2   0.493722
+SOLID_SOLUTION_MIX -6
+4   0.166372
+3   1
+2   0.493722
+SURFACE_MIX -6
+4   0.166372
+3   1
+2   0.493722
+EQUILIBRIUM_PHASES_MIX -7
+5   0.685258
+4   0.833628
+EXCHANGE_MIX -7
+5   0.685258
+4   0.833628
+GAS_PHASE_MIX -7
+5   0.685258
+4   0.833628
+KINETICS_MIX -7
+5   0.685258
+4   0.833628
+SOLID_SOLUTION_MIX -7
+5   0.685258
+4   0.833628
+SURFACE_MIX -7
+5   0.685258
+4   0.833628
+EQUILIBRIUM_PHASES_MIX -8
+7   0.0503407
+6   1
+5   0.314742
+EXCHANGE_MIX -8
+7   0.0503407
+6   1
+5   0.314742
+GAS_PHASE_MIX -8
+7   0.0503407
+6   1
+5   0.314742
+KINETICS_MIX -8
+7   0.0503407
+6   1
+5   0.314742
+SOLID_SOLUTION_MIX -8
+7   0.0503407
+6   1
+5   0.314742
+SURFACE_MIX -8
+7   0.0503407
+6   1
+5   0.314742
+EQUILIBRIUM_PHASES_MIX -9
+8   0.279998
+7   0.949659
+EXCHANGE_MIX -9
+8   0.279998
+7   0.949659
+GAS_PHASE_MIX -9
+8   0.279998
+7   0.949659
+KINETICS_MIX -9
+8   0.279998
+7   0.949659
+SOLID_SOLUTION_MIX -9
+8   0.279998
+7   0.949659
+SURFACE_MIX -9
+8   0.279998
+7   0.949659
+EQUILIBRIUM_PHASES_MIX -10
+9   0.491212
+8   0.720002
+EXCHANGE_MIX -10
+9   0.491212
+8   0.720002
+GAS_PHASE_MIX -10
+9   0.491212
+8   0.720002
+KINETICS_MIX -10
+9   0.491212
+8   0.720002
+SOLID_SOLUTION_MIX -10
+9   0.491212
+8   0.720002
+SURFACE_MIX -10
+9   0.491212
+8   0.720002
+EQUILIBRIUM_PHASES_MIX -11
+10   0.683684
+9   0.508788
+EXCHANGE_MIX -11
+10   0.683684
+9   0.508788
+GAS_PHASE_MIX -11
+10   0.683684
+9   0.508788
+KINETICS_MIX -11
+10   0.683684
+9   0.508788
+SOLID_SOLUTION_MIX -11
+10   0.683684
+9   0.508788
+SURFACE_MIX -11
+10   0.683684
+9   0.508788
+EQUILIBRIUM_PHASES_MIX -12
+11   0.851837
+10   0.316316
+EXCHANGE_MIX -12
+11   0.851837
+10   0.316316
+GAS_PHASE_MIX -12
+11   0.851837
+10   0.316316
+KINETICS_MIX -12
+11   0.851837
+10   0.316316
+SOLID_SOLUTION_MIX -12
+11   0.851837
+10   0.316316
+SURFACE_MIX -12
+11   0.851837
+10   0.316316
+EQUILIBRIUM_PHASES_MIX -13
+12   1
+11   0.148163
+EXCHANGE_MIX -13
+12   1
+11   0.148163
+GAS_PHASE_MIX -13
+12   1
+11   0.148163
+KINETICS_MIX -13
+12   1
+11   0.148163
+SOLID_SOLUTION_MIX -13
+12   1
+11   0.148163
+SURFACE_MIX -13
+12   1
+11   0.148163
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.304381
+EXCHANGE_MIX 1
+  0 0.304381
+GAS_PHASE_MIX 1
+  0 0.304381
+KINETICS_MIX 1
+  0 0.304381
+SOLID_SOLUTION_MIX 1
+  0 0.304381
+SURFACE_MIX 1
+  0 0.304381
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.41293
+REACTION_PRESSURE 1
+   469.464
+END
+REACTION_TEMPERATURE 2
+   7.66369
+REACTION_PRESSURE 2
+   477.726
+END
+REACTION_TEMPERATURE 3
+   11.4824
+REACTION_PRESSURE 3
+   485.317
+END
+REACTION_TEMPERATURE 4
+   14.677
+REACTION_PRESSURE 4
+   491.79
+END
+REACTION_TEMPERATURE 5
+   18.4191
+REACTION_PRESSURE 5
+   499.515
+END
+REACTION_TEMPERATURE 6
+   22.9231
+REACTION_PRESSURE 6
+   509.016
+END
+REACTION_TEMPERATURE 7
+   28.5613
+REACTION_PRESSURE 7
+   521.222
+END
+REACTION_TEMPERATURE 8
+   33.2263
+REACTION_PRESSURE 8
+   531.585
+END
+REACTION_TEMPERATURE 9
+   36.4535
+REACTION_PRESSURE 9
+   538.893
+END
+REACTION_TEMPERATURE 10
+   40.202
+REACTION_PRESSURE 10
+   547.525
+END
+REACTION_TEMPERATURE 11
+   44.6759
+REACTION_PRESSURE 11
+   558.029
+END
+REACTION_TEMPERATURE 12
+   49.2288
+REACTION_PRESSURE 12
+   568.943
+END
+REACTION_TEMPERATURE 13
+   53.9154
+REACTION_PRESSURE 13
+   580.414
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               13
+   -shifts              1
+   -time_step           3.94462e+012
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   49.3022   60.2535   38.1674   44.1676   52.2772   63.8064   81.5069   38.7261   44.4496   52.1602
+   63.1481   54.1924   66.597
+   -initial_time        4.77299e+014
+   -punch_frequency     1
+   -punch_cells         1-13
+   -print_frequency     1
+   -print_cells         1-13
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.766647   0.719867   0.681162   0.651113   0.618299   0.581967   0.540928   0.510087   0.490535   0.469362
+   0.446107   0.424447   0.4042
+END
+#
+# Beginning of calculations for time 1.525e+007
+#
+TITLE Advecting solutions
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.374077
+EXCHANGE_MIX -2
+0   0.374077
+GAS_PHASE_MIX -2
+0   0.374077
+KINETICS_MIX -2
+0   0.374077
+SOLID_SOLUTION_MIX -2
+0   0.374077
+SURFACE_MIX -2
+0   0.374077
+EQUILIBRIUM_PHASES_MIX -3
+0   0.465944
+EXCHANGE_MIX -3
+0   0.465944
+GAS_PHASE_MIX -3
+0   0.465944
+KINETICS_MIX -3
+0   0.465944
+SOLID_SOLUTION_MIX -3
+0   0.465944
+SURFACE_MIX -3
+0   0.465944
+EQUILIBRIUM_PHASES_MIX -4
+0   0.552077
+EXCHANGE_MIX -4
+0   0.552077
+GAS_PHASE_MIX -4
+0   0.552077
+KINETICS_MIX -4
+0   0.552077
+SOLID_SOLUTION_MIX -4
+0   0.552077
+SURFACE_MIX -4
+0   0.552077
+EQUILIBRIUM_PHASES_MIX -5
+2   0.465573
+1   1
+0   0.140454
+EXCHANGE_MIX -5
+2   0.465573
+1   1
+0   0.140454
+GAS_PHASE_MIX -5
+2   0.465573
+1   1
+0   0.140454
+KINETICS_MIX -5
+2   0.465573
+1   1
+0   0.140454
+SOLID_SOLUTION_MIX -5
+2   0.465573
+1   1
+0   0.140454
+SURFACE_MIX -5
+2   0.465573
+1   1
+0   0.140454
+EQUILIBRIUM_PHASES_MIX -6
+4   0.0727015
+3   1
+2   0.534427
+EXCHANGE_MIX -6
+4   0.0727015
+3   1
+2   0.534427
+GAS_PHASE_MIX -6
+4   0.0727015
+3   1
+2   0.534427
+KINETICS_MIX -6
+4   0.0727015
+3   1
+2   0.534427
+SOLID_SOLUTION_MIX -6
+4   0.0727015
+3   1
+2   0.534427
+SURFACE_MIX -6
+4   0.0727015
+3   1
+2   0.534427
+EQUILIBRIUM_PHASES_MIX -7
+5   0.531868
+4   0.927299
+EXCHANGE_MIX -7
+5   0.531868
+4   0.927299
+GAS_PHASE_MIX -7
+5   0.531868
+4   0.927299
+KINETICS_MIX -7
+5   0.531868
+4   0.927299
+SOLID_SOLUTION_MIX -7
+5   0.531868
+4   0.927299
+SURFACE_MIX -7
+5   0.531868
+4   0.927299
+EQUILIBRIUM_PHASES_MIX -8
+6   0.944492
+5   0.468132
+EXCHANGE_MIX -8
+6   0.944492
+5   0.468132
+GAS_PHASE_MIX -8
+6   0.944492
+5   0.468132
+KINETICS_MIX -8
+6   0.944492
+5   0.468132
+SOLID_SOLUTION_MIX -8
+6   0.944492
+5   0.468132
+SURFACE_MIX -8
+6   0.944492
+5   0.468132
+EQUILIBRIUM_PHASES_MIX -9
+8   0.208835
+7   1
+6   0.0555083
+EXCHANGE_MIX -9
+8   0.208835
+7   1
+6   0.0555083
+GAS_PHASE_MIX -9
+8   0.208835
+7   1
+6   0.0555083
+KINETICS_MIX -9
+8   0.208835
+7   1
+6   0.0555083
+SOLID_SOLUTION_MIX -9
+8   0.208835
+7   1
+6   0.0555083
+SURFACE_MIX -9
+8   0.208835
+7   1
+6   0.0555083
+EQUILIBRIUM_PHASES_MIX -10
+9   0.39881
+8   0.791165
+EXCHANGE_MIX -10
+9   0.39881
+8   0.791165
+GAS_PHASE_MIX -10
+9   0.39881
+8   0.791165
+KINETICS_MIX -10
+9   0.39881
+8   0.791165
+SOLID_SOLUTION_MIX -10
+9   0.39881
+8   0.791165
+SURFACE_MIX -10
+9   0.39881
+8   0.791165
+EQUILIBRIUM_PHASES_MIX -11
+10   0.574358
+9   0.60119
+EXCHANGE_MIX -11
+10   0.574358
+9   0.60119
+GAS_PHASE_MIX -11
+10   0.574358
+9   0.60119
+KINETICS_MIX -11
+10   0.574358
+9   0.60119
+SOLID_SOLUTION_MIX -11
+10   0.574358
+9   0.60119
+SURFACE_MIX -11
+10   0.574358
+9   0.60119
+EQUILIBRIUM_PHASES_MIX -12
+11   0.734848
+10   0.425642
+EXCHANGE_MIX -12
+11   0.734848
+10   0.425642
+GAS_PHASE_MIX -12
+11   0.734848
+10   0.425642
+KINETICS_MIX -12
+11   0.734848
+10   0.425642
+SOLID_SOLUTION_MIX -12
+11   0.734848
+10   0.425642
+SURFACE_MIX -12
+11   0.734848
+10   0.425642
+EQUILIBRIUM_PHASES_MIX -13
+12   0.875645
+11   0.265152
+EXCHANGE_MIX -13
+12   0.875645
+11   0.265152
+GAS_PHASE_MIX -13
+12   0.875645
+11   0.265152
+KINETICS_MIX -13
+12   0.875645
+11   0.265152
+SOLID_SOLUTION_MIX -13
+12   0.875645
+11   0.265152
+SURFACE_MIX -13
+12   0.875645
+11   0.265152
+EQUILIBRIUM_PHASES_MIX -14
+13   1
+12   0.124355
+EXCHANGE_MIX -14
+13   1
+12   0.124355
+GAS_PHASE_MIX -14
+13   1
+12   0.124355
+KINETICS_MIX -14
+13   1
+12   0.124355
+SOLID_SOLUTION_MIX -14
+13   1
+12   0.124355
+SURFACE_MIX -14
+13   1
+12   0.124355
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.300211
+EXCHANGE_MIX 1
+  0 0.300211
+GAS_PHASE_MIX 1
+  0 0.300211
+KINETICS_MIX 1
+  0 0.300211
+SOLID_SOLUTION_MIX 1
+  0 0.300211
+SURFACE_MIX 1
+  0 0.300211
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.19868
+REACTION_PRESSURE 1
+   469.052
+END
+REACTION_TEMPERATURE 2
+   6.9125
+REACTION_PRESSURE 2
+   476.251
+END
+REACTION_TEMPERATURE 3
+   11.3947
+REACTION_PRESSURE 3
+   485.141
+END
+REACTION_TEMPERATURE 4
+   15.4274
+REACTION_PRESSURE 4
+   493.327
+END
+REACTION_TEMPERATURE 5
+   18.8074
+REACTION_PRESSURE 5
+   500.325
+END
+REACTION_TEMPERATURE 6
+   22.7725
+REACTION_PRESSURE 6
+   508.694
+END
+REACTION_TEMPERATURE 7
+   27.5531
+REACTION_PRESSURE 7
+   519.014
+END
+REACTION_TEMPERATURE 8
+   33.5484
+REACTION_PRESSURE 8
+   532.309
+END
+REACTION_TEMPERATURE 9
+   38.5153
+REACTION_PRESSURE 9
+   543.622
+END
+REACTION_TEMPERATURE 10
+   41.9557
+REACTION_PRESSURE 10
+   551.616
+END
+REACTION_TEMPERATURE 11
+   45.9548
+REACTION_PRESSURE 11
+   561.071
+END
+REACTION_TEMPERATURE 12
+   50.7309
+REACTION_PRESSURE 12
+   572.593
+END
+REACTION_TEMPERATURE 13
+   55.5932
+REACTION_PRESSURE 13
+   584.58
+END
+REACTION_TEMPERATURE 14
+   60.5992
+REACTION_PRESSURE 14
+   597.191
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               14
+   -shifts              1
+   -time_step           3.94462e+012
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   43.7804   51.9365   63.5846   40.3511   46.761   55.434   67.7763   86.7429   41.2679   47.4037
+   55.6655   67.4299   57.8863   71.1362
+   -initial_time        4.81243e+014
+   -punch_frequency     1
+   -punch_cells         1-14
+   -print_frequency     1
+   -print_cells         1-14
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.769106   0.727761   0.682154   0.644298   0.615002   0.583088   0.547879   0.508276   0.47867   0.459966
+   0.439806   0.417779   0.397362   0.378409
+END
+#
+# Beginning of calculations for time 1.5375e+007
+#
+TITLE Advecting solutions
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.362823
+EXCHANGE_MIX -2
+0   0.362823
+GAS_PHASE_MIX -2
+0   0.362823
+KINETICS_MIX -2
+0   0.362823
+SOLID_SOLUTION_MIX -2
+0   0.362823
+SURFACE_MIX -2
+0   0.362823
+EQUILIBRIUM_PHASES_MIX -3
+0   0.442125
+EXCHANGE_MIX -3
+0   0.442125
+GAS_PHASE_MIX -3
+0   0.442125
+KINETICS_MIX -3
+0   0.442125
+SOLID_SOLUTION_MIX -3
+0   0.442125
+SURFACE_MIX -3
+0   0.442125
+EQUILIBRIUM_PHASES_MIX -4
+0   0.541515
+EXCHANGE_MIX -4
+0   0.541515
+GAS_PHASE_MIX -4
+0   0.541515
+KINETICS_MIX -4
+0   0.541515
+SOLID_SOLUTION_MIX -4
+0   0.541515
+SURFACE_MIX -4
+0   0.541515
+EQUILIBRIUM_PHASES_MIX -5
+2   0.330586
+1   1
+0   0.210907
+EXCHANGE_MIX -5
+2   0.330586
+1   1
+0   0.210907
+GAS_PHASE_MIX -5
+2   0.330586
+1   1
+0   0.210907
+KINETICS_MIX -5
+2   0.330586
+1   1
+0   0.210907
+SOLID_SOLUTION_MIX -5
+2   0.330586
+1   1
+0   0.210907
+SURFACE_MIX -5
+2   0.330586
+1   1
+0   0.210907
+EQUILIBRIUM_PHASES_MIX -6
+3   0.996688
+2   0.669414
+EXCHANGE_MIX -6
+3   0.996688
+2   0.669414
+GAS_PHASE_MIX -6
+3   0.996688
+2   0.669414
+KINETICS_MIX -6
+3   0.996688
+2   0.669414
+SOLID_SOLUTION_MIX -6
+3   0.996688
+2   0.669414
+SURFACE_MIX -6
+3   0.996688
+2   0.669414
+EQUILIBRIUM_PHASES_MIX -7
+5   0.411434
+4   1
+3   0.00331176
+EXCHANGE_MIX -7
+5   0.411434
+4   1
+3   0.00331176
+GAS_PHASE_MIX -7
+5   0.411434
+4   1
+3   0.00331176
+KINETICS_MIX -7
+5   0.411434
+4   1
+3   0.00331176
+SOLID_SOLUTION_MIX -7
+5   0.411434
+4   1
+3   0.00331176
+SURFACE_MIX -7
+5   0.411434
+4   1
+3   0.00331176
+EQUILIBRIUM_PHASES_MIX -8
+6   0.786021
+5   0.588566
+EXCHANGE_MIX -8
+6   0.786021
+5   0.588566
+GAS_PHASE_MIX -8
+6   0.786021
+5   0.588566
+KINETICS_MIX -8
+6   0.786021
+5   0.588566
+SOLID_SOLUTION_MIX -8
+6   0.786021
+5   0.588566
+SURFACE_MIX -8
+6   0.786021
+5   0.588566
+EQUILIBRIUM_PHASES_MIX -9
+8   0.109419
+7   1
+6   0.213979
+EXCHANGE_MIX -9
+8   0.109419
+7   1
+6   0.213979
+GAS_PHASE_MIX -9
+8   0.109419
+7   1
+6   0.213979
+KINETICS_MIX -9
+8   0.109419
+7   1
+6   0.213979
+SOLID_SOLUTION_MIX -9
+8   0.109419
+7   1
+6   0.213979
+SURFACE_MIX -9
+8   0.109419
+7   1
+6   0.213979
+EQUILIBRIUM_PHASES_MIX -10
+9   0.324708
+8   0.890581
+EXCHANGE_MIX -10
+9   0.324708
+8   0.890581
+GAS_PHASE_MIX -10
+9   0.324708
+8   0.890581
+KINETICS_MIX -10
+9   0.324708
+8   0.890581
+SOLID_SOLUTION_MIX -10
+9   0.324708
+8   0.890581
+SURFACE_MIX -10
+9   0.324708
+8   0.890581
+EQUILIBRIUM_PHASES_MIX -11
+10   0.486346
+9   0.675292
+EXCHANGE_MIX -11
+10   0.486346
+9   0.675292
+GAS_PHASE_MIX -11
+10   0.486346
+9   0.675292
+KINETICS_MIX -11
+10   0.486346
+9   0.675292
+SOLID_SOLUTION_MIX -11
+10   0.486346
+9   0.675292
+SURFACE_MIX -11
+10   0.486346
+9   0.675292
+EQUILIBRIUM_PHASES_MIX -12
+11   0.635998
+10   0.513654
+EXCHANGE_MIX -12
+11   0.635998
+10   0.513654
+GAS_PHASE_MIX -12
+11   0.635998
+10   0.513654
+KINETICS_MIX -12
+11   0.635998
+10   0.513654
+SOLID_SOLUTION_MIX -12
+11   0.635998
+10   0.513654
+SURFACE_MIX -12
+11   0.635998
+10   0.513654
+EQUILIBRIUM_PHASES_MIX -13
+12   0.773092
+11   0.364002
+EXCHANGE_MIX -13
+12   0.773092
+11   0.364002
+GAS_PHASE_MIX -13
+12   0.773092
+11   0.364002
+KINETICS_MIX -13
+12   0.773092
+11   0.364002
+SOLID_SOLUTION_MIX -13
+12   0.773092
+11   0.364002
+SURFACE_MIX -13
+12   0.773092
+11   0.364002
+EQUILIBRIUM_PHASES_MIX -14
+13   0.893546
+12   0.226908
+EXCHANGE_MIX -14
+13   0.893546
+12   0.226908
+GAS_PHASE_MIX -14
+13   0.893546
+12   0.226908
+KINETICS_MIX -14
+13   0.893546
+12   0.226908
+SOLID_SOLUTION_MIX -14
+13   0.893546
+12   0.226908
+SURFACE_MIX -14
+13   0.893546
+12   0.226908
+EQUILIBRIUM_PHASES_MIX -15
+14   1
+13   0.106454
+EXCHANGE_MIX -15
+14   1
+13   0.106454
+GAS_PHASE_MIX -15
+14   1
+13   0.106454
+KINETICS_MIX -15
+14   1
+13   0.106454
+SOLID_SOLUTION_MIX -15
+14   1
+13   0.106454
+SURFACE_MIX -15
+14   1
+13   0.106454
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.296999
+EXCHANGE_MIX 1
+  0 0.296999
+GAS_PHASE_MIX 1
+  0 0.296999
+KINETICS_MIX 1
+  0 0.296999
+SOLID_SOLUTION_MIX 1
+  0 0.296999
+SURFACE_MIX 1
+  0 0.296999
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.03486
+REACTION_PRESSURE 1
+   468.738
+END
+REACTION_TEMPERATURE 2
+   6.35021
+REACTION_PRESSURE 2
+   475.152
+END
+REACTION_TEMPERATURE 3
+   10.2456
+REACTION_PRESSURE 3
+   482.841
+END
+REACTION_TEMPERATURE 4
+   14.9548
+REACTION_PRESSURE 4
+   492.358
+END
+REACTION_TEMPERATURE 5
+   19.1981
+REACTION_PRESSURE 5
+   501.142
+END
+REACTION_TEMPERATURE 6
+   22.7606
+REACTION_PRESSURE 6
+   508.669
+END
+REACTION_TEMPERATURE 7
+   26.9455
+REACTION_PRESSURE 7
+   517.688
+END
+REACTION_TEMPERATURE 8
+   31.9983
+REACTION_PRESSURE 8
+   528.834
+END
+REACTION_TEMPERATURE 9
+   38.3448
+REACTION_PRESSURE 9
+   543.229
+END
+REACTION_TEMPERATURE 10
+   43.6078
+REACTION_PRESSURE 10
+   555.501
+END
+REACTION_TEMPERATURE 11
+   47.2569
+REACTION_PRESSURE 11
+   564.188
+END
+REACTION_TEMPERATURE 12
+   51.5004
+REACTION_PRESSURE 12
+   574.473
+END
+REACTION_TEMPERATURE 13
+   56.5701
+REACTION_PRESSURE 13
+   587.019
+END
+REACTION_TEMPERATURE 14
+   61.7316
+REACTION_PRESSURE 14
+   600.082
+END
+REACTION_TEMPERATURE 15
+   67.0445
+REACTION_PRESSURE 15
+   613.832
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               15
+   -shifts              1
+   -time_step           3.94462e+012
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   39.5583   45.8887   54.5086   66.8624   42.5013   49.3147   58.5427   71.6842   91.8854   43.7589
+   50.2908   59.079   71.5828   61.4463   75.4821
+   -initial_time        4.85188e+014
+   -punch_frequency     1
+   -punch_cells         1-15
+   -print_frequency     1
+   -print_cells         1-15
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.77101   0.733771   0.693421   0.648713   0.611702   0.583154   0.552125   0.518011   0.47983   0.451421
+   0.433561   0.414395   0.393542   0.37434   0.356621
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 1.55e+007
+#
+TITLE Advecting solutions
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.384476
+EXCHANGE_MIX -2
+0   0.384476
+GAS_PHASE_MIX -2
+0   0.384476
+KINETICS_MIX -2
+0   0.384476
+SOLID_SOLUTION_MIX -2
+0   0.384476
+SURFACE_MIX -2
+0   0.384476
+EQUILIBRIUM_PHASES_MIX -3
+0   0.457161
+EXCHANGE_MIX -3
+0   0.457161
+GAS_PHASE_MIX -3
+0   0.457161
+KINETICS_MIX -3
+0   0.457161
+SOLID_SOLUTION_MIX -3
+0   0.457161
+SURFACE_MIX -3
+0   0.457161
+EQUILIBRIUM_PHASES_MIX -4
+0   0.545533
+EXCHANGE_MIX -4
+0   0.545533
+GAS_PHASE_MIX -4
+0   0.545533
+KINETICS_MIX -4
+0   0.545533
+SOLID_SOLUTION_MIX -4
+0   0.545533
+SURFACE_MIX -4
+0   0.545533
+EQUILIBRIUM_PHASES_MIX -5
+0   0.656425
+EXCHANGE_MIX -5
+0   0.656425
+GAS_PHASE_MIX -5
+0   0.656425
+KINETICS_MIX -5
+0   0.656425
+SOLID_SOLUTION_MIX -5
+0   0.656425
+SURFACE_MIX -5
+0   0.656425
+EQUILIBRIUM_PHASES_MIX -6
+2   0.244006
+1   1
+0   0.37496
+EXCHANGE_MIX -6
+2   0.244006
+1   1
+0   0.37496
+GAS_PHASE_MIX -6
+2   0.244006
+1   1
+0   0.37496
+KINETICS_MIX -6
+2   0.244006
+1   1
+0   0.37496
+SOLID_SOLUTION_MIX -6
+2   0.244006
+1   1
+0   0.37496
+SURFACE_MIX -6
+2   0.244006
+1   1
+0   0.37496
+EQUILIBRIUM_PHASES_MIX -7
+4   0.246468
+3   1
+2   0.755994
+EXCHANGE_MIX -7
+4   0.246468
+3   1
+2   0.755994
+GAS_PHASE_MIX -7
+4   0.246468
+3   1
+2   0.755994
+KINETICS_MIX -7
+4   0.246468
+3   1
+2   0.755994
+SOLID_SOLUTION_MIX -7
+4   0.246468
+3   1
+2   0.755994
+SURFACE_MIX -7
+4   0.246468
+3   1
+2   0.755994
+EQUILIBRIUM_PHASES_MIX -8
+5   0.865365
+4   0.753532
+EXCHANGE_MIX -8
+5   0.865365
+4   0.753532
+GAS_PHASE_MIX -8
+5   0.865365
+4   0.753532
+KINETICS_MIX -8
+5   0.865365
+4   0.753532
+SOLID_SOLUTION_MIX -8
+5   0.865365
+4   0.753532
+SURFACE_MIX -8
+5   0.865365
+4   0.753532
+EQUILIBRIUM_PHASES_MIX -9
+7   0.357298
+6   1
+5   0.134635
+EXCHANGE_MIX -9
+7   0.357298
+6   1
+5   0.134635
+GAS_PHASE_MIX -9
+7   0.357298
+6   1
+5   0.134635
+KINETICS_MIX -9
+7   0.357298
+6   1
+5   0.134635
+SOLID_SOLUTION_MIX -9
+7   0.357298
+6   1
+5   0.134635
+SURFACE_MIX -9
+7   0.357298
+6   1
+5   0.134635
+EQUILIBRIUM_PHASES_MIX -10
+8   0.794213
+7   0.642702
+EXCHANGE_MIX -10
+8   0.794213
+7   0.642702
+GAS_PHASE_MIX -10
+8   0.794213
+7   0.642702
+KINETICS_MIX -10
+8   0.794213
+7   0.642702
+SOLID_SOLUTION_MIX -10
+8   0.794213
+7   0.642702
+SURFACE_MIX -10
+8   0.794213
+7   0.642702
+EQUILIBRIUM_PHASES_MIX -11
+10   0.106466
+9   1
+8   0.205787
+EXCHANGE_MIX -11
+10   0.106466
+9   1
+8   0.205787
+GAS_PHASE_MIX -11
+10   0.106466
+9   1
+8   0.205787
+KINETICS_MIX -11
+10   0.106466
+9   1
+8   0.205787
+SOLID_SOLUTION_MIX -11
+10   0.106466
+9   1
+8   0.205787
+SURFACE_MIX -11
+10   0.106466
+9   1
+8   0.205787
+EQUILIBRIUM_PHASES_MIX -12
+11   0.320707
+10   0.893534
+EXCHANGE_MIX -12
+11   0.320707
+10   0.893534
+GAS_PHASE_MIX -12
+11   0.320707
+10   0.893534
+KINETICS_MIX -12
+11   0.320707
+10   0.893534
+SOLID_SOLUTION_MIX -12
+11   0.320707
+10   0.893534
+SURFACE_MIX -12
+11   0.320707
+10   0.893534
+EQUILIBRIUM_PHASES_MIX -13
+12   0.519135
+11   0.679293
+EXCHANGE_MIX -13
+12   0.519135
+11   0.679293
+GAS_PHASE_MIX -13
+12   0.519135
+11   0.679293
+KINETICS_MIX -13
+12   0.519135
+11   0.679293
+SOLID_SOLUTION_MIX -13
+12   0.519135
+11   0.679293
+SURFACE_MIX -13
+12   0.519135
+11   0.679293
+EQUILIBRIUM_PHASES_MIX -14
+13   0.700538
+12   0.480865
+EXCHANGE_MIX -14
+13   0.700538
+12   0.480865
+GAS_PHASE_MIX -14
+13   0.700538
+12   0.480865
+KINETICS_MIX -14
+13   0.700538
+12   0.480865
+SOLID_SOLUTION_MIX -14
+13   0.700538
+12   0.480865
+SURFACE_MIX -14
+13   0.700538
+12   0.480865
+EQUILIBRIUM_PHASES_MIX -15
+14   0.859749
+13   0.299462
+EXCHANGE_MIX -15
+14   0.859749
+13   0.299462
+GAS_PHASE_MIX -15
+14   0.859749
+13   0.299462
+KINETICS_MIX -15
+14   0.859749
+13   0.299462
+SOLID_SOLUTION_MIX -15
+14   0.859749
+13   0.299462
+SURFACE_MIX -15
+14   0.859749
+13   0.299462
+EQUILIBRIUM_PHASES_MIX -16
+15   1
+14   0.140251
+EXCHANGE_MIX -16
+15   1
+14   0.140251
+GAS_PHASE_MIX -16
+15   1
+14   0.140251
+KINETICS_MIX -16
+15   1
+14   0.140251
+SOLID_SOLUTION_MIX -16
+15   1
+14   0.140251
+SURFACE_MIX -16
+15   1
+14   0.140251
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.308784
+EXCHANGE_MIX 1
+  0 0.308784
+GAS_PHASE_MIX 1
+  0 0.308784
+KINETICS_MIX 1
+  0 0.308784
+SOLID_SOLUTION_MIX 1
+  0 0.308784
+SURFACE_MIX 1
+  0 0.308784
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.64222
+REACTION_PRESSURE 1
+   469.904
+END
+REACTION_TEMPERATURE 2
+   7.42283
+REACTION_PRESSURE 2
+   477.252
+END
+REACTION_TEMPERATURE 3
+   10.9649
+REACTION_PRESSURE 3
+   484.279
+END
+REACTION_TEMPERATURE 4
+   15.1353
+REACTION_PRESSURE 4
+   492.728
+END
+REACTION_TEMPERATURE 5
+   20.1895
+REACTION_PRESSURE 5
+   503.223
+END
+REACTION_TEMPERATURE 6
+   24.753
+REACTION_PRESSURE 6
+   512.939
+END
+REACTION_TEMPERATURE 7
+   28.593
+REACTION_PRESSURE 7
+   521.292
+END
+REACTION_TEMPERATURE 8
+   33.1119
+REACTION_PRESSURE 8
+   531.328
+END
+REACTION_TEMPERATURE 9
+   38.578
+REACTION_PRESSURE 9
+   543.766
+END
+REACTION_TEMPERATURE 10
+   45.4561
+REACTION_PRESSURE 10
+   559.883
+END
+REACTION_TEMPERATURE 11
+   51.166
+REACTION_PRESSURE 11
+   573.655
+END
+REACTION_TEMPERATURE 12
+   55.1283
+REACTION_PRESSURE 12
+   583.423
+END
+REACTION_TEMPERATURE 13
+   59.7372
+REACTION_PRESSURE 13
+   595
+END
+REACTION_TEMPERATURE 14
+   65.2428
+REACTION_PRESSURE 14
+   609.135
+END
+REACTION_TEMPERATURE 15
+   70.8453
+REACTION_PRESSURE 15
+   623.859
+END
+REACTION_TEMPERATURE 16
+   76.6056
+REACTION_PRESSURE 16
+   639.356
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               16
+   -shifts              1
+   -time_step           4.73354e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   55.2119   42.2263   49.0652   58.4171   71.8466   45.7695   53.1991   63.2678   77.6126   99.6566
+   47.5062   54.6158   64.1699   77.7257   66.6693   81.7922
+   -initial_time        4.89132e+014
+   -punch_frequency     1
+   -punch_cells         1-16
+   -print_frequency     1
+   -print_cells         1-16
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.764068   0.722295   0.686266   0.647026   0.60371   0.568023   0.540575   0.51089   0.478443   0.442413
+   0.415813   0.399227   0.381518   0.362439   0.345013   0.329109
+END
+#
+# Beginning of calculations for time 1.7e+007
+#
+TITLE Advecting solutions
+COPY solution 16   17
+END
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.387924
+EXCHANGE_MIX -2
+0   0.387924
+GAS_PHASE_MIX -2
+0   0.387924
+KINETICS_MIX -2
+0   0.387924
+SOLID_SOLUTION_MIX -2
+0   0.387924
+SURFACE_MIX -2
+0   0.387924
+EQUILIBRIUM_PHASES_MIX -3
+0   0.470785
+EXCHANGE_MIX -3
+0   0.470785
+GAS_PHASE_MIX -3
+0   0.470785
+KINETICS_MIX -3
+0   0.470785
+SOLID_SOLUTION_MIX -3
+0   0.470785
+SURFACE_MIX -3
+0   0.470785
+EQUILIBRIUM_PHASES_MIX -4
+0   0.55095
+EXCHANGE_MIX -4
+0   0.55095
+GAS_PHASE_MIX -4
+0   0.55095
+KINETICS_MIX -4
+0   0.55095
+SOLID_SOLUTION_MIX -4
+0   0.55095
+SURFACE_MIX -4
+0   0.55095
+EQUILIBRIUM_PHASES_MIX -5
+0   0.648442
+EXCHANGE_MIX -5
+0   0.648442
+GAS_PHASE_MIX -5
+0   0.648442
+KINETICS_MIX -5
+0   0.648442
+SOLID_SOLUTION_MIX -5
+0   0.648442
+SURFACE_MIX -5
+0   0.648442
+EQUILIBRIUM_PHASES_MIX -6
+2   0.237399
+1   1
+0   0.370789
+EXCHANGE_MIX -6
+2   0.237399
+1   1
+0   0.370789
+GAS_PHASE_MIX -6
+2   0.237399
+1   1
+0   0.370789
+KINETICS_MIX -6
+2   0.237399
+1   1
+0   0.370789
+SOLID_SOLUTION_MIX -6
+2   0.237399
+1   1
+0   0.370789
+SURFACE_MIX -6
+2   0.237399
+1   1
+0   0.370789
+EQUILIBRIUM_PHASES_MIX -7
+4   0.24801
+3   1
+2   0.762601
+EXCHANGE_MIX -7
+4   0.24801
+3   1
+2   0.762601
+GAS_PHASE_MIX -7
+4   0.24801
+3   1
+2   0.762601
+KINETICS_MIX -7
+4   0.24801
+3   1
+2   0.762601
+SOLID_SOLUTION_MIX -7
+4   0.24801
+3   1
+2   0.762601
+SURFACE_MIX -7
+4   0.24801
+3   1
+2   0.762601
+EQUILIBRIUM_PHASES_MIX -8
+5   0.874437
+4   0.75199
+EXCHANGE_MIX -8
+5   0.874437
+4   0.75199
+GAS_PHASE_MIX -8
+5   0.874437
+4   0.75199
+KINETICS_MIX -8
+5   0.874437
+4   0.75199
+SOLID_SOLUTION_MIX -8
+5   0.874437
+4   0.75199
+SURFACE_MIX -8
+5   0.874437
+4   0.75199
+EQUILIBRIUM_PHASES_MIX -9
+7   0.305354
+6   1
+5   0.125563
+EXCHANGE_MIX -9
+7   0.305354
+6   1
+5   0.125563
+GAS_PHASE_MIX -9
+7   0.305354
+6   1
+5   0.125563
+KINETICS_MIX -9
+7   0.305354
+6   1
+5   0.125563
+SOLID_SOLUTION_MIX -9
+7   0.305354
+6   1
+5   0.125563
+SURFACE_MIX -9
+7   0.305354
+6   1
+5   0.125563
+EQUILIBRIUM_PHASES_MIX -10
+8   0.686897
+7   0.694646
+EXCHANGE_MIX -10
+8   0.686897
+7   0.694646
+GAS_PHASE_MIX -10
+8   0.686897
+7   0.694646
+KINETICS_MIX -10
+8   0.686897
+7   0.694646
+SOLID_SOLUTION_MIX -10
+8   0.686897
+7   0.694646
+SURFACE_MIX -10
+8   0.686897
+7   0.694646
+EQUILIBRIUM_PHASES_MIX -11
+10   0.0346694
+9   1
+8   0.313103
+EXCHANGE_MIX -11
+10   0.0346694
+9   1
+8   0.313103
+GAS_PHASE_MIX -11
+10   0.0346694
+9   1
+8   0.313103
+KINETICS_MIX -11
+10   0.0346694
+9   1
+8   0.313103
+SOLID_SOLUTION_MIX -11
+10   0.0346694
+9   1
+8   0.313103
+SURFACE_MIX -11
+10   0.0346694
+9   1
+8   0.313103
+EQUILIBRIUM_PHASES_MIX -12
+11   0.265775
+10   0.965331
+EXCHANGE_MIX -12
+11   0.265775
+10   0.965331
+GAS_PHASE_MIX -12
+11   0.265775
+10   0.965331
+KINETICS_MIX -12
+11   0.265775
+10   0.965331
+SOLID_SOLUTION_MIX -12
+11   0.265775
+10   0.965331
+SURFACE_MIX -12
+11   0.265775
+10   0.965331
+EQUILIBRIUM_PHASES_MIX -13
+12   0.442447
+11   0.734225
+EXCHANGE_MIX -13
+12   0.442447
+11   0.734225
+GAS_PHASE_MIX -13
+12   0.442447
+11   0.734225
+KINETICS_MIX -13
+12   0.442447
+11   0.734225
+SOLID_SOLUTION_MIX -13
+12   0.442447
+11   0.734225
+SURFACE_MIX -13
+12   0.442447
+11   0.734225
+EQUILIBRIUM_PHASES_MIX -14
+13   0.605847
+12   0.557553
+EXCHANGE_MIX -14
+13   0.605847
+12   0.557553
+GAS_PHASE_MIX -14
+13   0.605847
+12   0.557553
+KINETICS_MIX -14
+13   0.605847
+12   0.557553
+SOLID_SOLUTION_MIX -14
+13   0.605847
+12   0.557553
+SURFACE_MIX -14
+13   0.605847
+12   0.557553
+EQUILIBRIUM_PHASES_MIX -15
+14   0.754837
+13   0.394153
+EXCHANGE_MIX -15
+14   0.754837
+13   0.394153
+GAS_PHASE_MIX -15
+14   0.754837
+13   0.394153
+KINETICS_MIX -15
+14   0.754837
+13   0.394153
+SOLID_SOLUTION_MIX -15
+14   0.754837
+13   0.394153
+SURFACE_MIX -15
+14   0.754837
+13   0.394153
+EQUILIBRIUM_PHASES_MIX -16
+15   0.885377
+14   0.245163
+EXCHANGE_MIX -16
+15   0.885377
+14   0.245163
+GAS_PHASE_MIX -16
+15   0.885377
+14   0.245163
+KINETICS_MIX -16
+15   0.885377
+14   0.245163
+SOLID_SOLUTION_MIX -16
+15   0.885377
+14   0.245163
+SURFACE_MIX -16
+15   0.885377
+14   0.245163
+EQUILIBRIUM_PHASES_MIX -17
+16   1
+15   0.114623
+EXCHANGE_MIX -17
+16   1
+15   0.114623
+GAS_PHASE_MIX -17
+16   1
+15   0.114623
+KINETICS_MIX -17
+16   1
+15   0.114623
+SOLID_SOLUTION_MIX -17
+16   1
+15   0.114623
+SURFACE_MIX -17
+16   1
+15   0.114623
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.304332
+EXCHANGE_MIX 1
+  0 0.304332
+GAS_PHASE_MIX 1
+  0 0.304332
+KINETICS_MIX 1
+  0 0.304332
+SOLID_SOLUTION_MIX 1
+  0 0.304332
+SURFACE_MIX 1
+  0 0.304332
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+COPY equilibrium_phases -17   17
+COPY exchange           -17   17
+COPY gas_phase          -17   17
+COPY kinetics           -17   17
+COPY solid_solution     -17   17
+COPY surface            -17   17
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   3.41514
+REACTION_PRESSURE 1
+   469.468
+END
+REACTION_TEMPERATURE 2
+   7.60204
+REACTION_PRESSURE 2
+   477.605
+END
+REACTION_TEMPERATURE 3
+   11.6143
+REACTION_PRESSURE 3
+   485.582
+END
+REACTION_TEMPERATURE 4
+   15.3811
+REACTION_PRESSURE 4
+   493.232
+END
+REACTION_TEMPERATURE 5
+   19.8249
+REACTION_PRESSURE 5
+   502.456
+END
+REACTION_TEMPERATURE 6
+   25.2226
+REACTION_PRESSURE 6
+   513.952
+END
+REACTION_TEMPERATURE 7
+   30.1049
+REACTION_PRESSURE 7
+   524.625
+END
+REACTION_TEMPERATURE 8
+   34.2211
+REACTION_PRESSURE 8
+   533.825
+END
+REACTION_TEMPERATURE 9
+   39.0718
+REACTION_PRESSURE 9
+   544.906
+END
+REACTION_TEMPERATURE 10
+   44.9474
+REACTION_PRESSURE 10
+   558.673
+END
+REACTION_TEMPERATURE 11
+   52.3492
+REACTION_PRESSURE 11
+   576.554
+END
+REACTION_TEMPERATURE 12
+   58.4973
+REACTION_PRESSURE 12
+   591.863
+END
+REACTION_TEMPERATURE 13
+   62.7644
+REACTION_PRESSURE 13
+   602.731
+END
+REACTION_TEMPERATURE 14
+   67.7262
+REACTION_PRESSURE 14
+   615.619
+END
+REACTION_TEMPERATURE 15
+   73.6488
+REACTION_PRESSURE 15
+   631.356
+END
+REACTION_TEMPERATURE 16
+   79.669
+REACTION_PRESSURE 16
+   647.746
+END
+REACTION_TEMPERATURE 17
+   85.8473
+REACTION_PRESSURE 17
+   664.979
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               17
+   -shifts              1
+   -time_step           4.73354e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   49.3593   58.5505   44.8588   52.2233   62.3068   76.8096   49.0237   57.0629   67.9566   83.4748
+   107.294   51.1627   58.8132   69.068   83.5768   71.5838   87.6498
+   -initial_time        5.36468e+014
+   -punch_frequency     1
+   -punch_cells         1-17
+   -print_frequency     1
+   -print_cells         1-17
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.766676   0.7205   0.679909   0.644766   0.606634   0.564702   0.530318   0.503972   0.47564   0.444844
+   0.41092   0.386096   0.370735   0.354463   0.337065   0.321327   0.307115
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 1.85e+007
+#
+TITLE Advecting solutions
+COPY solution 17   18
+END
+COPY solution 16   17
+END
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.333413
+EXCHANGE_MIX -2
+0   0.333413
+GAS_PHASE_MIX -2
+0   0.333413
+KINETICS_MIX -2
+0   0.333413
+SOLID_SOLUTION_MIX -2
+0   0.333413
+SURFACE_MIX -2
+0   0.333413
+EQUILIBRIUM_PHASES_MIX -3
+0   0.419598
+EXCHANGE_MIX -3
+0   0.419598
+GAS_PHASE_MIX -3
+0   0.419598
+KINETICS_MIX -3
+0   0.419598
+SOLID_SOLUTION_MIX -3
+0   0.419598
+SURFACE_MIX -3
+0   0.419598
+EQUILIBRIUM_PHASES_MIX -4
+1   0.887275
+0   0.235547
+EXCHANGE_MIX -4
+1   0.887275
+0   0.235547
+GAS_PHASE_MIX -4
+1   0.887275
+0   0.235547
+KINETICS_MIX -4
+1   0.887275
+0   0.235547
+SOLID_SOLUTION_MIX -4
+1   0.887275
+0   0.235547
+SURFACE_MIX -4
+1   0.887275
+0   0.235547
+EQUILIBRIUM_PHASES_MIX -5
+3   0.353675
+2   1
+1   0.112725
+EXCHANGE_MIX -5
+3   0.353675
+2   1
+1   0.112725
+GAS_PHASE_MIX -5
+3   0.353675
+2   1
+1   0.112725
+KINETICS_MIX -5
+3   0.353675
+2   1
+1   0.112725
+SOLID_SOLUTION_MIX -5
+3   0.353675
+2   1
+1   0.112725
+SURFACE_MIX -5
+3   0.353675
+2   1
+1   0.112725
+EQUILIBRIUM_PHASES_MIX -6
+4   0.699948
+3   0.646325
+EXCHANGE_MIX -6
+4   0.699948
+3   0.646325
+GAS_PHASE_MIX -6
+4   0.699948
+3   0.646325
+KINETICS_MIX -6
+4   0.699948
+3   0.646325
+SOLID_SOLUTION_MIX -6
+4   0.699948
+3   0.646325
+SURFACE_MIX -6
+4   0.699948
+3   0.646325
+EQUILIBRIUM_PHASES_MIX -7
+6   0.00420842
+5   1
+4   0.300052
+EXCHANGE_MIX -7
+6   0.00420842
+5   1
+4   0.300052
+GAS_PHASE_MIX -7
+6   0.00420842
+5   1
+4   0.300052
+KINETICS_MIX -7
+6   0.00420842
+5   1
+4   0.300052
+SOLID_SOLUTION_MIX -7
+6   0.00420842
+5   1
+4   0.300052
+SURFACE_MIX -7
+6   0.00420842
+5   1
+4   0.300052
+EQUILIBRIUM_PHASES_MIX -8
+7   0.190302
+6   0.995792
+EXCHANGE_MIX -8
+7   0.190302
+6   0.995792
+GAS_PHASE_MIX -8
+7   0.190302
+6   0.995792
+KINETICS_MIX -8
+7   0.190302
+6   0.995792
+SOLID_SOLUTION_MIX -8
+7   0.190302
+6   0.995792
+SURFACE_MIX -8
+7   0.190302
+6   0.995792
+EQUILIBRIUM_PHASES_MIX -9
+8   0.32628
+7   0.809698
+EXCHANGE_MIX -9
+8   0.32628
+7   0.809698
+GAS_PHASE_MIX -9
+8   0.32628
+7   0.809698
+KINETICS_MIX -9
+8   0.32628
+7   0.809698
+SOLID_SOLUTION_MIX -9
+8   0.32628
+7   0.809698
+SURFACE_MIX -9
+8   0.32628
+7   0.809698
+EQUILIBRIUM_PHASES_MIX -10
+9   0.451351
+8   0.67372
+EXCHANGE_MIX -10
+9   0.451351
+8   0.67372
+GAS_PHASE_MIX -10
+9   0.451351
+8   0.67372
+KINETICS_MIX -10
+9   0.451351
+8   0.67372
+SOLID_SOLUTION_MIX -10
+9   0.451351
+8   0.67372
+SURFACE_MIX -10
+9   0.451351
+8   0.67372
+EQUILIBRIUM_PHASES_MIX -11
+10   0.566003
+9   0.548649
+EXCHANGE_MIX -11
+10   0.566003
+9   0.548649
+GAS_PHASE_MIX -11
+10   0.566003
+9   0.548649
+KINETICS_MIX -11
+10   0.566003
+9   0.548649
+SOLID_SOLUTION_MIX -11
+10   0.566003
+9   0.548649
+SURFACE_MIX -11
+10   0.566003
+9   0.548649
+EQUILIBRIUM_PHASES_MIX -12
+11   0.670277
+10   0.433997
+EXCHANGE_MIX -12
+11   0.670277
+10   0.433997
+GAS_PHASE_MIX -12
+11   0.670277
+10   0.433997
+KINETICS_MIX -12
+11   0.670277
+10   0.433997
+SOLID_SOLUTION_MIX -12
+11   0.670277
+10   0.433997
+SURFACE_MIX -12
+11   0.670277
+10   0.433997
+EQUILIBRIUM_PHASES_MIX -13
+12   0.748763
+11   0.329723
+EXCHANGE_MIX -13
+12   0.748763
+11   0.329723
+GAS_PHASE_MIX -13
+12   0.748763
+11   0.329723
+KINETICS_MIX -13
+12   0.748763
+11   0.329723
+SOLID_SOLUTION_MIX -13
+12   0.748763
+11   0.329723
+SURFACE_MIX -13
+12   0.748763
+11   0.329723
+EQUILIBRIUM_PHASES_MIX -14
+13   0.809284
+12   0.251237
+EXCHANGE_MIX -14
+13   0.809284
+12   0.251237
+GAS_PHASE_MIX -14
+13   0.809284
+12   0.251237
+KINETICS_MIX -14
+13   0.809284
+12   0.251237
+SOLID_SOLUTION_MIX -14
+13   0.809284
+12   0.251237
+SURFACE_MIX -14
+13   0.809284
+12   0.251237
+EQUILIBRIUM_PHASES_MIX -15
+14   0.865217
+13   0.190716
+EXCHANGE_MIX -15
+14   0.865217
+13   0.190716
+GAS_PHASE_MIX -15
+14   0.865217
+13   0.190716
+KINETICS_MIX -15
+14   0.865217
+13   0.190716
+SOLID_SOLUTION_MIX -15
+14   0.865217
+13   0.190716
+SURFACE_MIX -15
+14   0.865217
+13   0.190716
+EQUILIBRIUM_PHASES_MIX -16
+15   0.916172
+14   0.134783
+EXCHANGE_MIX -16
+15   0.916172
+14   0.134783
+GAS_PHASE_MIX -16
+15   0.916172
+14   0.134783
+KINETICS_MIX -16
+15   0.916172
+14   0.134783
+SOLID_SOLUTION_MIX -16
+15   0.916172
+14   0.134783
+SURFACE_MIX -16
+15   0.916172
+14   0.134783
+EQUILIBRIUM_PHASES_MIX -17
+16   0.960797
+15   0.0838282
+EXCHANGE_MIX -17
+16   0.960797
+15   0.0838282
+GAS_PHASE_MIX -17
+16   0.960797
+15   0.0838282
+KINETICS_MIX -17
+16   0.960797
+15   0.0838282
+SOLID_SOLUTION_MIX -17
+16   0.960797
+15   0.0838282
+SURFACE_MIX -17
+16   0.960797
+15   0.0838282
+EQUILIBRIUM_PHASES_MIX -18
+17   1
+16   0.0392031
+EXCHANGE_MIX -18
+17   1
+16   0.0392031
+GAS_PHASE_MIX -18
+17   1
+16   0.0392031
+KINETICS_MIX -18
+17   1
+16   0.0392031
+SOLID_SOLUTION_MIX -18
+17   1
+16   0.0392031
+SURFACE_MIX -18
+17   1
+16   0.0392031
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.280431
+EXCHANGE_MIX 1
+  0 0.280431
+GAS_PHASE_MIX 1
+  0 0.280431
+KINETICS_MIX 1
+  0 0.280431
+SOLID_SOLUTION_MIX 1
+  0 0.280431
+SURFACE_MIX 1
+  0 0.280431
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+COPY equilibrium_phases -17   17
+COPY exchange           -17   17
+COPY gas_phase          -17   17
+COPY kinetics           -17   17
+COPY solid_solution     -17   17
+COPY surface            -17   17
+END
+COPY equilibrium_phases -18   18
+COPY exchange           -18   18
+COPY gas_phase          -18   18
+COPY kinetics           -18   18
+COPY solid_solution     -18   18
+COPY surface            -18   18
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.20839
+REACTION_PRESSURE 1
+   467.158
+END
+REACTION_TEMPERATURE 2
+   4.87462
+REACTION_PRESSURE 2
+   472.282
+END
+REACTION_TEMPERATURE 3
+   9.15607
+REACTION_PRESSURE 3
+   480.674
+END
+REACTION_TEMPERATURE 4
+   13.2614
+REACTION_PRESSURE 4
+   488.908
+END
+REACTION_TEMPERATURE 5
+   17.1187
+REACTION_PRESSURE 5
+   496.813
+END
+REACTION_TEMPERATURE 6
+   21.6726
+REACTION_PRESSURE 6
+   506.356
+END
+REACTION_TEMPERATURE 7
+   27.2088
+REACTION_PRESSURE 7
+   518.262
+END
+REACTION_TEMPERATURE 8
+   32.2198
+REACTION_PRESSURE 8
+   529.329
+END
+REACTION_TEMPERATURE 9
+   36.4471
+REACTION_PRESSURE 9
+   538.878
+END
+REACTION_TEMPERATURE 10
+   41.4312
+REACTION_PRESSURE 10
+   550.389
+END
+REACTION_TEMPERATURE 11
+   47.4709
+REACTION_PRESSURE 11
+   564.702
+END
+REACTION_TEMPERATURE 12
+   55.0818
+REACTION_PRESSURE 12
+   583.307
+END
+REACTION_TEMPERATURE 13
+   61.4039
+REACTION_PRESSURE 13
+   599.244
+END
+REACTION_TEMPERATURE 14
+   65.7912
+REACTION_PRESSURE 14
+   610.561
+END
+REACTION_TEMPERATURE 15
+   70.8914
+REACTION_PRESSURE 15
+   623.982
+END
+REACTION_TEMPERATURE 16
+   76.9764
+REACTION_PRESSURE 16
+   640.367
+END
+REACTION_TEMPERATURE 17
+   83.158
+REACTION_PRESSURE 17
+   657.427
+END
+REACTION_TEMPERATURE 18
+   89.496
+REACTION_PRESSURE 18
+   675.353
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               18
+   -shifts              1
+   -time_step           7.88923e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   18.2575   50.4598   59.8867   45.9198   53.4956   63.8744   78.8114   50.3362   58.6163   69.8396
+   85.8226   110.334   52.6088   60.4652   70.9836   85.8471   73.4716   89.8786
+   -initial_time        5.83803e+014
+   -punch_frequency     1
+   -punch_cells         1-18
+   -print_frequency     1
+   -print_cells         1-18
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.780987   0.749955   0.704425   0.664199   0.629432   0.591745   0.550358   0.51649   0.490616   0.462817
+   0.432674   0.3996   0.375483   0.360606   0.344896   0.328151   0.313071   0.299499
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 2.1e+007
+#
+TITLE Advecting solutions
+COPY solution 18   19
+END
+COPY solution 17   18
+END
+COPY solution 16   17
+END
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.32514
+EXCHANGE_MIX -2
+0   0.32514
+GAS_PHASE_MIX -2
+0   0.32514
+KINETICS_MIX -2
+0   0.32514
+SOLID_SOLUTION_MIX -2
+0   0.32514
+SURFACE_MIX -2
+0   0.32514
+EQUILIBRIUM_PHASES_MIX -3
+0   0.379875
+EXCHANGE_MIX -3
+0   0.379875
+GAS_PHASE_MIX -3
+0   0.379875
+KINETICS_MIX -3
+0   0.379875
+SOLID_SOLUTION_MIX -3
+0   0.379875
+SURFACE_MIX -3
+0   0.379875
+EQUILIBRIUM_PHASES_MIX -4
+0   0.470996
+EXCHANGE_MIX -4
+0   0.470996
+GAS_PHASE_MIX -4
+0   0.470996
+KINETICS_MIX -4
+0   0.470996
+SOLID_SOLUTION_MIX -4
+0   0.470996
+SURFACE_MIX -4
+0   0.470996
+EQUILIBRIUM_PHASES_MIX -5
+1   0.412102
+0   0.446448
+EXCHANGE_MIX -5
+1   0.412102
+0   0.446448
+GAS_PHASE_MIX -5
+1   0.412102
+0   0.446448
+KINETICS_MIX -5
+1   0.412102
+0   0.446448
+SOLID_SOLUTION_MIX -5
+1   0.412102
+0   0.446448
+SURFACE_MIX -5
+1   0.412102
+0   0.446448
+EQUILIBRIUM_PHASES_MIX -6
+3   0.36179
+2   1
+1   0.587898
+EXCHANGE_MIX -6
+3   0.36179
+2   1
+1   0.587898
+GAS_PHASE_MIX -6
+3   0.36179
+2   1
+1   0.587898
+KINETICS_MIX -6
+3   0.36179
+2   1
+1   0.587898
+SOLID_SOLUTION_MIX -6
+3   0.36179
+2   1
+1   0.587898
+SURFACE_MIX -6
+3   0.36179
+2   1
+1   0.587898
+EQUILIBRIUM_PHASES_MIX -7
+4   0.968248
+3   0.63821
+EXCHANGE_MIX -7
+4   0.968248
+3   0.63821
+GAS_PHASE_MIX -7
+4   0.968248
+3   0.63821
+KINETICS_MIX -7
+4   0.968248
+3   0.63821
+SOLID_SOLUTION_MIX -7
+4   0.968248
+3   0.63821
+SURFACE_MIX -7
+4   0.968248
+3   0.63821
+EQUILIBRIUM_PHASES_MIX -8
+6   0.416108
+5   1
+4   0.0317523
+EXCHANGE_MIX -8
+6   0.416108
+5   1
+4   0.0317523
+GAS_PHASE_MIX -8
+6   0.416108
+5   1
+4   0.0317523
+KINETICS_MIX -8
+6   0.416108
+5   1
+4   0.0317523
+SOLID_SOLUTION_MIX -8
+6   0.416108
+5   1
+4   0.0317523
+SURFACE_MIX -8
+6   0.416108
+5   1
+4   0.0317523
+EQUILIBRIUM_PHASES_MIX -9
+7   0.752833
+6   0.583892
+EXCHANGE_MIX -9
+7   0.752833
+6   0.583892
+GAS_PHASE_MIX -9
+7   0.752833
+6   0.583892
+KINETICS_MIX -9
+7   0.752833
+6   0.583892
+SOLID_SOLUTION_MIX -9
+7   0.752833
+6   0.583892
+SURFACE_MIX -9
+7   0.752833
+6   0.583892
+EQUILIBRIUM_PHASES_MIX -10
+8   0.986867
+7   0.247167
+EXCHANGE_MIX -10
+8   0.986867
+7   0.247167
+GAS_PHASE_MIX -10
+8   0.986867
+7   0.247167
+KINETICS_MIX -10
+8   0.986867
+7   0.247167
+SOLID_SOLUTION_MIX -10
+8   0.986867
+7   0.247167
+SURFACE_MIX -10
+8   0.986867
+7   0.247167
+EQUILIBRIUM_PHASES_MIX -11
+10   0.176085
+9   1
+8   0.0131325
+EXCHANGE_MIX -11
+10   0.176085
+9   1
+8   0.0131325
+GAS_PHASE_MIX -11
+10   0.176085
+9   1
+8   0.0131325
+KINETICS_MIX -11
+10   0.176085
+9   1
+8   0.0131325
+SOLID_SOLUTION_MIX -11
+10   0.176085
+9   1
+8   0.0131325
+SURFACE_MIX -11
+10   0.176085
+9   1
+8   0.0131325
+EQUILIBRIUM_PHASES_MIX -12
+11   0.34837
+10   0.823915
+EXCHANGE_MIX -12
+11   0.34837
+10   0.823915
+GAS_PHASE_MIX -12
+11   0.34837
+10   0.823915
+KINETICS_MIX -12
+11   0.34837
+10   0.823915
+SOLID_SOLUTION_MIX -12
+11   0.34837
+10   0.823915
+SURFACE_MIX -12
+11   0.34837
+10   0.823915
+EQUILIBRIUM_PHASES_MIX -13
+12   0.504927
+11   0.65163
+EXCHANGE_MIX -13
+12   0.504927
+11   0.65163
+GAS_PHASE_MIX -13
+12   0.504927
+11   0.65163
+KINETICS_MIX -13
+12   0.504927
+11   0.65163
+SOLID_SOLUTION_MIX -13
+12   0.504927
+11   0.65163
+SURFACE_MIX -13
+12   0.504927
+11   0.65163
+EQUILIBRIUM_PHASES_MIX -14
+13   0.623031
+12   0.495073
+EXCHANGE_MIX -14
+13   0.623031
+12   0.495073
+GAS_PHASE_MIX -14
+13   0.623031
+12   0.495073
+KINETICS_MIX -14
+13   0.623031
+12   0.495073
+SOLID_SOLUTION_MIX -14
+13   0.623031
+12   0.495073
+SURFACE_MIX -14
+13   0.623031
+12   0.495073
+EQUILIBRIUM_PHASES_MIX -15
+14   0.714345
+13   0.376969
+EXCHANGE_MIX -15
+14   0.714345
+13   0.376969
+GAS_PHASE_MIX -15
+14   0.714345
+13   0.376969
+KINETICS_MIX -15
+14   0.714345
+13   0.376969
+SOLID_SOLUTION_MIX -15
+14   0.714345
+13   0.376969
+SURFACE_MIX -15
+14   0.714345
+13   0.376969
+EQUILIBRIUM_PHASES_MIX -16
+15   0.798522
+14   0.285655
+EXCHANGE_MIX -16
+15   0.798522
+14   0.285655
+GAS_PHASE_MIX -16
+15   0.798522
+14   0.285655
+KINETICS_MIX -16
+15   0.798522
+14   0.285655
+SOLID_SOLUTION_MIX -16
+15   0.798522
+14   0.285655
+SURFACE_MIX -16
+15   0.798522
+14   0.285655
+EQUILIBRIUM_PHASES_MIX -17
+16   0.874887
+15   0.201478
+EXCHANGE_MIX -17
+16   0.874887
+15   0.201478
+GAS_PHASE_MIX -17
+16   0.874887
+15   0.201478
+KINETICS_MIX -17
+16   0.874887
+15   0.201478
+SOLID_SOLUTION_MIX -17
+16   0.874887
+15   0.201478
+SURFACE_MIX -17
+16   0.874887
+15   0.201478
+EQUILIBRIUM_PHASES_MIX -18
+17   0.941609
+16   0.125113
+EXCHANGE_MIX -18
+17   0.941609
+16   0.125113
+GAS_PHASE_MIX -18
+17   0.941609
+16   0.125113
+KINETICS_MIX -18
+17   0.941609
+16   0.125113
+SOLID_SOLUTION_MIX -18
+17   0.941609
+16   0.125113
+SURFACE_MIX -18
+17   0.941609
+16   0.125113
+EQUILIBRIUM_PHASES_MIX -19
+18   1
+17   0.0583913
+EXCHANGE_MIX -19
+18   1
+17   0.0583913
+GAS_PHASE_MIX -19
+18   1
+17   0.0583913
+KINETICS_MIX -19
+18   1
+17   0.0583913
+SOLID_SOLUTION_MIX -19
+18   1
+17   0.0583913
+SURFACE_MIX -19
+18   1
+17   0.0583913
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.288425
+EXCHANGE_MIX 1
+  0 0.288425
+GAS_PHASE_MIX 1
+  0 0.288425
+KINETICS_MIX 1
+  0 0.288425
+SOLID_SOLUTION_MIX 1
+  0 0.288425
+SURFACE_MIX 1
+  0 0.288425
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+COPY equilibrium_phases -17   17
+COPY exchange           -17   17
+COPY gas_phase          -17   17
+COPY kinetics           -17   17
+COPY solid_solution     -17   17
+COPY surface            -17   17
+END
+COPY equilibrium_phases -18   18
+COPY exchange           -18   18
+COPY gas_phase          -18   18
+COPY kinetics           -18   18
+COPY solid_solution     -18   18
+COPY surface            -18   18
+END
+COPY equilibrium_phases -19   19
+COPY exchange           -19   19
+COPY gas_phase          -19   19
+COPY kinetics           -19   19
+COPY solid_solution     -19   19
+COPY surface            -19   19
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.60392
+REACTION_PRESSURE 1
+   467.914
+END
+REACTION_TEMPERATURE 2
+   4.44097
+REACTION_PRESSURE 2
+   471.444
+END
+REACTION_TEMPERATURE 3
+   7.20016
+REACTION_PRESSURE 3
+   476.815
+END
+REACTION_TEMPERATURE 4
+   11.6339
+REACTION_PRESSURE 4
+   485.622
+END
+REACTION_TEMPERATURE 5
+   15.8902
+REACTION_PRESSURE 5
+   494.278
+END
+REACTION_TEMPERATURE 6
+   19.8944
+REACTION_PRESSURE 6
+   502.602
+END
+REACTION_TEMPERATURE 7
+   24.6274
+REACTION_PRESSURE 7
+   512.669
+END
+REACTION_TEMPERATURE 8
+   30.3884
+REACTION_PRESSURE 8
+   525.252
+END
+REACTION_TEMPERATURE 9
+   35.6078
+REACTION_PRESSURE 9
+   536.967
+END
+REACTION_TEMPERATURE 10
+   40.0153
+REACTION_PRESSURE 10
+   547.091
+END
+REACTION_TEMPERATURE 11
+   45.2152
+REACTION_PRESSURE 11
+   559.31
+END
+REACTION_TEMPERATURE 12
+   51.5199
+REACTION_PRESSURE 12
+   574.521
+END
+REACTION_TEMPERATURE 13
+   59.4667
+REACTION_PRESSURE 13
+   594.314
+END
+REACTION_TEMPERATURE 14
+   66.0676
+REACTION_PRESSURE 14
+   611.281
+END
+REACTION_TEMPERATURE 15
+   70.6464
+REACTION_PRESSURE 15
+   623.33
+END
+REACTION_TEMPERATURE 16
+   75.9661
+REACTION_PRESSURE 16
+   637.618
+END
+REACTION_TEMPERATURE 17
+   82.3071
+REACTION_PRESSURE 17
+   655.053
+END
+REACTION_TEMPERATURE 18
+   88.7412
+REACTION_PRESSURE 18
+   673.195
+END
+REACTION_TEMPERATURE 19
+   95.3273
+REACTION_PRESSURE 19
+   692.234
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph false; END
+TRANSPORT
+   -cells               19
+   -shifts              1
+   -time_step           2.36677e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   28.4516   18.895   52.2181   62.0549   47.6412   55.5613   66.4218   82.0588   52.4617   61.1335
+   72.8858   89.6059   115.209   54.9172   63.0923   74.0147   89.4118   76.4166   93.3275
+   -initial_time        6.62695e+014
+   -punch_frequency     1
+   -punch_cells         1-19
+   -print_frequency     1
+   -print_cells         1-19
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.776141   0.754637   0.724703   0.679812   0.640199   0.60603   0.569051   0.528578   0.495564   0.470414
+   0.443473   0.414406   0.382691   0.3597   0.34559   0.330772   0.315068   0.301005   0.288431
+END
+#
+# Beginning of calculations for time 2.175e+007
+#
+TITLE Advecting solutions
+COPY solution 19   20
+END
+COPY solution 18   19
+END
+COPY solution 17   18
+END
+COPY solution 16   17
+END
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.331051
+EXCHANGE_MIX -2
+0   0.331051
+GAS_PHASE_MIX -2
+0   0.331051
+KINETICS_MIX -2
+0   0.331051
+SOLID_SOLUTION_MIX -2
+0   0.331051
+SURFACE_MIX -2
+0   0.331051
+EQUILIBRIUM_PHASES_MIX -3
+0   0.368863
+EXCHANGE_MIX -3
+0   0.368863
+GAS_PHASE_MIX -3
+0   0.368863
+KINETICS_MIX -3
+0   0.368863
+SOLID_SOLUTION_MIX -3
+0   0.368863
+SURFACE_MIX -3
+0   0.368863
+EQUILIBRIUM_PHASES_MIX -4
+0   0.426576
+EXCHANGE_MIX -4
+0   0.426576
+GAS_PHASE_MIX -4
+0   0.426576
+KINETICS_MIX -4
+0   0.426576
+SOLID_SOLUTION_MIX -4
+0   0.426576
+SURFACE_MIX -4
+0   0.426576
+EQUILIBRIUM_PHASES_MIX -5
+1   0.0335262
+0   0.513092
+EXCHANGE_MIX -5
+1   0.0335262
+0   0.513092
+GAS_PHASE_MIX -5
+1   0.0335262
+0   0.513092
+KINETICS_MIX -5
+1   0.0335262
+0   0.513092
+SOLID_SOLUTION_MIX -5
+1   0.0335262
+0   0.513092
+SURFACE_MIX -5
+1   0.0335262
+0   0.513092
+EQUILIBRIUM_PHASES_MIX -6
+3   0.0394242
+2   1
+1   0.966474
+EXCHANGE_MIX -6
+3   0.0394242
+2   1
+1   0.966474
+GAS_PHASE_MIX -6
+3   0.0394242
+2   1
+1   0.966474
+KINETICS_MIX -6
+3   0.0394242
+2   1
+1   0.966474
+SOLID_SOLUTION_MIX -6
+3   0.0394242
+2   1
+1   0.966474
+SURFACE_MIX -6
+3   0.0394242
+2   1
+1   0.966474
+EQUILIBRIUM_PHASES_MIX -7
+4   0.736793
+3   0.960576
+EXCHANGE_MIX -7
+4   0.736793
+3   0.960576
+GAS_PHASE_MIX -7
+4   0.736793
+3   0.960576
+KINETICS_MIX -7
+4   0.736793
+3   0.960576
+SOLID_SOLUTION_MIX -7
+4   0.736793
+3   0.960576
+SURFACE_MIX -7
+4   0.736793
+3   0.960576
+EQUILIBRIUM_PHASES_MIX -8
+6   0.214127
+5   1
+4   0.263207
+EXCHANGE_MIX -8
+6   0.214127
+5   1
+4   0.263207
+GAS_PHASE_MIX -8
+6   0.214127
+5   1
+4   0.263207
+KINETICS_MIX -8
+6   0.214127
+5   1
+4   0.263207
+SOLID_SOLUTION_MIX -8
+6   0.214127
+5   1
+4   0.263207
+SURFACE_MIX -8
+6   0.214127
+5   1
+4   0.263207
+EQUILIBRIUM_PHASES_MIX -9
+7   0.602623
+6   0.785873
+EXCHANGE_MIX -9
+7   0.602623
+6   0.785873
+GAS_PHASE_MIX -9
+7   0.602623
+6   0.785873
+KINETICS_MIX -9
+7   0.602623
+6   0.785873
+SOLID_SOLUTION_MIX -9
+7   0.602623
+6   0.785873
+SURFACE_MIX -9
+7   0.602623
+6   0.785873
+EQUILIBRIUM_PHASES_MIX -10
+8   0.89609
+7   0.397377
+EXCHANGE_MIX -10
+8   0.89609
+7   0.397377
+GAS_PHASE_MIX -10
+8   0.89609
+7   0.397377
+KINETICS_MIX -10
+8   0.89609
+7   0.397377
+SOLID_SOLUTION_MIX -10
+8   0.89609
+7   0.397377
+SURFACE_MIX -10
+8   0.89609
+7   0.397377
+EQUILIBRIUM_PHASES_MIX -11
+10   0.0915755
+9   1
+8   0.10391
+EXCHANGE_MIX -11
+10   0.0915755
+9   1
+8   0.10391
+GAS_PHASE_MIX -11
+10   0.0915755
+9   1
+8   0.10391
+KINETICS_MIX -11
+10   0.0915755
+9   1
+8   0.10391
+SOLID_SOLUTION_MIX -11
+10   0.0915755
+9   1
+8   0.10391
+SURFACE_MIX -11
+10   0.0915755
+9   1
+8   0.10391
+EQUILIBRIUM_PHASES_MIX -12
+11   0.260184
+10   0.908425
+EXCHANGE_MIX -12
+11   0.260184
+10   0.908425
+GAS_PHASE_MIX -12
+11   0.260184
+10   0.908425
+KINETICS_MIX -12
+11   0.260184
+10   0.908425
+SOLID_SOLUTION_MIX -12
+11   0.260184
+10   0.908425
+SURFACE_MIX -12
+11   0.260184
+10   0.908425
+EQUILIBRIUM_PHASES_MIX -13
+12   0.41481
+11   0.739816
+EXCHANGE_MIX -13
+12   0.41481
+11   0.739816
+GAS_PHASE_MIX -13
+12   0.41481
+11   0.739816
+KINETICS_MIX -13
+12   0.41481
+11   0.739816
+SOLID_SOLUTION_MIX -13
+12   0.41481
+11   0.739816
+SURFACE_MIX -13
+12   0.41481
+11   0.739816
+EQUILIBRIUM_PHASES_MIX -14
+13   0.555177
+12   0.58519
+EXCHANGE_MIX -14
+13   0.555177
+12   0.58519
+GAS_PHASE_MIX -14
+13   0.555177
+12   0.58519
+KINETICS_MIX -14
+13   0.555177
+12   0.58519
+SOLID_SOLUTION_MIX -14
+13   0.555177
+12   0.58519
+SURFACE_MIX -14
+13   0.555177
+12   0.58519
+EQUILIBRIUM_PHASES_MIX -15
+14   0.661418
+13   0.444823
+EXCHANGE_MIX -15
+14   0.661418
+13   0.444823
+GAS_PHASE_MIX -15
+14   0.661418
+13   0.444823
+KINETICS_MIX -15
+14   0.661418
+13   0.444823
+SOLID_SOLUTION_MIX -15
+14   0.661418
+13   0.444823
+SURFACE_MIX -15
+14   0.661418
+13   0.444823
+EQUILIBRIUM_PHASES_MIX -16
+15   0.74386
+14   0.338582
+EXCHANGE_MIX -16
+15   0.74386
+14   0.338582
+GAS_PHASE_MIX -16
+15   0.74386
+14   0.338582
+KINETICS_MIX -16
+15   0.74386
+14   0.338582
+SOLID_SOLUTION_MIX -16
+15   0.74386
+14   0.338582
+SURFACE_MIX -16
+15   0.74386
+14   0.338582
+EQUILIBRIUM_PHASES_MIX -17
+16   0.819684
+15   0.25614
+EXCHANGE_MIX -17
+16   0.819684
+15   0.25614
+GAS_PHASE_MIX -17
+16   0.819684
+15   0.25614
+KINETICS_MIX -17
+16   0.819684
+15   0.25614
+SOLID_SOLUTION_MIX -17
+16   0.819684
+15   0.25614
+SURFACE_MIX -17
+16   0.819684
+15   0.25614
+EQUILIBRIUM_PHASES_MIX -18
+17   0.888228
+16   0.180316
+EXCHANGE_MIX -18
+17   0.888228
+16   0.180316
+GAS_PHASE_MIX -18
+17   0.888228
+16   0.180316
+KINETICS_MIX -18
+17   0.888228
+16   0.180316
+SOLID_SOLUTION_MIX -18
+17   0.888228
+16   0.180316
+SURFACE_MIX -18
+17   0.888228
+16   0.180316
+EQUILIBRIUM_PHASES_MIX -19
+18   0.947944
+17   0.111772
+EXCHANGE_MIX -19
+18   0.947944
+17   0.111772
+GAS_PHASE_MIX -19
+18   0.947944
+17   0.111772
+KINETICS_MIX -19
+18   0.947944
+17   0.111772
+SOLID_SOLUTION_MIX -19
+18   0.947944
+17   0.111772
+SURFACE_MIX -19
+18   0.947944
+17   0.111772
+EQUILIBRIUM_PHASES_MIX -20
+19   1
+18   0.0520559
+EXCHANGE_MIX -20
+19   1
+18   0.0520559
+GAS_PHASE_MIX -20
+19   1
+18   0.0520559
+KINETICS_MIX -20
+19   1
+18   0.0520559
+SOLID_SOLUTION_MIX -20
+19   1
+18   0.0520559
+SURFACE_MIX -20
+19   1
+18   0.0520559
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.28732
+EXCHANGE_MIX 1
+  0 0.28732
+GAS_PHASE_MIX 1
+  0 0.28732
+KINETICS_MIX 1
+  0 0.28732
+SOLID_SOLUTION_MIX 1
+  0 0.28732
+SURFACE_MIX 1
+  0 0.28732
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+COPY equilibrium_phases -17   17
+COPY exchange           -17   17
+COPY gas_phase          -17   17
+COPY kinetics           -17   17
+COPY solid_solution     -17   17
+COPY surface            -17   17
+END
+COPY equilibrium_phases -18   18
+COPY exchange           -18   18
+COPY gas_phase          -18   18
+COPY kinetics           -18   18
+COPY solid_solution     -18   18
+COPY surface            -18   18
+END
+COPY equilibrium_phases -19   19
+COPY exchange           -19   19
+COPY gas_phase          -19   19
+COPY kinetics           -19   19
+COPY solid_solution     -19   19
+COPY surface            -19   19
+END
+COPY equilibrium_phases -20   20
+COPY exchange           -20   20
+COPY gas_phase          -20   20
+COPY kinetics           -20   20
+COPY solid_solution     -20   20
+COPY surface            -20   20
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.55067
+REACTION_PRESSURE 1
+   467.812
+END
+REACTION_TEMPERATURE 2
+   4.74179
+REACTION_PRESSURE 2
+   472.025
+END
+REACTION_TEMPERATURE 3
+   6.63955
+REACTION_PRESSURE 3
+   475.717
+END
+REACTION_TEMPERATURE 4
+   9.4915
+REACTION_PRESSURE 4
+   481.339
+END
+REACTION_TEMPERATURE 5
+   14.0786
+REACTION_PRESSURE 5
+   490.569
+END
+REACTION_TEMPERATURE 6
+   18.4868
+REACTION_PRESSURE 6
+   499.656
+END
+REACTION_TEMPERATURE 7
+   22.6392
+REACTION_PRESSURE 7
+   508.41
+END
+REACTION_TEMPERATURE 8
+   27.5524
+REACTION_PRESSURE 8
+   519.012
+END
+REACTION_TEMPERATURE 9
+   33.5399
+REACTION_PRESSURE 9
+   532.29
+END
+REACTION_TEMPERATURE 10
+   38.9691
+REACTION_PRESSURE 10
+   544.669
+END
+REACTION_TEMPERATURE 11
+   43.5576
+REACTION_PRESSURE 11
+   555.382
+END
+REACTION_TEMPERATURE 12
+   48.9739
+REACTION_PRESSURE 12
+   568.326
+END
+REACTION_TEMPERATURE 13
+   55.543
+REACTION_PRESSURE 13
+   584.455
+END
+REACTION_TEMPERATURE 14
+   63.8231
+REACTION_PRESSURE 14
+   605.458
+END
+REACTION_TEMPERATURE 15
+   70.6992
+REACTION_PRESSURE 15
+   623.471
+END
+REACTION_TEMPERATURE 16
+   75.4655
+REACTION_PRESSURE 16
+   636.26
+END
+REACTION_TEMPERATURE 17
+   80.999
+REACTION_PRESSURE 17
+   651.421
+END
+REACTION_TEMPERATURE 18
+   87.5873
+REACTION_PRESSURE 18
+   669.908
+END
+REACTION_TEMPERATURE 19
+   94.2636
+REACTION_PRESSURE 19
+   689.127
+END
+REACTION_TEMPERATURE 20
+   101.085
+REACTION_PRESSURE 20
+   709.268
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               20
+   -shifts              1
+   -time_step           2.36677e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   27.0792   29.3929   19.5184   53.9854   64.2387   49.3754   57.6436   68.9872   85.3287   54.5995
+   63.6609   75.9331   93.3745   120.032   57.1854   65.6583   76.9576   92.8441   79.2251   96.5815
+   -initial_time        6.86363e+014
+   -punch_frequency     1
+   -punch_cells         1-20
+   -print_frequency     1
+   -print_cells         1-20
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.776808   0.751286   0.730533   0.700979   0.656701   0.617714   0.584138   0.54789   0.508322   0.476161
+   0.451739   0.425676   0.397681   0.367314   0.345433   0.332084   0.318124   0.303421   0.290335   0.278713
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 2.25e+007
+#
+TITLE Advecting solutions
+COPY solution 20   21
+END
+COPY solution 19   20
+END
+COPY solution 18   19
+END
+COPY solution 17   18
+END
+COPY solution 16   17
+END
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.31923
+EXCHANGE_MIX -2
+0   0.31923
+GAS_PHASE_MIX -2
+0   0.31923
+KINETICS_MIX -2
+0   0.31923
+SOLID_SOLUTION_MIX -2
+0   0.31923
+SURFACE_MIX -2
+0   0.31923
+EQUILIBRIUM_PHASES_MIX -3
+0   0.363694
+EXCHANGE_MIX -3
+0   0.363694
+GAS_PHASE_MIX -3
+0   0.363694
+KINETICS_MIX -3
+0   0.363694
+SOLID_SOLUTION_MIX -3
+0   0.363694
+SURFACE_MIX -3
+0   0.363694
+EQUILIBRIUM_PHASES_MIX -4
+0   0.403163
+EXCHANGE_MIX -4
+0   0.403163
+GAS_PHASE_MIX -4
+0   0.403163
+KINETICS_MIX -4
+0   0.403163
+SOLID_SOLUTION_MIX -4
+0   0.403163
+SURFACE_MIX -4
+0   0.403163
+EQUILIBRIUM_PHASES_MIX -5
+1   0.899534
+0   0.204705
+EXCHANGE_MIX -5
+1   0.899534
+0   0.204705
+GAS_PHASE_MIX -5
+1   0.899534
+0   0.204705
+KINETICS_MIX -5
+1   0.899534
+0   0.204705
+SOLID_SOLUTION_MIX -5
+1   0.899534
+0   0.204705
+SURFACE_MIX -5
+1   0.899534
+0   0.204705
+EQUILIBRIUM_PHASES_MIX -6
+3   0.551573
+2   1
+1   0.100466
+EXCHANGE_MIX -6
+3   0.551573
+2   1
+1   0.100466
+GAS_PHASE_MIX -6
+3   0.551573
+2   1
+1   0.100466
+KINETICS_MIX -6
+3   0.551573
+2   1
+1   0.100466
+SOLID_SOLUTION_MIX -6
+3   0.551573
+2   1
+1   0.100466
+SURFACE_MIX -6
+3   0.551573
+2   1
+1   0.100466
+EQUILIBRIUM_PHASES_MIX -7
+5   0.136781
+4   1
+3   0.448427
+EXCHANGE_MIX -7
+5   0.136781
+4   1
+3   0.448427
+GAS_PHASE_MIX -7
+5   0.136781
+4   1
+3   0.448427
+KINETICS_MIX -7
+5   0.136781
+4   1
+3   0.448427
+SOLID_SOLUTION_MIX -7
+5   0.136781
+4   1
+3   0.448427
+SURFACE_MIX -7
+5   0.136781
+4   1
+3   0.448427
+EQUILIBRIUM_PHASES_MIX -8
+6   0.499616
+5   0.863219
+EXCHANGE_MIX -8
+6   0.499616
+5   0.863219
+GAS_PHASE_MIX -8
+6   0.499616
+5   0.863219
+KINETICS_MIX -8
+6   0.499616
+5   0.863219
+SOLID_SOLUTION_MIX -8
+6   0.499616
+5   0.863219
+SURFACE_MIX -8
+6   0.499616
+5   0.863219
+EQUILIBRIUM_PHASES_MIX -9
+7   0.798978
+6   0.500384
+EXCHANGE_MIX -9
+7   0.798978
+6   0.500384
+GAS_PHASE_MIX -9
+7   0.798978
+6   0.500384
+KINETICS_MIX -9
+7   0.798978
+6   0.500384
+SOLID_SOLUTION_MIX -9
+7   0.798978
+6   0.500384
+SURFACE_MIX -9
+7   0.798978
+6   0.500384
+EQUILIBRIUM_PHASES_MIX -10
+9   0.0600033
+8   1
+7   0.201022
+EXCHANGE_MIX -10
+9   0.0600033
+8   1
+7   0.201022
+GAS_PHASE_MIX -10
+9   0.0600033
+8   1
+7   0.201022
+KINETICS_MIX -10
+9   0.0600033
+8   1
+7   0.201022
+SOLID_SOLUTION_MIX -10
+9   0.0600033
+8   1
+7   0.201022
+SURFACE_MIX -10
+9   0.0600033
+8   1
+7   0.201022
+EQUILIBRIUM_PHASES_MIX -11
+10   0.231981
+9   0.939997
+EXCHANGE_MIX -11
+10   0.231981
+9   0.939997
+GAS_PHASE_MIX -11
+10   0.231981
+9   0.939997
+KINETICS_MIX -11
+10   0.231981
+9   0.939997
+SOLID_SOLUTION_MIX -11
+10   0.231981
+9   0.939997
+SURFACE_MIX -11
+10   0.231981
+9   0.939997
+EQUILIBRIUM_PHASES_MIX -12
+11   0.360385
+10   0.768019
+EXCHANGE_MIX -12
+11   0.360385
+10   0.768019
+GAS_PHASE_MIX -12
+11   0.360385
+10   0.768019
+KINETICS_MIX -12
+11   0.360385
+10   0.768019
+SOLID_SOLUTION_MIX -12
+11   0.360385
+10   0.768019
+SURFACE_MIX -12
+11   0.360385
+10   0.768019
+EQUILIBRIUM_PHASES_MIX -13
+12   0.479058
+11   0.639615
+EXCHANGE_MIX -13
+12   0.479058
+11   0.639615
+GAS_PHASE_MIX -13
+12   0.479058
+11   0.639615
+KINETICS_MIX -13
+12   0.479058
+11   0.639615
+SOLID_SOLUTION_MIX -13
+12   0.479058
+11   0.639615
+SURFACE_MIX -13
+12   0.479058
+11   0.639615
+EQUILIBRIUM_PHASES_MIX -14
+13   0.587918
+12   0.520942
+EXCHANGE_MIX -14
+13   0.587918
+12   0.520942
+GAS_PHASE_MIX -14
+13   0.587918
+12   0.520942
+KINETICS_MIX -14
+13   0.587918
+12   0.520942
+SOLID_SOLUTION_MIX -14
+13   0.587918
+12   0.520942
+SURFACE_MIX -14
+13   0.587918
+12   0.520942
+EQUILIBRIUM_PHASES_MIX -15
+14   0.686576
+13   0.412082
+EXCHANGE_MIX -15
+14   0.686576
+13   0.412082
+GAS_PHASE_MIX -15
+14   0.686576
+13   0.412082
+KINETICS_MIX -15
+14   0.686576
+13   0.412082
+SOLID_SOLUTION_MIX -15
+14   0.686576
+13   0.412082
+SURFACE_MIX -15
+14   0.686576
+13   0.412082
+EQUILIBRIUM_PHASES_MIX -16
+15   0.7615
+14   0.313424
+EXCHANGE_MIX -16
+15   0.7615
+14   0.313424
+GAS_PHASE_MIX -16
+15   0.7615
+14   0.313424
+KINETICS_MIX -16
+15   0.7615
+14   0.313424
+SOLID_SOLUTION_MIX -16
+15   0.7615
+14   0.313424
+SURFACE_MIX -16
+15   0.7615
+14   0.313424
+EQUILIBRIUM_PHASES_MIX -17
+16   0.819863
+15   0.2385
+EXCHANGE_MIX -17
+16   0.819863
+15   0.2385
+GAS_PHASE_MIX -17
+16   0.819863
+15   0.2385
+KINETICS_MIX -17
+16   0.819863
+15   0.2385
+SOLID_SOLUTION_MIX -17
+16   0.819863
+15   0.2385
+SURFACE_MIX -17
+16   0.819863
+15   0.2385
+EQUILIBRIUM_PHASES_MIX -18
+17   0.873385
+16   0.180137
+EXCHANGE_MIX -18
+17   0.873385
+16   0.180137
+GAS_PHASE_MIX -18
+17   0.873385
+16   0.180137
+KINETICS_MIX -18
+17   0.873385
+16   0.180137
+SOLID_SOLUTION_MIX -18
+17   0.873385
+16   0.180137
+SURFACE_MIX -18
+17   0.873385
+16   0.180137
+EQUILIBRIUM_PHASES_MIX -19
+18   0.921616
+17   0.126615
+EXCHANGE_MIX -19
+18   0.921616
+17   0.126615
+GAS_PHASE_MIX -19
+18   0.921616
+17   0.126615
+KINETICS_MIX -19
+18   0.921616
+17   0.126615
+SOLID_SOLUTION_MIX -19
+18   0.921616
+17   0.126615
+SURFACE_MIX -19
+18   0.921616
+17   0.126615
+EQUILIBRIUM_PHASES_MIX -20
+19   0.963555
+18   0.0783844
+EXCHANGE_MIX -20
+19   0.963555
+18   0.0783844
+GAS_PHASE_MIX -20
+19   0.963555
+18   0.0783844
+KINETICS_MIX -20
+19   0.963555
+18   0.0783844
+SOLID_SOLUTION_MIX -20
+19   0.963555
+18   0.0783844
+SURFACE_MIX -20
+19   0.963555
+18   0.0783844
+EQUILIBRIUM_PHASES_MIX -21
+20   1
+19   0.0364451
+EXCHANGE_MIX -21
+20   1
+19   0.0364451
+GAS_PHASE_MIX -21
+20   1
+19   0.0364451
+KINETICS_MIX -21
+20   1
+19   0.0364451
+SOLID_SOLUTION_MIX -21
+20   1
+19   0.0364451
+SURFACE_MIX -21
+20   1
+19   0.0364451
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.281843
+EXCHANGE_MIX 1
+  0 0.281843
+GAS_PHASE_MIX 1
+  0 0.281843
+KINETICS_MIX 1
+  0 0.281843
+SOLID_SOLUTION_MIX 1
+  0 0.281843
+SURFACE_MIX 1
+  0 0.281843
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+COPY equilibrium_phases -17   17
+COPY exchange           -17   17
+COPY gas_phase          -17   17
+COPY kinetics           -17   17
+COPY solid_solution     -17   17
+COPY surface            -17   17
+END
+COPY equilibrium_phases -18   18
+COPY exchange           -18   18
+COPY gas_phase          -18   18
+COPY kinetics           -18   18
+COPY solid_solution     -18   18
+COPY surface            -18   18
+END
+COPY equilibrium_phases -19   19
+COPY exchange           -19   19
+COPY gas_phase          -19   19
+COPY kinetics           -19   19
+COPY solid_solution     -19   19
+COPY surface            -19   19
+END
+COPY equilibrium_phases -20   20
+COPY exchange           -20   20
+COPY gas_phase          -20   20
+COPY kinetics           -20   20
+COPY solid_solution     -20   20
+COPY surface            -20   20
+END
+COPY equilibrium_phases -21   21
+COPY exchange           -21   21
+COPY gas_phase          -21   21
+COPY kinetics           -21   21
+COPY solid_solution     -21   21
+COPY surface            -21   21
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.28274
+REACTION_PRESSURE 1
+   467.3
+END
+REACTION_TEMPERATURE 2
+   4.14219
+REACTION_PRESSURE 2
+   470.867
+END
+REACTION_TEMPERATURE 3
+   6.38732
+REACTION_PRESSURE 3
+   475.224
+END
+REACTION_TEMPERATURE 4
+   8.33202
+REACTION_PRESSURE 4
+   479.043
+END
+REACTION_TEMPERATURE 5
+   11.2567
+REACTION_PRESSURE 5
+   484.864
+END
+REACTION_TEMPERATURE 6
+   15.9639
+REACTION_PRESSURE 6
+   494.429
+END
+REACTION_TEMPERATURE 7
+   20.4914
+REACTION_PRESSURE 7
+   503.859
+END
+REACTION_TEMPERATURE 8
+   24.76
+REACTION_PRESSURE 8
+   512.954
+END
+REACTION_TEMPERATURE 9
+   29.8148
+REACTION_PRESSURE 9
+   523.983
+END
+REACTION_TEMPERATURE 10
+   35.9799
+REACTION_PRESSURE 10
+   537.813
+END
+REACTION_TEMPERATURE 11
+   41.5734
+REACTION_PRESSURE 11
+   550.721
+END
+REACTION_TEMPERATURE 12
+   46.3033
+REACTION_PRESSURE 12
+   561.904
+END
+REACTION_TEMPERATURE 13
+   51.8882
+REACTION_PRESSURE 13
+   575.423
+END
+REACTION_TEMPERATURE 14
+   58.6629
+REACTION_PRESSURE 14
+   592.281
+END
+REACTION_TEMPERATURE 15
+   67.2006
+REACTION_PRESSURE 15
+   614.241
+END
+REACTION_TEMPERATURE 16
+   74.2882
+REACTION_PRESSURE 16
+   633.078
+END
+REACTION_TEMPERATURE 17
+   79.1978
+REACTION_PRESSURE 17
+   646.449
+END
+REACTION_TEMPERATURE 18
+   84.8934
+REACTION_PRESSURE 18
+   662.291
+END
+REACTION_TEMPERATURE 19
+   91.6681
+REACTION_PRESSURE 19
+   681.597
+END
+REACTION_TEMPERATURE 20
+   98.5254
+REACTION_PRESSURE 20
+   701.651
+END
+REACTION_TEMPERATURE 21
+   105.521
+REACTION_PRESSURE 21
+   722.639
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               21
+   -shifts              1
+   -time_step           7.88923e+013
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   20.1736   27.7504   30.1137   20.0075   55.3698   65.9519   50.7362   59.2777   71.0019   87.8912
+   56.2711   65.6348   78.3064   96.2978   123.747   58.9222   67.6126   79.1833   95.42   81.3152
+   98.9795
+   -initial_time        7.10031e+014
+   -punch_frequency     1
+   -punch_cells         1-21
+   -print_frequency     1
+   -print_cells         1-21
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.780127   0.758018   0.733302   0.712676   0.683453   0.639643   0.601147   0.568035   0.532343   0.493502
+   0.462016   0.438152   0.412775   0.385608   0.356286   0.33525   0.322486   0.309181   0.29523   0.282872
+   0.271961
+END
+DELETE
+  -solution 0
+  -equilibrium_phases 0
+  -exchange 0
+  -gas_phase 0
+  -kinetics 0
+  -solid_solutions 0
+  -surface 0
+END
+COPY solution 1001 0
+COPY equilibrium_phases 1001 0
+COPY exchange 1000 0
+COPY gas_phase 1000 0
+COPY kinetics 1000 0
+COPY solid_solutions 1000 0
+COPY surface 1000 0
+END
+#
+# Beginning of calculations for time 2.5e+007
+#
+TITLE Advecting solutions
+COPY solution 21   22
+END
+COPY solution 20   21
+END
+COPY solution 19   20
+END
+COPY solution 18   19
+END
+COPY solution 17   18
+END
+COPY solution 16   17
+END
+COPY solution 15   16
+END
+COPY solution 14   15
+END
+COPY solution 13   14
+END
+COPY solution 12   13
+END
+COPY solution 11   12
+END
+COPY solution 10   11
+END
+COPY solution 9   10
+END
+COPY solution 8   9
+END
+COPY solution 7   8
+END
+COPY solution 6   7
+END
+COPY solution 5   6
+END
+COPY solution 4   5
+END
+COPY solution 3   4
+END
+COPY solution 2   3
+END
+COPY solution 1   2
+END
+COPY solution 0   1
+END
+TITLE Advecting and mixing sediment
+EQUILIBRIUM_PHASES_MIX -2
+0   0.318404
+EXCHANGE_MIX -2
+0   0.318404
+GAS_PHASE_MIX -2
+0   0.318404
+KINETICS_MIX -2
+0   0.318404
+SOLID_SOLUTION_MIX -2
+0   0.318404
+SURFACE_MIX -2
+0   0.318404
+EQUILIBRIUM_PHASES_MIX -3
+0   0.356118
+EXCHANGE_MIX -3
+0   0.356118
+GAS_PHASE_MIX -3
+0   0.356118
+KINETICS_MIX -3
+0   0.356118
+SOLID_SOLUTION_MIX -3
+0   0.356118
+SURFACE_MIX -3
+0   0.356118
+EQUILIBRIUM_PHASES_MIX -4
+0   0.402732
+EXCHANGE_MIX -4
+0   0.402732
+GAS_PHASE_MIX -4
+0   0.402732
+KINETICS_MIX -4
+0   0.402732
+SOLID_SOLUTION_MIX -4
+0   0.402732
+SURFACE_MIX -4
+0   0.402732
+EQUILIBRIUM_PHASES_MIX -5
+0   0.443954
+EXCHANGE_MIX -5
+0   0.443954
+GAS_PHASE_MIX -5
+0   0.443954
+KINETICS_MIX -5
+0   0.443954
+SOLID_SOLUTION_MIX -5
+0   0.443954
+SURFACE_MIX -5
+0   0.443954
+EQUILIBRIUM_PHASES_MIX -6
+2   0.637775
+1   1
+0   0.0214149
+EXCHANGE_MIX -6
+2   0.637775
+1   1
+0   0.0214149
+GAS_PHASE_MIX -6
+2   0.637775
+1   1
+0   0.0214149
+KINETICS_MIX -6
+2   0.637775
+1   1
+0   0.0214149
+SOLID_SOLUTION_MIX -6
+2   0.637775
+1   1
+0   0.0214149
+SURFACE_MIX -6
+2   0.637775
+1   1
+0   0.0214149
+EQUILIBRIUM_PHASES_MIX -7
+4   0.328718
+3   1
+2   0.362225
+EXCHANGE_MIX -7
+4   0.328718
+3   1
+2   0.362225
+GAS_PHASE_MIX -7
+4   0.328718
+3   1
+2   0.362225
+KINETICS_MIX -7
+4   0.328718
+3   1
+2   0.362225
+SOLID_SOLUTION_MIX -7
+4   0.328718
+3   1
+2   0.362225
+SURFACE_MIX -7
+4   0.328718
+3   1
+2   0.362225
+EQUILIBRIUM_PHASES_MIX -8
+5   0.963239
+4   0.671282
+EXCHANGE_MIX -8
+5   0.963239
+4   0.671282
+GAS_PHASE_MIX -8
+5   0.963239
+4   0.671282
+KINETICS_MIX -8
+5   0.963239
+4   0.671282
+SOLID_SOLUTION_MIX -8
+5   0.963239
+4   0.671282
+SURFACE_MIX -8
+5   0.963239
+4   0.671282
+EQUILIBRIUM_PHASES_MIX -9
+7   0.358723
+6   1
+5   0.0367611
+EXCHANGE_MIX -9
+7   0.358723
+6   1
+5   0.0367611
+GAS_PHASE_MIX -9
+7   0.358723
+6   1
+5   0.0367611
+KINETICS_MIX -9
+7   0.358723
+6   1
+5   0.0367611
+SOLID_SOLUTION_MIX -9
+7   0.358723
+6   1
+5   0.0367611
+SURFACE_MIX -9
+7   0.358723
+6   1
+5   0.0367611
+EQUILIBRIUM_PHASES_MIX -10
+8   0.679205
+7   0.641277
+EXCHANGE_MIX -10
+8   0.679205
+7   0.641277
+GAS_PHASE_MIX -10
+8   0.679205
+7   0.641277
+KINETICS_MIX -10
+8   0.679205
+7   0.641277
+SOLID_SOLUTION_MIX -10
+8   0.679205
+7   0.641277
+SURFACE_MIX -10
+8   0.679205
+7   0.641277
+EQUILIBRIUM_PHASES_MIX -11
+9   0.970686
+8   0.320795
+EXCHANGE_MIX -11
+9   0.970686
+8   0.320795
+GAS_PHASE_MIX -11
+9   0.970686
+8   0.320795
+KINETICS_MIX -11
+9   0.970686
+8   0.320795
+SOLID_SOLUTION_MIX -11
+9   0.970686
+8   0.320795
+SURFACE_MIX -11
+9   0.970686
+8   0.320795
+EQUILIBRIUM_PHASES_MIX -12
+11   0.162175
+10   1
+9   0.0293143
+EXCHANGE_MIX -12
+11   0.162175
+10   1
+9   0.0293143
+GAS_PHASE_MIX -12
+11   0.162175
+10   1
+9   0.0293143
+KINETICS_MIX -12
+11   0.162175
+10   1
+9   0.0293143
+SOLID_SOLUTION_MIX -12
+11   0.162175
+10   1
+9   0.0293143
+SURFACE_MIX -12
+11   0.162175
+10   1
+9   0.0293143
+EQUILIBRIUM_PHASES_MIX -13
+12   0.30268
+11   0.837825
+EXCHANGE_MIX -13
+12   0.30268
+11   0.837825
+GAS_PHASE_MIX -13
+12   0.30268
+11   0.837825
+KINETICS_MIX -13
+12   0.30268
+11   0.837825
+SOLID_SOLUTION_MIX -13
+12   0.30268
+11   0.837825
+SURFACE_MIX -13
+12   0.30268
+11   0.837825
+EQUILIBRIUM_PHASES_MIX -14
+13   0.43249
+12   0.69732
+EXCHANGE_MIX -14
+13   0.43249
+12   0.69732
+GAS_PHASE_MIX -14
+13   0.43249
+12   0.69732
+KINETICS_MIX -14
+13   0.43249
+12   0.69732
+SOLID_SOLUTION_MIX -14
+13   0.43249
+12   0.69732
+SURFACE_MIX -14
+13   0.43249
+12   0.69732
+EQUILIBRIUM_PHASES_MIX -15
+14   0.551434
+13   0.56751
+EXCHANGE_MIX -15
+14   0.551434
+13   0.56751
+GAS_PHASE_MIX -15
+14   0.551434
+13   0.56751
+KINETICS_MIX -15
+14   0.551434
+13   0.56751
+SOLID_SOLUTION_MIX -15
+14   0.551434
+13   0.56751
+SURFACE_MIX -15
+14   0.551434
+13   0.56751
+EQUILIBRIUM_PHASES_MIX -16
+15   0.658944
+14   0.448566
+EXCHANGE_MIX -16
+15   0.658944
+14   0.448566
+GAS_PHASE_MIX -16
+15   0.658944
+14   0.448566
+KINETICS_MIX -16
+15   0.658944
+14   0.448566
+SOLID_SOLUTION_MIX -16
+15   0.658944
+14   0.448566
+SURFACE_MIX -16
+15   0.658944
+14   0.448566
+EQUILIBRIUM_PHASES_MIX -17
+16   0.740698
+15   0.341056
+EXCHANGE_MIX -17
+16   0.740698
+15   0.341056
+GAS_PHASE_MIX -17
+16   0.740698
+15   0.341056
+KINETICS_MIX -17
+16   0.740698
+15   0.341056
+SOLID_SOLUTION_MIX -17
+16   0.740698
+15   0.341056
+SURFACE_MIX -17
+16   0.740698
+15   0.341056
+EQUILIBRIUM_PHASES_MIX -18
+17   0.804526
+16   0.259302
+EXCHANGE_MIX -18
+17   0.804526
+16   0.259302
+GAS_PHASE_MIX -18
+17   0.804526
+16   0.259302
+KINETICS_MIX -18
+17   0.804526
+16   0.259302
+SOLID_SOLUTION_MIX -18
+17   0.804526
+16   0.259302
+SURFACE_MIX -18
+17   0.804526
+16   0.259302
+EQUILIBRIUM_PHASES_MIX -19
+18   0.862884
+17   0.195474
+EXCHANGE_MIX -19
+18   0.862884
+17   0.195474
+GAS_PHASE_MIX -19
+18   0.862884
+17   0.195474
+KINETICS_MIX -19
+18   0.862884
+17   0.195474
+SOLID_SOLUTION_MIX -19
+18   0.862884
+17   0.195474
+SURFACE_MIX -19
+18   0.862884
+17   0.195474
+EQUILIBRIUM_PHASES_MIX -20
+19   0.915258
+18   0.137116
+EXCHANGE_MIX -20
+19   0.915258
+18   0.137116
+GAS_PHASE_MIX -20
+19   0.915258
+18   0.137116
+KINETICS_MIX -20
+19   0.915258
+18   0.137116
+SOLID_SOLUTION_MIX -20
+19   0.915258
+18   0.137116
+SURFACE_MIX -20
+19   0.915258
+18   0.137116
+EQUILIBRIUM_PHASES_MIX -21
+20   0.960652
+19   0.0847417
+EXCHANGE_MIX -21
+20   0.960652
+19   0.0847417
+GAS_PHASE_MIX -21
+20   0.960652
+19   0.0847417
+KINETICS_MIX -21
+20   0.960652
+19   0.0847417
+SOLID_SOLUTION_MIX -21
+20   0.960652
+19   0.0847417
+SURFACE_MIX -21
+20   0.960652
+19   0.0847417
+EQUILIBRIUM_PHASES_MIX -22
+21   1
+20   0.0393477
+EXCHANGE_MIX -22
+21   1
+20   0.0393477
+GAS_PHASE_MIX -22
+21   1
+20   0.0393477
+KINETICS_MIX -22
+21   1
+20   0.0393477
+SOLID_SOLUTION_MIX -22
+21   1
+20   0.0393477
+SURFACE_MIX -22
+21   1
+20   0.0393477
+END
+TITLE Putting solids in top cell
+EQUILIBRIUM_PHASES_MIX 1
+  0 0.284153
+EXCHANGE_MIX 1
+  0 0.284153
+GAS_PHASE_MIX 1
+  0 0.284153
+KINETICS_MIX 1
+  0 0.284153
+SOLID_SOLUTION_MIX 1
+  0 0.284153
+SURFACE_MIX 1
+  0 0.284153
+END
+TITLE Copy solids to column
+COPY equilibrium_phases -2   2
+COPY exchange           -2   2
+COPY gas_phase          -2   2
+COPY kinetics           -2   2
+COPY solid_solution     -2   2
+COPY surface            -2   2
+END
+COPY equilibrium_phases -3   3
+COPY exchange           -3   3
+COPY gas_phase          -3   3
+COPY kinetics           -3   3
+COPY solid_solution     -3   3
+COPY surface            -3   3
+END
+COPY equilibrium_phases -4   4
+COPY exchange           -4   4
+COPY gas_phase          -4   4
+COPY kinetics           -4   4
+COPY solid_solution     -4   4
+COPY surface            -4   4
+END
+COPY equilibrium_phases -5   5
+COPY exchange           -5   5
+COPY gas_phase          -5   5
+COPY kinetics           -5   5
+COPY solid_solution     -5   5
+COPY surface            -5   5
+END
+COPY equilibrium_phases -6   6
+COPY exchange           -6   6
+COPY gas_phase          -6   6
+COPY kinetics           -6   6
+COPY solid_solution     -6   6
+COPY surface            -6   6
+END
+COPY equilibrium_phases -7   7
+COPY exchange           -7   7
+COPY gas_phase          -7   7
+COPY kinetics           -7   7
+COPY solid_solution     -7   7
+COPY surface            -7   7
+END
+COPY equilibrium_phases -8   8
+COPY exchange           -8   8
+COPY gas_phase          -8   8
+COPY kinetics           -8   8
+COPY solid_solution     -8   8
+COPY surface            -8   8
+END
+COPY equilibrium_phases -9   9
+COPY exchange           -9   9
+COPY gas_phase          -9   9
+COPY kinetics           -9   9
+COPY solid_solution     -9   9
+COPY surface            -9   9
+END
+COPY equilibrium_phases -10   10
+COPY exchange           -10   10
+COPY gas_phase          -10   10
+COPY kinetics           -10   10
+COPY solid_solution     -10   10
+COPY surface            -10   10
+END
+COPY equilibrium_phases -11   11
+COPY exchange           -11   11
+COPY gas_phase          -11   11
+COPY kinetics           -11   11
+COPY solid_solution     -11   11
+COPY surface            -11   11
+END
+COPY equilibrium_phases -12   12
+COPY exchange           -12   12
+COPY gas_phase          -12   12
+COPY kinetics           -12   12
+COPY solid_solution     -12   12
+COPY surface            -12   12
+END
+COPY equilibrium_phases -13   13
+COPY exchange           -13   13
+COPY gas_phase          -13   13
+COPY kinetics           -13   13
+COPY solid_solution     -13   13
+COPY surface            -13   13
+END
+COPY equilibrium_phases -14   14
+COPY exchange           -14   14
+COPY gas_phase          -14   14
+COPY kinetics           -14   14
+COPY solid_solution     -14   14
+COPY surface            -14   14
+END
+COPY equilibrium_phases -15   15
+COPY exchange           -15   15
+COPY gas_phase          -15   15
+COPY kinetics           -15   15
+COPY solid_solution     -15   15
+COPY surface            -15   15
+END
+COPY equilibrium_phases -16   16
+COPY exchange           -16   16
+COPY gas_phase          -16   16
+COPY kinetics           -16   16
+COPY solid_solution     -16   16
+COPY surface            -16   16
+END
+COPY equilibrium_phases -17   17
+COPY exchange           -17   17
+COPY gas_phase          -17   17
+COPY kinetics           -17   17
+COPY solid_solution     -17   17
+COPY surface            -17   17
+END
+COPY equilibrium_phases -18   18
+COPY exchange           -18   18
+COPY gas_phase          -18   18
+COPY kinetics           -18   18
+COPY solid_solution     -18   18
+COPY surface            -18   18
+END
+COPY equilibrium_phases -19   19
+COPY exchange           -19   19
+COPY gas_phase          -19   19
+COPY kinetics           -19   19
+COPY solid_solution     -19   19
+COPY surface            -19   19
+END
+COPY equilibrium_phases -20   20
+COPY exchange           -20   20
+COPY gas_phase          -20   20
+COPY kinetics           -20   20
+COPY solid_solution     -20   20
+COPY surface            -20   20
+END
+COPY equilibrium_phases -21   21
+COPY exchange           -21   21
+COPY gas_phase          -21   21
+COPY kinetics           -21   21
+COPY solid_solution     -21   21
+COPY surface            -21   21
+END
+COPY equilibrium_phases -22   22
+COPY exchange           -22   22
+COPY gas_phase          -22   22
+COPY kinetics           -22   22
+COPY solid_solution     -22   22
+COPY surface            -22   22
+END
+TITLE Set temperature and pressure
+REACTION_TEMPERATURE 1
+   2.39551
+REACTION_PRESSURE 1
+   467.515
+END
+REACTION_TEMPERATURE 2
+   4.09609
+REACTION_PRESSURE 2
+   470.778
+END
+REACTION_TEMPERATURE 3
+   6.00797
+REACTION_PRESSURE 3
+   474.484
+END
+REACTION_TEMPERATURE 4
+   8.31666
+REACTION_PRESSURE 4
+   479.013
+END
+REACTION_TEMPERATURE 5
+   10.3174
+REACTION_PRESSURE 5
+   482.984
+END
+REACTION_TEMPERATURE 6
+   13.3287
+REACTION_PRESSURE 6
+   489.045
+END
+REACTION_TEMPERATURE 7
+   18.1795
+REACTION_PRESSURE 7
+   499.016
+END
+REACTION_TEMPERATURE 8
+   22.8494
+REACTION_PRESSURE 8
+   508.858
+END
+REACTION_TEMPERATURE 9
+   27.2567
+REACTION_PRESSURE 9
+   518.367
+END
+REACTION_TEMPERATURE 10
+   32.4804
+REACTION_PRESSURE 10
+   529.912
+END
+REACTION_TEMPERATURE 11
+   38.857
+REACTION_PRESSURE 11
+   544.41
+END
+REACTION_TEMPERATURE 12
+   44.6461
+REACTION_PRESSURE 12
+   557.958
+END
+REACTION_TEMPERATURE 13
+   49.544
+REACTION_PRESSURE 13
+   569.707
+END
+REACTION_TEMPERATURE 14
+   55.3286
+REACTION_PRESSURE 14
+   583.921
+END
+REACTION_TEMPERATURE 15
+   62.3457
+REACTION_PRESSURE 15
+   601.655
+END
+REACTION_TEMPERATURE 16
+   71.1854
+REACTION_PRESSURE 16
+   624.764
+END
+REACTION_TEMPERATURE 17
+   78.5197
+REACTION_PRESSURE 17
+   644.586
+END
+REACTION_TEMPERATURE 18
+   83.595
+REACTION_PRESSURE 18
+   658.648
+END
+REACTION_TEMPERATURE 19
+   89.4773
+REACTION_PRESSURE 19
+   675.299
+END
+REACTION_TEMPERATURE 20
+   96.4648
+REACTION_PRESSURE 20
+   695.571
+END
+REACTION_TEMPERATURE 21
+   103.527
+REACTION_PRESSURE 21
+   716.603
+END
+REACTION_TEMPERATURE 22
+   110.719
+REACTION_PRESSURE 22
+   738.58
+END
+TITLE Multicomponent diffusion
+PRINT; -user_graph true; END
+TRANSPORT
+   -cells               22
+   -shifts              1
+   -time_step           8.36259e+014
+   -flow_direction      diffusion_only
+   -boundary_conditions constant closed
+   -lengths           
+   23.0803   20.749   28.5264   30.9758   20.5891   57.0233   67.9971   52.3612   61.229   73.402
+   90.9426   58.26   67.9759   81.1128   99.7384   128.09   60.9379   69.869   81.737   98.3518
+   83.6739   101.665
+   -initial_time        7.88923e+014
+   -punch_frequency     1
+   -punch_cells         1-22
+   -print_frequency     1
+   -print_cells         1-22
+   -multi_D             true 1e-9 0.9 0.05 3.61
+   -porosities        
+   0.778723   0.758493   0.737399   0.712895   0.692543   0.663634   0.620403   0.58249   0.549932   0.514937
+   0.476943   0.446244   0.423063   0.398493   0.372306   0.344206   0.324161   0.312071   0.299522   0.286429
+   0.274898   0.264778
+END

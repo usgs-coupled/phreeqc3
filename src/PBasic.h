@@ -311,6 +311,7 @@ public:
 		tokerase,
 		tokeps_r,
 		tokvm,
+		tokphase_vm,
 		tokdh_a,
 		tokdh_b,
 		tokdh_av,
@@ -327,9 +328,14 @@ public:
 		tokequiv_frac,
 		tokcallback,
 		tokdiff_c,
+		toksetdiff_c,
 		toksa_declercq,
 		tokedl_species,
-		tokphase_vm,
+		tokviscos,
+		tokviscos_0,
+		tokcurrent_a,
+		tokpot_v,
+		tokt_sc,
 		tokaphi
 	};
 

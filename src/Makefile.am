@@ -6,6 +6,7 @@ EXTRA_DIST=\
 	CurveObject.cpp\
 	CurveObject.h\
 	Form1.h\
+	Form1.2005.resX\
 	Form1.resX\
 	ZedGraph.dll	
 

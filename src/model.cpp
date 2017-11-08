@@ -680,7 +680,7 @@ gammas(LDBLE mu)
 		case 4:				/* Exchange */
 /*
  *   Find CEC
- *   z contains valence of cation for exchange species, alk contains cec
+ *   z contains charge of cation for exchange species, alk contains cec
  */
 /* !!!!! */
 			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
@@ -4717,6 +4717,7 @@ set(int initial)
 	tk_x = tc_x + 273.15;
 
 	patm_x = solution_ptr->Get_patm();  // done in calc_rho_0(tc, pa)
+	potV_x = solution_ptr->Get_potV();
 
 /*
  *   H+, e-, H2O

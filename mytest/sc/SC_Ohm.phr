@@ -1,0 +1,95 @@
+PRINT; -reset false
+# SOLUTION_SPECIES
+ # Cl- = Cl-
+	# -gamma	3.5	  0.015
+	# -gamma	3.63  0.017 # cf. pitzer.dat
+	# -dw	2.03e-9  194  1.6  6.9
+	# -Vm  4.465  4.801  4.325  -2.847  1.748  0  -0.331  20.16  0  1 # ref. 1
+
+SOLUTION 0-1; -water 1e3; Cl 0.1; Na 0.1
+SOLUTION 2;   -water 1e3; Cl 0.1; Na 0.1
+potential 1
+END
+TRANSPORT
+-boundary_conditions 1 1
+-multi_d true 1e-9 1 0.0 1 true
+-flow_direction diffusion_only
+-time_step 1; -punch_cells 1; -shifts 1
+USER_GRAPH
+-initial_solutions false
+-axis_titles "NaCl / (mol/kgw)" "Specific Conductance (Ohm`s law) / (mS/cm)" "Specific Conductance (PHREEQC) / (mS/cm)"
+-axis_scale x_axis 0 6.2
+-axis_scale y_axis  0 350
+-axis_scale sy_axis 0 350
+-headings Ohm`s law PHREEQC`s SC
+10 if get(1) > 0 then plot_xy get(1), -current_a * 10, symbol_size = 3
+20 if get(1) > 0 then plot_xy get(1), get(2) / 1e3, y_axis = 2, symbol = Square, symbol_size = 8, line_width = 2
+30 put(tot("Cl"), 1) : put(SC, 2) # TRANSPORT calc`n after adding REACTION
+END
+
+REACTION 0-2
+NaCl 1; 600
+TRANSPORT
+-shifts 11
+END
+
+# Now with concentration-independent Dw...
+USER_GRAPH 1; -active false; -connect_simulations false
+SOLUTION 0-1; -water 1e3; Cl 0.1; Na 0.1
+SOLUTION 2;   -water 1e3; Cl 0.1; Na 0.1
+potential 1
+END
+
+USER_GRAPH 1; -active true; -connect_simulations true
+-headings Dw: correct false
+10 if sim_no > 5 then plot_xy get(1), -current_a * 10, symbol_size = 7, symbol = XCross , color = Red
+30 put(tot("Cl"), 1) : put(SC, 2) # TRANSPORT calc`n after adding REACTION
+REACTION 0-2
+TRANSPORT
+-multi_d true 1e-9 1 0.0 1 false
+-shifts 1
+END
+
+REACTION 0-2
+NaCl 1; 300
+TRANSPORT
+-shifts 11
+END
+
+SOLUTION_SPREAD
+-units mol/kgw
+number	Cl	Na	pH
+1 	1.0047e-01	1.0047e-01	7 charge
+2 	1.2564e-01	1.2564e-01	7 charge
+3 	1.5084e-01	1.5084e-01	7 charge
+4 	1.7606e-01	1.7606e-01	7 charge
+5 	2.0131e-01	2.0131e-01	7 charge
+6 	2.5184e-01	2.5184e-01	7 charge
+7 	3.0249e-01	3.0249e-01	7 charge
+8 	4.0407e-01	4.0407e-01	7 charge
+9 	5.0603e-01	5.0603e-01	7 charge
+10	6.0844e-01	6.0844e-01	7 charge
+11	7.1117e-01	7.1117e-01	7 charge
+12	8.1438e-01	8.1438e-01	7 charge
+13	9.1799e-01	9.1799e-01	7 charge
+14	1.0220e+00	1.0220e+00	7 charge
+15	1.2314e+00	1.2314e+00	7 charge
+16	1.4426e+00	1.4426e+00	7 charge
+17	1.6556e+00	1.6556e+00	7 charge
+18	1.8705e+00	1.8705e+00	7 charge
+19	2.0872e+00	2.0872e+00	7 charge
+20	2.6383e+00	2.6383e+00	7 charge
+21	3.2025e+00	3.2025e+00	7 charge
+22	3.7807e+00	3.7807e+00	7 charge
+23	4.3738e+00	4.3738e+00	7 charge
+24	4.9828e+00	4.9828e+00	7 charge
+25	5.6092e+00	5.6092e+00	7 charge
+26	6.0587e+00	6.0587e+00	7 charge
+USER_GRAPH 1
+-initial_solutions true
+-headings measured SC
+10 DATA 106.24, 104.67, 103.34, 102.12, 101.05, 99.16, 97.56, 94.81, 92.50, 90.46, 88.63, 86.95, 85.38, 83.91, 81.14, 78.56, 76.12, 73.81, 71.59, 66.35, 61.42, 56.78, 52.34, 48.12, 44.09, 41.38, 100.82, 94.97, 90.75, 87.58, 84.16, 81.59, 77.79, 74.49, 68.35, 62.96, 57.89, 53.47, 48.96, 101.05, 92.84, 84.27, 72.44, 63.12, 55.10, 124.50, 123.70, 122.70, 120.60, 118.53, 115.80, 111.10, 106.70, 100.82, 0.379, 0.372, 0.369, 0.366, 0.364, 0.363, 0.362, 0.360, 0.359, 0.358, 0.357, 0.356, 0.354, 0.353, 0.353, 0.353, 0.352, 0.352
+
+20 restore 10 : dim HB(100) : for i = 1 to cell_no : READ HB(i) : next i
+30 plot_xy tot("Cl"), tot("Cl") * HB(cell_no), line_width = 0, color = Magenta, symbol = XCross  
+

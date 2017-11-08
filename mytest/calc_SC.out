@@ -39,15 +39,15 @@ Reading input data for simulation 1.
 	USER_PRINT
 	 10 if step_no > 0 then goto 100
 		 20 put(SC, 1)
-		 30 viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC)) # mPa.s
-		 40 put (viscos, 2)
+		 30 my_viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC)) # mPa.s
+		 40 put (my_viscos, 2)
 		 50 put (TK, 3)
 		 60 goto 200
 	 100 print 'Temperatures (C) :    ', get(3) - 273.15, ' / ', TC
-	 110 viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC))
-	 112 print 'Viscosities (mPa.s):  ', get(2), ' / ', viscos
+	 110 my_viscos = 10^-((1.37023 * (TC - 20) + 0.000836 * (TC - 20)^2) / (109 + TC))
+	 112 print 'Viscosities (mPa.s):  ', get(2), ' / ', my_viscos
 	 120 print 'Ratio of calc.d SC.s: ', get(1) / SC
-	 130 print 'Ratio of Dw.s :       ', viscos / get(2)
+	 130 print 'Ratio of Dw.s :       ', my_viscos / get(2)
 	 200 end
 	END
 -------------------------------------------
@@ -70,7 +70,7 @@ Initial solution 1.
 
                                        pH  =   6.251      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 1224
+      Specific Conductance (µS/cm,  99°C)  = 1175
                           Density (g/cm³)  =   0.95933
                                Volume (L)  =   1.04268
                         Activity of water  =   1.000
@@ -114,7 +114,7 @@ S(6)          2.000e-03
   Phase               SI** log IAP   log K(372 K,   1 atm)
 
   Anhydrite        -0.66     -5.90   -5.25  CaSO4
-  Gypsum           -1.06     -5.90   -4.85  CaSO4:2H2O
+  Gypsum           -1.06     -5.90   -4.84  CaSO4:2H2O
   H2(g)           -20.81    -23.91   -3.10  H2
   H2O(g)           -0.02     -0.00    0.02  H2O
   O2(g)           -22.31    -25.43   -3.11  O2
@@ -135,7 +135,7 @@ Using temperature 1.
 
 Temperatures (C) :               99  /            25 
 Viscosities (mPa.s):     2.8477e-01  /    8.8862e-01 
-Ratio of calc.d SC.s:    2.9211e+00 
+Ratio of calc.d SC.s:    2.8135e+00 
 Ratio of Dw.s :          3.1205e+00 
 
 -----------------------------Solution composition------------------------------
@@ -149,7 +149,7 @@ Ratio of Dw.s :          3.1205e+00
 
                                        pH  =   7.016      Charge balance
                                        pe  =  -1.194      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 419
+      Specific Conductance (µS/cm,  25°C)  = 417
                           Density (g/cm³)  =   0.99732
                                Volume (L)  =   1.00296
                         Activity of water  =   1.000
@@ -242,7 +242,7 @@ Initial solution 2.
 
                                        pH  =   6.125      Charge balance
                                        pe  =   4.000    
-      Specific Conductance (µS/cm,  99°C)  = 1783
+      Specific Conductance (µS/cm,  99°C)  = 1458
                           Density (g/cm³)  =   0.95925
                                Volume (L)  =   1.04279
                         Activity of water  =   1.000
@@ -300,7 +300,7 @@ Using temperature 1.
 
 Temperatures (C) :               99  /            25 
 Viscosities (mPa.s):     2.8477e-01  /    8.8862e-01 
-Ratio of calc.d SC.s:    3.1005e+00 
+Ratio of calc.d SC.s:    2.5598e+00 
 Ratio of Dw.s :          3.1205e+00 
 
 -----------------------------Solution composition------------------------------
@@ -314,7 +314,7 @@ Ratio of Dw.s :          3.1205e+00
 
                                        pH  =   6.996      Charge balance
                                        pe  =  10.919      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 575
+      Specific Conductance (µS/cm,  25°C)  = 569
                           Density (g/cm³)  =   0.99723
                                Volume (L)  =   1.00307
                         Activity of water  =   1.000
@@ -367,7 +367,7 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
--------------------------------
-End of Run after 0.015 Seconds.
--------------------------------
+---------------------------
+End of Run after 0 Seconds.
+---------------------------
 

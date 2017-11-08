@@ -70,7 +70,7 @@ Initial solution 1.
 
                                        pH  =   8.292    
                                        pe  =  -4.483    
-      Specific Conductance (µS/cm,  20°C)  = 1117
+      Specific Conductance (µS/cm,  20°C)  = 1122
                           Density (g/cm³)  =   0.99871
                                Volume (L)  =   1.00192
                         Activity of water  =   1.000
@@ -164,7 +164,7 @@ Goethite          3.00     2.18     -0.82    1.000e-01   1.000e-01  -6.067e-11
 
                                        pH  =   8.292      Charge balance
                                        pe  =   1.251      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  20°C)  = 1117
+      Specific Conductance (µS/cm,  20°C)  = 1122
                           Density (g/cm³)  =   0.99871
                                Volume (L)  =   1.00192
                         Activity of water  =   1.000
@@ -390,7 +390,7 @@ X                1.250e-01 mol
 
                                        pH  =   8.292      Charge balance
                                        pe  =   1.251      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  20°C)  = 1117
+      Specific Conductance (µS/cm,  20°C)  = 1122
                           Density (g/cm³)  =   0.99871
                                Volume (L)  =   1.00192
                         Activity of water  =   1.000
@@ -560,7 +560,7 @@ Initial solution 0.	5 mmol/l MgCl2 + 25 mmol/l O2
 
                                        pH  =   6.923    
                                        pe  =  14.618    
-      Specific Conductance (µS/cm,  20°C)  = 1016
+      Specific Conductance (µS/cm,  20°C)  = 1023
                           Density (g/cm³)  =   0.99866
                                Volume (L)  =   1.00262
                         Activity of water  =   0.999
@@ -770,7 +770,7 @@ X                1.250e-01 mol
 
                                        pH  =   8.116      Charge balance
                                        pe  =  13.425      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  20°C)  = 1071
+      Specific Conductance (µS/cm,  20°C)  = 1077
                           Density (g/cm³)  =   0.99871
                                Volume (L)  =   1.00262
                         Activity of water  =   0.999
@@ -874,6 +874,9 @@ End of simulation.
 Reading input data for simulation 7.
 ------------------------------------
 
+	SOLUTION_SPECIES
+	H2O + 0.01e- = H2O-0.01
+	log_k -9
 	USE surface 2
 	USE equilibrium_phases 2
 	MIX 2
@@ -885,36 +888,6 @@ Beginning of batch-reaction calculations.
 -----------------------------------------
 
 Reaction step 1.
-
-WARNING: Maximum iterations exceeded, 100
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying reduced tolerance 1e-16 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying increased tolerance 1e-14 ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling ...
-
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying diagonal scaling and reduced tolerance 1e-16 ...
 
 Using mix 2.	
 Using surface 2.	
@@ -975,7 +948,7 @@ Hfo_w
 
                                        pH  =   8.282      Charge balance
                                        pe  =  13.009      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  20°C)  = 1115
+      Specific Conductance (µS/cm,  20°C)  = 1120
                           Density (g/cm³)  =   0.99872
                                Volume (L)  =   1.00199
                         Activity of water  =   1.000
@@ -986,7 +959,7 @@ Hfo_w
                          Temperature (°C)  =  20.00
                   Electrical balance (eq)  =  -1.526e-03
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -6.71
-                               Iterations  =  21
+                               Iterations  =  15
                                   Total H  = 1.110144e+02
                                   Total O  = 5.551783e+01
 
@@ -997,6 +970,7 @@ Hfo_w
 
    OH-             1.493e-06   1.309e-06    -5.826    -5.883    -0.057     -4.22
    H+              5.828e-09   5.226e-09    -8.235    -8.282    -0.047      0.00
+   H2O-0.01        7.409e-10   7.409e-10    -9.130    -9.130    -0.000     (0)  
    H2O             5.551e+01   9.997e-01     1.744    -0.000     0.000     18.05
 C(-4)         0.000e+00
    CH4             0.000e+00   0.000e+00  -149.887  -149.885     0.002     35.01
@@ -1080,6 +1054,6 @@ Reading input data for simulation 8.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.046 Seconds.
+End of Run after 0.015 Seconds.
 -------------------------------
 

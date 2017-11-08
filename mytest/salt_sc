@@ -1,0 +1,157 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 salt_sc_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+K	Cl#     HB_SC
+0.067069081	1 charge #     8200
+0.134138162	1 charge #     15700
+0.202548625	1 charge #     22700
+0.270959088	1 charge #     29500
+0.340710932	1 charge #     36500
+0.409121395	1 charge #     43600
+0.478873239	1 charge #     50600
+0.549966465	1 charge #     57600
+0.690811536	1 charge #     71900
+0.83433937	1 charge #     86200
+0.979208585	1 charge #     100000
+1.052984574	1 charge #     108000
+USER_GRAPH
+  -headings KCl
+  -axis_titles "Handbook of Chemistry and Physics: SC / (mmho/cm)" "PHREEQC"
+  -axis_scale x_axis 0 120
+  -axis_scale y_axis 0 120
+  -initial_solutions true
+  10 DATA 8200, 15700, 22700, 29500, 36500, 43600, 50600, 57600, 71900, 86200, 100000, 108000
+  20 dim HB(12)
+  30 for i = 1 to 12
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no) / 1e3, SC / 1e3, line_width = 0
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Na	Cl#     HB_SC
+0.085557837	1 charge #     8200
+0.172826831	1 charge #     16000
+0.258384668	1 charge #     23200
+0.345653662	1 charge #     30200
+0.434633812	1 charge #     37100
+0.523613963	1 charge #     44000
+0.612594114	1 charge #     50700
+0.684462697	1 charge #     56000
+0.865845311	1 charge #     68900
+1.031827515	1 charge #     80000
+1.368925394	1 charge #     101000
+1.676933607	1 charge #     118000
+USER_GRAPH
+  -headings NaCl
+  10 DATA 8200, 16000, 23200, 30200, 37100, 44000, 50700, 56000, 68900, 80000, 101000, 118000
+  20 dim HB(12)
+  30 for i = 1 to 12
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no - 12) / 1e3, SC / 1e3, line_width = 0
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Ca	Cl#     HB_SC
+4.50E-02	1 charge #     8100
+9.10E-02	1 charge #     15700
+1.37E-01	1 charge #     22700
+1.83E-01	1 charge #     29400
+2.30E-01	1 charge #     36100
+2.77E-01	1 charge #     42600
+3.24E-01	1 charge #     48900
+3.72E-01	1 charge #     55100
+4.69E-01	1 charge #     67000
+5.67E-01	1 charge #     78300
+6.67E-01	1 charge #     88700
+8.20E-01	1 charge #     103000
+USER_GRAPH
+  -headings CaCl2
+  10 DATA 8100, 15700, 22700, 29400, 36100, 42600, 48900, 55100, 67000, 78300, 88700, 103000
+  20 dim HB(12)
+  30 for i = 1 to 12
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no - 24) / 1e3, SC / 1e3, line_width = 0
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Mg	Cl#     HB_SC
+0.052504463	1 charge #     8600
+0.106059015	1 charge #     16600
+0.213168119	1 charge #     31200
+0.322377402	1 charge #     44500
+0.432636774	1 charge #     56400
+0.546046414	1 charge #     66900
+0.660506143	1 charge #     77200
+0.777066051	1 charge #     86400
+0.894676047	1 charge #     94500
+1.014386223	1 charge #     102000
+USER_GRAPH
+  -headings MgCl2
+  10 DATA 8600, 16600, 31200, 44500, 56400, 66900, 77200, 86400, 94500, 102000
+  20 dim HB(10)
+  30 for i = 1 to 10
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no - 36) / 1e3, SC / 1e3, line_width = 0
+END
+SOLUTION_SPREAD
+ -temp 20
+ -units mol/L
+Mg	S(6)#   HB_SC
+0.041538589	1 charge #     4100
+0.08390795	1 charge #     7600
+0.169477445	1 charge #     13300
+0.256708482	1 charge #     18400
+0.345601063	1 charge #     23100
+0.436155188	1 charge #     27400
+0.528370857	1 charge #     31100
+0.62307884	1 charge #     34400
+0.718617596	1 charge #     37300
+0.916341281	1 charge #     42700
+USER_GRAPH
+  -headings MgSO4
+  10 DATA 4100, 7600, 13300, 18400, 23100, 27400, 31100, 34400, 37300, 42700
+  20 dim HB(10)
+  30 for i = 1 to 10
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(cell_no - 46) / 1e3, SC / 1e3, line_width = 0
+END
+SOLUTION_MASTER_SPECIES
+La	La+3    0.0     La	138.9055
+N		NO3-	0	N		14.0067
+SOLUTION_SPECIES
+La+3 = La+3; -gamma 9.0 0.0
+ -dw 6.36e-10  0  1.5  12
+NO3- = NO3-;	-gamma	3.0	0
+	-dw	1.9e-9  184  1.85  3.85
+SOLUTION 1; temp 20
+reaction 1
+ La(NO3)3 1; 0.0311     0.0625  0.0945  0.1268  0.1600  0.1936  0.2277  0.2625  0.2979
+USER_GRAPH
+  -headings La(NO3)3
+  -initial_solutions false
+  10 DATA  7800,  14200, 20100, 25600, 31100, 36000, 40600, 45000, 49500
+  20 dim HB(9)
+  30 for i = 1 to 9
+  40   READ HB(i)
+  50 next i
+  60 plot_xy HB(step_no) / 1e3, SC / 1e3, line_width = 0, color = red
+  70 if step_no = 1 then xy = 0 else xy = 120
+  80 if step_no < 3 then plot_xy xy, xy, color = black, symbol = None
+END

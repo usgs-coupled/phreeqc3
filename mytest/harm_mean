@@ -1,0 +1,166 @@
+# harmonic mean solution for the combination of free- and EDL- pore spaces
+DATABASE ../database/wateq4f.dat
+
+#DATABASE c:\phreeqc\database\wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 harm_mean_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_MASTER_SPECIES # define the tracers...
+Hto Hto 0 Hto 20
+Hdo Hdo 0 Hdo 21
+Nat Nat+ 0 Nat 22
+I I- 0 I 126.9
+Cl_tr Cl_tr- 0 Cl_tr 36.45
+Cs     Cs+     0 Cs 132.9
+SOLUTION_SPECIES
+Hto = Hto;       #-gamma 1e10 0;   #-Dw 2.24e-9
+Hdo = Hdo;       #-gamma 1e10 0;   #-Dw 2.24e-9
+Nat+ = Nat+;     #-gamma 1e10 0;   #-Dw 1.33e-9
+I- = I-;         #-gamma 1e10 0;   #-Dw 2.0e-9
+Cl_tr- = Cl_tr-; #-gamma 1e10 0;   #-Dw 2.03e-9
+
+PHASES
+Hto
+	Hto = Hto
+	-log_k  -13.
+Hdo
+	Hdo = Hdo
+	-log_k  -13.
+I
+	NaI = I- + Na+
+	-log_k  -13.
+Nat
+	NatCl = Nat+ + Cl-
+	-log_k  -13.
+# Cat; CaCl2 = Ca+2 + 2 Cl-; -log_k -16
+
+END
+SOLUTION 0
+pH 7.09 charge;  Na 100;  Cl 100; Hto 1e-3;    Hdo 1e-3;    Nat 1e-3;    I 1e-3; water 1
+SOLUTION 1
+pH 7.09 charge;  Na 100;  Cl 100; Hto 0.66e-3; Hdo 0.66e-3; Nat 0.66e-3; I 0.66e-3; water 1
+SOLUTION 2
+pH 7.09 charge;  Na 100;  Cl 100; Hto 0.33e-3; Hdo 0.33e-3; Nat 0.33e-3; I 0.33e-3; water 1
+END
+
+SOLUTION 3 # Outer solution where the tracers precipitate...
+pH 7.09 charge;  Na 100;  Cl 100; Hto 0.33e-10; Hdo 0.33e-10; Nat 0.33e-10; I 0.33e-10;# Ca 4.382e-11; water 1
+
+EQUILIBRIUM_PHASES 3
+Hto 0 0; Hdo 0 0; I 0 0; Nat 0 0;# Cat 0 0
+SAVE solution 3
+END
+
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES;        Su- = Su-
+# SURFACE 0;   -equil 0;  Su  0.1  1e-3  1; -donnan  1e-0
+SURFACE 1;   -equil 1;  Su  0.1  1e-3  1; -donnan  1e-0
+SURFACE 2;   -equil 2;  Su  0.1  1e-3  1; -donnan  1e-0
+SURFACE 3;   -equil 3;  Su  0.1  1e-3  1; -donnan  1e-0
+END
+#PRINT; -reset false; -user_print true
+TRANSPORT
+ -cells 3; -lengths 1e-2 1e-2; -bcon 1 2; -shifts 10 0
+ -punch_c 3; -time 3 day 1
+ -multi_d true 1e-9 1 0.0 1.0
+USER_GRAPH 1 harmonic mean solution for MCD through free water and EDL
+ -axis_t "Time / days" "mass transfer relative to HTO/ (mol/mol)"
+ -head 22Na+ HDO I- PHREEQC    
+ -plot_c time
+ -start
+# J_i = - A_i / (h_i / 2) * (c_ij - c_i) * Dw / G_i for cell i, and similar for cell j, give
+# J_ij = - b_i * b_j / (b_i + b_j) * (c_j - c_i) in mol/s (see ex 21 in the manual 3).
+# b_i = A_i / (G_i * h_i / 2) * Dw for a pore without EDL. A_i = aq_i / h_i (m^2).
+# with EDL (no aq_il_i for now):
+# A_i = (aq_i + aq_dl_i) / h_i. f_free_i = aq_i / (aq_i + aq_dl_i).
+# b_i_cat = A_i / (G_i * h_i / 2) * Dw * {f_free + (1 - f_free) * Bm}. Bm  = Boltzmann enrichment in EDL.
+# b_i_ani = A_i / (G_i * h_i / 2) * Dw * {f_free + (1 - f_free) / Bm)}.
+# plot the mass transfer relative to HTO
+
+10  Na = 0.1 : Su = 0.1 : dl_aq_i = 1 : t = Su / dl_aq_i : Bm = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm
+20  # i_cell...
+30  h_i = 1e-2 : aq_i = 1 : aqt_i = aq_i + dl_aq_i : f_free_i = aq_i / aqt_i
+40  A_i = aqt_i / h_i : G_i = 1 : Dw = 1e-9 : b_i = A_i / (G_i * h_i / 2) 
+50  b_i_cat = b_i * (f_free_i + (1 - f_free_i) * Bm) : b_i_ani = b_i * (f_free_i + (1 - f_free_i) / Bm)
+60  # j_cell...
+62  Na = 0.1 : Su = 0.1 : dl_aq_j = 1 : t = Su / dl_aq_j : Bm = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm
+70  h_j = 1e-2 : aq_j = 1 : aqt_j = aq_j + dl_aq_j : f_free_j = aq_j / aqt_j
+80  A_j = aqt_j / h_j : G_j = 1 : Dw = 1e-9 : b_j = A_j / (G_j * h_j / 2) 
+90  b_j_cat = b_j * (f_free_j + (1 - f_free_j) * Bm) : b_j_ani = b_j * (f_free_j + (1 - f_free_j) / Bm)
+100 # b_ij...
+110 b_ij_HTO = b_i * b_j / (b_i + b_j)
+120 b_ij_Na = b_i_cat * b_j_cat / (b_i_cat + b_j_cat) : b_ij_I = b_i_ani * b_j_ani / (b_i_ani + b_j_ani)
+130 # graph...
+140 t = total_time / (3600 * 24)
+150 plot_xy t, b_ij_Na / b_ij_HTO, symbol = None, color = Red
+160 plot_xy t, 1,                  symbol = None, color = Green
+170 plot_xy t, b_ij_I  / b_ij_HTO, symbol = None, color = Blue
+180 DDt = total_time - get(1) : Nat = equi("Nat") - get(2) : It = equi("I") - get(3) : Htot = equi("Hto") - get(4) : Hdot = equi("Hdo") - get(5)
+190 # graph...
+200 plot_xy t, Nat / HTOt, line_width = 0, color = Red   , y_axis = 1
+210 plot_xy t, Hdot / HTOt,line_width = 0, color = Green , y_axis = 1
+220 plot_xy t, It / HTOt,  line_width = 0, color = Blue  , y_axis = 1
+230 put(total_time, 1) : put(equi("Nat"), 2) : put(equi("I"), 3) : put(equi("Hto"), 4) : put(equi("Hdo"), 5)
+
+ -end
+END
+USER_GRAPH 1; -active false
+SOLUTION 0; pH 7.09 charge;  Na 100;  Cl 100; Hto 1e-3;    Hdo 1.00e-3;    Nat 1e-3;    I 1e-3; water 1; #-pot 1e-20
+SOLUTION 1; pH 7.09 charge;  Na 100;  Cl 100; Hto 0.66e-3; Hdo 0.66e-3; Nat 0.66e-3; I 0.66e-3; water 1
+SOLUTION 2; pH 7.09 charge;  Na 100;  Cl 100; Hto 0.33e-3; Hdo 0.33e-3; Nat 0.33e-3; I 0.33e-3; water 1
+# SURFACE 0;   -equil 0;  Su  0.1  1e-3  1; -donnan  1e-0
+SURFACE 1;   -equil 1;  Su  0.1  1e-3  1; -donnan  0.7e-0
+SURFACE 2;   -equil 2;  Su  0.1  1e-3  1; -donnan  1e-1
+SURFACE 3;   -equil 3;  Su  0.1  1e-3  1; -donnan  1e-1
+END
+
+#PRINT; -reset true
+TRANSPORT
+ -cells 3; -lengths 1e-2 1e-2; -bcon 1 2; -shifts 10 0; -punch_fr 1; -print_fr 5; -print_c 0-3
+ -punch_c 0-3; -time 3 day 1
+ -multi_d true 1e-9 1 0.0 1.0
+USER_GRAPH 2 ... with cell-variable EDL properties
+ -axis_t "Time / days" "mass transfer relative to HTO/ (mol/mol)"
+ -head 22Na+ HTO I- PHREEQC    
+ -plot_c time
+ -start
+ 1 if cell_no <> 3 then end
+10  Na = 0.1 : Su = 0.1 : dl_aq_i = 0.7 : t = Su / dl_aq_i : Bm_i = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm_i
+20  # i_cell...
+30  h_i = 1e-2 : aq_i = 1 : aqt_i = aq_i + dl_aq_i : f_free_i = aq_i / aqt_i
+40  A_i = aqt_i / h_i : G_i = 1 : Dw = 1e-9 : b_i = A_i / (G_i * h_i / 2) 
+50  b_i_cat = b_i * (f_free_i + (1 - f_free_i) * Bm_i) : b_i_ani = b_i * (f_free_i + (1 - f_free_i) / Bm_i)
+60  # j_cell...
+62  Na = 0.1 : Su = 0.1 : dl_aq_j = 1e-1 : t = Su / dl_aq_j : Bm_j = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm_j
+70  h_j = 1e-2 : aq_j = 1 : dl_aq_j = 1e-1 : aqt_j = aq_j + dl_aq_j : f_free_j = aq_j / aqt_j
+80  A_j = aqt_j / h_j : G_j = 1 : Dw = 1e-9 : b_j = A_j / (G_j * h_j / 2) 
+90  b_j_cat = b_j * (f_free_j + (1 - f_free_j) * Bm_j) : b_j_ani = b_j * (f_free_j + (1 - f_free_j) / Bm_j)
+100 # b_ij...
+110 b_ij_HTO = b_i * b_j / (b_i + b_j)
+120 b_ij_Na = b_i_cat * b_j_cat / (b_i_cat + b_j_cat) : b_ij_I = b_i_ani * b_j_ani / (b_i_ani + b_j_ani)
+121 if step_no = 1 then print Bm_i, Bm_j, b_j_cat, b_j_ani
+122 if step_no = 1 then print b_ij_HTO, b_ij_Na, b_ij_I
+130 # graph...
+140 t = total_time / (3600 * 24)
+150 plot_xy t, b_ij_Na / b_ij_HTO, symbol = None, color = Red
+160 plot_xy t, 1,                  symbol = None, color = Green
+170 plot_xy t, b_ij_I  / b_ij_HTO, symbol = None, color = Blue
+180 DDt = total_time - get(1) : Nat = equi("Nat") - get(2) : It = equi("I") - get(3) : Htot = equi("Hto") - get(4) : Hdot = equi("Hdo") - get(5)
+190 # graph...
+200 plot_xy t, Nat / HTOt,  line_width = 0, color = Red   , y_axis = 1
+210 plot_xy t, Hdot / HTOt, line_width = 0, color = Green , y_axis = 1
+220 plot_xy t, It / HTOt,   line_width = 0, color = Blue  , y_axis = 1
+230 put(total_time, 1) : put(equi("Nat"), 2) : put(equi("I"), 3) : put(equi("Hto"), 4) : put(equi("Hdo"), 5)
+USER_GRAPH 3
+-plot_c distance 
+10 graph_x dist 
+20 graph_y tot("Nat") , tot("Hto"), tot("I")
+ -end
+END
+
+

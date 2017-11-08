@@ -98,17 +98,6 @@ Reading input data for simulation 1.
 	Fix_H+
 	    H+ = H+
 	    log_k     0
-	USER_PUNCH 1
-	    headings pH range
-	    start
-	10 FOR i = 3 to 9 STEP 0.25
-	20 a$ = EOL$ + "USE solution 1" + CHR$(59) + " USE surface 1" + EOL$
-	30 a$ = a$ + "EQUILIBRIUM_PHASES 1" + EOL$
-	40 a$ = a$ + "   Fix_H+ " + STR$(-i) + " NaOH 10.0" + EOL$
-	50 a$ = a$ + "END" + EOL$
-	60 PUNCH a$
-	70 NEXT i
-	    end
 	SELECTED_OUTPUT 1
 	    file                 Syn1_acidbase.sel
 	    ph                   true
@@ -145,8 +134,6 @@ Beginning of initial solution calculations.
 -------------------------------------------
 
 Initial solution 1.	
-
-WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
 -----------------------------Solution composition------------------------------
 

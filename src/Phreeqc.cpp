@@ -196,7 +196,9 @@ void Phreeqc::init(void)
 	current_pa                      = NAN;
 	current_mu                      = NAN;
 	mu_terms_in_logk                = true;
-
+	current_A                       = 0.0;
+	current_x                       = 0.0;
+	fix_current                     = 0.0;
 	/* ----------------------------------------------------------------------
 	*   STRUCTURES
 	* ---------------------------------------------------------------------- */
@@ -413,6 +415,7 @@ void Phreeqc::init(void)
 	tk_x                    = 0;
 	patm_x                  = 1;
 	last_patm_x             = 1;
+	potV_x                  = 0;
 	numerical_fixed_volume  = false;
 	force_numerical_fixed_volume = false;
 	//switch_numerical        = false;
@@ -443,6 +446,7 @@ void Phreeqc::init(void)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = 1;
+	cell_data_max_cells      = count_cells;
 	count_shifts             = 1;
 	ishift                   = 1;
 	bcon_first = bcon_last   = 3;
@@ -467,6 +471,7 @@ void Phreeqc::init(void)
 	multi_Dflag              = FALSE;
 	interlayer_Dflag         = FALSE;
 	default_Dw               = 0;
+	correct_Dw               = 0;
 	multi_Dpor               = 0;
 	interlayer_Dpor          = 0.1;
 	multi_Dpor_lim           = 0;
@@ -474,6 +479,7 @@ void Phreeqc::init(void)
 	multi_Dn                 = 0;
 	interlayer_tortf         = 100.0;
 	cell_no                  = 0;
+	fix_current              = 0.0;
 	/*----------------------------------------------------------------------
 	*   Advection data
 	*---------------------------------------------------------------------- */
@@ -719,6 +725,9 @@ void Phreeqc::init(void)
 #ifdef USE_LONG_DOUBLE
 	/* from float.h, sets tolerance for cl1 routine */
 	ineq_tol                = pow((long double) 10, (long double) -LDBL_DIG);
+#elif NPP
+// appt:
+	ineq_tol                = pow((double) 10, (double) -DBL_DIG + 2);
 #else
 	ineq_tol                = pow((double) 10, (double) -DBL_DIG);
 #endif
@@ -795,6 +804,7 @@ void Phreeqc::init(void)
 	user_database			= NULL;
 	//have_punch_name			= FALSE;
 	print_density		    = 0;
+	print_viscosity		    = 0;
 	zeros                   = NULL;	
 	zeros_max			    = 1;
 	cell_pore_volume	    = 0;
@@ -807,6 +817,8 @@ void Phreeqc::init(void)
 	sys_tot                 = 0;
 
 	V_solutes               = 0.0;
+	viscos                  = 0.0;
+	viscos_0                = 0.0;
 	rho_0                   = 0;
 	kappa_0                 = 0.0;
 	p_sat                   = 0.0;
@@ -1349,6 +1361,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = pSrc->count_cells;
+	cell_data_max_cells      = pSrc->cell_data_max_cells;
 	count_shifts             = pSrc->count_shifts;
 	ishift                   = pSrc->ishift;
 	bcon_first				 = pSrc->bcon_first;
@@ -1372,9 +1385,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	if (count_cells > 0)
 	{
 		cell_data = (struct cell_data *) free_check_null(cell_data);
-		cell_data = (struct cell_data *) PHRQ_malloc((size_t) (count_cells * sizeof(struct cell_data)));
+		cell_data = (struct cell_data *) PHRQ_malloc((size_t) ((count_cells + 2) * sizeof(struct cell_data)));
 		if (cell_data == NULL) malloc_error();
-		memcpy(cell_data, pSrc->cell_data, ((size_t) (count_cells * sizeof(struct cell_data))));
+		memcpy(cell_data, pSrc->cell_data, ((size_t) ((count_cells + 2) * sizeof(struct cell_data))));
 	}
 	old_cells = pSrc->old_cells;
 	max_cells = pSrc->max_cells;
@@ -1389,6 +1402,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	multi_Dn                 = pSrc->multi_Dn;
 	interlayer_tortf         = pSrc->interlayer_tortf;
 	cell_no                  = pSrc->cell_no;
+	fix_current              = pSrc->fix_current;
 	/*----------------------------------------------------------------------
 	*   Advection data
 	*---------------------------------------------------------------------- */

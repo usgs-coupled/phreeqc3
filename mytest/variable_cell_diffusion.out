@@ -38,7 +38,7 @@ Reading input data for simulation 1.
 	TRANSPORT            # Diffuse NaCl solution from column end
 	shifts 1
 	 cells 10
-	 lengths 1 3*0.25 0.05 4*1.75 1
+	 lengths 1 4*0.25 0.05 3*1.75 1
 	flow_direction         diffusion
 	boundary_conditions    constant  closed
 	diffusion_coefficient  0.3e-9    # m^2/s
@@ -73,6 +73,7 @@ WARNING: No dispersivities were read; disp = 0 assumed.
 	  2080 RETURN
 	 -end
 	END
+WARNING: Unequal cell-lengths may give mass-balance error, consider using -multi_D
 	USER_GRAPH
 	 -active false
 	SOLUTION 1
@@ -80,21 +81,20 @@ WARNING: No dispersivities were read; disp = 0 assumed.
 	 water 0.25
 	SOLUTION 6
 	   water 0.05
-	SOLUTION 6-9
+	SOLUTION 7-9
 	 water 1.75
 	SOLUTION 10
 	END
 	TRANSPORT
 	multi_d true 1e-9 0.3 0.05 1.0 
 	USER_GRAPH 1
-WARNING: No porosities were read; used the value 3.00e-01 from -multi_D.
 	-active true
 	-connect_simulations false
 	-initial_solutions false
 	 10 plot_xy dist, tot("Cl") * 1e3
 	 -end
 	 END
-------------------------------
-End of Run after 0.76 Seconds.
-------------------------------
+-------------------------------
+End of Run after 0.575 Seconds.
+-------------------------------
 

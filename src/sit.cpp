@@ -738,6 +738,7 @@ set_sit(int initial)
 	tk_x = tc_x + 273.15;
 
 	patm_x = solution_ptr->Get_patm(); // done in calc_rho_0(tc, pa)
+	potV_x = solution_ptr->Get_potV();
 
 /*
  *   H+, e-, H2O

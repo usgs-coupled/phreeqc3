@@ -1,0 +1,108 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 opa_col3_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION_MASTER_SPECIES # define the tracers...
+ Hto Hto 0 Hto 20
+ Nat Nat+ 0 Nat 22
+ I I- 0 I 126.9
+ Cl_tr Cl_tr- 0 Cl_tr 36.45
+ Cs     Cs+     0 Cs 132.9
+ SOLUTION_SPECIES
+ Hto = Hto;     log_k 0; -gamma 1e10 0; Dw 2.24e-9
+ Nat+ = Nat+;   log_k 0; -gamma 1e10 0; Dw 1.33e-9
+ I- = I-;       log_k 0; -gamma 1e10 0; Dw 1.3e-9; -erm_ddl 0.3 # Dw 2.0e-9
+ Cl_tr- = Cl_tr-; log_k 0; -gamma 1e10 0; -dw 1.3e-9; -erm_ddl 0.6 # Dw 2.03e-9
+ Cs+ = Cs+; log_k 0; -gamma 1e10 0; -dw 2.07e-9
+ SOLUTION 0-3 # Outer solution with 1 uM tracers...
+ pH 7.09
+ Na 239;        K 1.54;         Mg 17.2;        Ca 25.9;        Sr 0.500
+ Alkalinity 2.5; S(6) 12.6;     Cl 304 charge
+ Hto 1e-3;      Nat 1e-3;       I 1e-3; Cl_tr 1e-3;     Cs 1e-3
+ water 0.8 # NOTE: define actual L water in MCD
+SOLUTION 4-43 # Opalinus Clay porewater...
+ pH 7.09
+ Na 239;        K 1.54;         Mg 17.2;        Ca 25.9;        Sr 0.500
+ Alkalinity 2.5; S(6) 12.6;     Cl 304 charge
+ water  0.0256
+END
+SURFACE 4-43;   -equil 4;       Su      0.08    1.00E+05        1
+ -donnan        10E-10
+EXCHANGE 4-43;  -equil 4;       X       0.12
+SURFACE_MASTER_SPECIES; Su Su-
+SURFACE_SPECIES;        Su- = Su-;      log_k 0
+EXCHANGE_SPECIES;       Cs+ + X- = CsX; log_k 2
+ Nat+ + X- = NatX;      log_k 0
+END
+#PRINT; -reset false; -status false
+# mixing factors for MCD
+# interfaces need be defined only once...
+MIX     3       ;       4       7.20606E-02
+MIX     4       ;       5       3.60303E-02
+MIX     5       ;       6       3.60303E-02
+MIX     6       ;       7       3.60303E-02
+MIX     7       ;       8       3.60303E-02
+MIX     8       ;       9       3.60303E-02
+MIX     9       ;       10      3.60303E-02
+MIX     10      ;       11      3.60303E-02
+MIX     11      ;       12      3.60303E-02
+MIX     12      ;       13      3.60303E-02
+MIX     13      ;       14      3.60303E-02
+MIX     14      ;       15      3.60303E-02
+MIX     15      ;       16      3.60303E-02
+MIX     16      ;       17      3.60303E-02
+MIX     17      ;       18      3.60303E-02
+MIX     18      ;       19      3.60303E-02
+MIX     19      ;       20      3.60303E-02
+MIX     20      ;       21      3.60303E-02
+MIX     21      ;       22      3.60303E-02
+MIX     22      ;       23      3.60303E-02
+END
+USER_GRAPH
+ -chart_title "MCD: options '-erm_ddl' and '-interlayer_d'"
+ -axis_titles  "Time / days" "c / c0"
+ -axis_scale x_axis 0 350 100
+ -axis_scale y_axis 0 1.0 0.2
+ -headings  time Cs+ 22Na+ HTO I- 36Cl-
+ -plot_concentration_vs time
+ -initial_solutions  TRUE
+ -start
+ 10 graph_x total_time / (3600 * 24)
+ 20 graph_y tot("Cs")*1e6, tot("Nat")*1e6, tot("Hto")*1e6, tot("I")*1e6, tot("Cl_tr")*1e6
+ -end
+TRANSPORT
+ -cells 1
+ -bcon 1 2
+ -shifts 60 0
+ -punch_cells 3
+ -time 5e5 3
+ -multi_d true 2.24e-9 0.16 0.0 1.0
+ -interlayer_d true 0.1 0.0 100
+ -stagnant  23
+END
+
+# without interlayer diffusion...
+# reinitialize the column...
+COPY solution 1 3; COPY solution 43 4-42; COPY exchange 43 4-42; COPY surface 43 4-42
+# write a user_graph heading...
+solution 999
+USER_GRAPH
+ -headings no_IL_diffusion...
+ 10 plot_xy -10, -10, line_width = 0 symbol_size = 0
+END
+# redo transport, IL false...
+USER_GRAPH
+ -headings  time Cs+ 22Na+ HTO I- 36Cl-
+ -start
+ 10 graph_x total_time / (3600 * 24)
+ 20 graph_y tot("Cs")*1e6, tot("Nat")*1e6, tot("Hto")*1e6, tot("I")*1e6, tot("Cl_tr")*1e6
+ -end
+TRANSPORT
+ -initial_time 0
+ -interlayer_d false
+END

@@ -1,0 +1,195 @@
+DATABASE THEREDA_PIT_PHRC_r06.dat
+PITZER		
+-MacInnes   false
+-use_etheta true
+-redox      false
+
+SOLUTION_SPECIES
+H2O + 0.01e- = H2O-0.01
+log_k -8
+SOLUTION 1-15 cement block
+    temp      25
+    pH        13.613
+    pe        4
+    redox     pe
+    units     mol/kgw
+    density   1
+Al	1.186E-05
+Ca	3.297E-03
+Cl	1e-10
+K	2.4
+Mg	2.185E-08
+Na	1.640E-01	
+S	1.003E+00
+Si	1.158E-03
+    -water    0.3 # kg approx.
+
+SOLUTION 16-30 brine
+    temp      25
+    pH        6.8
+    pe        4
+    redox     pe
+    units     mol/kgw
+    density   1.3
+    Al        1e-10
+    Ca        0.00014
+    Cl        8.67
+    K         0.64  
+    Mg        4.08
+    Na        0.38
+    S         0.29
+    Si        1e-10
+    -water    1.3  # kg approx.
+
+# SELECTED_OUTPUT 1
+    # -file                 6_Clogging_Fass_25_30cells_anhydrite_dif-lim_basic_COPY.txt
+    # -simulation           true
+    # -solution             true
+    # -time                 true
+    # -step                 true
+    # -pH                   true
+    # -reaction             true
+    # -ionic_strength       true
+    # -water                true
+    # -charge_balance       true
+    # -totals               Al  Ca  Cl  K  Mg  Na  S  Si
+    # -equilibrium_phases   Anhydrite Arcanite Brucite CSH(0.8) CSH(1.1) CSH(1.8) Ettringite Friedels_salt Hydrogarnet Hydrotalcite Monosulfate
+                          # Pentasalt Portlandite Si-Hydrogarnet SiO2(am) Syngenite bischofite epsomite hexahydrite
+                          # kieserite gypsum halite kerolite oxychloride-Mg sepiolite sylvite 
+    # -saturation_indices   Al(OH)3(mcr)  Al-oxide  Anhydrite  Antarcticite
+                          # Aragonite  Arcanite  Bischofite  Bloedite
+                          # Brucite  Burkeite  C2AH8  C4AH13
+                          # Ca(SO4):0.5H2O(cr)  Ca2Cl2(OH)2:H2O(cr)  Ca4Cl2(OH)6:13H2O(cr)  Calcite
+                          # Ca-oxide  Carnallite  CO2(g)  CSH(0.8)
+                          # CSH(1.1)  CSH(1.8)  Dansite  Dolomite
+                          # Epsomite  Ettringite  Friedels_salt  Gaylussite
+                          # Gibbsite  Glaserite  Glauberite  Gypsum
+                          # H2O(g)  Halite  HCl-oxide  Hemicarbonate
+                          # Hexahydrite  Hydrogarnet  Hydrotalcite  K2(CO3):1.5H2O(cr)
+                          # K3(HSO4)(SO4)(cr)  K8(HCO3)4(CO3)2:3H2O(cr)  Kainite  Kalicinite
+                          # Kerolite  Kieserite  KNa(CO3):6H2O(cr)  K-oxide
+                          # Kuzels_salt  Labile-salt  Langbeinite  Leonite
+                          # Loeweite  Magnesite  Mercallite  Mg-oxide
+                          # Mirabilite  Misenite  Monocarbonate  Monosulfate
+                          # Na(HSO4):H2O(cr)  Na2(CO3):7H2O(cr)  Na2Ca5(SO4)6:3H2O(cr)  Na3(HSO4)(SO4)(cr)
+                          # Nahcolite  Na-oxide  Natron  Nesquehonite
+                          # Oxychloride-Mg  Pentasalt  Picromerite  Pirssonite
+                          # Polyhalite  Portlandite  Sepiolite  Si-Hydrogarnet
+                          # SiO2(am)  SiO2_alpha_Qtz(cr)  SiO2-oxide  SO3-oxide
+                          # Stratlingite  Sylvite  Syngenite  Tachyhydrite
+                          # Thenardite  Thermonatrite  Tricarbonate  Trona
+                          # Trona-K  Vanthoffite
+    # -calculate_values     POROSITY_backup pHm pHc DICHTE
+
+EQUILIBRIUM_PHASES 1-15
+     Brucite	0 0
+    CSH(0.8)	0 0
+    CSH(1.1)	0 0
+    CSH(1.8)	0 2.894
+  Ettringite	0 0.184
+ Hydrogarnet	0 0
+Hydrotalcite	0 0.100
+ Monosulfate	0 0
+ Portlandite	0 5.706
+Si-Hydrogarnet	0 0.077
+    SiO2(am)	0 0
+   Syngenite	0 0
+Anhydrite 0 0
+arcanite 0 0
+bischofite 0 0
+epsomite 0 0
+Friedels_salt 0 0
+hexahydrite 0 0
+kieserite 0 0
+gypsum 0 0
+halite 0 0
+kerolite 0 0
+oxychloride-Mg 0 0
+pentasalt 0 0
+sepiolite 0 0
+sylvite 0 0
+
+EQUILIBRIUM_PHASES 16-30
+     Brucite	0 0
+    CSH(0.8)	0 0
+    CSH(1.1)	0 0
+    CSH(1.8)	0 0
+  Ettringite	0 0
+ Hydrogarnet	0 0
+Hydrotalcite	0 0
+ Monosulfate	0 0
+ Portlandite	0 0
+Si-Hydrogarnet	0 0
+    SiO2(am)	0 0
+   Syngenite	0 0
+Anhydrite 0 0
+arcanite 0 0
+bischofite 0 0
+epsomite 0 0
+Friedels_salt 0 0
+hexahydrite 0 0
+kieserite 0 0
+gypsum 0 0
+halite 0 0
+kerolite 0 0
+oxychloride-Mg 0 0
+pentasalt 0 0
+sepiolite 0 0
+sylvite 0 0
+
+###################################
+INCREMENTAL_REACTIONS true
+
+USER_PRINT
+-start
+1	Vol_halite 			= 1.0e0 * EQUI("halite") 			* 27 / 1000     	#in L
+2	Vol_oxychloride_Mg 	= 1.0e0 * EQUI("oxychloride-Mg") 	* 111.45 / 1000	#in L
+3	Vol_gypsum 			= 1.0e0 * EQUI("gypsum") 			* 73.84 / 1000	#in L
+4	Vol_Friedels_salt 	= 1.0e0 * EQUI("Friedels_salt") 	* 272 / 1000    	#in L
+5	Vol_portlandite 		= 1.0e0 * EQUI("portlandite") 		* 33 / 1000  	#in L
+6	Vol_sylvite 		= 1.0e0 * EQUI("sylvite") 		* 37.44 / 1000   	#in L
+7	Vol_bischofite 		= 1.0e0 * EQUI("bischofite") 		* 129.72 / 1000   #in L	
+8	Vol_CSH(1.8)		= 1.0e0 * EQUI("CSH(1.8)") 		* 127 / 1000     	#in L	GROB GESCHÄTZT
+9	Vol_ettringite 		= 1.0e0 * EQUI("ettringite") 		* 707 / 1000     	#in L
+10	Vol_syngenite		= 1.0e0 * EQUI("syngenite") 		* 126 / 1000     	#in L
+11	Vol_CSH(1.1)		= 1.0e0 * EQUI("CSH(1.1)") 		* 140 / 1000     	#in L	GROB GESCHÄTZT
+12	Vol_kerolite		= 1.0e0 * EQUI("kerolite") 		* 68.34 / 1000    #in L
+13	Vol_Si_Hydrogarnet	= 1.0e0 * EQUI("Si-Hydrogarnet") 	* 150 / 1000     	#in L
+14	Vol_brucite			= 1.0e0 * EQUI("brucite")		 	* 25 / 1000     	#in L
+15	Vol_hydrotalcite		= 1.0e0 * EQUI("hydrotalcite") 		* 115 / 1000     	#in L
+16	Vol_arcanite		= 1.0e0 * EQUI("arcanite") 		* 65.5 / 1000     #in L
+17	Vol_pentasalt		= 1.0e0 * EQUI("pentasalt") 		* 302.42 / 1000	#in L
+18	Vol_anhydrite		= 1.0e0 * EQUI("anhydrite") 		* 45.94 / 1000	#in L
+
+20 IF (STEP_NO > 0) THEN GOTO 40
+21 IF (CELL_NO > 15) THEN CHANGE_POR(1, CELL_NO)
+
+40 Vol_solid_calc =	Vol_halite + Vol_oxychloride_Mg + Vol_gypsum + Vol_Friedels_salt + Vol_portlandite + Vol_sylvite + Vol_bischofite + Vol_CSH(1.8) + Vol_ettringite + Vol_syngenite + Vol_CSH(1.1) + Vol_kerolite + Vol_Si_Hydrogarnet + Vol_brucite + Vol_hydrotalcite + Vol_arcanite + Vol_pentasalt + Vol_anhydrite # in cm^3
+44 POROSITY = 1 - Vol_solid_calc
+45 IF (POROSITY < 0) THEN POROSITY = 0
+47 CHANGE_POR(POROSITY, CELL_NO)
+
+120   print "CELL_NO_[-]" CELL_NO
+121   print "STEP_NO_[-]" STEP_NO
+130   Time_passed = TOTAL_TIME / 86400
+131   print "Time_passed_[days]" Time_passed
+140   print "Vol_solid_calc_[L]" Vol_solid_calc
+170   print "RHO_[L_kg-1]" RHO
+190   print "POROSITY" POROSITY
+-end
+PRINT; -reset false; -user_print true
+TRANSPORT
+    -cells                 30
+    -shifts                2
+    -time_step             600 10 # seconds
+    -flow_direction        diffusion_only
+    -boundary_conditions   closed closed
+    -lengths               30*0.0001
+    # -correct_disp          true
+    -multi_d               true 1e-09 0.3 0.2 1
+END
+# PRINT; -reset true
+TRANSPORT
+-shifts 28
+ -time_step             600 50 # seconds
+END

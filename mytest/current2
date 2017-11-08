@@ -1,0 +1,84 @@
+# Steady state analytical solution, 
+# K. Krabbenhøft, J. Krabbenhøft / Cement and Concrete Research 38 (2008) 77–88
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 current2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+EQUILIBRIUM_PHASES 0; H2(g) 0 0 # for bubbling out H2
+EQUILIBRIUM_PHASES 26; O2(g) 0 0 # ... and O2
+
+SOLUTION 0
+-water 1e5 # kg water in a cell, constant boundary solution
+pH 7 charge; Cl 500; Na 525; K 83
+SOLUTION 1-10
+-water 1e-5
+pH 7 charge; Cl 200; Na 100; K 200
+SOLUTION 11-15
+-water 16e-5
+pH 7 charge; Cl 200; Na 100; K 200
+SOLUTION 16-25
+-water 1e-5
+pH 7 charge; Cl 200; Na 100; K 200
+SOLUTION 26
+-water 1e5
+pH 7 charge; Cl 0; Na 25; K 83
+potential 3
+END
+
+# PRINT; -reset false
+TRANSPORT
+-cells 25
+-lengths 10*1e-4 5*16e-4 10*1e-4
+-boundary_conditions 1 1
+-multi_d true 1e-9 0.1 0.0 2
+-flow_direction diffusion_only
+-time_step 10 hour 1
+-shifts 100
+-punch_frequency 100
+-punch_cells 0-26
+-print_frequency 100
+-print_cells 0
+
+USER_GRAPH 2 Na, K, Cl and OH concentrations (lines from analytical solution)
+-headings Na K Cl OH
+-connect_simulations false
+-plot_concentration_vs dist
+-axis_scale x_axis 0 10
+-axis_titles  "Distance in column / mm" "mmol / kgw"
+10 F_RT = 38.921 : c_0 = 525 + 83 : c_L = 25 + 83 : DDc = c_L - c_0 : DDV = 3 : L = 10e-3
+20 aa = F_RT * DDV / log(c_0 / c_L) : x = dist 
+30 x1c = (x / L * DDc + c_0) / (c_0 * c_L^aa - c_L * c_0^aa)
+40 x2c = (x / L * DDc + c_0)^aa / (c_0 * c_L^aa - c_L * c_0^aa)
+50 x1a = (x / L * DDc + c_0) / (c_0 * c_L^-aa - c_L * c_0^-aa)
+60 x2a = (x / L * DDc + c_0)^-aa / (c_0 * c_L^-aa - c_L * c_0^-aa)
+70 c_K = (83 * c_L^aa - 83 * c_0^aa) * x1c - (83 * c_L - 83 * c_0) * x2c
+80 c_Na = (525 * c_L^-aa - 25 * c_0^aa) * x1c - (525 * c_L - 25 * c_0) * x2c
+90  c_Cl = (500 * c_L^-aa - 0 * c_0^-aa) * x1a - (500 * c_L - 0 * c_0) * x2a
+100 c_OH = (108 * c_L^-aa - 108 * c_0^-aa) * x1a - (108 * c_L - 108 * c_0) * x2a
+
+200 plot_xy x * 1e3, tot("Na") * 1e3,  color = Red, line_width = 0    , symbol = Plus
+210 plot_xy x * 1e3, tot("K") * 1e3,   color = Green, line_width = 0  , symbol = Plus
+220 plot_xy x * 1e3, tot("Cl") * 1e3,  color = Blue, line_width = 0   , symbol = Plus
+230 plot_xy x * 1e3, mol("OH-") * 1e3, color = Orange, line_width = 0 , symbol = Plus 
+240 plot_xy x * 1e3, c_Na,             color = Red, symbol = None     
+250 plot_xy x * 1e3, c_K,              color = Green, symbol = None   
+260 plot_xy x * 1e3, c_Cl,             color = Blue, symbol = None    
+270 plot_xy x * 1e3, c_OH,             color = Orange, symbol = None  
+
+USER_GRAPH 3 potential
+-headings PHREEQC analytical
+-plot_concentration_vs dist
+-axis_scale x_axis 0 10
+-axis_titles  "Distance in column / mm" "potential / Volt"
+10 F_RT = 38.921 : c_0 = 525 + 83 : c_L = 25 + 83 : DDc = c_L - c_0 : DDV = 3 : L = 10e-3
+20 aa = F_RT * DDV / log(c_0 / c_L) : x = dist 
+30 V_x = log(1 + DDc / c_0 * x / L) / log(c_L / c_0) * DDV
+
+80 plot_xy x * 1e3, pot_V, color = Red, line_width = 0, symbol = Plus   
+90 plot_xy x * 1e3, V_x, color = Red  , symbol = None
+END

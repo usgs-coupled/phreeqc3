@@ -9,9 +9,9 @@ VALGRIND=
 
 ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
+#	PHREEQC=../src/Class_debug_64/phreeqc
 else
 	PHREEQC=../x64/Release/phreeqc.exe
-#	PHREEQC=C:/Programs/concrete/x64/Release/phreeqc.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -225,7 +225,6 @@ all: alkalinity.out \
 	H_K.out \
 	Sat_P_rho.out \
 	densities.out \
-	cc_P.out \
 	CH4_conc_PR_IS.out \
 	CO2_anal.out \
 	CO2_conc_PR_EQ.out \
@@ -367,14 +366,25 @@ all: alkalinity.out \
 	missing_surf_related_kin.out \
 	SC_temp.out \
 	feedwater.out \
+	current1.out \
+	uphill_NP.out \
+	SC_Ohm.out \
 	adapted_minteq.out \
 	sys_kin.out \
+	harm_mean.out \
 	unequal.out \
 	Syn1_acidbase.out \
 	phase_vm.out \
 	low_p.out \
 	calc_density.out \
 	Ratework.out \
+	salt_sc.out \
+	IL_flux.out \
+	SC_Ohm1.out \
+	salt_sc1.out \
+	McClesk.out \
+	stuyfz.out \
+	opa_col3.out \
 	sys_equi_fix.out \
 	pr_h2o.out \
 	ex7_T_P.out \
@@ -383,10 +393,14 @@ all: alkalinity.out \
 	IllitisationCEC.out \
 	PercentSC.out \
 	ExchangeGamma.out \
-	count_database_species_core10.out  \
+	count_database_species_core10.out \
 	dist_x.out
 
 # NaX.out
+
+current: current2.out \
+	Clogging.out \
+	current_analytical.out
 
 pitzer: \
 	anh_P_NaCl.out \
@@ -429,8 +443,7 @@ pitzer: \
 	fail1.out \
 	fail2.out \
 	fail3.out
-
-
+	
 frezchem: \
 	anh_P_NaCl.out \
 	anhy_K2SO4.out \
@@ -459,7 +472,7 @@ frezchem: \
 	NaMgCl.out
 
 clean:
-	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.txt millero.csv
+	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.diff *.expected *.txt millero.csv 
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert
