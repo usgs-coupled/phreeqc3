@@ -88,7 +88,7 @@ transport(void)
 		sol_D = (struct sol_D *) PHRQ_malloc((size_t) (all_cells)* sizeof(struct sol_D));
 		if (sol_D == NULL)
 			malloc_error();
-		sol_D_dbg = sol_D;
+		//sol_D_dbg = sol_D;
 
 		ct = (struct CT *) PHRQ_malloc((size_t) (all_cells)* sizeof(struct CT));
 		if (ct == NULL)
@@ -265,10 +265,7 @@ transport(void)
 			{
 				fill_spec(cell_no);
 			}
-			if (cell_data[i].punch == TRUE)
-				punch_all();
-			if (cell_data[i].print == TRUE)
-				print_all();
+			print_punch(i, true);
 
 			/*    if (i > 0 && i <= count_cells)*/
 			saver();
@@ -290,11 +287,7 @@ transport(void)
 					{
 						fill_spec(cell_no);
 					}
-					if (cell_data[k].punch == TRUE)
-						punch_all();
-					if ((cell_data[k].print == TRUE)
-						&& (transport_step % print_modulus == 0))
-						print_all();
+					print_punch(k, true);
 					saver();
 				}
 			}
@@ -439,6 +432,9 @@ transport(void)
 		/*
 		* Now transport
 		*/
+		sprintf(token, "\nCalculating transport: %d cells, %d shifts, %d mixruns...\n\n",
+			count_cells, count_shifts - transport_start + 1, nmix);
+		screen_msg(token);
 		max_iter = 0;
 		for (transport_step = transport_start; transport_step <= count_shifts;
 			transport_step++)
@@ -536,32 +532,21 @@ transport(void)
 						status(0, token);
 
 						if (i == 0 || i == count_cells + 1)
-							run_reactions(i, kin_time, NOMIX, step_fraction);
+							run_reactions(i, kin_time, NOMIX, step_fraction); // nsaver = i
 						else
-							run_reactions(i, kin_time, DISP, step_fraction);
+							run_reactions(i, kin_time, DISP, step_fraction);  // nsaver = -2
 						if (multi_Dflag)
 							fill_spec(i);
 
 						/* punch and output file */
-						if ((ishift == 0) && (j == nmix)
-							&& ((stag_data->count_stag == 0) || i == 0
-							|| (i == count_cells + 1 && stag_data->count_stag != 1) /*
-																					|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0*/))
-						{
-							if ((cell_data[i].punch == TRUE)
-								&& (transport_step % punch_modulus == 0))
-								punch_all();
-							if ((cell_data[i].print == TRUE)
-								&& (transport_step % print_modulus == 0))
-								print_all();
-						}
+						if (ishift == 0 && j == nmix && stag_data->count_stag == 0)
+							print_punch(i, true);
 						if (i > 1)
 							Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 						saver();
 
 						/* maybe sorb a surface component... */
-						if ((ishift == 0) && (j == nmix)
-							&& ((stag_data->count_stag == 0)
+						if (ishift == 0 && j == nmix && (stag_data->count_stag == 0
 							|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
 						{
 							if (change_surf_count > 0)
@@ -592,23 +577,26 @@ transport(void)
 
 					if (stag_data->count_stag > 0)
 					{
-						if ((ishift == 0) && (j == nmix))
+						if (ishift == 0 && j == nmix)
 							punch_boolean = TRUE;
 						else
 							punch_boolean = FALSE;
-						for (i = 1; i <= count_cells; i++)
+						for (i = 0; i <= count_cells + 1; i++) // allow for stagnant cell mixing with boundary cells
 						{
 							mix_stag(i, stagkin_time, punch_boolean, step_fraction);
 						}
-						// i == 1 + count_cells...
-						if (stag_data->count_stag == 1 && punch_boolean)
+					}
+					if (ishift == 0 && j == nmix && stag_data->count_stag > 0)
+					{
+						for (n = 1; n <= stag_data->count_stag; n++)
 						{
-							run_reactions(i, 0, NOMIX, 0);
-							cell_no = i;
-							if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-								punch_all();
-							if (cell_data[i].print && (transport_step % print_modulus == 0))
-								print_all();
+							for (i = 1; i <= count_cells; i++)
+							{
+								k = i + 1 + n * count_cells;
+								if (Utilities::Rxn_find(Rxn_solution_map, k) == NULL)
+									continue;
+								print_punch(k, false);
+							}
 						}
 					}
 				}
@@ -725,19 +713,14 @@ transport(void)
 						fill_spec(i);
 					if (iterations > max_iter)
 						max_iter = iterations;
-					if ((nmix == 0) && ((stag_data->count_stag == 0)))
-					{
-						if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-							punch_all();
-						if (cell_data[i].print && (transport_step % print_modulus == 0))
-							print_all();
-					}
+					if (nmix == 0 && stag_data->count_stag == 0)
+						print_punch(i, true);
 					if (i == first_c && count_cells > 1)
 						kin_time = kin_time_save;
 					saver();
 
 					/* maybe sorb a surface component... */
-					if ((nmix == 0) && ((stag_data->count_stag == 0) ||
+					if (nmix == 0 && (stag_data->count_stag == 0 ||
 						(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
 					{
 						if (change_surf_count > 0)
@@ -762,6 +745,19 @@ transport(void)
 					if ((nmix == 0) && (stag_data->count_stag > 0))
 					{
 						mix_stag(i, stagkin_time, TRUE, step_fraction);
+					}
+				}
+				if (nmix == 0 && stag_data->count_stag > 0)
+				{
+					for (n = 1; n <= stag_data->count_stag; n++)
+					{
+						for (i = 1; i <= count_cells; i++)
+						{
+							k = i + 1 + n * count_cells;
+							if (Utilities::Rxn_find(Rxn_solution_map, k) == NULL)
+								continue;
+							print_punch(k, false);
+						}
 					}
 				}
 			}
@@ -838,14 +834,8 @@ transport(void)
 						run_reactions(i, kin_time, DISP, step_fraction);
 					if (multi_Dflag == TRUE)
 						fill_spec(i);
-					if (j == nmix && (stag_data->count_stag == 0 || i == 0
-						|| (i == 1 + count_cells && stag_data->count_stag != 1)))
-					{
-						if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-							punch_all();
-						if (cell_data[i].print && (transport_step % print_modulus == 0))
-							print_all();
-					}
+					if (j == nmix && stag_data->count_stag == 0)
+						print_punch(i, true);
 					if (i > 1)
 						Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 					saver();
@@ -885,20 +875,21 @@ transport(void)
 						punch_boolean = TRUE;
 					else
 						punch_boolean = FALSE;
-					for (i = 1; i <= count_cells; i++)
-					{
+					for (i = 0; i <= count_cells + 1; i++) // allow for stagnant cell mixing with boundary cells
 						mix_stag(i, stagkin_time, punch_boolean, step_fraction);
-					}
 				}
-				// i == 1 + count_cells...
-				if (stag_data->count_stag == 1 && punch_boolean)
+				if (j == nmix && stag_data->count_stag > 0)
 				{
-					run_reactions(i, 0, NOMIX, 0);
-					cell_no = i;
-					if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-						punch_all();
-					if (cell_data[i].print && (transport_step % print_modulus == 0))
-						print_all();
+					for (n = 1; n <= stag_data->count_stag; n++)
+					{
+						for (i = 1; i <= count_cells; i++)
+						{
+							k = i + 1 + n * count_cells;
+							if (Utilities::Rxn_find(Rxn_solution_map, k) == NULL)
+								continue;
+							print_punch(k, false);
+						}
+					}
 				}
 			}
 			if (dump_modulus != 0 && (transport_step % dump_modulus) == 0)
@@ -979,6 +970,31 @@ transport_cleanup(void)
 	}
 	current_cells = (struct CURRENT_CELLS *) free_check_null(current_cells);
 }
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+print_punch(int i, boolean active)
+/* ---------------------------------------------------------------------- */
+{
+	if (!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
+		!(cell_data[i].print && (transport_step % print_modulus == 0)) ||
+		(bcon_first == 2 && i == 0) ||
+		(bcon_last == 2 && i == count_cells + 1))
+		return;
+	if (!active)
+		run_reactions(i, 0, NOMIX, 0);
+	cell_no = i;
+	use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, i));
+	if (use.Get_kinetics_ptr() != NULL)
+	{
+		use.Set_n_kinetics_user(i);
+		use.Set_kinetics_in(true);
+	}
+	if (cell_data[i].punch && (transport_step % punch_modulus == 0))
+		punch_all();
+	if (cell_data[i].print && (transport_step % print_modulus == 0))
+		print_all();
+}
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 init_mix(void)
@@ -1244,13 +1260,38 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 	int j, n, k;
 	LDBLE t_imm;
 	cxxSolution *ptr_imm, *ptr_m;
+	ptr_imm = NULL;
 	/*
 	* Kinetics in transport cell is done while transporting
 	*/
 	for (n = 1; n <= stag_data->count_stag; n++)
 	{
-		k = i + 1 + n * count_cells;
-		if ((ptr_imm = Utilities::Rxn_find(Rxn_solution_map, k)) != NULL)
+		if (i == 0 || i == count_cells + 1)
+		{
+			use.Set_mix_ptr(NULL);
+			use.Set_mix_in(false);
+			use.Set_mix_ptr(Utilities::Rxn_find(Rxn_mix_map, i));
+			if (use.Get_mix_ptr())
+			{
+				for (std::map < int, LDBLE >::const_iterator it = use.Get_mix_ptr()->Get_mixComps().begin();
+					it != use.Get_mix_ptr()->Get_mixComps().end(); it++)
+				{
+					if (it->first > i && it->first < all_cells)
+					{
+						k = it->first;
+						ptr_imm = Utilities::Rxn_find(Rxn_solution_map, k);
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			k = i + 1 + n * count_cells;
+			if (k < all_cells)
+				ptr_imm = Utilities::Rxn_find(Rxn_solution_map, k);
+		}
+		if (ptr_imm != NULL)
 		{
 			if (n == 1)
 			{
@@ -1258,13 +1299,8 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				{
 					ptr_m = Utilities::Rxn_find(Rxn_solution_map, i);
 					t_imm =
-						heat_mix_f_imm * ptr_m->Get_tc() + (1 -
-						heat_mix_f_imm) *
-						ptr_imm->Get_tc();
-					ptr_m->Set_tc(
-						heat_mix_f_m * ptr_imm->Get_tc() + (1 -
-						heat_mix_f_m) *
-						ptr_m->Get_tc());
+						heat_mix_f_imm * ptr_m->Get_tc() + (1 - heat_mix_f_imm) * ptr_imm->Get_tc();
+					ptr_m->Set_tc(heat_mix_f_m * ptr_imm->Get_tc() + (1 - heat_mix_f_m) * ptr_m->Get_tc());
 					cell_data[i].temp = ptr_m->Get_tc();
 					cell_data[k].temp = t_imm = ptr_imm->Get_tc();
 					/* equilibrate again ... */
@@ -1294,19 +1330,22 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				set_and_run_wrapper(i, STAG, FALSE, -2, 0.0);
 				if (multi_Dflag == TRUE)
 					fill_spec(cell_no);
-				use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, i));
-				if (use.Get_kinetics_ptr() != NULL)
-				{
-					use.Set_n_kinetics_user(i);
-					use.Set_kinetics_in(true);
-				}
-				if (l_punch && (cell_data[i].print == TRUE) &&
-					(transport_step % print_modulus == 0))
-					print_all();
-				if (l_punch && (cell_data[i].punch == TRUE) &&
-					(transport_step % punch_modulus == 0))
-					punch_all();
+				//use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, i));
+				//if (use.Get_kinetics_ptr() != NULL)
+				//{
+				//	use.Set_n_kinetics_user(i);
+				//	use.Set_kinetics_in(true);
+				//}
+				//if (l_punch && (cell_data[i].print == TRUE) &&
+				//	(transport_step % print_modulus == 0))
+				//	print_all();
+				//if (l_punch && (cell_data[i].punch == TRUE) &&
+				//	(transport_step % punch_modulus == 0))
+				//	punch_all();
+				if (l_punch)
+					print_punch(i, true);
 				saver();
+				Utilities::Rxn_copy(Rxn_solution_map, -2, i);
 
 				/* maybe sorb a surface component... */
 				if (l_punch && change_surf_count)
@@ -1331,13 +1370,14 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 			if (multi_Dflag == TRUE)
 				fill_spec(cell_no);
 
-			if ((cell_data[k].print == TRUE) && (l_punch == TRUE) &&
-				(transport_step % print_modulus == 0))
-				print_all();
-			if ((cell_data[k].punch == TRUE) && (l_punch == TRUE) &&
-				(transport_step % punch_modulus == 0))
-				punch_all();
+			//if ((cell_data[k].print == TRUE) && (l_punch == TRUE) && i != 0 &&
+			//	(transport_step % print_modulus == 0))
+			//	print_all();
+			//if ((cell_data[k].punch == TRUE) && (l_punch == TRUE) && i != 0 &&
+			//	(transport_step % punch_modulus == 0))
+			//	punch_all();
 			saver();
+			Utilities::Rxn_copy(Rxn_solution_map, -2 - k, k);
 
 			/* maybe sorb a surface component... */
 			if (l_punch && change_surf_count)
@@ -1356,27 +1396,29 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				change_surf_count = 0;
 			}
 		}
-		else if (n == 1 && l_punch && (cell_data[i].punch || cell_data[i].print))
-		{
-			cell_no = i;
-			run_reactions(i, 0, NOMIX, 0);
-			if (cell_data[i].punch && (transport_step % punch_modulus == 0))
-				punch_all();
-			if (cell_data[i].print && (transport_step % print_modulus == 0))
-				print_all();
-		}
+		//else if (n == 1 && l_punch && (cell_data[i].punch || cell_data[i].print))
+		//{
+		//	cell_no = i;
+		//	run_reactions(i, 0, NOMIX, 0);
+		//	if (cell_data[i].punch && (transport_step % punch_modulus == 0))
+		//		punch_all();
+		//	if (cell_data[i].print && (transport_step % print_modulus == 0))
+		//		print_all();
+		//}
+		else if (n == 1 && l_punch)
+			print_punch(i, false);
 
 	}
-	for (n = 1; n <= stag_data->count_stag; n++)
-	{
-		k = i + 1 + n * count_cells;
-		if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
-		{
-			Utilities::Rxn_copy(Rxn_solution_map, -2 - k, k);
-			if (n == 1)
-				Utilities::Rxn_copy(Rxn_solution_map, -2, i);
-		}
-	}
+	//for (n = 1; n <= stag_data->count_stag; n++)
+	//{
+	//	k = i + 1 + n * count_cells;
+	//	if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
+	//	{
+	//		Utilities::Rxn_copy(Rxn_solution_map, -2 - k, k);
+	//		if (n == 1)
+	//			Utilities::Rxn_copy(Rxn_solution_map, -2, i);
+	//	}
+	//}
 	return (OK);
 }
 
@@ -1861,7 +1903,7 @@ fill_spec(int l_cell_no)
 				calc_SC(); // note that neutral species are corrected as if z = 1, but is viscosity-dependent
 				sol_D[l_cell_no].spec[count_spec].Dwt = s_ptr->dw_corr * viscos_f;
 			}
-			if (sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) > diffc_max)
+			if (l_cell_no <= count_cells + 1 && sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn) > diffc_max)
 				diffc_max = sol_D[l_cell_no].spec[count_spec].Dwt * pow(por, multi_Dn);
 			sol_D[l_cell_no].spec[count_spec].erm_ddl = s_ptr->erm_ddl;
 
@@ -1958,13 +2000,15 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	for (int f_c = 0; f_c <= loop_f_c; f_c++)
 	{
-		for (n = 0; n < (stagnant ? stag_data->count_stag : 1); n++)
-		{
+		for (n = 0; n <= (stagnant ? stag_data->count_stag : 0); n++) // allow for stagnant cell mixing with higher cells in the layer
+			{
 			icell = mobile_cell + 1 + n * count_cells;
 			if (stagnant)
 			{
 				if (n == 0)
 					icell -= 1;
+				else if (mobile_cell == 0 || mobile_cell == count_cells + 1)
+					continue;
 				/*
 				*    find the mix ptr for icell and go along the cells that mix with it
 				*/
@@ -2000,10 +2044,17 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					std::vector<int> n_solution;
 					std::vector<LDBLE> fraction;
 					(use.Get_mix_ptr())->Vectorize(n_solution, fraction);
-					if ((jcell = n_solution[i]) <= icell)
+					jcell = n_solution[i];
+					if (jcell <= icell)
 						continue;
-
-					last_c2 = jcell;
+					if (jcell >= all_cells || jcell < 0)
+					{
+						error_string = sformatf(
+							"Multi_D asked for diffusion from cell %d to %d, %d is beyond the number of cells", icell, jcell, jcell);
+						error_msg(error_string, CONTINUE);
+					}
+					if (jcell > last_c2)
+						last_c2 = jcell;
 					mixf = fraction[i] / nmix;
 				}
 				else
@@ -2079,12 +2130,12 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				/*
 				* 3. find the solutions, add or subtract the moles...
 				*/
-				if (i > 0 || stagnant || (i == 0 && dV_dcell))
+				if (dV_dcell || (icell != 0 && icell != count_cells + 1))
 				{
 					use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, icell));
 					use.Get_solution_ptr()->Set_total_h(use.Get_solution_ptr()->Get_total_h() - tot1_h);
 					use.Get_solution_ptr()->Set_total_o(use.Get_solution_ptr()->Get_total_o() - tot1_o);
-					if (dV_dcell && (i > 0 || fix_current))
+					if (dV_dcell && (icell > 0 || fix_current))
 					{
 						use.Get_solution_ptr()->Set_potV(cell_data[icell].potV);
 					}
@@ -2109,14 +2160,14 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						}
 					}
 				}
-				if (i < count_cells || stagnant || (i == count_cells && dV_dcell))
+				if (dV_dcell || jcell != count_cells + 1)
 				{
 					use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, jcell));
 					dummy = use.Get_solution_ptr()->Get_total_h();
 					use.Get_solution_ptr()->Set_total_h(dummy + tot2_h);
 					dummy = use.Get_solution_ptr()->Get_total_o();
 					use.Get_solution_ptr()->Set_total_o(dummy + tot2_o);
-					if (i == count_cells && fix_current && !stagnant)
+					if (icell == count_cells && fix_current && !stagnant)
 					{
 						use.Get_solution_ptr()->Set_potV(cell_data[jcell].potV);
 					}
@@ -2144,8 +2195,8 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		}
 	}
 	// check for negative conc's...
-	if (stagnant)
-		first_c = mobile_cell;
+	//if (stagnant)
+	//	first_c = mobile_cell; // allow for stagnant cell mixing with boundary cell 0
 	for (i = first_c; i <= last_c2; i++)
 	{
 		if (stagnant && i > first_c && i <= count_cells + first_c)
@@ -2813,9 +2864,15 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					{
 						// compare diffusive and electromotive forces
 						dum = ct[icell].v_m[k].grad;
-						dum2 = F_Re3 / tk_x2 * ct[icell].v_m[k].z * c1 * dV_dcell;
-						if (-dum < abs(dum2) && dV_dcell * ct[icell].v_m[k].z > 0)
-						{
+						if (icell == 0)
+							dum2 = (cell_data[1].potV - cell_data[0].potV) / (cell_data[1].length / 2);
+						else if (icell == count_cells)
+							dum2 = (cell_data[count_cells + 1].potV - cell_data[count_cells].potV) / (cell_data[count_cells].length / 2);
+						else
+							dum2 = (cell_data[jcell].potV - cell_data[icell].potV) / ((cell_data[jcell].length + cell_data[icell].length) / 2);
+						dum2 *= F_Re3 / tk_x2 * ct[icell].v_m[k].z * c1;
+						if (dum + dum2 > 0)
+							{
 							// step out: no transport against the dV_dcell gradient if c = 0 in jcell...
 							if (i < i_max)
 								i++;
@@ -2965,9 +3022,15 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					{
 						// compare diffuse and electromotive forces
 						dum = ct[icell].v_m[k].grad;
-						dum2 = F_Re3 / tk_x2 * ct[icell].v_m[k].z * c2 * dV_dcell;
+						if (icell == 0)
+							dum2 = (cell_data[1].potV - cell_data[0].potV) / (cell_data[1].length / 2);
+						else if (icell == count_cells)
+							dum2 = (cell_data[count_cells + 1].potV - cell_data[count_cells].potV) / (cell_data[count_cells].length / 2);
+						else
+							dum2 = (cell_data[jcell].potV - cell_data[icell].potV) / ((cell_data[jcell].length + cell_data[icell].length) / 2);
+						dum2 *= F_Re3 / tk_x2 * ct[icell].v_m[k].z * c2;
 						// don't transport unavailable moles against the gradient
-						if (dum < abs(dum2) && dV_dcell * ct[icell].v_m[k].z < 0)
+						if (dum + dum2 < 0)
 						{
 							// step out...
 							if (j < j_max)
@@ -3156,7 +3219,13 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					{
 						// compare diffuse and electromotive forces
 						dum = ct[icell].v_m[k].grad;
-						dum2 = F_Re3 / tk_x2 * ct[icell].v_m[k].z * (c1 + c2) * dV_dcell;
+						if (icell == 0)
+							dum2 = (cell_data[1].potV - cell_data[0].potV) / (cell_data[1].length / 2);
+						else if (icell == count_cells)
+							dum2 = (cell_data[count_cells + 1].potV - cell_data[count_cells].potV) / (cell_data[count_cells].length / 2);
+						else
+							dum2 = (cell_data[jcell].potV - cell_data[icell].potV) / ((cell_data[jcell].length + cell_data[icell].length) / 2);
+						dum2 *= F_Re3 / tk_x2 * ct[icell].v_m[k].z * (c1 + c2);
 						// don't transport unavailable moles against the gradient
 						if (abs(dum) < abs(dum2) &&
 							((dum2 >= 0 && sol_D[jcell].spec[j].c * aq2 < 1e-12) ||
