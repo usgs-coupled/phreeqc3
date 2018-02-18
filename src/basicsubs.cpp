@@ -1432,7 +1432,11 @@ get_calculate_value(const char *name)
 				calculate_value_ptr->name);
 		error_msg(error_string, STOP);
 	}
+#ifdef NPP
+	if (isnan(rate_moles))
+#else
 	if (rate_moles == NAN)
+#endif
 	{
 		error_string = sformatf( "Calculated value not SAVEed for %s.",
 				calculate_value_ptr->name);

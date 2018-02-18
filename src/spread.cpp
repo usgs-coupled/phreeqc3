@@ -1,4 +1,6 @@
+#ifndef boolean
 typedef unsigned char boolean;
+#endif
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Solution.h"

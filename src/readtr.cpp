@@ -3,8 +3,9 @@
 #include <fstream>
 #include "StorageBin.h"
 #include "SS.h"
-
+#ifndef boolean
 typedef unsigned char boolean;
+#endif
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Utils.h"
@@ -905,7 +906,7 @@ read_transport(void)
 		}
 	}
 	else if (simul_tr == 1)
-		for (i = 1; i < all_cells; i++)
+		for (i = 0; i < all_cells; i++)
 			cell_data[i].punch = TRUE;
 	/*
 	*   Fill in data for print
@@ -928,7 +929,7 @@ read_transport(void)
 		}
 	}
 	else if (simul_tr == 1)
-		for (i = 1; i < all_cells; i++)
+		for (i = 0; i < all_cells; i++)
 			cell_data[i].print = TRUE;
 //#define OLD_POROSITY
 #if defined(OLD_POROSITY)

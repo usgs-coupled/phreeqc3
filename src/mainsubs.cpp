@@ -632,7 +632,9 @@ initial_solutions(int print)
 			LDBLE d1 = 0;
 			bool diag = (diagonal_scale == TRUE) ? true : false;
 			int count_iterations = 0;
-			for (;;)		
+			std::string input_units = solution_ref.Get_initial_data()->Get_units();
+			cxxISolution *initial_data_ptr = solution_ref.Get_initial_data();
+			for (;;)
 			{
 				prep();
 				k_temp(solution_ref.Get_tc(), solution_ref.Get_patm());
@@ -653,6 +655,7 @@ initial_solutions(int print)
 					solution_ref.Set_density(calc_dens());
 					if (!equal(d0, solution_ref.Get_density(), 1e-8))
 					{
+						initial_data_ptr->Set_units(input_units);
 						d0 = solution_ref.Get_density();
 						if (count_iterations++ < 20) 
 						{
