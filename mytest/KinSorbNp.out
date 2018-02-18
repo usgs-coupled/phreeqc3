@@ -127,8 +127,6 @@ Initial solution 0.
                  Ionic strength (mol/kgw)  =   5.115e-05
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   5.115e-05
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   4.663e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -319,15 +317,15 @@ Initial solution 1.
 Np         -1.1260e+01 WARNING: Zero divide in BASIC line
  10  PRINT "Np       ", -11.26, log10( KIN("kin_surfs_Np") * act("H+")^2 / (KIN("kin_surfs_oh") * act("NpO2+") * act("H2O")) ).
 Value set to zero.
-          -1 
+        -inf 
 O          -8.9300e+00 WARNING: Zero divide in BASIC line
  20  PRINT "O        ", -8.93,  log10( KIN("kin_surfs_o") * act("H+") / KIN("kin_surfs_oh") ).
 Value set to zero.
-          -1 
+        -inf 
 OH          7.2900e+00 WARNING: Zero divide in BASIC line
  30  PRINT "OH       ", 7.29,   log10( KIN("kin_surfs_h") / (KIN("kin_surfs_oh") * act("H+"))  ).
 Value set to zero.
-          -1 
+        -inf 
 Surf        2.3010e-06            0 
 Tot Np      1.2500e-06   1.2501e-06 
 
@@ -1621,7 +1619,7 @@ Kinetics 1.
 
 Np         -1.1260e+01  -1.1250e+01 
 O          -8.9300e+00  -8.9300e+00 
-OH          7.2900e+00           -1 
+OH          7.2900e+00         -inf 
 Surf        2.3010e-06   2.3017e-06 
 Tot Np      1.2500e-06   1.2501e-06 
 
@@ -2046,6 +2044,6 @@ Reading input data for simulation 6.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.046 Seconds.
+End of Run after 0.033 Seconds.
 -------------------------------
 
