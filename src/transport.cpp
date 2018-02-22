@@ -975,8 +975,8 @@ void Phreeqc::
 print_punch(int i, boolean active)
 /* ---------------------------------------------------------------------- */
 {
-	if (!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
-		!(cell_data[i].print && (transport_step % print_modulus == 0)) ||
+	if ((!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
+		!(cell_data[i].print && (transport_step % print_modulus == 0))) ||
 		(bcon_first == 2 && i == 0) ||
 		(bcon_last == 2 && i == count_cells + 1))
 		return;
@@ -1260,6 +1260,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 	int j, n, k;
 	LDBLE t_imm;
 	cxxSolution *ptr_imm, *ptr_m;
+	k = -1000; // compiler says k may be undefined
 	ptr_imm = NULL;
 	/*
 	* Kinetics in transport cell is done while transporting
@@ -3657,7 +3658,7 @@ Step (from cell 1 to count_cells + 1):
 *		       but only mobile surface_comp's (Dw > 0) and their surface_charge's are transported.
 */
 {
-	int i, i1, i2, k, k1, n1, n2;
+	int i, i1, i2, k, k1, n1; //, n2;
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store, mcd_mixf;
 	LDBLE lav, A_ij, por, Dp1, Dp2;
@@ -3671,7 +3672,7 @@ Step (from cell 1 to count_cells + 1):
 	viscos_f = tk_x * viscos_0_25 / (298.15 * viscos_f);
 
 	n1 = 0;
-	n2 = n1 + 1;
+	//n2 = n1 + 1;
 	cxxSurface surface_n1, surface_n2;
 	cxxSurface *surface_n2_ptr;
 
@@ -4008,7 +4009,7 @@ Step (from cell 1 to count_cells + 1):
 	/*
 	* Step 4. Dispersion/diffusion is done. New surfaces can be copied in the cell's surface...
 	*/
-	n2 = 0;
+	//n2 = 0;
 	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
 	for (; jit != Rxn_temp_surface_map.end(); jit++)
 	{
@@ -4328,7 +4329,7 @@ diff_stag_surf(int mobile_cell)
 *  for any cell in MCD, need only include the mixing factors for higher numbered cells.
 */
 {
-	int i, i1, i2, k, k1, n1, n2, ns;
+	int i, i1, i2, k, k1, /*n1, n2,*/ ns;
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store;
 	LDBLE Dp1, Dp2;
@@ -4396,7 +4397,7 @@ diff_stag_surf(int mobile_cell)
 			if (surface_n1_ptr != NULL)
 			{
 				surface_n1 = *surface_n1_ptr;
-				n1 = 0;
+				//n1 = 0;
 			}
 			/* if not found... */
 			else
@@ -4432,7 +4433,7 @@ diff_stag_surf(int mobile_cell)
 			/* if not found... */
 			else
 			{
-				n2 = 1;
+				//n2 = 1;
 				/* copy it from surface_ptr2... */
 				if (surface_ptr2 != NULL)
 				{
@@ -4613,7 +4614,7 @@ diff_stag_surf(int mobile_cell)
 	/*
 	* Step 4. Diffusion is done. New surfaces can be copied in the cells...
 	*/
-	n2 = 0;
+	//n2 = 0;
 	std::map<int, cxxSurface>::iterator jit = Rxn_temp_surface_map.begin();
 	for (; jit != Rxn_temp_surface_map.end(); jit++)
 	{
