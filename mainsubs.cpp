@@ -629,7 +629,7 @@ initial_solutions(int print)
 			}
 			use.Set_solution_ptr(&solution_ref);
 			LDBLE d0 = solution_ref.Get_density();
-			LDBLE d1 = 0;
+			//LDBLE d1 = 0;
 			bool diag = (diagonal_scale == TRUE) ? true : false;
 			int count_iterations = 0;
 			std::string input_units = solution_ref.Get_initial_data()->Get_units();
