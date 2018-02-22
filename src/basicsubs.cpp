@@ -304,18 +304,18 @@ calc_SC(void)
 	sqrt_mu = sqrt(mu_x);
 
 	SC = 0;
-	LDBLE ta1, ta2, ta3, ta4;
+	//LDBLE ta1, ta2, ta3, ta4;
 	for (i = 0; i < count_s_x; i++)
 	{
 		// ** for optimizing, get numbers from -analyt for H+ = H+...
-		if (!strcmp(s_x[i]->name, "H+"))
-		{
-			ta1 = s_x[i]->logk[2];
-			ta2 = s_x[i]->logk[3];
-			ta3 = s_x[i]->logk[4];
-			ta4 = s_x[i]->logk[5];
-			break;
-		}
+		//if (!strcmp(s_x[i]->name, "H+"))
+		//{
+		//	ta1 = s_x[i]->logk[2];
+		//	ta2 = s_x[i]->logk[3];
+		//	ta3 = s_x[i]->logk[4];
+		//	ta4 = s_x[i]->logk[5];
+		//	break;
+		//}
 		//
 	}
 	for (i = 0; i < count_s_x; i++)

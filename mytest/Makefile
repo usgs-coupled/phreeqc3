@@ -1,6 +1,6 @@
 CFG1 :=`uname`
 CFG :=$(shell echo $(CFG1) | sed "s/Linux.*/Linux/")
-
+#make -k all 1> make.out 2>&1
 #TIME=time
 TIME=
 
