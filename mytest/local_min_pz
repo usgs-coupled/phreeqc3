@@ -1,6 +1,6 @@
 DATABASE ../database/pitzer.dat
 SELECTED_OUTPUT 101
-    #-file                 local_min_pz_101.sel
+    -file                 local_min_pz_101.sel
 USER_PUNCH 101
     -headings Mu SC
     -start
@@ -23,6 +23,11 @@ SOLUTION 1  SEAWATER FROM NORDSTROM ET AL. (1979)
         Alkalinity      141.682 as HCO3
         S               2712.0
 END
+KNOBS
+-conv 1e-12
+-step 2
+-pe   2
+-iter 400
 USE solution 1
 EQUILIBRIUM_PHASES
 	Anhydrite   0	  0
