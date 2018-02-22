@@ -54,6 +54,7 @@ step(LDBLE step_fraction)
 	else if (use.Get_solution_ptr() != NULL)
 	{
 		add_solution(use.Get_solution_ptr(), 1.0, 1.0);
+		cell_no = use.Get_n_solution_user();
 	}
 	else
 	{
@@ -1470,8 +1471,8 @@ solution_check(void)
 		   master_ptr->elt->name, (LDBLE) master_ptr->total);
 		 */
 		error_string = sformatf(
-				"Negative moles in solution for %s, %e. Recovering...",
-				master_ptr->elt->name, (double) master_ptr->total);
+				"Negative moles in solution %d for %s, %e. Recovering...",
+				cell_no, master_ptr->elt->name, (double) master_ptr->total);
 		warning_msg(error_string);
 		return (MASS_BALANCE);
 	}

@@ -71,8 +71,6 @@ Initial solution 0.
                  Ionic strength (mol/kgw)  =   1.007e-07
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   1.217e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
@@ -124,8 +122,6 @@ Initial solution 1.
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.451e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -2.323e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
@@ -215,7 +211,7 @@ Using surface 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  6.635e-17  Surface + diffuse layer charge, eq
+	  7.633e-17  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -1.888e-01  psi, V
@@ -262,8 +258,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.745e-05
                        Mass of water (kg)  =   4.840e-01
                  Total alkalinity (eq/kg)  =   9.879e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.904e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.01
@@ -337,6 +331,56 @@ Beginning of transport calculations.
 Equilibrating initial solutions
 -------------------------------
 
+Using solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  11.691      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.006e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   7
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.533   -40.533     0.000     28.61
+O(0)          9.700e-12
+   O2              4.850e-12   4.850e-12   -11.314   -11.314     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -37.43    -40.53   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)            -8.42    -11.31   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
 WARNING: Mass of water is less than 1e-10 kilogram.
 The aqueous phase may not be stable relative to given masses of minerals.
 WARNING: Numerical method failed with this set of convergence parameters.
@@ -398,8 +442,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -418,7 +460,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -445,7 +487,7 @@ Using surface 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  9.827e-16  Surface + diffuse layer charge, eq
+	  9.808e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.653e-02  psi, V
@@ -492,8 +534,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -512,7 +552,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.478e-14
-   H2              7.388e-15   7.389e-15   -14.131   -14.131     0.000     28.61
+   H2              7.388e-15   7.390e-15   -14.131   -14.131     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -586,8 +626,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -606,7 +644,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -680,8 +718,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -700,7 +736,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -774,8 +810,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -794,7 +828,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -868,8 +902,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -888,7 +920,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -962,8 +994,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -982,7 +1012,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -1056,8 +1086,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1076,7 +1104,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -1150,8 +1178,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1170,7 +1196,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -1244,8 +1270,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =   1.450e-09
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.238e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1264,7 +1288,7 @@ Su
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
 H(0)          1.158e-14
-   H2              5.788e-15   5.789e-15   -14.237   -14.237     0.000     28.61
+   H2              5.788e-15   5.790e-15   -14.237   -14.237     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
@@ -1346,8 +1370,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.861e-04
                        Mass of water (kg)  =   1.992e-01
                  Total alkalinity (eq/kg)  =  -6.447e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.385e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1446,8 +1468,6 @@ Su
                  Ionic strength (mol/kgw)  =   5.074e-04
                        Mass of water (kg)  =   2.669e-01
                  Total alkalinity (eq/kg)  =  -9.518e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.014e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
@@ -1471,7 +1491,7 @@ Na            5.065e-04
    Na+             5.065e-04   4.937e-04    -3.295    -3.307    -0.011     -1.49
    NaOH            5.319e-22   5.320e-22   -21.274   -21.274     0.000     (0)  
 O(0)          1.477e-10
-   O2              7.386e-11   7.387e-11   -10.132   -10.132     0.000     30.40
+   O2              7.385e-11   7.386e-11   -10.132   -10.132     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1499,7 +1519,7 @@ Mixture 3.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.700e-16  Surface + diffuse layer charge, eq
+	  1.713e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -9.402e-02  psi, V
@@ -1546,8 +1566,6 @@ Su
                  Ionic strength (mol/kgw)  =   7.338e-04
                        Mass of water (kg)  =   2.861e-01
                  Total alkalinity (eq/kg)  =  -8.081e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   6.221e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1571,7 +1589,7 @@ Na            7.329e-04
    Na+             7.329e-04   7.109e-04    -3.135    -3.148    -0.013     -1.48
    NaOH            9.022e-22   9.023e-22   -21.045   -21.045     0.000     (0)  
 O(0)          1.872e-10
-   O2              9.359e-11   9.360e-11   -10.029   -10.029     0.000     30.40
+   O2              9.358e-11   9.360e-11   -10.029   -10.029     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1646,8 +1664,6 @@ Su
                  Ionic strength (mol/kgw)  =   8.766e-04
                        Mass of water (kg)  =   2.943e-01
                  Total alkalinity (eq/kg)  =  -5.831e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.110e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1671,7 +1687,7 @@ Na            8.760e-04
    Na+             8.760e-04   8.473e-04    -3.058    -3.072    -0.014     -1.48
    NaOH            1.473e-21   1.473e-21   -20.832   -20.832     0.000     (0)  
 O(0)          2.029e-10
-   O2              1.015e-10   1.015e-10    -9.994    -9.994     0.000     30.40
+   O2              1.014e-10   1.014e-10    -9.994    -9.994     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1746,8 +1762,6 @@ Su
                  Ionic strength (mol/kgw)  =   9.509e-04
                        Mass of water (kg)  =   2.979e-01
                  Total alkalinity (eq/kg)  =  -3.872e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   7.933e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1770,8 +1784,8 @@ H(0)          0.000e+00
 Na            9.505e-04
    Na+             9.505e-04   9.182e-04    -3.022    -3.037    -0.015     -1.48
    NaOH            2.323e-21   2.324e-21   -20.634   -20.634     0.000     (0)  
-O(0)          1.579e-10
-   O2              7.893e-11   7.894e-11   -10.103   -10.103     0.000     30.40
+O(0)          1.578e-10
+   O2              7.891e-11   7.892e-11   -10.103   -10.103     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1846,8 +1860,6 @@ Su
                  Ionic strength (mol/kgw)  =   9.832e-04
                        Mass of water (kg)  =   2.993e-01
                  Total alkalinity (eq/kg)  =  -2.439e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.118e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1871,7 +1883,7 @@ Na            9.829e-04
    Na+             9.829e-04   9.489e-04    -3.007    -3.023    -0.015     -1.48
    NaOH            3.517e-21   3.518e-21   -20.454   -20.454     0.000     (0)  
 O(0)          1.172e-10
-   O2              5.861e-11   5.863e-11   -10.232   -10.232     0.000     30.40
+   O2              5.860e-11   5.861e-11   -10.232   -10.232     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1899,7 +1911,7 @@ Mixture 7.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -2.645e-16  Surface + diffuse layer charge, eq
+	 -2.632e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.665e-02  psi, V
@@ -1946,8 +1958,6 @@ Su
                  Ionic strength (mol/kgw)  =   9.950e-04
                        Mass of water (kg)  =   2.998e-01
                  Total alkalinity (eq/kg)  =  -1.465e-07
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.293e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1999,7 +2009,7 @@ Mixture 8.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -8.348e-17  Surface + diffuse layer charge, eq
+	 -8.262e-17  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.656e-02  psi, V
@@ -2046,8 +2056,6 @@ Su
                  Ionic strength (mol/kgw)  =   9.988e-04
                        Mass of water (kg)  =   2.999e-01
                  Total alkalinity (eq/kg)  =  -8.335e-08
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   2.412e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -2099,7 +2107,7 @@ Mixture 9.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  2.023e-16  Surface + diffuse layer charge, eq
+	  2.006e-16  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.654e-02  psi, V
@@ -2138,7 +2146,7 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.902      Charge balance
-                                       pe  =  -2.927      Adjusted to redox equilibrium
+                                       pe  =  -2.928      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.30088
@@ -2146,8 +2154,6 @@ Su
                  Ionic strength (mol/kgw)  =   9.998e-04
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =  -4.613e-08
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.799e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -2165,13 +2171,13 @@ Su
    H2O             7.220e+01   1.000e+00     1.859    -0.000     0.000     18.07
 Cl            9.997e-04
    Cl-             9.997e-04   9.646e-04    -3.000    -3.016    -0.016     18.07
-H(0)          1.595e-11
-   H2              7.974e-12   7.976e-12   -11.098   -11.098     0.000     28.61
+H(0)          1.598e-11
+   H2              7.992e-12   7.994e-12   -11.097   -11.097     0.000     28.61
 Na            9.997e-04
    Na+             9.997e-04   9.649e-04    -3.000    -3.016    -0.015     -1.48
    NaOH            7.784e-21   7.786e-21   -20.109   -20.109     0.000     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.184   -70.184     0.000     30.40
+   O2              0.000e+00   0.000e+00   -70.186   -70.186     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2180,7 +2186,7 @@ O(0)          0.000e+00
   H2(g)            -8.00    -11.10   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -7.60     -6.03    1.57  NaCl
-  O2(g)           -67.29    -70.18   -2.89  O2
+  O2(g)           -67.29    -70.19   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2199,7 +2205,7 @@ Mixture 10.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  9.628e-17  Surface + diffuse layer charge, eq
+	  9.584e-17  Surface + diffuse layer charge, eq
 	 -1.000e-03  Surface charge, eq
 	 -9.649e-03  sigma, C/m²
 	 -8.653e-02  psi, V
@@ -2246,8 +2252,6 @@ Su
                  Ionic strength (mol/kgw)  =   1.000e-03
                        Mass of water (kg)  =   3.000e-01
                  Total alkalinity (eq/kg)  =  -2.915e-08
-                    Total carbon (mol/kg)  =   0.000e+00
-                       Total CO2 (mol/kg)  =   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.810e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -2270,8 +2274,8 @@ H(0)          0.000e+00
 Na            9.999e-04
    Na+             9.999e-04   9.651e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            8.436e-21   8.438e-21   -20.074   -20.074     0.000     (0)  
-O(0)          3.453e-11
-   O2              1.727e-11   1.727e-11   -10.763   -10.763     0.000     30.40
+O(0)          3.456e-11
+   O2              1.728e-11   1.728e-11   -10.762   -10.762     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2294,6 +2298,6 @@ Reading input data for simulation 3.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.194 Seconds.
+End of Run after 0.118 Seconds.
 -------------------------------
 

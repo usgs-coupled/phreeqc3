@@ -924,7 +924,11 @@ tidy_gas_phase(void)
 						error_msg(error_string, CONTINUE);
 					}
 					/* calculate moles */
+#ifdef NPP
+					if (!isnan(gas_phase_ptr->Get_gas_comps()[j].Get_p_read()))
+#else
 					if (gas_phase_ptr->Get_gas_comps()[j].Get_p_read() != NAN)
+#endif
 					{
 						P += gas_phase_ptr->Get_gas_comps()[j].Get_p_read();
 						if (!PR)
@@ -948,7 +952,11 @@ tidy_gas_phase(void)
 					*/
 					if (!gas_phase_ptr->Get_solution_equilibria())
 					{
+#ifdef NPP
+						if (!isnan(gas_phase_ptr->Get_gas_comps()[j].Get_p_read()))
+#else
 						if (gas_phase_ptr->Get_gas_comps()[j].Get_p_read() != NAN)
+#endif
 						{
 							P += gas_phase_ptr->Get_gas_comps()[j].Get_p_read();
 							if (!PR)
@@ -1810,7 +1818,11 @@ tidy_ss_assemblage(void)
 					phase_ptr->moles_x = 0;
 					phase_ptr->fraction_x = 0;
 				}
+#ifdef NPP
+				if (isnan(comp_ptr->Get_moles()))
+#else
 				if (comp_ptr->Get_moles() == NAN)
+#endif
 				{
 					input_error++;
 					error_string = sformatf(
@@ -3505,7 +3517,11 @@ tidy_isotopes(void)
 				temp_iso.Set_total(0);
 				temp_iso.Set_ratio(master[k]->isotope_ratio);
 				temp_iso.Set_ratio_uncertainty(master[k]->isotope_ratio_uncertainty);
+#ifdef NPP
+				if (!isnan(master[k]->isotope_ratio_uncertainty))
+#else
 				if (master[k]->isotope_ratio_uncertainty != NAN)
+#endif
 				{
 					temp_iso.Set_ratio_uncertainty_defined(true);
 				}

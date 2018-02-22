@@ -63,8 +63,8 @@ Ntg		Ntg	0	Ntg		28.0134 # N2 gas
 SOLUTION_SPECIES
 H+ = H+
 	-gamma	9.0	0
-	-dw	9.31e-9  763  0.46  1e-10 # The dw parameters are defined in ref. 3.
-# Dw(TK) = 9.31e-9 * exp(763 / TK - 763 / 298.15) * TK * 0.89 / (298.15 * viscos)
+	-dw	9.31e-9  1000  0.46  1e-10 # The dw parameters are defined in ref. 3.
+# Dw(TK) = 9.31e-9 * exp(1000 / TK - 1000 / 298.15) * TK * 0.89 / (298.15 * viscos)
 # Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
 e- = e-
 H2O = H2O
@@ -944,7 +944,7 @@ Gypsum
 	-log_k	-4.58
 	-delta_h -0.109 kcal
 	-analytic	68.2401	0.0	-3221.51	-25.0627
-	-analytical_expression  93.7  5.99E-03  -4e3  -35.019 # Appelo, submitted
+	-analytical_expression  93.7  5.99E-03  -4e3  -35.019 # better fits the appendix data of Appelo, 2015, AG 55, 62
 	-Vm 73.9 # 172.18 / 2.33  (Vm H2O = 13.9 cm3/mol)
 Anhydrite
 	CaSO4 = Ca+2 + SO4-2
@@ -1823,9 +1823,9 @@ END
 #
 # ref. 1: Appelo, Parkhurst and Post, 2014. Geochim. Cosmochim. Acta 125, 49–67. 
 # ref. 2: Procedures from ref. 1 using data compiled by Laliberté, 2009, J. Chem. Eng. Data 54, 1725.
+# ref. 3: Appelo, 2017, Cem. Concr. Res. 101, 102-113.
 #
 # =============================================================================================
 # It remains the responsibility of the user to check the calculated results, for example with
 #   measured solubilities as a function of (P, T).
 
-# ref. 3. Appelo, submitted.

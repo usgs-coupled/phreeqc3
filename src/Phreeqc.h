@@ -7,6 +7,9 @@
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 #endif
+#ifndef boolean
+typedef unsigned char boolean;
+#endif
 /* ----------------------------------------------------------------------
 *   INCLUDE FILES
 * ---------------------------------------------------------------------- */
@@ -1049,6 +1052,7 @@ public:
 
 	// transport.cpp -------------------------------
 	int transport(void);
+	void print_punch(int i, boolean active);
 	int set_initial_moles(int i);
 	cxxSurface sum_surface_comp(cxxSurface *source1, LDBLE f1,
 		cxxSurface *source2, std::string charge_name, LDBLE f2,
