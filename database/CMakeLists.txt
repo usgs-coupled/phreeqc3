@@ -10,6 +10,7 @@ minteq.v4.dat
 phreeqc.dat
 pitzer.dat
 sit.dat
+Tipping_Hurley.dat
 wateq4f.dat
 )
 
