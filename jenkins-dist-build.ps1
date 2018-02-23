@@ -104,10 +104,10 @@ foreach ($file in $sed_files) {
        -replace "(#define PHREEQC_VER_PATCH\s*)[0-9]*",    "`${1}$Env:ver_patch" `
        -replace "(#define PHREEQC_VER_TAG\s*)[0-9]*",      "`${1} ($Env:VER_TAG)" `
        -replace "(#define PHREEQC_VER_NUMTAG\s*)[0-9]*",   "`${1}$Env:VER_NUMTAG" `
-       -replace "(#define PHREEQC_VER_REVISION\s*)[0-9]*", "`${1}$Env:SVN_REVISION" `
+       -replace "(#define PHREEQC_VER_REVISION\s*)[0-9]*", "`${1}$Env:REVISION" `
        -replace "(define *Major=\s*)[0-9]+",               "`${1}$Env:ver_major" `
        -replace "(define *Minor=\s*)[0-9]+",               "`${1}$Env:ver_minor" `
-       -replace "(define *Build=\s*)[0-9]+",               "`${1}$Env:SVN_REVISION" `
+       -replace "(define *Build=\s*)[0-9]+",               "`${1}$Env:REVISION" `
        -replace "@RELEASE_DATE@",                          "$Env:RELEASE_DATE" `
        -replace "@VER_DATE@",                              "$Env:RELEASE_DATE" `
        -replace "@VER@",                                   "$Env:VER" `
