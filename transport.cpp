@@ -3658,7 +3658,7 @@ Step (from cell 1 to count_cells + 1):
 *		       but only mobile surface_comp's (Dw > 0) and their surface_charge's are transported.
 */
 {
-	int i, i1, i2, k, k1, n1; //, n2;
+	int i, i1, i2, k, k1/*, n1, n2*/; 
 	int charge_done, surf1, surf2;
 	LDBLE f1, f2, mixf, mixf_store, mcd_mixf;
 	LDBLE lav, A_ij, por, Dp1, Dp2;
@@ -3671,7 +3671,7 @@ Step (from cell 1 to count_cells + 1):
 	viscos_f = viscos_0;
 	viscos_f = tk_x * viscos_0_25 / (298.15 * viscos_f);
 
-	n1 = 0;
+	//n1 = 0;
 	//n2 = n1 + 1;
 	cxxSurface surface_n1, surface_n2;
 	cxxSurface *surface_n2_ptr;
