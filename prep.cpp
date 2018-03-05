@@ -4010,6 +4010,8 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 					a_aa *= 0.81;
 				else if (!strcmp(phase_ptr1->name, "CH4(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Mtg(g)"))
+					a_aa *= 0.51;
 				else if (!strcmp(phase_ptr1->name, "N2(g)"))
 					a_aa *= 0.51;
 			}
@@ -4020,6 +4022,8 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 				else if (!strcmp(phase_ptr->name, "H2S(g)"))
 					a_aa *= 0.81;
 				else if (!strcmp(phase_ptr->name, "CH4(g)"))
+					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Mtg(g)"))
 					a_aa *= 0.51;
 				else if (!strcmp(phase_ptr->name, "N2(g)"))
 					a_aa *= 0.51;
