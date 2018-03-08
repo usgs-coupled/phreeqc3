@@ -2286,13 +2286,13 @@ print_totals(void)
 				   "Total alkalinity (eq/kg)  = ",
 				   (double) (total_alkalinity / mass_water_aq_x)));
 	}
-	if (carbon_unknown == NULL && total_carbon > 0.0)
+	if (carbon_unknown == NULL && total_carbon)
 	{
 		output_msg(sformatf("%45s%11.3e\n",
 				   "Total carbon (mol/kg)  = ",
 				   (double) (total_carbon / mass_water_aq_x)));
 	}
-	if (total_co2 > 0.0)
+	if (total_co2)
 		output_msg(sformatf("%45s%11.3e\n", "Total CO2 (mol/kg)  = ",
 			   (double) (total_co2 / mass_water_aq_x)));
 #ifdef NO_UTF8_ENCODING
@@ -2309,7 +2309,7 @@ print_totals(void)
 			(double) patm_x));
 	}
 
-	if (potV_x != 0.0)
+	if (potV_x)
 	{
 		output_msg(sformatf("%45s%5.2f\n", "Electrical Potential (Volt)  = ",
 			(double)potV_x));

@@ -742,7 +742,7 @@ calc_all_donnan(void)
 {
 	bool converge; 
 	int cd_m;
-	LDBLE new_g, f_psi, surf_chrg_eq, psi_avg, f_sinh, A_surf, ratio_aq;
+	LDBLE new_g, f_psi, surf_chrg_eq, psi_avg, f_sinh, A_surf, ratio_aq, ratio_aq_tot;
 	LDBLE new_g2, f_psi2, surf_chrg_eq2, psi_avg2, dif, var1;
 
 	if (use.Get_surface_ptr() == NULL)
@@ -813,6 +813,7 @@ calc_all_donnan(void)
 
 		/* fill in g's */
 		ratio_aq = charge_ptr->Get_mass_water() / mass_water_aq_x;
+		ratio_aq_tot = charge_ptr->Get_mass_water() / mass_water_bulk_x;
 
 		for (it = charge_group_map.begin(); it != charge_group_map.end(); it++)
 		{
@@ -821,13 +822,14 @@ calc_all_donnan(void)
 			{
 				charge_ptr->Get_g_map()[z].Set_g(0);
 				charge_ptr->Get_g_map()[z].Set_dg(0);
+				charge_ptr->Get_z_gMCD_map()[z] = 0;
 				converge = true;
 				continue;
 			}
 			new_g = ratio_aq * (exp(cd_m * z * psi_avg) - 1);
-			if (use.Get_surface_ptr()->Get_only_counter_ions() &&
-				((surf_chrg_eq < 0 && z < 0)
-				 || (surf_chrg_eq > 0 && z > 0)))
+			if (use.Get_surface_ptr()->Get_only_counter_ions() && surf_chrg_eq * z > 0)
+				//((surf_chrg_eq < 0 && z < 0)
+				// || (surf_chrg_eq > 0 && z > 0)))
 				new_g = -ratio_aq;
 			if (new_g <= -ratio_aq)
 				new_g = -ratio_aq + G_TOL * 1e-3;
@@ -861,7 +863,19 @@ calc_all_donnan(void)
 			{
 				charge_ptr->Get_g_map()[z].Set_dg(-z);
 			}
-			/* save g for species */
+			/* save Boltzmann factor * water fraction for MCD calc's in transport */
+			if (converge)
+			{
+				if (use.Get_surface_ptr()->Get_only_counter_ions())
+				{
+					if (surf_chrg_eq * z > 0) // co-ions are not in the DL
+						charge_ptr->Get_z_gMCD_map()[z] = 0;
+					else // assume that counter-ions have the free water conc for diffusion
+						charge_ptr->Get_z_gMCD_map()[z] = ratio_aq_tot;
+				}
+				else
+					charge_ptr->Get_z_gMCD_map()[z] = (new_g / ratio_aq + 1) * ratio_aq_tot;
+			}
 		}
 		if (debug_diffuse_layer == TRUE)
 		{
