@@ -1313,7 +1313,6 @@ model_sit(void)
 			{
 				
 				count_basis_change++;
-				//count_unknowns -= (int) s_list.size();
 				count_unknowns -= count_s_x;
 				reprep();
 				full_pitzer = false;
