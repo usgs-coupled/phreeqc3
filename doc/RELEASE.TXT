@@ -1,6 +1,31 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@ 
 
 	-----------------
+	March 7, 2018
+	-----------------
+	Input files with experimental data obtained at high T, P, and 
+	salinity are installed by the phreeqc-installer in c:\phreeqc\high_P_T.
+
+	Multicomponent diffusion in stagnant zones now uses the harmonic mean of 
+	the cell properties, where earlier versions took the average. If the 
+	properties are equal, the results will be identical; if the properties 
+	vary, the cells with slow diffusion are now given stronger weight.
+	In Example 21 (radial diffusion of tracers through Opalinus Clay), the 
+	clay has other properties than the filters that hold the sample. For 
+	matching the experimental results, the fit parameters were adapted 
+	(CEC, EDL enrichment of 22Na+ and Cs+, tortuosity of 36Cl-, and the 
+	geometrical factor for interlayer diffusion). For neutral species like 
+	HTO, the calculations are not affected.
+
+	The multicomponent diffusion function was rewritten to include diffusion 
+	through the EDL's of differently charged surfaces. (Earlier versions 
+	calculated diffusion through one EDL only, of the first surface in 
+	alphabetical order.)
+
+	Bug fix with pitzer database, when running with McInnes scaling, but without 
+	Cl in the solution.
+
+	-----------------
 	February 20, 2018
 	-----------------
 	Phreeqc: Fixed a segmentation fault when Cl was absent from a 
