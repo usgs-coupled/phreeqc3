@@ -1260,6 +1260,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 	cxxSolution *ptr_imm, *ptr_m;
 	k = -1000; // compiler says k may be undefined
 	ptr_imm = NULL;
+	boolean done_mixing = false;
 	/*
 	* Kinetics in transport cell is done while transporting
 	*/
@@ -1373,12 +1374,14 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				}
 				change_surf_count = 0;
 			}
+
+			done_mixing = true;
 		}
 		else if (n == 1 && l_punch)
 			print_punch(i, false);
 	}
 
-	if (ptr_imm != NULL) // after all mixing is done, the temporal solution becomes the original for the next timestep
+	if (done_mixing) // after all mixing is done, the temporal solution becomes the original for the next timestep
 	{
 		for (n = 1; n <= stag_data->count_stag; n++)
 		{
@@ -2390,7 +2393,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	LDBLE cec1, cec2, cec12 = 0.0, rc1 = 0.0, rc2 = 0.0;
 	LDBLE dV, c1, c2;
 	cxxSurface *s_ptr1, *s_ptr2;
-	cxxSurfaceCharge *s_charge_ptr1, *s_charge_ptr2;
 	LDBLE g_i, g_j;
 	//char token[MAX_LENGTH], token1[MAX_LENGTH];
 
@@ -2443,7 +2445,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	/*
 	* check if DL calculations must be made, find amounts of water...
 	*/
-	s_charge_ptr1 = s_charge_ptr2 = NULL;
 	s_ptr1 = s_ptr2 = NULL;
 	ct[icell].visc1 = ct[icell].visc2 = 1.0;
 	only_counter = FALSE;
@@ -2473,7 +2474,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					}
 				}
 			}
-			s_charge_ptr1 = s_ptr1->Find_charge(s_charge_p[0].Get_name()); // appt remove
 		}
 	}
 	s_ptr2 = Utilities::Rxn_find(Rxn_surface_map, jcell);
@@ -2501,7 +2501,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					}
 				}
 			}
-			s_charge_ptr2 = s_ptr2->Find_charge(s_charge_p[0].Get_name()); // appt remove
 		}
 	}
 	if (!stagnant)
@@ -2513,7 +2512,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	}
 	//LDBLE d_damper = Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_mu() /
 	//	Utilities::Rxn_find(Rxn_solution_map, icell)->Get_mu();
-	//d_damper = pow(d_damper, 1);
+	//d_damper = pow(d_damper, 0.3);
 	//if (d_damper > 1) ct[icell].visc1 *= d_damper; else ct[icell].visc2 *= d_damper;
 
 	/* in each cell: DL surface = mass_water_DL / (cell_length)
@@ -2830,7 +2829,12 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						b_j *= dum2;
 					}
 					if (icell == 0 && !stagnant)
-						ct[icell].v_m[k].b_ij = b_j;
+					{
+						//if (d_damper < 1 && g_i == 0)
+						//	ct[icell].v_m[k].b_ij = A2 * sol_D[icell].spec[i].Dwt * (f_free_j + g_j * d_damper / ct[icell].visc2);
+						//else
+							ct[icell].v_m[k].b_ij = b_j;
+					}
 					else
 						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
 				}

@@ -1,0 +1,97 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 aquia2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+# Model chromatographic pattern in the Aquia aquifer:
+#   Appelo, 1994, WRR 30, 2793.
+KNOBS; -iter 200
+EXCHANGE_SPECIES
+  H+ + X- = HX; log_k 3.0; -gamma 9.0 0.0 3.4
+  Na+ + X- = NaX; log_k -0.5; -gamma 4.0 0.075 0.5
+  K+ + X- = KX; log_k 0.902; -gamma 3.5 0.015
+  Ca+2 + 2X- = CaX2; log_k 0.93; -gamma 5.0 0.165
+  Mg+2 + 2X- = MgX2; log_k 0.614; -gamma 5.5 0.20
+SOLUTION 0
+ -units mol/kgw
+ pH 7.57; pe 8.0; -temp 15
+ Ca 1.4000E-03; Alkalinity 2.8000E-03; Na 0.1e-3; K 0.05e-3; Cl 0.1e-3
+END
+ SOLUTION 1-3 # Fill first 10 miles with just average infiltrating water; no X
+ -units mol/kgw
+ pH 7.57; pe 8.0; -temp 15
+ Ca 1.4000E-03; Alkalinity 2.8000E-03; Na 0.1e-3; K 0.05e-3; Cl 0.1e-3
+EQUILIBRIUM_PHASES 1-3
+ Calcite
+SAVE solution 1-3
+END
+SOLUTION 4-21 # Fill flowline with 18% seawater, CEC = 0.20 M
+ -units mol/kgw
+ pH 6.80; pe 8.0; -temp 15; -dens 1.023
+ Ca 4.3790E-03; Mg 9.9162E-03; Na 87.381E-03; K 1.9044E-03
+ Cl 101.84E-03; Alkalinity 15.502E-03; S(6) 0.2670E-03
+EQUILIBRIUM_PHASES 4-21
+ Calcite
+SAVE solution 4-21
+END
+EXCHANGE 4-21
+ X 0.2; -equil 4
+END
+# Downstream half, cells 13 - 21.
+# Horizontal flow is lowered cumulatively by 10% in each of the 10 cells.
+# 2 mixruns, thus take the root: cell 13, mixf = 0.1^0.5 = 0.316,
+#                                cell 14, mixf = 0.2^0.5 = 0.447 etc.
+MIX	13	;	11	0.683772234	;	13	0.316227766
+MIX	14	;	13	0.552786405	;	14	0.447213595
+MIX	15	;	14	0.452277442	;	15	0.547722558
+MIX	16	;	15	0.367544468	;	16	0.632455532
+MIX	17	;	16	0.292893219	;	17	0.707106781
+MIX	18	;	17	0.225403331	;	18	0.774596669
+MIX	19	;	18	0.163339973	;	19	0.836660027
+MIX	20	;	19	0.105572809	;	20	0.894427191
+MIX	21	;	20	0.051316702	;	21	0.948683298
+
+END
+PRINT; -reset false
+TRANSPORT
+ -cells 11; -diffusion_coefficient 0.15e-9
+ -stagnant 9
+ -lengths 5146 # m
+ -time_step 4.18e10 # v = 3.8 m/yr (2.4 miles/ka)
+ # -dispersivities 3200
+ -shifts 20 # = 93 ka
+ -punch_frequency 20
+# END
+# # Obtain output, define all the cells in a regular column.
+# # Only punch/graph initial conditions, the result of the previous simulation.
+# # Cell 12 is a boundary cell, not punched. 
+# TRANSPORT
+ # -cells 21; -stagnant 0
+ # -time_step 0; -dispersivities 0.0
+ # -shifts 1
+ -punch_cells 1-11 13-21
+# SELECTED_OUTPUT
+ # -file aquia.prn; -reset false
+# USER_PUNCH
+ # -head cell time/yr dist/miles Na K Mg Ca Alk pH
+ # 10 punch cell_no, total_time / (3600 * 24 * 365)
+ # 20 if cell_no < 12 then n = 0 else n = 1
+ # 30 punch (cell_no - n) * 3.2 - 1.6
+ # 40 punch tot("Na")*1e3, tot("K")*1e3, tot("Mg")*1e3, tot("Ca")*1e3, Alk*1e3, -la("H+")
+USER_GRAPH
+ -headings dist Na K*3 Mg*3 Ca Alk pH
+ -chart_title "Concentrations after 93 000 years"
+ -axis_titles "Distance / miles" "mmol/L" "pH"
+ -axis_scale x_axis 0 65 5
+ # -axis_scale y_axis 0 6 2
+ # -axis_scale sy_axis 7.5 9 0.5
+ -initial_solutions false
+ 20 if cell_no < 12 then n = 0 else n = 1
+ 30 graph_x (cell_no - n) * 3.2 - 1.6
+ 40 graph_y tot("Na")*1e3, tot("K")*3e3, tot("Mg")*3e3, tot("Ca")*1e3, Alk*1e3
+ 50 graph_sy -la("H+")
+END 
