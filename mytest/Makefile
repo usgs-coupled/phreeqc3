@@ -24,6 +24,7 @@ all: alkalinity.out \
 	aj1.out \
 	all_llnl.out \
 	aquia.out \
+	aquia2.out \
 	As.out \
 	as.ex.out \
 	asf.out \
