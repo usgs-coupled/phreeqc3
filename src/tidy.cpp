@@ -3993,6 +3993,7 @@ tidy_min_surface(void)
 							error_string = sformatf("Unknown element definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
 								surface_ptr->Get_n_user());
 							error_msg(error_string);
+							free_check_null(temp_formula);
 							continue;
 						}
 						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name == NULL)
@@ -4001,6 +4002,7 @@ tidy_min_surface(void)
 							error_string = sformatf("Unknown master species definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
 								surface_ptr->Get_n_user());
 							error_msg(error_string);
+							free_check_null(temp_formula);
 							continue;
 						}
 						if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
