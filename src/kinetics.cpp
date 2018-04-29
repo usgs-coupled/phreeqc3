@@ -2539,7 +2539,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				iopt[j] = 0;
 				ropt[j] = 0;
 			}
-
 /*
  *	Do mix first
  */
@@ -2552,9 +2551,9 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			cvode_rate_sim_time = rate_sim_time;
 
 			if (multi_Dflag)
-				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
+				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, step_fraction);
 			else
-				converge = set_and_run_wrapper(i, use_mix, FALSE, i, 0.0);
+				converge = set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
 			if (converge == MASS_BALANCE)
 				error_msg
 					("Negative concentration in system. Stopping calculation.",
@@ -2570,7 +2569,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			{
 				cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
 			}
-
 			/* allocate space for CVODE */
 			kinetics_machEnv = M_EnvInit_Serial(n_reactions);
 			kinetics_machEnv->phreeqc_ptr = this;
@@ -2735,8 +2733,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
 			}
 			calc_final_kinetic_reaction(kinetics_ptr);
-			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==
-				MASS_BALANCE)
+			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 0) ==
+					MASS_BALANCE)
 			{
 				/*error_msg("FAIL 2 after successful integration in CVode", CONTINUE); */
 				warning_msg("FAIL 2 after successful integration in CVode");

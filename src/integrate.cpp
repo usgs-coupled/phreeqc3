@@ -754,6 +754,7 @@ calc_all_donnan(void)
 /*
  *   calculate g for each surface...
  */
+	initial_surface_water();
 	converge = TRUE;
 	for (int j = 0; j < count_unknowns; j++)
 	{
@@ -791,9 +792,9 @@ calc_all_donnan(void)
 			cd_m = -1;
 		}
 		surf_chrg_eq = A_surf * f_sinh * sinh(f_psi) / F_C_MOL;
-		if (surf_chrg_eq < -5e3)
+		if (fabs(surf_chrg_eq) > 5e3)
 		{
-			surf_chrg_eq = -5e3;
+			surf_chrg_eq = (surf_chrg_eq < 0 ? -5e3 : 5e3);
 			var1 = surf_chrg_eq / (A_surf * f_sinh / F_C_MOL);
 			var1 = (var1 + sqrt(var1 * var1 + 1));
 			f_psi = (var1 > 1e-8 ? log(var1) : -18.4);
@@ -1053,15 +1054,13 @@ calc_psi_avg(cxxSurfaceCharge *charge_ptr, LDBLE surf_chrg_eq)
 		for (it = charge_group_map.begin(); it != charge_group_map.end(); it++)
 		{
 			LDBLE z = it->first;
+			if (!z || (use.Get_surface_ptr()->Get_only_counter_ions() && surf_chrg_eq * z > 0))
+				continue;
 			LDBLE eq = it->second;
 			/*  multiply with ratio_aq for multiplier options cp and cm
 				in calc_all_donnan (not used now)...  */
 			temp = exp(-z * p) * ratio_aq;
 
-			if (use.Get_surface_ptr()->Get_only_counter_ions() &&
-				((surf_chrg_eq < 0 && z < 0)
-				 || (surf_chrg_eq > 0 && z > 0)))
-				temp = 0.0;
 			fd += eq * temp;
 			fd1 -= z * eq * temp;
 		}

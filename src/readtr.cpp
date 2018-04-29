@@ -905,7 +905,7 @@ read_transport(void)
 				cell_data[punch_temp[i]].punch = TRUE;
 		}
 	}
-	else if (simul_tr == 1)
+	else if (simul_tr == 1 || old_cells != count_cells)
 		for (i = 0; i < all_cells; i++)
 			cell_data[i].punch = TRUE;
 	/*
@@ -928,7 +928,7 @@ read_transport(void)
 				cell_data[print_temp[i]].print = TRUE;
 		}
 	}
-	else if (simul_tr == 1)
+	else if (simul_tr == 1 || old_cells != count_cells)
 		for (i = 0; i < all_cells; i++)
 			cell_data[i].print = TRUE;
 //#define OLD_POROSITY

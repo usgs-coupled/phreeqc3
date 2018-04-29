@@ -1,0 +1,3854 @@
+   Input file: balonis
+  Output file: balonis.out
+Database file: C:\Program Files (x86)\USGS\Phreeqc Interactive 3.4.0-12927\database\phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.4.0-12927\database\phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 balonis_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	PHASES
+	Cl_AFm
+	 Ca4Al2Cl1.95(OH)0.05O6:12H2O = 4 Ca+2 + 2 Al(OH)4- + 1.95 Cl- + 4.05 OH- + 6 H2O
+	 log_k -27.461269058
+	Cl_AFm_Surf0.1 # Balonis 2010
+	 Ca4Al2Cl1.9O6:12H2O+0.1 = 4 Ca+2 + 2 Al(OH)4- + 1.9 Cl- + 4.0 OH- + 6 H2O#; -log_k -27.2
+	 log_k -27.461269058
+	Cl_AFm_Surf0.2 # Balonis 2010
+	 Ca4Al2Cl1.8O6:12H2O+0.2 = 4 Ca+2 + 2 Al(OH)4- + 1.8 Cl- + 4.0 OH- + 6 H2O#; -log_k -27.2
+	 log_k -27.461269058
+	OH_AFm
+	 Ca4Al2(OH)2O6:12H2O = 4 Ca+2 + 2 Al(OH)4- + 6 OH- + 6 H2O
+	 log_k  -25.560000000
+	OH_AFm_Surf0.1 # Balonis 2010
+	 Ca4Al2(OH)1.9O6:12H2O+0.1 = 4 Ca+2 + 2 Al(OH)4- + 5.9 OH- + 6 H2O#; log_k  -25.92
+	 log_k  -25.560000000
+	OH_AFm_Surf0.2 # Balonis 2010
+	 Ca4Al2(OH)1.8O6:12H2O+0.2 = 4 Ca+2 + 2 Al(OH)4- + 5.8 OH- + 6 H2O#; log_k  -25.92
+	 log_k  -25.560000000
+	Hydrogarnet
+	 Ca3Al2(OH)12 = 3 Ca+2 + 2 Al(OH)4- + 4 OH-
+	 log_k  -20.370000000
+	Gibbsite
+	 Al(OH)3 + 3 H+ = Al+3 + 3 H2O
+	 log_k 7.9565206275
+	SURFACE_MASTER_SPECIES
+	 Su_ Su_OH
+	 Su_plus Su_plus+
+	 Scl_plus Scl_plus+
+	 Suafm Suafm+
+	 Suett Suett+
+	 Su_min Su_min-
+	SURFACE_SPECIES
+	 Su_OH = Su_OH
+	 Su_plus+ = Su_plus+
+	 Scl_plus+ = Scl_plus+
+	 Suafm+ = Suafm+
+	 Suett+ = Suett+
+	 Su_min- = Su_min-
+	 Su_OH = Su_O- + H+
+	 log_k -12.3
+	 Su_OH + Ca+2 = Su_OCa+ + H+
+	 log_k -9.4
+	EXCHANGE_MASTER_SPECIES
+	 Y Y+
+	 Z Z+
+	EXCHANGE_SPECIES
+	Y+ = Y+
+	 Y+ + OH- = YOH
+	 gamma  3.5  0
+	 Y+ + Cl- = YCl
+	 gamma 3.63  0.017
+	Z+ = Z+
+	 Z+ + OH- = ZOH
+	 gamma  3.5  0
+	 Z+ + Cl- = ZCl
+	 gamma 3.63  0.017
+	SOLUTION 1
+	RATES
+	    OH_AFm
+	    10 tot_AF = m + kin("Cl_AFm")
+	    20 chi = m / tot_AF
+	    30 SAVE parm(1) * (m - SR("OH_AFm") * tot_AF / exp(-9.2913725E-01 * (1 - chi)^ 1.15324434)) * TIME
+	    end
+	    Cl_AFm
+	     10 tot_AF = kin("OH_AFm") + m
+	     20 chi = m / tot_AF
+	     30 SAVE parm(1) * (m - SR("Cl_AFm") * tot_AF / exp(-9.2913725E-01 * (1 - chi)^2.76873131)) * TIME
+	    end
+	    OH_AFm_Surf0.1
+	    10 tot_AF = m + kin("Cl_AFm_Surf0.1")
+	    20 chi = m / tot_AF
+	    30 SAVE parm(1) * (m - SR("OH_AFm_Surf0.1") * tot_AF / exp(-9.2913725E-01 * (1 - chi)^1.15324434)) * TIME
+	    end
+	    Cl_AFm_Surf0.1
+	     10 tot_AF = kin("OH_AFm_Surf0.1") + m
+	     20 chi = m / tot_AF
+	     30 SAVE parm(1) * (m - SR("Cl_AFm_Surf0.1") * tot_AF / exp(-1.8650056E+00 * (1 - chi)^2.76873131)) * TIME
+	    end
+	KINETICS 1
+	OH_AFm_Surf0.1
+	 m0   5.4121138E-02
+	 parms 1
+	Cl_AFm_Surf0.1
+	 m0 0 
+	 parms 1
+	time_steps 10
+	 cvode true
+	 cvode_steps 20
+	SURFACE 1
+	Su_plus OH_AFm_Surf0.1 kin  0.1  2745 # 4.9 m2/g
+	Scl_plus Cl_AFm_Surf0.1 kin 0.1  2745 # 4.9 m2/g
+	donnan debye 2
+	 equilibrate 1
+	SAVE solution 1
+	SAVE surface 1
+	SELECTED_OUTPUT 1
+	 reset false
+	 file balonis_tbl4.prn
+	USER_PUNCH # for the ss with surf
+	1   if step_no = 0 then end
+	10  sc$ = chr$(59) + ' ': hash$ = chr$(35)
+	20  data 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 1.2
+	30  dim Cl_Al(25) : for i = 1 to 14 : read Cl_Al(i) : next i
+	40  ss = kin("OH_AFm_Surf0.1")
+	50  mix_w = (1 - edl("water", "Su")) / tot("water") : Al_t = edl("Al", "Su") + mix_w * tot("Al") * tot("water") + 2 * ss
+	60  dim xCl(25) : print mix_w, Al_t
+	70  for i = 1 to 14
+	80    if Cl_Al(i) < 1.0  then xCl(i) = Cl_Al(i) * Al_t - 2e-3 else xCl(i) = Al_t
+	90    if Cl_Al(i) < 1.0  then CaCl2 = 1e-3 / xCl(i) else CaCl2 = ((Cl_Al(i) * Al_t - Al_t) / 2) / xCl(i)
+	100   if Cl_Al(i) = 0 then xCl(i) = 0 : CaCl2 = 0
+	110   punch eol$ + 'MIX 1' + sc$ + ' 1 ' + trim(str$(mix_w))
+	120   punch eol$ + 'USE surface 1'
+	130   punch eol$ + 'KINETICS 1'
+	140   punch eol$ + ' Cl_AFm_Surf0.1' + sc$ + ' m0 0'                 + sc$ + ' -parms 1 '
+	150   punch eol$ + ' OH_AFm_Surf0.1' + sc$ + ' m0 ' + trim(str$(ss)) + sc$ + ' -parms 1 '
+	160   punch eol$ + ' -time_step 5' + sc$ + ' -cvode true' + sc$ + ' -cvode_steps 30'
+	170   punch eol$ + 'REACTION 1'
+	180   punch eol$ + 'CaCl2 ' + trim(str$(CaCl2))
+	190   punch eol$ + 'Cl 1 OH -1' + sc$ + trim(str$(xCl(i)))
+	200   if Cl_Al(i) <= 0.35 then punch eol$ + 'EQUILIBRIUM_PHASES 1' + sc$ + ' Hydrogarnet 0 0' + sc$ + ' Gibbsite 0 0'
+	210   if Cl_Al(i) > 0.35 then punch eol$ + 'EQUILIBRIUM_PHASES 1' + sc$ + ' Gibbsite 0 0'
+	220   punch eol$ + 'END'
+	230 next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.007e-07
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  1.000e-30  Surface + diffuse layer charge, eq
+	  1.000e-30  Surface charge, eq
+	undefined  sigma, C/m²
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  0.000e+00  m² for   0.000e+00 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 0.000e+00 kg,  0.0% of total DDL-water.
+
+Scl_plus      
+	  0.000e+00  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         1.000e-30       0.000   1.000e-30     -30.000
+
+Su            
+	 -5.922e-12  Surface + diffuse layer charge, eq
+	  5.412e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  6.242e-01  psi, V
+	 -2.430e+01  -F*psi/RT
+	  2.803e-11  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  1.486e+02  m² for   5.412e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.687e-01 kg, 100.0% of total DDL-water.
+	Radius of total pore:   1.708e-05 m; of free pore: 1.516e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  3.134e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 5.027e-06 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	H             	  5.4121e-03
+	O             	  5.4121e-03
+
+Su_plus       
+	  5.412e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          5.412e-03       1.000   5.412e-03      -2.267
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 20. Cell: 1	Time: 3.734372e-02	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 20. Cell: 1	Time: 5.565668e-02	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 20. Cell: 1	Time: 6.487518e-02	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 20. Cell: 1	Time: 7.767805e-02	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 20. Cell: 1	Time: 9.986398e-02	Cvode calls: 5, continuing...
+
+  7.8791e-01   1.0718e-01 
+WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
+
+Using solution 1.	
+Using surface 1.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 10 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	OH_AFm_Surf0.1   -3.056e-03   5.106e-02   OH_AFm_Surf0.1            1
+	Cl_AFm_Surf0.1   -0.000e+00   0.000e+00   Cl_AFm_Surf0.1            1
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  2.955e-29  Surface + diffuse layer charge, eq
+	  2.955e-29  Surface charge, eq
+	undefined  sigma, C/m²
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  0.000e+00  m² for   0.000e+00 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 0.000e+00 kg,  0.0% of total DDL-water.
+
+Scl_plus      
+	  1.000e-25  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         2.955e-29       0.000   2.329e-29     -28.633
+
+Su            
+	 -8.549e-13  Surface + diffuse layer charge, eq
+	  5.106e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.034e-01  psi, V
+	 -1.181e+01  -F*psi/RT
+	  7.442e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  1.402e+02  m² for   5.106e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 5.212e-04 kg, 100.0% of total DDL-water.
+	Radius of total pore:   1.811e-05 m; of free pore: 1.810e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.616e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.856e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  1.1080e-03
+	Ca            	  1.0726e-09
+	H             	  8.4306e-03
+	O             	  8.4306e-03
+
+Su_plus       
+	  5.106e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          5.106e-03       1.000   4.026e-03      -2.395
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                3.945e-03   5.004e-03
+	Ca                9.637e-03   1.222e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.078      Charge balance
+                                       pe  =   6.231      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3488
+                          Density (g/cm³)  =   0.99827
+                               Volume (L)  =   1.27202
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.672e-02
+                       Mass of water (kg)  =   1.269e+00
+                 Total alkalinity (eq/kg)  =   3.111e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.226e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.408608e+02
+                                  Total O  = 7.045011e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.424e-02   1.211e-02    -1.847    -1.917    -0.070     -3.95
+   H+              9.507e-13   8.353e-13   -12.022   -12.078    -0.056      0.00
+   H2O             5.553e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            3.945e-03
+   Al(OH)4-        3.945e-03   3.380e-03    -2.404    -2.471    -0.067     (0)  
+   Al(OH)3         1.489e-09   1.499e-09    -8.827    -8.824     0.003     (0)  
+   Al(OH)2+        9.864e-15   8.500e-15   -14.006   -14.071    -0.065     (0)  
+   AlOH+2          1.644e-21   9.063e-22   -20.784   -21.043    -0.259    -27.40
+   Al+3            2.444e-28   7.625e-29   -27.612   -28.118    -0.506    -41.59
+Ca            9.637e-03
+   Ca+2            8.544e-03   4.711e-03    -2.068    -2.327    -0.259    -17.76
+   CaOH+           1.093e-03   9.356e-04    -2.961    -3.029    -0.068     (0)  
+H(0)          3.389e-40
+   H2              1.695e-40   1.705e-40   -39.771   -39.768     0.003     28.61
+O(0)          2.847e-13
+   O2              1.424e-13   1.433e-13   -12.847   -12.844     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.68      8.12   10.80  Al(OH)3
+  Gibbsite          0.16      8.12    7.96  Al(OH)3
+  H2(g)           -36.67    -39.77   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.78    -19.59  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.95    -12.84   -2.89  O2
+  OH_AFm           -0.19    -25.75  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1    0.00    -25.56  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2    0.19    -25.37  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SELECTED_OUTPUT 1
+	 active false#reset false; -file bal.prn; -high_precision true
+	USER_PUNCH
+	10   data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.63, 13.13, 16.78
+	20   dim Ca(14) : for i = 1 to 14 : read Ca(i) : next i
+	30   data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.39, 1.35, 0.89, 0.93
+	40   dim Al(14) : for i = 1 to 14 : read Al(i) : next i
+	50   data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.79, 11.57, 15.7, 24.5
+	60   dim Cl(14) : for i = 1 to 14 : read Cl(i) : next i
+	70   Cl_Al = (sys("Cl") + 1.9 * kin("Cl_AFm_Surf0.1")) / (sys("Al") + 2 * (kin("Cl_AFm_Surf0.1") + kin("OH_AFm_Surf0.1")))
+	90   dif1 = tot("Ca") * 1e3 / Ca(sim_no - 1) - 1 : dif2 = tot("Al") * 1e3 / Al(sim_no - 1) - 1 : dif3 = 0 : if Cl(sim_no - 1) > 0 then dif3 = tot("Cl") * 1e3 / Cl(sim_no - 1) - 1
+	120  punch trim(str$(dif1)) + '           ' + trim(str$(sim_no - 1)) + str_f$(Cl_Al, 10, 3) + eol$ + trim(str$(dif2)) + eol$ + trim(str$(dif3))
+	USER_GRAPH
+
+	Reading data from balonis_tbl4.prn ...
+	-headings Ca Al Cl
+	-axis_titles "Cl / Al" "mmol / kgw" "Cl / mM"
+	10  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.63, 13.13, 16.78
+	20  dim Ca(14) : for i = 1 to 14 : read Ca(i) : next i
+	30  data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.39, 1.35, 0.89, 0.93
+	40  dim Al(14) : for i = 1 to 14 : read Al(i) : next i
+	50  data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.79, 11.57, 15.7, 24.5
+	60  dim Cl(14) : for i = 1 to 14 : read Cl(i) : next i
+	70  Cl_Al = sys("Cl") / sys("Al")
+	70  Cl_Al = (sys("Cl") + 1.95 * kin("Cl_AFm")) / (sys("Al") + 2 * (kin("Cl_AFm") + kin("OH_AFm")))
+	70   Cl_Al = (sys("Cl") + 1.9 * kin("Cl_AFm_Surf0.1")) / (sys("Al") + 2 * (kin("Cl_AFm_Surf0.1") + kin("OH_AFm_Surf0.1")))
+	80  plot_xy Cl_Al, Ca(sim_no - 1), line_width = 0
+	90  plot_xy Cl_Al, Al(sim_no - 1), line_width = 0
+	100 plot_xy Cl_Al, Cl(sim_no - 1), line_width = 0
+	110 plot_xy Cl_Al, tot("Ca") * 1e3, color = Red , symbol = None
+	120 plot_xy Cl_Al, tot("Al") * 1e3, color = Green  , symbol = None
+	130 plot_xy Cl_Al, tot("Cl") * 1e3, color = Blue  , symbol = None
+	180 print sim_no, Cl_Al
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	    
+	CaCl2 0	
+	Cl 1 OH -1
+	 0	
+	EQUILIBRIUM_PHASES 1
+	  Hydrogarnet 0 0
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.639825e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.650122e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.635684e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.307413e+00	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.658388e+00	Cvode calls: 5, continuing...
+
+           2            0 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  0.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.00000
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.00000
+	Cl                   1.00000
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1   -0.000e+00   0.000e+00   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -1.517e-02   3.589e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -1.45     6.51      7.96    0.000e+00           0   0.000e+00
+Hydrogarnet       0.00   -20.37    -20.37    0.000e+00   1.758e-02   1.758e-02
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  2.955e-29  Surface + diffuse layer charge, eq
+	  2.955e-29  Surface charge, eq
+	undefined  sigma, C/m²
+	  0.000e+00  psi, V
+	 -0.000e+00  -F*psi/RT
+	  1.000e+00  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  0.000e+00  m² for   0.000e+00 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 0.000e+00 kg,  0.0% of total DDL-water.
+
+Scl_plus      
+	  1.000e-25  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         2.955e-29       0.000   2.951e-29     -28.530
+
+Su            
+	 -2.602e-18  Surface + diffuse layer charge, eq
+	  3.589e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.896e-01  psi, V
+	 -1.127e+01  -F*psi/RT
+	  1.273e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  9.852e+01  m² for   3.589e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.800e-04 kg, 100.0% of total DDL-water.
+	Radius of total pore:   2.033e-05 m; of free pore: 2.033e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.542e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.469e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  2.4135e-05
+	Ca            	  2.4269e-09
+	H             	  3.6616e-03
+	O             	  3.6616e-03
+
+Su_plus       
+	  3.589e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          3.589e-03       1.000   3.584e-03      -2.446
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.128e-04   2.131e-04
+	Ca                1.756e-02   1.758e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.405      Charge balance
+                                       pe  =   6.332      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 7136
+                          Density (g/cm³)  =   0.99873
+                               Volume (L)  =   1.00396
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   4.573e-02
+                       Mass of water (kg)  =   1.001e+00
+                 Total alkalinity (eq/kg)  =   3.576e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 262
+                                  Total H  = 1.111992e+02
+                                  Total O  = 5.561749e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             3.143e-02   2.570e-02    -1.503    -1.590    -0.088     -3.89
+   H+              4.590e-13   3.936e-13   -12.338   -12.405    -0.067      0.00
+   H2O             5.552e+01   9.992e-01     1.744    -0.000     0.000     18.07
+Al            2.128e-04
+   Al(OH)4-        2.128e-04   1.758e-04    -3.672    -3.755    -0.083     (0)  
+   Al(OH)3         3.636e-11   3.675e-11   -10.439   -10.435     0.005     (0)  
+   Al(OH)2+        1.179e-16   9.825e-17   -15.929   -16.008    -0.079     (0)  
+   AlOH+2          1.023e-23   4.938e-24   -22.990   -23.306    -0.316    -27.29
+   Al+3            7.821e-31   1.958e-31   -30.107   -30.708    -0.601    -41.40
+Ca            1.756e-02
+   Ca+2            1.409e-02   6.815e-03    -1.851    -2.167    -0.315    -17.64
+   CaOH+           3.475e-03   2.871e-03    -2.459    -2.542    -0.083     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.629   -40.624     0.005     28.61
+O(0)          1.458e-11
+   O2              7.290e-12   7.367e-12   -11.137   -11.133     0.005     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -4.29      6.51   10.80  Al(OH)3
+  Gibbsite         -1.45      6.51    7.96  Al(OH)3
+  H2(g)           -37.52    -40.62   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.00    -20.37  -20.37  Ca3Al2(OH)12
+  O2(g)            -8.24    -11.13   -2.89  O2
+  OH_AFm           -0.16    -25.72  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1    0.00    -25.56  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2    0.16    -25.40  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.1470e-01	
+	Cl 1 OH -1
+	 8.7181e-03	
+	EQUILIBRIUM_PHASES 1
+	  Hydrogarnet 0 0
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 8.622672e-04	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.211852e-03	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.762364e-02	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.141409e-02	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 9.218747e-02	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.312283e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.748937e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.039602e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 8.647459e-01	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.381844e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.347085e+00	Cvode calls: 11, continuing...
+
+           3   9.9999e-02 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  8.718e-03 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.11470
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.11470
+	Cl                   1.22940
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    5.292e-03   5.292e-03   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -1.783e-02   3.323e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -1.29     6.67      7.96    0.000e+00           0   0.000e+00
+Hydrogarnet       0.00   -20.37    -20.37    0.000e+00   1.491e-02   1.491e-02
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	 -3.316e-14  Surface + diffuse layer charge, eq
+	  5.292e-04  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.916e-01  psi, V
+	 -1.135e+01  -F*psi/RT
+	  1.176e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.453e+01  m² for   5.292e-03 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 4.297e-05 kg, 13.7% of total DDL-water.
+	Radius of total pore:   1.894e-05 m; of free pore: 1.893e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.553e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.366e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  5.0780e-06
+	Ca            	  3.0474e-10
+	Cl            	  1.0638e-05
+	H             	  5.3376e-04
+	O             	  5.3376e-04
+
+Scl_plus      
+	  5.292e-04  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         5.292e-04       1.000   5.286e-04      -3.277
+
+Su            
+	 -2.084e-13  Surface + diffuse layer charge, eq
+	  3.323e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.916e-01  psi, V
+	 -1.135e+01  -F*psi/RT
+	  1.176e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  9.123e+01  m² for   3.323e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.699e-04 kg, 86.3% of total DDL-water.
+	Radius of total pore:   1.894e-05 m; of free pore: 1.893e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.553e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.366e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  3.1892e-05
+	Ca            	  1.9139e-09
+	Cl            	  6.6813e-05
+	H             	  3.3523e-03
+	O             	  3.3523e-03
+
+Su_plus       
+	  3.323e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          3.323e-03       1.000   3.320e-03      -2.479
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.796e-04   2.799e-04
+	Ca                1.605e-02   1.607e-02
+	Cl                5.858e-04   5.864e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.362      Charge balance
+                                       pe  =   6.440      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 6514
+                          Density (g/cm³)  =   0.99859
+                               Volume (L)  =   1.00368
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   4.223e-02
+                       Mass of water (kg)  =   1.001e+00
+                 Total alkalinity (eq/kg)  =   3.236e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.665e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 564
+                                  Total H  = 1.111605e+02
+                                  Total O  = 5.559645e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.827e-02   2.326e-02    -1.549    -1.633    -0.085     -3.90
+   H+              5.052e-13   4.348e-13   -12.297   -12.362    -0.065      0.00
+   H2O             5.552e+01   9.992e-01     1.744    -0.000     0.000     18.07
+Al            2.796e-04
+   Al(OH)4-        2.796e-04   2.324e-04    -3.553    -3.634    -0.080     (0)  
+   Al(OH)3         5.313e-11   5.365e-11   -10.275   -10.270     0.004     (0)  
+   Al(OH)2+        1.891e-16   1.584e-16   -15.723   -15.800    -0.077     (0)  
+   AlOH+2          1.785e-23   8.797e-24   -22.748   -23.056    -0.307    -27.31
+   Al+3            1.488e-30   3.854e-31   -29.827   -30.414    -0.587    -41.43
+Ca            1.605e-02
+   Ca+2            1.309e-02   6.462e-03    -1.883    -2.190    -0.306    -17.66
+   CaOH+           2.966e-03   2.465e-03    -2.528    -2.608    -0.080     (0)  
+Cl            5.858e-04
+   Cl-             5.858e-04   4.834e-04    -3.232    -3.316    -0.083     18.24
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.758   -40.754     0.004     28.61
+O(0)          2.652e-11
+   O2              1.326e-11   1.339e-11   -10.877   -10.873     0.004     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -4.13      6.67   10.80  Al(OH)3
+  Cl_AFm           -1.65    -29.11  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -1.40    -28.86  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2   -1.07    -28.53  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite         -1.29      6.67    7.96  Al(OH)3
+  H2(g)           -37.65    -40.75   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.00    -20.37  -20.37  Ca3Al2(OH)12
+  O2(g)            -7.98    -10.87   -2.89  O2
+  OH_AFm           -0.27    -25.83  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.11    -25.67  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2    0.06    -25.50  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 5.1450e-02	
+	Cl 1 OH -1
+	 1.9436e-02	
+	EQUILIBRIUM_PHASES 1
+	  Hydrogarnet 0 0
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 9.848948e-03	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.455208e-02	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.847980e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.168935e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.664181e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.506597e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.996813e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.250808e+00	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.024375e+00	Cvode calls: 9, continuing...
+
+           4   2.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  1.944e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.05145
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.05145
+	Cl                   1.10290
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    1.063e-02   1.063e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -2.150e-02   2.957e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -1.11     6.85      7.96    0.000e+00           0   0.000e+00
+Hydrogarnet       0.00   -20.37    -20.37    0.000e+00   1.317e-02   1.317e-02
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  7.459e-17  Surface + diffuse layer charge, eq
+	  1.063e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.939e-01  psi, V
+	 -1.144e+01  -F*psi/RT
+	  1.078e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  2.919e+01  m² for   1.063e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 9.020e-05 kg, 26.5% of total DDL-water.
+	Radius of total pore:   1.815e-05 m; of free pore: 1.814e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.565e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.259e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  1.5081e-05
+	Ca            	  5.1338e-10
+	Cl            	  4.2710e-05
+	H             	  1.0659e-03
+	O             	  1.0659e-03
+
+Scl_plus      
+	  1.063e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         1.063e-03       1.000   1.062e-03      -2.974
+
+Su            
+	  2.043e-16  Surface + diffuse layer charge, eq
+	  2.957e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.939e-01  psi, V
+	 -1.144e+01  -F*psi/RT
+	  1.078e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  8.116e+01  m² for   2.957e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.508e-04 kg, 73.5% of total DDL-water.
+	Radius of total pore:   1.815e-05 m; of free pore: 1.814e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.565e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.259e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  4.1931e-05
+	Ca            	  1.4274e-09
+	Cl            	  1.1875e-04
+	H             	  2.9636e-03
+	O             	  2.9636e-03
+
+Su_plus       
+	  2.957e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          2.957e-03       1.000   2.954e-03      -2.530
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                3.777e-04   3.780e-04
+	Ca                1.456e-02   1.457e-02
+	Cl                1.070e-03   1.070e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.314      Charge balance
+                                       pe  =   5.987      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 5893
+                          Density (g/cm³)  =   0.99846
+                               Volume (L)  =   1.00351
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   3.870e-02
+                       Mass of water (kg)  =   1.001e+00
+                 Total alkalinity (eq/kg)  =   2.919e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 498
+                                  Total H  = 1.111341e+02
+                                  Total O  = 5.558166e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.518e-02   2.086e-02    -1.599    -1.681    -0.082     -3.91
+   H+              5.612e-13   4.849e-13   -12.251   -12.314    -0.063      0.00
+   H2O             5.553e+01   9.993e-01     1.744    -0.000     0.000     18.07
+Al            3.777e-04
+   Al(OH)4-        3.777e-04   3.158e-04    -3.423    -3.501    -0.078     (0)  
+   Al(OH)3         8.058e-11   8.130e-11   -10.094   -10.090     0.004     (0)  
+   Al(OH)2+        3.178e-16   2.678e-16   -15.498   -15.572    -0.074     (0)  
+   AlOH+2          3.289e-23   1.658e-23   -22.483   -22.780    -0.298    -27.32
+   Al+3            3.016e-30   8.099e-31   -29.521   -30.092    -0.571    -41.46
+Ca            1.456e-02
+   Ca+2            1.207e-02   6.091e-03    -1.918    -2.215    -0.297    -17.68
+   CaOH+           2.493e-03   2.083e-03    -2.603    -2.681    -0.078     (0)  
+Cl            1.070e-03
+   Cl-             1.070e-03   8.884e-04    -2.971    -3.051    -0.081     18.23
+H(0)          3.504e-40
+   H2              1.752e-40   1.768e-40   -39.756   -39.753     0.004     28.61
+O(0)          2.641e-13
+   O2              1.320e-13   1.332e-13   -12.879   -12.875     0.004     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -3.95      6.85   10.80  Al(OH)3
+  Cl_AFm           -1.16    -28.62  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.92    -28.38  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2   -0.62    -28.08  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite         -1.11      6.85    7.96  Al(OH)3
+  H2(g)           -36.65    -39.75   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.00    -20.37  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.98    -12.88   -2.89  O2
+  OH_AFm           -0.39    -25.95  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.22    -25.78  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.05    -25.61  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 3.3163e-02	
+	Cl 1 OH -1
+	 3.0154e-02	
+	EQUILIBRIUM_PHASES 1
+	  Hydrogarnet 0 0
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.978615e-02	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.980547e-02	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.988644e-02	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.018288e-02	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.153165e-02	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.757364e-02	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.296098e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.988327e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.574752e-01	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.165425e-01	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 6.382361e-01	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 9.473550e-01	Cvode calls: 12, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.368882e+00	Cvode calls: 13, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.264502e+00	Cvode calls: 14, continuing...
+
+           5   3.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  3.015e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.03316
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.03316
+	Cl                   1.06633
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    1.596e-02   1.596e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -2.522e-02   2.585e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.92     7.04      7.96    0.000e+00           0   0.000e+00
+Hydrogarnet       0.00   -20.37    -20.37    0.000e+00   1.148e-02   1.148e-02
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	 -7.156e-18  Surface + diffuse layer charge, eq
+	  1.596e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.961e-01  psi, V
+	 -1.152e+01  -F*psi/RT
+	  9.882e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  4.381e+01  m² for   1.596e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 1.414e-04 kg, 38.2% of total DDL-water.
+	Radius of total pore:   1.745e-05 m; of free pore: 1.744e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.577e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.157e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  3.3910e-05
+	Ca            	  6.4162e-10
+	Cl            	  1.0227e-04
+	H             	  1.5955e-03
+	O             	  1.5955e-03
+
+Scl_plus      
+	  1.596e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         1.596e-03       1.000   1.595e-03      -2.797
+
+Su            
+	 -1.041e-17  Surface + diffuse layer charge, eq
+	  2.585e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.961e-01  psi, V
+	 -1.152e+01  -F*psi/RT
+	  9.882e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  7.094e+01  m² for   2.585e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.289e-04 kg, 61.8% of total DDL-water.
+	Radius of total pore:   1.745e-05 m; of free pore: 1.744e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.577e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.157e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  5.4911e-05
+	Ca            	  1.0390e-09
+	Cl            	  1.6560e-04
+	H             	  2.5836e-03
+	O             	  2.5836e-03
+
+Su_plus       
+	  2.585e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          2.585e-03       1.000   2.583e-03      -2.588
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                5.174e-04   5.177e-04
+	Ca                1.322e-02   1.322e-02
+	Cl                1.560e-03   1.561e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.264      Charge balance
+                                       pe  =   6.076      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 5312
+                          Density (g/cm³)  =   0.99834
+                               Volume (L)  =   1.00334
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   3.549e-02
+                       Mass of water (kg)  =   1.001e+00
+                 Total alkalinity (eq/kg)  =   2.642e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.674e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 755
+                                  Total H  = 1.111088e+02
+                                  Total O  = 5.556763e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             2.228e-02   1.857e-02    -1.652    -1.731    -0.079     -3.92
+   H+              6.278e-13   5.447e-13   -12.202   -12.264    -0.062      0.00
+   H2O             5.553e+01   9.994e-01     1.745    -0.000     0.000     18.07
+Al            5.174e-04
+   Al(OH)4-        5.174e-04   4.352e-04    -3.286    -3.361    -0.075     (0)  
+   Al(OH)3         1.248e-10   1.258e-10    -9.904    -9.900     0.004     (0)  
+   Al(OH)2+        5.495e-16   4.655e-16   -15.260   -15.332    -0.072     (0)  
+   AlOH+2          6.283e-23   3.237e-23   -22.202   -22.490    -0.288    -27.34
+   Al+3            6.381e-30   1.776e-30   -29.195   -29.751    -0.555    -41.49
+Ca            1.322e-02
+   Ca+2            1.114e-02   5.742e-03    -1.953    -2.241    -0.288    -17.70
+   CaOH+           2.080e-03   1.749e-03    -2.682    -2.757    -0.075     (0)  
+Cl            1.560e-03
+   Cl-             1.560e-03   1.304e-03    -2.807    -2.885    -0.078     18.22
+H(0)          2.941e-40
+   H2              1.470e-40   1.482e-40   -39.833   -39.829     0.004     28.61
+O(0)          3.759e-13
+   O2              1.879e-13   1.895e-13   -12.726   -12.722     0.004     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -3.76      7.04   10.80  Al(OH)3
+  Cl_AFm           -0.86    -28.32  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.63    -28.09  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2   -0.34    -27.80  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite         -0.92      7.04    7.96  Al(OH)3
+  H2(g)           -36.73    -39.83   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.00    -20.37  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.83    -12.72   -2.89  O2
+  OH_AFm           -0.51    -26.07  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.34    -25.90  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.17    -25.73  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 2.4466e-02	
+	Cl 1 OH -1
+	 4.0872e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.951941e-02	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 6.143490e-02	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.002621e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.255793e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.423051e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 6.003386e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.124564e-01	Cvode calls: 7, continuing...
+
+           6   4.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  4.087e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.02447
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.02447
+	Cl                   1.04893
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    2.178e-02   2.178e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -2.149e-02   2.958e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     7.96      7.96    0.000e+00   1.001e-03   1.001e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  1.340e-16  Surface + diffuse layer charge, eq
+	  2.178e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.038e-01  psi, V
+	 -1.183e+01  -F*psi/RT
+	  7.314e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  5.979e+01  m² for   2.178e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 2.243e-04 kg, 42.4% of total DDL-water.
+	Radius of total pore:   1.419e-05 m; of free pore: 1.418e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.618e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.839e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  3.2812e-04
+	Ca            	  4.4478e-10
+	Cl            	  1.4060e-04
+	H             	  3.0221e-03
+	O             	  3.0221e-03
+
+Scl_plus      
+	  2.178e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         2.178e-03       1.000   2.180e-03      -2.662
+
+Su            
+	  1.787e-16  Surface + diffuse layer charge, eq
+	  2.958e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.038e-01  psi, V
+	 -1.183e+01  -F*psi/RT
+	  7.314e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  8.118e+01  m² for   2.958e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 3.045e-04 kg, 57.6% of total DDL-water.
+	Radius of total pore:   1.419e-05 m; of free pore: 1.418e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.618e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.839e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  4.4549e-04
+	Ca            	  6.0388e-10
+	Cl            	  1.9089e-04
+	H             	  4.1031e-03
+	O             	  4.1031e-03
+
+Su_plus       
+	  2.958e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          2.958e-03       1.000   2.959e-03      -2.529
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.691e-03   2.689e-03
+	Ca                9.464e-03   9.459e-03
+	Cl                1.153e-03   1.152e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.072      Charge balance
+                                       pe  =   6.324      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3515
+                          Density (g/cm³)  =   0.99816
+                               Volume (L)  =   1.00222
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.627e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   2.585e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 373
+                                  Total H  = 1.109760e+02
+                                  Total O  = 5.550091e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.402e-02   1.194e-02    -1.853    -1.923    -0.070     -3.96
+   H+              9.635e-13   8.471e-13   -12.016   -12.072    -0.056      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            2.691e-03
+   Al(OH)4-        2.691e-03   2.308e-03    -2.570    -2.637    -0.067     (0)  
+   Al(OH)3         1.032e-09   1.038e-09    -8.987    -8.984     0.003     (0)  
+   Al(OH)2+        6.921e-15   5.970e-15   -14.160   -14.224    -0.064     (0)  
+   AlOH+2          1.166e-21   6.455e-22   -20.933   -21.190    -0.257    -27.40
+   Al+3            1.754e-28   5.508e-29   -27.756   -28.259    -0.503    -41.59
+Ca            9.464e-03
+   Ca+2            8.401e-03   4.651e-03    -2.076    -2.332    -0.257    -17.76
+   CaOH+           1.063e-03   9.107e-04    -2.974    -3.041    -0.067     (0)  
+Cl            1.153e-03
+   Cl-             1.153e-03   9.841e-04    -2.938    -3.007    -0.069     18.20
+H(0)          2.272e-40
+   H2              1.136e-40   1.143e-40   -39.945   -39.942     0.003     28.61
+O(0)          6.341e-13
+   O2              3.170e-13   3.189e-13   -12.499   -12.496     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.79    -28.26  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.55    -28.01  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2   -0.25    -27.71  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite         -0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.84    -39.94   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.41    -19.96  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.60    -12.50   -2.89  O2
+  OH_AFm           -0.58    -26.14  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.39    -25.95  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.20    -25.76  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.9383e-02	
+	Cl 1 OH -1
+	 5.1590e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.036169e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.036185e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.036302e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.036722e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.038347e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.044205e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.071847e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.181381e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.112142e-01	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.901638e-01	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.486755e-01	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 8.610118e-01	Cvode calls: 12, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.102222e+00	Cvode calls: 13, continuing...
+
+           7   4.9999e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  5.159e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.01938
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.01938
+	Cl                   1.03877
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    2.712e-02   2.712e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -2.680e-02   2.426e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   1.070e-03   1.070e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  1.471e-15  Surface + diffuse layer charge, eq
+	  2.712e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.040e-01  psi, V
+	 -1.183e+01  -F*psi/RT
+	  7.259e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  7.445e+01  m² for   2.712e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 2.803e-04 kg, 52.8% of total DDL-water.
+	Radius of total pore:   1.418e-05 m; of free pore: 1.418e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.619e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.831e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  3.9736e-04
+	Ca            	  5.3177e-10
+	Cl            	  2.4449e-04
+	H             	  3.6597e-03
+	O             	  3.6597e-03
+
+Scl_plus      
+	  2.712e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         2.712e-03       1.000   2.714e-03      -2.566
+
+Su            
+	  1.316e-15  Surface + diffuse layer charge, eq
+	  2.426e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.040e-01  psi, V
+	 -1.183e+01  -F*psi/RT
+	  7.259e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  6.660e+01  m² for   2.426e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.507e-04 kg, 47.2% of total DDL-water.
+	Radius of total pore:   1.418e-05 m; of free pore: 1.418e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.619e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.831e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  3.5544e-04
+	Ca            	  4.7568e-10
+	Cl            	  2.1870e-04
+	H             	  3.2737e-03
+	O             	  3.2737e-03
+
+Su_plus       
+	  2.426e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          2.426e-03       1.000   2.427e-03      -2.615
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.596e-03   2.595e-03
+	Ca                9.370e-03   9.365e-03
+	Cl                1.597e-03   1.596e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.057      Charge balance
+                                       pe  =   6.359      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3448
+                          Density (g/cm³)  =   0.99814
+                               Volume (L)  =   1.00223
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.607e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   2.493e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 783
+                                  Total H  = 1.109745e+02
+                                  Total O  = 5.549973e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.353e-02   1.153e-02    -1.869    -1.938    -0.069     -3.96
+   H+              9.979e-13   8.777e-13   -12.001   -12.057    -0.056      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            2.596e-03
+   Al(OH)4-        2.596e-03   2.228e-03    -2.586    -2.652    -0.066     (0)  
+   Al(OH)3         1.032e-09   1.038e-09    -8.986    -8.984     0.003     (0)  
+   Al(OH)2+        7.167e-15   6.185e-15   -14.145   -14.209    -0.064     (0)  
+   AlOH+2          1.249e-21   6.929e-22   -20.903   -21.159    -0.256    -27.40
+   Al+3            1.944e-28   6.125e-29   -27.711   -28.213    -0.502    -41.60
+Ca            9.370e-03
+   Ca+2            8.349e-03   4.630e-03    -2.078    -2.334    -0.256    -17.76
+   CaOH+           1.021e-03   8.751e-04    -2.991    -3.058    -0.067     (0)  
+Cl            1.597e-03
+   Cl-             1.597e-03   1.364e-03    -2.797    -2.865    -0.069     18.20
+H(0)          2.080e-40
+   H2              1.040e-40   1.046e-40   -39.983   -39.980     0.003     28.61
+O(0)          7.563e-13
+   O2              3.782e-13   3.805e-13   -12.422   -12.420     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.62    -28.08  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.38    -27.84  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2   -0.09    -27.55  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.88    -39.98   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.31    -20.06  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.53    -12.42   -2.89  O2
+  OH_AFm           -0.71    -26.27  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.52    -26.08  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.33    -25.89  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.6049e-02	
+	Cl 1 OH -1
+	 6.2309e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -1.298914e+01. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -1.298914e+01. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -3.106515e-02. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -3.106515e-02. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.263742e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.263830e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.264225e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.265741e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.272983e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.305510e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.510600e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.909882e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.859163e-01	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.020645e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.202839e+00	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.607033e+00	Cvode calls: 12, continuing...
+
+           8   6.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  6.231e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.01605
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.01605
+	Cl                   1.03210
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    3.239e-02   3.239e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -3.205e-02   1.901e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     7.96      7.96    0.000e+00   1.161e-03   1.161e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  3.860e-17  Surface + diffuse layer charge, eq
+	  3.239e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.042e-01  psi, V
+	 -1.184e+01  -F*psi/RT
+	  7.213e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  8.891e+01  m² for   3.239e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 3.358e-04 kg, 63.0% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.417e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.620e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.824e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  4.5814e-04
+	Ca            	  6.0660e-10
+	Cl            	  3.9415e-04
+	H             	  4.2194e-03
+	O             	  4.2194e-03
+
+Scl_plus      
+	  3.239e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         3.239e-03       1.000   3.241e-03      -2.489
+
+Su            
+	  2.320e-17  Surface + diffuse layer charge, eq
+	  1.901e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.042e-01  psi, V
+	 -1.184e+01  -F*psi/RT
+	  7.213e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  5.219e+01  m² for   1.901e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 1.971e-04 kg, 37.0% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.417e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.620e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.824e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  2.6890e-04
+	Ca            	  3.5604e-10
+	Cl            	  2.3134e-04
+	H             	  2.4765e-03
+	O             	  2.4765e-03
+
+Su_plus       
+	  1.901e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          1.901e-03       1.000   1.902e-03      -2.721
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.488e-03   2.487e-03
+	Ca                9.284e-03   9.279e-03
+	Cl                2.141e-03   2.140e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.038      Charge balance
+                                       pe  =   6.308      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3376
+                          Density (g/cm³)  =   0.99812
+                               Volume (L)  =   1.00223
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.590e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   2.389e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 663
+                                  Total H  = 1.109730e+02
+                                  Total O  = 5.549846e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.296e-02   1.105e-02    -1.887    -1.957    -0.069     -3.96
+   H+              1.040e-12   9.153e-13   -11.983   -12.038    -0.056      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            2.488e-03
+   Al(OH)4-        2.488e-03   2.136e-03    -2.604    -2.670    -0.066     (0)  
+   Al(OH)3         1.032e-09   1.038e-09    -8.986    -8.984     0.003     (0)  
+   Al(OH)2+        7.472e-15   6.450e-15   -14.127   -14.190    -0.064     (0)  
+   AlOH+2          1.357e-21   7.536e-22   -20.867   -21.123    -0.255    -27.40
+   Al+3            2.200e-28   6.947e-29   -27.658   -28.158    -0.501    -41.60
+Ca            9.284e-03
+   Ca+2            8.309e-03   4.615e-03    -2.080    -2.336    -0.255    -17.77
+   CaOH+           9.752e-04   8.363e-04    -3.011    -3.078    -0.067     (0)  
+Cl            2.141e-03
+   Cl-             2.141e-03   1.829e-03    -2.669    -2.738    -0.068     18.20
+H(0)          2.856e-40
+   H2              1.428e-40   1.436e-40   -39.845   -39.843     0.003     28.61
+O(0)          4.013e-13
+   O2              2.007e-13   2.019e-13   -12.698   -12.695     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.49    -27.95  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.25    -27.71  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.02    -27.44  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite         -0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.74    -39.84   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.20    -20.17  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.80    -12.69   -2.89  O2
+  OH_AFm           -0.86    -26.42  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.67    -26.23  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.47    -26.03  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.3694e-02	
+	Cl 1 OH -1
+	 7.3027e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.573277e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.573306e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.573573e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.574456e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.578663e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.597537e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.712576e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.338280e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.112178e+00	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.330351e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.538178e+00	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.988915e+00	Cvode calls: 12, continuing...
+
+           9   7.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  7.303e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.01369
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.01369
+	Cl                   1.02739
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    3.756e-02   3.756e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -3.720e-02   1.386e-02   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   1.285e-03   1.285e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	 -5.290e-15  Surface + diffuse layer charge, eq
+	  3.756e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.043e-01  psi, V
+	 -1.184e+01  -F*psi/RT
+	  7.181e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.031e+02  m² for   3.756e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 3.902e-04 kg, 73.0% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.416e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.621e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.818e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  5.0677e-04
+	Ca            	  6.6639e-10
+	Cl            	  6.0875e-04
+	H             	  4.6673e-03
+	O             	  4.6673e-03
+
+Scl_plus      
+	  3.756e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         3.756e-03       1.000   3.758e-03      -2.425
+
+Su            
+	 -1.953e-15  Surface + diffuse layer charge, eq
+	  1.386e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.043e-01  psi, V
+	 -1.184e+01  -F*psi/RT
+	  7.181e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  3.806e+01  m² for   1.386e-02 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 1.440e-04 kg, 27.0% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.416e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.621e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.818e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  1.8707e-04
+	Ca            	  2.4599e-10
+	Cl            	  2.2471e-04
+	H             	  1.7229e-03
+	O             	  1.7229e-03
+
+Su_plus       
+	  1.386e-03  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          1.386e-03       1.000   1.387e-03      -2.858
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.361e-03   2.360e-03
+	Ca                9.213e-03   9.207e-03
+	Cl                2.837e-03   2.835e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  12.016      Charge balance
+                                       pe  =   6.299      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3298
+                          Density (g/cm³)  =   0.99810
+                               Volume (L)  =   1.00225
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.579e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   2.267e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 740
+                                  Total H  = 1.109714e+02
+                                  Total O  = 5.549705e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.230e-02   1.049e-02    -1.910    -1.979    -0.069     -3.96
+   H+              1.096e-12   9.642e-13   -11.960   -12.016    -0.056      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            2.361e-03
+   Al(OH)4-        2.361e-03   2.028e-03    -2.627    -2.693    -0.066     (0)  
+   Al(OH)3         1.032e-09   1.038e-09    -8.986    -8.984     0.003     (0)  
+   Al(OH)2+        7.869e-15   6.795e-15   -14.104   -14.168    -0.064     (0)  
+   AlOH+2          1.504e-21   8.363e-22   -20.823   -21.078    -0.255    -27.40
+   Al+3            2.567e-28   8.122e-29   -27.591   -28.090    -0.500    -41.60
+Ca            9.213e-03
+   Ca+2            8.288e-03   4.608e-03    -2.082    -2.337    -0.255    -17.77
+   CaOH+           9.241e-04   7.927e-04    -3.034    -3.101    -0.067     (0)  
+Cl            2.837e-03
+   Cl-             2.837e-03   2.424e-03    -2.547    -2.615    -0.068     18.20
+H(0)          3.308e-40
+   H2              1.654e-40   1.664e-40   -39.782   -39.779     0.003     28.61
+O(0)          2.992e-13
+   O2              1.496e-13   1.505e-13   -12.825   -12.823     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.39    -27.85  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.16    -27.62  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.10    -27.36  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.68    -39.78   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet       0.06    -20.31  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.93    -12.82   -2.89  O2
+  OH_AFm           -1.05    -26.61  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -0.85    -26.41  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.65    -26.21  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 10.
+-------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.1941e-02	
+	Cl 1 OH -1
+	 8.3745e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -4.065234e-01. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -4.065234e-01. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -2.085711e-01. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -2.085711e-01. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.854233e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.854335e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.854730e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.856522e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.864314e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.899424e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.413906e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 6.686335e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.160725e+00	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.673672e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.868054e+00	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.239419e+00	Cvode calls: 12, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.138107e+00	Cvode calls: 13, continuing...
+
+          10   8.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  8.374e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.01194
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.01194
+	Cl                   1.02388
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    4.252e-02   4.252e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -4.216e-02   8.904e-03   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   1.475e-03   1.475e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  1.609e-16  Surface + diffuse layer charge, eq
+	  4.252e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.043e-01  psi, V
+	 -1.184e+01  -F*psi/RT
+	  7.188e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.167e+02  m² for   4.252e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 4.416e-04 kg, 82.7% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.416e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.621e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.817e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  5.3507e-04
+	Ca            	  7.0558e-10
+	Cl            	  9.2976e-04
+	H             	  4.9280e-03
+	O             	  4.9280e-03
+
+Scl_plus      
+	  4.252e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         4.252e-03       1.000   4.255e-03      -2.371
+
+Su            
+	  3.437e-17  Surface + diffuse layer charge, eq
+	  8.904e-04  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.043e-01  psi, V
+	 -1.184e+01  -F*psi/RT
+	  7.188e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  2.444e+01  m² for   8.904e-03 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 9.247e-05 kg, 17.3% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.416e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.621e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.817e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  1.1204e-04
+	Ca            	  1.4774e-10
+	Cl            	  1.9468e-04
+	H             	  1.0319e-03
+	O             	  1.0319e-03
+
+Su_plus       
+	  8.904e-04  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          8.904e-04       1.000   8.909e-04      -3.050
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                2.201e-03   2.200e-03
+	Ca                9.180e-03   9.175e-03
+	Cl                3.825e-03   3.823e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  11.985      Charge balance
+                                       pe  =   6.335      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3210
+                          Density (g/cm³)  =   0.99809
+                               Volume (L)  =   1.00227
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.581e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   2.114e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.666e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 690
+                                  Total H  = 1.109698e+02
+                                  Total O  = 5.549548e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.147e-02   9.781e-03    -1.940    -2.010    -0.069     -3.96
+   H+              1.176e-12   1.034e-12   -11.930   -11.985    -0.056      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            2.201e-03
+   Al(OH)4-        2.201e-03   1.890e-03    -2.657    -2.724    -0.066     (0)  
+   Al(OH)3         1.032e-09   1.038e-09    -8.986    -8.984     0.003     (0)  
+   Al(OH)2+        8.442e-15   7.289e-15   -14.074   -14.137    -0.064     (0)  
+   AlOH+2          1.732e-21   9.624e-22   -20.762   -21.017    -0.255    -27.40
+   Al+3            3.171e-28   1.003e-28   -27.499   -27.999    -0.500    -41.60
+Ca            9.180e-03
+   Ca+2            8.316e-03   4.622e-03    -2.080    -2.335    -0.255    -17.77
+   CaOH+           8.642e-04   7.412e-04    -3.063    -3.130    -0.067     (0)  
+Cl            3.825e-03
+   Cl-             3.825e-03   3.268e-03    -2.417    -2.486    -0.068     18.20
+H(0)          3.223e-40
+   H2              1.611e-40   1.621e-40   -39.793   -39.790     0.003     28.61
+O(0)          3.151e-13
+   O2              1.576e-13   1.585e-13   -12.803   -12.800     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.31    -27.77  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.09    -27.55  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.16    -27.30  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.69    -39.79   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet      -0.12    -20.49  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.91    -12.80   -2.89  O2
+  OH_AFm           -1.29    -26.85  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -1.09    -26.65  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -0.88    -26.44  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 11.
+-------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.0586e-02	
+	Cl 1 OH -1
+	 9.4463e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -6.906784e-02. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -6.906784e-02. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.120569e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.120815e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.121961e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.126944e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.149171e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.264268e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 6.724097e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.235236e+00	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.025397e+00	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.702638e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.489284e+00	Cvode calls: 11, continuing...
+
+          11   9.0000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  9.446e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.01059
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.01059
+	Cl                   1.02117
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    4.701e-02   4.701e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -4.668e-02   4.389e-03   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   1.837e-03   1.837e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  2.194e-15  Surface + diffuse layer charge, eq
+	  4.701e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.038e-01  psi, V
+	 -1.182e+01  -F*psi/RT
+	  7.325e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.290e+02  m² for   4.701e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 4.836e-04 kg, 91.5% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.417e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.619e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.831e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  5.2124e-04
+	Ca            	  7.1258e-10
+	Cl            	  1.4640e-03
+	H             	  4.8008e-03
+	O             	  4.8008e-03
+
+Scl_plus      
+	  4.701e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         4.701e-03       1.000   4.704e-03      -2.328
+
+Su            
+	  2.048e-16  Surface + diffuse layer charge, eq
+	  4.389e-04  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.038e-01  psi, V
+	 -1.182e+01  -F*psi/RT
+	  7.326e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  1.205e+01  m² for   4.389e-03 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 4.515e-05 kg,  8.5% of total DDL-water.
+	Radius of total pore:   1.417e-05 m; of free pore: 1.417e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.619e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.831e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  4.8664e-05
+	Ca            	  6.6528e-11
+	Cl            	  1.3668e-04
+	H             	  4.4821e-04
+	O             	  4.4821e-04
+
+Su_plus       
+	  4.389e-04  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          4.389e-04       1.000   4.392e-04      -3.357
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.974e-03   1.973e-03
+	Ca                9.295e-03   9.290e-03
+	Cl                5.544e-03   5.540e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  11.937      Charge balance
+                                       pe  =   6.371      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3120
+                          Density (g/cm³)  =   0.99808
+                               Volume (L)  =   1.00231
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.631e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   1.897e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.624e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 609
+                                  Total H  = 1.109686e+02
+                                  Total O  = 5.549378e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.028e-02   8.758e-03    -1.988    -2.058    -0.070     -3.96
+   H+              1.314e-12   1.155e-12   -11.881   -11.937    -0.056      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            1.974e-03
+   Al(OH)4-        1.974e-03   1.693e-03    -2.705    -2.771    -0.067     (0)  
+   Al(OH)3         1.032e-09   1.038e-09    -8.987    -8.984     0.003     (0)  
+   Al(OH)2+        9.437e-15   8.140e-15   -14.025   -14.089    -0.064     (0)  
+   AlOH+2          2.169e-21   1.200e-21   -20.664   -20.921    -0.257    -27.40
+   Al+3            4.448e-28   1.396e-28   -27.352   -27.855    -0.503    -41.59
+Ca            9.295e-03
+   Ca+2            8.506e-03   4.707e-03    -2.070    -2.327    -0.257    -17.76
+   CaOH+           7.891e-04   6.760e-04    -3.103    -3.170    -0.067     (0)  
+Cl            5.544e-03
+   Cl-             5.544e-03   4.731e-03    -2.256    -2.325    -0.069     18.20
+H(0)          3.398e-40
+   H2              1.699e-40   1.709e-40   -39.770   -39.767     0.003     28.61
+O(0)          2.834e-13
+   O2              1.417e-13   1.426e-13   -12.849   -12.846     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.26    -27.72  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.04    -27.50  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.19    -27.27  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.67    -39.77   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet      -0.38    -20.75  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.95    -12.85   -2.89  O2
+  OH_AFm           -1.64    -27.20  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -1.43    -26.99  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -1.23    -26.79  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 12.
+-------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.0018e-02	
+	Cl 1 OH -1
+	 9.9822e-02	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -9.790645e-01. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -9.790645e-01. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.270251e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.270549e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.271958e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.278264e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.313422e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.806312e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.504549e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.289996e+00	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.118351e+00	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.024794e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.988960e+00	Cvode calls: 11, continuing...
+
+          12   9.5000e-01 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  9.982e-02 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.01002
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.01002
+	Cl                   1.02004
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    4.881e-02   4.881e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -4.854e-02   2.527e-03   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   2.187e-03   2.187e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  1.757e-15  Surface + diffuse layer charge, eq
+	  4.881e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.030e-01  psi, V
+	 -1.179e+01  -F*psi/RT
+	  7.557e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.340e+02  m² for   4.881e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 4.944e-04 kg, 95.1% of total DDL-water.
+	Radius of total pore:   1.419e-05 m; of free pore: 1.419e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.616e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.857e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  4.8173e-04
+	Ca            	  6.9742e-10
+	Cl            	  1.8890e-03
+	H             	  4.4374e-03
+	O             	  4.4374e-03
+
+Scl_plus      
+	  4.881e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         4.881e-03       1.000   4.884e-03      -2.311
+
+Su            
+	  9.088e-17  Surface + diffuse layer charge, eq
+	  2.527e-04  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  3.030e-01  psi, V
+	 -1.179e+01  -F*psi/RT
+	  7.557e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  6.938e+00  m² for   2.527e-03 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 2.560e-05 kg,  4.9% of total DDL-water.
+	Radius of total pore:   1.419e-05 m; of free pore: 1.419e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.616e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.857e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  2.4943e-05
+	Ca            	  3.6112e-11
+	Cl            	  9.7808e-05
+	H             	  2.2976e-04
+	O             	  2.2976e-04
+
+Su_plus       
+	  2.527e-04  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          2.527e-04       1.000   2.529e-04      -3.597
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.810e-03   1.809e-03
+	Ca                9.541e-03   9.536e-03
+	Cl                7.097e-03   7.093e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  11.899      Charge balance
+                                       pe  =   6.408      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3089
+                          Density (g/cm³)  =   0.99808
+                               Volume (L)  =   1.00235
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   2.714e-02
+                       Mass of water (kg)  =   9.994e-01
+                 Total alkalinity (eq/kg)  =   1.741e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.648e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 608
+                                  Total H  = 1.109688e+02
+                                  Total O  = 5.549308e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             9.432e-03   8.016e-03    -2.025    -2.096    -0.071     -3.95
+   H+              1.437e-12   1.262e-12   -11.842   -11.899    -0.057      0.00
+   H2O             5.554e+01   9.995e-01     1.745    -0.000     0.000     18.07
+Al            1.810e-03
+   Al(OH)4-        1.810e-03   1.549e-03    -2.742    -2.810    -0.068     (0)  
+   Al(OH)3         1.031e-09   1.038e-09    -8.987    -8.984     0.003     (0)  
+   Al(OH)2+        1.033e-14   8.894e-15   -13.986   -14.051    -0.065     (0)  
+   AlOH+2          2.608e-21   1.433e-21   -20.584   -20.844    -0.260    -27.39
+   Al+3            5.873e-28   1.821e-28   -27.231   -27.740    -0.509    -41.58
+Ca            9.541e-03
+   Ca+2            8.798e-03   4.835e-03    -2.056    -2.316    -0.260    -17.76
+   CaOH+           7.431e-04   6.354e-04    -3.129    -3.197    -0.068     (0)  
+Cl            7.097e-03
+   Cl-             7.097e-03   6.044e-03    -2.149    -2.219    -0.070     18.20
+H(0)          3.427e-40
+   H2              1.714e-40   1.724e-40   -39.766   -39.763     0.003     28.61
+O(0)          2.784e-13
+   O2              1.392e-13   1.401e-13   -12.856   -12.854     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.24    -27.70  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.02    -27.48  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.20    -27.26  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.66    -39.76   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet      -0.58    -20.95  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.96    -12.85   -2.89  O2
+  OH_AFm           -1.90    -27.46  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -1.69    -27.25  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -1.48    -27.04  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 13.
+-------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 2.5000e-02	
+	Cl 1 OH -1
+	 1.0718e-01	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -1.480706e+00. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -1.480706e+00. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.539156e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.539258e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.539625e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.541327e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.549086e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.592477e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.413414e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.978843e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.359558e+00	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.101416e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.141772e+00	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.427100e+00	Cvode calls: 12, continuing...
+
+          13   1.0500e+00 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  1.072e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.02500
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.02500
+	Cl                   1.05000
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    5.060e-02   5.060e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -5.033e-02   7.300e-04   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   2.818e-03   2.818e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	  3.873e-15  Surface + diffuse layer charge, eq
+	  5.060e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.984e-01  psi, V
+	 -1.161e+01  -F*psi/RT
+	  9.037e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.389e+02  m² for   5.060e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 4.687e-04 kg, 98.6% of total DDL-water.
+	Radius of total pore:   1.419e-05 m; of free pore: 1.419e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.594e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.024e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  3.1916e-04
+	Ca            	  6.4048e-10
+	Cl            	  3.0758e-03
+	H             	  2.9418e-03
+	O             	  2.9418e-03
+
+Scl_plus      
+	  5.060e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         5.060e-03       1.000   5.063e-03      -2.296
+
+Su            
+	  5.586e-17  Surface + diffuse layer charge, eq
+	  7.300e-05  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.984e-01  psi, V
+	 -1.161e+01  -F*psi/RT
+	  9.038e-06  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  2.004e+00  m² for   7.300e-04 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 6.762e-06 kg,  1.4% of total DDL-water.
+	Radius of total pore:   1.419e-05 m; of free pore: 1.419e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.594e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.024e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  4.6045e-06
+	Ca            	  9.2407e-12
+	Cl            	  4.4375e-05
+	H             	  4.2441e-05
+	O             	  4.2441e-05
+
+Su_plus       
+	  7.300e-05  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          7.300e-05       1.000   7.304e-05      -4.136
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.378e-03   1.378e-03
+	Ca                1.125e-02   1.125e-02
+	Cl                1.328e-02   1.328e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  11.776      Charge balance
+                                       pe  =   6.569      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3235
+                          Density (g/cm³)  =   0.99820
+                               Volume (L)  =   1.00249
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   3.245e-02
+                       Mass of water (kg)  =   9.995e-01
+                 Total alkalinity (eq/kg)  =   1.336e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.660e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 649
+                                  Total H  = 1.109698e+02
+                                  Total O  = 5.549155e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             7.191e-03   6.035e-03    -2.143    -2.219    -0.076     -3.93
+   H+              1.924e-12   1.676e-12   -11.716   -11.776    -0.060      0.00
+   H2O             5.553e+01   9.994e-01     1.745    -0.000     0.000     18.07
+Al            1.378e-03
+   Al(OH)4-        1.378e-03   1.166e-03    -2.861    -2.933    -0.073     (0)  
+   Al(OH)3         1.030e-09   1.038e-09    -8.987    -8.984     0.003     (0)  
+   Al(OH)2+        1.387e-14   1.181e-14   -13.858   -13.928    -0.070     (0)  
+   AlOH+2          4.800e-21   2.528e-21   -20.319   -20.597    -0.279    -27.36
+   Al+3            1.478e-27   4.268e-28   -26.830   -27.370    -0.540    -41.52
+Ca            1.125e-02
+   Ca+2            1.060e-02   5.585e-03    -1.975    -2.253    -0.278    -17.72
+   CaOH+           6.537e-04   5.527e-04    -3.185    -3.257    -0.073     (0)  
+Cl            1.328e-02
+   Cl-             1.328e-02   1.117e-02    -1.877    -1.952    -0.075     18.21
+H(0)          2.867e-40
+   H2              1.434e-40   1.444e-40   -39.844   -39.840     0.003     28.61
+O(0)          3.962e-13
+   O2              1.981e-13   1.996e-13   -12.703   -12.700     0.003     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.21    -27.67  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.00    -27.47  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.19    -27.27  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.74    -39.84   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet      -1.13    -21.50  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.81    -12.70   -2.89  O2
+  OH_AFm           -2.64    -28.20  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -2.41    -27.97  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -2.19    -27.75  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 14.
+-------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 5.0000e-02	
+	Cl 1 OH -1
+	 1.0718e-01	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -1.732385e+00. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -1.732385e+00. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.537723e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.541756e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.556229e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.572503e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.586781e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.602338e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.616065e-01	Cvode calls: 7, continuing...
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -4.925008e-02. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -2.402844e-02. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -5.192178e-03. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -4.942743e-04. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.622121e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.942684e-01	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.942818e-01	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.943330e-01	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.945154e-01	Cvode calls: 12, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.953630e-01	Cvode calls: 13, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.995194e-01	Cvode calls: 14, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 5.347628e-01	Cvode calls: 15, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.022934e+00	Cvode calls: 16, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.585154e+00	Cvode calls: 17, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.382753e+00	Cvode calls: 18, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.414907e+00	Cvode calls: 19, continuing...
+
+          14   1.1000e+00 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  1.072e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.05000
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.05000
+	Cl                   1.10000
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    5.112e-02   5.112e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -5.053e-02   5.313e-04   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite          0.00     7.96      7.96    0.000e+00   2.424e-03   2.424e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	 -1.321e-14  Surface + diffuse layer charge, eq
+	  5.112e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.952e-01  psi, V
+	 -1.149e+01  -F*psi/RT
+	  1.022e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.403e+02  m² for   5.112e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 4.451e-04 kg, 99.0% of total DDL-water.
+	Radius of total pore:   1.411e-05 m; of free pore: 1.410e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.578e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.150e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  2.4966e-04
+	Ca            	  6.2724e-10
+	Cl            	  3.5585e-03
+	H             	  2.3023e-03
+	O             	  2.3023e-03
+
+Scl_plus      
+	  5.112e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         5.112e-03       1.000   5.114e-03      -2.291
+
+Su            
+	 -1.374e-16  Surface + diffuse layer charge, eq
+	  5.313e-05  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.952e-01  psi, V
+	 -1.149e+01  -F*psi/RT
+	  1.023e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  1.458e+00  m² for   5.313e-04 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 4.626e-06 kg,  1.0% of total DDL-water.
+	Radius of total pore:   1.411e-05 m; of free pore: 1.410e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.578e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.150e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  2.5947e-06
+	Ca            	  6.5194e-12
+	Cl            	  3.6984e-05
+	H             	  2.3927e-05
+	O             	  2.3927e-05
+
+Su_plus       
+	  5.313e-05  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          5.313e-05       1.000   5.315e-05      -4.274
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                1.206e-03   1.205e-03
+	Ca                1.266e-02   1.265e-02
+	Cl                1.719e-02   1.718e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  11.714      Charge balance
+                                       pe  =   6.684      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 3446
+                          Density (g/cm³)  =   0.99831
+                               Volume (L)  =   1.00253
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   3.672e-02
+                       Mass of water (kg)  =   9.995e-01
+                 Total alkalinity (eq/kg)  =   1.175e-02
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.660e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 1085
+                                  Total H  = 1.109672e+02
+                                  Total O  = 5.548946e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             6.296e-03   5.236e-03    -2.201    -2.281    -0.080     -3.92
+   H+              2.230e-12   1.932e-12   -11.652   -11.714    -0.062      0.00
+   H2O             5.553e+01   9.994e-01     1.745    -0.000     0.000     18.07
+Al            1.206e-03
+   Al(OH)4-        1.206e-03   1.012e-03    -2.919    -2.995    -0.076     (0)  
+   Al(OH)3         1.029e-09   1.038e-09    -8.988    -8.984     0.004     (0)  
+   Al(OH)2+        1.611e-14   1.362e-14   -13.793   -13.866    -0.073     (0)  
+   AlOH+2          6.575e-21   3.358e-21   -20.182   -20.474    -0.292    -27.33
+   Al+3            2.381e-27   6.536e-28   -26.623   -27.185    -0.561    -41.48
+Ca            1.266e-02
+   Ca+2            1.203e-02   6.151e-03    -1.920    -2.211    -0.291    -17.69
+   CaOH+           6.296e-04   5.281e-04    -3.201    -3.277    -0.076     (0)  
+Cl            1.719e-02
+   Cl-             1.719e-02   1.433e-02    -1.765    -1.844    -0.079     18.22
+H(0)          2.247e-40
+   H2              1.123e-40   1.133e-40   -39.949   -39.946     0.004     28.61
+O(0)          6.433e-13
+   O2              3.216e-13   3.244e-13   -12.493   -12.489     0.004     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.21    -27.67  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1   -0.00    -27.46  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.18    -27.28  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite          0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.84    -39.95   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet      -1.38    -21.75  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.60    -12.49   -2.89  O2
+  OH_AFm           -2.96    -28.52  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -2.73    -28.29  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -2.51    -28.07  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 15.
+-------------------------------------
+
+	MIX 1
+	  1 7.8791e-01	
+	USE surface 1	 
+	KINETICS 1	
+	 Cl_AFm_Surf0.1
+	  m0 0
+	  parms 1 	
+	 OH_AFm_Surf0.1
+	  m0 5.1065e-02
+	  parms 1 	
+	 time_steps 5
+	  cvode true
+	  cvode_steps 30	 
+	REACTION 1	
+	CaCl2 1.0000e-01	
+	Cl 1 OH -1
+	 1.0718e-01	
+	EQUILIBRIUM_PHASES 1
+	  Gibbsite 0 0	        
+	END	
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -2.313229e+00. Recovering...
+WARNING: Element Al is contained in Gibbsite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Negative moles in solution -999 for Al, -2.313229e+00. Recovering...
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.535131e-01	Cvode calls: 1, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.535196e-01	Cvode calls: 2, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.535434e-01	Cvode calls: 3, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.536540e-01	Cvode calls: 4, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.541580e-01	Cvode calls: 5, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.570729e-01	Cvode calls: 6, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.986517e-01	Cvode calls: 7, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.776033e-01	Cvode calls: 8, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.373756e+00	Cvode calls: 9, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.128755e+00	Cvode calls: 10, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.918976e+00	Cvode calls: 11, continuing...
+
+WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.239576e+00	Cvode calls: 12, continuing...
+
+          15   1.2000e+00 
+Using mix 1.	
+Using surface 1.	
+Using pure phase assemblage 1.	
+Using reaction 1.	
+Using kinetics 1.	
+
+Mixture 1.	
+
+	  7.879e-01 Solution 1	Solution after simulation 1.                           
+
+Reaction 1.	
+
+	  1.072e-01 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CaCl2                0.10000
+	Cl                   1.00000
+	OH                  -1.00000
+
+	                 Relative
+	Element             moles
+	Ca                   0.10000
+	Cl                   1.20000
+	H                   -1.00000
+	O                   -1.00000
+
+Kinetics 1.	
+
+	Time step: 5 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Cl_AFm_Surf0.1    5.167e-02   5.167e-02   Cl_AFm_Surf0.1            1
+	OH_AFm_Surf0.1   -5.067e-02   3.998e-04   OH_AFm_Surf0.1            1
+
+-------------------------------Phase assemblage--------------------------------
+
+                                                      Moles in assemblage
+Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
+
+Gibbsite         -0.00     7.96      7.96    0.000e+00   1.952e-03   1.952e-03
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Scl           
+	 -2.478e-15  Surface + diffuse layer charge, eq
+	  5.167e-03  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.884e-01  psi, V
+	 -1.123e+01  -F*psi/RT
+	  1.333e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol Cl_AFm_Surf0.1
+	  1.418e+02  m² for   5.167e-02 moles of Cl_AFm_Surf0.1
+
+	Water in diffuse layer: 3.940e-04 kg, 99.2% of total DDL-water.
+	Radius of total pore:   1.399e-05 m; of free pore: 1.399e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.545e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.449e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  1.5220e-04
+	Ca            	  6.2044e-10
+	Cl            	  4.2180e-03
+	H             	  1.4052e-03
+	O             	  1.4052e-03
+
+Scl_plus      
+	  5.167e-03  moles	[0.1 mol/(mol kinetic reactant Cl_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Scl_plus+         5.167e-03       1.000   5.169e-03      -2.287
+
+Su            
+	 -1.912e-17  Surface + diffuse layer charge, eq
+	  3.998e-05  Surface charge, eq
+	  3.515e+00  sigma, C/m²
+	  2.884e-01  psi, V
+	 -1.123e+01  -F*psi/RT
+	  1.333e-05  exp(-F*psi/RT)
+	  2.745e+03  specific area, m²/mol OH_AFm_Surf0.1
+	  1.098e+00  m² for   3.998e-04 moles of OH_AFm_Surf0.1
+
+	Water in diffuse layer: 3.049e-06 kg,  0.8% of total DDL-water.
+	Radius of total pore:   1.399e-05 m; of free pore: 1.399e-05 m.
+
+	Total moles in diffuse layer (excluding water), Donnan calculation.
+	Donnan Layer potential, psi_DL =  1.545e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.449e-03 (= c_DL / c_free if z is +1).
+
+	Element       	     Moles
+	Al            	  1.1778e-06
+	Ca            	  4.8017e-12
+	Cl            	  3.2640e-05
+	H             	  1.0874e-05
+	O             	  1.0874e-05
+
+Su_plus       
+	  3.998e-05  moles	[0.1 mol/(mol kinetic reactant OH_AFm_Surf0.1)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Su_plus+          3.998e-05       1.000   4.000e-05      -4.398
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Al                9.459e-04   9.454e-04
+	Ca                1.636e-02   1.635e-02
+	Cl                2.621e-02   2.620e-02
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  11.601      Charge balance
+                                       pe  =   6.854      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 4093
+                          Density (g/cm³)  =   0.99863
+                               Volume (L)  =   1.00264
+                        Activity of water  =   0.999
+                 Ionic strength (mol/kgw)  =   4.786e-02
+                       Mass of water (kg)  =   9.995e-01
+                 Total alkalinity (eq/kg)  =   9.338e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -9.660e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  = 659
+                                  Total H  = 1.109656e+02
+                                  Total O  = 5.548748e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             4.950e-03   4.031e-03    -2.305    -2.395    -0.089     -3.88
+   H+              2.932e-12   2.509e-12   -11.533   -11.601    -0.068      0.00
+   H2O             5.553e+01   9.992e-01     1.745    -0.000     0.000     18.07
+Al            9.459e-04
+   Al(OH)4-        9.459e-04   7.790e-04    -3.024    -3.108    -0.084     (0)  
+   Al(OH)3         1.026e-09   1.038e-09    -8.989    -8.984     0.005     (0)  
+   Al(OH)2+        2.128e-14   1.769e-14   -13.672   -13.752    -0.080     (0)  
+   AlOH+2          1.188e-20   5.666e-21   -19.925   -20.247    -0.322    -27.28
+   Al+3            5.832e-27   1.432e-27   -26.234   -26.844    -0.610    -41.39
+Ca            1.636e-02
+   Ca+2            1.575e-02   7.532e-03    -1.803    -2.123    -0.320    -17.63
+   CaOH+           6.044e-04   4.978e-04    -3.219    -3.303    -0.084     (0)  
+Cl            2.621e-02
+   Cl-             2.621e-02   2.142e-02    -1.581    -1.669    -0.088     18.25
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.063   -40.058     0.005     28.61
+O(0)          1.077e-12
+   O2              5.385e-13   5.444e-13   -12.269   -12.264     0.005     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Al(OH)3(a)       -2.84      7.96   10.80  Al(OH)3
+  Cl_AFm           -0.20    -27.66  -27.46  Ca4Al2Cl1.95(OH)0.05O6:12H2O
+  Cl_AFm_Surf0.1    0.00    -27.46  -27.46  Ca4Al2Cl1.9O6:12H2O+0.1
+  Cl_AFm_Surf0.2    0.17    -27.29  -27.46  Ca4Al2Cl1.8O6:12H2O+0.2
+  Gibbsite         -0.00      7.96    7.96  Al(OH)3
+  H2(g)           -36.96    -40.06   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hydrogarnet      -1.79    -22.16  -20.37  Ca3Al2(OH)12
+  O2(g)            -9.37    -12.26   -2.89  O2
+  OH_AFm           -3.52    -29.08  -25.56  Ca4Al2(OH)2O6:12H2O
+  OH_AFm_Surf0.1   -3.28    -28.84  -25.56  Ca4Al2(OH)1.9O6:12H2O+0.1
+  OH_AFm_Surf0.2   -3.04    -28.60  -25.56  Ca4Al2(OH)1.8O6:12H2O+0.2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 16.
+-------------------------------------
+
+	END
+------------------
+End of simulation.
+------------------
+
+-------------------------------------
+Reading input data for simulation 17.
+-------------------------------------
+
+--------------------------------
+End of Run after 17.437 Seconds.
+--------------------------------
+

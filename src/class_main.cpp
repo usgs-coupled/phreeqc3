@@ -277,8 +277,8 @@ write_banner(void)
 
 	/* version */
 #ifdef NPP
-	//len = sprintf(buffer, "* PHREEQC-%s *", "3.4.2 AmpŠre");
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.4.2");
+	//len = sprintf(buffer, "* PHREEQC-%s *", "3.4.4 AmpŠre");
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.4.4");
 #else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
@@ -302,7 +302,7 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "February 27, 2018");
+	len = sprintf(buffer, "%s", "April 5, 2018");
 #else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif
@@ -492,12 +492,12 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		screen_msg(sformatf("Database file: %s\n\n", token));
 		strcpy(db_file, token);
 #ifdef NPP
-		//output_msg(sformatf("Using PHREEQC: version 3.4.2 Ampère, compiled February 27, 2018\n"));
+		//output_msg(sformatf("Using PHREEQC: version 3.4.4 Ampère, compiled April 5, 2018\n"));
 #endif
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.4.2, compiled February 27, 2018\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.4.4, compiled April 5, 2018\n"));
 #endif
 		output_msg(sformatf("Database file: %s\n\n", token));
 #ifdef NPP

@@ -1,0 +1,147 @@
+DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.4.0-12927\database\phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 balonis_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+
+##   -27.461269058  -25.560000000   -20.370000000   7.9565206275   5.4121138E-02
+##  -9.2913725E-01     1.15324434  -1.8650056E+00     2.76873131
+
+PHASES
+Cl_AFm
+ Ca4Al2Cl1.95(OH)0.05O6:12H2O = 4 Ca+2 + 2 Al(OH)4- + 1.95 Cl- + 4.05 OH- + 6 H2O;# -log_k -27.75
+ -log_k -27.461269058
+Cl_AFm_Surf0.1 # Balonis 2010
+ Ca4Al2Cl1.9O6:12H2O+0.1 = 4 Ca+2 + 2 Al(OH)4- + 1.9 Cl- + 4.0 OH- + 6 H2O#; -log_k -27.2
+ -log_k -27.461269058
+Cl_AFm_Surf0.2 # Balonis 2010
+ Ca4Al2Cl1.8O6:12H2O+0.2 = 4 Ca+2 + 2 Al(OH)4- + 1.8 Cl- + 4.0 OH- + 6 H2O#; -log_k -27.2
+ -log_k -27.461269058
+OH_AFm
+ Ca4Al2(OH)2O6:12H2O = 4 Ca+2 + 2 Al(OH)4- + 6 OH- + 6 H2O;# log_k -25.72
+ log_k  -25.560000000
+OH_AFm_Surf0.1 # Balonis 2010
+ Ca4Al2(OH)1.9O6:12H2O+0.1 = 4 Ca+2 + 2 Al(OH)4- + 5.9 OH- + 6 H2O#; log_k  -25.92
+ log_k  -25.560000000
+OH_AFm_Surf0.2 # Balonis 2010
+ Ca4Al2(OH)1.8O6:12H2O+0.2 = 4 Ca+2 + 2 Al(OH)4- + 5.8 OH- + 6 H2O#; log_k  -25.92
+ log_k  -25.560000000
+Hydrogarnet
+ Ca3Al2(OH)12 = 3 Ca+2 + 2 Al(OH)4- + 4 OH-;# log_k -20.38
+ log_k  -20.370000000
+Gibbsite
+ Al(OH)3 + 3 H+ = Al+3 + 3 H2O;# -log_k 8.11
+ -log_k 7.9565206275
+SURFACE_MASTER_SPECIES; Su_ Su_OH; Su_plus Su_plus+; Scl_plus Scl_plus+; Suafm Suafm+; Suett Suett+; Su_min Su_min-
+SURFACE_SPECIES; Su_OH = Su_OH; Su_plus+ = Su_plus+; Scl_plus+ = Scl_plus+; Suafm+ = Suafm+; Suett+ = Suett+; Su_min- = Su_min-; Su_OH = Su_O- + H+; log_k -12.3; Su_OH + Ca+2 = Su_OCa+ + H+; log_k -9.4
+EXCHANGE_MASTER_SPECIES; Y Y+; Z Z+
+EXCHANGE_SPECIES
+Y+ = Y+; Y+ + OH- = YOH; gamma  3.5  0; Y+ + Cl- = YCl; gamma 3.63  0.017
+Z+ = Z+; Z+ + OH- = ZOH; gamma  3.5  0; Z+ + Cl- = ZCl; gamma 3.63  0.017
+SOLUTION 1
+
+RATES
+    OH_AFm
+    10 tot_AF = m + kin("Cl_AFm")
+    20 chi = m / tot_AF
+    30 SAVE parm(1) * (m - SR("OH_AFm") * tot_AF / exp(-9.2913725E-01 * (1 - chi)^ 1.15324434)) * TIME
+    -end
+    Cl_AFm
+     10 tot_AF = kin("OH_AFm") + m
+     20 chi = m / tot_AF
+     30 SAVE parm(1) * (m - SR("Cl_AFm") * tot_AF / exp(-9.2913725E-01 * (1 - chi)^2.76873131)) * TIME
+    -end
+    OH_AFm_Surf0.1
+    10 tot_AF = m + kin("Cl_AFm_Surf0.1")
+    20 chi = m / tot_AF
+    30 SAVE parm(1) * (m - SR("OH_AFm_Surf0.1") * tot_AF / exp(-9.2913725E-01 * (1 - chi)^1.15324434)) * TIME
+    -end
+    Cl_AFm_Surf0.1
+     10 tot_AF = kin("OH_AFm_Surf0.1") + m
+     20 chi = m / tot_AF
+     30 SAVE parm(1) * (m - SR("Cl_AFm_Surf0.1") * tot_AF / exp(-1.8650056E+00 * (1 - chi)^2.76873131)) * TIME
+    -end
+
+KINETICS 1
+OH_AFm_Surf0.1; m0   5.4121138E-02; -parms 1
+Cl_AFm_Surf0.1; m0 0 ; -parms 1
+-time_step 10; -cvode true; -cvode_steps 20
+
+SURFACE 1
+Su_plus OH_AFm_Surf0.1 kin  0.1  2745 # 4.9 m2/g
+Scl_plus Cl_AFm_Surf0.1 kin 0.1  2745 # 4.9 m2/g
+-donnan debye 2; -equil 1
+
+SAVE solution 1
+SAVE surface 1
+
+SELECTED_OUTPUT 1; -reset false; -file balonis_tbl4.prn
+USER_PUNCH # for the ss with surf
+1   if step_no = 0 then end
+10  sc$ = chr$(59) + ' ': hash$ = chr$(35)
+20  data 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 1.2
+30  dim Cl_Al(25) : for i = 1 to 14 : read Cl_Al(i) : next i
+       # 30  dim Cl_Al(49) : for i = 1 to 49 : Cl_Al(i) = (i - 1) / 40 : next i
+40  ss = kin("OH_AFm_Surf0.1")
+50  mix_w = (1 - edl("water", "Su")) / tot("water") : Al_t = edl("Al", "Su") + mix_w * tot("Al") * tot("water") + 2 * ss
+60  dim xCl(25) : print mix_w, Al_t
+70  for i = 1 to 14
+80    if Cl_Al(i) < 1.0  then xCl(i) = Cl_Al(i) * Al_t - 2e-3 else xCl(i) = Al_t
+90    if Cl_Al(i) < 1.0  then CaCl2 = 1e-3 / xCl(i) else CaCl2 = ((Cl_Al(i) * Al_t - Al_t) / 2) / xCl(i)
+100   if Cl_Al(i) = 0 then xCl(i) = 0 : CaCl2 = 0
+110   punch eol$ + 'MIX 1' + sc$ + ' 1 ' + trim(str$(mix_w))
+120   punch eol$ + 'USE surface 1'
+130   punch eol$ + 'KINETICS 1'
+140   punch eol$ + ' Cl_AFm_Surf0.1' + sc$ + ' m0 0'                 + sc$ + ' -parms 1 '
+150   punch eol$ + ' OH_AFm_Surf0.1' + sc$ + ' m0 ' + trim(str$(ss)) + sc$ + ' -parms 1 '
+160   punch eol$ + ' -time_step 5' + sc$ + ' -cvode true' + sc$ + ' -cvode_steps 30'
+170   punch eol$ + 'REACTION 1'
+180   punch eol$ + 'CaCl2 ' + trim(str$(CaCl2))
+190   punch eol$ + 'Cl 1 OH -1' + sc$ + trim(str$(xCl(i)))
+200   if Cl_Al(i) <= 0.35 then punch eol$ + 'EQUILIBRIUM_PHASES 1' + sc$ + ' Hydrogarnet 0 0' + sc$ + ' Gibbsite 0 0'
+210   if Cl_Al(i) > 0.35 then punch eol$ + 'EQUILIBRIUM_PHASES 1' + sc$ + ' Gibbsite 0 0'
+220   punch eol$ + 'END'
+230 next i
+END
+
+#PRINT; -reset false; -warnings 0
+SELECTED_OUTPUT 1; -active false#reset false; -file bal.prn; -high_precision true
+USER_PUNCH
+10   data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.63, 13.13, 16.78
+20   dim Ca(14) : for i = 1 to 14 : read Ca(i) : next i
+30   data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.39, 1.35, 0.89, 0.93
+40   dim Al(14) : for i = 1 to 14 : read Al(i) : next i
+50   data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.79, 11.57, 15.7, 24.5
+60   dim Cl(14) : for i = 1 to 14 : read Cl(i) : next i
+
+70   Cl_Al = (sys("Cl") + 1.9 * kin("Cl_AFm_Surf0.1")) / (sys("Al") + 2 * (kin("Cl_AFm_Surf0.1") + kin("OH_AFm_Surf0.1")))
+# 70   Cl_Al = (sys("Cl") + 1.95 * kin("Cl_AFm")) / (sys("Al") + 2 * (kin("Cl_AFm") + kin("OH_AFm")))
+# 80   dif1 = Ca(sim_no - 1) - tot("Ca") * 1e3 : dif2 = Al(sim_no - 1) - tot("Al") * 1e3 : dif3 = Cl(sim_no - 1) - tot("Cl") * 1e3 # absolute error
+90   dif1 = tot("Ca") * 1e3 / Ca(sim_no - 1) - 1 : dif2 = tot("Al") * 1e3 / Al(sim_no - 1) - 1 : dif3 = 0 : if Cl(sim_no - 1) > 0 then dif3 = tot("Cl") * 1e3 / Cl(sim_no - 1) - 1
+120  punch trim(str$(dif1)) + '           ' + trim(str$(sim_no - 1)) + str_f$(Cl_Al, 10, 3) + eol$ + trim(str$(dif2)) + eol$ + trim(str$(dif3))
+USER_GRAPH
+-headings Ca Al Cl
+-axis_titles "Cl / Al" "mmol / kgw" "Cl / mM"
+10  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.63, 13.13, 16.78
+20  dim Ca(14) : for i = 1 to 14 : read Ca(i) : next i
+30  data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.39, 1.35, 0.89, 0.93
+40  dim Al(14) : for i = 1 to 14 : read Al(i) : next i
+50  data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.79, 11.57, 15.7, 24.5
+60  dim Cl(14) : for i = 1 to 14 : read Cl(i) : next i
+70  Cl_Al = sys("Cl") / sys("Al")
+70  Cl_Al = (sys("Cl") + 1.95 * kin("Cl_AFm")) / (sys("Al") + 2 * (kin("Cl_AFm") + kin("OH_AFm")))
+70   Cl_Al = (sys("Cl") + 1.9 * kin("Cl_AFm_Surf0.1")) / (sys("Al") + 2 * (kin("Cl_AFm_Surf0.1") + kin("OH_AFm_Surf0.1")))
+80  plot_xy Cl_Al, Ca(sim_no - 1), line_width = 0
+90  plot_xy Cl_Al, Al(sim_no - 1), line_width = 0
+100 plot_xy Cl_Al, Cl(sim_no - 1), line_width = 0
+110 plot_xy Cl_Al, tot("Ca") * 1e3, color = Red , symbol = None
+120 plot_xy Cl_Al, tot("Al") * 1e3, color = Green  , symbol = None
+130 plot_xy Cl_Al, tot("Cl") * 1e3, color = Blue  , symbol = None
+180 print sim_no, Cl_Al
+
+INCLUDE$ balonis_tbl4.prn
+END

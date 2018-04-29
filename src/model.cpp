@@ -3749,7 +3749,7 @@ reset(void)
 						   (double) mass_water_surfaces_x));
 			}
 			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
-/*appt */
+
 			if (use.Get_surface_ptr() != NULL)
 			{
 				if (use.Get_surface_ptr()->Get_debye_lengths() > 0)

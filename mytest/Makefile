@@ -395,7 +395,8 @@ all: alkalinity.out \
 	PercentSC.out \
 	ExchangeGamma.out \
 	count_database_species_core10.out \
-	dist_x.out
+	dist_x.out \
+	balonis.out
 
 # NaX.out
 
