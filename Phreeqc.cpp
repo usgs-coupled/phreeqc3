@@ -1001,7 +1001,11 @@ void Phreeqc::init(void)
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
-		default_data_base       = string_duplicate("phreeqc.dat");
+#ifdef NPP
+	default_data_base = string_duplicate("c:\\phreeqc\\database\\phreeqc.dat");
+#else
+	default_data_base = string_duplicate("phreeqc.dat");
+#endif
 #ifdef PHREEQ98
 	int outputlinenr;
 	char *LogFileNameC;
