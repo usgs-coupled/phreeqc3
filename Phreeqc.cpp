@@ -169,6 +169,246 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	}
 	return(list_c.size());
 }
+size_t Phreeqc::list_EquilibriumPhases(std::list<std::string> &list_pp)
+/*
+*	 Find all elements in any class definition
+*/
+{
+	std::set<std::string> accumulator;
+	// pure phases
+	{
+		std::map<int, cxxPPassemblage>::const_iterator cit = Rxn_pp_assemblage_map.begin();
+		for (; cit != Rxn_pp_assemblage_map.end(); cit++)
+		{
+			cxxPPassemblage entity = cit->second;
+			std::set<std::string> pp = entity.GetPhases(this);
+			std::set<std::string>::iterator ppit = pp.begin();
+			for (; ppit != pp.end(); ppit++)
+			{ 
+				accumulator.insert(*ppit);
+			}
+		}
+	}
+	list_pp.clear();
+	std::set<std::string>::iterator it = accumulator.begin();
+	for (; it != accumulator.end(); it++)
+	{
+		list_pp.insert(list_pp.end(),*it);
+	}
+	return(list_pp.size());
+}
+size_t Phreeqc::list_GasComponents(std::list<std::string> &list_gc)
+/*
+*	 Find all elements in any class definition
+*/
+{
+	std::set<std::string> accumulator;
+	// pure phases
+	{
+		std::map<int, cxxGasPhase>::const_iterator cit = Rxn_gas_phase_map.begin();
+		for (; cit != Rxn_gas_phase_map.end(); cit++)
+		{
+			cxxGasPhase entity = cit->second;
+			std::vector<cxxGasComp> &gc = entity.Get_gas_comps();
+			for (size_t i = 0; i < gc.size(); i++)
+			{
+				int j;
+				phase * p = phase_bsearch(gc[i].Get_phase_name().c_str(), &j, 0);
+				accumulator.insert(p->name);
+			}
+		}
+	}
+	list_gc.clear();
+	std::set<std::string>::iterator it = accumulator.begin();
+	for (; it != accumulator.end(); it++)
+	{
+		list_gc.insert(list_gc.end(), *it);
+	}
+	return(list_gc.size());
+}
+size_t Phreeqc::list_KineticReactions(std::list<std::string> &list_kr)
+/*
+*	 Find all kinetic reactions
+*/
+{
+	std::set<std::string> accumulator;
+	// Kinetics
+	{
+		std::map<int, cxxKinetics>::const_iterator cit = Rxn_kinetics_map.begin();
+		for (; cit != Rxn_kinetics_map.end(); cit++)
+		{
+			cxxKinetics entity = cit->second;
+			for (size_t i = 0; i < entity.Get_kinetics_comps().size(); i++)
+			{
+				std::string ratename = entity.Get_kinetics_comps()[i].Get_rate_name();
+				int j;
+				rate *r = rate_search(ratename.c_str(), &j);
+				if (r != NULL)
+				{
+					accumulator.insert(r->name);
+				}
+			}
+		}
+	}
+	list_kr.clear();
+	std::set<std::string>::iterator it = accumulator.begin();
+	for (; it != accumulator.end(); it++)
+	{
+		list_kr.insert(list_kr.end(), *it);
+	}
+	return(list_kr.size());
+}
+size_t Phreeqc::list_SolidSolutions(std::list<std::string> &list_comps, std::list<std::string> &list_names)
+/*
+*	 Find all elements in any class definition
+*/
+{
+	std::vector< std::set<std::string> > ss_sets;
+	std::vector<std::string> ss_names;
+	// solid solutions
+	std::map<int, cxxSSassemblage>::const_iterator cit = Rxn_ss_assemblage_map.begin();
+	// Fill vectors, ss names and related set of component names
+	for (; cit != Rxn_ss_assemblage_map.end(); cit++)
+	{
+		cxxSSassemblage entity = cit->second;
+		std::map<std::string, cxxSS> &SSs = entity.Get_SSs();
+		std::map<std::string, cxxSS>::iterator ssit = SSs.begin();
+		for (; ssit != SSs.end(); ssit++)
+		{
+			std::string ssname = ssit->second.Get_name();
+			std::set<std::string> accumulator_phases;
+			for (int i = 0; i < ssit->second.Get_ss_comps().size(); i++)
+			{
+				std::string pname = ssit->second.Get_ss_comps()[i].Get_name();
+				int j;
+				phase * p = phase_bsearch(pname.c_str(), &j, 0);
+				accumulator_phases.insert(p->name);
+			}
+			ss_names.push_back(ssname);
+			ss_sets.push_back(accumulator_phases);
+		}
+	}
+	// need to merge into exclusive sets of solid solution components
+	bool repeat = true;
+	while (repeat)
+	{
+		repeat = false;
+		for (int i = 0; i < (int) ss_sets.size() - 1; i++)
+		{
+			for (int j = i + 1; j < (int) ss_sets.size(); j++)
+			{
+				// locate any common component
+				std::set<std::string>::iterator it = ss_sets[j].begin();
+				for (; it != ss_sets[j].end(); it++)
+				{
+					if (ss_sets[i].find(*it) != ss_sets[i].end())
+					{
+						repeat = true;
+						break;
+					}
+				}
+				// merge sets and clear second set
+				if (repeat)
+				{
+					for (it = ss_sets[j].begin(); it != ss_sets[j].end(); it++)
+					{
+						ss_sets[i].insert(*it);
+					}
+					ss_sets[j].clear();
+					break;
+				}
+			}
+			if (repeat) break;
+		}
+	}
+	list_comps.clear();
+	list_names.clear();
+	// Write lists
+	for (size_t i = 0; i < ss_sets.size(); i++)
+	{
+		std::set<std::string>::iterator it = ss_sets[i].begin();
+		for (; it != ss_sets[i].end(); it++)
+		{
+			list_names.push_back(ss_names[i]);
+			list_comps.push_back(*it);
+		}
+	}
+	return(list_comps.size());
+}
+size_t Phreeqc::list_Surfaces(std::list<std::string> &list_surftype, std::list<std::string> &list_surfname)
+/*
+*	 Find all surface types and surfaces
+*/
+{
+	std::set<std::pair<std::string,std::string> > accumulator;
+	// Surfaces
+	{
+		std::map<int, cxxSurface>::const_iterator cit = Rxn_surface_map.begin();
+		for (; cit != Rxn_surface_map.end(); cit++)
+		{
+			cxxSurface entity = cit->second;
+			std::vector<cxxSurfaceComp> &scomps = entity.Get_surface_comps();
+			std::vector<cxxSurfaceCharge> &scharges = entity.Get_surface_charges();
+			for (size_t i = 0; i < scomps.size(); i++)
+			{
+				std::pair<std::string, std::string> p(scomps[i].Get_master_element(), scomps[i].Get_charge_name());
+				accumulator.insert(p);
+			}
+		}
+	}
+	list_surftype.clear();
+	list_surfname.clear();
+	std::set<std::pair<std::string, std::string> >::iterator it = accumulator.begin();
+	for (; it != accumulator.end(); it++)
+	{
+		list_surftype.push_back(it->first);
+		list_surfname.push_back(it->second);
+	}
+	return(list_surfname.size());
+}
+size_t Phreeqc::list_Exchangers(std::list<std::string> &list_exname)
+/*
+*	 Find all exchangers
+*/
+{
+	std::set<std::string> accumulator;
+	// Exchangers
+	std::map<int, cxxExchange>::const_iterator cit = Rxn_exchange_map.begin();
+	for (; cit != Rxn_exchange_map.end(); cit++)
+	{
+		cxxExchange entity = cit->second;
+		std::vector<cxxExchComp> &ecomps = entity.Get_exchange_comps();
+		for (size_t i = 0; i < ecomps.size(); i++)
+		{
+			std::string exname = "";
+			cxxNameDouble nd = ecomps[i].Get_totals();
+			cxxNameDouble::iterator it = nd.begin();
+			for (; it != nd.end(); it++)
+			{
+				struct master *m = master_bsearch(it->first.c_str());
+				if (m != NULL)
+				{
+					if (m->type == EX)
+					{
+						exname = it->first;
+						break;
+					}
+				}
+			}
+			if (exname != "")
+			{
+				accumulator.insert(exname);
+			}
+		}
+	}
+	list_exname.clear();
+	std::set< std::string>::iterator it = accumulator.begin();
+	for (; it != accumulator.end(); it++)
+	{
+		list_exname.push_back(*it);
+	}
+	return(list_exname.size());
+}
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
 	// phrq_io
