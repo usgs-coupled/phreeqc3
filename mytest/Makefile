@@ -396,7 +396,8 @@ all: alkalinity.out \
 	ExchangeGamma.out \
 	count_database_species_core10.out \
 	dist_x.out \
-	balonis.out
+	balonis.out \
+	mmb2_pitzer.out
 
 # NaX.out
 
