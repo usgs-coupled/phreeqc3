@@ -9,7 +9,9 @@ USER_PUNCH 101
 20 PUNCH STR_F$(SC, 20, 10)
     -end
 # diffusion of NaCl in clay membrane. Membrane opens up when DDL thickness reduces.
-KNOBS; -step_size 10; -pe_step_size 5; -iterations 1000
+KNOBS; -step_size 10; -pe_step_size 5; -iterations 1000; 
+KNOBS
+-numerical
 SOLUTION 0; Na 500; Cl 500 # saline outer solution
 END
 SOLUTION 1-20; Na 1; Cl 1; water 0.02
@@ -20,6 +22,7 @@ SURFACE_SPECIES; Su- = Su-; log_k 0
 SURFACE 1-20; Su 0.1 1.786e5 1; -equil 1
  -donnan debye_length 1 limit_DDL 0.98 viscosity 1
 END
+
 PRINT; -reset false
 TRANSPORT; -cells 20; -length 1e-2; -shifts 1 0; -bcon 1 3; -time 2.592e5
  -multi_d true 1e-9 1 0 1

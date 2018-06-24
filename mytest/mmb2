@@ -11,6 +11,9 @@ USER_PUNCH 101
 # diffusion of NaCl in clay membrane.
 # Long-time test run, EB and a_Na goto steady values if
 # charge imbalance (J_ij_sum) is not corrected.
+SOLUTION_SPECIES
+H2O + 0.01e- = H2O-0.01
+log_k  -8
 USER_PRINT
  -start
  10 print 'edl_H2O', edl("water"), 'total water', edl("water") + tot("water"), -la("H+"), 'Na =', tot("Na"), 'Cl =', tot("Cl")
@@ -28,6 +31,12 @@ SURFACE 1-20; Su 0.1 1e6 1; -equil 1
 # -donnan 3.8391e-10
 # -only_co
 END
+KNOBS
+-pe 1.01
+-step 1.01
+-conv 1e-10
+-iter 1000
+#-numerical
 #TRANSPORT; -cells 1; -length 1e-2; -shifts 8 0; -bcon 1 2
 TRANSPORT; -cells 1; -length 1e-2; -shifts 1 0; -bcon 1 2
  -time 0.5e6 40
