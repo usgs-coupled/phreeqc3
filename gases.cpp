@@ -87,7 +87,7 @@ build_fixed_volume_gas(void)
  */
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\n\tMass balance summations %s.\n\n",
+			output_msg(sformatf( "\n\tMass balance summations %s.\n",
 					   phase_ptr->name));
 		}
 
@@ -211,27 +211,27 @@ build_fixed_volume_gas(void)
 				}
 				col = master_ptr->unknown->number;
 				coef = coef_elt * rxn_ptr->coef;
-				store_jacob(&(gas_unknowns[i]->moles),
-							&(array[row + col]), coef);
 				if (debug_prep == TRUE)
 				{
-					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
+					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
 							   master_ptr->s->name, (double) coef,
 							   row / (count_unknowns + 1), col));
 				}
+				store_jacob(&(gas_unknowns[i]->moles),
+					&(my_array[row + col]), coef);
 			}
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 			{
 				/* derivative wrt total moles of gas */
-				store_jacob(&(phase_ptr->fraction_x),
-							&(array[row + gas_unknown->number]), coef_elt);
 				if (debug_prep == TRUE)
 				{
-					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
+					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
 							   "gas moles", (double) elt_list[j].coef,
 							   row / (count_unknowns + 1),
 							   gas_unknown->number));
 				}
+				store_jacob(&(phase_ptr->fraction_x),
+					&(my_array[row + gas_unknown->number]), coef_elt);
 			}
 		}
 /*
@@ -303,13 +303,13 @@ build_fixed_volume_gas(void)
 					}
 					col = master_ptr->unknown->number;
 					coef = rxn_ptr->coef;
-					store_jacob(&(phase_ptr->p_soln_x), &(array[row + col]), coef);
 					if (debug_prep == TRUE)
 					{
-						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
+						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
 							master_ptr->s->name, (double) coef,
 							row / (count_unknowns + 1), col));
 					}
+					store_jacob(&(phase_ptr->p_soln_x), &(my_array[row + col]), coef);
 				}
 			}
 		}

@@ -1655,6 +1655,9 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokt_sc:
 			output_msg("T_SC");
 			break;
+		case tokiterations:
+			output_msg("ITERATIONS");
+			break;
 		}
 		l_buf = l_buf->next;
 	}
@@ -3709,6 +3712,9 @@ factor(struct LOC_exec * LINK)
 			const char * str = stringfactor(STR1, LINK);
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_t_sc(str);
 		}
+		break;
+	case tokiterations:
+		n.UU.val = (parse_all) ? 0 : PhreeqcPtr->overall_iterations;
 		break;
 
 	case toklog10:
@@ -7333,9 +7339,10 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",              PBasic::tokt_sc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",               PBasic::tokt_sc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("aphi",               PBasic::tokaphi)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("aphi",               PBasic::tokaphi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iterations",         PBasic::tokiterations)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

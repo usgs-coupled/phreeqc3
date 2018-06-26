@@ -336,7 +336,8 @@ public:
 		tokcurrent_a,
 		tokpot_v,
 		tokt_sc,
-		tokaphi
+		tokaphi,
+		tokiterations
 	};
 
 #if !defined(PHREEQCI_GUI)

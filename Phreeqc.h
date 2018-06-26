@@ -1625,7 +1625,7 @@ protected:
 	int count_strings;
 	int max_strings;
 
-	LDBLE *array;
+	LDBLE *my_array;
 	LDBLE *delta;
 	LDBLE *residual;
 
@@ -1637,6 +1637,7 @@ protected:
 	int iterations;
 	int gamma_iterations;
 	int run_reactions_iterations;
+	int overall_iterations;
 
 	int max_line;
 	char *line;
@@ -1646,6 +1647,8 @@ protected:
 
 	int debug_model;
 	int debug_prep;
+	int debug_mass_action;
+	int debug_mass_balance;
 	int debug_set;
 	int debug_diffuse_layer;
 	int debug_inverse;

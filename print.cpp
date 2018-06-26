@@ -195,7 +195,8 @@ punch_all(void)
 		/*
 		*   new line for punch_file
 		*/
-		punch_msg("\n");
+		if (current_selected_output->Get_new_line())
+			punch_msg("\n");
 
 		/*
 		*   signal end of row
@@ -284,7 +285,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		output_msg(sformatf(
 				   "\n\tSpecies     \t    Moles   \tMoles excess\t      g\n"));
 	}
-	if ((mass_water_surface = charge_ptr->Get_mass_water()))
+	if (mass_water_surface = charge_ptr->Get_mass_water())
 	{
 		count_elts = 0;
 		paren_count = 0;
@@ -2320,7 +2321,10 @@ print_totals(void)
 	output_msg(sformatf("%45s%6.2f\n",
 			   "Percent error, 100*(Cat-|An|)/(Cat+|An|)  = ",
 			   (double) (100 * cb_x / total_ions_x)));
-	output_msg(sformatf("%45s%3d\n", "Iterations  = ", iterations));
+	if (iterations == overall_iterations)
+		output_msg(sformatf("%45s%3d\n", "Iterations  = ", iterations));
+	else
+		output_msg(sformatf("%45s%3d (%d overall)\n", "Iterations  = ", iterations, overall_iterations));
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
 		if (always_full_pitzer == FALSE)

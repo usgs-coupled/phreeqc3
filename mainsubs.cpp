@@ -1085,6 +1085,7 @@ reactions(void)
 	rate_sim_time = 0;
 	for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 	{
+		overall_iterations = 0;
 		sprintf(token, "Reaction step %d.", reaction_step);
 		if (reaction_step > 1 && incremental_reactions == FALSE)
 		{
