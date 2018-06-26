@@ -1,5 +1,75 @@
-Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+Version @PHREEQC_VER@: @PHREEQC_DATE@
 
+ 	-----------------
+	June 24, 2018
+	-----------------
+PHREEQC:
+Made the solid solution calculation with the Pitzer-model similar to the numerical 
+derivatives used in ion-association calculations.
+
+Bug-fix for porosities, which could be set incorrectly when porosities were not 
+defined in TRANSPORT simulations with more cells than before.
+
+Modified the diffusion properties for (possible) boundary cells in stagnant 
+calculations with enhanced transport through a Donnan layer. In version 3.4.2, 
+the harmonic mean of all the diffusional properties was introduced for all the 
+stagnant cells. However, many models use cell 3 and cell [2 + stagnant cells] 
+as outer, well-mixed reservoir solutions, and diffusion is then determined by 
+the properties of the boundary cells in the column (similar to the regular column, 
+where cells 0 and [cells + 1] are well-mixed). If cells 3 and [2 + stagnant cells] 
+are without a surface with a Donnan layer, they are taken as well-mixed now. 
+
+Thus:
+--cell 3 without donnan layer, cell 4 with a donnan layer: diffusion is determined 
+by the properties of cell 4.
+
+--cell 3 without donnan layer, cell 4 without a donnan layer: diffusion is determined 
+by the harmonic mean of the properties of cells 3 & 4.
+
+PHREEQC's choice can be manipulated, adding a surface with a very small number of sites 
+and a tiny Donnan layer in cell 3 and/or the cells it diffuses into, and similar 
+for cell [2 + stagnant cells]. See example opa_col3.phr (http://www.hydrohemistry.eu).
+
+
+A Donnan layer on SURFACEs can now be calculated with the Pitzer database.
+
+Bug-fixes for option -numerical_derivatives in KNOBS, setting it true may 
+improve convergence of donnan layer calculations 
+(for example, try it in http://www.hydrochemistry.eu/exmpls/membrane.phr).
+Overall iterations (this is, all the calls to CLI in a reaction step) are 
+printed in the output file if different from the iterations in the final set. 
+It can be USER_PRINTED/PUNCHED with the variable 'iterations'.
+
+Streamlined the output of -debug_prep in KNOBS. Added options 
+-debug_mass_balance (total moles of elements), and -debug_mass_action 
+(species data: log_k, dz, reaction stoichiometry).
+
+The numbers in the matrix for CLI can be inspected in 
+my_array[row * (count_unknowns + 1) + col].
+
+
+
+
+ 	-----------------
+	May 1, 2018
+	-----------------
+	PhreeqcRM: Added new methods to retrieve log10 activity coefficients
+	of aqueous species: GetSpeciesLog10Gammas(lg) (C++) and 
+	RM_GetSpeciesLog10Gammas(lg) (C++ and Fortran). 
+	See documentation of PhreeqcRM in download distributions
+
+	-----------------
+	April 28, 2018
+	-----------------
+	PHREEQC: Fixed bugs and inconsistencies (between RK and CVODE) when using 
+	REACTION and KINETICS simultaneously.
+	
+	-----------------
+	April 28, 2018
+	-----------------
+	DATABASE: Updated to latest version of core10.dat by Marc Neveu, which fixed
+	a couple errors in the database.
+	 
 	-----------------
 	March 9, 2018
 	-----------------

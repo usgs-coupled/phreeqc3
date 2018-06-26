@@ -817,7 +817,7 @@ read_transport(void)
 	*/
 	if (count_por == 0)
 	{
-		if (old_cells < all_cells && multi_Dflag && simul_tr == 1)
+		if (old_cells < all_cells && multi_Dflag /*&& simul_tr == 1*/)
 		{
 			multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 			if (multi_Dpor > 1e-10)
@@ -827,7 +827,11 @@ read_transport(void)
 				error_string = sformatf(
 				"No porosities were read; set to minimal value of 1e-10 for -multi_D.");
 			warning_msg(error_string);
-			for (i = 1; i < all_cells; i++)
+			if (simul_tr == 1)
+				j = 1;
+			else
+				j = old_cells + 1;
+			for (i = j; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;
 		}
 	}
@@ -847,7 +851,7 @@ read_transport(void)
 		{
 			for (i = 1; i <= count_por; i++)
 				cell_data[i].por = pors[i - 1];
-			if (max_cells > count_por)
+			if (all_cells > count_por)
 			{
 				error_string = sformatf(
 					"Porosities were read for %d cells. Last value is used till cell %d.",

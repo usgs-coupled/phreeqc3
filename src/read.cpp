@@ -4749,9 +4749,10 @@ read_selected_output(void)
 		"isotopes",				/* 46 */
 		"calculate_values",		/* 47 */
 		"equilibrium_phase",    /* 48 */
-		"active"                /* 49 */
+		"active",               /* 49 */
+		"new_line"            /* 50 */
 	};
-	int count_opt_list = 50;
+	int count_opt_list = 51;
 
 	int i, l;
 	char file_name[MAX_LENGTH], token[MAX_LENGTH];
@@ -4777,6 +4778,7 @@ read_selected_output(void)
 		// n_user = 1, old definition, keep old definition
 		SelectedOutput & so_ref = so->second;
 		temp_selected_output.Set_active           ( so_ref.Get_active() );
+		temp_selected_output.Set_new_line         ( so_ref.Get_new_line() );
 		temp_selected_output.Set_inverse          ( so_ref.Get_inverse() );
 		temp_selected_output.Set_sim              ( so_ref.Get_sim() );
 		temp_selected_output.Set_state            ( so_ref.Get_state() );
@@ -5127,6 +5129,12 @@ read_selected_output(void)
 			{
 				so->second.Set_active(value!=FALSE);
 			}
+			opt_save = OPTION_ERROR;
+			break;
+		case 50:				/* new_line */
+			temp_selected_output.Set_new_def(true);
+			value = get_true_false(next_char, TRUE);
+			temp_selected_output.Set_new_line(value != FALSE);
 			opt_save = OPTION_ERROR;
 			break;
 		}
@@ -8367,9 +8375,11 @@ read_debug(void)
 		"force_numerical_fixed_volume",    /* 19 */
 		"equi_delay",                      /* 20 */
 		"minimum_total",                   /* 21 */  
-		"min_total"                        /* 22 */   
+		"min_total",                       /* 22 */   
+		"debug_mass_action",               /* 23 */
+		"debug_mass_balance"               /* 24 */
 	};
-	int count_opt_list = 23;
+	int count_opt_list = 25;
 /*
  *   Read parameters:
  *	ineq_tol;
@@ -8470,6 +8480,12 @@ read_debug(void)
 			sscanf(next_char, SCANFORMAT, &MIN_TOTAL);
 			MIN_TOTAL_SS = MIN_TOTAL/100;
 			MIN_RELATED_SURFACE = MIN_TOTAL*100;
+			break;
+		case 23:				/* debug_mass_action */
+			debug_mass_action = get_true_false(next_char, TRUE);
+			break;
+		case 24:				/* debug_mass_balance */
+			debug_mass_balance = get_true_false(next_char, TRUE);
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)

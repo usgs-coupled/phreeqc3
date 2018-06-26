@@ -20,6 +20,7 @@ tidy_model(void)
 	/*
 	 * Determine if any new elements, species, phases have been read
 	 */
+	overall_iterations = 0;
 	state = INITIALIZE;
 	new_model = FALSE;
 	new_pp_assemblage = FALSE;
@@ -4005,16 +4006,16 @@ tidy_min_surface(void)
 							free_check_null(temp_formula);
 							continue;
 						}
-						if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
-						{
-							error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
-								elt_ptr->master->s->name);
-							warning_msg(error_string);
-						}
-						if (elt_ptr->master->s->z != 0.0)
+						//if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
+						//{
+						//	error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
+						//		elt_ptr->master->s->name);
+						//	warning_msg(error_string);
+						//}
+						if (elt_ptr->master->s->z != 0.0 && surface_ptr->Get_dl_type() != cxxSurface::DONNAN_DL)
 						{
 							error_string = sformatf(
-								"Suggest master species of surface, %s, be uncharged for surface related to equilibrium_phase.",
+								"Use the -donnan option when coupling surface %s to an equilibrium_phase, \n\t and note to give the equilibrium_phase the surface charge.",
 								elt_ptr->master->s->name);
 							warning_msg(error_string);
 						}	
@@ -4032,6 +4033,16 @@ tidy_min_surface(void)
 			   Further, if you precipitate Ca-Mont, make SurfCa, desorb
 			   all the Ca, then dissolve the "Ca-Mont", you must remove SurfCa, or you
 			   will end up with Ca in solution. H and O are excluded */
+			/* Example that makes montmorillonite a cation exchanger:
+			PHASES
+			Summ_Montmorillonite; Al2.33Si3.67O10(OH)2-0.33 + 12 H2O = 2.33 Al(OH)4- + 3.67 H4SiO4 + 2 H+; -log_k	-44.4
+			SURFACE_MASTER_SPECIES; Summ Summ-; SURFACE_SPECIES; Summ- = Summ-
+			SOLUTION 1; Na 1e1; Cl 1e1; pH 7 charge; C(4) 1 CO2(g) -2
+			EQUILIBRIUM_PHASES 1; Ca-Montmorillonite 0 1e-3
+			Summ_Montmorillonite 0 0
+			SURFACE 1; Summ Summ_Montmorillonite 0.33 3.11e5; -donnan; -equil 1
+			END
+			*/
 			for (int jj = 0; jj < count_elts; jj++)
 			{
 				if (elt_list[jj].elt->primary->s->type != SURF

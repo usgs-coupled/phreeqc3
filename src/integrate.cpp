@@ -604,8 +604,7 @@ initial_surface_water(void)
 			if (rd > rd_limit)
 			{
 				mass_water_surfaces_x =
-					use.Get_solution_ptr()->Get_mass_water() * ddl_limit / (1 -
-																ddl_limit);
+					use.Get_solution_ptr()->Get_mass_water() * ddl_limit / (1 - ddl_limit);
 				r = 0.002 * (mass_water_surfaces_x +
 							 use.Get_solution_ptr()->Get_mass_water()) / sum_surfs;
 				rd_limit = (1 - sqrt(1 - ddl_limit)) * r;
@@ -614,15 +613,13 @@ initial_surface_water(void)
 			}
 			else
 				mass_water_surfaces_x =
-					(r * r / pow(r - rd, 2) -
-					 1) * use.Get_solution_ptr()->Get_mass_water();
+					(r * r / pow(r - rd, 2) - 1) * use.Get_solution_ptr()->Get_mass_water();
 			for (int i = 0; i < count_unknowns; i++)
 			{
 				if (x[i]->type != SURFACE_CB)
 					continue;
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
-				l_s =charge_ptr->Get_specific_area() *
-					charge_ptr->Get_grams();
+				l_s = charge_ptr->Get_specific_area() * charge_ptr->Get_grams();
 				charge_ptr->Set_mass_water(mass_water_surfaces_x * l_s / sum_surfs);
 			}
 		}
@@ -754,7 +751,8 @@ calc_all_donnan(void)
 /*
  *   calculate g for each surface...
  */
-	initial_surface_water();
+	if (!calculating_deriv || use.Get_surface_ptr()->Get_debye_lengths()) // DL_pitz
+		initial_surface_water();
 	converge = TRUE;
 	for (int j = 0; j < count_unknowns; j++)
 	{
@@ -835,9 +833,9 @@ calc_all_donnan(void)
 			if (new_g <= -ratio_aq)
 				new_g = -ratio_aq + G_TOL * 1e-3;
 			new_g2 = ratio_aq * (exp(cd_m * z * psi_avg2) - 1);
-			if (use.Get_surface_ptr()->Get_only_counter_ions() &&
-				((surf_chrg_eq < 0 && z < 0)
-				 || (surf_chrg_eq > 0 && z > 0)))
+			if (use.Get_surface_ptr()->Get_only_counter_ions() && surf_chrg_eq * z > 0)
+				//((surf_chrg_eq < 0 && z < 0)
+				// || (surf_chrg_eq > 0 && z > 0)))
 				new_g2 = -ratio_aq;
 			if (new_g2 <= -ratio_aq)
 				new_g2 = -ratio_aq + G_TOL * 1e-3;

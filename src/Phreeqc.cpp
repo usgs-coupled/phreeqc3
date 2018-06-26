@@ -695,7 +695,7 @@ void Phreeqc::init(void)
 	stop_program            = FALSE;
 	incremental_reactions   = FALSE;
 	count_strings           = 0;
-	array					= NULL;
+	my_array					= NULL;
 	delta					= NULL;
 	residual				= NULL;
 	input_error             = 0;
@@ -705,6 +705,7 @@ void Phreeqc::init(void)
 	iterations              = 0;
 	gamma_iterations        = 0;
 	run_reactions_iterations= 0;
+	overall_iterations      = 0;
 	max_line				= MAX_LINE;
 	line                    = NULL;
 	line_save				= NULL;
@@ -712,6 +713,8 @@ void Phreeqc::init(void)
 	debug_model             = FALSE;
 	debug_prep              = FALSE;
 	debug_set               = FALSE;
+	debug_mass_action       = FALSE;
+	debug_mass_balance      = FALSE;
 	debug_diffuse_layer     = FALSE;
 	debug_inverse           = FALSE;
 #ifdef USE_LONG_DOUBLE
@@ -1921,7 +1924,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	max_line				= MAX_LINE;
 	line                    = NULL;
 	line_save				= NULL;
-	LOG_10                  = log(10.0);
+	LOG_10                  = LOG_10;
 	debug_model             = FALSE;
 	debug_prep              = FALSE;
 	debug_set               = FALSE;

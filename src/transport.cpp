@@ -431,7 +431,7 @@ transport(void)
 		/*
 		* Now transport
 		*/
-		sprintf(token, "\nCalculating transport: %d cells, %d shifts, %d mixruns...\n\n",
+		sprintf(token, "\nCalculating transport: %d (mobile) cells, %d shifts, %d mixruns...\n\n",
 			count_cells, count_shifts - transport_start + 1, nmix);
 		screen_msg(token);
 		max_iter = 0;
@@ -514,8 +514,8 @@ transport(void)
 					{
 						if (!dV_dcell && (i == 0 || i == count_cells + 1))
 							continue;
-						if (iterations > max_iter)
-							max_iter = iterations;
+						if (overall_iterations > max_iter)
+							max_iter = overall_iterations;
 						cell_no = i;
 						mixrun = j;
 						if (multi_Dflag)
@@ -708,8 +708,8 @@ transport(void)
 					run_reactions(i, kin_time, NOMIX, step_fraction);
 					if (multi_Dflag == TRUE)
 						fill_spec(i);
-					if (iterations > max_iter)
-						max_iter = iterations;
+					if (overall_iterations > max_iter)
+						max_iter = overall_iterations;
 					if (nmix == 0 && stag_data->count_stag == 0)
 						print_punch(i, true);
 					if (i == first_c && count_cells > 1)
@@ -811,8 +811,8 @@ transport(void)
 				{
 					if (!dV_dcell && (i == 0 || i == count_cells + 1))
 						continue;
-					if (iterations > max_iter)
-						max_iter = iterations;
+					if (overall_iterations > max_iter)
+						max_iter = overall_iterations;
 					cell_no = i;
 					mixrun = j;
 					if (multi_Dflag)
@@ -973,8 +973,8 @@ void Phreeqc::
 print_punch(int i, boolean active)
 /* ---------------------------------------------------------------------- */
 {
-	if ((!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
-		!(cell_data[i].print && (transport_step % print_modulus == 0))) ||
+	if (!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
+		!(cell_data[i].print && (transport_step % print_modulus == 0)) ||
 		(bcon_first == 2 && i == 0) ||
 		(bcon_last == 2 && i == count_cells + 1))
 		return;
@@ -2510,10 +2510,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		else if (icell == count_cells)
 			ct[icell].visc2 = ct[icell].visc1;
 	}
-	//LDBLE d_damper = Utilities::Rxn_find(Rxn_solution_map, jcell)->Get_mu() /
-	//	Utilities::Rxn_find(Rxn_solution_map, icell)->Get_mu();
-	//d_damper = pow(d_damper, 0.3);
-	//if (d_damper > 1) ct[icell].visc1 *= d_damper; else ct[icell].visc2 *= d_damper;
 
 	/* in each cell: DL surface = mass_water_DL / (cell_length)
 	free pore surface = mass_water_free / (cell_length)
@@ -2757,7 +2753,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				if (ct[icell].v_m[k].z)
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c1;
 
-				if (dV_dcell && ct[icell].v_m[k].z)
+				if (dV_dcell && ct[icell].v_m[k].z && !fix_current)
 				{
 					// compare diffusive and electromotive forces
 					dum = ct[icell].v_m[k].grad;
@@ -2817,6 +2813,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				b_j = A2 * (f_free_j + g_j / ct[icell].visc2);
 				if (icell == count_cells && !stagnant)
 					ct[icell].v_m[k].b_ij = b_i;
+				else if (icell == all_cells - 1 && stagnant)
+					ct[icell].v_m[k].b_ij = b_i / 2; /* with the mixf *= 2 for this 'reservoir' cell in the input */
 				else
 				{
 					if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
@@ -2828,15 +2826,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						dum2 *= sol_D[jcell].viscos_f;
 						b_j *= dum2;
 					}
+					ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
 					if (icell == 0 && !stagnant)
-					{
-						//if (d_damper < 1 && g_i == 0)
-						//	ct[icell].v_m[k].b_ij = A2 * sol_D[icell].spec[i].Dwt * (f_free_j + g_j * d_damper / ct[icell].visc2);
-						//else
 							ct[icell].v_m[k].b_ij = b_j;
-					}
-					else
-						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+					else if (icell == 3 && stagnant && !g_i && g_j)
+						ct[icell].v_m[k].b_ij = b_j / 2; /* with the mixf *= 2 for stagnant cell 3 in the input */
 				}
 
 				if (ct[icell].v_m[k].z)
@@ -2874,7 +2868,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				if (ct[icell].v_m[k].z)
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * c2;
 
-				if (dV_dcell && ct[icell].v_m[k].z)
+				if (dV_dcell && ct[icell].v_m[k].z && !fix_current)
 				{
 					// compare diffuse and electromotive forces
 					dum = ct[icell].v_m[k].grad;
@@ -2933,6 +2927,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				b_j = A2 * sol_D[jcell].spec[j].Dwt * (f_free_j + g_j / ct[icell].visc2);
 				if (icell == 0 && !stagnant)
 					ct[icell].v_m[k].b_ij = b_j;
+				else if (icell == 3 && stagnant && g_j && !g_i)
+					ct[icell].v_m[k].b_ij = b_j / 2; /* with the mixf *= 2 for 'reservoir' cell 3 in the input */
 				else
 				{
 					if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
@@ -2944,10 +2940,11 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						dum2 *= sol_D[icell].viscos_f;
 						b_i *= dum2;
 					}
+					ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
 					if (icell == count_cells && !stagnant)
 						ct[icell].v_m[k].b_ij = b_i;
-					else
-						ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+					else if (jcell == all_cells - 1 && stagnant && !g_j && g_i)
+						ct[icell].v_m[k].b_ij = b_i / 2; /* with the mixf * 2 for this 'reservoir' cell in the input */
 				}
 				if (ct[icell].v_m[k].z)
 					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
@@ -2989,7 +2986,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				if (ct[icell].v_m[k].z)
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * ct[icell].v_m[k].c;
 
-				if (dV_dcell && ct[icell].v_m[k].z)
+				if (dV_dcell && ct[icell].v_m[k].z && !fix_current)
 				{
 					// compare diffuse and electromotive forces
 					dum = ct[icell].v_m[k].grad;
@@ -3035,13 +3032,23 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				}
 				b_i = A1 * sol_D[icell].spec[i].Dwt * (f_free_i + g_i / ct[icell].visc1);
 				b_j = A2 * sol_D[jcell].spec[j].Dwt * (f_free_j + g_j / ct[icell].visc2);
-				if (icell == 0 && !stagnant)
-					ct[icell].v_m[k].b_ij = b_j;
-				else if (icell == count_cells && !stagnant)
-					ct[icell].v_m[k].b_ij = b_i;
+				ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+				// but for boundary cells...
+				if (stagnant)
+				{ /* for a diffusion experiment with well-mixed reservoir in cell 3 and the last stagnant cell,
+					   and with the mixf * 2 for the boundary cells in the input... */
+					if (icell == 3 && !g_i && g_j)
+						ct[icell].v_m[k].b_ij = b_j / 2;
+					else if (jcell == all_cells - 1 && !g_j && g_i)
+						ct[icell].v_m[k].b_ij = b_i / 2;
+				}
 				else
-					ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
-
+				{
+					if (icell == 0)
+						ct[icell].v_m[k].b_ij = b_j;
+					else if (icell == count_cells)
+						ct[icell].v_m[k].b_ij = b_i;
+				}
 				if (ct[icell].v_m[k].z)
 					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 
@@ -3067,6 +3074,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	if (dV_dcell)
 	{
+		if (transport_step >= 100)
+			icell = icell;
 		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dum = dV_dcell * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)

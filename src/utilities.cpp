@@ -172,8 +172,10 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 		if (need_temp_msg < 1)
 		{
 			std::ostringstream w_msg;
-			w_msg << "Fitting range for density of pure water is 0-300 C.\n";
-			w_msg << "Using temperature of 350 C for density and dielectric calculation.";
+			w_msg << "Fitting range for dielectric constant of pure water is 0-350 C.\n";
+			w_msg << "Fitting range for density along the saturation pressure line is 0-374 C,\n";
+			w_msg << "                         for higher pressures up to 1000 atm    0-300 C.\n";
+			w_msg << "Using temperature of 350 C for dielectric and density calculation.";
 			warning_msg(w_msg.str().c_str());
 			need_temp_msg++;
 		}
