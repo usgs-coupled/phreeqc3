@@ -1,5 +1,81 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
+
+ 	-----------------
+	June 27, 2018
+	-----------------
+
+PhreeqcRM: Added methods to provide lists of exchange species, surface species,
+reactants, and relevant minerals and gases defined in the reaction module. The lists
+are derived from the SOLUTION, EXCHANGE, SURFACE, EQUILIBRIUM_PHASES, GAS_PHASES,
+and KINETICS definitions in the "initial phreeqc" IPhreeqc object. 
+
+-----------
+C++ methods
+-----------
+
+Exchange
+--------
+Number of exchange species
+   int                              GetExchangeSpeciesCount(void)
+Names of all exchange species (for example, NaX)
+   const std::vector<std::string> & GetExchangeSpeciesNames(void)
+Name of exchanger in exchange species (for example, X)
+   const std::vector<std::string> & GetExchangeNames(void)
+
+Surface
+-------
+Number of surface species 
+   int                              GetSurfaceSpeciesCount(void)
+Names of all surface species (for example Hfo_wOH)
+   const std::vector<std::string> & GetSurfaceSpeciesNames(void)
+Surface type for surface species (for example Hfo_w)
+   const std::vector<std::string> & GetSurfaceTypes(void)
+Surface name for surface species (for example Hfo)
+   const std::vector<std::string> & GetSurfaceNames(void)
+   
+Equilibrium phases
+------------------
+Number of equilibrium phases 
+   int                              GetEquilibriumPhasesCount(void)
+Names of equilibrium phases; suitable for definitions of -equilibrium_phases
+in SELECTED_OUTPUT
+   const std::vector<std::string> & GetEquilibriumPhases(void)
+
+Gas phase components
+--------------------
+Number of gas phase components
+   int                              GetGasComponentsCount(void)
+Names of gas phase components; suitable for definitions of -gas
+in SELECTED_OUTPUT
+   const std::vector<std::string> & GetGasComponents(void)
+
+Kinetics
+--------
+Number of kinetic reactions
+   int                              GetKineticReactionsCount(void)
+Names of kinetic reactions; suitable for definitions of -kinetics
+in SELECTED_OUTPUT
+   const std::vector<std::string> & GetKineticReactions(void)
+
+Solid solutions
+---------------
+Number of solid solution components
+   int                              GetSolidSolutionComponentsCount(void)
+Names of solid solution components; suitable for definitions of 
+-solid_solution in SELECTED_OUTPUT
+   const std::vector<std::string> & GetSolidSolutionComponents(void)
+Solid solution name containing the solid solution component
+   const std::vector<std::string> & GetSolidSolutionNames(void)
+   
+Saturation index phases
+-----------------------
+Number of phases appropriate for the elements defined in the reaction module
+   int                              GetSICount(void)
+Names of phases in the reaction module; suitable for definitions of
+-si in SELECTED_OUTPUT
+   const std::vector<std::string> & GetSINames(void)
+
  	-----------------
 	June 24, 2018
 	-----------------
