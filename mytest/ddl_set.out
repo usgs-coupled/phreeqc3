@@ -1,0 +1,209 @@
+   Input file: ddl_set
+  Output file: ddl_set.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	database ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 ddl_set_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	solution
+	Na 1
+	P  1 charge
+	SURFACE 1
+	Hfo_wOH 1 1 600
+	cd_music
+	ddl
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Na                1.000e-03   1.000e-03
+	P                 7.082e-04   7.082e-04  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (uS/cm,  25oC)  = 90
+                          Density (g/cm3)  =   0.99712
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.291e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.918e-04
+                         Temperature (oC)  =  25.00
+                  Electrical balance (eq)  =  -7.362e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110136e+02
+                                  Total O  = 5.550905e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             1.054e-07   1.012e-07    -6.977    -6.995    -0.018     -4.10
+   H+              1.039e-07   1.000e-07    -6.983    -7.000    -0.017      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          1.415e-25
+   H2              7.077e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+Na            1.000e-03
+   Na+             9.995e-04   9.603e-04    -3.000    -3.018    -0.017     -1.47
+   NaHPO4-         4.840e-07   4.652e-07    -6.315    -6.332    -0.017     33.51
+   NaOH            9.717e-21   9.720e-21   -20.012   -20.012     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+P             7.082e-04
+   H2PO4-          4.163e-04   4.001e-04    -3.381    -3.398    -0.017     33.21
+   HPO4-2          2.914e-04   2.484e-04    -3.536    -3.605    -0.069      6.73
+   NaHPO4-         4.840e-07   4.652e-07    -6.315    -6.332    -0.017     33.51
+   H3PO4           5.889e-09   5.891e-09    -8.230    -8.230     0.000     47.41
+   PO4-3           1.610e-09   1.120e-09    -8.793    -8.951    -0.157    -23.20
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using surface 1.	
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Hfo           
+	 -2.051e-04  Surface charge, eq
+	 -3.299e-02  sigma, C/m2
+	 -1.455e-01  psi, V
+	  5.663e+00  -F*psi/RT
+	  2.880e+02  exp(-F*psi/RT)
+	  1.000e+00  specific area, m2/g
+	  6.000e+02  m2 for   6.000e+02 g
+
+
+Hfo_w         
+	  1.000e+00  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           7.672e-01       0.767   7.672e-01      -0.115
+	Hfo_wOH2+         1.165e-01       0.116   1.165e-01      -0.934
+	Hfo_wO-           1.158e-01       0.116   1.158e-01      -0.936
+	Hfo_wPO4-2        3.711e-04       0.000   3.711e-04      -3.430
+	Hfo_wHPO4-        1.351e-04       0.000   1.351e-04      -3.869
+	Hfo_wH2PO4        8.357e-07       0.000   8.357e-07      -6.078
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Na                1.000e-03   1.000e-03
+	P                 2.011e-04   2.011e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  10.568      Charge balance
+                                       pe  =   7.245      Adjusted to redox equilibrium
+      Specific Conductance (uS/cm,  25oC)  = 145
+                          Density (g/cm3)  =   0.99709
+                               Volume (L)  =   1.00297
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.106e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.938e-04
+                         Temperature (oC)  =  25.00
+                  Electrical balance (eq)  =   2.051e-04
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  11.43
+                               Iterations  =  16
+                                  Total H  = 1.110133e+02
+                                  Total O  = 5.550753e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol
+
+   OH-             3.888e-04   3.745e-04    -3.410    -3.427    -0.016     -4.11
+   H+              2.801e-11   2.703e-11   -10.553   -10.568    -0.015      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          3.339e-39
+   H2              1.669e-39   1.670e-39   -38.777   -38.777     0.000     28.61
+Na            1.000e-03
+   Na+             9.997e-04   9.632e-04    -3.000    -3.016    -0.016     -1.48
+   NaHPO4-         3.305e-07   3.186e-07    -6.481    -6.497    -0.016     33.50
+   NaOH            3.606e-17   3.607e-17   -16.443   -16.443     0.000     (0)  
+O(0)          2.989e-15
+   O2              1.494e-15   1.495e-15   -14.826   -14.825     0.000     30.40
+P             2.011e-04
+   HPO4-2          1.967e-04   1.696e-04    -3.706    -3.771    -0.064      6.72
+   PO4-3           3.962e-06   2.829e-06    -5.402    -5.548    -0.146    -23.23
+   NaHPO4-         3.305e-07   3.186e-07    -6.481    -6.497    -0.016     33.50
+   H2PO4-          7.661e-08   7.384e-08    -7.116    -7.132    -0.016     33.21
+   H3PO4           2.937e-16   2.938e-16   -15.532   -15.532     0.000     47.41
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -35.68    -38.78   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -11.93    -14.83   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+--------------------------------
+End of Run after 81.788 Seconds.
+--------------------------------
+
