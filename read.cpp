@@ -7242,9 +7242,10 @@ read_surface(void)
 		"constant_capacitance", /* 12 */
 		"ccm",                  /* 13 */
         "equilibrium",          /* 14 */
-		"site_units"            /* 15 */
+		"site_units",           /* 15 */
+		"ddl"                   /* 16 */
 	};
-	int count_opt_list = 16;
+	int count_opt_list = 17;
 	/*
 	 * kin_surf is for Surfaces, related to kinetically reacting minerals
 	 *    they are defined if "sites" is followed by mineral name:
@@ -7508,7 +7509,9 @@ read_surface(void)
 			/* constant capacitance model not implemented yet */
 			//error_msg("Constant capacitance model not implemented.", CONTINUE);
 			//input_error++;
-
+			break;
+		case 16:				/* ddl */
+			temp_surface.Set_type(cxxSurface::DDL);
 			break;
 		case OPTION_DEFAULT:
 			/*
