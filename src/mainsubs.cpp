@@ -1600,14 +1600,23 @@ xsolution_save(int n_user)
 	for (it = temp_solution.Get_isotopes().begin(); it != temp_solution.Get_isotopes().end(); it++)
 	{
 		struct master *iso_master_ptr = master_bsearch(it->second.Get_elt_name().c_str());
-		it->second.Set_total(iso_master_ptr->total);
-		if (iso_master_ptr == s_hplus->secondary)
+		if (iso_master_ptr != NULL)
 		{
-			it->second.Set_total(2 * mass_water_aq_x / gfw_water);
+			it->second.Set_total(iso_master_ptr->total);
+			if (iso_master_ptr == s_hplus->secondary)
+			{
+				it->second.Set_total(2 * mass_water_aq_x / gfw_water);
+			}
+			if (iso_master_ptr == s_h2o->secondary)
+			{
+				it->second.Set_total(mass_water_aq_x / gfw_water);
+			}
 		}
-		if (iso_master_ptr == s_h2o->secondary)
+		else
 		{
-			it->second.Set_total(mass_water_aq_x / gfw_water);
+			error_string = sformatf("Ignoring failed attempt to interpret %s as an isotope of element %s.",
+				it->second.Get_isotope_name().c_str(), it->second.Get_elt_name().c_str());
+			warning_msg(error_string);
 		}
 	}
 #ifdef SKIP

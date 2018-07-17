@@ -398,7 +398,8 @@ all: alkalinity.out \
 	dist_x.out \
 	balonis.out \
 	mmb2_pitzer.out \
-	ddl_set.out
+	ddl_set.out \
+	rotter.out
 
 # NaX.out
 
