@@ -1157,6 +1157,12 @@ public:
 	void set_phast(int);
 	int next_user_number(Keywords::KEYWORDS key);
 	size_t list_components(std::list<std::string> &list_c);
+	size_t Phreeqc::list_EquilibriumPhases(std::list<std::string> &list_pp);
+	size_t Phreeqc::list_GasComponents(std::list<std::string> &list_gc);
+	size_t Phreeqc::list_KineticReactions(std::list<std::string> &list_kr);
+	size_t Phreeqc::list_SolidSolutions(std::list<std::string> &list_comps, std::list<std::string> &list_names);
+	size_t Phreeqc::list_Surfaces(std::list<std::string> &surftype, std::list<std::string> &surf);
+	size_t Phreeqc::list_Exchangers(std::list<std::string> &ex);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
 	void Set_run_cells_one_step(const bool tf) {this->run_cells_one_step = tf;}
 
