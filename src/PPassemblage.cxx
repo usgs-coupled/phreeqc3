@@ -248,6 +248,23 @@ cxxPPassemblage::totalize(Phreeqc * phreeqc_ptr)
 	}
 	return;
 }
+std::set<std::string>
+cxxPPassemblage::GetPhases(Phreeqc * phreeqc_ptr)
+{
+	std::set<std::string> phase_list;
+	// component structures
+	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
+		pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
+	{
+		int l;
+		phase * phase_ptr = phreeqc_ptr->phase_bsearch((*it).second.Get_name().c_str(), &l, FALSE);;
+		if (phase_ptr != NULL)
+		{
+			phase_list.insert(phase_ptr->name);
+		}
+	}
+	return phase_list;
+}
 void
 cxxPPassemblage::add(const cxxPPassemblage & addee, LDBLE extensive)
 		//
