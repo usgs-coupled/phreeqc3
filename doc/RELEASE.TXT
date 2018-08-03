@@ -1,62 +1,292 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
  	-----------------
+	July 17, 2018
+	-----------------
+
+	PHREEQC: Fixed bug where an element name like "1W" in SOLUTION or SOLUTION_SPREAD 
+	was interpreted as an isotope, but caused a NULL pointer if the ISOTOPE definitions
+	did not exist.
+	
+ 	-----------------
+	July 8, 2018
+	-----------------
+
+	PHREEQC: Added option -ddl to SURFACE. Sets surface type to 
+	diffuse double layer, which is the default if -no_edl and -cd_music
+	are not defined.
+	
+ 	-----------------
+	June 27, 2018
+	-----------------
+
+	PhreeqcRM: Added methods to provide lists of exchange species, surface species,
+	reactants, and relevant minerals and gases defined in the reaction module. The lists
+	are derived from the SOLUTION, EXCHANGE, SURFACE, EQUILIBRIUM_PHASES, GAS_PHASES,
+	and KINETICS definitions in the "initial phreeqc" IPhreeqc object. 
+	See documentation of PhreeqcRM in download distributions.
+
+	-----------
+	C++ methods
+	-----------
+
+	EXCHANGE
+	--------
+	Number of exchange species
+	   int GetExchangeSpeciesCount(void)
+	Names of all exchange species (for example, NaX)
+	   const std::vector<std::string> & GetExchangeSpeciesNames(void)
+	Name of exchanger in exchange species (for example, X)
+	   const std::vector<std::string> & GetExchangeNames(void)
+
+	Surface
+	-------
+	Number of surface species 
+	   int                              GetSurfaceSpeciesCount(void)
+	Names of all surface species (for example Hfo_wOH)
+	   const std::vector<std::string> & GetSurfaceSpeciesNames(void)
+	Surface type for surface species (for example Hfo_w)
+	   const std::vector<std::string> & GetSurfaceTypes(void)
+	Surface name for surface species (for example Hfo)
+	   const std::vector<std::string> & GetSurfaceNames(void)
+	   
+	Equilibrium phases
+	------------------
+	Number of equilibrium phases 
+	   int                              GetEquilibriumPhasesCount(void)
+	Names of equilibrium phases; suitable for definitions of -equilibrium_phases
+	in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetEquilibriumPhases(void)
+
+	Gas phase components
+	--------------------
+	Number of gas phase components
+	   int                              GetGasComponentsCount(void)
+	Names of gas phase components; suitable for definitions of -gas
+	in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetGasComponents(void)
+
+	Kinetics
+	--------
+	Number of kinetic reactions
+	   int                              GetKineticReactionsCount(void)
+	Names of kinetic reactions; suitable for definitions of -kinetics
+	in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetKineticReactions(void)
+
+	Solid solutions
+	---------------
+	Number of solid solution components
+	   int                              GetSolidSolutionComponentsCount(void)
+	Names of solid solution components; suitable for definitions of 
+	-solid_solution in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetSolidSolutionComponents(void)
+	Solid solution name containing the solid solution component
+	   const std::vector<std::string> & GetSolidSolutionNames(void)
+	   
+	Saturation index phases
+	-----------------------
+	Number of phases appropriate for the elements defined in the reaction module
+	   int                              GetSICount(void)
+	Names of phases in the reaction module; suitable for definitions of
+	-si in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetSINames(void)
+   
+	---------------
+	Fortran methods
+	---------------
+
+	Exchange
+	--------
+	Number of exchange species
+	   integer function RM_GetExchangeSpeciesCount(id)
+	Name of exchange species (for example, NaX)
+	   integer function RM_GetExchangeSpeciesName(id, i, line)
+	Name of exchanger in exchange species (for example, X)
+	   integer function RM_GetExchangeName(id, i, line1)
+
+	Surface
+	-------
+	Number of surface species 
+	   integer function RM_GetSurfaceSpeciesCount(id)
+	Name of all surface species (for example Hfo_wOH)
+	   integer function RM_GetSurfaceSpeciesName(id, i, line)
+	Surface type for surface species (for example Hfo_w)
+	   integer function RM_GetSurfaceType(id, i, line1)
+	Surface name for surface species (for example Hfo)
+	   integer function RM_GetSurfaceName(id, i, line2)
+	   
+	Equilibrium phases
+	------------------
+	Number of equilibrium phases 
+	   integer function RM_GetEquilibriumPhasesCount(id)
+	Name of equilibrium phase; suitable for definitions of -equilibrium_phases
+	in SELECTED_OUTPUT
+	   integer function RM_GetEquilibriumPhasesName(id, i, line)
+
+	Gas phase components
+	--------------------
+	Number of gas phase components
+	   integer function RM_GetGasComponentsCount(id)
+	Name of gas phase component; suitable for definitions of -gas
+	in SELECTED_OUTPUT
+	   integer function RM_GetGasComponentsName(id, i, line)
+
+	Kinetics
+	--------
+	Number of kinetic reactions
+	   integer function RM_GetKineticReactionsCount(id)
+	Name of kinetic reaction; suitable for definitions of -kinetics
+	in SELECTED_OUTPUT
+	   integer function RM_GetKineticReactionsName(id, i, line)
+
+	Solid solutions
+	---------------
+	Number of solid solution components
+	   integer function RM_GetSolidSolutionComponentsCount(id)
+	Name of solid solution component; suitable for definitions of 
+	-solid_solution in SELECTED_OUTPUT
+	   integer function RM_GetSolidSolutionComponentsName(id, i, line)
+	Solid solution name containing the solid solution component
+	   integer function RM_GetSolidSolutionName(id, i, line1)
+	   
+	Saturation index phases
+	-----------------------
+	Number of phases appropriate for the elements defined in the reaction module
+	   integer function RM_GetSICount(id)
+	Name of phase in the reaction module; suitable for definitions of
+	-si in SELECTED_OUTPUT
+	   integer function RM_GetSIName(id, i, line)
+
+	---------------
+	C methods
+	---------------
+
+	Exchange
+	--------
+	Number of exchange species
+	   int RM_GetExchangeSpeciesCount(id)
+	Name of exchange species (for example, NaX)
+	   IRM_RESULT RM_GetExchangeSpeciesName(id, i, line1, length)
+	Name of exchanger in exchange species (for example, X)
+	   IRM_RESULT RM_GetExchangeName(id, i, line1, length)
+
+	Surface
+	-------
+	Number of surface species 
+	   int RM_GetSurfaceSpeciesCount(id)
+	Name of all surface species (for example Hfo_wOH)
+	   IRM_RESULT RM_GetSurfaceSpeciesName(id, i, line, length)
+	Surface type for surface species (for example Hfo_w)
+	   IRM_RESULT RM_GetSurfaceType(id, i, line1, length)
+	Surface name for surface species (for example Hfo)
+	   IRM_RESULT RM_GetSurfaceName(id, i, line2, length)
+	   
+	Equilibrium phases
+	------------------
+	Number of equilibrium phases 
+	   int RM_GetEquilibriumPhasesCount(id)
+	Name of equilibrium phase; suitable for definitions of -equilibrium_phases
+	in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetEquilibriumPhasesName(id, i, line, length)
+
+	Gas phase components
+	--------------------
+	Number of gas phase components
+	   int RM_GetGasComponentsCount(id)
+	Name of gas phase component; suitable for definitions of -gas
+	in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetGasComponentsName(id, i, line, length)
+
+	Kinetics
+	--------
+	Number of kinetic reactions
+	   int RM_GetKineticReactionsCount(id)
+	Name of kinetic reaction; suitable for definitions of -kinetics
+	in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetKineticReactionsName(id, i, line, length)
+
+	Solid solutions
+	---------------
+	Number of solid solution components
+	   int RM_GetSolidSolutionComponentsCount(id)
+	Name of solid solution component; suitable for definitions of 
+	-solid_solution in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetSolidSolutionComponentsName(id, i, line, length)
+	Solid solution name containing the solid solution component
+	   IRM_RESULT RM_GetSolidSolutionName(id, i, line1, length)
+	   
+	Saturation index phases
+	-----------------------
+	Number of phases appropriate for the elements defined in the reaction module
+	   int RM_GetSICount(id)
+	Name of phase in the reaction module; suitable for definitions of
+	-si in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetSIName(id, i, line, length)
+	   
+ 	-----------------
 	June 24, 2018
 	-----------------
-PHREEQC:
-Made the solid solution calculation with the Pitzer-model similar to the numerical 
-derivatives used in ion-association calculations.
+	PHREEQC:
+	Made the solid solution calculation with the Pitzer-model similar to the numerical 
+	derivatives used in ion-association calculations.
 
-Bug-fix for porosities, which could be set incorrectly when porosities were not 
-defined in TRANSPORT simulations with more cells than before.
+	Bug-fix for porosities, which could be set incorrectly when porosities were not 
+	defined in TRANSPORT simulations with more cells than before.
 
-Modified the diffusion properties for (possible) boundary cells in stagnant 
-calculations with enhanced transport through a Donnan layer. In version 3.4.2, 
-the harmonic mean of all the diffusional properties was introduced for all the 
-stagnant cells. However, many models use cell 3 and cell [2 + stagnant cells] 
-as outer, well-mixed reservoir solutions, and diffusion is then determined by 
-the properties of the boundary cells in the column (similar to the regular column, 
-where cells 0 and [cells + 1] are well-mixed). If cells 3 and [2 + stagnant cells] 
-are without a surface with a Donnan layer, they are taken as well-mixed now. 
+	Modified the diffusion properties for (possible) boundary cells in stagnant 
+	calculations with enhanced transport through a Donnan layer. In version 3.4.2, 
+	the harmonic mean of all the diffusional properties was introduced for all the 
+	stagnant cells. However, many models use cell 3 and cell [2 + stagnant cells] 
+	as outer, well-mixed reservoir solutions, and diffusion is then determined by 
+	the properties of the boundary cells in the column (similar to the regular column, 
+	where cells 0 and [cells + 1] are well-mixed). If cells 3 and [2 + stagnant cells] 
+	are without a surface with a Donnan layer, they are taken as well-mixed now. 
 
-Thus:
---cell 3 without donnan layer, cell 4 with a donnan layer: diffusion is determined 
-by the properties of cell 4.
+	Thus:
+	--cell 3 without donnan layer, cell 4 with a donnan layer: diffusion is determined 
+	by the properties of cell 4.
 
---cell 3 without donnan layer, cell 4 without a donnan layer: diffusion is determined 
-by the harmonic mean of the properties of cells 3 & 4.
+	--cell 3 without donnan layer, cell 4 without a donnan layer: diffusion is determined 
+	by the harmonic mean of the properties of cells 3 & 4.
 
-PHREEQC's choice can be manipulated, adding a surface with a very small number of sites 
-and a tiny Donnan layer in cell 3 and/or the cells it diffuses into, and similar 
-for cell [2 + stagnant cells]. See example opa_col3.phr (http://www.hydrohemistry.eu).
+	PHREEQC's choice can be manipulated, adding a surface with a very small number of sites 
+	and a tiny Donnan layer in cell 3 and/or the cells it diffuses into, and similar 
+	for cell [2 + stagnant cells]. See example opa_col3.phr (http://www.hydrohemistry.eu).
 
+	A Donnan layer on SURFACEs can now be calculated with the Pitzer database.
 
-A Donnan layer on SURFACEs can now be calculated with the Pitzer database.
+	Bug-fixes for option -numerical_derivatives in KNOBS, setting it true may 
+	improve convergence of donnan layer calculations 
+	(for example, try it in http://www.hydrochemistry.eu/exmpls/membrane.phr).
+	Overall iterations (this is, all the calls to CLI in a reaction step) are 
+	printed in the output file if different from the iterations in the final set. 
+	It can be USER_PRINTED/PUNCHED with the variable 'iterations'.
 
-Bug-fixes for option -numerical_derivatives in KNOBS, setting it true may 
-improve convergence of donnan layer calculations 
-(for example, try it in http://www.hydrochemistry.eu/exmpls/membrane.phr).
-Overall iterations (this is, all the calls to CLI in a reaction step) are 
-printed in the output file if different from the iterations in the final set. 
-It can be USER_PRINTED/PUNCHED with the variable 'iterations'.
+	Streamlined the output of -debug_prep in KNOBS. Added options 
+	-debug_mass_balance (total moles of elements), and -debug_mass_action 
+	(species data: log_k, dz, reaction stoichiometry).
 
-Streamlined the output of -debug_prep in KNOBS. Added options 
--debug_mass_balance (total moles of elements), and -debug_mass_action 
-(species data: log_k, dz, reaction stoichiometry).
-
-The numbers in the matrix for CLI can be inspected in 
-my_array[row * (count_unknowns + 1) + col].
-
-
-
+	The numbers in the matrix for CLI can be inspected in 
+	my_array[row * (count_unknowns + 1) + col].
 
  	-----------------
 	May 1, 2018
 	-----------------
 	PhreeqcRM: Added new methods to retrieve log10 activity coefficients
-	of aqueous species: GetSpeciesLog10Gammas(lg) (C++) and 
-	RM_GetSpeciesLog10Gammas(lg) (C++ and Fortran). 
-	See documentation of PhreeqcRM in download distributions
+	of aqueous species.
+	
+	C++ method:
+	IRM_RESULT  GetSpeciesLog10Gammas (std::vector< double > &species_log10gammas) 
+	
+    Fortran method:	
+	integer function RM_GetSpeciesLog10Gammas(integer, intent(in) id,  
+       double precision, dimension(:,:), intent(out)  species_log10gammas) 
+
+	C method:
+	IRM_RESULT RM_GetSpeciesLog10Gammas(int id, double * species_log10gammas)  
+
+	See documentation of PhreeqcRM in download distributions.
 
 	-----------------
 	April 28, 2018

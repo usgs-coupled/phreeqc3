@@ -397,7 +397,9 @@ all: alkalinity.out \
 	count_database_species_core10.out \
 	dist_x.out \
 	balonis.out \
-	mmb2_pitzer.out
+	mmb2_pitzer.out \
+	ddl_set.out \
+	rotter.out
 
 # NaX.out
 
