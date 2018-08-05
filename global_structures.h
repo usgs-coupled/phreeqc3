@@ -1,6 +1,7 @@
 #ifndef _INC_GLOBAL_STRUCTURES_H
 #define _INC_GLOBAL_STRUCTURES_H
 #include "Surface.h"
+#include "GasPhase.h"
 /* ----------------------------------------------------------------------
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
@@ -246,6 +247,7 @@ struct model
 	struct kinetics *kinetics;
 
 	int count_gas_phase;
+	cxxGasPhase::GP_TYPE gas_phase_type;
 	struct phase **gas_phase;
 
 	int count_ss_assemblage;
