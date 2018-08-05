@@ -5471,6 +5471,7 @@ reset_last_model(void)
 	last_model.exchange =
 		(struct master **) free_check_null(last_model.exchange);
 	last_model.count_gas_phase = 0;
+	last_model.gas_phase_type = cxxGasPhase::GP_UNKNOWN;
 	last_model.gas_phase =
 		(struct phase **) free_check_null(last_model.gas_phase);
 	last_model.count_ss_assemblage = 0;
