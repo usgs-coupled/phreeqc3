@@ -453,6 +453,7 @@ void Phreeqc::init(void)
 	last_model.count_kinetics       = -1;
 	last_model.kinetics             = NULL;
 	last_model.count_gas_phase      = -1;
+	last_model.gas_phase_type       = cxxGasPhase::GP_UNKNOWN;
 	last_model.gas_phase            = NULL;
 	last_model.count_ss_assemblage  = -1;
 	last_model.ss_assemblage        = NULL;
