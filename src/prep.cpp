@@ -5860,6 +5860,7 @@ save_model(void)
 	{
 		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 		last_model.count_gas_phase = (int) gas_phase_ptr->Get_gas_comps().size();
+		last_model.gas_phase_type = gas_phase_ptr->Get_type();
 		last_model.gas_phase =
 			(struct phase **) PHRQ_malloc((size_t) last_model.count_gas_phase *
 										  sizeof(struct phase *));
@@ -5877,6 +5878,7 @@ save_model(void)
 	else
 	{
 		last_model.count_gas_phase = 0;
+		last_model.gas_phase_type = cxxGasPhase::GP_UNKNOWN;
 		last_model.gas_phase = NULL;
 	}
 /*
@@ -6058,6 +6060,8 @@ check_same_model(void)
 		if (last_model.numerical_fixed_volume != numerical_fixed_volume)
 			return (FALSE);
 		if (last_model.count_gas_phase != (int) gas_phase_ptr->Get_gas_comps().size())
+			return (FALSE);
+		if (last_model.gas_phase_type != gas_phase_ptr->Get_type())
 			return (FALSE);
 		for (i = 0; i < (int) gas_phase_ptr->Get_gas_comps().size(); i++)
 		{

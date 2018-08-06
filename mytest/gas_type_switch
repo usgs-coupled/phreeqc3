@@ -1,0 +1,44 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 gas_type_switch_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+TITLE 1 setup initial solution
+
+SOLUTION 1 pure water plus non reactive methane and nitrogen
+
+EQUILIBRIUM_PHASES 99
+ Mtg(g)   10   4e-3
+ Ntg(g)   10   1.5e-3
+
+SAVE solution 99
+END
+
+TITLE 2 calculate bubble pressure
+
+USE solution 99
+
+GAS_PHASE 
+-fixed_volume
+-volume 0.0001
+Mtg(g) 0
+Ntg(g) 0
+
+END
+
+TITLE 3 allow degassing at 2 atm
+
+USE solution 99
+
+GAS_PHASE 
+-fixed_pressure
+-pressure 2
+Ntg(g) 0
+Mtg(g) 0
+
+END
+
