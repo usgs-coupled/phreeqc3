@@ -7,20 +7,20 @@
 <TITLE> Example 8--Surface Complexation</TITLE><HR><P> | <A HREF="phreeqc3-64.htm">Next</A> || <A HREF="phreeqc3-62.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50528271_pgfId-1341049"></A>Example 8--<A NAME="50528271_58878"></A>Surface Complexation</H2>
+<A NAME="50540559_pgfId-1341049"></A>Example 8--<A NAME="50540559_58878"></A>Surface Complexation</H2>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1341050"></A>In all surface complexation models, sorption is a function of both chemical and electrostatic energy as described by the free energy relationship: </P>
+<A NAME="50540559_pgfId-1341050"></A>In all surface complexation models, sorption is a function of both chemical and electrostatic energy as described by the free energy relationship: </P>
 <DIV>
 <H3 CLASS="EquationNumbered">
-<A NAME="50528271_pgfId-1341051"></A>&#916;Gtot = &#916;Gads + zF&#968;,	(21)</H3>
+<A NAME="50540559_pgfId-1341051"></A>&#916;Gtot = &#916;Gads + zF&#968;,	(21)</H3>
 <P CLASS="BodyTextFlush">
-<A NAME="50528271_pgfId-1341052"></A>where &#916;G is the Gibbs energy (J/mol), z is the charge number (unitless) of the sorbed species, F is the Faraday constant (96,485 C/mol), &#968; is the potential (V), and subscripts tot and ads indicate total and chemical adsorption energy, respectively. Sorption is stronger when the Gibbs energy decreases. Thus, a counter-ion that carries a charge opposite to the surface charge tends to be sorbed electrostatically, while a co-ion that carries a charge with the same sign as the surface tends to be rejected. </P>
+<A NAME="50540559_pgfId-1341052"></A>where &#916;G is the Gibbs energy (J/mol), z is the charge number (unitless) of the sorbed species, F is the Faraday constant (96,485 C/mol), &#968; is the potential (V), and subscripts tot and ads indicate total and chemical adsorption energy, respectively. Sorption is stronger when the Gibbs energy decreases. Thus, a counter-ion that carries a charge opposite to the surface charge tends to be sorbed electrostatically, while a co-ion that carries a charge with the same sign as the surface tends to be rejected. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1341053"></A>PHREEQC has two models for surface complexation. One is based on the Dzombak and Morel (1990) database for complexation of heavy metal ions on hydrous ferric oxide (Hfo), or ferrihydrite. Ferrihydrite, like many other oxy-hydroxides, binds metals and protons on strong and weak sites and develops a charge depending on the ions sorbed. The model uses the Gouy-Chapman equation to relate surface charge and potential. </P>
+<A NAME="50540559_pgfId-1341053"></A>PHREEQC has two models for surface complexation. One is based on the Dzombak and Morel (1990) database for complexation of heavy metal ions on hydrous ferric oxide (Hfo), or ferrihydrite. Ferrihydrite, like many other oxy-hydroxides, binds metals and protons on strong and weak sites and develops a charge depending on the ions sorbed. The model uses the Gouy-Chapman equation to relate surface charge and potential. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1517121"></A>The other model is CD-MUSIC, which also can accommodate multiple surface sites. In addition, the charge, the potential, and even the sorbed species can be distributed over two additional planes in the double layer that extends from the surface into the free (electrically neutral) solution. The CD-MUSIC model has more options to fit experimental data and initially was developed for sorption on goethite, but has been applied to many metal-oxide surfaces. An example is given in the PHREEQC Help file, which is available by installing http://www.hydrochemistry.eu/phreeqc.chm.exe (accessed June 25, 2012).</P>
+<A NAME="50540559_pgfId-1517121"></A>The other model is CD-MUSIC, which also can accommodate multiple surface sites. In addition, the charge, the potential, and even the sorbed species can be distributed over two additional planes in the double layer that extends from the surface into the free (electrically neutral) solution. The CD-MUSIC model has more options to fit experimental data and initially was developed for sorption on goethite, but has been applied to many metal-oxide surfaces. An example is given in the PHREEQC Help file, which is available by installing http://www.hydrochemistry.eu/phreeqc.chm.exe (accessed June 25, 2012).</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1517122"></A>Neither of the models considers that a charged surface, when centrifuged and separated from a solution, must have a shell of co- and counter-ions that compensates the surface charge in an electrical double layer (EDL). However, PHREEQC can integrate the concentrations in the diffuse layer (<STRONG CLASS="Bold">
+<A NAME="50540559_pgfId-1517122"></A>Neither of the models considers that a charged surface, when centrifuged and separated from a solution, must have a shell of co- and counter-ions that compensates the surface charge in an electrical double layer (EDL). However, PHREEQC can integrate the concentrations in the diffuse layer (<STRONG CLASS="Bold">
 -diffuse_layer</STRONG>
 ), or calculate the average concentrations with the Donnan option (<STRONG CLASS="Bold">
 -Donnan</STRONG>
@@ -28,573 +28,573 @@
 -no_edl</STRONG>
 . This non-electrostatic model does not consider the effects of the development of surface charge on the formation of surface complexes, with the result that surface complexes are treated mathematically, much like aqueous complexes. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1452742"></A>The following example of the Gouy-Chapman model is taken from Dzombak and Morel (1990, chapter 8). Sorption of zinc on hydrous ferric oxide is simulated by using weak and strong sites on the oxide surface. Protons and zinc ions compete for the two types of binding sites, which is described by mass-action equations. The equations take into account the dependence of the activities of surface species on the potential at the surface; in turn, the potential at the surface is related to the surface charge by the Gouy-Chapman relation. The example considers the sorption of zinc on hydrous ferric oxides as a function of pH for low (10<Sup CLASS="Superscript">
+<A NAME="50540559_pgfId-1452742"></A>The following example of the Gouy-Chapman model is taken from Dzombak and Morel (1990, chapter 8). Sorption of zinc on hydrous ferric oxide is simulated by using weak and strong sites on the oxide surface. Protons and zinc ions compete for the two types of binding sites, which is described by mass-action equations. The equations take into account the dependence of the activities of surface species on the potential at the surface; in turn, the potential at the surface is related to the surface charge by the Gouy-Chapman relation. The example considers the sorption of zinc on hydrous ferric oxides as a function of pH for low (10<Sup CLASS="Superscript">
 -7</Sup>
  mol/kgw) and high (10<Sup CLASS="Superscript">
 -4</Sup>
  mol/kgw) zinc concentration in 0.1 mol/kgw sodium nitrate electrolyte.</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-338382"></A>Three keyword data blocks are required to define surface-complexation data for a simulation: <A HREF="phreeqc3-46.htm#50528257_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50528257_92844" CLASS="XRef">SURFACE_SPECIES</A>, and <A HREF="phreeqc3-45.htm#50528257_56392" CLASS="XRef">SURFACE</A>. The <A HREF="phreeqc3-46.htm#50528257_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A> data block in the default database files defines a surface named &#8220;Hfo&#8221; (hydrous ferric oxides) with two binding sites. The name of a binding site is composed of a name for the surface, &#8220;Hfo&#8221;, optionally followed by an underscore and a lowercase binding site designation, here &#8220;Hfo_w&#8221; and &#8220;Hfo_s&#8221; for &#8220;weak&#8221; and &#8220;strong&#8221;. The underscore notation is necessary only for surfaces with two or more binding sites. The notation allows a mole-balance equation to be derived for each of the binding sites (Hfo_w and Hfo_s, in this example). The charges that develop on the two binding sites are summed, and the total is used to calculate the potential at the surface. </P>
+<A NAME="50540559_pgfId-338382"></A>Three keyword data blocks are required to define surface-complexation data for a simulation: <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A>, and <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A>. The <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A> data block in the default database files defines a surface named &#8220;Hfo&#8221; (hydrous ferric oxides) with two binding sites. The name of a binding site is composed of a name for the surface, &#8220;Hfo&#8221;, optionally followed by an underscore and a lowercase binding site designation, here &#8220;Hfo_w&#8221; and &#8220;Hfo_s&#8221; for &#8220;weak&#8221; and &#8220;strong&#8221;. The underscore notation is necessary only for surfaces with two or more binding sites. The notation allows a mole-balance equation to be derived for each of the binding sites (Hfo_w and Hfo_s, in this example). The charges that develop on the two binding sites are summed, and the total is used to calculate the potential at the surface. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1747616"></A>Surface-complexation reactions derived from the summary of Dzombak and Morel (1990) are defined by the <A HREF="phreeqc3-47.htm#50528257_92844" CLASS="XRef">SURFACE_SPECIES</A> in the default database files for PHREEQC. However, the intrinsic stability constants used in this example of Dzombak and Morel (1990, chapter 8) differ from these summary values, and are therefore specified explicitly with a <A HREF="phreeqc3-47.htm#50528257_92844" CLASS="XRef">SURFACE_SPECIES</A> data block in the input file (<A HREF="phreeqc3-63.htm#50528271_31182" CLASS="XRef">table 27</A>). The reactions are taken from Dzombak and Morel (1990, p. 259) and entered in the input file (<A HREF="phreeqc3-63.htm#50528271_31182" CLASS="XRef">table 27</A>). Note that the activity effect of the potential term is not included in the mass-action expression but is added internally by PHREEQC.   <A NAME="50528271_58055"></A>         </P>
+<A NAME="50540559_pgfId-1747616"></A>Surface-complexation reactions derived from the summary of Dzombak and Morel (1990) are defined by the <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A> in the default database files for PHREEQC. However, the intrinsic stability constants used in this example of Dzombak and Morel (1990, chapter 8) differ from these summary values, and are therefore specified explicitly with a <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A> data block in the input file (<A HREF="phreeqc3-63.htm#50540559_31182" CLASS="XRef">table 27</A>). The reactions are taken from Dzombak and Morel (1990, p. 259) and entered in the input file (<A HREF="phreeqc3-63.htm#50540559_31182" CLASS="XRef">table 27</A>). Note that the activity effect of the potential term is not included in the mass-action expression but is added internally by PHREEQC.   <A NAME="50540559_58055"></A>         </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50528271_pgfId-1747633"></A>Table 27. <A NAME="50528271_31182"></A>Input file for example 8.</P>
+<A NAME="50540559_pgfId-1747633"></A>Table 27. <A NAME="50540559_31182"></A>Input file for example 8.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747635"></A>TITLE Example 8.--Sorption of zinc on hydrous iron oxides.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747635"></A>TITLE Example 8.--Sorption of zinc on hydrous iron oxides.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747637"></A>SURFACE_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747637"></A>SURFACE_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747639"></A>     Hfo_sOH  + H+ = Hfo_sOH2+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747639"></A>     Hfo_sOH  + H+ = Hfo_sOH2+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747641"></A>     log_k  7.18</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747641"></A>     log_k  7.18</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747643"></A>     Hfo_sOH = Hfo_sO- + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747643"></A>     Hfo_sOH = Hfo_sO- + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747645"></A>     log_k  -8.82</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747645"></A>     log_k  -8.82</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747647"></A>     Hfo_sOH + Zn+2 = Hfo_sOZn+ + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747647"></A>     Hfo_sOH + Zn+2 = Hfo_sOZn+ + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747649"></A>     log_k  0.66</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747649"></A>     log_k  0.66</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747651"></A>     Hfo_wOH  + H+ = Hfo_wOH2+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747651"></A>     Hfo_wOH  + H+ = Hfo_wOH2+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747653"></A>     log_k  7.18</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747653"></A>     log_k  7.18</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747655"></A>     Hfo_wOH = Hfo_wO- + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747655"></A>     Hfo_wOH = Hfo_wO- + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747657"></A>     log_k  -8.82</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747657"></A>     log_k  -8.82</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747659"></A>     Hfo_wOH + Zn+2 = Hfo_wOZn+ + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747659"></A>     Hfo_wOH + Zn+2 = Hfo_wOZn+ + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747661"></A>     log_k  -2.32</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747661"></A>     log_k  -2.32</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747663"></A>SURFACE 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747663"></A>SURFACE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747665"></A>     Hfo_sOH        5e-6    600.    0.09</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747665"></A>     Hfo_sOH        5e-6    600.    0.09</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747667"></A>     Hfo_wOH        2e-4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747667"></A>     Hfo_wOH        2e-4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747669"></A>#     -Donnan</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747669"></A>#     -Donnan</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747671"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747671"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747673"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747673"></A>SOLUTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747675"></A>     -units  mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747675"></A>     -units  mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747677"></A>     pH      8.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747677"></A>     pH      8.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747679"></A>     Zn      0.0001 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747679"></A>     Zn      0.0001 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747681"></A>     Na      100.    charge </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747681"></A>     Na      100.    charge </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747683"></A>     N(5)    100.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747683"></A>     N(5)    100.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747685"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747685"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747687"></A>     -file Zn1e_7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747687"></A>     -file Zn1e_7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747689"></A>     -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747689"></A>     -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747691"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747691"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747693"></A>  10 FOR i = 5.0 to 8 STEP 0.25</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747693"></A>  10 FOR i = 5.0 to 8 STEP 0.25</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747695"></A>  20 a$ = EOL$ + &quot;USE solution 1&quot; + CHR$(59) + &quot; USE surface 1&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747695"></A>  20 a$ = EOL$ + &quot;USE solution 1&quot; + CHR$(59) + &quot; USE surface 1&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747697"></A>  30 a$ = a$ + &quot;EQUILIBRIUM_PHASES 1&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747697"></A>  30 a$ = a$ + &quot;EQUILIBRIUM_PHASES 1&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747699"></A>  40 a$ = a$ + &quot;   Fix_H+ &quot; + STR$(-i) + &quot; NaOH 10.0&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747699"></A>  40 a$ = a$ + &quot;   Fix_H+ &quot; + STR$(-i) + &quot; NaOH 10.0&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747701"></A>  50 a$ = a$ + &quot;END&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747701"></A>  50 a$ = a$ + &quot;END&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747703"></A>  60 PUNCH a$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747703"></A>  60 PUNCH a$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747705"></A>  70 NEXT i</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747705"></A>  70 NEXT i</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747707"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747707"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747709"></A>SOLUTION 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747709"></A>SOLUTION 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747711"></A>     -units  mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747711"></A>     -units  mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747713"></A>     pH      8.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747713"></A>     pH      8.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747715"></A>     Zn      0.1 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747715"></A>     Zn      0.1 </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747717"></A>     Na      100.    charge </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747717"></A>     Na      100.    charge </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747719"></A>     N(5)    100.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747719"></A>     N(5)    100.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747721"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747721"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747723"></A>     -file Zn1e_4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747723"></A>     -file Zn1e_4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747725"></A>     -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747725"></A>     -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747727"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747727"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747729"></A>  10 FOR i = 5 to 8 STEP 0.25</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747729"></A>  10 FOR i = 5 to 8 STEP 0.25</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747731"></A>  20 a$ = EOL$ + &quot;USE solution 2&quot; + CHR$(59) + &quot; USE surface 1&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747731"></A>  20 a$ = EOL$ + &quot;USE solution 2&quot; + CHR$(59) + &quot; USE surface 1&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747733"></A>  30 a$ = a$ + &quot;EQUILIBRIUM_PHASES 1&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747733"></A>  30 a$ = a$ + &quot;EQUILIBRIUM_PHASES 1&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747735"></A>  40 a$ = a$ + &quot;   Fix_H+ &quot; + STR$(-i) + &quot; NaOH 10.0&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747735"></A>  40 a$ = a$ + &quot;   Fix_H+ &quot; + STR$(-i) + &quot; NaOH 10.0&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747737"></A>  50 a$ = a$ + &quot;END&quot; + EOL$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747737"></A>  50 a$ = a$ + &quot;END&quot; + EOL$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747739"></A>  60 PUNCH a$</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747739"></A>  60 PUNCH a$</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747741"></A>  70 NEXT i</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747741"></A>  70 NEXT i</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747743"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747743"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747745"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747745"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747747"></A># Model definitions</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747747"></A># Model definitions</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747749"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747749"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747751"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747751"></A>PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747753"></A>     Fix_H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747753"></A>     Fix_H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747755"></A>     H+ = H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747755"></A>     H+ = H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747757"></A>     log_k  0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747757"></A>     log_k  0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747759"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747759"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747761"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747761"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747763"></A>#   Zn = 1e-7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747763"></A>#   Zn = 1e-7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747765"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747765"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747767"></A>     -file ex8.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747767"></A>     -file ex8.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747769"></A>     -reset true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747769"></A>     -reset true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747771"></A>     -molalities     Zn+2    Hfo_wOZn+      Hfo_sOZn+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747771"></A>     -molalities     Zn+2    Hfo_wOZn+      Hfo_sOZn+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747773"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747773"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747775"></A> 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747775"></A> 10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747777"></A>USER_GRAPH 1 Example 8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747777"></A>USER_GRAPH 1 Example 8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747779"></A>     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_balance</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747779"></A>     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_balance</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747781"></A>     -chart_title &quot;Total Zn = 1e-7 molal&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747781"></A>     -chart_title &quot;Total Zn = 1e-7 molal&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747783"></A>     -axis_titles pH &quot;Moles per kilogram water&quot; &quot;Charge balance, in milliequivalents&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747783"></A>     -axis_titles pH &quot;Moles per kilogram water&quot; &quot;Charge balance, in milliequivalents&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747785"></A>     -axis_scale x_axis 5.0 8.0 1 0.25</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747785"></A>     -axis_scale x_axis 5.0 8.0 1 0.25</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747787"></A>     -axis_scale y_axis 1e-11 1e-6 1 1 log</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747787"></A>     -axis_scale y_axis 1e-11 1e-6 1 1 log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747789"></A>     -axis_scale sy_axis -0.15 0 0.03</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747789"></A>     -axis_scale sy_axis -0.15 0 0.03</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747791"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747791"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747793"></A>  10 GRAPH_X -LA(&quot;H+&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747793"></A>  10 GRAPH_X -LA(&quot;H+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747795"></A>  20 GRAPH_Y MOL(&quot;Zn+2&quot;), MOL(&quot;Hfo_wOZn+&quot;), MOL(&quot;Hfo_sOZn+&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747795"></A>  20 GRAPH_Y MOL(&quot;Zn+2&quot;), MOL(&quot;Hfo_wOZn+&quot;), MOL(&quot;Hfo_sOZn+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747797"></A>  30 GRAPH_SY CHARGE_BALANCE * 1e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747797"></A>  30 GRAPH_SY CHARGE_BALANCE * 1e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747799"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747799"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747801"></A>INCLUDE$ Zn1e_7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747801"></A>INCLUDE$ Zn1e_7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747803"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747803"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747805"></A>USER_GRAPH 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747805"></A>USER_GRAPH 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747807"></A>     -detach</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747807"></A>     -detach</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747809"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747809"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747811"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747811"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747813"></A>#   Zn = 1e-4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747813"></A>#   Zn = 1e-4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747815"></A>USER_GRAPH 2 Example 8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747815"></A>USER_GRAPH 2 Example 8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747817"></A>     -chart_title &quot;Total Zn = 1e-4 molal&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747817"></A>     -chart_title &quot;Total Zn = 1e-4 molal&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747819"></A>     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_balance</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747819"></A>     -headings pH Zn_solute Zn_weak_sites Zn_strong_sites Charge_balance</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747821"></A>     -axis_titles pH &quot;Moles per kilogram water&quot; &quot;Charge balance, in milliequivalents&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747821"></A>     -axis_titles pH &quot;Moles per kilogram water&quot; &quot;Charge balance, in milliequivalents&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747823"></A>     -axis_scale x_axis 5.0 8.0 1 0.25</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747823"></A>     -axis_scale x_axis 5.0 8.0 1 0.25</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747825"></A>     -axis_scale y_axis 1e-8 1e-3 1 1 log</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747825"></A>     -axis_scale y_axis 1e-8 1e-3 1 1 log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747827"></A>     -axis_scale sy_axis -0.15 0 0.03</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747827"></A>     -axis_scale sy_axis -0.15 0 0.03</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747829"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747829"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747831"></A>  10 GRAPH_X -LA(&quot;H+&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747831"></A>  10 GRAPH_X -LA(&quot;H+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747833"></A>  20 GRAPH_Y MOL(&quot;Zn+2&quot;), MOL(&quot;Hfo_wOZn+&quot;), MOL(&quot;Hfo_sOZn+&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747833"></A>  20 GRAPH_Y MOL(&quot;Zn+2&quot;), MOL(&quot;Hfo_wOZn+&quot;), MOL(&quot;Hfo_sOZn+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747835"></A>  30 GRAPH_SY CHARGE_BALANCE * 1e3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747835"></A>  30 GRAPH_SY CHARGE_BALANCE * 1e3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747837"></A>  -end        </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747837"></A>  -end        </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747839"></A>INCLUDE$ Zn1e_4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747839"></A>INCLUDE$ Zn1e_4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1747841"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1747841"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1748027"></A>The composition and other characteristics of an assemblage of surfaces are defined with the <A HREF="phreeqc3-45.htm#50528257_56392" CLASS="XRef">SURFACE</A> data block. For each surface, the moles of each type of site and the surface area must be defined. In the input file, all the surface sites initially are in the uncharged, protonated form. Alternatively, the surface can be initialized to be in equilibrium with a solution with -equilibrate solution_number. In both cases, the composition of the surfaces will vary with the extent of subsequent reactions. </P>
+<A NAME="50540559_pgfId-1748027"></A>The composition and other characteristics of an assemblage of surfaces are defined with the <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A> data block. For each surface, the moles of each type of site and the surface area must be defined. In the input file, all the surface sites initially are in the uncharged, protonated form. Alternatively, the surface can be initialized to be in equilibrium with a solution with -equilibrate solution_number. In both cases, the composition of the surfaces will vary with the extent of subsequent reactions. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1340914"></A>The number of binding sites and surface areas may remain fixed or may vary if the surface is related to an equilibrium phase or a kinetic reaction. In this example, the number of strong binding sites (Hfo_s, 5&#215;10<Sup CLASS="Superscript">
+<A NAME="50540559_pgfId-1340914"></A>The number of binding sites and surface areas may remain fixed or may vary if the surface is related to an equilibrium phase or a kinetic reaction. In this example, the number of strong binding sites (Hfo_s, 5&#215;10<Sup CLASS="Superscript">
 -6 </Sup>
 mol) and of weak binding sites (Hfo_w, 2&#215;10<Sup CLASS="Superscript">
 -4</Sup>
  mol) remain fixed. With -sites_units density, the number of sites per nm2 (square nanometer) may be entered, instead of moles. The surface area must be defined with two numbers, the area per mass of surface material (here, 600 m<Sup CLASS="Superscript">
 2</Sup>
-/g) and the total mass of surface material (here, 0.09 g). The use of these two numbers is traditional, but only the surface area obtained from the product of the numbers is used to determine the specific charge and the surface potential. The surface area may be entered with any of the binding sites for a surface; in <A HREF="phreeqc3-63.htm#50528271_31182" CLASS="XRef">table 27</A>, the surface area is entered with Hfo_s.</P>
+/g) and the total mass of surface material (here, 0.09 g). The use of these two numbers is traditional, but only the surface area obtained from the product of the numbers is used to determine the specific charge and the surface potential. The surface area may be entered with any of the binding sites for a surface; in <A HREF="phreeqc3-63.htm#50540559_31182" CLASS="XRef">table 27</A>, the surface area is entered with Hfo_s.</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-504522"></A>Two sodium nitrate solutions are defined with different concentrations of zinc (<A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> 1 and 2 data blocks), which can be recalled later in the run by <A HREF="phreeqc3-50.htm#50528257_78143" CLASS="XRef">USE</A> solution 1 or 2. Together with the definitions of these solutions, <A HREF="phreeqc3-53.htm#50528257_56415" CLASS="XRef">USER_PUNCH</A> is used to generate a PHREEQC input file, as explained in the next paragraph. A pseudo-phase, &#8220;Fix_H+&#8221; is defined with the <A HREF="phreeqc3-29.htm#50528257_84418" CLASS="XRef">PHASES</A> data block. This phase is not real, but is used in the batch-reaction simulations to fix the pH at specified values.</P>
+<A NAME="50540559_pgfId-504522"></A>Two sodium nitrate solutions are defined with different concentrations of zinc (<A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 1 and 2 data blocks), which can be recalled later in the run by <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> solution 1 or 2. Together with the definitions of these solutions, <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> is used to generate a PHREEQC input file, as explained in the next paragraph. A pseudo-phase, &#8220;Fix_H+&#8221; is defined with the <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> data block. This phase is not real, but is used in the batch-reaction simulations to fix the pH at specified values.</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1340845"></A>The remaining simulations in the input file equilibrate the surface with either solution 1 or solution 2 for pH values that range from 5 to 8. It is possible to use the <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> data block to add or remove varying amounts of NaOH from the solution in a single simulation, but the reaction increments will not produce evenly spaced pH values and the size of the reaction increments is not known beforehand. Alternatively, evenly spaced pH values can be obtained by using the phase &#8220;Fix_H+&#8221; in an <A HREF="phreeqc3-13.htm#50528257_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block; the saturation indices correspond to the desired pH. A separate simulation is needed for each pH, illustrated here for pH = 5.</P>
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1479271"></A>USE solution 1</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1479320"></A>USE surface 1</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1479272"></A>EQUILIBRIUM_PHASES 1</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1479273"></A>   Fix_H+           -5 NaOH 10.0</Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1479274"></A>END</Pre>
+<A NAME="50540559_pgfId-1340845"></A>The remaining simulations in the input file equilibrate the surface with either solution 1 or solution 2 for pH values that range from 5 to 8. It is possible to use the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block to add or remove varying amounts of NaOH from the solution in a single simulation, but the reaction increments will not produce evenly spaced pH values and the size of the reaction increments is not known beforehand. Alternatively, evenly spaced pH values can be obtained by using the phase &#8220;Fix_H+&#8221; in an <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block; the saturation indices correspond to the desired pH. A separate simulation is needed for each pH, illustrated here for pH = 5.</P>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1479271"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1479320"></A>USE surface 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1479272"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1479273"></A>   Fix_H+           -5 NaOH 10.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1479274"></A>END</Pre>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1445994"></A>Writing a similar set of data blocks for each pH is easy, but tedious. However, a shortcut is available. The simulations can be generated with a small Basic program in keyword <A HREF="phreeqc3-53.htm#50528257_56415" CLASS="XRef">USER_PUNCH</A> and punched to the files zn1e_7 and zn1e_4. The Basic program punches a string, a$, that contains the PHREEQC keywords and instructions for each pH, which is set by the FOR-loop variable i. EOL$ is a function that returns a new-line character. During the run, the files are inserted in the input file with <A HREF="phreeqc3-18.htm#50528257_74991" CLASS="XRef">INCLUDE$</A> zn1e_7 and <A HREF="phreeqc3-18.htm#50528257_74991" CLASS="XRef">INCLUDE$</A> zn1e_4. </P>
+<A NAME="50540559_pgfId-1445994"></A>Writing a similar set of data blocks for each pH is easy, but tedious. However, a shortcut is available. The simulations can be generated with a small Basic program in keyword <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> and punched to the files zn1e_7 and zn1e_4. The Basic program punches a string, a$, that contains the PHREEQC keywords and instructions for each pH, which is set by the FOR-loop variable i. EOL$ is a function that returns a new-line character. During the run, the files are inserted in the input file with <A HREF="phreeqc3-18.htm#50540545_74991" CLASS="XRef">INCLUDE$</A> zn1e_7 and <A HREF="phreeqc3-18.htm#50540545_74991" CLASS="XRef">INCLUDE$</A> zn1e_4. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1564341"></A>NaOH is added or removed from each solution to produce the specified saturation index for &#8220;Fix_H+&#8221; or log activity of H+ (which is the negative of pH). However, a very low pH may not be attainable by removing all of the sodium from the solution. In this case HNO3 should be used as reactant instead of NaOH.<A HREF="#pgfId-1445948" CLASS="footnote">1</A></P>
+<A NAME="50540559_pgfId-1564341"></A>NaOH is added or removed from each solution to produce the specified saturation index for &#8220;Fix_H+&#8221; or log activity of H+ (which is the negative of pH). However, a very low pH may not be attainable by removing all of the sodium from the solution. In this case HNO3 should be used as reactant instead of NaOH.<A HREF="#pgfId-1445948" CLASS="footnote">1</A></P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1414087"></A>The results of the simulation are plotted in figure 9 and are consistent with the results shown in Dzombak and Morel (1990, figure 8.9). Zinc is more strongly sorbed at high pH values than at low pH values. In addition, at low concentrations of zinc, the strong binding sites outcompete the weak binding sites for zinc over the entire pH range, and at high pH, most of the zinc resides at the strong binding sites. At larger zinc concentrations, the strong binding sites predominate only at low pH. Because all the strong binding sites become filled at higher pH, most of the zinc resides at the more numerous weak binding sites at high pH and large zinc concentrations.</P>
+<A NAME="50540559_pgfId-1414087"></A>The results of the simulation are plotted in figure.9 and are consistent with the results shown in Dzombak and Morel (1990, figure 8.9). Zinc is more strongly sorbed at high pH values than at low pH values. In addition, at low concentrations of zinc, the strong binding sites outcompete the weak binding sites for zinc over the entire pH range, and at high pH, most of the zinc resides at the strong binding sites. At larger zinc concentrations, the strong binding sites predominate only at low pH. Because all the strong binding sites become filled at higher pH, most of the zinc resides at the more numerous weak binding sites at high pH and large zinc concentrations.</P>
 <DIV>
 <MAP NAME="phreeqc3-233">
 </MAP>
-<IMG SRC="phreeqc3-233.png" style="width:65%" USEMAP="#phreeqc3-233">
+<IMG SRC="phreeqc3-233.gif" USEMAP="#phreeqc3-233">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1676981"></A>There is one more point to be noted in figure 9. The charge balance of the solution, plotted on the secondary Y axis, becomes negative with decreasing pH because the surface sorbs protons from the solution. If the solution and surface are separated (for example by <A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A> or by a <A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> and subsequent <A HREF="phreeqc3-50.htm#50528257_78143" CLASS="XRef">USE</A>), the surface will keep its positive charge, and the solution its negative counter-charge. Such a separation of electrical charge is physically impossible. In reality, an electrical double layer exists on the surface that counterbalances the surface charge, and which remains with the surface when surface and solution are separated, thus keeping both of them electrically neutral. If the identifier -Donnan is added in keyword <A HREF="phreeqc3-45.htm#50528257_56392" CLASS="XRef">SURFACE</A>, the composition of the electrical double layer is calculated and stored with each of the surfaces in the assemblage; this explicitly calculated electrical double layer makes each surface a neutral entity. In the input file this option (-Donnan) can be uncommented, resulting in a zero charge balance when the file is run again.</P>
+<A NAME="50540559_pgfId-1676981"></A>There is one more point to be noted in figure.9. The charge balance of the solution, plotted on the secondary Y axis, becomes negative with decreasing pH because the surface sorbs protons from the solution. If the solution and surface are separated (for example by <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> or by a <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> and subsequent <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A>), the surface will keep its positive charge, and the solution its negative counter-charge. Such a separation of electrical charge is physically impossible. In reality, an electrical double layer exists on the surface that counterbalances the surface charge, and which remains with the surface when surface and solution are separated, thus keeping both of them electrically neutral. If the identifier -Donnan is added in keyword <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A>, the composition of the electrical double layer is calculated and stored with each of the surfaces in the assemblage; this explicitly calculated electrical double layer makes each surface a neutral entity. In the input file this option (-Donnan) can be uncommented, resulting in a zero charge balance when the file is run again.</P>
 </DIV>
 <HR>
 <DIV CLASS="footnotes">
@@ -602,47 +602,47 @@ mol) and of weak binding sites (Hfo_w, 2&#215;10<Sup CLASS="Superscript">
 <P CLASS="Footnote">
 <SPAN CLASS="footnoteNumber">
 1.</SPAN>
-<A NAME="50528271_pgfId-1445948"></A>It is possible to let the program determine whether NaOH or HNO<Sub CLASS="Subscript">
+<A NAME="50540559_pgfId-1445948"></A>It is possible to let the program determine whether NaOH or HNO<Sub CLASS="Subscript">
 3</Sub>
  should be added to attain a pH if an additional pseudo phase is defined. The following example attains a pH of 2 and 10 without specifying different alternate reactions for the phase Fix_H+.</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445949"></A>PHASES </P>
+<A NAME="50540559_pgfId-1445949"></A>PHASES </P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445950"></A>NaNO3</P>
+<A NAME="50540559_pgfId-1445950"></A>NaNO3</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445951"></A>	NaNO3 = Na+ + NO3-</P>
+<A NAME="50540559_pgfId-1445951"></A>	NaNO3 = Na+ + NO3-</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445952"></A>	log_K  -20</P>
+<A NAME="50540559_pgfId-1445952"></A>	log_K  -20</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445953"></A>&nbsp;</P>
+<A NAME="50540559_pgfId-1445953"></A>&nbsp;</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445954"></A>Fix_H+</P>
+<A NAME="50540559_pgfId-1445954"></A>Fix_H+</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445955"></A>	H+ = H+</P>
+<A NAME="50540559_pgfId-1445955"></A>	H+ = H+</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445956"></A>	log_K  0 </P>
+<A NAME="50540559_pgfId-1445956"></A>	log_K  0 </P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445957"></A>END</P>
+<A NAME="50540559_pgfId-1445957"></A>END</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445958"></A>SOLUTION 1</P>
+<A NAME="50540559_pgfId-1445958"></A>SOLUTION 1</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445959"></A>EQUILIBRIUM_PHASES</P>
+<A NAME="50540559_pgfId-1445959"></A>EQUILIBRIUM_PHASES</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445960"></A>	NaNO3 0 10</P>
+<A NAME="50540559_pgfId-1445960"></A>	NaNO3 0 10</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445961"></A>	Fix_H+ -2 HNO3 10</P>
+<A NAME="50540559_pgfId-1445961"></A>	Fix_H+ -2 HNO3 10</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445962"></A>END</P>
+<A NAME="50540559_pgfId-1445962"></A>END</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445963"></A>SOLUTION 1</P>
+<A NAME="50540559_pgfId-1445963"></A>SOLUTION 1</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445964"></A>EQUILIBRIUM_PHASES</P>
+<A NAME="50540559_pgfId-1445964"></A>EQUILIBRIUM_PHASES</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445965"></A>	NaNO3 0 10</P>
+<A NAME="50540559_pgfId-1445965"></A>	NaNO3 0 10</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445966"></A>	Fix_H+ -12 HNO3 10</P>
+<A NAME="50540559_pgfId-1445966"></A>	Fix_H+ -12 HNO3 10</P>
 <P CLASS="ComputerOutput">
-<A NAME="50528271_pgfId-1445967"></A>END</P>
+<A NAME="50540559_pgfId-1445967"></A>END</P>
 </DIV>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-64.htm">Next</A> || <A HREF="phreeqc3-62.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>

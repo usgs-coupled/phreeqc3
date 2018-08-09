@@ -7,15 +7,15 @@
 <TITLE> USER_GRAPH</TITLE><HR><P> | <A HREF="phreeqc3-52.htm">Next</A> || <A HREF="phreeqc3-50.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50528257_pgfId-473103"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-473103"></A><STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
-<A NAME="50528257_26121"></A></H2>
+<A NAME="50540545_26121"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-648963"></A>This keyword data block is used to create charts of simulation results. The data block defines the data to be charted and the parameters that control the appearance of the chart. Data to be plotted are defined with Basic programs. Observations or other data points can be added to a chart from user-specified files. Multiple charts may be defined for one or more simulations by using multiple <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-648963"></A>This keyword data block is used to create charts of simulation results. The data block defines the data to be charted and the parameters that control the appearance of the chart. Data to be plotted are defined with Basic programs. Observations or other data points can be added to a chart from user-specified files. Multiple charts may be defined for one or more simulations by using multiple <STRONG CLASS="Bold">
 USER_GRAPH </STRONG>
 data blocks with different identifying numbers. Different data may be added to a chart in a subsequent simulation by defining a data block with the same identifying number, but with a different Basic program to define the variables to be plotted. A new chart may be defined with the same identifying number if an intervening USER_GRAPH data block includes the identifier -detach. Each chart is a different program thread; once detached, the thread is still running, the chart is still viewable, and its data can be inspected or written to file, but no new data can be added. After a chart is detached, a new USER_GRAPH data block with the same identifying number will generate a new chart.</P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-648915"></A>The keyword follows the syntax of the <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-648915"></A>The keyword follows the syntax of the <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  data block in PHREEQC for Windows (Post, 2012) and relies on John Champion&#8217;s zedgraph software (http://sourceforge.net/projects/zedgraph, accessed May 18, 2012). <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
@@ -24,38 +24,38 @@ define MULTICHART</STRONG>
 . </P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-636485"></A><A NAME="50528257_75332"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546203"></A>Line 0: USER_GRAPH 3 Plots F and pH against Ca concentration</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546204"></A>Line 1:	-headings			F pH </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546205"></A>Line 2:	-axis_titles		&quot;Calcium, in milligrams per liter&quot; &#92;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-737442"></A>			&quot;Fluoride, in milligrams per liter&quot; &quot;pH&quot; </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546206"></A>Line 3:	-chart_title		&quot;Fluorite Equilibrium in Ca(OH)2 Solutions&quot;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546207"></A>Line 4:	-axis_scale x_axis			0 350 50 25 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546208"></A>Line 4a:	-axis_scale y_axis			0 7 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546209"></A>Line 4b:	-axis_scale sy_axis			7 14 0 0 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546210"></A>Line 5:	-initial_solutions			false </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546211"></A>Line 6:	-connect_simulations			true </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546212"></A>Line 7:	-plot_concentration_vs			x </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-710654"></A>Line 8:	-plot_tsv_file			filename </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-740770"></A>Line 9:	-batch			filename.emf		false false</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-737357"></A>Line 10:	-start</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-781512"></A>&nbsp;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-737358"></A>Basic:  10	PLOT_XY	TOT(&quot;Ca&quot;)*40.08e3, TOT(&quot;F&quot;)*19e3, color = Red,&#92;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-737359"></A>		symbol = Square, symbol_size = 6, y-axis = 1 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-651442"></A>Basic:  20	PLOT_XY	TOT(&quot;Ca&quot;)*40.08e3, -LA(&quot;H+&quot;), color = Green, &#92;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-651443"></A>		symbol = Diamond, symbol_size = 7, y-axis = 2, &#92;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-651444"></A>		line_width = 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546218"></A>Line 11:	-end</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-648742"></A>Line 0a: USER_GRAPH 4</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-648749"></A>Line 12: 	-detach</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-666413"></A>Line 0b: USER_GRAPH 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-666414"></A>Line 13: 	-active			false</pre>
+<A NAME="50540545_pgfId-636485"></A><A NAME="50540545_75332"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546203"></A>Line 0: USER_GRAPH 3 Plots F and pH against Ca concentration</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546204"></A>Line 1:	-headings			F pH </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546205"></A>Line 2:	-axis_titles		&quot;Calcium, in milligrams per liter&quot; &#92;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-737442"></A>			&quot;Fluoride, in milligrams per liter&quot; &quot;pH&quot; </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546206"></A>Line 3:	-chart_title		&quot;Fluorite Equilibrium in Ca(OH)2 Solutions&quot;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546207"></A>Line 4:	-axis_scale x_axis			0 350 50 25 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546208"></A>Line 4a:	-axis_scale y_axis			0 7 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546209"></A>Line 4b:	-axis_scale sy_axis			7 14 0 0 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546210"></A>Line 5:	-initial_solutions			false </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546211"></A>Line 6:	-connect_simulations			true </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546212"></A>Line 7:	-plot_concentration_vs			x </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-710654"></A>Line 8:	-plot_tsv_file			filename </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-740770"></A>Line 9:	-batch			filename.emf		false false</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-737357"></A>Line 10:	-start</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-781512"></A>&nbsp;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-737358"></A>Basic:  10	PLOT_XY	TOT(&quot;Ca&quot;)*40.08e3, TOT(&quot;F&quot;)*19e3, color = Red,&#92;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-737359"></A>		symbol = Square, symbol_size = 6, y-axis = 1 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-651442"></A>Basic:  20	PLOT_XY	TOT(&quot;Ca&quot;)*40.08e3, -LA(&quot;H+&quot;), color = Green, &#92;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-651443"></A>		symbol = Diamond, symbol_size = 7, y-axis = 2, &#92;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-651444"></A>		line_width = 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546218"></A>Line 11:	-end</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-648742"></A>Line 0a: USER_GRAPH 4</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-648749"></A>Line 12: 	-detach</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-666413"></A>Line 0b: USER_GRAPH 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-666414"></A>Line 13: 	-active			false</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-648781"></A><A NAME="50528257_92229"></A>Explanation 1</H6>
+<A NAME="50540545_pgfId-648781"></A><A NAME="50540545_92229"></A>Explanation 1</H6>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-648789"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-648789"></A>Line 0: <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -63,27 +63,27 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50528257_pgfId-648790"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-648790"></A><STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-648791"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-648791"></A><EM CLASS="Emphasis">
 number</EM>
 --A positive number designates the user-graph definition. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-648792"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-648792"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the user-graph chart. The <EM CLASS="Emphasis">
 description</EM>
  will appear in the title of the chart window.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546222"></A>Line 1: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546222"></A>Line 1: <STRONG CLASS="Bold">
 -headings </STRONG>
 <EM CLASS="Emphasis">
 labels</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546223"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546223"></A><STRONG CLASS="Bold">
 -headings</STRONG>
 --Identifier provides labels for chart lines. The labels are separated by spaces and correspond with the order that Y and secondary Y curves are calculated with PLOT_XY Basic statements. Optionally, <STRONG CLASS="Bold">
 heading</STRONG>
@@ -95,9 +95,9 @@ heading</STRONG>
 headings</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-549540"></A>labels--List of labels, one for each of the curves. In Example data block 1 (see Basic lines 10-20), &#8220;F&#8221; corresponds to the first PLOT_XY curve, and &#8220;pH&#8221; corresponds to the second PLOT_XY curve. The labels can be changed in subsequent simulations for proper identification of the parameters graphed (without need of repeating the Basic statements that define the data to be plotted).</P>
+<A NAME="50540545_pgfId-549540"></A>labels--List of labels, one for each of the curves. In Example data block 1 (see Basic lines 10-20), &#8220;F&#8221; corresponds to the first PLOT_XY curve, and &#8220;pH&#8221; corresponds to the second PLOT_XY curve. The labels can be changed in subsequent simulations for proper identification of the parameters graphed (without need of repeating the Basic statements that define the data to be plotted).</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546235"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546235"></A>Line 2: <STRONG CLASS="Bold">
 -axis_titles </STRONG>
 <EM CLASS="Emphasis">
 label</EM>
@@ -113,7 +113,7 @@ label</EM>
 3</Sub>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546236"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546236"></A><STRONG CLASS="Bold">
 -axis_titles</STRONG>
 --Identifier provides labels for the X, Y, and secondary Y axes. Optionally, <STRONG CLASS="Bold">
 axis_titles</STRONG>
@@ -123,25 +123,25 @@ axis_titles</STRONG>
 xis_titles</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546237"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546237"></A><EM CLASS="Emphasis">
 label</EM>
 <Sub CLASS="Subscript">
 1</Sub>
 --Label printed below the chart along the X axis.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546238"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546238"></A><EM CLASS="Emphasis">
 label</EM>
 <Sub CLASS="Subscript">
 2</Sub>
 --Label printed to the left of the chart along the Y axis.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546239"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546239"></A><EM CLASS="Emphasis">
 label</EM>
 <Sub CLASS="Subscript">
 3</Sub>
 --Label printed to the right of the chart along the Y2 axis.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546240"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546240"></A><EM CLASS="Emphasis">
 </EM>
 Line 3: <STRONG CLASS="Bold">
 -chart_title </STRONG>
@@ -151,10 +151,10 @@ title</EM>
 <DIV>
 <MAP NAME="phreeqc3-210">
 </MAP>
-<IMG SRC="phreeqc3-210.png" style="width:65%" USEMAP="#phreeqc3-210">
+<IMG SRC="phreeqc3-210.gif" USEMAP="#phreeqc3-210">
 </DIV>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546241"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546241"></A><STRONG CLASS="Bold">
 -chart_title</STRONG>
 --Identifier provides a title that is printed at the top of the chart. Optionally, <STRONG CLASS="Bold">
 chart_title</STRONG>
@@ -164,11 +164,11 @@ chart_title</STRONG>
 hart_title</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546242"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546242"></A><EM CLASS="Emphasis">
 title</EM>
 --Title for the chart.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546243"></A>Line 4: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546243"></A>Line 4: <STRONG CLASS="Bold">
 -axis_scale </STRONG>
 (<STRONG CLASS="Bold">
 x_axis</STRONG>
@@ -206,7 +206,7 @@ auto</STRONG>
 log</STRONG>
 ]]]]]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546244"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546244"></A><STRONG CLASS="Bold">
 -axis_scale</STRONG>
 --Identifier provides parameters for scaling the X, Y, or secondary Y axis. If less than five items are listed, the missing scaling parameters are determined by default algorithms. If <STRONG CLASS="Bold">
 axis_scale</STRONG>
@@ -218,7 +218,7 @@ axis_scale</STRONG>
 cale</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546245"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546245"></A><STRONG CLASS="Bold">
 x_axis</STRONG>
 , <STRONG CLASS="Bold">
 y_axis</STRONG>
@@ -226,7 +226,7 @@ y_axis</STRONG>
  sy_axis</STRONG>
 --Selects the axis for which scaling parameters are provided: X, Y, or secondary Y, respectively.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546246"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546246"></A><EM CLASS="Emphasis">
 min</EM>
  or<EM CLASS="Emphasis">
  </EM>
@@ -236,7 +236,7 @@ auto</STRONG>
 auto</STRONG>
  is specified.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546247"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546247"></A><EM CLASS="Emphasis">
 max</EM>
  or<EM CLASS="Emphasis">
  </EM>
@@ -246,7 +246,7 @@ auto</STRONG>
 auto</STRONG>
  is specified.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546248"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546248"></A><EM CLASS="Emphasis">
 major</EM>
  or<EM CLASS="Emphasis">
  </EM>
@@ -256,7 +256,7 @@ auto</STRONG>
 auto</STRONG>
  is specified.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546249"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546249"></A><EM CLASS="Emphasis">
 minor</EM>
  or<EM CLASS="Emphasis">
  </EM>
@@ -266,11 +266,11 @@ auto</STRONG>
 auto</STRONG>
  is specified.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546250"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546250"></A><STRONG CLASS="Bold">
 log</STRONG>
 --If specified, axis is scaled logarithmically. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546252"></A>Line 5: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546252"></A>Line 5: <STRONG CLASS="Bold">
 -initial_solutions </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
@@ -278,7 +278,7 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546253"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546253"></A><STRONG CLASS="Bold">
 -initial_solutions</STRONG>
 --Identifier selects whether to plot results from initial solution, initial exchange, initial surface, and initial gas-phase calculations. Default is <STRONG CLASS="Bold">
 false</STRONG>
@@ -292,7 +292,7 @@ initial_solutions</STRONG>
 nitial_solutions</STRONG>
 ]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546254"></A>(<EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546254"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
@@ -316,7 +316,7 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546255"></A>Line 6: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546255"></A>Line 6: <STRONG CLASS="Bold">
 -connect_simulations </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
@@ -324,7 +324,7 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546256"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546256"></A><STRONG CLASS="Bold">
 -connect_simulations</STRONG>
 --Identifier selects whether to retain curve properties (colors, symbols, line widths) in subsequent simulations, or in subsequent shifts for transport and advection simulations. Default value is <STRONG CLASS="Bold">
 true</STRONG>
@@ -338,7 +338,7 @@ connect_simulations</STRONG>
 nnect_simulations</STRONG>
 ]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-573765"></A>(<EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-573765"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
@@ -362,7 +362,7 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-573766"></A>Line 7: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-573766"></A>Line 7: <STRONG CLASS="Bold">
 -plot_concentration_vs </STRONG>
 (<STRONG CLASS="Bold">
 x</STRONG>
@@ -370,7 +370,7 @@ x</STRONG>
 t</STRONG>
 )</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-573767"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-573767"></A><STRONG CLASS="Bold">
 -plot_concentration_vs</STRONG>
 --Identifier selects whether to plot distance or time on the X axis in advection or transport simulations. Default is <STRONG CLASS="Bold">
 x</STRONG>
@@ -384,7 +384,7 @@ plot_concentration_vs</STRONG>
 lot_concentration_vs</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546260"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546260"></A><STRONG CLASS="Bold">
 x</STRONG>
  or <STRONG CLASS="Bold">
 t</STRONG>
@@ -396,13 +396,13 @@ d</STRONG>
 t</STRONG>
  indicates time. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546261"></A>Line 8: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546261"></A>Line 8: <STRONG CLASS="Bold">
 -plot_tsv_file </STRONG>
 <EM CLASS="Emphasis">
 filename</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652027"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652027"></A><STRONG CLASS="Bold">
 -plot_tsv_file</STRONG>
 --Identifier selects a file containing data to be plotted on the chart. The first line of the file is a set of headings, one for the X axis, followed by one for each curve to be plotted. All headings and data are tab delimited. It is possible to set curve properties by special values in the first column beginning at line 2 in the file. Up to five lines of special values may be defined; each special value is followed by settings for each curve (tab delimited). The special values are &#8220;color&#8221;, &#8220;symbol&#8221;, &#8220;symbol_size&#8221;, &#8220;line_width&#8221;, and &#8220;y_axis&#8221;. Legal values for these settings are described in the explanation for Basic line 10. The data lines follow the lines that define special values; each data line has an X value in the first column followed by Y values for each curve; missing values are indicated by consecutive tab characters. Data from multiple files can be added to the chart by using multiple instances of Line 8. Optionally, <STRONG CLASS="Bold">
 plot_tsv_file</STRONG>
@@ -412,11 +412,11 @@ plot_tsv_file</STRONG>
 sv_file</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546263"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-546263"></A><EM CLASS="Emphasis">
 filename</EM>
 --Name of the file containing data to be plotted. The program stops with an error message if the file is not found. It is necessary to give the full path name for the file if the working directory is not the same as the directory that contains the file with data to be plotted. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-740970"></A>Line 9: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-740970"></A>Line 9: <STRONG CLASS="Bold">
 -batch </STRONG>
 <EM CLASS="Emphasis">
 [filename.suffix </EM>
@@ -430,7 +430,7 @@ True</EM>
 False</EM>
 )]]]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-769275"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-769275"></A><STRONG CLASS="Bold">
 -batch</STRONG>
 --This identifier is used to close the chart automatically at the end of the run, and optionally, save the chart to file with or without the yellow background for the chart area. If <STRONG CLASS="Bold">
 -batch</STRONG>
@@ -442,7 +442,7 @@ batch</STRONG>
 atch</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-741034"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-741034"></A><EM CLASS="Emphasis">
 filename.suffix</EM>
 --If <EM CLASS="Emphasis">
 filename.suffix</EM>
@@ -454,7 +454,7 @@ Note that if <STRONG CLASS="Bold">
 -batch</STRONG>
  is not defined, the chart can be saved by right clicking on the chart and choosing the &#8220;Save image as...&#8221; option.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-741050"></A>(<EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-741050"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
@@ -484,7 +484,7 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-757695"></A>(<EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-757695"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
@@ -512,23 +512,23 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546264"></A>Line 10: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546264"></A>Line 10: <STRONG CLASS="Bold">
 -start</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546265"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546265"></A><STRONG CLASS="Bold">
 -start</STRONG>
 --Indicates the start of the Basic program. Optional.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-737894"></A>Basic: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-737894"></A>Basic: <EM CLASS="Emphasis">
 numbered Basic statement</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-737895"></A> <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-737895"></A> <EM CLASS="Emphasis">
 numbered Basic statement</EM>
---A valid Basic language statement that must be numbered. The statements are evaluated in the order of the line numbers. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50528261_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50528261_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50528261_27680" CLASS="XRef">8</A>. </P>
+--A valid Basic language statement that must be numbered. The statements are evaluated in the order of the line numbers. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50540549_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50540549_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50540549_27680" CLASS="XRef">8</A>. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-652184"></A>Basic: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-652184"></A>Basic: <EM CLASS="Emphasis">
 number</EM>
  PLOT_XY <EM CLASS="Emphasis">
 expression</EM>
@@ -568,25 +568,25 @@ y-axis =</STRONG>
  </EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652185"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-652185"></A><EM CLASS="Emphasis">
 number</EM>
 --Number for a Basic statement. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652186"></A>PLOT_XY--Basic command that sets the X and Y values of a data point for a curve in the chart.</P>
+<A NAME="50540545_pgfId-652186"></A>PLOT_XY--Basic command that sets the X and Y values of a data point for a curve in the chart.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652187"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-652187"></A><EM CLASS="Emphasis">
 expression</EM>
 <Sub CLASS="Subscript">
 1</Sub>
 --Basic expression that evaluates to a number for the X value of a data point. Must be followed by a comma to separate it from the Y value.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652188"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-652188"></A><EM CLASS="Emphasis">
 expression</EM>
 <Sub CLASS="Subscript">
 2</Sub>
 --Basic expression that evaluates to a number for the Y value of a data point.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-931477"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-931477"></A><STRONG CLASS="Bold">
 color =</STRONG>
 <EM CLASS="Emphasis">
  color</EM>
@@ -594,7 +594,7 @@ color =</STRONG>
 color</EM>
  are Red, Green, Blue, Orange, Magenta, Yellow, Black, Cyan, Brown, Lime, and Gray (lower case is permitted). (Additional colors as defined in Microsoft .NET 2 also may be used, see http://msdn.microsoft.com/en-us/library/aa358802%28v=VS.85%29.aspx, accessed May 18, 2012). If the option is not specified, the colors for curves will cycle sequentially through the listed colors.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652190"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652190"></A><STRONG CLASS="Bold">
 symbol =</STRONG>
 <EM CLASS="Emphasis">
  symbol</EM>
@@ -602,7 +602,7 @@ symbol =</STRONG>
 symbol</EM>
  are Square, Diamond, Triangle, Circle, XCross, Plus, Star, TriangleDown, HDash, VDash, and None (spelled exactly as noted). If the option is not specified, the symbols for curves will cycle sequentially through the listed symbols. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652191"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652191"></A><STRONG CLASS="Bold">
 symbol_size =</STRONG>
 <EM CLASS="Emphasis">
  i</EM>
@@ -610,7 +610,7 @@ symbol_size =</STRONG>
 i</EM>
  parameter is an integer greater than or equal to zero. Default is 6. The symbol is not plotted if i = 0 (similar to symbol = None). </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652192"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652192"></A><STRONG CLASS="Bold">
 line_width =</STRONG>
 <EM CLASS="Emphasis">
  j</EM>
@@ -618,7 +618,7 @@ line_width =</STRONG>
 j</EM>
  parameter is an integer greater than or equal to zero. Default is 1. The line is not plotted if j = 0. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-652193"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652193"></A><STRONG CLASS="Bold">
 y_axis =</STRONG>
 <EM CLASS="Emphasis">
  k</EM>
@@ -628,27 +628,27 @@ k</EM>
 k</EM>
  is 2, the data are plotted relative to the secondary Y axis.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-652170"></A>Line 11: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652170"></A>Line 11: <STRONG CLASS="Bold">
 -end</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546279"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546279"></A><STRONG CLASS="Bold">
 -end</STRONG>
 --Indicates the end of the Basic program. Optional. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
 END</STRONG>
 .</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-652250"></A>Line 12: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-652250"></A>Line 12: <STRONG CLASS="Bold">
 -detach</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-666430"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-666430"></A><STRONG CLASS="Bold">
 -detach</STRONG>
 --Indicates that no more data will be added to the chart and that the identifying number is available for a new <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  definition. The chart window remains visible and all mouse functions for the chart remain functional. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-734067"></A>Line 13: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-734067"></A>Line 13: <STRONG CLASS="Bold">
 -active </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
@@ -656,7 +656,7 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-734068"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-734068"></A><STRONG CLASS="Bold">
 -active</STRONG>
 --Allows plotting of data to the chart to be suspended or resumed. Default is <STRONG CLASS="Bold">
 true</STRONG>
@@ -664,7 +664,7 @@ true</STRONG>
 -active </STRONG>
 is not included.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-734069"></A>(<EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-734069"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
@@ -690,11 +690,11 @@ alse</STRONG>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-546280"></A><A NAME="50528257_70440"></A>Notes 1</H6>
+<A NAME="50540545_pgfId-546280"></A><A NAME="50540545_70440"></A>Notes 1</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-652543"></A>Example data block 1 defines a chart by using PLOT_XY Basic statements, whereas Example data block 2 (below) defines the same chart by using GRAPH_X, GRAPH_Y, and GRAPH_SY Basic statements. One, or a combination of these two types of Basic statements, is required to obtain a plot; all other identifiers are optional. PLOT_XY statements are useful for plotting curves when the X-axis values differ for the variables in the same reaction or transport step, and for controlling curve properties: colors, symbols, and line widths. The Basic program may contain any legitimate numbered Basic statements in addition to the lines containing PLOT_XY. Basic statements are evaluated in numerical order. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50528261_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50528261_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50528261_27680" CLASS="XRef">8</A>. </P>
+<A NAME="50540545_pgfId-652543"></A>Example data block 1 defines a chart by using PLOT_XY Basic statements, whereas Example data block 2 (below) defines the same chart by using GRAPH_X, GRAPH_Y, and GRAPH_SY Basic statements. One, or a combination of these two types of Basic statements, is required to obtain a plot; all other identifiers are optional. PLOT_XY statements are useful for plotting curves when the X-axis values differ for the variables in the same reaction or transport step, and for controlling curve properties: colors, symbols, and line widths. The Basic program may contain any legitimate numbered Basic statements in addition to the lines containing PLOT_XY. Basic statements are evaluated in numerical order. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50540549_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50540549_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50540549_27680" CLASS="XRef">8</A>. </P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-666681"></A>The PLOT_XY command is followed by a pair of expressions that evaluate to the X and Y values for a data point of a curve. The point may be relative to the primary Y axis (<STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-666681"></A>The PLOT_XY command is followed by a pair of expressions that evaluate to the X and Y values for a data point of a curve. The point may be relative to the primary Y axis (<STRONG CLASS="Bold">
 y-axis = 1</STRONG>
 ) or the secondary Y axis (<STRONG CLASS="Bold">
 y-axis = </STRONG>
@@ -708,7 +708,7 @@ symbol_size</STRONG>
 line_width</STRONG>
 . The options require an equals sign and may be separated by commas or spaces.</P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-666786"></A>Identifier<STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-666786"></A>Identifier<STRONG CLASS="Bold">
  -active </STRONG>
 allows activation and deactivation of a chart for sequences of simulations during a run. Plotting of data in a specific chart is interrupted by setting <STRONG CLASS="Bold">
 -active</STRONG>
@@ -722,7 +722,7 @@ PRINT</STRONG>
 -user_graph</STRONG>
  false / true.</P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-705114"></A>The labels defined with <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-705114"></A>The labels defined with <STRONG CLASS="Bold">
 -headings </STRONG>
 will be used for labeling curves in subsequent simulations until redefined. For example, the simulation in Example block 1 may be repeated for 50 &#176;C in the same run. F and pH from that run may then be labeled with <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
@@ -732,7 +732,7 @@ USER_GRAPH</STRONG>
 END</STRONG>
 .</P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-666787"></A>Right-clicking on the window of a chart created by <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-666787"></A>Right-clicking on the window of a chart created by <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  will display a number of options for manipulating the chart, as shown in figure 2.<EM CLASS="Emphasis">
 </EM>
@@ -740,51 +740,51 @@ USER_GRAPH</STRONG>
 <DIV>
 <MAP NAME="phreeqc3-211">
 </MAP>
-<IMG SRC="phreeqc3-211.png" style="width:65%" USEMAP="#phreeqc3-211">
+<IMG SRC="phreeqc3-211.gif" USEMAP="#phreeqc3-211">
 </DIV>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546291"></A>Save Image As...--Allows the image to be saved in a variety of graphic formats.</P>
+<A NAME="50540545_pgfId-546291"></A>Save Image As...--Allows the image to be saved in a variety of graphic formats.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-753650"></A>Save Data to File...--Saves the X and Y values of the curves to a user-selected file.</P>
+<A NAME="50540545_pgfId-753650"></A>Save Data to File...--Saves the X and Y values of the curves to a user-selected file.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-757792"></A>Chart options...--Allows showing or hiding red hints boxes, colored chart background, and chart grid lines.</P>
+<A NAME="50540545_pgfId-757792"></A>Chart options...--Allows showing or hiding red hints boxes, colored chart background, and chart grid lines.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-753652"></A>Page Setup...--Allows the page to be formatted for printing (alternatively, use Print...).</P>
+<A NAME="50540545_pgfId-753652"></A>Page Setup...--Allows the page to be formatted for printing (alternatively, use Print...).</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546293"></A>Print...--Prints the chart. The graphics quality is excellent if a PDF printer is selected.</P>
+<A NAME="50540545_pgfId-546293"></A>Print...--Prints the chart. The graphics quality is excellent if a PDF printer is selected.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546299"></A>Show Point Values--Displays the X-Y values of the point under the mouse cursor.</P>
+<A NAME="50540545_pgfId-546299"></A>Show Point Values--Displays the X-Y values of the point under the mouse cursor.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546300"></A>Zoom: left mouse + drag--Pressing and dragging the left mouse button will draw a rectangle; the rectangle will be enlarged to the plot window when the button is released.</P>
+<A NAME="50540545_pgfId-546300"></A>Zoom: left mouse + drag--Pressing and dragging the left mouse button will draw a rectangle; the rectangle will be enlarged to the plot window when the button is released.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-552903"></A>Pan: middle mouse + drag--Rolling the middle mouse button up or down changes the scales of the axes. Pressing the middle mouse and dragging the mouse pans the viewable area of the chart.</P>
+<A NAME="50540545_pgfId-552903"></A>Pan: middle mouse + drag--Rolling the middle mouse button up or down changes the scales of the axes. Pressing the middle mouse and dragging the mouse pans the viewable area of the chart.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-552904"></A>Un-Zoom/Un-Pan--Undoes last zoom or pan. The option changes depending on whether the last operation was a zoom or a pan.</P>
+<A NAME="50540545_pgfId-552904"></A>Un-Zoom/Un-Pan--Undoes last zoom or pan. The option changes depending on whether the last operation was a zoom or a pan.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-552905"></A>Undo All Zoom/Pan--Returns to the original scaling for the chart.</P>
+<A NAME="50540545_pgfId-552905"></A>Undo All Zoom/Pan--Returns to the original scaling for the chart.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546304"></A>Set Scale to Default--Scales the axes to values that will display all the data points. This is the default scaling that appears when the identifier <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546304"></A>Set Scale to Default--Scales the axes to values that will display all the data points. This is the default scaling that appears when the identifier <STRONG CLASS="Bold">
 -axis_scale </STRONG>
 is not used.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-546306"></A><A NAME="50528257_11087"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546307"></A>Line 0: USER_GRAPH 5 Uses graph_x, graph_y, and graph_sy</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546308"></A>Line 1:	-headings		Ca F pH </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546309"></A>Line 2:	-axis_titles		&quot;Calcium, in milligrams per liter&quot; &#92;</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-774153"></A>			&quot;Fluoride, in milligrams per liter&quot; &quot;pH&quot; </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-774138"></A>Line 3:	-start</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-737208"></A>Basic:  10 GRAPH_X TOT(&quot;Ca&quot;) * 40.08e3 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-737209"></A>Basic:  20 GRAPH_y TOT(&quot;F&quot;) * 19e3 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-652925"></A>Basic:  30 GRAPH_SY -LA(&quot;H+&quot;) </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-546315"></A>Line 10:	-end</pre>
+<A NAME="50540545_pgfId-546306"></A><A NAME="50540545_11087"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546307"></A>Line 0: USER_GRAPH 5 Uses graph_x, graph_y, and graph_sy</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546308"></A>Line 1:	-headings		Ca F pH </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546309"></A>Line 2:	-axis_titles		&quot;Calcium, in milligrams per liter&quot; &#92;</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-774153"></A>			&quot;Fluoride, in milligrams per liter&quot; &quot;pH&quot; </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-774138"></A>Line 3:	-start</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-737208"></A>Basic:  10 GRAPH_X TOT(&quot;Ca&quot;) * 40.08e3 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-737209"></A>Basic:  20 GRAPH_y TOT(&quot;F&quot;) * 19e3 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-652925"></A>Basic:  30 GRAPH_SY -LA(&quot;H+&quot;) </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546315"></A>Line 10:	-end</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-546317"></A><A NAME="50528257_96545"></A>Explanation 2</H6>
+<A NAME="50540545_pgfId-546317"></A><A NAME="50540545_96545"></A>Explanation 2</H6>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-649621"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-649621"></A>Line 0: <STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -792,27 +792,27 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50528257_pgfId-649622"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-649622"></A><STRONG CLASS="Bold">
 USER_GRAPH</STRONG>
  is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-649623"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-649623"></A><EM CLASS="Emphasis">
 number</EM>
 --A positive number designates the user-graph definition. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-649624"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-649624"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the user-graph chart. The <EM CLASS="Emphasis">
 description</EM>
  will appear in the title of the chart window.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546320"></A>Line 1: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546320"></A>Line 1: <STRONG CLASS="Bold">
 -headings </STRONG>
 <EM CLASS="Emphasis">
 labels</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546322"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546322"></A><STRONG CLASS="Bold">
 -headings</STRONG>
 --Identifier provides labels for chart curves. The labels are separated by spaces and correspond with the order of the items calculated with Basic statements. Unlike Example data block 1, the headings include an entry for the item plotted on the X axis. Optionally, <STRONG CLASS="Bold">
 heading</STRONG>
@@ -824,9 +824,9 @@ heading</STRONG>
 headings</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653288"></A>labels--List of labels, one for the variable plotted on the X axis and one for each of the curves. In Example data block 2 (see Basic lines 10-30), &#8220;Ca&#8221; corresponds to the X-axis variable, &#8220;F&#8221; corresponds to the Y-axis variable, and &#8220;pH&#8221; corresponds to the secondary Y-axis variable. The labels can be changed in subsequent simulations for proper identification of the parameters graphed (without need of repeating the Basic statements that define the data to be plotted).</P>
+<A NAME="50540545_pgfId-653288"></A>labels--List of labels, one for the variable plotted on the X axis and one for each of the curves. In Example data block 2 (see Basic lines 10-30), &#8220;Ca&#8221; corresponds to the X-axis variable, &#8220;F&#8221; corresponds to the Y-axis variable, and &#8220;pH&#8221; corresponds to the secondary Y-axis variable. The labels can be changed in subsequent simulations for proper identification of the parameters graphed (without need of repeating the Basic statements that define the data to be plotted).</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546327"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546327"></A>Line 2: <STRONG CLASS="Bold">
 -axis_titles </STRONG>
 <EM CLASS="Emphasis">
 label</EM>
@@ -842,77 +842,77 @@ label</EM>
 3</Sub>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546328"></A>Same as Line 2 in Example data block 1.</P>
+<A NAME="50540545_pgfId-546328"></A>Same as Line 2 in Example data block 1.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546329"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546329"></A>Line 3: <STRONG CLASS="Bold">
 -start</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546330"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546330"></A><STRONG CLASS="Bold">
 -start</STRONG>
 --Indicates the start of the Basic program. Optional.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-737297"></A>Basic: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-737297"></A>Basic: <EM CLASS="Emphasis">
 numbered Basic statement</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-780984"></A> <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-780984"></A> <EM CLASS="Emphasis">
 numbered Basic statement</EM>
---A valid Basic language statement that must be numbered. The statements are evaluated in the order of the line numbers. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50528261_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50528261_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50528261_27680" CLASS="XRef">8</A>. </P>
+--A valid Basic language statement that must be numbered. The statements are evaluated in the order of the line numbers. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50540549_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50540549_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50540549_27680" CLASS="XRef">8</A>. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-780997"></A>Basic: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-780997"></A>Basic: <EM CLASS="Emphasis">
 number</EM>
  GRAPH_X <EM CLASS="Emphasis">
 expression</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653628"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-653628"></A><EM CLASS="Emphasis">
 number</EM>
 --Number for a Basic statement. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-659290"></A>GRAPH_X--Basic command that sets the X value of a data point for a curve of the chart. A point on a curve is defined by an X-Y pair, where the X value is defined by GRAPH_X and the Y value is defined by GRAPH_Y or GRAPH_SY. </P>
+<A NAME="50540545_pgfId-659290"></A>GRAPH_X--Basic command that sets the X value of a data point for a curve of the chart. A point on a curve is defined by an X-Y pair, where the X value is defined by GRAPH_X and the Y value is defined by GRAPH_Y or GRAPH_SY. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-659291"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-659291"></A><EM CLASS="Emphasis">
 expression</EM>
 --Basic expression that evaluates to a number.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-659292"></A>Basic: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-659292"></A>Basic: <EM CLASS="Emphasis">
 number</EM>
  GRAPH_Y <EM CLASS="Emphasis">
 expressions</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653632"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-653632"></A><EM CLASS="Emphasis">
 number</EM>
 --Number for a Basic statement. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653633"></A>GRAPH_Y--Basic command that sets the Y value of a data point for a curve on the primary Y axis of the chart. Multiple Y curves can be defined on the same line by defining multiple comma-separated expressions.</P>
+<A NAME="50540545_pgfId-653633"></A>GRAPH_Y--Basic command that sets the Y value of a data point for a curve on the primary Y axis of the chart. Multiple Y curves can be defined on the same line by defining multiple comma-separated expressions.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653634"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-653634"></A><EM CLASS="Emphasis">
 expressions</EM>
 --List of one or more Basic expressions that evaluate to numbers.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-653635"></A>Basic: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-653635"></A>Basic: <EM CLASS="Emphasis">
 number</EM>
  GRAPH_SY <EM CLASS="Emphasis">
 expressions</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653636"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-653636"></A><EM CLASS="Emphasis">
 number</EM>
 --Number for a Basic statement. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653637"></A>GRAPH_SY--Basic command that sets the Y value of a data point for a curve on the secondary Y axis of the chart. Multiple secondary Y curves can be defined on the same line by defining multiple comma-separated expressions.</P>
+<A NAME="50540545_pgfId-653637"></A>GRAPH_SY--Basic command that sets the Y value of a data point for a curve on the secondary Y axis of the chart. Multiple secondary Y curves can be defined on the same line by defining multiple comma-separated expressions.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-653638"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-653638"></A><EM CLASS="Emphasis">
 expressions</EM>
 --List of one or more Basic expressions that evaluate to numbers.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-546341"></A>Line 10: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546341"></A>Line 10: <STRONG CLASS="Bold">
 -end</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-546342"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-546342"></A><STRONG CLASS="Bold">
 -end</STRONG>
 --Indicates the end of the Basic program. Optional. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
 END</STRONG>
@@ -920,25 +920,25 @@ END</STRONG>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-546346"></A><A NAME="50528257_11967"></A>Notes 2</H6>
+<A NAME="50540545_pgfId-546346"></A><A NAME="50540545_11967"></A>Notes 2</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-654238"></A>Both PLOT_XY and GRAPH_X, GRAPH_Y, and GRAPH_SY statements can be used to define curves in the same Basic program. GRAPH_X, GRAPH_Y, and GRAPH_SY statements provide the more concise syntax, especially for multiple curves, which can be defined with a single GRAPH_Y or GRAPH_SY statement. However, the PLOT_XY allows X values to be defined individually for each curve and the colors, symbols, and lines can be set explicitly with command options. </P>
+<A NAME="50540545_pgfId-654238"></A>Both PLOT_XY and GRAPH_X, GRAPH_Y, and GRAPH_SY statements can be used to define curves in the same Basic program. GRAPH_X, GRAPH_Y, and GRAPH_SY statements provide the more concise syntax, especially for multiple curves, which can be defined with a single GRAPH_Y or GRAPH_SY statement. However, the PLOT_XY allows X values to be defined individually for each curve and the colors, symbols, and lines can be set explicitly with command options. </P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-654387"></A>When using both PLOT_XY and GRAPH_X, GRAPH_Y, and GRAPH_SY statements in the same Basic program, the order of the statements determines the order in which the headings must be defined. Headings are associated with each PLOT_XY statement, the GRAPH_X statement, and each expression of GRAPH_Y and GRAPH_SY statements in the order in which they occur in the Basic program.</P>
+<A NAME="50540545_pgfId-654387"></A>When using both PLOT_XY and GRAPH_X, GRAPH_Y, and GRAPH_SY statements in the same Basic program, the order of the statements determines the order in which the headings must be defined. Headings are associated with each PLOT_XY statement, the GRAPH_X statement, and each expression of GRAPH_Y and GRAPH_SY statements in the order in which they occur in the Basic program.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-546355"></A><A NAME="50528257_57007"></A>Example problems</H6>
+<A NAME="50540545_pgfId-546355"></A><A NAME="50540545_57007"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-602827"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-602827"></A>The keyword <STRONG CLASS="Bold">
 USER_GRAPH </STRONG>
-is used in example problems <A HREF="phreeqc3-57.htm#50528271_28577" CLASS="XRef">2</A>, <A HREF="phreeqc3-60.htm#50528271_31870" CLASS="XRef">5</A>, <A HREF="phreeqc3-61.htm#50528271_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-62.htm#50528271_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-63.htm#50528271_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-64.htm#50528271_39217" CLASS="XRef">9</A>, <A HREF="phreeqc3-65.htm#50528271_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-66.htm#50528271_46434" CLASS="XRef">11</A>, <A HREF="phreeqc3-67.htm#50528271_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-68.htm#50528271_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-69.htm#50528271_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-70.htm#50528271_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-72.htm#50528271_83128" CLASS="XRef">17</A>, <A HREF="phreeqc3-74.htm#50528271_18716" CLASS="XRef">19</A>, <A HREF="phreeqc3-75.htm#50528271_33272" CLASS="XRef">20</A>, <A HREF="phreeqc3-76.htm#50528271_68313" CLASS="XRef">21</A>, and <A HREF="phreeqc3-77.htm#50528271_97000" CLASS="XRef">22</A>.</P>
+is used in example problems <A HREF="phreeqc3-57.htm#50540559_28577" CLASS="XRef">2</A>, <A HREF="phreeqc3-60.htm#50540559_31870" CLASS="XRef">5</A>, <A HREF="phreeqc3-61.htm#50540559_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-62.htm#50540559_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-63.htm#50540559_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-64.htm#50540559_39217" CLASS="XRef">9</A>, <A HREF="phreeqc3-65.htm#50540559_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-66.htm#50540559_46434" CLASS="XRef">11</A>, <A HREF="phreeqc3-67.htm#50540559_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-68.htm#50540559_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-69.htm#50540559_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-70.htm#50540559_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-72.htm#50540559_83128" CLASS="XRef">17</A>, <A HREF="phreeqc3-74.htm#50540559_18716" CLASS="XRef">19</A>, <A HREF="phreeqc3-75.htm#50540559_33272" CLASS="XRef">20</A>, <A HREF="phreeqc3-76.htm#50540559_68313" CLASS="XRef">21</A>, and <A HREF="phreeqc3-77.htm#50540559_97000" CLASS="XRef">22</A>.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-546357"></A><A NAME="50528257_77637"></A>Related keywords</H6>
+<A NAME="50540545_pgfId-546357"></A><A NAME="50540545_77637"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-546364"></A><A HREF="phreeqc3-52.htm#50528257_55085" CLASS="XRef">USER_PRINT</A> and <A HREF="phreeqc3-53.htm#50528257_56415" CLASS="XRef">USER_PUNCH</A>.</P>
+<A NAME="50540545_pgfId-546364"></A><A HREF="phreeqc3-52.htm#50540545_55085" CLASS="XRef">USER_PRINT</A> and <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-52.htm">Next</A> || <A HREF="phreeqc3-50.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
