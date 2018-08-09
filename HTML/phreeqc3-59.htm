@@ -7,155 +7,155 @@
 <TITLE> Example 4--Evaporation and Homogeneous Redox Reactions</TITLE><HR><P> | <A HREF="phreeqc3-60.htm">Next</A> || <A HREF="phreeqc3-58.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50528271_pgfId-337178"></A>Example 4--<A NAME="50528271_70531"></A>Evaporation and Homogeneous Redox Reactions</H2>
+<A NAME="50540559_pgfId-337178"></A>Example 4--<A NAME="50540559_70531"></A>Evaporation and Homogeneous Redox Reactions</H2>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-337179"></A>Evaporation is accomplished by removing water from the chemical system. Water can be removed by several methods: (1) water can be specified as an irreversible reactant with a negative reaction coefficient in the <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> keyword input, (2) the solution can be mixed with pure water which is given a negative mixing fraction in <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A>, or (3) &#8220;H2O&#8221; can be specified as the alternative reaction in <A HREF="phreeqc3-13.htm#50528257_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> keyword input, in which case water is removed or added to the aqueous phase to attain equilibrium with a specified phase. This example uses the first method; the <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> data block is used to simulate concentration of rainwater by approximately 20-fold by removing 95 percent of the water. The resulting solution contains only about 0.05 kg of water. In a subsequent simulation, the <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A> keyword is used to generate a solution that has the same concentrations as the evaporated solution, but has a total mass of water of approximately 1 kg. </P>
+<A NAME="50540559_pgfId-337179"></A>Evaporation is accomplished by removing water from the chemical system. Water can be removed by several methods: (1) water can be specified as an irreversible reactant with a negative reaction coefficient in the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> keyword input, (2) the solution can be mixed with pure water which is given a negative mixing fraction in <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A>, or (3) &#8220;H2O&#8221; can be specified as the alternative reaction in <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> keyword input, in which case water is removed or added to the aqueous phase to attain equilibrium with a specified phase. This example uses the first method; the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block is used to simulate concentration of rainwater by approximately 20-fold by removing 95 percent of the water. The resulting solution contains only about 0.05 kg of water. In a subsequent simulation, the <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A> keyword is used to generate a solution that has the same concentrations as the evaporated solution, but has a total mass of water of approximately 1 kg. </P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1668291"></A>The first simulation input file (<A HREF="phreeqc3-59.htm#50528271_42878" CLASS="XRef">table 17</A>) contains four keywords: (1) <A HREF="phreeqc3-48.htm#50528257_48632" CLASS="XRef">TITLE</A> is used to specify a description of the simulation to be included in the output file, (2) <A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> is used to define the composition of rainwater from central Oklahoma, (3) <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> is used to specify the amount of water, in moles, to be removed from the aqueous phase, and (4) <A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> is used to store the result of the batch-reaction calculation as solution number 2.<STRONG CLASS="Bold">
+<A NAME="50540559_pgfId-1668291"></A>The first simulation input file (<A HREF="phreeqc3-59.htm#50540559_42878" CLASS="XRef">table 17</A>) contains four keywords: (1) <A HREF="phreeqc3-48.htm#50540545_48632" CLASS="XRef">TITLE</A> is used to specify a description of the simulation to be included in the output file, (2) <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> is used to define the composition of rainwater from central Oklahoma, (3) <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> is used to specify the amount of water, in moles, to be removed from the aqueous phase, and (4) <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> is used to store the result of the batch-reaction calculation as solution number 2.<STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50528271_51688"></A> </P>
+<A NAME="50540559_51688"></A> </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50528271_pgfId-1668305"></A>Table 17. <A NAME="50528271_42878"></A>Input file for example 4.</P>
+<A NAME="50540559_pgfId-1668305"></A>Table 17. <A NAME="50540559_42878"></A>Input file for example 4.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668307"></A>TITLE Example 4a.--Rainwater evaporation</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668307"></A>TITLE Example 4a.--Rainwater evaporation</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668309"></A>SOLUTION 1  Precipitation from Central Oklahoma</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668309"></A>SOLUTION 1  Precipitation from Central Oklahoma</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668311"></A>        units           mg/L</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668311"></A>        units           mg/L</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668313"></A>        pH              4.5   # estimated</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668313"></A>        pH              4.5   # estimated</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668315"></A>        temp            25.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668315"></A>        temp            25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668317"></A>        Ca              .384</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668317"></A>        Ca              .384</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668319"></A>        Mg              .043</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668319"></A>        Mg              .043</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668321"></A>        Na              .141</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668321"></A>        Na              .141</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668323"></A>        K               .036</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668323"></A>        K               .036</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668325"></A>        Cl              .236</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668325"></A>        Cl              .236</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668327"></A>        C(4)            .1      CO2(g)  -3.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668327"></A>        C(4)            .1      CO2(g)  -3.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1668329"></A>        S(6)            1.3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1668329"></A>        S(6)            1.3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1670110"></A>        N(-3)           .208</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1670110"></A>        N(-3)           .208</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1670108"></A>        N(5)            .237</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1670108"></A>        N(5)            .237</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1670106"></A>REACTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1670106"></A>REACTION 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1670104"></A>        H2O     -1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1670104"></A>        H2O     -1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1670102"></A>        52.73 moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1670102"></A>        52.73 moles</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672800"></A>SAVE solution 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672800"></A>SAVE solution 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672798"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672798"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672796"></A>TITLE Example 4b.--Factor of 20 more solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672796"></A>TITLE Example 4b.--Factor of 20 more solution</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672794"></A>MIX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672794"></A>MIX</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672792"></A>        2       20.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672792"></A>        2       20.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672790"></A>SAVE solution 3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672790"></A>SAVE solution 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50528271_pgfId-1672788"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1672788"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1668357"></A>All solutions defined by <A HREF="phreeqc3-41.htm#50528257_30253" CLASS="XRef">SOLUTION</A> input are scaled to have exactly 1 kg (approximately 55.5 mol) of water, unless <STRONG CLASS="Bold">
+<A NAME="50540559_pgfId-1668357"></A>All solutions defined by <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> input are scaled to have exactly 1 kg (approximately 55.5 mol) of water, unless <STRONG CLASS="Bold">
 -water</STRONG>
  identifier is used. To concentrate the solution by 20-fold, it is necessary to remove 52.73 mol of water (55.506 &#215; 0.95).</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1668361"></A>The second simulation uses <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A> to multiply by 20 the moles of all the elements in the solution, including hydrogen and oxygen. This procedure effectively increases the total mass (or volume) of the aqueous phase but maintains the same concentrations. For identification in <A HREF="phreeqc3-59.htm#50528271_15983" CLASS="XRef">table 18</A>, the solution that results from the <A HREF="phreeqc3-27.htm#50528257_23725" CLASS="XRef">MIX</A> simulation is stored as solution 3 with the <A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> keyword. Solution 3 will have the same concentrations as solution 2 (from the previous simulation) but will have a mass of water of approximately 1 kg.</P>
+<A NAME="50540559_pgfId-1668361"></A>The second simulation uses <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A> to multiply by 20 the moles of all the elements in the solution, including hydrogen and oxygen. This procedure effectively increases the total mass (or volume) of the aqueous phase but maintains the same concentrations. For identification in <A HREF="phreeqc3-59.htm#50540559_15983" CLASS="XRef">table 18</A>, the solution that results from the <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A> simulation is stored as solution 3 with the <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> keyword. Solution 3 will have the same concentrations as solution 2 (from the previous simulation) but will have a mass of water of approximately 1 kg.</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1343798"></A>Selected results of the simulation are presented in <A HREF="phreeqc3-59.htm#50528271_15983" CLASS="XRef">table 18</A>. The concentration factor of 20 is reasonable in terms of a water balance for the process of evapotranspiration in central Oklahoma (Parkhurst and others, 1996). The PHREEQC modeling assumes that evaporation and evapotranspiration have the same effect and that evapotranspiration has no effect on the ion ratios. These assumptions have not been verified and may not be correct. After evaporation, the simulated solution composition is still undersaturated with respect to calcite, dolomite, and gypsum. As expected, the mass of water decreases from 1 kg in rainwater (solution 1) to approximately 0.05 kg in solution 2 after water was removed by the reaction. In general, the amount of water remaining after the reaction varies because water may be consumed or produced by homogeneous hydrolysis reactions, surface complexation reactions, and dissolution and precipitation of pure phases. The number of moles of chloride (&#956;mol, micromole) was unaffected by the removal of water; however, the concentration of chloride (&#956;mol/kgw, micromole per kilogram water) increased because the amount of water decreased. The second mixing simulation increased the mass of water and the moles of chloride by a factor of 20. Thus, the moles of chloride increased, but the chloride concentration is the same before (solution 2) and after (solution 3) in the mixing simulation because the mass of water increased proportionately.</P>
+<A NAME="50540559_pgfId-1343798"></A>Selected results of the simulation are presented in <A HREF="phreeqc3-59.htm#50540559_15983" CLASS="XRef">table 18</A>. The concentration factor of 20 is reasonable in terms of a water balance for the process of evapotranspiration in central Oklahoma (Parkhurst and others, 1996). The PHREEQC modeling assumes that evaporation and evapotranspiration have the same effect and that evapotranspiration has no effect on the ion ratios. These assumptions have not been verified and may not be correct. After evaporation, the simulated solution composition is still undersaturated with respect to calcite, dolomite, and gypsum. As expected, the mass of water decreases from 1 kg in rainwater (solution 1) to approximately 0.05 kg in solution 2 after water was removed by the reaction. In general, the amount of water remaining after the reaction varies because water may be consumed or produced by homogeneous hydrolysis reactions, surface complexation reactions, and dissolution and precipitation of pure phases. The number of moles of chloride (&#956;mol, micromole) was unaffected by the removal of water; however, the concentration of chloride (&#956;mol/kgw, micromole per kilogram water) increased because the amount of water decreased. The second mixing simulation increased the mass of water and the moles of chloride by a factor of 20. Thus, the moles of chloride increased, but the chloride concentration is the same before (solution 2) and after (solution 3) in the mixing simulation because the mass of water increased proportionately.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50528271_pgfId-1553576"></A>Table 18. <STRONG CLASS="Bold">
+<A NAME="50540559_pgfId-1553576"></A>Table 18. <STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50528271_15983"></A>Selected results for example 4.</P>
+<A NAME="50540559_15983"></A>Selected results for example 4.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50528271_pgfId-1343812"></A>[kg, kilogram; Cl, chloride; <EM CLASS="symbol">
+<A NAME="50540559_pgfId-1343812"></A>[kg, kilogram; Cl, chloride; <EM CLASS="symbol">
 &#956;</EM>
 mol, micromole; <EM CLASS="symbol">
 &#956;</EM>
@@ -164,208 +164,208 @@ mol/kgw, micromole per kilogram water]</P>
 <TR>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50528271_pgfId-1343820"></A>Constituent</P>
+<A NAME="50540559_pgfId-1343820"></A>Constituent</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50528271_pgfId-1343822"></A>Solution 1 <BR>
+<A NAME="50540559_pgfId-1343822"></A>Solution 1 <BR>
 Rainwater</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50528271_pgfId-1343824"></A>Solution 2 </P>
+<A NAME="50540559_pgfId-1343824"></A>Solution 2 </P>
 <P CLASS="CellHeading8pt">
-<A NAME="50528271_pgfId-1343825"></A>Concentrated 20-fold</P>
+<A NAME="50540559_pgfId-1343825"></A>Concentrated 20-fold</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50528271_pgfId-1343827"></A>Solution 3</P>
+<A NAME="50540559_pgfId-1343827"></A>Solution 3</P>
 <P CLASS="CellHeading8pt">
-<A NAME="50528271_pgfId-1343828"></A>Mixed with factor 20</P>
+<A NAME="50540559_pgfId-1343828"></A>Mixed with factor 20</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343830"></A>Mass of water, kg</P>
+<A NAME="50540559_pgfId-1343830"></A>Mass of water, kg</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343832"></A>1.000</H6>
+<A NAME="50540559_pgfId-1343832"></A>1.000</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343834"></A>0.05002</H6>
+<A NAME="50540559_pgfId-1343834"></A>0.05002</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343836"></A>1.000</H6>
+<A NAME="50540559_pgfId-1343836"></A>1.000</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343841"></A>Cl, <EM CLASS="symbol">
+<A NAME="50540559_pgfId-1343841"></A>Cl, <EM CLASS="symbol">
 &#956;</EM>
 mol</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343843"></A>6.657</H6>
+<A NAME="50540559_pgfId-1343843"></A>6.657</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343845"></A>6.657</H6>
+<A NAME="50540559_pgfId-1343845"></A>6.657</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343847"></A>133.1</H6>
+<A NAME="50540559_pgfId-1343847"></A>133.1</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343852"></A>Cl, <EM CLASS="symbol">
+<A NAME="50540559_pgfId-1343852"></A>Cl, <EM CLASS="symbol">
 &#956;</EM>
 mol/kgw</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343854"></A>6.657</H6>
+<A NAME="50540559_pgfId-1343854"></A>6.657</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343856"></A>133.1</H6>
+<A NAME="50540559_pgfId-1343856"></A>133.1</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343858"></A>133.1</H6>
+<A NAME="50540559_pgfId-1343858"></A>133.1</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343863"></A>Nitrate [N(5)], <EM CLASS="symbol">
+<A NAME="50540559_pgfId-1343863"></A>Nitrate [N(5)], <EM CLASS="symbol">
 &#956;</EM>
 mol/kgw</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343865"></A>16.9</H6>
+<A NAME="50540559_pgfId-1343865"></A>16.9</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343867"></A>160.1</H6>
+<A NAME="50540559_pgfId-1343867"></A>160.1</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343869"></A>160.1</H6>
+<A NAME="50540559_pgfId-1343869"></A>160.1</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343874"></A>Dissolved nitrogen [N(0)], <EM CLASS="symbol">
+<A NAME="50540559_pgfId-1343874"></A>Dissolved nitrogen [N(0)], <EM CLASS="symbol">
 &#956;</EM>
 mol/kgw</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343876"></A>0</H6>
+<A NAME="50540559_pgfId-1343876"></A>0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343878"></A>475.1</H6>
+<A NAME="50540559_pgfId-1343878"></A>475.1</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343880"></A>475.1</H6>
+<A NAME="50540559_pgfId-1343880"></A>475.1</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343885"></A>Ammonium [N(-3)], <EM CLASS="symbol">
+<A NAME="50540559_pgfId-1343885"></A>Ammonium [N(-3)], <EM CLASS="symbol">
 &#956;</EM>
 mol/kgw</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343887"></A>14.8</H6>
+<A NAME="50540559_pgfId-1343887"></A>14.8</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343889"></A>0</H6>
+<A NAME="50540559_pgfId-1343889"></A>0</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343891"></A>0</H6>
+<A NAME="50540559_pgfId-1343891"></A>0</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343893"></A>Calcite saturation index</P>
+<A NAME="50540559_pgfId-1343893"></A>Calcite saturation index</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343895"></A>-9.20</H6>
+<A NAME="50540559_pgfId-1343895"></A>-9.20</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343897"></A>-9.36</H6>
+<A NAME="50540559_pgfId-1343897"></A>-9.36</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343899"></A>-9.36</H6>
+<A NAME="50540559_pgfId-1343899"></A>-9.36</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343901"></A>Dolomite saturation index</P>
+<A NAME="50540559_pgfId-1343901"></A>Dolomite saturation index</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343903"></A>-19.00</H6>
+<A NAME="50540559_pgfId-1343903"></A>-19.00</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343905"></A>-19.33</H6>
+<A NAME="50540559_pgfId-1343905"></A>-19.33</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343907"></A>-19.33</H6>
+<A NAME="50540559_pgfId-1343907"></A>-19.33</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50528271_pgfId-1343909"></A>Gypsum saturation index</P>
+<A NAME="50540559_pgfId-1343909"></A>Gypsum saturation index</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343911"></A>-5.35</H6>
+<A NAME="50540559_pgfId-1343911"></A>-5.35</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343913"></A>-2.91</H6>
+<A NAME="50540559_pgfId-1343913"></A>-2.91</H6>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50528271_pgfId-1343915"></A>-2.91</H6>
+<A NAME="50540559_pgfId-1343915"></A>-2.91</H6>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1343651"></A>An important point about homogeneous redox reactions is illustrated in the results of these simulations (<A HREF="phreeqc3-59.htm#50528271_15983" CLASS="XRef">table 18</A>). Batch-reaction calculations (and transport calculations) always produce aqueous equilibrium among all redox elements. The rainwater analysis contained data for both ammonium and nitrate, but none for dissolved nitrogen. The pe of the rainwater has no effect on the distribution of species in the initial solution because concentrations of the individual redox states of redox elements (C, N, and S) are specified. Although nitrate and ammonium should not coexist at thermodynamic equilibrium, the speciation calculation allows redox disequilibria and accepts the concentrations of the two redox states of nitrogen that are defined by the input data, regardless of thermodynamic equilibrium. During the batch-reaction (evaporation) step, redox equilibrium is attained for the aqueous phase, which causes ammonium to be oxidized and nitrate to be reduced, generating dissolved nitrogen [N<Sub CLASS="Subscript">
+<A NAME="50540559_pgfId-1343651"></A>An important point about homogeneous redox reactions is illustrated in the results of these simulations (<A HREF="phreeqc3-59.htm#50540559_15983" CLASS="XRef">table 18</A>). Batch-reaction calculations (and transport calculations) always produce aqueous equilibrium among all redox elements. The rainwater analysis contained data for both ammonium and nitrate, but none for dissolved nitrogen. The pe of the rainwater has no effect on the distribution of species in the initial solution because concentrations of the individual redox states of redox elements (C, N, and S) are specified. Although nitrate and ammonium should not coexist at thermodynamic equilibrium, the speciation calculation allows redox disequilibria and accepts the concentrations of the two redox states of nitrogen that are defined by the input data, regardless of thermodynamic equilibrium. During the batch-reaction (evaporation) step, redox equilibrium is attained for the aqueous phase, which causes ammonium to be oxidized and nitrate to be reduced, generating dissolved nitrogen [N<Sub CLASS="Subscript">
 2(aq)</Sub>
-, or N(0) in PHREEQC notation]. The first batch-reaction solution (solution 2) contains the equilibrium distribution of nitrogen, which consists of nitrate and dissolved nitrogen, but no ammonium (<A HREF="phreeqc3-59.htm#50528271_15983" CLASS="XRef">table 18</A>). The oxidation of ammonium and reduction of nitrate occur in the batch-reaction calculation to produce redox equilibrium from the inherent redox disequilibrium in the definition of the rainwater composition. Nitrogen redox reactions would have occurred in the simulation even if the <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> keyword had specified that no water was to be removed. Solution 3 (<A HREF="phreeqc3-59.htm#50528271_15983" CLASS="XRef">table 18</A>) also is the result of a batch-reaction calculation and has the same redox equilibrium as solution 2. The only way to prevent complete equilibration of the nitrogen redox states would be to define the individual redox states as separate <A HREF="phreeqc3-42.htm#50528257_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and <A HREF="phreeqc3-43.htm#50528257_96148" CLASS="XRef">SOLUTION_SPECIES</A>; for example, by defining a new element in <A HREF="phreeqc3-42.htm#50528257_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> called &#8220;Amm&#8221; and defining NH<Sub CLASS="Subscript">
+, or N(0) in PHREEQC notation]. The first batch-reaction solution (solution 2) contains the equilibrium distribution of nitrogen, which consists of nitrate and dissolved nitrogen, but no ammonium (<A HREF="phreeqc3-59.htm#50540559_15983" CLASS="XRef">table 18</A>). The oxidation of ammonium and reduction of nitrate occur in the batch-reaction calculation to produce redox equilibrium from the inherent redox disequilibrium in the definition of the rainwater composition. Nitrogen redox reactions would have occurred in the simulation even if the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> keyword had specified that no water was to be removed. Solution 3 (<A HREF="phreeqc3-59.htm#50540559_15983" CLASS="XRef">table 18</A>) also is the result of a batch-reaction calculation and has the same redox equilibrium as solution 2. The only way to prevent complete equilibration of the nitrogen redox states would be to define the individual redox states as separate <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A>; for example, by defining a new element in <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> called &#8220;Amm&#8221; and defining NH<Sub CLASS="Subscript">
 3</Sub>
  and other N(-3) species in terms of Amm (Amm, AmmH<Sup CLASS="Superscript">
 +</Sup>
 , and others). In this case, equilibrium would be attained among all species of N and all species of Amm, but no equilibria would exist between N and Amm species. This option has been implemented in the database Amm.dat.</P>
 <P CLASS="BodyText">
-<A NAME="50528271_pgfId-1673090"></A>&nbsp;</P>
+<A NAME="50540559_pgfId-1673090"></A>&nbsp;</P>
 <HR><P> | <A HREF="phreeqc3-60.htm">Next</A> || <A HREF="phreeqc3-58.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
