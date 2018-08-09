@@ -15,6 +15,8 @@
 #include "Utils.h"
 #include "Solution.h"
 
+#define register
+
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
 /* "p2c"  Copyright (C) 1989, 1990, 1991 Free Software Foundation.
