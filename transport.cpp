@@ -763,7 +763,7 @@ transport(void)
 			*/
 			if (b_c != 1)
 				j = 1;
-			for (j = j; j <= nmix; j++)
+			for (/* j = j */; j <= nmix; j++)
 			{
 				if (multi_Dflag && j == nmix && (transport_step % print_modulus == 0))
 				{

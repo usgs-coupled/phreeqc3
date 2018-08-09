@@ -285,7 +285,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		output_msg(sformatf(
 				   "\n\tSpecies     \t    Moles   \tMoles excess\t      g\n"));
 	}
-	if (mass_water_surface = charge_ptr->Get_mass_water())
+	if ((mass_water_surface = charge_ptr->Get_mass_water()))
 	{
 		count_elts = 0;
 		paren_count = 0;

@@ -6,6 +6,8 @@
 #include "Solution.h"
 #include <time.h>
 
+#define register
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)

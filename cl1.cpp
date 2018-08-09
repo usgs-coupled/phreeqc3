@@ -5,6 +5,8 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
+#define register
+
 /* debug
 #define DEBUG_CL1
 #define CHECK_ERRORS

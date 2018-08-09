@@ -3780,7 +3780,7 @@ CVsldet(CVodeMem cv_mem)
 		rd2c = rd1c - rd1d;
 		rd3a = rd2a - rd2b;
 		rd3b = rd2b - rd2c;
-		rd3b = rd3b;
+		/* rd3b = rd3b; */
 
 		if (ABS(rd1b) < TINY * smax[k])
 		{
