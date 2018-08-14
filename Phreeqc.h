@@ -912,6 +912,7 @@ protected:
 public:
 	struct rate *rate_bsearch(char *ptr, int *j);
 	int rate_free(struct rate *rate_ptr);
+	struct rate * rate_copy(struct rate *rate_ptr);
 	struct rate *rate_search(const char *name, int *n);
 	int rate_sort(void);
 	struct reaction *rxn_alloc(int ntokens);
@@ -1157,12 +1158,6 @@ public:
 	void set_phast(int);
 	int next_user_number(Keywords::KEYWORDS key);
 	size_t list_components(std::list<std::string> &list_c);
-	size_t list_EquilibriumPhases(std::list<std::string> &list_pp);
-	size_t list_GasComponents(std::list<std::string> &list_gc);
-	size_t list_KineticReactions(std::list<std::string> &list_kr);
-	size_t list_SolidSolutions(std::list<std::string> &list_comps, std::list<std::string> &list_names);
-	size_t list_Surfaces(std::list<std::string> &surftype, std::list<std::string> &surf);
-	size_t list_Exchangers(std::list<std::string> &ex);
 	PHRQ_io * Get_phrq_io(void) {return this->phrq_io;}
 	void Set_run_cells_one_step(const bool tf) {this->run_cells_one_step = tf;}
 

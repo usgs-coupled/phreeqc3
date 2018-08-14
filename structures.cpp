@@ -1673,6 +1673,26 @@ rate_free(struct rate *rate_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct rate * Phreeqc::
+rate_copy(struct rate *rate_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	*   Copies a rate to new allocated space
+	*/
+	if (rate_ptr == NULL)
+		return (NULL);
+	struct rate * rate_new = (struct rate *) PHRQ_malloc(sizeof(struct rate));
+	if (rate_new == NULL) malloc_error();
+	rate_new->commands = string_duplicate(rate_ptr->commands);
+	rate_new->new_def = TRUE;
+	rate_new->linebase = NULL;
+	rate_new->varbase = NULL;
+	rate_new->loopbase = NULL;
+	return (rate_new);
+}
+
+/* ---------------------------------------------------------------------- */
+struct rate * Phreeqc::
 rate_search(const char *name_in, int *n)
 /* ---------------------------------------------------------------------- */
 {

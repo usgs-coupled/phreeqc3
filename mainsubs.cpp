@@ -2445,6 +2445,21 @@ run_simulations(void)
  */
 		for (simulation = 1;; simulation++)
 		{
+			{
+				Phreeqc phreeqc_new;
+				phreeqc_new = *this;
+				//phreeqc_new.phrq_io = new (PHRQ_io);
+				PHRQ_io *temp_io = this->phrq_io;
+				this->phrq_io = NULL;
+				std::map<int, SelectedOutput> SelectedOutput_map_temp;
+				SelectedOutput_map_temp = this->SelectedOutput_map;
+				this->clean_up();
+				this->init();
+				this->initialize();
+				this->InternalCopy(&phreeqc_new);
+				this->phrq_io = temp_io;
+				this->SelectedOutput_map = SelectedOutput_map_temp;
+			}
 
 #if defined PHREEQ98
 			AddSeries = !connect_simulations;

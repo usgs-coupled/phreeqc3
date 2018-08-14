@@ -222,6 +222,21 @@ main_method(int argc, char *argv[])
 		{
 			return errors;
 		}
+		{
+			//Phreeqc phreeqc_new;
+			//phreeqc_new = *this;
+			/*
+			PHRQ_io temp_io = *this->phrq_io;
+			std::map<int, SelectedOutput> SelectedOutput_map_temp;
+			SelectedOutput_map_temp = this->SelectedOutput_map;
+			this->clean_up();
+			this->init();
+			this->initialize();
+			this->InternalCopy(&phreeqc_new);
+			*this->phrq_io = temp_io;
+			this->SelectedOutput_map = SelectedOutput_map_temp;
+			*/
+		}
 
 		/*
 		*   Read input data for simulation
