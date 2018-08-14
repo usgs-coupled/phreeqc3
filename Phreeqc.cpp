@@ -348,7 +348,7 @@ size_t Phreeqc::list_Surfaces(std::list<std::string> &list_surftype, std::list<s
 		{
 			cxxSurface entity = cit->second;
 			std::vector<cxxSurfaceComp> &scomps = entity.Get_surface_comps();
-			std::vector<cxxSurfaceCharge> &scharges = entity.Get_surface_charges();
+			// std::vector<cxxSurfaceCharge> &scharges = entity.Get_surface_charges();
 			for (size_t i = 0; i < scomps.size(); i++)
 			{
 				std::pair<std::string, std::string> p(scomps[i].Get_master_element(), scomps[i].Get_charge_name());

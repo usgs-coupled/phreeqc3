@@ -6,7 +6,6 @@
 #include "Solution.h"
 #include <time.h>
 
-#define register
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -1739,7 +1738,7 @@ hsearch_multi(HashTable * Table, ENTRY item, ACTION action)
 Hash_multi(HashTable * Table, const char *Key)
 {
 	Address h, address;
-	register unsigned char *k = (unsigned char *) Key;
+	unsigned char *k = (unsigned char *) Key;
 
 	h = 0;
 	/*
