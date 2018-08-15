@@ -15,8 +15,6 @@
 #include "Utils.h"
 #include "Solution.h"
 
-#define register
-
 /* Run-time library for PhreeqcPtr->use with "p2c", the Pascal to C translator */
 
 /* "p2c"  Copyright (C) 1989, 1990, 1991 Free Software Foundation.
@@ -2759,7 +2757,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokedl_species:
 		{
-			double area, thickness;
+			double area=0.0, thickness=0.0;
 			require(toklp, LINK);
 			const char *surf_name = stringfactor(STR1, LINK);
 			require(tokcomma, LINK);
@@ -6423,7 +6421,7 @@ my_labs(long l_x)
 void *  PBasic::
 my_memmove(void * d, Const void * l_s, size_t n)
 {
-	register char *dd = (char *) d, *ss = (char *) l_s;
+	char *dd = (char *) d, *ss = (char *) l_s;
 	if (dd < ss || (unsigned int) (dd - ss) >= n)
 	{
 		memcpy(dd, ss, n);
@@ -6441,7 +6439,7 @@ my_memmove(void * d, Const void * l_s, size_t n)
 void *  PBasic::
 my_memcpy(void * d, Const void * l_s, size_t n)
 {
-	register char *ss = (char *) l_s, *dd = (char *) d;
+	char *ss = (char *) l_s, *dd = (char *) d;
 	while (n-- > 0)
 		*dd++ = *ss++;
 	return d;
@@ -6450,8 +6448,8 @@ my_memcpy(void * d, Const void * l_s, size_t n)
 int PBasic::
 my_memcmp(Const void * s1, Const void * s2, size_t n)
 {
-	register char *a = (char *) s1, *b = (char *) s2;
-	register int i;
+	char *a = (char *) s1, *b = (char *) s2;
+	int i;
 	while (n-- > 0)
 		if ((i = (*a++) - (*b++)) != 0)
 			return i;
@@ -6461,7 +6459,7 @@ my_memcmp(Const void * s1, Const void * s2, size_t n)
 void * PBasic::
 my_memset(void * d, int c, size_t n)
 {
-	register char *dd = (char *) d;
+	char *dd = (char *) d;
 	while (n-- > 0)
 		*dd++ = (char) c;
 	return d;
@@ -6513,10 +6511,10 @@ ipow(long a, long b)
 /* Store in "ret" the substring of length "len" starting from "pos" (1-based).
    Store a shorter or null string if out-of-range.  Return "ret". */
 char * PBasic::
-strsub(register char *ret, register char *l_s, register int pos,
-	   register int len)
+strsub(char *ret, char *l_s, int pos,
+	   int len)
 {
-	register char *s2;
+	char *s2;
 
 	if (--pos < 0 || len <= 0)
 	{
@@ -6546,10 +6544,10 @@ strsub(register char *ret, register char *l_s, register int pos,
    starting at index "pos" (1-based).  Result is 1-based, 0 if not found. */
 
 int PBasic::
-strpos2(char *l_s, register char *pat, register int pos)
+strpos2(char *l_s, char *pat, int pos)
 {
-	register char *cp, ch;
-	register int slen;
+	char *cp, ch;
+	int slen;
 
 	if (--pos < 0)
 		return 0;
@@ -6569,9 +6567,9 @@ strpos2(char *l_s, register char *pat, register int pos)
 
 /* Case-insensitive version of strcmp. */
 int PBasic::
-strcicmp(register char *s1, register char *s2)
+strcicmp(char *s1, char *s2)
 {
-	register unsigned char c1, c2;
+	unsigned char c1, c2;
 
 	while (*s1)
 	{
@@ -6594,7 +6592,7 @@ strcicmp(register char *s1, register char *s2)
 
 /* Trim blanks at left end of string. */
 char *  PBasic::
-strltrim(register char *l_s)
+strltrim(char *l_s)
 {
 	while (Isspace((int) *l_s++));
 	return l_s - 1;
@@ -6602,9 +6600,9 @@ strltrim(register char *l_s)
 
 /* Trim blanks at right end of string. */
 char * PBasic::
-strrtrim(register char *l_s)
+strrtrim(char *l_s)
 {
-	register char *s2 = l_s;
+	char *s2 = l_s;
 
 	if (!*l_s)
 		return l_s;
@@ -6620,8 +6618,8 @@ strrtrim(register char *l_s)
    to index "dpos" of "d", lengthening "d" if necessary.  Length and
    indices must be in-range. */
 void PBasic::
-strmove(register int len, register char *l_s, register int spos,
-		register char *d, register int dpos)
+strmove(int len, char *l_s, int spos,
+		char *d, int dpos)
 {
 	l_s += spos - 1;
 	d += dpos - 1;
@@ -6637,9 +6635,9 @@ strmove(register int len, register char *l_s, register int spos,
 
 /* Insert string "src" at index "pos" of "dst". */
 void PBasic::
-strinsert(register char *src, register char *dst, register int pos)
+strinsert(char *src, char *dst, int pos)
 {
-	register int slen, dlen;
+	int slen, dlen;
 
 	if (--pos < 0)
 		return;
@@ -6692,7 +6690,7 @@ P_eof(void)
 int PBasic::
 P_eoln(FILE * f)
 {
-	register int ch;
+	int ch;
 
 	ch = getc(f);
 	if (ch == EOF)
@@ -6760,9 +6758,9 @@ P_maxpos(FILE * f)
 
 /* Use packed array of char for a file name. */
 char * PBasic::
-P_trimname(register char * fn, register int len)
+P_trimname(char * fn, int len)
 {
-	register char *cp = fnbuf;
+	char *cp = fnbuf;
 
 	while (--len >= 0 && *fn && !isspace((int) *fn))
 		*cp++ = *fn++;
@@ -6794,10 +6792,10 @@ maxavail(void)
 
 /* (Sets with 32 or fewer elements are normally stored as plain longs.) */
 long * PBasic::
-P_setunion(register long *d, register long *s1, register long *s2)	/* d := s1 + s2 */
+P_setunion(long *d, long *s1, long *s2)	/* d := s1 + s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (sz1 > 0 && sz2 > 0)
 	{
 		*d++ = *s1++ | *s2++;
@@ -6812,10 +6810,10 @@ P_setunion(register long *d, register long *s1, register long *s2)	/* d := s1 + 
 }
 
 long * PBasic::
-P_setint(register long *d, register long *s1, register long *s2)	/* d := s1 * s2 */
+P_setint(long *d, long *s1, long *s2)	/* d := s1 * s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (--sz1 >= 0 && --sz2 >= 0)
 		*d++ = *s1++ & *s2++;
 	while (--d > dbase && !*d);
@@ -6824,10 +6822,10 @@ P_setint(register long *d, register long *s1, register long *s2)	/* d := s1 * s2
 }
 
 long * PBasic::
-P_setdiff(register long *d, register long *s1, register long *s2)	/* d := s1 - s2 */
+P_setdiff(long *d, long *s1, long *s2)	/* d := s1 - s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (--sz1 >= 0 && --sz2 >= 0)
 		*d++ = *s1++ & ~*s2++;
 	if (sz1 >= 0)
@@ -6841,10 +6839,10 @@ P_setdiff(register long *d, register long *s1, register long *s2)	/* d := s1 - s
 }
 
 long * PBasic::
-P_setxor(register long *d, register long *s1, register long *s2)	/* d := s1 / s2 */
+P_setxor(long *d, long *s1, long *s2)	/* d := s1 / s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (sz1 > 0 && sz2 > 0)
 	{
 		*d++ = *s1++ ^ *s2++;
@@ -6860,10 +6858,10 @@ P_setxor(register long *d, register long *s1, register long *s2)	/* d := s1 / s2
 }
 
 long * PBasic::
-P_addset(register long *l_s, register unsigned val)	/* s := s + [val] */
+P_addset(long *l_s, unsigned val)	/* s := s + [val] */
 {
-	register long *sbase = l_s;
-	register int bit, size;
+	long *sbase = l_s;
+	int bit, size;
 	bit = val % SETBITS;
 	val /= SETBITS;
 	size = *l_s;
@@ -6881,10 +6879,10 @@ P_addset(register long *l_s, register unsigned val)	/* s := s + [val] */
 }
 
 long * PBasic::
-P_addsetr(register long *l_s, register unsigned v1, register unsigned v2)	/* s := s + [v1..v2] */
+P_addsetr(long *l_s, unsigned v1, unsigned v2)	/* s := s + [v1..v2] */
 {
-	register long *sbase = l_s;
-	register int b1, b2, size;
+	long *sbase = l_s;
+	int b1, b2, size;
 	if ((int) v1 > (int) v2)
 		return sbase;
 	b1 = v1 % SETBITS;
@@ -6916,9 +6914,9 @@ P_addsetr(register long *l_s, register unsigned v1, register unsigned v2)	/* s :
 }
 
 long *  PBasic::
-P_remset(register long *l_s, register unsigned val)	/* s := s - [val] */
+P_remset(long *l_s, unsigned val)	/* s := s - [val] */
 {
-	register int bit;
+	int bit;
 	bit = val % SETBITS;
 	val /= SETBITS;
 	if ((long) ++val <= *l_s)
@@ -6931,9 +6929,9 @@ P_remset(register long *l_s, register unsigned val)	/* s := s - [val] */
 }
 
 int PBasic::
-P_setequal(register long *s1, register long *s2)	/* s1 = s2 */
+P_setequal(long *s1, long *s2)	/* s1 = s2 */
 {
-	register int size = *s1++;
+	int size = *s1++;
 	if (*s2++ != size)
 		return 0;
 	while (--size >= 0)
@@ -6945,9 +6943,9 @@ P_setequal(register long *s1, register long *s2)	/* s1 = s2 */
 }
 
 int PBasic::
-P_subset(register long *s1, register long *s2)	/* s1 <= s2 */
+P_subset(long *s1, long *s2)	/* s1 <= s2 */
 {
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	if (sz1 > sz2)
 		return 0;
 	while (--sz1 >= 0)
@@ -6959,14 +6957,14 @@ P_subset(register long *s1, register long *s2)	/* s1 <= s2 */
 }
 
 long * PBasic::
-P_setcpy(register long *d, register long *l_s)	/* d := s */
+P_setcpy(long *d, long *l_s)	/* d := s */
 {
-	register long *save_d = d;
+	long *save_d = d;
 
 #ifdef SETCPY_MEMCPY
 	memcpy(d, l_s, (*l_s + 1) * sizeof(long));
 #else
-	register int i = *l_s + 1;
+	int i = *l_s + 1;
 	while (--i >= 0)
 		*d++ = *l_s++;
 #endif
@@ -6976,7 +6974,7 @@ P_setcpy(register long *d, register long *l_s)	/* d := s */
 /* s is a "smallset", i.e., a 32-bit or less set stored
    directly in a long. */
 long * PBasic::
-P_expset(register long *d, register long l_s)	/* d := s */
+P_expset(long *d, long l_s)	/* d := s */
 {
 	if (l_s)
 	{
@@ -6989,7 +6987,7 @@ P_expset(register long *d, register long l_s)	/* d := s */
 }
 
 long PBasic::
-P_packset(register long *l_s)		/* convert s to a small-set */
+P_packset(long *l_s)		/* convert s to a small-set */
 {
 	if (*l_s++)
 		return *l_s;
