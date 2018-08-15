@@ -973,8 +973,8 @@ void Phreeqc::
 print_punch(int i, boolean active)
 /* ---------------------------------------------------------------------- */
 {
-	if (!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
-		!(cell_data[i].print && (transport_step % print_modulus == 0)) ||
+	if ((!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
+               !(cell_data[i].print && (transport_step % print_modulus == 0))) ||
 		(bcon_first == 2 && i == 0) ||
 		(bcon_last == 2 && i == count_cells + 1))
 		return;
