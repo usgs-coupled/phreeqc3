@@ -2445,22 +2445,38 @@ run_simulations(void)
  */
 		for (simulation = 1;; simulation++)
 		{
+#ifdef TEST_COPY_OPERATOR
 			{
+				int simulation_save = simulation;
 				Phreeqc phreeqc_new;
 				phreeqc_new = *this;
-				//phreeqc_new.phrq_io = new (PHRQ_io);
 				PHRQ_io *temp_io = this->phrq_io;
-				this->phrq_io = NULL;
-				std::map<int, SelectedOutput> SelectedOutput_map_temp;
-				SelectedOutput_map_temp = this->SelectedOutput_map;
+				std::vector<std::ostream *> so_ostreams;
+				{
+					std::map<int, SelectedOutput>::iterator so_it = this->SelectedOutput_map.begin();
+					for (; so_it != this->SelectedOutput_map.end(); so_it++)
+					{
+						so_ostreams.push_back(so_it->second.Get_punch_ostream());
+						so_it->second.Set_punch_ostream(NULL);
+					}
+				}
 				this->clean_up();
 				this->init();
 				this->initialize();
-				this->InternalCopy(&phreeqc_new);
 				this->phrq_io = temp_io;
-				this->SelectedOutput_map = SelectedOutput_map_temp;
+				this->InternalCopy(&phreeqc_new);		
+				{
+					size_t i = 0;
+					std::map<int, SelectedOutput>::iterator so_it = this->SelectedOutput_map.begin();
+					for (; so_it != this->SelectedOutput_map.end(); so_it++)
+					{
+						so_it->second.Set_punch_ostream(so_ostreams[i++]);
+					}
+				}
+				this->simulation = simulation_save;
+				//delete phreeqc_new.Get_phrq_io();
 			}
-
+#endif
 #if defined PHREEQ98
 			AddSeries = !connect_simulations;
 #endif

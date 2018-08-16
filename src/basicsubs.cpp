@@ -1392,8 +1392,9 @@ get_calculate_value(const char *name)
 	{
 		error_string = sformatf( "CALC_VALUE Basic function, %s not found.",
 				name);
-		error_msg(error_string, CONTINUE);
-		input_error++;
+		//error_msg(error_string, CONTINUE);
+		//input_error++;
+		warning_msg(error_string);
 		return (MISSING);
 	}
 	if (name == NULL)
