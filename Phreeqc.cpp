@@ -277,7 +277,7 @@ size_t Phreeqc::list_SolidSolutions(std::list<std::string> &list_comps, std::lis
 		{
 			std::string ssname = ssit->second.Get_name();
 			std::set<std::string> accumulator_phases;
-			for (int i = 0; i < ssit->second.Get_ss_comps().size(); i++)
+			for (size_t i = 0; i < ssit->second.Get_ss_comps().size(); i++)
 			{
 				std::string pname = ssit->second.Get_ss_comps()[i].Get_name();
 				int j;
@@ -348,7 +348,7 @@ size_t Phreeqc::list_Surfaces(std::list<std::string> &list_surftype, std::list<s
 		{
 			cxxSurface entity = cit->second;
 			std::vector<cxxSurfaceComp> &scomps = entity.Get_surface_comps();
-			std::vector<cxxSurfaceCharge> &scharges = entity.Get_surface_charges();
+			//std::vector<cxxSurfaceCharge> &scharges = entity.Get_surface_charges();
 			for (size_t i = 0; i < scomps.size(); i++)
 			{
 				std::pair<std::string, std::string> p(scomps[i].Get_master_element(), scomps[i].Get_charge_name());
@@ -687,7 +687,7 @@ void Phreeqc::init(void)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = 1;
-	cell_data_max_cells      = count_cells;
+	cell_data_max_cells      = 1; // count_cells;
 	count_shifts             = 1;
 	ishift                   = 1;
 	bcon_first = bcon_last   = 3;
@@ -1615,7 +1615,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = pSrc->count_cells;
-	cell_data_max_cells      = pSrc->cell_data_max_cells;
+	cell_data_max_cells      = 1; //pSrc->cell_data_max_cells;
 	count_shifts             = pSrc->count_shifts;
 	ishift                   = pSrc->ishift;
 	bcon_first				 = pSrc->bcon_first;
@@ -1743,7 +1743,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */
-	bool run_cells_one_step;
+	//bool run_cells_one_step;
 	run_cells_one_step = pSrc->run_cells_one_step;
 	/*----------------------------------------------------------------------
 	*   Species
@@ -1938,14 +1938,14 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			phase_ptr->rxn = cxxChemRxn2rxn(rxn);
 		}
 		//rxn_s
-		phase_ptr->rxn_s = NULL;
+		//phase_ptr->rxn_s = NULL;
 		if (pSrc->phases[i]->rxn_s != NULL)
 		{
 			cxxChemRxn rxn_s(pSrc->phases[i]->rxn_s);
 			phase_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
 		}
 		//rxn_x
-		phase_ptr->rxn_x = NULL;
+		//phase_ptr->rxn_x = NULL;
 		if (pSrc->phases[i]->rxn_x != NULL)
 		{
 			cxxChemRxn rxn_x(pSrc->phases[i]->rxn_x);
