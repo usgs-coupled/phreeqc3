@@ -1063,7 +1063,8 @@ void Phreeqc::init(void)
 	V_solutes               = 0.0;
 	viscos                  = 0.0;
 	viscos_0                = 0.0;
-	rho_0                   = 0;
+	viscos_0_25             = 0.0;
+	rho_0                   = 0.0;
 	kappa_0                 = 0.0;
 	p_sat                   = 0.0;
 	eps_r                   = EPSILON;
@@ -1502,14 +1503,23 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*---------------------------------------------------------------------- */
 	// Should be empty after each END
 	// auto Rxn_mix_map;
+	Rxn_mix_map = pSrc->Rxn_mix_map;
 	// auto Dispersion_mix_map;
+	Dispersion_mix_map = pSrc->Dispersion_mix_map;
 	// auto Rxn_solution_mix_map;
+	Rxn_solution_mix_map = pSrc->Rxn_solution_mix_map;
 	// auto Rxn_exchange_mix_map;
+	Rxn_exchange_mix_map = pSrc->Rxn_exchange_mix_map;
 	// auto Rxn_gas_phase_mix_map;
+	Rxn_gas_phase_mix_map = pSrc->Rxn_gas_phase_mix_map;
 	// auto Rxn_kinetics_mix_map;
+	Rxn_kinetics_mix_map = pSrc->Rxn_kinetics_mix_map;
 	// auto Rxn_pp_assemblage_mix_map;
+	Rxn_pp_assemblage_mix_map = pSrc->Rxn_pp_assemblage_mix_map;
 	// auto Rxn_ss_assemblage_mix_map;
+	Rxn_ss_assemblage_mix_map = pSrc->Rxn_ss_assemblage_mix_map;
 	// auto Rxn_surface_mix_map;
+	Rxn_surface_mix_map = pSrc->Rxn_surface_mix_map;
 	/*
 	* List new definitions
 	*/
@@ -1641,6 +1651,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	old_cells = pSrc->old_cells;
 	max_cells = pSrc->max_cells;
 	all_cells = pSrc->all_cells;
+	cell_data_max_cells = 1;
 	if (count_cells > 0)
 	{
 		//cell_data = (struct cell_data *) free_check_null(cell_data);
@@ -2390,18 +2401,18 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	for (int i = 0; i < pSrc->count_calculate_value; i++)
 	{
 		struct calculate_value *calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
-		memcpy(calculate_value_ptr, pSrc->calculate_value[i], sizeof(struct calculate_value));
+		//memcpy(calculate_value_ptr, pSrc->calculate_value[i], sizeof(struct calculate_value));
 		calculate_value_ptr->value = pSrc->calculate_value[i]->value;
-		calculate_value_ptr->commands = NULL;
+		//calculate_value_ptr->commands = NULL;
 		if (pSrc->calculate_value[i]->commands)
 		{
 			calculate_value_ptr->commands = string_duplicate(pSrc->calculate_value[i]->commands);
 		}
-		calculate_value_ptr->new_def = TRUE;
-		calculate_value_ptr->calculated = FALSE;
-		calculate_value_ptr->linebase = NULL;
-		calculate_value_ptr->varbase = NULL;
-		calculate_value_ptr->loopbase = NULL;
+		//calculate_value_ptr->new_def = TRUE;
+		//calculate_value_ptr->calculated = FALSE;
+		//calculate_value_ptr->linebase = NULL;
+		//calculate_value_ptr->varbase = NULL;
+		//calculate_value_ptr->loopbase = NULL;
 	}
 	/*
 	count_isotope_ratio		= 0;
@@ -2437,195 +2448,138 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	print_density		    = pSrc->print_density;
 	print_viscosity         = pSrc->print_viscosity;
 #ifdef SKIP
-	zeros                   = NULL;	
-	zeros_max			    = 1;
-	cell_pore_volume	    = 0;
-	cell_volume			    = 0;
-	cell_porosity		    = 0;
-	cell_saturation		    = 0;
-	sys                     = NULL;
-	count_sys               = 0;
-	max_sys                 = 0;
-	sys_tot                 = 0;
+	LDBLE *zeros;
+	int zeros_max;
+#endif
+	viscos = pSrc->viscos;
+	viscos_0 = pSrc->viscos_0;
+	viscos_0_25 = pSrc->viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
+#ifdef SKIP
+	LDBLE cell_pore_volume;
+	LDBLE cell_porosity;
+	LDBLE cell_volume;
+	LDBLE cell_saturation;
+	struct system_species *sys;
+	int count_sys, max_sys;
+	LDBLE sys_tot;
 
-	V_solutes               = 0.0;
-	rho_0                   = 0;
-	kappa_0                 = 0.0;
-	p_sat                   = 0.0;
-	eps_r                   = EPSILON;
-	DH_A                    = 0.0;
-	DH_B                    = 0.0;
-	DH_Av                   = 0.0;
-	QBrn                    = 0.0;
-	ZBrn                    = 0.0;
-	dgdP                    = 0.0;
+	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
+	LDBLE SC; // specific conductance mS/cm
+	LDBLE eps_r; // relative dielectric permittivity
+	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
+	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
+	LDBLE ZBrn; // Born function (-1/eps_r + 1) * 41.84004, for supcrt calc'n of molal volume
+	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
 
-	need_temp_msg           = 0;
-	solution_mass           = 0;
-	solution_volume         = 0;
+	int need_temp_msg;
+	LDBLE solution_mass, solution_volume;
+
 	/* phqalloc.cpp ------------------------------- */
-	s_pTail                 = NULL;
+	PHRQMemHeader *s_pTail;
+
 	/* Basic */
-	basic_interpreter       = NULL;
+	PBasic * basic_interpreter;
+	double(*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
+	void *basic_callback_cookie;
+#ifdef IPHREEQC_NO_FORTRAN_MODULE
+	double(*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
+#else
+	double(*basic_fortran_callback_ptr) (double *x1, double *x2, const char *str, int l);
+#endif
+#if defined(SWIG) || defined(SWIG_IPHREEQC)
+	class BasicCallback *basicCallback;
+	void SetCallback(BasicCallback *cb) { basicCallback = cb; }
+#endif
+
 	/* cl1.cpp ------------------------------- */
-	x_arg                   = NULL; 
-	res_arg                 = NULL; 
-	scratch                 = NULL;
-	x_arg_max               = 0; 
-	res_arg_max             = 0; 
-	scratch_max             = 0;
+	LDBLE *x_arg, *res_arg, *scratch;
+	int x_arg_max, res_arg_max, scratch_max;
+#ifdef SKIP
 	/* dw.cpp ------------------------------- */
-	/* COMMON /QQQQ/ */	
-	Q0                      = 0;
-	Q5                      = 0;
-	GASCON                  = 0.461522e0;
-	TZ                      = 647.073e0;
-	AA                      = 1.e0;
-	Z                       = 0;
-	DZ                      = 0;
-	Y                       = 0;
-	G1                      = 11.e0;
-	G2                      = 44.333333333333e0;
-	GF                      = 3.5e0;
-	B1                      = 0;
-	B2                      = 0;
-	B1T                     = 0;
-	B2T                     = 0;
-	B1TT                    = 0;
-	B2TT                    = 0;
+	/* COMMON /QQQQ/ */
+	LDBLE Q0, Q5;
+	LDBLE GASCON, TZ, AA;
+	LDBLE Z, DZ, Y;
+	LDBLE G1, G2, GF;
+	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
+#endif
 	/* gases.cpp ------------------------------- */
-	a_aa_sum                = 0;
-	b2                      = 0;
-	b_sum                   = 0;
-	R_TK                    = 0;
+	LDBLE a_aa_sum, b2, b_sum, R_TK;
+
 	/* input.cpp ------------------------------- */
-	check_line_return       = 0;  
-	reading_db              = FALSE;
+	int check_line_return;
+	int reading_db;
+
 	/* integrate.cpp ------------------------------- */
-	midpoint_sv             = 0;
-	z_global                = 0;
-	xd_global               = 0;
-	alpha_global            = 0;
+	LDBLE midpoint_sv;
+	LDBLE z_global, xd_global, alpha_global;
+
 	/* inverse.cpp ------------------------------- */
-	max_row_count           = 50;
-	max_column_count        = 50;
-	carbon                  = FALSE;
-	col_name                = NULL;
-	row_name                = NULL;
-	count_rows              = 0;
-	count_optimize          = 0;
-	col_phases              = 0;
-	col_redox               = 0;
-	col_epsilon             = 0;
-	col_ph                  = 0;
-	col_water               = 0;
-	col_isotopes            = 0;
-	col_phase_isotopes      = 0;
-	row_mb                  = 0;
-	row_fract               = 0;
-	row_charge              = 0;
-	row_carbon              = 0;
-	row_isotopes            = 0;
-	row_epsilon             = 0;
-	row_isotope_epsilon     = 0;
-	row_water               = 0;
-	inv_zero                = NULL;
-	array1                  = 0;
-	inv_res                 = NULL;
-	inv_delta1              = NULL;
-	delta2                  = NULL;
-	delta3                  = NULL;
-	inv_cu                  = NULL;
-	delta_save              = NULL;
-	min_delta               = NULL;
-	max_delta               = NULL;
-	inv_iu                  = NULL;
-	inv_is                  = NULL;
-	klmd                    = 0;
-	nklmd                   = 0;
-	n2d                     = 0;
-	kode                    = 0;
-	iter                    = 0;
-	toler                   = 0;
-	error                   = 0;
-	max_pct                 = 0;
-	scaled_error            = 0;
-	master_alk              = NULL;
-	row_back                = NULL;
-	col_back                = NULL;
-	good                    = NULL;
-	bad                     = NULL;
-	minimal                 = NULL;
-	max_good                = 0;
-	max_bad                 = 0;
-	max_minimal             = 0;
-	count_good              = 0;
-	count_bad               = 0;
-	count_minimal           = 0;
-	count_calls             = 0;
-	soln_bits               = 0;
-	phase_bits              = 0;
-	current_bits            = 0;
-	temp_bits               = 0;
-	netpath_file            = NULL;
-	count_inverse_models    = 0;
-	count_pat_solutions     = 0;
-	for (int i = 0; i < 32; i++)
-	{
-		min_position[i]     = 0;
-		max_position[i]     = 0;
-		now[i]              = 0;
-	}
+	int max_row_count, max_column_count;
+	int carbon;
+	const char **col_name, **row_name;
+	int count_rows, count_optimize;
+	int col_phases, col_redox, col_epsilon, col_ph, col_water,
+		col_isotopes, col_phase_isotopes;
+	int row_mb, row_fract, row_charge, row_carbon, row_isotopes,
+		row_epsilon, row_isotope_epsilon, row_water;
+	LDBLE *inv_zero, *array1, *inv_res, *inv_delta1, *delta2, *delta3, *inv_cu,
+		*delta_save;
+	LDBLE *min_delta, *max_delta;
+	int *inv_iu, *inv_is;
+	int klmd, nklmd, n2d, kode, iter;
+	LDBLE toler, error, max_pct, scaled_error;
+	struct master *master_alk;
+	int *row_back, *col_back;
+	unsigned long *good, *bad, *minimal;
+	int max_good, max_bad, max_minimal;
+	int count_good, count_bad, count_minimal, count_calls;
+	unsigned long soln_bits, phase_bits, current_bits, temp_bits;
+	FILE *netpath_file;
+	int count_inverse_models, count_pat_solutions;
+	int min_position[32], max_position[32], now[32];
+	std::vector <std::string> inverse_heading_names;
+
 	/* kinetics.cpp ------------------------------- */
-	count_pp = count_pg = count_ss = 0; 
-	cvode_kinetics_ptr      = NULL;
-	cvode_test              = FALSE;
-	cvode_error             = FALSE;
-	cvode_n_user            = -99;
-	cvode_n_reactions       = -99;
-	cvode_step_fraction     = 0.0;
-	cvode_rate_sim_time     = 0.0;
-	cvode_rate_sim_time_start = 0.0;
-	cvode_last_good_time    = 0.0;
-	cvode_prev_good_time    = 0.0;
-	cvode_last_good_y       = NULL;
-	cvode_prev_good_y       = NULL;
-	kinetics_machEnv        = NULL;
-	kinetics_y              = NULL;
-	kinetics_abstol         = NULL;
-	kinetics_cvode_mem      = NULL;
-	cvode_pp_assemblage_save= NULL;
-	cvode_ss_assemblage_save= NULL;
-	m_original              = NULL;
-	m_temp                  = NULL;
-	rk_moles                = NULL;
-	set_and_run_attempt     = 0;
-	x0_moles                = NULL;
+public:
+	int count_pp, count_pg, count_ss;
+	void *cvode_kinetics_ptr;
+	int cvode_test;
+	int cvode_error;
+	int cvode_n_user;
+	int cvode_n_reactions;
+	realtype cvode_step_fraction;
+	realtype cvode_rate_sim_time;
+	realtype cvode_rate_sim_time_start;
+	realtype cvode_last_good_time;
+	realtype cvode_prev_good_time;
+	N_Vector cvode_last_good_y;
+	N_Vector cvode_prev_good_y;
+	M_Env kinetics_machEnv;
+	N_Vector kinetics_y, kinetics_abstol;
+	void *kinetics_cvode_mem;
+	cxxSSassemblage *cvode_ss_assemblage_save;
+	cxxPPassemblage *cvode_pp_assemblage_save;
+protected:
+	LDBLE *m_original;
+	LDBLE *m_temp;
+	LDBLE *rk_moles;
+	int set_and_run_attempt;
+	LDBLE *x0_moles;
+
 	/* model.cpp ------------------------------- */
-	gas_in                  = FALSE;
-	min_value               = 1e-10;
-	normal                  = NULL;
-	ineq_array              = NULL;
-	res                     = NULL;
-	cu                      = NULL;
-	zero                    = NULL;
-	delta1                  = NULL;
-	iu                      = NULL;
-	is                      = NULL;
-	back_eq                 = NULL;
-	normal_max              = 0;
-	ineq_array_max          = 0;
-	res_max                 = 0;
-	cu_max                  = 0;
-	zero_max                = 0;
-	delta1_max              = 0;
-	iu_max                  = 0;
-	is_max                  = 0;
-	back_eq_max             = 0;
+	int gas_in;
+	LDBLE min_value;
+	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
+	int *iu, *is, *back_eq;
+	int normal_max, ineq_array_max, res_max, cu_max, zero_max,
+		delta1_max, iu_max, is_max, back_eq_max;
+
 	/* phrq_io_output.cpp ------------------------------- */
-	forward_output_to_log   = 0;
+	int forward_output_to_log;
+
 	/* phreeqc_files.cpp ------------------------------- */
-	default_data_base       = string_duplicate("phreeqc.dat");
+	char *default_data_base;
 #ifdef PHREEQ98
 	int outputlinenr;
 	char *LogFileNameC;
@@ -2771,8 +2725,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	sit_M                   = NULL;
 	sit_LGAMMA              = NULL;
 */
-	count_sit_param = pSrc->count_sit_param;
-	max_sit_param = count_sit_param;
+	count_sit_param = 0; //pSrc->count_sit_param;
+	max_sit_param = 1; // count_sit_param;
 	for (int i = 0; i < pSrc->count_sit_param; i++)
 	{
 		sit_param_store(pSrc->sit_params[i], true);
