@@ -1650,6 +1650,12 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/* cell_data */
 	old_cells = pSrc->old_cells;
 	max_cells = pSrc->max_cells;
+
+	if (stag_data->count_stag > 0)
+	{
+		max_cells = (max_cells - 2) / (1 + stag_data->count_stag);
+	}
+	
 	all_cells = pSrc->all_cells;
 	cell_data_max_cells = 1;
 	if (count_cells > 0)
