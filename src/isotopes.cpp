@@ -1730,7 +1730,10 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 	if (calculate_value_ptr)
 	{
 		calculate_value_ptr->name = NULL;
+		calculate_value_ptr->value = 0.0;
 		calculate_value_ptr->commands = NULL;
+		calculate_value_ptr->new_def = TRUE;
+		calculate_value_ptr->calculated = FALSE;
 		calculate_value_ptr->linebase = NULL;
 		calculate_value_ptr->varbase = NULL;
 		calculate_value_ptr->loopbase = NULL;
