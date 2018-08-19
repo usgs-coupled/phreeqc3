@@ -2447,7 +2447,7 @@ run_simulations(void)
 		{
 #ifdef TEST_COPY_OPERATOR
 			{
-				int simulation_save = simulation;
+				//int simulation_save = simulation;
 				Phreeqc phreeqc_new;
 				phreeqc_new = *this;
 				PHRQ_io *temp_io = this->phrq_io;
@@ -2473,7 +2473,7 @@ run_simulations(void)
 						so_it->second.Set_punch_ostream(so_ostreams[i++]);
 					}
 				}
-				this->simulation = simulation_save;
+				//this->simulation = simulation_save;
 				//delete phreeqc_new.Get_phrq_io();
 			}
 #endif
