@@ -1668,6 +1668,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells, sizeof(struct cell_data));
 		memcpy(cell_data, pSrc->cell_data, ((size_t)(all_cells_now * sizeof(struct cell_data))));
 	}
+	max_cells = pSrc->max_cells;
 	multi_Dflag              = pSrc->multi_Dflag;
 	interlayer_Dflag         = pSrc->interlayer_Dflag;
 	default_Dw               = pSrc->default_Dw;
@@ -2211,6 +2212,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*
 	error_string            = NULL;
 	simulation				= 0;
+	*/
+	simulation = pSrc->simulation;
+	/*
 	int state               = INITIALIZE;
 	reaction_step           = 0;
 	transport_step          = 0;
@@ -2218,6 +2222,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	advection_step          = 0;
 	stop_program            = FALSE;
 	incremental_reactions   = FALSE;
+	*/
+	incremental_reactions = pSrc->incremental_reactions;
+	/*
 	count_strings           = 0;
 	array					= NULL;
 	delta					= NULL;
@@ -2239,6 +2246,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	debug_diffuse_layer     = FALSE;
 	debug_inverse           = FALSE;
 	*/
+	debug_model = pSrc->debug_model;
+	debug_prep = pSrc->debug_prep;
+	debug_set = pSrc->debug_set;
+	debug_diffuse_layer = pSrc->debug_diffuse_layer;
+	debug_inverse = pSrc->debug_inverse;
 	inv_tol_default         = pSrc->inv_tol_default;
 	itmax                   = pSrc->itmax;
 	max_tries               = pSrc->max_tries;
