@@ -1396,9 +1396,10 @@ void Phreeqc::init(void)
 	/* utilities.cpp ------------------------------- */
 	spinner                 = 0;
 	// keycount;
+	keycount.resize(Keywords::KEY_COUNT_KEYWORDS);
 	for (int i = 0; i < Keywords::KEY_COUNT_KEYWORDS; i++)
 	{
-		keycount.push_back(0);
+		keycount[i] = 0;
 	}
 
 	return;
