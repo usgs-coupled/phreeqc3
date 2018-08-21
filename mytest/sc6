@@ -1,5 +1,13 @@
 DATABASE ../database/phreeqc.dat
 #DATABASE phreeqd.dat
+SELECTED_OUTPUT 101
+    -file                 sc6_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 SOLUTION_SPECIES
  Na+ = Na+; -log_k 0; -gamma 1e10 0
  Ca+2 = Ca+2; -log_k 0; -gamma 1e10 0

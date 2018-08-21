@@ -1,5 +1,13 @@
 DATABASE ../database/phreeqc.dat
 #========================================================================
+SELECTED_OUTPUT 101
+    -file                 kin_related_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
 PHASES
 Pyrolusite
 	MnO2(Al(OH)3)0.34 + 4 H+ + 2 e- = Mn+2 + 2 H2O + 0.34 Al(OH)3
