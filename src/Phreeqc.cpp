@@ -1467,6 +1467,21 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	change_surf_count          = 0;
 	change_surf                = NULL;
 	*/
+	change_surf_count = pSrc->change_surf_count;
+	change_surf = change_surf_alloc(change_surf_count + 1);
+	if (change_surf_count > 0)
+	{
+		for (int ii = 0; ii < change_surf_count; ii++)
+		{
+			change_surf[ii].comp_name = string_hsave(pSrc->change_surf[ii].comp_name);
+			change_surf[ii].fraction = pSrc->change_surf[ii].fraction;
+			change_surf[ii].new_comp_name = string_hsave(pSrc->change_surf[ii].new_comp_name);
+			change_surf[ii].new_Dw = pSrc->change_surf[ii].new_Dw;
+			change_surf[ii].cell_no = pSrc->change_surf[ii].cell_no;
+			change_surf[ii].next = pSrc->change_surf[ii].next;
+		}
+	}
+
 	/* ----------------------------------------------------------------------
 	*   Exchange
 	* ---------------------------------------------------------------------- */
@@ -2125,6 +2140,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	rate_sim_time			= 0;
 	rate_moles				= 0;
 	initial_total_time		= 0;
+	*/
+	initial_total_time = pSrc->initial_total_time;
+	/*
 	// auto rate_p
 	count_rate_p            = 0;
 	*/
