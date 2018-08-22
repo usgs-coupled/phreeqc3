@@ -3054,8 +3054,8 @@ ss_binary(cxxSS *ss_ptr)
 		xb2 = xb * xb;
 		xb3 = xb2 * xb;
 		xb4 = xb3 * xb;
-		xb4 = xb4;
-		xc3 = xc3;
+		/* xb4 = xb4; */
+		/* xc3 = xc3; */
 
 		/* used derivation that did not substitute x2 = 1-x1 */
 
