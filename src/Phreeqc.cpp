@@ -1876,13 +1876,15 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		}
 		//next_secondary
 		s_ptr->next_secondary = NULL;
-		if (pSrc->s[i]->next_secondary)
+		if (pSrc->s[i]->next_secondary && pSrc->s[i]->mole_balance)
 		{
 			count_elts = 0;
 			paren_count = 0;
-			char * ptr = string_duplicate(s_ptr->mole_balance);
+			char * string = string_duplicate(s_ptr->mole_balance);
+			char * ptr = string;
 			get_secondary_in_species(&ptr, 1.0);
 			s_ptr->next_secondary = elt_list_save();
+			free_check_null(string);
 		}
 		//next_sys_total
 		s_ptr->next_sys_total = NULL;
