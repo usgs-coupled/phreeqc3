@@ -5601,7 +5601,8 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 				}
 			}
 		}
-		else if (s_x[i]->millero[0])
+		//else if (s_x[i]->millero[0])
+		else if (s_ptr->millero[0])
 		{
 		/* Millero volume at I = 0... */
 			d_v += s_ptr->millero[0] + tc * (s_ptr->millero[1] + tc * s_ptr->millero[2]);

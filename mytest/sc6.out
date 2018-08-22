@@ -1,4 +1,3 @@
-WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: sc6
   Output file: sc6.out
 Database file: ../database/phreeqc.dat
@@ -21,6 +20,14 @@ Reading input data for simulation 1.
 ------------------------------------
 
 	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 sc6_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
 	SOLUTION_SPECIES
 	 Na+ = Na+
 	 log_k 0
@@ -462,7 +469,7 @@ Sub
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.999e-06
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.10
-                               Iterations  =   0
+                               Iterations  =   0 (5 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -798,11 +805,11 @@ Hfo_w
 	Hfo_wOCa+         7.373e-20       0.000   7.373e-20     -19.132
 
 Sua           
-	  1.479e-31  Surface + diffuse layer charge, eq
+	  3.451e-31  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.583e-23  psi, V
-	  6.161e-22  -F*psi/RT
+	 -2.088e-24  psi, V
+	  8.128e-23  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.000e+00  m² for   3.000e-04 g
@@ -828,11 +835,11 @@ Sua
 	Sua               3.000e-07       1.000   3.000e-07      -6.523
 
 Sub           
-	 -9.630e-35  Surface + diffuse layer charge, eq
+	  1.444e-34  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.013e-23  psi, V
-	  3.942e-22  -F*psi/RT
+	 -7.823e-24  psi, V
+	  3.045e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.000e-03  m² for   3.000e-07 g
@@ -1640,7 +1647,7 @@ Hfo_w
 	Hfo_wOCa+         2.078e-10       0.000   2.078e-10      -9.682
 
 Sorbedhfo     
-	 -6.729e-22  Surface + diffuse layer charge, eq
+	 -6.728e-22  Surface + diffuse layer charge, eq
 	  5.004e-13  Surface charge, eq
 	  6.096e-03  sigma, C/m²
 	  6.531e-02  psi, V
@@ -1743,6 +1750,6 @@ Sub
 	Sub               1.000e-03       1.000   1.000e-03      -3.000
 
 -------------------------------
-End of Run after 0.024 Seconds.
+End of Run after 1.245 Seconds.
 -------------------------------
 

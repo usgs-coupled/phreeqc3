@@ -158,7 +158,7 @@ ifeq ($(CFG), CLASS_DEBUG_64)
 	CL1MP_OBJS=cl1mp.o
 	CL1MP_LIB=libgmp.a 
   endif
-  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) # -DPHREEQC2
+  DEFINES      = -DUSE_PHRQ_ALLOC $(DEFINE_INVERSE_CL1MP) -DTEST_COPY_OPERATOR
   VPATH        = ..:../PhreeqcKeywords:../common
   INCLUDES     = -I.. -I../PhreeqcKeywords -I../common
   CXX          = g++

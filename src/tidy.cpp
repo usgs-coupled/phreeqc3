@@ -3066,6 +3066,8 @@ tidy_surface(void)
 		}
 		//if (!kit->second.Get_new_def()) continue;
 		surface_ptr = &(kit->second);
+		if (surface_ptr->Get_tidied()) continue;
+		surface_ptr->Set_tidied(true);
 		// ccm incompatible with Donnan or diffuse_layer
 		if (surface_ptr->Get_type() == cxxSurface::CCM)
 		{

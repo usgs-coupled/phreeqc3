@@ -12,6 +12,7 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+#include "Surface.h"
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 array_print(LDBLE * array_l, int row_count, int column_count,

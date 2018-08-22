@@ -1522,7 +1522,7 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 	}
 
 	kode = 1;
-	iter = 1000;
+	iter = 100000;
 	count_calls++;
 
 #ifdef INVERSE_CL1MP

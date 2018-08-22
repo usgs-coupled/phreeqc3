@@ -7,44 +7,44 @@
 <TITLE> KINETICS</TITLE><HR><P> | <A HREF="phreeqc3-25.htm">Next</A> || <A HREF="phreeqc3-23.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50528257_pgfId-254981"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-254981"></A><STRONG CLASS="Bold">
 KINETICS</STRONG>
-<A NAME="50528257_55637"></A></H2>
+<A NAME="50540545_55637"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-254982"></A>This keyword data block is used to specify kinetic reactions and parameters for batch-reaction and reactive-transport calculations. Mathematical expressions for the rates of the kinetic reactions are defined with the <A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef">RATES</A> data block. The rate equations are integrated over a time step by either a Runge-Kutta method or by an implicit stiff-equation solver, which is more robust and faster when kinetic reactions have widely varying rates. Both methods estimate the error of the integration and use appropriate time subintervals to maintain the errors within specified tolerances for each time interval.</P>
+<A NAME="50540545_pgfId-254982"></A>This keyword data block is used to specify kinetic reactions and parameters for batch-reaction and reactive-transport calculations. Mathematical expressions for the rates of the kinetic reactions are defined with the <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A> data block. The rate equations are integrated over a time step by either a Runge-Kutta method or by an implicit stiff-equation solver, which is more robust and faster when kinetic reactions have widely varying rates. Both methods estimate the error of the integration and use appropriate time subintervals to maintain the errors within specified tolerances for each time interval.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-254986"></A><A NAME="50528257_80518"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254987"></A>Line 0:  KINETICS 1 Define 3 explicit time steps</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254988"></A>Line 1a: Pyrite</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254989"></A>Line 2a:     -formula			FeS2 1.0 FeAs2 0.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254990"></A>Line 3a:     -m			1e-3</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254991"></A>Line 4a:     -m0			1e-3</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254992"></A>Line 5a:     -parms			3.0   0.67   .5   -0.11 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254993"></A>Line 6a:     -tol			1e-9</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254994"></A>Line 1b: Calcite </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320627"></A>Line 3b:     -m			7.e-4</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254996"></A>Line 4b:     -m0			7.e-4</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254997"></A>Line 5b:     -parms			5.0      0.3</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-254998"></A>Line 6b:     -tol			1.e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320636"></A>Line 1c: Organic_C </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320637"></A>Line 2c:     -formula			CH2O(NH3)0.1 0.5 </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320638"></A>Line 3c:     -m			5.e-3</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320639"></A>Line 4c:     -m0			5.e-3</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320641"></A>Line 6c:     -tol			1.e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320557"></A>Line 7:  -steps			100 200 300 day</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-255000"></A>Line 8:  -step_divide			100</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-320562"></A>Line 9:  -runge_kutta			6</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-488639"></A>Line 10: -cvode			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-488596"></A>Line 11: -bad_step_max			500</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-488611"></A>Line 12: -cvode_order			5</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-488616"></A>Line 13: -cvode_steps			100</pre>
+<A NAME="50540545_pgfId-254986"></A><A NAME="50540545_80518"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254987"></A>Line 0:  KINETICS 1 Define 3 explicit time steps</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254988"></A>Line 1a: Pyrite</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254989"></A>Line 2a:     -formula			FeS2 1.0 FeAs2 0.001</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254990"></A>Line 3a:     -m			1e-3</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254991"></A>Line 4a:     -m0			1e-3</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254992"></A>Line 5a:     -parms			3.0   0.67   .5   -0.11 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254993"></A>Line 6a:     -tol			1e-9</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254994"></A>Line 1b: Calcite </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320627"></A>Line 3b:     -m			7.e-4</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254996"></A>Line 4b:     -m0			7.e-4</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254997"></A>Line 5b:     -parms			5.0      0.3</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254998"></A>Line 6b:     -tol			1.e-8</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320636"></A>Line 1c: Organic_C </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320637"></A>Line 2c:     -formula			CH2O(NH3)0.1 0.5 </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320638"></A>Line 3c:     -m			5.e-3</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320639"></A>Line 4c:     -m0			5.e-3</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320641"></A>Line 6c:     -tol			1.e-8</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320557"></A>Line 7:  -steps			100 200 300 day</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255000"></A>Line 8:  -step_divide			100</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-320562"></A>Line 9:  -runge_kutta			6</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-488639"></A>Line 10: -cvode			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-488596"></A>Line 11: -bad_step_max			500</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-488611"></A>Line 12: -cvode_order			5</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-488616"></A>Line 13: -cvode_steps			100</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-488614"></A><A NAME="50528257_84941"></A>Explanation 1</H6>
+<A NAME="50540545_pgfId-488614"></A><A NAME="50540545_84941"></A>Explanation 1</H6>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255002"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255002"></A>Line 0: <STRONG CLASS="Bold">
 KINETICS </STRONG>
 [<EM CLASS="Emphasis">
 number</EM>
@@ -52,11 +52,11 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255003"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255003"></A><STRONG CLASS="Bold">
 KINETICS </STRONG>
 is the keyword for the data block.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255004"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255004"></A><EM CLASS="Emphasis">
 number</EM>
 --A positive number designates the set of kinetic reactions. A range of numbers may also be given in the form <EM CLASS="Emphasis">
 m-n</EM>
@@ -70,29 +70,29 @@ m</EM>
 n</EM>
 , and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255005"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255005"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the kinetic reactions.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255006"></A>Line 1: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255006"></A>Line 1: <EM CLASS="Emphasis">
 rate name</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255007"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255007"></A><EM CLASS="Emphasis">
 rate name</EM>
 --Name of a rate expression. The <EM CLASS="Emphasis">
 rate name</EM>
  and its associated rate expression must be defined within a <STRONG CLASS="Bold">
-<A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block, either in the default database file or in the current or previous simulations of the run. The name must be spelled identically to the name used in <STRONG CLASS="Bold">
-<A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  input (except for case). </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255008"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255008"></A>Line 2: <STRONG CLASS="Bold">
 -formula</STRONG>
 <EM CLASS="Emphasis">
  list of formula </EM>
@@ -100,9 +100,9 @@ rate name</EM>
 stoichiometric coefficient</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255009"></A>By default, the <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255009"></A>By default, the <EM CLASS="Emphasis">
 rate name</EM>
- is assumed to be the name of a phase that has been defined in a <A HREF="phreeqc3-29.htm#50528257_84418" CLASS="XRef">PHASES</A> data block, and the formula for that phase is then used for the stoichiometry of the reaction (for example, the definitions for calcite in the Example data block above). However, kinetic reactions are not restricted to mineral phases, any set of elements produced or consumed by the kinetic reaction (relative to the aqueous phase) can be specified through a list of doublets <EM CLASS="Emphasis">
+ is assumed to be the name of a phase that has been defined in a <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> data block, and the formula for that phase is then used for the stoichiometry of the reaction (for example, the definitions for calcite in the Example data block above). However, kinetic reactions are not restricted to mineral phases, any set of elements produced or consumed by the kinetic reaction (relative to the aqueous phase) can be specified through a list of doublets <EM CLASS="Emphasis">
 formula</EM>
  and <EM CLASS="Emphasis">
 stoichiometric coefficient </EM>
@@ -114,23 +114,23 @@ formula</STRONG>
 ormula</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255010"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255010"></A><EM CLASS="Emphasis">
 formula</EM>
 --Chemical formula or the name of a phase to be added by the kinetic reaction. If a chemical formula is used, it must begin with a capital letter and contain element symbols and stoichiometric coefficients (Line 2a). A phase name may be entered independent of case. Each <EM CLASS="Emphasis">
 formula</EM>
  must be a charge-balanced combination of elements. (An exception may be for defining exchangers or surfaces related to kinetic reactants). Any charge (+/-) in the formula is ignored. The formula may be considered as adding or removing native elements from the system in the given stoichiometry.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-766719"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-766719"></A><EM CLASS="Emphasis">
 stoichiometric coefficient</EM>
 --Defines the mole transfer coefficient for <EM CLASS="Emphasis">
 formula</EM>
- per mole of reaction progress (the value for SAVE that is calculated  in the <A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef">RATES</A> Basic program). The product of the coefficient times the moles of reaction progress gives the mole transfer for <EM CLASS="Emphasis">
+ per mole of reaction progress (the value for SAVE that is calculated  in the <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A> Basic program). The product of the coefficient times the moles of reaction progress gives the mole transfer for <EM CLASS="Emphasis">
 formula</EM>
  relative to the aqueous solution; a negative stoichiometric coefficient and a positive value for reaction progress gives a negative mole transfer, which removes reactants from the aqueous solution. In Line 2a, each mole of reaction dissolves 1.0 mol of FeS<Sub CLASS="Subscript">
 2</Sub>
  and 0.001 mol of FeAs<Sub CLASS="Subscript">
 2</Sub>
- into the aqueous solution; Line 2c demonstrates the use of parentheses in a formula; each mole of reaction (as defined for SAVE in <A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef">RATES</A>)  adds 0.5 mol of the specified formula (<EM CLASS="Emphasis">
+ into the aqueous solution; Line 2c demonstrates the use of parentheses in a formula; each mole of reaction (as defined for SAVE in <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A>)  adds 0.5 mol of the specified formula (<EM CLASS="Emphasis">
 stoichiometric coefficient is 0.5). Thus, 1 mole of reaction will add 0.5 mol </EM>
 of CH<Sub CLASS="Subscript">
 2</Sub>
@@ -138,13 +138,13 @@ O and 0.05 mol of NH<Sub CLASS="Subscript">
 3</Sub>
  to the aqueous solution to simulate the degradation of nitrogen-containing organic matter. Default is 1.0, unitless (mol/mol).</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-766723"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-766723"></A>Line 3: <STRONG CLASS="Bold">
 -m </STRONG>
 <EM CLASS="Emphasis">
 moles</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-328059"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-328059"></A><EM CLASS="Emphasis">
 moles</EM>
 --Current moles of reactant. As reactions occur, the <EM CLASS="Emphasis">
 moles</EM>
@@ -160,13 +160,13 @@ m</STRONG>
 -m</STRONG>
 .</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255014"></A>Line 4: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255014"></A>Line 4: <STRONG CLASS="Bold">
 -m0 </STRONG>
 <EM CLASS="Emphasis">
 initial moles</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255015"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255015"></A><EM CLASS="Emphasis">
 initial moles</EM>
 --Initial moles of reactant. This identifier is useful if the rate of reaction is dependent on grain size. Formulations for this dependency often include the ratio of the amount of reactant remaining to the amount of reactant initially present. The quantity <EM CLASS="Emphasis">
 initial moles</EM>
@@ -186,16 +186,16 @@ m0</STRONG>
 -m0</STRONG>
 </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255016"></A>Line 5: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255016"></A>Line 5: <STRONG CLASS="Bold">
 -parms </STRONG>
 <EM CLASS="Emphasis">
 list of parameters</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255017"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255017"></A><EM CLASS="Emphasis">
 list of parameters</EM>
 --A list of numbers may be entered that can be used in the rate expressions; for example, constants, exponents, or half saturation constants. In the rate expression defined with the <STRONG CLASS="Bold">
-<A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  keyword, these numbers are available to the Basic interpreter in the array <EM CLASS="Emphasis">
@@ -218,13 +218,13 @@ arms</STRONG>
 arameters</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255018"></A>Line 6: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255018"></A>Line 6: <STRONG CLASS="Bold">
 -tol </STRONG>
 <EM CLASS="Emphasis">
 tolerance</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255019"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255019"></A><EM CLASS="Emphasis">
 tolerance</EM>
 --Tolerance for integration procedure (mol). For each integration time interval, the absolute difference between two estimates of the integral of the rate expression must be less than this tolerance or the time interval is automatically reduced. The value of <EM CLASS="Emphasis">
 tolerance</EM>
@@ -240,17 +240,17 @@ tol</STRONG>
 ol</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255020"></A>Line 7: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255020"></A>Line 7: <STRONG CLASS="Bold">
 -steps </STRONG>
 <EM CLASS="Emphasis">
 list of time steps [unit]</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255021"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255021"></A><EM CLASS="Emphasis">
 list of time steps</EM>
 --Time steps over which to integrate the rate expressions (s). The <STRONG CLASS="Bold">
 -steps</STRONG>
- identifier is used only during batch-reaction calculations; it is not needed for transport calculations. By default, the list of time steps are considered to be independent times, all starting from zero. The Example data block would produce results after 100, 200, and 300 d of reaction. However, the <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> keyword can be used to make the time steps incremental so that the results of the previous time step are the starting point of the new time step. For incremental time steps, the Example data block would produce results after 100, 300, and 600 d. Default is 1.0 s. Optionally, <STRONG CLASS="Bold">
+ identifier is used only during batch-reaction calculations; it is not needed for transport calculations. By default, the list of time steps are considered to be independent times, all starting from zero. The Example data block would produce results after 100, 200, and 300 d of reaction. However, the <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> keyword can be used to make the time steps incremental so that the results of the previous time step are the starting point of the new time step. For incremental time steps, the Example data block would produce results after 100, 300, and 600 d. Default is 1.0 s. Optionally, <STRONG CLASS="Bold">
 steps</STRONG>
 ,<STRONG CLASS="Bold">
  -s</STRONG>
@@ -264,7 +264,7 @@ time_steps</STRONG>
 me_steps</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-756924"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-756924"></A><EM CLASS="Emphasis">
 unit</EM>
 --Optional time unit may be <STRONG CLASS="Bold">
 second</STRONG>
@@ -278,13 +278,13 @@ day</STRONG>
 year</STRONG>
 , or an abbreviation of one of these units. The time steps are converted to seconds after reading the data block; all internal calculations, Basic functions, and output times are in seconds. Default is second.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255025"></A>Line 8: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255025"></A>Line 8: <STRONG CLASS="Bold">
 -step_divide </STRONG>
 <EM CLASS="Emphasis">
 step_divide</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255026"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255026"></A><EM CLASS="Emphasis">
 step_divide</EM>
 --This parameter affects integration by the Runge-Kutta solver. If <EM CLASS="Emphasis">
 step_divide</EM>
@@ -328,7 +328,7 @@ step_divide</STRONG>
 divide</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-320603"></A>Line 9: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-320603"></A>Line 9: <STRONG CLASS="Bold">
 -runge_kutta </STRONG>
 (<STRONG CLASS="Bold">
 1</STRONG>
@@ -340,7 +340,7 @@ divide</STRONG>
 6</STRONG>
 )</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-320604"></A>(<STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-320604"></A>(<STRONG CLASS="Bold">
 1</STRONG>
 , <STRONG CLASS="Bold">
 2</STRONG>
@@ -380,7 +380,7 @@ runge_kutta</STRONG>
 unge_kutta</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-488657"></A>Line 10: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488657"></A>Line 10: <STRONG CLASS="Bold">
 -cvode</STRONG>
  [(<EM CLASS="Emphasis">
 True</EM>
@@ -388,7 +388,7 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-488658"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488658"></A><STRONG CLASS="Bold">
 -cvode</STRONG>
 --Specifies whether to use the explicit Runge-Kutta method or the implicit CVODE method (Cohen and Hindmarsh, 1996) to integrate the kinetic rate equations. Default is <STRONG CLASS="Bold">
 false</STRONG>
@@ -402,7 +402,7 @@ cvode</STRONG>
 vode</STRONG>
 ]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-488659"></A>(<EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-488659"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
@@ -426,13 +426,13 @@ f</STRONG>
 alse</STRONG>
 ]. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-488712"></A>Line 11: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488712"></A>Line 11: <STRONG CLASS="Bold">
 -bad_step_max</STRONG>
  <EM CLASS="Emphasis">
 tries</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-581957"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-581957"></A><STRONG CLASS="Bold">
 -bad_step_max</STRONG>
 --Defines the maximum number of attempts at integrating a set of kinetic reactions over a time step. For the Runge-Kutta method, it is the maximum number of times the integration fails in integrating over a time interval. For the CVODE method, it is the number of times that CVODE is invoked in integrating over a time interval. Default is 500 if <STRONG CLASS="Bold">
 -bad_step_max</STRONG>
@@ -444,11 +444,11 @@ bad_step_max</STRONG>
 ad_step_max</STRONG>
 ]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-581958"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-581958"></A><EM CLASS="Emphasis">
 tries</EM>
 --The maximum number of integration attempts.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-488718"></A>Line 12: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488718"></A>Line 12: <STRONG CLASS="Bold">
 -cvode_order</STRONG>
  (<STRONG CLASS="Bold">
 1</STRONG>
@@ -468,7 +468,7 @@ tries</EM>
 5</STRONG>
 )</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-490039"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-490039"></A><STRONG CLASS="Bold">
 -cvode_order</STRONG>
 --Specifies the number of terms to use in the extrapolation of rates when using the CVODE method. Default is 5. Optionally, <STRONG CLASS="Bold">
 cvode_order</STRONG>
@@ -478,7 +478,7 @@ cvode_order</STRONG>
 rder</STRONG>
 ]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-488720"></A>(<STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488720"></A>(<STRONG CLASS="Bold">
 1</STRONG>
 , <STRONG CLASS="Bold">
 2</STRONG>
@@ -496,13 +496,13 @@ rder</STRONG>
 5</STRONG>
 )--Number of terms used in the extrapolation of rates. </P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-488724"></A>Line 13: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488724"></A>Line 13: <STRONG CLASS="Bold">
 -cvode_steps</STRONG>
  <EM CLASS="Emphasis">
 steps</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-488725"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488725"></A><STRONG CLASS="Bold">
 -cvode_steps</STRONG>
 --Specifies the maximum number of steps that will be taken during one invocation of CVODE. Default is 100 if <STRONG CLASS="Bold">
 -cvode_steps</STRONG>
@@ -514,24 +514,24 @@ cvode_steps</STRONG>
 steps</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-488726"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-488726"></A><EM CLASS="Emphasis">
 steps</EM>
 --Maximum number of steps. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-255027"></A><A NAME="50528257_35449"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-255028"></A>Line 0:  KINETICS 1 Define 3 equal time steps</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-255029"></A>Line 1a: Calcite </pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-255030"></A>Line 3a:     -m       7.e-4</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-255031"></A>Line 5a:     -parms   5      0.3</pre>
-<pre CLASS="ComputerInput"><A NAME="50528257_pgfId-255032"></A>Line 7:  -steps       300 day in 3 steps </pre>
+<A NAME="50540545_pgfId-255027"></A><A NAME="50540545_35449"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255028"></A>Line 0:  KINETICS 1 Define 3 equal time steps</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255029"></A>Line 1a: Calcite </pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255030"></A>Line 3a:     -m       7.e-4</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255031"></A>Line 5a:     -parms   5      0.3</pre>
+<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255032"></A>Line 7:  -steps       300 day in 3 steps </pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-255033"></A><A NAME="50528257_16798"></A>Explanation 2</H6>
+<A NAME="50540545_pgfId-255033"></A><A NAME="50540545_16798"></A>Explanation 2</H6>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255034"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255034"></A>Line 0: <STRONG CLASS="Bold">
 KINETICS</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -539,31 +539,31 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50528257_pgfId-255035"></A>Same as Example data block 1.</P>
+<A NAME="50540545_pgfId-255035"></A>Same as Example data block 1.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255036"></A>Line 1: <EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-255036"></A>Line 1: <EM CLASS="Emphasis">
 rate name</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255037"></A>Same as Example data block 1.</P>
+<A NAME="50540545_pgfId-255037"></A>Same as Example data block 1.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255038"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255038"></A>Line 3: <STRONG CLASS="Bold">
 -m </STRONG>
 <EM CLASS="Emphasis">
 moles</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255039"></A>Same as Example data block 1.</P>
+<A NAME="50540545_pgfId-255039"></A>Same as Example data block 1.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255040"></A>Line 5: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255040"></A>Line 5: <STRONG CLASS="Bold">
 -parms </STRONG>
 <EM CLASS="Emphasis">
 list of parameters</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-255041"></A>Same as Example data block 1.</P>
+<A NAME="50540545_pgfId-255041"></A>Same as Example data block 1.</P>
 <P CLASS="Body-indent">
-<A NAME="50528257_pgfId-255042"></A>Line 7: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255042"></A>Line 7: <STRONG CLASS="Bold">
 -steps </STRONG>
 <EM CLASS="Emphasis">
 total time [unit] </EM>
@@ -573,7 +573,7 @@ in</STRONG>
 steps</EM>
 ]</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-274385"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-274385"></A><EM CLASS="Emphasis">
 total time</EM>
 --Total time over which to integrate kinetic reactions, in seconds. The total time may be divided into a number of calculations given by <EM CLASS="Emphasis">
 steps.</EM>
@@ -593,7 +593,7 @@ time_steps</STRONG>
 me_steps</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-757001"></A><EM CLASS="Emphasis">
+<A NAME="50540545_pgfId-757001"></A><EM CLASS="Emphasis">
 unit</EM>
 --Optional time unit may be <STRONG CLASS="Bold">
 second</STRONG>
@@ -609,7 +609,7 @@ year</STRONG>
 total time</EM>
  is converted to seconds after reading the data block; all internal calculations, Basic functions, and output times are in seconds. Default is second.</P>
 <P CLASS="Body1-indent">
-<A NAME="50528257_pgfId-312875"></A><STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-312875"></A><STRONG CLASS="Bold">
 in</STRONG>
  <EM CLASS="Emphasis">
 steps</EM>
@@ -619,24 +619,24 @@ in</STRONG>
 total time</EM>
  will be divided into <EM CLASS="Emphasis">
 steps</EM>
- number of steps. <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> has no effect on the output for Example data block 2; results will be printed after 100, 200, and 300 d of reaction. However, <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> does affect the computational method. If <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is <STRONG CLASS="Bold">
+ number of steps. <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> has no effect on the output for Example data block 2; results will be printed after 100, 200, and 300 d of reaction. However, <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> does affect the computational method. If <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is <STRONG CLASS="Bold">
 false</STRONG>
- the reactions will be integrated over the time intervals from 0 to 100, 0 to 200, and 0 to 300 d. If <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is <STRONG CLASS="Bold">
+ the reactions will be integrated over the time intervals from 0 to 100, 0 to 200, and 0 to 300 d. If <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is <STRONG CLASS="Bold">
 true</STRONG>
  the reactions will be integrated over the time intervals from 0 to 100, 100 to 200, and 200 to 300 d.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-255045"></A><A NAME="50528257_19199"></A>Notes</H6>
+<A NAME="50540545_pgfId-255045"></A><A NAME="50540545_19199"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-255046"></A>Both <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255046"></A>Both <STRONG CLASS="Bold">
 KINETICS</STRONG>
- and <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> data blocks are used to model irreversible reactions. <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> can only be used to define specified amounts of stoichiometric reactions. For kinetic batch reactions or advective or advective-dispersive transport calculations, the fixed stoichiometric reaction of <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A> is added at each kinetic, advective, or transport time step, regardless of the length of the time step. <STRONG CLASS="Bold">
+ and <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data blocks are used to model irreversible reactions. <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> can only be used to define specified amounts of stoichiometric reactions. For kinetic batch reactions or advective or advective-dispersive transport calculations, the fixed stoichiometric reaction of <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> is added at each kinetic, advective, or transport time step, regardless of the length of the time step. <STRONG CLASS="Bold">
 KINETICS</STRONG>
  is used to define time-dependent kinetic reactions. To use <STRONG CLASS="Bold">
 KINETICS</STRONG>
 , a mathematical rate expression based on the solution composition must be defined and this expression is used to calculate the rate of reaction at any point in time. The <STRONG CLASS="Bold">
-<A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
+<A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
  data block is used to define a set of general rate expressions that may apply over the entire modeling domain. The <STRONG CLASS="Bold">
@@ -644,14 +644,14 @@ KINETICS</STRONG>
  data block is used to identify the subset of general rate expressions that apply to a given batch reaction or to specified cells of transport calculations. The <STRONG CLASS="Bold">
 KINETICS </STRONG>
 data block also is used to define specific parameters for the rate expression, such as the moles of reactant initially present in a cell, spatially varying coefficients, or cell-specific exponents for the rate equation. In advective (<STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50528257_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
- data block) and advective-dispersive transport (<A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A> data block) calculations, the number(s) assigned with the <STRONG CLASS="Bold">
+ data block) and advective-dispersive transport (<A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> data block) calculations, the number(s) assigned with the <STRONG CLASS="Bold">
 KINETICS</STRONG>
  keyword defines the cell(s) to which the kinetic reactions apply. </P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-488879"></A>Two integration methods are available in PHREEQC, an explicit fifth-order Runge-Kutta method and an implicit CVODE method (Cohen and Hindmarsh, 1996). The Runge-Kutta method is likely to be faster for non-stiff ordinary differential equations; typically, these are differential equations that have similar time scales. CVODE is more robust for stiff sets of equations in which kinetic reactants have rates that vary widely for the same element. The <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488879"></A>Two integration methods are available in PHREEQC, an explicit fifth-order Runge-Kutta method and an implicit CVODE method (Cohen and Hindmarsh, 1996). The Runge-Kutta method is likely to be faster for non-stiff ordinary differential equations; typically, these are differential equations that have similar time scales. CVODE is more robust for stiff sets of equations in which kinetic reactants have rates that vary widely for the same element. The <STRONG CLASS="Bold">
 -bad_steps_max</STRONG>
  parameter applies to both integration methods, but has slightly different meanings depending on the method. With the Runge-Kutta method, an attempt is made to integrate over a time substep. If that integration fails to keep errors less than specified tolerances, the integration is repeated with a smaller time step. For the Runge-Kutta method, the <STRONG CLASS="Bold">
 -bad_steps_max</STRONG>
@@ -663,31 +663,31 @@ KINETICS</STRONG>
 -cvode_order</STRONG>
  parameter specifies the number of terms to use in the extrapolation of rates within the CVODE method. Although less than five terms may be specified, experience has not shown that limiting the number of terms is helpful either to achieve or to accelerate a successful integration.</P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-488683"></A>For a batch-reaction calculation, the number of reaction steps is the maximum number of steps defined in any of the following keyword data blocks: <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-488683"></A>For a batch-reaction calculation, the number of reaction steps is the maximum number of steps defined in any of the following keyword data blocks: <STRONG CLASS="Bold">
 KINETICS</STRONG>
-, <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-34.htm#50528257_65966" CLASS="XRef">REACTION_PRESSURE</A>, and <A HREF="phreeqc3-35.htm#50528257_75016" CLASS="XRef">REACTION_TEMPERATURE</A>. When the maximum number of steps is greater than the number of steps defined in <STRONG CLASS="Bold">
+, <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-34.htm#50540545_65966" CLASS="XRef">REACTION_PRESSURE</A>, and <A HREF="phreeqc3-35.htm#50540545_75016" CLASS="XRef">REACTION_TEMPERATURE</A>. When the maximum number of steps is greater than the number of steps defined in <STRONG CLASS="Bold">
 KINETICS</STRONG>
-, then if <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is false (cumulative reaction steps), the reactions are integrated for the time specified by the final time step for each of the additional steps; if <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is true (incremental reaction steps), kinetic reactions are not included in the additional steps. </P>
+, then if <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is false (cumulative reaction steps), the reactions are integrated for the time specified by the final time step for each of the additional steps; if <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> is true (incremental reaction steps), kinetic reactions are not included in the additional steps. </P>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-582131"></A>The <A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> data block does not apply to kinetic reactions, and a &#8220;<A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-582131"></A>The <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> data block does not apply to kinetic reactions, and a &#8220;<A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
 kinetics</STRONG>
  n&#8221; statement results in an error message. The number of moles of a kinetic reaction is updated continuously during a simulation that includes kinetic reactions. Thus, unlike other reactants, a <STRONG CLASS="Bold">
 KINETICS</STRONG>
- data block definition will be changed automatically by a batch reaction; other reactant compositions that vary in a batch reaction must be saved with the <A HREF="phreeqc3-37.htm#50528257_81857" CLASS="XRef">SAVE</A> data block to be updated to the new compositions.</P>
+ data block definition will be changed automatically by a batch reaction; other reactant compositions that vary in a batch reaction must be saved with the <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> data block to be updated to the new compositions.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-255048"></A><A NAME="50528257_85202"></A>Example problems</H6>
+<A NAME="50540545_pgfId-255048"></A><A NAME="50540545_85202"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-255049"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50540545_pgfId-255049"></A>The keyword <STRONG CLASS="Bold">
 KINETICS </STRONG>
-is used in example problems <A HREF="phreeqc3-61.htm#50528271_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-64.htm#50528271_39217" CLASS="XRef">9</A>, and <A HREF="phreeqc3-70.htm#50528271_40270" CLASS="XRef">15</A>.</P>
+is used in example problems <A HREF="phreeqc3-61.htm#50540559_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-64.htm#50540559_39217" CLASS="XRef">9</A>, and <A HREF="phreeqc3-70.htm#50540559_40270" CLASS="XRef">15</A>.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50528257_pgfId-714708"></A><A NAME="50528257_16121"></A>Related keywords</H6>
+<A NAME="50540545_pgfId-714708"></A><A NAME="50540545_16121"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50528257_pgfId-714733"></A><A HREF="phreeqc3-6.htm#50528257_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50528257_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50528257_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50528257_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-19.htm#50528257_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A>, <A HREF="phreeqc3-29.htm#50528257_84418" CLASS="XRef">PHASES</A>, <A HREF="phreeqc3-32.htm#50528257_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-33.htm#50528257_75635" CLASS="XRef">REACTION</A>, and <A HREF="phreeqc3-49.htm#50528257_87317" CLASS="XRef">TRANSPORT</A>.</P>
+<A NAME="50540545_pgfId-714733"></A><A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50540545_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50540545_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A>, <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A>, <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A>, and <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-25.htm">Next</A> || <A HREF="phreeqc3-23.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

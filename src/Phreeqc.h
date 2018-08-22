@@ -912,6 +912,7 @@ protected:
 public:
 	struct rate *rate_bsearch(char *ptr, int *j);
 	int rate_free(struct rate *rate_ptr);
+	struct rate * rate_copy(struct rate *rate_ptr);
 	struct rate *rate_search(const char *name, int *n);
 	int rate_sort(void);
 	struct reaction *rxn_alloc(int ntokens);
