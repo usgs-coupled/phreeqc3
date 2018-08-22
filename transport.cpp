@@ -763,7 +763,7 @@ transport(void)
 			*/
 			if (b_c != 1)
 				j = 1;
-			for (j = j; j <= nmix; j++)
+			for (/* j = j */; j <= nmix; j++)
 			{
 				if (multi_Dflag && j == nmix && (transport_step % print_modulus == 0))
 				{
@@ -973,8 +973,8 @@ void Phreeqc::
 print_punch(int i, boolean active)
 /* ---------------------------------------------------------------------- */
 {
-	if (!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
-		!(cell_data[i].print && (transport_step % print_modulus == 0)) ||
+	if ((!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
+               !(cell_data[i].print && (transport_step % print_modulus == 0))) ||
 		(bcon_first == 2 && i == 0) ||
 		(bcon_last == 2 && i == count_cells + 1))
 		return;
@@ -3075,7 +3075,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	if (dV_dcell)
 	{
 		if (transport_step >= 100)
-			icell = icell;
+		  /* icell = icell */;
 		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dum = dV_dcell * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)

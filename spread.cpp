@@ -142,7 +142,7 @@ read_solution_spread(void)
 			copy_token(token, &ptr);
 			if (token[0] == '-')
 			{
-				opt = opt;
+				/* opt = opt; */
 			}
 			else
 			{
@@ -155,7 +155,7 @@ read_solution_spread(void)
 				case 10:		/* water */
 					if ((count == 2 || count == 3) && num == TRUE)
 					{
-						opt = opt;
+						/* opt = opt; */
 					}
 					else
 					{
@@ -167,7 +167,7 @@ read_solution_spread(void)
 					if ((count == 2 || count == 3 || count == 4)
 						&& num == TRUE)
 					{
-						opt = opt;
+						/* opt = opt; */
 					}
 					else
 					{
@@ -179,7 +179,7 @@ read_solution_spread(void)
 				case 8:		/* unit */
 					if (count == 2)
 					{
-						opt = opt;
+						/* opt = opt; */
 					}
 					else
 					{
@@ -193,7 +193,7 @@ read_solution_spread(void)
 					}
 					else
 					{
-						opt = opt;
+						/* opt = opt; */
 					}
 					break;
 				case 11:		/* isotope_uncertainty */
@@ -205,7 +205,7 @@ read_solution_spread(void)
 					}
 					else
 					{
-						opt = opt;
+						/* opt = opt; */
 					}
 					break;
 				case 14: /* pressure */
