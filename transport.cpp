@@ -3074,8 +3074,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	if (dV_dcell)
 	{
-		if (transport_step >= 100)
-		  /* icell = icell */;
+		//if (transport_step >= 100)
+		//  /* icell = icell */;
 		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dum = dV_dcell * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
