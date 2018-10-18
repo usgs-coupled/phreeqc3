@@ -763,7 +763,7 @@ transport(void)
 			*/
 			if (b_c != 1)
 				j = 1;
-			for (/* j = j */; j <= nmix; j++)
+			for (j = j; j <= nmix; j++)
 			{
 				if (multi_Dflag && j == nmix && (transport_step % print_modulus == 0))
 				{
@@ -2392,9 +2392,10 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	LDBLE por_il1, por_il2, por_il12 = 0.0;
 	LDBLE cec1, cec2, cec12 = 0.0, rc1 = 0.0, rc2 = 0.0;
 	LDBLE dV, c1, c2;
+
+	il_calcs = (interlayer_Dflag ? 1 : 0);
 	cxxSurface *s_ptr1, *s_ptr2;
 	LDBLE g_i, g_j;
-	//char token[MAX_LENGTH], token1[MAX_LENGTH];
 
 	std::vector<cxxSurfaceCharge> s_charge_p;
 	std::vector<cxxSurfaceCharge> s_charge_p1;
@@ -2402,7 +2403,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	std::vector<cxxSurfaceCharge>::iterator it_sc;
 	std::vector<cxxSurfaceComp> s_com_p;
 
-	il_calcs = (interlayer_Dflag ? 1 : 0);
 	ct[icell].dl_s = dl_aq1 = dl_aq2 = 0.0;
 
 	if (dV_dcell && !find_current)
@@ -2417,7 +2417,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		{
 			if (cell_data[icell].por < multi_Dpor_lim
 				|| cell_data[jcell].por < multi_Dpor_lim)
-				return (OK);
+				return (il_calcs);
 		}
 		else
 		{							/* regular column... */
@@ -2434,7 +2434,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					sum_R += current_cells[icell].R;
 					sum_Rd += current_cells[0].dif * current_cells[icell].R;
 				}
-				return (OK);
+				return (il_calcs);
 			}
 		}
 	}
@@ -2680,12 +2680,12 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	{
 		ct[icell].J_ij[i].tot1 = 0.0;
 		ct[icell].v_m[i].grad = 0.0;
-		ct[icell].v_m[i].D = 0.0;
+//		ct[icell].v_m[i].D = 0.0;
 		ct[icell].v_m[i].z = 0.0;
 		ct[icell].v_m[i].c = 0.0;
 		ct[icell].v_m[i].zc = 0.0;
-		ct[icell].v_m[i].Dz = 0.0;
-		ct[icell].v_m[i].Dzc = 0.0;
+		//ct[icell].v_m[i].Dz = 0.0;
+		//ct[icell].v_m[i].Dzc = 0.0;
 		ct[icell].v_m[i].b_ij = 0.0;
 	}
 	ct[icell].Dz2c = ct[icell].Dz2c_dl = ct[icell].Dz2c_il = 0.0;
