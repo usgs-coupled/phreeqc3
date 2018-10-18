@@ -1,0 +1,136 @@
+# Dissolution/precipitatipn of Portlandite and Calcite
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 CalPortDiff_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PHASES
+	Portlandite
+		Ca(OH)2 + 2H+ = Ca+2 + 2H2O
+		log_k 22.804
+		delta_h -128.62 kJ
+	Calcite
+		CaCO3 = CO3-2 + Ca+2
+		log_k -8.48
+		delta_h -2.297 kcal
+RATES
+	Calcite
+	-start
+		10 k = 1e-11  # Calcite precipitation rate constant mol.cm-2.s-1
+		## A0 = mol * mol.Wht:gr/mol / density:gr/cm3 / (cm3/m3) / cube-length * 6 faces
+		20 A0 = M0 * 100.09 / 2.71 / 100^3 / 10e-6 * 6      # Initial surface for 10 micron cubes
+		30 rate = k * (A0/1) * (M/M0)^0.67 * (1 - SR("Calcite"))
+		60 moles = rate * TIME  
+		70 save moles 
+		80 put(M,1)
+	-end 
+	
+	Portlandite
+	-start
+		10 k = 7.2e-10 # Portlandite precipitation rate constant mol.cm-2.s-1
+		## A0 = mol * mol.Wht:gr/mol / density:gr/cm3 / (cm3/m3) / cube-length * 6 faces
+		20 A0 = M0 * 74.09e-3 / 2.26 / 100^3 / 10e-6 * 6      # Initial surface for 10 micron cubes
+		30 rate = k * (A0/1) * (M/M0)^0.67 * (1-SR("Portlandite"))
+		60 moles = rate * TIME
+		70 save moles
+		80 put(M,2)
+	 
+		# adapt porosity
+		120 gp = (get(1) * 0.10009 / 2.71) + (get(2) * 0.07409 / 2.26)      # (moles * Mol wht:kg/mol) / density:kg/L = Liter
+		150 new_por = get_por(cell_no) * (1 - gp) 		# adjust porosity for Calcite and Portlandite
+		160 if new_por < 0 then new_por = 0
+		170 change_por(new_por, cell_no)            		# define new porosity to PHREEQC
+ 	-end
+END
+KINETICS 1-40   # Two kinetic reactions for all cells 
+	Calcite
+	-M0 1.399e-3 # mol/liter 0.06216
+	Portlandite
+	-M0 1.036 # mol/liter concrete
+SOLUTION 0		# groundwater composition # Influent at cell 1
+	units mg/l
+	temp 16.0
+	pH 7.49
+	S(6) 50
+	Ca 35
+	Na 100
+	K 4
+	Mg 9
+	Cl 45
+	Alkalinity 300 as HCO3
+# SOLUTION 1-20 		# Bentonite clay pore water
+SOLUTION 1 		# Bentonite clay pore water
+	units mmol/l
+	temp 16.0
+	pH 8.5
+	Si 0.1
+	Ca 0.05	# 2 mg/L
+	Na 15.6
+	K  0.2
+	Mg  0.06
+	Cl  0.7
+	S(6) 0.02
+	Alkalinity 14.4 as HCO3
+# SOLUTION 21-40		# concrete pore water composition in equilibrium
+SOLUTION 2		# concrete pore water composition in equilibrium
+	units mmol/l
+	temp 16.0
+	pH 13.57
+	Al 1.088e-01
+	C(4) 4.399e-01
+	Ca 6.597
+	Mg 1.038e-05
+	S(6) 8.625
+	Si 1.355e-01
+	Na 1.370e2
+	K  3.694e2
+# EQUILIBRIUM_PHASES 1-40
+#	Portlandite 0 0
+#	Calcite 0 0
+END
+PRINT						# Going to calculate transport now, please wait...
+	-reset false;# -status false
+# TRANSPORT
+	# -cells 40
+ 	# -lengths 0.002
+ 	# -boundary_conditions 1 2
+ 	# -time_step 0.02 y # 1000 yr
+ 	# -shifts 5 # 10
+ 	# # -punch_frequency 10
+	# -punch_cells 1-40
+ 	# -flow_direction diffusion
+ 	# -multi_d true 1e-9 0.1 1e-4 1
+	# -porosities 40*0.1 
+TRANSPORT
+	-cells 2
+ 	-lengths 0.05
+ 	-boundary_conditions 1 2
+ 	-time_step 0.2 y # 1000 yr
+ 	-shifts 5
+ 	# -punch_frequency 5
+ 	-print_frequency 10
+ 	-flow_direction diffusion
+ 	-multi_d true 1e-9 0.1 1e-4 1
+	-porosities 10*0.1 
+
+USER_GRAPH
+ 	-headings dist +0.2.years
+	-initial_solutions false
+	-connect_simulations false
+	-chart_title "Case 1"
+	-axis_titles "Distance (m)" "porosity"
+ 	# -axis_scale x_axis
+	# -axis_scale y_axis 
+	-plot_concentration_vs x
+	-start
+	10 graph_x dist*1e3
+	# 20 graph_y (equi("Portlandite") + kin("Portlandite"))*1e3
+	20 graph_y get_por(cell_no )
+	# 20 graph_y (equi("Calcite") + kin("Calcite"))*1e3
+	# 20 graph_y tot("Ca")*1e3
+	-end 
+END

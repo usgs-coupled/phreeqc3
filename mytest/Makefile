@@ -400,7 +400,8 @@ all: alkalinity.out \
 	mmb2_pitzer.out \
 	ddl_set.out \
 	rotter.out \
-	gas_type_switch.out
+	gas_type_switch.out \
+	CalPortDiff
 
 # NaX.out
 
