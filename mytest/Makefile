@@ -401,7 +401,7 @@ all: alkalinity.out \
 	ddl_set.out \
 	rotter.out \
 	gas_type_switch.out \
-	CalPortDiff
+	CalPortDiff.out
 
 # NaX.out
 
