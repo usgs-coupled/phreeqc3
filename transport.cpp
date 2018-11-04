@@ -1108,7 +1108,7 @@ init_mix(void)
 		}
 		else
 		{
-			const int max_int = (int)(std::numeric_limits<int>::max);
+			const int max_int = (int) (std::numeric_limits<int>::max)();
 			if ((int)round(2.25 * maxmix) > max_int)
 			{
 				char token[MAX_LENGTH];
