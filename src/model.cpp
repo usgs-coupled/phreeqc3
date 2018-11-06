@@ -1599,6 +1599,7 @@ ineq(int in_kode)
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
 					x[i]->moles;
 					//0.99 * x[i]->moles - MIN_TOTAL_SS;
+					//0.9 * x[i]->moles;
 				back_eq[l_count_rows] = i;
 				l_count_rows++;
 			}
@@ -3264,6 +3265,20 @@ reset(void)
 									   x[i]->description, (double) f0));
 						}
 						factor = f0;
+					}
+					if (x[i]->moles > 0 && -delta[i] > 1e1*x[i]->moles)
+					{
+						f0 = (-delta[i])/(1e1*x[i]->moles);
+						if (f0 > factor)
+						{
+							if (debug_model == TRUE)
+							{
+								output_msg(sformatf(
+									"%-10.10s, Precipitating too much mineral.\t%f\n",
+									x[i]->description, (double)f0));
+							}
+							factor = f0;
+						}
 					}
 				}
 			}
