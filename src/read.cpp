@@ -3747,6 +3747,14 @@ read_number_description(char *ptr, int *n_user,
 			n = sscanf(token, "%d%d", n_user, n_user_end);
 			if (n != 2)
 			{
+				if (n == 0)
+				{
+					*n_user_end = *n_user = 1;
+				}
+				else
+				{
+					*n_user_end = *n_user;
+				}
 				if (next_keyword >= 0)
 				{
 					error_string = sformatf( "Reading number range for %s.", Keywords::Keyword_name_search(next_keyword).c_str());
