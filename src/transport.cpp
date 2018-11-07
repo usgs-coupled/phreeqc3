@@ -7,6 +7,7 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+#include <limits>
 
 LDBLE F_Re3 = F_C_MOL / (R_KJ_DEG_MOL * 1e3);
 LDBLE tk_x2; // average tx_x of icell and jcell
@@ -1107,8 +1108,15 @@ init_mix(void)
 		}
 		else
 		{
+			const int max_int = (int) (std::numeric_limits<int>::max)();
+			if ((int)round(2.25 * maxmix) > max_int)
+			{
+				char token[MAX_LENGTH];
+				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step.", 2.25 * maxmix);
+				error_msg(token, STOP);
+			}
 			if (bcon_first == 1 || bcon_last == 1)
-				l_nmix = 1 + (int) floor(2.25 * maxmix);
+				l_nmix = 1 + (long int) floorl(2.25 * maxmix);
 			else
 				l_nmix = 1 + (int) floor(1.5 * maxmix);
 
@@ -2046,6 +2054,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				* 1. obtain J_ij...
 				*/
 				il_calcs = find_J(icell, jcell, mixf, DDt, stagnant);
+
 				if (find_current)
 				{
 					if (i < last_c)
@@ -2078,6 +2087,8 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						continue;
 					}
 				}
+				if (!ct[icell].J_ij_count_spec)
+					continue;
 
 				/*
 				* 2. sum up the primary or secondary master_species

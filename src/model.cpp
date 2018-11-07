@@ -532,7 +532,7 @@ check_residuals(void)
 		{
 			if (x[i]->ss_in == FALSE)
 				continue;
-			if (x[i]->moles <= MIN_TOTAL_SS)
+			if (x[i]->moles <= 1e2*MIN_TOTAL)
 				continue;
 			if (residual[i] >= epsilon
 				|| residual[i] <= -epsilon /* || stop_program == TRUE */ )
@@ -1597,7 +1597,9 @@ ineq(int in_kode)
 					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = 1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
-					0.99 * x[i]->moles - MIN_TOTAL_SS;
+					x[i]->moles;
+					//0.99 * x[i]->moles - MIN_TOTAL_SS;
+					//0.9 * x[i]->moles;
 				back_eq[l_count_rows] = i;
 				l_count_rows++;
 			}
@@ -3264,6 +3266,20 @@ reset(void)
 						}
 						factor = f0;
 					}
+					if (x[i]->moles > 0 && -delta[i] > 1e1*x[i]->moles)
+					{
+						f0 = (-delta[i])/(1e1*x[i]->moles);
+						if (f0 > factor)
+						{
+							if (debug_model == TRUE)
+							{
+								output_msg(sformatf(
+									"%-10.10s, Precipitating too much mineral.\t%f\n",
+									x[i]->description, (double)f0));
+							}
+							factor = f0;
+						}
+					}
 				}
 			}
 		}
@@ -4207,6 +4223,7 @@ residuals(void)
 		else if (x[i]->type == SS_MOLES)
 		{
 			residual[i] = x[i]->f * LOG_10;
+			if (x[i]->moles <= 1e2*MIN_TOTAL) continue;
 			if (fabs(residual[i]) > l_toler && x[i]->ss_in == TRUE)
 			{
 				if (print_fail)
