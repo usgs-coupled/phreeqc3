@@ -1108,15 +1108,14 @@ init_mix(void)
 		}
 		else
 		{
-			const int max_int = (int) (std::numeric_limits<int>::max)();
-			if ((int)round(2.25 * maxmix) > max_int)
+			if (2.25 * maxmix + 1.0 > (double)INT_MAX)
 			{
 				char token[MAX_LENGTH];
 				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step.", 2.25 * maxmix);
 				error_msg(token, STOP);
 			}
 			if (bcon_first == 1 || bcon_last == 1)
-				l_nmix = 1 + (long int) floorl(2.25 * maxmix);
+				l_nmix = 1 + (int) floor(2.25 * maxmix);
 			else
 				l_nmix = 1 + (int) floor(1.5 * maxmix);
 
