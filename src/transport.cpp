@@ -1,4 +1,4 @@
-﻿#include "Utils.h"
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -7,7 +7,7 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
-#include <limits>
+#include <limits.h>
 
 LDBLE F_Re3 = F_C_MOL / (R_KJ_DEG_MOL * 1e3);
 LDBLE tk_x2; // average tx_x of icell and jcell
@@ -4540,7 +4540,7 @@ viscosity(void)
 	Jones_Dole[6] contains the anion factor, 1 for Cl-, variable for other anions
 	f_z = (z * z + |z|) / 2, the contribution of the ion to mu_x, if z = 0: f_z = mu_x / m_i
 	f_I = variable, depends on d3_i > 1, or d3_i < 1.
-	tc is limited to 200�C.
+	tc is limited to 200 C.
 
 
 	A from Falkenhagen-Dole for a salt:
