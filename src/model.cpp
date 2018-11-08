@@ -1597,8 +1597,8 @@ ineq(int in_kode)
 					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = 1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
-					x[i]->moles;
-					//0.99 * x[i]->moles - MIN_TOTAL_SS;
+					//x[i]->moles;
+					0.99 * x[i]->moles - MIN_TOTAL_SS;
 					//0.9 * x[i]->moles;
 				back_eq[l_count_rows] = i;
 				l_count_rows++;
