@@ -532,7 +532,7 @@ check_residuals(void)
 		{
 			if (x[i]->ss_in == FALSE)
 				continue;
-			if (x[i]->moles <= 1e2*MIN_TOTAL)
+			if (x[i]->moles <= 1e0*MIN_TOTAL)
 				continue;
 			if (residual[i] >= epsilon
 				|| residual[i] <= -epsilon /* || stop_program == TRUE */ )
@@ -4223,7 +4223,7 @@ residuals(void)
 		else if (x[i]->type == SS_MOLES)
 		{
 			residual[i] = x[i]->f * LOG_10;
-			if (x[i]->moles <= 1e2*MIN_TOTAL) continue;
+			if (x[i]->moles <= 1e0*MIN_TOTAL) continue;
 			if (fabs(residual[i]) > l_toler && x[i]->ss_in == TRUE)
 			{
 				if (print_fail)
