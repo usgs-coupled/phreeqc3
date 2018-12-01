@@ -2072,6 +2072,22 @@ namespace Utilities
 	}
 
 	template < typename T >
+	void Rxn_dump_raw_range(const T & b, std::ostream & s_oss, int start, int end, unsigned int indent)
+	{
+		typename T::const_iterator it;
+		for (int i = start; i <= end; i++)
+		{
+			if (i < 0) continue;
+			it = b.find(i);
+			if (it != b.end())
+			{
+				it->second.dump_raw(s_oss, indent);
+			}
+		}
+		return;
+	}
+
+	template < typename T >
 	T * Rxn_find(std::map < int, T > &b, int i)
 	{
 		if (b.find(i) != b.end())
