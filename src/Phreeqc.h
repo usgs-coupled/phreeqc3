@@ -2245,6 +2245,40 @@ namespace Utilities
 	}
 
 	template < typename T >
+	int SB_read_modify(std::map < int, T > &m, CParser &parser)
+	{
+		typename std::map < int, T >::iterator it;
+
+		std::string key_name;
+		std::string::iterator b = parser.line().begin();
+		std::string::iterator e = parser.line().end();
+		CParser::copy_token(key_name, b, e);
+
+		cxxNumKeyword nk;
+		nk.read_number_description(parser);
+		T * entity_ptr = Utilities::Rxn_find(m, nk.Get_n_user());
+		if (!entity_ptr)
+		{
+			std::ostringstream errstr;
+			errstr << "Could not find " << key_name << " " << nk.Get_n_user() << ", ignoring modify data.\n";
+			//io->warning_msg(errstr.str().c_str());
+
+			// Don't throw, read data into dummy entity, then ignore
+			T entity;
+			entity_ptr = &entity;
+			entity_ptr->read_raw(parser, false);
+			return FALSE;
+		}
+
+		entity_ptr->read_raw(parser, false);
+		entity_ptr->Set_n_user(nk.Get_n_user());
+		entity_ptr->Set_n_user_end(nk.Get_n_user_end());
+		entity_ptr->Set_description(nk.Get_description());
+
+		return TRUE;
+	}
+
+	template < typename T >
 	void Rxn_mix(std::map <int, cxxMix> &mix_map, std::map < int, T > &entity_map, Phreeqc * phreeqc_cookie)
 	{
 		std::map<int, cxxMix>::iterator mix_it;

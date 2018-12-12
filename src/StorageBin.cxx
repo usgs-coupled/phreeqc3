@@ -1006,11 +1006,21 @@ cxxStorageBin::read_raw(CParser & parser)
 				Solutions[entity.Get_n_user()] = entity;
 			}
 			break;
+		case Keywords::KEY_SOLUTION_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Solutions, parser);
+			}
+			break;
 		case Keywords::KEY_EXCHANGE_RAW:
 			{
 				cxxExchange entity(this->Get_io());
 				entity.read_raw(parser);
 				Exchangers[entity.Get_n_user()] = entity;
+			}
+			break;
+		case Keywords::KEY_EXCHANGE_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Exchangers, parser);
 			}
 			break;
 		case Keywords::KEY_GAS_PHASE_RAW:
@@ -1020,6 +1030,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				GasPhases[entity.Get_n_user()] = entity;
 			}
 			break;
+		case Keywords::KEY_GAS_PHASE_MODIFY:
+			{
+				Utilities::SB_read_modify(this->GasPhases, parser);
+			}
+			break;
 		case Keywords::KEY_KINETICS_RAW:
 			{
 				cxxKinetics entity(this->Get_io());
@@ -1027,7 +1042,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				Kinetics[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_KINETICS_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Kinetics, parser);
+			}
+			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES_RAW:
 			{
 				cxxPPassemblage entity(this->Get_io());
@@ -1035,7 +1054,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				PPassemblages[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY:
+			{
+				Utilities::SB_read_modify(this->PPassemblages, parser);
+			}
+			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
 			{
 				cxxSSassemblage entity;
@@ -1043,7 +1066,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				SSassemblages[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_SOLID_SOLUTIONS_MODIFY:
+			{
+				Utilities::SB_read_modify(this->SSassemblages, parser);
+			}
+			break;
 		case Keywords::KEY_SURFACE_RAW:
 			{
 				cxxSurface entity(this->Get_io());
@@ -1051,7 +1078,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				Surfaces[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_SURFACE_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Surfaces, parser);
+			}
+			break;
 		case Keywords::KEY_REACTION_TEMPERATURE_RAW:
 			{
 				cxxTemperature entity(this->Get_io());
@@ -1059,7 +1090,6 @@ cxxStorageBin::read_raw(CParser & parser)
 				Temperatures[entity.Get_n_user()] = entity;
 			}
 			break;
-
 		case Keywords::KEY_REACTION_RAW:
 			{
 				cxxReaction entity;
@@ -1067,6 +1097,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				Reactions[entity.Get_n_user()] = entity;
 			}
 			break;
+		case Keywords::KEY_REACTION_MODIFY:
+		{
+			Utilities::SB_read_modify(this->Reactions, parser);
+		}
+		break;
 		case Keywords::KEY_MIX_RAW:
 			{
 				cxxMix entity;
