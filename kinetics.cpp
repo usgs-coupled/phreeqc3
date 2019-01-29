@@ -1266,7 +1266,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	std::auto_ptr<cxxSSassemblage> ss_assemblage_save(NULL);
 	std::auto_ptr<cxxKinetics> kinetics_save(NULL);
 #endif
-
+	int restart = 0;
 	
 	small_pe_step = 5.;
 	small_step = 10.;
@@ -1312,14 +1312,16 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	{
 		diagonal_scale = TRUE;
 		always_full_pitzer = FALSE;
-		max_try = 13;
+		max_try = 15;
 	}
 	else
 	{
-		max_try = 14;
+		max_try = 15;
 	}
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
+
+restart:
 	for (j = 0; j < max_try; j++)
 	{
 		if (j == 1)
@@ -1468,6 +1470,26 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 			error_string = sformatf( "Trying reduced tolerance %g ...\n",
 					(double) ineq_tol);
 			warning_msg(error_string);
+		} 
+		else if (j == 14 && use.Get_ss_assemblage_in())
+		{
+			//cxxStorageBin error_bin;
+			//Use2cxxStorageBin(error_bin);
+			//std::ostringstream error_input;
+			//error_bin.dump_raw(error_input, 0);
+			//cxxStorageBin reread;
+			//std::istringstream is(error_input.str());
+			//CParser cp(is);
+			//cp.set_echo_stream(CParser::EO_NONE);
+			//reread.read_raw(cp);
+			//cxxStorageBin2phreeqc(reread);
+			//error_string = sformatf("Trying restarting ...\n");
+			//warning_msg(error_string);
+			//if (restart < 2)
+			//{
+			//	restart++;
+			//	goto restart;
+			//}
 		}
 		if (j > 0)
 		{
@@ -1485,6 +1507,29 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 			{
 				Rxn_kinetics_map[kinetics_save->Get_n_user()] = *kinetics_save;
 				use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, kinetics_save->Get_n_user()));
+			}
+		}
+		if (j == 14)
+		{
+			cxxStorageBin error_bin;
+			Use2cxxStorageBin(error_bin);
+			std::ostringstream error_input;
+			error_bin.dump_raw(error_input, 0);
+			cxxStorageBin reread;
+			std::istringstream is(error_input.str());
+			CParser cp(is);
+			cp.set_echo_stream(CParser::EO_NONE);
+			reread.read_raw(cp);
+			cxxStorageBin2phreeqc(reread);
+			error_string = sformatf("Trying restarting ...\n");
+			warning_msg(error_string);
+
+			step_size = 1.0 + (small_step - 1.0)/((double) restart + 1.0);
+			pe_step_size = 1.0 + (small_pe_step - 1)/ ((double)restart + 1.0);
+			if (restart < 2)
+			{
+				restart++;
+				goto restart;
 			}
 		}
 		set_and_run_attempt = j;
