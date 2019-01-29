@@ -1321,7 +1321,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
 
-//restart:
+restart:
 	for (j = 0; j < max_try; j++)
 	{
 		if (j == 1)
@@ -1511,8 +1511,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 		}
 		if (j == 14)
 		{
-			continue;
-			/*
+			//continue;
 			cxxStorageBin error_bin;
 			Use2cxxStorageBin(error_bin);
 			std::ostringstream error_input;
@@ -1521,6 +1520,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 			std::istringstream is(error_input.str());
 			CParser cp(is);
 			cp.set_echo_stream(CParser::EO_NONE);
+			cp.set_echo_file(CParser::EO_NONE);
 			reread.read_raw(cp);
 			cxxStorageBin2phreeqc(reread);
 			error_string = sformatf("Trying restarting ...\n");
@@ -1533,7 +1533,6 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 				restart++;
 				goto restart;
 			}
-			*/
 		}
 		set_and_run_attempt = j;
 
