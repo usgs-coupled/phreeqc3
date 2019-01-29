@@ -1321,7 +1321,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
 
-restart:
+//restart:
 	for (j = 0; j < max_try; j++)
 	{
 		if (j == 1)
@@ -1511,6 +1511,8 @@ restart:
 		}
 		if (j == 14)
 		{
+			continue;
+			/*
 			cxxStorageBin error_bin;
 			Use2cxxStorageBin(error_bin);
 			std::ostringstream error_input;
@@ -1531,6 +1533,7 @@ restart:
 				restart++;
 				goto restart;
 			}
+			*/
 		}
 		set_and_run_attempt = j;
 
