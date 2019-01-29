@@ -532,15 +532,15 @@ check_residuals(void)
 		{
 			if (x[i]->ss_in == FALSE)
 				continue;
-			if (x[i]->moles <= 1e0*MIN_TOTAL)
-				continue;
+			//if (x[i]->moles <= 1e2*MIN_TOTAL)
+			//	continue;
 			if (residual[i] >= epsilon
 				|| residual[i] <= -epsilon /* || stop_program == TRUE */ )
 			{
 				error_string = sformatf(
 						"%20s Total moles in solid solution has not converged. "
-						"\tResidual: %e\n", x[i]->description,
-						(double) residual[i]);
+						"\tResidual: %e  %e\n", x[i]->description,
+						(double) residual[i], x[i]->moles);
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -1696,7 +1696,7 @@ ineq(int in_kode)
  */
 	for (i = 0; i < count_unknowns; i++)
 	{
-		if ((x[i]->type == PP || x[i]->type == SS_MOLES)
+		if ((x[i]->type == PP || x[i]->type == SS_MOLES) && x[i]->phase->in == TRUE 
 			&& pp_column_scale != 1.0)
 		{
 			for (j = 0; j < l_count_rows; j++)
@@ -2219,12 +2219,20 @@ mb_ss(void)
 	{
 		cxxSS *ss_ptr = ss_ptrs[i];
 		total_moles = 0;
+		bool ss_in = true;
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{
+			int l;
+			struct phase *phase_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[j].Get_name().c_str(), &l, FALSE);
+			if (phase_ptr->in == FALSE)
+			{
+				continue;
+			}
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
 			total_moles += comp_ptr->Get_moles();
+
 		}
-		if (total_moles > 1e-13)
+		if (total_moles > 1.e10*MIN_TOTAL)
 		{
 			ss_ptr->Set_ss_in(true);
 		}
@@ -2236,7 +2244,7 @@ mb_ss(void)
 			/*
 			 *  Calculate IAPc and IAPb
 			 */
-			if (phase0_ptr->rxn_x != NULL)
+			if (phase0_ptr->in == TRUE && phase0_ptr->rxn_x != NULL)
 			{
 				log10_iap = 0;
 				for (rxn_ptr = phase0_ptr->rxn_x->token + 1;
@@ -2250,7 +2258,7 @@ mb_ss(void)
 			{
 				iapc = 1e-99;
 			}
-			if (phase1_ptr->rxn_x != NULL)
+			if (phase1_ptr->in == TRUE && phase1_ptr->rxn_x != NULL)
 			{
 				log10_iap = 0;
 				for (rxn_ptr = phase1_ptr->rxn_x->token + 1;
@@ -2340,9 +2348,12 @@ mb_ss(void)
 	{
 		if (x[i]->type != SS_MOLES)
 			break;
-		//cxxSS *ss_ptr = use.Get_ss_assemblage_ptr()->Find(x[i]->ss_name);
 		cxxSS *ss_ptr = (cxxSS *) x[i]->ss_ptr;
-		x[i]->ss_in = ss_ptr->Get_ss_in() ? TRUE : FALSE;
+		x[i]->ss_in = FALSE;
+		if (x[i]->phase->in == TRUE && ss_ptr->Get_ss_in())
+		{
+			x[i]->ss_in = TRUE;
+		}
 	}
 	return (OK);
 }
@@ -3213,7 +3224,7 @@ reset(void)
  */
 		for (i = 0; i < count_unknowns; i++)
 		{
-			if (x[i]->type == PP || x[i]->type == SS_MOLES)
+			if ((x[i]->type == PP || x[i]->type == SS_MOLES) && x[i]->phase->in == TRUE)
 			{
 
 				if (delta[i] < -1e8)
@@ -3232,21 +3243,21 @@ reset(void)
 					assert(comp_ptr);
 					if ((delta[i] < 0.0)
 						&& (-delta[i] >
-							(comp_ptr->Get_initial_moles() - x[i]->moles)))
+						(comp_ptr->Get_initial_moles() - x[i]->moles)))
 					{
 						if ((comp_ptr->Get_initial_moles() - x[i]->moles) !=
 							0.0)
 						{
 							f0 = fabs(delta[i] /
-									  (comp_ptr->Get_initial_moles() -
-									   x[i]->moles));
+								(comp_ptr->Get_initial_moles() -
+									x[i]->moles));
 							if (f0 > factor)
 							{
 								if (debug_model == TRUE)
 								{
 									output_msg(sformatf(
-											   "%-10.10s, Precipitating too much dissolve_only mineral.\tDelta %e\tCurrent %e\tInitial %e\n",
-											   x[i]->description,
+										"%-10.10s, Precipitating too much dissolve_only mineral.\tDelta %e\tCurrent %e\tInitial %e\n",
+										x[i]->description,
 											   (double) delta[i],
 											   (double) x[i]->moles,
 											   (double) comp_ptr->Get_initial_moles()));
@@ -3259,9 +3270,9 @@ reset(void)
 							if (debug_model == TRUE)
 							{
 								output_msg(sformatf(
-										   "%-10.10s, Precipitating dissolve_only mineral.\tDelta %e\n",
-										   x[i]->description,
-										   (double) delta[i]));
+									"%-10.10s, Precipitating dissolve_only mineral.\tDelta %e\n",
+									x[i]->description,
+								    (double) delta[i]));
 							}
 							delta[i] = 0;
 						}
@@ -3276,7 +3287,7 @@ reset(void)
 						if (debug_model == TRUE)
 						{
 							output_msg(sformatf(
-									   "%-10.10s, Removing more than total mineral.\t%f\n",
+								"%-10.10s, Removing more than total mineral.\t%f\n",
 									   x[i]->description, (double) f0));
 						}
 						factor = f0;
@@ -3287,17 +3298,17 @@ reset(void)
 					if (debug_model == TRUE)
 					{
 						output_msg(sformatf(
-								   "%-10.10s\tDelta: %e\tMass: %e   "
-								   "Dissolving mineral with 0.0 mass.\n ",
+							"%-10.10s\tDelta: %e\tMass: %e   "
+							"Dissolving mineral with 0.0 mass.\n ",
 								   x[i]->description, (double) delta[i],
 								   (double) x[i]->moles));
 					}
 					delta[i] = 0.0;
 				}
 				else if (x[i]->ss_comp_name != NULL && delta[i] < -x[i]->phase->delta_max)
-				// Uses delta_max computed in step
-				// delta_max is the maximum amount of the mineral that could form based
-				// on the limiting element in the system
+					// Uses delta_max computed in step
+					// delta_max is the maximum amount of the mineral that could form based
+					// on the limiting element in the system
 				{
 					f0 = -delta[i] / x[i]->phase->delta_max;
 					if (f0 > factor)
@@ -3305,24 +3316,38 @@ reset(void)
 						if (debug_model == TRUE)
 						{
 							output_msg(sformatf(
-									   "%-10.10s, Precipitating too much mineral.\t%f\n",
+								"%-10.10s, Precipitating too much mineral.\t%f\n",
 									   x[i]->description, (double) f0));
 						}
 						factor = f0;
 					}
-					if (x[i]->moles > 0 && -delta[i] > 1e1*x[i]->moles)
+				}
+				else if (x[i]->ss_comp_name != NULL && delta[i] < -pe_step_size*x[i]->moles)
+				{
+					f0 = (-delta[i]) / (pe_step_size*x[i]->moles);
+					if (f0 > factor)
 					{
-						f0 = (-delta[i])/(1e1*x[i]->moles);
-						if (f0 > factor)
+						if (debug_model == TRUE)
 						{
-							if (debug_model == TRUE)
-							{
-								output_msg(sformatf(
-									"%-10.10s, Precipitating too much mineral.\t%f\n",
-									x[i]->description, (double)f0));
-							}
-							factor = f0;
+							output_msg(sformatf(
+								"%-10.10s, Precipitating too much mineral.\t%f\n",
+								x[i]->description, (double)f0));
 						}
+						factor = f0;
+					}
+				}
+				else if (x[i]->ss_comp_name != NULL && delta[i] > x[i]->moles/ pe_step_size)
+				{
+					f0 = (delta[i]) / (x[i]->moles/ pe_step_size);
+					if (f0 > factor)
+					{
+						if (debug_model == TRUE)
+						{
+							output_msg(sformatf(
+								"%-10.10s, Precipitating too much mineral.\t%f\n",
+								x[i]->description, (double)f0));
+						}
+						factor = f0;
 					}
 				}
 			}
@@ -3908,7 +3933,7 @@ reset(void)
 			}
 			last_patm_x = patm_x;
 		}
-		else if (x[i]->type == SS_MOLES)
+		else if (x[i]->type == SS_MOLES && x[i]->ss_in == TRUE)
 		{
 
 			/*if (fabs(delta[i]) > epsilon) converge=FALSE; */
@@ -4266,9 +4291,10 @@ residuals(void)
 		}
 		else if (x[i]->type == SS_MOLES)
 		{
+			if (x[i]->ss_in == FALSE)
+				continue;
 			residual[i] = x[i]->f * LOG_10;
-			if (x[i]->moles <= 1e0*MIN_TOTAL) continue;
-			if (fabs(residual[i]) > l_toler && x[i]->ss_in == TRUE)
+			if (fabs(residual[i]) > l_toler)
 			{
 				if (print_fail)
 					output_msg(sformatf(
@@ -5550,9 +5576,9 @@ numerical_jacobian(void)
 	molalities(TRUE);
 	mb_sums();
 	residuals();
-	/*
-	 *   Clear array, note residuals are in array[i, count_unknowns+1]
-	 */
+/*
+ *   Clear array, note residuals are in array[i, count_unknowns+1]
+ */
 
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -5561,10 +5587,10 @@ numerical_jacobian(void)
 	for (i = 1; i < count_unknowns; i++)
 	{
 		memcpy((void *) &(my_array[i * (count_unknowns + 1)]),
-			(void *) &(my_array[0]), (size_t)count_unknowns * sizeof(LDBLE));
+			   (void *) &(my_array[0]), (size_t) count_unknowns * sizeof(LDBLE));
 	}
 
-	base = (LDBLE *)PHRQ_malloc((size_t)count_unknowns * sizeof(LDBLE));
+	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
 	if (base == NULL)
 		malloc_error();
 	for (i = 0; i < count_unknowns; i++)
