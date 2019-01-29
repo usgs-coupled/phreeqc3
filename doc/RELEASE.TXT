@@ -1,5 +1,44 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
  	-----------------
+	January 28, 2019
+	-----------------
+	
+	PHREEQC: Bug fix of incorrect mass added in solid solutions with a component 
+    containing an element not present initially, but added with 
+    INCREMENTAL_REACTIONS.
+
+	PHREEQC: Enabled active_fraction factors for EXCHANGE_SPECIES in Pitzer activity 
+    models, and generally improved the convergence of exchange calculations with 
+    active_fraction factors.
+    
+	Active_fraction factors are useful for modeling non-ideal ion exchange, see 
+    https://hydrochemistry.eu/exmpls/a_f.html for an example of active 
+    fraction model for varying exchange selectivity.
+
+	The aquia example https://hydrochemistry.eu/exmpls/aquia.html </A></I> now runs 3 
+	times faster.
+	
+ 	-----------------
+	November 6, 2018
+	-----------------
+	
+	PHREEQC: The Basic function SURF returned the incorrect value under some conditions
+	when surface species used -mole_balance definition.
+
+ 	-----------------
+	November 4, 2018
+	-----------------
+
+	PHREEQC: Fixed potential integer overflow of calculated number of mixes
+	for a diffusion calculation. Now gives an error message.
+
+ 	-----------------
+	October 18, 2018
+	-----------------
+
+	PHREEQC: Fixed bug with diffusion calculation if porosity was changed.
+
+ 	-----------------
 	August 22, 2018
 	-----------------
 

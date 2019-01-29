@@ -1405,11 +1405,11 @@ build_model(void)
 			write_mass_action_eqn_x(STOP);
 			trxn_reverse_k();
 			rxn_free(phases[i]->rxn_x);
-			if (debug_prep == TRUE)
-			{
-				output_msg(sformatf( "\nPhase: %s\n", phases[i]->name));
-				trxn_print();
-			}
+			//if (debug_prep == TRUE)
+			//{
+			//	output_msg(sformatf( "\nPhase: %s\n", phases[i]->name));
+			//	trxn_print();
+			//}
 			phases[i]->rxn_x = rxn_alloc(count_trxn + 1);
 			trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);

@@ -493,6 +493,7 @@ public:
 	int calc_fixed_volume_gas_pressures(void);
 	int calc_ss_fractions(void);
 	int gammas(LDBLE mu);
+	int gammas_a_f(int i);
 	int initial_guesses(void);
 	int revise_guesses(void);
 	int ss_binary(cxxSS *ss_ptr);
@@ -535,7 +536,8 @@ public:
 	struct theta_param *theta_param_alloc(void);
 	int theta_param_init(struct theta_param *theta_param_ptr);
 	void pitzer_make_lists(void);
-	int gammas_pz(void);
+	//int gammas_pz(void);
+	int gammas_pz(bool exch_a_f);
 	int model_pz(void);
 	int pitzer(void);
 	int pitzer_clean_up(void);

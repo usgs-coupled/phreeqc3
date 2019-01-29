@@ -1102,6 +1102,7 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 			{
 				char * token = string_duplicate(phase_ptr->formula);
 				ptr = &(token[0]);
+				count_elts = 0; // appt
 				get_elts_in_species(&ptr, 1.0);
 				free_check_null(token);
 				for (k = 0; k < count_elts; k++)
@@ -1470,10 +1471,13 @@ solution_check(void)
 		   "Element %s has negative moles in solution, %e. \n\tErroneous mole balance occurs as moles are added to produce zero moles.\n\tUsually caused by KINETICS, REACTION, or diffuse layer calculation.\n\tMay be due to large time steps in early part of KINETICS simulation or negative concentrations in the diffuse layer.",
 		   master_ptr->elt->name, (LDBLE) master_ptr->total);
 		 */
-		error_string = sformatf(
+		if (state != TRANSPORT)
+		{
+			error_string = sformatf(
 				"Negative moles in solution %d for %s, %e. Recovering...",
-				cell_no, master_ptr->elt->name, (double) master_ptr->total);
-		warning_msg(error_string);
+				cell_no, master_ptr->elt->name, (double)master_ptr->total);
+			warning_msg(error_string);
+		}
 		return (MASS_BALANCE);
 	}
 	return (OK);
