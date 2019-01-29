@@ -563,14 +563,14 @@ gammas(LDBLE mu)
  */
 	int i, j;
 	int ifirst, ilast;
-	LDBLE d1, d2, d3, f, a_llnl, b_llnl, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
+	LDBLE f, a_llnl, b_llnl, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
 
 	LDBLE c1, c2, a, b;
 	LDBLE muhalf, equiv;
 	/* Initialize */
 	if (mu <= 0) mu = 1e-10;
 	if (pitzer_model == TRUE)
-		return gammas_pz();
+		return gammas_pz(true);
 	if (sit_model == TRUE)
 		return gammas_sit();
 	a_llnl = b_llnl = bdot_llnl = log_g_co2 = dln_g_co2 = c2_llnl = 0;
@@ -683,57 +683,58 @@ gammas(LDBLE mu)
 /*
  *   Find CEC
  *   z contains charge of cation for exchange species, alk contains cec
+ *   correct activity for Gapon-type exchange eqns: Ca0.5X uses (gamma_Ca)^0.5
  */
-/* !!!!! */
+			if (calculating_deriv)
+				continue;
+			LDBLE coef, z;
 			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
 			{
 				if (s_x[i]->rxn_x->token[j].s->type == EX)
 				{
 					s_x[i]->alk =
 						s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
-					break;
+					//break;
+				}
+				else if (s_x[i]->rxn_x->token[j].s->type <= HPLUS)
+				{
+					coef = s_x[i]->rxn_x->token[j].coef;
+					z = s_x[i]->rxn_x->token[j].s->z;
 				}
 			}
-			if (s_x[i]->exch_gflag == 1 && s_x[i]->alk > 0)
+			if (!use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
+			{
+				if (s_x[i]->primary != NULL)
+				{
+					s_x[i]->lg = 0.0;
+					s_x[i]->dg = 0.0;
+				}
+				else
+				{
+					if (s_x[i]->alk <= 0)
+						s_x[i]->lg = 0.0;
+					else
+						s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+					s_x[i]->dg = 0.0;
+				}
+			}
+			else if (s_x[i]->exch_gflag == 1 && s_x[i]->alk > 0)
 			{
 				/* Davies */
-				d1 = s_x[i]->lg;
-				s_x[i]->lg = -s_x[i]->equiv * s_x[i]->equiv * a *
+				s_x[i]->lg = -coef * z * z * a *
 					(muhalf / (1.0 + muhalf) - 0.3 * mu) +
 					log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-				if (s_x[i]->a_f && s_x[i]->primary == NULL)
-				{
-					d2 = s_x[i]->moles * s_x[i]->equiv / s_x[i]->alk;
-					if (d2 > 1) d2 = 1;
-					d2 = s_x[i]->lg - s_x[i]->a_f * (1 - d2);
-					d3 = 0.89;
-					if (iterations < 10) d3 = 0.7; else d3 = 0.89;
-					s_x[i]->lg = d3 * d1 + (1 - d3) * d2;
-				}
 				s_x[i]->dg =
-					c1 * s_x[i]->equiv * s_x[i]->equiv * s_x[i]->moles;
+					c1 * coef * z * z * s_x[i]->moles;
 			}
 			else if (s_x[i]->exch_gflag == 2 && s_x[i]->alk > 0)
 			{
 				/* Extended D-H, WATEQ D-H */
-				d1 = s_x[i]->lg;
-				s_x[i]->lg = -a * muhalf * s_x[i]->equiv * s_x[i]->equiv /
-					(1.0 + s_x[i]->dha * b * muhalf) + s_x[i]->dhb * mu +
+				s_x[i]->lg = coef * (-a * muhalf * z * z /
+					(1.0 + s_x[i]->dha * b * muhalf) + s_x[i]->dhb * mu) +
 					log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-				if (s_x[i]->a_f && s_x[i]->primary == NULL)
-				{
-					d2 = s_x[i]->moles * s_x[i]->equiv / s_x[i]->alk;
-					if (d2 > 1) d2 = 1;
-					d2 = s_x[i]->lg - s_x[i]->a_f * (1 - d2);
-					d3 = 0.89;
-					if (iterations < 10) d3 = 0.7; else d3 = 0.89;
-					s_x[i]->lg = d3 * d1 + (1 - d3) * d2;
-				}
-				s_x[i]->dg = (c2 * s_x[i]->equiv * s_x[i]->equiv /
-							  ((1.0 + s_x[i]->dha * b * muhalf) * (1.0 +
-																   s_x[i]->
-																   dha * b *
-																   muhalf)) +
+				s_x[i]->dg = coef * (c2 * z * z /
+							  ((1.0 + s_x[i]->dha * b * muhalf) * (1.0 + s_x[i]->dha * b * muhalf)) +
 							  s_x[i]->dhb) * LOG_10 * s_x[i]->moles;
 			}
 			else if (s_x[i]->exch_gflag == 7 && s_x[i]->alk > 0)
@@ -741,17 +742,13 @@ gammas(LDBLE mu)
 				if (llnl_count_temp > 0)
 				{
 					s_x[i]->lg =
-						-a_llnl * muhalf * s_x[i]->equiv * s_x[i]->equiv /
+						coef * (-a_llnl * muhalf * z * z /
 						(1.0 + s_x[i]->dha * b_llnl * muhalf) +
-						bdot_llnl * mu +
+						bdot_llnl * mu) +
 						log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
 					s_x[i]->dg =
-						(c2_llnl * s_x[i]->equiv * s_x[i]->equiv /
-						 ((1.0 + s_x[i]->dha * b_llnl * muhalf) * (1.0 +
-																   s_x[i]->
-																   dha *
-																   b_llnl *
-																   muhalf)) +
+						coef * (c2_llnl * z * z /
+						 ((1.0 + s_x[i]->dha * b_llnl * muhalf) * (1.0 + s_x[i]->dha * b_llnl * muhalf)) +
 						 bdot_llnl) * LOG_10 * s_x[i]->moles;
 				}
 				else
@@ -773,16 +770,15 @@ gammas(LDBLE mu)
 				else
 				{
 					if (s_x[i]->alk <= 0)
-					{
 						s_x[i]->lg = 0.0;
-					}
 					else
-					{
 						s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-					}
 					s_x[i]->dg = 0.0;
 				}
 			}
+			if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)
+				gammas_a_f(i); // appt
+
 			break;
 		case 5:				/* Always 1.0 */
 			s_x[i]->lg = 0.0;
@@ -877,6 +873,56 @@ gammas(LDBLE mu)
  */
 	}
 	return (OK);
+}
+/* ------------------------------------------------------------------------------- */
+int Phreeqc::gammas_a_f(int i1)
+/* ------------------------------------------------------------------------------- */
+{
+	int i, j;
+	LDBLE d2, d3, coef = 0, sum = 0;
+	char name[MAX_LENGTH];
+	//struct master *m_ptr;
+
+	i = i1;
+	for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+	{
+		if (s_x[i]->rxn_x->token[j].s->type == EX)
+		{
+			strcpy(name, s_x[i]->rxn_x->token[j].s->name);
+			//m_ptr = s_x[i]->rxn_x->token[j].s->primary->elt->master; // appt debug
+			break;
+		}
+	}
+
+	for (i = 0; i < count_s_x; i++)
+	{
+		if (s_x[i]->gflag != 4 || s_x[i]->primary)
+			continue;
+		for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+		{
+			if (s_x[i]->rxn_x->token[j].s->type == EX)
+			{
+				if (!strcmp(name, s_x[i]->rxn_x->token[j].s->name))
+					sum += s_x[i]->moles * s_x[i]->equiv;
+				break;
+			}
+		}
+	}
+	i = i1;
+	d2 = s_x[i]->moles * s_x[i]->equiv / sum;
+	if (d2 > 1) d2 = 1;
+	//if (iterations > 19)
+	//	i += 0; // appt debug
+
+	d3 = 0.5;
+	if (s_x[i]->a_f > 2)
+	{
+		d3 += (s_x[i]->a_f - 2) / 10; if (d3 > 0.8) d3 = 0.8;
+	}
+	d2 = s_x[i]->dw_a * d3 + (1 - d3) * d2;
+	s_x[i]->lg -= s_x[i]->a_f * (1 - d2);
+	s_x[i]->dw_a = d2;
+	return 0;
 }
 /* ------------------------------------------------------------------------------- */
 int Phreeqc::
@@ -1597,9 +1643,7 @@ ineq(int in_kode)
 					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = 1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
-					//x[i]->moles;
 					0.99 * x[i]->moles - MIN_TOTAL_SS;
-					//0.9 * x[i]->moles;
 				back_eq[l_count_rows] = i;
 				l_count_rows++;
 			}
@@ -4775,7 +4819,7 @@ initial_guesses(void)
  */
 	int i;
 	cxxSolution *solution_ptr;
-
+	// mu_x is reset here, but the real, already calculated mu_x must be used for INITIAL_EXCHANGE & _SURFACE appt
 	solution_ptr = use.Get_solution_ptr();
 	mu_x =
 		s_hplus->moles +
@@ -5494,11 +5538,11 @@ numerical_jacobian(void)
 	int i, j;
 	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	if (!
-		(numerical_deriv || 
+		(numerical_deriv ||
 		(use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC) ||
-		(gas_phase_ptr != NULL && gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME && 
-		(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume) && numerical_fixed_volume) 
-		))
+			(gas_phase_ptr != NULL && gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME &&
+			(gas_phase_ptr->Get_pr_in() || force_numerical_fixed_volume) && numerical_fixed_volume)
+			))
 		return(OK);
 
 	calculating_deriv = TRUE;
@@ -5506,9 +5550,9 @@ numerical_jacobian(void)
 	molalities(TRUE);
 	mb_sums();
 	residuals();
-/*
- *   Clear array, note residuals are in array[i, count_unknowns+1]
- */
+	/*
+	 *   Clear array, note residuals are in array[i, count_unknowns+1]
+	 */
 
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -5517,10 +5561,10 @@ numerical_jacobian(void)
 	for (i = 1; i < count_unknowns; i++)
 	{
 		memcpy((void *) &(my_array[i * (count_unknowns + 1)]),
-			   (void *) &(my_array[0]), (size_t) count_unknowns * sizeof(LDBLE));
+			(void *) &(my_array[0]), (size_t)count_unknowns * sizeof(LDBLE));
 	}
 
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
+	base = (LDBLE *)PHRQ_malloc((size_t)count_unknowns * sizeof(LDBLE));
 	if (base == NULL)
 		malloc_error();
 	for (i = 0; i < count_unknowns; i++)

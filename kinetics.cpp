@@ -2474,6 +2474,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  */
 	kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
 	if (kin_time <= 0 ||
+		(kinetics_ptr && kinetics_ptr->Get_kinetics_comps().size() == 0) ||
 		(state == REACTION && use.Get_kinetics_in() == FALSE) ||
 		(state == TRANSPORT && kinetics_ptr == NULL) ||
 		(state == PHAST && kinetics_ptr == NULL) ||
@@ -2661,10 +2662,13 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			while (flag != SUCCESS)
 			{
 				sum_t += cvode_last_good_time;
-				error_string = sformatf(
+				if (state != TRANSPORT)
+				{
+					error_string = sformatf(
 						"CVode incomplete at cvode_steps %d. Cell: %d\tTime: %e\tCvode calls: %d, continuing...\n",
-						(int) iopt[NST], cell_no, (double) sum_t, m_iter + 1);
-				warning_msg(error_string);
+						(int)iopt[NST], cell_no, (double)sum_t, m_iter + 1);
+					warning_msg(error_string);
+				}
 #ifdef DEBUG_KINETICS
 				if (m_iter > 5)
 					dump_kinetics_stderr(cell_no);
@@ -2675,7 +2679,10 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				{
 					m_temp = (LDBLE *) free_check_null(m_temp);
 					m_original = (LDBLE *) free_check_null(m_original);
-					error_msg("Repeated restart of integration.", STOP);
+					error_string = sformatf(
+						"Restart of integration at cvode_steps %d. Cell: %d\tTime: %e\tCvode calls: %d.",
+						(int)iopt[NST], cell_no, (double)sum_t, m_iter - 1);
+					error_msg(error_string, STOP);
 				}
 				tout1 = tout - sum_t;
 				t = 0;

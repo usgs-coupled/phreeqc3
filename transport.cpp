@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -1111,7 +1111,7 @@ init_mix(void)
 			if (2.25 * maxmix + 1.0 > (double)INT_MAX)
 			{
 				char token[MAX_LENGTH];
-				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step.", 2.25 * maxmix);
+				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step, or increase cell-lengths.", 2.25 * maxmix);
 				error_msg(token, STOP);
 			}
 			if (bcon_first == 1 || bcon_last == 1)
@@ -1227,6 +1227,12 @@ init_mix(void)
 			l_nmix = 0;
 		else
 		{
+			if (1.5 * maxmix > (double)INT_MAX)
+			{
+				char token[MAX_LENGTH];
+				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step, or increase cell-lengths.", 1.5 * maxmix);
+				error_msg(token, STOP);
+			}
 			l_nmix = 1 + (int) floor(1.5 * maxmix);
 
 			if ((ishift != 0) && ((bcon_first == 1) || (bcon_last == 1)))
