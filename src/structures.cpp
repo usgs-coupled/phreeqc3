@@ -3746,10 +3746,22 @@ Use2cxxStorageBin(cxxStorageBin & sb)
 	sb.Get_system().Set_io(sb.Get_io());
 	if (use.Get_mix_in())
 	{
-		cxxMix *entity = Utilities::Rxn_find(Rxn_mix_map, use.Get_n_mix_user());
+		cxxMix *entity = use.Get_mix_ptr();
 		if (entity != NULL)
 		{
 			sb.Set_Mix(use.Get_n_mix_user(), entity);
+		}
+
+		// put mix solutions in sb
+		cxxMix * mix_ptr = use.Get_mix_ptr();
+		std::map<int, LDBLE>::const_iterator cit;
+		for (cit = mix_ptr->Get_mixComps().begin(); cit != mix_ptr->Get_mixComps().end(); cit++)
+		{
+			cxxSolution *entity = Utilities::Rxn_find(Rxn_solution_map, cit->first);
+			if (entity != NULL)
+			{
+				sb.Set_Solution(cit->first, entity);
+			}
 		}
 	}
 	else if (use.Get_solution_in())
