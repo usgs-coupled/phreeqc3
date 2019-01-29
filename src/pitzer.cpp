@@ -1836,7 +1836,7 @@ pitzer_revise_guesses(void)
 
 	max_iter = 100;
 	if (iterations < 0 && (use.Get_surface_in() || use.Get_exchange_in()))
-		gammas_pz(); // DL_pitz : for SURF estimates
+		gammas_pz(true); // DL_pitz : for SURF estimates
 	l_iter = 0;
 	repeat = TRUE;
 	fail = FALSE;
@@ -1977,7 +1977,6 @@ pitzer_revise_guesses(void)
 	{
 		mu_x = 1e-8;
 	}
-	//gammas_pz();
 	return (OK);
 }
 
@@ -2077,7 +2076,7 @@ Restart:
 			d2 = d * mu_x;
 			mu_x += d2;
 			//k_temp(tc_x, patm_x);
-			gammas(mu_x);
+			gammas_pz(false);
 			break;
 		case PP:
 			continue;
@@ -2101,7 +2100,7 @@ Restart:
 		if (max_unknowns > pz_max_unknowns) 
 		{
 			base = (LDBLE *) free_check_null(base);
-			gammas_pz();
+			gammas_pz(false);
 			jacobian_sums();
 			goto Restart;
 		}
@@ -2153,7 +2152,7 @@ Restart:
 		case MU:
 			mu_x -= d2;
 			//k_temp(tc_x, patm_x);
-			gammas(mu_x);
+			gammas_pz(false);
 			break;
 		case GAS_MOLES:
 			if (gas_in == FALSE)
@@ -2285,7 +2284,7 @@ model_pz(void)
 			/*
 			 *   Calculate jacobian
 			 */
-			gammas_pz();
+			gammas_pz(false); // appt: no gammas_a_f here
 			jacobian_sums();
 			jacobian_pz();
 			/*
@@ -2314,7 +2313,8 @@ model_pz(void)
 				}
 				reset();
 			}
-			gammas_pz();
+			// appt calculate gammas_a_f here
+			gammas_pz(true);
 			if (full_pitzer == TRUE)
 				pitzer();
 			if (always_full_pitzer == TRUE)
@@ -2455,7 +2455,7 @@ check_gammas_pz(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-gammas_pz()
+gammas_pz(bool exch_a_f)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2538,7 +2538,7 @@ gammas_pz()
 	 *  calculate exchange gammas 
 	 */
 
-	if (use.Get_exchange_ptr() != NULL)
+	if (use.Get_exchange_ptr() != NULL && exch_a_f) // appt for gammas_a_f
 	{
 		for (i = 0; i < count_s_x; i++)
 		{
@@ -2560,14 +2560,11 @@ gammas_pz()
 				 *   Find CEC
 				 *   z contains valence of cation for exchange species, alk contains cec
 				 */
-				/* !!!!! */
 				for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
 				{
 					if (s_x[i]->rxn_x->token[j].s->type == EX)
 					{
-						s_x[i]->alk =
-							s_x[i]->rxn_x->token[j].s->primary->unknown->
-							moles;
+						s_x[i]->alk = s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
 						break;
 					}
 				}
@@ -2598,9 +2595,11 @@ gammas_pz()
 							continue;
 						coef = s_x[i]->rxn_x->token[j].coef;
 						s_x[i]->lg += coef * s_x[i]->rxn_x->token[j].s->lg;
-						s_x[i]->dg += coef * s_x[i]->rxn_x->token[j].s->dg;
+						/*s_x[i]->dg += coef * s_x[i]->rxn_x->token[j].s->dg;*//* remove? */
 					}
 				}
+				if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)
+					gammas_a_f(i); // appt
 			}
 		}
 	}

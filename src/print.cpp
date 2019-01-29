@@ -520,8 +520,7 @@ print_exchange(void)
 /*
  *   Print species data
  */
-/* !!!!! */
-		if (master_ptr->total > 1.0e-10)
+		if (master_ptr->total > 1.0e-16)
 		{
 			if (species_list[i].s->equiv != 0.0)
 			{

@@ -1777,7 +1777,11 @@ void PBasic::
 		_ASSERTE(nIDErrPrompt == 0);
 		nIDErrPrompt = IDS_ERR_SYNTAX;
 	}
-	errormsg(strcat(str, l_s));
+	strcat(str, l_s);
+	strcat(str, " in line: ");
+	if (strcmp(inbuf, "run"))
+		strcat(str, inbuf);
+	errormsg(str);
 }
 
 void PBasic::
@@ -1790,7 +1794,11 @@ void PBasic::
 		_ASSERTE(nIDErrPrompt == 0);
 		nIDErrPrompt = IDS_ERR_MISMATCH;
 	}
-	errormsg(strcat(str, l_s));
+	strcat(str, l_s);
+	strcat(str, " in line: ");
+	if (strcmp(inbuf, "run"))
+		strcat(str, inbuf);
+	errormsg(str);
 }
 
 void PBasic::
@@ -6031,7 +6039,10 @@ exec(void)
 							_ASSERTE(nIDErrPrompt == 0);
 							nIDErrPrompt = IDS_ERR_ILLEGAL;
 						}
-						errormsg("Illegal command");
+						strcat(STR1, "Illegal command in line: ");
+						if (strcmp(inbuf, "run"))
+							strcat(STR1, inbuf);
+						errormsg(STR1);
 						break;
 					}
 				}
