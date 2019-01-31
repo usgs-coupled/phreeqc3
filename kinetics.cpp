@@ -1312,11 +1312,11 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	{
 		diagonal_scale = TRUE;
 		always_full_pitzer = FALSE;
-		max_try = 15;
+		max_try = 14;
 	}
 	else
 	{
-		max_try = 15;
+		max_try = 14;
 	}
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
@@ -1511,7 +1511,6 @@ restart:
 		}
 		if (j == 14)
 		{
-			//continue;
 			cxxStorageBin error_bin;
 			Use2cxxStorageBin(error_bin);
 			std::ostringstream error_input;
