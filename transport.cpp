@@ -975,7 +975,7 @@ print_punch(int i, boolean active)
 /* ---------------------------------------------------------------------- */
 {
 	if ((!(cell_data[i].punch && (transport_step % punch_modulus == 0)) &&
-               !(cell_data[i].print && (transport_step % print_modulus == 0))) ||
+		!(cell_data[i].print && (transport_step % print_modulus == 0))) ||
 		(bcon_first == 2 && i == 0) ||
 		(bcon_last == 2 && i == count_cells + 1))
 		return;
@@ -1110,6 +1110,8 @@ init_mix(void)
 		{
 			if (2.25 * maxmix + 1.0 > (double)INT_MAX)
 			{
+				m = (LDBLE *)free_check_null(m);
+				m1 = (LDBLE *)free_check_null(m1);
 				char token[MAX_LENGTH];
 				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step, or increase cell-lengths.", 2.25 * maxmix);
 				error_msg(token, STOP);
@@ -1229,6 +1231,8 @@ init_mix(void)
 		{
 			if (1.5 * maxmix > (double)INT_MAX)
 			{
+				m = (LDBLE *)free_check_null(m);
+				m1 = (LDBLE *)free_check_null(m1);
 				char token[MAX_LENGTH];
 				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please decrease time_step, or increase cell-lengths.", 1.5 * maxmix);
 				error_msg(token, STOP);
@@ -3090,8 +3094,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	if (dV_dcell)
 	{
-		//if (transport_step >= 100)
-		//  /* icell = icell */;
+		//if (transport_step >= 100) // debug...
+		//	icell = icell;
 		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dum = dV_dcell * F_Re3 / tk_x2;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
@@ -3139,21 +3143,23 @@ dV_dcell2:
 
 	if (dV_dcell)
 	{
-		// perhaps adapt dV for getting equal current...
-		current_cells[icell].ele = current_cells[icell].dif = 0;
 		dV = cell_data[jcell].potV - cell_data[icell].potV;
 		dum = dV * F_Re3 / tk_x2;
-		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
-		{
-			if (!ct[icell].v_m[i].z)
-				continue;
-			current_cells[icell].ele -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].zc * dum;
-			current_cells[icell].dif -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
-				ct[icell].v_m[i].grad;
-		}
-		dV *= (current_x - current_cells[icell].dif) / current_cells[icell].ele;
-		dum = dV * F_Re3 / tk_x2;
+		// perhaps adapt dV for getting equal current...
+		//current_cells[icell].ele = current_cells[icell].dif = 0;
+		//for (i = 0; i < ct[icell].J_ij_count_spec; i++)
+		//{
+		//	if (!ct[icell].v_m[i].z)
+		//		continue;
+		//	current_cells[icell].ele -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
+		//		ct[icell].v_m[i].zc * dum;
+		//	current_cells[icell].dif -= ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z *
+		//		ct[icell].v_m[i].grad;
+		//}
+		//dum1 = (current_x - current_cells[icell].dif) / current_cells[icell].ele;
+		//if (isnan(dum1))
+		//	dum1 = 1;
+		//dum *= dum1;
 		for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 		{
 			if (!ct[icell].v_m[i].z)
