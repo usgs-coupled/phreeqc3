@@ -27,7 +27,7 @@ Reading input data for simulation 1.
 	    headings Mu SC
 	    start
 	10 PUNCH STR_e$(MU, 10, 5)
-	20 PUNCH STR_e$(SC, 10, 5) : put(iterations + get(10201), 10201) : if (get(10200) = 1) then punch str_f$(get(10201), 10, 0)
+	20 PUNCH STR_e$(SC, 10, 5) #: put(iterations + get(10201), 10201) : if (get(10200) = 1) then punch str_f$(get(10201), 10, 0)
 	    end
 	PHASES
 	AFm_1
@@ -701,8 +701,6 @@ Beginning of batch-reaction calculations.
 -----------------------------------------
 
 Reaction step 1.
-
-WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
 Using solution 1.	Solution after simulation 1.
 Using reaction 1.	
