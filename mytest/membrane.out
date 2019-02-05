@@ -33,6 +33,8 @@ Reading input data for simulation 1.
 	 step_size 10
 	 pe_step_size 5
 	 iterations 1000
+	KNOBS
+	numerical_derivatives
 	SOLUTION 0
 	 Na 500
 	 Cl 500 # saline outer solution
@@ -62,7 +64,7 @@ Initial solution 0.
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =   2.647e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -2.647e-08
+                  Electrical balance (eq)  =  -2.643e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   4
                                   Total H  = 1.110124e+02
@@ -207,7 +209,7 @@ Initial solution 21.
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.451e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   3
+                               Iterations  =   3 (6 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -250,7 +252,7 @@ Surface 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -1.145e-13  Surface + diffuse layer charge, eq
+	 -1.735e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -5.403e-02  sigma, C/m²
 	 -1.733e-01  psi, V
@@ -293,7 +295,7 @@ Using surface 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -4.400e-13  Surface + diffuse layer charge, eq
+	  3.805e-11  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -5.403e-02  sigma, C/m²
 	 -1.733e-01  psi, V
@@ -332,7 +334,7 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   7.000      Charge balance
-                                       pe  =  -1.429      Adjusted to redox equilibrium
+                                       pe  =  -2.474      Adjusted to redox equilibrium
       Specific Conductance (µS/cm,  25°C)  = 123
                           Density (g/cm³)  =   0.99708
                                Volume (L)  =   0.02006
@@ -341,9 +343,9 @@ Su
                        Mass of water (kg)  =   2.000e-02
                  Total alkalinity (eq/kg)  =   1.451e-09
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -2.912e-11
+                  Electrical balance (eq)  =  -3.075e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   0
+                               Iterations  =   0 (29 overall)
                                   Total H  = 2.220249e+00
                                   Total O  = 1.110124e+00
 
@@ -357,22 +359,22 @@ Su
    H2O             2.774e+03   1.000e+00     3.443    -0.000     0.000     18.07
 Cl            1.000e-03
    Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
-H(0)          1.020e-14
-   H2              5.098e-15   5.099e-15   -14.293   -14.293     0.000     28.61
+H(0)          1.256e-12
+   H2              6.279e-13   6.280e-13   -12.202   -12.202     0.000     28.61
 Na            1.000e-03
    Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
    NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -63.795   -63.795     0.000     30.40
+   O2              0.000e+00   0.000e+00   -67.976   -67.976     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -11.19    -14.29   -3.10  H2
+  H2(g)            -9.10    -12.20   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
   Halite           -7.60     -6.03    1.57  NaCl
-  O2(g)           -60.90    -63.79   -2.89  O2
+  O2(g)           -65.08    -67.98   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -390,7 +392,8 @@ Reading input data for simulation 3.
 WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 20.
 WARNING: No dispersivities were read; disp = 0 assumed.
 WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
---------------------------------
-End of Run after 14.156 Seconds.
---------------------------------
+WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
+-------------------------------
+End of Run after 2.249 Seconds.
+-------------------------------
 

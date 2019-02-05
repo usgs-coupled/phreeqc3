@@ -1,0 +1,45 @@
+database ../database/phreeqc.dat
+# Before 3.4.8, N was added in the ss with incremental_reactions true
+SELECTED_OUTPUT 101
+    -file                 ss_incr_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_e$(MU, 10, 5)
+20 PUNCH STR_e$(SC, 10, 5) : put(iterations + get(10201), 10201) : if (get(10200) = 1) then punch str_f$(get(10201), 10, 0)
+    -end
+PHASES
+AFm_1
+ Ca2Al(SO4)0.5        (OH)6:3H2O = 2 Ca+2 + Al(OH)4- + 0.5 SO4-2 +            2 OH- + 3 H2O; log_k -14.77
+NO3_OH_AFm_1
+ Ca2Al(NO3)0.5 (OH)0.5(OH)6:3H2O = 2 Ca+2 + Al(OH)4- + 0.5 NO3- + 0.5 OH- + 2 OH- + 3 H2O; log_k  -14.0
+
+SOLUTION 1
+pH 7 charge
+REACTION 1
+AFm_1 12.000001e-3; 
+SAVE solution 1
+END
+
+USE solution 1
+knobs
+-step 10
+-pe 2
+SOLID_SOLUTIONS 1; 
+nn; -comp NO3_OH_AFm_1 0;   -comp AFm_1 0
+REACTION 
+SO4 -0.5 NO3 1; 0e-5 12e-3
+INCREMENTAL_REACTIONS true
+USER_GRAPH 
+-headings x Ca Al NO3
+10 graph_x sys("N") / 12e-3
+20 graph_y tot("Ca"), tot("Al"), tot("N")
+
+SAVE solid_solutions 1
+END
+USE solid_solutions 1
+SOLUTION 2
+Cl 25; pH 2 charge
+END
+USE solution 1; REACTION 1; H2O 0; 1; SELECTED_OUTPUT 100; USER_PUNCH 100; 10 put(1, 10200); END
+
