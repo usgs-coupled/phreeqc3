@@ -1,0 +1,28 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 gas_phase_mix_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+GAS_PHASE 1
+     -fixed_pressure
+     N2(g) 0.7              # gas name from PHASES, initial partial pressure
+     CO2(g) 0.01
+GAS_PHASE 2
+     -fixed_pressure
+     N2(g) 0.7              # gas name from PHASES, initial partial pressure
+     CO2(g) 0.01
+END
+SOLUTION 7 ; -water 1e-6
+END
+GAS_PHASE_MIX 5
+1 1; 2 1 # not OK
+# 1 2 # OK
+END
+DUMP; -file gas_phase_mix.dmp; -gas_phase 1 2 5
+END
+USE gas_phase 5
+USE solution 7
