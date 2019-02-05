@@ -1,6 +1,7 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: balonis
   Output file: balonis.out
-Database file: C:\Program Files (x86)\USGS\Phreeqc Interactive 3.4.0-12927\database\phreeqc.dat
+Database file: ../database/phreeqc.dat
 
 ------------------
 Reading data base.
@@ -19,7 +20,7 @@ Reading data base.
 Reading input data for simulation 1.
 ------------------------------------
 
-	DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.4.0-12927\database\phreeqc.dat
+	DATABASE ../database/phreeqc.dat
 	SELECTED_OUTPUT 101
 	    file                 balonis_101.sel
 	USER_PUNCH 101
@@ -368,7 +369,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.226e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   0
+                               Iterations  =   0 (7830 overall)
                                   Total H  = 1.408608e+02
                                   Total O  = 7.045011e+01
 
@@ -432,8 +433,6 @@ Reading input data for simulation 2.
 	90   dif1 = tot("Ca") * 1e3 / Ca(sim_no - 1) - 1 : dif2 = tot("Al") * 1e3 / Al(sim_no - 1) - 1 : dif3 = 0 : if Cl(sim_no - 1) > 0 then dif3 = tot("Cl") * 1e3 / Cl(sim_no - 1) - 1
 	120  punch trim(str$(dif1)) + '           ' + trim(str$(sim_no - 1)) + str_f$(Cl_Al, 10, 3) + eol$ + trim(str$(dif2)) + eol$ + trim(str$(dif3))
 	USER_GRAPH
-
-	Reading data from balonis_tbl4.prn ...
 	-headings Ca Al Cl
 	-axis_titles "Cl / Al" "mmol / kgw" "Cl / mM"
 	10  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.63, 13.13, 16.78
@@ -452,6 +451,8 @@ Reading input data for simulation 2.
 	120 plot_xy Cl_Al, tot("Al") * 1e3, color = Green  , symbol = None
 	130 plot_xy Cl_Al, tot("Cl") * 1e3, color = Blue  , symbol = None
 	180 print sim_no, Cl_Al
+
+	Reading data from balonis_tbl4.prn ...
 	MIX 1
 	  1 7.8791e-01	
 	USE surface 1	 
@@ -489,7 +490,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.307413e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.658388e+00	Cvode calls: 5, continuing...
 
-           2            0 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -609,7 +609,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 262
+                               Iterations  = 262 (5378 overall)
                                   Total H  = 1.111992e+02
                                   Total O  = 5.561749e+01
 
@@ -709,7 +709,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.381844e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.347085e+00	Cvode calls: 11, continuing...
 
-           3   9.9999e-02 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -843,7 +842,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.665e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 564
+                               Iterations  = 564 (14825 overall)
                                   Total H  = 1.111605e+02
                                   Total O  = 5.559645e+01
 
@@ -944,7 +943,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.250808e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.024375e+00	Cvode calls: 9, continuing...
 
-           4   2.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -1078,7 +1076,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 498
+                               Iterations  = 498 (15231 overall)
                                   Total H  = 1.111341e+02
                                   Total O  = 5.558166e+01
 
@@ -1189,7 +1187,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.368882e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.264502e+00	Cvode calls: 14, continuing...
 
-           5   3.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -1323,7 +1320,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.674e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 755
+                               Iterations  = 755 (37246 overall)
                                   Total H  = 1.111088e+02
                                   Total O  = 5.556763e+01
 
@@ -1419,7 +1416,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 6.003386e-01	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 7.124564e-01	Cvode calls: 7, continuing...
 
-           6   4.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -1552,7 +1548,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 373
+                               Iterations  = 373 (19943 overall)
                                   Total H  = 1.109760e+02
                                   Total O  = 5.550091e+01
 
@@ -1660,7 +1656,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 8.610118e-01	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.102222e+00	Cvode calls: 13, continuing...
 
-           7   4.9999e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -1793,7 +1788,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 783
+                               Iterations  = 783 (38014 overall)
                                   Total H  = 1.109745e+02
                                   Total O  = 5.549973e+01
 
@@ -1911,7 +1906,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.202839e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.607033e+00	Cvode calls: 12, continuing...
 
-           8   6.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -2044,7 +2038,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 663
+                               Iterations  = 663 (34106 overall)
                                   Total H  = 1.109730e+02
                                   Total O  = 5.549846e+01
 
@@ -2150,7 +2144,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.538178e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 1.988915e+00	Cvode calls: 12, continuing...
 
-           9   7.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -2283,7 +2276,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 740
+                               Iterations  = 740 (36882 overall)
                                   Total H  = 1.109714e+02
                                   Total O  = 5.549705e+01
 
@@ -2403,7 +2396,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.239419e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.138107e+00	Cvode calls: 13, continuing...
 
-          10   8.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -2536,7 +2528,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.666e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 690
+                               Iterations  = 690 (37068 overall)
                                   Total H  = 1.109698e+02
                                   Total O  = 5.549548e+01
 
@@ -2646,7 +2638,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.702638e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.489284e+00	Cvode calls: 11, continuing...
 
-          11   9.0000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -2779,7 +2770,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.624e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 609
+                               Iterations  = 609 (33323 overall)
                                   Total H  = 1.109686e+02
                                   Total O  = 5.549378e+01
 
@@ -2889,7 +2880,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.024794e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.988960e+00	Cvode calls: 11, continuing...
 
-          12   9.5000e-01 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -3022,7 +3012,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.648e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 608
+                               Iterations  = 608 (32736 overall)
                                   Total H  = 1.109688e+02
                                   Total O  = 5.549308e+01
 
@@ -3134,7 +3124,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.141772e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.427100e+00	Cvode calls: 12, continuing...
 
-          13   1.0500e+00 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -3267,7 +3256,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.660e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 649
+                               Iterations  = 649 (34552 overall)
                                   Total H  = 1.109698e+02
                                   Total O  = 5.549155e+01
 
@@ -3405,7 +3394,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.382753e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 3.414907e+00	Cvode calls: 19, continuing...
 
-          14   1.1000e+00 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -3538,7 +3526,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.660e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 1085
+                               Iterations  = 1085 (57384 overall)
                                   Total H  = 1.109672e+02
                                   Total O  = 5.548946e+01
 
@@ -3650,7 +3638,6 @@ WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 2.918976e+00	Cvode
 
 WARNING: CVode incomplete at cvode_steps 30. Cell: -999	Time: 4.239576e+00	Cvode calls: 12, continuing...
 
-          15   1.2000e+00 
 Using mix 1.	
 Using surface 1.	
 Using pure phase assemblage 1.	
@@ -3783,7 +3770,7 @@ Su_plus
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -9.660e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  = 659
+                               Iterations  = 659 (34666 overall)
                                   Total H  = 1.109656e+02
                                   Total O  = 5.548748e+01
 
@@ -3849,6 +3836,6 @@ Reading input data for simulation 17.
 -------------------------------------
 
 --------------------------------
-End of Run after 17.437 Seconds.
+End of Run after 10.221 Seconds.
 --------------------------------
 

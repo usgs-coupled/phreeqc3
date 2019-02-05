@@ -22,7 +22,7 @@ Reading input data for simulation 1.
 
 	DATABASE ../database/pitzer.dat
 	SELECTED_OUTPUT 101
-	    file                 local_min_pz_101.sel
+	    file                 local_min_pz_102.sel
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
@@ -176,6 +176,11 @@ End of simulation.
 Reading input data for simulation 2.
 ------------------------------------
 
+	KNOBS
+	convergence_tolerance 1e-12
+	step_size 2
+	pe_step_size   2
+	iterations 400
 	USE solution 1
 	EQUILIBRIUM_PHASES
 		Anhydrite   0	  0
@@ -226,11 +231,8 @@ Beginning of batch-reaction calculations.
 
 Reaction step 1.
 
-WARNING: Maximum iterations exceeded, 200
-
-WARNING: Numerical method failed with this set of convergence parameters.
-
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 1.576661e-01
 
 WARNING: Maximum iterations exceeded, 400
 
@@ -238,19 +240,37 @@ WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying reduced tolerance 1e-16 ...
 
-WARNING: Sylvite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 2.856197e-01
-
-WARNING: Maximum iterations exceeded, 400
+WARNING: Maximum iterations exceeded, 800
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying increased tolerance 1e-14 ...
 
 WARNING: Sylvite, Pure phase with add formula has not converged.
-	 SI may be a local minimum.	Residual: 1.677264e-01
+	 SI may be a local minimum.	Residual: 3.225142e-01
 
-WARNING: Maximum iterations exceeded, 400
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 3.195152e-01
+
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 3.030641e-01
+
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 2.871148e-01
+
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 2.871148e-01
+
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 2.871148e-01
+
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 2.871148e-01
+
+WARNING: Sylvite, Pure phase with add formula has not converged.
+	 SI may be a local minimum.	Residual: 3.030704e-01
+
+WARNING: Maximum iterations exceeded, 800
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
@@ -273,12 +293,12 @@ Brucite          -3.51   -14.39    -10.88    0.000e+00           0   0.000e+00
 CO2(g)           -3.50    -4.97     -1.47    1.000e+01   1.000e+01   1.016e-03
 Calcite          -3.26   -11.76     -8.50    0.000e+00           0   0.000e+00
 Carnallite       -0.90     3.52      4.42    0.000e+00           0   0.000e+00
-Epsomite         -0.00    -1.85     -1.85    0.000e+00   5.155e-03   5.155e-03
+Epsomite          0.00    -1.85     -1.85    0.000e+00   5.155e-03   5.155e-03
 Glauberite       -0.11    -5.46     -5.35    0.000e+00           0   0.000e+00
 Gypsum           -0.09    -4.69     -4.60    0.000e+00           0   0.000e+00
 Halite            0.00     1.58      1.58    0.000e+00   4.689e-01   4.689e-01
 Hexahydrite      -0.06    -1.63     -1.57    0.000e+00           0   0.000e+00
-Kainite          -0.00    -0.19     -0.19    0.000e+00           0   0.000e+00
+Kainite           0.00    -0.19     -0.19    0.000e+00           0   0.000e+00
 Kieserite        -0.28    -0.54     -0.27    0.000e+00           0   0.000e+00
 Leonhardite      -0.31    -1.20     -0.89    0.000e+00           0   0.000e+00
 Magnesite         0.00    -7.83     -7.83    0.000e+00   1.202e-03   1.202e-03
@@ -315,7 +335,7 @@ Sylvite          -0.12     0.78      0.90
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -3.221e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  40
+                               Iterations  =  41 (2044 overall)
                          Gamma iterations  =   1
                       Osmotic coefficient  =   2.09156
                          Density of water  =   0.99704
@@ -368,7 +388,7 @@ S(6)          9.576e-01
   Carnallite       -0.90      3.52    4.42  KMgCl3:6H2O
   CO2(g)           -3.50     -4.97   -1.47  CO2	 Pressure   0.0 atm, phi 1.000
   Dolomite         -2.51    -19.59  -17.08  CaMg(CO3)2
-  Epsomite         -0.00     -1.85   -1.85  MgSO4:7H2O
+  Epsomite          0.00     -1.85   -1.85  MgSO4:7H2O
   Gaylussite      -12.14    -21.56   -9.42  CaNa2(CO3)2:5H2O
   Glaserite        -1.00     -4.80   -3.80  NaK3(SO4)2
   Glauberite       -0.11     -5.46   -5.35  Na2Ca(SO4)2
@@ -378,7 +398,7 @@ S(6)          9.576e-01
   Halite            0.00      1.58    1.58  NaCl
   Hexahydrite      -0.06     -1.63   -1.57  MgSO4:6H2O
   Huntite          -4.15      6.10   10.24  CaMg3(CO3)4
-  Kainite          -0.00     -0.19   -0.19  KMgClSO4:3H2O
+  Kainite           0.00     -0.19   -0.19  KMgClSO4:3H2O
   Kalicinite       -6.15    -16.09   -9.94  KHCO3
   Kieserite        -0.28     -0.54   -0.27  MgSO4:H2O
   Labile_S         -1.42     -7.10   -5.67  Na4Ca(SO4)3:2H2O
@@ -414,6 +434,6 @@ Reading input data for simulation 3.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.085 Seconds.
+End of Run after 0.141 Seconds.
 -------------------------------
 

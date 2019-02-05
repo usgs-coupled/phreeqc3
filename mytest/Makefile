@@ -11,7 +11,7 @@ ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
-	PHREEQC=../_build_x64/Release/phreeqc.exe
+	PHREEQC=../_build_2015_x64/Release/phreeqc.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -401,7 +401,8 @@ all: alkalinity.out \
 	ddl_set.out \
 	rotter.out \
 	gas_type_switch.out \
-	CalPortDiff.out
+	CalPortDiff.out \
+	ss_incr.out
 
 # NaX.out
 
@@ -477,8 +478,28 @@ frezchem: \
 	NaCl-SO4.out \
 	NaKCl.out \
 	NaMgCl.out
+	
+ss: \
+	basic_test.out \
+	cell_operations.out \
+	ex20_debug.out \
+	iso_example.out \
+	iso10.out \
+	kin_time.out \
+	mixes.out \
+	modify_ignore.out \
+	multi_punch.out \
+	no_negative_dump.out \
+	phase_formula.out \
+	ppdump.out \
+	pyrite_34s.out \
+	solid_solution.out \
+	solid_solution_pz.out \
+	ss_incr.out \
+	ss_r.out \
+	surface_punch_all.out
 
-clean:
+clean: 
 	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.diff *.expected *.txt millero.csv 
 
 revert:
