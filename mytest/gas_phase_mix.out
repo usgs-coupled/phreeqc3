@@ -1,0 +1,243 @@
+   Input file: gas_phase_mix
+  Output file: gas_phase_mix.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 gas_phase_mix_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	GAS_PHASE 1
+	     fixed_pressure
+	     N2(g) 0.7              # gas name from PHASES, initial partial pressure
+	     CO2(g) 0.01
+	GAS_PHASE 2
+	     fixed_pressure
+	     N2(g) 0.7              # gas name from PHASES, initial partial pressure
+	     CO2(g) 0.01
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 7 
+	 water 1e-6
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 7.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Pure water     
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 0
+                          Density (g/cm³)  =   0.99704
+                               Volume (L)  =   0.00000
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.007e-07
+                       Mass of water (kg)  =   1.000e-06
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
+                               Iterations  =   0
+                                  Total H  = 1.110124e-04
+                                  Total O  = 5.550622e-05
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
+   H+              1.001e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   H2O             5.551e+01   1.000e+00     1.744     0.000     0.000     18.07
+H(0)          1.416e-25
+   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50      0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	GAS_PHASE_MIX 5
+	1 1
+	 2 1 # not OK
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	DUMP
+	 -file gas_phase_mix.dmp
+	 -gas_phase 1 2 5
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	USE gas_phase 5
+	USE solution 7
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 7.	
+Using gas phase 5.	
+
+-----------------------------------Gas phase-----------------------------------
+
+Total pressure:  1.00      atmospheres          (Peng-Robinson calculation)
+    Gas volume:   1.42e+00 liters
+  Molar volume:   2.45e+01 liters/mole
+   P * Vm / RT:  0.99950  (Compressibility Factor Z) 
+
+                                                        Moles in gas
+                                            ----------------------------------
+Component         log P           P    phi     Initial       Final       Delta
+
+CO2(g)            -1.85   1.408e-02  0.996   8.177e-04   8.177e-04  -4.921e-10
+N2(g)             -0.01   9.859e-01  1.000   5.724e-02   5.724e-02  -6.575e-10
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 4.921e-04   4.921e-10
+	N                 1.315e-03   1.315e-09
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.836      Charge balance
+                                       pe  =  12.635      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 5
+                          Density (g/cm³)  =   0.99705
+                               Volume (L)  =   0.00000
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.464e-05
+                       Mass of water (kg)  =   1.000e-06
+                 Total alkalinity (eq/kg)  =   1.217e-09
+                       Total CO2 (mol/kg)  =   4.921e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.217e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  33
+                                  Total H  = 1.110124e-04
+                                  Total O  = 5.550720e-05
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.464e-05   1.457e-05    -4.835    -4.836    -0.002      0.00
+   OH-             6.976e-10   6.945e-10    -9.156    -9.158    -0.002     -4.13
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -118.704  -118.704     0.000     35.46
+C(4)          4.921e-04
+   CO2             4.775e-04   4.775e-04    -3.321    -3.321     0.000     34.43
+   HCO3-           1.464e-05   1.457e-05    -4.835    -4.836    -0.002     24.66
+   (CO2)2          4.185e-09   4.185e-09    -8.378    -8.378     0.000     68.87
+   CO3-2           4.774e-11   4.690e-11   -10.321   -10.329    -0.008     -5.38
+H(0)          1.614e-38
+   H2              8.068e-39   8.068e-39   -38.093   -38.093     0.000     28.61
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -43.303   -43.305    -0.002     17.94
+   NH3             0.000e+00   0.000e+00   -47.713   -47.713     0.000     24.42
+N(0)          1.315e-03
+   N2              6.575e-04   6.575e-04    -3.182    -3.182     0.000     29.29
+N(3)          4.923e-20
+   NO2-            4.923e-20   4.901e-20   -19.308   -19.310    -0.002     24.94
+N(5)          1.163e-13
+   NO3-            1.163e-13   1.157e-13   -12.935   -12.936    -0.002     29.46
+O(0)          1.281e-16
+   O2              6.404e-17   6.404e-17   -16.194   -16.194     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH4(g)         -115.90   -118.70   -2.80  CH4
+  CO2(g)           -1.85     -3.32   -1.47  CO2	 Pressure   0.0 atm, phi 0.996
+  H2(g)           -34.99    -38.09   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  N2(g)            -0.01     -3.18   -3.18  N2	 Pressure   1.0 atm, phi 1.000
+  NH3(g)          -49.51    -47.71    1.80  NH3
+  O2(g)           -13.30    -16.19   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+-------------------------------
+End of Run after 0.168 Seconds.
+-------------------------------
+
