@@ -1,10 +1,43 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+
  	-----------------
 	February 4, 2019
 	-----------------
 	
 	PHREEQC: Fixed bug in MIX_GAS_PHASE. Formula for mixing pressures was incorrect.
 	
+ 	-----------------
+	February 4, 2019
+	-----------------
+	PHREEQC: A series of new keyword data blocks are available to mix reactants. Input
+	is parallel to the input for the keyword MIX, which is a series of user number and
+	fraction pairs. Mixtures can be formed of solutions, exchangers, equilibrium_phases, 
+	gas phases, kinetic reactions, solid solutions, and surfaces. 	Synonyms of keywords 
+	are in parentheses.
+
+	SOLUTION_MIX           (MIX_SOLUTION)
+	EXCHANGE_MIX           (MIX_EXCHANGE)
+	EQUILIBRIUM_PHASES_MIX (MIX_EQUILIBRIUM_PHASES, EQUILIBRIUM_PHASE_MIX, MIX_EQUILIBRIUM_PHASE)
+	GAS_PHASE_MIX          (MIX_GAS_PHASE)
+	KINETICS_MIX           (MIX_KINETICS)
+	SOLID_SOLUTIONS_MIX    (MIX_SOLID_SOLUTIONS, SOLID_SOLUTIONS_MIX, MIX_SOLID_SOLUTION)
+	SURFACE_MIX            (MIX_SURFACE) 
+	
+	These _MIX keywords do not invoke any type of speciation or reaction calculation 
+	and mostly involve a summation of moles of the various reactants. Thus, MIX differs 
+	from SOLUTION_MIX in that MIX produces a reaction calculation and a distribution of 
+	species, whereas SOLUTION_MIX does not. The final events of a simulation occur in the 
+	order of RUN_CELLS, _MIX, COPY, DUMP, and DELETE. 
+	
+	Here is an example of SOLUTION_MIX, which creates a mixture of previously defined 
+	solutions: 
+	
+	SOLUTION_MIX 2-4 # new solutions 2, 3 and 4: 
+    1 0.5      # solution number, fraction 
+    4 1.5      # solution number, fraction 
+    6 0.3      # etc. 
+
  	-----------------
 	January 31, 2019
 	-----------------
