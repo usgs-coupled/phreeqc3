@@ -4,1905 +4,2137 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> Example 13--1D Transport in a Dual Porosity Column With Cation Exchange</TITLE><HR><P> | <A HREF="phreeqc3-69.htm">Next</A> || <A HREF="phreeqc3-67.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> Example 6--Reaction-Path Calculations</TITLE><HR><P> | <A HREF="phreeqc3-69.htm">Next</A> || <A HREF="phreeqc3-67.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50540559_pgfId-1565361"></A>Example 13--<A NAME="50540559_22265"></A>1D Transport in a Dual Porosity Column With Cation Exchange</H2>
+<A NAME="50610191_pgfId-1671337"></A>Example 6--<A NAME="50610191_49505"></A>Reaction-Path Calculations</H2>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-339378"></A>This example demonstrates the capabilities of PHREEQC to calculate flow in a dual-porosity medium with diffusive exchange among the mobile and immobile pores. The flexible input format and the modular definition of additional solutions and reactants in PHREEQC allow inclusion of heterogeneities and various complexities within a 1D column. This example considers a column filled with small clay beads of 2 cm diameter, which act as dual porosity or stagnant zones. Both the first-order exchange approximation and finite differences are applied in this example, and transport of both a conservative and a retarded (by ion exchange) chemical is considered. It is furthermore shown how a heterogeneous column can be modeled by prescribing mixing factors to account for diffusion between mobile and immobile cells with the keyword <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A>.</P>
-<DIV>
-<H4 CLASS="FM3dOrderHeading">
-<A NAME="50540559_pgfId-342244"></A><A NAME="50540559_86632"></A>Stagnant Zone Calculation Using the First-Order Exchange Approximation With Implicit Mixing Factors</H4>
+<A NAME="50610191_pgfId-1670686"></A>In this example, the precipitation of phases as a result of incongruent dissolution of K-feldspar (microcline) is investigated. Only the four phases originally addressed by Helgeson and others (1969)--K-feldspar, gibbsite, kaolinite, and K-mica (muscovite)--are considered. The thermodynamic data for the phases (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>, <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> keyword) are derived from Robie and others (1978) and are the same as for test problem 5 in the PHREEQE manual (Parkhurst and others, 1980).</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1338316"></A>The first example input file, example 13A (<A HREF="phreeqc3-68.htm#50540559_69841" CLASS="XRef">table 33</A>), is for a column with a uniform distribution of the stagnant porosity along the column. The 20 mobile cells are numbered 1 through 20. Each mobile cell, <EM CLASS="Emphasis">
-n</EM>
-, exchanges with one immobile cell, which is numbered 20 + 1 + <EM CLASS="Emphasis">
-n</EM>
- (cells 22 through 41 are immobile cells). All cells are given an identical initial solution and exchange complex, but these could be defined individually for each cell. It also is possible to distribute the immobile cells over the column non-uniformly, simply by omitting solutions for the stagnant cells that are not present. The connections between the mobile-zone and the stagnant-zone cells and among stagnant-zone cells can be varied along the column as well, but this requires that mixing factors among the mobile and immobile cells are prescribed by using the keyword <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A>.</P>
+<A NAME="50610191_pgfId-1553313"></A>PHREEQC can be used to solve this problem in three ways: the individual intersections of the reaction path and the phase boundaries on a phase diagram can be calculated (simulation 6A, <A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>), the reaction path can be calculated incrementally (simulation 6B, <A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>), or the reaction path can be calculated as a kinetic process (simulation 6C, <A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>). In the first approach, no knowledge of the amounts of reaction is needed, but a number of simulations are necessary to find the appropriate phase-boundary intersections. In the second approach, only one simulation is sufficient, but the appropriate amounts of reaction must be known beforehand. In the third approach, a kinetic rate expression is used to calculate the reaction path by using a step-size adjusting algorithm, which takes care of phase boundary transitions by automatically decreasing the time interval when necessary. Only the total time to arrive at the point of K-feldspar equilibrium is required. All three approaches are demonstrated here. PHREEQC implicitly contains all the logic of a complete reaction-path program (for example, Helgeson and others, 1970; Wolery, 1979; Wolery and others, 1990). Moreover, the capability to calculate directly the phase boundary intersections provides an efficient way to outline reaction paths on phase diagrams, and the option to add the reaction incrementally and automatically find the stable phase assemblage allows points on the reaction path between phase boundaries to be obtained easily. The kinetic approach and the Basic interpreter that is embedded in PHREEQC can be used to save and print the arrival time and the aqueous composition at each phase transition.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1529915"></A>As defined in <A HREF="phreeqc3-68.htm#50540559_69841" CLASS="XRef">table 33</A>, the column initially contains a 1 mmol/L KNO<Sub CLASS="Subscript">
-3</Sub>
- solution in both the mobile and the stagnant zones (<A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 1-41). An NaCl-NO<Sub CLASS="Subscript">
-3</Sub>
- solution flows into the column (<A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 0). An exchange complex with 1 mmol of sites is defined for each cell (<A HREF="phreeqc3-14.htm#50540545_84573" CLASS="XRef">EXCHANGE</A> 1-41), and exchange coefficients are specified to give linear retardation <EM CLASS="Emphasis">
-R</EM>
- = 2 for Na+ (<A HREF="phreeqc3-16.htm#50540545_65476" CLASS="XRef">EXCHANGE_SPECIES</A>). The first <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> data block is used to define the physical and flow characteristics of the first transport simulation. The column is 2 m in length and is discretized in 20 cells (<STRONG CLASS="Bold">
--cells</STRONG>
-) of 0.1 m (<STRONG CLASS="Bold">
--lengths</STRONG>
-). A pulse of five shifts (<STRONG CLASS="Bold">
--shifts</STRONG>
-) of the infilling solution (<A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 0) is introduced into the column. The length of time for each shift is 3,600 s (<STRONG CLASS="Bold">
--time_step</STRONG>
-), which results in a velocity in the mobile pores <EM CLASS="Emphasis">
-vm</EM>
- = 0.1 / 3,600 = 2.78&#215;10<Sup CLASS="Superscript">
--5</Sup>
- m/s. The dispersivity is set to 0.015 m for all cells (<STRONG CLASS="Bold">
--dispersivities</STRONG>
-). The diffusion coefficient is set to 0.0 (<STRONG CLASS="Bold">
--diffusion_coefficient</STRONG>
-). </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1530167"></A>The stagnant/mobile interchange is defined by using the first-order exchange approximation. The stagnant zone consists of spheres with radius <EM CLASS="Emphasis">
-r</EM>
- = 0.01 m, diffusion coefficient <EM CLASS="Emphasis">
-De</EM>
- = 3.&#215;10<Sup CLASS="Superscript">
--10</Sup>
- m<Sup CLASS="Superscript">
-2</Sup>
-/s, and shape factor <EM CLASS="Emphasis">
-fs</EM>
-&#174;1 = 0.21 (Parkhurst and Appelo, 1999, &#8220;Transport in Dual Porosity Media&#8221;, table 1). These variables give an exchange factor &#945; = 6.8&#215;10<Sup CLASS="Superscript">
--6</Sup>
- s<Sup CLASS="Superscript">
--1</Sup>
-. Mobile porosity is &#949;m = 0.3 (<STRONG CLASS="Bold">
--stagnant</STRONG>
-) and immobile porosity &#949;im = 0.1. For the first-order exchange approximation in PHREEQC, a single cell immobile zone and the parameters &#945;, &#949;m and &#949;im are specified with <STRONG CLASS="Bold">
--stagnant</STRONG>
-. This stagnant zone definition causes each cell in the mobile zone (numbered 1 through 20) to have an associated cell in the immobile zone (numbered 22 through 41). The <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A> data block is used to eliminate all printing to the output file.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1544508"></A>Following the pulse of NaCl solution, 10 shifts of 1 mmol KNO<Sub CLASS="Subscript">
-3</Sub>
-/L (second <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 0) are introduced into the column. The second <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> data block does not redefine any of the column or flow characteristics, but specifies that results for cells 1 through 20 (<STRONG CLASS="Bold">
--punch_cells</STRONG>
-) be written to the selected output file after 10 shifts (<STRONG CLASS="Bold">
--punch_frequency</STRONG>
-). The data blocks <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> specify the data to be written to the selected-output file, and <A HREF="phreeqc3-51.htm#50540545_26121" CLASS="XRef">USER_GRAPH</A> plots the same data. </P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1607114"></A>Table 33. <A NAME="50540559_69841"></A>Input file for example 13A: Stagnant zone with implicitly defined mixing factors.</P>
-</CAPTION>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607116"></A>TITLE Example 13A.--1 mmol/L NaCl/NO3 enters column with stagnant zones.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607118"></A>                    Implicit definition of first-order exchange model.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607120"></A>SOLUTION 0    # 1 mmol/L NaCl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607122"></A>   units   mmol/l</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607124"></A>   pH       7.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607126"></A>   pe      13.0    O2(g)   -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607128"></A>   Na       1.0    # Na has Retardation = 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607130"></A>   Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607132"></A>   N(5)     1.0    # NO3 is conservative</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607134"></A>#       charge imbalance is no problem ...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607136"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607138"></A>SOLUTION 1-41  # Column with KNO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607140"></A>   units   mmol/l</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607142"></A>   pH       7.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607144"></A>   pe      13.0   O2(g)    -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607146"></A>   K        1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607148"></A>   N(5)     1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607150"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607152"></A>   K+ + X- = KX</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607154"></A>   log_k   0.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607156"></A>   -gamma  3.5     0.015</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1607158"></A>EXCHANGE 1-41</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751983"></A>   -equil  1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751981"></A>   X       1.e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751979"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751977"></A>PRINT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751975"></A>   -reset false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751973"></A>   -echo_input true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751971"></A>   -status false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751969"></A>TRANSPORT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751967"></A>   -cells  20</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751965"></A>   -shifts 5</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751963"></A>   -flow_direction  forward</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751961"></A>   -time_step       3600</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751959"></A>   -boundary_conditions   flux  flux</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751957"></A>   -diffusion_coefficient 0.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751955"></A>   -lengths         0.1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751953"></A>   -dispersivities  0.015</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751951"></A>   -stagnant   1  6.8e-6  0.3        0.1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751949"></A>#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751947"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751945"></A>SOLUTION 0  # Original solution with KNO3 reenters</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751943"></A>   units   mmol/l</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751941"></A>   pH       7.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751939"></A>   pe      13.0   O2(g)    -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751937"></A>   K        1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751935"></A>   N(5)     1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751933"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751931"></A>SELECTED_OUTPUT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751929"></A>   -file   ex13a.sel</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751927"></A>   -reset  false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751925"></A>   -solution</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751923"></A>   -distance       true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751921"></A>USER_PUNCH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751919"></A>   -headings Cl_mmol Na_mmol</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751917"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751915"></A>TRANSPORT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751913"></A>   -shifts 10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751911"></A>   -punch_cells        1-20</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751909"></A>   -punch_frequency    10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751907"></A>USER_GRAPH 1 Example 13A</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751905"></A>   -headings Distance Na Cl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751903"></A>   -chart_title &quot;Dual Porosity, First-Order Exchange with Implicit Mixing Factors&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751901"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751899"></A>   -axis_scale x_axis 0 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751897"></A>   -axis_scale y_axis 0 0.8</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751895"></A>   -plot_concentration_vs x</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751893"></A>   -start</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751891"></A>  10 GRAPH_X DIST</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751889"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751887"></A>  -end</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1751885"></A>END</Pre>
-</TD>
-</TR>
-</TABLE>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1607601"></A><STRONG CLASS="Bold">
+<A NAME="50610191_pgfId-1593544"></A>Conceptually, example 6 considers the reactions that would occur if K-feldspar were placed in a beaker and allowed to react slowly. As K-feldspar dissolves, other phases may begin to precipitate. It is assumed that only gibbsite, kaolinite, or K-mica can form, and that these phases will precipitate reversibly if they reach saturation. That is, the phases that precipitated at the beginning of the reaction are allowed to redissolve, if necessary, to maintain equilibrium as the reaction proceeds.<STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50540559_17061"></A>The mixing factors <EM CLASS="Emphasis">
-mixfm</EM>
- and <EM CLASS="Emphasis">
-mixfim</EM>
- for the first-order exchange approximation for this example are as follows (Parkhurst and Appelo, 1999, equations 121 and 123):</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1338162"></A><A NAME="50540559_27886"></A><IMG SRC="phreeqc3-258.gif" ALIGN="BASELINE">
-	(24)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-339466"></A>where t is the time step, and</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1413757"></A><A NAME="50540559_24559"></A><IMG SRC="phreeqc3-259.gif" ALIGN="BASELINE">
-.	(25)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1413758"></A>The retardation factors <EM CLASS="Emphasis">
-R</EM>
-<Sub CLASS="Subscript">
-m</Sub>
- and <EM CLASS="Emphasis">
-R</EM>
-<Sub CLASS="Subscript">
-im</Sub>
- do not appear in the formulas for <EM CLASS="Emphasis">
-mixf</EM>
-<Sub CLASS="Subscript">
-im</Sub>
- and<EM CLASS="Emphasis">
- mixf</EM>
-<Sub CLASS="Subscript">
-m</Sub>
- because in PHREEQC, the retardation is a consequence of chemical reactions. According to equations <A HREF="phreeqc3-68.htm#50540559_27886" CLASS="XRef">24</A> and <A HREF="phreeqc3-68.htm#50540559_24559" CLASS="XRef">25</A>, for this example, the mixing factors are calculated to be <EM CLASS="Emphasis">
-mixfim</EM>
- = 0.20886 and <EM CLASS="Emphasis">
-mixfm</EM>
- = 0.06962. The mixing factors differ for the mobile cell and the immobile cell to account for the different volumes of mobile and immobile water.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-339491"></A>In PHREEQC, a mixing of mobile and stagnant water is done after each diffusion/dispersion step. This means that the time step decreases when the cells are made smaller and when more diffusive steps (&#8220;mixruns&#8221;) are performed. A 20-cell model as in <A HREF="phreeqc3-68.htm#50540559_69841" CLASS="XRef">table 33</A> has one mixrun. A 100-cell model would have three mixruns, and the time step for calculating <EM CLASS="Emphasis">
-mixfim</EM>
- would be (3,600/5) / 3 = 240 s. A time step <EM CLASS="Emphasis">
-t</EM>
- = 240 s leads to <EM CLASS="Emphasis">
-mixfim</EM>
- = 0.01614 in the 100-cell model.</P>
-<DIV>
-<H4 CLASS="FM3dOrderHeading">
-<A NAME="50540559_pgfId-342302"></A><A NAME="50540559_69695"></A>Stagnant Zone Calculation Using the First-Order Exchange Approximation With Explicit Mixing Factors</H4>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1445238"></A>The input file with explicit mixing factors for a uniform distribution of the stagnant zones is given in <A HREF="phreeqc3-68.htm#50540559_94576" CLASS="XRef">table 34</A>. The <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> data blocks are identical to the previous input file (<A HREF="phreeqc3-68.htm#50540559_69841" CLASS="XRef">table 33</A>). One stagnant layer without further information is defined (-stagnant 1, in the <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> data block). The mobile/immobile exchange is set by the mix fraction given in the <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A> data blocks. The results of this input file are identical with the results from the previous input file in which the shortcut notation was used. However, the explicit definition of mix factors illustrates that a non-uniform distribution of the stagnant zones, or other physical properties of the stagnant zone, can be included in PHREEQC simulations by varying the mixing fractions that define the exchange among mobile and immobile cells. </P>
+<A NAME="50610191_24354"></A>  </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1608018"></A>Table 34. <A NAME="50540559_94576"></A>Input file for example 13B: Stagnant zone with explicitly defined mixing factors.</P>
+<A NAME="50610191_pgfId-1664669"></A>Table 21. <A NAME="50610191_43862"></A>Input file for example 6.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608020"></A>TITLE Example 13B.--1 mmol/l NaCl/NO3 enters column with stagnant zones.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664671"></A>TITLE Simulation 6A.--React to phase boundaries.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608022"></A>                    Explicit definition of first-order exchange factors.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664673"></A>SOLUTION 1  PURE WATER</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608024"></A>SOLUTION 0    # 1 mmol/l NaCl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664675"></A>            pH    7.0 charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608026"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664677"></A>          temp   25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608028"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664679"></A>PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608030"></A>   pe      13.0    O2(g)   -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664681"></A>        Gibbsite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608032"></A>   Na       1.0    # Na has Retardation = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664683"></A>                Al(OH)3 + 3 H+ = Al+3 + 3 H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608034"></A>   Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664685"></A>                log_k          8.049</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608036"></A>   N(5)     1.0    # NO3 is conservative</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664687"></A>                delta_h        -22.792 kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608038"></A>#       charge imbalance is no problem ...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664689"></A>        Kaolinite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608040"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664691"></A>                Al2Si2O5(OH)4 + 6 H+ = H2O + 2 H4SiO4 + 2 Al+3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608042"></A>SOLUTION 1-41  # Column with KNO3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664693"></A>                log_k          5.708</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608044"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1664695"></A>                delta_h        -35.306 kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608046"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745793"></A>        K-mica</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608048"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745791"></A>                KAl3Si3O10(OH)2 + 10 H+ = 3 Al+3 + 3 H4SiO4 + K+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608050"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745789"></A>                log_k          12.970</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608052"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745787"></A>                delta_h        -59.377 kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1608054"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745785"></A>        K-feldspar</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643550"></A>   K+ + X- = KX</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745783"></A>                KAlSi3O8 + 4 H2O + 4 H+ = Al+3 + 3 H4SiO4 + K+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643548"></A>   log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745781"></A>                log_k          0.875</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643546"></A>   -gamma  3.5     0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745779"></A>                delta_h        -12.467 kcal</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643544"></A>EXCHANGE 1-41</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745777"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643542"></A>   -equil  1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745775"></A>        -file           ex6A-B.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643540"></A>   X       1.e-3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745773"></A>        -activities     K+ H+ H4SiO4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643538"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745771"></A>        -si             Gibbsite Kaolinite K-mica K-feldspar</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643536"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745769"></A>        -equilibrium    Gibbsite Kaolinite K-mica K-feldspar</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643534"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745767"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643532"></A>        -echo_input true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745765"></A>TITLE Simulation 6A1.--Find amount of K-feldspar dissolved to</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1643530"></A>        -status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745763"></A>                    reach gibbsite saturation.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685623"></A>MIX  1;  1 .93038;      22 .06962       ;MIX  2;         2 .93038;      23 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745761"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685621"></A>MIX  3;  3 .93038;      24 .06962       ;MIX  4;         4 .93038;      25 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745759"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685619"></A>MIX  5;  5 .93038;      26 .06962       ;MIX  6;         6 .93038;      27 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745757"></A>        Gibbsite        0.0     KAlSi3O8        10.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685617"></A>MIX  7;  7 .93038;      28 .06962       ;MIX  8;         8 .93038;      29 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745755"></A>        Kaolinite       0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685615"></A>MIX  9;  9 .93038;      30 .06962       ;MIX 10;        10 .93038;      31 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745753"></A>        K-mica          0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685613"></A>MIX 11; 11 .93038;      32 .06962       ;MIX 12;        12 .93038;      33 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745751"></A>        K-feldspar      0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685611"></A>MIX 13; 13 .93038;      34 .06962       ;MIX 14;        14 .93038;      35 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745749"></A>USER_GRAPH 1 Simulation 6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685609"></A>MIX 15; 15 .93038;      36 .06962       ;MIX 16;        16 .93038;      37 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745747"></A>        -headings 6A--Intersections</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685607"></A>MIX 17; 17 .93038;      38 .06962       ;MIX 18;        18 .93038;      39 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745745"></A>        -chart_title &quot;K-Feldspar Reaction Path&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685605"></A>MIX 19; 19 .93038;      40 .06962       ;MIX 20;        20 .93038;      41 .06962;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745743"></A>        -axis_titles &quot;Log[H4SiO4]&quot; &quot;Log([K+] / [H+])&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685603"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745741"></A>        -axis_scale x_axis -8.0 0.0 1 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685601"></A>MIX 22;  1 .20886;      22 .79114       ;MIX 23;         2 .20886;      23 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745739"></A>        -axis_scale y_axis -1.0 8.0 1 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685599"></A>MIX 24;  3 .20886;      24 .79114       ;MIX 25;         4 .20886;      25 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745737"></A>  10 PLOT_XY LA(&quot;H4SiO4&quot;),(LA(&quot;K+&quot;)-LA(&quot;H+&quot;)), color = Red, line_w = 0, &#92;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685597"></A>MIX 26;  5 .20886;      26 .79114       ;MIX 27;         6 .20886;      27 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745735"></A>  	symbol = Circle, symbol_size = 10</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685595"></A>MIX 28;  7 .20886;      28 .79114       ;MIX 29;         8 .20886;      29 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745733"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685593"></A>MIX 30;  9 .20886;      30 .79114       ;MIX 31;        10 .20886;      31 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745731"></A>TITLE Simulation 6A2.--Find amount of K-feldspar dissolved to</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685591"></A>MIX 32; 11 .20886;      32 .79114       ;MIX 33;        12 .20886;      33 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745729"></A>                    reach kaolinite saturation.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685589"></A>MIX 34; 13 .20886;      34 .79114       ;MIX 35;        14 .20886;      35 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745727"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685587"></A>MIX 36; 15 .20886;      36 .79114       ;MIX 37;        16 .20886;      37 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745725"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685585"></A>MIX 38; 17 .20886;      38 .79114       ;MIX 39;        18 .20886;      39 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745723"></A>        Gibbsite        0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685583"></A>MIX 40; 19 .20886;      40 .79114       ;MIX 41;        20 .20886;      41 .79114;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745721"></A>        Kaolinite       0.0     KAlSi3O8        10.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685627"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745719"></A>        K-mica          0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685625"></A>   -cells  20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745717"></A>        K-feldspar      0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1685629"></A>   -shifts 5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745715"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752390"></A>   -flow_direction  forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745713"></A>TITLE Simulation 6A3.--Find amount of K-feldspar dissolved to</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752388"></A>   -time_step       3600</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745711"></A>                    reach K-mica saturation.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752386"></A>   -boundary_conditions   flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745709"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752384"></A>   -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745707"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752382"></A>   -lengths         0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745705"></A>        Gibbsite        0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752380"></A>   -dispersivities  0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745703"></A>        Kaolinite       0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752378"></A>   -stagnant        1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745701"></A>        K-mica          0.0     KAlSi3O8        10.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752376"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745699"></A>        K-feldspar      0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752374"></A>SOLUTION 0  # Original solution reenters</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745697"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752372"></A>   units   mmol/l</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745695"></A>TITLE Simulation 6A4.--Find amount of K-feldspar dissolved to</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752370"></A>   pH       7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745693"></A>                    reach K-feldspar saturation.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752368"></A>   pe      13.0   O2(g)    -0.7</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745691"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752366"></A>   K        1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745689"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752364"></A>   N(5)     1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745687"></A>        Gibbsite        0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752362"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745685"></A>        Kaolinite       0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752360"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745683"></A>        K-mica          0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752358"></A>   -file   ex13b.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745681"></A>        K-feldspar      0.0     KAlSi3O8        10.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752356"></A>   -reset  false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745679"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752354"></A>   -distance       true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745677"></A>TITLE Simulation 6A5.--Find point with kaolinite present,</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752352"></A>   -solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745675"></A>                    but no gibbsite.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752350"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745673"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752348"></A>   -headings Cl_mmol Na_mmol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745671"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752346"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745669"></A>        Gibbsite        0.0     KAlSi3O8        10.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752344"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745667"></A>        Kaolinite       0.0     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752342"></A>   -shifts  10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745665"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752340"></A>   -punch_cells        1-20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745663"></A>TITLE Simulation 6A6.--Find point with K-mica present,</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752338"></A>   -punch_frequency    10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745661"></A>                    but no kaolinite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752336"></A>USER_GRAPH 1 Example 13B</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745659"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752334"></A>   -headings Distance Na Cl</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745657"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752332"></A>   -chart_title &quot;Dual Porosity, First-Order Exchange with Explicit Mixing Factors&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745655"></A>        Kaolinite       0.0     KAlSi3O8        10.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752330"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745653"></A>        K-mica          0.0     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752328"></A>   -axis_scale x_axis 0 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745651"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752326"></A>   -axis_scale y_axis 0 0.8</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745649"></A>TITLE Simulation 6B.--Path between phase boundaries.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752324"></A>   -plot_concentration_vs x</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745647"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752322"></A>   -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745645"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752320"></A>  10 GRAPH_X DIST</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745643"></A>        Kaolinite       0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752318"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745641"></A>        Gibbsite        0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752316"></A>   -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745639"></A>        K-mica          0.0     0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752314"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745637"></A>        K-feldspar      0.0     0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745635"></A>REACTION 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745633"></A>        K-feldspar      1.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745631"></A>        0.04 0.08 0.16 0.32 0.64 1.0 2.0 4.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745629"></A>        8.0 16.0 32.0 64.0 100 200 umol</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745627"></A>USER_GRAPH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745625"></A>        -headings 6B--Increments</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745623"></A>  10 PLOT_XY LA(&quot;H4SiO4&quot;),(LA(&quot;K+&quot;)-LA(&quot;H+&quot;)), color = Blue, line_w = 0, &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745621"></A>  		symbol = XCross, symbol_size = 7</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745619"></A>END</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745617"></A>TITLE Simulation 6C.--kinetic calculation</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745615"></A>SOLUTION 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745613"></A>        -units mol/kgw</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745611"></A>        Al         1.e-13</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745609"></A>        K          1.e-13</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745607"></A>        Si         3.e-13</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745605"></A>EQUILIBRIUM_PHASES 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745603"></A>        Gibbsite   0.0  0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745601"></A>        Kaolinite  0.0  0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745599"></A>        K-mica     0.0  0.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745597"></A>KINETICS 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745595"></A>K-feldspar</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745593"></A># k0 * A/V = 1e-16 mol/cm2/s * (10% fsp, 0.1mm cubes) 136/cm = 136.e-13 mol/dm3/s</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745591"></A>        -parms 1.36e-11</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745589"></A>        -m0 2.16</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745587"></A>        -m  1.94</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745585"></A>        -step_divide 1e-6</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745583"></A>        -steps    1e2 1e3 1e4 1e5 1e6 1e7 1e8</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745581"></A>#        -steps    1e2 1e3 1e4 1e5 63240.0 64950.0 1347610.0 1010300.0 45242800.0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745579"></A>INCREMENTAL_REACTIONS true</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745577"></A>RATES</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745575"></A>K-feldspar</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745573"></A>-start</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745571"></A>  10  REM store the initial amount of K-feldspar</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745569"></A>  20  IF EXISTS(1) = 0 THEN PUT(M, 1)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745567"></A>  30  REM calculate moles of reaction</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745565"></A>  40  SR_kfld = SR(&quot;K-feldspar&quot;)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745563"></A>  50  moles = PARM(1) * (M/M0)^0.67 * (1 - SR_kfld) * TIME</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745561"></A>  60  REM The following is for printout of phase transitions</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745559"></A>  80  REM      Start Gibbsite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745557"></A>  90  if ABS(SI(&quot;Gibbsite&quot;)) &gt; 1e-3 THEN GOTO 150</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745555"></A>  100   i = 2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745553"></A>  110   GOSUB 1500</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745551"></A>  150 REM      Start Gibbsite -&gt; Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745549"></A>  160 if ABS(SI(&quot;Kaolinite&quot;)) &gt; 1e-3 THEN GOTO 200</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745547"></A>  170   i = 3</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745545"></A>  180   GOSUB 1500</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745543"></A>  200 REM      End Gibbsite -&gt; Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745541"></A>  210 if ABS(SI(&quot;Kaolinite&quot;)) &gt; 1e-3 OR EQUI(&quot;Gibbsite&quot;) &gt; 0 THEN GOTO 250</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745539"></A>  220   i = 4</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745537"></A>  230   GOSUB 1500</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745535"></A>  250 REM      Start Kaolinite -&gt; K-mica</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745533"></A>  260 if ABS(SI(&quot;K-mica&quot;)) &gt; 1e-3 THEN GOTO 300</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745531"></A>  270   i = 5</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745529"></A>  280   GOSUB 1500</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745527"></A>  300 REM      End Kaolinite -&gt; K-mica</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745525"></A>  310 if ABS(SI(&quot;K-mica&quot;)) &gt; 1e-3 OR EQUI(&quot;Kaolinite&quot;) &gt; 0 THEN GOTO 350</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745523"></A>  320   i = 6</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745521"></A>  330   GOSUB 1500</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745519"></A>  350 REM      Start K-mica -&gt; K-feldspar</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745517"></A>  360 if ABS(SI(&quot;K-feldspar&quot;)) &gt; 1e-3 THEN GOTO 1000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745515"></A>  370   i = 7</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745513"></A>  380   GOSUB 1500</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745511"></A>  1000 SAVE moles</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745509"></A>  1010 END</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745507"></A>  1500 REM subroutine to store data</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745505"></A>  1510 if GET(i) &gt;= M THEN RETURN</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745503"></A>  1520     PUT(M, i)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745501"></A>  1530     PUT(TOTAL_TIME, i, 1)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745499"></A>  1540     PUT(LA(&quot;K+&quot;)-LA(&quot;H+&quot;), i, 2)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745497"></A>  1550     PUT(LA(&quot;H4SiO4&quot;), i, 3)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745495"></A>  1560 RETURN</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745493"></A>-end</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745491"></A>USER_PRINT</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745489"></A>  10 DATA &quot;A: Gibbsite               &quot;, &quot;B: Gibbsite  -&gt; Kaolinite &quot;, &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745487"></A>          &quot;C: Gibbsite  -&gt; Kaolinite &quot;, &quot;D: Kaolinite -&gt; K-mica    &quot;, &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745485"></A>          &quot;E: Kaolinite -&gt; K-mica    &quot;, &quot;F: K-mica    -&gt; K-feldspar&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745483"></A>  20 PRINT &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745481"></A>  &quot;        Transition                 Time   K-feldspar      LA(K/H)   LA(H4SiO4)&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745479"></A>  30 PRINT &quot;                                            transfer&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745477"></A>  40 PRINT &quot;                                            (umoles)&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745475"></A>  50 FOR i = 2 TO 7</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745473"></A>  60   READ s$</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745471"></A>  70   IF EXISTS(i) THEN PRINT s$, GET(i,1), (GET(1) - GET(i))*1e6, GET(i,2), GET(i,3)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745469"></A>  80 NEXT i</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745467"></A>SELECTED_OUTPUT</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745465"></A>        -file ex6C.sel</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745463"></A>        -reset false</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745461"></A>USER_PUNCH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745459"></A>  -headings pH+log[K]  log[H4SiO4]</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745457"></A>  10 PUNCH LA(&quot;K+&quot;)-LA(&quot;H+&quot;) LA(&quot;H4SiO4&quot;)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745455"></A>USER_GRAPH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745453"></A>  -headings 6C--Kinetics</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745451"></A>  10 PLOT_XY LA(&quot;H4SiO4&quot;),(LA(&quot;K+&quot;)-LA(&quot;H+&quot;)), color = Blue, line_w = 2, symbol = None</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745449"></A>END</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745447"></A>PRINT; -user_print false</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745445"></A># --Plot the phase boundaries with USER_GRAPH..</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745443"></A>PHASES</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745441"></A> K_H; KH = K+ - H+; -no_check</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745439"></A>USER_GRAPH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745437"></A>-initial_solutions true</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745435"></A> 10 PLOT_XY LA(&quot;H4SiO4&quot;), SI(&quot;K_H&quot;), color = Black, symbol = None </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745433"></A>SOLUTION 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745431"></A> pH 11; K 1 K_H 8; Al 1 Gibbsite; Si 1 K-mica</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745429"></A>SOLUTION 2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745427"></A> pH 7; K 1 K-mica; Al 1 Gibbsite; Si 1 Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745425"></A>SOLUTION 3</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745423"></A> pH 7; K 1 K-mica; Al 1 K-feldspar; Si 1 Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745421"></A>SOLUTION 4</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745419"></A> pH 7; K 1 K_H -1; Al 1 Kaolinite; Si 1 K-feldspar</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745417"></A>END</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745415"></A>USER_GRAPH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745413"></A> 10 PLOT_XY LA(&quot;H4SiO4&quot;), SI(&quot;K_H&quot;), color = Black, symbol = None </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745411"></A>SOLUTION 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745409"></A> pH 11; K 1 K_H 8; Al 1 K-feldspar; Si 1 K-mica</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745407"></A>SOLUTION 2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745405"></A> pH 7; K 1 K-mica; Al 1 K-feldspar; Si 1 Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745403"></A>SOLUTION 3</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745401"></A> pH 7; K 1 K-mica; Al 1 Gibbsite; Si 1 Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745399"></A>SOLUTION 4</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745397"></A> pH 7; K 1 K_H -1; Al 1 Gibbsite; Si 1 Kaolinite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1745395"></A>END </Pre>
 </TD>
 </TR>
 </TABLE>
-</DIV>
-<DIV>
-<H4 CLASS="FM3dOrderHeading">
-<A NAME="50540559_pgfId-1317070"></A><A NAME="50540559_37910"></A>Stagnant Zone Calculation Using a Finite Difference Approximation</H4>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-339588"></A>The stagnant zone consists of spheres with radius <EM CLASS="Emphasis">
-r</EM>
- = 0.01 m. Diffusion into the spheres induces radially symmetric concentration changes according to the differential equation:</P>
-</DIV>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-339592"></A><IMG SRC="phreeqc3-260.gif" ALIGN="BASELINE">
-.	(26)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1338012"></A>The calculation in finite differences can therefore be simplified to one (radial) dimension. The calculation follows the theory outlined in Parkhurst and Appelo (1999, section &#8220;Transport in Dual Porosity Media&#8221;). The stagnant zone is divided into a number of layers that mix by diffusion. In this example, the sphere is cut in five equidistant layers with &#916;<EM CLASS="Emphasis">
-r</EM>
- = 0.002 m. Five stagnant layers are defined under keyword <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> with -stagnant 5 (<A HREF="phreeqc3-68.htm#50540559_63916" CLASS="XRef">table 35</A>). Mixing is specified among adjacent cells in the stagnant layers with <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A> data blocks; the mixing factors are calculated by <A HREF="phreeqc3-68.htm#50540559_40135" CLASS="XRef">See ,</A> and <A HREF="phreeqc3-68.htm#50540559_18727" CLASS="XRef">28</A>. For a neighbor cell, the mixing factor is</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1316774"></A><A NAME="50540559_40135"></A><IMG SRC="phreeqc3-261.gif" ALIGN="BASELINE">
-,	(27)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1316775"></A>and for the central cell, it is</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1316780"></A><A NAME="50540559_18727"></A><IMG SRC="phreeqc3-262.gif" ALIGN="BASELINE">
-,	(28)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1610117"></A>where, D<Sub CLASS="Subscript">
-e</Sub>
- is the effective diffusion coefficient, <EM CLASS="symbol">
-&#916;</EM>
-t is the time interval, <EM CLASS="Emphasis">
-Vj</EM>
- is the volume of cell <EM CLASS="Emphasis">
-j</EM>
- (m3), <EM CLASS="Emphasis">
-Aij </EM>
-is the shared surface area of cell <EM CLASS="Emphasis">
-i</EM>
- and <EM CLASS="Emphasis">
-j</EM>
- (m2), <EM CLASS="Emphasis">
-hij</EM>
- is the distance between midpoints of cells <EM CLASS="Emphasis">
-i</EM>
- and <EM CLASS="Emphasis">
-j</EM>
- (m), and <EM CLASS="Emphasis">
-fbc </EM>
-is the correction factor for boundary cells (dimensionless). The values for mobile cell 1 and associated.    immobile cells are given in <A HREF="phreeqc3-68.htm#50540559_26060" CLASS="XRef">table 36</A>. The cells in the immobile layer are numbered as <EM CLASS="Emphasis">
-n </EM>
-+ (<EM CLASS="Emphasis">
-l </EM>
-&#215;<EM CLASS="Emphasis">
- cells) </EM>
-+<EM CLASS="Emphasis">
- </EM>
-1, where <EM CLASS="Emphasis">
-n</EM>
- is the number of a mobile cell, <EM CLASS="Emphasis">
-l </EM>
-is the number of the stagnant layer, and <EM CLASS="Emphasis">
-cells</EM>
- is the total number of mobile cells. In this example, the boundary cell in the stagnant zone for cell number 1 is cell number 22 and the other four stagnant layers are cell numbers 42, 62, 82, and 102, with number 102 being the innermost cell of the sphere, which is connected only to one other cell (cell 82). The volume of the mobile cell (cell 1) is expressed relative to the volume of a sphere of radius 0.01 m, by multiplying this volume by &#949;m / &#949;im (4.19&#215;10<Sup CLASS="Superscript">
--6</Sup>
- &#215; 0.3 / 0.1 = 1.26&#215;10<Sup CLASS="Superscript">
--5</Sup>
-). In <A HREF="phreeqc3-68.htm#50540559_26060" CLASS="XRef">table 36</A> the value for <EM CLASS="Emphasis">
-fbc</EM>
- is 1.72, as calculated with the following equation from Parkhurst and Appelo (1999, equation 127):</P>
+<A NAME="50610191_pgfId-1681155"></A>The input file (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>) first defines pure water with <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> input and the thermodynamic data for the phases with <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input. Some of the minerals are defined in the database file (<EM CLASS="Emphasis">
+phreeqc.dat</EM>
+), but inclusion in the input file replaces any previous definitions for the duration of the run (the database file is not altered). <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> is used to write a file of data that was used to produce  <A HREF="phreeqc3-68.htm#50610191_13293" CLASS="XRef">table 22</A>, and <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> produces the chart shown in figure 7. <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> specifies that the log of the activities of the potassium ion, hydrogen ion, and silicic acid; the saturation indices for gibbsite, kaolinite, K-mica, and K-feldspar; and the total amounts in the phase assemblage and mole transfers for gibbsite, kaolinite, K-mica, and K-feldspar will be written to the file <EM CLASS="Emphasis">
+ex6A-B.sel</EM>
+ after each calculation. The definitions for <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> remain in effect for all simulations in the run until a new <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block is read or until writing to the file is suspended with the identifier <STRONG CLASS="Bold">
+-selected_output</STRONG>
+ in the <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A> data block.</P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1686275"></A>Table 35. <A NAME="50540559_63916"></A>Input file for example 13C: Stagnant zone with diffusion calculated by finite differences (partial listing).</P>
-</CAPTION>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686277"></A>TITLE Example 13C.--1 mmol/l NaCl/NO3 enters column with stagnant zones.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686279"></A>                    5 layer stagnant zone with finite differences.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686281"></A>SOLUTION 0    # 1 mmol/l NaCl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686283"></A>        units   mmol/l</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686285"></A>        pH       7.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686287"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686289"></A>        pe      13.0    O2(g)   -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686291"></A>        Na       1.0    # Na has Retardation = 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686293"></A>        Cl       1.0    # Cl has Retardation = 1, stagnant exchange</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686295"></A>        N(5)     1.0    # NO3 is conservative</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686297"></A>#       charge imbalance is no problem ...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686299"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686301"></A>SOLUTION 1-121</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686303"></A>        units   mmol/l</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686305"></A>        pH       7.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686307"></A>        pe      13.0   O2(g)    -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686309"></A>        K        1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686311"></A>        N(5)     1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686313"></A>EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686315"></A>        K+ + X- = KX</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686317"></A>        log_k   0.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686319"></A>        -gamma  3.5     0.015</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686321"></A>EXCHANGE 1-121</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1686323"></A>        -equilibrate  1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753049"></A>        X             1.e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753047"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753045"></A>PRINT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753043"></A>        -reset false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753041"></A>        -echo_input true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753039"></A>MIX    1;    1  0.90712;   22  0.09288</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753037"></A>MIX   22;    1  0.57098;   22  0.21656;   42  0.21246</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753035"></A>MIX   42;   22  0.35027;   42  0.45270;   62  0.19703</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753033"></A>MIX   62;   42  0.38368;   62  0.44579;   82  0.17053</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753031"></A>MIX   82;   62  0.46286;   82  0.42143;  102  0.11571</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753029"></A>MIX  102;   82  0.81000;  102  0.19000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753027"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753025"></A>#</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753023"></A>#   MIX definitions omitted for mobile cells</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753021"></A>#   2-19 and associated immobile cells</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753019"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753017"></A>#</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753015"></A>MIX   20;   20  0.90712;   41  0.09288</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753013"></A>MIX   41;   20  0.57098;   41  0.21656;   61  0.21246</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753011"></A>MIX   61;   41  0.35027;   61  0.45270;   81  0.19703</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753009"></A>MIX   81;   61  0.38368;   81  0.44579;  101  0.17053</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753007"></A>MIX  101;   81  0.46286;  101  0.42143;  121  0.11571</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753005"></A>MIX  121;  101  0.81000;  121  0.19000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753003"></A>TRANSPORT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1753001"></A>   -cells  20</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752999"></A>   -shifts 5</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752997"></A>   -flow_direction  forward</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752995"></A>   -time_step       3600</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752993"></A>   -boundary_conditions   flux  flux</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752991"></A>   -diffusion_coefficient 0.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752989"></A>   -lengths         0.1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752987"></A>   -dispersivities  0.015</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752985"></A>   -stagnant        5</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752983"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752981"></A>SOLUTION 0  # Original solution reenters</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752979"></A>   units   mmol/l</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752977"></A>   pH       7.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752975"></A>   pe      13.0   O2(g)    -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752973"></A>   K        1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752971"></A>   N(5)     1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752969"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752967"></A>SELECTED_OUTPUT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752965"></A>   -file   ex13c.sel</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752963"></A>   -reset  false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752961"></A>   -distance       true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752959"></A>   -solution</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752957"></A>USER_PUNCH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752955"></A>   -headings Cl_mmol Na_mmol</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752953"></A>  10 PUNCH TOT(&quot;Cl&quot;)*1000, TOT(&quot;Na&quot;)*1000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752951"></A>TRANSPORT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752949"></A>   -shifts  10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752947"></A>   -punch_cells        1-20</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752945"></A>   -punch_frequency    10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752943"></A>USER_GRAPH 1 Example 13C</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752941"></A>        -headings Distance Na Cl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752939"></A>   -chart_title &quot;Dual Porosity, Finite-Difference Approximation&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752937"></A>   -axis_titles &quot;Distance, in meters&quot; &quot;Millimoles per kilogram water&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752935"></A>   -axis_scale x_axis 0 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752933"></A>   -axis_scale y_axis 0 0.8</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752931"></A>   -plot_concentration_vs x</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752929"></A>   -start</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752927"></A>  10 GRAPH_X DIST</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752925"></A>  20 GRAPH_Y TOT(&quot;Na&quot;)*1000 TOT(&quot;Cl&quot;)*1000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752923"></A>    -end</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1752921"></A>END</Pre>
-</TD>
-</TR>
-</TABLE>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1509283"></A><A NAME="50540559_47105"></A><IMG SRC="phreeqc3-263.gif" ALIGN="BASELINE">
-,	(29)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1509284"></A>where, V<Sub CLASS="Subscript">
-m </Sub>
-is the volume of the mobile zone and V<Sub CLASS="Subscript">
-bc</Sub>
- is the volume of the boundary cell that contacts the mobile zone. It is noted that using <EM CLASS="Emphasis">
-fbc</EM>
- = 1.81 slightly improves the fit to an analytical solution given in Crank (1975) for diffusion into spheres in a closed vessel (a beaker with solution and clay beads). However, changing <EM CLASS="Emphasis">
-fbc</EM>
- to 1.81 has little effect on the concentration profiles for the columns that are shown in figure.14, and various calculations have shown that <EM CLASS="Emphasis">
-fbc</EM>
- = 2 provides good results in general. </P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1686856"></A>Table 36. <A NAME="50540559_26060"></A>Mixing factors for finite difference calculation of diffusion in spheres.</P>
+<A NAME="50610191_pgfId-1681167"></A>Table 22. <STRONG CLASS="Bold">
+ </STRONG>
+<A NAME="50610191_13293"></A>Selected results for simulation 6A.</P>
 <P CLASS="TableHeadnote">
-<A NAME="50540559_pgfId-1686857"></A>[-, undefined value for cell]</P>
+<A NAME="50610191_pgfId-1681168"></A>[Simulation refers to labels in the input file for simulation 6A. Negative mole transfers indicate dissolution, positive mole transfers indicate precipitation. Simulations 6A1-6A6 refer to label points A-F on figure 7 and <A HREF="phreeqc3-68.htm#50610191_88264" CLASS="XRef">table 24</A>. H<Sup CLASS="Superscript">
++</Sup>
+, hydrogen ion; K<Sup CLASS="Superscript">
++</Sup>
+, potassium ion; H<Sub CLASS="Subscript">
+4</Sub>
+SiO<Sub CLASS="Subscript">
+4</Sub>
+, silicic acid]</P>
 </CAPTION>
 <TR>
-<TH ROWSPAN="1" COLSPAN="1">
+<TH ROWSPAN="2" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686875"></A>Cell</P>
+<A NAME="50610191_pgfId-1681204"></A>Simu-lation</P>
+</TH>
+<TH ROWSPAN="2" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681206"></A>K-feldspar mole transfer micro-<BR>
+moles</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="3">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681208"></A>Log activity</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50610191_pgfId-1681214"></A>&nbsp;</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="3">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686877"></A><EM CLASS="Emphasis">
-r</EM>
-, m</P>
+<A NAME="50610191_pgfId-1681216"></A>Mole transfer, micromoles</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50610191_pgfId-1681222"></A>&nbsp;</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="4">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686879"></A><EM CLASS="Emphasis">
-Vj</EM>
-, m<Sup CLASS="Superscript">
-3</Sup>
+<A NAME="50610191_pgfId-1681224"></A>Saturation index</P>
+</TH>
+<TH ROWSPAN="2" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681232"></A>Point on graph</P>
+</TH>
+</TR>
+<TR>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681238"></A>H<Sup CLASS="Superscript">
++</Sup>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686881"></A><EM CLASS="Emphasis">
-Aij</EM>
-, m<Sup CLASS="Superscript">
-2</Sup>
+<A NAME="50610191_pgfId-1681243"></A><IMG SRC="phreeqc3-227.png" ALIGN="MIDDLE">
+&nbsp;</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681245"></A>H<Sub CLASS="Subscript">
+4</Sub>
+SiO<Sub CLASS="Subscript">
+4</Sub>
 </P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686883"></A><EM CLASS="Emphasis">
-hij</EM>
-, m</P>
+<A NAME="50610191_pgfId-1681247"></A>&nbsp;</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686885"></A><EM CLASS="Emphasis">
-fbc</EM>
-</P>
+<A NAME="50610191_pgfId-1681249"></A>Gibbs-<BR>
+ite</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686887"></A><EM CLASS="Emphasis">
-mixfij</EM>
-</P>
+<A NAME="50610191_pgfId-1681251"></A>Kao-<BR>
+linite</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686889"></A><EM CLASS="Emphasis">
-mixfjj</EM>
-</P>
+<A NAME="50610191_pgfId-1681253"></A>K-<BR>
+mica</P>
 </TH>
 <TH ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1686891"></A><EM CLASS="Emphasis">
-mixfjk</EM>
-</P>
+<A NAME="50610191_pgfId-1681255"></A>&nbsp;</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681257"></A>Gibbs-ite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681259"></A>Kao-<BR>
+linite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681261"></A>K-<BR>
+mica</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1681263"></A>K-<BR>
+feldspar</P>
 </TH>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1686893"></A>102</P>
+<A NAME="50610191_pgfId-1681267"></A>6A1</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686895"></A>0.001</LI>
+<A NAME="50610191_pgfId-1681269"></A> -0.03</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686897"></A>3.35e-8</LI>
+<A NAME="50610191_pgfId-1681271"></A>-7.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686899"></A>5.03e-5</LI>
+<A NAME="50610191_pgfId-1681273"></A>-0.57</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686901"></A>0.002</LI>
+<A NAME="50610191_pgfId-1681275"></A>-7.10</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686903"></A>1</LI>
+<A NAME="50610191_pgfId-1681277"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686905"></A>0.81</LI>
+<A NAME="50610191_pgfId-1681279"></A>0.00 </LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686907"></A>0.19</LI>
+<A NAME="50610191_pgfId-1681281"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686909"></A> -</LI>
+<A NAME="50610191_pgfId-1681283"></A>0.00</LI>
 </UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681285"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681287"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681289"></A>-3.8</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681291"></A>-10.7</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681293"></A>-14.7</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptCenter">
+<A NAME="50610191_pgfId-1681295"></A>A</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1686911"></A> 82</P>
+<A NAME="50610191_pgfId-1681297"></A>6A2</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686913"></A>0.003</LI>
+<A NAME="50610191_pgfId-1681299"></A> -2.18</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686915"></A>2.35e-7</LI>
+<A NAME="50610191_pgfId-1681301"></A>-8.21</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686917"></A>2.01e-4</LI>
+<A NAME="50610191_pgfId-1681303"></A>2.55</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686919"></A>0.002</LI>
+<A NAME="50610191_pgfId-1681305"></A>-5.20</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686921"></A>1</LI>
+<A NAME="50610191_pgfId-1681307"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686923"></A>0.463</LI>
+<A NAME="50610191_pgfId-1681309"></A>1.78</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686925"></A>0.421</LI>
+<A NAME="50610191_pgfId-1681311"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686927"></A>0.116</LI>
+<A NAME="50610191_pgfId-1681313"></A>0.00</LI>
 </UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681315"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681317"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681319"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681321"></A>-1.9</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681323"></A>-5.9</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptCenter">
+<A NAME="50610191_pgfId-1681325"></A>B</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1686929"></A> 62</P>
+<A NAME="50610191_pgfId-1681327"></A>6A3</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686931"></A>0.005</LI>
+<A NAME="50610191_pgfId-1681329"></A> -20.10</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686933"></A>6.37e-7</LI>
+<A NAME="50610191_pgfId-1681331"></A>-9.11</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686935"></A>4.52e-4</LI>
+<A NAME="50610191_pgfId-1681333"></A>4.41</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686937"></A>0.002</LI>
+<A NAME="50610191_pgfId-1681335"></A>-4.47</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686939"></A>1</LI>
+<A NAME="50610191_pgfId-1681337"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686941"></A>0.384</LI>
+<A NAME="50610191_pgfId-1681339"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686943"></A>0.446</LI>
+<A NAME="50610191_pgfId-1681341"></A>9.76</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686945"></A>0.170</LI>
+<A NAME="50610191_pgfId-1681343"></A>0.00</LI>
 </UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681345"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681347"></A>-0.7</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681349"></A>0.0 </LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681351"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681353"></A>-2.5</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptCenter">
+<A NAME="50610191_pgfId-1681355"></A>D</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1686947"></A> 42</P>
+<A NAME="50610191_pgfId-1681357"></A>6A4</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686949"></A>0.007</LI>
+<A NAME="50610191_pgfId-1681359"></A>-190.9</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686951"></A>1.24e-6</LI>
+<A NAME="50610191_pgfId-1681361"></A>-9.39</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686953"></A>8.04e-4</LI>
+<A NAME="50610191_pgfId-1681363"></A>5.49</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686955"></A>0.002</LI>
+<A NAME="50610191_pgfId-1681365"></A>-3.55</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686957"></A>1</LI>
+<A NAME="50610191_pgfId-1681367"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686959"></A>0.350</LI>
+<A NAME="50610191_pgfId-1681369"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686961"></A>0.453</LI>
+<A NAME="50610191_pgfId-1681371"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686963"></A>0.197</LI>
+<A NAME="50610191_pgfId-1681373"></A>63.62</LI>
 </UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681375"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681377"></A>-2.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681379"></A>-0.7</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681381"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681383"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptCenter">
+<A NAME="50610191_pgfId-1681385"></A>F</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1686965"></A> 22</P>
+<A NAME="50610191_pgfId-1681387"></A>6A5</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686967"></A>0.009</LI>
+<A NAME="50610191_pgfId-1681389"></A> -3.02</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686969"></A>2.04e-6</LI>
+<A NAME="50610191_pgfId-1681391"></A>-8.35</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686971"></A>1.26e-3</LI>
+<A NAME="50610191_pgfId-1681393"></A>2.83</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686973"></A>0.002</LI>
+<A NAME="50610191_pgfId-1681395"></A>-5.20</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686975"></A>1.72</LI>
+<A NAME="50610191_pgfId-1681397"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686977"></A>0.571</LI>
+<A NAME="50610191_pgfId-1681399"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686979"></A>0.217</LI>
+<A NAME="50610191_pgfId-1681401"></A>1.24</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686981"></A>0.212</LI>
+<A NAME="50610191_pgfId-1681403"></A>0.00</LI>
 </UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681405"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681407"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681409"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681411"></A>-1.6</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681413"></A>-5.6</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptCenter">
+<A NAME="50610191_pgfId-1681415"></A>C</H6>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
 <P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1686983"></A> 1</P>
+<A NAME="50610191_pgfId-1681417"></A>6A6</P>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686985"></A> -</LI>
+<A NAME="50610191_pgfId-1681419"></A> -32.81</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686987"></A>1.26e-5</LI>
+<A NAME="50610191_pgfId-1681421"></A>-9.07</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686989"></A> -</LI>
+<A NAME="50610191_pgfId-1681423"></A>4.41</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686991"></A> -</LI>
+<A NAME="50610191_pgfId-1681425"></A>-4.25</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686993"></A> -</LI>
+<A NAME="50610191_pgfId-1681427"></A>&nbsp;</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686995"></A> -</LI>
+<A NAME="50610191_pgfId-1681429"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686997"></A>0.907</LI>
+<A NAME="50610191_pgfId-1681431"></A>0.00</LI>
 </UL>
 </TD>
 <TD ROWSPAN="1" COLSPAN="1">
 <UL>
 <LI CLASS="CellBody9ptDec-2-">
-<A NAME="50540559_pgfId-1686999"></A>0.093</LI>
+<A NAME="50610191_pgfId-1681433"></A>10.83</LI>
 </UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681435"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681437"></A>-0.9</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681439"></A>0.0 </LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681441"></A>0.0</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-2-">
+<A NAME="50610191_pgfId-1681443"></A>-2.1</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<H6 CLASS="CellBody9ptCenter">
+<A NAME="50610191_pgfId-1681445"></A>E</H6>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1316671"></A>Note in <A HREF="phreeqc3-68.htm#50540559_63916" CLASS="XRef">table 35</A> that 121 solutions are defined, 1 through 20 for the mobile cells, and the rest for the immobile cells. The input file is identical with the previous one, except for -stagnant 5 and the mixing factors among the cells. Although not all the mixing factors are shown in <A HREF="phreeqc3-68.htm#50540559_63916" CLASS="XRef">table 35</A>, the remaining mixing factors are identical for subsequent cells and their neighboring stagnant cells. In this example with clay beads, only radial (1D) diffusion is considered, and only mixing among cells in different layers is defined; however, it is possible to include mixing among the immobile cells of adjacent mobile cells.</P>
+<A NAME="50610191_pgfId-1679458"></A>Simulation 6A1 allows K-feldspar to react until equilibrium with gibbsite is reached. This is set up in the <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> input by specifying equilibrium for gibbsite (saturation index equals 0.0) and an alternative reaction to reach equilibrium, KAlSi3O8 (the formula for K-feldspar). A large amount of K-feldspar (10.0 mol) is present to ensure that equilibrium with gibbsite can be obtained. Kaolinite, K-mica, and K-feldspar are allowed to precipitate if they become saturated (which does not occur in this part of the simulation), but they cannot dissolve because they were given zero initial moles in the phase assemblage. The amount of reaction is the dissolution of precisely enough K-feldspar to reach equilibrium with gibbsite. No gibbsite will dissolve or precipitate; the alternative reactant (KAlSi3O8) will dissolve or precipitate in its place. Simulations 6A2-6A4 perform the same calculations for kaolinite, K-mica, and K-feldspar. At other temperatures or using other minerals, a target phase may remain undersaturated regardless of the amount of the alternative reaction that is added because the phase is unstable relative to the other defined phases. If this were the case, the numerical method would find the amount of the alternative reaction that produces the maximum saturation index for the target phase.</P>
 <DIV>
-<MAP NAME="phreeqc3-264">
+<MAP NAME="phreeqc3-228">
 </MAP>
-<IMG SRC="phreeqc3-264.gif" USEMAP="#phreeqc3-264">
+<IMG SRC="phreeqc3-228.png" style="width:65%" USEMAP="#phreeqc3-228">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1524121"></A>Figure 14 compares the concentration profiles in the mobile cells obtained with examples 13A and 13B with example 13C. The basic features of the two simulations are the same. The positions of the peaks, as calculated by the two simulations, are similar. The Cl<Sup CLASS="Superscript">
--</Sup>
- peak is near 1.2 m, but would be at about 1.45 m in the absence of stagnant zones. The integrated concentrations in the mobile porosity are about equal for the first-order exchange and the finite difference simulations. The exchange factor <EM CLASS="Emphasis">
-fs</EM>
-&#174;1 = 0.21 for the first-order exchange approximation appears to provide adequate accuracy for this simulation. However, the first-order exchange approximation produces lower peaks and more tailing than the more exact solution obtained with finite differences. Discrepancies can also appear as deviations in the breakthrough curve (Van Genuchten, 1985). The first-order exchange model is probably least accurate when applied to simulating the transport behavior of spheres; other shapes of the stagnant area can give a better correspondence. It is clear that the linear exchange model is much easier to apply because any explicit model requires the preparation of extended lists of mixing factors (notice that a separate simulation with <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> can serve that purpose, as illustrated in examples <A HREF="phreeqc3-63.htm#50540559_58878" CLASS="XRef">8</A> and <A HREF="phreeqc3-76.htm#50540559_68313" CLASS="XRef">21</A>), which change when the discretization is adjusted. The calculation time for a finite difference model with multiple immobile-zone layers also may be considerably longer than for the single immobile-zone layer of the first-order exchange approximation.</P>
+<A NAME="50610191_pgfId-1676061"></A>Selected results for simulations 6A1-6A4 are presented in <A HREF="phreeqc3-68.htm#50610191_13293" CLASS="XRef">table 22</A> and are plotted on figure 7 as points A, B, D, and F. The stability fields for the phases, which are based on the thermodynamic data, are calculated and plotted with <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> as explained later. At point B, gibbsite starts to be transformed into kaolinite, a reaction that consumes Si. From this point, the reaction path follows the gibbsite-kaolinite phase boundary until all gibbsite is converted (point C), and then crosses the kaolinite field to point D. Similarly, there is a point E on the kaolinite-K-mica phase boundary, where the reaction path starts crossing the K-mica field to point F. Simulations 6A5 and 6A6 (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>) solve for the two points C and E. In simulation 6A5, point C is calculated by specifying that kaolinite is present at equilibrium, while K-feldspar dissolves until gibbsite is at saturation, but with zero concentration in the phase assemblage. Likewise,  simulation 6A6 solves for the point where K-mica is at saturation and present in the phase assemblage, while kaolinite is at saturation, but with zero concentration (point E). Assigning an initial amount of 1 mol to kaolinite in 6A5 and to K-mica in 6A6 is arbitrary, but the amount must be sufficient to reach equilibrium with the mineral.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1446293"></A>A simpler approach to determining the reaction path is to react K-feldspar incrementally, allowing the stable phase assemblage among gibbsite, kaolinite, K-mica, and K-feldspar to form at each point along the path. The only difficulty in this approach is to know the appropriate amounts of reaction to add. From points A to F in figure 7, K-feldspar dissolution ranges from 0.03 (simulation 6A1, <A HREF="phreeqc3-68.htm#50610191_13293" CLASS="XRef">table 22</A>) to 190.9 mmol (simulation 6A4, <A HREF="phreeqc3-68.htm#50610191_13293" CLASS="XRef">table 22</A>). In simulation 6B (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>) a logarithmic range of reaction increments is used to define the path (solid line) across the phase diagram (fig. 7) from its beginning at gibbsite equilibrium (point A) to equilibrium with K-feldspar (point F). However, the exact locations of points A through F will not be determined with the arbitrary set of reaction increments that are used in simulation 6B (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>). The reaction path calculated by simulation 6B is plotted on the phase diagram in figure 7 with points A through F from simulation 6A (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>) included in the set of points.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1529046"></A>Finally, in the kinetic approach in simulation 6C (<A HREF="phreeqc3-68.htm#50610191_43862" CLASS="XRef">table 21</A>), kinetic dissolution of K-feldspar is followed with time, while the phases gibbsite, kaolinite, and K-mica are allowed to precipitate and redissolve as the kinetic reaction proceeds. <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> 1 is defined to have a small amount of dissolved K-feldspar (1&#215;10<Sup CLASS="Superscript">
+-13</Sup>
+ mol). The solution then contains all elements related to phases in <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, which, although not required for the program to run successfully, eliminates some warning messages.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1482874"></A>During the integration of the reaction rates, a simple dissolution rate law was assumed based on transition-state theory:</P>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610191_pgfId-1482879"></A><A NAME="50610191_32511"></A><IMG SRC="phreeqc3-229.png" ALIGN="MIDDLE">
+,	(20)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610191_pgfId-1482880"></A>where R is the rate, mol cm<Sup CLASS="Superscript">
+-2</Sup>
+s<Sup CLASS="Superscript">
+-1</Sup>
+ (mole per square centimeter per second); <EM CLASS="Emphasis">
+k</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+ is the rate constant, equal to 1&#215;10<Sup CLASS="Superscript">
+-16</Sup>
+ mol cm<Sup CLASS="Superscript">
+-2</Sup>
+s<Sup CLASS="Superscript">
+-1</Sup>
+; m is the amount of kinetic reactant, mol; m<Sub CLASS="Subscript">
+0</Sub>
+ is the initial amount of kinetic reactant, mol; IAP is the ion activity product; and K is the equilibrium constant.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1528796"></A>The <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> data block is used to enter specific data for the kinetic simulation. The stoichiometry of the kinetic reaction is the chemical formula of K-feldspar; by default, the name of the rate is assumed to be a phase defined in the <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block and the formula of the phase is used as the stoichiometry of the reaction. It was assumed that the pristine soil contained 10 percent K-feldspar in the form of 0.1 mm cubes, and had <IMG SRC="phreeqc3-230.png" ALIGN="MIDDLE">
+ g/cm<Sup CLASS="Superscript">
+3</Sup>
+, so that <EM CLASS="Emphasis">
+A/V</EM>
+ = 136/cm. The value of <IMG SRC="phreeqc3-231.png" ALIGN="MIDDLE">
+ = 1.36&#215;10<Sup CLASS="Superscript">
+-11</Sup>
+ mol L<Sup CLASS="Superscript">
+-1</Sup>
+s<Sup CLASS="Superscript">
+-1</Sup>
+ (mole per liter per second) is entered in the <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> data block with the identifier <STRONG CLASS="Bold">
+-parms</STRONG>
+ (assuming that 1 kgw = 1 liter), and can be recalled as &#8220;PARM(1)&#8221; in the Basic rate definition in the <A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef">RATES</A> data block. It was assumed that the soil had already been weathered to some extent, and that only 90 percent of the initial K-feldspar was left [<STRONG CLASS="Bold">
+-m0</STRONG>
+ 2.16 and<STRONG CLASS="Bold">
+ -m</STRONG>
+ 1.94, where <STRONG CLASS="Bold">
+m0</STRONG>
+ indicates the initial mass <BR>
+(1 kg soil &#215; 0.1 = 100 g / 278.3 g/mol = 0.359 mol/kg &#215; 6 kg/L = 2.16 mol/L), and <STRONG CLASS="Bold">
+m</STRONG>
+ is the remaining mass (90 percent of 2.16 is 1.94 mol/L)]. The maximum amount of reaction for any time interval is restricted to 1&#215;10<Sup CLASS="Superscript">
+-6</Sup>
+ mol (<STRONG CLASS="Bold">
+-step_divide</STRONG>
+ 1e-6). Time steps (s) are defined with the identifier <STRONG CLASS="Bold">
+-steps</STRONG>
+. <A HREF="phreeqc3-19.htm#50610177_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A> <STRONG CLASS="Bold">
+true </STRONG>
+causes each new time step to start at the end of the previous time step, so that the total time is the sum of all the time steps (= 1.111111&#215;10<Sup CLASS="Superscript">
+8</Sup>
+ s).</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1528483"></A>The rate for K-feldspar dissolution is defined in the form of Basic statements in the <A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef">RATES</A> data block. To demonstrate some of the features of the Basic interpreter, the Basic program also identifies and saves information at phase transitions, which is printed at the end of the run by using <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A>. The accuracy of locating a phase transition is determined by the user-definable accuracy of the integration. A small tolerance (<STRONG CLASS="Bold">
+-tol</STRONG>
+), a large <STRONG CLASS="Bold">
+-step_divide</STRONG>
+ that is greater than 1 (initial time interval will be divided by this number), or a small <STRONG CLASS="Bold">
+-step_divide</STRONG>
+ that is less than 1 (specifies maximum moles of reaction) will force smaller time intervals and more accurate identification of phase transitions. In this simulation (6C), <STRONG CLASS="Bold">
+-step_divide</STRONG>
+ is set to 1&#215;10<Sup CLASS="Superscript">
+-6</Sup>
+, which limits the maximum amount of reaction for any time interval to be less than 1 micromole. Thus, the amount of reaction to reach a phase transition will be identified with an accuracy of 1 micromole. However, limiting the amount of reaction requires smaller time intervals during the integration and, consequently, more time intervals to complete the integration, which increases the CPU time of the run.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1447385"></A>The purpose of each part of the Basic program is described in <A HREF="phreeqc3-68.htm#50610191_49171" CLASS="XRef">table 23</A>. The functions PUT, GET, and EXISTS are used to manipulate data in static, global storage. The arguments used in the PUT function identify a number and the storage location. For example, PUT(M,i) will place the value of &#8220;M&#8221; in the location identified by the variable i. EXISTS can be used to determine if a storage location contains a number, and GET is used to retrieve data that have been stored. For example, IF EXISTS(i) then m2 = GET(i) will assign the number in location i to m2 if i contains a number, and do nothing if it does not. Once a number has been stored with PUT, it exists for the remainder of the run, unless it is overwritten with another PUT statement in the same location (that is, with the same set of subscripts). Data stored with PUT can be retrieved by any Basic program defined in <A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A>. In this simulation (6C), data are stored by the <A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef">RATES</A> Basic program, and the <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A> Basic program retrieves the data and prints a summary of the phase transitions. Whereas the <A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef">RATES</A> program is run many times during the kinetic integration of a time step, the <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A> program is run only once at the end of each integration time step.</P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50610191_pgfId-1681673"></A>Table 23. <A NAME="50610191_49171"></A>Description of Basic program for K-feldspar dissolution kinetics and identification of phase transitions.</P>
+<P CLASS="TableHeadnote">
+<A NAME="50610191_pgfId-1681674"></A>[mol, mole]</P>
+</CAPTION>
+<TR>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50610191_pgfId-1681678"></A>Line number</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50610191_pgfId-1681680"></A>Purpose</P>
+</TH>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681682"></A>20</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681684"></A>Save initial amount of K-feldspar (1.94 mol)</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681686"></A>40-50</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681688"></A>Integrate K-feldspar dissolution rate over time interval given by TIME.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681690"></A>90-110</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681692"></A>Identify greatest amount of K-feldspar present (least amount of reaction) at which gibbsite is saturated.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681694"></A>160-180</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681696"></A>Identify greatest amount of K-feldspar present at which kaolinite is saturated.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681698"></A>200-230</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681700"></A>Identify greatest amount of K-feldspar present at which kaolinite is saturated, but gibbsite is absent.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681702"></A>250-280</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681704"></A>Identify greatest amount of K-feldspar present at which K-mica is saturated.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681706"></A>300-330</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681708"></A>Identify greatest amount of K-feldspar present at which K-mica is saturated, but kaolinite is absent.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681710"></A>350-380</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681712"></A>Identify greatest amount of K-feldspar present at which K-feldspar is saturated.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681714"></A>1000</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681716"></A>Save integrated reaction.</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681718"></A>1010</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681720"></A>End of Basic program</P>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681722"></A>1500-1560</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody">
+<A NAME="50610191_pgfId-1681724"></A>Subroutine for saving values for phase transitions. If amount of K-feldspar is greater than current saved value for the index <EM CLASS="Emphasis">
+i</EM>
+, save amount of K-feldspar, cumulative time, log activity ratio of potassium ion divided by hydrogen ion, and log activity of silicic acid.</P>
+</TD>
+</TR>
+</TABLE>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1553838"></A><A HREF="phreeqc3-68.htm#50610191_88264" CLASS="XRef">See Phase transitions identified by the RATES Basic program and printed to the output file by the USER_PRINT Basic program in simulation 6C, which simulates the kinetic dissolution of K-feldspar.</A> gives the phase transitions encountered by the end of the last time step of simulation 6C. For each phase transition, the time at which the phase transition occurred, the total amount of K-feldspar that has reacted, and the coordinates of the transition on figure 7 are given. Although the values in <A HREF="phreeqc3-68.htm#50610191_88264" CLASS="XRef">table 24</A> are. approximate, the amount of K-feldspar and the coordinates of the transition can be compared with <A HREF="phreeqc3-68.htm#50610191_13293" CLASS="XRef">table 22</A> As expected, the approximate mole transfers to reach the phase transitions in <A HREF="phreeqc3-68.htm#50610191_88264" CLASS="XRef">table 24</A> (column 3) are within 1 micromole of the values in <A HREF="phreeqc3-68.htm#50610191_13293" CLASS="XRef">table 22</A> (column 2).  </P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50610191_pgfId-1682488"></A>Table 24. <A NAME="50610191_88264"></A>Phase transitions identified by the <STRONG CLASS="Bold">
+RATES</STRONG>
+ Basic program and printed to the output file by the <STRONG CLASS="Bold">
+USER_PRINT</STRONG>
+ Basic program in simulation 6C, which simulates the kinetic dissolution of K-feldspar.</P>
+</CAPTION>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682490"></A>----------------------------------User print-----------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682492"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682494"></A>        Transition                 Time   K-feldspar      LA(K/H)   LA(H4SiO4) </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682496"></A>                                            transfer </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682498"></A>                                            (umoles) </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682500"></A>A: Gibbsite                        1100  1.4048e-001  3.5642e-001 -6.3763e+000 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682502"></A>B: Gibbsite  -&gt; Kaolinite   1.7434e+005  2.2064e+000  2.5575e+000 -5.1950e+000 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682504"></A>C: Gibbsite  -&gt; Kaolinite   2.3929e+005  3.0284e+000  2.8317e+000 -5.1945e+000 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682506"></A>D: Kaolinite -&gt; K-mica      1.5967e+006  2.0194e+001  4.4080e+000 -4.4630e+000 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682508"></A>E: Kaolinite -&gt; K-mica      2.6017e+006  3.2848e+001  4.4087e+000 -4.2499e+000 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682510"></A>F: K-mica    -&gt; K-feldspar  4.7638e+007  1.9074e+002  5.4868e+000 -3.5536e+000 </Pre>
+</TD>
+</TR>
+</TABLE>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1654724"></A>The <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies that a new selected-output file will be used for this simulation, <EM CLASS="Emphasis">
+ex6C.sel</EM>
+, and all printing to the selected-output file is eliminated (<STRONG CLASS="Bold">
+-reset</STRONG>
+ false). The <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A> data block causes two columns to be written to each line of the selected-output file, the log of the ratio of the activities of potassium ion to hydrogen ion and the log activity of silicic acid. The data are written after each time step has been simulated (<STRONG CLASS="Bold">
+-steps</STRONG>
+, <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> data block). <A HREF="phreeqc3-68.htm#50610191_88409" CLASS="XRef">See Results written to the selected-output file by the USER_PUNCH Basic program in simulation 6C, which simulates the kinetic dissolution of K-feldspar.</A> shows the results written to <EM CLASS="Emphasis">
+ex6C.sel</EM>
+.  </P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1674461"></A>The phase boundaries in figure 7 are plotted with <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> at the end of the file. First, a dummy phase &#8220;K_H&#8221; is defined that will provide the activity ratio of K+ and H+ in the solution, which is plotted on the y-axis. The<STRONG CLASS="Bold">
+ -log_k</STRONG>
+ of zero for the reaction is the default value in PHREEQC and may be omitted. The saturation index of a solution for this phase is given by log([K+] / [H+]), and can be obtained  with SI(&quot;K_H&quot;) in a Basic program. Next, four solutions are defined for the points that delimit the phase boundaries, going from top to bottom and from left to right. <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> connects the points with a black line, without symbols, and without entry in the legend (no <STRONG CLASS="Bold">
+-</STRONG>
+headings). After the <A HREF="phreeqc3-12.htm#50610177_63178" CLASS="XRef">END</A>, another four solutions are defined for the phase boundaries from top to bottom and from right to left, and another curve is drawn by redefining line 10 in <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> (in this way avoiding connecting the last bottom-right point with the new top-right point). Note that the text is compacted in this part of the input file by concatenating lines with semicolons, &#8220;;&#8221;.</P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50610191_pgfId-1682038"></A>Table 25. <A NAME="50610191_88409"></A>Results written to the selected-output file by the <STRONG CLASS="Bold">
+USER_PUNCH</STRONG>
+ Basic program in simulation 6C, which simulates the kinetic dissolution of K-feldspar.</P>
+<P CLASS="TableHeadnote">
+<A NAME="50610191_pgfId-1682039"></A>[&#8220;&#92;t&#8221; indicates a tab character]</P>
+</CAPTION>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682041"></A>   pH+log[K]&#92;t	  log[H4SiO4]&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682043"></A>-6.0002e+000&#92;t	  -1.2524e+001&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682045"></A>-1.8975e+000&#92;t	  -8.4212e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682047"></A>-8.5318e-001&#92;t	  -7.3798e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682049"></A> 3.5742e-001&#92;t	  -6.3763e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682051"></A> 2.1790e+000&#92;t	  -5.3817e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682053"></A> 4.1326e+000&#92;t	  -4.6001e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682055"></A> 5.2599e+000&#92;t	  -3.7183e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682057"></A> 5.4872e+000&#92;t	  -3.5533e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682059"></A> 8.0000e+000&#92;t	  -6.3924e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682061"></A> 4.4080e+000&#92;t	  -5.1950e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682063"></A> 4.4080e+000&#92;t	  -3.1935e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682065"></A>-1.0000e+000&#92;t	  -4.9484e-001&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682067"></A> 8.0000e+000&#92;t	  -4.3909e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682069"></A> 4.4080e+000&#92;t	  -3.1935e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682071"></A> 4.4080e+000&#92;t	  -5.1950e+000&#92;t	  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1682073"></A>-1.0000e+000&#92;t	  -5.1950e+000&#92;t	  </Pre>
+</TD>
+</TR>
+</TABLE>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-69.htm">Next</A> || <A HREF="phreeqc3-67.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

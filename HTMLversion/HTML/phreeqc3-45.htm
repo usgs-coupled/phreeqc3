@@ -4,462 +4,147 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> SURFACE</TITLE><HR><P> | <A HREF="phreeqc3-46.htm">Next</A> || <A HREF="phreeqc3-44.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> SELECTED_OUTPUT</TITLE><HR><P> | <A HREF="phreeqc3-46.htm">Next</A> || <A HREF="phreeqc3-44.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-256580"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
-<A NAME="50540545_56392"></A></H2>
+<A NAME="50610177_pgfId-255964"></A><STRONG CLASS="Bold">
+SELECTED_OUTPUT</STRONG>
+<A NAME="50610177_20239"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-577580"></A>This keyword data block is used to define the amount and composition of each surface in a surface assemblage. The composition of a surface assemblage can be defined in two ways: (1) implicitly, by specifying that the surface assemblage is in equilibrium with a solution of fixed composition, or (2) explicitly, by defining the amounts of the surfaces in their neutral form (for example, SurfbOH). A surface assemblage may have multiple surfaces and each surface may have multiple binding sites, which are identified by lowercase letters following an underscore. Three types of surfaces are available: DDL (diffuse-double layer) surfaces (Dzombak and Morel, 1990), CD-MUSIC (Charge Distribution MUltiSIte Complexation) surfaces (Hiemstra and Van Riemsdijk, 1996), and non electrostatic surfaces. For DDL and CD-MUSIC surfaces, the composition of the diffuse layer that balances the charged surface can be calculated explicitly (optional). For DDL, the diffuse-layer composition can be calculated by the method of Borkovec and Westall (1983) or by the Donnan approach. For CD-MUSIC, the diffuse-layer composition can be calculated only by the Donnan approach.</P>
+<A NAME="50610177_pgfId-641416"></A>This keyword data block is used to produce a file that is suitable for processing by spreadsheets and other data-management software. It is possible to print selected entities from the compositions of the solution, exchange assemblage, gas phase, pure-phase assemblage, solid-solution assemblage, and surface assemblage after the completion of each type of calculation. The selected-output file contains a column for each data item defined through the identifiers of <STRONG CLASS="Bold">
+SELECTED_OUTPUT</STRONG>
+ and a row for each calculation. <EM CLASS="ChangeFont">
+Default print settings for SELECTED_OUTPUT 1 are shown in Lines 1-2, 4-18 and 30 of the following Example data block. For SELECTED_OUTPUT n, n not equal to 1, default print settings are equivalent to -reset false. Multiple SELECTED_OUTPUT definitions using different values of n are possible; each is used to write a different file. USER_PUNCH n writes to the file defined in  SELECTED_OUTPUT n. </EM>
+The following identifiers for SELECTED_OUTPUT are listed in the order in which they are written to the selected-output file.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256582"></A><A NAME="50540545_66990"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256583"></A>Line 0:  SURFACE 1 Surface in equilibrium with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256584"></A>Line 1:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256585"></A>Line 2:	Surfa_w		1.0     1000.     0.33</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256586"></A>Line 2a:	Surfa_s		0.01</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-989117"></A>Line 2b:	Surfb		0.5     1000.     0.33</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256587"></A><EM CLASS="ChangeFont">Line 11:	-ddl</EM>
+<A NAME="50610177_pgfId-641389"></A><A NAME="50610177_81307"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255967"></A>Line 0: SELECTED_OUTPUT <EM CLASS="ChangeFont">1</EM>
 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-509062"></A>Line 0a:  SURFACE 2 Explicit diffuse layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-509063"></A>Line 1a:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-509065"></A>Line 3:	-sites_units		absolute</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-509066"></A>Line 2c:	Surfa_w		1.0	1000.	0.33		</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565062"></A>Line 2d:	Surfa_s		0.01</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-509068"></A>Line 2e:	Surfb		0.5	1000.	0.33		</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-569010"></A>Line 4:	-diffuse_layer		2e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565069"></A>Line 0b: SURFACE 3 CD_MUSIC surface with Donnan layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507979"></A>Line 1b:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-569082"></A>Line 3a:	-sites_units		density</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-569083"></A>Line 5:	-cd_music</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-569084"></A>Line 2f:	Goe_uni		3.45	96.8	16.52</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-638343"></A>Line 2g:	Goe_tri		2.7</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-638344"></A>Line 6:	-capacitances		0.98	0.73</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-638345"></A>Line 7:	-Donnan		1e-8</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-569077"></A>Line 8:	-only_counter_ions			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565055"></A>Line 0c: SURFACE 4 Sites related to pure phase and kinetic reactant</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507993"></A>Line 1c:	-equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507994"></A>Line 9:	Surfc_wOH   Fe(OH)3(a)  equilibrium_phase 0.1     1e5</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507995"></A>Line 9a:	Surfc_sOH   Fe(OH)3(a)  equilibrium_phase 0.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507996"></A>Line 9b:	Surfd_sOH   Al(OH)3(a)  kinetic_reactant  0.001   2e4</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507997"></A>Line 10:	-no_edl </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565077"></A>Line 0d: SURFACE 5 Clay surface with diffusion through Donnan layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565078"></A>Line 1d:	-equilibrate with solution 5</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565079"></A>Line 2h:	Clay_planar		1.59     37.     1.407e4</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565080"></A>Line 2i:	Clay_ii		0.01</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565081"></A>Line 2j:	Clay_fes		0.85e-3</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565082"></A>Line 7a:	-Donnan		9.6e-10 viscosity 1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565083"></A>Line 8a:	-only_counter_ions true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565085"></A>Line 0e: SURFACE 6 Clay surface with variable Donnan layer</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565086"></A>Line 1e:	-equilibrate with solution 6</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565087"></A>Line 2k:	Clay_planar		1.59     37.     1.407e4</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565088"></A>Line 7b:	-Donnan		debye_lengths 3.4 limit_ddl 0.9 viscosity 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565090"></A>Line 0f: SURFACE 7 Colloidal Ferrihydrite particles</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565091"></A>Line 1f:	-equilibrate with solution 7</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565092"></A>Line 2l:	Hfo_w		2.4e-3   600   1.06   Dw 1e-11</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565093"></A>Line 2m:	Hfo_s		6e-5</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-565094"></A>Line 7c:	-Donnan		1e-12</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328609"></A>Line 1:	-file			selected.out</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328662"></A>Line 2:	-high_precision			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328571"></A>Line 3:	-reset			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328603"></A>Line 4:	-simulation			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328452"></A>Line 5:	-state			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328453"></A>Line 6:	-solution			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328454"></A>Line 7:	-distance			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328455"></A>Line 8:	-time 			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328456"></A>Line 9:	-step			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328457"></A>Line 10:	-pH			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328458"></A>Line 11:	-pe			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328459"></A>Line 12:	-reaction			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328460"></A>Line 13:	-temperature			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328461"></A>Line 14:	-alkalinity			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328462"></A>Line 15:	-ionic_strength			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328463"></A>Line 16:	-water			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328464"></A>Line 17:	-charge_balance			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328527"></A>Line 18:	-percent_error			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328468"></A>Line 19:	-totals			Hfo_s  C  C(4)  C(-4)  N  N(0)  </pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255970"></A>Line 20:				Fe  Fe(3)  Fe(2)  Ca  Mg  Na  Cl</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328542"></A>Line 21:	-molalities			Fe+2  Hfo_sOZn+  ZnX2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255972"></A>Line 22:	-activities			H+  Ca+2  CO2  HCO3-  CO3-2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328672"></A>Line 23:	-equilibrium_phases			Calcite Dolomite  Sphalerite</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255974"></A>Line 24:	-saturation_indices			CO2(g)  Siderite</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-328544"></A>Line 25:	-gases			CO2(g)  N2(g)     O2(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255976"></A>Line 26:	-kinetic_reactants			CH2O    Pyrite</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255977"></A>Line 27:	-solid_solutions			CaSO4   SrSO4</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-501290"></A>Line 28:	-isotopes			R(D) R(D)_H3O+ R(D)_H2O(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-985326"></A>Line 29:	-calculate_values			R(D) R(D)_H3O+ R(D)_H2O(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-985327"></A>Line 30:	-inverse_modeling			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-985394"></A><EM CLASS="ChangeFont">Line 31:	-active			true</EM>
+</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-985410"></A><EM CLASS="ChangeFont">Line 32:	-user_punch			true</EM>
+</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256598"></A><A NAME="50540545_76143"></A>Explanation 1</H6>
+<A NAME="50610177_pgfId-985396"></A><A NAME="50610177_63910"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-256599"></A>Line 0: <STRONG CLASS="Bold">
-SURFACE</STRONG>
- [<EM CLASS="Emphasis">
-number</EM>
-] [<EM CLASS="Emphasis">
-description</EM>
-]</P>
-<P CLASS="Body1">
-<A NAME="50540545_pgfId-638339"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
- is the keyword for the data block. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638340"></A><EM CLASS="Emphasis">
-number</EM>
---A positive number designates the surface assemblage and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
-m-n</EM>
-, where <EM CLASS="Emphasis">
-m</EM>
- and <EM CLASS="Emphasis">
-n</EM>
- are positive integers, <EM CLASS="Emphasis">
-m</EM>
- is less than <EM CLASS="Emphasis">
-n</EM>
-, and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638331"></A><EM CLASS="Emphasis">
-description</EM>
---Optional comment that describes the surface assemblage.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638332"></A>Line 1: <STRONG CLASS="Bold">
--equilibrate</STRONG>
-<EM CLASS="Emphasis">
- number</EM>
+<A NAME="50610177_pgfId-985397"></A><EM CLASS="ChangeFont">
+Line 0: SELECTED_OUTPUT [number] [description]</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638322"></A><STRONG CLASS="Bold">
--equilibrate</STRONG>
---Indicates that the surface assemblage is defined to be in equilibrium with a given solution composition. Optionally, <STRONG CLASS="Bold">
-equil</STRONG>
-,<STRONG CLASS="Bold">
- equilibrate</STRONG>
-, <STRONG CLASS="Bold">
--e</STRONG>
-[<STRONG CLASS="Bold">
-quilibrate</STRONG>
-], <STRONG CLASS="Bold">
-equilibrium</STRONG>
-, or <STRONG CLASS="Bold">
--e</STRONG>
-[<STRONG CLASS="Bold">
-quilibrium</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638314"></A><EM CLASS="Emphasis">
-number</EM>
---Solution number with which the surface assemblage is to be in equilibrium. Any alphabetic characters following the identifier and preceding an integer (&#8220;with solution&#8221; in Line 1) are ignored.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638304"></A>Line 2: <EM CLASS="Emphasis">
-surface binding site, </EM>
-(<EM CLASS="Emphasis">
-sites </EM>
-or<EM CLASS="Emphasis">
- site density</EM>
-)<EM CLASS="Emphasis">
-, specific_area_per_gram, grams, </EM>
-[<STRONG CLASS="Bold">
-Dw</STRONG>
-<EM CLASS="Emphasis">
- coefficient</EM>
-]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638305"></A><EM CLASS="Emphasis">
-surface binding site</EM>
---Name of a surface binding site.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638306"></A><EM CLASS="Emphasis">
-sites</EM>
---Total number of sites for this binding site, in moles; applies when <STRONG CLASS="Bold">
--sites_units</STRONG>
- is <STRONG CLASS="Bold">
-absolute</STRONG>
-.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638292"></A><EM CLASS="Emphasis">
-site density</EM>
---Site density for this binding site, in sites per square nanometer; applies when <STRONG CLASS="Bold">
--sites_units</STRONG>
- is <STRONG CLASS="Bold">
-density</STRONG>
-.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638279"></A><EM CLASS="Emphasis">
-specific_area_per_gram</EM>
---Specific area of surface, in m<Sup CLASS="Superscript">
-2</Sup>
-/g (square meter per gram). Default is 600 m<Sup CLASS="Superscript">
-2</Sup>
-/g.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638271"></A><EM CLASS="Emphasis">
-grams</EM>
---Mass of solid for calculation of surface area, g (gram); surface area is <EM CLASS="Emphasis">
-grams </EM>
-times<EM CLASS="Emphasis">
- specific_area_per_gram</EM>
-. Default is 0 g.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638260"></A><STRONG CLASS="Bold">
-Dw</STRONG>
-<EM CLASS="Emphasis">
- coefficient</EM>
---Optional diffusion coefficient for the surface, m<Sup CLASS="Superscript">
-2</Sup>
-/s; applies only when <STRONG CLASS="Bold">
--multi_D </STRONG>
-is true in a <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> calculation. If coefficient &gt; 0, the surface is transported as a colloid with advective, dispersive, and diffusive transport. Default is 0 m<Sup CLASS="Superscript">
-2</Sup>
-/s, which means the surface is immobile. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638248"></A>Line 3: <STRONG CLASS="Bold">
--sites_units </STRONG>
-(<STRONG CLASS="Bold">
-absolute</STRONG>
- or <STRONG CLASS="Bold">
-density</STRONG>
-)</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638249"></A><STRONG CLASS="Bold">
--sites_units</STRONG>
---Identifier specifies the units for the sites definition. <STRONG CLASS="Bold">
-Absolute</STRONG>
- indicates the number of surface sites is given in moles; <STRONG CLASS="Bold">
-density</STRONG>
- indicates that the site density is given in sites per square nanometer of surface area. The choice of units applies to all surfaces in the surface assemblage. Default is <STRONG CLASS="Bold">
-absolute </STRONG>
-if <STRONG CLASS="Bold">
--sites_units</STRONG>
- is not included. Optionally, <STRONG CLASS="Bold">
-sites_units</STRONG>
-, <STRONG CLASS="Bold">
-site_units</STRONG>
-, <STRONG CLASS="Bold">
--s</STRONG>
-[<STRONG CLASS="Bold">
-ite_units</STRONG>
-], or <STRONG CLASS="Bold">
--s</STRONG>
-[<STRONG CLASS="Bold">
-ites_units</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638241"></A><STRONG CLASS="Bold">
-absolute</STRONG>
- or <STRONG CLASS="Bold">
-density</STRONG>
---<STRONG CLASS="Bold">
-Absolute</STRONG>
- indicates the number of sites is given in moles; <STRONG CLASS="Bold">
-density</STRONG>
- indicates the site density is given and the number of sites is calculated from the site density and the surface area. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638232"></A>Line 4: <STRONG CLASS="Bold">
--diffuse_layer </STRONG>
-[<EM CLASS="Emphasis">
-thickness</EM>
-]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638233"></A><STRONG CLASS="Bold">
--diffuse_layer</STRONG>
---Indicates that the composition of the diffuse layer will be calculated, such that the net surface charge plus the net charge in the diffuse layer will sum to zero. See Notes 1following this section. Either <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- or <STRONG CLASS="Bold">
--Donnan</STRONG>
- is necessary to calculate the explicit diffuse-layer composition that counterbalances the surface charge. The identifiers <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-,<STRONG CLASS="Bold">
- -Donnan</STRONG>
-, and <STRONG CLASS="Bold">
--no_edl</STRONG>
- are mutually exclusive and apply to all surfaces in the surface assemblage. The <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- option is not available when using a CD-MUSIC surface (<STRONG CLASS="Bold">
--cd_music</STRONG>
-). Optionally, <STRONG CLASS="Bold">
-diffuse_layer</STRONG>
- or <STRONG CLASS="Bold">
--d</STRONG>
-[<STRONG CLASS="Bold">
-iffuse_layer</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638224"></A><EM CLASS="Emphasis">
-thickness</EM>
---Thickness of the diffuse layer, m (meter). Default is 10<Sup CLASS="Superscript">
--8</Sup>
- m (equals 100 angstrom).</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-736717"></A>Line 5: <STRONG CLASS="Bold">
--cd_music </STRONG>
+<A NAME="50610177_pgfId-255996"></A><EM CLASS="ChangeFont">
+SELECTED_OUTPUT is the keyword for the data block. Optionally, SELECTED_OUT, SELECT_OUTPUT, or SELECT_OUT. </EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-736718"></A><STRONG CLASS="Bold">
--cd_music</STRONG>
---Indicates that the surfaces in the surface assemblage are CD-MUSIC surfaces. See Notes 1 for using diffuse double layer and <STRONG CLASS="Bold">
--no_edl</STRONG>
- surfaces in a CD-MUSIC surface assemblage. Optionally, <STRONG CLASS="Bold">
-cd_music</STRONG>
- or <STRONG CLASS="Bold">
--cd</STRONG>
-[<STRONG CLASS="Bold">
-_music</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-736782"></A>Line 6: <STRONG CLASS="Bold">
--capacitances </STRONG>
-<EM CLASS="Emphasis">
-c</EM>
-<Sub CLASS="Subscript">
-1</Sub>
-, <EM CLASS="Emphasis">
-c</EM>
-<Sub CLASS="Subscript">
-2</Sub>
+<A NAME="50610177_pgfId-985231"></A><EM CLASS="ChangeFont">
+number--Positive number to designate this selected-output definition. Default is 1.</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-736783"></A><STRONG CLASS="Bold">
--capacitances</STRONG>
---Identifier specifies the capacitances for the CD-MUSIC surface. Different surfaces within the surface assemblage may have different capacitances. This option has effect only when <STRONG CLASS="Bold">
--cd_music</STRONG>
- is defined. Defaults are <EM CLASS="Emphasis">
-c</EM>
-<Sub CLASS="Subscript">
-1</Sub>
- = 1 and <EM CLASS="Emphasis">
-c</EM>
-<Sub CLASS="Subscript">
-2</Sub>
- = 5 F/m<Sup CLASS="Superscript">
-2 </Sup>
-(farad per square meter) if <STRONG CLASS="Bold">
--capacitances</STRONG>
- is not included. Optionally, <STRONG CLASS="Bold">
-capacitances</STRONG>
- or <STRONG CLASS="Bold">
--ca</STRONG>
-[<STRONG CLASS="Bold">
-pacitances</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-736784"></A><EM CLASS="Emphasis">
-c</EM>
-<Sub CLASS="Subscript">
-1</Sub>
---Capacitance for the 0-1 plane in the CD-MUSIC formulation, F/m<Sup CLASS="Superscript">
-2</Sup>
-. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-736785"></A><EM CLASS="Emphasis">
-c</EM>
-<Sub CLASS="Subscript">
-2</Sub>
---Capacitance for the 1-2 plane in the CD-MUSIC formulation, F/m<Sup CLASS="Superscript">
-2</Sup>
-. </P>
+<A NAME="50610177_pgfId-985232"></A><EM CLASS="ChangeFont">
+description--Optional comment that describes the selected-output  data.</EM>
+</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638225"></A>Line 7: <STRONG CLASS="Bold">
--Donnan </STRONG>
-[(<EM CLASS="Emphasis">
-thickness</EM>
- or <STRONG CLASS="Bold">
-debye_lengths</STRONG>
-<EM CLASS="Emphasis">
- lengths </EM>
-[<STRONG CLASS="Bold">
-limit_ddl</STRONG>
-<EM CLASS="Emphasis">
- limit</EM>
-])] [<STRONG CLASS="Bold">
-viscosity</STRONG>
+<A NAME="50610177_pgfId-641380"></A>Line 1: <STRONG CLASS="Bold">
+-file</STRONG>
  <EM CLASS="Emphasis">
-fraction</EM>
-]</P>
+file name</EM>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638215"></A><STRONG CLASS="Bold">
--Donnan</STRONG>
---Indicates that the Donnan approach will be used to calculate the composition of the diffuse layer. The identifiers <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-,<STRONG CLASS="Bold">
- -Donnan</STRONG>
-, and <STRONG CLASS="Bold">
--no_edl</STRONG>
- are mutually exclusive and apply to all surfaces in the surface assemblage. The <STRONG CLASS="Bold">
--Donnan</STRONG>
- option is available when using diffuse-double-layer (default) or CD-MUSIC (<STRONG CLASS="Bold">
--cd_music</STRONG>
-) surfaces. Optionally, <STRONG CLASS="Bold">
-Donnan</STRONG>
+<A NAME="50610177_pgfId-641381"></A><STRONG CLASS="Bold">
+-file</STRONG>
+--Identifier allows definition of the name of the file where the selected results are written. Optionally, <STRONG CLASS="Bold">
+file</STRONG>
  or <STRONG CLASS="Bold">
--Do</STRONG>
+-f</STRONG>
 [<STRONG CLASS="Bold">
-nnan</STRONG>
-] (as with all identifiers, case insensitive).</P>
+ile</STRONG>
+]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638206"></A><EM CLASS="Emphasis">
-thickness</EM>
---Thickness of the diffuse layer in meters. Default is 10<Sup CLASS="Superscript">
--8</Sup>
- m.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638207"></A><STRONG CLASS="Bold">
-debye_lengths</STRONG>
-<EM CLASS="Emphasis">
- lengths</EM>
---Either <EM CLASS="Emphasis">
-thickness</EM>
- or<EM CLASS="Emphasis">
- </EM>
-<STRONG CLASS="Bold">
-debye_lengths</STRONG>
-<EM CLASS="Emphasis">
- </EM>
-may be used to define the thickness of the diffuse layer. If<STRONG CLASS="Bold">
- debye_lengths </STRONG>
-is used, the Debye length is calculated from the ionic strength of the solution. The thickness of the diffuse double layer is calculated by the product of <EM CLASS="Emphasis">
-lengths</EM>
- times the Debye length (Appelo and Wersin, 2007). </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638189"></A><STRONG CLASS="Bold">
-limit_ddl</STRONG>
-<EM CLASS="Emphasis">
- limit</EM>
---If <STRONG CLASS="Bold">
-debye_lengths </STRONG>
-is specified, then, optionally, the amount of water contained in the diffuse layer can be limited. <EM CLASS="Emphasis">
-Limit</EM>
- is the fraction of the total water (pore space plus diffuse double layer water) that can be in the diffuse double layer. Default for <EM CLASS="Emphasis">
-limit</EM>
- is 0.8.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638181"></A><STRONG CLASS="Bold">
-viscosity</STRONG>
- <EM CLASS="Emphasis">
-fraction</EM>
---When considering multicomponent diffusion in a <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> calculation (<STRONG CLASS="Bold">
--multi_D</STRONG>
- true), <EM CLASS="Emphasis">
-fraction</EM>
- affects the diffusion of ions in the diffuse layer. <EM CLASS="Emphasis">
-Fraction </EM>
-is the viscosity in the diffuse layer relative to the viscosity in the free pore space. Default is 1.0. </P>
+<A NAME="50610177_pgfId-641373"></A><EM CLASS="Emphasis">
+file name</EM>
+--File name where selected results are written. If the file exists, the contents will be overwritten. File names must conform to operating system conventions. Default is <STRONG CLASS="Bold">
+selected.out</STRONG>
+.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638166"></A>Line 8: <STRONG CLASS="Bold">
--only_counter_ions </STRONG>
+<A NAME="50610177_pgfId-641321"></A>Line 2: <STRONG CLASS="Bold">
+-high_precision </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638167"></A><STRONG CLASS="Bold">
--only_counter_ions</STRONG>
---Indicates that the surface charge will be counterbalanced in the diffuse layer with counter-ions only (the sign of charge of counter-ions is opposite to the surface charge). This option has effect only when <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- or <STRONG CLASS="Bold">
--Donnan</STRONG>
- is defined. When <STRONG CLASS="Bold">
--only_counter_ions</STRONG>
- is true and <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- is used, charge balance by co-ion exclusion is neglected (co-ions have the same sign of charge as the surface), meaning that co-ions have the same concentration in the diffuse layer as in the free pore space. When <STRONG CLASS="Bold">
--only_counter_ions</STRONG>
- is true and <STRONG CLASS="Bold">
--Donnan</STRONG>
- is used, co-ions are completely excluded from the diffuse layer. See Notes 1 following this section. Default is <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-986967"></A><STRONG CLASS="Bold">
+-high_precision</STRONG>
+--Prints results to the selected-output file with extra numerical precision (12 decimal places, default is 3 or 4). <EM CLASS="ChangeFont">
+High precision is defined individually for each selected-output file. </EM>
+In addition, the criterion for convergence of the calculations is set to 1<EM CLASS="Emphasis">
+&#215;</EM>
+10<Sup CLASS="Superscript">
+-12</Sup>
+ (default is 1<EM CLASS="Emphasis">
+&#215;</EM>
+10<Sup CLASS="Superscript">
+-8</Sup>
+). The convergence criterion also may be set by <STRONG CLASS="Bold">
+-convergence_tolerance</STRONG>
+ in <A HREF="phreeqc3-25.htm#50610177_95186" CLASS="XRef">KNOBS</A> data block. Default is <STRONG CLASS="Bold">
 false </STRONG>
-if <STRONG CLASS="Bold">
--only_counter_ions </STRONG>
-is not included. Optionally, <STRONG CLASS="Bold">
-only_counter_ions</STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+high_precision</STRONG>
  or <STRONG CLASS="Bold">
--o</STRONG>
+-h</STRONG>
 [<STRONG CLASS="Bold">
-nly_counter_ions</STRONG>
+igh_precision</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638159"></A><EM CLASS="Emphasis">
-(True</EM>
+<A NAME="50610177_pgfId-937551"></A>(<EM CLASS="Emphasis">
+True</EM>
  or <EM CLASS="Emphasis">
-False)</EM>
---<STRONG CLASS="Bold">
-True </STRONG>
-indicates that the surface charge will be balanced by a surplus of counter-ions in the diffuse layer; <STRONG CLASS="Bold">
-false </STRONG>
-indicates that surface charge will be balanced by a counter-ion surplus and a co-ion deficit in the diffuse layer relative to the bulk solution. Optionally, <STRONG CLASS="Bold">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, output is written to the selected-output file with extra decimal places; if <STRONG CLASS="Bold">
+false</STRONG>
+, output to the selected-output file is written with normal precision. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
 t</STRONG>
 [<STRONG CLASS="Bold">
 rue</STRONG>
@@ -467,527 +152,1126 @@ rue</STRONG>
 f</STRONG>
 [<STRONG CLASS="Bold">
 alse</STRONG>
-]. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638125"></A>Line 9: <EM CLASS="Emphasis">
-surface binding-site formula, name, </EM>
-[(<STRONG CLASS="Bold">
-equilibrium_phase </STRONG>
-or<STRONG CLASS="Bold">
- kinetic_reactant</STRONG>
-)]<EM CLASS="Emphasis">
-, sites_per_mole, specific_area_per_mole</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-719065"></A><EM CLASS="Emphasis">
-surface binding-site formula</EM>
---Formula for surface species including stoichiometry of surface site and other surface-complexed elements connected with a pure phase or kinetic reactant. The formula must be charge balanced and is normally the OH-form of the surface binding site. If no elements other than the surface site are included in the formula, then the surface site must be uncharged. If elements are included in the formula and the surface is reacted with a solution, then these elements, in proportion to the mineral present, will be available to desorb and possibly be incorporated in other solids in the system. Further, if the mineral or kinetic reactant is dissolved, these elements will be removed from the solution and (or) other solids in the system in proportion to the mineral or kinetic reactant dissolution.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-719213"></A><EM CLASS="Emphasis">
-name</EM>
---Name of the pure phase or kinetic reactant that has this kind of surface site. If <EM CLASS="Emphasis">
-name</EM>
- is the name of a phase, the moles of the phase in the <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block with the same number as this surface number (4 for Lines 9 and 9a) will be used to determine the number of moles of surface sites (moles of phase times <EM CLASS="Emphasis">
-sites_per_mole</EM>
- equals moles of surface sites). If <EM CLASS="Emphasis">
-name</EM>
- is the rate name for a kinetic reactant, then the moles of the reactant in the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block with the same number as this surface number (4 for line 9b) will be used to determine the number of surface sites (moles of kinetic reactant times <EM CLASS="Emphasis">
-sites_per_mole</EM>
- equals moles of surface sites). Note that the stoichiometry of the phase or reactant must contain sufficient amounts of the elements in the surface complexes defined in Line 3. In the Example data block 1, there must be at least 0.101 mol of oxygen and hydrogen per mole of Fe(OH)3(a).</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-766688"></A><STRONG CLASS="Bold">
-equilibrium_phase </STRONG>
-or<STRONG CLASS="Bold">
- kinetic_reactant</STRONG>
---If <STRONG CLASS="Bold">
-equilibrium_phase</STRONG>
- is used, the <EM CLASS="Emphasis">
-name</EM>
- on the line is a phase defined in an <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block. If <STRONG CLASS="Bold">
-kinetic_reactant</STRONG>
- is used, the name on the line is the rate name for a kinetic reactant defined in a <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block. Default is <STRONG CLASS="Bold">
-equilibrium_phase</STRONG>
-. Optionally, <STRONG CLASS="Bold">
-e</STRONG>
- or <STRONG CLASS="Bold">
-k</STRONG>
-; only the first letter is checked. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-766695"></A><EM CLASS="Emphasis">
-sites_per_mole</EM>
---Moles of surface sites per mole of phase or kinetic reactant, unitless (mol/mol).</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-766696"></A><EM CLASS="Emphasis">
-specific_area_per_mole</EM>
---Specific area of surface, in m<Sup CLASS="Superscript">
-2</Sup>
-/mol (square meter per mole) of equilibrium phase or kinetic reactant. Default is 0 m<Sup CLASS="Superscript">
-2</Sup>
-/mol. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638025"></A>Line 10: <STRONG CLASS="Bold">
--no_edl</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638026"></A><STRONG CLASS="Bold">
--no_edl</STRONG>
---Indicates that no electrostatic terms will be used in the mass-action equations for surface species and no explicit calculation of the diffuse-layer composition is performed. The identifiers <STRONG CLASS="Bold">
--no_edl</STRONG>
-, <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-, and <STRONG CLASS="Bold">
--Donnan</STRONG>
- are mutually exclusive and apply to all surfaces in the surface assemblage. Optionally, <STRONG CLASS="Bold">
-no_edl</STRONG>
-, <STRONG CLASS="Bold">
--n</STRONG>
-[<STRONG CLASS="Bold">
-o_edl</STRONG>
-], <STRONG CLASS="Bold">
-no_electrostatic</STRONG>
-, <STRONG CLASS="Bold">
--n</STRONG>
-[<STRONG CLASS="Bold">
-o_electrostatic</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-989149"></A><EM CLASS="ChangeFont">
-Line 11: -ddl</EM>
-</P>
+<A NAME="50610177_pgfId-937552"></A>Line 3: <STRONG CLASS="Bold">
+-reset </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-989150"></A><EM CLASS="ChangeFont">
--ddl--Indicates that the diffuse double layer model will be used for all surfaces defined in this SURFACE data block. The diffuse double layer model is the default and will be used if neither -cd_music nor -no_edl is defined. Optionally, ddl, -dd[l].</EM>
-</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256622"></A><A NAME="50540545_28369"></A>Notes 1</H6>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256623"></A>The databases included with PHREEQC contain thermodynamic data for a diffuse-double-layer surface named &#8220;Hfo&#8221; (Hydrous ferric oxide) that are derived from Dzombak and Morel (1990). Two sites are defined for this surface: a strong binding site, Hfo_s, and a weak binding site, Hfo_w. Note that Dzombak and Morel (1990) used 0.2 mol weak sites and 0.005 mol strong sites per mol Fe, a surface area of 5.33<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
-4</Sup>
- m<Sup CLASS="Superscript">
-2</Sup>
-/mol Fe, and a gram-formula weight of 89 g Hfo/mol Fe; to be consistent with their model, the relative number of strong and weak sites should remain constant as the total number of sites varies. To facilitate consistency, the identifier <STRONG CLASS="Bold">
--sites_units</STRONG>
- <STRONG CLASS="Bold">
-density</STRONG>
- can be used, which calculates the number of sites from the site density (sites per square nanometer), the specific surface area (square meter per gram), and the mass (grams).</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-565777"></A>A surface assemblage can have multiple surfaces, each of which can have multiple site types. <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 1 in Example data block 1 has two surfaces, Surfa and Surfb. Surfa has two binding sites, Surfa_w and Surfa_s; they share the same surface area and have the same electrostatic potential. The link between the two is indicated by the shared surface name, which is followed by an underscore, &#8220;_&#8221;, and other letter(s) to distinguish the two types of sites. The surface area and mass for Surfa must be defined in the input data for at least one of the two binding sites. Surfb has only one kind of binding site and the area and mass must be defined as part of the input for the single binding site. <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 2 is the same as <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 1 except that an explicit calculation of the composition of the diffuse layer is specified. The identifier <STRONG CLASS="Bold">
--sites_units absolute</STRONG>
- is equivalent to the default that is used in <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 1. </P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-704368"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
- 3 defines a CD-MUSIC surface. The data are based on a description of binding on goethite (Hiemstra and Van Riemsdijk, 1996; Rahnemaie and others, 2006) that has two site types (Goe_uni and Goe_tri). The identifiers <EM CLASS="ChangeFont">
--ddl,</EM>
- <STRONG CLASS="Bold">
--equilibrate</STRONG>
-, <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-, <STRONG CLASS="Bold">
--sites_units</STRONG>
-, <STRONG CLASS="Bold">
--cd_music</STRONG>
-, <STRONG CLASS="Bold">
--Donnan</STRONG>
-, <STRONG CLASS="Bold">
--only_counter_ions</STRONG>
-, and <STRONG CLASS="Bold">
--no_edl</STRONG>
- apply to all surfaces and site types in the surface assemblage. The identifier <STRONG CLASS="Bold">
--capacitances</STRONG>
- is defined for each individual CD-MUSIC surface and does not apply to the entire surface assemblage. A combination of CD-MUSIC, diffuse double layer, and <STRONG CLASS="Bold">
--no_edl</STRONG>
- surfaces cannot be used directly in a <STRONG CLASS="Bold">
-SURFACE</STRONG>
- assemblage. However, a diffuse-double-layer surface, like Surfa in <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 1, will keep its properties in a CD-MUSIC surface assemblage when defined with very high capacitances; for example, <STRONG CLASS="Bold">
--capacitances</STRONG>
- 1e5 1e5. Similarly, a <STRONG CLASS="Bold">
--no_edl </STRONG>
-surface will keep its properties in a diffuse-double-layer surface if the surface area is very large (1<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
-10</Sup>
- m<Sup CLASS="Superscript">
-2</Sup>
- [square meter] for the product of <EM CLASS="Emphasis">
-specific_area_per_gram</EM>
- and <EM CLASS="Emphasis">
-grams</EM>
-). By extension, a <STRONG CLASS="Bold">
--no_edl</STRONG>
- surface will keep its properties when defined in a CD_MUSIC surface assemblage if the surface area and capacitances are large. Thus, with these special definitions,<STRONG CLASS="Bold">
- -cd_music</STRONG>
- can be used to model simultaneously all of the available types of surfaces (<STRONG CLASS="Bold">
--no_edl</STRONG>
-, diffuse double layer, and CD-MUSIC). If a <STRONG CLASS="Bold">
--no_edl</STRONG>
- surface with a large surface area is included in an assemblage together with identifier <STRONG CLASS="Bold">
--Donnan</STRONG>
-, the thickness may have to be set <EM CLASS="Emphasis">
-to a small number</EM>
- to avoid the situation where the volume of EDL water becomes unrealistically large.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-665911"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
- 4 has one surface, Surfc, which has two binding sites, Surfc_w and Surfc_s. The number of binding sites for these two kinds of sites is determined by the amount of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4, where 4 is the same number as the surface number. If <EM CLASS="Emphasis">
-m</EM>
- represents the moles of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4, then the number of sites of Surfc_w is 0.1<EM CLASS="Emphasis">
-m (</EM>
-mol) and of Surfc_s is 0.001<EM CLASS="Emphasis">
-m</EM>
- (mol). The surface area for Surfc is defined relative to the moles of Fe(OH)3(a), such that the surface area is 100,000<EM CLASS="Emphasis">
-m </EM>
-(m<Sup CLASS="Superscript">
-2</Sup>
-). During batch-reaction simulations the moles of Fe(OH)3(a) in <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 4 may change, in which case the number of sites of Surfc will change as will the surface area associated with Surfc. Whenever Fe(OH)3(a) precipitates, the specified amounts of Surfc_wOH and Surfc_sOH are formed and all the species that are surface-complexed and in the electrical double layer will be taken from the elements in the system. These formulas are charge balanced and the OH groups are part of the formula for Fe(OH)3(a). The OH is not used in the initial surface-composition calculation, but is critical when amounts of Fe(OH)3(a) vary. Erroneous results will occur if the formula is not charge balanced, and a warning message will be printed if the elements in the surface complex (other than the surface site itself) are not contained in sufficient quantities in the equilibrium phase or kinetic formula. </P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-638015"></A>The number of sites of Surfd in <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 4 is determined by the amount of a kinetic reactant defined in <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> 4, where 4 is the same number as the surface number. Sites related to a kinetic reactant are exactly analogous to sites related to an equilibrium phase. The same restrictions apply--the formula must be charge balanced, and the elements in the surface complex (other than the surface site itself) should be included in the formula of the reactant.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-750106"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
- 5 is a template for modeling sorption and diffusion in clay rocks; in this case, the Opalinus Clay at Mont Terri in Switzerland (Appelo and others, 2010). A rock dry density of 2.7 kg/L, an overall porosity of 0.161, of which half is accessible for Cl-, a specific surface area of 37 m2/g, and an exchange capacity of 0.114 eq/kg (equivalent per kilogram) are translated to a surface that is defined relative to 1 L of pore water. Thus, 1 L of pore water is in contact with 2.7<EM CLASS="Emphasis">
- &#215; </EM>
-(1 - 0.161) / 0.161 = 14.07 kg rock. The surface has &#8220;clay_planar&#8221; sites that express the bulk exchange capacity of the rock (1.59 mol sites). The measured sorption isotherm for Cs+ indicates the presence of two sites: &#8220;clay_ii&#8221; sites with an intermediate strength for binding Cs+, and &#8220;clay_fes&#8221; sites on the frayed edges of illite with a very strong and very specific binding strength. The number of these sites and the complexation constants for Cs+ and other cations are obtained by fitting the isotherm, while accounting for two sorption types: one type is for surface complexation, which is specific for the various ions; the other type is connected with charge compensation in the Donnan space, which is in principle, the same for all equal-charged ions (although it can be varied with <STRONG CLASS="Bold">
--erm_DDL</STRONG>
- in keyword <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A> to match observed differences). In <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 5, the exclusion of Cl- is modeled with a Donnan pore space that contains only counter-ions (is Cl- free). Thus, it holds 0.5 L water and has a thickness (derived from this volume and the total area) of 0.5<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--3</Sup>
- / (37<EM CLASS="Emphasis">
- &#215; </EM>
-14.07<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
-3</Sup>
-) = 9.6<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--10</Sup>
- m. This thickness equals 1.9 Debye lengths at the ionic strength of the pore water of 0.368, which is in good agreement with anion-exclusion theory (Schofield, 1947; Tournassat and Appelo, 2011).</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-566120"></A>An anion-free Donnan pore space is the simplest option and is in line with traditional calculations in soil science. Perhaps more realistically, the anion exclusion can be modeled with <STRONG CLASS="Bold">
--only_counter_ions</STRONG>
- false and an increased thickness of the Donnan layer. The fraction of free (uncharged) pore water, ffree, follows from the Cl- accessible pore space and the potential in the Donnan space, &#968;D (V):</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540545_pgfId-566124"></A><IMG SRC="phreeqc3-156.gif" ALIGN="BASELINE">
-,	(6)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540545_pgfId-704527"></A>where &#949;<Sub CLASS="Subscript">
-a</Sub>
- is the accessible porosity (unitless), &#949;<Sub CLASS="Subscript">
-tot</Sub>
- is the total porosity (unitless), F is the Faraday constant (96485 JV-1eq-1), R is the gas constant (8.314 JK-1mol-1), and T is the temperature (K). The potential in the Donnan space depends on the water composition and the surface charge, while the latter is also a function of the surface complexation constants: higher constants increase complexation and, usually, decrease the surface charge, provided the complexes are uncharged (charged complexes could increase the surface charge). By fixing the complexation constant for Na+ to -0.7, and the constants for the other major cations by matching the measured distribution coefficients in Opalinus Clay, the surface charge--that is, the part of the exchange capacity that is compensated in the Donnan pore space--can be calculated to be 45 percent (Appelo and others, 2010). This results in ffree = 0.117 and thus, 0.883<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--3</Sup>
- m<Sup CLASS="Superscript">
-3</Sup>
- (cubic meter) water in the Donnan pore space per m<Sup CLASS="Superscript">
-3</Sup>
- pore water. Accordingly, the thickness of the Donnan space becomes <BR>
-0.883<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--3</Sup>
- / (37<EM CLASS="Emphasis">
- &#215; </EM>
-14.07<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
-3</Sup>
-) = 1.7<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--9</Sup>
- m, or 3.4 Debye lengths.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-566126"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
- 6 illustrates the option to set the thickness of the Donnan layer to be a number of Debye lengths, &#954;<Sup CLASS="Superscript">
-&#8722;1</Sup>
-, given by <IMG SRC="phreeqc3-157.gif" ALIGN="BASELINE">
- (m), where <EM CLASS="symbol">
-&#949;</EM>
-<Sub CLASS="Subscript">
-r</Sub>
- is the relative dielectric constant of water, T is the temperature (kelvin), and I is the ionic strength. Thus, for <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 5, with <STRONG CLASS="Bold">
--only_counter_ions</STRONG>
- true, the thickness can be defined to be <STRONG CLASS="Bold">
--Donnan debye_lengths</STRONG>
- 1.9, while with <STRONG CLASS="Bold">
--only_counter_ions false</STRONG>
- (the default option) the thickness is defined to be <STRONG CLASS="Bold">
--Donnan debye_lengths</STRONG>
- 3.4 as in <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 6. The thickness will now vary with the ionic strength of the solution, and the fraction of free pore water will be adjusted to maintain the same total amount of water. For program convergence, the fraction of Donnan water is limited with <STRONG CLASS="Bold">
-limit_ddl</STRONG>
- 0.9 in <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 6 (default is <STRONG CLASS="Bold">
-limit_ddl</STRONG>
- 0.8).</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-566130"></A>The chemical and physical properties of clay rocks can be measured precisely with diffusion experiments, and PHREEQC can model the experiments by calculating multicomponent diffusion with option <STRONG CLASS="Bold">
--multi_D</STRONG>
- in keyword <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>. With this option, diffusion is calculated separately for the free (uncharged) pore water and the Donnan pore water, while each solute species has its own diffusion coefficient. It is probable that the electrostatic double layer, mimicked by the Donnan pore space in PHREEQC, has properties that are different from free pore water. The dielectric permittivity is lower in an electrostatic field, which will enhance the complexation of charged ions into neutral species. Such complexation will diminish anion exclusion, and will be different for different anions, depending on charge and hydration radius. This effect can be modeled by defining an enrichment factor in the Donnan pore space with<STRONG CLASS="Bold">
- -erm_ddl</STRONG>
- in keyword <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A>. Furthermore, the viscosity may be higher in the Donnan pore water than in ordinary water, and diffusion would be lower in proportion with the viscosity ratio. PHREEQC allows setting the viscosity ratio as illustrated in <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 5 and <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 6. (Default is 1.0)</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-566131"></A><STRONG CLASS="Bold">
-SURFACE</STRONG>
- 7 defines a diffusion coefficient of 10-11 m2/s for a surface consisting of ferrihydrite particles (Hfo in the database). When the diffusion coefficient is larger than 0, the surface will advect and disperse like a normal solute species in a column defined with keyword <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
--multi_D</STRONG>
- true, and it will diffuse in accordance with the diffusion coefficient. The surface must be neutral, either charge-free by itself, or by adding a Donnan layer that neutralizes the surface charge. In <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 7, the Donnan layer is given a small thickness of only 1 picometer to avoid significant variation in water contents in the cells during transport. The transported surfaces will carry the elements in the surface complexed species, as well as the solutes in the Donnan layer. The diffusion coefficient of the surface, either the whole, or part of it, can be modified with the special Basic function CHANGE_SURF. If changed to 0 m2/s, the surface becomes immobile. Thus, <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 7 is a colloidal particle that can transport heavy metals complexed on its surface while the diffusion coefficient is greater than zero, and it can coagulate with other particles and be deposited depending on chemical or physical conditions in the column by setting the diffusion coefficient to zero with CHANGE_SURF. An example is given at http://www.hydrochemistry.eu/exmpls/colloid.html (accessed June 25, 2012).</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256625"></A>Line 1 requires the program to make a calculation to determine the composition of a surface assemblage, termed an &#8220;initial surface calculation&#8221;. Before any batch-reaction or transport calculations, initial surface calculations are performed to determine the composition of the surface assemblages that would exist in equilibrium with the specified solution (solution 10 for <STRONG CLASS="Bold">
-SURFACE</STRONG>
- 1 in this Example data block). The composition of the solution will not change during these calculations. In contrast, during a batch-reaction calculation, when a surface assemblage (defined as in Example data block 1 or Example data block 2 of this section) is reacted with a solution with which it is not in equilibrium, both the surface composition and the solution composition will be adjusted to a new equilibrium.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-719514"></A>When<STRONG CLASS="Bold">
- -diffuse_layer</STRONG>
+<A NAME="50610177_pgfId-641290"></A><STRONG CLASS="Bold">
+-reset</STRONG>
+--Resets all identifiers listed in Lines 4-18 to <STRONG CLASS="Bold">
+true</STRONG>
  or <STRONG CLASS="Bold">
--Donnan</STRONG>
- is not used (default), any charge that develops on the surface during a reaction step will be accompanied by an equal, but opposite, charge imbalance for the solution. Thus, charge imbalances accumulate in the solution and on the surface when surfaces and solutions are separated. This handling of charge imbalances for surfaces is physically incorrect. Consider the following example, where a charge-balanced surface is brought together with a charge-balanced solution. Assume a positive charge develops at the surface. Now remove the surface from the solution. With the default formulation, a positive charge imbalance is associated with the surface, <EM CLASS="Emphasis">
-Z</EM>
-<Sub CLASS="Subscript">
-s</Sub>
-, and a negative charge imbalance, <EM CLASS="Emphasis">
-Z</EM>
-<Sub CLASS="Subscript">
-soln</Sub>
-, is associated with the solution. In reality, the charged surface plus the diffuse layer surrounding it is electrically neutral and the combination should be removed. This would leave an electrically neutral solution as well. The default formulation is workable; its main defect is that the counter-ions that should be in the diffuse layer are retained in the solution. The model results are adequate, provided solutions and surfaces are not separated or the exact concentrations of aqueous counter-ions are not critical to the investigation.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256628"></A>The <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- and <STRONG CLASS="Bold">
--Donnan</STRONG>
- identifiers activate models to balance the accumulation of surface charge with an explicit calculation of the diffuse-layer composition. When these identifiers are used, the composition of the diffuse layer is calculated and an additional printout of the elemental composition of the diffuse layer is produced. The <STRONG CLASS="Bold">
--diffuse_layer </STRONG>
-identifier calculates the moles of each aqueous species in the diffuse layer according to the method of Borkovec and Westall (1983) and the assumption that the diffuse layer is a constant thickness (optionally input with <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-, default is 10<Sup CLASS="Superscript">
--8</Sup>
- m). The variation of thickness of the diffuse layer with ionic strength is ignored. The net charge in the diffuse layer exactly balances the net surface charge. The <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- calculation requires an integration that is slow and liable to failure under certain conditions. The <STRONG CLASS="Bold">
--Donnan </STRONG>
-calculation is much faster and more robust, and gives results that are usually similar to the <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- calculation. </P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-577701"></A>In the <STRONG CLASS="Bold">
--Donnan</STRONG>
- calculation, the concentrations in the diffuse layer are averaged and computed with:</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540545_pgfId-577639"></A><IMG SRC="phreeqc3-158.gif" ALIGN="BASELINE">
-,                                	(7)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540545_pgfId-577974"></A>where cDonnan, i is the concentration of species i in the Donnan pore space (mol/L), ci is the concentration in the free (uncharged) solution, erm_DDLi is an enrichment factor (unitless) that can be defined in keyword <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A>, and zi is the charge number (unitless). The potential &#968;D is adjusted to let the charge of the Donnan volume counterbalance the surface charge:</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540545_pgfId-578000"></A><IMG SRC="phreeqc3-159.gif" ALIGN="BASELINE">
-,   	(8)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540545_pgfId-638002"></A>where &#963;surface is the surface charge (eq/L).   </P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-638003"></A>Conceptually, the results of using the explicit diffuse-layer calculations are correct--charge imbalances on the surface are balanced in the diffuse layer and the solution remains charge balanced. Great uncertainties exist in the true composition of the diffuse layer and the thickness of the diffuse layer. The ion complexation in the bulk solution is assumed to apply in the diffuse layer, which is unlikely because of changes in the dielectric constant of water near the charged surface. Identifier <STRONG CLASS="Bold">
--erm_ddl</STRONG>
- in keyword <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A> can correct for such effects if needed, but it is a primitive and arbitrary correction. The explicit diffuse layer calculation is based on assumptions that allow the volume of water in the diffuse layer to remain small relative to the solution volume. It is possible, especially for solutions of low ionic strength, for the calculated concentration of an element to be negative in the integrated diffuse layer (calculated with identifier <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-). In this case, the assumed thickness of the diffuse layer is too small (or perhaps the entire diffuse-layer approach is inappropriate) and the program stops with an error message. The identifier <STRONG CLASS="Bold">
--only_counter_ions</STRONG>
- offers an option to let only the counter-ions increase in concentration in the diffuse layer, and to leave the co-ions at the same concentration in the diffuse layer as in the bulk solution. The counter-ions have a higher concentration in the diffuse layer than without this option, because co-ion exclusion is neglected. Alternatively, when using <STRONG CLASS="Bold">
--only_counter_ions and -Donnan</STRONG>
-, the co-ion concentration is zero in the Donnan pore space. In this case, the counter-ions will have a smaller concentration in the Donnan layer with <STRONG CLASS="Bold">
--only_counter_ions true, </STRONG>
-than with <STRONG CLASS="Bold">
--only_counter_ions </STRONG>
-false.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256630"></A>A third alternative for modeling surface-complexation reactions, in addition to the default, <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
-, and <STRONG CLASS="Bold">
--cd_music</STRONG>
-, is to ignore the surface potential entirely. The <STRONG CLASS="Bold">
--no_edl</STRONG>
- identifier eliminates the potential term from mass-action expressions for surface species, eliminates any charge-balance equations for surfaces, and eliminates any charge-potential relationships. The charge on the surface is calculated and saved with the surface composition, and an equal and opposite charge is stored with the aqueous phase. All of the cautions about separation of charge, mentioned in the previous paragraphs, apply to the calculation using <STRONG CLASS="Bold">
--no_edl</STRONG>
-. No explicit calculation of the diffuse-layer composition is available when using <STRONG CLASS="Bold">
--no_edl</STRONG>
-.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256631"></A>For transport calculations, it is much faster in terms of CPU time to use either the default (no explicit diffuse layer calculation) or <STRONG CLASS="Bold">
--no_edl</STRONG>
-. However, <STRONG CLASS="Bold">
--Donnan</STRONG>
- and <STRONG CLASS="Bold">
--diffuse_layer</STRONG>
- can be used to test the sensitivity of the results to diffuse-layer effects.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-509040"></A>After a set of batch-reaction calculations has been simulated, it is possible to save the resulting surface composition with the <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> keyword. If the new composition is not saved, the surface composition will remain the same as it was before the batch-reaction calculations. After it has been defined or saved, the surface composition may be used in subsequent simulations through the <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> keyword. By using the <A HREF="phreeqc3-36.htm#50540545_74089" CLASS="XRef">RUN_CELLS</A> data block, the results of the batch-reaction calculations, including the surface-assemblage composition, are automatically saved. In <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
- and <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> simulations, the surface assemblages in the column are automatically saved after each shift.</P>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256632"></A><A NAME="50540545_69210"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256633"></A>Line 0d:  SURFACE 1 Neutral surface composition</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256634"></A>Line 1:	Surf_wOH		0.3		660.			0.25</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256635"></A>Line 1a:	Surf_sOH		0.003</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256636"></A>Line 2:	Surfc_sOH		Fe(OH)3(a)		equilibrium_phase			0.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256637"></A>Line 2b:	Surfd_sOH		Al(OH)3(a)		kinetic_reactant 			0.001</pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256638"></A><A NAME="50540545_75708"></A>Explanation 2</H6>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-256639"></A>Line 0d: <STRONG CLASS="Bold">
-SURFACE</STRONG>
- [<EM CLASS="Emphasis">
-number</EM>
-] [<EM CLASS="Emphasis">
-description</EM>
-]</P>
-<P CLASS="Body1">
-<A NAME="50540545_pgfId-647614"></A>Same as Example data block 1.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-647615"></A>Line 1: <EM CLASS="Emphasis">
-surface binding-site formula, </EM>
-(<EM CLASS="Emphasis">
-sites </EM>
-or<EM CLASS="Emphasis">
- site density</EM>
-)<EM CLASS="Emphasis">
-, specific_area_per_gram, grams, </EM>
+false</STRONG>
+. Optionally, <STRONG CLASS="Bold">
+reset</STRONG>
+ or <STRONG CLASS="Bold">
+-r</STRONG>
 [<STRONG CLASS="Bold">
-Dw</STRONG>
-<EM CLASS="Emphasis">
- coefficient</EM>
-]</P>
+eset</STRONG>
+].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-735355"></A><EM CLASS="Emphasis">
-surface binding-site formula</EM>
---Formula for a surface that is charge balanced. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-789977"></A><EM CLASS="Emphasis">
-sites</EM>
---Total number of sites for this binding site, in moles; applies when <STRONG CLASS="Bold">
--sites_units</STRONG>
- is <STRONG CLASS="Bold">
-absolute</STRONG>
-.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-789978"></A><EM CLASS="Emphasis">
-site density</EM>
---Site density for this binding site, in sites per square nanometer; applies when <STRONG CLASS="Bold">
--sites_units</STRONG>
- is <STRONG CLASS="Bold">
-density</STRONG>
-.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-789979"></A><EM CLASS="Emphasis">
-specific_area_per_gram</EM>
---Specific area of surface, in m<Sup CLASS="Superscript">
-2</Sup>
-/g (square meter per gram). Default is 600 m<Sup CLASS="Superscript">
-2</Sup>
-/g.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-789980"></A><EM CLASS="Emphasis">
-grams</EM>
---Mass of solid for calculation of surface area, g (gram); surface area is <EM CLASS="Emphasis">
-grams </EM>
-times<EM CLASS="Emphasis">
- specific_area_per_gram</EM>
-. Default is 0 g.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-789981"></A><STRONG CLASS="Bold">
-Dw</STRONG>
-<EM CLASS="Emphasis">
- coefficient</EM>
---Optional diffusion coefficient for the surface, m<Sup CLASS="Superscript">
-2</Sup>
-/s; applies only when <STRONG CLASS="Bold">
--multi_D </STRONG>
-is true in a <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> calculation. If coefficient &gt; 0, the surface is transported as a colloid with advective, dispersive, and diffusive transport. Default is 0 m<Sup CLASS="Superscript">
-2</Sup>
-/s, which means the surface is immobile. </P>
+<A NAME="50610177_pgfId-641291"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, identifiers on Lines 4-18 are set to true; if <STRONG CLASS="Bold">
+false</STRONG>
+, identifiers on Lines 4-18 are set to false. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-735357"></A>Line 2: <EM CLASS="Emphasis">
-surface binding-site formula, name, </EM>
-[(<STRONG CLASS="Bold">
-equilibrium_phase </STRONG>
-or<STRONG CLASS="Bold">
- kinetic_reactant</STRONG>
-)]<EM CLASS="Emphasis">
-, sites_per_mole, specific_area_per_mole </EM>
+<A NAME="50610177_pgfId-641272"></A>Line 4: <STRONG CLASS="Bold">
+-simulation </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641273"></A><STRONG CLASS="Bold">
+-simulation</STRONG>
+--Prints simulation number, or for advective-dispersive transport calculations, the sequence number of the advective-dispersive transport simulation. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+simulation</STRONG>
+, <STRONG CLASS="Bold">
+sim</STRONG>
+, or <STRONG CLASS="Bold">
+-sim</STRONG>
+[<STRONG CLASS="Bold">
+ulation</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641262"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, simulation number is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, simulation number is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641250"></A>Line 5: <STRONG CLASS="Bold">
+-state </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641251"></A><STRONG CLASS="Bold">
+-state</STRONG>
+--Prints type of calculation to the selected-output file for each calculation. The following character strings are used to identify each calculation type: initial solution, &#8220;i_soln&#8221;; initial exchange composition, &#8220;i_exch&#8221;; initial surface composition, &#8220;i_surf&#8221;; initial gas-phase composition, &#8220;i_gas&#8221;; batch reaction (including <A HREF="phreeqc3-43.htm#50610177_78104" CLASS="XRef">RUN_CELLS</A>), &#8220;react&#8221;; inverse, &#8220;inverse&#8221;; advection, &#8220;advect&#8221;; and transport, &#8220;transp&#8221;. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+state</STRONG>
+ or <STRONG CLASS="Bold">
+-st</STRONG>
+[<STRONG CLASS="Bold">
+ate</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641234"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, state is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, state is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641216"></A>Line 6: <STRONG CLASS="Bold">
+-solution </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641217"></A><STRONG CLASS="Bold">
+-solution</STRONG>
+--Prints solution number used for the calculation for each calculation. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+soln</STRONG>
+, <STRONG CLASS="Bold">
+-solu</STRONG>
+[<STRONG CLASS="Bold">
+tion</STRONG>
+], or <STRONG CLASS="Bold">
+-soln</STRONG>
+. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641206"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, solution number is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, solution number is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641185"></A>Line 7: <STRONG CLASS="Bold">
+-distance </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641186"></A><STRONG CLASS="Bold">
+-distance</STRONG>
+--Prints to the selected-output file (1) the X-coordinate of the cell for advective-dispersive transport calculations (<A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>), (2) the cell number for advection calculations (<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>), or (3) -99 for other calculations. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+distance</STRONG>
+, <STRONG CLASS="Bold">
+dist</STRONG>
+, or <STRONG CLASS="Bold">
+-d</STRONG>
+[<STRONG CLASS="Bold">
+istance</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641172"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, distance is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, distance is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641151"></A>Line 8: <STRONG CLASS="Bold">
+-time </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641152"></A><STRONG CLASS="Bold">
+-time</STRONG>
+--Prints to the selected-output file (1) the cumulative model time since the beginning of the simulation for batch-reaction calculations with kinetics, (2) the cumulative transport time since the beginning of the run (or since <STRONG CLASS="Bold">
+-initial_time</STRONG>
+ identifier was last defined) for advective-dispersive transport calculations and advective-transport calculations for which <STRONG CLASS="Bold">
+-time_step</STRONG>
+ is defined, (3) the advection shift number for advective-transport calculations for which <STRONG CLASS="Bold">
+-time_step</STRONG>
+ is not defined, or (4) -99 for other calculations. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+time</STRONG>
+ or <STRONG CLASS="Bold">
+-ti</STRONG>
+[<STRONG CLASS="Bold">
+me</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641144"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, time is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, time is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641131"></A>Line 9: <STRONG CLASS="Bold">
+-step </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641132"></A><STRONG CLASS="Bold">
+-step</STRONG>
+--Prints to the selected-output file (1) advection shift number for transport calculations, (2) reaction step for batch-reaction calculations, or (3) -99 for other calculations. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+step</STRONG>
+ or <STRONG CLASS="Bold">
+-ste</STRONG>
+[<STRONG CLASS="Bold">
+p</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641118"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, step is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, step is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641109"></A>Line 10: <STRONG CLASS="Bold">
+-pH </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-929194"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--Prints pH to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+pH</STRONG>
+ (as with all identifiers, case insensitive).</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-929195"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, pH is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, pH is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641092"></A>Line 11: <STRONG CLASS="Bold">
+-pe </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641093"></A><STRONG CLASS="Bold">
+-pe</STRONG>
+--Prints pe to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+pe</STRONG>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641094"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, pe is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, pe is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641069"></A>Line 12: <STRONG CLASS="Bold">
+-reaction </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641073"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--Prints (1) reaction increment to the selected-output file if <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A> is used in the calculation or (2) -99 for other calculations. Default is <STRONG CLASS="Bold">
+false </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+rxn</STRONG>
+, <STRONG CLASS="Bold">
+-rea</STRONG>
+[<STRONG CLASS="Bold">
+ction</STRONG>
+], or <STRONG CLASS="Bold">
+-rx</STRONG>
+[<STRONG CLASS="Bold">
+n</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641056"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, reaction increment is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, reaction increment is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641035"></A>Line 13: <STRONG CLASS="Bold">
+-temperature </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641036"></A><STRONG CLASS="Bold">
+-temperature</STRONG>
+--Prints temperature (Celsius) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+false</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+temp</STRONG>
+, <STRONG CLASS="Bold">
+temperature</STRONG>
+, or <STRONG CLASS="Bold">
+-te</STRONG>
+[<STRONG CLASS="Bold">
+mperature</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641028"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, temperature is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, temperature is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-641019"></A>Line 14: <STRONG CLASS="Bold">
+-alkalinity </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641020"></A><STRONG CLASS="Bold">
+-alkalinity</STRONG>
+--Prints alkalinity (eq/kgw, equivalent per kilogram water) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Initial value at start of program is <STRONG CLASS="Bold">
+false</STRONG>
+. Optionally, <STRONG CLASS="Bold">
+alkalinity</STRONG>
+, <STRONG CLASS="Bold">
+alk</STRONG>
+, or <STRONG CLASS="Bold">
+-al</STRONG>
+[<STRONG CLASS="Bold">
+kalinity</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-641012"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, alkalinity is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, alkalinity is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640988"></A>Line 15: <STRONG CLASS="Bold">
+-ionic_strength </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640989"></A><STRONG CLASS="Bold">
+-ionic_strength</STRONG>
+--Prints ionic strength to the selected-output file. Default is <STRONG CLASS="Bold">
+false </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+ionic_strength</STRONG>
+, <STRONG CLASS="Bold">
+mu</STRONG>
+, <STRONG CLASS="Bold">
+-io</STRONG>
+[<STRONG CLASS="Bold">
+nic_strength</STRONG>
+], or <STRONG CLASS="Bold">
+-mu</STRONG>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640977"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, ionic strength is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, ionic strength is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640968"></A>Line 16: <STRONG CLASS="Bold">
+-water </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640969"></A><STRONG CLASS="Bold">
+-water</STRONG>
+--Prints mass of water to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+false</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+water</STRONG>
+ or <STRONG CLASS="Bold">
+-w</STRONG>
+[<STRONG CLASS="Bold">
+ater</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640953"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, mass of water is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, mass of water is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640944"></A>Line 17: <STRONG CLASS="Bold">
+-charge_balance </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640945"></A><STRONG CLASS="Bold">
+-charge_balance</STRONG>
+--Prints charge balance of solution (eq, equivalent) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+false </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+charge_balance</STRONG>
+ or <STRONG CLASS="Bold">
+-c</STRONG>
+[<STRONG CLASS="Bold">
+harge_balance</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640929"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, charge balance is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, charge balance is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640917"></A>Line 18: <STRONG CLASS="Bold">
+-percent_error </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640921"></A><STRONG CLASS="Bold">
+-percent_error</STRONG>
+--Prints percent error in charge balance (<IMG SRC="phreeqc3-91.png" ALIGN="MIDDLE">
+) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+false </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+percent_error</STRONG>
+ or <STRONG CLASS="Bold">
+-per</STRONG>
+[<STRONG CLASS="Bold">
+cent_error</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640893"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, percent error is printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, percent error is not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640878"></A>Line 19: <STRONG CLASS="Bold">
+-totals</STRONG>
+ <EM CLASS="Emphasis">
+element list</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-508820"></A>Same as Line 9 in Example data block 1.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256647"></A><A NAME="50540545_43469"></A>Notes 2</H6>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-508867"></A>The difference between Example data block 2 and Example data block 1 is that no initial surface-composition calculation is performed in Example data block 2. The composition of the surface assemblage must be given precisely (from chemical analysis) and charge-balanced to avoid spurious pH and redox reactions. Additional surfaces and binding sites can be defined by repeating Lines 2 and 9 from Example data block 1. All other identifiers listed for Example data block 1 also can be included. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256650"></A><A NAME="50540545_87151"></A>Example problems</H6>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256654"></A>The keyword <STRONG CLASS="Bold">
-SURFACE</STRONG>
- is used in example problems <A HREF="phreeqc3-63.htm#50540559_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-69.htm#50540559_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-74.htm#50540559_18716" CLASS="XRef">19</A>, and <A HREF="phreeqc3-76.htm#50540559_68313" CLASS="XRef">21</A>.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256655"></A><A NAME="50540545_29495"></A>Related keywords</H6>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256670"></A><A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50540545_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50540545_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-36.htm#50540545_74089" CLASS="XRef">RUN_CELLS</A>, <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A>, <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
-surface</STRONG>
+<A NAME="50610177_pgfId-640879"></A><STRONG CLASS="Bold">
+-totals</STRONG>
+--Identifier allows definition of a list of total concentrations, in molality, that will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+totals</STRONG>
+ or <STRONG CLASS="Bold">
+-t</STRONG>
+[<STRONG CLASS="Bold">
+otals</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-329492"></A><EM CLASS="Emphasis">
+element list</EM>
+--List of elements, element valence states, exchange sites, or surface sites for which total concentrations will be written. The list may continue on the subsequent line(s) (Line 2a). After each calculation, the concentration (mol/kgw) of each of the selected elements, element valence states, exchange sites, and surface sites will be written to the selected-output file. Elements, valence states, exchange sites, and surface sites are defined in the first column of <A HREF="phreeqc3-49.htm#50610177_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-15.htm#50610177_33835" CLASS="XRef">EXCHANGE_MASTER_SPECIES</A>, or <A HREF="phreeqc3-53.htm#50610177_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A> input. If an element is not defined or is not present in the calculation, its concentration will be printed as 0. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-718485"></A>Line 20: <EM CLASS="Emphasis">
+element list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-718686"></A><EM CLASS="Emphasis">
+element list</EM>
+--Continuation of a list for <STRONG CLASS="Bold">
+-totals</STRONG>
+ of elements, element valence states, exchange sites, or surface sites. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-718696"></A>Line 21: <STRONG CLASS="Bold">
+-molalities </STRONG>
+<EM CLASS="Emphasis">
+species list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-718697"></A><STRONG CLASS="Bold">
+-molalities</STRONG>
+--Identifier allows definition of a list of species for which concentrations will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+molalities</STRONG>
 , <STRONG CLASS="Bold">
-<A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef"></A>TRANSPORT<STRONG CLASS="Bold">
+mol</STRONG>
+, or <STRONG CLASS="Bold">
+-m</STRONG>
+[<STRONG CLASS="Bold">
+olalities</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-718660"></A><EM CLASS="Emphasis">
+species list</EM>
+--List of aqueous, exchange, or surface species for which concentrations will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the concentration (mol/kgw) of each species in the list will be written to the selected-output file. Species are defined by <A HREF="phreeqc3-50.htm#50610177_61994" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-16.htm#50610177_60716" CLASS="XRef">EXCHANGE_SPECIES</A>, or <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A> input. If a species is not defined or is not present in the calculation, its concentration will be printed as 0. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-718590"></A>Line 22: <STRONG CLASS="Bold">
+-activities </STRONG>
+<EM CLASS="Emphasis">
+species list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640778"></A><STRONG CLASS="Bold">
+-activities</STRONG>
+--Identifier allows definition of a list of species for which log of activity will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+activities</STRONG>
+ or <STRONG CLASS="Bold">
+-a</STRONG>
+[<STRONG CLASS="Bold">
+ctivities</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640752"></A><EM CLASS="Emphasis">
+species list</EM>
+--List of aqueous, exchange, or surface species for which log of activity will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the log (base 10) of the activity of each of the species will be written to the selected-output file. Species are defined by <A HREF="phreeqc3-50.htm#50610177_61994" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-16.htm#50610177_60716" CLASS="XRef">EXCHANGE_SPECIES</A>, or <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A> input. If a species is not defined or is not present in the calculation, its log activity will be printed as -999.999. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640689"></A>Line 23: <STRONG CLASS="Bold">
+-equilibrium_phases </STRONG>
+<EM CLASS="Emphasis">
+phase list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640690"></A><STRONG CLASS="Bold">
+-equilibrium_phases</STRONG>
+--Identifier allows definition of a list of pure phases for which (1) total amounts in the pure-phase assemblage and (2) moles transferred will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+-e[quilibrium_phases</STRONG>
+] or <STRONG CLASS="Bold">
+-p</STRONG>
+[<STRONG CLASS="Bold">
+ure_phases</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> and its synonyms.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640670"></A><EM CLASS="Emphasis">
+phase list</EM>
+--List of phases for which data will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, two values are written to the selected-output file: (1) the moles of each of the phases (defined by <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>), and (2) the moles transferred. Phases are defined by <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input. If the phase is not defined or is not present in the pure-phase assemblage, the amounts will be printed as 0.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640625"></A>Line 24: <STRONG CLASS="Bold">
+-saturation_indices </STRONG>
+<EM CLASS="Emphasis">
+phase list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640626"></A><STRONG CLASS="Bold">
+-saturation_indices</STRONG>
+--Identifier allows definition of a list of phases for which saturation indices [or log (base 10) <EM CLASS="ChangeFont">
+fugacity</EM>
+ for gases] will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+saturation_indices</STRONG>
+,<STRONG CLASS="Bold">
+ si</STRONG>
+, <STRONG CLASS="Bold">
+-s</STRONG>
+[<STRONG CLASS="Bold">
+aturation_indices</STRONG>
+], or <STRONG CLASS="Bold">
+-s</STRONG>
+[<STRONG CLASS="Bold">
+i</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640612"></A><EM CLASS="Emphasis">
+phase list</EM>
+--List of phases for which saturation indices [or log (base 10) partial pressure for gases] will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the saturation index of each of the phases will be written to the selected-output file. Phases are defined by <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input. If the phase is not defined or if one or more of its constituent elements is not in solution, the saturation index will be printed as -999.999.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640582"></A>Line 25: <STRONG CLASS="Bold">
+-gases </STRONG>
+<EM CLASS="Emphasis">
+gas-component list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640583"></A><STRONG CLASS="Bold">
+-gases</STRONG>
+--Identifier allows definition of a list of gas components for which the amount in the gas phase (mol) will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+gases</STRONG>
+ or <STRONG CLASS="Bold">
+-g</STRONG>
+[<STRONG CLASS="Bold">
+ases</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640569"></A><EM CLASS="Emphasis">
+gas-component list</EM>
+--List of gas components. The list may continue on the subsequent line(s). After each calculation, the moles of each of the selected gas components in the gas phase will be written to the selected-output file. Gas components are defined by <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input. If a gas component is not defined or is not present in the gas phase, the amount will be printed as 0. Before the columns for the gas components, the selected-output file will contain the total pressure, total moles of gas components, and the volume of the gas phase. Log partial pressures of any gas, including the components in the gas phase, can be obtained by use of the <STRONG CLASS="Bold">
+-saturation_indices</STRONG>
+ identifier.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640512"></A>Line 26: <STRONG CLASS="Bold">
+-kinetic_reactants </STRONG>
+<EM CLASS="Emphasis">
+reactant list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640513"></A><STRONG CLASS="Bold">
+-kinetic_reactants</STRONG>
+--Identifier allows definition of a list of kinetically controlled reactants for which two values are written to the selected-output file: (1) the current moles of the reactant, and (2) the moles transferred of the reactant. Optionally, <STRONG CLASS="Bold">
+kin</STRONG>
+, <STRONG CLASS="Bold">
+-k</STRONG>
+[<STRONG CLASS="Bold">
+inetics</STRONG>
+], <STRONG CLASS="Bold">
+kinetic_reactants</STRONG>
+, or <STRONG CLASS="Bold">
+-k</STRONG>
+[<STRONG CLASS="Bold">
+inetic_reactants</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640490"></A><EM CLASS="Emphasis">
+reactant list</EM>
+--List of kinetically controlled reactants. The list may continue on the subsequent line(s). After each calculation, the moles and the moles transferred of each of the kinetically controlled reactants will be written to the selected-output file. Kinetic reactants are identified by the rate name in the <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> data block. (The rate name in turn refers to a rate expression defined with <STRONG CLASS="Bold">
+<A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
-, and <A HREF="phreeqc3-50.htm#50540545_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
-surface</STRONG>
+ data block.) If the kinetic reactant is not defined, the amounts will be printed as 0. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640431"></A>Line 27: <STRONG CLASS="Bold">
+-solid_solutions </STRONG>
+<EM CLASS="Emphasis">
+component list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640418"></A><STRONG CLASS="Bold">
+-solid_solutions</STRONG>
+--Identifier allows definition of a list of solid-solution components for which the moles in a solid solution is written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+-so</STRONG>
+[<STRONG CLASS="Bold">
+lid_solutions</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640395"></A><EM CLASS="Emphasis">
+component list</EM>
+--List of solid-solution components. The list may continue on the subsequent line(s). After each calculation, the moles of each solid-solution component in the list will be written to the selected-output file. A solid-solution component is identified by the component name defined in the <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A> data block. (The component names are also phase names that have been defined in the <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block.) If the component is not defined in any of the solid solutions, the amount will be printed as 0. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640338"></A>Line 28: <STRONG CLASS="Bold">
+-isotopes </STRONG>
+<EM CLASS="Emphasis">
+isotope ratio list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640339"></A><STRONG CLASS="Bold">
+-isotopes</STRONG>
+--Identifier selects isotopes for which values are written to the selected-output file. The units of the isotopic values printed to the selected output file are the units of the standard as entered with keyword <A HREF="phreeqc3-21.htm#50610177_32306" CLASS="XRef">ISOTOPES</A> (for example, permil or percent modern carbon). Optionally, <STRONG CLASS="Bold">
+-is</STRONG>
+[<STRONG CLASS="Bold">
+otopes</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-21.htm#50610177_32306" CLASS="XRef">ISOTOPES</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640319"></A><EM CLASS="Emphasis">
+isotope ratio list</EM>
+--List of ratios for isotopes and isotopic species to be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the isotope ratios in the list will be written to the selected-output file. Isotope ratios are defined in the <A HREF="phreeqc3-23.htm#50610177_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block and refer to Basic programs defined in <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A> data blocks. If an isotope ratio is not defined or is absent from solution, the value printed is -9,999.999. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640275"></A>Line 29: <STRONG CLASS="Bold">
+-calculate_values </STRONG>
+<EM CLASS="Emphasis">
+calculate values list</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640249"></A><STRONG CLASS="Bold">
+-calculate_values</STRONG>
+--Identifier selects Basic functions for which function values will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the values for functions in the list will be written to the selected-output file. The Basic functions are defined in the <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A> data block. Optionally, <STRONG CLASS="Bold">
+-ca</STRONG>
+[<STRONG CLASS="Bold">
+lculate_values</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640235"></A><EM CLASS="Emphasis">
+calculate values list</EM>
+--List of names of Basic functions; value calculated by function will be written to the selected-output file. The list may continue on the subsequent line(s). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-640214"></A>Line 30: <STRONG CLASS="Bold">
+-inverse_modeling </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-733441"></A><STRONG CLASS="Bold">
+-inverse_modeling</STRONG>
+--Prints results of inverse modeling to the selected-output file. For each inverse model, three values are printed for each solution and phase defined in the <STRONG CLASS="Bold">
+INVERSE_MODELING</STRONG>
+ data block: the central value of the mixing fraction or mole transfer, and the minimum and maximum of the mixing fraction or mole transfer, which are zero unless <STRONG CLASS="Bold">
+-range</STRONG>
+ is specified in the <STRONG CLASS="Bold">
+INVERSE_MODELING</STRONG>
+ data block. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+inverse</STRONG>
+ or <STRONG CLASS="Bold">
+-i</STRONG>
+[<STRONG CLASS="Bold">
+nverse_modeling</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
+INVERSE_MODELING</STRONG>
 .</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640207"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, results of inverse modeling are printed to the selected-output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, results of inverse modeling are not printed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-985483"></A><EM CLASS="ChangeFont">
+Line 31: -active [(True or False)]</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-985484"></A><EM CLASS="ChangeFont">
+-active--Prints results to the selected-output file defined for this SELECTED_OUTPUT data block..Default is true at startup. </EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-985485"></A><EM CLASS="ChangeFont">
+(True or False)--If true, selected-output results are written to file; if false, selected-output results are not printed. If neither true nor false is entered on the line, true is assumed. Optionally, t[rue] or f[alse].</EM>
+</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-985457"></A><EM CLASS="ChangeFont">
+Line 32: -user_punch [(True or False)]</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-985458"></A><EM CLASS="ChangeFont">
+-user_punch--Prints USER_PUNCH n results to the selected-output file defined for this SELECTED_OUTPUT data block when n is the number of this SELECTED_OUTPUT data block. Default is true at startup. Note the hyphen is required to avoid a conflict with the keyword USER_PUNCH.</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-985459"></A><EM CLASS="ChangeFont">
+(True or False)--If true, USER_PUNCH n results are printed to the selected-output file; if false, USER_PUNCH n results are printed are not printed. If neither true nor false is entered on the line, true is assumed. Optionally, t[rue] or f[alse].</EM>
+</P>
 </DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-256056"></A><A NAME="50610177_56690"></A>Notes</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-640187"></A>The selected-output file contains a row for each calculation and a column for each data item defined through the identifiers of <STRONG CLASS="Bold">
+SELECTED_OUTPUT</STRONG>
+. Additional columns may be defined through the <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A> data block. In the input for the <STRONG CLASS="Bold">
+SELECTED_OUTPUT</STRONG>
+ data block, all element names, species names, and phase names must be spelled exactly, including the case and charge for the species names. One line containing an entry for each of the items will be written to the selected-output file after each calculation--that is, after any initial solution, initial exchange-composition, initial surface-composition, or initial gas-phase-composition calculation; after each step in a batch-reaction calculation; or for each cell (as defined by <STRONG CLASS="Bold">
+-punch_cells</STRONG>
+) after each shift (as selected by <STRONG CLASS="Bold">
+-punch_frequency</STRONG>
+) in transport calculations. In <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+</STRONG>
+</STRONG>
+ and <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> simulations, the cells selected for printing to the selected-output file are defined with the <STRONG CLASS="Bold">
+-punch_cells </STRONG>
+identifier and the frequency at which results are written to the selected-output file is controlled by the <STRONG CLASS="Bold">
+-punch_frequency</STRONG>
+ identifier. The <STRONG CLASS="Bold">
+-selected_output</STRONG>
+ identifier in the <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A> data block can be used to selectively suspend and resume writing results to the selected-output file. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-256058"></A>Several data items are included by default at the beginning of each line in the selected-output file. These data are described in Lines 4 through 11. Data described in Lines 12 through 18 are not printed by default. All of the data described by Lines 4 through 18 simultaneously may be included or excluded from the selected-output file with the <STRONG CLASS="Bold">
+-reset</STRONG>
+ identifier. Unlike most of PHREEQC input, the order in which the identifiers are entered is important when using the <STRONG CLASS="Bold">
+-reset</STRONG>
+ identifier. Any identifier set before <STRONG CLASS="Bold">
+-reset</STRONG>
+ in the data block will be reset when <STRONG CLASS="Bold">
+-reset</STRONG>
+ is encountered. Thus, <STRONG CLASS="Bold">
+-reset</STRONG>
+ should be specified before any of the identifiers described in Lines 4 through 18.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-640166"></A>The first line of the selected-output file contains a description of each data column. The columns of data are written in the following order: items described by Lines 4 through 18, totals, molalities, log activities, pure phases (two columns for each phase--total amount of phase and mole transfer for current calculation), saturation indices, gas-phase data (multiple columns), kinetically controlled reactants (two columns for each reactant--total amount of reactant and mole transfer for current calculation), solid-solution components, and data defined by the <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A> data block. A data item within an input list (for example, an aqueous species within the <STRONG CLASS="Bold">
+-molalities</STRONG>
+ list) is printed in the order of the list. If the selected-output file contains data for gases (<STRONG CLASS="Bold">
+-gases</STRONG>
+ identifier), the total pressure, total moles in the gas phase, and the total volume of the gas phase precede the moles of each gas component specified by the identifier.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-503615"></A>The <STRONG CLASS="Bold">
+-isotopes</STRONG>
+ identifier allows isotopic values in the units of the isotope standard to be written to the selected output file. The isotopic values are identified by the names of <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A> Basic functions that have been identified in the <A HREF="phreeqc3-23.htm#50610177_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block. The isotopic values can also be obtained by using the Basic function ISO in any Basic program, where the argument of the function is the name of a ratio defined in the <A HREF="phreeqc3-23.htm#50610177_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block. The units of the standard are available by the ISO_UNITS Basic function, which takes the same argument as the Basic function ISO. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-503676"></A>The <STRONG CLASS="Bold">
+-calculate_values</STRONG>
+ identifier allows the values of Basic functions defined in the <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A> data block to be written to the selected-output file. The value of a calculate-values function also can be used in a Basic program by using the CALC_VALUE function, where the argument is the name of a function defined in a <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A> data block.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-985855"></A><EM CLASS="ChangeFont">
+Multiple SELECTED_OUTPUT data blocks may be defined by using different identifying numbers. Multiple USER_PUNCH data blocks may also be defined. SELECTED_OUTPUT data block n controls the writing of USER_PUNCH n. If SELECTED_OUTPUT n is not defined, USER_PUNCH n will not write any data. If both SELECTED_OUTPUT n and USER_PUNCH n are defined, then identifiers -selected_output in PRINT and -active and -user_punch in SELECTED_OUTPUT will determine the data that will be written to file. If -selected_output in PRINT is false, no data are written to any selected-output file. For SELECTED_OUTPUT n, if -active is false, no data are written; if -active is true the data defined by SELECTED_OUTPUT n are written and the value of -user_punch determines whether USER_PUNCH n data will be written.</EM>
+</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-986024"></A><EM CLASS="ChangeFont">
+SELECTED_OUTPUT 1 is handled differently from any other number. It is backward compatible with previous version of PHREEQC where only one SELECTED_OUTPUT definition was allowed. For numbers other than 1, the default definition will write no data (equivalent to -reset false); all data to be written by the selected-output data block, where n is not equal to 1,  must be defined explicitly. </EM>
+</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-986913"></A><EM CLASS="ChangeFont">
+SELECTED_OUTPUT n can be turned on and off by using -active true and false, and the USER_PUNCH n can be turned on and off by using -user_punch true and false. If a SELECTED_OUTPUT data block contains only one or both of these identifiers, the data to be written to file remain unchanged. If any other identifier is defined in a SELECTED_OUTPUT data block. the previous definition with the same number is erased, and the file for that selected-output definition is closed.</EM>
+</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-986917"></A><EM CLASS="ChangeFont">
+ High precision is be defined individually for each selected-output file. Precision for  <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef"></A>USER_PRINT<EM CLASS="ChangeFont">
+</EM>
+ is defined with -high_precision in the <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef"></A>PRINT<EM CLASS="ChangeFont">
+</EM>
+ data block.</EM>
+</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-986919"></A><A NAME="50610177_17875"></A>Example problems</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-986901"></A>The keyword <STRONG CLASS="Bold">
+SELECTED_OUTPUT </STRONG>
+is used in example problems <A HREF="phreeqc3-64.htm#50610191_28577" CLASS="XRef">2</A>, <A HREF="phreeqc3-67.htm#50610191_31870" CLASS="XRef">5</A>, <A HREF="phreeqc3-68.htm#50610191_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-69.htm#50610191_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-70.htm#50610191_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-71.htm#50610191_39217" CLASS="XRef">9</A>, <A HREF="phreeqc3-72.htm#50610191_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-73.htm#50610191_46434" CLASS="XRef">11</A>, <A HREF="phreeqc3-74.htm#50610191_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-75.htm#50610191_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-76.htm#50610191_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-77.htm#50610191_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-82.htm#50610191_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">21</A>.</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-256080"></A><A NAME="50610177_84765"></A>Related keywords</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-256090"></A><A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-7.htm#50610177_35035" CLASS="XRef">CALCULATE_VALUES</A>, <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-15.htm#50610177_33835" CLASS="XRef">EXCHANGE_MASTER_SPECIES</A>, <A HREF="phreeqc3-16.htm#50610177_60716" CLASS="XRef">EXCHANGE_SPECIES</A>, <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-20.htm#50610177_11066" CLASS="XRef">INVERSE_MODELING</A>, <A HREF="phreeqc3-23.htm#50610177_17097" CLASS="XRef">ISOTOPE_RATIOS</A>, <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-25.htm#50610177_95186" CLASS="XRef">KNOBS</A>, <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A>, <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A>, <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-49.htm#50610177_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, <STRONG CLASS="Bold">
+<A HREF="phreeqc3-50.htm#50610177_61994" CLASS="XRef"></A>SOLUTION_SPECIES<STRONG CLASS="Bold">
+</STRONG>
+</STRONG>
+, <A HREF="phreeqc3-53.htm#50610177_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A>, <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-46.htm">Next</A> || <A HREF="phreeqc3-44.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

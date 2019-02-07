@@ -4,197 +4,546 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> RUN_CELLS</TITLE><HR><P> | <A HREF="phreeqc3-37.htm">Next</A> || <A HREF="phreeqc3-35.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> PHASES</TITLE><HR><P> | <A HREF="phreeqc3-37.htm">Next</A> || <A HREF="phreeqc3-35.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-568539"></A><STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
-<A NAME="50540545_78104"></A><A NAME="50540545_74089"></A></H2>
+<A NAME="50610177_pgfId-255188"></A><STRONG CLASS="Bold">
+PHASES</STRONG>
+<A NAME="50610177_84418"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-568540"></A>This keyword data block is used to run reaction simulations for a specified set of cells. For a specified cell number, n, all reactants numbered n are reacted together and the resulting reactant compositions are saved to the same cell number. If multiple steps have been defined in <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> n, <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> n, <A HREF="phreeqc3-34.htm#50540545_65966" CLASS="XRef">REACTION_PRESSURE</A> n, or <A HREF="phreeqc3-35.htm#50540545_75016" CLASS="XRef">REACTION_TEMPERATURE</A> n data blocks, multiple calculations will be done for each cell. It is possible to specify the starting time and the time step for cells that have kinetic reactants; these time values defined in <STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
- supersede the definitions in the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block.</P>
+<A NAME="50610177_pgfId-568461"></A>This keyword data block is used to define a name, chemical reaction, log <EM CLASS="Emphasis">
+K</EM>
+, and temperature dependence of log <EM CLASS="Emphasis">
+K</EM>
+ for each gas component and mineral that can be used for speciation, batch-reaction, transport, or inverse-modeling calculations. In addition, molar volumes can be defined for solids, and the critical temperature and pressure and the acentric factor can be defined for gases. Normally, this data block is included in the database file and only additions and modifications are included in the input file.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-473182"></A><A NAME="50540545_21528"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-473183"></A>Line 0: RUN_CELLS</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-473184"></A>Line 1:	-cells	1 2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-473185"></A>Line 2:		5-6</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-500776"></A>Line 2a:		7</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-500778"></A>Line 3:	-start_time		100 day</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-500834"></A>Line 4:	-time_step		10  day</pre>
+<A NAME="50610177_pgfId-255190"></A><A NAME="50610177_74997"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255191"></A>Line 0:  PHASES</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255192"></A>Line 1a: Gypsum</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255193"></A>Line 2a:	CaSO4:2H2O = Ca+2 + SO4-2 + 2H2O</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255194"></A>Line 3a:	log_k     -4.58</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255195"></A>Line 4a:	delta_h   -0.109</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255196"></A>Line 5:	-analytical_expression 68.2401 0.0 -3221.51  -25.0627</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705270"></A>Line 6:	-Vm      73.9 cm3/mol</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705245"></A>Line 1b: O2(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705639"></A>Line 2b:	O2 = O2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705640"></A>Line 3b:	log_k     -2.96</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705641"></A>Line 4b:	delta_h    1.844</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705594"></A>Line 7:	-T_c      154.6</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705595"></A>Line 8:	-P_c      49.80</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-705596"></A>Line 9:	-Omega     0.021</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-473187"></A><A NAME="50540545_80516"></A>Explanation</H6>
+<A NAME="50610177_pgfId-255201"></A><A NAME="50610177_67224"></A>Explanation 1</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-473188"></A>Line 0: <STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
+<A NAME="50610177_pgfId-255202"></A>Line 0: <STRONG CLASS="Bold">
+PHASES</STRONG>
 </P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-473189"></A><STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
- is the keyword for the data block. No other data are input on the keyword line.</P>
+<A NAME="50610177_pgfId-255203"></A>Keyword for the data block. No other data are input on the keyword line.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-473190"></A>Line 1: <STRONG CLASS="Bold">
--cells </STRONG>
-<EM CLASS="Emphasis">
-list of cell numbers</EM>
+<A NAME="50610177_pgfId-255204"></A>Line 1: <EM CLASS="Emphasis">
+Phase name</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-473191"></A><STRONG CLASS="Bold">
--cells</STRONG>
---Identifier for a list of cells to be run. Optionally, <STRONG CLASS="Bold">
-cell</STRONG>
+<A NAME="50610177_pgfId-255205"></A><EM CLASS="Emphasis">
+phase name</EM>
+--Alphanumeric name of phase; no spaces are allowed.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255206"></A>Line 2: <EM CLASS="Emphasis">
+Dissolution reaction</EM>
+</P>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-255207"></A>Dissolution reaction for phase to aqueous species. Any aqueous species, including e<Sup CLASS="Superscript">
+-</Sup>
+, may be used in the dissolution reaction. The chemical formula for the defined phase must be the first chemical formula on the left-hand side of the equation. The dissolution reaction must precede any identifiers related to the phase. The stoichiometric coefficient for the phase in the chemical reaction must be 1.0.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-583198"></A>Line 3: <STRONG CLASS="Bold">
+log_k</STRONG>
+ <EM CLASS="Emphasis">
+log K</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-583203"></A><STRONG CLASS="Bold">
+log_k</STRONG>
+--Identifier for log <EM CLASS="Emphasis">
+K</EM>
+ at 25 &#176;C. Optionally, <STRONG CLASS="Bold">
+-log_k</STRONG>
 , <STRONG CLASS="Bold">
-cells</STRONG>
-, or <STRONG CLASS="Bold">
--c</STRONG>
+logk</STRONG>
+, <STRONG CLASS="Bold">
+-l</STRONG>
 [<STRONG CLASS="Bold">
-ells</STRONG>
+og_k</STRONG>
+], or <STRONG CLASS="Bold">
+-l</STRONG>
+[<STRONG CLASS="Bold">
+ogk</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-473192"></A><EM CLASS="Emphasis">
-list of cell numbers</EM>
---A list of cell numbers. Each item of the list may be a single cell number or a range of cell numbers defined by two integers separated by a hyphen, with no intervening spaces. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-500842"></A>Line 2: <EM CLASS="Emphasis">
-list of cell numbers</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-500844"></A><EM CLASS="Emphasis">
-list of cell numbers</EM>
---The list of cell numbers for the <STRONG CLASS="Bold">
--cells</STRONG>
- identifier may be continued on multiple lines.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-500861"></A>Line 3: <STRONG CLASS="Bold">
--start_time </STRONG>
+<A NAME="50610177_pgfId-583204"></A><EM CLASS="Emphasis">
+log K</EM>
+--Log <EM CLASS="Emphasis">
+K</EM>
+ at 25 &#176;C for the reaction. Default is 0.0. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-583205"></A>Line 4: <STRONG CLASS="Bold">
+delta_h</STRONG>
 <EM CLASS="Emphasis">
-time [unit]</EM>
-</P>
+ enthalpy, </EM>
+[<EM CLASS="Emphasis">
+units</EM>
+]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-500862"></A><STRONG CLASS="Bold">
--start_time</STRONG>
---Identifier defining a start time for cells that have kinetic reactants. Optionally, <STRONG CLASS="Bold">
-start_time</STRONG>
- or <STRONG CLASS="Bold">
--s</STRONG>
+<A NAME="50610177_pgfId-255212"></A><STRONG CLASS="Bold">
+delta_h</STRONG>
+--Identifier for enthalpy of reaction at 25 &#176;C. Optionally, <STRONG CLASS="Bold">
+-delta_h</STRONG>
+, <STRONG CLASS="Bold">
+deltah</STRONG>
+, <STRONG CLASS="Bold">
+-d</STRONG>
 [<STRONG CLASS="Bold">
-tart_time</STRONG>
+elta_h</STRONG>
+], or <STRONG CLASS="Bold">
+-d</STRONG>
+[<STRONG CLASS="Bold">
+eltah</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-500863"></A><EM CLASS="Emphasis">
-time</EM>
---Time at the beginning of the simulation for a cell that has kinetic reactants, s. </P>
+<A NAME="50610177_pgfId-255213"></A><EM CLASS="Emphasis">
+enthalpy</EM>
+--Enthalpy of reaction at 25 &#176;C for the reaction. Default is 0.0. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-757162"></A><EM CLASS="Emphasis">
-unit</EM>
---Optional time unit may be <STRONG CLASS="Bold">
-second</STRONG>
-, <STRONG CLASS="Bold">
-minute</STRONG>
-, <STRONG CLASS="Bold">
-hour</STRONG>
-, <STRONG CLASS="Bold">
-day</STRONG>
-, <STRONG CLASS="Bold">
-year</STRONG>
-, or an abbreviation of one of these units. The time is converted to seconds after reading the data block; all internal calculations, Basic functions, and output times are in seconds. Default is second.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-500901"></A>Line 4: <STRONG CLASS="Bold">
--time_step </STRONG>
+<A NAME="50610177_pgfId-255214"></A><EM CLASS="Emphasis">
+units</EM>
+--Units may be calories, kilocalories, joules, or kilojoules per mole. Only the energy unit is needed (per mole is implied) and abbreviations of these units are acceptable. Explicit definition of units for all enthalpy values is recommended. The enthalpy of reaction is used in the Van&#8217;t Hoff equation to determine the temperature dependence of the equilibrium constant. Internally, all enthalpy calculations are performed in the units of kJ/mol. Default units are kJ/mol. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-255215"></A>Line 5: <STRONG CLASS="Bold">
+-analytical_expression </STRONG>
 <EM CLASS="Emphasis">
-time_step [unit]</EM>
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+6</Sub>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-500902"></A><STRONG CLASS="Bold">
--time_step</STRONG>
---Identifier defining a time step for cells that have kinetic reactants. Optionally, <STRONG CLASS="Bold">
-time_step</STRONG>
- or <STRONG CLASS="Bold">
--t</STRONG>
+<A NAME="50610177_pgfId-255216"></A><STRONG CLASS="Bold">
+-analytical_expression</STRONG>
+--Identifier for coefficients for an analytical expression for the temperature dependence of log <EM CLASS="Emphasis">
+K</EM>
+. If defined, the analytical expression takes precedence over <STRONG CLASS="Bold">
+log_k</STRONG>
+ and the Van&#8217;t Hoff equation to determine the temperature dependence of the equilibrium constant. Optionally, <STRONG CLASS="Bold">
+analytical_expression</STRONG>
+,<STRONG CLASS="Bold">
+ a_e</STRONG>
+,<STRONG CLASS="Bold">
+ ae</STRONG>
+,<STRONG CLASS="Bold">
+ -a</STRONG>
 [<STRONG CLASS="Bold">
-ime_step</STRONG>
+nalytical_expression</STRONG>
+],<STRONG CLASS="Bold">
+ -a</STRONG>
+[<STRONG CLASS="Bold">
+_e</STRONG>
+],<STRONG CLASS="Bold">
+ -a</STRONG>
+[<STRONG CLASS="Bold">
+e</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-500903"></A><EM CLASS="Emphasis">
-time_step</EM>
---Time step for the simulation for a cell that has kinetic reactants, s. </P>
+<A NAME="50610177_pgfId-255217"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+<EM CLASS="Emphasis">
+, A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+<EM CLASS="Emphasis">
+, A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+<EM CLASS="Emphasis">
+, A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+<EM CLASS="Emphasis">
+, A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+6</Sub>
+--Six values defining log <EM CLASS="Emphasis">
+K</EM>
+ as a function of temperature in the expression<IMG SRC="phreeqc3-30.png" ALIGN="MIDDLE">
+, where <EM CLASS="Emphasis">
+T</EM>
+ is kelvin. Coefficients are defined in order from <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+ to <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+6</Sub>
+; if less than six parameters are defined, the undefined parameters are set to zero. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-705354"></A>Line 6: <STRONG CLASS="Bold">
+-Vm </STRONG>
+<EM CLASS="Emphasis">
+molar_volume [units]</EM>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-757238"></A><EM CLASS="Emphasis">
-unit</EM>
---Optional time unit may be <STRONG CLASS="Bold">
-second</STRONG>
-, <STRONG CLASS="Bold">
-minute</STRONG>
-, <STRONG CLASS="Bold">
-hour</STRONG>
-, <STRONG CLASS="Bold">
-day</STRONG>
-, <STRONG CLASS="Bold">
-year</STRONG>
-, or an abbreviation of one of these units. The time_step is converted to seconds after reading the data block; all internal calculations, Basic functions, and output times are in seconds. Default is second.</P>
+<A NAME="50610177_pgfId-705334"></A><STRONG CLASS="Bold">
+-Vm</STRONG>
+--Identifier for the molar volume of the solid phase.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-759484"></A><EM CLASS="Emphasis">
+molar_volume</EM>
+, the molecular weight divided by the density of the solid at 25 &#176;C. In the example for gypsum 172.18 (g/mol, gram per mole) / 2.33 (g/cm<Sup CLASS="Superscript">
+3</Sup>
+, gram per cubic centimeter) = 73.9 cm<Sup CLASS="Superscript">
+3</Sup>
+/mol (cubic centimeter per gram). Default is 0 cm<Sup CLASS="Superscript">
+3</Sup>
+/mol.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-759485"></A><EM CLASS="Emphasis">
+units</EM>
+--Units may be cm<Sup CLASS="Superscript">
+3</Sup>
+/mol, dm<Sup CLASS="Superscript">
+3</Sup>
+/mol (cubic decimeter per mole), or m<Sup CLASS="Superscript">
+3</Sup>
+/mol (cubic meter per mole). Default is cm<Sup CLASS="Superscript">
+3</Sup>
+/mol.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-705669"></A>Line 7: <STRONG CLASS="Bold">
+-T_c </STRONG>
+<EM CLASS="Emphasis">
+critical temperature</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-705648"></A><STRONG CLASS="Bold">
+-T_c</STRONG>
+--Identifier for the critical temperature of the gas.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-705757"></A><EM CLASS="Emphasis">
+critical temperature</EM>
+--Temperature, K (kelvin). Default is 0 K.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-705758"></A>Line 8: <STRONG CLASS="Bold">
+-P_c </STRONG>
+<EM CLASS="Emphasis">
+critical pressure</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-705759"></A><STRONG CLASS="Bold">
+-P_c</STRONG>
+--Identifier for the critical pressure of the gas.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-705800"></A><EM CLASS="Emphasis">
+critical pressure</EM>
+--Pressure, atm. Default is 0 atm.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-705801"></A>Line 9: <STRONG CLASS="Bold">
+-Omega </STRONG>
+<EM CLASS="Emphasis">
+acentric factor</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-705802"></A><STRONG CLASS="Bold">
+-Omega</STRONG>
+--Identifier for the acentric factor of the gas.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-705803"></A><EM CLASS="Emphasis">
+acentric factor</EM>
+--Acentric factor dimensionless. Default is 0.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-473193"></A><A NAME="50540545_37393"></A>Notes</H6>
+<A NAME="50610177_pgfId-705327"></A><A NAME="50610177_15482"></A>Notes 1</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-473194"></A>The <STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
- data block is a streamlined method for running a simulation that uses all reactants that have been defined with the same identification number (cell number). The calculation for a cell defined in the <STRONG CLASS="Bold">
--cells</STRONG>
- data block is equivalent to a series of <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> and <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> data blocks for all of the reactants with a specified cell number. If both a solution and a mix definition exist for a cell number, the mix definition is used in preference to the solution. If multiple steps have been defined in <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-34.htm#50540545_65966" CLASS="XRef">REACTION_PRESSURE</A>, or <A HREF="phreeqc3-35.htm#50540545_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data blocks, then multiple calculations will be done for that cell.</P>
+<A NAME="50610177_pgfId-705568"></A>The set of Lines 1 and 2 must be entered in order, and either Line 3 (<STRONG CLASS="Bold">
+log_k</STRONG>
+) or Line 5 (<STRONG CLASS="Bold">
+-analytical_expression</STRONG>
+) should be entered for each phase (default log K is 0.0). The analytical expression (<STRONG CLASS="Bold">
+-analytical_expression</STRONG>
+) takes precedence over <STRONG CLASS="Bold">
+log_k and</STRONG>
+ the Van&#8217;t Hoff equation (<STRONG CLASS="Bold">
+delta_H</STRONG>
+) to determine the temperature dependence of the equilibrium constant. Lines 3 to 5, Line 6 for a solid, and Lines 7 to 9 for a gas may be entered as needed in any order. The equations for the phases may be written in terms of any aqueous chemical species, including e<Sup CLASS="Superscript">
+-</Sup>
+.</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-650668"></A>It is possible to specify an initial time for a kinetic integration by using the <STRONG CLASS="Bold">
--start_time</STRONG>
- identifier and to override the time step from the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block by using the <STRONG CLASS="Bold">
--time_step</STRONG>
- identifier. If <STRONG CLASS="Bold">
--time_step</STRONG>
- is not defined or a <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block is not defined for the cell, then the calculations occur exactly as they would by a series of <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> and <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> data blocks. If <STRONG CLASS="Bold">
--time_step</STRONG>
- is defined, then the kinetic reaction will be integrated over an interval of time_step. If nmax is the maximum number of steps defined for the cell with <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-34.htm#50540545_65966" CLASS="XRef">REACTION_PRESSURE</A>, or <A HREF="phreeqc3-35.htm#50540545_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data blocks, then the kinetic reaction will be divided into nmax equal increments; the results are equivalent to defining &#8220;<STRONG CLASS="Bold">
--step</STRONG>
- time_step <STRONG CLASS="Bold">
-in</STRONG>
- nmax steps&#8221; in the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block. The <STRONG CLASS="Bold">
-time_step</STRONG>
- will be used for all subsequent <STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
- calculations or until it is changed with another <STRONG CLASS="Bold">
--time_step</STRONG>
- definition in a <STRONG CLASS="Bold">
-RUN_CELLS </STRONG>
-data block. </P>
+<A NAME="50610177_pgfId-716395"></A>The molar volume of a solid is, together with the volumes of the solute species, used to calculate the pressure dependence of <STRONG CLASS="Bold">
+log_k</STRONG>
+:</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-716399"></A><IMG SRC="phreeqc3-31.png" ALIGN="MIDDLE">
+,   </P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-716400"></A>where P is pressure (atm),<EM CLASS="symbol">
+ &#916;</EM>
+V<Sub CLASS="Subscript">
+r</Sub>
+ is the volume change of the reaction (cm<Sup CLASS="Superscript">
+3</Sup>
+/mol), R is the gas constant (82.06 atm cm<Sup CLASS="Superscript">
+3</Sup>
+ mol<Sup CLASS="Superscript">
+-1</Sup>
+ K<Sup CLASS="Superscript">
+-1</Sup>
+, atmosphere cubic centimeter per mole per kelvin), and T is the temperature (K).</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-500972"></A>The <STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
- data block simplifies the definition of repetitive reactions in batch calculations. It also is intended to be used when an IPhreeqc module implements geochemical reactions in a reactive-transport model. For example, if a transport model has a set of cells numbered 1 through <EM CLASS="Emphasis">
-n</EM>
-, and the chemical reactants for those cells are saved as identification numbers 1 through <EM CLASS="Emphasis">
-n</EM>
- in an IPhreeqc module, then a simple sequential calculation can be implemented. The transport code is used to transport elemental concentrations conservatively, and the concentrations for solutions in the IPhreeqc module are updated with a series of <A HREF="phreeqc3-94.htm#50540557_89789" CLASS="XRef">SOLUTION_MODIFY</A> data blocks. Geochemical reactions are calculated by the data block: <STRONG CLASS="Bold">
-RUN_CELLS</STRONG>
-; <STRONG CLASS="Bold">
--cells</STRONG>
- 1-<EM CLASS="Emphasis">
-n</EM>
-. The new compositions of solutions and reactants are automatically stored in the IPhreeqc module and new solution concentrations are retrieved by extracting data defined by <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> or by the output from a <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A> data block. The new solution concentrations then are used to begin a new conservative transport step. </P>
+<A NAME="50610177_pgfId-706011"></A>The critical temperature and pressure and the acentric factor of a gas are used to calculate the equation of state according to Peng and Robinson (1976):</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-706093"></A><IMG SRC="phreeqc3-32.png" ALIGN="MIDDLE">
+,</P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-706154"></A>where V<Sub CLASS="Subscript">
+m</Sub>
+ is the molar volume of the gas (cm<Sup CLASS="Superscript">
+3</Sup>
+/mol), b is the minimal volume of the gas (cm<Sup CLASS="Superscript">
+3</Sup>
+/mol), a is the Van der Waals attraction factor (atm cm<Sup CLASS="Superscript">
+3</Sup>
+ mol<Sup CLASS="Superscript">
+-2</Sup>
+, atmosphere cubic centimeter per mole squared) and <EM CLASS="symbol">
+&#945;</EM>
+ is a dimensionless function of reduced temperature and acentric factor. With P and Vm known, the fugacity coefficient of a gas can be calculated as:</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-706210"></A><IMG SRC="phreeqc3-33.png" ALIGN="MIDDLE">
+,</P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-706095"></A>where <EM CLASS="symbol">
+&#981;</EM>
+ is the fugacity coefficient. The product of the fugacity coefficient and the gas pressure yields the activity of the gas which can be entered in the law of mass action.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-706388"></A>For a multicomponent gas phase, the weighted sums are taken of a, b, and &#945;: </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-716493"></A>b<Sub CLASS="Subscript">
+sum</Sub>
+ = &#931;(x<Sub CLASS="Subscript">
+i</Sub>
+ b), where x<Sub CLASS="Subscript">
+i</Sub>
+ is mole-fraction of gas i,</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-716509"></A>a&#945;<Sub CLASS="Subscript">
+sum</Sub>
+ = &#931;<Sub CLASS="Subscript">
+i</Sub>
+( &#931;<Sub CLASS="Subscript">
+j</Sub>
+(x<Sub CLASS="Subscript">
+i</Sub>
+ x<Sub CLASS="Subscript">
+j</Sub>
+ (a<Sub CLASS="Subscript">
+i</Sub>
+<EM CLASS="symbol">
+&#945;</EM>
+<Sub CLASS="Subscript">
+i</Sub>
+ a<Sub CLASS="Subscript">
+j</Sub>
+<EM CLASS="symbol">
+&#945;</EM>
+<Sub CLASS="Subscript">
+j</Sub>
+)<Sup CLASS="Superscript">
+0.5</Sup>
+) ) (1 - k<Sub CLASS="Subscript">
+ij</Sub>
+), and</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-716522"></A>k<Sub CLASS="Subscript">
+ij</Sub>
+ = binary interaction coefficient.</P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-706423"></A>As a result, the fugacity coefficient of a gas in a mixture will be different from the fugacity coefficient of the pure gas at the same pressure.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-706234"></A>The identifier <STRONG CLASS="Bold">
+-no_check</STRONG>
+ can be used to disable checking charge and elemental balances (see <A HREF="phreeqc3-50.htm#50610177_61994" CLASS="XRef">SOLUTION_SPECIES</A>). The use of <STRONG CLASS="Bold">
+-no_check</STRONG>
+ is not recommended, except in cases where the phase is only to be used for inverse modeling. Even in this case, equations defining phases should be charge balanced. The identifier also can be used to define the mineral formula for an exchanger with an explicit charge imbalance (see explanation under <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>).</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-473205"></A><A NAME="50540545_78325"></A>Example problems</H6>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-601928"></A>The keyword <STRONG CLASS="Bold">
-RUN_CELLS </STRONG>
-is used in example problem <A HREF="phreeqc3-75.htm#50540559_33272" CLASS="XRef">20</A>.</P>
+<A NAME="50610177_pgfId-495954"></A><A NAME="50610177_94656"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-495955"></A>Line 0:  PHASES</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496036"></A>Line 1:  CH3D(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496041"></A>Line 2:  CH3D(g) + H2O(l) = CH4(g) + HDO(aq)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496046"></A>Line 3:	log_k           -0.301029995663</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496051"></A>Line 4:	-add_logk       Log_alpha_D_CH4(g)/H2O(l)      -1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-495956"></A>Line 1a: Ca[34S]O4:2H2O</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-495957"></A>Line 2a:	Ca[34S]O4:2H2O + SO4-2 = [34S]O4-2 + Gypsum(s)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-495958"></A>Line 4a:	-add_logk       Log_alpha_34S_Gypsum/SO4-2       -1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496083"></A>Line 1b: Gypsum</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496084"></A>Line 2b:	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496081"></A>Line 3a:	log_k           -4.580</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-473234"></A><A NAME="50540545_94721"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-495964"></A><A NAME="50610177_91023"></A>Explanation 2</H6>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-495965"></A>Line 0: <STRONG CLASS="Bold">
+PHASES</STRONG>
+</P>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-495966"></A>Keyword for the data block. No other data are input on the keyword line.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-495967"></A>Line 1: <EM CLASS="Emphasis">
+Phase name</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-495968"></A><EM CLASS="Emphasis">
+phase name</EM>
+--Alphanumeric name of phase; no spaces are allowed.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-495969"></A>Line 2: <EM CLASS="Emphasis">
+Dissolution reaction</EM>
+</P>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-495970"></A>Dissolution reaction for phase. In implementing isotope calculations, the dissolution reaction was generalized to allow, in addition to any aqueous species, solid and gas species. To distinguish solids and gases (defined in the <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block) from aqueous species, &#8220;(s)&#8221; and &#8220;(g)&#8221; are appended to the species in the equation. For clarity, &#8220;H2O(l)&#8221; can be used in an equation to designate liquid water, but it is equivalent to using &#8220;H2O&#8221;. The chemical formula for the defined phase must be the first chemical formula on the left-hand side of the equation. The stoichiometric coefficient for the defined phase in the chemical reaction must be 1.0. The dissolution reaction must precede any identifiers related to the phase. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-495971"></A>Line 3: <STRONG CLASS="Bold">
+log_k</STRONG>
+ <EM CLASS="Emphasis">
+log K</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-495972"></A><STRONG CLASS="Bold">
+log_k</STRONG>
+--Identifier for log <EM CLASS="Emphasis">
+K</EM>
+ at 25 &#176;C. Optionally, <STRONG CLASS="Bold">
+-log_k</STRONG>
+, <STRONG CLASS="Bold">
+logk</STRONG>
+, <STRONG CLASS="Bold">
+-l</STRONG>
+[<STRONG CLASS="Bold">
+og_k</STRONG>
+], or <STRONG CLASS="Bold">
+-l</STRONG>
+[<STRONG CLASS="Bold">
+ogk</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-495973"></A><EM CLASS="Emphasis">
+log K</EM>
+--Log <EM CLASS="Emphasis">
+K</EM>
+ at 25 &#176;C for the reaction. Default is 0.0. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496141"></A>Line 4: <STRONG CLASS="Bold">
+-add_logk </STRONG>
+<EM CLASS="Emphasis">
+named_expression, coefficient</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496142"></A><STRONG CLASS="Bold">
+-add_logk</STRONG>
+--The value of the <EM CLASS="Emphasis">
+named_expression</EM>
+ is multiplied by the <EM CLASS="Emphasis">
+coefficient</EM>
+ and added to the log K for the phase. This identifier may be used multiple times in the definition of the equilibrium constant for the phase. Optionally, <STRONG CLASS="Bold">
+add_logk</STRONG>
+, <STRONG CLASS="Bold">
+add_log_k</STRONG>
+, <STRONG CLASS="Bold">
+-ad</STRONG>
+[<STRONG CLASS="Bold">
+d_logk</STRONG>
+] or <STRONG CLASS="Bold">
+-ad</STRONG>
+[<STRONG CLASS="Bold">
+d_log_k</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496143"></A><EM CLASS="Emphasis">
+named_expression</EM>
+--Name of an expression defined in a <A HREF="phreeqc3-28.htm#50610177_79962" CLASS="XRef">MIX_EQUILIBRIUM_PHASES</A> data block.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496144"></A><EM CLASS="Emphasis">
+coefficient</EM>
+--The <EM CLASS="Emphasis">
+coefficient</EM>
+ is multiplied by the value of the <EM CLASS="Emphasis">
+named_expression</EM>
+ and added to the equilibrium constant for the phase.</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-495985"></A><A NAME="50610177_63706"></A>Notes 2</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-473238"></A><A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A>, <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A>, and <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A>.</P>
+<A NAME="50610177_pgfId-495986"></A>Example data block 2 demonstrates capabilities that were added during the implementation of isotopic calculations as described by Thorstenson and Parkhurst (2000, 2004). First, to simplify the definition of equilibrium constants for the isotopic variants of a mineral or gas, the dissociation reaction was generalized to allow solids and gases in the equation. Solids are identified by an appended &#8220;(s)&#8221; and gases are identified by an appended &#8220;(g)&#8221;. The original definition of the solid or gas may or may not have the appended string in its name; PHREEQC attempts to find the name in the list of phases with and without the appended string. Note in this example that &#8220;Gypsum(s)&#8221; is used in Line 2a, but &#8220;Gypsum&#8221; is defined as the name of the phase in Line 1b. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-496170"></A>When specifying individual equilibrium constants for isotopic phases, a single fractionation factor may appear in the expressions of the equilibrium constants for multiple isotopic forms of a phase. To avoid many manipulations with analytical expressions in the definition of equilibrium constants, the <A HREF="phreeqc3-28.htm#50610177_79962" CLASS="XRef">MIX_EQUILIBRIUM_PHASES</A> data block allows assigning a name to the expression for a fractionation factor. This named expression can then be used in calculating the equilibrium constants for phases defined in the <STRONG CLASS="Bold">
+PHASES</STRONG>
+ data block by use of the <STRONG CLASS="Bold">
+-add_logk</STRONG>
+ identifier. In the definition of CH3D(g) in the Example data block 2, the fractionation factor for deuterium between methane and liquid water is added to an equilibrium constant derived from the symmetry of the molecule to define the equilibrium constant for the dissociation reaction. </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-255224"></A><A NAME="50610177_45509"></A>Example problems</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-255231"></A>The keyword <STRONG CLASS="Bold">
+PHASES </STRONG>
+is used in example problems <A HREF="phreeqc3-63.htm#50610191_24208" CLASS="XRef">1</A>, <A HREF="phreeqc3-68.htm#50610191_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-69.htm#50610191_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-70.htm#50610191_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-71.htm#50610191_39217" CLASS="XRef">9</A>, <A HREF="phreeqc3-72.htm#50610191_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-78.htm#50610191_75769" CLASS="XRef">16</A>, <A HREF="phreeqc3-80.htm#50610191_35722" CLASS="XRef">18</A>, and <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">21</A>. It is also found in all of the database files.</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-255232"></A><A NAME="50610177_34132"></A>Related keywords</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-255251"></A><A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>, <A HREF="phreeqc3-20.htm#50610177_11066" CLASS="XRef">INVERSE_MODELING</A>, <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-28.htm#50610177_79962" CLASS="XRef">MIX_EQUILIBRIUM_PHASES</A>, <STRONG CLASS="Bold">
+<A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef"></A>REACTION<STRONG CLASS="Bold">
+</STRONG>
+</STRONG>
+, <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
+equilibrium_phases</STRONG>
+, and <A HREF="phreeqc3-57.htm#50610177_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
+equilibrium_phases</STRONG>
+.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-37.htm">Next</A> || <A HREF="phreeqc3-35.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

@@ -4,310 +4,712 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> SURFACE_SPECIES</TITLE><HR><P> | <A HREF="phreeqc3-48.htm">Next</A> || <A HREF="phreeqc3-46.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> SOLID_SOLUTIONS</TITLE><HR><P> | <A HREF="phreeqc3-48.htm">Next</A> || <A HREF="phreeqc3-46.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-256704"></A><STRONG CLASS="Bold">
-SURFACE_SPECIES</STRONG>
-<A NAME="50540545_92844"></A></H2>
+<A NAME="50610177_pgfId-256131"></A><STRONG CLASS="Bold">
+SOLID_SOLUTIONS</STRONG>
+<A NAME="50610177_77444"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256705"></A>This keyword data block is used to define a reaction and log <EM CLASS="Emphasis">
-K</EM>
- for each surface species, including surface master species. Normally, this data block is included in the database file and only additions and modifications are included in the input file. Surface species defined in Dzombak and Morel (1990) are defined in the standard set of databases; the master species are Hfo_w and Hfo_s for the weak and strong binding sites of hydrous ferric oxide. </P>
+<A NAME="50610177_pgfId-256132"></A>This keyword data block is used to define a solid-solution assemblage. Each solid solution may be nonideal with two components or ideal with any number of components. The initial amount of each component in each solid solution is defined in this keyword data block. Any calculation involving solid solutions assumes that all solid solutions dissolve entirely and reprecipitate in equilibrium with the solution. The formulation is sufficiently general that synthetic organic liquid solutions also can be simulated. </P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256706"></A><A NAME="50540545_62340"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256707"></A>Line 0:  SURFACE_SPECIES </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256708"></A>Line 1a: Surf_sOH = Surf_sOH</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256709"></A>Line 2a:       log_k     0.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256710"></A>Line 1b: Surf_sOH + H+ = Surf_sOH2+</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256711"></A>Line 2b:      log_k     6.3</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256712"></A>Line 1c: Surf_wOH = Surf_wOH</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256713"></A>Line 2c       log_k     0.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256714"></A>Line 1d: Surf_wOH + H+ = Surf_wOH2+</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-256715"></A>Line 2d:      log_k     4.3</pre>
+<A NAME="50610177_pgfId-256133"></A><A NAME="50610177_19700"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256134"></A>Line 0:   SOLID_SOLUTIONS 1 Two solid solutions</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-305783"></A>Line 1a:  CaSrBaSO4					# ideal</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256136"></A>Line 2a:	-comp		Anhydrite		1.500</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256137"></A>Line 2b:	-comp		Celestite		0.05</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256138"></A>Line 2c:	-comp		Barite		0.05</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256139"></A>Line 1b:  Ca(x)Mg(1-x)CO3					# Binary, nonideal</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256140"></A>Line 3:	-comp1		Calcite		0.097</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256141"></A>Line 4:	-comp2		Ca.5Mg.5CO3		0.003</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256142"></A>Line 5:	-temp		25.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-324831"></A>Line 6:	-tempk		298.15</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256143"></A>Line 7:	-Gugg_nondim		5.08		1.90</pre>
+<P CLASS="Body-line">
+<A NAME="50610177_pgfId-256144"></A>&nbsp;</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-256145"></A>Optional definitions of excess free-energy parameters for nonideal solid solutions:</P>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256147"></A>Line 8:	-Gugg_kj				12.593	4.70</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256148"></A>Line 9:	-activity_coefficients 				24.05	1075. 0.0001 0.9999</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256149"></A>Line 10:	-distribution_coefficients				0.0483	1248. 0.0001 0.9999</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256150"></A>Line 11:	-miscibility_gap				0.0428	0.9991</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256151"></A>Line 12:	-spinodal_gap				0.2746	0.9483</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256152"></A>Line 13:	-critical_point				0.6761	925.51</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256153"></A>Line 14:	-alyotropic_point				0.5768	-8.363</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256154"></A>Line 15:	-Thompson				17.303	7.883</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256155"></A>Line 16:	-Margules				-0.62	7.6</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256720"></A><A NAME="50540545_80417"></A>Explanation 1</H6>
+<A NAME="50610177_pgfId-256160"></A><A NAME="50610177_78126"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-256721"></A>Line 0: <STRONG CLASS="Bold">
-SURFACE_SPECIES</STRONG>
-</P>
+<A NAME="50610177_pgfId-256161"></A>Line 0: <STRONG CLASS="Bold">
+SOLID_SOLUTIONS </STRONG>
+[<EM CLASS="Emphasis">
+number</EM>
+] [<EM CLASS="Emphasis">
+description</EM>
+]</P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-256722"></A>Keyword for the data block. No other data are input on the keyword line.</P>
+<A NAME="50610177_pgfId-640088"></A><STRONG CLASS="Bold">
+SOLID_SOLUTIONS</STRONG>
+ is the keyword for the data block. Optionally, <STRONG CLASS="Bold">
+SOLID_SOLUTION</STRONG>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640089"></A><EM CLASS="Emphasis">
+number</EM>
+--A positive number designates the following solid-solution assemblage and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
+m-n</EM>
+, where <EM CLASS="Emphasis">
+m</EM>
+ and <EM CLASS="Emphasis">
+n</EM>
+ are positive integers, <EM CLASS="Emphasis">
+m</EM>
+ is less than <EM CLASS="Emphasis">
+n</EM>
+, and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640080"></A><EM CLASS="Emphasis">
+description</EM>
+--Optional comment that describes the solid-solution assemblage.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-256723"></A>Line 1: <EM CLASS="Emphasis">
-Association reaction</EM>
+<A NAME="50610177_pgfId-640081"></A>Line 1: <EM CLASS="Emphasis">
+solid-solution name</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-256724"></A>Association reaction for surface species. The defined species must be the first species to the right of the equal sign. The association reaction must precede all identifiers related to the surface species. Line 1a is a master-species identity reaction.</P>
+<A NAME="50610177_pgfId-640070"></A><EM CLASS="Emphasis">
+solid-solution name</EM>
+--User-defined name of a solid solution.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-637954"></A>Line 2: <STRONG CLASS="Bold">
-log_k</STRONG>
+<A NAME="50610177_pgfId-640071"></A>Line 2: <STRONG CLASS="Bold">
+-comp</STRONG>
 <EM CLASS="Emphasis">
- log K</EM>
+ phase name, moles</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637955"></A><STRONG CLASS="Bold">
-log_k</STRONG>
---Identifier for log <EM CLASS="Emphasis">
-K</EM>
- at 25 &#176;C. Optionally, <STRONG CLASS="Bold">
--log_k</STRONG>
+<A NAME="50610177_pgfId-640061"></A><STRONG CLASS="Bold">
+-comp</STRONG>
+--Identifier indicates a component of an ideal solid solution is defined. Component is part of the solid solution defined by the preceding Line 1. Optionally, <STRONG CLASS="Bold">
+comp</STRONG>
 , <STRONG CLASS="Bold">
-logk</STRONG>
-, <STRONG CLASS="Bold">
--l</STRONG>
+component</STRONG>
+, or <STRONG CLASS="Bold">
+-c</STRONG>
 [<STRONG CLASS="Bold">
-og_k</STRONG>
-], or <STRONG CLASS="Bold">
--l</STRONG>
-[<STRONG CLASS="Bold">
-ogk</STRONG>
+omponent</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637956"></A><EM CLASS="Emphasis">
-log K</EM>
---Log <EM CLASS="Emphasis">
-K</EM>
- at 25 &#176;C for the reaction. Log <EM CLASS="Emphasis">
-K</EM>
- for a master species is 0.0. Default is 0.0.</P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-756221"></A><A NAME="50540545_70043"></A>Notes 1</H6>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-325993"></A>This Example data block assumes that Surf_w and Surf_s are defined in a <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A> data block. Lines 1 and 2 may be repeated as necessary to define all of the surface reactions. An identity reaction is needed to define each master surface species, Lines 1a and 1c in this Example data block. The log <EM CLASS="Emphasis">
-K</EM>
- for the identity reaction must be 0.0, Lines 2a and 2c in this Example data block. </P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256735"></A>An underscore plus one or more lowercase letters is used to define different binding sites for the same surface. In the Example data block, association reactions for a strong and a weak binding site are defined for the surface named &#8220;Surf&#8221;. Multiple surfaces may be defined simply by defining multiple master surface species (for example, Surfa, Surfb, and Surfc). Multiple binding sites can be defined for each surface by using an underscore followed by one or more lower case letters. Binding sites on the same surface share the same surface area, and have the same electrostatic potential.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-256736"></A>Temperature dependence of log <EM CLASS="Emphasis">
-K</EM>
- can be defined with enthalpy of reaction (identifier <STRONG CLASS="Bold">
-delta_h</STRONG>
-) and the Van&#8217;t Hoff equation or with an analytical expression (<STRONG CLASS="Bold">
--analytical_expression</STRONG>
-). It is also possible to define a temperature-dependent expression in <A HREF="phreeqc3-28.htm#50540545_79962" CLASS="XRef">NAMED_EXPRESSIONS</A> and use <STRONG CLASS="Bold">
--add_logk</STRONG>
- to add its value to the equilibrium constant for the surface species. See <A HREF="phreeqc3-43.htm#50540545_61994" CLASS="XRef">SOLUTION_SPECIES</A> or <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> for examples.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-648412"></A>The identifier <STRONG CLASS="Bold">
--no_check </STRONG>
-can be used to disable checking charge and elemental balances (see <A HREF="phreeqc3-43.htm#50540545_61994" CLASS="XRef">SOLUTION_SPECIES</A>). The use of <STRONG CLASS="Bold">
--no_check</STRONG>
- is not recommended. If <STRONG CLASS="Bold">
--no_check</STRONG>
- is used, then the <STRONG CLASS="Bold">
--mole_balance</STRONG>
- identifier is needed to ensure the correct stoichiometry for the surface species. In PHREEQC version 1, the <STRONG CLASS="Bold">
--no_check</STRONG>
- option was included to permit the stoichiometry of a species to be defined separately from the mass-action equation. Specifically, the sorption of uranium on iron oxides as described by Waite and others (1994) provides an example, where they use different coefficients in the mass-action equation than in the mole-balance equations. However, activity of a surface species is defined as mole fraction of sites occupied by the species in PHREEQC versions 2 and 3, which is inconsistent with activity that is defined as molality by Waite and others (1994) and PHREEQC version 1. It is noted that formulas with coefficients of only 1 in the mass-action-equation will give identical results for all PHREEQC versions. The <STRONG CLASS="Bold">
--no_check</STRONG>
- and <STRONG CLASS="Bold">
--mole_balance</STRONG>
- identifiers have been retained in version 3, but their use should be restricted to special sorption formulas; for example, for modeling Freundlich isotherms (see <A HREF="phreeqc3-74.htm#50540559_18716" CLASS="XRef">See Modeling Cd+2 Sorption With Linear, Freundlich, and Langmuir Isotherms, and With a Deterministic Distribution of Sorption Sites for Organic Matter, Clay Minerals, and Iron Oxyhydroxides</A>, in the <A HREF="phreeqc3-55.htm#50540559_31416" CLASS="XRef">Examples</A>). </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-648419"></A><A NAME="50540545_24725"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512013"></A>Line 0:  SURFACE_SPECIES </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512078"></A>Line 1a:	Goe_uniOH-0.5 = Goe_uniOH-0.5</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512076"></A>Line 2a:		log_k 0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-756121"></A>Line 3:		-Vm    8.51 1.15 -0.678 -2.83   2.38   0 2.0  14.5 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512164"></A>Line 4a:		-cd_music  0 0 0 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512291"></A>Line 1b:	Goe_uniOH-0.5 + H+ + AsO4-3 = Goe_uniOAsO3-2.5 + H2O</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512292"></A>Line 2b:		log_k     20.1                 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512293"></A>Line 4b:		-cd_music 0.25  -2.25  0 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512085"></A>Line 1c:	Goe_uniOH-0.5 + H+ + AsO4-3 = Goe_uniOAsO3-2.5 + H2O</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512086"></A>Line 2c:		log_k     20.1                 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512528"></A>Line 5:		-cd_music  -1 -6 0 0.25 5</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512535"></A>Line 1d:	Goe_triO-0.5 + Na+ = Goe_triONa+0.5</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512536"></A>Line 2d:		log_k    -1                    </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-512548"></A>Line 4c:		-cd_music  0 0 1 </pre>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-512529"></A><A NAME="50540545_69124"></A>Explanation 2</H6>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-512530"></A>Line 0: <STRONG CLASS="Bold">
-SURFACE_SPECIES</STRONG>
-</P>
-<P CLASS="Body1">
-<A NAME="50540545_pgfId-512024"></A>Keyword for the data block. No other data are input on the keyword line.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-512025"></A>Line 1: <EM CLASS="Emphasis">
-Association reaction</EM>
-</P>
+<A NAME="50610177_pgfId-640050"></A><EM CLASS="Emphasis">
+phase name</EM>
+--Name of the pure phase that is a component in the solid solution. A phase with this name must have been defined in a <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-512026"></A>Association reaction for surface species. The defined species must be the first species to the right of the equal sign. The association reaction must precede all identifiers related to the surface species. Line 1a is a master-species identity reaction.</P>
+<A NAME="50610177_pgfId-640038"></A><EM CLASS="Emphasis">
+moles</EM>
+--Moles of the component in the solid solution.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-637934"></A>Line 2: <STRONG CLASS="Bold">
-log_k</STRONG>
+<A NAME="50610177_pgfId-640039"></A>Line 3: <STRONG CLASS="Bold">
+-comp1</STRONG>
 <EM CLASS="Emphasis">
- log K</EM>
+ phase name, moles</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637935"></A><STRONG CLASS="Bold">
-log_k</STRONG>
---Identifier for log <EM CLASS="Emphasis">
-K</EM>
- at 25 &#176;C. Optionally, <STRONG CLASS="Bold">
--log_k</STRONG>
-, <STRONG CLASS="Bold">
-logk</STRONG>
-, <STRONG CLASS="Bold">
--l</STRONG>
-[<STRONG CLASS="Bold">
-og_k</STRONG>
-], or <STRONG CLASS="Bold">
--l</STRONG>
-[<STRONG CLASS="Bold">
-ogk</STRONG>
-].</P>
+<A NAME="50610177_pgfId-640023"></A><STRONG CLASS="Bold">
+-comp1</STRONG>
+--Identifier indicates the first component of a nonideal, binary solid solution is defined. The component is part of the solid solution defined by the preceding Line 1. Optionally, <STRONG CLASS="Bold">
+comp1</STRONG>
+ or<STRONG CLASS="Bold">
+ -comp1</STRONG>
+.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637936"></A><EM CLASS="Emphasis">
-log K</EM>
---Log <EM CLASS="Emphasis">
-K</EM>
- at 25 &#176;C for the reaction. Log <EM CLASS="Emphasis">
-K</EM>
- for a master species is 0.0. Default is 0.0.</P>
+<A NAME="50610177_pgfId-640012"></A><EM CLASS="Emphasis">
+phase name</EM>
+--Name of the pure phase that is component 1 of the nonideal solid solution. A phase with this name must have been defined in a <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-640000"></A><EM CLASS="Emphasis">
+moles</EM>
+--Moles of the component in the solid solution.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-637926"></A>Line 3: Same as Example data block 1.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-756386"></A>Line 4: <STRONG CLASS="Bold">
--cd_music </STRONG>
+<A NAME="50610177_pgfId-640001"></A>Line 4: <STRONG CLASS="Bold">
+-comp2</STRONG>
 <EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-0</Sub>
-, <EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-1</Sub>
-, <EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-2</Sub>
- </P>
+ phase name, moles</EM>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637916"></A><STRONG CLASS="Bold">
--cd_music</STRONG>
---Identifier for CD-MUSIC electrostatic parameters. More recent papers by Hiemstra and others (for example, Stachowicz and others, 2006) use this form to define the change in charge for the 0, 1, and 2 planes. Optionally, <STRONG CLASS="Bold">
-cd_music</STRONG>
+<A NAME="50610177_pgfId-639985"></A><STRONG CLASS="Bold">
+-comp2</STRONG>
+--Identifier indicates the second component of a nonideal, binary solid solution is defined. The component is part of the solid solution defined by the preceding Line 1. Optionally, <STRONG CLASS="Bold">
+comp2</STRONG>
  or <STRONG CLASS="Bold">
--cd</STRONG>
-[<STRONG CLASS="Bold">
-_music</STRONG>
-].</P>
+-comp2</STRONG>
+.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637907"></A><EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-0</Sub>
---The change in charge at the plane of specific adsorption, or 0 plane.</P>
+<A NAME="50610177_pgfId-639974"></A><EM CLASS="Emphasis">
+phase name</EM>
+--Name of the pure phase that is component 2 of the nonideal solid solution. A phase with this name must have been defined in a <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637908"></A><EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-1</Sub>
---The change in charge at the Stern layer, or 1 plane.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637898"></A><EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-2</Sub>
---The change in charge at the diffuse layer, or 2 plane.</P>
+<A NAME="50610177_pgfId-639962"></A><EM CLASS="Emphasis">
+moles</EM>
+--Moles of the component in the solid solution.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-637888"></A>Line 5: <STRONG CLASS="Bold">
--cd_music </STRONG>
+<A NAME="50610177_pgfId-639963"></A>Line 5: <STRONG CLASS="Bold">
+-temp</STRONG>
 <EM CLASS="Emphasis">
-dz</EM>
-<Sub CLASS="Subscript">
-0</Sub>
-, <EM CLASS="Emphasis">
-dz</EM>
-<Sub CLASS="Subscript">
-1</Sub>
-, <EM CLASS="Emphasis">
-dz</EM>
-<Sub CLASS="Subscript">
-2</Sub>
-, <EM CLASS="Emphasis">
-fraction</EM>
-, <EM CLASS="Emphasis">
-Z</EM>
-<Sub CLASS="Subscript">
-ion</Sub>
- </P>
+ temperature in Celsius</EM>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637872"></A><STRONG CLASS="Bold">
--cd_music</STRONG>
---Identifier CD-MUSIC electrostatic parameters. Early papers by Hiemstra and others (for example, Hiemstra and van Riemsdijk, 1996) used this form to define the change in charge for the 0, 1, and 2 planes. Parameters defined by this method are converted to parameters as in Line 3 by the following equations: <IMG SRC="phreeqc3-160.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-161.gif" ALIGN="BASELINE">
-. The meaning of <EM CLASS="Emphasis">
-deltaz</EM>
-<Sub CLASS="Subscript">
-2</Sub>
- is the same in Lines 3 and 4. Optionally, <STRONG CLASS="Bold">
-cd_music</STRONG>
+<A NAME="50610177_pgfId-639947"></A><STRONG CLASS="Bold">
+-temp</STRONG>
+--Temperature at which excess free-energy parameters are defined, in Celsius. Temperature, either <STRONG CLASS="Bold">
+temp</STRONG>
  or <STRONG CLASS="Bold">
--cd</STRONG>
+tempk</STRONG>
+, is used if excess free-energy parameters are input with any of the following identifiers: <STRONG CLASS="Bold">
+-gugg_nondim</STRONG>
+, <STRONG CLASS="Bold">
+-activity_coefficients</STRONG>
+, <STRONG CLASS="Bold">
+-distribution_coefficients</STRONG>
+, <STRONG CLASS="Bold">
+-miscibility_gap</STRONG>
+, <STRONG CLASS="Bold">
+-spinodal_gap</STRONG>
+, <STRONG CLASS="Bold">
+-alyotropic_point</STRONG>
+, or <STRONG CLASS="Bold">
+-margules</STRONG>
+. Optionally, <STRONG CLASS="Bold">
+temp</STRONG>
+,<STRONG CLASS="Bold">
+ tempc</STRONG>
+, or <STRONG CLASS="Bold">
+-t</STRONG>
 [<STRONG CLASS="Bold">
-_music</STRONG>
-].</P>
+empc</STRONG>
+]. Default is 25 &#176;C. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639938"></A>Line 6: <STRONG CLASS="Bold">
+-tempk</STRONG>
+<EM CLASS="Emphasis">
+ temperature in kelvin</EM>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637858"></A><EM CLASS="Emphasis">
-dz</EM>
+<A NAME="50610177_pgfId-639939"></A><STRONG CLASS="Bold">
+-tempk</STRONG>
+--Temperature at which excess free-energy parameters are defined, in kelvin. Temperature, either <STRONG CLASS="Bold">
+temp</STRONG>
+ or <STRONG CLASS="Bold">
+tempk</STRONG>
+, is used if excess free-energy parameters are input with any of the following options: <STRONG CLASS="Bold">
+-gugg_nondim</STRONG>
+, <STRONG CLASS="Bold">
+-activity_coefficients</STRONG>
+, <STRONG CLASS="Bold">
+-distribution_coefficients</STRONG>
+, <STRONG CLASS="Bold">
+-miscibility_gap</STRONG>
+, <STRONG CLASS="Bold">
+-spinodal_gap</STRONG>
+, <STRONG CLASS="Bold">
+-alyotropic_point</STRONG>
+, or <STRONG CLASS="Bold">
+-margules</STRONG>
+. Optionally, <STRONG CLASS="Bold">
+tempk</STRONG>
+ or <STRONG CLASS="Bold">
+-tempk</STRONG>
+. Default is 298.15 K. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639930"></A>Line 7: <STRONG CLASS="Bold">
+-Gugg_nondim</STRONG>
+<EM CLASS="Emphasis">
+ a</EM>
 <Sub CLASS="Subscript">
 0</Sub>
---The change in charge at the plane of specific adsorption, or 0 plane due to gain or loss of hydrogen and oxygen.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637838"></A><EM CLASS="Emphasis">
-dz</EM>
+<EM CLASS="Emphasis">
+, a</EM>
 <Sub CLASS="Subscript">
 1</Sub>
---The change in charge at the Stern layer, or 1 plane due to hydrogen and oxygen in the ligand.</P>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637834"></A><EM CLASS="Emphasis">
-deltaz</EM>
+<A NAME="50610177_pgfId-639931"></A><STRONG CLASS="Bold">
+-Gugg_nondim</STRONG>
+--Nondimensional Guggenheim parameters are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+gugg_nondimensional</STRONG>
+, <STRONG CLASS="Bold">
+parms</STRONG>
+,<STRONG CLASS="Bold">
+ -g</STRONG>
+[<STRONG CLASS="Bold">
+ugg_nondimensional</STRONG>
+], or <STRONG CLASS="Bold">
+-p</STRONG>
+[<STRONG CLASS="Bold">
+arms</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639922"></A><EM CLASS="Emphasis">
+a</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+--Guggenheim <EM CLASS="Emphasis">
+a</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+ parameter, dimensionless. Default is 0.0.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639923"></A><EM CLASS="Emphasis">
+a</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Guggenheim <EM CLASS="Emphasis">
+a</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+ parameter, dimensionless. Default is 0.0.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639913"></A>Line 8: <STRONG CLASS="Bold">
+-Gugg_kJ</STRONG>
+<EM CLASS="Emphasis">
+ g</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+<EM CLASS="Emphasis">
+, g</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639903"></A><STRONG CLASS="Bold">
+-Gugg_kJ</STRONG>
+--Guggenheim parameters with dimensions of kJ/mol define the excess free energy of the nonideal, binary solid solution. Optionally, <STRONG CLASS="Bold">
+gugg_kJ</STRONG>
+ or <STRONG CLASS="Bold">
+-gugg_k</STRONG>
+[<STRONG CLASS="Bold">
+J</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639894"></A><EM CLASS="Emphasis">
+g</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+--Guggenheim <EM CLASS="Emphasis">
+g</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+ parameter, kJ/mol. Default is 0.0.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639895"></A><EM CLASS="Emphasis">
+g</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Guggenheim <EM CLASS="Emphasis">
+g</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+ parameter, kJ/mol. Default is 0.0.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639885"></A>Line 9: <STRONG CLASS="Bold">
+-activity_coefficients</STRONG>
+ <IMG SRC="phreeqc3-94.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-95.png" ALIGN="MIDDLE">
+,<EM CLASS="Emphasis">
+ x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+<EM CLASS="Emphasis">
+, x</EM>
 <Sub CLASS="Subscript">
 2</Sub>
---The change in charge at the diffuse layer, or 2 plane.</P>
+</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637829"></A><EM CLASS="Emphasis">
-fraction</EM>
---The fraction of the central ion charge that is associated with plane 0. </P>
+<A NAME="50610177_pgfId-639863"></A><STRONG CLASS="Bold">
+-activity_coefficients</STRONG>
+--Activity coefficients for components 1 and 2 are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+activity_coefficients</STRONG>
+ or <STRONG CLASS="Bold">
+-a</STRONG>
+[<STRONG CLASS="Bold">
+ctivity_coefficients</STRONG>
+]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-637819"></A><EM CLASS="Emphasis">
-ion_z</EM>
---The charge on the central ion.</P>
+<A NAME="50610177_pgfId-639839"></A><IMG SRC="phreeqc3-96.png" ALIGN="MIDDLE">
+--Activity coefficient for component 1 in the solid solution. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639843"></A><IMG SRC="phreeqc3-97.png" ALIGN="MIDDLE">
+--Activity coefficient for component 2 in the solid solution. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639824"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Mole fraction of component 2 for which <IMG SRC="phreeqc3-98.png" ALIGN="MIDDLE">
+ applies. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639805"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+--Mole fraction of component 2 for which <IMG SRC="phreeqc3-99.png" ALIGN="MIDDLE">
+ applies. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639783"></A>Line 10: <STRONG CLASS="Bold">
+-distribution_coefficients</STRONG>
+ <IMG SRC="phreeqc3-100.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-101.png" ALIGN="MIDDLE">
+, <EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639749"></A><STRONG CLASS="Bold">
+-distribution_coefficients</STRONG>
+--Two distribution coefficients are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+distribution_coefficients</STRONG>
+ or <STRONG CLASS="Bold">
+-d</STRONG>
+[<STRONG CLASS="Bold">
+istribution_coefficients</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639720"></A><IMG SRC="phreeqc3-102.png" ALIGN="MIDDLE">
+--Distribution coefficient of component 2 at mole fraction <EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+ of component 2, expressed as <IMG SRC="phreeqc3-103.png" ALIGN="MIDDLE">
+, where <IMG SRC="phreeqc3-104.png" ALIGN="MIDDLE">
+ is the mole fraction in the solid and <IMG SRC="phreeqc3-105.png" ALIGN="MIDDLE">
+ is the aqueous activity. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-671375"></A><IMG SRC="phreeqc3-106.png" ALIGN="MIDDLE">
+--Distribution coefficient of component 2 at mole fraction <EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+ of component 2, expressed as above. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-671379"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Mole fraction of component 2 for which <IMG SRC="phreeqc3-107.png" ALIGN="MIDDLE">
+ applies. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-671383"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+--Mole fraction of component 2 for which <IMG SRC="phreeqc3-108.png" ALIGN="MIDDLE">
+ applies. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639649"></A>Line 11: <STRONG CLASS="Bold">
+-miscibility_gap</STRONG>
+<EM CLASS="Emphasis">
+ x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+<EM CLASS="Emphasis">
+, x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639627"></A><STRONG CLASS="Bold">
+-miscibility_gap</STRONG>
+--The mole fractions of component 2 that delimit the miscibility gap are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+miscibility_gap</STRONG>
+ or <STRONG CLASS="Bold">
+-m</STRONG>
+[<STRONG CLASS="Bold">
+iscibility_gap</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639618"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Mole fraction of component 2 at one end of the miscibility gap. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639619"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+--Mole fraction of component 2 at the other end of the miscibility gap. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639609"></A>Line 12: <STRONG CLASS="Bold">
+-spinodal_gap</STRONG>
+<EM CLASS="Emphasis">
+ x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+<EM CLASS="Emphasis">
+, x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639599"></A><STRONG CLASS="Bold">
+-spinodal_gap</STRONG>
+--The mole fractions of component 2 that delimit the spinodal gap are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+spinodal_gap</STRONG>
+ or <STRONG CLASS="Bold">
+-s</STRONG>
+[<STRONG CLASS="Bold">
+pinodal_gap</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639590"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Mole fraction of component 2 at one end of the spinodal gap. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639591"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+--Mole fraction of component 2 at the other end of the spinodal gap. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639581"></A>Line 13: <STRONG CLASS="Bold">
+-critical_point</STRONG>
+<EM CLASS="Emphasis">
+ x</EM>
+<Sub CLASS="Subscript">
+cp</Sub>
+<EM CLASS="Emphasis">
+, t</EM>
+<Sub CLASS="Subscript">
+cp</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639571"></A><STRONG CLASS="Bold">
+-critical_point</STRONG>
+--The mole fraction of component 2 at the critical point and the critical temperature (kelvin) are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+critical_point</STRONG>
+ or <STRONG CLASS="Bold">
+-cr</STRONG>
+[<STRONG CLASS="Bold">
+itical_point</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639562"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+cp</Sub>
+--Mole fraction of component 2 at the critical point. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639563"></A><EM CLASS="Emphasis">
+t</EM>
+<Sub CLASS="Subscript">
+cp</Sub>
+--Critical temperature, in kelvin. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639553"></A>Line 14: <STRONG CLASS="Bold">
+-alyotropic_point</STRONG>
+<EM CLASS="Emphasis">
+ x</EM>
+<Sub CLASS="Subscript">
+aly</Sub>
+, <IMG SRC="phreeqc3-109.png" ALIGN="MIDDLE">
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639537"></A><STRONG CLASS="Bold">
+-alyotropic_point</STRONG>
+--The mole fraction of component 2 at the alyotropic point and the total solubility product at that point are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+alyotropic_point</STRONG>
+ or <STRONG CLASS="Bold">
+-al</STRONG>
+[<STRONG CLASS="Bold">
+yotropic_point</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639516"></A><EM CLASS="Emphasis">
+x</EM>
+<Sub CLASS="Subscript">
+aly</Sub>
+--Mole fraction of component 2 at the alyotropic point. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639523"></A><IMG SRC="phreeqc3-110.png" ALIGN="MIDDLE">
+--Total solubility product at the alyotropic point, where <IMG SRC="phreeqc3-111.png" ALIGN="MIDDLE">
+. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639491"></A>Line 15: <STRONG CLASS="Bold">
+-Thompson</STRONG>
+<EM CLASS="Emphasis">
+ wg</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+<EM CLASS="Emphasis">
+, wg</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639483"></A><STRONG CLASS="Bold">
+-Thompson</STRONG>
+--Thompson and Waldbaum parameters <EM CLASS="Emphasis">
+wg</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+ and <EM CLASS="Emphasis">
+wg</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+ are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+thompson</STRONG>
+ or <STRONG CLASS="Bold">
+-th</STRONG>
+[<STRONG CLASS="Bold">
+ompson</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639474"></A><EM CLASS="Emphasis">
+wg</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+--Thompson and Waldbaum parameter <EM CLASS="Emphasis">
+wg</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, kJ/mol. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639475"></A><EM CLASS="Emphasis">
+wg</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+--Thompson and Waldbaum parameter <EM CLASS="Emphasis">
+wg</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, kJ/mol. No default.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-639465"></A>Line 16: <STRONG CLASS="Bold">
+-Margules</STRONG>
+<EM CLASS="Emphasis">
+ alpha</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+<EM CLASS="Emphasis">
+, alpha</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639455"></A><STRONG CLASS="Bold">
+-Margules</STRONG>
+--Margules parameters <EM CLASS="Emphasis">
+alpha</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+ and <EM CLASS="Emphasis">
+alpha</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+ are used to calculate dimensional Guggenheim parameters. Optionally, <STRONG CLASS="Bold">
+Margules</STRONG>
+ or <STRONG CLASS="Bold">
+-Ma</STRONG>
+[<STRONG CLASS="Bold">
+rgules</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639446"></A><EM CLASS="Emphasis">
+alpha</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+--Margules parameter <EM CLASS="Emphasis">
+alpha</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, dimensionless. No default.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-639447"></A><EM CLASS="Emphasis">
+alpha</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+--Margules parameter <EM CLASS="Emphasis">
+alpha</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, dimensionless. No default.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-637809"></A><A NAME="50540545_73291"></A>Notes 2</H6>
+<A NAME="50610177_pgfId-639437"></A><A NAME="50610177_69355"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-637796"></A>This Example data block defines surface species for a CD-MUSIC surface. The definitions assume that Goe_uni has been defined as a site in a <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A> data block. Lines 1 through 3 in Example data block 2 are the same as for Example data block 1, but Lines 4 and 5 are specific to CD-MUSIC surfaces. Line 4b and Line 5 define the same electrostatic parameters for the same surface species in two alternative forms. Line 4b is now the more common form for definition of the distribution of surface charge for a species, where the change in charge at the three charge planes--the 0 or specific adsorption plane, the 1 or Stern layer plane, and the 2 or diffuse layer plane--is specified directly. Line 5 is an older form that separates the change in charge into that related to hydrogen and oxygen and that related to the distribution of charge from the central ion. Any parameters defined in the form of Line 5 are converted to the form of Line 4 for all surface calculations. </P>
+<A NAME="50610177_pgfId-256282"></A>Multiple solid solutions may be defined by multiple sets of Lines 1, 2, 3, and 4. Line 2 may be repeated as necessary to define all the components of an ideal solid solution. Nonideal solid solution components must be defined with Lines 3 and 4. Calculations with solid solutions assume that the entire solid recrystallizes to be in equilibrium with the aqueous phase. This assumption is usually unrealistic because it is likely that only the outer layer of a solid would re-equilibrate with the solution, even given long periods of time. In most cases, the use of ideal solid solutions is also unrealistic because nonideal effects are nearly always present in solids. Liquid solutions of synthetic organic liquids usually behave as ideal mixtures and can be modeled well with this keyword (Appelo and Postma, 2005, Chapter 10, Example 10.5).</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-512575"></A>An underscore plus one or more lowercase letters is used to define different binding sites for the same CD-MUSIC surface. In the Example data block, Goe_uni and Goe_tri are two site types for a goethite surface.</P>
+<A NAME="50610177_pgfId-256283"></A>Lines 7-16 provide alternative ways of defining the excess free energy of a nonideal, binary solid solution. Only one of these lines should be included in the definition of a single solid solution. The parameters in the Example data block are taken from Glynn (1991) and Glynn (1990) for &#8220;nondefective&#8221; calcite (log <EM CLASS="Emphasis">
+K</EM>
+ -8.48) and dolomite (expressed as Ca<Sub CLASS="Subscript">
+0.5</Sub>
+Mg<Sub CLASS="Subscript">
+0.5</Sub>
+CO<Sub CLASS="Subscript">
+3</Sub>
+, log <EM CLASS="Emphasis">
+K</EM>
+ -8.545; note that a phase for dolomite with the given name, composition, and log <EM CLASS="Emphasis">
+K</EM>
+ would have to be defined in a <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block because it differs from the standard stoichiometry for dolomite in the databases). In the Example data block, Lines 7 through 16, except Line 14 (alyotropic point), define the same dimensional Guggenheim parameters. Internally, the program converts any one of these forms of input into dimensional Guggenheim parameters. When a batch-reaction or transport calculation is performed, the temperature of the calculation (as defined by mixing of solutions, <A HREF="phreeqc3-42.htm#50610177_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data block, or heat transport in <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> simulations) is used to convert the dimensional Guggenheim parameters to nondimensional Guggenheim parameters, which are then used in the calculation.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-324937"></A>The identifiers <STRONG CLASS="Bold">
+-gugg_nondim</STRONG>
+, <STRONG CLASS="Bold">
+-activity_coefficients</STRONG>
+, <STRONG CLASS="Bold">
+-distribution_coefficients</STRONG>
+, <STRONG CLASS="Bold">
+-miscibility_gap</STRONG>
+, <STRONG CLASS="Bold">
+-spinodal_gap</STRONG>
+, <STRONG CLASS="Bold">
+-alyotropic_point</STRONG>
+, or <STRONG CLASS="Bold">
+-margules</STRONG>
+ define parameters for a particular temperature which are converted to dimensional Guggenheim parameters by using the default temperature of 25 &#176;C or the temperature specified in Line 5 or 6. If more than one Line 5 and (or) 6 is defined, the last definition will take precedence. If <STRONG CLASS="Bold">
+-alyotropic_point</STRONG>
+ or <STRONG CLASS="Bold">
+-distribution_coefficients </STRONG>
+identifiers are used to define excess free-energy parameters, the dimensional Guggenheim parameters are dependent on (1) the values included with these two identifiers, and (2) the equilibrium constants for the pure-phase components. The latter are defined by a <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block in the input file or database file.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-256284"></A>The parameters for excess free energy are dependent on which component is labeled &#8220;1&#8221; and which component is labeled &#8220;2&#8221;. It is recommended that the component with the smaller value of log <EM CLASS="Emphasis">
+K</EM>
+ be selected as component 1 and the component with the larger value of log <EM CLASS="Emphasis">
+K</EM>
+ be selected as component 2. The excess free-energy parameters must be consistent with this numbering. A positive value of <IMG SRC="phreeqc3-112.png" ALIGN="MIDDLE">
+ (nondimensional Guggenheim parameter) or <IMG SRC="phreeqc3-113.png" ALIGN="MIDDLE">
+ (dimensional Guggenheim parameter) will result in skewing the excess free-energy function toward component 2 and, if a miscibility gap is present, it will not be symmetric about a mole fraction of 0.5, but instead will be shifted toward component 2. In the calcite-dolomite example, the positive value of <IMG SRC="phreeqc3-114.png" ALIGN="MIDDLE">
+ (1.90) results in a miscibility gap extending almost to pure dolomite (mole fractions of miscibility gap are 0.0428 to 0.9991).</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-256285"></A>After a batch reaction with a solid-solution assemblage has been simulated, it is possible to save the resulting solid-solution compositions with the <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> keyword. If the new compositions are not saved, the solid-solution compositions will remain the same as they were before the batch reaction. Use of <A HREF="phreeqc3-43.htm#50610177_74089" CLASS="XRef">RUN_CELLS</A> for a batch reaction automatically saves the new compositions of all reactants. After it has been defined or saved, the solid-solution assemblage may be used in subsequent simulations through the <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> or <A HREF="phreeqc3-43.htm#50610177_74089" CLASS="XRef">RUN_CELLS</A> keywords. Solid-solution compositions are automatically saved following each shift in advection and transport calculations.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-512587"></A><A NAME="50540545_53231"></A>Example problems</H6>
+<A NAME="50610177_pgfId-256286"></A><A NAME="50610177_96591"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-602566"></A>The keyword <STRONG CLASS="Bold">
-SURFACE_SPECIES</STRONG>
- is used in example problems <A HREF="phreeqc3-63.htm#50540559_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-69.htm#50540559_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-74.htm#50540559_18716" CLASS="XRef">19</A>, and <A HREF="phreeqc3-76.htm#50540559_68313" CLASS="XRef">21</A>. It is also found in the Amm.dat, iso.dat, llnl.dat, minteq.dat, minteq.v4.dat, phreeqc.dat, pitzer.dat, and wateq4f.dat databases.</P>
+<A NAME="50610177_pgfId-256287"></A>The keyword <STRONG CLASS="Bold">
+SOLID_SOLUTIONS </STRONG>
+is used in example problem <A HREF="phreeqc3-72.htm#50610191_24858" CLASS="XRef">10</A> and <A HREF="phreeqc3-82.htm#50610191_33272" CLASS="XRef">20</A>. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256746"></A><A NAME="50540545_36899"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-256288"></A><A NAME="50610177_36798"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256759"></A><A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A>, <A HREF="phreeqc3-43.htm#50540545_61994" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A>, and <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>.</P>
+<A NAME="50610177_pgfId-256298"></A><A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A>, <A HREF="phreeqc3-43.htm#50610177_74089" CLASS="XRef">RUN_CELLS</A>, <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
+solid_solution</STRONG>
+, and <A HREF="phreeqc3-57.htm#50610177_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
+solid_solution</STRONG>
+.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-48.htm">Next</A> || <A HREF="phreeqc3-46.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

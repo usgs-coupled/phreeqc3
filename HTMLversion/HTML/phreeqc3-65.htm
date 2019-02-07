@@ -4,670 +4,594 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> Example 10--Aragonite-Strontianite Solid Solution</TITLE><HR><P> | <A HREF="phreeqc3-66.htm">Next</A> || <A HREF="phreeqc3-64.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> Example 3--Mixing</TITLE><HR><P> | <A HREF="phreeqc3-66.htm">Next</A> || <A HREF="phreeqc3-64.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50540559_pgfId-1642903"></A>Example 10--<A NAME="50540559_24858"></A>Aragonite-Strontianite Solid Solution</H2>
+<A NAME="50610191_pgfId-1591338"></A>Example 3--<A NAME="50610191_51496"></A>Mixing</H2>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1340287"></A>PHREEQC has the capability to model multicomponent ideal and binary nonideal solid solutions. For ideal solid solutions, the activity of each end member solid is equal to its mole fraction. For nonideal solid solutions, the activity of each end member is the product of the mole fraction and an activity coefficient, which is determined from the mole fraction and Guggenheim excess free-energy parameters. Example 10 considers an aragonite (CaCO<Sub CLASS="Subscript">
-3</Sub>
-)-strontianite (SrCO<Sub CLASS="Subscript">
-3</Sub>
-) solid solution and demonstrates how the composition of the solid solution and the aqueous phase change as strontium carbonate is added to an initially pure calcium carbonate system. </P>
+<A NAME="50610191_pgfId-1414646"></A>This example demonstrates the capabilities of PHREEQC to perform a series of geochemical simulations, with the final simulations relying on results from previous simulations within the same run. The example investigates diagenetic reactions that may occur in zones where seawater mixes with carbonate groundwater. The example is divided into five simulations, labeled part A through part E in <A HREF="phreeqc3-65.htm#50610191_51866" CLASS="XRef">table 15</A>. </P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1554765"></A>The example is derived from a diagram presented in Glynn and Parkhurst (1992). The equilibrium constants at 25 &#176;C, <IMG SRC="phreeqc3-240.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-241.gif" ALIGN="BASELINE">
-, and the Guggenheim parameters, <IMG SRC="phreeqc3-242.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-243.gif" ALIGN="BASELINE">
-, are derived from Plummer and Busenberg (1987). The input file is shown in <A HREF="phreeqc3-65.htm#50540559_51976" CLASS="XRef">table 29</A>. The <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> data block defines the log <EM CLASS="Emphasis">
-K</EM>
-s for aragonite and strontianite and overrides any data for these minerals that might be present in the database file. The <A HREF="phreeqc3-40.htm#50540545_77444" CLASS="XRef">SOLID_SOLUTIONS</A> data block defines the unitless Guggenheim excess free-energy parameters and the initial composition of the solid solution, which is zero moles of aragonite and strontianite. Initial solution 1 is defined to be a calcium bicarbonate solution. The solution is then equilibrated with aragonite at nearly 1 atm partial pressure of carbon dioxide and saved as the new composition of solution 1.  </P>
+<A NAME="50610191_pgfId-1696292"></A>&nbsp;</P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610191_pgfId-1551088"></A>	(A) Carbonate groundwater is defined by equilibrating pure water with calcite at a <IMG SRC="phreeqc3-221.png" ALIGN="MIDDLE">
+ of 10<Sup CLASS="Superscript">
+-2.0</Sup>
+ atm.</P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610191_pgfId-1551095"></A> 	(B) Seawater is defined by using the major-ion data given in <A HREF="phreeqc3-63.htm#50610191_38811" CLASS="XRef">table 9</A>. </P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610191_pgfId-1696316"></A> 	(C) The two solutions are mixed together in the proportions 70 percent groundwater and 30 percent seawater. </P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610191_pgfId-1696317"></A>	(D) The mixture is equilibrated with calcite and dolomite. </P>
+<P CLASS="BodyTextFlush">
+<A NAME="50610191_pgfId-1551116"></A> 	(E) The mixture is equilibrated with calcite only to investigate the chemical evolution if dolomite precipitation is assumed to be negligible.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1667639"></A>The input for part A (<A HREF="phreeqc3-65.htm#50610191_51866" CLASS="XRef">table 15</A>) consists of (a) the definition of pure water with <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> input, and (b) the definition of a pure-phase assemblage with <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> input. In the definition of the phases, only a saturation index was given for each phase. Because it was not entered, the amount of each phase defaults to 10.0 mol, which is essentially an unlimited supply for most phases. The batch reaction is implicitly defined to be the equilibration of the first solution defined in this simulation with the first pure-phase assemblage defined in the simulation. (Explicit definition of batch-reaction entities is done with the <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> keyword.) The <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> keyword instructs the program to save the batch-reaction solution composition from the final batch-reaction step as solution number 1. Thus, when the simulation begins, solution number 1 is pure water. After the batch-reaction calculations for the simulation are completed, the batch-reaction solution--water in equilibrium with calcite and CO<Sub CLASS="Subscript">
+2</Sub>
+--is stored as solution 1.<STRONG CLASS="Bold">
+</STRONG>
+<A NAME="50610191_47678"></A>   </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1602718"></A>Table 29. <A NAME="50540559_51976"></A>Input file for example 10.</P>
+<A NAME="50610191_pgfId-1677229"></A>Table 15. <A NAME="50610191_51866"></A>Input file for example 3.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1602720"></A>TITLE Example 10.--Solid solution of strontianite and aragonite.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677231"></A>TITLE Example 3, part A.--Calcite equilibrium at log Pco2 = -2.0 and 25C.        </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1602722"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677233"></A>SOLUTION 1  Pure water</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1602724"></A>        Strontianite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677235"></A>        pH      7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1602726"></A>                SrCO3 = CO3-2 + Sr+2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677237"></A>        temp    25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1602728"></A>                log_k           -9.271</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677239"></A>EQUILIBRIUM_PHASES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1602730"></A>        Aragonite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677241"></A>        CO2(g)          -2.0    </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684297"></A>                CaCO3 = CO3-2 + Ca+2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677243"></A>        Calcite         0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684295"></A>                log_k           -8.336</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677245"></A>SAVE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684293"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677247"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684291"></A>SOLID_SOLUTIONS 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677249"></A>TITLE Example 3, part B.--Definition of seawater.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684289"></A>        Ca(x)Sr(1-x)CO3 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677251"></A>SOLUTION 2  Seawater</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684287"></A>                -comp1   Aragonite       0 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677253"></A>        units   ppm</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684285"></A>                -comp2   Strontianite    0 </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677255"></A>        pH      8.22</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684283"></A>                -Gugg_nondim   3.43    -1.82</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677257"></A>        pe      8.451</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684281"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677259"></A>        density 1.023</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684279"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677261"></A>        temp    25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684277"></A>        -units mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677263"></A>        Ca              412.3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684275"></A>        pH 5.93 charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677265"></A>        Mg              1291.8</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684273"></A>        Ca      3.932</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677267"></A>        Na              10768.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684271"></A>        C       7.864</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677319"></A>        K               399.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684269"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1677317"></A>        Si              4.28</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684267"></A>        CO2(g) -0.01265 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743712"></A>        Cl              19353.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684265"></A>        Aragonite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743710"></A>        Alkalinity      141.682 as HCO3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684263"></A>SAVE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743708"></A>        S(6)            2712.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684261"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743706"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684259"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743704"></A>TITLE Example 3, part C.--Mix 70% groundwater, 30% seawater.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684257"></A>#  Total of 0.00001 to 0.005 moles of SrCO3 added</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743702"></A>MIX 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684255"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743700"></A>        1      0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684253"></A>USE solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743698"></A>        2      0.3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684251"></A>USE solid_solution 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743696"></A>SAVE solution   3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684249"></A>REACTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743694"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684247"></A>        SrCO3   1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743692"></A>TITLE Example 3, part D.--Equilibrate mixture with calcite and dolomite.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684245"></A>        .005 in 500 steps </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743690"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684243"></A>PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743688"></A>        Calcite         0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684241"></A>        -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743686"></A>        Dolomite        0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1684239"></A>        -echo true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743684"></A>USE solution 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749558"></A>        -user_print true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743682"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749556"></A>USER_PRINT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743680"></A>TITLE Example 3, part E.--Equilibrate mixture with calcite only.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749554"></A>-start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743678"></A>EQUILIBRIUM_PHASES 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749552"></A>  10 sum = (S_S(&quot;Strontianite&quot;) + S_S(&quot;Aragonite&quot;))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743676"></A>        Calcite         0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749550"></A>  20 if sum = 0 THEN GOTO 110</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743674"></A>USE solution 3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749548"></A>  30 xb = S_S(&quot;Strontianite&quot;)/sum</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749546"></A>  40 xc = S_S(&quot;Aragonite&quot;)/sum</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749544"></A>  50 PRINT &quot;Simulation number:    &quot;, SIM_NO</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749542"></A>  60 PRINT &quot;Reaction step number: &quot;, STEP_NO</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749540"></A>  70 PRINT &quot;SrCO3 added:          &quot;, RXN</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749538"></A>  80 PRINT &quot;Log Sigma pi:         &quot;, LOG10 (ACT(&quot;CO3-2&quot;) * (ACT(&quot;Ca+2&quot;) + ACT(&quot;Sr+2&quot;)))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749536"></A>  90 PRINT &quot;XAragonite:           &quot;, xc</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749534"></A> 100 PRINT &quot;XStrontianite:        &quot;, xb</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749532"></A> 110 PRINT &quot;XCa:                  &quot;, TOT(&quot;Ca&quot;)/(TOT(&quot;Ca&quot;) + TOT(&quot;Sr&quot;))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749530"></A> 120 PRINT &quot;XSr:                  &quot;, TOT(&quot;Sr&quot;)/(TOT(&quot;Ca&quot;) + TOT(&quot;Sr&quot;))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749528"></A> 130 PRINT &quot;Misc 1:               &quot;, MISC1(&quot;Ca(x)Sr(1-x)CO3&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749526"></A> 140 PRINT &quot;Misc 2:               &quot;, MISC2(&quot;Ca(x)Sr(1-x)CO3&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749524"></A>-end</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749522"></A>SELECTED_OUTPUT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749520"></A>        -file ex10.sel</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749518"></A>        -reset false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749516"></A>        -reaction true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749514"></A>USER_PUNCH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749512"></A>-head   lg_SigmaPi X_Arag X_Stront X_Ca_aq X_Sr_aq mol_Misc1 mol_Misc2 &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749510"></A>     mol_Arag mol_Stront</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749508"></A>-start</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749506"></A>  10 sum = (S_S(&quot;Strontianite&quot;) + S_S(&quot;Aragonite&quot;))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749504"></A>  20 if sum = 0 THEN GOTO 60</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749502"></A>  30 xb = S_S(&quot;Strontianite&quot;)/(S_S(&quot;Strontianite&quot;) + S_S(&quot;Aragonite&quot;))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749500"></A>  40 xc = S_S(&quot;Aragonite&quot;)/(S_S(&quot;Strontianite&quot;) + S_S(&quot;Aragonite&quot;))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749498"></A>  50 REM Sigma Pi</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749496"></A>  60 PUNCH LOG10(ACT(&quot;CO3-2&quot;) * (ACT(&quot;Ca+2&quot;) + ACT(&quot;Sr+2&quot;)))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749494"></A>  70 PUNCH xc                                 # Mole fraction aragonite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749492"></A>  80 PUNCH xb                                 # Mole fraction strontianite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749490"></A>  90 PUNCH TOT(&quot;Ca&quot;)/(TOT(&quot;Ca&quot;) + TOT(&quot;Sr&quot;))  # Mole aqueous calcium</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749488"></A>  100 PUNCH TOT(&quot;Sr&quot;)/(TOT(&quot;Ca&quot;) + TOT(&quot;Sr&quot;)) # Mole aqueous strontium</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749486"></A>  110 x1 = MISC1(&quot;Ca(x)Sr(1-x)CO3&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749484"></A>  120 x2 = MISC2(&quot;Ca(x)Sr(1-x)CO3&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749482"></A>  130 if (xb &lt; x1 OR xb &gt; x2) THEN GOTO 250</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749480"></A>  140    nc = S_S(&quot;Aragonite&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749478"></A>  150    nb = S_S(&quot;Strontianite&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749476"></A>  160    mol2 = ((x1 - 1)/x1)*nb + nc</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749474"></A>  170    mol2 = mol2 / ( ((x1 -1)/x1)*x2 + (1 - x2))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749472"></A>  180    mol1 = (nb - mol2*x2)/x1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749470"></A>  190    REM                                 # Moles of misc. end members if in gap</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749468"></A>  200    PUNCH mol1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749466"></A>  210    PUNCH mol2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749464"></A>  220    GOTO 300</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749462"></A>  250    REM                                 # Moles of misc. end members if not in gap</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749460"></A>  260    PUNCH 1e-10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749458"></A>  270    PUNCH 1e-10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749456"></A>  300 PUNCH S_S(&quot;Aragonite&quot;)                 # Moles aragonite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749454"></A>  310 PUNCH S_S(&quot;Strontianite&quot;)              # Moles Strontianite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749452"></A>-end</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749450"></A>USER_GRAPH Example 10</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749448"></A>        -headings x_Aragonite  x_Srontianite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749446"></A>        -chart_title &quot;Aragonite-Strontianite Solid Solution&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749444"></A>        -axis_titles &quot;Log(SrCO3 added, in moles)&quot; &quot;Log(Mole fraction of component)&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749442"></A>        -axis_scale x_axis -5 1 1 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749440"></A>        -axis_scale y_axis -5 0.1 1 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749438"></A>        -connect_simulations true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749436"></A>        -start</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749434"></A>  10 sum = (S_S(&quot;Strontianite&quot;) + S_S(&quot;Aragonite&quot;))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749432"></A>  20 IF sum = 0 THEN GOTO 70</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749430"></A>  30 xb = S_S(&quot;Strontianite&quot;)/ sum</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749428"></A>  40 xc = S_S(&quot;Aragonite&quot;)/ sum</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749426"></A>  50 PLOT_XY LOG10(RXN), LOG10(xc), line_w = 2, symbol_size = 0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749424"></A>  60 PLOT_XY LOG10(RXN), LOG10(xb), line_w = 2, symbol_size = 0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749422"></A>  70 rem</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749420"></A>  -end</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749418"></A>END     </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749416"></A>#</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749414"></A>#  Total of 0.005 to 0.1 moles of SrCO3 added</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749412"></A>#</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749410"></A>USE solution 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749408"></A>USE solid_solution 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749406"></A>REACTION 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749404"></A>        SrCO3   1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749402"></A>        .1 in 20 steps </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749400"></A>END     </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749398"></A>#</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749396"></A>#  Total of 0.1 to 10 moles of SrCO3 added</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749394"></A>#</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749392"></A>USE solution 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749390"></A>USE solid_solution 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749388"></A>REACTION 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749386"></A>        SrCO3   1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749384"></A>        10.0 in 100 steps </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1749382"></A>END     </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743672"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1554852"></A>In the next simulation, solution 1 is brought together with the solid solution (<A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> keywords) and 5 millimoles of strontium carbonate are added in 500 steps (<A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block). The <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A> keyword data block excludes all default printing to the output file and includes only the printing defined in the <A HREF="phreeqc3-52.htm#50540545_55085" CLASS="XRef">USER_PRINT</A> data block. The <A HREF="phreeqc3-52.htm#50540545_55085" CLASS="XRef">USER_PRINT</A> data block specifies that the following information about the solid solution be printed to the output file after each reaction step: the simulation number, reaction-step number, amount of strontium carbonate added, <IMG SRC="phreeqc3-244.gif" ALIGN="BASELINE">
- (log of the sum of the ion activity products), mole fractions of strontianite and aragonite, aqueous mole fractions of calcium and strontium, and the composition of the two solids that exist within the miscibility gap. The <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block defines the selected-output file to be <EM CLASS="Emphasis">
-ex10.sel</EM>
-, cancels any default printing to the selected-output file (<STRONG CLASS="Bold">
--reset</STRONG>
- false), and requests that the amount of reaction added at each step (as defined in the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block) be written to the selected-output file (<STRONG CLASS="Bold">
--reaction</STRONG>
- true). The <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> data block prints additional columns of information to the selected-output file, including all of the information needed to make figure.11. Two additional simulations add successively larger amounts of strontium carbonate to the system up to a total addition of 10 mol.       </P>
-<DIV>
-<MAP NAME="phreeqc3-245">
-</MAP>
-<IMG SRC="phreeqc3-245.gif" USEMAP="#phreeqc3-245">
-</DIV>
+<A NAME="50610191_pgfId-1667756"></A>Part B defines the composition of seawater, which is stored as solution number 2. Part C mixes groundwater, (solution 1) with seawater (solution 2) in a closed system in which <IMG SRC="phreeqc3-222.png" ALIGN="MIDDLE">
+ is calculated, not specified. The <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A> keyword is used to define the mixing fractions (approximate mixing volumes) of each solution in the mixture. The <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> keyword causes the mixture to be saved as solution number 3. The <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A> keyword allows the mixing of an unlimited number of solutions in whatever fractions are specified. The fractions (volumes) need not sum to 1.0. If the fractions were 7.0 and 3.0 instead of 0.7 and 0.3, the number of moles of each element in solution 1 (including hydrogen and oxygen) would be multiplied by 7.0, the number of moles of each element in solution 2 would be multiplied by 3.0, and the resulting moles of elements would be added together. The mass of water in the mixture would be approximately 10 kg (7.0 from solution 1 and 3.0 from solution 2) instead of approximately 1 kg when the fractions are 0.7 and 0.3. The concentrations in the mixture would be the same for both sets of mixing fractions because the relative proportions of solution 1 and solution 2 are the same. However, during subsequent reactions it would take 10 times more mole transfer for mixing fractions 7.0 and 3.0 than shown in <A HREF="phreeqc3-65.htm#50610191_15698" CLASS="XRef">table 16</A> because the mass of water would be 10 times greater in that system.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-383291"></A>The excess free-energy parameters describe a nonideal solid solution that has a miscibility gap. For compositions that fall within the miscibility gap, the activities of calcium and strontium within the aqueous phase remain fixed and are in equilibrium with solids of two compositions, one solid with a strontium mole fraction of 0.0048 and one solid with a strontium mole fraction of 0.8579. For the simulations of example 10, each incremental addition of strontium carbonate increases the mole fraction of strontium carbonate in the solid until about 0.001 mol of strontium carbonate have been added (fig..11A). That point is the beginning of the miscibility gap (fig..11) and the composition of the solid is 0.0048 strontium mole fraction. The next increments of strontium carbonate (up to 0.005 mol strontium carbonate added) produce constant mole fractions of calcium and strontium in the solution (fig..11B) and equilibrium with both the miscibility-gap end members. However, the amounts of calcium carbonate and strontium carbonate in the solid phases (fig..11C) and the amounts of each of the miscibility gap end members (fig..11D) vary with the amount of strontium carbonate added. Finally, the end of the miscibility gap is reached after about 0.005 mol of strontium carbonate have been added. At this point, the solution is in equilibrium with a single solid with a strontium mole fraction of 0.8579. Addition of more strontium carbonate increases the mole fractions of strontium in the aqueous phase and in the solid solution until both mole fractions are nearly 1.0 after the addition of 10 mol of strontium carbonate.</P>
+<A NAME="50610191_pgfId-1344743"></A>Part D equilibrates the mixture with calcite and dolomite. The <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> keyword specifies that solution number 3, which is the mixture from part C, is to be the solution with which the phases will equilibrate. By  defining the phase assemblage with &#8220;<A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 1&#8221;, the phase assemblage replaces the previous assemblage number 1 that was defined in part A. Part E performs a similar calculation to part D, but uses phase assemblage 2, which does not contain dolomite as a reactant.</P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50610191_pgfId-1344750"></A>Table 16. <STRONG CLASS="Bold">
+</STRONG>
+<A NAME="50610191_15698"></A>Selected results for example 3.</P>
+<P CLASS="TableHeadnote">
+<A NAME="50610191_pgfId-1344751"></A>[Simulation A generates carbonate groundwater; B defines seawater; C mixes a fraction of 0.7 of A with 0.3 of B, with no other reaction; D equilibrates the mixture with calcite and dolomite; and E equilibrates the mixture with calcite only. Mole transfer is relative to the moles in the phase assemblage; positive numbers indicate an increase in the amount of the phase present, that is, precipitation; negative numbers indicate a decrease in the amount of the phase present, or dissolution. Saturation index: &#8220;--&#8221; indicates saturation index calculation not possible because one of the constituent elements was not in solution. Mole transfer: &#8220;--&#8221; indicates no mole transfer of this mineral was allowed in the simulation]</P>
+</CAPTION>
+<TR>
+<TH ROWSPAN="2" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344769"></A>Simulation</P>
+</TH>
+<TH ROWSPAN="2" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344771"></A>pH</P>
+</TH>
+<TH ROWSPAN="2" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344776"></A>log <IMG SRC="phreeqc3-223.png" ALIGN="MIDDLE">
+</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="2">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344778"></A>Saturation index</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading">
+<A NAME="50610191_pgfId-1344782"></A>&nbsp;</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="3">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344784"></A>Mole transfer, millimoles</P>
+</TH>
+</TR>
+<TR>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344796"></A>Calcite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344798"></A>Dolomite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344800"></A>&nbsp;</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344802"></A>CO<Sub CLASS="Subscript">
+2</Sub>
+</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344804"></A>Calcite</P>
+</TH>
+<TH ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellHeading8pt">
+<A NAME="50610191_pgfId-1344806"></A>Dolomite</P>
+</TH>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50610191_pgfId-1344808"></A>A</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344810"></A>7.292</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344812"></A>-2.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344814"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344816"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344818"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344820"></A>-1.993</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344822"></A>-1.657</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344824"></A>--</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50610191_pgfId-1344826"></A>B</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344828"></A>8.220</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344830"></A>-3.48</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344832"></A>0.68</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344834"></A>2.24</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344836"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344838"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344840"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344842"></A>--</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50610191_pgfId-1344844"></A>C</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344846"></A>7.263</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344848"></A>-2.20</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344850"></A>-0.24</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344852"></A>0.25</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344854"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344856"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344858"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344860"></A>--</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50610191_pgfId-1344862"></A>D</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344864"></A>7.083</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344866"></A>-2.05</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344868"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344870"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344872"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344874"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344876"></A>-15.61</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344878"></A>7.853</LI>
+</UL>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<P CLASS="CellBody9ptLeft">
+<A NAME="50610191_pgfId-1344880"></A>E</P>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344882"></A>7.472</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344884"></A>-2.39</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344886"></A>0.00</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344888"></A>0.72</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344890"></A>&nbsp;</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344892"></A>--</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344894"></A>-0.085</LI>
+</UL>
+</TD>
+<TD ROWSPAN="1" COLSPAN="1">
+<UL>
+<LI CLASS="CellBody9ptDec-3-">
+<A NAME="50610191_pgfId-1344896"></A>--</LI>
+</UL>
+</TD>
+</TR>
+</TABLE>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1414637"></A>Selected results from the output for <A HREF="phreeqc3-65.htm#50610191_51496" CLASS="XRef">See Mixing</A> are presented in <A HREF="phreeqc3-65.htm#50610191_15698" CLASS="XRef">table 16</A>. The groundwater produced by part A is in equilibrium with calcite and has a log <IMG SRC="phreeqc3-224.png" ALIGN="MIDDLE">
+ of -2.0, as specified by the input. The moles of CO<Sub CLASS="Subscript">
+2</Sub>
+ in the phase assemblage decreased by about 2.0 mmol, which means that about 2.0 mmol dissolved into solution. Likewise, about 1.7 mmol of calcite dissolved. Part B defined seawater, which is calculated to have slightly greater than atmospheric carbon dioxide (-3.48 compared to about -3.5), and is supersaturated with calcite (saturation index 0.68) and dolomite (2.24). No mole transfers of minerals were allowed for part B. Part C performed the mixing and calculated the equilibrium distribution of species in the mixture, again with no mole transfers of the minerals allowed. The resulting log <IMG SRC="phreeqc3-225.png" ALIGN="MIDDLE">
+ is -2.20, calcite is undersaturated, and dolomite is supersaturated. The saturation indices indicate that thermodynamically, dolomitization should occur; that is, calcite dissolves and dolomite precipitates. Part D calculates the amounts of calcite and dolomite that should react. To produce equilibrium, 15.61 mmol of calcite should dissolve and 7.853 mmol of dolomite should precipitate. Dolomitization is not observed to occur in present-day mixing zone environments, even though dolomite is the thermodynamically stable phase. The lack of significant dolomitization is due to the slow reaction kinetics of dolomite formation. Therefore, part E simulates what would happen if dolomite does not precipitate; in that case, only a very small amount of calcite dissolves (0.085 mmol) for this mixing ratio. </P>
 <HR><P> | <A HREF="phreeqc3-66.htm">Next</A> || <A HREF="phreeqc3-64.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
