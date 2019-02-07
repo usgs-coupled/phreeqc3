@@ -4,418 +4,119 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> SOLUTION_SPREAD</TITLE><HR><P> | <A HREF="phreeqc3-45.htm">Next</A> || <A HREF="phreeqc3-43.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> SAVE</TITLE><HR><P> | <A HREF="phreeqc3-45.htm">Next</A> || <A HREF="phreeqc3-43.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-256513"></A><STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
-<A NAME="50540545_84297"></A></H2>
+<A NAME="50610177_pgfId-255910"></A><STRONG CLASS="Bold">
+SAVE</STRONG>
+<A NAME="50610177_81857"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256514"></A>The <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
- data block is an alternative input format for <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A>; that is, compatible with many spreadsheet programs. Input for <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
- is transposed from the input for <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A>, that is, the rows of input for <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> become the columns of input for <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
-. The data are entered one line per solution in columns that are tab-delimited (&#8220;&#92;t&#8221; in the Example data block).</P>
+<A NAME="50610177_pgfId-255911"></A>This keyword data block is used to save the composition of a solution, exchange assemblage, gas phase, equilibrium-phase assemblage, solid-solution assemblage, or surface assemblage following a batch-reaction calculation. The composition is stored internally in computer memory and can be retrieved subsequently with the <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> keyword during the remainder of the computer run.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256515"></A><A NAME="50540545_87613"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263361"></A>Line 0:  SOLUTION_SPREAD    # &#8220;&#92;t&#8221; indicates the tab character</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263362"></A>Line 1:  -temp        25</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-755087"></A>Line 2:  -pressure    100</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263363"></A>Line 3:  -pH          7.1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263364"></A>Line 4:  -pe          4</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263365"></A>Line 5:  -redox       O(0)/O(-2)</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263366"></A>Line 6:  -units       mmol/kgw</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263367"></A>Line 7:  -density     1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263368"></A>Line 8:  -water       1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-263369"></A>Line 9a: -isotope     34S       15.0   1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-325709"></A>Line 9b: -isotope     13C      -12.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507298"></A>Line 10:  -isotope_uncertainty   13C    1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-507793"></A>Line 11:	Number&#92;t	13C&#92;t	uncertainty&#92;t	pH&#92;t	Ca&#92;t	Na&#92;t	Alkalinity&#92;t	Description</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-558954"></A>Line 12:	&#92;t	&#92;t	&#92;t	&#92;t	&#92;t	&#92;t	mg/kgw as HCO3&#92;t</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-558989"></A>Line 13a:	10-11&#92;t	-10.2&#92;t	       0.05&#92;t	6.9&#92;t	23&#92;t	6&#92;t	61&#92;t	soln 10-11</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-559034"></A>Line 13b:	1&#92;t	-12.1&#92;t	       0.1&#92;t	&#92;t	17&#92;t	6&#92;t	55&#92;t	My well 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-559041"></A>Line 13c:	5&#92;t	-14.1&#92;t	0.2&#92;t	&#92;t	27&#92;t	9&#92;t	70&#92;t	My well 5</pre>
+<A NAME="50610177_pgfId-255912"></A><A NAME="50610177_55671"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255913"></A>Line 0a: SAVE equilibrium_phases 2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255914"></A>Line 0b: SAVE exchange 2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255915"></A>Line 0c: SAVE gas_phase 2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255916"></A>Line 0d: SAVE solid_solution 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255917"></A>Line 0e: SAVE solution 2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255918"></A>Line 0f: SAVE surface 1</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256531"></A><A NAME="50540545_93293"></A>Explanation</H6>
+<A NAME="50610177_pgfId-255919"></A><A NAME="50610177_70009"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-256532"></A>Line 0: <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
+<A NAME="50610177_pgfId-255920"></A>Line 0: <STRONG CLASS="Bold">
+SAVE</STRONG>
+ <EM CLASS="Emphasis">
+keyword</EM>
+, <EM CLASS="Emphasis">
+number</EM>
 </P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-256533"></A>Keyword for the data block. No other data are input on the keyword line.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638606"></A>Line 1: <STRONG CLASS="Bold">
--temp</STRONG>
- <EM CLASS="Emphasis">
-temperature</EM>
-</P>
+<A NAME="50610177_pgfId-255921"></A><STRONG CLASS="Bold">
+SAVE</STRONG>
+ is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638607"></A><STRONG CLASS="Bold">
--temp</STRONG>
---Identifier for temperature. The temperature will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-temperature</STRONG>
- (or <STRONG CLASS="Bold">
-temp</STRONG>
-) or if the entry for the <STRONG CLASS="Bold">
-temperature</STRONG>
- column is empty for a solution. Optionally, <STRONG CLASS="Bold">
-temp</STRONG>
+<A NAME="50610177_pgfId-255922"></A><EM CLASS="Emphasis">
+keyword</EM>
+--One of six keywords with an index number, <STRONG CLASS="Bold">
+equilibrium_phases</STRONG>
 , <STRONG CLASS="Bold">
--t</STRONG>
-[<STRONG CLASS="Bold">
-emp</STRONG>
-], <STRONG CLASS="Bold">
-temperature</STRONG>
-, or <STRONG CLASS="Bold">
--t</STRONG>
-[<STRONG CLASS="Bold">
-emperature</STRONG>
-].</P>
-<P CLASS="Body1">
-<A NAME="50540545_pgfId-638598"></A><EM CLASS="Emphasis">
-temperature</EM>
---Temperature, &#176;C. Default is 25 <Sup CLASS="Superscript">
-o</Sup>
-C.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-755062"></A>Line 2: <STRONG CLASS="Bold">
-pressure</STRONG>
- <EM CLASS="Emphasis">
-pressure</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-755063"></A><STRONG CLASS="Bold">
-pressure</STRONG>
---Identifier for pressure. The pressure will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-pressure</STRONG>
- (or <STRONG CLASS="Bold">
-press</STRONG>
-) or if the entry for the <STRONG CLASS="Bold">
-pressure</STRONG>
- column is empty for a solution. Optionally, <STRONG CLASS="Bold">
-press</STRONG>
+exchange</STRONG>
 , <STRONG CLASS="Bold">
-pressure</STRONG>
+gas_phase</STRONG>
+, <STRONG CLASS="Bold">
+solid_solution</STRONG>
+, <STRONG CLASS="Bold">
+solution</STRONG>
 , or <STRONG CLASS="Bold">
--pr</STRONG>
-[<STRONG CLASS="Bold">
-essure</STRONG>
-].</P>
-<P CLASS="Body1">
-<A NAME="50540545_pgfId-755064"></A><EM CLASS="Emphasis">
-pressure</EM>
---Pressure, atm. Default 1 atm.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638599"></A>Line 3: <STRONG CLASS="Bold">
--pH</STRONG>
- <EM CLASS="Emphasis">
-pH</EM>
- </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638589"></A><STRONG CLASS="Bold">
--pH</STRONG>
---Identifier for pH. The pH will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-pH</STRONG>
- or if the entry for the <STRONG CLASS="Bold">
-pH</STRONG>
- column is empty for a solution. Optionally, <STRONG CLASS="Bold">
-pH </STRONG>
-(as with all identifiers, case insensitive).</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638580"></A><EM CLASS="Emphasis">
-pH</EM>
---pH value, negative log of the activity of hydrogen ion. Default is 7.0.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638581"></A>Line 4: <STRONG CLASS="Bold">
--pe</STRONG>
- <EM CLASS="Emphasis">
-pe</EM>
- </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638571"></A><STRONG CLASS="Bold">
--pe</STRONG>
---Identifier for pe. The value <EM CLASS="Emphasis">
-pe</EM>
- will be used as the default for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-pe</STRONG>
- or if the entry for the <STRONG CLASS="Bold">
-pe</STRONG>
- column is empty for a solution. Optionally, <STRONG CLASS="Bold">
-pe</STRONG>
+surface</STRONG>
+. Options for <STRONG CLASS="Bold">
+equilibrium_phases</STRONG>
+: <STRONG CLASS="Bold">
+equilibrium</STRONG>
+, <STRONG CLASS="Bold">
+equilibria</STRONG>
+,<STRONG CLASS="Bold">
+ pure_phases</STRONG>
+, or <STRONG CLASS="Bold">
+pure</STRONG>
 .</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638562"></A><EM CLASS="Emphasis">
-pe</EM>
---pe value, conventional negative log of the activity of the electron. Default is 4.0.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638563"></A>Line 5: <STRONG CLASS="Bold">
--redox</STRONG>
- <EM CLASS="Emphasis">
-redox couple</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638553"></A><STRONG CLASS="Bold">
--redox</STRONG>
---Identifier for the redox couple to be used to calculate pe. This pe will be used for any redox element for which a pe is needed to determine the distribution of the element among its valence states. The redox couple will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-redox</STRONG>
- or if the entry for the <STRONG CLASS="Bold">
-redox</STRONG>
- column is empty for a solution. If no redox couple is specified, the pe will be used. Optionally, <STRONG CLASS="Bold">
-redox</STRONG>
- or <STRONG CLASS="Bold">
--r</STRONG>
-[<STRONG CLASS="Bold">
-edox</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638545"></A><EM CLASS="Emphasis">
-redox couple</EM>
---Redox couple to use for pe calculations. A redox couple is specified by two valence states of an element separated by a &#8220;/&#8221;. No spaces are allowed. Default is <STRONG CLASS="Bold">
-pe</STRONG>
-.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638536"></A>Line 6: <STRONG CLASS="Bold">
--units </STRONG>
-<EM CLASS="Emphasis">
-concentration units</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638537"></A><STRONG CLASS="Bold">
--units</STRONG>
---Identifier for concentration units. The concentration units will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-units</STRONG>
- (or <STRONG CLASS="Bold">
-unit</STRONG>
-) or if the entry for the <STRONG CLASS="Bold">
-units</STRONG>
- column is empty for a solution. Optionally, <STRONG CLASS="Bold">
-unit</STRONG>
-, <STRONG CLASS="Bold">
-units</STRONG>
-, or <STRONG CLASS="Bold">
--u</STRONG>
-[<STRONG CLASS="Bold">
-nits</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638529"></A><EM CLASS="Emphasis">
-concentration units</EM>
---Default concentration units. Three groups of concentration units are allowed, concentration (1) per liter (&#8220;/L&#8221;), (2) per kilogram solution (&#8220;/kgs&#8221;), or (3) per kilogram water (&#8220;/kgw&#8221;). All concentration units for a solution must be within the same group. Within a group, either grams or moles may be used, and the prefixes milli (m) and micro (u) are acceptable. Parts per thousand, &#8220;ppt&#8221;; parts per million, &#8220;ppm&#8221;; and parts per billion, &#8220;ppb&#8221;, are acceptable in the &#8220;per kilogram solution&#8221; group. Default is mmol/kgw.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638520"></A>Line 7: <STRONG CLASS="Bold">
--density </STRONG>
-<EM CLASS="Emphasis">
-density</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638521"></A><STRONG CLASS="Bold">
--density</STRONG>
---Identifier for solution density. The density will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-density</STRONG>
- (or <STRONG CLASS="Bold">
-dens</STRONG>
-) or if the entry for the <STRONG CLASS="Bold">
-density</STRONG>
- column is empty for a solution. Density is used only if concentration units are per liter. Optionally, <STRONG CLASS="Bold">
-dens</STRONG>
-, <STRONG CLASS="Bold">
-density,</STRONG>
- or <STRONG CLASS="Bold">
--d</STRONG>
-[<STRONG CLASS="Bold">
-ensity</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638512"></A><EM CLASS="Emphasis">
-density</EM>
---Density of solution, kg/L. Default is 1.0 kg/L.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638513"></A>Line 8: <STRONG CLASS="Bold">
--water </STRONG>
-<EM CLASS="Emphasis">
-mass</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638503"></A><STRONG CLASS="Bold">
--water</STRONG>
---Identifier for mass of water. The mass of water will be used for all subsequent solutions in the data block if no column has the heading <STRONG CLASS="Bold">
-water</STRONG>
- or if the entry for the <STRONG CLASS="Bold">
-water </STRONG>
-column is empty for a solution. Molalities of solutes are calculated from input concentrations and the moles of solutes are determined by the mass of water in solution. Optionally, <STRONG CLASS="Bold">
-water</STRONG>
- or <STRONG CLASS="Bold">
--w</STRONG>
-[<STRONG CLASS="Bold">
-ater</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638494"></A><EM CLASS="Emphasis">
-mass</EM>
---Mass of water in the solution (kg). Default is 1.0 kg.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638495"></A>Line 9: <STRONG CLASS="Bold">
--isotope </STRONG>
-<EM CLASS="Emphasis">
-name, value, </EM>
-[<EM CLASS="Emphasis">
-uncertainty_limit</EM>
-]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-748289"></A><STRONG CLASS="Bold">
--isotope</STRONG>
---Indicates isotopic composition for an element, or element valence state is entered on this line. Isotope data are used only in inverse modeling (see <A HREF="phreeqc3-20.htm#50540545_17116" CLASS="XRef">table 4</A> for default isotopes). Optionally, <STRONG CLASS="Bold">
-isotope</STRONG>
- or <STRONG CLASS="Bold">
--i</STRONG>
-[<STRONG CLASS="Bold">
-sotope</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-748293"></A><EM CLASS="Emphasis">
-name</EM>
---Name of the isotope. The name must begin with a mass number followed by an element or element-valence-state name that is defined through <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-748297"></A><EM CLASS="Emphasis">
-value</EM>
---Isotopic composition of an element or element valence state; units are a ratio, permil, or percent modern carbon, depending on the isotope (see <A HREF="phreeqc3-20.htm#50540545_17116" CLASS="XRef">table 4</A> for default units).</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-748301"></A><EM CLASS="Emphasis">
-uncertainty limit</EM>
---The uncertainty limit to be used in inverse modeling. This value is optional in the <STRONG CLASS="Bold">
-SOLUTION</STRONG>
- data block and alternatively a default uncertainty limit may be used (see <STRONG CLASS="Bold">
-<A HREF="phreeqc3-20.htm#50540545_11066" CLASS="XRef"></A>INVERSE_MODELING<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
-, <A HREF="phreeqc3-20.htm#50540545_17116" CLASS="XRef">table 4</A>) or an uncertainty limit may be defined with the <STRONG CLASS="Bold">
--isotopes</STRONG>
- identifier of the <A HREF="phreeqc3-20.htm#50540545_11066" CLASS="XRef">INVERSE_MODELING</A> data block.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-645411"></A>Line 10: <STRONG CLASS="Bold">
--isotope_uncertainty </STRONG>
-<EM CLASS="Emphasis">
-name, uncertainty_limit</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638439"></A><STRONG CLASS="Bold">
--isotope_uncertainty</STRONG>
---Identifier for uncertainty limit in the ratio for an isotope. The uncertainty limit for the isotope ratio will be used for all subsequent solutions in the data block if no column has the same <EM CLASS="Emphasis">
-name</EM>
- directly followed by a column headed <STRONG CLASS="Bold">
-uncertainty</STRONG>
- or if the entry for the <STRONG CLASS="Bold">
-uncertainty</STRONG>
- column is empty for a solution. Isotopes and isotope uncertainty limits are used only in inverse modeling. Optionally, <STRONG CLASS="Bold">
-uncertainty</STRONG>
-, <STRONG CLASS="Bold">
--unc</STRONG>
-[<STRONG CLASS="Bold">
-ertainty</STRONG>
-], <STRONG CLASS="Bold">
-uncertainties</STRONG>
-, <STRONG CLASS="Bold">
-unc</STRONG>
-[<STRONG CLASS="Bold">
-ertainties</STRONG>
-], <STRONG CLASS="Bold">
-isotope_uncertainty</STRONG>
-, or <STRONG CLASS="Bold">
--isotope_</STRONG>
-[<STRONG CLASS="Bold">
-uncertainty</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638430"></A><EM CLASS="Emphasis">
-name</EM>
---Name of the isotope, beginning with mass number.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638431"></A><EM CLASS="Emphasis">
-uncertainty_limit</EM>
---Uncertainty limit for the isotope to be used in inverse modeling.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638421"></A>Line 11: <EM CLASS="Emphasis">
-column headings</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638402"></A><EM CLASS="Emphasis">
-column headings</EM>
---Column headings are element names, element valence-state names (element chemical symbol followed by valence state in parentheses), isotope names (element chemical symbol preceded by the mass number), one of the identifiers in Lines 1-7 (without the hyphen), <STRONG CLASS="Bold">
-number</STRONG>
-, <STRONG CLASS="Bold">
-description</STRONG>
-, or <STRONG CLASS="Bold">
-uncertainty</STRONG>
-. Most often the headings are equivalent to the first data item of Line 8 of the <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> data block. A column heading &#8220;<STRONG CLASS="Bold">
-number</STRONG>
-&#8221; is used to specify solution numbers or range of solution numbers that are specified following the keyword in the <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> data block. Similarly, a column heading &#8220;<STRONG CLASS="Bold">
-description</STRONG>
-&#8221; allows the entry of the descriptive information that is entered following the keyword and solution number in the <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> data block. A column headed &#8220;<STRONG CLASS="Bold">
-uncertainty</STRONG>
-&#8221; may be entered adjacent to the right of any isotope column to define uncertainty limits for isotope data in inverse modeling. One and only one line of headings must be entered.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638381"></A>Line 12: [<EM CLASS="Emphasis">
-subheadings</EM>
-]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638382"></A><EM CLASS="Emphasis">
-subheadings</EM>
---Subheadings are used to specify element-specific units, redox couples, and concentration-determining phases. Anything entered following the second data item of Line 8 of the <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> data block can be entered on this line, including <STRONG CLASS="Bold">
-as</STRONG>
-, <STRONG CLASS="Bold">
-gfw</STRONG>
-, redox couple, or phase name and saturation index. Tabs, not spaces, must delimit the columns; data within a column must be space delimited. Subheadings are optional. At most one line of subheadings can be entered directly following the line of headings and it is identified as a line in which all fields begin with a character.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-638361"></A>Line 13: <EM CLASS="Emphasis">
-chemical data</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-638362"></A><EM CLASS="Emphasis">
-chemical data</EM>
---Analytical data, one line for each solution. For most columns, the data are equivalent to the second data item of Line 8 of the <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> data block. Tabs, not spaces, must delimit the columns. Solution numbers or ranges of numbers are defined in a column with the heading <STRONG CLASS="Bold">
-number</STRONG>
-; default numbering begins sequentially from 1 or sequentially from the largest solution number that has been defined by any <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A>, <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
-, or <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> data block in this or any previous simulation. Descriptive information can be entered in a column with the heading <STRONG CLASS="Bold">
-description</STRONG>
-. One Line 13 is needed for each solution.</P>
+<A NAME="50610177_pgfId-255923"></A><EM CLASS="Emphasis">
+number</EM>
+--User defined positive integer to be associated with the respective composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
+m-n</EM>
+, where <EM CLASS="Emphasis">
+m</EM>
+ and <EM CLASS="Emphasis">
+n</EM>
+ are positive integers, <EM CLASS="Emphasis">
+m</EM>
+ is less than <EM CLASS="Emphasis">
+n</EM>
+, and the two numbers are separated by a hyphen without intervening spaces.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256570"></A><A NAME="50540545_93841"></A>Notes</H6>
+<A NAME="50610177_pgfId-255924"></A><A NAME="50610177_12002"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256571"></A><STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
- is a complete equivalent to the <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> data block that allows data entry in a tabular or spreadsheet format. In general, column headings are elements or element valence states and succeeding lines are the data values for each solution, with one solution defined on each line. Read the documentation for <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> for detailed descriptions of input capabilities to convert mass units to mole units, to change default redox calculations, and to adjust concentrations to obtain equilibrium with a specified phase. This information is entered as a subheading in <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
-. The identifiers of <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A> are included in <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
-, but in <STRONG CLASS="Bold">
-SOLUTION_SPREAD</STRONG>
-, the values defined for the identifiers apply to all subsequently defined solutions. Identifiers can precede or follow data lines (Line 13), and will apply to any subsequently defined solutions until the end of the data block or until the identifier is redefined. In the Example data block, the pH of solutions 10-11 is defined to be 6.9 by an entry in the <STRONG CLASS="Bold">
-pH</STRONG>
- column; the pH for solutions 1 and 5 is the default defined by <STRONG CLASS="Bold">
--pH</STRONG>
- identifier, 7.1. Empty entries in columns with headings that are not identifiers are interpreted as zero concentrations or missing values. If a column heading cannot be interpreted as part of the solution input, warnings are printed and the data for that column are ignored.</P>
+<A NAME="50610177_pgfId-324443"></A><STRONG CLASS="Bold">
+SAVE</STRONG>
+ affects only the internal storage of chemical-composition information during the current run; it does not save information between PHREEQC runs. To save results to a permanent file, see <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> or <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef">DUMP</A>. The <STRONG CLASS="Bold">
+SAVE</STRONG>
+ data block applies only at the end of batch-reaction calculations and has no effect following initial solution, initial exchange-composition, initial surface-composition, initial gas-phase-composition, transport, run cells, or inverse calculations. During batch-reaction calculations, the compositions of the solution, exchange assemblage, gas phase, pure-phase assemblage, solid-solution assemblage, and surface assemblage vary to attain equilibrium. The compositions that exist at the end of a batch reaction are <EM CLASS="underline">
+not</EM>
+ automatically saved (unless <A HREF="phreeqc3-43.htm#50610177_78104" CLASS="XRef">RUN_CELLS</A> is used); however, the compositions may be saved explicitly for use in subsequent simulations within the run by using the <STRONG CLASS="Bold">
+SAVE</STRONG>
+ keyword. The <STRONG CLASS="Bold">
+SAVE</STRONG>
+ keyword must be used for each type of composition that is to be saved (solution, exchange assemblage, gas phase, pure-phase assemblage, solid-solution assemblage, or surface assemblage). <STRONG CLASS="Bold">
+SAVE</STRONG>
+ assigns <EM CLASS="Emphasis">
+number</EM>
+ to the corresponding composition. If one of the compositions is saved in a <EM CLASS="Emphasis">
+number</EM>
+ that already exists, the old composition is deleted. There is no need to save the compositions unless they are to be used in subsequent simulations within the run. <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-43.htm#50610177_78104" CLASS="XRef">RUN_CELLS</A> calculations automatically save results after each calculation and the <STRONG CLASS="Bold">
+SAVE</STRONG>
+ keyword has no effect for these calculations. Amounts of kinetic reactions (<A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>) are automatically saved during all batch-reaction, advection, transport, and <A HREF="phreeqc3-43.htm#50610177_78104" CLASS="XRef">RUN_CELLS</A> calculations and cannot be saved with the <STRONG CLASS="Bold">
+SAVE</STRONG>
+ keyword. The <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> (or <A HREF="phreeqc3-43.htm#50610177_78104" CLASS="XRef">RUN_CELLS</A>) keyword can be invoked to use the saved compositions in subsequent batch-reaction calculations.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256572"></A><A NAME="50540545_84446"></A>Example problems</H6>
+<A NAME="50610177_pgfId-255926"></A><A NAME="50610177_89671"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256573"></A>The keyword <STRONG CLASS="Bold">
-SOLUTION_SPREAD </STRONG>
-is used in example problem <A HREF="phreeqc3-71.htm#50540559_75769" CLASS="XRef">16</A>. </P>
+<A NAME="50610177_pgfId-255936"></A>The keyword <STRONG CLASS="Bold">
+SAVE </STRONG>
+is used in example problems <A HREF="phreeqc3-65.htm#50610191_51496" CLASS="XRef">3</A>, <A HREF="phreeqc3-66.htm#50610191_70531" CLASS="XRef">4</A>, <A HREF="phreeqc3-69.htm#50610191_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-72.htm#50610191_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-76.htm#50610191_89290" CLASS="XRef">14</A>, and <A HREF="phreeqc3-82.htm#50610191_33272" CLASS="XRef">20</A>.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256574"></A><A NAME="50540545_33896"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-255937"></A><A NAME="50610177_38266"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256578"></A><A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A>.</P>
+<A NAME="50610177_pgfId-501252"></A><A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>, <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-43.htm#50610177_74089" CLASS="XRef">RUN_CELLS</A>, <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, <A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A>, <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A>, <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-57.htm#50610177_55967" CLASS="XRef">USE</A>. </P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-45.htm">Next</A> || <A HREF="phreeqc3-43.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

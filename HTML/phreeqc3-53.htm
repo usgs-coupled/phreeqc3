@@ -4,147 +4,65 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> USER_PUNCH</TITLE><HR><P> | <A HREF="phreeqc3-54.htm">Next</A> || <A HREF="phreeqc3-52.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> SURFACE_MASTER_SPECIES</TITLE><HR><P> | <A HREF="phreeqc3-54.htm">Next</A> || <A HREF="phreeqc3-52.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-257085"></A><STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
-<A NAME="50540545_56415"></A></H2>
+<A NAME="50610177_pgfId-256676"></A><STRONG CLASS="Bold">
+SURFACE_MASTER_SPECIES</STRONG>
+<A NAME="50610177_58106"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-546611"></A>This keyword data block is used to define Basic programs that print user-defined quantities to <EM CLASS="ChangeFont">
-a </EM>
-selected-output file. <EM CLASS="ChangeFont">
-Multiple SELECTED_OUTPUT definitions using different values of n are possible; each is used to write a different file. USER_PUNCH n writes to the file defined in SELECTED_OUTPUT n. </EM>
-Any Basic &#8220;PUNCH&#8221; statement will write to the selected-output file.</P>
+<A NAME="50610177_pgfId-256677"></A>This keyword data block is used to define the correspondence between surface binding-site names and surface master species. Normally, this data block is included in the database file and only additions and modifications are included in the input file. The databases in the PHREEQC distribution contain master species for Hfo_s and Hfo_w, which represent the strong and weak binding sites of hydrous ferric oxides (Dzombak and Morel, 1990).</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-546612"></A><A NAME="50540545_78719"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546613"></A>Line 0: USER_PUNCH</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546614"></A>Line 1:      -headings Na+ Mg+2 Pairs Rxn_increment </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546615"></A>Line 2:      -start</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546616"></A>Basic:  10 REM convert to ppm</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546617"></A>Basic:  20 PUNCH MOL(&quot;Na+&quot;)* 22.99 * 1000 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546618"></A>Basic:  30 PUNCH MOL(&quot;Mg+2&quot;)* 24.3 * 1000 </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546619"></A>Basic:  40 pairs = MOL(&quot;NaCO3-&quot;) + MOL(&quot;MgCO3&quot;) </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546620"></A>Basic:  50 PUNCH pairs</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546621"></A>Basic:  60 REM punch reaction increment</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546622"></A>Basic:  70 PUNCH RXN</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-546623"></A>Line 3:      -end</pre>
+<A NAME="50610177_pgfId-256678"></A><A NAME="50610177_30664"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256679"></A>Line 0:  SURFACE_MASTER_SPECIES </pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256680"></A>Line 1a: 	Surf_s		Surf_sOH</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-256681"></A>Line 1b: 	Surf_w		Surf_wOH</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-645994"></A>Line 1c: 	[mySurf1]		[mySurf1]OH</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-546624"></A><A NAME="50540545_76987"></A>Explanation</H6>
+<A NAME="50610177_pgfId-719566"></A><A NAME="50610177_80193"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-986307"></A><EM CLASS="ChangeFont">
-Line 0: USER_PUNCH [number] [description]</EM>
+<A NAME="50610177_pgfId-719567"></A>Line 0: <STRONG CLASS="Bold">
+SURFACE_MASTER_SPECIES</STRONG>
 </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-986308"></A><EM CLASS="ChangeFont">
-USER_PUNCH is the keyword for the data block. </EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-986309"></A><EM CLASS="ChangeFont">
-number--Positive number to designate this selected-output definition. Default is 1.</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-986310"></A><EM CLASS="ChangeFont">
-description--Optional comment that describes the selected-output  data.</EM>
-</P>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-719568"></A>Keyword for the data block. No other data are input on the keyword line.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-546627"></A>Line 1: <STRONG CLASS="Bold">
--headings </STRONG>
-<EM CLASS="Emphasis">
-list of column headings</EM>
+<A NAME="50610177_pgfId-637971"></A>Line 1: <EM CLASS="Emphasis">
+surface binding-site name, surface master species</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-546628"></A><STRONG CLASS="Bold">
--headings</STRONG>
---Headings will appear on the first line of the selected-output file. Optionally, <STRONG CLASS="Bold">
-heading</STRONG>
-, <STRONG CLASS="Bold">
-headings</STRONG>
-, or <STRONG CLASS="Bold">
--h</STRONG>
-[<STRONG CLASS="Bold">
-eadings</STRONG>
-].</P>
+<A NAME="50610177_pgfId-645663"></A><EM CLASS="Emphasis">
+surface binding-site name</EM>
+--Name of a surface binding site. A binding site name is composed of a surface name and optionally an underscore and additional lower case letters to designate a specific binding site of the surface. Two forms for surface names are available: (1) surface names that begin with a capital letter followed by zero or more lower case letters, and no numbers; and (2) surface names that are enclosed in square brackets (see Line 1c) and use any combination of alphanumeric characters and the characters plus (+), minus (-), equal (=), colon (:), and decimal point (.). Surface names using form 2 are case dependent, and upper and lower case characters can be used in any position. Different binding sites for a surface name are designated with an underscore (&#8220;_&#8221;) plus one or more lower case letters.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-546629"></A><EM CLASS="Emphasis">
-list of column headings</EM>
---White-space-delimited (any combination of spaces and tabs) list of column headings.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-546630"></A>Line 2: <STRONG CLASS="Bold">
--start</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-546631"></A><STRONG CLASS="Bold">
--start</STRONG>
---Indicates the start of the Basic program. Optional.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-546632"></A>Basic: <EM CLASS="Emphasis">
-numbered Basic statement</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-546633"></A> <EM CLASS="Emphasis">
-numbered Basic statement</EM>
---A valid Basic language statement that must be numbered. The statements are evaluated in the order of the line numbers. Statements and functions that are available through the Basic interpreter are listed in <A HREF="phreeqc3-54.htm#50540549_44206" CLASS="XRef">The Basic Interpreter</A>, tables <A HREF="phreeqc3-54.htm#50540549_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50540549_27680" CLASS="XRef">8</A>.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-546640"></A>Line 3: <STRONG CLASS="Bold">
--end</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-546641"></A><STRONG CLASS="Bold">
--end</STRONG>
---Indicates the end of the Basic program. Optional. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
-END</STRONG>
-.</P>
+<A NAME="50610177_pgfId-637964"></A><EM CLASS="Emphasis">
+surface master species</EM>
+--Formula for the surface master species, usually the OH form of the binding site. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-546642"></A><A NAME="50540545_36413"></A>Notes</H6>
+<A NAME="50610177_pgfId-256688"></A><A NAME="50610177_47533"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-546643"></A><STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
- allows the user to write a Basic program to make calculations and print selected results to the selected-output file as PHREEQC is running. Results of PUNCH Basic statements are written directly to the selected-output file after each calculation. The Basic program is useful for writing results in the desired units or in a format that can be plotted directly. All of the functions defined in <A HREF="phreeqc3-54.htm#50540549_44206" CLASS="XRef">The Basic Interpreter</A> (tables <A HREF="phreeqc3-54.htm#50540549_51264" CLASS="XRef">7</A> and <A HREF="phreeqc3-54.htm#50540549_27680" CLASS="XRef">8</A>) are available in <STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
- Basic programs. <STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
- has no effect unless a <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block has been defined. Writing results of <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
- can be enabled or suspended with the <STRONG CLASS="Bold">
--selected_output </STRONG>
-identifier in the <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A> data block. If the <STRONG CLASS="Bold">
--selected_output </STRONG>
-identifier in the <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A> data block is <STRONG CLASS="Bold">
-false</STRONG>
-, then all selected output, including <STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
-, is disabled; if <STRONG CLASS="Bold">
-true</STRONG>
-, then all selected output, including <STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
-, is enabled. The <A HREF="phreeqc3-52.htm#50540545_55085" CLASS="XRef">USER_PRINT</A> data block is similar to <STRONG CLASS="Bold">
-USER_PUNCH</STRONG>
-, except that PRINT Basic statements are used to write results to the output file.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-986231"></A><EM CLASS="ChangeFont">
-Multiple SELECTED_OUTPUT data blocks may be defined by using different identifying numbers. Multiple USER_PUNCH data blocks may also be defined. SELECTED_OUTPUT data block n controls the writing of USER_PUNCH n. If SELECTED_OUTPUT n is not defined, USER_PUNCH n will not write any data. If both SELECTED_OUTPUT n and USER_PUNCH n are defined, then identifiers -selected_output in PRINT and -active and -user_punch in SELECTED_OUTPUT will determine the data that will be written to file. If -selected_output in PRINT is false, no data are written to any selected-output file. For SELECTED_OUTPUT n, if -active is false, no data are written; if -active is true the data defined by SELECTED_OUTPUT n are written and the value of -user_punch determines whether USER_PUNCH n data will be written.</EM>
-</P>
+<A NAME="50610177_pgfId-586378"></A>In this Example data block, a surface named &#8220;Surf&#8221; has a strong and a weak binding site and a surface named &#8220;[mySurf1]&#8221; has only one binding site. Association reactions must be defined with <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A> for the master species associated with each binding site and for any additional surface complexation species. Each surface master species (Surf_sOH, Surf_wOH, and [mySurf1]OH in this Example data block) must be defined by an identity reaction with log <EM CLASS="Emphasis">
+K</EM>
+ of 0.0 in <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A> input. Other surface species can be defined by association reactions with the surface master species. The number of sites, in moles, for each binding site is defined explicitly or implicitly (by defining site density and surface area) in the <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A> data block. Information defining the surface area and capacitances (CD-MUSIC surfaces) also must be specified with the <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A> data block.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-546665"></A><A NAME="50540545_61880"></A>Example problems</H6>
+<A NAME="50610177_pgfId-256690"></A><A NAME="50610177_17505"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-546690"></A>The keyword <STRONG CLASS="Bold">
-USER_PUNCH </STRONG>
-is used in example problems <A HREF="phreeqc3-61.htm#50540559_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-63.htm#50540559_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-64.htm#50540559_39217" CLASS="XRef">9</A>, <A HREF="phreeqc3-65.htm#50540559_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-66.htm#50540559_46434" CLASS="XRef">11</A>, <A HREF="phreeqc3-67.htm#50540559_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-68.htm#50540559_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-69.htm#50540559_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-70.htm#50540559_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-75.htm#50540559_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-76.htm#50540559_68313" CLASS="XRef">21</A>.</P>
+<A NAME="50610177_pgfId-602353"></A>The keyword <STRONG CLASS="Bold">
+SURFACE_MASTER_SPECIES</STRONG>
+ is used in example problems <A HREF="phreeqc3-76.htm#50610191_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-81.htm#50610191_18716" CLASS="XRef">19</A>, and <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">21</A>. It is also found in the Amm.dat, iso.dat, llnl.dat, minteq.dat, minteq.v4.dat, phreeqc.dat, pitzer.dat, and wateq4f.dat, databases.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-546691"></A><A NAME="50540545_86641"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-256695"></A><A NAME="50610177_87744"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-546707"></A><A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A>, <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-51.htm#50540545_26121" CLASS="XRef">USER_GRAPH</A>, and <A HREF="phreeqc3-52.htm#50540545_55085" CLASS="XRef">USER_PRINT</A>.</P>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-344804"></A>&nbsp;</pre>
+<A NAME="50610177_pgfId-256702"></A><A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A> and <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-54.htm">Next</A> || <A HREF="phreeqc3-52.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

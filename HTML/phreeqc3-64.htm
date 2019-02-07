@@ -4,474 +4,1187 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> Example 9--Kinetic Oxidation of Dissolved Ferrous Iron With Oxygen</TITLE><HR><P> | <A HREF="phreeqc3-65.htm">Next</A> || <A HREF="phreeqc3-63.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> Example 2--Equilibration With Pure Phases</TITLE><HR><P> | <A HREF="phreeqc3-65.htm">Next</A> || <A HREF="phreeqc3-63.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50540559_pgfId-1676997"></A>Example 9--<A NAME="50540559_39217"></A>Kinetic Oxidation of Dissolved Ferrous Iron With Oxygen</H2>
+<A NAME="50610191_pgfId-1483989"></A>Example 2--<A NAME="50610191_28577"></A>Equilibration With Pure Phases</H2>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1340373"></A>Kinetic rate expressions can be defined in a completely general way in PHREEQC by using Basic statements in the <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A> data block. The rate expressions can be used in batch-reaction and transport calculations with the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block. For transport calculations (<A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A> or <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>), kinetic reactions can be defined cell by cell by the number range following the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> keyword (<A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> <EM CLASS="Emphasis">
-m-n</EM>
-). The rate expressions are integrated with an embedded (up to) 5th-order Runge-Kutta-Fehlberg algorithm, or with a stiff, variable-order, variable-step multistep solver (Cohen and Hindmarsh, 1996). Equilibrium is calculated before a kinetic calculation is initiated and again when a kinetic reaction increment is added. Equilibrium includes solution species equilibrium; exchange-, equilibrium-phase-, solid-solution-, and surface-assemblage equilibrium; and gas-phase equilibrium. A check is performed to ensure that the difference between estimates of the integrated rate over a time interval is smaller than a user-defined tolerance. If the tolerance is not satisfied, then the integration over the time interval is automatically restarted with a smaller time interval. </P>
+<A NAME="50610191_pgfId-1484005"></A>This example shows how to calculate the solubility and relative thermodynamic stability of two minerals, gypsum and anhydrite. First, as a function of temperature at 1 atm, and second, as a function of temperature and pressure, while comparing the calculations with experimental solubility data.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1684011"></A>Kinetic reactions between solids and the aqueous phase can be calculated without modification of the database. PHREEQC also can calculate kinetic reactions among aqueous species that are normally assumed to be in equilibrium, but this requires that the database be redefined with separate <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> for the aqueous species that react kinetically. Example 9 illustrates the procedure for decoupling two valence states of an element (iron) and shows how PHREEQC can be used to calculate the kinetic oxidation of Fe<Sup CLASS="Superscript">
-+2</Sup>
- to Fe<Sup CLASS="Superscript">
-+3</Sup>
- in water.</P>
+<A NAME="50610191_pgfId-1484038"></A>Conceptually, the two models define a beaker with pure water to which the minerals gypsum and (or) anhydrite are added. Step-wise, the beaker is heated, the minerals dissolve to equilibrium, and the concentrations and saturation indexes are calculated and plotted. If, at a given temperature, gypsum is less soluble than anhydrite, anhydrite dissolves completely while gypsum precipitates; similarly, if gypsum is more soluble than anhydrite, anhydrite dissolves completely and gypsum precipitates. Adding a single mineral allows the (possibly metastable) solubility at any temperature and pressure to be calculated.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1684015"></A>The rate of oxidation of Fe<Sup CLASS="Superscript">
-+2</Sup>
- by O<Sub CLASS="Subscript">
-2</Sub>
- in water is given by (Singer and Stumm, 1970):</P>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-338698"></A><A NAME="50540559_32974"></A><IMG SRC="phreeqc3-234.gif" ALIGN="BASELINE">
-,	(22)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-338705"></A>where <EM CLASS="Emphasis">
-t</EM>
- is time in seconds, <IMG SRC="phreeqc3-235.gif" ALIGN="BASELINE">
- is the activity of the hydroxyl ion, <IMG SRC="phreeqc3-236.gif" ALIGN="BASELINE">
- is the total molality of ferrous iron in solution, and <IMG SRC="phreeqc3-237.gif" ALIGN="BASELINE">
-is the oxygen partial pressure (atm).</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-338709"></A>The time for complete oxidation of ferrous iron is a matter of minutes in an aerated solution when pH is above 7.0. However, Fe<Sup CLASS="Superscript">
-+3</Sup>
- forms solute complexes with OH<Sup CLASS="Superscript">
--</Sup>
- and it may also precipitate as iron oxyhydroxides, so that pH decreases during oxidation. Because the rate has quadratic dependence on the activity of OH<Sup CLASS="Superscript">
--</Sup>
-, the oxidation rate rapidly diminishes as pH decreases. The rate equation is highly non-linear in an unbuffered solution and must be integrated numerically. This example models a reaction vessel with 10 mmol/kgw NaCl and 0.1 mmol/kgw FeCl<Sub CLASS="Subscript">
-2</Sub>
- at pH = 7.0 through which air is bubbled; the change in solution composition over time is calculated.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1601661"></A>The calculation requires the uncoupling of equilibrium among the Fe(2) and Fe(3) species. Two new &#8220;elements&#8221; are defined in <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>--&#8220;Fe_di&#8221;, which corresponds to Fe(2), and &#8220;Fe_tri&#8221;, which corresponds to Fe(3). The master species for these elements are defined to be Fe_di+2 and Fe_tri+3, and all solution species, phases, exchange species, and surface species must be rewritten using these new elements and master species. A few of the transcriptions are shown in <A HREF="phreeqc3-64.htm#50540559_10607" CLASS="XRef">table 28</A>, which gives the partial input file for this example. <A NAME="50540559_26557"></A>     </P>
+<A NAME="50610191_pgfId-1587107"></A>The input file for the first model is given in <A HREF="phreeqc3-64.htm#50610191_81881" CLASS="XRef">table 12</A>. It defines a single simulation in which various keywords define the actions that will be processed together. The water is defined with keyword <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A>. It is given a pH of 7 and a temperature of 25 &#176;C, but these are equal to default and could be omitted. Also, by default, the pe is 4 and the density is 1 kg/L, and by omitting these parameters the default values will be used. The two minerals are defined with keyword <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>. The mineral name is followed by the target saturation index and the amount in moles (defaults are 0 and 10, respectively). If a phase is not present initially, it can be given 0 mol. Of course, the mineral names must have been defined before through a <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> data block in the database or the input file. The <A HREF="phreeqc3-42.htm#50610177_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data block lets the temperature change from 25 &#176;C to 75 &#176;C in 51 steps (25, 26, ..., 75 &#176;C).   </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1601923"></A>Table 28. <A NAME="50540559_10607"></A>Partial input file for example 9.</P>
+<A NAME="50610191_pgfId-1634232"></A>Table 12. <A NAME="50610191_81881"></A>Input file for example 2.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601763"></A>TITLE Example 9.--Kinetically controlled oxidation of ferrous </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634234"></A>TITLE Example 2.--Temperature dependence of solubility</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601765"></A>                  iron. Decoupled valence states of iron.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634236"></A>                  of gypsum and anhydrite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601767"></A>SOLUTION_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634238"></A>SOLUTION 1 Pure water</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601769"></A>Fe_di              Fe_di+2    0.0     Fe_di              55.847</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634240"></A>        pH      7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601771"></A>Fe_tri             Fe_tri+3   0.0     Fe_tri             55.847</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634242"></A>        temp    25.0                </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601773"></A>SOLUTION_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634244"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601775"></A>Fe_di+2 = Fe_di+2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634246"></A>        Gypsum          0.0     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601777"></A>        log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634248"></A>        Anhydrite       0.0     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601779"></A>Fe_tri+3 = Fe_tri+3</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634250"></A>REACTION_TEMPERATURE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601781"></A>        log_k   0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634252"></A>        25.0 75.0 in 51 steps</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601783"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634254"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1601785"></A># Fe+2 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1634256"></A>        -file   ex2.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1642777"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1673362"></A>        -temperature</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1642775"></A>Fe_di+2 + H2O = Fe_diOH+ + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1673360"></A>        -si     anhydrite  gypsum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748649"></A>        log_k   -9.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1673358"></A>USER_GRAPH 1 Example 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748647"></A>        delta_h 13.20   kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1673356"></A>        -headings Temperature Gypsum Anhydrite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748645"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742090"></A>        -chart_title &quot;Gypsum-Anhydrite Stability&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748643"></A>#... and also other Fe+2 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742088"></A>        -axis_scale x_axis 25 75 5 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748641"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742086"></A>        -axis_scale y_axis auto 0.05 0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748639"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742084"></A>        -axis_titles &quot;Temperature, in degrees celsius&quot; &quot;Saturation index&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748637"></A># Fe+3 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742082"></A>        -initial_solutions false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748635"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742080"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748633"></A>Fe_tri+3 + H2O = Fe_triOH+2 + H+</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742078"></A>  10 graph_x TC</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748631"></A>        log_k   -2.19</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742076"></A>  20 graph_y SI(&quot;Gypsum&quot;) SI(&quot;Anhydrite&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748629"></A>        delta_h 10.4    kcal</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742074"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748627"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742072"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748625"></A>#... and also other Fe+3 species</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742070"></A>TITLE Example 2.--Temperature dependence of solubility</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748623"></A>#</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742068"></A>                  of gypsum and anhydrite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748621"></A>PHASES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742066"></A>SOLUTION 1 Pure water</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748619"></A>Goethite</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742064"></A>        pH      7.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748617"></A>        Fe_triOOH + 3 H+ = Fe_tri+3 + 2 H2O</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742062"></A>        temp    25.0                </Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748615"></A>        log_k   -1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742060"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748613"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742058"></A>        Gypsum          0.0     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748611"></A>SOLUTION 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742056"></A>        Anhydrite       0.0     1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748609"></A>        pH  7.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742054"></A>REACTION_TEMPERATURE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748607"></A>        pe 10.0  O2(g) -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742052"></A>        25.0 75.0 in 51 steps</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748605"></A>        Fe_di  0.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742050"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748603"></A>        Na  10.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742048"></A>        -file   ex2.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748601"></A>        Cl  10.  charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742046"></A>        -temperature</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748599"></A>EQUILIBRIUM_PHASES 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742044"></A>        -si     anhydrite  gypsum</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748597"></A>        O2(g)           -0.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742042"></A>USER_GRAPH 1 Example 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748595"></A>RATES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742040"></A>        -headings Temperature Gypsum Anhydrite</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748593"></A>Fe_di_ox</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742038"></A>        -chart_title &quot;Gypsum-Anhydrite Stability&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748591"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742036"></A>        -axis_scale x_axis 25 75 5 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748589"></A>  10  Fe_di = TOT(&quot;Fe_di&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742034"></A>        -axis_scale y_axis auto 0.05 0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748587"></A>  20  if (Fe_di &lt;= 0) then goto 200</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742032"></A>        -axis_titles &quot;Temperature, in degrees celsius&quot; &quot;Saturation index&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748585"></A>  30  p_o2 = SR(&quot;O2(g)&quot;)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742030"></A>        -initial_solutions false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748583"></A>  40  moles = (2.91e-9 + 1.33e12 * (ACT(&quot;OH-&quot;))^2 * p_o2) * Fe_di * TIME</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742028"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748581"></A>  200 SAVE moles</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742026"></A>  10 graph_x TC</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748579"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742024"></A>  20 graph_y SI(&quot;Gypsum&quot;) SI(&quot;Anhydrite&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748577"></A>KINETICS 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742022"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748575"></A>Fe_di_ox</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748573"></A>        -formula  Fe_di  -1.0  Fe_tri  1.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748571"></A>        -steps 100 400 3100 10800 21600 5.04e4 8.64e4 1.728e5 1.728e5 1.728e5 1.728e5 </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748569"></A>        -step_divide 1e-4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748567"></A>INCREMENTAL_REACTIONS true</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748565"></A>SELECTED_OUTPUT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748563"></A>        -file ex9.sel</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748561"></A>        -reset false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748559"></A>USER_PUNCH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748557"></A>        -headings Days  Fe(2)  Fe(3)  pH  si_goethite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748555"></A>  10 PUNCH SIM_TIME / 3600 / 24, TOT(&quot;Fe_di&quot;)*1e6, TOT(&quot;Fe_tri&quot;)*1e6, -LA(&quot;H+&quot;),&#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748553"></A>	SI(&quot;Goethite&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748551"></A>USER_GRAPH Example 9</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748549"></A>        -headings _time_ Fe(2) Fe(3) pH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748547"></A>        -chart_title &quot;Oxidation of Ferrous Iron&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748545"></A>        -axis_titles &quot;Time, in days&quot; &quot;Micromole per kilogram water&quot; &quot;pH&quot;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748543"></A>        -axis_scale secondary_y_axis 4.0 7.0 1.0 0.5</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748541"></A>  -start</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748539"></A>  10 GRAPH_X TOTAL_TIME / 3600 / 24 </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748537"></A>  <EM CLASS="ChangeFont">20 GRAPH_Y TOT(&quot;Fe_di&quot;)*1e6, TOT(&quot;Fe_tri&quot;)*1e6 </EM>
-</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748535"></A>  30 GRAPH_SY -LA(&quot;H+&quot;)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748533"></A>  -end</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1748531"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742020"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1601753"></A>The <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> data block defines a sodium chloride solution that has 0.1 mmol/kgw ferrous iron (Fe_di) and is in equilibrium with atmospheric oxygen. The <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> data block specifies that all batch-reaction solutions will also be in equilibrium with atmospheric oxygen; thus, there is a continuous supply of oxygen for oxidation of ferrous iron.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-338792"></A>In the <A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef">RATES</A> data block, the rate expression is designated with the name &#8220;Fe_di_ox&#8221; and defined according to <A HREF="phreeqc3-64.htm#50540559_32974" CLASS="XRef">equation 22</A>. Note the use of the special Basic function &#8220;TOT&#8221; to obtain the total concentration (molality) of ferrous iron (line 10), &#8220;SR&#8221; to obtain the saturation ratio, or, in the case of a gas, the partial pressure, here of oxygen (line 30), and &#8220;ACT&#8221; to obtain the activity of OH<Sup CLASS="Superscript">
--</Sup>
- (line 40). Line 40 defines the moles of reaction. Notice also that the variable <EM CLASS="Emphasis">
-moles</EM>
- is calculated by multiplying the rate times the current time interval (TIME) and that the rate definition ends with a SAVE statement. The SAVE and TIME statements must be included in a rate definition; they specify the moles that reacted over the time (sub-)interval. The interval given by TIME is an internal PHREEQC variable that is adapted automatically by the code to obtain the required accuracy of the integration.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-338799"></A>In the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block, the rate expression named &#8220;Fe_di_ox&#8221; is invoked and parameters are defined. When the rate name in the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block is identical to a mineral name that is defined under <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A>, the stoichiometry of that mineral will be used in the reaction. However, because no mineral is associated with the rate name of this example, the identifier <STRONG CLASS="Bold">
--formula</STRONG>
- must be used to specify the reaction stoichiometry. The reaction involves loss of Fe_di [equivalent to Fe(2)] from solution as indicated by the stoichiometric coefficient of -1.0. The loss is balanced by a gain in solution of Fe_tri [equivalent to Fe(3)] with a stoichiometric coefficient of +1.0. Note that the formula contains only the elements for which the mass changes in the system. Thus, the overall kinetic reaction of the example is <IMG SRC="phreeqc3-238.gif" ALIGN="BASELINE">
-, but the reaction of protons and oxygen to form water does not change the total mass of hydrogen or oxygen in the system. Hydrogen and oxygen are therefore not included in the formula. In <A HREF="phreeqc3-64.htm#50540559_10607" CLASS="XRef">table 28</A>, the phase O2(g) in <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> allows dissolved oxygen to be maintained in equilibrium with atmospheric oxygen gas. In a system closed to oxygen, the dissolved oxygen would be partly consumed.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-338815"></A>The identifier <STRONG CLASS="Bold">
--steps</STRONG>
- in the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block gives the time step(s) over which the kinetic reactions must be integrated. When <A HREF="phreeqc3-19.htm#50540545_79204" CLASS="XRef">INCREMENTAL_REACTIONS</A><STRONG CLASS="Bold">
- true </STRONG>
-is used, each time step increments the total time to be simulated, and the results from the previous time step are used as the starting point for the current time step. </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1340316"></A>The <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies the file name of the selected-output file and eliminates all default printing to that file (<STRONG CLASS="Bold">
--reset</STRONG>
- false). The only output to the selected-output file in this example is defined with the <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> data block. The Basic program in <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> specifies that the following be printed after each kinetic time step (<STRONG CLASS="Bold">
--steps </STRONG>
-defines 11 kinetic time steps): the cumulative time of the simulation, in days; the total ferrous and ferric iron, in <EM CLASS="symbol">
-&#956;</EM>
-mol/kgw; the pH; and the saturation index of goethite. The results also are plotted with <A HREF="phreeqc3-51.htm#50540545_26121" CLASS="XRef">USER_GRAPH</A>, and the points can be saved to a file by right-clicking the mouse when the cursor is inside the chart area.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1684175"></A>When the input file is run, two warning messages are generated during the integration. If the integration time interval is too large, it is possible that the initial estimates of kinetic reaction increments produce negative solution concentrations. When this happens, the program prints a warning message, decreases the size of the time interval, and restarts the integration. The messages are warnings, not errors, and the program successfully completes the calculation. It is possible to eliminate the warning messages by reducing the initial integration interval. No warning messages are printed if the identifier <STRONG CLASS="Bold">
--step_divide</STRONG>
- 100 is used (<A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>), which divides the initial (overall) time step by 100. Likewise, no warning messages are printed if the identifier <STRONG CLASS="Bold">
--step_divide</STRONG>
- 1e-7 is used, which causes the reaction increment to be less than 1&#215;10<Sup CLASS="Superscript">
--7</Sup>
- mol. The former approach, with <STRONG CLASS="Bold">
--step_divide</STRONG>
- 100, is usually preferable because, although initial reaction increments are compelled to be small, later in the integration, large reaction increments are possible. Using <STRONG CLASS="Bold">
--step_divide</STRONG>
- 1e-7 forces reaction increments to remain small throughout the entire integration, and in this example, the run time is about 5 times longer than using <STRONG CLASS="Bold">
--step_divide</STRONG>
- 100, and about 10 times longer than not using <STRONG CLASS="Bold">
--step_divide </STRONG>
-at all. Figure 10 shows the concentration of total Fe(2), total Fe(3), and pH in the reaction vessel over the 10 days of the simulation. It can be seen that the pH rapidly decreases at the beginning of the reaction. The slope of Fe(2) against time is initially steep, but lessens as the reaction progresses, which is consistent with <A HREF="phreeqc3-64.htm#50540559_32974" CLASS="XRef">equation 22</A>.When the experiment is performed in reality in an unbuffered solution, it is noted that the pH initially rises. This rise in pH is consistent with slowly forming hydroxy-complexes of Fe(3). Because the oxidation reaction by itself consumes protons, the pH would initially rise if the hydroxy-complexes that lower the pH form slowly. Such kinetic formation of aqueous complexes also could be included in PHREEQC simulations, but it would require that the hydroxy-complexes of Fe(3) also be defined by using a separate <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and that a rate expression be defined for the kinetic formation of the complexes.</P>
+<A NAME="50610191_pgfId-1587177"></A>At each step, the temperature and the saturation indices for gypsum and anhydrite are written to the file <EM CLASS="Italics">
+ex2.sel</EM>
+ as defined by <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A>, and plotted by <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> as shown in figure 4. The figure shows that below 58 &#176;C, the solution is in equilibrium with gypsum, but subsaturated with respect to anhydrite. Above that temperature, anhydrite is the more stable phase.</P>
 <DIV>
-<MAP NAME="phreeqc3-239">
+<MAP NAME="phreeqc3-219">
 </MAP>
-<IMG SRC="phreeqc3-239.gif" USEMAP="#phreeqc3-239">
+<IMG SRC="phreeqc3-219.png" style="width:65%" USEMAP="#phreeqc3-219">
 </DIV>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1484506"></A>PHREEQC starts the simulation by calculating the solution composition if a new <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> (or <A HREF="phreeqc3-51.htm#50610177_84297" CLASS="XRef">SOLUTION_SPREAD</A>) data block is defined, continues with the reactions defined with the keywords, and prints the results of the calculations. The printout of the initial solution and the first batch-reaction step is listed in <A HREF="phreeqc3-64.htm#50610191_59998" CLASS="XRef">table 13</A>. Headings define the various parts and are self-explanatory.  <A NAME="50610191_20537"></A>       </P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50610191_pgfId-1588682"></A>Table 13. <A NAME="50610191_59998"></A>Selected output for example 2.</P>
+</CAPTION>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654297"></A>-------------------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654299"></A>Beginning of initial solution calculations.</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654301"></A>-------------------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654303"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654305"></A>Initial solution 1.	Pure water</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654307"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654309"></A>-----------------------------Solution composition------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654311"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654313"></A>	Elements           Molality       Moles</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654315"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654317"></A>	Pure water     </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654319"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654321"></A>----------------------------Description of solution----------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654323"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654325"></A>                                       pH  =   7.000    </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654327"></A>                                       pe  =   4.000    </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654329"></A>       Specific Conductance (uS/cm, 25 oC) = 0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1654331"></A>                          Density (g/cm3)  =   0.99704</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1673368"></A>                               Volume (L)  =   1.00297</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743195"></A>                        Activity of water  =   1.000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743193"></A>                           Ionic strength  =  1.007e-007</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743191"></A>                       Mass of water (kg)  =  1.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743189"></A>                 Total alkalinity (eq/kg)  =  1.217e-009</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743187"></A>                    Total carbon (mol/kg)  =  0.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743185"></A>                       Total CO2 (mol/kg)  =  0.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743183"></A>                      Temperature (deg C)  =  25.00</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743181"></A>                  Electrical balance (eq)  = -1.217e-009</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743179"></A> Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743177"></A>                               Iterations  =   0</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743175"></A>                                  Total H  = 1.110124e+002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743173"></A>                                  Total O  = 5.550622e+001</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743171"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743169"></A>----------------------------Distribution of species----------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743167"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743165"></A>                                               Log       Log       Log    mole V</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743163"></A>   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743161"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743159"></A>   OH-            1.013e-007  1.012e-007    -6.995    -6.995    -0.000     -4.14</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743157"></A>   H+             1.001e-007  1.000e-007    -7.000    -7.000    -0.000      0.00</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743155"></A>   H2O            5.551e+001  1.000e+000     1.744     0.000     0.000     18.07</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743153"></A>H(0)         1.416e-025</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743151"></A>   H2             7.079e-026  7.079e-026   -25.150   -25.150     0.000     28.61</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743149"></A>O(0)         0.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743147"></A>   O2             0.000e+000  0.000e+000   -42.080   -42.080     0.000     30.40</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743145"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743143"></A>------------------------------Saturation indices-------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743141"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743139"></A>	Phase               SI   log IAP   log K(298 K,   1 atm)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743137"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743135"></A>	H2(g)           -22.05    -25.15   -3.10  H2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743133"></A>	H2O(g)           -1.50      0.00    1.50  H2O</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743131"></A>	O2(g)           -39.19    -42.08   -2.89  O2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743129"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743127"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743125"></A>-----------------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743123"></A>Beginning of batch-reaction calculations.</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743121"></A>-----------------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743119"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743117"></A>Reaction step 1.</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743115"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743113"></A>Using solution 1.	Pure water</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743111"></A>Using pure phase assemblage 1.	</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743109"></A>Using temperature 1.	</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743107"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743105"></A>-------------------------------Phase assemblage--------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743103"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743101"></A>                                                      Moles in assemblage</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743099"></A>Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743097"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743095"></A>Anhydrite        -0.30    -4.58     -4.28   1.000e+000           0 -1.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743093"></A>Gypsum            0.00    -4.58     -4.58   1.000e+000  1.985e+000  9.855e-001</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743091"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743089"></A>-----------------------------Solution composition------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743087"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743085"></A>	Elements           Molality       Moles</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743083"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743081"></A>	Ca               1.508e-002  1.455e-002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743079"></A>	S                1.508e-002  1.455e-002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743077"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743075"></A>----------------------------Description of solution----------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743073"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743071"></A>                                       pH  =   7.066      Charge balance</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743069"></A>                                       pe  =  10.745      Adjusted to redox equilibrium</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743067"></A>       Specific Conductance (uS/cm, 25 oC) = 2161</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743065"></A>                          Density (g/cm3)  =   0.99909</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743063"></A>                               Volume (L)  =   0.96829</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743061"></A>                        Activity of water  =   1.000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743059"></A>                           Ionic strength  =  4.183e-002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743057"></A>                       Mass of water (kg)  =  9.645e-001</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743055"></A>                 Total alkalinity (eq/kg)  =  1.261e-009</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743053"></A>                    Total carbon (mol/kg)  =  0.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743051"></A>                       Total CO2 (mol/kg)  =  0.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743049"></A>                      Temperature (deg C)  =  25.00</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743047"></A>                  Electrical balance (eq)  = -1.217e-009</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743045"></A> Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743043"></A>                               Iterations  =  19</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743041"></A>                                  Total H  = 1.070706e+002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743039"></A>                                  Total O  = 5.359351e+001</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743037"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743035"></A>----------------------------Distribution of species----------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743033"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743031"></A>                                               Log       Log       Log    mole V</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743029"></A>   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743027"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743025"></A>   OH-            1.431e-007  1.178e-007    -6.844    -6.929    -0.084     -3.90</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743023"></A>   H+             9.974e-008  8.587e-008    -7.001    -7.066    -0.065      0.00</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743021"></A>   H2O            5.551e+001  9.996e-001     1.744    -0.000     0.000     18.07</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743019"></A>Ca           1.508e-002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743017"></A>   Ca+2           1.046e-002  5.176e-003    -1.981    -2.286    -0.305    -17.66</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743015"></A>   CaSO4          4.627e-003  4.672e-003    -2.335    -2.331     0.004      7.50</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743013"></A>   CaOH+          1.203e-008  1.000e-008    -7.920    -8.000    -0.080     (0)  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743011"></A>   CaHSO4+        3.172e-009  2.637e-009    -8.499    -8.579    -0.080     (0)  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743009"></A>H(0)         3.354e-039</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743007"></A>   H2             1.677e-039  1.693e-039   -38.776   -38.771     0.004     28.61</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743005"></A>O(0)         2.878e-015</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743003"></A>   O2             1.439e-015  1.453e-015   -14.842   -14.838     0.004     30.40</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743001"></A>S(-2)        0.000e+000</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742999"></A>   HS-            0.000e+000  0.000e+000  -118.111  -118.195    -0.084     20.77</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742997"></A>   H2S            0.000e+000  0.000e+000  -118.324  -118.320     0.004     37.16</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742995"></A>   S-2            0.000e+000  0.000e+000  -123.735  -124.047    -0.312     (0)  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742993"></A>S(6)         1.508e-002</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742991"></A>   SO4-2          1.046e-002  5.075e-003    -1.981    -2.295    -0.314     14.66</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742989"></A>   CaSO4          4.627e-003  4.672e-003    -2.335    -2.331     0.004      7.50</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742987"></A>   HSO4-          5.096e-008  4.237e-008    -7.293    -7.373    -0.080     40.44</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742985"></A>   CaHSO4+        3.172e-009  2.637e-009    -8.499    -8.579    -0.080     (0)  </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742983"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742981"></A>------------------------------Saturation indices-------------------------------</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742979"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742977"></A>	Phase               SI   log IAP   log K(298 K,   1 atm)</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742975"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742973"></A>	Anhydrite        -0.30     -4.58   -4.28  CaSO4</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742971"></A>	Gypsum            0.00     -4.58   -4.58  CaSO4:2H2O</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742969"></A>	H2(g)           -35.67    -38.77   -3.10  H2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742967"></A>	H2O(g)           -1.50     -0.00    1.50  H2O</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742965"></A>	H2S(g)         -117.27   -125.26   -7.99  H2S</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742963"></A>	O2(g)           -11.95    -14.84   -2.89  O2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1742961"></A>	Sulfur          -87.58    -82.70    4.88  S</Pre>
+</TD>
+</TR>
+</TABLE>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1653816"></A>The heading &#8220;Phase assemblage&#8221; records the saturation indices and amounts of each of the phases defined by <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>. In the first batch-reaction step, the solution is undersaturated with respect to anhydrite (saturation index is -0.30), and in equilibrium with gypsum (saturation index is 0.0). Consequently, all of the anhydrite has dissolved and most of the calcium and sulfate have precipitated as gypsum. The &#8220;Solution composition&#8221; shows that 15.1 mmol/kgw of calcium and sulfate are in solution, which is the solubility of gypsum in pure water at 25 &#176;C. However, the total moles of the two constituents in the aqueous phase is only 14.6 because the mass of water has decreased to 0.964 kg by precipitating gypsum (CaSO4<Sup CLASS="Superscript">
+.</Sup>
+2H2O), as printed below &#8220;Description of solution&#8221;. Accordingly, the mass of solvent water is not constant in batch-reaction calculations because reactions and waters of hydration in dissolving and precipitating phases may increase or decrease the mass of solvent water. Also listed under &#8220;Description of solution&#8221; are the calculated specific conductance (2161 &#956;S/cm, microsiemens per centimeter), the density (0.999 g/cm<Sup CLASS="Superscript">
+3</Sup>
+), the cation-anion balance (0), and more.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1639736"></A>To illustrate that the temperature where gypsum transforms into anhydrite is a function of pressure, the calculation is repeated with input file ex2b at pressures of 1, 500, and 1,000 bars. The calculated results are compared with experimental data summarized by Blount and Dickson (1973, figure 2). Part of the input file is listed in <A HREF="phreeqc3-64.htm#50610191_87085" CLASS="XRef">table 14</A>.<A NAME="50610191_14922"></A>  </P>
+<TABLE>
+<CAPTION>
+<P CLASS="TableTitle">
+<A NAME="50610191_pgfId-1639744"></A>Table 14. <A NAME="50610191_87085"></A>Input file for the first and second simulation in example 2B.</P>
+</CAPTION>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1639746"></A>TITLE Calculate gypsum/anhydrite transitions, 30 - 170 oC, 1 - 1000 atm</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1639748"></A>      Data in ex2b.tsv from Blount and Dickson, 1973, Am. Mineral. 58, 323, fig. 2.</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1639750"></A>PRINT; -reset false</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1639752"></A>SOLUTION 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1639754"></A>EQUILIBRIUM_PHASES</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1639756"></A>Gypsum</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1673374"></A>REACTION_TEMPERATURE</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743483"></A> 30 90 in 10</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743481"></A>USER_GRAPH 1 Example 2B, (P, T)-dependent solubilities of Gypsum and Anhydrite</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743479"></A> -plot_tsv_file ex2b.tsv</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743477"></A> -axis_titles &quot;Temperature, in degrees celsius&quot; &quot;Solubility, in moles per &#92;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743475"></A>      kilogram water&quot;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743473"></A> -axis_scale x_axis 30 170</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743471"></A> -axis_scale y_axis 1e-3 0.05 auto auto log</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743469"></A> 10 plot_xy tc, tot(&quot;Ca&quot;), color = Red, symbol = None</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743467"></A> -end</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743465"></A>END # 1st simulation</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743463"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743461"></A>USE solution 1 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743459"></A>USE equilibrium_phases 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743457"></A>USE reaction_temperature 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743455"></A>REACTION_PRESSURE 2</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743453"></A> 493</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743451"></A>USER_GRAPH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743449"></A> 10 plot_xy tc, tot(&quot;Ca&quot;), color = Red, symbol = None</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743447"></A>END</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743445"></A>&nbsp;</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743443"></A>USE solution 1 </Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743441"></A>USE equilibrium_phases 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743439"></A>USE reaction_temperature 1</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743437"></A>REACTION_PRESSURE 3</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743435"></A> 987</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743433"></A>USER_GRAPH</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743431"></A> 20 plot_xy tc, tot(&quot;Ca&quot;), color = Red, symbol = None</Pre>
+</TD>
+</TR>
+<TR>
+<TD ROWSPAN="1" COLSPAN="1">
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1743429"></A>END # 2nd simulation</Pre>
+</TD>
+</TR>
+</TABLE>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1639818"></A>Like before in <A HREF="phreeqc3-64.htm#50610191_59998" CLASS="XRef">table 13</A> (example file ex2 in the PHREEQC distribution), the first simulation of <A HREF="phreeqc3-64.htm#50610191_87085" CLASS="XRef">table 14</A> (example file ex2b in the PHREEQC distribution) defines the <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A>, the <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, the <A HREF="phreeqc3-42.htm#50610177_75016" CLASS="XRef">REACTION_TEMPERATURE</A>s, and <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> for plotting the experimental solubilities from file ex2b.tsv and the calculated concentrations. To accelerate the calculations, the output is reduced by using <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A>; <STRONG CLASS="Bold">
+-reset false</STRONG>
+. The second simulation of <A HREF="phreeqc3-64.htm#50610191_87085" CLASS="XRef">table 14</A> uses the same definitions through the <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> data blocks and defines the reaction pressure as 493 atmospheres (= 500 bar). The third simulation in ex2b (not listed in <A HREF="phreeqc3-64.htm#50610191_87085" CLASS="XRef">table 14</A>) does the same for 1,000 bars, and further simulations repeat the calculations with anhydrite as the equilibrium phase.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1639849"></A>Figure 5 shows the solubility (note the logarithmic scale) as a function of temperature. The temperature of the gypsum to anhydrite transition increases from 58 &#176;C at 1 atm, to 63 &#176;C at 493 atm (= 500 bar), and 70 &#176;C at 987 atm (= 1,000 bar). Thus, the stability of gypsum relative to anhydrite increases with pressure, which is because water in the gypsum crystal has a smaller volume than water in solution:</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1591683"></A>CaSO4&#8729;2H2O  =  CaSO4  +  2H2O.</P>
+<DIV>
+<MAP NAME="phreeqc3-220">
+</MAP>
+<IMG SRC="phreeqc3-220.png" style="width:65%" USEMAP="#phreeqc3-220">
 </DIV>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1591761"></A>However, as illustrated in figure 5, the solubility of gypsum increases with pressure because the sum of the aqueous molar volumes of the solute species together is smaller than the molar volume of gypsum. Another point to note is that the experimental data for the gypsum solubility extend into the stability field of anhydrite. Apparently, the precipitation of anhydrite is too slow to reduce the concentrations in the experiments.</P>
 <HR><P> | <A HREF="phreeqc3-65.htm">Next</A> || <A HREF="phreeqc3-63.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

@@ -4,2365 +4,1493 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> Example 1--Speciation Calculation</TITLE><HR><P> | <A HREF="phreeqc3-57.htm">Next</A> || <A HREF="phreeqc3-55.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> TRANSPORT</TITLE><HR><P> | <A HREF="phreeqc3-57.htm">Next</A> || <A HREF="phreeqc3-55.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
-<H2 CLASS="FM2d-order-examples">
-<A NAME="50540559_pgfId-336147"></A>Example 1--<A NAME="50540559_24208"></A>Speciation Calculation</H2>
+<H2 CLASS="FM3d-order-node">
+<A NAME="50610177_pgfId-546762"></A><STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+<A NAME="50610177_87317"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1346722"></A>This example calculates the distribution of aqueous species in seawater and the saturation state of seawater relative to a set of minerals. To demonstrate how to expand the model to new elements, uranium is added to the aqueous model defined by <EM CLASS="Emphasis">
-phreeqc.dat</EM>
-. [Several of the database files distributed with the program (<EM CLASS="Emphasis">
-wateq4f.dat, llnl.dat, minteq.dat, minteq.v4.dat, and sit.dat)</EM>
- include the element uranium, and use of any one of these databases would make the uranium definitions in this example unnecessary.] </P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1346726"></A>Table 9. <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-719643"></A>This keyword data block is used to simulate one-dimensional (1D) transport of solutes, water, colloids, and heat due to the processes of advection and dispersion, diffusion, and diffusion into stagnant zones adjacent to the 1D flow system. Radial and three-dimensional (3D) diffusion can be modeled by using stagnant zones. Multicomponent diffusion allows individual tracer diffusion coefficients to be used in calculating the diffusion of ions; <STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+ has capabilities to model multicomponent diffusion in the aqueous solution and in the interlayers of swelling clay minerals. All the chemical processes modeled by PHREEQC, including kinetically controlled reactions, may be included in an advective-dispersive transport simulation. Purely advective transport plus reactions--without diffusion, dispersion, or stagnant zones--can be simulated with the <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50540559_38811"></A>Seawater composition.</P>
-<P CLASS="TableHeadnote">
-<A NAME="50540559_pgfId-1346727"></A>[Concentration is in parts per million (ppm) unless specified otherwise]</P>
-</CAPTION>
-<TR>
-<TH ROWSPAN="2" COLSPAN="1">
-<P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1346733"></A>Analysis</P>
-</TH>
-<TH ROWSPAN="2" COLSPAN="1">
-<P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1346735"></A>PHREEQC notation</P>
-</TH>
-<TH ROWSPAN="2" COLSPAN="1">
-<P CLASS="CellHeading8pt">
-<A NAME="50540559_pgfId-1346737"></A>Concentration</P>
-</TH>
-</TR>
-<TR>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346745"></A>Calcium</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346747"></A>Ca</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346749"></A>412.3</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346751"></A>Magnesium</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346753"></A>Mg</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346755"></A>1291.8</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346757"></A>Sodium</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346759"></A>Na</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346761"></A>10768.0</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346763"></A>Potassium</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346765"></A>K</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346767"></A>399.1</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346769"></A>Iron</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346771"></A>Fe</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346773"></A>0.002</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346775"></A>Manganese</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346777"></A>Mn</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346779"></A>0.0002</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346781"></A>Silica, as SiO<Sub CLASS="Subscript">
-2</Sub>
+</STRONG>
+ data block.</P>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-637745"></A><A NAME="50610177_22957"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545634"></A>Line 0: TRANSPORT</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545635"></A>Line 1:	-cells			5</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545636"></A>Line 2:	-shifts			25</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545637"></A>Line 3:	-time_step			1 yr 2.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545638"></A>Line 4:	-flow_direction			forward</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545639"></A>Line 5:	-boundary_conditions			flux constant</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545640"></A>Line 6:	-lengths			4*1.0 2.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545641"></A>Line 7:	-dispersivities			4*0.1 0.2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545642"></A>Line 8:	-correct_disp			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545643"></A>Line 9:	-diffusion_coefficient			1.0e-9</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545644"></A>Line 10:	-stagnant			1  6.8e-6   0.3   0.1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545645"></A>Line 11:	-thermal_diffusion			3.0   0.5e-6</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545646"></A>Line 12:	-initial_time			1000</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545647"></A>Line 13:	-print_cells			1-3 5</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545648"></A>Line 14:	-print_frequency			5</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545649"></A>Line 15:	-punch_cells			2-5</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545650"></A>Line 16:	-punch_frequency			5</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545651"></A>Line 17:	-dump			dump.file</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545652"></A>Line 18:	-dump_frequency			10</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545653"></A>Line 19:	-dump_restart			20</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545654"></A>Line 20:	-warnings			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545655"></A>Line 21:	-multi_D			true	1e-9	0.3	0.05	1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-545656"></A>Line 22:	-interlayer_D		true	0.09	0.01	250 </pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-987320"></A><EM CLASS="ChangeFont">Line 23:	-porosities			4*0.3 0.25 </EM>
+</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-987756"></A><EM CLASS="ChangeFont">Line 24:	-current			1e-3</EM>
+</pre>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-545657"></A><A NAME="50610177_67490"></A>Explanation</H6>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-545658"></A>Line 0: <STRONG CLASS="Bold">
+TRANSPORT</STRONG>
 </P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346783"></A>Si</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346785"></A>4.28</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346787"></A>Chloride</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346789"></A>Cl</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346791"></A>19353.0</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346793"></A>Alkalinity, as HCO<Sub CLASS="Subscript">
-3</Sub>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-545659"></A><STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+ is the keyword for the data block. No other data are input on the keyword line.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637730"></A>Line 1: <STRONG CLASS="Bold">
+-cells </STRONG>
+<EM CLASS="Emphasis">
+cells</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637731"></A><STRONG CLASS="Bold">
+-cells</STRONG>
+--Indicates the number of cells in the 1D column for the advective-dispersive transport simulation. Optionally, <STRONG CLASS="Bold">
+cells</STRONG>
+ or <STRONG CLASS="Bold">
+-c</STRONG>
+[<STRONG CLASS="Bold">
+ells</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637723"></A><EM CLASS="Emphasis">
+cells</EM>
+--Number of cells in a 1D column. Default is 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637714"></A>Line 2: <STRONG CLASS="Bold">
+-shifts </STRONG>
+<EM CLASS="Emphasis">
+shifts</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637715"></A><STRONG CLASS="Bold">
+-shifts</STRONG>
+--Indicates the number of shifts or diffusion periods in the advective-dispersive transport simulation. Optionally, <STRONG CLASS="Bold">
+shifts</STRONG>
+ or <STRONG CLASS="Bold">
+-s</STRONG>
+[<STRONG CLASS="Bold">
+hifts</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637701"></A><EM CLASS="Emphasis">
+shifts</EM>
+--For advective-dispersive transport, <EM CLASS="Emphasis">
+shifts</EM>
+ is the number of advective shifts or time steps, which is the number of times the solution in each cell will be shifted to the next higher or lower numbered cell; the total time simulated is <IMG SRC="phreeqc3-162.png" ALIGN="MIDDLE">
+. For purely diffusive transport,<EM CLASS="Emphasis">
+ shifts</EM>
+ is the number of diffusion periods that are simulated; the total diffusion time is <IMG SRC="phreeqc3-163.png" ALIGN="MIDDLE">
+. Default is 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637686"></A>Line 3: <STRONG CLASS="Bold">
+-time_step </STRONG>
+<EM CLASS="Emphasis">
+time_step [unit] [substeps]</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637687"></A><STRONG CLASS="Bold">
+-time_step</STRONG>
+--Defines time step associated with each advective shift or diffusion period. The number of shifts or diffusion periods is given by <STRONG CLASS="Bold">
+-shifts</STRONG>
+. Optionally, <STRONG CLASS="Bold">
+timest</STRONG>
+, <STRONG CLASS="Bold">
+-t</STRONG>
+[<STRONG CLASS="Bold">
+imest</STRONG>
+], <STRONG CLASS="Bold">
+time_step</STRONG>
+, or <STRONG CLASS="Bold">
+-t</STRONG>
+[<STRONG CLASS="Bold">
+ime_step</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637678"></A><EM CLASS="Emphasis">
+time_step</EM>
+--Time (second) associated with each shift or diffusion period. Default is 0 s.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-756859"></A><EM CLASS="Emphasis">
+unit</EM>
+--Optional time unit may be <STRONG CLASS="Bold">
+second</STRONG>
+, <STRONG CLASS="Bold">
+minute</STRONG>
+, <STRONG CLASS="Bold">
+hour</STRONG>
+, <STRONG CLASS="Bold">
+day</STRONG>
+, <STRONG CLASS="Bold">
+year</STRONG>
+, or an abbreviation of one of these units. The time_step is converted to seconds after reading the data block; all internal calculations, Basic functions, and output times are in seconds. Default is second.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-764792"></A>substeps-- Subdivides the time step into substeps intervals. Used only in multicomponent diffusion calculations, where time_step reduction can help to avoid negative concentrations. The negative concentrations may occur when the time step is too large relative to the explicitly defined stagnant-cell mixing factors; too large a time step causes the Von Neumann criterion to be violated. Default is 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637660"></A>Line 4: <STRONG CLASS="Bold">
+-flow_direction </STRONG>
+(<STRONG CLASS="Bold">
+forward</STRONG>
+, <STRONG CLASS="Bold">
+back</STRONG>
+, or <STRONG CLASS="Bold">
+diffusion_only</STRONG>
+)</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637661"></A><STRONG CLASS="Bold">
+-flow_direction</STRONG>
+--Defines direction of flow. Default is <STRONG CLASS="Bold">
+forward </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+direction</STRONG>
+, <STRONG CLASS="Bold">
+flow</STRONG>
+, <STRONG CLASS="Bold">
+flow_direction</STRONG>
+, <STRONG CLASS="Bold">
+-dir</STRONG>
+[<STRONG CLASS="Bold">
+ection</STRONG>
+], or <STRONG CLASS="Bold">
+-f</STRONG>
+[<STRONG CLASS="Bold">
+low_direction</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637653"></A><STRONG CLASS="Bold">
+forward</STRONG>
+, <STRONG CLASS="Bold">
+back</STRONG>
+, or <STRONG CLASS="Bold">
+diffusion_only</STRONG>
+--(1) <STRONG CLASS="Bold">
+Forward</STRONG>
+, advective flow direction is into higher numbered cells; optionally, <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+orward</STRONG>
+], (2) <STRONG CLASS="Bold">
+Backward</STRONG>
+, advective flow direction is into lower numbered cells; optionally <STRONG CLASS="Bold">
+b</STRONG>
+[<STRONG CLASS="Bold">
+ackward</STRONG>
+], or (3) <STRONG CLASS="Bold">
+Diffusion_only</STRONG>
+, only diffusion occurs, there is no advective flow; optionally <STRONG CLASS="Bold">
+d</STRONG>
+[<STRONG CLASS="Bold">
+iffusion_only</STRONG>
+] or <STRONG CLASS="Bold">
+n</STRONG>
+[<STRONG CLASS="Bold">
+o_flow</STRONG>
+]. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637641"></A>Line 5: <STRONG CLASS="Bold">
+-boundary_conditions </STRONG>
+<EM CLASS="Emphasis">
+first, last</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-671515"></A><STRONG CLASS="Bold">
+-boundary_conditions</STRONG>
+--Defines boundary conditions for the first and last cell. Optionally, <STRONG CLASS="Bold">
+bc</STRONG>
+, <STRONG CLASS="Bold">
+bcond</STRONG>
+,<STRONG CLASS="Bold">
+ -b</STRONG>
+[<STRONG CLASS="Bold">
+cond</STRONG>
+], <STRONG CLASS="Bold">
+boundary_condition</STRONG>
+,<STRONG CLASS="Bold">
+ -b</STRONG>
+[<STRONG CLASS="Bold">
+oundary_condition</STRONG>
+]. Three types of boundary conditions are allowed at either end of the column (indicated by <IMG SRC="phreeqc3-164.png" ALIGN="MIDDLE">
+):</P>
+<P CLASS="Body2">
+<A NAME="50610177_pgfId-671522"></A><STRONG CLASS="Bold">
+constant</STRONG>
+--Concentration is constant <IMG SRC="phreeqc3-165.png" ALIGN="MIDDLE">
+, also known as first type or Dirichlet boundary condition. C<Sub CLASS="Subscript">
+0</Sub>
+ is the concentration outside the column (mol/kgw). Optionally, <STRONG CLASS="Bold">
+co</STRONG>
+[<STRONG CLASS="Bold">
+nstant</STRONG>
+] or <STRONG CLASS="Bold">
+1</STRONG>
+.</P>
+<P CLASS="Body2">
+<A NAME="50610177_pgfId-768999"></A><STRONG CLASS="Bold">
+closed</STRONG>
+--No flux at boundary, v = 0 and <IMG SRC="phreeqc3-166.png" ALIGN="MIDDLE">
+, also known as second type or Neumann boundary condition, where v is the flow velocity (m/s, meter per second). Optionally, <STRONG CLASS="Bold">
+cl</STRONG>
+[<STRONG CLASS="Bold">
+osed</STRONG>
+] or <STRONG CLASS="Bold">
+2</STRONG>
+.</P>
+<P CLASS="Body2">
+<A NAME="50610177_pgfId-637591"></A><STRONG CLASS="Bold">
+flux</STRONG>
+--Flux boundary condition, <IMG SRC="phreeqc3-167.png" ALIGN="MIDDLE">
+, also known as third type or Cauchy boundary condition, where DL is the dispersion coefficient (m2/s). Optionally, <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+lux</STRONG>
+] or <STRONG CLASS="Bold">
+3</STRONG>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637570"></A><EM CLASS="Emphasis">
+first</EM>
+--Boundary condition at the first cell, <STRONG CLASS="Bold">
+constant</STRONG>
+, <STRONG CLASS="Bold">
+closed</STRONG>
+, or <STRONG CLASS="Bold">
+flux</STRONG>
+. Default is <STRONG CLASS="Bold">
+flux</STRONG>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637571"></A><EM CLASS="Emphasis">
+last</EM>
+--Boundary condition at the last cell, <STRONG CLASS="Bold">
+constant</STRONG>
+, <STRONG CLASS="Bold">
+closed</STRONG>
+, or <STRONG CLASS="Bold">
+flux</STRONG>
+. Default is <STRONG CLASS="Bold">
+flux</STRONG>
+.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637555"></A>Line 6: <STRONG CLASS="Bold">
+-lengths </STRONG>
+<EM CLASS="Emphasis">
+list of lengths</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637545"></A><STRONG CLASS="Bold">
+-lengths</STRONG>
+--Defines length of each cell for advective-dispersive transport simulations (m). Optionally, <STRONG CLASS="Bold">
+length</STRONG>
+, <STRONG CLASS="Bold">
+lengths</STRONG>
+, or <STRONG CLASS="Bold">
+-l</STRONG>
+[<STRONG CLASS="Bold">
+engths</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637537"></A><EM CLASS="Emphasis">
+list of lengths</EM>
+--Length of each cell (m). Any number of <EM CLASS="Emphasis">
+lengths</EM>
+ up to the total number of cells (<EM CLASS="Emphasis">
+cells</EM>
+) may be entered. If <EM CLASS="Emphasis">
+cells</EM>
+ is greater than the number of <EM CLASS="Emphasis">
+lengths</EM>
+ entered, the final value read will be used for the remaining cells. Multiple lines may be used. Repeat factors can be used to input multiple data with the same value; in the Example data block, 4*1.0 is interpreted as 4 values of 1.0. Default is 1 m.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637528"></A>Line 7: <STRONG CLASS="Bold">
+-dispersivities </STRONG>
+<EM CLASS="Emphasis">
+list of dispersivities</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637529"></A><STRONG CLASS="Bold">
+-dispersivities</STRONG>
+--Defines dispersivity of each cell for advective-dispersive transport simulations (m). Optionally, <STRONG CLASS="Bold">
+disp</STRONG>
+, <STRONG CLASS="Bold">
+dispersivity</STRONG>
+, <STRONG CLASS="Bold">
+dispersivities</STRONG>
+, <STRONG CLASS="Bold">
+-dis</STRONG>
+[<STRONG CLASS="Bold">
+persivity</STRONG>
+], or <STRONG CLASS="Bold">
+-dis</STRONG>
+[<STRONG CLASS="Bold">
+persivities</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637521"></A><EM CLASS="Emphasis">
+list of dispersivities</EM>
+--Dispersivity assigned to each cell (m). Any number of <EM CLASS="Emphasis">
+dispersivities</EM>
+ up to the total number of cells (<EM CLASS="Emphasis">
+cells</EM>
+) may be entered. If <EM CLASS="Emphasis">
+cells</EM>
+ is greater than the number of <EM CLASS="Emphasis">
+dispersivities</EM>
+ entered, the final value read will be used for the remaining cells. Multiple lines may be used. Repeat factors can be used to input multiple data with the same value; in the Example data block, 4*0.1 is interpreted as 4 values of 0.1 m. Default is 0 m.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637512"></A>Line 8: <STRONG CLASS="Bold">
+-correct_disp</STRONG>
+ [(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-733888"></A><STRONG CLASS="Bold">
+-correct_disp</STRONG>
+--Dispersivity is multiplied by (1 + 1/<EM CLASS="Emphasis">
+cells</EM>
+) for column ends with flux boundary conditions. This correction can improve modeling effluent composition from column experiments that are modeled with few cells. Default is <STRONG CLASS="Bold">
+false</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+correct_disp</STRONG>
+ or <STRONG CLASS="Bold">
+-co</STRONG>
+[<STRONG CLASS="Bold">
+rrect_disp</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637505"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--<STRONG CLASS="Bold">
+True </STRONG>
+indicates that dispersivity is corrected for flux-boundary end cells; <STRONG CLASS="Bold">
+false </STRONG>
+indicates that no correction is made. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+]. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637496"></A>Line 9: <STRONG CLASS="Bold">
+-diffusion_coefficient </STRONG>
+<EM CLASS="Emphasis">
+diffusion coefficient</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637497"></A><STRONG CLASS="Bold">
+-diffusion_coefficient</STRONG>
+--Defines diffusion coefficient for all aqueous species (m<Sup CLASS="Superscript">
+2</Sup>
+/s) when not using multicomponent diffusion (<STRONG CLASS="Bold">
+-multi_D false</STRONG>
+); this value of the diffusion coefficient is also used as the default thermal diffusion coefficient (see <STRONG CLASS="Bold">
+-thermal_diffusion</STRONG>
+). Default is 0.3<EM CLASS="Emphasis">
+&#215;</EM>
+10<Sup CLASS="Superscript">
+-9</Sup>
+ m<Sup CLASS="Superscript">
+2</Sup>
+/s at startup. Optionally, <STRONG CLASS="Bold">
+diffusion_coefficient</STRONG>
+, <STRONG CLASS="Bold">
+diffc</STRONG>
+, <STRONG CLASS="Bold">
+-dif</STRONG>
+[<STRONG CLASS="Bold">
+fusion_coefficient</STRONG>
+], or <STRONG CLASS="Bold">
+-dif</STRONG>
+[<STRONG CLASS="Bold">
+fc</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637482"></A><EM CLASS="Emphasis">
+diffusion coefficient</EM>
+--Diffusion coefficient. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637489"></A>Line 10: <STRONG CLASS="Bold">
+-stagnant </STRONG>
+<EM CLASS="Emphasis">
+stagnant_cells </EM>
+[<EM CLASS="Emphasis">
+exchange_factor <IMG SRC="phreeqc3-168.png" ALIGN="MIDDLE">
+ <IMG SRC="phreeqc3-169.png" ALIGN="MIDDLE">
+</EM>
+]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637422"></A><STRONG CLASS="Bold">
+-stagnant</STRONG>
+--Defines the maximum number of stagnant (immobile) cells associated with each cell in which advection occurs (mobile cell). Each mobile cell may be connected with up to <EM CLASS="Emphasis">
+stagnant_cells </EM>
+immobile cells. The immobile cells associated with a mobile cell are usually conceived to be a 1D column of cells in which solutes from the mobile cell diffuse laterally. However, the connections among the immobile cells can be defined freely with <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A> data blocks, which allows calculation of multidimensional diffusion processes (Appelo and Wersin, 2007) and radial diffusion (Appelo and others, 2008, see <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">See Modeling Diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a Radial Diffusion Cell</A>). The immobile cells associated with a mobile cell, <EM CLASS="Emphasis">
+cell</EM>
+, are numbered as follows: <IMG SRC="phreeqc3-170.png" ALIGN="MIDDLE">
+, where <EM CLASS="Emphasis">
+cells </EM>
+is the number of mobile cells and <IMG SRC="phreeqc3-171.png" ALIGN="MIDDLE">
+. For each immobile cell, a solution (<A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A>, <A HREF="phreeqc3-51.htm#50610177_84297" CLASS="XRef">SOLUTION_SPREAD</A>, or <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> data block) must be defined, and either a <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A> data block or, for the first-order exchange model, the <EM CLASS="Emphasis">
+exchange_factor</EM>
+ must be defined (only applicable if <EM CLASS="Emphasis">
+stagnant_cells</EM>
+ equals 1). Mixing will be performed at each diffusion/dispersion time step. <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>, <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-42.htm#50610177_75016" CLASS="XRef">REACTION_TEMPERATURE</A>, <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, and <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A> may be defined for an immobile cell. Thermal diffusion in excess of hydrodynamic diffusion can be calculated only for the first-order exchange model. Optionally, <STRONG CLASS="Bold">
+stagnant</STRONG>
+ or <STRONG CLASS="Bold">
+-st</STRONG>
+[<STRONG CLASS="Bold">
+agnant</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637357"></A><EM CLASS="Emphasis">
+stagnant_cells</EM>
+--Maximum number of stagnant (immobile) cells associated with a mobile cell. Default is 0.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637259"></A><EM CLASS="Emphasis">
+exchange_factor</EM>
+--Factor describing exchange between a mobile and its immobile cell (s<Sup CLASS="Superscript">
+-1</Sup>
+). The <EM CLASS="Emphasis">
+exchange_factor</EM>
+ can be used only if <EM CLASS="Emphasis">
+stagnant_cells</EM>
+ is 1, in which case all immobile cells have the same diffusion properties. WARNING: If <EM CLASS="Emphasis">
+exchange_factor </EM>
+is entered, all previously defined <STRONG CLASS="Bold">
+MIX</STRONG>
+ structures will be deleted and <STRONG CLASS="Bold">
+MIX</STRONG>
+ structures for the first-order exchange model for a dual porosity medium will be created. Default is 0 s<Sup CLASS="Superscript">
+-1</Sup>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766675"></A><EM CLASS="Emphasis">
+<IMG SRC="phreeqc3-172.png" ALIGN="MIDDLE">
+</EM>
+--Porosity in each mobile cell, expressed as a fraction of the total volume of mobile and immobile cells. The <EM CLASS="Emphasis">
+<IMG SRC="phreeqc3-173.png" ALIGN="MIDDLE">
+</EM>
+ is used only if <EM CLASS="Emphasis">
+stagnant_cells</EM>
+ is 1, in which case all mobile cells have the same porosity. Default is 0 (unitless).</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766682"></A><EM CLASS="Emphasis">
+<IMG SRC="phreeqc3-174.png" ALIGN="MIDDLE">
+</EM>
+--Porosity in each immobile cell, expressed as a fraction of the total volume of mobile and immobile cells. The <EM CLASS="Emphasis">
+<IMG SRC="phreeqc3-175.png" ALIGN="MIDDLE">
+</EM>
+ is used only if <EM CLASS="Emphasis">
+stagnant_cells</EM>
+ is 1, in which case all immobile cells have the same porosity. Default is 0 (unitless).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-766653"></A>Line 11: <STRONG CLASS="Bold">
+-thermal_diffusion</STRONG>
+<EM CLASS="Emphasis">
+ temperature retardation factor, thermal diffusion coefficient</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766610"></A><STRONG CLASS="Bold">
+-thermal_diffusion</STRONG>
+--Defines parameters for calculating the diffusive part of heat transport. Diffusive heat transport will be calculated as a separate process if the temperature in any of the solutions of the transport domain differs by more than 1 &#176;C, and when the <EM CLASS="Emphasis">
+thermal diffusion coefficient</EM>
+ is larger than the effective (aqueous) <EM CLASS="Emphasis">
+diffusion coefficient</EM>
+. Otherwise, diffusive heat transport is calculated as a part of aqueous diffusion. The <EM CLASS="Emphasis">
+temperature retardation factor</EM>
+, R<Sub CLASS="Subscript">
+T</Sub>
+, is defined as the ratio of the heat capacity of the total aquifer over the heat capacity of water in the pores, <IMG SRC="phreeqc3-176.png" ALIGN="MIDDLE">
+, where <IMG SRC="phreeqc3-177.png" ALIGN="MIDDLE">
+ is the water filled porosity, <IMG SRC="phreeqc3-178.png" ALIGN="MIDDLE">
+ is density (kg/m<Sup CLASS="Superscript">
+3</Sup>
+, kilogram per cubic meter), <EM CLASS="Emphasis">
+k</EM>
+ is specific heat (kJ&#176;C<Sup CLASS="Superscript">
+-1</Sup>
+kg<Sup CLASS="Superscript">
+-1</Sup>
+), and subscripts <EM CLASS="Emphasis">
+w</EM>
+ and <EM CLASS="Emphasis">
+s</EM>
+ indicate water and solid, respectively. The thermal diffusion coefficient, <IMG SRC="phreeqc3-179.png" ALIGN="MIDDLE">
+, can be estimated by using <IMG SRC="phreeqc3-180.png" ALIGN="MIDDLE">
+, where <IMG SRC="phreeqc3-181.png" ALIGN="MIDDLE">
+ is the heat conductivity of the aquifer, including pore water and solid (kJ&#176;C<Sup CLASS="Superscript">
+-1</Sup>
+m<Sup CLASS="Superscript">
+-1</Sup>
+s<Sup CLASS="Superscript">
+-1</Sup>
+, kilojoule per degree Celsius, per meter per second). The value of <IMG SRC="phreeqc3-182.png" ALIGN="MIDDLE">
+ may be 100 to 1500 times larger than the aqueous diffusion coefficient, or about 1<EM CLASS="Emphasis">
+&#215;</EM>
+10<Sup CLASS="Superscript">
+-6</Sup>
+ m<Sup CLASS="Superscript">
+2</Sup>
+/s. A temperature change during transport is reduced by the temperature retardation factor (unitless) to account for the heat capacity of the matrix. Optionally, <STRONG CLASS="Bold">
+-th</STRONG>
+[<STRONG CLASS="Bold">
+ermal_diffusion</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766632"></A><EM CLASS="Emphasis">
+temperature retardation factor</EM>
+--Temperature retardation factor, unitless. Default is 2.0 (unitless).</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766633"></A><EM CLASS="Emphasis">
+thermal diffusion coefficient</EM>
+--Thermal diffusion coefficient. Default is the aqueous diffusion coefficient.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637109"></A>Line 12: <STRONG CLASS="Bold">
+-initial_time </STRONG>
+<EM CLASS="Emphasis">
+initial_time</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637110"></A><STRONG CLASS="Bold">
+-initial_time</STRONG>
+--Identifier to set the time at the beginning of a transport simulation. The identifier sets the initial value of the variable controlled by <STRONG CLASS="Bold">
+-time</STRONG>
+ in the <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block. Optionally, <STRONG CLASS="Bold">
+initial_time</STRONG>
+ or <STRONG CLASS="Bold">
+-i</STRONG>
+[<STRONG CLASS="Bold">
+nitial_time</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637096"></A><EM CLASS="Emphasis">
+initial_time</EM>
+--Time (seconds) at the beginning of the transport simulation. Default is the cumulative time including all preceding <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> simulations (for which <STRONG CLASS="Bold">
+-time_step</STRONG>
+ has been defined) and all preceding <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> simulations.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637075"></A>Line 13: <STRONG CLASS="Bold">
+-print_cells </STRONG>
+<EM CLASS="Emphasis">
+list of cell numbers</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637076"></A><STRONG CLASS="Bold">
+-print_cells</STRONG>
+--Identifier to select cells for which results will be written to the output file. Optionally, <STRONG CLASS="Bold">
+print</STRONG>
+, <STRONG CLASS="Bold">
+print_cells</STRONG>
+, or <STRONG CLASS="Bold">
+-pr</STRONG>
+[<STRONG CLASS="Bold">
+int_cells</STRONG>
+]. Note that the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637065"></A><EM CLASS="Emphasis">
+list of cell numbers</EM>
+--Printing to the output file will occur only for these cell numbers. The list of cell numbers may be continued on the succeeding line(s). A range of cell numbers may be included in the list in the form <EM CLASS="Emphasis">
+m-n</EM>
+, where <EM CLASS="Emphasis">
+m</EM>
+ and <EM CLASS="Emphasis">
+n</EM>
+ are positive integers, <EM CLASS="Emphasis">
+m</EM>
+ is less than <EM CLASS="Emphasis">
+n</EM>
+, and the two numbers are separated by a hyphen without intervening spaces. Default is 1-<EM CLASS="Emphasis">
+cells</EM>
+.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637050"></A>Line 14: <STRONG CLASS="Bold">
+-print_frequency </STRONG>
+<EM CLASS="Emphasis">
+print_modulus</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637051"></A><STRONG CLASS="Bold">
+-print_frequency</STRONG>
+--Identifier to select shifts for which results will be written to the output file. Optionally, <STRONG CLASS="Bold">
+print_frequency</STRONG>
+, <STRONG CLASS="Bold">
+-print_f</STRONG>
+[<STRONG CLASS="Bold">
+requency</STRONG>
+], <STRONG CLASS="Bold">
+output_frequency</STRONG>
+, or <STRONG CLASS="Bold">
+-o</STRONG>
+[<STRONG CLASS="Bold">
+utput_frequency</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637043"></A><EM CLASS="Emphasis">
+print_modulus</EM>
+--Printing to the output file will occur for advection shifts or diffusion periods that are evenly divisible by <EM CLASS="Emphasis">
+print_modulus</EM>
+. Default is 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637034"></A>Line 15: <STRONG CLASS="Bold">
+-punch_cells </STRONG>
+<EM CLASS="Emphasis">
+list of cell numbers</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637035"></A><STRONG CLASS="Bold">
+-punch_cells</STRONG>
+--Identifier to select cells for which results will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+punch</STRONG>
+,<STRONG CLASS="Bold">
+ punch_cells</STRONG>
+, <STRONG CLASS="Bold">
+-pu</STRONG>
+[<STRONG CLASS="Bold">
+nch_cells</STRONG>
+], <STRONG CLASS="Bold">
+selected_cells</STRONG>
+, or <STRONG CLASS="Bold">
+-selected_c</STRONG>
+[<STRONG CLASS="Bold">
+ells</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-661621"></A><EM CLASS="Emphasis">
+list of cell numbers</EM>
+--Printing to the selected-output file will occur only for these cell numbers. The list of cell numbers may be continued on the succeeding line(s). A range of cell numbers may be included in the list in the form <EM CLASS="Emphasis">
+m-n</EM>
+, where <EM CLASS="Emphasis">
+m</EM>
+ and <EM CLASS="Emphasis">
+n</EM>
+ are positive integers, <EM CLASS="Emphasis">
+m</EM>
+ is less than <EM CLASS="Emphasis">
+n</EM>
+, and the two numbers are separated by a hyphen without intervening spaces. Default is 1-<EM CLASS="Emphasis">
+cells</EM>
+.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-661622"></A>Line 16: <STRONG CLASS="Bold">
+-punch_frequency </STRONG>
+<EM CLASS="Emphasis">
+punch_modulus</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637019"></A><STRONG CLASS="Bold">
+-punch_frequency</STRONG>
+--Identifier to select shifts for which results will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
+punch_frequency</STRONG>
+, <STRONG CLASS="Bold">
+-punch_f</STRONG>
+[<STRONG CLASS="Bold">
+requency</STRONG>
+], <STRONG CLASS="Bold">
+selected_output_frequency</STRONG>
+, <STRONG CLASS="Bold">
+-selected_o</STRONG>
+[<STRONG CLASS="Bold">
+utput_frequency</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637011"></A><EM CLASS="Emphasis">
+punch_modulus</EM>
+--Printing to the selected-output file will occur for advection shifts or diffusion periods that are evenly divisible by <EM CLASS="Emphasis">
+punch_modulus</EM>
+. Default is 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-637002"></A>Line 17: <STRONG CLASS="Bold">
+-dump </STRONG>
+<EM CLASS="Emphasis">
+dump file</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-637003"></A><STRONG CLASS="Bold">
+-dump</STRONG>
+--Identifier to write a complete state of the advective-dispersive transport simulation to <EM CLASS="Emphasis">
+dump file </EM>
+after every <EM CLASS="Emphasis">
+dump_modulus</EM>
+ advection shifts or diffusion periods. The file is formatted as an input file that can be used to restart calculations. Previous contents of the file are overwritten each time the file is written. Optionally, <STRONG CLASS="Bold">
+dump</STRONG>
+ or <STRONG CLASS="Bold">
+-du</STRONG>
+[<STRONG CLASS="Bold">
+mp</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636995"></A><EM CLASS="Emphasis">
+dump file</EM>
+--Name of the file to which complete state of the advective-dispersive transport simulation will be written. Default is <EM CLASS="Emphasis">
+phreeqc.dmp</EM>
+.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-636986"></A>Line 18: <STRONG CLASS="Bold">
+-dump_frequency </STRONG>
+<EM CLASS="Emphasis">
+dump_modulus</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636987"></A><STRONG CLASS="Bold">
+-dump_frequency</STRONG>
+--Complete state of the advective-dispersive transport simulation will be written to the dump file for advection shifts or diffusion periods that are evenly divisible by <EM CLASS="Emphasis">
+dump_modulus</EM>
+. Optionally, <STRONG CLASS="Bold">
+dump_frequency</STRONG>
+ or <STRONG CLASS="Bold">
+-dump_f</STRONG>
+[<STRONG CLASS="Bold">
+requency</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636979"></A><EM CLASS="Emphasis">
+dump_modulus</EM>
+--<EM CLASS="Emphasis">
+Number of</EM>
+ advection shifts or diffusion periods. Default is <EM CLASS="Emphasis">
+shifts</EM>
+/2 or 1, whichever is larger.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-636970"></A>Line 19: <STRONG CLASS="Bold">
+-dump_restart </STRONG>
+<EM CLASS="Emphasis">
+shift number</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636971"></A><STRONG CLASS="Bold">
+-dump_restart</STRONG>
+--If an advective-dispersive transport simulation is restarted from a dump file, the starting shift number is given on this line. Optionally, <STRONG CLASS="Bold">
+dump_restart</STRONG>
+ or <STRONG CLASS="Bold">
+-dump_r</STRONG>
+[<STRONG CLASS="Bold">
+estart</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636963"></A><EM CLASS="Emphasis">
+shift number</EM>
+--Starting shift number for the calculations, if restarting from a dump file. The shift number is written in the dump file by PHREEQC. It equals the shift number at which the dump file was created. Default is 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-636954"></A>Line 20: <STRONG CLASS="Bold">
+-warnings </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636955"></A><STRONG CLASS="Bold">
+-warnings</STRONG>
+--Identifier enables or disables printing of warning messages for transport calculations. In some cases, transport calculations could produce many warnings, which are not errors. Once it is determined that the warnings are not due to erroneous input, disabling the warning messages can avoid generating large output files. Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+warnings</STRONG>
+, <STRONG CLASS="Bold">
+warning</STRONG>
+, or <STRONG CLASS="Bold">
+-w</STRONG>
+[<STRONG CLASS="Bold">
+arnings</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636947"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, warning messages are printed to the screen and the output file; if <STRONG CLASS="Bold">
+false</STRONG>
+, warning messages are not printed to the screen nor the output file. The value set with <STRONG CLASS="Bold">
+-warnings</STRONG>
+ is retained in all subsequent transport simulations until changed. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-636935"></A>Line 21: <STRONG CLASS="Bold">
+-multi_D </STRONG>
+(<EM CLASS="Emphasis">
+True </EM>
+or <EM CLASS="Emphasis">
+False</EM>
+) <EM CLASS="Emphasis">
+ default_Dw  porosity  porosity_limit  Archie_n</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-929460"></A><STRONG CLASS="Bold">
+-multi_D</STRONG>
+--Enables or disables the calculation of multicomponent diffusion. In multicomponent diffusion each solute can be given its own diffusion coefficient, allowing it to diffuse at its own rate, but with the constraint that overall charge balance is maintained (Vinograd and McBain, 1941; Appelo and Wersin, 2007), Optionally, <STRONG CLASS="Bold">
+multi_D</STRONG>
+ or <STRONG CLASS="Bold">
+-m</STRONG>
+[<STRONG CLASS="Bold">
+ulti_D</STRONG>
+] (as with all identifiers, case insensitive). With <STRONG CLASS="Bold">
+-multi_D true</STRONG>
+<EM CLASS="Emphasis">
+, the diffusive flux is calculated by (see also Notes):</EM>
+</P>
+<P CLASS="Body2">
+<A NAME="50610177_pgfId-719675"></A><EM CLASS="Emphasis">
+ <IMG SRC="phreeqc3-183.png" ALIGN="MIDDLE">
+</EM>
+,</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-765392"></A>where<EM CLASS="Emphasis">
+ i </EM>
+indicates the species; <EM CLASS="Emphasis">
+Ji is the flux (mol m</EM>
 <Sup CLASS="Superscript">
+-2</Sup>
+<EM CLASS="Emphasis">
+s</EM>
+<Sup CLASS="Superscript">
+-1</Sup>
+<EM CLASS="Emphasis">
+, </EM>
+mole per square meter per second); <IMG SRC="phreeqc3-184.png" ALIGN="MIDDLE">
+<EM CLASS="Emphasis">
+ is the (temperature corrected) tracer diffusion coefficient (m</EM>
+<Sup CLASS="Superscript">
+2</Sup>
+<EM CLASS="Emphasis">
+/s); &#949; </EM>
+is the water-filled (or accessible) porosity (unitless);<EM CLASS="Emphasis">
+ n </EM>
+is an empirical exponent, known from Archie&#8217;s law to be about 1; <EM CLASS="Emphasis">
+&#947;</EM>
+<Sub CLASS="Subscript">
+i</Sub>
+<EM CLASS="Emphasis">
+ </EM>
+is the activity-coefficient (unitless); <EM CLASS="Emphasis">
+ci </EM>
+is the concentration (mol/m<Sup CLASS="Superscript">
+3</Sup>
+, mole per cubic meter); grad(<EM CLASS="Emphasis">
+ci</EM>
+) is the concentration gradient (mol/m<Sup CLASS="Superscript">
+4</Sup>
+, mole per meter to the fourth power)<EM CLASS="Emphasis">
+, </EM>
+which may be different in free (uncharged) pore water and in the Donnan pore space on a surface (see Notes); and <EM CLASS="Emphasis">
+CBti </EM>
+is the charge balance term (Appelo and Wersin, 2007, see the Notes).<EM CLASS="Emphasis">
+ </EM>
+The tracer diffusion coefficients are defined with keyword <EM CLASS="Emphasis">
+<A HREF="phreeqc3-50.htm#50610177_96148" CLASS="XRef"></A>SOLUTION_SPECIES<EM CLASS="Emphasis">
+</EM>
+ </EM>
+in <EM CLASS="Emphasis">
+phreeqc.dat </EM>
+for 25 &#176;C, and corrected to temperature T (K) of the solution as follows:</P>
+<P CLASS="Body2">
+<A NAME="50610177_pgfId-547599"></A>D<Sub CLASS="Subscript">
+w</Sub>
+' =<EM CLASS="Emphasis">
+ (D</EM>
+<Sub CLASS="Subscript">
+w</Sub>
+)298 <EM CLASS="Emphasis">
+ &#215; <IMG SRC="phreeqc3-185.png" ALIGN="MIDDLE">
+ &#215; <IMG SRC="phreeqc3-186.png" ALIGN="MIDDLE">
+, </EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-545849"></A>where <EM CLASS="Emphasis">
+&#951; </EM>
+is the viscosity of water.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-662139"></A>When <STRONG CLASS="Bold">
+-multi_D</STRONG>
+ is <STRONG CLASS="Bold">
+false</STRONG>
+, the diffusive flux is calculated with <EM CLASS="Emphasis">
+J</EM>
+<Sub CLASS="Subscript">
+i</Sub>
+<EM CLASS="Emphasis">
+ = - D</EM>
+<Sub CLASS="Subscript">
+p</Sub>
+<EM CLASS="Emphasis">
+ &#215; </EM>
+grad(<EM CLASS="Emphasis">
+c</EM>
+<Sub CLASS="Subscript">
+i</Sub>
+), where<EM CLASS="Emphasis">
+ D</EM>
+<Sub CLASS="Subscript">
+p</Sub>
+<EM CLASS="Emphasis">
+ </EM>
+is the same for all species (defined with identifier <STRONG CLASS="Bold">
+-diffusion_coefficient</STRONG>
+ as in Line 9) and not corrected for changes of temperature.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-737046"></A>Note that PHREEQC assumes that, for diffusion, the cell contains water exclusively, and uses the pore water diffusion coefficient for calculating the flux. (The effective diffusion coefficient (D<Sub CLASS="Subscript">
+e</Sub>
+) is for a volume of grains and pores together, and is related to <EM CLASS="Emphasis">
+D</EM>
+<Sub CLASS="Subscript">
+p</Sub>
+ as follows: D<Sub CLASS="Subscript">
+e</Sub>
+ = D<Sub CLASS="Subscript">
+p</Sub>
+ <EM CLASS="Emphasis">
+&#949;</EM>
+). The identifier <STRONG CLASS="Bold">
+-stagnant</STRONG>
+ allows for nonuniform porosities, nonuniform tortuosities, and other variations in the diffusion domain, provided mixing factors among cells are defined explicitly in the input file with <EM CLASS="Emphasis">
+<A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef"></A>MIX<EM CLASS="Emphasis">
+</EM>
+</EM>
+ data blocks.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636925"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, multicomponent diffusion is calculated; if <STRONG CLASS="Bold">
+false</STRONG>
+, diffusion is calculated with the diffusion coefficient given in Line 9<EM CLASS="Emphasis">
+.</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636914"></A><EM CLASS="Emphasis">
+default_Dw</EM>
+--The diffusion coefficient (m<Sup CLASS="Superscript">
+2</Sup>
+/s at 25 &#176;C) given to solute species for which <STRONG CLASS="Bold">
+-dw</STRONG>
+ is not defined in keyword<EM CLASS="Emphasis">
+ <A HREF="phreeqc3-50.htm#50610177_96148" CLASS="XRef"></A>SOLUTION_SPECIES<EM CLASS="Emphasis">
+</EM>
+. T</EM>
+he value must be used when calculating explicit mixing factors for stagnant cells. Default is 0 m<Sup CLASS="Superscript">
+2</Sup>
+/s.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766568"></A><EM CLASS="Emphasis">
+porosity</EM>
+--The porosity filled with free and Donnan pore water in the cells; the <EM CLASS="Emphasis">
+porosity</EM>
+ is a fraction of a representative volume of the porous medium (unitless). Initially all cells are defined with the same <EM CLASS="Emphasis">
+porosity</EM>
+. The porosity for a cell can be changed in any keyword data block that supports Basic programming (<A HREF="phreeqc3-39.htm#50610177_97907" CLASS="XRef">RATES</A>, <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A>) by using the PHREEQC Basic function CHANGE_POR(porosity, cell_no). The porosity in a cell can be retrieved with the function GET_POR(cell_no). Default is 0 (unitless). </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766581"></A><EM CLASS="Emphasis">
+porosity_limit</EM>
+--The porosity limit, below which diffusion stops. Default is 0 (unitless).</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-766546"></A><EM CLASS="Emphasis">
+Archie_n</EM>
+--The exponent n used for calculating the pore-water diffusion coefficient (D<Sub CLASS="Subscript">
+p, i</Sub>
+) from the tracer diffusion coefficient (D<Sub CLASS="Subscript">
+w, i</Sub>
+), Dp, i = Dw, i <EM CLASS="Emphasis">
+&#949;</EM>
+n, where <EM CLASS="Emphasis">
+&#949;</EM>
+ is the water filled (or the accessible) porosity (unitless), and n is an empirical exponent that varies from approximately 0.9 to 1.2 (Grathwohl, 1998; Van Loon and others, 2007) but may be higher for diffusion perpendicular to the bedding plane. The parameter <IMG SRC="phreeqc3-187.png" ALIGN="MIDDLE">
+ (approximately 1 / <EM CLASS="Emphasis">
+&#949;</EM>
+wn) is the tortuosity factor, which accounts for the longer diffusion path for a particle in a porous media than in pure water. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-636816"></A>Line 22: <STRONG CLASS="Bold">
+-interlayer_D </STRONG>
+ (<EM CLASS="Emphasis">
+True</EM>
+ or<EM CLASS="Emphasis">
+ False</EM>
+)  <EM CLASS="Emphasis">
+interlayer_porosity  interlayer_porosity_limit  interlayer_tortuosity_factor</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-931424"></A><STRONG CLASS="Bold">
+-interlayer_D</STRONG>
+--Enables or disables the calculation of interlayer diffusion in swelling clay minerals. If <STRONG CLASS="Bold">
+-interlayer_D</STRONG>
+ is <STRONG CLASS="Bold">
+true</STRONG>
+, <STRONG CLASS="Bold">
+-multi_D</STRONG>
+ also must be <STRONG CLASS="Bold">
+true</STRONG>
+, and the <STRONG CLASS="Bold">
+-multi_D</STRONG>
+ parameters must be set as explained with Line 21. Optionally, <STRONG CLASS="Bold">
+interlayer_D</STRONG>
+ or <STRONG CLASS="Bold">
+-int</STRONG>
+[<STRONG CLASS="Bold">
+erlayer_D</STRONG>
+] (as with all identifiers, case insensitive). The flux in the interlayers is calculated for the cations associated with X- (as defined with keyword <A HREF="phreeqc3-14.htm#50610177_84573" CLASS="XRef">EXCHANGE</A>): <BR>
+Ji = -<EM CLASS="Emphasis">
+ <IMG SRC="phreeqc3-188.png" ALIGN="MIDDLE">
+</EM>
+ <EM CLASS="Emphasis">
+&#215; </EM>
+mCEC <EM CLASS="Emphasis">
+&#215;</EM>
+ grad(<EM CLASS="Emphasis">
+&#946;&#953;</EM>
+) + CBti, </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636787"></A>where, i indicates an aqueous species, Ji<EM CLASS="Emphasis">
+ </EM>
+is the flux (mol m<Sup CLASS="Superscript">
+-2</Sup>
+s<Sup CLASS="Superscript">
+-1</Sup>
+), Dw',i is the temperature corrected diffusion coefficient, <EM CLASS="Emphasis">
+<IMG SRC="phreeqc3-189.png" ALIGN="MIDDLE">
+</EM>
+ is the interlayer tortuosity factor (unitless), mCEC is the concentration of total X-, mol(X-) / (m3 interlayer water), where (m3 interlayer water) = (m3 free pore water + m3 Donnan water) <EM CLASS="Emphasis">
+&#215;</EM>
+ (<EM CLASS="Emphasis">
+&#949;IL</EM>
+ / <EM CLASS="Emphasis">
+&#949;</EM>
+), grad(<EM CLASS="Emphasis">
+&#946;&#953;</EM>
+) is the gradient of the equivalent fraction of species i on the exchange sites (1/m), and CBti is the charge balance term (Appelo and Wersin, 2007). The tracer diffusion coefficients are defined with keyword <EM CLASS="Emphasis">
+<A HREF="phreeqc3-50.htm#50610177_96148" CLASS="XRef"></A>SOLUTION_SPECIES<EM CLASS="Emphasis">
+</EM>
+ </EM>
+in <EM CLASS="Emphasis">
+phreeqc.dat </EM>
+for 25 &#176;C and are corrected to temperature <EM CLASS="Emphasis">
+T </EM>
+(K) of the solution with the equation<EM CLASS="Emphasis">
+ </EM>
+Dw' =<EM CLASS="Emphasis">
+ (Dw</EM>
+)298 <EM CLASS="Emphasis">
+ &#215; <IMG SRC="phreeqc3-190.png" ALIGN="MIDDLE">
+ &#215; <IMG SRC="phreeqc3-191.png" ALIGN="MIDDLE">
+</EM>
+, where <EM CLASS="Emphasis">
+&#951; </EM>
+is the viscosity of water. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636803"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If <STRONG CLASS="Bold">
+true</STRONG>
+, interlayer diffusion is calculated; if <STRONG CLASS="Bold">
+false</STRONG>
+, interlayer diffusion is not calculated<EM CLASS="Emphasis">
+. </EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636765"></A><EM CLASS="Emphasis">
+interlayer_porosity</EM>
+--The porosity of interlayer water, a fraction of the total volume<EM CLASS="Emphasis">
+. </EM>
+Default is 0 (unitless)<EM CLASS="Emphasis">
+.</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636757"></A><EM CLASS="Emphasis">
+interlayer_porosity_limit</EM>
+--The porosity of interlayer water, below which interlayer diffusion stops. Default is 0 (unitless). </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-636749"></A><EM CLASS="Emphasis">
+interlayer_tortuosity_factor</EM>
+--The tortuosity factor for interlayer diffusion, <EM CLASS="Emphasis">
+<IMG SRC="phreeqc3-192.png" ALIGN="MIDDLE">
+</EM>
+ (unitless). Default is 100.0.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-987370"></A><EM CLASS="ChangeFont">
+Line 23: -porosities list of porosities</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987371"></A><EM CLASS="ChangeFont">
+-porosities--Defines porosity of each cell for diffusive transport simulations (m). Optionally, po[rosities] or -po[rosity]. </EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987372"></A><EM CLASS="ChangeFont">
+list of porosities--Porosity of each cell (unitless). Any number of porosities up to the total number of cells (cells) may be entered. If cells is greater than the number of lengths entered, the final value read will be used for the remaining cells. Multiple lines may be used. Repeat factors can be used to input multiple data with the same value; in the Example data block, 4*0.30 is interpreted as 4 values of 0.30. The values entered here take pecedence ofver the value given with -multi_D. If one stangant layer is defined together with an exchange-factor &gt; 0 (&#8216;-stagnant 1 4e-6 0.3 0.1&#8217;), the mobile (here = 0.3) and immobile (here = 0.1) porosities defined with -stagnant are used. If -interlayer_d is defined, then the total porosity for a cell is the sum of the porosity defined here and the porosity defined by -interlayer_d. </EM>
+</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-987771"></A><EM CLASS="ChangeFont">
+Line 24: -fix_current current</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987772"></A><EM CLASS="ChangeFont">
+-fix_current--Current in a column experiment. Default is 0 at startup. Optionally, fix_current,  -fi[x_current], or current, or -cu[rrent]. </EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987773"></A><EM CLASS="ChangeFont">
+current--Electrical current, Default is 0 amperes.</EM>
+</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-545877"></A><A NAME="50610177_44571"></A>Notes</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-663308"></A>The advective-dispersive transport capabilities of PHREEQC are derived from a formulation of 1D, advective-dispersive transport presented by Appelo and Postma (2005). The 1D column is defined by a series of cells (number of cells is <EM CLASS="Emphasis">
+cells</EM>
+), each of which has the same pore volume. Lengths are defined for each cell and the time step (<EM CLASS="Emphasis">
+time step</EM>
+) gives the time necessary for a pore volume of water to move through each cell. Thus, the velocity of water in each cell is determined by the length of the cell divided by the time step. In the Example data block, a column of five cells (<EM CLASS="Emphasis">
+cells</EM>
+) is modeled and 5 pore volumes of filling solution are moved through the column (<EM CLASS="Emphasis">
+shifts</EM>
+/<EM CLASS="Emphasis">
+cells</EM>
+ is 5). The total time of the simulation is 25 yr (year) (<IMG SRC="phreeqc3-193.png" ALIGN="MIDDLE">
+). The total length of the column is 6 m (four 1-m cells and one 2-m cell). </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-663312"></A>At each shift, advection is simulated by moving solution <EM CLASS="Emphasis">
+cells - </EM>
+1 to cell <EM CLASS="Emphasis">
+cells</EM>
+, solution <EM CLASS="Emphasis">
+cells - </EM>
+2 to cell <EM CLASS="Emphasis">
+cells - </EM>
+1, and so on, until solution 0 is moved to cell 1 (upwind scheme). With flux-type boundary conditions, the dispersion steps follow the advective shift. With Dirichlet boundary conditions, the dispersion step and the advective shift are alternated. After each advective shift and dispersion step, kinetic reactions and chemical equilibria are calculated. The moles of pure phases and the compositions of the exchange assemblage, surface assemblage, gas phase, solid-solution assemblage, and kinetic reactants in each cell are updated after each chemical calculation.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-549032"></A>For advective transport, the influent solution must be defined, otherwise the program stops with an error message. Solution 0 is the influent with <STRONG CLASS="Bold">
+-flow_direction forward</STRONG>
+; solution cells + 1 is the influent when the flow is <STRONG CLASS="Bold">
+backward</STRONG>
+. If the effluent (solution cells + 1, for direction <STRONG CLASS="Bold">
+forward</STRONG>
+) is not defined, the program copies it from the effluent boundary cell in the column. A closed boundary condition is not possible with advective flow, and the boundary condition will be changed to a flux boundary condition. Likewise, a flux-boundary condition is not possible when pure diffusion is modeled, and the boundary condition will be changed to a closed boundary condition.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-545884"></A>The <STRONG CLASS="Bold">
+-time_step</STRONG>
+ identifier defines the length of time associated with each advective shift or diffusion period. The program may subdivide this time step into smaller dispersion time steps if necessary to calculate dispersion accurately. Each dispersion time step may be further subdivided to integrate the kinetic reactions (<A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> data block). Kinetic reactions are likely to slow the calculations by a factor of six or more compared to pure equilibrium calculations.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-545888"></A>The numerical scheme is for cell-centered concentrations, which has consequences for data interpretation. Thus, the composition in a boundary cell is a half-cell distance away from the column outlet and needs a half time step to arrive at (or from) the column end. The half time step must be added to the total residence time in the column when effluent from a column is simulated [use (TOTAL_TIME + <EM CLASS="Emphasis">
+time step </EM>
+/ 2) for time, see <A HREF="phreeqc3-77.htm#50610191_40270" CLASS="XRef">See 1D Transport: Kinetic Biodegradation, Cell Growth, and Sorption</A>, or ((STEP_NO + 0.5) / <EM CLASS="Emphasis">
+cells</EM>
+) for pore volumes, see <A HREF="phreeqc3-73.htm#50610191_46434" CLASS="XRef">See Transport and Cation Exchange</A>]. The kinetics time for advective transport into the boundary cell is the advective time step divided by 2. Also, the cell-centered scheme does not account for dispersion in the border half-cell in case of a flux boundary condition. The identifier <STRONG CLASS="Bold">
+-correct_disp</STRONG>
+ provides an option to correct the ignored dispersion by increasing the dispersivity for all cells in the column by the appropriate amount. The correction will improve the comparison with analytical solutions for conservative elements when the number of cells is small.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-549093"></A>A &#8220;dual porosity&#8221; model, in which part of the porosity allows advective flow and part of the porosity is accessible only by diffusion, can be developed with a first-order exchange model or with finite differences, and both approaches can be defined in terms of a mixing among cells (see &#8220;Transport in Dual Porosity Media&#8221; in Parkhurst and Appelo, 1999). With the <STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+ data block, one column of mobile cells is used to represent the part of the flow system in which advection occurs, and then additional immobile cells connected to the mobile cells are used to represent the stagnant zone that is accessible only by diffusion. The stagnant zone can be defined to be parallel or perpendicular to the column of mobile cells or to be a combination of the two by proper definition of mixing factors in <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A> data blocks. A shortcut is available for the classical formulation of a dual porosity medium with a first-order rate of exchange. In this case, <STRONG CLASS="Bold">
+-stagnant</STRONG>
+ is used to define one stagnant cell for each mobile cell (<EM CLASS="Emphasis">
+stagnant_cells</EM>
+ = 1), an exchange factor (<EM CLASS="Emphasis">
+exchange_factor</EM>
+) for the exchange between immobile and mobile cells, and the porosities <IMG SRC="phreeqc3-194.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-195.png" ALIGN="MIDDLE">
+ for the mobile and immobile cells.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-545908"></A>Thermal diffusion can be modeled for a stagnant zone with first-order exchange between mobile and immobile cells. Thermal exchange is calculated after subtracting the part of the exchange that is associated with hydrodynamic diffusion (see &#8220;Transport of Heat&#8221; in Parkhurst and Appelo, 1999). PHREEQC uses the value of the <EM CLASS="Emphasis">
+diffusion coefficient</EM>
+ to find the correct heat exchange factor, and the value entered with identifier <STRONG CLASS="Bold">
+-diffusion_coefficient</STRONG>
+ should be the same as has been used to calculate the exchange factor <IMG SRC="phreeqc3-196.png" ALIGN="MIDDLE">
+ (see equation 125 in Parkhurst and Appelo, 1999).</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-765551"></A>Most of the information for advective-dispersive transport calculations must be entered with other keyword data blocks. Advective-dispersive transport assumes that solutions with numbers 1 through <EM CLASS="Emphasis">
+cells</EM>
+ have been defined by using <A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A>, <A HREF="phreeqc3-51.htm#50610177_84297" CLASS="XRef">SOLUTION_SPREAD</A>, or <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> data blocks. In addition the infilling solution must be defined. If <STRONG CLASS="Bold">
+-flow_direction</STRONG>
+ is <STRONG CLASS="Bold">
+forward</STRONG>
+, solution 0 is the infilling solution; if <STRONG CLASS="Bold">
+-flow_direction</STRONG>
+ is <STRONG CLASS="Bold">
+backward</STRONG>
+, solution <EM CLASS="Emphasis">
+cells </EM>
++<EM CLASS="Emphasis">
+ 1</EM>
+ is the infilling solution, if <STRONG CLASS="Bold">
+-flow_direction</STRONG>
+ is <STRONG CLASS="Bold">
+diffusion_only</STRONG>
+, then infilling solutions at both column ends are optional. If stagnant zones are modeled, solution compositions for the stagnant-zone cells must be defined with <A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A>, <A HREF="phreeqc3-51.htm#50610177_84297" CLASS="XRef">SOLUTION_SPREAD</A>, or <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> data blocks.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-719815"></A>Pure-phase assemblages may be defined with <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> or <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A>, with the number of the assemblage corresponding to the cell number. Likewise, an exchange assemblage, a surface assemblage, a gas phase, or a solid-solution assemblage can be defined for each cell through <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>, <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A>, <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, or <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> keywords, with the identifying number corresponding to the cell number. Kinetically controlled reactions can be defined for each cell through the <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> data block. Note that ranges of numbers can be used to define multiple solutions, exchange assemblages, surface assemblages, gas phases, solid-solution assemblages, or kinetic reactions simultaneously and that <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> allows definition of a range of numbers. Constant-rate reactions can be defined for mobile or immobile cells through <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A> data blocks, again with the identifying number of the <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A> data block corresponding to the cell number. <A HREF="phreeqc3-42.htm#50610177_75016" CLASS="XRef">REACTION_TEMPERATURE</A> data blocks can be used to specify the initial temperatures of the cells in the transport simulation. Temperatures in the cells may change during the transport simulation depending on the temperature distribution and the temperature retardation factor defined by <STRONG CLASS="Bold">
+-thermal_diffusion</STRONG>
+. <A HREF="phreeqc3-41.htm#50610177_65966" CLASS="XRef">REACTION_PRESSURE</A> data blocks can be used to set the pressure in each cell.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-719846"></A>By default, the composition of the solution, pure-phase assemblage, exchange assemblage, surface assemblage, gas phase, solid-solution assemblage, and kinetic reactants are printed for each cell for each shift. Use of <STRONG CLASS="Bold">
+-print_cells </STRONG>
+and <STRONG CLASS="Bold">
+-print_frequency</STRONG>
+ will limit the amount of data written to the output file. If <STRONG CLASS="Bold">
+-print_cells </STRONG>
+has been defined then only the specified cells will be written; otherwise, all cells will be written. The identifier <STRONG CLASS="Bold">
+-print_frequency </STRONG>
+will restrict writing to the output file to those shifts that are evenly divisible by <EM CLASS="Emphasis">
+print_modulus</EM>
+. In the Example data block, results for cells 1, 2, 3, and 5 are written to the output file after each integer pore volume (5 shifts) has passed through the column. Data written to the output file can be further limited with the keyword <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A> (see <STRONG CLASS="Bold">
+-reset false</STRONG>
+). </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-704751"></A>If a <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block has been defined, then selected data are written to the selected-output file. Use of <STRONG CLASS="Bold">
+-punch_cells </STRONG>
+and <STRONG CLASS="Bold">
+-punch_frequency</STRONG>
+ in the <STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+ data block will limit the data that are written to the selected-output file. If <STRONG CLASS="Bold">
+-punch_cells</STRONG>
+ has been defined then only the specified cells will be written; otherwise, all cells will be written. The identifier <STRONG CLASS="Bold">
+-punch_frequency </STRONG>
+will restrict writing to the selected-output file to those shifts that are evenly divisible by <EM CLASS="Emphasis">
+punch_modulus</EM>
+. In the Example data block, results are written to the selected-output file for cells 2, 3, 4, and 5 after each integer pore volume (5 shifts) has passed through the column.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-719921"></A>At the end of an advective-dispersive transport simulation, all the physical and chemical data (for example, compositions of solutions, equilibrium-phase assemblages, surfaces, exchangers, solid solutions, and kinetic reactants) are automatically saved and are identified by the cell number in which they reside. These data are available for subsequent simulations within a single run. Transient conditions can be simulated by including subsequent <A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A> and <STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+ data blocks, which may define new chemical boundary and transport conditions. Only parameters that differ from the previous advective-dispersive transport simulation need to be redefined, such as new infilling solution (<A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A> 0), a change from advection to diffusion only (<STRONG CLASS="Bold">
+-flow_direction diffusion_only</STRONG>
+), or a change in flow direction from forward to backward (<STRONG CLASS="Bold">
+-flow_direction backward</STRONG>
+). All parameters not specified in the new <STRONG CLASS="Bold">
+TRANSPORT</STRONG>
+ data block remain the same as the previous advective-dispersive transport simulation. Normally, the diffusion coefficient, lengths of cells, dispersivities, and stagnant zone definitions remain the same through all advective-dispersive transport simulations and thus need not be redefined.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-704817"></A>For long advective-dispersive transport calculations, it may be desirable to save intermediate states in the calculation, either because of hardware failure or because of nonconvergence of the numerical method. The <STRONG CLASS="Bold">
+-dump_frequency</STRONG>
+ identifier allows intermediate states to be saved at intervals during the calculation. The <STRONG CLASS="Bold">
+-dump </STRONG>
+identifier allows the definition of a file name in which to write these intermediate states. The dump file is formatted as an input file for PHREEQC, so calculations can be resumed from the point at which the dump file was made. The <STRONG CLASS="Bold">
+-dump_restart</STRONG>
+ identifier allows a shift number to be specified from which to restart the calculations. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-577010"></A>With the identifiers <STRONG CLASS="Bold">
+-multi_D</STRONG>
+ and <STRONG CLASS="Bold">
+-interlayer_D</STRONG>
+, diffusion can be calculated as a multicomponent process in uncharged (&#8220;free&#8221;) pore water, in electrostatic double layer (EDL, referred to as the Donnan pore space) water at charged surfaces, and in interlayer water of swelling clay minerals. Each solute species or surface defined with <STRONG CLASS="Bold">
+-dw</STRONG>
+<EM CLASS="Emphasis">
+ </EM>
+greater than zero diffuses at its own speed, while overall, charge balance is maintained (Vinograd and McBain, 1941; Appelo and Wersin, 2007).<EM CLASS="Emphasis">
+ </EM>
+Instead of concentration, as in Fick&#8217;s laws, the thermodynamic potential forms the basis for calculating the multicomponent flux:</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-577762"></A>&#956;i = &#956;i0 + RT ln ai + ziF&#968;,                 	(9)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-577763"></A>where &#956;i0 is the standard thermodynamic potential of species i (J/mol, joule per mole), R is the gas constant (8.314 J K-1mol-1), T is the absolute temperature (K), ai is the activity (unitless), zi is charge number (unitless), F is the Faraday constant (96485 J V-1eq-1), and &#968; is the electrical potential (V). The activity is related to concentration ci (here, mol/m3) by ai = &#947;i ci/c0, where &#947;i is the activity coefficient (unitless) and c0 is the standard state (here 1.0 mol/m3). The diffusive flux of i as a result of chemical and electrical potential gradients is</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-575371"></A><A NAME="50610177_57764"></A><IMG SRC="phreeqc3-197.png" ALIGN="MIDDLE">
+,             	(10)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-575372"></A>where Ji is the flux of species i (mol m-2s-1), ui is the mobility (m2 s-1V-1, square meter per second per volt), ci is the concentration (mol/m3), zi is charge number (unitless), <IMG SRC="phreeqc3-198.png" ALIGN="MIDDLE">
+ is the gradient of the chemical potential (J mol-1m-1, joule per mole per meter), and similarly for the gradients of lnai and &#968;. If the electrical current is zero, <IMG SRC="phreeqc3-199.png" ALIGN="MIDDLE">
+, <A HREF="phreeqc3-56.htm#50610177_57764" CLASS="XRef">equation 10</A> can be rearranged to solve for the gradient of the electrical potential:</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-575390"></A><IMG SRC="phreeqc3-200.png" ALIGN="MIDDLE">
+,                	(11)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-575334"></A>where the variables are linked with species j to indicate their origin from the zero-charge transfer condition. With ai = &#947;i ci/c0 and cid(lnci) = d(ci), the gradient of the activity becomes:</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-575535"></A><IMG SRC="phreeqc3-201.png" ALIGN="MIDDLE">
+.                 	(12)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-575515"></A>And, finally, using the identity</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-587273"></A><IMG SRC="phreeqc3-202.png" ALIGN="MIDDLE">
+,                	(13)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-575405"></A><A HREF="phreeqc3-56.htm#50610177_57764" CLASS="XRef">equation 10</A> can be recast completely in known model variables:</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-575645"></A><A NAME="50610177_66275"></A><IMG SRC="phreeqc3-203.png" ALIGN="MIDDLE">
+.               	(14)</H3>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-575832"></A>Appelo and Wersin (2007) have shown that the thermodynamic potential gradients are the same in free pore water and in EDL water (the Donnan pore space); only the concentrations are different in the two water types. The concentration in the Donnan pore space is:</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-636734"></A><IMG SRC="phreeqc3-204.png" ALIGN="MIDDLE">
+, 	(15)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-576668"></A>where erm_DDLi is the enrichment factor in the Donnan pore space, defined with identifier <STRONG CLASS="Bold">
+-erm_ddl</STRONG>
+ in keyword <A HREF="phreeqc3-50.htm#50610177_96148" CLASS="XRef">SOLUTION_SPECIES</A>, and &#968;D is the potential in the Donnan pore space. Accordingly, for calculating the flux through the Donnan space, if <STRONG CLASS="Bold">
+-only_counter_ions</STRONG>
+ is <STRONG CLASS="Bold">
+false</STRONG>
+, ci in <A HREF="phreeqc3-56.htm#50610177_66275" CLASS="XRef">equation 14</A> is replaced by cDonnan, i for the fraction of Donnan water in the pore space. If <STRONG CLASS="Bold">
+-only_counter_ions</STRONG>
+ is <STRONG CLASS="Bold">
+true</STRONG>
+, the concentration gradient in free pore water is used for counter-ions (ci in <A HREF="phreeqc3-56.htm#50610177_66275" CLASS="XRef">equation 14</A> is not replaced for counter-ions), and for co-ions the flux is zero (their concentration is zero), see below.</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-636710"></A>Diffusion of exchangeable cations can be calculated when they are defined with exchange species X<Sup CLASS="Superscript">
 -</Sup>
-</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346795"></A>Alkalinity</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346797"></A>141.682</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346799"></A>Sulfate, as SO<Sub CLASS="Subscript">
-4</Sub>
-<Sup CLASS="Superscript">
-2-</Sup>
-</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346801"></A>S(6)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346803"></A>2712.0</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346805"></A>Nitrate. as NO<Sub CLASS="Subscript">
-3</Sub>
-<Sup CLASS="Superscript">
--</Sup>
-</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346807"></A>N(5)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346809"></A>0.29</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346811"></A>Ammonium, as NH<Sub CLASS="Subscript">
-4</Sub>
-<Sup CLASS="Superscript">
-+</Sup>
-</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346813"></A>N(-3)</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346815"></A>0.03</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346817"></A>Uranium</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346819"></A>U</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346821"></A>0.0033</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346823"></A>pH, standard units</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346825"></A>pH</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346827"></A>8.22</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346829"></A>pe, unitless</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346831"></A>pe</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346833"></A>8.451</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346835"></A>Temperature, &#176;C</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346837"></A>temperature</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346839"></A>25.0</H6>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346841"></A>Density, kilograms per liter</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<P CLASS="CellBody9ptLeft">
-<A NAME="50540559_pgfId-1346843"></A>density</P>
-</TD>
-<TD ROWSPAN="1" COLSPAN="1">
-<H6 CLASS="CellBody9ptDec-5-">
-<A NAME="50540559_pgfId-1346845"></A>1.023</H6>
-</TD>
-</TR>
-</TABLE>
+, as in the databases phreeqc.dat and wateq4f.dat. The concentration of an exchangeable species is</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-636711"></A>ci = &#947;&#953;<EM CLASS="Emphasis">
+ &#215; </EM>
+&#946;&#953;<EM CLASS="Emphasis">
+ &#215;</EM>
+ CEC / zi, 	(16)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-636712"></A>where ci is the concentration of species i (mol/m3 interlayer water), &#947;&#953; is the activity coefficient, defined with <STRONG CLASS="Bold">
+-gamma </STRONG>
+in keyword <A HREF="phreeqc3-16.htm#50610177_65476" CLASS="XRef">EXCHANGE_SPECIES</A>, &#946; is the equivalent fraction of the exchangeable species, and CEC is the exchange capacity (eq/m3, equivalent per cubic meter of interlayer water), defined as moles X- in keyword <A HREF="phreeqc3-14.htm#50610177_84573" CLASS="XRef">EXCHANGE</A> (the volume of interlayer water is calculated from the interlayer porosity, as explained below). For calculating the flux through the interlayer space, <IMG SRC="phreeqc3-205.png" ALIGN="MIDDLE">
+ in <A HREF="phreeqc3-56.htm#50610177_66275" CLASS="XRef">equation 14</A> is replaced by <IMG SRC="phreeqc3-206.png" ALIGN="MIDDLE">
+.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1345699"></A>The essential data needed for a speciation calculation are the temperature, pH, and concentrations of elements and (or) element valence states. These data for seawater are given in <A HREF="phreeqc3-56.htm#50540559_38811" CLASS="XRef"></A>table 9. The input file for this example calculation is shown in <A HREF="phreeqc3-56.htm#50540559_49900" CLASS="XRef">table 10</A>. A comment about the calculations performed in this simulation is included with the <A HREF="phreeqc3-48.htm#50540545_48632" CLASS="XRef">TITLE</A> keyword. The <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> data block defines the composition of seawater. Note that valence states are identified by the chemical symbol for the element followed by the valence in parentheses [S(6), N(5), N(-3), and O(0)]. </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-336358"></A>The pe to be used for distributing redox elements and for calculating saturation indices is specified by the <STRONG CLASS="Bold">
-redox</STRONG>
- identifier. In this example, a pe is to be calculated from the O(-2)/O(0) redox couple, which corresponds to the dissolved oxygen/water couple, and this calculated pe will be used for all calculations that require a pe. If <STRONG CLASS="Bold">
-redox</STRONG>
- were not specified, the default would be the input pe. The default redox identifier can be overridden for any redox element, as demonstrated by the manganese input, where the input pe will be used to speciate manganese among its valence states, and the uranium input, where a pe calculated from the nitrate/ammonium couple will be used to speciate uranium among its valence states. </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1579954"></A>The default units are specified to be ppm in this file (<STRONG CLASS="Bold">
-units</STRONG>
- identifier). This default can be overridden for any concentration, as demonstrated by the uranium concentration, which is specified to be ppb instead of ppm. Because ppm is a mass unit, not a mole unit, the program must use a gram formula weight to convert each concentration into molal units. The default gram formula weights for each master species are specified in the <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> input (the formulas used to calculate gram formula weights for <EM CLASS="Emphasis">
-phreeqc.dat</EM>
- are listed in <A HREF="phreeqc3-5.htm#50540545_36046" CLASS="XRef">table 3</A>). If the data are reported relative to a gram formula weight different from the default, it is necessary to specify the appropriate gram formula weight in the input file. This can be done with the <STRONG CLASS="Bold">
-gfw</STRONG>
- identifier, where the actual gram formula weight is input--the gram-formula weight by which to convert nitrate is specified to be 62.0 g/mol, or more simply with the <STRONG CLASS="Bold">
-as</STRONG>
- identifier, where the chemical formula for the reported units is input, as shown in the input for alkalinity and ammonium in this example. Note finally that the concentration of O(0), dissolved oxygen, is given an initial estimate of 1 ppm, but that its concentration will be adjusted until a log partial pressure of oxygen gas of -0.7 is achieved. [O2(g) is defined under <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input in each database.] When using phase equilibria to specify initial concentrations [like O(0) in this example], only one concentration is adjusted. For example, if gypsum were used to adjust the calcium concentration, the concentration of calcium would vary, but the concentration of sulfate would remain fixed.<A NAME="50540559_91182"></A>        </P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1586563"></A>Table 10. <A NAME="50540559_49900"></A>Input file for example 1.</P>
-</CAPTION>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586565"></A>TITLE Example 1.--Add uranium and speciate seawater.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586567"></A>SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586569"></A>        units   ppm</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586571"></A>        pH      8.22</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586573"></A>        pe      8.451</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586575"></A>        density 1.023</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586577"></A>        temp    25.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586579"></A>        redox   O(0)/O(-2)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586581"></A>        Ca              412.3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586583"></A>        Mg              1291.8</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586585"></A>        Na              10768.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586587"></A>        K               399.1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586589"></A>        Fe              0.002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586591"></A>        Mn              0.0002  pe</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586593"></A>        Si              4.28</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586595"></A>        Cl              19353.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586597"></A>        Alkalinity      141.682 as HCO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586599"></A>        S(6)            2712.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586601"></A>        N(5)            0.29    gfw   62.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586603"></A>        N(-3)           0.03    as    NH4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586605"></A>        U               3.3     ppb   N(5)/N(-3)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586607"></A>        O(0)            1.0     O2(g) -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586609"></A>SOLUTION_MASTER_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586611"></A>        U       U+4     0.0     238.0290     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586613"></A>        U(4)    U+4     0.0     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586615"></A>        U(5)    UO2+    0.0     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586617"></A>        U(6)    UO2+2   0.0     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586619"></A>SOLUTION_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586621"></A>        #primary master species for U</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586623"></A>        #is also secondary master species for U(4)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586625"></A>        U+4 = U+4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1586627"></A>                log_k          0.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633832"></A>SOLUTION_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633830"></A>        U+4 + 4 H2O = U(OH)4 + 4 H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633828"></A>                log_k          -8.538</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633826"></A>                delta_h        24.760 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633824"></A>        U+4 + 5 H2O = U(OH)5- + 5 H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633822"></A>                log_k          -13.147</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1633820"></A>                delta_h        27.580 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1673378"></A>        #secondary master species for U(5)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1673376"></A>        U+4 + 2 H2O = UO2+ + 4 H+ + e-</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738586"></A>                log_k          -6.432</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738584"></A>                delta_h        31.130 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738582"></A>        #secondary master species for U(6)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738580"></A>        U+4 + 2 H2O = UO2+2 + 4 H+ + 2 e-</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738578"></A>                log_k          -9.217</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738576"></A>                delta_h        34.430 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738574"></A>        UO2+2 + H2O = UO2OH+ + H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738572"></A>                log_k          -5.782</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738570"></A>                delta_h        11.015 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738568"></A>        2UO2+2 + 2H2O = (UO2)2(OH)2+2 + 2H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738566"></A>                log_k          -5.626</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738564"></A>                delta_h        -36.04 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738562"></A>        3UO2+2 + 5H2O = (UO2)3(OH)5+ + 5H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738560"></A>                log_k          -15.641</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738558"></A>                delta_h        -44.27 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738556"></A>        UO2+2 + CO3-2 = UO2CO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738554"></A>                log_k          10.064</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738552"></A>                delta_h        0.84 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738550"></A>        UO2+2 + 2CO3-2 = UO2(CO3)2-2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738548"></A>                log_k          16.977</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738546"></A>                delta_h        3.48 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738544"></A>        UO2+2 + 3CO3-2 = UO2(CO3)3-4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738542"></A>                log_k          21.397</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738540"></A>                delta_h        -8.78 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738538"></A>PHASES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738536"></A>        Uraninite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738534"></A>        UO2 + 4 H+ = U+4 + 2 H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738532"></A>        log_k          -3.490</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738530"></A>        delta_h        -18.630 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1738528"></A>END</Pre>
-</TD>
-</TR>
-</TABLE>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-336375"></A>Uranium is not included in <EM CLASS="Emphasis">
-phreeqc.dat</EM>
-, one of the database files that is distributed with the program. Thus, data to describe the thermodynamics and composition of aqueous uranium species must be included in the input data when using this database. Two keyword data blocks are needed to define the uranium species, <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> and <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A>. By adding these two data blocks to the input data file, aqueous uranium species will be defined for the duration of the run. To add uranium permanently to the list of elements, these data blocks should be added to the database file. The data for uranium shown here are intended to be illustrative and are not a complete description of uranium speciation. </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-336385"></A>It is necessary to define a primary master species for uranium with <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> input. Because uranium is a redox-active element, it is also necessary to define a secondary master species for each valence state of uranium. The data block <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A> (<A HREF="phreeqc3-56.htm#50540559_49900" CLASS="XRef">table 10</A>) defines U<Sup CLASS="Superscript">
-+4</Sup>
- as the primary master species for uranium and also as the secondary master species for the +4 valence state. UO<Sub CLASS="Subscript">
-2</Sub>
-<Sup CLASS="Superscript">
-+</Sup>
- is the secondary master species for the +5 valence state, and UO<Sub CLASS="Subscript">
-2</Sub>
-<Sup CLASS="Superscript">
-+2</Sup>
- is the secondary master species for the +6 valence state. Equations defining these aqueous species plus any other complexes of uranium must be defined through <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A> input.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1449317"></A>In the data block <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A> (<A HREF="phreeqc3-56.htm#50540559_49900" CLASS="XRef">table 10</A>), the primary and secondary master species are noted with comments. A primary master species is always defined in the form of an identity reaction (U+4 = U+4). Secondary master species are the only aqueous species that contain electrons in their chemical reaction. Additional hydroxide and carbonate complexes are defined for the +4 and +6 valence states, but none for the +5 state. </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1449321"></A>Finally, a new phase, uraninite, is defined with <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input. This phase will be used in calculating saturation indices in speciation modeling, but could also be used, without redefinition, for batch-reaction, transport, or inverse calculations within the computer run.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1651359"></A>The output from the model (<A HREF="phreeqc3-56.htm#50540559_74650" CLASS="XRef">table 11</A>) contains several blocks of information delineated by headings. First, the names of the input, output, and database files for the run are listed. Next, all keywords encountered in reading the database file are listed under the heading &#8220;Reading data base&#8221;. Then, the input data, excluding comments and empty lines, are echoed under the heading &#8220;Reading input data for simulation 1&#8221;. The simulation is defined by all input data up to and including the <A HREF="phreeqc3-12.htm#50540545_63178" CLASS="XRef">END</A> keyword. <A NAME="50540559_16042"></A>   </P>
-<TABLE>
-<CAPTION>
-<P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1651367"></A>Table 11. <A NAME="50540559_74650"></A>Output for example 1.</P>
-</CAPTION>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653135"></A>   Input file: ex1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653137"></A>  Output file: ex1.out</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653139"></A>Database file: phreeqc.dat</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653141"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653143"></A>------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653145"></A>Reading data base.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653147"></A>------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653149"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653151"></A>	SOLUTION_MASTER_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653153"></A>	SOLUTION_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653155"></A>	PHASES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653157"></A>	EXCHANGE_MASTER_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653159"></A>	EXCHANGE_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653161"></A>	SURFACE_MASTER_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653163"></A>	SURFACE_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653165"></A>	RATES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1653167"></A>	END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1673388"></A>------------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1673386"></A>Reading input data for simulation 1.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1673384"></A>------------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741690"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741688"></A>	TITLE Example 1.--Add uranium and speciate seawater.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741686"></A>	SOLUTION 1  SEAWATER FROM NORDSTROM AND OTHERS (1979)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741684"></A>	        units   ppm</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741682"></A>	        pH      8.22</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741680"></A>	        pe      8.451</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741678"></A>	        density 1.023</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741676"></A>	        temp    25.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741674"></A>	        redox   O(0)/O(-2)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741672"></A>	        Ca              412.3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741670"></A>	        Mg              1291.8</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741668"></A>	        Na              10768.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741666"></A>	        K               399.1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741664"></A>	        Fe              0.002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741662"></A>	        Mn              0.0002  pe</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741660"></A>	        Si              4.28</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741658"></A>	        Cl              19353.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741656"></A>	        Alkalinity      141.682 as HCO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741654"></A>	        S(6)            2712.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741652"></A>	        N(5)            0.29    gfw   62.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741650"></A>	        N(-3)           0.03    as    NH4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741648"></A>	        U               3.3     ppb   N(5)/N(-3)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741646"></A>	        O(0)            1.0     O2(g) -0.7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741644"></A>	SOLUTION_MASTER_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741642"></A>	        U       U+4     0.0     238.0290     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741640"></A>	        U(4)    U+4     0.0     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741638"></A>	        U(5)    UO2+    0.0     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741636"></A>	        U(6)    UO2+2   0.0     238.0290</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741634"></A>	SOLUTION_SPECIES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741632"></A>	        U+4 = U+4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741630"></A>	                log_k          0.0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741628"></A>	        U+4 + 4 H2O = U(OH)4 + 4 H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741626"></A>	                log_k          -8.538</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741624"></A>	                delta_h        24.760 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741622"></A>	        U+4 + 5 H2O = U(OH)5- + 5 H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741620"></A>	                log_k          -13.147</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741618"></A>	                delta_h        27.580 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741616"></A>	        U+4 + 2 H2O = UO2+ + 4 H+ + e-</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741614"></A>	                log_k          -6.432</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741612"></A>	                delta_h        31.130 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741610"></A>	        U+4 + 2 H2O = UO2+2 + 4 H+ + 2 e-</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741608"></A>	                log_k          -9.217</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741606"></A>	                delta_h        34.430 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741604"></A>	        UO2+2 + H2O = UO2OH+ + H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741602"></A>	                log_k          -5.782</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741600"></A>	                delta_h        11.015 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741598"></A>	        2UO2+2 + 2H2O = (UO2)2(OH)2+2 + 2H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741596"></A>	                log_k          -5.626</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741594"></A>	                delta_h        -36.04 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741592"></A>	        3UO2+2 + 5H2O = (UO2)3(OH)5+ + 5H+</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741590"></A>	                log_k          -15.641</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741588"></A>	                delta_h        -44.27 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741586"></A>	        UO2+2 + CO3-2 = UO2CO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741584"></A>	                log_k          10.064</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741582"></A>	                delta_h        0.84 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741580"></A>	        UO2+2 + 2CO3-2 = UO2(CO3)2-2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741578"></A>	                log_k          16.977</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741576"></A>	                delta_h        3.48 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741574"></A>	        UO2+2 + 3CO3-2 = UO2(CO3)3-4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741572"></A>	                log_k          21.397</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741570"></A>	                delta_h        -8.78 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741568"></A>	PHASES</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741566"></A>	        Uraninite</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741564"></A>	        UO2 + 4 H+ = U+4 + 2 H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741562"></A>	        log_k          -3.490</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741560"></A>	        delta_h        -18.630 kcal</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741558"></A>	END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741556"></A>-----</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741554"></A>TITLE</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741552"></A>-----</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741550"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741548"></A> Example 1.--Add uranium and speciate seawater.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741546"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741544"></A>-------------------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741542"></A>Beginning of initial solution calculations.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741540"></A>-------------------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741538"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741536"></A>Initial solution 1.	SEAWATER FROM NORDSTROM AND OTHERS (1979)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741534"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741532"></A>-----------------------------Solution composition------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741530"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741528"></A>	Elements           Molality       Moles</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741526"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741524"></A>	Alkalinity       2.406e-003  2.406e-003</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741522"></A>	Ca               1.066e-002  1.066e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741520"></A>	Cl               5.657e-001  5.657e-001</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741518"></A>	Fe               3.711e-008  3.711e-008</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741516"></A>	K                1.058e-002  1.058e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741514"></A>	Mg               5.507e-002  5.507e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741512"></A>	Mn               3.773e-009  3.773e-009</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741510"></A>	N(-3)            1.724e-006  1.724e-006</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741508"></A>	N(5)             4.847e-006  4.847e-006</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741506"></A>	Na               4.854e-001  4.854e-001</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741504"></A>	O(0)             4.377e-004  4.377e-004  Equilibrium with O2(g)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741502"></A>	S(6)             2.926e-002  2.926e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741500"></A>	Si               7.382e-005  7.382e-005</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741498"></A>	U                1.437e-008  1.437e-008</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741496"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741494"></A>----------------------------Description of solution----------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741492"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741490"></A>                                       pH  =   8.220    </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741488"></A>                                       pe  =   8.451    </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741486"></A>       Specific Conductance (uS/cm, 25 oC) = 53257</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741484"></A>                          Density (g/cm3)  =   1.02327</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741482"></A>                               Volume (L)  =   1.01473</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741480"></A>                        Activity of water  =   0.981</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741478"></A>                           Ionic strength  =  6.745e-001</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741476"></A>                       Mass of water (kg)  =  1.000e+000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741474"></A>                    Total carbon (mol/kg)  =  2.257e-003</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741472"></A>                       Total CO2 (mol/kg)  =  2.257e-003</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741470"></A>                      Temperature (deg C)  =  25.00</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741468"></A>                  Electrical balance (eq)  =  7.936e-004</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741466"></A> Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.07</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741464"></A>                               Iterations  =   7</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741462"></A>                                  Total H  = 1.110149e+002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741460"></A>                                  Total O  = 5.563077e+001</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741458"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741456"></A>---------------------------------Redox couples---------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741454"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741452"></A>	Redox couple             pe  Eh (volts)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741450"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741448"></A>	N(-3)/N(5)           4.6750      0.2766</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741446"></A>	O(-2)/O(0)          12.4062      0.7339</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741444"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741442"></A>----------------------------Distribution of species----------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741440"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741438"></A>                                               Log       Log       Log    mole V</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741436"></A>   Species          Molality    Activity  Molality  Activity     Gamma   cm3/mol</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741434"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741432"></A>   OH-            2.705e-006  1.647e-006    -5.568    -5.783    -0.215     -2.63</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741430"></A>   H+             7.983e-009  6.026e-009    -8.098    -8.220    -0.122      0.00</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741428"></A>   H2O            5.551e+001  9.806e-001     1.744    -0.009     0.000     18.07</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741426"></A>C(4)         2.257e-003</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741424"></A>   HCO3-          1.238e-003  8.359e-004    -2.907    -3.078    -0.170     27.87</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741422"></A>   NaHCO3         6.168e-004  7.205e-004    -3.210    -3.142     0.067     19.41</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741420"></A>   MgHCO3+        2.136e-004  1.343e-004    -3.670    -3.872    -0.201      5.82</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741418"></A>   MgCO3          7.301e-005  8.527e-005    -4.137    -4.069     0.067    -17.09</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741416"></A>   CaHCO3+        3.717e-005  2.572e-005    -4.430    -4.590    -0.160      9.96</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741414"></A>   CO3-2          3.128e-005  6.506e-006    -4.505    -5.187    -0.682     -0.34</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741412"></A>   CaCO3          2.256e-005  2.636e-005    -4.647    -4.579     0.067    -14.60</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741410"></A>   NaCO3-         1.477e-005  9.972e-006    -4.831    -5.001    -0.170      1.77</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741408"></A>   CO2            9.887e-006  1.155e-005    -5.005    -4.937     0.067     30.26</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741406"></A>   UO2(CO3)3-4    1.221e-008  1.143e-010    -7.913    -9.942    -2.029     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741404"></A>   UO2(CO3)2-2    2.148e-009  6.681e-010    -8.668    -9.175    -0.507     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741402"></A>   MnCO3          2.157e-010  2.519e-010    -9.666    -9.599     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741400"></A>   MnHCO3+        5.475e-011  3.631e-011   -10.262   -10.440    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741398"></A>   UO2CO3         1.074e-011  1.255e-011   -10.969   -10.901     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741396"></A>   FeCO3          1.498e-020  1.749e-020   -19.825   -19.757     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741394"></A>   FeHCO3+        1.255e-020  9.369e-021   -19.902   -20.028    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741392"></A>Ca           1.066e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741390"></A>   Ca+2           9.645e-003  2.412e-003    -2.016    -2.618    -0.602    -16.70</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741388"></A>   CaSO4          9.560e-004  1.117e-003    -3.020    -2.952     0.067      7.50</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741386"></A>   CaHCO3+        3.717e-005  2.572e-005    -4.430    -4.590    -0.160      9.96</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741384"></A>   CaCO3          2.256e-005  2.636e-005    -4.647    -4.579     0.067    -14.60</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741382"></A>   CaOH+          8.721e-008  6.513e-008    -7.059    -7.186    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741380"></A>   CaHSO4+        5.922e-011  4.422e-011   -10.228   -10.354    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741378"></A>Cl           5.657e-001</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741376"></A>   Cl-            5.657e-001  3.568e-001    -0.247    -0.448    -0.200     18.79</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741374"></A>   MnCl+          1.068e-009  7.086e-010    -8.971    -9.150    -0.178      7.01</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741372"></A>   MnCl2          9.449e-011  1.104e-010   -10.025    -9.957     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741370"></A>   MnCl3-         1.635e-011  1.085e-011   -10.786   -10.965    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741368"></A>   FeCl+2         1.519e-018  2.939e-019   -17.819   -18.532    -0.713     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741366"></A>   FeCl2+         7.062e-019  4.684e-019   -18.151   -18.329    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741364"></A>   FeCl+          7.393e-020  5.521e-020   -19.131   -19.258    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741362"></A>   FeCl3          1.431e-020  1.671e-020   -19.844   -19.777     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741360"></A>Fe(2)        6.437e-019</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741358"></A>   Fe+2           4.891e-019  1.121e-019   -18.311   -18.950    -0.640    -20.66</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741356"></A>   FeCl+          7.393e-020  5.521e-020   -19.131   -19.258    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741354"></A>   FeSO4          4.443e-020  5.190e-020   -19.352   -19.285     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741352"></A>   FeCO3          1.498e-020  1.749e-020   -19.825   -19.757     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741350"></A>   FeHCO3+        1.255e-020  9.369e-021   -19.902   -20.028    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741348"></A>   FeOH+          8.697e-021  5.768e-021   -20.061   -20.239    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741346"></A>   Fe(OH)2        6.840e-024  7.989e-024   -23.165   -23.097     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741344"></A>   Fe(OH)3-       7.283e-026  4.830e-026   -25.138   -25.316    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741342"></A>   FeHSO4+        2.752e-027  2.056e-027   -26.560   -26.687    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741340"></A>Fe(3)        3.711e-008</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741338"></A>   Fe(OH)3        2.771e-008  3.237e-008    -7.557    -7.490     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741336"></A>   Fe(OH)4-       7.114e-009  4.804e-009    -8.148    -8.318    -0.170     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741334"></A>   Fe(OH)2+       2.286e-009  1.544e-009    -8.641    -8.811    -0.170     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741332"></A>   FeOH+2         1.481e-013  2.865e-014   -12.830   -13.543    -0.713     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741330"></A>   FeCl+2         1.519e-018  2.939e-019   -17.819   -18.532    -0.713     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741328"></A>   FeSO4+         1.174e-018  7.786e-019   -17.930   -18.109    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741326"></A>   FeCl2+         7.062e-019  4.684e-019   -18.151   -18.329    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741324"></A>   Fe+3           3.431e-019  2.727e-020   -18.465   -19.564    -1.100     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741322"></A>   Fe(SO4)2-      5.939e-020  4.435e-020   -19.226   -19.353    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741320"></A>   FeCl3          1.431e-020  1.671e-020   -19.844   -19.777     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741318"></A>   Fe2(OH)2+4     2.360e-024  2.210e-026   -23.627   -25.656    -2.029     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741316"></A>   FeHSO4+2       4.039e-026  1.256e-026   -25.394   -25.901    -0.507     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741314"></A>   Fe3(OH)4+5     1.054e-029  7.129e-033   -28.977   -32.147    -3.170     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741312"></A>H(0)         0.000e+000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741310"></A>   H2             0.000e+000  0.000e+000   -44.470   -44.402     0.067     28.61</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741308"></A>K            1.058e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741306"></A>   K+             1.040e-002  6.483e-003    -1.983    -2.188    -0.205      9.66</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741304"></A>   KSO4-          1.756e-004  1.186e-004    -3.755    -3.926    -0.170     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741302"></A>Mg           5.507e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741300"></A>   Mg+2           4.759e-002  1.374e-002    -1.322    -1.862    -0.540    -20.41</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741298"></A>   MgSO4          7.178e-003  8.384e-003    -2.144    -2.077     0.067      5.84</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741296"></A>   MgHCO3+        2.136e-004  1.343e-004    -3.670    -3.872    -0.201      5.82</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741294"></A>   MgCO3          7.301e-005  8.527e-005    -4.137    -4.069     0.067    -17.09</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741292"></A>   MgOH+          1.152e-005  8.116e-006    -4.939    -5.091    -0.152     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741290"></A>Mn(2)        3.773e-009</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741288"></A>   Mn+2           2.127e-009  4.875e-010    -8.672    -9.312    -0.640    -15.99</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741286"></A>   MnCl+          1.068e-009  7.086e-010    -8.971    -9.150    -0.178      7.01</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741284"></A>   MnCO3          2.157e-010  2.519e-010    -9.666    -9.599     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741282"></A>   MnSO4          1.932e-010  2.257e-010    -9.714    -9.646     0.067      4.99</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741280"></A>   MnCl2          9.449e-011  1.104e-010   -10.025    -9.957     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741278"></A>   MnHCO3+        5.475e-011  3.631e-011   -10.262   -10.440    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741276"></A>   MnCl3-         1.635e-011  1.085e-011   -10.786   -10.965    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741274"></A>   MnOH+          3.074e-012  2.039e-012   -11.512   -11.691    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741272"></A>   Mn(OH)3-       5.020e-020  3.329e-020   -19.299   -19.478    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741270"></A>   Mn(NO3)2       1.344e-020  1.570e-020   -19.871   -19.804     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741268"></A>Mn(3)        5.354e-026</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741266"></A>   Mn+3           5.354e-026  4.255e-027   -25.271   -26.371    -1.100     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741264"></A>N(-3)        1.724e-006</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741262"></A>   NH4+           1.610e-006  9.049e-007    -5.793    -6.043    -0.250     18.44</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741260"></A>   NH3            7.327e-008  8.558e-008    -7.135    -7.068     0.067     24.46</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741258"></A>   NH4SO4-        4.064e-008  3.035e-008    -7.391    -7.518    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741256"></A>N(5)         4.847e-006</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741254"></A>   NO3-           4.847e-006  2.845e-006    -5.314    -5.546    -0.232     30.32</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741252"></A>   Mn(NO3)2       1.344e-020  1.570e-020   -19.871   -19.804     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741250"></A>Na           4.854e-001</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741248"></A>   Na+            4.781e-001  3.431e-001    -0.320    -0.465    -0.144     -0.58</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741246"></A>   NaSO4-         6.631e-003  4.478e-003    -2.178    -2.349    -0.170     22.62</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741244"></A>   NaHCO3         6.168e-004  7.205e-004    -3.210    -3.142     0.067     19.41</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741242"></A>   NaCO3-         1.477e-005  9.972e-006    -4.831    -5.001    -0.170      1.77</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741240"></A>   NaOH           4.839e-017  5.652e-017   -16.315   -16.248     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741238"></A>O(0)         4.377e-004</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741236"></A>   O2             2.188e-004  2.556e-004    -3.660    -3.592     0.067     30.40</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741234"></A>S(6)         2.926e-002</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741232"></A>   SO4-2          1.432e-002  2.604e-003    -1.844    -2.584    -0.740     16.99</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741230"></A>   MgSO4          7.178e-003  8.384e-003    -2.144    -2.077     0.067      5.84</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741228"></A>   NaSO4-         6.631e-003  4.478e-003    -2.178    -2.349    -0.170     22.62</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741226"></A>   CaSO4          9.560e-004  1.117e-003    -3.020    -2.952     0.067      7.50</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741224"></A>   KSO4-          1.756e-004  1.186e-004    -3.755    -3.926    -0.170     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741222"></A>   NH4SO4-        4.064e-008  3.035e-008    -7.391    -7.518    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741220"></A>   HSO4-          2.042e-009  1.525e-009    -8.690    -8.817    -0.127     40.96</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741218"></A>   MnSO4          1.932e-010  2.257e-010    -9.714    -9.646     0.067      4.99</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741216"></A>   CaHSO4+        5.922e-011  4.422e-011   -10.228   -10.354    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741214"></A>   FeSO4+         1.174e-018  7.786e-019   -17.930   -18.109    -0.178     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741212"></A>   Fe(SO4)2-      5.939e-020  4.435e-020   -19.226   -19.353    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741210"></A>   FeSO4          4.443e-020  5.190e-020   -19.352   -19.285     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741208"></A>   FeHSO4+2       4.039e-026  1.256e-026   -25.394   -25.901    -0.507     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741206"></A>   FeHSO4+        2.752e-027  2.056e-027   -26.560   -26.687    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741204"></A>Si           7.382e-005</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741202"></A>   H4SiO4         7.061e-005  8.248e-005    -4.151    -4.084     0.067     52.08</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741200"></A>   H3SiO4-        3.210e-006  2.018e-006    -5.494    -5.695    -0.201     28.72</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741198"></A>   H2SiO4-2       1.095e-010  2.278e-011    -9.960   -10.642    -0.682     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741196"></A>U(4)         1.830e-021</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741194"></A>   U(OH)5-        1.830e-021  1.367e-021   -20.738   -20.864    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741192"></A>   U(OH)4         2.922e-025  3.413e-025   -24.534   -24.467     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741190"></A>   U+4            0.000e+000  0.000e+000   -46.746   -48.775    -2.029     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741188"></A>U(5)         2.871e-018</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741186"></A>   UO2+           2.871e-018  2.144e-018   -17.542   -17.669    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741184"></A>U(6)         1.437e-008</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741182"></A>   UO2(CO3)3-4    1.221e-008  1.143e-010    -7.913    -9.942    -2.029     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741180"></A>   UO2(CO3)2-2    2.148e-009  6.681e-010    -8.668    -9.175    -0.507     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741178"></A>   UO2CO3         1.074e-011  1.255e-011   -10.969   -10.901     0.067     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741176"></A>   UO2OH+         5.991e-014  4.474e-014   -13.222   -13.349    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741174"></A>   UO2+2          5.350e-016  1.664e-016   -15.272   -15.779    -0.507     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741172"></A>   (UO2)2(OH)2+2  5.579e-021  1.736e-021   -20.253   -20.761    -0.507     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741170"></A>   (UO2)3(OH)5+   1.610e-022  1.203e-022   -21.793   -21.920    -0.127     (0)  </Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741168"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741166"></A>------------------------------Saturation indices-------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741164"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741162"></A>	Phase               SI   log IAP   log K(298 K,   1 atm)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741160"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741158"></A>	Anhydrite        -0.92     -5.20   -4.28  CaSO4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741156"></A>	Aragonite         0.53     -7.80   -8.34  CaCO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741154"></A>	Calcite           0.68     -7.80   -8.48  CaCO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741152"></A>	Chalcedony       -0.52     -4.07   -3.55  SiO2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741150"></A>	Chrysotile        3.36     35.56   32.20  Mg3Si2O5(OH)4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741148"></A>	CO2(g)           -3.48     -4.94   -1.46  CO2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741146"></A>	Dolomite          2.24    -14.85  -17.09  CaMg(CO3)2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741144"></A>	Fe(OH)3(a)        0.18      5.07    4.89  Fe(OH)3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741142"></A>	Goethite          6.08      5.08   -1.00  FeOOH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741140"></A>	Gypsum           -0.64     -5.22   -4.58  CaSO4:2H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741138"></A>	H2(g)           -41.30    -44.40   -3.10  H2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741136"></A>	H2O(g)           -1.51     -0.01    1.50  H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741134"></A>	Halite           -2.48     -0.91    1.57  NaCl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741132"></A>	Hausmannite       1.57     62.60   61.03  Mn3O4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741130"></A>	Hematite         14.17     10.17   -4.01  Fe2O3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741128"></A>	Jarosite-K       -7.57    -16.78   -9.21  KFe3(SO4)2(OH)6</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741126"></A>	Manganite         2.40     27.74   25.34  MnOOH</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741124"></A>	Melanterite     -19.39    -21.59   -2.21  FeSO4:7H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741122"></A>	NH3(g)           -8.86     -7.07    1.80  NH3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741120"></A>	O2(g)            -0.70     -3.59   -2.89  O2	 Pressure   0.2 atm, phi 1.000.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741118"></A>	Pyrochroite      -8.09      7.11   15.20  Mn(OH)2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741116"></A>	Pyrolusite        6.97     48.35   41.38  MnO2:H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741114"></A>	Quartz           -0.09     -4.07   -3.98  SiO2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741112"></A>	Rhodochrosite    -3.37    -14.50  -11.13  MnCO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741110"></A>	Sepiolite         1.15     16.91   15.76  Mg2Si3O7.5OH:3H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741108"></A>	Sepiolite(d)     -1.75     16.91   18.66  Mg2Si3O7.5OH:3H2O</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741106"></A>	Siderite        -13.25    -24.14  -10.89  FeCO3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741104"></A>	SiO2(a)          -1.35     -4.07   -2.71  SiO2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741102"></A>	Sylvite          -3.54     -2.64    0.90  KCl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741100"></A>	Talc              6.03     27.43   21.40  Mg3Si4O10(OH)2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741098"></A>	Uraninite       -12.42    -15.91   -3.49  UO2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741096"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741094"></A>------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741092"></A>End of simulation.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741090"></A>------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741088"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741086"></A>------------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741084"></A>Reading input data for simulation 2.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741082"></A>------------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741080"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741078"></A>------------------------------</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741076"></A>End of Run after 0.64 Seconds.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1741074"></A>------------------------------</Pre>
-</TD>
-</TR>
-</TABLE>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1586414"></A>Any comment entered within the simulation with the <A HREF="phreeqc3-48.htm#50540545_48632" CLASS="XRef">TITLE</A> keyword is printed next. The title is followed by the heading &#8220;Beginning of initial solution calculations&#8221;, below which are the results of the speciation calculation for seawater. The concentration data, converted to molality, are given under the subheading &#8220;Solution composition&#8221;. For initial solution calculations, the number of moles in solution is numerically equal to molality because 1 kg of water is assumed. The <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-636696"></A>The actual mass transfer is found by multiplying the flux by the surface area, which PHREEQC calculates either from the amount of water in a cell and the cell length in a regular column, or from the mixing factor defined for stagnant cells, assuming a density of water of 1 kg/L. Thus, in a regular column, the surface area for diffusion between two cells i and j is</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-636700"></A><IMG SRC="phreeqc3-207.png" ALIGN="MIDDLE">
+, 	(17)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-636704"></A>where Aij is the surface area (m2), wfree is kgw defined with <STRONG CLASS="Bold">
 -water</STRONG>
- identifier can be used to define a different mass of water for a solution. During batch-reaction calculations, the mass of water may change and the moles in the aqueous phase will not exactly equal the molality of a constituent. Note that the molality of dissolved oxygen that produces a log partial pressure of -0.7 has been calculated and is annotated in the output. </P>
+ in keyword <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A>, VDonnan is the volume of water in the Donnan pore space, equal to Asurf<EM CLASS="Emphasis">
+ &#215;</EM>
+ tDonnan, the product of the area of the surface (m2) and the thickness of the Donnan layer (m), both defined in keyword <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A>, and &#916;x is the cell length (m) defined with <STRONG CLASS="Bold">
+-lengths</STRONG>
+.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1345174"></A>After the subheading &#8220;Description of solution&#8221;, some of the properties listed in the first block of output are equal to their input values and some are calculated. In this example, pH, pe, and temperature are equal to the input values. The specific conductance, density, activity of water, ionic strength, total carbon (alkalinity was the input datum), total inorganic carbon (&#8220;Total CO2&#8221;), electrical balance, percent error, total hydrogen, and total oxygen have all been calculated by the model. </P>
+<A NAME="50610177_pgfId-636681"></A>For stagnant cells, the mixing factor is multiplied by the ratio of the diffusion coefficient of a species and the default diffusion coefficient that is used when calculating the mixing factor. The mixing factor is given by equation 128 of the PHREEQC version 2 manual (Parkhurst and Appelo, 1999) or equation S2 of Appelo and Wersin, 2007):</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-636686"></A><A NAME="50610177_73453"></A><IMG SRC="phreeqc3-208.png" ALIGN="MIDDLE">
+,	(18)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-765693"></A>where mixf<Sub CLASS="Subscript">
+ij</Sub>
+ is the mixing factor between cells i and j, defined with keyword <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A>. D<Sub CLASS="Subscript">
+p</Sub>
+ is the pore water diffusion coefficient, given by D<Sub CLASS="Subscript">
+p</Sub>
+ = D<Sub CLASS="Subscript">
+w</Sub>
+ &#949;<Sup CLASS="Superscript">
+n</Sup>
+, where D<Sub CLASS="Subscript">
+w</Sub>
+ is the default diffusion coefficient; &#949; is the porosity; and n is Archie&#8217;s factor, all defined with identifier <STRONG CLASS="Bold">
+-multi_D</STRONG>
+. &#916;t is the time step defined with <STRONG CLASS="Bold">
+-time_step</STRONG>
+. f<Sub CLASS="Subscript">
+bc</Sub>
+ is a correction factor that equals 2 for constant concentration boundary cells and is 1 otherwise, hij is the distance between the midpoints of cells i and j, and Vj is the volume of pore water in cell j for which the mass transfer is calculated. The mixfij that is defined in the input file must be calculated with a volume Vj of 0.001 m3. PHREEQC will adapt the value of mixfij by using the actual amount of water in the cell, which is given by (w<Sub CLASS="Subscript">
+free</Sub>
+/1000 + VDonnan). Furthermore, (according to <A HREF="phreeqc3-56.htm#50610177_73453" CLASS="XRef">equation 18</A>) the mixing factor for individual species is multiplied by D<Sub CLASS="Subscript">
+w, i</Sub>
+/D<Sub CLASS="Subscript">
+w</Sub>
+.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1345168"></A>Under the subheading &#8220;Redox couples&#8221; the pe and Eh are printed for each redox couple for which data were available; in this case, ammonium/nitrate and water/dissolved oxygen.</P>
+<A NAME="50610177_pgfId-636658"></A>For interlayer diffusion, PHREEQC calculates the surface area by</P>
+</DIV>
+<DIV>
+<H3 CLASS="EquationNumbered">
+<A NAME="50610177_pgfId-636662"></A><IMG SRC="phreeqc3-209.png" ALIGN="MIDDLE">
+,	(19)</H3>
+<P CLASS="BodyTextFlush">
+<A NAME="50610177_pgfId-669053"></A>where &#949;IL is the porosity occupied by interlayer water, defined with identifier <STRONG CLASS="Bold">
+-interlayer_D</STRONG>
+, and &#949; is the porosity of free and Donnan pore water together, defined with<STRONG CLASS="Bold">
+ -multi_D</STRONG>
+. For stagnant cells, the mixing factor is multiplied with the ratio of the interlayer porosity and the free and Donnan porosity, and with the ratio of the diffusion coefficients, and of the inverse tortuosity coefficients. If the surface areas and (or) the porosities are different for the two cells, the harmonic mean is used (see <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">See Modeling Diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a Radial Diffusion Cell</A>, in <A HREF="phreeqc3-62.htm#50610191_31416" CLASS="XRef">Examples</A>). </P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-336734"></A>Under the subheading &#8220;Distribution of species&#8221;, the molalities, activities, activity coefficients, and specific volumes of all species of each element and element valence state are listed. The lists are alphabetical by element name and are descending in terms of molality within each element or element valence state. Beside the name of each element or element valence state, the total molality is given. If <STRONG CLASS="Bold">
--Vm</STRONG>
- parameters are defined in <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A>, specific volumes are calculated relative to the volume of H<Sup CLASS="Superscript">
-+</Sup>
- (which is zero by convention at all pressures, temperatures and ionic strengths); otherwise, specific volumes are listed as (0).</P>
+<A NAME="50610177_pgfId-669060"></A>For the Donnan pore space, the enhanced concentration gradient for counter-ions and the decreased concentration gradient for co-ions is applied if identifier <STRONG CLASS="Bold">
+-only_counter_ions </STRONG>
+is <STRONG CLASS="Bold">
+false</STRONG>
+ in keyword <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A>. If identifier <STRONG CLASS="Bold">
+-only_counter_ions</STRONG>
+ is <STRONG CLASS="Bold">
+true</STRONG>
+, the concentration of the co-ions is zero in the Donnan space, and also the flux of the co-ions is zero. In this case, the concentration gradient of counter-ions in free pore water is used for the Donnan pore space for two reasons. First, because with only counter ions in the Donnan pore space, the concentrations of the counter-ions will be smaller than in free pore water if the surface charge is smaller than the charge of the co-ions in solution. This could give unrealistic gradients when surface charges are different from cell to cell. The second reason is that it allows direct comparison of multicomponent results of PHREEQC with traditional calculations in which Fick&#8217;s laws are used to model the behavior of individual tracers in clays and clay-containing rocks.</P>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-545987"></A><A NAME="50610177_27197"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-336735"></A>Finally, under the subheading &#8220;Saturation indices&#8221;, saturation indices for all minerals that are appropriate for the given analytical data are listed alphabetically by phase name near the end of the output. The saturation index is given in the column headed &#8220;SI&#8221;, followed by the columns for the log of the ion activity product (&#8220;log IAP&#8221;) and the log of the solubility constant (&#8220;log KT&#8221;). The chemical formulas for each of the phases is printed in the right-hand column. Note, for example, that no aluminum-bearing minerals are included because aluminum was not included in the analytical data. Also note that mackinawite (FeS) and other sulfide minerals are not included in the output because no analytical data were specified for S(-2). If a concentration for S [instead of S(6)] or S(-2) had been entered, then a concentration of S(-2) would have been calculated and a saturation index for mackinawite and other sulfide minerals would have been calculated.</P>
+<A NAME="50610177_pgfId-757501"></A>The keyword <STRONG CLASS="Bold">
+TRANSPORT </STRONG>
+is used in example problems <A HREF="phreeqc3-73.htm#50610191_46434" CLASS="XRef">11</A>, <A HREF="phreeqc3-74.htm#50610191_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-75.htm#50610191_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-77.htm#50610191_40270" CLASS="XRef">15</A>, and <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">21</A>. Examples of multicomponent diffusion are given in Appelo and Wersin (2007), supplementary information, Appelo and others (2008) and (2010), and in http://www.hydrochemistry.eu/exmpls/index.html#new (accessed June 25, 2012). An example of interlayer diffusion is available in http://www.hydrochemistry.eu/exmpls/opa_col.html#new2 (accessed June 25, 2012).</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-757503"></A><A NAME="50610177_31306"></A>Related keywords</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-546020"></A><A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>, <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef">MIX</A>, <A HREF="phreeqc3-38.htm#50610177_92102" CLASS="XRef">PRINT</A>, <A HREF="phreeqc3-40.htm#50610177_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-42.htm#50610177_75016" CLASS="XRef">REACTION_TEMPERATURE</A>, <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A>, <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, <A HREF="phreeqc3-48.htm#50610177_89789" CLASS="XRef">SOLUTION</A>, and <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A>.</P>
+</DIV>
+</DIV>
 <HR><P> | <A HREF="phreeqc3-57.htm">Next</A> || <A HREF="phreeqc3-55.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
