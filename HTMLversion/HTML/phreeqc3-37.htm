@@ -4,119 +4,866 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> SAVE</TITLE><HR><P> | <A HREF="phreeqc3-38.htm">Next</A> || <A HREF="phreeqc3-36.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> PITZER</TITLE><HR><P> | <A HREF="phreeqc3-38.htm">Next</A> || <A HREF="phreeqc3-36.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-255910"></A><STRONG CLASS="Bold">
-SAVE</STRONG>
-<A NAME="50540545_81857"></A></H2>
+<A NAME="50610177_pgfId-474280"></A><STRONG CLASS="Bold">
+PITZER</STRONG>
+<A NAME="50610177_13650"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-255911"></A>This keyword data block is used to save the composition of a solution, exchange assemblage, gas phase, equilibrium-phase assemblage, solid-solution assemblage, or surface assemblage following a batch-reaction calculation. The composition is stored internally in computer memory and can be retrieved subsequently with the <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> keyword during the remainder of the computer run.</P>
+<A NAME="50610177_pgfId-474281"></A>This keyword data block is used to define specific-ion-interaction parameters for the Pitzer aqueous model. The <STRONG CLASS="Bold">
+PITZER</STRONG>
+ data block is used in the database file <EM CLASS="Emphasis">
+pitzer.dat</EM>
+, which is derived from the database for the program PHRQPITZ. Details of the implementation of the aqueous model and the sources for data in the <EM CLASS="Emphasis">
+pitzer.dat</EM>
+ database can be found in Plummer and others (1988).</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-255912"></A><A NAME="50540545_55671"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255913"></A>Line 0a: SAVE equilibrium_phases 2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255914"></A>Line 0b: SAVE exchange 2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255915"></A>Line 0c: SAVE gas_phase 2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255916"></A>Line 0d: SAVE solid_solution 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255917"></A>Line 0e: SAVE solution 2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255918"></A>Line 0f: SAVE surface 1</pre>
+<A NAME="50610177_pgfId-497452"></A><A NAME="50610177_24457"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497453"></A>Line 0: PITZER</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497477"></A>Line 1:	-macinnes		true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497704"></A>Line 2:	-use_etheta		true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497705"></A>Line 3:	-redox		true</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-255919"></A><A NAME="50540545_70009"></A>Explanation</H6>
+<A NAME="50610177_pgfId-497481"></A><A NAME="50610177_48204"></A>Explanation 1</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-255920"></A>Line 0: <STRONG CLASS="Bold">
-SAVE</STRONG>
- <EM CLASS="Emphasis">
-keyword</EM>
-, <EM CLASS="Emphasis">
-number</EM>
+<A NAME="50610177_pgfId-497482"></A>Line 0: <STRONG CLASS="Bold">
+PITZER</STRONG>
 </P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-255921"></A><STRONG CLASS="Bold">
-SAVE</STRONG>
- is the keyword for the data block. </P>
+<A NAME="50610177_pgfId-497483"></A><STRONG CLASS="Bold">
+PITZER</STRONG>
+ is the keyword for the data block. No other data are input on the keyword line.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497484"></A>Line 1: <STRONG CLASS="Bold">
+-macinnes </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-255922"></A><EM CLASS="Emphasis">
-keyword</EM>
---One of six keywords with an index number, <STRONG CLASS="Bold">
-equilibrium_phases</STRONG>
-, <STRONG CLASS="Bold">
-exchange</STRONG>
-, <STRONG CLASS="Bold">
-gas_phase</STRONG>
-, <STRONG CLASS="Bold">
-solid_solution</STRONG>
-, <STRONG CLASS="Bold">
-solution</STRONG>
-, or <STRONG CLASS="Bold">
-surface</STRONG>
-. Options for <STRONG CLASS="Bold">
-equilibrium_phases</STRONG>
-: <STRONG CLASS="Bold">
-equilibrium</STRONG>
-, <STRONG CLASS="Bold">
-equilibria</STRONG>
-,<STRONG CLASS="Bold">
- pure_phases</STRONG>
-, or <STRONG CLASS="Bold">
-pure</STRONG>
-.</P>
+<A NAME="50610177_pgfId-497488"></A><STRONG CLASS="Bold">
+-macinnes</STRONG>
+--Identifier determines whether activity coefficients printed in the output are scaled by the MacInnes assumption that the activity coefficients of Cl<Sup CLASS="Superscript">
+-</Sup>
+ and K<Sup CLASS="Superscript">
++</Sup>
+ are equal (see Plummer and others, 1988). Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+macinnes</STRONG>
+ or <STRONG CLASS="Bold">
+-m</STRONG>
+[<STRONG CLASS="Bold">
+acinnes</STRONG>
+].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-255923"></A><EM CLASS="Emphasis">
-number</EM>
---User defined positive integer to be associated with the respective composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
-m-n</EM>
+<A NAME="50610177_pgfId-497759"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--A value of <STRONG CLASS="Bold">
+true</STRONG>
+ indicates that activity coefficients printed in the output are scaled by the MacInnes assumption; <STRONG CLASS="Bold">
+false</STRONG>
+ indicates that the activity coefficients printed in the output are unscaled. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497785"></A>Line 2: <STRONG CLASS="Bold">
+-use_etheta </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497786"></A><STRONG CLASS="Bold">
+-use_etheta</STRONG>
+--Identifier determines whether nonsymmetric mixing coefficients are used in the calculations (see Plummer and others, 1988, for a description of the coefficients <IMG SRC="phreeqc3-34.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-35.png" ALIGN="MIDDLE">
+). Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+use_etheta</STRONG>
+ or <STRONG CLASS="Bold">
+-u</STRONG>
+[<STRONG CLASS="Bold">
+se_etheta</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497833"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--A value of <STRONG CLASS="Bold">
+true</STRONG>
+ indicates that the nonsymmetric mixing coefficients will be calculated; <STRONG CLASS="Bold">
+false</STRONG>
+ indicates that the nonsymmetric mixing coefficients will be set to 1.0.If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497834"></A>Line 3: <STRONG CLASS="Bold">
+-redox </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-732202"></A><STRONG CLASS="Bold">
+-redox</STRONG>
+--Identifier determines whether a redox-related equation is included in the calculations. This option is useful only if using a database that contains at least one redox couple. Note that the pitzer.dat database does not include any redox couples and thus cannot simulate any redox reactions.   Default is <STRONG CLASS="Bold">
+false</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+redox</STRONG>
+ or <STRONG CLASS="Bold">
+-r</STRONG>
+[<STRONG CLASS="Bold">
+edox</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-732203"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--A value of <STRONG CLASS="Bold">
+true</STRONG>
+ indicates that a redox-related equation will be included; <STRONG CLASS="Bold">
+false</STRONG>
+ indicates that a redox-related equation is not included. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-497664"></A><A NAME="50610177_91145"></A>Notes 1</H6>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-497665"></A>The identifiers of Example data block 1 are the only options likely to be included in a PHREEQC input file. Of these three identifiers, only <STRONG CLASS="Bold">
+-macinnes</STRONG>
+ is likely to be used. Scaling activity coefficients by the MacInnes assumption may help in comparing activity coefficients to activity coefficients from other sources. However, the value of the identifier makes no difference in the calculations; it only affects the values of the activity coefficients that are printed to the output file. The <STRONG CLASS="Bold">
+-use_etheta</STRONG>
+ identifier was added to simplify the results so that a user could compare activity coefficients with simple calculations without having to calculate the nonsymmetric mixing coefficients (<STRONG CLASS="Bold">
+-use_etheta </STRONG>
+false). Note that calculations without the nonsymmetric mixing coefficients are not meaningful in the Pitzer model. By default, the <STRONG CLASS="Bold">
+-redox</STRONG>
+ identifier is false because the <EM CLASS="Emphasis">
+pitzer.dat</EM>
+ database contains no elements defined with more than one redox state. A database with multiple redox states for an element is needed to make use of the <STRONG CLASS="Bold">
+-redox</STRONG>
+ identifier. </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-474285"></A><A NAME="50610177_98594"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-474286"></A>Line 0: PITZER</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-769295"></A>Line 1: -B0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-769296"></A>Line 2:	Na+	Cl-	0.0765	-777.03	-4.4706	 0.008946 -3.3158e-6  0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-769297"></A>Line 3: -B1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496247"></A>Line 2:	Na+	Cl-	0.2664	0	0	 6.1608e-5 1.0715e-6</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496259"></A>Line 4: -B2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496260"></A>Line 2:	Mg+2	SO4-2	-37.23	0	0	 -0.253</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496275"></A>Line 5: -C0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496276"></A>Line 2:	Na+	Cl-	0.00127	33.317	0.09421	 -4.655e-5</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496286"></A>Line 6: -THETA</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496287"></A>Line 7:	K+	Na+	-0.012</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496291"></A>Line 8: -LAMBDA</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496292"></A>Line 9:	CO2	Na+	0.1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496773"></A>Line 10: -PSI</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496774"></A>Line 11:	Na+	K+	Cl-	-0.0018</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496296"></A>Line 12: -ZETA</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496297"></A>Line 13:	B(OH)3	H+	Cl-	-0.0102</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496306"></A>Line 14: -MU</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496307"></A>Line 15:	NH3	NH3	CO3-2	0.000625</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496311"></A>Line 16: -ETA</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496312"></A>Line 17:	CO2	Na+	K+	0.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496379"></A>Line 18: -alphas</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496362"></A>Line 19:	Fe+2      Cl-       2        1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-496385"></A>Line 19a:	Fe+2      SO4-2     1.559    5.268</pre>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610177_pgfId-474290"></A><A NAME="50610177_28732"></A>Explanation 2</H6>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-474291"></A>Line 0: <STRONG CLASS="Bold">
+PITZER</STRONG>
+</P>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-474292"></A><STRONG CLASS="Bold">
+PITZER</STRONG>
+ is the keyword for the data block. No other data are input on the keyword line.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496435"></A>Line 1: <STRONG CLASS="Bold">
+-B0 </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496436"></A><STRONG CLASS="Bold">
+-B0</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-36.png" ALIGN="MIDDLE">
+ cation-anion interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496413"></A>Line 2: <EM CLASS="Emphasis">
+cation anion A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496415"></A><EM CLASS="Emphasis">
+cation anion</EM>
+--A cation-anion pair. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-629072"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter. The expression for a Pitzer parameter is as follows: <IMG SRC="phreeqc3-37.png" ALIGN="MIDDLE">
 , where <EM CLASS="Emphasis">
-m</EM>
+P</EM>
+ is the parameter, <EM CLASS="Emphasis">
+T</EM>
+ is the temperature in kelvin, <EM CLASS="Emphasis">
+T</EM>
+<Sub CLASS="Subscript">
+r</Sub>
+ is the reference temperature (298.15 K), and ln is the natural log. If less than six parameters are defined, the undefined parameters are assumed to be zero. </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496544"></A>Line 3: <STRONG CLASS="Bold">
+-B1 </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496545"></A><STRONG CLASS="Bold">
+-B1</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-38.png" ALIGN="MIDDLE">
+ cation-anion interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496595"></A>Line 4: <STRONG CLASS="Bold">
+-B2 </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496599"></A><STRONG CLASS="Bold">
+-B2</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-39.png" ALIGN="MIDDLE">
+ cation-anion interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496617"></A>Line 5: <STRONG CLASS="Bold">
+-C0 </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496621"></A><STRONG CLASS="Bold">
+-C0</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-40.png" ALIGN="MIDDLE">
+ cation-anion interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496630"></A>Line 6: <STRONG CLASS="Bold">
+-THETA </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496634"></A><STRONG CLASS="Bold">
+-THETA</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-41.png" ALIGN="MIDDLE">
+ cation-cation and anion-anion interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496672"></A>Line 7: (<EM CLASS="Emphasis">
+cation cation </EM>
+or<EM CLASS="Emphasis">
+ anion anion</EM>
+)<EM CLASS="Emphasis">
+ A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496673"></A>(<EM CLASS="Emphasis">
+cation cation </EM>
+or<EM CLASS="Emphasis">
+ anion anion</EM>
+)--A cation-cation pair of ions or an anion-anion pair of ions. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496675"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter (see Line 2). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496717"></A>Line 8: <STRONG CLASS="Bold">
+-LAMBDA </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496721"></A><STRONG CLASS="Bold">
+-LAMBDA</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-42.png" ALIGN="MIDDLE">
+ neutral-cation or <IMG SRC="phreeqc3-43.png" ALIGN="MIDDLE">
+ neutral-anion interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496722"></A>Line 9: (<EM CLASS="Emphasis">
+neutral cation </EM>
+or<EM CLASS="Emphasis">
+ neutral anion</EM>
+)<EM CLASS="Emphasis">
+ A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496723"></A>(<EM CLASS="Emphasis">
+neutral cation </EM>
+or<EM CLASS="Emphasis">
+ neutral anion</EM>
+)--A neutral-cation pair of species or a neutral-anion pair of species. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496724"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter (see Line 2). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496782"></A>Line 10: <STRONG CLASS="Bold">
+-PSI </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496789"></A><STRONG CLASS="Bold">
+-PSI</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-44.png" ALIGN="MIDDLE">
+ anion-anion-cation (where <EM CLASS="Emphasis">
+a</EM>
+ and <IMG SRC="phreeqc3-45.png" ALIGN="MIDDLE">
+ are dissimilar) or <IMG SRC="phreeqc3-46.png" ALIGN="MIDDLE">
+ cation-cation-anion (where <EM CLASS="Emphasis">
+c</EM>
+ and <IMG SRC="phreeqc3-47.png" ALIGN="MIDDLE">
+ are dissimilar) interaction parameters for the Pitzer aqueous model (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496790"></A>Line 11: (<EM CLASS="Emphasis">
+cation cation anion </EM>
+or<EM CLASS="Emphasis">
+ anion anion cation</EM>
+)<EM CLASS="Emphasis">
+ A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496791"></A>(<EM CLASS="Emphasis">
+cation cation anion </EM>
+or<EM CLASS="Emphasis">
+ anion anion cation</EM>
+)--A cation-cation-anion triple of ions or an anion-anion-cation triple of ions. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496792"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter (see Line 2). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496849"></A>Line 12: <STRONG CLASS="Bold">
+-ZETA </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496856"></A><STRONG CLASS="Bold">
+-ZETA</STRONG>
+--Identifier begins a block of data that defines neutral-cation-anion (<IMG SRC="phreeqc3-48.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-49.png" ALIGN="MIDDLE">
+, or <IMG SRC="phreeqc3-50.png" ALIGN="MIDDLE">
+where <EM CLASS="Emphasis">
+M</EM>
+ and <EM CLASS="Emphasis">
+c</EM>
+ represent cations, and <EM CLASS="Emphasis">
+a</EM>
+ and <EM CLASS="Emphasis">
+X</EM>
+ represent anions, and <EM CLASS="Emphasis">
+N</EM>
  and <EM CLASS="Emphasis">
 n</EM>
- are positive integers, <EM CLASS="Emphasis">
-m</EM>
- is less than <EM CLASS="Emphasis">
+ represent neutral species) interaction parameters for the Pitzer aqueous model (see Clegg and Whitfield, 1991; Clegg and Whitfield, 1995, p. 2404 corrects the coefficient of the zeta term in the 1991 paper).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496863"></A>Line 13: <EM CLASS="Emphasis">
+neutral cation anion  A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496864"></A><EM CLASS="Emphasis">
+neutral cation anion</EM>
+--A neutral-cation-anion triple of species. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-496865"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter (see Line 2). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-496960"></A>Line 14: <STRONG CLASS="Bold">
+-MU </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497053"></A><STRONG CLASS="Bold">
+-MU</STRONG>
+--Identifier begins a block of data that defines <IMG SRC="phreeqc3-51.png" ALIGN="MIDDLE">
+ neutral-neutral-neutral (where <EM CLASS="Emphasis">
+n and <IMG SRC="phreeqc3-52.png" ALIGN="MIDDLE">
+</EM>
+ represent dissimilar neutral species) interaction parameters for the Pitzer aqueous model (see Clegg and Whitfield, 1991).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497060"></A>Line 15: <EM CLASS="Emphasis">
+neutral neutral neutral  A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497061"></A><EM CLASS="Emphasis">
+neutral neutral neutral</EM>
+--A neutral-neutral-neutral triple of species. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497062"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter (see Line 2). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497124"></A>Line 16: <STRONG CLASS="Bold">
+-ETA </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497131"></A><STRONG CLASS="Bold">
+-ETA</STRONG>
+--Identifier begins a block of data that defines neutral-anion-anion and neutral-cation-cation (<IMG SRC="phreeqc3-53.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-54.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-55.png" ALIGN="MIDDLE">
+, or <IMG SRC="phreeqc3-56.png" ALIGN="MIDDLE">
+, where <EM CLASS="Emphasis">
+M</EM>
+ and <EM CLASS="Emphasis">
+c</EM>
+ represent cations, and <EM CLASS="Emphasis">
+a</EM>
+ and <EM CLASS="Emphasis">
+X</EM>
+ represent anions, and <EM CLASS="Emphasis">
+N</EM>
+ and <EM CLASS="Emphasis">
 n</EM>
-, and the two numbers are separated by a hyphen without intervening spaces.</P>
+ represent neutral species, and prime indicated dissimilar species) interaction parameters for the Pitzer aqueous model (see Clegg and Whitfield, 1991; Clegg and Whitfield, 1995, p. 2404 corrects the coefficient of the eta term in the 1991 paper).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497138"></A>Line 17: (<EM CLASS="Emphasis">
+neutral cation cation </EM>
+or<EM CLASS="Emphasis">
+ neutral anion anion</EM>
+)<EM CLASS="Emphasis">
+ A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497139"></A>(<EM CLASS="Emphasis">
+neutral cation cation </EM>
+or<EM CLASS="Emphasis">
+ neutral anion anion</EM>
+)--A neutral-cation-cation or neutral-anion-anion triple of species. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497140"></A><EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+0</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+1</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+2</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+3</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+4</Sub>
+, <EM CLASS="Emphasis">
+A</EM>
+<Sub CLASS="Subscript">
+5</Sub>
+--Coefficients for the temperature dependence of the Pitzer parameter (see Line 2). </P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497190"></A>Line 18: <STRONG CLASS="Bold">
+-alphas </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497191"></A><STRONG CLASS="Bold">
+-alphas</STRONG>
+--Identifier begins a block of data that defines alpha parameters for the Pitzer aqueous model that override default values for specific cation-anion pairs. For any electrolyte containing a monovalent ion, a single <IMG SRC="phreeqc3-57.png" ALIGN="MIDDLE">
+ parameter with the default value of 2.0 is used in the calculation of <IMG SRC="phreeqc3-58.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-59.png" ALIGN="MIDDLE">
+, and <IMG SRC="phreeqc3-60.png" ALIGN="MIDDLE">
+. For electrolytes containing two polyvalent ions, two parameters, <IMG SRC="phreeqc3-61.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-62.png" ALIGN="MIDDLE">
+, are used in the calculation of <IMG SRC="phreeqc3-63.png" ALIGN="MIDDLE">
+, <IMG SRC="phreeqc3-64.png" ALIGN="MIDDLE">
+, and <IMG SRC="phreeqc3-65.png" ALIGN="MIDDLE">
+. For 2-2 electrolytes, the defaults are <IMG SRC="phreeqc3-66.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-67.png" ALIGN="MIDDLE">
+. For 3-2 and 4-2 electrolytes, the defaults are <IMG SRC="phreeqc3-68.png" ALIGN="MIDDLE">
+ and <IMG SRC="phreeqc3-69.png" ALIGN="MIDDLE">
+ (see Plummer and others, 1988).</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-497204"></A>Line 19: <EM CLASS="Emphasis">
+cation anion </EM>
+<IMG SRC="phreeqc3-70.png" ALIGN="MIDDLE">
+<EM CLASS="Emphasis">
+ </EM>
+<IMG SRC="phreeqc3-71.png" ALIGN="MIDDLE">
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-497205"></A><EM CLASS="Emphasis">
+cation anion</EM>
+--A cation-anion pair. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-682241"></A><IMG SRC="phreeqc3-72.png" ALIGN="MIDDLE">
+--Value of the <IMG SRC="phreeqc3-73.png" ALIGN="MIDDLE">
+ parameter. For electrolytes with at least one monovalent ion, <IMG SRC="phreeqc3-74.png" ALIGN="MIDDLE">
+ is interpreted as <IMG SRC="phreeqc3-75.png" ALIGN="MIDDLE">
+. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-682254"></A><IMG SRC="phreeqc3-76.png" ALIGN="MIDDLE">
+--Value of the <IMG SRC="phreeqc3-77.png" ALIGN="MIDDLE">
+ parameter. For electrolytes with at least one monovalent ion, <IMG SRC="phreeqc3-78.png" ALIGN="MIDDLE">
+ is not used. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-255924"></A><A NAME="50540545_12002"></A>Notes</H6>
+<A NAME="50610177_pgfId-682256"></A><A NAME="50610177_66508"></A>Notes 2</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-324443"></A><STRONG CLASS="Bold">
-SAVE</STRONG>
- affects only the internal storage of chemical-composition information during the current run; it does not save information between PHREEQC runs. To save results to a permanent file, see <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> or <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A>. The <STRONG CLASS="Bold">
-SAVE</STRONG>
- data block applies only at the end of batch-reaction calculations and has no effect following initial solution, initial exchange-composition, initial surface-composition, initial gas-phase-composition, transport, run cells, or inverse calculations. During batch-reaction calculations, the compositions of the solution, exchange assemblage, gas phase, pure-phase assemblage, solid-solution assemblage, and surface assemblage vary to attain equilibrium. The compositions that exist at the end of a batch reaction are <EM CLASS="underline">
-not</EM>
- automatically saved (unless <A HREF="phreeqc3-36.htm#50540545_78104" CLASS="XRef">RUN_CELLS</A> is used); however, the compositions may be saved explicitly for use in subsequent simulations within the run by using the <STRONG CLASS="Bold">
-SAVE</STRONG>
- keyword. The <STRONG CLASS="Bold">
-SAVE</STRONG>
- keyword must be used for each type of composition that is to be saved (solution, exchange assemblage, gas phase, pure-phase assemblage, solid-solution assemblage, or surface assemblage). <STRONG CLASS="Bold">
-SAVE</STRONG>
- assigns <EM CLASS="Emphasis">
-number</EM>
- to the corresponding composition. If one of the compositions is saved in a <EM CLASS="Emphasis">
-number</EM>
- that already exists, the old composition is deleted. There is no need to save the compositions unless they are to be used in subsequent simulations within the run. <A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-36.htm#50540545_78104" CLASS="XRef">RUN_CELLS</A> calculations automatically save results after each calculation and the <STRONG CLASS="Bold">
-SAVE</STRONG>
- keyword has no effect for these calculations. Amounts of kinetic reactions (<A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>) are automatically saved during all batch-reaction, advection, transport, and <A HREF="phreeqc3-36.htm#50540545_78104" CLASS="XRef">RUN_CELLS</A> calculations and cannot be saved with the <STRONG CLASS="Bold">
-SAVE</STRONG>
- keyword. The <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> (or <A HREF="phreeqc3-36.htm#50540545_78104" CLASS="XRef">RUN_CELLS</A>) keyword can be invoked to use the saved compositions in subsequent batch-reaction calculations.</P>
+<A NAME="50610177_pgfId-474307"></A>The identifiers of Example data block 2 are used to define a Pitzer aqueous model. Examples of most of these identifiers are found in the Pitzer database, <EM CLASS="Emphasis">
+pitzer.dat</EM>
+. If definition or modification of a Pitzer aqueous model is undertaken, then a complete description of the aqueous model can be found in Plummer and others (1988) and Clegg and Whitfield (1991), as amended by Clegg and Whitfield (1995, p. 2404), among other sources. Symbols used in this report for the Pitzer parameters are consistent with most descriptions of the Pitzer approach. When modifying a Pitzer aqueous interaction parameter, care is needed to ensure thermodynamic consistency among all of the parameters. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-498098"></A>Most Pitzer parameters are defined for a pair or triple of species; the order in which these species are defined is not important. If the same type of parameter with the same set of species is redefined, even if the order of the species is different, then the previous definition is removed and replaced with the new definition. </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-497431"></A>If a <STRONG CLASS="Bold">
+PITZER</STRONG>
+ data block is read in the database file or the input file, then the Pitzer aqueous model is used for the simulations. Only one aqueous model can be used in a PHREEQC run; it is an error to read both a <STRONG CLASS="Bold">
+PITZER</STRONG>
+ data block and a <A HREF="phreeqc3-46.htm#50610177_88782" CLASS="XRef">SIT</A> data block. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-255926"></A><A NAME="50540545_89671"></A>Example problems</H6>
+<A NAME="50610177_pgfId-601605"></A><A NAME="50610177_42501"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-255936"></A>The keyword <STRONG CLASS="Bold">
-SAVE </STRONG>
-is used in example problems <A HREF="phreeqc3-58.htm#50540559_51496" CLASS="XRef">3</A>, <A HREF="phreeqc3-59.htm#50540559_70531" CLASS="XRef">4</A>, <A HREF="phreeqc3-62.htm#50540559_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-65.htm#50540559_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-69.htm#50540559_89290" CLASS="XRef">14</A>, and <A HREF="phreeqc3-75.htm#50540559_33272" CLASS="XRef">20</A>.</P>
+<A NAME="50610177_pgfId-601606"></A>The <STRONG CLASS="Bold">
+PITZER</STRONG>
+ data block is used in the<EM CLASS="Emphasis">
+ pitzer.dat </EM>
+database.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-255937"></A><A NAME="50540545_38266"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-601607"></A><A NAME="50610177_31963"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-501252"></A><A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-14.htm#50540545_49135" CLASS="XRef">EXCHANGE</A>, <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-17.htm#50540545_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-36.htm#50540545_74089" CLASS="XRef">RUN_CELLS</A>, <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-40.htm#50540545_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A>, <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A>, <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-50.htm#50540545_55967" CLASS="XRef">USE</A>. </P>
+<A NAME="50610177_pgfId-474341"></A><A HREF="phreeqc3-46.htm#50610177_88782" CLASS="XRef">SIT</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-38.htm">Next</A> || <A HREF="phreeqc3-36.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

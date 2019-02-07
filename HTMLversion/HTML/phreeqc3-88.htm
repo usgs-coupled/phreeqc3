@@ -4,214 +4,31 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> REACTION_MODIFY</TITLE><HR><P> | <A HREF="phreeqc3-89.htm">Next</A> || <A HREF="phreeqc3-87.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> EQUILIBRIUM_PHASES_RAW</TITLE><HR><P> | <A HREF="phreeqc3-89.htm">Next</A> || <A HREF="phreeqc3-87.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540557_pgfId-499481"></A><STRONG CLASS="Bold">
-REACTION_MODIFY</STRONG>
-<A NAME="50540557_31337"></A></H2>
+<A NAME="50610189_pgfId-472886"></A><STRONG CLASS="Bold">
+EQUILIBRIUM_PHASES_RAW</STRONG>
+<A NAME="50610189_52879"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540557_pgfId-499482"></A>This keyword data block is used to modify the definition of a previously defined irreversible reaction. New reactants may be added, and the stoichiometry of reactants may be changed. The format of the data block is the same as <A HREF="phreeqc3-89.htm#50540557_50923" CLASS="XRef">REACTION_RAW</A> data block, except that the data block need not be complete. The <STRONG CLASS="Bold">
-REACTION_MODIFY</STRONG>
- data block can be used selectively to change data items. The Example data block lists a subset of identifiers that can be used in <STRONG CLASS="Bold">
-REACTION_MODIFY</STRONG>
- data blocks.</P>
+<A NAME="50610189_pgfId-472887"></A>This keyword data block is written by the <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef">DUMP</A> operation. It is intended to be used to reinitialize simulations at the point that the <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef">DUMP</A> command was executed or to transfer equilibrium-phase compositions between IPhreeqc modules. </P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540557_pgfId-499486"></A><A NAME="50540557_94022"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499651"></A>Line 0: REACTION_MODIFY 1 				Adding calcite and MgSO4</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499664"></A>Line 1:	  -units			uMol</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499665"></A>Line 2:	  -reactant_list</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499666"></A>Line 3:		Calcite		2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499667"></A>Line 3a:		MgSO4		0.2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499669"></A>Line 4:	  -steps</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499670"></A>Line 5:		.1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499671"></A>Line 6:	  -equal_increments			1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540557_pgfId-499649"></A>Line 7:	  -count_steps			10</pre>
+<A NAME="50610189_pgfId-472902"></A><A NAME="50610189_49132"></A>Notes</H6>
+<P CLASS="BodyText">
+<A NAME="50610189_pgfId-516091"></A>The <STRONG CLASS="Bold">
+EQUILIBRIUM_PHASES_RAW </STRONG>
+data block contains a complete listing of the internal data structures that define an equilibrium-phase assemblage. <STRONG CLASS="Bold">
+EQUILIBRIUM_PHASES_RAW </STRONG>
+data blocks are written by <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef">DUMP</A> and read by PHREEQC without user modification. The formats should be considered dynamic because future modifications to PHREEQC could result in additional data that are included in the <STRONG CLASS="Bold">
+EQUILIBRIUM_PHASES_RAW</STRONG>
+ data block. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540557_pgfId-499496"></A><A NAME="50540557_30204"></A>Explanation</H6>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499497"></A>Line 0: <STRONG CLASS="Bold">
-REACTION_MODIFY</STRONG>
-<EM CLASS="Emphasis">
- number</EM>
- [<EM CLASS="Emphasis">
-description</EM>
-]</P>
-<P CLASS="Body1">
-<A NAME="50540557_pgfId-499498"></A><STRONG CLASS="Bold">
-REACTION_MODIFY</STRONG>
- is the keyword for the data block.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499499"></A><EM CLASS="Emphasis">
-number</EM>
---Positive integer to identify the stoichiometric reaction to modify. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499500"></A><EM CLASS="Emphasis">
-description</EM>
---Optional comment that describes the stoichiometric reaction.</P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499501"></A>Line 1: <STRONG CLASS="Bold">
--units </STRONG>
-<EM CLASS="Emphasis">
-units</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499502"></A><STRONG CLASS="Bold">
--units</STRONG>
---Units are moles, millimoles, micromoles, or an abbreviation of these units. Optionally, <STRONG CLASS="Bold">
-units</STRONG>
- or <STRONG CLASS="Bold">
--u</STRONG>
-[<STRONG CLASS="Bold">
-nits</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499503"></A>Line 2: <STRONG CLASS="Bold">
--reactant_list </STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499504"></A><STRONG CLASS="Bold">
--reactant_list</STRONG>
---Begins a data block that defines reactants in the stoichiometric reaction. Optionally, <STRONG CLASS="Bold">
-reactant_list</STRONG>
- or <STRONG CLASS="Bold">
--r</STRONG>
-[<STRONG CLASS="Bold">
-eactant_list</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499506"></A>Line 3: (<EM CLASS="Emphasis">
-phase name </EM>
-or<EM CLASS="Emphasis">
- formula</EM>
-)<EM CLASS="Emphasis">
-, relative stoichiometry</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499890"></A>(<EM CLASS="Emphasis">
-phase name </EM>
-or<EM CLASS="Emphasis">
- formula</EM>
-)--The name of a phase defined in a <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> data block or a chemical formula; see (<EM CLASS="Emphasis">
-phase name </EM>
-or<EM CLASS="Emphasis">
- formula</EM>
-) in the description of the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499894"></A><EM CLASS="Emphasis">
-relative stoichiometry</EM>
---Amount of this reactant relative to other reactants; see <EM CLASS="Emphasis">
-relative stoichiometry </EM>
-in the description of the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block.</P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499512"></A>Line 4: <STRONG CLASS="Bold">
--steps</STRONG>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499513"></A><STRONG CLASS="Bold">
--steps</STRONG>
---Begins a data block that defines the steps for the reaction. Optionally, <STRONG CLASS="Bold">
-steps</STRONG>
- or <STRONG CLASS="Bold">
--s</STRONG>
-[<STRONG CLASS="Bold">
-teps</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499518"></A>Line 5: <EM CLASS="Emphasis">
-list of reaction amounts</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499519"></A><EM CLASS="Emphasis">
-list of reaction amounts</EM>
---Defines the amounts of the stoichiometric reaction to add to a solution or mixture; see <EM CLASS="Emphasis">
-reaction amounts </EM>
-in the description of the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block. </P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499530"></A>Line 6: <STRONG CLASS="Bold">
--equal_increments </STRONG>
-(<EM CLASS="Emphasis">
-1</EM>
- or <EM CLASS="Emphasis">
-0</EM>
-)</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499531"></A><STRONG CLASS="Bold">
--equal_increments</STRONG>
---Defines whether a single reaction amount is divided into one or more equal steps as specified by <STRONG CLASS="Bold">
--count_steps</STRONG>
-; see &#8220;<STRONG CLASS="Bold">
-in</STRONG>
-&#8221;<EM CLASS="Emphasis">
- </EM>
-in the description of the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block. Optionally, <STRONG CLASS="Bold">
-equal_increments</STRONG>
- or <STRONG CLASS="Bold">
--eq</STRONG>
-[<STRONG CLASS="Bold">
-ual_increments</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499535"></A>(<EM CLASS="Emphasis">
-1</EM>
- or <EM CLASS="Emphasis">
-0</EM>
-)--A value of 1 indicates true, and the first <EM CLASS="Emphasis">
-reaction amount</EM>
- is split into equal increments. A value of 0 indicates false, and the <EM CLASS="Emphasis">
-list of reaction amounts</EM>
- determines the amounts of the stoichiometric reaction added to a solution or mixture. </P>
-<P CLASS="Body-indent">
-<A NAME="50540557_pgfId-499536"></A>Line 7: <STRONG CLASS="Bold">
--count_steps </STRONG>
-<EM CLASS="Emphasis">
-n</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499537"></A><STRONG CLASS="Bold">
--count_steps</STRONG>
---If <STRONG CLASS="Bold">
--equal_increments</STRONG>
- is equal to 1, the value of <EM CLASS="Emphasis">
-n</EM>
- determines the number of equal increments for the reaction; see &#8220;<STRONG CLASS="Bold">
-in</STRONG>
-&#8221;<EM CLASS="Emphasis">
- </EM>
-in the description of the <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block. Optionally, <STRONG CLASS="Bold">
-count_steps</STRONG>
- or <STRONG CLASS="Bold">
--c</STRONG>
-[<STRONG CLASS="Bold">
-ount_steps</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540557_pgfId-499541"></A><EM CLASS="Emphasis">
-n</EM>
---Number of equal steps for the stoichiometric reaction. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540557_pgfId-499542"></A><A NAME="50540557_71131"></A>Notes</H6>
+<A NAME="50610189_pgfId-516098"></A><A NAME="50610189_22460"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540557_pgfId-524670"></A>The <STRONG CLASS="Bold">
-REACTION_MODIFY </STRONG>
-data block allows modification of a preexisting stoichiometric reaction definition. The most common uses of the data block are to add a new reactant to the list of reactants, to change the relative coefficients of reactants, and to change the reactant amounts. It also is possible to change the units for the reaction and whether the reaction is added in equal increments or as defined by a list of reaction increments. </P>
-<P CLASS="BodyText">
-<A NAME="50540557_pgfId-499544"></A><STRONG CLASS="Bold">
-REACTION_MODIFY </STRONG>
-modifies only the data items specifically defined in the data block. Any data items in the stoichiometric reaction definition not modified by the data block remain unchanged. If <STRONG CLASS="Bold">
--steps</STRONG>
- is defined in the data block, the previous list of reaction amounts is removed and is replaced by the new definitions. </P>
-</DIV>
-<DIV>
-<H6 CLASS="FM4thOrderHeading">
-<A NAME="50540557_pgfId-499574"></A><A NAME="50540557_66199"></A>Related keywords</H6>
-<P CLASS="BodyText">
-<A NAME="50540557_pgfId-499581"></A><A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> and <A HREF="phreeqc3-89.htm#50540557_50923" CLASS="XRef">REACTION_RAW</A>.</P>
+<A NAME="50610189_pgfId-513730"></A><A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> and <A HREF="phreeqc3-87.htm#50610189_84573" CLASS="XRef">EQUILIBRIUM_PHASES_MODIFY</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-89.htm">Next</A> || <A HREF="phreeqc3-87.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

@@ -4,31 +4,318 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> REACTION_RAW</TITLE><HR><P> | <A HREF="phreeqc3-90.htm">Next</A> || <A HREF="phreeqc3-88.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> EXCHANGE_MODIFY</TITLE><HR><P> | <A HREF="phreeqc3-90.htm">Next</A> || <A HREF="phreeqc3-88.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540557_pgfId-473688"></A><STRONG CLASS="Bold">
-REACTION_RAW</STRONG>
-<A NAME="50540557_50923"></A></H2>
+<A NAME="50610189_pgfId-513734"></A><STRONG CLASS="Bold">
+EXCHANGE_MODIFY</STRONG>
+<A NAME="50610189_49135"></A><A NAME="50610189_33835"></A><A NAME="50610189_65476"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540557_pgfId-499426"></A>This keyword data block is written by the <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A> operation. It is intended to be used to reinitialize simulations at the point that the <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A> command was executed or to transfer reactions defined by <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data blocks between IPhreeqc modules. </P>
+<A NAME="50610189_pgfId-486237"></A>This keyword data block is used to modify the definition of a previously defined exchange assemblage. New exchangers may be added and the quantity and composition of each exchanger may be altered. The format of the data block is the same as the <A HREF="phreeqc3-90.htm#50610189_34249" CLASS="XRef">EXCHANGE_RAW</A> data block except that the data block need not be complete.The <STRONG CLASS="Bold">
+EXCHANGE_MODIFY</STRONG>
+ data block can be used selectively to change data items. The Example data blocks list a subset of identifiers that can be used in <STRONG CLASS="Bold">
+EXCHANGE_MODIFY</STRONG>
+ data blocks.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540557_pgfId-499430"></A><A NAME="50540557_38383"></A>Notes</H6>
-<P CLASS="BodyText">
-<A NAME="50540557_pgfId-499431"></A>The <STRONG CLASS="Bold">
-REACTION_RAW </STRONG>
-data block contains a complete listing of the internal data structures that define a stoichiometric reaction (<A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> data block definition).<STRONG CLASS="Bold">
- REACTION_RAW </STRONG>
-data blocks are written by <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A> and read by PHREEQC without user modification. The formats should be considered dynamic because future modifications to PHREEQC could result in additional data that are included in the <STRONG CLASS="Bold">
-REACTION_RAW</STRONG>
- data block. </P>
+<A NAME="50610189_pgfId-486241"></A><A NAME="50610189_38438"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486242"></A>Line 0:	EXCHANGE_MODIFY 1 Added Y</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486243"></A>Line 1:	-component		Y</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486245"></A>Line 2:		-totals</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486363"></A>Line 3:			Na	1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486364"></A>Line 3a:			Y	1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486391"></A>Line 4:	-exchange_gammas				true</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540557_pgfId-528869"></A><A NAME="50540557_90812"></A>Related keywords</H6>
+<A NAME="50610189_pgfId-486251"></A><A NAME="50610189_92785"></A>Explanation 1</H6>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486252"></A>Line 0: <STRONG CLASS="Bold">
+EXCHANGE_MODIFY </STRONG>
+ <EM CLASS="Emphasis">
+number</EM>
+ [<EM CLASS="Emphasis">
+description</EM>
+]</P>
+<P CLASS="Body1">
+<A NAME="50610189_pgfId-486253"></A><STRONG CLASS="Bold">
+EXCHANGE_MODIFY</STRONG>
+ is the keyword for the data block.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486254"></A><EM CLASS="Emphasis">
+number</EM>
+--Positive integer to identify the exchange assemblage to modify. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486255"></A><EM CLASS="Emphasis">
+description</EM>
+--Optional comment that describes the exchange assemblage.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486256"></A>Line 1: <STRONG CLASS="Bold">
+-component   </STRONG>
+<EM CLASS="Emphasis">
+exchange site</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486257"></A><STRONG CLASS="Bold">
+-component</STRONG>
+--Identifier that indicates information for an exchanger in the exchange assemblage will be added or modified. The identifier <STRONG CLASS="Bold">
+-component</STRONG>
+ is required to precede the other identifiers that define the exchanger. Optionally, <STRONG CLASS="Bold">
+component</STRONG>
+ or <STRONG CLASS="Bold">
+-c</STRONG>
+[<STRONG CLASS="Bold">
+omponent</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486467"></A><EM CLASS="Emphasis">
+exchange site</EM>
+--Exchange site formula.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486267"></A>Line 2: <STRONG CLASS="Bold">
+-totals </STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486268"></A><STRONG CLASS="Bold">
+-totals</STRONG>
+--Identifier begins a block of data containing the moles of elements in the exchanger. Optionally, <STRONG CLASS="Bold">
+totals</STRONG>
+ or <STRONG CLASS="Bold">
+-t</STRONG>
+[<STRONG CLASS="Bold">
+otals</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486273"></A>Line 3: <EM CLASS="Emphasis">
+element</EM>
+ <EM CLASS="Emphasis">
+moles</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486274"></A><EM CLASS="Emphasis">
+element</EM>
+--An element name or an exchange site name. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486278"></A><EM CLASS="Emphasis">
+moles</EM>
+--Moles of element or exchange site present in the exchanger; it is a positive number.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486527"></A>Line 4: <STRONG CLASS="Bold">
+-exchange_gammas </STRONG>
+(<EM CLASS="Emphasis">
+1</EM>
+ or <EM CLASS="Emphasis">
+0</EM>
+)</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486528"></A><STRONG CLASS="Bold">
+-exchange_gammas</STRONG>
+--This identifier selects whether exchange activity coefficients are assumed to be equal to aqueous activity coefficients when using the Pitzer or SIT aqueous model. Optionally, <STRONG CLASS="Bold">
+exchange_gammas</STRONG>
+ or <STRONG CLASS="Bold">
+-ex</STRONG>
+[<STRONG CLASS="Bold">
+change_gammas</STRONG>
+]. The option has no effect when using ion-association aqueous models. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486284"></A>(1 or 0)--A value of 1 indicates true. A value of 0 indicates false. </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610189_pgfId-486297"></A><A NAME="50610189_17602"></A>Notes 1</H6>
 <P CLASS="BodyText">
-<A NAME="50540557_pgfId-528876"></A><A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> and <A HREF="phreeqc3-88.htm#50540557_31337" CLASS="XRef">REACTION_MODIFY</A>.</P>
+<A NAME="50610189_pgfId-523975"></A>The <STRONG CLASS="Bold">
+EXCHANGE_MODIFY </STRONG>
+data block allows modification of a preexisting exchange assemblage, but care is needed for any modifications because data items have interdependencies. The most common uses are to add a new exchanger to an exchange assemblage and to change the amount of an exchanger that is present in the assemblage. However, it is important that the <STRONG CLASS="Bold">
+-totals</STRONG>
+ data block defines an exchange composition, such that the number of equivalents of exchange sites is balanced by an equal number of equivalents of ions. The totals are assumed to balance in charge, and any charge in the formulas of -totals will be ignored. If, for example, 1 mol of X, with master species X<Sup CLASS="Superscript">
+-</Sup>
+, and 2 moles of Na, with master species Na<Sup CLASS="Superscript">
++</Sup>
+, are defined, it will be equivalent to adding 1 mol of NaX and 1 mol of Na metal, and unexpected pH and redox conditions will result. It also is possible to change the choice of activity coefficient option (<STRONG CLASS="Bold">
+-exchange_gammas</STRONG>
+) when using the Pitzer or SIT aqueous models.</P>
+<P CLASS="BodyText">
+<A NAME="50610189_pgfId-486907"></A><STRONG CLASS="Bold">
+EXCHANGE_MODIFY </STRONG>
+modifies only the data items specifically defined in the data block. Any data items in the exchanger definition not modified by the data block remain unchanged. Note specifically that the <STRONG CLASS="Bold">
+-totals</STRONG>
+ data block modifies the elements as defined in the data block, but any element not listed in the data block will remain unchanged in the exchange composition. </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610189_pgfId-486560"></A><A NAME="50610189_42636"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486561"></A>Line 0:	EXCHANGE_MODIFY 1 Added Y</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486562"></A>Line 1:	-component		NaY</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486564"></A>	Line 2:		-totals</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486565"></A>Line 3:			Na	0.002</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486566"></A>Line 3a:			Y	0.002</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486613"></A>Line 4:		-phase_name		Na-Mont</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486614"></A>Line 5:		-phase_proportion			0.1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486567"></A>Line 6:	-exchange_gammas				true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610189_pgfId-486568"></A>&nbsp;</pre>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610189_pgfId-486571"></A><A NAME="50610189_53940"></A>Explanation 2</H6>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486572"></A>Line 0: <STRONG CLASS="Bold">
+EXCHANGE_MODIFY </STRONG>
+ <EM CLASS="Emphasis">
+number</EM>
+ [<EM CLASS="Emphasis">
+description</EM>
+]</P>
+<P CLASS="Body1">
+<A NAME="50610189_pgfId-486573"></A><STRONG CLASS="Bold">
+EXCHANGE_MODIFY</STRONG>
+ is the keyword for the data block.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486574"></A><EM CLASS="Emphasis">
+number</EM>
+--Positive integer to identify the exchange assemblage to modify.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486575"></A><EM CLASS="Emphasis">
+description</EM>
+--Optional comment that describes the exchange assemblage.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486576"></A>Line 1: <STRONG CLASS="Bold">
+-component </STRONG>
+<EM CLASS="Emphasis">
+exchange formula</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486579"></A><STRONG CLASS="Bold">
+-component</STRONG>
+--Defines the formula for the exchange site; see <EM CLASS="Emphasis">
+exchange formula</EM>
+ in the description of the <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A> data block. Optionally, <STRONG CLASS="Bold">
+formula</STRONG>
+ or <STRONG CLASS="Bold">
+-f</STRONG>
+[<STRONG CLASS="Bold">
+ormula</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486583"></A><EM CLASS="Emphasis">
+exchange formula</EM>
+--Exchange site formula.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486657"></A>Line 2: <STRONG CLASS="Bold">
+-totals</STRONG>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486989"></A><STRONG CLASS="Bold">
+-totals</STRONG>
+--Same as Explanation 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486586"></A>Line 3: <EM CLASS="Emphasis">
+element</EM>
+ <EM CLASS="Emphasis">
+moles</EM>
+.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-487001"></A><EM CLASS="Emphasis">
+element moles</EM>
+--Same as Explanation 1.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486679"></A>Line 4: (<STRONG CLASS="Bold">
+-phase_name </STRONG>
+or<STRONG CLASS="Bold">
+ -rate_name</STRONG>
+) <EM CLASS="Emphasis">
+name</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486680"></A><STRONG CLASS="Bold">
+-phase_name</STRONG>
+--Defines the name of an equilibrium phase to which the number of exchange sites is related. See <STRONG CLASS="Bold">
+equilibrium_phase </STRONG>
+in the description of the <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A> data block. Optionally, <STRONG CLASS="Bold">
+phase_name</STRONG>
+ or <STRONG CLASS="Bold">
+-p</STRONG>
+[<STRONG CLASS="Bold">
+hase_name</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486939"></A><STRONG CLASS="Bold">
+-rate_name</STRONG>
+--Defines the name of a kinetic reactant to which the number of exchange sites is related. See <STRONG CLASS="Bold">
+kinetic_reactant</STRONG>
+ in the description of the <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A> data block. Optionally, <STRONG CLASS="Bold">
+rate_name</STRONG>
+ or <STRONG CLASS="Bold">
+-r</STRONG>
+[<STRONG CLASS="Bold">
+ate_name</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486783"></A><EM CLASS="Emphasis">
+name</EM>
+--Name of an equilibrium phase or a kinetic reactant.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486704"></A>Line 5: <STRONG CLASS="Bold">
+-phase_proportion </STRONG>
+<EM CLASS="Emphasis">
+exchange_per_mole</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486692"></A><STRONG CLASS="Bold">
+-phase_proportion</STRONG>
+--Defines the number of moles of exchange formula per mole of phase or kinetic reactant; see <EM CLASS="Emphasis">
+exchange_per_mole</EM>
+ in the description of the <A HREF="phreeqc3-89.htm#50610189_49135" CLASS="XRef">EXCHANGE_MODIFY</A> data block. Optionally, <STRONG CLASS="Bold">
+phase_proportion</STRONG>
+ or <STRONG CLASS="Bold">
+-phase_p</STRONG>
+[<STRONG CLASS="Bold">
+roportion</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486793"></A><EM CLASS="Emphasis">
+exchange_per_mole</EM>
+--Number of moles of the exchange formula per mole of phase or kinetic reactant, unitless.</P>
+<P CLASS="Body-indent">
+<A NAME="50610189_pgfId-486589"></A>Line 6: <STRONG CLASS="Bold">
+-exchange_gammas </STRONG>
+(<EM CLASS="Emphasis">
+1</EM>
+ or <EM CLASS="Emphasis">
+0</EM>
+).</P>
+<P CLASS="Body1-indent">
+<A NAME="50610189_pgfId-486591"></A><STRONG CLASS="Bold">
+-exchange_gammas</STRONG>
+--Same as Explanation 1 </P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610189_pgfId-486592"></A><A NAME="50610189_81278"></A>Notes 2</H6>
+<P CLASS="BodyText">
+<A NAME="50610189_pgfId-513810"></A>This example shows how to add a new exchanger that is related to an equilibrium phase. As in Example data block 1, it is important that the <STRONG CLASS="Bold">
+-totals</STRONG>
+ data block defines a charge-balanced exchange composition. If charge balance is not preserved or the number of moles of exchange sites is inconsistent with the number of moles of the phase, unexpected pH and redox conditions will result. Moreover, the number of moles of the exchange site (Y in this example) must be consistent with the number of moles of the equilibrium phase, as defined by the <STRONG CLASS="Bold">
+-phase_proportion </STRONG>
+and <STRONG CLASS="Bold">
+-formula </STRONG>
+identifiers. Use of <STRONG CLASS="Bold">
+-phase_name</STRONG>
+ or <STRONG CLASS="Bold">
+-rate_name</STRONG>
+ for an exchanger numbered <EM CLASS="Emphasis">
+n</EM>
+ requires that an <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> <EM CLASS="Emphasis">
+n</EM>
+ or <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A> <EM CLASS="Emphasis">
+n</EM>
+ has been defined.</P>
+</DIV>
+<DIV>
+<H6 CLASS="FM4thOrderHeading">
+<A NAME="50610189_pgfId-486328"></A><A NAME="50610189_72526"></A>Related keywords</H6>
+<P CLASS="BodyText">
+<A NAME="50610189_pgfId-486335"></A><A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A> and <A HREF="phreeqc3-90.htm#50610189_34249" CLASS="XRef">EXCHANGE_RAW</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-90.htm">Next</A> || <A HREF="phreeqc3-88.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

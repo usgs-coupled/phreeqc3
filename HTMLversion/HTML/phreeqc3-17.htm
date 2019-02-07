@@ -7,31 +7,31 @@
 <TITLE> GAS_PHASE</TITLE><HR><P> | <A HREF="phreeqc3-18.htm">Next</A> || <A HREF="phreeqc3-16.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-254690"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254690"></A><STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
-<A NAME="50540545_83409"></A></H2>
+<A NAME="50610177_83409"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-254691"></A>This keyword data block is used to define the composition of a fixed-total-pressure or a fixed-volume multicomponent gas phase. The thermodynamic properties of the gas components are defined with <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input. If the critical pressure and temperature are defined for a gas component with <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A>, the Peng-Robinson equation of state (EOS) will be used for calculating the relation between pressure and molar volume, and fugacity coefficients will be calculated for the gases. If the critical temperature and pressure are not defined, the ideal gas law will be used. Ideal gases and Peng-Robinson gases cannot be mixed in a <A HREF="phreeqc3-17.htm#50540545_83409" CLASS="XRef">GAS_PHASE</A>. A <A HREF="phreeqc3-17.htm#50540545_83409" CLASS="XRef">GAS_PHASE</A> data block is not needed if fixed partial pressures of gas components are desired; use <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> instead. The gas phase defined with this keyword data block subsequently may be equilibrated with an aqueous phase in combination with pure-phase, surface, exchange, and solid-solution assemblages in batch-reaction calculations. Either Henry&#8217;s law (ideal gases) or the Peng-Robinson EOS (nonideal gases) is used for calculating the solubility of the gases. As a consequence of batch reactions, a fixed-pressure gas phase may exist or not, depending on the sum of the partial pressures of the dissolved gases in solution. A fixed-volume gas phase always contains some amount of each gas component that is present in solution. The initial composition of a fixed-pressure gas phase is defined by the partial pressures of each gas component. The initial composition of a fixed-volume gas may be defined by the partial pressures of each gas component or may be defined to be that which is in equilibrium with a fixed-composition aqueous phase. When the Peng-Robinson EOS is used and the <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254691"></A>This keyword data block is used to define the composition of a fixed-total-pressure or a fixed-volume multicomponent gas phase. The thermodynamic properties of the gas components are defined with <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input. If the critical pressure and temperature are defined for a gas component with <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A>, the Peng-Robinson equation of state (EOS) will be used for calculating the relation between pressure and molar volume, and fugacity coefficients will be calculated for the gases. If the critical temperature and pressure are not defined, the ideal gas law will be used. Ideal gases and Peng-Robinson gases cannot be mixed in a <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>. A <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A> data block is not needed if fixed partial pressures of gas components are desired; use <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> instead. The gas phase defined with this keyword data block subsequently may be equilibrated with an aqueous phase in combination with pure-phase, surface, exchange, and solid-solution assemblages in batch-reaction calculations. Either Henry&#8217;s law (ideal gases) or the Peng-Robinson EOS (nonideal gases) is used for calculating the solubility of the gases. As a consequence of batch reactions, a fixed-pressure gas phase may exist or not, depending on the sum of the partial pressures of the dissolved gases in solution. A fixed-volume gas phase always contains some amount of each gas component that is present in solution. The initial composition of a fixed-pressure gas phase is defined by the partial pressures of each gas component. The initial composition of a fixed-volume gas may be defined by the partial pressures of each gas component or may be defined to be that which is in equilibrium with a fixed-composition aqueous phase. When the Peng-Robinson EOS is used and the <STRONG CLASS="Bold">
 GAS_PHASE </STRONG>
 has a pressure higher than about 10 atmospheres, the initial gas-phase composition calculated for a fixed-composition aqueous phase is only an approximation of the true gas composition.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254692"></A><A NAME="50540545_73955"></A>Example data block 1</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254693"></A>Line 0:  GAS_PHASE 1-5  Air</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254694"></A>Line 1:       -fixed_pressure</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254695"></A>Line 2:       -pressure       1.001</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254696"></A>Line 3:       -volume         1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254697"></A>Line 4:       -temperature    25.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254698"></A>Line 5a:      CH4(g)          0.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254699"></A>Line 5b:      CO2(g)          0.000316</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254700"></A>Line 5c:      O2(g)           0.2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254701"></A>Line 5d:      N2(g)           0.78</pre>
+<A NAME="50610177_pgfId-254692"></A><A NAME="50610177_73955"></A>Example data block 1</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254693"></A>Line 0:  GAS_PHASE 1-5  Air</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254694"></A>Line 1:       -fixed_pressure</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254695"></A>Line 2:       -pressure       1.001</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254696"></A>Line 3:       -volume         1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254697"></A>Line 4:       -temperature    25.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254698"></A>Line 5a:      CH4(g)          0.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254699"></A>Line 5b:      CO2(g)          0.000316</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254700"></A>Line 5c:      O2(g)           0.2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254701"></A>Line 5d:      N2(g)           0.78</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254702"></A><A NAME="50540545_46600"></A>Explanation 1</H6>
+<A NAME="50610177_pgfId-254702"></A><A NAME="50610177_46600"></A>Explanation 1</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254703"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254703"></A>Line 0: <STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -39,11 +39,11 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-254704"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254704"></A><STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254705"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254705"></A><EM CLASS="Emphasis">
 number</EM>
 --A positive number designates the gas phase and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
 m</EM>
@@ -59,15 +59,15 @@ m</EM>
 n</EM>
 , and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254706"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254706"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the gas phase.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254707"></A>Line 1: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254707"></A>Line 1: <STRONG CLASS="Bold">
 -fixed_pressure</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254708"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254708"></A><STRONG CLASS="Bold">
 -fixed_pressure</STRONG>
 --Identifier defining the gas phase to have a fixed total pressure; that is, a gas bubble. A fixed-pressure gas phase is the default if neither the <STRONG CLASS="Bold">
 -fixed_pressure</STRONG>
@@ -81,13 +81,13 @@ fixed_pressure</STRONG>
 ressure</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254709"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254709"></A>Line 2: <STRONG CLASS="Bold">
 -pressure</STRONG>
 <EM CLASS="Emphasis">
  pressure</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254710"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254710"></A><STRONG CLASS="Bold">
 -pressure</STRONG>
 --Identifier defining the fixed pressure of the gas phase that applies during all batch-reaction and transport calculations. Optionally <STRONG CLASS="Bold">
 pressure</STRONG>
@@ -97,17 +97,17 @@ pressure</STRONG>
 ressure</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254711"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254711"></A><EM CLASS="Emphasis">
 pressure</EM>
 --The pressure of the gas phase, in atm (atmosphere). Default is 1.0 atm.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254712"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254712"></A>Line 3: <STRONG CLASS="Bold">
 -volume </STRONG>
 <EM CLASS="Emphasis">
 volume</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254713"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254713"></A><STRONG CLASS="Bold">
 -volume</STRONG>
 --Identifier defining the initial volume of the fixed-pressure gas phase. Optionally, <STRONG CLASS="Bold">
 volume</STRONG>
@@ -117,17 +117,17 @@ volume</STRONG>
 olume</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254714"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254714"></A><EM CLASS="Emphasis">
 volume</EM>
 --The initial volume of the fixed-pressure gas phase, in liters. The ideal gas law or the Peng-Robinson EOS is used to calculate the initial moles, n, of each gas component in the fixed-pressure gas phase. Default is 1.0 L (liter). </P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254715"></A>Line 4: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254715"></A>Line 4: <STRONG CLASS="Bold">
 -temperature </STRONG>
 <EM CLASS="Emphasis">
 temp</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254716"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254716"></A><STRONG CLASS="Bold">
 -temperature</STRONG>
 --Identifier defining the initial temperature of the gas phase. Optionally, <STRONG CLASS="Bold">
 temperature</STRONG>
@@ -137,7 +137,7 @@ temperature</STRONG>
 emperature</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254717"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254717"></A><EM CLASS="Emphasis">
 temp</EM>
 --The initial temperature of the gas phase, in &#176;C (degree Celsius). The <EM CLASS="Emphasis">
 temp</EM>
@@ -147,15 +147,15 @@ volume</EM>
 partial pressure</EM>
  are used to calculate the initial moles of each gas component in the fixed-pressure gas phase. Default is 25.0 &#176;C. </P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254718"></A>Line 5: <EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254718"></A>Line 5: <EM CLASS="Emphasis">
 phase name, partial pressure</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254719"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254719"></A><EM CLASS="Emphasis">
 phase name</EM>
---Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
+--Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254720"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254720"></A><EM CLASS="Emphasis">
 partial pressure</EM>
 --Initial partial pressure of this component in the gas phase (atm). The <EM CLASS="Emphasis">
 partial pressure</EM>
@@ -167,9 +167,9 @@ temp</EM>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254721"></A><A NAME="50540545_41352"></A>Notes 1</H6>
+<A NAME="50610177_pgfId-254721"></A><A NAME="50610177_41352"></A>Notes 1</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-746321"></A>Line 5 must be repeated as necessary to define all of the components initially present in the fixed-pressure gas phase as well as any components which may subsequently enter the gas phase. The initial moles of a gas component that is defined to have a positive partial pressure in <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-746321"></A>Line 5 must be repeated as necessary to define all of the components initially present in the fixed-pressure gas phase as well as any components which may subsequently enter the gas phase. The initial moles of a gas component that is defined to have a positive partial pressure in <STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  input will be computed using either the ideal gas law, <EM CLASS="Emphasis">
 n = PV/RT</EM>
@@ -189,7 +189,7 @@ mol<Sup CLASS="Superscript">
 T</EM>
  is given by <STRONG CLASS="Bold">
 -temperature </STRONG>
-(converted to kelvin), or the Peng-Robinson EOS (see keyword <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> for the equations). Thus, in Example data block 1 and with the wateq4f.dat database, which does not define critical temperatures and pressures, the moles of all gases are calculated by n = (0.000316 + 0.2 + 0.78) <EM CLASS="Emphasis">
+(converted to kelvin), or the Peng-Robinson EOS (see keyword <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> for the equations). Thus, in Example data block 1 and with the wateq4f.dat database, which does not define critical temperatures and pressures, the moles of all gases are calculated by n = (0.000316 + 0.2 + 0.78) <EM CLASS="Emphasis">
 &#215;</EM>
  1.0 / (298 <EM CLASS="Emphasis">
 &#215;</EM>
@@ -209,27 +209,27 @@ GAS_PHASE</STRONG>
 -pressure</STRONG>
 .</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-746448"></A>A gas component may be defined to have initial partial pressure of zero. In this case, no moles of that component will be present initially, but the component may enter the gas phase when in contact with a solution that contains that component. If no gas phase exists initially, the initial partial pressures of all components should be set to 0.0; a gas phase may subsequently form if batch reactions cause the sum of the partial pressures of the gas components to exceed <EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-746448"></A>A gas component may be defined to have initial partial pressure of zero. In this case, no moles of that component will be present initially, but the component may enter the gas phase when in contact with a solution that contains that component. If no gas phase exists initially, the initial partial pressures of all components should be set to 0.0; a gas phase may subsequently form if batch reactions cause the sum of the partial pressures of the gas components to exceed <EM CLASS="Emphasis">
 pressure</EM>
 .</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254724"></A><A NAME="50540545_51878"></A>Example data block 2</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254725"></A>Line 0:  GAS_PHASE 1-5  Find composition from solution 1</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254726"></A>Line 1:	-fixed_volume</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254727"></A>Line 2:	-volume		1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254728"></A>Line 3:	-temperature		25.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254729"></A>Line 4a:	CH4(g)		0.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254730"></A>Line 4b:	CO2(g)		0.000316</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254731"></A>Line 4c:	O2(g)		0.2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254732"></A>Line 4d:	N2(g)		0.78</pre>
+<A NAME="50610177_pgfId-254724"></A><A NAME="50610177_51878"></A>Example data block 2</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254725"></A>Line 0:  GAS_PHASE 1-5  Find composition from solution 1</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254726"></A>Line 1:	-fixed_volume</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254727"></A>Line 2:	-volume		1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254728"></A>Line 3:	-temperature		25.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254729"></A>Line 4a:	CH4(g)		0.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254730"></A>Line 4b:	CO2(g)		0.000316</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254731"></A>Line 4c:	O2(g)		0.2</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254732"></A>Line 4d:	N2(g)		0.78</pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254733"></A><A NAME="50540545_97637"></A>Explanation 2</H6>
+<A NAME="50610177_pgfId-254733"></A><A NAME="50610177_97637"></A>Explanation 2</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254734"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254734"></A>Line 0: <STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -237,11 +237,11 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-254735"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254735"></A><STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254736"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254736"></A><EM CLASS="Emphasis">
 number</EM>
 --a positive number designates the gas phase and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
 m</EM>
@@ -257,15 +257,15 @@ m</EM>
 n</EM>
 , and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254737"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254737"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the gas phase.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254738"></A>Line 1: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254738"></A>Line 1: <STRONG CLASS="Bold">
 -fixed_volume</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254739"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254739"></A><STRONG CLASS="Bold">
 -fixed_volume</STRONG>
 --Identifier defining the gas phase to be one that has a fixed volume (not a gas bubble). A fixed-pressure gas phase is the default if neither the <STRONG CLASS="Bold">
 -fixed_pressure</STRONG>
@@ -279,13 +279,13 @@ fixed_volume</STRONG>
 olume</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254740"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254740"></A>Line 2: <STRONG CLASS="Bold">
 -volume </STRONG>
 <EM CLASS="Emphasis">
 volume</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254741"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254741"></A><STRONG CLASS="Bold">
 -volume</STRONG>
 --Identifier defining the volume of the fixed-volume gas phase, which applies for all batch-reaction or transport calculations. Optionally, <STRONG CLASS="Bold">
 volume</STRONG>
@@ -295,17 +295,17 @@ volume</STRONG>
 olume</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254742"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254742"></A><EM CLASS="Emphasis">
 volume</EM>
 --The volume of the fixed-volume gas phase, in liters. Default is 1.0 L. </P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254743"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254743"></A>Line 3: <STRONG CLASS="Bold">
 -temperature </STRONG>
 <EM CLASS="Emphasis">
 temp</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254744"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254744"></A><STRONG CLASS="Bold">
 -temperature</STRONG>
 --Identifier defining the initial temperature of the gas phase. Optionally, <STRONG CLASS="Bold">
 temperature</STRONG>
@@ -315,19 +315,19 @@ temperature</STRONG>
 emperature</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254745"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254745"></A><EM CLASS="Emphasis">
 temp</EM>
 --The initial temperature of the gas phase, in &#176;C. Default is 25.0 &#176;C. </P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254746"></A>Line 4: <EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254746"></A>Line 4: <EM CLASS="Emphasis">
 phase name, partial pressure</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254747"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254747"></A><EM CLASS="Emphasis">
 phase name</EM>
---Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
+--Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254748"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254748"></A><EM CLASS="Emphasis">
 partial pressure</EM>
 --Initial partial pressure of this component in the gas phase, in atm. The <EM CLASS="Emphasis">
 partial pressure</EM>
@@ -339,9 +339,9 @@ temp</EM>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254749"></A><A NAME="50540545_20939"></A>Notes 2</H6>
+<A NAME="50610177_pgfId-254749"></A><A NAME="50610177_20939"></A>Notes 2</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-254750"></A>Line 4 may be repeated as necessary to define all the components initially present in the fixed-volume gas phase, as well as any components which may subsequently enter the gas phase. The initial moles of a gas component with a positive partial pressure will be computed using either the ideal gas law, <EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254750"></A>Line 4 may be repeated as necessary to define all the components initially present in the fixed-volume gas phase, as well as any components which may subsequently enter the gas phase. The initial moles of a gas component with a positive partial pressure will be computed using either the ideal gas law, <EM CLASS="Emphasis">
 n = PV/(RT)</EM>
 , where <EM CLASS="Emphasis">
 n</EM>
@@ -359,25 +359,25 @@ T</EM>
 -pressure </STRONG>
 is not used for a fixed-volume gas phase.</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-254751"></A>A gas component may be defined to have an initial partial pressure of zero. In this case, no moles of that component will be present initially, but the component will enter the gas phase when in contact with a solution containing the component.</P>
+<A NAME="50610177_pgfId-254751"></A>A gas component may be defined to have an initial partial pressure of zero. In this case, no moles of that component will be present initially, but the component will enter the gas phase when in contact with a solution containing the component.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254752"></A><A NAME="50540545_53658"></A>Example data block 3</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254753"></A>Line 0:  GAS_PHASE 1-5  Air</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254754"></A>Line 1:       -fixed_volume</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254755"></A>Line 2:       -equilibrate with solution 10</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254756"></A>Line 3:       -volume         1.0</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254757"></A>Line 4a:      CH4(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254758"></A>Line 4b:      CO2(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254759"></A>Line 4c:      O2(g) </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-254760"></A>Line 4d:      N2(g) </pre>
+<A NAME="50610177_pgfId-254752"></A><A NAME="50610177_53658"></A>Example data block 3</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254753"></A>Line 0:  GAS_PHASE 1-5  Air</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254754"></A>Line 1:       -fixed_volume</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254755"></A>Line 2:       -equilibrate with solution 10</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254756"></A>Line 3:       -volume         1.0</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254757"></A>Line 4a:      CH4(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254758"></A>Line 4b:      CO2(g)</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254759"></A>Line 4c:      O2(g) </pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-254760"></A>Line 4d:      N2(g) </pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254761"></A><A NAME="50540545_54503"></A>Explanation 3</H6>
+<A NAME="50610177_pgfId-254761"></A><A NAME="50610177_54503"></A>Explanation 3</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254762"></A>Line 0: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254762"></A>Line 0: <STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  [<EM CLASS="Emphasis">
 number</EM>
@@ -385,11 +385,11 @@ number</EM>
 description</EM>
 ]</P>
 <P CLASS="Body1">
-<A NAME="50540545_pgfId-254763"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254763"></A><STRONG CLASS="Bold">
 GAS_PHASE</STRONG>
  is the keyword for the data block. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254764"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254764"></A><EM CLASS="Emphasis">
 number</EM>
 --A positive number designates the gas phase and its composition. A range of numbers may also be given in the form <EM CLASS="Emphasis">
 m</EM>
@@ -405,15 +405,15 @@ m</EM>
 n</EM>
 , and the two numbers are separated by a hyphen without intervening spaces. Default is 1.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254765"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254765"></A><EM CLASS="Emphasis">
 description</EM>
 --Optional comment that describes the gas phase.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254766"></A>Line 1: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254766"></A>Line 1: <STRONG CLASS="Bold">
 -fixed_volume</STRONG>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254767"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254767"></A><STRONG CLASS="Bold">
 -fixed_volume</STRONG>
 --Identifier defining the gas phase to be one that has a fixed volume (not a gas bubble). A fixed-pressure gas phase is the default if neither the <STRONG CLASS="Bold">
 -fixed_pressure</STRONG>
@@ -427,13 +427,13 @@ fixed_volume</STRONG>
 olume</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254768"></A>Line 2: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254768"></A>Line 2: <STRONG CLASS="Bold">
 -equilibrate</STRONG>
 <EM CLASS="Emphasis">
  number</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254769"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254769"></A><STRONG CLASS="Bold">
 -equilibrate</STRONG>
 --Identifier indicates that the fixed-volume gas phase is defined to be in equilibrium with a solution of a fixed composition. This identifier may only be used with the <STRONG CLASS="Bold">
 -fixed_volume</STRONG>
@@ -453,17 +453,17 @@ equilibrate</STRONG>
 quilibrate</STRONG>
 ]. </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254770"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254770"></A><EM CLASS="Emphasis">
 number</EM>
 --Solution number with which the fixed-volume gas phase is to be in equilibrium. Any alphabetic characters following the identifier and preceding an integer (&#8220;with solution&#8221; in Line 2) are ignored.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254771"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254771"></A>Line 3: <STRONG CLASS="Bold">
 -volume </STRONG>
 <EM CLASS="Emphasis">
 volume</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254772"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-254772"></A><STRONG CLASS="Bold">
 -volume</STRONG>
 --Identifier defining the volume of the fixed-volume gas phase, which applies for all batch-reaction or transport calculations. Optionally, <STRONG CLASS="Bold">
 volume</STRONG>
@@ -473,25 +473,25 @@ volume</STRONG>
 olume</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254773"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254773"></A><EM CLASS="Emphasis">
 volume</EM>
 --The volume of the fixed-volume gas phase, L. Default is 1.0 L. </P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-254774"></A>Line 4: <EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254774"></A>Line 4: <EM CLASS="Emphasis">
 phase name</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-254775"></A><EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-254775"></A><EM CLASS="Emphasis">
 phase name</EM>
---Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
+--Name of a gas component. A phase with this name must be defined by <A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef">PHASES</A> input in the database or input file.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-254776"></A><A NAME="50540545_23110"></A>Notes 3</H6>
+<A NAME="50610177_pgfId-254776"></A><A NAME="50610177_23110"></A>Notes 3</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-713353"></A>Line 4 may be repeated as necessary to define all of the components that may be present in the fixed-volume gas phase. The <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-713353"></A>Line 4 may be repeated as necessary to define all of the components that may be present in the fixed-volume gas phase. The <STRONG CLASS="Bold">
 -equilibrate</STRONG>
- identifier specifies that the initial moles of the gas components are to be calculated by equilibrium with solution 10. This calculation is termed an &#8220;initial gas-phase-composition calculation&#8221;. During this calculation, the composition of solution 10 does not change, only the moles of each component in the gas phase are calculated. This calculation is approximate for a Peng-Robinson <A HREF="phreeqc3-17.htm#50540545_83409" CLASS="XRef">GAS_PHASE</A> due to the fugacity coefficient, which is used for calculating the activity of the gas in the solubility equation. Alternatively, for Peng-Robinson gases, keyword <A HREF="phreeqc3-84.htm#50540557_44837" CLASS="XRef">GAS_PHASE_MODIFY</A> may be used, but this is still approximate for a gas-mixture at high pressure. A constant-volume gas phase always exists unless all of the gas components are absent from the system. When the <STRONG CLASS="Bold">
+ identifier specifies that the initial moles of the gas components are to be calculated by equilibrium with solution 10. This calculation is termed an &#8220;initial gas-phase-composition calculation&#8221;. During this calculation, the composition of solution 10 does not change, only the moles of each component in the gas phase are calculated. This calculation is approximate for a Peng-Robinson <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A> due to the fugacity coefficient, which is used for calculating the activity of the gas in the solubility equation. Alternatively, for Peng-Robinson gases, keyword <A HREF="phreeqc3-91.htm#50610189_44837" CLASS="XRef">GAS_PHASE_MODIFY</A> may be used, but this is still approximate for a gas-mixture at high pressure. A constant-volume gas phase always exists unless all of the gas components are absent from the system. When the <STRONG CLASS="Bold">
 -equilibrate</STRONG>
  identifier is used, the identifiers <STRONG CLASS="Bold">
 -pressure</STRONG>
@@ -501,33 +501,33 @@ are not needed and initial partial pressures for each gas component need not be 
 -equilibrate</STRONG>
  identifier cannot be used with a fixed-pressure gas phase.</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-254778"></A>A gas component may have an initial partial pressure of zero because the solution with which the gas phase is in equilibrium does not contain that gas component. In this case, no moles of that component will be present initially, but the component may enter the gas phase when the gas is in contact with another solution that does contain that component. </P>
+<A NAME="50610177_pgfId-254778"></A>A gas component may have an initial partial pressure of zero because the solution with which the gas phase is in equilibrium does not contain that gas component. In this case, no moles of that component will be present initially, but the component may enter the gas phase when the gas is in contact with another solution that does contain that component. </P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-581230"></A>After a batch reaction has been simulated, it is possible to save the resulting gas-phase composition with the <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> keyword. If the new composition is not saved, the gas-phase composition will remain the same as it was before the batch reaction. After it has been defined or saved, the gas phase can be used in subsequent simulations through the <A HREF="phreeqc3-50.htm#50540545_78143" CLASS="XRef">USE</A> keyword. <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-581230"></A>After a batch reaction has been simulated, it is possible to save the resulting gas-phase composition with the <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> keyword. If the new composition is not saved, the gas-phase composition will remain the same as it was before the batch reaction. After it has been defined or saved, the gas phase can be used in subsequent simulations through the <A HREF="phreeqc3-57.htm#50610177_78143" CLASS="XRef">USE</A> keyword. <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
- calculations automatically update the gas-phase composition and <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> has no effect during these calculations.</P>
+ calculations automatically update the gas-phase composition and <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> has no effect during these calculations.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-515635"></A><A NAME="50540545_18459"></A>Example problems</H6>
+<A NAME="50610177_pgfId-515635"></A><A NAME="50610177_18459"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-726682"></A>The keyword <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-726682"></A>The keyword <STRONG CLASS="Bold">
 GAS_PHASE </STRONG>
-is used in example problems <A HREF="phreeqc3-62.htm#50540559_44022" CLASS="XRef">7</A> and <A HREF="phreeqc3-77.htm#50540559_97000" CLASS="XRef">22</A>. </P>
+is used in example problems <A HREF="phreeqc3-69.htm#50610191_44022" CLASS="XRef">7</A> and <A HREF="phreeqc3-84.htm#50610191_97000" CLASS="XRef">22</A>. </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-726684"></A><A NAME="50540545_54938"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-726684"></A><A NAME="50610177_54938"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-597611"></A><A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50540545_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50540545_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50540545_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-84.htm#50540557_44837" CLASS="XRef">GAS_PHASE_MODIFY</A>, <STRONG CLASS="Bold">
-<A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-597611"></A><A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-8.htm#50610177_76644" CLASS="XRef">COPY</A>, <A HREF="phreeqc3-10.htm#50610177_33574" CLASS="XRef">DELETE</A>, <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef">DUMP</A>, <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-91.htm#50610189_44837" CLASS="XRef">GAS_PHASE_MODIFY</A>, <STRONG CLASS="Bold">
+<A HREF="phreeqc3-36.htm#50610177_84418" CLASS="XRef"></A>PHASES<STRONG CLASS="Bold">
 </STRONG>
 </STRONG>
-, <A HREF="phreeqc3-37.htm#50540545_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
+, <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> <STRONG CLASS="Bold">
 gas_phase</STRONG>
-, <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-50.htm#50540545_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
+, <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-57.htm#50610177_55967" CLASS="XRef">USE</A> <STRONG CLASS="Bold">
 gas_phase</STRONG>
 .</P>
 </DIV>

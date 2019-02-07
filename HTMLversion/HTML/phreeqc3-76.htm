@@ -4,1911 +4,589 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> Example 21--Modeling Diffusion of HTO, 36Cl-, 22Na+, and Cs+ in a Radial Diffusion Cell</TITLE><HR><P> | <A HREF="phreeqc3-77.htm">Next</A> || <A HREF="phreeqc3-75.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> Example 14--Advective Transport, Cation Exchange, Surface Complexation, and Mineral Equilibria</TITLE><HR><P> | <A HREF="phreeqc3-77.htm">Next</A> || <A HREF="phreeqc3-75.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50540559_pgfId-1504093"></A>Example 21--<A NAME="50540559_68313"></A>Modeling Diffusion of HTO, <Sup CLASS="Superscript">
-36</Sup>
-Cl<Sup CLASS="Superscript">
--</Sup>
-, <Sup CLASS="Superscript">
-22</Sup>
-Na<Sup CLASS="Superscript">
-+</Sup>
-, and Cs<Sup CLASS="Superscript">
-+</Sup>
- in a Radial Diffusion Cell</H2>
+<A NAME="50610191_pgfId-1475131"></A>Example 14--<A NAME="50610191_89290"></A>Advective Transport, Cation Exchange, Surface Complexation, and Mineral Equilibria</H2>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1504094"></A>This example illustrates how PHREEQC version 3 can simulate a diffusion experiment, as is now often performed for assessing the properties of a repository for nuclear waste in a clay formation. A sample is cut from a core of clay, enveloped in filters, and placed in a diffusion cell (see Van Loon and others, 2004, for details). Solutions with tracers are circulated at the surfaces of the filters, the tracers diffuse into and out of the clay, and the solutions are sampled and analyzed regularly in time. The concentration changes are interpreted with Fick&#8217;s diffusion equations to obtain transport parameters for modeling the rates of migration of elements away from a waste repository. Transport in clays is mainly diffusive because of the low hydraulic conductivity, and solutes are further retarded by sorption (cations) and by exclusion from part of the pore space (anions).</P>
+<A NAME="50610191_pgfId-339869"></A>This example uses the phase-equilibrium, cation-exchange, and surface-complexation reaction capabilities of PHREEQC in combination with advective-transport capabilities to model the evolution of water in the Central Oklahoma aquifer. The geochemistry of the aquifer has been described by Parkhurst and others (1996). Two predominant water types occur in the aquifer: a calcium magnesium bicarbonate water with pH in the range of 7.0 to 7.5 in the unconfined part of the aquifer and a sodium bicarbonate water with pH in the range of 8.5 to 9.2 in the confined part of the aquifer. In addition, marine-derived sodium chloride brines exist below the aquifer and presumably in fluid inclusions and dead-end pore spaces within the aquifer. Large concentrations of arsenic, selenium, chromium, and uranium occur naturally within the aquifer. Arsenic is associated almost exclusively with the high-pH, sodium bicarbonate water type.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-339870"></A>The conceptual model for the calculation of this example assumes that brines initially filled the aquifer. The aquifer contains calcite, dolomite, clays with cation-exchange capacity, and hydrous-ferric-oxide surfaces; initially, the cation exchanger and surfaces are in equilibrium with the brine. The aquifer is assumed to be recharged with rainwater that is concentrated by evaporation and equilibrates with calcite and dolomite in the vadose zone. This water then enters the saturated zone and reacts with calcite and dolomite in the presence of the cation exchanger and hydrous-ferric-oxide surfaces. </P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1445180"></A>The calculations use the advective-transport capabilities of PHREEQC with just a single cell representing the saturated zone. A total of 200 pore volumes of recharge water are advected into the cell and, with each pore volume, the water is equilibrated with the minerals, cation exchanger, and the surfaces in the cell. The evolution of water chemistry in the cell represents the evolution of the water chemistry at a point near the top of the saturated zone of the aquifer.</P>
 <DIV>
-<MAP NAME="phreeqc3-333">
-</MAP>
-<IMG SRC="phreeqc3-333.gif" USEMAP="#phreeqc3-333">
-</DIV>
+<H4 CLASS="FM3dOrderHeading">
+<A NAME="50610191_pgfId-1445181"></A><A NAME="50610191_13464"></A>Thermodynamic Data</H4>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1504124"></A>For calculating diffusion, one needs to account for the different diffusion coefficients of the tracers, the effect of the filters, and the properties of the clay. Figure 22 presents a schematic diagram of the processes in the clay (Appelo and others, 2010). The pores in the clay are lined with clay minerals that have a negative surface charge. The charge is partly neutralized by cations that are bound to the surface and partly by the electrostatic double layer that extends some distance into the pore. The double layer contains an excess of cations (counter-ions, in general) and a deficit of anions (co-ions, in general). In swelling clay minerals, such as montmorillonite, cations in the interlayer space also neutralize part of the negative charge. In comparison with concentration gradients that drive diffusion in free (uncharged) pore water, the gradient for a cation is magnified in the double layer, whereas the gradient for an anion is diminished, and the gradient for a neutral species remains the same. The charge in the double layer lowers the dielectric permittivity of the water, which enhances the ion-association of cations and anions into neutral species. Also, the viscosity of water may be higher than in free pore water. Where double layers overlap in pore constrictions, anions are impeded and forced to take longer paths, whereas cations and neutral species pass through unhindered.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1504128"></A>PHREEQC has capabilities to model many of these diffusion processes. An averaged double layer composition can be calculated by using the identifier -Donnan in keyword <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A>, which, in essence, neutralizes the surface charge. Solute species can be assigned an enrichment factor in the Donnan pore space to emulate the additional concentration change as a result of different ion association. For diffusion, the viscosity can be set differently with respect to free pore water. In this example, all these properties are adjusted for the tracers tritium (HTO), Na+, Cs+ and Cl- to simulate experimental results.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1644515"></A>The experiments to be modeled were done in a radial diffusion cell, shown in figure.23. The radial cell enables measurement of diffusion parallel to the bedding plane of the clay (Van Loon and others, 2004). A solution with tracers is circulated at the surface of the inner filter, and another solution with the same major ions, but without tracers, contacts the surface of the outer filter. The latter solution is removed regularly and analyzed for the tracer that has diffused through the filters and the clay. Meanwhile, the outer solution is replaced by fresh solution, thus, maintaining tracer concentrations near zero in the outer solution. In the simulations, low solubility phases were defined to maintain small concentrations of tracers in the outer solution. The moles of precipitates of these phases give the accumulated mass that has diffused through the column.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1646036"></A>For a linear column, PHREEQC calculates diffusion automatically by using the parameters entered with identifier -multi_D in keyword <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>. However, diffusion in the experiment is radial, and the filters have different properties than the clay. Also, the boundary solutions for the default (linear) column have a constant composition, whereas we want to know the concentration changes in these solutions during the diffusion experiment. All these experimental details can be simulated for a stagnant column by defining mixing factors among the individual cells with keyword <A HREF="phreeqc3-27.htm#50540545_23725" CLASS="XRef">MIX</A>.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1646061"></A>The mixing factors can be derived from Fick&#8217;s diffusion equations, <IMG SRC="phreeqc3-334.gif" ALIGN="BASELINE">
- and <IMG SRC="phreeqc3-335.gif" ALIGN="BASELINE">
-, which transform to finite differences for an arbitrarily shaped cell j:</P>
-<DIV>
-<MAP NAME="phreeqc3-336">
-</MAP>
-<IMG SRC="phreeqc3-336.gif" USEMAP="#phreeqc3-336">
+<A NAME="50610191_pgfId-1445182"></A>The database <EM CLASS="Emphasis">
+wateq4f.dat contains thermodynamic data for the aqueous species of arsenic according to the compilation of Nordstrom and Archer (2003) and the </EM>
+surface complexation constants from Dzombak and Morel (1990). Unfortunately, these two sets of thermodynamic data are not internally consistent because the surface complexation constants were fit by using a different set of thermodynamic constants for arsenic aqueous species. To be consistent in the calculations, the thermodynamic data for both arsenic aqueous speciation and arsenic surface complexation are defined according to Dzombak and Morel (1990). The database phreeqc.dat was used for the calculations with the arsenic thermodynamic data defined with the <A HREF="phreeqc3-49.htm#50610177_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-50.htm#50610177_96148" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-53.htm#50610177_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, and <A HREF="phreeqc3-54.htm#50610177_92844" CLASS="XRef">SURFACE_SPECIES</A> data blocks within the input file. </P>
 </DIV>
 <DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1418073"></A><A NAME="50540559_40211"></A> <IMG SRC="phreeqc3-337.gif" ALIGN="BASELINE">
-,	(44)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1504169"></A>where <IMG SRC="phreeqc3-338.gif" ALIGN="BASELINE">
- is the concentration in cell <EM CLASS="Emphasis">
-j</EM>
- at the current time (mol/m3), <IMG SRC="phreeqc3-339.gif" ALIGN="BASELINE">
- is the concentration in cell <EM CLASS="Emphasis">
-j</EM>
- after the time step, Dw is the tracer diffusion coefficient (m2/s), <IMG SRC="phreeqc3-340.gif" ALIGN="BASELINE">
- is the time step (s), i is an adjacent cell, <IMG SRC="phreeqc3-341.gif" ALIGN="BASELINE">
- is the porosity over the interface of cells i and j (unitless), Gij is the geometrical factor that corrects for tortuosity of the porous medium (unitless), hij is the distance between midpoints of the cells (m), Aij is the shared surface area of cells i and j (m2), Vj is the volume of cell j (m3), and fbc is a factor for boundary cells (unitless). The summation is for all cells (up to n) adjacent to j. When hij is equal for all cells, a central difference algorithm is obtained that has second-order accuracy [O(h)2] (Appelo and others, 2008). It is therefore advantageous to make the grid regular. However, the same accuracy is achievable for a heterogeneous domain, even with widely variable gridsize, if the harmonic mean of the parameters in <IMG SRC="phreeqc3-342.gif" ALIGN="BASELINE">
- is used. These parameters together, translate the tracer diffusion coefficient Dw into the effective diffusion coefficient De.</P>
+<H4 CLASS="FM3dOrderHeading">
+<A NAME="50610191_pgfId-1445195"></A><A NAME="50610191_48523"></A>Initial Conditions</H4>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1504179"></A>The harmonic mean can be derived in general (omitting the activity coefficient to simplify the formulas) as follows. The fluxes inside cells i and j and over the interface of the two cells must be the same and are given by:</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1418095"></A><A NAME="50540559_78194"></A><IMG SRC="phreeqc3-343.gif" ALIGN="BASELINE">
-,	(45)</H3>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1418100"></A><A NAME="50540559_34933"></A><IMG SRC="phreeqc3-344.gif" ALIGN="BASELINE">
-, and	(46)</H3>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1418105"></A><A NAME="50540559_77764"></A><IMG SRC="phreeqc3-345.gif" ALIGN="BASELINE">
-,	(47)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1443041"></A>where h is the cell length (m), and cij is the concentration at the interface. Substituting <IMG SRC="phreeqc3-346.gif" ALIGN="BASELINE">
- = gi, in <A HREF="phreeqc3-76.htm#50540559_34933" CLASS="XRef">equation 46</A> and similarly in <A HREF="phreeqc3-76.htm#50540559_77764" CLASS="XRef">equation 47</A>, the two equations can be combined while eliminating the concentration cij to give:</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1478346"></A><A NAME="50540559_79751"></A><IMG SRC="phreeqc3-347.gif" ALIGN="BASELINE">
-.	(48)</H3>
+<A NAME="50610191_pgfId-1530231"></A>Parkhurst and others (1996) provide data from which it is possible to estimate the moles of calcite, dolomite, and cation-exchange sites in the aquifer per liter of water. The weight percent ranges from 0 to 2 percent for calcite and 0 to 7 percent for dolomite, with dolomite much more abundant. Porosity is stated to be 0.22. Cation-exchange capacity for the clay ranges from 20 to 50 meq/100 g (milliequivalent per 100 grams), with an average clay content of 30 percent. For these example calculations, calcite was assumed to be present at 0.1 weight percent and dolomite, at 3 weight percent; by assuming a rock density of 2.7 kg/L, these percentages correspond to 0.1 mol/L for calcite and 1.6 mol/L for dolomite. The number of cation-exchange sites was estimated to be 1.0 eq/L. </P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1478348"></A>Multiplying the flux by the surface area, the time step, and the boundary factor, and dividing by the volume of the cell for which the concentration change is calculated (here, cell j), the mixing factor is obtained:</P>
-</DIV>
-<DIV>
-<H3 CLASS="EquationNumbered">
-<A NAME="50540559_pgfId-1442927"></A><A NAME="50540559_83544"></A><IMG SRC="phreeqc3-348.gif" ALIGN="BASELINE">
-,	(49)</H3>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1470781"></A>where fbc is 2 for cells in contact with a constant concentration cell, and 1 otherwise. When calculating mixf, Vj is set to 10<Sup CLASS="Superscript">
--3</Sup>
- m<Sup CLASS="Superscript">
-3</Sup>
-, and for Dw the default diffusion coefficient is used, entered with identifier -multi_D. In multicomponent-diffusion mode, PHREEQC adapts the volume Vj (entered as 10<Sup CLASS="Superscript">
--3</Sup>
- m<Sup CLASS="Superscript">
-3</Sup>
- in <A HREF="phreeqc3-76.htm#50540559_83544" CLASS="XRef">equation 49</A>), to the actual volume of water in cell j, and multiplies the mixing factor for each solute species a by the ratio of the tracer diffusion coefficient for a and the default diffusion coefficient (Dw, a / Dw).</P>
+<A NAME="50610191_pgfId-1687429"></A>The amount of arsenic on the surface was estimated from sequential extraction data on core samples (Mosier and others, 1991). Arsenic concentrations in the solid phases generally ranged from 10 to 20 ppm, which corresponds to 1.3 to 2.6 mmol/L arsenic. The number of surface sites were estimated from the amount of extractable iron in sediments, which ranged from 1.6 to 4.4 percent (Mosier and others, 1991). A content of 2 percent iron for the sediments corresponds to 3.4 mol/L of iron. However, most of the iron is in goethite and hematite, which have far fewer surface sites than hydrous ferric oxide. The fraction of iron in hydrous ferric oxide was arbitrarily assumed to be 0.1. Thus, a total of 0.34 mol of iron was assumed to be present as hydrous ferric oxide, and using a value of 0.2 for the number of sites per mole of iron, a total of 0.07 mol of sites per liter was used in the calculations. A gram formula weight of 89 g/mol was used to estimate that the mass of hydrous ferric oxide was 30 g/L (gram per liter). The specific surface area was assumed to be 600 m<Sup CLASS="Superscript">
+2</Sup>
+/g.</P>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1470785"></A>To avoid numerical oscillations, it is necessary that mixf &lt; 0.5, which can be realized by limiting the time step. This maximum permissible time step is usually determined by the cell with the smallest volume (in the model) and the fluxes of the proton, which normally has the highest tracer diffusion coefficient. However, if the proton concentration is sufficiently buffered by alkalinity or other species, and the solutions are uniform except for the tracers, the tracer with the highest Dw may be selected for calculating the maximum permissible time step. If, nevertheless, time steps are too large, PHREEQC warns that negative concentrations are calculated (and the program stops because the system reached an infeasible state), the time step can be subdivided. For example, -time_step 5e2 3 will subdivide the time step of 500 s in three equal ones of 166.7 s.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1559944"></A>The input file in <A HREF="phreeqc3-76.htm#50540559_76081" CLASS="XRef">table 60</A> defines the physical and chemical properties of the clay pore space and writes the mixing factors for diffusional transport in the filters and the clay. The filters used by Van Loon have a geometrical factor of 4 for all the tracers, whether charged or not (Glaus and others, 2008). In the clay, the geometrical factor for HTO is 6.2. For cations, the geometrical factor appears to be 2 to 4 times smaller than for tritium. However, in this example (example 21), the same geometrical factor is used for both HTO and the cations; the smaller apparent geometrical factors are modeled by subdividing the pore space into free pore water and double-layer water. The concentrations of cations are higher in double-layer water than in free pore water, and hence, the concentration gradients of cations are also higher, which, as noted previously enhances their diffusion. In models that do not account for this physical aspect of the clay pore space, the faster diffusion is treated by diminishing the geometrical factor.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1658925"></A>For anions, the geometrical factor is about 1.5 times larger than for tritium. This larger factor is related to narrowing of the pores, where overlapping double layers decrease the accessible porosity for anions and obstruct their passage (as noted above). The model accounts for the observed, smaller accessible porosity for anions relative to tritium and cations by the calculation of anion exclusion in the double layer.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1659662"></A>The file starts with the tracer species, where, for the monovalent tracers 22Na+ (=&#8220;Na_tr+&#8221;) and Cs+, an enrichment factor for the double layer is entered with -erm_ddl in the <A HREF="phreeqc3-43.htm#50540545_96148" CLASS="XRef">SOLUTION_SPECIES</A> data block. The enrichment is related to increased complexation of the polyvalent cations in the low dielectric permittivity of the double layer, and thus, more charge must be counterbalanced by monovalent cations. Sorption of Cs+ is much stronger than that of Na+, which is modeled by two surface complexes and one exchange reaction with large constants. The constants are based on the measured adsorption isotherm for Opalinus Clay, but may be generally applicable because they are associated primarily with strong sorption sites on illite. Next, the file writes <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 0-2 for a regular column, followed by <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 3,  </P>
+<A NAME="50610191_pgfId-1613065"></A>The brine that initially fills the aquifer was taken from Parkhurst and others (1996) and is given as solution 1 in the input file for this example (<A HREF="phreeqc3-76.htm#50610191_88386" CLASS="XRef">table 37</A>). The pure-phase assemblage containing calcite and dolomite is defined with the <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> 1 data block. The brine is first equilibrated with calcite and dolomite and saved again as solution 1 (<A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> data block). The number of cation exchange sites is defined with <A HREF="phreeqc3-14.htm#50610177_84573" CLASS="XRef">EXCHANGE</A> 1 and the number of surface sites is defined with <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A> 1. The initial exchange and the initial surface composition are determined by equilibrium with the brine, after equilibration with calcite and dolomite (note that equilibration of exchangers and surfaces <EM CLASS="Emphasis">
+before</EM>
+ mineral equilibration will yield different results because of buffering by the sorbed elements). The concentration of arsenic in the brine (0.025 &#956;mol/kgw) was determined by trial and error to give a total of approximately 1.8 mmol arsenic on the surface, which is consistent with the sequential extraction data.    </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50540559_pgfId-1658929"></A>Table 60. <A NAME="50540559_76081"></A>Input file for example 21.</P>
+<A NAME="50610191_pgfId-1613083"></A>Table 37. <A NAME="50610191_88386"></A>Input file for example 14.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658931"></A>TITLE Diffusion through Opalinus Clay in a radial diffusion cell, </Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613085"></A>TITLE Example 14.--Transport with equilibrium_phases, exchange, and surface reactions</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658933"></A>      Appelo and others, 2010, GCA, v. 74, p. 1201-1219.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613087"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658935"></A>SOLUTION_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613089"></A># Use phreeqc.dat</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658937"></A># element   species   alk gfw_formula element_gfw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613091"></A># Dzombak and Morel (1990) aqueous and surface complexation models for arsenic</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658939"></A>  Hto       Hto       0.0   20        20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613093"></A># are defined here</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658941"></A>  Na_tr     Na_tr+    0.0   22        22</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613095"></A>#</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658943"></A>  Cl_tr     Cl_tr-    0.0   36        36</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613097"></A>SURFACE_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658945"></A>  Cs        Cs+       0.0  132.905   132.905</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613099"></A>        Surf    SurfOH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658947"></A>SOLUTION_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613101"></A>SURFACE_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658949"></A>  Hto = Hto;        log_k 0; -gamma 1e6 0;     -dw 2.236e-9</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613103"></A>        SurfOH = SurfOH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658951"></A>  Na_tr+ = Na_tr+;  log_k 0; -gamma 4.0 0.075; -dw 1.33e-9; -erm_ddl 1.23</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613105"></A>                log_k   0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658953"></A>  Cl_tr- = Cl_tr-;  log_k 0; -gamma 3.5 0.015; -dw 1.31e-9 # dw = dw(water) / 1.55 = 2.03e-9 / 1.55</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613107"></A>        SurfOH  + H+ = SurfOH2+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658955"></A>  Cs+ = Cs+;        log_k 0; -gamma 3.5 0.015; -dw 2.07e-9; -erm_ddl 1.23</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613109"></A>                log_k   7.29</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658957"></A>SURFACE_MASTER_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613111"></A>        SurfOH = SurfO- + H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658959"></A>  Su_fes Su_fes-   # Frayed Edge Sites</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613113"></A>                log_k   -8.93</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658961"></A>  Su_ii Su_ii-     # Type II sites of intermediate strength</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613115"></A>        SurfOH + AsO4-3 + 3H+ = SurfH2AsO4 + H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658963"></A>  Su_ Su_-         # Double layer, planar sites are modeled with EXCHANGE</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613117"></A>                log_k   29.31</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658965"></A>SURFACE_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613119"></A>        SurfOH + AsO4-3 + 2H+ = SurfHAsO4- + H2O</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658967"></A>  Su_fes- = Su_fes-; log_k 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613121"></A>                log_k   23.51</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658969"></A>  Na+ + Su_fes- = NaSu_fes; log_k 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613123"></A>        SurfOH + AsO4-3 = SurfOHAsO4-3</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658971"></A>  Na_tr+ + Su_fes- = Na_trSu_fes; log_k 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613125"></A>                log_k   10.58</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658973"></A>  K+ + Su_fes- = KSu_fes; log_k 12.4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613127"></A>SOLUTION_MASTER_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658975"></A>  Cs+ + Su_fes- = CsSu_fes; log_k 17.14</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613129"></A>        As       H3AsO4        -1.0     74.9216    74.9216</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658977"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613131"></A>SOLUTION_SPECIES</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658979"></A>  Su_ii- = Su_ii-; log_k 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613133"></A>        H3AsO4 = H3AsO4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658981"></A>  Na+ + Su_ii- = NaSu_ii; log_k 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613135"></A>                log_k           0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658983"></A>  Na_tr+ + Su_ii- = Na_trSu_ii; log_k 10</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1613137"></A>        H3AsO4 = AsO4-3 + 3H+</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658985"></A>  K+ + Su_ii- = KSu_ii; log_k 12.1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753839"></A>                log_k   -20.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658987"></A>  Cs+ + Su_ii- = CsSu_ii; log_k 14.6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753837"></A>        H+ + AsO4-3 = HAsO4-2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658989"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753835"></A>                log_k   11.50</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658991"></A>  Su_- = Su_-; log_k 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753833"></A>        2H+ + AsO4-3 = H2AsO4-</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658993"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753831"></A>                log_k           18.46</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658995"></A>EXCHANGE_SPECIES</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753829"></A>SOLUTION 1 Brine</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658997"></A>  Na_tr+ + X- = Na_trX; log_k 0.0;  -gamma 4.0 0.075</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753827"></A>        pH      5.713</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1658999"></A>  Cs+ + X- = CsX;       log_k 2.04; -gamma 3.5 0.015</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753825"></A>        pe      4.0     O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1659001"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753823"></A>        temp    25.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1659003"></A>SOLUTION 0-2 column with only cell 1, two boundary solutions 0 and 2.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753821"></A>        units   mol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1659005"></A>  Na 1; Cl 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753819"></A>        Ca      .4655</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1659007"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753817"></A>        Mg      .1609</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1659009"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753815"></A>        Na      5.402</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763882"></A>KNOBS; -diagonal_scale true # -tolerance 1e-20 # because of low concentrations</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753813"></A>        Cl      6.642           charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763880"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753811"></A>        C       .00396</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763878"></A>SOLUTION 3 tracer solution</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753809"></A>        S       .004725</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763876"></A>  pH 7.6; pe 14 O2(g) -1.0; temp 23</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753807"></A>        As      .025 umol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763874"></A>  Na 240; K 1.61; Mg 16.9; Ca 25.8; Sr 0.505</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753805"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763872"></A>  Cl 300; S(6) 14.1; Fe(2) 0.0; Alkalinity 0.476</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753803"></A>USE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763870"></A># uncomment tracer concentrations and kg water 1 by 1...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753801"></A>EQUILIBRIUM_PHASES 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763868"></A>  Hto 1.14e-6;   -water 0.2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753798"></A>        Dolomite        0.0     1.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763866"></A>#  Cl_tr 2.505e-2; -water 0.502</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753796"></A>        Calcite         0.0     0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763864"></A>#  Cs 1; Na_tr 1.87e-7; -water 1.02</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753794"></A>SAVE solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763862"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753792"></A># prints initial condition to the selected-output file</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763860"></A>  -file radial; -reset false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753790"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763858"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753788"></A>        -file ex14.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763856"></A>     # Define symbols and pi...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753786"></A>        -reset false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763854"></A>1    nl$ = EOL$                # newline</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753784"></A>        -step</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763852"></A>2    x$  = CHR$(35)            # cross '#'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753782"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763850"></A>3    sc$ = CHR$(59)            # semicolon ';'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753780"></A>        -head  m_Ca m_Mg m_Na umol_As pH mmol_sorbedAs</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763848"></A>4    pi  = 2 * ARCTAN(1e10)    # 3.14159...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753778"></A>  10 PUNCH TOT(&quot;Ca&quot;), TOT(&quot;Mg&quot;), TOT(&quot;Na&quot;), TOT(&quot;As&quot;)*1e6, -LA(&quot;H+&quot;), SURF(&quot;As&quot;, &quot;Surf&quot;)*1000</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763846"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753776"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763844"></A>     # Define experimental parameters...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753774"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763842"></A>10   height = 0.052           # length of the clay cylinder / m</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753772"></A># skips print of initial exchange and initial surface to the selected-output file</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763840"></A>20   r_int = 6.58e-3          # inner radius of clay cylinder / m</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753770"></A>        -selected_out false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763838"></A>30   r_ext = 25.4e-3          # outer radius</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753768"></A>EXCHANGE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763836"></A>40   thickn_filter1 = 1.8e-3  # tracer-in filter thickness / m</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753766"></A>        -equil with solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763834"></A>50   thickn_filter2 = 1.6e-3  # tracer-out filter thickness / m</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753764"></A>        X       1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763832"></A>60   por_filter1 = 0.418      # porosity</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753762"></A>SURFACE 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763830"></A>70   por_filter2 = 0.367</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753760"></A>        -equil solution 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763828"></A>80   G_filter1 = 4.18         # geometrical factor. (for filters, G = por / 10)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753758"></A># assumes 1/10 of iron is HFO</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763826"></A>90   G_filter2 = 3.67</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753756"></A>        SurfOH           0.07    600.    30.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763824"></A>100  V_end = 0.2              # volume of the tracer-out solution / L</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753754"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763822"></A>110  thickn_clay = r_ext - r_int # clay thickness / m</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753752"></A>SOLUTION 0 20 x precipitation</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763820"></A>120  por_clay = 0.159</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753750"></A>        pH      4.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763818"></A>130  rho_b_eps = 2.7 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753748"></A>        pe      4.0     O2(g)   -0.7</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763816"></A>140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753746"></A>        temp    25.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763814"></A>150  A_por = 37e3 * rho_b_eps # pore surface area / (m2/L porewater)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753744"></A>        units   mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763812"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753742"></A>        Ca      .191625</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763810"></A>160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1$(4), profile_y2$(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753740"></A>        Mg      .035797</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763808"></A>170  DATA 'Hto', 'Cl_tr', 'Na_tr', 'Cs'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753738"></A>        Na      .122668</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763806"></A>180  READ tracer$(1), tracer$(2), tracer$(3), tracer$(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753736"></A>        Cl      .133704</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763804"></A>     # experimental times (seconds) for HTO, 36Cl, 22Na and Cs, respectively,</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753734"></A>        C       .01096</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763802"></A>     # in order of increasing times...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753732"></A>        S       .235153         charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763800"></A>200  DATA 86400 * 20, 86400 * 40, 86400 * 45, 86400 * 1000</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753730"></A>EQUILIBRIUM_PHASES 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763798"></A>210  READ exp_time(1), exp_time(2), exp_time(3), exp_time(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753728"></A>        Dolomite        0.0     1.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763796"></A>     # scale y1-axis (flux) (not used)...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753726"></A>        Calcite         0.0     0.1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763794"></A>230  DATA '1', '1', '1', '1'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753724"></A>        CO2(g)          -1.5    10.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763792"></A>240  READ scale_y1$(1), scale_y1$(2), scale_y1$(3), scale_y1$(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753722"></A>SAVE solution 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763790"></A>     # scale y2-axis (mass) (not used)...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753720"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763788"></A>260  DATA '1', '1', '1', '1'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753718"></A>PRINT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763786"></A>270  READ scale_y2$(1), scale_y2$(2), scale_y2$(3), scale_y2$(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753716"></A>        -selected_out true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763784"></A>     # scale max of the profile y axes...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753714"></A>		-status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763782"></A>280  DATA '0 1.2e-9', '0 2.5e-5', '0 2e-10', '0 auto'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753712"></A>ADVECTION</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763780"></A>290  READ profile_y1$(1), profile_y1$(2), profile_y1$(3), profile_y1$(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753710"></A>        -cells 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763778"></A>300  DATA '0 1.2e-9', '0 2.5e-5', '0 6e-10', '0 auto'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753708"></A>        -shifts 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763776"></A>310  READ profile_y2$(1), profile_y2$(2), profile_y2$(3), profile_y2$(4)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753706"></A>        -print_frequency 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763774"></A>&nbsp;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753704"></A>USER_GRAPH 1 Example 14</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763772"></A>     # Define model parameters...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753702"></A>        -headings PV As(ppb) Ca(M) Mg(M) Na(M) pH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763770"></A>350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m2/s)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753700"></A>        -chart_title &quot;Chemical Evolution of the Central Oklahoma Aquifer&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763768"></A>360  nfilt1 = 1               # number of cells in filter 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753698"></A>        -axis_titles &quot;Pore volumes or shift number&quot; &quot;Log(Concentration, in ppb or molal)&quot; &quot;pH&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763766"></A>370  nfilt2 = 1               # number of cells in filter 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753696"></A>        -axis_scale x_axis 0 200</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763764"></A>380  nclay = 11               # number of clay cells</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753694"></A>        -axis_scale y_axis 1e-6 100 auto auto Log</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763762"></A>390  f_free = 0.117           # fraction of free pore water (0.01 - 1)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753692"></A>  10 GRAPH_X STEP_NO</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763760"></A>400  f_DL_charge = 0.45       # fraction of CEC charge in electrical double layer</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753690"></A>  20 GRAPH_Y TOT(&quot;As&quot;) * 74.92e6, TOT(&quot;Ca&quot;), TOT(&quot;Mg&quot;), TOT(&quot;Na&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763758"></A>410  tort_n = -0.99           # exponent in Archie's law, -1.045 without filters</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753688"></A>  30 GRAPH_SY -LA(&quot;H+&quot;)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763756"></A>420  G_clay = por_clay^tort_n # geometrical factor</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763754"></A>430  interlayer_D$ = 'false'  # 'true' or 'false' for interlayer diffusion</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763752"></A>440  G_IL = 700               # geometrical factor for clay interlayers</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763750"></A>450  punch_time = 60 * 60 * 6 # punch time / seconds</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763748"></A>460  profile$ = 'true'        # 'true' or 'false' for c/x profile visualization</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763746"></A>470  IF nfilt1 = 0 THEN thickn_filter1 = 0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763744"></A>480  IF nfilt2 = 0 THEN thickn_filter2 = 0</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763742"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763740"></A>     # See which tracer is present...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763738"></A>490  IF tot(&quot;Hto&quot;) &gt; 1e-10 THEN tracer = 1 ELSE &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763736"></A>     IF tot(&quot;Cl_tr&quot;) &gt; 1e-10 THEN tracer = 2 ELSE tracer = 3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763734"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763732"></A>     # Define clay pore water composition...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763730"></A>520  sol$ = nl$ + ' pH 7.6' + sc$ +' pe 14 O2(g) -1.0' + sc$ +' temp 23'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763728"></A>530  sol$ = sol$ + nl$ + ' Na 240' + sc$ +' K 1.61' + sc$ +' Mg 16.9' + sc$ +' Ca 25.8' + sc$ +' Sr 0.505'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763726"></A>540  sol$ = sol$ + nl$ + ' Cl 300' + sc$ +' S(6) 14.1' + sc$ +' Fe(2) 0.0' + sc$ +' Alkalinity 0.476'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763724"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763722"></A>     # Define phases in which the tracers precipitate...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763720"></A>550  tracer_phases$ = nl$ + 'PHASES '</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763718"></A>560  tracer_phases$ = tracer_phases$ + nl$ + ' A_Hto' + nl$ + ' Hto = Hto' + sc$ +' log_k -15'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763716"></A>570  tracer_phases$ = tracer_phases$ + nl$ + ' A_Na_tr' + nl$ + ' Na_trCl = Na_tr+ + Cl-' + sc$ + ' log_k -14'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763714"></A>580  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cl_tr' + nl$ + ' NaCl_tr = Na+ + Cl_tr-' + sc$ +' log_k -14'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763712"></A>590  tracer_phases$ = tracer_phases$ + nl$ + ' A_Cs' + nl$ + ' CsCl = Cs+ + Cl-' + sc$ + ' log_k -13'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763710"></A>600  DIM tracer_equi$(4)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763708"></A>610  FOR i = 1 TO 4</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763706"></A>620    tracer_equi$(i) = nl$ + 'A_' + tracer$(i) + ' 0 0'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763704"></A>630  NEXT i</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763702"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763700"></A>     # Write solutions for the cells...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763698"></A>650  punch nl$ + 'PRINT ' + sc$ + ' -reset false' + sc$ + ' -echo_input true' + sc$ + ' -user_print true'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763696"></A>660  IF nfilt1 = 0 THEN GOTO 800</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763694"></A>670  punch nl$ + x$ + ' filter cells at tracer-in side...'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763692"></A>680  r1 = r_int - thickn_filter1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763690"></A>690  xf1 = thickn_filter1 / nfilt1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763688"></A>700  FOR i = 1 TO nfilt1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763686"></A>710    num$ = TRIM(STR$(i + 3)) + sc$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763684"></A>720    V_water = 1e3 * height * por_filter1 * pi * (SQR(r1 + xf1) - SQR(r1))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763682"></A>730    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763680"></A>740    punch sol$ + nl$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763678"></A>750    r1 = r1 + xf1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763676"></A>760  NEXT i</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763674"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763672"></A>800  punch nl$ + nl$ + x$ + ' cells in Opalinus Clay...'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763670"></A>810  r1 = r_int</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763668"></A>820  x = thickn_clay / nclay</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763666"></A>830  FOR i = 1 TO nclay</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763664"></A>840    num$ = TRIM(STR$(i + 3 + nfilt1)) + sc$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763662"></A>850    V_water = 1e3 * height * por_clay * pi * (SQR(r1 + x) - SQR(r1))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763660"></A>860    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water * f_free)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763658"></A>870    punch sol$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763656"></A>880    IF f_free = 1 and tracer = 1  THEN GOTO 960</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763654"></A>890    punch nl$ + 'SURFACE ' + num$ + ' -equil ' + num$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763652"></A>900    punch nl$ + ' Su_ ' + TRIM(STR$(f_DL_charge * CEC * V_water)) + STR$(A_por) + ' ' + STR$(V_water)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763650"></A>910    punch nl$ + ' Su_ii ' + TRIM(STR$(7.88e-4 * rho_b_eps * V_water))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763648"></A>920    punch nl$ + ' Su_fes ' + TRIM(STR$(7.4e-5 * rho_b_eps * V_water))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763646"></A>930    IF f_free &lt; 1 THEN punch nl$ + ' -Donnan ' + TRIM(STR$((1 - f_free) * 1e-3 / A_por))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763644"></A>940    punch nl$ + 'EXCHANGE ' + num$ + ' -equil ' + num$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763642"></A>950    punch nl$ + ' X ' + TRIM(STR$((1 - f_DL_charge) * CEC * V_water)) + nl$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763640"></A>960    r1 = r1 + x</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763638"></A>970  NEXT i</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763636"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763634"></A>1000 IF nfilt2 = 0 THEN GOTO 1200</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763632"></A>1010 punch nl$ + nl$ + x$ + ' tracer-out filter cells...'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763630"></A>1020 r1 = r_ext</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763628"></A>1030 xf2 = thickn_filter2 / nfilt2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763626"></A>1040 FOR i = 1 TO nfilt2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763624"></A>1050   num$ = TRIM(STR$(i + 3 + nfilt1 + nclay)) + sc$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763622"></A>1060   V_water = 1e3 * height * por_filter2 * pi * (SQR(r1 + xf2) - SQR(r1))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763620"></A>1070   punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_water)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763618"></A>1080   punch sol$ + nl$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763616"></A>1090   r1 = r1 + xf2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763614"></A>1100 NEXT i</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763612"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763610"></A>1200 punch nl$ + x$ + ' outside solution...'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763608"></A>1210 num$ = TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + sc$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763606"></A>1220 punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_end)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763604"></A>1230 punch sol$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763602"></A>1240 punch nl$ + 'END'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763600"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763598"></A>     # Write phases in which the tracers precipitate...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763596"></A>1300 punch nl$ + tracer_phases$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763594"></A>1310 punch nl$ + 'EQUILIBRIUM_PHASES ' + num$ + tracer_equi$(tracer)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763592"></A>1312 If tracer = 3 THEN punch nl$ + tracer_equi$(tracer + 1)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763590"></A>1320 punch nl$ + 'END'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763588"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763586"></A>     # Define mixing factors for the diffusive flux between cells 1 and 2:</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763584"></A>     #    J_12 = -2 * Dw / (x_1 / g_1 + x_2 / g_2) * (c_2 - c_1)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763582"></A>     # Multiply with dt * A / (V = 1e-3 m3).  (Actual volumes are given with SOLUTION; -water)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763580"></A>     # Use harmonic mean: g_1 = por_1 / G_1, g_2 = por_2 / G_2, x_1 = Delta(x_1), etc.</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763578"></A>1400 IF nfilt1 &gt; 0 THEN gf1 = por_filter1 / G_filter1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763576"></A>1410 IF nfilt2 &gt; 0 THEN gf2 = por_filter2 / G_filter2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763574"></A>1420 g = por_clay / G_clay</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763572"></A>     # Find max time step = 0.5 * V_water * dx * G_factor / (Dw * por * A * fbc)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763570"></A>     #            V_water = por * pi * height * ((r + dr)^2 - r^2)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763568"></A>     #                  A = por * pi * height * r * 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763566"></A>     # At the inlet of the tracers, fbc = 2...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763564"></A>1500 IF nfilt1 = 0 THEN GOTO 1530</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763562"></A>1510   r1 = r_int - thickn_filter1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763560"></A>1520   ff = (SQR(r1 + xf1) - SQR(r1)) * xf1 * G_filter1 / (r1 * 2) / 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763558"></A>1530 ff1 = (SQR(r_int + x) - SQR(r_int)) * x * G_clay / (r_int * 2) / 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763556"></A>     # Perhaps the clay has very small cells...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763554"></A>1540 IF nfilt1 = 0 THEN ff = ff1 ELSE IF ff1 * 2 &lt; ff THEN ff = ff1 * 2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763552"></A>     # Or at the filter1-clay transition, fbc = 1...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763550"></A>1550 IF nfilt1 &gt; 0 THEN ff1 = (SQR(r_int + x) - SQR(r_int)) * (xf1 / gf1 + x / g) / (2 * r_int * 2)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763548"></A>1560 IF nfilt1 &gt; 0 AND ff1 &lt; ff THEN ff = ff1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763546"></A>     # Perhaps filter2 has very small cells...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763544"></A>1570 IF nfilt2 &gt; 0 THEN ff1 = (SQR(r_ext + xf2) - SQR(r_ext)) * xf2 * G_filter2 / (r_ext * 2)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763542"></A>1580 IF nfilt2 &gt; 0 AND ff1 &lt; ff THEN ff = ff1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763540"></A>1590 dt_max = 0.5 * ff / Dw</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763538"></A>     # Check with punch times, set shifts...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763536"></A>1610 IF punch_time &lt; dt_max THEN dt = punch_time ELSE dt = dt_max</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763534"></A>1620 punch_fr = 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763532"></A>1630 IF dt &lt; punch_time THEN punch_fr = ceil(punch_time / dt)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763530"></A>1640 dt = punch_time / punch_fr</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763528"></A>1650 shifts = ceil(exp_time(tracer) / dt)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763526"></A>     # Write mixing factors...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763524"></A>1700 punch nl$ + nl$ + x$ + ' mixing factors...'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763522"></A>1710 r1 = r_int</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763520"></A>1720 IF nfilt1 &gt; 0 THEN r1 = r_int - thickn_filter1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763518"></A>1730 A = height * 2 * pi</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763516"></A>1740 FOR i = 0 TO nfilt1 + nclay + nfilt2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763514"></A>1750   IF i = 0 OR i = nfilt1 + nclay + nfilt2 THEN fbc = 2 ELSE fbc = 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763512"></A>1760   IF i &gt; nfilt1 OR nfilt1 = 0 THEN GOTO 1810</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763510"></A>1770     IF i &lt; nfilt1 THEN mixf = Dw * fbc / (xf1 / gf1) * dt * A * r1 / 1e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763508"></A>1780     IF i = nfilt1 THEN mixf = 2 * Dw / (xf1 / gf1 + x / g) * dt * A * r1 / 1e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763506"></A>1790     IF i &lt; nfilt1 THEN r1 = r1 + xf1 ELSE r1 = r1 + x</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763504"></A>1800     GOTO 1880</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763502"></A>1810   IF i &gt; nfilt1 + nclay THEN GOTO 1860</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763500"></A>1820     mixf = Dw * fbc / (x / g) * dt * A * r1 / 1e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763498"></A>1830     IF i = nfilt1 + nclay AND nfilt2 &gt; 0 THEN mixf = 2 * Dw / (xf2 / gf2 + x / g) * dt * A * r1 / 1e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763496"></A>1840     IF i &lt; nfilt1 + nclay THEN r1 = r1 + x ELSE r1 = r1 + xf2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763494"></A>1850     GOTO 1880</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763492"></A>1860   mixf = Dw * fbc / (xf2 / gf2) * dt * A * r1 / 1e-3</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763490"></A>1870   r1 = r1 + xf2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763488"></A>1880   punch nl$ + 'MIX ' + TRIM(STR$(i + 3)) + sc$ + STR$(i + 4) + STR$(mixf)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763486"></A>1890 NEXT i</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763484"></A>1900 punch nl$ + 'END'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763482"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763480"></A>     # Write TRANSPORT...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763478"></A>2000 punch nl$ + 'TRANSPORT'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763476"></A>2010 stag = 2 + nfilt1 + nclay + nfilt2</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763474"></A>2020 punch nl$ + ' -warnings true'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763472"></A>2030 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763470"></A>2040 punch nl$ + ' -flow diff' + sc$ + ' -cells 1' + sc$ + ' -bcon 1 2' + sc$ + ' -stag ' + TRIM(STR$(stag))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763468"></A>2050 punch nl$ + ' -time ' + STR$(dt)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763466"></A>2060 punch nl$ + ' -multi_D true ' + STR$(Dw) + STR$(por_clay) + ' 0.0 ' + TRIM(STR$(-tort_n))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763464"></A>2070 punch nl$ + ' -interlayer_D ' + interlayer_D$ + ' 0.001 0.0 ' + TRIM(STR$(G_IL))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763462"></A>2080 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763460"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763458"></A>     # Write USER_GRAPH...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763456"></A>2180 FOR i = 0 to 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763454"></A>2190   punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + i)) + ' Example 21' + nl$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763452"></A>2200   punch nl$ + ' -chart_title &quot; ' + tracer$(tracer + i) + ' Diffusion to Outer Cell&quot;'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763450"></A>2210   punch nl$ + ' -plot_tsv_file ex21_' + tracer$(tracer + i) + '_rad.tsv'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763448"></A>2220   punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$(exp_time(tracer + i) / (3600 * 24)))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763446"></A>2230   punch nl$ + ' -axis_titles &quot;Time, in days&quot; &quot;Flux, in moles per square meter per second&quot; &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763444"></A>            &quot;Accumulated mass, in moles&quot;'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763442"></A>2240   punch nl$ + ' -plot_concentration_vs time'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763440"></A>2250   punch nl$ + ' 10 days = total_time / (3600 * 24)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763438"></A>2260   punch nl$ + ' 20 a = equi(&quot;A_' + tracer$(tracer + i) + '&quot;)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763436"></A>2270   punch nl$ + ' 30 IF get(1) = 0 AND total_time &gt; 0 THEN put(total_time, 1)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763434"></A>2280   punch nl$ + ' 40 dt = get(1)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763432"></A>2290   A = 2 * pi * r_ext * height</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763430"></A>2300   i$ = TRIM(STR$(2 + i))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763428"></A>2310   punch nl$ + ' 50 plot_xy days - dt / (2 * 3600 * 24), (a - get(' + i$ + ')) / dt /' + STR$(A) + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763426"></A>            ', color = Green, symbol = None'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763424"></A>2320   punch nl$ + ' 60 put(a, ' + i$ + ')'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763422"></A>2330   punch nl$ + ' 70 plot_xy days, equi(&quot;A_' + tracer$(tracer + i) + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763420"></A>            '&quot;), y_axis = 2, color = Red, symbol = None'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763418"></A>2340   IF tracer &lt; 3 THEN GOTO 2360</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763416"></A>2350 NEXT i</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763414"></A>2360 punch nl$ + 'END'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763412"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763410"></A>2400 IF profile$ = 'true' THEN GOSUB 3000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763408"></A>2410 IF tracer &lt; 3 THEN END # finished for Hto and Cl</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763406"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763404"></A>     # Continue with Cs...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763402"></A>2420 IF profile$ = 'false' THEN punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer)) + sc$ + ' -detach' ELSE &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763400"></A>                                punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + 4)) + sc$ + ' -detach'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763398"></A>2440 tracer = tracer + 1</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763396"></A>2450 punch nl$ + 'TRANSPORT'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763394"></A>2460 shifts = ceil((exp_time(tracer) - exp_time(tracer - 1))/ dt)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763392"></A>2480 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763390"></A>2490 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c ' + TRIM(STR$(2 + stag))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763388"></A>2500 punch nl$ + 'END'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763386"></A>2510 IF profile$ = 'true' THEN GOSUB 3000</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763384"></A>2520 END # finished...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763382"></A>&nbsp;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763380"></A>     # Write TRANSPORT and USER_GRAPH for concentration profile...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763378"></A>3000 punch nl$ + 'TRANSPORT'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763376"></A>3010 punch nl$ + ' -shifts 0'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763374"></A>3020 punch nl$ + ' -punch_fr 2' + sc$ + ' -punch_c 3-' + TRIM(STR$(2 + stag))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763372"></A>     # Write USER_GRAPH...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763370"></A>3030 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer)) + sc$ + ' -detach'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763368"></A>3040 punch nl$ + 'USER_GRAPH ' + TRIM(STR$(tracer + 4)) + ' Example 21' + nl$</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763366"></A>3050 punch nl$ + ' -chart_title &quot;' + tracer$(tracer) + ' Concentration Profile: Filter1 | Clay | Filter2&quot;'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763364"></A>3060 REM punch nl$ + ' -plot_tsv_file + tracer$(tracer) + '_prof.tsv'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763362"></A>3070 punch nl$ + ' -axis_scale x_axis 0 ' + TRIM(STR$((thickn_filter1 + thickn_clay + thickn_filter2) * 1e3))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763360"></A>3080 punch nl$ + ' -axis_scale y_axis ' + profile_y1$(tracer)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763358"></A>3090 punch nl$ + ' -axis_scale sy_axis ' + profile_y2$(tracer)</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763356"></A>3100 punch nl$ + ' -axis_titles ' + '&quot;Distance, in millimeters&quot; &quot;Free pore-water molality&quot; &quot;Total molality&quot;'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763354"></A>3110 punch nl$ + ' -headings ' + tracer$(tracer) + '_free ' + tracer$(tracer) + '_tot'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763352"></A>3120 punch nl$ + ' -plot_concentration_vs x'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763350"></A>3130 punch nl$ + ' -initial_solutions true'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763348"></A>3140 punch nl$ + ' 10 IF cell_no = 3 THEN xval = 0 ELSE xval = get(14)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763346"></A>3150 punch nl$ + ' 20 IF (' + TRIM(STR$(nfilt1)) + ' = 0 OR cell_no &gt; ' + TRIM(STR$(nfilt1 + 3)) + ') THEN GOTO 60'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763344"></A>3160 punch nl$ + ' 30 IF (cell_no = 4) THEN xval = xval + 0.5 * ' + TRIM(STR$(xf1))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763342"></A>3170 punch nl$ + ' 40 IF (cell_no &gt; 4 AND cell_no &lt; ' + TRIM(STR$(nfilt1 + 4)) + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763340"></A>          ') THEN xval = xval + ' + TRIM(STR$(xf1))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763338"></A>3180 punch nl$ + ' 50 GOTO 200'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763336"></A>3190 punch nl$ + ' 60 IF (cell_no = ' + TRIM(STR$(4 + nfilt1)) + ') THEN xval = xval + 0.5 * ' + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763334"></A>          TRIM(STR$(xf1)) + ' + 0.5 * ' + TRIM(STR$(x))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763332"></A>3200 punch nl$ + ' 70 IF (cell_no &gt; ' + TRIM(STR$(4 + nfilt1)) + ' AND cell_no &lt; ' + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763330"></A>          TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + ' + TRIM(STR$(x)) + ' ELSE GOTO 90'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763328"></A>3210 punch nl$ + ' 80 GOTO 200'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763326"></A>3220 punch nl$ + ' 90 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay)) + ') THEN xval = xval + 0.5 * ' + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763324"></A>          TRIM(STR$(x)) + ' + 0.5 * ' + TRIM(STR$(xf2))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763322"></A>3230 punch nl$ + ' 100 IF (cell_no &gt; ' + TRIM(STR$(4 + nfilt1 + nclay)) + ' AND cell_no &lt;= ' + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763320"></A>          TRIM(STR$(3 + nfilt1 + nclay + nfilt2)) + ') THEN xval = xval + ' + TRIM(STR$(xf2))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763318"></A>3240 punch nl$ + ' 110 IF (cell_no = ' + TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763316"></A>          ') THEN xval = xval + 0.5 * ' + TRIM(STR$(xf2))</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763314"></A>3250 punch nl$ + ' 200 y1 = TOT(&quot;' + tracer$(tracer) + '&quot;)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763312"></A>3260 punch nl$ + ' 210 plot_xy xval * 1e3, y1, color = Blue, symbol = Plus'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763310"></A>3270 punch nl$ + ' 220 IF cell_no = 3 THEN put(y1, 15)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763308"></A>3280 punch nl$ + ' 230 IF (cell_no &lt; ' + TRIM(STR$(4 + nfilt1)) + ' OR cell_no &gt; ' + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763306"></A>          TRIM(STR$(3 + nfilt1 + nclay)) + ') THEN GOTO 400'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763304"></A>3290 punch nl$ + ' 240 y2 = SYS(&quot;' + tracer$(tracer) + '&quot;) / (tot(&quot;water&quot;) + edl(&quot;water&quot;))'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763302"></A>     # Remove REM if total conc's per kg solid must be plotted (and adapt axis_titles)...</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763300"></A>3310 punch nl$ + ' 250 REM y2 = y2 / ' + TRIM(STR$(rho_b_eps)) + x$ + ' conc / kg solid'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763298"></A>3320 punch nl$ + ' 260 plot_xy xval * 1e3, y2, symbol = Circle, y_axis = 2'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763296"></A>3330 punch nl$ + ' 270 IF (cell_no &gt; ' + TRIM(STR$(5 + nfilt1)) + ') THEN GOTO 400'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763294"></A>3340 punch nl$ + ' 280 IF ' + TRIM(STR$(nfilt1)) + ' THEN plot_xy ' + TRIM(STR$(thickn_filter1 * 1e3)) + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763292"></A>          ', get(15), color = Black, symbol = None'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763290"></A>3350 punch nl$ + ' 290 IF ' + TRIM(STR$(nfilt2)) + ' THEN plot_xy ' + &#92;</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763288"></A>          TRIM(STR$((thickn_filter1 + thickn_clay) * 1e3)) + ', get(15), color = Black, symbol = None'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763286"></A>3360 punch nl$ + ' 300 put(0, 15)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763284"></A>3370 punch nl$ + ' 400 put(xval, 14)'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763282"></A>3380 punch nl$ + 'END'</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763280"></A>3390 RETURN</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763278"></A>END</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763276"></A>PRINT</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763274"></A> -selected_output false; -status false</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763272"></A>INCLUDE$ radial</Pre>
-</TD>
-</TR>
-<TR>
-<TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1763270"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1753686"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1659627"></A>which forms the start of the stagnant column and circulates at the inner filter of the diffusion cell. This solution contains the tracers and the amounts of water used in the experiment. The lines can be uncommented one by one to run the file successively with the different tracers and amounts of water. When <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 3 is calculated, <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> is processed to write a <A HREF="phreeqc3-38.htm#50540545_20239" CLASS="XRef">SELECTED_OUTPUT</A> file named radial, which contains the <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> definitions for the cells in the filters and the clay, the mixing factors, and the <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> and <A HREF="phreeqc3-51.htm#50540545_26121" CLASS="XRef">USER_GRAPH</A> data blocks. The Basic lines in <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> do the following tasks:</P>
-<UL>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1561309"></A> Lines 1-4 define variables that facilitate printing of special symbols used in printing the output--end of line, comment sign, and semicolon--and define &#960;, which is used to write definitions for the radial configuration of the experimental cell.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1468695"></A> Lines 10-150 define the dimensions of the experimental cell and properties of the filters and the clay that have been measured and, thus, should be considered as constant.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1468696"></A> Lines 160-310 fill arrays with the names of the tracers, the experimental times, and the scale factors for the graphs.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1469910"></A> Lines 350-480 give model parameters that may be varied to simulate the experiments, and can be changed to check the diffusion model. Typically, for checking the numerics, the number of cells for the filters (variables nfilt1 and nfilt2) and for the clay (nclay), and the time step (punch_time) can be altered without affecting the calculated results. It also is interesting to set nfilt1 and/or nfilt2 to zero and inspect the effects that the filters have on the fluxes. (The program will fail if nclay is set to zero.) Values of the other model parameters were derived from the geometrical factors obtained by fitting the measured tracer diffusion curves (Appelo and others, 2010). By adjusting these parameters, the Basic program and the functioning of PHREEQC can be verified. For example, f_free sets the fraction of free pore water, partitioning the pore space in free and double layer water. Values may range from 0.01 to 1. The variable has little effect on tritium which, as an uncharged species, diffuses equally quickly in free and double-layer water (if the latter is given the viscosity of free pore water). However, the variable has a major effect on the diffusion of 36Cl-, which diffuses more quickly in the free pore water. The parameter f_DL_charge partitions the Cation Exchange Capacity (CEC) over the double layer and exchange sites. Increasing its value does not affect the diffusion of tritium, but decreases the flux of Cl- and increases the flux of Na+. </LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1469795"></A> Line 490 checks which tracer is present to set the experimental times and scale factors for the graphs.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1469976"></A> Lines 520-540 define clay pore-water composition.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1469797"></A> Lines 550-630 define the solid phases in which the tracers precipitate in the outer solution. The moles of this phase will record the amounts that have diffused. The phases have such a low solubility that the tracer concentration is essentially zero.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1478266"></A> Lines 650-1100 write the solutions for the filter cells and the clay, with radially increasing amounts of water. For the clay, keyword <A HREF="phreeqc3-45.htm#50540545_56392" CLASS="XRef">SURFACE</A> is used to define the moles of the surface sites of Su_, Su_ii and Su_fes, for the double layer, and the sites on illite that sorb the alkaline cations with intermediate and high strength, respectively. The fixed sites of the Cation Exchange Capacity (CEC) are defined with <A HREF="phreeqc3-14.htm#50540545_84573" CLASS="XRef">EXCHANGE</A>.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1478279"></A> Lines 1200-1320 write the external <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> and the <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> in which the tracers are captured.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1468720"></A> Lines 1400-1900 calculate and write the mixing factors as explained above in equations <A HREF="phreeqc3-76.htm#50540559_40211" CLASS="XRef">44</A>-<A HREF="phreeqc3-76.htm#50540559_83544" CLASS="XRef">49</A>. First, the maximum time step is derived from one of the following: the innermost filter cell, at the transition of the inner filter to the clay, the innermost clay cell, or the outer filter cell. The time step is decreased when it is larger than desired by punch_time. With this time step, the mixing factors are calculated for each cell and written to the file, taking care of the heterogeneities at physical boundaries and the radial outline of the field.</LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1578130"></A> Lines 2000-2520 write data blocks for <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> and <A HREF="phreeqc3-51.htm#50540545_26121" CLASS="XRef">USER_GRAPH</A>. The experimental data (L.R. Van Loon, Paul Scherrer Institute, written commun., 2011) are plotted (&#8220;-plot_tsv_file file_name&#8221;) together with the calculated accumulated mass in the outer solution and the flux, obtained by dividing the mass that has accumulated by the time interval and the outer surface area of the clay. </LI>
-<LI CLASS="ListBullet2">
-<A NAME="50540559_pgfId-1470085"></A> Lines 3000-3390 contain the subroutine to write <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> and <A HREF="phreeqc3-51.htm#50540545_26121" CLASS="XRef">USER_GRAPH</A> data blocks for plotting concentration profiles in the filters and the clay.</LI>
-</UL>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1441652"></A>The experiments with the tracers 22Na and Cs can be calculated together, because the tracer solutions contained identical amounts of water. Thus, when the 22Na profile has been plotted after 45 days, another <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> block is written to calculate diffusion of Cs during 1,000 days in total.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1441636"></A>Following the <A HREF="phreeqc3-12.htm#50540545_63178" CLASS="XRef">END</A> after <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A>, the file radial is loaded in the input file with <A HREF="phreeqc3-18.htm#50540545_74991" CLASS="XRef">INCLUDE$</A> and then processed. Before the file is included, writing to file radial is suspended (<A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A>; -selected_output false), thus avoiding rewriting the file over and over again, each time a solution is calculated.</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1560877"></A>Three transport calculations with different tracers can be run with the input file (1) HTO, (2) 36Cl, and (3) 22Na and Cs together. To perform one of these three calculations, uncomment the appropriate line defining the tracer(s) in <A HREF="phreeqc3-41.htm#50540545_30253" CLASS="XRef">SOLUTION</A> 3. Note that the length of the Cs experiment is about 1,000 days compared to less than 50 days for the other experiments; consequently, the Cs calculation is 20 times longer than the others. </P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1694822"></A>The results of the three calculations are shown in figures <A HREF="examples.htm#50540559_82769" CLASS="XRef">See Mass outflow (red) and corresponding flux (green) by diffusion through the radial cell for (A) HTO, (B) 36Cl-, (C) 22Na+, and (D) Cs+. Lines are modeled; symbols indicate measured data.</A> and <A HREF="examples.htm#50540559_75478" CLASS="XRef">See Concentration profiles in the filters and free pore water in the clay (blue), and total moles per kilogram water in the double-layer water in the clay (red) at the end of the calculations in the radial cell for (A) HTO, (B) 36Cl-, (C) 22Na+, and (D) Cs+. Vertical lines indicate the positions of the filters.</A>. As shown, the arrival times of the tracers that accumulate in the outer solution are delayed by the storage in pore water and the sorption on minerals in the clay. The delay increases in the order 36Cl- &lt; HTO &lt; 22Na+ &lt; Cs+ (fig..24). The total storage can be obtained from the graphs by extrapolating the straight-line segment of the accumulated mass to time zero (fig..24) and reading the value from the secondary Y-axis (a negative number, because mass is lost). The flux, the derivative of the mass with time, shows that the accumulation of HTO, and of Cs+ in particular, decreases during the experiment (fig..24) because the concentration is diminishing in the tracer solution. The volume of the solution with HTO, the first experiment performed, was relatively small (0.2 L) and insufficient to maintain a constant concentration for the inner solution. Sorption of Cs+ is so strong (more than 99.5 percent of Cs+ resides in the solid phase) that 1 L of inner solution simply contains insufficient mass to fill all the sorption sites on the clay. Figure 25 shows on the primary Y axis the concentration profile at the end of the diffusion periods, including concentrations in the inner filter, the free pore water of the clay, and the outer filter. The figure shows on the secondary Y axis the total moles, which includes moles sorbed and moles dissolved in free and double layer water, expressed per kilogram of total water. The two concentrations are the same for HTO (the concentration of HTO is the same in free and in double layer water), the free pore-water concentration of Cl- is twice the total concentration (the concentration of Cl- in the double layer is smaller than in free pore water), and the free pore-water concentrations of Na+, and particularly of Cs+, are smaller than the total concentrations because the cations have a higher concentration in the double layer than in free pore water, and because cations are sorbed on the surface and exchange sites.</P>
-<DIV>
-<MAP NAME="phreeqc3-349">
-</MAP>
-<IMG SRC="phreeqc3-349.gif" USEMAP="#phreeqc3-349">
 </DIV>
 <DIV>
-<MAP NAME="phreeqc3-350">
-</MAP>
-<IMG SRC="phreeqc3-350.gif" USEMAP="#phreeqc3-350">
+<H4 CLASS="FM3dOrderHeading">
+<A NAME="50610191_pgfId-1444870"></A><A NAME="50610191_69134"></A>Recharge Water</H4>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1347034"></A>The water entering the saturated zone of the aquifer was assumed to be in equilibrium with calcite and dolomite at a vadose-zone <IMG SRC="phreeqc3-265.png" ALIGN="MIDDLE">
+ of 10<Sup CLASS="Superscript">
+-1.5</Sup>
+ atm. The fourth simulation in the input set (the simulation following the third <A HREF="phreeqc3-12.htm#50610177_63178" CLASS="XRef">END</A> statement) generates this water composition and stores it as solution 0 by using <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> (<A HREF="phreeqc3-76.htm#50610191_88386" CLASS="XRef">table 37</A>).</P>
 </DIV>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1694866"></A>The model simulates the experimental results very well (fig..24), except for Cs+. The calculated arrival time of Cs+ is almost 100 days later than observed and then the mass accumulates too slowly. This behavior of Cs+ has been found in many similar experiments. It has been modeled by increasing the diffusion coefficient and decreasing the sorption capacity for Cs+ relative to batch experiments; these adjustments can be easily incorporated in this example.</P>
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1694921"></A>The diffusion of Cs+ can be increased by setting interlayer diffusion to true in Line 430: </Pre>
-<Pre CLASS="ComputerInput10"><A NAME="50540559_pgfId-1694922"></A>  430  interlayer_D$ = 'true'  </Pre>
-<P CLASS="BodyTextFlush">
-<A NAME="50540559_pgfId-1694923"></A>(It is of interest to see the different effects of interlayer diffusion on 22Na+ and on Cs+.)</P>
-<P CLASS="BodyText">
-<A NAME="50540559_pgfId-1561190"></A>The results, shown in figure.26, illustrate that the arrival time of Cs+ can be matched by increasing diffusion, but that the mass accumulates too quickly. Another option for reducing the delay of the tracer arrival is to decrease the sorption of Cs+, either by decreasing the moles of surface and exchange sites or by decreasing the complexation constants, or both. By adjusting both the sorption and the diffusion coefficient, it may be possible to simulate the experimental data for Cs+. However, it remains difficult to explain why the sorption capacity is different between batch and diffusion experiments for Cs+, but not for the other cations. </P>
 <DIV>
-<MAP NAME="phreeqc3-351">
+<H4 CLASS="FM3dOrderHeading">
+<A NAME="50610191_pgfId-339972"></A><A NAME="50610191_72147"></A>Advective-Transport Calculations</H4>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1444834"></A>The <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> data block (<A HREF="phreeqc3-76.htm#50610191_88386" CLASS="XRef">table 37</A>) provides the necessary information to advect the recharge water into the cell representing the saturated zone. A total of 200 shifts is specified, which is equivalent to 200 pore volumes because only a single cell is used in this calculation.</P>
+<P CLASS="BodyText">
+<A NAME="50610191_pgfId-1444838"></A>The results of the calculations are plotted in figure 15. During the initial five pore volumes, the high concentrations of sodium, calcium, and magnesium decrease such that sodium is the dominant cation and calcium and magnesium concentrations are small. The pH increases to more than 9.0 and arsenic concentrations increase to approximately 100 ppb. Over the next 45 pore volumes, the pH gradually decreases, and the arsenic concentrations decrease to negligible concentrations. At about 100 pore volumes, the calcium and magnesium become the dominant cations, and the pH stabilizes at the pH of the infilling recharge water. </P>
+<DIV>
+<MAP NAME="phreeqc3-266">
 </MAP>
-<IMG SRC="phreeqc3-351.gif" USEMAP="#phreeqc3-351">
+<IMG SRC="phreeqc3-266.png" style="width:65%" USEMAP="#phreeqc3-266">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50540559_pgfId-1509938"></A>Alternatively, and in line with the heterogeneous distribution of Cs+ in the clay after the experiment, the relatively fast arrival time can be modeled with a dual-porosity structure in which the pore space is subdivided into continuous and stagnant pores that can exchange by diffusion. The continuous pores allow Cs+ to move more rapidly through the clay than is calculated for a homogeneous medium, depending on the proportion, the flow velocity, and the diffusional exchange with the stagnant pores. With <A HREF="phreeqc3-76.htm#50540559_83544" CLASS="XRef">equation 49</A>, and some effort, the dual-porosity structure can be introduced in the Basic program. Otherwise, the C program that is given as supplementary information in Appelo and others (2010) can be used. Similarly to the Basic program, the C program writes a complete PHREEQC input file for diffusion of Cs+, but in a dual porosity clay; in addition, the program permits distributing the surface and exchange sites differently between the stagnant and continuous pores.</P>
+<A NAME="50610191_pgfId-1444754"></A>The advective-transport calculations produce three types of water that are similar to water types observed in the aquifer: the initial brine, a sodium bicarbonate water, and a calcium and magnesium bicarbonate water. The calculated pH values are consistent with observations of aquifer water. In the sodium dominated waters, the calculated pH is generally greater than 8.0 and sometimes greater than 9.0; in the calcium magnesium bicarbonate waters, the pH is slightly greater than 7.0. Sensitivity calculations indicate that the maximum pH depends on the amount of exchanger present. Decreasing the number of cation exchange sites decreases the maximum pH. Simulated arsenic concentrations are similar to values observed in the aquifer, where the maximum concentrations are from 75 to 150 ppb. Lower maximum pH values produce lower maximum arsenic concentrations. The stability constant for the surface complexation reactions have been taken directly from the literature; a decrease in the log <EM CLASS="Emphasis">
+K</EM>
+ for the predominant arsenic complexation reaction tends to decrease the maximum arsenic concentration as well. In conclusion, the model results, which were based largely on measured values and literature thermodynamic data, can explain the trends in major ion chemistry, pH, and arsenic concentrations within the aquifer.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-77.htm">Next</A> || <A HREF="phreeqc3-75.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>

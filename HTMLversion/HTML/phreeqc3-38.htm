@@ -4,157 +4,58 @@
 <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
 <META NAME="GENERATOR" CONTENT="Adobe FrameMaker 7.0/HTML Export Filter">
 <LINK REL="STYLESHEET" HREF="phreeqc3.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<TITLE> SELECTED_OUTPUT</TITLE><HR><P> | <A HREF="phreeqc3-39.htm">Next</A> || <A HREF="phreeqc3-37.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
+<TITLE> PRINT</TITLE><HR><P> | <A HREF="phreeqc3-39.htm">Next</A> || <A HREF="phreeqc3-37.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50540545_pgfId-255964"></A><STRONG CLASS="Bold">
-SELECTED_OUTPUT</STRONG>
-<A NAME="50540545_20239"></A></H2>
+<A NAME="50610177_pgfId-255256"></A><STRONG CLASS="Bold">
+PRINT</STRONG>
+<A NAME="50610177_92102"></A></H2>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-641416"></A>This keyword data block is used to produce a file that is suitable for processing by spreadsheets and other data-management software. It is possible to print selected entities from the compositions of the solution, exchange assemblage, gas phase, pure-phase assemblage, solid-solution assemblage, and surface assemblage after the completion of each type of calculation. The selected-output file contains a column for each data item defined through the identifiers of <STRONG CLASS="Bold">
-SELECTED_OUTPUT</STRONG>
- and a row for each calculation. <EM CLASS="ChangeFont">
-Default print settings for SELECTED_OUTPUT 1 are shown in Lines 1-2, 4-18 and 30 of the following Example data block. For SELECTED_OUTPUT n, n not equal to 1, default print settings are equivalent to -reset false. Multiple SELECTED_OUTPUT definitions using different values of n are possible; each is used to write a different file. USER_PUNCH n writes to the file defined in  SELECTED_OUTPUT n. </EM>
-The following identifiers for SELECTED_OUTPUT are listed in the order in which they are written to the selected-output file.</P>
+<A NAME="50610177_pgfId-255257"></A>This keyword data block is used to select which results are written to the output file. In addition, this data block enables or disables writing results to the selected-output file and writing a status line to the screen, which monitors the type of calculation being performed.</P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-641389"></A><A NAME="50540545_81307"></A>Example data block</H6>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255967"></A>Line 0: SELECTED_OUTPUT <EM CLASS="ChangeFont">1</EM>
-</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328609"></A>Line 1:	-file			selected.out</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328662"></A>Line 2:	-high_precision			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328571"></A>Line 3:	-reset			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328603"></A>Line 4:	-simulation			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328452"></A>Line 5:	-state			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328453"></A>Line 6:	-solution			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328454"></A>Line 7:	-distance			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328455"></A>Line 8:	-time 			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328456"></A>Line 9:	-step			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328457"></A>Line 10:	-pH			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328458"></A>Line 11:	-pe			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328459"></A>Line 12:	-reaction			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328460"></A>Line 13:	-temperature			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328461"></A>Line 14:	-alkalinity			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328462"></A>Line 15:	-ionic_strength			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328463"></A>Line 16:	-water			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328464"></A>Line 17:	-charge_balance			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328527"></A>Line 18:	-percent_error			false</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328468"></A>Line 19:	-totals			Hfo_s  C  C(4)  C(-4)  N  N(0)  </pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255970"></A>Line 20:				Fe  Fe(3)  Fe(2)  Ca  Mg  Na  Cl</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328542"></A>Line 21:	-molalities			Fe+2  Hfo_sOZn+  ZnX2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255972"></A>Line 22:	-activities			H+  Ca+2  CO2  HCO3-  CO3-2</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328672"></A>Line 23:	-equilibrium_phases			Calcite Dolomite  Sphalerite</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255974"></A>Line 24:	-saturation_indices			CO2(g)  Siderite</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-328544"></A>Line 25:	-gases			CO2(g)  N2(g)     O2(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255976"></A>Line 26:	-kinetic_reactants			CH2O    Pyrite</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-255977"></A>Line 27:	-solid_solutions			CaSO4   SrSO4</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-501290"></A>Line 28:	-isotopes			R(D) R(D)_H3O+ R(D)_H2O(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-985326"></A>Line 29:	-calculate_values			R(D) R(D)_H3O+ R(D)_H2O(g)</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-985327"></A>Line 30:	-inverse_modeling			true</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-985394"></A><EM CLASS="ChangeFont">Line 31:	-active			true</EM>
-</pre>
-<pre CLASS="ComputerInput"><A NAME="50540545_pgfId-985410"></A><EM CLASS="ChangeFont">Line 32:	-user_punch			true</EM>
+<A NAME="50610177_pgfId-255258"></A><A NAME="50610177_11082"></A>Example data block</H6>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255259"></A>Line 0:  PRINT </pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255260"></A>Line 1:	-reset			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255261"></A>Line 2:	-eh			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255262"></A>Line 3:	-echo_input			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497928"></A>Line 4:	-equilibrium_phases			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255263"></A>Line 5:	-exchange			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255264"></A>Line 6:	-gas_phase			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-306399"></A>Line 7:	-headings			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497931"></A>Line 8:	-initial_isotopes			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255265"></A>Line 9:	-inverse_modeling			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497932"></A>Line 10:	-isotope_alphas			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497933"></A>Line 11:	-isotope_ratios			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255266"></A>Line 12:	-kinetics			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255267"></A>Line 13:	-other			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255268"></A>Line 14:	-saturation_indices			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255269"></A>Line 15:	-solid_solutions			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255270"></A>Line 16:	-species			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255271"></A>Line 17:	-surface			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255272"></A>Line 18:	-totals			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255273"></A>Line 19:	-user_print			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497930"></A>Line 20:	-alkalinity			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-716697"></A>Line 21:	-dump			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497935"></A>Line 22:	-censor_species			1e-8</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255274"></A>Line 23:	-selected_output			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-255275"></A>Line 24:	-status			false</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497929"></A>Line 25:	-user_graph			true</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-497934"></A>Line 26:	-warnings			200</pre>
+<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-986762"></A><EM CLASS="ChangeFont">Line 27:	-high_precision			false</EM>
 </pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-985396"></A><A NAME="50540545_63910"></A>Explanation</H6>
+<A NAME="50610177_pgfId-255277"></A><A NAME="50610177_52100"></A>Explanation</H6>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-985397"></A><EM CLASS="ChangeFont">
-Line 0: SELECTED_OUTPUT [number] [description]</EM>
+<A NAME="50610177_pgfId-255278"></A>Line 0: <STRONG CLASS="Bold">
+PRINT</STRONG>
 </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-255996"></A><EM CLASS="ChangeFont">
-SELECTED_OUTPUT is the keyword for the data block. Optionally, SELECTED_OUT, SELECT_OUTPUT, or SELECT_OUT. </EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-985231"></A><EM CLASS="ChangeFont">
-number--Positive number to designate this selected-output definition. Default is 1.</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-985232"></A><EM CLASS="ChangeFont">
-description--Optional comment that describes the selected-output  data.</EM>
-</P>
+<P CLASS="Body1">
+<A NAME="50610177_pgfId-255279"></A>Keyword for the data block. No other data are input on the keyword line.</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641380"></A>Line 1: <STRONG CLASS="Bold">
--file</STRONG>
- <EM CLASS="Emphasis">
-file name</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641381"></A><STRONG CLASS="Bold">
--file</STRONG>
---Identifier allows definition of the name of the file where the selected results are written. Optionally, <STRONG CLASS="Bold">
-file</STRONG>
- or <STRONG CLASS="Bold">
--f</STRONG>
-[<STRONG CLASS="Bold">
-ile</STRONG>
-]. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641373"></A><EM CLASS="Emphasis">
-file name</EM>
---File name where selected results are written. If the file exists, the contents will be overwritten. File names must conform to operating system conventions. Default is <STRONG CLASS="Bold">
-selected.out</STRONG>
-.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641321"></A>Line 2: <STRONG CLASS="Bold">
--high_precision </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-986967"></A><STRONG CLASS="Bold">
--high_precision</STRONG>
---Prints results to the selected-output file with extra numerical precision (12 decimal places, default is 3 or 4). <EM CLASS="ChangeFont">
-High precision is defined individually for each selected-output file. </EM>
-In addition, the criterion for convergence of the calculations is set to 1<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--12</Sup>
- (default is 1<EM CLASS="Emphasis">
-&#215;</EM>
-10<Sup CLASS="Superscript">
--8</Sup>
-). The convergence criterion also may be set by <STRONG CLASS="Bold">
--convergence_tolerance</STRONG>
- in <A HREF="phreeqc3-25.htm#50540545_95186" CLASS="XRef">KNOBS</A> data block. Default is <STRONG CLASS="Bold">
-false </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-high_precision</STRONG>
- or <STRONG CLASS="Bold">
--h</STRONG>
-[<STRONG CLASS="Bold">
-igh_precision</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-937551"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, output is written to the selected-output file with extra decimal places; if <STRONG CLASS="Bold">
-false</STRONG>
-, output to the selected-output file is written with normal precision. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-937552"></A>Line 3: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-282865"></A>Line 1: <STRONG CLASS="Bold">
 -reset </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
@@ -162,29 +63,25 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641290"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-282866"></A><STRONG CLASS="Bold">
 -reset</STRONG>
---Resets all identifiers listed in Lines 4-18 to <STRONG CLASS="Bold">
+--Changes all print options listed on Lines 2 through 19 to <STRONG CLASS="Bold">
 true</STRONG>
  or <STRONG CLASS="Bold">
 false</STRONG>
-. Optionally, <STRONG CLASS="Bold">
-reset</STRONG>
- or <STRONG CLASS="Bold">
+. If used, this identifier should be the first identifier of the data block. Individual print options may follow. Optionally, <STRONG CLASS="Bold">
+reset </STRONG>
+or <STRONG CLASS="Bold">
 -r</STRONG>
 [<STRONG CLASS="Bold">
 eset</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641291"></A>(<EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-551052"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, identifiers on Lines 4-18 are set to true; if <STRONG CLASS="Bold">
-false</STRONG>
-, identifiers on Lines 4-18 are set to false. If neither <STRONG CLASS="Bold">
+)--If true, all data blocks described on Lines 2 through 19 are printed to the output file; if false, these data blocks are excluded from the output file. If neither <STRONG CLASS="Bold">
 true</STRONG>
  nor <STRONG CLASS="Bold">
 false</STRONG>
@@ -200,349 +97,27 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641272"></A>Line 4: <STRONG CLASS="Bold">
--simulation </STRONG>
+<A NAME="50610177_pgfId-721704"></A>Line 2: <STRONG CLASS="Bold">
+-eh </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641273"></A><STRONG CLASS="Bold">
--simulation</STRONG>
---Prints simulation number, or for advective-dispersive transport calculations, the sequence number of the advective-dispersive transport simulation. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-simulation</STRONG>
-, <STRONG CLASS="Bold">
-sim</STRONG>
-, or <STRONG CLASS="Bold">
--sim</STRONG>
-[<STRONG CLASS="Bold">
-ulation</STRONG>
-]. </P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641262"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-721705"></A><STRONG CLASS="Bold">
+-eh</STRONG>
+--Prints eh values calculated from redox couples to the output file for initial solution calculations. Default is <STRONG CLASS="Bold">
 true</STRONG>
-, simulation number is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, simulation number is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641250"></A>Line 5: <STRONG CLASS="Bold">
--state </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641251"></A><STRONG CLASS="Bold">
--state</STRONG>
---Prints type of calculation to the selected-output file for each calculation. The following character strings are used to identify each calculation type: initial solution, &#8220;i_soln&#8221;; initial exchange composition, &#8220;i_exch&#8221;; initial surface composition, &#8220;i_surf&#8221;; initial gas-phase composition, &#8220;i_gas&#8221;; batch reaction (including <A HREF="phreeqc3-36.htm#50540545_78104" CLASS="XRef">RUN_CELLS</A>), &#8220;react&#8221;; inverse, &#8220;inverse&#8221;; advection, &#8220;advect&#8221;; and transport, &#8220;transp&#8221;. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-state</STRONG>
- or <STRONG CLASS="Bold">
--st</STRONG>
-[<STRONG CLASS="Bold">
-ate</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641234"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, state is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, state is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641216"></A>Line 6: <STRONG CLASS="Bold">
--solution </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641217"></A><STRONG CLASS="Bold">
--solution</STRONG>
---Prints solution number used for the calculation for each calculation. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-soln</STRONG>
-, <STRONG CLASS="Bold">
--solu</STRONG>
-[<STRONG CLASS="Bold">
-tion</STRONG>
-], or <STRONG CLASS="Bold">
--soln</STRONG>
-. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-41.htm#50540545_89789" CLASS="XRef">SOLUTION</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641206"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, solution number is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, solution number is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641185"></A>Line 7: <STRONG CLASS="Bold">
--distance </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641186"></A><STRONG CLASS="Bold">
--distance</STRONG>
---Prints to the selected-output file (1) the X-coordinate of the cell for advective-dispersive transport calculations (<A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>), (2) the cell number for advection calculations (<A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>), or (3) -99 for other calculations. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-distance</STRONG>
-, <STRONG CLASS="Bold">
-dist</STRONG>
-, or <STRONG CLASS="Bold">
--d</STRONG>
-[<STRONG CLASS="Bold">
-istance</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641172"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, distance is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, distance is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641151"></A>Line 8: <STRONG CLASS="Bold">
--time </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641152"></A><STRONG CLASS="Bold">
--time</STRONG>
---Prints to the selected-output file (1) the cumulative model time since the beginning of the simulation for batch-reaction calculations with kinetics, (2) the cumulative transport time since the beginning of the run (or since <STRONG CLASS="Bold">
--initial_time</STRONG>
- identifier was last defined) for advective-dispersive transport calculations and advective-transport calculations for which <STRONG CLASS="Bold">
--time_step</STRONG>
- is defined, (3) the advection shift number for advective-transport calculations for which <STRONG CLASS="Bold">
--time_step</STRONG>
- is not defined, or (4) -99 for other calculations. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-time</STRONG>
- or <STRONG CLASS="Bold">
--ti</STRONG>
-[<STRONG CLASS="Bold">
-me</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641144"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, time is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, time is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641131"></A>Line 9: <STRONG CLASS="Bold">
--step </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641132"></A><STRONG CLASS="Bold">
--step</STRONG>
---Prints to the selected-output file (1) advection shift number for transport calculations, (2) reaction step for batch-reaction calculations, or (3) -99 for other calculations. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-step</STRONG>
- or <STRONG CLASS="Bold">
--ste</STRONG>
-[<STRONG CLASS="Bold">
-p</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641118"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, step is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, step is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641109"></A>Line 10: <STRONG CLASS="Bold">
--pH </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-929194"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--Prints pH to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-pH</STRONG>
- (as with all identifiers, case insensitive).</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-929195"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, pH is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, pH is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641092"></A>Line 11: <STRONG CLASS="Bold">
--pe </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641093"></A><STRONG CLASS="Bold">
--pe</STRONG>
---Prints pe to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
-true </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-pe</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+eh</STRONG>
 .</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641094"></A>(<EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-551054"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, pe is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, pe is not printed. If neither <STRONG CLASS="Bold">
+)--If true, eh values calculated from redox couples are printed to the output file; if false, eh values are not printed. If neither <STRONG CLASS="Bold">
 true</STRONG>
  nor <STRONG CLASS="Bold">
 false</STRONG>
@@ -558,183 +133,31 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641069"></A>Line 12: <STRONG CLASS="Bold">
--reaction </STRONG>
+<A NAME="50610177_pgfId-497974"></A>Line 3: <STRONG CLASS="Bold">
+-echo_input </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641073"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--Prints (1) reaction increment to the selected-output file if <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A> is used in the calculation or (2) -99 for other calculations. Default is <STRONG CLASS="Bold">
-false </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-rxn</STRONG>
-, <STRONG CLASS="Bold">
--rea</STRONG>
-[<STRONG CLASS="Bold">
-ction</STRONG>
-], or <STRONG CLASS="Bold">
--rx</STRONG>
-[<STRONG CLASS="Bold">
-n</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641056"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, reaction increment is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, reaction increment is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641035"></A>Line 13: <STRONG CLASS="Bold">
--temperature </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641036"></A><STRONG CLASS="Bold">
--temperature</STRONG>
---Prints temperature (Celsius) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
-false</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-temp</STRONG>
-, <STRONG CLASS="Bold">
-temperature</STRONG>
-, or <STRONG CLASS="Bold">
--te</STRONG>
-[<STRONG CLASS="Bold">
-mperature</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641028"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, temperature is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, temperature is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-641019"></A>Line 14: <STRONG CLASS="Bold">
--alkalinity </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641020"></A><STRONG CLASS="Bold">
--alkalinity</STRONG>
---Prints alkalinity (eq/kgw, equivalent per kilogram water) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-561608"></A><STRONG CLASS="Bold">
+-echo_input</STRONG>
+--Prints non-comment lines from the input file to the output file. Default is <STRONG CLASS="Bold">
 true </STRONG>
-at startup. Initial value at start of program is <STRONG CLASS="Bold">
-false</STRONG>
-. Optionally, <STRONG CLASS="Bold">
-alkalinity</STRONG>
-, <STRONG CLASS="Bold">
-alk</STRONG>
-, or <STRONG CLASS="Bold">
--al</STRONG>
-[<STRONG CLASS="Bold">
-kalinity</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-641012"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, alkalinity is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, alkalinity is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640988"></A>Line 15: <STRONG CLASS="Bold">
--ionic_strength </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640989"></A><STRONG CLASS="Bold">
--ionic_strength</STRONG>
---Prints ionic strength to the selected-output file. Default is <STRONG CLASS="Bold">
-false </STRONG>
 at startup. Optionally, <STRONG CLASS="Bold">
-ionic_strength</STRONG>
-, <STRONG CLASS="Bold">
-mu</STRONG>
-, <STRONG CLASS="Bold">
--io</STRONG>
+echo_input </STRONG>
+or <STRONG CLASS="Bold">
+-ec</STRONG>
 [<STRONG CLASS="Bold">
-nic_strength</STRONG>
-], or <STRONG CLASS="Bold">
--mu</STRONG>
-.</P>
+ho_input</STRONG>
+].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640977"></A>(<EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-561609"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, ionic strength is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, ionic strength is not printed. If neither <STRONG CLASS="Bold">
+)--If true, input lines are echoed to the output file; if false, input lines are not echoed to the output file. If neither <STRONG CLASS="Bold">
 true</STRONG>
  nor <STRONG CLASS="Bold">
 false</STRONG>
@@ -750,366 +173,223 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640968"></A>Line 16: <STRONG CLASS="Bold">
--water </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640969"></A><STRONG CLASS="Bold">
--water</STRONG>
---Prints mass of water to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
-false</STRONG>
- at startup. Optionally, <STRONG CLASS="Bold">
-water</STRONG>
- or <STRONG CLASS="Bold">
--w</STRONG>
-[<STRONG CLASS="Bold">
-ater</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640953"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, mass of water is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, mass of water is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640944"></A>Line 17: <STRONG CLASS="Bold">
--charge_balance </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640945"></A><STRONG CLASS="Bold">
--charge_balance</STRONG>
---Prints charge balance of solution (eq, equivalent) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
-false </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-charge_balance</STRONG>
- or <STRONG CLASS="Bold">
--c</STRONG>
-[<STRONG CLASS="Bold">
-harge_balance</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640929"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, charge balance is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, charge balance is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640917"></A>Line 18: <STRONG CLASS="Bold">
--percent_error </STRONG>
-[(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)]</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640921"></A><STRONG CLASS="Bold">
--percent_error</STRONG>
---Prints percent error in charge balance (<IMG SRC="phreeqc3-91.gif" ALIGN="BASELINE">
-) to the selected-output file for each calculation. Default is <STRONG CLASS="Bold">
-false </STRONG>
-at startup. Optionally, <STRONG CLASS="Bold">
-percent_error</STRONG>
- or <STRONG CLASS="Bold">
--per</STRONG>
-[<STRONG CLASS="Bold">
-cent_error</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640893"></A>(<EM CLASS="Emphasis">
-True</EM>
- or <EM CLASS="Emphasis">
-False</EM>
-)--If <STRONG CLASS="Bold">
-true</STRONG>
-, percent error is printed to the selected-output file; if <STRONG CLASS="Bold">
-false</STRONG>
-, percent error is not printed. If neither <STRONG CLASS="Bold">
-true</STRONG>
- nor <STRONG CLASS="Bold">
-false</STRONG>
- is entered on the line, <STRONG CLASS="Bold">
-true</STRONG>
- is assumed. Optionally, <STRONG CLASS="Bold">
-t</STRONG>
-[<STRONG CLASS="Bold">
-rue</STRONG>
-] or <STRONG CLASS="Bold">
-f</STRONG>
-[<STRONG CLASS="Bold">
-alse</STRONG>
-].</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640878"></A>Line 19: <STRONG CLASS="Bold">
--totals</STRONG>
- <EM CLASS="Emphasis">
-element list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640879"></A><STRONG CLASS="Bold">
--totals</STRONG>
---Identifier allows definition of a list of total concentrations, in molality, that will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
-totals</STRONG>
- or <STRONG CLASS="Bold">
--t</STRONG>
-[<STRONG CLASS="Bold">
-otals</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-329492"></A><EM CLASS="Emphasis">
-element list</EM>
---List of elements, element valence states, exchange sites, or surface sites for which total concentrations will be written. The list may continue on the subsequent line(s) (Line 2a). After each calculation, the concentration (mol/kgw) of each of the selected elements, element valence states, exchange sites, and surface sites will be written to the selected-output file. Elements, valence states, exchange sites, and surface sites are defined in the first column of <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-15.htm#50540545_33835" CLASS="XRef">EXCHANGE_MASTER_SPECIES</A>, or <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A> input. If an element is not defined or is not present in the calculation, its concentration will be printed as 0. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-718485"></A>Line 20: <EM CLASS="Emphasis">
-element list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-718686"></A><EM CLASS="Emphasis">
-element list</EM>
---Continuation of a list for <STRONG CLASS="Bold">
--totals</STRONG>
- of elements, element valence states, exchange sites, or surface sites. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-718696"></A>Line 21: <STRONG CLASS="Bold">
--molalities </STRONG>
-<EM CLASS="Emphasis">
-species list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-718697"></A><STRONG CLASS="Bold">
--molalities</STRONG>
---Identifier allows definition of a list of species for which concentrations will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
-molalities</STRONG>
-, <STRONG CLASS="Bold">
-mol</STRONG>
-, or <STRONG CLASS="Bold">
--m</STRONG>
-[<STRONG CLASS="Bold">
-olalities</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-718660"></A><EM CLASS="Emphasis">
-species list</EM>
---List of aqueous, exchange, or surface species for which concentrations will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the concentration (mol/kgw) of each species in the list will be written to the selected-output file. Species are defined by <A HREF="phreeqc3-43.htm#50540545_61994" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-16.htm#50540545_60716" CLASS="XRef">EXCHANGE_SPECIES</A>, or <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A> input. If a species is not defined or is not present in the calculation, its concentration will be printed as 0. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-718590"></A>Line 22: <STRONG CLASS="Bold">
--activities </STRONG>
-<EM CLASS="Emphasis">
-species list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640778"></A><STRONG CLASS="Bold">
--activities</STRONG>
---Identifier allows definition of a list of species for which log of activity will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
-activities</STRONG>
- or <STRONG CLASS="Bold">
--a</STRONG>
-[<STRONG CLASS="Bold">
-ctivities</STRONG>
-].</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640752"></A><EM CLASS="Emphasis">
-species list</EM>
---List of aqueous, exchange, or surface species for which log of activity will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the log (base 10) of the activity of each of the species will be written to the selected-output file. Species are defined by <A HREF="phreeqc3-43.htm#50540545_61994" CLASS="XRef">SOLUTION_SPECIES</A>, <A HREF="phreeqc3-16.htm#50540545_60716" CLASS="XRef">EXCHANGE_SPECIES</A>, or <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A> input. If a species is not defined or is not present in the calculation, its log activity will be printed as -999.999. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640689"></A>Line 23: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-255285"></A>Line 4: <STRONG CLASS="Bold">
 -equilibrium_phases </STRONG>
-<EM CLASS="Emphasis">
-phase list</EM>
-</P>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640690"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-561729"></A><STRONG CLASS="Bold">
 -equilibrium_phases</STRONG>
---Identifier allows definition of a list of pure phases for which (1) total amounts in the pure-phase assemblage and (2) moles transferred will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
--e[quilibrium_phases</STRONG>
-] or <STRONG CLASS="Bold">
+--Prints the compositions of equilibrium-phase assemblages to the output file. Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+equilibria</STRONG>
+,<STRONG CLASS="Bold">
+ equilibrium</STRONG>
+,<STRONG CLASS="Bold">
+ pure</STRONG>
+,<STRONG CLASS="Bold">
+ -eq</STRONG>
+[<STRONG CLASS="Bold">
+uilibrium_phases</STRONG>
+], <STRONG CLASS="Bold">
+-eq</STRONG>
+[<STRONG CLASS="Bold">
+uilibria</STRONG>
+], <STRONG CLASS="Bold">
 -p</STRONG>
 [<STRONG CLASS="Bold">
 ure_phases</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A> and its synonyms.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640670"></A><EM CLASS="Emphasis">
-phase list</EM>
---List of phases for which data will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, two values are written to the selected-output file: (1) the moles of each of the phases (defined by <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>), and (2) the moles transferred. Phases are defined by <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input. If the phase is not defined or is not present in the pure-phase assemblage, the amounts will be printed as 0.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640625"></A>Line 24: <STRONG CLASS="Bold">
--saturation_indices </STRONG>
-<EM CLASS="Emphasis">
-phase list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640626"></A><STRONG CLASS="Bold">
--saturation_indices</STRONG>
---Identifier allows definition of a list of phases for which saturation indices [or log (base 10) <EM CLASS="ChangeFont">
-fugacity</EM>
- for gases] will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
-saturation_indices</STRONG>
-,<STRONG CLASS="Bold">
- si</STRONG>
-, <STRONG CLASS="Bold">
--s</STRONG>
-[<STRONG CLASS="Bold">
-aturation_indices</STRONG>
 ], or <STRONG CLASS="Bold">
--s</STRONG>
+-p</STRONG>
 [<STRONG CLASS="Bold">
-i</STRONG>
-].</P>
+ure</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-13.htm#50610177_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>; the same is true for the synonym <STRONG CLASS="Bold">
+PURE_PHASES</STRONG>
+.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640612"></A><EM CLASS="Emphasis">
-phase list</EM>
---List of phases for which saturation indices [or log (base 10) partial pressure for gases] will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the saturation index of each of the phases will be written to the selected-output file. Phases are defined by <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input. If the phase is not defined or if one or more of its constituent elements is not in solution, the saturation index will be printed as -999.999.</P>
+<A NAME="50610177_pgfId-561730"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, compositions of equilibrium-phase assemblages are printed to the output file; if false, compositions of equilibrium-phase assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+]. </P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640582"></A>Line 25: <STRONG CLASS="Bold">
--gases </STRONG>
-<EM CLASS="Emphasis">
-gas-component list</EM>
-</P>
+<A NAME="50610177_pgfId-255287"></A>Line 5: <STRONG CLASS="Bold">
+-exchange </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640583"></A><STRONG CLASS="Bold">
--gases</STRONG>
---Identifier allows definition of a list of gas components for which the amount in the gas phase (mol) will be written to the selected-output file. Optionally, <STRONG CLASS="Bold">
-gases</STRONG>
- or <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-561869"></A><STRONG CLASS="Bold">
+-exchange</STRONG>
+--Prints the compositions of exchange assemblages to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-ex</STRONG>
+[<STRONG CLASS="Bold">
+change</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-14.htm#50610177_49135" CLASS="XRef">EXCHANGE</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-561964"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, compositions of exchange assemblages are printed to the output file; if false, compositions of exchange assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-498142"></A>Line 6: <STRONG CLASS="Bold">
+-gas_phase </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-562090"></A><STRONG CLASS="Bold">
+-gas_phase</STRONG>
+--Prints the compositions of gas phases to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
 -g</STRONG>
 [<STRONG CLASS="Bold">
-ases</STRONG>
+as_phase</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-17.htm#50610177_83409" CLASS="XRef">GAS_PHASE</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-562094"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, compositions of gas phases are printed to the output file; if false, compositions of gas phases are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-498147"></A>Line 7: <STRONG CLASS="Bold">
+-headings </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-562233"></A><STRONG CLASS="Bold">
+-headings</STRONG>
+--Prints the titles and headings that identify the beginning of each type of calculation to the output file. Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+heading</STRONG>
+, <STRONG CLASS="Bold">
+headings</STRONG>
+, or <STRONG CLASS="Bold">
+-h</STRONG>
+[<STRONG CLASS="Bold">
+eadings</STRONG>
 ].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640569"></A><EM CLASS="Emphasis">
-gas-component list</EM>
---List of gas components. The list may continue on the subsequent line(s). After each calculation, the moles of each of the selected gas components in the gas phase will be written to the selected-output file. Gas components are defined by <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> input. If a gas component is not defined or is not present in the gas phase, the amount will be printed as 0. Before the columns for the gas components, the selected-output file will contain the total pressure, total moles of gas components, and the volume of the gas phase. Log partial pressures of any gas, including the components in the gas phase, can be obtained by use of the <STRONG CLASS="Bold">
--saturation_indices</STRONG>
- identifier.</P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640512"></A>Line 26: <STRONG CLASS="Bold">
--kinetic_reactants </STRONG>
-<EM CLASS="Emphasis">
-reactant list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640513"></A><STRONG CLASS="Bold">
--kinetic_reactants</STRONG>
---Identifier allows definition of a list of kinetically controlled reactants for which two values are written to the selected-output file: (1) the current moles of the reactant, and (2) the moles transferred of the reactant. Optionally, <STRONG CLASS="Bold">
-kin</STRONG>
-, <STRONG CLASS="Bold">
--k</STRONG>
+<A NAME="50610177_pgfId-562237"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, headings are printed to the output file; if false, headings are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
 [<STRONG CLASS="Bold">
-inetics</STRONG>
-], <STRONG CLASS="Bold">
-kinetic_reactants</STRONG>
-, or <STRONG CLASS="Bold">
--k</STRONG>
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
 [<STRONG CLASS="Bold">
-inetic_reactants</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640490"></A><EM CLASS="Emphasis">
-reactant list</EM>
---List of kinetically controlled reactants. The list may continue on the subsequent line(s). After each calculation, the moles and the moles transferred of each of the kinetically controlled reactants will be written to the selected-output file. Kinetic reactants are identified by the rate name in the <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A> data block. (The rate name in turn refers to a rate expression defined with <STRONG CLASS="Bold">
-<A HREF="phreeqc3-32.htm#50540545_97907" CLASS="XRef"></A>RATES<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
- data block.) If the kinetic reactant is not defined, the amounts will be printed as 0. </P>
+alse</STRONG>
+].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640431"></A>Line 27: <STRONG CLASS="Bold">
--solid_solutions </STRONG>
-<EM CLASS="Emphasis">
-component list</EM>
-</P>
+<A NAME="50610177_pgfId-498196"></A>Line 8: <STRONG CLASS="Bold">
+-initial_isotopes </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640418"></A><STRONG CLASS="Bold">
--solid_solutions</STRONG>
---Identifier allows definition of a list of solid-solution components for which the moles in a solid solution is written to the selected-output file. Optionally, <STRONG CLASS="Bold">
--so</STRONG>
+<A NAME="50610177_pgfId-562345"></A><STRONG CLASS="Bold">
+-initial_isotopes</STRONG>
+--Prints the molalities of isotopic elements to the output file for initial solution calculations. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+initial_isotopes</STRONG>
+ or <STRONG CLASS="Bold">
+-ini</STRONG>
 [<STRONG CLASS="Bold">
-lid_solutions</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-40.htm#50540545_77444" CLASS="XRef">SOLID_SOLUTIONS</A>.</P>
+tial_isotopes</STRONG>
+].</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640395"></A><EM CLASS="Emphasis">
-component list</EM>
---List of solid-solution components. The list may continue on the subsequent line(s). After each calculation, the moles of each solid-solution component in the list will be written to the selected-output file. A solid-solution component is identified by the component name defined in the <A HREF="phreeqc3-40.htm#50540545_77444" CLASS="XRef">SOLID_SOLUTIONS</A> data block. (The component names are also phase names that have been defined in the <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A> data block.) If the component is not defined in any of the solid solutions, the amount will be printed as 0. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640338"></A>Line 28: <STRONG CLASS="Bold">
--isotopes </STRONG>
-<EM CLASS="Emphasis">
-isotope ratio list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640339"></A><STRONG CLASS="Bold">
--isotopes</STRONG>
---Identifier selects isotopes for which values are written to the selected-output file. The units of the isotopic values printed to the selected output file are the units of the standard as entered with keyword <A HREF="phreeqc3-21.htm#50540545_32306" CLASS="XRef">ISOTOPES</A> (for example, permil or percent modern carbon). Optionally, <STRONG CLASS="Bold">
--is</STRONG>
+<A NAME="50610177_pgfId-562346"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, molalities of isotopic elements are printed to the output file for initial solution calculations; if false, molalities of isotopic elements are not printed to the output file for initial solution calculations.If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
 [<STRONG CLASS="Bold">
-otopes</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-21.htm#50540545_32306" CLASS="XRef">ISOTOPES</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640319"></A><EM CLASS="Emphasis">
-isotope ratio list</EM>
---List of ratios for isotopes and isotopic species to be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the isotope ratios in the list will be written to the selected-output file. Isotope ratios are defined in the <A HREF="phreeqc3-23.htm#50540545_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block and refer to Basic programs defined in <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A> data blocks. If an isotope ratio is not defined or is absent from solution, the value printed is -9,999.999. </P>
-<P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640275"></A>Line 29: <STRONG CLASS="Bold">
--calculate_values </STRONG>
-<EM CLASS="Emphasis">
-calculate values list</EM>
-</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640249"></A><STRONG CLASS="Bold">
--calculate_values</STRONG>
---Identifier selects Basic functions for which function values will be written to the selected-output file. The list may continue on the subsequent line(s). After each calculation, the values for functions in the list will be written to the selected-output file. The Basic functions are defined in the <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A> data block. Optionally, <STRONG CLASS="Bold">
--ca</STRONG>
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
 [<STRONG CLASS="Bold">
-lculate_values</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A>.</P>
-<P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640235"></A><EM CLASS="Emphasis">
-calculate values list</EM>
---List of names of Basic functions; value calculated by function will be written to the selected-output file. The list may continue on the subsequent line(s). </P>
+alse</STRONG>
+].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-640214"></A>Line 30: <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-498204"></A>Line 9: <STRONG CLASS="Bold">
 -inverse_modeling </STRONG>
 [(<EM CLASS="Emphasis">
 True</EM>
@@ -1117,15 +397,9 @@ True</EM>
 False</EM>
 )]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-733441"></A><STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-716664"></A><STRONG CLASS="Bold">
 -inverse_modeling</STRONG>
---Prints results of inverse modeling to the selected-output file. For each inverse model, three values are printed for each solution and phase defined in the <STRONG CLASS="Bold">
-INVERSE_MODELING</STRONG>
- data block: the central value of the mixing fraction or mole transfer, and the minimum and maximum of the mixing fraction or mole transfer, which are zero unless <STRONG CLASS="Bold">
--range</STRONG>
- is specified in the <STRONG CLASS="Bold">
-INVERSE_MODELING</STRONG>
- data block. Default is <STRONG CLASS="Bold">
+--Prints the results of inverse modeling to the output file. Default is <STRONG CLASS="Bold">
 true </STRONG>
 at startup. Optionally, <STRONG CLASS="Bold">
 inverse</STRONG>
@@ -1133,19 +407,51 @@ inverse</STRONG>
 -i</STRONG>
 [<STRONG CLASS="Bold">
 nverse_modeling</STRONG>
-]. Note the hyphen is required to avoid a conflict with the keyword <STRONG CLASS="Bold">
-INVERSE_MODELING</STRONG>
-.</P>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-20.htm#50610177_11066" CLASS="XRef">INVERSE_MODELING</A>.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-640207"></A>(<EM CLASS="Emphasis">
+<A NAME="50610177_pgfId-716665"></A>(<EM CLASS="Emphasis">
 True</EM>
  or <EM CLASS="Emphasis">
 False</EM>
-)--If <STRONG CLASS="Bold">
+)--If true, results of inverse modeling are printed to the output file; if false, results of inverse modeling are not printed to the output file. If neither <STRONG CLASS="Bold">
 true</STRONG>
-, results of inverse modeling are printed to the selected-output file; if <STRONG CLASS="Bold">
+ nor <STRONG CLASS="Bold">
 false</STRONG>
-, results of inverse modeling are not printed. If neither <STRONG CLASS="Bold">
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+]..</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255293"></A>Line 10: <STRONG CLASS="Bold">
+-isotope_alphas </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-562768"></A><STRONG CLASS="Bold">
+-isotope_alphas</STRONG>
+--Prints isotope fractionation factors (as defined by the <A HREF="phreeqc3-22.htm#50610177_17508" CLASS="XRef">ISOTOPE_ALPHAS</A> data block) to the output file. Default is <STRONG CLASS="Bold">
+true at startup</STRONG>
+. Optionally, <STRONG CLASS="Bold">
+-is</STRONG>
+[<STRONG CLASS="Bold">
+otope_alphas</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-22.htm#50610177_17508" CLASS="XRef">ISOTOPE_ALPHAS</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-562691"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, isotope fractionation factors are printed to the output file; if false, isotope fractionation factors are not printed to the output file. If neither <STRONG CLASS="Bold">
 true</STRONG>
  nor <STRONG CLASS="Bold">
 false</STRONG>
@@ -1161,117 +467,719 @@ f</STRONG>
 alse</STRONG>
 ].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-985483"></A><EM CLASS="ChangeFont">
-Line 31: -active [(True or False)]</EM>
-</P>
+<A NAME="50610177_pgfId-498305"></A>Line 11: <STRONG CLASS="Bold">
+-isotope_ratios </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-985484"></A><EM CLASS="ChangeFont">
--active--Prints results to the selected-output file defined for this SELECTED_OUTPUT data block..Default is true at startup. </EM>
-</P>
+<A NAME="50610177_pgfId-562943"></A><STRONG CLASS="Bold">
+-isotope_ratios</STRONG>
+--Prints isotope ratios (as defined by the <A HREF="phreeqc3-23.htm#50610177_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block) to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-isotope_r</STRONG>
+[<STRONG CLASS="Bold">
+atios</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-23.htm#50610177_17097" CLASS="XRef">ISOTOPE_RATIOS</A>.</P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-985485"></A><EM CLASS="ChangeFont">
-(True or False)--If true, selected-output results are written to file; if false, selected-output results are not printed. If neither true nor false is entered on the line, true is assumed. Optionally, t[rue] or f[alse].</EM>
-</P>
+<A NAME="50610177_pgfId-562928"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, isotope ratios are printed to the output file; if false, isotope ratios are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
 <P CLASS="Body-indent">
-<A NAME="50540545_pgfId-985457"></A><EM CLASS="ChangeFont">
-Line 32: -user_punch [(True or False)]</EM>
+<A NAME="50610177_pgfId-498382"></A>Line 12: <STRONG CLASS="Bold">
+-kinetics </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563089"></A><STRONG CLASS="Bold">
+-kinetics</STRONG>
+--Prints the compositions of kinetic-reaction assemblages to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-k</STRONG>
+[<STRONG CLASS="Bold">
+inetics</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563019"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, the compositions of kinetic-reaction assemblages are printed to the output file; if false, the compositions of kinetic-reaction assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255295"></A>Line 13: <STRONG CLASS="Bold">
+-other </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-255296"></A><STRONG CLASS="Bold">
+-other</STRONG>
+--Controls all printing to the output file not controlled by any of the other identifiers, including lines that identify the solution or mixture, exchange assemblage, solid-solution assemblage, surface assemblage, pure-phase assemblage, kinetic reaction, and gas phase to be used in each calculation; and description of the stoichiometric reaction. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+other</STRONG>
+, <STRONG CLASS="Bold">
+-o</STRONG>
+[<STRONG CLASS="Bold">
+ther</STRONG>
+], <STRONG CLASS="Bold">
+use</STRONG>
+, or <STRONG CLASS="Bold">
+-u</STRONG>
+[<STRONG CLASS="Bold">
+se</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563166"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, output items controlled by the <STRONG CLASS="Bold">
+-other</STRONG>
+ identifier are printed to the output file; if false, output items controlled by the <STRONG CLASS="Bold">
+-other</STRONG>
+ identifier are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255297"></A>Line 14: <STRONG CLASS="Bold">
+-saturation_indices </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563314"></A><STRONG CLASS="Bold">
+-saturation_indices</STRONG>
+--Prints saturation indices to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-si</STRONG>
+,<STRONG CLASS="Bold">
+ si</STRONG>
+,<STRONG CLASS="Bold">
+ saturation_indices</STRONG>
+, or<STRONG CLASS="Bold">
+ -sa</STRONG>
+[<STRONG CLASS="Bold">
+turation_indices</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563244"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, saturation indices are printed to the output file; if false, saturation indices are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255299"></A>Line 15: <STRONG CLASS="Bold">
+-solid_solutions </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563451"></A><STRONG CLASS="Bold">
+-solid_solutions</STRONG>
+--Prints the compositions of solid-solution assemblages to the output file. Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+-so</STRONG>
+[<STRONG CLASS="Bold">
+lid_solutions</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-47.htm#50610177_77444" CLASS="XRef">SOLID_SOLUTIONS</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563384"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, the compositions of solid-solution assemblages are printed to the output file; if false, the compositions of solid-solution assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255301"></A>Line 16: <STRONG CLASS="Bold">
+-species </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563579"></A><STRONG CLASS="Bold">
+-species</STRONG>
+--Prints the distributions of aqueous species (including molality, activity, and activity coefficient) to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+species </STRONG>
+or<STRONG CLASS="Bold">
+ -sp</STRONG>
+[<STRONG CLASS="Bold">
+ecies</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563524"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, the distributions of aqueous species are printed to the output file; if false, the distributions of aqueous species are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255303"></A>Line 17: <STRONG CLASS="Bold">
+-surface </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563716"></A><STRONG CLASS="Bold">
+-surface</STRONG>
+--Prints the compositions of surface assemblages to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-su</STRONG>
+[<STRONG CLASS="Bold">
+rface</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-52.htm#50610177_56392" CLASS="XRef">SURFACE</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563649"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, the compositions of surface assemblages are printed to the output file; if false, the compositions of surface assemblages are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-255305"></A>Line 18: <STRONG CLASS="Bold">
+-totals </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563859"></A><STRONG CLASS="Bold">
+-totals</STRONG>
+--Prints the total molalities of elements (or element valence states in initial solutions), pH, pe, temperature, and other solution characteristics to the output file. Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+totals </STRONG>
+or<STRONG CLASS="Bold">
+ -t</STRONG>
+[<STRONG CLASS="Bold">
+otals</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563789"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, the total molalities of elements and other solution characteristics are printed to the output file; if false, the total molalities of elements and other solution characteristics are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-255307"></A>Line 19: <STRONG CLASS="Bold">
+-user_print </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-564007"></A><STRONG CLASS="Bold">
+-user_print</STRONG>
+--Prints the information defined in a <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A> data block to the output file. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-u</STRONG>
+[<STRONG CLASS="Bold">
+ser_print</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-563937"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, the information defined in a <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A> data block is printed to the output file; if false, the information defined in a <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A> data block is not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-255309"></A>Line 20: <STRONG CLASS="Bold">
+-alkalinity </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-564187"></A><STRONG CLASS="Bold">
+-alkalinity</STRONG>
+--Prints listings of the species that contribute to alkalinity to the output file. Default is <STRONG CLASS="Bold">
+false</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+alkalinity </STRONG>
+or<STRONG CLASS="Bold">
+ -a</STRONG>
+[<STRONG CLASS="Bold">
+lkalinity</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-564089"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, listings of the species that contribute to alkalinity are printed to the output file; if false, listings of the species that contribute to alkalinity are not printed to the output file. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-716762"></A>Line 21: <STRONG CLASS="Bold">
+-dump </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-716763"></A><STRONG CLASS="Bold">
+-dump</STRONG>
+--Controls writing dump files. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+dump </STRONG>
+or<STRONG CLASS="Bold">
+ -d</STRONG>
+[<STRONG CLASS="Bold">
+ump</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-716764"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, dump files are written as specified in <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef">DUMP</A> and <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> data blocks. If false, dump files are not written. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-498545"></A>Line 22: <STRONG CLASS="Bold">
+-censor_species </STRONG>
+<EM CLASS="Emphasis">
+fraction</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-985458"></A><EM CLASS="ChangeFont">
--user_punch--Prints USER_PUNCH n results to the selected-output file defined for this SELECTED_OUTPUT data block when n is the number of this SELECTED_OUTPUT data block. Default is true at startup. Note the hyphen is required to avoid a conflict with the keyword USER_PUNCH.</EM>
+<A NAME="50610177_pgfId-498546"></A><STRONG CLASS="Bold">
+-censor_species</STRONG>
+--Sets a criterion for exclusion of species with small molalities from the distribution of species blocks of the output file (see <STRONG CLASS="Bold">
+-species</STRONG>
+). When <EM CLASS="Emphasis">
+fraction</EM>
+ is 0, all species of each element or element redox state are printed. When fraction is a small number greater than zero, if the molality of an element or element redox state in a species is less than <EM CLASS="Emphasis">
+fraction</EM>
+ times the total molality of the element or element redox state, then the species is excluded from the distribution of species for that element or element redox state. Default is 0.0 at startup. Optionally, <STRONG CLASS="Bold">
+censor_species </STRONG>
+or<STRONG CLASS="Bold">
+ -c</STRONG>
+[<STRONG CLASS="Bold">
+ensor_species</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-498560"></A><EM CLASS="Emphasis">
+fraction</EM>
+--Small number greater than zero (1<EM CLASS="Emphasis">
+&#215;</EM>
+10<Sup CLASS="Superscript">
+-8</Sup>
+, for example).</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-498628"></A>Line 23: <STRONG CLASS="Bold">
+-selected_output </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-498543"></A><STRONG CLASS="Bold">
+-selected_output</STRONG>
+--Controls printing of information defined in <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> and <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A> data blocks to the selected-output file. This identifier has no effect unless the <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block is included in the input file. If a <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block is included, <STRONG CLASS="Bold">
+-selected_output</STRONG>
+ enables or disables printing to the selected-output file. This print-control option is not affected by <STRONG CLASS="Bold">
+-reset</STRONG>
+. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+-se</STRONG>
+[<STRONG CLASS="Bold">
+lected_output</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A>. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-564257"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, printing to the selected-output file is enabled; if false, printing to the selected-output file is disabled. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-255311"></A>Line 24: <STRONG CLASS="Bold">
+-status </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False </EM>
+or <EM CLASS="Emphasis">
+time_interval</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-255312"></A><STRONG CLASS="Bold">
+-status</STRONG>
+--Controls printing of information that monitors calculations to the screen. When set to <STRONG CLASS="Bold">
+true</STRONG>
+, a status line is printed to the screen identifying the simulation number and the type of calculation that is being processed by the program. When set to <STRONG CLASS="Bold">
+false</STRONG>
+, no status line is printed to the screen. When set to an integer number, the printout will be suspended for that number of milliseconds. This print-control option is not affected by <STRONG CLASS="Bold">
+-reset</STRONG>
+. Default is <STRONG CLASS="Bold">
+true </STRONG>
+at startup. Optionally, <STRONG CLASS="Bold">
+status </STRONG>
+or<STRONG CLASS="Bold">
+ -st</STRONG>
+[<STRONG CLASS="Bold">
+atus</STRONG>
+]. </P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-498680"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False </EM>
+or <EM CLASS="Emphasis">
+time_interval</EM>
+)--<STRONG CLASS="Bold">
+True</STRONG>
+ enables printing the status line to the screen; <STRONG CLASS="Bold">
+false</STRONG>
+ disables printing the status line; and time_interval sets the frequency for refreshing the status line (milliseconds). </P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-498712"></A>Line 25: <STRONG CLASS="Bold">
+-user_graph </STRONG>
+[(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)]</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-564501"></A><STRONG CLASS="Bold">
+-user_graph</STRONG>
+--Enables plotting graphs defined by the <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> data blocks. Default is <STRONG CLASS="Bold">
+true</STRONG>
+ at startup. Optionally, <STRONG CLASS="Bold">
+-user_g</STRONG>
+[<STRONG CLASS="Bold">
+raph</STRONG>
+]. Note the hyphen is required to avoid a conflict with the keyword <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A>.</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-937086"></A>(<EM CLASS="Emphasis">
+True</EM>
+ or <EM CLASS="Emphasis">
+False</EM>
+)--If true, plotting of graphs defined by the <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> data blocks is enabled; if false, plotting of graphs defined by the <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> data blocks is disabled. If neither <STRONG CLASS="Bold">
+true</STRONG>
+ nor <STRONG CLASS="Bold">
+false</STRONG>
+ is entered on the line, <STRONG CLASS="Bold">
+true</STRONG>
+ is assumed. Optionally, <STRONG CLASS="Bold">
+t</STRONG>
+[<STRONG CLASS="Bold">
+rue</STRONG>
+] or <STRONG CLASS="Bold">
+f</STRONG>
+[<STRONG CLASS="Bold">
+alse</STRONG>
+].</P>
+<P CLASS="BodyText">
+<A NAME="50610177_pgfId-937090"></A>Line 26: <STRONG CLASS="Bold">
+-warnings </STRONG>
+<EM CLASS="Emphasis">
+count</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50540545_pgfId-985459"></A><EM CLASS="ChangeFont">
-(True or False)--If true, USER_PUNCH n results are printed to the selected-output file; if false, USER_PUNCH n results are printed are not printed. If neither true nor false is entered on the line, true is assumed. Optionally, t[rue] or f[alse].</EM>
+<A NAME="50610177_pgfId-498759"></A><STRONG CLASS="Bold">
+-warnings</STRONG>
+--Sets a limit to the number of warnings that are printed to the screen and the output file. Default is 100 at startup; up to 100 warnings are printed. Optionally, <STRONG CLASS="Bold">
+warning</STRONG>
+,<STRONG CLASS="Bold">
+ warnings</STRONG>
+, or<STRONG CLASS="Bold">
+ -w</STRONG>
+[<STRONG CLASS="Bold">
+arnings</STRONG>
+].</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987012"></A><EM CLASS="Emphasis">
+count</EM>
+--Maximum number of warnings written to the screen and the output file.</P>
+<P CLASS="Body-indent">
+<A NAME="50610177_pgfId-987028"></A><EM CLASS="ChangeFont">
+Line 27: -high_precision [(True or False)]</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987029"></A><EM CLASS="ChangeFont">
+-high_precision--Prints results for the PRINT Basic command for <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef"></A>USER_PRINT<EM CLASS="ChangeFont">
+</EM>
+ with extra numerical precision (12 decimal places, default is 3 or 4). Default is false at startup. Optionally, high_precision or -hi[gh_precision].</EM>
+</P>
+<P CLASS="Body1-indent">
+<A NAME="50610177_pgfId-987033"></A><EM CLASS="ChangeFont">
+(True or False)--If true, PRINT Basic command is written with extra decimal places; if false, PRINT Basic command is written with normal precision. If neither true nor false is entered on the line, true is assumed. Optionally, t[rue] or f[alse].</EM>
 </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256056"></A><A NAME="50540545_56690"></A>Notes</H6>
+<A NAME="50610177_pgfId-987014"></A><A NAME="50610177_59204"></A>Notes</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-640187"></A>The selected-output file contains a row for each calculation and a column for each data item defined through the identifiers of <STRONG CLASS="Bold">
-SELECTED_OUTPUT</STRONG>
-. Additional columns may be defined through the <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> data block. In the input for the <STRONG CLASS="Bold">
-SELECTED_OUTPUT</STRONG>
- data block, all element names, species names, and phase names must be spelled exactly, including the case and charge for the species names. One line containing an entry for each of the items will be written to the selected-output file after each calculation--that is, after any initial solution, initial exchange-composition, initial surface-composition, or initial gas-phase-composition calculation; after each step in a batch-reaction calculation; or for each cell (as defined by <STRONG CLASS="Bold">
--punch_cells</STRONG>
-) after each shift (as selected by <STRONG CLASS="Bold">
--punch_frequency</STRONG>
-) in transport calculations. In <STRONG CLASS="Bold">
-<A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
- and <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A> simulations, the cells selected for printing to the selected-output file are defined with the <STRONG CLASS="Bold">
--punch_cells </STRONG>
-identifier and the frequency at which results are written to the selected-output file is controlled by the <STRONG CLASS="Bold">
--punch_frequency</STRONG>
- identifier. The <STRONG CLASS="Bold">
--selected_output</STRONG>
- identifier in the <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A> data block can be used to selectively suspend and resume writing results to the selected-output file. </P>
+<A NAME="50610177_pgfId-987015"></A>By default, all print options are set to <STRONG CLASS="Bold">
+true</STRONG>
+ at the beginning of a run, with the exception of <STRONG CLASS="Bold">
+-alkalinity</STRONG>
+. Once set by the keyword data block <STRONG CLASS="Bold">
+PRINT</STRONG>
+, options remain in effect until the end of the run or until changed in another <STRONG CLASS="Bold">
+PRINT</STRONG>
+ data block. </P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256058"></A>Several data items are included by default at the beginning of each line in the selected-output file. These data are described in Lines 4 through 11. Data described in Lines 12 through 18 are not printed by default. All of the data described by Lines 4 through 18 simultaneously may be included or excluded from the selected-output file with the <STRONG CLASS="Bold">
+<A NAME="50610177_pgfId-255317"></A>Unlike most PHREEQC input, the order in which the identifiers are entered is important when using the <STRONG CLASS="Bold">
 -reset</STRONG>
- identifier. Unlike most of PHREEQC input, the order in which the identifiers are entered is important when using the <STRONG CLASS="Bold">
+ identifier. For the identifiers controlled by <STRONG CLASS="Bold">
 -reset</STRONG>
- identifier. Any identifier set before <STRONG CLASS="Bold">
+, any identifier set before <STRONG CLASS="Bold">
 -reset</STRONG>
  in the data block will be reset when <STRONG CLASS="Bold">
 -reset</STRONG>
  is encountered. Thus, <STRONG CLASS="Bold">
 -reset</STRONG>
- should be specified before any of the identifiers described in Lines 4 through 18.</P>
+ should be the first identifier in the data block. Using <STRONG CLASS="Bold">
+-reset false</STRONG>
+ will eliminate all printing to the output file except the echoing of the input file and the printing of warning and error messages.</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-640166"></A>The first line of the selected-output file contains a description of each data column. The columns of data are written in the following order: items described by Lines 4 through 18, totals, molalities, log activities, pure phases (two columns for each phase--total amount of phase and mole transfer for current calculation), saturation indices, gas-phase data (multiple columns), kinetically controlled reactants (two columns for each reactant--total amount of reactant and mole transfer for current calculation), solid-solution components, and data defined by the <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A> data block. A data item within an input list (for example, an aqueous species within the <STRONG CLASS="Bold">
--molalities</STRONG>
- list) is printed in the order of the list. If the selected-output file contains data for gases (<STRONG CLASS="Bold">
--gases</STRONG>
- identifier), the total pressure, total moles in the gas phase, and the total volume of the gas phase precede the moles of each gas component specified by the identifier.</P>
+<A NAME="50610177_pgfId-255318"></A>For long <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> and <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+</STRONG>
+</STRONG>
+ calculations with <A HREF="phreeqc3-24.htm#50610177_55637" CLASS="XRef">KINETICS</A>, printing the status line [<STRONG CLASS="Bold">
+-status true</STRONG>
+ (default)] may cause a significant increase in run time. This has been the case on some Macintosh systems. If printing to the screen is unbuffered, the program must wait for the status line to be written before continuing calculations, which slows overall execution time. In this case, setting <STRONG CLASS="Bold">
+-status false</STRONG>
+ may speed up run times. Alternatively, the time interval for updating the status line may be set to be an integer number of milliseconds. For example, <STRONG CLASS="Bold">
+-status</STRONG>
+ 500 will suspend any printout to the status line for 500 milliseconds while computations continue unhindered. With a set time interval, the on-screen status line may not show the actual final status of the program when it reports &#8220;Done&#8221;.</P>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-503615"></A>The <STRONG CLASS="Bold">
--isotopes</STRONG>
- identifier allows isotopic values in the units of the isotope standard to be written to the selected output file. The isotopic values are identified by the names of <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A> Basic functions that have been identified in the <A HREF="phreeqc3-23.htm#50540545_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block. The isotopic values can also be obtained by using the Basic function ISO in any Basic program, where the argument of the function is the name of a ratio defined in the <A HREF="phreeqc3-23.htm#50540545_17097" CLASS="XRef">ISOTOPE_RATIOS</A> data block. The units of the standard are available by the ISO_UNITS Basic function, which takes the same argument as the Basic function ISO. </P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-503676"></A>The <STRONG CLASS="Bold">
--calculate_values</STRONG>
- identifier allows the values of Basic functions defined in the <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A> data block to be written to the selected-output file. The value of a calculate-values function also can be used in a Basic program by using the CALC_VALUE function, where the argument is the name of a function defined in a <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A> data block.</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-985855"></A><EM CLASS="ChangeFont">
-Multiple SELECTED_OUTPUT data blocks may be defined by using different identifying numbers. Multiple USER_PUNCH data blocks may also be defined. SELECTED_OUTPUT data block n controls the writing of USER_PUNCH n. If SELECTED_OUTPUT n is not defined, USER_PUNCH n will not write any data. If both SELECTED_OUTPUT n and USER_PUNCH n are defined, then identifiers -selected_output in PRINT and -active and -user_punch in SELECTED_OUTPUT will determine the data that will be written to file. If -selected_output in PRINT is false, no data are written to any selected-output file. For SELECTED_OUTPUT n, if -active is false, no data are written; if -active is true the data defined by SELECTED_OUTPUT n are written and the value of -user_punch determines whether USER_PUNCH n data will be written.</EM>
-</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-986024"></A><EM CLASS="ChangeFont">
-SELECTED_OUTPUT 1 is handled differently from any other number. It is backward compatible with previous version of PHREEQC where only one SELECTED_OUTPUT definition was allowed. For numbers other than 1, the default definition will write no data (equivalent to -reset false); all data to be written by the selected-output data block, where n is not equal to 1,  must be defined explicitly. </EM>
-</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-986913"></A><EM CLASS="ChangeFont">
-SELECTED_OUTPUT n can be turned on and off by using -active true and false, and the USER_PUNCH n can be turned on and off by using -user_punch true and false. If a SELECTED_OUTPUT data block contains only one or both of these identifiers, the data to be written to file remain unchanged. If any other identifier is defined in a SELECTED_OUTPUT data block. the previous definition with the same number is erased, and the file for that selected-output definition is closed.</EM>
-</P>
-<P CLASS="BodyText">
-<A NAME="50540545_pgfId-986917"></A><EM CLASS="ChangeFont">
- High precision is be defined individually for each selected-output file. Precision for  <A HREF="phreeqc3-52.htm#50540545_55085" CLASS="XRef"></A>USER_PRINT<EM CLASS="ChangeFont">
-</EM>
- is defined with -high_precision in the <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef"></A>PRINT<EM CLASS="ChangeFont">
-</EM>
- data block.</EM>
-</P>
+<A NAME="50610177_pgfId-255319"></A>The identifiers <STRONG CLASS="Bold">
+-species</STRONG>
+ and <STRONG CLASS="Bold">
+-saturation_indices </STRONG>
+control the longest output data blocks in the output file and are the most likely to be selectively excluded from long computer runs. Use of the <STRONG CLASS="Bold">
+-censor_species</STRONG>
+ identifier also will decrease the size of the output file and simplify the results. If transport calculations are made, the output file could become very large unless some or all of the output is excluded though the <STRONG CLASS="Bold">
+PRINT</STRONG>
+ data block (<STRONG CLASS="Bold">
+-reset</STRONG>
+ <STRONG CLASS="Bold">
+false</STRONG>
+). Alternatively, the output in transport calculations may be limited by using the <STRONG CLASS="Bold">
+-print_cells</STRONG>
+ and <STRONG CLASS="Bold">
+-print_frequency </STRONG>
+identifiers in the <STRONG CLASS="Bold">
+<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef"></A>ADVECTION<STRONG CLASS="Bold">
+</STRONG>
+</STRONG>
+ and <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> data block. For transport calculations, the <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block usually is used to produce a compact file of selected results.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-986919"></A><A NAME="50540545_17875"></A>Example problems</H6>
+<A NAME="50610177_pgfId-255320"></A><A NAME="50610177_67998"></A>Example problems</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-986901"></A>The keyword <STRONG CLASS="Bold">
-SELECTED_OUTPUT </STRONG>
-is used in example problems <A HREF="phreeqc3-57.htm#50540559_28577" CLASS="XRef">2</A>, <A HREF="phreeqc3-60.htm#50540559_31870" CLASS="XRef">5</A>, <A HREF="phreeqc3-61.htm#50540559_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-62.htm#50540559_44022" CLASS="XRef">7</A>, <A HREF="phreeqc3-63.htm#50540559_58878" CLASS="XRef">8</A>, <A HREF="phreeqc3-64.htm#50540559_39217" CLASS="XRef">9</A>, <A HREF="phreeqc3-65.htm#50540559_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-66.htm#50540559_46434" CLASS="XRef">11</A>, <A HREF="phreeqc3-67.htm#50540559_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-68.htm#50540559_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-69.htm#50540559_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-70.htm#50540559_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-75.htm#50540559_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-76.htm#50540559_68313" CLASS="XRef">21</A>.</P>
+<A NAME="50610177_pgfId-255324"></A>The keyword <STRONG CLASS="Bold">
+PRINT </STRONG>
+is used in example problems <A HREF="phreeqc3-68.htm#50610191_49505" CLASS="XRef">6</A>, <A HREF="phreeqc3-72.htm#50610191_24858" CLASS="XRef">10</A>, <A HREF="phreeqc3-74.htm#50610191_12946" CLASS="XRef">12</A>, <A HREF="phreeqc3-75.htm#50610191_22265" CLASS="XRef">13</A>, <A HREF="phreeqc3-76.htm#50610191_89290" CLASS="XRef">14</A>, <A HREF="phreeqc3-77.htm#50610191_40270" CLASS="XRef">15</A>, <A HREF="phreeqc3-81.htm#50610191_18716" CLASS="XRef">19</A>, <A HREF="phreeqc3-82.htm#50610191_33272" CLASS="XRef">20</A>, and <A HREF="phreeqc3-83.htm#50610191_68313" CLASS="XRef">21</A>.</P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50540545_pgfId-256080"></A><A NAME="50540545_84765"></A>Related keywords</H6>
+<A NAME="50610177_pgfId-255325"></A><A NAME="50610177_86549"></A>Related keywords</H6>
 <P CLASS="BodyText">
-<A NAME="50540545_pgfId-256090"></A><A HREF="phreeqc3-6.htm#50540545_87438" CLASS="XRef">ADVECTION</A>, <A HREF="phreeqc3-7.htm#50540545_35035" CLASS="XRef">CALCULATE_VALUES</A>, <A HREF="phreeqc3-13.htm#50540545_61207" CLASS="XRef">EQUILIBRIUM_PHASES</A>, <A HREF="phreeqc3-15.htm#50540545_33835" CLASS="XRef">EXCHANGE_MASTER_SPECIES</A>, <A HREF="phreeqc3-16.htm#50540545_60716" CLASS="XRef">EXCHANGE_SPECIES</A>, <A HREF="phreeqc3-17.htm#50540545_83409" CLASS="XRef">GAS_PHASE</A>, <A HREF="phreeqc3-20.htm#50540545_11066" CLASS="XRef">INVERSE_MODELING</A>, <A HREF="phreeqc3-23.htm#50540545_17097" CLASS="XRef">ISOTOPE_RATIOS</A>, <A HREF="phreeqc3-24.htm#50540545_55637" CLASS="XRef">KINETICS</A>, <A HREF="phreeqc3-25.htm#50540545_95186" CLASS="XRef">KNOBS</A>, <A HREF="phreeqc3-29.htm#50540545_84418" CLASS="XRef">PHASES</A>, <A HREF="phreeqc3-31.htm#50540545_92102" CLASS="XRef">PRINT</A>, <A HREF="phreeqc3-33.htm#50540545_75635" CLASS="XRef">REACTION</A>, <A HREF="phreeqc3-42.htm#50540545_19910" CLASS="XRef">SOLUTION_MASTER_SPECIES</A>, <A HREF="phreeqc3-40.htm#50540545_77444" CLASS="XRef">SOLID_SOLUTIONS</A>, <STRONG CLASS="Bold">
-<A HREF="phreeqc3-43.htm#50540545_61994" CLASS="XRef"></A>SOLUTION_SPECIES<STRONG CLASS="Bold">
-</STRONG>
-</STRONG>
-, <A HREF="phreeqc3-46.htm#50540545_58106" CLASS="XRef">SURFACE_MASTER_SPECIES</A>, <A HREF="phreeqc3-47.htm#50540545_92844" CLASS="XRef">SURFACE_SPECIES</A>, <A HREF="phreeqc3-49.htm#50540545_87317" CLASS="XRef">TRANSPORT</A>, and <A HREF="phreeqc3-53.htm#50540545_56415" CLASS="XRef">USER_PUNCH</A>.</P>
+<A NAME="50610177_pgfId-255335"></A><A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>: <STRONG CLASS="Bold">
+-print_cells </STRONG>
+and<STRONG CLASS="Bold">
+ -print_frequency</STRONG>
+, <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A>, <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>: <STRONG CLASS="Bold">
+-print_cells </STRONG>
+and<STRONG CLASS="Bold">
+ -print_frequency</STRONG>
+, <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A>, <A HREF="phreeqc3-59.htm#50610177_55085" CLASS="XRef">USER_PRINT</A>, and <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A>.</P>
 </DIV>
 <HR><P> | <A HREF="phreeqc3-39.htm">Next</A> || <A HREF="phreeqc3-37.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
