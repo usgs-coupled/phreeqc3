@@ -1435,7 +1435,17 @@ tidy_inverse(void)
 			inverse[i].elts[j].master->in = TRUE;
 		}
 		s_eminus->primary->in = TRUE;	/* Include electrons */
-		master_alk_ptr->in = TRUE;	/* Include alkalinity */
+		if (master_alk_ptr)
+		{
+			master_alk_ptr->in = TRUE;	/* Include alkalinity */
+		}
+		else
+		{
+			input_error++;
+			error_string = sformatf(
+				"Alkalinity must be defined in SOLUTION_MASTER_SPECIES to be able to use INVERSE_MODELING.");
+			error_msg(error_string, CONTINUE);
+		}
 /*
  *   Unmark primary and mark secondary master species for redox elements
  */
