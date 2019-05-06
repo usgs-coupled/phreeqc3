@@ -403,7 +403,8 @@ all: alkalinity.out \
 	gas_type_switch.out \
 	CalPortDiff.out \
 	ss_incr.out \
-	gas_phase_mix.out 
+	gas_phase_mix.out \
+	iso_inverse.out
 
 # NaX.out
 
