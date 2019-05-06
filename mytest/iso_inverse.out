@@ -1,0 +1,626 @@
+   Input file: iso_inverse
+  Output file: iso_inverse.out
+Database file: ../database/iso.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	SOLUTION_MASTER_SPECIES
+	ISOTOPES
+	ISOTOPE_RATIOS
+	ISOTOPE_ALPHAS
+	NAMED_EXPRESSIONS
+	CALCULATE_VALUES
+	CALCULATE_VALUES
+	SOLUTION_SPECIES
+	PHASES
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/iso.dat
+	SELECTED_OUTPUT 101
+	    file                 iso_inverse_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	PHASES
+	CH2O
+	CH2O = 0.5CO2 + 0.5CH4
+	[13C]H2O
+	[13C]H2O + O2 = [13C]O2 + H2O
+	log_k 0.0
+	CH2O_-25 # -25 permil
+	      CH2O([13C]H2O)0.010900695 + 1.010900695 O2 = CO2 + 0.010900695[13C]O2 + 1.010900695H2O
+	Calcite_2 # 2 permil
+		CaCO3(Ca[13C]O3)0.01120256 = Ca+2 + CO3-2 + 0.01120256Ca+2 + 0.01120256[13C]O3-2
+	Calcite_-10 # -10 permil
+		CaCO3(Ca[13C]O3)0.011068398= Ca+2 + CO3-2 + 0.011068398Ca+2 + 0.011068398[13C]O3-2
+	Calcite_0 # 0 permil
+		CaCO3(Ca[13C]O3)0.0111802 = Ca+2 + CO3-2 + 0.0111802Ca+2 + 0.0111802[13C]O3-2
+	Calcite_-3.5 # -3.5 permil
+		CaCO3(Ca[13C]O3)0.011141069 = Ca+2 + CO3-2 + 0.011141069Ca+2 + 0.011141069[13C]O3-2
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLID_SOLUTION 1 
+	Calcite  
+		component	Calcite                 0 
+		component Ca[13C]O3(s)            0 
+	END 
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	REACTION 1
+	Calcite_2 0.01
+	CH2O_-25  0.0002
+	1 mol
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SOLUTION 1 
+		pH	5  	charge 
+	      pe    14 O2(g) -0.7
+		C	2	CO2(g)  -1.0
+		[13C]	-25	# permil 
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------------Isotopes------------------------------------
+
+   Isotope	    Molality	       Moles	       Ratio	       Units
+
+         C	 3.40658e-03	 3.40658e-03
+     [13C]	 3.71341e-05	 3.71341e-05	-2.50000e+01	      permil
+     [14C]	 0.00000e+00	 0.00000e+00	 0.00000e+00	         pmc
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 3.444e-03   3.444e-03  Equilibrium with CO2(g)
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.410      Charge balance
+                                       pe  =  16.212      Equilibrium with O2(g)
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   3.919e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -6.319e-18
+                       Total CO2 (mol/kg)  =   3.444e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   6.319e-18
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   6
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.551369e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H3O+            3.919e-05   3.891e-05    -4.407    -4.410    -0.003      0.00
+   OH-             2.591e-10   2.573e-10    -9.586    -9.590    -0.003     (0)  
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -143.053  -143.053     0.000     (0)  
+C(4)          3.444e-03
+   CO2             3.405e-03   3.405e-03    -2.468    -2.468     0.000     (0)  
+   HCO3-           3.919e-05   3.890e-05    -4.407    -4.410    -0.003     (0)  
+   CO3-2           4.829e-11   4.690e-11   -10.316   -10.329    -0.013     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -44.394   -44.394     0.000     (0)  
+O(0)          5.113e-04
+   O2              2.556e-04   2.556e-04    -3.592    -3.592     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CH2O            -72.76    -72.76    0.00  CH2O
+  CH4(g)         -140.19   -143.05   -2.86  CH4
+  CO2(g)           -1.00     -2.47   -1.47  CO2
+  H2(g)           -41.24    -44.39   -3.15  H2
+  H2O(g)           -1.51     -0.00    1.51  H2O
+  O2(g)            -0.70     -3.59   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	USE solution 1
+	REACTION 10
+	SAVE solution 1
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	
+Using reaction 10.	
+
+Reaction 10.	
+
+	  1.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+
+	                 Relative
+	Element             moles
+
+--------------------------------Isotope Ratios---------------------------------
+
+            Isotope Ratio	       Ratio	    Input Units
+
+     R(13C)              	 1.09007e-02	            -25  permil    
+     R(13C) CO2(aq)      	 1.08996e-02	        -25.097  permil    
+     R(13C) HCO3-        	 1.09944e-02	        -16.615  permil    
+     R(13C) CO3-2        	 1.09787e-02	        -18.026  permil    
+
+--------------------------------Isotope Alphas---------------------------------
+
+                                                              1000ln(Alpha)
+                                                         ----------------------
+     Isotope Ratio                   Solution alpha      Solution        25.0 C
+
+Alpha 13C HCO3-/CO2(aq)                      1.0087        8.6622        8.6622
+Alpha 13C CO3-2/CO2(aq)                      1.0073        7.2261        7.2261
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 3.407e-03   3.407e-03
+	[13C]             3.713e-05   3.713e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   4.410      Charge balance
+                                       pe  =  16.212      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   3.919e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.746e-14
+                       Total CO2 (mol/kg)  =   3.407e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.746e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.551369e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H3O+            3.919e-05   3.891e-05    -4.407    -4.410    -0.003      0.00
+   OH-             2.591e-10   2.573e-10    -9.586    -9.590    -0.003     (0)  
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -143.058  -143.058     0.000     (0)  
+C(4)          3.407e-03
+   CO2             3.368e-03   3.368e-03    -2.473    -2.473     0.000     (0)  
+   HCO3-           3.876e-05   3.848e-05    -4.412    -4.415    -0.003     (0)  
+   CO3-2           4.776e-11   4.639e-11   -10.321   -10.334    -0.013     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -44.394   -44.394     0.000     (0)  
+O(0)          5.113e-04
+   O2              2.556e-04   2.556e-04    -3.592    -3.592     0.000     (0)  
+[13C](-4)     0.000e+00
+   [13C]H4         0.000e+00   0.000e+00  -145.020  -145.020     0.000     (0)  
+[13C](4)      3.713e-05
+   [13C]O2         3.671e-05   3.671e-05    -4.435    -4.435     0.000     (0)  
+   H[13C]O3-       4.262e-07   4.231e-07    -6.370    -6.374    -0.003     (0)  
+   [13C]O3-2       5.244e-13   5.093e-13   -12.280   -12.293    -0.013     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  [13C]H2O         -0.84     -0.84    0.00  [13C]H2O
+  [13C]H4(g)     -142.16   -145.02   -2.86  [13C]H4
+  [13C]O2(g)       -2.97     -4.44   -1.47  [13C]O2
+  CH2O            -72.77    -72.77    0.00  CH2O
+  CH2O_-25          1.11      1.11    0.00  CH2O([13C]H2O)0.010900695
+  CH4(g)         -140.20   -143.06   -2.86  CH4
+  CO2(g)           -1.00     -2.47   -1.47  CO2
+  H2(g)           -41.24    -44.39   -3.15  H2
+  H2O(g)           -1.51     -0.00    1.51  H2O
+  O2(g)            -0.70     -3.59   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	SELECTED_OUTPUT 2
+	active true
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	USE solution 1
+	USE reaction 1
+	USE solid_solution 1
+	SAVE solution 2
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Solution after simulation 5.
+Using solid solution assemblage 1.	
+Using reaction 1.	
+
+Reaction 1.	
+
+	  1.000e+00 moles of the following reaction have been added:
+
+	                 Relative
+	Reactant            moles
+
+	CH2O_-25             0.00020
+	Calcite_2            0.01000
+
+	                 Relative
+	Element             moles
+	C                    0.01020
+	Ca                   0.01011
+	H                    0.00040
+	O                    0.03054
+	[13C]                0.00011
+
+--------------------------------Solid solutions--------------------------------
+
+
+Solid solution                Component        Moles  Delta moles   Mole fract
+
+Calcite                                     7.57e-03
+                                Calcite     7.49e-03     7.49e-03     9.89e-01
+                           Ca[13C]O3(s)     8.34e-05     8.34e-05     1.10e-02
+
+--------------------------------Isotope Ratios---------------------------------
+
+            Isotope Ratio	       Ratio	    Input Units
+
+     R(13C)              	 1.11009e-02	        -7.0917  permil    
+     R(13C) CO2(aq)      	 1.10223e-02	        -14.122  permil    
+     R(13C) HCO3-        	 1.11182e-02	        -5.5454  permil    
+     R(13C) CO3-2        	 1.11022e-02	        -6.9725  permil    
+     R(13C) Calcite      	 1.11402e-02	        -3.5757  permil    
+
+--------------------------------Isotope Alphas---------------------------------
+
+                                                              1000ln(Alpha)
+                                                         ----------------------
+     Isotope Ratio                   Solution alpha      Solution        25.0 C
+
+Alpha 13C HCO3-/CO2(aq)                      1.0087        8.6622        8.6622
+Alpha 13C CO3-2/CO2(aq)                      1.0073        7.2261        7.2261
+Alpha 13C Calcite/CO2(aq)                    1.0107        10.641        10.641
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C                 6.119e-03   6.118e-03
+	Ca                2.540e-03   2.540e-03
+	[13C]             6.792e-05   6.792e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.960      Charge balance
+                                       pe  =  13.492      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   7.392e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   5.081e-03
+                       Total CO2 (mol/kg)  =   6.119e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -4.080e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  48
+                                  Total H  = 1.110130e+02
+                                  Total O  = 5.552152e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H3O+            1.187e-07   1.095e-07    -6.925    -6.960    -0.035      0.00
+   OH-             1.002e-07   9.136e-08    -6.999    -7.039    -0.040     (0)  
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+C(-4)         0.000e+00
+   CH4             0.000e+00   0.000e+00  -142.185  -142.185     0.001     (0)  
+C(4)          6.119e-03
+   HCO3-           4.902e-03   4.478e-03    -2.310    -2.349    -0.039     (0)  
+   CO2             1.102e-03   1.104e-03    -2.958    -2.957     0.001     (0)  
+   CaHCO3+         1.066e-04   9.765e-05    -3.972    -4.010    -0.038     (0)  
+   CaCO3           5.494e-06   5.504e-06    -5.260    -5.259     0.001     (0)  
+   CO3-2           2.753e-06   1.918e-06    -5.560    -5.717    -0.157     (0)  
+Ca            2.540e-03
+   Ca+2            2.427e-03   1.709e-03    -2.615    -2.767    -0.152     (0)  
+   CaHCO3+         1.066e-04   9.765e-05    -3.972    -4.010    -0.038     (0)  
+   CaCO3           5.494e-06   5.504e-06    -5.260    -5.259     0.001     (0)  
+   CaH[13C]O3+     1.185e-06   1.086e-06    -5.926    -5.964    -0.038     (0)  
+   Ca[13C]O3       6.100e-08   6.110e-08    -7.215    -7.214     0.001     (0)  
+   CaOH+           2.835e-23   2.590e-23   -22.547   -22.587    -0.039     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -44.055   -44.054     0.001     (0)  
+O(0)          1.069e-04
+   O2              5.347e-05   5.356e-05    -4.272    -4.271     0.001     (0)  
+[13C](-4)     0.000e+00
+   [13C]H4         0.000e+00   0.000e+00  -144.143  -144.142     0.001     (0)  
+[13C](4)      6.792e-05
+   H[13C]O3-       5.450e-05   4.979e-05    -4.264    -4.303    -0.039     (0)  
+   [13C]O2         1.214e-05   1.216e-05    -4.916    -4.915     0.001     (0)  
+   CaH[13C]O3+     1.185e-06   1.086e-06    -5.926    -5.964    -0.038     (0)  
+   Ca[13C]O3       6.100e-08   6.110e-08    -7.215    -7.214     0.001     (0)  
+   [13C]O3-2       3.056e-08   2.129e-08    -7.515    -7.672    -0.157     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  [13C]H2O         -0.64     -0.64    0.00  [13C]H2O
+  [13C]H4(g)     -141.28   -144.14   -2.86  [13C]H4
+  [13C]O2(g)       -3.45     -4.91   -1.47  [13C]O2
+  Ca[13C]O3(s)     -1.96      6.24    8.20  Ca[13C]O3
+  Calcite          -0.00     -8.48   -8.48  CaCO3
+  Calcite_-10      -8.60     -8.60    0.00  CaCO3(Ca[13C]O3)0.011068398
+  Calcite_-3.5     -8.60     -8.60    0.00  CaCO3(Ca[13C]O3)0.011141069
+  Calcite_0        -8.60     -8.60    0.00  CaCO3(Ca[13C]O3)0.0111802
+  Calcite_2        -8.60     -8.60    0.00  CaCO3(Ca[13C]O3)0.01120256
+  CH2O            -72.57    -72.57    0.00  CH2O
+  CH2O_-25          1.31      1.31    0.00  CH2O([13C]H2O)0.010900695
+  CH4(g)         -139.32   -142.18   -2.86  CH4
+  CO2(g)           -1.49     -2.96   -1.47  CO2
+  H2(g)           -40.90    -44.05   -3.15  H2
+  H2O(g)           -1.51     -0.00    1.51  H2O
+  O2(g)            -1.38     -4.27   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+	INVERSE_MODELING 1
+	    solutions      1        2
+	    uncertainty    0.005    0.005
+	    phases
+	        Calcite_2          dis
+	        CH2O_-25           dis
+	        Calcite_-10        pre
+	        Calcite_0          pre
+	        Calcite_-3.5       pre
+	    balances
+	        [13C]       1e-08    1e-08
+	        C           1e-06    1e-06
+	    tolerance         1e-10
+	    mineral_water     false
+	END
+---------------------------------------------
+Beginning of inverse modeling 1 calculations.
+---------------------------------------------
+
+Using Cl1 standard precision optimization routine.
+
+Solution 1: Solution after simulation 5.
+
+                         Input          Delta    Input+Delta
+             pH      4.410e+00  +   0.000e+00  =   4.410e+00
+      [13C](-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+       [13C](4)      3.713e-05  +   0.000e+00  =   3.713e-05
+     Alkalinity      3.746e-14  +   0.000e+00  =   3.746e-14
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      3.407e-03  +   0.000e+00  =   3.407e-03
+             Ca      0.000e+00  +   0.000e+00  =   0.000e+00
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      5.113e-04  +   0.000e+00  =   5.113e-04
+
+Solution 2: Solution after simulation 7.
+
+                         Input          Delta    Input+Delta
+             pH      6.960e+00  +   0.000e+00  =   6.960e+00
+      [13C](-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+       [13C](4)      6.792e-05  +   0.000e+00  =   6.792e-05
+     Alkalinity      5.081e-03  +   3.001e-07  =   5.081e-03
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      6.118e-03  +   0.000e+00  =   6.118e-03
+             Ca      2.540e-03  +   1.501e-07  =   2.541e-03
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      1.069e-04  +   0.000e+00  =   1.069e-04
+
+Solution fractions:                   Minimum        Maximum
+   Solution   1      1.000e+00      0.000e+00      0.000e+00
+   Solution   2      1.000e+00      0.000e+00      0.000e+00
+
+Phase mole transfers:                 Minimum        Maximum
+      Calcite_2      5.991e-03      0.000e+00      0.000e+00   CaCO3(Ca[13C]O3)0.01120256
+       CH2O_-25      2.000e-04      0.000e+00      0.000e+00   CH2O([13C]H2O)0.010900695
+    Calcite_-10     -3.479e-03      0.000e+00      0.000e+00   CaCO3(Ca[13C]O3)0.011068398
+
+Redox mole transfers:    
+
+Sum of residuals (epsilons in documentation):         2.363e-02
+Sum of delta/uncertainty limit:                       2.363e-02
+Maximum fractional error in element concentration:    5.907e-05
+
+Model contains minimum number of phases.
+===============================================================================
+
+
+Solution 1: Solution after simulation 5.
+
+                         Input          Delta    Input+Delta
+             pH      4.410e+00  +   0.000e+00  =   4.410e+00
+      [13C](-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+       [13C](4)      3.713e-05  +   0.000e+00  =   3.713e-05
+     Alkalinity      3.746e-14  +   0.000e+00  =   3.746e-14
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      3.407e-03  +   0.000e+00  =   3.407e-03
+             Ca      0.000e+00  +   0.000e+00  =   0.000e+00
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      5.113e-04  +   0.000e+00  =   5.113e-04
+
+Solution 2: Solution after simulation 7.
+
+                         Input          Delta    Input+Delta
+             pH      6.960e+00  +   0.000e+00  =   6.960e+00
+      [13C](-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+       [13C](4)      6.792e-05  +   0.000e+00  =   6.792e-05
+     Alkalinity      5.081e-03  +   3.001e-07  =   5.081e-03
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      6.118e-03  +   0.000e+00  =   6.118e-03
+             Ca      2.540e-03  +   1.501e-07  =   2.541e-03
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      1.069e-04  +   0.000e+00  =   1.069e-04
+
+Solution fractions:                   Minimum        Maximum
+   Solution   1      1.000e+00      0.000e+00      0.000e+00
+   Solution   2      1.000e+00      0.000e+00      0.000e+00
+
+Phase mole transfers:                 Minimum        Maximum
+      Calcite_2      1.010e-02      0.000e+00      0.000e+00   CaCO3(Ca[13C]O3)0.01120256
+       CH2O_-25      2.000e-04      0.000e+00      0.000e+00   CH2O([13C]H2O)0.010900695
+   Calcite_-3.5     -7.590e-03      0.000e+00      0.000e+00   CaCO3(Ca[13C]O3)0.011141069
+
+Redox mole transfers:    
+
+Sum of residuals (epsilons in documentation):         2.363e-02
+Sum of delta/uncertainty limit:                       2.363e-02
+Maximum fractional error in element concentration:    5.907e-05
+
+Model contains minimum number of phases.
+===============================================================================
+
+
+Solution 1: Solution after simulation 5.
+
+                         Input          Delta    Input+Delta
+             pH      4.410e+00  +   0.000e+00  =   4.410e+00
+      [13C](-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+       [13C](4)      3.713e-05  +   0.000e+00  =   3.713e-05
+     Alkalinity      3.746e-14  +   0.000e+00  =   3.746e-14
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      3.407e-03  +   0.000e+00  =   3.407e-03
+             Ca      0.000e+00  +   0.000e+00  =   0.000e+00
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      5.113e-04  +   0.000e+00  =   5.113e-04
+
+Solution 2: Solution after simulation 7.
+
+                         Input          Delta    Input+Delta
+             pH      6.960e+00  +   0.000e+00  =   6.960e+00
+      [13C](-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+       [13C](4)      6.792e-05  +   0.000e+00  =   6.792e-05
+     Alkalinity      5.081e-03  +   3.001e-07  =   5.081e-03
+          C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
+           C(4)      6.118e-03  +   0.000e+00  =   6.118e-03
+             Ca      2.540e-03  +   1.501e-07  =   2.541e-03
+           H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
+           O(0)      1.069e-04  +   0.000e+00  =   1.069e-04
+
+Solution fractions:                   Minimum        Maximum
+   Solution   1      1.000e+00      0.000e+00      0.000e+00
+   Solution   2      1.000e+00      0.000e+00      0.000e+00
+
+Phase mole transfers:                 Minimum        Maximum
+      Calcite_2      2.339e-02      0.000e+00      0.000e+00   CaCO3(Ca[13C]O3)0.01120256
+       CH2O_-25      2.000e-04      0.000e+00      0.000e+00   CH2O([13C]H2O)0.010900695
+      Calcite_0     -2.087e-02      0.000e+00      0.000e+00   CaCO3(Ca[13C]O3)0.0111802
+
+Redox mole transfers:    
+
+Sum of residuals (epsilons in documentation):         2.363e-02
+Sum of delta/uncertainty limit:                       2.363e-02
+Maximum fractional error in element concentration:    5.907e-05
+
+Model contains minimum number of phases.
+===============================================================================
+
+
+Summary of inverse modeling:
+
+	Number of models found: 3
+	Number of minimal models found: 3
+	Number of infeasible sets of phases saved: 10
+	Number of calls to cl1: 20
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 9.
+------------------------------------
+
+-------------------------------
+End of Run after 0.107 Seconds.
+-------------------------------
+
