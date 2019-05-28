@@ -404,7 +404,8 @@ all: alkalinity.out \
 	CalPortDiff.out \
 	ss_incr.out \
 	gas_phase_mix.out \
-	iso_inverse.out
+	iso_inverse.out \
+	TonyLitharge2a.out
 
 # NaX.out
 
