@@ -711,6 +711,8 @@ void Phreeqc::init(void)
 	all_cells                = 0;
 	multi_Dflag              = FALSE;
 	interlayer_Dflag         = FALSE;
+	implicit                 = FALSE;
+	max_mixf                 = 1.0;
 	default_Dw               = 0;
 	correct_Dw               = 0;
 	multi_Dpor               = 0;
