@@ -1069,7 +1069,7 @@ public:
 	void diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no);
 	void define_ct_structures(void);
-	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec, int i);
+	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec, int i, int stagnant);
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
 	int diff_stag_surf(int mobile_cell);

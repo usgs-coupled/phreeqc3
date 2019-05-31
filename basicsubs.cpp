@@ -1470,7 +1470,8 @@ kinetics_moles(const char *kinetics_name)
 
 	error_string = sformatf( "No data for rate %s in KINETICS keyword.",
 			kinetics_name);
-	warning_msg(error_string);
+	//if (count_warnings >= 0) // appt debug cvode
+	//	warning_msg(error_string);
 	return (0);
 }
 /* ---------------------------------------------------------------------- */

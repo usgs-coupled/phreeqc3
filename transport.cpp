@@ -136,6 +136,7 @@ transport(void)
 		moles_added = (struct MOLES_ADDED *) PHRQ_malloc((size_t) (count_elements)* sizeof(struct MOLES_ADDED));
 		if (moles_added == NULL)
 			malloc_error();
+
 		for (i = 0; i < count_elements; i++)
 		{
 			moles_added[i].name = NULL;
@@ -283,9 +284,9 @@ transport(void)
 		transport_step = 0;
 		for (i = 0; i <= count_cells + 1; i++)
 		{
-			//if ((bcon_first == 2 && i == 0) ||
-			//	(bcon_last == 2 && i == count_cells + 1))
-			//	continue;
+			if (!implicit && ((bcon_first == 2 && i == 0) ||
+				(bcon_last == 2 && i == count_cells + 1)))
+				continue;
 			set_initial_moles(i);
 			cell_no = i;
 			set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
@@ -332,23 +333,18 @@ transport(void)
 		*  Initialize mixing factors, define kinetics times
 		*  for multicomponent diffusion, limit mixing by diffc_max (usually from H+)
 		*/
-		if (multi_Dflag == TRUE)
+		if (multi_Dflag)
 			diffc_tr = diffc_max;
 		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
 		{
 			/* multi_D calc's are OK if all cells have the same amount of water */
-			/* if (multi_Dflag == TRUE)
+			 if (multi_Dflag == TRUE)
 			{
-			sprintf(token, "multi_D calc's and stagnant: define MIXing factors explicitly, or \n\t give all cells the same amount of water.");
-			warning_msg(token);
+				sprintf(token, "multi_D calc's and stagnant: define MIXing factors explicitly, or \n\t adapt the default Dw of -multi_d to match the mobile-immobile exchange factor.");
+				warning_msg(token);
 			}
-			*/
-
+			
 			Rxn_mix_map.clear();
-
-			/*
-			* stagnant mix factors go in mix[0 .. count_cells]
-			*/
 		}
 		/*
 		* mix[] is extended in init_mix(), to accommodate column mix factors
@@ -484,7 +480,7 @@ transport(void)
 			*/
 			for (i = 0; i <= count_cells + 1; i++)
 			{
-				if (!dV_dcell && (i == 0 || i == count_cells + 1))
+				if (!dV_dcell && !implicit && (i == 0 || i == count_cells + 1))
 					continue;
 				set_initial_moles(i);
 			}
@@ -555,8 +551,14 @@ transport(void)
 
 					for (i = 0; i <= count_cells + 1; i++)
 					{
-						if (!dV_dcell && (i == 0 || i == count_cells + 1 && !implicit))
+						if (!dV_dcell && (i == 0 || i == count_cells + 1) && !implicit)
+						{
+							if (j == nmix && stag_data->count_stag == 0 &&
+								(cell_data[0].print || cell_data[0].punch ||
+									cell_data[count_cells + 1].print || cell_data[count_cells + 1].punch))
+								print_punch(i, false);
 							continue;
+						}
 						if (overall_iterations > max_iter)
 							max_iter = overall_iterations;
 						cell_no = i;
@@ -571,10 +573,9 @@ transport(void)
 								transport_step, j, i, max_iter);
 						status(0, token);
 
-						if (implicit || i == 0 || i == count_cells + 1)
+						if (i == 0 || i == count_cells + 1)
 						{
 							run_reactions(i, kin_time, NOMIX, step_fraction); // nsaver = i
-							//print_punch(i, true); // appt debug
 						}
 						else
 							run_reactions(i, kin_time, DISP, step_fraction);  // nsaver = -2
@@ -584,7 +585,7 @@ transport(void)
 						/* punch and output file */
 						if (ishift == 0 && j == nmix && stag_data->count_stag == 0)
 							print_punch(i, true);
-						if (!implicit && i > 1)
+						if (i > 1)
 							Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 						saver();
 
@@ -610,7 +611,7 @@ transport(void)
 						}
 					}
 
-					if (!dV_dcell && !implicit)
+					if (!dV_dcell)
 						Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
 					/* Stagnant zone mixing after completion of each
 					diffusive/dispersive step ...  */
@@ -722,7 +723,7 @@ transport(void)
 				/*
 				* thermal diffusion when nmix = 0...
 				*/
-				if ((nmix == 0) && (heat_nmix > 0)) // must add disp in implicit appt ??
+				if (nmix == 0 && heat_nmix > 0 && !implicit)
 				{
 					heat_mix(heat_nmix);
 					/* equilibrate again ... */
@@ -857,7 +858,7 @@ transport(void)
 				/* for each cell in column */
 				for (i = 0; i <= count_cells + 1; i++)
 				{
-					if (!dV_dcell && (i == 0 || i == count_cells + 1))
+					if (!dV_dcell && (i == 0 || i == count_cells + 1) && !implicit)
 					{
 						if (j == nmix && stag_data->count_stag == 0 &&
 							(cell_data[0].print || cell_data[0].punch ||
@@ -879,7 +880,7 @@ transport(void)
 							transport_step, j, i, max_iter);
 					status(0, token);
 
-					if (implicit || i == 0 || i == count_cells + 1)
+					if (i == 0 || i == count_cells + 1)
 						run_reactions(i, kin_time, NOMIX, step_fraction);
 					else
 						run_reactions(i, kin_time, DISP, step_fraction);
@@ -887,7 +888,7 @@ transport(void)
 						fill_spec(i);
 					if (j == nmix && stag_data->count_stag == 0)
 						print_punch(i, true);
-					if (!implicit && i > 1)
+					if (i > 1)
 						Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 					saver();
 
@@ -1217,7 +1218,7 @@ init_mix(void)
 			if (maxmix > max_mixf)
 				l_nmix = 1 + (int)floor(maxmix / max_mixf);
 			if (ishift != 0 && (bcon_first == 1 || bcon_last == 1))
-			{ // must be adjusted appt
+			{
 				if (l_nmix < 2)
 					l_nmix = 2;
 			}
@@ -1235,9 +1236,9 @@ init_mix(void)
 				error_msg(token, STOP);
 			}
 			if (bcon_first == 1 || bcon_last == 1)
-				l_nmix = 1 + (int) floor(2.25 * maxmix);
+				l_nmix = 1 + (int)floor(2.25 * maxmix);
 			else
-				l_nmix = 1 + (int) floor(1.5 * maxmix);
+				l_nmix = 1 + (int)floor(1.5 * maxmix);
 
 			if (ishift != 0 && (bcon_first == 1 || bcon_last == 1))
 			{
@@ -1245,24 +1246,24 @@ init_mix(void)
 					l_nmix = 2;
 			}
 			if (mcd_substeps > 1)
-				l_nmix = (int) ceil(l_nmix * mcd_substeps);
+				l_nmix = (int)ceil(l_nmix * mcd_substeps);
+		}
 
-			for (i = 1; i <= count_cells; i++)
-			{
-				m[i] /= l_nmix;
-				m1[i] /= l_nmix;
-				/*
-				* Fill mix structure
-				*/
-				cxxMix temp_mix;
-				temp_mix.Set_n_user(i);
-				temp_mix.Set_n_user_end(i);
+		for (i = 1; i <= count_cells; i++)
+		{
+			m[i] /= l_nmix;
+			m1[i] /= l_nmix;
+			/*
+			* Fill mix structure
+			*/
+			cxxMix temp_mix;
+			temp_mix.Set_n_user(i);
+			temp_mix.Set_n_user_end(i);
 
-				temp_mix.Add(i - 1, m[i]);
-				temp_mix.Add(i + 1, m1[i]);
-				temp_mix.Add(i, 1.0 - m[i] - m1[i]);
-				Dispersion_mix_map[i] = temp_mix;
-			}
+			temp_mix.Add(i - 1, m[i]);
+			temp_mix.Add(i + 1, m1[i]);
+			temp_mix.Add(i, 1.0 - m[i] - m1[i]);
+			Dispersion_mix_map[i] = temp_mix;
 		}
 		m = (LDBLE *)free_check_null(m);
 		m1 = (LDBLE *)free_check_null(m1);
@@ -1609,13 +1610,12 @@ init_heat_mix(int l_nmix)
 	corr_disp = 1.;
 	if (correct_disp == TRUE && ishift != 0)
 	{
+		mixf = (l_nmix > 1 ? l_nmix : 1);
 		if (bcon_first == 3)
-			corr_disp += 1. / count_cells;
+			corr_disp += 1. / count_cells / mixf;
 		if (bcon_last == 3)
-			corr_disp += 1. / count_cells;
+			corr_disp += 1. / count_cells / mixf;
 	}
-	if (l_nmix > 0 && !implicit)
-		corr_disp /= l_nmix;
 	maxmix = 0.0;
 	for (i = 1; i < count_cells; i++)
 	{
@@ -1847,6 +1847,8 @@ fill_spec(int l_cell_no)
 	// for implicit
 	std::set <std::string> ::iterator it;
 	std::pair <std::set<std::string> ::iterator, bool> name_ret;
+	if (implicit && !l_cell_no)
+		dif_spec_names.clear();
 	size_xt = 5;
 
 	//sol_D[l_cell_no].spec = (struct spec *) free_check_null(sol_D[l_cell_no].spec);
@@ -1869,8 +1871,8 @@ fill_spec(int l_cell_no)
 		sol_D[l_cell_no].spec[i].aq_name = NULL;
 		sol_D[l_cell_no].spec[i].type = -1;
 		sol_D[l_cell_no].spec[i].a = 0.0;
-		sol_D[l_cell_no].spec[i].lm = 0.0;
-		sol_D[l_cell_no].spec[i].lg = 0.0;
+		sol_D[l_cell_no].spec[i].lm = -3.0;
+		sol_D[l_cell_no].spec[i].lg = -0.04;
 		sol_D[l_cell_no].spec[i].c = 0.0;
 		sol_D[l_cell_no].spec[i].z = 0.0;
 		sol_D[l_cell_no].spec[i].Dwt = 0.0;
@@ -2017,6 +2019,7 @@ fill_spec(int l_cell_no)
 				count_exch_spec++;
 				count_spec++;
 			}
+			continue;
 		}
 
 		lm = s_ptr->lm;
@@ -2067,9 +2070,8 @@ fill_spec(int l_cell_no)
 							memmove(&sol_D[l_cell_no].spec[i1], &sol_D[l_cell_no - 1].spec[i1], sizeof(struct spec));
 							sol_D[l_cell_no].spec[i1].c = 0.0;
 							sol_D[l_cell_no].spec[i1].a = 0.0;
-							sol_D[l_cell_no].spec[i1].lm = 0.0;
-							sol_D[l_cell_no].spec[i1].lg = 0.0;
-							// may have to redefine Dwt appt
+							sol_D[l_cell_no].spec[i1].lm = -3.0;
+							sol_D[l_cell_no].spec[i1].lg = -0.04;
 
 							loc_spec_names.insert(sol_D[l_cell_no].spec[i1].name);
 							count_spec++;
@@ -2148,8 +2150,8 @@ fill_spec(int l_cell_no)
 
 						memmove(&sol_D[i1].spec[i2], &sol_D[l_cell_no].spec[i2], sizeof(struct spec));
 						sol_D[i1].spec[i2].a = 0.0;
-						sol_D[i1].spec[i2].lm = 0.0;
-						sol_D[i1].spec[i2].lg = 0.0;
+						sol_D[i1].spec[i2].lm = -3.0;
+						sol_D[i1].spec[i2].lg = -0.04;
 						sol_D[i1].spec[i2].c = 0.0;
 						sol_D[i1].count_spec += 1;
 					}
@@ -2175,8 +2177,8 @@ fill_spec(int l_cell_no)
 			memmove(&sol_D[l_cell_no].spec[i1], &sol_D[l_cell_no - 1].spec[i1], sizeof(struct spec));
 			sol_D[l_cell_no].spec[i1].c = 0.0;
 			sol_D[l_cell_no].spec[i1].a = 0.0;
-			sol_D[l_cell_no].spec[i1].lm = 0.0;
-			sol_D[l_cell_no].spec[i1].lg = 0.0;
+			sol_D[l_cell_no].spec[i1].lm = -3.0;
+			sol_D[l_cell_no].spec[i1].lg = -0.04;
 			sol_D[l_cell_no].count_spec += 1;
 
 			loc_spec_names.insert(sol_D[l_cell_no].spec[i1].name);
@@ -2310,97 +2312,93 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 			else
 				Ct2[i] = Ct1[i] = sol_D[i].spec[cp].c;
 		}
-		// calculate diffuson...
-		//for (int ss = 0; ss < substeps; ss++)
+		// fill coefficient matrix A ...
+		// boundary cells ...
+		if (heat_nmix && cp == comp - 1)
 		{
-			// fill coefficient matrix A ...
-			// boundary cells ...
-			if (heat_nmix && cp == comp - 1)
+			mfr = mixf[0][cp] = heat_mix_array[0];
+			mfr1 = mixf[1][cp] = heat_mix_array[1];
+		}
+		else
+		{
+			mfr = mixf[0][cp] = DDt * ct[0].v_m[cp].b_ij; // maybe add retardation appt
+			mfr1 = mixf[1][cp] = DDt * ct[1].v_m[cp].b_ij;
+		}
+		if (bcon_first == 2)
+		{
+			A[0][1] = 1; A[0][2] = 0;
+			A[1][0] = 0; A[1][1] = 1 + mfr1; A[1][2] = -mfr1;
+		}
+		else
+		{
+			if (dV_dcell)
 			{
-				mfr = mixf[0][cp] = heat_mix_array[0];
-				mfr1 = mixf[1][cp] = heat_mix_array[1];
+				A[0][1] = 1 + mfr; A[0][2] = -mfr;
 			}
 			else
-			{
-				mfr = mixf[0][cp] = DDt * ct[0].v_m[cp].b_ij; // maybe add retardation appt
-				mfr1 = mixf[1][cp] = DDt * ct[1].v_m[cp].b_ij;
-			}
-			if (bcon_first == 2)
 			{
 				A[0][1] = 1; A[0][2] = 0;
-				A[1][0] = 0; A[1][1] = 1 + mfr1; A[1][2] = -mfr1;
+			}
+			A[1][0] = -mfr; A[1][1] = 1 + mfr + mfr1; A[1][2] = -mfr1;
+		}
+		if (heat_nmix && cp == comp - 1)
+		{
+			mfr = mixf[count_cells - 1][cp] = heat_mix_array[count_cells - 1];
+			mfr1 = mixf[count_cells][cp] = heat_mix_array[count_cells];
+		}
+		else
+		{
+			mfr = mixf[count_cells - 1][cp] = DDt * ct[count_cells - 1].v_m[cp].b_ij;
+			mfr1 = mixf[count_cells][cp] = DDt * ct[count_cells].v_m[cp].b_ij;
+		}
+		if (bcon_last == 2)
+		{
+			A[count_cells][0] = -mfr; A[count_cells][1] = 1 + mfr; A[count_cells][2] = 0;
+			A[count_cells + 1][0] = 0; A[count_cells + 1][1] = 1;
+		}
+		else
+		{
+			A[count_cells][0] = -mfr; A[count_cells][1] = 1 + mfr + mfr1; A[count_cells][2] = -mfr1;
+			if (dV_dcell)
+			{
+				A[count_cells + 1][0] = -mfr1; A[count_cells + 1][1] = 1 + mfr1;
 			}
 			else
 			{
-				if (dV_dcell)
-				{
-					A[0][1] = 1 + mfr; A[0][2] = -mfr;
-				}
-				else
-				{
-					A[0][1] = 1; A[0][2] = 0;
-				}
-				A[1][0] = -mfr; A[1][1] = 1 + mfr + mfr1; A[1][2] = -mfr1;
-			}
-			if (heat_nmix && cp == comp - 1)
-			{
-				mfr = mixf[count_cells - 1][cp] = heat_mix_array[count_cells - 1];
-				mfr1 = mixf[count_cells][cp] = heat_mix_array[count_cells];
-			}
-			else
-			{
-				mfr = mixf[count_cells - 1][cp] = DDt * ct[count_cells - 1].v_m[cp].b_ij;
-				mfr1 = mixf[count_cells][cp] = DDt * ct[count_cells].v_m[cp].b_ij;
-			}
-			if (bcon_last == 2)
-			{
-				A[count_cells][0] = -mfr; A[count_cells][1] = 1 + mfr; A[count_cells][2] = 0;
 				A[count_cells + 1][0] = 0; A[count_cells + 1][1] = 1;
 			}
+		}
+		// inner cells ... 
+		for (i = 2; i < count_cells; i++)
+		{
+			if (heat_nmix && cp == comp - 1)
+			{
+				mfr = mixf[i - 1][cp] = heat_mix_array[i - 1];
+				mfr1 = mixf[i][cp] = heat_mix_array[i];
+			}
 			else
 			{
-				A[count_cells][0] = -mfr; A[count_cells][1] = 1 + mfr + mfr1; A[count_cells][2] = -mfr1;
-				if (dV_dcell)
-				{
-					A[count_cells + 1][0] = -mfr1; A[count_cells + 1][1] = 1 + mfr1;
-				}
-				else
-				{
-					A[count_cells + 1][0] = 0; A[count_cells + 1][1] = 1;
-				}
+				mfr = mixf[i - 1][cp] = DDt * ct[i - 1].v_m[cp].b_ij;
+				mfr1 = mixf[i][cp] = DDt * ct[i].v_m[cp].b_ij;
 			}
-
-			// inner cells ... 
-			for (i = 2; i < count_cells; i++)
-			{
-				if (heat_nmix && cp == comp - 1)
-				{
-					mfr = mixf[i - 1][cp] = heat_mix_array[i - 1];
-					mfr1 = mixf[i][cp] = heat_mix_array[i];
-				}
-				else
-				{
-					mfr = mixf[i - 1][cp] = DDt * ct[i - 1].v_m[cp].b_ij;
-					mfr1 = mixf[i][cp] = DDt * ct[i].v_m[cp].b_ij;
-				}
-				A[i][0] = -mfr; A[i][1] = 1 + mfr + mfr1; A[i][2] = -mfr1;
-			}
-			// decompose A in LU : store L in A[..][0..1] and U in A[..][2] ...
-			for (i = 1; i <= count_cells + 1; i++)
-			{
-				A[i - 1][2] = A[i - 1][2] / A[i - 1][1];
-				A[i][1] = A[i][1] - A[i][0] * A[i - 1][2];
-			}
-			// solve Ct2 in A.Ct2 = L.U.Ct2 = Ct1 ...
-			// First, find y in L.y = Ct1
-			y[0] = Ct2[0];
-			for (i = 1; i <= count_cells + 1; i++)
-				y[i] = (Ct2[i] - A[i][0] * y[i - 1]) / A[i][1];
-			// Now obtain Ct2 in U.Ct2 = y ...
-			Ct2[count_cells + 1] = y[count_cells + 1];
-			for (i = count_cells; i >= 0; i--)
-				Ct2[i] = y[i] - A[i][2] * Ct2[i + 1];
+			A[i][0] = -mfr; A[i][1] = 1 + mfr + mfr1; A[i][2] = -mfr1;
 		}
+		// decompose A in LU : store L in A[..][0..1] and U in A[..][2] ...
+		for (i = 1; i <= count_cells + 1; i++)
+		{
+			A[i - 1][2] = A[i - 1][2] / A[i - 1][1];
+			A[i][1] = A[i][1] - A[i][0] * A[i - 1][2];
+		}
+		// solve Ct2 in A.Ct2 = L.U.Ct2 = Ct1 ...
+		// First, find y in L.y = Ct1
+		y[0] = Ct2[0];
+		for (i = 1; i <= count_cells + 1; i++)
+			y[i] = (Ct2[i] - A[i][0] * y[i - 1]) / A[i][1];
+		// Now obtain Ct2 in U.Ct2 = y ...
+		Ct2[count_cells + 1] = y[count_cells + 1];
+		for (i = count_cells; i >= 0; i--)
+			Ct2[i] = y[i] - A[i][2] * Ct2[i + 1];
+
 		// Moles transported by concentration gradient from cell [i] to [i + 1] go in tot1.
 		// Correct for electro-neutrality...
 		for (i = ifirst; i <= ilast + 1; i++)
@@ -2431,7 +2429,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 				else
 					ct[i].v_m[cp].zc = ct[i].v_m[cp].z * (Ct2[i] + Ct2[i + 1]) / 2;
 
-				current_cells[i].dif -= ct[i].v_m[cp].z * mixf[i][cp] * grad;
+				current_cells[i].dif += ct[i].v_m[cp].z * ct[i].J_ij[cp].tot1;
 				current_cells[i].ele -= ct[i].v_m[cp].z * mixf[i][cp] * ct[i].v_m[cp].zc;
 			}
 		}
@@ -2492,6 +2490,10 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 	for (i = ifirst + 1; i < ilast; i++)
 	{
 		dVc = current_cells[i].R * (current_x - current_cells[i].dif);
+		if ((dV_dcell && dVc * j_0e > 0 ||
+			(dV_dcell > 0 && (cell_data[i].potV + dVc) > (cell_data[count_cells + 1].potV)) ||
+			(dV_dcell < 0 && (cell_data[i].potV + dVc) < (cell_data[count_cells + 1].potV))))
+			dVc = (cell_data[count_cells + 1].potV - cell_data[i].potV) / (count_cells + 1 - i);
 		cell_data[i + 1].potV = cell_data[i].potV + dVc;
 	}
 	if (!dV_dcell || fix_current)
@@ -2516,7 +2518,6 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 	}
 	current_A = current_x / DDt * F_C_MOL;
 
-	
 	for (i = ifirst; i <= ilast + 1; i++)
 	{
 		// preserve the potentials...
@@ -2531,13 +2532,13 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 			ct[i].m_s = (struct M_S *) free_check_null(ct[i].m_s);
 		if (ct[i].m_s == NULL)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_malloc((size_t)(count_m_s) * sizeof(struct M_S));
-			ct[i].m_s_size = count_m_s;
+			ct[i].m_s = (struct M_S *) PHRQ_malloc((size_t)(count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s_size = count_m_s + 5;
 		}
 		else if (count_m_s > ct[i].m_s_size)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, (size_t)(count_m_s) * sizeof(struct M_S));
-			ct[i].m_s_size = count_m_s;
+			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, (size_t)(count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s_size = count_m_s + 5;
 		}
 		if (ct[i].m_s == NULL)
 			malloc_error();
@@ -2549,15 +2550,16 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 			ct[i].m_s[i1].name = (*it).c_str();
 			it++;
 		}
-		fill_m_s(ct[i].J_ij, ct[i].J_ij_count_spec, i);
+		fill_m_s(ct[i].J_ij, ct[i].J_ij_count_spec, i, 0);
 	}
 	/*
 	* 3. find the solutions, add or subtract the moles...
 	*/
 	std::map<int, std::map<std::string, double>> ::iterator it1;
 	std::map<std::string, double> ::iterator it2;
-	int icell, if1, il1, incr;
-	LDBLE dum1, dum2;
+	cxxNameDouble::iterator kit;
+	int icell, if1, il1, incr, length, length2;
+	LDBLE dum1, dum2, min_mol;
 	for (cp = 0; cp < count_m_s; cp++)
 	{
 		if (!dV_dcell || dV_dcell * ct[1].m_s[cp].charge <= 0)
@@ -2570,6 +2572,9 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 		}
 		for (icell = if1; icell != il1; icell += incr)
 		{
+			min_mol = 1e-12 * ct[i].kgw;
+			if (fabs(ct[icell].m_s[cp].tot1) < min_mol)
+				continue;
 			dum1 = dum2 = 0;
 			sptr1 = Utilities::Rxn_find(Rxn_solution_map, icell);
 			sptr2 = Utilities::Rxn_find(Rxn_solution_map, icell + 1);
@@ -2577,7 +2582,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 			{
 				if (dV_dcell || (icell > 0 && icell <= ilast))
 					sptr1->Set_total_h(sptr1->Get_total_h() - ct[icell].m_s[cp].tot1);
-				if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last ==2))
+				if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
 					sptr2->Set_total_h(sptr2->Get_total_h() + ct[icell].m_s[cp].tot1);
 				continue;
 			}
@@ -2589,7 +2594,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 					sptr2->Set_total_o(sptr2->Get_total_o() + ct[icell].m_s[cp].tot1);
 				continue;
 			}
-			 // see if icell - incr has negative moles, subtract it, so that it is not transported...
+			// see if icell - incr has negative moles, subtract it, so that it is not transported...
 			if (icell > 0 && icell <= ilast &&
 				(it1 = neg_moles.find(icell - incr)) != neg_moles.end()
 				&& (it2 = (els = it1->second).find(ct[icell].m_s[cp].name)) != els.end())
@@ -2601,19 +2606,129 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 				neg_moles.insert(std::make_pair(icell - incr, els));
 			}
 			dum1 = sptr1->Get_totals()[ct[icell].m_s[cp].name];
-			dum2 = sptr2->Get_totals()[ct[icell].m_s[cp].name];
+			if (!dum1)
 			{
-				if (ct[icell].m_s[cp].tot1 > dum1)
-					ct[icell].m_s[cp].tot1 = dum1;
-				else if (-ct[icell].m_s[cp].tot1 > dum2)
-					ct[icell].m_s[cp].tot1 = -dum2;
+				/* Get moles from redox states... */
+				length = (int)strlen(ct[icell].m_s[cp].name);
+				for (kit = sptr1->Get_totals().begin(); kit != sptr1->Get_totals().end(); kit++)
+				{
+					length2 = (int)(size_t)strcspn(kit->first.c_str(), "(");
+					if (!strncmp(ct[icell].m_s[cp].name, kit->first.c_str(), length2))
+					{
+						dum1 += kit->second; kit->second = 0;
+					}
+				}
+				if (dum1)
+					sptr1->Get_totals()[ct[icell].m_s[cp].name] = dum1;
 			}
+			dum2 = sptr2->Get_totals()[ct[icell].m_s[cp].name];
+			if (!dum2)
+			{
+				length = (int)strlen(ct[icell].m_s[cp].name);
+				for (kit = sptr2->Get_totals().begin(); kit != sptr2->Get_totals().end(); kit++)
+				{
+					length2 = (int)(size_t)strcspn(kit->first.c_str(), "(");
+					if (!strncmp(ct[icell].m_s[cp].name, kit->first.c_str(), length2))
+					{
+						dum2 += kit->second; kit->second = 0;
+					}
+				}
+				if (dum2)
+					sptr2->Get_totals()[ct[icell].m_s[cp].name] = dum2;
+			}
+
+			// check for negative moles, add moles from the donnan layer when necessary and available...
+			if (ct[icell].m_s[cp].tot1 > dum1 &&
+				(dV_dcell || (icell > 0 && icell <= ilast)))
+			{
+				if (!ct[icell].dl_s)
+					ct[icell].m_s[cp].tot1 = dum1;
+				else
+				{
+					cxxSurface * s_ptr = Utilities::Rxn_find(Rxn_surface_map, icell);
+					if (s_ptr)
+					{
+						cxxSurfaceCharge * charge_ptr = NULL;
+						for (size_t j = 0; j < s_ptr->Get_surface_charges().size(); j++)
+						{
+							if (s_ptr->Get_dl_type() == cxxSurface::DONNAN_DL)
+							{
+								charge_ptr = &(s_ptr->Get_surface_charges()[j]);
+								for (kit = charge_ptr->Get_diffuse_layer_totals().begin(); kit != charge_ptr->Get_diffuse_layer_totals().end(); kit++)
+								{
+									//if (strcmp(kit->first.c_str(), "H") == 0 || strcmp(kit->first.c_str(), "O") == 0)
+									//	continue;
+									if (strcmp(kit->first.c_str(), ct[icell].m_s[cp].name) == 0)
+									{
+										dummy = ct[icell].m_s[cp].tot1 - dum1 + min_mol;
+										if (kit->second > dummy)
+										{
+											dum1 += dummy; kit->second -= dummy;
+										}
+										else
+										{
+											dum1 += kit->second;  kit->second = 0;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				sptr1->Get_totals()[ct[icell].m_s[cp].name] = dum1;
+			}
+			// check for negative moles, in the other cell...
+			ct[icell].m_s[cp].tot2 = ct[icell].m_s[cp].tot1;
+			if (-ct[icell].m_s[cp].tot2 > dum2 &&
+				(dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2)))
+			{
+				if (!ct[icell + 1].dl_s)
+					ct[icell].m_s[cp].tot2 = -dum2;
+				else
+				{
+					cxxSurface * s_ptr = Utilities::Rxn_find(Rxn_surface_map, icell + 1);
+					if (s_ptr)
+					{
+						cxxSurfaceCharge * charge_ptr = NULL;
+						for (size_t j = 0; j < s_ptr->Get_surface_charges().size(); j++)
+						{
+							if (s_ptr->Get_dl_type() == cxxSurface::DONNAN_DL)
+							{
+								charge_ptr = &(s_ptr->Get_surface_charges()[j]);
+								for (kit = charge_ptr->Get_diffuse_layer_totals().begin(); kit != charge_ptr->Get_diffuse_layer_totals().end(); kit++)
+								{
+									//if (strcmp(kit->first.c_str(), "H") == 0 || strcmp(kit->first.c_str(), "O") == 0)
+									//	continue;
+									if (strcmp(kit->first.c_str(), ct[icell].m_s[cp].name) == 0)
+									{
+										dummy = ct[icell].m_s[cp].tot2 + dum2 - min_mol;
+										if (kit->second > -dummy)
+										{
+											dum2 -= dummy; kit->second += dummy;
+										}
+										else
+										{
+											dum2 += kit->second;  kit->second = 0;
+										}
+									}
+								}
+							}
+						}
+					}
+					sptr2->Get_totals()[ct[icell].m_s[cp].name] = dum2;
+					if (-ct[icell].m_s[cp].tot2 > dum2)
+						ct[icell].m_s[cp].tot2 = -dum2;
+				}
+			}
+			if (fabs(ct[icell].m_s[cp].tot2) < fabs(ct[icell].m_s[cp].tot1))
+				ct[icell].m_s[cp].tot1 = ct[icell].m_s[cp].tot2;
+
 			if (dV_dcell || (icell > 0 && icell <= ilast))
 			{
 				dum1 -= ct[icell].m_s[cp].tot1;
-				sptr1->Get_totals()[ct[icell].m_s[cp].name] = (dum1 > 0 ? dum1 : 1e-16);
+				sptr1->Get_totals()[ct[icell].m_s[cp].name] = (dum1 > 0 ? dum1 : 0e-16);
 			}
-			if (dum1 < -1e-12 && incr > 0)
+			if (dum1 < -min_mol && incr > 0)
 			{
 				els.insert(std::make_pair(ct[icell].m_s[cp].name, dum1));
 				neg_moles.insert(std::make_pair(icell, els));
@@ -2622,9 +2737,9 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 			if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
 			{
 				dum2 += ct[icell].m_s[cp].tot1;
-				sptr2->Get_totals()[ct[icell].m_s[cp].name] = (dum2 > 0 ? dum2 : 1e-16);
+				sptr2->Get_totals()[ct[icell].m_s[cp].name] = (dum2 > 0 ? dum2 : 0e-16);
 			}
-			if (dum2 < -1e-12 && incr < 0)
+			if (dum2 < -min_mol && incr < 0)
 			{
 				els.insert(std::make_pair(ct[icell].m_s[cp].name, dum2));
 				neg_moles.insert(std::make_pair(icell + 1, els));
@@ -2808,7 +2923,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					}
 					count_m_s = 0;
 				}
-				fill_m_s(ct[icell].J_ij, ct[icell].J_ij_count_spec, icell);
+				fill_m_s(ct[icell].J_ij, ct[icell].J_ij_count_spec, icell, stagnant);
 
 				/*
 				* 3. find the solutions, add or subtract the moles...
@@ -2993,7 +3108,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell)
+fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 /* ---------------------------------------------------------------------- */
 {
 	/*  sum up the primary or secondary master_species from solute species
@@ -3005,6 +3120,8 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell)
 
 	for (j = 0; j < l_J_ij_count_spec; j++)
 	{
+		if (abs(l_J_ij[j].tot1) < 1e-15)
+			continue;
 		{
 			char * temp_name = string_duplicate(l_J_ij[j].name);
 			ptr = temp_name;
@@ -3012,7 +3129,7 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell)
 			get_elts_in_species(&ptr, 1);
 			free_check_null(temp_name);
 		}
-		if (implicit)
+		if (implicit && !stagnant)
 		{
 			for (k = 0; k < count_elts; k++)
 			{
@@ -3020,14 +3137,14 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell)
 				{
 					if (strcmp(ct[icell].m_s[l].name, elt_list[k].elt->name) == 0)
 					{
-						fraction = elt_list[k].coef * l_J_ij[j].tot1 + ct[icell].m_s[l].tot1;
+						fraction = fabs((double)elt_list[k].coef * l_J_ij[j].tot1) + fabs(ct[icell].m_s[l].tot1);
 						if (fraction)
-							fraction = elt_list[k].coef * l_J_ij[j].tot1 / fraction;
-						else if (!ct[icell].m_s[l].tot1)
+							fraction = fabs((double)elt_list[k].coef * l_J_ij[j].tot1) / fraction;
+						else
 							fraction = 1;
 						ct[icell].m_s[l].tot1 += elt_list[k].coef * l_J_ij[j].tot1;
-						if (!strcmp(elt_list[k].elt->name, "H") || !strcmp(elt_list[k].elt->name, "O"))
-							break;
+						//if (!strcmp(elt_list[k].elt->name, "H") || !strcmp(elt_list[k].elt->name, "O"))
+						//	break;
 						ct[icell].m_s[l].charge *= (1 - fraction);
 						ct[icell].m_s[l].charge += fraction * l_J_ij[j].charge;
 						break;
@@ -3057,21 +3174,16 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell)
 					{
 						if (strcmp(m_s[l].name, elt_list[k].elt->name) == 0)
 						{
-							fraction = elt_list[k].coef * l_J_ij[j].tot1 / (elt_list[k].coef * l_J_ij[j].tot1 + m_s[l].tot1);
 							m_s[l].tot1 += elt_list[k].coef * l_J_ij[j].tot1;
 							m_s[l].tot2 += elt_list[k].coef * l_J_ij[j].tot2;
-							m_s[l].charge *= (1 - fraction);
-							m_s[l].charge += fraction * l_J_ij[j].charge;
 							break;
 						}
 					}
 					if (l == count_m_s)
 					{
-						//m_s[l].name = string_hsave(elt_list[k].elt->name);
 						m_s[l].name = elt_list[k].elt->name;
 						m_s[l].tot1 = elt_list[k].coef * l_J_ij[j].tot1;
 						m_s[l].tot2 = elt_list[k].coef * l_J_ij[j].tot2;
-						m_s[l].charge = l_J_ij[j].charge;
 						count_m_s++;
 					}
 				}
@@ -3131,7 +3243,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 	LDBLE por_il1, por_il2, por_il12 = 0.0;
 	LDBLE cec1, cec2, cec12 = 0.0, rc1 = 0.0, rc2 = 0.0;
 	LDBLE dV, c1, c2;
-	LDBLE max_b = 0.0; // appt
+	LDBLE max_b = 0.0;
 
 	il_calcs = (interlayer_Dflag ? 1 : 0);
 	cxxSurface *s_ptr1, *s_ptr2;
@@ -3486,9 +3598,6 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	while (i < i_max || j < j_max)
 	{
-		// appt debug
-		//ct[icell].J_ij[i].name = sol_D[icell].spec[i].name;
-		//ct[icell].J_ij[i+1].name = sol_D[jcell].spec[j].name;
 		if (j == j_max
 			|| (i < i_max && strcmp(sol_D[icell].spec[i].name, sol_D[jcell].spec[j].name) < 0))
 		{
@@ -3748,7 +3857,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				if (ct[icell].v_m[k].z)
 					ct[icell].v_m[k].zc = ct[icell].v_m[k].z * ct[icell].v_m[k].c;
 
-				if (dV_dcell && ct[icell].v_m[k].z && !fix_current && !implicit) // appt
+				if (dV_dcell && ct[icell].v_m[k].z && !fix_current && !implicit)
 				{
 					// compare diffuse and electromotive forces
 					dum = ct[icell].v_m[k].grad;
@@ -3811,15 +3920,25 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					else if (icell == count_cells)
 						ct[icell].v_m[k].b_ij = b_i;
 				}
-				if (ct[icell].v_m[k].b_ij > max_b)
-					max_b = ct[icell].v_m[k].b_ij;
 
 				if (ct[icell].v_m[k].z)
 					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 
+				//ddlm = sol_D[jcell].spec[j].lm - sol_D[icell].spec[i].lm; // appt: this could give an incorrect large factor for implicit
+				//if (fabs(ddlm) > 1e-10)
+				//	ct[icell].v_m[k].grad *= (1 + (sol_D[jcell].spec[j].lg - sol_D[icell].spec[i].lg) / ddlm);
 				ddlm = sol_D[jcell].spec[j].lm - sol_D[icell].spec[i].lm;
-				if (fabs(ddlm) > 1e-10)
-					ct[icell].v_m[k].grad *= (1 + (sol_D[jcell].spec[j].lg - sol_D[icell].spec[i].lg) / ddlm);
+				dum = sol_D[jcell].spec[j].lg - sol_D[icell].spec[i].lg;
+				if (fabs(dum * sol_D[jcell].spec[j].lg) > 5e-3 && fabs(ddlm) > 0.025)
+				{
+					dum = (1 + dum / ddlm);
+					ct[icell].v_m[k].grad *= dum;
+					if (implicit)
+						ct[icell].v_m[k].b_ij *= dum;
+				}
+
+				if (ct[icell].v_m[k].b_ij > max_b)
+					max_b = ct[icell].v_m[k].b_ij;
 
 				k++;
 			}
@@ -3829,8 +3948,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 				j++;
 		}
 	}
-	if (implicit)
-		return(max_b); // appt
+	if (implicit && !stagnant)
+		return(max_b);
 	/*
 	* fill in J_ij...
 	*/
@@ -3919,11 +4038,11 @@ dV_dcell2:
 		}
 		current_A = current_x * F_C_MOL;
 	}
-	if (abs(ct[icell].J_ij_sum / DDt - current_x) > 1e-13 && (dV_dcell || (icell > 0 || jcell >= count_cells))) // appt
-	{
-		sprintf(token, "Moles charge added in cell %d is: %.3e.\n", icell, ct[icell].J_ij_sum / DDt - current_x);
-		screen_msg(token);
-	}
+	//if (fabs(ct[icell].J_ij_sum / DDt - current_x) > 1e-13 && (dV_dcell || (icell > 0 || jcell >= count_cells))) // appt
+	//{
+	//	sprintf(token, "Moles charge added in cell %d is: %.3e.\n", icell, ct[icell].J_ij_sum / DDt - current_x);
+	//	screen_msg(token);
+	//}
 	/*
 	* calculate interlayer mass transfer...
 	*/
@@ -3945,7 +4064,7 @@ dV_dcell2:
 				ct[icell].J_ij_il[i].tot1 *= ct[icell].A_ij_il * DDt;
 			ct[icell].J_ij_sum += ct[icell].v_m_il[i].z * ct[icell].J_ij_il[i].tot1;
 			ct[icell].J_ij_il[i].tot2 = ct[icell].J_ij_il[i].tot1;
-			ct[icell].J_ij_il[i].charge = ct[icell].v_m_il[i].z;
+			// ct[icell].J_ij_il[i].charge = ct[icell].v_m_il[i].z; // appt not used now
 		}
 
 		/* express the transfer in elemental moles... */
@@ -3963,7 +4082,7 @@ dV_dcell2:
 			m_s[i1].tot2 = 0;
 		}
 		count_m_s = 0;
-		fill_m_s(ct[icell].J_ij_il, k_il, icell);
+		fill_m_s(ct[icell].J_ij_il, k_il, icell, stagnant);
 
 		/* do the mass transfer... */
 		if (icell > 0 || stagnant)
