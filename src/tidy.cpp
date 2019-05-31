@@ -1437,7 +1437,7 @@ tidy_inverse(void)
 		s_eminus->primary->in = TRUE;	/* Include electrons */
 		if (master_alk_ptr)
 		{
-			master_alk_ptr->in = TRUE;	/* Include alkalinity */
+		master_alk_ptr->in = TRUE;	/* Include alkalinity */
 		}
 		else
 		{

@@ -32,7 +32,7 @@ PHRQ_io(void)
 	punch_on = true;
 	error_on = true;
 	dump_on = true;
-	echo_on = true; //**appt
+	echo_on = true;
 	screen_on = true;
 	echo_destination = ECHO_OUTPUT;
 
@@ -800,7 +800,7 @@ get_line(void)
 					this->push_istream(next_stream);
 					std::ostringstream errstr;
 					errstr << "\n\tReading data from " << file_name <<" ...\n";
-					output_msg(errstr.str().c_str()); // **appt
+					output_msg(errstr.str().c_str());
 				}
 				continue;
 			}
