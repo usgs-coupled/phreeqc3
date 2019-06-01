@@ -2613,7 +2613,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 				for (kit = sptr1->Get_totals().begin(); kit != sptr1->Get_totals().end(); kit++)
 				{
 					length2 = (int)(size_t)strcspn(kit->first.c_str(), "(");
-					if (!strncmp(ct[icell].m_s[cp].name, kit->first.c_str(), length2))
+					if (length == length2 && !strncmp(ct[icell].m_s[cp].name, kit->first.c_str(), length2))
 					{
 						dum1 += kit->second; kit->second = 0;
 					}
@@ -2628,7 +2628,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 				for (kit = sptr2->Get_totals().begin(); kit != sptr2->Get_totals().end(); kit++)
 				{
 					length2 = (int)(size_t)strcspn(kit->first.c_str(), "(");
-					if (!strncmp(ct[icell].m_s[cp].name, kit->first.c_str(), length2))
+					if (length == length2 && !strncmp(ct[icell].m_s[cp].name, kit->first.c_str(), length2))
 					{
 						dum2 += kit->second; kit->second = 0;
 					}
