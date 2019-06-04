@@ -18,7 +18,7 @@ char token[MAX_LENGTH];
 // implicit...
 std::set <std::string> dif_spec_names;
 std::set <std::string> dif_els_names;
-std::map<int, std::map<std::string, double>> neg_moles;
+std::map<int, std::map<std::string, double> > neg_moles;
 std::map<std::string, double> els;
 double *y, *Ct1, *Ct2, *l_tk_x2, **A, **mixf, mixf_comp_size = 0;
 
@@ -952,7 +952,7 @@ transport(void)
 
 		if (implicit)
 		{
-			std::map<int, std::map<std::string, double>> ::iterator it1;
+			std::map<int, std::map<std::string, double> > ::iterator it1;
 			std::map<std::string, double> ::iterator it2;
 			for (i = 0; i <= all_cells; i++)
 			{
@@ -2555,7 +2555,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 	/*
 	* 3. find the solutions, add or subtract the moles...
 	*/
-	std::map<int, std::map<std::string, double>> ::iterator it1;
+	std::map<int, std::map<std::string, double> > ::iterator it1;
 	std::map<std::string, double> ::iterator it2;
 	cxxNameDouble::iterator kit;
 	int icell, if1, il1, incr, length, length2;
