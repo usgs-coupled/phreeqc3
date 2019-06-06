@@ -1,0 +1,123 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 TonyLitharge2a_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PRINT; -reset false
+PHASES
+Litharge
+        PbO +2.0000 H+  =  + 1.0000 H2O + 1.0000 Pb++
+        log_k           12.6388
+	-delta_H	-65.9118	kJ/mol	# Calculated enthalpy of reaction	Litharge
+#	Enthalpy of formation:	-219.006 kJ/mol
+        -analytic -1.8683e+001 -2.0211e-003 4.1876e+003 7.2239e+000 7.1118e+001
+#       -Range:  0-200
+       -Vm   23.9  cm3/mol # 9.33 g/cm^3
+Hydrocerussite      392
+#    Source: wateq4f.dat
+#    Pb(OH)2:2PbCO3 + 2H+ = 3Pb+2 + 2CO3-2 + 2H2O 
+#    log_k           -17.460
+    Pb(OH)0.6666666667(CO3)0.6666666667 + 0.6666666667H+ = 0.6666666667CO3-2 + 0.6666666667H2O + Pb+2
+    log_k     -5.82
+	# density 6.84 g/cm^3
+	-Vm   37.8 cm3/mol 
+Cerussite
+  # Source: Amm.dat
+    PbCO3 = CO3-2 + Pb+2
+    log_k     -13.13
+    delta_h   4.86 kcal
+	# density 6.58 g/cm^3
+	-Vm   40.6 cm3/mol 
+Pb
+  # Source: llnl.dat
+    Pb + 2H+ + 0.5O2 = H2O + Pb+2
+    log_k     47.1871
+    delta_h   -278.851 kJ
+	# density 11.34 g/cm^3
+	-Vm   18.3  cm3/mol
+    -analytical_expression -31.784 -0.014816 14984 13.383 233.81 0
+PRINT; -reset true
+
+SURFACE_MASTER_SPECIES
+Sura Sura-
+SURFACE_SPECIES
+# Sura+ = Sura+
+Sura- = Sura-
+# Sura+ + OH- = SuraOH; -log_k 7
+# Sura+ + 2OH- = Sura(OH)2-; -log_k 13
+RATES
+Sum_solid
+10 eq = equi("Calcite") + equi("Hydrocerussite") + equi("Litharge")
+20 rate = m - eq
+30 save rate * time
+40 hc = phase_vm("HydroCerussite") : cc = phase_vm("Calcite") : li = phase_vm("Litharge")
+50 vs = hc * equi("HydroCerussite") + cc * equi("Calcite") + li * equi("Litharge")
+60 org_por = 1e-3 : vtot = tot("water") * 100 / org_por
+70 change_por(org_por - vs / vtot, cell_no)
+
+SOLUTION 0-8; 
+-water 1e-4 # Make the pore negative with surface to block HCO3- and CO3-2 diffusion to the Pb pipe
+Ca 1 calcite
+C(4) 1
+Cl 1
+pH 8 charge
+O(0) 1 O2(g) -0.7 # 20 mg/kgw
+END
+
+EQUILIBRIUM_PHASES 8
+  Pb 0 10
+  Litharge 0 0e-3
+  Cerussite 0 0
+  Hydrocerussite 0 0
+  Calcite 0 0
+EQUILIBRIUM_PHASES 1-7
+  Litharge 0 0
+  Hydrocerussite 0 0
+  Cerussite 0 0
+  Calcite  0 0
+
+SURFACE 1-8
+Sura 1e-3 100 10; -donnan 9e-10; -equil 1
+# Sura 1e-0 100 10; -donnan 1e-5; -equil 1
+END
+
+TRANSPORT
+-cells 8
+-lengths 0.5e-3
+# -lengths 1e-6
+-time 1 day 1
+# -time 1e-6 day 1
+-shifts 2 0
+-multi_d true 0.5e-9 0.3 1e-6 1.0 false
+-porosities 4*0.001
+# -porosities 4*0.1
+-boundary_conditions constant closed
+-punch_frequency 1
+-implicit true 4
+USER_GRAPH 
+-axis_titles "distance / mm" "mol" pH
+-conn false
+-headings x Litha H-Cer Cc pH..+..1day
+-plot_concentration_vs dist
+-axis_scale x_axis 0 4
+10 graph_x dist * 1e3
+12 if cell_no = 4 then li = 0e-3 else li = 0
+20 graph_y equi("Litharge") - li, equi("Hydrocerussite"), equi("Calcite")
+#30 graph_sy pot_v
+30 graph_sy -la("H+")
+END
+TRANSPORT
+-time 1e2 day
+USER_GRAPH 
+-headings x Litha H-Cer Cc pH..+..100day
+END
+
+TRANSPORT
+-time 1e3 day
+USER_GRAPH 
+-headings x Litha H-Cer Cc pH..+..1000day
+END

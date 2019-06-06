@@ -2555,7 +2555,6 @@ gammas_pz(bool exch_a_f)
 			case 9:			/* activity water */
 				break;
 			case 4:			/* Exchange */
-
 				/*
 				 *   Find CEC
 				 *   z contains valence of cation for exchange species, alk contains cec
@@ -2580,7 +2579,6 @@ gammas_pz(bool exch_a_f)
 				/*
 				 *   All other species
 				 */
-
 				/* modific 29 july 2005... */
 				if (s_x[i]->equiv != 0 && s_x[i]->alk > 0)
 				{
@@ -2595,7 +2593,6 @@ gammas_pz(bool exch_a_f)
 							continue;
 						coef = s_x[i]->rxn_x->token[j].coef;
 						s_x[i]->lg += coef * s_x[i]->rxn_x->token[j].s->lg;
-						/*s_x[i]->dg += coef * s_x[i]->rxn_x->token[j].s->dg;*//* remove? */
 					}
 				}
 				if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)
