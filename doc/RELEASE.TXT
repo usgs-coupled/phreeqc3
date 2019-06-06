@@ -1,5 +1,41 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
+ 	-----------------
+	May 31, 2019
+	-----------------
+	
+	PHREEQC: A new option for TRANSPORT invokes an implicit method for 
+	multicomponent diffusion-only systems. In multicomponent diffusion, 
+	each aqueous species diffuses according to its individual diffusion 
+	coefficient. The new method allows greater time steps and thus speeds 
+	the overall calculation. There is one parameter for the implicit 	
+	method, which is the maximum mixing factor (max_mixf) that is allowed, 
+	max_mixf = D * delta_t / delta_x^2. The default value of max_mixf = 1, 
+	but it can be increased often to > 4 (depending on the required 
+	accuracy and the chemistry of the system), with possible speedups of 
+	about an order of magnitude relative to the default method. If max_mixf 
+	is too large, calculations may not converge. With implicit true, 
+	electro-migration calculations are more stable and usually (possibly) 
+	avoid disturbing warnings of 'negative moles'. The implicit 
+	calculations 	have been implemented for a regular (equally spaced) 
+	column, not for stagnant cells, and not for interlayer diffusion. 	
+	
+	TRANSPORT
+	-implicit true 2.0
+	
+	The activity-coefficient effect for multicomponent diffusion was 
+	modified, previous versions could give an erroneously large correction.
+
+	The column boundary cells 0 and count_cells + 1 are now 
+	print-/punched by default when the boundary condions are not 
+	'closed'.
+
+ 	-----------------
+	May 7, 2019
+	-----------------
+	
+	PHREEQC: Added Alkalinity to iso.dat. Added error message if Alkalinity is
+	missing for inverse modeling.
 
  	-----------------
 	February 4, 2019
