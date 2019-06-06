@@ -1,6 +1,5 @@
-WARNING: Database file from DATABASE keyword is used; command line argument ignored.
-   Input file: IL_flux
-  Output file: IL_flux.out
+   Input file: il_flux
+  Output file: il_flux.out
 Database file: ../database/phreeqc.dat
 
 ------------------
@@ -708,6 +707,91 @@ O(0)          2.559e-37
 
 Transport step   1. Multicomponent diffusion run 126.
 
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
 
@@ -751,7 +835,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.089e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.034e-14
+                  Electrical balance (eq)  =  -8.049e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   2
                                   Total H  = 5.550622e+01
@@ -842,7 +926,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -9.142e-14
+                  Electrical balance (eq)  =  -9.126e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   2
                                   Total H  = 5.550622e+01
@@ -869,7 +953,7 @@ Na            9.998e-02
    NaOH            7.725e-19   7.905e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.990e-07
    Na_tr+          3.990e-07   3.990e-07    -6.399    -6.399    -0.000     (0)  
-O(0)          4.915e-10
+O(0)          4.916e-10
    O2              2.458e-10   2.515e-10    -9.609    -9.599     0.010     30.40
 Sr_tr         3.940e-07
    Sr_tr+2         3.940e-07   3.940e-07    -6.405    -6.405    -0.000     (0)  
@@ -918,7 +1002,7 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.463e-11   6.925e-11   1.385e-09    -0.000
+	Sr_trX2           3.462e-11   6.925e-11   1.385e-09    -0.000
 	Na_trX            6.527e-14   6.527e-14   1.305e-12    -0.000
 
 -----------------------------Solution composition------------------------------
@@ -930,7 +1014,7 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.996e-02   4.998e-02
 	Na_tr             1.305e-13   6.524e-14
-	Sr_tr             1.703e-12   8.514e-13
+	Sr_tr             1.703e-12   8.513e-13
 
 ----------------------------Description of solution----------------------------
 
@@ -942,9 +1026,9 @@ X                5.000e-02 mol
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   9.996e-02
                        Mass of water (kg)  =   5.000e-01
-                 Total alkalinity (eq/kg)  =   1.088e-08
+                 Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.096e-13
+                  Electrical balance (eq)  =  -1.094e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -972,7 +1056,7 @@ Na            9.996e-02
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
 O(0)          4.633e-10
-   O2              2.316e-10   2.370e-10    -9.635    -9.625     0.010     30.40
+   O2              2.317e-10   2.370e-10    -9.635    -9.625     0.010     30.40
 Sr_tr         1.703e-12
    Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
@@ -993,6 +1077,91 @@ Sr_tr         1.703e-12
   For ideal gases, phi = 1.
 
 Transport step   2. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -1021,9 +1190,9 @@ X                5.000e-02 mol
 	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
-	Na                9.999e-02   4.999e-02
+	Na                9.999e-02   5.000e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -1037,7 +1206,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.089e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.514e-14
+                  Electrical balance (eq)  =   1.689e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1
                                   Total H  = 5.550622e+01
@@ -1109,12 +1278,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.997e-02   4.998e-02
+	Cl                9.997e-02   4.999e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
 	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -1128,7 +1297,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -7.619e-14
+                  Electrical balance (eq)  =  -6.802e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   1
                                   Total H  = 5.550622e+01
@@ -1157,8 +1326,8 @@ Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
 O(0)          5.572e-10
    O2              2.786e-10   2.851e-10    -9.555    -9.545     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1204,17 +1373,17 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.465e-11   6.930e-11   1.386e-09    -0.000
+	Sr_trX2           3.465e-11   6.929e-11   1.386e-09    -0.000
 	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	Cl                9.994e-02   4.997e-02
+	Cl                9.995e-02   4.997e-02
 	Cl_tr             1.274e-13   6.372e-14
 	Hto               1.000e-15   5.000e-16
-	Na                9.994e-02   4.997e-02
+	Na                9.995e-02   4.997e-02
 	Na_tr             1.305e-13   6.525e-14
 	Sr_tr             1.703e-12   8.516e-13
 
@@ -1226,11 +1395,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.994e-02
+                 Ionic strength (mol/kgw)  =   9.995e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.097e-13
+                  Electrical balance (eq)  =  -1.094e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -1244,20 +1413,20 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.994e-02
-   Cl-             9.994e-02   7.662e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.995e-02
+   Cl-             9.995e-02   7.663e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         1.274e-13
    Cl_tr-          1.274e-13   1.274e-13   -12.895   -12.895    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.427   -41.417     0.010     28.61
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
-Na            9.994e-02
-   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
+Na            9.995e-02
+   Na+             9.995e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.723e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.529e-10
+O(0)          5.530e-10
    O2              2.765e-10   2.829e-10    -9.558    -9.548     0.010     30.40
 Sr_tr         1.703e-12
    Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
@@ -1279,6 +1448,91 @@ Sr_tr         1.703e-12
   For ideal gases, phi = 1.
 
 Transport step   3. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -1304,7 +1558,7 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
@@ -1323,7 +1577,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.427e-14
+                  Electrical balance (eq)  =   1.610e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1
                                   Total H  = 5.550622e+01
@@ -1338,7 +1592,7 @@ X                5.000e-02 mol
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            9.999e-02
-   Cl-             9.999e-02   7.665e-02    -1.000    -1.115    -0.115     18.34
+   Cl-             9.999e-02   7.666e-02    -1.000    -1.115    -0.115     18.34
 Cl_tr         8.000e-07
    Cl_tr-          8.000e-07   8.000e-07    -6.097    -6.097    -0.000     (0)  
 H(0)          0.000e+00
@@ -1350,8 +1604,8 @@ Na            9.999e-02
    NaOH            7.726e-19   7.906e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         7.999e-07
    Na_tr+          7.999e-07   7.999e-07    -6.097    -6.097    -0.000     (0)  
-O(0)          5.681e-10
-   O2              2.840e-10   2.907e-10    -9.547    -9.537     0.010     30.40
+O(0)          5.680e-10
+   O2              2.840e-10   2.906e-10    -9.547    -9.537     0.010     30.40
 Sr_tr         7.995e-07
    Sr_tr+2         7.995e-07   7.995e-07    -6.097    -6.097    -0.000     (0)  
 
@@ -1395,10 +1649,10 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
 	Sr_tr             3.993e-07   1.996e-07
 
@@ -1414,7 +1668,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.316e-14
+                  Electrical balance (eq)  =  -7.261e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   1
                                   Total H  = 5.550622e+01
@@ -1428,23 +1682,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.849e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
 O(0)          5.670e-10
    O2              2.835e-10   2.901e-10    -9.547    -9.537     0.010     30.40
 Sr_tr         3.993e-07
-   Sr_tr+2         3.993e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1490,8 +1744,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.930e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -1502,13 +1756,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.703e-12   8.517e-13
+	Sr_tr             1.703e-12   8.516e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -1516,7 +1770,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.099e-13
+                  Electrical balance (eq)  =  -1.096e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -1535,7 +1789,7 @@ Cl            9.994e-02
 Cl_tr         1.274e-13
    Cl_tr-          1.274e-13   1.274e-13   -12.895   -12.895    -0.000     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+   H2              0.000e+00   0.000e+00   -41.432   -41.422     0.010     28.61
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
@@ -1543,8 +1797,8 @@ Na            9.994e-02
    NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.664e-10
-   O2              2.832e-10   2.898e-10    -9.548    -9.538     0.010     30.40
+O(0)          5.663e-10
+   O2              2.832e-10   2.897e-10    -9.548    -9.538     0.010     30.40
 Sr_tr         1.703e-12
    Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
@@ -1565,6 +1819,91 @@ Sr_tr         1.703e-12
   For ideal gases, phi = 1.
 
 Transport step   4. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -1590,12 +1929,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -1609,7 +1948,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.423e-14
+                  Electrical balance (eq)  =   1.593e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1
                                   Total H  = 5.550622e+01
@@ -1636,7 +1975,7 @@ Na            9.999e-02
    NaOH            7.726e-19   7.906e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         7.999e-07
    Na_tr+          7.999e-07   7.999e-07    -6.097    -6.097    -0.000     (0)  
-O(0)          5.686e-10
+O(0)          5.685e-10
    O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
 Sr_tr         7.995e-07
    Sr_tr+2         7.995e-07   7.995e-07    -6.097    -6.097    -0.000     (0)  
@@ -1681,12 +2020,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -1696,11 +2035,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.362e-14
+                  Electrical balance (eq)  =  -7.279e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   1
                                   Total H  = 5.550622e+01
@@ -1714,23 +2053,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
 O(0)          5.684e-10
    O2              2.842e-10   2.908e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1776,8 +2115,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -1788,13 +2127,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -1802,7 +2141,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.102e-13
+                  Electrical balance (eq)  =  -1.091e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -1825,14 +2164,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
 O(0)          5.683e-10
-   O2              2.841e-10   2.908e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+   O2              2.842e-10   2.908e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -1851,6 +2190,91 @@ Sr_tr         1.704e-12
   For ideal gases, phi = 1.
 
 Transport step   5. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -1876,12 +2300,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -1895,9 +2319,9 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.419e-14
+                  Electrical balance (eq)  =   1.589e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   0
+                               Iterations  =   1
                                   Total H  = 5.550622e+01
                                   Total O  = 2.775311e+01
 
@@ -1923,7 +2347,7 @@ Na            9.999e-02
 Na_tr         7.999e-07
    Na_tr+          7.999e-07   7.999e-07    -6.097    -6.097    -0.000     (0)  
 O(0)          5.687e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
 Sr_tr         7.995e-07
    Sr_tr+2         7.995e-07   7.995e-07    -6.097    -6.097    -0.000     (0)  
 
@@ -1967,12 +2391,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -1982,13 +2406,13 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.389e-14
+                  Electrical balance (eq)  =  -7.292e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =   1
+                               Iterations  =   0
                                   Total H  = 5.550622e+01
                                   Total O  = 2.775311e+01
 
@@ -2000,23 +2424,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
 O(0)          5.686e-10
    O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2062,8 +2486,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -2074,13 +2498,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -2088,7 +2512,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.105e-13
+                  Electrical balance (eq)  =  -1.088e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -2111,14 +2535,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.685e-10
+O(0)          5.686e-10
    O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2137,6 +2561,91 @@ Sr_tr         1.704e-12
   For ideal gases, phi = 1.
 
 Transport step   6. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -2162,12 +2671,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -2181,7 +2690,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.423e-14
+                  Electrical balance (eq)  =   1.588e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -2253,12 +2762,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -2268,11 +2777,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.375e-14
+                  Electrical balance (eq)  =  -7.299e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -2286,23 +2795,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
-O(0)          5.686e-10
+O(0)          5.687e-10
    O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2348,8 +2857,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -2360,13 +2869,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -2374,7 +2883,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.112e-13
+                  Electrical balance (eq)  =  -1.084e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -2397,14 +2906,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
 O(0)          5.686e-10
    O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2423,6 +2932,91 @@ Sr_tr         1.704e-12
   For ideal gases, phi = 1.
 
 Transport step   7. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -2448,12 +3042,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -2467,7 +3061,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.419e-14
+                  Electrical balance (eq)  =   1.590e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -2539,12 +3133,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -2554,11 +3148,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.374e-14
+                  Electrical balance (eq)  =  -7.297e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -2572,23 +3166,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
-O(0)          5.686e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2634,8 +3228,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -2646,13 +3240,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -2660,7 +3254,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.119e-13
+                  Electrical balance (eq)  =  -1.084e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -2683,14 +3277,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.685e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+O(0)          5.688e-10
+   O2              2.844e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2709,6 +3303,91 @@ Sr_tr         1.704e-12
   For ideal gases, phi = 1.
 
 Transport step   8. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -2734,12 +3413,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -2753,7 +3432,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.420e-14
+                  Electrical balance (eq)  =   1.590e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -2825,12 +3504,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -2840,11 +3519,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.372e-14
+                  Electrical balance (eq)  =  -7.297e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -2858,23 +3537,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
-O(0)          5.686e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2920,8 +3599,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -2932,13 +3611,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -2946,7 +3625,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.124e-13
+                  Electrical balance (eq)  =  -1.077e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -2969,14 +3648,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.685e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+O(0)          5.688e-10
+   O2              2.844e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -2995,6 +3674,91 @@ Sr_tr         1.704e-12
   For ideal gases, phi = 1.
 
 Transport step   9. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -3020,12 +3784,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -3039,7 +3803,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.420e-14
+                  Electrical balance (eq)  =   1.590e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -3111,12 +3875,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -3126,11 +3890,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.372e-14
+                  Electrical balance (eq)  =  -7.297e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -3144,23 +3908,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
-O(0)          5.686e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -3195,7 +3959,7 @@ Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
 A_cl              0.00   -14.00    -14.00    9.400e-06   1.060e-05   1.200e-06
 A_hto             0.00   -15.00    -15.00    9.400e-06   1.060e-05   1.200e-06
-A_na              0.00   -14.00    -14.00    1.453e-05   1.639e-05   1.866e-06
+A_na             -0.00   -14.00    -14.00    1.453e-05   1.639e-05   1.866e-06
 A_sr              0.00   -14.00    -14.00    2.176e-04   2.458e-04   2.824e-05
 
 -----------------------------Exchange composition------------------------------
@@ -3206,8 +3970,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -3218,13 +3982,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -3232,7 +3996,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.130e-13
+                  Electrical balance (eq)  =  -1.075e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -3255,14 +4019,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.685e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+O(0)          5.688e-10
+   O2              2.844e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -3270,7 +4034,7 @@ Sr_tr         1.704e-12
 
   A_cl              0.00    -14.00  -14.00  NaCl_tr
   A_hto             0.00    -15.00  -15.00  Hto
-  A_na              0.00    -14.00  -14.00  Na_trCl
+  A_na             -0.00    -14.00  -14.00  Na_trCl
   A_sr              0.00    -14.00  -14.00  Sr_trCl2
   H2(g)           -38.32    -41.42   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
@@ -3281,6 +4045,91 @@ Sr_tr         1.704e-12
   For ideal gases, phi = 1.
 
 Transport step  10. Multicomponent diffusion run 126.
+
+Using solution 0.	Solution after simulation 5.
+Using exchange 0.	Exchange assemblage after simulation 5.
+
+-----------------------------Exchange composition------------------------------
+
+X                2.000e-10 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	NaX               1.998e-10   1.998e-10   9.992e-01    -0.105
+	Sr_trX2           8.115e-14   1.623e-13   8.115e-04    -0.000
+	Na_trX            1.998e-15   1.998e-15   9.992e-06    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   5.000e-02
+	Cl_tr             1.000e-06   5.000e-07
+	Hto               1.000e-06   5.000e-07
+	Na                1.000e-01   5.000e-02
+	Na_tr             1.000e-06   5.000e-07
+	Sr_tr             1.000e-06   5.000e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.999      Charge balance
+                                       pe  =  12.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   0.50235
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   5.000e-01
+                 Total alkalinity (eq/kg)  =   1.089e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.050e-13
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 5.550622e+01
+                                  Total O  = 2.775311e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
+   H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+Cl_tr         1.000e-06
+   Cl_tr-          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
+Hto           1.000e-06
+   Hto             1.000e-06   1.000e-06    -6.000    -6.000     0.000     (0)  
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.727e-19   7.907e-19   -18.112   -18.102     0.010     (0)  
+Na_tr         1.000e-06
+   Na_tr+          1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.000e-06
+   Sr_tr+2         1.000e-06   1.000e-06    -6.000    -6.000    -0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  A_cl              6.89     -7.11  -14.00  NaCl_tr
+  A_hto             9.00     -6.00  -15.00  Hto
+  A_na              6.88     -7.12  -14.00  Na_trCl
+  A_sr              5.77     -8.23  -14.00  Sr_trCl2
+  H2(g)           -38.32    -41.42   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)            -6.64     -9.54   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
 
 Using mix 1.	
 Using exchange 1.	Exchange assemblage after simulation 5.
@@ -3306,12 +4155,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.999e-02   4.999e-02
+	Cl                9.999e-02   5.000e-02
 	Cl_tr             8.000e-07   4.000e-07
 	Hto               8.000e-07   4.000e-07
 	Na                9.999e-02   4.999e-02
 	Na_tr             7.999e-07   4.000e-07
-	Sr_tr             7.995e-07   3.997e-07
+	Sr_tr             7.995e-07   3.998e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -3325,7 +4174,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.088e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.420e-14
+                  Electrical balance (eq)  =   1.590e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -3397,12 +4246,12 @@ X                5.000e-02 mol
 
 	Elements           Molality       Moles
 
-	Cl                9.996e-02   4.998e-02
+	Cl                9.997e-02   4.998e-02
 	Cl_tr             4.000e-07   2.000e-07
 	Hto               4.000e-07   2.000e-07
-	Na                9.996e-02   4.998e-02
+	Na                9.997e-02   4.998e-02
 	Na_tr             3.999e-07   1.999e-07
-	Sr_tr             3.992e-07   1.996e-07
+	Sr_tr             3.993e-07   1.996e-07
 
 ----------------------------Description of solution----------------------------
 
@@ -3412,11 +4261,11 @@ X                5.000e-02 mol
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
-                 Ionic strength (mol/kgw)  =   9.996e-02
+                 Ionic strength (mol/kgw)  =   9.997e-02
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.087e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -8.372e-14
+                  Electrical balance (eq)  =  -7.297e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0
                                   Total H  = 5.550622e+01
@@ -3430,23 +4279,23 @@ X                5.000e-02 mol
    OH-             1.322e-07   1.007e-07    -6.879    -6.997    -0.118     -3.73
    H+              1.214e-07   1.002e-07    -6.916    -6.999    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
-Cl            9.996e-02
-   Cl-             9.996e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
+Cl            9.997e-02
+   Cl-             9.997e-02   7.664e-02    -1.000    -1.116    -0.115     18.34
 Cl_tr         4.000e-07
    Cl_tr-          4.000e-07   4.000e-07    -6.398    -6.398    -0.000     (0)  
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -41.433   -41.423     0.010     28.61
 Hto           4.000e-07
    Hto             4.000e-07   4.000e-07    -6.398    -6.398     0.000     (0)  
-Na            9.996e-02
-   Na+             9.996e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
+Na            9.997e-02
+   Na+             9.997e-02   7.848e-02    -1.000    -1.105    -0.105     -1.09
    NaOH            7.724e-19   7.904e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         3.999e-07
    Na_tr+          3.999e-07   3.999e-07    -6.398    -6.398    -0.000     (0)  
-O(0)          5.686e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         3.992e-07
-   Sr_tr+2         3.992e-07   3.992e-07    -6.399    -6.399    -0.000     (0)  
+O(0)          5.687e-10
+   O2              2.843e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         3.993e-07
+   Sr_tr+2         3.993e-07   3.993e-07    -6.399    -6.399    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -3492,8 +4341,8 @@ X                5.000e-02 mol
 	Species             Moles      alents      Fraction     Gamma
 
 	NaX               5.000e-02   5.000e-02   1.000e+00    -0.105
-	Sr_trX2           3.466e-11   6.932e-11   1.386e-09    -0.000
-	Na_trX            6.530e-14   6.530e-14   1.306e-12    -0.000
+	Sr_trX2           3.465e-11   6.931e-11   1.386e-09    -0.000
+	Na_trX            6.529e-14   6.529e-14   1.306e-12    -0.000
 
 -----------------------------Solution composition------------------------------
 
@@ -3504,13 +4353,13 @@ X                5.000e-02 mol
 	Hto               1.000e-15   5.000e-16
 	Na                9.994e-02   4.997e-02
 	Na_tr             1.305e-13   6.526e-14
-	Sr_tr             1.704e-12   8.518e-13
+	Sr_tr             1.703e-12   8.517e-13
 
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.999      Charge balance
                                        pe  =  12.137      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 10640
+      Specific Conductance (µS/cm,  25°C)  = 10641
                           Density (g/cm³)  =   1.00115
                                Volume (L)  =   0.50234
                         Activity of water  =   0.997
@@ -3518,7 +4367,7 @@ X                5.000e-02 mol
                        Mass of water (kg)  =   5.000e-01
                  Total alkalinity (eq/kg)  =   1.086e-08
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -1.135e-13
+                  Electrical balance (eq)  =  -1.076e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   3
                                   Total H  = 5.550622e+01
@@ -3541,14 +4390,14 @@ H(0)          0.000e+00
 Hto           1.000e-15
    Hto             1.000e-15   1.000e-15   -15.000   -15.000     0.000     (0)  
 Na            9.994e-02
-   Na+             9.994e-02   7.846e-02    -1.000    -1.105    -0.105     -1.09
-   NaOH            7.722e-19   7.901e-19   -18.112   -18.102     0.010     (0)  
+   Na+             9.994e-02   7.847e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            7.722e-19   7.902e-19   -18.112   -18.102     0.010     (0)  
 Na_tr         1.305e-13
    Na_tr+          1.305e-13   1.305e-13   -12.884   -12.884    -0.000     (0)  
-O(0)          5.685e-10
-   O2              2.843e-10   2.909e-10    -9.546    -9.536     0.010     30.40
-Sr_tr         1.704e-12
-   Sr_tr+2         1.704e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
+O(0)          5.688e-10
+   O2              2.844e-10   2.910e-10    -9.546    -9.536     0.010     30.40
+Sr_tr         1.703e-12
+   Sr_tr+2         1.703e-12   1.703e-12   -11.769   -11.769    -0.000     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -3578,7 +4427,7 @@ Reading input data for simulation 6.
 	 reset true
 	USER_GRAPH 1
 	 -active false
-	EQUILIBRIUM_PHASES 0-9 # remove from previous simulation
+	EQUILIBRIUM_PHASES 0-9 
 	EXCHANGE 0-9
 	 X 1e-10
 	 equilibrate 0
@@ -3831,6 +4680,6 @@ Reading input data for simulation 8.
 	 reset false
 WARNING: No porosities were read; used the value 6.00e-01 from -multi_D.
 -------------------------------
-End of Run after 1.478 Seconds.
+End of Run after 3.395 Seconds.
 -------------------------------
 
