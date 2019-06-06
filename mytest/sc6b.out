@@ -1,4 +1,3 @@
-WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: sc6b
   Output file: sc6b.out
 Database file: ../database/phreeqc.dat
@@ -652,6 +651,8 @@ Sub
 ----------------------------------User print-----------------------------------
 
 
+WARNING: multi_D calc's and stagnant: define MIXing factors explicitly, or 
+	 adapt the default Dw of -multi_d to match the mobile-immobile exchange factor.
 ----------------------------------User print-----------------------------------
 
 Adapting surface in            0 
@@ -788,27 +789,27 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.088e-15  Surface + diffuse layer charge, eq
-	  1.180e-09  Surface charge, eq
-	  4.312e-03  sigma, C/m²
-	  6.532e-02  psi, V
-	 -2.542e+00  -F*psi/RT
-	  7.868e-02  exp(-F*psi/RT)
+	  2.163e-15  Surface + diffuse layer charge, eq
+	  1.201e-09  Surface charge, eq
+	  4.389e-03  sigma, C/m²
+	  6.609e-02  psi, V
+	 -2.572e+00  -F*psi/RT
+	  7.634e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  2.640e-02  m² for   4.400e-05 g
 
 	Water in diffuse layer: 2.640e-11 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  2.929e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 1.120e-05 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  2.933e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.100e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.9031e-27
-	Cl            	  1.1795e-09
-	H             	  2.4564e-13
-	Na            	  1.4761e-19
-	O             	  2.4564e-13
+	Ca            	  1.8343e-27
+	Cl            	  1.2005e-09
+	H             	  2.4253e-13
+	Na            	  1.4503e-19
+	O             	  2.4253e-13
 
 Hfo_s         
 	  1.250e-08  moles
@@ -817,8 +818,8 @@ Hfo_s
 
 	Hfo_sOH           9.593e-09       0.767   9.593e-09      -8.018
 	Hfo_sOH2+         1.467e-09       0.117   1.467e-09      -8.834
-	Hfo_sO-           1.437e-09       0.115   1.437e-09      -8.842
-	Hfo_sOHCa+2       2.765e-12       0.000   2.765e-12     -11.558
+	Hfo_sO-           1.437e-09       0.115   1.437e-09      -8.843
+	Hfo_sOHCa+2       2.603e-12       0.000   2.603e-12     -11.585
 
 Hfo_w         
 	  4.875e-07  moles
@@ -826,16 +827,16 @@ Hfo_w
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_wOH           3.742e-07       0.768   3.742e-07      -6.427
-	Hfo_wOH2+         5.721e-08       0.117   5.721e-08      -7.243
-	Hfo_wO-           5.607e-08       0.115   5.607e-08      -7.251
-	Hfo_wOCa+         2.082e-13       0.000   2.082e-13     -12.682
+	Hfo_wOH2+         5.722e-08       0.117   5.722e-08      -7.242
+	Hfo_wO-           5.606e-08       0.115   5.606e-08      -7.251
+	Hfo_wOCa+         1.959e-13       0.000   1.959e-13     -12.708
 
 Sua           
-	 -6.196e-21  Surface + diffuse layer charge, eq
+	 -6.308e-21  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -3.705e-19  psi, V
-	  1.442e-17  -F*psi/RT
+	 -3.776e-19  psi, V
+	  1.470e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  4.998e+03  m² for   4.998e-01 g
@@ -849,9 +850,9 @@ Sua
 	Element       	     Moles
 	Ca            	  2.4933e-12
 	Cl            	  2.5008e-09
-	H             	  1.0405e-12
+	H             	  1.0407e-12
 	Na            	  2.4958e-09
-	O             	  5.2537e-13
+	O             	  5.0983e-13
 
 Sua           
 	  4.998e-04  moles
@@ -861,11 +862,11 @@ Sua
 	Sua               4.998e-04       1.000   4.998e-04      -3.301
 
 Sub           
-	 -7.180e-24  Surface + diffuse layer charge, eq
+	 -7.309e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -2.103e-22  psi, V
-	  8.186e-21  -F*psi/RT
+	 -5.319e-22  psi, V
+	  2.070e-20  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  5.000e+00  m² for   5.000e-04 g
@@ -879,9 +880,9 @@ Sub
 	Element       	     Moles
 	Ca            	  2.4941e-15
 	Cl            	  2.5015e-12
-	H             	  1.0408e-15
+	H             	  1.0410e-15
 	Na            	  2.4965e-12
-	O             	  5.2553e-16
+	O             	  5.0998e-16
 
 Sub           
 	  5.000e-07  moles
@@ -899,9 +900,9 @@ Adapting surface in            6
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  7.984e-18  Surface + diffuse layer charge, eq
-	  7.984e-18  Surface charge, eq
-	  9.728e-05  sigma, C/m²
+	  7.985e-18  Surface + diffuse layer charge, eq
+	  7.985e-18  Surface charge, eq
+	  9.729e-05  sigma, C/m²
 	  6.566e-02  psi, V
 	 -2.556e+00  -F*psi/RT
 	  7.764e-02  exp(-F*psi/RT)
@@ -915,11 +916,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.494e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.6507e-40
-	Cl            	  4.7677e-18
-	H             	  3.2159e-18
-	Na            	  2.9597e-31
-	O             	  3.2159e-18
+	Ca            	  5.6460e-40
+	Cl            	  4.7682e-18
+	H             	  3.2158e-18
+	Na            	  2.9594e-31
+	O             	  3.2158e-18
 
 Hfo_s         
 	  3.757e-15  moles
@@ -929,7 +930,7 @@ Hfo_s
 	Hfo_sOH           2.890e-15       0.769   2.890e-15     -14.539
 	Hfo_sOH2+         4.375e-16       0.116   4.375e-16     -15.359
 	Hfo_sO-           4.373e-16       0.116   4.373e-16     -15.359
-	Hfo_sOHCa+2       2.434e-22       0.000   2.434e-22     -21.614
+	Hfo_sOHCa+2       2.433e-22       0.000   2.433e-22     -21.614
 
 Hfo_w         
 	  1.462e-13  moles
@@ -939,14 +940,14 @@ Hfo_w
 	Hfo_wOH           1.123e-13       0.768   1.123e-13     -12.950
 	Hfo_wOH2+         1.700e-14       0.116   1.700e-14     -13.770
 	Hfo_wO-           1.699e-14       0.116   1.699e-14     -13.770
-	Hfo_wOCa+         1.843e-23       0.000   1.843e-23     -22.734
+	Hfo_wOCa+         1.843e-23       0.000   1.843e-23     -22.735
 
 Sua           
 	 -1.838e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.768e-23  psi, V
-	 -6.883e-22  -F*psi/RT
+	 -1.646e-23  psi, V
+	  6.406e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e+00  m² for   1.500e-04 g
@@ -958,11 +959,11 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.002e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.2563e-19
-	Cl            	  2.2466e-16
+	Ca            	  2.2561e-19
+	Cl            	  2.2467e-16
 	H             	  3.0472e-16
-	Na            	  2.2531e-16
-	O             	  1.5290e-16
+	Na            	  2.2529e-16
+	O             	  1.5289e-16
 
 Sua           
 	  1.500e-07  moles
@@ -975,8 +976,8 @@ Sub
 	 -1.838e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.692e-23  psi, V
-	 -6.585e-22  -F*psi/RT
+	 -2.222e-23  psi, V
+	  8.650e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-06  m² for   1.500e-10 g
@@ -988,11 +989,11 @@ Sub
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.002e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.2563e-25
-	Cl            	  2.2466e-22
+	Ca            	  2.2561e-25
+	Cl            	  2.2467e-22
 	H             	  3.0472e-22
-	Na            	  2.2531e-22
-	O             	  1.5290e-22
+	Na            	  2.2529e-22
+	O             	  1.5289e-22
 
 Sub           
 	  1.500e-13  moles
@@ -1141,27 +1142,27 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  7.797e-15  Surface + diffuse layer charge, eq
-	  2.792e-09  Surface charge, eq
-	  5.104e-03  sigma, C/m²
-	  6.382e-02  psi, V
-	 -2.484e+00  -F*psi/RT
-	  8.339e-02  exp(-F*psi/RT)
+	  7.142e-15  Surface + diffuse layer charge, eq
+	  2.672e-09  Surface charge, eq
+	  4.885e-03  sigma, C/m²
+	  6.193e-02  psi, V
+	 -2.410e+00  -F*psi/RT
+	  8.978e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  5.278e-02  m² for   8.797e-05 g
 
 	Water in diffuse layer: 5.278e-11 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  2.868e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 1.419e-05 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  2.857e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.483e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.9461e-27
-	Cl            	  2.7917e-09
-	H             	  4.1226e-13
-	Na            	  5.6128e-19
-	O             	  4.1226e-13
+	Ca            	  9.8008e-27
+	Cl            	  2.6718e-09
+	H             	  4.2499e-13
+	Na            	  5.8646e-19
+	O             	  4.2499e-13
 
 Hfo_s         
 	  2.499e-08  moles
@@ -1169,9 +1170,9 @@ Hfo_s
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_sOH           1.918e-08       0.767   1.918e-08      -7.717
-	Hfo_sOH2+         2.938e-09       0.118   2.938e-09      -8.532
-	Hfo_sO-           2.868e-09       0.115   2.868e-09      -8.542
-	Hfo_sOHCa+2       9.283e-12       0.000   9.283e-12     -11.032
+	Hfo_sOH2+         2.936e-09       0.117   2.936e-09      -8.532
+	Hfo_sO-           2.870e-09       0.115   2.870e-09      -8.542
+	Hfo_sOHCa+2       1.076e-11       0.000   1.076e-11     -10.968
 
 Hfo_w         
 	  9.747e-07  moles
@@ -1179,16 +1180,16 @@ Hfo_w
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_wOH           7.482e-07       0.768   7.482e-07      -6.126
-	Hfo_wOH2+         1.146e-07       0.118   1.146e-07      -6.941
-	Hfo_wO-           1.119e-07       0.115   1.119e-07      -6.951
-	Hfo_wOCa+         6.978e-13       0.000   6.978e-13     -12.156
+	Hfo_wOH2+         1.145e-07       0.118   1.145e-07      -6.941
+	Hfo_wO-           1.120e-07       0.115   1.120e-07      -6.951
+	Hfo_wOCa+         8.092e-13       0.000   8.092e-13     -12.092
 
 Sua           
-	  2.604e-18  Surface + diffuse layer charge, eq
+	 -3.323e-21  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -5.390e-16  psi, V
-	  2.098e-14  -F*psi/RT
+	 -2.670e-18  psi, V
+	  1.039e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  7.498e+03  m² for   7.498e-01 g
@@ -1196,15 +1197,15 @@ Sua
 	Water in diffuse layer: 7.498e-06 kg, 99.9% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -2.096e-08 V.
+	Donnan Layer potential, psi_DL = -2.095e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
 	Ca            	  5.5918e-12
 	Cl            	  5.6281e-09
-	H             	  1.5725e-12
+	H             	  1.5845e-12
 	Na            	  5.6171e-09
-	O             	  8.3800e-13
+	O             	  9.0211e-13
 
 Sua           
 	  7.498e-04  moles
@@ -1214,11 +1215,11 @@ Sua
 	Sua               7.498e-04       1.000   7.498e-04      -3.125
 
 Sub           
-	  2.602e-21  Surface + diffuse layer charge, eq
+	 -6.043e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -5.384e-16  psi, V
-	  2.096e-14  -F*psi/RT
+	 -2.111e-18  psi, V
+	  8.215e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  7.498e+00  m² for   7.498e-04 g
@@ -1226,15 +1227,15 @@ Sub
 	Water in diffuse layer: 7.498e-09 kg,  0.1% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -2.096e-08 V.
+	Donnan Layer potential, psi_DL = -2.095e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
 	Ca            	  5.5925e-15
 	Cl            	  5.6288e-12
-	H             	  1.5727e-15
-	Na            	  5.6177e-12
-	O             	  8.3810e-16
+	H             	  1.5847e-15
+	Na            	  5.6178e-12
+	O             	  9.0222e-16
 
 Sub           
 	  7.498e-07  moles
@@ -1252,27 +1253,27 @@ Adapting surface in            6
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.710e-15  Surface + diffuse layer charge, eq
-	  9.509e-10  Surface charge, eq
-	  6.955e-03  sigma, C/m²
-	  1.043e-01  psi, V
-	 -4.061e+00  -F*psi/RT
-	  1.723e-02  exp(-F*psi/RT)
+	  2.748e-15  Surface + diffuse layer charge, eq
+	  9.576e-10  Surface charge, eq
+	  7.004e-03  sigma, C/m²
+	  1.047e-01  psi, V
+	 -4.075e+00  -F*psi/RT
+	  1.700e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  1.319e-02  m² for   2.199e-05 g
 
 	Water in diffuse layer: 1.319e-11 kg,  0.2% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  3.229e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 3.476e-06 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  3.231e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 3.452e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  4.4785e-29
-	Cl            	  9.5085e-10
-	H             	  8.5431e-14
-	Na            	  1.1444e-20
-	O             	  8.5431e-14
+	Ca            	  4.4137e-29
+	Cl            	  9.5749e-10
+	H             	  8.4869e-14
+	Na            	  1.1365e-20
+	O             	  8.4869e-14
 
 Hfo_s         
 	  6.247e-09  moles
@@ -1280,9 +1281,9 @@ Hfo_s
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_sOH           4.795e-09       0.768   4.795e-09      -8.319
-	Hfo_sOH2+         7.377e-10       0.118   7.377e-10      -9.132
+	Hfo_sOH2+         7.378e-10       0.118   7.378e-10      -9.132
 	Hfo_sO-           7.139e-10       0.114   7.139e-10      -9.146
-	Hfo_sOHCa+2       3.374e-14       0.000   3.374e-14     -13.472
+	Hfo_sOHCa+2       3.285e-14       0.000   3.285e-14     -13.484
 
 Hfo_w         
 	  2.436e-07  moles
@@ -1292,14 +1293,14 @@ Hfo_w
 	Hfo_wOH           1.870e-07       0.768   1.870e-07      -6.728
 	Hfo_wOH2+         2.877e-08       0.118   2.877e-08      -7.541
 	Hfo_wO-           2.784e-08       0.114   2.784e-08      -7.555
-	Hfo_wOCa+         2.524e-15       0.000   2.524e-15     -14.598
+	Hfo_wOCa+         2.457e-15       0.000   2.457e-15     -14.610
 
 Sua           
-	 -3.918e-24  Surface + diffuse layer charge, eq
+	 -3.911e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.572e-18  psi, V
-	  6.121e-17  -F*psi/RT
+	 -1.602e-18  psi, V
+	  6.236e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  2.250e+00  m² for   2.250e-04 g
@@ -1311,11 +1312,11 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.7152e-16
-	Cl            	  5.6364e-13
-	H             	  1.1036e-15
+	Ca            	  5.7149e-16
+	Cl            	  5.6365e-13
+	H             	  1.1172e-15
 	Na            	  5.6150e-13
-	O             	  5.2688e-17
+	O             	  5.2000e-17
 
 Sua           
 	  2.250e-07  moles
@@ -1325,11 +1326,11 @@ Sua
 	Sua               2.250e-07       1.000   2.250e-07      -6.648
 
 Sub           
-	 -6.527e-24  Surface + diffuse layer charge, eq
+	 -6.515e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.573e-18  psi, V
-	  6.122e-17  -F*psi/RT
+	 -1.602e-18  psi, V
+	  6.237e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.748e+00  m² for   3.748e-04 g
@@ -1341,11 +1342,11 @@ Sub
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  9.5210e-16
-	Cl            	  9.3899e-13
-	H             	  1.8386e-15
-	Na            	  9.3542e-13
-	O             	  8.7775e-17
+	Ca            	  9.5206e-16
+	Cl            	  9.3901e-13
+	H             	  1.8612e-15
+	Na            	  9.3541e-13
+	O             	  8.6628e-17
 
 Sub           
 	  3.748e-07  moles
@@ -1363,12 +1364,12 @@ Adapting surface in            7
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  7.986e-18  Surface + diffuse layer charge, eq
-	  7.986e-18  Surface charge, eq
+	  7.987e-18  Surface + diffuse layer charge, eq
+	  7.987e-18  Surface charge, eq
 	  9.736e-05  sigma, C/m²
 	  6.569e-02  psi, V
 	 -2.557e+00  -F*psi/RT
-	  7.754e-02  exp(-F*psi/RT)
+	  7.753e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  7.916e-09  m² for   1.319e-11 g
 
@@ -1379,11 +1380,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 2.492e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.6774e-40
-	Cl            	  4.7730e-18
-	H             	  3.2127e-18
+	Ca            	  5.6753e-40
+	Cl            	  4.7731e-18
+	H             	  3.2126e-18
 	Na            	  2.9524e-31
-	O             	  3.2127e-18
+	O             	  3.2126e-18
 
 Hfo_s         
 	  3.755e-15  moles
@@ -1393,7 +1394,7 @@ Hfo_s
 	Hfo_sOH           2.888e-15       0.769   2.888e-15     -14.539
 	Hfo_sOH2+         4.372e-16       0.116   4.372e-16     -15.359
 	Hfo_sO-           4.370e-16       0.116   4.370e-16     -15.359
-	Hfo_sOHCa+2       2.445e-22       0.000   2.445e-22     -21.612
+	Hfo_sOHCa+2       2.444e-22       0.000   2.444e-22     -21.612
 
 Hfo_w         
 	  1.462e-13  moles
@@ -1403,14 +1404,14 @@ Hfo_w
 	Hfo_wOH           1.122e-13       0.768   1.122e-13     -12.950
 	Hfo_wOH2+         1.699e-14       0.116   1.699e-14     -13.770
 	Hfo_wO-           1.698e-14       0.116   1.698e-14     -13.770
-	Hfo_wOCa+         1.851e-23       0.000   1.851e-23     -22.732
+	Hfo_wOCa+         1.851e-23       0.000   1.851e-23     -22.733
 
 Sua           
 	 -1.838e-26  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -2.325e-23  psi, V
-	  9.050e-22  -F*psi/RT
+	  7.074e-24  psi, V
+	 -2.754e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-08  m² for   1.500e-12 g
@@ -1422,9 +1423,9 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.002e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.2734e-27
+	Ca            	  2.2733e-27
 	Cl            	  2.2477e-24
-	H             	  3.0465e-24
+	H             	  3.0464e-24
 	Na            	  2.2500e-24
 	O             	  1.5266e-24
 
@@ -1439,8 +1440,8 @@ Sub
 	  0.000e+00  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	undefined  sigma, C/m²
-	  1.071e-11  psi, V
-	 -4.169e-10  -F*psi/RT
+	  2.432e-13  psi, V
+	 -9.467e-12  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
@@ -1463,7 +1464,7 @@ Adapting surface in            0
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.477e-13  Surface + diffuse layer charge, eq
+	 -1.506e-13  Surface + diffuse layer charge, eq
 	  3.336e-06  Surface charge, eq
 	  6.097e-03  sigma, C/m²
 	  6.530e-02  psi, V
@@ -1506,11 +1507,11 @@ Hfo_w
 	Hfo_wOCa+         8.324e-10       0.000   8.324e-10      -9.080
 
 Sua           
-	 -1.172e-18  Surface + diffuse layer charge, eq
+	 -1.192e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.278e-16  psi, V
-	 -8.865e-15  -F*psi/RT
+	  2.316e-16  psi, V
+	 -9.015e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -1536,11 +1537,11 @@ Sua
 	Sua               1.000e-03       1.000   1.000e-03      -3.000
 
 Sub           
-	 -1.172e-18  Surface + diffuse layer charge, eq
+	 -1.192e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  2.278e-16  psi, V
-	 -8.865e-15  -F*psi/RT
+	  2.316e-16  psi, V
+	 -9.015e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -1586,7 +1587,7 @@ Adapting surface in            4
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.507e-22  Surface + diffuse layer charge, eq
+	  2.517e-22  Surface + diffuse layer charge, eq
 	  5.051e-15  Surface charge, eq
 	  6.160e-05  sigma, C/m²
 	  6.566e-02  psi, V
@@ -1602,10 +1603,10 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.586e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.1224e-45
-	Cl            	  2.4882e-22
+	Ca            	  1.1232e-45
+	Cl            	  2.4880e-22
 	H             	  5.0513e-15
-	Na            	  2.8345e-37
+	Na            	  2.8347e-37
 	O             	  5.0513e-15
 
 Hfo_s         
@@ -1616,7 +1617,7 @@ Hfo_s
 	Hfo_sOH           2.876e-12       0.768   2.876e-12     -11.541
 	Hfo_sOH2+         4.353e-13       0.116   4.353e-13     -12.361
 	Hfo_sO-           4.352e-13       0.116   4.352e-13     -12.361
-	Hfo_sOHCa+2       7.955e-28       0.000   7.955e-28     -27.099
+	Hfo_sOHCa+2       7.956e-28       0.000   7.956e-28     -27.099
 
 Hfo_w         
 	  1.461e-10  moles
@@ -1626,14 +1627,14 @@ Hfo_w
 	Hfo_wOH           1.122e-10       0.768   1.122e-10      -9.950
 	Hfo_wOH2+         1.698e-11       0.116   1.698e-11     -10.770
 	Hfo_wO-           1.697e-11       0.116   1.697e-11     -10.770
-	Hfo_wOCa+         6.048e-29       0.000   6.048e-29     -28.218
+	Hfo_wOCa+         6.049e-29       0.000   6.049e-29     -28.218
 
 Sua           
-	  1.368e-47  Surface + diffuse layer charge, eq
+	  5.474e-48  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.066e-23  psi, V
-	  4.150e-22  -F*psi/RT
+	 -1.300e-23  psi, V
+	  5.059e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.500e-16  m² for   1.500e-20 g
@@ -1645,10 +1646,10 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.006e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.4655e-44
-	Cl            	  7.4344e-40
+	Ca            	  7.4665e-44
+	Cl            	  7.4339e-40
 	H             	  3.0461e-32
-	Na            	  3.4083e-41
+	Na            	  3.4084e-41
 	O             	  1.5230e-32
 
 Sua           
@@ -1659,11 +1660,11 @@ Sua
 	Sua               1.500e-23       1.000   1.500e-23     -22.824
 
 Sub           
-	 -2.465e-32  Surface + diffuse layer charge, eq
+	  2.465e-32  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.418e-24  psi, V
-	  1.720e-22  -F*psi/RT
+	 -7.062e-24  psi, V
+	  2.749e-22  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.503e+00  m² for   1.503e-04 g
@@ -1675,10 +1676,10 @@ Sub
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.006e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.4823e-28
-	Cl            	  7.4512e-24
+	Ca            	  7.4834e-28
+	Cl            	  7.4506e-24
 	H             	  3.0530e-16
-	Na            	  3.4160e-25
+	Na            	  3.4161e-25
 	O             	  1.5264e-16
 
 Sub           
@@ -1697,27 +1698,27 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.145e-14  Surface + diffuse layer charge, eq
-	  5.002e-09  Surface charge, eq
-	  6.098e-03  sigma, C/m²
-	  6.826e-02  psi, V
-	 -2.657e+00  -F*psi/RT
-	  7.015e-02  exp(-F*psi/RT)
+	  2.661e-14  Surface + diffuse layer charge, eq
+	  5.572e-09  Surface charge, eq
+	  6.792e-03  sigma, C/m²
+	  7.314e-02  psi, V
+	 -2.847e+00  -F*psi/RT
+	  5.803e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  7.916e-02  m² for   1.319e-04 g
 
 	Water in diffuse layer: 7.916e-11 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  2.874e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 1.386e-05 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  2.902e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 1.244e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.4696e-26
-	Cl            	  5.0017e-09
-	H             	  5.3257e-13
-	Na            	  9.5905e-19
-	O             	  5.3257e-13
+	Ca            	  1.1750e-26
+	Cl            	  5.5714e-09
+	H             	  4.8987e-13
+	Na            	  8.6100e-19
+	O             	  4.8987e-13
 
 Hfo_s         
 	  3.748e-08  moles
@@ -1725,9 +1726,9 @@ Hfo_s
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_sOH           2.876e-08       0.767   2.876e-08      -7.541
-	Hfo_sOH2+         4.416e-09       0.118   4.416e-09      -8.355
-	Hfo_sO-           4.291e-09       0.114   4.291e-09      -8.367
-	Hfo_sOHCa+2       1.150e-11       0.000   1.150e-11     -10.939
+	Hfo_sOH2+         4.424e-09       0.118   4.424e-09      -8.354
+	Hfo_sO-           4.285e-09       0.114   4.285e-09      -8.368
+	Hfo_sOHCa+2       7.867e-12       0.000   7.867e-12     -11.104
 
 Hfo_w         
 	  1.462e-06  moles
@@ -1735,16 +1736,16 @@ Hfo_w
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_wOH           1.122e-06       0.768   1.122e-06      -5.950
-	Hfo_wOH2+         1.723e-07       0.118   1.723e-07      -6.764
-	Hfo_wO-           1.674e-07       0.115   1.674e-07      -6.776
-	Hfo_wOCa+         8.621e-13       0.000   8.621e-13     -12.064
+	Hfo_wOH2+         1.726e-07       0.118   1.726e-07      -6.763
+	Hfo_wO-           1.671e-07       0.114   1.671e-07      -6.777
+	Hfo_wOCa+         5.889e-13       0.000   5.889e-13     -12.230
 
 Sua           
-	  6.385e-18  Surface + diffuse layer charge, eq
+	 -2.969e-20  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.047e-15  psi, V
-	  4.074e-14  -F*psi/RT
+	 -7.130e-19  psi, V
+	  2.775e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  8.748e+03  m² for   8.748e-01 g
@@ -1752,15 +1753,15 @@ Sua
 	Water in diffuse layer: 8.748e-06 kg, 99.9% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.798e-08 V.
+	Donnan Layer potential, psi_DL = -1.796e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  7.6138e-12
-	Cl            	  7.6622e-09
-	H             	  1.8457e-12
-	Na            	  7.6468e-09
-	O             	  8.2386e-13
+	Ca            	  7.6135e-12
+	Cl            	  7.6624e-09
+	H             	  1.9175e-12
+	Na            	  7.6466e-09
+	O             	  6.8178e-13
 
 Sua           
 	  8.748e-04  moles
@@ -1770,11 +1771,11 @@ Sua
 	Sua               8.748e-04       1.000   8.748e-04      -3.058
 
 Sub           
-	  5.468e-21  Surface + diffuse layer charge, eq
+	 -3.070e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.046e-15  psi, V
-	  4.071e-14  -F*psi/RT
+	  2.865e-19  psi, V
+	 -1.115e-17  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  7.498e+00  m² for   7.498e-04 g
@@ -1782,15 +1783,15 @@ Sub
 	Water in diffuse layer: 7.498e-09 kg,  0.1% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.798e-08 V.
+	Donnan Layer potential, psi_DL = -1.796e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  6.5259e-15
-	Cl            	  6.5675e-12
-	H             	  1.5820e-15
-	Na            	  6.5543e-12
-	O             	  7.0615e-16
+	Ca            	  6.5257e-15
+	Cl            	  6.5677e-12
+	H             	  1.6435e-15
+	Na            	  6.5541e-12
+	O             	  5.8437e-16
 
 Sub           
 	  7.498e-07  moles
@@ -1808,37 +1809,37 @@ Adapting surface in            6
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -4.712e-17  Surface + diffuse layer charge, eq
-	 -1.513e-11  Surface charge, eq
-	 -3.690e-05  sigma, C/m²
-	 -7.216e-04  psi, V
-	  2.809e-02  -F*psi/RT
-	  1.028e+00  exp(-F*psi/RT)
+	 -7.833e-17  Surface + diffuse layer charge, eq
+	 -1.825e-11  Surface charge, eq
+	 -4.450e-05  sigma, C/m²
+	 -8.701e-04  psi, V
+	  3.387e-02  -F*psi/RT
+	  1.034e+00  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  3.957e-02  m² for   6.595e-05 g
 
 	Water in diffuse layer: 3.957e-11 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.549e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 4.159e+02 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL = -1.582e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 4.723e+02 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  3.4508e-12
-	Cl            	  4.7545e-17
-	H             	  1.2666e-16
-	Na            	  8.2313e-12
-	O             	  3.5474e-19
+	Ca            	  4.4503e-12
+	Cl            	  4.1868e-17
+	H             	  1.4295e-16
+	Na            	  9.3471e-12
+	O             	  3.6644e-19
 
 Hfo_s         
 	  1.874e-08  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Hfo_sOH           1.385e-08       0.739   1.385e-08      -7.858
+	Hfo_sOH           1.385e-08       0.739   1.385e-08      -7.859
 	Hfo_sO-           2.114e-09       0.113   2.114e-09      -8.675
-	Hfo_sOH2+         2.079e-09       0.111   2.079e-09      -8.682
-	Hfo_sOHCa+2       6.894e-10       0.037   6.894e-10      -9.162
+	Hfo_sOH2+         2.078e-09       0.111   2.078e-09      -8.682
+	Hfo_sOHCa+2       6.971e-10       0.037   6.971e-10      -9.157
 
 Hfo_w         
 	  7.307e-07  moles
@@ -1846,16 +1847,16 @@ Hfo_w
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_wOH           5.609e-07       0.768   5.609e-07      -6.251
-	Hfo_wO-           8.560e-08       0.117   8.560e-08      -7.068
-	Hfo_wOH2+         8.419e-08       0.115   8.419e-08      -7.075
-	Hfo_wOCa+         5.487e-11       0.000   5.487e-11     -10.261
+	Hfo_wO-           8.561e-08       0.117   8.561e-08      -7.067
+	Hfo_wOH2+         8.418e-08       0.115   8.418e-08      -7.075
+	Hfo_wOCa+         5.552e-11       0.000   5.552e-11     -10.256
 
 Sua           
-	 -3.633e-19  Surface + diffuse layer charge, eq
+	 -3.534e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.828e-16  psi, V
-	 -7.116e-15  -F*psi/RT
+	  1.779e-16  psi, V
+	 -6.924e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.749e+03  m² for   3.749e-01 g
@@ -1867,11 +1868,11 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.8898e-12
+	Ca            	  1.8900e-12
 	Cl            	  1.8735e-09
-	H             	  5.2370e-12
+	H             	  5.2676e-12
 	Na            	  1.8749e-09
-	O             	  5.2048e-12
+	O             	  5.2355e-12
 
 Sua           
 	  3.749e-04  moles
@@ -1881,11 +1882,11 @@ Sua
 	Sua               3.749e-04       1.000   3.749e-04      -3.426
 
 Sub           
-	 -3.632e-22  Surface + diffuse layer charge, eq
+	 -3.533e-22  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.828e-16  psi, V
-	 -7.116e-15  -F*psi/RT
+	  1.779e-16  psi, V
+	 -6.924e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.748e+00  m² for   3.748e-04 g
@@ -1897,11 +1898,11 @@ Sub
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.8894e-15
+	Ca            	  1.8896e-15
 	Cl            	  1.8731e-12
-	H             	  5.2359e-15
+	H             	  5.2664e-15
 	Na            	  1.8745e-12
-	O             	  5.2037e-15
+	O             	  5.2344e-15
 
 Sub           
 	  3.748e-07  moles
@@ -1919,27 +1920,27 @@ Adapting surface in            7
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  7.039e-16  Surface + diffuse layer charge, eq
-	  3.432e-10  Surface charge, eq
-	  5.024e-03  sigma, C/m²
-	  1.053e-01  psi, V
-	 -4.099e+00  -F*psi/RT
-	  1.659e-02  exp(-F*psi/RT)
+	  6.977e-16  Surface + diffuse layer charge, eq
+	  3.417e-10  Surface charge, eq
+	  5.001e-03  sigma, C/m²
+	  1.051e-01  psi, V
+	 -4.090e+00  -F*psi/RT
+	  1.673e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  6.593e-03  m² for   1.099e-05 g
 
 	Water in diffuse layer: 6.593e-12 kg,  0.6% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  3.323e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 2.414e-06 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  3.322e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.425e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.6145e-30
-	Cl            	  3.4318e-10
-	H             	  5.9147e-14
-	Na            	  1.9882e-21
-	O             	  5.9147e-14
+	Ca            	  5.6676e-30
+	Cl            	  3.4166e-10
+	H             	  5.9396e-14
+	Na            	  1.9971e-21
+	O             	  5.9396e-14
 
 Hfo_s         
 	  3.122e-09  moles
@@ -1949,7 +1950,7 @@ Hfo_s
 	Hfo_sOH           2.396e-09       0.768   2.396e-09      -8.620
 	Hfo_sOH2+         3.670e-10       0.118   3.670e-10      -9.435
 	Hfo_sO-           3.584e-10       0.115   3.584e-10      -9.446
-	Hfo_sOHCa+2       7.840e-15       0.000   7.840e-15     -14.106
+	Hfo_sOHCa+2       7.976e-15       0.000   7.976e-15     -14.098
 
 Hfo_w         
 	  1.217e-07  moles
@@ -1959,14 +1960,14 @@ Hfo_w
 	Hfo_wOH           9.346e-08       0.768   9.346e-08      -7.029
 	Hfo_wOH2+         1.431e-08       0.118   1.431e-08      -7.844
 	Hfo_wO-           1.398e-08       0.115   1.398e-08      -7.855
-	Hfo_wOCa+         5.892e-16       0.000   5.892e-16     -15.230
+	Hfo_wOCa+         5.994e-16       0.000   5.994e-16     -15.222
 
 Sua           
-	  2.471e-24  Surface + diffuse layer charge, eq
+	  4.571e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.448e-17  psi, V
-	  5.637e-16  -F*psi/RT
+	 -2.161e-17  psi, V
+	  8.410e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.125e+00  m² for   1.125e-04 g
@@ -1980,9 +1981,9 @@ Sua
 	Element       	     Moles
 	Ca            	  1.4329e-16
 	Cl            	  1.4130e-13
-	H             	  5.6572e-16
+	H             	  5.6129e-16
 	Na            	  1.4050e-13
-	O             	  2.5351e-17
+	O             	  2.5560e-17
 
 Sua           
 	  1.125e-07  moles
@@ -1995,8 +1996,8 @@ Sub
 	  0.000e+00  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	undefined  sigma, C/m²
-	  1.319e-15  psi, V
-	 -5.134e-14  -F*psi/RT
+	  1.526e-15  psi, V
+	 -5.941e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
@@ -2019,7 +2020,7 @@ Adapting surface in            0
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -1.039e-13  Surface + diffuse layer charge, eq
+	 -1.032e-13  Surface + diffuse layer charge, eq
 	  3.336e-06  Surface charge, eq
 	  6.097e-03  sigma, C/m²
 	  6.530e-02  psi, V
@@ -2062,11 +2063,11 @@ Hfo_w
 	Hfo_wOCa+         8.324e-10       0.000   8.324e-10      -9.080
 
 Sua           
-	 -8.595e-19  Surface + diffuse layer charge, eq
+	 -8.549e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.674e-16  psi, V
-	 -6.515e-15  -F*psi/RT
+	  1.665e-16  psi, V
+	 -6.480e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -2092,11 +2093,11 @@ Sua
 	Sua               1.000e-03       1.000   1.000e-03      -3.000
 
 Sub           
-	 -8.595e-19  Surface + diffuse layer charge, eq
+	 -8.549e-19  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	  1.674e-16  psi, V
-	 -6.515e-15  -F*psi/RT
+	  1.665e-16  psi, V
+	 -6.480e-15  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.000e+04  m² for   1.000e+00 g
@@ -2142,12 +2143,12 @@ Adapting surface in            4
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -4.452e-16  Surface + diffuse layer charge, eq
-	  8.021e-09  Surface charge, eq
-	  1.175e-04  sigma, C/m²
-	  8.112e-02  psi, V
-	 -3.158e+00  -F*psi/RT
-	  4.253e-02  exp(-F*psi/RT)
+	  1.012e-16  Surface + diffuse layer charge, eq
+	  8.006e-09  Surface charge, eq
+	  1.172e-04  sigma, C/m²
+	  8.107e-02  psi, V
+	 -3.156e+00  -F*psi/RT
+	  4.261e-02  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  6.590e+00  m² for   1.098e-02 g
 
@@ -2158,11 +2159,11 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.531e-07 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.8396e-31
-	Cl            	  5.6336e-09
-	H             	  2.3879e-09
-	Na            	  1.8956e-24
-	O             	  2.3879e-09
+	Ca            	  2.8803e-31
+	Cl            	  5.6136e-09
+	H             	  2.3922e-09
+	Na            	  1.8959e-24
+	O             	  2.3922e-09
 
 Hfo_s         
 	  3.120e-06  moles
@@ -2172,7 +2173,7 @@ Hfo_s
 	Hfo_sOH           2.395e-06       0.768   2.395e-06      -5.621
 	Hfo_sOH2+         3.626e-07       0.116   3.626e-07      -6.441
 	Hfo_sO-           3.624e-07       0.116   3.624e-07      -6.441
-	Hfo_sOHCa+2       1.071e-13       0.000   1.071e-13     -12.970
+	Hfo_sOHCa+2       1.088e-13       0.000   1.088e-13     -12.963
 
 Hfo_w         
 	  1.217e-04  moles
@@ -2182,14 +2183,14 @@ Hfo_w
 	Hfo_wOH           9.341e-05       0.768   9.341e-05      -4.030
 	Hfo_wOH2+         1.414e-05       0.116   1.414e-05      -4.849
 	Hfo_wO-           1.413e-05       0.116   1.413e-05      -4.850
-	Hfo_wOCa+         8.146e-15       0.000   8.146e-15     -14.089
+	Hfo_wOCa+         8.271e-15       0.000   8.271e-15     -14.082
 
 Sua           
-	  1.076e-33  Surface + diffuse layer charge, eq
+	  1.490e-34  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.489e-17  psi, V
-	  5.798e-16  -F*psi/RT
+	 -7.086e-18  psi, V
+	  2.758e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.125e-08  m² for   1.125e-12 g
@@ -2197,15 +2198,15 @@ Sua
 	Water in diffuse layer: 1.125e-17 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -8.468e-05 V.
+	Donnan Layer potential, psi_DL = -8.483e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.003e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  3.0008e-27
-	Cl            	  1.4668e-24
-	H             	  2.7037e-24
-	Na            	  2.1206e-26
-	O             	  6.3200e-25
+	Ca            	  3.0355e-27
+	Cl            	  1.4618e-24
+	H             	  2.7010e-24
+	Na            	  2.1207e-26
+	O             	  6.3319e-25
 
 Sua           
 	  1.125e-15  moles
@@ -2215,11 +2216,11 @@ Sua
 	Sua               1.125e-15       1.000   1.125e-15     -14.949
 
 Sub           
-	  1.434e-21  Surface + diffuse layer charge, eq
+	  1.987e-22  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.489e-17  psi, V
-	  5.798e-16  -F*psi/RT
+	 -7.086e-18  psi, V
+	  2.758e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.499e+04  m² for   1.499e+00 g
@@ -2227,15 +2228,15 @@ Sub
 	Water in diffuse layer: 1.499e-05 kg, 100.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -8.468e-05 V.
+	Donnan Layer potential, psi_DL = -8.483e-05 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.003e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  4.0004e-15
-	Cl            	  1.9554e-12
-	H             	  3.6043e-12
+	Ca            	  4.0465e-15
+	Cl            	  1.9487e-12
+	H             	  3.6006e-12
 	Na            	  2.8270e-14
-	O             	  8.4251e-13
+	O             	  8.4409e-13
 
 Sub           
 	  1.499e-03  moles
@@ -2253,37 +2254,37 @@ Adapting surface in            5
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  2.237e-14  Surface + diffuse layer charge, eq
-	  5.288e-09  Surface charge, eq
-	  4.835e-03  sigma, C/m²
-	  5.680e-02  psi, V
-	 -2.211e+00  -F*psi/RT
-	  1.096e-01  exp(-F*psi/RT)
+	  1.195e-14  Surface + diffuse layer charge, eq
+	  3.866e-09  Surface charge, eq
+	  3.535e-03  sigma, C/m²
+	  4.467e-02  psi, V
+	 -1.739e+00  -F*psi/RT
+	  1.757e-01  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  1.055e-01  m² for   1.759e-04 g
 
 	Water in diffuse layer: 1.055e-10 kg,  0.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  2.797e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 1.873e-05 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  2.716e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.562e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  3.8970e-26
-	Cl            	  5.2867e-09
-	H             	  8.2438e-13
-	Na            	  1.8509e-18
-	O             	  8.2438e-13
+	Ca            	  7.4366e-26
+	Cl            	  3.8649e-09
+	H             	  9.6952e-13
+	Na            	  2.5318e-18
+	O             	  9.6952e-13
 
 Hfo_s         
 	  4.996e-08  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Hfo_sOH           3.832e-08       0.767   3.832e-08      -7.417
-	Hfo_sOH2+         5.865e-09       0.117   5.865e-09      -8.232
-	Hfo_sO-           5.735e-09       0.115   5.735e-09      -8.241
-	Hfo_sOHCa+2       4.010e-11       0.001   4.010e-11     -10.397
+	Hfo_sOH           3.827e-08       0.766   3.827e-08      -7.417
+	Hfo_sOH2+         5.838e-09       0.117   5.838e-09      -8.234
+	Hfo_sO-           5.747e-09       0.115   5.747e-09      -8.241
+	Hfo_sOHCa+2       1.030e-10       0.002   1.030e-10      -9.987
 
 Hfo_w         
 	  1.948e-06  moles
@@ -2291,16 +2292,16 @@ Hfo_w
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_wOH           1.496e-06       0.768   1.496e-06      -5.825
-	Hfo_wOH2+         2.289e-07       0.117   2.289e-07      -6.640
-	Hfo_wO-           2.239e-07       0.115   2.239e-07      -6.650
-	Hfo_wOCa+         3.018e-12       0.000   3.018e-12     -11.520
+	Hfo_wOH2+         2.282e-07       0.117   2.282e-07      -6.642
+	Hfo_wO-           2.246e-07       0.115   2.246e-07      -6.649
+	Hfo_wOCa+         7.784e-12       0.000   7.784e-12     -11.109
 
 Sua           
-	  9.852e-20  Surface + diffuse layer charge, eq
+	  9.912e-20  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.927e-17  psi, V
-	  7.499e-16  -F*psi/RT
+	 -1.798e-17  psi, V
+	  6.998e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  9.374e+03  m² for   9.374e-01 g
@@ -2308,15 +2309,15 @@ Sua
 	Water in diffuse layer: 9.374e-06 kg, 99.9% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.677e-08 V.
+	Donnan Layer potential, psi_DL = -1.676e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  8.7491e-12
-	Cl            	  8.7964e-09
-	H             	  2.0826e-12
-	Na            	  8.7796e-09
-	O             	  1.3802e-12
+	Ca            	  8.7495e-12
+	Cl            	  8.7958e-09
+	H             	  2.6549e-12
+	Na            	  8.7801e-09
+	O             	  2.2150e-12
 
 Sua           
 	  9.374e-04  moles
@@ -2326,11 +2327,11 @@ Sua
 	Sua               9.374e-04       1.000   9.374e-04      -3.028
 
 Sub           
-	  7.399e-23  Surface + diffuse layer charge, eq
+	  7.576e-23  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -1.838e-17  psi, V
-	  7.154e-16  -F*psi/RT
+	 -1.733e-17  psi, V
+	  6.745e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  7.498e+00  m² for   7.498e-04 g
@@ -2338,15 +2339,15 @@ Sub
 	Water in diffuse layer: 7.498e-09 kg,  0.1% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -1.677e-08 V.
+	Donnan Layer potential, psi_DL = -1.676e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  6.9986e-15
-	Cl            	  7.0364e-12
-	H             	  1.6659e-15
-	Na            	  7.0229e-12
-	O             	  1.1040e-15
+	Ca            	  6.9989e-15
+	Cl            	  7.0360e-12
+	H             	  2.1237e-15
+	Na            	  7.0234e-12
+	O             	  1.7718e-15
 
 Sub           
 	  7.498e-07  moles
@@ -2364,7 +2365,7 @@ Adapting surface in            6
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  3.765e-13  Surface + diffuse layer charge, eq
+	  3.766e-13  Surface + diffuse layer charge, eq
 	  1.859e-08  Surface charge, eq
 	  2.721e-02  sigma, C/m²
 	  1.477e-01  psi, V
@@ -2377,14 +2378,14 @@ Hfo
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
 	Donnan Layer potential, psi_DL =  3.320e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 2.446e-06 (= c_DL / c_free if z is +1).
+	Boltzmann factor, exp(-psi_DL * F / RT) = 2.445e-06 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.7817e-28
-	Cl            	  1.8591e-08
-	H             	  1.0832e-13
-	Na            	  1.1054e-19
-	O             	  1.0832e-13
+	Ca            	  2.7807e-28
+	Cl            	  1.8593e-08
+	H             	  1.0831e-13
+	Na            	  1.1053e-19
+	O             	  1.0831e-13
 
 Hfo_s         
 	  3.122e-08  moles
@@ -2394,7 +2395,7 @@ Hfo_s
 	Hfo_sOH           2.395e-08       0.767   2.395e-08      -7.621
 	Hfo_sOH2+         3.865e-09       0.124   3.865e-09      -8.413
 	Hfo_sO-           3.401e-09       0.109   3.401e-09      -8.468
-	Hfo_sOHCa+2       1.561e-14       0.000   1.561e-14     -13.807
+	Hfo_sOHCa+2       1.560e-14       0.000   1.560e-14     -13.807
 
 Hfo_w         
 	  1.218e-06  moles
@@ -2404,14 +2405,14 @@ Hfo_w
 	Hfo_wOH           9.342e-07       0.767   9.342e-07      -6.030
 	Hfo_wOH2+         1.508e-07       0.124   1.508e-07      -6.822
 	Hfo_wO-           1.326e-07       0.109   1.326e-07      -6.877
-	Hfo_wOCa+         1.113e-15       0.000   1.113e-15     -14.953
+	Hfo_wOCa+         1.113e-15       0.000   1.113e-15     -14.954
 
 Sua           
-	  1.699e-18  Surface + diffuse layer charge, eq
+	  2.617e-18  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.637e-16  psi, V
-	  1.805e-14  -F*psi/RT
+	 -7.001e-16  psi, V
+	  2.725e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  6.248e+03  m² for   6.248e-01 g
@@ -2423,11 +2424,11 @@ Sua
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  4.2912e-12
-	Cl            	  4.3079e-09
-	H             	  1.6725e-11
-	Na            	  4.2827e-09
-	O             	  3.0790e-14
+	Ca            	  4.2905e-12
+	Cl            	  4.3080e-09
+	H             	  1.6728e-11
+	Na            	  4.2828e-09
+	O             	  3.0758e-14
 
 Sua           
 	  6.248e-04  moles
@@ -2437,11 +2438,11 @@ Sua
 	Sua               6.248e-04       1.000   6.248e-04      -3.204
 
 Sub           
-	  1.010e-21  Surface + diffuse layer charge, eq
+	  1.561e-21  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -4.598e-16  psi, V
-	  1.790e-14  -F*psi/RT
+	 -6.963e-16  psi, V
+	  2.710e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  3.748e+00  m² for   3.748e-04 g
@@ -2453,11 +2454,11 @@ Sub
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  2.5745e-15
+	Ca            	  2.5741e-15
 	Cl            	  2.5846e-12
-	H             	  1.0034e-14
-	Na            	  2.5694e-12
-	O             	  1.8473e-17
+	H             	  1.0036e-14
+	Na            	  2.5695e-12
+	O             	  1.8454e-17
 
 Sub           
 	  3.748e-07  moles
@@ -2475,37 +2476,37 @@ Adapting surface in            7
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	  4.067e-17  Surface + diffuse layer charge, eq
-	  1.302e-10  Surface charge, eq
-	  6.354e-04  sigma, C/m²
-	  1.549e-02  psi, V
-	 -6.028e-01  -F*psi/RT
-	  5.473e-01  exp(-F*psi/RT)
+	  4.918e-17  Surface + diffuse layer charge, eq
+	  1.432e-10  Surface charge, eq
+	  6.987e-04  sigma, C/m²
+	  1.698e-02  psi, V
+	 -6.609e-01  -F*psi/RT
+	  5.164e-01  exp(-F*psi/RT)
 	  6.000e+02  specific area, m²/g
 	  1.978e-02  m² for   3.296e-05 g
 
 	Water in diffuse layer: 1.978e-11 kg,  1.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL =  2.557e-01 V.
-	Boltzmann factor, exp(-psi_DL * F / RT) = 4.753e-05 (= c_DL / c_free if z is +1).
+	Donnan Layer potential, psi_DL =  2.582e-01 V.
+	Boltzmann factor, exp(-psi_DL * F / RT) = 4.322e-05 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  1.7863e-26
-	Cl            	  1.2992e-10
-	H             	  3.0303e-13
-	Na            	  2.9355e-19
-	O             	  3.0303e-13
+	Ca            	  1.4879e-26
+	Cl            	  1.4288e-10
+	H             	  3.1435e-13
+	Na            	  2.6691e-19
+	O             	  3.1435e-13
 
 Hfo_s         
 	  9.364e-09  moles
 	                                   Mole                     Log
 	Species               Moles    Fraction    Molality    Molality
 
-	Hfo_sOH           7.139e-09       0.762   7.139e-09      -8.146
+	Hfo_sOH           7.144e-09       0.763   7.144e-09      -8.146
+	Hfo_sOH2+         1.082e-09       0.116   1.082e-09      -8.966
 	Hfo_sO-           1.081e-09       0.115   1.081e-09      -8.966
-	Hfo_sOH2+         1.080e-09       0.115   1.080e-09      -8.966
-	Hfo_sOHCa+2       6.377e-11       0.007   6.377e-11     -10.195
+	Hfo_sOHCa+2       5.681e-11       0.006   5.681e-11     -10.246
 
 Hfo_w         
 	  3.652e-07  moles
@@ -2513,16 +2514,16 @@ Hfo_w
 	Species               Moles    Fraction    Molality    Molality
 
 	Hfo_wOH           2.803e-07       0.768   2.803e-07      -6.552
-	Hfo_wO-           4.243e-08       0.116   4.243e-08      -7.372
-	Hfo_wOH2+         4.243e-08       0.116   4.243e-08      -7.372
-	Hfo_wOCa+         4.882e-12       0.000   4.882e-12     -11.311
+	Hfo_wOH2+         4.244e-08       0.116   4.244e-08      -7.372
+	Hfo_wO-           4.242e-08       0.116   4.242e-08      -7.372
+	Hfo_wOCa+         4.345e-12       0.000   4.345e-12     -11.362
 
 Sua           
-	  5.184e-24  Surface + diffuse layer charge, eq
+	  5.951e-24  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	  0.000e+00  sigma, C/m²
-	 -7.212e-18  psi, V
-	  2.807e-16  -F*psi/RT
+	 -8.251e-18  psi, V
+	  3.211e-16  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  1.875e+00  m² for   1.875e-04 g
@@ -2530,15 +2531,15 @@ Sua
 	Water in diffuse layer: 1.875e-09 kg, 99.0% of total DDL-water.
 
 	Total moles in diffuse layer (excluding water), Donnan calculation.
-	Donnan Layer potential, psi_DL = -5.025e-08 V.
+	Donnan Layer potential, psi_DL = -5.026e-08 V.
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.000e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Ca            	  5.9906e-16
-	Cl            	  5.8532e-13
-	H             	  1.3957e-15
-	Na            	  5.8546e-13
-	O             	  1.3669e-15
+	Ca            	  5.9899e-16
+	Cl            	  5.8535e-13
+	H             	  1.3199e-15
+	Na            	  5.8541e-13
+	O             	  1.2895e-15
 
 Sua           
 	  1.875e-07  moles
@@ -2551,8 +2552,8 @@ Sub
 	  0.000e+00  Surface + diffuse layer charge, eq
 	  0.000e+00  Surface charge, eq
 	undefined  sigma, C/m²
-	  5.252e-16  psi, V
-	 -2.044e-14  -F*psi/RT
+	  4.387e-16  psi, V
+	 -1.708e-14  -F*psi/RT
 	  1.000e+00  exp(-F*psi/RT)
 	  1.000e+04  specific area, m²/g
 	  0.000e+00  m² for   0.000e+00 g
@@ -2567,6 +2568,6 @@ Sub
 	Sub               1.000e-25       0.000   1.000e-25     -25.000
 
 -------------------------------
-End of Run after 0.071 Seconds.
+End of Run after 1.189 Seconds.
 -------------------------------
 
