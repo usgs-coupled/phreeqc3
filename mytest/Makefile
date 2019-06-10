@@ -8,7 +8,8 @@ TIME=
 VALGRIND=
 
 ifeq ($(CFG), Linux)
-	PHREEQC=../src/Class_release_64/phreeqc
+	PHREEQC=../_build/INSTALL/bin/phreeqc
+#	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
 	PHREEQC=../_build_2015_x64/Release/phreeqc.exe
@@ -454,7 +455,7 @@ pitzer: \
 	fail1.out \
 	fail2.out \
 	fail3.out
-	
+
 frezchem: \
 	anh_P_NaCl.out \
 	anhy_K2SO4.out \
@@ -481,7 +482,7 @@ frezchem: \
 	NaCl-SO4.out \
 	NaKCl.out \
 	NaMgCl.out
-	
+
 ss: \
 	basic_test.out \
 	cell_operations.out \
