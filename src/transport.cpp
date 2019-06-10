@@ -3120,7 +3120,7 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 
 	for (j = 0; j < l_J_ij_count_spec; j++)
 	{
-		if (abs(l_J_ij[j].tot1) < 1e-15)
+		if (fabs(l_J_ij[j].tot1) < 1e-15)
 			continue;
 		{
 			char * temp_name = string_duplicate(l_J_ij[j].name);
@@ -3869,7 +3869,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						dum2 = (cell_data[jcell].potV - cell_data[icell].potV) / ((cell_data[jcell].length + cell_data[icell].length) / 2);
 					dum2 *= F_Re3 / tk_x2 * ct[icell].v_m[k].z * (c1 + c2);
 					// don't transport unavailable moles against the gradient
-					if (abs(dum) < abs(dum2) &&
+					if (fabs(dum) < fabs(dum2) &&
 						((dum2 >= 0 && sol_D[jcell].spec[j].c * aq2 < 1e-12) ||
 						(dum2 <= 0 && sol_D[icell].spec[i].c * aq1 < 1e-12)))
 					{
