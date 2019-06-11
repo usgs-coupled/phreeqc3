@@ -406,7 +406,8 @@ all: alkalinity.out \
 	ss_incr.out \
 	gas_phase_mix.out \
 	iso_inverse.out \
-	TonyLitharge2a.out
+	TonyLitharge2a.out \
+	implicit_as.out
 
 # NaX.out
 

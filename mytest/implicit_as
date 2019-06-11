@@ -1,0 +1,97 @@
+DATABASE ../database/wateq4f.dat # for As
+# Reservoir 0: 350 mL + Na2HAsO4 0.48 uM
+# membrane (cell 1): 0.15 mm thick, A = pi * 5 / 2 = 20 cm2, porosity = 0.8
+# Reservoir 2: 350 mL
+SELECTED_OUTPUT 101
+    -file                 implicit_as_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+# Give the species their diffusion coefficients...
+SOLUTION_SPECIES
+H+ = H+
+	-gamma	9.0	0
+	-dw	9.31e-9  1000  0.46  1e-10 # The dw parameters are defined in ref. 3.
+Na+ = Na+
+	-gamma	4.0	 0.075
+	-gamma	4.08 0.082 # halite solubility
+	-dw	1.33e-9  122  1.52  3.70
+	-Vm   2.28  -4.38  -4.1  -0.586  0.09  4  0.3  52  -3.33e-3  0.566 # ref. 1
+H2O = OH- + H+
+	-analytic  293.29227  0.1360833  -10576.913  -123.73158  0  -6.996455e-5
+	-gamma	3.5	0
+	-dw	 5.27e-9  548  0.52  1e-10
+	-Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # ref. 1
+#H2AsO4- 		482
+	H3AsO4 = H2AsO4- + H+
+	log_k	-2.3
+	delta_h	-7.066	kJ
+	-dw 0.9e-9
+
+#HAsO4-2 		483
+	H3AsO4 = HAsO4-2 + 2H+
+	log_k	-9.46
+	delta_h	-3.846	kJ
+	-dw 0.7e-9 # ??
+
+SOLUTION 99 tracer solution
+pH 7 charge
+REACTION 99
+Na2HAsO4
+0.48e-6
+SAVE solution 99
+END
+
+
+MIX 99
+99 0.35
+# the tracer solution in the experiment....
+SAVE solution 0
+END
+
+# cells in mmb...
+SOLUTION 1; -water 2.356e-04 # = 20 cm2 * 0.015 cm * 0.8 / 1e3  = 2.356e-4 L
+ pH 7 charge
+
+# downstream solution...
+SOLUTION 2; -water 0.35
+ pH 7 charge
+ -potential 1e-15 # give the cell a very small potential, this permits implicit calculations for the boundary cells 0 and 2
+END
+
+PRINT;-reset false
+TRANSPORT
+ -cells 1
+ -lengths 0.15e-3
+ -shifts 60
+ -flow diff
+ -bcon 1 1
+ -time 600
+ -multi_D true 5.000000000000e-10 8.000000000000e-01 0.0 1  # you may want to fit Archie's n, here n = 1, and/or adapt the porosity
+ -punch_fr 1
+ -punch_c 0 2
+ -implicit true 4
+USER_GRAPH 1 tracer reservoir
+ -headings time Na As
+ -axis_titles "Time / min" "mol/kgw"
+ -plot_concentration_vs time
+ -initial_solutions true
+ # -connect_simulations false
+ 1 if cell_no <> 0 then end
+ 10 graph_x total_time / 60
+ 20 graph_y tot("Na"), tot("As")
+ -end
+USER_GRAPH 2 downstream reservoir
+ headings time Na As
+ -axis_titles "Time / min" "mol/kgw"
+ -plot_concentration_vs time
+ -initial_solutions true
+ 1 if cell_no <> 2 then end
+ 10 graph_x total_time / 60
+ 20 graph_y tot("Na"), tot("As")
+ -end
+END
+
