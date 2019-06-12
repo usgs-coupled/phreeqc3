@@ -4,13 +4,13 @@ CFG :=$(shell echo $(CFG1) | sed "s/Linux.*/Linux/")
 #TIME=time
 TIME=
 
-VALGRIND=/home/dlpark/bin/bin/valgrind --leak-check=full --track-origins=yes
-#VALGRIND=
+#VALGRIND=/home/dlpark/bin/bin/valgrind --leak-check=full --track-origins=yes
+VALGRIND=
 
 ifeq ($(CFG), Linux)
-	PHREEQC=../_debug/INSTALL/bin/phreeqcd
+#	PHREEQC=../_debug/INSTALL/bin/phreeqcd
 #	PHREEQC=../_build/INSTALL/bin/phreeqc
-#	PHREEQC=../src/Class_release_64/phreeqc
+	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
 	PHREEQC=../_build_2015_x64/Release/phreeqc.exe
