@@ -2278,12 +2278,11 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 	{
 		mixf = (LDBLE **)PHRQ_malloc((size_t)(count_cells + 2) * sizeof(LDBLE *));
 		if (mixf == NULL) malloc_error();
-		for (size_t i = 0; i < count_cells + 2; i++)
+		for (i = 0; i < count_cells + 2; i++)
 		{
 			mixf[i] = NULL;
 		}
 	}
-
 	if (comp + 2 > mixf_comp_size)
 	{
 		for (i = 0; i < count_cells + 2; i++)
@@ -2590,7 +2589,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 		}
 		for (icell = if1; icell != il1; icell += incr)
 		{
-			min_mol = 1e-12 * ct[i].kgw;
+			min_mol = 1e-12 * ct[icell].kgw;
 			if (fabs(ct[icell].m_s[cp].tot1) < min_mol)
 				continue;
 			dum1 = dum2 = 0;
