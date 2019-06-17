@@ -20,7 +20,8 @@ std::set <std::string> dif_spec_names;
 std::set <std::string> dif_els_names;
 std::map<int, std::map<std::string, double> > neg_moles;
 std::map<std::string, double> els;
-double *y, *Ct1, *Ct2, *l_tk_x2, **A, **mixf, mixf_comp_size = 0;
+double *y, *Ct1, *Ct2, *l_tk_x2, **A, **mixf;
+int mixf_comp_size = 0;
 
 struct CURRENT_CELLS
 {
@@ -262,6 +263,13 @@ transport(void)
 			error_string = sformatf(
 				"Implicit diffusion needs diffusion coefficients for individual species. Please add -multi_d true");
 			error_msg(error_string, CONTINUE);
+		}
+		if (implicit && !timest)
+		{
+			error_string = sformatf(
+				"Time step not defined for diffusion, using -time_step 1 # seconds");
+			warning_msg(error_string);
+			timest = 1;
 		}
 		if (implicit && current_cells == NULL)
 		{
@@ -2267,13 +2275,22 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 		}
 	}
 	if (mixf == NULL)
+	{
 		mixf = (LDBLE **)PHRQ_malloc((size_t)(count_cells + 2) * sizeof(LDBLE *));
-	if (mixf == NULL) malloc_error();
+		if (mixf == NULL) malloc_error();
+		for (i = 0; i < count_cells + 2; i++)
+		{
+			mixf[i] = NULL;
+		}
+	}
 	if (comp + 2 > mixf_comp_size)
 	{
 		for (i = 0; i < count_cells + 2; i++)
 		{
-			mixf[i] = (LDBLE *)PHRQ_malloc((size_t)(comp + 2) * sizeof(LDBLE));
+			if (mixf[i] == NULL)
+				mixf[i] = (LDBLE *)PHRQ_malloc((size_t)(comp + 2) * sizeof(LDBLE));
+			else
+				mixf[i] = (LDBLE *)PHRQ_realloc(mixf[i], (size_t)(comp + 2) * sizeof(LDBLE));
 			if (mixf[i] == NULL) malloc_error();
 			mixf_comp_size = comp + 2;
 		}
@@ -2572,7 +2589,7 @@ diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant)
 		}
 		for (icell = if1; icell != il1; icell += incr)
 		{
-			min_mol = 1e-12 * ct[i].kgw;
+			min_mol = 1e-12 * ct[icell].kgw;
 			if (fabs(ct[icell].m_s[cp].tot1) < min_mol)
 				continue;
 			dum1 = dum2 = 0;
@@ -3120,7 +3137,7 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 
 	for (j = 0; j < l_J_ij_count_spec; j++)
 	{
-		if (abs(l_J_ij[j].tot1) < 1e-15)
+		if (fabs(l_J_ij[j].tot1) < 1e-15)
 			continue;
 		{
 			char * temp_name = string_duplicate(l_J_ij[j].name);
@@ -3869,7 +3886,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						dum2 = (cell_data[jcell].potV - cell_data[icell].potV) / ((cell_data[jcell].length + cell_data[icell].length) / 2);
 					dum2 *= F_Re3 / tk_x2 * ct[icell].v_m[k].z * (c1 + c2);
 					// don't transport unavailable moles against the gradient
-					if (abs(dum) < abs(dum2) &&
+					if (fabs(dum) < fabs(dum2) &&
 						((dum2 >= 0 && sol_D[jcell].spec[j].c * aq2 < 1e-12) ||
 						(dum2 <= 0 && sol_D[icell].spec[i].c * aq1 < 1e-12)))
 					{
