@@ -2376,6 +2376,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		{
 			struct rate *rate_new = rate_copy(it->second.Get_rate());
 			it->second.Set_rate(rate_new);
+			it->second.Set_PhreeqcPtr(this);
 		}
 	}
 	
