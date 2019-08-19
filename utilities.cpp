@@ -6,7 +6,6 @@
 #include "Solution.h"
 #include <time.h>
 
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)
@@ -1516,7 +1515,7 @@ status(int count, const char *str, bool rk_string)
 			}
 			else
 			{
-				screen_string = sformatf("%-15s%-27s%1s%37s", sim_str, state_str, spin_str, stdstr.c_str());
+				screen_string = sformatf("%-15s%-27s%1s%45s", sim_str, state_str, spin_str, stdstr.c_str());
 				status_string = screen_string;
 			}
 		}

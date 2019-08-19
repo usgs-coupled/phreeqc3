@@ -94,9 +94,10 @@ read_transport(void)
 		"porosities",			/* 42 */
 		"porosity",				/* 43 */
 		"fix_current",			/* 44 */
-		"current"			    /* 45 */
+		"current",			    /* 45 */
+		"implicit"			    /* 46 */
 	};
-	int count_opt_list = 46;
+	int count_opt_list = 47;
 
 	strcpy(file_name, "phreeqc.dmp");
 	/*
@@ -679,6 +680,31 @@ read_transport(void)
 			{
 				warning_msg("Expected the fixed value for the current (Ampere).");
 				fix_current = 0.0;
+			}
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 46:				/* implicit diffusion */
+			copy_token(token, &next_char, &l);
+			str_tolower(token);
+			if (strstr(token, "f") == token)
+				implicit = FALSE;
+			else if (strstr(token, "t") == token)
+				implicit = TRUE;
+			else
+			{
+				input_error++;
+				error_msg
+				("Expected flag for implicit diffusion calc`s: 'true' or 'false'.",
+					CONTINUE);
+			}
+			if (copy_token(token, &next_char, &l) == DIGIT)
+			{
+				sscanf(token, SCANFORMAT, &max_mixf);
+			}
+			else
+			{
+				//warning_msg("Expected the maximal value for the mixfactor (= D * Dt / Dx^2) in implicit calc`s of diffusion.");
+				max_mixf = 1.0;
 			}
 			opt_save = OPTION_DEFAULT;
 			break;

@@ -1312,11 +1312,11 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	{
 		diagonal_scale = TRUE;
 		always_full_pitzer = FALSE;
-		max_try = 15;
+		max_try = 14;
 	}
 	else
 	{
-		max_try = 15;
+		max_try = 14;
 	}
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
@@ -1511,7 +1511,6 @@ restart:
 		}
 		if (j == 14)
 		{
-			//continue;
 			cxxStorageBin error_bin;
 			Use2cxxStorageBin(error_bin);
 			std::ostringstream error_input;
@@ -2479,7 +2478,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  * Rates and moles of each reaction are calculated in calc_kinetic_reaction
  * Total number of moles in reaction is stored in kinetics[i].totals
  */
-
+	//int increase_tol = 0; // appt
 	int converge, m_iter;
 	int pr_all_save;
 	int nsaver;
@@ -2530,9 +2529,10 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 		converge =
 			set_and_run_wrapper(i, use_mix, FALSE, nsaver, step_fraction);
 		if (converge == MASS_BALANCE)
-			error_msg
-				("Negative concentration in system. Stopping calculation.",
-				 STOP);
+		{
+			error_string = sformatf("Negative concentration in solution %d. Stopping calculation.", cell_no);
+			error_msg(error_string, STOP);
+		}
 		run_reactions_iterations += iterations;
 	}
 	else
@@ -2604,9 +2604,10 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			else
 				converge = set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
 			if (converge == MASS_BALANCE)
-				error_msg
-					("Negative concentration in system. Stopping calculation.",
-					 STOP);
+			{
+				error_string = sformatf("Negative concentration in solution %d. Stopping calculation.", cell_no);
+				error_msg(error_string, STOP);
+			}
 			saver();
 			pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, i);
 			ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, i);
@@ -2676,6 +2677,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			   cvode_mem = CVodeMalloc(n_reactions, f, 0.0, y, ADAMS, FUNCTIONAL, SV, &reltol, abstol, NULL, NULL, FALSE, iopt, ropt, machEnv);
 			   iopt[MXSTEP] is maximum number of steps that CVODE tries.
 			 */
+			//iopt[SLDET] = TRUE; // appt
 			iopt[MXSTEP] = kinetics_ptr->Get_cvode_steps();
 			iopt[MAXORD] = kinetics_ptr->Get_cvode_order();
 			kinetics_cvode_mem =
@@ -2705,30 +2707,49 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			 */
 			m_iter = 0;
 			sum_t = 0;
-		  RESTART:
+		RESTART:
 			while (flag != SUCCESS)
 			{
 				sum_t += cvode_last_good_time;
-				if (state != TRANSPORT)
 				{
-					error_string = sformatf(
-						"CVode incomplete at cvode_steps %d. Cell: %d\tTime: %e\tCvode calls: %d, continuing...\n",
-						(int)iopt[NST], cell_no, (double)sum_t, m_iter + 1);
-					warning_msg(error_string);
+					error_string = sformatf("CV_ODE: Time: %8.2e s. Delta t: %8.2e s. Calls: %d.", (double)(sum_t), (double) cvode_last_good_time, m_iter);
+					status(0, error_string, true);
 				}
+				//if (state != TRANSPORT)
+				//{
+				//	error_string = sformatf(
+				//		"CVode incomplete at cvode_steps %d. Cell: %d. Time: %8.2e s. Cvode calls: %d, continuing...\n",
+				//		(int)iopt[NST], cell_no, (double)sum_t, m_iter + 1);
+				//	warning_msg(error_string);
+				//}
 #ifdef DEBUG_KINETICS
 				if (m_iter > 5)
 					dump_kinetics_stderr(cell_no);
 #endif
 
+				//if (m_iter > 0.5 * kinetics_ptr->Get_bad_step_max() &&
+				//	(cvode_last_good_time < 1e-6 || cvode_last_good_time < 1e-6 * tout)) // appt
+				//{
+				//	if (increase_tol < 3)
+				//	{
+				//		increase_tol += 1;
+				//		for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
+				//		{
+				//			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+				//			LDBLE tr = kinetics_comp_ptr->Get_tol() * 10.0;
+				//			kinetics_comp_ptr->Set_tol(tr);
+				//			tr += 0;
+				//		}
+				//	}
+				//}
 				cvode_last_good_time = 0;
 				if (++m_iter >= kinetics_ptr->Get_bad_step_max())
 				{
 					m_temp = (LDBLE *) free_check_null(m_temp);
 					m_original = (LDBLE *) free_check_null(m_original);
 					error_string = sformatf(
-						"Restart of integration at cvode_steps %d. Cell: %d\tTime: %e\tCvode calls: %d.",
-						(int)iopt[NST], cell_no, (double)sum_t, m_iter - 1);
+						"CVode is at maximum calls: %d. Cell: %d. Time: %8.2e s\nERROR: Please increase the maximum calls with -bad_step_max.",
+						m_iter, cell_no, (double)sum_t);
 					error_msg(error_string, STOP);
 				}
 				tout1 = tout - sum_t;
@@ -2811,6 +2832,11 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			free_cvode();
 			use.Set_mix_in(use_save.Get_mix_in());
 			use.Set_mix_ptr(use_save.Get_mix_ptr());
+
+			error_string = sformatf("CV_ODE: Final Delta t: %8.2e s. Calls: %d.             ", (double)cvode_last_good_time, m_iter);
+			status(0, error_string, true);
+
+			//status(0, NULL);
 		}
 
 		rate_sim_time = rate_sim_time_start + kin_time;

@@ -711,6 +711,8 @@ void Phreeqc::init(void)
 	all_cells                = 0;
 	multi_Dflag              = FALSE;
 	interlayer_Dflag         = FALSE;
+	implicit                 = FALSE;
+	max_mixf                 = 1.0;
 	default_Dw               = 0;
 	correct_Dw               = 0;
 	multi_Dpor               = 0;
@@ -1687,6 +1689,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	max_cells = pSrc->max_cells;
 	multi_Dflag              = pSrc->multi_Dflag;
 	interlayer_Dflag         = pSrc->interlayer_Dflag;
+	implicit                 = pSrc->implicit;
+	max_mixf                 = pSrc->max_mixf;
 	default_Dw               = pSrc->default_Dw;
 	correct_Dw               = pSrc->correct_Dw;
 	multi_Dpor               = pSrc->multi_Dpor;
@@ -2372,6 +2376,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		{
 			struct rate *rate_new = rate_copy(it->second.Get_rate());
 			it->second.Set_rate(rate_new);
+			it->second.Set_PhreeqcPtr(this);
 		}
 	}
 	
