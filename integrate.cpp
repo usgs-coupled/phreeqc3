@@ -1069,9 +1069,17 @@ calc_psi_avg(cxxSurfaceCharge *charge_ptr, LDBLE surf_chrg_eq)
 		l_iter++;
 		if (l_iter > 50)
 		{
+			pr.all = TRUE;
+			pr.exchange = TRUE;
+			pr.headings = TRUE;
+			pr.pp_assemblage = TRUE;
+			pr.species = TRUE;
+			pr.surface = TRUE;
+			pr.totals = TRUE;
+			print_all();
 			error_string = sformatf(
-					"\nToo many iterations in subroutine calc_psi_avg; surface charge = %12.4e; surface water = %12.4e.\n",
-					(double) surf_chrg_eq, (double) charge_ptr->Get_mass_water());
+				"\nToo many iterations in subroutine calc_psi_avg; surface charge = %12.4e; surface water = %12.4e.\n",
+				(double)surf_chrg_eq, (double)charge_ptr->Get_mass_water());
 			error_msg(error_string, STOP);
 		}
 	}

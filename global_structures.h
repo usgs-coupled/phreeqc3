@@ -547,6 +547,7 @@ struct cell_data
 	LDBLE potV;				/* potential (V) */
 	int punch;
 	int print;
+	int same_model;
 };
 
 /*----------------------------------------------------------------------
@@ -1052,12 +1053,12 @@ struct sol_D
 struct J_ij
 {
 	const char *name;
-	LDBLE tot1, tot2, charge;  /* species change in cells i and j */
+	LDBLE tot1, tot2, tot_stag, charge;  /* species change in cells i and j */
 };
 struct M_S
 {
 	const char *name;
-	LDBLE tot1, tot2, charge; /* master species transport in cells i and j */
+	LDBLE tot1, tot2, tot_stag, charge; /* master species transport in cells i and j */
 };
 // Pitzer definitions
 typedef enum

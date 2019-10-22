@@ -72,6 +72,7 @@
 #include "sundialsmath.h"
 
 #include "Phreeqc.h"
+
 #if !defined(WIN32_MEMORY_DEBUG)
 #define malloc MACHENV_MALLOC PHRQ_malloc
 #endif
@@ -1974,7 +1975,6 @@ CVStep(CVodeMem cv_mem)
 		}
 #endif
 		CVSet(cv_mem);
-
 		nflag = CVnls(cv_mem, nflag);
 		if (CVMEM cvode_error == TRUE || predict_fail)
 		{
@@ -2785,7 +2785,6 @@ CVnlsNewton(CVodeMem cv_mem, int nflag)
 
 	loop
 	{
-
 		f(N, tn, zn[0], ftemp, f_data);
 
 		nfe++;
@@ -3408,7 +3407,7 @@ CVHandleFailure(CVodeMem cv_mem, int kflag)
  size is reset accordingly.
 
 *****************************************************************/
-
+#ifdef ORIGINAL
 void
 CVBDFStab(CVodeMem cv_mem)
 {
@@ -3468,6 +3467,82 @@ CVBDFStab(CVodeMem cv_mem)
 		   reset stability limit counter, nscon.     */
 		nscon = 0;
 	}
+}
+#endif
+void
+CVBDFStab(CVodeMem cv_mem)
+{
+	// appt try...
+	if (q >= 3 && qprime >= q)
+	{
+		if (tq[5] < saved_tq5)
+			qprime = 1;
+		//else
+			//nscon = 0;
+	}
+
+	//int i, k, ldflag, factorial;
+	//realtype sq, sqm1, sqm2;
+
+	///* If order is 3 or greater, then save scaled derivative data,
+ //  push old data down in i, then add current values to top.    */
+
+	//if (q >= 3)
+	//{
+	//	for (k = 1; k <= 3; k++)
+	//	{
+	//		for (i = 5; i >= 2; i--)
+	//			ssdat[i][k] = ssdat[i - 1][k];
+	//	}
+	//	factorial = 1;
+	//	for (i = 1; i <= q - 1; i++)
+	//		factorial *= i;
+	//	sq = factorial * q * (q + 1) * acnrm / MAX(tq[5], TINY);
+	//	sqm1 = factorial * q * N_VWrmsNorm(zn[q], ewt);
+	//	sqm2 = factorial * N_VWrmsNorm(zn[q - 1], ewt);
+	//	ssdat[1][1] = sqm2 * sqm2;
+	//	ssdat[1][2] = sqm1 * sqm1;
+	//	ssdat[1][3] = sq * sq;
+	//}
+
+	//if (qprime >= q)
+	//{
+
+	//	/* If order is 3 or greater, and enough ssdat has been saved,
+	//	   nscon >= q+5, then call stability limit detection routine.  */
+
+	//	if ((q >= 3) && (nscon >= q + 5))
+	//	{
+	//		ldflag = CVsldet(cv_mem);
+	//		//cv_mem->cv_machenv->phreeqc_ptr->set_forward_output_to_log(1); // appt
+	//		qprime = 1; // appt try
+	//		//CVMEM  warning_msg(CVMEM sformatf(
+	//		//	"CVBDFStab: ldflag = %d, order(q) = %d, qprime = %d, nst = %d, h = %8.2e, time = %8.2e\n",
+	//		//	ldflag, q, qprime, nst, h, CVMEM cvode_last_good_time));
+
+	//		if (ldflag > 3)
+	//		{
+	//			/* A stability limit violation is indicated by
+	//			   a return flag of 4, 5, or 6.
+	//			   Reduce new order.                     */
+	//			qprime = q - 1;
+	//			eta = etaqm1;
+	//			eta = MIN(eta, etamax);
+	//			eta = eta / MAX(ONE, ABS(h) * hmax_inv * eta);
+	//			hprime = h * eta;
+	//			iopt[NOR] = iopt[NOR] + 1;
+	//			 //CVMEM  warning_msg(CVMEM sformatf(
+	//			 //  " Order reduced to %d by CVBDFStab at nst = %d,\n    h = %e hnew = %e\n",
+	//			 //  qprime,nst,h,h*eta));
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	/* Otherwise, let order increase happen, and
+	//	   reset stability limit counter, nscon.     */
+	//	nscon = 0;
+	//}
 }
 
 /********************* CVsldet ************************************

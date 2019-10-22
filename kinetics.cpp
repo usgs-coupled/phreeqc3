@@ -500,8 +500,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		if (step_bad > kinetics_ptr->Get_bad_step_max())
 		{
 			error_string = sformatf(
-					"Bad RK steps > %d. Please decrease (time)step or increase -bad_step_max.",
-					kinetics_ptr->Get_bad_step_max());
+					"Bad RK steps > %d in cell %d. Please decrease (time)step or increase -bad_step_max.",
+					kinetics_ptr->Get_bad_step_max(), cell_no);
 			error_msg(error_string, STOP);
 		}
 
