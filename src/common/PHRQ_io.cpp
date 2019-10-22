@@ -792,6 +792,7 @@ get_line(void)
 					continue;
 #else
 					output_msg(errstr.str().c_str());
+					output_flush();
 					error_msg(errstr.str().c_str(), OT_STOP);
 #endif
 				}

@@ -713,6 +713,7 @@ void Phreeqc::init(void)
 	interlayer_Dflag         = FALSE;
 	implicit                 = FALSE;
 	max_mixf                 = 1.0;
+	min_dif_LM               = -30.0;
 	default_Dw               = 0;
 	correct_Dw               = 0;
 	multi_Dpor               = 0;
@@ -1691,6 +1692,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	interlayer_Dflag         = pSrc->interlayer_Dflag;
 	implicit                 = pSrc->implicit;
 	max_mixf                 = pSrc->max_mixf;
+	min_dif_LM               = pSrc->min_dif_LM;
 	default_Dw               = pSrc->default_Dw;
 	correct_Dw               = pSrc->correct_Dw;
 	multi_Dpor               = pSrc->multi_Dpor;

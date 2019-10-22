@@ -6034,6 +6034,8 @@ check_same_model(void)
 		last_model.force_prep = FALSE;
 		return (FALSE);
 	}
+	if (state == TRANSPORT && cell_data[cell_no].same_model)
+		return TRUE;
 /*
  *   Check master species
  */
