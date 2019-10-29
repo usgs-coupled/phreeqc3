@@ -1511,11 +1511,11 @@ restart:
 		}
 		if (j == 14)
 		{
-			cxxStorageBin error_bin;
+			cxxStorageBin error_bin(this->Get_phrq_io());
 			Use2cxxStorageBin(error_bin);
 			std::ostringstream error_input;
 			error_bin.dump_raw(error_input, 0);
-			cxxStorageBin reread;
+			cxxStorageBin reread(this->Get_phrq_io());
 			std::istringstream is(error_input.str());
 			CParser cp(is);
 			cp.set_echo_stream(CParser::EO_NONE);
@@ -1574,7 +1574,7 @@ restart:
  *   write to error.inp what failed to converge.
  */
 		std::ofstream error_input("error.inp");
-		cxxStorageBin error_bin;
+		cxxStorageBin error_bin(this->Get_phrq_io());
 		Use2cxxStorageBin(error_bin);
 		error_bin.dump_raw(error_input, 0);
 		error_input.close();

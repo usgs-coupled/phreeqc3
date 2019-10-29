@@ -812,7 +812,7 @@ cxxSurface::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 		this->surface_comps.clear();
 		for (int n = 0; n < count; n++)
 		{
-			cxxSurfaceComp sc;
+			cxxSurfaceComp sc(this->io);
 			sc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->surface_comps.push_back(sc);
 		}
@@ -822,7 +822,7 @@ cxxSurface::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 		this->surface_charges.clear();
 		for (int n = 0; n < count; n++)
 		{
-			cxxSurfaceCharge sc;
+			cxxSurfaceCharge sc(this->io);
 			sc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->surface_charges.push_back(sc);
 		}
