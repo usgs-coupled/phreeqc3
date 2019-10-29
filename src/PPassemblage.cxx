@@ -373,7 +373,7 @@ cxxPPassemblage::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 	this->pp_assemblage_comps.clear();
 	for (int n = 0; n < count; n++)
 	{
-		cxxPPassemblageComp ppc;
+		cxxPPassemblageComp ppc(this->io);
 		ppc.Deserialize(dictionary, ints, doubles, ii, dd);
 		std::string str(ppc.Get_name());
 		this->pp_assemblage_comps[str] = ppc;

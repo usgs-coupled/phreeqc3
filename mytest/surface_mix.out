@@ -1,0 +1,511 @@
+   Input file: surface_mix
+  Output file: surface_mix.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 surface_mix_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION 7
+	Ca 1
+	Pb 1
+	Cl 1 Charge 
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 7.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-03   1.000e-03
+	Cl                3.864e-03   3.864e-03  Charge balance
+	Pb                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 473
+                          Density (g/cm³)  =   0.99739
+                               Volume (L)  =   1.00300
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   5.568e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.365e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -2.119e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.550635e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.097e-07   1.012e-07    -6.960    -6.995    -0.035     -4.06
+   H+              1.074e-07   1.000e-07    -6.969    -7.000    -0.031      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Ca            1.000e-03
+   Ca+2            1.000e-03   7.333e-04    -3.000    -3.135    -0.135    -18.00
+   CaOH+           1.318e-09   1.217e-09    -8.880    -8.915    -0.035     (0)  
+Cl            3.864e-03
+   Cl-             3.778e-03   3.486e-03    -2.423    -2.458    -0.035     18.11
+   PbCl+           8.513e-05   7.862e-05    -4.070    -4.104    -0.035      7.98
+   PbCl2           4.338e-07   4.344e-07    -6.363    -6.362     0.001     34.97
+   PbCl3-          1.303e-09   1.203e-09    -8.885    -8.920    -0.035     65.99
+   PbCl4-2         2.760e-12   2.007e-12   -11.559   -11.697    -0.138    101.51
+H(0)          1.414e-25
+   H2              7.070e-26   7.079e-26   -25.151   -25.150     0.001     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.080     0.001     30.40
+Pb            1.000e-03
+   Pb+2            7.788e-04   5.665e-04    -3.109    -3.247    -0.138    -15.40
+   PbOH+           1.196e-04   1.104e-04    -3.922    -3.957    -0.035     (0)  
+   PbCl+           8.513e-05   7.862e-05    -4.070    -4.104    -0.035      7.98
+   Pb3(OH)4+2      3.293e-06   2.395e-06    -5.482    -5.621    -0.138     (0)  
+   Pb2OH+3         2.867e-06   1.401e-06    -5.543    -5.854    -0.311     (0)  
+   PbCl2           4.338e-07   4.344e-07    -6.363    -6.362     0.001     34.97
+   Pb(OH)2         4.291e-07   4.296e-07    -6.367    -6.367     0.001     (0)  
+   PbCl3-          1.303e-09   1.203e-09    -8.885    -8.920    -0.035     65.99
+   Pb(OH)3-        5.341e-11   4.932e-11   -10.272   -10.307    -0.035     (0)  
+   PbCl4-2         2.760e-12   2.007e-12   -11.559   -11.697    -0.138    101.51
+   Pb(OH)4-2       1.553e-15   1.130e-15   -14.809   -14.947    -0.138     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+  Pb(OH)2           2.60     10.75    8.15  Pb(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SURFACE 1
+	Hfo_w  .1 1 100
+	Hfo_s  .01 
+	equilibrate 7
+	END
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 1.	
+
+Diffuse Double Layer Surface-Complexation Model
+
+Hfo           
+	  1.495e-04  Surface charge, eq
+	  1.442e-01  sigma, C/m²
+	  1.796e-01  psi, V
+	 -6.992e+00  -F*psi/RT
+	  9.196e-04  exp(-F*psi/RT)
+	  1.000e+00  specific area, m²/g
+	  1.000e+02  m² for   1.000e+02 g
+
+
+Hfo_s         
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOPb+         9.999e-03       1.000   9.999e-03      -2.000
+	Hfo_sO-           5.490e-07       0.000   5.490e-07      -6.260
+	Hfo_sOH           4.297e-08       0.000   4.297e-08      -7.367
+	Hfo_sOH2+         7.706e-11       0.000   7.706e-11     -10.113
+	Hfo_sOHCa+2       2.487e-12       0.000   2.487e-12     -11.604
+
+Hfo_w         
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wO-           5.286e-02       0.529   5.286e-02      -1.277
+	Hfo_wOPb+         4.300e-02       0.430   4.300e-02      -1.367
+	Hfo_wOH           4.137e-03       0.041   4.137e-03      -2.383
+	Hfo_wOH2+         7.418e-06       0.000   7.418e-06      -5.130
+	Hfo_wOCa+         3.941e-08       0.000   3.941e-08      -7.404
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SURFACE 2
+	Hfo_w  .1 1 100
+	Hfo_s  .01 
+	equilibrate 7
+	END
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
+
+Surface 2.	
+
+Diffuse Double Layer Surface-Complexation Model
+
+Hfo           
+	  1.495e-04  Surface charge, eq
+	  1.442e-01  sigma, C/m²
+	  1.796e-01  psi, V
+	 -6.992e+00  -F*psi/RT
+	  9.196e-04  exp(-F*psi/RT)
+	  1.000e+00  specific area, m²/g
+	  1.000e+02  m² for   1.000e+02 g
+
+
+Hfo_s         
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOPb+         9.999e-03       1.000   9.999e-03      -2.000
+	Hfo_sO-           5.490e-07       0.000   5.490e-07      -6.260
+	Hfo_sOH           4.297e-08       0.000   4.297e-08      -7.367
+	Hfo_sOH2+         7.706e-11       0.000   7.706e-11     -10.113
+	Hfo_sOHCa+2       2.487e-12       0.000   2.487e-12     -11.604
+
+Hfo_w         
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wO-           5.286e-02       0.529   5.286e-02      -1.277
+	Hfo_wOPb+         4.300e-02       0.430   4.300e-02      -1.367
+	Hfo_wOH           4.137e-03       0.041   4.137e-03      -2.383
+	Hfo_wOH2+         7.418e-06       0.000   7.418e-06      -5.130
+	Hfo_wOCa+         3.941e-08       0.000   3.941e-08      -7.404
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	SURFACE_MIX 5
+	1 0.5
+	 2 0.5 # not OK
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 5.
+------------------------------------
+
+	DUMP
+	 -file surface_mix.dmp
+	 -surface 1 2 5
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 6.
+------------------------------------
+
+	USE surface  5
+	USE solution 7
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 7.	
+Using surface 5.	
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Hfo           
+	  1.495e-04  Surface charge, eq
+	  1.442e-01  sigma, C/m²
+	  1.796e-01  psi, V
+	 -6.992e+00  -F*psi/RT
+	  9.196e-04  exp(-F*psi/RT)
+	  1.000e+00  specific area, m²/g
+	  1.000e+02  m² for   1.000e+02 g
+
+
+Hfo_s         
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOPb+         9.999e-03       1.000   9.999e-03      -2.000
+	Hfo_sO-           5.490e-07       0.000   5.490e-07      -6.260
+	Hfo_sOH           4.297e-08       0.000   4.297e-08      -7.367
+	Hfo_sOH2+         7.706e-11       0.000   7.706e-11     -10.113
+	Hfo_sOHCa+2       2.487e-12       0.000   2.487e-12     -11.604
+
+Hfo_w         
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wO-           5.286e-02       0.529   5.286e-02      -1.277
+	Hfo_wOPb+         4.300e-02       0.430   4.300e-02      -1.367
+	Hfo_wOH           4.137e-03       0.041   4.137e-03      -2.383
+	Hfo_wOH2+         7.418e-06       0.000   7.418e-06      -5.130
+	Hfo_wOCa+         3.941e-08       0.000   3.941e-08      -7.404
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-03   1.000e-03
+	Cl                3.864e-03   3.864e-03
+	Pb                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 473
+                          Density (g/cm³)  =   0.99739
+                               Volume (L)  =   1.00300
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   5.568e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.365e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -2.119e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.550635e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.097e-07   1.012e-07    -6.960    -6.995    -0.035     -4.06
+   H+              1.074e-07   1.000e-07    -6.969    -7.000    -0.031      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Ca            1.000e-03
+   Ca+2            1.000e-03   7.333e-04    -3.000    -3.135    -0.135    -18.00
+   CaOH+           1.318e-09   1.217e-09    -8.880    -8.915    -0.035     (0)  
+Cl            3.864e-03
+   Cl-             3.778e-03   3.486e-03    -2.423    -2.458    -0.035     18.11
+   PbCl+           8.513e-05   7.862e-05    -4.070    -4.104    -0.035      7.98
+   PbCl2           4.338e-07   4.344e-07    -6.363    -6.362     0.001     34.97
+   PbCl3-          1.303e-09   1.203e-09    -8.885    -8.920    -0.035     65.99
+   PbCl4-2         2.760e-12   2.007e-12   -11.559   -11.697    -0.138    101.51
+H(0)          1.414e-25
+   H2              7.070e-26   7.079e-26   -25.151   -25.150     0.001     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.080     0.001     30.40
+Pb            1.000e-03
+   Pb+2            7.788e-04   5.665e-04    -3.109    -3.247    -0.138    -15.40
+   PbOH+           1.196e-04   1.104e-04    -3.922    -3.957    -0.035     (0)  
+   PbCl+           8.513e-05   7.862e-05    -4.070    -4.104    -0.035      7.98
+   Pb3(OH)4+2      3.293e-06   2.395e-06    -5.482    -5.621    -0.138     (0)  
+   Pb2OH+3         2.867e-06   1.401e-06    -5.543    -5.854    -0.311     (0)  
+   PbCl2           4.338e-07   4.344e-07    -6.363    -6.362     0.001     34.97
+   Pb(OH)2         4.291e-07   4.296e-07    -6.367    -6.367     0.001     (0)  
+   PbCl3-          1.303e-09   1.203e-09    -8.885    -8.920    -0.035     65.99
+   Pb(OH)3-        5.341e-11   4.932e-11   -10.272   -10.307    -0.035     (0)  
+   PbCl4-2         2.760e-12   2.007e-12   -11.559   -11.697    -0.138    101.51
+   Pb(OH)4-2       1.553e-15   1.130e-15   -14.809   -14.947    -0.138     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+  Pb(OH)2           2.60     10.75    8.15  Pb(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
+	USE surface 1
+	USE solution 7
+	END
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 7.	
+Using surface 1.	
+
+------------------------------Surface composition------------------------------
+
+Diffuse Double Layer Surface-Complexation Model
+
+Hfo           
+	  1.495e-04  Surface charge, eq
+	  1.442e-01  sigma, C/m²
+	  1.796e-01  psi, V
+	 -6.992e+00  -F*psi/RT
+	  9.196e-04  exp(-F*psi/RT)
+	  1.000e+00  specific area, m²/g
+	  1.000e+02  m² for   1.000e+02 g
+
+
+Hfo_s         
+	  1.000e-02  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOPb+         9.999e-03       1.000   9.999e-03      -2.000
+	Hfo_sO-           5.490e-07       0.000   5.490e-07      -6.260
+	Hfo_sOH           4.297e-08       0.000   4.297e-08      -7.367
+	Hfo_sOH2+         7.706e-11       0.000   7.706e-11     -10.113
+	Hfo_sOHCa+2       2.487e-12       0.000   2.487e-12     -11.604
+
+Hfo_w         
+	  1.000e-01  moles
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wO-           5.286e-02       0.529   5.286e-02      -1.277
+	Hfo_wOPb+         4.300e-02       0.430   4.300e-02      -1.367
+	Hfo_wOH           4.137e-03       0.041   4.137e-03      -2.383
+	Hfo_wOH2+         7.418e-06       0.000   7.418e-06      -5.130
+	Hfo_wOCa+         3.941e-08       0.000   3.941e-08      -7.404
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e-03   1.000e-03
+	Cl                3.864e-03   3.864e-03
+	Pb                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 473
+                          Density (g/cm³)  =   0.99739
+                               Volume (L)  =   1.00300
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   5.568e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.365e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -2.119e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.550635e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.097e-07   1.012e-07    -6.960    -6.995    -0.035     -4.06
+   H+              1.074e-07   1.000e-07    -6.969    -7.000    -0.031      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Ca            1.000e-03
+   Ca+2            1.000e-03   7.333e-04    -3.000    -3.135    -0.135    -18.00
+   CaOH+           1.318e-09   1.217e-09    -8.880    -8.915    -0.035     (0)  
+Cl            3.864e-03
+   Cl-             3.778e-03   3.486e-03    -2.423    -2.458    -0.035     18.11
+   PbCl+           8.513e-05   7.862e-05    -4.070    -4.104    -0.035      7.98
+   PbCl2           4.338e-07   4.344e-07    -6.363    -6.362     0.001     34.97
+   PbCl3-          1.303e-09   1.203e-09    -8.885    -8.920    -0.035     65.99
+   PbCl4-2         2.760e-12   2.007e-12   -11.559   -11.697    -0.138    101.51
+H(0)          1.414e-25
+   H2              7.070e-26   7.079e-26   -25.151   -25.150     0.001     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.080     0.001     30.40
+Pb            1.000e-03
+   Pb+2            7.788e-04   5.665e-04    -3.109    -3.247    -0.138    -15.40
+   PbOH+           1.196e-04   1.104e-04    -3.922    -3.957    -0.035     (0)  
+   PbCl+           8.513e-05   7.862e-05    -4.070    -4.104    -0.035      7.98
+   Pb3(OH)4+2      3.293e-06   2.395e-06    -5.482    -5.621    -0.138     (0)  
+   Pb2OH+3         2.867e-06   1.401e-06    -5.543    -5.854    -0.311     (0)  
+   PbCl2           4.338e-07   4.344e-07    -6.363    -6.362     0.001     34.97
+   Pb(OH)2         4.291e-07   4.296e-07    -6.367    -6.367     0.001     (0)  
+   PbCl3-          1.303e-09   1.203e-09    -8.885    -8.920    -0.035     65.99
+   Pb(OH)3-        5.341e-11   4.932e-11   -10.272   -10.307    -0.035     (0)  
+   PbCl4-2         2.760e-12   2.007e-12   -11.559   -11.697    -0.138    101.51
+   Pb(OH)4-2       1.553e-15   1.130e-15   -14.809   -14.947    -0.138     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+  Pb(OH)2           2.60     10.75    8.15  Pb(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 8.
+------------------------------------
+
+-------------------------------
+End of Run after 0.195 Seconds.
+-------------------------------
+

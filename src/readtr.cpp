@@ -37,13 +37,13 @@ read_transport(void)
 	*/
 	char *ptr;
 	int i, j, l;
-	int count_length, count_disp, count_punch, count_print, count_por;
+	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
 	char token[MAX_LENGTH];
 	char *description;
 	int n_user, n_user_end;
 	LDBLE *length, *disp, *pors;
-	int *punch_temp, *print_temp;
+	int *punch_temp, *print_temp, *same_model_temp;
 	int return_value, opt, opt_save;
 	char *next_char, *next_char_save;
 	char file_name[MAX_LENGTH];
@@ -95,9 +95,10 @@ read_transport(void)
 		"porosity",				/* 43 */
 		"fix_current",			/* 44 */
 		"current",			    /* 45 */
-		"implicit"			    /* 46 */
+		"implicit",			    /* 46 */
+		"same_model"			/* 47 */
 	};
-	int count_opt_list = 47;
+	int count_opt_list = 48;
 
 	strcpy(file_name, "phreeqc.dmp");
 	/*
@@ -113,7 +114,7 @@ read_transport(void)
 	}
 	else
 		old_cells = count_cells;
-	count_length = count_disp = count_punch = count_print = count_por = 0;
+	count_length = count_disp = count_punch = count_print = count_por = count_same_model = 0;
 
 	length = (LDBLE *)PHRQ_malloc(sizeof(LDBLE));
 	if (length == NULL)
@@ -133,6 +134,10 @@ read_transport(void)
 
 	print_temp = (int *)PHRQ_malloc(sizeof(int));
 	if (print_temp == NULL)
+		malloc_error();
+
+	same_model_temp = (int *)PHRQ_malloc(sizeof(int));
+	if (same_model_temp == NULL)
 		malloc_error();
 
 	count_length_alloc = count_disp_alloc = count_por_alloc = 1;
@@ -706,7 +711,26 @@ read_transport(void)
 				//warning_msg("Expected the maximal value for the mixfactor (= D * Dt / Dx^2) in implicit calc`s of diffusion.");
 				max_mixf = 1.0;
 			}
+			min_dif_LM = -30.0;
+			if (copy_token(token, &next_char, &l) != EMPTY)
+			{
+				/* minimal moles for diffusion */
+				if (sscanf(token, SCANFORMAT, &min_dif_LM) != 1)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Expected the minimal log10(molality) for including a species in multicomponent diffusion,\n   taking -30.0");
+					warning_msg(error_string);
+					break;
+				}
+			}
 			opt_save = OPTION_DEFAULT;
+			break;
+		case 47:				/* same_model */
+			same_model_temp =
+				read_list_ints_range(&next_char, &count_same_model, FALSE,
+					same_model_temp);
+			opt_save = 47;
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -767,6 +791,7 @@ read_transport(void)
 			cell_data[i].potV = 0;
 			cell_data[i].punch = FALSE;
 			cell_data[i].print = FALSE;
+			cell_data[i].same_model = FALSE;
 		}
 		all_cells = all_cells_now;
 	}
@@ -961,6 +986,29 @@ read_transport(void)
 	else if (simul_tr == 1 || old_cells != count_cells)
 		for (i = 0; i < all_cells; i++)
 			cell_data[i].print = TRUE;
+	/*
+	*   Fill in data for same_model
+	*/
+	if (count_same_model != 0)
+	{
+		for (i = 0; i < all_cells; i++)
+			cell_data[i].same_model = FALSE;
+		for (i = 0; i < count_same_model; i++)
+		{
+			if (same_model_temp[i] > all_cells - 1 || same_model_temp[i] < 0)
+			{
+				error_string = sformatf(
+					"Cell number for same_model is out of range, %d. Request ignored.",
+					same_model_temp[i]);
+				warning_msg(error_string);
+			}
+			else
+				cell_data[same_model_temp[i]].same_model = TRUE;
+		}
+	}
+	else if (simul_tr == 1 || old_cells != count_cells)
+		for (i = 0; i < all_cells; i++)
+			cell_data[i].same_model = FALSE;
 //#define OLD_POROSITY
 #if defined(OLD_POROSITY)
 	/*
@@ -1043,7 +1091,7 @@ read_transport(void)
 					"Must enter diffusion coefficient (-diffc) when modeling thermal diffusion.");
 				error_msg(error_string, CONTINUE);
 			}
-			else if (heat_diffc > diffc)
+			else if (heat_diffc > diffc && !implicit)
 			{
 				error_string = sformatf(
 					"Thermal diffusion is calculated assuming exchange factor was for\n\t effective (non-thermal) diffusion coefficient = %e.",
@@ -1053,7 +1101,7 @@ read_transport(void)
 		}
 		else
 		{
-			if (heat_diffc > diffc)
+			if (heat_diffc > diffc && !implicit)
 			{
 				input_error++;
 				error_string = sformatf(
@@ -1077,6 +1125,7 @@ read_transport(void)
 	pors = (LDBLE *)free_check_null(pors);
 	punch_temp = (int *)free_check_null(punch_temp);
 	print_temp = (int *)free_check_null(print_temp);
+	same_model_temp = (int *)free_check_null(same_model_temp);
 
 	if (dump_in == TRUE)
 	{

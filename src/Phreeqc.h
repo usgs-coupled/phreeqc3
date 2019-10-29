@@ -1066,9 +1066,11 @@ public:
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
-	void diffuse_implicit(LDBLE max_mixf, LDBLE DDt, int stagnant);
-	int fill_spec(int cell_no);
-	void define_ct_structures(void);
+	void diffuse_implicit(LDBLE DDt, int stagnant);
+	int fill_spec(int cell_no, int ref_cell);
+	LDBLE moles_from_redox_states(cxxSolution *sptr, const char *name);
+	LDBLE moles_from_donnan_layer(cxxSurface *sptr, const char *name, LDBLE moles_needed);
+	LDBLE add_MCD_moles(LDBLE moles, LDBLE min_mol, int i, cxxSolution *sptr, const char *name);
 	int fill_m_s(struct J_ij *J_ij, int J_ij_count_spec, int i, int stagnant);
 	static int sort_species_name(const void *ptr1, const void *ptr2);
 	int disp_surf(LDBLE stagkin_time);
@@ -1429,6 +1431,7 @@ protected:
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
 	int implicit;	    /* implicit calculation of diffusion */
 	LDBLE max_mixf;     /* the maximum value of the implicit mixfactor = De * Dt / (Dx^2) */
+	LDBLE min_dif_LM;    /* the minimal log10(molality) for including a species in multicomponent diffusion */
 	LDBLE default_Dw;		/* default species diffusion coefficient in water at 25oC, m2/s */
 	int correct_Dw;         /* if true, Dw is adapted in calc_SC */
 	LDBLE multi_Dpor;		/* uniform porosity of free porewater in solid medium */

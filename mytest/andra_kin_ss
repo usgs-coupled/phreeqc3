@@ -1,0 +1,334 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 andra_kin_ss_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+
+# optimizing parms in polynom..
+##      -1.4245658E+01      4.4732627E+03      0.43 0      2.3360033E+00      0.0000000E+00      1.7000000E+00    -5.0000000E-02
+##       1.8000000E-01     1.8000000E-05     5.9000000E-01      1.0936000E+01      5.5000000E-02      0.0000000E+00      0.0000000E+00
+##       0.0000000E+00      0.0000000E+00      0.0000000E+00      0.0000000E+00      0.0000000E+00      0.0000000E+00      0.0000000E+00
+##       0.0000000E+00      7.3500000E-01
+# OH..Cl_AFm solid solutions, Balonis thesis, Tbl 5.4
+# INCLUDE$ c:\werk2\andra\cement\lit\Al\pz_Al.dat
+#?INCLUDE$ c:\werk2\andra\cement\lit\Al\phr_Al.dat
+PHASES
+Portlandite # Reardon, 1990
+  Ca(OH)2 = Ca+2 + 2OH-; -log_k -5.19
+Ettringite # Matschei, 2007, fig. 27, or Lothenb cem18.dat Ettringite
+ Ca6Al2(SO4)3(OH)12:26H2O = 6 Ca+2 + 2 Al(OH)4- + 3 SO4-2 + 4 OH- + 26 H2O; log_k  -44.80; -Vm 707
+ -analyt  334.09  0  -26251  -117.57  # 5 - 75 C
+Hydrogarnet # Matschei, 2007, Table 5
+ Ca3Al2(OH)12 = 3 Ca+2 + 2 Al(OH)4- + 4 OH-; log_k  -20.84; -Vm 150
+Gibbsite
+ Al(OH)3 + OH- = Al(OH)4-; log_k -1.123
+ -analyt   -7.234  1.068e-2  0  1.1829 # data from Wesolowski, 1992
+
+PRINT; -warnings 3
+SURFACE_MASTER_SPECIES
+Sura Sura+ # AFm
+SURFACE_SPECIES
+Sura+ = Sura+
+PHASES
+OH_AFm;  Ca2Al(OH)            (OH)6:3H2O = 2 Ca+2 + Al(OH)4- + 1 OH- + 2 OH- + 3 H2O; log_k  -12.82
+Cl_AFm;  Ca2AlCl              (OH)6:3H2O = 2 Ca+2 + Al(OH)4- + 1 Cl- + 2 OH- + 3 H2O; -log_k -13.79 # from OH..Cl_AFm
+OH_AFmsura
+ Ca2Al(OH)    (OH)5.95:3H2O+0.05 = 2 Ca+2 + Al(OH)4- +  OH- +      1.95 OH- + 3 H2O; -log_k -12.74
+Cl_AFmsura
+ Ca2AlCl      (OH)5.95:3H2O+0.05 = 2 Ca+2 + Al(OH)4- +  Cl- +      1.95 OH- + 3 H2O; -log_k -13.53
+END
+
+# Tbl 5.8
+# phi 1.2, parm(1) = 0 for OH..Cl_AFm
+# phi 1.25, parm(1) = 0 for OH..Cl_AFmsura
+CALCULATE_VALUES
+mols
+10 sat = get(-1, 1) : m1 = get(-1, 2) : tot_ss = get(-1, 3) : time1 = get(-1, 4) : k = get(-1, 5) : parm1 = get(-1, 6)
+20 if sat > 1e2 then sat = 1e2
+30 if tot_ss = 0 then r = 1 - sat : GOTO 60 mols = ...
+40 chi = m1 / tot_ss  : if chi < 1e-4 then chi = 1e-4
+50 r = 1 - sat/chi * 10^((1 - chi) * parm1)
+60 mols = k * r * time1
+62 lim = -0.08 : if mols < lim then mols = lim
+64 if mols > m1 then mols = m1
+# 66 if abs(mols) < 1e-12 then mols = 0 # NOTE ... comment out in case of non-convergence, with Hemic
+70 save mols
+-end
+ 
+RATES
+Sum_AFm
+10 tot_ss = kin("Cl_AFm") + kin("OH_AFm") : put(tot_ss, -1, 3) : put(time, -1, 4) : put(parm(1), -1, 5)
+20 SAVE m - tot_ss
+-end
+ 
+OH_AFm
+10 sat = SR("OH_AFm")
+20 put(sat, -1, 1) : put(m, -1, 2) : put(parm(1), -1, 6)
+30 save calc_value("mols")
+-end
+
+Cl_AFm
+10 sat = SR("Cl_AFm")
+20 put(sat, -1, 1) : put(m, -1, 2) : put(parm(1), -1, 6)
+30 save calc_value("mols")
+-end
+
+Sum_all_AFm
+10 tot_ss = kin("Sum_AFm")
+20 SAVE m - tot_ss
+-end
+
+Hydrogarnet
+10 sat = sr("Hydrogarnet") : n = 2.727 : if sat > 50 then sat = 50
+12 k = parm(1) : if tot("Cl") > 1e-8 then k = k * parm(2)
+20 rate =  k * tot("water") / 0.125 * (1 - sat^n)
+30 mols = rate * time
+70 save mols
+-end
+
+##################################################
+
+Sum_AFmsura
+10 tot_ss = kin("Cl_AFmsura") + kin("OH_AFmsura") : put(tot_ss, -1, 3) : put(time, -1, 4) : put(parm(1), -1, 5)
+20 SAVE m - tot_ss
+-end
+ 
+OH_AFmsura
+10 sat = SR("OH_AFmsura")
+20 put(sat, -1, 1) : put(m, -1, 2) : put(parm(1), -1, 6)
+30 save calc_value("mols")
+-end
+
+Cl_AFmsura
+10 sat = SR("Cl_AFmsura")
+20 put(sat, -1, 1) : put(m, -1, 2) : put(parm(1), -1, 6)
+30 save calc_value("mols")
+-end
+
+Sum_all_AFmsura
+10 tot_ss = kin("Sum_AFmsura")
+20 SAVE m - tot_ss
+-end
+END
+
+SOLUTION 1; pH 7 charge
+-temp 5
+REACTION
+Ca4O4Al2O3 1; 0.3065 in 1
+# Ca4O4Al2O3 0.5; 0.1
+
+# KINETICS 1
+# Sum_AFm; -parms 9e-3   ; m0 1.1e-10; -tol 1e-6; -formula H2O 0
+# OH_AFm; -parms  0;  m0 1.1e-10; -tol 1e-8
+# Sum_all_AFm; m0 1.1e-10; -tol 1e-8; -formula H2O 0
+# -time_step 21 days
+# -cvode true; -cvode_steps 50; -bad_step_max 4000
+
+KINETICS 1;
+Sum_AFmsura; -parms 9e-3; m0 1.1e-10; -formula H2O 0
+OH_AFmsura;  -parms    0; m0 1.1e-10
+SUM_all_AFmsura; m0 1.1e-10; -formula H2O 0 # NOTE the kinetics_MIX warnings....
+-time_step 21 days
+-cvode true; -cvode_steps 50; -bad_step_max 4000
+SURFACE 1
+Sura SUM_all_AFmsura kin 0.05 16.8e3; -donnan 1e-10; -equil 1
+SAVE surface 1
+
+SAVE solution 1
+SAVE equilibrium_phases 1
+END
+
+KINETICS_MIX 1; 1 0.163
+SURFACE_MIX 1; 1 0.163
+END
+
+SOLUTION 2; pH 7 charge
+REACTION 2
+Ca3O3Al2O3Ca(Cl)2H4O2 1; 0.2397
+# Ca3O3Al2O3Ca(Cl)2H4O2 0.5; 0.1
+
+# KINETICS 2
+# Sum_AFm; -parms 9e-3   ; m0 1.1e-10; -tol 1e-6; -formula H2O 0
+# Cl_AFm; -parms  0;  m0 1.1e-10; -tol 1e-8
+# OH_AFm; -parms  0;  m0 0; -tol 1e-8
+# Sum_all_AFm; m0 1.1e-10; -tol 1e-8; -formula H2O 0
+# -time_step 28 days
+# -cvode true; -cvode_steps 50; -bad_step_max 4000
+
+KINETICS 2
+Sum_AFmsura; -parms 9e-3   ; m0 1e-10; -tol 1e-8; -formula H2O 0
+Cl_AFmsura; -parms  0;  m0 1e-10; -tol 1e-8
+OH_AFmsura;  -parms    0; m0 0e-10
+Sum_all_AFmsura; m0 1e-10; -formula H2O 0
+-time_step 28 days
+-cvode true; -cvode_steps 50; -bad_step_max 50
+SURFACE 2
+Sura SUM_all_AFmsura kin 0.05 16.8e3; -donnan 1e-10; -equil 2
+SAVE surface 2
+
+# SAVE solution 2
+SAVE equilibrium_phases 2
+# # SOLID_SOLUTIONS 2
+# # ss2
+# # -comp Cl_AFm 1e-10
+# # -comp OH_AFm 1e-10
+# # -comp Cl_OH_AFm 1e-10
+# # -Gugg_nondim 2 5
+END
+
+EQUILIBRIUM_PHASES_MIX 2; 2 0.209
+KINETICS_MIX 2; 2 0.209
+SURFACE_MIX 2; 2 0.209
+END
+
+EQUILIBRIUM_PHASES 1
+Gibbsite 0.5 0; portlandite 0 0
+EQUILIBRIUM_PHASES 2
+Gibbsite 0.5 0
+
+KINETICS 10
+-time_step 180 days
+-cvode true; -cvode_steps 50; -bad_step_max 4000
+KINETICS 8
+# Hydrogarnet; -parms 5e-12      0.04           ;     m0 0 ; -tol 1e-8  # Matschei, for OH..SO4
+Hydrogarnet; -parms 5e-12      0.20           ;     m0 0 ; -tol 1e-8
+KINETICS 9
+# Hydrogarnet; -parms 5e-12      0.04           ;     m0 0 ; -tol 1e-8  # Matschei, for OH..SO4
+Hydrogarnet; -parms 5e-12      0.20           ;     m0 0 ; -tol 1e-8
+END
+
+solution 10
+EQUILIBRIUM_PHASES 10
+# Cl_AFm 0 1
+Cl_AFmsura 0 1
+SELECTED_OUTPUT 1; -reset false; -file andra_kin_ss.prn
+USER_PUNCH 1
+1   if step_no = 0 then end
+10  sc$ = chr$(59) : hash$ = chr$(35)
+20  data 0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 1.05, 1.1, 1.2
+30  dim Cl_Al(25) : for i = 1 to 14 : read Cl_Al(i) : next i
+32  Al = 0.1 # all Al in solid = 0.2397 * 2 * 0.209
+40  for i = 1 to 14
+50    x2 = Cl_Al(i) : x1 = 1 - x2 : if x1 < 0.06 then x1 = 0 : x2 = 1 : CaCl2 = (Cl_Al(i) - 0.95) / 2 * Al # Balonis assumes 5% OH-, 95% Cl-
+70    punch eol$
+100   punch eol$ + 'SOLUTION_MIX 5 ' + hash$ + ' Cl / Al = ' + str_f$(Cl_Al(i), 4, 2)
+110   punch eol$ + ' 2 1 ' # + str_e$(x1, 8, 5) + sc$ + ' 2 ' + str_e$(x2, 8, 5)
+120   punch eol$ + 'REACTION 5'
+140   punch eol$ + ' CaCl2 ' + sc$ + str_e$(CaCl2, 8, 5)
+150   punch eol$ + 'KINETICS_MIX 5'
+160   punch eol$ + ' 1 ' + str_e$(x1, 8, 5) + sc$ + ' 2 ' + str_e$(x2, 8, 5)
+162   punch eol$ + ' 8  1'
+170   punch eol$ + ' 10 1'
+180   punch eol$ + 'EQUILIBRIUM_PHASES_MIX  5'
+190   punch eol$ + ' 1 ' + str_e$(x1, 8, 5) + sc$ + ' 2 ' + str_e$(x2, 8, 5)
+200   punch eol$ + 'SURFACE_MIX 5'
+210   punch eol$ + ' 1 ' + str_e$(x1, 8, 5) + sc$ + ' 2 ' + str_e$(x2, 8, 5)
+220   if x1 > 0.52 then punch eol$ + 'COPY SOLID_SOLUTIONS 2 5' else punch eol$ + 'COPY SOLID_SOLUTIONS 1 5'
+230   punch eol$ + 'END'
+ 
+ 
+300   punch eol$ + 'USE solution 5'
+310   if x1 > -0.5 then punch eol$ + 'USE kinetics 5'
+# 312   if x1 > -0.5 then punch eol$ + 'USE solid_solutions 5'
+340   punch eol$ + 'USE equilibrium_phases 5'
+350   punch eol$ + 'USE reaction 5'
+360   if equi("Cl_AFmsura") > 0 then punch eol$ + 'USE surface 5'
+362   punch eol$ + 'REACTION_TEMPERATURE 5' + sc$ + ' 25'
+370   punch eol$ + 'END'
+400 next i
+END
+ 
+PRINT; -reset false
+PRINT; -warnings 0
+PRINT; -reset true
+PRINT; -user_print false
+ 
+SELECTED_OUTPUT 1; -reset false; -file in.prn; -high_precision true; new_line false
+ 
+USER_PUNCH 1
+1 if step_no = 0 then end
+# # Averages for Cl..OH_AFm, tb 4 & 5 + Cl/Al = 1
+10  data 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 1.2
+12  data -10.6, -10.2, -15.1, -19.0, -21.1, -21.0, -17.7, -15.4, -16.8, -16.0, -4.6, 5.6, 6.1, 3.6 # % error
+20  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.98, 13.43, 16.83 # Ca   
+30  data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.71, 1.25, 0.90, 0.91 # Al
+40  data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.40, 11.47, 15.73, 24.62 # Cl
+50  data 12.49, 12.47, 12.46, 12.41, 12.33, 12.21, 12.14, 12.07, 12.09, 12.12, 11.95, 11.74, 11.71, 11.63 # pH
+ 
+60  dim  x(20) : restore 10 : for i = 1 to 14 : read x(i) : next i
+62  dim er(20) : restore 12 : for i = 1 to 14 : read er(i) : next i
+70  dim Ca(20) : restore 20 : for i = 1 to 14 : read Ca(i) : next i
+80  dim Al(20) : restore 30 : for i = 1 to 14 : read Al(i) : next i
+90  dim Cl(20) : restore 40 : for i = 1 to 14 : read Cl(i) : next i
+100 dim pH(20) : restore 50 : for i = 1 to 14 : read pH(i) : next i
+ 
+110 if get(3) < 14 then put(1 + get(3), 3)
+120 i = get(3) : x1 = x(i) : Ca1 = Ca(i) : Al1 = Al(i) : Cl1 = Cl(i) : pH1 = pH(i)
+180 d1 = tot("Ca") * 1e3 / Ca1 - 1
+190 d2 = tot("Al") * 1e3 / Al1 - 1
+200 if Cl1 > 0 then d3 = tot("Cl") * 1e3 / Cl1 - 1 else d3 = 0
+# 202 if abs(er(i)) > 6 then d1 = 0 : d2 = 0 : d3 = 0
+ 
+210  punch eol$ + str_e$(d1, 24, 14) + '            ' + str_f$(Ca1, 7, 2) + str_f$(tot("Ca") * 1e3, 7, 2) + ' Ca  ' + str_f$(x(i), 6, 2)
+220  punch eol$ + str_e$(d2 / 2, 24, 14) + '            ' + str_f$(Al1, 7, 2) + str_f$(tot("Al") * 1e3, 7, 2) + ' Al'
+230  punch eol$ + str_e$(d3, 24, 14) + '            ' + str_f$(Cl1, 7, 2) + str_f$(tot("Cl") * 1e3, 7, 2) + ' Cl'
+ 
+240 dsum2 = d1^2 + (d2 / 2)^2 + d3^2 : put(dsum2 + get(8), 8)
+250 if get(3) = 14 then PRINT 'SS_dev (PEST_phi) = ' + str_e$(get(8), 8, 2)
+ 
+ 
+USER_GRAPH 1  Balonis Fig. 5.8, ss of OH_AFm and Cl_AFm with Hydrogarnet and gibbsite precip
+# -headings Ca Al Cl pH
+# -axis_titles "Cl / Al" "mmol / kgw" "pH"
+-axis_scale y_axis 0 25
+-axis_scale x_axis 0 1.2
+10  data 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 1.2
+12  data -10.6, -10.2, -15.1, -19.0, -21.1, -21.0, -17.7, -15.4, -16.8, -16.0, -4.6, 5.6, 6.1, 3.6 # % error
+20  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.98, 13.43, 16.83 # Ca   
+30  data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.71, 1.25, 0.90, 0.91 # Al
+40  data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.40, 11.47, 15.73, 24.62 # Cl
+50  data 12.49, 12.47, 12.46, 12.41, 12.33, 12.21, 12.14, 12.07, 12.09, 12.12, 11.95, 11.74, 11.71, 11.63 # pH
+ 
+60  dim  x(20) : restore 10 : for i = 1 to 14 : read x(i) : next i
+62  dim er(20) : restore 12 : for i = 1 to 14 : read er(i) : next i
+70  dim Ca(14) : restore 20 : for i = 1 to 14 : read Ca(i) : next i
+80  dim Al(14) : restore 30 : for i = 1 to 14 : read Al(i) : next i
+90  dim Cl(14): restore 40 : for i = 1 to 14 : read Cl(i) : next i
+100 dim pH(14) : restore 50 : for i = 1 to 14 : read pH(i) : next i
+110 if get(1) < 14 then put(1 + get(1), 1)
+120 num = get(1) : x1 = x(num) : Ca1 = Ca(num) : Al1 = Al(num) : Cl1 = Cl(num) : pH1 = pH(num)
+# 122 if abs(er(num)) > 6 then x1 = -1
+130 plot_xy x1, Ca1, line_width = 0, symbol_size = 3
+140 plot_xy x1, Al1, line_width = 0
+150 plot_xy x1, Cl1, line_width = 0
+160 plot_xy x1, pH1, line_width = 0, y_axis = 2
+ 
+168 kinsura = kin("Sum_all_AFm") + kin("Sum_all_AFmsura")
+169 if kinsura > 0 then 171
+# 170 Cl_Al = (sys("Cl") + kin("Cl_AFm")) / (sys("Al") + (kin("Cl_AFm") + kin("OH_AFm") + 2 * kin("Hydrogarnet"))) : goto 180
+170 Cl_Al = (sys("Cl")) / (sys("Al") + 2 * kin("Hydrogarnet")) : goto 180
+171 Cl_Al = (sys("Cl") + kin("Cl_AFmsura")) / (sys("Al") + (kinsura + 2 * kin("Hydrogarnet")))
+174 Cl_Al = x1
+180 plot_xy Cl_Al, tot("Ca") * 1e3, color = Red , symbol = None
+190 plot_xy Cl_Al, tot("Al") * 1e3, color = Green  , symbol = None
+200 plot_xy Cl_Al, tot("Cl") * 1e3, color = Blue  , symbol = None
+202 Cl_Al2 = (sys("Cl") + kin("Cl_AFmsura")) / (sys("Al") + kin("Sum_all_AFmsura"))
+# 210 plot_xy Cl_Al, Cl_Al2, color = Orange   , y_axis = 2 #, symbol = None
+210 plot_xy Cl_Al, -la("H+"), color = Orange   , y_axis = 2 , symbol = None
+# 220 print kinsura, sys("Cl"),  0.5 * (kin("Cl_OH_AFmOH") + kin("Cl_OH_AFmCl")), sys("Al"), (sys("Cl") + kin("Cl_AFm") + 0.5 * (kin("Cl_OH_AFmOH") + kin("Cl_OH_AFmCl")) + kin("Cl_AFmsura")), (sys("Al") + (kinsura + 2 * kin("Hydrogarnet")))
+490 Al_ss = kin("Sum_all_AFmsura") + kin("Sum_all_AFm")
+492 Al_rest = sys("Al") + 2 * kin("Hydrogarnet") : Cl_rest = Cl1 / 1e3
+500 m_OH = 10^(lk_species("OH-") + pH1) * 1e3 : a1 = Cl1 / (Cl1 + m_OH) : b1 = x1 + (x1 * Al_rest - Cl_rest) / Al_ss # b1 = Cl_ss / Al_ss from (Cl_ss + Cl_rest) / (Al_ss + Al_rest) = x1
+510 if x1 = -1 and a1 <> 0 then a1 = -1
+520 m_i = mol("Cl-") : a2 = m_i / (m_i + mol("OH-")) : b2 = (kin("Cl_AFmsura") + kin("Cl_AFm") + edl("Cl")) / (Al_ss + edl("charge") - edl("Al"))
+522 if edl("charge") = 0 then b2 = (kin("Cl_AFm")) / (Al_ss)
+530 put(a1, 2, num) : put(b1, 3, num)
+540 put(a2, 4, num) : put(b2, 5, num) : put(Al_ss, 6, num)
+ 
+ 
+INCLUDE$ andra_kin_ss.prn
+END

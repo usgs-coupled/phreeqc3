@@ -1396,7 +1396,7 @@ xss_assemblage_save(int n_user)
  *   Save ss_assemblage composition into structure ss_assemblage with user
  *   number n_user.
  */
-	cxxSSassemblage temp_ss_assemblage;
+	cxxSSassemblage temp_ss_assemblage(this->phrq_io);
 
 	if (use.Get_ss_assemblage_ptr() == NULL)
 		return (OK);
@@ -1719,6 +1719,8 @@ xsurface_save(int n_user)
 		if (x[i]->type == SURFACE)
 		{
 			cxxSurfaceComp *comp_ptr = temp_surface.Find_comp(x[i]->surface_comp);
+			if (comp_ptr == NULL)
+				continue; // appt in transport with different mobile and stagnant surfaces
 			assert(comp_ptr);
 			comp_ptr->Set_la(x[i]->master[0]->s->la);
 			comp_ptr->Set_moles(0.);
@@ -1748,6 +1750,8 @@ xsurface_save(int n_user)
 		else if (x[i]->type == SURFACE_CB && (use.Get_surface_ptr()->Get_type() == cxxSurface::DDL || use.Get_surface_ptr()->Get_type() == cxxSurface::CCM))
 		{
 			cxxSurfaceCharge *charge_ptr = temp_surface.Find_charge(x[i]->surface_charge);
+			if (charge_ptr == NULL)
+				continue; // appt in transport with different mobile and stagnant surfaces
 			assert(charge_ptr);
 			charge_ptr->Set_charge_balance(x[i]->f);
 			charge_ptr->Set_la_psi(x[i]->master[0]->s->la);
