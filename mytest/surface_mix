@@ -1,0 +1,36 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 surface_mix_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 7
+Ca 1
+Pb 1
+Cl 1 Charge 
+END
+SURFACE 1
+Hfo_w  .1 1 100
+Hfo_s  .01 
+-eq 7
+END
+SURFACE 2
+Hfo_w  .1 1 100
+Hfo_s  .01 
+-eq 7
+END
+SURFACE_MIX 5
+1 0.5; 2 0.5 # not OK
+# 1 2 # OK
+END
+DUMP; -file surface_mix.dmp; -surface 1 2 5
+END
+USE surface  5
+USE solution 7
+END
+USE surface 1
+USE solution 7
+END
