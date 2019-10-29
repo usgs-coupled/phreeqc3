@@ -1840,7 +1840,7 @@ set_initial_moles(int i)
 		temp_exchange.Set_solution_equilibria(true);
 		temp_exchange.Set_n_solution(i);
 
-		cxxExchComp comp;
+		cxxExchComp comp(this->phrq_io);
 		count_elts = 0;
 		paren_count = 0;
 		strcpy(token, "X");

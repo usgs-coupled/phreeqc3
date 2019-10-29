@@ -1396,7 +1396,7 @@ xss_assemblage_save(int n_user)
  *   Save ss_assemblage composition into structure ss_assemblage with user
  *   number n_user.
  */
-	cxxSSassemblage temp_ss_assemblage;
+	cxxSSassemblage temp_ss_assemblage(this->phrq_io);
 
 	if (use.Get_ss_assemblage_ptr() == NULL)
 		return (OK);

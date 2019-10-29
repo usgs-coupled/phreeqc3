@@ -1007,7 +1007,7 @@ read_exchange(void)
 					input_error++;
 					break;
 				}
-				cxxExchComp temp_comp;
+				cxxExchComp temp_comp(this->phrq_io);
 				temp_exchange.Get_exchange_comps().push_back(temp_comp);
 				comp_ptr = &(temp_exchange.Get_exchange_comps().back());
 				comp_ptr->Set_formula(token.c_str());
@@ -1268,7 +1268,7 @@ read_gas_phase(void)
 	char *ptr;
 	char *description;
 	char token[MAX_LENGTH];
-	cxxGasPhase temp_gas_phase;
+	cxxGasPhase temp_gas_phase(this->phrq_io);
 	int return_value, opt;
 	char *next_char;
 	const char *opt_list[] = {
@@ -2057,7 +2057,7 @@ read_kinetics(void)
  */
 	ptr = line;
 	read_number_description(ptr, &n_user, &n_user_end, &description);
-	cxxKinetics temp_kinetics;
+	cxxKinetics temp_kinetics(this->phrq_io);
 	temp_kinetics.Set_n_user(n_user);
 	temp_kinetics.Set_n_user_end(n_user_end);
 	temp_kinetics.Set_description(description);
@@ -7538,7 +7538,8 @@ read_surface(void)
 					break;
 				}
 
-				cxxSurfaceComp temp_comp;
+				cxxSurfaceComp temp_comp(this->phrq_io);
+
 				temp_surface.Get_surface_comps().push_back(temp_comp);
 				comp_ptr = &(temp_surface.Get_surface_comps().back());
 				comp_ptr->Set_formula(token.c_str());
@@ -7648,7 +7649,7 @@ read_surface(void)
 				formula = (char*)free_check_null(formula);
 				if (charge_ptr == NULL)
 				{
-					cxxSurfaceCharge temp_charge;
+					cxxSurfaceCharge temp_charge(this->phrq_io);
 					temp_charge.Set_name(name);
 					if (comp_ptr->Get_phase_name().size() == 0
 						&& comp_ptr->Get_rate_name().size() == 0)
@@ -10125,7 +10126,7 @@ read_solid_solutions(void)
 		case 0:				/* component */
 		case 1:				/* comp */
 			{
-				cxxSScomp comp;
+				cxxSScomp comp(this->phrq_io);
 				/*
 				*   Read phase name of component
 				*/

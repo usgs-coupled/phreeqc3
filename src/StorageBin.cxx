@@ -1061,7 +1061,7 @@ cxxStorageBin::read_raw(CParser & parser)
 			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
 			{
-				cxxSSassemblage entity;
+				cxxSSassemblage entity(this->Get_io());
 				entity.read_raw(parser);
 				SSassemblages[entity.Get_n_user()] = entity;
 			}
@@ -1195,7 +1195,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 
 	case Keywords::KEY_SOLID_SOLUTIONS_RAW:
 		{
-			cxxSSassemblage entity;
+			cxxSSassemblage entity(this->Get_io());
 			entity.read_raw(parser);
 			SSassemblages[entity.Get_n_user()] = entity;
 			entity_number = entity.Get_n_user();
