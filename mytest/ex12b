@@ -1,0 +1,87 @@
+DATABASE ../database/wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 ex12b_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#PRINT
+#   -reset   false
+
+TITLE Example 12b.--Compare traditional and multicomponent diffusive transport of heat and solutes.
+      Multicomponent diffusion coefficients decrease with the viscosity of the solution, changing more as temperature decreases.
+
+SOLUTION 0   Fixed temp 24C, and NaCl conc (first type boundary cond) at inlet
+    temp 24; Na 24; Cl 24
+SOLUTION 1-30   24 mM KBr, initial temp 0C
+    temp  0; K  24; Br 24
+EXCHANGE_SPECIES
+    K+ + X- = KX
+EXCHANGE 1-30
+    KX    0.048
+END
+TRANSPORT
+   -cells 30
+   -lengths 0.3333333
+   -shifts 1
+   -flow_direction         diffusion
+   -boundary_conditions    constant  closed
+   -thermal_diffusion      3.0     # heat is retarded equal to Na
+   -diffusion_coefficient  0.3e-9  # m^2/s
+   -time_step              1.0e+10  # max_mixf = 2/9 = Dt_max * De / Dx^2. Dt_max = 8.2140e+07 seconds, Number of mixes = 1e10 / 8.214e7 = 122
+USER_GRAPH 1 Example 12b
+   -headings Tradit:Na Cl TC Analyt
+   -chart_title "Compare traditional and multicomponent diffusive transport"
+   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER", "DEGREES CELSIUS"
+   -initial_solutions false
+   -plot_concentration_vs x
+   -start
+  10 x = DIST
+  20 PLOT_XY x, TOT("Na")*1000, symbol = Plus
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = Plus
+  40 PLOT_XY x, TC, symbol = XCross, y-axis 2
+  50 if (x > 10 OR SIM_TIME <= 0) THEN END
+  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911
+  70 READ a1, a2, a3, a4, a5, a6
+# Calculate and plot Cl analytical...
+  80 z = x / (2 * SQRT(3e-10 * SIM_TIME / 1.0))
+  90 GOSUB 2000
+  100 PLOT_XY x, 24 * erfc, color = Green, symbol = Square, symbol_size = 10,\
+                            line_width = 0
+# Calculate and plot 3 times retarded Na and temperature analytical...
+  110 z = z * SQRT(3.0)
+  120 GOSUB 2000
+  130 PLOT_XY x, 24 * erfc, color = Blue, symbol = Square, symbol_size = 10,\
+                            line_width = 0
+  140 END
+  2000 REM calculate erfc...
+  2050 b = 1 / (1 + a6 * z)
+  2060 erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(-(z * z))
+  2080 RETURN
+   -end
+END
+
+# Reinitialize the column...
+USER_GRAPH 1; -active false
+SOLUTION 0
+    temp 24; Na 24; Cl 24
+SOLUTION 1-30   24 mM KBr
+    temp 0; K  24; Br 24
+EXCHANGE 1-30
+    KX    0.048
+END
+USER_GRAPH 1; -active true
+TRANSPORT
+   -multi_d true 0.3e-9 1 0.05 0 false # will give the traditional results when tc = 25 throughout
+   -thermal_diffusion  3.0 0.3e-9  # you can define the diffusion coefficient for heat
+   -implicit true 1 -12             # max_mixf = 1, min_dif_LM = -12
+USER_GRAPH 1 Example 12b
+   -headings Multic:Na Cl TC
+   -start
+  10 x = DIST
+  20 PLOT_XY x, TOT("Na")*1000, symbol = Circle, line_width = 0, symbol_size = 8, color = Red
+  30 PLOT_XY x, TOT("Cl")*1000, symbol = Circle, line_width = 0, symbol_size = 8, color = Green
+  40 PLOT_XY x, TC, symbol = Circle, line_width = 0, symbol_size = 8, y-axis 2, color = Blue
+END
