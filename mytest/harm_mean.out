@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: harm_mean
   Output file: harm_mean.out
 Database file: ../database/wateq4f.dat
@@ -648,26 +649,26 @@ WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 	 -head 22Na+ HDO I- PHREEQC    
 	 -plot_c time
 	 -start
-	10  Na = 0.1 : Su = 0.1 : dl_aq_i = 1 : t = Su / dl_aq_i : Bm = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) 
-	20  
+	10  Na = 0.1 : Su = 0.1 : dl_aq_i = 1 : t = Su / dl_aq_i : Bm = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm
+	20  # i_cell...
 	30  h_i = 1e-2 : aq_i = 1 : aqt_i = aq_i + dl_aq_i : f_free_i = aq_i / aqt_i
 	40  A_i = aqt_i / h_i : G_i = 1 : Dw = 1e-9 : b_i = A_i / (G_i * h_i / 2) 
 	50  b_i_cat = b_i * (f_free_i + (1 - f_free_i) * Bm) : b_i_ani = b_i * (f_free_i + (1 - f_free_i) / Bm)
-	60  
-	62  Na = 0.1 : Su = 0.1 : dl_aq_j = 1 : t = Su / dl_aq_j : Bm = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) 
+	60  # j_cell...
+	62  Na = 0.1 : Su = 0.1 : dl_aq_j = 1 : t = Su / dl_aq_j : Bm = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm
 	70  h_j = 1e-2 : aq_j = 1 : aqt_j = aq_j + dl_aq_j : f_free_j = aq_j / aqt_j
 	80  A_j = aqt_j / h_j : G_j = 1 : Dw = 1e-9 : b_j = A_j / (G_j * h_j / 2) 
 	90  b_j_cat = b_j * (f_free_j + (1 - f_free_j) * Bm) : b_j_ani = b_j * (f_free_j + (1 - f_free_j) / Bm)
-	100 
+	100 # b_ij...
 	110 b_ij_HTO = b_i * b_j / (b_i + b_j)
 	120 b_ij_Na = b_i_cat * b_j_cat / (b_i_cat + b_j_cat) : b_ij_I = b_i_ani * b_j_ani / (b_i_ani + b_j_ani)
-	130 
+	130 # graph...
 	140 t = total_time / (3600 * 24)
 	150 plot_xy t, b_ij_Na / b_ij_HTO, symbol = None, color = Red
 	160 plot_xy t, 1,                  symbol = None, color = Green
 	170 plot_xy t, b_ij_I  / b_ij_HTO, symbol = None, color = Blue
 	180 DDt = total_time - get(1) : Nat = equi("Nat") - get(2) : It = equi("I") - get(3) : Htot = equi("Hto") - get(4) : Hdot = equi("Hdo") - get(5)
-	190 
+	190 # graph...
 	200 plot_xy t, Nat / HTOt, line_width = 0, color = Red   , y_axis = 1
 	210 plot_xy t, Hdot / HTOt,line_width = 0, color = Green , y_axis = 1
 	220 plot_xy t, It / HTOt,  line_width = 0, color = Blue  , y_axis = 1
@@ -1185,13 +1186,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1804e-02
-	H             	  2.8173e-07
+	H             	  2.8174e-07
 	Hdo           	  7.9901e-07
 	Hto           	  7.9901e-07
 	I             	  4.9382e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2928e-06
-	O             	  7.7876e-08
+	O             	  7.7879e-08
 
 Su            
 	  1.000e-01  moles
@@ -1214,13 +1215,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.242      Adjusted to redox equilibrium
+                                       pe  =  -3.290      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.427e-11
+                 Total alkalinity (eq/kg)  =   5.438e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.420e-09
+                  Electrical balance (eq)  =   7.590e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -1231,13 +1232,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          4.568e-11
-   H2              2.284e-11   2.337e-11   -10.641   -10.631     0.010     (0)  
+H(0)          5.684e-11
+   H2              2.842e-11   2.908e-11   -10.546   -10.536     0.010     (0)  
 Hdo           7.990e-07
    Hdo             7.990e-07   8.176e-07    -6.097    -6.087     0.010     (0)  
 Hto           7.990e-07
@@ -1249,20 +1250,20 @@ Na            1.000e-01
 Nat           7.990e-07
    Nat+            7.990e-07   6.242e-07    -6.097    -6.205    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.130   -71.120     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.320   -71.310     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.48    -10.63   -3.15  H2
+  H2(g)            -7.39    -10.54   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -68.23    -71.12   -2.89  O2
+  O2(g)           -68.42    -71.31   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1298,13 +1299,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8175e-07
+	H             	  2.8177e-07
 	Hdo           	  3.9839e-07
 	Hto           	  3.9839e-07
 	I             	  2.4622e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4461e-07
-	O             	  7.7889e-08
+	O             	  7.7897e-08
 
 Su            
 	  1.000e-01  moles
@@ -1327,13 +1328,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.384      Adjusted to redox equilibrium
+                                       pe  =  -3.447      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   8.571e-11
+                 Total alkalinity (eq/kg)  =   1.126e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   4.912e-09
+                  Electrical balance (eq)  =   4.909e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -1344,13 +1345,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.598e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.599e-08    -6.899    -7.018    -0.118     (0)  
    H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          8.751e-11
-   H2              4.376e-11   4.478e-11   -10.359   -10.349     0.010     (0)  
+H(0)          1.172e-10
+   H2              5.860e-11   5.996e-11   -10.232   -10.222     0.010     (0)  
 Hdo           3.984e-07
    Hdo             3.984e-07   4.077e-07    -6.400    -6.390     0.010     (0)  
 Hto           3.984e-07
@@ -1362,20 +1363,20 @@ Na            1.000e-01
 Nat           3.984e-07
    Nat+            3.984e-07   3.112e-07    -6.400    -6.507    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.695   -71.685     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.949   -71.939     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.20    -10.35   -3.15  H2
+  H2(g)            -7.07    -10.22   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -68.79    -71.69   -2.89  O2
+  O2(g)           -69.05    -71.94   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1398,7 +1399,7 @@ Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 Hdo               0.00   -13.00    -13.00    0.000e+00   1.936e-06   1.936e-06
 Hto               0.00   -13.00    -13.00    0.000e+00   1.936e-06   1.936e-06
 I                 0.00   -13.00    -13.00    0.000e+00   1.566e-06   1.566e-06
-Nat               0.00   -13.00    -13.00    0.000e+00   2.534e-06   2.534e-06
+Nat              -0.00   -13.00    -13.00    0.000e+00   2.534e-06   2.534e-06
 
 ------------------------------Surface composition------------------------------
 
@@ -1422,13 +1423,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8176e-07
+	H             	  2.8178e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
 	Nat           	  2.7102e-12
-	O             	  7.7895e-08
+	O             	  7.7906e-08
 
 Su            
 	  1.000e-01  moles
@@ -1451,13 +1452,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.432      Adjusted to redox equilibrium
+                                       pe  =  -3.499      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.074e-10
+                 Total alkalinity (eq/kg)  =   1.433e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   5.378e-10
+                  Electrical balance (eq)  =   8.018e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -1468,13 +1469,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.599e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.261e-07   9.600e-08    -6.899    -7.018    -0.118     (0)  
    H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.092e-10
-   H2              5.460e-11   5.587e-11   -10.263   -10.253     0.010     (0)  
+H(0)          1.487e-10
+   H2              7.437e-11   7.610e-11   -10.129   -10.119     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -1486,20 +1487,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.887   -71.877     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -72.156   -72.146     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.10    -10.25   -3.15  H2
+  H2(g)            -6.97    -10.12   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
-  Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -68.98    -71.88   -2.89  O2
+  Nat              -0.00    -13.00  -13.00  NatCl
+  O2(g)           -69.25    -72.15   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1589,7 +1590,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -4.578e-12  Surface + diffuse layer charge, eq
+	  1.232e-11  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -1605,14 +1606,14 @@ Su
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.618e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Cl            	  6.1804e-02
+	Cl            	  6.1803e-02
 	H             	  2.8172e-07
 	Hdo           	  7.9999e-07
 	Hto           	  7.9999e-07
 	I             	  4.9442e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7868e-08
+	O             	  7.7869e-08
 
 Su            
 	  1.000e-01  moles
@@ -1635,13 +1636,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.039      Adjusted to redox equilibrium
+                                       pe  =  -3.105      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.752e-11
+                 Total alkalinity (eq/kg)  =   2.336e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   7.819e-09
+                  Electrical balance (eq)  =   9.612e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -1652,13 +1653,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.791e-11
-   H2              8.957e-12   9.166e-12   -11.048   -11.038     0.010     (0)  
+H(0)          2.430e-11
+   H2              1.215e-11   1.243e-11   -10.915   -10.905     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -1670,20 +1671,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.317   -70.307     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.582   -70.572     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.89    -11.04   -3.15  H2
+  H2(g)            -7.76    -10.91   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -67.41    -70.31   -2.89  O2
+  O2(g)           -67.68    -70.57   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1702,7 +1703,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  5.290e-10  Surface + diffuse layer charge, eq
+	  7.414e-10  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -1719,13 +1720,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8173e-07
+	H             	  2.8174e-07
 	Hdo           	  3.9998e-07
 	Hto           	  3.9998e-07
 	I             	  2.4720e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4718e-07
-	O             	  7.7877e-08
+	O             	  7.7881e-08
 
 Su            
 	  1.000e-01  moles
@@ -1748,11 +1749,11 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.256      Adjusted to redox equilibrium
+                                       pe  =  -3.317      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.762e-11
+                 Total alkalinity (eq/kg)  =   6.200e-11
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =   1.381e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
@@ -1770,8 +1771,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          4.856e-11
-   H2              2.428e-11   2.485e-11   -10.615   -10.605     0.010     (0)  
+H(0)          6.430e-11
+   H2              3.215e-11   3.290e-11   -10.493   -10.483     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -1783,20 +1784,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.183   -71.173     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.427   -71.417     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.45    -10.60   -3.15  H2
+  H2(g)            -7.33    -10.48   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -68.28    -71.17   -2.89  O2
+  O2(g)           -68.52    -71.42   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -1843,13 +1844,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8174e-07
+	H             	  2.8175e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
 	Nat           	  2.7102e-12
-	O             	  7.7881e-08
+	O             	  7.7887e-08
 
 Su            
 	  1.000e-01  moles
@@ -1872,13 +1873,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.315      Adjusted to redox equilibrium
+                                       pe  =  -3.377      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   6.305e-11
+                 Total alkalinity (eq/kg)  =   8.200e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   5.554e-10
+                  Electrical balance (eq)  =   9.779e-11
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -1889,13 +1890,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
-   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.598e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          6.391e-11
-   H2              3.195e-11   3.270e-11   -10.495   -10.485     0.010     (0)  
+H(0)          8.472e-11
+   H2              4.236e-11   4.335e-11   -10.373   -10.363     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -1907,20 +1908,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.422   -71.412     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.667   -71.657     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.34    -10.49   -3.15  H2
+  H2(g)            -7.21    -10.36   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -68.52    -71.41   -2.89  O2
+  O2(g)           -68.76    -71.66   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2010,7 +2011,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  3.477e-13  Surface + diffuse layer charge, eq
+	  3.537e-13  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2033,7 +2034,7 @@ Su
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7866e-08
+	O             	  7.7867e-08
 
 Su            
 	  1.000e-01  moles
@@ -2056,13 +2057,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.953      Adjusted to redox equilibrium
+                                       pe  =  -2.997      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.173e-11
+                 Total alkalinity (eq/kg)  =   1.416e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.520e-08
+                  Electrical balance (eq)  =   2.344e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -2078,8 +2079,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.206e-11
-   H2              6.030e-12   6.171e-12   -11.220   -11.210     0.010     (0)  
+H(0)          1.474e-11
+   H2              7.371e-12   7.542e-12   -11.132   -11.122     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -2091,20 +2092,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.974   -69.964     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.148   -70.138     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.06    -11.21   -3.15  H2
+  H2(g)            -7.97    -11.12   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -67.07    -69.96   -2.89  O2
+  O2(g)           -67.25    -70.14   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2123,7 +2124,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -5.153e-12  Surface + diffuse layer charge, eq
+	 -4.749e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2140,13 +2141,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8172e-07
+	H             	  2.8173e-07
 	Hdo           	  4.0000e-07
 	Hto           	  4.0000e-07
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7872e-08
+	O             	  7.7874e-08
 
 Su            
 	  1.000e-01  moles
@@ -2169,13 +2170,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.168      Adjusted to redox equilibrium
+                                       pe  =  -3.213      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.174e-11
+                 Total alkalinity (eq/kg)  =   3.851e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.471e-08
+                  Electrical balance (eq)  =   1.676e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -2191,8 +2192,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          3.248e-11
-   H2              1.624e-11   1.662e-11   -10.789   -10.779     0.010     (0)  
+H(0)          3.993e-11
+   H2              1.996e-11   2.043e-11   -10.700   -10.690     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -2204,20 +2205,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.834   -70.824     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.013   -71.003     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.63    -10.78   -3.15  H2
+  H2(g)            -7.54    -10.69   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -67.93    -70.82   -2.89  O2
+  O2(g)           -68.11    -71.00   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2240,14 +2241,14 @@ Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 Hdo               0.00   -13.00    -13.00    4.007e-06   6.081e-06   2.074e-06
 Hto               0.00   -13.00    -13.00    4.007e-06   6.081e-06   2.074e-06
 I                 0.00   -13.00    -13.00    3.242e-06   4.919e-06   1.678e-06
-Nat              -0.00   -13.00    -13.00    5.246e-06   7.960e-06   2.714e-06
+Nat               0.00   -13.00    -13.00    5.246e-06   7.960e-06   2.714e-06
 
 ------------------------------Surface composition------------------------------
 
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  4.291e-12  Surface + diffuse layer charge, eq
+	  4.157e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2263,14 +2264,14 @@ Su
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.618e+00 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Cl            	  6.1803e-02
+	Cl            	  6.1802e-02
 	H             	  2.8173e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
 	Nat           	  2.7102e-12
-	O             	  7.7874e-08
+	O             	  7.7876e-08
 
 Su            
 	  1.000e-01  moles
@@ -2293,13 +2294,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.209      Adjusted to redox equilibrium
+                                       pe  =  -3.259      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.876e-11
+                 Total alkalinity (eq/kg)  =   4.791e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   5.844e-10
+                  Electrical balance (eq)  =   1.200e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -2310,13 +2311,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          3.915e-11
-   H2              1.957e-11   2.003e-11   -10.708   -10.698     0.010     (0)  
+H(0)          4.921e-11
+   H2              2.461e-11   2.518e-11   -10.609   -10.599     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -2328,20 +2329,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.996   -70.986     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.195   -71.185     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.55    -10.70   -3.15  H2
+  H2(g)            -7.45    -10.60   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
-  Nat              -0.00    -13.00  -13.00  NatCl
-  O2(g)           -68.09    -70.99   -2.89  O2
+  Nat               0.00    -13.00  -13.00  NatCl
+  O2(g)           -68.29    -71.19   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2431,7 +2432,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  4.367e-10  Surface + diffuse layer charge, eq
+	  7.609e-10  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2454,7 +2455,7 @@ Su
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7864e-08
+	O             	  7.7865e-08
 
 Su            
 	  1.000e-01  moles
@@ -2477,13 +2478,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.833      Adjusted to redox equilibrium
+                                       pe  =  -2.876      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   6.469e-12
+                 Total alkalinity (eq/kg)  =   7.802e-12
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.920e-08
+                  Electrical balance (eq)  =   2.785e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
@@ -2499,8 +2500,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          6.930e-12
-   H2              3.465e-12   3.546e-12   -11.460   -11.450     0.010     (0)  
+H(0)          8.452e-12
+   H2              4.226e-12   4.324e-12   -11.374   -11.364     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -2512,20 +2513,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.492   -69.482     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -69.665   -69.655     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.30    -11.45   -3.15  H2
+  H2(g)            -8.21    -11.36   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -66.59    -69.48   -2.89  O2
+  O2(g)           -66.76    -69.65   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2544,7 +2545,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  3.343e-13  Surface + diffuse layer charge, eq
+	  3.160e-13  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2567,7 +2568,7 @@ Su
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7867e-08
+	O             	  7.7868e-08
 
 Su            
 	  1.000e-01  moles
@@ -2590,13 +2591,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.035      Adjusted to redox equilibrium
+                                       pe  =  -3.079      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.739e-11
+                 Total alkalinity (eq/kg)  =   2.101e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.469e-08
+                  Electrical balance (eq)  =   1.674e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -2607,13 +2608,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.759e-11
-   H2              8.796e-12   9.001e-12   -11.056   -11.046     0.010     (0)  
+H(0)          2.156e-11
+   H2              1.078e-11   1.103e-11   -10.967   -10.957     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -2625,20 +2626,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.302   -70.292     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.478   -70.468     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.90    -11.05   -3.15  H2
+  H2(g)            -7.81    -10.96   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -67.40    -70.29   -2.89  O2
+  O2(g)           -67.58    -70.47   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2661,14 +2662,14 @@ Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 Hdo               0.00   -13.00    -13.00    6.081e-06   8.154e-06   2.074e-06
 Hto               0.00   -13.00    -13.00    6.081e-06   8.154e-06   2.074e-06
 I                 0.00   -13.00    -13.00    4.919e-06   6.597e-06   1.678e-06
-Nat               0.00   -13.00    -13.00    7.960e-06   1.067e-05   2.714e-06
+Nat              -0.00   -13.00    -13.00    7.960e-06   1.067e-05   2.714e-06
 
 ------------------------------Surface composition------------------------------
 
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  9.797e-13  Surface + diffuse layer charge, eq
+	  1.324e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2691,7 +2692,7 @@ Su
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
 	Nat           	  2.7102e-12
-	O             	  7.7869e-08
+	O             	  7.7870e-08
 
 Su            
 	  1.000e-01  moles
@@ -2714,13 +2715,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.094      Adjusted to redox equilibrium
+                                       pe  =  -3.139      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.311e-11
+                 Total alkalinity (eq/kg)  =   2.792e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.184e-10
+                  Electrical balance (eq)  =   1.593e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -2736,8 +2737,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.302e-11
-   H2              1.151e-11   1.178e-11   -10.939   -10.929     0.010     (0)  
+H(0)          2.832e-11
+   H2              1.416e-11   1.449e-11   -10.849   -10.839     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -2749,20 +2750,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.535   -70.525     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.715   -70.705     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.78    -10.93   -3.15  H2
+  H2(g)            -7.69    -10.84   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
-  Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -67.63    -70.53   -2.89  O2
+  Nat              -0.00    -13.00  -13.00  NatCl
+  O2(g)           -67.81    -70.71   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2852,7 +2853,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  2.960e-11  Surface + diffuse layer charge, eq
+	  5.154e-11  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -2898,13 +2899,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.705      Adjusted to redox equilibrium
+                                       pe  =  -2.750      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.252e-12
+                 Total alkalinity (eq/kg)  =   3.903e-12
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.989e-08
+                  Electrical balance (eq)  =   2.887e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
@@ -2920,8 +2921,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          3.845e-12
-   H2              1.923e-12   1.967e-12   -11.716   -11.706     0.010     (0)  
+H(0)          4.724e-12
+   H2              2.362e-12   2.417e-12   -11.627   -11.617     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -2933,20 +2934,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -68.981   -68.971     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -69.159   -69.149     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.56    -11.71   -3.15  H2
+  H2(g)            -8.47    -11.62   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -66.08    -68.97   -2.89  O2
+  O2(g)           -66.26    -69.15   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -2965,7 +2966,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.144e-09  Surface + diffuse layer charge, eq
+	  1.269e-09  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3011,13 +3012,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.921      Adjusted to redox equilibrium
+                                       pe  =  -2.964      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   8.967e-12
+                 Total alkalinity (eq/kg)  =   1.074e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.556e-08
+                  Electrical balance (eq)  =   2.893e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
@@ -3033,8 +3034,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.038e-11
-   H2              5.188e-12   5.309e-12   -11.285   -11.275     0.010     (0)  
+H(0)          1.268e-11
+   H2              6.340e-12   6.487e-12   -11.198   -11.188     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -3046,20 +3047,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.843   -69.833     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.017   -70.007     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.12    -11.27   -3.15  H2
+  H2(g)            -8.04    -11.19   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -66.94    -69.83   -2.89  O2
+  O2(g)           -67.11    -70.01   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3089,7 +3090,7 @@ Nat               0.00   -13.00    -13.00    1.067e-05   1.339e-05   2.714e-06
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -5.956e-14  Surface + diffuse layer charge, eq
+	 -2.179e-14  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3106,13 +3107,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1802e-02
-	H             	  2.8171e-07
+	H             	  2.8172e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
 	Nat           	  2.7102e-12
-	O             	  7.7865e-08
+	O             	  7.7866e-08
 
 Su            
 	  1.000e-01  moles
@@ -3135,13 +3136,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.962      Adjusted to redox equilibrium
+                                       pe  =  -3.006      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.225e-11
+                 Total alkalinity (eq/kg)  =   1.467e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.217e-10
+                  Electrical balance (eq)  =   1.644e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -3157,8 +3158,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.255e-11
-   H2              6.274e-12   6.420e-12   -11.202   -11.192     0.010     (0)  
+H(0)          1.537e-11
+   H2              7.684e-12   7.863e-12   -11.114   -11.104     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -3170,20 +3171,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.008   -69.998     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.184   -70.174     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.04    -11.19   -3.15  H2
+  H2(g)            -7.95    -11.10   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -67.11    -70.00   -2.89  O2
+  O2(g)           -67.28    -70.17   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3273,7 +3274,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  3.388e-12  Surface + diffuse layer charge, eq
+	 -2.599e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3290,13 +3291,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8171e-07
+	H             	  2.8172e-07
 	Hdo           	  8.0000e-07
 	Hto           	  8.0000e-07
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7863e-08
+	O             	  7.7869e-08
 
 Su            
 	  1.000e-01  moles
@@ -3319,15 +3320,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.605      Adjusted to redox equilibrium
+                                       pe  =  -3.117      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.707e-12
+                 Total alkalinity (eq/kg)  =   2.347e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.994e-08
+                  Electrical balance (eq)  =   2.895e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   0 (7 overall)
+                               Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -3336,13 +3337,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.428e-12
-   H2              1.214e-12   1.242e-12   -11.916   -11.906     0.010     (0)  
+H(0)          2.563e-11
+   H2              1.281e-11   1.311e-11   -10.892   -10.882     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -3354,20 +3355,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -68.581   -68.571     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.628   -70.618     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.76    -11.91   -3.15  H2
+  H2(g)            -7.73    -10.88   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -65.68    -68.57   -2.89  O2
+  O2(g)           -67.73    -70.62   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3386,7 +3387,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.169e-10  Surface + diffuse layer charge, eq
+	  9.567e-11  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3403,13 +3404,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8171e-07
+	H             	  2.8174e-07
 	Hdo           	  4.0000e-07
 	Hto           	  4.0000e-07
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7863e-08
+	O             	  7.7879e-08
 
 Su            
 	  1.000e-01  moles
@@ -3432,15 +3433,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.817      Adjusted to redox equilibrium
+                                       pe  =  -3.298      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   4.728e-12
+                 Total alkalinity (eq/kg)  =   5.414e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.143e-08
+                  Electrical balance (eq)  =   3.650e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   0 (7 overall)
+                               Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -3449,13 +3450,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          6.428e-12
-   H2              3.214e-12   3.289e-12   -11.493   -11.483     0.010     (0)  
+H(0)          5.912e-11
+   H2              2.956e-11   3.025e-11   -10.529   -10.519     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -3467,20 +3468,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.427   -69.417     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.354   -71.344     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.33    -11.48   -3.15  H2
+  H2(g)            -7.37    -10.52   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -66.52    -69.42   -2.89  O2
+  O2(g)           -68.45    -71.34   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3510,7 +3511,7 @@ Nat               0.00   -13.00    -13.00    1.339e-05   1.610e-05   2.714e-06
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.929e-13  Surface + diffuse layer charge, eq
+	  1.467e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3527,13 +3528,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1802e-02
-	H             	  2.8171e-07
+	H             	  2.8174e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
-	Nat           	  2.7102e-12
-	O             	  7.7864e-08
+	Nat           	  2.7103e-12
+	O             	  7.7880e-08
 
 Su            
 	  1.000e-01  moles
@@ -3556,15 +3557,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.856      Adjusted to redox equilibrium
+                                       pe  =  -3.318      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   6.523e-12
+                 Total alkalinity (eq/kg)  =   5.937e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.238e-10
+                  Electrical balance (eq)  =   1.713e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   1 (8 overall)
+                               Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -3573,13 +3574,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          7.701e-12
-   H2              3.851e-12   3.940e-12   -11.414   -11.404     0.010     (0)  
+H(0)          6.464e-11
+   H2              3.232e-11   3.307e-11   -10.491   -10.481     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -3591,20 +3592,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.584   -69.574     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.432   -71.422     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.25    -11.40   -3.15  H2
+  H2(g)            -7.33    -10.48   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -66.68    -69.57   -2.89  O2
+  O2(g)           -68.53    -71.42   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3694,7 +3695,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  8.639e-14  Surface + diffuse layer charge, eq
+	  1.991e-09  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3717,7 +3718,7 @@ Su
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7863e-08
+	O             	  7.7866e-08
 
 Su            
 	  1.000e-01  moles
@@ -3740,13 +3741,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.503      Adjusted to redox equilibrium
+                                       pe  =  -2.958      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   9.106e-13
+                 Total alkalinity (eq/kg)  =   1.083e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.994e-08
+                  Electrical balance (eq)  =   3.808e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
@@ -3762,8 +3763,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.514e-12
-   H2              7.568e-13   7.745e-13   -12.121   -12.111     0.010     (0)  
+H(0)          1.234e-11
+   H2              6.172e-12   6.316e-12   -11.210   -11.200     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -3775,20 +3776,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -68.171   -68.161     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -69.994   -69.984     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.96    -12.11   -3.15  H2
+  H2(g)            -8.05    -11.20   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -65.27    -68.16   -2.89  O2
+  O2(g)           -67.09    -69.98   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3807,7 +3808,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.493e-11  Surface + diffuse layer charge, eq
+	 -2.471e-13  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3824,13 +3825,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8171e-07
+	H             	  2.8172e-07
 	Hdo           	  4.0000e-07
 	Hto           	  4.0000e-07
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7863e-08
+	O             	  7.7871e-08
 
 Su            
 	  1.000e-01  moles
@@ -3853,15 +3854,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.716      Adjusted to redox equilibrium
+                                       pe  =  -3.161      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.584e-12
+                 Total alkalinity (eq/kg)  =   2.911e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.205e-08
+                  Electrical balance (eq)  =   3.657e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   0 (7 overall)
+                               Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -3870,13 +3871,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          4.045e-12
-   H2              2.022e-12   2.070e-12   -11.694   -11.684     0.010     (0)  
+H(0)          3.146e-11
+   H2              1.573e-11   1.610e-11   -10.803   -10.793     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -3888,20 +3889,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.025   -69.015     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.806   -70.796     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.53    -11.68   -3.15  H2
+  H2(g)            -7.64    -10.79   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -66.12    -69.01   -2.89  O2
+  O2(g)           -67.90    -70.80   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -3931,7 +3932,7 @@ Nat               0.00   -13.00    -13.00    1.610e-05   1.882e-05   2.714e-06
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  8.571e-14  Surface + diffuse layer charge, eq
+	  4.274e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -3948,13 +3949,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1802e-02
-	H             	  2.8171e-07
+	H             	  2.8173e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
-	Nat           	  2.7102e-12
-	O             	  7.7863e-08
+	Nat           	  2.7103e-12
+	O             	  7.7873e-08
 
 Su            
 	  1.000e-01  moles
@@ -3977,15 +3978,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.758      Adjusted to redox equilibrium
+                                       pe  =  -3.217      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   3.698e-12
+                 Total alkalinity (eq/kg)  =   3.790e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.336e-09
+                  Electrical balance (eq)  =   2.006e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   1 (8 overall)
+                               Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -3994,13 +3995,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          4.902e-12
-   H2              2.451e-12   2.508e-12   -11.611   -11.601     0.010     (0)  
+H(0)          4.056e-11
+   H2              2.028e-11   2.075e-11   -10.693   -10.683     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -4012,20 +4013,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -69.192   -69.182     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.027   -71.017     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.45    -11.60   -3.15  H2
+  H2(g)            -7.53    -10.68   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -66.29    -69.18   -2.89  O2
+  O2(g)           -68.12    -71.02   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4115,7 +4116,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  2.083e-14  Surface + diffuse layer charge, eq
+	  9.011e-11  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4138,7 +4139,7 @@ Su
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7862e-08
+	O             	  7.7864e-08
 
 Su            
 	  1.000e-01  moles
@@ -4161,15 +4162,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.451      Adjusted to redox equilibrium
+                                       pe  =  -2.802      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   5.054e-13
+                 Total alkalinity (eq/kg)  =   5.333e-12
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.428e-08
+                  Electrical balance (eq)  =   4.141e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   1 (6 overall)
+                               Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -4183,8 +4184,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.195e-12
-   H2              5.974e-13   6.113e-13   -12.224   -12.214     0.010     (0)  
+H(0)          6.021e-12
+   H2              3.011e-12   3.081e-12   -11.521   -11.511     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -4196,20 +4197,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -67.965   -67.955     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -69.370   -69.360     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -9.06    -12.21   -3.15  H2
+  H2(g)            -8.36    -11.51   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -65.06    -67.96   -2.89  O2
+  O2(g)           -66.47    -69.36   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4228,7 +4229,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.305e-12  Surface + diffuse layer charge, eq
+	  2.998e-09  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4245,13 +4246,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8171e-07
+	H             	  2.8172e-07
 	Hdo           	  4.0000e-07
 	Hto           	  4.0000e-07
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7862e-08
+	O             	  7.7866e-08
 
 Su            
 	  1.000e-01  moles
@@ -4274,13 +4275,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.603      Adjusted to redox equilibrium
+                                       pe  =  -3.016      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.520e-12
+                 Total alkalinity (eq/kg)  =   1.446e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.213e-08
+                  Electrical balance (eq)  =   3.658e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
@@ -4296,8 +4297,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.404e-12
-   H2              1.202e-12   1.230e-12   -11.920   -11.910     0.010     (0)  
+H(0)          1.613e-11
+   H2              8.066e-12   8.254e-12   -11.093   -11.083     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -4309,20 +4310,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -68.573   -68.563     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.226   -70.216     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.76    -11.91   -3.15  H2
+  H2(g)            -7.93    -11.08   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -65.67    -68.56   -2.89  O2
+  O2(g)           -67.32    -70.22   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4352,7 +4353,7 @@ Nat               0.00   -13.00    -13.00    1.882e-05   2.153e-05   2.714e-06
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  2.852e-14  Surface + diffuse layer charge, eq
+	  6.193e-13  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4369,13 +4370,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1802e-02
-	H             	  2.8171e-07
+	H             	  2.8172e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
-	Nat           	  2.7102e-12
-	O             	  7.7862e-08
+	Nat           	  2.7103e-12
+	O             	  7.7868e-08
 
 Su            
 	  1.000e-01  moles
@@ -4398,15 +4399,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -2.643      Adjusted to redox equilibrium
+                                       pe  =  -3.073      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.312e-12
+                 Total alkalinity (eq/kg)  =   1.999e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.337e-09
+                  Electrical balance (eq)  =   2.312e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   1 (8 overall)
+                               Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -4420,8 +4421,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.890e-12
-   H2              1.445e-12   1.479e-12   -11.840   -11.830     0.010     (0)  
+H(0)          2.093e-11
+   H2              1.046e-11   1.071e-11   -10.980   -10.970     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -4433,20 +4434,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -68.733   -68.723     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.452   -70.442     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -8.68    -11.83   -3.15  H2
+  H2(g)            -7.82    -10.97   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -65.83    -68.72   -2.89  O2
+  O2(g)           -67.55    -70.44   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4536,7 +4537,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  7.414e-10  Surface + diffuse layer charge, eq
+	  1.290e-11  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4553,13 +4554,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8180e-07
+	H             	  2.8171e-07
 	Hdo           	  8.0000e-07
 	Hto           	  8.0000e-07
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7911e-08
+	O             	  7.7863e-08
 
 Su            
 	  1.000e-01  moles
@@ -4582,15 +4583,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.524      Adjusted to redox equilibrium
+                                       pe  =  -2.711      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   1.562e-10
+                 Total alkalinity (eq/kg)  =   2.785e-12
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.006e-08
+                  Electrical balance (eq)  =   4.158e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   0 (8 overall)
+                               Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -4599,13 +4600,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.261e-07   9.601e-08    -6.899    -7.018    -0.118     (0)  
-   H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          1.665e-10
-   H2              8.326e-11   8.520e-11   -10.080   -10.070     0.010     (0)  
+H(0)          3.949e-12
+   H2              1.975e-12   2.021e-12   -11.704   -11.694     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -4617,20 +4618,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -72.254   -72.244     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -69.004   -68.994     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -6.92    -10.07   -3.15  H2
+  H2(g)            -8.54    -11.69   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -69.35    -72.24   -2.89  O2
+  O2(g)           -66.10    -68.99   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4649,7 +4650,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  7.415e-10  Surface + diffuse layer charge, eq
+	 -1.800e-10  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4666,13 +4667,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8182e-07
+	H             	  2.8172e-07
 	Hdo           	  4.0000e-07
 	Hto           	  4.0000e-07
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7925e-08
+	O             	  7.7864e-08
 
 Su            
 	  1.000e-01  moles
@@ -4695,15 +4696,15 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.583      Adjusted to redox equilibrium
+                                       pe  =  -2.988      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.050e-10
+                 Total alkalinity (eq/kg)  =   7.690e-12
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.288e-08
+                  Electrical balance (eq)  =   5.402e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =   0 (8 overall)
+                               Iterations  =   1 (6 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -4712,13 +4713,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.261e-07   9.603e-08    -6.899    -7.018    -0.118     (0)  
-   H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.188e-10
-   H2              1.094e-10   1.119e-10    -9.961    -9.951     0.010     (0)  
+H(0)          1.416e-11
+   H2              7.082e-12   7.247e-12   -11.150   -11.140     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -4730,20 +4731,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -72.491   -72.481     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.113   -70.103     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -6.80     -9.95   -3.15  H2
+  H2(g)            -7.99    -11.14   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -69.59    -72.48   -2.89  O2
+  O2(g)           -67.21    -70.10   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4773,7 +4774,7 @@ Nat               0.00   -13.00    -13.00    2.153e-05   2.425e-05   2.714e-06
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.840e-12  Surface + diffuse layer charge, eq
+	  1.216e-14  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4790,13 +4791,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1802e-02
-	H             	  2.8175e-07
+	H             	  2.8172e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
-	Nat           	  2.7102e-12
-	O             	  7.7884e-08
+	Nat           	  2.7103e-12
+	O             	  7.7865e-08
 
 Su            
 	  1.000e-01  moles
@@ -4819,13 +4820,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.359      Adjusted to redox equilibrium
+                                       pe  =  -2.967      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   7.319e-11
+                 Total alkalinity (eq/kg)  =   1.065e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.337e-09
+                  Electrical balance (eq)  =   2.347e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -4836,13 +4837,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.598e-08    -6.900    -7.018    -0.118     (0)  
-   H+              1.259e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          7.826e-11
-   H2              3.913e-11   4.004e-11   -10.407   -10.397     0.010     (0)  
+H(0)          1.283e-11
+   H2              6.413e-12   6.562e-12   -11.193   -11.183     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -4854,20 +4855,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.598   -71.588     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.027   -70.017     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.25    -10.40   -3.15  H2
+  H2(g)            -8.03    -11.18   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -68.70    -71.59   -2.89  O2
+  O2(g)           -67.12    -70.02   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -4957,7 +4958,7 @@ Mixture 1.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	 -2.978e-12  Surface + diffuse layer charge, eq
+	  3.256e-13  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -4980,7 +4981,7 @@ Su
 	I             	  4.9443e-07
 	Na            	  1.6180e-01
 	Nat           	  1.2944e-06
-	O             	  7.7870e-08
+	O             	  7.7867e-08
 
 Su            
 	  1.000e-01  moles
@@ -5003,13 +5004,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.135      Adjusted to redox equilibrium
+                                       pe  =  -3.021      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.618e-11
+                 Total alkalinity (eq/kg)  =   1.500e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.249e-08
+                  Electrical balance (eq)  =   5.149e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -5020,13 +5021,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
+   OH-             1.260e-07   9.595e-08    -6.900    -7.018    -0.118     (0)  
    H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.788e-11
-   H2              1.394e-11   1.427e-11   -10.856   -10.846     0.010     (0)  
+H(0)          1.646e-11
+   H2              8.229e-12   8.421e-12   -11.085   -11.075     0.010     (0)  
 Hdo           8.000e-07
    Hdo             8.000e-07   8.186e-07    -6.097    -6.087     0.010     (0)  
 Hto           8.000e-07
@@ -5038,20 +5039,20 @@ Na            1.000e-01
 Nat           8.000e-07
    Nat+            8.000e-07   6.250e-07    -6.097    -6.204    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -70.702   -70.692     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -70.244   -70.234     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.70    -10.85   -3.15  H2
+  H2(g)            -7.92    -11.07   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.91     -6.09  -13.00  Hdo
   Hto               6.91     -6.09  -13.00  Hto
   I                 5.69     -7.31  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)           -67.80    -70.69   -2.89  O2
+  O2(g)           -67.34    -70.23   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -5070,7 +5071,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  7.415e-10  Surface + diffuse layer charge, eq
+	 -3.647e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -5087,13 +5088,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1803e-02
-	H             	  2.8175e-07
+	H             	  2.8173e-07
 	Hdo           	  4.0000e-07
 	Hto           	  4.0000e-07
 	I             	  2.4721e-07
 	Na            	  1.6180e-01
 	Nat           	  6.4721e-07
-	O             	  7.7883e-08
+	O             	  7.7874e-08
 
 Su            
 	  1.000e-01  moles
@@ -5116,13 +5117,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.343      Adjusted to redox equilibrium
+                                       pe  =  -3.233      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   6.832e-11
+                 Total alkalinity (eq/kg)  =   4.005e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   4.177e-08
+                  Electrical balance (eq)  =   5.638e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -5133,13 +5134,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
-   H+              1.259e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.596e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          7.258e-11
-   H2              3.629e-11   3.714e-11   -10.440   -10.430     0.010     (0)  
+H(0)          4.376e-11
+   H2              2.188e-11   2.239e-11   -10.660   -10.650     0.010     (0)  
 Hdo           4.000e-07
    Hdo             4.000e-07   4.093e-07    -6.398    -6.388     0.010     (0)  
 Hto           4.000e-07
@@ -5151,20 +5152,20 @@ Na            1.000e-01
 Nat           4.000e-07
    Nat+            4.000e-07   3.125e-07    -6.398    -6.505    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.533   -71.523     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.093   -71.083     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.28    -10.43   -3.15  H2
+  H2(g)            -7.50    -10.65   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.61     -6.39  -13.00  Hdo
   Hto               6.61     -6.39  -13.00  Hto
   I                 5.39     -7.61  -13.00  NaI
   Nat               5.38     -7.62  -13.00  NatCl
-  O2(g)           -68.63    -71.52   -2.89  O2
+  O2(g)           -68.19    -71.08   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -5211,13 +5212,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  6.1802e-02
-	H             	  2.8176e-07
+	H             	  2.8174e-07
 	Hdo           	  9.7724e-14
 	Hto           	  9.7724e-14
 	I             	  1.0109e-12
 	Na            	  1.6180e-01
-	Nat           	  2.7102e-12
-	O             	  7.7889e-08
+	Nat           	  2.7103e-12
+	O             	  7.7877e-08
 
 Su            
 	  1.000e-01  moles
@@ -5240,13 +5241,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.402      Adjusted to redox equilibrium
+                                       pe  =  -3.285      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   9.005e-11
+                 Total alkalinity (eq/kg)  =   5.125e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.355e-09
+                  Electrical balance (eq)  =   2.478e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (9 overall)
                                   Total H  = 1.110124e+02
@@ -5257,13 +5258,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.598e-08    -6.900    -7.018    -0.118     (0)  
-   H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          9.540e-11
-   H2              4.770e-11   4.881e-11   -10.322   -10.312     0.010     (0)  
+H(0)          5.564e-11
+   H2              2.782e-11   2.847e-11   -10.556   -10.546     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -5275,20 +5276,20 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.770   -71.760     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.302   -71.292     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.16    -10.31   -3.15  H2
+  H2(g)            -7.40    -10.55   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -68.87    -71.76   -2.89  O2
+  O2(g)           -68.40    -71.29   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -5367,7 +5368,7 @@ Initial solution 0.
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.362e-18
+                 Total alkalinity (eq/kg)  =   1.894e-18
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -5.893e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
@@ -5654,13 +5655,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  9.9017e-04
-	H             	  1.2844e-07
+	H             	  1.2846e-07
 	Hdo           	  9.7724e-15
 	Hto           	  9.7724e-15
 	I             	  1.6196e-14
 	Na            	  1.0099e-01
 	Nat           	  1.6916e-12
-	O             	  1.2479e-09
+	O             	  1.2477e-09
 
 Su            
 	  1.000e-01  moles
@@ -5729,13 +5730,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  11.428      Adjusted to redox equilibrium
+                                       pe  =  11.425      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
                  Total alkalinity (eq/kg)  =  -1.362e-13
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =  -6.568e-13
+                  Electrical balance (eq)  =  -6.569e-13
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
                                Iterations  =   0 (9 overall)
                                   Total H  = 1.110124e+02
@@ -5751,8 +5752,8 @@ Su
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          2.081e-40
-   H2              1.040e-40   1.065e-40   -39.983   -39.973     0.010     (0)  
+H(0)          2.115e-40
+   H2              1.057e-40   1.082e-40   -39.976   -39.966     0.010     (0)  
 Hdo           8.600e-07
    Hdo             8.600e-07   8.800e-07    -6.066    -6.056     0.010     (0)  
 Hto           8.600e-07
@@ -5763,8 +5764,8 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           8.041e-07
    Nat+            8.041e-07   6.281e-07    -6.095    -6.202    -0.107     (0)  
-O(0)          7.140e-13
-   O2              3.570e-13   3.653e-13   -12.447   -12.437     0.010     (0)  
+O(0)          6.912e-13
+   O2              3.456e-13   3.537e-13   -12.461   -12.451     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
@@ -5777,7 +5778,7 @@ O(0)          7.140e-13
   Hto               6.94     -6.06  -13.00  Hto
   I                 5.75     -7.25  -13.00  NaI
   Nat               5.68     -7.32  -13.00  NatCl
-  O2(g)            -9.54    -12.44   -2.89  O2
+  O2(g)            -9.56    -12.45   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -5809,28 +5810,28 @@ WARNING: No porosities were read; used the value 1.00e+00 from -multi_D.
 	 -plot_c time
 	 -start
 	 1 if cell_no <> 3 then end
-	10  Na = 0.1 : Su = 0.1 : dl_aq_i = 0.7 : t = Su / dl_aq_i : Bm_i = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) 
-	20  
+	10  Na = 0.1 : Su = 0.1 : dl_aq_i = 0.7 : t = Su / dl_aq_i : Bm_i = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm_i
+	20  # i_cell...
 	30  h_i = 1e-2 : aq_i = 1 : aqt_i = aq_i + dl_aq_i : f_free_i = aq_i / aqt_i
 	40  A_i = aqt_i / h_i : G_i = 1 : Dw = 1e-9 : b_i = A_i / (G_i * h_i / 2) 
 	50  b_i_cat = b_i * (f_free_i + (1 - f_free_i) * Bm_i) : b_i_ani = b_i * (f_free_i + (1 - f_free_i) / Bm_i)
-	60  
-	62  Na = 0.1 : Su = 0.1 : dl_aq_j = 1e-1 : t = Su / dl_aq_j : Bm_j = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) 
+	60  # j_cell...
+	62  Na = 0.1 : Su = 0.1 : dl_aq_j = 1e-1 : t = Su / dl_aq_j : Bm_j = (t + (t^2 + 4 * Na^2)^0.5) / (2 * Na) # : if step_no = 1 then print Bm_j
 	70  h_j = 1e-2 : aq_j = 1 : dl_aq_j = 1e-1 : aqt_j = aq_j + dl_aq_j : f_free_j = aq_j / aqt_j
 	80  A_j = aqt_j / h_j : G_j = 1 : Dw = 1e-9 : b_j = A_j / (G_j * h_j / 2) 
 	90  b_j_cat = b_j * (f_free_j + (1 - f_free_j) * Bm_j) : b_j_ani = b_j * (f_free_j + (1 - f_free_j) / Bm_j)
-	100 
+	100 # b_ij...
 	110 b_ij_HTO = b_i * b_j / (b_i + b_j)
 	120 b_ij_Na = b_i_cat * b_j_cat / (b_i_cat + b_j_cat) : b_ij_I = b_i_ani * b_j_ani / (b_i_ani + b_j_ani)
 	121 if step_no = 1 then print Bm_i, Bm_j, b_j_cat, b_j_ani
 	122 if step_no = 1 then print b_ij_HTO, b_ij_Na, b_ij_I
-	130 
+	130 # graph...
 	140 t = total_time / (3600 * 24)
 	150 plot_xy t, b_ij_Na / b_ij_HTO, symbol = None, color = Red
 	160 plot_xy t, 1,                  symbol = None, color = Green
 	170 plot_xy t, b_ij_I  / b_ij_HTO, symbol = None, color = Blue
 	180 DDt = total_time - get(1) : Nat = equi("Nat") - get(2) : It = equi("I") - get(3) : Htot = equi("Hto") - get(4) : Hdot = equi("Hdo") - get(5)
-	190 
+	190 # graph...
 	200 plot_xy t, Nat / HTOt,  line_width = 0, color = Red   , y_axis = 1
 	210 plot_xy t, Hdot / HTOt, line_width = 0, color = Green , y_axis = 1
 	220 plot_xy t, It / HTOt,   line_width = 0, color = Blue  , y_axis = 1
@@ -5869,7 +5870,7 @@ Using solution 0.
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.413e-18
+                 Total alkalinity (eq/kg)  =   1.946e-18
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -6.476e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
@@ -6141,17 +6142,17 @@ Using pure phase assemblage 3.	Pure-phase assemblage after simulation 5.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Hdo               0.00   -13.00    -13.00    2.060e-05   2.060e-05  -3.388e-21
-Hto               0.00   -13.00    -13.00    2.060e-05   2.060e-05  -3.388e-21
+Hdo               0.00   -13.00    -13.00    2.060e-05   2.060e-05   0.000e+00
+Hto               0.00   -13.00    -13.00    2.060e-05   2.060e-05   0.000e+00
 I                 0.00   -13.00    -13.00    1.666e-05   1.666e-05   0.000e+00
-Nat               0.00   -13.00    -13.00    2.696e-05   2.696e-05   0.000e+00
+Nat               0.00   -13.00    -13.00    2.696e-05   2.696e-05  -3.388e-21
 
 ------------------------------Surface composition------------------------------
 
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  1.581e-14  Surface + diffuse layer charge, eq
+	  6.078e-15  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -6168,13 +6169,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  9.9017e-04
-	H             	  1.2844e-07
+	H             	  1.2846e-07
 	Hdo           	  9.7724e-15
 	Hto           	  9.7724e-15
 	I             	  1.6196e-14
 	Na            	  1.0099e-01
 	Nat           	  1.6916e-12
-	O             	  1.2479e-09
+	O             	  1.2477e-09
 
 Su            
 	  1.000e-01  moles
@@ -6197,13 +6198,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  -3.403      Adjusted to redox equilibrium
+                                       pe  =  -3.286      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   9.005e-11
+                 Total alkalinity (eq/kg)  =   5.125e-11
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.355e-09
+                  Electrical balance (eq)  =   2.474e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (10 overall)
                                   Total H  = 1.110124e+02
@@ -6214,13 +6215,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.260e-07   9.598e-08    -6.900    -7.018    -0.118     (0)  
-   H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
+   OH-             1.260e-07   9.597e-08    -6.900    -7.018    -0.118     (0)  
+   H+              1.260e-07   1.040e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
-H(0)          9.548e-11
-   H2              4.774e-11   4.885e-11   -10.321   -10.311     0.010     (0)  
+H(0)          5.570e-11
+   H2              2.785e-11   2.850e-11   -10.555   -10.545     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -6232,26 +6233,24 @@ Na            1.000e-01
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
 O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -71.771   -71.761     0.010     (0)  
+   O2              0.000e+00   0.000e+00   -71.303   -71.293     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)            -7.16    -10.31   -3.15  H2
+  H2(g)            -7.40    -10.55   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)           -68.87    -71.76   -2.89  O2
+  O2(g)           -68.40    -71.29   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
 
-  1.9432e+00   1.0099e+01   4.0198e+04   2.0198e+04 
-  1.3357e+04   2.1710e+04   1.1592e+04 
 Transport step   5. Multicomponent diffusion run  12.
 
 Using solution 0.	Solution after simulation 7.
@@ -6274,7 +6273,7 @@ Using solution 0.	Solution after simulation 7.
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.421e-18
+                 Total alkalinity (eq/kg)  =   1.953e-18
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -6.727e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
@@ -6360,7 +6359,7 @@ Su
 	I             	  3.0060e-07
 	Na            	  1.3602e-01
 	Nat           	  1.1139e-06
-	O             	  4.5522e-08
+	O             	  4.5560e-08
 
 Su            
 	  1.000e-01  moles
@@ -6383,13 +6382,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  12.002      Adjusted to redox equilibrium
+                                       pe  =  12.038      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.177e-10
+                 Total alkalinity (eq/kg)  =   2.166e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   2.644e-08
+                  Electrical balance (eq)  =   2.626e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -6406,7 +6405,7 @@ Su
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.132   -41.122     0.010     (0)  
+   H2              0.000e+00   0.000e+00   -41.203   -41.193     0.010     (0)  
 Hdo           8.493e-07
    Hdo             8.493e-07   8.691e-07    -6.071    -6.061     0.010     (0)  
 Hto           8.493e-07
@@ -6417,21 +6416,21 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           8.189e-07
    Nat+            8.189e-07   6.398e-07    -6.087    -6.194    -0.107     (0)  
-O(0)          1.417e-10
-   O2              7.083e-11   7.248e-11   -10.150   -10.140     0.010     (0)  
+O(0)          1.970e-10
+   O2              9.851e-11   1.008e-10   -10.007    -9.997     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -37.97    -41.12   -3.15  H2
+  H2(g)           -38.04    -41.19   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.94     -6.06  -13.00  Hdo
   Hto               6.94     -6.06  -13.00  Hto
   I                 5.71     -7.29  -13.00  NaI
   Nat               5.69     -7.31  -13.00  NatCl
-  O2(g)            -7.25    -10.14   -2.89  O2
+  O2(g)            -7.10    -10.00   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -6466,14 +6465,14 @@ Su
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.010e+01 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Cl            	  9.9019e-04
+	Cl            	  9.9018e-04
 	H             	  1.2836e-07
 	Hdo           	  4.6575e-08
 	Hto           	  4.6575e-08
 	I             	  4.4157e-09
 	Na            	  1.0099e-01
 	Nat           	  4.2946e-07
-	O             	  1.4091e-09
+	O             	  1.3383e-09
 
 Su            
 	  1.000e-01  moles
@@ -6496,13 +6495,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  12.266      Adjusted to redox equilibrium
+                                       pe  =  12.203      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.322e-10
+                 Total alkalinity (eq/kg)  =   2.290e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.842e-08
+                  Electrical balance (eq)  =   1.839e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (9 overall)
                                   Total H  = 1.110124e+02
@@ -6513,13 +6512,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.261e-07   9.604e-08    -6.899    -7.018    -0.118     (0)  
+   OH-             1.261e-07   9.603e-08    -6.899    -7.018    -0.118     (0)  
    H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.659   -41.649     0.010     (0)  
+   H2              0.000e+00   0.000e+00   -41.532   -41.522     0.010     (0)  
 Hdo           4.658e-07
    Hdo             4.658e-07   4.766e-07    -6.332    -6.322     0.010     (0)  
 Hto           4.658e-07
@@ -6530,21 +6529,21 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           4.252e-07
    Nat+            4.252e-07   3.322e-07    -6.371    -6.479    -0.107     (0)  
-O(0)          1.605e-09
-   O2              8.024e-10   8.211e-10    -9.096    -9.086     0.010     (0)  
+O(0)          8.966e-10
+   O2              4.483e-10   4.587e-10    -9.348    -9.338     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -38.50    -41.65   -3.15  H2
+  H2(g)           -38.37    -41.52   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.68     -6.32  -13.00  Hdo
   Hto               6.68     -6.32  -13.00  Hto
   I                 5.44     -7.56  -13.00  NaI
   Nat               5.40     -7.60  -13.00  NatCl
-  O2(g)            -6.19     -9.09   -2.89  O2
+  O2(g)            -6.45     -9.34   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -6566,7 +6565,7 @@ Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
 Hdo               0.00   -13.00    -13.00    2.578e-05   2.711e-05   1.328e-06
 Hto               0.00   -13.00    -13.00    2.578e-05   2.711e-05   1.328e-06
-I                 0.00   -13.00    -13.00    2.123e-05   2.240e-05   1.167e-06
+I                 0.00   -13.00    -13.00    2.123e-05   2.239e-05   1.167e-06
 Nat               0.00   -13.00    -13.00    3.564e-05   3.786e-05   2.215e-06
 
 ------------------------------Surface composition------------------------------
@@ -6574,7 +6573,7 @@ Nat               0.00   -13.00    -13.00    3.564e-05   3.786e-05   2.215e-06
 Diffuse Double Layer Surface-Complexation Model
 
 Su            
-	  5.333e-12  Surface + diffuse layer charge, eq
+	  5.334e-12  Surface + diffuse layer charge, eq
 	 -1.000e-01  Surface charge, eq
 	 -9.649e+06  sigma, C/m²
 	 -1.031e+00  psi, V
@@ -6591,13 +6590,13 @@ Su
 
 	Element       	     Moles
 	Cl            	  9.9017e-04
-	H             	  1.2836e-07
+	H             	  1.2837e-07
 	Hdo           	  9.7724e-15
 	Hto           	  9.7724e-15
 	I             	  1.6196e-14
 	Na            	  1.0099e-01
 	Nat           	  1.6916e-12
-	O             	  1.3412e-09
+	O             	  1.3822e-09
 
 Su            
 	  1.000e-01  moles
@@ -6620,13 +6619,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  12.206      Adjusted to redox equilibrium
+                                       pe  =  12.246      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.324e-10
+                 Total alkalinity (eq/kg)  =   2.277e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.636e-09
+                  Electrical balance (eq)  =   1.563e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (10 overall)
                                   Total H  = 1.110124e+02
@@ -6637,13 +6636,13 @@ Su
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.261e-07   9.604e-08    -6.899    -7.018    -0.118     (0)  
+   OH-             1.261e-07   9.603e-08    -6.899    -7.018    -0.118     (0)  
    H+              1.259e-07   1.039e-07    -6.900    -6.983    -0.083      0.00
    H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.539   -41.529     0.010     (0)  
+   H2              0.000e+00   0.000e+00   -41.619   -41.609     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -6654,21 +6653,21 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
-O(0)          9.262e-10
-   O2              4.631e-10   4.739e-10    -9.334    -9.324     0.010     (0)  
+O(0)          1.336e-09
+   O2              6.679e-10   6.835e-10    -9.175    -9.165     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -38.38    -41.53   -3.15  H2
+  H2(g)           -38.46    -41.61   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)            -6.43     -9.32   -2.89  O2
+  O2(g)            -6.27     -9.17   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -6695,7 +6694,7 @@ Using solution 0.	Solution after simulation 7.
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.421e-18
+                 Total alkalinity (eq/kg)  =   1.953e-18
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -6.727e-14
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
@@ -6781,7 +6780,7 @@ Su
 	I             	  3.0060e-07
 	Na            	  1.3602e-01
 	Nat           	  1.1139e-06
-	O             	  4.5576e-08
+	O             	  4.5555e-08
 
 Su            
 	  1.000e-01  moles
@@ -6804,13 +6803,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  12.049      Adjusted to redox equilibrium
+                                       pe  =  12.033      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.182e-10
+                 Total alkalinity (eq/kg)  =   2.179e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   5.428e-08
+                  Electrical balance (eq)  =   5.410e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (8 overall)
                                   Total H  = 1.110124e+02
@@ -6827,7 +6826,7 @@ Su
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.226   -41.216     0.010     (0)  
+   H2              0.000e+00   0.000e+00   -41.194   -41.184     0.010     (0)  
 Hdo           8.493e-07
    Hdo             8.493e-07   8.691e-07    -6.071    -6.061     0.010     (0)  
 Hto           8.493e-07
@@ -6838,21 +6837,21 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           8.189e-07
    Nat+            8.189e-07   6.398e-07    -6.087    -6.194    -0.107     (0)  
-O(0)          2.185e-10
-   O2              1.093e-10   1.118e-10    -9.962    -9.952     0.010     (0)  
+O(0)          1.886e-10
+   O2              9.432e-11   9.651e-11   -10.025   -10.015     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -38.07    -41.22   -3.15  H2
+  H2(g)           -38.03    -41.18   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.94     -6.06  -13.00  Hdo
   Hto               6.94     -6.06  -13.00  Hto
   I                 5.71     -7.29  -13.00  NaI
   Nat               5.69     -7.31  -13.00  NatCl
-  O2(g)            -7.06     -9.95   -2.89  O2
+  O2(g)            -7.12    -10.02   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -6887,14 +6886,14 @@ Su
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.010e+01 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
-	Cl            	  9.9019e-04
+	Cl            	  9.9018e-04
 	H             	  1.2836e-07
 	Hdo           	  4.6575e-08
 	Hto           	  4.6575e-08
 	I             	  4.4157e-09
 	Na            	  1.0099e-01
 	Nat           	  4.2946e-07
-	O             	  1.3370e-09
+	O             	  1.3306e-09
 
 Su            
 	  1.000e-01  moles
@@ -6917,13 +6916,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  12.201      Adjusted to redox equilibrium
+                                       pe  =  12.193      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.336e-10
+                 Total alkalinity (eq/kg)  =   2.329e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   3.920e-08
+                  Electrical balance (eq)  =   3.883e-08
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   0 (9 overall)
                                   Total H  = 1.110124e+02
@@ -6940,7 +6939,7 @@ Su
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.529   -41.519     0.010     (0)  
+   H2              0.000e+00   0.000e+00   -41.513   -41.503     0.010     (0)  
 Hdo           4.658e-07
    Hdo             4.658e-07   4.766e-07    -6.332    -6.322     0.010     (0)  
 Hto           4.658e-07
@@ -6951,21 +6950,21 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           4.252e-07
    Nat+            4.252e-07   3.322e-07    -6.371    -6.479    -0.107     (0)  
-O(0)          8.837e-10
-   O2              4.418e-10   4.521e-10    -9.355    -9.345     0.010     (0)  
+O(0)          8.199e-10
+   O2              4.100e-10   4.195e-10    -9.387    -9.377     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -38.37    -41.52   -3.15  H2
+  H2(g)           -38.35    -41.50   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               6.68     -6.32  -13.00  Hdo
   Hto               6.68     -6.32  -13.00  Hto
   I                 5.44     -7.56  -13.00  NaI
   Nat               5.40     -7.60  -13.00  NatCl
-  O2(g)            -6.45     -9.34   -2.89  O2
+  O2(g)            -6.48     -9.38   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -7018,7 +7017,7 @@ Su
 	I             	  1.6196e-14
 	Na            	  1.0099e-01
 	Nat           	  1.6916e-12
-	O             	  1.3488e-09
+	O             	  1.3636e-09
 
 Su            
 	  1.000e-01  moles
@@ -7041,13 +7040,13 @@ Su
 ----------------------------Description of solution----------------------------
 
                                        pH  =   6.983      Charge balance
-                                       pe  =  12.215      Adjusted to redox equilibrium
+                                       pe  =  12.230      Adjusted to redox equilibrium
                         Activity of water  =   0.997
                  Ionic strength (mol/kgw)  =   1.000e-01
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   2.344e-10
+                 Total alkalinity (eq/kg)  =   2.334e-10
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   1.956e-09
+                  Electrical balance (eq)  =   1.883e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
                                Iterations  =   1 (10 overall)
                                   Total H  = 1.110124e+02
@@ -7064,7 +7063,7 @@ Su
 Cl            1.000e-01
    Cl-             1.000e-01   7.642e-02    -1.000    -1.117    -0.117     (0)  
 H(0)          0.000e+00
-   H2              0.000e+00   0.000e+00   -41.556   -41.546     0.010     (0)  
+   H2              0.000e+00   0.000e+00   -41.586   -41.576     0.010     (0)  
 Hdo           9.772e-14
    Hdo             9.772e-14   1.000e-13   -13.010   -13.000     0.010     (0)  
 Hto           9.772e-14
@@ -7075,21 +7074,21 @@ Na            1.000e-01
    Na+             1.000e-01   7.826e-02    -1.000    -1.106    -0.106     (0)  
 Nat           1.675e-12
    Nat+            1.675e-12   1.309e-12   -11.776   -11.883    -0.107     (0)  
-O(0)          1.002e-09
-   O2              5.008e-10   5.124e-10    -9.300    -9.290     0.010     (0)  
+O(0)          1.149e-09
+   O2              5.747e-10   5.881e-10    -9.241    -9.231     0.010     (0)  
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  H2(g)           -38.40    -41.55   -3.15  H2
+  H2(g)           -38.43    -41.58   -3.15  H2
   H2O(g)           -1.51     -0.00    1.51  H2O
   Halite           -3.81     -2.22    1.58  NaCl
   Hdo               0.00    -13.00  -13.00  Hdo
   Hto               0.00    -13.00  -13.00  Hto
   I                 0.00    -13.00  -13.00  NaI
   Nat               0.00    -13.00  -13.00  NatCl
-  O2(g)            -6.40     -9.29   -2.89  O2
+  O2(g)            -6.34     -9.23   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -7102,7 +7101,7 @@ End of simulation.
 Reading input data for simulation 8.
 ------------------------------------
 
--------------------------------
-End of Run after 1.674 Seconds.
--------------------------------
+------------------------------
+End of Run after 0.35 Seconds.
+------------------------------
 
