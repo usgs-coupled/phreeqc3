@@ -687,98 +687,99 @@ gammas(LDBLE mu)
  */
 			if (calculating_deriv)
 				continue;
-			LDBLE coef, z;
-			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
 			{
-				if (s_x[i]->rxn_x->token[j].s->type == EX)
+				LDBLE coef = 0, z = 0;
+				for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
 				{
-					s_x[i]->alk =
-						s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
-					//break;
+					if (s_x[i]->rxn_x->token[j].s->type == EX)
+					{
+						s_x[i]->alk =
+							s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
+						//break;
+					}
+					else if (s_x[i]->rxn_x->token[j].s->type <= HPLUS)
+					{
+						coef = s_x[i]->rxn_x->token[j].coef;
+						z = s_x[i]->rxn_x->token[j].s->z;
+					}
 				}
-				else if (s_x[i]->rxn_x->token[j].s->type <= HPLUS)
+				if (!use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
-					coef = s_x[i]->rxn_x->token[j].coef;
-					z = s_x[i]->rxn_x->token[j].s->z;
-				}
-			}
-			if (!use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
-			{
-				if (s_x[i]->primary != NULL)
-				{
-					s_x[i]->lg = 0.0;
-					s_x[i]->dg = 0.0;
-				}
-				else
-				{
-					if (s_x[i]->alk <= 0)
+					if (s_x[i]->primary != NULL)
+					{
 						s_x[i]->lg = 0.0;
+						s_x[i]->dg = 0.0;
+					}
 					else
-						s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-					s_x[i]->dg = 0.0;
+					{
+						if (s_x[i]->alk <= 0)
+							s_x[i]->lg = 0.0;
+						else
+							s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						s_x[i]->dg = 0.0;
+					}
 				}
-			}
-			else if (s_x[i]->exch_gflag == 1 && s_x[i]->alk > 0)
-			{
-				/* Davies */
-				s_x[i]->lg = -coef * z * z * a *
-					(muhalf / (1.0 + muhalf) - 0.3 * mu) +
-					log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-				s_x[i]->dg =
-					c1 * coef * z * z * s_x[i]->moles;
-			}
-			else if (s_x[i]->exch_gflag == 2 && s_x[i]->alk > 0)
-			{
-				/* Extended D-H, WATEQ D-H */
-				s_x[i]->lg = coef * (-a * muhalf * z * z /
-					(1.0 + s_x[i]->dha * b * muhalf) + s_x[i]->dhb * mu) +
-					log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-				s_x[i]->dg = coef * (c2 * z * z /
-							  ((1.0 + s_x[i]->dha * b * muhalf) * (1.0 + s_x[i]->dha * b * muhalf)) +
-							  s_x[i]->dhb) * LOG_10 * s_x[i]->moles;
-			}
-			else if (s_x[i]->exch_gflag == 7 && s_x[i]->alk > 0)
-			{
-				if (llnl_count_temp > 0)
+				else if (s_x[i]->exch_gflag == 1 && s_x[i]->alk > 0)
 				{
-					s_x[i]->lg =
-						coef * (-a_llnl * muhalf * z * z /
-						(1.0 + s_x[i]->dha * b_llnl * muhalf) +
-						bdot_llnl * mu) +
+					/* Davies */
+					s_x[i]->lg = -coef * z * z * a *
+						(muhalf / (1.0 + muhalf) - 0.3 * mu) +
 						log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
 					s_x[i]->dg =
-						coef * (c2_llnl * z * z /
-						 ((1.0 + s_x[i]->dha * b_llnl * muhalf) * (1.0 + s_x[i]->dha * b_llnl * muhalf)) +
-						 bdot_llnl) * LOG_10 * s_x[i]->moles;
+						c1 * coef * z * z * s_x[i]->moles;
 				}
-				else
+				else if (s_x[i]->exch_gflag == 2 && s_x[i]->alk > 0)
 				{
-					error_msg("LLNL_AQUEOUS_MODEL_PARAMETERS not defined.",
-							  STOP);
+					/* Extended D-H, WATEQ D-H */
+					s_x[i]->lg = coef * (-a * muhalf * z * z /
+						(1.0 + s_x[i]->dha * b * muhalf) + s_x[i]->dhb * mu) +
+						log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+					s_x[i]->dg = coef * (c2 * z * z /
+						((1.0 + s_x[i]->dha * b * muhalf) * (1.0 + s_x[i]->dha * b * muhalf)) +
+						s_x[i]->dhb) * LOG_10 * s_x[i]->moles;
 				}
-			}
-			else
-			{
-/*
- *   Master species is a dummy variable with meaningless activity and mass
- */
-				if (s_x[i]->primary != NULL)
+				else if (s_x[i]->exch_gflag == 7 && s_x[i]->alk > 0)
 				{
-					s_x[i]->lg = 0.0;
-					s_x[i]->dg = 0.0;
-				}
-				else
-				{
-					if (s_x[i]->alk <= 0)
-						s_x[i]->lg = 0.0;
+					if (llnl_count_temp > 0)
+					{
+						s_x[i]->lg =
+							coef * (-a_llnl * muhalf * z * z /
+							(1.0 + s_x[i]->dha * b_llnl * muhalf) +
+								bdot_llnl * mu) +
+							log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						s_x[i]->dg =
+							coef * (c2_llnl * z * z /
+							((1.0 + s_x[i]->dha * b_llnl * muhalf) * (1.0 + s_x[i]->dha * b_llnl * muhalf)) +
+								bdot_llnl) * LOG_10 * s_x[i]->moles;
+					}
 					else
-						s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
-					s_x[i]->dg = 0.0;
+					{
+						error_msg("LLNL_AQUEOUS_MODEL_PARAMETERS not defined.",
+							STOP);
+					}
 				}
+				else
+				{
+					/*
+					 *   Master species is a dummy variable with meaningless activity and mass
+					 */
+					if (s_x[i]->primary != NULL)
+					{
+						s_x[i]->lg = 0.0;
+						s_x[i]->dg = 0.0;
+					}
+					else
+					{
+						if (s_x[i]->alk <= 0)
+							s_x[i]->lg = 0.0;
+						else
+							s_x[i]->lg = log10(fabs(s_x[i]->equiv) / s_x[i]->alk);
+						s_x[i]->dg = 0.0;
+					}
+				}
+				if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)
+					gammas_a_f(i); // appt
 			}
-			if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)
-				gammas_a_f(i); // appt
-
 			break;
 		case 5:				/* Always 1.0 */
 			s_x[i]->lg = 0.0;
@@ -879,7 +880,8 @@ int Phreeqc::gammas_a_f(int i1)
 /* ------------------------------------------------------------------------------- */
 {
 	int i, j;
-	LDBLE d2, d3, coef = 0, sum = 0;
+	//LDBLE d2, d3, coef = 0, sum = 0;
+	LDBLE d2, d3, sum = 0;
 	char name[MAX_LENGTH];
 	//struct master *m_ptr;
 
@@ -2219,7 +2221,7 @@ mb_ss(void)
 	{
 		cxxSS *ss_ptr = ss_ptrs[i];
 		total_moles = 0;
-		bool ss_in = true;
+		//bool ss_in = true;
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{
 			int l;
@@ -3020,7 +3022,8 @@ ss_binary(cxxSS *ss_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE nb, nc, n_tot, xb, xc, dnb, dnc, l_a0, l_a1;
-	LDBLE xb2, xb3, xb4, xc2, xc3;
+	//LDBLE xb2, xb3, xb4, xc2, xc3;
+	LDBLE xb2, xb3, xc2;
 	LDBLE xb1, xc1;
 /*
  * component 0 is major component
@@ -3107,10 +3110,10 @@ ss_binary(cxxSS *ss_ptr)
 			comp1_ptr->Get_log10_lambda();
 
 		xc2 = xc * xc;
-		xc3 = xc2 * xc;
+		//xc3 = xc2 * xc;
 		xb2 = xb * xb;
 		xb3 = xb2 * xb;
-		xb4 = xb3 * xb;
+		//xb4 = xb3 * xb;
 		/* xb4 = xb4; */
 		/* xc3 = xc3; */
 
