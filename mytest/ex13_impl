@@ -1,0 +1,110 @@
+DATABASE ../database/wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 ex13_impl_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+TITLE Example 13A.--1 mmol/l NaCl/NO3 diffuses in column with stagnant zones.
+SOLUTION 0    # 1 mmol/l NaCl
+   units   mmol/l
+   pH       7.0
+   pe      13.0    O2(g)   -0.7
+   Na       1.0    # Na has Retardation = 2
+   Cl       1.0    # Cl has Retardation = 1, stagnant exchange
+   -water 1
+COPY solution 0 100
+END
+
+SOLUTION 1-11  # Column with KNO3
+   units   mmol/l
+   pH       7.0
+   pe      13.0   O2(g)    -0.7
+   K        1.0
+   N(5)     1.0
+   -water 1
+SOLUTION_MIX 12-21; 1 0.333
+END
+
+EXCHANGE_SPECIES # For linear exchange, make KX exch. coeff. equal to NaX
+   K+ + X- = KX
+   log_k   0.0
+EXCHANGE 12-21
+   -equil  1
+   X       1.e-3
+   -exchange_gammas false
+COPY solution 1 101
+COPY solution 12 112
+COPY exchange 12 112
+END
+
+MIX 0;  12 0
+MIX 1 ; 12 0.25
+MIX 2 ; 13 0.25
+MIX 3 ; 14 0.25
+MIX 4 ; 15 0.25
+MIX 5 ; 16 0.25
+MIX 6 ; 17 0.25
+MIX 7 ; 18 0.25
+MIX 8 ; 19 0.25
+MIX 9 ; 20 0.25
+MIX 10; 21 0.25
+MIX 11; 21 0
+USE mix none
+END
+
+PRINT
+   -reset false
+TRANSPORT
+   -cells  10
+   -shifts 1
+   -flow_direction  diffusion_only
+   -time_step   1e10
+   -boundary_conditions   constant constant
+   -lengths         0.2
+   -stagnant    1 # 6.8e-6  0.3        0.1 # MIX 0 and MIX 'c1' are cleared when the 1st order exchange factors are calc'd. 
+                          # If MIX 0 and MIX 'c1' are 0, implicit calculates mixing of the stagnant cells and the boundary cells
+#1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)
+-multi_d true 1e-9 0.3 0.05 1.0 false
+USER_GRAPH 1
+   -headings Distance Na Cl
+   -chart_title "Dual Porosity, First-Order Exchange"
+   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
+   -axis_scale x_axis 0 2
+   # -axis_scale y_axis 0 0.8
+   -plot_concentration_vs x
+   -start
+   1 if cell_no > 11 then end
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000 TOT("Cl")*1000
+  -end
+USER_GRAPH 2
+   -headings Distance Na Cl
+   -chart_title "Dual Porosity, First-Order Exchange"
+   -axis_titles "DISTANCE, IN METERS" "MILLIMOLES PER KILOGRAM WATER"
+   -axis_scale x_axis 0 2
+   # -axis_scale y_axis 0 0.8
+   -plot_concentration_vs x
+   -start
+   1 if cell_no <= 11 then end
+  10 GRAPH_X DIST
+  20 GRAPH_Y TOT("Na")*1000, TOT("Cl")*1000
+  -end
+END
+# now with implicit...
+COPY solution 100 0
+COPY solution 101 1-11
+COPY solution 112 12-21
+COPY exchange 112 12-21
+USER_GRAPH 1; -active false; -connect_simulations false
+USER_GRAPH 2; -active false; -connect_simulations false
+END
+TRANSPORT
+ -implicit true 10
+USER_GRAPH 1; -active true; -connect_simulations true; -headings x implicit..Na Cl
+USER_GRAPH 2; -active true; -connect_simulations true; -headings x implicit..Na Cl
+END
+
+

@@ -408,7 +408,12 @@ all: alkalinity.out \
 	gas_phase_mix.out \
 	iso_inverse.out \
 	TonyLitharge2a.out \
-	implicit_as.out
+	implicit_as.out \
+	surface_mix.out \
+	andra_kin_ss.out \
+	ex12b.out \
+	ex13_impl.out
+	
 
 # NaX.out
 
