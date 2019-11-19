@@ -3591,7 +3591,7 @@ CVsldet(CVodeMem cv_mem)
 	realtype /*small_cvode,*/ tem, sqmax, saqk, qp, s, sqmaxk, saqj, sqmin;
 	realtype rsa, rsb, rsc, rsd, rse, rd1a, rd1b, rd1c, rd1d;
 	//realtype rd2a, rd2b, rd2c, rd3a, rd3b, cest1, corr1;
-	realtype rd2a, rd2b, rd2c, rd3a, cest1, corr1;
+	realtype rd2a, rd2b, rd3a, cest1, corr1;
 	realtype ratp, ratm, qfac1, qfac2, bb, rrb;
 
 	/* The following are cutoffs and tolerances used by this routine */
@@ -3853,7 +3853,7 @@ CVsldet(CVodeMem cv_mem)
 		rd1d = rsd - rse;
 		rd2a = rd1a - rd1b;
 		rd2b = rd1b - rd1c;
-		rd2c = rd1c - rd1d;
+		//rd2c = rd1c - rd1d;
 		rd3a = rd2a - rd2b;
 		//rd3b = rd2b - rd2c;
 		/* rd3b = rd3b; */

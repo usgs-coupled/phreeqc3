@@ -3023,7 +3023,7 @@ ss_binary(cxxSS *ss_ptr)
 {
 	LDBLE nb, nc, n_tot, xb, xc, dnb, dnc, l_a0, l_a1;
 	//LDBLE xb2, xb3, xb4, xc2, xc3;
-	LDBLE xb2, xb3, xc2;
+	LDBLE xb2, xc2;
 	LDBLE xb1, xc1;
 /*
  * component 0 is major component
@@ -3112,7 +3112,7 @@ ss_binary(cxxSS *ss_ptr)
 		xc2 = xc * xc;
 		//xc3 = xc2 * xc;
 		xb2 = xb * xb;
-		xb3 = xb2 * xb;
+		//xb3 = xb2 * xb;
 		//xb4 = xb3 * xb;
 		/* xb4 = xb4; */
 		/* xc3 = xc3; */
