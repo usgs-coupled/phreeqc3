@@ -612,27 +612,6 @@ transport(void)
 						if (i > 1)
 							Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 						saver();
-
-						/* maybe sorb a surface component... */
-						if (ishift == 0 && j == nmix && (stag_data->count_stag == 0
-							|| Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0))
-						{
-							if (change_surf_count > 0)
-							{
-								for (k = 0; k < change_surf_count; k++)
-								{
-									if (change_surf[k].cell_no != i)
-										break;
-									reformat_surf(change_surf[k].comp_name,
-										change_surf[k].fraction,
-										change_surf[k].new_comp_name,
-										change_surf[k].new_Dw,
-										change_surf[k].cell_no);
-									change_surf[k].cell_no = -99;
-								}
-								change_surf_count = 0;
-							}
-						}
 					}
 
 					if (!dV_dcell)
@@ -787,29 +766,7 @@ transport(void)
 						kin_time = kin_time_save;
 					saver();
 
-					/* maybe sorb a surface component... */
-					if (nmix == 0 && (stag_data->count_stag == 0 ||
-						(Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
-					{
-						if (change_surf_count > 0)
-						{
-							for (k = 0; k < change_surf_count; k++)
-							{
-								if (change_surf[k].cell_no != i)
-									break;
-								reformat_surf(change_surf[k].comp_name,
-									change_surf[k].fraction,
-									change_surf[k].new_comp_name,
-									change_surf[k].new_Dw,
-									change_surf[k].cell_no);
-								change_surf[k].cell_no = -99;
-							}
-							change_surf_count = 0;
-						}
-					}
-
-					/* If nmix is zero, stagnant zone mixing after
-					advective step ... */
+					/* If nmix is zero, stagnant zone mixing after advective step ... */
 					if ((nmix == 0) && (stag_data->count_stag > 0))
 					{
 						mix_stag(i, stagkin_time, TRUE, step_fraction);
@@ -916,32 +873,10 @@ transport(void)
 					if (i > 1)
 						Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
 					saver();
-
-					/* maybe sorb a surface component... */
-					if ((j == nmix) && ((stag_data->count_stag == 0)
-						|| (Utilities::Rxn_find(Rxn_solution_map, i + 1 + count_cells) == 0)))
-					{
-						if (change_surf_count > 0)
-						{
-							for (k = 0; k < change_surf_count; k++)
-							{
-								if (change_surf[k].cell_no != i)
-									break;
-								reformat_surf(change_surf[k].comp_name,
-									change_surf[k].fraction,
-									change_surf[k].new_comp_name,
-									change_surf[k].new_Dw,
-									change_surf[k].cell_no);
-								change_surf[k].cell_no = -99;
-							}
-							change_surf_count = 0;
-						}
-					}
 				}
 				if (!dV_dcell)
 					Utilities::Rxn_copy(Rxn_solution_map, -2, count_cells);
-				/* Stagnant zone mixing after completion of each
-				diffusive/dispersive step ... */
+				/* Stagnant zone mixing after completion of each diffusive/dispersive step ... */
 				rate_sim_time_start =
 					(transport_step - 1) * timest + (j - 1) * stagkin_time;
 				rate_sim_time = rate_sim_time_start + stagkin_time;
@@ -1138,6 +1073,25 @@ print_punch(int i, boolean active)
 		punch_all();
 	if (cell_data[i].print && (transport_step % print_modulus == 0))
 		print_all();
+
+	/* maybe sorb a surface component... */
+	if (change_surf_count > 0)
+	{
+		for (int k = 0; k < change_surf_count; k++)
+		{
+			if (change_surf[k].cell_no != i)
+				break;
+			reformat_surf(change_surf[k].comp_name,
+				change_surf[k].fraction,
+				change_surf[k].new_comp_name,
+				change_surf[k].new_Dw,
+				change_surf[k].cell_no);
+			change_surf[k].cell_no = -99;
+		}
+		change_surf_count = 0;
+		save.n_surface_user = save.n_solution_user;
+		save.n_surface_user_end = save.n_solution_user_end;
+	}
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1431,7 +1385,7 @@ int Phreeqc::
 mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 /* ---------------------------------------------------------------------- */
 {
-	int j, n, k;
+	int n, k;
 	LDBLE t_imm;
 	cxxSolution *ptr_imm, *ptr_m;
 	k = -1000; // compiler says k may be undefined
@@ -1512,23 +1466,6 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 						print_punch(i, true);
 					saver(); // save solution i in -2, original can be used in other stagnant mixes
 				}
-
-				/* maybe sorb a surface component... */
-				if (l_punch && change_surf_count)
-				{
-					for (j = 0; j < change_surf_count; j++)
-					{
-						if (change_surf[j].cell_no != i)
-							break;
-						reformat_surf(change_surf[j].comp_name,
-							change_surf[j].fraction,
-							change_surf[j].new_comp_name,
-							change_surf[j].new_Dw,
-							change_surf[j].cell_no);
-						change_surf[j].cell_no = -99;
-					}
-					change_surf_count = 0;
-				}
 			}
 
 			cell_no = k;
@@ -1539,23 +1476,6 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 			if (multi_Dflag == TRUE)
 				fill_spec(cell_no, i);
 			saver(); // save solution k in -2 - k, original k can be used in other stagnant mixes
-
-			/* maybe sorb a surface component... */
-			if (l_punch && change_surf_count)
-			{
-				for (j = 0; j < change_surf_count; j++)
-				{
-					if (change_surf[j].cell_no != k)
-						break;
-					reformat_surf(change_surf[j].comp_name,
-						change_surf[j].fraction,
-						change_surf[j].new_comp_name,
-						change_surf[j].new_Dw,
-						change_surf[j].cell_no);
-					change_surf[j].cell_no = -99;
-				}
-				change_surf_count = 0;
-			}
 
 			done_mixing = true;
 		}
@@ -1840,7 +1760,7 @@ set_initial_moles(int i)
 		temp_exchange.Set_solution_equilibria(true);
 		temp_exchange.Set_n_solution(i);
 
-		cxxExchComp comp(this->phrq_io);
+		cxxExchComp comp;
 		count_elts = 0;
 		paren_count = 0;
 		strcpy(token, "X");
@@ -3397,7 +3317,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 					}
 					if (jcell > last_c2)
 						last_c2 = jcell;
-					mixf = fraction[i] / nmix;
+					mixf = (nmix ? fraction[i] / nmix : fraction[i]);
 				}
 				else
 				{					/* regular column... */
@@ -5626,11 +5546,8 @@ diff_stag_surf(int mobile_cell)
 			if (multi_Dflag)
 			{
 				mixf_store *=
-					(cell_data[i1].por <=
-					cell_data[i2].por ? cell_data[i1].por : cell_data[i2].
-					por);
-				mixf_store /= (default_Dw * pow(multi_Dpor, multi_Dn) *
-					multi_Dpor);
+					(cell_data[i1].por <= cell_data[i2].por ? cell_data[i1].por : cell_data[i2].por);
+				mixf_store /= (default_Dw * pow(multi_Dpor, multi_Dn) * multi_Dpor);
 			}
 
 			/* mix in comps with the same charge structure... */
@@ -5646,8 +5563,7 @@ diff_stag_surf(int mobile_cell)
 					for (k1 = 0; k1 < k; k1++)
 					{
 						cxxSurfaceComp *comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
-						if (comp_k_ptr->Get_charge_name() ==
-							comp_k1_ptr->Get_charge_name())
+						if (comp_k_ptr->Get_charge_name() == comp_k1_ptr->Get_charge_name())
 						{
 							charge_done = TRUE;
 							break;
@@ -5670,10 +5586,7 @@ diff_stag_surf(int mobile_cell)
 								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
 									comp_k_ptr->Get_formula().c_str()) != 0)
 									continue;
-								Dp1 =
-									comp_k1_ptr->Get_Dw() *
-									pow(cell_data[i1].por,
-									multi_Dn) * viscos_f;
+								Dp1 = comp_k1_ptr->Get_Dw() * pow(cell_data[i1].por, multi_Dn) * viscos_f;
 								break;
 							}
 						}
@@ -5710,8 +5623,7 @@ diff_stag_surf(int mobile_cell)
 					for (k1 = 0; k1 < k; k1++)
 					{
 						cxxSurfaceComp *comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
-						if (comp_k_ptr->Get_charge_name() ==
-							comp_k1_ptr->Get_charge_name())
+						if (comp_k_ptr->Get_charge_name() == comp_k1_ptr->Get_charge_name())
 						{
 							charge_done = TRUE;
 							break;
@@ -5723,9 +5635,7 @@ diff_stag_surf(int mobile_cell)
 					/* find diffusion coefficients of surfaces... */
 					if (multi_Dflag)
 					{
-						Dp1 =
-							comp_k_ptr->Get_Dw() *
-							pow(cell_data[i1].por, multi_Dn) * viscos_f;
+						Dp1 = comp_k_ptr->Get_Dw() * pow(cell_data[i1].por, multi_Dn) * viscos_f;
 
 						Dp2 = 0;
 						if (surf2)
@@ -5736,10 +5646,7 @@ diff_stag_surf(int mobile_cell)
 								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
 									comp_k_ptr->Get_formula().c_str()) != 0)
 									continue;
-								Dp2 =
-									comp_k1_ptr->Get_Dw() *
-									pow(cell_data[i2].por,
-									multi_Dn) * viscos_f;
+								Dp2 = comp_k1_ptr->Get_Dw() * pow(cell_data[i2].por, multi_Dn) * viscos_f;
 								break;
 							}
 						}
@@ -5795,11 +5702,11 @@ diff_stag_surf(int mobile_cell)
 		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
 		{
 			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
-			if (surface_ptr1 != NULL)
-			{
-				Rxn_surface_map[i] = jit->second;
-			}
-			else
+			//if (surface_ptr1 != NULL)
+			//{
+			//	Rxn_surface_map[i] = jit->second;
+			//}
+			//else
 			{
 				//Add to map
 				Rxn_surface_map[i] = jit->second;

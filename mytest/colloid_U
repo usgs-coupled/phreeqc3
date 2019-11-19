@@ -51,7 +51,8 @@ SURFACE 0
  -donnan 1e-10 #d 1 l 0.99 v 1# 1e-9
  -equil 0
 END
-PRINT; -reset false
+PRINT; -reset false; -status false
+
 RATES
 Sorb_hfo
  -start
@@ -74,6 +75,22 @@ USER_PUNCH
  32 U_sol = 1e3 * tot("U")
  34 U_col = 1e3 * (mol("Hfo_sOHUO2+2") + mol("Hfo_wOUO2+"))
  40 punch tot("Cl")*1e3 , get(99), (tot("Hfo_w") + tot("Hfo_s")) * 1e3, U_col, U_sol + U_col, U_sol
+USER_GRAPH
+ -head SAR Hfo U_Hfo U_tot
+ -axis_titles "Pore Volumes" "mmol / L" "Sodium Adsorption Ratio (SAR)"
+ -chart_title "Leaching Uranium with Ferrihydrite"
+ -axis_scale x_axis 0 4
+ -axis_scale y_axis 0 1.6
+ -plot_concentration_vs t
+ -start
+ 10 PV = (step_no + 0.5) / 1 / cell_no
+ 12 if sim_no > 4 then PV = PV + 1.0
+ 20 U_sol = 1e3 * tot("U")
+ 30 U_col = 1e3 * (mol("Hfo_sOHUO2+2") + mol("Hfo_wOUO2+"))
+ 40 plot_xy PV, get(99), color = Green, symbol = None, y_axis = 2
+ 50 plot_xy PV, (tot("Hfo_w") + tot("Hfo_s")) * 1e3, color = Orange, symbol = Circle, symbol_size = 10, line_width = 0
+ 60 plot_xy PV, U_col, color = Magenta, symbol = Circle, symbol_size = 6, line_width = 0
+ 70 plot_xy PV, U_sol + U_col, color = Magenta, symbol = None
  -end
 TRANSPORT
  -cells 10
@@ -86,13 +103,13 @@ TRANSPORT
  -diffc 0.3e-9
  -multi_d true 1e-9 0.3 0 1
 END
-PRINT; -sel false
+PRINT; -user_graph false; -sel false
 SURFACE 0
 SOLUTION 0
  pe 14 O2(g) -0.58
  Na 1; Ca 0; Cl 1 charge
 END
-PRINT; -sel true
+PRINT; -user_graph true; -sel true
 USER_PUNCH
  -head PV Cl SAR Hfo U_col U_tot U_sol
  -start
