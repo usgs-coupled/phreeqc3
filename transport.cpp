@@ -2025,7 +2025,7 @@ fill_spec(int l_cell_no, int ref_cell)
 								malloc_error();
 							sol_D[l_cell_no].spec_size = i3 + count_spec + 1 + size_xt;
 						}
-						for (i1; i1 < i2; i1++)
+						for (; i1 < i2; i1++) // i1 is loop variable 
 						{
 							memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(struct spec));
 							sol_D[l_cell_no].spec[i1].c = 0.0;
@@ -2098,7 +2098,7 @@ fill_spec(int l_cell_no, int ref_cell)
 							sol_D[i1].spec_size = i2 + size_xt;
 						}
 						i2--;
-						for (i2; i2 > i3; i2--)
+						for (; i2 > i3; i2--) // i2 is loop variable
 							sol_D[i1].spec[i2] = sol_D[i1].spec[i2 - 1];
 
 						memmove(&sol_D[i1].spec[i2], &sol_D[l_cell_no].spec[i2], sizeof(struct spec));
@@ -2189,9 +2189,9 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	int i, icell, cp, comp;
 	// ifirst = (bcon_first == 2 ? 1 : 0); ilast = (bcon_last == 2 ? count_cells - 1 : count_cells);
 	int ifirst, ilast;
-	int i_1, i0, i1, i2;
+	int i_1, i0, i1, i2 = 0;
 	double mfr, mfr1, max_b = 0, b, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
-	LDBLE dum1, dum2, dum_stag, min_mol;
+	LDBLE dum1, dum2, dum_stag = 0.0, min_mol;
 
 	LDBLE dum = 0;
 	cxxSurfaceCharge * charge_ptr = NULL;
@@ -2789,10 +2789,15 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	for (i = ifirst + 1; i < ilast; i++)
 	{
 		dVc = current_cells[i].R * (current_x - current_cells[i].dif);
-		if ((dV_dcell && dVc * j_0e > 0 ||
-			(dV_dcell > 0 && (cell_data[i].potV + dVc) > (cell_data[count_cells + 1].potV)) ||
-			(dV_dcell < 0 && (cell_data[i].potV + dVc) < (cell_data[count_cells + 1].potV))))
+		//if (((dV_dcell && (dVc * j_0e > 0)) ||
+		//	(dV_dcell > 0 && (cell_data[i].potV + dVc) > (cell_data[count_cells + 1].potV)) ||
+		//	(dV_dcell < 0 && (cell_data[i].potV + dVc) < (cell_data[count_cells + 1].potV))))
+		if ((dV_dcell && (dVc * j_0e > 0)) ||
+			((dV_dcell > 0) && ((cell_data[i].potV + dVc) > cell_data[count_cells + 1].potV)) ||
+			((dV_dcell < 0) && ((cell_data[i].potV + dVc) < cell_data[count_cells + 1].potV)))
+		{
 			dVc = (cell_data[count_cells + 1].potV - cell_data[i].potV) / (count_cells + 1 - i);
+		}
 		cell_data[i + 1].potV = cell_data[i].potV + dVc;
 	}
 	if (!dV_dcell || fix_current)
