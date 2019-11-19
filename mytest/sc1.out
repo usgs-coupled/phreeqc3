@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: sc1
   Output file: sc1.out
 Database file: ../database/phreeqc.dat
@@ -926,7 +927,7 @@ Mixture 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -2.585e-15  Surface + diffuse layer charge, eq
+	  2.531e-19  Surface + diffuse layer charge, eq
 	  3.829e-07  Surface charge, eq
 	  6.158e-05  sigma, C/m²
 	  6.564e-02  psi, V
@@ -942,7 +943,9 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.586e-02 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
+	Cl            	  8.4777e-21
 	H             	  3.8309e-07
+	Na            	  1.0186e-23
 	O             	  3.8300e-07
 
 Hfo_s         
@@ -967,7 +970,8 @@ Hfo_w
 
 	Elements           Molality       Moles
 
-	Pure water     
+	Cl                2.241e-21   2.241e-21
+	Na                1.070e-20   1.070e-20
 
 ----------------------------Description of solution----------------------------
 
@@ -983,7 +987,7 @@ Hfo_w
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
-                               Iterations  =   0 (3 overall)
+                               Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -995,8 +999,13 @@ Hfo_w
    OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
    H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            2.241e-21
+   Cl-             2.241e-21   2.240e-21   -20.650   -20.650    -0.000     18.05
 H(0)          1.932e-14
    H2              9.661e-15   9.661e-15   -14.015   -14.015     0.000     28.61
+Na            1.070e-20
+   Na+             1.070e-20   1.070e-20   -19.971   -19.971    -0.000     -1.52
+   NaOH            1.083e-37   1.083e-37   -36.965   -36.965     0.000     (0)  
 O(0)          0.000e+00
    O2              0.000e+00   0.000e+00   -64.350   -64.350     0.000     30.40
 
@@ -1006,6 +1015,7 @@ O(0)          0.000e+00
 
   H2(g)           -10.91    -14.01   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite          -42.19    -40.62    1.57  NaCl
   O2(g)           -61.46    -64.35   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1372,7 +1382,7 @@ Using surface 3.	Surface defined in simulation 2.
 Diffuse Double Layer Surface-Complexation Model
 
 Hfo           
-	 -2.585e-15  Surface + diffuse layer charge, eq
+	  2.448e-19  Surface + diffuse layer charge, eq
 	  3.829e-07  Surface charge, eq
 	  6.158e-05  sigma, C/m²
 	  6.564e-02  psi, V
@@ -1388,7 +1398,9 @@ Hfo
 	Boltzmann factor, exp(-psi_DL * F / RT) = 1.586e-02 (= c_DL / c_free if z is +1).
 
 	Element       	     Moles
+	Cl            	  6.7051e-21
 	H             	  3.8309e-07
+	Na            	  1.0034e-26
 	O             	  3.8300e-07
 
 Hfo_s         
@@ -1413,7 +1425,8 @@ Hfo_w
 
 	Elements           Molality       Moles
 
-	Pure water     
+	Cl                1.773e-21   1.773e-21
+	Na                1.054e-23   1.054e-23
 
 ----------------------------Description of solution----------------------------
 
@@ -1429,7 +1442,7 @@ Hfo_w
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -1.217e-09
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.60
-                               Iterations  =   0 (3 overall)
+                               Iterations  =   0 (7 overall)
                                   Total H  = 1.110124e+02
                                   Total O  = 5.550622e+01
 
@@ -1441,9 +1454,14 @@ Hfo_w
    OH-             1.013e-07   1.012e-07    -6.995    -6.995    -0.000     -4.14
    H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
    H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.773e-21
+   Cl-             1.773e-21   1.772e-21   -20.751   -20.752    -0.000     18.05
 H(0)          0.000e+00
    H2              0.000e+00   0.000e+00   -40.520   -40.520     0.000     28.61
-O(0)          9.143e-12
+Na            1.054e-23
+   Na+             1.054e-23   1.054e-23   -22.977   -22.977    -0.000     -1.52
+   NaOH            1.067e-40   1.067e-40   -39.972   -39.972     0.000     (0)  
+O(0)          9.145e-12
    O2              4.572e-12   4.572e-12   -11.340   -11.340     0.000     30.40
 
 ------------------------------Saturation indices-------------------------------
@@ -1452,6 +1470,7 @@ O(0)          9.143e-12
 
   H2(g)           -37.42    -40.52   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite          -45.30    -43.73    1.57  NaCl
   O2(g)            -8.45    -11.34   -2.89  O2
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
@@ -1465,7 +1484,7 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-------------------------------
-End of Run after 1.09 Seconds.
-------------------------------
+-------------------------------
+End of Run after 0.019 Seconds.
+-------------------------------
 

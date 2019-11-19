@@ -1,3 +1,4 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
    Input file: andra_kin_ss
   Output file: andra_kin_ss.out
 Database file: ../database/phreeqc.dat
@@ -398,9 +399,9 @@ End of simulation.
 Reading input data for simulation 4.
 ------------------------------------
 
-	kinetics_MIX
+	KINETICS_MIX 1
 	 1 0.163
-	surface_mix
+	SURFACE_MIX 1
 	 1 0.163
 	END
 ------------------
@@ -947,16 +948,14 @@ Reading input data for simulation 9.
 	240 dsum2 = d1^2 + (d2 / 2)^2 + d3^2 : put(dsum2 + get(8), 8)
 	250 if get(3) = 14 then PRINT 'SS_dev (PEST_phi) = ' + str_e$(get(8), 8, 2)
 	USER_GRAPH 1  Balonis Fig. 5.8, ss of OH_AFm and Cl_AFm with Hydrogarnet and gibbsite precip
-
-	Reading data from andra_kin_ss.prn ...
 	-axis_scale y_axis 0 25
 	-axis_scale x_axis 0 1.2
 	10  data 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 1.2
-	12  data -10.6, -10.2, -15.1, -19.0, -21.1, -21.0, -17.7, -15.4, -16.8, -16.0, -4.6, 5.6, 6.1, 3.6 
-	20  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.98, 13.43, 16.83 
-	30  data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.71, 1.25, 0.90, 0.91 
-	40  data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.40, 11.47, 15.73, 24.62 
-	50  data 12.49, 12.47, 12.46, 12.41, 12.33, 12.21, 12.14, 12.07, 12.09, 12.12, 11.95, 11.74, 11.71, 11.63 
+	12  data -10.6, -10.2, -15.1, -19.0, -21.1, -21.0, -17.7, -15.4, -16.8, -16.0, -4.6, 5.6, 6.1, 3.6 # % error
+	20  data 17.63, 17.19, 15.21, 12.68, 10.53, 8.69, 8.84, 8.62, 8.59, 8.91, 8.82, 11.98, 13.43, 16.83 # Ca   
+	30  data 0.21, 0.24, 0.29, 0.79, 1.87, 3.27, 3.61, 4.46, 3.77, 2.49, 2.71, 1.25, 0.90, 0.91 # Al
+	40  data 0, 0.72, 0.86, 1.29, 1.73, 2.09, 3.61, 3.78, 4.31, 4.92, 5.40, 11.47, 15.73, 24.62 # Cl
+	50  data 12.49, 12.47, 12.46, 12.41, 12.33, 12.21, 12.14, 12.07, 12.09, 12.12, 11.95, 11.74, 11.71, 11.63 # pH
 	60  dim  x(20) : restore 10 : for i = 1 to 14 : read x(i) : next i
 	62  dim er(20) : restore 12 : for i = 1 to 14 : read er(i) : next i
 	70  dim Ca(14) : restore 20 : for i = 1 to 14 : read Ca(i) : next i
@@ -981,13 +980,15 @@ Reading input data for simulation 9.
 	210 plot_xy Cl_Al, -la("H+"), color = Orange   , y_axis = 2 , symbol = None
 	490 Al_ss = kin("Sum_all_AFmsura") + kin("Sum_all_AFm")
 	492 Al_rest = sys("Al") + 2 * kin("Hydrogarnet") : Cl_rest = Cl1 / 1e3
-	500 m_OH = 10^(lk_species("OH-") + pH1) * 1e3 : a1 = Cl1 / (Cl1 + m_OH) : b1 = x1 + (x1 * Al_rest - Cl_rest) / Al_ss 
+	500 m_OH = 10^(lk_species("OH-") + pH1) * 1e3 : a1 = Cl1 / (Cl1 + m_OH) : b1 = x1 + (x1 * Al_rest - Cl_rest) / Al_ss # b1 = Cl_ss / Al_ss from (Cl_ss + Cl_rest) / (Al_ss + Al_rest) = x1
 	510 if x1 = -1 and a1 <> 0 then a1 = -1
 	520 m_i = mol("Cl-") : a2 = m_i / (m_i + mol("OH-")) : b2 = (kin("Cl_AFmsura") + kin("Cl_AFm") + edl("Cl")) / (Al_ss + edl("charge") - edl("Al"))
 	522 if edl("charge") = 0 then b2 = (kin("Cl_AFm")) / (Al_ss)
 	530 put(a1, 2, num) : put(b1, 3, num)
 	540 put(a2, 4, num) : put(b2, 5, num) : put(Al_ss, 6, num)
-	SOLUTION_MIX 5 
+
+	Reading data from andra_kin_ss.prn ...
+	SOLUTION_MIX 5 # Cl / Al = 0.00	      
 	 2 1 	 
 	REACTION 5	
 	 CaCl2 
@@ -3683,7 +3684,7 @@ End of simulation.
 Reading input data for simulation 38.
 -------------------------------------
 
---------------------------------
-End of Run after 12.523 Seconds.
---------------------------------
+-------------------------------
+End of Run after 7.548 Seconds.
+-------------------------------
 
