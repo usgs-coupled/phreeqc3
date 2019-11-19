@@ -129,9 +129,9 @@ Ca4O4Al2O3 1; 0.3065 in 1
 # -cvode true; -cvode_steps 50; -bad_step_max 4000
 
 KINETICS 1;
-Sum_AFmsura; -parms 9e-3; m0 1.1e-10; -formula H2O 0; -tol 1e-9
-OH_AFmsura;  -parms    0; m0 1.1e-10; -tol 1e-9
-SUM_all_AFmsura; m0 1.1e-10; -formula H2O 0; -tol 1e-9 # NOTE the kinetics_MIX warnings....
+Sum_AFmsura; -parms 9e-3; m0 1.1e-10; -formula H2O 0; -tol 1e-10
+OH_AFmsura;  -parms    0; m0 1.1e-10; -tol 1e-10
+SUM_all_AFmsura; m0 1.1e-10; -formula H2O 0; -tol 1e-10 # NOTE the kinetics_MIX warnings....
 -time_step 21 days
 -cvode true; -cvode_steps 50; -bad_step_max 4000
 SURFACE 1
@@ -160,10 +160,10 @@ Ca3O3Al2O3Ca(Cl)2H4O2 1; 0.2397
 # -cvode true; -cvode_steps 50; -bad_step_max 4000
 
 KINETICS 2
-Sum_AFmsura; -parms 9e-3   ; m0 1e-10; -tol 1e-9; -formula H2O 0
-Cl_AFmsura; -parms  0;  m0 1e-10; -tol 1e-9
-OH_AFmsura;  -parms    0; m0 0e-10; -tol 1e-9
-Sum_all_AFmsura; m0 1e-10; -formula H2O 0; -tol 1e-9
+Sum_AFmsura; -parms 9e-3   ; m0 1e-10; -tol 1e-10; -formula H2O 0
+Cl_AFmsura; -parms  0;  m0 1e-10; -tol 1e-10
+OH_AFmsura;  -parms    0; m0 0e-10; -tol 1e-10
+Sum_all_AFmsura; m0 1e-10; -formula H2O 0; -tol 1e-10
 -time_step 28 days
 -cvode true; -cvode_steps 50; -bad_step_max 50
 SURFACE 2
@@ -194,11 +194,11 @@ KINETICS 10
 -time_step 180 days
 -cvode true; -cvode_steps 50; -bad_step_max 4000
 KINETICS 8
-# Hydrogarnet; -parms 5e-12      0.04           ;     m0 0 ; -tol 1e-9  # Matschei, for OH..SO4
-Hydrogarnet; -parms 5e-12      0.20           ;     m0 0 ; -tol 1e-9
+# Hydrogarnet; -parms 5e-12      0.04           ;     m0 0 ; -tol 1e-10  # Matschei, for OH..SO4
+Hydrogarnet; -parms 5e-12      0.20           ;     m0 0 ; -tol 1e-10
 KINETICS 9
-# Hydrogarnet; -parms 5e-12      0.04           ;     m0 0 ; -tol 1e-9  # Matschei, for OH..SO4
-Hydrogarnet; -parms 5e-12      0.20           ;     m0 0 ; -tol 1e-9
+# Hydrogarnet; -parms 5e-12      0.04           ;     m0 0 ; -tol 1e-10  # Matschei, for OH..SO4
+Hydrogarnet; -parms 5e-12      0.20           ;     m0 0 ; -tol 1e-10
 END
 
 solution 10
