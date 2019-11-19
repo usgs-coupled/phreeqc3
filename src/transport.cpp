@@ -2190,11 +2190,12 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	// ifirst = (bcon_first == 2 ? 1 : 0); ilast = (bcon_last == 2 ? count_cells - 1 : count_cells);
 	int ifirst, ilast;
 	int i_1, i0, i1, i2 = 0;
-	double mfr, mfr1, max_b = 0, b, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
+	//double mfr, mfr1, max_b = 0, b, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
+	double mfr, mfr1, b, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
 	LDBLE dum1, dum2, dum_stag = 0.0, min_mol;
 
 	LDBLE dum = 0;
-	cxxSurfaceCharge * charge_ptr = NULL;
+	//cxxSurfaceCharge * charge_ptr = NULL;
 	if (stagnant > 1)
 		stagnant = 0;
 	cxxSolution *sptr1, *sptr2, *sptr_stag;
