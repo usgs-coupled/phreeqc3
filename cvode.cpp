@@ -406,8 +406,9 @@ static realtype CVYddNorm(CVodeMem cv_mem, realtype hg);
 
 static int CVStep(CVodeMem cv_mem);
 
+#ifdef ORIGINAL_CVBDFStab
 static int CVsldet(CVodeMem cv_mem);
-
+#endif
 static void CVAdjustParams(CVodeMem cv_mem);
 static void CVAdjustOrder(CVodeMem cv_mem, int deltaq);
 static void CVAdjustAdams(CVodeMem cv_mem, int deltaq);
@@ -3407,7 +3408,7 @@ CVHandleFailure(CVodeMem cv_mem, int kflag)
  size is reset accordingly.
 
 *****************************************************************/
-#ifdef ORIGINAL
+#ifdef ORIGINAL_CVBDFStab
 void
 CVBDFStab(CVodeMem cv_mem)
 {
@@ -3580,6 +3581,7 @@ CVBDFStab(CVodeMem cv_mem)
 
 ********************************************************************/
 
+#ifdef ORIGINAL_CVBDFStab
 static int
 CVsldet(CVodeMem cv_mem)
 {
@@ -3590,7 +3592,7 @@ CVsldet(CVodeMem cv_mem)
 	realtype smink, smaxk, sumrat, sumrsq, vmin, vmax, drrmax, adrr;
 	realtype /*small_cvode,*/ tem, sqmax, saqk, qp, s, sqmaxk, saqj, sqmin;
 	//realtype rsa, rsb, rsc, rsd, rse, rd1a, rd1b, rd1c, rd1d;
-	realtype rsa, rsb, rsc, rsd, rse, rd1a, rd1b, rd1c;
+	realtype rsa, rsb, rsc, rsd, rd1a, rd1b, rd1c;
 	//realtype rd2a, rd2b, rd2c, rd3a, rd3b, cest1, corr1;
 	realtype rd2a, rd2b, rd3a, cest1, corr1;
 	realtype ratp, ratm, qfac1, qfac2, bb, rrb;
@@ -3847,7 +3849,7 @@ CVsldet(CVodeMem cv_mem)
 		rsb = ssdat[2][k] * rr;
 		rsc = ssdat[3][k] * rr * rr;
 		rsd = ssdat[4][k] * rr * rr * rr;
-		rse = ssdat[5][k] * rr * rr * rr * rr;
+		//rse = ssdat[5][k] * rr * rr * rr * rr;
 		rd1a = rsa - rsb;
 		rd1b = rsb - rsc;
 		rd1c = rsc - rsd;
@@ -3918,7 +3920,7 @@ CVsldet(CVodeMem cv_mem)
 	return (kflag);
 
 }
-
+#endif
 
 /*******************************************************************/
 /********* END Private Helper Functions Implementation *************/

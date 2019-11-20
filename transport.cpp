@@ -2191,7 +2191,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	int ifirst, ilast;
 	int i_1, i0, i1, i2 = 0;
 	//double mfr, mfr1, max_b = 0, b, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
-	double mfr, mfr1, b, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
+	double mfr, mfr1, grad, dVc, j_0e, min_dif_M = pow(10, min_dif_LM);
 	LDBLE dum1, dum2, dum_stag = 0.0, min_mol;
 
 	LDBLE dum = 0;
@@ -2309,7 +2309,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				if (i == 0 && (sptr1 = Utilities::Rxn_find(Rxn_solution_map, c2)) != NULL)
 				{
 					// the 1st boundary solution diffuses into 1st stagnant cell (=c2) by the ratio immobile_kgw in cell c2 / mobile_kgw in cell 1
-					b = find_J(0, 1, 1, 1, 0);
+					find_J(0, 1, 1, 1, 0);
 					ct[c2].kgw = sptr1->Get_mass_water();
 					for (cp = 0; cp < comp; cp++)
 					{
@@ -2323,7 +2323,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				else if (i == c1 && (sptr1 = Utilities::Rxn_find(Rxn_solution_map, cc1)) != NULL)
 				{
 					// the end boundary solution diffuses into stagnant cell cc1
-					b = find_J(c, c1, 1, 1, 0);
+					find_J(c, c1, 1, 1, 0);
 					ct[cc1].kgw = sptr1->Get_mass_water();
 					for (cp = 0; cp < comp; cp++)
 					{
@@ -2336,7 +2336,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				}
 				if (i1)
 				{
-					b = find_J(i, i1, 1, 1, 1);
+					find_J(i, i1, 1, 1, 1);
 				}
 			}
 			else
@@ -2347,7 +2347,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 					if (n_solution[i1] > count_cells && n_solution[i1] <= cc1)
 					{
 						mfr = fraction[i1] / nmix;
-						b = find_J(i, n_solution[i1], mfr, 1, 1);
+						find_J(i, n_solution[i1], mfr, 1, 1);
 						mfr *= (2.0 / dummy);
 						for (cp = 0; cp < comp; cp++)
 						{
@@ -2361,7 +2361,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			}
 		}
 		if (i <= count_cells)
-			b = find_J(i, i + 1, 1, 1, 0);
+			find_J(i, i + 1, 1, 1, 0);
 	}
 	if (dV_dcell)
 		find_current = 0;
