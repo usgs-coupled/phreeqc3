@@ -1,6 +1,59 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
  	-----------------
+	November 20, 2019
+	-----------------
+
+	PHREEQC:
+
+	Implicit calculation of multicomponent diffusion was extended with 1 
+	stagnant layer in the column, and options were added: 
+
+	-- When the mixing factor (defined with keyword MIX) is omitted for the 
+	boundary solution and the adjacent stagnant cell, the implicit model 
+	calculates a mixing factor for the boundary stagnant cell, multiplying 
+	the mixing factor for the mobile cell (this is cell 1 or cell 'cells') 
+	with the ratio of the kgs of water in the stagnant cell and the mobile 
+	cell, see e.g. Fig. 2 of Appelo et al., 2010, GCA 74, p. 1205. Diffusion 
+	into the stagnant cell can be omitted, defining a mixing factor of 0. For 
+	example for a column with 'cells' = 4, stagnant cell = 6, boundary 
+	solution 0: MIX 0; 6 0. 
+
+	-- Thermal diffusion with the stagnant cells will be calculated when 
+	temperatures differ by more than 0.1 oC. Multicomponent diffusion 
+	coefficients decrease with the viscosity of the solution, markedly 
+	affecting the results. File ex12b.phr in c:\phreeqc\exmpls compares 
+	traditional and multicomponent diffusive transport of heat and solutes 
+	with temperatures changing from 0 to 25 oC.
+
+	TRANSPORT
+	-implicit false/true 1 -30
+
+	Added an option to define the minimal log10(molality) of a species for 
+	inclusion in multicomponent diffusion. The definition is done with option 
+	-implicit false/true 1 -30 under keyword TRANSPORT, where 1 and -30 are 
+	the default max_mixf and default minimal log10(molality) (= min_dif_LM), 
+	respectively. The value for min_dif_LM could be as large as -12.
+
+	Removed the limit that transported moles had to be > 1e-15 in 
+	multicomponent diffusion.
+
+	Bug fix where calculation of diffusion through the Donnan layer could 
+	be bypassed.
+
+    TRANSPORT
+	-same model 2-5 8-11
+	
+	Added an option to use the chemical model structure of the previous 
+	calculation for specific cells with option -same_model under keyword 
+	TRANSPORT. For example, -same_model 2-5 8-11 will use for cells 2-5 the 
+	model defined for cell 1, and for cells 8-11 the model defined for cell 
+	7. For cells 0 and 1, and 6 and 7, the model is set-up with the default 
+	'check_same_model' in prep.cpp.
+
+	Corrected memory leaks in implicit calculations of diffusive transport.
+
+ 	-----------------
 	May 31, 2019
 	-----------------
 	
@@ -17,7 +70,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	is too large, calculations may not converge. With implicit true, 
 	electro-migration calculations are more stable and usually (possibly) 
 	avoid disturbing warnings of 'negative moles'. The implicit 
-	calculations 	have been implemented for a regular (equally spaced) 
+	calculations have been implemented for a regular (equally spaced) 
 	column, not for stagnant cells, and not for interlayer diffusion. 	
 	
 	TRANSPORT
@@ -25,7 +78,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	
 	The activity-coefficient effect for multicomponent diffusion was 
 	modified, previous versions could give an erroneously large correction.
-
+	
 	The column boundary cells 0 and count_cells + 1 are now 
 	print-/punched by default when the boundary conditions are not 
 	'closed'.
