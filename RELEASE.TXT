@@ -5,7 +5,15 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	-----------------
 
 	PHREEQC:
-
+	SURFACE 8 Constant capacitance model
+        Ha_aH		3.70E-06 1500  0.010
+        -ccm		3.196
+		
+	-ccm indicates that the surfaces in the surface assemblage use the 
+	constant-capacitance 	model. The single parameter is the 
+	capacitance in F/m2 (farad per square meter).	
+				
+	PHREEQC:
 	Implicit calculation of multicomponent diffusion was extended with 1 
 	stagnant layer in the column, and options were added: 
 
@@ -35,12 +43,15 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	the default max_mixf and default minimal log10(molality) (= min_dif_LM), 
 	respectively. The value for min_dif_LM could be as large as -12.
 
+	PHREEQC:
 	Removed the limit that transported moles had to be > 1e-15 in 
 	multicomponent diffusion.
 
+	PHREEQC:
 	Bug fix where calculation of diffusion through the Donnan layer could 
 	be bypassed.
 
+	PHREEQC:
     TRANSPORT
 	-same model 2-5 8-11
 	
@@ -51,6 +62,7 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	7. For cells 0 and 1, and 6 and 7, the model is set-up with the default 
 	'check_same_model' in prep.cpp.
 
+	PHREEQC:
 	Corrected memory leaks in implicit calculations of diffusive transport.
 
  	-----------------
