@@ -7,99 +7,99 @@
 <TITLE> MIX_EQUILIBRIUM_PHASES</TITLE><HR><P> | <A HREF="phreeqc3-29.htm">Next</A> || <A HREF="phreeqc3-27.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM3d-order-node">
-<A NAME="50610177_pgfId-990267"></A><STRONG CLASS="Bold">
+<A NAME="50593793_pgfId-990267"></A><STRONG CLASS="Bold">
 </STRONG>
-<A NAME="50610177_79962"></A><A NAME="50610177_52088"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_79962"></A><A NAME="50593793_52088"></A><EM CLASS="ChangeFont">
 MIX_EQUILIBRIUM_PHASES</EM>
 </H2>
 <P CLASS="BodyText">
-<A NAME="50610177_pgfId-990268"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-990268"></A><EM CLASS="ChangeFont">
 This keyword data block is used to define a new set of equilibrium phases by mixing sets of previously defined equilibrium phases. This keyword simply sums moles of phases to define a new set of equilibrium phases that can be used in subsequent simulations; it does not cause any speciation or reaction calculation. </EM>
 </P>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50610177_pgfId-990229"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-990229"></A><EM CLASS="ChangeFont">
 Example data block</EM>
 </H6>
-<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-989931"></A><EM CLASS="ChangeFont">Line 0:  MIX_EQUILIBRIUM_PHASES 2 Mixing EQUILIBRIUM_PHASES 5, 6, and 7.</EM>
+<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-989931"></A><EM CLASS="ChangeFont">Line 0:  MIX_EQUILIBRIUM_PHASES 2 Mixing EQUILIBRIUM_PHASES 5, 6, and 7.</EM>
 </pre>
-<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-989932"></A><EM CLASS="ChangeFont">Line 1a:      5     1.1</EM>
+<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-989932"></A><EM CLASS="ChangeFont">Line 1a:      5     1.1</EM>
 </pre>
-<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-989933"></A><EM CLASS="ChangeFont">Line 1b:      6     0.5</EM>
+<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-989933"></A><EM CLASS="ChangeFont">Line 1b:      6     0.5</EM>
 </pre>
-<pre CLASS="ComputerInput"><A NAME="50610177_pgfId-989934"></A><EM CLASS="ChangeFont">Line 1c:      7     0.3</EM>
+<pre CLASS="ComputerInput"><A NAME="50593793_pgfId-989934"></A><EM CLASS="ChangeFont">Line 1c:      7     0.3</EM>
 </pre>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50610177_pgfId-989936"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989936"></A><EM CLASS="ChangeFont">
 Explanation</EM>
 </H6>
 <P CLASS="Body-indent">
-<A NAME="50610177_pgfId-989937"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989937"></A><EM CLASS="ChangeFont">
 Line 0: MIX_EQUILIBRIUM_PHASES [number] [description]</EM>
 </P>
 <P CLASS="Body1">
-<A NAME="50610177_pgfId-989938"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989938"></A><EM CLASS="ChangeFont">
 MIX_EQUILIBRIUM_PHASES is the keyword for the data block. </EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50610177_pgfId-989939"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989939"></A><EM CLASS="ChangeFont">
 number--A positive number designates the new equilibrium phases user number. Default is 1. </EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50610177_pgfId-989940"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989940"></A><EM CLASS="ChangeFont">
 description--Optional comment that describes the mixture.</EM>
 </P>
 <P CLASS="Body-indent">
-<A NAME="50610177_pgfId-989941"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989941"></A><EM CLASS="ChangeFont">
 Line 1: equilibrium phases number, mixing fraction</EM>
 </P>
 <P CLASS="Body1">
-<A NAME="50610177_pgfId-989942"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989942"></A><EM CLASS="ChangeFont">
 equilibrium phases number--User number of an equilibrium phases definition.</EM>
 </P>
 <P CLASS="Body1-indent">
-<A NAME="50610177_pgfId-992460"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-992460"></A><EM CLASS="ChangeFont">
 mixing fraction--Decimal number that is multiplied times the moles of each phase in the specified equilibrium phases definition; the mixture is the sum of each equilibrium phase times its mixing fraction. Mixing fractions may be greater than 1.0.</EM>
 </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50610177_pgfId-989945"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989945"></A><EM CLASS="ChangeFont">
 Notes</EM>
 </H6>
 <P CLASS="BodyText">
-<A NAME="50610177_pgfId-989946"></A><EM CLASS="ChangeFont">
-In mixing, each phase is multiplied by its mixing fraction, and a new set of equilibrium phases is defined by summing over all of the fractional equilibrium phases definitions. In the Example data block, if the moles of calcite in equilibrium phases 5, 6, and 7 were 0.1, 0.2, and 0.3, the moles of calcite in the mixture would be 0.1x1.1+0.2x0.5+0.3x0.3 = 0.3. MIX_EQUILIBRIUM_PHASES is followed only by <A HREF="phreeqc3-8.htm#50610177_76644" CLASS="XRef"></A>COPY<EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-989946"></A><EM CLASS="ChangeFont">
+In mixing, each phase is multiplied by its mixing fraction, and a new set of equilibrium phases is defined by summing over all of the fractional equilibrium phases definitions. In the Example data block, if the moles of calcite in equilibrium phases 5, 6, and 7 were 0.1, 0.2, and 0.3, the moles of calcite in the mixture would be 0.1x1.1+0.2x0.5+0.3x0.3 = 0.3. MIX_EQUILIBRIUM_PHASES is followed only by <A HREF="phreeqc3-8.htm#50593793_76644" CLASS="XRef"></A>COPY<EM CLASS="ChangeFont">
 </EM>
-, <A HREF="phreeqc3-11.htm#50610177_49635" CLASS="XRef"></A>DUMP<EM CLASS="ChangeFont">
+, <A HREF="phreeqc3-11.htm#50593793_49635" CLASS="XRef"></A>DUMP<EM CLASS="ChangeFont">
 </EM>
-, and <A HREF="phreeqc3-10.htm#50610177_33574" CLASS="XRef"></A>DELETE<EM CLASS="ChangeFont">
+, and <A HREF="phreeqc3-10.htm#50593793_33574" CLASS="XRef"></A>DELETE<EM CLASS="ChangeFont">
 </EM>
  in the sequence of operations of a simulation.</EM>
 </P>
 </DIV>
 <DIV>
 <H6 CLASS="FM4thOrderHeading">
-<A NAME="50610177_pgfId-990511"></A><EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-994036"></A><EM CLASS="ChangeFont">
 Related keywords</EM>
 </H6>
 <P CLASS="BodyText">
-<A NAME="50610177_pgfId-990527"></A><EM CLASS="ChangeFont">
-<A HREF="phreeqc3-27.htm#50610177_23725" CLASS="XRef"></A>MIX<EM CLASS="ChangeFont">
+<A NAME="50593793_pgfId-994052"></A><EM CLASS="ChangeFont">
+<A HREF="phreeqc3-27.htm#50593793_23725" CLASS="XRef"></A>MIX<EM CLASS="ChangeFont">
 </EM>
-, <A HREF="phreeqc3-29.htm#50610177_23595" CLASS="XRef"></A>MIX_EXCHANGE<EM CLASS="ChangeFont">
+, <A HREF="phreeqc3-29.htm#50593793_23595" CLASS="XRef"></A>MIX_EXCHANGE<EM CLASS="ChangeFont">
 </EM>
-, <A HREF="phreeqc3-30.htm#50610177_34676" CLASS="XRef"></A>MIX_GAS_PHASE<EM CLASS="ChangeFont">
+, <A HREF="phreeqc3-30.htm#50593793_34676" CLASS="XRef"></A>MIX_GAS_PHASE<EM CLASS="ChangeFont">
 </EM>
-, <A HREF="phreeqc3-31.htm#50610177_86166" CLASS="XRef"></A>MIX_KINETICS<EM CLASS="ChangeFont">
+, <A HREF="phreeqc3-31.htm#50593793_86166" CLASS="XRef"></A>MIX_KINETICS<EM CLASS="ChangeFont">
 </EM>
-, <A HREF="phreeqc3-32.htm#50610177_26115" CLASS="XRef"></A>MIX_SOLID_SOLUTION<EM CLASS="ChangeFont">
+, <A HREF="phreeqc3-32.htm#50593793_26115" CLASS="XRef"></A>MIX_SOLID_SOLUTION<EM CLASS="ChangeFont">
 </EM>
-, <A HREF="phreeqc3-33.htm#50610177_16756" CLASS="XRef"></A>MIX_SOLUTION<EM CLASS="ChangeFont">
+, <A HREF="phreeqc3-33.htm#50593793_16756" CLASS="XRef"></A>MIX_SOLUTION<EM CLASS="ChangeFont">
 </EM>
-, and <A HREF="phreeqc3-34.htm#50610177_94543" CLASS="XRef"></A>MIX_SURFACE<EM CLASS="ChangeFont">
+, and <A HREF="phreeqc3-34.htm#50593793_94543" CLASS="XRef"></A>MIX_SURFACE<EM CLASS="ChangeFont">
 </EM>
 .</EM>
 </P>
