@@ -7,601 +7,601 @@
 <TITLE> Example 11--Transport and Cation Exchange</TITLE><HR><P> | <A HREF="phreeqc3-74.htm">Next</A> || <A HREF="phreeqc3-72.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></HEAD>
 <BODY BGCOLOR="#ffffff">
 <H2 CLASS="FM2d-order-examples">
-<A NAME="50610191_pgfId-339038"></A>Example 11--<A NAME="50610191_46434"></A>Transport and Cation Exchange</H2>
+<A NAME="50593807_pgfId-339038"></A>Example 11--<A NAME="50593807_46434"></A>Transport and Cation Exchange</H2>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1445814"></A>The following example simulates the chemical composition of the effluent from a column containing a cation exchanger (Appelo and Postma, 2005). Initially, the column contains a sodium-potassium-nitrate solution in equilibrium with the exchanger. The column is flushed with three pore volumes of calcium chloride solution. Calcium, potassium, and sodium react to equilibrium with the exchanger at all times. The problem is run two ways--by using the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> data block, which models only advection, and by using the <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> data block, which simulates advection and dispersive mixing.</P>
+<A NAME="50593807_pgfId-1445814"></A>The following example simulates the chemical composition of the effluent from a column containing a cation exchanger (Appelo and Postma, 2005). Initially, the column contains a sodium-potassium-nitrate solution in equilibrium with the exchanger. The column is flushed with three pore volumes of calcium chloride solution. Calcium, potassium, and sodium react to equilibrium with the exchanger at all times. The problem is run two ways--by using the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> data block, which models only advection, and by using the <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> data block, which simulates advection and dispersive mixing.</P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1684616"></A>The input file is listed in <A HREF="phreeqc3-73.htm#50610191_28387" CLASS="XRef">table 30</A>. It starts with defining <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> 0, which is the influent at cell 1 of the column. The column has 40 cells, and 40 solutions must be defined and numbered 1 through 40. The definition of a solution for each cell is mandatory. In this example, all cells contain the same solution, but this is not required. Solutions can be defined differently for each cell and could be changed by reactions in the current or preceding simulations (by using the <A HREF="phreeqc3-44.htm#50610177_81857" CLASS="XRef">SAVE</A> keyword).   </P>
+<A NAME="50593807_pgfId-1684616"></A>The input file is listed in <A HREF="phreeqc3-73.htm#50593807_28387" CLASS="XRef">table 30</A>. It starts with defining <A HREF="phreeqc3-48.htm#50593793_30253" CLASS="XRef">SOLUTION</A> 0, which is the influent at cell 1 of the column. The column has 40 cells, and 40 solutions must be defined and numbered 1 through 40. The definition of a solution for each cell is mandatory. In this example, all cells contain the same solution, but this is not required. Solutions can be defined differently for each cell and could be changed by reactions in the current or preceding simulations (by using the <A HREF="phreeqc3-44.htm#50593793_81857" CLASS="XRef">SAVE</A> keyword).   </P>
 <TABLE>
 <CAPTION>
 <P CLASS="TableTitle">
-<A NAME="50610191_pgfId-1684623"></A>Table 30. <A NAME="50610191_28387"></A>Input file for example 11.</P>
+<A NAME="50593807_pgfId-1684623"></A>Table 30. <A NAME="50593807_28387"></A>Input file for example 11.</P>
 </CAPTION>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684625"></A>TITLE Example 11.--Transport and cation exchange.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684625"></A>TITLE Example 11.--Transport and cation exchange.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684627"></A>SOLUTION 0  CaCl2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684627"></A>SOLUTION 0  CaCl2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684629"></A>        units            mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684629"></A>        units            mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684631"></A>        temp             25.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684631"></A>        temp             25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684633"></A>        pH               7.0     charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684633"></A>        pH               7.0     charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684635"></A>        pe               12.5    O2(g)   -0.68</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684635"></A>        pe               12.5    O2(g)   -0.68</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684637"></A>        Ca               0.6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684637"></A>        Ca               0.6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684639"></A>        Cl               1.2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684639"></A>        Cl               1.2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684641"></A>SOLUTION 1-40  Initial solution for column</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684641"></A>SOLUTION 1-40  Initial solution for column</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684643"></A>        units            mmol/kgw</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684643"></A>        units            mmol/kgw</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684645"></A>        temp             25.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684645"></A>        temp             25.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684647"></A>        pH               7.0     charge</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684647"></A>        pH               7.0     charge</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684649"></A>        pe               12.5    O2(g)   -0.68</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684649"></A>        pe               12.5    O2(g)   -0.68</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684651"></A>        Na               1.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684651"></A>        Na               1.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684653"></A>        K                0.2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684653"></A>        K                0.2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684655"></A>        N(5)             1.2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684655"></A>        N(5)             1.2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684657"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684657"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684659"></A>EXCHANGE 1-40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684659"></A>EXCHANGE 1-40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684661"></A>        -equilibrate 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684661"></A>        -equilibrate 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684663"></A>        X                0.0011</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684663"></A>        X                0.0011</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684665"></A>COPY cell 1 101</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684665"></A>COPY cell 1 101</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684667"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684667"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684669"></A>ADVECTION</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684669"></A>ADVECTION</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684671"></A>        -cells           40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684671"></A>        -cells           40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684673"></A>        -shifts          100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684673"></A>        -shifts          100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684675"></A>        -punch_cells     40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684675"></A>        -punch_cells     40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684677"></A>        -punch_frequency 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684677"></A>        -punch_frequency 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684679"></A>        -print_cells     40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684679"></A>        -print_cells     40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1684681"></A>        -print_frequency 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1684681"></A>        -print_frequency 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750447"></A>PRINT; -reset false; -status false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750447"></A>PRINT; -reset false; -status false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750445"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750445"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750443"></A>        -file            ex11adv.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750443"></A>        -file            ex11adv.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750441"></A>        -reset           false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750441"></A>        -reset           false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750439"></A>        -step</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750439"></A>        -step</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750437"></A>        -totals          Na Cl K Ca</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750437"></A>        -totals          Na Cl K Ca</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750435"></A>USER_PUNCH</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750435"></A>USER_PUNCH</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750433"></A>  -heading  Pore_vol</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750433"></A>  -heading  Pore_vol</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750431"></A>  10 PUNCH (STEP_NO + .5) / 40.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750431"></A>  10 PUNCH (STEP_NO + .5) / 40.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750429"></A>USER_GRAPH 1 Example 11</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750429"></A>USER_GRAPH 1 Example 11</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750427"></A>  -chart_title &quot;Using ADVECTION Data Block&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750427"></A>  -chart_title &quot;Using ADVECTION Data Block&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750425"></A>  -headings Cl Na K Ca</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750425"></A>  -headings Cl Na K Ca</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750423"></A>  -axis_titles &quot;Pore volumes&quot; &quot;Millimoles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750423"></A>  -axis_titles &quot;Pore volumes&quot; &quot;Millimoles per kilogram water&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750421"></A>  -axis_scale x_axis 0 2.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750421"></A>  -axis_scale x_axis 0 2.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750419"></A>  -axis_scale y_axis 0 1.4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750419"></A>  -axis_scale y_axis 0 1.4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750417"></A>  -plot_concentration_vs time</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750417"></A>  -plot_concentration_vs time</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750415"></A>  -start</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750415"></A>  -start</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750413"></A>  10 x = (STEP_NO + 0.5) / cell_no</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750413"></A>  10 x = (STEP_NO + 0.5) / cell_no</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750411"></A>  20 PLOT_XY x, TOT(&quot;Cl&quot;)*1000, symbol = None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750411"></A>  20 PLOT_XY x, TOT(&quot;Cl&quot;)*1000, symbol = None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750409"></A>  30 PLOT_XY x, TOT(&quot;Na&quot;)*1000, symbol = None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750409"></A>  30 PLOT_XY x, TOT(&quot;Na&quot;)*1000, symbol = None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750407"></A>  40 PLOT_XY x, TOT(&quot;K&quot;)*1000, symbol = None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750407"></A>  40 PLOT_XY x, TOT(&quot;K&quot;)*1000, symbol = None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750405"></A>  50 PLOT_XY x, TOT(&quot;Ca&quot;)*1000, symbol = None</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750405"></A>  50 PLOT_XY x, TOT(&quot;Ca&quot;)*1000, symbol = None</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750403"></A>  60 PUT(1, 1)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750403"></A>  60 PUT(1, 1)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750401"></A>  -end</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750401"></A>  -end</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750399"></A>COPY cell 101 1-40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750399"></A>COPY cell 101 1-40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750397"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750397"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750395"></A>USER_GRAPH 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750395"></A>USER_GRAPH 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750393"></A>        -detach</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750393"></A>        -detach</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750391"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750391"></A>END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750389"></A>TRANSPORT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750389"></A>TRANSPORT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750387"></A>        -cells           40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750387"></A>        -cells           40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750385"></A>        -lengths         0.002</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750385"></A>        -lengths         0.002</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750383"></A>        -shifts          100</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750383"></A>        -shifts          100</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750381"></A>        -time_step       720.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750381"></A>        -time_step       720.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750379"></A>        -flow_direction  forward</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750379"></A>        -flow_direction  forward</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750377"></A>        -boundary_conditions   flux  flux</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750377"></A>        -boundary_conditions   flux  flux</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750375"></A>        -diffusion_coefficient 0.0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750375"></A>        -diffusion_coefficient 0.0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750373"></A>        -dispersivities  0.002</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750373"></A>        -dispersivities  0.002</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750371"></A>        -correct_disp    true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750371"></A>        -correct_disp    true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750369"></A>        -punch_cells     40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750369"></A>        -punch_cells     40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750367"></A>        -punch_frequency 1</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750367"></A>        -punch_frequency 1</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750365"></A>        -print_cells     40</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750365"></A>        -print_cells     40</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750363"></A>        -print_frequency 20</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750363"></A>        -print_frequency 20</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750361"></A>SELECTED_OUTPUT</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750361"></A>SELECTED_OUTPUT</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750359"></A>        -file            ex11trn.sel</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750359"></A>        -file            ex11trn.sel</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750357"></A>        -reset           false</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750357"></A>        -reset           false</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750355"></A>        -step</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750355"></A>        -step</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750353"></A>        -totals          Na Cl K Ca</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750353"></A>        -totals          Na Cl K Ca</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750351"></A>        -high_precision true</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750351"></A>        -high_precision true</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750349"></A>USER_GRAPH 2 Example 11</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750349"></A>USER_GRAPH 2 Example 11</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750347"></A>  -chart_title &quot;Using TRANSPORT Data Block&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750347"></A>  -chart_title &quot;Using TRANSPORT Data Block&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750345"></A>  -headings Cl Na K Ca Cl_analytical</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750345"></A>  -headings Cl Na K Ca Cl_analytical</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750343"></A>  -axis_titles &quot;Pore volumes&quot; &quot;Millimoles per kilogram water&quot;</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750343"></A>  -axis_titles &quot;Pore volumes&quot; &quot;Millimoles per kilogram water&quot;</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750341"></A>  -axis_scale x_axis 0 2.5</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750341"></A>  -axis_scale x_axis 0 2.5</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750339"></A>  -axis_scale y_axis 0 1.4</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750339"></A>  -axis_scale y_axis 0 1.4</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750337"></A>#  -batch &#92;temp&#92;11.png false # After saving, the chart on the monitor is closed.</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750337"></A>#  -batch &#92;temp&#92;11.png false # After saving, the chart on the monitor is closed.</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750335"></A>  -plot_concentration_vs time</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750335"></A>  -plot_concentration_vs time</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750333"></A>  10 x = (STEP_NO + 0.5) / cell_no</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750333"></A>  10 x = (STEP_NO + 0.5) / cell_no</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750331"></A>  20 PLOT_XY x, TOT(&quot;Cl&quot;)*1000, symbol = Plus, symbol_size = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750331"></A>  20 PLOT_XY x, TOT(&quot;Cl&quot;)*1000, symbol = Plus, symbol_size = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750329"></A>  30 PLOT_XY x, TOT(&quot;Na&quot;)*1000, symbol = Plus, symbol_size = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750329"></A>  30 PLOT_XY x, TOT(&quot;Na&quot;)*1000, symbol = Plus, symbol_size = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750327"></A>  40 PLOT_XY x, TOT(&quot;K&quot;) *1000, symbol = Plus, symbol_size = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750327"></A>  40 PLOT_XY x, TOT(&quot;K&quot;) *1000, symbol = Plus, symbol_size = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750325"></A>  50 PLOT_XY x, TOT(&quot;Ca&quot;)*1000, symbol = Plus, symbol_size = 2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750325"></A>  50 PLOT_XY x, TOT(&quot;Ca&quot;)*1000, symbol = Plus, symbol_size = 2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750323"></A># calculate Cl_analytical...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750323"></A># calculate Cl_analytical...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750321"></A>  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750321"></A>  60 DATA 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429, 0.3275911</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750319"></A>  70 READ a1, a2, a3, a4, a5, a6</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750319"></A>  70 READ a1, a2, a3, a4, a5, a6</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750317"></A>  80 Peclet = 0.08 / 0.002</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750317"></A>  80 Peclet = 0.08 / 0.002</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750315"></A>  90  z = (1 - x) / SQRT(4 * x / Peclet)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750315"></A>  90  z = (1 - x) / SQRT(4 * x / Peclet)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750313"></A>  100 PA = 0</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750313"></A>  100 PA = 0</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750311"></A>  110 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750311"></A>  110 GOSUB 2000 # calculate e_erfc = exp(PA) * erfc(z)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750309"></A>  120 e_erfc1 = e_erfc</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750309"></A>  120 e_erfc1 = e_erfc</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750307"></A>  130 z = (1 + x) / SQRT(4 * x / Peclet)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750307"></A>  130 z = (1 + x) / SQRT(4 * x / Peclet)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750305"></A>  140 PA = Peclet</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750305"></A>  140 PA = Peclet</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750303"></A>  150 GOSUB 2000 # calculate exp(PA) * erfc(z)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750303"></A>  150 GOSUB 2000 # calculate exp(PA) * erfc(z)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750301"></A>  160 y = 0.6 * (e_erfc1 + e_erfc)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750301"></A>  160 y = 0.6 * (e_erfc1 + e_erfc)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750299"></A>  170 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750299"></A>  170 PLOT_XY x, y, line_width = 0, symbol = Circle, color = Red</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750297"></A>  180 d = (y - TOT(&quot;Cl&quot;)*1000)^2</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750297"></A>  180 d = (y - TOT(&quot;Cl&quot;)*1000)^2</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750295"></A>  190 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750295"></A>  190 IF EXISTS(10) THEN PUT(d + GET(10), 10) ELSE PUT(d, 10)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750293"></A>  200 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750293"></A>  200 IF STEP_NO = 2 * CELL_NO THEN print 'SSQD for Cl after 2 Pore Volumes: ', GET(10), '(mmol/L)^2'</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750291"></A>  210 END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750291"></A>  210 END</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750289"></A>  2000 REM calculate e_erfc = exp(PA) * erfc(z)...</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750289"></A>  2000 REM calculate e_erfc = exp(PA) * erfc(z)...</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750287"></A>  2010 sgz = SGN(z)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750287"></A>  2010 sgz = SGN(z)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750285"></A>  2020 z = ABS(z)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750285"></A>  2020 z = ABS(z)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750283"></A>  2050 b = 1 / (1 + a6 * z)</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750283"></A>  2050 b = 1 / (1 + a6 * z)</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750281"></A>  2060 e_erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(PA - (z * z))</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750281"></A>  2060 e_erfc = b * (a1 + b * (a2 + b * (a3 + b * (a4 + b * a5)))) * EXP(PA - (z * z))</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750279"></A>  2070 IF sgz = -1 THEN e_erfc = 2 * EXP(PA) - e_erfc</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750279"></A>  2070 IF sgz = -1 THEN e_erfc = 2 * EXP(PA) - e_erfc</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750277"></A>  2080 RETURN</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750277"></A>  2080 RETURN</Pre>
 </TD>
 </TR>
 <TR>
 <TD ROWSPAN="1" COLSPAN="1">
-<Pre CLASS="ComputerInput10"><A NAME="50610191_pgfId-1750275"></A>END</Pre>
+<Pre CLASS="ComputerInput10"><A NAME="50593807_pgfId-1750275"></A>END</Pre>
 </TD>
 </TR>
 </TABLE>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1684862"></A>The amount and composition of the exchanger in each of the 40 cells is defined by the <A HREF="phreeqc3-14.htm#50610177_84573" CLASS="XRef">EXCHANGE</A> 1-40 data block in the second simulation. The <A HREF="phreeqc3-14.htm#50610177_84573" CLASS="XRef">EXCHANGE</A> data block could have been written in the first simulation where the initial solutions are defined, but generally, it is preferable to define additional reactants in separate simulations. The intervening <A HREF="phreeqc3-12.htm#50610177_63178" CLASS="XRef">END</A> (between the first and second simulation) avoids a redundant reaction calculation in which the first solution defined (here <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> 0) is reacted with the first exchanger that is defined (cell 1). The definition of an exchanger for cells in the column is optional. The number of the exchanger corresponds to the number of the cell in a column, and, if an exchanger exists for a cell number, it is used automatically in the transport calculations for that cell. In this column, each cell has 1.1 mmol exchange sites that are initially in equilibrium with solution 1. Note that the initial exchange composition is calculated by an initial exchange calculation that does not affect the composition of solution 1. At the end of this simulation, cell 1 is copied to cell 101, which includes the data blocks <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> 1 and <A HREF="phreeqc3-14.htm#50610177_84573" CLASS="XRef">EXCHANGE</A> 1. By copying cell 101 back to cell 1-40 at the end of the advection simulation, the column is reinitialized for the next transport calculation.</P>
+<A NAME="50593807_pgfId-1684862"></A>The amount and composition of the exchanger in each of the 40 cells is defined by the <A HREF="phreeqc3-14.htm#50593793_84573" CLASS="XRef">EXCHANGE</A> 1-40 data block in the second simulation. The <A HREF="phreeqc3-14.htm#50593793_84573" CLASS="XRef">EXCHANGE</A> data block could have been written in the first simulation where the initial solutions are defined, but generally, it is preferable to define additional reactants in separate simulations. The intervening <A HREF="phreeqc3-12.htm#50593793_63178" CLASS="XRef">END</A> (between the first and second simulation) avoids a redundant reaction calculation in which the first solution defined (here <A HREF="phreeqc3-48.htm#50593793_30253" CLASS="XRef">SOLUTION</A> 0) is reacted with the first exchanger that is defined (cell 1). The definition of an exchanger for cells in the column is optional. The number of the exchanger corresponds to the number of the cell in a column, and, if an exchanger exists for a cell number, it is used automatically in the transport calculations for that cell. In this column, each cell has 1.1 mmol exchange sites that are initially in equilibrium with solution 1. Note that the initial exchange composition is calculated by an initial exchange calculation that does not affect the composition of solution 1. At the end of this simulation, cell 1 is copied to cell 101, which includes the data blocks <A HREF="phreeqc3-48.htm#50593793_30253" CLASS="XRef">SOLUTION</A> 1 and <A HREF="phreeqc3-14.htm#50593793_84573" CLASS="XRef">EXCHANGE</A> 1. By copying cell 101 back to cell 1-40 at the end of the advection simulation, the column is reinitialized for the next transport calculation.</P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1445762"></A>The <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> data block need only include the number of cells and the number of shifts for the simulation. The calculation accounts for the numbers of pore volumes that flow through the cells; cell lengths are not used. The identifiers <STRONG CLASS="Bold">
+<A NAME="50593807_pgfId-1445762"></A>The <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> data block need only include the number of cells and the number of shifts for the simulation. The calculation accounts for the numbers of pore volumes that flow through the cells; cell lengths are not used. The identifiers <STRONG CLASS="Bold">
 -punch_cells</STRONG>
  and <STRONG CLASS="Bold">
 -punch_frequency</STRONG>
@@ -611,7 +611,7 @@
 -print_frequency</STRONG>
  indicate that data will be written to the output file for cell 40 at every 20 shifts. </P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1339973"></A>The <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies that the shift (or advection step number) and the total dissolved concentrations of sodium, chloride, potassium, and calcium will be written to the file <EM CLASS="Emphasis">
+<A NAME="50593807_pgfId-1339973"></A>The <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies that the shift (or advection step number) and the total dissolved concentrations of sodium, chloride, potassium, and calcium will be written to the file <EM CLASS="Emphasis">
 ex11adv.sel</EM>
 . Pore volumes can be calculated from the shift number; one shift moves a solution to the next cell, and the last solution out of the column. PHREEQC calculates cell-centered concentrations, so that the concentrations in the last cell arrive <EM CLASS="Emphasis">
 one-half</EM>
@@ -619,9 +619,9 @@ one-half</EM>
 PV</EM>
 ) that have been flushed from the column is therefore <EM CLASS="Emphasis">
 PV</EM>
- = (number of shifts + 0.5) / 40. The number of pore volumes is calculated and printed to the selected-output file using the <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A> data block. Similarly, <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> defines the chart with the same data plotted on-screen.</P>
+ = (number of shifts + 0.5) / 40. The number of pore volumes is calculated and printed to the selected-output file using the <A HREF="phreeqc3-60.htm#50593793_56415" CLASS="XRef">USER_PUNCH</A> data block. Similarly, <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A> defines the chart with the same data plotted on-screen.</P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1547162"></A>At the end of the advection calculation (<A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A>), the initial conditions are reset for the advection and dispersion calculation (<A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A>) by copying solution and exchange 101 back to solution and exchange 1-40. <A HREF="phreeqc3-48.htm#50610177_30253" CLASS="XRef">SOLUTION</A> 0 is unchanged by the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> simulation and need not be redefined. The <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> data block includes a much more explicit description of the transport process than the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> data block. The length of each cell (<STRONG CLASS="Bold">
+<A NAME="50593807_pgfId-1547162"></A>At the end of the advection calculation (<A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A>), the initial conditions are reset for the advection and dispersion calculation (<A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A>) by copying solution and exchange 101 back to solution and exchange 1-40. <A HREF="phreeqc3-48.htm#50593793_30253" CLASS="XRef">SOLUTION</A> 0 is unchanged by the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> simulation and need not be redefined. The <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> data block includes a much more explicit description of the transport process than the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> data block. The length of each cell (<STRONG CLASS="Bold">
 -lengths</STRONG>
 ), the boundary conditions at the column ends (<STRONG CLASS="Bold">
 -boundary_conditions</STRONG>
@@ -641,14 +641,14 @@ PV</EM>
 -print</STRONG>
 , and <STRONG CLASS="Bold">
 -print_frequency</STRONG>
- serve the same function as in the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> data block. The second <A HREF="phreeqc3-45.htm#50610177_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies that the transport step (shift) number and total dissolved concentrations of sodium, chloride, potassium, and calcium will be written to the file <EM CLASS="Emphasis">
+ serve the same function as in the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> data block. The second <A HREF="phreeqc3-45.htm#50593793_20239" CLASS="XRef">SELECTED_OUTPUT</A> data block specifies that the transport step (shift) number and total dissolved concentrations of sodium, chloride, potassium, and calcium will be written to the file <EM CLASS="Emphasis">
 ex11trn.sel</EM>
-. The <A HREF="phreeqc3-60.htm#50610177_56415" CLASS="XRef">USER_PUNCH</A> data block from the advection simulation is still in effect and the pore volume at each transport step is calculated and written to the selected-output file. <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> 1 is detached, which prevents adding any more data points. <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A> 2 is defined to make the curves distinct from the advection simulation [a plus (&#8220;+&#8221;) symbol is used for the calculated points] and to plot the analytical solution for chloride breakthrough with dispersion, which is</P>
+. The <A HREF="phreeqc3-60.htm#50593793_56415" CLASS="XRef">USER_PUNCH</A> data block from the advection simulation is still in effect and the pore volume at each transport step is calculated and written to the selected-output file. <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A> 1 is detached, which prevents adding any more data points. <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A> 2 is defined to make the curves distinct from the advection simulation [a plus (&#8220;+&#8221;) symbol is used for the calculated points] and to plot the analytical solution for chloride breakthrough with dispersion, which is</P>
 <P CLASS="EquationUnnumbered">
-<A NAME="50610191_pgfId-1547207"></A><IMG SRC="phreeqc3-246.png" ALIGN="MIDDLE">
+<A NAME="50593807_pgfId-1547207"></A><IMG SRC="phreeqc3-246.png" ALIGN="MIDDLE">
 ,</P>
 <P CLASS="BodyTextFlush">
-<A NAME="50610191_pgfId-1547233"></A>where C<Sub CLASS="Subscript">
+<A NAME="50593807_pgfId-1547233"></A>where C<Sub CLASS="Subscript">
 L</Sub>
  is the concentration at the column-outlet (mol/kg H<Sub CLASS="Subscript">
 2</Sub>
@@ -658,7 +658,7 @@ i</Sub>
 &#945;</EM>
  is the dispersivity (m) and L is the length of the column (m).</P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1666923"></A>The results for <A HREF="phreeqc3-73.htm#50610191_46434" CLASS="XRef">See Transport and Cation Exchange</A> using the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> and <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> keywords are shown in figure 12. The concentrations in cell 40, which is the end cell, are plotted against pore volumes. The main features of the calculations are the same between the two transport simulations. Chloride is a conservative solute and arrives in the effluent after one pore volume. The sodium initially present in the column exchanges with the incoming calcium and is eluted as long as the exchanger contains sodium. The midpoint of the breakthrough curve for sodium occurs at about 1.5 pore volumes. Because potassium exchanges more strongly than sodium (because of the larger log <EM CLASS="Emphasis">
+<A NAME="50593807_pgfId-1666923"></A>The results for <A HREF="phreeqc3-73.htm#50593807_46434" CLASS="XRef">See Transport and Cation Exchange</A> using the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> and <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> keywords are shown in figure 12. The concentrations in cell 40, which is the end cell, are plotted against pore volumes. The main features of the calculations are the same between the two transport simulations. Chloride is a conservative solute and arrives in the effluent after one pore volume. The sodium initially present in the column exchanges with the incoming calcium and is eluted as long as the exchanger contains sodium. The midpoint of the breakthrough curve for sodium occurs at about 1.5 pore volumes. Because potassium exchanges more strongly than sodium (because of the larger log <EM CLASS="Emphasis">
 K</EM>
  in the exchange reaction), potassium is released after sodium. Finally, when all of the potassium has been released, the concentration of calcium increases to the steady-state concentration in the influent.</P>
 <DIV>
@@ -667,7 +667,7 @@ K</EM>
 <IMG SRC="phreeqc3-247.png" style="width:65%" USEMAP="#phreeqc3-247">
 </DIV>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-339198"></A>The concentration changes of sodium and potassium in the effluent form a chromatographic pattern, which often can be calculated by simple means (Appelo, 1994b; Appelo and Postma, 2005). The number of pore volumes needed for the arrival of the sodium-decrease front can be calculated with the formula <IMG SRC="phreeqc3-248.png" ALIGN="MIDDLE">
+<A NAME="50593807_pgfId-339198"></A>The concentration changes of sodium and potassium in the effluent form a chromatographic pattern, which often can be calculated by simple means (Appelo, 1994b; Appelo and Postma, 2005). The number of pore volumes needed for the arrival of the sodium-decrease front can be calculated with the formula <IMG SRC="phreeqc3-248.png" ALIGN="MIDDLE">
 , where <IMG SRC="phreeqc3-249.png" ALIGN="MIDDLE">
 , <IMG SRC="phreeqc3-250.png" ALIGN="MIDDLE">
  indicates the change in sorbed concentration (mol/kgw), and <IMG SRC="phreeqc3-251.png" ALIGN="MIDDLE">
@@ -675,7 +675,7 @@ K</EM>
  = (0.55 - 0)/(1 - 0) = 0.55 and <IMG SRC="phreeqc3-253.png" ALIGN="MIDDLE">
 , which indicates that the midpoint of the sodium front should arrive at the end of the column after 1.55 pore volumes. </P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-339205"></A>Next, potassium is displaced from the exchanger. The concentration in solution increases to 1.2 mmol/kgw to balance the Cl<Sup CLASS="Superscript">
+<A NAME="50593807_pgfId-339205"></A>Next, potassium is displaced from the exchanger. The concentration in solution increases to 1.2 mmol/kgw to balance the Cl<Sup CLASS="Superscript">
 -</Sup>
  concentration, and then falls to 0 when the exchanger is exhausted. When potassium is the only cation in solution, it will also be the only cation on the exchanger. For potassium, <IMG SRC="phreeqc3-254.png" ALIGN="MIDDLE">
  = (1.1 - 0)/(1.2 - 0) = 0.917 and <IMG SRC="phreeqc3-255.png" ALIGN="MIDDLE">
@@ -693,16 +693,16 @@ s</Sup>
 K</Sub>
  are closely matched by the midpoints of the concentration changes shown in figure 12.</P>
 <P CLASS="BodyText">
-<A NAME="50610191_pgfId-1445351"></A>The differences between the two simulations are due entirely to the inclusion of dispersion in the <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> calculation. The breakthrough curve for chloride in the <A HREF="phreeqc3-56.htm#50610177_87317" CLASS="XRef">TRANSPORT</A> calculation coincides with an analytical solution to the advection dispersion equation for a conservative solute (Appelo and Postma, 2005), which is plotted in figure 12 with <A HREF="phreeqc3-58.htm#50610177_26121" CLASS="XRef">USER_GRAPH</A>. The sum of the squared deviations for the first two pore volumes (transport step 80) is printed in the output file:</P>
+<A NAME="50593807_pgfId-1445351"></A>The differences between the two simulations are due entirely to the inclusion of dispersion in the <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> calculation. The breakthrough curve for chloride in the <A HREF="phreeqc3-56.htm#50593793_87317" CLASS="XRef">TRANSPORT</A> calculation coincides with an analytical solution to the advection dispersion equation for a conservative solute (Appelo and Postma, 2005), which is plotted in figure 12 with <A HREF="phreeqc3-58.htm#50593793_26121" CLASS="XRef">USER_GRAPH</A>. The sum of the squared deviations for the first two pore volumes (transport step 80) is printed in the output file:</P>
 <P CLASS="ComputerOutput">
-<A NAME="50610191_pgfId-1684949"></A>Transport step  80. Mixrun   4.</P>
+<A NAME="50593807_pgfId-1684949"></A>Transport step  80. Mixrun   4.</P>
 <P CLASS="ComputerOutput">
-<A NAME="50610191_pgfId-1445365"></A>&nbsp;</P>
+<A NAME="50593807_pgfId-1445365"></A>&nbsp;</P>
 <P CLASS="ComputerOutput">
-<A NAME="50610191_pgfId-1445366"></A>SSQD for Cl after 2 Pore Volumes:   7.985703292556e-005 (mmol/L)^2  </P>
+<A NAME="50593807_pgfId-1445366"></A>SSQD for Cl after 2 Pore Volumes:   7.985703292556e-005 (mmol/L)^2  </P>
 <P CLASS="ComputerOutput">
-<A NAME="50610191_pgfId-1684942"></A>&nbsp;</P>
+<A NAME="50593807_pgfId-1684942"></A>&nbsp;</P>
 <P CLASS="BodyTextFlush">
-<A NAME="50610191_pgfId-1445370"></A>The result shows that the calculations are in astonishingly good agreement. Without dispersion, the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> calculation produces a square-wave breakthrough curve for chloride. The characteristic smearing effects of dispersion are absent in the fronts calculated for the other elements as well, although some curvature exists because of the exchange reactions. The peak potassium concentration is larger in the <A HREF="phreeqc3-6.htm#50610177_87438" CLASS="XRef">ADVECTION</A> calculation because dispersion is neglected.</P>
+<A NAME="50593807_pgfId-1445370"></A>The result shows that the calculations are in astonishingly good agreement. Without dispersion, the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> calculation produces a square-wave breakthrough curve for chloride. The characteristic smearing effects of dispersion are absent in the fronts calculated for the other elements as well, although some curvature exists because of the exchange reactions. The peak potassium concentration is larger in the <A HREF="phreeqc3-6.htm#50593793_87438" CLASS="XRef">ADVECTION</A> calculation because dispersion is neglected.</P>
 <HR><P> | <A HREF="phreeqc3-74.htm">Next</A> || <A HREF="phreeqc3-72.htm">Previous</A> || <A HREF="phreeqc3.htm">Top</A>  | </P></BODY>
 </HTML>
