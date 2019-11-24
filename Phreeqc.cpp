@@ -2867,8 +2867,10 @@ Phreeqc &Phreeqc::operator=(const Phreeqc &rhs)
 	// copy Phreeqc object to this
 	//this->phrq_io = rhs.phrq_io;
 	//this->phrq_io = new PHRQ_io;
+#if !defined(R_SO)
 	this->phrq_io->Set_output_ostream(&std::cout);
 	this->phrq_io->Set_error_ostream(&std::cerr);
+#endif	
 	this->init();
 	this->initialize();
 	this->InternalCopy(&rhs);
