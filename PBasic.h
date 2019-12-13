@@ -285,6 +285,10 @@ public:
 		tokcell_pore_volume,
 		tokcell_porosity,
 		tokcell_saturation,
+		tokvelocity_x,
+		tokvelocity_y,
+		tokvelocity_z,
+		toktransport_cell_no,
 #if defined MULTICHART
 		tokplot_xy,
 #endif
