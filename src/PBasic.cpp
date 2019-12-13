@@ -1549,6 +1549,18 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokcell_saturation:
 			output_msg("CELL_SATURATION");
 			break;
+		case tokvelocity_x:
+			output_msg("VELOCITY_X");
+			break;
+		case tokvelocity_y:
+			output_msg("VELOCITY_Y");
+			break;
+		case tokvelocity_z:
+			output_msg("VELOCITY_Z");
+			break;
+		case toktransport_cell_no:
+			output_msg("TRANSPORT_CELL_NO");
+			break;
 		case tokiso:
 			output_msg("ISO");
 			break;
@@ -3636,6 +3648,30 @@ factor(struct LOC_exec * LINK)
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_saturation");
 		}
 		break;
+	case tokvelocity_x:
+		{
+			double x1 = (double)PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "velocity_x");
+		}
+		break;
+	case tokvelocity_y:
+		{
+			double x1 = (double)PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "velocity_y");
+		}
+		break;
+	case tokvelocity_z:
+		{
+			double x1 = (double)PhreeqcPtr->solution_number();
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "velocity_z");
+		}
+		break;
+	case toktransport_cell_no:
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "transport_cell_no");
+	}
+	break;
 	case toksc:
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_SC();
 		break;
@@ -7307,6 +7343,10 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_pore_volume",   PBasic::tokcell_pore_volume),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_porosity",      PBasic::tokcell_porosity),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_saturation",    PBasic::tokcell_saturation),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("velocity_x",         PBasic::tokvelocity_x),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("velocity_y",         PBasic::tokvelocity_y),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("velocity_z",         PBasic::tokvelocity_z),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("transport_cell_no",  PBasic::toktransport_cell_no),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmole",            PBasic::toktotmole),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmol",             PBasic::toktotmol),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmoles",           PBasic::toktotmoles),
