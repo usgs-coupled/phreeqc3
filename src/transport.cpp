@@ -49,6 +49,7 @@ struct MOLES_ADDED /* total moles added to balance negative conc's */
 	char *name;
 	LDBLE moles;
 } *moles_added;
+int count_moles_added;
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -134,12 +135,12 @@ transport(void)
 			ct[i].m_s = NULL;
 			ct[i].v_m_size = ct[i].J_ij_size = ct[i].m_s_size = 0;
 		}
-	
-		moles_added = (struct MOLES_ADDED *) PHRQ_malloc((size_t) (count_elements)* sizeof(struct MOLES_ADDED));
+		count_moles_added = count_elements;
+		moles_added = (struct MOLES_ADDED *) PHRQ_malloc((size_t) (count_moles_added)* sizeof(struct MOLES_ADDED));
 		if (moles_added == NULL)
 			malloc_error();
 
-		for (i = 0; i < count_elements; i++)
+		for (i = 0; i < count_moles_added; i++)
 		{
 			moles_added[i].name = NULL;
 			moles_added[i].moles = 0;
@@ -922,7 +923,7 @@ transport(void)
 				{
 					for (it2 = els.begin(); it2 != els.end(); it2++)
 					{
-						for (int i1 = 0; i1 < count_elements; i1++)
+						for (int i1 = 0; i1 < count_moles_added; i1++)
 						{
 							if (moles_added[i1].name && !strcmp(moles_added[i1].name, it2->first.c_str()))
 							{
@@ -947,7 +948,7 @@ transport(void)
 				"\nFor balancing negative concentrations in MCD, added in total to the system:");
 			if (phrq_io)
 				phrq_io->warning_msg(token);
-			for (i = 0; i < count_elements; i++)
+			for (i = 0; i < count_moles_added; i++)
 			{
 				if (!moles_added[i].moles)
 					break;
@@ -1007,7 +1008,7 @@ transport_cleanup(void)
 			ct[i].m_s = (struct M_S *) free_check_null(ct[i].m_s);
 		}
 		ct = (struct CT *) free_check_null(ct);
-		for (int i = 0; i < count_elements; i++)
+		for (int i = 0; i < count_moles_added; i++)
 		{
 			moles_added[i].name = (char *)free_check_null(moles_added[i].name);
 		}
@@ -3382,8 +3383,8 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				{
 					tot1_h = tot1_o = tot2_h = tot2_o = 0.0;
 					m_s = (struct M_S *) free_check_null(m_s);
-					count_m_s = (ct[icell].J_ij_count_spec < count_elements ?
-						ct[icell].J_ij_count_spec : count_elements);
+					count_m_s = (ct[icell].J_ij_count_spec < count_moles_added ?
+						ct[icell].J_ij_count_spec : count_moles_added);
 					m_s = (struct M_S *) PHRQ_malloc((size_t) count_m_s *
 						sizeof(struct M_S));
 					if (m_s == NULL)
@@ -3541,7 +3542,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						"Negative concentration in MCD: added %.4e moles %s in cell %d",
 						(double)-temp, it->first.c_str(), i);
 					warning_msg(token);
-					for (i1 = 0; i1 < count_elements; i1++)
+					for (i1 = 0; i1 < count_moles_added; i1++)
 					{
 						if (moles_added[i1].name && !strcmp(moles_added[i1].name, it->first.c_str()))
 						{
@@ -4538,11 +4539,11 @@ dV_dcell2:
 		/* express the transfer in elemental moles... */
 		tot1_h = tot1_o = tot2_h = tot2_o = 0.0;
 		m_s = (struct M_S *) free_check_null(m_s);
-		m_s = (struct M_S *) PHRQ_malloc((size_t) count_elements *
+		m_s = (struct M_S *) PHRQ_malloc((size_t) count_moles_added *
 			sizeof(struct M_S));
 		if (m_s == NULL)
 			malloc_error();
-		for (i1 = 0; i1 < count_elements; i1++)
+		for (i1 = 0; i1 < count_moles_added; i1++)
 		{
 			m_s[i1].charge = 0;
 			m_s[i1].name = NULL;
