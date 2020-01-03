@@ -1,4 +1,13 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+ 	---------------
+	January 2, 2020
+	---------------
+
+	PHREEQC: Fixed bug in TRANSPORT. The function GFW was used in a Basic program
+	on elements that were not found in the database. This led to increasing the
+	count of elements. The original number of elements was used to allocate space
+	for transport, but the incremented number was used to free space, which caused
+	a segmentation fault.
 
  	-----------------
 	November 20, 2019
