@@ -744,8 +744,8 @@ read_transport(void)
 		max_cells = count_length;
 	if (count_disp > max_cells)
 		max_cells = count_disp;
-	//if (count_por > max_cells)
-	//	max_cells = count_por;
+	if (count_por > max_cells * (1 + stag_data->count_stag))
+		max_cells = (int)ceil(((double)count_por / (double)(1 + stag_data->count_stag)));
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -762,13 +762,13 @@ read_transport(void)
 				count_disp);
 			warning_msg(token);
 		}
-		//else
-		//{
-		//	sprintf(token,
-		//		"Number of cells is increased to number of porosities %d.",
-		//		count_por);
-		//	warning_msg(token);
-		//}
+		else
+		{
+			sprintf(token,
+				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
+				(int) ceil(((double)count_por / (double)(1 + stag_data->count_stag))));
+			warning_msg(token);
+		}
 	}
 	/*
 	*   Allocate space for cell_data
@@ -901,15 +901,28 @@ read_transport(void)
 		else
 		{
 			for (i = 1; i <= count_por; i++)
-				cell_data[i].por = pors[i - 1];
-			if (all_cells > count_por)
 			{
+				if (i == max_cells + 1)
+					continue;
+				cell_data[i].por = pors[i - 1];
+			}
+			if (all_cells - 2 > count_por)
+			{
+				int st = stag_data->count_stag ? 1 : 0;
 				error_string = sformatf(
 					"Porosities were read for %d cells. Last value is used till cell %d.",
-					count_por, all_cells - 1);
+					count_por, all_cells - st);
 				warning_msg(error_string);
-				for (i = count_por; i < all_cells; i++)
-					cell_data[i + 1].por = pors[count_por - 1];
+				for (i = count_por; i < all_cells - st; i++)
+				{
+					if (i == max_cells)
+						continue;
+					assert((i+1) < all_cells);
+					if ((i+1) < all_cells)
+					{
+						cell_data[i + 1].por = pors[count_por - 1];
+					}
+				}
 			}
 		}
 	}
