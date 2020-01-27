@@ -68,6 +68,7 @@ H+ = H+
 # Dw(I) = Dw(TK) * exp(-0.46 * DH_A * |z_H+| * I^0.5 / (1 + DH_B * I^0.5 * 1e-10 / (1 + I^0.75)))
 e- = e-
 H2O = H2O
+# H2O + 0.01e- = H2O-0.01; -log_k -9 # aids convergence
 Ca+2 = Ca+2
 	-gamma	5.0	0.1650
 	-dw	0.793e-9  97  3.4  24.6
@@ -1480,7 +1481,12 @@ SURFACE_SPECIES
 
 	Hfo_wOH + CO3-2 + 2H+= Hfo_wHCO3 + H2O
 	-log_k	20.62
-
+#
+# Silicate: Swedlund, P.J. and Webster, J.G., 1999. Water Research, 33, 3413-3422.
+#
+	Hfo_wOH + H4SiO4 = Hfo_wH3SiO4 + H2O        ; log_K   4.28 
+	Hfo_wOH + H4SiO4 = Hfo_wH2SiO4- + H+ + H2O  ; log_K  -3.22 
+	Hfo_wOH + H4SiO4 = Hfo_wHSiO4-2 + 2H+ + H2O ; log_K -11.69
 RATES
 
 ###########
