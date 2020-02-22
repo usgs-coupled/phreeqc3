@@ -1,0 +1,82 @@
+
+
+PRINT ; -reset false; -echo_input true; -user_print true	
+# tracer-in filter cells...	
+SOLUTION 4; -water   4.4768e-04	
+ Na 100; Cl 100 charge; pH 6.8 
+	
+
+# cells in clay sample...	
+SOLUTION 5; -water 6.8468e-05	
+ Na 100; Cl 100 charge; pH 6.8 	
+SURFACE 5; -equil 5;	
+ Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+ -Donnan 1.5178e-09	           
+	
+SOLUTION 6; -water 6.8468e-05	
+ Na 100; Cl 100 charge; pH 6.8 	
+SURFACE 6; -equil 6;	
+ Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+ -Donnan 1.5178e-09	           
+	
+SOLUTION 7; -water 6.8468e-05	
+ Na 100; Cl 100 charge; pH 6.8 	
+SURFACE 7; -equil 7;	
+ Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+ -Donnan 1.5178e-09	           
+	
+SOLUTION 8; -water 6.8468e-05	
+ Na 100; Cl 100 charge; pH 6.8 	
+SURFACE 8; -equil 8;	
+ Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+ -Donnan 1.5178e-09	           
+	
+SOLUTION 9; -water 6.8468e-05	
+ Na 100; Cl 100 charge; pH 6.8 	
+SURFACE 9; -equil 9;	
+ Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+ -Donnan 1.5178e-09	           
+	
+SOLUTION 10; -water 6.8468e-05	
+ Na 100; Cl 100 charge; pH 6.8 	
+SURFACE 10; -equil 10;	
+ Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+ -Donnan 1.5178e-09	           
+	
+
+# tracer-out filter cells...	
+SOLUTION 11; -water   4.4768e-04	
+ Na 100; Cl 100 charge; pH 6.8 
+	
+#downstream solution...	
+SOLUTION 12; -water   1.0000e-01	
+ Na 100; Cl 100 charge; pH 6.8 	        
+END	    
+PHASES 	       
+A_Sr	
+SrCl2 = Sr+2 + 2 Cl-;-log_k -17	       
+A_Li	
+LiCl = Li+ + Cl-;-log_k -16	
+EQUILIBRIUM_PHASES 12;A_Sr 0 0;A_Li 0 0	        
+END	
+
+# mixing factors...	
+MIX 3;           4  2.2289e-04	
+MIX 4;           5  9.6909e-06	
+MIX 5;           6  5.0657e-06	
+MIX 6;           7  5.0657e-06	
+MIX 7;           8  5.0657e-06	
+MIX 8;           9  5.0657e-06	
+MIX 9;          10  5.0657e-06	
+MIX 10;          11  9.6909e-06	
+MIX 11;          12  2.2289e-04	
+USE MIX none	        
+END	  
+TRANSPORT	
+ -warnings false	
+ -shifts 13700	
+ -flow diff; -cells 1; -bcon 2 2; -stag 10	
+ -time 3.7839e+02 3	
+ -multi_D true   7.9400e-10  3.9000e-01 0.0 1.5638e+00	
+ -punch_fr 137; -punch_c 3 12	        
+END	

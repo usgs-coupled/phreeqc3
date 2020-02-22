@@ -1,0 +1,525 @@
+   Input file: C:\GitPrograms\phreeqc3\Tony\20200221\example\Cub
+  Output file: C:\GitPrograms\phreeqc3\Tony\20200221\example\Cub.pqo
+Database file: C:\Program Files (x86)\USGS\Phreeqc Interactive 3.5.0-14000\database\phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.5.0-14000\database\phreeqc.dat
+	SOLUTION_MASTER_SPECIES
+	  Hto       Hto       0.0     1       1
+	SOLUTION_SPECIES
+	Hto = Hto
+	        gamma 1e6 0
+	     dw 2.236e-9
+	Sr+2 = Sr+2
+		gamma	5.260	0.121
+		dw	 0.794e-9 
+	 erm_ddl 0.29 # 0.29
+	SURFACE_MASTER_SPECIES
+	 Asu_ Asu_-            # Double layer, planar sites are modeled with EXCHANGE
+	SURFACE_SPECIES
+	Asu_- = Asu_-
+	 log_k 0.0000000e+00
+	H+ + Asu_- = HAsu_
+	 log_k -0.8
+	Na+ + Asu_- = NaAsu_
+	 log_k -0.7# alle folgenden Kationen an Austauschverhaeltnisse beim X-Modell angepasst
+	Sr+2 + 2Asu_- = SrAsu_2
+	 log_k 0.31
+	KNOBS
+	 tolerance 1e-20
+	SOLUTION 0-2 dummy column with 1 cell, calc`s are done with stagnant cells 3 to ...
+	  Na 1
+	 Cl 1
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	dummy column with 1 cell, calc`s are done with stagnant cells 3 to ...
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 123
+                          Density (g/cm³)  =   0.99708
+                               Volume (L)  =   1.00298
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.451e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.451e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.049e-07   1.012e-07    -6.979    -6.995    -0.016     -4.11
+   H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.000e-03
+   Cl-             1.000e-03   9.649e-04    -3.000    -3.016    -0.016     18.07
+H(0)          1.416e-25
+   H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+Na            1.000e-03
+   Na+             1.000e-03   9.652e-04    -3.000    -3.015    -0.015     -1.48
+   NaOH            9.767e-21   9.769e-21   -20.010   -20.010     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -7.60     -6.03    1.57  NaCl
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 3
+	water 0.996 # source reservoir volume / L
+	Na 100
+	 Cl 100 charge
+	 pH 6.8
+	Sr 2.0560e-4  # factor 1
+	SELECTED_OUTPUT
+	  file Cub_Sr_dd_dsb0.prn
+	 reset false
+	USER_PUNCH
+	1    nl$ = CHR$(10) # newline
+	2    q$  = CHR$(34) # quote '"'
+	3    x$  = CHR$(35) # cross '#'
+	4    sc$ = CHR$(59) # semicolon ';'
+	5    pi  = 2 * ARCTAN(1e10)    # 3.14159...
+	10   V_end = 0.1       # volume of the first sample of tracer-out solution / L
+	12   d_clay = 20e-3       # diameter clay / m
+	20   A = pi * (d_clay/2)^2   # filter and sample cross section area / m2
+	35   h_filter1 = 5e-3 # tracer-in filter thickness / m; Faktor Dicke = 3.125, eig 1.60mm
+	40   h_filter2 = 5e-3 # tracer-out filter thickness / m
+	50   por_filter1 = 0.285    # porosity
+	60   por_filter2 = 0.285
+	62   tort_f1 = 2.4145 # tortuosity fil1; Faktor Dicke = 3.125
+	65   tort_f2 = 2.4145 # tortuosity fil2; Faktor Dicke = 3.125
+	70   G_filter1 = por_filter1^tort_f1          # geometrical factor, G
+	80   G_filter2 = por_filter2^tort_f2
+	90   h_clay = 10.0e-3     # clay thickness / m
+	100  por_clay = 0.390
+	105  CEC = 0.195e-0  # eq/kg
+	114  A_ext = 100 # m2/g
+	116  rho_b = 2.80 * (1 - por_clay)  # clay bulk density  / (kg/L)
+	118  rho_b_eps = 2.80 * (1 - por_clay) / por_clay  # clay bulk density / porosity / (kg/L)
+	120  CEC_V = CEC * rho_b_eps   # CEC / (eq/L porewater)
+	130  A_por = A_ext * 1000 * rho_b_eps  # pore surface area / (m2/L porewater)
+	140  pore_r = 2e-3 / A_por # pore radius / m
+	150  n_DB = 2              # extent of the Donnan layer / (Debye lengths)
+	160  f_free_lim = 0.01     # smallest fraction of 'free' porewater
+	170  Far = 96493.5 : R = 8.3147 : ee = 8.854e-12 * eps_r # Faraday constant C/eq, gas constant J/K/mol, dielectric perimittivity F/m
+	175  appak = sqrt(ee * R * TK / (2 * mu * 1e3)) / Far # Debye length / m
+	180  n_DB = 2
+	182  d_DL = 2 * appak
+	184 r_lim = 0.01     # smallest radius fraction of 'free' porewater
+	185 d_closest = 0e-10 # the closest an ion can come to the surface, m
+	190 pore_geom$ = 'circ'  # 'circ' for circular, 'plan' for planar
+	191  if pore_geom$ = 'circ' then goto 198
+	192    # for planar pore
+	193    f_void = 2 * d_closest / pore_r
+	194    if (1 - 2 * (d_DL + d_closest) / pore_r) <= r_lim^2 then f_free = r_lim^2 : d_DL = (pore_r * (1 - r_lim) - 2*d_closest) / 2        else f_free = 1 - 2 * (d_DL + d_closest) / pore_r
+	195    f_DL = 1 - f_free - f_void
+	196  goto 250
+	197    # for circular pore
+	198    f_void = (2 * pore_r * d_closest - d_closest^2) / pore_r^2   # goto 198
+	199    if d_DL + d_closest > pore_r * (1 - r_lim) then f_free = r_lim^2 else f_free = (pore_r - d_DL - d_closest)^2 / pore_r^2
+	200    d_DL = 1e-3 * (1 - f_free - f_void) / A_por
+	201    f_DL = 1 - f_free - f_void
+	250  if CEC = 0 THEN f_free = 1   # goto 250
+	251  print 'por_clay =', por_clay, 'rho_b /(g/ml) =', rho_b, 'ISt /M =', mu
+	255  if pore_geom$ = 'circ' then print 'pore geometry = circular' else print 'pore geometry = planar'
+	260  print 'A_ext /(m2/g) =', A_ext,  'A_por /(m2/L pore water) =', A_por
+	265  print 'f_DL =', f_DL, 'f_free =', f_free, 'f_tot =' f_DL + f_free, 'd_DL =', d_DL
+	270  print 'pore_r /nm =', pore_r * 1e9
+	275  print 'C/m2 = ', CEC_1 / A_por * Far, 'appak =', appak
+	276  print 'G_clay =', por_clay^tort_n
+	300  Dw = 7.94e-10              # default tracer diffusion coefficient / (m2/s)
+	305  nfilt1 = 1 #3               # number of cells in filter 1
+	310  nfilt2 = 1 #3              # number of cells in filter 2
+	315  nclay =  6 #12            # number of clay cells
+	320  exp_time = 60 * 86400e-0       # seconds
+	330  punch_time = 0.6 * 86400e-0 # punch time / seconds
+	335  sub_time_step = 3 #5      # subdivides the timestep, INCREASE IT when MCD reports negative conc's
+	340  tort_n = -1.5638           # aus De(HTO)= 2.0e-10 m^2/s (in separatem Experiment gemessen)
+	345  G_clay = por_clay^tort_n # geometrical factor
+	400  sol$ = nl$ + ' Na 100' + sc$ + ' Cl 100 charge'  +  sc$ + ' pH 6.8 '
+	410  punch nl$ + 'PRINT ' + sc$ + ' -reset false' + sc$ + ' -echo_input true' + sc$ + ' -user_print true'
+	415  IF nfilt1 = 0 THEN GOTO 460
+	420  xf1 = h_filter1 / nfilt1 : V_filt1 = A * xf1 * por_filter1 * 1e3
+	425  punch nl$ + x$ + ' tracer-in filter cells...'
+	430  FOR i = 1 TO nfilt1
+	435    num$ = TRIM(STR$(i + 3)) + sc$
+	440    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_filt1)
+	445    punch sol$ + nl$
+	450  NEXT i
+	460  punch nl$ + nl$ + x$ + ' cells in clay sample...'# goto 460
+	465  x = h_clay / nclay
+	470  V_water = A * x * por_clay * 1e3
+	485  su_sites = CEC_V * V_water
+	495  FOR i = 1 TO nclay
+	500    num$ = TRIM(STR$(i + 3 + nfilt1)) + sc$
+	505    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + TRIM(STR$(V_water * f_free))
+	510    punch sol$
+	520    if su_sites = 0 then goto 560
+	525      punch nl$ + 'SURFACE ' + num$ + ' -equil ' + num$
+	530      punch nl$ + ' Asu_ ' + TRIM(STR$(su_sites)) + ' ' + TRIM(STR$(A_por)) + ' ' + TRIM(STR$(V_water))
+	540      punch nl$ + ' -Donnan ' + TRIM(STR$(d_DL))
+	550      punch nl$
+	560  NEXT i # note GOTO 560
+	590  IF nfilt2 = 0 THEN GOTO 640
+	595  xf2 = h_filter2 / nfilt2 : V_filt2 = A * xf2 * por_filter2 * 1e3
+	600  punch nl$ + nl$ + x$ + ' tracer-out filter cells...'
+	605  FOR i = 1 TO nfilt2
+	610    num$ = TRIM(STR$(i + 3 + nfilt1 + nclay)) + sc$
+	615    punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_filt2)
+	620    punch sol$ + nl$
+	625  NEXT i
+	640 punch nl$ + x$ + 'downstream solution...'# goto 640
+	645 num$ = TRIM(STR$(4 + nfilt1 + nclay + nfilt2)) + sc$
+	650 punch nl$ + 'SOLUTION ' + num$ + ' -water ' + STR$(V_end)
+	655 punch sol$
+	660 punch nl$ + 'END'
+	700 punch nl$ + 'PHASES '
+	710 punch nl$ + 'A_Sr'
+	720 punch nl$ + 'SrCl2 = Sr+2 + 2 Cl-' + sc$ + '-log_k -17'
+	722 punch nl$ + 'A_Li'
+	724 punch nl$ + 'LiCl = Li+ + Cl-' + sc$ + '-log_k -16'
+	730 punch nl$ + 'EQUILIBRIUM_PHASES ' + num$ + 'A_Sr 0 0' + sc$ + 'A_Li 0 0'
+	740 punch nl$ + 'END'
+	800 IF nfilt1 > 0 THEN gf1 = por_filter1 / G_filter1
+	805 IF nfilt2 > 0 THEN gf2 = por_filter2 / G_filter2
+	810 g = por_clay / G_clay
+	820 IF nfilt1 > 0 THEN ff = SQR(xf1) * G_filter1 / 2 ELSE ff = SQR(x) * G_clay / 2
+	830 IF nfilt1 > 0 THEN ff1 = (xf1 / gf1 + x / g) / (2 * A) * V_water * 1e-3
+	840 IF nfilt1 > 0 AND ff1 < ff THEN ff = ff1
+	850 IF nfilt1 > 0 THEN ff1 = (x / g) / A * V_water * 1e-3
+	855 IF nfilt1 > 0 AND ff1 < ff THEN ff = ff1
+	860 IF nfilt2 > 0 THEN ff1 = SQR(xf2) * G_filter2 / 2
+	865 IF nfilt2 > 0 AND ff1 < ff THEN ff = ff1
+	870 dt_max = 0.5 * ff / Dw
+	875 IF punch_time < dt_max THEN dt = punch_time ELSE dt = dt_max
+	880 punch_fr = 1
+	885 IF dt < punch_time THEN punch_fr = ceil(punch_time / dt)
+	890 dt = punch_time / punch_fr
+	895 shifts = ceil(exp_time / dt)
+	900 print 'dt= ', dt
+	905 print 'dt_max =', dt_max
+	1000 punch nl$ + nl$ + x$ + ' mixing factors...'
+	1005 FOR i = 0 TO nfilt1 + nclay + nfilt2
+	1010   IF i = 0 OR i = nfilt1 + nclay + nfilt2 THEN fbc = 2 ELSE fbc = 1
+	1015   IF i > nfilt1 OR nfilt1 = 0 THEN GOTO 1035
+	1020     IF i < nfilt1 THEN mixf = Dw * fbc / (xf1 / gf1) * dt * A * 1e3
+	1025     IF i = nfilt1 THEN mixf = 2 * Dw * fbc / (xf1 / gf1 + x / g) * dt * A * 1e3
+	1030     GOTO 1065
+	1035   IF i > nfilt1 + nclay THEN GOTO 1055  # note GOTO 1035
+	1040     IF i <= nfilt1 + nclay THEN mixf = Dw * fbc / (x / g) * dt * A * 1e3
+	1045     IF i = nfilt1 + nclay AND nfilt2 > 0 THEN mixf = 2 * Dw * fbc / (xf2 / gf2 + x / g) * dt * A * 1e3
+	1050     GOTO 1065
+	1055   mixf = Dw * fbc / (xf2 / gf2) * dt * A * 1e3  # note GOTO 1055
+	1060
+	1065   punch nl$ + 'MIX ' + TRIM(STR$(i + 3)) + sc$ + STR$(i + 4) + STR$(mixf)  # note GOTO 1065
+	1070 NEXT i
+	1075 punch nl$ + 'USE MIX none'
+	1080 punch nl$ + 'END'
+	1400 punch nl$ + 'TRANSPORT'
+	1410 stag = 2 + nfilt1 + nclay + nfilt2
+	1420 punch nl$ + ' -warnings false'
+	1430 punch nl$ + ' -shifts ' + TRIM(STR$(shifts))
+	1440 punch nl$ + ' -flow diff' + sc$ + ' -cells 1' + sc$ + ' -bcon 2 2' + sc$ + ' -stag ' + TRIM(STR$(stag))
+	1450 punch nl$ + ' -time ' + TRIM(STR$(dt)) + ' ' + TRIM(STR$(sub_time_step))
+	1460 punch nl$ + ' -multi_D true ' + STR$(Dw) + STR$(por_clay) + ' 0.0 ' + TRIM(STR$(-tort_n))
+	1480 punch nl$ + ' -punch_fr ' + TRIM(STR$(punch_fr)) + sc$ + ' -punch_c 3 ' + TRIM(STR$(2 + stag))
+	1492 punch nl$ + 'END'
+	1800 totcell = 2 + stag
+	1810 put(totcell, 9)
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 3.	
+
+por_clay =   3.9000e-01 rho_b /(g/ml) =   1.7080e+00 ISt /M =   1.0000e-01 
+pore geometry = circular 
+A_ext /(m2/g) =          100 A_por /(m2/L pore water) =   4.3795e+05 
+f_DL =   6.6470e-01 f_free =   3.3530e-01 f_tot =            1 d_DL =   1.5178e-09 
+pore_r /nm =   4.5667e+00 
+C/m2 =             0 appak =   9.6119e-10 
+G_clay =            1 
+WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
+
+dt=    3.7839e+02 
+dt_max =   3.8000e+02 
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-01   9.960e-02  Charge balance
+	Na                1.000e-01   9.960e-02
+	Sr                2.056e-07   2.048e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.800    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 10646
+                          Density (g/cm³)  =   1.00115
+                               Volume (L)  =   1.00067
+                        Activity of water  =   0.997
+                 Ionic strength (mol/kgw)  =   1.000e-01
+                       Mass of water (kg)  =   9.960e-01
+                 Total alkalinity (eq/kg)  =  -1.085e-07
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.210e-15
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   9
+                                  Total H  = 1.105684e+02
+                                  Total O  = 5.528419e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.920e-07   1.585e-07    -6.717    -6.800    -0.083      0.00
+   OH-             8.357e-08   6.365e-08    -7.078    -7.196    -0.118     -3.73
+   H2O             5.551e+01   9.966e-01     1.744    -0.001     0.000     18.07
+Cl            1.000e-01
+   Cl-             1.000e-01   7.666e-02    -1.000    -1.115    -0.115     18.34
+H(0)          3.476e-25
+   H2              1.738e-25   1.778e-25   -24.760   -24.750     0.010     28.61
+Na            1.000e-01
+   Na+             1.000e-01   7.851e-02    -1.000    -1.105    -0.105     -1.09
+   NaOH            4.883e-19   4.997e-19   -18.311   -18.301     0.010     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.893   -42.883     0.010     30.40
+Sr            2.056e-07
+   Sr+2            2.056e-07   8.090e-08    -6.687    -7.092    -0.405     (0)  
+   SrOH+           3.331e-14   2.609e-14   -13.477   -13.584    -0.106     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -21.65    -24.75   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Halite           -3.79     -2.22    1.57  NaCl
+  O2(g)           -39.99    -42.88   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	USER_GRAPH 1 Source reservoir
+	 -plot_csv_file Cub_Sr.txt
+	 -plot_csv_file Cub_export.txt
+	 -axis_titles "Time / days" "Sr / (mol/m^3)"
+	 -chart_title "1.7G, Source reservoir"
+	 -plot_concentration_vs time
+	 1 if cell_no > 3 then end
+	 10 days = total_time / (3600 * 24)
+	 30 plot_xy days, tot("Sr") / 1  * 1000, color = Red, symbol = None
+	 -end
+	USER_GRAPH 2 downstream reservoir
+	 -plot_csv_file Cub_JdsbSr.txt
+	 -plot_csv_file Cub_Jdsb_export.txt
+	 -axis_titles "Time / days" "flux / (mol/m2/s)"
+	 -axis_scale y_axis 0 a
+	 -start
+	 10 if (cell_no <  get(9) ) then end
+	 20 days = total_time / (3600 * 24)
+	 30 dif = sys("Sr") / 1  - get(1)
+	 40 if dif < 0 then 60
+	 50 plot_xy days, (dif / (3.1416 * 1.00^2) / (total_time - get(2)) * 24 * 3600) / 8.64, y_axis = 1, color = Green  , symbol = None
+	 60 put(sys("Sr") / 1 , 1) : put(total_time , 2)
+	 -end
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	PRINT
+	 selected_output false
+
+	Reading data from Cub_Sr_dd_dsb0.prn ...
+	PRINT 
+	 reset false
+	 user_print true	
+	SOLUTION 4
+	 water   4.4768e-04	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 
+	SOLUTION 5
+	 water 6.8468e-05	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	
+	SURFACE 5
+	 equilibrate 5
+	 Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+	 donnan 1.5178e-09	           
+	SOLUTION 6
+	 water 6.8468e-05	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	
+	SURFACE 6
+	 equilibrate 6
+	 Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+	 donnan 1.5178e-09	           
+	SOLUTION 7
+	 water 6.8468e-05	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	
+	SURFACE 7
+	 equilibrate 7
+	 Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+	 donnan 1.5178e-09	           
+	SOLUTION 8
+	 water 6.8468e-05	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	
+	SURFACE 8
+	 equilibrate 8
+	 Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+	 donnan 1.5178e-09	           
+	SOLUTION 9
+	 water 6.8468e-05	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	
+	SURFACE 9
+	 equilibrate 9
+	 Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+	 donnan 1.5178e-09	           
+	SOLUTION 10
+	 water 6.8468e-05	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	
+	SURFACE 10
+	 equilibrate 10
+	 Asu_ 1.7439e-04 4.3795e+05 2.0420e-04	
+	 donnan 1.5178e-09	           
+	SOLUTION 11
+	 water   4.4768e-04	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 
+	SOLUTION 12
+	 water   1.0000e-01	
+	 Na 100
+	 Cl 100 charge
+	 pH 6.8 	        
+	END	    
+	PHASES 	       
+	A_Sr	
+	SrCl2 = Sr+2 + 2 Cl-
+	log_k -17	       
+	A_Li	
+	LiCl = Li+ + Cl-
+	log_k -16	
+	EQUILIBRIUM_PHASES 12
+	A_Sr 0 0
+	A_Li 0 0	        
+	END	
+	MIX 3
+	           4  2.2289e-04	
+	MIX 4
+	           5  9.6909e-06	
+	MIX 5
+	           6  5.0657e-06	
+	MIX 6
+	           7  5.0657e-06	
+	MIX 7
+	           8  5.0657e-06	
+	MIX 8
+	           9  5.0657e-06	
+	MIX 9
+	          10  5.0657e-06	
+	MIX 10
+	          11  9.6909e-06	
+	MIX 11
+	          12  2.2289e-04	
+	USE MIX none	        
+	END	  
+	TRANSPORT	
+	 warnings false	
+	 shifts 13700	
+	 flow_direction diff
+	 cells 1
+	 bcond 2 2
+	 stagnant 10	
+	 timest 3.7839e+02 3	
+	 multi_d true   7.9400e-10  3.9000e-01 0.0 1.5638e+00	
+	 punch_frequency 137
+	 punch_cells 3 12	        
+	END	
+WARNING: No cell-lengths were read; length = 1 m assumed.
+WARNING: No dispersivities were read; disp = 0 assumed.
+WARNING: No porosities were read; used the value 3.90e-01 from -multi_D.
+	END
+---------------------------------
+End of Run after 194.939 Seconds.
+---------------------------------
+
