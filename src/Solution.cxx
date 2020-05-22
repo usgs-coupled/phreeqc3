@@ -1128,7 +1128,7 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	cxxNameDouble::iterator it;
 	for (it = this->totals.begin(); it != this->totals.end(); it++)
 	{
-		if (it->second < 1e-18)
+		if (it->second < 1e-25)
 		{
 			it->second = 0.0;
 		}

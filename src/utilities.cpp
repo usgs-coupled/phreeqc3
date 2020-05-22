@@ -167,6 +167,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
     */
+	if (llnl_count_temp > 0) return OK;
 	if (tc > 350.)
 	{
 		if (need_temp_msg < 1)
@@ -226,6 +227,7 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	              and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
 	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
     */
+	if (llnl_count_temp > 0) return OK;
 	if (tc > 350.)
 	{
 		tc = 350.;

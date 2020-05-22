@@ -148,6 +148,7 @@
 // #define MIN_RELATED_LOG_ACTIVITY -30
 #endif
 #define REF_PRES_PASCAL 1.01325E5   /* Reference pressure: 1 atm */
+#define MAX_P_NONLLNL 1500.0
 /*
  *   Hash definitions
  */

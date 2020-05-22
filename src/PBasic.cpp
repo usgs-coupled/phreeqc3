@@ -3697,10 +3697,24 @@ factor(struct LOC_exec * LINK)
 		n.UU.val = PhreeqcPtr->A0;
 		break;
 	case tokdh_a:
-		n.UU.val = PhreeqcPtr->DH_A;
+		if (PhreeqcPtr->llnl_count_temp > 0)
+		{
+			n.UU.val = PhreeqcPtr->a_llnl;
+		}
+		else
+		{
+			n.UU.val = PhreeqcPtr->DH_A;
+		}
 		break;
 	case tokdh_b:
-		n.UU.val = PhreeqcPtr->DH_B;
+		if (PhreeqcPtr->llnl_count_temp > 0)
+		{
+			n.UU.val = PhreeqcPtr->b_llnl;
+		}
+		else
+		{
+			n.UU.val = PhreeqcPtr->DH_B;
+		}
 		break;
 	case tokdh_av:
 		n.UU.val = PhreeqcPtr->DH_Av;
