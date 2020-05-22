@@ -237,6 +237,7 @@ initialize(void)
 	/*
 	   Initialize llnl aqueous model parameters
 	 */
+	a_llnl = b_llnl = 0.0;
 	llnl_temp = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
 	if (llnl_temp == NULL)
 		malloc_error();
