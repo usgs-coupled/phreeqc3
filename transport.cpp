@@ -3665,46 +3665,6 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
-void Phreeqc::
-calc_b_ij(int icell, int jcell, int k, LDBLE b_i, LDBLE b_j, LDBLE g_i, LDBLE g_j, LDBLE free_i, LDBLE free_j, int stagnant)
-/* ---------------------------------------------------------------------- */ 
-{
-	ct[icell].v_m[k].b_ij = b_i * (free_i + g_i) * b_j * (free_j + g_j) / (b_i * (free_i + g_i) + b_j * (free_j + g_j));
-	// At filterends, concentrations of ions change step-wise to the DL. 
-	// We take the harmonic mean for f_free, the average for the DL.
-	if (ct[icell].v_m[k].z)
-	{
-		if (!g_i && g_j)
-		{
-			ct[icell].v_m[k].b_ij = free_j * b_i * b_j / (b_i + b_j) +
-				b_i * (1 - free_j) / 4 + b_j * g_j / 4;
-		}
-		else if (g_i && !g_j)
-			ct[icell].v_m[k].b_ij = free_i * b_i * b_j / (b_i + b_j) +
-			b_j * (1 - free_i) / 4 + b_i * g_i / 4;
-	}
-	// for boundary cells...
-	if (stagnant > 1)
-	{ /* for a diffusion experiment with well-mixed reservoir in cell 3 and the last stagnant cell,
-		   and with the mixf * 2 for the boundary cells in the input... */
-		if (icell == 3 && !g_i && g_j)
-			ct[icell].v_m[k].b_ij = b_j * (free_j + g_j) / 2;
-		else if (jcell == all_cells - 1 && !g_j && g_i)
-			ct[icell].v_m[k].b_ij = b_i * (free_i + g_i) / 2;
-	}
-	else
-	{
-		if (icell == 0 || (icell == count_cells + 1 && jcell == count_cells + count_cells + 1))
-			ct[icell].v_m[k].b_ij = b_j * (free_j + g_j);
-		else if (icell == count_cells && jcell == count_cells + 1)
-			ct[icell].v_m[k].b_ij = b_i * (free_i + g_i);
-	}
-	if (ct[icell].v_m[k].z)
-		ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
-	return;
-}
-
-/* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 /* ---------------------------------------------------------------------- */
@@ -4182,7 +4142,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 									g_j += it_sc->Get_z_gMCD_map()[ct[icell].v_m[k].z];
 								else
 								{
-									dum1 = it_sc->Get_mass_water() / t_aq2;
+									dum1 = it_sc->Get_mass_water() / mass_water_bulk_x;
 									dum2 = it_sc->Get_z_gMCD_map()[1] / dum1;
 									g_j += pow(dum2, ct[icell].v_m[k].z) * dum1;
 								}
@@ -4192,18 +4152,32 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 					}
 				}
 
-				b_i = A1 * sol_D[icell].spec[i].Dwt;
-				b_j = A2;
-				if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
-					b_j *= sol_D[icell].spec[i].Dwt;
+				b_i = A1 * sol_D[icell].spec[i].Dwt * (f_free_i + g_i / ct[icell].visc1);
+				b_j = A2 * (f_free_j + g_j / ct[icell].visc2);
+				if (icell == count_cells && !stagnant)
+					ct[icell].v_m[k].b_ij = b_i;
+				else if (icell == all_cells - 1 && stagnant)
+					ct[icell].v_m[k].b_ij = b_i / 2; /* with the mixf *= 2 for this 'reservoir' cell in the input */
 				else
 				{
-					dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f;
-					dum2 *= exp(sol_D[icell].spec[i].dw_t / sol_D[jcell].tk_x - sol_D[icell].spec[i].dw_t / sol_D[icell].tk_x);
-					dum2 *= sol_D[jcell].viscos_f;
-					b_j *= dum2;
+					if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
+						b_j *= sol_D[icell].spec[i].Dwt;
+					else
+					{
+						dum2 = sol_D[icell].spec[i].Dwt / sol_D[icell].viscos_f;
+						dum2 *= exp(sol_D[icell].spec[i].dw_t / sol_D[jcell].tk_x - sol_D[icell].spec[i].dw_t / sol_D[icell].tk_x);
+						dum2 *= sol_D[jcell].viscos_f;
+						b_j *= dum2;
+					}
+					ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+					if (icell == 0 && !stagnant)
+							ct[icell].v_m[k].b_ij = b_j;
+					else if (icell == 3 && stagnant && !g_i && g_j)
+						ct[icell].v_m[k].b_ij = b_j / 2; /* with the mixf *= 2 for stagnant cell 3 in the input */
 				}
-				calc_b_ij(icell, jcell, k, b_i, b_j, g_i, g_j, f_free_i, f_free_j, stagnant);
+
+				if (ct[icell].v_m[k].z)
+					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 
 				k++;
 			}
@@ -4275,7 +4249,7 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 									g_i += it_sc->Get_z_gMCD_map()[ct[icell].v_m[k].z];
 								else
 								{
-									dum1 = it_sc->Get_mass_water() / t_aq1;
+									dum1 = it_sc->Get_mass_water() / mass_water_bulk_x;
 									dum2 = it_sc->Get_z_gMCD_map()[1] / dum1;
 									g_i += pow(dum2, ct[icell].v_m[k].z) * dum1;
 								}
@@ -4292,18 +4266,31 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						g_j *= sol_D[jcell].spec[j].erm_ddl;
 					}
 				}
-				b_i = A1;
-				b_j = A2 * sol_D[jcell].spec[j].Dwt;
-				if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
-					b_i *= sol_D[jcell].spec[j].Dwt;
+				b_i = A1 * (f_free_i + g_i / ct[icell].visc1);
+				b_j = A2 * sol_D[jcell].spec[j].Dwt * (f_free_j + g_j / ct[icell].visc2);
+				if (icell == 0 && !stagnant)
+					ct[icell].v_m[k].b_ij = b_j;
+				else if (icell == 3 && stagnant && g_j && !g_i)
+					ct[icell].v_m[k].b_ij = b_j / 2; /* with the mixf *= 2 for 'reservoir' cell 3 in the input */
 				else
 				{
-					dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f;
-					dum2 *= exp(sol_D[jcell].spec[j].dw_t / sol_D[icell].tk_x - sol_D[jcell].spec[j].dw_t / sol_D[jcell].tk_x);
-					dum2 *= sol_D[icell].viscos_f;
-					b_i *= dum2;
+					if (sol_D[icell].tk_x == sol_D[jcell].tk_x)
+						b_i *= sol_D[jcell].spec[j].Dwt;
+					else
+					{
+						dum2 = sol_D[jcell].spec[j].Dwt / sol_D[jcell].viscos_f;
+						dum2 *= exp(sol_D[jcell].spec[j].dw_t / sol_D[icell].tk_x - sol_D[jcell].spec[j].dw_t / sol_D[jcell].tk_x);
+						dum2 *= sol_D[icell].viscos_f;
+						b_i *= dum2;
+					}
+					ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+					if (icell == count_cells && !stagnant)
+						ct[icell].v_m[k].b_ij = b_i;
+					else if (jcell == all_cells - 1 && stagnant && !g_j && g_i)
+						ct[icell].v_m[k].b_ij = b_i / 2; /* with the mixf * 2 for this 'reservoir' cell in the input */
 				}
-				calc_b_ij(icell, jcell, k, b_i, b_j, g_i, g_j, f_free_i, f_free_j, stagnant);
+				if (ct[icell].v_m[k].z)
+					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 
 				k++;
 			}
@@ -4386,9 +4373,28 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 						g_j *= sol_D[jcell].spec[j].erm_ddl;
 					}
 				}
-				b_i = A1 * sol_D[icell].spec[i].Dwt;
-				b_j = A2 * sol_D[jcell].spec[j].Dwt;
-				calc_b_ij(icell, jcell, k, b_i, b_j, g_i, g_j, f_free_i, f_free_j, stagnant);
+				b_i = A1 * sol_D[icell].spec[i].Dwt * (f_free_i + g_i / ct[icell].visc1);
+				b_j = A2 * sol_D[jcell].spec[j].Dwt * (f_free_j + g_j / ct[icell].visc2);
+				ct[icell].v_m[k].b_ij = b_i * b_j / (b_i + b_j);
+				// but for boundary cells...
+				if (stagnant > 1)
+				{ /* for a diffusion experiment with well-mixed reservoir in cell 3 and the last stagnant cell,
+					   and with the mixf * 2 for the boundary cells in the input... */
+					if (icell == 3 && !g_i && g_j)
+						ct[icell].v_m[k].b_ij = b_j / 2;
+					else if (jcell == all_cells - 1 && !g_j && g_i)
+						ct[icell].v_m[k].b_ij = b_i / 2;
+				}
+				else
+				{
+					if (icell == 0 || (icell == count_cells + 1 && jcell == count_cells + count_cells + 1))
+						ct[icell].v_m[k].b_ij = b_j;
+					else if (icell == count_cells && jcell == count_cells + 1)
+						ct[icell].v_m[k].b_ij = b_i;
+				}
+
+				if (ct[icell].v_m[k].z)
+					ct[icell].Dz2c += ct[icell].v_m[k].b_ij * ct[icell].v_m[k].zc * ct[icell].v_m[k].z;
 
 				//ddlm = sol_D[jcell].spec[j].lm - sol_D[icell].spec[i].lm; // appt: this could give an incorrect large factor for implicit
 				//if (fabs(ddlm) > 1e-10)

@@ -53,6 +53,11 @@ model(void)
 	  input_error++;
 	  error_msg("Cannot use PITZER and SIT data blocks in same run (database + input file).", STOP);
 	}
+	if ((pitzer_model == TRUE || sit_model == TRUE) && llnl_count_temp >0)
+	{
+		input_error++;
+		error_msg("Cannot use LLNL_AQUEOUS_MODEL_PARAMETERS with PITZER or SIT data blocks in same run (database + input file).", STOP);
+	}
 	if (pitzer_model == TRUE)
 	{
 
@@ -563,7 +568,7 @@ gammas(LDBLE mu)
  */
 	int i, j;
 	int ifirst, ilast;
-	LDBLE f, a_llnl, b_llnl, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
+	LDBLE f, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
 
 	LDBLE c1, c2, a, b;
 	LDBLE muhalf, equiv;
@@ -2935,7 +2940,7 @@ calc_gas_pressures(void)
 		 * Fixed-volume gas phase reacting with a solution
 		 * Change pressure used in logK to pressure of gas phase
 		 */
-		if (gas_phase_ptr->Get_total_p() > 1500)
+		if (gas_phase_ptr->Get_total_p() > MAX_P_NONLLNL && llnl_count_temp <= 0)
 		{
 			gas_phase_ptr->Set_total_moles(0);
 			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
@@ -2945,12 +2950,12 @@ calc_gas_pressures(void)
 				struct phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
 				if (phase_ptr->in == TRUE)
 				{
-					phase_ptr->moles_x *= 1500.0 / gas_phase_ptr->Get_total_p();
+					phase_ptr->moles_x *= MAX_P_NONLLNL / gas_phase_ptr->Get_total_p();
 					gas_phase_ptr->Set_total_moles(gas_phase_ptr->Get_total_moles() +
 						phase_ptr->moles_x);
 				}
 			}
-			gas_phase_ptr->Set_total_p(1500.0);
+			gas_phase_ptr->Set_total_p(MAX_P_NONLLNL);
 		}
 	}
 
@@ -3931,8 +3936,11 @@ reset(void)
 				//{
 				//	patm_x = ( 1 * patm_x + p_sat) / 2.0;
 				//}
-				if (patm_x > 1500)
-				  patm_x = 1500;
+				if (llnl_count_temp <= 0)
+				{
+					if (patm_x > MAX_P_NONLLNL)
+						patm_x = MAX_P_NONLLNL;
+				}
 			}
 			last_patm_x = patm_x;
 		}

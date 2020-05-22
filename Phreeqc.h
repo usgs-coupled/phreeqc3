@@ -1066,7 +1066,6 @@ public:
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
-	void calc_b_ij(int icell, int jcell, int k, LDBLE b_i, LDBLE b_j, LDBLE g_i, LDBLE g_j, LDBLE free_i, LDBLE free_j, int stagnant);
 	void diffuse_implicit(LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no, int ref_cell);
 	LDBLE moles_from_redox_states(cxxSolution *sptr, const char *name);
@@ -1693,7 +1692,7 @@ protected:
 
 	int count_total_steps;
 	int phast;
-	LDBLE *llnl_temp, *llnl_adh, *llnl_bdh, *llnl_bdot, *llnl_co2_coefs;
+	LDBLE *llnl_temp, *llnl_adh, *llnl_bdh, *llnl_bdot, *llnl_co2_coefs, a_llnl, b_llnl;
 	int llnl_count_temp, llnl_count_adh, llnl_count_bdh, llnl_count_bdot,
 		llnl_count_co2_coefs;
 

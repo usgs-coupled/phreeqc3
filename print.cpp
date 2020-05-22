@@ -602,7 +602,7 @@ print_gas_phase(void)
 	print_centered("Gas phase");
 	output_msg(sformatf("Total pressure: %5.2f      atmospheres",
 			   (double) gas_phase_ptr->Get_total_p()));
-	if (gas_phase_ptr->Get_total_p() >= 1500)
+	if (gas_phase_ptr->Get_total_p() >= MAX_P_NONLLNL && llnl_count_temp <= 0)
 		output_msg(" WARNING: Program limit.\n");
 	else if (PR)
 		output_msg("          (Peng-Robinson calculation)\n");

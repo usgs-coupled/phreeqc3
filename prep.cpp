@@ -5653,6 +5653,7 @@ calc_vm(LDBLE tc, LDBLE pa)
  *    b4 = logk[vmi4], or
  *	  coef(tc) = millero[3] + millero[4] * tc + millero[5] * tc^2
  */
+	if (llnl_count_temp > 0) return OK;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	for (int i = 0; i < count_s_x; i++)
 	{
