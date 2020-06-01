@@ -580,7 +580,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 	char c, c1;
 	LDBLE d;
 	char element[MAX_LENGTH];
-
+	char** t_ptr_save = t_ptr;
 	while (((c = **t_ptr) != '+') && (c != '-') && (c != '\0'))
 	{
 		/* close parenthesis */
@@ -689,7 +689,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 	}
 	if (paren_count != 0)
 	{
-		error_string = sformatf( "Unbalanced parentheses.");
+		error_string = sformatf( "Unbalanced parentheses: %s", *t_ptr_save);
 		error_msg(error_string, CONTINUE);
 		input_error++;
 		return (ERROR);
@@ -837,7 +837,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 	char c, c1;
 	LDBLE d;
 	char element[MAX_LENGTH];
-
+	char** t_ptr_save = t_ptr;
 	while (((c = **t_ptr) != '+') && (c != '-') && (c != '\0'))
 	{
 		/* close parenthesis */
@@ -941,7 +941,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 	}
 	if (paren_count != 0)
 	{
-		error_string = sformatf( "Unbalanced parentheses.");
+		error_string = sformatf("Unbalanced parentheses: %s", *t_ptr_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}

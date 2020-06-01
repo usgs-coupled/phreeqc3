@@ -1207,7 +1207,7 @@ ineq(int in_kode)
 				/*   Copy in saturation index equation (has mass or supersaturated) */
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(my_array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
 				//if (it->second.Get_add_formula().size() == 0
 				if (comp_ptr->Get_add_formula().size() == 0
@@ -1241,7 +1241,7 @@ ineq(int in_kode)
  */
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(my_array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			l_count_rows++;
 /*
@@ -1252,7 +1252,7 @@ ineq(int in_kode)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(my_array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 
 			res[l_count_rows] = 1.0;
@@ -1269,7 +1269,7 @@ ineq(int in_kode)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(my_array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			res[l_count_rows] = 1.0;
 			if (in_kode != 1)
@@ -1351,7 +1351,7 @@ ineq(int in_kode)
 			}
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(my_array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			if (mass_water_switch == TRUE && x[i] == mass_hydrogen_unknown)
 			{
@@ -1368,7 +1368,7 @@ ineq(int in_kode)
 		{
 			memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 				   (void *) &(my_array[i * (count_unknowns + 1)]),
-				   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+				   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 			back_eq[l_count_rows] = i;
 			l_count_rows++;
 		}
@@ -1412,7 +1412,7 @@ ineq(int in_kode)
 					memcpy((void *)
 						   &(ineq_array[l_count_rows * max_column_count]),
 						   (void *) &(zero[0]),
-						   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+						   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 					ineq_array[l_count_rows * max_column_count + i] = 1.0;
 					ineq_array[l_count_rows * max_column_count +
 							   count_unknowns] = x[i]->moles;
@@ -1425,7 +1425,7 @@ ineq(int in_kode)
 					memcpy((void *)
 						   &(ineq_array[l_count_rows * max_column_count]),
 						   (void *) &(zero[0]),
-						   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+						   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 					ineq_array[l_count_rows * max_column_count + i] = -1.0;
 					ineq_array[l_count_rows * max_column_count +
 							   count_unknowns] =
@@ -1447,7 +1447,7 @@ ineq(int in_kode)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(my_array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
 				for (j = 0; j < count_unknowns; j++)
 				{
@@ -1609,7 +1609,7 @@ ineq(int in_kode)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(zero[0]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = -1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
 					x[i]->moles;
@@ -1647,7 +1647,7 @@ ineq(int in_kode)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(zero[0]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = 1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
 					0.99 * x[i]->moles - MIN_TOTAL_SS;
@@ -1674,7 +1674,7 @@ ineq(int in_kode)
 			{
 				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
 					   (void *) &(my_array[i * (count_unknowns + 1)]),
-					   (size_t) (count_unknowns + 1) * sizeof(LDBLE));
+					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 				back_eq[l_count_rows] = i;
 				for (j = 0; j < count_unknowns; j++)
 				{
