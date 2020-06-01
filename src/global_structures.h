@@ -604,6 +604,7 @@ class cxxChemRxn
 public:
 	cxxChemRxn(void)
 	{
+		logk[0] = dz[0] = 0.0;
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			logk[i] = 0.0;
@@ -615,6 +616,7 @@ public:
 	}
 	cxxChemRxn(struct reaction *rxn)
 	{
+		logk[0] = dz[0] = 0.0;
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			logk[i] = rxn->logk[i];
