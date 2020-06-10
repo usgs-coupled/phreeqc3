@@ -1,5 +1,43 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+ 	----------------
+	June 7, 2020
+	----------------
+	PhreeqcRM: Modified the OpenMP version to allow retrieval of strings from
+	selected output through the worker IPhreeqc instances. The PhreeqcRM
+	method GetSelectedOutput retrieves only numerical values from selected
+	output. Formerly, selected output was not available through the 
+	IPhreeqc worker instances in the case when the output file was written
+	[SetPrintChemistryOn(true)]. Now, complete selected output values (strings
+	and numeric values) are always available through IPhreeqc methods on
+	the workers. String values of selected output are not available in the
+	MPI version. 
 
+ 	----------------
+	May 24, 2020
+	----------------
+	
+	PHREEQC:  Code was revised to remove temperature and pressure limits for 
+	llnl-type databases. Previously, limits of 350 C and 1500 atm were applied to 
+	all databases. These limits were removed for databases that define 
+	LLNL_AQUEOUS_MODEL_PARAMETERS. It is assumed that for llnl-type databases all 
+	temperature and pressure effects are defined by the 
+	LLNL_AQUEOUS_MODEL_PARAMETERS data block and the temperature expressions for 
+	log10(K)s of the aqueous species and phases. Implicitly, pressure for an 
+	llnl-type database is either fixed or a function of temperature.
+	
+	In addition, the molar volume of water was set to zero for llnl-type 
+	databases. The molar volume of water was calculated as a non-zero value for 
+	all databases. Thus, there was a pressure dependence for log10(K) for 
+	reactions involving water. For llnl-type databases, all molar volumes should 
+	be zero, and all temperature and pressure dependence should be defined 
+	through LLNL_AQUEOUS_MODEL_PARAMETERS and log10 Ks.  	
+	
+	PHREEQC: Added extra information for some ERROR messages related to -formula 
+	definitions in KINETICS. Fixed some C++ 2011 compiler warnings about casts 
+	and initialization of classes. 	
+
+Version 3.6.2: January 28, 2020	
+	
  	----------------
 	January 28, 2020
 	----------------
