@@ -3993,7 +3993,7 @@ factor(struct LOC_exec * LINK)
 			// call callback Basic function
 
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x2, str);
-
+			PhreeqcPtr->PHRQ_free(str);
 		}
 		break;
 
