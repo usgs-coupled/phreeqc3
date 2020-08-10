@@ -1,0 +1,81 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 ExchMixRelatedMin_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1; Cl 1; Na .1; pH 7 charge
+END
+EQUILIBRIUM_PHASES 1
+   Calcite 0 4e-3 
+END
+EXCHANGE 1; Ca0.5X Calcite equi 1; -equil 1
+DUMP
+-file ExchMixRelatedMin.dmp
+-equil 1
+-exchange 1 # X = 0.004
+END
+EQUILIBRIUM_PHASES_MIX 1
+  1 0.5
+DUMP
+-append
+-equil 1
+-exchange 1 # X = 0.002
+END
+EQUILIBRIUM_PHASES_MODIFY
+  -component  Calcite
+  	-moles   0.001
+DUMP
+-append
+-equil 1
+-exchange 1 # X = 0.001
+END
+EQUILIBRIUM_PHASES_RAW       1 
+  # EXCHANGE_MODIFY candidates; use new_def=true #
+  -new_def                   0
+  -component                 Calcite
+      # EQUILIBRIUM_PHASES_MODIFY candidate identifiers #
+      -si                    0
+      -moles                 0.004
+      -force_equality        0
+      -dissolve_only         0
+      -precipitate_only      0
+      # PPassemblage workspace variables #
+      -si_org                0
+      -delta                 0
+      -initial_moles         0
+      -totals                
+  -eltList                   # List of all elements in phases and alternate reactions
+    C                        1
+    Ca                       1
+    O                        3
+  # PPassemblage workspace variables #
+  -assemblage_totals
+DUMP
+-append
+-equil 1
+-exchange 1 # X = 0.004
+END
+EQUILIBRIUM_PHASES 1
+   Calcite 0 0 
+END
+DUMP
+-append
+-equil 1
+-exchange 1 # X = 0.002
+END
+EQUILIBRIUM_PHASES 1
+   Calcite 0 2e-3 
+END
+DUMP
+-append
+-equil 1
+-exchange 1 # X = 0.002
+END
+USE solution 1
+USE equilibrium_phases 1
+USE exchange 1
+END

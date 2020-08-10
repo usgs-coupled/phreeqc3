@@ -2679,6 +2679,11 @@ save_init(int i)
 void
 Phreeqc::do_mixes(void)
 {
+	bool surf, exch, kin, min;
+	surf = (Rxn_surface_mix_map.size() > 0);
+	exch = (Rxn_exchange_mix_map.size() > 0);
+	kin = (Rxn_kinetics_mix_map.size() > 0);
+	min = (Rxn_pp_assemblage_mix_map.size() > 0);
 	Utilities::Rxn_mix(Rxn_solution_mix_map, Rxn_solution_map, this);
 	Utilities::Rxn_mix(Rxn_exchange_mix_map, Rxn_exchange_map, this);
 	Utilities::Rxn_mix(Rxn_gas_phase_mix_map, Rxn_gas_phase_map, this);
@@ -2686,4 +2691,6 @@ Phreeqc::do_mixes(void)
 	Utilities::Rxn_mix(Rxn_pp_assemblage_mix_map, Rxn_pp_assemblage_map, this);
 	Utilities::Rxn_mix(Rxn_ss_assemblage_mix_map, Rxn_ss_assemblage_map, this);
 	Utilities::Rxn_mix(Rxn_surface_mix_map, Rxn_surface_map, this);
+	if (exch || kin) update_kin_exchange();
+	if (exch || min) update_min_exchange();
 }

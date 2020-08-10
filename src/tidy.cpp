@@ -292,7 +292,26 @@ tidy_model(void)
 	{
 		tidy_solutions();
 	}
-
+/*
+* need to update exchange and surface related in case anything has changed
+*/
+	if (keycount[Keywords::KEY_EXCHANGE] > 0 ||
+		keycount[Keywords::KEY_EXCHANGE_RAW] > 0 ||
+		keycount[Keywords::KEY_EXCHANGE_MODIFY] )
+	{
+		if (keycount[Keywords::KEY_KINETICS] > 0 ||
+			keycount[Keywords::KEY_KINETICS_RAW] > 0 ||
+			keycount[Keywords::KEY_KINETICS_MODIFY])
+		{
+			update_kin_exchange();
+		}
+		if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0 ||
+			keycount[Keywords::KEY_EQUILIBRIUM_PHASES_RAW] > 0 ||
+			keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY])
+		{
+			update_min_exchange();
+		}
+	}
 	/*      if (new_model || new_exchange || new_pp_assemblage || new_surface || new_gas_phase || new_kinetics) reset_last_model(); */
 	if (new_model)
 	{
@@ -3669,6 +3688,120 @@ tidy_kin_exchange(void)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
+update_kin_exchange(void)
+/* ---------------------------------------------------------------------- */
+/*
+ *  If exchanger is related to mineral, exchanger amount is
+ *  set in proportion. Exchange needs to be updated if the
+ *  amount of kinetic reaction has changed. Corner case of
+ *  zero moles.
+ */
+{
+	cxxKinetics* kinetics_ptr;
+	char* ptr;
+	LDBLE conc;
+
+	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	for ( ; it != Rxn_exchange_map.end(); it++)
+	{
+		cxxExchange* exchange_ptr = &(it->second);
+		if (exchange_ptr->Get_n_user() < 0)	continue;
+		// check elements
+		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
+		{
+			cxxExchComp& comp_ref = exchange_ptr->Get_exchange_comps()[j];
+			if (comp_ref.Get_rate_name().size() == 0) continue;
+			double comp_moles = 0.0;
+			/* First find exchange master species */
+			cxxNameDouble nd = comp_ref.Get_totals();
+			cxxNameDouble::iterator kit = nd.begin();
+			bool found_exchange = false;
+			for (; kit != nd.end(); kit++)
+			{
+				/* Find master species */
+				struct element* elt_ptr = element_store(kit->first.c_str());
+				if (elt_ptr == NULL || elt_ptr->master == NULL)
+				{
+					input_error++;
+					error_string = sformatf("Master species not in database "
+						"for %s, skipping element.",
+						kit->first.c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_ptr->master->type == EX)
+				{
+					comp_moles = kit->second;
+					found_exchange = true;
+				}
+			}
+			//if (!found_exchange)
+			//{
+			//	input_error++;
+			//	error_string = sformatf(
+			//		"Exchange formula does not contain an exchange master species, %s",
+			//		comp_ref.Get_formula().c_str());
+			//	error_msg(error_string, CONTINUE);
+			//	continue;
+			//}
+
+			/* Now find associated kinetic reaction ...  */
+			if ((kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, exchange_ptr->Get_n_user())) == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Kinetics %d must be defined to use exchange related to kinetic reaction, %s",
+					exchange_ptr->Get_n_user(), comp_ref.Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			size_t k;
+			for (k = 0; k < kinetics_ptr->Get_kinetics_comps().size(); k++)
+			{
+				if (strcmp_nocase
+				(comp_ref.Get_rate_name().c_str(),
+					kinetics_ptr->Get_kinetics_comps()[k].Get_rate_name().c_str()) == 0)
+				{
+					break;
+				}
+			}
+			if (k == kinetics_ptr->Get_kinetics_comps().size())
+			{
+				input_error++;
+				error_string = sformatf(
+					"Kinetic reaction, %s, related to exchanger, %s, not found in KINETICS %d",
+					comp_ref.Get_rate_name().c_str(), comp_ref.Get_formula().c_str(), exchange_ptr->Get_n_user());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			/* use database name for phase */
+			comp_ref.Set_rate_name(kinetics_ptr->Get_kinetics_comps()[k].Get_rate_name().c_str());
+
+			/* make exchanger concentration proportional to mineral ... */
+			conc = kinetics_ptr->Get_kinetics_comps()[k].Get_m() * comp_ref.Get_phase_proportion();
+			if (found_exchange && comp_moles > 0.0)
+			{
+				comp_ref.Get_totals().multiply(conc / comp_moles);
+			}
+			else  /* need to generate totals from scratch */
+			{
+				count_elts = 0;
+				paren_count = 0;
+				{
+					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
+					ptr = temp_formula;
+					get_elts_in_species(&ptr, conc);
+					free_check_null(temp_formula);
+				}
+				comp_ref.Set_totals(elt_list_NameDouble());
+			}
+		}
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
 tidy_min_exchange(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -3824,6 +3957,167 @@ tidy_min_exchange(void)
 							phase_ptr->formula);
 					error_msg(error_string, CONTINUE);
 					break;
+				}
+			}
+		}
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+update_min_exchange(void)
+/* ---------------------------------------------------------------------- */
+/*
+ *  If exchanger is related to mineral, exchanger amount is
+ *  set in proportion. Need to check in case exchange or min
+ *  are modified.
+ */
+{
+	int n, jj;
+	char* ptr;
+	LDBLE conc;
+
+	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
+	for ( ; it != Rxn_exchange_map.end(); it++)
+	{
+		cxxExchange* exchange_ptr = &(it->second);
+		if (exchange_ptr->Get_n_user() < 0)	continue;
+		n = exchange_ptr->Get_n_user();
+		// check elements
+		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
+		{
+			double comp_moles = 0.0;
+			cxxExchComp& comp_ref = exchange_ptr->Get_exchange_comps()[j];
+			if (comp_ref.Get_phase_name().size() == 0) continue;
+			/* First find exchange master species */
+			cxxNameDouble nd = comp_ref.Get_totals();
+			cxxNameDouble::iterator kit = nd.begin();
+			bool found_exchange = false;
+			for (; kit != nd.end(); kit++)
+			{
+				/* Find master species */
+				struct element* elt_ptr = element_store(kit->first.c_str());
+				if (elt_ptr == NULL || elt_ptr->master == NULL)
+				{
+					input_error++;
+					error_string = sformatf("Master species not in database "
+						"for %s, skipping element.",
+						kit->first.c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (elt_ptr->master->type == EX)
+				{
+					comp_moles = kit->second;
+					found_exchange = true;
+				}
+			}
+			//if (!found_exchange)
+			//{
+			//	input_error++;
+			//	error_string = sformatf(
+			//		"Exchange formula does not contain an exchange master species, %s",
+			//		comp_ref.Get_formula().c_str());
+			//	error_msg(error_string, CONTINUE);
+			//	continue;
+			//}
+
+			cxxPPassemblage* pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, n);
+			/* Now find the mineral on which exchanger depends...  */
+			if (pp_assemblage_ptr == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Equilibrium_phases %d must be defined to use exchange related to mineral phase, %s",
+					n, comp_ref.Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			std::map<std::string, cxxPPassemblageComp>::iterator jit;
+			jit = pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
+			for (; jit != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); jit++)
+			{
+				if (strcmp_nocase(comp_ref.Get_phase_name().c_str(), jit->first.c_str()) == 0)
+				{
+					break;
+				}
+			}
+			if (jit == pp_assemblage_ptr->Get_pp_assemblage_comps().end())
+			{
+				input_error++;
+				error_string = sformatf(
+					"Mineral, %s, related to exchanger, %s, not found in Equilibrium_Phases %d",
+					comp_ref.Get_phase_name().c_str(), comp_ref.Get_formula().c_str(), n);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			/* use database name for phase */
+			comp_ref.Set_phase_name(jit->first.c_str());
+
+			/* make exchanger concentration proportional to mineral ... */
+			conc = jit->second.Get_moles() * comp_ref.Get_phase_proportion();
+			if (found_exchange && comp_moles > 0.0)
+			{
+				comp_ref.Get_totals().multiply(conc / comp_moles);
+			}
+			else /* comp_moles is zero, need to redefine totals from scratch */
+			{
+				count_elts = 0;
+				paren_count = 0;
+				{
+					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
+					ptr = temp_formula;
+					get_elts_in_species(&ptr, conc);
+					free_check_null(temp_formula);
+				}
+				comp_ref.Set_totals(elt_list_NameDouble());
+				/*
+				 *   make sure exchange elements are in phase
+				 */
+				count_elts = 0;
+				paren_count = 0;
+				{
+					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
+					ptr = temp_formula;
+					get_elts_in_species(&ptr, -comp_ref.Get_phase_proportion());
+					free_check_null(temp_formula);
+				}
+				int l;
+				struct phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+				if (phase_ptr != NULL)
+				{
+					char* temp_formula = string_duplicate(phase_ptr->formula);
+					ptr = temp_formula;
+					get_elts_in_species(&ptr, 1.0);
+					free_check_null(temp_formula);
+				}
+				else
+				{
+					input_error++;
+					error_string = sformatf(
+						"Mineral, %s, related to exchanger, %s, not found in Equilibrium_Phases %d",
+						comp_ref.Get_phase_name().c_str(), comp_ref.Get_formula().c_str(), n);
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				qsort(elt_list, (size_t)count_elts,
+					(size_t)sizeof(struct elt_list), elt_list_compare);
+				elt_list_combine();
+				for (jj = 0; jj < count_elts; jj++)
+				{
+					if (elt_list[jj].elt->primary->s->type != EX
+						&& elt_list[jj].coef < 0)
+					{
+						input_error++;
+						error_string = sformatf(
+							"Stoichiometry of exchanger, %s * %g mol sites/mol phase,\n\tmust be a subset of the related phase %s, %s.",
+							comp_ref.Get_formula().c_str(),
+							(double)comp_ref.Get_phase_proportion(),
+							phase_ptr->name,
+							phase_ptr->formula);
+						error_msg(error_string, CONTINUE);
+						break;
+					}
 				}
 			}
 		}
@@ -4077,6 +4371,131 @@ tidy_min_surface(void)
 					warning_msg("The mismatch in stoichiometry may cause mass-balance errors or unwanted redox reactions.");
 					break;
 				}
+			}
+		}
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+update_min_surface(void)
+/* ---------------------------------------------------------------------- */
+/*
+ *  If surface is related to mineral, surface amount is
+ *  set in proportion
+ */
+{
+	std::map<int, cxxSurface>::iterator kit;
+	for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
+	{
+		cxxNameDouble update_charge;
+		double moles_surf = 0.0;
+		double moles_phase = 0.0;
+		cxxSurface* surface_ptr = &(kit->second);
+		if (surface_ptr->Get_n_user() < 0) continue;
+		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
+		{
+			cxxSurfaceComp* surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
+			if (surface_comp_ptr->Get_phase_name().size() == 0)	continue;
+			cxxSurfaceCharge* surface_charge_ptr = surface_ptr->Find_charge(surface_comp_ptr->Get_charge_name());
+			int n = surface_ptr->Get_n_user();
+
+			/* First find surface master species */
+			cxxNameDouble::iterator it;
+			for (it = surface_comp_ptr->Get_totals().begin(); it != surface_comp_ptr->Get_totals().end(); it++)
+			{
+				/* Find master species */
+				struct element* elt_ptr = element_store(it->first.c_str());
+				struct master* master_ptr = elt_ptr->master;
+				if (master_ptr == NULL)
+				{
+					input_error++;
+					error_string = sformatf("Master species not in database "
+						"for %s, skipping element.",
+						elt_ptr->name);
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (master_ptr->type != SURF) continue;
+				surface_comp_ptr->Set_master_element(elt_ptr->name);
+				moles_surf = it->second;
+				break;
+			}
+			if (surface_comp_ptr->Get_master_element().size() == 0)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Surface formula does not contain a surface master species, %s",
+					surface_comp_ptr->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			/* Now find the mineral on which surface depends...  */
+			cxxPPassemblage* pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, n);
+			if (pp_assemblage_ptr == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Equilibrium_phases %d must be defined to use surface related to mineral phase, %s",
+					n, surface_comp_ptr->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			std::map<std::string, cxxPPassemblageComp>::iterator jit;
+			jit = pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
+			for (; jit != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); jit++)
+			{
+				if (strcmp_nocase(surface_comp_ptr->Get_phase_name().c_str(),
+					jit->first.c_str()) == 0)
+				{
+					moles_phase = jit->second.Get_moles();
+					break;
+				}
+			}
+			if (jit == pp_assemblage_ptr->Get_pp_assemblage_comps().end())
+			{
+				input_error++;
+				error_string = sformatf(
+					"Mineral, %s, related to surface, %s, not found in Equilibrium_Phases %d",
+					surface_comp_ptr->Get_phase_name().c_str(), surface_comp_ptr->Get_formula().c_str(), n);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			int l;
+			struct phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+			if (phase_ptr == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Mineral, %s, related to surface, %s, not found in database.",
+					jit->first.c_str(), surface_comp_ptr->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			/* use database name for phase */
+			surface_comp_ptr->Set_phase_name(phase_ptr->name);
+			/* make surface concentration proportional to mineral ... */
+			LDBLE conc = jit->second.Get_moles() * surface_comp_ptr->Get_phase_proportion();
+			/* update comp data */
+			surface_comp_ptr->multiply(conc / moles_surf);
+			/* data for updating charge */
+			update_charge[surface_charge_ptr->Get_name()] = moles_phase;
+		}
+
+		/* update charge structure */
+		cxxNameDouble::iterator it = update_charge.begin();
+		for (; it != update_charge.end(); it++)
+		{
+			cxxSurfaceCharge* surface_charge_ptr = surface_ptr->Find_charge(it->first);
+			double grams = surface_charge_ptr->Get_grams();
+			if (grams != 0)
+			{
+				surface_charge_ptr->multiply(it->second / grams);
+			}
+			else
+			{
+				surface_charge_ptr->Set_grams(it->second);
 			}
 		}
 	}
