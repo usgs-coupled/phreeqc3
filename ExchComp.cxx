@@ -406,7 +406,7 @@ cxxExchComp::multiply(LDBLE extensive)
 { 
 	this->totals.multiply(extensive);
 	this->charge_balance *= extensive;  
-	this->phase_proportion *= extensive;
+	//this->phase_proportion *= extensive;
 }
 
 void
