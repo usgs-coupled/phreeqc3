@@ -1042,7 +1042,7 @@ public:
 	int tidy_isotope_ratios(void);
 	int tidy_isotope_alphas(void);
 	int tidy_kin_surface(void);
-	//int update_kin_surface(void);
+	int update_kin_surface(void);
 	int tidy_master_isotope(void);
 	int tidy_min_surface(void);
 	int update_min_surface(void);

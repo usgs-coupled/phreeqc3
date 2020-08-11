@@ -295,22 +295,41 @@ tidy_model(void)
 /*
 * need to update exchange and surface related in case anything has changed
 */
-	if (keycount[Keywords::KEY_EXCHANGE] > 0 ||
+	if (keycount[Keywords::KEY_KINETICS] > 0 ||
+		keycount[Keywords::KEY_KINETICS_RAW] > 0 ||
+		keycount[Keywords::KEY_KINETICS_MODIFY] ||
+		keycount[Keywords::KEY_EXCHANGE] > 0 ||
 		keycount[Keywords::KEY_EXCHANGE_RAW] > 0 ||
-		keycount[Keywords::KEY_EXCHANGE_MODIFY] )
+		keycount[Keywords::KEY_EXCHANGE_MODIFY])
 	{
-		if (keycount[Keywords::KEY_KINETICS] > 0 ||
-			keycount[Keywords::KEY_KINETICS_RAW] > 0 ||
-			keycount[Keywords::KEY_KINETICS_MODIFY])
-		{
-			update_kin_exchange();
-		}
-		if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0 ||
-			keycount[Keywords::KEY_EQUILIBRIUM_PHASES_RAW] > 0 ||
-			keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY])
-		{
-			update_min_exchange();
-		}
+		update_kin_exchange();
+	}
+	if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0 ||
+		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_RAW] > 0 ||
+		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY] ||
+		keycount[Keywords::KEY_EXCHANGE] > 0 ||
+		keycount[Keywords::KEY_EXCHANGE_RAW] > 0 ||
+		keycount[Keywords::KEY_EXCHANGE_MODIFY])
+	{
+		update_min_exchange();
+	}
+	if (keycount[Keywords::KEY_EQUILIBRIUM_PHASES] > 0 ||
+		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_RAW] > 0 ||
+		keycount[Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY] ||
+		keycount[Keywords::KEY_SURFACE] > 0 ||
+		keycount[Keywords::KEY_SURFACE_RAW] > 0 ||
+		keycount[Keywords::KEY_SURFACE_MODIFY] > 0)
+	{
+		update_min_surface();
+	}
+	if (keycount[Keywords::KEY_KINETICS] > 0 ||
+		keycount[Keywords::KEY_KINETICS_RAW] > 0 ||
+		keycount[Keywords::KEY_KINETICS_MODIFY] > 0 ||
+		keycount[Keywords::KEY_SURFACE] > 0 ||
+		keycount[Keywords::KEY_SURFACE_RAW] > 0 ||
+		keycount[Keywords::KEY_SURFACE_MODIFY] > 0)
+	{
+		update_kin_surface();
 	}
 	/*      if (new_model || new_exchange || new_pp_assemblage || new_surface || new_gas_phase || new_kinetics) reset_last_model(); */
 	if (new_model)
@@ -3782,7 +3801,7 @@ update_kin_exchange(void)
 			conc = kinetics_ptr->Get_kinetics_comps()[k].Get_m() * comp_ref.Get_phase_proportion();
 			if (found_exchange && comp_moles > 0.0)
 			{
-				comp_ref.Get_totals().multiply(conc / comp_moles);
+				comp_ref.multiply(conc / comp_moles);
 			}
 			else  /* need to generate totals from scratch */
 			{
@@ -4058,7 +4077,7 @@ update_min_exchange(void)
 			conc = jit->second.Get_moles() * comp_ref.Get_phase_proportion();
 			if (found_exchange && comp_moles > 0.0)
 			{
-				comp_ref.Get_totals().multiply(conc / comp_moles);
+				comp_ref.multiply(conc / comp_moles);
 			}
 			else /* comp_moles is zero, need to redefine totals from scratch */
 			{
@@ -4388,13 +4407,11 @@ update_min_surface(void)
 	std::map<int, cxxSurface>::iterator kit;
 	for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
 	{
-		cxxNameDouble update_charge;
-		double moles_surf = 0.0;
-		double moles_phase = 0.0;
 		cxxSurface* surface_ptr = &(kit->second);
 		if (surface_ptr->Get_n_user() < 0) continue;
 		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
 		{
+			double comp_moles = 0.0;
 			cxxSurfaceComp* surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
 			if (surface_comp_ptr->Get_phase_name().size() == 0)	continue;
 			cxxSurfaceCharge* surface_charge_ptr = surface_ptr->Find_charge(surface_comp_ptr->Get_charge_name());
@@ -4417,19 +4434,19 @@ update_min_surface(void)
 					continue;
 				}
 				if (master_ptr->type != SURF) continue;
+				comp_moles = it->second;
 				surface_comp_ptr->Set_master_element(elt_ptr->name);
-				moles_surf = it->second;
 				break;
 			}
-			if (surface_comp_ptr->Get_master_element().size() == 0)
-			{
-				input_error++;
-				error_string = sformatf(
-					"Surface formula does not contain a surface master species, %s",
-					surface_comp_ptr->Get_formula().c_str());
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
+			//if (surface_comp_ptr->Get_master_element().size() == 0)
+			//{
+			//	input_error++;
+			//	error_string = sformatf(
+			//		"Surface formula does not contain a surface master species, %s",
+			//		surface_comp_ptr->Get_formula().c_str());
+			//	error_msg(error_string, CONTINUE);
+			//	continue;
+			//}
 
 			/* Now find the mineral on which surface depends...  */
 			cxxPPassemblage* pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, n);
@@ -4449,7 +4466,6 @@ update_min_surface(void)
 				if (strcmp_nocase(surface_comp_ptr->Get_phase_name().c_str(),
 					jit->first.c_str()) == 0)
 				{
-					moles_phase = jit->second.Get_moles();
 					break;
 				}
 			}
@@ -4477,25 +4493,31 @@ update_min_surface(void)
 			surface_comp_ptr->Set_phase_name(phase_ptr->name);
 			/* make surface concentration proportional to mineral ... */
 			LDBLE conc = jit->second.Get_moles() * surface_comp_ptr->Get_phase_proportion();
-			/* update comp data */
-			surface_comp_ptr->multiply(conc / moles_surf);
-			/* data for updating charge */
-			update_charge[surface_charge_ptr->Get_name()] = moles_phase;
-		}
-
-		/* update charge structure */
-		cxxNameDouble::iterator it = update_charge.begin();
-		for (; it != update_charge.end(); it++)
-		{
-			cxxSurfaceCharge* surface_charge_ptr = surface_ptr->Find_charge(it->first);
 			double grams = surface_charge_ptr->Get_grams();
-			if (grams != 0)
+			if (comp_moles > 0.0)
 			{
-				surface_charge_ptr->multiply(it->second / grams);
+				surface_comp_ptr->multiply(conc / comp_moles);
 			}
-			else
+			else /* need to generate from scratch */
 			{
-				surface_charge_ptr->Set_grams(it->second);
+				char* temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
+				char* ptr = temp_formula;
+				count_elts = 0;
+				paren_count = 0;
+				get_elts_in_species(&ptr, conc);
+				free_check_null(temp_formula);
+
+				cxxNameDouble nd = elt_list_NameDouble();
+				surface_comp_ptr->Set_totals(nd);
+			}
+			if (grams > 0.0)
+			{
+				surface_charge_ptr->multiply(jit->second.Get_moles() / grams);
+			}
+			else /* need to generate from scratch */
+			{
+				surface_charge_ptr->Set_grams(jit->second.Get_moles());
+				surface_charge_ptr->Set_charge_balance(0.0);
 			}
 		}
 	}
@@ -4780,6 +4802,131 @@ tidy_kin_surface(void)
 			}
 			elt_list_kinetics =
 				(struct elt_list *) free_check_null(elt_list_kinetics);
+		}
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+update_kin_surface(void)
+/* ---------------------------------------------------------------------- */
+/*
+ *  If surface is related to mineral, surface amount is
+ *  set in proportion. Need to update surface if
+ *  moles of kinetic reaction changes
+ */
+{
+	cxxKinetics* kinetics_ptr;
+
+	std::map<int, cxxSurface>::iterator it;
+	for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
+	{
+		cxxSurface* surface_ptr = &(it->second);
+		if (surface_ptr->Get_n_user() < 0) continue;
+		int n = surface_ptr->Get_n_user();
+		for (size_t j = 0; j < surface_ptr->Get_surface_comps().size(); j++)
+		{
+			double comp_moles = 0.0;
+			cxxSurfaceComp* comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
+			if (comp_ptr->Get_rate_name().size() == 0) continue;
+			comp_ptr->Set_master_element("");
+
+			/* First find surface master species */
+			int k;
+			cxxNameDouble::iterator kit;
+			for (kit = comp_ptr->Get_totals().begin(); kit != comp_ptr->Get_totals().end(); kit++)
+			{
+				/* Find master species */
+				struct element* elt_ptr = element_store(kit->first.c_str());
+				struct master* master_ptr = elt_ptr->master;
+				if (master_ptr == NULL)
+				{
+					input_error++;
+					error_string = sformatf("Master species not in database "
+						"for %s, skipping element.",
+						elt_ptr->name);
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+				if (master_ptr->type != SURF) continue;
+				comp_ptr->Set_master_element(elt_ptr->name);
+				comp_moles = kit->second;
+				break;
+			}
+			if (comp_ptr->Get_master_element().size() == 0)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Surface formula does not contain a surface master species, %s",
+					comp_ptr->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			/* Now find the kinetic reaction on which surface depends...  */
+			if ((kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, n)) == NULL)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Kinetics %d must be defined to use surface related to kinetic reaction, %s",
+					n, comp_ptr->Get_formula().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+			for (k = 0; k < (int)kinetics_ptr->Get_kinetics_comps().size(); k++)
+			{
+				cxxKineticsComp* kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
+				if (strcmp_nocase
+				(comp_ptr->Get_rate_name().c_str(),
+					kin_comp_ptr->Get_rate_name().c_str()) == 0)
+				{
+					break;
+				}
+			}
+			if (k == (int)kinetics_ptr->Get_kinetics_comps().size())
+			{
+				input_error++;
+				error_string = sformatf(
+					"Kinetic reaction, %s, related to surface, %s, not found in Kinetics %d",
+					comp_ptr->Get_rate_name().c_str(), comp_ptr->Get_formula().c_str(), n);
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
+
+			cxxKineticsComp* kin_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[k]);
+			/* use database name for rate */
+			comp_ptr->Set_rate_name(kin_comp_ptr->Get_rate_name().c_str());
+			cxxSurfaceCharge* charge_ptr = surface_ptr->Find_charge(comp_ptr->Get_charge_name());
+
+			/* make surface concentration proportional to mineral ... */
+			LDBLE conc = kin_comp_ptr->Get_m() * comp_ptr->Get_phase_proportion();
+			double grams = charge_ptr->Get_grams();
+			if (comp_moles > 0.0)
+			{
+				comp_ptr->multiply(conc / comp_moles);
+			}
+			else /* need to generate from scratch */
+			{
+				char* temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
+				char* ptr = temp_formula;
+				count_elts = 0;
+				paren_count = 0;
+				get_elts_in_species(&ptr, conc);
+				free_check_null(temp_formula);
+
+				cxxNameDouble nd = elt_list_NameDouble();
+				comp_ptr->Set_totals(nd);
+			}
+
+			if (grams > 0.0)
+			{
+				charge_ptr->multiply(kin_comp_ptr->Get_m() / grams);
+			}
+			else /* need to generate from scratch */
+			{
+				charge_ptr->Set_grams(kin_comp_ptr->Get_m());
+				charge_ptr->Set_charge_balance(0.0);
+			}
 		}
 	}
 	return (OK);

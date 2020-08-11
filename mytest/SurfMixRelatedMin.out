@@ -1,5 +1,5 @@
-   Input file: ExchMixRelatedMin
-  Output file: ExchMixRelatedMin.out
+   Input file: SurfMixRelatedMin
+  Output file: SurfMixRelatedMin.out
 Database file: ../database/phreeqc.dat
 
 ------------------
@@ -21,7 +21,7 @@ Reading input data for simulation 1.
 
 	database ../database/phreeqc.dat
 	SELECTED_OUTPUT 101
-	    file                 ExchMixRelatedMin_101.sel
+	    file                 SurfMixRelatedMin_101.sel
 	USER_PUNCH 101
 	    headings Mu SC
 	    start
@@ -103,7 +103,7 @@ Reading input data for simulation 2.
 ------------------------------------
 
 	EQUILIBRIUM_PHASES 1
-	   Calcite 0 4e-3 
+	   Gypsum 0 4e-3 
 	END
 ------------------
 End of simulation.
@@ -113,26 +113,46 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-	EXCHANGE 1
-	 Ca0.5X Calcite equi 1
+	SURFACE 1
+	Hfo_wOH Gypsum equi 1 10
+	Hfo_sOH Gypsum equi .1 
 	 equilibrate 1
-	DUMP
-	-file ExchMixRelatedMin.dmp
-	-equil 1
-	-exchange 1 
 	END
--------------------------------------------------------
-Beginning of initial exchange-composition calculations.
--------------------------------------------------------
+------------------------------------------------------
+Beginning of initial surface-composition calculations.
+------------------------------------------------------
 
-Exchange 1.	
+Surface 1.	
 
-X                4.000e-03 mol	[1 (mol Ca0.5X)/(mol Calcite)]
+Diffuse Double Layer Surface-Complexation Model
 
-	                               Equiv-    Equivalent      Log 
-	Species             Moles      alents      Fraction     Gamma
+Hfo           
+	  2.574e-07  Surface charge, eq
+	  6.209e-01  sigma, C/m²
+	  2.987e-01  psi, V
+	 -1.163e+01  -F*psi/RT
+	  8.925e-06  exp(-F*psi/RT)
+	  1.000e+01  specific area, m²/mol Gypsum
+	  4.000e-02  m² for   4.000e-03 moles of Gypsum
 
-	NaX               4.000e-03   4.000e-03   1.000e+00    -0.015
+
+Hfo_s         
+	  4.000e-04  moles	[0.1 mol/(mol Gypsum)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH           3.071e-04       0.768   3.071e-04      -3.513
+	Hfo_sOH2+         4.649e-05       0.116   4.649e-05      -4.333
+	Hfo_sO-           4.646e-05       0.116   4.646e-05      -4.333
+
+Hfo_w         
+	  4.000e-03  moles	[1 mol/(mol Gypsum)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH           3.071e-03       0.768   3.071e-03      -2.513
+	Hfo_wOH2+         4.649e-04       0.116   4.649e-04      -3.333
+	Hfo_wO-           4.646e-04       0.116   4.646e-04      -3.333
 
 ------------------
 End of simulation.
@@ -142,12 +162,10 @@ End of simulation.
 Reading input data for simulation 4.
 ------------------------------------
 
-	EQUILIBRIUM_PHASES_MIX 1
-	  1 0.5
 	DUMP
-	-append
+	-file SurfMixRelatedMin.dmp
 	-equil 1
-	-exchange 1 
+	-surface 1 
 	END
 ------------------
 End of simulation.
@@ -157,13 +175,12 @@ End of simulation.
 Reading input data for simulation 5.
 ------------------------------------
 
-	EQUILIBRIUM_PHASES_MODIFY
-	  -component  Calcite
-	  	-moles   0.001
+	EQUILIBRIUM_PHASES_MIX 1
+	  1 0.5
 	DUMP
 	-append
 	-equil 1
-	-exchange 1 
+	-surface 1 
 	END
 ------------------
 End of simulation.
@@ -173,9 +190,25 @@ End of simulation.
 Reading input data for simulation 6.
 ------------------------------------
 
+	EQUILIBRIUM_PHASES_MODIFY
+	  -component  Gypsum
+	  	-moles   0.001
+	DUMP
+	-append
+	-equil 1
+	-surface 1 
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 7.
+------------------------------------
+
 	EQUILIBRIUM_PHASES_RAW       1 
 	  -new_def                   0
-	  -component                 Calcite
+	  -component                 Gypsum
 	      -si                    0
 	      -moles                 0.004
 	      -force_equality        0
@@ -193,18 +226,7 @@ Reading input data for simulation 6.
 	DUMP
 	-append
 	-equil 1
-	-exchange 1 
-	END
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 7.
-------------------------------------
-
-	EQUILIBRIUM_PHASES 1
-	   Calcite 0 0 
+	-surface 1 
 	END
 ------------------
 End of simulation.
@@ -214,10 +236,13 @@ End of simulation.
 Reading input data for simulation 8.
 ------------------------------------
 
+	EQUILIBRIUM_PHASES_MODIFY
+	  -component  Gypsum
+	  	-moles   0.0
 	DUMP
 	-append
 	-equil 1
-	-exchange 1 
+	-surface 1 
 	END
 ------------------
 End of simulation.
@@ -228,7 +253,7 @@ Reading input data for simulation 9.
 ------------------------------------
 
 	EQUILIBRIUM_PHASES 1
-	   Calcite 0 2e-3 
+	   Gypsum 0 2e-3 
 	END
 ------------------
 End of simulation.
@@ -241,7 +266,7 @@ Reading input data for simulation 10.
 	DUMP
 	-append
 	-equil 1
-	-exchange 1 
+	-surface 1 
 	END
 ------------------
 End of simulation.
@@ -253,7 +278,7 @@ Reading input data for simulation 11.
 
 	USE solution 1
 	USE equilibrium_phases 1
-	USE exchange 1
+	USE surface 1
 	END
 -----------------------------------------
 Beginning of batch-reaction calculations.
@@ -262,7 +287,7 @@ Beginning of batch-reaction calculations.
 Reaction step 1.
 
 Using solution 1.	
-Using exchange 1.	Exchange assemblage after simulation 3.
+Using surface 1.	
 Using pure phase assemblage 1.	
 
 -------------------------------Phase assemblage--------------------------------
@@ -270,94 +295,117 @@ Using pure phase assemblage 1.
                                                       Moles in assemblage
 Phase               SI  log IAP  log K(T, P)   Initial       Final       Delta
 
-Calcite           0.00    -8.48     -8.48    2.000e-03   1.102e-03  -8.978e-04
+Gypsum           -1.27    -5.85     -4.58    2.000e-03           0  -2.000e-03
 
------------------------------Exchange composition------------------------------
+------------------------------Surface composition------------------------------
 
-X                1.102e-03 mol	[1 (mol Ca0.5X)/(mol Calcite)]
+Diffuse Double Layer Surface-Complexation Model
 
-	                               Equiv-    Equivalent      Log 
-	Species             Moles      alents      Fraction     Gamma
+Hfo           
+	  8.675e-24  Surface charge, eq
+	undefined  sigma, C/m²
+	  5.872e-02  psi, V
+	 -2.286e+00  -F*psi/RT
+	  1.017e-01  exp(-F*psi/RT)
+	  1.000e+01  specific area, m²/mol Gypsum
+	  0.000e+00  m² for   0.000e+00 moles of Gypsum
 
-	CaX2              5.504e-04   1.101e-03   9.987e-01    -0.098
-	NaX               1.452e-06   1.452e-06   1.317e-03    -0.025
+
+Hfo_s         
+	  0.000e+00  moles	[0.1 mol/(mol Gypsum)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_sOH2+         7.979e-24       0.000   7.978e-24     -23.098
+	Hfo_sOHCa+2       6.376e-27       0.000   6.376e-27     -26.195
+	Hfo_sOH           5.412e-27       0.000   5.412e-27     -26.267
+	Hfo_sO-           8.410e-32       0.000   8.409e-32     -31.075
+
+Hfo_w         
+	  0.000e+00  moles	[1 mol/(mol Gypsum)]
+	                                   Mole                     Log
+	Species               Moles    Fraction    Molality    Molality
+
+	Hfo_wOH2+         1.045e-24       0.000   1.044e-24     -23.981
+	Hfo_wSO4-         3.596e-25       0.000   3.596e-25     -24.444
+	Hfo_wOH           7.085e-28       0.000   7.085e-28     -27.150
+	Hfo_wOHSO4-2      4.867e-28       0.000   4.866e-28     -27.313
+	Hfo_wO-           1.101e-32       0.000   1.101e-32     -31.958
+	Hfo_wOCa+         1.671e-34       0.000   1.671e-34     -33.777
 
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
 
-	C                 8.978e-04   8.978e-04
-	Ca                8.985e-04   8.985e-04
-	Cl                1.000e-03   1.000e-03
-	Na                9.855e-05   9.855e-05
+	Ca                2.000e-03   2.000e-03
+	Cl                9.999e-04   1.000e-03
+	Na                9.999e-05   1.000e-04
+	S                 2.000e-03   2.000e-03
 
 ----------------------------Description of solution----------------------------
 
-                                       pH  =   8.089      Charge balance
-                                       pe  =  -2.368      Adjusted to redox equilibrium
-      Specific Conductance (µS/cm,  25°C)  = 208
-                          Density (g/cm³)  =   0.99715
-                               Volume (L)  =   1.00299
+                                       pH  =   3.129      Charge balance
+                                       pe  =  15.757      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  25°C)  = 763
+                          Density (g/cm³)  =   0.99734
+                               Volume (L)  =   1.00305
                         Activity of water  =   1.000
-                 Ionic strength (mol/kgw)  =   2.768e-03
+                 Ionic strength (mol/kgw)  =   7.811e-03
                        Mass of water (kg)  =   1.000e+00
-                 Total alkalinity (eq/kg)  =   8.956e-04
-                       Total CO2 (mol/kg)  =   8.978e-04
+                 Total alkalinity (eq/kg)  =  -8.999e-04
                          Temperature (°C)  =  25.00
-                  Electrical balance (eq)  =   6.650e-12
+                  Electrical balance (eq)  =   2.281e-12
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
-                               Iterations  =  28
-                                  Total H  = 1.110133e+02
-                                  Total O  = 5.550891e+01
+                               Iterations  =  35
+                                  Total H  = 1.110213e+02
+                                  Total O  = 5.551822e+01
 
 ----------------------------Distribution of species----------------------------
 
                                                Log       Log       Log    mole V
    Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
 
-   OH-             1.315e-06   1.241e-06    -5.881    -5.906    -0.025     -4.09
-   H+              8.603e-09   8.155e-09    -8.065    -8.089    -0.023      0.00
-   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
-C(-4)         6.342e-27
-   CH4             6.342e-27   6.346e-27   -26.198   -26.198     0.000     35.46
-C(4)          8.978e-04
-   HCO3-           8.636e-04   8.161e-04    -3.064    -3.088    -0.025     24.71
-   CO2             1.496e-05   1.497e-05    -4.825    -4.825     0.000     34.43
-   CaHCO3+         7.773e-06   7.350e-06    -5.109    -5.134    -0.024      9.69
-   CO3-2           5.883e-06   4.693e-06    -5.230    -5.329    -0.098     -5.19
-   CaCO3           5.561e-06   5.565e-06    -5.255    -5.255     0.000    -14.60
-   NaHCO3          4.267e-08   4.269e-08    -7.370    -7.370     0.000      1.80
-   NaCO3-          8.612e-09   8.129e-09    -8.065    -8.090    -0.025     -1.00
-   (CO2)2          4.108e-12   4.111e-12   -11.386   -11.386     0.000     68.87
-Ca            8.985e-04
-   Ca+2            8.852e-04   7.058e-04    -3.053    -3.151    -0.098    -18.07
-   CaHCO3+         7.773e-06   7.350e-06    -5.109    -5.134    -0.024      9.69
-   CaCO3           5.561e-06   5.565e-06    -5.255    -5.255     0.000    -14.60
-   CaOH+           1.522e-08   1.436e-08    -7.818    -7.843    -0.025     (0)  
-Cl            1.000e-03
-   Cl-             1.000e-03   9.436e-04    -3.000    -3.025    -0.025     18.09
-H(0)          5.129e-15
-   H2              2.564e-15   2.566e-15   -14.591   -14.591     0.000     28.61
-Na            9.855e-05
-   Na+             9.850e-05   9.302e-05    -4.007    -4.031    -0.025     -1.45
-   NaHCO3          4.267e-08   4.269e-08    -7.370    -7.370     0.000      1.80
-   NaCO3-          8.612e-09   8.129e-09    -8.065    -8.090    -0.025     -1.00
-   NaOH            1.154e-20   1.154e-20   -19.938   -19.938     0.000     (0)  
-O(0)          0.000e+00
-   O2              0.000e+00   0.000e+00   -63.199   -63.199     0.000     30.40
+   H+              8.072e-04   7.435e-04    -3.093    -3.129    -0.036      0.00
+   OH-             1.496e-11   1.361e-11   -10.825   -10.866    -0.041     -4.05
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Ca            2.000e-03
+   Ca+2            1.749e-03   1.221e-03    -2.757    -2.913    -0.156    -17.96
+   CaSO4           2.497e-04   2.501e-04    -3.603    -3.602     0.001      7.50
+   CaHSO4+         1.341e-06   1.222e-06    -5.873    -5.913    -0.040     (0)  
+   CaOH+           2.989e-13   2.725e-13   -12.524   -12.565    -0.040     (0)  
+Cl            9.999e-04
+   Cl-             9.999e-04   9.106e-04    -3.000    -3.041    -0.041     18.13
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -40.921   -40.921     0.001     28.61
+Na            9.999e-05
+   Na+             9.942e-05   9.074e-05    -4.003    -4.042    -0.040     -1.40
+   NaSO4-          5.732e-07   5.240e-07    -6.242    -6.281    -0.039     14.22
+   NaOH            1.233e-25   1.235e-25   -24.909   -24.908     0.001     (0)  
+O(0)          5.772e-11
+   O2              2.886e-11   2.891e-11   -10.540   -10.539     0.001     30.40
+S(-2)         0.000e+00
+   H2S             0.000e+00   0.000e+00  -119.687  -119.686     0.001     37.16
+   HS-             0.000e+00   0.000e+00  -123.459  -123.499    -0.041     20.66
+   S-2             0.000e+00   0.000e+00  -133.131  -133.289    -0.157     (0)  
+S(6)          2.000e-03
+   SO4-2           1.657e-03   1.152e-03    -2.781    -2.938    -0.158     14.73
+   CaSO4           2.497e-04   2.501e-04    -3.603    -3.602     0.001      7.50
+   HSO4-           9.137e-05   8.329e-05    -4.039    -4.079    -0.040     40.33
+   CaHSO4+         1.341e-06   1.222e-06    -5.873    -5.913    -0.040     (0)  
+   NaSO4-          5.732e-07   5.240e-07    -6.242    -6.281    -0.039     14.22
 
 ------------------------------Saturation indices-------------------------------
 
   Phase               SI** log IAP   log K(298 K,   1 atm)
 
-  Aragonite        -0.14     -8.48   -8.34  CaCO3
-  Calcite           0.00     -8.48   -8.48  CaCO3
-  CH4(g)          -23.40    -26.20   -2.80  CH4
-  CO2(g)           -3.36     -4.82   -1.47  CO2
-  H2(g)           -11.49    -14.59   -3.10  H2
+  Anhydrite        -1.57     -5.85   -4.28  CaSO4
+  Gypsum           -1.27     -5.85   -4.58  CaSO4:2H2O
+  H2(g)           -37.82    -40.92   -3.10  H2
   H2O(g)           -1.50     -0.00    1.50  H2O
-  Halite           -8.63     -7.06    1.57  NaCl
-  O2(g)           -60.31    -63.20   -2.89  O2
+  H2S(g)         -118.64   -126.63   -7.99  H2S
+  Halite           -8.65     -7.08    1.57  NaCl
+  O2(g)            -7.65    -10.54   -2.89  O2
+  Sulfur          -86.80    -81.92    4.88  S
 
 **For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
   For ideal gases, phi = 1.
@@ -371,6 +419,6 @@ Reading input data for simulation 12.
 -------------------------------------
 
 -------------------------------
-End of Run after 0.246 Seconds.
+End of Run after 0.239 Seconds.
 -------------------------------
 

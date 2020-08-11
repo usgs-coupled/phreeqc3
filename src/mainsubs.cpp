@@ -2693,4 +2693,6 @@ Phreeqc::do_mixes(void)
 	Utilities::Rxn_mix(Rxn_surface_mix_map, Rxn_surface_map, this);
 	if (exch || kin) update_kin_exchange();
 	if (exch || min) update_min_exchange();
+	if (surf || min) update_min_surface();
+	if (surf || kin) update_kin_surface();
 }
