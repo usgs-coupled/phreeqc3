@@ -413,7 +413,11 @@ all: alkalinity.out \
 	andra_kin_ss.out \
 	ex12b.out \
 	ex13_impl.out \
-	Cub.out
+	Cub.out \
+	ExchMixRelatedMin.out \
+	ExchMixRelatedKin.out \
+	SurfMixRelatedMin.out \
+	SurfMixRelatedKin.out
 	
 
 # NaX.out
