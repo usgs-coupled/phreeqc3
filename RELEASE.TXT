@@ -1,5 +1,16 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
  	----------------
+	August 11, 2020
+	----------------
+	PHREEQC: SURFACE and EXCHANGE were not updated correctly when related
+	to a mineral and the moles of mineral were changed with EQUILIBRIUM_PHASES,
+	EQUILIBRIUM_PHASES_MODIFY, EQUILIBRIUM_PHASES_RAW, or EQUILIBRIUM_PHASES_MIX.
+	Incorrect updating also occurred when related to a kinetic reaction and 
+	the moles of kinetic reaction were changed with KINETICS, KINETICS_MODIFY,
+	KINETICS_RAW, or KINETICS_MIX. Now, the correct proportional relation should 
+	be maintained if the moles in EQUILIBRIUM_PHASES or KINETICS are changed.
+	
+ 	----------------
 	June 7, 2020
 	----------------
 	PhreeqcRM: Modified the OpenMP version to allow retrieval of strings from
