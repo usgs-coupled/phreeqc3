@@ -1,0 +1,48 @@
+database ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 MoreExchMix_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+EXCHANGE_SPECIES
+Fe+2 + Cl- + X- = FeClX; -log_k 1
+SURFACE_MASTER_SPECIES
+Su Su-
+SURFACE_SPECIES
+Su- = Su-
+
+SOLUTION 1; Cl 1; pH 7 charge; Fe(+2) 0.1; -redox 
+EQUILIBRIUM_PHASES 1; Calcite 0
+SAVE solution 1
+END
+
+EXCHANGE 1; X Calcite eq 0.001; -equil 1
+SURFACE  1; Su Calcite eq 0.001 1e3; -donnan 1e-6; -equil 1
+USE solution 1
+USE equilibrium_phases 1
+# OK
+END
+
+SOLUTION_MIX           5; 1 1e-2
+EXCHANGE_MIX           5; 1 1e-2
+SURFACE_MIX            5; 1 1e-2
+EQUILIBRIUM_PHASES_MIX 5; 1 1e-2
+END
+
+USE solution           5; 
+USE exchange           5; 
+USE surface            5; 
+USE equilibrium_phases 5
+DUMP; -file \temp\ccX.dmp; -cell 5
+END
+
+INCLUDE$ \temp\ccx.dmp
+# results are different from previous simulation...
+USE solution           5; 
+USE exchange           5; 
+USE surface            5; 
+USE equilibrium_phases 5
+END
