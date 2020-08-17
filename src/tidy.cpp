@@ -3613,10 +3613,10 @@ tidy_kin_exchange(void)
 			assert(false);
 		}
 		cxxExchange * exchange_ptr = &(it->second);
-		//if (!exchange_ptr->Get_new_def())
-		//	continue;
-		//if (exchange_ptr->Get_n_user() < 0)
-		//	continue;
+		if (!exchange_ptr->Get_new_def())
+			continue;
+		if (exchange_ptr->Get_n_user() < 0)
+			continue;
 		// check elements
 		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
 		{
@@ -3846,10 +3846,10 @@ tidy_min_exchange(void)
 			assert(false);
 		}
 		cxxExchange * exchange_ptr = &(it->second);
-		//if (!exchange_ptr->Get_new_def())
-		//		continue;
-		//if (exchange_ptr->Get_n_user() < 0)
-		//	continue;
+		if (!exchange_ptr->Get_new_def())
+				continue;
+		if (exchange_ptr->Get_n_user() < 0)
+			continue;
 		n = exchange_ptr->Get_n_user();
 		// check elements
 		for (size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
@@ -4166,7 +4166,6 @@ tidy_min_surface(void)
 			assert(false);
 		}
 		cxxSurface *surface_ptr = &(kit->second);
-		if (!surface_ptr->Get_new_def()) continue;
 		if (!surface_ptr->Get_new_def())
 			continue;
 		if (surface_ptr->Get_n_user() < 0)
@@ -4414,7 +4413,20 @@ update_min_surface(void)
 			double comp_moles = 0.0;
 			cxxSurfaceComp* surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
 			if (surface_comp_ptr->Get_phase_name().size() == 0)	continue;
-			cxxSurfaceCharge* surface_charge_ptr = surface_ptr->Find_charge(surface_comp_ptr->Get_charge_name());
+			cxxSurfaceCharge* surface_charge_ptr =  NULL;
+			if (surface_ptr->Get_type() != cxxSurface::SURFACE_TYPE::NO_EDL)
+			{
+				surface_charge_ptr = surface_ptr->Find_charge(surface_comp_ptr->Get_charge_name());
+				if (surface_charge_ptr == NULL)
+				{
+					input_error++;
+					error_string = sformatf("Data structure for surface charge not found "
+						"for %s ",
+						surface_comp_ptr->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+			}
 			int n = surface_ptr->Get_n_user();
 
 			/* First find surface master species */
@@ -4493,7 +4505,11 @@ update_min_surface(void)
 			surface_comp_ptr->Set_phase_name(phase_ptr->name);
 			/* make surface concentration proportional to mineral ... */
 			LDBLE conc = jit->second.Get_moles() * surface_comp_ptr->Get_phase_proportion();
-			double grams = surface_charge_ptr->Get_grams();
+			double grams = 0.0;
+			if (surface_charge_ptr != NULL)
+			{
+				grams = surface_charge_ptr->Get_grams();
+			}
 			if (comp_moles > 0.0)
 			{
 				surface_comp_ptr->multiply(conc / comp_moles);
@@ -4514,7 +4530,7 @@ update_min_surface(void)
 			{
 				surface_charge_ptr->multiply(jit->second.Get_moles() / grams);
 			}
-			else /* need to generate from scratch */
+			else if (surface_charge_ptr != NULL) /* need to generate from scratch */
 			{
 				surface_charge_ptr->Set_grams(jit->second.Get_moles());
 				surface_charge_ptr->Set_charge_balance(0.0);
@@ -4897,10 +4913,23 @@ update_kin_surface(void)
 			/* use database name for rate */
 			comp_ptr->Set_rate_name(kin_comp_ptr->Get_rate_name().c_str());
 			cxxSurfaceCharge* charge_ptr = surface_ptr->Find_charge(comp_ptr->Get_charge_name());
-
+			if (surface_ptr->Get_type() != cxxSurface::SURFACE_TYPE::NO_EDL)
+			{
+				charge_ptr = surface_ptr->Find_charge(comp_ptr->Get_charge_name());
+				if (charge_ptr == NULL)
+				{
+					input_error++;
+					error_string = sformatf("Data structure for surface charge not found "
+						"for %s ",
+						comp_ptr->Get_formula().c_str());
+					error_msg(error_string, CONTINUE);
+					continue;
+				}
+			}
 			/* make surface concentration proportional to mineral ... */
 			LDBLE conc = kin_comp_ptr->Get_m() * comp_ptr->Get_phase_proportion();
-			double grams = charge_ptr->Get_grams();
+			double grams = 0.0;
+			if (charge_ptr != NULL) charge_ptr->Get_grams();
 			if (comp_moles > 0.0)
 			{
 				comp_ptr->multiply(conc / comp_moles);
@@ -4922,7 +4951,7 @@ update_kin_surface(void)
 			{
 				charge_ptr->multiply(kin_comp_ptr->Get_m() / grams);
 			}
-			else /* need to generate from scratch */
+			else if (charge_ptr != NULL) /* need to generate from scratch */
 			{
 				charge_ptr->Set_grams(kin_comp_ptr->Get_m());
 				charge_ptr->Set_charge_balance(0.0);
