@@ -1070,6 +1070,7 @@ public:
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
+	void calc_b_ij(int icell, int jcell, int k, LDBLE b_i, LDBLE b_j, LDBLE g_i, LDBLE g_j, LDBLE free_i, LDBLE free_j, int stagnant);
 	void diffuse_implicit(LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no, int ref_cell);
 	LDBLE moles_from_redox_states(cxxSolution *sptr, const char *name);
