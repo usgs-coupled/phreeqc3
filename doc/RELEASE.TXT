@@ -1,4 +1,18 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+ 	----------------
+	August 17, 2020
+	----------------
+	PHREEQC: A new Basic function DEBYE_LENGTH was added to return the 
+	value of the Debye length, typically notated kappa^-1. The value is 
+	related to the decay of the surface potential with distance from the 
+	surface. Theory says that the potential at distance d from the surface 
+	is equal to psi0*exp(d/DL), where psi0 is the surface potential and DL is 
+	the Debye length. The lengh is inversely related to ionic strength.
+	Example: 
+	
+	10 DL = DEBYE_LENGTH
+
  	----------------
 	August 11, 2020
 	----------------
@@ -9,6 +23,9 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	the moles of kinetic reaction were changed with KINETICS, KINETICS_MODIFY,
 	KINETICS_RAW, or KINETICS_MIX. Now, the correct proportional relation should 
 	be maintained if the moles in EQUILIBRIUM_PHASES or KINETICS are changed.
+	
+	An error message will result if, for example, EQUILIBRIUM_PHASES is modified
+	to remove the phase that EXCHANGE is related to. 
 	
  	----------------
 	June 7, 2020

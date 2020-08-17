@@ -1,0 +1,89 @@
+DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.6.2-15100\database\phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 zeta_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+TITLE Franks G.v
+SURFACE_MASTER_SPECIES
+    Q_s           Q_sOH       
+SURFACE_SPECIES
+# 1    -5   -1.4
+Q_sOH = Q_sOH
+    log_k     0
+H+ + Q_sOH = Q_sOH2+  # very low effect only on pH values below 3
+    log_k   1.0  -0.45
+delta_h  -26.4
+Q_sOH = Q_sO- + H+
+    log_k   -5.0  -8.1
+    delta_h 12.4
+#Q_sOH + K+ = Q_sOK + H+
+#   log_k -6
+#Q_sOH + K+ = Q_sOHK+
+#   log_k .5
+#Q_sOH + Cl- = Q_sOHCl-
+#   log_k -1.5
+
+PHASES
+     Fix_H+
+     H+ = H+
+     log_k  0.0
+
+     NaBr
+     NaBr = Na+ + Br- 
+     log_k  -15
+USER_PRINT
+10 PRINT "psi:                ", EDL("psi","Q")
+20 PRINT "DEBYE_length:       ", DEBYE_LENGTH*EXP(-1.4)
+30 PRINT "Psi slipping plane: ", DEBYE_LENGTH*EXP(-1.4)
+END
+SOLUTION 1
+    temp     25
+    pH     7 charge
+    pe        4
+   -pressure 1
+    redox     pe
+    units     mol/kgs
+   K  .01
+   Cl .01
+SELECTED_OUTPUT 100
+-file zeta_scan.pqi
+USER_PUNCH 100
+-start
+10 FOR ph = 11 TO 0 STEP -0.25
+20    PUNCH "USE solution 1", EOL$
+30    PUNCH "USE surface 1", EOL$
+40    PUNCH "EQUILIBRIUM_PHASES 1", EOL$
+50    PUNCH "Fix_H+ ",STR_F$(-ph,10,3)," NaOH 10",EOL$
+60    PUNCH "NaBr 0 10", EOL$
+70    PUNCH "END", EOL$
+80 NEXT ph
+-end
+END
+SELECTED_OUTPUT 100
+-active false
+END
+SURFACE 1
+    -sites DENSITY
+    Q_sOH      4.6e-0      1.4       0.05
+    -donnan debye_lengths 1.4 limit_ddl 0.1
+END
+
+USER_GRAPH 1
+    -headings               pH psi_slipping psi_surface
+    -axis_titles            "pH" "Zeta potential, volts" ""
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+    -plot_tsv_file          zeta.tsv
+  -start
+10 graph_x -la("H+") 
+40 graph_y EDL("psi","Q")*exp(-1.4)
+#60 graph_y EDL("psi", "Q")
+  -end
+    -active                 true
+END
+INCLUDE$ zeta_scan.pqi
