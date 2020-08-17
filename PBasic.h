@@ -317,6 +317,7 @@ public:
 		tokvm,
 		tokphase_vm,
 		tokdh_a,
+		tokdebye_length,
 		tokdh_b,
 		tokdh_av,
 		tokqbrn,
