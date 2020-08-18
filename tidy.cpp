@@ -4414,7 +4414,7 @@ update_min_surface(void)
 			cxxSurfaceComp* surface_comp_ptr = &(surface_ptr->Get_surface_comps()[j]);
 			if (surface_comp_ptr->Get_phase_name().size() == 0)	continue;
 			cxxSurfaceCharge* surface_charge_ptr =  NULL;
-			if (surface_ptr->Get_type() != cxxSurface::SURFACE_TYPE::NO_EDL)
+			if (surface_ptr->Get_type() != cxxSurface::NO_EDL)
 			{
 				surface_charge_ptr = surface_ptr->Find_charge(surface_comp_ptr->Get_charge_name());
 				if (surface_charge_ptr == NULL)
@@ -4913,7 +4913,7 @@ update_kin_surface(void)
 			/* use database name for rate */
 			comp_ptr->Set_rate_name(kin_comp_ptr->Get_rate_name().c_str());
 			cxxSurfaceCharge* charge_ptr = surface_ptr->Find_charge(comp_ptr->Get_charge_name());
-			if (surface_ptr->Get_type() != cxxSurface::SURFACE_TYPE::NO_EDL)
+			if (surface_ptr->Get_type() != cxxSurface::NO_EDL)
 			{
 				charge_ptr = surface_ptr->Find_charge(comp_ptr->Get_charge_name());
 				if (charge_ptr == NULL)
