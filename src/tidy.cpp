@@ -3801,7 +3801,27 @@ update_kin_exchange(void)
 			conc = kinetics_ptr->Get_kinetics_comps()[k].Get_m() * comp_ref.Get_phase_proportion();
 			if (found_exchange && comp_moles > 0.0)
 			{
-				comp_ref.multiply(conc / comp_moles);
+				/* parse formula */
+				count_elts = 0;
+				paren_count = 0;
+				{
+					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
+					ptr = temp_formula;
+					get_elts_in_species(&ptr, 1.0);
+					free_check_null(temp_formula);
+				}
+				cxxNameDouble nd_formula = elt_list_NameDouble();
+				double comp_coef = 0;
+				for (kit = nd_formula.begin(); kit != nd_formula.end(); kit++)
+				{
+					/* Find master species */
+					struct element* elt_ptr = element_store(kit->first.c_str());
+					if (elt_ptr->master->type == EX)
+					{
+						comp_coef = kit->second;
+					}
+				}
+				comp_ref.multiply(comp_coef * conc / comp_moles);
 			}
 			else  /* need to generate totals from scratch */
 			{
@@ -4077,7 +4097,27 @@ update_min_exchange(void)
 			conc = jit->second.Get_moles() * comp_ref.Get_phase_proportion();
 			if (found_exchange && comp_moles > 0.0)
 			{
-				comp_ref.multiply(conc / comp_moles);
+				/* parse formula */
+				count_elts = 0;
+				paren_count = 0;
+				{
+					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
+					ptr = temp_formula;
+					get_elts_in_species(&ptr, 1.0);
+					free_check_null(temp_formula);
+				}
+				cxxNameDouble nd_formula = elt_list_NameDouble();
+				double comp_coef = 0;
+				for (kit = nd_formula.begin(); kit != nd_formula.end(); kit++)
+				{
+					/* Find master species */
+					struct element* elt_ptr = element_store(kit->first.c_str());
+					if (elt_ptr->master->type == EX)
+					{
+						comp_coef = kit->second;
+					}
+				}
+				comp_ref.multiply(comp_coef * conc / comp_moles);
 			}
 			else /* comp_moles is zero, need to redefine totals from scratch */
 			{
