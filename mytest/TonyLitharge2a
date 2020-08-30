@@ -59,7 +59,7 @@ Sum_solid
 60 org_por = 1e-3 : vtot = tot("water") * 100 / org_por
 70 change_por(org_por - vs / vtot, cell_no)
 
-SOLUTION 0-8; 
+SOLUTION 0-10; 
 -water 1e-4 # Make the pore negative with surface to block HCO3- and CO3-2 diffusion to the Pb pipe
 Ca 1 calcite
 C(4) 1
@@ -68,7 +68,7 @@ pH 8 charge
 O(0) 1 O2(g) -0.7 # 20 mg/kgw
 END
 
-EQUILIBRIUM_PHASES 8
+EQUILIBRIUM_PHASES 8-10
   Pb 0 10
   Litharge 0 0e-3
   Cerussite 0 0
@@ -86,7 +86,7 @@ Sura 1e-3 100 10; -donnan 9e-10; -equil 1
 END
 
 TRANSPORT
--cells 8
+-cells 10
 -lengths 0.5e-3
 # -lengths 1e-6
 -time 1 day 1
@@ -97,7 +97,7 @@ TRANSPORT
 # -porosities 4*0.1
 -boundary_conditions constant closed
 -punch_frequency 1
--implicit true 4
+-implicit true 3
 USER_GRAPH 
 -axis_titles "distance / mm" "mol" pH
 -conn false
@@ -116,8 +116,8 @@ USER_GRAPH
 -headings x Litha H-Cer Cc pH..+..100day
 END
 
-TRANSPORT
--time 1e3 day
-USER_GRAPH 
--headings x Litha H-Cer Cc pH..+..1000day
-END
+# TRANSPORT
+# -time 1e3 day
+# USER_GRAPH 
+# -headings x Litha H-Cer Cc pH..+..1000day
+# END
