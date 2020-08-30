@@ -915,9 +915,9 @@ read_transport(void)
 				warning_msg(error_string);
 				for (i = count_por; i < all_cells - st; i++)
 				{
-					if (i == max_cells)
-						continue;
-					assert((i+1) < all_cells);
+					//if (i == max_cells)
+					//	continue;
+					//assert((i+1) < all_cells);
 					if ((i+1) < all_cells)
 					{
 						cell_data[i + 1].por = pors[count_por - 1];
