@@ -217,16 +217,19 @@ E. Linux compiling, testing, and installing the IPhreeqc library
 
 	Databases: 
 		/usr/local/share/doc/iphreeqc/database
-			Amm.dat
-			frezchem.dat
-			iso.dat
-			llnl.dat
-			minteq.dat
-			minteq.v4.dat
-			phreeqc.dat
-			pitzer.dat
-			sit.dat
-			wateq4f.dat
+			  Amm.dat
+			  ColdChem.dat
+			  core10.dat
+			  frezchem.dat
+			  iso.dat
+			  llnl.dat
+			  minteq.dat
+			  minteq.v4.dat
+			  phreeqc.dat
+			  pitzer.dat
+			  sit.dat
+			  Tipping_Hurley.dat
+			  wateq4f.dat
 		
 	Advection example for Fortran, C++, and C: 
 		/usr/local/share/doc/iphreeqc/examples
