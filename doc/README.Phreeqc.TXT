@@ -203,6 +203,8 @@ D.4. Compile and install PHREEQC
 
    Install\Database files:
       Amm.dat
+	  ColdChem.dat
+	  core10.dat
       frezchem.dat
       iso.dat
       llnl.dat
@@ -211,6 +213,7 @@ D.4. Compile and install PHREEQC
       phreeqc.dat
       pitzer.dat
       sit.dat
+	  Tipping_Hurley.dat
       wateq4f.dat
  				
    Install\doc files:
