@@ -109,8 +109,10 @@ main_method(int argc, char *argv[])
 	{
 		return errors;
 	}
+#ifndef NO_UTF8_ENCODING
 #ifdef DOS
 	SetConsoleOutputCP(CP_UTF8);
+#endif
 	write_banner();
 #endif
 
@@ -200,8 +202,10 @@ main_method(int argc, char *argv[])
 		{
 			return errors;
 		}
+#ifndef NO_UTF8_ENCODING
 #ifdef DOS
 		SetConsoleOutputCP(CP_UTF8);
+#endif
 		write_banner();
 #endif
 
