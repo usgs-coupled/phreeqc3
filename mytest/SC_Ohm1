@@ -29,7 +29,7 @@ USER_GRAPH
 -axis_scale x_axis 0 6.2
 -axis_scale y_axis  0 350
 -axis_scale sy_axis 0 350
--headings Ohm`s law PHREEQC`s SC
+-headings Ohm`sÂ law PHREEQC`sÂ SC
 10 if get(1) > 0 then plot_xy get(1), -current_a * 10, symbol_size = 3
 20 if get(1) > 0 then plot_xy get(1), get(2) / 1e3, y_axis = 2, symbol = Square, symbol_size = 8, line_width = 2
 30 put(tot("Cl"), 1) : put(SC, 2) # TRANSPORT calc`n after adding REACTION
@@ -49,7 +49,7 @@ potential 1
 END
 
 USER_GRAPH 1; -active true; -connect_simulations true
--headings Dw: correct false
+-headings Dw:Â correctÂ false
 10 if sim_no > 5 then plot_xy get(1), -current_a * 10, symbol_size = 7, symbol = XCross , color = Red
 30 put(tot("Cl"), 1) : put(SC, 2) # TRANSPORT calc`n after adding REACTION
 REACTION 0-2
@@ -95,7 +95,7 @@ number	Cl	Na	pH
 26	6.0587e+00	6.0587e+00	7 charge
 USER_GRAPH 1
 -initial_solutions true
--headings measured SC
+-headings measuredÂ SC
 10 DATA 106.24, 104.67, 103.34, 102.12, 101.05, 99.16, 97.56, 94.81, 92.50, 90.46, 88.63, 86.95, 85.38, 83.91, 81.14, 78.56, 76.12, 73.81, 71.59, 66.35, 61.42, 56.78, 52.34, 48.12, 44.09, 41.38, 100.82, 94.97, 90.75, 87.58, 84.16, 81.59, 77.79, 74.49, 68.35, 62.96, 57.89, 53.47, 48.96, 101.05, 92.84, 84.27, 72.44, 63.12, 55.10, 124.50, 123.70, 122.70, 120.60, 118.53, 115.80, 111.10, 106.70, 100.82, 0.379, 0.372, 0.369, 0.366, 0.364, 0.363, 0.362, 0.360, 0.359, 0.358, 0.357, 0.356, 0.354, 0.353, 0.353, 0.353, 0.352, 0.352
 
 20 restore 10 : dim HB(100) : for i = 1 to cell_no : READ HB(i) : next i
