@@ -1483,7 +1483,7 @@ print_species(void)
 #ifdef NO_UTF8_ENCODING
 			   "Molality", "Activity", "Molality", "Activity", "Gamma", "cm3/mol"));
 #else
-			   "Molality", "Activity", "Molality", "Activity", "Gamma", "cm³/mol"));
+			   "Molality", "Activity", "Molality", "Activity", "Gamma", "cmÂ³/mol"));
 #endif
 /*
  *   Print list of species
@@ -1651,7 +1651,7 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 				output_msg(sformatf("\t%11.3e  sigma, C/m2\n",
 #else
-				output_msg(sformatf("\t%11.3e  sigma, C/m²\n",
+				output_msg(sformatf("\t%11.3e  sigma, C/mÂ²\n",
 #endif
 						   (double) (charge * F_C_MOL /
 									 (charge_ptr->Get_specific_area() *
@@ -1662,7 +1662,7 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 				output_msg(sformatf("\tundefined  sigma, C/m2\n"));
 #else
-				output_msg(sformatf("\tundefined  sigma, C/m²\n"));
+				output_msg(sformatf("\tundefined  sigma, C/mÂ²\n"));
 #endif
 			}
 			if (use.Get_surface_ptr()->Get_type() == cxxSurface::CCM)
@@ -1684,7 +1684,7 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  specific area, m2/mol %s\n",
 #else
-						   "\t%11.3e  specific area, m²/mol %s\n",
+						   "\t%11.3e  specific area, mÂ²/mol %s\n",
 #endif
 						   (double) charge_ptr->Get_specific_area(),
 						   comp_ptr->Get_phase_name().c_str()));
@@ -1692,7 +1692,7 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  m2 for %11.3e moles of %s\n\n",
 #else
-						   "\t%11.3e  m² for %11.3e moles of %s\n\n",
+						   "\t%11.3e  mÂ² for %11.3e moles of %s\n\n",
 #endif
 						   (double) (charge_ptr->Get_grams() *
 									 charge_ptr->Get_specific_area()),
@@ -1705,7 +1705,7 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  specific area, m2/mol %s\n",
 #else
-						   "\t%11.3e  specific area, m²/mol %s\n",
+						   "\t%11.3e  specific area, mÂ²/mol %s\n",
 #endif
 						   (double) charge_ptr->Get_specific_area(),
 						   comp_ptr->Get_rate_name().c_str()));
@@ -1713,7 +1713,7 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  m2 for %11.3e moles of %s\n\n",
 #else
-						   "\t%11.3e  m² for %11.3e moles of %s\n\n",
+						   "\t%11.3e  mÂ² for %11.3e moles of %s\n\n",
 #endif
 						   (double) (charge_ptr->Get_grams() *
 									 charge_ptr->Get_specific_area()),
@@ -1726,13 +1726,13 @@ print_surface(void)
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  specific area, m2/g\n",
 #else
-						   "\t%11.3e  specific area, m²/g\n",
+						   "\t%11.3e  specific area, mÂ²/g\n",
 #endif
 						   (double) charge_ptr->Get_specific_area()));
 #ifdef NO_UTF8_ENCODING
 				output_msg(sformatf("\t%11.3e  m2 for %11.3e g\n\n",
 #else
-				output_msg(sformatf("\t%11.3e  m² for %11.3e g\n\n",
+				output_msg(sformatf("\t%11.3e  mÂ² for %11.3e g\n\n",
 #endif
 						   (double) (charge_ptr->Get_specific_area() *
 									 charge_ptr->Get_grams()),
@@ -1948,28 +1948,28 @@ print_surface_cd_music(void)
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  sigma, plane 0, C/m2\n",
 #else
-						   "\t%11.3e  sigma, plane 0, C/m²\n",
+						   "\t%11.3e  sigma, plane 0, C/mÂ²\n",
 #endif
 						   (double) charge_ptr->Get_sigma0()));
 				output_msg(sformatf(
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  sigma, plane 1, C/m2\n",
 #else
-						   "\t%11.3e  sigma, plane 1, C/m²\n",
+						   "\t%11.3e  sigma, plane 1, C/mÂ²\n",
 #endif
 						   (double) charge_ptr->Get_sigma1()));
 				output_msg(sformatf(
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  sigma, plane 2, C/m2\n",
 #else
-						   "\t%11.3e  sigma, plane 2, C/m²\n",
+						   "\t%11.3e  sigma, plane 2, C/mÂ²\n",
 #endif
 						   (double) charge_ptr->Get_sigma2()));
 				output_msg(sformatf(
 #ifdef NO_UTF8_ENCODING
 						   "\t%11.3e  sigma, diffuse layer, C/m2\n\n",
 #else
-						   "\t%11.3e  sigma, diffuse layer, C/m²\n\n",
+						   "\t%11.3e  sigma, diffuse layer, C/mÂ²\n\n",
 #endif
 						   (double) charge_ptr->Get_sigmaddl()));
 			}
@@ -1978,7 +1978,7 @@ print_surface_cd_music(void)
 #ifdef NO_UTF8_ENCODING
 				output_msg(sformatf("\tundefined  sigma, C/m2\n"));
 #else
-				output_msg(sformatf("\tundefined  sigma, C/m²\n"));
+				output_msg(sformatf("\tundefined  sigma, C/mÂ²\n"));
 #endif
 			}
 			output_msg(sformatf("\t%11.3e  psi, plane 0, V\n",
@@ -2236,7 +2236,7 @@ print_totals(void)
 #ifdef NO_UTF8_ENCODING
 				   "Specific Conductance (uS/cm, ", tc_x, "oC)  = ", (int) SC));
 #else
-				   "Specific Conductance (µS/cm, ", tc_x, "°C)  = ", (int) SC));
+				   "Specific Conductance (ÂµS/cm, ", tc_x, "Â°C)  = ", (int) SC));
 #endif
 	}
 /* VP: Density Start */
@@ -2246,7 +2246,7 @@ print_totals(void)
 #ifdef NO_UTF8_ENCODING
 		output_msg(sformatf("%45s%9.5f", "Density (g/cm3)  = ",
 #else
-		output_msg(sformatf("%45s%9.5f", "Density (g/cm³)  = ",
+		output_msg(sformatf("%45s%9.5f", "Density (g/cmÂ³)  = ",
 #endif
 			   (double) dens));
 		if (state == INITIAL_SOLUTION && use.Get_solution_ptr()->Get_initial_data()->Get_calc_density())
@@ -2270,7 +2270,7 @@ print_totals(void)
 #ifdef NO_UTF8_ENCODING
 				   " (solute contributions limited to 200 oC)"));
 #else
-				   " (solute contributions limited to 200 °C)"));
+				   " (solute contributions limited to 200 Â°C)"));
 #endif
 		}
 		else output_msg(sformatf("\n"));
@@ -2300,7 +2300,7 @@ print_totals(void)
 #ifdef NO_UTF8_ENCODING
 	output_msg(sformatf("%45s%6.2f\n", "Temperature (oC)  = ",
 #else
-	output_msg(sformatf("%45s%6.2f\n", "Temperature (°C)  = ",
+	output_msg(sformatf("%45s%6.2f\n", "Temperature (Â°C)  = ",
 #endif
 			   (double) tc_x));
 
