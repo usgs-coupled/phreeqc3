@@ -79,7 +79,7 @@ USER_PUNCH
 # 140  CEC = 0.12 * rho_b_eps   # CEC / (eq/L porewater)
  # adapted for the harmonic mean calc's in version 3.4.2
 140  CEC = 0.09 * rho_b_eps   # CEC / (eq/L porewater)
-150  A_por = 37e3 * rho_b_eps # pore surface area / (m²/L porewater)
+150  A_por = 37e3 * rho_b_eps # pore surface area / (mÂ²/L porewater)
 
 160  DIM tracer$(4), exp_time(4), scale_y1$(4), scale_y2$(4), profile_y1$(4), profile_y2$(4)
 170  DATA 'Hto', 'Cl_tr', 'Na_tr', 'Cs'
@@ -101,7 +101,7 @@ USER_PUNCH
 310  READ profile_y2$(1), profile_y2$(2), profile_y2$(3), profile_y2$(4)
 
      # Define model parameters...
-350  Dw = 2.5e-9              # default tracer diffusion coefficient / (m²/s)
+350  Dw = 2.5e-9              # default tracer diffusion coefficient / (mÂ²/s)
 360  nfilt1 = 1               # number of cells in filter 1
 370  nfilt2 = 1               # number of cells in filter 2
 380  nclay = 11               # number of clay cells
@@ -197,7 +197,7 @@ USER_PUNCH
 
      # Define mixing factors for the diffusive flux between cells 1 and 2:
      #    J_12 = -2 * Dw / (x_1 / g_1 + x_2 / g_2) * (c_2 - c_1)
-     # Multiply with dt * A / (V = 1e-3 m³).  (Actual volumes are given with SOLUTION; -water)
+     # Multiply with dt * A / (V = 1e-3 mÂ³).  (Actual volumes are given with SOLUTION; -water)
      # Use harmonic mean: g_1 = por_1 / G_1, g_2 = por_2 / G_2, x_1 = Delta(x_1), etc.
 1400 IF nfilt1 > 0 THEN gf1 = por_filter1 / G_filter1
 1410 IF nfilt2 > 0 THEN gf2 = por_filter2 / G_filter2
