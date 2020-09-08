@@ -1612,6 +1612,9 @@ listtokens(FILE * f, tokenrec * l_buf)
  		case tokdh_a:
  			output_msg("DH_A"); // Debye-Hueckel A
  			break;
+		case tokdebye_length:
+			output_msg("DEBYE_LENGTH"); // Debye-Hueckel length
+			break;
  		case tokdh_b:
  			output_msg("DH_B"); // Debye-Hueckel B
  			break;
@@ -3706,6 +3709,13 @@ factor(struct LOC_exec * LINK)
 			n.UU.val = PhreeqcPtr->DH_A;
 		}
 		break;
+	case tokdebye_length:
+		{
+			double debye_length = (PhreeqcPtr->eps_r * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * PhreeqcPtr->tk_x)
+				/ (2. * F_C_MOL * F_C_MOL * PhreeqcPtr->mu_x * 1000.);
+			n.UU.val = sqrt(debye_length);
+			break;
+		}
 	case tokdh_b:
 		if (PhreeqcPtr->llnl_count_temp > 0)
 		{
@@ -3993,7 +4003,7 @@ factor(struct LOC_exec * LINK)
 			// call callback Basic function
 
 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x2, str);
-
+			PhreeqcPtr->PHRQ_free(str);
 		}
 		break;
 
@@ -7377,6 +7387,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("vm",                 PBasic::tokvm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a",               PBasic::tokdh_a),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("debye_length",       PBasic::tokdebye_length),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_b",               PBasic::tokdh_b),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_av",              PBasic::tokdh_av),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),

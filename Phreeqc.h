@@ -1033,15 +1033,19 @@ public:
 	int tidy_logk(void);
 	int tidy_exchange(void);
 	int tidy_min_exchange(void);
+	int update_min_exchange(void);
 	int tidy_kin_exchange(void);
+	int update_kin_exchange(void);
 	int tidy_gas_phase(void);
 	int tidy_inverse(void);
 	int tidy_isotopes(void);
 	int tidy_isotope_ratios(void);
 	int tidy_isotope_alphas(void);
 	int tidy_kin_surface(void);
+	int update_kin_surface(void);
 	int tidy_master_isotope(void);
 	int tidy_min_surface(void);
+	int update_min_surface(void);
 	int tidy_phases(void);
 	int tidy_pp_assemblage(void);
 	int tidy_solutions(void);
@@ -1066,6 +1070,7 @@ public:
 	LDBLE calc_vm_Cl(void);
 	int multi_D(LDBLE DDt, int mobile_cell, int stagnant);
 	LDBLE find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant);
+	void calc_b_ij(int icell, int jcell, int k, LDBLE b_i, LDBLE b_j, LDBLE g_i, LDBLE g_j, LDBLE free_i, LDBLE free_j, int stagnant);
 	void diffuse_implicit(LDBLE DDt, int stagnant);
 	int fill_spec(int cell_no, int ref_cell);
 	LDBLE moles_from_redox_states(cxxSolution *sptr, const char *name);
