@@ -9,10 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Check out repository
-      - run: ./check_utf8.sh 2>&1| tee failed_files.txt
+      - run: ./check_utf8.sh
         name: Run check_utf8.sh
-      - uses: actions/upload-artifact@v2
-        name: Upload artifact
-        with:
-          name: failed_files.txt
-          path: failed_files.txt
