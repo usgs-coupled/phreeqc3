@@ -1,11 +1,7 @@
 #ifndef _PHRQIO_H
 #define _PHRQIO_H
 
-#if defined(_WINDLL)
-#define IPQ_DLL_EXPORT __declspec(dllexport)
-#else
-#define IPQ_DLL_EXPORT
-#endif
+#include "PHRQ_exports.h"
 
 #include <iostream>
 #include <exception>

@@ -3,11 +3,7 @@
 
 #include <sstream>
 
-#if defined(_WINDLL)
-#define IPQ_DLL_EXPORT __declspec(dllexport)
-#else
-#define IPQ_DLL_EXPORT
-#endif
+#include "PHRQ_exports.h"
 
 class PHRQ_io;
 class IPQ_DLL_EXPORT PHRQ_base
