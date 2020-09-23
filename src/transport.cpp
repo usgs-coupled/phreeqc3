@@ -3072,7 +3072,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			}
 			
 			// reduce oscillations in the column-boundary cells, but not for H and O, and current_A is not adjusted...
-			if (icell == il1 - incr && dV_dcell * ct[0].m_s[cp].charge < 0 && strcmp(ct[0].m_s[cp].name, "H") && strcmp(ct[0].m_s[cp].name, "O") && c > 3 && mixrun > 1)
+			if (icell == il1 - incr && ct[0].m_s != NULL && dV_dcell * ct[0].m_s[cp].charge < 0 && strcmp(ct[0].m_s[cp].name, "H") && strcmp(ct[0].m_s[cp].name, "O") && c > 3 && mixrun > 1)
 			{
 				dummy = Utilities::Rxn_find(Rxn_solution_map, 0)->Get_totals()[ct[0].m_s[cp].name] / ct[0].kgw * (1 - ct[0].dl_s);
 				if (dummy > 1e-6)
