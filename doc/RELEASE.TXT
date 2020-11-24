@@ -35,6 +35,16 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 	to remove the phase that EXCHANGE is related to. 
 	
  	----------------
+	July 22, 2020
+	----------------
+	PhreeqcRM: Added new method PhreeqcRM::SetErrorOn(bool tf). This method controls
+	whether error messages are written or not. A value of true will print error 
+	messages; false will eliminate error messages. Print control (PhreeqcRM's 
+	PHRQ_io::Set_error_on) is set for the PhreeqcRM instance and for each of the 
+	IPhreeqc workers (each worker's PHRQ_io::Set_error_on). Messages include 
+	PHREEQC "ERROR" messages, and any messages written with PhreeqcRM::ErrorMessage.
+	
+ 	----------------
 	June 7, 2020
 	----------------
 	PhreeqcRM: Modified the OpenMP version to allow retrieval of strings from

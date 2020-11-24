@@ -83,6 +83,7 @@ public:
 	inline bool Get_charge_balance(void)const                         {return this->charge_balance;}
 	inline bool Get_percent_error(void)const                          {return this->percent_error;}
 	inline bool Get_new_line(void)const                               {return this->new_line; }
+	inline bool Get_punch_newline(void)const                          {return this->punch_newline; }
 
 	// as-is setters
 	inline void Set_user_punch(bool tf)                               {this->user_punch = tf;              this->set_user_punch = true;}
@@ -107,6 +108,7 @@ public:
 	inline void Set_charge_balance(bool tf)                           {this->charge_balance = tf;          this->set_charge_balance = true;}
 	inline void Set_percent_error(bool tf)                            {this->percent_error = tf;           this->set_percent_error = true;}
 	inline void Set_new_line(bool tf)                                 {this->new_line = tf;                this->set_new_line = true;}
+	inline void Set_punch_newline(bool tf)                            {this->punch_newline = tf;                this->set_new_line = true; }
 
 	// set flag getters
 	inline bool was_set_user_punch()const                             {return this->set_user_punch;}
@@ -181,6 +183,7 @@ protected:
 	bool charge_balance;
 	bool percent_error;
 	bool new_line;
+	bool punch_newline;
 
 	// as-is set flags
 	bool set_user_punch;
