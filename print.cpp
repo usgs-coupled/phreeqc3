@@ -196,8 +196,9 @@ punch_all(void)
 		/*
 		*   new line for punch_file
 		*/
-		if (current_selected_output->Get_new_line())
+		if (current_selected_output->Get_new_line() && current_selected_output->Get_punch_newline())
 			punch_msg("\n");
+		current_selected_output->Set_punch_newline(true);
 
 		/*
 		*   signal end of row

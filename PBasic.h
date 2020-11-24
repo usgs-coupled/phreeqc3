@@ -298,6 +298,8 @@ public:
 		toktotmol,
 		toktotmoles,
 		tokeol_,
+		tokeol_notab_,
+		tokno_newline_,
 		tokceil,
 		tokfloor,
 		tokkinetics_formula,
@@ -547,6 +549,8 @@ protected:
 	IDErr nIDErrPrompt;
 #endif
 	int nErrLineNumber;
+	bool punch_tab=true;
+	bool skip_punch=false;
 };
 
 #endif /* _INC_PBasic_H */

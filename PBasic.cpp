@@ -1091,6 +1091,14 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("EOL$");
 			break;
 
+		case tokeol_notab_:
+			output_msg("EOL_NOTAB$");
+			break;
+
+		case tokno_newline_:
+			output_msg("NO_NEWLINE$");
+			break;
+
 		case tokasc:
 			output_msg("ASC");
 			break;
@@ -4098,6 +4106,21 @@ factor(struct LOC_exec * LINK)
 		strcpy(n.UU.sval, "\n");
 		break;
 
+	case tokeol_notab_:
+		n.stringval = true;
+		n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+		if (n.UU.sval == NULL)
+			PhreeqcPtr->malloc_error();
+		strcpy(n.UU.sval, "\n");
+		punch_tab = false;
+		break;
+
+	case tokno_newline_:
+		n.stringval = true;
+		PhreeqcPtr->current_selected_output->Set_punch_newline(false);
+		this->skip_punch = true;
+		break;
+
 	case tokasc:
 		l_s = strfactor(LINK);
 		if (*l_s == '\0')
@@ -5028,46 +5051,74 @@ cmdpunch(struct LOC_exec *LINK)
 			continue;
 		}
 		n = expr(LINK);
-		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ? 
-			PhreeqcPtr->current_selected_output->Get_high_precision() : 
+		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ?
+			PhreeqcPtr->current_selected_output->Get_high_precision() :
 			PhreeqcPtr->high_precision;
-		if (n.stringval)
+		if (!this->skip_punch)
 		{
-/*      fputs(n.UU.sval, stdout); */
-
-			if (!temp_high_precision)
+			if (n.stringval)
 			{
-				if (strlen(n.UU.sval) <= 12)
+				/*      fputs(n.UU.sval, stdout); */
 				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12s\t", n.UU.sval);
+					if (!temp_high_precision)
+					{
+						if (strlen(n.UU.sval) <= 12)
+						{
+							if (punch_tab)
+							{
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12s", n.UU.sval);
+							}
+						}
+						else
+						{
+							if (punch_tab)
+							{
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s", n.UU.sval);
+							}
+						}
+					}
+					else
+					{
+						if (strlen(n.UU.sval) <= 20)
+						{
+							if (punch_tab) {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.20s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.20s", n.UU.sval);
+							}
+						}
+						else
+						{
+							if (punch_tab) {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s", n.UU.sval);
+							}
+						}
+					}
 				}
-				else
-				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
-				}
+				PhreeqcPtr->PHRQ_free(n.UU.sval);
+			}
+			else if (!temp_high_precision)
+			{
+				PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.4e\t", (double)n.UU.val);
 			}
 			else
 			{
-				if (strlen(n.UU.sval) <= 20)
-				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.20s\t", n.UU.sval);
-				}
-				else
-				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
-				}
+				PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.12e\t", (double)n.UU.val);
 			}
-			PhreeqcPtr->PHRQ_free(n.UU.sval);
+			punch_tab = true;
+			++PhreeqcPtr->n_user_punch_index;
 		}
-		else if (!temp_high_precision)
-		{
-			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.4e\t", (double) n.UU.val);
-		}
-		else
-		{
-			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.12e\t", (double) n.UU.val);
-		}
-		++PhreeqcPtr->n_user_punch_index;
+		this->skip_punch = false;
 	}
 }
 
@@ -7253,6 +7304,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("val",                PBasic::tokval),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("chr$",               PBasic::tokchr_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eol$",               PBasic::tokeol_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eol_notab$",         PBasic::tokeol_notab_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("no_newline$",        PBasic::tokno_newline_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("asc",                PBasic::tokasc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("len",                PBasic::toklen),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mid$",               PBasic::tokmid_),
