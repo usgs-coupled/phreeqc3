@@ -39,6 +39,7 @@ SelectedOutput::SelectedOutput(int n, PHRQ_io *io)
 	this->charge_balance   = false;
 	this->percent_error    = false;
 	this->new_line         = true;
+	this->punch_newline    = true;
 
 	// as-is set flags
 	//

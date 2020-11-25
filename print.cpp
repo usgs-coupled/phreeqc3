@@ -180,7 +180,6 @@ punch_all(void)
 		// UserPunch
 		std::map < int, UserPunch >::iterator up_it = UserPunch_map.find(current_selected_output->Get_n_user());
 		current_user_punch = up_it == UserPunch_map.end() ? NULL : &(up_it->second);
-
 		punch_identifiers();
 		punch_totals();
 		punch_molalities();
