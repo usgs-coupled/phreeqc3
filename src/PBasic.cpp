@@ -64,6 +64,8 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	nIDErrPrompt = (PBasic::IDErr)0;
 #endif
 	nErrLineNumber = 0;
+	punch_tab = true;
+	skip_punch = false;
 	// Basic commands initialized at bottom of file
 }
 PBasic::~PBasic(void)
