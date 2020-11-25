@@ -266,6 +266,7 @@ public:
 		tokdescription,
 		toktitle,
 		toksys,
+		tokadd_heading,
 		tokinstr,
 		tokltrim,
 		tokrtrim,
