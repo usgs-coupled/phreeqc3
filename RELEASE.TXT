@@ -1,5 +1,38 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
- 
+
+  	----------------
+	November 24, 2020
+	----------------
+	PHREEQC: Added new Basic functions to control USER_PUNCH output.
+	
+	EOL_NOTAB$ omits the tab that is normally printed after EOL$.
+	NO_NEWLINE$ omits the new line normally written after printing 
+	            a USER_PUNCH block. This function can be used to completely
+				eliminate a line for a cell (assuming no SELECTED_OUTPUT fields
+				are defined.
+				
+				Example:
+USER_PUNCH 2
+100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
+110    PUNCH NO_NEWLINE$
+120    GOTO 300
+200 REM
+210   PUNCH TC, TK, EOL_NOTAB$
+220   PUNCH TK, TC
+300 END
+				
+	IPhreeqc: Added new Basic function ADD_HEADING to append a new heading to the list
+	          of -headings defined in USER_PUNCH. The function returns the total
+			  number of headings. This function is only helpful when using IPhreeqc.
+			  
+			  Example:
+ USER_PUNCH 2
+-heading A
+10  if (GET(999) > 0) THEN GOTO 100 # define only once
+20  n = ADD_HEADING("B")
+30  PUT(999,1)
+100 REM
+
   	----------------
 	August 17, 2020
 	----------------
