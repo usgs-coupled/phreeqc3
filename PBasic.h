@@ -550,8 +550,8 @@ protected:
 	IDErr nIDErrPrompt;
 #endif
 	int nErrLineNumber;
-	bool punch_tab=true;
-	bool skip_punch=false;
+	bool punch_tab;
+	bool skip_punch;
 };
 
 #endif /* _INC_PBasic_H */
