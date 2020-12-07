@@ -92,9 +92,9 @@ Reading input data for simulation 2.
 	USER_PUNCH 2
 	heading A
 	10 if (GET(999) > 0) THEN GOTO 100
-	20 n = ADD_HEADING("B")
+	20 n = ADD_HEADING("B"+"C")
 	30 PUT(999,1)
-	100  IF (step_no = 2 OR STEP_NO = 4) THEN GOTO 200
+	100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
 	110    PUNCH NO_NEWLINE$
 	120    GOTO 300
 	200 REM
@@ -329,6 +329,6 @@ Reading input data for simulation 3.
 ------------------------------------
 
 -------------------------------
-End of Run after 0.116 Seconds.
+End of Run after 0.157 Seconds.
 -------------------------------
 

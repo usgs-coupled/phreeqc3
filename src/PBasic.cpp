@@ -2651,7 +2651,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokadd_heading:
 		require(toklp, LINK);
-		name = stringfactor(STR1, LINK);
+		name = strexpr(LINK);
 		require(tokrp, LINK);
 		PhreeqcPtr->current_user_punch->Get_headings().push_back(name);
 		n.UU.val = (parse_all) ? 1 : (double)PhreeqcPtr->current_user_punch->Get_headings().size();
