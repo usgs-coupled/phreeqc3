@@ -997,6 +997,7 @@ void Phreeqc::init(void)
 	numerical_deriv			= FALSE;
 	count_total_steps       = 0;
 	phast                   = FALSE;
+	output_newline          = true;
 	llnl_temp				= 0;
 	llnl_count_temp			= 0;
 	llnl_adh				= 0;
@@ -2304,6 +2305,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	numerical_deriv			= pSrc->numerical_deriv;
 	count_total_steps       = 0;
 	phast                   = FALSE;
+	output_newline          = true;
 	/*
 	llnl_temp				= 0;
 	llnl_count_temp			= 0;

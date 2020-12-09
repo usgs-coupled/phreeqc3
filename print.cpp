@@ -195,9 +195,9 @@ punch_all(void)
 		/*
 		*   new line for punch_file
 		*/
-		if (current_selected_output->Get_new_line() && current_selected_output->Get_punch_newline())
+		if (current_selected_output->Get_new_line() && this->Get_output_newline())
 			punch_msg("\n");
-		current_selected_output->Set_punch_newline(true);
+		this->Set_output_newline(true);
 
 		/*
 		*   signal end of row
@@ -2399,7 +2399,10 @@ print_user_print(void)
 	{
 		error_msg("Fatal Basic error in USER_PRINT.", STOP);
 	}
-	output_msg(sformatf("\n"));
+	if (this->output_newline) {
+		output_msg(sformatf("\n"));
+	}
+	this->Set_output_newline(true);
 	if (use.Get_kinetics_in() == TRUE)
 	{
 		use.Set_kinetics_ptr(kinetics_ptr);
