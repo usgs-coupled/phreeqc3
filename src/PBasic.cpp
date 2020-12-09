@@ -2653,8 +2653,14 @@ factor(struct LOC_exec * LINK)
 		require(toklp, LINK);
 		name = strexpr(LINK);
 		require(tokrp, LINK);
-		PhreeqcPtr->current_user_punch->Get_headings().push_back(name);
-		n.UU.val = (parse_all) ? 1 : (double)PhreeqcPtr->current_user_punch->Get_headings().size();
+		if (PhreeqcPtr->current_user_punch != NULL)
+		{
+			PhreeqcPtr->current_user_punch->Get_headings().push_back(name);
+			n.UU.val = (parse_all) ? 1 : (double)PhreeqcPtr->current_user_punch->Get_headings().size();
+		} else {
+			n.UU.val = 0;
+		}
+
 		break;
 
 	case toksys:
@@ -4131,7 +4137,8 @@ factor(struct LOC_exec * LINK)
 
 	case tokno_newline_:
 		n.stringval = true;
-		PhreeqcPtr->current_selected_output->Set_punch_newline(false);
+		//PhreeqcPtr->current_selected_output->Set_punch_newline(false);
+		PhreeqcPtr->Set_output_newline(false);
 		this->skip_punch = true;
 		break;
 
@@ -5035,17 +5042,21 @@ cmdprint(struct LOC_exec *LINK)
 		n = expr(LINK);
 		if (n.stringval)
 		{
-/*      fputs(n.UU.sval, stdout); */
-			output_msg(PhreeqcPtr->sformatf("%s ", n.UU.sval));
-			PhreeqcPtr->PHRQ_free(n.UU.sval);
+			if (!skip_punch) {
+				/*      fputs(n.UU.sval, stdout); */
+				output_msg(PhreeqcPtr->sformatf("%s ", n.UU.sval));
+				PhreeqcPtr->PHRQ_free(n.UU.sval);
+			}
 		}
 		else
 /*      printf("%s ", numtostr(STR1, n.UU.val)); */
 			output_msg(PhreeqcPtr->sformatf("%s ", numtostr(STR1, n.UU.val)));
 	}
-	if (!semiflag)
+	if (!semiflag && PhreeqcPtr->Get_output_newline())
 /*    putchar('\n');*/
 		output_msg("\n");
+	PhreeqcPtr->Set_output_newline(true);
+	skip_punch = false;
 }
 
 void PBasic::

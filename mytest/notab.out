@@ -87,21 +87,18 @@ Reading input data for simulation 2.
 	USE SOLUTION 1
 	REACTION_TEMPERATURE
 	25 30 35 40
-	SELECTED_OUTPUT 2
-	file notab_101.sel
-	USER_PUNCH 2
-	heading A
-	10 if (GET(999) > 0) THEN GOTO 100
-	20 n = ADD_HEADING("B"+"C")
-	30 PUT(999,1)
+	USER_PRINT
+	20 n = ADD_HEADING("D"+"E")  # No effect when not USER_PUNCH
 	100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
-	110    PUNCH NO_NEWLINE$
-	120    GOTO 300
+	110   PRINT TC, TK, NO_NEWLINE$
+	120   PRINT TK, TC
+	130   GOTO 300
 	200 REM
-	210   PUNCH TC, TK, EOL_NOTAB$
-	220   PUNCH TK, TC
+	210   PRINT TC, TK:
+	220   PRINT TK, TC
 	230   GOTO 300
 	300 END
+	END
 -----------------------------------------
 Beginning of batch-reaction calculations.
 -----------------------------------------
@@ -110,6 +107,10 @@ Reaction step 1.
 
 Using solution 1.	
 Using temperature 1.	
+
+----------------------------------User print-----------------------------------
+
+          25   2.9815e+02   2.9815e+02           25 
 
 -----------------------------Solution composition------------------------------
 
@@ -161,10 +162,13 @@ O(0)          9.700e-12
 
 Reaction step 2.
 
-WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
-
 Using solution 1.	
 Using temperature 1.	
+
+----------------------------------User print-----------------------------------
+
+          30   3.0315e+02 
+  3.0315e+02           30 
 
 -----------------------------Solution composition------------------------------
 
@@ -219,6 +223,10 @@ Reaction step 3.
 Using solution 1.	
 Using temperature 1.	
 
+----------------------------------User print-----------------------------------
+
+          35   3.0815e+02   3.0815e+02           35 
+
 -----------------------------Solution composition------------------------------
 
 	Elements           Molality       Moles
@@ -271,6 +279,11 @@ Reaction step 4.
 
 Using solution 1.	
 Using temperature 1.	
+
+----------------------------------User print-----------------------------------
+
+          40   3.1315e+02 
+  3.1315e+02           40 
 
 -----------------------------Solution composition------------------------------
 
@@ -328,7 +341,30 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
+	SELECTED_OUTPUT 2
+	file notab_101.sel
+	USER_PUNCH 2
+	heading A
+	10 if (GET(999) > 0) THEN GOTO 100
+	20 n = ADD_HEADING("B"+"C")
+	30 PUT(999,1)
+	100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
+	110    PUNCH NO_NEWLINE$
+	120    GOTO 300
+	200 REM
+	210   PUNCH TC, TK, EOL_NOTAB$
+	220   PUNCH TK, TC
+	230   GOTO 300
+	300 END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
 -------------------------------
-End of Run after 0.157 Seconds.
+End of Run after 0.116 Seconds.
 -------------------------------
 
