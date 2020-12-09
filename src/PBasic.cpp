@@ -4137,7 +4137,6 @@ factor(struct LOC_exec * LINK)
 
 	case tokno_newline_:
 		n.stringval = true;
-		//PhreeqcPtr->current_selected_output->Set_punch_newline(false);
 		PhreeqcPtr->Set_output_newline(false);
 		this->skip_punch = true;
 		break;
@@ -5045,8 +5044,8 @@ cmdprint(struct LOC_exec *LINK)
 			if (!skip_punch) {
 				/*      fputs(n.UU.sval, stdout); */
 				output_msg(PhreeqcPtr->sformatf("%s ", n.UU.sval));
-				PhreeqcPtr->PHRQ_free(n.UU.sval);
 			}
+			PhreeqcPtr->PHRQ_free(n.UU.sval);
 		}
 		else
 /*      printf("%s ", numtostr(STR1, n.UU.val)); */
