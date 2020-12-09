@@ -94,11 +94,25 @@ Reading input data for simulation 2.
 	120   PRINT TK, TC
 	130   GOTO 300
 	200 REM
-	210   PRINT TC, TK:
+	210   PRINT TC, TK, EOL_NOTAB$
 	220   PRINT TK, TC
 	230   GOTO 300
 	300 END
-	END
+	SELECTED_OUTPUT 2
+	file notab_101.sel
+	USER_PUNCH 2
+	heading A
+	10 if (GET(999) > 0) THEN GOTO 100
+	20 n = ADD_HEADING("B"+"C")
+	30 PUT(999,1)
+	100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
+	110    PUNCH NO_NEWLINE$
+	120    GOTO 300
+	200 REM
+	210   PUNCH TC, TK, EOL_NOTAB$
+	220   PUNCH TK, TC
+	230   GOTO 300
+	300 END
 -----------------------------------------
 Beginning of batch-reaction calculations.
 -----------------------------------------
@@ -161,6 +175,8 @@ O(0)          9.700e-12
   For ideal gases, phi = 1.
 
 Reaction step 2.
+
+WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
 
 Using solution 1.	
 Using temperature 1.	
@@ -341,30 +357,7 @@ End of simulation.
 Reading input data for simulation 3.
 ------------------------------------
 
-	SELECTED_OUTPUT 2
-	file notab_101.sel
-	USER_PUNCH 2
-	heading A
-	10 if (GET(999) > 0) THEN GOTO 100
-	20 n = ADD_HEADING("B"+"C")
-	30 PUT(999,1)
-	100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
-	110    PUNCH NO_NEWLINE$
-	120    GOTO 300
-	200 REM
-	210   PUNCH TC, TK, EOL_NOTAB$
-	220   PUNCH TK, TC
-	230   GOTO 300
-	300 END
-------------------
-End of simulation.
-------------------
-
-------------------------------------
-Reading input data for simulation 4.
-------------------------------------
-
 -------------------------------
-End of Run after 0.116 Seconds.
+End of Run after 0.118 Seconds.
 -------------------------------
 
