@@ -2980,7 +2980,7 @@ edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles,
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 system_total(const char *total_name, LDBLE * count, char ***names,
-			 char ***types, LDBLE ** moles)
+			 char ***types, LDBLE ** moles, int isort)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3043,10 +3043,15 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	/*
 	 *   Sort system species
 	 */
-	if (count_sys > 1)
+	if (count_sys > 1 && isort == 0)
 	{
 		qsort(sys, (size_t) count_sys,
 			  (size_t) sizeof(struct system_species), system_species_compare);
+	}
+	else
+	{
+		qsort(sys, (size_t)count_sys,
+			(size_t)sizeof(struct system_species), system_species_compare_name);
 	}
 	/*
 	 * malloc space
@@ -4210,6 +4215,16 @@ system_species_compare(const void *ptr1, const void *ptr2)
 	if (a->moles > b->moles)
 		return (-1);
 	return (0);
+}
+int Phreeqc::
+system_species_compare_name(const void* ptr1, const void* ptr2)
+/* ---------------------------------------------------------------------- */
+{
+	const struct system_species* a, * b;
+
+	a = (const struct system_species*)ptr1;
+	b = (const struct system_species*)ptr2;
+	return (strncmp(a->name, b->name, MAX_LENGTH));
 }
 
 /* ---------------------------------------------------------------------- */

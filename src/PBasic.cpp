@@ -1443,6 +1443,7 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("TRIM");
 			break;
 
+		case tokpad_:
 		case tokpad:
 			output_msg("PAD");
 			break;
@@ -2639,6 +2640,7 @@ factor(struct LOC_exec * LINK)
 		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(STR1.c_str());
 		break;
 
+	case tokpad_:
 	case tokpad:
 		n.stringval = true;
 		require(toklp, LINK);
@@ -2664,145 +2666,157 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case toksys:
-		require(toklp, LINK);
-		elt_name = stringfactor(STR1, LINK);
-		/*
-		 *  Parse arguments
-		 */
-		if (LINK->t != NULL && LINK->t->kind == tokcomma)
 		{
-			/* return number of species */
-			LINK->t = LINK->t->next;
-			count_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
+			int isort = 0;
+			require(toklp, LINK);
+			elt_name = stringfactor(STR1, LINK);
+			/*
+			 *  Parse arguments
+			 */
+			if (LINK->t != NULL && LINK->t->kind == tokcomma)
 			{
-				snerr(": can`t find variable");
-#if !defined(R_SO)
-				exit(4);
-#endif
+				/* return number of species */
+				LINK->t = LINK->t->next;
+				count_varrec = LINK->t->UU.vp;
+				if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
+				{
+					snerr(": can`t find variable");
+	#if !defined(R_SO)
+					exit(4);
+	#endif
+				}
+
+				/* return number of names of species */
+				LINK->t = LINK->t->next;
+				require(tokcomma, LINK);
+				names_varrec = LINK->t->UU.vp;
+				if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
+				{
+					snerr(": can`t find name of species");
+	#if !defined(R_SO)
+					exit(4);
+	#endif
+				}
+
+				/* return number of types of species */
+				LINK->t = LINK->t->next;
+				require(tokcomma, LINK);
+				types_varrec = LINK->t->UU.vp;
+				if (LINK->t->kind != tokvar || types_varrec->stringvar != 1)
+					snerr(": can`t find type of species");
+
+				/* return number of moles  of species */
+				LINK->t = LINK->t->next;
+				require(tokcomma, LINK);
+				moles_varrec = LINK->t->UU.vp;
+				if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
+					snerr(": can`t find moles of species");
+				LINK->t = LINK->t->next;
+				if (LINK->t != NULL && LINK->t->kind == tokcomma)
+				{
+					LINK->t = LINK->t->next;
+					isort = intexpr(LINK);
+					arg_num = 5;
+				}
+				else
+				{
+					arg_num = 4;
+				}
+			}
+			else
+			{
+				arg_num = 1;
+			}
+			require(tokrp, LINK);
+
+			if (arg_num > 1)
+			{
+				free_dim_stringvar(names_varrec);
+				free_dim_stringvar(types_varrec);
+				PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
+				moles_varrec->UU.U0.arr = NULL;
+			}
+			/*
+			 *  Call subroutine
+			 */
+			 /*
+				n.UU.val = system_total(elt_name, count_varrec->UU.U0.val, &(names_varrec->UU.U1.sarr), &(types_varrec->UU.U1.sarr), &(moles_varrec->UU.U0.arr));
+			  */
+			if (parse_all)
+			{
+				PhreeqcPtr->sys_tot = 0;
+				PhreeqcPtr->count_sys = 1000;
+				int count_sys = PhreeqcPtr->count_sys;
+				names_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
+				if (names_arg == NULL)
+				{
+					PhreeqcPtr->malloc_error();
+	#if !defined(R_SO)
+					exit(4);
+	#endif
+				}
+				types_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
+				if (types_arg == NULL)
+				{
+					PhreeqcPtr->malloc_error();
+	#if !defined(R_SO)
+					exit(4);
+	#endif
+				}
+				moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(LDBLE));
+				if (moles_arg == NULL)
+				{
+					PhreeqcPtr->malloc_error();
+	#if !defined(R_SO)
+					exit(4);
+	#endif
+				}
+				names_arg[0] = NULL;
+				types_arg[0] = NULL;
+				moles_arg[0] = 0;
+				count_species = (LDBLE)count_sys;
+				n.UU.val = 0;
+			}
+			else
+			{
+				n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
+					&(types_arg), &(moles_arg), isort);
 			}
 
-			/* return number of names of species */
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			names_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
+			/*
+			 *  fill in varrec structure
+			 */
+			if (arg_num > 1)
 			{
-				snerr(": can`t find name of species");
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
+				*count_varrec->UU.U0.val = count_species;
+				names_varrec->UU.U1.sarr = names_arg;
+				types_varrec->UU.U1.sarr = types_arg;
+				moles_varrec->UU.U0.arr = moles_arg;
 
-			/* return number of types of species */
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			types_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || types_varrec->stringvar != 1)
-				snerr(": can`t find type of species");
-
-			/* return number of moles  of species */
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			moles_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
-				snerr(": can`t find moles of species");
-			LINK->t = LINK->t->next;
-			arg_num = 4;
-		}
-		else
-		{
-			arg_num = 1;
-		}
-		require(tokrp, LINK);
-
-		if (arg_num > 1)
-		{
-			free_dim_stringvar(names_varrec);
-			free_dim_stringvar(types_varrec);
-			PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
-			moles_varrec->UU.U0.arr = NULL;
-		}
-		/*
-		 *  Call subroutine
-		 */
-		/*
-		   n.UU.val = system_total(elt_name, count_varrec->UU.U0.val, &(names_varrec->UU.U1.sarr), &(types_varrec->UU.U1.sarr), &(moles_varrec->UU.U0.arr));
-		 */
-		if (parse_all)
-		{
-			PhreeqcPtr->sys_tot = 0;
-			PhreeqcPtr->count_sys = 1000;
-			int count_sys = PhreeqcPtr->count_sys;
-			names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
-			if (names_arg == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-				exit(4);
-#endif
+				for (i = 0; i < maxdims; i++)
+				{
+					names_varrec->dims[i] = 0;
+					types_varrec->dims[i] = 0;
+					moles_varrec->dims[i] = 0;
+				}
+				names_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+				types_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+				moles_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+				names_varrec->numdims = 1;
+				types_varrec->numdims = 1;
+				moles_varrec->numdims = 1;
 			}
-			types_arg = (char **)PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
-			if (types_arg == NULL)
+			else
 			{
-				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-				exit(4);
-#endif
+				for (i = 0; i < count_species + 1; i++)
+				{
+					PhreeqcPtr->free_check_null(names_arg[i]);
+					PhreeqcPtr->free_check_null(types_arg[i]);
+				}
+				PhreeqcPtr->free_check_null(names_arg);
+				PhreeqcPtr->free_check_null(types_arg);
+				PhreeqcPtr->free_check_null(moles_arg);
 			}
-			moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
-			if (moles_arg == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
-			names_arg[0] = NULL;
-			types_arg[0] = NULL;
-			moles_arg[0] = 0;
-			count_species = (LDBLE) count_sys;
-			n.UU.val = 0;
-		}
-		else
-		{
-			n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
-				&(types_arg), &(moles_arg));
-		}
-
-		/*
-		 *  fill in varrec structure
-		 */
-		if (arg_num > 1)
-		{
-			*count_varrec->UU.U0.val = count_species;
-			names_varrec->UU.U1.sarr = names_arg;
-			types_varrec->UU.U1.sarr = types_arg;
-			moles_varrec->UU.U0.arr = moles_arg;
-
-			for (i = 0; i < maxdims; i++)
-			{
-				names_varrec->dims[i] = 0;
-				types_varrec->dims[i] = 0;
-				moles_varrec->dims[i] = 0;
-			}
-			names_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			types_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			moles_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			names_varrec->numdims = 1;
-			types_varrec->numdims = 1;
-			moles_varrec->numdims = 1;
-		}
-		else
-		{
-			for (i = 0; i < count_species + 1; i++)
-			{
-				PhreeqcPtr->free_check_null(names_arg[i]);
-				PhreeqcPtr->free_check_null(types_arg[i]);
-			}
-			PhreeqcPtr->free_check_null(names_arg);
-			PhreeqcPtr->free_check_null(types_arg);
-			PhreeqcPtr->free_check_null(moles_arg);
 		}
 		break;
 
@@ -7415,6 +7429,7 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rtrim",              PBasic::tokrtrim),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("trim",               PBasic::toktrim),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad",                PBasic::tokpad),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad$",               PBasic::tokpad_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rxn",                PBasic::tokrxn),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dist",               PBasic::tokdist),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mol",                PBasic::tokmol),

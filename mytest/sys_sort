@@ -1,0 +1,25 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                sys_sort_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+Ca 1
+Mg 1
+C(4) 1 charge
+USER_PRINT
+-start
+10 a = SYS("aq", counta , namea$ , typea$ , molesa)
+20 b = SYS("aq", countb , nameb$ , typeb$ , molesb, 0)
+30 c = SYS("aq", countc , namec$ , typec$ , molesc, 1)
+40 PRINT "Counts: ", counta, countb, countc
+
+100 FOR i = 1 TO counta 
+110   PRINT i, PAD$(namea$(i), 12), PAD$(nameb$(i), 12), PAD$(namec$(i), 12)
+120 NEXT i
+-end
+END

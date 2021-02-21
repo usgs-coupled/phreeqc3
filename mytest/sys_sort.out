@@ -1,0 +1,157 @@
+   Input file: sys_sort
+  Output file: sys_sort.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                sys_sort_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION 1
+	Ca 1
+	Mg 1
+	C(4) 1 charge
+	USER_PRINT
+	start
+	10 a = SYS("aq", counta , namea$ , typea$ , molesa)
+	20 b = SYS("aq", countb , nameb$ , typeb$ , molesb, 0)
+	30 c = SYS("aq", countc , namec$ , typec$ , molesc, 1)
+	40 PRINT "Counts: ", counta, countb, countc
+	100 FOR i = 1 TO counta 
+	110   PRINT i, PAD$(namea$(i), 12), PAD$(nameb$(i), 12), PAD$(namec$(i), 12)
+	120 NEXT i
+	end
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+Counts:            16           16           16 
+           1 HCO3-        HCO3-        (CO2)2       
+           2 Mg+2         Mg+2         CO2          
+           3 Ca+2         Ca+2         CO3-2        
+           4 CO2          CO2          Ca+2         
+           5 CaHCO3+      CaHCO3+      CaCO3        
+           6 MgHCO3+      MgHCO3+      CaHCO3+      
+           7 CO3-2        CO3-2        CaOH+        
+           8 CaCO3        CaCO3        H+           
+           9 MgCO3        MgCO3        H2           
+          10 OH-          OH-          HCO3-        
+          11 H+           H+           Mg+2         
+          12 MgOH+        MgOH+        MgCO3        
+          13 (CO2)2       (CO2)2       MgHCO3+      
+          14 CaOH+        CaOH+        MgOH+        
+          15 H2           H2           O2           
+          16 O2           O2           OH-          
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)              4.808e-03   4.808e-03  Charge balance
+	Ca                1.000e-03   1.000e-03
+	Mg                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 352
+                          Density (g/cm³)  =   0.99730
+                               Volume (L)  =   1.00305
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   5.858e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   4.000e-03
+                       Total CO2 (mol/kg)  =   4.808e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -8.539e-12
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   7
+                                  Total H  = 1.110164e+02
+                                  Total O  = 5.551983e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.099e-07   1.012e-07    -6.959    -6.995    -0.036     -4.06
+   H+              1.076e-07   1.000e-07    -6.968    -7.000    -0.032      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+C(4)          4.808e-03
+   HCO3-           3.921e-03   3.623e-03    -2.407    -2.441    -0.034     24.74
+   CO2             8.136e-04   8.147e-04    -3.090    -3.089     0.001     34.43
+   CaHCO3+         3.505e-05   3.241e-05    -4.455    -4.489    -0.034      9.71
+   MgHCO3+         3.250e-05   2.995e-05    -4.488    -4.524    -0.035      5.51
+   CO3-2           2.332e-06   1.699e-06    -5.632    -5.770    -0.137     -5.10
+   CaCO3           1.999e-06   2.002e-06    -5.699    -5.699     0.001    -14.60
+   MgCO3           1.144e-06   1.146e-06    -5.942    -5.941     0.001    -17.09
+   (CO2)2          1.217e-08   1.218e-08    -7.915    -7.914     0.001     68.87
+Ca            1.000e-03
+   Ca+2            9.630e-04   7.012e-04    -3.016    -3.154    -0.138    -18.00
+   CaHCO3+         3.505e-05   3.241e-05    -4.455    -4.489    -0.034      9.71
+   CaCO3           1.999e-06   2.002e-06    -5.699    -5.699     0.001    -14.60
+   CaOH+           1.262e-09   1.164e-09    -8.899    -8.934    -0.035     (0)  
+H(0)          1.414e-25
+   H2              7.070e-26   7.079e-26   -25.151   -25.150     0.001     28.61
+Mg            1.000e-03
+   Mg+2            9.663e-04   7.065e-04    -3.015    -3.151    -0.136    -21.68
+   MgHCO3+         3.250e-05   2.995e-05    -4.488    -4.524    -0.035      5.51
+   MgCO3           1.144e-06   1.146e-06    -5.942    -5.941     0.001    -17.09
+   MgOH+           2.771e-08   2.565e-08    -7.557    -7.591    -0.034     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.081   -42.080     0.001     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Aragonite        -0.59     -8.92   -8.34  CaCO3
+  Calcite          -0.44     -8.92   -8.48  CaCO3
+  CO2(g)           -1.62     -3.09   -1.47  CO2
+  Dolomite         -0.75    -17.84  -17.09  CaMg(CO3)2
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+-------------------------------
+End of Run after 0.199 Seconds.
+-------------------------------
+
