@@ -1671,6 +1671,15 @@ xsolution_save(int n_user)
 			   temp_solution.Get_log_gamma_map()[s_x[i]->number] = s_x[i]->lg;
 		   }
 	   }
+	   // saves molalities
+	   temp_solution.Get_log_molalities_map().clear();
+	   for (int i = 0; i < this->count_s_x; i++)
+	   {
+		   if (s_x[i]->type <= H2O)
+		   {
+			   temp_solution.Get_log_molalities_map()[s_x[i]->number] = s_x[i]->lm;
+		   }
+	   }
    }
 /*
  *   Save solution
