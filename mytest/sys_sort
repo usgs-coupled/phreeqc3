@@ -21,5 +21,14 @@ USER_PRINT
 100 FOR i = 1 TO counta 
 110   PRINT i, PAD$(namea$(i), 12), PAD$(nameb$(i), 12), PAD$(namec$(i), 12)
 120 NEXT i
+
+210 a = SYS("phases", counta , namea$ , typea$ , sia)
+220 b = SYS("phases", countb , nameb$ , typeb$ , sib, 0)
+230 c = SYS("phases", countc , namec$ , typec$ , sic, 1)
+240 PRINT "Counts: ", counta, countb, countc
+
+300 FOR i = 1 TO counta 
+310   PRINT i, PAD$(namea$(i), 12), PAD$(nameb$(i), 12), PAD$(namec$(i), 12)
+320 NEXT i
 -end
 END

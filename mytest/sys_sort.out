@@ -41,6 +41,13 @@ Reading input data for simulation 1.
 	100 FOR i = 1 TO counta 
 	110   PRINT i, PAD$(namea$(i), 12), PAD$(nameb$(i), 12), PAD$(namec$(i), 12)
 	120 NEXT i
+	210 a = SYS("phases", counta , namea$ , typea$ , sia)
+	220 b = SYS("phases", countb , nameb$ , typeb$ , sib, 0)
+	230 c = SYS("phases", countc , namec$ , typec$ , sic, 1)
+	240 PRINT "Counts: ", counta, countb, countc
+	300 FOR i = 1 TO counta 
+	310   PRINT i, PAD$(namea$(i), 12), PAD$(nameb$(i), 12), PAD$(namec$(i), 12)
+	320 NEXT i
 	end
 	END
 -------------------------------------------
@@ -68,6 +75,14 @@ Counts:            16           16           16
           14 CaOH+        CaOH+        MgOH+        
           15 H2           H2           O2           
           16 O2           O2           OH-          
+Counts:             7            7            7 
+           1 Calcite      Calcite      Aragonite    
+           2 Aragonite    Aragonite    CO2(g)       
+           3 Dolomite     Dolomite     Calcite      
+           4 H2O(g)       H2O(g)       Dolomite     
+           5 CO2(g)       CO2(g)       H2(g)        
+           6 H2(g)        H2(g)        H2O(g)       
+           7 O2(g)        O2(g)        O2(g)        
 
 -----------------------------Solution composition------------------------------
 
@@ -151,7 +166,7 @@ End of simulation.
 Reading input data for simulation 2.
 ------------------------------------
 
--------------------------------
-End of Run after 0.199 Seconds.
--------------------------------
+------------------------------
+End of Run after 0.09 Seconds.
+------------------------------
 
