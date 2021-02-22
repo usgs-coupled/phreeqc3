@@ -1,4 +1,41 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+  	-----------------
+	February 21, 2021
+	-----------------
+	PhreeqcRM: Added a new method to retrieve log10 molality (mol/kgw)
+	of aqueous species.
+	
+	C++ method:
+	IRM_RESULT  GetSpeciesLog10Molalities (std::vector< double > &species_log10molalities) 
+	
+    Fortran method:	
+	integer function RM_GetSpeciesLog10Molalities(integer, intent(in) id,  
+       double precision, dimension(:,:), intent(out)  species_log10molalities) 
+
+	C method:
+	IRM_RESULT RM_GetSpeciesLog10Molalities(int id, double * species_log10molalities)  
+
+	See HTML documentation of PhreeqcRM in download distributions or 
+	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
+ 
+  	-----------------
+	February 20, 2021
+	-----------------
+	Phreeqc: Added optional 6th argument to Basic function SYS that 
+	controls the sort order of the output. If the argument is absent or
+	equal to 0, the sort order of species is from highest to lowest
+	based on the 5th field. If the 6th argument is a nonzero integer,
+	then the sort order is alphabetically based on the 3rd field. 
+	
+	Sort by 5th field (moles):
+	SYS("element", count , name$ , type$ , moles)
+	SYS("element", count , name$ , type$ , moles, 0)
+
+	Sort by 3rd field (name$):
+    SYS("element", count , name$ , type$ , moles, 1)
+
+
  
  	-----------------
 	February 19, 2021
