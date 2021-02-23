@@ -649,6 +649,54 @@ LDBLE cxxGasPhase::Calc_total_moles(void)const
 	}
 	return tot;
 }
+void cxxGasPhase::Delete_component(const std::string comp_name)
+{
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			this->gas_comps.erase(this->gas_comps.begin() + i); // To delete the ith element
+			break;
+		}
+	}
+}
+void cxxGasPhase::Set_component_moles(const std::string comp_name, const double moles)
+{
+	size_t i;
+	if (moles < 0.0)
+	{
+		this->Delete_component(comp_name);
+	}
+	else
+	{
+		cxxGasComp* ptr = this->Find_comp(comp_name.c_str());
+		if (ptr != NULL)
+		{
+			ptr->Set_moles(moles);
+		}
+		else
+		{
+			cxxGasComp temp_comp;
+			temp_comp.Set_phase_name(comp_name);
+			temp_comp.Set_moles(moles);
+			this->gas_comps.push_back(temp_comp);
+		}
+	}
+}
+double cxxGasPhase::Get_component_moles(const std::string comp_name)
+{
+	double moles = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			moles = this->gas_comps[i].Get_moles();
+			break;
+		}
+	}
+	return moles;
+}
+
 cxxGasComp *
 cxxGasPhase::Find_comp(const char * comp_name)
 {
