@@ -662,7 +662,6 @@ void cxxGasPhase::Delete_component(const std::string comp_name)
 }
 void cxxGasPhase::Set_component_moles(const std::string comp_name, const double moles)
 {
-	size_t i;
 	if (moles < 0.0)
 	{
 		this->Delete_component(comp_name);
