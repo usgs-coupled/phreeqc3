@@ -695,6 +695,45 @@ double cxxGasPhase::Get_component_moles(const std::string comp_name)
 	}
 	return moles;
 }
+double cxxGasPhase::Get_component_p(const std::string comp_name)
+{
+	double p = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			p = this->gas_comps[i].Get_p();
+			break;
+		}
+	}
+	return p;
+}
+double cxxGasPhase::Get_component_phi(const std::string comp_name)
+{
+	double phi = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			phi = this->gas_comps[i].Get_phi();
+			break;
+		}
+	}
+	return phi;
+}
+double cxxGasPhase::Get_component_f(const std::string comp_name)
+{
+	double f = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			f = this->gas_comps[i].Get_f();
+			break;
+		}
+	}
+	return f;
+}
 
 cxxGasComp *
 cxxGasPhase::Find_comp(const char * comp_name)

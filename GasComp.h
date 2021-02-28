@@ -28,6 +28,12 @@ class cxxGasComp: public PHRQ_base
 	void Set_p_read(LDBLE t) {this->p_read = t;}
 	LDBLE Get_moles() const {return this->moles;}
 	void Set_moles(LDBLE t) {this->moles = t;}
+	LDBLE Get_p() const { return this->p; }
+	void Set_p(LDBLE t) { this->p = t; }
+	LDBLE Get_phi() const { return this->phi; }
+	void Set_phi(LDBLE t) { this->phi = t; }
+	LDBLE Get_f() const { return this->f; }
+	void Set_f(LDBLE t) { this->f = t; }
 	LDBLE Get_initial_moles() const {return this->initial_moles;}
 	void Set_initial_moles(LDBLE t) {this->initial_moles = t;}
 
@@ -44,6 +50,9 @@ class cxxGasComp: public PHRQ_base
 	LDBLE p_read;
 	// internal workspace
 	LDBLE initial_moles;
+	LDBLE p;
+	LDBLE phi;
+	LDBLE f;
 	const static std::vector < std::string > vopts;
 };
 
