@@ -1,20 +1,120 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 
+  	-------------
+	March 2, 2021
+	-------------
+	PhreeqcRM: Added new methods to retrieve and set the volumes
+	of the gas phases in the cells. GetGasPhaseVolume retrieves
+	the volume of the gas phase in each cell. The value is set
+	to -1.0 for cells that do not have a gas phase.
+	
+	SetGasPhaseVolume only applies to fixed-volume gas phases.
+	An array of gas volumes is applied to the gas phases in the
+	cells. If the volume is negative for a cell, the gas volume
+	in the cell remains unchanged. If the volume is greater or
+	equal to zero, the volume is applied to the cell, and the
+	gas phase is forced to be a fixed-volume gas phase.
+
+    C++:
+	IRM_RESULT GetGasPhaseVolume(std::vector<double>& gas_pressure);
+	IRM_RESULT setGasPhaseVolume(const std::vector<double>& gas_pressure);
+	
+	Size of the vector is nxyz, the number of cells in the 
+	transport model.
+	
+    C: 
+	IRM_RESULT RM_GetGasPhaseVolume(int id, double* gas_volume);
+	IRM_RESULT RM_SetGasPhaseVolume(int id, double* gas_volume);
+	
+	Size of the array is nxyz*sizeof(double), where nxyz is the 
+	number of cells in the transport model.
+	
+    Fortran90: 
+	IRM_RESULT RM_GetGasPhaseVolume(int id, double precision gas_volume(:));
+	IRM_RESULT RM_SetGasPhaseVolume(int id, double precision gas_volume(:));
+	
+	The array is dimensioned nxyz, the number of cells in the 
+	transport model.
+	
+	See HTML documentation of PhreeqcRM in download distributions or 
+	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
+ 
+	
+  	-----------------
+	February 26, 2021
+	-----------------
+	
+	PhreeqcRM: Added new methods to retrieve values for 
+	gas components in each cell--moles, pressures, and 
+	fugacity coefficients (phi). A list of gas components is 
+	accumulated by call(s) to FindComponents, and retrieved 
+	by the method GetGasComponents. An array containing 
+	moles of components for each cell in the transport model 
+	is retrieved with GetGasCompMoles; similarly for 
+	GetGasCompPressures, and GetGasCompPhi. If GAS_PHASE is not 
+	defined for a cell or a GAS_PHASE does not contain a component, 
+	the array will contain the value -1.0 in those positions. 
+	Fugacities of gas components can be calculated as the product
+	of the pressure and fugcity coefficient.
+	
+	Moles of gas components in the chemistry cells can be set 
+	with the method SetGasCompMoles. A negative value is used to 
+	represent components that are absent from a cell.	
+
+	C++:
+	IRM_RESULT GetGasCompMoles(std::vector<double>& gas_moles);
+	IRM_RESULT GetGasCompPressures(std::vector<double>& gas_pressure);
+	IRM_RESULT GetGasCompPhi(std::vector<double>& gas_phi);
+	IRM_RESULT SetGasCompMoles(const std::vector<double>& gas_moles);
+	
+	The argument of each method is a vector of size nxyz*ngcomps, where 
+	nxyz is the number of cells in the transport model and ngcomps is
+	the number of gas components returned by GetGasComponentCount. 
+	
+	C:
+	IRM_RESULT RM_GetGasCompMoles(int id, double* gas_moles);
+	IRM_RESULT RM_GetGasCompPressures(int id, double* gas_pressure);
+	IRM_RESULT RM_GetGasCompPhi(int id, double* gas_phi);
+	IRM_RESULT RM_SetGasCompMoles(int id, double* gas_moles);
+	
+	For each function, the first argument(id) is an integer, and 
+	the second argument is an array of size nxyz*ngcomps*sizeof(double),
+	where nxyz is the number of cells in the transport model and 
+	ngcomps is the number of gas components returned by 
+	RM_GetGasComponentCount. 
+	
+	Fortran90:
+	INTEGER FUNCTION RM_GetGasCompMoles(id, gas_moles)
+	INTEGER FUNCTION RM_GetGasCompPressures(id, gas_pressures)
+	INTEGER FUNCTION RM_GetGasCompPhi(id, gas_phi)
+	INTEGER FUNCTION RM_SetGasCompMoles(id, gas_moles)
+	
+	For each function, the first argument (id) is an integer, and 
+	the second argument is a two dimensional array dimensioned 
+	(nxyz,ngcomps), where nxyz is the number of cells in the transport 
+	model and ngcomps is the number of gas components returned by 
+	RM_GetGasComponentCount. 
+
+	See HTML documentation of PhreeqcRM in download distributions or 
+	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
+ 
   	-----------------
 	February 21, 2021
 	-----------------
 	PhreeqcRM: Added a new method to retrieve log10 molality (mol/kgw)
 	of aqueous species.
 	
-	C++ method:
+	C++:
 	IRM_RESULT  GetSpeciesLog10Molalities (std::vector< double > &species_log10molalities) 
 	
-    Fortran method:	
-	integer function RM_GetSpeciesLog10Molalities(integer, intent(in) id,  
-       double precision, dimension(:,:), intent(out)  species_log10molalities) 
-
-	C method:
+	C:
 	IRM_RESULT RM_GetSpeciesLog10Molalities(int id, double * species_log10molalities)  
+
+    Fortran90:	
+	integer function RM_GetSpeciesLog10Molalities(id, species_log10molalities) 
+	
+	The first argument (id) is an integer, and the second argument is a 
+	two dimensional array dimensioned (nxyz,nspecies). 
 
 	See HTML documentation of PhreeqcRM in download distributions or 
 	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
