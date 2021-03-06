@@ -151,8 +151,9 @@ public:
 	LDBLE surf_total(const char *total_name, const char *surface_name);
 	LDBLE surf_total_no_redox(const char *total_name, const char *surface_name);
 	static int system_species_compare(const void *ptr1, const void *ptr2);
+	static int system_species_compare_name(const void* ptr1, const void* ptr2);
 	LDBLE system_total(const char *total_name, LDBLE * count, char ***names,
-		char ***types, LDBLE ** moles);
+		char ***types, LDBLE ** moles, int i);
 	std::string kinetics_formula(std::string kinetics_name, cxxNameDouble &stoichiometry);
 	std::string phase_formula(std::string phase_name, cxxNameDouble &stoichiometry);
 	std::string species_formula(std::string phase_name, cxxNameDouble &stoichiometry);

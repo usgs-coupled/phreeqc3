@@ -417,7 +417,8 @@ all: alkalinity.out \
 	ExchMixRelatedMin.out \
 	ExchMixRelatedKin.out \
 	SurfMixRelatedMin.out \
-	SurfMixRelatedKin.out
+	SurfMixRelatedKin.out \
+	sys_sort.out
 	
 
 # NaX.out
