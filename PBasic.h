@@ -272,6 +272,7 @@ public:
 		tokrtrim,
 		toktrim,
 		tokpad,
+		tokpad_,
 		tokchange_por,
 		tokget_por,
 		tokosmotic,
