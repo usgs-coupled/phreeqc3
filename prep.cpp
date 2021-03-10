@@ -57,7 +57,7 @@ prep(void)
 
 	//if (!same_model && !switch_numerical)
 	//	numerical_fixed_volume = false;
-	if (same_model == FALSE /*|| switch_numerical*/)
+	if (same_model == FALSE || !my_array/*|| switch_numerical*/)
 	{
 		clear();
 		setup_unknowns();

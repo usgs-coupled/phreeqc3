@@ -277,46 +277,46 @@ write_banner(void)
 	char buffer[80];
 	int len, indent;
 	screen_msg(
-			   "              â–ˆâ–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–ˆ\n");
+			   "              ÛßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßÛ\n");
 	screen_msg(
-			   "              â•‘                                            â•‘\n");
+			   "              º                                            º\n");
 
 	/* version */
 #ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.5.2");
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.6.5");
 #else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
 	indent = (44 - len) / 2;
-	screen_msg(sformatf("%14câ•‘%*c%s%*câ•‘\n", ' ', indent, ' ', buffer,
+	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
 
 	screen_msg(
-			   "              â•‘                                            â•‘\n");
+			   "              º                                            º\n");
 	screen_msg(
-			   "              â•‘      A hydrogeochemical transport model    â•‘\n");
+			   "              º      A hydrogeochemical transport model    º\n");
 	screen_msg(
-			   "              â•‘                                            â•‘\n");
+			   "              º                                            º\n");
 	screen_msg(
-			   "              â•‘                    by                      â•‘\n");
+			   "              º                    by                      º\n");
 	screen_msg(
-			   "              â•‘       D.L. Parkhurst and C.A.J. Appelo     â•‘\n");
+			   "              º       D.L. Parkhurst and C.A.J. Appelo     º\n");
 	screen_msg(
-			   "              â•‘                                            â•‘\n");
+			   "              º                                            º\n");
 
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "August 1, 2019");
+	len = sprintf(buffer, "%s", "February 24, 2021");
 #else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif
 	indent = (44 - len) / 2;
-	screen_msg(sformatf("%14câ•‘%*c%s%*câ•‘\n", ' ', indent, ' ', buffer,
+	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
 
 	screen_msg(
-			   "              â–ˆâ–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–ˆ\n\n");
+			   "              ÛÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÛ\n\n");
 
 	return 0;
 }
@@ -491,7 +491,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		}
 		local_database_file->close();
 		delete local_database_file;
-
+		
 		user_database = (char *) free_check_null(user_database);
 		user_database = string_duplicate(token);
 		screen_msg(sformatf("Database file: %s\n\n", token));
@@ -499,7 +499,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.5.2, compiled August 1, 2019\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.6.5, compiled February 24, 2021\n"));
 #endif
 		output_msg(sformatf("Database file: %s\n\n", token));
 #ifdef NPP
