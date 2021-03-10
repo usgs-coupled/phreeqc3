@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -2650,7 +2650,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			// decompose A in LU : store L in A[..][0..1] and U in A[..][2] ...
 			for (i = 1; i <= count_cells + 1; i++)
 			{
-				A[i - 1][2] = A[i - 1][2] / A[i - 1][1];
+				A[i - 1][2] /= A[i - 1][1];
 				A[i][1] -= A[i][0] * A[i - 1][2];
 			}
 			// solve Ct2 in A.Ct2 = L.U.Ct2 = Ct1, Ct1 was put in Ct2 ...
@@ -2786,7 +2786,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	}
 	dVc = j_0e * current_cells[ifirst].R;
 	cell_data[ifirst + 1].potV = cell_data[ifirst].potV + dVc;
-	for (i = ifirst + 1; i < ilast; i++)
+	for (i = ifirst + 1; i <= ilast; i++)
 	{
 		dVc = current_cells[i].R * (current_x - current_cells[i].dif);
 		//if (((dV_dcell && (dVc * j_0e > 0)) ||
@@ -2825,7 +2825,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	}
 	current_A = current_x / DDt * F_C_MOL;
 
-	for (i = ifirst; i <= ilast + stagnant + ((bcon_last == 2 || (dV_dcell && stagnant)) ? 1 : 0); i++)
+	for (i = ifirst; i <= ilast + stagnant + (bcon_last == 2 ? 1 : 0); i++)
 	{
 		if (i <= ilast + 1)
 		{
@@ -2977,7 +2977,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			if (icell == c && sptr_stag && ct[c1].m_s[cp].tot_stag)
 				dum = ct[c1].m_s[cp].tot_stag;
 			if (dum2 + ct[icell].m_s[cp].tot2 - dum < min_mol &&
-			(dV_dcell || (icell >= 0 && icell <= ilast)/* || (icell == ilast && bcon_last == 2)*/))
+			(dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2)))
 			{
 				dum2 = moles_from_redox_states(sptr2, ct[icell].m_s[cp].name);
 				if (ct[icell + 1].dl_s > 1e-8)
@@ -3016,7 +3016,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				//ct[icell].J_ij_sum -= dum * ct[icell].m_s[cp].charge;
 			}
 			
-			if (dV_dcell || (icell >= 0 && icell < ilast)/* || (icell == ilast && bcon_last == 2)*/)
+			if (dV_dcell || (icell >= 0 && icell < ilast) || (icell == ilast && bcon_last == 2))
 			{
 				dum = ct[icell].m_s[cp].tot1;
 				if (stagnant && icell == c && dV_dcell)
@@ -3072,7 +3072,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			}
 			
 			// reduce oscillations in the column-boundary cells, but not for H and O, and current_A is not adjusted...
-			if (icell == il1 - incr && ct[0].m_s != NULL && dV_dcell * ct[0].m_s[cp].charge < 0 && strcmp(ct[0].m_s[cp].name, "H") && strcmp(ct[0].m_s[cp].name, "O") && c > 3 && mixrun > 1)
+			if (dV_dcell && icell == il1 - incr && dV_dcell * ct[0].m_s[cp].charge < 0 && strcmp(ct[0].m_s[cp].name, "H") && strcmp(ct[0].m_s[cp].name, "O") && c > 3 && mixrun > 1)
 			{
 				dummy = Utilities::Rxn_find(Rxn_solution_map, 0)->Get_totals()[ct[0].m_s[cp].name] / ct[0].kgw * (1 - ct[0].dl_s);
 				if (dummy > 1e-6)
