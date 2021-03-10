@@ -588,6 +588,7 @@ Al+3 + 4 H2O = Al(OH)4- + 4 H+
 	-delta_h 42.30	kcal
 	-analytic	51.578	0.0	-11168.9	-14.865
 	-gamma	4.5	0
+	-dw 1.04e-9 # Mackin & Aller, 1983, GCA 47, 959
 Al+3 + SO4-2 = AlSO4+
 	-log_k	3.5
 	-delta_h 2.29 kcal
@@ -905,7 +906,7 @@ Calcite
 	CaCO3 = CO3-2 + Ca+2
 	-log_k	-8.48
 	-delta_h -2.297 kcal
-	-analytic	-171.9065	-0.077993	2839.319	71.595
+	-analytic 17.118  -0.046528  -3496 # 0 - 250°C, Ellis, 1959, Plummer and Busenberg, 1982
 	-Vm 36.9 cm3/mol # MW (100.09 g/mol) / rho (2.71 g/cm3)
 Aragonite
 	CaCO3 = CO3-2 + Ca+2
@@ -917,6 +918,7 @@ Dolomite
 	CaMg(CO3)2 = Ca+2 + Mg+2 + 2 CO3-2
 	-log_k	-17.09
 	-delta_h  -9.436 kcal
+	-analytic  31.283  -0.0898  -6438 #  25°C: Hemingway and Robie, 1994; 50–175°C: Bénézeth et al., 2018, GCA 224, 262-275.
 	-Vm 64.5
 Siderite
 	FeCO3 = Fe+2 + CO3-2
@@ -1487,6 +1489,7 @@ SURFACE_SPECIES
 	Hfo_wOH + H4SiO4 = Hfo_wH3SiO4 + H2O        ; log_K   4.28 
 	Hfo_wOH + H4SiO4 = Hfo_wH2SiO4- + H+ + H2O  ; log_K  -3.22 
 	Hfo_wOH + H4SiO4 = Hfo_wHSiO4-2 + 2H+ + H2O ; log_K -11.69
+
 RATES
 
 ###########
@@ -1790,7 +1793,12 @@ Pyrolusite
 200 SAVE moles * SOLN_VOL
   -end
 END
-
+# =============================================================================================
+#(a) means amorphous. (d) means disordered, or less crystalline. 
+#(14A) refers to 14 angstrom spacing of clay planes. FeS(ppt), 
+#precipitated, indicates an initial precipitate that is less crystalline. 
+#Zn(OH)2(e) indicates a specific crystal form, epsilon.
+# ============================================================================================= 
 # For the reaction aA + bB = cC + dD,
 #   with delta_v = c*Vm(C) + d*Vm(D) - a*Vm(A) - b*Vm(B),
 # PHREEQC adds the pressure term to log_k: -= delta_v * (P - 1) / (2.3RT).
@@ -1834,4 +1842,3 @@ END
 # =============================================================================================
 # It remains the responsibility of the user to check the calculated results, for example with
 #   measured solubilities as a function of (P, T).
-
