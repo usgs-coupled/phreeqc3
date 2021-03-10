@@ -13,7 +13,7 @@ ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
-	PHREEQC=../_build_2015_x64/Release/phreeqc.exe
+	PHREEQC=../_build_vs/Release/phreeqc.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -418,7 +418,8 @@ all: alkalinity.out \
 	ExchMixRelatedKin.out \
 	SurfMixRelatedMin.out \
 	SurfMixRelatedKin.out \
-	sys_sort.out
+	sys_sort.out \
+	kinetic_rates.out 
 	
 
 # NaX.out
