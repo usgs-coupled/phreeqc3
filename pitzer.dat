@@ -1,5 +1,5 @@
 # Pitzer.DAT for calculating pressure dependence of reactions
-#   and temperature dependence to 200 Â°C. With
+#   and temperature dependence to 200 °C. With
 #   molal volumina of aqueous species and of minerals, and
 #   critical temperatures and pressures of gases used in Peng-Robinson's EOS.
 # Details are given at the end of this file.
@@ -237,7 +237,7 @@ Calcite
 	CaCO3 = CO3-2 + Ca+2
 	log_k	   -8.406
 	delta_h -2.297 kcal
-	-analytic   -237.04  -0.1077  0  102.25  6.79e5 # ref. 3 + data from Ellis, 1959, Plummer and Busenberg, 1982 
+	-analytic  8.481      -0.032644  -2133 # ref. 3 + data from Ellis, 1959, Plummer and Busenberg, 1982 
 	-Vm 36.9
 Carnallite
 	KMgCl3:6H2O  =  K+ + Mg+2 + 3Cl- + 6H2O
@@ -266,8 +266,9 @@ Diopside
 	Vm 67.2
 Dolomite
 	CaMg(CO3)2 = Ca+2 + Mg+2 + 2 CO3-2
-	log_k	   -17.083
+	log_k	   -17.09
 	delta_h -9.436 kcal
+	-analytic  -120.63  -0.1051  0  54.509 # 50–175°C, Bénézeth et al., 2018, GCA 224, 262-275.
 	-Vm 64.5
 Enstatite
 	MgSiO3 + 2 H+  = - H2O + Mg+2 + H4SiO4 # llnl.dat
@@ -477,7 +478,7 @@ Ntg(g)
 	T_c  126.2 ; -P_c   33.50 ; -Omega 0.039
 Mtg(g)
 	Mtg = Mtg
-	-analytic   10.44  -7.65e-3  -6669  0  1.014e6 # CH4 solubilities 25 - 100Â°C
+	-analytic   10.44  -7.65e-3  -6669  0  1.014e6 # CH4 solubilities 25 - 100°C
 	T_c  190.6 ; -P_c   45.40 ; -Omega 0.008
 H2Sg(g)
 	H2Sg  =  H+ + HSg-
@@ -670,7 +671,7 @@ PITZER
   Ca+2      CO2       0.183
   Ca+2      H4SiO4    0.238    # ref. 3
   Cl-       CO2      -0.005
-  CO2       CO2      -1.34e-2   348   0.803 # new VM("CO2"), CO2 solubilities at high P, 0 - 150Â°C
+  CO2       CO2      -1.34e-2   348   0.803 # new VM("CO2"), CO2 solubilities at high P, 0 - 150°C
   CO2       HSO4-    -0.003
   CO2       K+        0.051
   CO2       Mg+2      0.183
@@ -911,7 +912,6 @@ SURFACE_SPECIES
 	Hfo_wOH + H4SiO4 = Hfo_wH2SiO4- + H+ + H2O  ; log_K  -3.22 
 	Hfo_wOH + H4SiO4 = Hfo_wHSiO4-2 + 2H+ + H2O ; log_K -11.69
 
-
 END
 MEAN GAM
 CaCl2
@@ -968,15 +968,15 @@ END
 #   W * QBrn is the energy of solvation, QBrn is the pressure dependence of the Born equation,
 #     W is fitted on measured solution densities.
 #   z is charge of the solute species.
-#   Av is the Debye-HÃ¼ckel limiting slope (DH_AV in PHREEQC basic).
-#   a0 is the ion-size parameter in the extended Debye-HÃ¼ckel equation:
+#   Av is the Debye-Hückel limiting slope (DH_AV in PHREEQC basic).
+#   a0 is the ion-size parameter in the extended Debye-Hückel equation:
 #     f(I^0.5) = I^0.5 / (1 + a0 * DH_B * I^0.5),
 #     a0 = -gamma x for cations, = 0 for anions.
 # For details, consult ref. 1.
 #
-# ref. 1: Appelo, Parkhurst and Post, 2014. Geochim. Cosmochim. Acta 125, 49-67.
-# ref. 2: Procedures from ref. 1 using data compiled by LalibertÃ©, 2009, J. Chem. Eng. Data 54, 1725.
-# ref. 3: Appelo, 2015, Appl. Geochem. 55, 62-71.
+# ref. 1: Appelo, Parkhurst and Post, 2014. Geochim. Cosmochim. Acta 125, 49–67.
+# ref. 2: Procedures from ref. 1 using data compiled by Laliberté, 2009, J. Chem. Eng. Data 54, 1725.
+# ref. 3: Appelo, 2015, Appl. Geochem. 55, 62–71.
 #                 http://www.hydrochemistry.eu/pub/pitzer_db/appendix.zip contains example files
 #                 for the high P,T Pitzer model and improvements for Calcite.
 # ref. 4: Appelo, 2017, Cem. Concr. Res. 101, 102-113.
