@@ -1387,6 +1387,22 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("LK_SPECIES");
 			break;
 
+		case tokdelta_h_species:
+			output_msg("DELTA_H_SPECIES");
+			break;
+
+		case tokdelta_h_phase:
+			output_msg("DELTA_H_PHASE");
+			break;
+
+		case tokdh_a0:
+			output_msg("DH_A0");
+			break;
+
+		case tokdh_bdot:
+			output_msg("DH_BDOT");
+			break;
+
 		case toklk_named:
 			output_msg("LK_NAMED");
 			break;
@@ -2454,6 +2470,31 @@ factor(struct LOC_exec * LINK)
 	{
 		const char* str = stringfactor(STR1, LINK);
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_s(str);
+	}
+	break;
+
+	case tokdelta_h_phase:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_deltah_p(str);
+	}
+	break;
+
+	case tokdelta_h_species:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_deltah_s(str);
+	}
+	break;
+	case tokdh_a0:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->dh_a0(str);
+	}
+	break;	case tokdh_bdot:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->dh_bdot(str);
 	}
 	break;
 
@@ -7416,7 +7457,11 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_species",         PBasic::toklk_species),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_named",           PBasic::toklk_named),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_phase",           PBasic::toklk_phase),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("delta_h_phase",      PBasic::tokdelta_h_phase),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("delta_h_species",    PBasic::tokdelta_h_species),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_species",        PBasic::toksum_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a0",              PBasic::tokdh_a0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_bdot",            PBasic::tokdh_bdot),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_gas",            PBasic::toksum_gas),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_s_s",            PBasic::toksum_s_s),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("calc_value",         PBasic::tokcalc_value),
