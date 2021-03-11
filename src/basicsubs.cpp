@@ -729,6 +729,117 @@ calc_logk_s(const char *name)
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
+dh_a0(const char* name)
+/* ---------------------------------------------------------------------- */
+{
+	char token[MAX_LENGTH];
+	struct species* s_ptr;
+	double a = -999.99;
+
+	strcpy(token, name);
+	s_ptr = s_search(token);
+	if (s_ptr != NULL)
+	{
+		a = s_ptr->dha;
+	}
+	return (a);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+dh_bdot(const char* name)
+/* ---------------------------------------------------------------------- */
+{
+	char token[MAX_LENGTH];
+	struct species* s_ptr;
+	double b = -999.99;
+	if (llnl_count_temp > 0)
+	{
+		b = bdot_llnl;
+	}
+	else
+	{
+		strcpy(token, name);
+		s_ptr = s_search(token);
+		if (s_ptr != NULL)
+		{
+			b = s_ptr->dhb;
+		}
+	}
+	return (b);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_deltah_p(const char* name)
+/* ---------------------------------------------------------------------- */
+{
+	int i, j;
+	char token[MAX_LENGTH];
+	struct phase* phase_ptr;
+	LDBLE lkm, lkp;
+	LDBLE l_logk[MAX_LOG_K_INDICES];
+	double dh = -999.99;
+	strcpy(token, name);
+	phase_ptr = phase_bsearch(token, &j, FALSE);
+
+	if (phase_ptr != NULL)
+	{
+		struct reaction* reaction_ptr;
+		if (phase_ptr->replaced)
+			reaction_ptr = phase_ptr->rxn_s;
+		else
+			reaction_ptr = phase_ptr->rxn;
+		/*
+		*   Print saturation index
+		*/
+		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+			phase_ptr->logk[vm0];
+		if (reaction_ptr->logk[delta_v])
+			mu_terms_in_logk = true;
+		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			l_logk[i] = 0.0;
+		}
+		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
+		select_log_k_expression(reaction_ptr->logk, l_logk);
+		add_other_logk(l_logk, phase_ptr->count_add_logk, phase_ptr->add_logk);
+		lkm = k_calc(l_logk, tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
+	}
+	return (dh);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_deltah_s(const char* name)
+/* ---------------------------------------------------------------------- */
+{
+	int i;
+	char token[MAX_LENGTH];
+	struct species* s_ptr;
+	LDBLE lkm, lkp, l_logk[MAX_LOG_K_INDICES];
+	double dh = -999.99;
+	strcpy(token, name);
+	s_ptr = s_search(token);
+	if (s_ptr != NULL)
+	{
+		/* calculate delta_v for the reaction... */
+		s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
+		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			l_logk[i] = 0.0;
+		}
+		select_log_k_expression(s_ptr->logk, l_logk);
+		mu_terms_in_logk = true;
+		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
+		lkm = k_calc(l_logk, tk_x-1.0, patm_x * PASCAL_PER_ATM);
+		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x,2.0);
+		return (dh);
+	}
+	return (0.0);
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
 calc_surface_charge(const char *surface_name)
 /* ---------------------------------------------------------------------- */
 {
@@ -738,7 +849,6 @@ calc_surface_charge(const char *surface_name)
 	LDBLE charge;
 	struct rxn_token_temp *token_ptr;
 	struct master *master_ptr;
-
 	/*
 	 *   Go through species, sum charge
 	 */
