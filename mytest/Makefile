@@ -419,7 +419,8 @@ all: alkalinity.out \
 	SurfMixRelatedMin.out \
 	SurfMixRelatedKin.out \
 	sys_sort.out \
-	kinetic_rates.out 
+	kinetic_rates.out \
+	delta_h.out
 	
 
 # NaX.out
