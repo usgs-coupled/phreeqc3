@@ -418,6 +418,7 @@ all: alkalinity.out \
 	ExchMixRelatedKin.out \
 	SurfMixRelatedMin.out \
 	SurfMixRelatedKin.out \
+	MoreExchMix.out \
 	sys_sort.out \
 	kinetic_rates.out \
 	delta_h.out
@@ -519,7 +520,7 @@ ss: \
 	surface_punch_all.out
 
 clean: 
-	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.diff *.expected *.txt millero.csv 
+	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.diff *.expected  millero.csv 
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert
