@@ -277,9 +277,9 @@ write_banner(void)
 	char buffer[80];
 	int len, indent;
 	screen_msg(
-			   "              ÛßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßÛ\n");
+		 "              â–ˆâ–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–€â–ˆ\n");
 	screen_msg(
-			   "              º                                            º\n");
+			   "              â•‘                                            â•‘\n");
 
 	/* version */
 #ifdef NPP
@@ -288,21 +288,21 @@ write_banner(void)
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
 	indent = (44 - len) / 2;
-	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
+	screen_msg(sformatf("%14câ•‘%*c%s%*câ•‘\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
 
 	screen_msg(
-			   "              º                                            º\n");
+			   "              â•‘                                            â•‘\n");
 	screen_msg(
-			   "              º      A hydrogeochemical transport model    º\n");
+			   "              â•‘      A hydrogeochemical transport model    â•‘\n");
 	screen_msg(
-			   "              º                                            º\n");
+			   "              â•‘                                            â•‘\n");
 	screen_msg(
-			   "              º                    by                      º\n");
+			   "              â•‘                    by                      â•‘\n");
 	screen_msg(
-			   "              º       D.L. Parkhurst and C.A.J. Appelo     º\n");
+			   "              â•‘       D.L. Parkhurst and C.A.J. Appelo     â•‘\n");
 	screen_msg(
-			   "              º                                            º\n");
+			   "              â•‘                                            â•‘\n");
 
 
 	/* date */
@@ -312,11 +312,11 @@ write_banner(void)
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif
 	indent = (44 - len) / 2;
-	screen_msg(sformatf("%14cº%*c%s%*cº\n", ' ', indent, ' ', buffer,
+	screen_msg(sformatf("%14câ•‘%*c%s%*câ•‘\n", ' ', indent, ' ', buffer,
 			   44 - indent - len, ' '));
 
 	screen_msg(
-			   "              ÛÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÛ\n\n");
+		"              â–ˆâ–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–„â–ˆ\n\n");
 
 	return 0;
 }
