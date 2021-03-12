@@ -2,7 +2,8 @@ Version @PHREEQC_VER@: @PHREEQC_DATE@
 Summary of Basic functions not include in PhreeqcI help:
 
 ADD_HEADING("NewHeading")			Append a new heading to the list of -headings defined
-									in USER_PUNCH. Note, takes effect at next use of USER_PUNCH.
+									in USER_PUNCH. Note: only useful in PhreeqcRM and takes effect 
+									at next RunString, RunFile, or RunCells.
 
 DEBYE_LENGTH     					Value of the Debye length.   
 
@@ -19,13 +20,19 @@ DH_A0(Na+")         				Debye-Huckel species-specific ion size parameter.
 DH_BDOT("Na+")  					Debye-Huckel species-specific ionic strength coefficient.   
 
 DIFF_C("CO3-2") 					Diffusion coefficient for a species at 25 C.           
+	
+EOL_NOTAB$ 							Omits the tab that is normally printed after EOL$.
 
 EQUIV_FRAC("AlX3", 3.0, "X")		Equivalent fraction of exchange or surface species.
 									Second argument is equivalents per mole. Third argument 
 									is exchange or surface name.    
   
 ITERATIONS      					Total number of iterations for the calculation.
-               
+
+NO_NEWLINE$ 						Omits the new line normally written after printing a USER_PUNCH block.
+									This function can be used to completely eliminate a line for a cell 
+									(assuming no SELECTED_OUTPUT fields are defined. 
+									            
 SETDIFF_C       					Sets dw for a species (see SOLUTION_SPECIES), returns 
 									calculated diffusion coefficient at reaction temperature.
 
