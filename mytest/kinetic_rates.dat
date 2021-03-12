@@ -1,0 +1,114 @@
+# Subroutines for calculating mineral dissolution rates from Palandri and Kharaka (2004) and Sverdrup et al. (2019).
+# It facilitates to use the kinetic rates for various minerals compiled by these authors.
+# Numbers can be copied from the tables in the publications; enter zero when unavailable.
+  # The data are entered in a KINETICS block with -parms. For example:
+
+    # KINETICS 1
+    # Albite_PK
+    # -formula NaAlSi3O8
+
+    # # parms affinity_factor m^2/mol roughness, lgkH  e_H  nH, lgkH2O e_H2O, lgkOH e_OH nOH
+    # # parm number        1       2          3,    4    5   6,      7     8,   9     10  11
+
+    # -parms    0 1 1,    -10.16 65.0 0.457,   -12.56 69.8,   -15.60 71.0 -0.572  # parms 4-11 from TABLE 13
+
+    # In the RATES block, they are stored in memory, and retrieved by the subroutine calc_value("Palandri_rate").
+
+    # RATES
+    # Albite_PK # Palandri and Kharaka, 2004
+    # 10 if parm(1) = 1 then affinity = 1 else affinity = 1 - SR("Albite") : if affinity < parm(1) then SAVE 0 : END
+    # 20 put(affinity, -99, 1) # store number in memory
+    # 30 for i = 2 to 11 : put(parm(i), -99, i) : next i
+    # 40 SAVE calc_value("Palandri_rate")
+    # -end 
+
+# For an example file using the rates, see: kinetic_rates.phr
+
+# References
+# Palandri, J.L. and Kharaka, J.K. (2004). A compilation of rate parameters of water-mineral interaction kinetics for application to geochemical modeling. USGS Open-File Report 2004-1068.
+# Sverdrup, H.U., Oelkers, E., Erlandsson Lampa, M., Belyazid, S., Kurz, D. and Akselsson, C. (2019). Reviews and Syntheses: weathering of silicate minerals in soils and watersheds: parameterization of the weathering kinetics module in the PROFILE and ForSAFE models. Biogeosciences Discuss. 1-58.
+
+CALCULATE_VALUES
+Palandri_rate
+10  affinity = get(-99, 1) # retrieve number from memory
+20 
+30  REM # specific area m2/mol, surface roughness
+40  sp_area  = get(-99, 2) : roughness = get(-99, 3) 
+50 
+60  REM # temperature factors
+70  dif_temp = 1 / TK - 1 / 298 : R = 2.303 * 8.314e-3
+80  
+90  REM # rate by H+
+100 lgk_H    = get(-99, 4) : e_H = get(-99, 5) : nH = get(-99, 6)
+110 rate_H   = 10^(lgk_H - e_H / R * dif_temp) * ACT("H+")^nH 
+120 
+130 REM # rate by hydrolysis
+140 lgk_H2O  = get(-99, 7) : e_H2O = get(-99, 8)
+150 rate_H2O = 10^(lgk_H2O - e_H2O / R * dif_temp)
+160 
+170 REM # rate by OH-
+180 lgk_OH   = get(-99, 9) : e_OH = get(-99, 10) : nOH = get(-99, 11)
+190 rate_OH  = 10^(lgk_OH - e_OH / R * dif_temp) * ACT("H+")^nOH
+200 
+210 rate     = rate_H + rate_H2O + rate_OH
+220 area     = sp_area * M0 * (M / M0)^0.67
+230 
+240 rate     = area * roughness * rate * affinity
+250 SAVE rate * TIME
+-end
+
+Sverdrup_rate
+10  affinity = get(-99, 1)
+20 
+30  REM # specific area m2/mol, surface roughness
+40  sp_area = get(-99, 2) : roughness = get(-99, 3) 
+50 
+60  REM # temperature factors
+70  dif_temp = 1 / TK - 1 / 281
+80  e_H = get(-99, 4) : e_H2O = get(-99, 5) : e_CO2 = get(-99, 6) : e_OA = get(-99, 7) : e_OH = get(-99, 8) 
+90  
+100 BC       = ACT("Na+") + ACT("K+") + ACT("Mg+2") + ACT("Ca+2")
+110 aAl      = act("Al+3")
+120 aSi      = act("H4SiO4")
+130 R        = tot("OrganicMatter")
+140 
+150 REM # rate by H+
+160 pkH = get(-99, 9) : nH = get(-99, 10) : yAl = get(-99, 11) : CAl = get(-99, 12) : xBC = get(-99, 13) : CBC = get(-99, 14)
+170 pk_H     = pkH - 3 + e_H * dif_temp
+180 CAl      = CAl * 1e-6
+190 CBC      = CBC * 1e-6
+200 rate_H   = 10^-pk_H * ACT("H+")^nH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC)
+210 
+220 REM # rate by hydrolysis
+230 pkH2O = get(-99, 15) : yAl = get(-99, 16) : CAl = get(-99, 17) : xBC = get(-99, 18) : CBC = get(-99, 19) : zSi = get(-99, 20) : CSi = get(-99, 21)
+240 CAl      = CAl * 1e-6
+250 CBC      = CBC * 1e-6
+260 CSi      = CSi * 1e-6
+270 pk_H2O   = pkH2O - 3 + e_H2O * dif_temp
+280 rate_H2O = 10^-pk_H2O / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)
+290 
+300 REM # rate by CO2
+310 pKCO2 = get(-99, 22) : nCO2 = get(-99, 23)
+320 pk_CO2   = pkCO2 - 3 + e_CO2 * dif_temp
+330 rate_CO2 = 10^-pk_CO2 * SR("CO2(g)")^nCO2
+340 
+350 REM # rate by Organic Acids
+360 pkOrg = get(-99, 24) : nOrg = get(-99, 25) : COrg = get(-99, 26)
+370 COrg     = COrg * 1e-6
+380 pk_Org   = pkOrg - 3 + e_OA * dif_temp
+390 rate_Org = 10^-pk_Org * (R / (1 + R / COrg))^nOrg
+400 
+410 REM # rate by OH-
+420 pkOH = get(-99, 27) : wOH = get(-99, 28) : yAl = get(-99, 29) : CAl = get(-99, 30) : xBC = get(-99, 31) : CBC = get(-99, 32) : zSi = get(-99, 33) : CSi = get(-99, 34)
+430 CAl      = CAl * 1e-6
+440 CBC      = CBC * 1e-6
+450 CSi      = CSi * 1e-6
+460 pk_OH    = pkOH - 3 + e_OH * dif_temp
+470 rate_OH  = 10^-pk_OH * ACT("OH-")^wOH / ((1 + aAl / CAl)^yAl * (1 + BC / CBC)^xBC * (1 + aSi / CSi)^zSi)# : print rate_OH
+480 
+490 rate     = rate_H + rate_H2O + rate_CO2 + rate_Org + rate_OH
+500 area     = sp_area * M0 * (M / M0)^0.67
+510 
+520 rate     = roughness * area * rate * affinity
+530 SAVE rate * TIME
+-end

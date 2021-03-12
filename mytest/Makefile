@@ -13,7 +13,7 @@ ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
-	PHREEQC=../_build_2015_x64/Release/phreeqc.exe
+	PHREEQC=../_build_vs/Release/phreeqc.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -418,7 +418,12 @@ all: alkalinity.out \
 	ExchMixRelatedKin.out \
 	SurfMixRelatedMin.out \
 	SurfMixRelatedKin.out \
-	sys_sort.out
+	MoreExchMix.out \
+	notab.out \
+	zeta.out \
+	sys_sort.out \
+	kinetic_rates.out \
+	delta_h.out
 	
 
 # NaX.out
@@ -517,7 +522,7 @@ ss: \
 	surface_punch_all.out
 
 clean: 
-	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.diff *.expected *.txt millero.csv 
+	rm -f *.out *.log *.pun *.prn *.flat *.sel *.dmp *.lon *.pat *.mod *.diff *.expected  millero.csv 
 
 revert:
 	svn st | egrep ^! | cut -b 2- | xargs svn revert

@@ -1,0 +1,35 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 delta_h_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+	Ca 10
+	C  10 charge
+END
+EQUILIBRIUM_PHASES
+	Calcite 0 10
+	Gypsum 0 10
+END
+REACTION_TEMPERATURE
+25 50 
+RUN_CELLS
+-cell 1
+USER_PRINT
+	10 x = SYS("aq", count, name$, type$, molality,1)
+	20 PRINT "Species        Delta H      DH a0     DH bdot"
+	25 PRINT "               kcal/mol  (ion size)"
+	30 FOR i = 1 TO count
+	40   PRINT PAD$(name$(i),10), STR_F$(DELTA_H_SPECIES(name$(i))/4.184,10,2), \
+				STR_F$(DH_A0(name$(i)),10,2),  STR_F$(DH_BDOT(name$(i)),11,3)
+	50 NEXT i
+	110 x = SYS("phases", count, name$, type$, s,1)
+	120 PRINT EOL$ + "Phase      Delta H, kcal/mol"
+	130 FOR i = 1 TO count
+	140   PRINT PAD$(name$(i),11), STR_F$(DELTA_H_PHASE(name$(i))/4.184,10,2)
+	150 NEXT i
+END

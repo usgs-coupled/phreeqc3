@@ -2005,7 +2005,13 @@ set_reaction(int i, int use_mix, int use_kinetics)
 /*
  *   Find surface
  */
-	dl_type_x = cxxSurface::NO_DL;
+	if (use.Get_surface_in() && use.Get_kinetics_in() && use.Get_kinetics_ptr() && !use.Get_kinetics_ptr()->Get_use_cvode() && reaction_step > 1)
+	{
+		// use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
+		// appt: we may come here with zero kinetic reaction, but surface may have to keep DONNAN_DL
+	}
+	else
+		dl_type_x = cxxSurface::NO_DL;
 	if (use.Get_surface_in() == TRUE)
 	{
 		use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));

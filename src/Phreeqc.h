@@ -114,6 +114,10 @@ public:
 	LDBLE calc_logk_n(const char *name);
 	LDBLE calc_logk_p(const char *name);
 	LDBLE calc_logk_s(const char *name);
+	LDBLE calc_deltah_s(const char* name);
+	LDBLE calc_deltah_p(const char* name);
+	LDBLE dh_a0(const char* name);
+	LDBLE dh_bdot(const char* name);
 	LDBLE calc_surface_charge(const char *surface_name);
 	LDBLE calc_t_sc(const char *name);
 	LDBLE diff_layer_total(const char *total_name, const char *surface_name);
@@ -1701,7 +1705,7 @@ protected:
 	bool output_newline;
 	inline void Set_output_newline(bool tf) { this->output_newline = tf;}
 	inline bool Get_output_newline() { return this->output_newline;}
-	LDBLE *llnl_temp, *llnl_adh, *llnl_bdh, *llnl_bdot, *llnl_co2_coefs, a_llnl, b_llnl;
+	LDBLE *llnl_temp, *llnl_adh, *llnl_bdh, *llnl_bdot, *llnl_co2_coefs, a_llnl, b_llnl, bdot_llnl;
 	int llnl_count_temp, llnl_count_adh, llnl_count_bdh, llnl_count_bdot,
 		llnl_count_co2_coefs;
 

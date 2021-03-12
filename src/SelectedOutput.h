@@ -181,7 +181,6 @@ protected:
 	bool charge_balance;
 	bool percent_error;
 	bool new_line;
-	//bool punch_newline;
 
 	// as-is set flags
 	bool set_user_punch;

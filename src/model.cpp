@@ -568,7 +568,7 @@ gammas(LDBLE mu)
  */
 	int i, j;
 	int ifirst, ilast;
-	LDBLE f, bdot_llnl, log_g_co2, dln_g_co2, c2_llnl;
+	LDBLE f, log_g_co2, dln_g_co2, c2_llnl;
 
 	LDBLE c1, c2, a, b;
 	LDBLE muhalf, equiv;

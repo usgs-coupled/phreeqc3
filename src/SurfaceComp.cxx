@@ -432,7 +432,7 @@ cxxSurfaceComp::add(const cxxSurfaceComp & addee, LDBLE extensive)
 	{
 		std::ostringstream oss;
 		oss <<
-			"Cannot mix surface components related to phase with exchange components related to kinetics, "
+			"Cannot mix surface components related to phase with surface components related to kinetics, "
 			<< this->formula;
 		error_msg(oss.str().c_str(), CONTINUE);
 		return;
