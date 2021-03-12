@@ -277,13 +277,13 @@ write_banner(void)
 	char buffer[80];
 	int len, indent;
 	screen_msg(
-			   "              █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█\n");
+		 "              █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█\n");
 	screen_msg(
 			   "              ║                                            ║\n");
 
 	/* version */
 #ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.5.2");
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.6.5");
 #else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
@@ -307,7 +307,7 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "August 1, 2019");
+	len = sprintf(buffer, "%s", "February 24, 2021");
 #else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif
@@ -316,7 +316,7 @@ write_banner(void)
 			   44 - indent - len, ' '));
 
 	screen_msg(
-			   "              █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n\n");
+		"              █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n\n");
 
 	return 0;
 }
@@ -491,7 +491,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		}
 		local_database_file->close();
 		delete local_database_file;
-
+		
 		user_database = (char *) free_check_null(user_database);
 		user_database = string_duplicate(token);
 		screen_msg(sformatf("Database file: %s\n\n", token));
@@ -499,7 +499,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		output_msg(sformatf("   Input file: %s\n", in_file));
 		output_msg(sformatf("  Output file: %s\n", out_file));
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.5.2, compiled August 1, 2019\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.6.5, compiled February 24, 2021\n"));
 #endif
 		output_msg(sformatf("Database file: %s\n\n", token));
 #ifdef NPP

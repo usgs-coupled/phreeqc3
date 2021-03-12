@@ -2029,14 +2029,31 @@ print_model(struct inverse *inv_ptr)
 				   (double) d3));
 	}
 
-	output_msg(sformatf( "\n%-25.25s   %2s   %12.12s   %12.12s\n",
-			   "Phase mole transfers:", " ", "Minimum", "Maximum"));
+	// appt, calculate and print SI's
+	int i1, i2;
+	LDBLE  t_i, p_i, iap, lk, t;
+	const char *name;
+	struct rxn_token *rxn_ptr;
+	struct reaction *reaction_ptr;
+
+	output_msg(sformatf( "\n%-25.25s   %2s   %12.12s   %12.12s   %-18.18s  (Approximate SI in solution ",
+			   "Phase mole transfers:", " ", "Minimum", "Maximum", "Formula"));
+	
+	for (i = 0; i < inv_ptr->count_solns - 1; i++)
+		output_msg(sformatf("%d, ", inv_ptr->solns[i]));
+	solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
+	t_i = solution_ptr->Get_tc() + 273.15;
+	p_i = solution_ptr->Get_patm();
+	output_msg(sformatf("%d at %3d K, %3d atm)\n", inv_ptr->solns[i], int(t_i), int(floor(p_i + 0.5))));
+	p_i *= PASCAL_PER_ATM;
+
 	for (i = col_phases; i < col_redox; i++)
 	{
 		if (equal(inv_delta1[i], 0.0, toler) == TRUE &&
 			equal(min_delta[i], 0.0, toler) == TRUE &&
 			equal(max_delta[i], 0.0, toler) == TRUE)
 			continue;
+
 		d1 = inv_delta1[i];
 		d2 = min_delta[i];
 		d3 = max_delta[i];
@@ -2047,11 +2064,62 @@ print_model(struct inverse *inv_ptr)
 		if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
 			d3 = 0.0;
 		output_msg(sformatf(
-				   "%15.15s   %12.3e   %12.3e   %12.3e   %s\n", col_name[i],
-				   (double) d1, (double) d2, (double) d3,
-				   inv_ptr->phases[i - col_phases].phase->formula));
-	}
+			"%15.15s   %12.3e   %12.3e   %12.3e   %-25.25s  (", col_name[i],
+			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula));
 
+		i1 = 0;
+		for (; i1 < count_phases; i1++)
+		{
+			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
+				continue;
+
+				reaction_ptr = phases[i1]->rxn_s;
+
+			for (i2 = 0; i2 < inv_ptr->count_solns; i2++)
+			{
+				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
+
+				reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) - phases[i1]->logk[vm0];
+				if (reaction_ptr->logk[delta_v])
+					mu_terms_in_logk = true;
+				lk = k_calc(reaction_ptr->logk, t_i, p_i);
+
+				iap = 0.0;
+				for (rxn_ptr = reaction_ptr->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+				{
+					t = 0;
+					if (rxn_ptr->s == s_eminus)
+						t = -solution_ptr->Get_pe();
+					else if (!Utilities::strcmp_nocase(rxn_ptr->s->name, "H2O"))
+						t = log10(solution_ptr->Get_ah2o());
+					else if (!Utilities::strcmp_nocase(rxn_ptr->s->name, "H+"))
+						t = -solution_ptr->Get_ph();
+					else
+					{
+						if (rxn_ptr->s->secondary)
+							name = rxn_ptr->s->secondary->elt->name;
+						else
+							name = rxn_ptr->s->primary->elt->name;
+						t = solution_ptr->Get_master_activity()[name];
+					}
+					if (t)
+						iap += t * rxn_ptr->coef;
+					else
+					{
+						iap = -999; break;
+					}
+				}
+
+				if (iap == -999)
+					output_msg(sformatf("      "));
+				else
+					output_msg(sformatf("%6.2f", iap - lk));
+				if (i2 < inv_ptr->count_solns - 1)
+					output_msg(sformatf(","));
+			}
+		}
+		output_msg(sformatf(")\n"));
+	}
 	output_msg(sformatf( "\n%-25.25s\n", "Redox mole transfers:"));
 	for (i = col_redox; i < col_epsilon; i++)
 	{
