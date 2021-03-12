@@ -35,6 +35,7 @@ cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	eltList.type = cxxNameDouble::ND_ELT_MOLES;
+	this->new_def = false;
 //
 //   Mix
 //
