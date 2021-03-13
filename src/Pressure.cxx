@@ -310,40 +310,6 @@ cxxPressure::read_raw(CParser & parser, bool check)
 		}
 	}
 }
-#ifdef SKIP
-void
-cxxPressure::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Temperature element and attributes
-	s_oss << indent0;
-	s_oss << "<temperature " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_temperature_gammas=\"" << this->
-		pitzer_temperature_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxPressureComp >::const_iterator it =
-		 temperatureComps.begin(); it != temperatureComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE cxxPressure::
 Pressure_for_step(int step_number)

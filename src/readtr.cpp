@@ -177,12 +177,12 @@ read_transport(void)
 			error_msg(line_save, CONTINUE);
 			break;
 		case 0:				/* cells */
-			sscanf(next_char, "%d", &count_cells);
+			(void)sscanf(next_char, "%d", &count_cells);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* shifts */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, "%d", &count_shifts);
+				(void)sscanf(token, "%d", &count_shifts);
 			else
 			{
 				warning_msg
@@ -193,7 +193,7 @@ read_transport(void)
 			if (j != EMPTY)
 			{
 				if (j == DIGIT)
-					sscanf(token, "%d", &ishift);
+					(void)sscanf(token, "%d", &ishift);
 				else
 				{
 					input_error++;
@@ -215,7 +215,7 @@ read_transport(void)
 		case 3:				/* selected_output */
 		case 29:				/* selected_output_frequency */
 		case 33:				/* punch_frequency */
-			sscanf(next_char, "%d", &punch_modulus);
+			(void)sscanf(next_char, "%d", &punch_modulus);
 			opt_save = OPTION_DEFAULT;
 			if (punch_modulus <= 0)
 			{
@@ -234,7 +234,7 @@ read_transport(void)
 			str_tolower(token);
 			if (i == DIGIT)
 			{
-				sscanf(token, "%d", &bcon_first);
+				(void)sscanf(token, "%d", &bcon_first);
 				if (bcon_first < 1 || bcon_first > 3)
 				{
 					input_error++;
@@ -264,7 +264,7 @@ read_transport(void)
 			str_tolower(token);
 			if (i == DIGIT)
 			{
-				sscanf(token, "%d", &bcon_last);
+				(void)sscanf(token, "%d", &bcon_last);
 				if (bcon_last < 1 || bcon_last > 3)
 				{
 					input_error++;
@@ -293,7 +293,7 @@ read_transport(void)
 		case 5:					/* timest */
 		case 14:				/* time_step */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &timest);
+				(void)sscanf(token, SCANFORMAT, &timest);
 			{
 				std::string stdtoken;
 				j = copy_token(stdtoken, &next_char);
@@ -304,7 +304,7 @@ read_transport(void)
 				}
 				if (j == DIGIT)
 				{
-					sscanf(stdtoken.c_str(), SCANFORMAT, &mcd_substeps);
+					(void)sscanf(stdtoken.c_str(), SCANFORMAT, &mcd_substeps);
 				}
 			}
 			//if (copy_token(token, &next_char, &l) == DIGIT)
@@ -319,7 +319,7 @@ read_transport(void)
 			break;
 		case 6:				/* diffc */
 		case 16:				/* diffusion_coefficient */
-			sscanf(next_char, SCANFORMAT, &diffc);
+			(void)sscanf(next_char, SCANFORMAT, &diffc);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 7:				/* tempr */
@@ -327,7 +327,7 @@ read_transport(void)
 		case 19:				/* temperature_retardation_factor */
 		case 39:				/* thermal_diffusion */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &tempr);
+				(void)sscanf(token, SCANFORMAT, &tempr);
 			if (tempr < 1)
 			{
 				tempr = 1;
@@ -337,7 +337,7 @@ read_transport(void)
 			}
 			j = copy_token(token, &next_char, &l);
 			if (j == DIGIT)
-				sscanf(token, SCANFORMAT, &heat_diffc);
+				(void)sscanf(token, SCANFORMAT, &heat_diffc);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 8:				/* length */
@@ -456,7 +456,7 @@ read_transport(void)
 		case 27:				/* output */
 		case 28:				/* output_frequency */
 		case 34:				/* print_frequency */
-			sscanf(next_char, "%d", &print_modulus);
+			(void)sscanf(next_char, "%d", &print_modulus);
 			opt_save = OPTION_DEFAULT;
 			if (print_modulus <= 0)
 			{
@@ -469,7 +469,7 @@ read_transport(void)
 		case 31:				/* dump_frequency */
 			dump_in = TRUE;
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, "%d", &dump_modulus);
+				(void)sscanf(token, "%d", &dump_modulus);
 			else
 			{
 				warning_msg("Expected integer value for dump_frequency.");
@@ -480,7 +480,7 @@ read_transport(void)
 		case 32:				/* dump_restart */
 			dump_in = TRUE;
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, "%d", &transport_start);
+				(void)sscanf(token, "%d", &transport_start);
 			else
 			{
 				warning_msg
@@ -495,7 +495,7 @@ read_transport(void)
 			break;
 		case 36:				/* initial_time */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &initial_total_time);
+				(void)sscanf(token, SCANFORMAT, &initial_total_time);
 			{
 				std::string stdtoken;
 				j = copy_token(stdtoken, &next_char);
@@ -678,7 +678,7 @@ read_transport(void)
 		case 45:                /* current     */
 			if (copy_token(token, &next_char, &l) == DIGIT)
 			{
-				sscanf(token, SCANFORMAT, &fix_current);
+				(void)sscanf(token, SCANFORMAT, &fix_current);
 //				fix_current = fabs(fix_current);
 			}
 			else
@@ -704,7 +704,7 @@ read_transport(void)
 			}
 			if (copy_token(token, &next_char, &l) == DIGIT)
 			{
-				sscanf(token, SCANFORMAT, &max_mixf);
+				(void)sscanf(token, SCANFORMAT, &max_mixf);
 			}
 			else
 			{
@@ -1171,7 +1171,7 @@ read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
 		}
 		else
 		{
-			sscanf(token, SCANFORMAT, &value);
+			(void)sscanf(token, SCANFORMAT, &value);
 			n = 1;
 		}
 		for (;;)

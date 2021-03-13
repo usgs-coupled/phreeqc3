@@ -1888,37 +1888,6 @@ clear(void)
  *   Free arrays used in model   
  */
 	free_model_allocs();
-#ifdef SKIP
-   // Bug-fix
-   // The standard implementation of clear() sets the unknown pointer of some of the
-   // masters to NULL. However, the function quick_setup presumes that a master pointer
-   // is valid when the masters total is larger than zero. This results in a crash
-   // when the unknown pointer is dereferenced. The same goes for the secondary master 
-   // species.
-   //
-   // Perhaps this should be part of the 'Clear master species solution-dependent data'-loop above?!
-   for ( int i = 0; i < count_master; i++ )
-   {
-      if (master[i]->s->type == SURF_PSI)
-         continue;
-
-      if ( master[i]->s == s_eminus ||
-            master[i]->s == s_hplus ||
-            master[i]->s == s_h2o   || 
-            master[i]->s == s_h2    || 
-            master[i]->s == s_o2 )
-               continue;
-
-      if (master[i]->total > 0 )
-      {
-         // Make sure masters total is set to zero when unknown pointer for master species is not set
-         if ( ( master[i]->s->secondary && !master[i]->s->secondary->unknown ) || !master[i]->unknown )
-         {
-            master[i]->total = 0.0;
-         }
-      }
-   }
-#endif   
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

@@ -289,51 +289,7 @@ struct name_phase
 	const char *name;
 	struct phase *phase;
 };
-#ifdef SKIP
-struct punch
-{
-	int in;
-	int new_def;
-	struct name_master *totals;
-	int count_totals;
-	struct name_species *molalities;
-	int count_molalities;
-	struct name_species *activities;
-	int count_activities;
-	struct name_phase *pure_phases;
-	int count_pure_phases;
-	struct name_phase *si;
-	int count_si;
-	struct name_phase *gases;
-	int count_gases;
-	struct name_phase *s_s;
-	int count_s_s;
-	struct name_phase *kinetics;
-	int count_kinetics;
-	struct name_master *isotopes;
-	int count_isotopes;
-	struct name_master *calculate_values;
-	int count_calculate_values;
-	int inverse;
-	int sim;
-	int state;
-	int soln;
-	int dist;
-	int time;
-	int step;
-	int rxn;
-	int temp;
-	int ph;
-	int pe;
-	int alk;
-	int mu;
-	int water;
-	int high_precision;
-	int user_punch;
-	int charge_balance;
-	int percent_error;
-};
-#endif
+
 struct Change_Surf
 {
 	const char *comp_name;

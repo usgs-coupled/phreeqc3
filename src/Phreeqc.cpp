@@ -473,52 +473,6 @@ void Phreeqc::init(void)
 	current_selected_output         = NULL;
 	current_user_punch              = NULL;
 	high_precision                  = false;
-#ifdef SKIP
-	//struct punch punch;
-/*
- *	 Initialize punch
- */
-	punch.in				= FALSE;
-	punch.count_totals		= 0;
-	punch.totals			= 0;
-	punch.count_molalities	= 0;
-	punch.molalities		= 0;
-	punch.count_activities	= 0;
-	punch.activities		= 0;
-	punch.count_pure_phases = 0;
-	punch.pure_phases		= 0;
-	punch.count_si			= 0;
-	punch.si				= 0;
-	punch.count_gases		= 0;
-	punch.gases				= 0;
-	punch.count_s_s			= 0;
-	punch.s_s               = 0;
-	punch.count_kinetics	= 0;
-	punch.kinetics			= 0;
-	punch.count_isotopes	= 0;
-	punch.isotopes			= 0;
-	punch.count_calculate_values = 0;
-	punch.calculate_values	= 0;
-	punch.inverse			= TRUE;
-	punch.sim				= TRUE;
-	punch.state				= TRUE;
-	punch.soln				= TRUE;
-	punch.dist				= TRUE;
-	punch.time				= TRUE;
-	punch.step				= TRUE;
-	punch.rxn				= FALSE;
-	punch.temp				= FALSE;
-	punch.ph				= TRUE;
-	punch.pe				= TRUE;
-	punch.alk				= FALSE;
-	punch.mu				= FALSE;
-	punch.water				= FALSE;
-	punch.high_precision	= FALSE;
-	punch.user_punch		= TRUE;
-	punch.charge_balance	= FALSE;
-	punch.percent_error		= FALSE;
-#endif
-
 	MIN_LM = -30.0;			    /* minimum log molality allowed before molality set to zero */
 	LOG_ZERO_MOLALITY = -30;	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
 	MIN_RELATED_LOG_ACTIVITY = -30;
@@ -908,11 +862,6 @@ void Phreeqc::init(void)
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
 	user_print				= NULL;
-#ifdef SKIP
-	user_punch				= NULL;
-	user_punch_headings		= NULL;
-	user_punch_count_headings = 0;
-#endif
 	n_user_punch_index      = 0;
 	fpunchf_user_s_warning  = 0;
 	fpunchf_user_buffer[0]  = 0;
@@ -1255,11 +1204,6 @@ void Phreeqc::init(void)
 #else
 	default_data_base = string_duplicate("phreeqc.dat");
 #endif
-#ifdef PHREEQ98
-	int outputlinenr;
-	char *LogFileNameC;
-	char progress_str[512];
-#endif
 	/* Pitzer  */	
 	pitzer_model			= FALSE;
 	sit_model				= FALSE;
@@ -1305,28 +1249,12 @@ void Phreeqc::init(void)
 		BK[i]				= 0.0;
 		DK[i]				= 0.0;
 	}
-#ifdef PHREEQ98
-	int connect_simulations, graph_initial_solutions;
-	int shifts_as_points;
-	int chart_type;
-	int ShowChart;
-	int RowOffset, ColumnOffset;
-#endif
 	dummy                   = 0;
 	/* print.cpp ------------------------------- */
 	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
 	if (sformatf_buffer == NULL) 
 			malloc_error();
 		sformatf_buffer_size = 256;
-#ifdef PHREEQ98
-	int colnr, rownr;
-	int graph_initial_solutions;
-	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
-	/* int shifts_as_points; */
-	int chart_type;
-	int AddSeries;
-	int FirstCallToUSER_GRAPH;
-#endif
 	/* read.cpp */
 	prev_next_char          = NULL;
 #if defined PHREEQ98 
@@ -1390,13 +1318,6 @@ void Phreeqc::init(void)
 	heat_mix_f_m            = 0;
 	warn_MCD_X              = 0;
 	warn_fixed_Surf         = 0;
-#ifdef PHREEQ98
-	int AutoLoadOutputFile, CreateToC;
-	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
-	int outputlinenr;
-	int stop_calculations;
-	char err_str98[80];
-#endif
 	/* utilities.cpp ------------------------------- */
 	spinner                 = 0;
 	// keycount;
@@ -2192,38 +2113,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	}
 
 	// For now, User Punch is not copied
-#ifdef SKIP
-	/*
-		user_punch				= NULL;
-	*/
-	{
-		user_punch->name = NULL;
-		user_punch->commands = NULL;
-		if (pSrc->user_punch->commands != NULL)
-		{
-			user_punch->commands = string_duplicate(pSrc->user_punch->commands); 
-		}
-		user_punch->new_def = TRUE;
-		user_punch->linebase = NULL;
-		user_punch->varbase = NULL;
-		user_punch->loopbase = NULL;
-	}	
-	/*
-	user_punch_headings		= NULL;
-	user_punch_count_headings = 0;
-	*/
-	user_punch_count_headings = pSrc->user_punch_count_headings;
-	if (user_punch_count_headings > 0)
-	{
-		user_punch_headings = (const char **) free_check_null(user_punch_headings);
-		user_punch_headings = (const char **) PHRQ_malloc((size_t) user_punch_count_headings * sizeof(char *));
-		if (user_punch_headings == NULL) malloc_error();
-		for (int i = 0; i < user_punch_count_headings; i++)
-		{
-			user_punch_headings[i] = string_hsave(pSrc->user_punch_headings[i]);
-		}
-	}
-#endif
 	n_user_punch_index      = pSrc->n_user_punch_index;
 	fpunchf_user_s_warning  = pSrc->fpunchf_user_s_warning;
 	//fpunchf_user_buffer[0]  = 0;
@@ -2498,145 +2387,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	//have_punch_name			= pSrc->have_punch_name;
 	print_density		    = pSrc->print_density;
 	print_viscosity         = pSrc->print_viscosity;
-#ifdef SKIP
-	LDBLE *zeros;
-	int zeros_max;
-#endif
 	viscos = pSrc->viscos;
 	viscos_0 = pSrc->viscos_0;
 	viscos_0_25 = pSrc->viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
-#ifdef SKIP
-	LDBLE cell_pore_volume;
-	LDBLE cell_porosity;
-	LDBLE cell_volume;
-	LDBLE cell_saturation;
-	struct system_species *sys;
-	int count_sys, max_sys;
-	LDBLE sys_tot;
-
-	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
-	LDBLE SC; // specific conductance mS/cm
-	LDBLE eps_r; // relative dielectric permittivity
-	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
-	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
-	LDBLE ZBrn; // Born function (-1/eps_r + 1) * 41.84004, for supcrt calc'n of molal volume
-	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
-
-	int need_temp_msg;
-	LDBLE solution_mass, solution_volume;
-
-	/* phqalloc.cpp ------------------------------- */
-	PHRQMemHeader *s_pTail;
-
-	/* Basic */
-	PBasic * basic_interpreter;
-	double(*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
-	void *basic_callback_cookie;
-#ifdef IPHREEQC_NO_FORTRAN_MODULE
-	double(*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
-#else
-	double(*basic_fortran_callback_ptr) (double *x1, double *x2, const char *str, int l);
-#endif
-#if defined(SWIG) || defined(SWIG_IPHREEQC)
-	class BasicCallback *basicCallback;
-	void SetCallback(BasicCallback *cb) { basicCallback = cb; }
-#endif
-
-	/* cl1.cpp ------------------------------- */
-	LDBLE *x_arg, *res_arg, *scratch;
-	int x_arg_max, res_arg_max, scratch_max;
-#ifdef SKIP
-	/* dw.cpp ------------------------------- */
-	/* COMMON /QQQQ/ */
-	LDBLE Q0, Q5;
-	LDBLE GASCON, TZ, AA;
-	LDBLE Z, DZ, Y;
-	LDBLE G1, G2, GF;
-	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
-#endif
-	/* gases.cpp ------------------------------- */
-	LDBLE a_aa_sum, b2, b_sum, R_TK;
-
-	/* input.cpp ------------------------------- */
-	int check_line_return;
-	int reading_db;
-
-	/* integrate.cpp ------------------------------- */
-	LDBLE midpoint_sv;
-	LDBLE z_global, xd_global, alpha_global;
-
-	/* inverse.cpp ------------------------------- */
-	int max_row_count, max_column_count;
-	int carbon;
-	const char **col_name, **row_name;
-	int count_rows, count_optimize;
-	int col_phases, col_redox, col_epsilon, col_ph, col_water,
-		col_isotopes, col_phase_isotopes;
-	int row_mb, row_fract, row_charge, row_carbon, row_isotopes,
-		row_epsilon, row_isotope_epsilon, row_water;
-	LDBLE *inv_zero, *array1, *inv_res, *inv_delta1, *delta2, *delta3, *inv_cu,
-		*delta_save;
-	LDBLE *min_delta, *max_delta;
-	int *inv_iu, *inv_is;
-	int klmd, nklmd, n2d, kode, iter;
-	LDBLE toler, error, max_pct, scaled_error;
-	struct master *master_alk;
-	int *row_back, *col_back;
-	unsigned long *good, *bad, *minimal;
-	int max_good, max_bad, max_minimal;
-	int count_good, count_bad, count_minimal, count_calls;
-	unsigned long soln_bits, phase_bits, current_bits, temp_bits;
-	FILE *netpath_file;
-	int count_inverse_models, count_pat_solutions;
-	int min_position[32], max_position[32], now[32];
-	std::vector <std::string> inverse_heading_names;
-
-	/* kinetics.cpp ------------------------------- */
-public:
-	int count_pp, count_pg, count_ss;
-	void *cvode_kinetics_ptr;
-	int cvode_test;
-	int cvode_error;
-	int cvode_n_user;
-	int cvode_n_reactions;
-	realtype cvode_step_fraction;
-	realtype cvode_rate_sim_time;
-	realtype cvode_rate_sim_time_start;
-	realtype cvode_last_good_time;
-	realtype cvode_prev_good_time;
-	N_Vector cvode_last_good_y;
-	N_Vector cvode_prev_good_y;
-	M_Env kinetics_machEnv;
-	N_Vector kinetics_y, kinetics_abstol;
-	void *kinetics_cvode_mem;
-	cxxSSassemblage *cvode_ss_assemblage_save;
-	cxxPPassemblage *cvode_pp_assemblage_save;
-protected:
-	LDBLE *m_original;
-	LDBLE *m_temp;
-	LDBLE *rk_moles;
-	int set_and_run_attempt;
-	LDBLE *x0_moles;
-
-	/* model.cpp ------------------------------- */
-	int gas_in;
-	LDBLE min_value;
-	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
-	int *iu, *is, *back_eq;
-	int normal_max, ineq_array_max, res_max, cu_max, zero_max,
-		delta1_max, iu_max, is_max, back_eq_max;
-
-	/* phrq_io_output.cpp ------------------------------- */
-	int forward_output_to_log;
-
-	/* phreeqc_files.cpp ------------------------------- */
-	char *default_data_base;
-#ifdef PHREEQ98
-	int outputlinenr;
-	char *LogFileNameC;
-	char progress_str[512];
-#endif
-#endif
 	/* Pitzer  */	
 	pitzer_model			= pSrc->pitzer_model;
 	sit_model				= pSrc->sit_model;
@@ -2720,14 +2473,6 @@ protected:
 		DK[i]				= 0.0;
 	}
 	*/
-
-#ifdef PHREEQ98
-	int connect_simulations, graph_initial_solutions;
-	int shifts_as_points;
-	int chart_type;
-	int ShowChart;
-	int RowOffset, ColumnOffset;
-#endif
 	dummy                   = 0;
 	/* print.cpp ------------------------------- */
 	/*
@@ -2736,15 +2481,6 @@ protected:
 		malloc_error();
 	sformatf_buffer_size = 256;
 	*/
-#ifdef PHREEQ98
-	int colnr, rownr;
-	int graph_initial_solutions;
-	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
-	/* int shifts_as_points; */
-	int chart_type;
-	int AddSeries;
-	int FirstCallToUSER_GRAPH;
-#endif
 	/* read.cpp */
 	prev_next_char          = NULL;
 #if defined PHREEQ98 
@@ -2825,13 +2561,6 @@ protected:
 	current_A = pSrc->current_A;
 	fix_current = pSrc->fix_current;
 
-#ifdef PHREEQ98
-	int AutoLoadOutputFile, CreateToC;
-	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
-	int outputlinenr;
-	int stop_calculations;
-	char err_str98[80];
-#endif
 	/* utilities.cpp ------------------------------- */
 	//spinner                 = 0;
 	//// keycount;

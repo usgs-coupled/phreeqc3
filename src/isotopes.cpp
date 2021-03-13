@@ -106,7 +106,7 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
+			(void)sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* total_is_major_isotope */
@@ -1137,46 +1137,6 @@ calculate_values(void)
 		calculate_value[j]->calculated = FALSE;
 		calculate_value[j]->value = MISSING;
 	}
-#ifdef SKIP
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value_ptr = calculate_value[j];
-		rate_moles = NAN;
-		if (calculate_value_ptr->new_def == TRUE)
-		{
-			if (basic_compile
-				(calculate_value[j]->commands, &calculate_value[j]->linebase,
-				 &calculate_value[j]->varbase,
-				 &calculate_value[j]->loopbase) != 0)
-			{
-				error_string = sformatf(
-						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value[j]->name);
-				error_msg(error_string, STOP);
-			}
-			calculate_value_ptr->new_def = FALSE;
-		}
-		if (basic_run
-			(l_command, calculate_value[j]->linebase,
-			 calculate_value[j]->varbase, calculate_value[j]->loopbase) != 0)
-		{
-			error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		if (rate_moles == NAN)
-		{
-			error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		else
-		{
-			calculate_value[j]->calculated = TRUE;
-			calculate_value[j]->value = rate_moles;
-		}
-	}
-#endif
 	if (pr.isotope_ratios == TRUE)
 	{
 		for (j = 0; j < count_isotope_ratio; j++)
@@ -1306,107 +1266,6 @@ calculate_values(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calculate_values(void)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-	struct calculate_value *calculate_value_ptr;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct isotope_alpha *isotope_alpha_ptr;
-	struct master_isotope *master_isotope_ptr;
-	char l_command[] = "run";
-
-
-	/*
-	 * initialize ratios as missing
-	 */
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value[j]->calculated = FALSE;
-		calculate_value[j]->value = MISSING;
-	}
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value_ptr = calculate_value[j];
-		rate_moles = NAN;
-		if (calculate_value_ptr->new_def == TRUE)
-		{
-			if (basic_compile
-				(calculate_value[j]->commands, &calculate_value[j]->linebase,
-				 &calculate_value[j]->varbase,
-				 &calculate_value[j]->loopbase) != 0)
-			{
-				error_string = sformatf(
-						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value[j]->name);
-				error_msg(error_string, STOP);
-			}
-			calculate_value_ptr->new_def = FALSE;
-		}
-		if (basic_run
-			(l_command, calculate_value[j]->linebase,
-			 calculate_value[j]->varbase, calculate_value[j]->loopbase) != 0)
-		{
-			error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		if (rate_moles == NAN)
-		{
-			error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		else
-		{
-			calculate_value[j]->calculated = TRUE;
-			calculate_value[j]->value = rate_moles;
-		}
-	}
-	for (j = 0; j < count_isotope_ratio; j++)
-	{
-		isotope_ratio_ptr = isotope_ratio[j];
-		master_isotope_ptr =
-			master_isotope_search(isotope_ratio_ptr->isotope_name);
-		calculate_value_ptr = calculate_value_search(isotope_ratio_ptr->name);
-		/*
-		 *  Calculate converted isotope ratio
-		 */
-		if (calculate_value_ptr->value == MISSING)
-		{
-			isotope_ratio_ptr->ratio = MISSING;
-			isotope_ratio_ptr->converted_ratio = MISSING;
-		}
-		else
-		{
-			isotope_ratio_ptr->ratio = calculate_value_ptr->value;
-			isotope_ratio_ptr->converted_ratio =
-				convert_isotope(master_isotope_ptr,
-								calculate_value_ptr->value);
-		}
-	}
-	for (j = 0; j < count_isotope_alpha; j++)
-	{
-		isotope_alpha_ptr = isotope_alpha[j];
-		calculate_value_ptr = calculate_value_search(isotope_alpha_ptr->name);
-		/*
-		 *  Calculate converted isotope ratio
-		 */
-		if (calculate_value_ptr->value == MISSING)
-		{
-			isotope_alpha_ptr->value = MISSING;
-		}
-		else
-		{
-			isotope_alpha_ptr->value = calculate_value_ptr->value;
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 convert_isotope(struct master_isotope * master_isotope_ptr, LDBLE ratio)
