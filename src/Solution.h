@@ -66,6 +66,7 @@ class cxxSolution:public cxxNumKeyword
 	cxxNameDouble & Get_species_gamma(void)             {return this->species_gamma;}
 	std::map<int, double> & Get_species_map(void)       {return this->species_map;}
 	std::map<int, double> & Get_log_gamma_map(void)     {return this->log_gamma_map;}
+	std::map<int, double>& Get_log_molalities_map(void) { return this->log_molalities_map; }
 	std::map < std::string, cxxSolutionIsotope > & Get_isotopes(void)             {return this->isotopes;}	
 	const std::map < std::string, cxxSolutionIsotope > & Get_isotopes(void)const  {return this->isotopes;}	
 	void Set_isotopes(const std::map < std::string, cxxSolutionIsotope > &iso ) {this->isotopes = iso;}	
@@ -141,6 +142,7 @@ class cxxSolution:public cxxNumKeyword
 	const static std::vector < std::string > vopts;
 	std::map<int, double> species_map;
 	std::map<int, double> log_gamma_map;
+	std::map<int, double> log_molalities_map;
 };
 
 #endif // !defined(SOLUTION_H_INCLUDED)
