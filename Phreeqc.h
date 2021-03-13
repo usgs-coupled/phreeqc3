@@ -275,15 +275,6 @@ public:
 	void fpunchf_user(int user_index, const char *format, double d);
 	void fpunchf_user(int user_index, const char *format, char * d);
 	int fpunchf_end_row(const char *format);
-#ifdef SKIP
-	// dw.cpp -------------------------------
-	int BB(LDBLE T);
-	LDBLE PS(LDBLE T);
-	LDBLE VLEST(LDBLE T);
-	int DFIND(LDBLE * DOUT, LDBLE P, LDBLE D, LDBLE T);
-	int QQ(LDBLE T, LDBLE D);
-	LDBLE BASE(LDBLE D);
-#endif
 	// input.cpp -------------------------------
 	int reading_database(void);
 	void set_reading_database(int reading_database);
@@ -552,10 +543,6 @@ public:
 	int set_pz(int initial);
 	int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);	
-#ifdef SKIP
-	LDBLE DC(LDBLE T);
-	int DW(LDBLE T);
-#endif
 	int ISPEC(const char *name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
@@ -1159,12 +1146,6 @@ protected:
 	static LDBLE under(LDBLE xval);
 	void zero_double(LDBLE * target, int n);
 	int get_input_errors(void);
-#ifdef PHREEQ98
-	void AddToCEntry(char *a, int l, int i);
-	void ApplicationProcessMessages(void);
-	int copy_title(char *token_ptr, char **ptr, int *length);
-	extern int clean_up_null(void);
-#endif
 	int isamong(char c, const char *s_l);
 	Address Hash_multi(HashTable * Table, const char *Key);
 	void ExpandTable_multi(HashTable * Table);
@@ -1816,15 +1797,6 @@ protected:
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
 	int x_arg_max, res_arg_max, scratch_max;
-#ifdef SKIP
-	/* dw.cpp ------------------------------- */
-	/* COMMON /QQQQ/ */
-	LDBLE Q0, Q5;
-	LDBLE GASCON, TZ, AA;
-	LDBLE Z, DZ, Y;
-	LDBLE G1, G2, GF;
-	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
-#endif
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
 
@@ -1902,12 +1874,6 @@ protected:
 
 	/* phreeqc_files.cpp ------------------------------- */
 	char *default_data_base;
-#ifdef PHREEQ98
-	int outputlinenr;
-	char *LogFileNameC;
-	char progress_str[512];
-#endif
-
 	/* Pitzer  */
 	int pitzer_model, sit_model, pitzer_pe;
 	int full_pitzer, always_full_pitzer, ICON, IC;
@@ -1931,25 +1897,9 @@ protected:
 	LDBLE *M, *LGAMMA;
 	LDBLE BK[23], DK[23];
 
-#ifdef PHREEQ98
-	int connect_simulations, graph_initial_solutions;
-	int shifts_as_points;
-	int chart_type;
-	int ShowChart;
-	int RowOffset, ColumnOffset;
-#endif
 	LDBLE dummy;
 
 	/* print.cpp ------------------------------- */
-#ifdef PHREEQ98
-	int colnr, rownr;
-	int graph_initial_solutions;
-	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
-	/* int shifts_as_points; */
-	int chart_type;
-	int AddSeries;
-	int FirstCallToUSER_GRAPH;
-#endif
 
 	/* read.cpp */
 	char *prev_next_char;
@@ -2006,13 +1956,6 @@ protected:
 	int warn_MCD_X, warn_fixed_Surf;
 	LDBLE current_x, current_A, fix_current; // current: coulomb / s, Ampere, fixed current (Ampere)
 
-#ifdef PHREEQ98
-	int AutoLoadOutputFile, CreateToC;
-	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
-	int outputlinenr;
-	int stop_calculations;
-	char err_str98[80];
-#endif
 	/* utilities.cpp ------------------------------- */
 	int spinner;
 	std::map<std::string, double> gfw_map;
@@ -2193,39 +2136,6 @@ namespace Utilities
 		}
 		return phreeqc_cookie->cleanup_after_parser(parser);
 	}
-
-#ifdef SKIP
-	template < typename T >
-	int Rxn_read_modify(std::map < int, T > &m, std::set < int > &s, Phreeqc * phreeqc_cookie)
-	{
-		typename std::map < int, T >::iterator it;
-		
-		CParser parser(phreeqc_cookie->Get_phrq_io());
-
-		std::string key_name;
-		std::string::iterator b = parser.line().begin();
-		std::string::iterator e = parser.line().end();
-		CParser::copy_token(key_name, b, e);
-
-		cxxNumKeyword nk;
-		nk.read_number_description(parser);
-		T * entity_ptr = Utilities::Rxn_find(m, nk.Get_n_user());
-		if (!entity_ptr)
-		{
-			std::ostringstream errstr;
-			errstr <<  "Could not find " << key_name << " " << nk.Get_n_user() << " to modify.\n";
-			phreeqc_cookie->error_msg(errstr.str().c_str(), PHRQ_io::OT_STOP);
-		}
-
-		entity_ptr->read_raw(parser, false);
-		entity_ptr->Set_n_user(nk.Get_n_user());
-		entity_ptr->Set_n_user_end(nk.Get_n_user_end());
-		entity_ptr->Set_description(nk.Get_description());
-		s.insert(entity_ptr->Get_n_user());
-
-		return phreeqc_cookie->cleanup_after_parser(parser);
-	}
-#endif
 
 	template < typename T >
 	int Rxn_read_modify(std::map < int, T > &m, std::set < int > &s, Phreeqc * phreeqc_cookie)

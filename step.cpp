@@ -516,12 +516,6 @@ add_surface(cxxSurface *surface_ptr)
 		{
 			cb_x += comp_ptr->Get_charge_balance();
 		}
-#ifdef SKIP_MUSIC
-		if (surface_ptr->type == CD_MUSIC)
-		{
-			cb_x += surface_ptr->comps[i].cb;
-		}
-#endif
 		if (!surface_ptr->Get_new_def())
 		{
 			master_i_ptr->s->la = comp_ptr->Get_la();

@@ -57,37 +57,6 @@ cxxSSassemblage::~cxxSSassemblage()
 {
 }
 
-#ifdef SKIP
-void
-cxxSSassemblage::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// SSassemblage element and attributes
-	s_oss << indent0;
-	s_oss << "<EQUILIBRIUM_PHASES " << "\n";
-
-	// eltList
-	this->eltList.dump_xml(s_oss, indent + 1);
-
-	// SSs
-	s_oss << indent1;
-	s_oss << "<pure_phases " << "\n";
-	for (std::list < cxxSS >::const_iterator it =
-		 SSs.begin(); it != SSs.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-}
-#endif
 void
 cxxSSassemblage::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {

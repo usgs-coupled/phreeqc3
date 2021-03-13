@@ -69,41 +69,6 @@ cxxKinetics::~cxxKinetics()
 {
 }
 
-#ifdef SKIP
-void
-cxxKinetics::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Kinetics element and attributes
-	s_oss << indent0;
-	s_oss << "<kinetics " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_kinetics_gammas=\"" << this->
-		pitzer_kinetics_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxKineticsComp >::const_iterator it =
-		 kineticsComps.begin(); it != kineticsComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
-
 void
 cxxKinetics::dump_raw(std::ostream & s_oss, unsigned int indent, int * n_out) const
 {

@@ -187,40 +187,15 @@ clean_up(void)
 	cell_data = (struct cell_data *) free_check_null(cell_data);
 
 /* punch */
-#ifdef SKIP
-	punch.totals = (struct name_master *) free_check_null(punch.totals);
-	punch.molalities =
-		(struct name_species *) free_check_null(punch.molalities);
-	punch.activities =
-		(struct name_species *) free_check_null(punch.activities);
-	punch.pure_phases =
-		(struct name_phase *) free_check_null(punch.pure_phases);
-	punch.si = (struct name_phase *) free_check_null(punch.si);
-	punch.gases = (struct name_phase *) free_check_null(punch.gases);
-	punch.s_s = (struct name_phase *) free_check_null(punch.s_s);
-	punch.kinetics = (struct name_phase *) free_check_null(punch.kinetics);
-#endif
 	advection_punch = (int *) free_check_null(advection_punch);
 	advection_print = (int *) free_check_null(advection_print);
-#ifdef SKIP
-	punch.isotopes = (struct name_master *) free_check_null(punch.isotopes);
-	punch.calculate_values =
-		(struct name_master *) free_check_null(punch.calculate_values);
-#endif
+
 	SelectedOutput_map.clear();
 	UserPunch_map.clear();
 
 /*  user_print and user_punch */
 	rate_free(user_print);
 	user_print = (struct rate *) free_check_null(user_print);
-#ifdef SKIP
-	rate_free(user_punch);
-	user_print = (struct rate *) free_check_null(user_print);
-
-	user_punch = (struct rate *) free_check_null(user_punch);
-	user_punch_headings = (const char **) free_check_null(user_punch_headings);
-#endif
-
 	/*
 	   Free llnl aqueous model parameters
 	 */

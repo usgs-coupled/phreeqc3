@@ -427,11 +427,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				if (strcmp_nocase(token, "database") == 0)
 				{
 					user_database = (char *) free_check_null(user_database);
-#ifdef PHREEQ98
-					user_database = string_duplicate(prefix_database_dir(ptr));
-#else
 					user_database = string_duplicate(ptr);
-#endif
 					if (string_trim(user_database) == EMPTY)
 					{
 						warning_msg("DATABASE file name is missing; default database will be used.");
@@ -627,11 +623,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				if (strcmp_nocase(token, "database") == 0)
 				{
 					user_database = (char *) free_check_null(user_database);
-#ifdef PHREEQ98
-					user_database = string_duplicate(prefix_database_dir(ptr));
-#else
 					user_database = string_duplicate(ptr);
-#endif
 					if (string_trim(user_database) == EMPTY)
 					{
 						warning_msg("DATABASE file name is missing; default database will be used.");

@@ -407,15 +407,6 @@ copy_token(char *token_ptr, char **ptr, int *length)
 	}
 	token_ptr[i] = '\0';
 	*length = i;
-#ifdef PHREEQ98
-	if ((return_value == DIGIT) && (strstr(token_ptr, ",") != NULL))
-	{
-		error_string = sformatf(
-				"Commas are not allowed as decimal separator: %s.",
-				token_ptr);
-		error_msg(error_string, CONTINUE);
-	}
-#endif
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -484,15 +475,6 @@ copy_token(std::string &token, char **ptr)
 		token.append(c_char);
 		(*ptr)++;
 	}
-#ifdef PHREEQ98
-	if ((return_value == DIGIT) && (strstr(token_ptr, ",") != NULL))
-	{
-		error_string = sformatf(
-				"Commas are not allowed as decimal separator: %s.",
-				token_ptr);
-		error_msg(error_string, CONTINUE);
-	}
-#endif
 	return (return_value);
 }
 #if defined PHREEQ98 
@@ -599,17 +581,6 @@ dup_print(const char *ptr, int emphasis)
 
 	if (pr.headings == FALSE)
 		return (OK);
-#ifdef PHREEQ98
-	if ((CreateToC == TRUE) && (AutoLoadOutputFile == TRUE))
-	{
-		if (strstr(ptr, "Reading") == ptr)
-			AddToCEntry((char *) ptr, 1, outputlinenr);
-		else if (strstr(ptr, "Beginning") == ptr)
-			AddToCEntry((char *) ptr, 2, outputlinenr);
-		else if ((strstr(ptr, "TITLE") != ptr) && (strstr(ptr, "End") != ptr))
-			AddToCEntry((char *) ptr, 3, outputlinenr);
-	}
-#endif
 	std::string save_in(ptr);
 	l = (int) strlen(ptr);
 	dash = (char *) PHRQ_malloc((size_t) (l + 2) * sizeof(char));
@@ -1001,10 +972,6 @@ print_centered(const char *string)
 	int i, l, l1, l2;
 	char token[MAX_LENGTH];
 
-#ifdef PHREEQ98
-	if ((CreateToC == TRUE) && (AutoLoadOutputFile == TRUE))
-		AddToCEntry((char *) string, 4, outputlinenr);
-#endif
 	l = (int) strlen(string);
 	l1 = (79 - l) / 2;
 	l2 = 79 - l - l1;
@@ -1397,12 +1364,6 @@ status(int count, const char *str, bool rk_string)
 	char spin_str[2];
 	clock_t t2;
 
-#ifdef PHREEQ98
-	if (ProcessMessages)
-		ApplicationProcessMessages();
-	if (stop_calculations == TRUE)
-		error_msg("Execution canceled by user.", STOP);
-#endif
 	if (pr.status == FALSE || phast == TRUE)
 		return (OK);
 

@@ -479,9 +479,6 @@ public:
 	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	int basic_init(void);
-#ifdef PHREEQ98
-	void GridChar(char *s, char *a);
-#endif
 	int sget_logical_line(char **ptr, int *l, char *return_line);
 	long my_labs(long x);
 	void * my_memmove(void * d, Const void * s, size_t n);
