@@ -1142,20 +1142,21 @@ ineq(int in_kode)
 	zero_v.resize((size_t)max_row_count);
 	zero = zero_v.data();
 	memset(zero, 0, (size_t)max_row_count * sizeof(double));
+	//zero_double(zero, max_row_count);
 
 
 	//space((void **) ((void *) &res), max_row_count, &res_max, sizeof(LDBLE));
-	//zero_double(res, max_row_count);
 	res_v.resize((size_t)max_row_count);
 	res = res_v.data();
 	memset(res, 0, (size_t)max_row_count * sizeof(double));
+	//zero_double(res, max_row_count);
 
 	//space((void **) ((void *) &delta1), max_column_count, &delta1_max,
 	//	  sizeof(LDBLE));
-	//zero_double(delta1, max_column_count);
 	delta1_v.resize((size_t)max_column_count);
 	delta1 = delta1_v.data();
 	memset(delta1, 0,(size_t)max_column_count * sizeof(double));
+	//zero_double(delta1, max_column_count);
 
 /*
  *   Copy equations to optimize into ineq_array

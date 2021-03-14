@@ -1144,9 +1144,7 @@ protected:
 	int string_trim_right(char *str);
 	int string_trim_left(char *str);
 	static LDBLE under(LDBLE xval);
-#ifdef SKIP
 	void zero_double(LDBLE * target, int n);
-#endif
 	int get_input_errors(void);
 	int isamong(char c, const char *s_l);
 	Address Hash_multi(HashTable * Table, const char *Key);
