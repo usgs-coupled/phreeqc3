@@ -1023,8 +1023,10 @@ ineq(int in_kode)
 /*
  *   Normalize column
  */
-	space((void **) ((void *) &normal), count_unknowns, &normal_max,
-		  sizeof(LDBLE));
+	//space((void **) ((void *) &normal), count_unknowns, &normal_max,
+	//	  sizeof(LDBLE));
+	normal_v.resize((size_t)count_unknowns);
+	normal = normal_v.data();
 
 	for (i = 0; i < count_unknowns; i++)
 		normal[i] = 1.0;
@@ -1124,22 +1126,36 @@ ineq(int in_kode)
  */
 	max_row_count = 2 * count_unknowns + 2;
 	max_column_count = count_unknowns + 2;
-	space((void **) ((void *) &ineq_array), max_row_count * max_column_count,
-		  &ineq_array_max, sizeof(LDBLE));
+	//space((void **) ((void *) &ineq_array), max_row_count * max_column_count,
+	//	  &ineq_array_max, sizeof(LDBLE));
+	ineq_array_v.resize((size_t)max_row_count * (size_t)max_column_count);
+	ineq_array = ineq_array_v.data();
 
-	space((void **) ((void *) &back_eq), max_row_count, &back_eq_max,
-		  sizeof(int));
+	//space((void **) ((void *) &back_eq), max_row_count, &back_eq_max,
+	//	  sizeof(int));
+	back_eq_v.resize((size_t)max_row_count);
+	back_eq = back_eq_v.data();
 
-	space((void **) ((void *) &zero), max_row_count, &zero_max,
-		  sizeof(LDBLE));
-	zero_double(zero, max_row_count);
+	//space((void **) ((void *) &zero), max_row_count, &zero_max,
+	//	  sizeof(LDBLE));
+	//zero_double(zero, max_row_count);
+	zero_v.resize((size_t)max_row_count);
+	zero = zero_v.data();
+	memset(zero, 0, (size_t)max_row_count * sizeof(double));
 
-	space((void **) ((void *) &res), max_row_count, &res_max, sizeof(LDBLE));
-	zero_double(res, max_row_count);
 
-	space((void **) ((void *) &delta1), max_column_count, &delta1_max,
-		  sizeof(LDBLE));
-	zero_double(delta1, max_column_count);
+	//space((void **) ((void *) &res), max_row_count, &res_max, sizeof(LDBLE));
+	//zero_double(res, max_row_count);
+	res_v.resize((size_t)max_row_count);
+	res = res_v.data();
+	memset(res, 0, (size_t)max_row_count * sizeof(double));
+
+	//space((void **) ((void *) &delta1), max_column_count, &delta1_max,
+	//	  sizeof(LDBLE));
+	//zero_double(delta1, max_column_count);
+	delta1_v.resize((size_t)max_column_count);
+	delta1 = delta1_v.data();
+	memset(delta1, 0,(size_t)max_column_count * sizeof(double));
 
 /*
  *   Copy equations to optimize into ineq_array
@@ -1389,10 +1405,11 @@ ineq(int in_kode)
 				{
 
 					/*   Pure phase is present, force Mass transfer to be <= amount of mineral remaining */
-					memcpy((void *)
-						   &(ineq_array[l_count_rows * max_column_count]),
-						   (void *) &(zero[0]),
-						   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+					//memcpy((void *)
+					//	   &(ineq_array[l_count_rows * max_column_count]),
+					//	   (void *) &(zero[0]),
+					//	   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+					memset(&ineq_array[l_count_rows * max_column_count], 0, ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 					ineq_array[l_count_rows * max_column_count + i] = 1.0;
 					ineq_array[l_count_rows * max_column_count +
 							   count_unknowns] = x[i]->moles;
@@ -1402,10 +1419,11 @@ ineq(int in_kode)
 				/*   Pure phase is present and dissolve_only, force ppt to be <= amount of dissolved so far */
 				if (x[i]->dissolve_only == TRUE)
 				{
-					memcpy((void *)
-						   &(ineq_array[l_count_rows * max_column_count]),
-						   (void *) &(zero[0]),
-						   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+					//memcpy((void *)
+					//	   &(ineq_array[l_count_rows * max_column_count]),
+					//	   (void *) &(zero[0]),
+					//	   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+					memset(&(ineq_array[l_count_rows * max_column_count]), 0, ((size_t)count_unknowns + 1) * sizeof(LDBLE));
 					ineq_array[l_count_rows * max_column_count + i] = -1.0;
 					ineq_array[l_count_rows * max_column_count +
 							   count_unknowns] =
@@ -1587,9 +1605,14 @@ ineq(int in_kode)
 		{
 			if (x[i]->type == GAS_MOLES)
 			{
-				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-					   (void *) &(zero[0]),
-					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+				//memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
+				//	   (void *) &(zero[0]),
+				//	   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+				//std::fill(&(ineq_array[l_count_rows * max_column_count]),
+				//	&(ineq_array[l_count_rows * max_column_count + count_unknowns]),
+				//	0.0e0);
+				memset(&(ineq_array[l_count_rows * max_column_count]), 0,
+					((size_t)count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = -1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
 					x[i]->moles;
@@ -1625,9 +1648,11 @@ ineq(int in_kode)
 				break;
 			if (x[i]->phase->in == TRUE && x[i]->ss_in == TRUE)
 			{
-				memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
-					   (void *) &(zero[0]),
-					   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+				//memcpy((void *) &(ineq_array[l_count_rows * max_column_count]),
+				//	   (void *) &(zero[0]),
+				//	   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
+				memset(&(ineq_array[l_count_rows * max_column_count]), 0,
+					((size_t)count_unknowns + 1) * sizeof(LDBLE));
 				ineq_array[l_count_rows * max_column_count + i] = 1.0;
 				ineq_array[l_count_rows * max_column_count + count_unknowns] =
 					0.99 * x[i]->moles - MIN_TOTAL_SS;
@@ -1755,11 +1780,17 @@ ineq(int in_kode)
 /*
  *   Allocate space for arrays
  */
-	space((void **) ((void *) &cu), 2 * l_nklmd, &cu_max, sizeof(LDBLE));
+	//space((void **) ((void *) &cu), 2 * l_nklmd, &cu_max, sizeof(LDBLE));
+	cu_v.resize(2 * (size_t)l_nklmd);
+	cu = cu_v.data();
 
-	space((void **) ((void *) &iu), 2 * l_nklmd, &iu_max, sizeof(int));
+	//space((void **) ((void *) &iu), 2 * l_nklmd, &iu_max, sizeof(int));
+	iu_v.resize(2 * (size_t)l_nklmd);
+	iu = iu_v.data();
 
-	space((void **) ((void *) &is), l_klmd, &is_max, sizeof(int));
+	//space((void **) ((void *) &is), l_klmd, &is_max, sizeof(int));
+	is_v.resize(l_klmd);
+	is = is_v.data();
 
 #ifdef SLNQ
 	slnq_array =
@@ -1852,8 +1883,10 @@ ineq(int in_kode)
 #endif
 /*   Copy delta1 into delta and scale */
 #ifdef SHRINK_ARRAY	
-	memcpy((void *) &(delta[0]), (void *) &(zero[0]),
-		   (size_t) count_unknowns * sizeof(LDBLE));
+	//memcpy((void *) &(delta[0]), (void *) &(zero[0]),
+	//	   (size_t) count_unknowns * sizeof(LDBLE));
+	memset(&(delta[0]), 0,
+		(size_t)count_unknowns * sizeof(LDBLE));
 #endif
 	memcpy((void *) &(delta[0]), (void *) &(delta1[0]),
 		   (size_t) n * sizeof(LDBLE));
@@ -5583,74 +5616,74 @@ void Phreeqc::
 ineq_init(int l_max_row_count, int l_max_column_count)
 /* ---------------------------------------------------------------------- */
 {
-	if (normal == NULL)
-	{
-		normal =
-			(LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-		normal_max = count_unknowns;
-		if (normal == NULL)
-			malloc_error();
-	}
-	if (ineq_array == NULL)
-	{
-		ineq_array =
-			(LDBLE *) PHRQ_malloc((size_t) l_max_row_count * l_max_column_count *
-								  sizeof(LDBLE));
-		if (ineq_array == NULL)
-			malloc_error();
-		ineq_array_max = l_max_row_count * l_max_column_count;
-	}
-	if (back_eq == NULL)
-	{
-		back_eq = (int *) PHRQ_malloc((size_t) l_max_row_count * sizeof(int));
-		if (back_eq == NULL)
-			malloc_error();
-		back_eq_max = l_max_row_count;
-	}
-	if (zero == NULL)
-	{
-		zero = (LDBLE *) PHRQ_malloc((size_t) l_max_row_count * sizeof(LDBLE));
-		if (zero == NULL)
-			malloc_error();
-		zero_max = l_max_row_count;
-	}
-	if (res == NULL)
-	{
-		res = (LDBLE *) PHRQ_malloc((size_t) l_max_row_count * sizeof(LDBLE));
-		if (res == NULL)
-			malloc_error();
-		res_max = l_max_row_count;
-	}
-	if (delta1 == NULL)
-	{
-		delta1 =
-			(LDBLE *) PHRQ_malloc((size_t) l_max_column_count * sizeof(LDBLE));
-		if (delta1 == NULL)
-			malloc_error();
-		delta1_max = l_max_column_count;
-	}
-	if (cu == NULL)
-	{
-		cu = (LDBLE *) PHRQ_malloc((size_t) 3 * l_max_row_count *
-								   sizeof(LDBLE));
-		if (cu == NULL)
-			malloc_error();
-		cu_max = 3 * l_max_row_count;
-	}
-	if (iu == NULL)
-	{
-		iu = (int *) PHRQ_malloc((size_t) 3 * l_max_row_count * sizeof(int));
-		if (iu == NULL)
-			malloc_error();
-		iu_max = 3 * l_max_row_count;
-	}
-	if (is == NULL)
-	{
-		is = (int *) PHRQ_malloc((size_t) 3 * l_max_row_count * sizeof(int));
-		if (is == NULL)
-			malloc_error();
-		is_max = 3 * l_max_row_count;
-	}
+	//if (normal == NULL)
+	//{
+	//	normal =
+	//		(LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
+	//	normal_max = count_unknowns;
+	//	if (normal == NULL)
+	//		malloc_error();
+	//}
+	////if (ineq_array == NULL)
+	////{
+	////	ineq_array =
+	////		(LDBLE *) PHRQ_malloc((size_t) l_max_row_count * l_max_column_count *
+	////							  sizeof(LDBLE));
+	////	if (ineq_array == NULL)
+	////		malloc_error();
+	////	ineq_array_max = l_max_row_count * l_max_column_count;
+	////}
+	//if (back_eq == NULL)
+	//{
+	//	back_eq = (int *) PHRQ_malloc((size_t) l_max_row_count * sizeof(int));
+	//	if (back_eq == NULL)
+	//		malloc_error();
+	//	back_eq_max = l_max_row_count;
+	//}
+	//if (zero == NULL)
+	//{
+	//	zero = (LDBLE *) PHRQ_malloc((size_t) l_max_row_count * sizeof(LDBLE));
+	//	if (zero == NULL)
+	//		malloc_error();
+	//	zero_max = l_max_row_count;
+	//}
+	//if (res == NULL)
+	//{
+	//	res = (LDBLE *) PHRQ_malloc((size_t) l_max_row_count * sizeof(LDBLE));
+	//	if (res == NULL)
+	//		malloc_error();
+	//	res_max = l_max_row_count;
+	//}
+	//if (delta1 == NULL)
+	//{
+	//	delta1 =
+	//		(LDBLE *) PHRQ_malloc((size_t) l_max_column_count * sizeof(LDBLE));
+	//	if (delta1 == NULL)
+	//		malloc_error();
+	//	delta1_max = l_max_column_count;
+	//}
+	//if (cu == NULL)
+	//{
+	//	cu = (LDBLE *) PHRQ_malloc((size_t) 3 * l_max_row_count *
+	//							   sizeof(LDBLE));
+	//	if (cu == NULL)
+	//		malloc_error();
+	//	cu_max = 3 * l_max_row_count;
+	//}
+	//if (iu == NULL)
+	//{
+	//	iu = (int *) PHRQ_malloc((size_t) 3 * l_max_row_count * sizeof(int));
+	//	if (iu == NULL)
+	//		malloc_error();
+	//	iu_max = 3 * l_max_row_count;
+	//}
+	//if (is == NULL)
+	//{
+	//	is = (int *) PHRQ_malloc((size_t) 3 * l_max_row_count * sizeof(int));
+	//	if (is == NULL)
+	//		malloc_error();
+	//	is_max = 3 * l_max_row_count;
+	//}
 }
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
