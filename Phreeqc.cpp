@@ -1002,8 +1002,6 @@ void Phreeqc::init(void)
 	//have_punch_name			= FALSE;
 	print_density		    = 0;
 	print_viscosity		    = 0;
-	zeros                   = NULL;	
-	zeros_max			    = 1;
 	cell_pore_volume	    = 0;
 	cell_volume			    = 0;
 	cell_porosity		    = 0;
@@ -1178,24 +1176,7 @@ void Phreeqc::init(void)
 	/* model.cpp ------------------------------- */
 	gas_in                  = FALSE;
 	min_value               = 1e-10;
-	//normal                  = NULL;
-	//ineq_array              = NULL;
-	//res                     = NULL;
-	//cu                      = NULL;
-	zero                    = NULL;
-	//delta1                  = NULL;
-	//iu                      = NULL;
-	//is                      = NULL;
-	//back_eq                 = NULL;
-	//normal_max              = 0;
-	////ineq_array_max          = 0;
-	//res_max                 = 0;
-	//cu_max                  = 0;
-	//zero_max                = 0;
-	//delta1_max              = 0;
-	//iu_max                  = 0;
-	//is_max                  = 0;
-	//back_eq_max             = 0;
+
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
@@ -1859,10 +1840,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_phases            = 0;
 	max_phases              = MAX_PHASES;
 	*/
-	//max_phases = pSrc->max_phases;
-	//phases = (struct phase **) PHRQ_malloc((size_t)max_phases * sizeof(struct phase));
-	//space((void **)((void *)&phases), INIT, &max_phases,
-	//	sizeof(struct phase *));
 	count_phases = 0;
 	for (int i = 0; i < pSrc->count_phases; i++)
 	{
