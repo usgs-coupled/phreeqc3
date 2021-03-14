@@ -228,12 +228,6 @@ initialize(void)
 	// Allocate space for sit
 	sit_init();
 
-	// Allocate zeros
-	zeros = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (zeros == NULL)
-		malloc_error();
-	zeros[0] = 0.0;
-	zeros_max = 1;
 	use_kinetics_limiter = false;
 
 	return;

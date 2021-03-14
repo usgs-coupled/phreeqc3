@@ -849,61 +849,12 @@ cl1(int k, int l, int m, int n,
 void Phreeqc::
 cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 {
-#ifdef SKIP
-	if (check == 1)
-	{
-		if (x_arg == NULL)
-		{
-			x_arg = (LDBLE*)PHRQ_malloc((size_t)(l_n2d * sizeof(LDBLE)));
-		}
-		else if (l_n2d > x_arg_max)
-		{
-			x_arg =
-				(LDBLE*)PHRQ_realloc(x_arg, (size_t)(l_n2d * sizeof(LDBLE)));
-			x_arg_max = l_n2d;
-		}
-		if (x_arg == NULL)
-			malloc_error();
-		zero_double(x_arg, l_n2d);
-
-		if (res_arg == NULL)
-		{
-			res_arg = (LDBLE*)PHRQ_malloc((size_t)((klm) * sizeof(LDBLE)));
-		}
-		else if (klm > res_arg_max)
-		{
-			res_arg =
-				(LDBLE*)PHRQ_realloc(res_arg,
-					(size_t)((klm) * sizeof(LDBLE)));
-			res_arg_max = klm;
-		}
-		if (res_arg == NULL)
-			malloc_error();
-		zero_double(res_arg, klm);
-	}
-
-	/* Make scratch space */
-	if (scratch == NULL)
-	{
-		scratch = (LDBLE*)PHRQ_malloc((size_t)l_nklmd * sizeof(LDBLE));
-	}
-	else if (l_nklmd > scratch_max)
-	{
-		scratch =
-			(LDBLE*)PHRQ_realloc(scratch, (size_t)l_nklmd * sizeof(LDBLE));
-		scratch_max = l_nklmd;
-	}
-	if (scratch == NULL)
-		malloc_error();
-	zero_double(scratch, l_nklmd);
-#endif
 	if (l_n2d > x_arg_v.size())
 	{
 		x_arg_v.resize(l_n2d);
 		x_arg = &x_arg_v[0];
 	}
 	memset(x_arg_v.data(), 0, sizeof(double) * (size_t)l_n2d);
-	//zero_double(x_arg, l_n2d);
 
 	if (klm > res_arg_v.size())
 	{
@@ -911,7 +862,6 @@ cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 		res_arg = &res_arg_v[0];
 	}
 	memset(res_arg_v.data(), 0, sizeof(double) * (size_t)klm);
-	//zero_double(res_arg, klm);
 
 	if (l_nklmd > scratch_v.size())
 	{
@@ -919,5 +869,4 @@ cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 		scratch = &scratch_v[0];
 	}
 	memset(scratch_v.data(), 0, sizeof(double) * (size_t)l_nklmd);
-	//zero_double(scratch, l_nklmd);
 }

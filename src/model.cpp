@@ -1023,14 +1023,8 @@ ineq(int in_kode)
 /*
  *   Normalize column
  */
-	//space((void **) ((void *) &normal), count_unknowns, &normal_max,
-	//	  sizeof(LDBLE));
-	normal_v.resize((size_t)count_unknowns);
-	normal = normal_v.data();
-
-	for (i = 0; i < count_unknowns; i++)
-		normal[i] = 1.0;
-
+	normal.resize((size_t)count_unknowns);
+	std::fill(normal.begin(), normal.end(), 1.0);
 
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -1126,38 +1120,14 @@ ineq(int in_kode)
  */
 	max_row_count = 2 * count_unknowns + 2;
 	max_column_count = count_unknowns + 2;
-	//space((void **) ((void *) &ineq_array), max_row_count * max_column_count,
-	//	  &ineq_array_max, sizeof(LDBLE));
-	ineq_array_v.resize((size_t)max_row_count * (size_t)max_column_count);
-	ineq_array = ineq_array_v.data();
-
-	//space((void **) ((void *) &back_eq), max_row_count, &back_eq_max,
-	//	  sizeof(int));
-	back_eq_v.resize((size_t)max_row_count);
-	back_eq = back_eq_v.data();
-
-	//space((void **) ((void *) &zero), max_row_count, &zero_max,
-	//	  sizeof(LDBLE));
-	//zero_double(zero, max_row_count);
-	zero_v.resize((size_t)max_row_count);
-	zero = zero_v.data();
-	memset(zero, 0, (size_t)max_row_count * sizeof(double));
-	//zero_double(zero, max_row_count);
-
-
-	//space((void **) ((void *) &res), max_row_count, &res_max, sizeof(LDBLE));
-	res_v.resize((size_t)max_row_count);
-	res = res_v.data();
-	memset(res, 0, (size_t)max_row_count * sizeof(double));
-	//zero_double(res, max_row_count);
-
-	//space((void **) ((void *) &delta1), max_column_count, &delta1_max,
-	//	  sizeof(LDBLE));
-	delta1_v.resize((size_t)max_column_count);
-	delta1 = delta1_v.data();
-	memset(delta1, 0,(size_t)max_column_count * sizeof(double));
-	//zero_double(delta1, max_column_count);
-
+	ineq_array.resize((size_t)max_row_count * (size_t)max_column_count);
+	back_eq.resize((size_t)max_row_count);
+	zero.resize((size_t)max_row_count);
+	memset(zero.data(), 0, (size_t)max_row_count * sizeof(double));
+	res.resize((size_t)max_row_count);
+	memset(res.data(), 0, (size_t)max_row_count * sizeof(double));
+	delta1.resize((size_t)max_column_count);
+	memset(delta1.data(), 0,(size_t)max_column_count * sizeof(double));
 /*
  *   Copy equations to optimize into ineq_array
  */
@@ -1723,7 +1693,7 @@ ineq(int in_kode)
 	if (debug_model == TRUE)
 	{
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
-		array_print(ineq_array, l_count_rows, count_unknowns + 1,
+		array_print(ineq_array.data(), l_count_rows, count_unknowns + 1,
 					max_column_count);
 	}
 /*
@@ -1781,17 +1751,9 @@ ineq(int in_kode)
 /*
  *   Allocate space for arrays
  */
-	//space((void **) ((void *) &cu), 2 * l_nklmd, &cu_max, sizeof(LDBLE));
-	cu_v.resize(2 * (size_t)l_nklmd);
-	cu = cu_v.data();
-
-	//space((void **) ((void *) &iu), 2 * l_nklmd, &iu_max, sizeof(int));
-	iu_v.resize(2 * (size_t)l_nklmd);
-	iu = iu_v.data();
-
-	//space((void **) ((void *) &is), l_klmd, &is_max, sizeof(int));
-	is_v.resize(l_klmd);
-	is = is_v.data();
+	cu.resize(2 * (size_t)l_nklmd);
+	iu.resize(2 * (size_t)l_nklmd);
+	is.resize(l_klmd);
 
 #ifdef SLNQ
 	slnq_array =
@@ -1817,9 +1779,9 @@ ineq(int in_kode)
 /*
  *   Call CL1
  */
-	cl1(k, l, m, n,
-		l_nklmd, l_n2d, ineq_array,
-		&l_kode, ineq_tol, &l_iter, delta1, res, &l_error, cu, iu, is, FALSE);
+	cl1(k, l, m, n, l_nklmd, l_n2d, ineq_array.data(),
+		&l_kode, ineq_tol, &l_iter, delta1.data(), res.data(),
+		&l_error, cu.data(), iu.data(), is.data(), FALSE);
 /*   Set return_kode */
 	if (l_kode == 1)
 	{

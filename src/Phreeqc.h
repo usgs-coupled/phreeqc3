@@ -1144,7 +1144,6 @@ protected:
 	int string_trim_right(char *str);
 	int string_trim_left(char *str);
 	static LDBLE under(LDBLE xval);
-	void zero_double(LDBLE * target, int n);
 	int get_input_errors(void);
 	int isamong(char c, const char *s_l);
 	Address Hash_multi(HashTable * Table, const char *Key);
@@ -1754,9 +1753,6 @@ protected:
 	/* VP: Density End */
 
 	int print_viscosity;
-	LDBLE *zeros;
-	int zeros_max;
-
 	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
@@ -1865,12 +1861,8 @@ protected:
 	/* model.cpp ------------------------------- */
 	int gas_in;
 	LDBLE min_value;
-	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
-	std::vector<double> normal_v, ineq_array_v, res_v, cu_v, zero_v, delta1_v;
-	int *iu, *is, *back_eq;
-	std::vector<int> iu_v, is_v, back_eq_v;
-	//int normal_max, ineq_array_max, res_max, cu_max, zero_max,
-	//	delta1_max, iu_max, is_max, back_eq_max;
+	std::vector<double> normal, ineq_array, res, cu, zero, delta1;
+	std::vector<int> iu, is, back_eq;
 
 	/* phrq_io_output.cpp ------------------------------- */
 	int forward_output_to_log;

@@ -308,25 +308,6 @@ clean_up(void)
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
 
-	zeros = (LDBLE *) free_check_null(zeros);
-	//scratch = (LDBLE *) free_check_null(scratch);
-	//x_arg = (LDBLE *) free_check_null(x_arg);
-	//res_arg = (LDBLE *) free_check_null(res_arg);
-
-	//normal = (LDBLE *) free_check_null(normal);
-	//ineq_array = (LDBLE *) free_check_null(ineq_array);
-	//back_eq = (int *) free_check_null(back_eq);
-	zero = (LDBLE *) free_check_null(zero);
-	//res = (LDBLE *) free_check_null(res);
-	//delta1 = (LDBLE *) free_check_null(delta1);
-	//cu = (LDBLE *) free_check_null(cu);
-	//iu = (int *) free_check_null(iu);
-	//is = (int *) free_check_null(is);
-
-/*  x_arg = res_arg = scratch = NULL; */
-	x_arg_max = res_arg_max = scratch_max = 0;
-
-
 /* free user database name if defined */
 	user_database = (char *) free_check_null(user_database);
 	//selected_output_file_name =
