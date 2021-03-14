@@ -903,6 +903,7 @@ cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 		x_arg = &x_arg_v[0];
 	}
 	memset(x_arg_v.data(), 0, sizeof(double) * (size_t)l_n2d);
+	//zero_double(x_arg, l_n2d);
 
 	if (klm > res_arg_v.size())
 	{
@@ -910,6 +911,7 @@ cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 		res_arg = &res_arg_v[0];
 	}
 	memset(res_arg_v.data(), 0, sizeof(double) * (size_t)klm);
+	//zero_double(res_arg, klm);
 
 	if (l_nklmd > scratch_v.size())
 	{
@@ -917,4 +919,5 @@ cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 		scratch = &scratch_v[0];
 	}
 	memset(scratch_v.data(), 0, sizeof(double) * (size_t)l_nklmd);
+	//zero_double(scratch, l_nklmd);
 }
