@@ -1991,7 +1991,7 @@ string_pad(const char *str, int i)
 	}
 	return (str_ptr);
 }
-
+#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 zero_double(LDBLE * target, int n)
@@ -2013,7 +2013,7 @@ zero_double(LDBLE * target, int n)
 	memcpy((void *) target, (void *) zeros, (size_t) (n * sizeof(LDBLE)));
 	return;
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 get_input_errors()

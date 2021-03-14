@@ -1178,24 +1178,24 @@ void Phreeqc::init(void)
 	/* model.cpp ------------------------------- */
 	gas_in                  = FALSE;
 	min_value               = 1e-10;
-	normal                  = NULL;
-	ineq_array              = NULL;
-	res                     = NULL;
-	cu                      = NULL;
+	//normal                  = NULL;
+	//ineq_array              = NULL;
+	//res                     = NULL;
+	//cu                      = NULL;
 	zero                    = NULL;
-	delta1                  = NULL;
-	iu                      = NULL;
-	is                      = NULL;
-	back_eq                 = NULL;
-	normal_max              = 0;
-	ineq_array_max          = 0;
-	res_max                 = 0;
-	cu_max                  = 0;
-	zero_max                = 0;
-	delta1_max              = 0;
-	iu_max                  = 0;
-	is_max                  = 0;
-	back_eq_max             = 0;
+	//delta1                  = NULL;
+	//iu                      = NULL;
+	//is                      = NULL;
+	//back_eq                 = NULL;
+	//normal_max              = 0;
+	////ineq_array_max          = 0;
+	//res_max                 = 0;
+	//cu_max                  = 0;
+	//zero_max                = 0;
+	//delta1_max              = 0;
+	//iu_max                  = 0;
+	//is_max                  = 0;
+	//back_eq_max             = 0;
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */

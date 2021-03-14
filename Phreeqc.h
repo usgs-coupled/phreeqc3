@@ -1144,7 +1144,9 @@ protected:
 	int string_trim_right(char *str);
 	int string_trim_left(char *str);
 	static LDBLE under(LDBLE xval);
+#ifdef SKIP
 	void zero_double(LDBLE * target, int n);
+#endif
 	int get_input_errors(void);
 	int isamong(char c, const char *s_l);
 	Address Hash_multi(HashTable * Table, const char *Key);
@@ -1796,6 +1798,7 @@ protected:
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
+	std::vector<double> x_arg_v, res_arg_v, scratch_v;
 	int x_arg_max, res_arg_max, scratch_max;
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
@@ -1865,9 +1868,11 @@ protected:
 	int gas_in;
 	LDBLE min_value;
 	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
+	std::vector<double> normal_v, ineq_array_v, res_v, cu_v, zero_v, delta1_v;
 	int *iu, *is, *back_eq;
-	int normal_max, ineq_array_max, res_max, cu_max, zero_max,
-		delta1_max, iu_max, is_max, back_eq_max;
+	std::vector<int> iu_v, is_v, back_eq_v;
+	//int normal_max, ineq_array_max, res_max, cu_max, zero_max,
+	//	delta1_max, iu_max, is_max, back_eq_max;
 
 	/* phrq_io_output.cpp ------------------------------- */
 	int forward_output_to_log;
