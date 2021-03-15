@@ -711,9 +711,6 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-	elements                 = NULL;
-	count_elements           = 0;
-	max_elements             = MAX_ELEMENTS;
 	element_h_one            = NULL;
 	/*----------------------------------------------------------------------
 	*   Element List
@@ -1644,25 +1641,15 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-	//max_elements = pSrc->max_elements;
-	//elements = (struct element **) free_check_null(elements);
-	//elements = (struct element **) PHRQ_malloc((size_t)max_elements * sizeof(struct element));
-	space((void **)((void *)&elements), pSrc->max_elements, &max_elements,
-		sizeof(struct element *));
-	count_elements = 0;
-	for (int i = 0; i < pSrc->count_elements; i++)
+	for (int i = 0; i < (int)pSrc->elements.size(); i++)
 	{
-		string_hsave(pSrc->elements[i]->name);
-		struct element *elt_ptr = element_store(pSrc->elements[i]->name);
+
+		const char * ptr = string_hsave(pSrc->elements[i]->name);
+		struct element *elt_ptr = element_store(ptr);
 		elt_ptr->gfw = pSrc->elements[i]->gfw;
 	}
 	element_h_one = element_store("H(1)");
-	/*
-	elements                 = NULL;
-	count_elements           = 0;
-	max_elements             = MAX_ELEMENTS;
-	element_h_one            = NULL;
-	*/
+
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */

@@ -135,7 +135,7 @@ transport(void)
 			ct[i].m_s = NULL;
 			ct[i].v_m_size = ct[i].J_ij_size = ct[i].m_s_size = 0;
 		}
-		count_moles_added = count_elements;
+		count_moles_added = (int)elements.size();
 		moles_added = (struct MOLES_ADDED *) PHRQ_malloc((size_t) (count_moles_added)* sizeof(struct MOLES_ADDED));
 		if (moles_added == NULL)
 			malloc_error();

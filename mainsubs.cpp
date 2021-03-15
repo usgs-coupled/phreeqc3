@@ -60,9 +60,6 @@ initialize(void)
 		cell_data[i].print = FALSE;
 	}
 
-	space((void **) ((void *) &elements), INIT, &max_elements,
-		  sizeof(struct element *));
-
 	space((void **) ((void *) &elt_list), INIT, &max_elts,
 		  sizeof(struct elt_list));
 
@@ -103,7 +100,7 @@ initialize(void)
  */
 	hcreate_multi((unsigned) max_logk, &logk_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
-	hcreate_multi((unsigned) max_elements, &elements_hash_table);
+	hcreate_multi((unsigned) MAX_ELTS, &elements_hash_table);
 	hcreate_multi((unsigned) max_s, &species_hash_table);
 	hcreate_multi((unsigned) max_phases, &phases_hash_table);
 	// one save_values
