@@ -533,12 +533,12 @@ tidy_logk(void)
  */
 {
 	int i;
-	for (i = 0; i < count_logk; i++)
+	for (i = 0; i < (int)logk.size(); i++)
 	{
 		select_log_k_expression(logk[i]->log_k_original, logk[i]->log_k);
 		logk[i]->done = FALSE;
 	}
-	for (i = 0; i < count_logk; i++)
+	for (i = 0; i < (int)logk.size(); i++)
 	{
 		if (logk[i]->done == FALSE)
 		{

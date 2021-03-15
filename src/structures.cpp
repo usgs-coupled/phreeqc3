@@ -152,12 +152,12 @@ clean_up(void)
 	rates = (struct rate *) free_check_null(rates);
 
 /* logk hash table */
-	for (j = 0; j < count_logk; j++)
+	for (j = 0; j < (int)logk.size(); j++)
 	{
 		free_check_null(logk[j]->add_logk);
 		logk[j] = (struct logk *) free_check_null(logk[j]);
 	}
-	logk = (struct logk **) free_check_null(logk);
+	logk.clear();
 
 /* save_values */
 	for (j = 0; j < count_save_values; j++)
@@ -308,7 +308,6 @@ clean_up(void)
 #endif
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
-	count_logk = 0;
 	count_rates = 0;
 	count_inverse = 0;
 	count_save_values = 0;
@@ -3232,7 +3231,6 @@ logk_store(char *name, int replace_if_found)
  *   Returns:
  *      pointer to logk structure "logk" where "name" can be found.
  */
-	int n;
 	struct logk *logk_ptr;
 	ENTRY item, *found_item;
 /*
@@ -3255,14 +3253,9 @@ logk_store(char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_logk++;
-		/* make sure there is space in s */
-		if (count_logk >= max_logk)
-		{
-			space((void **) ((void *) &logk), count_logk, &max_logk,
-				  sizeof(struct logk *));
-		}
 		/* Make new logk structure */
+		size_t n = logk.size();
+		logk.resize(n + 1);
 		logk[n] = logk_alloc();
 		logk_ptr = logk[n];
 	}

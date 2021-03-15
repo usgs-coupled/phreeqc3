@@ -85,12 +85,10 @@ initialize(void)
 	space((void **) ((void *) &trxn.token), INIT, &max_trxn,
 		  sizeof(struct rxn_token_temp));
 
-	space((void **) ((void *) &logk), INIT, &max_logk, sizeof(struct logk *));
-
 /*
  *   Create hash tables
  */
-	hcreate_multi((unsigned) max_logk, &logk_hash_table);
+	hcreate_multi((unsigned) MAX_S, &logk_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &elements_hash_table);
 	hcreate_multi((unsigned) MAX_S, &species_hash_table);

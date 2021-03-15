@@ -1475,10 +1475,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-
-	struct logk **logk;
-	int count_logk;
-	int max_logk;
+	std::vector<struct logk*> logk;
 
 	char *moles_per_kilogram_string;
 	char *pe_string;
