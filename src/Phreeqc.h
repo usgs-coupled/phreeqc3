@@ -1457,10 +1457,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-
-	struct element **elements;
-	int count_elements;
-	int max_elements;
+	std::vector<struct element*> elements;
 	struct element *element_h_one;
 
 	/*----------------------------------------------------------------------

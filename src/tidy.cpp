@@ -154,11 +154,10 @@ tidy_model(void)
 
 /* master species */
 		qsort(master, (unsigned) count_master, sizeof(struct master *), master_compare);
-
 /* elements */
-		qsort(elements, (size_t) count_elements, (size_t) sizeof(struct element *), element_compare);
+		qsort(elements.data(), elements.size(), sizeof(struct element *), element_compare);
 /* phases */
-		qsort(phases, (size_t) count_phases, (size_t) sizeof(struct phase *), phase_compare);
+		qsort(phases, (size_t) count_phases, sizeof(struct phase *), phase_compare);
 
 	}
 
@@ -2429,7 +2428,7 @@ tidy_species(void)
 /*
  *   Set pointer in element to master species
  */
-	for (i = 0; i < count_elements; i++)
+	for (i = 0; i < (int)elements.size(); i++)
 	{
 		elements[i]->master = master_bsearch(elements[i]->name);
 		if (elements[i]->master == NULL)

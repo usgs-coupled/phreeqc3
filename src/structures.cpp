@@ -81,11 +81,10 @@ clean_up(void)
 
 /* elements */
 
-	for (j = 0; j < count_elements; j++)
+	for (j = 0; j < (int)elements.size(); j++)
 	{
 		elements[j] = (struct element *) free_check_null(elements[j]);
 	}
-	elements = (struct element **) free_check_null(elements);
 
 /* solutions */
 	Rxn_solution_map.clear();
@@ -312,7 +311,6 @@ clean_up(void)
 #endif
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
-	count_elements = 0;
 	count_master = 0;
 	count_phases = 0;
 	count_s = 0;
@@ -407,7 +405,6 @@ element_store(const char *element)
  *   Returns:
  *      The address of an elt structure that contains the element data.
  */
-	int n;
 	struct element *elts_ptr;
 	ENTRY item, *found_item;
 	char token[MAX_LENGTH];
@@ -428,8 +425,9 @@ element_store(const char *element)
  *   Save new elt structure and return pointer to it
  */
 	/* make sure there is space in elements */
-	elements[count_elements] =
-		(struct element *) PHRQ_malloc((size_t) sizeof(struct element));
+	size_t count_elements = elements.size();
+	elements.resize(count_elements + 1);
+	elements[count_elements] = (struct element *) PHRQ_malloc((size_t) sizeof(struct element));
 	if (elements[count_elements] == NULL)
 		malloc_error();
 	/* set name pointer in elements structure */
@@ -438,24 +436,18 @@ element_store(const char *element)
 	elements[count_elements]->master = NULL;
 	elements[count_elements]->primary = NULL;
 	elements[count_elements]->gfw = 0.0;
-	n = count_elements++;
-	if (count_elements >= max_elements)
-	{
-		space((void **) ((void *) &elements), count_elements, &max_elements,
-			  sizeof(struct element *));
-	}
 /*
  *   Update hash table
  */
-	item.key = elements[n]->name;
-	item.data = (void *) elements[n];
+	item.key = elements[count_elements]->name;
+	item.data = (void *) elements[count_elements];
 	found_item = hsearch_multi(elements_hash_table, item, ENTER);
 	if (found_item == NULL)
 	{
 		error_string = sformatf( "Hash table error in element_store.");
 		error_msg(error_string, CONTINUE);
 	}
-	return (elements[n]);
+	return (elements[count_elements]);
 }
 
 /* **********************************************************************
