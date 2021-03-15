@@ -478,7 +478,6 @@ add_isotopes(cxxSolution &solution_ref)
 	/*
 	 * zero out isotopes
 	 */
-	//for (i = 0; i < count_master_isotope; i++)
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		master_isotope[i]->moles = 0;
@@ -1351,13 +1350,6 @@ master_isotope_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		//n = count_master_isotope++;
-		///* make sure there is space in s */
-		//if (count_master_isotope >= max_master_isotope)
-		//{
-		//	space((void **) ((void *) &master_isotope), count_master_isotope,
-		//		  &max_master_isotope, sizeof(struct master_isotope *));
-		//}
 		n = (int)master_isotope.size();
 		master_isotope.resize((size_t)n + 1);
 		/* Make new master_isotope structure */

@@ -1725,11 +1725,6 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	//struct name_coef match_tokens[50];
-	//int count_match_tokens;
-	//int count_master_isotope;
-	//struct master_isotope **master_isotope;
-	//int max_master_isotope;
 	std::vector<master_isotope*> master_isotope;
 	int initial_solution_isotopes;
 	std::vector<struct calculate_value*> calculate_value;

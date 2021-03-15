@@ -318,7 +318,6 @@ clean_up(void)
 	count_phases = 0;
 	count_s = 0;
 	count_logk = 0;
-	//count_master_isotope = 0;
 	count_rates = 0;
 	count_inverse = 0;
 	count_save_values = 0;
