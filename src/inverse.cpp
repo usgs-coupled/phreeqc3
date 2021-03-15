@@ -2068,7 +2068,7 @@ print_model(struct inverse *inv_ptr)
 			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula));
 
 		i1 = 0;
-		for (; i1 < count_phases; i1++)
+		for (; i1 < (int)phases.size(); i1++)
 		{
 			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
 				continue;
