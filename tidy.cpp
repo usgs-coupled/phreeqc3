@@ -153,7 +153,7 @@ tidy_model(void)
 		qsort(s.data(), s.size(), sizeof(struct species *), s_compare);
 
 /* master species */
-		qsort(master, (unsigned) count_master, sizeof(struct master *), master_compare);
+		qsort(master.data(), master.size(), sizeof(struct master *), master_compare);
 /* elements */
 		qsort(elements.data(), elements.size(), sizeof(struct element *), element_compare);
 /* phases */
@@ -1294,7 +1294,7 @@ tidy_inverse(void)
 /*
  *   Mark master species list
  */
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 			master[j]->in = FALSE;
 		for (j = 0; j < count_elts; j++)
 		{
@@ -1322,13 +1322,13 @@ tidy_inverse(void)
  */
 		count_in = 0;
 		inverse[i].count_redox_rxns = 0;
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			/*   skip all secondary master species in this loop */
 			if (master[j]->primary == FALSE || master[j]->in == FALSE)
 				continue;
 			count_in++;
-			if (j + 1 == count_master)
+			if (j + 1 == (int)master.size())
 				continue;
 			/*   if next master species is secondary, mark all 
 			   secondary master species until a primary is found */
@@ -1336,7 +1336,7 @@ tidy_inverse(void)
 			{
 				master[j]->in = FALSE;
 				count_in--;
-				for (k = j + 1; k < count_master; k++)
+				for (k = j + 1; k < (int)master.size(); k++)
 				{
 					if (master[k]->primary == FALSE)
 					{
@@ -1363,7 +1363,7 @@ tidy_inverse(void)
 		if (inv_elts == NULL)
 			malloc_error();
 		count_in = 0;
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			/* skip H(1) and O(-2) */
 			if (master[j]->s == s_hplus || master[j]->s == s_h2o)
@@ -2322,7 +2322,7 @@ tidy_species(void)
 			}
 		}
 	}
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		char * temp_name = string_duplicate(master[i]->elt->name);
 		ptr = temp_name;
@@ -2375,7 +2375,7 @@ tidy_species(void)
  *   Write equations for all master species in terms of primary
  *   master species, set coefficient of element in master species
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		count_trxn = 0;
 		if (master[i]->s->primary != NULL)
@@ -2451,7 +2451,7 @@ tidy_species(void)
  *   Make sure all primary master species for redox elements
  *   are also secondary master species
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->primary == FALSE)
 		{
@@ -2595,7 +2595,7 @@ tidy_species(void)
 		}
 	}
 	
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->gfw <= 0.0)
 		{
@@ -2995,7 +2995,7 @@ tidy_isotopes(void)
 			/* find index number of master species, set flag to FALSE */
 			master_ptr = master_bsearch(kit->second.Get_elt_name().c_str());
 			isotope_number = kit->second.Get_isotope_number();
-			for (int k = 0; k < count_master; k++)
+			for (int k = 0; k < (int)master.size(); k++)
 			{
 				master[k]->isotope = FALSE;
 			}
@@ -3026,7 +3026,7 @@ tidy_isotopes(void)
 				/* for primary, fill in ratio for all secondary species */
 				if (master_ptr->primary == TRUE	&& master_ptr->s->secondary != NULL)
 				{
-					for (int k = primary_number + 1; k < count_master; k++)
+					for (int k = primary_number + 1; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary != primary_ptr)
 							break;
@@ -3060,7 +3060,7 @@ tidy_isotopes(void)
 /*
  *   Write new isotope structure
  */
-			for (int k = 0; k < count_master; k++)
+			for (int k = 0; k < (int)master.size(); k++)
 			{
 				/* skip primary master species of redox elements */
 				if (master[k]->primary == TRUE && master[k]->s->secondary != NULL)

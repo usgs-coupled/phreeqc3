@@ -744,10 +744,7 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
-	master                  = NULL;
-	dbg_master              = NULL;
-	count_master            = 0;
-	max_master              = MAX_MASTER;
+
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
@@ -1862,16 +1859,10 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_master            = 0;
 	max_master              = MAX_MASTER;
 	*/
-	count_master = pSrc->count_master;
-	//max_master = pSrc->max_master;
-	//master = (struct master **) free_check_null(master);
-	//master = (struct master **) PHRQ_malloc((size_t) max_master * sizeof(struct master *));
-	space((void **)((void *)&master), pSrc->max_master, &max_master,
-		sizeof(struct master *));
-	if (master == NULL) malloc_error();
-	dbg_master = master;
-	for (int i = 0; i < count_master; i++)
+	int count_master = (int)pSrc->master.size();
+	for (int i = 0; i < (int)master.size(); i++)
 	{
+		master.resize((size_t)i + 1); 
 		master[i] = (struct master *) PHRQ_malloc( sizeof(struct master));
 		if (master[i] == NULL) malloc_error();
 		memcpy(master[i], pSrc->master[i], sizeof(struct master));

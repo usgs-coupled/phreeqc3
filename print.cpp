@@ -371,7 +371,7 @@ print_eh(void)
 	tk_x = tc_x + 273.15;
 
 	first = TRUE;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->in != TRUE)
 			continue;
@@ -381,7 +381,7 @@ print_eh(void)
  *   Secondary master species has mass balance equation
  */
 		master_ptr0 = master[i]->elt->primary;
-		for (k = i + 1; k < count_master; k++)
+		for (k = i + 1; k < (int)master.size(); k++)
 		{
 			if (master[k]->in != TRUE)
 				continue;
@@ -1074,7 +1074,7 @@ print_master_reactions(void)
 	int i;
 	struct rxn_token *next_token;
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		output_msg(sformatf("%s\t%s\n\tPrimary reaction\n",
 				   master[i]->elt->name, master[i]->s->name));

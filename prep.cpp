@@ -155,7 +155,7 @@ quick_setup(void)
  *   Updates essential information for the model.
  */
 	int i;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type == SURF_PSI)
 			continue;
@@ -1835,7 +1835,7 @@ clear(void)
  *   Clear master species solution-dependent data
  */
 	const char * pe_str = string_hsave("pe");
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->in = FALSE;
 		master[i]->unknown = NULL;
@@ -2091,7 +2091,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 /*
  *   First in list is primary species
  */
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j] == master_ptr0)
 				break;
@@ -2100,7 +2100,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 /*
  *   Element has only one valence
  */
-		if (j >= count_master || master[j]->elt->primary != master_ptr0)
+		if (j >= (int)master.size() || master[j]->elt->primary != master_ptr0)
 		{
 			master_ptr_list[count_list++] = master_ptr0;
 /*
@@ -2118,7 +2118,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 				input_error++;
 			}
 			master_ptr_list[count_list++] = master_ptr0->s->secondary;
-			while (j < count_master && master[j]->elt->primary == master_ptr0)
+			while (j < (int)master.size() && master[j]->elt->primary == master_ptr0)
 			{
 				if (master[j]->s->primary == NULL)
 				{
@@ -2646,7 +2646,7 @@ reprep(void)
 /*
  *   Initialize s, master, and unknown pointers
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->in == FALSE)
 			continue;
@@ -5128,13 +5128,13 @@ tidy_redox(void)
 /*
  *   Keep valences of oxygen and hydrogen in model, if not already in
  */
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->primary == TRUE &&
 			(master[i]->s == s_hplus || master[i]->s == s_h2o))
 		{
 			int j = i + 1;
-			while (j < count_master && master[j]->elt->primary == master[i])
+			while (j < (int)master.size() && master[j]->elt->primary == master[i])
 			{
 				if (master[j]->in == FALSE && master[j]->s != master[i]->s)
 				{
@@ -5818,7 +5818,7 @@ save_model(void)
 /*
  *   mark master species 
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->last_model = FALSE;
 		if (master[i]->total > 0)
@@ -6009,7 +6009,7 @@ check_same_model(void)
 /*
  *   Check master species
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 /*
 		output_msg(sformatf("%s\t%e\t%d\n", master[i]->elt->name,

@@ -1174,11 +1174,8 @@ read_exchange_master_species(void)
 /*
  *   Increase pointer array, if necessary,  and malloc space
  */
-		if (count_master >= max_master)
-		{
-			space((void **) ((void *) &master), count_master + 1,
-				  &max_master, sizeof(struct master *));
-		}
+		size_t count_master = master.size();
+		master.resize(count_master + 1);
 		master[count_master] = master_alloc();
 /*
  *   Set type to EX
@@ -1218,13 +1215,6 @@ read_exchange_master_species(void)
 		{
 			elts_ptr = element_store(master[count_master]->elt->name);
 			elts_ptr->gfw = 0.0;
-		}
-
-		count_master++;
-		if (count_master >= max_master)
-		{
-			space((void **) ((void *) &master), count_master, &max_master,
-				  sizeof(struct master *));
 		}
 	}
 	return (j);
@@ -3265,20 +3255,17 @@ read_master_species(void)
 /*
  *   Increase pointer array, if necessary,  and malloc space
  */
-		if (count_master >= max_master)
-		{
-			space((void **) ((void *) &master), count_master + 1,
-				  &max_master, sizeof(struct master *));
-		}
-		master[count_master++] = master_alloc();
+		size_t count_master = master.size();
+		master.resize(count_master + 1);
+		master[count_master] = master_alloc();
 /*
  *   Set type to AQ
  */
-		master[count_master-1]->type = AQ;
+		master[count_master]->type = AQ;
 /*
  *   Save element name
  */
-		master[count_master-1]->elt = element_store(token);
+		master[count_master]->elt = element_store(token);
 		std::string ename = token;
 /*
  *   Save pointer to species data for master species
@@ -3295,13 +3282,13 @@ read_master_species(void)
 		s_ptr = s_search(token);
 		if (s_ptr != NULL)
 		{
-			master[count_master-1]->s = s_ptr;
+			master[count_master]->s = s_ptr;
 		}
 		else
 		{
 			ptr1 = token;
 			get_token(&ptr1, token1, &l_z, &l);
-			master[count_master-1]->s = s_store(token1, l_z, FALSE);
+			master[count_master]->s = s_store(token1, l_z, FALSE);
 		}
 		
 		std::string sname = token;
@@ -3321,7 +3308,7 @@ read_master_species(void)
  *   Read alkalinity for species
  */
 		copy_token(token, &ptr, &l);
-		i = sscanf(token, SCANFORMAT, &master[count_master-1]->alk);
+		i = sscanf(token, SCANFORMAT, &master[count_master]->alk);
 		if (i != 1)
 		{
 			input_error++;
@@ -3345,11 +3332,11 @@ read_master_species(void)
 		i = copy_token(token, &ptr, &l);
 		if (i == DIGIT)
 		{
-			(void)sscanf(token, SCANFORMAT, &master[count_master-1]->gfw);
+			(void)sscanf(token, SCANFORMAT, &master[count_master]->gfw);
 		}
 		else if (i == UPPER)
 		{
-			master[count_master-1]->gfw_formula = string_hsave(token);
+			master[count_master]->gfw_formula = string_hsave(token);
 		}
 		else
 		{
@@ -3371,13 +3358,13 @@ read_master_species(void)
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
-		if (strchr(master[count_master-1]->elt->name, '(') == NULL)
+		if (strchr(master[count_master]->elt->name, '(') == NULL)
 		{
-			master[count_master-1]->primary = TRUE;
+			master[count_master]->primary = TRUE;
 			/* Read gram formula weight for primary */
-			if (strcmp(master[count_master-1]->elt->name, "E") != 0)
+			if (strcmp(master[count_master]->elt->name, "E") != 0)
 			{
-				elts_ptr = master[count_master-1]->elt;
+				elts_ptr = master[count_master]->elt;
 				i = copy_token(token, &ptr, &l);
 				if (i == DIGIT)
 				{
@@ -3405,14 +3392,8 @@ read_master_species(void)
 		}
 		else
 		{
-			master[count_master-1]->primary = FALSE;
+			master[count_master]->primary = FALSE;
 		}
-		if (count_master >= max_master)
-		{
-			space((void **) ((void *) &master), count_master, &max_master,
-				  sizeof(struct master *));
-		}
-
 	}
 	gfw_map.clear();
 	return (j);
@@ -7295,16 +7276,10 @@ read_surface_master_species(void)
 			 */
 			master_delete(token);
 			/*
-			 *   Increase pointer array, if necessary,  and malloc space
-			 */
-			if (count_master + 4 >= max_master)
-			{
-				space((void **) ((void *) &master), count_master + 4,
-					  &max_master, sizeof(struct master *));
-			}
-			/*
 			 *   Save values in master and species structure for surface sites
 			 */
+			size_t count_master = master.size();
+			master.resize(count_master + 1);
 			master[count_master] = master_alloc();
 			master[count_master]->type = SURF;
 			master[count_master]->elt = element_store(token);
@@ -7376,6 +7351,8 @@ add_psi_master_species(char *token)
 		master_ptr = master_search(token, &n);
 		if (master_ptr == NULL)
 		{
+			size_t count_master = master.size();
+			master.resize(count_master + 1);
 			master[count_master] = master_alloc();
 			master[count_master]->type = plane;
 			master[count_master]->elt = element_store(token);
