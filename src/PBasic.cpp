@@ -2786,8 +2786,9 @@ factor(struct LOC_exec * LINK)
 			if (parse_all)
 			{
 				PhreeqcPtr->sys_tot = 0;
-				PhreeqcPtr->count_sys = 1000;
-				int count_sys = PhreeqcPtr->count_sys;
+				//PhreeqcPtr->count_sys = 1000;
+				//int count_sys = PhreeqcPtr->count_sys;
+				size_t count_sys = 1000;
 				names_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
 				if (names_arg == NULL)
 				{
@@ -2916,8 +2917,9 @@ factor(struct LOC_exec * LINK)
 			if (parse_all)
 			{
 				PhreeqcPtr->sys_tot = 0;
-				PhreeqcPtr->count_sys = 1000;
-				int count_sys = PhreeqcPtr->count_sys;
+				//PhreeqcPtr->count_sys = 1000;
+				//int count_sys = PhreeqcPtr->count_sys;
+				int count_sys = 1000;
 				names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 				if (names_arg == NULL)
 				{

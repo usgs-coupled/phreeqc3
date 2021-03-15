@@ -983,9 +983,6 @@ void Phreeqc::init(void)
 	cell_volume			    = 0;
 	cell_porosity		    = 0;
 	cell_saturation		    = 0;
-	sys                     = NULL;
-	count_sys               = 0;
-	max_sys                 = 0;
 	sys_tot                 = 0;
 
 	V_solutes               = 0.0;

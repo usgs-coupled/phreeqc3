@@ -1738,8 +1738,7 @@ protected:
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
 	LDBLE cell_saturation;
-	struct system_species *sys;
-	int count_sys, max_sys;
+	std::vector<struct system_species> sys;
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
