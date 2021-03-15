@@ -721,9 +721,6 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-	logk                     = NULL;
-	count_logk               = 0;
-	max_logk                 = MAX_S;
 	moles_per_kilogram_string= NULL;
 	pe_string                = NULL;
 	// auto s_diff_layer;
@@ -1678,15 +1675,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*/	
 	// logk
 
-	space((void **)((void *)&logk), pSrc->max_logk, &max_logk, sizeof(struct logk *));
-	//for (int i = 0; i < count_logk; i++)
-	//{
-	//	logk[i] = (struct logk *) free_check_null(logk[i]);
-	//}
-	//logk = (struct logk **) free_check_null(logk);
-	//max_logk = pSrc->max_logk;
-	//logk = (struct logk **) PHRQ_malloc((size_t) max_logk * sizeof(struct logk *));
-	for (int i = 0; i < pSrc->count_logk; i++)
+	for (int i = 0; i < (int)pSrc->logk.size(); i++)
 	{
 		char * name = string_duplicate(pSrc->logk[i]->name);
 		struct logk *logk_ptr = logk_store(name, FALSE);
@@ -1706,7 +1695,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			}
 		}	
 	}
-	count_logk = pSrc->count_logk;
+
 	// s, species
 	for (int i = 0; i < (int)pSrc->s.size(); i++)
 	{
