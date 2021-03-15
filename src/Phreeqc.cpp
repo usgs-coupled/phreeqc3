@@ -981,9 +981,6 @@ void Phreeqc::init(void)
 	initial_solution_isotopes = FALSE;
 	calculate_value_hash_table = NULL;	
 	isotope_ratio_hash_table = 0;	
-	count_isotope_alpha		= 0;
-	isotope_alpha			= 0;
-	max_isotope_alpha		= MAX_ELTS;
 	isotope_alpha_hash_table = 0;
 
 
@@ -2313,13 +2310,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		isotope_ratio_ptr->ratio = pSrc->isotope_ratio[i]->ratio;
 		isotope_ratio_ptr->converted_ratio = pSrc->isotope_ratio[i]->converted_ratio;
 	}
-	/*
-	count_isotope_alpha		= 0;
-	isotope_alpha			= 0;
-	max_isotope_alpha		= MAX_ELTS;
-	isotope_alpha_hash_table = 0;
-	*/
-	for (int i = 0; i < pSrc->count_isotope_alpha; i++)
+
+	for (int i = 0; i < (int)pSrc->isotope_alpha.size(); i++)
 	{
 		struct isotope_alpha *isotope_alpha_ptr = isotope_alpha_store(pSrc->isotope_alpha[i]->name, FALSE);
 		isotope_alpha_ptr->named_logk = string_hsave(pSrc->isotope_alpha[i]->named_logk);

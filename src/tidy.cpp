@@ -5589,7 +5589,7 @@ tidy_isotope_alphas(void)
 	struct calculate_value *calculate_value_ptr;
 	struct logk *logk_ptr;
 
-	for (i = 0; i < count_isotope_alpha; i++)
+	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
 		/*
 		 * Mark master species list as minor isotope

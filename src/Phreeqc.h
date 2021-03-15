@@ -1731,9 +1731,7 @@ protected:
 	HashTable *calculate_value_hash_table;
 	std::vector<struct isotope_ratio*> isotope_ratio;
 	HashTable *isotope_ratio_hash_table;
-	int count_isotope_alpha;
-	struct isotope_alpha **isotope_alpha;
-	int max_isotope_alpha;
+	std::vector<struct isotope_alpha*> isotope_alpha;
 	HashTable *isotope_alpha_hash_table;
 	int phreeqc_mpi_myself;
 	int first_read_input;
