@@ -1731,9 +1731,7 @@ protected:
 	struct master_isotope **master_isotope;
 	int max_master_isotope;
 	int initial_solution_isotopes;
-	int count_calculate_value;
-	struct calculate_value **calculate_value;
-	int max_calculate_value;
+	std::vector<struct calculate_value*> calculate_value;
 	HashTable *calculate_value_hash_table;
 	int count_isotope_ratio;
 	struct isotope_ratio **isotope_ratio;
