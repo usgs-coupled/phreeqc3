@@ -5505,7 +5505,7 @@ tidy_master_isotope(void)
 	int i;
 	struct master *master_ptr;
 
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		/*
 		 * Mark master species list as minor isotope

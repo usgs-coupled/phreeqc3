@@ -225,13 +225,11 @@ clean_up(void)
 	user_graph_headings = (char **) free_check_null(user_graph_headings);
 #endif
 	/* master_isotope */
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
-		master_isotope[i] =
-			(struct master_isotope *) free_check_null(master_isotope[i]);
+		master_isotope[i] =	(struct master_isotope *) free_check_null(master_isotope[i]);
 	}
-	master_isotope =
-		(struct master_isotope **) free_check_null(master_isotope);
+	//master_isotope = (struct master_isotope **) free_check_null(master_isotope);
 	hdestroy_multi(master_isotope_hash_table);
 	master_isotope_hash_table = NULL;
 
@@ -320,7 +318,7 @@ clean_up(void)
 	count_phases = 0;
 	count_s = 0;
 	count_logk = 0;
-	count_master_isotope = 0;
+	//count_master_isotope = 0;
 	count_rates = 0;
 	count_inverse = 0;
 	count_save_values = 0;
