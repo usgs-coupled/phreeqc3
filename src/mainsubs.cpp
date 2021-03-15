@@ -178,11 +178,7 @@ initialize(void)
 				  &calculate_value_hash_table);
 
 	/* isotope_ratio */
-	max_isotope_ratio = MAX_ELTS;
-	count_isotope_ratio = 0;
-	space((void **) ((void *) &isotope_ratio), INIT, &max_isotope_ratio,
-		  sizeof(struct isotope_ratio *));
-	hcreate_multi((unsigned) max_isotope_ratio, &isotope_ratio_hash_table);
+	hcreate_multi((unsigned) MAX_ELTS, &isotope_ratio_hash_table);
 
 	/* isotope_value */
 	max_isotope_alpha = MAX_ELTS;

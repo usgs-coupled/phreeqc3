@@ -4011,7 +4011,7 @@ iso_value(const char *total_name)
 	strcpy(token, "");
 	strcpy(my_total_name, total_name);
 	while (replace(" ","_",my_total_name));
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
@@ -4025,7 +4025,7 @@ iso_value(const char *total_name)
 	strcat(token,"R(");
 	strcat(token,my_total_name);
 	strcat(token,")");
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
@@ -4047,7 +4047,7 @@ iso_unit(const char *total_name)
 	strcpy(my_total_name, total_name);
 	while (replace(" ","_",my_total_name));
 	strcpy(unit, "unknown");
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
@@ -4066,7 +4066,7 @@ iso_unit(const char *total_name)
 	strcat(token,"R(");
 	strcat(token,my_total_name);
 	strcat(token,")");
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
