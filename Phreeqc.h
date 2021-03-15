@@ -1483,9 +1483,7 @@ protected:
 	char *moles_per_kilogram_string;
 	char *pe_string;
 
-	struct species **s;
-	int count_s;
-	int max_s;
+	std::vector<struct species*> s;
 	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;
 
 	struct species **s_x;

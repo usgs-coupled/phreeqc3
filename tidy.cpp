@@ -150,7 +150,7 @@ tidy_model(void)
 /* species */
 	if (new_model == TRUE)
 	{
-		qsort(s, (size_t) count_s, (size_t) sizeof(struct species *), s_compare);
+		qsort(s.data(), s.size(), sizeof(struct species *), s_compare);
 
 /* master species */
 		qsort(master, (unsigned) count_master, sizeof(struct master *), master_compare);
@@ -453,7 +453,7 @@ check_species_input(void)
 	int return_value;
 
 	return_value = OK;
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i]->next_elt == NULL)
 		{
@@ -2304,7 +2304,7 @@ tidy_species(void)
 /*
  *   Set secondary and primary pointers in species structures
  */
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		s[i]->number = i;
 		s[i]->primary = NULL;
@@ -2396,7 +2396,7 @@ tidy_species(void)
 /*
  *   Rewrite all species to secondary species
  */
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		count_trxn = 0;
 		if (s[i]->primary != NULL || s[i]->secondary != NULL)
@@ -2487,7 +2487,7 @@ tidy_species(void)
 /*
  *   Calculate H and O if alternate mass balance is given
  */
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i]->next_secondary != NULL)
 		{

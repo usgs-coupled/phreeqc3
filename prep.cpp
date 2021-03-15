@@ -1205,7 +1205,7 @@ build_model(void)
 	count_s_x = 0;
 	compute_gfw("H2O", &gfw_water);
 	gfw_water *= 0.001;
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i]->type > H2O && s[i]->type != EX && s[i]->type != SURF)
 			continue;
@@ -1810,7 +1810,7 @@ clear(void)
  */
 	solution_ptr = use.Get_solution_ptr();
 
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		s[i]->in = FALSE;
 	}
@@ -4832,7 +4832,7 @@ setup_unknowns(void)
 	max_unknowns++;
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		max_unknowns += count_s;
+		max_unknowns += (int)s.size();
 	}
 
 /*

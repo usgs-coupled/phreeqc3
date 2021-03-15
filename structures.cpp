@@ -64,12 +64,11 @@ clean_up(void)
 
 /* species */
 
-	for (j = 0; j < count_s; j++)
+	for (j = 0; j < (int)s.size(); j++)
 	{
 		s_free(s[j]);
 		s[j] = (struct species *) free_check_null(s[j]);
 	}
-	s = (struct species **) free_check_null(s);
 
 /* master species */
 
@@ -311,7 +310,6 @@ clean_up(void)
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
 	count_master = 0;
-	count_s = 0;
 	count_logk = 0;
 	count_rates = 0;
 	count_inverse = 0;
@@ -1962,11 +1960,7 @@ s_delete(int i)
 
 	s_free(s[i]);
 	s[i] = (struct species *) free_check_null(s[i]);
-	for (j = i; j < (count_s - 1); j++)
-	{
-		s[j] = s[j + 1];
-	}
-	count_s--;
+	s.erase(s.begin() + i);
 	return (OK);
 }
 
@@ -2158,13 +2152,8 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 	}
 	else
 	{
-		n = count_s++;
-		/* make sure there is space in s */
-		if (count_s >= max_s)
-		{
-			space((void **) ((void *) &s), count_s, &max_s,
-				  sizeof(struct species *));
-		}
+		n = (int)s.size();
+		s.resize((size_t)n + 1);
 		/* Make new species structure */
 		s[n] = s_alloc();
 		s_ptr = s[n];

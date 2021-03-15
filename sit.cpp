@@ -39,16 +39,16 @@ sit_tidy(void)
 	 *  allocate pointers to species structures
 	 */
 	if (spec != NULL) spec = (struct species **) free_check_null(spec);
-	spec = (struct species **) PHRQ_malloc((size_t) (3 * count_s * sizeof(struct species *)));
+	spec = (struct species **) PHRQ_malloc((size_t) (3 * s.size() * sizeof(struct species *)));
 	if (spec == NULL) malloc_error();
-	for (i = 0; i < 3 * count_s; i++) spec[i] = NULL;
+	for (i = 0; i < 3 * (int)s.size(); i++) spec[i] = NULL;
 
 	cations = spec;
-	neutrals = &(spec[count_s]);
-	anions = &(spec[2 * count_s]);
-	sit_MAXCATIONS = count_s;
-	sit_FIRSTANION = 2 * count_s;
-	sit_MAXNEUTRAL = count_s;
+	neutrals = &(spec[s.size()]);
+	anions = &(spec[2 * s.size()]);
+	sit_MAXCATIONS = (int)s.size();
+	sit_FIRSTANION = 2 * (int)s.size();
+	sit_MAXNEUTRAL = (int)s.size();
 	sit_count_cations = 0;
 	sit_count_anions = 0;
 	sit_count_neutrals = 0;
@@ -57,17 +57,17 @@ sit_tidy(void)
 	 *  allocate other arrays for SIT
 	 */
 	if (sit_IPRSNT != NULL) sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	sit_IPRSNT = (int *) PHRQ_malloc((size_t) (3 * count_s * sizeof(int)));
+	sit_IPRSNT = (int *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(int)));
 	if (sit_IPRSNT == NULL) malloc_error();
 	if (sit_M != NULL) sit_M = (LDBLE *) free_check_null(sit_M);
-	sit_M = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
+	sit_M = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
 	if (sit_M == NULL) malloc_error();
 	if (sit_LGAMMA != NULL) sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
+	sit_LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
 	if (sit_LGAMMA == NULL) malloc_error();
 
 
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i] == s_eminus)
 			continue;
@@ -149,7 +149,7 @@ sit_ISPEC(const char *name)
  */
 {
 	int i;
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 	{
 		if (spec[i] == NULL)
 			continue;
@@ -340,7 +340,7 @@ sit(void)
 			sit_M[i] = 0.0;
 		}
 	}
-	//for (i = 0; i < 3 * count_s; i++)
+	//for (i = 0; i < 3 * (int)s.size(); i++)
 	//{
 	//	sit_IPRSNT[i] = FALSE;
 	//	sit_M[i] = 0.0;
@@ -368,7 +368,7 @@ sit(void)
 		XI = XI + sit_M[i] * spec[i]->z * spec[i]->z;
 		OSUM = OSUM + sit_M[i];
 	}
-	//for (i = 0; i < 2 * count_s + sit_count_anions; i++)
+	//for (i = 0; i < 2 * (int)s.size() + sit_count_anions; i++)
 	//{
 	//	sit_LGAMMA[i] = 0.0;
 	//	if (sit_IPRSNT[i] == TRUE)
@@ -462,7 +462,7 @@ sit(void)
 	//	z0 = spec[i]->z;
 	//	sit_LGAMMA[i] += z0 * z0 * F;
 	//}
-	//for (i = 2 * count_s; i < 2 * count_s + sit_count_anions; i++)
+	//for (i = 2 * (int)s.size(); i < 2 * (int)s.size() + sit_count_anions; i++)
 	//{
 	//	z0 = spec[i]->z;
 	//	sit_LGAMMA[i] += z0 * z0 * F;
@@ -488,7 +488,7 @@ sit(void)
 		int i = s_list[j];
 		spec[i]->lg_pitzer = sit_LGAMMA[i];
 	}
-//	for (i = 0; i < 2 * count_s + sit_count_anions; i++)
+//	for (i = 0; i < 2 * (int)s.size() + sit_count_anions; i++)
 //	{
 //		if (sit_IPRSNT[i] == FALSE)	continue;
 //		spec[i]->lg_pitzer = sit_LGAMMA[i];
@@ -1447,12 +1447,12 @@ sit_make_lists(void)
 			max = sit_count_cations;
 			break;
 		case 1:
-			min = count_s;
-			max = count_s + sit_count_neutrals;
+			min = (int)s.size();
+			max = (int)s.size() + sit_count_neutrals;
 			break;
 		case 2:
-			min = 2*count_s;
-			max = 2*count_s + sit_count_anions;
+			min = 2*(int)s.size();
+			max = 2*(int)s.size() + sit_count_anions;
 			break;
 		}
 		for (int i = min; i < max; i++)
@@ -1466,19 +1466,19 @@ sit_make_lists(void)
 					continue;	
 				sit_IPRSNT[i] = TRUE;	
 				s_list.push_back(i);	
-				if (i < count_s)
+				if (i < (int)s.size())
 				{
 					cation_list.push_back(i);
 				}
-				if (i >= count_s && i < 2*count_s)
+				if (i >= (int)s.size() && i < 2*(int)s.size())
 				{
 					neutral_list.push_back(i);
 				}
-				if (i >= 2*count_s)
+				if (i >= 2*(int)s.size())
 				{
 					anion_list.push_back(i);
 				}
-				if (i < count_s || i >= 2*count_s)
+				if (i < (int)s.size() || i >= 2*(int)s.size())
 				{
 					ion_list.push_back(i);
 				}
