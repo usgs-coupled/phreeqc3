@@ -98,9 +98,6 @@ initialize(void)
 
 	space((void **) ((void *) &logk), INIT, &max_logk, sizeof(struct logk *));
 
-	//space((void **) ((void *) &master_isotope), INIT, &max_master_isotope,
-	//	  sizeof(struct master_isotope *));
-
 /*
  *   Create hash tables
  */

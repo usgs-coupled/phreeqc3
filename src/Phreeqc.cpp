@@ -978,9 +978,6 @@ void Phreeqc::init(void)
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	//count_master_isotope	= 0;
-	//master_isotope			= NULL;
-	//max_master_isotope		= MAX_ELTS;
 	initial_solution_isotopes = FALSE;
 	calculate_value_hash_table = NULL;	
 	count_isotope_ratio		= 0;
@@ -2271,12 +2268,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	/*
-	count_master_isotope	= 0;
-	master_isotope			= NULL;
-	max_master_isotope		= MAX_ELTS;
-	*/
-
 	for (int i = 0; i < (int)pSrc->master_isotope.size(); i++)
 	{
 		struct master_isotope *master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
