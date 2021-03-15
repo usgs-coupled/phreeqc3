@@ -72,11 +72,10 @@ clean_up(void)
 
 /* master species */
 
-	for (j = 0; j < count_master; j++)
+	for (j = 0; j < (int)master.size(); j++)
 	{
 		master_free(master[j]);
 	}
-	master = (struct master **) free_check_null(master);
 
 /* elements */
 
@@ -309,7 +308,6 @@ clean_up(void)
 #endif
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
-	count_master = 0;
 	count_logk = 0;
 	count_rates = 0;
 	count_inverse = 0;
@@ -1004,16 +1002,12 @@ master_delete(char *ptr)
  *	TRUE if master species was deleted.
  *	FALSE if master species was not found.
  */
-	int j, n;
+	int n;
 
 	if (master_search(ptr, &n) == NULL)
 		return (FALSE);
 	master_free(master[n]);
-	for (j = n; j < (count_master - 1); j++)
-	{
-		master[j] = master[j + 1];
-	}
-	count_master--;
+	master.erase(master.begin() + n);
 	return (TRUE);
 }
 
@@ -1048,22 +1042,22 @@ master_bsearch(const char *ptr)
  *   Return: pointer to master structure containing name ptr or NULL.
  */
 	void *void_ptr;
-	if (count_master == 0)
+	if (master.size() == 0)
 	{
 		return (NULL);
 	}
 	void_ptr = bsearch((const char *) ptr,
-					   (char *) master,
-					   (unsigned) count_master,
+					   (char *) master.data(),
+					   master.size(),
 					   sizeof(struct master *), master_compare_string);
 	if (void_ptr == NULL)
 	{
 		char * dup = string_duplicate(ptr);
 		replace("(+","(", dup);
 		void_ptr = bsearch((const char *) dup,
-			(char *) master,
-			(unsigned) count_master,
-			sizeof(struct master *), master_compare_string);
+			(char*)master.data(),
+			master.size(),
+			sizeof(struct master*), master_compare_string);
 		dup = (char *) free_check_null(dup);
 	}
 	if (void_ptr == NULL)
@@ -1168,7 +1162,7 @@ master_bsearch_secondary(char *ptr)
 */
 	if (master_ptr_primary)
 	{
-		if ((master_ptr_primary->number >= count_master - 1) || 
+		if ((master_ptr_primary->number >= (int)master.size() - 1) || 
 			(master[master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
 		{
 			return(master_ptr_primary);
@@ -1177,7 +1171,7 @@ master_bsearch_secondary(char *ptr)
 		*  Find secondary master with same species as primary
 		*/
 		master_ptr = NULL;
-		for (j = master_ptr_primary->number + 1; j < count_master; j++)
+		for (j = master_ptr_primary->number + 1; j < (int)master.size(); j++)
 		{
 			if (master[j]->s == master_ptr_primary->s)
 			{
@@ -1219,7 +1213,7 @@ master_search(char *ptr, int *n)
  *   Search master species list
  */
 	*n = -999;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (strcmp(ptr, master[i]->elt->name) == 0)
 		{
@@ -1956,8 +1950,6 @@ s_delete(int i)
 /*
  *   Delete species i: free memory and renumber array of pointers, s.
  */
-	int j;
-
 	s_free(s[i]);
 	s[i] = (struct species *) free_check_null(s[i]);
 	s.erase(s.begin() + i);

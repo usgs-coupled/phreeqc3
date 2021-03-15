@@ -82,11 +82,11 @@ get_all_components(void)
 	add_all_components_tally();
 
 	// add secondary master species
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ && master[i]->primary == TRUE)
 		{
-			for (int j = i + 1; j < count_master; j++)
+			for (int j = i + 1; j < (int)master.size(); j++)
 			{
 				if (master[j]->elt->primary == master[i])
 				{
@@ -105,7 +105,7 @@ get_all_components(void)
  *   Count components + Alkalinity + total_h + total_o
  */
 	tally_count_component = 3;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
 		{
@@ -140,7 +140,7 @@ get_all_components(void)
 	compute_gfw("O", &(t_buffer[j].gfw));
 	j++;
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
 		{
@@ -756,7 +756,7 @@ master_to_tally_table(struct tally_buffer *buffer_ptr)
 	 * copy element list amounts to buffer in tally table
 	 * for column number
 	 */
-	for (j  = 0; j < count_master; j++)
+	for (j  = 0; j < (int)master.size(); j++)
 	{
 		if (master[j]->total <= 0)
 			continue;

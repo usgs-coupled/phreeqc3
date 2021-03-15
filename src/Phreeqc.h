@@ -1506,10 +1506,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
-	struct master **master;	/* structure array of master species */
-	struct master **dbg_master;
-	int count_master;
-	int max_master;
+	std::vector<struct master*> master;
 
 	/*----------------------------------------------------------------------
 	*   Unknowns

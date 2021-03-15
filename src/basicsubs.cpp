@@ -583,7 +583,7 @@ calc_solution_volume(void)
 	gfw = s_h2o->primary->gfw;
 	total_mass += total_o_x * gfw;
 
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type != AQ) continue;
 		struct master *master_ptr = master[i];
@@ -2492,7 +2492,7 @@ total(const char *total_name)
 		{
 			t = 0;
 			for (i = master_ptr->number + 1;
-				 (i < count_master && master[i]->elt->primary == master_ptr);
+				 (i < (int)master.size() && master[i]->elt->primary == master_ptr);
 				 i++)
 			{
 				t += master[i]->total / mass_water_aq_x;
@@ -2562,7 +2562,7 @@ total_mole(const char *total_name)
 		{
 			t = 0;
 			for (i = master_ptr->number + 1;
-				 (i < count_master && master[i]->elt->primary == master_ptr);
+				 (i < (int)master.size() && master[i]->elt->primary == master_ptr);
 				 i++)
 			{
 				t += master[i]->total;
@@ -2950,7 +2950,7 @@ system_total_elements(void)
 	space((void **) ((void *) &sys), count_sys, &max_sys,
 		  sizeof(struct system_species));
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master_ptr = master[i];
 		if (master_ptr->primary == TRUE && master_ptr->total_primary <= 0)

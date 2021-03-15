@@ -70,9 +70,6 @@ initialize(void)
 
 	space((void **) ((void *) &line_save), INIT, &max_line, sizeof(char));
 
-	space((void **) ((void *) &master), INIT, &max_master,
-		  sizeof(struct master *));
-
 	space((void **) ((void *) &mb_unknowns), INIT, &max_mb_unknowns,
 		  sizeof(struct unknown_list));
 
@@ -1401,7 +1398,7 @@ xsolution_save(int n_user)
 /*
  *   Copy totals data
  */
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type == EX ||
 			master[i]->s->type == SURF || master[i]->s->type == SURF_PSI)
@@ -1826,7 +1823,7 @@ step_save_exch(int n_user)
 	}
 
 	// Set exchange total in one component
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type != EX)
 			continue;
@@ -1871,7 +1868,7 @@ step_save_surf(int n_user)
 		return (OK);
 	Utilities::Rxn_copy(Rxn_surface_map, use.Get_surface_ptr()->Get_n_user(), n_user);
 	cxxSurface *surface_ptr = Utilities::Rxn_find(Rxn_surface_map, n_user);
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type != SURF)
 			continue;

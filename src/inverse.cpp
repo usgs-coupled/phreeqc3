@@ -380,7 +380,7 @@ setup_inverse(struct inverse *inv_ptr)
  */
 
 	/* initialize master species */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->in = -1;
 		if (strstr(master[i]->elt->name, "Alk") == master[i]->elt->name)
@@ -439,7 +439,7 @@ setup_inverse(struct inverse *inv_ptr)
 		column = i;
 		sprintf(token, "soln %d", i);
 		col_name[column] = string_hsave(token);
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j]->in >= 0)
 			{
@@ -453,7 +453,7 @@ setup_inverse(struct inverse *inv_ptr)
 		}
 		/* calculate charge balance for elements in model */
 		cb = 0;
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j]->in >= 0)
 			{
@@ -3614,7 +3614,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 		{
 
 			/* find master */
-			for (k = 0; k < count_master; k++)
+			for (k = 0; k < (int)master.size(); k++)
 			{
 				if (master[k] == primary_ptr)
 					break;
@@ -3622,7 +3622,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 
 			/* sum all secondary for master */
 			k++;
-			for (; k < count_master; k++)
+			for (; k < (int)master.size(); k++)
 			{
 				if (master[k]->elt->primary != primary_ptr)
 					break;
@@ -4922,7 +4922,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
  * Write elements
  */
 	xsolution_zero();
-	for (j = 0; j < count_master; j++)
+	for (j = 0; j < (int)master.size(); j++)
 	{
 		master[j]->in = FALSE;
 	}
@@ -4942,7 +4942,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 			continue;
 		master_ptr->in = TRUE;
 	}
-	for (j = 0; j < count_master; j++)
+	for (j = 0; j < (int)master.size(); j++)
 	{
 		if (master[j]->in == TRUE)
 		{

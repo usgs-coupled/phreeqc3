@@ -2356,7 +2356,7 @@ molalities(int allow_overflow)
 /*
  *   la for master species
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->in == REWRITE)
 		{
@@ -4949,7 +4949,7 @@ sum_species(void)
 /*
  *   Sum valence states, put in master->total
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->total = 0.0;
 		master[i]->total_primary = 0.0;
@@ -4991,7 +4991,7 @@ sum_species(void)
 /*
  *   Calculate total element concentrations
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->elt->primary->total_primary += master[i]->total;
 	}

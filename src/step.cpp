@@ -318,7 +318,7 @@ xsolution_zero(void)
 	mass_water_aq_x = 0.0;
 	units_x = moles_per_kilogram_string;
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->total = 0.0;
 		master[i]->total_primary = 0.0;
@@ -459,7 +459,7 @@ add_exchange(cxxExchange *exchange_ptr)
 	}
 	if (exchange_ptr->Get_new_def())
 	{
-		for (int i = 0; i < count_master; i++)
+		for (int i = 0; i < (int)master.size(); i++)
 		{
 			if (master[i]->type == EX && master[i]->total > 0)
 			{
@@ -1337,7 +1337,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
  *   Make la's of all master species for the element small, so SI will be small
  *   and no mass transfer will be calculated
  */
-					for (int k = 0; k < count_master; k++)
+					for (int k = 0; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary == master_ptr)
 						{
@@ -1412,7 +1412,7 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
 					 *   so SI will be small
 					 *   and no mass transfer will be calculated
 					 */
-					for (k = 0; k < count_master; k++)
+					for (k = 0; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary == master_ptr)
 						{
@@ -1439,7 +1439,7 @@ solution_check(void)
 /*
  *   Check that all elements are in solution for phases with zero mass
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master_ptr = master[i];
 		if (master_ptr->total <= MIN_TOTAL && master_ptr->total >= -MIN_TOTAL)
