@@ -1383,7 +1383,7 @@ build_model(void)
 	/*
  *   Rewrite phases to current master species
  */
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		count_trxn = 0;
 		trxn_add_phase(phases[i]->rxn_s, 1.0, FALSE);
@@ -5732,7 +5732,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 /*
  *    Calculate log k for all pure phases
  */
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		if (phases[i]->in == TRUE)  
 		{

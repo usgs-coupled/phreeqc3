@@ -157,7 +157,7 @@ tidy_model(void)
 /* elements */
 		qsort(elements.data(), elements.size(), sizeof(struct element *), element_compare);
 /* phases */
-		qsort(phases, (size_t) count_phases, sizeof(struct phase *), phase_compare);
+		qsort(phases.data(), phases.size(), sizeof(struct phase *), phase_compare);
 
 	}
 
@@ -1487,7 +1487,7 @@ tidy_phases(void)
 	/*
 	 *  Fix log Ks first, so they can possibly be added to other phase equations
 	 */
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn->logk);
 		add_other_logk(phases[i]->rxn->logk, phases[i]->count_add_logk,
@@ -1498,7 +1498,7 @@ tidy_phases(void)
 	/*
 	 *   Rewrite all phases to secondary species
 	 */
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		/*
 		 *   Rewrite equation

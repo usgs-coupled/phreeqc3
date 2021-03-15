@@ -3038,7 +3038,7 @@ system_total_si(void)
 	char name[MAX_LENGTH];
 
 	sys_tot = -999.9;
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		if (phases[i]->in == FALSE || phases[i]->type != SOLID)
 			continue;

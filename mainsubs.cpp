@@ -85,9 +85,6 @@ initialize(void)
 	stag_data->th_m = 0;
 	stag_data->th_im = 0;
 
-	space((void **) ((void *) &phases), INIT, &max_phases,
-		  sizeof(struct phase *));
-
 	space((void **) ((void *) &trxn.token), INIT, &max_trxn,
 		  sizeof(struct rxn_token_temp));
 
@@ -102,7 +99,7 @@ initialize(void)
 	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &elements_hash_table);
 	hcreate_multi((unsigned) max_s, &species_hash_table);
-	hcreate_multi((unsigned) max_phases, &phases_hash_table);
+	hcreate_multi((unsigned) MAX_PHASES, &phases_hash_table);
 	// one save_values
 	save_values =
 		(struct save_values *) PHRQ_malloc(sizeof(struct save_values));

@@ -123,12 +123,11 @@ clean_up(void)
 
 /* phases */
 
-	for (j = 0; j < count_phases; j++)
+	for (j = 0; j < (int)phases.size(); j++)
 	{
 		phase_free(phases[j]);
 		phases[j] = (struct phase *) free_check_null(phases[j]);
 	}
-	phases = (struct phase **) free_check_null(phases);
 
 /* inverse */
 	for (j = 0; j < count_inverse; j++)
@@ -312,7 +311,6 @@ clean_up(void)
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
 	count_master = 0;
-	count_phases = 0;
 	count_s = 0;
 	count_logk = 0;
 	count_rates = 0;
@@ -1300,15 +1298,8 @@ phase_delete(int i)
  *   Input: i, number of phase
  *   Return: OK
  */
-	int j;
-
 	phase_free(phases[i]);
-	phases[i] = (struct phase *) free_check_null(phases[i]);
-	for (j = i; j < (count_phases - 1); j++)
-	{
-		phases[j] = phases[j + 1];
-	}
-	count_phases--;
+	phases.erase(phases.begin() + (size_t)i);
 	return (OK);
 }
 
@@ -1356,13 +1347,13 @@ phase_bsearch(const char *ptr, int *j, int print)
 	void *void_ptr;
 
 	void_ptr = NULL;
-	if (count_phases > 0)
+	if ((int)phases.size() > 0)
 	{
 		void_ptr = (void *)
 			bsearch((char *) ptr,
-					(char *) phases,
-					(size_t) count_phases,
-					(size_t) sizeof(struct phase *), phase_compare_string);
+					(char *) phases.data(),
+					phases.size(),
+					sizeof(struct phase *), phase_compare_string);
 	}
 	if (void_ptr == NULL && print == TRUE)
 	{
@@ -1376,7 +1367,7 @@ phase_bsearch(const char *ptr, int *j, int print)
 		return (NULL);
 	}
 
-	*j = (int) ((struct phase **) void_ptr - phases);
+	*j = (int) ((struct phase **) void_ptr - phases.data());
 	return (*(struct phase **) void_ptr);
 }
 
@@ -1460,7 +1451,6 @@ phase_store(const char *name)
  *      If phase existed, it is reinitialized. The structure returned
  *      contains only the name of the phase.
  */
-	int n;
 	struct phase *phase_ptr;
 	ENTRY item, *found_item;
 	char token[MAX_LENGTH];
@@ -1487,13 +1477,8 @@ phase_store(const char *name)
 /*
  *   Make new phase structure and return pointer to it
  */
-	/* make sure there is space in phases */
-	n = count_phases++;
-	if (count_phases >= max_phases)
-	{
-		space((void **) ((void *) &phases), count_phases, &max_phases,
-			  sizeof(struct phase *));
-	}
+	size_t n = (int)phases.size();
+	phases.resize(n + 1);
 	phases[n] = phase_alloc();
 	/* set name in phase structure */
 	phases[n]->name = string_hsave(name);

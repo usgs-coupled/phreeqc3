@@ -743,9 +743,7 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-	phases					= NULL;
-	count_phases            = 0;
-	max_phases              = MAX_PHASES;
+
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
@@ -1810,13 +1808,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-	/*
-	phases					= NULL;
-	count_phases            = 0;
-	max_phases              = MAX_PHASES;
-	*/
-	count_phases = 0;
-	for (int i = 0; i < pSrc->count_phases; i++)
+	for (int i = 0; i < (int)pSrc->phases.size(); i++)
 	{
 		struct phase *phase_ptr = phase_store(pSrc->phases[i]->name);
 		memcpy(phase_ptr, pSrc->phases[i], sizeof(struct phase));
