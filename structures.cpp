@@ -236,14 +236,11 @@ clean_up(void)
 	master_isotope_hash_table = NULL;
 
 	/* calculate_value */
-	for (i = 0; i < count_calculate_value; i++)
+	for (i = 0; i < (int) calculate_value.size(); i++)
 	{
 		calculate_value_free(calculate_value[i]);
-		calculate_value[i] =
-			(struct calculate_value *) free_check_null(calculate_value[i]);
+		calculate_value[i] = (struct calculate_value*)free_check_null(calculate_value[i]);
 	}
-	calculate_value =
-		(struct calculate_value **) free_check_null(calculate_value);
 	hdestroy_multi(calculate_value_hash_table);
 	calculate_value_hash_table = NULL;
 
@@ -334,7 +331,6 @@ clean_up(void)
 	llnl_count_bdot = 0;
 	llnl_count_co2_coefs = 0;
 
-	count_calculate_value = 0;
 	count_isotope_ratio = 0;
 	count_isotope_alpha = 0;
 

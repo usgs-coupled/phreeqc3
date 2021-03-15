@@ -982,9 +982,6 @@ void Phreeqc::init(void)
 	master_isotope			= NULL;
 	max_master_isotope		= MAX_ELTS;
 	initial_solution_isotopes = FALSE;
-	count_calculate_value	= 0;
-	calculate_value			= NULL;
-	max_calculate_value		= MAX_ELTS;
 	calculate_value_hash_table = NULL;	
 	count_isotope_ratio		= 0;
 	isotope_ratio			= 0;
@@ -2309,34 +2306,17 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		}
 	}
 	initial_solution_isotopes = pSrc->initial_solution_isotopes;
-	/*
-	count_calculate_value	= 0;
-	calculate_value			= NULL;
-	max_calculate_value		= MAX_ELTS;
-	calculate_value_hash_table = NULL;	
-	*/
-	for (int i = 0; i < pSrc->count_calculate_value; i++)
+
+	for (int i = 0; i < pSrc->calculate_value.size(); i++)
 	{
-		struct calculate_value *calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
-		//memcpy(calculate_value_ptr, pSrc->calculate_value[i], sizeof(struct calculate_value));
+		struct calculate_value* calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
 		calculate_value_ptr->value = pSrc->calculate_value[i]->value;
-		//calculate_value_ptr->commands = NULL;
 		if (pSrc->calculate_value[i]->commands)
 		{
 			calculate_value_ptr->commands = string_duplicate(pSrc->calculate_value[i]->commands);
 		}
-		//calculate_value_ptr->new_def = TRUE;
-		//calculate_value_ptr->calculated = FALSE;
-		//calculate_value_ptr->linebase = NULL;
-		//calculate_value_ptr->varbase = NULL;
-		//calculate_value_ptr->loopbase = NULL;
 	}
-	/*
-	count_isotope_ratio		= 0;
-	isotope_ratio			= 0;
-	max_isotope_ratio		= MAX_ELTS;
-	isotope_ratio_hash_table = 0;	
-	*/
+
 	for (int i = 0; i < pSrc->count_isotope_ratio; i++)
 	{
 		struct isotope_ratio *isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);

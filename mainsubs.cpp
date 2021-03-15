@@ -177,11 +177,7 @@ initialize(void)
 #endif
 
 	/* calculate_value */
-	max_calculate_value = MAX_ELTS;
-	count_calculate_value = 0;
-	space((void **) ((void *) &calculate_value), INIT, &max_calculate_value,
-		  sizeof(struct calculate_value *));
-	hcreate_multi((unsigned) max_calculate_value,
+	hcreate_multi((unsigned) MAX_ELTS,
 				  &calculate_value_hash_table);
 
 	/* isotope_ratio */

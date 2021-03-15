@@ -892,11 +892,7 @@ punch_calculate_values(void)
 
 	if (current_selected_output->Get_calculate_values().size() == 0)
 		return OK;
-	//if (punch.in == FALSE || punch.calculate_values == FALSE)
-	//	return (OK);
-	//if (punch.count_calculate_values == 0)
-	//	return (OK);
-	//for (i = 0; i < punch.count_calculate_values; i++)
+
 	for (size_t i = 0; i < current_selected_output->Get_calculate_values().size(); i++)
 	{
 		result = MISSING;
@@ -1132,7 +1128,7 @@ calculate_values(void)
 	/*
 	 * initialize ratios as missing
 	 */
-	for (j = 0; j < count_calculate_value; j++)
+	for (j = 0; j < calculate_value.size(); j++)
 	{
 		calculate_value[j]->calculated = FALSE;
 		calculate_value[j]->value = MISSING;
@@ -1522,14 +1518,8 @@ calculate_value_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_calculate_value++;
-		/* make sure there is space in s */
-		if (count_calculate_value >= max_calculate_value)
-		{
-			space((void **) ((void *) &calculate_value),
-				  count_calculate_value, &max_calculate_value,
-				  sizeof(struct calculate_value *));
-		}
+		n = (int)calculate_value.size();
+		calculate_value.resize((size_t)n+1);
 		/* Make new calculate_value structure */
 		calculate_value[n] = calculate_value_alloc();
 		calculate_value_ptr = calculate_value[n];

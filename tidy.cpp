@@ -2227,7 +2227,6 @@ tidy_punch(void)
 
 		/* calculate_values */
 
-		//for (i = 0; i < punch.count_calculate_values; i++)
 		for (size_t i = 0; i < current_selected_output->Get_calculate_values().size(); i++)
 		{
 			std::pair< std::string, void *> &pair_ref = current_selected_output->Get_calculate_values()[i];
