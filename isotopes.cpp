@@ -478,7 +478,8 @@ add_isotopes(cxxSolution &solution_ref)
 	/*
 	 * zero out isotopes
 	 */
-	for (i = 0; i < count_master_isotope; i++)
+	//for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		master_isotope[i]->moles = 0;
 	}
@@ -513,7 +514,7 @@ add_isotopes(cxxSolution &solution_ref)
 	 * Set isotopes flag
 	 */
 	initial_solution_isotopes = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == TRUE
 			&& master_isotope[i]->moles > 0)
@@ -662,7 +663,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 	/*
 	 *  Update master_isotope
 	 */
-	for (j = 0; j < count_master_isotope; j++)
+	for (j = 0; j < (int)master_isotope.size(); j++)
 	{
 		for (i = 0; i < count_isotopes; i++)
 		{
@@ -770,12 +771,12 @@ print_initial_solution_isotopes(void)
 	print_centered("Isotopes");
 	output_msg(sformatf( "%10s\t%12s\t%12s\t%12s\t%12s\n\n", "Isotope",
 			   "Molality", "Moles", "Ratio", "Units"));
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 		{
 			print_isotope = FALSE;
-			for (j = 0; j < count_master_isotope; j++)
+			for (j = 0; j < (int)master_isotope.size(); j++)
 			{
 				if ((master_isotope[j]->elt == master_isotope[i]->elt) &&
 					(master_isotope[j]->minor_isotope == TRUE) &&
@@ -794,7 +795,7 @@ print_initial_solution_isotopes(void)
 					   master_isotope[i]->name,
 					   (double) (master_isotope[i]->moles / mass_water_aq_x),
 					   (double) master_isotope[i]->moles));
-			for (j = 0; j < count_master_isotope; j++)
+			for (j = 0; j < (int)master_isotope.size(); j++)
 			{
 				if (i == j)
 					continue;
@@ -991,7 +992,7 @@ print_isotope_ratios(void)
  *   Print heading
  */
 	print_isotope = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 			continue;
@@ -1053,7 +1054,7 @@ print_isotope_alphas(void)
  *   Print heading
  */
 	print_isotope = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 			continue;
@@ -1350,13 +1351,15 @@ master_isotope_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_master_isotope++;
-		/* make sure there is space in s */
-		if (count_master_isotope >= max_master_isotope)
-		{
-			space((void **) ((void *) &master_isotope), count_master_isotope,
-				  &max_master_isotope, sizeof(struct master_isotope *));
-		}
+		//n = count_master_isotope++;
+		///* make sure there is space in s */
+		//if (count_master_isotope >= max_master_isotope)
+		//{
+		//	space((void **) ((void *) &master_isotope), count_master_isotope,
+		//		  &max_master_isotope, sizeof(struct master_isotope *));
+		//}
+		n = (int)master_isotope.size();
+		master_isotope.resize((size_t)n + 1);
 		/* Make new master_isotope structure */
 		master_isotope[n] = master_isotope_alloc();
 		master_isotope_ptr = master_isotope[n];

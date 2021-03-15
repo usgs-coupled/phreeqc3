@@ -98,14 +98,14 @@ initialize(void)
 
 	space((void **) ((void *) &logk), INIT, &max_logk, sizeof(struct logk *));
 
-	space((void **) ((void *) &master_isotope), INIT, &max_master_isotope,
-		  sizeof(struct master_isotope *));
+	//space((void **) ((void *) &master_isotope), INIT, &max_master_isotope,
+	//	  sizeof(struct master_isotope *));
 
 /*
  *   Create hash tables
  */
 	hcreate_multi((unsigned) max_logk, &logk_hash_table);
-	hcreate_multi((unsigned) max_master_isotope, &master_isotope_hash_table);
+	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
 	hcreate_multi((unsigned) max_elements, &elements_hash_table);
 	hcreate_multi((unsigned) max_s, &species_hash_table);
 	hcreate_multi((unsigned) max_phases, &phases_hash_table);
@@ -1379,7 +1379,7 @@ xsolution_save(int n_user)
 	 */
 	if (initial_solution_isotopes == TRUE)
 	{
-		for (int i = 0; i < count_master_isotope; i++)
+		for (int i = 0; i < (int)master_isotope.size(); i++)
 		{
 			if (master_isotope[i]->moles > 0)
 			{
