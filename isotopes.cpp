@@ -1076,7 +1076,7 @@ print_isotope_alphas(void)
 			   "     Isotope Ratio", "Solution alpha", "Solution",
 			   (double) tc_x));
 
-	for (j = 0; j < count_isotope_alpha; j++)
+	for (j = 0; j < (int)isotope_alpha.size(); j++)
 	{
 		if (isotope_alpha[j]->value == MISSING)
 			continue;
@@ -1202,7 +1202,7 @@ calculate_values(void)
 	}
 	if (pr.isotope_alphas == TRUE)
 	{
-		for (j = 0; j < count_isotope_alpha; j++)
+		for (j = 0; j < (int)isotope_alpha.size(); j++)
 		{
 			isotope_alpha_ptr = isotope_alpha[j];
 			calculate_value_ptr = calculate_value_search(isotope_alpha_ptr->name);
@@ -1856,13 +1856,8 @@ isotope_alpha_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_isotope_alpha++;
-		/* make sure there is space in s */
-		if (count_isotope_alpha >= max_isotope_alpha)
-		{
-			space((void **) ((void *) &isotope_alpha), count_isotope_alpha,
-				  &max_isotope_alpha, sizeof(struct isotope_alpha *));
-		}
+		n = (int)isotope_alpha.size();
+		isotope_alpha.resize((size_t)n + 1);
 		/* Make new isotope_alpha structure */
 		isotope_alpha[n] = isotope_alpha_alloc();
 		isotope_alpha_ptr = isotope_alpha[n];

@@ -253,12 +253,11 @@ clean_up(void)
 	isotope_ratio_hash_table = NULL;
 
 	/* isotope_alpha */
-	for (i = 0; i < count_isotope_alpha; i++)
+	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
 		isotope_alpha[i] =
 			(struct isotope_alpha *) free_check_null(isotope_alpha[i]);
 	}
-	isotope_alpha = (struct isotope_alpha **) free_check_null(isotope_alpha);
 	hdestroy_multi(isotope_alpha_hash_table);
 	isotope_alpha_hash_table = NULL;
 
@@ -327,8 +326,6 @@ clean_up(void)
 	llnl_count_bdh = 0;
 	llnl_count_bdot = 0;
 	llnl_count_co2_coefs = 0;
-
-	count_isotope_alpha = 0;
 
 	default_data_base = (char *) free_check_null(default_data_base);
 	sformatf_buffer = (char *) free_check_null(sformatf_buffer);

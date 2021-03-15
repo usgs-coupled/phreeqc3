@@ -180,12 +180,8 @@ initialize(void)
 	/* isotope_ratio */
 	hcreate_multi((unsigned) MAX_ELTS, &isotope_ratio_hash_table);
 
-	/* isotope_value */
-	max_isotope_alpha = MAX_ELTS;
-	count_isotope_alpha = 0;
-	space((void **) ((void *) &isotope_alpha), INIT, &max_isotope_alpha,
-		  sizeof(struct isotope_alpha *));
-	hcreate_multi((unsigned) max_isotope_alpha, &isotope_alpha_hash_table);
+	/* isotope_alpha */
+	hcreate_multi((unsigned) MAX_ELTS, &isotope_alpha_hash_table);
 
 	/*
 	 * define constant named log_k
