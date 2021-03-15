@@ -1011,7 +1011,7 @@ print_isotope_ratios(void)
 	output_msg(sformatf( "%25s\t%12s\t%15s\n\n", "Isotope Ratio",
 			   "Ratio", "Input Units"));
 
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
@@ -1135,7 +1135,7 @@ calculate_values(void)
 	}
 	if (pr.isotope_ratios == TRUE)
 	{
-		for (j = 0; j < count_isotope_ratio; j++)
+		for (j = 0; j < (int)isotope_ratio.size(); j++)
 		{
 			isotope_ratio_ptr = isotope_ratio[j];
 			master_isotope_ptr =
@@ -1699,13 +1699,8 @@ isotope_ratio_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_isotope_ratio++;
-		/* make sure there is space in s */
-		if (count_isotope_ratio >= max_isotope_ratio)
-		{
-			space((void **) ((void *) &isotope_ratio), count_isotope_ratio,
-				  &max_isotope_ratio, sizeof(struct isotope_ratio *));
-		}
+		n = (int)isotope_ratio.size();
+		isotope_ratio.resize((size_t)n + 1);
 		/* Make new isotope_ratio structure */
 		isotope_ratio[n] = isotope_ratio_alloc();
 		isotope_ratio_ptr = isotope_ratio[n];

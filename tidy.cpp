@@ -5543,7 +5543,7 @@ tidy_isotope_ratios(void)
 	struct master_isotope *master_isotope_ptr;
 	struct calculate_value *calculate_value_ptr;
 
-	for (i = 0; i < count_isotope_ratio; i++)
+	for (i = 0; i < (int)isotope_ratio.size(); i++)
 	{
 		/*
 		 * Mark master species list as minor isotope
