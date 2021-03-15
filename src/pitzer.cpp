@@ -65,19 +65,18 @@ pitzer_tidy(void)
 	 */
 	if (spec != NULL)
 		spec = (struct species **) free_check_null(spec);
-	spec =
-		(struct species **)
-		PHRQ_malloc((size_t) (3 * count_s * sizeof(struct species *)));
+	spec = (struct species **)
+		PHRQ_malloc((size_t) (3 * s.size() * sizeof(struct species *)));
 	if (spec == NULL)
 		malloc_error();
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 		spec[i] = NULL;
 	cations = spec;
-	neutrals = &(spec[count_s]);
-	anions = &(spec[2 * count_s]);
-	MAXCATIONS = count_s;
-	FIRSTANION = 2 * count_s;
-	MAXNEUTRAL = count_s;
+	neutrals = &(spec[s.size()]);
+	anions = &(spec[2 * s.size()]);
+	MAXCATIONS = (int)s.size();
+	FIRSTANION = 2 * (int)s.size();
+	MAXNEUTRAL = (int)s.size();
 	count_cations = 0;
 	count_anions = 0;
 	count_neutrals = 0;
@@ -88,22 +87,22 @@ pitzer_tidy(void)
 	 */
 	if (IPRSNT != NULL)
 		IPRSNT = (int *) free_check_null(IPRSNT);
-	IPRSNT = (int *) PHRQ_malloc((size_t) (3 * count_s * sizeof(int)));
+	IPRSNT = (int *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(int)));
 	if (IPRSNT == NULL)
 		malloc_error();
 	if (M != NULL)
 		M = (LDBLE *) free_check_null(M);
-	M = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
+	M = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
 	if (M == NULL)
 		malloc_error();
 	if (LGAMMA != NULL)
 		LGAMMA = (LDBLE *) free_check_null(LGAMMA);
-	LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
+	LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
 	if (LGAMMA == NULL)
 		malloc_error();
 
 
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i] == s_eminus)
 			continue;
@@ -159,9 +158,9 @@ pitzer_tidy(void)
 
 		}
 	}
-	for (i = 2 * count_s; i < 2 * count_s + count_anions - 1; i++)
+	for (i = 2 * (int)s.size(); i < 2 * (int)s.size() + count_anions - 1; i++)
 	{
-		for (j = i + 1; j < 2 * count_s + count_anions; j++)
+		for (j = i + 1; j < 2 * (int)s.size() + count_anions; j++)
 		{
 			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
 			pzp_ptr = pitz_param_read(line, 2);
@@ -574,7 +573,7 @@ ISPEC(const char *name)
  */
 {
 	int i;
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 	{
 		if (spec[i] == NULL)
 			continue;
@@ -923,7 +922,7 @@ pitzer(void)
 	   C     TRANSFER DATA FROM TO M
 	   C
 	 */
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 	{
 		IPRSNT[i] = FALSE;
 		M[i] = 0.0;
@@ -954,7 +953,7 @@ pitzer(void)
 	   C
 	 */
 	PTEMP(TK);
-	for (i = 0; i < 2 * count_s + count_anions; i++)
+	for (i = 0; i < 2 * (int)s.size() + count_anions; i++)
 	{
 		LGAMMA[i] = 0.0;
 		if (IPRSNT[i] == TRUE)
@@ -1155,7 +1154,7 @@ pitzer(void)
 		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
 		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
 	}
-	for (i = 2 * count_s; i < 2 * count_s + count_anions; i++)
+	for (i = 2 * (int)s.size(); i < 2 * (int)s.size() + count_anions; i++)
 	{
 		if (!IPRSNT[i])
 			continue;
@@ -1176,7 +1175,7 @@ pitzer(void)
 		   C     CORRECTED ERROR IN PHIMAC, NOVEMBER, 1989
 		   C
 		 */
-		for (i = 0; i < 2 * count_s + count_anions; i++)
+		for (i = 0; i < 2 * (int)s.size() + count_anions; i++)
 		{
 			if (IPRSNT[i] == TRUE)
 			{
@@ -1198,7 +1197,7 @@ pitzer(void)
 	*/
 	/*s_h2o->la=log10(AW); */
 	mu_x = I;
-	for (i = 0; i < 2 * count_s + count_anions; i++)
+	for (i = 0; i < 2 * (int)s.size() + count_anions; i++)
 	{
 		if (IPRSNT[i] == FALSE)
 			continue;
@@ -2627,12 +2626,12 @@ pitzer_make_lists(void)
 			max = count_cations;
 			break;
 		case 1:
-			min = count_s;
-			max = count_s + count_neutrals;
+			min = (int)s.size();
+			max = (int)s.size() + count_neutrals;
 			break;
 		case 2:
-			min = 2*count_s;
-			max = 2*count_s + count_anions;
+			min = 2* (int)s.size();
+			max = 2* (int)s.size() + count_anions;
 			break;
 		}
 		for (int i = min; i < max; i++)
@@ -2647,19 +2646,19 @@ pitzer_make_lists(void)
 					continue;	
 				IPRSNT[i] = TRUE;	
 				s_list.push_back(i);	
-				if (i < count_s)
+				if (i < (int)s.size())
 				{
 					cation_list.push_back(i);
 				}
-				if (i >= count_s && i < 2*count_s)
+				if (i >= (int)s.size() && i < 2* (int)s.size())
 				{
 					neutral_list.push_back(i);
 				}
-				if (i >= 2*count_s)
+				if (i >= 2* (int)s.size())
 				{
 					anion_list.push_back(i);
 				}
-				if (i < count_s || i >= 2*count_s)
+				if (i < (int)s.size() || i >= 2* (int)s.size())
 				{
 					ion_list.push_back(i);
 				}

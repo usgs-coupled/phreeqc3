@@ -326,7 +326,7 @@ xsolution_zero(void)
 	}
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (i = 0; i < count_s; i++)
+		for (i = 0; i < (int)s.size(); i++)
 		{
 			s[i]->lg = 0.0;
 		}

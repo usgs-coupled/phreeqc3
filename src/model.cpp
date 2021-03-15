@@ -5028,7 +5028,7 @@ surface_model(void)
 	if (dl_type_x != cxxSurface::NO_DL && same_model == FALSE)
 	{
 		s_diff_layer.clear();
-		for (i = 0; i < count_s; i++)
+		for (i = 0; i < (int)s.size(); i++)
 		{
 			std::map < std::string, cxxSpeciesDL > dl;
 			s_diff_layer.push_back(dl);

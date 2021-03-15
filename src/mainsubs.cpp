@@ -88,8 +88,6 @@ initialize(void)
 	space((void **) ((void *) &trxn.token), INIT, &max_trxn,
 		  sizeof(struct rxn_token_temp));
 
-	space((void **) ((void *) &s), INIT, &max_s, sizeof(struct species *));
-
 	space((void **) ((void *) &logk), INIT, &max_logk, sizeof(struct logk *));
 
 /*
@@ -98,7 +96,7 @@ initialize(void)
 	hcreate_multi((unsigned) max_logk, &logk_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &elements_hash_table);
-	hcreate_multi((unsigned) max_s, &species_hash_table);
+	hcreate_multi((unsigned) MAX_S, &species_hash_table);
 	hcreate_multi((unsigned) MAX_PHASES, &phases_hash_table);
 	// one save_values
 	save_values =
