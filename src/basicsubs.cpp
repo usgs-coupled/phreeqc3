@@ -267,7 +267,7 @@ calc_SC(void)
 
 	return (SC);
 //# endif
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 		  continue;
@@ -305,7 +305,7 @@ calc_SC(void)
 
 	SC = 0;
 	//LDBLE ta1, ta2, ta3, ta4;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		// ** for optimizing, get numbers from -analyt for H+ = H+...
 		//if (!strcmp(s_x[i]->name, "H+"))
@@ -318,7 +318,7 @@ calc_SC(void)
 		//}
 		//
 	}
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 			continue;
@@ -378,7 +378,7 @@ calc_SC(void)
 
 	m_plus = m_min = eq_plus = eq_min = eq_dw_plus = eq_dw_min = Sum_m_dw = z_plus = z_min = 0;
 	SC = 0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 			continue;
@@ -418,7 +418,7 @@ calc_SC(void)
 	B2 = t1 * AVOGADRO / t2 * DH_B * 1e17;  // DH_B per Angstrom (*1e10), viscos in mPa.s (*1e3), B2 in cm2 (*1e4)
 
 	Dw_SC = viscos_0_25 / t2 * 1e4 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298160.0);
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 			continue;
@@ -520,7 +520,7 @@ calc_dens(void)
 
 	/* 2nd option, use species_x, vm = 0 for complexes with undefined volume... */
 	V_solutes = M_T = 0.0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 		  continue;
@@ -821,7 +821,7 @@ calc_surface_charge(const char *surface_name)
 	 *   Go through species, sum charge
 	 */
 	charge = 0;
-	for (k = 0; k < count_s_x; k++)
+	for (k = 0; k < (int)this->s_x.size(); k++)
 	{
 		if (s_x[k]->type != SURF)
 			continue;
@@ -1106,7 +1106,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 		mass_water_surface = surface_charge_ptr1->Get_mass_water();
 		count_elts = 0;
 		paren_count = 0;
-		for (j = 0; j < count_s_x; j++)
+		for (j = 0; j < (int)this->s_x.size(); j++)
 		{
 			if (s_x[j]->type > HPLUS)
 				continue;
@@ -1838,7 +1838,7 @@ sum_match_species(const char *mytemplate, const char *name)
 	if (sum_species_map.find(mytemplate) == sum_species_map.end())
 	{
 		std::vector<std::string> species_list;
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int)this->s_x.size(); i++)
 		{
 			struct species *s_ptr = s_x[i];
 			if (match_elts_in_species(s_ptr->name, mytemplate) == TRUE)
@@ -2260,7 +2260,7 @@ surf_total(const char *total_name, const char *surface_name)
  *   find total moles for redox state
  */
 	LDBLE t = 0;
-	for (j = 0; j < count_s_x; j++)
+	for (j = 0; j < (int)this->s_x.size(); j++)
 	{
 		if (s_x[j]->type != SURF)
 			continue;
@@ -2397,7 +2397,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
  */
 	count_elts = 0;
 	paren_count = 0;
-	for (j = 0; j < count_s_x; j++)
+	for (j = 0; j < (int)this->s_x.size(); j++)
 	{
 		if (s_x[j]->type != SURF)
 			continue;
@@ -2587,7 +2587,7 @@ get_edl_species(cxxSurfaceCharge & charge_ref)
 
 	double mass_water_surface = charge_ref.Get_mass_water();
 	sys.clear();
-	for (int j = 0; j < count_s_x; j++)
+	for (int j = 0; j < (int)this->s_x.size(); j++)
 	{
 		if (s_x[j]->type == H2O)
 		{
@@ -3069,7 +3069,7 @@ system_total_aq(void)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		//if (s_x[i]->type != AQ)
 		if (s_x[i]->type > HPLUS)
@@ -3096,7 +3096,7 @@ system_total_ex(void)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != EX)
 			continue;
@@ -3124,7 +3124,7 @@ system_total_surf(void)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != SURF)
 			continue;
@@ -3264,7 +3264,7 @@ system_total_elt(const char *total_name)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		count_elts = 0;
 		paren_count = 0;
@@ -3342,7 +3342,7 @@ system_total_elt(const char *total_name)
 			mass_water_surface = charge_ptr->Get_mass_water();
 			count_elts = 0;
 			paren_count = 0;
-			for (j = 0; j < count_s_x; j++)
+			for (j = 0; j < (int)this->s_x.size(); j++)
 			{
 				if (s_x[j]->type > HPLUS)
 					continue;
@@ -3530,7 +3530,7 @@ system_total_elt_secondary(const char *total_name)
 /*
  *   find total moles in aq, surface, and exchange
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		count_elts = 0;
 		paren_count = 0;
@@ -3608,7 +3608,7 @@ system_total_elt_secondary(const char *total_name)
 			 */
 			mass_water_surface = charge_ptr->Get_mass_water();
 			sum = 0;
-			for (j = 0; j < count_s_x; j++)
+			for (j = 0; j < (int)this->s_x.size(); j++)
 			{
 				count_elts = 0;
 				paren_count = 0;
@@ -3835,7 +3835,7 @@ solution_sum_secondary(const char *total_name)
  *   find total moles in aq, surface, and exchange
  */
 	sum = 0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type > H2O)
 			continue;

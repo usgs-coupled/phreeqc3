@@ -5891,7 +5891,7 @@ viscosity(void)
 
 	tc = (tc_x > 200) ? 200 : tc_x;
 
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type > HPLUS)
 			continue;

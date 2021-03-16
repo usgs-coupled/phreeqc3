@@ -1425,7 +1425,7 @@ xsolution_save(int n_user)
 	}
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (int j = 0; j < count_s_x; j++)
+		for (int j = 0; j < (int)this->s_x.size(); j++)
 		{
 			if (s_x[j]->lg != 0.0)
 			{
@@ -1464,7 +1464,7 @@ xsolution_save(int n_user)
    {
 	   // saves mol/L
 	   temp_solution.Get_species_map().clear();
-	   for (int i = 0; i < this->count_s_x; i++)
+	   for (int i = 0; i < (int)this->s_x.size(); i++)
 	   {
 		   if (s_x[i]->type <= H2O)
 		   {
@@ -1473,7 +1473,7 @@ xsolution_save(int n_user)
 	   }	 
 	   // saves gamma
 	   temp_solution.Get_log_gamma_map().clear();
-	   for (int i = 0; i < this->count_s_x; i++)
+	   for (int i = 0; i < (int)this->s_x.size(); i++)
 	   {
 		   if (s_x[i]->type <= H2O)
 		   {
@@ -1618,7 +1618,7 @@ xsurface_save(int n_user)
 		{
 			cxxSurfaceCharge & charge_ref = surface_ptr->Get_surface_charges()[i];
 			double mass_water_surface = charge_ref.Get_mass_water();
-			for (int j = 0; j < count_s_x; j++)
+			for (int j = 0; j < (int)this->s_x.size(); j++)
 			{
 				if (s_x[j]->type > H2O)
 					continue;
