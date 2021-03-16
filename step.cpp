@@ -1028,8 +1028,8 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
  */
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t) count_elts,
+			  sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 /*

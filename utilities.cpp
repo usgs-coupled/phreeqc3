@@ -19,10 +19,9 @@ add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)
 	for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
 		 elt_list_ptr1++)
 	{
-		if (count_elts >= max_elts)
+		if (count_elts >= (int)elt_list.size())
 		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
+			elt_list.resize((size_t)count_elts + 1);
 		}
 		elt_list[count_elts].elt = elt_list_ptr1->elt;
 		elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
@@ -65,10 +64,9 @@ add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct elemen
 		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
 			elt_list_ptr1++)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			if (elt_list_ptr1->elt == surf_elt_ptr)
 			{
@@ -93,10 +91,9 @@ add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct elemen
 		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
 			elt_list_ptr1++)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			if (elt_list_ptr1->elt == surf_elt_ptr)
 			{
@@ -115,10 +112,9 @@ add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 	cxxNameDouble::const_iterator cit = nd.begin();
 	for ( ; cit != nd.end(); cit++)
 	{
-		if (count_elts >= max_elts)
+		if (count_elts >= (int)elt_list.size())
 		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
+			elt_list.resize((size_t)count_elts + 1);
 		}
 		elt_list[count_elts].elt = element_store(cit->first.c_str());
 		elt_list[count_elts].coef = cit->second * coef;

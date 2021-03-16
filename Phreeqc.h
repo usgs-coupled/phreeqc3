@@ -1463,11 +1463,8 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */
-
-	struct elt_list *elt_list;	/* structure array of working space while reading equations
-								names are in "strings", initially in input order */
+	std::vector<elt_list> elt_list;
 	int count_elts;		/* number of elements in elt_list = position of next */
-	int max_elts;
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */

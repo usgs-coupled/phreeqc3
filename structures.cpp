@@ -292,7 +292,8 @@ clean_up(void)
 
 /* miscellaneous work space */
 
-	elt_list = (struct elt_list *) free_check_null(elt_list);
+	//elt_list = (struct elt_list *) free_check_null(elt_list);
+	elt_list.clear();
 	trxn.token = (struct rxn_token_temp *) free_check_null(trxn.token);
 	mb_unknowns = (struct unknown_list *) free_check_null(mb_unknowns);
 	line = (char *) free_check_null(line);
@@ -586,8 +587,8 @@ elt_list_save(void)
  */
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 /*

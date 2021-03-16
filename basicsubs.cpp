@@ -1124,8 +1124,8 @@ diff_layer_total(const char *total_name, const char *surface_name)
 		}
 		if (count_elts > 0)
 		{
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), Phreeqc:: elt_list_compare);
+			qsort(elt_list.data(), (size_t) count_elts,
+				  sizeof(struct elt_list), Phreeqc:: elt_list_compare);
 			elt_list_combine();
 		}
 /*
@@ -2422,8 +2422,8 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 	}
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 /*
@@ -2838,8 +2838,8 @@ kinetics_formula(std::string kin_name, cxxNameDouble &stoichiometry)
 				//elt_list[count_elts].elt = NULL;
 				if (count_elts > 0)
 				{
-					qsort(elt_list, (size_t) count_elts,
-						(size_t) sizeof(struct elt_list), elt_list_compare);
+					qsort(elt_list.data(), (size_t)count_elts,
+						sizeof(struct elt_list), elt_list_compare);
 					elt_list_combine();
 				}
 				stoichiometry = elt_list_NameDouble();
@@ -3272,8 +3272,8 @@ system_total_elt(const char *total_name)
 
 		if (count_elts > 0)
 		{
-			qsort(elt_list, (size_t) count_elts,
-				(size_t) sizeof(struct elt_list), elt_list_compare);
+			qsort(elt_list.data(), (size_t)count_elts,
+				sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
 		}
 		/*
@@ -3360,8 +3360,8 @@ system_total_elt(const char *total_name)
 			}
 			if (count_elts > 0)
 			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				qsort(elt_list.data(), (size_t)count_elts,
+					sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 			}
 			/*
@@ -3407,8 +3407,8 @@ system_total_elt(const char *total_name)
 			add_elt_list(phase_ptr->next_elt, x[i]->moles);
 			if (count_elts > 0)
 			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				qsort(elt_list.data(), (size_t)count_elts,
+					sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 			}
 			for (j = 0; j < count_elts; j++)
@@ -3448,9 +3448,8 @@ system_total_elt(const char *total_name)
 								 comp_ptr->Get_moles());
 					if (count_elts > 0)
 					{
-						qsort(elt_list, (size_t) count_elts,
-							  (size_t) sizeof(struct elt_list),
-							  elt_list_compare);
+						qsort(elt_list.data(), (size_t)count_elts,
+							sizeof(struct elt_list), elt_list_compare);
 						elt_list_combine();
 					}
 					for (j = 0; j < count_elts; j++)
@@ -3489,8 +3488,8 @@ system_total_elt(const char *total_name)
 				add_elt_list(phase_ptr->next_elt, phase_ptr->moles_x);
 				if (count_elts > 0)
 				{
-					qsort(elt_list, (size_t) count_elts,
-						  (size_t) sizeof(struct elt_list), elt_list_compare);
+					qsort(elt_list.data(), (size_t)count_elts,
+						sizeof(struct elt_list), elt_list_compare);
 					elt_list_combine();
 				}
 				/*
@@ -3544,8 +3543,8 @@ system_total_elt_secondary(const char *total_name)
 		}
 		if (count_elts > 0)
 		{
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
+			qsort(elt_list.data(), (size_t)count_elts,
+				sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
 		}
 		/*
@@ -3674,8 +3673,8 @@ system_total_elt_secondary(const char *total_name)
 			add_elt_list(phase_ptr->next_sys_total,	 x[i]->moles);
 			if (count_elts > 0)
 			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				qsort(elt_list.data(), (size_t)count_elts,
+					sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 			}
 			for (j = 0; j < count_elts; j++)
@@ -3716,9 +3715,8 @@ system_total_elt_secondary(const char *total_name)
 								 comp_ptr->Get_moles());
 					if (count_elts > 0)
 					{
-						qsort(elt_list, (size_t) count_elts,
-							  (size_t) sizeof(struct elt_list),
-							  elt_list_compare);
+						qsort(elt_list.data(), (size_t)count_elts,
+							sizeof(struct elt_list), elt_list_compare);
 						elt_list_combine();
 					}
 					for (j = 0; j < count_elts; j++)
@@ -3759,8 +3757,8 @@ system_total_elt_secondary(const char *total_name)
 
 				if (count_elts > 0)
 				{
-					qsort(elt_list, (size_t) count_elts,
-						  (size_t) sizeof(struct elt_list), elt_list_compare);
+					qsort(elt_list.data(), (size_t)count_elts,
+						sizeof(struct elt_list), elt_list_compare);
 					elt_list_combine();
 				}
 				/*
@@ -3851,8 +3849,8 @@ solution_sum_secondary(const char *total_name)
 		}
 		if (count_elts > 0)
 		{
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
+			qsort(elt_list.data(), (size_t)count_elts,
+				sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
 		}
 		/*
@@ -3968,8 +3966,8 @@ system_total_solids(cxxExchange *exchange_ptr,
 
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 	return (OK);
