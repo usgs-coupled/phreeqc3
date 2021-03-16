@@ -1314,9 +1314,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
-	int count_species_list;
-	int max_species_list;
-	struct species_list *species_list;
+	std::vector<struct species_list> species_list;
 
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists

@@ -1140,7 +1140,7 @@ xexchange_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (j = 0; j < count_species_list; j++)
+			for (j = 0; j < (int)species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{
@@ -1530,7 +1530,7 @@ xsurface_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (int j = 0; j < count_species_list; j++)
+			for (int j = 0; j < (int)species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{
