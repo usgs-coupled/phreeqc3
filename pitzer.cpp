@@ -17,11 +17,7 @@ pitzer_init(void)
 	pitzer_model = FALSE;
 	use_etheta = TRUE;
 	pitz_params.clear();
-
-	max_theta_param = 100;
-	count_theta_param = 0;
-	space((void **) ((void *) &theta_params), INIT, &max_theta_param,
-		  sizeof(struct theta_param *));
+	theta_params.clear();
 
 	ICON = TRUE;
 	OTEMP = -100.;
@@ -319,15 +315,11 @@ pitzer_tidy(void)
 	 *   Add thetas pointer to etheta pitzer parameters
 	 */
 
-	if (count_theta_param > 0)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
-		for (i = 0; i < count_theta_param; i++)
-		{
-			theta_params[i] =
-				(struct theta_param *) free_check_null(theta_params[i]);
-		}
+		theta_params[i] = (struct theta_param *) free_check_null(theta_params[i]);
 	}
-	count_theta_param = 0;
+	theta_params.clear();
 	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if (pitz_params[i]->type == TYPE_ETHETA)
@@ -337,18 +329,13 @@ pitzer_tidy(void)
 			theta_param_ptr = theta_param_search(z0, z1);
 			if (theta_param_ptr == NULL)
 			{
-				if (count_theta_param >= max_theta_param)
-				{
-					space((void **) ((void *) &theta_params),
-						  count_theta_param, &max_theta_param,
-						  sizeof(struct theta_param *));
-				}
+				size_t count_theta_param = theta_params.size();
+				theta_params.resize(count_theta_param + 1);
 				theta_params[count_theta_param] = theta_param_alloc();
 				theta_param_init(theta_params[count_theta_param]);
 				theta_params[count_theta_param]->zj = z0;
 				theta_params[count_theta_param]->zk = z1;
 				theta_param_ptr = theta_params[count_theta_param];
-				count_theta_param++;
 			}
 			pitz_params[i]->thetas = theta_param_ptr;
 		}
@@ -997,7 +984,7 @@ pitzer(void)
 	/*
 	 *  Calculate ethetas
 	 */
-	for (i = 0; i < count_theta_param; i++)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
 		z0 = theta_params[i]->zj;
 		z1 = theta_params[i]->zk;
@@ -1321,7 +1308,7 @@ pitzer(void)
 	 */
 	if (use_etheta == TRUE)
 	{
-		for (i = 0; i < count_theta_param; i++)
+		for (i = 0; i < (int)theta_params.size(); i++)
 		{
 			z0 = theta_params[i]->zj;
 			z1 = theta_params[i]->zk;
@@ -1667,13 +1654,12 @@ pitzer_clean_up(void)
 	}
 	pitz_param_map.clear();
 	pitz_params.clear();
-	for (i = 0; i < count_theta_param; i++)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
 		theta_params[i] =
 			(struct theta_param *) free_check_null(theta_params[i]);
 	}
-	count_theta_param = 0;
-	theta_params = (struct theta_param **) free_check_null(theta_params);
+	theta_params.clear();
 	LGAMMA = (LDBLE *) free_check_null(LGAMMA);
 	IPRSNT = (int *) free_check_null(IPRSNT);
 	spec = (struct species **) free_check_null(spec);

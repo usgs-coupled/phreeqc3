@@ -1162,9 +1162,6 @@ void Phreeqc::init(void)
 	VP                      = 0;
 	DW0                     = 0;
 	// auto pitz_param_map
-	theta_params			= 0;
-	count_theta_param		= 0;
-	max_theta_param			= 100;
 	use_etheta				= TRUE;
 	OTEMP					= -100.;
 	OPRESS					= -100.;
@@ -2284,24 +2281,12 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	}
 	pitz_param_map          = pSrc->pitz_param_map;
 	// auto pitz_param_map
-	/*
-	theta_params			= 0;
-	count_theta_param		= 0;
-	max_theta_param			= 100;
-	use_etheta				= TRUE;
-	*/
-	count_theta_param       = pSrc->count_theta_param;
-	max_theta_param         = count_theta_param;
-	space((void **)((void *)&theta_params), count_theta_param, &max_theta_param,
-		sizeof(struct theta_param *));
-	if (pSrc->theta_params != NULL)
+	for (int i = 0; i < (int)pSrc->theta_params.size(); i++)
 	{
-		//theta_params = (struct theta_param **) malloc((size_t)count_theta_param * sizeof(struct theta_param *));
-		for (int i = 0; i < count_theta_param; i++)
-		{
-			theta_params[i] = theta_param_alloc();
-			memcpy(theta_params[i], pSrc->theta_params[i], sizeof(struct theta_param));
-		}
+		size_t count_theta_params = theta_params.size();
+		theta_params.resize(count_theta_params + 1);
+		theta_params[count_theta_params] = theta_param_alloc();
+		memcpy(theta_params[count_theta_params], pSrc->theta_params[i], sizeof(struct theta_param));
 	}
 	use_etheta              = pSrc->use_etheta;
 	/*
