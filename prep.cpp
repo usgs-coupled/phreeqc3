@@ -1136,39 +1136,12 @@ build_model(void)
 	sum_species_map_db.clear();
 	sum_species_map.clear();
 	s_x.clear();
-
-	//max_sum_mb1 = MAX_SUM_MB;
-	//count_sum_mb1 = 0;
-	//space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
-	//	  sizeof(struct list1));
 	sum_mb1.clear();
-
-	//max_sum_mb2 = MAX_SUM_MB;
-	//count_sum_mb2 = 0;
-	//space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
-	//	  sizeof(struct list2
 	sum_mb2.clear();
-
-	max_sum_jacob0 = MAX_SUM_JACOB0;
-	count_sum_jacob0 = 0;
-	space((void **) ((void *) &sum_jacob0), INIT, &max_sum_jacob0,
-		  sizeof(struct list0));
-
-	max_sum_jacob1 = MAX_SUM_JACOB1;
-	count_sum_jacob1 = 0;
-	space((void **) ((void *) &sum_jacob1), INIT, &max_sum_jacob1,
-		  sizeof(struct list1));
-
-	max_sum_jacob2 = MAX_SUM_JACOB2;
-	count_sum_jacob2 = 0;
-	space((void **) ((void *) &sum_jacob2), INIT, &max_sum_jacob2,
-		  sizeof(struct list2));
-
-
-	max_sum_delta = MAX_SUM_JACOB0;
-	count_sum_delta = 0;
-	space((void **) ((void *) &sum_delta), INIT, &max_sum_delta,
-		  sizeof(struct list2));
+	sum_jacob0.clear();
+	sum_jacob1.clear();
+	sum_jacob2.clear();
+	sum_delta.clear();
 
 	max_species_list = 5 * MAX_S;
 	count_species_list = 0;
@@ -2642,10 +2615,10 @@ reprep(void)
 	s_x.clear();
 	sum_mb1.clear();
 	sum_mb2.clear();
-	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	sum_delta = (struct list2 *) free_check_null(sum_delta);
+	sum_jacob0.clear();
+	sum_jacob1.clear();
+	sum_jacob2.clear();
+	sum_delta.clear(); 
 /*
  *   Build model again
  */
@@ -4913,34 +4886,26 @@ store_jacob(LDBLE * source, LDBLE * target, LDBLE coef)
  */
 	if (equal(coef, 1.0, TOL) == TRUE)
 	{
+		size_t count_sum_jacob1 = sum_jacob1.size();
+		sum_jacob1.resize(count_sum_jacob1 + 1);
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\tjacob1 %d\n", count_sum_jacob1));
+			output_msg(sformatf( "\tjacob1 %d\n", (int)count_sum_jacob1));
 		}
 		sum_jacob1[count_sum_jacob1].source = source;
-		sum_jacob1[count_sum_jacob1++].target = target;
-		/*    Check space */
-		if (count_sum_jacob1 >= max_sum_jacob1)
-		{
-			space((void **) ((void *) &sum_jacob1), count_sum_jacob1,
-				  &max_sum_jacob1, sizeof(struct list1));
-		}
+		sum_jacob1[count_sum_jacob1].target = target;
 	}
 	else
 	{
+		size_t count_sum_jacob2 = sum_jacob2.size();
+		sum_jacob2.resize(count_sum_jacob2 + 1);
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\tjacob2 %d\n", count_sum_jacob2));
+			output_msg(sformatf("\tjacob2 %d\n", count_sum_jacob2));
 		}
 		sum_jacob2[count_sum_jacob2].source = source;
 		sum_jacob2[count_sum_jacob2].target = target;
-		sum_jacob2[count_sum_jacob2++].coef = coef;
-		/*    Check space */
-		if (count_sum_jacob2 >= max_sum_jacob2)
-		{
-			space((void **) ((void *) &sum_jacob2), count_sum_jacob2,
-				  &max_sum_jacob2, sizeof(struct list2));
-		}
+		sum_jacob2[count_sum_jacob2].coef = coef;
 	}
 	return (OK);
 }
@@ -4953,15 +4918,11 @@ store_jacob0(int row, int column, LDBLE coef)
 /*
  *   Stores in list a constant coef which will be added into jacobian array
  */
+	size_t count_sum_jacob0 = sum_jacob0.size();
+	sum_jacob0.resize(count_sum_jacob0 + 1);
 	sum_jacob0[count_sum_jacob0].target =
-		&(my_array[row * (count_unknowns + 1) + column]);
-	sum_jacob0[count_sum_jacob0++].coef = coef;
-	/*    Check space */
-	if (count_sum_jacob0 >= max_sum_jacob0)
-	{
-		space((void **) ((void *) &sum_jacob0), count_sum_jacob0,
-			  &max_sum_jacob0, sizeof(struct list0));
-	}
+		&(my_array[(size_t)row * ((size_t)count_unknowns + 1) + (size_t)column]);
+	sum_jacob0[count_sum_jacob0].coef = coef;
 	return (OK);
 }
 
@@ -5004,15 +4965,11 @@ store_sum_deltas(LDBLE * source, LDBLE * target, LDBLE coef)
  *   in x[i]->delta. These may be multiplied by a factor under some
  *   situations where the entire calculated step is not taken
  */
+	size_t count_sum_delta = sum_delta.size();
+	sum_delta.resize(count_sum_delta + 1);
 	sum_delta[count_sum_delta].source = source;
 	sum_delta[count_sum_delta].target = target;
-	sum_delta[count_sum_delta++].coef = coef;
-	/*    Check space */
-	if (count_sum_delta >= max_sum_delta)
-	{
-		space((void **) ((void *) &sum_delta), count_sum_delta,
-			  &max_sum_delta, sizeof(struct list2));
-	}
+	sum_delta[count_sum_delta].coef = coef;
 	return (OK);
 }
 

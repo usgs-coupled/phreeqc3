@@ -1951,21 +1951,21 @@ jacobian_sums(void)
 /*
  *   Add constant terms
  */
-	for (k = 0; k < count_sum_jacob0; k++)
+	for (k = 0; k < (int)sum_jacob0.size(); k++)
 	{
 		*sum_jacob0[k].target += sum_jacob0[k].coef;
 	}
 /*
  *   Add terms with coefficients of 1.0
  */
-	for (k = 0; k < count_sum_jacob1; k++)
+	for (k = 0; k < (int)sum_jacob1.size(); k++)
 	{
 		*sum_jacob1[k].target += *sum_jacob1[k].source;
 	}
 /*
  *   Add terms with coefficients != 1.0
  */
-	for (k = 0; k < count_sum_jacob2; k++)
+	for (k = 0; k < (int)sum_jacob2.size(); k++)
 	{
 		*sum_jacob2[k].target += *sum_jacob2[k].source * sum_jacob2[k].coef;
 	}
@@ -2135,7 +2135,6 @@ mb_sums(void)
 	for (k = 0; k < (int)sum_mb1.size(); k++)
 	{
 		*sum_mb1[k].target += *sum_mb1[k].source;
-/*		{ k += 1; k -= 1;} */
 	}
 /*
  *   Add terms with coefficients != 1.0
@@ -2143,7 +2142,6 @@ mb_sums(void)
 	for (k = 0; k < (int)sum_mb2.size(); k++)
 	{
 		*sum_mb2[k].target += *sum_mb2[k].source * sum_mb2[k].coef;
-/*		{ k += 1; k -= 1;} */
 	}
 	return (OK);
 }
@@ -3155,7 +3153,7 @@ reset(void)
 			x[i]->delta = 0.0;
 		}
 
-		for (i = 0; i < count_sum_delta; i++)
+		for (i = 0; i < (int)sum_delta.size(); i++)
 		{
 			*sum_delta[i].target += *sum_delta[i].source * sum_delta[i].coef;
 		}
@@ -5180,14 +5178,10 @@ free_model_allocs(void)
 	s_x.clear();
 	sum_mb1.clear();
 	sum_mb2.clear();
-	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	count_sum_jacob0 = 0;
-	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	count_sum_jacob1 = 0;
-	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	count_sum_jacob2 = 0;
-	sum_delta = (struct list2 *) free_check_null(sum_delta);
-	count_sum_delta = 0;
+	sum_jacob0.clear();
+	sum_jacob1.clear();
+	sum_jacob2.clear();
+	sum_delta.clear();
 	return (OK);
 }
 
