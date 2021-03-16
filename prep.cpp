@@ -1081,18 +1081,18 @@ build_mb_sums(void)
 /*
  *   Make space for lists
  */
-	if (count_sum_mb1 + count_mb_unknowns >= max_sum_mb1)
-	{
-		space((void **) ((void *) &sum_mb1),
-			  count_sum_mb1 + count_mb_unknowns, &max_sum_mb1,
-			  sizeof(struct list1));
-	}
-	if (count_sum_mb2 + count_mb_unknowns >= max_sum_mb2)
-	{
-		space((void **) ((void *) &sum_mb2),
-			  count_sum_mb2 + count_mb_unknowns, &max_sum_mb2,
-			  sizeof(struct list2));
-	}
+	//if (count_sum_mb1 + count_mb_unknowns >= max_sum_mb1)
+	//{
+	//	space((void **) ((void *) &sum_mb1),
+	//		  count_sum_mb1 + count_mb_unknowns, &max_sum_mb1,
+	//		  sizeof(struct list1));
+	//}
+	//if (count_sum_mb2 + count_mb_unknowns >= max_sum_mb2)
+	//{
+	//	space((void **) ((void *) &sum_mb2),
+	//		  count_sum_mb2 + count_mb_unknowns, &max_sum_mb2,
+	//		  sizeof(struct list2));
+	//}
 
 	if (debug_prep == TRUE)
 	{
@@ -1137,15 +1137,17 @@ build_model(void)
 	sum_species_map.clear();
 	s_x.clear();
 
-	max_sum_mb1 = MAX_SUM_MB;
-	count_sum_mb1 = 0;
-	space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
-		  sizeof(struct list1));
+	//max_sum_mb1 = MAX_SUM_MB;
+	//count_sum_mb1 = 0;
+	//space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
+	//	  sizeof(struct list1));
+	sum_mb1.clear();
 
-	max_sum_mb2 = MAX_SUM_MB;
-	count_sum_mb2 = 0;
-	space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
-		  sizeof(struct list2));
+	//max_sum_mb2 = MAX_SUM_MB;
+	//count_sum_mb2 = 0;
+	//space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
+	//	  sizeof(struct list2
+	sum_mb2.clear();
 
 	max_sum_jacob0 = MAX_SUM_JACOB0;
 	count_sum_jacob0 = 0;
@@ -2637,10 +2639,9 @@ reprep(void)
 /*
  *   Free arrays built in build_model
  */
-	//s_x = (struct species **) free_check_null(s_x);
 	s_x.clear();
-	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
+	sum_mb1.clear();
+	sum_mb2.clear();
 	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
 	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
 	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
@@ -4976,25 +4977,18 @@ store_mb(LDBLE * source, LDBLE * target, LDBLE coef)
  */
 	if (equal(coef, 1.0, TOL) == TRUE)
 	{
+		size_t count_sum_mb1 = sum_mb1.size();
+		sum_mb1.resize(count_sum_mb1 + 1);
 		sum_mb1[count_sum_mb1].source = source;
-		sum_mb1[count_sum_mb1++].target = target;
-		if (count_sum_mb1 >= max_sum_mb1)
-		{
-			space((void **) ((void *) &sum_mb1),
-				  count_sum_mb1 + count_trxn + 4, &max_sum_mb1,
-				  sizeof(struct list1));
-		}
+		sum_mb1[count_sum_mb1].target = target;
 	}
 	else
 	{
+		size_t count_sum_mb2 = sum_mb2.size();
+		sum_mb2.resize(count_sum_mb2 + 1);
 		sum_mb2[count_sum_mb2].source = source;
 		sum_mb2[count_sum_mb2].coef = coef;
-		sum_mb2[count_sum_mb2++].target = target;
-		if (count_sum_mb2 >= max_sum_mb2)
-		{
-			space((void **) ((void *) &sum_mb2), count_sum_mb2,
-				  &max_sum_mb2, sizeof(struct list2));
-		}
+		sum_mb2[count_sum_mb2].target = target;
 	}
 	return (OK);
 }

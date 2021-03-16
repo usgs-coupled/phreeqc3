@@ -1326,18 +1326,15 @@ protected:
 	int max_sum_jacob0;	/* calculated maximum number of elements in sum_jacob0 */
 	struct list0 *sum_jacob0;	/* array of pointers to targets and coefficients for array */
 
-	int count_sum_mb1;		/* number of elements in sum_mb1 */
-	int max_sum_mb1;		/* calculated maximum number of elements in sum_mb1 */
-	struct list1 *sum_mb1;	/* array of pointers to sources and targets for mass
-							balance summations with coef = 1.0 */
+	std::vector<struct list1> sum_mb1; /* array of pointers to sources and targets for mass
+										balance summations with coef = 1.0 */
 	int count_sum_jacob1;	/* number of elements in sum_jacob1 */
 	int max_sum_jacob1;	/* calculated maximum number of elements in sum_jacob1 */
 	struct list1 *sum_jacob1;	/* array of pointers to sources and targets for array
 								equations with coef = 1.0 */
-	int count_sum_mb2;		/* number of elements in sum_mb2 */
-	int max_sum_mb2;		/* calculated maximum number of elements in sum_mb2 */
-	struct list2 *sum_mb2;	/* array of coefficients and pointers to sources and
-							targets for mass balance summations with coef != 1.0 */
+
+	std::vector<struct list2> sum_mb2; /* array of coefficients and pointers to sources and
+	   								   targets for mass balance summations with coef != 1.0 */
 	int count_sum_jacob2;	/* number of elements in sum_jacob2 */
 	int max_sum_jacob2;	/* calculated maximum number of elements in sum_jacob2 */
 	struct list2 *sum_jacob2;	/* array of coefficients and pointers to sources and
