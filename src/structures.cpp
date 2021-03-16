@@ -291,10 +291,8 @@ clean_up(void)
 	change_surf = (struct Change_Surf *) free_check_null(change_surf);
 
 /* miscellaneous work space */
-
-	//elt_list = (struct elt_list *) free_check_null(elt_list);
 	elt_list.clear();
-	trxn.token = (struct rxn_token_temp *) free_check_null(trxn.token);
+	trxn.token.clear();
 	mb_unknowns = (struct unknown_list *) free_check_null(mb_unknowns);
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
@@ -2620,11 +2618,8 @@ trxn_add(cxxChemRxn &r_ptr, LDBLE coef, int combine)
  */
 	for (size_t j = 0; j < r_ptr.Get_tokens().size(); j++)
 	{
-		if (count_trxn + 1 >= max_trxn)
-		{
-			space((void **) ((void *) &(trxn.token)), count_trxn + 1,
-				  &max_trxn, sizeof(struct rxn_token_temp));
-		}
+		if ((size_t)count_trxn + 1 > trxn.token.size())
+			trxn.token.resize((size_t)count_trxn + 1);
 		trxn.token[count_trxn].name = r_ptr.Get_tokens()[j].name;
 		trxn.token[count_trxn].s = r_ptr.Get_tokens()[j].s;
 		trxn.token[count_trxn].coef = coef * r_ptr.Get_tokens()[j].coef;
@@ -2685,11 +2680,8 @@ trxn_add(struct reaction *r_ptr, LDBLE coef, int combine)
 	next_token = r_ptr->token;
 	while (next_token->s != NULL)
 	{
-		if (count_trxn + 1 >= max_trxn)
-		{
-			space((void **) ((void *) &(trxn.token)), count_trxn + 1,
-				  &max_trxn, sizeof(struct rxn_token_temp));
-		}
+		if ((size_t)count_trxn + 1 > trxn.token.size())
+			trxn.token.resize((size_t)count_trxn + 1);
 		trxn.token[count_trxn].name = next_token->s->name;
 		trxn.token[count_trxn].s = next_token->s;
 		trxn.token[count_trxn].coef = coef * next_token->coef;
@@ -2743,11 +2735,8 @@ trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine)
 	next_token = r_ptr->token;
 	while (next_token->s != NULL || next_token->name != NULL)
 	{
-		if (count_trxn + 1 >= max_trxn)
-		{
-			space((void **) ((void *) &(trxn.token)), count_trxn + 1,
-				  &max_trxn, sizeof(struct rxn_token_temp));
-		}
+		if ((size_t)count_trxn + 1 > trxn.token.size())
+			trxn.token.resize((size_t)count_trxn + 1);
 		if (next_token->s != NULL)
 		{
 			trxn.token[count_trxn].name = next_token->s->name;

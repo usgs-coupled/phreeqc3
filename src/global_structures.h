@@ -813,7 +813,7 @@ struct reaction_temp
 {
 	LDBLE logk[MAX_LOG_K_INDICES];
 	LDBLE dz[3];
-	struct rxn_token_temp *token;
+	std::vector<struct rxn_token_temp> token;
 };
 struct rxn_token_temp
 {								/* data for equations, aq. species or minerals */

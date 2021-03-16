@@ -2861,11 +2861,8 @@ add_potential_factor(void)
 /*
  *   Make sure there is space
  */
-	if (count_trxn + 1 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 1, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t)count_trxn + 1 > trxn.token.size())
+		trxn.token.resize((size_t)count_trxn + 1);
 /*
  *   Include psi in mass action equation
  */
@@ -2958,11 +2955,8 @@ add_cd_music_factors(int n)
 	/*
 	 *   Make sure there is space
 	 */
-	if (count_trxn + 3 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 3, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t)count_trxn + 3 > trxn.token.size())
+		trxn.token.resize((size_t)count_trxn + 3);
 	/*
 	 *   Include psi in mass action equation
 	 */
