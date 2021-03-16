@@ -579,15 +579,9 @@ void Phreeqc::init(void)
 	count_sum_jacob0        = 0;
 	max_sum_jacob0          = 0;
 	sum_jacob0              = NULL;	
-	count_sum_mb1           = 0;
-	max_sum_mb1             = 0;
-	sum_mb1                 = NULL;	
 	count_sum_jacob1        = 0;
 	max_sum_jacob1          = 0;
 	sum_jacob1              = NULL;
-	count_sum_mb2           = 0;
-	max_sum_mb2             = 0;
-	sum_mb2                 = NULL;
 	count_sum_jacob2        = 0;
 	max_sum_jacob2          = 0;
 	sum_jacob2              = NULL;

@@ -2132,7 +2132,7 @@ mb_sums(void)
 /*
  *   Add terms with coefficients of 1.0
  */
-	for (k = 0; k < count_sum_mb1; k++)
+	for (k = 0; k < (int)sum_mb1.size(); k++)
 	{
 		*sum_mb1[k].target += *sum_mb1[k].source;
 /*		{ k += 1; k -= 1;} */
@@ -2140,7 +2140,7 @@ mb_sums(void)
 /*
  *   Add terms with coefficients != 1.0
  */
-	for (k = 0; k < count_sum_mb2; k++)
+	for (k = 0; k < (int)sum_mb2.size(); k++)
 	{
 		*sum_mb2[k].target += *sum_mb2[k].source * sum_mb2[k].coef;
 /*		{ k += 1; k -= 1;} */
@@ -5178,10 +5178,8 @@ free_model_allocs(void)
 	delta.clear();
 	residual.clear();
 	s_x.clear();
-	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	count_sum_mb1 = 0;
-	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
-	count_sum_mb2 = 0;
+	sum_mb1.clear();
+	sum_mb2.clear();
 	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
 	count_sum_jacob0 = 0;
 	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
