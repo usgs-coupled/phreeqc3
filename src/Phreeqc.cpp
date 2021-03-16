@@ -723,10 +723,6 @@ void Phreeqc::init(void)
 	*---------------------------------------------------------------------- */
 	moles_per_kilogram_string= NULL;
 	pe_string                = NULL;
-	// auto s_diff_layer;
-	s_x                      = NULL;
-	count_s_x                = 0;
-	max_s_x                  = 0;
 	s_h2o					= NULL;
 	s_hplus					= NULL;
 	s_h3oplus				= NULL;
