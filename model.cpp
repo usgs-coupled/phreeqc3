@@ -637,7 +637,7 @@ gammas(LDBLE mu)
 /*
  *   Calculate activity coefficients
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		switch (s_x[i]->gflag)
 		{
@@ -881,7 +881,7 @@ int Phreeqc::gammas_a_f(int i1)
 		}
 	}
 
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->gflag != 4 || s_x[i]->primary)
 			continue;
@@ -2374,7 +2374,7 @@ molalities(int allow_overflow)
 		s_h2o->tot_g_moles = s_h2o->moles;
 		s_h2o->tot_dh2o_moles = 0.0;
 	}
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type > HPLUS && s_x[i]->type != EX
 			&& s_x[i]->type != SURF)
@@ -2434,7 +2434,7 @@ molalities(int allow_overflow)
 	}
 
 	struct species *s_ptr = NULL;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		s_ptr = s_x[i];
 		if (s_ptr->type > HPLUS && s_ptr->type != EX && s_ptr->type != SURF)
@@ -4376,7 +4376,7 @@ residuals(void)
 			{
 				sum = 0;
 				sum1 = 0;
-				for (j = 0; j < count_s_x; j++)
+				for (j = 0; j < (int)this->s_x.size(); j++)
 				{
 					if (s_x[j]->type == SURF)
 					{
@@ -4422,7 +4422,7 @@ residuals(void)
 				negfpsirt = master_ptr2->s->la * LOG_10;
 				sum = 0;
 				sum1 = 0;
-				for (j = 0; j < count_s_x; j++)
+				for (j = 0; j < (int)this->s_x.size(); j++)
 				{
 					if (s_x[j]->type < H2O)
 					{
@@ -4577,7 +4577,7 @@ set(int initial)
 		return (set_sit(initial));
 	iterations = -1;
 	solution_ptr = use.Get_solution_ptr();
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		s_x[i]->lm = LOG_ZERO_MOLALITY;
 		s_x[i]->lg = 0.0;
@@ -4921,7 +4921,7 @@ sum_species(void)
 	total_ions_x = 0.0;
 	total_o_x = 0.0;
 	total_h_x = 0.0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type == EX)
 			continue;
@@ -5177,8 +5177,7 @@ free_model_allocs(void)
 	my_array = (LDBLE *) free_check_null(my_array);
 	delta = (LDBLE *) free_check_null(delta);
 	residual = (LDBLE *) free_check_null(residual);
-	s_x = (struct species **) free_check_null(s_x);
-	count_s_x = 0;
+	s_x.clear();
 	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
 	count_sum_mb1 = 0;
 	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);

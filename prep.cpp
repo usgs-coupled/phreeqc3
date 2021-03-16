@@ -1152,15 +1152,10 @@ build_model(void)
 /*
  *   Make space for lists of pointers to species in the model
  */
-
-	max_s_x = MAX_S;
-	
 	// clear sum_species_map, which is built from s_x
 	sum_species_map_db.clear();
 	sum_species_map.clear();
-
-	space((void **) ((void *) &s_x), INIT, &max_s_x,
-		  sizeof(struct species *));
+	s_x.clear();
 
 	max_sum_mb1 = MAX_SUM_MB;
 	count_sum_mb1 = 0;
@@ -1202,7 +1197,7 @@ build_model(void)
 /*
  *   Pick species in the model, determine reaction for model, build jacobian
  */
-	count_s_x = 0;
+	s_x.clear();
 	compute_gfw("H2O", &gfw_water);
 	gfw_water *= 0.001;
 	for (i = 0; i < (int)s.size(); i++)
@@ -1225,13 +1220,10 @@ build_model(void)
 			}
 			if (pitzer_model == FALSE && sit_model == FALSE)
 				s[i]->lg = 0.0;
-			if (count_s_x + 1 >= max_s_x)
-			{
-				space((void **) ((void *) &s_x), count_s_x + 1,
-					  &max_s_x, sizeof(struct species *));
-			}
 			compute_gfw(s[i]->name, &s[i]->gfw);
-			s_x[count_s_x++] = s[i];
+			size_t count_s_x = s_x.size();
+			s_x.resize(count_s_x + 1);
+			s_x[count_s_x] = s[i];
 			
 /*
  *   Write mass action equation for current model
@@ -1364,7 +1356,7 @@ build_model(void)
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
 		j0 = count_unknowns;
-		j = count_unknowns + count_s_x;
+		j = count_unknowns + (int)this->s_x.size();
 		k = j0;
 		for (i = j0; i < j; i++)
 		{
@@ -2665,7 +2657,8 @@ reprep(void)
 /*
  *   Free arrays built in build_model
  */
-	s_x = (struct species **) free_check_null(s_x);
+	//s_x = (struct species **) free_check_null(s_x);
+	s_x.clear();
 	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
 	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
 	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
@@ -5624,7 +5617,7 @@ calc_vm(LDBLE tc, LDBLE pa)
  */
 	if (llnl_count_temp > 0) return OK;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
-	for (int i = 0; i < count_s_x; i++)
+	for (int i = 0; i < (int)this->s_x.size(); i++)
 	{
 		//if (!strcmp(s_x[i]->name, "H2O"))
 		if (s_x[i] == s_h2o)
@@ -5719,7 +5712,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	calc_vm(tc, pa);
 
 	mu_terms_in_logk = false;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		//if (s_x[i]->rxn_x->logk[vm_tc])
 		/* calculate delta_v for the reaction... */

@@ -1482,10 +1482,7 @@ protected:
 
 	std::vector<struct species*> s;
 	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;
-
-	struct species **s_x;
-	int count_s_x;
-	int max_s_x;
+	std::vector<struct species*> s_x;
 
 	struct species *s_h2o;
 	struct species *s_hplus;
