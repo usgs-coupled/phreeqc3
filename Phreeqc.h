@@ -1846,8 +1846,7 @@ protected:
 	LDBLE COSMOT;
 	LDBLE AW;
 	LDBLE VP, DW0;
-	struct pitz_param **pitz_params;
-	int count_pitz_param, max_pitz_param;
+	std::vector<struct pitz_param*> pitz_params;
 	std::map< std::string, size_t > pitz_param_map;
 	struct theta_param **theta_params;
 	int count_theta_param, max_theta_param;
