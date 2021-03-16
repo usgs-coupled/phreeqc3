@@ -145,12 +145,12 @@ clean_up(void)
 	}
 	logk.clear();
 	/* save_values */
-	for (j = 0; j < count_save_values; j++)
+	for (j = 0; j < (int)save_values.size(); j++)
 	{
 		save_values[j].subscripts =
 			(int*)free_check_null(save_values[j].subscripts);
 	}
-	save_values = (struct save_values*)free_check_null(save_values);
+	save_values.clear();
 	/* working pe*/
 	pe_x.clear();
 	/*species_list*/
@@ -267,7 +267,6 @@ clean_up(void)
 	last_title_x.clear();
 	count_rates = 0;
 	count_inverse = 0;
-	count_save_values = 0;
 
 	llnl_count_temp = 0;
 	llnl_count_adh = 0;
@@ -2126,22 +2125,22 @@ save_values_bsearch(struct save_values *k, int *n)
  *   values of subscripts
  */
 	void *void_ptr;
-	if (count_save_values == 0)
+	if (save_values.size() == 0)
 	{
 		*n = -999;
 		return (NULL);
 	}
 	void_ptr = (void *)
 		bsearch((char *) k,
-				(char *) save_values,
-				(size_t) count_save_values,
+				(char *) save_values.data(),
+				save_values.size(),
 				(size_t) sizeof(struct save_values), save_values_compare);
 	if (void_ptr == NULL)
 	{
 		*n = -999;
 		return (NULL);
 	}
-	*n = (int) ((struct save_values *) void_ptr - save_values);
+	*n = (int) ((struct save_values *) void_ptr - save_values.data());
 	return ((struct save_values *) void_ptr);
 }
 
@@ -2191,10 +2190,10 @@ save_values_sort(void)
 /*
  *   Sort array of save_values structures
  */
-	if (count_save_values > 0)
+	if (save_values.size() > 0)
 	{
-		qsort(save_values, (size_t) count_save_values,
-			  (size_t) sizeof(struct save_values), save_values_compare);
+		qsort(save_values.data(), save_values.size(),
+			  sizeof(struct save_values), save_values_compare);
 	}
 	return (OK);
 }
@@ -2217,13 +2216,8 @@ save_values_store(struct save_values *s_v)
 	}
 	else
 	{
-		save_values =
-			(struct save_values *) PHRQ_realloc(save_values,
-												(size_t) (count_save_values +
-														  1) *
-												sizeof(struct save_values));
-		if (save_values == NULL)
-			malloc_error();
+		size_t count_save_values = save_values.size();
+		save_values.resize(count_save_values + 1);
 		save_values[count_save_values].value = s_v->value;
 		save_values[count_save_values].count_subscripts =
 			s_v->count_subscripts;
@@ -2237,14 +2231,13 @@ save_values_store(struct save_values *s_v)
 		save_values[count_save_values].subscripts =
 			(int *) memcpy(save_values[count_save_values].subscripts,
 						   s_v->subscripts, (size_t) i * sizeof(int));
-		count_save_values++;
 		save_values_sort();
 	}
 
-	if (count_save_values > 0)
+	if (save_values.size() > 0)
 	{
-		qsort(save_values, (size_t) count_save_values,
-			  (size_t) sizeof(struct save_values), save_values_compare);
+		qsort(save_values.data(), save_values.size(),
+			sizeof(struct save_values), save_values_compare);
 	}
 	return (OK);
 }
