@@ -60,9 +60,6 @@ initialize(void)
 		cell_data[i].print = FALSE;
 	}
 
-	space((void **) ((void *) &elt_list), INIT, &max_elts,
-		  sizeof(struct elt_list));
-
 	inverse = (struct inverse *) PHRQ_malloc((size_t) sizeof(struct inverse));
 	if (inverse == NULL) malloc_error();
 	count_inverse = 0;

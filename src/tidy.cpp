@@ -1287,8 +1287,8 @@ tidy_inverse(void)
  */
 		if (count_elts > 0)
 		{
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
+			qsort(elt_list.data(), (size_t) count_elts,
+				  sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
 		}
 /*
@@ -3495,8 +3495,8 @@ tidy_min_exchange(void)
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
+			qsort(elt_list.data(), (size_t)count_elts,
+				sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
 			for (jj = 0; jj < count_elts; jj++)
 			{
@@ -3675,8 +3675,8 @@ update_min_exchange(void)
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
-				qsort(elt_list, (size_t)count_elts,
-					(size_t)sizeof(struct elt_list), elt_list_compare);
+				qsort(elt_list.data(), (size_t)count_elts,
+					sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 				for (jj = 0; jj < count_elts; jj++)
 				{
@@ -3900,8 +3900,8 @@ tidy_min_surface(void)
 					free_check_null(temp_formula);
 				}
 			}
-			qsort(elt_list, (size_t) count_elts,
-				  (size_t) sizeof(struct elt_list), elt_list_compare);
+			qsort(elt_list.data(), (size_t)count_elts,
+				sizeof(struct elt_list), elt_list_compare);
 			elt_list_combine();
 			/* Makes no sense: sorbed species need not be in mineral structure... */
 			/* But elements that can desorb into solution must be in mineral */
@@ -4273,8 +4273,8 @@ tidy_kin_surface(void)
 			/* save kinetics formula */
 			if (count_elts > 0)
 			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				qsort(elt_list.data(), (size_t)count_elts,
+					sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 			}
 			elt_list_kinetics = elt_list_save();
@@ -4302,8 +4302,8 @@ tidy_kin_surface(void)
 			}
 			if (count_elts > 0)
 			{
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
+				qsort(elt_list.data(), (size_t)count_elts,
+					sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 			}
 			for (int j = 0; j < count_elts; j++)

@@ -5303,8 +5303,8 @@ write_mb_eqn_x(void)
 	}
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 	return (OK);
@@ -5356,10 +5356,9 @@ write_mb_for_species_list(int n)
 	{
 		if (strcmp(elt_list[i].elt->name, "O(-2)") == 0)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_h_one;
 			elt_list[count_elts].coef = elt_list[i].coef * 2;
@@ -5368,8 +5367,8 @@ write_mb_for_species_list(int n)
 	}
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 	s[n]->next_sys_total =
@@ -5419,10 +5418,9 @@ write_phase_sys_total(int n)
 	{
 		if (strcmp(elt_list[i].elt->name, "O(-2)") == 0)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_h_one;
 			elt_list[count_elts].coef = elt_list[i].coef * 2;
@@ -5431,8 +5429,8 @@ write_phase_sys_total(int n)
 	}
 	if (count_elts > 0)
 	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 	}
 	phases[n]->next_sys_total =
@@ -6545,8 +6543,8 @@ change_hydrogen_in_elt_list(LDBLE charge)
 	found_o = -1;
 	coef_h = 0.0;
 	coef_o = 0.0;
-	qsort(elt_list, (size_t) count_elts,
-		  (size_t) sizeof(struct elt_list), elt_list_compare);
+	qsort(elt_list.data(), (size_t)count_elts,
+		sizeof(struct elt_list), elt_list_compare);
 	elt_list_combine();
 	for (j = 0; j < count_elts; j++)
 	{
@@ -6571,8 +6569,8 @@ change_hydrogen_in_elt_list(LDBLE charge)
 		elt_list[count_elts].elt = s_hplus->primary->elt;
 		elt_list[count_elts].coef = coef;
 		count_elts++;
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
+		qsort(elt_list.data(), (size_t)count_elts,
+			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 		return (OK);
 	}
