@@ -4952,7 +4952,7 @@ sum_species(void)
 		master[i]->total = 0.0;
 		master[i]->total_primary = 0.0;
 	}
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int)species_list.size(); i++)
 	{
 		if (species_list[i].master_s->secondary != NULL)
 		{

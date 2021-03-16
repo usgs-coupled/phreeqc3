@@ -1129,13 +1129,7 @@ build_model(void)
 	sum_jacob1.clear();
 	sum_jacob2.clear();
 	sum_delta.clear();
-
-	max_species_list = 5 * MAX_S;
-	count_species_list = 0;
-	species_list = (struct species_list *) free_check_null(species_list);
-	space((void **) ((void *) &species_list), INIT, &max_species_list,
-		  sizeof(struct species_list));
-
+	species_list.clear();
 /*
  *   Pick species in the model, determine reaction for model, build jacobian
  */
@@ -1358,8 +1352,8 @@ build_model(void)
 /*
  *   Sort species list, by master only
  */
-	qsort(&species_list[0], (size_t) count_species_list,
-		  (size_t) sizeof(struct species_list), species_list_compare_master);
+	qsort(&species_list[0], (int)species_list.size(),
+		  sizeof(struct species_list), species_list_compare_master);
 /*
  *   Save model description
  */
@@ -1641,23 +1635,15 @@ build_species_list(int n)
 	int j;
 	struct master *master_ptr;
 /*
- *   Check space and store reaction token name and pointer to species
- */
-	if (count_species_list + count_elts >= max_species_list)
-	{
-		space((void **) ((void *) &species_list),
-			  count_species_list + count_elts, &max_species_list,
-			  sizeof(struct species_list));
-	}
-/*
  *   Treat species made only with H+, e-, and H2O specially
  */
 	if (is_special(s[n]) == TRUE)
 	{
+		size_t count_species_list = species_list.size();
+		species_list.resize(count_species_list + 1);
 		species_list[count_species_list].master_s = s_hplus;
 		species_list[count_species_list].s = s[n];
 		species_list[count_species_list].coef = 0.0;
-		count_species_list++;
 		return (OK);
 	}
 /*
@@ -1672,12 +1658,13 @@ build_species_list(int n)
 			if (elt_list[j].elt->master->s->type != EX)
 				continue;
 			master_ptr = elt_list[j].elt->master;
+			size_t count_species_list = species_list.size();
+			species_list.resize(count_species_list + 1);
 			species_list[count_species_list].master_s =
 				elt_list[j].elt->master->s;
 			species_list[count_species_list].s = s[n];
 			species_list[count_species_list].coef = master_ptr->coef *
 				elt_list[j].coef;
-			count_species_list++;
 		}
 		return (OK);
 	}
@@ -1693,12 +1680,13 @@ build_species_list(int n)
 			if (elt_list[j].elt->master->s->type != SURF)
 				continue;
 			master_ptr = elt_list[j].elt->master;
+			size_t count_species_list = species_list.size();
+			species_list.resize(count_species_list + 1);
 			species_list[count_species_list].master_s =
 				elt_list[j].elt->master->s;
 			species_list[count_species_list].s = s[n];
 			species_list[count_species_list].coef = master_ptr->coef *
 				elt_list[j].coef;
-			count_species_list++;
 		}
 		return (OK);
 	}
@@ -1717,6 +1705,8 @@ build_species_list(int n)
 		{
 			master_ptr = elt_list[j].elt->master->s->primary;
 		}
+		size_t count_species_list = species_list.size();
+		species_list.resize(count_species_list + 1);
 		species_list[count_species_list].master_s = master_ptr->s;
 		species_list[count_species_list].s = s[n];
 /*
@@ -1724,7 +1714,6 @@ build_species_list(int n)
  */
 		species_list[count_species_list].coef = master_ptr->coef *
 			elt_list[j].coef;
-		count_species_list++;
 	}
 	return (OK);
 }

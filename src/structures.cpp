@@ -21,9 +21,9 @@ int Phreeqc::
 clean_up(void)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Free all allocated memory, except strings
- */
+	/*
+	 *   Free all allocated memory, except strings
+	 */
 	int i, j;
 #if defined MULTICHART
 	chart_handler.End_timer();
@@ -37,169 +37,144 @@ clean_up(void)
 #endif
 #endif
 
-	description_x = (char *) free_check_null(description_x);
+	description_x = (char*)free_check_null(description_x);
 	isotopes_x.clear();
 	moles_per_kilogram_string =
-		(char *) free_check_null(moles_per_kilogram_string);
-	pe_string = (char *) free_check_null(pe_string);
-/* model */
+		(char*)free_check_null(moles_per_kilogram_string);
+	pe_string = (char*)free_check_null(pe_string);
+	/* model */
 	last_model.exchange =
-		(struct master **) free_check_null(last_model.exchange);
+		(struct master**)free_check_null(last_model.exchange);
 	last_model.gas_phase =
-		(struct phase **) free_check_null(last_model.gas_phase);
+		(struct phase**)free_check_null(last_model.gas_phase);
 	last_model.pp_assemblage =
-		(struct phase **) free_check_null(last_model.pp_assemblage);
+		(struct phase**)free_check_null(last_model.pp_assemblage);
 	last_model.ss_assemblage =
-		(const char **) free_check_null(last_model.ss_assemblage);
+		(const char**)free_check_null(last_model.ss_assemblage);
 	last_model.add_formula =
-		(const char **) free_check_null(last_model.add_formula);
-	last_model.si = (LDBLE *) free_check_null(last_model.si);
+		(const char**)free_check_null(last_model.add_formula);
+	last_model.si = (LDBLE*)free_check_null(last_model.si);
 	last_model.surface_comp =
-		(const char **) free_check_null(last_model.surface_comp);
+		(const char**)free_check_null(last_model.surface_comp);
 	last_model.surface_charge =
-		(const char **) free_check_null(last_model.surface_charge);
+		(const char**)free_check_null(last_model.surface_charge);
 
 	/* model */
 	free_model_allocs();
 
-/* species */
+	/* species */
 
 	for (j = 0; j < (int)s.size(); j++)
 	{
 		s_free(s[j]);
-		s[j] = (struct species *) free_check_null(s[j]);
+		s[j] = (struct species*)free_check_null(s[j]);
 	}
+	s.clear();
 
-/* master species */
+	/* master species */
 
 	for (j = 0; j < (int)master.size(); j++)
 	{
 		master_free(master[j]);
 	}
+	master.clear();
 
-/* elements */
+	/* elements */
 
 	for (j = 0; j < (int)elements.size(); j++)
 	{
-		elements[j] = (struct element *) free_check_null(elements[j]);
+		elements[j] = (struct element*)free_check_null(elements[j]);
 	}
-
-/* solutions */
+	elements.clear();
+	/* solutions */
 	Rxn_solution_map.clear();
-
-/* surfaces */
+	/* surfaces */
 	Rxn_surface_map.clear();
-
-/* exchange */
+	/* exchange */
 	Rxn_exchange_map.clear();
-
-/* pp assemblages */
+	/* pp assemblages */
 	Rxn_pp_assemblage_map.clear();
-
-/* s_s assemblages */
+	/* s_s assemblages */
 	Rxn_ss_assemblage_map.clear();
-
-/* irreversible reactions */
+	/* irreversible reactions */
 	Rxn_reaction_map.clear();
-
-/* temperature */
+	/* temperature */
 	Rxn_temperature_map.clear();
-
-/* pressure */
+	/* pressure */
 	Rxn_pressure_map.clear();
-
-/* unknowns */
-
+	/* unknowns */
 	for (j = 0; j < max_unknowns; j++)
 	{
 		unknown_free(x[j]);
 	}
-	x = (struct unknown **) free_check_null(x);
-
-/* mixtures */
+	x = (struct unknown**)free_check_null(x);
+	/* mixtures */
 	Rxn_mix_map.clear();
-
-/* phases */
-
+	/* phases */
 	for (j = 0; j < (int)phases.size(); j++)
 	{
 		phase_free(phases[j]);
-		phases[j] = (struct phase *) free_check_null(phases[j]);
+		phases[j] = (struct phase*)free_check_null(phases[j]);
 	}
-
-/* inverse */
+	phases.clear();
+	/* inverse */
 	for (j = 0; j < count_inverse; j++)
 	{
 		inverse_free(&(inverse[j]));
 	}
-	inverse = (struct inverse *) free_check_null(inverse);
-
-/* gases */
+	inverse = (struct inverse*)free_check_null(inverse);
+	/* gases */
 	Rxn_gas_phase_map.clear();
-
-/* kinetics */
+	/* kinetics */
 	Rxn_kinetics_map.clear();
-	x0_moles = (LDBLE *) free_check_null(x0_moles);
-	m_temp = (LDBLE *) free_check_null(m_temp);
-	m_original = (LDBLE *) free_check_null(m_original);
-	rk_moles = (LDBLE *) free_check_null(rk_moles);
-
-/* rates */
+	x0_moles = (LDBLE*)free_check_null(x0_moles);
+	m_temp = (LDBLE*)free_check_null(m_temp);
+	m_original = (LDBLE*)free_check_null(m_original);
+	rk_moles = (LDBLE*)free_check_null(rk_moles);
+	/* rates */
 	for (j = 0; j < count_rates; j++)
 	{
 		rate_free(&rates[j]);
 	}
-	rates = (struct rate *) free_check_null(rates);
-
-/* logk hash table */
+	rates = (struct rate*)free_check_null(rates);
+	/* logk hash table */
 	for (j = 0; j < (int)logk.size(); j++)
 	{
 		free_check_null(logk[j]->add_logk);
-		logk[j] = (struct logk *) free_check_null(logk[j]);
+		logk[j] = (struct logk*)free_check_null(logk[j]);
 	}
 	logk.clear();
-
-/* save_values */
+	/* save_values */
 	for (j = 0; j < count_save_values; j++)
 	{
 		save_values[j].subscripts =
-			(int *) free_check_null(save_values[j].subscripts);
+			(int*)free_check_null(save_values[j].subscripts);
 	}
-	save_values = (struct save_values *) free_check_null(save_values);
-
-/* model */
-
-/* global solution */
-
+	save_values = (struct save_values*)free_check_null(save_values);
+	/* working pe*/
 	pe_x.clear();
-
-/* species_list */
-
-	species_list = (struct species_list *) free_check_null(species_list);
-
-/* transport data */
-
-	stag_data = (struct stag_data *) free_check_null(stag_data);
-	cell_data = (struct cell_data *) free_check_null(cell_data);
-
-/* punch */
-	advection_punch = (int *) free_check_null(advection_punch);
-	advection_print = (int *) free_check_null(advection_print);
-
+	/*species_list*/
+	species_list.clear();
+	/* transport data */
+	stag_data = (struct stag_data*)free_check_null(stag_data);
+	cell_data = (struct cell_data*)free_check_null(cell_data);
+	/* advection */
+	advection_punch = (int*)free_check_null(advection_punch);
+	advection_print = (int*)free_check_null(advection_print);
+	/* selected_output */
 	SelectedOutput_map.clear();
+	/*  user_print and user_punch */
 	UserPunch_map.clear();
-
-/*  user_print and user_punch */
 	rate_free(user_print);
-	user_print = (struct rate *) free_check_null(user_print);
+	user_print = (struct rate*)free_check_null(user_print);
 	/*
 	   Free llnl aqueous model parameters
 	 */
-	llnl_temp = (LDBLE *) free_check_null(llnl_temp);
-	llnl_adh = (LDBLE *) free_check_null(llnl_adh);
-	llnl_bdh = (LDBLE *) free_check_null(llnl_bdh);
-	llnl_bdot = (LDBLE *) free_check_null(llnl_bdot);
-	llnl_co2_coefs = (LDBLE *) free_check_null(llnl_co2_coefs);
+	llnl_temp = (LDBLE*)free_check_null(llnl_temp);
+	llnl_adh = (LDBLE*)free_check_null(llnl_adh);
+	llnl_bdh = (LDBLE*)free_check_null(llnl_bdh);
+	llnl_bdot = (LDBLE*)free_check_null(llnl_bdot);
+	llnl_co2_coefs = (LDBLE*)free_check_null(llnl_co2_coefs);
 	/*
 	 * Copier space
 	 */
@@ -214,93 +189,76 @@ clean_up(void)
 	copier_free(&copy_reaction);
 	copier_free(&copy_temperature);
 	copier_free(&copy_pressure);
-
-#if defined PHREEQ98 
-	rate_free(user_graph);
-	user_graph = (struct rate *) free_check_null(user_graph);
-	user_graph_headings = (char **) free_check_null(user_graph_headings);
-#endif
 	/* master_isotope */
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
-		master_isotope[i] =	(struct master_isotope *) free_check_null(master_isotope[i]);
+		master_isotope[i] = (struct master_isotope*)free_check_null(master_isotope[i]);
 	}
-	//master_isotope = (struct master_isotope **) free_check_null(master_isotope);
+	master_isotope.clear();
 	hdestroy_multi(master_isotope_hash_table);
 	master_isotope_hash_table = NULL;
-
 	/* calculate_value */
-	for (i = 0; i < (int) calculate_value.size(); i++)
+	for (i = 0; i < (int)calculate_value.size(); i++)
 	{
 		calculate_value_free(calculate_value[i]);
 		calculate_value[i] = (struct calculate_value*)free_check_null(calculate_value[i]);
 	}
+	calculate_value.clear();
 	hdestroy_multi(calculate_value_hash_table);
 	calculate_value_hash_table = NULL;
-
 	/* isotope_ratio */
 	for (i = 0; i < (int)isotope_ratio.size(); i++)
 	{
 		isotope_ratio[i] =
-			(struct isotope_ratio *) free_check_null(isotope_ratio[i]);
+			(struct isotope_ratio*)free_check_null(isotope_ratio[i]);
 	}
-	//isotope_ratio = (struct isotope_ratio **) free_check_null(isotope_ratio);
+	isotope_ratio.clear();
 	hdestroy_multi(isotope_ratio_hash_table);
 	isotope_ratio_hash_table = NULL;
-
 	/* isotope_alpha */
 	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
 		isotope_alpha[i] =
-			(struct isotope_alpha *) free_check_null(isotope_alpha[i]);
+			(struct isotope_alpha*)free_check_null(isotope_alpha[i]);
 	}
+	isotope_alpha.clear();
 	hdestroy_multi(isotope_alpha_hash_table);
 	isotope_alpha_hash_table = NULL;
-
+	/* tally table */
 	free_tally_table();
-
 	/* CVODE memory */
 	free_cvode();
-
+	/* pitzer */
 	pitzer_clean_up();
-
+	/* sit */
 	sit_clean_up();
-
-
-/* hash tables */
-
+	/* hash tables */
 	hdestroy_multi(elements_hash_table);
 	hdestroy_multi(species_hash_table);
 	hdestroy_multi(logk_hash_table);
 	hdestroy_multi(phases_hash_table);
-
 	elements_hash_table = NULL;
 	species_hash_table = NULL;
 	logk_hash_table = NULL;
 	phases_hash_table = NULL;
-
-/* strings */
+	/* strings */
 #ifdef HASH
 	strings_hash_clear();
 #else
 	strings_map_clear();
 #endif
-
-/* delete basic interpreter */
+	/* delete basic interpreter */
 	basic_free();
+	/* change_surf */
 	change_surf = (struct Change_Surf *) free_check_null(change_surf);
-
-/* miscellaneous work space */
+	/* miscellaneous work space */
 	elt_list.clear();
 	trxn.token.clear();
 	mb_unknowns.clear();
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
-
-/* free user database name if defined */
+	/* free user database name if defined */
 	user_database = (char *) free_check_null(user_database);
-	//selected_output_file_name =
-	//	(char *) free_check_null(selected_output_file_name);
 	dump_file_name = (char *) free_check_null(dump_file_name);
 #ifdef PHREEQCI_GUI
 	free_spread();
@@ -326,33 +284,24 @@ int Phreeqc::
 reinitialize(void)
 /* ---------------------------------------------------------------------- */
 {
-/* solutions */
+	/* solutions */
 	Rxn_solution_map.clear();
-
-/* surfaces */
+	/* surfaces */
 	Rxn_surface_map.clear();
-
-/* exchange */
+	/* exchange */
 	Rxn_exchange_map.clear();
-
-/* pp assemblages */
+	/* pp assemblages */
 	Rxn_pp_assemblage_map.clear();
-
-/* s_s assemblages */
+	/* s_s assemblages */
 	Rxn_ss_assemblage_map.clear();
-
-/* gases */
+	/* gases */
 	Rxn_gas_phase_map.clear();
-
-/* kinetics */
+	/* kinetics */
 	Rxn_kinetics_map.clear();
-
-/* irreversible reactions */
+	/* irreversible reactions */
 	Rxn_reaction_map.clear();
-
 	// Temperature
 	Rxn_temperature_map.clear();
-
 	// Pressure
 	Rxn_pressure_map.clear();
 	return (OK);
@@ -2494,10 +2443,10 @@ species_list_sort(void)
 /*
  *   Sort list using rules in species_list_compare
  */
-	if (count_species_list > 0)
+	if (species_list.size() > 0)
 	{
-		qsort(&species_list[0], (size_t) count_species_list,
-			  (size_t) sizeof(struct species_list), species_list_compare);
+		qsort(&species_list[0], species_list.size(),
+			  sizeof(struct species_list), species_list_compare);
 	}
 	return (OK);
 }

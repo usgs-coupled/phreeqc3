@@ -455,7 +455,7 @@ print_exchange(void)
 
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
  *   Get name of master species
@@ -1486,7 +1486,7 @@ print_species(void)
  */
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
  *   Get name of master species
@@ -1774,7 +1774,7 @@ print_surface(void)
 				output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < count_species_list; i++)
+				for (int i = 0; i < (int)species_list.size(); i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -1816,7 +1816,7 @@ print_surface(void)
 			output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 					   "Species", "Moles", "Fraction", "Molality",
 					   "Molality"));
-			for (int i = 0; i < count_species_list; i++)
+			for (int i = 0; i < (int)species_list.size(); i++)
 			{
 				if (species_list[i].master_s != master_ptr->s)
 					continue;
@@ -2072,7 +2072,7 @@ print_surface_cd_music(void)
 				output_msg(sformatf("\t%-20s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < count_species_list; i++)
+				for (int i = 0; i < (int)species_list.size(); i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
