@@ -346,7 +346,7 @@ theta_param_search(LDBLE zj, LDBLE zk)
  *  Returns NULL if not found, index number in theta_params if found
  */
 	int i;
-	for (i = 0; i < count_theta_param; i++)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
 		if ((theta_params[i]->zj == zj && theta_params[i]->zk == zk) ||
 			(theta_params[i]->zj == zk && theta_params[i]->zk == zj))
