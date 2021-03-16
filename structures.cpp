@@ -293,7 +293,7 @@ clean_up(void)
 /* miscellaneous work space */
 	elt_list.clear();
 	trxn.token.clear();
-	mb_unknowns = (struct unknown_list *) free_check_null(mb_unknowns);
+	mb_unknowns.clear();
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
 
