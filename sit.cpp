@@ -12,10 +12,7 @@ sit_init(void)
  *      Initialization for SIT
  */
 	sit_model = FALSE;
-	max_sit_param = 100;
-	count_sit_param = 0;
-	space((void **) ((void *) &sit_params), INIT, &max_sit_param,
-		  sizeof(struct pitz_param *));
+	sit_params.clear();
 	OTEMP = -100.;
 	OPRESS = -100.;
 	return OK;
@@ -94,7 +91,7 @@ sit_tidy(void)
 	/*
 	 *  put species numbers in sit_params
 	 */
-	for (i = 0; i < count_sit_param; i++)
+	for (i = 0; i < (int)sit_params.size(); i++)
 	{
 		for (j = 0; j < 3; j++)
 		{
@@ -117,7 +114,7 @@ sit_tidy(void)
 	}	/* remake map */
 	{
 		sit_param_map.clear();
-		for (int j = 0; j < count_sit_param; j++)
+		for (int j = 0; j < (int)sit_params.size(); j++)
 		{	
 			std::set< std::string > header;
 			for (int i = 0; i < 3; i++)
@@ -134,7 +131,7 @@ sit_tidy(void)
 			std::string key = key_str.str().c_str();
 			sit_param_map[key] = j;
 		}
-		assert ((int) sit_param_map.size() == count_sit_param);
+		assert ((int) sit_param_map.size() == (int)sit_params.size());
 	}
 	if (get_input_errors() > 0) return (ERROR);
 	return OK;
@@ -403,8 +400,6 @@ sit(void)
 	 *  Sums for sit_LGAMMA, and OSMOT
 	 *  epsilons are tabulated for log10 gamma (not ln gamma)
 	 */
-	//for (i = 0; i < count_sit_param; i++)
-	//{
 	for (size_t j = 0; j < param_list.size(); j++)
 	{
 		int i = param_list[j];
@@ -508,12 +503,11 @@ sit_clean_up(void)
  */
 	int i;
 
-	for (i = 0; i < count_sit_param; i++)
+	for (i = 0; i < (int)sit_params.size(); i++)
 	{
 		sit_params[i] =	(struct pitz_param *) free_check_null(sit_params[i]);
 	}
-	count_sit_param = 0;
-	sit_params = (struct pitz_param **) free_check_null(sit_params);
+	sit_params.clear();
 	sit_param_map.clear();
 	sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
 	sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
@@ -1489,7 +1483,7 @@ sit_make_lists(void)
 			}
 		}
 	}
-	for (int i = 0; i < count_sit_param; i++)
+	for (int i = 0; i < (int)sit_params.size(); i++)
 	{
 		int i0 = sit_params[i]->ispec[0];
 		int i1 = sit_params[i]->ispec[1];

@@ -1884,8 +1884,7 @@ protected:
 	std::string dump_file_name_cpp;
 
 	/* sit.cpp ------------------------------- */
-	struct pitz_param **sit_params;
-	int count_sit_param, max_sit_param;
+	std::vector<struct pitz_param*> sit_params;
 	std::map< std::string, size_t > sit_param_map;
 	LDBLE sit_A0;
 	int sit_count_cations, sit_count_anions, sit_count_neutrals;

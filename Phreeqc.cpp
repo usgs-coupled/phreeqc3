@@ -1213,10 +1213,7 @@ void Phreeqc::init(void)
 	/* readtr.cpp */
 	// auto dump_file_name_cpp;
 	/* sit.cpp ------------------------------- */
-	sit_params              = NULL;
-	count_sit_param			= 0;
-	max_sit_param			= 100;
-	// auto sit_param_map	
+
 	sit_A0                  = 0;
 	sit_count_cations       = 0;
 	sit_count_anions        = 0;
@@ -2388,12 +2385,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	sit_M                   = NULL;
 	sit_LGAMMA              = NULL;
 */
-	count_sit_param = 0; //pSrc->count_sit_param;
-	max_sit_param = 1; // count_sit_param;
-	for (int i = 0; i < pSrc->count_sit_param; i++)
-	{
-		sit_param_store(pSrc->sit_params[i], true);
-	}
+	sit_params.clear();
 	sit_param_map = pSrc->sit_param_map;
 	/* tidy.cpp ------------------------------- */
 	//a0                      = 0;
