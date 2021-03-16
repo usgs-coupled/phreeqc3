@@ -54,10 +54,7 @@ prep(void)
  *   Must allocate all necessary space before pointers to
  *   X are set.
  */
-
-	//if (!same_model && !switch_numerical)
-	//	numerical_fixed_volume = false;
-	if (same_model == FALSE || !my_array/*|| switch_numerical*/)
+	if (same_model == FALSE || my_array.size() == 0)
 	{
 		clear();
 		setup_unknowns();
@@ -81,26 +78,9 @@ prep(void)
 /*
  *   Allocate space for array
  */
-/*
-		array = (LDBLE *) PHRQ_malloc( (size_t) (count_unknowns+1) * count_unknowns * sizeof( LDBLE ));
-		if (array == NULL) malloc_error();
-		delta = (LDBLE *) PHRQ_malloc( (size_t) count_unknowns * sizeof( LDBLE ));
-		if (delta == NULL) malloc_error();
-		residual = (LDBLE *) PHRQ_malloc( (size_t) count_unknowns * sizeof( LDBLE ));
-		if (residual == NULL) malloc_error();
-*/
-		my_array =
-			(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) *
-								  max_unknowns * sizeof(LDBLE));
-		if (my_array == NULL)
-			malloc_error();
-		delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-		if (delta == NULL)
-			malloc_error();
-		residual =
-			(LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-		if (residual == NULL)
-			malloc_error();
+		my_array.resize(((size_t)max_unknowns + 1) * (size_t)max_unknowns);
+		delta.resize((size_t)max_unknowns);
+		residual.resize((size_t)max_unknowns);
 		for (int j = 0; j < max_unknowns; j++)
 		{
 		  residual[j] = 0;

@@ -266,15 +266,9 @@ setup_inverse(struct inverse *inv_ptr)
 /*
  *   Malloc space for arrays
  */
-	my_array = (LDBLE *) free_check_null(my_array);
-	my_array =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
-							  sizeof(LDBLE));
-	if (my_array == NULL)
-		malloc_error();
+	my_array.resize((size_t)max_column_count * (size_t)max_row_count);
 
-	array1 =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
+	array1 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
 							  sizeof(LDBLE));
 	if (array1 == NULL)
 		malloc_error();
@@ -288,10 +282,7 @@ setup_inverse(struct inverse *inv_ptr)
 	if (row_name == NULL)
 		malloc_error();
 
-	delta = (LDBLE *) free_check_null(delta);
-	delta = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (delta == NULL)
-		malloc_error();
+	delta.resize((size_t)max_column_count);
 
 	inv_delta1 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
 	if (inv_delta1 == NULL)
@@ -1332,8 +1323,8 @@ solve_inverse(struct inverse *inv_ptr)
 		output_msg(sformatf( "\tNumber of calls to cl1: %d\n",
 				   count_calls));
 	}
-	my_array = (LDBLE *) free_check_null(my_array);
-	delta = (LDBLE *) free_check_null(delta);
+	my_array.clear();
+	delta.clear();
 	array1 = (LDBLE *) free_check_null(array1);
 	inv_zero = (LDBLE *) free_check_null(inv_zero);
 	inv_res = (LDBLE *) free_check_null(inv_res);
@@ -1462,7 +1453,7 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 	memcpy((void *) &(delta_save[0]), (void *) &(inv_zero[0]),
 		   (size_t) max_column_count * sizeof(LDBLE));
 
-	shrink(inv_ptr, my_array, array1,
+	shrink(inv_ptr, my_array.data(), array1,
 		   &k, &l, &m, &n, cur_bits, delta2, col_back, row_back);
 	/*
 	 *  Save delta constraints
@@ -4418,7 +4409,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	LDBLE d1, d2, d3;
 	char *ptr;
 	LDBLE sum, sum1, sum_iso, d;
-	LDBLE *array_save, *l_delta_save;
+	std::vector<double> array_save, l_delta_save;
 	int count_unknowns_save, max_row_count_save, max_column_count_save, temp,
 		count_current_solutions, temp_punch;
 	int solnmap[10][2];
@@ -4440,8 +4431,6 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	max_row_count_save = max_row_count;
 	max_column_count_save = max_column_count;
 
-	my_array = NULL;
-	delta = NULL;
 	count_unknowns = 0;
 	max_row_count = 0;
 	max_column_count = 0;
@@ -4879,9 +4868,6 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		fprintf(netpath_file, "%14d     # Well number\n",
 				count_pat_solutions);
 	}
-	//free_model_allocs();
-	my_array = (LDBLE *) free_check_null(my_array);
-	delta = (LDBLE *) free_check_null(delta);
 	my_array = array_save;
 	delta = l_delta_save;
 	count_unknowns = count_unknowns_save;

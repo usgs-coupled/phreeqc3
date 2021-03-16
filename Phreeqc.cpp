@@ -870,9 +870,6 @@ void Phreeqc::init(void)
 	stop_program            = FALSE;
 	incremental_reactions   = FALSE;
 	count_strings           = 0;
-	my_array					= NULL;
-	delta					= NULL;
-	residual				= NULL;
 	input_error             = 0;
 	next_keyword            = Keywords::KEY_NONE;
 	parse_error             = 0;

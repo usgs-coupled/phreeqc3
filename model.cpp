@@ -5174,9 +5174,9 @@ free_model_allocs(void)
 	}
 	x = (struct unknown **) free_check_null(x);
 	max_unknowns = 0;
-	my_array = (LDBLE *) free_check_null(my_array);
-	delta = (LDBLE *) free_check_null(delta);
-	residual = (LDBLE *) free_check_null(residual);
+	my_array.clear();
+	delta.clear();
+	residual.clear();
 	s_x.clear();
 	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
 	count_sum_mb1 = 0;

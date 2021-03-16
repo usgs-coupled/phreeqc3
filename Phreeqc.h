@@ -1614,9 +1614,7 @@ protected:
 	int count_strings;
 	int max_strings;
 
-	LDBLE *my_array;
-	LDBLE *delta;
-	LDBLE *residual;
+	std::vector<double> my_array, delta, residual;
 
 	int input_error;
 
