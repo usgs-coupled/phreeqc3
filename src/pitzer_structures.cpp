@@ -195,14 +195,10 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 	}
 	else
 	{
-		if (count_pitz_param >= max_pitz_param)
-		{
-			space((void **) ((void *) &pitz_params),
-				count_pitz_param, &max_pitz_param,
-				sizeof(struct pitz_param *));
-		}
 		if (force_copy)
 		{
+			size_t count_pitz_param = pitz_params.size();
+			pitz_params.resize(count_pitz_param + 1);
 			pitz_params[count_pitz_param] = pitz_param_duplicate(pzp_ptr);
 			// clean up pointers
 			// species 
@@ -215,13 +211,15 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 			}
 			// thetas
 			pitz_params[count_pitz_param]->thetas = NULL;
+			pitz_param_map[key] = count_pitz_param;
 		}
 		else
 		{
+			size_t count_pitz_param = pitz_params.size();
+			pitz_params.resize(count_pitz_param + 1);
 			pitz_params[count_pitz_param] = pzp_ptr;
+			pitz_param_map[key] = count_pitz_param;
 		}
-		pitz_param_map[key] = count_pitz_param;
-		count_pitz_param++;
 	}
 }
 

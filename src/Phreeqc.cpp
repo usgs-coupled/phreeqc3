@@ -1161,9 +1161,6 @@ void Phreeqc::init(void)
 	AW                      = 0;
 	VP                      = 0;
 	DW0                     = 0;
-	pitz_params				= NULL;
-	count_pitz_param		= 0;
-	max_pitz_param			= 100;
 	// auto pitz_param_map
 	theta_params			= 0;
 	count_theta_param		= 0;
@@ -2280,13 +2277,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	always_full_pitzer      = pSrc->always_full_pitzer;
 	ICON					= pSrc->ICON;
 	IC                      = pSrc->IC;
-	/*
-	pitz_params				= NULL;
-	count_pitz_param		= 0;
-	max_pitz_param			= 100;
-	*/
 
-	for (int i = 0; i < pSrc->count_pitz_param; i++)
+	for (int i = 0; i < (int)pSrc->pitz_params.size(); i++)
 	{
 		pitz_param_store(pSrc->pitz_params[i], true);
 	}
