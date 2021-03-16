@@ -316,12 +316,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 			ptr = &(token[0]);
 			get_elts_in_species (&ptr, mass_water_surface / gfw_water);
 			*/
-		if (count_elts > 0)
-		{
-			qsort(elt_list.data(), (size_t)count_elts,
-				sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-		}
+		elt_list_combine();
 		/*
 		 *   Print totals
 		 */

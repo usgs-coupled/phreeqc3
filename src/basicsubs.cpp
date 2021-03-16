@@ -1122,12 +1122,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
  */
 			add_elt_list(s_x[j]->next_elt, moles_surface);
 		}
-		if (count_elts > 0)
-		{
-			qsort(elt_list.data(), (size_t) count_elts,
-				  sizeof(struct elt_list), Phreeqc:: elt_list_compare);
-			elt_list_combine();
-		}
+		elt_list_combine();
 /*
  *   Return totals
  */
@@ -2420,12 +2415,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 			}
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 /*
  *   Return totals
  */
@@ -2836,12 +2826,7 @@ kinetics_formula(std::string kin_name, cxxNameDouble &stoichiometry)
 				}
 				formula.append(kin_name);
 				//elt_list[count_elts].elt = NULL;
-				if (count_elts > 0)
-				{
-					qsort(elt_list.data(), (size_t)count_elts,
-						sizeof(struct elt_list), elt_list_compare);
-					elt_list_combine();
-				}
+				elt_list_combine();
 				stoichiometry = elt_list_NameDouble();
 				break;
 			}
@@ -3270,12 +3255,7 @@ system_total_elt(const char *total_name)
 		paren_count = 0;
 		add_elt_list(s_x[i]->next_elt, s_x[i]->moles);
 
-		if (count_elts > 0)
-		{
-			qsort(elt_list.data(), (size_t)count_elts,
-				sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-		}
+		elt_list_combine();
 		/*
 		 *   Look for element
 		 */
@@ -3358,12 +3338,7 @@ system_total_elt(const char *total_name)
 				 */
 				add_elt_list(s_x[j]->next_elt, moles_surface);
 			}
-			if (count_elts > 0)
-			{
-				qsort(elt_list.data(), (size_t)count_elts,
-					sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-			}
+			elt_list_combine();
 			/*
 			 *   Print totals
 			 */
@@ -3405,12 +3380,7 @@ system_total_elt(const char *total_name)
 			//struct phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
 			struct phase * phase_ptr = x[i]->phase;
 			add_elt_list(phase_ptr->next_elt, x[i]->moles);
-			if (count_elts > 0)
-			{
-				qsort(elt_list.data(), (size_t)count_elts,
-					sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-			}
+			elt_list_combine();
 			for (j = 0; j < count_elts; j++)
 			{
 				if (strcmp(elt_list[j].elt->name, total_name) == 0)
@@ -3446,12 +3416,7 @@ system_total_elt(const char *total_name)
 					paren_count = 0;
 					add_elt_list(phase_ptr->next_elt,
 								 comp_ptr->Get_moles());
-					if (count_elts > 0)
-					{
-						qsort(elt_list.data(), (size_t)count_elts,
-							sizeof(struct elt_list), elt_list_compare);
-						elt_list_combine();
-					}
+					elt_list_combine();
 					for (j = 0; j < count_elts; j++)
 					{
 						if (strcmp(elt_list[j].elt->name, total_name) == 0)
@@ -3486,12 +3451,7 @@ system_total_elt(const char *total_name)
 				count_elts = 0;
 				paren_count = 0;
 				add_elt_list(phase_ptr->next_elt, phase_ptr->moles_x);
-				if (count_elts > 0)
-				{
-					qsort(elt_list.data(), (size_t)count_elts,
-						sizeof(struct elt_list), elt_list_compare);
-					elt_list_combine();
-				}
+				elt_list_combine();
 				/*
 				 *   Look for element
 				 */
@@ -3541,12 +3501,7 @@ system_total_elt_secondary(const char *total_name)
 		{
 			add_elt_list(s_x[i]->next_sys_total, s_x[i]->moles);
 		}
-		if (count_elts > 0)
-		{
-			qsort(elt_list.data(), (size_t)count_elts,
-				sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-		}
+		elt_list_combine();
 		/*
 		 *   Look for element
 		 */
@@ -3671,12 +3626,7 @@ system_total_elt_secondary(const char *total_name)
 			//struct phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
 			struct phase * phase_ptr = x[i]->phase;
 			add_elt_list(phase_ptr->next_sys_total,	 x[i]->moles);
-			if (count_elts > 0)
-			{
-				qsort(elt_list.data(), (size_t)count_elts,
-					sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-			}
+			elt_list_combine();
 			for (j = 0; j < count_elts; j++)
 			{
 				if (strcmp(elt_list[j].elt->name, total_name) == 0)
@@ -3713,12 +3663,7 @@ system_total_elt_secondary(const char *total_name)
 					paren_count = 0;
 					add_elt_list(phase_ptr->next_sys_total,
 								 comp_ptr->Get_moles());
-					if (count_elts > 0)
-					{
-						qsort(elt_list.data(), (size_t)count_elts,
-							sizeof(struct elt_list), elt_list_compare);
-						elt_list_combine();
-					}
+					elt_list_combine();
 					for (j = 0; j < count_elts; j++)
 					{
 						if (strcmp(elt_list[j].elt->name, total_name) == 0)
@@ -3755,12 +3700,7 @@ system_total_elt_secondary(const char *total_name)
 				add_elt_list(phase_ptr->next_sys_total,
 							 phase_ptr->moles_x);
 
-				if (count_elts > 0)
-				{
-					qsort(elt_list.data(), (size_t)count_elts,
-						sizeof(struct elt_list), elt_list_compare);
-					elt_list_combine();
-				}
+				elt_list_combine();
 				/*
 				 *   Look for element
 				 */
@@ -3847,12 +3787,7 @@ solution_sum_secondary(const char *total_name)
 		{
 			add_elt_list(s_x[i]->next_sys_total, s_x[i]->moles);
 		}
-		if (count_elts > 0)
-		{
-			qsort(elt_list.data(), (size_t)count_elts,
-				sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-		}
+		elt_list_combine();
 		/*
 		 *   Look for element
 		 */
@@ -3963,13 +3898,7 @@ system_total_solids(cxxExchange *exchange_ptr,
 						 it->second.Get_moles());
 		}
 	}
-
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	return (OK);
 }
 

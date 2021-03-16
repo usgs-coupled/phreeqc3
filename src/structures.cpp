@@ -461,15 +461,17 @@ elt_list_combine(void)
 {
 	int i, j;
 
-	if (count_elts < 1)
-	{
-		output_msg("elt_list_combine: How did this happen?\n");
-		return (ERROR);
-	}
-	if (count_elts == 1)
+	//if (count_elts < 1)
+	//{
+	//	output_msg("elt_list_combine: How did this happen?\n");
+	//	return (ERROR);
+	//}
+	if (count_elts <= 1)
 	{
 		return (OK);
 	}
+	qsort(elt_list.data(), (size_t)count_elts,
+		sizeof(struct elt_list), Phreeqc::elt_list_compare);
 	j = 0;
 	for (i = 1; i < count_elts; i++)
 	{
@@ -585,18 +587,12 @@ elt_list_save(void)
 /*
  *   Sort elements in reaction and combine
  */
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 /*
  *   Malloc space and store element data
  */
-	elt_list_ptr =
-		(struct elt_list *) PHRQ_malloc((size_t) (count_elts + 1) *
-										sizeof(struct elt_list));
+	elt_list_ptr = (struct elt_list*)PHRQ_malloc((size_t)(count_elts + 1) *
+		sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
 	{
 		malloc_error();

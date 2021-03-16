@@ -1026,12 +1026,7 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 /*
  *   Sort elements in reaction and combine
  */
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t) count_elts,
-			  sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 /*
  *   Add gas elements to totals
  */

@@ -5301,12 +5301,7 @@ write_mb_eqn_x(void)
 			free_check_null(temp_name);
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	return (OK);
 }
 
@@ -5365,12 +5360,7 @@ write_mb_for_species_list(int n)
 			count_elts++;
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	s[n]->next_sys_total =
 		(struct elt_list *) free_check_null(s[n]->next_sys_total);
 	s[n]->next_sys_total = elt_list_save();
@@ -5427,12 +5417,7 @@ write_phase_sys_total(int n)
 			count_elts++;
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	phases[n]->next_sys_total =
 		(struct elt_list *) free_check_null(phases[n]->next_sys_total);
 	phases[n]->next_sys_total = elt_list_save();
@@ -6543,8 +6528,6 @@ change_hydrogen_in_elt_list(LDBLE charge)
 	found_o = -1;
 	coef_h = 0.0;
 	coef_o = 0.0;
-	qsort(elt_list.data(), (size_t)count_elts,
-		sizeof(struct elt_list), elt_list_compare);
 	elt_list_combine();
 	for (j = 0; j < count_elts; j++)
 	{
@@ -6569,8 +6552,6 @@ change_hydrogen_in_elt_list(LDBLE charge)
 		elt_list[count_elts].elt = s_hplus->primary->elt;
 		elt_list[count_elts].coef = coef;
 		count_elts++;
-		qsort(elt_list.data(), (size_t)count_elts,
-			sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 		return (OK);
 	}
