@@ -756,9 +756,6 @@ void Phreeqc::init(void)
 	}
 	count_trxn              = 0;
 
-	mb_unknowns             = NULL;
-	count_mb_unknowns       = 0;
-	max_mb_unknowns         = MAX_TRXN;
 	/* ----------------------------------------------------------------------
 	*   Print
 	* ---------------------------------------------------------------------- */
@@ -1877,11 +1874,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		trxn.dz[i] = 0;
 	}
 	count_trxn              = 0;
-	*/
-	/*
-	mb_unknowns             = NULL;
-	count_mb_unknowns       = 0;
-	max_mb_unknowns         = MAX_TRXN;
 	*/
 	/* ----------------------------------------------------------------------
 	*   Print

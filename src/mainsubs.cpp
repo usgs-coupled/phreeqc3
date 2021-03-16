@@ -67,9 +67,6 @@ initialize(void)
 
 	space((void **) ((void *) &line_save), INIT, &max_line, sizeof(char));
 
-	space((void **) ((void *) &mb_unknowns), INIT, &max_mb_unknowns,
-		  sizeof(struct unknown_list));
-
 	// one stag_data
 	stag_data = (struct stag_data *) PHRQ_calloc(1, sizeof(struct stag_data));
 	if (stag_data == NULL)
