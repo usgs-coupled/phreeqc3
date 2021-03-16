@@ -274,14 +274,10 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 	}
 	else
 	{
-		if (count_sit_param >= max_sit_param)
-		{
-			space((void **) ((void *) &sit_params),
-				count_sit_param, &max_sit_param,
-				sizeof(struct pitz_param *));
-		}
 		if (force_copy)
 		{
+			size_t count_sit_param = sit_params.size();
+			sit_params.resize(count_sit_param + 1);
 			sit_params[count_sit_param] = pitz_param_duplicate(pzp_ptr);
 			// clean up pointers
 			// species 
@@ -294,13 +290,15 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 			}
 			// thetas
 			sit_params[count_sit_param]->thetas = NULL;
+			sit_param_map[key] = count_sit_param;
 		}
 		else
 		{
+			size_t count_sit_param = sit_params.size();
+			sit_params.resize(count_sit_param + 1);
 			sit_params[count_sit_param] = pzp_ptr;
+			sit_param_map[key] = count_sit_param;
 		}
-		sit_param_map[key] = count_sit_param;
-		count_sit_param++;
 	}
 }
 
