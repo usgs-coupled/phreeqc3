@@ -2873,11 +2873,8 @@ species_rxn_to_trxn(struct species *s_ptr)
 		trxn.token[i].unknown = NULL;
 		trxn.token[i].coef = s_ptr->rxn->token[i].coef;
 		count_trxn = i + 1;
-		if (count_trxn + 1 >= max_trxn)
-		{
-			space((void **) ((void *) &(trxn.token)), count_trxn + 1,
-				  &max_trxn, sizeof(struct rxn_token_temp));
-		}
+		if ((size_t)count_trxn + 1 > trxn.token.size())
+			trxn.token.resize((size_t)count_trxn + 1);
 	}
 	return (OK);
 }
@@ -2916,11 +2913,8 @@ phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
 		trxn.token[i].unknown = NULL;
 		trxn.token[i].coef = rxn_ptr->token[i].coef;
 		count_trxn = i + 1;
-		if (count_trxn + 1 >= max_trxn)
-		{
-			space((void **) ((void *) &(trxn.token)), count_trxn + 1,
-				  &max_trxn, sizeof(struct rxn_token_temp));
-		}
+		if ((size_t)count_trxn + 1 > trxn.token.size())
+			trxn.token.resize((size_t)count_trxn + 1);
 	}
 	return (OK);
 }

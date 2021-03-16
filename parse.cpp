@@ -1025,11 +1025,8 @@ get_species(char **ptr)
 	char string[MAX_LENGTH];
 	int l;
 
-	if (count_trxn + 1 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 1, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t) count_trxn + 1 > trxn.token.size()) 
+		trxn.token.resize((size_t)count_trxn + 1);
 	/* coefficient */
 	if (get_coef(&(trxn.token[count_trxn].coef), ptr) == ERROR)
 	{

@@ -78,10 +78,6 @@ initialize(void)
 	stag_data->exch_f = 0;
 	stag_data->th_m = 0;
 	stag_data->th_im = 0;
-
-	space((void **) ((void *) &trxn.token), INIT, &max_trxn,
-		  sizeof(struct rxn_token_temp));
-
 /*
  *   Create hash tables
  */

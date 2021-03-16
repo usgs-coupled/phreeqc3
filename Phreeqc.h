@@ -1530,8 +1530,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	struct reaction_temp trxn;	/* structure array of working space while reading equations
 								species names are in "temp_strings" */
-	int count_trxn;		/* number of reactants in trxn = position of next */
-	int max_trxn;
+	int count_trxn;		        /* number of reactants in trxn = position of next */
 
 	struct unknown_list *mb_unknowns;
 	int count_mb_unknowns;

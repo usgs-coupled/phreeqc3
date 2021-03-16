@@ -763,7 +763,6 @@ void Phreeqc::init(void)
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
 	// struct trxn;	
-	trxn.token				= 0;
 	for (int i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
 		trxn.logk[i] = 0;
@@ -773,7 +772,6 @@ void Phreeqc::init(void)
 		trxn.dz[i] = 0;
 	}
 	count_trxn              = 0;
-	max_trxn                = MAX_TRXN;
 
 	mb_unknowns             = NULL;
 	count_mb_unknowns       = 0;
@@ -1896,7 +1894,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		trxn.dz[i] = 0;
 	}
 	count_trxn              = 0;
-	max_trxn                = MAX_TRXN;
 	*/
 	/*
 	mb_unknowns             = NULL;
