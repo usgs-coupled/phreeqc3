@@ -723,13 +723,7 @@ sum_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		add_elt_list(s_x[j]->next_elt, moles_surface);
 	}
 	add_elt_list(s_h2o->next_elt, mass_water_surface / gfw_water);
-
-	if (count_elts > 0)
-	{
-		qsort(elt_list.data(), (size_t) count_elts,
-			  sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
