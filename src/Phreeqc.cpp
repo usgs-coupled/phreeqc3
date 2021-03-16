@@ -504,11 +504,7 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-	count_save_values          = 0;
-	save_values                = NULL;
 	save_init(-1);             // set initial save values
-
-	// auto use
 
 	// copier structures
 	copy_solution.n_user		= copy_solution.start		= copy_solution.end			= 0;
@@ -1329,16 +1325,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-	count_save_values          = 0;
-	/*
-	save_values                = NULL;	
-	save_init(-1);             // set initial save values
-	*/
-
-	// auto use
-
-	// copier structures
-	//-- skip copier, accept init
 
 	/*----------------------------------------------------------------------
 	*   Inverse
