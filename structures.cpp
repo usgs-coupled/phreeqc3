@@ -122,7 +122,7 @@ clean_up(void)
 	{
 		inverse_free(&(inverse[j]));
 	}
-	inverse = (struct inverse*)free_check_null(inverse);
+	inverse.clear();
 	/* gases */
 	Rxn_gas_phase_map.clear();
 	/* kinetics */
@@ -600,18 +600,8 @@ inverse_alloc(void)
  */
 {
 	struct inverse *inverse_ptr = NULL;
-
-	count_inverse++;
-	inverse =
-		(struct inverse *) PHRQ_realloc(inverse,
-										(size_t) count_inverse *
-										sizeof(struct inverse));
-	if (inverse == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr = &(inverse[count_inverse - 1]);
+	inverse.resize((size_t)count_inverse + 1);
+	inverse_ptr = &(inverse[count_inverse++]);
 /*
  *   Initialize variables
  */
@@ -627,36 +617,30 @@ inverse_alloc(void)
  *   allocate space for pointers in structure to NULL
  */
 
-	inverse_ptr->uncertainties =
-		(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
+	inverse_ptr->uncertainties = (LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
 	if (inverse_ptr->uncertainties == NULL)
 	{
 		malloc_error();
 		return inverse_ptr;
 	}
-
-	inverse_ptr->ph_uncertainties =
-		(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
+	inverse_ptr->ph_uncertainties = (LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
 	if (inverse_ptr->ph_uncertainties == NULL)
 	{
 		malloc_error();
 		return inverse_ptr;
 	}
-
 	inverse_ptr->force_solns = (int *) PHRQ_malloc((size_t) sizeof(int));
 	if (inverse_ptr->force_solns == NULL)
 	{
 		malloc_error();
 		return inverse_ptr;
 	}
-
 	inverse_ptr->dalk_dph = NULL;
 	inverse_ptr->dalk_dc = NULL;
 
 	inverse_ptr->solns = NULL;
 
-	inverse_ptr->elts =
-		(struct inv_elts *) PHRQ_malloc((size_t) sizeof(struct inv_elts));
+	inverse_ptr->elts =	(struct inv_elts *) PHRQ_malloc((size_t) sizeof(struct inv_elts));
 	if (inverse_ptr->elts == NULL)
 	{
 		malloc_error();
@@ -665,9 +649,8 @@ inverse_alloc(void)
 	inverse_ptr->elts[0].name = NULL;
 	inverse_ptr->elts[0].uncertainties = NULL;
 
-	inverse_ptr->isotopes =
-		(struct inv_isotope *) PHRQ_malloc((size_t)
-										   sizeof(struct inv_isotope));
+	inverse_ptr->isotopes = (struct inv_isotope *) PHRQ_malloc((size_t)
+			sizeof(struct inv_isotope));
 	if (inverse_ptr->isotopes == NULL)
 	{
 		malloc_error();
@@ -677,9 +660,8 @@ inverse_alloc(void)
 	inverse_ptr->isotopes[0].isotope_number = 0;
 	inverse_ptr->isotopes[0].elt_name = NULL;
 
-	inverse_ptr->i_u =
-		(struct inv_isotope *) PHRQ_malloc((size_t)
-										   sizeof(struct inv_isotope));
+	inverse_ptr->i_u = (struct inv_isotope *) PHRQ_malloc((size_t)
+			sizeof(struct inv_isotope));
 	if (inverse_ptr->i_u == NULL)
 	{
 		malloc_error();
@@ -689,14 +671,12 @@ inverse_alloc(void)
 	inverse_ptr->i_u[0].isotope_number = 0;
 	inverse_ptr->i_u[0].elt_name = NULL;
 
-	inverse_ptr->phases =
-		(struct inv_phases *) PHRQ_malloc((size_t) sizeof(struct inv_phases));
+	inverse_ptr->phases = (struct inv_phases *) PHRQ_malloc((size_t) sizeof(struct inv_phases));
 	if (inverse_ptr->phases == NULL)
 	{
 		malloc_error();
 		return inverse_ptr;
 	}
-
 	return (inverse_ptr);
 }
 
@@ -731,14 +711,8 @@ inverse_delete(int i)
  *   Input: i, number of inverse struct to delete
  *   Return: OK
  */
-	int j;
-
 	inverse_free(&(inverse[i]));
-	for (j = i; j < (count_inverse - 1); j++)
-	{
-		memcpy((void *) &(inverse[j]), (void *) &(inverse[j + 1]),
-			   (size_t) sizeof(struct inverse));
-	}
+	inverse.erase(inverse.begin() + (size_t)i);
 	count_inverse--;
 	return (OK);
 }
@@ -876,8 +850,8 @@ inverse_sort(void)
  */
 	if (count_inverse > 0)
 	{
-		qsort(inverse, (size_t) count_inverse,
-			  (size_t) sizeof(struct inverse), inverse_compare);
+		qsort(inverse.data(), (size_t) count_inverse,
+			  sizeof(struct inverse), inverse_compare);
 	}
 	return (OK);
 }
@@ -3076,13 +3050,9 @@ unknown_delete(int i)
 /*
  *   Delete unknow from list x
  */
-	int j;
-
 	unknown_free(x[i]);
-	for (j = i; j < (count_unknowns); j++)
-	{
-		x[j] = x[j + 1];
-	}
+	x.erase(x.begin() + (size_t)i);
+	count_unknowns--;
 	return (OK);
 }
 
