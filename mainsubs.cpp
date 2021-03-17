@@ -1475,7 +1475,7 @@ xsolution_save(int n_user)
 	   }
 	   // saves molalities
 	   temp_solution.Get_log_molalities_map().clear();
-	   for (int i = 0; i < this->count_s_x; i++)
+	   for (int i = 0; i < (int)this->s_x.size(); i++)
 	   {
 		   if (s_x[i]->type <= H2O)
 		   {
