@@ -1,3 +1,5 @@
+LFS is incompatible with subtrees!!!
+
 Top-level
 
 | Project               | URL                                                     | Status                                                                                                                                                                               |
