@@ -2931,7 +2931,6 @@ system_total_elements(void)
 	sys_tot += sys[count_sys].moles;
 	sys[count_sys].type = string_duplicate("dis");
 	count_sys++;
-	sys.resize(count_sys + 1);
 	for (i = 0; i < (int)master.size(); i++)
 	{
 		master_ptr = master[i];
@@ -2985,7 +2984,9 @@ system_total_elements(void)
 		{
 			t = master_ptr->total;
 		}
-		strcpy(name, master[i]->elt->name);
+		strcpy(name, master[i]->elt->name);			
+		count_sys = sys.size();
+		sys.resize(count_sys + 1);
 		sys[count_sys].name = string_duplicate(name);
 		sys[count_sys].moles = t;
 		sys_tot += sys[count_sys].moles;
