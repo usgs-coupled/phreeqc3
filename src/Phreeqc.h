@@ -1486,8 +1486,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
-
-	struct unknown **x;
+	std::vector<struct unknown*> x;
 	int count_unknowns;
 	int max_unknowns;
 

@@ -5163,14 +5163,12 @@ free_model_allocs(void)
  *   free space allocated in model
  */
 	int i;
-	if (x != NULL)
+	for (i = 0; i < (int)x.size(); i++)
 	{
-		for (i = 0; i < max_unknowns; i++)
-		{
-			unknown_free(x[i]);
-		}
+		unknown_free(x[i]);
 	}
-	x = (struct unknown **) free_check_null(x);
+	x.clear();
+	count_unknowns = 0;
 	max_unknowns = 0;
 	my_array.clear();
 	delta.clear();
