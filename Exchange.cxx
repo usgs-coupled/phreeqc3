@@ -39,6 +39,7 @@ cxxNumKeyword(io)
 	this->pitzer_exchange_gammas = true;
 	this->new_def = false;
 	this->n_solution = -999;
+	this->solution_equilibria = false;
 //
 //   Mix exchangers
 //

@@ -46,6 +46,13 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 	v_m = 0;
 	pr_in = false;
 	bool first = true;
+	new_def = false;
+	solution_equilibria = false;
+	n_solution = -999;
+	type = cxxGasPhase::GP_PRESSURE;
+	total_moles = 0.0;
+	temperature = 298.15;
+
 //
 //   Mix
 //
@@ -475,6 +482,92 @@ LDBLE cxxGasPhase::Calc_total_moles(void)const
 	}
 	return tot;
 }
+void cxxGasPhase::Delete_component(const std::string comp_name)
+{
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			this->gas_comps.erase(this->gas_comps.begin() + i); // To delete the ith element
+			break;
+		}
+	}
+}
+void cxxGasPhase::Set_component_moles(const std::string comp_name, const double moles)
+{
+	if (moles < 0.0)
+	{
+		this->Delete_component(comp_name);
+	}
+	else
+	{
+		cxxGasComp* ptr = this->Find_comp(comp_name.c_str());
+		if (ptr != NULL)
+		{
+			ptr->Set_moles(moles);
+		}
+		else
+		{
+			cxxGasComp temp_comp;
+			temp_comp.Set_phase_name(comp_name);
+			temp_comp.Set_moles(moles);
+			this->gas_comps.push_back(temp_comp);
+		}
+	}
+}
+double cxxGasPhase::Get_component_moles(const std::string comp_name)
+{
+	double moles = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			moles = this->gas_comps[i].Get_moles();
+			break;
+		}
+	}
+	return moles;
+}
+double cxxGasPhase::Get_component_p(const std::string comp_name)
+{
+	double p = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			p = this->gas_comps[i].Get_p();
+			break;
+		}
+	}
+	return p;
+}
+double cxxGasPhase::Get_component_phi(const std::string comp_name)
+{
+	double phi = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			phi = this->gas_comps[i].Get_phi();
+			break;
+		}
+	}
+	return phi;
+}
+double cxxGasPhase::Get_component_f(const std::string comp_name)
+{
+	double f = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			f = this->gas_comps[i].Get_f();
+			break;
+		}
+	}
+	return f;
+}
+
 cxxGasComp *
 cxxGasPhase::Find_comp(const char * comp_name)
 {

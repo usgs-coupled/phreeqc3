@@ -1169,19 +1169,19 @@ int Phreeqc::
 xgas_save(int n_user)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Save gas composition into structure gas_phase with user
- *   number n_user.
- */
+	/*
+	 *   Save gas composition into structure gas_phase with user
+	 *   number n_user.
+	 */
 	char token[MAX_LENGTH];
 
 	if (use.Get_gas_phase_ptr() == NULL)
 		return (OK);
-	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
+	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
 	cxxGasPhase temp_gas_phase(*gas_phase_ptr);
-/*
- *   Store in gas_phase
- */
+	/*
+	 *   Store in gas_phase
+	 */
 	temp_gas_phase.Set_n_user(n_user);
 	temp_gas_phase.Set_n_user_end(n_user);
 	sprintf(token, "Gas phase after simulation %d.", simulation);
@@ -1189,22 +1189,38 @@ xgas_save(int n_user)
 	temp_gas_phase.Set_new_def(false);
 	temp_gas_phase.Set_solution_equilibria(false);
 	temp_gas_phase.Set_n_solution(-99);
-/*
- *   Update amounts
- */
-	for (size_t i = 0 ; i < temp_gas_phase.Get_gas_comps().size(); i++)
+	/*
+	 *   Update amounts
+	 */
+	bool PR = false;
+	if (gas_phase_ptr->Get_v_m() >= 0.01) PR = true;
+	for (size_t i = 0; i < temp_gas_phase.Get_gas_comps().size(); i++)
 	{
-		cxxGasComp * gc_ptr = &(temp_gas_phase.Get_gas_comps()[i]);
+		cxxGasComp* gc_ptr = &(temp_gas_phase.Get_gas_comps()[i]);
 		int k;
-		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+		struct phase* phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 		assert(phase_ptr);
-		gc_ptr->Set_moles(phase_ptr->moles_x);
+		if (PR)
+		{
+			gc_ptr->Set_moles(phase_ptr->moles_x);
+			gc_ptr->Set_p(phase_ptr->p_soln_x);
+			gc_ptr->Set_phi(phase_ptr->pr_phi);
+			gc_ptr->Set_f(phase_ptr->p_soln_x * phase_ptr->pr_phi);
+		}
+		else
+		{
+			gc_ptr->Set_moles(phase_ptr->moles_x);
+			gc_ptr->Set_p(phase_ptr->p_soln_x);
+			gc_ptr->Set_phi(1.0);
+			gc_ptr->Set_f(phase_ptr->p_soln_x);
+		}
 	}
 	Rxn_gas_phase_map[n_user] = temp_gas_phase;
 
 	use.Set_gas_phase_ptr(NULL);
 	return (OK);
 }
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 xss_assemblage_save(int n_user)
@@ -1455,6 +1471,15 @@ xsolution_save(int n_user)
 		   if (s_x[i]->type <= H2O)
 		   {
 			   temp_solution.Get_log_gamma_map()[s_x[i]->number] = s_x[i]->lg;
+		   }
+	   }
+	   // saves molalities
+	   temp_solution.Get_log_molalities_map().clear();
+	   for (int i = 0; i < this->count_s_x; i++)
+	   {
+		   if (s_x[i]->type <= H2O)
+		   {
+			   temp_solution.Get_log_molalities_map()[s_x[i]->number] = s_x[i]->lm;
 		   }
 	   }
    }

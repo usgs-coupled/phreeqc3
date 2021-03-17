@@ -83,6 +83,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->isotopes                   = rhs.isotopes;
 		this->species_map                = rhs.species_map;
 		this->log_gamma_map              = rhs.log_gamma_map;
+		this->log_molalities_map         = rhs.log_molalities_map;
 		if (this->initial_data)
 			delete initial_data;
 		if (rhs.initial_data != NULL)
@@ -322,6 +323,19 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 		s_oss << "-log_gamma_map" << "\n";
 		std::map<int, double>::const_iterator it = this->log_gamma_map.begin();
 		for ( ; it != log_gamma_map.end(); it++)
+		{
+			s_oss << indent2;
+			s_oss << it->first << " " << it->second << "\n";
+		}
+	}
+
+	// log_molalities_map
+	if (log_molalities_map.size() > 0)
+	{
+		s_oss << indent1;
+		s_oss << "-log_molalities_map" << "\n";
+		std::map<int, double>::const_iterator it = this->log_molalities_map.begin();
+		for (; it != log_molalities_map.end(); it++)
 		{
 			s_oss << indent2;
 			s_oss << it->first << " " << it->second << "\n";
@@ -1013,7 +1027,32 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
-			
+		case 27:				// log_molalities_map
+		{
+			int s_num;
+			if (parser.peek_token() != CParser::TT_EMPTY)
+			{
+				if (!(parser.get_iss() >> s_num))
+				{
+					parser.incr_input_error();
+					parser.error_msg("Expected integer for species number.",
+						PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					double d;
+					if (!(parser.get_iss() >> d))
+					{
+						parser.incr_input_error();
+						parser.error_msg("Expected double for species molality.",
+							PHRQ_io::OT_CONTINUE);
+					}
+					this->log_molalities_map[s_num] = d;
+				}
+			}
+			opt_save = 27;
+		}
+		break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1377,6 +1416,19 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 				this->log_gamma_map[git->first] = git->second;
 			}
 		}
+		// Add molalities
+		std::map<int, double>::const_iterator mit = addee.log_molalities_map.begin();
+		for (; mit != addee.log_molalities_map.end(); mit++)
+		{
+			if (this->log_molalities_map.find(mit->first) != this->log_molalities_map.end())
+			{
+				this->log_molalities_map[mit->first] = this->log_molalities_map[mit->first] * f1 + mit->second * f2;
+			}
+			else
+			{
+				this->log_molalities_map[mit->first] = mit->second;
+			}
+		}
 	}
 }
 
@@ -1555,6 +1607,18 @@ cxxSolution::Serialize(Dictionary & dictionary, std::vector < int >&ints,
 			doubles.push_back(it->second);
 		}
 	}
+	/*
+	 *  log_molalities_map
+	 */
+	ints.push_back((int)log_molalities_map.size());
+	{
+		std::map < int, double >::iterator it;
+		for (it = log_molalities_map.begin(); it != log_molalities_map.end(); it++)
+		{
+			ints.push_back(it->first);
+			doubles.push_back(it->second);
+		}
+	}
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1629,6 +1693,17 @@ cxxSolution::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std:
 			log_gamma_map[ints[ii++]] = doubles[dd++];
 		}
 	}
+	/*
+	 *  log_molalities_map
+	 */
+	{
+		log_molalities_map.clear();
+		int n = ints[ii++];
+		for (int i = 0; i < n; i++)
+		{
+			log_molalities_map[ints[ii++]] = doubles[dd++];
+		}
+	}
 }
 
 
@@ -1659,6 +1734,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("soln_vol"),	                            // 23
 	std::vector< std::string >::value_type("species_map"), 	                        // 24
 	std::vector< std::string >::value_type("log_gamma_map"), 	                    // 25
-	std::vector< std::string >::value_type("potential") 	                        // 26
+	std::vector< std::string >::value_type("potential"), 	                        // 26
+	std::vector< std::string >::value_type("log_molalities_map")                    // 27
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
