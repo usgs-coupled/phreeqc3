@@ -2829,7 +2829,7 @@ punch_pp_assemblage(void)
 		{
 			for (int j = 0; j < count_unknowns; j++)
 			{
-				if (x == NULL || x[j]->type != PP)
+				if (x.size() == 0 || x[j]->type != PP)
 					continue;
 				//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
 				cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;

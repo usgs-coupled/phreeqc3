@@ -4752,9 +4752,7 @@ setup_unknowns(void)
 /*
  *   Allocate space for pointer array and structures
  */
-
-	space((void **) ((void *) &x), INIT, &max_unknowns,
-		  sizeof(struct unknown *));
+	x.resize((size_t)max_unknowns);
 	for (i = 0; i < max_unknowns; i++)
 	{
 		x[i] = (struct unknown *) unknown_alloc();

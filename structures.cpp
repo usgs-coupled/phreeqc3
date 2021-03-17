@@ -103,11 +103,11 @@ clean_up(void)
 	/* pressure */
 	Rxn_pressure_map.clear();
 	/* unknowns */
-	for (j = 0; j < max_unknowns; j++)
+	for (j = 0; j < (int)x.size(); j++)
 	{
 		unknown_free(x[j]);
 	}
-	x = (struct unknown**)free_check_null(x);
+	x.clear();
 	/* mixtures */
 	Rxn_mix_map.clear();
 	/* phases */
