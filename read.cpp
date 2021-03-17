@@ -8567,15 +8567,9 @@ read_rates(void)
 			}
 			if (rate_ptr == NULL)
 			{
-				rates =
-					(struct rate *) PHRQ_realloc(rates,
-												 (size_t) (count_rates +
-														   1) *
-												 sizeof(struct rate));
-				if (rates == NULL)
-					malloc_error();
+				size_t count_rates = rates.size();
+				rates.resize(count_rates + 1);
 				rate_ptr = &rates[count_rates];
-				count_rates++;
 			}
 			else
 			{

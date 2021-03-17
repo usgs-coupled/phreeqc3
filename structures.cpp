@@ -132,11 +132,11 @@ clean_up(void)
 	m_original = (LDBLE*)free_check_null(m_original);
 	rk_moles = (LDBLE*)free_check_null(rk_moles);
 	/* rates */
-	for (j = 0; j < count_rates; j++)
+	for (j = 0; j < (int)rates.size(); j++)
 	{
 		rate_free(&rates[j]);
 	}
-	rates = (struct rate*)free_check_null(rates);
+	rates.clear();
 	/* logk hash table */
 	for (j = 0; j < (int)logk.size(); j++)
 	{
@@ -265,7 +265,6 @@ clean_up(void)
 #endif
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
-	count_rates = 0;
 	count_inverse = 0;
 
 	llnl_count_temp = 0;
@@ -1454,16 +1453,16 @@ rate_bsearch(char *ptr, int *j)
  */
 	void *void_ptr;
 
-	if (count_rates == 0)
+	if (rates.size() == 0)
 	{
 		*j = -1;
 		return (NULL);
 	}
 	void_ptr = (void *)
 		bsearch((char *) ptr,
-				(char *) rates,
-				(size_t) count_rates,
-				(size_t) sizeof(struct rate *), rate_compare_string);
+				(char *) rates.data(),
+				rates.size(),
+				sizeof(struct rate *), rate_compare_string);
 
 	if (void_ptr == NULL)
 	{
@@ -1471,7 +1470,7 @@ rate_bsearch(char *ptr, int *j)
 		return (NULL);
 	}
 
-	*j = (int) ((struct rate *) void_ptr - rates);
+	*j = (int) ((struct rate *) void_ptr - rates.data());
 	return ((struct rate *) void_ptr);
 }
 
@@ -1580,7 +1579,7 @@ rate_search(const char *name_in, int *n)
 
 	int i;
 	*n = -1;
-	for (i = 0; i < count_rates; i++)
+	for (i = 0; i < (int)rates.size(); i++)
 	{
 		if (strcmp_nocase(rates[i].name, name) == 0)
 		{
@@ -1604,9 +1603,9 @@ rate_sort(void)
 /*
  *   Sort array of rate structures
  */
-	if (count_rates > 0)
+	if (rates.size() > 1)
 	{
-		qsort(rates, (size_t) count_rates, (size_t) sizeof(struct rate),
+		qsort(rates.data(), rates.size(), sizeof(struct rate),
 			  rate_compare);
 	}
 	return (OK);

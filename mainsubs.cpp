@@ -84,11 +84,6 @@ initialize(void)
 	hcreate_multi((unsigned) MAX_S, &species_hash_table);
 	hcreate_multi((unsigned) MAX_PHASES, &phases_hash_table);
 
-	// one rate
-	rates = (struct rate *) PHRQ_malloc(sizeof(struct rate));
-	if (rates == NULL)
-		malloc_error();
-
 	// user_print
 	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
 	if (user_print == NULL)

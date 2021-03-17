@@ -796,8 +796,6 @@ void Phreeqc::init(void)
 	/* ----------------------------------------------------------------------
 	*   RATES
 	* ---------------------------------------------------------------------- */
-	rates                   = NULL;
-	count_rates				= 0;
 	rate_m					= 0;
 	rate_m0					= 0;
 	rate_time				= 0;
@@ -1922,21 +1920,16 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	// auto rate_p
 	count_rate_p            = 0;
 	*/
-	rates = (struct rate *) free_check_null(rates);
-	count_rates = pSrc->count_rates;
-	if (count_rates > 0)
+	for (int i = 0; i < (int)pSrc->rates.size(); i++)
 	{
-		rates = (struct rate *) PHRQ_malloc((size_t) count_rates * sizeof(struct rate));
-		if (rates == NULL) malloc_error();
-		for (int i = 0; i < count_rates; i++)
-		{
-			rates[i].name = string_hsave(pSrc->rates[i].name);
-			rates[i].commands = string_duplicate(pSrc->rates[i].commands); 
-			rates[i].new_def = TRUE;
-			rates[i].linebase = NULL;
-			rates[i].varbase = NULL;
-			rates[i].loopbase = NULL;
-		}
+		size_t count_rates = rates.size();
+		rates.resize(count_rates + 1);
+		rates[i].name = string_hsave(pSrc->rates[i].name);
+		rates[i].commands = string_duplicate(pSrc->rates[i].commands);
+		rates[i].new_def = TRUE;
+		rates[i].linebase = NULL;
+		rates[i].varbase = NULL;
+		rates[i].loopbase = NULL;
 	}
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
