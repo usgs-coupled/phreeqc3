@@ -1,45 +1,45 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
 Summary of Basic functions not include in PhreeqcI help:
 
-ADD_HEADING("NewHeading")			Append a new heading to the list of -headings defined
-									in USER_PUNCH. Note: only useful in PhreeqcRM and takes effect 
-									at next RunString, RunFile, or RunCells.
+ADD_HEADING("NewHeading")           Append a new heading to the list of -headings defined
+                                    in USER_PUNCH. Note: only useful in PhreeqcRM and takes effect 
+                                    at next RunString, RunFile, or RunCells.
 
-DEBYE_LENGTH     					Value of the Debye length.   
+DEBYE_LENGTH                        Value of the Debye length.
 
-DELTA_H_PHASE("Calcite")    		Delta H in KJ/mol. If an analytic expression exists,
-									Delta H is at reaction temperature; otherwise
-									Delta H at 25 C.
+DELTA_H_PHASE("Calcite")            Delta H in KJ/mol. If an analytic expression exists,
+                                    Delta H is at reaction temperature; otherwise
+                                    Delta H at 25 C.
 
-DELTA_H_SPECIES("CaHCO3+")			Delta H in KJ/mol. If an analytic expression exists,
-									Delta H is at reaction temperature, otherwise
-									Delta H at 25C.
+DELTA_H_SPECIES("CaHCO3+")          Delta H in KJ/mol. If an analytic expression exists,
+                                    Delta H is at reaction temperature, otherwise
+                                    Delta H at 25C.
 
-DH_A0(Na+")         				Debye-Huckel species-specific ion size parameter. 
+DH_A0(Na+")                         Debye-Huckel species-specific ion size parameter.
 
-DH_BDOT("Na+")  					Debye-Huckel species-specific ionic strength coefficient.   
+DH_BDOT("Na+")                      Debye-Huckel species-specific ionic strength coefficient.
 
-DIFF_C("CO3-2") 					Diffusion coefficient for a species at 25 C.           
-	
-EOL_NOTAB$ 							Omits the tab that is normally printed after EOL$.
+DIFF_C("CO3-2")                     Diffusion coefficient for a species at 25 C.
 
-EQUIV_FRAC("AlX3", 3.0, "X")		Equivalent fraction of exchange or surface species.
-									Second argument is equivalents per mole. Third argument 
-									is exchange or surface name.    
-  
-ITERATIONS      					Total number of iterations for the calculation.
+EOL_NOTAB$                          Omits the tab that is normally printed after EOL$.
 
-NO_NEWLINE$ 						Omits the new line normally written after printing a USER_PUNCH block.
-									This function can be used to completely eliminate a line for a cell 
-									(assuming no SELECTED_OUTPUT fields are defined. 
-									            
-SETDIFF_C       					Sets dw for a species (see SOLUTION_SPECIES), returns 
-									calculated diffusion coefficient at reaction temperature.
+EQUIV_FRAC("AlX3", 3.0, "X")        Equivalent fraction of exchange or surface species.
+                                    Second argument is equivalents per mole. Third argument 
+                                    is exchange or surface name.
 
-SYS("element", count , name$ ,  	Sixth argument is new and determines the sort order,
+ITERATIONS                          Total number of iterations for the calculation.
+
+NO_NEWLINE$                         Omits the new line normally written after printing a USER_PUNCH block.
+                                    This function can be used to completely eliminate a line for a cell 
+                                    (assuming no SELECTED_OUTPUT fields are defined).
+
+SETDIFF_C("CO3-2", 1.18e-9)         Sets dw for a species (see SOLUTION_SPECIES), returns
+                                    calculated diffusion coefficient at reaction temperature.
+
+SYS("element", count , name$,       Sixth argument is new and determines the sort order,
 type$ , moles, 1)                   0 sorted by 5th argument, 1, sorted by 3rd argument.
 
-  	-------------
+	-------------
 	March 10, 2021
 	-------------
 	PHREEQC: New Basic functions return (1) delta H of species,
