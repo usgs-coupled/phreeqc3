@@ -1737,9 +1737,7 @@ protected:
 #endif
 
 	/* cl1.cpp ------------------------------- */
-	LDBLE *x_arg, *res_arg, *scratch;
-	std::vector<double> x_arg_v, res_arg_v, scratch_v;
-	int x_arg_max, res_arg_max, scratch_max;
+	std::vector<double> x_arg, res_arg, scratch;
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
 

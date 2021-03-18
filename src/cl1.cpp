@@ -849,24 +849,31 @@ cl1(int k, int l, int m, int n,
 void Phreeqc::
 cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 {
-	if (l_n2d > x_arg_v.size())
+	if (check == 1)
 	{
-		x_arg_v.resize(l_n2d);
-		x_arg = &x_arg_v[0];
-	}
-	memset(&x_arg_v[0], 0, sizeof(double) * (size_t)l_n2d);
+		if ((size_t)l_n2d > x_arg.size())
+		{
+			x_arg.resize((size_t)l_n2d);
+		}
+		memset(&x_arg[0], 0, sizeof(double) * (size_t)l_n2d);
 
-	if (klm > res_arg_v.size())
-	{
-		res_arg_v.resize(klm);
-		res_arg = &res_arg_v[0];
+		if ((size_t)klm > res_arg.size())
+		{
+			res_arg.resize((size_t)klm);
+		}
+		memset(&res_arg[0], 0, sizeof(double) * (size_t)klm);
 	}
-	memset(&res_arg_v[0], 0, sizeof(double) * (size_t)klm);
-
-	if (l_nklmd > scratch_v.size())
+	if (l_nklmd > 0)
 	{
-		scratch_v.resize(l_nklmd);
-		scratch = &scratch_v[0];
+		if ((size_t)l_nklmd > scratch.size())
+		{
+			scratch.resize(l_nklmd);
+		}
+		memset(&scratch[0], 0, sizeof(double) * (size_t)l_nklmd);
 	}
-	memset(&scratch_v[0], 0, sizeof(double) * (size_t)l_nklmd);
+	else if (scratch.size() == 0)
+	{
+		scratch.resize(1);
+		memset(&scratch[0], 0, sizeof(double));
+	}
 }
