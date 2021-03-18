@@ -966,13 +966,6 @@ void Phreeqc::init(void)
 	basic_callback_cookie   = NULL;
 	basic_fortran_callback_ptr  = NULL;
 
-	/* cl1.cpp ------------------------------- */
-	x_arg                   = NULL; 
-	res_arg                 = NULL; 
-	scratch                 = NULL;
-	x_arg_max               = 0; 
-	res_arg_max             = 0; 
-	scratch_max             = 0;
 #ifdef SKIP
 	/* dw.cpp ------------------------------- */
 	/* COMMON /QQQQ/ */	
