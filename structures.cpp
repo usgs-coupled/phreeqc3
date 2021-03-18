@@ -970,7 +970,7 @@ master_bsearch(const char *ptr)
 		char * dup = string_duplicate(ptr);
 		replace("(+","(", dup);
 		void_ptr = bsearch((const char *) dup,
-			(char*)master[0],
+			(char*)&master[0],
 			master.size(),
 			sizeof(struct master*), master_compare_string);
 		dup = (char *) free_check_null(dup);
