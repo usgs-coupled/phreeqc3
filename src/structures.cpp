@@ -415,7 +415,7 @@ elt_list_combine(void)
 	{
 		return (OK);
 	}
-	qsort(elt_list.data(), (size_t)count_elts,
+	qsort(&elt_list[0], (size_t)count_elts,
 		sizeof(struct elt_list), Phreeqc::elt_list_compare);
 	j = 0;
 	for (i = 1; i < count_elts; i++)
@@ -850,7 +850,7 @@ inverse_sort(void)
  */
 	if (count_inverse > 0)
 	{
-		qsort(inverse.data(), (size_t) count_inverse,
+		qsort(&inverse[0], (size_t) count_inverse,
 			  sizeof(struct inverse), inverse_compare);
 	}
 	return (OK);
@@ -962,7 +962,7 @@ master_bsearch(const char *ptr)
 		return (NULL);
 	}
 	void_ptr = bsearch((const char *) ptr,
-					   (char *) master.data(),
+					   (char *) master[0],
 					   master.size(),
 					   sizeof(struct master *), master_compare_string);
 	if (void_ptr == NULL)
@@ -970,7 +970,7 @@ master_bsearch(const char *ptr)
 		char * dup = string_duplicate(ptr);
 		replace("(+","(", dup);
 		void_ptr = bsearch((const char *) dup,
-			(char*)master.data(),
+			(char*)master[0],
 			master.size(),
 			sizeof(struct master*), master_compare_string);
 		dup = (char *) free_check_null(dup);
@@ -1258,7 +1258,7 @@ phase_bsearch(const char *ptr, int *j, int print)
 	{
 		void_ptr = (void *)
 			bsearch((char *) ptr,
-					(char *) phases.data(),
+					(char *) phases[0],
 					phases.size(),
 					sizeof(struct phase *), phase_compare_string);
 	}
@@ -1274,7 +1274,7 @@ phase_bsearch(const char *ptr, int *j, int print)
 		return (NULL);
 	}
 
-	*j = (int) ((struct phase **) void_ptr - phases.data());
+	*j = (int) ((struct phase **) void_ptr - &phases[0]);
 	return (*(struct phase **) void_ptr);
 }
 
@@ -1434,7 +1434,7 @@ rate_bsearch(char *ptr, int *j)
 	}
 	void_ptr = (void *)
 		bsearch((char *) ptr,
-				(char *) rates.data(),
+				(char *) &rates[0],
 				rates.size(),
 				sizeof(struct rate *), rate_compare_string);
 
@@ -1444,7 +1444,7 @@ rate_bsearch(char *ptr, int *j)
 		return (NULL);
 	}
 
-	*j = (int) ((struct rate *) void_ptr - rates.data());
+	*j = (int) ((struct rate *) void_ptr - &rates[0]);
 	return ((struct rate *) void_ptr);
 }
 
@@ -1579,7 +1579,7 @@ rate_sort(void)
  */
 	if (rates.size() > 1)
 	{
-		qsort(rates.data(), rates.size(), sizeof(struct rate),
+		qsort(&rates[0], rates.size(), sizeof(struct rate),
 			  rate_compare);
 	}
 	return (OK);
@@ -2105,7 +2105,7 @@ save_values_bsearch(struct save_values *k, int *n)
 	}
 	void_ptr = (void *)
 		bsearch((char *) k,
-				(char *) save_values.data(),
+				(char *) &save_values[0],
 				save_values.size(),
 				(size_t) sizeof(struct save_values), save_values_compare);
 	if (void_ptr == NULL)
@@ -2113,7 +2113,7 @@ save_values_bsearch(struct save_values *k, int *n)
 		*n = -999;
 		return (NULL);
 	}
-	*n = (int) ((struct save_values *) void_ptr - save_values.data());
+	*n = (int) ((struct save_values *) void_ptr - &save_values[0]);
 	return ((struct save_values *) void_ptr);
 }
 
@@ -2165,7 +2165,7 @@ save_values_sort(void)
  */
 	if (save_values.size() > 0)
 	{
-		qsort(save_values.data(), save_values.size(),
+		qsort(&save_values[0], save_values.size(),
 			  sizeof(struct save_values), save_values_compare);
 	}
 	return (OK);
@@ -2209,7 +2209,7 @@ save_values_store(struct save_values *s_v)
 
 	if (save_values.size() > 0)
 	{
-		qsort(save_values.data(), save_values.size(),
+		qsort(&save_values[0], save_values.size(),
 			sizeof(struct save_values), save_values_compare);
 	}
 	return (OK);

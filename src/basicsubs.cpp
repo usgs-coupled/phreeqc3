@@ -2638,7 +2638,7 @@ edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles,
 	 */
 	if (sys.size() > 1)
 	{
-		qsort(sys.data(), sys.size(),
+		qsort(&sys[0], sys.size(),
 			  sizeof(struct system_species), system_species_compare);
 	}
 	/*
@@ -2729,12 +2729,12 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	 */
 	if (sys.size() > 1 && isort == 0)
 	{
-		qsort(sys.data(), sys.size(),
+		qsort(&sys[0], sys.size(),
 			  sizeof(struct system_species), system_species_compare);
 	}
 	else
 	{
-		qsort(sys.data(), sys.size(),
+		qsort(&sys[0], sys.size(),
 			(size_t)sizeof(struct system_species), system_species_compare_name);
 	}
 	/*
