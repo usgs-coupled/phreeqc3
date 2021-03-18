@@ -1665,7 +1665,7 @@ read_inverse(void)
 	{
 		qsort(inverse[n].isotopes,
 			  (size_t) inverse[n].count_isotopes,
-			  (size_t) sizeof(struct inv_isotope), inverse_isotope_compare);
+			  sizeof(struct inv_isotope), inverse_isotope_compare);
 	}
 
 	if (inverse[n].count_i_u > 0)
