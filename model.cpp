@@ -1125,11 +1125,11 @@ ineq(int in_kode)
 	ineq_array.resize((size_t)max_row_count * (size_t)max_column_count);
 	back_eq.resize((size_t)max_row_count);
 	zero.resize((size_t)max_row_count);
-	memset(zero.data(), 0, (size_t)max_row_count * sizeof(double));
+	memset(&zero[0], 0, (size_t)max_row_count * sizeof(double));
 	res.resize((size_t)max_row_count);
-	memset(res.data(), 0, (size_t)max_row_count * sizeof(double));
+	memset(&res[0], 0, (size_t)max_row_count * sizeof(double));
 	delta1.resize((size_t)max_column_count);
-	memset(delta1.data(), 0,(size_t)max_column_count * sizeof(double));
+	memset(&delta1[0], 0,(size_t)max_column_count * sizeof(double));
 /*
  *   Copy equations to optimize into ineq_array
  */
@@ -1695,7 +1695,7 @@ ineq(int in_kode)
 	if (debug_model == TRUE)
 	{
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
-		array_print(ineq_array.data(), l_count_rows, count_unknowns + 1,
+		array_print(&ineq_array[0], l_count_rows, count_unknowns + 1,
 					max_column_count);
 	}
 /*
@@ -1781,9 +1781,9 @@ ineq(int in_kode)
 /*
  *   Call CL1
  */
-	cl1(k, l, m, n, l_nklmd, l_n2d, ineq_array.data(),
-		&l_kode, ineq_tol, &l_iter, delta1.data(), res.data(),
-		&l_error, cu.data(), iu.data(), is.data(), FALSE);
+	cl1(k, l, m, n, l_nklmd, l_n2d, &ineq_array[0],
+		&l_kode, ineq_tol, &l_iter, &delta1[0], &res[0],
+		&l_error, &cu[0], &iu[0], &is[0], FALSE);
 /*   Set return_kode */
 	if (l_kode == 1)
 	{

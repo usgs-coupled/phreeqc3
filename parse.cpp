@@ -140,7 +140,7 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 /*
  *   Sort elements in reaction and combine
  */
-	//qsort(elt_list.data(), (size_t) count_elts, sizeof(struct elt_list),
+	//qsort(elt_list[0], (size_t) count_elts, sizeof(struct elt_list),
 	//	  elt_list_compare);
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
@@ -228,7 +228,7 @@ check_eqn(int association)
 /*
  *   Sort elements in reaction and combine
  */
-	//qsort(elt_list.data(), (size_t) count_elts, sizeof(struct elt_list),
+	//qsort(elt_list[0], (size_t) count_elts, sizeof(struct elt_list),
 	//	  elt_list_compare);
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
