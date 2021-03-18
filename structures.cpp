@@ -962,7 +962,7 @@ master_bsearch(const char *ptr)
 		return (NULL);
 	}
 	void_ptr = bsearch((const char *) ptr,
-					   (char *) master[0],
+					   (char *) &master[0],
 					   master.size(),
 					   sizeof(struct master *), master_compare_string);
 	if (void_ptr == NULL)
@@ -1258,7 +1258,7 @@ phase_bsearch(const char *ptr, int *j, int print)
 	{
 		void_ptr = (void *)
 			bsearch((char *) ptr,
-					(char *) phases[0],
+					(char *) &phases[0],
 					phases.size(),
 					sizeof(struct phase *), phase_compare_string);
 	}
