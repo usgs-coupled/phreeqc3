@@ -226,8 +226,6 @@ check_eqn(int association)
 /*
  *   Sort elements in reaction and combine
  */
-	//qsort(elt_list[0], (size_t) count_elts, sizeof(struct elt_list),
-	//	  elt_list_compare);
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
 /*
