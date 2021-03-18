@@ -1446,7 +1446,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */
-	std::vector<elt_list> elt_list;
+	std::vector<struct elt_list> elt_list;
 	int count_elts;		/* number of elements in elt_list = position of next */
 	/*----------------------------------------------------------------------
 	*   Reaction
@@ -1682,7 +1682,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	std::vector<master_isotope*> master_isotope;
+	std::vector<struct master_isotope*> master_isotope;
 	int initial_solution_isotopes;
 	std::vector<struct calculate_value*> calculate_value;
 	HashTable *calculate_value_hash_table;
