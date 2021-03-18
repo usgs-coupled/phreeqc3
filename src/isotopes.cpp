@@ -106,7 +106,7 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
+			(void)sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* total_is_major_isotope */
@@ -478,7 +478,7 @@ add_isotopes(cxxSolution &solution_ref)
 	/*
 	 * zero out isotopes
 	 */
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		master_isotope[i]->moles = 0;
 	}
@@ -513,7 +513,7 @@ add_isotopes(cxxSolution &solution_ref)
 	 * Set isotopes flag
 	 */
 	initial_solution_isotopes = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == TRUE
 			&& master_isotope[i]->moles > 0)
@@ -662,7 +662,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 	/*
 	 *  Update master_isotope
 	 */
-	for (j = 0; j < count_master_isotope; j++)
+	for (j = 0; j < (int)master_isotope.size(); j++)
 	{
 		for (i = 0; i < count_isotopes; i++)
 		{
@@ -770,12 +770,12 @@ print_initial_solution_isotopes(void)
 	print_centered("Isotopes");
 	output_msg(sformatf( "%10s\t%12s\t%12s\t%12s\t%12s\n\n", "Isotope",
 			   "Molality", "Moles", "Ratio", "Units"));
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 		{
 			print_isotope = FALSE;
-			for (j = 0; j < count_master_isotope; j++)
+			for (j = 0; j < (int)master_isotope.size(); j++)
 			{
 				if ((master_isotope[j]->elt == master_isotope[i]->elt) &&
 					(master_isotope[j]->minor_isotope == TRUE) &&
@@ -794,7 +794,7 @@ print_initial_solution_isotopes(void)
 					   master_isotope[i]->name,
 					   (double) (master_isotope[i]->moles / mass_water_aq_x),
 					   (double) master_isotope[i]->moles));
-			for (j = 0; j < count_master_isotope; j++)
+			for (j = 0; j < (int)master_isotope.size(); j++)
 			{
 				if (i == j)
 					continue;
@@ -892,11 +892,7 @@ punch_calculate_values(void)
 
 	if (current_selected_output->Get_calculate_values().size() == 0)
 		return OK;
-	//if (punch.in == FALSE || punch.calculate_values == FALSE)
-	//	return (OK);
-	//if (punch.count_calculate_values == 0)
-	//	return (OK);
-	//for (i = 0; i < punch.count_calculate_values; i++)
+
 	for (size_t i = 0; i < current_selected_output->Get_calculate_values().size(); i++)
 	{
 		result = MISSING;
@@ -995,7 +991,7 @@ print_isotope_ratios(void)
  *   Print heading
  */
 	print_isotope = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 			continue;
@@ -1015,7 +1011,7 @@ print_isotope_ratios(void)
 	output_msg(sformatf( "%25s\t%12s\t%15s\n\n", "Isotope Ratio",
 			   "Ratio", "Input Units"));
 
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
@@ -1057,7 +1053,7 @@ print_isotope_alphas(void)
  *   Print heading
  */
 	print_isotope = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 			continue;
@@ -1080,7 +1076,7 @@ print_isotope_alphas(void)
 			   "     Isotope Ratio", "Solution alpha", "Solution",
 			   (double) tc_x));
 
-	for (j = 0; j < count_isotope_alpha; j++)
+	for (j = 0; j < (int)isotope_alpha.size(); j++)
 	{
 		if (isotope_alpha[j]->value == MISSING)
 			continue;
@@ -1132,54 +1128,14 @@ calculate_values(void)
 	/*
 	 * initialize ratios as missing
 	 */
-	for (j = 0; j < count_calculate_value; j++)
+	for (j = 0; j < calculate_value.size(); j++)
 	{
 		calculate_value[j]->calculated = FALSE;
 		calculate_value[j]->value = MISSING;
 	}
-#ifdef SKIP
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value_ptr = calculate_value[j];
-		rate_moles = NAN;
-		if (calculate_value_ptr->new_def == TRUE)
-		{
-			if (basic_compile
-				(calculate_value[j]->commands, &calculate_value[j]->linebase,
-				 &calculate_value[j]->varbase,
-				 &calculate_value[j]->loopbase) != 0)
-			{
-				error_string = sformatf(
-						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value[j]->name);
-				error_msg(error_string, STOP);
-			}
-			calculate_value_ptr->new_def = FALSE;
-		}
-		if (basic_run
-			(l_command, calculate_value[j]->linebase,
-			 calculate_value[j]->varbase, calculate_value[j]->loopbase) != 0)
-		{
-			error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		if (rate_moles == NAN)
-		{
-			error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		else
-		{
-			calculate_value[j]->calculated = TRUE;
-			calculate_value[j]->value = rate_moles;
-		}
-	}
-#endif
 	if (pr.isotope_ratios == TRUE)
 	{
-		for (j = 0; j < count_isotope_ratio; j++)
+		for (j = 0; j < (int)isotope_ratio.size(); j++)
 		{
 			isotope_ratio_ptr = isotope_ratio[j];
 			master_isotope_ptr =
@@ -1246,7 +1202,7 @@ calculate_values(void)
 	}
 	if (pr.isotope_alphas == TRUE)
 	{
-		for (j = 0; j < count_isotope_alpha; j++)
+		for (j = 0; j < (int)isotope_alpha.size(); j++)
 		{
 			isotope_alpha_ptr = isotope_alpha[j];
 			calculate_value_ptr = calculate_value_search(isotope_alpha_ptr->name);
@@ -1306,107 +1262,6 @@ calculate_values(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calculate_values(void)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-	struct calculate_value *calculate_value_ptr;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct isotope_alpha *isotope_alpha_ptr;
-	struct master_isotope *master_isotope_ptr;
-	char l_command[] = "run";
-
-
-	/*
-	 * initialize ratios as missing
-	 */
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value[j]->calculated = FALSE;
-		calculate_value[j]->value = MISSING;
-	}
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value_ptr = calculate_value[j];
-		rate_moles = NAN;
-		if (calculate_value_ptr->new_def == TRUE)
-		{
-			if (basic_compile
-				(calculate_value[j]->commands, &calculate_value[j]->linebase,
-				 &calculate_value[j]->varbase,
-				 &calculate_value[j]->loopbase) != 0)
-			{
-				error_string = sformatf(
-						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value[j]->name);
-				error_msg(error_string, STOP);
-			}
-			calculate_value_ptr->new_def = FALSE;
-		}
-		if (basic_run
-			(l_command, calculate_value[j]->linebase,
-			 calculate_value[j]->varbase, calculate_value[j]->loopbase) != 0)
-		{
-			error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		if (rate_moles == NAN)
-		{
-			error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		else
-		{
-			calculate_value[j]->calculated = TRUE;
-			calculate_value[j]->value = rate_moles;
-		}
-	}
-	for (j = 0; j < count_isotope_ratio; j++)
-	{
-		isotope_ratio_ptr = isotope_ratio[j];
-		master_isotope_ptr =
-			master_isotope_search(isotope_ratio_ptr->isotope_name);
-		calculate_value_ptr = calculate_value_search(isotope_ratio_ptr->name);
-		/*
-		 *  Calculate converted isotope ratio
-		 */
-		if (calculate_value_ptr->value == MISSING)
-		{
-			isotope_ratio_ptr->ratio = MISSING;
-			isotope_ratio_ptr->converted_ratio = MISSING;
-		}
-		else
-		{
-			isotope_ratio_ptr->ratio = calculate_value_ptr->value;
-			isotope_ratio_ptr->converted_ratio =
-				convert_isotope(master_isotope_ptr,
-								calculate_value_ptr->value);
-		}
-	}
-	for (j = 0; j < count_isotope_alpha; j++)
-	{
-		isotope_alpha_ptr = isotope_alpha[j];
-		calculate_value_ptr = calculate_value_search(isotope_alpha_ptr->name);
-		/*
-		 *  Calculate converted isotope ratio
-		 */
-		if (calculate_value_ptr->value == MISSING)
-		{
-			isotope_alpha_ptr->value = MISSING;
-		}
-		else
-		{
-			isotope_alpha_ptr->value = calculate_value_ptr->value;
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 convert_isotope(struct master_isotope * master_isotope_ptr, LDBLE ratio)
@@ -1495,13 +1350,8 @@ master_isotope_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_master_isotope++;
-		/* make sure there is space in s */
-		if (count_master_isotope >= max_master_isotope)
-		{
-			space((void **) ((void *) &master_isotope), count_master_isotope,
-				  &max_master_isotope, sizeof(struct master_isotope *));
-		}
+		n = (int)master_isotope.size();
+		master_isotope.resize((size_t)n + 1);
 		/* Make new master_isotope structure */
 		master_isotope[n] = master_isotope_alloc();
 		master_isotope_ptr = master_isotope[n];
@@ -1663,14 +1513,8 @@ calculate_value_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_calculate_value++;
-		/* make sure there is space in s */
-		if (count_calculate_value >= max_calculate_value)
-		{
-			space((void **) ((void *) &calculate_value),
-				  count_calculate_value, &max_calculate_value,
-				  sizeof(struct calculate_value *));
-		}
+		n = (int)calculate_value.size();
+		calculate_value.resize((size_t)n+1);
 		/* Make new calculate_value structure */
 		calculate_value[n] = calculate_value_alloc();
 		calculate_value_ptr = calculate_value[n];
@@ -1855,13 +1699,8 @@ isotope_ratio_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_isotope_ratio++;
-		/* make sure there is space in s */
-		if (count_isotope_ratio >= max_isotope_ratio)
-		{
-			space((void **) ((void *) &isotope_ratio), count_isotope_ratio,
-				  &max_isotope_ratio, sizeof(struct isotope_ratio *));
-		}
+		n = (int)isotope_ratio.size();
+		isotope_ratio.resize((size_t)n + 1);
 		/* Make new isotope_ratio structure */
 		isotope_ratio[n] = isotope_ratio_alloc();
 		isotope_ratio_ptr = isotope_ratio[n];
@@ -2017,13 +1856,8 @@ isotope_alpha_store(const char *name, int replace_if_found)
 	}
 	else
 	{
-		n = count_isotope_alpha++;
-		/* make sure there is space in s */
-		if (count_isotope_alpha >= max_isotope_alpha)
-		{
-			space((void **) ((void *) &isotope_alpha), count_isotope_alpha,
-				  &max_isotope_alpha, sizeof(struct isotope_alpha *));
-		}
+		n = (int)isotope_alpha.size();
+		isotope_alpha.resize((size_t)n + 1);
 		/* Make new isotope_alpha structure */
 		isotope_alpha[n] = isotope_alpha_alloc();
 		isotope_alpha_ptr = isotope_alpha[n];

@@ -54,10 +54,7 @@ prep(void)
  *   Must allocate all necessary space before pointers to
  *   X are set.
  */
-
-	//if (!same_model && !switch_numerical)
-	//	numerical_fixed_volume = false;
-	if (same_model == FALSE || !my_array/*|| switch_numerical*/)
+	if (same_model == FALSE || my_array.size() == 0)
 	{
 		clear();
 		setup_unknowns();
@@ -81,26 +78,9 @@ prep(void)
 /*
  *   Allocate space for array
  */
-/*
-		array = (LDBLE *) PHRQ_malloc( (size_t) (count_unknowns+1) * count_unknowns * sizeof( LDBLE ));
-		if (array == NULL) malloc_error();
-		delta = (LDBLE *) PHRQ_malloc( (size_t) count_unknowns * sizeof( LDBLE ));
-		if (delta == NULL) malloc_error();
-		residual = (LDBLE *) PHRQ_malloc( (size_t) count_unknowns * sizeof( LDBLE ));
-		if (residual == NULL) malloc_error();
-*/
-		my_array =
-			(LDBLE *) PHRQ_malloc((size_t) (max_unknowns + 1) *
-								  max_unknowns * sizeof(LDBLE));
-		if (my_array == NULL)
-			malloc_error();
-		delta = (LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-		if (delta == NULL)
-			malloc_error();
-		residual =
-			(LDBLE *) PHRQ_malloc((size_t) max_unknowns * sizeof(LDBLE));
-		if (residual == NULL)
-			malloc_error();
+		my_array.resize(((size_t)max_unknowns + 1) * (size_t)max_unknowns);
+		delta.resize((size_t)max_unknowns);
+		residual.resize((size_t)max_unknowns);
 		for (int j = 0; j < max_unknowns; j++)
 		{
 		  residual[j] = 0;
@@ -155,7 +135,7 @@ quick_setup(void)
  *   Updates essential information for the model.
  */
 	int i;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type == SURF_PSI)
 			continue;
@@ -894,7 +874,7 @@ build_jacobian_sums(int k)
 /*
  *   Calculate jacobian coefficients for each mass balance equation
  */
-	for (i = 0; i < count_mb_unknowns; i++)
+	for (i = 0; i < (int)mb_unknowns.size(); i++)
 	{
 /*
  *   Store d(moles) for a mass balance equation
@@ -1101,24 +1081,11 @@ build_mb_sums(void)
 /*
  *   Make space for lists
  */
-	if (count_sum_mb1 + count_mb_unknowns >= max_sum_mb1)
-	{
-		space((void **) ((void *) &sum_mb1),
-			  count_sum_mb1 + count_mb_unknowns, &max_sum_mb1,
-			  sizeof(struct list1));
-	}
-	if (count_sum_mb2 + count_mb_unknowns >= max_sum_mb2)
-	{
-		space((void **) ((void *) &sum_mb2),
-			  count_sum_mb2 + count_mb_unknowns, &max_sum_mb2,
-			  sizeof(struct list2));
-	}
-
 	if (debug_prep == TRUE)
 	{
 		output_msg(sformatf( "\n\tMass balance summations.\n"));
 	}
-	for (i = 0; i < count_mb_unknowns; i++)
+	for (i = 0; i < (int)mb_unknowns.size(); i++)
 	{
 		target = &(mb_unknowns[i].unknown->f);
 		store_mb(mb_unknowns[i].source, target, mb_unknowns[i].coef);
@@ -1152,60 +1119,24 @@ build_model(void)
 /*
  *   Make space for lists of pointers to species in the model
  */
-
-	max_s_x = MAX_S;
-	
 	// clear sum_species_map, which is built from s_x
 	sum_species_map_db.clear();
 	sum_species_map.clear();
-
-	space((void **) ((void *) &s_x), INIT, &max_s_x,
-		  sizeof(struct species *));
-
-	max_sum_mb1 = MAX_SUM_MB;
-	count_sum_mb1 = 0;
-	space((void **) ((void *) &sum_mb1), INIT, &max_sum_mb1,
-		  sizeof(struct list1));
-
-	max_sum_mb2 = MAX_SUM_MB;
-	count_sum_mb2 = 0;
-	space((void **) ((void *) &sum_mb2), INIT, &max_sum_mb2,
-		  sizeof(struct list2));
-
-	max_sum_jacob0 = MAX_SUM_JACOB0;
-	count_sum_jacob0 = 0;
-	space((void **) ((void *) &sum_jacob0), INIT, &max_sum_jacob0,
-		  sizeof(struct list0));
-
-	max_sum_jacob1 = MAX_SUM_JACOB1;
-	count_sum_jacob1 = 0;
-	space((void **) ((void *) &sum_jacob1), INIT, &max_sum_jacob1,
-		  sizeof(struct list1));
-
-	max_sum_jacob2 = MAX_SUM_JACOB2;
-	count_sum_jacob2 = 0;
-	space((void **) ((void *) &sum_jacob2), INIT, &max_sum_jacob2,
-		  sizeof(struct list2));
-
-
-	max_sum_delta = MAX_SUM_JACOB0;
-	count_sum_delta = 0;
-	space((void **) ((void *) &sum_delta), INIT, &max_sum_delta,
-		  sizeof(struct list2));
-
-	max_species_list = 5 * MAX_S;
-	count_species_list = 0;
-	species_list = (struct species_list *) free_check_null(species_list);
-	space((void **) ((void *) &species_list), INIT, &max_species_list,
-		  sizeof(struct species_list));
-
+	s_x.clear();
+	sum_mb1.clear();
+	sum_mb2.clear();
+	sum_jacob0.clear();
+	sum_jacob1.clear();
+	sum_jacob2.clear();
+	sum_delta.clear();
+	species_list.clear();
 /*
  *   Pick species in the model, determine reaction for model, build jacobian
  */
-	count_s_x = 0;
+	s_x.clear();
 	compute_gfw("H2O", &gfw_water);
 	gfw_water *= 0.001;
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i]->type > H2O && s[i]->type != EX && s[i]->type != SURF)
 			continue;
@@ -1225,13 +1156,10 @@ build_model(void)
 			}
 			if (pitzer_model == FALSE && sit_model == FALSE)
 				s[i]->lg = 0.0;
-			if (count_s_x + 1 >= max_s_x)
-			{
-				space((void **) ((void *) &s_x), count_s_x + 1,
-					  &max_s_x, sizeof(struct species *));
-			}
 			compute_gfw(s[i]->name, &s[i]->gfw);
-			s_x[count_s_x++] = s[i];
+			size_t count_s_x = s_x.size();
+			s_x.resize(count_s_x + 1);
+			s_x[count_s_x] = s[i];
 			
 /*
  *   Write mass action equation for current model
@@ -1364,7 +1292,7 @@ build_model(void)
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
 		j0 = count_unknowns;
-		j = count_unknowns + count_s_x;
+		j = count_unknowns + (int)this->s_x.size();
 		k = j0;
 		for (i = j0; i < j; i++)
 		{
@@ -1383,7 +1311,7 @@ build_model(void)
 	/*
  *   Rewrite phases to current master species
  */
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		count_trxn = 0;
 		trxn_add_phase(phases[i]->rxn_s, 1.0, FALSE);
@@ -1424,8 +1352,8 @@ build_model(void)
 /*
  *   Sort species list, by master only
  */
-	qsort(&species_list[0], (size_t) count_species_list,
-		  (size_t) sizeof(struct species_list), species_list_compare_master);
+	qsort(&species_list[0], (int)species_list.size(),
+		  sizeof(struct species_list), species_list_compare_master);
 /*
  *   Save model description
  */
@@ -1707,23 +1635,15 @@ build_species_list(int n)
 	int j;
 	struct master *master_ptr;
 /*
- *   Check space and store reaction token name and pointer to species
- */
-	if (count_species_list + count_elts >= max_species_list)
-	{
-		space((void **) ((void *) &species_list),
-			  count_species_list + count_elts, &max_species_list,
-			  sizeof(struct species_list));
-	}
-/*
  *   Treat species made only with H+, e-, and H2O specially
  */
 	if (is_special(s[n]) == TRUE)
 	{
+		size_t count_species_list = species_list.size();
+		species_list.resize(count_species_list + 1);
 		species_list[count_species_list].master_s = s_hplus;
 		species_list[count_species_list].s = s[n];
 		species_list[count_species_list].coef = 0.0;
-		count_species_list++;
 		return (OK);
 	}
 /*
@@ -1738,12 +1658,13 @@ build_species_list(int n)
 			if (elt_list[j].elt->master->s->type != EX)
 				continue;
 			master_ptr = elt_list[j].elt->master;
+			size_t count_species_list = species_list.size();
+			species_list.resize(count_species_list + 1);
 			species_list[count_species_list].master_s =
 				elt_list[j].elt->master->s;
 			species_list[count_species_list].s = s[n];
 			species_list[count_species_list].coef = master_ptr->coef *
 				elt_list[j].coef;
-			count_species_list++;
 		}
 		return (OK);
 	}
@@ -1759,12 +1680,13 @@ build_species_list(int n)
 			if (elt_list[j].elt->master->s->type != SURF)
 				continue;
 			master_ptr = elt_list[j].elt->master;
+			size_t count_species_list = species_list.size();
+			species_list.resize(count_species_list + 1);
 			species_list[count_species_list].master_s =
 				elt_list[j].elt->master->s;
 			species_list[count_species_list].s = s[n];
 			species_list[count_species_list].coef = master_ptr->coef *
 				elt_list[j].coef;
-			count_species_list++;
 		}
 		return (OK);
 	}
@@ -1783,6 +1705,8 @@ build_species_list(int n)
 		{
 			master_ptr = elt_list[j].elt->master->s->primary;
 		}
+		size_t count_species_list = species_list.size();
+		species_list.resize(count_species_list + 1);
 		species_list[count_species_list].master_s = master_ptr->s;
 		species_list[count_species_list].s = s[n];
 /*
@@ -1790,7 +1714,6 @@ build_species_list(int n)
  */
 		species_list[count_species_list].coef = master_ptr->coef *
 			elt_list[j].coef;
-		count_species_list++;
 	}
 	return (OK);
 }
@@ -1810,7 +1733,7 @@ clear(void)
  */
 	solution_ptr = use.Get_solution_ptr();
 
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		s[i]->in = FALSE;
 	}
@@ -1835,7 +1758,7 @@ clear(void)
  *   Clear master species solution-dependent data
  */
 	const char * pe_str = string_hsave("pe");
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->in = FALSE;
 		master[i]->unknown = NULL;
@@ -1888,37 +1811,6 @@ clear(void)
  *   Free arrays used in model   
  */
 	free_model_allocs();
-#ifdef SKIP
-   // Bug-fix
-   // The standard implementation of clear() sets the unknown pointer of some of the
-   // masters to NULL. However, the function quick_setup presumes that a master pointer
-   // is valid when the masters total is larger than zero. This results in a crash
-   // when the unknown pointer is dereferenced. The same goes for the secondary master 
-   // species.
-   //
-   // Perhaps this should be part of the 'Clear master species solution-dependent data'-loop above?!
-   for ( int i = 0; i < count_master; i++ )
-   {
-      if (master[i]->s->type == SURF_PSI)
-         continue;
-
-      if ( master[i]->s == s_eminus ||
-            master[i]->s == s_hplus ||
-            master[i]->s == s_h2o   || 
-            master[i]->s == s_h2    || 
-            master[i]->s == s_o2 )
-               continue;
-
-      if (master[i]->total > 0 )
-      {
-         // Make sure masters total is set to zero when unknown pointer for master species is not set
-         if ( ( master[i]->s->secondary && !master[i]->s->secondary->unknown ) || !master[i]->unknown )
-         {
-            master[i]->total = 0.0;
-         }
-      }
-   }
-#endif   
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -2122,7 +2014,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 /*
  *   First in list is primary species
  */
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j] == master_ptr0)
 				break;
@@ -2131,7 +2023,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 /*
  *   Element has only one valence
  */
-		if (j >= count_master || master[j]->elt->primary != master_ptr0)
+		if (j >= (int)master.size() || master[j]->elt->primary != master_ptr0)
 		{
 			master_ptr_list[count_list++] = master_ptr0;
 /*
@@ -2149,7 +2041,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 				input_error++;
 			}
 			master_ptr_list[count_list++] = master_ptr0->s->secondary;
-			while (j < count_master && master[j]->elt->primary == master_ptr0)
+			while (j < (int)master.size() && master[j]->elt->primary == master_ptr0)
 			{
 				if (master[j]->s->primary == NULL)
 				{
@@ -2268,16 +2160,12 @@ store_mb_unknowns(struct unknown *unknown_ptr, LDBLE * LDBLE_ptr, LDBLE coef,
 {
 	if (equal(coef, 0.0, TOL) == TRUE)
 		return (OK);
-	if ((count_mb_unknowns + 1) >= max_mb_unknowns)
-	{
-		space((void **) ((void *) &mb_unknowns), count_mb_unknowns + 1,
-			  &max_mb_unknowns, sizeof(struct unknown_list));
-	}
+	size_t count_mb_unknowns = mb_unknowns.size();
+	mb_unknowns.resize(count_mb_unknowns + 1);
 	mb_unknowns[count_mb_unknowns].unknown = unknown_ptr;
 	mb_unknowns[count_mb_unknowns].source = LDBLE_ptr;
 	mb_unknowns[count_mb_unknowns].gamma_source = gamma_ptr;
 	mb_unknowns[count_mb_unknowns].coef = coef;
-	count_mb_unknowns++;
 	return (OK);
 }
 
@@ -2300,7 +2188,7 @@ mb_for_species_aq(int n)
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
 
-	count_mb_unknowns = 0;
+	mb_unknowns.clear();
 /*
  *   e- does not appear in any mass balances
  */
@@ -2463,7 +2351,8 @@ mb_for_species_ex(int n)
  */
 	int i;
 	struct master *master_ptr;
-	count_mb_unknowns = 0;
+
+	mb_unknowns.clear();
 /*
  *   Master species for exchange do not appear in any mass balances
  */
@@ -2553,7 +2442,7 @@ mb_for_species_surf(int n)
 	int i;
 	struct master *master_ptr;
 
-	count_mb_unknowns = 0;
+	mb_unknowns.clear();
 /*
  *   Include in charge balance, if diffuse_layer_x == FALSE
  */
@@ -2677,7 +2566,7 @@ reprep(void)
 /*
  *   Initialize s, master, and unknown pointers
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->in == FALSE)
 			continue;
@@ -2696,13 +2585,13 @@ reprep(void)
 /*
  *   Free arrays built in build_model
  */
-	s_x = (struct species **) free_check_null(s_x);
-	sum_mb1 = (struct list1 *) free_check_null(sum_mb1);
-	sum_mb2 = (struct list2 *) free_check_null(sum_mb2);
-	sum_jacob0 = (struct list0 *) free_check_null(sum_jacob0);
-	sum_jacob1 = (struct list1 *) free_check_null(sum_jacob1);
-	sum_jacob2 = (struct list2 *) free_check_null(sum_jacob2);
-	sum_delta = (struct list2 *) free_check_null(sum_delta);
+	s_x.clear();
+	sum_mb1.clear();
+	sum_mb2.clear();
+	sum_jacob0.clear();
+	sum_jacob1.clear();
+	sum_jacob2.clear();
+	sum_delta.clear(); 
 /*
  *   Build model again
  */
@@ -2919,11 +2808,8 @@ add_potential_factor(void)
 /*
  *   Make sure there is space
  */
-	if (count_trxn + 1 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 1, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t)count_trxn + 1 > trxn.token.size())
+		trxn.token.resize((size_t)count_trxn + 1);
 /*
  *   Include psi in mass action equation
  */
@@ -3016,11 +2902,8 @@ add_cd_music_factors(int n)
 	/*
 	 *   Make sure there is space
 	 */
-	if (count_trxn + 3 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 3, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t)count_trxn + 3 > trxn.token.size())
+		trxn.token.resize((size_t)count_trxn + 3);
 	/*
 	 *   Include psi in mass action equation
 	 */
@@ -4863,15 +4746,13 @@ setup_unknowns(void)
 	max_unknowns++;
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		max_unknowns += count_s;
+		max_unknowns += (int)s.size();
 	}
 
 /*
  *   Allocate space for pointer array and structures
  */
-
-	space((void **) ((void *) &x), INIT, &max_unknowns,
-		  sizeof(struct unknown *));
+	x.resize((size_t)max_unknowns);
 	for (i = 0; i < max_unknowns; i++)
 	{
 		x[i] = (struct unknown *) unknown_alloc();
@@ -4976,34 +4857,26 @@ store_jacob(LDBLE * source, LDBLE * target, LDBLE coef)
  */
 	if (equal(coef, 1.0, TOL) == TRUE)
 	{
+		size_t count_sum_jacob1 = sum_jacob1.size();
+		sum_jacob1.resize(count_sum_jacob1 + 1);
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\tjacob1 %d\n", count_sum_jacob1));
+			output_msg(sformatf( "\tjacob1 %d\n", (int)count_sum_jacob1));
 		}
 		sum_jacob1[count_sum_jacob1].source = source;
-		sum_jacob1[count_sum_jacob1++].target = target;
-		/*    Check space */
-		if (count_sum_jacob1 >= max_sum_jacob1)
-		{
-			space((void **) ((void *) &sum_jacob1), count_sum_jacob1,
-				  &max_sum_jacob1, sizeof(struct list1));
-		}
+		sum_jacob1[count_sum_jacob1].target = target;
 	}
 	else
 	{
+		size_t count_sum_jacob2 = sum_jacob2.size();
+		sum_jacob2.resize(count_sum_jacob2 + 1);
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\tjacob2 %d\n", count_sum_jacob2));
+			output_msg(sformatf("\tjacob2 %d\n", count_sum_jacob2));
 		}
 		sum_jacob2[count_sum_jacob2].source = source;
 		sum_jacob2[count_sum_jacob2].target = target;
-		sum_jacob2[count_sum_jacob2++].coef = coef;
-		/*    Check space */
-		if (count_sum_jacob2 >= max_sum_jacob2)
-		{
-			space((void **) ((void *) &sum_jacob2), count_sum_jacob2,
-				  &max_sum_jacob2, sizeof(struct list2));
-		}
+		sum_jacob2[count_sum_jacob2].coef = coef;
 	}
 	return (OK);
 }
@@ -5016,15 +4889,11 @@ store_jacob0(int row, int column, LDBLE coef)
 /*
  *   Stores in list a constant coef which will be added into jacobian array
  */
+	size_t count_sum_jacob0 = sum_jacob0.size();
+	sum_jacob0.resize(count_sum_jacob0 + 1);
 	sum_jacob0[count_sum_jacob0].target =
-		&(my_array[row * (count_unknowns + 1) + column]);
-	sum_jacob0[count_sum_jacob0++].coef = coef;
-	/*    Check space */
-	if (count_sum_jacob0 >= max_sum_jacob0)
-	{
-		space((void **) ((void *) &sum_jacob0), count_sum_jacob0,
-			  &max_sum_jacob0, sizeof(struct list0));
-	}
+		&(my_array[(size_t)row * ((size_t)count_unknowns + 1) + (size_t)column]);
+	sum_jacob0[count_sum_jacob0].coef = coef;
 	return (OK);
 }
 
@@ -5040,25 +4909,18 @@ store_mb(LDBLE * source, LDBLE * target, LDBLE coef)
  */
 	if (equal(coef, 1.0, TOL) == TRUE)
 	{
+		size_t count_sum_mb1 = sum_mb1.size();
+		sum_mb1.resize(count_sum_mb1 + 1);
 		sum_mb1[count_sum_mb1].source = source;
-		sum_mb1[count_sum_mb1++].target = target;
-		if (count_sum_mb1 >= max_sum_mb1)
-		{
-			space((void **) ((void *) &sum_mb1),
-				  count_sum_mb1 + count_trxn + 4, &max_sum_mb1,
-				  sizeof(struct list1));
-		}
+		sum_mb1[count_sum_mb1].target = target;
 	}
 	else
 	{
+		size_t count_sum_mb2 = sum_mb2.size();
+		sum_mb2.resize(count_sum_mb2 + 1);
 		sum_mb2[count_sum_mb2].source = source;
 		sum_mb2[count_sum_mb2].coef = coef;
-		sum_mb2[count_sum_mb2++].target = target;
-		if (count_sum_mb2 >= max_sum_mb2)
-		{
-			space((void **) ((void *) &sum_mb2), count_sum_mb2,
-				  &max_sum_mb2, sizeof(struct list2));
-		}
+		sum_mb2[count_sum_mb2].target = target;
 	}
 	return (OK);
 }
@@ -5074,15 +4936,11 @@ store_sum_deltas(LDBLE * source, LDBLE * target, LDBLE coef)
  *   in x[i]->delta. These may be multiplied by a factor under some
  *   situations where the entire calculated step is not taken
  */
+	size_t count_sum_delta = sum_delta.size();
+	sum_delta.resize(count_sum_delta + 1);
 	sum_delta[count_sum_delta].source = source;
 	sum_delta[count_sum_delta].target = target;
-	sum_delta[count_sum_delta++].coef = coef;
-	/*    Check space */
-	if (count_sum_delta >= max_sum_delta)
-	{
-		space((void **) ((void *) &sum_delta), count_sum_delta,
-			  &max_sum_delta, sizeof(struct list2));
-	}
+	sum_delta[count_sum_delta].coef = coef;
 	return (OK);
 }
 
@@ -5159,13 +5017,13 @@ tidy_redox(void)
 /*
  *   Keep valences of oxygen and hydrogen in model, if not already in
  */
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->primary == TRUE &&
 			(master[i]->s == s_hplus || master[i]->s == s_h2o))
 		{
 			int j = i + 1;
-			while (j < count_master && master[j]->elt->primary == master[i])
+			while (j < (int)master.size() && master[j]->elt->primary == master[i])
 			{
 				if (master[j]->in == FALSE && master[j]->s != master[i]->s)
 				{
@@ -5359,12 +5217,7 @@ write_mb_eqn_x(void)
 			free_check_null(temp_name);
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	return (OK);
 }
 
@@ -5414,22 +5267,16 @@ write_mb_for_species_list(int n)
 	{
 		if (strcmp(elt_list[i].elt->name, "O(-2)") == 0)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_h_one;
 			elt_list[count_elts].coef = elt_list[i].coef * 2;
 			count_elts++;
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	s[n]->next_sys_total =
 		(struct elt_list *) free_check_null(s[n]->next_sys_total);
 	s[n]->next_sys_total = elt_list_save();
@@ -5477,22 +5324,16 @@ write_phase_sys_total(int n)
 	{
 		if (strcmp(elt_list[i].elt->name, "O(-2)") == 0)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_h_one;
 			elt_list[count_elts].coef = elt_list[i].coef * 2;
 			count_elts++;
 		}
 	}
-	if (count_elts > 0)
-	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 	phases[n]->next_sys_total =
 		(struct elt_list *) free_check_null(phases[n]->next_sys_total);
 	phases[n]->next_sys_total = elt_list_save();
@@ -5655,7 +5496,7 @@ calc_vm(LDBLE tc, LDBLE pa)
  */
 	if (llnl_count_temp > 0) return OK;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
-	for (int i = 0; i < count_s_x; i++)
+	for (int i = 0; i < (int)this->s_x.size(); i++)
 	{
 		//if (!strcmp(s_x[i]->name, "H2O"))
 		if (s_x[i] == s_h2o)
@@ -5750,7 +5591,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	calc_vm(tc, pa);
 
 	mu_terms_in_logk = false;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		//if (s_x[i]->rxn_x->logk[vm_tc])
 		/* calculate delta_v for the reaction... */
@@ -5763,7 +5604,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 /*
  *    Calculate log k for all pure phases
  */
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		if (phases[i]->in == TRUE)  
 		{
@@ -5849,7 +5690,7 @@ save_model(void)
 /*
  *   mark master species 
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->last_model = FALSE;
 		if (master[i]->total > 0)
@@ -6040,7 +5881,7 @@ check_same_model(void)
 /*
  *   Check master species
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 /*
 		output_msg(sformatf("%s\t%e\t%d\n", master[i]->elt->name,
@@ -6603,8 +6444,6 @@ change_hydrogen_in_elt_list(LDBLE charge)
 	found_o = -1;
 	coef_h = 0.0;
 	coef_o = 0.0;
-	qsort(elt_list, (size_t) count_elts,
-		  (size_t) sizeof(struct elt_list), elt_list_compare);
 	elt_list_combine();
 	for (j = 0; j < count_elts; j++)
 	{
@@ -6629,8 +6468,6 @@ change_hydrogen_in_elt_list(LDBLE charge)
 		elt_list[count_elts].elt = s_hplus->primary->elt;
 		elt_list[count_elts].coef = coef;
 		count_elts++;
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
 		elt_list_combine();
 		return (OK);
 	}

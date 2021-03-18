@@ -266,15 +266,9 @@ setup_inverse(struct inverse *inv_ptr)
 /*
  *   Malloc space for arrays
  */
-	my_array = (LDBLE *) free_check_null(my_array);
-	my_array =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
-							  sizeof(LDBLE));
-	if (my_array == NULL)
-		malloc_error();
+	my_array.resize((size_t)max_column_count * (size_t)max_row_count);
 
-	array1 =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
+	array1 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
 							  sizeof(LDBLE));
 	if (array1 == NULL)
 		malloc_error();
@@ -288,10 +282,7 @@ setup_inverse(struct inverse *inv_ptr)
 	if (row_name == NULL)
 		malloc_error();
 
-	delta = (LDBLE *) free_check_null(delta);
-	delta = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (delta == NULL)
-		malloc_error();
+	delta.resize((size_t)max_column_count);
 
 	inv_delta1 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
 	if (inv_delta1 == NULL)
@@ -380,7 +371,7 @@ setup_inverse(struct inverse *inv_ptr)
  */
 
 	/* initialize master species */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->in = -1;
 		if (strstr(master[i]->elt->name, "Alk") == master[i]->elt->name)
@@ -439,7 +430,7 @@ setup_inverse(struct inverse *inv_ptr)
 		column = i;
 		sprintf(token, "soln %d", i);
 		col_name[column] = string_hsave(token);
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j]->in >= 0)
 			{
@@ -453,7 +444,7 @@ setup_inverse(struct inverse *inv_ptr)
 		}
 		/* calculate charge balance for elements in model */
 		cb = 0;
-		for (j = 0; j < count_master; j++)
+		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j]->in >= 0)
 			{
@@ -1332,8 +1323,8 @@ solve_inverse(struct inverse *inv_ptr)
 		output_msg(sformatf( "\tNumber of calls to cl1: %d\n",
 				   count_calls));
 	}
-	my_array = (LDBLE *) free_check_null(my_array);
-	delta = (LDBLE *) free_check_null(delta);
+	my_array.clear();
+	delta.clear();
 	array1 = (LDBLE *) free_check_null(array1);
 	inv_zero = (LDBLE *) free_check_null(inv_zero);
 	inv_res = (LDBLE *) free_check_null(inv_res);
@@ -1462,7 +1453,7 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 	memcpy((void *) &(delta_save[0]), (void *) &(inv_zero[0]),
 		   (size_t) max_column_count * sizeof(LDBLE));
 
-	shrink(inv_ptr, my_array, array1,
+	shrink(inv_ptr, my_array.data(), array1,
 		   &k, &l, &m, &n, cur_bits, delta2, col_back, row_back);
 	/*
 	 *  Save delta constraints
@@ -2068,7 +2059,7 @@ print_model(struct inverse *inv_ptr)
 			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula));
 
 		i1 = 0;
-		for (; i1 < count_phases; i1++)
+		for (; i1 < (int)phases.size(); i1++)
 		{
 			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
 				continue;
@@ -2223,100 +2214,6 @@ punch_model_heading(struct inverse *inv_ptr)
 	punch_flush();
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-punch_model_heading(struct inverse *inv_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Prints model headings to selected output file
- */
-	int i;
-	char token[MAX_LENGTH];
-	//if (/*punch.in == FALSE ||*/ pr.punch == FALSE || punch.inverse == FALSE)
-	//	return (OK);
-	std::vector<std::string> heading_names;
-	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
-	for ( ; so_it != SelectedOutput_map.end(); so_it++)
-	{
-		// set punch file
-		current_selected_output = &(so_it->second);
-		if (pr.punch == FALSE ||
-			current_selected_output == NULL || 
-			current_selected_output->punch_ostream == NULL ||
-			!current_selected_output->Get_inverse() ||
-			!current_selected_output->Get_active())
-			continue;
-		phrq_io->Set_punch_ostream(current_selected_output->punch_ostream);
-
-		int l = (!current_selected_output->Get_high_precision()) ? 15 : 20;
-		heading_names.clear();
-		/*
-		*  Print sum of residuals and maximum fractional error
-		*/
-		heading_names.push_back(sformatf("%*s\t", l, "Sum_resid"));
-		heading_names.push_back(sformatf("%*s\t", l, "Sum_Delta/U"));
-		heading_names.push_back(sformatf("%*s\t", l, "MaxFracErr"));
-
-		/*
-		*   Print solution numbers
-		*/
-		for (i = 0; i < inv_ptr->count_solns; i++)
-		{
-			sprintf(token, "Soln_%d", inv_ptr->solns[i]);
-			std::string tok1(token);
-			tok1.append("_min");
-			std::string tok2(token);
-			tok2.append("_max");
-
-			heading_names.push_back(sformatf("%*s\t", l, token));
-			heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
-			heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
-		}
-		/*
-		*   Print phase names
-		*/
-		for (i = col_phases; i < col_redox; i++)
-		{
-
-			std::string tok1(col_name[i]);
-			tok1.append("_max");
-			std::string tok2(col_name[i]);
-			tok2.append("_max");
-
-			heading_names.push_back(sformatf("%*s\t", l, col_name[i]));
-			heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
-			heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
-
-		}
-
-		size_t j;
-
-		// punch headings
-		//user_punch_count_headings = (int) heading_names.size();
-		//user_punch_headings = (const char **) PHRQ_realloc(user_punch_headings,
-		//	(size_t) (user_punch_count_headings + 1) * sizeof(char *));
-		//if (user_punch_headings == NULL)
-		//	malloc_error();
-
-		for (j = 0; j < heading_names.size(); j++)
-		{
-			fpunchf_heading(heading_names[j].c_str());
-			//user_punch_headings[j] = string_hsave(heading_names[j].c_str());
-		}
-		fpunchf_heading("\n");
-	}
-	current_selected_output = NULL;
-	phrq_io->Set_punch_ostream(NULL);
-	inverse_heading_names = heading_names;
-/*
- *   Flush buffer after each model
- */
-	punch_flush();
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 punch_model(struct inverse *inv_ptr)
@@ -3708,7 +3605,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 		{
 
 			/* find master */
-			for (k = 0; k < count_master; k++)
+			for (k = 0; k < (int)master.size(); k++)
 			{
 				if (master[k] == primary_ptr)
 					break;
@@ -3716,7 +3613,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 
 			/* sum all secondary for master */
 			k++;
-			for (; k < count_master; k++)
+			for (; k < (int)master.size(); k++)
 			{
 				if (master[k]->elt->primary != primary_ptr)
 					break;
@@ -4512,7 +4409,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	LDBLE d1, d2, d3;
 	char *ptr;
 	LDBLE sum, sum1, sum_iso, d;
-	LDBLE *array_save, *l_delta_save;
+	std::vector<double> array_save, l_delta_save;
 	int count_unknowns_save, max_row_count_save, max_column_count_save, temp,
 		count_current_solutions, temp_punch;
 	int solnmap[10][2];
@@ -4534,8 +4431,6 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	max_row_count_save = max_row_count;
 	max_column_count_save = max_column_count;
 
-	my_array = NULL;
-	delta = NULL;
 	count_unknowns = 0;
 	max_row_count = 0;
 	max_column_count = 0;
@@ -4973,9 +4868,6 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		fprintf(netpath_file, "%14d     # Well number\n",
 				count_pat_solutions);
 	}
-	//free_model_allocs();
-	my_array = (LDBLE *) free_check_null(my_array);
-	delta = (LDBLE *) free_check_null(delta);
 	my_array = array_save;
 	delta = l_delta_save;
 	count_unknowns = count_unknowns_save;
@@ -5016,7 +4908,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
  * Write elements
  */
 	xsolution_zero();
-	for (j = 0; j < count_master; j++)
+	for (j = 0; j < (int)master.size(); j++)
 	{
 		master[j]->in = FALSE;
 	}
@@ -5036,7 +4928,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 			continue;
 		master_ptr->in = TRUE;
 	}
-	for (j = 0; j < count_master; j++)
+	for (j = 0; j < (int)master.size(); j++)
 	{
 		if (master[j]->in == TRUE)
 		{
@@ -5204,7 +5096,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 				std::string::iterator e = string.end();
 				CParser::copy_token(token, b, e);
 				CParser::copy_token(string1, b, e);
-				sscanf(string1.c_str(), SCANFORMAT, &f);
+				(void)sscanf(string1.c_str(), SCANFORMAT, &f);
 				sum += f * rxn_ptr->coef;
 			}
 		}

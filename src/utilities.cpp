@@ -19,10 +19,9 @@ add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)
 	for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
 		 elt_list_ptr1++)
 	{
-		if (count_elts >= max_elts)
+		if (count_elts >= (int)elt_list.size())
 		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
+			elt_list.resize((size_t)count_elts + 1);
 		}
 		elt_list[count_elts].elt = elt_list_ptr1->elt;
 		elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
@@ -65,10 +64,9 @@ add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct elemen
 		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
 			elt_list_ptr1++)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			if (elt_list_ptr1->elt == surf_elt_ptr)
 			{
@@ -93,10 +91,9 @@ add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct elemen
 		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
 			elt_list_ptr1++)
 		{
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			if (elt_list_ptr1->elt == surf_elt_ptr)
 			{
@@ -115,10 +112,9 @@ add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 	cxxNameDouble::const_iterator cit = nd.begin();
 	for ( ; cit != nd.end(); cit++)
 	{
-		if (count_elts >= max_elts)
+		if (count_elts >= (int)elt_list.size())
 		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
+			elt_list.resize((size_t)count_elts + 1);
 		}
 		elt_list[count_elts].elt = element_store(cit->first.c_str());
 		elt_list[count_elts].coef = cit->second * coef;
@@ -407,15 +403,6 @@ copy_token(char *token_ptr, char **ptr, int *length)
 	}
 	token_ptr[i] = '\0';
 	*length = i;
-#ifdef PHREEQ98
-	if ((return_value == DIGIT) && (strstr(token_ptr, ",") != NULL))
-	{
-		error_string = sformatf(
-				"Commas are not allowed as decimal separator: %s.",
-				token_ptr);
-		error_msg(error_string, CONTINUE);
-	}
-#endif
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -484,15 +471,6 @@ copy_token(std::string &token, char **ptr)
 		token.append(c_char);
 		(*ptr)++;
 	}
-#ifdef PHREEQ98
-	if ((return_value == DIGIT) && (strstr(token_ptr, ",") != NULL))
-	{
-		error_string = sformatf(
-				"Commas are not allowed as decimal separator: %s.",
-				token_ptr);
-		error_msg(error_string, CONTINUE);
-	}
-#endif
 	return (return_value);
 }
 #if defined PHREEQ98 
@@ -599,17 +577,6 @@ dup_print(const char *ptr, int emphasis)
 
 	if (pr.headings == FALSE)
 		return (OK);
-#ifdef PHREEQ98
-	if ((CreateToC == TRUE) && (AutoLoadOutputFile == TRUE))
-	{
-		if (strstr(ptr, "Reading") == ptr)
-			AddToCEntry((char *) ptr, 1, outputlinenr);
-		else if (strstr(ptr, "Beginning") == ptr)
-			AddToCEntry((char *) ptr, 2, outputlinenr);
-		else if ((strstr(ptr, "TITLE") != ptr) && (strstr(ptr, "End") != ptr))
-			AddToCEntry((char *) ptr, 3, outputlinenr);
-	}
-#endif
 	std::string save_in(ptr);
 	l = (int) strlen(ptr);
 	dash = (char *) PHRQ_malloc((size_t) (l + 2) * sizeof(char));
@@ -1001,10 +968,6 @@ print_centered(const char *string)
 	int i, l, l1, l2;
 	char token[MAX_LENGTH];
 
-#ifdef PHREEQ98
-	if ((CreateToC == TRUE) && (AutoLoadOutputFile == TRUE))
-		AddToCEntry((char *) string, 4, outputlinenr);
-#endif
 	l = (int) strlen(string);
 	l1 = (79 - l) / 2;
 	l2 = 79 - l - l1;
@@ -1397,12 +1360,6 @@ status(int count, const char *str, bool rk_string)
 	char spin_str[2];
 	clock_t t2;
 
-#ifdef PHREEQ98
-	if (ProcessMessages)
-		ApplicationProcessMessages();
-	if (stop_calculations == TRUE)
-		error_msg("Execution canceled by user.", STOP);
-#endif
 	if (pr.status == FALSE || phast == TRUE)
 		return (OK);
 
@@ -2030,29 +1987,6 @@ string_pad(const char *str, int i)
 	}
 	return (str_ptr);
 }
-
-/* ---------------------------------------------------------------------- */
-void Phreeqc::
-zero_double(LDBLE * target, int n)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-
-	if (n > zeros_max)
-	{
-		zeros = (LDBLE *) PHRQ_realloc(zeros, (size_t) (n * sizeof(LDBLE)));
-		if (zeros == NULL)
-			malloc_error();
-		for (i = zeros_max; i < n; i++)
-		{
-			zeros[i] = 0.0;
-		}
-		zeros_max = n;
-	}
-	memcpy((void *) target, (void *) zeros, (size_t) (n * sizeof(LDBLE)));
-	return;
-}
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 get_input_errors()

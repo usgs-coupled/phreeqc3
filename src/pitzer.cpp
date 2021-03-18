@@ -15,16 +15,9 @@ pitzer_init(void)
  *      Initialization for pitzer
  */
 	pitzer_model = FALSE;
-	max_pitz_param = 100;
-	count_pitz_param = 0;
 	use_etheta = TRUE;
-	space((void **) ((void *) &pitz_params), INIT, &max_pitz_param,
-		  sizeof(struct pitz_param *));
-
-	max_theta_param = 100;
-	count_theta_param = 0;
-	space((void **) ((void *) &theta_params), INIT, &max_theta_param,
-		  sizeof(struct theta_param *));
+	pitz_params.clear();
+	theta_params.clear();
 
 	ICON = TRUE;
 	OTEMP = -100.;
@@ -65,19 +58,18 @@ pitzer_tidy(void)
 	 */
 	if (spec != NULL)
 		spec = (struct species **) free_check_null(spec);
-	spec =
-		(struct species **)
-		PHRQ_malloc((size_t) (3 * count_s * sizeof(struct species *)));
+	spec = (struct species **)
+		PHRQ_malloc((size_t) (3 * s.size() * sizeof(struct species *)));
 	if (spec == NULL)
 		malloc_error();
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 		spec[i] = NULL;
 	cations = spec;
-	neutrals = &(spec[count_s]);
-	anions = &(spec[2 * count_s]);
-	MAXCATIONS = count_s;
-	FIRSTANION = 2 * count_s;
-	MAXNEUTRAL = count_s;
+	neutrals = &(spec[s.size()]);
+	anions = &(spec[2 * s.size()]);
+	MAXCATIONS = (int)s.size();
+	FIRSTANION = 2 * (int)s.size();
+	MAXNEUTRAL = (int)s.size();
 	count_cations = 0;
 	count_anions = 0;
 	count_neutrals = 0;
@@ -88,22 +80,22 @@ pitzer_tidy(void)
 	 */
 	if (IPRSNT != NULL)
 		IPRSNT = (int *) free_check_null(IPRSNT);
-	IPRSNT = (int *) PHRQ_malloc((size_t) (3 * count_s * sizeof(int)));
+	IPRSNT = (int *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(int)));
 	if (IPRSNT == NULL)
 		malloc_error();
 	if (M != NULL)
 		M = (LDBLE *) free_check_null(M);
-	M = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
+	M = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
 	if (M == NULL)
 		malloc_error();
 	if (LGAMMA != NULL)
 		LGAMMA = (LDBLE *) free_check_null(LGAMMA);
-	LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
+	LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
 	if (LGAMMA == NULL)
 		malloc_error();
 
 
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i] == s_eminus)
 			continue;
@@ -129,20 +121,21 @@ pitzer_tidy(void)
 	 *  cation-cation or anion-anion pair
 	 *  Remove old TYPE_ETHETA definitions
 	 */
-	j = 0;
-	for (i = 0; i < count_pitz_param; i++)
+
+	std::vector<pitz_param*> pitz_params_temp = pitz_params;
+	pitz_params.clear();
+
+	for (i = 0; i < (int)pitz_params_temp.size(); i++)
 	{
-		if (pitz_params[i]->type == TYPE_ETHETA)
+		if (pitz_params_temp[i]->type == TYPE_ETHETA)
 		{
-			pitz_params[i] =
-				(struct pitz_param *) free_check_null(pitz_params[i]);
+			pitz_params_temp[i] = (struct pitz_param*)free_check_null(pitz_params_temp[i]);
 		}
 		else
 		{
-			pitz_params[j++] = pitz_params[i];
+			pitz_params.push_back(pitz_params_temp[i]);
 		}
 	}
-	count_pitz_param = j;
 	for (i = 0; i < count_cations - 1; i++)
 	{
 		for (j = i + 1; j < count_cations; j++)
@@ -150,35 +143,27 @@ pitzer_tidy(void)
 			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
 			pzp_ptr = pitz_param_read(line, 2);
 			pzp_ptr->type = TYPE_ETHETA;
-			if (count_pitz_param >= max_pitz_param)
-			{
-				space((void **) ((void *) &pitz_params), count_pitz_param,
-					  &max_pitz_param, sizeof(struct pitz_param *));
-			}
-			pitz_params[count_pitz_param++] = pzp_ptr;
-
+			size_t count_pitz_param = pitz_params.size();
+			pitz_params.resize(count_pitz_param + 1);
+			pitz_params[count_pitz_param] = pzp_ptr;
 		}
 	}
-	for (i = 2 * count_s; i < 2 * count_s + count_anions - 1; i++)
+	for (i = 2 * (int)s.size(); i < 2 * (int)s.size() + count_anions - 1; i++)
 	{
-		for (j = i + 1; j < 2 * count_s + count_anions; j++)
+		for (j = i + 1; j < 2 * (int)s.size() + count_anions; j++)
 		{
 			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
 			pzp_ptr = pitz_param_read(line, 2);
 			pzp_ptr->type = TYPE_ETHETA;
-			if (count_pitz_param >= max_pitz_param)
-			{
-				space((void **) ((void *) &pitz_params), count_pitz_param,
-					  &max_pitz_param, sizeof(struct pitz_param *));
-			}
+			size_t count_pitz_param = pitz_params.size();
+			pitz_params.resize(count_pitz_param + 1);
 			pitz_params[count_pitz_param] = pzp_ptr;
-			count_pitz_param++;
 		}
 	}
 	/*
 	 *  put species numbers in pitz_params
 	 */
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		for (j = 0; j < 3; j++)
 		{
@@ -206,7 +191,7 @@ pitzer_tidy(void)
 	string1 = string_hsave("K+");
 	string2 = string_hsave("Cl-");
 	IC = ISPEC(string2);
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if ((pitz_params[i]->species[0] == string1 &&
 			pitz_params[i]->species[1] == string2) ||
@@ -249,7 +234,7 @@ pitzer_tidy(void)
 	/*
 	 * Set alpha values
 	 */
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		z0 = fabs(spec[pitz_params[i]->ispec[0]]->z);
 		z1 = fabs(spec[pitz_params[i]->ispec[1]]->z);
@@ -297,11 +282,11 @@ pitzer_tidy(void)
 	/*
 	 * Add specific alphas
 	 */
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if (pitz_params[i]->type == TYPE_ALPHAS)
 		{
-			for (j = 0; j < count_pitz_param; j++)
+			for (j = 0; j < (int)pitz_params.size(); j++)
 			{
 				if (pitz_params[j]->type != TYPE_B1)
 					continue;
@@ -312,7 +297,7 @@ pitzer_tidy(void)
 				pitz_params[j]->alpha = pitz_params[i]->a[0];
 				break;
 			}
-			for (j = 0; j < count_pitz_param; j++)
+			for (j = 0; j < (int)pitz_params.size(); j++)
 			{
 				if (pitz_params[j]->type != TYPE_B2)
 					continue;
@@ -330,16 +315,12 @@ pitzer_tidy(void)
 	 *   Add thetas pointer to etheta pitzer parameters
 	 */
 
-	if (count_theta_param > 0)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
-		for (i = 0; i < count_theta_param; i++)
-		{
-			theta_params[i] =
-				(struct theta_param *) free_check_null(theta_params[i]);
-		}
+		theta_params[i] = (struct theta_param *) free_check_null(theta_params[i]);
 	}
-	count_theta_param = 0;
-	for (i = 0; i < count_pitz_param; i++)
+	theta_params.clear();
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if (pitz_params[i]->type == TYPE_ETHETA)
 		{
@@ -348,18 +329,13 @@ pitzer_tidy(void)
 			theta_param_ptr = theta_param_search(z0, z1);
 			if (theta_param_ptr == NULL)
 			{
-				if (count_theta_param >= max_theta_param)
-				{
-					space((void **) ((void *) &theta_params),
-						  count_theta_param, &max_theta_param,
-						  sizeof(struct theta_param *));
-				}
+				size_t count_theta_param = theta_params.size();
+				theta_params.resize(count_theta_param + 1);
 				theta_params[count_theta_param] = theta_param_alloc();
 				theta_param_init(theta_params[count_theta_param]);
 				theta_params[count_theta_param]->zj = z0;
 				theta_params[count_theta_param]->zk = z1;
 				theta_param_ptr = theta_params[count_theta_param];
-				count_theta_param++;
 			}
 			pitz_params[i]->thetas = theta_param_ptr;
 		}
@@ -370,7 +346,7 @@ pitzer_tidy(void)
 
 	/* Coef for Osmotic coefficient for TYPE_MU */
 
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if (pitz_params[i]->type == TYPE_MU)
 		{
@@ -433,7 +409,7 @@ pitzer_tidy(void)
 
 	/* Coef for gammas for TYPE_MU */
 
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if (pitz_params[i]->type == TYPE_MU)
 		{
@@ -489,7 +465,7 @@ pitzer_tidy(void)
 	}
 	/*  Debug TYPE_MU coefficients */
 	/*
-	   for (i = 0; i < count_pitz_param; i++)
+	   for (i = 0; i < (int)pitz_params.size(); i++)
 	   {
 	   if (pitz_params[i]->type == TYPE_MU)
 	   {
@@ -505,7 +481,7 @@ pitzer_tidy(void)
 
 	/* Coef for Osmotic coefficient for TYPE_LAMDA */
 
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		if (pitz_params[i]->type == TYPE_LAMDA)
 		{
@@ -530,7 +506,7 @@ pitzer_tidy(void)
 	}
 	/*  Debug TYPE_LAMDA coefficients */
 	/*
-	   for (i = 0; i < count_pitz_param; i++)
+	   for (i = 0; i < (int)pitz_params.size(); i++)
 	   {
 	   if (pitz_params[i]->type == TYPE_LAMDA)
 	   {
@@ -543,7 +519,7 @@ pitzer_tidy(void)
 	/* remake map */
 	{
 		pitz_param_map.clear();
-		for (int j = 0; j < count_pitz_param; j++)
+		for (int j = 0; j < (int)pitz_params.size(); j++)
 		{	
 			std::set< std::string > header;
 			for (int i = 0; i < 3; i++)
@@ -560,7 +536,7 @@ pitzer_tidy(void)
 			std::string key = key_str.str().c_str();
 			pitz_param_map[key] = j;
 		}
-		assert ((int) pitz_param_map.size() == count_pitz_param);
+		assert ((int) pitz_param_map.size() == (int)pitz_params.size());
 	}
 	return OK;
 }
@@ -574,7 +550,7 @@ ISPEC(const char *name)
  */
 {
 	int i;
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 	{
 		if (spec[i] == NULL)
 			continue;
@@ -784,7 +760,7 @@ C
 	VP = patm_x;
 #if !defined(PITZER_LISTS)
 	int i;
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		calc_pitz_param(pitz_params[i], TK, TR);
 	}
@@ -923,7 +899,7 @@ pitzer(void)
 	   C     TRANSFER DATA FROM TO M
 	   C
 	 */
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 	{
 		IPRSNT[i] = FALSE;
 		M[i] = 0.0;
@@ -954,7 +930,7 @@ pitzer(void)
 	   C
 	 */
 	PTEMP(TK);
-	for (i = 0; i < 2 * count_s + count_anions; i++)
+	for (i = 0; i < 2 * (int)s.size() + count_anions; i++)
 	{
 		LGAMMA[i] = 0.0;
 		if (IPRSNT[i] == TRUE)
@@ -1008,7 +984,7 @@ pitzer(void)
 	/*
 	 *  Calculate ethetas
 	 */
-	for (i = 0; i < count_theta_param; i++)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
 		z0 = theta_params[i]->zj;
 		z1 = theta_params[i]->zk;
@@ -1019,7 +995,7 @@ pitzer(void)
 	/*
 	 *  Sums for F, LGAMMA, and OSMOT
 	 */
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		i0 = pitz_params[i]->ispec[0];
 		i1 = pitz_params[i]->ispec[1];
@@ -1155,7 +1131,7 @@ pitzer(void)
 		F_var = (z0 == 1 ? F1 : (z0 == 2.0 ? F2 : F));
 		LGAMMA[i] += z0 * z0 * F_var + z0 * CSUM;
 	}
-	for (i = 2 * count_s; i < 2 * count_s + count_anions; i++)
+	for (i = 2 * (int)s.size(); i < 2 * (int)s.size() + count_anions; i++)
 	{
 		if (!IPRSNT[i])
 			continue;
@@ -1176,7 +1152,7 @@ pitzer(void)
 		   C     CORRECTED ERROR IN PHIMAC, NOVEMBER, 1989
 		   C
 		 */
-		for (i = 0; i < 2 * count_s + count_anions; i++)
+		for (i = 0; i < 2 * (int)s.size() + count_anions; i++)
 		{
 			if (IPRSNT[i] == TRUE)
 			{
@@ -1198,7 +1174,7 @@ pitzer(void)
 	*/
 	/*s_h2o->la=log10(AW); */
 	mu_x = I;
-	for (i = 0; i < 2 * count_s + count_anions; i++)
+	for (i = 0; i < 2 * (int)s.size() + count_anions; i++)
 	{
 		if (IPRSNT[i] == FALSE)
 			continue;
@@ -1332,7 +1308,7 @@ pitzer(void)
 	 */
 	if (use_etheta == TRUE)
 	{
-		for (i = 0; i < count_theta_param; i++)
+		for (i = 0; i < (int)theta_params.size(); i++)
 		{
 			z0 = theta_params[i]->zj;
 			z1 = theta_params[i]->zk;
@@ -1671,21 +1647,19 @@ pitzer_clean_up(void)
  *   Free all allocated memory, except strings
  */
 	int i;
-	for (i = 0; i < count_pitz_param; i++)
+	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
 		pitz_params[i] =
 			(struct pitz_param *) free_check_null(pitz_params[i]);
 	}
-	count_pitz_param = 0;
 	pitz_param_map.clear();
-	pitz_params = (struct pitz_param **) free_check_null(pitz_params);
-	for (i = 0; i < count_theta_param; i++)
+	pitz_params.clear();
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
 		theta_params[i] =
 			(struct theta_param *) free_check_null(theta_params[i]);
 	}
-	count_theta_param = 0;
-	theta_params = (struct theta_param **) free_check_null(theta_params);
+	theta_params.clear();
 	LGAMMA = (LDBLE *) free_check_null(LGAMMA);
 	IPRSNT = (int *) free_check_null(IPRSNT);
 	spec = (struct species **) free_check_null(spec);
@@ -1711,14 +1685,14 @@ set_pz(int initial)
  */
 	iterations = -1;
 	solution_ptr = use.Get_solution_ptr();
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		s_x[i]->lm = LOG_ZERO_MOLALITY;
 		s_x[i]->lg_pitzer = 0.0;
 	}
 	if (initial == TRUE || set_and_run_attempt > 0)
 	{
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int)this->s_x.size(); i++)
 		{
 			s_x[i]->lg = 0.0;
 		}
@@ -2343,7 +2317,7 @@ model_pz(void)
 			{
 				
 				count_basis_change++;
-				count_unknowns -= count_s_x;
+				count_unknowns -= (int)this->s_x.size();
 				reprep();
 				full_pitzer = false;
 			}
@@ -2468,7 +2442,7 @@ gammas_pz(bool exch_a_f)
 /*
  *   Calculate activity coefficients
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		switch (s_x[i]->gflag)
 		{
@@ -2540,7 +2514,7 @@ gammas_pz(bool exch_a_f)
 
 	if (use.Get_exchange_ptr() != NULL && exch_a_f) // appt for gammas_a_f
 	{
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int)this->s_x.size(); i++)
 		{
 			switch (s_x[i]->gflag)
 			{
@@ -2627,12 +2601,12 @@ pitzer_make_lists(void)
 			max = count_cations;
 			break;
 		case 1:
-			min = count_s;
-			max = count_s + count_neutrals;
+			min = (int)s.size();
+			max = (int)s.size() + count_neutrals;
 			break;
 		case 2:
-			min = 2*count_s;
-			max = 2*count_s + count_anions;
+			min = 2* (int)s.size();
+			max = 2* (int)s.size() + count_anions;
 			break;
 		}
 		for (int i = min; i < max; i++)
@@ -2647,19 +2621,19 @@ pitzer_make_lists(void)
 					continue;	
 				IPRSNT[i] = TRUE;	
 				s_list.push_back(i);	
-				if (i < count_s)
+				if (i < (int)s.size())
 				{
 					cation_list.push_back(i);
 				}
-				if (i >= count_s && i < 2*count_s)
+				if (i >= (int)s.size() && i < 2* (int)s.size())
 				{
 					neutral_list.push_back(i);
 				}
-				if (i >= 2*count_s)
+				if (i >= 2* (int)s.size())
 				{
 					anion_list.push_back(i);
 				}
-				if (i < count_s || i >= 2*count_s)
+				if (i < (int)s.size() || i >= 2* (int)s.size())
 				{
 					ion_list.push_back(i);
 				}
@@ -2674,7 +2648,7 @@ pitzer_make_lists(void)
 	{
 		IPRSNT[IC] = TRUE;
 	}
-	for (int i = 0; i < count_pitz_param; i++)
+	for (int i = 0; i < (int)pitz_params.size(); i++)
 	{
 		/*
 		TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMDA, TYPE_ZETA,

@@ -140,8 +140,8 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 /*
  *   Sort elements in reaction and combine
  */
-	qsort(elt_list, (size_t) count_elts, (size_t) sizeof(struct elt_list),
-		  elt_list_compare);
+	//qsort(elt_list.data(), (size_t) count_elts, sizeof(struct elt_list),
+	//	  elt_list_compare);
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
 /*
@@ -228,8 +228,8 @@ check_eqn(int association)
 /*
  *   Sort elements in reaction and combine
  */
-	qsort(elt_list, (size_t) count_elts, (size_t) sizeof(struct elt_list),
-		  elt_list_compare);
+	//qsort(elt_list.data(), (size_t) count_elts, sizeof(struct elt_list),
+	//	  elt_list_compare);
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
 /*
@@ -607,10 +607,9 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_store(element);
 			if (get_num(t_ptr, &d) == ERROR)
@@ -622,10 +621,9 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 /*
  *   Expand working space for elements if necessary
  */
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			continue;
 		}
@@ -875,10 +873,9 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 /*
  *   Expand working space for elements if necessary
  */
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize((size_t)count_elts + 1);
 			}
 			continue;
 		}
@@ -1028,11 +1025,8 @@ get_species(char **ptr)
 	char string[MAX_LENGTH];
 	int l;
 
-	if (count_trxn + 1 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 1, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t) count_trxn + 1 > trxn.token.size()) 
+		trxn.token.resize((size_t)count_trxn + 1);
 	/* coefficient */
 	if (get_coef(&(trxn.token[count_trxn].coef), ptr) == ERROR)
 	{

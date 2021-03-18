@@ -368,18 +368,6 @@ ChartObject::Read(CParser & parser)
 				this->chart_type = 1;
 			break;
 		case 10: /* grid_offset */
-#ifdef PHREEQ98
-			/*
-			i = copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (i == DIGIT)
-				sscanf(token, "%d", &RowOffset);
-			i = copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (i == DIGIT)
-				sscanf(token, "%d", &ColumnOffset);
-			*/
-#endif
 			break;
 		case 11: /* connect_simulations */
 			this->connect_simulations = parser.get_true_false(next_char, true);

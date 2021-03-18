@@ -1336,44 +1336,6 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 	// update totals
 	this->totals = simple_new;
 }
-#ifdef SKIP
-void
-cxxSolution::Update(const cxxNameDouble &const_nd)
-{
-	// const_nd is updated totals
-	cxxNameDouble simple_original_totals = this->totals.Simplify_redox();
-	cxxNameDouble original_activities(this->master_activity);
-
-	this->master_activity.clear();
-
-	// Update activities
-	if (original_activities.size() > 0)
-	{
-		cxxNameDouble nd = const_nd;
-		cxxNameDouble simple_this_totals = nd.Simplify_redox();
-		cxxNameDouble::iterator it = simple_original_totals.begin();
-		for ( ; it != simple_original_totals.end(); it++)
-		{
-			cxxNameDouble::iterator jit = simple_this_totals.find(it->first);
-			if (jit != simple_this_totals.end())
-			{
-				if (it->second != 0)
-				{
-					LDBLE f = jit->second / it->second;
-					if (f != 1)
-					{
-						original_activities.Multiply_activities_redox(it->first, f);
-					}
-				}
-			}
-		}
-		original_activities.merge_redox(this->master_activity);
-		this->master_activity = original_activities;
-	}
-
-	return;
-}
-#endif
 void
 cxxSolution::zero()
 {
@@ -1501,31 +1463,6 @@ cxxSolution::Get_total(const char *string) const
 		return (it->second);
 	}
 }
-#ifdef SKIP
-LDBLE
-cxxSolution::Get_total_element(const char *string) const
-{
-	cxxNameDouble::const_iterator it;
-	LDBLE d = 0.0;
-	for (it = this->totals.begin(); it != this->totals.end(); ++it)
-	{
-		// C++ way to do it
-		std::string ename(string);
-		std::string current_ename(it->first);
-		std::basic_string < char >::size_type indexCh;
-		indexCh = current_ename.find("(");
-		if (indexCh != std::string::npos)
-		{
-			current_ename = current_ename.substr(0, indexCh);
-		}
-		if (current_ename == ename)
-		{
-			d += it->second;
-		}
-	}
-	return (d);
-}
-#endif
 
 void
 cxxSolution::Set_total(char *string, LDBLE d)

@@ -195,14 +195,10 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 	}
 	else
 	{
-		if (count_pitz_param >= max_pitz_param)
-		{
-			space((void **) ((void *) &pitz_params),
-				count_pitz_param, &max_pitz_param,
-				sizeof(struct pitz_param *));
-		}
 		if (force_copy)
 		{
+			size_t count_pitz_param = pitz_params.size();
+			pitz_params.resize(count_pitz_param + 1);
 			pitz_params[count_pitz_param] = pitz_param_duplicate(pzp_ptr);
 			// clean up pointers
 			// species 
@@ -215,13 +211,15 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 			}
 			// thetas
 			pitz_params[count_pitz_param]->thetas = NULL;
+			pitz_param_map[key] = count_pitz_param;
 		}
 		else
 		{
+			size_t count_pitz_param = pitz_params.size();
+			pitz_params.resize(count_pitz_param + 1);
 			pitz_params[count_pitz_param] = pzp_ptr;
+			pitz_param_map[key] = count_pitz_param;
 		}
-		pitz_param_map[key] = count_pitz_param;
-		count_pitz_param++;
 	}
 }
 
@@ -274,14 +272,10 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 	}
 	else
 	{
-		if (count_sit_param >= max_sit_param)
-		{
-			space((void **) ((void *) &sit_params),
-				count_sit_param, &max_sit_param,
-				sizeof(struct pitz_param *));
-		}
 		if (force_copy)
 		{
+			size_t count_sit_param = sit_params.size();
+			sit_params.resize(count_sit_param + 1);
 			sit_params[count_sit_param] = pitz_param_duplicate(pzp_ptr);
 			// clean up pointers
 			// species 
@@ -294,13 +288,15 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 			}
 			// thetas
 			sit_params[count_sit_param]->thetas = NULL;
+			sit_param_map[key] = count_sit_param;
 		}
 		else
 		{
+			size_t count_sit_param = sit_params.size();
+			sit_params.resize(count_sit_param + 1);
 			sit_params[count_sit_param] = pzp_ptr;
+			sit_param_map[key] = count_sit_param;
 		}
-		sit_param_map[key] = count_sit_param;
-		count_sit_param++;
 	}
 }
 
@@ -350,7 +346,7 @@ theta_param_search(LDBLE zj, LDBLE zk)
  *  Returns NULL if not found, index number in theta_params if found
  */
 	int i;
-	for (i = 0; i < count_theta_param; i++)
+	for (i = 0; i < (int)theta_params.size(); i++)
 	{
 		if ((theta_params[i]->zj == zj && theta_params[i]->zk == zk) ||
 			(theta_params[i]->zj == zk && theta_params[i]->zk == zj))

@@ -290,7 +290,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 	{
 		count_elts = 0;
 		paren_count = 0;
-		for (j = 0; j < count_s_x; j++)
+		for (j = 0; j < (int)this->s_x.size(); j++)
 		{
 			if (s_x[j]->type > HPLUS)
 				continue;
@@ -316,12 +316,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 			ptr = &(token[0]);
 			get_elts_in_species (&ptr, mass_water_surface / gfw_water);
 			*/
-		if (count_elts > 0)
-		{
-			qsort(elt_list, (size_t)count_elts,
-				(size_t) sizeof(struct elt_list), elt_list_compare);
-			elt_list_combine();
-		}
+		elt_list_combine();
 		/*
 		 *   Print totals
 		 */
@@ -371,7 +366,7 @@ print_eh(void)
 	tk_x = tc_x + 273.15;
 
 	first = TRUE;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->in != TRUE)
 			continue;
@@ -381,7 +376,7 @@ print_eh(void)
  *   Secondary master species has mass balance equation
  */
 		master_ptr0 = master[i]->elt->primary;
-		for (k = i + 1; k < count_master; k++)
+		for (k = i + 1; k < (int)master.size(); k++)
 		{
 			if (master[k]->in != TRUE)
 				continue;
@@ -460,7 +455,7 @@ print_exchange(void)
 
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
  *   Get name of master species
@@ -1074,7 +1069,7 @@ print_master_reactions(void)
 	int i;
 	struct rxn_token *next_token;
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		output_msg(sformatf("%s\t%s\n\tPrimary reaction\n",
 				   master[i]->elt->name, master[i]->s->name));
@@ -1253,7 +1248,7 @@ print_saturation_indices(void)
 	output_msg(sformatf("  %-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI**",
 			   "log IAP", "log K(", int(tk_x), " K, ", int(floor(patm_x + 0.5)), " atm)"));
 
-	for (i = 0; i < count_phases; i++)
+	for (i = 0; i < (int)phases.size(); i++)
 	{
 		if (phases[i]->in == FALSE || phases[i]->type != SOLID)
 			continue;
@@ -1491,7 +1486,7 @@ print_species(void)
  */
 	s_h2o->lm = s_h2o->la;
 	name = s_hplus->secondary->elt->name;
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
  *   Get name of master species
@@ -1779,7 +1774,7 @@ print_surface(void)
 				output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < count_species_list; i++)
+				for (int i = 0; i < (int)species_list.size(); i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -1821,7 +1816,7 @@ print_surface(void)
 			output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n\n",
 					   "Species", "Moles", "Fraction", "Molality",
 					   "Molality"));
-			for (int i = 0; i < count_species_list; i++)
+			for (int i = 0; i < (int)species_list.size(); i++)
 			{
 				if (species_list[i].master_s != master_ptr->s)
 					continue;
@@ -2077,7 +2072,7 @@ print_surface_cd_music(void)
 				output_msg(sformatf("\t%-20s%12s%12s%12s%12s\n\n",
 						   "Species", "Moles", "Fraction", "Molality",
 						   "Molality"));
-				for (int i = 0; i < count_species_list; i++)
+				for (int i = 0; i < (int)species_list.size(); i++)
 				{
 					if (species_list[i].master_s != master_ptr->s)
 						continue;
@@ -2834,7 +2829,7 @@ punch_pp_assemblage(void)
 		{
 			for (int j = 0; j < count_unknowns; j++)
 			{
-				if (x == NULL || x[j]->type != PP)
+				if (x.size() == 0 || x[j]->type != PP)
 					continue;
 				//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
 				cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr;
@@ -3620,16 +3615,15 @@ print_alkalinity(void)
 	if (pr.alkalinity == FALSE || pr.all == FALSE)
 		return (OK);
 	print_centered("Distribution of alkalinity");
-	alk_list =
-		(struct species_list *)
-		PHRQ_malloc((size_t) (count_s_x * sizeof(struct species_list)));
+	alk_list = (struct species_list *)
+		PHRQ_malloc((s_x.size() * sizeof(struct species_list)));
 	if (alk_list == NULL)
 	{
 		malloc_error();
 		return (OK);
 	}
 	j = 0;
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->alk == 0.0)
 			continue;

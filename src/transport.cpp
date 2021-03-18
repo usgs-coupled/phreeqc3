@@ -135,7 +135,7 @@ transport(void)
 			ct[i].m_s = NULL;
 			ct[i].v_m_size = ct[i].J_ij_size = ct[i].m_s_size = 0;
 		}
-		count_moles_added = count_elements;
+		count_moles_added = (int)elements.size();
 		moles_added = (struct MOLES_ADDED *) PHRQ_malloc((size_t) (count_moles_added)* sizeof(struct MOLES_ADDED));
 		if (moles_added == NULL)
 			malloc_error();
@@ -1812,13 +1812,13 @@ fill_spec(int l_cell_no, int ref_cell)
 	//sol_D[l_cell_no].spec = (struct spec *) free_check_null(sol_D[l_cell_no].spec);
 	if (sol_D[l_cell_no].spec == NULL)
 	{
-		sol_D[l_cell_no].spec = (struct spec *) PHRQ_malloc((size_t)(count_species_list + size_xt) * sizeof(struct spec));
-		sol_D[l_cell_no].spec_size = count_species_list + size_xt;
+		sol_D[l_cell_no].spec = (struct spec *) PHRQ_malloc((species_list.size() + (size_t)size_xt) * sizeof(struct spec));
+		sol_D[l_cell_no].spec_size = (int)species_list.size() + size_xt;
 	}
-	else if (count_species_list + size_xt > sol_D[l_cell_no].spec_size)
+	else if ((int)species_list.size() + size_xt > sol_D[l_cell_no].spec_size)
 	{
-		sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, (size_t)(count_species_list + size_xt) * sizeof(struct spec));
-		sol_D[l_cell_no].spec_size = count_species_list + size_xt;
+		sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, (species_list.size() + (size_t)size_xt) * sizeof(struct spec));
+		sol_D[l_cell_no].spec_size = (int)species_list.size() + size_xt;
 	}
 	if (sol_D[l_cell_no].spec == NULL)
 		malloc_error();
@@ -1878,11 +1878,13 @@ fill_spec(int l_cell_no, int ref_cell)
 	/*
 	* sort species by name...
 	*/
-	if (count_species_list > 0)
-		qsort(&species_list[0], (size_t) count_species_list,
-		(size_t) sizeof(struct species_list), sort_species_name);
+	if (species_list.size() > 1)
+	{
+		qsort(&species_list[0], species_list.size(),
+			sizeof(struct species_list), sort_species_name);
+	}
 
-	for (i = 0; i < count_species_list; i++)
+	for (i = 0; i < (int)species_list.size(); i++)
 	{
 		/*
 		*   copy species data
@@ -5891,7 +5893,7 @@ viscosity(void)
 
 	tc = (tc_x > 200) ? 200 : tc_x;
 
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		if (s_x[i]->type != AQ && s_x[i]->type > HPLUS)
 			continue;

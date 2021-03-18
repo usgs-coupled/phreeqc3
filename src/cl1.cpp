@@ -188,12 +188,14 @@ cl1(int k, int l, int m, int n,
 	output_msg(sformatf( "Set up phase 1 costs\n"));
 #endif
 /* Zero first row of cu and iu */
-	memcpy((void *) &(l_cu[0]), (void *) &(scratch[0]),
-		   (size_t) nklm * sizeof(LDBLE));
-	for (j = 0; j < nklm; ++j)
-	{
-		l_iu[j] = 0;
-	}
+	//memcpy((void *) &(l_cu[0]), (void *) &(scratch[0]),
+	//	   (size_t) nklm * sizeof(LDBLE));
+	memset(&l_cu[0], 0, (size_t)nklm * sizeof(LDBLE));
+	//for (j = 0; j < nklm; ++j)
+	//{
+	//	l_iu[j] = 0;
+	//}
+	memset(&l_iu[0], 0, (size_t)nklm * sizeof(int));
 /* L40: */
 #ifdef DEBUG_CL1
 	output_msg(sformatf( "L40\n"));
@@ -847,50 +849,24 @@ cl1(int k, int l, int m, int n,
 void Phreeqc::
 cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 {
-	if (check == 1)
+	if (l_n2d > x_arg_v.size())
 	{
-		if (x_arg == NULL)
-		{
-			x_arg = (LDBLE *) PHRQ_malloc((size_t) (l_n2d * sizeof(LDBLE)));
-		}
-		else if (l_n2d > x_arg_max)
-		{
-			x_arg =
-				(LDBLE *) PHRQ_realloc(x_arg, (size_t) (l_n2d * sizeof(LDBLE)));
-			x_arg_max = l_n2d;
-		}
-		if (x_arg == NULL)
-			malloc_error();
-		zero_double(x_arg, l_n2d);
+		x_arg_v.resize(l_n2d);
+		x_arg = &x_arg_v[0];
+	}
+	memset(x_arg_v.data(), 0, sizeof(double) * (size_t)l_n2d);
 
-		if (res_arg == NULL)
-		{
-			res_arg = (LDBLE *) PHRQ_malloc((size_t) ((klm) * sizeof(LDBLE)));
-		}
-		else if (klm > res_arg_max)
-		{
-			res_arg =
-				(LDBLE *) PHRQ_realloc(res_arg,
-									   (size_t) ((klm) * sizeof(LDBLE)));
-			res_arg_max = klm;
-		}
-		if (res_arg == NULL)
-			malloc_error();
-		zero_double(res_arg, klm);
+	if (klm > res_arg_v.size())
+	{
+		res_arg_v.resize(klm);
+		res_arg = &res_arg_v[0];
 	}
+	memset(res_arg_v.data(), 0, sizeof(double) * (size_t)klm);
 
-/* Make scratch space */
-	if (scratch == NULL)
+	if (l_nklmd > scratch_v.size())
 	{
-		scratch = (LDBLE *) PHRQ_malloc((size_t) l_nklmd * sizeof(LDBLE));
+		scratch_v.resize(l_nklmd);
+		scratch = &scratch_v[0];
 	}
-	else if (l_nklmd > scratch_max)
-	{
-		scratch =
-			(LDBLE *) PHRQ_realloc(scratch, (size_t) l_nklmd * sizeof(LDBLE));
-		scratch_max = l_nklmd;
-	}
-	if (scratch == NULL)
-		malloc_error();
-	zero_double(scratch, l_nklmd);
+	memset(scratch_v.data(), 0, sizeof(double) * (size_t)l_nklmd);
 }

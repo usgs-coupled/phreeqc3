@@ -2786,8 +2786,9 @@ factor(struct LOC_exec * LINK)
 			if (parse_all)
 			{
 				PhreeqcPtr->sys_tot = 0;
-				PhreeqcPtr->count_sys = 1000;
-				int count_sys = PhreeqcPtr->count_sys;
+				//PhreeqcPtr->count_sys = 1000;
+				//int count_sys = PhreeqcPtr->count_sys;
+				size_t count_sys = 1000;
 				names_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
 				if (names_arg == NULL)
 				{
@@ -2916,8 +2917,9 @@ factor(struct LOC_exec * LINK)
 			if (parse_all)
 			{
 				PhreeqcPtr->sys_tot = 0;
-				PhreeqcPtr->count_sys = 1000;
-				int count_sys = PhreeqcPtr->count_sys;
+				//PhreeqcPtr->count_sys = 1000;
+				//int count_sys = PhreeqcPtr->count_sys;
+				int count_sys = 1000;
 				names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
 				if (names_arg == NULL)
 				{
@@ -3482,35 +3484,6 @@ factor(struct LOC_exec * LINK)
 			break;
 		}
 		n.UU.val = PhreeqcPtr->solution_number();
-#ifdef SKIP
-		if (PhreeqcPtr->state == TRANSPORT)
-		{
-			n.UU.val = PhreeqcPtr->cell_no;
-		}
-		else if (PhreeqcPtr->state == PHAST)
-		{
-			n.UU.val = PhreeqcPtr->cell_no;
-		}
-		else if (PhreeqcPtr->state == ADVECTION)
-		{
-			n.UU.val = PhreeqcPtr->cell_no;
-		}
-		else if (PhreeqcPtr->state < REACTION)
-		{
-			n.UU.val = PhreeqcPtr->use.Get_solution_ptr()->Get_n_user();
-		}
-		else
-		{
-			if (PhreeqcPtr->use.Get_mix_in())
-			{
-				n.UU.val = PhreeqcPtr->use.Get_n_mix_user();
-			}
-			else
-			{
-				n.UU.val = PhreeqcPtr->use.Get_n_solution_user();
-			}
-		}
-#endif
 		break;
 
 	case toksim_no:
@@ -4560,21 +4533,6 @@ findline(long n)
 		l = l->next;
 	return l;
 }
-#ifdef SKIP
-linerec * PBasic::
-mustfindline(long n)
-{
-	linerec *l;
-
-	l = findline(n);
-	if (l == NULL) 
-	{
-		char * error_string = PhreeqcPtr->sformatf( "Undefined line %ld", n);
-		errormsg(error_string);
-	}
-	return l;
-}
-#endif
 linerec * PBasic::
 mustfindline(long n)
 {
@@ -7316,27 +7274,6 @@ _Escape(int code)
 	throw PBasicStop();
 
 	// following not used
-#ifdef SKIP
-	char l_buf[100];
-	char token[200], empty[2] = { "\0" };
-	if (code == 0)
-		/*        exit(EXIT_SUCCESS); */
-		error_msg("Exit success in Basic", STOP);
-	if (code == -1)
-	{
-		error_msg("Fatal error in Basic interpreter.", CONTINUE);
-		sprintf(token, "%s",
-				_ShowEscape(l_buf, P_escapecode, P_ioresult, empty));
-		error_msg(token, STOP);
-		exit(EXIT_FAILURE);
-	}
-	/* fprintf(stderr, "%s\n", _ShowEscape(l_buf, P_escapecode, P_ioresult, "")); */
-	/* exit(EXIT_FAILURE); */
-	error_msg("Fatal error in Basic interpreter.", CONTINUE);
-	sprintf(token, "%s", _ShowEscape(l_buf, P_escapecode, P_ioresult, empty));
-	error_msg(token, STOP);
-	return (1);
-#endif
 }
 
 int PBasic::

@@ -96,23 +96,6 @@ cxxNameDouble::cxxNameDouble(std::map < std::string, cxxISolutionComp > &comps)
 	}
 	this->type = ND_ELT_MOLES;
 }
-#ifdef SKIP
-cxxNameDouble::cxxNameDouble(struct master_activity *ma, int count,
-							 cxxNameDouble::ND_TYPE l_type)
-		//
-		// constructor for cxxNameDouble from list of elt_list
-		//
-{
-	int i;
-	for (i = 0; i < count; i++)
-	{
-		if (ma[i].description == NULL)
-			continue;
-		(*this)[ma[i].description] = ma[i].la;
-	}
-	this->type = l_type;
-}
-#endif
 cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
 		//
 		// constructor for cxxNameDouble from list of elt_list
@@ -379,38 +362,7 @@ cxxNameDouble::Simplify_redox(void) const
 	}
 	return new_totals;
 }
-#ifdef SKIP
-cxxNameDouble 
-cxxNameDouble::Simplify_redox(void)
-{
-	// remove individual redox states from totals
-	cxxNameDouble &nd = *this;
-	std::set<std::string> list_of_elements;
-	cxxNameDouble::const_iterator it;
-	for (it = nd.begin(); it != nd.end(); ++it)
-	{
-		std::string current_ename(it->first);
-		std::basic_string < char >::size_type indexCh;
-		indexCh = current_ename.find("(");
-		if (indexCh != std::string::npos)
-		{
-			current_ename = current_ename.substr(0, indexCh);
-		}
-		if (current_ename == "H" || current_ename == "O" || current_ename == "Charge")
-			continue;
-		list_of_elements.insert(current_ename);
-	}
 
-	cxxNameDouble new_totals;
-	new_totals.type = cxxNameDouble::ND_ELT_MOLES;
-	std::set<std::string>::iterator nt_it = list_of_elements.begin();
-	for( ; nt_it != list_of_elements.end(); nt_it++)
-	{
-		new_totals[(*nt_it).c_str()] = nd.Get_total_element((*nt_it).c_str());
-	}
-	return new_totals;
-}
-#endif
 void 
 cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
 {
@@ -439,34 +391,6 @@ cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
 		if (str[0] < it->first[0]) break;
 	}
 }
-#ifdef SKIP
-void 
-cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
-{
-	// update original master_activities using just computed factors
-	cxxNameDouble::iterator it;
-	LDBLE lg_f = log10(f);
-	std::string redox_name = str;
-	redox_name.append("(");
-
-	for (it = this->begin(); it != this->end(); it++)
-	{
-		if (it->first == str)
-		{
-			// Found exact match
-			it->second += lg_f;
-		}
-		else 
-		{
-			// no exact match, current is element name, need to find all valences
-			if (strstr(it->first.c_str(), redox_name.c_str()) == it->first.c_str())
-			{
-				it->second += lg_f;
-			}
-		}
-	}
-}
-#endif
 LDBLE
 cxxNameDouble::Get_total_element(const char *string) const
 {

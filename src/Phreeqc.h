@@ -275,15 +275,6 @@ public:
 	void fpunchf_user(int user_index, const char *format, double d);
 	void fpunchf_user(int user_index, const char *format, char * d);
 	int fpunchf_end_row(const char *format);
-#ifdef SKIP
-	// dw.cpp -------------------------------
-	int BB(LDBLE T);
-	LDBLE PS(LDBLE T);
-	LDBLE VLEST(LDBLE T);
-	int DFIND(LDBLE * DOUT, LDBLE P, LDBLE D, LDBLE T);
-	int QQ(LDBLE T, LDBLE D);
-	LDBLE BASE(LDBLE D);
-#endif
 	// input.cpp -------------------------------
 	int reading_database(void);
 	void set_reading_database(int reading_database);
@@ -552,10 +543,6 @@ public:
 	int set_pz(int initial);
 	int calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);	
-#ifdef SKIP
-	LDBLE DC(LDBLE T);
-	int DW(LDBLE T);
-#endif
 	int ISPEC(const char *name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
@@ -1157,14 +1144,7 @@ protected:
 	int string_trim_right(char *str);
 	int string_trim_left(char *str);
 	static LDBLE under(LDBLE xval);
-	void zero_double(LDBLE * target, int n);
 	int get_input_errors(void);
-#ifdef PHREEQ98
-	void AddToCEntry(char *a, int l, int i);
-	void ApplicationProcessMessages(void);
-	int copy_title(char *token_ptr, char **ptr, int *length);
-	extern int clean_up_null(void);
-#endif
 	int isamong(char c, const char *s_l);
 	Address Hash_multi(HashTable * Table, const char *Key);
 	void ExpandTable_multi(HashTable * Table);
@@ -1254,8 +1234,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-	int count_save_values;
-	struct save_values *save_values;
+	std::vector<struct save_values> save_values;
 	struct save save;
 
 	/*----------------------------------------------------------------------
@@ -1281,8 +1260,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Inverse
 	*---------------------------------------------------------------------- */
-
-	struct inverse *inverse;
+	std::vector<struct inverse> inverse;
 	int count_inverse;
 
 	/*----------------------------------------------------------------------
@@ -1334,38 +1312,23 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
-	int count_species_list;
-	int max_species_list;
-	struct species_list *species_list;
+	std::vector<struct species_list> species_list;
 
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
+	std::vector<struct list0> sum_jacob0;	/* array of pointers to targets and coefficients for array */
 
-	int count_sum_jacob0;	/* number of elements in sum_jacob0 */
-	int max_sum_jacob0;	/* calculated maximum number of elements in sum_jacob0 */
-	struct list0 *sum_jacob0;	/* array of pointers to targets and coefficients for array */
-
-	int count_sum_mb1;		/* number of elements in sum_mb1 */
-	int max_sum_mb1;		/* calculated maximum number of elements in sum_mb1 */
-	struct list1 *sum_mb1;	/* array of pointers to sources and targets for mass
-							balance summations with coef = 1.0 */
-	int count_sum_jacob1;	/* number of elements in sum_jacob1 */
-	int max_sum_jacob1;	/* calculated maximum number of elements in sum_jacob1 */
-	struct list1 *sum_jacob1;	/* array of pointers to sources and targets for array
-								equations with coef = 1.0 */
-	int count_sum_mb2;		/* number of elements in sum_mb2 */
-	int max_sum_mb2;		/* calculated maximum number of elements in sum_mb2 */
-	struct list2 *sum_mb2;	/* array of coefficients and pointers to sources and
-							targets for mass balance summations with coef != 1.0 */
-	int count_sum_jacob2;	/* number of elements in sum_jacob2 */
-	int max_sum_jacob2;	/* calculated maximum number of elements in sum_jacob2 */
-	struct list2 *sum_jacob2;	/* array of coefficients and pointers to sources and
-								targets, coef != 1.0 */
-	int count_sum_delta;	/* number of elements in sum_delta */
-	int max_sum_delta;		/* calculated maximum number of elements in sum_delta */
-	struct list2 *sum_delta;	/* array of pointers to sources, targets and coefficients for
-								summing deltas for mass balance equations */
+	std::vector<struct list1> sum_mb1; /* array of pointers to sources and targets for mass
+										balance summations with coef = 1.0 */
+	std::vector<struct list1> sum_jacob1;	/* array of pointers to sources and targets for array
+								            equations with coef = 1.0 */
+	std::vector<struct list2> sum_mb2; /* array of coefficients and pointers to sources and
+	   								   targets for mass balance summations with coef != 1.0 */
+	std::vector<struct list2> sum_jacob2; /* array of coefficients and pointers to sources and
+								          targets, coef != 1.0 */
+	std::vector<struct list2> sum_delta; /* array of pointers to sources, targets and coefficients for
+										 summing deltas for mass balance equations */
 	/*----------------------------------------------------------------------
 	*   Solution
 	*---------------------------------------------------------------------- */
@@ -1477,20 +1440,14 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-
-	struct element **elements;
-	int count_elements;
-	int max_elements;
+	std::vector<struct element*> elements;
 	struct element *element_h_one;
 
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */
-
-	struct elt_list *elt_list;	/* structure array of working space while reading equations
-								names are in "strings", initially in input order */
+	std::vector<elt_list> elt_list;
 	int count_elts;		/* number of elements in elt_list = position of next */
-	int max_elts;
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */
@@ -1498,22 +1455,14 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-
-	struct logk **logk;
-	int count_logk;
-	int max_logk;
+	std::vector<struct logk*> logk;
 
 	char *moles_per_kilogram_string;
 	char *pe_string;
 
-	struct species **s;
-	int count_s;
-	int max_s;
+	std::vector<struct species*> s;
 	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;
-
-	struct species **s_x;
-	int count_s_x;
-	int max_s_x;
+	std::vector<struct species*> s_x;
 
 	struct species *s_h2o;
 	struct species *s_hplus;
@@ -1526,23 +1475,17 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-	struct phase **phases;
-	int count_phases;
-	int max_phases;
+	std::vector<struct phase*> phases;
 
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
-	struct master **master;	/* structure array of master species */
-	struct master **dbg_master;
-	int count_master;
-	int max_master;
+	std::vector<struct master*> master;
 
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
-
-	struct unknown **x;
+	std::vector<struct unknown*> x;
 	int count_unknowns;
 	int max_unknowns;
 
@@ -1569,12 +1512,9 @@ protected:
 	*---------------------------------------------------------------------- */
 	struct reaction_temp trxn;	/* structure array of working space while reading equations
 								species names are in "temp_strings" */
-	int count_trxn;		/* number of reactants in trxn = position of next */
-	int max_trxn;
+	int count_trxn;		        /* number of reactants in trxn = position of next */
 
-	struct unknown_list *mb_unknowns;
-	int count_mb_unknowns;
-	int max_mb_unknowns;
+	std::vector<struct unknown_list> mb_unknowns;
 
 	/* ----------------------------------------------------------------------
 	*   Print
@@ -1589,8 +1529,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   RATES
 	* ---------------------------------------------------------------------- */
-	struct rate *rates;
-	int count_rates;
+	std::vector<struct rate> rates;
 	LDBLE rate_m, rate_m0, rate_time, rate_kin_time, rate_sim_time_start,
 		rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
 	std::vector<LDBLE> rate_p;
@@ -1650,9 +1589,7 @@ protected:
 	int count_strings;
 	int max_strings;
 
-	LDBLE *my_array;
-	LDBLE *delta;
-	LDBLE *residual;
+	std::vector<double> my_array, delta, residual;
 
 	int input_error;
 
@@ -1745,23 +1682,13 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	//struct name_coef match_tokens[50];
-	//int count_match_tokens;
-	int count_master_isotope;
-	struct master_isotope **master_isotope;
-	int max_master_isotope;
+	std::vector<master_isotope*> master_isotope;
 	int initial_solution_isotopes;
-	int count_calculate_value;
-	struct calculate_value **calculate_value;
-	int max_calculate_value;
+	std::vector<struct calculate_value*> calculate_value;
 	HashTable *calculate_value_hash_table;
-	int count_isotope_ratio;
-	struct isotope_ratio **isotope_ratio;
-	int max_isotope_ratio;
+	std::vector<struct isotope_ratio*> isotope_ratio;
 	HashTable *isotope_ratio_hash_table;
-	int count_isotope_alpha;
-	struct isotope_alpha **isotope_alpha;
-	int max_isotope_alpha;
+	std::vector<struct isotope_alpha*> isotope_alpha;
 	HashTable *isotope_alpha_hash_table;
 	int phreeqc_mpi_myself;
 	int first_read_input;
@@ -1773,16 +1700,12 @@ protected:
 	/* VP: Density End */
 
 	int print_viscosity;
-	LDBLE *zeros;
-	int zeros_max;
-
 	LDBLE viscos, viscos_0, viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
 	LDBLE cell_pore_volume;
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
 	LDBLE cell_saturation;
-	struct system_species *sys;
-	int count_sys, max_sys;
+	std::vector<struct system_species> sys;
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
@@ -1815,16 +1738,8 @@ protected:
 
 	/* cl1.cpp ------------------------------- */
 	LDBLE *x_arg, *res_arg, *scratch;
+	std::vector<double> x_arg_v, res_arg_v, scratch_v;
 	int x_arg_max, res_arg_max, scratch_max;
-#ifdef SKIP
-	/* dw.cpp ------------------------------- */
-	/* COMMON /QQQQ/ */
-	LDBLE Q0, Q5;
-	LDBLE GASCON, TZ, AA;
-	LDBLE Z, DZ, Y;
-	LDBLE G1, G2, GF;
-	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
-#endif
 	/* gases.cpp ------------------------------- */
 	LDBLE a_aa_sum, b2, b_sum, R_TK;
 
@@ -1892,33 +1807,23 @@ protected:
 	/* model.cpp ------------------------------- */
 	int gas_in;
 	LDBLE min_value;
-	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
-	int *iu, *is, *back_eq;
-	int normal_max, ineq_array_max, res_max, cu_max, zero_max,
-		delta1_max, iu_max, is_max, back_eq_max;
+	std::vector<double> normal, ineq_array, res, cu, zero, delta1;
+	std::vector<int> iu, is, back_eq;
 
 	/* phrq_io_output.cpp ------------------------------- */
 	int forward_output_to_log;
 
 	/* phreeqc_files.cpp ------------------------------- */
 	char *default_data_base;
-#ifdef PHREEQ98
-	int outputlinenr;
-	char *LogFileNameC;
-	char progress_str[512];
-#endif
-
 	/* Pitzer  */
 	int pitzer_model, sit_model, pitzer_pe;
 	int full_pitzer, always_full_pitzer, ICON, IC;
 	LDBLE COSMOT;
 	LDBLE AW;
 	LDBLE VP, DW0;
-	struct pitz_param **pitz_params;
-	int count_pitz_param, max_pitz_param;
+	std::vector<struct pitz_param*> pitz_params;
 	std::map< std::string, size_t > pitz_param_map;
-	struct theta_param **theta_params;
-	int count_theta_param, max_theta_param;
+	std::vector<struct theta_param*> theta_params;
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
@@ -1931,25 +1836,9 @@ protected:
 	LDBLE *M, *LGAMMA;
 	LDBLE BK[23], DK[23];
 
-#ifdef PHREEQ98
-	int connect_simulations, graph_initial_solutions;
-	int shifts_as_points;
-	int chart_type;
-	int ShowChart;
-	int RowOffset, ColumnOffset;
-#endif
 	LDBLE dummy;
 
 	/* print.cpp ------------------------------- */
-#ifdef PHREEQ98
-	int colnr, rownr;
-	int graph_initial_solutions;
-	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
-	/* int shifts_as_points; */
-	int chart_type;
-	int AddSeries;
-	int FirstCallToUSER_GRAPH;
-#endif
 
 	/* read.cpp */
 	char *prev_next_char;
@@ -1968,8 +1857,7 @@ protected:
 	std::string dump_file_name_cpp;
 
 	/* sit.cpp ------------------------------- */
-	struct pitz_param **sit_params;
-	int count_sit_param, max_sit_param;
+	std::vector<struct pitz_param*> sit_params;
 	std::map< std::string, size_t > sit_param_map;
 	LDBLE sit_A0;
 	int sit_count_cations, sit_count_anions, sit_count_neutrals;
@@ -2006,13 +1894,6 @@ protected:
 	int warn_MCD_X, warn_fixed_Surf;
 	LDBLE current_x, current_A, fix_current; // current: coulomb / s, Ampere, fixed current (Ampere)
 
-#ifdef PHREEQ98
-	int AutoLoadOutputFile, CreateToC;
-	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
-	int outputlinenr;
-	int stop_calculations;
-	char err_str98[80];
-#endif
 	/* utilities.cpp ------------------------------- */
 	int spinner;
 	std::map<std::string, double> gfw_map;
@@ -2193,39 +2074,6 @@ namespace Utilities
 		}
 		return phreeqc_cookie->cleanup_after_parser(parser);
 	}
-
-#ifdef SKIP
-	template < typename T >
-	int Rxn_read_modify(std::map < int, T > &m, std::set < int > &s, Phreeqc * phreeqc_cookie)
-	{
-		typename std::map < int, T >::iterator it;
-		
-		CParser parser(phreeqc_cookie->Get_phrq_io());
-
-		std::string key_name;
-		std::string::iterator b = parser.line().begin();
-		std::string::iterator e = parser.line().end();
-		CParser::copy_token(key_name, b, e);
-
-		cxxNumKeyword nk;
-		nk.read_number_description(parser);
-		T * entity_ptr = Utilities::Rxn_find(m, nk.Get_n_user());
-		if (!entity_ptr)
-		{
-			std::ostringstream errstr;
-			errstr <<  "Could not find " << key_name << " " << nk.Get_n_user() << " to modify.\n";
-			phreeqc_cookie->error_msg(errstr.str().c_str(), PHRQ_io::OT_STOP);
-		}
-
-		entity_ptr->read_raw(parser, false);
-		entity_ptr->Set_n_user(nk.Get_n_user());
-		entity_ptr->Set_n_user_end(nk.Get_n_user_end());
-		entity_ptr->Set_description(nk.Get_description());
-		s.insert(entity_ptr->Get_n_user());
-
-		return phreeqc_cookie->cleanup_after_parser(parser);
-	}
-#endif
 
 	template < typename T >
 	int Rxn_read_modify(std::map < int, T > &m, std::set < int > &s, Phreeqc * phreeqc_cookie)

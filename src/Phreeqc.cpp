@@ -473,52 +473,6 @@ void Phreeqc::init(void)
 	current_selected_output         = NULL;
 	current_user_punch              = NULL;
 	high_precision                  = false;
-#ifdef SKIP
-	//struct punch punch;
-/*
- *	 Initialize punch
- */
-	punch.in				= FALSE;
-	punch.count_totals		= 0;
-	punch.totals			= 0;
-	punch.count_molalities	= 0;
-	punch.molalities		= 0;
-	punch.count_activities	= 0;
-	punch.activities		= 0;
-	punch.count_pure_phases = 0;
-	punch.pure_phases		= 0;
-	punch.count_si			= 0;
-	punch.si				= 0;
-	punch.count_gases		= 0;
-	punch.gases				= 0;
-	punch.count_s_s			= 0;
-	punch.s_s               = 0;
-	punch.count_kinetics	= 0;
-	punch.kinetics			= 0;
-	punch.count_isotopes	= 0;
-	punch.isotopes			= 0;
-	punch.count_calculate_values = 0;
-	punch.calculate_values	= 0;
-	punch.inverse			= TRUE;
-	punch.sim				= TRUE;
-	punch.state				= TRUE;
-	punch.soln				= TRUE;
-	punch.dist				= TRUE;
-	punch.time				= TRUE;
-	punch.step				= TRUE;
-	punch.rxn				= FALSE;
-	punch.temp				= FALSE;
-	punch.ph				= TRUE;
-	punch.pe				= TRUE;
-	punch.alk				= FALSE;
-	punch.mu				= FALSE;
-	punch.water				= FALSE;
-	punch.high_precision	= FALSE;
-	punch.user_punch		= TRUE;
-	punch.charge_balance	= FALSE;
-	punch.percent_error		= FALSE;
-#endif
-
 	MIN_LM = -30.0;			    /* minimum log molality allowed before molality set to zero */
 	LOG_ZERO_MOLALITY = -30;	/* molalities <= LOG_ZERO_MOLALITY are considered equal to zero */
 	MIN_RELATED_LOG_ACTIVITY = -30;
@@ -550,11 +504,7 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-	count_save_values          = 0;
-	save_values                = NULL;
 	save_init(-1);             // set initial save values
-
-	// auto use
 
 	// copier structures
 	copy_solution.n_user		= copy_solution.start		= copy_solution.end			= 0;
@@ -582,7 +532,6 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Inverse
 	*---------------------------------------------------------------------- */
-	inverse					= NULL;
 	count_inverse			= 0;
 	/*----------------------------------------------------------------------
 	*   Mix
@@ -616,30 +565,10 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
-	count_species_list      = 0;
-	max_species_list        = 0;
-	species_list            = NULL;
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
-	count_sum_jacob0        = 0;
-	max_sum_jacob0          = 0;
-	sum_jacob0              = NULL;	
-	count_sum_mb1           = 0;
-	max_sum_mb1             = 0;
-	sum_mb1                 = NULL;	
-	count_sum_jacob1        = 0;
-	max_sum_jacob1          = 0;
-	sum_jacob1              = NULL;
-	count_sum_mb2           = 0;
-	max_sum_mb2             = 0;
-	sum_mb2                 = NULL;
-	count_sum_jacob2        = 0;
-	max_sum_jacob2          = 0;
-	sum_jacob2              = NULL;
-	count_sum_delta         = 0;
-	max_sum_delta           = 0;
-	sum_delta               = NULL;
+
 	/*----------------------------------------------------------------------
 	*   Solution
 	*---------------------------------------------------------------------- */
@@ -757,31 +686,16 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-	elements                 = NULL;
-	count_elements           = 0;
-	max_elements             = MAX_ELEMENTS;
 	element_h_one            = NULL;
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */
-	elt_list                 = NULL;
 	count_elts               = 0;
-	max_elts                 = MAX_ELTS;
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-	logk                     = NULL;
-	count_logk               = 0;
-	max_logk                 = MAX_S;
 	moles_per_kilogram_string= NULL;
 	pe_string                = NULL;
-	s                        = NULL;
-	count_s                  = 0;
-	max_s                    = MAX_S;
-	// auto s_diff_layer;
-	s_x                      = NULL;
-	count_s_x                = 0;
-	max_s_x                  = 0;
 	s_h2o					= NULL;
 	s_hplus					= NULL;
 	s_h3oplus				= NULL;
@@ -792,20 +706,14 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-	phases					= NULL;
-	count_phases            = 0;
-	max_phases              = MAX_PHASES;
+
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
-	master                  = NULL;
-	dbg_master              = NULL;
-	count_master            = 0;
-	max_master              = MAX_MASTER;
+
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
-	x                       = NULL;
 	count_unknowns          = 0;
 	max_unknowns            = 0;
 	ah2o_unknown            = NULL;
@@ -829,7 +737,6 @@ void Phreeqc::init(void)
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
 	// struct trxn;	
-	trxn.token				= 0;
 	for (int i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
 		trxn.logk[i] = 0;
@@ -839,11 +746,7 @@ void Phreeqc::init(void)
 		trxn.dz[i] = 0;
 	}
 	count_trxn              = 0;
-	max_trxn                = MAX_TRXN;
 
-	mb_unknowns             = NULL;
-	count_mb_unknowns       = 0;
-	max_mb_unknowns         = MAX_TRXN;
 	/* ----------------------------------------------------------------------
 	*   Print
 	* ---------------------------------------------------------------------- */
@@ -891,8 +794,6 @@ void Phreeqc::init(void)
 	/* ----------------------------------------------------------------------
 	*   RATES
 	* ---------------------------------------------------------------------- */
-	rates                   = NULL;
-	count_rates				= 0;
 	rate_m					= 0;
 	rate_m0					= 0;
 	rate_time				= 0;
@@ -908,11 +809,6 @@ void Phreeqc::init(void)
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
 	user_print				= NULL;
-#ifdef SKIP
-	user_punch				= NULL;
-	user_punch_headings		= NULL;
-	user_punch_count_headings = 0;
-#endif
 	n_user_punch_index      = 0;
 	fpunchf_user_s_warning  = 0;
 	fpunchf_user_buffer[0]  = 0;
@@ -939,9 +835,6 @@ void Phreeqc::init(void)
 	stop_program            = FALSE;
 	incremental_reactions   = FALSE;
 	count_strings           = 0;
-	my_array					= NULL;
-	delta					= NULL;
-	residual				= NULL;
 	input_error             = 0;
 	next_keyword            = Keywords::KEY_NONE;
 	parse_error             = 0;
@@ -1029,21 +922,9 @@ void Phreeqc::init(void)
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	count_master_isotope	= 0;
-	master_isotope			= NULL;
-	max_master_isotope		= MAX_ELTS;
 	initial_solution_isotopes = FALSE;
-	count_calculate_value	= 0;
-	calculate_value			= NULL;
-	max_calculate_value		= MAX_ELTS;
 	calculate_value_hash_table = NULL;	
-	count_isotope_ratio		= 0;
-	isotope_ratio			= 0;
-	max_isotope_ratio		= MAX_ELTS;
 	isotope_ratio_hash_table = 0;	
-	count_isotope_alpha		= 0;
-	isotope_alpha			= 0;
-	max_isotope_alpha		= MAX_ELTS;
 	isotope_alpha_hash_table = 0;
 
 
@@ -1053,15 +934,10 @@ void Phreeqc::init(void)
 	//have_punch_name			= FALSE;
 	print_density		    = 0;
 	print_viscosity		    = 0;
-	zeros                   = NULL;	
-	zeros_max			    = 1;
 	cell_pore_volume	    = 0;
 	cell_volume			    = 0;
 	cell_porosity		    = 0;
 	cell_saturation		    = 0;
-	sys                     = NULL;
-	count_sys               = 0;
-	max_sys                 = 0;
 	sys_tot                 = 0;
 
 	V_solutes               = 0.0;
@@ -1229,24 +1105,7 @@ void Phreeqc::init(void)
 	/* model.cpp ------------------------------- */
 	gas_in                  = FALSE;
 	min_value               = 1e-10;
-	normal                  = NULL;
-	ineq_array              = NULL;
-	res                     = NULL;
-	cu                      = NULL;
-	zero                    = NULL;
-	delta1                  = NULL;
-	iu                      = NULL;
-	is                      = NULL;
-	back_eq                 = NULL;
-	normal_max              = 0;
-	ineq_array_max          = 0;
-	res_max                 = 0;
-	cu_max                  = 0;
-	zero_max                = 0;
-	delta1_max              = 0;
-	iu_max                  = 0;
-	is_max                  = 0;
-	back_eq_max             = 0;
+
 	/* phrq_io_output.cpp ------------------------------- */
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
@@ -1254,11 +1113,6 @@ void Phreeqc::init(void)
 	default_data_base = string_duplicate("c:\\phreeqc\\database\\phreeqc.dat");
 #else
 	default_data_base = string_duplicate("phreeqc.dat");
-#endif
-#ifdef PHREEQ98
-	int outputlinenr;
-	char *LogFileNameC;
-	char progress_str[512];
 #endif
 	/* Pitzer  */	
 	pitzer_model			= FALSE;
@@ -1272,13 +1126,7 @@ void Phreeqc::init(void)
 	AW                      = 0;
 	VP                      = 0;
 	DW0                     = 0;
-	pitz_params				= NULL;
-	count_pitz_param		= 0;
-	max_pitz_param			= 100;
 	// auto pitz_param_map
-	theta_params			= 0;
-	count_theta_param		= 0;
-	max_theta_param			= 100;
 	use_etheta				= TRUE;
 	OTEMP					= -100.;
 	OPRESS					= -100.;
@@ -1305,28 +1153,12 @@ void Phreeqc::init(void)
 		BK[i]				= 0.0;
 		DK[i]				= 0.0;
 	}
-#ifdef PHREEQ98
-	int connect_simulations, graph_initial_solutions;
-	int shifts_as_points;
-	int chart_type;
-	int ShowChart;
-	int RowOffset, ColumnOffset;
-#endif
 	dummy                   = 0;
 	/* print.cpp ------------------------------- */
 	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
 	if (sformatf_buffer == NULL) 
 			malloc_error();
 		sformatf_buffer_size = 256;
-#ifdef PHREEQ98
-	int colnr, rownr;
-	int graph_initial_solutions;
-	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
-	/* int shifts_as_points; */
-	int chart_type;
-	int AddSeries;
-	int FirstCallToUSER_GRAPH;
-#endif
 	/* read.cpp */
 	prev_next_char          = NULL;
 #if defined PHREEQ98 
@@ -1340,10 +1172,7 @@ void Phreeqc::init(void)
 	/* readtr.cpp */
 	// auto dump_file_name_cpp;
 	/* sit.cpp ------------------------------- */
-	sit_params              = NULL;
-	count_sit_param			= 0;
-	max_sit_param			= 100;
-	// auto sit_param_map	
+
 	sit_A0                  = 0;
 	sit_count_cations       = 0;
 	sit_count_anions        = 0;
@@ -1390,13 +1219,6 @@ void Phreeqc::init(void)
 	heat_mix_f_m            = 0;
 	warn_MCD_X              = 0;
 	warn_fixed_Surf         = 0;
-#ifdef PHREEQ98
-	int AutoLoadOutputFile, CreateToC;
-	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
-	int outputlinenr;
-	int stop_calculations;
-	char err_str98[80];
-#endif
 	/* utilities.cpp ------------------------------- */
 	spinner                 = 0;
 	// keycount;
@@ -1499,16 +1321,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-	count_save_values          = 0;
-	/*
-	save_values                = NULL;	
-	save_init(-1);             // set initial save values
-	*/
-
-	// auto use
-
-	// copier structures
-	//-- skip copier, accept init
 
 	/*----------------------------------------------------------------------
 	*   Inverse
@@ -1754,32 +1566,20 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-	//max_elements = pSrc->max_elements;
-	//elements = (struct element **) free_check_null(elements);
-	//elements = (struct element **) PHRQ_malloc((size_t)max_elements * sizeof(struct element));
-	space((void **)((void *)&elements), pSrc->max_elements, &max_elements,
-		sizeof(struct element *));
-	count_elements = 0;
-	for (int i = 0; i < pSrc->count_elements; i++)
+	for (int i = 0; i < (int)pSrc->elements.size(); i++)
 	{
-		string_hsave(pSrc->elements[i]->name);
-		struct element *elt_ptr = element_store(pSrc->elements[i]->name);
+
+		const char * ptr = string_hsave(pSrc->elements[i]->name);
+		struct element *elt_ptr = element_store(ptr);
 		elt_ptr->gfw = pSrc->elements[i]->gfw;
 	}
 	element_h_one = element_store("H(1)");
-	/*
-	elements                 = NULL;
-	count_elements           = 0;
-	max_elements             = MAX_ELEMENTS;
-	element_h_one            = NULL;
-	*/
+
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */
 	/*
-	elt_list                 = NULL;
 	count_elts               = 0;
-	max_elts                 = MAX_ELTS;
 	*/
 	/*----------------------------------------------------------------------
 	*   Reaction
@@ -1812,15 +1612,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*/	
 	// logk
 
-	space((void **)((void *)&logk), pSrc->max_logk, &max_logk, sizeof(struct logk *));
-	//for (int i = 0; i < count_logk; i++)
-	//{
-	//	logk[i] = (struct logk *) free_check_null(logk[i]);
-	//}
-	//logk = (struct logk **) free_check_null(logk);
-	//max_logk = pSrc->max_logk;
-	//logk = (struct logk **) PHRQ_malloc((size_t) max_logk * sizeof(struct logk *));
-	for (int i = 0; i < pSrc->count_logk; i++)
+	for (int i = 0; i < (int)pSrc->logk.size(); i++)
 	{
 		char * name = string_duplicate(pSrc->logk[i]->name);
 		struct logk *logk_ptr = logk_store(name, FALSE);
@@ -1840,16 +1632,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			}
 		}	
 	}
-	count_logk = pSrc->count_logk;
+
 	// s, species
-	count_s = 0;
-	//max_s = pSrc->max_s;
-
-	//s = (struct species **) free_check_null(s);
-	//s = (struct species **) PHRQ_malloc(sizeof(struct species *)*size_t(max_s));
-
-	space((void **)((void *)&s), pSrc->max_s, &max_s, sizeof(struct species *));
-	for (int i = 0; i < pSrc->count_s; i++)
+	for (int i = 0; i < (int)pSrc->s.size(); i++)
 	{
 		struct species *s_ptr = s_store(pSrc->s[i]->name, pSrc->s[i]->z, FALSE);
 		memcpy(s_ptr, pSrc->s[i], sizeof(struct species));
@@ -1933,17 +1718,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-	/*
-	phases					= NULL;
-	count_phases            = 0;
-	max_phases              = MAX_PHASES;
-	*/
-	//max_phases = pSrc->max_phases;
-	//phases = (struct phase **) PHRQ_malloc((size_t)max_phases * sizeof(struct phase));
-	//space((void **)((void *)&phases), INIT, &max_phases,
-	//	sizeof(struct phase *));
-	count_phases = 0;
-	for (int i = 0; i < pSrc->count_phases; i++)
+	for (int i = 0; i < (int)pSrc->phases.size(); i++)
 	{
 		struct phase *phase_ptr = phase_store(pSrc->phases[i]->name);
 		memcpy(phase_ptr, pSrc->phases[i], sizeof(struct phase));
@@ -2007,16 +1782,10 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_master            = 0;
 	max_master              = MAX_MASTER;
 	*/
-	count_master = pSrc->count_master;
-	//max_master = pSrc->max_master;
-	//master = (struct master **) free_check_null(master);
-	//master = (struct master **) PHRQ_malloc((size_t) max_master * sizeof(struct master *));
-	space((void **)((void *)&master), pSrc->max_master, &max_master,
-		sizeof(struct master *));
-	if (master == NULL) malloc_error();
-	dbg_master = master;
-	for (int i = 0; i < count_master; i++)
+	int count_master = (int)pSrc->master.size();
+	for (int i = 0; i < (int)master.size(); i++)
 	{
+		master.resize((size_t)i + 1); 
 		master[i] = (struct master *) PHRQ_malloc( sizeof(struct master));
 		if (master[i] == NULL) malloc_error();
 		memcpy(master[i], pSrc->master[i], sizeof(struct master));
@@ -2084,12 +1853,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		trxn.dz[i] = 0;
 	}
 	count_trxn              = 0;
-	max_trxn                = MAX_TRXN;
-	*/
-	/*
-	mb_unknowns             = NULL;
-	count_mb_unknowns       = 0;
-	max_mb_unknowns         = MAX_TRXN;
 	*/
 	/* ----------------------------------------------------------------------
 	*   Print
@@ -2155,21 +1918,16 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	// auto rate_p
 	count_rate_p            = 0;
 	*/
-	rates = (struct rate *) free_check_null(rates);
-	count_rates = pSrc->count_rates;
-	if (count_rates > 0)
+	for (int i = 0; i < (int)pSrc->rates.size(); i++)
 	{
-		rates = (struct rate *) PHRQ_malloc((size_t) count_rates * sizeof(struct rate));
-		if (rates == NULL) malloc_error();
-		for (int i = 0; i < count_rates; i++)
-		{
-			rates[i].name = string_hsave(pSrc->rates[i].name);
-			rates[i].commands = string_duplicate(pSrc->rates[i].commands); 
-			rates[i].new_def = TRUE;
-			rates[i].linebase = NULL;
-			rates[i].varbase = NULL;
-			rates[i].loopbase = NULL;
-		}
+		size_t count_rates = rates.size();
+		rates.resize(count_rates + 1);
+		rates[i].name = string_hsave(pSrc->rates[i].name);
+		rates[i].commands = string_duplicate(pSrc->rates[i].commands);
+		rates[i].new_def = TRUE;
+		rates[i].linebase = NULL;
+		rates[i].varbase = NULL;
+		rates[i].loopbase = NULL;
 	}
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
@@ -2192,38 +1950,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	}
 
 	// For now, User Punch is not copied
-#ifdef SKIP
-	/*
-		user_punch				= NULL;
-	*/
-	{
-		user_punch->name = NULL;
-		user_punch->commands = NULL;
-		if (pSrc->user_punch->commands != NULL)
-		{
-			user_punch->commands = string_duplicate(pSrc->user_punch->commands); 
-		}
-		user_punch->new_def = TRUE;
-		user_punch->linebase = NULL;
-		user_punch->varbase = NULL;
-		user_punch->loopbase = NULL;
-	}	
-	/*
-	user_punch_headings		= NULL;
-	user_punch_count_headings = 0;
-	*/
-	user_punch_count_headings = pSrc->user_punch_count_headings;
-	if (user_punch_count_headings > 0)
-	{
-		user_punch_headings = (const char **) free_check_null(user_punch_headings);
-		user_punch_headings = (const char **) PHRQ_malloc((size_t) user_punch_count_headings * sizeof(char *));
-		if (user_punch_headings == NULL) malloc_error();
-		for (int i = 0; i < user_punch_count_headings; i++)
-		{
-			user_punch_headings[i] = string_hsave(pSrc->user_punch_headings[i]);
-		}
-	}
-#endif
 	n_user_punch_index      = pSrc->n_user_punch_index;
 	fpunchf_user_s_warning  = pSrc->fpunchf_user_s_warning;
 	//fpunchf_user_buffer[0]  = 0;
@@ -2408,13 +2134,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	/*
-	count_master_isotope	= 0;
-	master_isotope			= NULL;
-	max_master_isotope		= MAX_ELTS;
-	*/
-
-	for (int i = 0; i < pSrc->count_master_isotope; i++)
+	for (int i = 0; i < (int)pSrc->master_isotope.size(); i++)
 	{
 		struct master_isotope *master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
 		memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(struct master_isotope));
@@ -2443,35 +2163,18 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		}
 	}
 	initial_solution_isotopes = pSrc->initial_solution_isotopes;
-	/*
-	count_calculate_value	= 0;
-	calculate_value			= NULL;
-	max_calculate_value		= MAX_ELTS;
-	calculate_value_hash_table = NULL;	
-	*/
-	for (int i = 0; i < pSrc->count_calculate_value; i++)
+
+	for (int i = 0; i < pSrc->calculate_value.size(); i++)
 	{
-		struct calculate_value *calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
-		//memcpy(calculate_value_ptr, pSrc->calculate_value[i], sizeof(struct calculate_value));
+		struct calculate_value* calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
 		calculate_value_ptr->value = pSrc->calculate_value[i]->value;
-		//calculate_value_ptr->commands = NULL;
 		if (pSrc->calculate_value[i]->commands)
 		{
 			calculate_value_ptr->commands = string_duplicate(pSrc->calculate_value[i]->commands);
 		}
-		//calculate_value_ptr->new_def = TRUE;
-		//calculate_value_ptr->calculated = FALSE;
-		//calculate_value_ptr->linebase = NULL;
-		//calculate_value_ptr->varbase = NULL;
-		//calculate_value_ptr->loopbase = NULL;
 	}
-	/*
-	count_isotope_ratio		= 0;
-	isotope_ratio			= 0;
-	max_isotope_ratio		= MAX_ELTS;
-	isotope_ratio_hash_table = 0;	
-	*/
-	for (int i = 0; i < pSrc->count_isotope_ratio; i++)
+
+	for (int i = 0; i < (int)pSrc->isotope_ratio.size(); i++)
 	{
 		struct isotope_ratio *isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);
 		isotope_ratio_ptr->name = string_hsave(pSrc->isotope_ratio[i]->name);
@@ -2479,13 +2182,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		isotope_ratio_ptr->ratio = pSrc->isotope_ratio[i]->ratio;
 		isotope_ratio_ptr->converted_ratio = pSrc->isotope_ratio[i]->converted_ratio;
 	}
-	/*
-	count_isotope_alpha		= 0;
-	isotope_alpha			= 0;
-	max_isotope_alpha		= MAX_ELTS;
-	isotope_alpha_hash_table = 0;
-	*/
-	for (int i = 0; i < pSrc->count_isotope_alpha; i++)
+
+	for (int i = 0; i < (int)pSrc->isotope_alpha.size(); i++)
 	{
 		struct isotope_alpha *isotope_alpha_ptr = isotope_alpha_store(pSrc->isotope_alpha[i]->name, FALSE);
 		isotope_alpha_ptr->named_logk = string_hsave(pSrc->isotope_alpha[i]->named_logk);
@@ -2498,145 +2196,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	//have_punch_name			= pSrc->have_punch_name;
 	print_density		    = pSrc->print_density;
 	print_viscosity         = pSrc->print_viscosity;
-#ifdef SKIP
-	LDBLE *zeros;
-	int zeros_max;
-#endif
 	viscos = pSrc->viscos;
 	viscos_0 = pSrc->viscos_0;
 	viscos_0_25 = pSrc->viscos_0_25; // viscosity of the solution, of pure water, of pure water at 25 C
-#ifdef SKIP
-	LDBLE cell_pore_volume;
-	LDBLE cell_porosity;
-	LDBLE cell_volume;
-	LDBLE cell_saturation;
-	struct system_species *sys;
-	int count_sys, max_sys;
-	LDBLE sys_tot;
-
-	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
-	LDBLE SC; // specific conductance mS/cm
-	LDBLE eps_r; // relative dielectric permittivity
-	LDBLE DH_A, DH_B, DH_Av; // Debye-Hueckel A, B and Av
-	LDBLE QBrn; // Born function d(ln(eps_r))/dP / eps_r * 41.84004, for supcrt calc'n of molal volume
-	LDBLE ZBrn; // Born function (-1/eps_r + 1) * 41.84004, for supcrt calc'n of molal volume
-	LDBLE dgdP; // dg / dP, pressure derivative of g-function, for supcrt calc'n of molal volume
-
-	int need_temp_msg;
-	LDBLE solution_mass, solution_volume;
-
-	/* phqalloc.cpp ------------------------------- */
-	PHRQMemHeader *s_pTail;
-
-	/* Basic */
-	PBasic * basic_interpreter;
-	double(*basic_callback_ptr) (double x1, double x2, const char *str, void *cookie);
-	void *basic_callback_cookie;
-#ifdef IPHREEQC_NO_FORTRAN_MODULE
-	double(*basic_fortran_callback_ptr) (double *x1, double *x2, char *str, size_t l);
-#else
-	double(*basic_fortran_callback_ptr) (double *x1, double *x2, const char *str, int l);
-#endif
-#if defined(SWIG) || defined(SWIG_IPHREEQC)
-	class BasicCallback *basicCallback;
-	void SetCallback(BasicCallback *cb) { basicCallback = cb; }
-#endif
-
-	/* cl1.cpp ------------------------------- */
-	LDBLE *x_arg, *res_arg, *scratch;
-	int x_arg_max, res_arg_max, scratch_max;
-#ifdef SKIP
-	/* dw.cpp ------------------------------- */
-	/* COMMON /QQQQ/ */
-	LDBLE Q0, Q5;
-	LDBLE GASCON, TZ, AA;
-	LDBLE Z, DZ, Y;
-	LDBLE G1, G2, GF;
-	LDBLE B1, B2, B1T, B2T, B1TT, B2TT;
-#endif
-	/* gases.cpp ------------------------------- */
-	LDBLE a_aa_sum, b2, b_sum, R_TK;
-
-	/* input.cpp ------------------------------- */
-	int check_line_return;
-	int reading_db;
-
-	/* integrate.cpp ------------------------------- */
-	LDBLE midpoint_sv;
-	LDBLE z_global, xd_global, alpha_global;
-
-	/* inverse.cpp ------------------------------- */
-	int max_row_count, max_column_count;
-	int carbon;
-	const char **col_name, **row_name;
-	int count_rows, count_optimize;
-	int col_phases, col_redox, col_epsilon, col_ph, col_water,
-		col_isotopes, col_phase_isotopes;
-	int row_mb, row_fract, row_charge, row_carbon, row_isotopes,
-		row_epsilon, row_isotope_epsilon, row_water;
-	LDBLE *inv_zero, *array1, *inv_res, *inv_delta1, *delta2, *delta3, *inv_cu,
-		*delta_save;
-	LDBLE *min_delta, *max_delta;
-	int *inv_iu, *inv_is;
-	int klmd, nklmd, n2d, kode, iter;
-	LDBLE toler, error, max_pct, scaled_error;
-	struct master *master_alk;
-	int *row_back, *col_back;
-	unsigned long *good, *bad, *minimal;
-	int max_good, max_bad, max_minimal;
-	int count_good, count_bad, count_minimal, count_calls;
-	unsigned long soln_bits, phase_bits, current_bits, temp_bits;
-	FILE *netpath_file;
-	int count_inverse_models, count_pat_solutions;
-	int min_position[32], max_position[32], now[32];
-	std::vector <std::string> inverse_heading_names;
-
-	/* kinetics.cpp ------------------------------- */
-public:
-	int count_pp, count_pg, count_ss;
-	void *cvode_kinetics_ptr;
-	int cvode_test;
-	int cvode_error;
-	int cvode_n_user;
-	int cvode_n_reactions;
-	realtype cvode_step_fraction;
-	realtype cvode_rate_sim_time;
-	realtype cvode_rate_sim_time_start;
-	realtype cvode_last_good_time;
-	realtype cvode_prev_good_time;
-	N_Vector cvode_last_good_y;
-	N_Vector cvode_prev_good_y;
-	M_Env kinetics_machEnv;
-	N_Vector kinetics_y, kinetics_abstol;
-	void *kinetics_cvode_mem;
-	cxxSSassemblage *cvode_ss_assemblage_save;
-	cxxPPassemblage *cvode_pp_assemblage_save;
-protected:
-	LDBLE *m_original;
-	LDBLE *m_temp;
-	LDBLE *rk_moles;
-	int set_and_run_attempt;
-	LDBLE *x0_moles;
-
-	/* model.cpp ------------------------------- */
-	int gas_in;
-	LDBLE min_value;
-	LDBLE *normal, *ineq_array, *res, *cu, *zero, *delta1;
-	int *iu, *is, *back_eq;
-	int normal_max, ineq_array_max, res_max, cu_max, zero_max,
-		delta1_max, iu_max, is_max, back_eq_max;
-
-	/* phrq_io_output.cpp ------------------------------- */
-	int forward_output_to_log;
-
-	/* phreeqc_files.cpp ------------------------------- */
-	char *default_data_base;
-#ifdef PHREEQ98
-	int outputlinenr;
-	char *LogFileNameC;
-	char progress_str[512];
-#endif
-#endif
 	/* Pitzer  */	
 	pitzer_model			= pSrc->pitzer_model;
 	sit_model				= pSrc->sit_model;
@@ -2654,36 +2216,19 @@ protected:
 	always_full_pitzer      = pSrc->always_full_pitzer;
 	ICON					= pSrc->ICON;
 	IC                      = pSrc->IC;
-	/*
-	pitz_params				= NULL;
-	count_pitz_param		= 0;
-	max_pitz_param			= 100;
-	*/
 
-	for (int i = 0; i < pSrc->count_pitz_param; i++)
+	for (int i = 0; i < (int)pSrc->pitz_params.size(); i++)
 	{
 		pitz_param_store(pSrc->pitz_params[i], true);
 	}
 	pitz_param_map          = pSrc->pitz_param_map;
 	// auto pitz_param_map
-	/*
-	theta_params			= 0;
-	count_theta_param		= 0;
-	max_theta_param			= 100;
-	use_etheta				= TRUE;
-	*/
-	count_theta_param       = pSrc->count_theta_param;
-	max_theta_param         = count_theta_param;
-	space((void **)((void *)&theta_params), count_theta_param, &max_theta_param,
-		sizeof(struct theta_param *));
-	if (pSrc->theta_params != NULL)
+	for (int i = 0; i < (int)pSrc->theta_params.size(); i++)
 	{
-		//theta_params = (struct theta_param **) malloc((size_t)count_theta_param * sizeof(struct theta_param *));
-		for (int i = 0; i < count_theta_param; i++)
-		{
-			theta_params[i] = theta_param_alloc();
-			memcpy(theta_params[i], pSrc->theta_params[i], sizeof(struct theta_param));
-		}
+		size_t count_theta_params = theta_params.size();
+		theta_params.resize(count_theta_params + 1);
+		theta_params[count_theta_params] = theta_param_alloc();
+		memcpy(theta_params[count_theta_params], pSrc->theta_params[i], sizeof(struct theta_param));
 	}
 	use_etheta              = pSrc->use_etheta;
 	/*
@@ -2720,14 +2265,6 @@ protected:
 		DK[i]				= 0.0;
 	}
 	*/
-
-#ifdef PHREEQ98
-	int connect_simulations, graph_initial_solutions;
-	int shifts_as_points;
-	int chart_type;
-	int ShowChart;
-	int RowOffset, ColumnOffset;
-#endif
 	dummy                   = 0;
 	/* print.cpp ------------------------------- */
 	/*
@@ -2736,15 +2273,6 @@ protected:
 		malloc_error();
 	sformatf_buffer_size = 256;
 	*/
-#ifdef PHREEQ98
-	int colnr, rownr;
-	int graph_initial_solutions;
-	int prev_advection_step, prev_transport_step;	/*, prev_reaction_step */
-	/* int shifts_as_points; */
-	int chart_type;
-	int AddSeries;
-	int FirstCallToUSER_GRAPH;
-#endif
 	/* read.cpp */
 	prev_next_char          = NULL;
 #if defined PHREEQ98 
@@ -2776,12 +2304,7 @@ protected:
 	sit_M                   = NULL;
 	sit_LGAMMA              = NULL;
 */
-	count_sit_param = 0; //pSrc->count_sit_param;
-	max_sit_param = 1; // count_sit_param;
-	for (int i = 0; i < pSrc->count_sit_param; i++)
-	{
-		sit_param_store(pSrc->sit_params[i], true);
-	}
+	sit_params.clear();
 	sit_param_map = pSrc->sit_param_map;
 	/* tidy.cpp ------------------------------- */
 	//a0                      = 0;
@@ -2825,13 +2348,6 @@ protected:
 	current_A = pSrc->current_A;
 	fix_current = pSrc->fix_current;
 
-#ifdef PHREEQ98
-	int AutoLoadOutputFile, CreateToC;
-	int ProcessMessages, ShowProgress, ShowProgressWindow, ShowChart;
-	int outputlinenr;
-	int stop_calculations;
-	char err_str98[80];
-#endif
 	/* utilities.cpp ------------------------------- */
 	//spinner                 = 0;
 	//// keycount;

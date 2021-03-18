@@ -59,25 +59,10 @@ initialize(void)
 		cell_data[i].punch = FALSE;
 		cell_data[i].print = FALSE;
 	}
-
-	space((void **) ((void *) &elements), INIT, &max_elements,
-		  sizeof(struct element *));
-
-	space((void **) ((void *) &elt_list), INIT, &max_elts,
-		  sizeof(struct elt_list));
-
-	inverse = (struct inverse *) PHRQ_malloc((size_t) sizeof(struct inverse));
-	if (inverse == NULL) malloc_error();
 	count_inverse = 0;
 	space((void **) ((void *) &line), INIT, &max_line, sizeof(char));
 
 	space((void **) ((void *) &line_save), INIT, &max_line, sizeof(char));
-
-	space((void **) ((void *) &master), INIT, &max_master,
-		  sizeof(struct master *));
-
-	space((void **) ((void *) &mb_unknowns), INIT, &max_mb_unknowns,
-		  sizeof(struct unknown_list));
 
 	// one stag_data
 	stag_data = (struct stag_data *) PHRQ_calloc(1, sizeof(struct stag_data));
@@ -87,113 +72,14 @@ initialize(void)
 	stag_data->exch_f = 0;
 	stag_data->th_m = 0;
 	stag_data->th_im = 0;
-
-	space((void **) ((void *) &phases), INIT, &max_phases,
-		  sizeof(struct phase *));
-
-	space((void **) ((void *) &trxn.token), INIT, &max_trxn,
-		  sizeof(struct rxn_token_temp));
-
-	space((void **) ((void *) &s), INIT, &max_s, sizeof(struct species *));
-
-	space((void **) ((void *) &logk), INIT, &max_logk, sizeof(struct logk *));
-
-	space((void **) ((void *) &master_isotope), INIT, &max_master_isotope,
-		  sizeof(struct master_isotope *));
-
 /*
  *   Create hash tables
  */
-	hcreate_multi((unsigned) max_logk, &logk_hash_table);
-	hcreate_multi((unsigned) max_master_isotope, &master_isotope_hash_table);
-	hcreate_multi((unsigned) max_elements, &elements_hash_table);
-	hcreate_multi((unsigned) max_s, &species_hash_table);
-	hcreate_multi((unsigned) max_phases, &phases_hash_table);
-#ifdef SKIP_OLD_SELECTED_OUTPUT
-/*
- *   Initialize punch
- */
-	punch.in = FALSE;
-	punch.new_def = FALSE;
-
-	// one punch.totals
-	punch.count_totals = 0;
-	punch.totals =
-		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
-	if (punch.totals == NULL)
-		malloc_error();
-
-	// one punch.molalities
-	punch.count_molalities = 0;
-	punch.molalities =
-		(struct name_species *) PHRQ_malloc(sizeof(struct name_species));
-	if (punch.molalities == NULL)
-		malloc_error();
-
-	// one punch.activities
-	punch.count_activities = 0;
-	punch.activities =
-		(struct name_species *) PHRQ_malloc(sizeof(struct name_species));
-	if (punch.activities == NULL)
-		malloc_error();
-
-	// one punch.pure_phases
-	punch.count_pure_phases = 0;
-	punch.pure_phases =
-		(struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
-	if (punch.pure_phases == NULL)
-		malloc_error();
-
-	// one punch.si
-	punch.count_si = 0;
-	punch.si = (struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
-	if (punch.si == NULL)
-		malloc_error();
-
-	// one punch.gases
-	punch.count_gases = 0;
-	punch.gases =
-		(struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
-	if (punch.gases == NULL)
-		malloc_error();
-
-	// one punch.s_s
-	punch.count_s_s = 0;
-	punch.s_s = (struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
-	if (punch.s_s == NULL)
-		malloc_error();
-
-	// one punch.kinetics
-	punch.count_kinetics = 0;
-	punch.kinetics =
-		(struct name_phase *) PHRQ_malloc(sizeof(struct name_phase));
-	if (punch.kinetics == NULL)
-		malloc_error();
-
-	// one punch.isotopes
-	punch.count_isotopes = 0;
-	punch.isotopes =
-		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
-	if (punch.isotopes == NULL)
-		malloc_error();
-
-	// one punch.calculate_values
-	punch.count_calculate_values = 0;
-	punch.calculate_values =
-		(struct name_master *) PHRQ_malloc(sizeof(struct name_master));
-	if (punch.calculate_values == NULL)
-		malloc_error();
-#endif
-	// one save_values
-	save_values =
-		(struct save_values *) PHRQ_malloc(sizeof(struct save_values));
-	if (save_values == NULL)
-		malloc_error();
-
-	// one rate
-	rates = (struct rate *) PHRQ_malloc(sizeof(struct rate));
-	if (rates == NULL)
-		malloc_error();
+	hcreate_multi((unsigned) MAX_S, &logk_hash_table);
+	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
+	hcreate_multi((unsigned) MAX_ELTS, &elements_hash_table);
+	hcreate_multi((unsigned) MAX_S, &species_hash_table);
+	hcreate_multi((unsigned) MAX_PHASES, &phases_hash_table);
 
 	// user_print
 	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
@@ -203,37 +89,6 @@ initialize(void)
 	user_print->linebase = NULL;
 	user_print->varbase = NULL;
 	user_print->loopbase = NULL;
-
-#ifdef SKIP
-	// user_punch
-	user_punch = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
-	if (user_punch == NULL)
-		malloc_error();
-	user_punch->commands = NULL;
-	user_punch->linebase = NULL;
-	user_punch->varbase = NULL;
-	user_punch->loopbase = NULL;
-	user_punch_headings = (const char **) PHRQ_malloc(sizeof(char *));
-	if (user_punch_headings == NULL)
-		malloc_error();
-	user_punch_count_headings = 0;
-#endif
-#if defined PHREEQ98
-/*
- *   user_graph
- */
-	user_graph = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
-	if (user_graph == NULL)
-		malloc_error();
-	user_graph->commands = NULL;
-	user_graph->linebase = NULL;
-	user_graph->varbase = NULL;
-	user_graph->loopbase = NULL;
-	user_graph_headings = (char **) PHRQ_malloc(sizeof(char *));
-	if (user_graph_headings == NULL)
-		malloc_error();
-	user_graph_count_headings = 0;
-#endif
 	/*
 	   Initialize llnl aqueous model parameters
 	 */
@@ -283,26 +138,14 @@ initialize(void)
 #endif
 
 	/* calculate_value */
-	max_calculate_value = MAX_ELTS;
-	count_calculate_value = 0;
-	space((void **) ((void *) &calculate_value), INIT, &max_calculate_value,
-		  sizeof(struct calculate_value *));
-	hcreate_multi((unsigned) max_calculate_value,
+	hcreate_multi((unsigned) MAX_ELTS,
 				  &calculate_value_hash_table);
 
 	/* isotope_ratio */
-	max_isotope_ratio = MAX_ELTS;
-	count_isotope_ratio = 0;
-	space((void **) ((void *) &isotope_ratio), INIT, &max_isotope_ratio,
-		  sizeof(struct isotope_ratio *));
-	hcreate_multi((unsigned) max_isotope_ratio, &isotope_ratio_hash_table);
+	hcreate_multi((unsigned) MAX_ELTS, &isotope_ratio_hash_table);
 
-	/* isotope_value */
-	max_isotope_alpha = MAX_ELTS;
-	count_isotope_alpha = 0;
-	space((void **) ((void *) &isotope_alpha), INIT, &max_isotope_alpha,
-		  sizeof(struct isotope_alpha *));
-	hcreate_multi((unsigned) max_isotope_alpha, &isotope_alpha_hash_table);
+	/* isotope_alpha */
+	hcreate_multi((unsigned) MAX_ELTS, &isotope_alpha_hash_table);
 
 	/*
 	 * define constant named log_k
@@ -334,12 +177,6 @@ initialize(void)
 	// Allocate space for sit
 	sit_init();
 
-	// Allocate zeros
-	zeros = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (zeros == NULL)
-		malloc_error();
-	zeros[0] = 0.0;
-	zeros_max = 1;
 	use_kinetics_limiter = false;
 
 	return;
@@ -710,26 +547,6 @@ initial_solutions(int print)
 	initial_solution_isotopes = FALSE;
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-solution_mix()
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Go through list of solution_mix, mix, save solutions
- */
-	std::map<int, cxxMix>::iterator it;
-	for (it = Rxn_solution_mix_map.begin(); it != Rxn_solution_mix_map.end(); it++)
-	{
-		cxxSolution sol(Rxn_solution_map, it->second, it->second.Get_n_user(), this->phrq_io);
-		Rxn_solution_map[it->second.Get_n_user()] = sol;
-		Utilities::Rxn_copies(Rxn_solution_map, it->second.Get_n_user(), it->second.Get_n_user_end());
-	}
-	Rxn_solution_mix_map.clear();
-	return OK;
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 initial_exchangers(int print)
@@ -1310,7 +1127,7 @@ xexchange_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (j = 0; j < count_species_list; j++)
+			for (j = 0; j < (int)species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{
@@ -1531,7 +1348,7 @@ xsolution_save(int n_user)
 	 */
 	if (initial_solution_isotopes == TRUE)
 	{
-		for (int i = 0; i < count_master_isotope; i++)
+		for (int i = 0; i < (int)master_isotope.size(); i++)
 		{
 			if (master_isotope[i]->moles > 0)
 			{
@@ -1572,7 +1389,7 @@ xsolution_save(int n_user)
 /*
  *   Copy totals data
  */
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type == EX ||
 			master[i]->s->type == SURF || master[i]->s->type == SURF_PSI)
@@ -1601,7 +1418,7 @@ xsolution_save(int n_user)
 	}
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (int j = 0; j < count_s_x; j++)
+		for (int j = 0; j < (int)this->s_x.size(); j++)
 		{
 			if (s_x[j]->lg != 0.0)
 			{
@@ -1636,42 +1453,11 @@ xsolution_save(int n_user)
 			warning_msg(error_string);
 		}
 	}
-#ifdef SKIP
-/*
- * Bug-fix
- * Create and initialize intial data (this object should always be present even if it is left empty)
- */
- 
-   temp_solution.Create_initial_data();
-   cxxISolution* initialData = temp_solution.Get_initial_data();
-
-   initialData->Set_units( "Mol/kgw" );
-
-   // Copy totals to initialdata when present
-   if ( !temp_solution.Get_totals().empty() )
-   {
-      cxxNameDouble& totals = temp_solution.Get_totals();
-
-      for (cxxNameDouble::iterator jit = totals.begin(); jit != totals.end(); jit++)
-      {
-         std::string compName( jit->first );
-         double compConc = jit->second;
-
-         SolutionCompMap& comps = initialData->Get_comps();
-
-         cxxISolutionComp& tempComp = comps[ compName ];
-
-         tempComp.Set_description( compName.c_str() );
-         tempComp.Set_input_conc( compConc / temp_solution.Get_mass_water());
-         tempComp.Set_units( initialData->Get_units().c_str() );
-      }
-   } 
-#endif 
    if (this->save_species)
    {
 	   // saves mol/L
 	   temp_solution.Get_species_map().clear();
-	   for (int i = 0; i < this->count_s_x; i++)
+	   for (int i = 0; i < (int)this->s_x.size(); i++)
 	   {
 		   if (s_x[i]->type <= H2O)
 		   {
@@ -1680,7 +1466,7 @@ xsolution_save(int n_user)
 	   }	 
 	   // saves gamma
 	   temp_solution.Get_log_gamma_map().clear();
-	   for (int i = 0; i < this->count_s_x; i++)
+	   for (int i = 0; i < (int)this->s_x.size(); i++)
 	   {
 		   if (s_x[i]->type <= H2O)
 		   {
@@ -1689,7 +1475,7 @@ xsolution_save(int n_user)
 	   }
 	   // saves molalities
 	   temp_solution.Get_log_molalities_map().clear();
-	   for (int i = 0; i < this->count_s_x; i++)
+	   for (int i = 0; i < (int)this->s_x.size(); i++)
 	   {
 		   if (s_x[i]->type <= H2O)
 		   {
@@ -1756,7 +1542,7 @@ xsurface_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (int j = 0; j < count_species_list; j++)
+			for (int j = 0; j < (int)species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{
@@ -1834,7 +1620,7 @@ xsurface_save(int n_user)
 		{
 			cxxSurfaceCharge & charge_ref = surface_ptr->Get_surface_charges()[i];
 			double mass_water_surface = charge_ref.Get_mass_water();
-			for (int j = 0; j < count_s_x; j++)
+			for (int j = 0; j < (int)this->s_x.size(); j++)
 			{
 				if (s_x[j]->type > H2O)
 					continue;
@@ -1842,7 +1628,6 @@ xsurface_save(int n_user)
 				double moles_excess = mass_water_aq_x * molality * charge_ref.Get_g_map()[s_x[j]->z].Get_g();
 				double moles_surface = mass_water_surface * molality + moles_excess;
 				charge_ref.Get_dl_species_map()[s_x[j]->number] = moles_surface/mass_water_surface;
-//#ifdef SKIP
 				double g = charge_ref.Get_g_map()[s_x[j]->z].Get_g();
 				//double moles_excess = mass_water_aq_x * molality * (g * s_x[j]->erm_ddl +
 				//	mass_water_surface /
@@ -1858,9 +1643,6 @@ xsurface_save(int n_user)
 				moles_excess = mass_water_aq_x * molality * g;
 				double c = (mass_water_surface * molality + moles_excess) / mass_water_surface;
 				charge_ref.Get_dl_species_map()[s_x[j]->number] = c;
-
-
-//#endif
 			}
 			//charge_ref.Get_dl_species_map()[s_h2o->number] = 0.0;
 			charge_ref.Get_dl_species_map()[s_h2o->number] = 1.0/gfw_water;
@@ -2041,7 +1823,7 @@ step_save_exch(int n_user)
 	}
 
 	// Set exchange total in one component
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type != EX)
 			continue;
@@ -2086,7 +1868,7 @@ step_save_surf(int n_user)
 		return (OK);
 	Utilities::Rxn_copy(Rxn_surface_map, use.Get_surface_ptr()->Get_n_user(), n_user);
 	cxxSurface *surface_ptr = Utilities::Rxn_find(Rxn_surface_map, n_user);
-	for (int i = 0; i < count_master; i++)
+	for (int i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->s->type != SURF)
 			continue;
@@ -2459,12 +2241,10 @@ run_simulations(void)
 /* ---------------------------------------------------------------------- */
 {
 	char token[MAX_LENGTH];
-//#ifdef SKIP_KEEP
 #if defined(_MSC_VER) && (_MSC_VER < 1900)  // removed in vs2015
 	unsigned int old_exponent_format;
 	old_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
-//#endif
 /*
  *   Prepare error handling
  */
@@ -2529,11 +2309,6 @@ run_simulations(void)
 					output_msg(sformatf( "%s\n\n", title_x));
 			}
 			tidy_model();
-#ifdef PHREEQ98
-			if (!phreeq98_debug)
-			{
-#endif
-
 /*
  *   Calculate distribution of species for initial solutions
  */
@@ -2608,9 +2383,6 @@ run_simulations(void)
 			dup_print("End of simulation.", TRUE);
 			output_flush();
 			error_flush();
-#ifdef PHREEQ98
-		}						/* if (!phreeq98_debug) */
-#endif
 		}
 	}
 	catch (const PhreeqcStop&)

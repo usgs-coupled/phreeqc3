@@ -318,7 +318,7 @@ xsolution_zero(void)
 	mass_water_aq_x = 0.0;
 	units_x = moles_per_kilogram_string;
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->total = 0.0;
 		master[i]->total_primary = 0.0;
@@ -326,7 +326,7 @@ xsolution_zero(void)
 	}
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		for (i = 0; i < count_s; i++)
+		for (i = 0; i < (int)s.size(); i++)
 		{
 			s[i]->lg = 0.0;
 		}
@@ -459,7 +459,7 @@ add_exchange(cxxExchange *exchange_ptr)
 	}
 	if (exchange_ptr->Get_new_def())
 	{
-		for (int i = 0; i < count_master; i++)
+		for (int i = 0; i < (int)master.size(); i++)
 		{
 			if (master[i]->type == EX && master[i]->total > 0)
 			{
@@ -516,12 +516,6 @@ add_surface(cxxSurface *surface_ptr)
 		{
 			cb_x += comp_ptr->Get_charge_balance();
 		}
-#ifdef SKIP_MUSIC
-		if (surface_ptr->type == CD_MUSIC)
-		{
-			cb_x += surface_ptr->comps[i].cb;
-		}
-#endif
 		if (!surface_ptr->Get_new_def())
 		{
 			master_i_ptr->s->la = comp_ptr->Get_la();
@@ -1032,12 +1026,7 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 /*
  *   Sort elements in reaction and combine
  */
-	if (count_elts > 0)
-	{
-		qsort(elt_list, (size_t) count_elts,
-			  (size_t) sizeof(struct elt_list), elt_list_compare);
-		elt_list_combine();
-	}
+	elt_list_combine();
 /*
  *   Add gas elements to totals
  */
@@ -1343,7 +1332,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
  *   Make la's of all master species for the element small, so SI will be small
  *   and no mass transfer will be calculated
  */
-					for (int k = 0; k < count_master; k++)
+					for (int k = 0; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary == master_ptr)
 						{
@@ -1418,7 +1407,7 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
 					 *   so SI will be small
 					 *   and no mass transfer will be calculated
 					 */
-					for (k = 0; k < count_master; k++)
+					for (k = 0; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary == master_ptr)
 						{
@@ -1445,7 +1434,7 @@ solution_check(void)
 /*
  *   Check that all elements are in solution for phases with zero mass
  */
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		master_ptr = master[i];
 		if (master_ptr->total <= MIN_TOTAL && master_ptr->total >= -MIN_TOTAL)
