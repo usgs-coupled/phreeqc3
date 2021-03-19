@@ -12,7 +12,7 @@ USER_PUNCH 101
 
 #PRINT; -reset false
 SOLUTION 1
-SELECTED_OUTPUT; -reset false; -file co2.prn
+SELECTED_OUTPUT; -reset false; -file CO2_conc_PR_IS.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -33,11 +33,11 @@ USER_GRAPH
  20 graph_x x # tot("Na")
  30 graph_y tot("C(4)")
  -end
-INCLUDE$ co2.prn
+INCLUDE$ CO2_conc_PR_IS.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -reset false; -selected_out true; file co2_50.prn
+SELECTED_OUTPUT; -reset false; -selected_out true; file CO2_conc_PR_IS_50.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -50,11 +50,11 @@ END
 SELECTED_OUTPUT; -selected_out false
 USER_GRAPH
  -active true;  -connect_simulations true
-INCLUDE$ co2_50.prn
+INCLUDE$ CO2_conc_PR_IS_50.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -reset false; -selected_out true; file co2_75.prn
+SELECTED_OUTPUT; -reset false; -selected_out true; file CO2_conc_PR_IS_75.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -67,11 +67,11 @@ END
 SELECTED_OUTPUT; -selected_out false
 USER_GRAPH
  -active true; -connect_simulations true
-INCLUDE$ co2_75.prn
+INCLUDE$ CO2_conc_PR_IS_75.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file co2_100.prn
+SELECTED_OUTPUT; -selected_out true; file CO2_conc_PR_IS_100.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -84,5 +84,5 @@ END
 SELECTED_OUTPUT; -selected_out false
 USER_GRAPH
  -active true; -connect_simulations true
-INCLUDE$ co2_100.prn
+INCLUDE$ CO2_conc_PR_IS_100.sel
 END
