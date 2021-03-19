@@ -848,7 +848,7 @@ inverse_sort(void)
 /*
  *   Sort array of inverse structures
  */
-	if (count_inverse > 0)
+	if (count_inverse > 1)
 	{
 		qsort(&inverse[0], (size_t) count_inverse,
 			  sizeof(struct inverse), inverse_compare);
@@ -2163,7 +2163,7 @@ save_values_sort(void)
 /*
  *   Sort array of save_values structures
  */
-	if (save_values.size() > 0)
+	if (save_values.size() > 1)
 	{
 		qsort(&save_values[0], save_values.size(),
 			  sizeof(struct save_values), save_values_compare);
@@ -2207,7 +2207,7 @@ save_values_store(struct save_values *s_v)
 		save_values_sort();
 	}
 
-	if (save_values.size() > 0)
+	if (save_values.size() > 1)
 	{
 		qsort(&save_values[0], save_values.size(),
 			sizeof(struct save_values), save_values_compare);
@@ -2409,7 +2409,7 @@ species_list_sort(void)
 /*
  *   Sort list using rules in species_list_compare
  */
-	if (species_list.size() > 0)
+	if (species_list.size() > 1)
 	{
 		qsort(&species_list[0], species_list.size(),
 			  sizeof(struct species_list), species_list_compare);
@@ -2909,7 +2909,7 @@ trxn_sort(void)
 /*
  *   Compare names in tokens in trxn array for sorting
  */
-	if (count_trxn - 1 > 0)
+	if (count_trxn - 1 > 1)
 	{
 		qsort(&trxn.token[1],
 			  (size_t) count_trxn - 1,

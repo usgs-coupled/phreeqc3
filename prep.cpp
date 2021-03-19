@@ -1352,7 +1352,7 @@ build_model(void)
 /*
  *   Sort species list, by master only
  */
-	qsort(&species_list[0], (int)species_list.size(),
+	if (species_list.size() > 1) qsort(&species_list[0], species_list.size(),
 		  sizeof(struct species_list), species_list_compare_master);
 /*
  *   Save model description
