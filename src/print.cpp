@@ -3641,7 +3641,7 @@ print_alkalinity(void)
 				   (double) (total_alkalinity / mass_water_aq_x)));
 		output_msg(sformatf("\t%-15s%12s%12s%10s\n\n", "Species",
 				   "Alkalinity", "Molality", "Alk/Mol"));
-		qsort(&alk_list[0], (size_t) count_alk_list,
+		if (count_alk_list > 1) qsort(&alk_list[0], (size_t) count_alk_list,
 			  (size_t) sizeof(struct species_list), species_list_compare_alk);
 		for (i = 0; i < count_alk_list; i++)
 		{

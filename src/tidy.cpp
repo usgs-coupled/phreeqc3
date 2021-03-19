@@ -150,14 +150,14 @@ tidy_model(void)
 /* species */
 	if (new_model == TRUE)
 	{
-		qsort(&s[0], s.size(), sizeof(struct species *), s_compare);
+		if (s.size() > 1) qsort(&s[0], s.size(), sizeof(struct species *), s_compare);
 
 /* master species */
-		qsort(&master[0], master.size(), sizeof(struct master *), master_compare);
+		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(struct master *), master_compare);
 /* elements */
-		qsort(&elements[0], elements.size(), sizeof(struct element *), element_compare);
+		if (elements.size() > 1) qsort(&elements[0], elements.size(), sizeof(struct element *), element_compare);
 /* phases */
-		qsort(&phases[0], phases.size(), sizeof(struct phase *), phase_compare);
+		if (phases.size() > 1) qsort(&phases[0], phases.size(), sizeof(struct phase *), phase_compare);
 
 	}
 
