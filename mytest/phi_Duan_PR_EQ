@@ -10,7 +10,7 @@ USER_PUNCH 101
 20 PUNCH STR_F$(SC, 20, 10)
     -end
 SOLUTION 1
-SELECTED_OUTPUT; -reset false; -file co2.prn
+SELECTED_OUTPUT; -reset false; -file phi_Duan_PR_EQ.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -30,11 +30,11 @@ USER_GRAPH
  10 graph_x PR_P("CO2(g)")
  20 graph_y PR_PHI("CO2(g)")
  -end
-INCLUDE$ co2.prn
+INCLUDE$ phi_Duan_PR_EQ.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file co2_50.prn
+SELECTED_OUTPUT; -selected_out true; file phi_Duan_PR_EQ_50.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -46,11 +46,11 @@ END
 SELECTED_OUTPUT; -selected_out false
 USER_GRAPH
  -plot_csv_file f_CO2_50.dat
-INCLUDE$ co2_50.prn
+INCLUDE$ phi_Duan_PR_EQ_50.sel
 END
 
 SOLUTION
-SELECTED_OUTPUT; -selected_out true; file co2_75.prn
+SELECTED_OUTPUT; -selected_out true; file phi_Duan_PR_EQ_75.sel
 USER_PUNCH
   1 sc$ = chr$(59)
  10 for i = 1.1 to 520 step 20
@@ -62,5 +62,5 @@ END
 SELECTED_OUTPUT; -selected_out false
 USER_GRAPH
  -plot_csv_file f_CO2_75.dat
-INCLUDE$ co2_75.prn
+INCLUDE$ phi_Duan_PR_EQ_75.sel
 END
