@@ -1661,14 +1661,14 @@ read_inverse(void)
 /*
  *   Sort isotopes
  */
-	if (inverse[n].count_isotopes > 0)
+	if (inverse[n].count_isotopes > 1)
 	{
 		qsort(inverse[n].isotopes,
 			  (size_t) inverse[n].count_isotopes,
 			  sizeof(struct inv_isotope), inverse_isotope_compare);
 	}
 
-	if (inverse[n].count_i_u > 0)
+	if (inverse[n].count_i_u > 1)
 	{
 		qsort(inverse[n].i_u,
 			  (size_t) inverse[n].count_i_u,

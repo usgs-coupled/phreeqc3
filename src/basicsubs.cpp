@@ -2636,7 +2636,7 @@ edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles,
 	/*
 	 *   Sort system species
 	 */
-	if (sys.size() > 0)
+	if (sys.size() > 1)
 	{
 		qsort(&sys[0], sys.size(),
 			  sizeof(struct system_species), system_species_compare);
@@ -2727,12 +2727,12 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	/*
 	 *   Sort system species
 	 */
-	if (sys.size() > 0 && isort == 0)
+	if (sys.size() > 1 && isort == 0)
 	{
 		qsort(&sys[0], sys.size(),
 			  sizeof(struct system_species), system_species_compare);
 	}
-	else if (sys.size() > 0)
+	else if (sys.size() > 1)
 	{
 		qsort(&sys[0], sys.size(),
 			(size_t)sizeof(struct system_species), system_species_compare_name);
