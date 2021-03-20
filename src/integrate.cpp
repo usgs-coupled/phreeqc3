@@ -305,10 +305,10 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 /*
  *   Malloc work space
  */
-	c = (LDBLE *) PHRQ_malloc((size_t) (n + 1) * sizeof(LDBLE));
+	c = (LDBLE *) PHRQ_malloc(((size_t)n + 1) * sizeof(LDBLE));
 	if (c == NULL)
 		malloc_error();
-	d = (LDBLE *) PHRQ_malloc((size_t) (n + 1) * sizeof(LDBLE));
+	d = (LDBLE *) PHRQ_malloc(((size_t)n + 1) * sizeof(LDBLE));
 	if (d == NULL)
 		malloc_error();
 
@@ -775,7 +775,7 @@ calc_all_donnan(void)
 		A_surf = charge_ptr->Get_specific_area() * charge_ptr->Get_grams();
 		if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			f_psi = x[j + 2]->master[0]->s->la * LOG_10;	/* -FPsi/RT */
+			f_psi = x[(size_t)j + 2]->master[0]->s->la * LOG_10;	/* -FPsi/RT */
 			f_psi = f_psi / 2;
 			cd_m = 1;
 		} else
@@ -946,7 +946,7 @@ calc_init_donnan(void)
 		A_surf = charge_ptr->Get_specific_area() * charge_ptr->Get_grams();
 		if (use.Get_surface_ptr()->Get_type() == cxxSurface::CD_MUSIC)
 		{
-			f_psi = x[j + 2]->master[0]->s->la * LOG_10;	/* -FPsi/RT */
+			f_psi = x[(size_t)j + 2]->master[0]->s->la * LOG_10;	/* -FPsi/RT */
 			f_psi = f_psi / 2;
 		} else
 			f_psi = x[j]->master[0]->s->la * LOG_10;

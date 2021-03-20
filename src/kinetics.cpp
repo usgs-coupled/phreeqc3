@@ -858,8 +858,9 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			/*  define reaction for calculating k5 */
 			rk_moles[k + j] = kinetics_comp_ptr->Get_moles();
 			kinetics_comp_ptr->Set_moles(b51 * rk_moles[j]
-				+ 2.5 * rk_moles[n_reactions + j]
-				+ b53 * rk_moles[2 * n_reactions + j] + b54 * rk_moles[k + j]);
+				+ 2.5 * rk_moles[(size_t)n_reactions + j]
+				+ b53 * rk_moles[2 * (size_t)n_reactions + j]
+				+ b54 * rk_moles[(size_t)k + (size_t)j]);
 		}
 		if (moles_reduction > 1.0)
 			goto MOLES_TOO_LARGE;
@@ -910,9 +911,10 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			/*  define reaction for calculating k6 */
 			rk_moles[k + j] = kinetics_comp_ptr->Get_moles();
 			kinetics_comp_ptr->Set_moles(b61 * rk_moles[j]
-				+ b62 * rk_moles[n_reactions + j]
-				+ b63 * rk_moles[2 * n_reactions + j]
-				+ b64 * rk_moles[3 * n_reactions + j] + b65 * rk_moles[k + j]);
+				+ b62 * rk_moles[(size_t)n_reactions + j]
+				+ b63 * rk_moles[2 * (size_t)n_reactions + j]
+				+ b64 * rk_moles[3 * (size_t)n_reactions + j]
+				+ b65 * rk_moles[(size_t)k + (size_t)j]);
 		}
 		if (moles_reduction > 1.0)
 			goto MOLES_TOO_LARGE;
@@ -964,10 +966,10 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		{
 			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 			l_error = fabs(dc1 * rk_moles[j]
-						 + dc3 * rk_moles[2 * n_reactions + j]
-						 + dc4 * rk_moles[3 * n_reactions + j]
-						 + dc5 * rk_moles[4 * n_reactions + j]
-						 + dc6 * rk_moles[5 * n_reactions + j]);
+						 + dc3 * rk_moles[2 * (size_t)n_reactions + (size_t)j]
+						 + dc4 * rk_moles[3 * (size_t)n_reactions + (size_t)j]
+						 + dc5 * rk_moles[4 * (size_t)n_reactions + (size_t)j]
+						 + dc6 * rk_moles[5 * (size_t)n_reactions + (size_t)j]);
 
 			/* tol is in moles/l */
 			l_error /= kinetics_comp_ptr->Get_tol();
@@ -998,9 +1000,9 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			{
 				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 				kinetics_comp_ptr->Set_moles(c1 * rk_moles[j]
-					+ c3 * rk_moles[2 * n_reactions + j]
-					+ c4 * rk_moles[3 * n_reactions + j]
-					+ c6 * rk_moles[5 * n_reactions + j]);
+					+ c3 * rk_moles[2 * (size_t)n_reactions + (size_t)j]
+					+ c4 * rk_moles[3 * (size_t)n_reactions + (size_t)j]
+					+ c6 * rk_moles[5 * (size_t)n_reactions + (size_t)j]);
 			}
 			calc_final_kinetic_reaction(kinetics_ptr);
 			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)

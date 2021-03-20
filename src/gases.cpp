@@ -218,7 +218,7 @@ build_fixed_volume_gas(void)
 							   row / (count_unknowns + 1), col));
 				}
 				store_jacob(&(gas_unknowns[i]->moles),
-					&(my_array[row + col]), coef);
+					&(my_array[(size_t)row + (size_t)col]), coef);
 			}
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 			{
@@ -231,7 +231,7 @@ build_fixed_volume_gas(void)
 							   gas_unknown->number));
 				}
 				store_jacob(&(phase_ptr->fraction_x),
-					&(my_array[row + gas_unknown->number]), coef_elt);
+					&(my_array[(size_t)row + (size_t)gas_unknown->number]), coef_elt);
 			}
 		}
 /*
@@ -309,7 +309,7 @@ build_fixed_volume_gas(void)
 							master_ptr->s->name, (double) coef,
 							row / (count_unknowns + 1), col));
 					}
-					store_jacob(&(phase_ptr->p_soln_x), &(my_array[row + col]), coef);
+					store_jacob(&(phase_ptr->p_soln_x), &(my_array[(size_t)row + (size_t)col]), coef);
 				}
 			}
 		}

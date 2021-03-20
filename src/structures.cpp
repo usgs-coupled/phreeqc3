@@ -471,12 +471,12 @@ elt_list_dup(struct elt_list *elt_list_ptr_old)
  *   Malloc space and store element data
  */
 	elt_list_ptr_new =
-		(struct elt_list *) PHRQ_malloc((size_t) (count_totals + 1) *
+		(struct elt_list *) PHRQ_malloc(((size_t)count_totals + 1) *
 										sizeof(struct elt_list));
 	if (elt_list_ptr_new == NULL)
 		malloc_error();
 	memcpy(elt_list_ptr_new, elt_list_ptr_old,
-		   (size_t) (count_totals + 1) * sizeof(struct elt_list));
+		   ((size_t)count_totals + 1) * sizeof(struct elt_list));
 	return (elt_list_ptr_new);
 }
 
@@ -536,7 +536,7 @@ elt_list_save(void)
 /*
  *   Malloc space and store element data
  */
-	elt_list_ptr = (struct elt_list*)PHRQ_malloc((size_t)(count_elts + 1) *
+	elt_list_ptr = (struct elt_list*)PHRQ_malloc(((size_t)count_elts + 1) *
 		sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
 	{
@@ -1078,7 +1078,7 @@ master_bsearch_secondary(char *ptr)
 	if (master_ptr_primary)
 	{
 		if ((master_ptr_primary->number >= (int)master.size() - 1) || 
-			(master[master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
+			(master[(size_t)master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
 		{
 			return(master_ptr_primary);
 		}
@@ -1671,7 +1671,7 @@ rxn_dup(struct reaction *rxn_ptr_old)
  *   Copy tokens
  */
 	memcpy(rxn_ptr_new->token, rxn_ptr_old->token,
-		   (size_t) (i + 1) * sizeof(struct rxn_token));
+		   ((size_t)i + 1) * sizeof(struct rxn_token));
 
 	return (rxn_ptr_new);
 }

@@ -247,10 +247,8 @@ read_calculate_values(void)
 			{
 			length = (int) strlen(calculate_value_ptr->commands);
 			line_length = (int) strlen(line);
-			calculate_value_ptr->commands =
-				(char *) PHRQ_realloc(calculate_value_ptr->commands,
-									  (size_t) (length + line_length +
-												2) * sizeof(char));
+			calculate_value_ptr->commands = (char *)PHRQ_realloc(calculate_value_ptr->commands,
+				((size_t)length + (size_t)line_length + 2) * sizeof(char));
 			if (calculate_value_ptr->commands == NULL)
 				malloc_error();
 			calculate_value_ptr->commands[length] = ';';
@@ -1547,8 +1545,7 @@ calculate_value_alloc(void)
  */
 {
 	struct calculate_value *calculate_value_ptr;
-	calculate_value_ptr =
-		(struct calculate_value *)
+	calculate_value_ptr = (struct calculate_value *)
 		PHRQ_malloc(sizeof(struct calculate_value));
 	if (calculate_value_ptr == NULL)
 		malloc_error();

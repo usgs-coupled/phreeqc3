@@ -346,9 +346,9 @@ Temperature_for_step(int step_number)
 		else
 		{
 			LDBLE denom;
-			denom = (this->countTemps <= 1) ? 1 : (LDBLE) (this->countTemps - 1);
+			denom = (this->countTemps <= 1) ? 1 : (LDBLE)this->countTemps - 1;
 			t_temp =  this->temps[0] + ( this->temps[1] - this->temps[0]) *
-				((LDBLE) (step_number - 1)) / (denom);
+				((LDBLE)step_number - 1) / (denom);
 		}
 	}
 	else 
@@ -359,7 +359,7 @@ Temperature_for_step(int step_number)
 		}
 		else
 		{
-			t_temp = this->temps[step_number - 1];
+			t_temp = this->temps[(size_t)step_number - 1];
 		}
 
 	}
