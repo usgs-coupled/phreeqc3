@@ -145,9 +145,8 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 /*
  *   Malloc space and store element data for return
  */
-	*elt_ptr =
-		(struct elt_list *) PHRQ_malloc((size_t) (count_elts + 1) *
-										sizeof(struct elt_list));
+	*elt_ptr = (struct elt_list *) PHRQ_malloc(((size_t)count_elts + 1) *
+		sizeof(struct elt_list));
 	if (*elt_ptr == NULL)
 	{
 		malloc_error();

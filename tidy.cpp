@@ -1349,7 +1349,7 @@ tidy_inverse(void)
 				continue;
 			/*   if next master species is secondary, mark all 
 			   secondary master species until a primary is found */
-			if (master[j + 1]->primary == FALSE)
+			if (master[(size_t)j + 1]->primary == FALSE)
 			{
 				master[j]->in = FALSE;
 				count_in--;

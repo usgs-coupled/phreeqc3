@@ -511,7 +511,7 @@ public:
 	long * P_setdiff(long *d, long *s1, long *s2);
 	long * P_setxor(long *d, long *s1, long *s2);
 	long * P_addset(long *s, unsigned val);
-	long * P_addsetr(long *s, unsigned v1, unsigned v2);
+//	long * P_addsetr(long *s, unsigned v1, unsigned v2);
 	long * P_remset(long *s, unsigned val);
 	int P_setequal(long *s1, long *s2);
 	int P_subset(long *s1, long *s2);

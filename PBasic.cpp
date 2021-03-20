@@ -2415,7 +2415,7 @@ factor(struct LOC_exec * LINK)
 			//PhreeqcPtr->count_sys = 1000;
 			//int count_sys = PhreeqcPtr->count_sys;
 			int count_sys = 1000;
-			names_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
+			names_arg = (char**)PhreeqcPtr->PHRQ_calloc(((size_t)count_sys + 1), sizeof(char*));
 			if (names_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2423,7 +2423,7 @@ factor(struct LOC_exec * LINK)
 				exit(4);
 #endif
 			}
-			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(LDBLE));
+			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc(((size_t)count_sys + 1), sizeof(LDBLE));
 			if (moles_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2574,10 +2574,8 @@ factor(struct LOC_exec * LINK)
 				if (s_v.subscripts == NULL)
 					PhreeqcPtr->malloc_error();
 			}
-			s_v.subscripts =
-				(int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-					(size_t)(s_v.count_subscripts +
-						1) * sizeof(int));
+			s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
+				((size_t)s_v.count_subscripts + 1) * sizeof(int));
 			if (s_v.subscripts == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2602,10 +2600,8 @@ factor(struct LOC_exec * LINK)
 					if (s_v.subscripts == NULL)
 						PhreeqcPtr->malloc_error();
 				}
-				s_v.subscripts =
-					(int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-						(size_t)(s_v.count_subscripts +
-							1) * sizeof(int));
+				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
+					((size_t)s_v.count_subscripts + 1) * sizeof(int));
 				if (s_v.subscripts == NULL)
 				{
 					PhreeqcPtr->malloc_error();
@@ -2689,10 +2685,8 @@ factor(struct LOC_exec * LINK)
 				if (s_v.subscripts == NULL)
 					PhreeqcPtr->malloc_error();
 			}
-			s_v.subscripts =
-				(int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-					(size_t)(s_v.count_subscripts +
-						1) * sizeof(int));
+			s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
+				((size_t)s_v.count_subscripts + 1) * sizeof(int));
 			if (s_v.subscripts == NULL)
 				PhreeqcPtr->malloc_error();
 			s_v.subscripts[s_v.count_subscripts] = i;
@@ -2712,10 +2706,8 @@ factor(struct LOC_exec * LINK)
 					if (s_v.subscripts == NULL)
 						PhreeqcPtr->malloc_error();
 				}
-				s_v.subscripts =
-					(int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-						(size_t)(s_v.count_subscripts +
-							1) * sizeof(int));
+				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
+					((size_t)s_v.count_subscripts + 1) * sizeof(int));
 				if (s_v.subscripts == NULL)
 					PhreeqcPtr->malloc_error();
 				s_v.subscripts[s_v.count_subscripts] = j;
@@ -3212,7 +3204,7 @@ factor(struct LOC_exec * LINK)
 			{
 				errormsg("Parameter subscript out of range.");
 			}
-			n.UU.val = PhreeqcPtr->rate_p[i_rate - 1];
+			n.UU.val = PhreeqcPtr->rate_p[(size_t)i_rate - 1];
 		}
 	}
 	break;
@@ -3650,7 +3642,7 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc(size_t(max_length + 1), sizeof(char));
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc(((size_t)max_length + 1), sizeof(char));
 		if (token == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
@@ -3693,7 +3685,7 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc(size_t(max_length + 1), sizeof(char));
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc(((size_t)max_length + 1), sizeof(char));
 		if (token == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
@@ -4231,7 +4223,7 @@ factor(struct LOC_exec * LINK)
 	case toksgn:
 	{
 		n.UU.val = realfactor(LINK);
-		n.UU.val = (n.UU.val > 0) - (n.UU.val < 0);
+		n.UU.val = (double)(n.UU.val > 0) - (double)(n.UU.val < 0);
 	}
 	break;
 
@@ -4290,7 +4282,7 @@ factor(struct LOC_exec * LINK)
 		}
 		{
 			std::string str = n.UU.sval;
-			str = str.substr(i - 1, j);
+			str = str.substr((size_t)i - 1, (size_t)j);
 			strcpy(n.UU.sval, str.c_str());
 		}
 		require(tokrp, LINK);
@@ -6876,8 +6868,8 @@ void PBasic::
 strmove(int len, char *l_s, int spos,
 		char *d, int dpos)
 {
-	l_s += spos - 1;
-	d += dpos - 1;
+	l_s += (size_t)spos - 1;
+	d += (size_t)dpos - 1;
 	while (*d && --len >= 0)
 		*d++ = *l_s++;
 	if (len > 0)
@@ -7133,40 +7125,40 @@ P_addset(long *l_s, unsigned val)	/* s := s + [val] */
 	return sbase;
 }
 
-long * PBasic::
-P_addsetr(long *l_s, unsigned v1, unsigned v2)	/* s := s + [v1..v2] */
-{
-	long *sbase = l_s;
-	int b1, b2, size;
-	if ((int) v1 > (int) v2)
-		return sbase;
-	b1 = v1 % SETBITS;
-	v1 /= SETBITS;
-	b2 = v2 % SETBITS;
-	v2 /= SETBITS;
-	size = *l_s;
-	v1++;
-	if ((int) ++v2 > size)
-	{
-		while ((int) v2 > size)
-			l_s[++size] = 0;
-		l_s[v2] = 0;
-		*l_s = v2;
-	}
-	l_s += v1;
-	if (v1 == v2)
-	{
-		*l_s |= (~((-2L) << (b2 - b1))) << b1;
-	}
-	else
-	{
-		*l_s++ |= (-1L) << b1;
-		while (++v1 < v2)
-			*l_s++ = -1;
-		*l_s |= ~((-2L) << b2);
-	}
-	return sbase;
-}
+//long * PBasic::
+//P_addsetr(long *l_s, unsigned v1, unsigned v2)	/* s := s + [v1..v2] */
+//{
+//	long *sbase = l_s;
+//	int b1, b2, size;
+//	if ((int) v1 > (int) v2)
+//		return sbase;
+//	b1 = v1 % SETBITS;
+//	v1 /= SETBITS;
+//	b2 = v2 % SETBITS;
+//	v2 /= SETBITS;
+//	size = *l_s;
+//	v1++;
+//	if ((int) ++v2 > size)
+//	{
+//		while ((int) v2 > size)
+//			l_s[++size] = 0;
+//		l_s[v2] = 0;
+//		*l_s = v2;
+//	}
+//	l_s += v1;
+//	if (v1 == v2)
+//	{
+//		*l_s |= (~((-2L) << (b2 - b1))) << b1;
+//	}
+//	else
+//	{
+//		*l_s++ |= (-1L) << b1;
+//		while (++v1 < v2)
+//			*l_s++ = -1;
+//		*l_s |= ~((-2L) << b2);
+//	}
+//	return sbase;
+//}
 
 long *  PBasic::
 P_remset(long *l_s, unsigned val)	/* s := s - [val] */

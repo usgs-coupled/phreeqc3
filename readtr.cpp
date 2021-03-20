@@ -745,7 +745,7 @@ read_transport(void)
 	if (count_disp > max_cells)
 		max_cells = count_disp;
 	if (count_por > max_cells * (1 + stag_data->count_stag))
-		max_cells = (int)ceil(((double)count_por / (double)(1 + stag_data->count_stag)));
+		max_cells = (int)ceil(((double)count_por / (1 + (double)stag_data->count_stag)));
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -766,7 +766,7 @@ read_transport(void)
 		{
 			sprintf(token,
 				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
-				(int) ceil(((double)count_por / (double)(1 + stag_data->count_stag))));
+				(int) ceil(((double)count_por / (1 + (double)stag_data->count_stag))));
 			warning_msg(token);
 		}
 	}
