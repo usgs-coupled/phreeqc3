@@ -908,11 +908,6 @@ void Phreeqc::init(void)
 	/*
 	*   Hash definitions
 	*/
-	// auto strings_map;
-#ifdef HASH
-	// auto strings_hash;
-#endif
-	elements_hash_table     = NULL;
 	species_hash_table      = NULL;
 	phases_hash_table       = NULL;
 	logk_hash_table         = NULL;
@@ -2099,10 +2094,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*
 	*   Hash definitions
 	*/
-	// auto strings_map;
-#ifdef HASH
-	// auto strings_hash;
-#endif
 	/*
 	elements_hash_table     = NULL;
 	species_hash_table      = NULL;

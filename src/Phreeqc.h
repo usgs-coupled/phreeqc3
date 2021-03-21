@@ -17,9 +17,6 @@ typedef unsigned char boolean;
 #include <fstream>
 #include <sstream>
 #include <map>
-#ifdef HASH
-#include <hash_map>
-#endif
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -1134,9 +1131,6 @@ public:
 #endif
 	const char *string_hsave(const char *str);
 	void strings_map_clear();
-#ifdef HASH
-	void strings_hash_clear();
-#endif
 protected:
 	char *string_pad(const char *str, int i);
 	int string_trim(char *str);
@@ -1666,10 +1660,7 @@ protected:
 	*/
 
 	std::map<std::string, std::string *> strings_map;
-#ifdef HASH
-	std::hash_map<std::string, std::string *> strings_hash;
-#endif
-	HashTable *elements_hash_table;
+	std::map<std::string, struct element*> elements_map;
 	HashTable *species_hash_table;
 	HashTable *phases_hash_table;
 	HashTable *logk_hash_table;

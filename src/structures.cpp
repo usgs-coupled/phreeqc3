@@ -83,7 +83,7 @@ clean_up(void)
 
 	for (j = 0; j < (int)elements.size(); j++)
 	{
-		elements[j] = (struct element*)free_check_null(elements[j]);
+		delete elements[j];
 	}
 	elements.clear();
 	/* solutions */
@@ -233,20 +233,15 @@ clean_up(void)
 	/* sit */
 	sit_clean_up();
 	/* hash tables */
-	hdestroy_multi(elements_hash_table);
+	elements_map.clear();
 	hdestroy_multi(species_hash_table);
 	hdestroy_multi(logk_hash_table);
 	hdestroy_multi(phases_hash_table);
-	elements_hash_table = NULL;
 	species_hash_table = NULL;
 	logk_hash_table = NULL;
 	phases_hash_table = NULL;
 	/* strings */
-#ifdef HASH
-	strings_hash_clear();
-#else
 	strings_map_clear();
-#endif
 	/* delete basic interpreter */
 	basic_free();
 	/* change_surf */
@@ -324,69 +319,45 @@ element_compare(const void *ptr1, const void *ptr2)
 }
 
 /* ---------------------------------------------------------------------- */
-struct element * Phreeqc::
-element_store(const char *element)
+struct element* Phreeqc::
+element_store(const char * element)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Function locates the string "element" in the hash table for elements.
- *
- *   If found, pointer to the appropriate element structure is returned.
- *
- *   If the string is not found, a new entry is made at the end of
- *   the elements array (position count_elements) and count_elements is
- *   incremented. A new entry is made in the hash table. Pointer to
- *   the new structure is returned.
- *
- *   Arguments:
- *      element    input, character string to be located or stored.
- *
- *   Returns:
- *      The address of an elt structure that contains the element data.
- */
-	struct element *elts_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
-/*
- *   Search list
- */
-	strcpy(token, element);
-
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(elements_hash_table, item, FIND);
-	if (found_item != NULL)
+	/*
+	 *   Function locates the string "element" in the map for elements.
+	 *
+	 *   If found, pointer to the appropriate element structure is returned.
+	 *
+	 *   If the string is not found, a new entry is made at the end of
+	 *   the elements array (position count_elements) and count_elements is
+	 *   incremented. Pointer to the new structure is returned.
+	 *
+	 *   Arguments:
+	 *      element    input, std::string to be located or stored.
+	 *
+	 *   Returns:
+	 *      The address of an elt structure that contains the element data.
+	 */
+	/*
+	 *   Search list
+	 */
+	std::map<std::string, struct element *>::const_iterator it;
+	it = elements_map.find(element);
+	if (it != elements_map.end())
 	{
-		elts_ptr = (struct element *) (found_item->data);
-		return (elts_ptr);
+		return (it->second);
 	}
-/*
- *   Save new elt structure and return pointer to it
- */
-	/* make sure there is space in elements */
-	size_t count_elements = elements.size();
-	elements.resize(count_elements + 1);
-	elements[count_elements] = (struct element *) PHRQ_malloc((size_t) sizeof(struct element));
-	if (elements[count_elements] == NULL)
-		malloc_error();
-	/* set name pointer in elements structure */
-	elements[count_elements]->name = string_hsave(token);
-	/* set return value */
-	elements[count_elements]->master = NULL;
-	elements[count_elements]->primary = NULL;
-	elements[count_elements]->gfw = 0.0;
-/*
- *   Update hash table
- */
-	item.key = elements[count_elements]->name;
-	item.data = (void *) elements[count_elements];
-	found_item = hsearch_multi(elements_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in element_store.");
-		error_msg(error_string, CONTINUE);
-	}
-	return (elements[count_elements]);
+	/*
+	 *   Save new element structure and return pointer to it
+	 */
+	struct element *elt_ptr = new struct element;
+	elt_ptr->name = string_hsave(element);
+	elt_ptr->master = NULL;
+	elt_ptr->primary = NULL;
+	elt_ptr->gfw = 0.0;
+	elements.push_back(elt_ptr);
+	elements_map[element] = elt_ptr;
+	return (elt_ptr);
 }
 
 /* **********************************************************************
