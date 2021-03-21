@@ -159,8 +159,8 @@ clean_up(void)
 	stag_data = (struct stag_data*)free_check_null(stag_data);
 	cell_data = (struct cell_data*)free_check_null(cell_data);
 	/* advection */
-	advection_punch = (int*)free_check_null(advection_punch);
-	advection_print = (int*)free_check_null(advection_print);
+	advection_punch.clear();
+	advection_print.clear();
 	/* selected_output */
 	SelectedOutput_map.clear();
 	/*  user_print and user_punch */

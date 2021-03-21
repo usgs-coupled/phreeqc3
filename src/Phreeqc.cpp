@@ -660,10 +660,8 @@ void Phreeqc::init(void)
 	count_ad_shifts          = 1;
 	print_ad_modulus         = 1;
 	punch_ad_modulus         = 1;
-	advection_punch          = NULL;
 	advection_kin_time       = 0.0;
 	advection_kin_time_defined = FALSE;
-	advection_print          = NULL;
 	advection_warnings       = TRUE;
 	/*----------------------------------------------------------------------
 	*   Tidy data
@@ -1517,22 +1515,10 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_ad_shifts          = pSrc->count_ad_shifts;
 	print_ad_modulus         = pSrc->print_ad_modulus;
 	punch_ad_modulus         = pSrc->punch_ad_modulus;
-	/* advection_punch */
-	if (count_ad_cells > 0)
-	{
-		advection_punch = (int *) free_check_null(advection_punch);
-		advection_punch = (int *) PHRQ_malloc((size_t) (count_ad_cells * sizeof(int)));
-		if (advection_punch == NULL) malloc_error();
-		memcpy(advection_punch, pSrc->advection_punch, (size_t) (count_ad_cells * sizeof(int)));
-	}
-	/* advection_print */
-	if (count_ad_cells > 0)
-	{
-		advection_print = (int *) free_check_null(advection_print);
-		advection_print = (int *) PHRQ_malloc((size_t) (count_ad_cells * sizeof(int)));
-		if (advection_print == NULL) malloc_error();
-		memcpy(advection_print, pSrc->advection_print, (size_t) (count_ad_cells * sizeof(int)));
-	}
+	/* advection_punch, advection_print */
+	advection_punch = pSrc->advection_punch;
+	advection_print = pSrc->advection_print;
+
 	advection_kin_time       = pSrc->advection_kin_time;
 	advection_kin_time_defined = pSrc->advection_kin_time_defined;
 	advection_warnings       = pSrc->advection_warnings;
