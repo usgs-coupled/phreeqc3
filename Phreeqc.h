@@ -494,7 +494,6 @@ public:
 	int revise_guesses(void);
 	int ss_binary(cxxSS *ss_ptr);
 	int ss_ideal(cxxSS *ss_ptr);
-	void ineq_init(int max_row_count, int max_column_count);
 
 	// parse.cpp -------------------------------
 	int check_eqn(int association);
@@ -1424,7 +1423,7 @@ protected:
 	int count_ad_shifts;
 	int print_ad_modulus;
 	int punch_ad_modulus;
-	int *advection_punch, *advection_print;
+	std::vector<int> advection_print, advection_punch;
 	LDBLE advection_kin_time;
 	LDBLE advection_kin_time_defined;
 	int advection_warnings;

@@ -7580,10 +7580,7 @@ read_advection(void)
 /*
  *   Fill in data for punch
  */
-	advection_punch = (int *) PHRQ_realloc(advection_punch,
-		((size_t)count_ad_cells + 1) * sizeof(int));
-	if (advection_punch == NULL)
-		malloc_error();
+	advection_punch.resize((size_t)count_ad_cells + 1);
 	if (count_punch != 0)
 	{
 		for (i = 0; i < count_ad_cells; i++)
@@ -7612,10 +7609,7 @@ read_advection(void)
 /*
  *   Fill in data for print
  */
-	advection_print = (int *) PHRQ_realloc(advection_print,
-		((size_t)count_ad_cells + 1) * sizeof(int));
-	if (advection_print == NULL)
-		malloc_error();
+	advection_print.resize((size_t)count_ad_cells + 1);
 	if (count_print != 0)
 	{
 		for (i = 0; i < count_ad_cells; i++)

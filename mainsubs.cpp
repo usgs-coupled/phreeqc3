@@ -31,17 +31,6 @@ initialize(void)
 	moles_per_kilogram_string = string_duplicate("Mol/kgw");
 	pe_string = string_duplicate("pe");
 /*
- *   Initialize advection
- */
-	advection_punch = (int *) PHRQ_malloc(sizeof(int));
-	if (advection_punch == NULL)
-		malloc_error();
-	advection_punch[0] = TRUE;
-	advection_print = (int *) PHRQ_malloc(sizeof(int));
-	if (advection_print == NULL)
-		malloc_error();
-	advection_print[0] = TRUE;
-/*
  *   Allocate space
  */
 	cell_data_max_cells = count_cells + 2;
