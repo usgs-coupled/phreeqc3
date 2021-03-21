@@ -1233,54 +1233,7 @@ string_duplicate(const char *token)
 	strcpy(str, token);
 	return (str);
 }
-#ifdef HASH
-/* ---------------------------------------------------------------------- */
-const char * Phreeqc::
-string_hsave(const char *str)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Save character string str
- *
- *      Arguments:
- *         str   input string to save.
- *
- *      Returns:
- *         starting address of saved string (str)
- */
-	std::hash_map<std::string, std::string *>::const_iterator it;
-	it = strings_hash.find(str);
-	if (it != strings_hash.end())
-	{
-		return (it->second->c_str());
-	}
 
-	std::string *stdstr = new std::string(str);
-	strings_map[*stdstr] = stdstr;
-	return(stdstr->c_str());
-}
-/* ---------------------------------------------------------------------- */
-void Phreeqc::
-strings_hash_clear()
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Save character string str
- *
- *      Arguments:
- *         str   input string to save.
- *
- *      Returns:
- *         starting address of saved string (str)
- */
-	std::hash_map<std::string, std::string *>::iterator it;
-	for (it = strings_hash.begin(); it != strings_hash.end(); it++)
-	{
-		delete it->second;
-	}
-	strings_hash.clear();
-}
-#else
 /* ---------------------------------------------------------------------- */
 const char * Phreeqc::
 string_hsave(const char *str)
@@ -1306,7 +1259,6 @@ string_hsave(const char *str)
 	strings_map[*stdstr] = stdstr;
 	return(stdstr->c_str());
 }
-#endif
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 strings_map_clear()
