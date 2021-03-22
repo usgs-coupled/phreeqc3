@@ -877,7 +877,7 @@ public:
 protected:
 	struct logk *logk_alloc(void);
 	int logk_copy2orig(struct logk *logk_ptr);
-	struct logk *logk_store(char *name, int replace_if_found);
+	struct logk *logk_store(const char *name, int replace_if_found);
 	struct logk *logk_search(const char *name);
 	struct master *master_alloc(void);
 	static int master_compare(const void *ptr1, const void *ptr2);
@@ -1676,11 +1676,11 @@ protected:
 	std::vector<struct master_isotope*> master_isotope;
 	int initial_solution_isotopes;
 	std::vector<struct calculate_value*> calculate_value;
-	HashTable *calculate_value_hash_table;
+	std::map<std::string, struct calculate_value*> calculate_value_map;
 	std::vector<struct isotope_ratio*> isotope_ratio;
-	HashTable *isotope_ratio_hash_table;
+	std::map<std::string, struct isotope_ratio*> isotope_ratio_map;
 	std::vector<struct isotope_alpha*> isotope_alpha;
-	HashTable *isotope_alpha_hash_table;
+	std::map<std::string, struct isotope_alpha*> isotope_alpha_map;
 	int phreeqc_mpi_myself;
 	int first_read_input;
 	char *user_database;

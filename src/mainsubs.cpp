@@ -25,9 +25,6 @@ initialize(void)
 /*
  *   Initialize global variables
  */
-	struct logk *logk_ptr;
-	char token[MAX_LENGTH];
-
 	moles_per_kilogram_string = string_duplicate("Mol/kgw");
 	pe_string = string_duplicate("pe");
 /*
@@ -117,25 +114,6 @@ initialize(void)
 	g_spread_sheet.defaults.iso       = NULL;
 	g_spread_sheet.defaults.redox     = NULL;
 #endif
-
-	/* calculate_value */
-	hcreate_multi((unsigned) MAX_ELTS,
-				  &calculate_value_hash_table);
-
-	/* isotope_ratio */
-	hcreate_multi((unsigned) MAX_ELTS, &isotope_ratio_hash_table);
-
-	/* isotope_alpha */
-	hcreate_multi((unsigned) MAX_ELTS, &isotope_alpha_hash_table);
-
-	/*
-	 * define constant named log_k
-	 */
-	strcpy(token, "XconstantX");
-	logk_ptr = logk_store(token, TRUE);
-	strcpy(token, "1.0");
-	read_log_k_only(token, &logk_ptr->log_k[0]);
-
 	// allocate space for copier
 	copier_init(&copy_solution);
 	copier_init(&copy_pp_assemblage);

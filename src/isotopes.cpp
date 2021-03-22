@@ -1438,15 +1438,15 @@ master_isotope_search(const char *name)
 
 /* ---------------------------------------------------------------------- */
 struct calculate_value * Phreeqc::
-calculate_value_store(const char *name, int replace_if_found)
+calculate_value_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for calculate_value.
+ *   Function locates the string "name" in the map for calculate_value.
  *
  *   Pointer to a calculate_value structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old calculate_value structure
  *      are freed and replaced with additional input.
@@ -1461,52 +1461,39 @@ calculate_value_store(const char *name, int replace_if_found)
  *   Returns:
  *      pointer to calculate_value structure "calculate_value" where "name" can be found.
  */
-	int n;
-	struct calculate_value *calculate_value_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
+	struct calculate_value *calculate_value_ptr=NULL;
 /*
  *   Search list
  */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(calculate_value_hash_table, item, FIND);
-
-	if (found_item != NULL && replace_if_found == FALSE)
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct calculate_value*>::iterator cv_it =
+		calculate_value_map.find(name);
+	if (cv_it != calculate_value_map.end() && replace_if_found == FALSE)
 	{
-		calculate_value_ptr = (struct calculate_value *) (found_item->data);
+		calculate_value_ptr = cv_it->second;
 		return (calculate_value_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (cv_it != calculate_value_map.end() && replace_if_found == TRUE)
 	{
-		calculate_value_ptr = (struct calculate_value *) (found_item->data);
+		calculate_value_ptr = cv_it->second;
 		calculate_value_free(calculate_value_ptr);
 		calculate_value_init(calculate_value_ptr);
 	}
 	else
 	{
-		n = (int)calculate_value.size();
-		calculate_value.resize((size_t)n+1);
+		size_t n = calculate_value.size();
+		calculate_value.resize(n+1);
 		/* Make new calculate_value structure */
 		calculate_value[n] = calculate_value_alloc();
 		calculate_value_ptr = calculate_value[n];
 	}
-	/* set name and z in pointer in calculate_value structure */
-	calculate_value_ptr->name = string_hsave(name);
+	/* set name in calculate_value structure */
+	calculate_value_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = string_hsave(token);
-	item.data = (void *) calculate_value_ptr;
-	found_item = hsearch_multi(calculate_value_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in calculate_value_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	calculate_value_map[name] = calculate_value_ptr;
 	return (calculate_value_ptr);
 }
 
@@ -1561,11 +1548,11 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct calculate_value * Phreeqc::
-calculate_value_search(const char *name)
+calculate_value_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for calculate_value.
+ *   Function locates the string "name" in the map for calculate_value.
  *
  *   Arguments:
  *      name    input, character string to be found in "calculate_value".
@@ -1574,22 +1561,13 @@ calculate_value_search(const char *name)
  *      pointer to calculate_value structure "calculate_value" where "name" can be found.
  *      or NULL if not found.
  */
-	struct calculate_value *calculate_value_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(calculate_value_hash_table, item, FIND);
-
-	if (found_item != NULL)
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct calculate_value*>::iterator cv_it =
+		calculate_value_map.find(name);
+	if (cv_it != calculate_value_map.end())
 	{
-		calculate_value_ptr = (struct calculate_value *) (found_item->data);
-		return (calculate_value_ptr);
+		return (cv_it->second);
 	}
 	return (NULL);
 }
@@ -1624,11 +1602,11 @@ calculate_value_free(struct calculate_value *calculate_value_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct isotope_ratio * Phreeqc::
-isotope_ratio_store(const char *name, int replace_if_found)
+isotope_ratio_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_ratio.
+ *   Function locates the string "name" in the map for isotope_ratio.
  *
  *   Pointer to a isotope_ratio structure is always returned.
  *
@@ -1647,51 +1625,39 @@ isotope_ratio_store(const char *name, int replace_if_found)
  *   Returns:
  *      pointer to isotope_ratio structure "isotope_ratio" where "name" can be found.
  */
-	int n;
 	struct isotope_ratio *isotope_ratio_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
 /*
  *   Search list
  */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_ratio_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct isotope_ratio*>::iterator it =
+		isotope_ratio_map.find(name);
 
-	if (found_item != NULL && replace_if_found == FALSE)
+	if (it != isotope_ratio_map.end() && replace_if_found == FALSE)
 	{
-		isotope_ratio_ptr = (struct isotope_ratio *) (found_item->data);
+		isotope_ratio_ptr = it->second;
 		return (isotope_ratio_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (it != isotope_ratio_map.end() && replace_if_found == TRUE)
 	{
-		isotope_ratio_ptr = (struct isotope_ratio *) (found_item->data);
+		isotope_ratio_ptr = it->second;
 		isotope_ratio_init(isotope_ratio_ptr);
 	}
 	else
 	{
-		n = (int)isotope_ratio.size();
-		isotope_ratio.resize((size_t)n + 1);
+		size_t n = isotope_ratio.size();
+		isotope_ratio.resize(n + 1);
 		/* Make new isotope_ratio structure */
 		isotope_ratio[n] = isotope_ratio_alloc();
 		isotope_ratio_ptr = isotope_ratio[n];
 	}
 	/* set name and z in pointer in isotope_ratio structure */
-	isotope_ratio_ptr->name = string_hsave(name);
+	isotope_ratio_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = string_hsave(token);
-	item.data = (void *) isotope_ratio_ptr;
-	found_item = hsearch_multi(isotope_ratio_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in isotope_ratio_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	isotope_ratio_map[name] = isotope_ratio_ptr;
 	return (isotope_ratio_ptr);
 }
 
@@ -1742,11 +1708,11 @@ isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct isotope_ratio * Phreeqc::
-isotope_ratio_search(const char *name)
+isotope_ratio_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_ratio.
+ *   Function locates the string "name" in the map for isotope_ratio.
  *
  *   Arguments:
  *      name    input, character string to be found in "isotope_ratio".
@@ -1755,22 +1721,14 @@ isotope_ratio_search(const char *name)
  *      pointer to isotope_ratio structure "isotope_ratio" where "name" can be found.
  *      or NULL if not found.
  */
-	struct isotope_ratio *isotope_ratio_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_ratio_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct isotope_ratio*>::iterator it =
+		isotope_ratio_map.find(name);
 
-	if (found_item != NULL)
+	if (it != isotope_ratio_map.end())
 	{
-		isotope_ratio_ptr = (struct isotope_ratio *) (found_item->data);
-		return (isotope_ratio_ptr);
+		return (it->second);
 	}
 	return (NULL);
 }
@@ -1781,15 +1739,15 @@ isotope_ratio_search(const char *name)
 
 /* ---------------------------------------------------------------------- */
 struct isotope_alpha * Phreeqc::
-isotope_alpha_store(const char *name, int replace_if_found)
+isotope_alpha_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_alpha.
+ *   Function locates the string "name" in the map for isotope_alpha.
  *
  *   Pointer to a isotope_alpha structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old isotope_alpha structure
  *      are freed and replaced with additional input.
@@ -1804,51 +1762,35 @@ isotope_alpha_store(const char *name, int replace_if_found)
  *   Returns:
  *      pointer to isotope_alpha structure "isotope_alpha" where "name" can be found.
  */
-	int n;
 	struct isotope_alpha *isotope_alpha_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_alpha_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct isotope_alpha*>::iterator it =
+		isotope_alpha_map.find(name);
 
-	if (found_item != NULL && replace_if_found == FALSE)
+	if (it != isotope_alpha_map.end() && replace_if_found == FALSE)
 	{
-		isotope_alpha_ptr = (struct isotope_alpha *) (found_item->data);
-		return (isotope_alpha_ptr);
+		return (it->second);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (it != isotope_alpha_map.end() && replace_if_found == TRUE)
 	{
-		isotope_alpha_ptr = (struct isotope_alpha *) (found_item->data);
+		isotope_alpha_ptr = it->second;
 		isotope_alpha_init(isotope_alpha_ptr);
 	}
 	else
 	{
-		n = (int)isotope_alpha.size();
-		isotope_alpha.resize((size_t)n + 1);
+		size_t n = isotope_alpha.size();
+		isotope_alpha.resize(n + 1);
 		/* Make new isotope_alpha structure */
 		isotope_alpha[n] = isotope_alpha_alloc();
 		isotope_alpha_ptr = isotope_alpha[n];
 	}
 	/* set name and z in pointer in isotope_alpha structure */
-	isotope_alpha_ptr->name = string_hsave(name);
+	isotope_alpha_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = string_hsave(token);
-	item.data = (void *) isotope_alpha_ptr;
-	found_item = hsearch_multi(isotope_alpha_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in isotope_alpha_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	isotope_alpha_map[name] = isotope_alpha_ptr;
 	return (isotope_alpha_ptr);
 }
 
@@ -1898,11 +1840,11 @@ isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct isotope_alpha * Phreeqc::
-isotope_alpha_search(const char *name)
+isotope_alpha_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_alpha.
+ *   Function locates the string "name" in the map for isotope_alpha.
  *
  *   Arguments:
  *      name    input, character string to be found in "isotope_alpha".
@@ -1911,22 +1853,14 @@ isotope_alpha_search(const char *name)
  *      pointer to isotope_alpha structure "isotope_alpha" where "name" can be found.
  *      or NULL if not found.
  */
-	struct isotope_alpha *isotope_alpha_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_alpha_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct isotope_alpha*>::iterator it =
+		isotope_alpha_map.find(name);
 
-	if (found_item != NULL)
+	if (it != isotope_alpha_map.end())
 	{
-		isotope_alpha_ptr = (struct isotope_alpha *) (found_item->data);
-		return (isotope_alpha_ptr);
+		return (it->second);
 	}
 	return (NULL);
 }
