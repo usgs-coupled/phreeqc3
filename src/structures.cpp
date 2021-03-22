@@ -235,9 +235,8 @@ clean_up(void)
 	/* hash tables */
 	elements_map.clear();
 	species_map.clear();
-	hdestroy_multi(logk_hash_table);
 	phases_map.clear();
-	logk_hash_table = NULL;
+	logk_map.clear();
 	/* strings */
 	strings_map_clear();
 	/* delete basic interpreter */
@@ -1944,7 +1943,7 @@ s_search(const char* name)
 	struct species* s_ptr = NULL;
 	std::map<std::string, struct species*>::iterator s_it = 
 		species_map.find(name);
-	if (s_it == species_map.find(name))
+	if (s_it != species_map.end())
 	{
 		s_ptr = s_it->second;
 	}
@@ -3037,11 +3036,11 @@ logk_store(char *name, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for logk.
+ *   Function locates the string "name" in the map for logk.
  *
  *   Pointer to a logk structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to
+ *   If the string is not found, a new entry is made in the map. Pointer to
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old logk structure
  *      are freed and replaced with additional input.
@@ -3056,24 +3055,22 @@ logk_store(char *name, int replace_if_found)
  *   Returns:
  *      pointer to logk structure "logk" where "name" can be found.
  */
-	struct logk *logk_ptr;
-	ENTRY item, *found_item;
 /*
  *   Search list
  */
+	struct logk* logk_ptr;
 	str_tolower(name);
-	item.key = name;
-	item.data = NULL;
-	found_item = hsearch_multi(logk_hash_table, item, FIND);
+	std::map<std::string, struct logk*>::iterator l_it =
+		logk_map.find(name);
 
-	if (found_item != NULL && replace_if_found == FALSE)
+	if (l_it != logk_map.end() && replace_if_found == FALSE)
 	{
-		logk_ptr = (struct logk *) (found_item->data);
+		logk_ptr = l_it->second;
 		return (logk_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (l_it != logk_map.end() && replace_if_found == TRUE)
 	{
-		logk_ptr = (struct logk *) (found_item->data);
+		logk_ptr = l_it->second;
 		logk_init(logk_ptr);
 	}
 	else
@@ -3087,17 +3084,9 @@ logk_store(char *name, int replace_if_found)
 	/* set name and z in pointer in logk structure */
 	logk_ptr->name = string_hsave(name);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = logk_ptr->name;
-	item.data = (void *) logk_ptr;
-	found_item = hsearch_multi(logk_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in logk_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	logk_map[name] = logk_ptr;
 	return (logk_ptr);
 }
 
@@ -3182,19 +3171,16 @@ logk_search(const char *name_in)
  *      or NULL if not found.
  */
 	struct logk *logk_ptr;
-	ENTRY item, *found_item;
 /*
  *   Search list
  */
-	char * name = string_duplicate(name_in);
+	std::string name = name_in;
 	str_tolower(name);
-	item.key = name;
-	item.data = NULL;
-	found_item = hsearch_multi(logk_hash_table, item, FIND);
-	free_check_null(name);
-	if (found_item != NULL)
+	std::map<std::string, struct logk*>::iterator l_it =
+		logk_map.find(name);
+	if (l_it != logk_map.end())
 	{
-		logk_ptr = (struct logk *) (found_item->data);
+		logk_ptr = l_it->second;
 		return (logk_ptr);
 	}
 	return (NULL);

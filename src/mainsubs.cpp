@@ -64,7 +64,6 @@ initialize(void)
 /*
  *   Create hash tables
  */
-	hcreate_multi((unsigned) MAX_S, &logk_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
 
 	// user_print

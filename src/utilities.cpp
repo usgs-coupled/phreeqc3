@@ -1187,7 +1187,10 @@ strcmp_nocase(const char *str1, const char *str2)
 		return (-1);
 	return (1);
 }
-
+void Phreeqc::str_tolower(std::string &name)
+{
+	std::transform(name.begin(), name.end(), name.begin(), std::tolower);
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 strcmp_nocase_arg1(const char *str1, const char *str2)

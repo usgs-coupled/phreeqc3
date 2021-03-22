@@ -558,7 +558,6 @@ add_other_logk(LDBLE * source_k, int count_add_logk,
 	struct logk *logk_ptr;
 	char token[MAX_LENGTH];
 	LDBLE coef;
-	ENTRY item, *found_item;
 
 	if (count_add_logk == 0)
 		return (OK);
@@ -567,10 +566,8 @@ add_other_logk(LDBLE * source_k, int count_add_logk,
 		coef = add_logk[i].coef;
 		strcpy(token, add_logk[i].name);
 		str_tolower(token);
-		item.key = token;
-		item.data = NULL;
-		found_item = hsearch_multi(logk_hash_table, item, FIND);
-		if (found_item == NULL)
+		std::map<std::string, struct logk *>::iterator l_it = logk_map.find(token);
+		if (l_it == logk_map.end())
 		{
 			input_error++;
 			error_string = sformatf(
@@ -579,7 +576,7 @@ add_other_logk(LDBLE * source_k, int count_add_logk,
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		logk_ptr = (struct logk *) found_item->data;
+		logk_ptr = l_it->second;
 		analytic = FALSE;
 		for (j = T_A1; j <= T_A6; j++)
 		{
@@ -616,9 +613,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 {
 	int i, j;
 	struct logk *next_logk_ptr;
-	char token[MAX_LENGTH];
 	LDBLE coef;
-	ENTRY item, *found_item;
 	/*
 	 *  Adds in other named_expressions to get complete log K
 	 *  Evaluates others recursively if necessary
@@ -634,12 +629,10 @@ add_logks(struct logk *logk_ptr, int repeats)
 	for (i = 0; i < logk_ptr->count_add_logk; i++)
 	{
 		coef = logk_ptr->add_logk[i].coef;
-		strcpy(token, logk_ptr->add_logk[i].name);
+		std::string token = logk_ptr->add_logk[i].name;
 		str_tolower(token);
-		item.key = token;
-		item.data = NULL;
-		found_item = hsearch_multi(logk_hash_table, item, FIND);
-		if (found_item == NULL)
+		std::map<std::string, struct logk*>::iterator l_it = logk_map.find(token);
+		if (l_it == logk_map.end())
 		{
 			input_error++;
 			error_string = sformatf(
@@ -648,7 +641,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		next_logk_ptr = (struct logk *) found_item->data;
+		next_logk_ptr = l_it->second;
 		if (next_logk_ptr->done == FALSE)
 		{
 			/*output_msg(sformatf( "Done == FALSE\n", token)); */

@@ -908,7 +908,6 @@ void Phreeqc::init(void)
 	/*
 	*   Hash definitions
 	*/
-	logk_hash_table         = NULL;
 	master_isotope_hash_table = NULL;
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
