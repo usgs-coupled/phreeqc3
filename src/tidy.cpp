@@ -487,18 +487,19 @@ int Phreeqc::
 select_log_k_expression(LDBLE * source_k, LDBLE * target_k)
 /* ---------------------------------------------------------------------- */
 {
-	int j, analytic;
+	int j;
+	bool analytic;
 
-	analytic = FALSE;
+	analytic = false;
 	for (j = T_A1; j <= T_A6; j++)
 	{
 		if (source_k[j] != 0.0)
 		{
-			analytic = TRUE;
+			analytic = true;
 			break;
 		}
 	}
-	if (analytic == TRUE)
+	if (analytic)
 	{
 		target_k[logK_T0] = 0.0;
 		target_k[delta_h] = 0.0;
@@ -552,7 +553,8 @@ int Phreeqc::
 add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 /* ---------------------------------------------------------------------- */
 {
-	int j, analytic;
+	int j;
+	bool analytic;
 	struct logk *logk_ptr;
 	LDBLE coef;
 
@@ -572,16 +574,16 @@ add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 			return (ERROR);
 		}
 		logk_ptr = l_it->second;
-		analytic = FALSE;
+		analytic = false;
 		for (j = T_A1; j <= T_A6; j++)
 		{
 			if (logk_ptr->log_k[j] != 0.0)
 			{
-				analytic = TRUE;
+				analytic = true;
 				break;
 			}
 		}
-		if (analytic == TRUE)
+		if (analytic)
 		{
 			for (j = T_A1; j <= T_A6; j++)
 			{
