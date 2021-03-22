@@ -66,7 +66,6 @@ initialize(void)
  */
 	hcreate_multi((unsigned) MAX_S, &logk_hash_table);
 	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
-	hcreate_multi((unsigned) MAX_PHASES, &phases_hash_table);
 
 	// user_print
 	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
