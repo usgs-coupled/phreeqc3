@@ -236,9 +236,8 @@ clean_up(void)
 	elements_map.clear();
 	species_map.clear();
 	hdestroy_multi(logk_hash_table);
-	hdestroy_multi(phases_hash_table);
+	phases_map.clear();
 	logk_hash_table = NULL;
-	phases_hash_table = NULL;
 	/* strings */
 	strings_map_clear();
 	/* delete basic interpreter */
@@ -1311,14 +1310,13 @@ phase_store(const char *name)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for phases.
+ *   Function locates the string "name" in the map for phases.
  *
  *   If found, pointer to the appropriate phase structure is returned.
  *
  *   If the string is not found, a new entry is made at the end of
- *   the phases array (position count_phases) and count_phases is
- *   incremented. A new entry is made in the hash table. Pointer to
- *   the new structure is returned.
+ *   the phases array (position count_phases), it is added to the map,
+ *   and the new structure is returned.
  *
  *   Arguments:
  *      name    input, character string to be located or stored.
@@ -1328,24 +1326,15 @@ phase_store(const char *name)
  *      If phase existed, it is reinitialized. The structure returned
  *      contains only the name of the phase.
  */
-	struct phase *phase_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
-	const char *ptr;
+	struct phase *phase_ptr = NULL;
 /*
  *   Search list
  */
-
-	strcpy(token, name);
-	str_tolower(token);
-	ptr = string_hsave(token);
-
-	item.key = ptr;
-	item.data = NULL;
-	found_item = hsearch_multi(phases_hash_table, item, FIND);
-	if (found_item != NULL)
+	std::map<std::string, struct phase*>::iterator p_it =
+		phases_map.find(name);
+	if (p_it != phases_map.end())
 	{
-		phase_ptr = (struct phase *) (found_item->data);
+		phase_ptr = p_it->second;
 		phase_free(phase_ptr);
 		phase_init(phase_ptr);
 		phase_ptr->name = string_hsave(name);
@@ -1360,17 +1349,9 @@ phase_store(const char *name)
 	/* set name in phase structure */
 	phases[n]->name = string_hsave(name);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = ptr;
-	item.data = (void *) phases[n];
-	found_item = hsearch_multi(phases_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in phase_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	phases_map[name] = phases[n];
 	return (phases[n]);
 }
 /* **********************************************************************
