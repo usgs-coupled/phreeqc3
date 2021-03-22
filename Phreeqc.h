@@ -999,8 +999,8 @@ public:
 	int set_kinetics_time(int n_user, LDBLE step);
 
 	// tidy.cpp -------------------------------
-	int add_other_logk(LDBLE * source_k, int count_add_logk,
-	struct name_coef *add_logk);
+	int add_other_logk(LDBLE * source_k, int count_add_logk, struct name_coef *add_logk);
+	int add_other_logk(LDBLE* source_k, std::vector<struct name_coef> &add_logk);
 	int add_logks(struct logk *logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void *), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
