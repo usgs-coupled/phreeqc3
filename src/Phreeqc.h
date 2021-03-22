@@ -1661,7 +1661,7 @@ protected:
 
 	std::map<std::string, std::string *> strings_map;
 	std::map<std::string, struct element*> elements_map;
-	HashTable *species_hash_table;
+	std::map<std::string, struct species*> species_map;
 	HashTable *phases_hash_table;
 	HashTable *logk_hash_table;
 	HashTable *master_isotope_hash_table;

@@ -234,10 +234,9 @@ clean_up(void)
 	sit_clean_up();
 	/* hash tables */
 	elements_map.clear();
-	hdestroy_multi(species_hash_table);
+	species_map.clear();
 	hdestroy_multi(logk_hash_table);
 	hdestroy_multi(phases_hash_table);
-	species_hash_table = NULL;
 	logk_hash_table = NULL;
 	phases_hash_table = NULL;
 	/* strings */
@@ -1946,39 +1945,30 @@ s_init(struct species *s_ptr)
 	s_ptr->original_deltav_units = cm3_per_mol;
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
-struct species * Phreeqc::
-s_search(const char *name)
+struct species* Phreeqc::
+s_search(const char* name)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Function locates the string "name" in the hash table for species.
- *
- *   Arguments:
- *      name  input, a character string to be located in species.
- *      i    is obsolete.
- *
- *   Returns:
- *   If found, pointer to the appropriate species structure is returned.
- *       else, NULL pointer is returned.
- */
-	struct species *s_ptr;
-	ENTRY item, *found_item;
-	char safe_name[MAX_LENGTH];
-
-	strcpy(safe_name, name);
-	item.key = safe_name;
-	item.data = NULL;
-	found_item = hsearch_multi(species_hash_table, item, FIND);
-	if (found_item != NULL)
+	/*
+	 *   Function locates the string "name" in the species_map.
+	 *
+	 *   Arguments:
+	 *      name  input, a character string to be located in species.
+	 *
+	 *   Returns:
+	 *   If found, pointer to the appropriate species structure is returned.
+	 *       else, NULL pointer is returned.
+	 */
+	struct species* s_ptr = NULL;
+	std::map<std::string, struct species*>::iterator s_it = 
+		species_map.find(name);
+	if (s_it == species_map.find(name))
 	{
-		s_ptr = (struct species *) (found_item->data);
-		return (s_ptr);
+		s_ptr = s_it->second;
 	}
-	return (NULL);
+	return (s_ptr);
 }
-
 /* ---------------------------------------------------------------------- */
 struct species * Phreeqc::
 s_store(const char *name, LDBLE l_z, int replace_if_found)
@@ -2007,30 +1997,24 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
  *   Returns:
  *      pointer to species structure "s" where "name" can be found.
  */
-	int n;
-	struct species *s_ptr;
-	ENTRY item, *found_item;
+
 /*
  *   Search list
  */
-	item.key = name;
-	item.data = NULL;
-	found_item = hsearch_multi(species_hash_table, item, FIND);
-
-	if (found_item != NULL && replace_if_found == FALSE)
+	struct species* s_ptr = NULL;
+	s_ptr = s_search(name);
+	if (s_ptr != NULL && replace_if_found == FALSE)
 	{
-		s_ptr = (struct species *) (found_item->data);
 		return (s_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (s_ptr != NULL && replace_if_found == TRUE)
 	{
-		s_ptr = (struct species *) (found_item->data);
 		s_free(s_ptr);
 		s_init(s_ptr);
 	}
 	else
 	{
-		n = (int)s.size();
+		size_t n = s.size();
 		s.resize((size_t)n + 1);
 		/* Make new species structure */
 		s[n] = s_alloc();
@@ -2040,17 +2024,9 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 	s_ptr->name = string_hsave(name);
 	s_ptr->z = l_z;
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = s_ptr->name;
-	item.data = (void *) s_ptr;
-	found_item = hsearch_multi(species_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in species_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	species_map[name] = s_ptr;
 	return (s_ptr);
 }
 /* **********************************************************************
