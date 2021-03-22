@@ -634,104 +634,68 @@ read_exchange_species(void)
 			break;
 		case 16:				/* add_logk */
 		case 17:				/* add_log_k */
+		{
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (s_ptr->count_add_logk == 0)
-			{
-				s_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (s_ptr->add_logk == NULL)
-				{
-					malloc_error();
-					return (OK);
-				}
-			}
-			else
-			{
-				s_ptr->add_logk = (struct name_coef *) PHRQ_realloc(s_ptr->add_logk,
-					(((size_t)s_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (s_ptr->add_logk == NULL)
-				{
-					malloc_error();
-					return (OK);
-				}
-			}
+			size_t count_add_logk = s_ptr->add_logk.size();
+			s_ptr->add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the name of a NAMED_EXPRESSION.");
+					"Expected the name of a NAMED_EXPRESSION.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->add_logk[s_ptr->count_add_logk].name = string_hsave(token);
+			s_ptr->add_logk[count_add_logk].name = string_hsave(token);
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
+				&s_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				s_ptr->add_logk[s_ptr->count_add_logk].coef = 1;
+				s_ptr->add_logk[count_add_logk].coef = 1;
 			}
-			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 18:				/* add_constant */
+		{
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (s_ptr->count_add_logk == 0)
-			{
-				s_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (s_ptr->add_logk == NULL)
-				{
-					malloc_error();
-					return (OK);
-				}
-			}
-			else
-			{
-				s_ptr->add_logk = (struct name_coef *) PHRQ_realloc(s_ptr->add_logk,
-					(((size_t)s_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (s_ptr->add_logk == NULL)
-				{
-					malloc_error();
-					return (OK);
-				}
-			}
+			size_t count_add_logk = s_ptr->add_logk.size();
+			s_ptr->add_logk.resize(count_add_logk + 1);
 			i = sscanf(next_char, SCANFORMAT,
-					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
+				&s_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the constant to add for log_K definition.");
+					"Expected the constant to add for log_K definition.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
 			/* set name */
-			s_ptr->add_logk[s_ptr->count_add_logk].name =
+			s_ptr->add_logk[count_add_logk].name =
 				string_hsave("XconstantX");
 			/* read coef */
-			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 19:            /* vm, molar volume */
 			if (s_ptr == NULL)
 			{
@@ -3728,79 +3692,54 @@ read_phases(void)
 			break;
 		case 9:				/* add_logk */
 		case 10:				/* add_log_k */
+		{
 			if (phase_ptr == NULL)
 				break;
-			if (phase_ptr->count_add_logk == 0)
-			{
-				phase_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (phase_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			else
-			{
-				phase_ptr->add_logk = (struct name_coef *) PHRQ_realloc(phase_ptr->add_logk,
-					(((size_t)phase_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (phase_ptr->add_logk == NULL)
-					malloc_error();
-			}
+			size_t count_add_logk = phase_ptr->add_logk.size();
+			phase_ptr->add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the name of a NAMED_EXPRESSION.");
+					"Expected the name of a NAMED_EXPRESSION.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			phase_ptr->add_logk[phase_ptr->count_add_logk].name =
+			phase_ptr->add_logk[count_add_logk].name =
 				string_hsave(token);
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-					   &phase_ptr->add_logk[phase_ptr->count_add_logk].coef);
+				&phase_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				phase_ptr->add_logk[phase_ptr->count_add_logk].coef = 1;
+				phase_ptr->add_logk[count_add_logk].coef = 1;
 			}
-			phase_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 11:				/* add_constant */
+		{
 			if (phase_ptr == NULL)
 				break;
-			if (phase_ptr->count_add_logk == 0)
-			{
-				phase_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (phase_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			else
-			{
-				phase_ptr->add_logk = (struct name_coef *) PHRQ_realloc(phase_ptr->add_logk,
-					(((size_t)phase_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (phase_ptr->add_logk == NULL)
-					malloc_error();
-			}
+			size_t count_add_logk = phase_ptr->add_logk.size();
+			phase_ptr->add_logk.resize(count_add_logk + 1);
 			i = sscanf(next_char, SCANFORMAT,
-				&phase_ptr->add_logk[(size_t)phase_ptr->count_add_logk].coef);
+				&phase_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the constant to add for log_K definition.");
+					"Expected the constant to add for log_K definition.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
 			/* set name */
-			phase_ptr->add_logk[phase_ptr->count_add_logk].name =
+			phase_ptr->add_logk[count_add_logk].name =
 				string_hsave("XconstantX");
-			/* read coef */
-			phase_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 12:				/* T_c */
 			if (phase_ptr == NULL)
 				break;
@@ -5613,92 +5552,68 @@ read_species(void)
 			break;
 		case 16:				/* add_logk */
 		case 17:				/* add_log_k */
+		{
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (s_ptr->count_add_logk == 0)
-			{
-				s_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (s_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			else
-			{
-				s_ptr->add_logk = (struct name_coef *) PHRQ_realloc(s_ptr->add_logk,
-					(((size_t)s_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (s_ptr->add_logk == NULL)
-					malloc_error();
-			}
+			size_t count_add_logk = s_ptr->add_logk.size();
+			s_ptr->add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the name of a NAMED_EXPRESSION.");
+					"Expected the name of a NAMED_EXPRESSION.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->add_logk[s_ptr->count_add_logk].name = string_hsave(token);
+			s_ptr->add_logk[count_add_logk].name = string_hsave(token);
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
+				&s_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				s_ptr->add_logk[s_ptr->count_add_logk].coef = 1;
+				s_ptr->add_logk[count_add_logk].coef = 1;
 			}
-			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 18:				/* add_constant */
+		{
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (s_ptr->count_add_logk == 0)
-			{
-				s_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (s_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			else
-			{
-				s_ptr->add_logk = (struct name_coef *) PHRQ_realloc(s_ptr->add_logk,
-					(((size_t)s_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (s_ptr->add_logk == NULL)
-					malloc_error();
-			}
+			size_t count_add_logk = s_ptr->add_logk.size();
+			s_ptr->add_logk.resize(count_add_logk + 1);
 			i = sscanf(next_char, SCANFORMAT,
-					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
+				&s_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the constant to add for log_K definition.");
+					"Expected the constant to add for log_K definition.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
 			/* set name */
-			s_ptr->add_logk[s_ptr->count_add_logk].name =
+			s_ptr->add_logk[count_add_logk].name =
 				string_hsave("XconstantX");
 			/* read coef */
-			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 19:				/* tracer diffusion coefficient */
 			if (s_ptr == NULL)
 			{
@@ -6309,98 +6224,66 @@ read_surface_species(void)
 			break;
 		case 13:				/* add_logk */
 		case 14:				/* add_log_k */
+		{
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (s_ptr->count_add_logk == 0)
-			{
-				s_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (s_ptr->add_logk == NULL)
-				{
-					malloc_error();
-					return (OK);
-				}
-			}
-			else
-			{
-				s_ptr->add_logk = (struct name_coef *) PHRQ_realloc(s_ptr->add_logk,
-					(((size_t)s_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (s_ptr->add_logk == NULL)
-				{
-					malloc_error();
-					return (OK);
-				}
-			}
+			size_t count_add_logk = s_ptr->add_logk.size();
+			s_ptr->add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the name of a NAMED_EXPRESSION.");
+					"Expected the name of a NAMED_EXPRESSION.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->add_logk[s_ptr->count_add_logk].name = string_hsave(token);
+			s_ptr->add_logk[count_add_logk].name = string_hsave(token);
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
+				&s_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				s_ptr->add_logk[s_ptr->count_add_logk].coef = 1;
+				s_ptr->add_logk[count_add_logk].coef = 1;
 			}
-			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 15:				/* add_constant */
+		{
 			if (s_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (s_ptr->count_add_logk == 0)
-			{
-				s_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (s_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			else
-			{
-				s_ptr->add_logk = (struct name_coef *) PHRQ_realloc(s_ptr->add_logk,
-					(((size_t)s_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (s_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			i = sscanf(next_char, SCANFORMAT,
-					   &s_ptr->add_logk[s_ptr->count_add_logk].coef);
+			size_t count_add_logk = s_ptr->add_logk.size();
+			s_ptr->add_logk.resize(count_add_logk + 1);
+			i = sscanf(next_char, SCANFORMAT, &s_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the constant to add for log_K definition.");
+					"Expected the constant to add for log_K definition.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
 			/* set name */
-			s_ptr->add_logk[s_ptr->count_add_logk].name =
+			s_ptr->add_logk[count_add_logk].name =
 				string_hsave("XconstantX");
-			/* read coef */
-			s_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 16:				/* cd_music */
 		case 17:				/* music */
 			if (s_ptr == NULL)
@@ -9838,51 +9721,39 @@ read_named_logk(void)
 			break;
 		case 8:				/* add_logk */
 		case 9:				/* add_log_k */
+		{
 			if (logk_ptr == NULL)
 			{
 				error_string = sformatf(
-						"No reaction defined before option, %s.",
-						opt_list[opt]);
+					"No reaction defined before option, %s.",
+					opt_list[opt]);
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (logk_ptr->count_add_logk == 0)
-			{
-				logk_ptr->add_logk =
-					(struct name_coef *)
-					PHRQ_malloc(sizeof(struct name_coef));
-				if (logk_ptr->add_logk == NULL)
-					malloc_error();
-			}
-			else
-			{
-				logk_ptr->add_logk = (struct name_coef *) PHRQ_realloc(logk_ptr->add_logk,
-					(((size_t)logk_ptr->count_add_logk + 1) * sizeof(struct name_coef)));
-				if (logk_ptr->add_logk == NULL)
-					malloc_error();
-			}
+			size_t count_add_logk = logk_ptr->add_logk.size();
+			logk_ptr->add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
 				input_error++;
 				error_string = sformatf(
-						"Expected the name of a NAMED_EXPRESSION.");
+					"Expected the name of a NAMED_EXPRESSION.");
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			logk_ptr->add_logk[logk_ptr->count_add_logk].name =
+			logk_ptr->add_logk[count_add_logk].name =
 				string_hsave(token);
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-					   &logk_ptr->add_logk[logk_ptr->count_add_logk].coef);
+				&logk_ptr->add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				logk_ptr->add_logk[logk_ptr->count_add_logk].coef = 1;
+				logk_ptr->add_logk[count_add_logk].coef = 1;
 			}
-			logk_ptr->count_add_logk++;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		case 10:            /* vm, molar volume */
 			if (logk_ptr == NULL)
 			{

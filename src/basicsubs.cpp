@@ -608,6 +608,7 @@ calc_logk_n(const char *name)
 	struct logk *logk_ptr;
 	LDBLE l_logk[MAX_LOG_K_INDICES];
 	struct name_coef add_logk;
+	std::vector<struct name_coef> add_logk_v;
 
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
@@ -619,7 +620,8 @@ calc_logk_n(const char *name)
 	{
 		add_logk.name = token;
 		add_logk.coef = 1.0;
-		add_other_logk(l_logk, 1, &add_logk);
+		add_logk_v.push_back(add_logk);
+		add_other_logk(l_logk, add_logk_v);
 	lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 		return (lk);
 	}
@@ -660,7 +662,7 @@ calc_logk_p(const char *name)
 		}
 		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		select_log_k_expression(reaction_ptr->logk, l_logk);
-		add_other_logk(l_logk, phase_ptr->count_add_logk, phase_ptr->add_logk); 
+		add_other_logk(l_logk, phase_ptr->add_logk); 
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 	}
 	return (lk);
@@ -689,7 +691,7 @@ calc_logk_s(const char *name)
 		}
 		select_log_k_expression(s_ptr->logk, l_logk);
 		mu_terms_in_logk = true;
-		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
+		add_other_logk(l_logk, s_ptr->add_logk);
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 		return (lk);
 	}
@@ -769,7 +771,7 @@ calc_deltah_p(const char* name)
 		}
 		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		select_log_k_expression(reaction_ptr->logk, l_logk);
-		add_other_logk(l_logk, phase_ptr->count_add_logk, phase_ptr->add_logk);
+		add_other_logk(l_logk, phase_ptr->add_logk);
 		lkm = k_calc(l_logk, tk_x - 1.0, patm_x * PASCAL_PER_ATM);
 		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
@@ -798,7 +800,7 @@ calc_deltah_s(const char* name)
 		}
 		select_log_k_expression(s_ptr->logk, l_logk);
 		mu_terms_in_logk = true;
-		add_other_logk(l_logk, s_ptr->count_add_logk, s_ptr->add_logk);
+		add_other_logk(l_logk, s_ptr->add_logk);
 		lkm = k_calc(l_logk, tk_x-1.0, patm_x * PASCAL_PER_ATM);
 		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x,2.0);

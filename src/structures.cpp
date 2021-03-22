@@ -140,7 +140,7 @@ clean_up(void)
 	/* logk hash table */
 	for (j = 0; j < (int)logk.size(); j++)
 	{
-		free_check_null(logk[j]->add_logk);
+		logk[j]->add_logk.clear();
 		logk[j] = (struct logk*)free_check_null(logk[j]);
 	}
 	logk.clear();
@@ -1193,8 +1193,7 @@ phase_free(struct phase *phase_ptr)
 	rxn_free(phase_ptr->rxn);
 	rxn_free(phase_ptr->rxn_s);
 	rxn_free(phase_ptr->rxn_x);
-	phase_ptr->add_logk =
-		(struct name_coef *) free_check_null(phase_ptr->add_logk);
+	phase_ptr->add_logk.clear(); 
 	return (OK);
 }
 
@@ -1259,8 +1258,7 @@ phase_init(struct phase *phase_ptr)
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		phase_ptr->logk[i] = 0.0;
 	phase_ptr->original_units = kjoules;
-	phase_ptr->count_add_logk = 0;
-	phase_ptr->add_logk = NULL;
+	phase_ptr->add_logk.clear();
 	phase_ptr->moles_x = 0;
 	phase_ptr->delta_max = 0;
 	phase_ptr->p_soln_x = 0;
@@ -1834,7 +1832,7 @@ s_free(struct species *s_ptr)
 		(struct elt_list *) free_check_null(s_ptr->next_secondary);
 	s_ptr->next_sys_total =
 		(struct elt_list *) free_check_null(s_ptr->next_sys_total);
-	s_ptr->add_logk = (struct name_coef *) free_check_null(s_ptr->add_logk);
+	s_ptr->add_logk.clear();
 	rxn_free(s_ptr->rxn);
 	rxn_free(s_ptr->rxn_s);
 	rxn_free(s_ptr->rxn_x);
@@ -1891,8 +1889,7 @@ s_init(struct species *s_ptr)
 	}
 /* VP: Density End */
 	s_ptr->original_units = kjoules;
-	s_ptr->count_add_logk = 0;
-	s_ptr->add_logk = NULL;
+	s_ptr->add_logk.clear();
 	s_ptr->lg = 0.0;
 	s_ptr->lg_pitzer = 0.0;
 	s_ptr->lm = 0.0;
@@ -3133,8 +3130,7 @@ logk_init(struct logk *logk_ptr)
 		logk_ptr->log_k[i] = 0.0;
 		logk_ptr->log_k_original[i] = 0.0;
 	}
-	logk_ptr->count_add_logk = 0;
-	logk_ptr->add_logk = NULL;
+	logk_ptr->add_logk.clear(); 
 	return (OK);
 }
 
