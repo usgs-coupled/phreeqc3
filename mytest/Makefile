@@ -21,7 +21,10 @@ endif
 #	mv phreeqc.log $<.log
 #	gprof $(PHREEQC) > $<.gprof
 
-all: alkalinity.out \
+all: fail succeed
+
+succeed: \
+	alkalinity.out \
 	a_e_t2.out \
 	aj1.out \
 	all_llnl.out \
@@ -77,7 +80,6 @@ all: alkalinity.out \
 	gas_phase_pressure.out \
 	gfw.out \
 	hard.tests.out \
-	high_mu.out \
 	homo.out \
 	i2.out \
 	i3.out \
@@ -114,12 +116,10 @@ all: alkalinity.out \
 	mmb.out \
 	mmb2.out \
 	modifyact.out \
-	modify_test.out \
 	modify_zero.out \
 	mu.out \
 	n3.out \
 	netpathxl.out \
-	negexp_totmol.out \
 	np.test.out \
 	opa_col2.out \
 	org_gas.out \
@@ -130,7 +130,6 @@ all: alkalinity.out \
 	phreeqc.test.out \
 	phrqpitz.tst.out \
 	pitzalphas.out \
-	pitzer_fail.out \
 	pitzer_redef.out \
 	pitzgas.out \
 	precipitate_only.out \
@@ -169,7 +168,6 @@ all: alkalinity.out \
 	surf_related_pz.out \
 	surf_kin_related.out \
 	surf_kin_related_pz.out \
-	surf_related_warnings.out \
 	surf_transport.out \
 	surface_punch_all.out \
 	ss_r.out \
@@ -203,8 +201,8 @@ all: alkalinity.out \
 	ex12.out \
 	ex20_debug.out \
 	ex6.cvode.out \
-        ex9.cvode.out \
-        ex15.cvode.out \
+    ex9.cvode.out \
+    ex15.cvode.out \
 	colt1.out \
 	colt2.out \
 	colt3.out \
@@ -222,7 +220,6 @@ all: alkalinity.out \
 	np.testmp.out \
 	oxygenmp.out \
 	spread_redox.out \
-	raw.out \
 	ppdump.out \
 	diel.out \
 	H_K.out \
@@ -332,9 +329,7 @@ all: alkalinity.out \
 	rho_H3PO4.out \
 	soln_vol.out \
 	Vm_LiCl_sol.out \
-	negative_user_number.out \
 	run_cell_range.out \
-	punch_stream.out \
 	modify_ignore.out \
 	connect_graph.out \
 	variable_cell_diffusion.out \
@@ -355,7 +350,6 @@ all: alkalinity.out \
 	toner.out \
 	lk_phase.out \
 	calcite_rate.out \
-	CFAscmtest.out \
 	sar.out \
 	CO2_sp_IS.out \
 	Hebach.out \
@@ -365,10 +359,7 @@ all: alkalinity.out \
 	R-04_01_PHRC.out \
 	McBride_rho.out \
 	Ca-As-Mahoney.out \
-	missing_surf_related_equi.out \
-	missing_surf_related_kin.out \
 	SC_temp.out \
-	feedwater.out \
 	current1.out \
 	uphill_NP.out \
 	SC_Ohm.out \
@@ -376,7 +367,6 @@ all: alkalinity.out \
 	sys_kin.out \
 	harm_mean.out \
 	unequal.out \
-	Syn1_acidbase.out \
 	phase_vm.out \
 	low_p.out \
 	calc_density.out \
@@ -393,7 +383,6 @@ all: alkalinity.out \
 	ex7_T_P.out \
 	antarcticite.out \
 	DonnanBug.out \
-	IllitisationCEC.out \
 	PercentSC.out \
 	ExchangeGamma.out \
 	count_database_species_core10.out \
@@ -424,9 +413,25 @@ all: alkalinity.out \
 	sys_sort.out \
 	kinetic_rates.out \
 	delta_h.out
-	
 
 # NaX.out
+	
+fail: \
+	high_mu.out \
+	modify_test.out \
+	negexp_totmol.out \
+	pitzer_fail.out \
+	surf_related_warnings.out \
+	raw.out \
+	negative_user_number.out \
+	punch_stream.out \
+	CFAscmtest.out \
+	missing_surf_related_equi.out \
+	missing_surf_related_kin.out \
+	feedwater.out \
+	Syn1_acidbase.out \
+	IllitisationCEC.out \
+
 
 current: current2.out \
 	Clogging.out \
