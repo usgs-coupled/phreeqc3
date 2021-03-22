@@ -67,7 +67,7 @@ clean_up(void)
 	for (j = 0; j < (int)s.size(); j++)
 	{
 		s_free(s[j]);
-		s[j] = (struct species*)free_check_null(s[j]);
+		delete s[j];
 	}
 	s.clear();
 
@@ -114,7 +114,7 @@ clean_up(void)
 	for (j = 0; j < (int)phases.size(); j++)
 	{
 		phase_free(phases[j]);
-		phases[j] = (struct phase*)free_check_null(phases[j]);
+		delete phases[j];
 	}
 	phases.clear();
 	/* inverse */
@@ -1122,9 +1122,7 @@ phase_alloc(void)
 /*
  *   Allocate space
  */
-	phase_ptr = (struct phase *) PHRQ_malloc(sizeof(struct phase));
-	if (phase_ptr == NULL)
-		malloc_error();
+	phase_ptr = new struct phase;
 /*
  *   Initialize space
  */
@@ -1780,9 +1778,7 @@ s_alloc(void)
  */
 {
 	struct species *s_ptr;
-	s_ptr = (struct species *) PHRQ_malloc(sizeof(struct species));
-	if (s_ptr == NULL)
-		malloc_error();
+	s_ptr = new struct species;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
