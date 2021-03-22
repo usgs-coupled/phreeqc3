@@ -908,7 +908,6 @@ void Phreeqc::init(void)
 	/*
 	*   Hash definitions
 	*/
-	species_hash_table      = NULL;
 	phases_hash_table       = NULL;
 	logk_hash_table         = NULL;
 	master_isotope_hash_table = NULL;
