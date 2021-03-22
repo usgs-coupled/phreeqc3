@@ -1101,11 +1101,7 @@ public:
 public:
 	void *free_check_null(void *ptr);
 protected:
-	void free_hash_strings(HashTable * Table);
 	int get_token(char **eqnaddr, char *string, LDBLE * z, int *l);
-	int hcreate_multi(unsigned Count, HashTable ** HashTable_ptr);
-	void hdestroy_multi(HashTable * HashTable_ptr);
-	ENTRY *hsearch_multi(HashTable * Table, ENTRY item, ACTION action);
 	int islegit(const char c);
 public:
 	void malloc_error(void);
@@ -1140,8 +1136,6 @@ protected:
 	static LDBLE under(LDBLE xval);
 	int get_input_errors(void);
 	int isamong(char c, const char *s_l);
-	Address Hash_multi(HashTable * Table, const char *Key);
-	void ExpandTable_multi(HashTable * Table);
 public:
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);

@@ -187,43 +187,6 @@ typedef enum {
 	vmi1, vmi2, vmi3, vmi4, /* ionic strength terms: (i1 + i2/(TK - 228) + i3 * (TK - 228) ) * I^i4 */
 	MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 } LOG_K_INDICES;
-/* HSEARCH(3C) */
-typedef struct entry
-{
-	const char *key;
-	void *data;
-} ENTRY;
-typedef enum
-{ FIND, ENTER } ACTION;
-
-/* TSEARCH(3C) */
-typedef enum
-{ preorder, postorder, endorder, leaf } VISIT;
-
-typedef struct Element
-{
-	/*
-	 ** The user only sees the first two fields,
-	 ** as we pretend to pass back only a pointer to ENTRY.
-	 ** {S}he doesn`t know what else is in here.
-	 */
-	const char *Key;
-	char *Data;
-	struct Element *Next;		/* secret from user    */
-} Element, *Segment;
-
-typedef struct
-{
-	short p;					/* Next bucket to be split      */
-	short maxp;					/* upper bound on p during expansion */
-	long KeyCount;				/* current # keys       */
-	short SegmentCount;			/* current # segments   */
-	short MinLoadFactor;
-	short MaxLoadFactor;
-	Segment *Directory[DirectorySize];
-} HashTable;
-
-typedef unsigned long Address;
 
 typedef struct PHRQMemHeader
 {
@@ -271,8 +234,6 @@ struct model
 	LDBLE pressure;
 	bool numerical_fixed_volume;
 };
-
-
 
 struct name_master
 {
