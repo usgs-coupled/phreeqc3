@@ -192,11 +192,10 @@ clean_up(void)
 	/* master_isotope */
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
-		master_isotope[i] = (struct master_isotope*)free_check_null(master_isotope[i]);
+		delete master_isotope[i];
 	}
 	master_isotope.clear();
-	hdestroy_multi(master_isotope_hash_table);
-	master_isotope_hash_table = NULL;
+	master_isotope_map.clear();
 	/* calculate_value */
 	for (i = 0; i < (int)calculate_value.size(); i++)
 	{

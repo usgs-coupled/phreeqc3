@@ -1665,7 +1665,7 @@ protected:
 	std::map<std::string, struct species*> species_map;
 	std::map<std::string, struct phase*> phases_map;
 	std::map<std::string, struct logk*> logk_map;
-	HashTable *master_isotope_hash_table;
+	std::map<std::string, struct master_isotope*> master_isotope_map;
 
 #if defined(PHREEQCI_GUI)
 #include "../../phreeqci_gui.h"

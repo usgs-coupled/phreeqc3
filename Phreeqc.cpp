@@ -904,16 +904,11 @@ void Phreeqc::init(void)
 	remove_unstable_phases  = FALSE;
 	// auto screen_string;
 	spread_length           = 10;
-	/* ---------------------------------------------------------------------- */
-	/*
-	*   Hash definitions
-	*/
-	master_isotope_hash_table = NULL;
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
 	initial_solution_isotopes = FALSE;
-	calculate_value_hash_table = NULL;	
+	calculate_value_hash_table = NULL;
 	isotope_ratio_hash_table = 0;	
 	isotope_alpha_hash_table = 0;
 

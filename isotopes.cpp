@@ -1325,25 +1325,19 @@ master_isotope_store(const char *name, int replace_if_found)
  */
 	int n;
 	struct master_isotope *master_isotope_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
 /*
  *   Search list
  */
-	strcpy(token, name);
-
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(master_isotope_hash_table, item, FIND);
-
-	if (found_item != NULL && replace_if_found == FALSE)
+	std::map<std::string, struct master_isotope*>::iterator mi_it =
+		master_isotope_map.find(name);
+	if (mi_it != master_isotope_map.end() && replace_if_found == FALSE)
 	{
-		master_isotope_ptr = (struct master_isotope *) (found_item->data);
+		master_isotope_ptr = mi_it->second;
 		return (master_isotope_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (mi_it != master_isotope_map.end() && replace_if_found == TRUE)
 	{
-		master_isotope_ptr = (struct master_isotope *) (found_item->data);
+		master_isotope_ptr = mi_it->second;
 		master_isotope_init(master_isotope_ptr);
 	}
 	else
@@ -1355,19 +1349,11 @@ master_isotope_store(const char *name, int replace_if_found)
 		master_isotope_ptr = master_isotope[n];
 	}
 	/* set name and z in pointer in master_isotope structure */
-	master_isotope_ptr->name = string_hsave(token);
+	master_isotope_ptr->name = string_hsave(name);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = master_isotope_ptr->name;
-	item.data = (void *) master_isotope_ptr;
-	found_item = hsearch_multi(master_isotope_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in master_isotope_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	master_isotope_map[name] = master_isotope_ptr;
 	return (master_isotope_ptr);
 }
 
@@ -1381,11 +1367,7 @@ master_isotope_alloc(void)
  *      return: pointer to a master_isotope structure
  */
 {
-	struct master_isotope *master_isotope_ptr;
-	master_isotope_ptr =
-		(struct master_isotope *) PHRQ_malloc(sizeof(struct master_isotope));
-	if (master_isotope_ptr == NULL)
-		malloc_error();
+	struct master_isotope *master_isotope_ptr = new struct master_isotope;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1427,7 +1409,7 @@ master_isotope_search(const char *name)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for master_isotope.
+ *   Function locates the string "name" in the map for master_isotope.
  *
  *   Arguments:
  *      name    input, character string to be found in "master_isotope".
@@ -1436,21 +1418,15 @@ master_isotope_search(const char *name)
  *      pointer to master_isotope structure "master_isotope" where "name" can be found.
  *      or NULL if not found.
  */
-	struct master_isotope *master_isotope_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
+	struct master_isotope* master_isotope_ptr = NULL;
 /*
  *   Search list
  */
-	strcpy(token, name);
-
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(master_isotope_hash_table, item, FIND);
-
-	if (found_item != NULL)
+	std::map<std::string, struct master_isotope*>::iterator mi_it =
+		master_isotope_map.find(name);
+	if (mi_it != master_isotope_map.end())
 	{
-		master_isotope_ptr = (struct master_isotope *) (found_item->data);
+		master_isotope_ptr = mi_it->second;
 		return (master_isotope_ptr);
 	}
 	return (NULL);
