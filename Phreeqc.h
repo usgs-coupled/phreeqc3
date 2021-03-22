@@ -1117,6 +1117,7 @@ public:
 	static bool replace(const char *str1, const char *str2, std::string & str);
 	static int strcmp_nocase(const char *str1, const char *str2);
 	static int strcmp_nocase_arg1(const char *str1, const char *str2);
+	static void str_tolower(std::string &name);
 protected:
 	void space(void **ptr, int i, int *max, int struct_size);
 	void squeeze_white(char *s_l);
@@ -1656,15 +1657,14 @@ protected:
 
 	/* ---------------------------------------------------------------------- */
 	/*
-	*   Hash definitions
+	*   Map definitions
 	*/
 
 	std::map<std::string, std::string *> strings_map;
 	std::map<std::string, struct element*> elements_map;
 	std::map<std::string, struct species*> species_map;
 	std::map<std::string, struct phase*> phases_map;
-
-	HashTable *logk_hash_table;
+	std::map<std::string, struct logk*> logk_map;
 	HashTable *master_isotope_hash_table;
 
 #if defined(PHREEQCI_GUI)
