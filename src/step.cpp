@@ -823,7 +823,7 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 			}
 			else
 			{
-				step_x = reaction_ptr->Get_steps()[step_number - 1];
+				step_x = reaction_ptr->Get_steps()[(size_t)step_number - 1];
 			}
 		}
 		else if (reaction_ptr->Get_equalIncrements() && reaction_ptr->Get_steps().size()> 0)
@@ -851,11 +851,11 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 		{
 			if (step_number > (int) reaction_ptr->Get_reaction_steps())
 			{
-				step_x = reaction_ptr->Get_steps()[reaction_ptr->Get_reaction_steps() - 1];
+				step_x = reaction_ptr->Get_steps()[(size_t)reaction_ptr->Get_reaction_steps() - 1];
 			}
 			else
 			{
-				step_x = reaction_ptr->Get_steps()[step_number - 1];
+				step_x = reaction_ptr->Get_steps()[(size_t)step_number - 1];
 			}
 		}
 		else if (reaction_ptr->Get_equalIncrements() && reaction_ptr->Get_steps().size()> 0)

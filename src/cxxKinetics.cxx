@@ -489,7 +489,7 @@ Current_step(bool incremental_reactions, int reaction_step) const
 			}
 			else
 			{
-				kin_time = this->steps[reaction_step - 1];
+				kin_time = this->steps[(size_t)reaction_step - 1];
 			}
 		}
 		else 
@@ -515,7 +515,7 @@ Current_step(bool incremental_reactions, int reaction_step) const
 			}
 			else
 			{
-				kin_time = this->steps[reaction_step - 1];
+				kin_time = this->steps[(size_t)reaction_step - 1];
 			}
 		}
 		else 

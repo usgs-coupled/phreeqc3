@@ -1892,9 +1892,8 @@ print_surface_cd_music(void)
  */
 		if (dl_type_x != cxxSurface::NO_DL)
 		{
-			output_msg(sformatf(
-					   "\t%11.3e  Surface + diffuse layer charge, eq\n\n",
-					   (double) (x[j + 2]->f + (charge_ptr->Get_sigma0() + charge_ptr->Get_sigma1()) * (charge_ptr->Get_specific_area() * charge_ptr->Get_grams()) / F_C_MOL)));
+			output_msg(sformatf("\t%11.3e  Surface + diffuse layer charge, eq\n\n",
+				(double)(x[(size_t)j + 2]->f + (charge_ptr->Get_sigma0() + charge_ptr->Get_sigma1()) * (charge_ptr->Get_specific_area() * charge_ptr->Get_grams()) / F_C_MOL)));
 		}
 		master_ptr0 =
 			surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI);

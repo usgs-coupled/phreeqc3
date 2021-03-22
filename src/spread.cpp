@@ -377,11 +377,8 @@ read_solution_spread(void)
 				}
 				if (i == soln_defaults.count_iso)
 				{
-					soln_defaults.iso =
-						(struct iso *) PHRQ_realloc(soln_defaults.iso,
-						(size_t) (i +
-						1) *
-						sizeof(struct iso));
+					soln_defaults.iso = (struct iso *) PHRQ_realloc(soln_defaults.iso,
+						((size_t)i + 1) * sizeof(struct iso));
 					if (soln_defaults.iso == NULL)
 					{
 						malloc_error();
@@ -463,11 +460,8 @@ read_solution_spread(void)
 				}
 				if (i == soln_defaults.count_iso)
 				{
-					soln_defaults.iso =
-						(struct iso *) PHRQ_realloc(soln_defaults.iso,
-						(size_t) (i +
-						1) *
-						sizeof(struct iso));
+					soln_defaults.iso = (struct iso *) PHRQ_realloc(soln_defaults.iso,
+						((size_t)i + 1) * sizeof(struct iso));
 					if (soln_defaults.iso == NULL)
 					{
 						malloc_error();

@@ -1762,7 +1762,8 @@ protected:
 		*delta_save;
 	LDBLE *min_delta, *max_delta;
 	int *inv_iu, *inv_is;
-	int klmd, nklmd, n2d, kode, iter;
+	int klmd, nklmd, n2d;
+	int kode, iter;
 	LDBLE toler, error, max_pct, scaled_error;
 	struct master *master_alk;
 	int *row_back, *col_back;

@@ -1212,10 +1212,8 @@ extend_tally_table(void)
 	 * adds another column to tally_table
 	 * increments number of columns
 	 */
-	tally_table =
-		(struct tally *) PHRQ_realloc((void *) tally_table,
-									  (size_t) (count_tally_table_columns +
-												1) * sizeof(struct tally));
+	tally_table = (struct tally *) PHRQ_realloc((void *) tally_table,
+		((size_t)count_tally_table_columns + 1) * sizeof(struct tally));
 	if (tally_table == NULL)
 		malloc_error();
 	for (i = 0; i < 3; i++)

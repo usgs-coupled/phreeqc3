@@ -336,9 +336,9 @@ Pressure_for_step(int step_number)
 		else
 		{
 			LDBLE denom;
-			denom = (this->count <= 1) ? 1 : (LDBLE) (this->count - 1);
+			denom = (this->count <= 1) ? 1 : ((LDBLE)this->count - 1);
 			p_temp =  this->pressures[0] + ( this->pressures[1] - this->pressures[0]) *
-				((LDBLE) (step_number - 1)) / (denom);
+				(((LDBLE)step_number - 1)) / (denom);
 		}
 	}
 	else 
@@ -349,7 +349,7 @@ Pressure_for_step(int step_number)
 		}
 		else
 		{
-			p_temp = this->pressures[step_number - 1];
+			p_temp = this->pressures[(size_t)step_number - 1];
 		}
 
 	}
