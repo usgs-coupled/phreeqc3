@@ -908,10 +908,6 @@ void Phreeqc::init(void)
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
 	initial_solution_isotopes = FALSE;
-	calculate_value_hash_table = NULL;
-	isotope_ratio_hash_table = 0;	
-	isotope_alpha_hash_table = 0;
-
 
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;

@@ -203,8 +203,7 @@ clean_up(void)
 		calculate_value[i] = (struct calculate_value*)free_check_null(calculate_value[i]);
 	}
 	calculate_value.clear();
-	hdestroy_multi(calculate_value_hash_table);
-	calculate_value_hash_table = NULL;
+	calculate_value_map.clear();
 	/* isotope_ratio */
 	for (i = 0; i < (int)isotope_ratio.size(); i++)
 	{
@@ -212,8 +211,7 @@ clean_up(void)
 			(struct isotope_ratio*)free_check_null(isotope_ratio[i]);
 	}
 	isotope_ratio.clear();
-	hdestroy_multi(isotope_ratio_hash_table);
-	isotope_ratio_hash_table = NULL;
+	isotope_ratio_map.clear();
 	/* isotope_alpha */
 	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
@@ -221,8 +219,7 @@ clean_up(void)
 			(struct isotope_alpha*)free_check_null(isotope_alpha[i]);
 	}
 	isotope_alpha.clear();
-	hdestroy_multi(isotope_alpha_hash_table);
-	isotope_alpha_hash_table = NULL;
+	isotope_alpha_map.clear();
 	/* tally table */
 	free_tally_table();
 	/* CVODE memory */
@@ -1304,7 +1301,7 @@ phase_init(struct phase *phase_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct phase * Phreeqc::
-phase_store(const char *name)
+phase_store(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1328,6 +1325,8 @@ phase_store(const char *name)
 /*
  *   Search list
  */
+	std::string name = name_in;
+	str_tolower(name);
 	std::map<std::string, struct phase*>::iterator p_it =
 		phases_map.find(name);
 	if (p_it != phases_map.end())
@@ -1335,17 +1334,17 @@ phase_store(const char *name)
 		phase_ptr = p_it->second;
 		phase_free(phase_ptr);
 		phase_init(phase_ptr);
-		phase_ptr->name = string_hsave(name);
+		phase_ptr->name = string_hsave(name_in);
 		return (phase_ptr);
 	}
 /*
  *   Make new phase structure and return pointer to it
  */
-	size_t n = (int)phases.size();
+	size_t n = phases.size();
 	phases.resize(n + 1);
 	phases[n] = phase_alloc();
 	/* set name in phase structure */
-	phases[n]->name = string_hsave(name);
+	phases[n]->name = string_hsave(name_in);
 /*
  *   Update map
  */
@@ -1954,13 +1953,13 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for species.
+ *   Function locates the string "name" in the map for species.
  *
  *   Pointer to a species structure is always returned.
  *
  *   If the string is not found, a new entry is made at the end of
  *      the elements array (position count_elements) and count_elements is
- *      incremented. A new entry is made in the hash table. Pointer to
+ *      incremented. A new entry is made in the map. Pointer to
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old species structure
  *      are freed and replaced with additional input.
@@ -1994,7 +1993,7 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 	else
 	{
 		size_t n = s.size();
-		s.resize((size_t)n + 1);
+		s.resize(n + 1);
 		/* Make new species structure */
 		s[n] = s_alloc();
 		s_ptr = s[n];
@@ -3031,7 +3030,7 @@ system_duplicate(int i, int save_old)
 
 /* ---------------------------------------------------------------------- */
 struct logk * Phreeqc::
-logk_store(char *name, int replace_if_found)
+logk_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3057,19 +3056,20 @@ logk_store(char *name, int replace_if_found)
 /*
  *   Search list
  */
-	struct logk* logk_ptr;
+	struct logk* logk_ptr = NULL;
+	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct logk*>::iterator l_it =
+	std::map<std::string, struct logk*>::iterator it =
 		logk_map.find(name);
 
-	if (l_it != logk_map.end() && replace_if_found == FALSE)
+	if (it != logk_map.end() && replace_if_found == FALSE)
 	{
-		logk_ptr = l_it->second;
+		logk_ptr = it->second;
 		return (logk_ptr);
 	}
-	else if (l_it != logk_map.end() && replace_if_found == TRUE)
+	else if (it != logk_map.end() && replace_if_found == TRUE)
 	{
-		logk_ptr = l_it->second;
+		logk_ptr = it->second;
 		logk_init(logk_ptr);
 	}
 	else
@@ -3081,7 +3081,7 @@ logk_store(char *name, int replace_if_found)
 		logk_ptr = logk[n];
 	}
 	/* set name and z in pointer in logk structure */
-	logk_ptr->name = string_hsave(name);
+	logk_ptr->name = string_hsave(name_in);
 /*
  *   Update map
  */
