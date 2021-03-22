@@ -61,10 +61,6 @@ initialize(void)
 	stag_data->exch_f = 0;
 	stag_data->th_m = 0;
 	stag_data->th_im = 0;
-/*
- *   Create hash tables
- */
-	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
 
 	// user_print
 	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
