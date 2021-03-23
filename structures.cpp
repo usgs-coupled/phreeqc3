@@ -1803,7 +1803,7 @@ s_delete(int i)
  *   Delete species i: free memory and renumber array of pointers, s.
  */
 	s_free(s[i]);
-	s[i] = (struct species *) free_check_null(s[i]);
+	delete s[i];
 	s.erase(s.begin() + i);
 	return (OK);
 }
