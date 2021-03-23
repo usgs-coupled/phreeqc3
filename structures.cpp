@@ -833,10 +833,7 @@ master_alloc(void)
  *      return: pointer to a master structure
  */
 {
-	struct master *ptr;
-	ptr = (struct master *) PHRQ_malloc(sizeof(struct master));
-	if (ptr == NULL)
-		malloc_error();
+	struct master *ptr = new struct master;
 /*
  *   set pointers in structure to NULL
  */
@@ -901,7 +898,7 @@ master_free(struct master *master_ptr)
 		return (ERROR);
 	rxn_free(master_ptr->rxn_primary);
 	rxn_free(master_ptr->rxn_secondary);
-	master_ptr = (struct master *) free_check_null(master_ptr);
+	delete master_ptr;
 	return (OK);
 }
 
