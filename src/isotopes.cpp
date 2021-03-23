@@ -1507,11 +1507,8 @@ calculate_value_alloc(void)
  *      return: pointer to a calculate_value structure
  */
 {
-	struct calculate_value *calculate_value_ptr;
-	calculate_value_ptr = (struct calculate_value *)
-		PHRQ_malloc(sizeof(struct calculate_value));
-	if (calculate_value_ptr == NULL)
-		malloc_error();
+	struct calculate_value *calculate_value_ptr =
+		new struct calculate_value;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1671,11 +1668,8 @@ isotope_ratio_alloc(void)
  *      return: pointer to a isotope_ratio structure
  */
 {
-	struct isotope_ratio *isotope_ratio_ptr;
-	isotope_ratio_ptr =
-		(struct isotope_ratio *) PHRQ_malloc(sizeof(struct isotope_ratio));
-	if (isotope_ratio_ptr == NULL)
-		malloc_error();
+	struct isotope_ratio* isotope_ratio_ptr =
+		new struct isotope_ratio;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1804,11 +1798,8 @@ isotope_alpha_alloc(void)
  *      return: pointer to a isotope_alpha structure
  */
 {
-	struct isotope_alpha *isotope_alpha_ptr;
-	isotope_alpha_ptr =
-		(struct isotope_alpha *) PHRQ_malloc(sizeof(struct isotope_alpha));
-	if (isotope_alpha_ptr == NULL)
-		malloc_error();
+	struct isotope_alpha* isotope_alpha_ptr =
+		new struct isotope_alpha;
 /*
  *   set pointers in structure to NULL, variables to zero
  */

@@ -141,7 +141,7 @@ clean_up(void)
 	for (j = 0; j < (int)logk.size(); j++)
 	{
 		logk[j]->add_logk.clear();
-		logk[j] = (struct logk*)free_check_null(logk[j]);
+		delete logk[j];
 	}
 	logk.clear();
 	/* save_values */
@@ -200,23 +200,21 @@ clean_up(void)
 	for (i = 0; i < (int)calculate_value.size(); i++)
 	{
 		calculate_value_free(calculate_value[i]);
-		calculate_value[i] = (struct calculate_value*)free_check_null(calculate_value[i]);
+		delete calculate_value[i];
 	}
 	calculate_value.clear();
 	calculate_value_map.clear();
 	/* isotope_ratio */
 	for (i = 0; i < (int)isotope_ratio.size(); i++)
 	{
-		isotope_ratio[i] =
-			(struct isotope_ratio*)free_check_null(isotope_ratio[i]);
+		delete isotope_ratio[i];
 	}
 	isotope_ratio.clear();
 	isotope_ratio_map.clear();
 	/* isotope_alpha */
 	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
-		isotope_alpha[i] =
-			(struct isotope_alpha*)free_check_null(isotope_alpha[i]);
+		delete isotope_alpha[i];
 	}
 	isotope_alpha.clear();
 	isotope_alpha_map.clear();
@@ -3093,9 +3091,7 @@ logk_alloc(void)
  */
 {
 	struct logk *logk_ptr;
-	logk_ptr = (struct logk *) PHRQ_malloc(sizeof(struct logk));
-	if (logk_ptr == NULL)
-		malloc_error();
+	logk_ptr = new struct logk;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
