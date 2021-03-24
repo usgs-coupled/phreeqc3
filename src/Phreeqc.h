@@ -721,11 +721,6 @@ public:
 	int read_inv_isotopes(struct inverse *inverse_ptr, char *ptr);
 	int read_inv_phases(struct inverse *inverse_ptr, char *next_char);
 	int read_kinetics(void);
-	int read_line_doubles(char *next_char, LDBLE ** d, int *count_d,
-		int *count_alloc);
-	int read_lines_doubles(char *next_char, LDBLE ** d, int *count_d,
-		int *count_alloc, const char **opt_list,
-		int count_opt_list, int *opt);
 	LDBLE *read_list_doubles(char **ptr, int *count_doubles);
 	int *read_list_ints(char **ptr, int *count_ints, int positive);
 	int *read_list_t_f(char **ptr, int *count_ints);
@@ -1629,9 +1624,8 @@ protected:
 	bool output_newline;
 	inline void Set_output_newline(bool tf) { this->output_newline = tf;}
 	inline bool Get_output_newline() { return this->output_newline;}
-	LDBLE *llnl_temp, *llnl_adh, *llnl_bdh, *llnl_bdot, *llnl_co2_coefs, a_llnl, b_llnl, bdot_llnl;
-	int llnl_count_temp, llnl_count_adh, llnl_count_bdh, llnl_count_bdot,
-		llnl_count_co2_coefs;
+	double a_llnl, b_llnl, bdot_llnl;
+	std::vector<double> llnl_temp, llnl_adh, llnl_bdh, llnl_bdot, llnl_co2_coefs;
 
 	//char *selected_output_file_name;
 	std::map<int, SelectedOutput> SelectedOutput_map;

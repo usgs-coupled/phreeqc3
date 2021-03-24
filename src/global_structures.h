@@ -149,16 +149,7 @@
 #endif
 #define REF_PRES_PASCAL 1.01325E5   /* Reference pressure: 1 atm */
 #define MAX_P_NONLLNL 1500.0
-/*
- *   Hash definitions
- */
-# define SegmentSize		    256
-# define SegmentSizeShift	  8	/* log2(SegmentSize) */
-# define DirectorySize	    256
-# define DirectorySizeShift      8	/* log2(DirectorySize)  */
-# define Prime1			  37
-# define Prime2			  1048583
-# define DefaultMaxLoadFactor   5
+
 //
 // Typedefs and structure definitions
 //

@@ -137,7 +137,7 @@ clean_up(void)
 		rate_free(&rates[j]);
 	}
 	rates.clear();
-	/* logk hash table */
+	/* logk table */
 	for (j = 0; j < (int)logk.size(); j++)
 	{
 		logk[j]->add_logk.clear();
@@ -168,13 +168,13 @@ clean_up(void)
 	rate_free(user_print);
 	user_print = (struct rate*)free_check_null(user_print);
 	/*
-	   Free llnl aqueous model parameters
+	   Clear llnl aqueous model parameters
 	 */
-	llnl_temp = (LDBLE*)free_check_null(llnl_temp);
-	llnl_adh = (LDBLE*)free_check_null(llnl_adh);
-	llnl_bdh = (LDBLE*)free_check_null(llnl_bdh);
-	llnl_bdot = (LDBLE*)free_check_null(llnl_bdot);
-	llnl_co2_coefs = (LDBLE*)free_check_null(llnl_co2_coefs);
+	llnl_temp.clear();
+	llnl_adh.clear();
+	llnl_bdh.clear();
+	llnl_bdot.clear();
+	llnl_co2_coefs.clear();
 	/*
 	 * Copier space
 	 */
@@ -226,7 +226,7 @@ clean_up(void)
 	pitzer_clean_up();
 	/* sit */
 	sit_clean_up();
-	/* hash tables */
+	/* elements, species, phases*/
 	elements_map.clear();
 	species_map.clear();
 	phases_map.clear();
@@ -252,12 +252,6 @@ clean_up(void)
 	title_x = (char *) free_check_null(title_x);
 	last_title_x.clear();
 	count_inverse = 0;
-
-	llnl_count_temp = 0;
-	llnl_count_adh = 0;
-	llnl_count_bdh = 0;
-	llnl_count_bdot = 0;
-	llnl_count_co2_coefs = 0;
 
 	default_data_base = (char *) free_check_null(default_data_base);
 	sformatf_buffer = (char *) free_check_null(sformatf_buffer);
@@ -3145,7 +3139,7 @@ logk_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for logk.
+ *   Function locates the string "name" in the map for logk.
  *
  *   Arguments:
  *      name    input, character string to be found in "logk".

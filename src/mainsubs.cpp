@@ -71,26 +71,6 @@ initialize(void)
 	   Initialize llnl aqueous model parameters
 	 */
 	a_llnl = b_llnl = 0.0;
-	llnl_temp = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_temp == NULL)
-		malloc_error();
-	llnl_count_temp = 0;
-	llnl_adh = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_adh == NULL)
-		malloc_error();
-	llnl_count_adh = 0;
-	llnl_bdh = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_bdh == NULL)
-		malloc_error();
-	llnl_count_bdh = 0;
-	llnl_bdot = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_bdot == NULL)
-		malloc_error();
-	llnl_count_bdot = 0;
-	llnl_co2_coefs = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_co2_coefs == NULL)
-		malloc_error();
-	llnl_count_co2_coefs = 0;
     // new PBasic
 	basic_interpreter = new PBasic(this, phrq_io);
 	// allocate one change_surf
