@@ -3539,7 +3539,7 @@ punch_user_graph(void)
 	if (chart->Get_rate_new_def())
 	{
 		if (basic_compile
-			(chart->Get_user_graph()->commands, &chart->Get_user_graph()->linebase,
+			(chart->Get_user_graph()->commands.c_str(), &chart->Get_user_graph()->linebase,
 			 &chart->Get_user_graph()->varbase, &chart->Get_user_graph()->loopbase) != 0)
 		{
 			error_msg("Fatal Basic error in USER_GRAPH.", STOP);
@@ -3606,46 +3606,38 @@ print_alkalinity(void)
  *   Prints description of solution, uses array species_list for
  *   order of aqueous species.
  */
-	int i, j;
-	struct species_list *alk_list;
-	int count_alk_list;
+	int j;
+	std::vector<struct species_list> alk_list;
 	LDBLE min;
 
 	if (pr.alkalinity == FALSE || pr.all == FALSE)
 		return (OK);
 	print_centered("Distribution of alkalinity");
-	alk_list = (struct species_list *)
-		PHRQ_malloc((s_x.size() * sizeof(struct species_list)));
-	if (alk_list == NULL)
-	{
-		malloc_error();
-		return (OK);
-	}
+	alk_list.clear();
 	j = 0;
-	for (i = 0; i < (int)this->s_x.size(); i++)
+	for (size_t i = 0; i < this->s_x.size(); i++)
 	{
 		if (s_x[i]->alk == 0.0)
 			continue;
+		alk_list.resize(alk_list.size() + 1);
 		alk_list[j].master_s = s_hplus;
 		alk_list[j].s = s_x[i];
 		alk_list[j].coef = s_x[i]->alk;
 		j++;
 	}
-	count_alk_list = j;
 	min = fabs(censor * total_alkalinity / mass_water_aq_x);
-	if (count_alk_list > 0)
+	if (alk_list.size() > 0)
 	{
 		output_msg(sformatf("\t%26s%11.3e\n\n",
 				   "Total alkalinity (eq/kgw)  = ",
 				   (double) (total_alkalinity / mass_water_aq_x)));
 		output_msg(sformatf("\t%-15s%12s%12s%10s\n\n", "Species",
 				   "Alkalinity", "Molality", "Alk/Mol"));
-		if (count_alk_list > 1) qsort(&alk_list[0], (size_t) count_alk_list,
+		if (alk_list.size() > 1) qsort(&alk_list[0], alk_list.size(),
 			  (size_t) sizeof(struct species_list), species_list_compare_alk);
-		for (i = 0; i < count_alk_list; i++)
+		for (size_t i = 0; i < alk_list.size(); i++)
 		{
-			if (fabs
-				(alk_list[i].s->alk * (alk_list[i].s->moles) /
+			if (fabs(alk_list[i].s->alk * (alk_list[i].s->moles) /
 				 mass_water_aq_x) < min)
 				continue;
 			output_msg(sformatf("\t%-15s%12.3e%12.3e%10.2f\n",
@@ -3658,7 +3650,6 @@ print_alkalinity(void)
 	}
 
 	output_msg(sformatf("\n"));
-	alk_list = (struct species_list *) free_check_null(alk_list);
 	return (OK);
 }
 

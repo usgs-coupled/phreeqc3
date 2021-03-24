@@ -87,7 +87,7 @@ cxxNumKeyword(io)
 	point_added = false;
 
 	user_graph = new rate;
-	user_graph->commands = NULL;
+	user_graph->commands.clear();
 	user_graph->name = NULL;
 	user_graph->new_def = 0;
 	user_graph->linebase = user_graph->loopbase = user_graph->varbase = NULL;
@@ -837,11 +837,7 @@ ChartObject::Set_rate_struct(void)
 		oss << *it << "\n";
 	}
 	this->Rate_free();
-	if (this->phreeqc_ptr)
-	{
-		this->user_graph->commands = (char *) phreeqc_ptr-> PHRQ_malloc((oss.str().size()) + 100 * sizeof(char));
-	}
-	::strcpy(this->user_graph->commands, oss.str().c_str());
+	this->user_graph->commands = oss.str().c_str();
 	this->user_graph->new_def = this->rate_new_def;
 	this->user_graph->loopbase = NULL;
 	this->user_graph->varbase = NULL;
@@ -1074,7 +1070,7 @@ ChartObject::Rate_free(void)
 	
 	if (this->phreeqc_ptr)
 	{
-		user_graph->commands = (char *) phreeqc_ptr-> free_check_null(user_graph->commands);
+		user_graph->commands.clear();
 	}
 	if (user_graph->linebase != NULL)
 	{
