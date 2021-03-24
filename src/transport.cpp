@@ -397,7 +397,7 @@ transport(void)
 		/*
 		*   Set boundary conditions, transport direction
 		*/
-		last_model.force_prep = TRUE;
+		last_model.force_prep = true;
 		if ((ishift == 0) || (bcon_first == 1) || (bcon_last == 1))
 			b_c = 1;
 		else

@@ -43,22 +43,13 @@ clean_up(void)
 		(char*)free_check_null(moles_per_kilogram_string);
 	pe_string = (char*)free_check_null(pe_string);
 	/* model */
-	last_model.exchange =
-		(struct master**)free_check_null(last_model.exchange);
-	last_model.gas_phase =
-		(struct phase**)free_check_null(last_model.gas_phase);
-	last_model.pp_assemblage =
-		(struct phase**)free_check_null(last_model.pp_assemblage);
-	last_model.ss_assemblage =
-		(const char**)free_check_null(last_model.ss_assemblage);
-	last_model.add_formula =
-		(const char**)free_check_null(last_model.add_formula);
-	last_model.si = (LDBLE*)free_check_null(last_model.si);
-	last_model.surface_comp =
-		(const char**)free_check_null(last_model.surface_comp);
-	last_model.surface_charge =
-		(const char**)free_check_null(last_model.surface_charge);
-
+	last_model.gas_phase.clear();
+	last_model.pp_assemblage.clear();
+	last_model.add_formula.clear();
+	last_model.si.clear();
+	last_model.ss_assemblage.clear();
+	last_model.surface_comp.clear();
+	last_model.surface_charge.clear();
 	/* model */
 	free_model_allocs();
 

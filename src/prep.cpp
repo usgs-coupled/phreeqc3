@@ -34,7 +34,7 @@ prep(void)
 	else
 	{
 		same_model = FALSE;
-		last_model.force_prep = TRUE;
+		last_model.force_prep = true;
 	}
 	/*same_model = FALSE; */
 /*
@@ -5666,14 +5666,6 @@ save_model(void)
 {
 	int i;
 /*
- *   save temperature
- */
-	last_model.temperature = tc_x;
-/*
- *   save pressure
- */
-	last_model.pressure = patm_x;
-/*
  *   mark master species 
  */
 	for (i = 0; i < (int)master.size(); i++)
@@ -5695,18 +5687,11 @@ save_model(void)
 /*
  *   save list of phase pointers for gas phase
  */
-	last_model.gas_phase =
-		(struct phase **) free_check_null(last_model.gas_phase);
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
 		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
-		last_model.count_gas_phase = (int) gas_phase_ptr->Get_gas_comps().size();
 		last_model.gas_phase_type = gas_phase_ptr->Get_type();
-		last_model.gas_phase =
-			(struct phase **) PHRQ_malloc((size_t) last_model.count_gas_phase *
-										  sizeof(struct phase *));
-		if (last_model.gas_phase == NULL)
-			malloc_error();
+		last_model.gas_phase.resize(gas_phase_ptr->Get_gas_comps().size());
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{	
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
@@ -5718,23 +5703,15 @@ save_model(void)
 	}
 	else
 	{
-		last_model.count_gas_phase = 0;
 		last_model.gas_phase_type = cxxGasPhase::GP_UNKNOWN;
-		last_model.gas_phase = NULL;
+		last_model.gas_phase.clear();
 	}
 /*
  *   save list of names of solid solutions
  */
-	last_model.ss_assemblage =
-		(const char **) free_check_null(last_model.ss_assemblage);
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
-		size_t count_ss = use.Get_ss_assemblage_ptr()->Get_SSs().size();
-		last_model.count_ss_assemblage = (int) count_ss;
-		last_model.ss_assemblage =
-			(const char **) PHRQ_malloc(count_ss * sizeof(char *));
-		if (last_model.ss_assemblage == NULL)
-			malloc_error();
+		last_model.ss_assemblage.resize(use.Get_ss_assemblage_ptr()->Get_SSs().size());
 		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
 		for (size_t j = 0; j < ss_ptrs.size(); j++)
 		{
@@ -5743,34 +5720,17 @@ save_model(void)
 	}
 	else
 	{
-		last_model.count_ss_assemblage = 0;
-		last_model.ss_assemblage = NULL;
+		last_model.ss_assemblage.clear();
 	}
 /*
  *   save list of phase pointers for pp_assemblage
  */
-	last_model.pp_assemblage =
-		(struct phase **) free_check_null(last_model.pp_assemblage);
-	last_model.add_formula =
-		(const char **) free_check_null(last_model.add_formula);
-	last_model.si = (LDBLE *) free_check_null(last_model.si);
 	if (use.Get_pp_assemblage_ptr() != NULL)
 	{
 		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-		last_model.count_pp_assemblage = (int) pp_assemblage_ptr->Get_pp_assemblage_comps().size();
-		last_model.pp_assemblage =
-			(struct phase **) PHRQ_malloc((size_t) last_model.count_pp_assemblage *
-										  sizeof(struct phase *));
-		if (last_model.pp_assemblage == NULL)
-			malloc_error();
-		last_model.add_formula =
-			(const char **) PHRQ_malloc((size_t)last_model.count_pp_assemblage * sizeof(char *));
-		if (last_model.add_formula == NULL)
-			malloc_error();
-		last_model.si =
-			(LDBLE *) PHRQ_malloc((size_t) last_model.count_pp_assemblage * sizeof(LDBLE));
-		if (last_model.si == NULL)
-			malloc_error();
+		last_model.pp_assemblage.resize(pp_assemblage_ptr->Get_pp_assemblage_comps().size());
+		last_model.add_formula.resize(pp_assemblage_ptr->Get_pp_assemblage_comps().size());
+		last_model.si.resize(pp_assemblage_ptr->Get_pp_assemblage_comps().size());
 		std::map<std::string, cxxPPassemblageComp>::iterator it;
 		it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
 		i = 0;
@@ -5787,37 +5747,23 @@ save_model(void)
 	}
 	else
 	{
-		last_model.count_pp_assemblage = 0;
-		last_model.pp_assemblage = NULL;
-		last_model.add_formula = NULL;
-		last_model.si = NULL;
+		last_model.pp_assemblage.clear();
+		last_model.add_formula.clear();
+		last_model.si.clear();
 	}
 /*
  *   save data for surface
  */
-	last_model.surface_comp =
-		(const char **) free_check_null(last_model.surface_comp);
-	last_model.surface_charge =
-		(const char **) free_check_null(last_model.surface_charge);
 	if (use.Get_surface_ptr() != NULL)
 	{
 		/* comps */
-		last_model.count_surface_comp = (int) use.Get_surface_ptr()->Get_surface_comps().size();
-		last_model.surface_comp =
-			(const char **) PHRQ_malloc(use.Get_surface_ptr()->Get_surface_comps().size() *
-								  sizeof(char *));
-		if (last_model.surface_comp == NULL)
-			malloc_error();
+		last_model.surface_comp.resize(use.Get_surface_ptr()->Get_surface_comps().size());
 		for (i = 0; i < (int) use.Get_surface_ptr()->Get_surface_comps().size(); i++)
 		{
 			last_model.surface_comp[i] = string_hsave(use.Get_surface_ptr()->Get_surface_comps()[i].Get_formula().c_str());
 		}
 		/* charge */
-		last_model.count_surface_charge = (int) use.Get_surface_ptr()->Get_surface_charges().size();
-		last_model.surface_charge =(const char **) PHRQ_malloc( use.Get_surface_ptr()->Get_surface_charges().size() *
-				sizeof(char *));
-		if (last_model.surface_charge == NULL)
-			malloc_error();
+		last_model.surface_charge.resize(use.Get_surface_ptr()->Get_surface_charges().size());
 		for (i = 0; i < (int) use.Get_surface_ptr()->Get_surface_charges().size(); i++)
 		{
 			last_model.surface_charge[i] = string_hsave(use.Get_surface_ptr()->Get_surface_charges()[i].Get_name().c_str());
@@ -5831,10 +5777,8 @@ save_model(void)
 		last_model.dl_type = cxxSurface::NO_DL;
 		/*last_model.edl = -1; */
 		last_model.surface_type = cxxSurface::UNKNOWN_DL;
-		last_model.count_surface_comp = 0;
-		last_model.surface_comp = NULL;
-		last_model.count_surface_charge = 0;
-		last_model.surface_charge = NULL;
+		last_model.surface_comp.clear();
+		last_model.surface_charge.clear();
 	}
 
 	current_tc = NAN;
@@ -5856,9 +5800,9 @@ check_same_model(void)
 /*
  *   Force new model to be built in prep
  */
-	if (last_model.force_prep == TRUE)
+	if (last_model.force_prep)
 	{
-		last_model.force_prep = FALSE;
+		last_model.force_prep = false;
 		return (FALSE);
 	}
 	if (state == TRANSPORT && cell_data[cell_no].same_model)
@@ -5897,11 +5841,9 @@ check_same_model(void)
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
 		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
-		if (last_model.gas_phase == NULL)
+		if (last_model.gas_phase.size() != (int)gas_phase_ptr->Get_gas_comps().size())
 			return (FALSE);
 		if (last_model.numerical_fixed_volume != numerical_fixed_volume)
-			return (FALSE);
-		if (last_model.count_gas_phase != (int) gas_phase_ptr->Get_gas_comps().size())
 			return (FALSE);
 		if (last_model.gas_phase_type != gas_phase_ptr->Get_type())
 			return (FALSE);
@@ -5919,7 +5861,7 @@ check_same_model(void)
 	}
 	else
 	{
-		if (last_model.gas_phase != NULL)
+		if (last_model.gas_phase.size() > 0)
 			return (FALSE);
 	}
 /*
@@ -5927,7 +5869,7 @@ check_same_model(void)
  */
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
-		if (last_model.count_ss_assemblage != (int) use.Get_ss_assemblage_ptr()->Get_SSs().size())
+		if (last_model.ss_assemblage.size() != (int) use.Get_ss_assemblage_ptr()->Get_SSs().size())
 			return (FALSE);
 		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
 		for (size_t i = 0; i < ss_ptrs.size(); i++)
@@ -5940,7 +5882,7 @@ check_same_model(void)
 	}
 	else
 	{
-		if (last_model.ss_assemblage != NULL)
+		if (last_model.ss_assemblage.size() > 0)
 			return (FALSE);
 	}
 /*
@@ -5949,7 +5891,7 @@ check_same_model(void)
 	if (use.Get_pp_assemblage_ptr() != NULL)
 	{
 		cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
-		if (last_model.count_pp_assemblage != (int) pp_assemblage_ptr->Get_pp_assemblage_comps().size())
+		if (last_model.pp_assemblage.size() != (int) pp_assemblage_ptr->Get_pp_assemblage_comps().size())
 			return (FALSE);
 
 		std::map<std::string, cxxPPassemblageComp>::iterator it;
@@ -5980,7 +5922,7 @@ check_same_model(void)
 	}
 	else
 	{
-		if (last_model.pp_assemblage != NULL)
+		if (last_model.pp_assemblage.size() > 0)
 			return (FALSE);
 	}
 /*
@@ -5988,9 +5930,9 @@ check_same_model(void)
  */
 	if (use.Get_surface_ptr() != NULL)
 	{
-		if (last_model.count_surface_comp != (int) use.Get_surface_ptr()->Get_surface_comps().size())
+		if (last_model.surface_comp.size() != (int) use.Get_surface_ptr()->Get_surface_comps().size())
 			return (FALSE);
-		if (last_model.count_surface_charge != (int) use.Get_surface_ptr()->Get_surface_charges().size())
+		if (last_model.surface_charge.size() != (int) use.Get_surface_ptr()->Get_surface_charges().size())
 			return (FALSE);
 		if (last_model.dl_type != use.Get_surface_ptr()->Get_dl_type())
 			return (FALSE);
@@ -6041,7 +5983,7 @@ check_same_model(void)
 	}
 	else
 	{
-		if (last_model.surface_comp != NULL)
+		if (last_model.surface_comp.size() > 0)
 			return (FALSE);
 	}
 /*

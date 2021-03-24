@@ -445,30 +445,15 @@ void Phreeqc::init(void)
 /*
  *	 last model
  */
-	last_model.force_prep           = TRUE;
-	last_model.temperature          = -100;
-	last_model.pressure             = 0;
-	last_model.count_exchange       = -1;
-	last_model.exchange             = NULL;
-	last_model.count_kinetics       = -1;
-	last_model.kinetics             = NULL;
-	last_model.count_gas_phase      = -1;
+	last_model.force_prep           = true;
 	last_model.gas_phase_type       = cxxGasPhase::GP_UNKNOWN;
-	last_model.gas_phase            = NULL;
-	last_model.count_ss_assemblage  = -1;
-	last_model.ss_assemblage        = NULL;
-	last_model.count_pp_assemblage  = -1;
-	last_model.pp_assemblage        = NULL;
-	last_model.add_formula          = NULL;
-	last_model.si                   = NULL;
+	last_model.gas_phase.clear();
+	last_model.ss_assemblage.clear();
+	last_model.pp_assemblage.clear();
+	last_model.add_formula.clear();
+	last_model.si.clear();
 	last_model.dl_type              = cxxSurface::NO_DL;
 	last_model.surface_type         = cxxSurface::UNKNOWN_DL;
-	last_model.only_counter_ions    = FALSE;
-	last_model.thickness            = 1e-8;
-	last_model.count_surface_comp   = -1;
-	last_model.surface_comp         = NULL;
-	last_model.count_surface_charge = -1;
-	last_model.surface_charge       = NULL;
 
 	current_selected_output         = NULL;
 	current_user_punch              = NULL;

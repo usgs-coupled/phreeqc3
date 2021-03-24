@@ -5613,30 +5613,15 @@ reset_last_model(void)
 /*
  *   Initialize model
  */
-	last_model.force_prep = TRUE;
-	last_model.count_exchange = 0;
-	last_model.exchange =
-		(struct master **) free_check_null(last_model.exchange);
-	last_model.count_gas_phase = 0;
-	last_model.gas_phase_type = cxxGasPhase::GP_UNKNOWN;
-	last_model.gas_phase =
-		(struct phase **) free_check_null(last_model.gas_phase);
-	last_model.count_ss_assemblage = 0;
-	last_model.ss_assemblage =
-		(const char **) free_check_null(last_model.ss_assemblage);
-	last_model.count_pp_assemblage = 0;
-	last_model.pp_assemblage =
-		(struct phase **) free_check_null(last_model.pp_assemblage);
-	last_model.add_formula =
-		(const char **) free_check_null(last_model.add_formula);
-	last_model.si = (LDBLE *) free_check_null(last_model.si);
+	last_model.force_prep = true;
+	last_model.gas_phase.clear();
+	last_model.ss_assemblage.clear();
+	last_model.pp_assemblage.clear();
+	last_model.add_formula.clear();
+	last_model.si.clear();
 	last_model.dl_type = cxxSurface::NO_DL;
-	last_model.count_surface_comp = 0;
-	last_model.surface_comp =
-		(const char **) free_check_null(last_model.surface_comp);
-	last_model.count_surface_charge = 0;
-	last_model.surface_charge =
-		(const char **) free_check_null(last_model.surface_charge);
+	last_model.surface_comp.clear();
+	last_model.surface_charge.clear();
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
