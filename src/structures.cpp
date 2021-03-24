@@ -67,7 +67,7 @@ clean_up(void)
 	for (j = 0; j < (int)s.size(); j++)
 	{
 		s_free(s[j]);
-		s[j] = (struct species*)free_check_null(s[j]);
+		delete s[j];
 	}
 	s.clear();
 
@@ -83,7 +83,7 @@ clean_up(void)
 
 	for (j = 0; j < (int)elements.size(); j++)
 	{
-		elements[j] = (struct element*)free_check_null(elements[j]);
+		delete elements[j];
 	}
 	elements.clear();
 	/* solutions */
@@ -114,7 +114,7 @@ clean_up(void)
 	for (j = 0; j < (int)phases.size(); j++)
 	{
 		phase_free(phases[j]);
-		phases[j] = (struct phase*)free_check_null(phases[j]);
+		delete phases[j];
 	}
 	phases.clear();
 	/* inverse */
@@ -140,8 +140,8 @@ clean_up(void)
 	/* logk hash table */
 	for (j = 0; j < (int)logk.size(); j++)
 	{
-		free_check_null(logk[j]->add_logk);
-		logk[j] = (struct logk*)free_check_null(logk[j]);
+		logk[j]->add_logk.clear();
+		delete logk[j];
 	}
 	logk.clear();
 	/* save_values */
@@ -159,8 +159,8 @@ clean_up(void)
 	stag_data = (struct stag_data*)free_check_null(stag_data);
 	cell_data = (struct cell_data*)free_check_null(cell_data);
 	/* advection */
-	advection_punch = (int*)free_check_null(advection_punch);
-	advection_print = (int*)free_check_null(advection_print);
+	advection_punch.clear();
+	advection_print.clear();
 	/* selected_output */
 	SelectedOutput_map.clear();
 	/*  user_print and user_punch */
@@ -192,38 +192,32 @@ clean_up(void)
 	/* master_isotope */
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
-		master_isotope[i] = (struct master_isotope*)free_check_null(master_isotope[i]);
+		delete master_isotope[i];
 	}
 	master_isotope.clear();
-	hdestroy_multi(master_isotope_hash_table);
-	master_isotope_hash_table = NULL;
+	master_isotope_map.clear();
 	/* calculate_value */
 	for (i = 0; i < (int)calculate_value.size(); i++)
 	{
 		calculate_value_free(calculate_value[i]);
-		calculate_value[i] = (struct calculate_value*)free_check_null(calculate_value[i]);
+		delete calculate_value[i];
 	}
 	calculate_value.clear();
-	hdestroy_multi(calculate_value_hash_table);
-	calculate_value_hash_table = NULL;
+	calculate_value_map.clear();
 	/* isotope_ratio */
 	for (i = 0; i < (int)isotope_ratio.size(); i++)
 	{
-		isotope_ratio[i] =
-			(struct isotope_ratio*)free_check_null(isotope_ratio[i]);
+		delete isotope_ratio[i];
 	}
 	isotope_ratio.clear();
-	hdestroy_multi(isotope_ratio_hash_table);
-	isotope_ratio_hash_table = NULL;
+	isotope_ratio_map.clear();
 	/* isotope_alpha */
 	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
-		isotope_alpha[i] =
-			(struct isotope_alpha*)free_check_null(isotope_alpha[i]);
+		delete isotope_alpha[i];
 	}
 	isotope_alpha.clear();
-	hdestroy_multi(isotope_alpha_hash_table);
-	isotope_alpha_hash_table = NULL;
+	isotope_alpha_map.clear();
 	/* tally table */
 	free_tally_table();
 	/* CVODE memory */
@@ -233,20 +227,12 @@ clean_up(void)
 	/* sit */
 	sit_clean_up();
 	/* hash tables */
-	hdestroy_multi(elements_hash_table);
-	hdestroy_multi(species_hash_table);
-	hdestroy_multi(logk_hash_table);
-	hdestroy_multi(phases_hash_table);
-	elements_hash_table = NULL;
-	species_hash_table = NULL;
-	logk_hash_table = NULL;
-	phases_hash_table = NULL;
+	elements_map.clear();
+	species_map.clear();
+	phases_map.clear();
+	logk_map.clear();
 	/* strings */
-#ifdef HASH
-	strings_hash_clear();
-#else
 	strings_map_clear();
-#endif
 	/* delete basic interpreter */
 	basic_free();
 	/* change_surf */
@@ -324,69 +310,45 @@ element_compare(const void *ptr1, const void *ptr2)
 }
 
 /* ---------------------------------------------------------------------- */
-struct element * Phreeqc::
-element_store(const char *element)
+struct element* Phreeqc::
+element_store(const char * element)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Function locates the string "element" in the hash table for elements.
- *
- *   If found, pointer to the appropriate element structure is returned.
- *
- *   If the string is not found, a new entry is made at the end of
- *   the elements array (position count_elements) and count_elements is
- *   incremented. A new entry is made in the hash table. Pointer to
- *   the new structure is returned.
- *
- *   Arguments:
- *      element    input, character string to be located or stored.
- *
- *   Returns:
- *      The address of an elt structure that contains the element data.
- */
-	struct element *elts_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
-/*
- *   Search list
- */
-	strcpy(token, element);
-
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(elements_hash_table, item, FIND);
-	if (found_item != NULL)
+	/*
+	 *   Function locates the string "element" in the map for elements.
+	 *
+	 *   If found, pointer to the appropriate element structure is returned.
+	 *
+	 *   If the string is not found, a new entry is made at the end of
+	 *   the elements array (position count_elements) and count_elements is
+	 *   incremented. Pointer to the new structure is returned.
+	 *
+	 *   Arguments:
+	 *      element    input, std::string to be located or stored.
+	 *
+	 *   Returns:
+	 *      The address of an elt structure that contains the element data.
+	 */
+	/*
+	 *   Search list
+	 */
+	std::map<std::string, struct element *>::const_iterator it;
+	it = elements_map.find(element);
+	if (it != elements_map.end())
 	{
-		elts_ptr = (struct element *) (found_item->data);
-		return (elts_ptr);
+		return (it->second);
 	}
-/*
- *   Save new elt structure and return pointer to it
- */
-	/* make sure there is space in elements */
-	size_t count_elements = elements.size();
-	elements.resize(count_elements + 1);
-	elements[count_elements] = (struct element *) PHRQ_malloc((size_t) sizeof(struct element));
-	if (elements[count_elements] == NULL)
-		malloc_error();
-	/* set name pointer in elements structure */
-	elements[count_elements]->name = string_hsave(token);
-	/* set return value */
-	elements[count_elements]->master = NULL;
-	elements[count_elements]->primary = NULL;
-	elements[count_elements]->gfw = 0.0;
-/*
- *   Update hash table
- */
-	item.key = elements[count_elements]->name;
-	item.data = (void *) elements[count_elements];
-	found_item = hsearch_multi(elements_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in element_store.");
-		error_msg(error_string, CONTINUE);
-	}
-	return (elements[count_elements]);
+	/*
+	 *   Save new element structure and return pointer to it
+	 */
+	struct element *elt_ptr = new struct element;
+	elt_ptr->name = string_hsave(element);
+	elt_ptr->master = NULL;
+	elt_ptr->primary = NULL;
+	elt_ptr->gfw = 0.0;
+	elements.push_back(elt_ptr);
+	elements_map[element] = elt_ptr;
+	return (elt_ptr);
 }
 
 /* **********************************************************************
@@ -871,10 +833,7 @@ master_alloc(void)
  *      return: pointer to a master structure
  */
 {
-	struct master *ptr;
-	ptr = (struct master *) PHRQ_malloc(sizeof(struct master));
-	if (ptr == NULL)
-		malloc_error();
+	struct master *ptr = new struct master;
 /*
  *   set pointers in structure to NULL
  */
@@ -939,7 +898,7 @@ master_free(struct master *master_ptr)
 		return (ERROR);
 	rxn_free(master_ptr->rxn_primary);
 	rxn_free(master_ptr->rxn_secondary);
-	master_ptr = (struct master *) free_check_null(master_ptr);
+	delete master_ptr;
 	return (OK);
 }
 
@@ -1158,9 +1117,7 @@ phase_alloc(void)
 /*
  *   Allocate space
  */
-	phase_ptr = (struct phase *) PHRQ_malloc(sizeof(struct phase));
-	if (phase_ptr == NULL)
-		malloc_error();
+	phase_ptr = new struct phase;
 /*
  *   Initialize space
  */
@@ -1229,8 +1186,7 @@ phase_free(struct phase *phase_ptr)
 	rxn_free(phase_ptr->rxn);
 	rxn_free(phase_ptr->rxn_s);
 	rxn_free(phase_ptr->rxn_x);
-	phase_ptr->add_logk =
-		(struct name_coef *) free_check_null(phase_ptr->add_logk);
+	phase_ptr->add_logk.clear(); 
 	return (OK);
 }
 
@@ -1295,8 +1251,7 @@ phase_init(struct phase *phase_ptr)
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		phase_ptr->logk[i] = 0.0;
 	phase_ptr->original_units = kjoules;
-	phase_ptr->count_add_logk = 0;
-	phase_ptr->add_logk = NULL;
+	phase_ptr->add_logk.clear();
 	phase_ptr->moles_x = 0;
 	phase_ptr->delta_max = 0;
 	phase_ptr->p_soln_x = 0;
@@ -1337,18 +1292,17 @@ phase_init(struct phase *phase_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct phase * Phreeqc::
-phase_store(const char *name)
+phase_store(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for phases.
+ *   Function locates the string "name" in the map for phases.
  *
  *   If found, pointer to the appropriate phase structure is returned.
  *
  *   If the string is not found, a new entry is made at the end of
- *   the phases array (position count_phases) and count_phases is
- *   incremented. A new entry is made in the hash table. Pointer to
- *   the new structure is returned.
+ *   the phases array (position count_phases), it is added to the map,
+ *   and the new structure is returned.
  *
  *   Arguments:
  *      name    input, character string to be located or stored.
@@ -1358,49 +1312,34 @@ phase_store(const char *name)
  *      If phase existed, it is reinitialized. The structure returned
  *      contains only the name of the phase.
  */
-	struct phase *phase_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
-	const char *ptr;
+	struct phase *phase_ptr = NULL;
 /*
  *   Search list
  */
-
-	strcpy(token, name);
-	str_tolower(token);
-	ptr = string_hsave(token);
-
-	item.key = ptr;
-	item.data = NULL;
-	found_item = hsearch_multi(phases_hash_table, item, FIND);
-	if (found_item != NULL)
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, struct phase*>::iterator p_it =
+		phases_map.find(name);
+	if (p_it != phases_map.end())
 	{
-		phase_ptr = (struct phase *) (found_item->data);
+		phase_ptr = p_it->second;
 		phase_free(phase_ptr);
 		phase_init(phase_ptr);
-		phase_ptr->name = string_hsave(name);
+		phase_ptr->name = string_hsave(name_in);
 		return (phase_ptr);
 	}
 /*
  *   Make new phase structure and return pointer to it
  */
-	size_t n = (int)phases.size();
+	size_t n = phases.size();
 	phases.resize(n + 1);
 	phases[n] = phase_alloc();
 	/* set name in phase structure */
-	phases[n]->name = string_hsave(name);
+	phases[n]->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = ptr;
-	item.data = (void *) phases[n];
-	found_item = hsearch_multi(phases_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in phase_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	phases_map[name] = phases[n];
 	return (phases[n]);
 }
 /* **********************************************************************
@@ -1834,9 +1773,7 @@ s_alloc(void)
  */
 {
 	struct species *s_ptr;
-	s_ptr = (struct species *) PHRQ_malloc(sizeof(struct species));
-	if (s_ptr == NULL)
-		malloc_error();
+	s_ptr = new struct species;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1886,7 +1823,7 @@ s_free(struct species *s_ptr)
 		(struct elt_list *) free_check_null(s_ptr->next_secondary);
 	s_ptr->next_sys_total =
 		(struct elt_list *) free_check_null(s_ptr->next_sys_total);
-	s_ptr->add_logk = (struct name_coef *) free_check_null(s_ptr->add_logk);
+	s_ptr->add_logk.clear();
 	rxn_free(s_ptr->rxn);
 	rxn_free(s_ptr->rxn_s);
 	rxn_free(s_ptr->rxn_x);
@@ -1943,8 +1880,7 @@ s_init(struct species *s_ptr)
 	}
 /* VP: Density End */
 	s_ptr->original_units = kjoules;
-	s_ptr->count_add_logk = 0;
-	s_ptr->add_logk = NULL;
+	s_ptr->add_logk.clear();
 	s_ptr->lg = 0.0;
 	s_ptr->lg_pitzer = 0.0;
 	s_ptr->lm = 0.0;
@@ -1975,52 +1911,43 @@ s_init(struct species *s_ptr)
 	s_ptr->original_deltav_units = cm3_per_mol;
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
-struct species * Phreeqc::
-s_search(const char *name)
+struct species* Phreeqc::
+s_search(const char* name)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Function locates the string "name" in the hash table for species.
- *
- *   Arguments:
- *      name  input, a character string to be located in species.
- *      i    is obsolete.
- *
- *   Returns:
- *   If found, pointer to the appropriate species structure is returned.
- *       else, NULL pointer is returned.
- */
-	struct species *s_ptr;
-	ENTRY item, *found_item;
-	char safe_name[MAX_LENGTH];
-
-	strcpy(safe_name, name);
-	item.key = safe_name;
-	item.data = NULL;
-	found_item = hsearch_multi(species_hash_table, item, FIND);
-	if (found_item != NULL)
+	/*
+	 *   Function locates the string "name" in the species_map.
+	 *
+	 *   Arguments:
+	 *      name  input, a character string to be located in species.
+	 *
+	 *   Returns:
+	 *   If found, pointer to the appropriate species structure is returned.
+	 *       else, NULL pointer is returned.
+	 */
+	struct species* s_ptr = NULL;
+	std::map<std::string, struct species*>::iterator s_it = 
+		species_map.find(name);
+	if (s_it != species_map.end())
 	{
-		s_ptr = (struct species *) (found_item->data);
-		return (s_ptr);
+		s_ptr = s_it->second;
 	}
-	return (NULL);
+	return (s_ptr);
 }
-
 /* ---------------------------------------------------------------------- */
 struct species * Phreeqc::
 s_store(const char *name, LDBLE l_z, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for species.
+ *   Function locates the string "name" in the map for species.
  *
  *   Pointer to a species structure is always returned.
  *
  *   If the string is not found, a new entry is made at the end of
  *      the elements array (position count_elements) and count_elements is
- *      incremented. A new entry is made in the hash table. Pointer to
+ *      incremented. A new entry is made in the map. Pointer to
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old species structure
  *      are freed and replaced with additional input.
@@ -2036,31 +1963,25 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
  *   Returns:
  *      pointer to species structure "s" where "name" can be found.
  */
-	int n;
-	struct species *s_ptr;
-	ENTRY item, *found_item;
+
 /*
  *   Search list
  */
-	item.key = name;
-	item.data = NULL;
-	found_item = hsearch_multi(species_hash_table, item, FIND);
-
-	if (found_item != NULL && replace_if_found == FALSE)
+	struct species* s_ptr = NULL;
+	s_ptr = s_search(name);
+	if (s_ptr != NULL && replace_if_found == FALSE)
 	{
-		s_ptr = (struct species *) (found_item->data);
 		return (s_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (s_ptr != NULL && replace_if_found == TRUE)
 	{
-		s_ptr = (struct species *) (found_item->data);
 		s_free(s_ptr);
 		s_init(s_ptr);
 	}
 	else
 	{
-		n = (int)s.size();
-		s.resize((size_t)n + 1);
+		size_t n = s.size();
+		s.resize(n + 1);
 		/* Make new species structure */
 		s[n] = s_alloc();
 		s_ptr = s[n];
@@ -2069,17 +1990,9 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 	s_ptr->name = string_hsave(name);
 	s_ptr->z = l_z;
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = s_ptr->name;
-	item.data = (void *) s_ptr;
-	found_item = hsearch_multi(species_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in species_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	species_map[name] = s_ptr;
 	return (s_ptr);
 }
 /* **********************************************************************
@@ -3105,15 +3018,15 @@ system_duplicate(int i, int save_old)
 
 /* ---------------------------------------------------------------------- */
 struct logk * Phreeqc::
-logk_store(char *name, int replace_if_found)
+logk_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for logk.
+ *   Function locates the string "name" in the map for logk.
  *
  *   Pointer to a logk structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to
+ *   If the string is not found, a new entry is made in the map. Pointer to
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old logk structure
  *      are freed and replaced with additional input.
@@ -3128,24 +3041,23 @@ logk_store(char *name, int replace_if_found)
  *   Returns:
  *      pointer to logk structure "logk" where "name" can be found.
  */
-	struct logk *logk_ptr;
-	ENTRY item, *found_item;
 /*
  *   Search list
  */
+	struct logk* logk_ptr = NULL;
+	std::string name = name_in;
 	str_tolower(name);
-	item.key = name;
-	item.data = NULL;
-	found_item = hsearch_multi(logk_hash_table, item, FIND);
+	std::map<std::string, struct logk*>::iterator it =
+		logk_map.find(name);
 
-	if (found_item != NULL && replace_if_found == FALSE)
+	if (it != logk_map.end() && replace_if_found == FALSE)
 	{
-		logk_ptr = (struct logk *) (found_item->data);
+		logk_ptr = it->second;
 		return (logk_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (it != logk_map.end() && replace_if_found == TRUE)
 	{
-		logk_ptr = (struct logk *) (found_item->data);
+		logk_ptr = it->second;
 		logk_init(logk_ptr);
 	}
 	else
@@ -3157,19 +3069,11 @@ logk_store(char *name, int replace_if_found)
 		logk_ptr = logk[n];
 	}
 	/* set name and z in pointer in logk structure */
-	logk_ptr->name = string_hsave(name);
+	logk_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = logk_ptr->name;
-	item.data = (void *) logk_ptr;
-	found_item = hsearch_multi(logk_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in logk_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	logk_map[name] = logk_ptr;
 	return (logk_ptr);
 }
 
@@ -3184,9 +3088,7 @@ logk_alloc(void)
  */
 {
 	struct logk *logk_ptr;
-	logk_ptr = (struct logk *) PHRQ_malloc(sizeof(struct logk));
-	if (logk_ptr == NULL)
-		malloc_error();
+	logk_ptr = new struct logk;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -3217,8 +3119,7 @@ logk_init(struct logk *logk_ptr)
 		logk_ptr->log_k[i] = 0.0;
 		logk_ptr->log_k_original[i] = 0.0;
 	}
-	logk_ptr->count_add_logk = 0;
-	logk_ptr->add_logk = NULL;
+	logk_ptr->add_logk.clear(); 
 	return (OK);
 }
 
@@ -3254,19 +3155,16 @@ logk_search(const char *name_in)
  *      or NULL if not found.
  */
 	struct logk *logk_ptr;
-	ENTRY item, *found_item;
 /*
  *   Search list
  */
-	char * name = string_duplicate(name_in);
+	std::string name = name_in;
 	str_tolower(name);
-	item.key = name;
-	item.data = NULL;
-	found_item = hsearch_multi(logk_hash_table, item, FIND);
-	free_check_null(name);
-	if (found_item != NULL)
+	std::map<std::string, struct logk*>::iterator l_it =
+		logk_map.find(name);
+	if (l_it != logk_map.end())
 	{
-		logk_ptr = (struct logk *) (found_item->data);
+		logk_ptr = l_it->second;
 		return (logk_ptr);
 	}
 	return (NULL);

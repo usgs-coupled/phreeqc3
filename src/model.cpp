@@ -1017,11 +1017,6 @@ ineq(int in_kode)
 			}
 		}
 	}
-
-/*
- * Initialize space if necessary
- */
-	ineq_init(3 * count_unknowns, 3 * count_unknowns);
 /*
  *   Normalize column
  */
@@ -5312,7 +5307,7 @@ int Phreeqc::
 numerical_jacobian(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE *base;
+	std::vector<double> base;
 	LDBLE d, d1, d2;
 	int i, j;
 	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
@@ -5342,14 +5337,8 @@ numerical_jacobian(void)
 		memcpy((void *) &(my_array[(size_t)i * ((size_t)count_unknowns + 1)]),
 			   (void *) &(my_array[0]), (size_t)count_unknowns * sizeof(LDBLE));
 	}
-
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-	if (base == NULL)
-		malloc_error();
-	for (i = 0; i < count_unknowns; i++)
-	{
-		base[i] = residual[i];
-	}
+	base.resize((size_t)count_unknowns);
+	base = residual;
 	d = 0.0001;
 	d1 = d * LOG_10;
 	d2 = 0;
@@ -5549,85 +5538,11 @@ numerical_jacobian(void)
 	mb_gases();
 	mb_ss();
 	residuals();
-	free_check_null(base);
+	base.clear();
 	calculating_deriv = FALSE;
 	return OK;
 }
 
-/* ---------------------------------------------------------------------- */
-void Phreeqc::
-ineq_init(int l_max_row_count, int l_max_column_count)
-/* ---------------------------------------------------------------------- */
-{
-	//if (normal == NULL)
-	//{
-	//	normal =
-	//		(LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-	//	normal_max = count_unknowns;
-	//	if (normal == NULL)
-	//		malloc_error();
-	//}
-	////if (ineq_array == NULL)
-	////{
-	////	ineq_array =
-	////		(LDBLE *) PHRQ_malloc((size_t) l_max_row_count * l_max_column_count *
-	////							  sizeof(LDBLE));
-	////	if (ineq_array == NULL)
-	////		malloc_error();
-	////	ineq_array_max = l_max_row_count * l_max_column_count;
-	////}
-	//if (back_eq == NULL)
-	//{
-	//	back_eq = (int *) PHRQ_malloc((size_t) l_max_row_count * sizeof(int));
-	//	if (back_eq == NULL)
-	//		malloc_error();
-	//	back_eq_max = l_max_row_count;
-	//}
-	//if (zero == NULL)
-	//{
-	//	zero = (LDBLE *) PHRQ_malloc((size_t) l_max_row_count * sizeof(LDBLE));
-	//	if (zero == NULL)
-	//		malloc_error();
-	//	zero_max = l_max_row_count;
-	//}
-	//if (res == NULL)
-	//{
-	//	res = (LDBLE *) PHRQ_malloc((size_t) l_max_row_count * sizeof(LDBLE));
-	//	if (res == NULL)
-	//		malloc_error();
-	//	res_max = l_max_row_count;
-	//}
-	//if (delta1 == NULL)
-	//{
-	//	delta1 =
-	//		(LDBLE *) PHRQ_malloc((size_t) l_max_column_count * sizeof(LDBLE));
-	//	if (delta1 == NULL)
-	//		malloc_error();
-	//	delta1_max = l_max_column_count;
-	//}
-	//if (cu == NULL)
-	//{
-	//	cu = (LDBLE *) PHRQ_malloc((size_t) 3 * l_max_row_count *
-	//							   sizeof(LDBLE));
-	//	if (cu == NULL)
-	//		malloc_error();
-	//	cu_max = 3 * l_max_row_count;
-	//}
-	//if (iu == NULL)
-	//{
-	//	iu = (int *) PHRQ_malloc((size_t) 3 * l_max_row_count * sizeof(int));
-	//	if (iu == NULL)
-	//		malloc_error();
-	//	iu_max = 3 * l_max_row_count;
-	//}
-	//if (is == NULL)
-	//{
-	//	is = (int *) PHRQ_malloc((size_t) 3 * l_max_row_count * sizeof(int));
-	//	if (is == NULL)
-	//		malloc_error();
-	//	is_max = 3 * l_max_row_count;
-	//}
-}
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 set_inert_moles(void)

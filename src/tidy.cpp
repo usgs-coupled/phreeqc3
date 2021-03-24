@@ -476,8 +476,7 @@ check_species_input(void)
 		else
 		{
 			select_log_k_expression(s[i]->logk, s[i]->rxn->logk);
-			add_other_logk(s[i]->rxn->logk, s[i]->count_add_logk,
-						   s[i]->add_logk);
+			add_other_logk(s[i]->rxn->logk, s[i]->add_logk);
 		}
 	}
 	return (return_value);
@@ -488,18 +487,19 @@ int Phreeqc::
 select_log_k_expression(LDBLE * source_k, LDBLE * target_k)
 /* ---------------------------------------------------------------------- */
 {
-	int j, analytic;
+	int j;
+	bool analytic;
 
-	analytic = FALSE;
+	analytic = false;
 	for (j = T_A1; j <= T_A6; j++)
 	{
 		if (source_k[j] != 0.0)
 		{
-			analytic = TRUE;
+			analytic = true;
 			break;
 		}
 	}
-	if (analytic == TRUE)
+	if (analytic)
 	{
 		target_k[logK_T0] = 0.0;
 		target_k[delta_h] = 0.0;
@@ -550,27 +550,21 @@ tidy_logk(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_other_logk(LDBLE * source_k, int count_add_logk,
-			   struct name_coef *add_logk)
+add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, analytic;
+	int j;
+	bool analytic;
 	struct logk *logk_ptr;
-	char token[MAX_LENGTH];
 	LDBLE coef;
-	ENTRY item, *found_item;
 
-	if (count_add_logk == 0)
-		return (OK);
-	for (i = 0; i < count_add_logk; i++)
+	for (size_t i = 0; i < add_logk.size(); i++)
 	{
 		coef = add_logk[i].coef;
-		strcpy(token, add_logk[i].name);
+		std::string token = add_logk[i].name;
 		str_tolower(token);
-		item.key = token;
-		item.data = NULL;
-		found_item = hsearch_multi(logk_hash_table, item, FIND);
-		if (found_item == NULL)
+		std::map<std::string, struct logk *>::iterator l_it = logk_map.find(token);
+		if (l_it == logk_map.end())
 		{
 			input_error++;
 			error_string = sformatf(
@@ -579,17 +573,17 @@ add_other_logk(LDBLE * source_k, int count_add_logk,
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		logk_ptr = (struct logk *) found_item->data;
-		analytic = FALSE;
+		logk_ptr = l_it->second;
+		analytic = false;
 		for (j = T_A1; j <= T_A6; j++)
 		{
 			if (logk_ptr->log_k[j] != 0.0)
 			{
-				analytic = TRUE;
+				analytic = true;
 				break;
 			}
 		}
-		if (analytic == TRUE)
+		if (analytic)
 		{
 			for (j = T_A1; j <= T_A6; j++)
 			{
@@ -616,9 +610,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 {
 	int i, j;
 	struct logk *next_logk_ptr;
-	char token[MAX_LENGTH];
 	LDBLE coef;
-	ENTRY item, *found_item;
 	/*
 	 *  Adds in other named_expressions to get complete log K
 	 *  Evaluates others recursively if necessary
@@ -631,15 +623,13 @@ add_logks(struct logk *logk_ptr, int repeats)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	for (i = 0; i < logk_ptr->count_add_logk; i++)
+	for (i = 0; i < (int)logk_ptr->add_logk.size(); i++)
 	{
 		coef = logk_ptr->add_logk[i].coef;
-		strcpy(token, logk_ptr->add_logk[i].name);
+		std::string token = logk_ptr->add_logk[i].name;
 		str_tolower(token);
-		item.key = token;
-		item.data = NULL;
-		found_item = hsearch_multi(logk_hash_table, item, FIND);
-		if (found_item == NULL)
+		std::map<std::string, struct logk*>::iterator l_it = logk_map.find(token);
+		if (l_it == logk_map.end())
 		{
 			input_error++;
 			error_string = sformatf(
@@ -648,7 +638,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		next_logk_ptr = (struct logk *) found_item->data;
+		next_logk_ptr = l_it->second;
 		if (next_logk_ptr->done == FALSE)
 		{
 			/*output_msg(sformatf( "Done == FALSE\n", token)); */
@@ -1507,8 +1497,7 @@ tidy_phases(void)
 	for (i = 0; i < (int)phases.size(); i++)
 	{
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn->logk);
-		add_other_logk(phases[i]->rxn->logk, phases[i]->count_add_logk,
-					   phases[i]->add_logk);
+		add_other_logk(phases[i]->rxn->logk, phases[i]->add_logk);
 		phases[i]->rxn->token[0].name = phases[i]->name;
 		phases[i]->rxn->token[0].s = NULL;
 	}

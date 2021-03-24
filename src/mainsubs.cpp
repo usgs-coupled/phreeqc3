@@ -25,22 +25,8 @@ initialize(void)
 /*
  *   Initialize global variables
  */
-	struct logk *logk_ptr;
-	char token[MAX_LENGTH];
-
 	moles_per_kilogram_string = string_duplicate("Mol/kgw");
 	pe_string = string_duplicate("pe");
-/*
- *   Initialize advection
- */
-	advection_punch = (int *) PHRQ_malloc(sizeof(int));
-	if (advection_punch == NULL)
-		malloc_error();
-	advection_punch[0] = TRUE;
-	advection_print = (int *) PHRQ_malloc(sizeof(int));
-	if (advection_print == NULL)
-		malloc_error();
-	advection_print[0] = TRUE;
 /*
  *   Allocate space
  */
@@ -72,14 +58,6 @@ initialize(void)
 	stag_data->exch_f = 0;
 	stag_data->th_m = 0;
 	stag_data->th_im = 0;
-/*
- *   Create hash tables
- */
-	hcreate_multi((unsigned) MAX_S, &logk_hash_table);
-	hcreate_multi((unsigned) MAX_ELTS, &master_isotope_hash_table);
-	hcreate_multi((unsigned) MAX_ELTS, &elements_hash_table);
-	hcreate_multi((unsigned) MAX_S, &species_hash_table);
-	hcreate_multi((unsigned) MAX_PHASES, &phases_hash_table);
 
 	// user_print
 	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
@@ -136,25 +114,6 @@ initialize(void)
 	g_spread_sheet.defaults.iso       = NULL;
 	g_spread_sheet.defaults.redox     = NULL;
 #endif
-
-	/* calculate_value */
-	hcreate_multi((unsigned) MAX_ELTS,
-				  &calculate_value_hash_table);
-
-	/* isotope_ratio */
-	hcreate_multi((unsigned) MAX_ELTS, &isotope_ratio_hash_table);
-
-	/* isotope_alpha */
-	hcreate_multi((unsigned) MAX_ELTS, &isotope_alpha_hash_table);
-
-	/*
-	 * define constant named log_k
-	 */
-	strcpy(token, "XconstantX");
-	logk_ptr = logk_store(token, TRUE);
-	strcpy(token, "1.0");
-	read_log_k_only(token, &logk_ptr->log_k[0]);
-
 	// allocate space for copier
 	copier_init(&copy_solution);
 	copier_init(&copy_pp_assemblage);

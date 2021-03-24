@@ -17,9 +17,6 @@ typedef unsigned char boolean;
 #include <fstream>
 #include <sstream>
 #include <map>
-#ifdef HASH
-#include <hash_map>
-#endif
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -494,7 +491,6 @@ public:
 	int revise_guesses(void);
 	int ss_binary(cxxSS *ss_ptr);
 	int ss_ideal(cxxSS *ss_ptr);
-	void ineq_init(int max_row_count, int max_column_count);
 
 	// parse.cpp -------------------------------
 	int check_eqn(int association);
@@ -881,7 +877,7 @@ public:
 protected:
 	struct logk *logk_alloc(void);
 	int logk_copy2orig(struct logk *logk_ptr);
-	struct logk *logk_store(char *name, int replace_if_found);
+	struct logk *logk_store(const char *name, int replace_if_found);
 	struct logk *logk_search(const char *name);
 	struct master *master_alloc(void);
 	static int master_compare(const void *ptr1, const void *ptr2);
@@ -1003,8 +999,7 @@ public:
 	int set_kinetics_time(int n_user, LDBLE step);
 
 	// tidy.cpp -------------------------------
-	int add_other_logk(LDBLE * source_k, int count_add_logk,
-	struct name_coef *add_logk);
+	int add_other_logk(LDBLE* source_k, std::vector<struct name_coef> &add_logk);
 	int add_logks(struct logk *logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void *), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
@@ -1105,11 +1100,7 @@ public:
 public:
 	void *free_check_null(void *ptr);
 protected:
-	void free_hash_strings(HashTable * Table);
 	int get_token(char **eqnaddr, char *string, LDBLE * z, int *l);
-	int hcreate_multi(unsigned Count, HashTable ** HashTable_ptr);
-	void hdestroy_multi(HashTable * HashTable_ptr);
-	ENTRY *hsearch_multi(HashTable * Table, ENTRY item, ACTION action);
 	int islegit(const char c);
 public:
 	void malloc_error(void);
@@ -1121,6 +1112,7 @@ public:
 	static bool replace(const char *str1, const char *str2, std::string & str);
 	static int strcmp_nocase(const char *str1, const char *str2);
 	static int strcmp_nocase_arg1(const char *str1, const char *str2);
+	static void str_tolower(std::string &name);
 protected:
 	void space(void **ptr, int i, int *max, int struct_size);
 	void squeeze_white(char *s_l);
@@ -1135,9 +1127,6 @@ public:
 #endif
 	const char *string_hsave(const char *str);
 	void strings_map_clear();
-#ifdef HASH
-	void strings_hash_clear();
-#endif
 protected:
 	char *string_pad(const char *str, int i);
 	int string_trim(char *str);
@@ -1146,8 +1135,6 @@ protected:
 	static LDBLE under(LDBLE xval);
 	int get_input_errors(void);
 	int isamong(char c, const char *s_l);
-	Address Hash_multi(HashTable * Table, const char *Key);
-	void ExpandTable_multi(HashTable * Table);
 public:
 	int main_method(int argc, char *argv[]);
 	void set_phast(int);
@@ -1424,7 +1411,7 @@ protected:
 	int count_ad_shifts;
 	int print_ad_modulus;
 	int punch_ad_modulus;
-	int *advection_punch, *advection_print;
+	std::vector<int> advection_print, advection_punch;
 	LDBLE advection_kin_time;
 	LDBLE advection_kin_time_defined;
 	int advection_warnings;
@@ -1663,18 +1650,15 @@ protected:
 
 	/* ---------------------------------------------------------------------- */
 	/*
-	*   Hash definitions
+	*   Map definitions
 	*/
 
 	std::map<std::string, std::string *> strings_map;
-#ifdef HASH
-	std::hash_map<std::string, std::string *> strings_hash;
-#endif
-	HashTable *elements_hash_table;
-	HashTable *species_hash_table;
-	HashTable *phases_hash_table;
-	HashTable *logk_hash_table;
-	HashTable *master_isotope_hash_table;
+	std::map<std::string, struct element*> elements_map;
+	std::map<std::string, struct species*> species_map;
+	std::map<std::string, struct phase*> phases_map;
+	std::map<std::string, struct logk*> logk_map;
+	std::map<std::string, struct master_isotope*> master_isotope_map;
 
 #if defined(PHREEQCI_GUI)
 #include "../../phreeqci_gui.h"
@@ -1685,11 +1669,11 @@ protected:
 	std::vector<struct master_isotope*> master_isotope;
 	int initial_solution_isotopes;
 	std::vector<struct calculate_value*> calculate_value;
-	HashTable *calculate_value_hash_table;
+	std::map<std::string, struct calculate_value*> calculate_value_map;
 	std::vector<struct isotope_ratio*> isotope_ratio;
-	HashTable *isotope_ratio_hash_table;
+	std::map<std::string, struct isotope_ratio*> isotope_ratio_map;
 	std::vector<struct isotope_alpha*> isotope_alpha;
-	HashTable *isotope_alpha_hash_table;
+	std::map<std::string, struct isotope_alpha*> isotope_alpha_map;
 	int phreeqc_mpi_myself;
 	int first_read_input;
 	char *user_database;

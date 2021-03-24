@@ -187,43 +187,6 @@ typedef enum {
 	vmi1, vmi2, vmi3, vmi4, /* ionic strength terms: (i1 + i2/(TK - 228) + i3 * (TK - 228) ) * I^i4 */
 	MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 } LOG_K_INDICES;
-/* HSEARCH(3C) */
-typedef struct entry
-{
-	const char *key;
-	void *data;
-} ENTRY;
-typedef enum
-{ FIND, ENTER } ACTION;
-
-/* TSEARCH(3C) */
-typedef enum
-{ preorder, postorder, endorder, leaf } VISIT;
-
-typedef struct Element
-{
-	/*
-	 ** The user only sees the first two fields,
-	 ** as we pretend to pass back only a pointer to ENTRY.
-	 ** {S}he doesn`t know what else is in here.
-	 */
-	const char *Key;
-	char *Data;
-	struct Element *Next;		/* secret from user    */
-} Element, *Segment;
-
-typedef struct
-{
-	short p;					/* Next bucket to be split      */
-	short maxp;					/* upper bound on p during expansion */
-	long KeyCount;				/* current # keys       */
-	short SegmentCount;			/* current # segments   */
-	short MinLoadFactor;
-	short MaxLoadFactor;
-	Segment *Directory[DirectorySize];
-} HashTable;
-
-typedef unsigned long Address;
 
 typedef struct PHRQMemHeader
 {
@@ -271,8 +234,6 @@ struct model
 	LDBLE pressure;
 	bool numerical_fixed_volume;
 };
-
-
 
 struct name_master
 {
@@ -650,8 +611,7 @@ struct species
 	LDBLE millero[7];		    /* regression coefficients to calculate temperature dependent phi_0 and b_v of Millero density model */
 	/* VP: Density End */
 	DELTA_H_UNIT original_units;	/* enum with original delta H units */
-	int count_add_logk;
-	struct name_coef *add_logk;
+	std::vector<struct name_coef> add_logk;
 	LDBLE lg;					/* log10 activity coefficient, gamma */
 	LDBLE lg_pitzer;			/* log10 activity coefficient, from pitzer calculation */
 	LDBLE lm;					/* log10 molality */
@@ -682,9 +642,8 @@ struct logk
 	LDBLE lk;					/* log10 k at working temperature */
 	LDBLE log_k[MAX_LOG_K_INDICES];				/* log kt0, delh, 6 coefficients analalytical expression */
 	DELTA_H_UNIT original_units;	/* enum with original delta H units */
-	int count_add_logk;
 	int done;
-	struct name_coef *add_logk;
+	std::vector<struct name_coef> add_logk;
 	LDBLE log_k_original[MAX_LOG_K_INDICES];	/* log kt0, delh, 5 coefficients analalytical expression */
 	DELTA_V_UNIT original_deltav_units;
 };
@@ -701,8 +660,7 @@ struct phase
 	LDBLE logk[MAX_LOG_K_INDICES];				/* log kt0, delh, 6 coefficients analalytical expression */
 	DELTA_H_UNIT original_units;	/* enum with original delta H units */
 	DELTA_V_UNIT original_deltav_units;
-	int count_add_logk;
-	struct name_coef *add_logk;
+	std::vector<struct name_coef> add_logk;
 	LDBLE moles_x;
 	LDBLE delta_max;
 	LDBLE p_soln_x;

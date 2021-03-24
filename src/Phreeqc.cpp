@@ -660,10 +660,8 @@ void Phreeqc::init(void)
 	count_ad_shifts          = 1;
 	print_ad_modulus         = 1;
 	punch_ad_modulus         = 1;
-	advection_punch          = NULL;
 	advection_kin_time       = 0.0;
 	advection_kin_time_defined = FALSE;
-	advection_print          = NULL;
 	advection_warnings       = TRUE;
 	/*----------------------------------------------------------------------
 	*   Tidy data
@@ -906,27 +904,10 @@ void Phreeqc::init(void)
 	remove_unstable_phases  = FALSE;
 	// auto screen_string;
 	spread_length           = 10;
-	/* ---------------------------------------------------------------------- */
-	/*
-	*   Hash definitions
-	*/
-	// auto strings_map;
-#ifdef HASH
-	// auto strings_hash;
-#endif
-	elements_hash_table     = NULL;
-	species_hash_table      = NULL;
-	phases_hash_table       = NULL;
-	logk_hash_table         = NULL;
-	master_isotope_hash_table = NULL;
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
 	initial_solution_isotopes = FALSE;
-	calculate_value_hash_table = NULL;	
-	isotope_ratio_hash_table = 0;	
-	isotope_alpha_hash_table = 0;
-
 
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
@@ -1517,22 +1498,10 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_ad_shifts          = pSrc->count_ad_shifts;
 	print_ad_modulus         = pSrc->print_ad_modulus;
 	punch_ad_modulus         = pSrc->punch_ad_modulus;
-	/* advection_punch */
-	if (count_ad_cells > 0)
-	{
-		advection_punch = (int *) free_check_null(advection_punch);
-		advection_punch = (int *) PHRQ_malloc((size_t) (count_ad_cells * sizeof(int)));
-		if (advection_punch == NULL) malloc_error();
-		memcpy(advection_punch, pSrc->advection_punch, (size_t) (count_ad_cells * sizeof(int)));
-	}
-	/* advection_print */
-	if (count_ad_cells > 0)
-	{
-		advection_print = (int *) free_check_null(advection_print);
-		advection_print = (int *) PHRQ_malloc((size_t) (count_ad_cells * sizeof(int)));
-		if (advection_print == NULL) malloc_error();
-		memcpy(advection_print, pSrc->advection_print, (size_t) (count_ad_cells * sizeof(int)));
-	}
+	/* advection_punch, advection_print */
+	advection_punch = pSrc->advection_punch;
+	advection_print = pSrc->advection_print;
+
 	advection_kin_time       = pSrc->advection_kin_time;
 	advection_kin_time_defined = pSrc->advection_kin_time_defined;
 	advection_warnings       = pSrc->advection_warnings;
@@ -1607,23 +1576,14 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 
 	for (int i = 0; i < (int)pSrc->logk.size(); i++)
 	{
-		char * name = string_duplicate(pSrc->logk[i]->name);
-		struct logk *logk_ptr = logk_store(name, FALSE);
-		free_check_null(name);
+		struct logk *logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
 		memcpy(logk_ptr, pSrc->logk[i], sizeof(struct logk));
-		logk_ptr->name = string_hsave(pSrc->logk[i]->name);
-		logk_ptr->add_logk = NULL;
-		if (logk_ptr->count_add_logk > 0)
+		logk_ptr->add_logk.resize(pSrc->logk[i]->add_logk.size());
+		for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
 		{
-			logk_ptr->add_logk = (struct name_coef *) free_check_null(logk_ptr->add_logk);
-			logk_ptr->add_logk = (struct name_coef *) PHRQ_malloc((size_t) pSrc->logk[i]->count_add_logk * sizeof(struct name_coef));
-			if (logk[i]->add_logk == NULL) malloc_error();
-			for (int j = 0; j < logk_ptr->count_add_logk; j++)
-			{
-				logk_ptr->add_logk[j].coef = pSrc->logk[i]->add_logk[j].coef;
-				logk_ptr->add_logk[j].name = string_hsave( pSrc->logk[i]->add_logk[j].name);
-			}
-		}	
+			logk_ptr->add_logk[j].coef = pSrc->logk[i]->add_logk[j].coef;
+			logk_ptr->add_logk[j].name = string_hsave(pSrc->logk[i]->add_logk[j].name);
+		}
 	}
 
 	// s, species
@@ -1631,7 +1591,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	{
 		struct species *s_ptr = s_store(pSrc->s[i]->name, pSrc->s[i]->z, FALSE);
 		memcpy(s_ptr, pSrc->s[i], sizeof(struct species));
-		s_ptr->name = string_hsave(pSrc->s[i]->name);
 		// fix up all pointers
 		s_ptr->mole_balance = NULL;
 		if (pSrc->s[i]->mole_balance != NULL)
@@ -1641,16 +1600,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		s_ptr->primary = NULL;
 		s_ptr->secondary = NULL;
 		//add_logk
-		s_ptr->add_logk = NULL;
-		if (s_ptr->count_add_logk > 0)
+		s_ptr->add_logk.resize(pSrc->s[i]->add_logk.size());
+		for (size_t j = 0; j < s_ptr->add_logk.size(); j++)
 		{
-			s_ptr->add_logk = (struct name_coef *) PHRQ_malloc((size_t) s_ptr->count_add_logk * sizeof(struct name_coef));
-			if (s_ptr->add_logk == NULL) malloc_error();
-			for (int j = 0; j < s_ptr->count_add_logk; j++)
-			{
-				s_ptr->add_logk[j].coef = pSrc->s[i]->add_logk[j].coef;
-				s_ptr->add_logk[j].name = string_hsave( pSrc->s[i]->add_logk[j].name);
-			}
+			s_ptr->add_logk[j].coef = pSrc->s[i]->add_logk[j].coef;
+			s_ptr->add_logk[j].name = string_hsave(pSrc->s[i]->add_logk[j].name);
 		}
 		//next_elt
 		s_ptr->next_elt = NULL;
@@ -1716,19 +1670,13 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		struct phase *phase_ptr = phase_store(pSrc->phases[i]->name);
 		memcpy(phase_ptr, pSrc->phases[i], sizeof(struct phase));
 		// clean up pointers
-		phase_ptr->name = string_hsave(pSrc->phases[i]->name);
 		phase_ptr->formula = string_hsave(pSrc->phases[i]->formula);
 		//add_logk
-		phase_ptr->add_logk = NULL;
-		if (phase_ptr->count_add_logk > 0)
+		phase_ptr->add_logk.resize(pSrc->phases[i]->add_logk.size());
+		for (size_t j = 0; j < phase_ptr->add_logk.size(); j++)
 		{
-			phase_ptr->add_logk = (struct name_coef *) PHRQ_malloc((size_t) pSrc->phases[i]->count_add_logk * sizeof(struct name_coef));
-			if (phase_ptr->add_logk == NULL) malloc_error();
-			for (int j = 0; j < phase_ptr->count_add_logk; j++)
-			{
-				phase_ptr->add_logk[j].coef = pSrc->phases[i]->add_logk[j].coef;
-				phase_ptr->add_logk[j].name = string_hsave( pSrc->phases[i]->add_logk[j].name);
-			}
+			phase_ptr->add_logk[j].coef = pSrc->phases[i]->add_logk[j].coef;
+			phase_ptr->add_logk[j].name = string_hsave(pSrc->phases[i]->add_logk[j].name);
 		}
 		//next_elt
 		phase_ptr->next_elt = NULL;
@@ -2113,10 +2061,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	/*
 	*   Hash definitions
 	*/
-	// auto strings_map;
-#ifdef HASH
-	// auto strings_hash;
-#endif
 	/*
 	elements_hash_table     = NULL;
 	species_hash_table      = NULL;
