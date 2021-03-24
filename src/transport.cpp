@@ -2806,11 +2806,11 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		}
 		cell_data[i + 1].potV = cell_data[i].potV + dVc;
 	}
-	if (!dV_dcell || fix_current)
-	{
-		dVc = current_cells[i].R * (current_x - current_cells[i].dif);
-		cell_data[i + 1].potV = cell_data[i].potV + dVc;
-	}
+	//if (!dV_dcell || fix_current)
+	//{
+	//	dVc = current_cells[i].R * (current_x - current_cells[i].dif);
+	//	cell_data[i + 1].potV = cell_data[i].potV + dVc;
+	//}
 
 	for (cp = 0; cp < comp; cp++)
 	{
