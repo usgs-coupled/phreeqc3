@@ -2360,7 +2360,7 @@ print_user_print(void)
 
 	if (pr.user_print == FALSE || pr.all == FALSE)
 		return (OK);
-	if (user_print->commands == NULL)
+	if (user_print->commands.size() == 0)
 		return (OK);
 	kinetics_ptr = NULL;
 	if (use.Get_kinetics_in() == TRUE)
@@ -2380,7 +2380,7 @@ print_user_print(void)
 	{
 		/*      basic_renumber(user_print->commands, &user_print->linebase, &user_print->varbase, &user_print->loopbase); */
 		if (basic_compile
-			(user_print->commands, &user_print->linebase,
+			(user_print->commands.c_str(), &user_print->linebase,
 			 &user_print->varbase, &user_print->loopbase) != 0)
 		{
 			error_msg("Fatal Basic error in USER_PRINT.", STOP);
@@ -3345,12 +3345,12 @@ punch_user_punch(void)
 
 	struct rate * user_punch = current_user_punch->Get_rate();
 
-	if (user_punch->commands == NULL)
+	if (user_punch->commands.c_str() == 0)
 		return (OK);
 	if (user_punch->new_def == TRUE)
 	{
 		if (basic_compile
-			(user_punch->commands, &user_punch->linebase,
+			(user_punch->commands.c_str(), &user_punch->linebase,
 			 &user_punch->varbase, &user_punch->loopbase) != 0)
 		{
 			error_msg("Fatal Basic error in USER_PUNCH.", STOP);

@@ -161,7 +161,7 @@ read_calculate_values(void)
  *
  */
 	char *ptr;
-	int l, length, line_length;
+	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct calculate_value *calculate_value_ptr;
@@ -226,35 +226,28 @@ read_calculate_values(void)
 			}
 			calculate_value_ptr = calculate_value_store(token, TRUE);
 			calculate_value_ptr->new_def = TRUE;
-			calculate_value_ptr->commands =
-				(char *) PHRQ_malloc(sizeof(char));
-			if (calculate_value_ptr->commands == NULL)
-			{
-				malloc_error();
-			}
-			else
-			{
-				calculate_value_ptr->commands[0] = '\0';
-				calculate_value_ptr->linebase = NULL;
-				calculate_value_ptr->varbase = NULL;
-				calculate_value_ptr->loopbase = NULL;
-			}
+			calculate_value_ptr->commands.clear();
+			calculate_value_ptr->linebase = NULL;
+			calculate_value_ptr->varbase = NULL;
+			calculate_value_ptr->loopbase = NULL;
 			opt_save = OPT_1;
 			break;
 
 		case OPT_1:			/* read command */
 			if (calculate_value_ptr)
 			{
-			length = (int) strlen(calculate_value_ptr->commands);
-			line_length = (int) strlen(line);
-			calculate_value_ptr->commands = (char *)PHRQ_realloc(calculate_value_ptr->commands,
-				((size_t)length + (size_t)line_length + 2) * sizeof(char));
-			if (calculate_value_ptr->commands == NULL)
-				malloc_error();
-			calculate_value_ptr->commands[length] = ';';
-			calculate_value_ptr->commands[length + 1] = '\0';
-			strcat((calculate_value_ptr->commands), line);
-			opt_save = OPT_1;
+				//length = (int) strlen(calculate_value_ptr->commands);
+				//line_length = (int) strlen(line);
+				//calculate_value_ptr->commands = (char *)PHRQ_realloc(calculate_value_ptr->commands,
+				//	((size_t)length + (size_t)line_length + 2) * sizeof(char));
+				//if (calculate_value_ptr->commands == NULL)
+				//	malloc_error();
+				calculate_value_ptr->commands.append(";\0");
+				calculate_value_ptr->commands.append(line);
+				//calculate_value_ptr->commands[length] = ';';
+				//calculate_value_ptr->commands[length + 1] = '\0';
+				//strcat((calculate_value_ptr->commands), line);
+				opt_save = OPT_1;
 			}
 			else
 			{				
@@ -913,7 +906,7 @@ punch_calculate_values(void)
 			if (calculate_value_ptr->new_def == TRUE)
 			{
 				if (basic_compile
-					(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+					(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 					&calculate_value_ptr->varbase,
 					&calculate_value_ptr->loopbase) != 0)
 				{
@@ -1146,7 +1139,7 @@ calculate_values(void)
 				if (calculate_value_ptr->new_def == TRUE)
 				{
 					if (basic_compile
-						(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+						(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 						&calculate_value_ptr->varbase,
 						&calculate_value_ptr->loopbase) != 0)
 					{
@@ -1213,7 +1206,7 @@ calculate_values(void)
 				if (calculate_value_ptr->new_def == TRUE)
 				{
 					if (basic_compile
-						(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+						(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 						&calculate_value_ptr->varbase,
 						&calculate_value_ptr->loopbase) != 0)
 					{
@@ -1532,7 +1525,7 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 	{
 		calculate_value_ptr->name = NULL;
 		calculate_value_ptr->value = 0.0;
-		calculate_value_ptr->commands = NULL;
+		calculate_value_ptr->commands.clear();
 		calculate_value_ptr->new_def = TRUE;
 		calculate_value_ptr->calculated = FALSE;
 		calculate_value_ptr->linebase = NULL;
@@ -1583,8 +1576,7 @@ calculate_value_free(struct calculate_value *calculate_value_ptr)
 
 	if (calculate_value_ptr == NULL)
 		return (ERROR);
-	calculate_value_ptr->commands =
-		(char *) free_check_null(calculate_value_ptr->commands);
+	calculate_value_ptr->commands.clear();
 	basic_run(cmd, calculate_value_ptr->linebase,
 			  calculate_value_ptr->varbase, calculate_value_ptr->loopbase);
 	calculate_value_ptr->linebase = NULL;

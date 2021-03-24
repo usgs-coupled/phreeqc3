@@ -826,7 +826,7 @@ struct prints
 struct rate
 {
 	const char *name;
-	char *commands;
+	std::string commands;
 	int new_def;
 	void *linebase;
 	void *varbase;
@@ -884,7 +884,7 @@ struct calculate_value
 {
 	const char *name;
 	LDBLE value;
-	char *commands;
+	std::string commands;
 	int new_def;
 	int calculated;
 	void *linebase;

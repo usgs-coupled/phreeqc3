@@ -1854,7 +1854,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		size_t count_rates = rates.size();
 		rates.resize(count_rates + 1);
 		rates[i].name = string_hsave(pSrc->rates[i].name);
-		rates[i].commands = string_duplicate(pSrc->rates[i].commands);
+		rates[i].commands = pSrc->rates[i].commands;
 		rates[i].new_def = TRUE;
 		rates[i].linebase = NULL;
 		rates[i].varbase = NULL;
@@ -1869,11 +1869,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*/
 	{
 		user_print->name = NULL;
-		user_print->commands = NULL;
-		if (pSrc->user_print->commands != NULL)
-		{
-			user_print->commands = string_duplicate(pSrc->user_print->commands); 
-		}
+		user_print->commands = pSrc->user_print->commands;
 		user_print->new_def = TRUE;
 		user_print->linebase = NULL;
 		user_print->varbase = NULL;
@@ -2049,10 +2045,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	{
 		struct calculate_value* calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
 		calculate_value_ptr->value = pSrc->calculate_value[i]->value;
-		if (pSrc->calculate_value[i]->commands)
-		{
-			calculate_value_ptr->commands = string_duplicate(pSrc->calculate_value[i]->commands);
-		}
+		calculate_value[i]->commands = pSrc->calculate_value[i]->commands;
 	}
 
 	for (int i = 0; i < (int)pSrc->isotope_ratio.size(); i++)

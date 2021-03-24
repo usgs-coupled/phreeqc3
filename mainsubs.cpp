@@ -60,10 +60,8 @@ initialize(void)
 	stag_data->th_im = 0;
 
 	// user_print
-	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
-	if (user_print == NULL)
-		malloc_error();
-	user_print->commands = NULL;
+	user_print = new struct rate;
+	user_print->commands.clear();
 	user_print->linebase = NULL;
 	user_print->varbase = NULL;
 	user_print->loopbase = NULL;

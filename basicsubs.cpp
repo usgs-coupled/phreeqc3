@@ -1486,7 +1486,7 @@ get_calculate_value(const char *name)
 	if (calculate_value_ptr->new_def == TRUE)
 	{
 		if (interp.basic_compile
-			(calculate_value_ptr->commands, 
+			(calculate_value_ptr->commands.c_str(), 
 			&calculate_value_ptr->linebase,
 			&calculate_value_ptr->varbase,
 			&calculate_value_ptr->loopbase) != 0)
@@ -3986,7 +3986,7 @@ iso_unit(const char *total_name)
 }
 
 int Phreeqc::
-basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
+basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase)
 {
 	return this->basic_interpreter->basic_compile(commands, lnbase, vbase, lpbase);
 }
