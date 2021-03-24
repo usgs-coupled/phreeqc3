@@ -5001,7 +5001,7 @@ surface_model(void)
  */
 	debug_diffuse_layer_save = debug_diffuse_layer;
 	debug_model_save = debug_model;
-	if (last_model.force_prep == TRUE)
+	if (last_model.force_prep)
 	{
 		same_model = FALSE;
 	}

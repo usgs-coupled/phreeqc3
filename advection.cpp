@@ -60,7 +60,7 @@ advection(void)
 /*
  *   Equilibrate solutions with phases, exchangers, surfaces
  */
-	last_model.force_prep = TRUE;
+	last_model.force_prep = true;
 	rate_sim_time_start = 0;
 	for (advection_step = 1; advection_step <= count_ad_shifts;
 		 advection_step++)

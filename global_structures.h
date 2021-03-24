@@ -193,37 +193,33 @@ typedef struct PHRQMemHeader
 
 struct model
 {
-	int force_prep;
-	LDBLE temperature;
-	int count_exchange;
-	struct master **exchange;
+	bool force_prep;
+	//LDBLE temperaturex;        // not used
+	//LDBLE pressure;            // not used
 
-	int count_kinetics;
-	struct kinetics *kinetics;
+	//int count_exchange;
+	//struct master **exchange;  // not used
 
-	int count_gas_phase;
+	//int count_kinetics;
+	//struct kinetics *kinetics; // not used
+
+	bool numerical_fixed_volume;
 	cxxGasPhase::GP_TYPE gas_phase_type;
-	struct phase **gas_phase;
+	std::vector<struct phase*> gas_phase;
 
-	int count_ss_assemblage;
-	const char **ss_assemblage;
+	std::vector<const char*> ss_assemblage;
 
-	int count_pp_assemblage;
-	struct phase **pp_assemblage;
-	const char **add_formula;
-	LDBLE *si;
+	std::vector<struct phase*> pp_assemblage;
+	std::vector<double> si;
+	std::vector<const char*> add_formula;
 
 	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
 	cxxSurface::SURFACE_TYPE surface_type;
-	int only_counter_ions;
+	//bool only_counter_ions;    // not used
 
-	LDBLE thickness;
-	int count_surface_comp;
-	const char **surface_comp;
-	int count_surface_charge;
-	const char **surface_charge;
-	LDBLE pressure;
-	bool numerical_fixed_volume;
+	//LDBLE thickness;           // not used
+	std::vector<const char*> surface_comp;
+	std::vector<const char*> surface_charge;
 };
 
 struct name_master
