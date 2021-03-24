@@ -88,7 +88,7 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 			if (rate_ptr->new_def == TRUE)
 			{
 				if (basic_compile
-					(rates[j].commands, &rates[j].linebase, &rates[j].varbase,
+					(rates[j].commands.c_str(), &rates[j].linebase, &rates[j].varbase,
 					 &rates[j].loopbase) != 0)
 				{
 					error_string = sformatf( "Fatal Basic error in rate %s.",

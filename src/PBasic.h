@@ -473,11 +473,11 @@ public:
 	void cmddim(struct LOC_exec *LINK);
 	void cmderase(struct LOC_exec *LINK);
 	void cmdpoke(struct LOC_exec *LINK);
-	int basic_main(char *commands);
-	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
+	int basic_main(const char *commands);
+	int basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase);
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	int basic_init(void);
-	int sget_logical_line(char **ptr, int *l, char *return_line);
+	int sget_logical_line(const char **ptr, int *l, char *return_line);
 	long my_labs(long x);
 	void * my_memmove(void * d, Const void * s, size_t n);
 	void * my_memcpy(void * d, Const void * s, size_t n);

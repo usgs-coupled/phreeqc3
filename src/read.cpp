@@ -8305,7 +8305,7 @@ read_rates(void)
  *
  */
 	char *ptr;
-	int l, length, line_length, n;
+	int l, n;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct rate *rate_ptr;
@@ -8375,19 +8375,11 @@ read_rates(void)
 				rate_free(rate_ptr);
 			}
 			rate_ptr->new_def = TRUE;
-			rate_ptr->commands = (char *) PHRQ_malloc(sizeof(char));
-			if (rate_ptr->commands == NULL)
-			{
-				malloc_error();
-			}
-			else
-			{
-				rate_ptr->commands[0] = '\0';
-				rate_ptr->name = string_hsave(token);
-				rate_ptr->linebase = NULL;
-				rate_ptr->varbase = NULL;
-				rate_ptr->loopbase = NULL;
-			}
+			rate_ptr->commands.clear();
+			rate_ptr->name = string_hsave(token);
+			rate_ptr->linebase = NULL;
+			rate_ptr->varbase = NULL;
+			rate_ptr->loopbase = NULL;
 			opt_save = OPT_1;
 			break;
 		case OPT_1:			/* read command */
@@ -8399,20 +8391,8 @@ read_rates(void)
 				opt_save = OPT_1;
 				break;
 			}
-			length = (int) strlen(rate_ptr->commands);
-			line_length = (int) strlen(line);
-			rate_ptr->commands = (char *) PHRQ_realloc(rate_ptr->commands,
-				((size_t)length + (size_t)line_length + 2) * sizeof(char));
-			if (rate_ptr->commands == NULL)
-			{
-				malloc_error();
-			}
-			else
-			{
-				rate_ptr->commands[length] = ';';
-				rate_ptr->commands[length + 1] = '\0';
-				strcat((rate_ptr->commands), line);
-			}
+			rate_ptr->commands.append(";\0");
+			rate_ptr->commands.append(line);
 			opt_save = OPT_1;
 			break;
 		}
@@ -8443,7 +8423,6 @@ read_user_print(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	int length, line_length;
 	int return_value, opt, opt_save;
 	char *next_char;
 	const char *opt_list[] = {
@@ -8486,25 +8465,15 @@ read_user_print(void)
 		case OPTION_DEFAULT:	/* read first command */
 			rate_free(user_print);
 			user_print->new_def = TRUE;
-			user_print->commands = (char *) PHRQ_malloc(sizeof(char));
-			if (user_print->commands == NULL)
-				malloc_error();
-			user_print->commands[0] = '\0';
+			user_print->commands.clear();
 			user_print->linebase = NULL;
 			user_print->varbase = NULL;
 			user_print->loopbase = NULL;
 			user_print->name =
 				string_hsave("user defined Basic print routine");
 		case OPT_1:			/* read command */
-			length = (int) strlen(user_print->commands);
-			line_length = (int) strlen(line);
-			user_print->commands = (char *) PHRQ_realloc(user_print->commands,
-				((size_t)length + (size_t)line_length + 2) * sizeof(char));
-			if (user_print->commands == NULL)
-				malloc_error();
-			user_print->commands[length] = ';';
-			user_print->commands[length + 1] = '\0';
-			strcat((user_print->commands), line);
+			user_print->commands.append(";\0");
+			user_print->commands.append(line);
 			opt_save = OPT_1;
 			break;
 		}
@@ -8532,7 +8501,6 @@ read_user_punch(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	int length, line_length;
 	int return_value, opt, opt_save;
 	std::string stdtoken;
 	char *next_char;
@@ -8568,9 +8536,8 @@ read_user_punch(void)
 	//}
 	
 	// Malloc rate structure
-	struct rate *r = (struct rate *) PHRQ_malloc(sizeof(struct rate));
-	if (r == NULL) malloc_error();
-	r->commands = NULL;
+	struct rate* r = new struct rate;
+	r->commands.clear();
 	r->new_def = TRUE;
 	r->linebase = NULL;
 	r->varbase = NULL;
@@ -8613,11 +8580,9 @@ read_user_punch(void)
 			}
 			break;
 		case OPTION_DEFAULT:	/* read first command */
-			{
-				r->commands = (char *) PHRQ_malloc(sizeof(char));
-				if (r->commands == NULL) malloc_error();
-				else r->commands[0] = '\0';
-			}
+		{
+			r->commands.clear();
+		}
 			//rate_free(user_punch);
 			//user_punch->new_def = TRUE;
 			//user_punch->commands = (char *) PHRQ_malloc(sizeof(char));
@@ -8630,31 +8595,8 @@ read_user_punch(void)
 			//user_punch->name =
 			//	string_hsave("user defined Basic punch routine");
 		case OPT_1:			/* read command */
-			length = (int) strlen(r->commands);
-			line_length = (int) strlen(line);
-			r->commands = (char *) PHRQ_realloc(r->commands,
-				((size_t)length + (size_t)line_length + 2) * sizeof(char));
-			if (r->commands == NULL)
-			{
-				malloc_error();
-			}
-			else
-			{
-				r->commands[length] = ';';
-				r->commands[length + 1] = '\0';
-				strcat((r->commands), line);
-			}
-			//length = (int) strlen(user_punch->commands);
-			//line_length = (int) strlen(line);
-			//user_punch->commands =
-			//	(char *) PHRQ_realloc(user_punch->commands,
-			//						  (size_t) (length + line_length +
-			//									2) * sizeof(char));
-			//if (user_punch->commands == NULL)
-			//	malloc_error();
-			//user_punch->commands[length] = ';';
-			//user_punch->commands[length + 1] = '\0';
-			//strcat((user_punch->commands), line);
+			r->commands.append(";\0");
+			r->commands.append(line);
 			opt_save = OPT_1;
 			break;
 		}

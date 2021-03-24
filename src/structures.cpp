@@ -166,7 +166,7 @@ clean_up(void)
 	/*  user_print and user_punch */
 	UserPunch_map.clear();
 	rate_free(user_print);
-	user_print = (struct rate*)free_check_null(user_print);
+	delete user_print;
 	/*
 	   Clear llnl aqueous model parameters
 	 */
@@ -1421,7 +1421,7 @@ rate_free(struct rate *rate_ptr)
 
 	if (rate_ptr == NULL)
 		return (ERROR);
-	rate_ptr->commands = (char *) free_check_null(rate_ptr->commands);
+	rate_ptr->commands.clear();
 	if (rate_ptr->linebase != NULL)
 	{
 		char cmd[] = "new; quit";
@@ -1445,7 +1445,7 @@ rate_copy(struct rate *rate_ptr)
 		return (NULL);
 	struct rate * rate_new = (struct rate *) PHRQ_malloc(sizeof(struct rate));
 	if (rate_new == NULL) malloc_error();
-	rate_new->commands = string_duplicate(rate_ptr->commands);
+	rate_new->commands = rate_ptr->commands;
 	rate_new->new_def = TRUE;
 	rate_new->linebase = NULL;
 	rate_new->varbase = NULL;

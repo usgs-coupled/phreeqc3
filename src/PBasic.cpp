@@ -74,10 +74,10 @@ PBasic::~PBasic(void)
 }
 
 int PBasic::
-basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
+basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -164,7 +164,7 @@ int PBasic::
 basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l, i;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -245,7 +245,7 @@ int PBasic::
 basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 	P_escapecode = 0;
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
@@ -317,10 +317,10 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 }
 
 int PBasic::
-basic_main(char *commands)
+basic_main(const char *commands)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -379,7 +379,7 @@ basic_main(char *commands)
 
 /* ---------------------------------------------------------------------- */
 int PBasic::
-sget_logical_line(char **ptr, int *l, char *return_line)
+sget_logical_line(const char **ptr, int *l, char *return_line)
 /* ---------------------------------------------------------------------- */
 {
 /*

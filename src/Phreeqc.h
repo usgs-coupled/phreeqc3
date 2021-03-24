@@ -81,7 +81,7 @@ public:
 	int advection(void);
 
 	// basicsubs.cpp -------------------------------
-	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
+	int basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase);
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	void basic_free(void);
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
