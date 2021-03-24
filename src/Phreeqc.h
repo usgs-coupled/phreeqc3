@@ -1775,11 +1775,8 @@ public:
 	cxxSSassemblage *cvode_ss_assemblage_save;
 	cxxPPassemblage *cvode_pp_assemblage_save;
 protected:
-	LDBLE *m_original;
-	LDBLE *m_temp;
-	LDBLE *rk_moles;
+	std::vector<double> m_temp, m_original, rk_moles, x0_moles;
 	int set_and_run_attempt;
-	LDBLE *x0_moles;
 
 	/* model.cpp ------------------------------- */
 	int gas_in;

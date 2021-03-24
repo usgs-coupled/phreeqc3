@@ -127,10 +127,10 @@ clean_up(void)
 	Rxn_gas_phase_map.clear();
 	/* kinetics */
 	Rxn_kinetics_map.clear();
-	x0_moles = (LDBLE*)free_check_null(x0_moles);
-	m_temp = (LDBLE*)free_check_null(m_temp);
-	m_original = (LDBLE*)free_check_null(m_original);
-	rk_moles = (LDBLE*)free_check_null(rk_moles);
+	x0_moles.clear();
+	m_temp.clear();
+	m_original.clear();
+	rk_moles.clear();
 	/* rates */
 	for (j = 0; j < (int)rates.size(); j++)
 	{
