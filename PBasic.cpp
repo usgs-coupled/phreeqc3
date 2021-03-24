@@ -723,7 +723,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
  * Note: Modification of string length may translate incorrectly [146] */
 
 /*
- *   Search hash list
+ *   Search list
  */
 					PhreeqcPtr->str_tolower(token);
 					std::map<const std::string, BASIC_TOKEN>::const_iterator item;
@@ -2267,7 +2267,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokdh_a:
 	{
-		if (PhreeqcPtr->llnl_count_temp > 0)
+		if (PhreeqcPtr->llnl_temp.size() > 0)
 		{
 			n.UU.val = PhreeqcPtr->a_llnl;
 		}
@@ -2293,7 +2293,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokdh_b:
 	{
-		if (PhreeqcPtr->llnl_count_temp > 0)
+		if (PhreeqcPtr->llnl_temp.size() > 0)
 		{
 			n.UU.val = PhreeqcPtr->b_llnl;
 		}

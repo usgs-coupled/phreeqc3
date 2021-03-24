@@ -163,7 +163,7 @@ calc_rho_0(LDBLE tc, LDBLE pa)
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
     */
-	if (llnl_count_temp > 0) return OK;
+	if (llnl_temp.size() > 0) return OK;
 	if (tc > 350.)
 	{
 		if (need_temp_msg < 1)
@@ -223,7 +223,7 @@ calc_dielectrics(LDBLE tc, LDBLE pa)
 	              and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
 	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
     */
-	if (llnl_count_temp > 0) return OK;
+	if (llnl_temp.size() > 0) return OK;
 	if (tc > 350.)
 	{
 		tc = 350.;
@@ -1449,40 +1449,7 @@ status(int count, const char *str, bool rk_string)
 	return (OK);
 }
 #endif /*PHREEQCI_GUI */
-/*
-** Dynamic hashing, after CACM April 1988 pp 446-457, by Per-Ake Larson.
-** Coded into C, with minor code improvements, and with hsearch(3) interface,
-** by ejp@ausmelb.oz, Jul 26, 1988: 13:16;
-** also, hcreate/hdestroy routines added to simulate hsearch(3).
-**
-** These routines simulate hsearch(3) and family, with the important
-** difference that the hash table is dynamic - can grow indefinitely
-** beyond its original size (as supplied to hcreate()).
-**
-** Performance appears to be comparable to that of hsearch(3).
-** The 'source-code' options referred to in hsearch(3)'s 'man' page
-** are not implemented; otherwise functionality is identical.
-**
-** Compilation controls:
-** DEBUG controls some informative traces, mainly for debugging.
-** HASH_STATISTICS causes HashAccesses and HashCollisions to be maintained;
-** when combined with DEBUG, these are displayed by hdestroy().
-**
-** Problems & fixes to ejp@ausmelb.oz. WARNING: relies on pre-processor
-** concatenation property, in probably unnecessary code 'optimisation'.
-** Esmond Pitt, Austec (Asia/Pacific) Ltd
-** ...!uunet.UU.NET!munnari!ausmelb!ejp,ejp@ausmelb.oz
-*/
-
 # include	<assert.h>
-
-/*
-** Fast arithmetic, relying on powers of 2,
-** and on pre-processor concatenation property
-*/
-
-/* rewrote to remove MUL and DIV */
-//# define MOD(x,y)		((x) & ((y)-1))
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

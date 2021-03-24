@@ -53,7 +53,7 @@ model(void)
 	  input_error++;
 	  error_msg("Cannot use PITZER and SIT data blocks in same run (database + input file).", STOP);
 	}
-	if ((pitzer_model == TRUE || sit_model == TRUE) && llnl_count_temp >0)
+	if ((pitzer_model == TRUE || sit_model == TRUE) && llnl_temp.size() > 0)
 	{
 		input_error++;
 		error_msg("Cannot use LLNL_AQUEOUS_MODEL_PARAMETERS with PITZER or SIT data blocks in same run (database + input file).", STOP);
@@ -570,17 +570,17 @@ gammas(LDBLE mu)
 	/*
 	 *   LLNL temperature dependence
 	 */
-	if (llnl_count_temp > 0)
+	if (llnl_temp.size() > 0)
 	{
 		ifirst = 0;
-		ilast = llnl_count_temp;
-		if (tc_x < llnl_temp[0] || tc_x > llnl_temp[llnl_count_temp - 1])
+		ilast = (int)llnl_temp.size();
+		if (tc_x < llnl_temp[0] || tc_x > llnl_temp[llnl_temp.size() - 1])
 		{
 			error_msg
 				("Temperature out of range of LLNL_AQUEOUS_MODEL parameters",
 				 STOP);
 		}
-		for (i = 0; i < llnl_count_temp; i++)
+		for (i = 0; i < (int)llnl_temp.size(); i++)
 		{
 			if (tc_x >= llnl_temp[i])
 				ifirst = i;
@@ -629,7 +629,7 @@ gammas(LDBLE mu)
 						  (2 * muhalf * (muhalf + 1.0) * (muhalf + 1.0)) -
 						  0.3);
 	c2 = -a / (2 * muhalf);
-	if (llnl_count_temp > 0)
+	if (llnl_temp.size() > 0)
 	{
 		c2_llnl = -a_llnl / (2 * muhalf);
 	}
@@ -725,7 +725,7 @@ gammas(LDBLE mu)
 				}
 				else if (s_x[i]->exch_gflag == 7 && s_x[i]->alk > 0)
 				{
-					if (llnl_count_temp > 0)
+					if (llnl_temp.size() > 0)
 					{
 						s_x[i]->lg =
 							coef * (-a_llnl * muhalf * z * z /
@@ -805,7 +805,7 @@ gammas(LDBLE mu)
 			}
 			break;
 		case 7:				/* LLNL */
-			if (llnl_count_temp > 0)
+			if (llnl_temp.size() > 0)
 			{
 				if (s_x[i]->z == 0)
 				{
@@ -834,7 +834,7 @@ gammas(LDBLE mu)
 			}
 			break;
 		case 8:				/* LLNL CO2 */
-			if (llnl_count_temp > 0)
+			if (llnl_temp.size() > 0)
 			{
 				s_x[i]->lg = log_g_co2;
 				s_x[i]->dg = dln_g_co2 * s_x[i]->moles;
@@ -2690,7 +2690,7 @@ calc_gas_pressures(void)
 		 * Fixed-volume gas phase reacting with a solution
 		 * Change pressure used in logK to pressure of gas phase
 		 */
-		if (gas_phase_ptr->Get_total_p() > MAX_P_NONLLNL && llnl_count_temp <= 0)
+		if (gas_phase_ptr->Get_total_p() > MAX_P_NONLLNL && llnl_temp.size() == 0)
 		{
 			gas_phase_ptr->Set_total_moles(0);
 			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
@@ -3686,7 +3686,7 @@ reset(void)
 				//{
 				//	patm_x = ( 1 * patm_x + p_sat) / 2.0;
 				//}
-				if (llnl_count_temp <= 0)
+				if (llnl_temp.size() == 0)
 				{
 					if (patm_x > MAX_P_NONLLNL)
 						patm_x = MAX_P_NONLLNL;

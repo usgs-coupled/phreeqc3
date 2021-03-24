@@ -722,7 +722,7 @@ dh_bdot(const char* name)
 	char token[MAX_LENGTH];
 	struct species* s_ptr;
 	double b = -999.99;
-	if (llnl_count_temp > 0)
+	if (llnl_temp.size() > 0)
 	{
 		b = bdot_llnl;
 	}

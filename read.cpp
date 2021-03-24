@@ -9243,25 +9243,22 @@ int Phreeqc::
 read_llnl_aqueous_model_parameters(void)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *      Reads aqueous model parameters
- *
- *      Arguments:
- *	 none
- *
- *      Returns:
- *	 KEYWORD if keyword encountered, input_error may be incremented if
- *		    a keyword is encountered in an unexpected position
- *	 EOF     if eof encountered while reading mass balance concentrations
- *	 ERROR   if error occurred reading data
- *
- */
-	int i, count_alloc;
-	char token[MAX_LENGTH];
-
+	/*
+	 *      Reads aqueous model parameters
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
 	int return_value, opt;
-	char *next_char;
-	const char *opt_list[] = {
+	char* next_char;
+	const char* opt_list[] = {
 		"temperatures",			/* 0 */
 		"temperature",			/* 1 */
 		"temp",					/* 2 */
@@ -9277,21 +9274,23 @@ read_llnl_aqueous_model_parameters(void)
 		"co2_coefs"				/* 12 */
 	};
 	int count_opt_list = 13;
-/*
- *   Initialize
- */
-/*
- *   Read aqueous model parameters
- */
+	/*
+	 *   Initialize
+	 */
+	 /*
+	  *   Read aqueous model parameters
+	  */
 	return_value = UNKNOWN;
-	opt = get_option(opt_list, count_opt_list, &next_char);
+	int opt_save = OPTION_DEFAULT;
+	opt_save = OPTION_DEFAULT;
 	for (;;)
 	{
-		next_char = line;
-		if (opt >= 0)
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_DEFAULT)
 		{
-			copy_token(token, &next_char, &i);
+			opt = opt_save;
 		}
+		opt_save = OPTION_DEFAULT;
 		switch (opt)
 		{
 		case OPTION_EOF:		/* end of file */
@@ -9304,230 +9303,103 @@ read_llnl_aqueous_model_parameters(void)
 		case OPTION_ERROR:
 			input_error++;
 			error_msg
-				("Unknown input in LLNL_AQUEOUS_MODEL_PARAMETERS keyword.",
-				 CONTINUE);
+			("Unknown input in LLNL_AQUEOUS_MODEL_PARAMETERS keyword.",
+				CONTINUE);
 			error_msg(line_save, CONTINUE);
 			break;
-
-/*
- * New component
- */
 		case 0:				/* temperatures */
 		case 1:				/* temperature */
 		case 2:				/* temp */
-			count_alloc = 1;
-			llnl_count_temp = 0;
-			i = read_lines_doubles(next_char, &(llnl_temp),
-								   &(llnl_count_temp), &(count_alloc),
-								   opt_list, count_opt_list, &opt);
-			/*
-			   ptr = next_char;
-			   llnl_temp = read_list_doubles(&ptr, &count);
-			   llnl_count_temp = count;
-			 */
-			break;
+		{
+			std::istringstream iss(next_char);
+			while (iss >> dummy)
+			{
+				llnl_temp.push_back(dummy);
+			}
+			opt_save = 2;
+		}
+		break;
 		case 3:				/* adh */
 		case 4:				/* debye_huckel_a */
 		case 5:				/* dh_a */
-			count_alloc = 1;
-			llnl_count_adh = 0;
-			i = read_lines_doubles(next_char, &(llnl_adh), &(llnl_count_adh),
-								   &(count_alloc), opt_list, count_opt_list,
-								   &opt);
-			/*
-			   ptr = next_char;
-			   llnl_adh = read_list_doubles(&ptr, &count);
-			   llnl_count_adh = count;
-			 */
-			break;
+		{
+			std::istringstream iss(next_char);
+			while (iss >> dummy)
+			{
+				llnl_adh.push_back(dummy);
+			}
+			opt_save = 5;
+		}
+		break;
 		case 6:				/* bdh */
 		case 7:				/* debye_huckel_b */
 		case 8:				/* dh_b */
-			count_alloc = 1;
-			llnl_count_bdh = 0;
-			i = read_lines_doubles(next_char, &(llnl_bdh), &(llnl_count_bdh),
-								   &(count_alloc), opt_list, count_opt_list,
-								   &opt);
-			/*
-			   ptr = next_char;
-			   llnl_bdh = read_list_doubles(&ptr, &count);
-			   llnl_count_bdh = count;
-			 */
-			break;
+		{
+			std::istringstream iss(next_char);
+			while (iss >> dummy)
+			{
+				llnl_bdh.push_back(dummy);
+			}
+			opt_save = 8;
+		}
+		break;
 		case 9:				/* bdot */
 		case 10:				/* b_dot */
-			count_alloc = 1;
-			llnl_count_bdot = 0;
-			i = read_lines_doubles(next_char, &(llnl_bdot),
-								   &(llnl_count_bdot), &(count_alloc),
-								   opt_list, count_opt_list, &opt);
-			/*
-			   ptr = next_char;
-			   llnl_bdot = read_list_doubles(&ptr, &count);
-			   llnl_count_bdot = count;
-			 */
-			break;
+		{
+			std::istringstream iss(next_char);
+			while (iss >> dummy)
+			{
+				llnl_bdot.push_back(dummy);
+			}
+			opt_save = 10;
+		}
+		break;
 		case 11:				/* c_co2 */
 		case 12:				/* co2_coefs */
-			count_alloc = 1;
-			llnl_count_co2_coefs = 0;
-			i = read_lines_doubles(next_char, &(llnl_co2_coefs),
-								   &(llnl_count_co2_coefs), &(count_alloc),
-								   opt_list, count_opt_list, &opt);
-			/*
-			   ptr = next_char;
-			   llnl_co2_coefs = read_list_doubles(&ptr, &count);
-			   llnl_count_co2_coefs = count;
-			 */
-			break;
+		{
+			std::istringstream iss(next_char);
+			while (iss >> dummy)
+			{
+				llnl_co2_coefs.push_back(dummy);
+			}
+			opt_save = 12;
+		}
+		break;
 		}
 		return_value = check_line_return;
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
 	}
 	/* check consistency */
-	if ((llnl_count_temp <= 0) ||
-		(llnl_count_temp != llnl_count_adh) ||
-		(llnl_count_temp != llnl_count_bdh) ||
-		(llnl_count_temp != llnl_count_bdot))
+	if ((llnl_temp.size() == 0) ||
+		(llnl_temp.size() != llnl_adh.size()) ||
+		(llnl_temp.size() != llnl_bdh.size()) ||
+		(llnl_temp.size() != llnl_bdot.size()))
 	{
 		error_msg
-			("Must define equal number (>0) of temperatures, dh_a, dh_b, and bdot parameters\nin LLNL_AQUEOUS_MODEL",
-			 CONTINUE);
+		("Must define equal number (>0) of temperatures, dh_a, dh_b, and bdot parameters\nin LLNL_AQUEOUS_MODEL",
+			CONTINUE);
 		input_error++;
 	}
-	if (llnl_count_co2_coefs != 5)
+	if (llnl_co2_coefs.size() != 5)
 	{
 		error_msg
-			("Must define 5 CO2 activity coefficient parameters in LLNL_AQUEOUS_MODEL",
-			 CONTINUE);
+		("Must define 5 CO2 activity coefficient parameters in LLNL_AQUEOUS_MODEL",
+			CONTINUE);
 		input_error++;
 	}
-	for (i = 1; i < llnl_count_temp; i++)
+	for (size_t i = 1; i < llnl_temp.size(); i++)
 	{
 		if (llnl_temp[i - 1] > llnl_temp[i])
 		{
 			error_msg
-				("Temperatures must be in ascending order in LLNL_AQUEOUS_MODEL",
-				 CONTINUE);
+			("Temperatures must be in ascending order in LLNL_AQUEOUS_MODEL",
+				CONTINUE);
 			input_error++;
 		}
 	}
 
 	return (return_value);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_lines_doubles(char *next_char, LDBLE ** d, int *count_d,
-				   int *count_alloc, const char **opt_list,
-				   int count_opt_list, int *opt)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Reads LDBLEs on line starting at next_char
- *      and on succeeding lines. Appends to d.
- *      Stops at KEYWORD, OPTION, and EOF
- *
- *      Input Arguments:
- *	 next_char    points to line to read from
- *	 d	    points to array of LDBLEs, must be malloced
- *	 count_d      number of elements in array
- *	 count_alloc  number of elements malloced
- *
- *      Output Arguments:
- *	 d	    points to array of LDBLEs, may have been
- *			  realloced
- *	 count_d      updated number of elements in array
- *	 count_alloc  updated of elements malloced
- *
- *      Returns:
- *	 KEYWORD
- *	 OPTION
- *	 EOF
- *	 ERROR if any errors reading LDBLEs
- */
-
-	if (read_line_doubles(next_char, d, count_d, count_alloc) == ERROR)
-	{
-		return (ERROR);
-	}
-	for (;;)
-	{
-		*opt = get_option(opt_list, count_opt_list, &next_char);
-		if (*opt == OPTION_KEYWORD || *opt == OPTION_EOF
-			|| *opt == OPTION_ERROR)
-		{
-			break;
-		}
-		else if (*opt >= 0)
-		{
-			break;
-		}
-		next_char = line;
-		if (read_line_doubles(next_char, d, count_d, count_alloc) == ERROR)
-		{
-			return (ERROR);
-		}
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-read_line_doubles(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
-/* ---------------------------------------------------------------------- */
-{
-	int i, j, l, n;
-	LDBLE value;
-	char token[MAX_LENGTH];
-
-	for (;;)
-	{
-		j = copy_token(token, &next_char, &l);
-		if (j == EMPTY)
-		{
-			break;
-		}
-		if (j != DIGIT)
-		{
-			return (ERROR);
-		}
-		if (replace("*", " ", token) == TRUE)
-		{
-			if (sscanf(token, "%d" SCANFORMAT, &n, &value) != 2)
-			{
-				return (ERROR);
-			}
-		}
-		else
-		{
-			(void)sscanf(token, SCANFORMAT, &value);
-			n = 1;
-		}
-		for (;;)
-		{
-			if ((*count_d) + n > (*count_alloc))
-			{
-				*count_alloc *= 2;
-				*d = (LDBLE *) PHRQ_realloc(*d,
-											(size_t) (*count_alloc) *
-											sizeof(LDBLE));
-				if (*d == NULL)
-					malloc_error();
-			}
-			else
-			{
-				break;
-			}
-		}
-		for (i = 0; i < n; i++)
-		{
-			(*d)[(*count_d) + i] = value;
-		}
-		*count_d += n;
-	}
-	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
