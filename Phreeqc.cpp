@@ -1061,11 +1061,7 @@ void Phreeqc::init(void)
 	kinetics_cvode_mem      = NULL;
 	cvode_pp_assemblage_save= NULL;
 	cvode_ss_assemblage_save= NULL;
-	m_original              = NULL;
-	m_temp                  = NULL;
-	rk_moles                = NULL;
 	set_and_run_attempt     = 0;
-	x0_moles                = NULL;
 	/* model.cpp ------------------------------- */
 	gas_in                  = FALSE;
 	min_value               = 1e-10;

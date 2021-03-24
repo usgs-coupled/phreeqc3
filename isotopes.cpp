@@ -236,17 +236,8 @@ read_calculate_values(void)
 		case OPT_1:			/* read command */
 			if (calculate_value_ptr)
 			{
-				//length = (int) strlen(calculate_value_ptr->commands);
-				//line_length = (int) strlen(line);
-				//calculate_value_ptr->commands = (char *)PHRQ_realloc(calculate_value_ptr->commands,
-				//	((size_t)length + (size_t)line_length + 2) * sizeof(char));
-				//if (calculate_value_ptr->commands == NULL)
-				//	malloc_error();
 				calculate_value_ptr->commands.append(";\0");
 				calculate_value_ptr->commands.append(line);
-				//calculate_value_ptr->commands[length] = ';';
-				//calculate_value_ptr->commands[length + 1] = '\0';
-				//strcat((calculate_value_ptr->commands), line);
 				opt_save = OPT_1;
 			}
 			else
