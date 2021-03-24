@@ -1090,7 +1090,7 @@ void Phreeqc::init(void)
 	use_etheta				= TRUE;
 	OTEMP					= -100.;
 	OPRESS					= -100.;
-	A0                      = 0;	
+	A0                      = 0;
 	aphi                    = NULL;
 	spec                    = NULL;
 	cations                 = NULL;
@@ -1105,9 +1105,6 @@ void Phreeqc::init(void)
 	mcb0                    = NULL;
 	mcb1                    = NULL;
 	mcc0                    = NULL;
-	IPRSNT                  = NULL;
-	M                       = NULL;
-	LGAMMA                  = NULL;
 	for (int i = 0; i < 23; i++)
 	{
 		BK[i]				= 0.0;
@@ -2109,7 +2106,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*/
 	if (pSrc->aphi != NULL)
 	{
-		aphi = (struct pitz_param *) malloc(sizeof(struct pitz_param));
+		aphi = (struct pitz_param*)malloc(sizeof(struct pitz_param));
 		memcpy(aphi, pSrc->aphi, sizeof(struct pitz_param));
 	}
 	/*

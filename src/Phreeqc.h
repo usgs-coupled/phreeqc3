@@ -1801,13 +1801,13 @@ protected:
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
-	struct pitz_param *aphi;
+	struct pitz_param* aphi;
 	struct species **spec, **cations, **anions, **neutrals;
 	int count_cations, count_anions, count_neutrals;
 	int MAXCATIONS, FIRSTANION, MAXNEUTRAL;
 	struct pitz_param *mcb0, *mcb1, *mcc0;
-	int *IPRSNT;
-	LDBLE *M, *LGAMMA;
+	std::vector<int> IPRSNT;
+	std::vector<double> M, LGAMMA;
 	LDBLE BK[23], DK[23];
 
 	LDBLE dummy;

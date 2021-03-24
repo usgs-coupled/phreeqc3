@@ -78,22 +78,9 @@ pitzer_tidy(void)
 	/*
 	 *  allocate other arrays for Pitzer
 	 */
-	if (IPRSNT != NULL)
-		IPRSNT = (int *) free_check_null(IPRSNT);
-	IPRSNT = (int *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(int)));
-	if (IPRSNT == NULL)
-		malloc_error();
-	if (M != NULL)
-		M = (LDBLE *) free_check_null(M);
-	M = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
-	if (M == NULL)
-		malloc_error();
-	if (LGAMMA != NULL)
-		LGAMMA = (LDBLE *) free_check_null(LGAMMA);
-	LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
-	if (LGAMMA == NULL)
-		malloc_error();
-
+	IPRSNT.resize(3 * s.size());
+	M.resize(3 * s.size());
+	LGAMMA.resize(3 * s.size());
 
 	for (i = 0; i < (int)s.size(); i++)
 	{
@@ -1660,11 +1647,11 @@ pitzer_clean_up(void)
 			(struct theta_param *) free_check_null(theta_params[i]);
 	}
 	theta_params.clear();
-	LGAMMA = (LDBLE *) free_check_null(LGAMMA);
-	IPRSNT = (int *) free_check_null(IPRSNT);
+	LGAMMA.clear();
+	IPRSNT.clear();
 	spec = (struct species **) free_check_null(spec);
 	aphi = (struct pitz_param *) free_check_null(aphi);
-	M = (LDBLE *) free_check_null(M);
+	M.clear();
 
 	return OK;
 }
@@ -1959,7 +1946,7 @@ int Phreeqc::
 jacobian_pz(void)
 /* ---------------------------------------------------------------------- */
 { // calculate the derivatives numerically
-	LDBLE *base;
+	std::vector<double> base;
 	LDBLE d, d1, d2;
 	int i, j;
 
@@ -1973,9 +1960,7 @@ Restart:
 		pitzer();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-	if (base == NULL)
-		malloc_error();
+	base.resize(count_unknowns);
 	for (i = 0; i < count_unknowns; i++)
 	{
 		base[i] = residual[i];
@@ -2073,7 +2058,7 @@ Restart:
 		molalities(TRUE);
 		if (max_unknowns > pz_max_unknowns) 
 		{
-			base = (LDBLE *) free_check_null(base);
+			base.clear(); 
 			gammas_pz(false);
 			jacobian_sums();
 			goto Restart;
@@ -2144,7 +2129,7 @@ Restart:
 		pitzer();
 	mb_sums();
 	residuals();
-	free_check_null(base);
+	base.clear();
 	calculating_deriv = 0;
 	return OK;
 }
