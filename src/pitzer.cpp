@@ -56,15 +56,9 @@ pitzer_tidy(void)
 	/*
 	 *  allocate pointers to species structures
 	 */
-	if (spec != NULL)
-		spec = (struct species **) free_check_null(spec);
-	spec = (struct species **)
-		PHRQ_malloc((size_t) (3 * s.size() * sizeof(struct species *)));
-	if (spec == NULL)
-		malloc_error();
-	for (i = 0; i < 3 * (int)s.size(); i++)
-		spec[i] = NULL;
-	cations = spec;
+	spec.clear();
+	spec.resize(3 * s.size(), NULL);
+	cations = &spec[0];
 	neutrals = &(spec[s.size()]);
 	anions = &(spec[2 * s.size()]);
 	MAXCATIONS = (int)s.size();
@@ -1649,7 +1643,7 @@ pitzer_clean_up(void)
 	theta_params.clear();
 	LGAMMA.clear();
 	IPRSNT.clear();
-	spec = (struct species **) free_check_null(spec);
+	spec.clear();
 	aphi = (struct pitz_param *) free_check_null(aphi);
 	M.clear();
 

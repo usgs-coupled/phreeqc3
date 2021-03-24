@@ -1802,7 +1802,8 @@ protected:
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
 	struct pitz_param* aphi;
-	struct species **spec, **cations, **anions, **neutrals;
+	std::vector<struct species*> spec;
+	struct species ** cations, ** anions, ** neutrals; // pointers to spec
 	int count_cations, count_anions, count_neutrals;
 	int MAXCATIONS, FIRSTANION, MAXNEUTRAL;
 	struct pitz_param *mcb0, *mcb1, *mcc0;
@@ -1836,8 +1837,8 @@ protected:
 	LDBLE sit_A0;
 	int sit_count_cations, sit_count_anions, sit_count_neutrals;
 	int sit_MAXCATIONS, sit_FIRSTANION, sit_MAXNEUTRAL;
-	int *sit_IPRSNT;
-	LDBLE *sit_M, *sit_LGAMMA;
+	std::vector<int> sit_IPRSNT;
+	std::vector<double> sit_M, sit_LGAMMA;
 	std::vector<int> s_list, cation_list, neutral_list, anion_list, ion_list, param_list;
 
 	/* tidy.cpp ------------------------------- */

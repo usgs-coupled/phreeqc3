@@ -1092,7 +1092,6 @@ void Phreeqc::init(void)
 	OPRESS					= -100.;
 	A0                      = 0;
 	aphi                    = NULL;
-	spec                    = NULL;
 	cations                 = NULL;
 	anions                  = NULL;
 	neutrals                = NULL;
@@ -1137,9 +1136,6 @@ void Phreeqc::init(void)
 	sit_MAXCATIONS          = 0;
 	sit_FIRSTANION          = 0;
 	sit_MAXNEUTRAL          = 0;
-	sit_IPRSNT              = NULL;
-	sit_M                   = NULL;
-	sit_LGAMMA              = NULL;
 	/* tidy.cpp ------------------------------- */
 	a0                      = 0;
 	a1                      = 0;

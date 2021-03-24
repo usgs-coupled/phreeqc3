@@ -5814,9 +5814,8 @@ save_model(void)
 		}
 		/* charge */
 		last_model.count_surface_charge = (int) use.Get_surface_ptr()->Get_surface_charges().size();
-		last_model.surface_charge =
-			(const char **) PHRQ_malloc( use.Get_surface_ptr()->Get_surface_charges().size() *
-								  sizeof(char *));
+		last_model.surface_charge =(const char **) PHRQ_malloc( use.Get_surface_ptr()->Get_surface_charges().size() *
+				sizeof(char *));
 		if (last_model.surface_charge == NULL)
 			malloc_error();
 		for (i = 0; i < (int) use.Get_surface_ptr()->Get_surface_charges().size(); i++)
