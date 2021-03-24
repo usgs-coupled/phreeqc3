@@ -35,12 +35,10 @@ sit_tidy(void)
 	/*
 	 *  allocate pointers to species structures
 	 */
-	if (spec != NULL) spec = (struct species **) free_check_null(spec);
-	spec = (struct species **) PHRQ_malloc((size_t) (3 * s.size() * sizeof(struct species *)));
-	if (spec == NULL) malloc_error();
-	for (i = 0; i < 3 * (int)s.size(); i++) spec[i] = NULL;
+	spec.clear();
+	spec.resize(3 * s.size(), NULL);
 
-	cations = spec;
+	cations = &spec[0];
 	neutrals = &(spec[s.size()]);
 	anions = &(spec[2 * s.size()]);
 	sit_MAXCATIONS = (int)s.size();
@@ -53,16 +51,9 @@ sit_tidy(void)
 	/*
 	 *  allocate other arrays for SIT
 	 */
-	if (sit_IPRSNT != NULL) sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	sit_IPRSNT = (int *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(int)));
-	if (sit_IPRSNT == NULL) malloc_error();
-	if (sit_M != NULL) sit_M = (LDBLE *) free_check_null(sit_M);
-	sit_M = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
-	if (sit_M == NULL) malloc_error();
-	if (sit_LGAMMA != NULL) sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
-	if (sit_LGAMMA == NULL) malloc_error();
-
+	sit_IPRSNT.resize(3 * s.size());
+	sit_M.resize(3 * s.size());
+	sit_LGAMMA.resize(3 * s.size());
 
 	for (i = 0; i < (int)s.size(); i++)
 	{
@@ -509,11 +500,11 @@ sit_clean_up(void)
 	}
 	sit_params.clear();
 	sit_param_map.clear();
-	sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	spec = (struct species **) free_check_null(spec);
+	sit_LGAMMA.clear();
+	sit_IPRSNT.clear();
+	spec.clear();
 	aphi = (struct pitz_param *) free_check_null(aphi);
-	sit_M = (LDBLE *) free_check_null(sit_M);
+	sit_M.clear(); 
 
 	return OK;
 }
@@ -805,7 +796,7 @@ int Phreeqc::
 jacobian_sit(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE *base;
+	std::vector<double> base;
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
@@ -817,16 +808,7 @@ Restart:
 		sit();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-	if (base == NULL)
-	{
-		malloc_error();
-		return OK;
-	}
-	for (i = 0; i < count_unknowns; i++)
-	{
-		base[i] = residual[i];
-	}
+	base = residual; // std::vectors
 	d = 0.0001;
 	d1 = d * LOG_10;
 	d2 = 0;
@@ -900,7 +882,6 @@ Restart:
 		molalities(TRUE);
 		if (max_unknowns > pz_max_unknowns) 
 		{
-			base = (LDBLE *) free_check_null(base);
 			gammas_sit();
 			jacobian_sums();
 			goto Restart;
@@ -960,7 +941,6 @@ Restart:
 		sit();
 	mb_sums();
 	residuals();
-	free_check_null(base);
 	return OK;
 }
 
