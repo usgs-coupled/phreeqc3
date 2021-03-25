@@ -4235,7 +4235,7 @@ residuals(void)
 				cd_psi.push_back(-(master_ptr2->s->la * LOG_10) * R_KJ_DEG_MOL * tk_x /
 					F_KJ_V_EQ);
 				sum = 0;
-				for (j = 0; j < x[i]->count_comp_unknowns; j++)
+				for (size_t j = 0; j < x[i]->comp_unknowns.size(); j++)
 				{
 					sum +=
 						x[i]->comp_unknowns[j]->moles *
@@ -4880,7 +4880,7 @@ sum_species(void)
  *
  *   Sums total valence states and stores in master[i]->total.
  */
-	int i, j;
+	int i;
 	struct master *master_ptr;
 /*
  *   Set global variables
@@ -4962,7 +4962,7 @@ sum_species(void)
 			(x[i]->type == CB && x[i] != ph_unknown && x[i] != pe_unknown))
 		{
 			x[i]->sum = 0.0;
-			for (j = 0; x[i]->master[j] != NULL; j++)
+			for (size_t j = 0; j < x[i]->master.size(); j++)
 			{
 				x[i]->sum += x[i]->master[j]->total;
 			}

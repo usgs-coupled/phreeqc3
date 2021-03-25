@@ -832,7 +832,7 @@ build_ss_assemblage(void)
 					{
 						if (x[k]->type != MB)
 							continue;
-						for (int l = 0; x[k]->master[l] != NULL; l++)
+						for (size_t l = 0; l < x[k]->master.size(); l++)
 						{
 							if (x[k]->master[l] == master_ptr)
 							{
@@ -1527,7 +1527,7 @@ build_pure_phases(void)
 					{
 						if (x[k]->type != MB)
 							continue;
-						for (int l = 0; x[k]->master[l] != NULL; l++)
+						for (size_t l = 0; l < x[k]->master.size(); l++)
 						{
 							if (x[k]->master[l] == master_ptr)
 							{
@@ -1987,7 +1987,7 @@ convert_units(cxxSolution *solution_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct master ** Phreeqc::
+std::vector<struct master *> Phreeqc::
 get_list_master_ptrs(char *ptr, struct master *master_ptr)
 /* ---------------------------------------------------------------------- */
 {
@@ -1998,13 +1998,13 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
  */
 	int j, l, count_list;
 	char token[MAX_LENGTH];
-	struct master **master_ptr_list;
+	std::vector<struct master*> master_ptr_list;
 	struct master *master_ptr0;
 /*
  *   Make list of master species pointers
  */
 	count_list = 0;
-	master_ptr_list = unknown_alloc_master();
+	//master_ptr_list = unknown_alloc_master();
 	master_ptr0 = master_ptr;
 	if (master_ptr0 == master_ptr->s->primary)
 	{
@@ -2022,7 +2022,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
  */
 		if (j >= (int)master.size() || master[j]->elt->primary != master_ptr0)
 		{
-			master_ptr_list[count_list++] = master_ptr0;
+			master_ptr_list.push_back(master_ptr0);
 /*
  *   Element has multiple valences
  */
@@ -2037,16 +2037,12 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 				error_msg(error_string, CONTINUE);
 				input_error++;
 			}
-			master_ptr_list[count_list++] = master_ptr0->s->secondary;
+			master_ptr_list.push_back(master_ptr0->s->secondary);
 			while (j < (int)master.size() && master[j]->elt->primary == master_ptr0)
 			{
 				if (master[j]->s->primary == NULL)
 				{
-					master_ptr_list = (struct master **) PHRQ_realloc((void *)
-						master_ptr_list, ((size_t)count_list + 2) * sizeof(struct master *));
-					if (master_ptr_list == NULL)
-						malloc_error();
-					master_ptr_list[count_list++] = master[j];
+					master_ptr_list.push_back(master[j]);
 				}
 				j++;
 			}
@@ -2057,21 +2053,16 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
 /*
  *   First in list is secondary species, Include all valences from input
  */
-		master_ptr_list[count_list++] = master_ptr0;
+		master_ptr_list.push_back(master_ptr0);
 		while (copy_token(token, &ptr, &l) != EMPTY)
 		{
 			master_ptr = master_bsearch(token);
 			if (master_ptr != NULL)
 			{
-				master_ptr_list = (struct master **) PHRQ_realloc((void *) master_ptr_list,
-					((size_t)count_list + 2) * sizeof(struct master *));
-				if (master_ptr_list == NULL)
-					malloc_error();
-				master_ptr_list[count_list++] = master_ptr;
+				master_ptr_list.push_back(master_ptr);
 			}
 		}
 	}
-	master_ptr_list[count_list] = NULL;
 	return (master_ptr_list);
 }
 
@@ -2608,8 +2599,9 @@ resetup_master(void)
 		if (x[i]->type != MB)
 			continue;
 		master_ptr0 = x[i]->master[0];
-		for (j = 0; (master_ptr = x[i]->master[j]) != NULL; j++)
+		for (j = 0; j < x[i]->master.size(); j++)
 		{
+			master_ptr = x[i]->master[j];
 /*
  *   Set flags
  */
@@ -3165,7 +3157,8 @@ setup_exchange(void)
  *   Fill in data for exchanger in unknowns structures
  */
 	struct master *master_ptr;
-	struct master **master_ptr_list;
+	//struct master **master_ptr_list;
+	std::vector<struct master*> master_ptr_list;
 
 	if (use.Get_exchange_ptr() == NULL)
 		return (OK);
@@ -3216,8 +3209,8 @@ setup_exchange(void)
 /*
  *   Set flags
  */
-				master_ptr_list = unknown_alloc_master();
-				master_ptr_list[0] = master_ptr;
+				master_ptr_list.clear();
+				master_ptr_list.push_back(master_ptr);
 				master_ptr->in = TRUE;
 /*
  *   Set unknown data
@@ -3332,7 +3325,7 @@ setup_surface(void)
 	/*
 	 *   Fill in data for surface assemblage in unknown structure
 	 */
-	struct master **master_ptr_list;
+	std::vector<struct master*> master_ptr_list;
 	int mb_unknown_number;
 
 	if (use.Get_surface_ptr() == NULL)
@@ -3374,8 +3367,8 @@ setup_surface(void)
 			/*
 			 *   Set flags
 			 */
-			master_ptr_list = unknown_alloc_master();
-			master_ptr_list[0] = master_ptr;
+			master_ptr_list.clear();
+			master_ptr_list.push_back(master_ptr);
 			master_ptr->in = TRUE;
 			/*
 			 *   Setup mass balance unknown
@@ -3410,8 +3403,8 @@ setup_surface(void)
 					 */
 					replace("_CB", "_psi", token);
 					master_ptr = master_bsearch(token.c_str());
-					master_ptr_list = unknown_alloc_master();
-					master_ptr_list[0] = master_ptr;
+					master_ptr_list.clear();
+					master_ptr_list.push_back(master_ptr);
 					master_ptr->in = TRUE;
 					/*
 					 *   Find surface charge structure
@@ -3486,8 +3479,8 @@ setup_surface(void)
 						 */
 						replace(cb_suffix.c_str(), psi_suffix.c_str(), token);
 						master_ptr = master_bsearch(token.c_str());
-						master_ptr_list = unknown_alloc_master();
-						master_ptr_list[0] = master_ptr;
+						master_ptr_list.clear();
+						master_ptr_list.push_back(master_ptr);
 						master_ptr->in = TRUE;
 						/*
 						 *   Find surface charge structure
@@ -3532,12 +3525,8 @@ setup_surface(void)
 				}
 				/* Add SURFACE unknown to a list for SURF_PSI */
 				struct unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
-				unknown_ptr->comp_unknowns = (struct unknown **) PHRQ_realloc(unknown_ptr->comp_unknowns,
-					(((size_t)unknown_ptr->count_comp_unknowns + 1) * sizeof(struct unknown *)));
-				if (unknown_ptr->comp_unknowns == NULL)
-					malloc_error();
-				unknown_ptr->comp_unknowns[unknown_ptr->count_comp_unknowns++] =
-					x[mb_unknown_number];
+				unknown_ptr->comp_unknowns.push_back(x[mb_unknown_number]);
+
 			}
 		}
 	}
@@ -3708,21 +3697,21 @@ find_surface_charge_unknown(std::string &str, int plane)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-setup_master_rxn(struct master **master_ptr_list, const std::string &pe_rxn)
+setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std::string &pe_rxn)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Rewrites rxn_secondary for all redox states in list
  *   First, in = TRUE; others, in = REWRITE 
  */
-	int j;
 	struct master *master_ptr, *master_ptr0;
 /*
  *   Set master_ptr->in, master_ptr->rxn
  */
 	master_ptr0 = master_ptr_list[0];
-	for (j = 0; (master_ptr = master_ptr_list[j]) != NULL; j++)
+	for (size_t j = 0; j < master_ptr_list.size(); j++)
 	{
+		master_ptr = master_ptr_list[j];
 /*
  *   Check that data not already given
  */
@@ -4290,7 +4279,7 @@ setup_solution(void)
  */
 		x[count_unknowns]->type = MB;
 		x[count_unknowns]->description = string_hsave(it->first.c_str());
-		for (int j = 0; x[count_unknowns]->master[j] != NULL; j++)
+		for (size_t j = 0; j < x[count_unknowns]->master.size(); j++)
 		{
 			x[count_unknowns]->master[j]->unknown = x[count_unknowns];
 		}
@@ -4482,8 +4471,7 @@ setup_solution(void)
 	ah2o_unknown->description = string_hsave("A(H2O)");
 	ah2o_unknown->type = AH2O;
 	ah2o_unknown->number = count_unknowns;
-	ah2o_unknown->master = unknown_alloc_master();
-	ah2o_unknown->master[0] = master_bsearch("O");
+	ah2o_unknown->master.push_back(master_bsearch("O"));
 	ah2o_unknown->master[0]->unknown = ah2o_unknown;
 	ah2o_unknown->moles = 0.0;
 	count_unknowns++;
@@ -4499,8 +4487,7 @@ setup_solution(void)
 		ph_unknown->type = CB;
 		ph_unknown->moles = solution_ptr->Get_cb();
 		ph_unknown->number = count_unknowns;
-		ph_unknown->master = unknown_alloc_master();
-		ph_unknown->master[0] = s_hplus->primary;
+		ph_unknown->master.push_back(s_hplus->primary);
 		ph_unknown->master[0]->unknown = ph_unknown;
 		charge_balance_unknown = ph_unknown;
 		count_unknowns++;
@@ -4518,8 +4505,7 @@ setup_solution(void)
 		mass_hydrogen_unknown->moles = solution_ptr->total_h;
 #endif
 		mass_hydrogen_unknown->number = count_unknowns;
-		mass_hydrogen_unknown->master = unknown_alloc_master();
-		mass_hydrogen_unknown->master[0] = s_eminus->primary;
+		mass_hydrogen_unknown->master.push_back(s_eminus->primary);
 		mass_hydrogen_unknown->master[0]->unknown = mass_hydrogen_unknown;
 		count_unknowns++;
 /*
@@ -4530,8 +4516,7 @@ setup_solution(void)
 		mass_oxygen_unknown->type = MH2O;
 		mass_oxygen_unknown->moles = solution_ptr->Get_total_o();
 		mass_oxygen_unknown->number = count_unknowns;
-		mass_oxygen_unknown->master = unknown_alloc_master();
-		mass_oxygen_unknown->master[0] = s_h2o->primary;
+		mass_oxygen_unknown->master.push_back(s_h2o->primary);
 		count_unknowns++;
 	}
 /*
@@ -4592,28 +4577,6 @@ adjust_setup_solution(void)
 	}
 	return (OK);
 
-}
-/* ---------------------------------------------------------------------- */
-struct master ** Phreeqc::
-unknown_alloc_master(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Allocates space for a list of 2 master pointers
- */
-	struct master **master_ptr;
-
-	master_ptr = (struct master **) PHRQ_malloc(2 * sizeof(struct master *));
-	if (master_ptr == NULL)
-	{
-		malloc_error();
-	}
-	else
-	{
-		master_ptr[0] = NULL;
-		master_ptr[1] = NULL;
-	}
-	return (master_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -4939,7 +4902,7 @@ switch_bases(void)
  *   Check if activity of first master species is predominant among activities of
  *   secondary master species included in mass balance.
  */
-	int i, j;
+	int i;
 	int first;
 	int return_value;
 	LDBLE la, la1;
@@ -4954,18 +4917,18 @@ switch_bases(void)
 			break;
 		first = 0;
 		la = x[i]->master[0]->s->la;
-		for (j = 1; x[i]->master[j] != NULL; j++)
+		for (size_t j = 1; j < x[i]->master.size(); j++)
 		{
 			la1 = x[i]->master[j]->s->lm + x[i]->master[j]->s->lg;
 			if (first == 0 && la1 > la + 10.)
 			{
 				la = la1;
-				first = j;
+				first = (int)j;
 			}
 			else if (first != 0 && la1 > la)
 			{
 				la = la1;
-				first = j;
+				first = (int)j;
 			}
 		}
 		if (first != 0)

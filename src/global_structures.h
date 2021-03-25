@@ -720,7 +720,7 @@ struct unknown
 	LDBLE la;
 	int number;
 	const char *description;
-	struct master **master;
+	std::vector<struct master*> master;
 	struct phase *phase;
 	LDBLE si;
 	int n_gas_phase_user;
@@ -739,8 +739,7 @@ struct unknown
 	LDBLE related_moles;
 	struct unknown *potential_unknown, *potential_unknown1,
 		*potential_unknown2;
-	int count_comp_unknowns;
-	struct unknown **comp_unknowns;	/* list for CD_MUSIC of comps that contribute to 0 plane mass-balance term */
+	std::vector<struct unknown*> comp_unknowns; /* list for CD_MUSIC of comps that contribute to 0 plane mass-balance term */
 	struct unknown *phase_unknown;
 	LDBLE mass_water;
 	int dissolve_only;
