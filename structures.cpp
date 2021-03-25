@@ -2892,9 +2892,7 @@ unknown_alloc(void)
 /*
  *   Allocate space
  */
-	unknown_ptr = (struct unknown *) PHRQ_malloc(sizeof(struct unknown));
-	if (unknown_ptr == NULL)
-		malloc_error();
+	unknown_ptr = new struct unknown;
 /*
  *   set pointers in structure to NULL
  */
@@ -2907,7 +2905,6 @@ unknown_alloc(void)
 	unknown_ptr->la = 0.0;
 	unknown_ptr->number = 0;
 	unknown_ptr->description = NULL;
-	unknown_ptr->master = NULL;
 	unknown_ptr->phase = NULL;
 	unknown_ptr->si = 0.0;
 	unknown_ptr->s = NULL;
@@ -2925,8 +2922,6 @@ unknown_alloc(void)
 	unknown_ptr->potential_unknown = NULL;
 	unknown_ptr->potential_unknown1 = NULL;
 	unknown_ptr->potential_unknown2 = NULL;
-	unknown_ptr->count_comp_unknowns = 0;
-	unknown_ptr->comp_unknowns = NULL;
 	unknown_ptr->phase_unknown = NULL;
 	unknown_ptr->surface_charge = NULL;
 	unknown_ptr->mass_water = 0.0;
@@ -2964,8 +2959,7 @@ unknown_free(struct unknown *unknown_ptr)
  */
 	if (unknown_ptr == NULL)
 		return (ERROR);
-	unknown_ptr->master =
-		(struct master **) free_check_null(unknown_ptr->master);
+	unknown_ptr->master.clear();
 	if (unknown_ptr->type == SURFACE_CB)
 	{
 		/*
@@ -2973,9 +2967,8 @@ unknown_free(struct unknown *unknown_ptr)
 		   unknown_ptr->surface_charge = (struct surface_charge *) free_check_null(unknown_ptr->surface_charge);
 		 */
 	}
-	unknown_ptr->comp_unknowns =
-		(struct unknown **) free_check_null(unknown_ptr->comp_unknowns);
-	unknown_ptr = (struct unknown *) free_check_null(unknown_ptr);
+	unknown_ptr->comp_unknowns.clear();
+	delete unknown_ptr;
 	return (OK);
 }
 

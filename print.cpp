@@ -1919,7 +1919,7 @@ print_surface_cd_music(void)
 			charge2 = unknown_ptr2->f;
 		}
 		sum = 0;
-		for (int k = 0; k < x[j]->count_comp_unknowns; k++)
+		for (size_t k = 0; k < x[j]->comp_unknowns.size(); k++)
 		{
 			sum +=
 				x[j]->comp_unknowns[k]->moles *

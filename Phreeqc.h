@@ -587,8 +587,7 @@ public:
 	int convert_units(cxxSolution *solution_ptr);
 	LDBLE f_Vm(LDBLE v1);
 	struct unknown *find_surface_charge_unknown(std::string &str_ptr, int plane);
-	struct master **get_list_master_ptrs(char *ptr,
-	struct master *master_ptr);
+	std::vector<struct master*> get_list_master_ptrs(char* ptr, struct master* master_ptr);
 	int inout(void);
 	int is_special(struct species *spec);
 	int mb_for_species_aq(int n);
@@ -600,8 +599,8 @@ public:
 	int setup_exchange(void);
 	int setup_gas_phase(void);
 	int setup_fixed_volume_gas(void);
-	int setup_master_rxn(struct master **master_ptr_list,
-		const std::string &pe_rxn);
+	int setup_master_rxn(const std::vector<struct master *> &master_ptr_list,
+		const std::string& pe_rxn);
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
 	int setup_related_surface(void);
@@ -619,7 +618,6 @@ public:
 		LDBLE coef, LDBLE * gamma_ptr);
 	int store_sum_deltas(LDBLE * source, LDBLE * target, LDBLE coef);
 	int tidy_redox(void);
-	struct master **unknown_alloc_master(void);
 	int write_mb_eqn_x(void);
 	int write_mb_for_species_list(int n);
 	int write_mass_action_eqn_x(int stop);
