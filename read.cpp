@@ -7299,8 +7299,7 @@ read_advection(void)
 	char *description;
 	int n_user, n_user_end, i;
 
-	int count_punch, count_print;
-	int *punch_temp, *print_temp;
+	std::vector<int> punch_temp, print_temp;
 	int return_value, opt, opt_save;
 	char *next_char;
 	const char *opt_list[] = {
@@ -7338,14 +7337,6 @@ read_advection(void)
 	count_ad_shifts = 0;
 	print_ad_modulus = 1;
 	punch_ad_modulus = 1;
-	count_punch = 0;
-	count_print = 0;
-	punch_temp = (int *) PHRQ_malloc(sizeof(int));
-	if (punch_temp == NULL)
-		malloc_error();
-	print_temp = (int *) PHRQ_malloc(sizeof(int));
-	if (print_temp == NULL)
-		malloc_error();
 /*
  *   Read lines
  */
@@ -7383,11 +7374,16 @@ read_advection(void)
 			break;
 		case 2:				/* print */
 		case 5:				/* print_cells */
-			print_temp =
-				read_list_ints_range(&next_char, &count_print, TRUE,
-									 print_temp);
+		{
+			std::istringstream iss(next_char);
+			int idummy;
+			while (iss >> idummy)
+			{
+				print_temp.push_back(idummy);
+			}
 			opt_save = 2;
-			break;
+		}
+		break;
 		case 3:				/* selected_output */
 		case 11:				/* selected_output_frequency */
 		case 12:				/* punch_frequency */
@@ -7404,11 +7400,16 @@ read_advection(void)
 		case 4:				/* punch */
 		case 14:				/* punch_cells */
 		case 6:				/* selected_cells */
-			punch_temp =
-				read_list_ints_range(&next_char, &count_punch, TRUE,
-									 punch_temp);
+		{
+			std::istringstream iss(next_char);
+			int idummy;
+			while (iss >> idummy)
+			{
+				punch_temp.push_back(idummy);
+			}
 			opt_save = 4;
 			break;
+		}
 		case 7:				/* time_step */
 		case 8:				/* timest */
 			(void)sscanf(next_char, SCANFORMAT, &advection_kin_time);
@@ -7464,11 +7465,11 @@ read_advection(void)
  *   Fill in data for punch
  */
 	advection_punch.resize((size_t)count_ad_cells + 1);
-	if (count_punch != 0)
+	if (punch_temp.size() != 0)
 	{
 		for (i = 0; i < count_ad_cells; i++)
 			advection_punch[i] = FALSE;
-		for (i = 0; i < count_punch; i++)
+		for (size_t i = 0; i < punch_temp.size(); i++)
 		{
 			if (punch_temp[i] > count_ad_cells || punch_temp[i] < 1)
 			{
@@ -7488,16 +7489,16 @@ read_advection(void)
 		for (i = 0; i < count_ad_cells; i++)
 			advection_punch[i] = TRUE;
 	}
-	punch_temp = (int *) free_check_null(punch_temp);
+	punch_temp.clear();
 /*
  *   Fill in data for print
  */
 	advection_print.resize((size_t)count_ad_cells + 1);
-	if (count_print != 0)
+	if (print_temp.size() != 0)
 	{
 		for (i = 0; i < count_ad_cells; i++)
 			advection_print[i] = FALSE;
-		for (i = 0; i < count_print; i++)
+		for (i = 0; i < print_temp.size(); i++)
 		{
 			if (print_temp[i] > count_ad_cells || print_temp[i] < 1)
 			{
@@ -7517,7 +7518,7 @@ read_advection(void)
 		for (i = 0; i < count_ad_cells; i++)
 			advection_print[i] = TRUE;
 	}
-	print_temp = (int *) free_check_null(print_temp);
+	print_temp.clear();
 	return (return_value);
 }
 
@@ -8583,17 +8584,6 @@ read_user_punch(void)
 		{
 			r->commands.clear();
 		}
-			//rate_free(user_punch);
-			//user_punch->new_def = TRUE;
-			//user_punch->commands = (char *) PHRQ_malloc(sizeof(char));
-			//if (user_punch->commands == NULL)
-			//	malloc_error();
-			//user_punch->commands[0] = '\0';
-			//user_punch->linebase = NULL;
-			//user_punch->varbase = NULL;
-			//user_punch->loopbase = NULL;
-			//user_punch->name =
-			//	string_hsave("user defined Basic punch routine");
 		case OPT_1:			/* read command */
 			r->commands.append(";\0");
 			r->commands.append(line);

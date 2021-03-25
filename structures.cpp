@@ -417,9 +417,8 @@ elt_list_dup(struct elt_list *elt_list_ptr_old)
 /*
  *   Malloc space and store element data
  */
-	elt_list_ptr_new =
-		(struct elt_list *) PHRQ_malloc(((size_t)count_totals + 1) *
-										sizeof(struct elt_list));
+	elt_list_ptr_new = (struct elt_list *) PHRQ_malloc(
+		((size_t)count_totals + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr_new == NULL)
 		malloc_error();
 	memcpy(elt_list_ptr_new, elt_list_ptr_old,
@@ -483,8 +482,8 @@ elt_list_save(void)
 /*
  *   Malloc space and store element data
  */
-	elt_list_ptr = (struct elt_list*)PHRQ_malloc(((size_t)count_elts + 1) *
-		sizeof(struct elt_list));
+	elt_list_ptr = (struct elt_list*)PHRQ_malloc(
+		((size_t)count_elts + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
 	{
 		malloc_error();
@@ -508,7 +507,8 @@ NameDouble2elt_list(const cxxNameDouble &nd)
 /*
  *   Takes NameDouble allocates space and fills new elt_list struct
  */
-	struct elt_list *elt_list_ptr = (struct elt_list *) PHRQ_malloc((nd.size() + 1) * sizeof(struct elt_list));
+	struct elt_list *elt_list_ptr = (struct elt_list *) PHRQ_malloc(
+		(nd.size() + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
 	{
 		malloc_error();
@@ -564,19 +564,19 @@ inverse_alloc(void)
  *   allocate space for pointers in structure to NULL
  */
 
-	inverse_ptr->uncertainties = (LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
+	inverse_ptr->uncertainties = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
 	if (inverse_ptr->uncertainties == NULL)
 	{
 		malloc_error();
 		return inverse_ptr;
 	}
-	inverse_ptr->ph_uncertainties = (LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
+	inverse_ptr->ph_uncertainties = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
 	if (inverse_ptr->ph_uncertainties == NULL)
 	{
 		malloc_error();
 		return inverse_ptr;
 	}
-	inverse_ptr->force_solns = (int *) PHRQ_malloc((size_t) sizeof(int));
+	inverse_ptr->force_solns = (int *) PHRQ_malloc(sizeof(int));
 	if (inverse_ptr->force_solns == NULL)
 	{
 		malloc_error();
@@ -587,7 +587,7 @@ inverse_alloc(void)
 
 	inverse_ptr->solns = NULL;
 
-	inverse_ptr->elts =	(struct inv_elts *) PHRQ_malloc((size_t) sizeof(struct inv_elts));
+	inverse_ptr->elts =	(struct inv_elts *) PHRQ_malloc(sizeof(struct inv_elts));
 	if (inverse_ptr->elts == NULL)
 	{
 		malloc_error();
@@ -596,7 +596,7 @@ inverse_alloc(void)
 	inverse_ptr->elts[0].name = NULL;
 	inverse_ptr->elts[0].uncertainties = NULL;
 
-	inverse_ptr->isotopes = (struct inv_isotope *) PHRQ_malloc((size_t)
+	inverse_ptr->isotopes = (struct inv_isotope *) PHRQ_malloc(
 			sizeof(struct inv_isotope));
 	if (inverse_ptr->isotopes == NULL)
 	{
@@ -607,8 +607,7 @@ inverse_alloc(void)
 	inverse_ptr->isotopes[0].isotope_number = 0;
 	inverse_ptr->isotopes[0].elt_name = NULL;
 
-	inverse_ptr->i_u = (struct inv_isotope *) PHRQ_malloc((size_t)
-			sizeof(struct inv_isotope));
+	inverse_ptr->i_u = (struct inv_isotope *)PHRQ_malloc(sizeof(struct inv_isotope));
 	if (inverse_ptr->i_u == NULL)
 	{
 		malloc_error();
@@ -618,7 +617,8 @@ inverse_alloc(void)
 	inverse_ptr->i_u[0].isotope_number = 0;
 	inverse_ptr->i_u[0].elt_name = NULL;
 
-	inverse_ptr->phases = (struct inv_phases *) PHRQ_malloc((size_t) sizeof(struct inv_phases));
+	inverse_ptr->phases = (struct inv_phases *) PHRQ_malloc(
+		sizeof(struct inv_phases));
 	if (inverse_ptr->phases == NULL)
 	{
 		malloc_error();
@@ -1434,8 +1434,7 @@ rate_copy(struct rate *rate_ptr)
 	*/
 	if (rate_ptr == NULL)
 		return (NULL);
-	struct rate * rate_new = (struct rate *) PHRQ_malloc(sizeof(struct rate));
-	if (rate_new == NULL) malloc_error();
+	struct rate* rate_new = new struct rate;
 	rate_new->commands = rate_ptr->commands;
 	rate_new->new_def = TRUE;
 	rate_new->linebase = NULL;
@@ -1549,9 +1548,8 @@ rxn_alloc(int ntokens)
 /*
  *   Malloc rxn_token structure
  */
-	rxn_ptr->token =
-		(struct rxn_token *) PHRQ_malloc((size_t) ntokens *
-										 sizeof(struct rxn_token));
+	rxn_ptr->token = (struct rxn_token *) PHRQ_malloc(
+		(size_t) ntokens * sizeof(struct rxn_token));
 	for (i = 0; i < ntokens; i++)
 	{
 		rxn_ptr->token[i].s = NULL;
@@ -3397,12 +3395,11 @@ copier_init(struct copier *copier_ptr)
 
 	copier_ptr->count = 0;
 	copier_ptr->max = 10;
-	copier_ptr->n_user =
-		(int *) PHRQ_malloc((size_t) (copier_ptr->max * sizeof(int)));
-	copier_ptr->start =
-		(int *) PHRQ_malloc((size_t) (copier_ptr->max * sizeof(int)));
-	copier_ptr->end =
-		(int *) PHRQ_malloc((size_t) (copier_ptr->max * sizeof(int)));
+	copier_ptr->n_user = (int *) PHRQ_malloc(
+		(size_t)copier_ptr->max * sizeof(int));
+	copier_ptr->start = (int *) PHRQ_malloc(
+		(size_t)copier_ptr->max * sizeof(int));
+	copier_ptr->end =(int *) PHRQ_malloc((size_t)copier_ptr->max * sizeof(int));
 	return (OK);
 }
 #include "StorageBin.h"

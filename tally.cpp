@@ -117,9 +117,8 @@ get_all_components(void)
  *   Buffer contains an entry for every primary master
  *   species that can be used in the transport problem.
  */
-	t_buffer =
-		(struct tally_buffer *) PHRQ_malloc((size_t) tally_count_component *
-											sizeof(struct tally_buffer));
+	t_buffer = (struct tally_buffer *) PHRQ_malloc(
+		(size_t)tally_count_component * sizeof(struct tally_buffer));
 
 	// store alkalinity
 	j = 0;
@@ -1218,10 +1217,8 @@ extend_tally_table(void)
 		malloc_error();
 	for (i = 0; i < 3; i++)
 	{
-		tally_table[count_tally_table_columns].total[i] =
-			(struct tally_buffer *)
-			PHRQ_malloc((size_t) (count_tally_table_rows) *
-						sizeof(struct tally_buffer));
+		tally_table[count_tally_table_columns].total[i] = (struct tally_buffer *)
+			PHRQ_malloc((size_t)count_tally_table_rows * sizeof(struct tally_buffer));
 		if (tally_table[count_tally_table_columns].total[i] == NULL)
 			malloc_error();
 		for (j = 0; j < count_tally_table_rows; j++)
