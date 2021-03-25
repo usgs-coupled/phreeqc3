@@ -15,7 +15,12 @@ set(phreeqc_DATABASE
   sit.dat
   Tipping_Hurley.dat
   wateq4f.dat
-)
+  )
+
+# for mytest tests
+foreach(db ${phreeqc_DATABASE})
+  configure_file(${db} ${db} COPYONLY)
+endforeach()
 
 if (WIN32)
   install (FILES ${phreeqc_DATABASE} DESTINATION database)
