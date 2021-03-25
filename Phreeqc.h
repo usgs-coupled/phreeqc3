@@ -847,8 +847,7 @@ public:
 	int clean_up(void);
 	int reinitialize(void);
 	int copier_add(struct copier *copier_ptr, int n_user, int start, int end);
-	int copier_free(struct copier *copier_ptr);
-	int copier_init(struct copier *copier_ptr);
+	int copier_clear(struct copier* copier_ptr);
 	static int element_compare(const void *ptr1, const void *ptr2);
 public:
 	struct element *element_store(const char *element);

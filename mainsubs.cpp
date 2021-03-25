@@ -92,18 +92,6 @@ initialize(void)
 	g_spread_sheet.defaults.iso       = NULL;
 	g_spread_sheet.defaults.redox     = NULL;
 #endif
-	// allocate space for copier
-	copier_init(&copy_solution);
-	copier_init(&copy_pp_assemblage);
-	copier_init(&copy_exchange);
-	copier_init(&copy_surface);
-	copier_init(&copy_ss_assemblage);
-	copier_init(&copy_gas_phase);
-	copier_init(&copy_kinetics);
-	copier_init(&copy_mix);
-	copier_init(&copy_reaction);
-	copier_init(&copy_temperature);
-	copier_init(&copy_pressure);
 
 	// Initialize cvode
 	cvode_init();
@@ -1862,286 +1850,164 @@ int Phreeqc::
 copy_entities(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, return_value;
-	int verbose;
-
-	verbose = FALSE;
+	int return_value;
 	return_value = OK;
-	if (copy_solution.count > 0)
+	for (size_t j = 0; j < copy_solution.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_solution.count; j++)
+		if (Utilities::Rxn_find(Rxn_solution_map, copy_solution.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_solution_map, copy_solution.n_user[j]) != NULL)
+			for (size_t i = copy_solution.start[j]; i <= copy_solution.end[j]; i++)
 			{
-				for (i = copy_solution.start[j]; i <= copy_solution.end[j];
-					i++)
-				{
-					if (i == copy_solution.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_solution_map, copy_solution.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("SOLUTION to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_solution.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_solution_map, copy_solution.n_user[j], (int)i);
 			}
 		}
 	}
-	if (copy_pp_assemblage.count > 0)
-	{
-		for (j = 0; j < copy_pp_assemblage.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j]) != NULL)
-			{
-				for (i = copy_pp_assemblage.start[j];
-					i <= copy_pp_assemblage.end[j]; i++)
-				{
-					if (i == copy_pp_assemblage.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("EQUILIBRIUM_PHASES to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
-	if (copy_reaction.count > 0)
-	{
-		for (j = 0; j < copy_reaction.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_reaction_map, copy_reaction.n_user[j]) != NULL)
-			{
-				for (i = copy_reaction.start[j]; i <= copy_reaction.end[j]; i++)
-				{
-					if (i == copy_reaction.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_reaction_map, copy_reaction.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("REACTION to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
-	if (copy_mix.count > 0)
-	{
-		for (j = 0; j < copy_mix.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_mix_map, copy_mix.n_user[j]) != NULL)
-			{
-				for (i = copy_mix.start[j]; i <= copy_mix.end[j]; i++)
-				{
-					if (i != copy_mix.n_user[j])
-					{
-						Utilities::Rxn_copy(Rxn_mix_map, copy_mix.n_user[j], i);
-					}
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("Mix to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
+	copier_clear(&copy_solution);
 
-	if (copy_exchange.count > 0)
+	for (size_t j = 0; j < copy_pp_assemblage.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_exchange.count; j++)
+		if (Utilities::Rxn_find(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_exchange_map, copy_exchange.n_user[j]) != NULL)
+			for (size_t i = copy_pp_assemblage.start[j]; i <= copy_pp_assemblage.end[j]; i++)
 			{
-				for (i = copy_exchange.start[j]; i <= copy_exchange.end[j];
-					i++)
-				{
-					if (i == copy_exchange.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_exchange_map, copy_exchange.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("EXCHANGE to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_pp_assemblage.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j], (int)i);
 			}
 		}
 	}
-	if (copy_surface.count > 0)
-	{
-		for (j = 0; j < copy_surface.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_surface_map, copy_surface.n_user[j]) != NULL)
-			{
-				for (i = copy_surface.start[j]; i <= copy_surface.end[j]; i++)
-				{
-					if (i == copy_surface.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_surface_map, copy_surface.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("SURFACE to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
+	copier_clear(&copy_pp_assemblage);
 
-	if (copy_temperature.count > 0)
+	for (size_t j = 0; j < copy_reaction.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_temperature.count; j++)
+		if (Utilities::Rxn_find(Rxn_reaction_map, copy_reaction.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_temperature_map, copy_temperature.n_user[j]) != NULL)
+			for (size_t i = copy_reaction.start[j]; i <= copy_reaction.end[j]; i++)
 			{
-				for (i = copy_temperature.start[j]; i <= copy_temperature.end[j]; i++)
-				{
-					if (i != copy_temperature.n_user[j])
-					{
-						Utilities::Rxn_copy(Rxn_temperature_map, copy_temperature.n_user[j], i);
-					}
-				}
+				if (i == copy_reaction.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_reaction_map, copy_reaction.n_user[j], (int)i);
 			}
-			else
+		}
+	}
+	copier_clear(&copy_reaction);
+
+	for (size_t j = 0; j < copy_mix.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_mix_map, copy_mix.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_mix.start[j]; i <= copy_mix.end[j]; i++)
 			{
-				if (verbose == TRUE)
+				if (i != copy_mix.n_user[j])
 				{
-					warning_msg("temperature to copy not found.");
-					return_value = ERROR;
+					Utilities::Rxn_copy(Rxn_mix_map, copy_mix.n_user[j], (int)i);
 				}
 			}
 		}
 	}
-	if (copy_pressure.count > 0)
+	copier_clear(&copy_mix);
+
+	for (size_t j = 0; j < copy_exchange.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_pressure.count; j++)
+		if (Utilities::Rxn_find(Rxn_exchange_map, copy_exchange.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_pressure_map, copy_pressure.n_user[j]) != NULL)
+			for (size_t i = copy_exchange.start[j]; i <= copy_exchange.end[j]; i++)
 			{
-				for (i = copy_pressure.start[j]; i <= copy_pressure.end[j]; i++)
-				{
-					if (i != copy_pressure.n_user[j])
-					{
-						Utilities::Rxn_copy(Rxn_pressure_map, copy_pressure.n_user[j], i);
-					}
-				}
+				if (i == copy_exchange.n_user[j]) continue;
+				Utilities::Rxn_copy(Rxn_exchange_map, copy_exchange.n_user[j], (int)i);
 			}
-			else
+		}
+	}
+	copier_clear(&copy_exchange);
+
+	for (size_t j = 0; j < copy_surface.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_surface_map, copy_surface.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_surface.start[j]; i <= copy_surface.end[j]; i++)
 			{
-				if (verbose == TRUE)
+				if (i == copy_surface.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_surface_map, copy_surface.n_user[j], (int)i);
+			}
+		}
+	}
+	copier_clear(&copy_surface);
+
+	for (size_t j = 0; j < copy_temperature.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_temperature_map, copy_temperature.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_temperature.start[j]; i <= copy_temperature.end[j]; i++)
+			{
+				if (i != copy_temperature.n_user[j])
 				{
-					warning_msg("pressure to copy not found.");
-					return_value = ERROR;
+					Utilities::Rxn_copy(Rxn_temperature_map, copy_temperature.n_user[j], (int)i);
 				}
 			}
 		}
 	}
-	if (copy_gas_phase.count > 0)
+	copier_clear(&copy_temperature);
+
+	for (size_t j = 0; j < copy_pressure.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_gas_phase.count; j++)
+		if (Utilities::Rxn_find(Rxn_pressure_map, copy_pressure.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_gas_phase_map, copy_gas_phase.n_user[j]) != NULL)
+			for (size_t i = copy_pressure.start[j]; i <= copy_pressure.end[j]; i++)
 			{
-				for (i = copy_gas_phase.start[j]; i <= copy_gas_phase.end[j];
-					i++)
+				if (i != copy_pressure.n_user[j])
 				{
-					if (i == copy_gas_phase.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_gas_phase_map, copy_gas_phase.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("EXCHANGE to copy not found.");
-					return_value = ERROR;
+					Utilities::Rxn_copy(Rxn_pressure_map, copy_pressure.n_user[j], (int)i);
 				}
 			}
 		}
 	}
-	if (copy_kinetics.count > 0)
+	copier_clear(&copy_pressure);
+
+	for (size_t j = 0; j < copy_gas_phase.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_kinetics.count; j++)
+		if (Utilities::Rxn_find(Rxn_gas_phase_map, copy_gas_phase.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_kinetics_map, copy_kinetics.n_user[j]) != NULL)
+			for (size_t i = copy_gas_phase.start[j]; i <= copy_gas_phase.end[j]; i++)
 			{
-				for (i = copy_kinetics.start[j]; i <= copy_kinetics.end[j];
-					i++)
-				{
-					if (i == copy_kinetics.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_kinetics_map, copy_kinetics.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("KINETICS to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_gas_phase.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_gas_phase_map, copy_gas_phase.n_user[j], (int)i);
 			}
 		}
 	}
-	if (copy_ss_assemblage.count > 0)
+	copier_clear(&copy_gas_phase);
+
+	for (size_t j = 0; j < copy_kinetics.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_ss_assemblage.count; j++)
+		if (Utilities::Rxn_find(Rxn_kinetics_map, copy_kinetics.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j]) != NULL)
+			for (size_t i = copy_kinetics.start[j]; i <= copy_kinetics.end[j]; i++)
 			{
-				for (i = copy_ss_assemblage.start[j];
-					i <= copy_ss_assemblage.end[j]; i++)
-				{
-					if (i == copy_ss_assemblage.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("SOLID_SOLUTIONS to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_kinetics.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_kinetics_map, copy_kinetics.n_user[j], (int)i);
 			}
 		}
 	}
-	copy_solution.count = 0;
-	copy_pp_assemblage.count = 0;
-	copy_exchange.count = 0;
-	copy_surface.count = 0;
-	copy_ss_assemblage.count = 0;
-	copy_gas_phase.count = 0;
-	copy_kinetics.count = 0;
-	copy_mix.count = 0;
-	copy_reaction.count = 0;
-	copy_temperature.count = 0;
-	copy_pressure.count = 0;
+	copier_clear(&copy_kinetics);
+
+	for (size_t j = 0; j < copy_ss_assemblage.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_ss_assemblage.start[j]; i <= copy_ss_assemblage.end[j]; i++)
+			{
+				if (i == copy_ss_assemblage.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j], (int)i);
+			}
+		}
+	}
+	copier_clear(&copy_ss_assemblage);
+
 	new_copy = FALSE;
 	return return_value;
 }
