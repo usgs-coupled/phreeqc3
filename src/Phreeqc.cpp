@@ -1688,11 +1688,10 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	max_master              = MAX_MASTER;
 	*/
 	int count_master = (int)pSrc->master.size();
-	for (int i = 0; i < (int)master.size(); i++)
+	for (size_t i = 0; i < master.size(); i++)
 	{
-		master.resize((size_t)i + 1); 
-		master[i] = (struct master *) PHRQ_malloc( sizeof(struct master));
-		if (master[i] == NULL) malloc_error();
+		master.resize(i + 1); 
+		master[i] = new struct master;
 		memcpy(master[i], pSrc->master[i], sizeof(struct master));
 		// clean up pointers
 		master[i]->gfw_formula = NULL;

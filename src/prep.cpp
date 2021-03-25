@@ -3157,7 +3157,6 @@ setup_exchange(void)
  *   Fill in data for exchanger in unknowns structures
  */
 	struct master *master_ptr;
-	//struct master **master_ptr_list;
 	std::vector<struct master*> master_ptr_list;
 
 	if (use.Get_exchange_ptr() == NULL)
