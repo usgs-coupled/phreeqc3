@@ -300,11 +300,7 @@ struct save
  *---------------------------------------------------------------------- */
 struct copier
 {
-	int count;
-	int max;
-	int *n_user;
-	int *start;
-	int *end;
+	std::vector<int> n_user, start, end;
 };
 
 /*----------------------------------------------------------------------

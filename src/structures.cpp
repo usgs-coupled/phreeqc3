@@ -166,20 +166,6 @@ clean_up(void)
 	llnl_bdh.clear();
 	llnl_bdot.clear();
 	llnl_co2_coefs.clear();
-	/*
-	 * Copier space
-	 */
-	copier_free(&copy_solution);
-	copier_free(&copy_pp_assemblage);
-	copier_free(&copy_exchange);
-	copier_free(&copy_surface);
-	copier_free(&copy_ss_assemblage);
-	copier_free(&copy_gas_phase);
-	copier_free(&copy_kinetics);
-	copier_free(&copy_mix);
-	copier_free(&copy_reaction);
-	copier_free(&copy_temperature);
-	copier_free(&copy_pressure);
 	/* master_isotope */
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
@@ -3333,79 +3319,31 @@ copier_add(struct copier *copier_ptr, int n_user, int start, int end)
  *   add new set of copy instructions
  */
 {
-
-	if (copier_ptr->count >= copier_ptr->max)
-	{
-		copier_ptr->max = copier_ptr->count * 2;
-		copier_ptr->n_user =
-			(int *) PHRQ_realloc(copier_ptr->n_user,
-								 (size_t) (copier_ptr->max * sizeof(int)));
-		if (copier_ptr->n_user == NULL)
-		{
-			malloc_error();
-			return (OK);
-		}
-		copier_ptr->start =
-			(int *) PHRQ_realloc(copier_ptr->start,
-								 (size_t) (copier_ptr->max * sizeof(int)));
-		if (copier_ptr->start == NULL)
-		{
-			malloc_error();
-			return (OK);
-		}
-		copier_ptr->end =
-			(int *) PHRQ_realloc(copier_ptr->end,
-								 (size_t) (copier_ptr->max * sizeof(int)));
-		if (copier_ptr->end == NULL)
-		{
-			malloc_error();
-			return (OK);
-		}
-	}
-	copier_ptr->n_user[copier_ptr->count] = n_user;
-	copier_ptr->start[copier_ptr->count] = start;
-	copier_ptr->end[copier_ptr->count] = end;
-	copier_ptr->count++;
+	copier_ptr->n_user.push_back(n_user);
+	copier_ptr->start.push_back(start);
+	copier_ptr->end.push_back(end);
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copier_free(struct copier *copier_ptr)
+copier_clear(struct copier* copier_ptr)
 /* ---------------------------------------------------------------------- */
 /*
- *   initialize copier structure
+ *   clear copier
  */
 {
-
-	copier_ptr->n_user = (int *) free_check_null(copier_ptr->n_user);
-	copier_ptr->start = (int *) free_check_null(copier_ptr->start);
-	copier_ptr->end = (int *) free_check_null(copier_ptr->end);
+	copier_ptr->n_user.clear();
+	copier_ptr->start.clear();
+	copier_ptr->end.clear();
 	return (OK);
 }
 
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-copier_init(struct copier *copier_ptr)
-/* ---------------------------------------------------------------------- */
-/*
- *   initialize copier structure
- */
-{
-
-	copier_ptr->count = 0;
-	copier_ptr->max = 10;
-	copier_ptr->n_user = (int *) PHRQ_malloc(
-		(size_t)copier_ptr->max * sizeof(int));
-	copier_ptr->start = (int *) PHRQ_malloc(
-		(size_t)copier_ptr->max * sizeof(int));
-	copier_ptr->end =(int *) PHRQ_malloc((size_t)copier_ptr->max * sizeof(int));
-	return (OK);
-}
 #include "StorageBin.h"
 
+/* ---------------------------------------------------------------------- */
 void Phreeqc::
 Use2cxxStorageBin(cxxStorageBin & sb)
+/* ---------------------------------------------------------------------- */
 {
 	//Add everything from use structure to storagebin sb
 

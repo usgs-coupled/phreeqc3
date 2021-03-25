@@ -572,31 +572,24 @@ dup_print(const char *ptr, int emphasis)
  *   a row of dashes before and after the character string.
  *
  */
-	int l, i;
-	char *dash;
+	int l;
 
 	if (pr.headings == FALSE)
 		return (OK);
 	std::string save_in(ptr);
 	l = (int) strlen(ptr);
-	dash = (char *) PHRQ_malloc(((size_t)l + 2) * sizeof(char));
-	if (dash == NULL)
-		malloc_error();
 	if (emphasis == TRUE)
 	{
-		for (i = 0; i < l; i++)
-			dash[i] = '-';
-		dash[i] = '\0';
-		output_msg(sformatf("%s\n%s\n%s\n\n", dash, save_in.c_str(), dash));
-		log_msg(sformatf("%s\n%s\n%s\n\n", dash, save_in.c_str(), dash));
+		std::string dash;
+		dash.resize(l, '-');
+		output_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash));
+		log_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash));
 	}
 	else
 	{
 		output_msg(sformatf("%s\n\n", save_in.c_str()));
 		log_msg(sformatf("%s\n\n", save_in.c_str()));
 	}
-	dash = (char *) free_check_null(dash);
-
 	return (OK);
 }
 

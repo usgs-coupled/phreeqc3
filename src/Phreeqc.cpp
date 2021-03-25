@@ -491,29 +491,6 @@ void Phreeqc::init(void)
 	*---------------------------------------------------------------------- */
 	save_init(-1);             // set initial save values
 
-	// copier structures
-	copy_solution.n_user		= copy_solution.start		= copy_solution.end			= 0;
-	copy_solution.count		    = copy_solution.max                                     = 0;
-	copy_pp_assemblage.n_user	= copy_pp_assemblage.start	= copy_pp_assemblage.end	= 0;
-	copy_pp_assemblage.count	= copy_pp_assemblage.max                                = 0;
-	copy_exchange.n_user		= copy_exchange.start		= copy_exchange.end			= 0;
-	copy_exchange.count		    = copy_exchange.max                                     = 0;
-	copy_surface.n_user			= copy_surface.start		= copy_surface.end			= 0;
-	copy_surface.count		    = copy_surface.max                                      = 0;
-	copy_ss_assemblage.n_user	= copy_ss_assemblage.start = copy_ss_assemblage.end		= 0;
-	copy_ss_assemblage.count	= copy_ss_assemblage.max                                = 0;
-	copy_gas_phase.n_user		= copy_gas_phase.start		= copy_gas_phase.end		= 0;
-	copy_gas_phase.count		= copy_gas_phase.max                                    = 0;
-	copy_kinetics.n_user		= copy_kinetics.start		= copy_kinetics.end			= 0;
-	copy_kinetics.count		    = copy_kinetics.max                                     = 0;
-	copy_mix.n_user				= copy_mix.start			= copy_mix.end				= 0;
-	copy_mix.count		        = copy_mix.max                                          = 0;
-	copy_reaction.n_user		= copy_reaction.start		= copy_reaction.end			= 0;
-	copy_reaction.count		    = copy_reaction.max                                     = 0;
-	copy_temperature.n_user		= copy_temperature.start	= copy_temperature.end		= 0;
-	copy_temperature.count		= copy_temperature.max                                  = 0;
-	copy_pressure.n_user		= copy_pressure.start		= copy_pressure.end			= 0;
-	copy_pressure.count		    = copy_pressure.max                                     = 0;
 	/*----------------------------------------------------------------------
 	*   Inverse
 	*---------------------------------------------------------------------- */
