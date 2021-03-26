@@ -385,7 +385,7 @@ get_charge(char *charge, LDBLE * l_z)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_coef(LDBLE * coef, char **eqnaddr)
+get_coef(LDBLE * coef, const char **eqnaddr)
 /* ---------------------------------------------------------------------- */
 /*
  *   Function reads through eqn and determines the coefficient of the next
@@ -485,7 +485,7 @@ get_coef(LDBLE * coef, char **eqnaddr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_elt(char **t_ptr, char *element, int *i)
+get_elt(const char **t_ptr, char *element, int *i)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads an element name out of the equation string.
@@ -557,7 +557,7 @@ get_elt(char **t_ptr, char *element, int *i)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_elts_in_species(char **t_ptr, LDBLE coef)
+get_elts_in_species(const char **t_ptr, LDBLE coef)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -692,7 +692,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-get_secondary(char **t_ptr, char *element, int *i)
+get_secondary(const char **t_ptr, char *element, int *i)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads an element name out of the equation string.
@@ -812,7 +812,7 @@ get_secondary(char **t_ptr, char *element, int *i)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_secondary_in_species(char **t_ptr, LDBLE coef)
+get_secondary_in_species(const char **t_ptr, LDBLE coef)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -942,7 +942,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_num(char **t_ptr, LDBLE * num)
+get_num(const char **t_ptr, LDBLE * num)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads through a string looking for leading numeric field
@@ -1005,7 +1005,7 @@ get_num(char **t_ptr, LDBLE * num)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_species(char **ptr)
+get_species(const char **ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*   Function reads next species out of the equation, including optional
