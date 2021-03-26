@@ -404,6 +404,17 @@ set(TESTS
   delta_h
 )
 
+# these take more than 1000 seconds
+set(SKIP
+  adapted_minteq
+  count_database_species
+  current2
+  current_analytical
+  membrane
+  mmb2
+  unequal
+)
+
 # expected fails
 set(FAILS
   high_mu
@@ -422,37 +433,14 @@ set(FAILS
   IllitisationCEC
 )
 
-# these take more than 1000 seconds
-set(SKIP
-  adapted_minteq
-  count_database_species
-  current2
-  current_analytical
-  membrane
-  mmb2
-  unequal
+foreach(test ${TESTS})
+  if (NOT ${test} IN_LIST ${SKIP})
+    add_test(NAME mytest.${test}
+             COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
+    )
+    if (${test} IN_LIST ${FAILS})
+      set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
+    )
+  endif()
 )
-  
-# foreach(test ${TESTS})
-#   list(FIND ${FAILS} ${test} index)
-#   if (${index} equ -1)
-#     add_test(NAME mytest.${test}
-#       COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
-#     )
-#   endif()
-# endforeach()
-
-add_test(NAME mytest.alkalinity
-  COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/alkalinity alkalinity.out xxx alkalinity.log
-  )
-
-
-add_test(NAME mytest.ex13_impl
-  COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/ex13_impl ex13_impl.out xxx ex13_impl.log
-  )
-
-
-add_test(NAME mytest.high_mu
-  COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/high_mu high_mu.out xxx high_mu.log
-  )
-set_tests_properties(mytest.high_mu PROPERTIES WILL_FAIL TRUE)
+endforeach()
