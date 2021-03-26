@@ -25,7 +25,7 @@ read_input(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l;
-	char *ptr;
+	const char* cptr;
 	char token[2 * MAX_LENGTH];
 #define LAST_C_KEYWORD 61
 
@@ -252,14 +252,14 @@ read_input(void)
 			}
 			else
 			{
-				ptr = line;
-				copy_token(token, &ptr, &l);
+				cptr = line;
+				copy_token(token, &cptr, &l);
 #if defined(SWIG_SHARED_OBJ)
 				warning_msg("DATABASE keyword is ignored by IPhreeqc.");
 #else
 				
 				user_database = (char *) free_check_null(user_database);
-				user_database = string_duplicate(ptr);
+				user_database = string_duplicate(cptr);
 				if (string_trim(user_database) == EMPTY)
 				{
 					error_msg("DATABASE file name is missing.", CONTINUE);
@@ -393,7 +393,7 @@ read_exchange_species(void)
 	int i;
 	int association;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 	struct phase *phase_ptr;
 
 	struct species *s_ptr;
@@ -403,7 +403,7 @@ read_exchange_species(void)
 	LDBLE offset;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_check",				/* 0 */
 		"check",				/* 1 */
@@ -496,8 +496,8 @@ read_exchange_species(void)
 			paren_count = 0;
 			copy_token(token, &next_char, &i);
 			s_ptr->mole_balance = string_hsave(token);
-			ptr = token;
-			get_secondary_in_species(&ptr, 1.0);
+			cptr = token;
+			get_secondary_in_species(&cptr, 1.0);
 			s_ptr->next_secondary =
 				(struct elt_list *) free_check_null(s_ptr->next_secondary);
 			s_ptr->next_secondary = elt_list_save();
@@ -824,11 +824,11 @@ read_exchange(void)
  */
 	int n_user, n_user_end;
 	LDBLE conc;
-	char *ptr;
+	const char* cptr;
 	char *description;
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"equilibrate",			/* 0 */
 		"equil",				/* 1 */
@@ -848,8 +848,8 @@ read_exchange(void)
  *   Read exchange number and description
  */
 
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 /*
  *   Default values + n_user, description
  */
@@ -927,8 +927,8 @@ read_exchange(void)
 		case OPTION_DEFAULT:
 			{
 				std::string token;
-				ptr = line;
-				int i = copy_token(token, &ptr);
+				cptr = line;
+				int i = copy_token(token, &cptr);
 				/*
 				*   Species formula is stored in token
 			    */
@@ -945,9 +945,9 @@ read_exchange(void)
 				temp_exchange.Get_exchange_comps().push_back(temp_comp);
 				comp_ptr = &(temp_exchange.Get_exchange_comps().back());
 				comp_ptr->Set_formula(token.c_str());
-				prev_next_char = ptr;
+				prev_next_char = cptr;
 				std::string token1;
-				i = copy_token(token1, &ptr);
+				i = copy_token(token1, &cptr);
 				if (i == DIGIT)
 				{
 					/*
@@ -964,12 +964,12 @@ read_exchange(void)
 						input_error++;
 						break;
 					}
-					prev_next_char = ptr;
-					int j = copy_token(token1, &ptr);
+					prev_next_char = cptr;
+					int j = copy_token(token1, &cptr);
 					if (j == UPPER || j == LOWER)
 					{
 						comp_ptr->Set_rate_name(token1.c_str());
-						if (copy_token(token1, &ptr) != DIGIT)
+						if (copy_token(token1, &cptr) != DIGIT)
 						{
 							error_string = sformatf(
 								"Expected a coefficient to relate exchange to kinetic reaction, but found:\n %s",
@@ -991,8 +991,8 @@ read_exchange(void)
 
 					/* exchanger conc. is related to mineral or kinetics */
 					comp_ptr->Set_phase_name(token1.c_str());
-					prev_next_char = ptr;
-					int j = copy_token(token1, &ptr);
+					prev_next_char = cptr;
+					int j = copy_token(token1, &cptr);
 					if (j != DIGIT)
 					{
 						if (token1[0] == 'K' || token1[0] == 'k')
@@ -1009,8 +1009,8 @@ read_exchange(void)
 							input_error++;
 							break;
 						}
-						prev_next_char = ptr;
-						j = copy_token(token1, &ptr);
+						prev_next_char = cptr;
+						j = copy_token(token1, &cptr);
 					}
 
 
@@ -1044,18 +1044,18 @@ read_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				char * formula = string_duplicate(token.c_str());
-				ptr = formula;
-				get_elts_in_species(&ptr, conc);
+				cptr = formula;
+				get_elts_in_species(&cptr, conc);
 				
 				/*
 				*   save formula for adjusting number of exchange sites
 			    */
-				ptr = formula;
+				cptr = formula;
 				char *name = string_duplicate(token.c_str());
 				name[0] = '\0';
 				LDBLE z;
 				int l;
-				get_token(&ptr, name, &z, &l);
+				get_token(&cptr, name, &z, &l);
 				comp_ptr->Set_formula_z(z);
 				free_check_null(formula);
 				free_check_null(name);
@@ -1083,7 +1083,7 @@ read_exchange_master_species(void)
  *   Reads master species data from data file or input file
  */
 	int j, l;
-	char *ptr, *ptr1;
+	const char* cptr, *cptr1;
 	LDBLE l_z;
 	struct element *elts_ptr;
 	struct species *s_ptr;
@@ -1098,11 +1098,11 @@ read_exchange_master_species(void)
 /*
  *   Get element name with valence, allocate space, store
  */
-		ptr = line;
+		cptr = line;
 /*
  *   Get element name and save pointer to character string
  */
-		if (copy_token(token, &ptr, &l) != UPPER && token[0] != '[')
+		if (copy_token(token, &cptr, &l) != UPPER && token[0] != '[')
 		{
 			parse_error++;
 			error_msg("Reading element for master species.", CONTINUE);
@@ -1111,8 +1111,8 @@ read_exchange_master_species(void)
 		}
 		/*
 		   if (token[0] == '[') {
-		   ptr1 = token;
-		   get_elt(&ptr, element, &l);
+		   cptr1 = token;
+		   get_elt(&cptr, element, &l);
 		   strcpy(token, element);
 		   }
 		 */
@@ -1138,7 +1138,7 @@ read_exchange_master_species(void)
 /*
  *   Save pointer to species data for master species
  */
-		if ((copy_token(token, &ptr, &l) != UPPER) &&
+		if ((copy_token(token, &cptr, &l) != UPPER) &&
 			token[0] != '[' && (strcmp_nocase_arg1(token, "e-") != 0))
 		{
 			parse_error++;
@@ -1153,8 +1153,8 @@ read_exchange_master_species(void)
 		}
 		else
 		{
-			ptr1 = token;
-			get_token(&ptr1, token1, &l_z, &l);
+			cptr1 = token;
+			get_token(&cptr1, token1, &l_z, &l);
 			master[count_master]->s = s_store(token1, l_z, FALSE);
 		}
 /*
@@ -1189,12 +1189,12 @@ read_gas_phase(void)
  */
 	int i, j, l;
 	int n_user, n_user_end;
-	char *ptr;
+	const char* cptr;
 	char *description;
 	char token[MAX_LENGTH];
 	cxxGasPhase temp_gas_phase(this->phrq_io);
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"pressure",				/* 0 */
 		"volume",				/* 1 */
@@ -1210,8 +1210,8 @@ read_gas_phase(void)
 /*
  *   Read gas_phase number
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 	temp_gas_phase.Set_n_user(n_user);
 	temp_gas_phase.Set_n_user_end(n_user_end);
@@ -1302,10 +1302,10 @@ read_gas_phase(void)
 				/*
 				*   Read name
 				*/
-				ptr = line;
-				copy_token(token, &ptr, &l);
+				cptr = line;
+				copy_token(token, &cptr, &l);
 				temp_comp.Set_phase_name(token);
-				if ((j = copy_token(token, &ptr, &l)) == EMPTY)
+				if ((j = copy_token(token, &cptr, &l)) == EMPTY)
 				{
 					temp_comp.Set_p_read(NAN);
 					temp_gas_phase.Get_gas_comps().push_back(temp_comp);
@@ -1376,12 +1376,12 @@ read_inverse(void)
  */
 	int n, j;
 	int n_user, n_user_end;
-	char *ptr;
+	const char* cptr;
 	char *description;
 	LDBLE range_max, inv_tol, water_uncertainty;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"solutions",			/* 0 */
 		"uncertainty",			/* 1 */
@@ -1413,11 +1413,11 @@ read_inverse(void)
 	};
 	int count_opt_list = 27;
 
-	ptr = line;
+	cptr = line;
 /*
  *   Read solution number and description
  */
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 /*
  *   Malloc space for solution data
  */
@@ -1484,10 +1484,10 @@ read_inverse(void)
 		case 1:				/* uncertainty */
 		case 2:				/* uncertainties */
 			inverse[n].uncertainties =
-				(LDBLE *) free_check_null(inverse[n].uncertainties);
+				(LDBLE*)free_check_null(inverse[n].uncertainties);
 			inverse[n].uncertainties =
 				read_list_doubles(&next_char,
-								  &inverse[n].count_uncertainties);
+					&inverse[n].count_uncertainties);
 			opt_save = OPTION_ERROR;
 			break;
 		case 3:				/* balances */
@@ -1536,7 +1536,7 @@ read_inverse(void)
 		case 17:				/* force_solution */
 		case 18:				/* force_solutions */
 			inverse[n].force_solns =
-				(int *) free_check_null(inverse[n].force_solns);
+				(int*)free_check_null(inverse[n].force_solns);
 			inverse[n].force_solns =
 				read_list_t_f(&next_char, &inverse[n].count_force_solns);
 			opt_save = OPTION_ERROR;
@@ -1569,29 +1569,35 @@ read_inverse(void)
 			opt_save = OPTION_ERROR;
 			break;
 		case 25:				/* lon_netpath */
-			/*copy_token(file_name, &next_char, &l); */
-			if (string_trim(next_char) != EMPTY)
+		{
+			std::string temp_name(next_char);
+			string_trim(temp_name);
+			if (temp_name.size() > 0)
 			{
-				inverse[n].netpath = string_hsave(next_char);
+				inverse[n].netpath = string_hsave(temp_name.c_str());
 			}
 			else
 			{
 				inverse[n].netpath = string_hsave("netpath");
 			}
 			opt_save = OPTION_ERROR;
-			break;
+		}
+		break;
 		case 26:				/* pat_netpath */
-			/*copy_token(file_name, &next_char, &l); */
-			if (string_trim(next_char) != EMPTY)
+		{
+			std::string temp_name(next_char);
+			string_trim(temp_name);
+			if (temp_name.size() > 0)
 			{
-				inverse[n].pat = string_hsave(next_char);
+				inverse[n].pat = string_hsave(temp_name.c_str());
 			}
 			else
 			{
 				inverse[n].pat = string_hsave("netpath");
 			}
 			opt_save = OPTION_ERROR;
-			break;
+		}
+		break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -1630,7 +1636,7 @@ read_inverse(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_inv_balances(struct inverse *inverse_ptr, char *ptr)
+read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l, count;
@@ -1638,7 +1644,7 @@ read_inv_balances(struct inverse *inverse_ptr, char *ptr)
 /*
  *   Read element name
  */
-	j = copy_token(token, &ptr, &l);
+	j = copy_token(token, &cptr, &l);
 	if (j == EMPTY)
 	{
 		return (OK);
@@ -1661,7 +1667,7 @@ read_inv_balances(struct inverse *inverse_ptr, char *ptr)
  *   Read element uncertainties
  */
 		inverse_ptr->elts[inverse_ptr->count_elts].uncertainties =
-			read_list_doubles(&ptr, &count);
+			read_list_doubles(&cptr, &count);
 		inverse_ptr->elts[inverse_ptr->count_elts].count_uncertainties =
 			count;
 		inverse_ptr->count_elts++;
@@ -1670,7 +1676,7 @@ read_inv_balances(struct inverse *inverse_ptr, char *ptr)
 	{
 		inverse_ptr->ph_uncertainties =
 			(LDBLE *) free_check_null(inverse_ptr->ph_uncertainties);
-		inverse_ptr->ph_uncertainties = read_list_doubles(&ptr, &count);
+		inverse_ptr->ph_uncertainties = read_list_doubles(&cptr, &count);
 		inverse_ptr->count_ph_uncertainties = count;
 	}
 	return (OK);
@@ -1678,21 +1684,21 @@ read_inv_balances(struct inverse *inverse_ptr, char *ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_inv_isotopes(struct inverse *inverse_ptr, char *ptr)
+read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l, l1, l2, count;
 	LDBLE isotope_number;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
-	char *ptr1, *ptr2;
+	const char* cptr1, *ptr2;
 	const char * redox_name, *element_name;
 /*
  *   Read element name
  */
-	ptr1 = ptr;
-	j = copy_token(token, &ptr1, &l);
+	cptr1 = cptr;
+	j = copy_token(token, &cptr1, &l);
 /*
- *   ptr1 is start of uncertainties
+ *   cptr1 is start of uncertainties
  */
 	if (j == EMPTY)
 	{
@@ -1769,24 +1775,24 @@ read_inv_isotopes(struct inverse *inverse_ptr, char *ptr)
  *   Read isotope uncertainties
  */
 	inverse_ptr->i_u[inverse_ptr->count_i_u].uncertainties =
-		read_list_doubles(&ptr1, &count);
+		read_list_doubles(&cptr1, &count);
 	inverse_ptr->i_u[inverse_ptr->count_i_u].count_uncertainties = count;
 	inverse_ptr->count_i_u++;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_inv_phases(struct inverse *inverse_ptr, char *ptr)
+read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
-	char *ptr1;
+	const char* cptr1;
 	std::vector <cxxSolutionIsotope> isotopes;
 /*
  *   Read phase name
  */
-	j = copy_token(token, &ptr, &l);
+	j = copy_token(token, &cptr, &l);
 	if (j == EMPTY)
 		return (OK);
 	inverse_ptr->phases = (struct inv_phases *) PHRQ_realloc(inverse_ptr->phases,
@@ -1802,7 +1808,7 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 	for (;;)
 	{
 		cxxSolutionIsotope temp_isotope;
-		j = copy_token(token, &ptr, &l);
+		j = copy_token(token, &cptr, &l);
 		if (j == EMPTY)
 			break;
 		strcpy(token1, token);
@@ -1826,14 +1832,14 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 /*
  *   read isotope data
  */
-			ptr1 = token;
+			cptr1 = token;
 
 			/* isotope number */
-			get_num(&ptr1, &dummy);
+			get_num(&cptr1, &dummy);
 			temp_isotope.Set_isotope_number(dummy);
-			if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
+			if (cptr1[0] == '\0' || isupper((int) cptr1[0]) == FALSE)
 			{
-				error_string = sformatf( "Expecting element name: %s.", ptr1);
+				error_string = sformatf( "Expecting element name: %s.", cptr1);
 				error_msg(error_string, CONTINUE);
 				error_msg(line_save, CONTINUE);
 				input_error++;
@@ -1841,10 +1847,10 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 			}
 
 			/* element name */
-			temp_isotope.Set_elt_name(ptr1);
+			temp_isotope.Set_elt_name(cptr1);
 
 			/* ratio */
-			j = copy_token(token, &ptr, &l);
+			j = copy_token(token, &cptr, &l);
 			if (j != DIGIT)
 			{
 				error_msg("Expecting isotope ratio for phase.", CONTINUE);
@@ -1856,8 +1862,8 @@ read_inv_phases(struct inverse *inverse_ptr, char *ptr)
 			temp_isotope.Set_ratio(dummy);
 
 			/* read and store isotope ratio uncertainty */
-			prev_next_char = ptr;
-			if (copy_token(token, &ptr, &l) != DIGIT)
+			prev_next_char = cptr;
+			if (copy_token(token, &cptr, &l) != DIGIT)
 			{
 				input_error++;
 				error_string = sformatf(
@@ -1930,14 +1936,14 @@ read_kinetics(void)
 /*
  *   Read kinetics
  */
-	char *ptr;
+	const char* cptr;
 	char *description;
 	std::string token;
 	int n_user, n_user_end;
 	LDBLE step;
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"tol",					/* 0 */
 		"m",					/* 1 */
@@ -1961,8 +1967,8 @@ read_kinetics(void)
 /*
  *   Read kinetics number
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	cxxKinetics temp_kinetics(this->phrq_io);
 	temp_kinetics.Set_n_user(n_user);
 	temp_kinetics.Set_n_user_end(n_user_end);
@@ -2000,8 +2006,8 @@ read_kinetics(void)
 				delete kinetics_comp_ptr;
 			}
 			kinetics_comp_ptr = new cxxKineticsComp;
-			ptr = line;
-			copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
 			kinetics_comp_ptr->Set_rate_name(token.c_str());
 			break;
 		case OPTION_ERROR:
@@ -2021,6 +2027,7 @@ read_kinetics(void)
 				prev_next_char = next_char;
 				if (copy_token(token, &next_char) == DIGIT)
 				{
+					char* ptr;
 					kinetics_comp_ptr->Set_tol(strtod(token.c_str(), &ptr));
 				}
 				else
@@ -2045,6 +2052,7 @@ read_kinetics(void)
 				prev_next_char = next_char;
 				if (copy_token(token, &next_char) == DIGIT)
 				{
+					char* ptr;
 					kinetics_comp_ptr->Set_m(strtod(token.c_str(), &ptr));
 				}
 				else
@@ -2069,6 +2077,7 @@ read_kinetics(void)
 				prev_next_char = next_char;
 				if (copy_token(token, &next_char) == DIGIT)
 				{
+					char* ptr;
 					kinetics_comp_ptr->Set_m0(strtod(token.c_str(), &ptr));
 				}
 				else
@@ -2099,6 +2108,7 @@ read_kinetics(void)
 					 */
 					if (j == DIGIT)
 					{
+						char* ptr;
 						kinetics_comp_ptr->Get_d_params().push_back(strtod(token.c_str(), &ptr));
 					}
 					else
@@ -2123,11 +2133,11 @@ read_kinetics(void)
 				/*
 				 *   Store reactant name, default coefficient
 				 */
-				ptr = next_char;
+				cptr = next_char;
 				bool have_name = false;
 				std::string name;
 				LDBLE coef = 1;
-				while (copy_token(token, &ptr) != EMPTY)
+				while (copy_token(token, &cptr) != EMPTY)
 				{
 					coef = 1;
 					if (isalpha((int) token[0]) || (token[0] == '(')
@@ -2207,6 +2217,7 @@ read_kinetics(void)
 						}
 						else
 						{
+							char* ptr;
 							step = strtod(token.c_str(), &ptr);
 							temp_kinetics.Get_steps().push_back(step);
 						}
@@ -2278,6 +2289,7 @@ read_kinetics(void)
 				int j = copy_token(token, &next_char);
 				if (j == DIGIT)
 				{
+					char* ptr;
 					temp_kinetics.Set_rk((int) strtod(token.c_str(), &ptr));
 				}
 				else if (j == EMPTY)
@@ -2297,6 +2309,7 @@ read_kinetics(void)
 				int j = copy_token(token, &next_char);
 				if (j == DIGIT)
 				{
+					char* ptr;
 					temp_kinetics.Set_bad_step_max((int) strtod(token.c_str(), &ptr));
 				}
 				else if (j == EMPTY)
@@ -2318,6 +2331,7 @@ read_kinetics(void)
 				int j = copy_token(token, &next_char);
 				if (j == DIGIT)
 				{
+					char* ptr;
 					temp_kinetics.Set_cvode_steps((int) strtod(token.c_str(), &ptr));
 				}
 				else if (j == EMPTY)
@@ -2337,6 +2351,7 @@ read_kinetics(void)
 				int j = copy_token(token, &next_char);
 				if (j == DIGIT)
 				{
+					char* ptr;
 					temp_kinetics.Set_cvode_order((int) strtod(token.c_str(), &ptr));
 				}
 				else if (j == EMPTY)
@@ -2415,7 +2430,7 @@ read_kinetics(void)
 }
 /* ---------------------------------------------------------------------- */
 LDBLE * Phreeqc::
-read_list_doubles(char **ptr, int *count_doubles)
+read_list_doubles(const char **cptr, int *count_doubles)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2423,7 +2438,7 @@ read_list_doubles(char **ptr, int *count_doubles)
  *   a LDBLE cannot be read from a token.
  *
  *      Arguments:
- *	 ptr    entry: points to line to read from
+ *	 cptr    entry: points to line to read from
  *		exit:  points to next non-LDBLE token or end of line
  *
  *	 count_doubles exit: number of LDBLEs read
@@ -2435,7 +2450,7 @@ read_list_doubles(char **ptr, int *count_doubles)
 	LDBLE *LDBLE_list;
 	char token[MAX_LENGTH];
 	LDBLE value;
-	char *ptr_save;
+	const char* cptr_save;
 	int l;
 
 	LDBLE_list = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
@@ -2443,8 +2458,8 @@ read_list_doubles(char **ptr, int *count_doubles)
 		malloc_error();
 	*count_doubles = 0;
 
-	ptr_save = *ptr;
-	while (copy_token(token, ptr, &l) != EMPTY)
+	cptr_save = *cptr;
+	while (copy_token(token, cptr, &l) != EMPTY)
 	{
 		if (sscanf(token, SCANFORMAT, &value) == 1)
 		{
@@ -2456,11 +2471,11 @@ read_list_doubles(char **ptr, int *count_doubles)
 			if (LDBLE_list == NULL)
 				malloc_error();
 			LDBLE_list[(*count_doubles) - 1] = value;
-			ptr_save = *ptr;
+			cptr_save = *cptr;
 		}
 		else
 		{
-			*ptr = ptr_save;
+			*cptr = cptr_save;
 			break;
 		}
 	}
@@ -2469,7 +2484,7 @@ read_list_doubles(char **ptr, int *count_doubles)
 
 /* ---------------------------------------------------------------------- */
 int * Phreeqc::
-read_list_ints(char **ptr, int *count_ints, int positive)
+read_list_ints(const char **cptr, int *count_ints, int positive)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2477,7 +2492,7 @@ read_list_ints(char **ptr, int *count_ints, int positive)
  *   an int cannot be read from a token.
  *
  *      Arguments:
- *	 ptr    entry: points to line to read from
+ *	 cptr    entry: points to line to read from
  *		exit:  points to next non-int token or end of line
  *
  *	 count_ints exit: number of LDBLEs read
@@ -2491,15 +2506,15 @@ read_list_ints(char **ptr, int *count_ints, int positive)
 	char token[MAX_LENGTH];
 	int value;
 	int l;
-	char *ptr_save;
+	const char* cptr_save;
 
 	int_list = (int *) PHRQ_malloc(sizeof(int));
 	if (int_list == NULL)
 		malloc_error();
 	*count_ints = 0;
 
-	ptr_save = *ptr;
-	while (copy_token(token, ptr, &l) != EMPTY)
+	cptr_save = *cptr;
+	while (copy_token(token, cptr, &l) != EMPTY)
 	{
 		if (sscanf(token, "%d", &value) == 1)
 		{
@@ -2519,11 +2534,11 @@ read_list_ints(char **ptr, int *count_ints, int positive)
 				error_msg(line_save, CONTINUE);
 				input_error++;
 			}
-			ptr_save = *ptr;
+			cptr_save = *cptr;
 		}
 		else
 		{
-			*ptr = ptr_save;
+			*cptr = cptr_save;
 			break;
 		}
 	}
@@ -2532,7 +2547,7 @@ read_list_ints(char **ptr, int *count_ints, int positive)
 
 /* ---------------------------------------------------------------------- */
 int * Phreeqc::
-read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
+read_list_ints_range(const char **cptr, int *count_ints, int positive, int *int_list)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2540,7 +2555,7 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
  *   an int cannot be read from a token.
  *
  *      Arguments:
- *	 ptr    entry: points to line to read from
+ *	 cptr    entry: points to line to read from
  *		exit:  points to next non-int token or end of line
  *
  *	 count_ints entry: number of ints already in list
@@ -2553,7 +2568,7 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 	char token[MAX_LENGTH];
 	int value, value1, value2;
 	int i, l;
-	char *ptr_save;
+	const char* cptr_save;
 
 	if (int_list == NULL)
 	{
@@ -2565,8 +2580,8 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 		}
 		*count_ints = 0;
 	}
-	ptr_save = *ptr;
-	while (copy_token(token, ptr, &l) != EMPTY)
+	cptr_save = *cptr;
+	while (copy_token(token, cptr, &l) != EMPTY)
 	{
 		if (sscanf(token, "%d", &value) == 1)
 		{
@@ -2628,11 +2643,11 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 					}
 				}
 			}
-			ptr_save = *ptr;
+			cptr_save = *cptr;
 		}
 		else
 		{
-			*ptr = ptr_save;
+			*cptr = cptr_save;
 			break;
 		}
 	}
@@ -2641,7 +2656,7 @@ read_list_ints_range(char **ptr, int *count_ints, int positive, int *int_list)
 
 /* ---------------------------------------------------------------------- */
 int * Phreeqc::
-read_list_t_f(char **ptr, int *count_ints)
+read_list_t_f(const char **cptr, int *count_ints)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2649,7 +2664,7 @@ read_list_t_f(char **ptr, int *count_ints)
  *   until non- t or f is found
  *
  *      Arguments:
- *	 ptr    entry: points to line to read from
+ *	 cptr    entry: points to line to read from
  *		exit:  points to next non-int token or end of line
  *
  *	 count_ints exit: number of LDBLEs read
@@ -2669,7 +2684,7 @@ read_list_t_f(char **ptr, int *count_ints)
 		malloc_error();
 	*count_ints = 0;
 
-	while (copy_token(token, ptr, &l) != EMPTY)
+	while (copy_token(token, cptr, &l) != EMPTY)
 	{
 		str_tolower(token);
 		if (token[0] == 't')
@@ -2700,15 +2715,17 @@ read_list_t_f(char **ptr, int *count_ints)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_log_k_only(char *ptr, LDBLE * log_k)
+read_log_k_only(const char* cptr_in, LDBLE * log_k)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Read log k
  */
 	*log_k = 0.0;
-	replace("=", " ", ptr);
-	if (sscanf(ptr, SCANFORMAT, log_k) < 1)
+	std::string stds(cptr_in);
+	replace(stds, "=", " ");
+	//replace("=", " ", cptr);
+	if (sscanf(stds.c_str(), SCANFORMAT, log_k) < 1)
 	{
 		input_error++;
 		error_msg("Expecting log k.", CONTINUE);
@@ -2718,12 +2735,14 @@ read_log_k_only(char *ptr, LDBLE * log_k)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_t_c_only(char *ptr, LDBLE *t_c)
+read_t_c_only(const char* cptr_in, LDBLE *t_c)
 /* ---------------------------------------------------------------------- */
 {
 	*t_c = 0.0;
-	replace("=", " ", ptr);
-	if (sscanf(ptr, SCANFORMAT, t_c) < 1)
+	std::string stds(cptr_in);
+	replace(stds, "=", " ");
+	//replace("=", " ", cptr);
+	if (sscanf(stds.c_str(), SCANFORMAT, t_c) < 1)
 	{
 		input_error++;
 		error_msg("Expecting numeric value for critical temperature T_c (K)", CONTINUE);
@@ -2733,12 +2752,13 @@ read_t_c_only(char *ptr, LDBLE *t_c)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_p_c_only(char *ptr, LDBLE * p_c)
+read_p_c_only(const char* cptr, LDBLE * p_c)
 /* ---------------------------------------------------------------------- */
 {
 	*p_c = 0.0;
-	replace("=", " ", ptr);
-	if (sscanf(ptr, SCANFORMAT, p_c) < 1)
+	std::string stds(cptr);
+	replace(stds, "=", " ");
+	if (sscanf(stds.c_str(), SCANFORMAT, p_c) < 1)
 	{
 		input_error++;
 		error_msg("Expecting numeric value for critical pressure P_c (atm)", CONTINUE);
@@ -2748,12 +2768,13 @@ read_p_c_only(char *ptr, LDBLE * p_c)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_omega_only(char *ptr, LDBLE *omega)
+read_omega_only(const char* cptr, LDBLE *omega)
 /* ---------------------------------------------------------------------- */
 {
 	*omega = 0.0;
-	replace("=", " ", ptr);
-	if (sscanf(ptr, SCANFORMAT, omega) < 1)
+	std::string stds(cptr);
+	replace(stds, "=", " ");
+	if (sscanf(stds.c_str(), SCANFORMAT, omega) < 1)
 	{
 		input_error++;
 		error_msg("Expecting numeric value for acentric factor Omega", CONTINUE);
@@ -2763,7 +2784,7 @@ read_omega_only(char *ptr, LDBLE *omega)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
+read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
@@ -2778,7 +2799,7 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 /* Vmax, dmax...
 	delta_v[10] = 999.0;
 	delta_v[11] = 1.0; */
-	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT /*SCANFORMAT SCANFORMAT */,
+	j = sscanf(cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT /*SCANFORMAT SCANFORMAT */,
 		/* a1..a4 */
 		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
 		/* wref */
@@ -2809,7 +2830,7 @@ read_aq_species_vm_parms(char *ptr, LDBLE * delta_v)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
+read_vm_only(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -2821,7 +2842,7 @@ read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	{
 		delta_v[j] = 0.0;
 	}
-	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	j = sscanf(cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
 		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
 		&(delta_v[4]), &(delta_v[5]), &(delta_v[6]), &(delta_v[7]));
 	if (j < 1)
@@ -2837,7 +2858,7 @@ read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	*units = cm3_per_mol;
 	do
 	{
-		j = copy_token(token, &ptr, &l);
+		j = copy_token(token, &cptr, &l);
 	} while (j == DIGIT); 
 
 	if (j == EMPTY)
@@ -2875,7 +2896,7 @@ read_vm_only(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_phase_vm(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
+read_phase_vm(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -2887,7 +2908,7 @@ read_phase_vm(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	{
 		delta_v[j] = 0.0;
 	}
-	j = sscanf(ptr, SCANFORMAT /*SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT*/,
+	j = sscanf(cptr, SCANFORMAT /*SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT*/,
 		&(delta_v[0])/*, &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
 		&(delta_v[4]), &(delta_v[5]), &(delta_v[6]), &(delta_v[7])*/);
 	if (j < 1)
@@ -2903,7 +2924,7 @@ read_phase_vm(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	*units = cm3_per_mol;
 	do
 	{
-		j = copy_token(token, &ptr, &l);
+		j = copy_token(token, &cptr, &l);
 	} while (j == DIGIT); 
 
 	if (j == EMPTY)
@@ -2943,7 +2964,7 @@ read_phase_vm(char *ptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_delta_h_only(char *ptr, LDBLE * delta_h, DELTA_H_UNIT * units)
+read_delta_h_only(const char* cptr_in, LDBLE * delta_h, DELTA_H_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l, kilo, joul;
@@ -2952,8 +2973,10 @@ read_delta_h_only(char *ptr, LDBLE * delta_h, DELTA_H_UNIT * units)
  *   Read delta H
  */
 	*delta_h = 0.0;
-	replace("=", " ", ptr);
-	j = copy_token(token, &ptr, &l);
+	std::string stds(cptr_in);
+	replace(stds, "=", " ");
+	const char* cptr = stds.c_str();
+	j = copy_token(token, &cptr, &l);
 	if (j == EMPTY)
 	{
 		input_error++;
@@ -2969,7 +2992,7 @@ read_delta_h_only(char *ptr, LDBLE * delta_h, DELTA_H_UNIT * units)
 /*
  *   Read delta H units
  */
-	j = copy_token(token, &ptr, &l);
+	j = copy_token(token, &cptr, &l);
 	*units = kjoules;
 	kilo = TRUE;
 	joul = TRUE;
@@ -3013,7 +3036,7 @@ read_delta_h_only(char *ptr, LDBLE * delta_h, DELTA_H_UNIT * units)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_analytical_expression_only(char *ptr, LDBLE * log_k)
+read_analytical_expression_only(const char* cptr, LDBLE * log_k)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
@@ -3025,7 +3048,7 @@ read_analytical_expression_only(char *ptr, LDBLE * log_k)
 	{
 		log_k[j] = 0.0;
 	}
-	j = sscanf(ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+	j = sscanf(cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
 			   &(log_k[0]), &(log_k[1]), &(log_k[2]), &(log_k[3]),
 			   &(log_k[4]), &(log_k[5]));
 	if (j < 1)
@@ -3041,7 +3064,7 @@ read_analytical_expression_only(char *ptr, LDBLE * log_k)
 /* VP: Density Start */
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_millero_abcdef (char *ptr, LDBLE * abcdef)
+read_millero_abcdef (const char* cptr, LDBLE * abcdef)
 /* ---------------------------------------------------------------------- */
 {
   int j;
@@ -3052,7 +3075,7 @@ read_millero_abcdef (char *ptr, LDBLE * abcdef)
   {
     abcdef[j] = 0.0;
   }
-  j = sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+  j = sscanf (cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
 	    &(abcdef[0]), &(abcdef[1]), &(abcdef[2]), &(abcdef[3]), &(abcdef[4]), &(abcdef[5]), &(abcdef[6]));
   if (j < 1)
   {
@@ -3067,7 +3090,7 @@ read_millero_abcdef (char *ptr, LDBLE * abcdef)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_viscosity_parms(char *ptr, LDBLE * Jones_Dole)
+read_viscosity_parms(const char* cptr, LDBLE * Jones_Dole)
 /* ---------------------------------------------------------------------- */
 {
   int j;
@@ -3078,7 +3101,7 @@ read_viscosity_parms(char *ptr, LDBLE * Jones_Dole)
   {
     Jones_Dole[j] = 0.0;
   }
-  j = sscanf (ptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
+  j = sscanf (cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT,
 	&(Jones_Dole[0]), &(Jones_Dole[1]), &(Jones_Dole[2]), &(Jones_Dole[3]), &(Jones_Dole[4]), &(Jones_Dole[5]), &(Jones_Dole[6]), &(Jones_Dole[7]), &(Jones_Dole[8]), &(Jones_Dole[9]));
   if (j < 1)
   {
@@ -3109,15 +3132,15 @@ read_incremental_reactions(void)
  *
  */
 	int j, l;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 
-	ptr = line;
+	cptr = line;
 	/* read keyword */
-	copy_token(token, &ptr, &l);
+	copy_token(token, &cptr, &l);
 
 	/* read true or false */
-	incremental_reactions = get_true_false(ptr, TRUE);
+	incremental_reactions = get_true_false(cptr, TRUE);
 /*
  *   find next keyword
  */
@@ -3144,7 +3167,7 @@ read_master_species(void)
  *   Reads master species data from data file or input file
  */
 	int j, i, l;
-	char *ptr, *ptr1;
+	const char* cptr, *cptr1;
 	LDBLE l_z;
 	struct element *elts_ptr;
 	struct species *s_ptr;
@@ -3161,11 +3184,11 @@ read_master_species(void)
 /*
  *   Get element name with valence, allocate space, store
  */
-		ptr = line;
+		cptr = line;
 /*
  *   Get element name and save pointer to character string
  */
-		if (copy_token(token, &ptr, &l) != UPPER && token[0] != '[')
+		if (copy_token(token, &cptr, &l) != UPPER && token[0] != '[')
 		{
 			parse_error++;
 			error_msg("Reading element for master species.", CONTINUE);
@@ -3174,8 +3197,8 @@ read_master_species(void)
 		}
 		/*
 		   if (token[0] == '[') {
-		   ptr1 = token;
-		   get_elt(&ptr, element, &l);
+		   cptr1 = token;
+		   get_elt(&cptr, element, &l);
 		   strcpy(token, element);
 		   }
 		 */
@@ -3202,7 +3225,7 @@ read_master_species(void)
 /*
  *   Save pointer to species data for master species
  */
-		if ((copy_token(token, &ptr, &l) != UPPER) &&
+		if ((copy_token(token, &cptr, &l) != UPPER) &&
 			token[0] != '[' && (strcmp_nocase_arg1(token, "e-") != 0))
 		{
 			parse_error++;
@@ -3218,8 +3241,8 @@ read_master_species(void)
 		}
 		else
 		{
-			ptr1 = token;
-			get_token(&ptr1, token1, &l_z, &l);
+			cptr1 = token;
+			get_token(&cptr1, token1, &l_z, &l);
 			master[count_master]->s = s_store(token1, l_z, FALSE);
 		}
 		
@@ -3239,7 +3262,7 @@ read_master_species(void)
 /*
  *   Read alkalinity for species
  */
-		copy_token(token, &ptr, &l);
+		copy_token(token, &cptr, &l);
 		i = sscanf(token, SCANFORMAT, &master[count_master]->alk);
 		if (i != 1)
 		{
@@ -3261,7 +3284,7 @@ read_master_species(void)
 /*
  *   Read default gfw for species
  */
-		i = copy_token(token, &ptr, &l);
+		i = copy_token(token, &cptr, &l);
 		if (i == DIGIT)
 		{
 			(void)sscanf(token, SCANFORMAT, &master[count_master]->gfw);
@@ -3297,7 +3320,7 @@ read_master_species(void)
 			if (strcmp(master[count_master]->elt->name, "E") != 0)
 			{
 				elts_ptr = master[count_master]->elt;
-				i = copy_token(token, &ptr, &l);
+				i = copy_token(token, &cptr, &l);
 				if (i == DIGIT)
 				{
 					(void)sscanf(token, SCANFORMAT, &elts_ptr->gfw);
@@ -3343,7 +3366,7 @@ read_mix(void)
 	int n_solution;
 	LDBLE fraction;
 	int j, i, l;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 	char *description;
 	cxxMix temp_mix;
@@ -3351,8 +3374,8 @@ read_mix(void)
 /*
  *   Read mix number
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 	temp_mix.Set_n_user(n_user);
 	temp_mix.Set_n_user_end(n_user);
@@ -3378,11 +3401,11 @@ read_mix(void)
 		{
 			break;
 		}
-		ptr = line;
+		cptr = line;
 /*
  *   Read n_user
  */
-		i = copy_token(token, &ptr, &l);
+		i = copy_token(token, &cptr, &l);
 		if (i == DIGIT)
 		{
 			(void)sscanf(token, "%d ", &n_solution);
@@ -3397,7 +3420,7 @@ read_mix(void)
 /*
  *   Read fraction for solution
  */
-		copy_token(token, &ptr, &l);
+		copy_token(token, &cptr, &l);
 		j = sscanf(token, SCANFORMAT, &fraction);
 		if (j != 1)
 		{
@@ -3445,14 +3468,14 @@ read_entity_mix(std::map<int, cxxMix> &mix_map)
 	int n_solution;
 	LDBLE fraction;
 	int j, i, l;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 	cxxMix temp_mix;
 
 /*
  *   Read mix number
  */
-	ptr = line;
+	cptr = line;
 	temp_mix.read_number_description(line);
 /*
  *   Read mixture data
@@ -3465,11 +3488,11 @@ read_entity_mix(std::map<int, cxxMix> &mix_map)
 		{
 			break;
 		}
-		ptr = line;
+		cptr = line;
 /*
  *   Read n_user
  */
-		i = copy_token(token, &ptr, &l);
+		i = copy_token(token, &cptr, &l);
 		if (i == DIGIT)
 		{
 			(void)sscanf(token, "%d ", &n_solution);
@@ -3484,7 +3507,7 @@ read_entity_mix(std::map<int, cxxMix> &mix_map)
 /*
  *   Read fraction for entity
  */
-		copy_token(token, &ptr, &l);
+		copy_token(token, &cptr, &l);
 		j = sscanf(token, SCANFORMAT, &fraction);
 		if (j != 1)
 		{
@@ -3510,19 +3533,19 @@ read_entity_mix(std::map<int, cxxMix> &mix_map)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_number_description(char *ptr, int *n_user,
+read_number_description(const char* cptr, int *n_user,
 						int *n_user_end, char **description, int allow_negative)
 /* ---------------------------------------------------------------------- */
 {
 	int l, n;
 	char token[MAX_LENGTH];
-	char *ptr1;
+	const char* cptr1;
 /*
  *   Read user number, allow negative numbers Oct 3, 2011
  */
-	copy_token(token, &ptr, &l);  // keyword
-	ptr1 = ptr;
-	copy_token(token, &ptr, &l);
+	copy_token(token, &cptr, &l);  // keyword
+	cptr1 = cptr;
+	copy_token(token, &cptr, &l);
 
 	if (!isdigit(token[0]) && token[0] != '-')
 	{
@@ -3555,7 +3578,7 @@ read_number_description(char *ptr, int *n_user,
 				error_msg(error_string, CONTINUE);
 				input_error++;
 			}
-			ptr1 = ptr;
+			cptr1 = cptr;
 		}
 		else
 		{
@@ -3574,7 +3597,7 @@ read_number_description(char *ptr, int *n_user,
 				input_error++;
 			}
 			*n_user_end = *n_user;
-			ptr1 = ptr;
+			cptr1 = cptr;
 		};
 	}
 	if (*n_user < 0 && allow_negative == FALSE)
@@ -3586,8 +3609,8 @@ read_number_description(char *ptr, int *n_user,
 /*
  *   Read description
  */
-	for (; isspace((int) ptr1[0]); ptr1++);
-	*description = string_duplicate(ptr1);
+	for (; isspace((int) cptr1[0]); cptr1++);
+	*description = string_duplicate(cptr1);
 	return (OK);
 }
 
@@ -3601,7 +3624,7 @@ read_phases(void)
  */
 	int j, i, l;
 	int association;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 	char token1[MAX_LENGTH];
 	struct phase *phase_ptr;
@@ -3609,7 +3632,7 @@ read_phases(void)
 	struct rxn_token *token_ptr;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_check",				/* 0 */
 		"check",				/* 1 */
@@ -3771,8 +3794,8 @@ read_phases(void)
  *   Get element name and save pointer to character string
  */
 			phase_ptr = NULL;
-			ptr = line;
-			copy_token(token, &ptr, &l);
+			cptr = line;
+			copy_token(token, &cptr, &l);
 /*
  *   Get and parse equation
  */
@@ -3893,21 +3916,21 @@ read_pp_assemblage(void)
 	int j;
 	int return_value;
 	int n_user, n_user_end;
-	char *ptr;
+	const char* cptr;
 	char *description;
 	std::string token;
 	int opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"force_equality"		/* 0 */
 	};
 	int count_opt_list = 1;
 
-	ptr = line;
+	cptr = line;
 	/*
 	 *   Read pp_assemblage number
 	 */
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	/*
 	 *   Find pp_assemblage or realloc space for pp_assemblage
 	 */
@@ -3980,11 +4003,11 @@ read_pp_assemblage(void)
 			/*
 			 *   Read name
 			 */
-			ptr = line;
-			copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
 			comp->Set_name(token.c_str());
 
-			if ((j = copy_token(token, &ptr)) == EMPTY)
+			if ((j = copy_token(token, &cptr)) == EMPTY)
 				continue;
 			/*
 			 *   Read saturation index
@@ -4002,12 +4025,12 @@ read_pp_assemblage(void)
 			/*
 			 *   Adding a reaction to the phase boundary
 			 */
-			if ((j = copy_token(token, &ptr)) == EMPTY)
+			if ((j = copy_token(token, &cptr)) == EMPTY)
 				continue;
 			if (j == UPPER || j == LOWER)
 			{
 				comp->Set_add_formula(token.c_str());
-				j = copy_token(token, &ptr);
+				j = copy_token(token, &cptr);
 			}
 			/*
 			 *   Read amount
@@ -4029,7 +4052,7 @@ read_pp_assemblage(void)
 				input_error++;
 				continue;
 			}
-			if ((j = copy_token(token, &ptr)) == EMPTY)
+			if ((j = copy_token(token, &cptr)) == EMPTY)
 				continue;
 			Utilities::str_tolower(token);
 			if (strstr(token.c_str(), "d") == token.c_str())
@@ -4087,7 +4110,7 @@ read_reaction(void)
  *   Read reaction
  */
 	int l;
-	char *ptr;
+	const char* cptr;
 	char *description;
 	char token[MAX_LENGTH];
 	int return_value;
@@ -4096,8 +4119,8 @@ read_reaction(void)
 /*
  *   Read reaction number
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 /*
  *   Set use data to first read
@@ -4129,8 +4152,8 @@ read_reaction(void)
 		{
 			break;
 		}
-		ptr = line;
-		copy_token(token, &ptr, &l);
+		cptr = line;
+		copy_token(token, &cptr, &l);
 		if (isalpha((int) token[0]) || (token[0] == '(') || (token[0] == '['))
 		{
 /*
@@ -4181,12 +4204,12 @@ read_reaction_reactants(cxxReaction *reaction_ptr)
  */
 	std::string token, last_token;
 	LDBLE coef;
-	char *ptr;
+	const char* cptr;
 /*
  *   Read one or more reactants
  */
-	ptr = line;
-	while (copy_token(token, &ptr) != EMPTY)
+	cptr = line;
+	while (copy_token(token, &cptr) != EMPTY)
 	{
 /*
  *   Store reactant name, default coefficient
@@ -4235,16 +4258,16 @@ read_reaction_steps(cxxReaction *reaction_ptr)
  *   INCREMENTAL_REACTIONS
  */
 
-	char *ptr;
+	const char* cptr;
 	std::string token, token1;
 
-	ptr = line;
+	cptr = line;
 /*
  *   Read one or more reaction increments
  */
 	for (;;)
 	{
-		if (copy_token(token, &ptr) == EMPTY)
+		if (copy_token(token, &cptr) == EMPTY)
 		{
 			return (OK);
 		}
@@ -4306,7 +4329,7 @@ read_reaction_steps(cxxReaction *reaction_ptr)
 		{
 			reaction_ptr->Set_units(t1.c_str());
 		}
-		if (copy_token(token, &ptr) == EMPTY)
+		if (copy_token(token, &cptr) == EMPTY)
 		{
 			return (OK);
 		}
@@ -4337,7 +4360,7 @@ read_reaction_steps(cxxReaction *reaction_ptr)
 			break;
 		}
 	}
-	while (copy_token(token, &ptr) != EMPTY);
+	while (copy_token(token, &cptr) != EMPTY);
 
 	error_msg("Expecting positive number for number of equal "
 			  "increments to add.", CONTINUE);
@@ -4355,24 +4378,24 @@ read_save(void)
  *   in reaction calculation
  */
 	int i, l, n, n_user, n_user_end;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 /*
  *   Read "save"
  */
-	ptr = line;
-	copy_token(token, &ptr, &l);
+	cptr = line;
+	copy_token(token, &cptr, &l);
 /*
  *   Read keyword
  */
-	copy_token(token, &ptr, &l);
+	copy_token(token, &cptr, &l);
 	check_key(token);
 /*
  *   Read number
  */
 	for (;;)
 	{
-		i = copy_token(token, &ptr, &l);
+		i = copy_token(token, &cptr, &l);
 		if (i == DIGIT)
 		{
 			replace("-", " ", token);
@@ -4456,7 +4479,7 @@ read_selected_output(void)
  */
 	int value;
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"file",					/* 0 */
 		"totals",				/* 1 */
@@ -4513,13 +4536,14 @@ read_selected_output(void)
 	int count_opt_list = 51;
 
 	int i, l;
-	char file_name[MAX_LENGTH], token[MAX_LENGTH];
+	char token[MAX_LENGTH];
+	std::string file_name;
 
-	char *ptr;
-	ptr = line;
+	const char* cptr;
+	cptr = line;
 	int n_user, n_user_end;
 	char *description;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 	SelectedOutput temp_selected_output;
 	temp_selected_output.Set_new_def(false);
@@ -4606,15 +4630,19 @@ read_selected_output(void)
 			error_msg(line_save, CONTINUE);
 			break;
 		case 0:				/* file name */
+		{
 			temp_selected_output.Set_new_def(true);
-			if (string_trim(next_char) != EMPTY)
+			std::string temp_name(next_char);
+			string_trim(temp_name);
+			if (temp_name.size() > 0)
 			{
-				strcpy(file_name, next_char);
+				file_name = temp_name;
 				temp_selected_output.Set_file_name(file_name);
 				temp_selected_output.Set_have_punch_name(true);
 			}
 			opt_save = OPTION_ERROR;
-			break;
+		}
+		break;
 		case 1:				/* totals */
 			temp_selected_output.Set_new_def(true);
 			while ((i = copy_token(token, &next_char, &l)) != EMPTY)
@@ -4962,7 +4990,7 @@ read_solution(void)
 	char *description;
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"temp",					/* 0 */
 		"temperature",			/* 1 */
@@ -4983,9 +5011,9 @@ read_solution(void)
 /*
  *   Read solution number and description
  */
-	char *ptr;
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	const char* cptr;
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 	cxxSolution temp_solution;
 	temp_solution.Set_new_def(true);
@@ -5014,8 +5042,8 @@ read_solution(void)
 		opt = get_option(opt_list, count_opt_list, &next_char);
 		if (opt == OPTION_DEFAULT)
 		{
-			ptr = next_char;
-			if (copy_token(token, &ptr) == CParser::TT_DIGIT)
+			cptr = next_char;
+			if (copy_token(token, &cptr) == CParser::TT_DIGIT)
 			{
 				opt = 9;
 			}
@@ -5161,10 +5189,10 @@ read_solution(void)
 				/* read and save element name */
 				{
 					char *temp_iso_name = string_duplicate(token.c_str());
-					char *ptr1 = temp_iso_name;
-					get_num(&ptr1, &dummy);
+					const char* cptr1 = temp_iso_name;
+					get_num(&cptr1, &dummy);
 					temp_isotope.Set_isotope_number(dummy);
-					if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
+					if (cptr1[0] == '\0' || isupper((int) cptr1[0]) == FALSE)
 					{
 						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
@@ -5172,7 +5200,7 @@ read_solution(void)
 						temp_iso_name = (char*)free_check_null(temp_iso_name);
 						return (CParser::PARSER_ERROR);
 					}
-					temp_isotope.Set_elt_name(ptr1);
+					temp_isotope.Set_elt_name(cptr1);
 					temp_iso_name = (char*)free_check_null(temp_iso_name);
 				}
 				/* read and store isotope ratio */
@@ -5324,10 +5352,11 @@ read_species(void)
 	int association;
 	struct species *s_ptr;
 	struct elt_list *next_elt;
-	char *ptr, token[MAX_LENGTH];
+	const char* cptr;
+	char token[MAX_LENGTH];
 	//bool vm_read = false;
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_check",				/* 0 */
 		"check",				/* 1 */
@@ -5447,10 +5476,10 @@ read_species(void)
 			paren_count = 0;
 			copy_token(token, &next_char, &i);
 			s_ptr->mole_balance = string_hsave(token);
-			ptr = token;
+			cptr = token;
 			s_ptr->next_secondary =
 				(struct elt_list *) free_check_null(s_ptr->next_secondary);
-			get_secondary_in_species(&ptr, 1.0);
+			get_secondary_in_species(&cptr, 1.0);
 			s_ptr->next_secondary = elt_list_save();
 /* debug
 			for (i = 0; i < count_elts; i++) {
@@ -5828,17 +5857,17 @@ read_use(void)
  *   in reaction calculation
  */
 	int i, l, n_user, return_value;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];;
 /*
  *   Read "use"
  */
-	ptr = line;
-	copy_token(token, &ptr, &l);
+	cptr = line;
+	copy_token(token, &cptr, &l);
 /*
  *   Read keyword
  */
-	copy_token(token, &ptr, &l);
+	copy_token(token, &cptr, &l);
 	check_key(token);
 	if (next_keyword != Keywords::KEY_SOLUTION				&&
 		next_keyword != Keywords::KEY_MIX					&&
@@ -5865,7 +5894,7 @@ read_use(void)
 	strcpy(token1, token);
 	for (;;)
 	{
-		i = copy_token(token, &ptr, &l);
+		i = copy_token(token, &cptr, &l);
 		if (i == DIGIT)
 		{
 			(void)sscanf(token, "%d", &n_user);
@@ -6049,7 +6078,7 @@ read_surface_species(void)
 	int i, j;
 	int association;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 	LDBLE offset;
 
 	struct species *s_ptr;
@@ -6057,7 +6086,7 @@ read_surface_species(void)
 	struct rxn_token *token_ptr;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_check",				/* 0 */
 		"check",				/* 1 */
@@ -6148,10 +6177,10 @@ read_surface_species(void)
 			paren_count = 0;
 			copy_token(token, &next_char, &i);
 			s_ptr->mole_balance = string_hsave(token);
-			ptr = token;
+			cptr = token;
 			s_ptr->next_secondary =
 				(struct elt_list *) free_check_null(s_ptr->next_secondary);
-			get_secondary_in_species(&ptr, 1.0);
+			get_secondary_in_species(&cptr, 1.0);
 			s_ptr->next_secondary = elt_list_save();
 			/* debug
 			   for (i = 0; i < count_elts; i++) {
@@ -6419,12 +6448,12 @@ read_surface(void)
 	 */
 	int n_user, n_user_end;
 	LDBLE conc;
-	char *ptr, *ptr1;
+	const char* cptr, *cptr1;
 	char *description;
 	std::string token, token1, name;
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"equilibrate",          /* 0 */
 		"equil",                /* 1 */
@@ -6454,8 +6483,8 @@ read_surface(void)
 	/*
 	 *   Read surface number and description
 	 */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	cxxSurface temp_surface;
 	cxxSurfaceComp *comp_ptr = NULL;
 	cxxSurfaceCharge *charge_ptr = NULL;
@@ -6717,8 +6746,8 @@ read_surface(void)
 			 *   Read surface component
 			 */
 			{
-				ptr = line;
-				int i = copy_token(token, &ptr);
+				cptr = line;
+				int i = copy_token(token, &cptr);
 				if (i != UPPER && token[0] != '[')
 				{
 					error_msg
@@ -6735,7 +6764,7 @@ read_surface(void)
 				comp_ptr = &(temp_surface.Get_surface_comps().back());
 				comp_ptr->Set_formula(token.c_str());
 
-				i = copy_token(token1, &ptr);
+				i = copy_token(token1, &cptr);
 				if (i == DIGIT)
 				{
 					/*
@@ -6760,7 +6789,7 @@ read_surface(void)
 
 					/* surface conc. is related to mineral or kinetics */
 					comp_ptr->Set_phase_name(token1.c_str());
-					int j = copy_token(token1, &ptr);
+					int j = copy_token(token1, &cptr);
 
 					/* read optional 'equilibrium_phases' or 'kinetics' */
 					if (j != DIGIT)
@@ -6782,7 +6811,7 @@ read_surface(void)
 							input_error++;
 							break;
 						}
-						j = copy_token(token1, &ptr);
+						j = copy_token(token1, &cptr);
 					}
 
 					/* read proportion */
@@ -6814,28 +6843,30 @@ read_surface(void)
 				count_elts = 0;
 				paren_count = 0;
 				char * formula = string_duplicate(token.c_str());
-				ptr1 = formula;
-				get_elts_in_species(&ptr1, conc);
+				cptr1 = formula;
+				get_elts_in_species(&cptr1, conc);
 				/*
 				*   save formula for adjusting number of exchange sites
 				*/
-				ptr1 = formula;
+				cptr1 = formula;
 				int l;
 				// name is work space
 				char * name = string_duplicate(formula);
 				name[0] = '\0';
-				get_token(&ptr1, name, &dummy, &l);
+				get_token(&cptr1, name, &dummy, &l);
 				comp_ptr->Set_formula_z(dummy);
 				cxxNameDouble nd = elt_list_NameDouble();
 				comp_ptr->Set_totals(nd);
 				/*
 				*   Search for charge structure
 				*/
-				ptr1 = formula;
-				get_elt(&ptr1, name, &l);
-				ptr1 = strchr(name, '_');
-				if (ptr1 != NULL)
-					ptr1[0] = '\0';
+				cptr1 = formula;
+				get_elt(&cptr1, name, &l);
+				{
+					char* ptr = strchr(name, '_');
+					if (ptr != NULL)
+						ptr[0] = '\0';
+				}
 				charge_ptr = temp_surface.Find_charge(name);
 				formula = (char*)free_check_null(formula);
 				if (charge_ptr == NULL)
@@ -6861,7 +6892,7 @@ read_surface(void)
 				/*
 				*   Read surface area (m2/g)
 				*/
-				copy_token(token1, &ptr);
+				copy_token(token1, &cptr);
 				if (sscanf(token1.c_str(), SCANFORMAT, &dummy) == 1)
 				{
 					charge_ptr->Set_specific_area(dummy);
@@ -6873,17 +6904,17 @@ read_surface(void)
 				/*
 				*   Read grams of solid (g)
 				*/
-				copy_token(token1, &ptr);
+				copy_token(token1, &cptr);
 				if (sscanf(token1.c_str(), SCANFORMAT, &dummy) == 1)
 				{
 					charge_ptr->Set_grams(dummy);
 				}
 				/* read Dw */
-				copy_token(token1, &ptr);
+				copy_token(token1, &cptr);
 				Utilities::str_tolower(token1);
 				if (strcmp(token1.c_str(), "dw") == 0)
 				{
-					int j = copy_token(token1, &ptr);
+					int j = copy_token(token1, &cptr);
 					if (j != DIGIT)
 					{
 						error_msg
@@ -7030,12 +7061,12 @@ read_surface_master_species(void)
 	 *   Reads master species data from data file or input file
 	 */
 	int l, return_value;
-	char *ptr, *ptr1;
+	const char* cptr, *cptr1;
 	LDBLE l_z;
 	struct species *s_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	int opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"capacitance",			/* 0 */
 		"cd_music_capacitance"	/* 1 */
@@ -7068,11 +7099,11 @@ read_surface_master_species(void)
 			/*
 			 *   Get "element" name with valence, allocate space, store
 			 */
-			ptr = line;
+			cptr = line;
 			/*
 			 *   Get element name and save pointer to character string
 			 */
-			if (copy_token(token, &ptr, &l) != UPPER && token[0] != '[')
+			if (copy_token(token, &cptr, &l) != UPPER && token[0] != '[')
 			{
 				parse_error++;
 				error_msg("Reading element for master species.", CONTINUE);
@@ -7092,7 +7123,7 @@ read_surface_master_species(void)
 			master[count_master] = master_alloc();
 			master[count_master]->type = SURF;
 			master[count_master]->elt = element_store(token);
-			if (copy_token(token, &ptr, &l) != UPPER && token[0] != '[')
+			if (copy_token(token, &cptr, &l) != UPPER && token[0] != '[')
 			{
 				parse_error++;
 				error_msg("Reading surface master species name.", CONTINUE);
@@ -7106,8 +7137,8 @@ read_surface_master_species(void)
 			}
 			else
 			{
-				ptr1 = token;
-				get_token(&ptr1, token1, &l_z, &l);
+				cptr1 = token;
+				get_token(&cptr1, token1, &l_z, &l);
 				master[count_master]->s = s_store(token1, l_z, FALSE);
 			}
 			master[count_master]->primary = TRUE;
@@ -7118,8 +7149,8 @@ read_surface_master_species(void)
 			 */
 			strcpy(token1, token);
 			replace("_", " ", token1);
-			ptr1 = token1;
-			copy_token(token, &ptr1, &l);
+			cptr1 = token1;
+			copy_token(token, &cptr1, &l);
 			strcat(token, "_psi");
 			add_psi_master_species(token);
 			opt_save = OPTION_DEFAULT;
@@ -7138,7 +7169,7 @@ add_psi_master_species(char *token)
 {
 	struct species *s_ptr;
 	struct master *master_ptr;
-	char *ptr;
+	const char* cptr;
 	char token1[MAX_LENGTH];
 	int i, n, plane;
 
@@ -7176,8 +7207,8 @@ add_psi_master_species(char *token)
 			}
 			count_elts = 0;
 			paren_count = 0;
-			ptr = token;
-			get_elts_in_species(&ptr, 1.0);
+			cptr = token;
+			get_elts_in_species(&cptr, 1.0);
 			master[count_master]->s->next_elt = elt_list_save();
 			master[count_master]->s->type = plane;
 			master[count_master]->primary = TRUE;
@@ -7220,20 +7251,20 @@ read_title(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	char *ptr, *ptr1;
+	const char* cptr, *cptr1;
 	int l, title_x_length, line_length;
 	int return_value;
 	char token[MAX_LENGTH];
 /*
  *   Read anything after keyword
  */
-	ptr = line;
-	copy_token(token, &ptr, &l);
-	ptr1 = ptr;
+	cptr = line;
+	copy_token(token, &cptr, &l);
+	cptr1 = cptr;
 	title_x = (char *) free_check_null(title_x);
-	if (copy_token(token, &ptr, &l) != EMPTY)
+	if (copy_token(token, &cptr, &l) != EMPTY)
 	{
-		title_x = string_duplicate(ptr1);
+		title_x = string_duplicate(cptr1);
 	}
 	else
 	{
@@ -7295,13 +7326,13 @@ read_advection(void)
  *	number of cells;
  *	number of shifts;
  */
-	char *ptr;
+	const char* cptr;
 	char *description;
 	int n_user, n_user_end, i;
 
 	std::vector<int> punch_temp, print_temp;
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"cells",				/* 0 */
 		"shifts",				/* 1 */
@@ -7326,8 +7357,8 @@ read_advection(void)
 /*
  *   Read advection number (not currently used)
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
 /*
  *   Set use data
@@ -7541,7 +7572,7 @@ read_debug(void)
  *
  */
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"iterations",			/* 0 */
 		"tolerance",			/* 1 */
@@ -7703,7 +7734,7 @@ read_print(void)
  *
  */
 	int return_value, opt, l;
-	char *next_char;
+	const char* next_char;
 	char token[MAX_LENGTH];
 	LDBLE num;
 	const char *opt_list[] = {
@@ -7852,7 +7883,7 @@ read_print(void)
 				}
 				if (j == DIGIT)
 				{
-					char * tptr = token;
+					const char * tptr = token;
 					get_num(&tptr, &num);
 					num = floor(num);
 					if (num < 0.0) num = 0.0;
@@ -7953,13 +7984,13 @@ check_key(const char *str)
  *      TRUE,
  *      FALSE.
  */
-	char *ptr;
+	const char* cptr;
 	std::string stdtoken;
 	char * token1;
 	token1 = string_duplicate(str);
 
-	ptr = token1;
-	int j = copy_token(stdtoken, &ptr);
+	cptr = token1;
+	int j = copy_token(stdtoken, &cptr);
 	Utilities::str_tolower(stdtoken);
 	std::string key(stdtoken);
 
@@ -8185,7 +8216,7 @@ find_option(const char *item, int *n, const char **list, int count_list, int exa
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_true_false(char *string, int default_value)
+get_true_false(const char *string, int default_value)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -8193,11 +8224,11 @@ get_true_false(char *string, int default_value)
  */
 	int l;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 
-	ptr = string;
+	cptr = string;
 
-	if (copy_token(token, &ptr, &l) == EMPTY)
+	if (copy_token(token, &cptr, &l) == EMPTY)
 	{
 		return (default_value);
 	}
@@ -8213,7 +8244,7 @@ get_true_false(char *string, int default_value)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_option(const char **opt_list, int count_opt_list, char **next_char)
+get_option(const char **opt_list, int count_opt_list, const char **next_char)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -8221,7 +8252,7 @@ get_option(const char **opt_list, int count_opt_list, char **next_char)
  */
 	int j;
 	int opt;
-	char *opt_ptr;
+	const char *opt_ptr;
 	std::string stdoption;
 /*
  *   Read line
@@ -8305,14 +8336,14 @@ read_rates(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	char *ptr;
+	const char* cptr;
 	int l, n;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct rate *rate_ptr;
 	char *description;
 	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
@@ -8322,8 +8353,8 @@ read_rates(void)
  *   Read advection number (not currently used)
  */
 	n = -1;
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
@@ -8359,8 +8390,8 @@ read_rates(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:	/* read rate name */
-			ptr = line;
-			copy_token(token, &ptr, &l);
+			cptr = line;
+			copy_token(token, &cptr, &l);
 			{
 				const char *name = string_hsave(token);
 				rate_ptr = rate_search(name, &n);
@@ -8425,7 +8456,7 @@ read_user_print(void)
  *
  */
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
@@ -8504,7 +8535,7 @@ read_user_punch(void)
  */
 	int return_value, opt, opt_save;
 	std::string stdtoken;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end",					/* 1 */
@@ -8519,9 +8550,9 @@ read_user_punch(void)
 
 	int n_user, n_user_end;
 	char *description;
-	char *ptr;
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	const char* cptr;
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 	UserPunch temp_user_punch;
 	temp_user_punch.Set_PhreeqcPtr(this);
@@ -8618,12 +8649,12 @@ read_solid_solutions(void)
  *
  */
 	int n_user, n_user_end;
-	char *ptr;
+	const char* cptr;
 	char *description;
 	std::string token;
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"component",			/* 0 */
 		"comp",					/* 1 */
@@ -8648,8 +8679,8 @@ read_solid_solutions(void)
 /*
  *   Read ss_assemblage number
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	cxxSSassemblage temp_ss_assemblage;
 	temp_ss_assemblage.Set_n_user(n_user);
 	temp_ss_assemblage.Set_n_user_end(n_user_end);
@@ -8699,14 +8730,14 @@ read_solid_solutions(void)
 				/*
 				*   Read phase name of component
 				*/
-				ptr = next_char;
-				copy_token(token, &ptr);
+				cptr = next_char;
+				copy_token(token, &cptr);
 				comp.Set_name(token);
 				/*
 				*   Read moles of component
 				*/
 				
-				if (copy_token(token, &ptr) == EMPTY)
+				if (copy_token(token, &cptr) == EMPTY)
 				{
 					comp.Set_moles(NAN);
 				}
@@ -8734,13 +8765,13 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
-			if (copy_token(token, &ptr) != EMPTY)
+			cptr = next_char;
+			if (copy_token(token, &cptr) != EMPTY)
 			{
 				(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 				ss_ptr->Get_p()[0] = dummy;
 			}
-			if (copy_token(token, &ptr) != EMPTY)
+			if (copy_token(token, &cptr) != EMPTY)
 			{
 				(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 				ss_ptr->Get_p()[1] = dummy;
@@ -8753,13 +8784,13 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
-			if (copy_token(token, &ptr) != EMPTY)
+			cptr = next_char;
+			if (copy_token(token, &cptr) != EMPTY)
 			{
 				(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 				ss_ptr->Get_p()[0] = dummy;
 			}
-			if (copy_token(token, &ptr) != EMPTY)
+			if (copy_token(token, &cptr) != EMPTY)
 			{
 				(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 				ss_ptr->Get_p()[1] = dummy;
@@ -8772,11 +8803,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 4; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -8799,11 +8830,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 4; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -8826,11 +8857,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 2; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -8853,11 +8884,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 2; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -8880,11 +8911,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 2; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -8907,11 +8938,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 2; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -8935,9 +8966,9 @@ read_solid_solutions(void)
 				break;
 			}
 			{
-				ptr = next_char;
+				cptr = next_char;
 				int j = 0;
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					j = sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Set_tk(dummy);
@@ -8961,9 +8992,9 @@ read_solid_solutions(void)
 				break;
 			}
 			{
-				ptr = next_char;
+				cptr = next_char;
 				int j = 0;
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					j = sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Set_tk(dummy + 298.15);
@@ -8985,11 +9016,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 2; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -9012,11 +9043,11 @@ read_solid_solutions(void)
 				error_msg("Solid solution name has not been defined", CONTINUE);
 				break;
 			}
-			ptr = next_char;
+			cptr = next_char;
 			ss_ptr->Get_p().clear();
 			for (int i = 0; i < 2; i++)
 			{
-				if (copy_token(token, &ptr) != EMPTY)
+				if (copy_token(token, &cptr) != EMPTY)
 				{
 					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 					ss_ptr->Get_p().push_back(dummy);
@@ -9040,13 +9071,13 @@ read_solid_solutions(void)
 			 */
 			delete comp0_ptr;
 			comp0_ptr = new cxxSScomp;
-			ptr = next_char;
-			copy_token(token, &ptr);
+			cptr = next_char;
+			copy_token(token, &cptr);
 			comp0_ptr->Set_name(token);
 			/*
 			 *   Read moles of component
 			 */
-			if (copy_token(token, &ptr) == EMPTY)
+			if (copy_token(token, &cptr) == EMPTY)
 			{
 				comp0_ptr->Set_moles(NAN);
 			}
@@ -9068,13 +9099,13 @@ read_solid_solutions(void)
 			/*
 			 *   Read phase name of component
 			 */
-			ptr = next_char;
-			copy_token(token, &ptr);
+			cptr = next_char;
+			copy_token(token, &cptr);
 			comp1_ptr->Set_name(token);
 			/*
 			 *   Read moles of component
 			 */
-			if (copy_token(token, &ptr) == EMPTY)
+			if (copy_token(token, &cptr) == EMPTY)
 			{
 				comp1_ptr->Set_moles(NAN);
 			}
@@ -9117,8 +9148,8 @@ read_solid_solutions(void)
 			/*
 			 *   Read solid solution name
 			 */
-			ptr = line;
-			copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
 			ss_ptr->Set_name(token);
 			ss_ptr->Set_total_moles(0.0);
 			break;
@@ -9189,7 +9220,7 @@ read_llnl_aqueous_model_parameters(void)
 	 *
 	 */
 	int return_value, opt;
-	char* next_char;
+	const char* next_char;
 	const char* opt_list[] = {
 		"temperatures",			/* 0 */
 		"temperature",			/* 1 */
@@ -9348,7 +9379,7 @@ next_keyword_or_option(const char **opt_list, int count_opt_list)
  *       EOF
  */
 	int opt;
-	char *next_char;
+	const char* next_char;
 
 	for (;;)
 	{
@@ -9400,7 +9431,7 @@ read_named_logk(void)
 	char token[MAX_LENGTH];
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"log_k",				/* 0 */
 		"logk",					/* 1 */
@@ -9612,17 +9643,17 @@ read_copy(void)
  *
  */
 	int i, l, n, n_user, n_user_start, n_user_end, return_value;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH], nonkeyword[MAX_LENGTH];
 /*
  *   Read "copy"
  */
-	ptr = line;
-	copy_token(token, &ptr, &l);
+	cptr = line;
+	copy_token(token, &cptr, &l);
 /*
  *   Read keyword
  */
-	copy_token(token, &ptr, &l);
+	copy_token(token, &cptr, &l);
 	check_key(token);
 
 	switch (next_keyword)
@@ -9656,7 +9687,7 @@ read_copy(void)
  *   Read source index
  */
 	strcpy(token1, token);
-	i = copy_token(token, &ptr, &l);
+	i = copy_token(token, &cptr, &l);
 	if (i == DIGIT)
 	{
 		(void)sscanf(token, "%d", &n_user);
@@ -9689,7 +9720,7 @@ read_copy(void)
 /*
  *   Read target index or range of indices
  */
-	i = copy_token(token, &ptr, &l);
+	i = copy_token(token, &cptr, &l);
 	if (i == DIGIT)
 	{
 		replace("-", " ", &token[1]);
@@ -9795,10 +9826,10 @@ read_reaction_pressure(void)
 
 	// Make instance, set n_user, n_user_end, description
 	cxxPressure atm(this->phrq_io);
-	char *ptr = line;
+	const char* cptr = line;
 	char *description;
 	int n_user, n_user_end;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	atm.Set_n_user(n_user);
 	atm.Set_n_user_end(n_user);
 	atm.Set_description(description);
@@ -9929,10 +9960,10 @@ read_temperature(void)
 
 	// Make instance, set n_user, n_user_end, description
 	cxxTemperature t_react(this->phrq_io);
-	char *ptr = line;
+	const char* cptr = line;
 	char *description;
 	int n_user, n_user_end;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	t_react.Set_n_user(n_user);
 	t_react.Set_n_user_end(n_user);
 	t_react.Set_description(description);

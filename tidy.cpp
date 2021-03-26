@@ -663,14 +663,14 @@ coef_in_master(struct master * master_ptr)
 {
 	int l;
 	LDBLE coef;
-	char *ptr;
+	const char* cptr;
 	char elt_name[MAX_LENGTH];
 	struct elt_list *next_elt;
 
 	coef = 0.0;
 	char * temp_name = string_duplicate(master_ptr->elt->name);
-	ptr = temp_name;
-	get_elt(&ptr, elt_name, &l);
+	cptr = temp_name;
+	get_elt(&cptr, elt_name, &l);
 	free_check_null(temp_name);
 	for (next_elt = master_ptr->s->next_elt; next_elt->elt != NULL;
 		 next_elt++)
@@ -1563,7 +1563,7 @@ tidy_pp_assemblage(void)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE coef;
-	char *ptr;
+	const char* cptr;
 /*
  *   Find pointers for pure phases
  */
@@ -1616,8 +1616,8 @@ tidy_pp_assemblage(void)
 				}
 				{
 					char * temp_add = string_duplicate(it->second.Get_add_formula().c_str());
-					ptr = temp_add;
-					get_elts_in_species(&ptr, coef);
+					cptr = temp_add;
+					get_elts_in_species(&cptr, coef);
 					free_check_null(temp_add);
 				}
 				/* check that all elements are in the database */
@@ -2299,7 +2299,8 @@ tidy_species(void)
 {
 	int i, j;
 	struct master *master_ptr;
-	char c, *ptr;
+	char c;
+	const char* cptr;
 /*
  *   Make sure species pointers are ok
  */
@@ -2331,10 +2332,10 @@ tidy_species(void)
 	for (i = 0; i < (int)master.size(); i++)
 	{
 		char * temp_name = string_duplicate(master[i]->elt->name);
-		ptr = temp_name;
-		if (ptr[0] != '[')
+		cptr = temp_name;
+		if (cptr[0] != '[')
 		{
-			while ((c = (int) *(++ptr)) != '\0')
+			while ((c = (int) *(++cptr)) != '\0')
 			{
 				if (isupper((int) c))
 				{
@@ -2630,7 +2631,7 @@ tidy_surface(void)
  *   After all of data are read, fill in master species for surface comps
  *   Sort surface
  */
-	char *ptr1;
+	const char* cptr1;
 	cxxSurface *surface_ptr;
 	//std::map<int, cxxSurface>::iterator kit;
 	//for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
@@ -2715,8 +2716,8 @@ tidy_surface(void)
 					paren_count = 0;
 					{
 						char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-						ptr1 = temp_formula;
-						get_elts_in_species(&ptr1, comp_ptr->Get_moles());
+						cptr1 = temp_formula;
+						get_elts_in_species(&cptr1, comp_ptr->Get_moles());
 						free_check_null(temp_formula);
 					}
 					{
@@ -2900,15 +2901,15 @@ phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
  *   temp reaction structure.
  */
 	int i, l;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 	LDBLE l_z;
 
 	trxn.token[0].name = phase_ptr->formula;
 	/* charge */
 	char * temp_formula = string_duplicate(phase_ptr->formula);
-	ptr = temp_formula;
-	get_token(&ptr, token, &l_z, &l);
+	cptr = temp_formula;
+	get_token(&cptr, token, &l_z, &l);
 	free_check_null(temp_formula);
 	trxn.token[0].z = l_z;
 	trxn.token[0].s = NULL;
@@ -3113,7 +3114,7 @@ tidy_kin_exchange(void)
  */
 {
 	cxxKinetics *kinetics_ptr;
-	char *ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3209,8 +3210,8 @@ tidy_kin_exchange(void)
 			paren_count = 0;
 			{
 				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, conc);
+				cptr = temp_formula;
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 			}
 			comp_ref.Set_totals(elt_list_NameDouble());
@@ -3233,7 +3234,7 @@ update_kin_exchange(void)
  */
 {
 	cxxKinetics* kinetics_ptr;
-	char* ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3322,8 +3323,8 @@ update_kin_exchange(void)
 				paren_count = 0;
 				{
 					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, 1.0);
+					cptr = temp_formula;
+					get_elts_in_species(&cptr, 1.0);
 					free_check_null(temp_formula);
 				}
 				cxxNameDouble nd_formula = elt_list_NameDouble();
@@ -3345,8 +3346,8 @@ update_kin_exchange(void)
 				paren_count = 0;
 				{
 					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, conc);
+					cptr = temp_formula;
+					get_elts_in_species(&cptr, conc);
 					free_check_null(temp_formula);
 				}
 				comp_ref.Set_totals(elt_list_NameDouble());
@@ -3365,7 +3366,7 @@ tidy_min_exchange(void)
  */
 {
 	int n, jj;
-	char *ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3461,8 +3462,8 @@ tidy_min_exchange(void)
 			paren_count = 0;
 			{
 				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, conc);
+				cptr = temp_formula;
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 			}
 			comp_ref.Set_totals(elt_list_NameDouble());
@@ -3473,8 +3474,8 @@ tidy_min_exchange(void)
 			paren_count = 0;
 			{
 				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, -comp_ref.Get_phase_proportion());
+				cptr = temp_formula;
+				get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
 				free_check_null(temp_formula);
 			}
 			int l;
@@ -3482,8 +3483,8 @@ tidy_min_exchange(void)
 			if (phase_ptr != NULL)
 			{
 				char * temp_formula = string_duplicate(phase_ptr->formula);
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, 1.0);
+				cptr = temp_formula;
+				get_elts_in_species(&cptr, 1.0);
 				free_check_null(temp_formula);
 			}
 			else
@@ -3527,7 +3528,7 @@ update_min_exchange(void)
  */
 {
 	int n, jj;
-	char* ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3616,8 +3617,8 @@ update_min_exchange(void)
 				paren_count = 0;
 				{
 					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, 1.0);
+					cptr = temp_formula;
+					get_elts_in_species(&cptr, 1.0);
 					free_check_null(temp_formula);
 				}
 				cxxNameDouble nd_formula = elt_list_NameDouble();
@@ -3639,8 +3640,8 @@ update_min_exchange(void)
 				paren_count = 0;
 				{
 					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, conc);
+					cptr = temp_formula;
+					get_elts_in_species(&cptr, conc);
 					free_check_null(temp_formula);
 				}
 				comp_ref.Set_totals(elt_list_NameDouble());
@@ -3651,8 +3652,8 @@ update_min_exchange(void)
 				paren_count = 0;
 				{
 					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, -comp_ref.Get_phase_proportion());
+					cptr = temp_formula;
+					get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
 					free_check_null(temp_formula);
 				}
 				int l;
@@ -3660,8 +3661,8 @@ update_min_exchange(void)
 				if (phase_ptr != NULL)
 				{
 					char* temp_formula = string_duplicate(phase_ptr->formula);
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, 1.0);
+					cptr = temp_formula;
+					get_elts_in_species(&cptr, 1.0);
 					free_check_null(temp_formula);
 				}
 				else
@@ -3810,10 +3811,10 @@ tidy_min_surface(void)
 /*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
 			{
 				char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-				char *ptr = temp_formula;
+				const char* cptr = temp_formula;
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 			}
 			{
@@ -3841,8 +3842,8 @@ tidy_min_surface(void)
 			paren_count = 0;
 			{
 				char * temp_formula = string_duplicate(phase_ptr->formula);
-				char * ptr = temp_formula;
-				get_elts_in_species(&ptr, 1.0);
+				const char* cptr = temp_formula;
+				get_elts_in_species(&cptr, 1.0);
 				free_check_null(temp_formula);
 			}
 			// Revise logic for surface related to mineral
@@ -3852,8 +3853,8 @@ tidy_min_surface(void)
 				// Use formula for all types of surfaces
 				{
 					char * temp_formula = string_duplicate(comp_jj_ptr->Get_formula().c_str());
-					char *ptr = temp_formula;
-					get_elts_in_species(&ptr,
+					const char* cptr = temp_formula;
+					get_elts_in_species(&cptr,
 										-comp_jj_ptr->Get_phase_proportion());
 
 					if (surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
@@ -4064,10 +4065,10 @@ update_min_surface(void)
 			else /* need to generate from scratch */
 			{
 				char* temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-				char* ptr = temp_formula;
+				const char* cptr = temp_formula;
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 
 				cxxNameDouble nd = elt_list_NameDouble();
@@ -4197,10 +4198,10 @@ tidy_kin_surface(void)
 /*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
 			{
 				char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				char *ptr = temp_formula;
+				const char* cptr = temp_formula;
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 			}
 			{
@@ -4259,8 +4260,8 @@ tidy_kin_surface(void)
 				else
 				{
 					char * temp_name = string_duplicate(name.c_str());
-					char * ptr = temp_name;
-					get_elts_in_species(&ptr, coef);
+					const char* cptr = temp_name;
+					get_elts_in_species(&cptr, coef);
 					free_check_null(temp_name);
 				}
 			}
@@ -4287,8 +4288,8 @@ tidy_kin_surface(void)
 					 kin_comp_ptr->Get_rate_name().c_str()) == 0)
 				{
 					char * temp_formula = string_duplicate( comp_ptr->Get_formula().c_str());
-					char *ptr = temp_formula;
-					get_elts_in_species(&ptr, -1 * comp_ptr->Get_phase_proportion());
+					const char* cptr = temp_formula;
+					get_elts_in_species(&cptr, -1 * comp_ptr->Get_phase_proportion());
 					free_check_null(temp_formula);
 				}
 			}
@@ -4477,10 +4478,10 @@ update_kin_surface(void)
 			else /* need to generate from scratch */
 			{
 				char* temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				char* ptr = temp_formula;
+				const char* cptr = temp_formula;
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 
 				cxxNameDouble nd = elt_list_NameDouble();

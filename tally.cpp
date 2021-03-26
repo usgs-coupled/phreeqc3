@@ -416,7 +416,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
  */
 	int found;
 	LDBLE moles;
-	//char *ptr;
+	//const char* cptr;
 	/*
 	 *  Cycle through tally table columns
 	 */
@@ -792,7 +792,7 @@ build_tally_table(void)
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	struct phase *phase_ptr;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 /*
  *  make list of all elements in all entitites
  *  defines the number of rows in the table
@@ -906,8 +906,8 @@ build_tally_table(void)
 				if (comp_ptr->Get_add_formula().size() > 0)
 				{
 					strcpy(token, comp_ptr->Get_add_formula().c_str());
-					ptr = &(token[0]);
-					get_elts_in_species(&ptr, 1.0);
+					cptr = &(token[0]);
+					get_elts_in_species(&cptr, 1.0);
 				}
 				else
 				{
@@ -1025,8 +1025,8 @@ build_tally_table(void)
 						std::string name = it->first;
 						LDBLE coef = it->second;
 						char * temp_name = string_duplicate(name.c_str());
-						ptr = temp_name;
-						get_elts_in_species(&ptr, 1.0 * coef);
+						cptr = temp_name;
+						get_elts_in_species(&cptr, 1.0 * coef);
 						free_check_null(temp_name);
 					}
 				}
@@ -1157,7 +1157,7 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
  *    Go through kinetic components and add positive amount of each reactant
  */
 	LDBLE coef;
-	char *ptr;
+	const char* cptr;
 	struct phase *phase_ptr;
 /*
  *   Go through list and generate list of elements and
@@ -1191,8 +1191,8 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
 			{
 				std::string name = it->first;
 				char * temp_name = string_duplicate(name.c_str());
-				ptr = temp_name;
-				get_elts_in_species(&ptr, coef);
+				cptr = temp_name;
+				get_elts_in_species(&cptr, coef);
 				free_check_null(temp_name);
 			}
 		}

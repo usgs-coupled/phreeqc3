@@ -332,7 +332,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 	char query[2 * MAX_LENGTH];
 	char in_file[2 * MAX_LENGTH], out_file[2 * MAX_LENGTH], db_file[2 * MAX_LENGTH];
 	char *env_ptr;
-	char *ptr;
+	const char* cptr;
 /*
  *   Prepare error handling
  */
@@ -383,8 +383,8 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
  *   Open file for output
  */
 		strcpy(query, "Name of output file?");
-		ptr = default_name;
-		copy_token(token, &ptr, &l);
+		cptr = default_name;
+		copy_token(token, &cptr, &l);
 		strcpy(token, default_name);
 		strcat(token, ".out");
 		std::ofstream * local_output_stream = NULL;
@@ -422,12 +422,12 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 			phrq_io->push_istream(local_input_stream);
 			if (get_line() == KEYWORD)
 			{
-				ptr = line;
-				copy_token(token, &ptr, &l);
+				cptr = line;
+				copy_token(token, &cptr, &l);
 				if (strcmp_nocase(token, "database") == 0)
 				{
 					user_database = (char *) free_check_null(user_database);
-					user_database = string_duplicate(ptr);
+					user_database = string_duplicate(cptr);
 					if (string_trim(user_database) == EMPTY)
 					{
 						warning_msg("DATABASE file name is missing; default database will be used.");
@@ -529,7 +529,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 	char query[2 * MAX_LENGTH];
 	char in_file[2 * MAX_LENGTH], out_file[2 * MAX_LENGTH], db_file[2 * MAX_LENGTH];
 	char *env_ptr;
-	char *ptr;
+	const char* cptr;
 /*
  *   Prepare error handling
  */
@@ -580,8 +580,8 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
  *   Open file for output
  */
 		strcpy(query, "Name of output file?");
-		ptr = default_name;
-		copy_token(token, &ptr, &l);
+		cptr = default_name;
+		copy_token(token, &cptr, &l);
 		strcat(token, ".out");
 		std::ofstream * local_output_stream;
 		if (argc <= 1)
@@ -618,12 +618,12 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 			phrq_io->push_istream(local_input_stream);
 			if (get_line() == KEYWORD)
 			{
-				ptr = line;
-				copy_token(token, &ptr, &l);
+				cptr = line;
+				copy_token(token, &cptr, &l);
 				if (strcmp_nocase(token, "database") == 0)
 				{
 					user_database = (char *) free_check_null(user_database);
-					user_database = string_duplicate(ptr);
+					user_database = string_duplicate(cptr);
 					if (string_trim(user_database) == EMPTY)
 					{
 						warning_msg("DATABASE file name is missing; default database will be used.");

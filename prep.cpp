@@ -309,9 +309,9 @@ quick_setup(void)
 				/* test that charge and surface match */
 				cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
 				char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				char * ptr = temp_formula;
+				const char* ptr = temp_formula;
 				copy_token(token, &ptr, &l);
-				char * ptr1 = token;
+				const char* ptr1 = token;
 				get_elt(&ptr1, name, &l);
 				ptr1 = strchr(name, '_');
 				if (ptr1 != NULL)
@@ -656,7 +656,7 @@ build_ss_assemblage(void)
 	int row, col;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
-	char *ptr;
+	const char* cptr;
 
 	if (ss_unknown == NULL)
 		return (OK);
@@ -760,8 +760,8 @@ build_ss_assemblage(void)
 		count_elts = 0;
 		paren_count = 0;
 		char * token = string_duplicate(x[i]->phase->formula);
-		ptr = token;
-		get_elts_in_species(&ptr, 1.0);
+		cptr = token;
+		get_elts_in_species(&cptr, 1.0);
 		free_check_null(token);
 /*
  *   Go through elements in phase
@@ -1373,7 +1373,7 @@ build_pure_phases(void)
  */
 	bool stop;
 	std::string token;
-	char *ptr;
+	const char* cptr;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
 /*
@@ -1439,15 +1439,15 @@ build_pure_phases(void)
 		if (comp_ptr->Get_add_formula().size() > 0)
 		{
 			char * char_name = string_duplicate(comp_ptr->Get_add_formula().c_str());
-			ptr = char_name;
-			get_elts_in_species(&ptr, 1.0);
+			cptr = char_name;
+			get_elts_in_species(&cptr, 1.0);
 			free_check_null(char_name);
 		}
 		else
 		{
 			char * char_name = string_duplicate(x[i]->phase->formula);
-			ptr = char_name;
-			get_elts_in_species(&ptr, 1.0);
+			cptr = char_name;
+			get_elts_in_species(&cptr, 1.0);
 			free_check_null(char_name);
 		}
 /*
@@ -1889,8 +1889,8 @@ convert_units(cxxSolution *solution_ptr)
 			else
 			{
 				char * temp_desc = string_duplicate(comp_ref.Get_description().c_str());
-				char *ptr = temp_desc;
-				copy_token(token, &ptr);
+				const char* cptr = temp_desc;
+				copy_token(token, &cptr);
 				master_ptr = master_bsearch(token.c_str());
 				free_check_null(temp_desc);
 				if (master_ptr != NULL)
@@ -1988,11 +1988,11 @@ convert_units(cxxSolution *solution_ptr)
 
 /* ---------------------------------------------------------------------- */
 std::vector<struct master *> Phreeqc::
-get_list_master_ptrs(char *ptr, struct master *master_ptr)
+get_list_master_ptrs(const char* cptr, struct master *master_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Input: ptr contains a list of one or more master species names
+ *   Input: cptr contains a list of one or more master species names
  *   Output: space is allocated and a list of master species pointers is
  *           returned.
  */
@@ -2054,7 +2054,7 @@ get_list_master_ptrs(char *ptr, struct master *master_ptr)
  *   First in list is secondary species, Include all valences from input
  */
 		master_ptr_list.push_back(master_ptr0);
-		while (copy_token(token, &ptr, &l) != EMPTY)
+		while (copy_token(token, &cptr, &l) != EMPTY)
 		{
 			master_ptr = master_bsearch(token);
 			if (master_ptr != NULL)
@@ -2947,7 +2947,7 @@ add_surface_charge_balance(void)
  *   Include charge balance in list for mass-balance equations
  */
 	int i;
-	char *ptr;
+	const char* cptr;
 	std::string token;
 
 	struct master *master_ptr;
@@ -2999,8 +2999,8 @@ add_surface_charge_balance(void)
  *   Include charge balance in list for mass-balance equations
  */
 	char * temp_name = string_duplicate(master_ptr->elt->name);
-	ptr = temp_name;
-	get_secondary_in_species(&ptr, 1.0);
+	cptr = temp_name;
+	get_secondary_in_species(&cptr, 1.0);
 	free_check_null(temp_name);
 
 	return (OK);
@@ -3062,8 +3062,8 @@ add_cd_music_charge_balances(int n)
 	 */
 	{
 		char * temp_name = string_duplicate( master_ptr->elt->name);
-		char *ptr = temp_name;
-		get_secondary_in_species(&ptr, s[n]->dz[0]);
+		const char* cptr = temp_name;
+		get_secondary_in_species(&cptr, s[n]->dz[0]);
 		free_check_null(temp_name);
 	}
 	/*
@@ -3077,8 +3077,8 @@ add_cd_music_charge_balances(int n)
 	 */
 	{
 		char * temp_name = string_duplicate( master_ptr->elt->name);
-		char *ptr = temp_name;
-		get_secondary_in_species(&ptr, s[n]->dz[1]);
+		const char* cptr = temp_name;
+		get_secondary_in_species(&cptr, s[n]->dz[1]);
 		free_check_null(temp_name);
 	}
 	/*
@@ -3092,8 +3092,8 @@ add_cd_music_charge_balances(int n)
 	 */
 	{
 		char * temp_name = string_duplicate(master_ptr->elt->name);
-		char *ptr = temp_name;
-		get_secondary_in_species(&ptr, s[n]->dz[2]);
+		const char* cptr = temp_name;
+		get_secondary_in_species(&cptr, s[n]->dz[2]);
 		free_check_null(temp_name);
 	}
 
@@ -4183,7 +4183,7 @@ setup_solution(void)
  */
 	struct master *master_ptr;
 	cxxSolution *solution_ptr;
-	char *ptr;
+	const char* cptr;
 	std::string token;
 	struct master_isotope *master_isotope_ptr;
 	struct phase *phase_ptr;
@@ -4223,8 +4223,8 @@ setup_solution(void)
 			comp_ptr = &(comp_it->second);
 		}
 		char * temp_desc = string_duplicate(it->first.c_str());
-		ptr = temp_desc;
-		copy_token(token, &ptr);
+		cptr = temp_desc;
+		copy_token(token, &cptr);
 		master_ptr = master_bsearch(token.c_str());
 /*
  *   Check that total not <= zero
@@ -4263,7 +4263,7 @@ setup_solution(void)
 /*
  *   Store list of master species pointers, set master[i].in and master[i].rxn for list
  */
-		x[count_unknowns]->master = get_list_master_ptrs(ptr, master_ptr);
+		x[count_unknowns]->master = get_list_master_ptrs(cptr, master_ptr);
 		if (comp_ptr)
 		{
 			setup_master_rxn(x[count_unknowns]->master, comp_ptr->Get_pe_reaction());
@@ -4288,8 +4288,8 @@ setup_solution(void)
  */
 		free_check_null(temp_desc);
 		temp_desc = string_duplicate(it->first.c_str());
-		ptr = temp_desc;
-		copy_token(token, &ptr);
+		cptr = temp_desc;
+		copy_token(token, &cptr);
 		Utilities::str_tolower(token);
 		if (strstr(token.c_str(), "alk") != NULL)
 		{
@@ -4347,8 +4347,8 @@ setup_solution(void)
 		if (comp_ptr && comp_ptr->Get_equation_name().size() > 0)
 		{
 			char * temp_eq_name = string_duplicate(comp_ptr->Get_equation_name().c_str());
-			ptr = temp_eq_name;
-			copy_token(token, &ptr);
+			cptr = temp_eq_name;
+			copy_token(token, &cptr);
 			Utilities::str_tolower(token);
 			if (strstr(token.c_str(), "charge") != NULL)
 			{
@@ -5131,8 +5131,8 @@ write_mb_eqn_x(void)
 	{
 		j = count_elts;
 		char * temp_name = string_duplicate(trxn.token[i].s->name);
-		char * ptr = temp_name;
-		get_elts_in_species(&ptr, trxn.token[i].coef);
+		const char* cptr = temp_name;
+		get_elts_in_species(&cptr, trxn.token[i].coef);
 		free_check_null(temp_name);
 		for (k = j; k < count_elts; k++)
 		{
@@ -5153,15 +5153,15 @@ write_mb_eqn_x(void)
 		if (trxn.token[i].s->secondary == NULL)
 		{
 			char * temp_name = string_duplicate(trxn.token[i].s->primary->elt->name);
-			char *ptr = temp_name;
-			get_secondary_in_species(&ptr, trxn.token[i].coef);
+			const char* cptr = temp_name;
+			get_secondary_in_species(&cptr, trxn.token[i].coef);
 			free_check_null(temp_name);
 		}
 		else
 		{
 			char * temp_name = string_duplicate(trxn.token[i].s->secondary->elt->name);
-			ptr = temp_name;
-			get_secondary_in_species(&ptr, trxn.token[i].coef);
+			cptr = temp_name;
+			get_secondary_in_species(&cptr, trxn.token[i].coef);
 			free_check_null(temp_name);
 		}
 	}
@@ -5194,15 +5194,15 @@ write_mb_for_species_list(int n)
 		if (trxn.token[i].s->secondary == NULL)
 		{
 			char * temp_name = string_duplicate(trxn.token[i].s->primary->elt->name);
-			char * ptr = temp_name;
-			get_secondary_in_species(&ptr, trxn.token[i].coef);
+			const char* cptr = temp_name;
+			get_secondary_in_species(&cptr, trxn.token[i].coef);
 			free_check_null(temp_name);
 		}
 		else
 		{
 			char * temp_name = string_duplicate(trxn.token[i].s->secondary->elt->name);
-			char * ptr = temp_name;
-			if (get_secondary_in_species(&ptr, trxn.token[i].coef) == ERROR)
+			const char* cptr = temp_name;
+			if (get_secondary_in_species(&cptr, trxn.token[i].coef) == ERROR)
 			{
 				input_error++;
 				error_string = sformatf( "Error parsing %s.", trxn.token[i].s->secondary->elt->name);
@@ -5256,15 +5256,15 @@ write_phase_sys_total(int n)
 		if (trxn.token[i].s->secondary == NULL)
 		{
 			char * temp_name = string_duplicate(trxn.token[i].s->primary->elt->name);
-			char *ptr = temp_name;
-			get_secondary_in_species(&ptr, trxn.token[i].coef);
+			const char* cptr = temp_name;
+			get_secondary_in_species(&cptr, trxn.token[i].coef);
 			free_check_null(temp_name);
 		}
 		else
 		{
 			char * temp_name = string_duplicate(trxn.token[i].s->secondary->elt->name);
-			char *ptr = temp_name;
-			get_secondary_in_species(&ptr, trxn.token[i].coef);
+			const char* cptr = temp_name;
+			get_secondary_in_species(&cptr, trxn.token[i].coef);
 			free_check_null(temp_name);
 		}
 	}
@@ -6053,8 +6053,8 @@ build_min_exch(void)
 		paren_count = 0;
 		{
 			char * formula = string_duplicate(comp_ref.Get_formula().c_str());
-			char * ptr = formula;
-			get_elts_in_species(&ptr, 1.0);
+			const char* cptr = formula;
+			get_elts_in_species(&cptr, 1.0);
 			free_check_null(formula);
 		}
 #ifdef COMBINE
@@ -6187,8 +6187,8 @@ build_min_surface(void)
 		{
 			/* Add specified formula for all types of surfaces */
 			char * formula = string_duplicate(comp_ptr->Get_formula().c_str());
-			char *ptr1 = formula;
-			get_elts_in_species(&ptr1, 1.0);
+			const char* cptr1 = formula;
+			get_elts_in_species(&cptr1, 1.0);
 			free_check_null(formula);
 		}
 #ifdef COMBINE

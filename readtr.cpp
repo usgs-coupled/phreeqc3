@@ -35,7 +35,7 @@ read_transport(void)
 	*         ERROR   if error occurred reading data
 	*
 	*/
-	char *ptr;
+	const char* cptr;
 	int i, j, l;
 	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
@@ -45,8 +45,9 @@ read_transport(void)
 	LDBLE *length, *disp, *pors;
 	int *punch_temp, *print_temp, *same_model_temp;
 	int return_value, opt, opt_save;
-	char *next_char, *next_char_save;
-	char file_name[MAX_LENGTH];
+	const char* next_char;
+	//char file_name[MAX_LENGTH];
+	std::string file_name("phreeqc.dmp");
 
 	const char *opt_list[] = {
 		"cells",				/* 0 */
@@ -100,7 +101,6 @@ read_transport(void)
 	};
 	int count_opt_list = 48;
 
-	strcpy(file_name, "phreeqc.dmp");
 	/*
 	*   Initialize
 	*/
@@ -145,8 +145,8 @@ read_transport(void)
 	/*
 	*   Read transport number (not currently used)
 	*/
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	description = (char *)free_check_null(description);
 	/*
 	*   Set use data to last read
@@ -442,17 +442,17 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 26:				/* dump */
+		{
 			dump_in = TRUE;
-			next_char_save = next_char;
-			if (copy_token(file_name, &next_char, &l) == EMPTY)
-				strcpy(file_name, "phreeqc.dmp");
-			else
+			std::string temp_name(next_char);
+			string_trim(temp_name);
+			if (temp_name.size() > 0)
 			{
-				string_trim(next_char_save);
-				strcpy(file_name, next_char_save);
+				file_name = temp_name;
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
+		}
 		case 27:				/* output */
 		case 28:				/* output_frequency */
 		case 34:				/* print_frequency */
@@ -1150,7 +1150,7 @@ read_transport(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
+read_line_LDBLEs(const char* next_char, LDBLE ** d, int *count_d, int *count_alloc)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l, n;

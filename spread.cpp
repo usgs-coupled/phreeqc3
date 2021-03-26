@@ -37,10 +37,10 @@ read_solution_spread(void)
 	struct spread_row *heading, *row_ptr, *units;
 	int count, strings, numbers;
 	int spread_lines;
-	char *ptr;
+	const char* cptr;
 	struct defaults soln_defaults;
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"temp",					/* 0 */
 		"temperature",			/* 1 */
@@ -103,10 +103,10 @@ read_solution_spread(void)
 		if (spread_lines == 0 && opt != OPTION_DEFAULT)
 		{
 			row_ptr = string_to_spread_row(line);
-			ptr = line;
+			cptr = line;
 			count = numbers = strings = 0;
 			int j;
-			while (((j = copy_token(token, &ptr)) != EMPTY))
+			while (((j = copy_token(token, &cptr)) != EMPTY))
 			{
 				count++;
 				if (j == UPPER || j == LOWER)
@@ -117,14 +117,16 @@ read_solution_spread(void)
 			/*
 			 * Is 2nd token all number
 			 */
-			ptr = line;
-			copy_token(token, &ptr);
-			j = copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
+			j = copy_token(token, &cptr);
 			bool num = false;
 			if (j == DIGIT)
 			{
+				char* ptr;
 				strtod(token.c_str(), &ptr);
-				int j1 = copy_token(token1, &ptr);
+				cptr = ptr;
+				int j1 = copy_token(token1, &cptr);
 				if (j1 != EMPTY)
 				{
 					num = FALSE;
@@ -134,12 +136,11 @@ read_solution_spread(void)
 					num = TRUE;
 				}
 			}
-
 			/*
 			 *   Starts with hyphen
 			 */
-			ptr = line;
-			copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
 			if (token[0] == '-')
 			{
 				/* opt = opt; */
@@ -554,7 +555,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 	CParser parser(this->phrq_io);
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"temp",					/* 0 */
 		"temperature",			/* 1 */
@@ -884,10 +885,10 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 				/* read and save element name */
 				{
 					char *temp_iso_name = string_duplicate(token.c_str());
-					char *ptr1 = temp_iso_name;
-					get_num(&ptr1, &dummy);
+					const char* cptr1 = temp_iso_name;
+					get_num(&cptr1, &dummy);
 					temp_isotope.Set_isotope_number(dummy);
-					if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
+					if (cptr1[0] == '\0' || isupper((int)cptr1[0]) == FALSE)
 					{
 						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
@@ -896,7 +897,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 						char_string = (char*)free_check_null(char_string);
 						return (CParser::PARSER_ERROR);
 					}
-					temp_isotope.Set_elt_name(ptr1);
+					temp_isotope.Set_elt_name(cptr1);
 					temp_iso_name = (char*)free_check_null(temp_iso_name);
 				}
 				/* read and store isotope ratio */
@@ -934,8 +935,6 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			break;
 		case 10:				/* water */
 			{
-				//next_char = char_string;
-				//int j = copy_token(token, &next_char); // read identifier "water"
 				int j = copy_token(token, &next_char);
 				if (j == EMPTY)
 				{
@@ -1061,7 +1060,7 @@ string_to_spread_row(char *string)
 	int j, l;
 	/* possible memory error if length of line is smaller than previous line */
 	char *token;
-	char *ptr;
+	const char* cptr;
 	struct spread_row *spread_row_ptr = NULL;
 /*
  *   Allocate space
@@ -1104,7 +1103,7 @@ string_to_spread_row(char *string)
 	spread_row_ptr->empty = 0;
 	spread_row_ptr->string = 0;
 	spread_row_ptr->number = 0;
-	ptr = string;
+	cptr = string;
 /*
  *   Split by tabs, reallocate space
  */
@@ -1141,7 +1140,7 @@ string_to_spread_row(char *string)
 				return spread_row_ptr;
 			}
 		}
-		j = copy_token_tab(token, &ptr, &l);
+		j = copy_token_tab(token, &cptr, &l);
 		if (j == EOL)
 			break;
 		spread_row_ptr->char_vector[spread_row_ptr->count] =
@@ -1240,16 +1239,16 @@ spread_row_free(struct spread_row *spread_row_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token_tab(char *token_ptr, char **ptr, int *length)
+copy_token_tab(char *token_ptr, const char **cptr, int *length)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Copies from **ptr to *token_ptr until first tab is encountered.
+ *   Copies from **cptr to *token_ptr until first tab is encountered.
  *
  *   Arguments:
  *      *token_ptr  output, place to store token
  *
- *     **ptr        input, character string to read token from
+ *     **cptr        input, character string to read token from
  *                  output, next position after token
  *
  *       length     output, length of token
@@ -1267,8 +1266,8 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 /*
  *   Strip leading spaces
  */
-	while ((c = **ptr) == ' ')
-		(*ptr)++;
+	while ((c = **cptr) == ' ')
+		(*cptr)++;
 /*
  *   Check what we have
  */
@@ -1303,10 +1302,10 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 	i = 0;
 	for (;;)
 	{
-		c = **ptr;
+		c = **cptr;
 		if (c == '\t')
 		{
-			(*ptr)++;
+			(*cptr)++;
 			break;
 		}
 		else if (c == '\0')
@@ -1316,7 +1315,7 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 		else
 		{
 			token_ptr[i] = c;
-			(*ptr)++;
+			(*cptr)++;
 			i++;
 		}
 	}
@@ -1340,7 +1339,7 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-get_option_string(const char **opt_list, int count_opt_list, char **next_char)
+get_option_string(const char **opt_list, int count_opt_list, const char **next_char)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1348,7 +1347,7 @@ get_option_string(const char **opt_list, int count_opt_list, char **next_char)
  */
 	int j;
 	int opt_l, opt;
-	char *opt_ptr;
+	const char *opt_ptr;
 	char option[MAX_LENGTH];
 
 	opt_ptr = *next_char;

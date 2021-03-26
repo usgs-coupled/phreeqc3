@@ -560,7 +560,7 @@ public:
 	int clear(void);
 	int convert_units(cxxSolution* solution_ptr);
 	struct unknown* find_surface_charge_unknown(std::string& str_ptr, int plane);
-	std::vector<struct master*> get_list_master_ptrs(const char* ptr, struct master* master_ptr);
+	std::vector<struct master*> get_list_master_ptrs(const char* cptr, struct master* master_ptr);
 	int inout(void);
 	int is_special(struct species* spec);
 	int mb_for_species_aq(int n);
@@ -606,7 +606,7 @@ public:
 	int write_phase_sys_total(int n);
 
 	// print.cpp -------------------------------
-	static char* sformatf(const char* format, ...);
+	char* sformatf(const char* format, ...);
 	int array_print(LDBLE* array_l, int row_count, int column_count,
 		int max_column_count);
 	int set_pr_in_false(void);
@@ -649,11 +649,11 @@ public:
 	int read_input(void);
 	int* read_list_ints_range(const char** ptr, int* count_ints, int positive,
 		int* int_list);
-	int read_log_k_only(const char* ptr, LDBLE* log_k);
-	int read_t_c_only(const char* ptr, LDBLE* t_c);
-	int read_p_c_only(const char* ptr, LDBLE* p_c);
-	int read_omega_only(const char* ptr, LDBLE* omega);
-	int read_number_description(const char* ptr, int* n_user, int* n_user_end,
+	int read_log_k_only(const char* cptr, LDBLE* log_k);
+	int read_t_c_only(const char* cptr, LDBLE* t_c);
+	int read_p_c_only(const char* cptr, LDBLE* p_c);
+	int read_omega_only(const char* cptr, LDBLE* omega);
+	int read_number_description(const char* cptr, int* n_user, int* n_user_end,
 		char** description, int allow_negative = FALSE);
 	int check_key(const char* str);
 	int check_units(std::string& tot_units, bool alkalinity, bool check_compatibility,
@@ -665,19 +665,19 @@ public:
 
 	int add_psi_master_species(char* token);
 	int read_advection(void);
-	int read_analytical_expression_only(const char* ptr, LDBLE* log_k);
+	int read_analytical_expression_only(const char* cptr, LDBLE* log_k);
 	/* VP: Density Start */
-	int read_millero_abcdef(const char* ptr, LDBLE* abcdef);
+	int read_millero_abcdef(const char* cptr, LDBLE* abcdef);
 	/* VP: Density End */
-	int read_viscosity_parms(const char* ptr, LDBLE* Jones_Dole);
+	int read_viscosity_parms(const char* cptr, LDBLE* Jones_Dole);
 	int read_copy(void);
 	int read_debug(void);
-	int read_delta_h_only(const char* ptr, LDBLE* delta_h,
+	int read_delta_h_only(const char* cptr, LDBLE* delta_h,
 		DELTA_H_UNIT* units);
-	int read_aq_species_vm_parms(const char* ptr, LDBLE* delta_v);
-	int read_vm_only(const char* ptr, LDBLE* delta_v,
+	int read_aq_species_vm_parms(const char* cptr, LDBLE* delta_v);
+	int read_vm_only(const char* cptr, LDBLE* delta_v,
 		DELTA_V_UNIT* units);
-	int read_phase_vm(const char* ptr, LDBLE* delta_v,
+	int read_phase_vm(const char* cptr, LDBLE* delta_v,
 		DELTA_V_UNIT* units);
 	int read_llnl_aqueous_model_parameters(void);
 	int read_exchange(void);
@@ -687,7 +687,7 @@ public:
 	int read_incremental_reactions(void);
 	int read_inverse(void);
 	int read_inv_balances(struct inverse* inverse_ptr, const char* next_char);
-	int read_inv_isotopes(struct inverse* inverse_ptr, const char* ptr);
+	int read_inv_isotopes(struct inverse* inverse_ptr, const char* cptr);
 	int read_inv_phases(struct inverse* inverse_ptr, const char* next_char);
 	int read_kinetics(void);
 	LDBLE* read_list_doubles(const char** ptr, int* count_doubles);
@@ -841,12 +841,12 @@ protected:
 	struct logk* logk_search(const char* name);
 	struct master* master_alloc(void);
 	static int master_compare(const void* ptr1, const void* ptr2);
-	int master_delete(const char* ptr);
+	int master_delete(const char* cptr);
 public:
-	struct master* master_bsearch(const  char* ptr);
-	struct master* master_bsearch_primary(const char* ptr);
-	struct master* master_bsearch_secondary(const char* ptr);
-	struct master* master_search(const char* ptr, int* n);
+	struct master* master_bsearch(const char* cptr);
+	struct master* master_bsearch_primary(const char* cptr);
+	struct master* master_bsearch_secondary(const char* cptr);
+	struct master* master_search(const char* cptr, int* n);
 	struct pe_data* pe_data_alloc(void);
 public:
 	struct pe_data* pe_data_dup(struct pe_data* pe_ptr_old);
@@ -854,13 +854,13 @@ public:
 protected:
 	int pe_data_store(struct pe_data** pe, const char* token);
 public:
-	struct phase* phase_bsearch(const char* ptr, int* j, int print);
+	struct phase* phase_bsearch(const char* cptr, int* j, int print);
 protected:
 	static int phase_compare(const void* ptr1, const void* ptr2);
 	int phase_delete(int i);
 	struct phase* phase_store(const char* name);
 public:
-	struct rate* rate_bsearch(const char* ptr, int* j);
+	struct rate* rate_bsearch(const char* cptr, int* j);
 	int rate_free(struct rate* rate_ptr);
 	struct rate* rate_copy(struct rate* rate_ptr);
 	struct rate* rate_search(const char* name, int* n);
@@ -1054,7 +1054,7 @@ public:
 #endif
 	int copy_token(char* token_ptr, const char** ptr, int* length);
 	int copy_token(std::string& token, const char** ptr);
-	int dup_print(const char* ptr, int emphasis);
+	int dup_print(const char* cptr, int emphasis);
 	int equal(LDBLE a, LDBLE b, LDBLE eps);
 public:
 	void* free_check_null(void* ptr);
@@ -1068,6 +1068,7 @@ protected:
 	int print_centered(const char* string);
 public:
 	static int replace(const char* str1, const char* str2, char* str);
+	static void replace(std::string &stds, const char* str1, const char* str2);
 	static bool replace(const char* str1, const char* str2, std::string& str);
 	static int strcmp_nocase(const char* str1, const char* str2);
 	static int strcmp_nocase_arg1(const char* str1, const char* str2);
@@ -1088,9 +1089,12 @@ public:
 	void strings_map_clear();
 protected:
 	char* string_pad(const char* str, int i);
-	int string_trim(char* str);
-	int string_trim_right(char* str);
-	int string_trim_left(char* str);
+	static int string_trim(char* str);
+	static int string_trim_right(char* str);
+	static int string_trim_left(char* str);
+	static void string_trim(std::string& str);
+	static void string_trim_left(std::string& str);
+	static void string_trim_right(std::string& str);
 	static LDBLE under(LDBLE xval);
 	int get_input_errors(void);
 	int isamong(char c, const char* s_l);
