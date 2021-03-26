@@ -834,7 +834,7 @@ master_alloc(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-master_delete(char *ptr)
+master_delete(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -849,7 +849,7 @@ master_delete(char *ptr)
  */
 	int n;
 
-	if (master_search(ptr, &n) == NULL)
+	if (master_search(cptr, &n) == NULL)
 		return (FALSE);
 	master_free(master[n]);
 	master.erase(master.begin() + n);
@@ -875,29 +875,29 @@ master_free(struct master *master_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct master * Phreeqc::
-master_bsearch(const char *ptr)
+master_bsearch(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Uses binary search. Assumes master is in sort order.
- *   Find master species for string (*ptr) containing name of element or valence state.
+ *   Find master species for string (*cptr) containing name of element or valence state.
  *
- *   Input: ptr    pointer to string containing element name
+ *   Input: cptr    pointer to string containing element name
  *
- *   Return: pointer to master structure containing name ptr or NULL.
+ *   Return: pointer to master structure containing name cptr or NULL.
  */
 	void *void_ptr;
 	if (master.size() == 0)
 	{
 		return (NULL);
 	}
-	void_ptr = bsearch((const char *) ptr,
+	void_ptr = bsearch((const char *) cptr,
 					   (char *) &master[0],
 					   master.size(),
 					   sizeof(struct master *), master_compare_string);
 	if (void_ptr == NULL)
 	{
-		char * dup = string_duplicate(ptr);
+		char * dup = string_duplicate(cptr);
 		replace("(+","(", dup);
 		void_ptr = bsearch((const char *) dup,
 			(char*)&master[0],
@@ -941,23 +941,23 @@ master_compare(const void *ptr1, const void *ptr2)
 
 /* ---------------------------------------------------------------------- */
 struct master * Phreeqc::
-master_bsearch_primary(const char *ptr)
+master_bsearch_primary(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Find primary master species for first element in the string, ptr.
+ *   Find primary master species for first element in the string, cptr.
  *   Uses binary search. Assumes master is in sort order.
  */
 	int l;
-	char *ptr1;
+	const char* cptr1;
 	char elt[MAX_LENGTH];
 	struct master *master_ptr_primary;
 /*
  *   Find element name
  */
-	char * temp_name = string_duplicate(ptr);
-	ptr1 = temp_name;
-	get_elt(&ptr1, elt, &l);
+	char * temp_name = string_duplicate(cptr);
+	cptr1 = temp_name;
+	get_elt(&cptr1, elt, &l);
 	free_check_null(temp_name);
 /*
  *   Search master species list
@@ -967,14 +967,14 @@ master_bsearch_primary(const char *ptr)
 	{
 		input_error++;
 		error_string = sformatf(
-				"Could not find primary master species for %s.", ptr);
+				"Could not find primary master species for %s.", cptr);
 		error_msg(error_string, CONTINUE);
 	}
 	return (master_ptr_primary);
 }
 /* ---------------------------------------------------------------------- */
 struct master * Phreeqc::
-master_bsearch_secondary(char *ptr)
+master_bsearch_secondary(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -982,15 +982,15 @@ master_bsearch_secondary(char *ptr)
  *   i.e. S(6) for S.
  */
 	int l;
-	char *ptr1;
+	const char* cptr1;
 	char elt[MAX_LENGTH];
 	struct master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
 	int j;
 /*
  *   Find element name
  */
-	ptr1 = ptr;
-	get_elt(&ptr1, elt, &l);
+	cptr1 = cptr;
+	get_elt(&cptr1, elt, &l);
 /*
  *   Search master species list
  */
@@ -999,7 +999,7 @@ master_bsearch_secondary(char *ptr)
 	{
 		input_error++;
 		error_string = sformatf(
-				"Could not find primary master species for %s.", ptr);
+				"Could not find primary master species for %s.", cptr);
 		error_msg(error_string, CONTINUE);
 	}
 /*
@@ -1035,7 +1035,7 @@ master_bsearch_secondary(char *ptr)
 	{		
 		input_error++;
 		error_string = sformatf(
-				"Could not find secondary master species for %s.", ptr);
+				"Could not find secondary master species for %s.", cptr);
 		error_msg(error_string, STOP);
 	}
 
@@ -1044,11 +1044,11 @@ master_bsearch_secondary(char *ptr)
 }
 /* ---------------------------------------------------------------------- */
 struct master * Phreeqc::
-master_search(char *ptr, int *n)
+master_search(const char* cptr, int *n)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Linear search of master to find master species in string, ptr.
+ *   Linear search of master to find master species in string, cptr.
  *   Returns pointer if found. n contains position in array master.
  *   Returns NULL if not found.
  */
@@ -1060,7 +1060,7 @@ master_search(char *ptr, int *n)
 	*n = -999;
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		if (strcmp(ptr, master[i]->elt->name) == 0)
+		if (strcmp(cptr, master[i]->elt->name) == 0)
 		{
 			*n = i;
 			master_ptr = master[i];
@@ -1163,11 +1163,11 @@ phase_free(struct phase *phase_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct phase * Phreeqc::
-phase_bsearch(const char *ptr, int *j, int print)
+phase_bsearch(const char* cptr, int *j, int print)
 /* ---------------------------------------------------------------------- */
 {
 /*   Binary search the structure array "phases" for a name that is equal to
- *   ptr. Assumes array phases is in sort order.
+ *   cptr. Assumes array phases is in sort order.
  *
  *   Arguments:
  *      name  input, a character string to be located in phases.
@@ -1184,14 +1184,14 @@ phase_bsearch(const char *ptr, int *j, int print)
 	if ((int)phases.size() > 0)
 	{
 		void_ptr = (void *)
-			bsearch((char *) ptr,
+			bsearch((char *) cptr,
 					(char *) &phases[0],
 					phases.size(),
 					sizeof(struct phase *), phase_compare_string);
 	}
 	if (void_ptr == NULL && print == TRUE)
 	{
-		error_string = sformatf( "Could not find phase in list, %s.", ptr);
+		error_string = sformatf( "Could not find phase in list, %s.", cptr);
 		error_msg(error_string, CONTINUE);
 	}
 
@@ -1320,11 +1320,11 @@ phase_store(const char *name_in)
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
 struct rate * Phreeqc::
-rate_bsearch(char *ptr, int *j)
+rate_bsearch(const char* cptr, int *j)
 /* ---------------------------------------------------------------------- */
 {
 /*   Binary search the structure array "rates" for a name that is equal to
- *   ptr. Assumes array rates is in sort order.
+ *   cptr. Assumes array rates is in sort order.
  *
  *   Arguments:
  *      name  input, a character string to be located in rates.
@@ -1343,7 +1343,7 @@ rate_bsearch(char *ptr, int *j)
 		return (NULL);
 	}
 	void_ptr = (void *)
-		bsearch((char *) ptr,
+		bsearch((char *) cptr,
 				(char *) &rates[0],
 				rates.size(),
 				sizeof(struct rate *), rate_compare_string);
@@ -3256,13 +3256,13 @@ get_entity_enum(char *name)
  *
  */
 	int i;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 /*
  *   Read keyword
  */
-	ptr = name;
-	copy_token(token, &ptr, &i);
+	cptr = name;
+	copy_token(token, &cptr, &i);
 	check_key(token);
 
 	switch (next_keyword)

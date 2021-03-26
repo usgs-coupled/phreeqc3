@@ -28,7 +28,7 @@ read_isotopes(void)
 	struct element *elt_ptr;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"isotope",				/* 0 */
 		"total_is_major"		/* 1 */
@@ -160,14 +160,14 @@ read_calculate_values(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
+	const char* cptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct calculate_value *calculate_value_ptr;
 	char *description;
 	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
@@ -176,8 +176,8 @@ read_calculate_values(void)
 /*
  *   Read advection number (not currently used)
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
@@ -276,14 +276,14 @@ read_isotope_ratios(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
+	const char* cptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_ratio *isotope_ratio_ptr;
 	char *description;
 	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
@@ -291,8 +291,8 @@ read_isotope_ratios(void)
 /*
  *   Read number (not currently used)
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
@@ -375,14 +375,14 @@ read_isotope_alphas(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
+	const char* cptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_alpha *isotope_alpha_ptr;
 	char *description;
 	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
@@ -390,8 +390,8 @@ read_isotope_alphas(void)
 /*
  *   Read number (not currently used)
  */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
+	cptr = line;
+	read_number_description(cptr, &n_user, &n_user_end, &description);
 	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*

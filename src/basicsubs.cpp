@@ -814,7 +814,7 @@ calc_surface_charge(const char *surface_name)
 /* ---------------------------------------------------------------------- */
 {
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 	int i, j, k;
 	LDBLE charge;
 	struct rxn_token_temp *token_ptr;
@@ -840,8 +840,8 @@ calc_surface_charge(const char *surface_name)
 			master_ptr = trxn.token[i].s->primary;
 			strcpy(token, master_ptr->elt->name);
 			replace("_", " ", token);
-			ptr = token;
-			copy_token(token1, &ptr, &j);
+			cptr = token;
+			copy_token(token1, &cptr, &j);
 			if (strcmp(surface_name, token1) == 0)
 			{
 				charge += s_x[k]->moles * s_x[k]->z;
@@ -1966,7 +1966,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
  */
 	int i, i1, l, case_no, match;
 	char c, c1;
-	char *ptr, *ptr1;
+	const char* cptr, *ptr1;
 	LDBLE d;
 	char element[MAX_LENGTH];
 	char token[MAX_LENGTH], equal_list[MAX_LENGTH]; 
@@ -1993,11 +1993,11 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		replace("--", "-2", token);
 	}
 
-	ptr = token;
+	cptr = token;
 	std::vector< std::pair<std::string, LDBLE> > match_vector;
-	while ((c = *ptr) != '\0')
+	while ((c = *cptr) != '\0')
 	{
-		c1 = *(ptr + 1);
+		c1 = *(cptr + 1);
 		str[0] = c;
 		str[1] = '\0';
 /*
@@ -2008,11 +2008,11 @@ match_elts_in_species(const char *name, const char *mytemplate)
 			/*
 			 *   Get new element and subscript
 			 */
-			if (get_elt(&ptr, element, &l) == ERROR)
+			if (get_elt(&cptr, element, &l) == ERROR)
 			{
 				return (ERROR);
 			}
-			if (get_num(&ptr, &d) == ERROR)
+			if (get_num(&cptr, &d) == ERROR)
 			{
 				return (ERROR);
 			}
@@ -2023,7 +2023,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		{
 			std::pair<std::string, LDBLE> pr(str, 1.0);
 			match_vector.push_back(pr);		
-			ptr += 1;
+			cptr += 1;
 		}
 	}
 	/*
@@ -2031,8 +2031,8 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	 */
 	strcpy(template1, mytemplate);
 	squeeze_white(template1);
-	ptr = template1;
-	while (extract_bracket(&ptr, equal_list) == TRUE)
+	cptr = template1;
+	while (extract_bracket(&cptr, equal_list) == TRUE)
 	{
 		replace("{", "", equal_list);
 		replace("}", "", equal_list);
@@ -2102,8 +2102,8 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	 */
 	strcpy(template1, mytemplate);
 	squeeze_white(template1);
-	ptr = template1;
-	while (extract_bracket(&ptr, equal_list) == TRUE)
+	cptr = template1;
+	while (extract_bracket(&cptr, equal_list) == TRUE)
 	{
 		strcpy(equal_list1, equal_list);
 		replace("{", "", equal_list);
@@ -2124,7 +2124,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		}
 		replace(equal_list1, elt_name.c_str(), template1);
 		squeeze_white(template1);
-		ptr = template1;
+		cptr = template1;
 	}
 	/*
 	 *   Compare string
@@ -2160,13 +2160,13 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		break;
 	case 1:
 		/* leading wild card */
-		if ((ptr = strstr(token, template1)) == NULL)
+		if ((cptr = strstr(token, template1)) == NULL)
 		{
 			match = FALSE;
 		}
 		else
 		{
-			if (strcmp(ptr, template1) == 0)
+			if (strcmp(cptr, template1) == 0)
 				match = TRUE;
 		}
 		break;
@@ -2186,14 +2186,15 @@ match_elts_in_species(const char *name, const char *mytemplate)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-extract_bracket(char **string, char *bracket_string)
+extract_bracket(const char **string, char *bracket_string)
 /* ---------------------------------------------------------------------- */
 {
-	char *ptr, *ptr1;
+	const char* cptr;
+	char *ptr1;
 
-	if ((ptr = strstr(*string, "{")) == NULL)
+	if ((cptr = strstr(*string, "{")) == NULL)
 		return (FALSE);
-	strcpy(bracket_string, ptr);
+	strcpy(bracket_string, cptr);
 	if ((ptr1 = strstr(bracket_string, "}")) == NULL)
 	{
 		error_string = sformatf(
@@ -2272,8 +2273,8 @@ surf_total(const char *total_name, const char *surface_name)
 
 			//strcpy(token, s_x[j]->next_elt[i].elt->name);
 			//replace("_", " ", token);
-			//ptr = token;
-			//copy_token(name, &ptr, &k);
+			//cptr = token;
+			//copy_token(name, &cptr, &k);
 			token = s_x[j]->next_elt[i].elt->name;
 			replace("_", " ", token);
 			std::string::iterator b = token.begin();
@@ -2360,7 +2361,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 	int i, j, k;
 	char name[MAX_LENGTH], token[MAX_LENGTH];
 	char surface_name_local[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 
 	if (use.Get_surface_ptr() == NULL)
 		return (0);
@@ -2374,8 +2375,8 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 			continue;
 		strcpy(token, x[j]->master[0]->elt->name);
 		replace("_", " ", token);
-		ptr = token;
-		copy_token(name, &ptr, &k);
+		cptr = token;
+		copy_token(name, &cptr, &k);
 		if (surface_name != NULL)
 		{
 			if (strcmp(name, surface_name) == 0)
@@ -2404,8 +2405,8 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 
 			strcpy(token, s_x[j]->next_elt[i].elt->name);
 			replace("_", " ", token);
-			ptr = token;
-			copy_token(name, &ptr, &k);
+			cptr = token;
+			copy_token(name, &cptr, &k);
 			if (strcmp(name, surface_name_local) == 0)
 			{
 /*
@@ -2821,8 +2822,8 @@ kinetics_formula(std::string kin_name, cxxNameDouble &stoichiometry)
 						std::string name = it->first;
 						LDBLE coef = it->second;
 						char * temp_name = string_duplicate(name.c_str());
-						char *ptr = temp_name;
-						get_elts_in_species(&ptr, coef);
+						const char* cptr = temp_name;
+						get_elts_in_species(&cptr, coef);
 						free_check_null(temp_name);
 					}
 				}

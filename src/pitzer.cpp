@@ -571,7 +571,7 @@ read_pitzer(void)
 	pitz_param_type pzp_type;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"b0",					/* 0 */
 		"b1",					/* 1 */

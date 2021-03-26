@@ -68,7 +68,7 @@ pitz_param_read(char *string, int n)
  *          
  */
 	int l, i, j, k;
-	char *ptr;
+	const char* cptr;
 	char token[2 * MAX_LENGTH];
 	struct pitz_param pzp, *pzp_ptr;
 
@@ -78,13 +78,13 @@ pitz_param_read(char *string, int n)
 		return (NULL);
 
 	pitz_param_init(&pzp);
-	ptr = string;
-	if (copy_token(token, &ptr, &l) == EMPTY)
+	cptr = string;
+	if (copy_token(token, &cptr, &l) == EMPTY)
 		return (NULL);
-	ptr = string;
+	cptr = string;
 	for (i = 0; i < n; i++)
 	{
-		int j = copy_token(token, &ptr, &l);
+		int j = copy_token(token, &cptr, &l);
 		if (j == EMPTY)
 			return (NULL);
 		if (j != UPPER && token[0] != '(')
@@ -99,7 +99,7 @@ pitz_param_read(char *string, int n)
 	k = 0;
 	for (i = 0; i < 6; i++)
 	{
-		if (copy_token(token, &ptr, &l) == EMPTY)
+		if (copy_token(token, &cptr, &l) == EMPTY)
 			break;
 		j = sscanf(token, SCANFORMAT, &pzp.a[i]);
 		if (j <= 0)

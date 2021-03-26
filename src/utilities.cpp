@@ -312,13 +312,13 @@ compute_gfw(const char *string, LDBLE * gfw)
 
 	int i;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 
 	count_elts = 0;
 	paren_count = 0;
 	strcpy(token, string);
-	ptr = token;
-	if (get_elts_in_species(&ptr, 1.0) == ERROR)
+	cptr = token;
+	if (get_elts_in_species(&cptr, 1.0) == ERROR)
 	{
 		return (ERROR);
 	}
@@ -337,16 +337,16 @@ compute_gfw(const char *string, LDBLE * gfw)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(char *token_ptr, const char **ptr, int *length)
+copy_token(char *token_ptr, const char **cptr, int *length)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Copies from **ptr to *token_ptr until first space is encountered.
+ *   Copies from **cptr to *token_ptr until first space is encountered.
  *
  *   Arguments:
  *      *token_ptr  output, place to store token
  *
- *     **ptr        input, character string to read token from
+ *     **cptr        input, character string to read token from
  *                  output, next position after token
  *
  *       length     output, length of token
@@ -364,8 +364,8 @@ copy_token(char *token_ptr, const char **ptr, int *length)
 /*
  *   Read to end of whitespace
  */
-	while (isspace((int) (c = **ptr)))
-		(*ptr)++;
+	while (isspace((int) (c = **cptr)))
+		(*cptr)++;
 /*
  *   Check what we have
  */
@@ -393,12 +393,12 @@ copy_token(char *token_ptr, const char **ptr, int *length)
  *   Begin copying to token
  */
 	i = 0;
-	while ((!isspace((int) (c = **ptr))) &&
+	while ((!isspace((int) (c = **cptr))) &&
 		   /*              c != ',' && */
 		   c != ';' && c != '\0')
 	{
 		token_ptr[i] = c;
-		(*ptr)++;
+		(*cptr)++;
 		i++;
 	}
 	token_ptr[i] = '\0';
@@ -407,16 +407,16 @@ copy_token(char *token_ptr, const char **ptr, int *length)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(std::string &token, const char **ptr)
+copy_token(std::string &token, const char **cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Copies from **ptr to *token until first space is encountered.
+ *   Copies from **cptr to *token until first space is encountered.
  *
  *   Arguments:
  *      &token_ptr  output, place to store token
  *
- *     **ptr        input, character string to read token from
+ *     **cptr        input, character string to read token from
  *                  output, next position after token
  *
  *   Returns:
@@ -433,8 +433,8 @@ copy_token(std::string &token, const char **ptr)
  *   Read to end of whitespace
  */
 	token.clear();
-	while (isspace((int) (c = **ptr)))
-		(*ptr)++;
+	while (isspace((int) (c = **cptr)))
+		(*cptr)++;
 /*
  *   Check what we have
  */
@@ -463,107 +463,19 @@ copy_token(std::string &token, const char **ptr)
  */
 	char c_char[2];
 	c_char[1] = '\0';
-	while ((!isspace((int) (c = **ptr))) &&
+	while ((!isspace((int) (c = **cptr))) &&
 		   /*              c != ',' && */
 		   c != ';' && c != '\0')
 	{
 		c_char[0] = c;
 		token.append(c_char);
-		(*ptr)++;
+		(*cptr)++;
 	}
 	return (return_value);
 }
-#if defined PHREEQ98 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_title(char *token_ptr, char **ptr, int *length)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies from **ptr to *token_ptr until first space or comma is encountered.
- *
- *   Arguments:
- *      *token_ptr  output, place to store token
- *
- *     **ptr        input, character string to read token from
- *                  output, next position after token
- *
- *       length     output, length of token
- *
- *   Returns:
- *      UPPER,
- *      LOWER,
- *      DIGIT,
- *      EMPTY,
- *      UNKNOWN.
- */
-	int i, return_value;
-	char c;
-	int Quote = FALSE;
-
-/*
- *   Read to end of whitespace
- */
-	while (isspace((int) (c = **ptr)) || (c == ',') || (c == '"'))
-	{
-		if (c == '"')
-			Quote = TRUE;
-		(*ptr)++;
-	}
-/*
- *   Check what we have
- */
-	if (isupper((int) c) || c == '[')
-	{
-		return_value = UPPER;
-	}
-	else if (islower((int) c))
-	{
-		return_value = LOWER;
-	}
-	else if (isdigit((int) c) || c == '.' || c == '-')
-	{
-		return_value = DIGIT;
-	}
-	else if (c == '\0')
-	{
-		return_value = EMPTY;
-	}
-	else
-	{
-		return_value = UNKNOWN;
-	}
-/*
- *   Begin copying to token
- */
-	i = 0;
-	if (Quote == TRUE)
-	{
-		while (((int) (c = **ptr) != '"') && c != '\0')
-		{
-			token_ptr[i] = c;
-			(*ptr)++;
-			i++;
-		}
-	}
-	else
-	{
-		while ((!isspace((int) (c = **ptr))) &&
-			   c != ',' && c != ';' && c != '\0')
-		{
-			token_ptr[i] = c;
-			(*ptr)++;
-			i++;
-		}
-	}
-	token_ptr[i] = '\0';
-	*length = i;
-	return (return_value);
-}
-#endif
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-dup_print(const char *ptr, int emphasis)
+dup_print(const char* cptr, int emphasis)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -576,14 +488,14 @@ dup_print(const char *ptr, int emphasis)
 
 	if (pr.headings == FALSE)
 		return (OK);
-	std::string save_in(ptr);
-	l = (int) strlen(ptr);
+	std::string save_in(cptr);
+	l = (int) strlen(cptr);
 	if (emphasis == TRUE)
 	{
 		std::string dash;
 		dash.resize(l, '-');
-		output_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash));
-		log_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash));
+		output_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash.c_str()));
+		log_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash.c_str()));
 	}
 	else
 	{
@@ -642,22 +554,22 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 	int i, j;
 	int ltoken, lcharge;
 	char c;
-	char *ptr, *ptr1, *rest;
+	const char* cptr, *ptr1, *rest;
 	char charge[MAX_LENGTH];
 
 	rest = *eqnaddr;
-	ptr = *eqnaddr;
+	cptr = *eqnaddr;
 	i = 0;
 /*
  *   Find end of token or begining of charge
  */
-	while (((c = *ptr) != '+') && (c != '-') && (c != '=') && (c != '\0'))
+	while (((c = *cptr) != '+') && (c != '-') && (c != '=') && (c != '\0'))
 	{
 		string[i++] = c;
 		if (c == '[')
 		{
-			ptr++;
-			while ((c = *ptr) != ']')
+			cptr++;
+			while ((c = *cptr) != ']')
 			{
 				if (c == '\0')
 				{
@@ -675,7 +587,7 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 							   MAX_LENGTH, string));
 					return (ERROR);
 				}
-				ptr++;
+				cptr++;
 			}
 			string[i++] = c;
 		}
@@ -688,7 +600,7 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 					   MAX_LENGTH, string));
 			return (ERROR);
 		}
-		ptr++;
+		cptr++;
 	}
 	string[i] = '\0';
 	ltoken = i;
@@ -706,7 +618,7 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
  */
 	if (c == '=' || c == '\0')
 	{
-		*eqnaddr = ptr;
+		*eqnaddr = cptr;
 		lcharge = 0;
 		*l_z = 0.0;
 	}
@@ -716,7 +628,7 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
  *   Copy characters into charge until next species or end is detected
  */
 		j = 0;
-		ptr1 = ptr;
+		ptr1 = cptr;
 		while ((isalpha((int) (c = *ptr1)) == FALSE) &&
 			   (c != '(') &&
 			   (c != ')') &&
@@ -834,7 +746,7 @@ parse_couple(char *token)
  *    order.
  */
 	int e1, e2, p1, p2;
-	char *ptr;
+	const char* cptr;
 	char elt1[MAX_LENGTH], elt2[MAX_LENGTH], paren1[MAX_LENGTH],
 		paren2[MAX_LENGTH];
 
@@ -844,9 +756,9 @@ parse_couple(char *token)
 		return (OK);
 	}
 	while (replace("+", "", token) == TRUE);
-	ptr = token;
-	get_elt(&ptr, elt1, &e1);
-	if (*ptr != '(')
+	cptr = token;
+	get_elt(&cptr, elt1, &e1);
+	if (*cptr != '(')
 	{
 		error_string = sformatf( "Element name must be followed by "
 				"parentheses in redox couple, %s.", token);
@@ -857,10 +769,10 @@ parse_couple(char *token)
 	paren_count = 1;
 	paren1[0] = '(';
 	p1 = 1;
-	while (*ptr != '\0')
+	while (*cptr != '\0')
 	{
-		ptr++;
-		if (*ptr == '/' || *ptr == '\0')
+		cptr++;
+		if (*cptr == '/' || *cptr == '\0')
 		{
 			error_string = sformatf(
 					"End of line or  " "/"
@@ -868,17 +780,17 @@ parse_couple(char *token)
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		paren1[p1++] = *ptr;
-		if (*ptr == '(')
+		paren1[p1++] = *cptr;
+		if (*cptr == '(')
 			paren_count++;
-		if (*ptr == ')')
+		if (*cptr == ')')
 			paren_count--;
 		if (paren_count == 0)
 			break;
 	}
 	paren1[p1] = '\0';
-	ptr++;
-	if (*ptr != '/')
+	cptr++;
+	if (*cptr != '/')
 	{
 		error_string = sformatf( " " "/" " must follow parentheses "
 				"ending first half of redox couple, %s.", token);
@@ -886,8 +798,8 @@ parse_couple(char *token)
 		parse_error++;
 		return (ERROR);
 	}
-	ptr++;
-	get_elt(&ptr, elt2, &e2);
+	cptr++;
+	get_elt(&cptr, elt2, &e2);
 	if (strcmp(elt1, elt2) != 0)
 	{
 		error_string = sformatf( "Redox couple must be two redox states "
@@ -895,7 +807,7 @@ parse_couple(char *token)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	if (*ptr != '(')
+	if (*cptr != '(')
 	{
 		error_string = sformatf( "Element name must be followed by "
 				"parentheses in redox couple, %s.", token);
@@ -906,10 +818,10 @@ parse_couple(char *token)
 	paren2[0] = '(';
 	paren_count = 1;
 	p2 = 1;
-	while (*ptr != '\0')
+	while (*cptr != '\0')
 	{
-		ptr++;
-		if (*ptr == '/' || *ptr == '\0')
+		cptr++;
+		if (*cptr == '/' || *cptr == '\0')
 		{
 			error_string = sformatf( "End of line or " "/" " encountered"
 					" before end of parentheses, %s.", token);
@@ -917,10 +829,10 @@ parse_couple(char *token)
 			return (ERROR);
 		}
 
-		paren2[p2++] = *ptr;
-		if (*ptr == '(')
+		paren2[p2++] = *cptr;
+		if (*cptr == '(')
 			paren_count++;
-		if (*ptr == ')')
+		if (*cptr == ')')
 			paren_count--;
 		if (paren_count == 0)
 			break;
@@ -1003,7 +915,7 @@ replace(const char *str1, const char *str2, char *str)
  *      FALSE    if string was not replaced
  */
 	int l, l1, l2;
-	char *ptr_start;
+	char* ptr_start;
 
 	ptr_start = strstr(str, str1);
 /*
@@ -1028,7 +940,14 @@ replace(const char *str1, const char *str2, char *str)
 	memcpy(ptr_start, str2, l2);
 	return (TRUE);
 }
-
+void Phreeqc::
+replace(std::string &stds, const char* str1, const char* str2)
+{
+	size_t pos;
+	while ((pos = stds.find(str1)) != std::string::npos) {
+		stds.replace(pos, 1, str2);
+	}
+}
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 space(void **ptr, int i, int *max, int struct_size)
@@ -1135,7 +1054,7 @@ str_tolower(char *str)
 /*
  *   Replaces string, str, with same string, lower case
  */
-	char *ptr;
+	char* ptr;
 	ptr = str;
 	while (*ptr != '\0')
 	{
@@ -1152,7 +1071,7 @@ str_toupper(char *str)
 /*
  *   Replaces string, str, with same string, lower case
  */
-	char *ptr;
+	char* ptr;
 	ptr = str;
 	while (*ptr != '\0')
 	{
@@ -1460,7 +1379,7 @@ string_trim(char *str)
  *      EMPTY    if string is all whitespace
  */
 	int i, l, start, end, length;
-	char *ptr_start;
+	char* ptr_start;
 
 	l = (int) strlen(str);
 	/*
@@ -1493,6 +1412,22 @@ string_trim(char *str)
 	str[length] = '\0';
 
 	return (TRUE);
+}
+void Phreeqc::string_trim_left(std::string& str)
+{
+	const std::string& chars = "\t\n ";
+	str.erase(0, str.find_first_not_of(chars));
+}
+void Phreeqc::string_trim_right(std::string& str)
+{
+	const std::string& chars = "\t\n ";
+	str.erase(str.find_last_not_of(chars) + 1);
+}
+void Phreeqc::string_trim(std::string& str)
+{
+	const std::string& chars = "\t\n ";
+	str.erase(0, str.find_first_not_of(chars));
+	str.erase(str.find_last_not_of(chars) + 1);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1547,7 +1482,7 @@ string_trim_left(char *str)
  *      EMPTY    if string is all whitespace
  */
 	int i, l, start, end, length;
-	char *ptr_start;
+	char* ptr_start;
 
 	l = (int) strlen(str);
 	/*

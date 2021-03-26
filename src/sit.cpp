@@ -177,7 +177,7 @@ read_sit(void)
   pitz_param_type pzp_type;
 
   int return_value, opt, opt_save;
-  char *next_char;
+  const char* next_char;
   const char *opt_list[] = {
     "epsilon",					/* 0 */
     "epsilon1"					/* 1 */

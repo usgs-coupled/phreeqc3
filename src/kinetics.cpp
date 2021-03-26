@@ -187,7 +187,7 @@ RESTART:   // if limiting rates, jump to here
 			else
 			{
 				char * temp_name = string_duplicate(name.c_str());
-				char * ptr = temp_name;
+				const char* ptr = temp_name;
 				if (get_elts_in_species(&ptr, coef * coef1) == ERROR)
 				{
 					error_string = sformatf("Error in -formula: %s", temp_name);
@@ -211,7 +211,7 @@ RESTART:   // if limiting rates, jump to here
 					{
 						/* found kinetics component */
 						char * formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
-						char * ptr = formula;
+						const char* ptr = formula;
 						if (get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion()) == ERROR)
 						{
 							error_string = sformatf("Error in -formula: %s", formula);
@@ -236,7 +236,7 @@ RESTART:   // if limiting rates, jump to here
 					{
 						/* found kinetics component */
 						char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-						char *ptr = temp_formula;
+						const char* cptr = temp_formula;
 						/* Surface = 0 when m becomes low ...
 						*/
 						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
@@ -251,7 +251,7 @@ RESTART:   // if limiting rates, jump to here
 						}
 						else
 						{
-							if (get_elts_in_species(&ptr, -coef * surface_comp_ptr->Get_phase_proportion()) == ERROR)
+							if (get_elts_in_species(&cptr, -coef * surface_comp_ptr->Get_phase_proportion()) == ERROR)
 							{
 								error_string = sformatf("Error in -formula: %s", temp_formula);
 								error_msg(error_string, CONTINUE);

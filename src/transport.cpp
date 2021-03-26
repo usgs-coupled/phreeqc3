@@ -1678,7 +1678,8 @@ set_initial_moles(int i)
 /* ---------------------------------------------------------------------- */
 {
 	cxxKinetics *kinetics_ptr;
-	char token[MAX_LENGTH], token1[MAX_LENGTH], *ptr;
+	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	const char* cptr;
 	int j, k, l;
 	/*
 	*   Pure phase assemblage
@@ -1763,11 +1764,11 @@ set_initial_moles(int i)
 		count_elts = 0;
 		paren_count = 0;
 		strcpy(token, "X");
-		ptr = token;
-		get_elts_in_species(&ptr, 2e-10);
-		ptr = token;
+		cptr = token;
+		get_elts_in_species(&cptr, 2e-10);
+		cptr = token;
 		LDBLE z;
-		get_token(&ptr, token1, &z, &l);
+		get_token(&cptr, token1, &z, &l);
 		comp.Set_formula(token1);
 		comp.Set_formula_z(z);
 		comp.Set_totals(elt_list_NameDouble());
@@ -2747,9 +2748,9 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			break;
 		}
 		char * temp_name = string_duplicate(ct[1].J_ij[cp].name);
-		char * ptr = temp_name;
+		const char* cptr = temp_name;
 		count_elts = 0;
-		get_elts_in_species(&ptr, 1);
+		get_elts_in_species(&cptr, 1);
 		free_check_null(temp_name);
 		for (int k = 0; k < count_elts; k++)
 		{
@@ -3589,15 +3590,15 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 	*/
 	int j, k, l;
 	LDBLE fraction;
-	char *ptr;
+	const char* cptr;
 
 	for (j = 0; j < l_J_ij_count_spec; j++)
 	{
 		{
 			char * temp_name = string_duplicate(l_J_ij[j].name);
-			ptr = temp_name;
+			cptr = temp_name;
 			count_elts = 0;
-			get_elts_in_species(&ptr, 1);
+			get_elts_in_species(&cptr, 1);
 			free_check_null(temp_name);
 		}
 		if (implicit && stagnant < 2)

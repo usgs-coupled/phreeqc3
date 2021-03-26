@@ -1472,7 +1472,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	for (int i = 0; i < (int)pSrc->elements.size(); i++)
 	{
 
-		const char * ptr = string_hsave(pSrc->elements[i]->name);
+		const char* ptr = string_hsave(pSrc->elements[i]->name);
 		struct element *elt_ptr = element_store(ptr);
 		elt_ptr->gfw = pSrc->elements[i]->gfw;
 	}
@@ -1561,7 +1561,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			count_elts = 0;
 			paren_count = 0;
 			char * string = string_duplicate(s_ptr->mole_balance);
-			char * ptr = string;
+			const char* ptr = string;
 			get_secondary_in_species(&ptr, 1.0);
 			s_ptr->next_secondary = elt_list_save();
 			free_check_null(string);
