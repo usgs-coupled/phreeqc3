@@ -1,3 +1,5 @@
+cmake_minimum_required (VERSION 3.3)
+
 set(TESTS
   alkalinity
   a_e_t2
@@ -434,13 +436,12 @@ set(FAILS
 )
 
 foreach(test ${TESTS})
-  if (NOT ${test} IN_LIST ${SKIP})
+  if (NOT ${test} IN_LIST SKIP)
     add_test(NAME mytest.${test}
              COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
     )
-    if (${test} IN_LIST ${FAILS})
+    if (${test} IN_LIST FAILS)
       set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
-    )
+    endif()
   endif()
-)
 endforeach()
