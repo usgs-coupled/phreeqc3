@@ -337,7 +337,7 @@ compute_gfw(const char *string, LDBLE * gfw)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(char *token_ptr, char **ptr, int *length)
+copy_token(char *token_ptr, const char **ptr, int *length)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -407,7 +407,7 @@ copy_token(char *token_ptr, char **ptr, int *length)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(std::string &token, char **ptr)
+copy_token(std::string &token, const char **ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -620,7 +620,7 @@ free_check_null(void *ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_token(char **eqnaddr, char *string, LDBLE * l_z, int *l)
+get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 /* ---------------------------------------------------------------------- */
 /*
  *   Function finds next species in equation, coefficient has already
@@ -726,8 +726,7 @@ get_token(char **eqnaddr, char *string, LDBLE * l_z, int *l)
 			/* error if no more space */
 			if (j >= MAX_LENGTH)
 			{
-				error_msg
-					("The charge on a species has exceeded MAX_LENGTH characters.",
+				error_msg("The charge on a species has exceeded MAX_LENGTH characters.",
 					 CONTINUE);
 				return (ERROR);
 			}
