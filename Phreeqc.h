@@ -1289,7 +1289,7 @@ protected:
 	char* title_x;
 	std::string last_title_x;
 	int new_x;
-	char* description_x;
+	std::string description_x;
 	LDBLE tc_x;
 	LDBLE tk_x;
 	LDBLE patm_x;
@@ -1310,7 +1310,7 @@ protected:
 	LDBLE mass_water_aq_x;
 	LDBLE mass_water_surfaces_x;
 	LDBLE mass_water_bulk_x;
-	char* units_x;
+	std::string units_x;
 	std::map < std::string, cxxChemRxn > pe_x;
 	std::map<std::string, cxxSolutionIsotope> isotopes_x;
 	std::string default_pe_x;
@@ -1404,8 +1404,8 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::vector<struct logk*> logk;
 
-	char* moles_per_kilogram_string;
-	char* pe_string;
+	std::string moles_per_kilogram_string;
+	std::string pe_string;
 
 	std::vector<struct species*> s;
 	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;

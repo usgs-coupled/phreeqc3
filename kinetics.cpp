@@ -186,14 +186,12 @@ RESTART:   // if limiting rates, jump to here
 			}
 			else
 			{
-				char * temp_name = string_duplicate(name.c_str());
-				const char* ptr = temp_name;
+				const char* ptr = name.c_str();
 				if (get_elts_in_species(&ptr, coef * coef1) == ERROR)
 				{
-					error_string = sformatf("Error in -formula: %s", temp_name);
+					error_string = sformatf("Error in -formula: %s", name.c_str());
 					error_msg(error_string, CONTINUE);
 				}
-				free_check_null(temp_name);
 			}
 		}
 		if (use.Get_exchange_ptr() != NULL
@@ -210,14 +208,13 @@ RESTART:   // if limiting rates, jump to here
 						name.c_str()) == 0)
 					{
 						/* found kinetics component */
-						char * formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
-						const char* ptr = formula;
+						std::string formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
+						const char* ptr = formula.c_str();
 						if (get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion()) == ERROR)
 						{
 							error_string = sformatf("Error in -formula: %s", formula);
 							error_msg(error_string, CONTINUE);
 						}
-						free_check_null(formula);
 					}
 				}
 			}
@@ -235,14 +232,13 @@ RESTART:   // if limiting rates, jump to here
 						surface_comp_ptr->Get_rate_name().c_str()) == 0)
 					{
 						/* found kinetics component */
-						char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-						const char* cptr = temp_formula;
+						std::string temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
+						const char* cptr = temp_formula.c_str();
 						/* Surface = 0 when m becomes low ...
 						*/
 						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
 							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
 						{
-							//master_ptr = master_bsearch(ptr);
 							master_ptr = master_bsearch(surface_comp_ptr->Get_master_element().c_str());
 							if (master_ptr != NULL) 
 							{
@@ -257,7 +253,6 @@ RESTART:   // if limiting rates, jump to here
 								error_msg(error_string, CONTINUE);
 							}
 						}
-						free_check_null(temp_formula);
 					}
 				}
 			}
