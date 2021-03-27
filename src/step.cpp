@@ -964,10 +964,8 @@ reaction_calc(cxxReaction *reaction_ptr)
 		}
 		else
 		{
-			char * token = string_duplicate(it->first.c_str());
-			cptr = token;
+			cptr = it->first.c_str();
 			get_elts_in_species(&cptr, coef);
-			free_check_null(token);
 		}
 	}
 /*
@@ -1089,11 +1087,9 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 			comp_ptr->Set_delta(0.0);
 			if (comp_ptr->Get_moles() > 0.0)
 			{
-				char * token = string_duplicate(phase_ptr->formula);
-				cptr = &(token[0]);
+				cptr = phase_ptr->formula;
 				count_elts = 0; // appt
 				get_elts_in_species(&cptr, 1.0);
-				free_check_null(token);
 				for (k = 0; k < count_elts; k++)
 				{
 					master_ptr = elt_list[k].elt->primary;

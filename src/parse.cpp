@@ -213,14 +213,11 @@ check_eqn(int association)
 	for (i = 0; i < count_trxn; i++)
 	{
 		sumcharge += (trxn.token[i].coef) * (trxn.token[i].z);
-		char * temp_name = string_duplicate(trxn.token[i].name);
-		const char *t_ptr = temp_name;
+		const char* t_ptr = trxn.token[i].name;
 		if (get_elts_in_species(&t_ptr, trxn.token[i].coef) == ERROR)
 		{
-			free_check_null(temp_name);
 			return (ERROR);
 		}
-		free_check_null(temp_name);
 	}
 /*
  *   Sort elements in reaction and combine

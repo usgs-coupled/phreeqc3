@@ -26,7 +26,6 @@ initialize(void)
  *   Initialize global variables
  */
 	moles_per_kilogram_string = "Mol/kgw";
-	pe_string = string_duplicate("pe");
 /*
  *   Allocate space
  */
