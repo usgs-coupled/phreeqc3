@@ -257,14 +257,12 @@ read_input(void)
 #if defined(SWIG_SHARED_OBJ)
 				warning_msg("DATABASE keyword is ignored by IPhreeqc.");
 #else
-				
-				user_database = (char *) free_check_null(user_database);
-				user_database = string_duplicate(cptr);
-				if (string_trim(user_database) == EMPTY)
+				user_database = cptr;
+				string_trim(user_database);
+				if (user_database.size() == 0)
 				{
 					error_msg("DATABASE file name is missing.", CONTINUE);
 					input_error++;
-					user_database = (char *) free_check_null(user_database);
 				}
 				first_read_input = FALSE;
 #endif

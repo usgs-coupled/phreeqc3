@@ -863,8 +863,6 @@ void Phreeqc::init(void)
 
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
-	user_database			= NULL;
-	//have_punch_name			= FALSE;
 	print_density		    = 0;
 	print_viscosity		    = 0;
 	cell_pore_volume	    = 0;
@@ -2016,7 +2014,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 
 	phreeqc_mpi_myself		= 0;
 	first_read_input		= TRUE;
-	user_database			= string_duplicate(pSrc->user_database);
+	user_database			= pSrc->user_database;
 	//have_punch_name			= pSrc->have_punch_name;
 	print_density		    = pSrc->print_density;
 	print_viscosity         = pSrc->print_viscosity;

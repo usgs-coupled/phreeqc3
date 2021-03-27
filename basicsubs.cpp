@@ -2821,10 +2821,8 @@ kinetics_formula(std::string kin_name, cxxNameDouble &stoichiometry)
 						// add formula
 						std::string name = it->first;
 						LDBLE coef = it->second;
-						char * temp_name = string_duplicate(name.c_str());
-						const char* cptr = temp_name;
+						const char* cptr = &name[0];
 						get_elts_in_species(&cptr, coef);
-						free_check_null(temp_name);
 					}
 				}
 				formula.append(kin_name);

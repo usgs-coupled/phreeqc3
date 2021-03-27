@@ -221,7 +221,6 @@ clean_up(void)
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
 	/* free user database name if defined */
-	user_database = (char *) free_check_null(user_database);
 	dump_file_name = (char *) free_check_null(dump_file_name);
 #ifdef PHREEQCI_GUI
 	free_spread();
@@ -230,7 +229,6 @@ clean_up(void)
 	last_title_x.clear();
 	count_inverse = 0;
 
-	default_data_base = (char *) free_check_null(default_data_base);
 	sformatf_buffer = (char *) free_check_null(sformatf_buffer);
 	return (OK);
 }
