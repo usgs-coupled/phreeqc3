@@ -408,8 +408,8 @@ public:
 	int store_get_equi_reactants(int k, int kin_end);
 
 	// mainsubs.cpp  -------------------------------
-	std::ifstream* open_input_stream(char* query, char* default_name, std::ios_base::openmode mode, bool batch);
-	std::ofstream* open_output_stream(char* query, char* default_name, std::ios_base::openmode mode, bool batch);
+	std::ifstream* open_input_stream(std::string query, std::string& default_name, std::ios_base::openmode mode, bool batch);
+	std::ofstream* open_output_stream(std::string query, std::string& default_name, std::ios_base::openmode mode, bool batch);
 	int copy_entities(void);
 	void do_mixes(void);
 	void initialize(void);
@@ -1049,11 +1049,8 @@ public:
 	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
 	LDBLE calc_dielectrics(LDBLE tc, LDBLE pa);
 	int compute_gfw(const char* string, LDBLE* gfw);
-#if defined PHREEQ98 
-	int copy_title(char* token_ptr, char** ptr, int* length);
-#endif
-	int copy_token(char* token_ptr, const char** ptr, int* length);
-	int copy_token(std::string& token, const char** ptr);
+	static int copy_token(char* token_ptr, const char** ptr, int* length);
+	static int copy_token(std::string& token, const char** ptr);
 	int dup_print(const char* cptr, int emphasis);
 	int equal(LDBLE a, LDBLE b, LDBLE eps);
 public:
@@ -1630,7 +1627,7 @@ protected:
 	std::map<std::string, struct isotope_alpha*> isotope_alpha_map;
 	int phreeqc_mpi_myself;
 	int first_read_input;
-	char* user_database;
+	std::string user_database;
 
 	//int have_punch_name;
 	/* VP: Density Start */
@@ -1748,7 +1745,7 @@ protected:
 	int forward_output_to_log;
 
 	/* phreeqc_files.cpp ------------------------------- */
-	char* default_data_base;
+	std::string default_data_base;
 	/* Pitzer  */
 	int pitzer_model, sit_model, pitzer_pe;
 	int full_pitzer, always_full_pitzer, ICON, IC;
