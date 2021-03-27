@@ -1024,10 +1024,8 @@ build_tally_table(void)
 					{
 						std::string name = it->first;
 						LDBLE coef = it->second;
-						char * temp_name = string_duplicate(name.c_str());
-						cptr = temp_name;
+						cptr = name.c_str();
 						get_elts_in_species(&cptr, 1.0 * coef);
-						free_check_null(temp_name);
 					}
 				}
 				elt_list_combine();
@@ -1189,11 +1187,8 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
 			cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
 			for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
 			{
-				std::string name = it->first;
-				char * temp_name = string_duplicate(name.c_str());
-				cptr = temp_name;
+				cptr = it->first.c_str();
 				get_elts_in_species(&cptr, coef);
-				free_check_null(temp_name);
 			}
 		}
 	}

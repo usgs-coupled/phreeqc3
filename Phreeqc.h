@@ -1405,7 +1405,6 @@ protected:
 	std::vector<struct logk*> logk;
 
 	std::string moles_per_kilogram_string;
-	std::string pe_string;
 
 	std::vector<struct species*> s;
 	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;

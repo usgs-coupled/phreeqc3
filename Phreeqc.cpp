@@ -1026,9 +1026,9 @@ void Phreeqc::init(void)
 	forward_output_to_log   = 0;
 	/* phreeqc_files.cpp ------------------------------- */
 #ifdef NPP
-	default_data_base = string_duplicate("c:\\phreeqc\\database\\phreeqc.dat");
+	default_data_base = "c:\\phreeqc\\database\\phreeqc.dat";
 #else
-	default_data_base = string_duplicate("phreeqc.dat");
+	default_data_base = "phreeqc.dat";
 #endif
 	/* Pitzer  */	
 	pitzer_model			= FALSE;
@@ -1328,7 +1328,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	last_title_x = pSrc->last_title_x;
 	/*
 	new_x                   = FALSE;
-	description_x			= NULL;
 	tc_x                    = 0;
 	tk_x                    = 0;
 	patm_x                  = 1;
@@ -1551,11 +1550,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		{
 			count_elts = 0;
 			paren_count = 0;
-			char * string = string_duplicate(s_ptr->mole_balance);
-			const char* ptr = string;
-			get_secondary_in_species(&ptr, 1.0);
+			const char* cptr = s_ptr->mole_balance;
+			get_secondary_in_species(&cptr, 1.0);
 			s_ptr->next_secondary = elt_list_save();
-			free_check_null(string);
 		}
 		//next_sys_total
 		s_ptr->next_sys_total = NULL;
@@ -1961,9 +1958,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		master_isotope_ptr->master = NULL;
 		if (pSrc->master_isotope[i]->master)
 		{
-			char * name = string_duplicate(pSrc->master_isotope[i]->master->elt->name);
-			master_isotope_ptr->master = master_search(name, &n);
-			free_check_null(name);
+			master_isotope_ptr->master = master_search(pSrc->master_isotope[i]->master->elt->name, &n);
 		}
 		if (master_isotope_ptr->master == NULL)
 		{

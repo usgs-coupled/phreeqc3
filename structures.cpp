@@ -891,13 +891,10 @@ master_bsearch(const char* cptr)
 					   sizeof(struct master *), master_compare_string);
 	if (void_ptr == NULL)
 	{
-		char * dup = string_duplicate(cptr);
-		replace("(+","(", dup);
-		void_ptr = bsearch((const char *) dup,
+		void_ptr = bsearch(cptr,
 			(char*)&master[0],
 			master.size(),
 			sizeof(struct master*), master_compare_string);
-		dup = (char *) free_check_null(dup);
 	}
 	if (void_ptr == NULL)
 	{
@@ -949,10 +946,8 @@ master_bsearch_primary(const char* cptr)
 /*
  *   Find element name
  */
-	char * temp_name = string_duplicate(cptr);
-	cptr1 = temp_name;
+	cptr1 = cptr;
 	get_elt(&cptr1, elt, &l);
-	free_check_null(temp_name);
 /*
  *   Search master species list
  */

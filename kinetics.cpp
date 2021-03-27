@@ -208,7 +208,7 @@ RESTART:   // if limiting rates, jump to here
 						name.c_str()) == 0)
 					{
 						/* found kinetics component */
-						std::string formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
+						std::string formula = exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str();
 						const char* ptr = formula.c_str();
 						if (get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion()) == ERROR)
 						{
@@ -232,7 +232,7 @@ RESTART:   // if limiting rates, jump to here
 						surface_comp_ptr->Get_rate_name().c_str()) == 0)
 					{
 						/* found kinetics component */
-						std::string temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
+						std::string temp_formula = surface_comp_ptr->Get_formula().c_str();
 						const char* cptr = temp_formula.c_str();
 						/* Surface = 0 when m becomes low ...
 						*/
