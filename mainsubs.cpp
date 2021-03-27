@@ -2102,12 +2102,14 @@ run_simulations(void)
 			if (read_input() == EOF)
 				break;
 
-			if (title_x != NULL)
+			if (title_x.size() > 0)
 			{
 				sprintf(token, "TITLE");
 				dup_print(token, TRUE);
 				if (pr.headings == TRUE)
-					output_msg(sformatf( "%s\n\n", title_x));
+				{
+					output_msg(sformatf("%s\n\n", title_x.c_str()));
+				}
 			}
 			tidy_model();
 /*

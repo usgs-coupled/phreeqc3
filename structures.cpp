@@ -221,7 +221,7 @@ clean_up(void)
 #ifdef PHREEQCI_GUI
 	free_spread();
 #endif
-	title_x = (char *) free_check_null(title_x);
+	title_x.clear(); 
 	last_title_x.clear();
 	count_inverse = 0;
 
@@ -941,7 +941,6 @@ master_bsearch_primary(const char* cptr)
  */
 	int l;
 	const char* cptr1;
-	char elt[MAX_LENGTH];
 	struct master *master_ptr_primary;
 /*
  *   Find element name

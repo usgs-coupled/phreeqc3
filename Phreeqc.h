@@ -1286,7 +1286,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Global solution
 	*---------------------------------------------------------------------- */
-	char* title_x;
+	std::string title_x;
 	std::string last_title_x;
 	int new_x;
 	std::string description_x;
