@@ -542,7 +542,6 @@ void Phreeqc::init(void)
 	*---------------------------------------------------------------------- */
 	title_x                 = NULL;
 	new_x                   = FALSE;
-	description_x			= NULL;
 	tc_x                    = 0;
 	tk_x                    = 0;
 	patm_x                  = 1;
@@ -563,7 +562,6 @@ void Phreeqc::init(void)
 	mass_water_aq_x         = 0;
 	mass_water_surfaces_x   = 0;
 	mass_water_bulk_x       = 0;
-	units_x					= NULL;
 	// auto pe_x
 	// auto isotopes_x
 	// auto default_pe_x
@@ -654,8 +652,6 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-	moles_per_kilogram_string= NULL;
-	pe_string                = NULL;
 	s_h2o					= NULL;
 	s_hplus					= NULL;
 	s_h3oplus				= NULL;
@@ -1352,7 +1348,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	mass_water_aq_x         = 0;
 	mass_water_surfaces_x   = 0;
 	mass_water_bulk_x       = 0;
-	units_x					= NULL;
 	*/
 	// auto pe_x
 	// auto isotopes_x
@@ -1494,8 +1489,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	logk                     = NULL;
 	count_logk               = 0;
 	max_logk                 = MAX_S;
-	moles_per_kilogram_string= NULL;
-	pe_string                = NULL;
 	s                        = NULL;
 	count_s                  = 0;
 	max_s                    = MAX_S;

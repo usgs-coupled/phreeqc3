@@ -47,8 +47,7 @@ prep(void)
 				  STOP);
 		return ERROR;
 	}
-	description_x = (char *) free_check_null(description_x);
-	description_x = string_duplicate(solution_ptr->Get_description().c_str());
+	description_x = solution_ptr->Get_description();
 /*
  *   Allocate space for unknowns
  *   Must allocate all necessary space before pointers to

@@ -25,7 +25,7 @@ initialize(void)
 /*
  *   Initialize global variables
  */
-	moles_per_kilogram_string = string_duplicate("Mol/kgw");
+	moles_per_kilogram_string = "Mol/kgw";
 	pe_string = string_duplicate("pe");
 /*
  *   Allocate space
@@ -935,8 +935,7 @@ saver(void)
 	if (save.solution == TRUE)
 	{
 		sprintf(token, "Solution after simulation %d.", simulation);
-		description_x = (char *) free_check_null(description_x);
-		description_x = string_duplicate(token);
+		description_x = token;
 		n = save.n_solution_user;
 		xsolution_save(n);
 		for (i = save.n_solution_user + 1; i <= save.n_solution_user_end; i++)

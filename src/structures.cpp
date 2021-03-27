@@ -37,11 +37,7 @@ clean_up(void)
 #endif
 #endif
 
-	description_x = (char*)free_check_null(description_x);
 	isotopes_x.clear();
-	moles_per_kilogram_string =
-		(char*)free_check_null(moles_per_kilogram_string);
-	pe_string = (char*)free_check_null(pe_string);
 	/* model */
 	last_model.gas_phase.clear();
 	last_model.pp_assemblage.clear();
