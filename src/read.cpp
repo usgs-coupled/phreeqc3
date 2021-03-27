@@ -67,7 +67,7 @@ read_input(void)
 	save.surface = FALSE;
 	save.gas_phase = FALSE;
 	save.ss_assemblage = FALSE;
-	title_x = (char *) free_check_null(title_x);
+	title_x.clear(); 
 
 	while ((i =	check_line("Subroutine Read", FALSE, TRUE, TRUE, TRUE)) != KEYWORD)
 	{
@@ -7246,7 +7246,7 @@ read_title(void)
  *
  */
 	const char* cptr, *cptr1;
-	int l, title_x_length, line_length;
+	int l;
 	int return_value;
 	char token[MAX_LENGTH];
 /*
@@ -7255,17 +7255,10 @@ read_title(void)
 	cptr = line;
 	copy_token(token, &cptr, &l);
 	cptr1 = cptr;
-	title_x = (char *) free_check_null(title_x);
+	title_x.clear();
 	if (copy_token(token, &cptr, &l) != EMPTY)
 	{
-		title_x = string_duplicate(cptr1);
-	}
-	else
-	{
-		title_x = (char *) PHRQ_malloc(sizeof(char));
-		if (title_x == NULL)
-			malloc_error();
-		title_x[0] = '\0';
+		title_x = cptr1;
 	}
 
 /*
@@ -7280,18 +7273,11 @@ read_title(void)
 /*
  *   append line to title_x
  */
-		title_x_length = (int) strlen(title_x);
-		line_length = (int) strlen(line);
-		title_x = (char *) PHRQ_realloc(title_x,
-			((size_t)title_x_length + (size_t)line_length + 2) * sizeof(char));
-		if (title_x == NULL)
-			malloc_error();
-		if (title_x_length > 0)
+		if (title_x.size() > 0)
 		{
-			title_x[title_x_length] = '\n';
-			title_x[title_x_length + 1] = '\0';
+			title_x.append("\n");
 		}
-		strcat(title_x, line);
+		title_x.append(line);
 	}
 	last_title_x = title_x;
 	return (return_value);

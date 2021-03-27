@@ -668,10 +668,8 @@ coef_in_master(struct master * master_ptr)
 	struct elt_list *next_elt;
 
 	coef = 0.0;
-	char * temp_name = string_duplicate(master_ptr->elt->name);
-	cptr = temp_name;
+	cptr = master_ptr->elt->name;
 	get_elt(&cptr, elt_name, &l);
-	free_check_null(temp_name);
 	for (next_elt = master_ptr->s->next_elt; next_elt->elt != NULL;
 		 next_elt++)
 	{
@@ -1615,10 +1613,8 @@ tidy_pp_assemblage(void)
 					it->second.Set_add_formula(phase_ptr->formula);
 				}
 				{
-					char * temp_add = string_duplicate(it->second.Get_add_formula().c_str());
-					cptr = temp_add;
+					cptr = it->second.Get_add_formula().c_str();
 					get_elts_in_species(&cptr, coef);
-					free_check_null(temp_add);
 				}
 				/* check that all elements are in the database */
 				for (int l = first; l < count_elts; l++)
@@ -2331,8 +2327,7 @@ tidy_species(void)
 	}
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		char * temp_name = string_duplicate(master[i]->elt->name);
-		cptr = temp_name;
+		cptr = master[i]->elt->name;
 		if (cptr[0] != '[')
 		{
 			while ((c = (int) *(++cptr)) != '\0')
@@ -2348,7 +2343,6 @@ tidy_species(void)
 				}
 			}
 		}
-		free_check_null(temp_name);
 		/* store sequence number in master structure */
 		master[i]->number = i;
 		if (strcmp(master[i]->elt->name, "Alkalinity") != 0)
@@ -2715,10 +2709,8 @@ tidy_surface(void)
 					count_elts = 0;
 					paren_count = 0;
 					{
-						char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-						cptr1 = temp_formula;
+						cptr1 = comp_ptr->Get_formula().c_str();
 						get_elts_in_species(&cptr1, comp_ptr->Get_moles());
-						free_check_null(temp_formula);
 					}
 					{
 						cxxNameDouble nd = elt_list_NameDouble();
@@ -3209,10 +3201,8 @@ tidy_kin_exchange(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				cptr = temp_formula;
+				cptr = comp_ref.Get_formula().c_str();
 				get_elts_in_species(&cptr, conc);
-				free_check_null(temp_formula);
 			}
 			comp_ref.Set_totals(elt_list_NameDouble());
 /*
@@ -3322,10 +3312,8 @@ update_kin_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					cptr = temp_formula;
+					cptr = comp_ref.Get_formula().c_str();
 					get_elts_in_species(&cptr, 1.0);
-					free_check_null(temp_formula);
 				}
 				cxxNameDouble nd_formula = elt_list_NameDouble();
 				double comp_coef = 0;
@@ -3345,10 +3333,8 @@ update_kin_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					cptr = temp_formula;
+					cptr = comp_ref.Get_formula().c_str();
 					get_elts_in_species(&cptr, conc);
-					free_check_null(temp_formula);
 				}
 				comp_ref.Set_totals(elt_list_NameDouble());
 			}
@@ -3461,10 +3447,8 @@ tidy_min_exchange(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				cptr = temp_formula;
+				cptr = comp_ref.Get_formula().c_str();
 				get_elts_in_species(&cptr, conc);
-				free_check_null(temp_formula);
 			}
 			comp_ref.Set_totals(elt_list_NameDouble());
 /*
@@ -3473,19 +3457,15 @@ tidy_min_exchange(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				cptr = temp_formula;
+				cptr = comp_ref.Get_formula().c_str();
 				get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
-				free_check_null(temp_formula);
 			}
 			int l;
 			struct phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 			if (phase_ptr != NULL)
 			{
-				char * temp_formula = string_duplicate(phase_ptr->formula);
-				cptr = temp_formula;
+				cptr = phase_ptr->formula;
 				get_elts_in_species(&cptr, 1.0);
-				free_check_null(temp_formula);
 			}
 			else
 			{
@@ -3616,10 +3596,8 @@ update_min_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					cptr = temp_formula;
+					cptr = comp_ref.Get_formula().c_str();
 					get_elts_in_species(&cptr, 1.0);
-					free_check_null(temp_formula);
 				}
 				cxxNameDouble nd_formula = elt_list_NameDouble();
 				double comp_coef = 0;
@@ -3639,10 +3617,8 @@ update_min_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					cptr = temp_formula;
+					cptr = comp_ref.Get_formula().c_str();
 					get_elts_in_species(&cptr, conc);
-					free_check_null(temp_formula);
 				}
 				comp_ref.Set_totals(elt_list_NameDouble());
 				/*
@@ -3651,19 +3627,15 @@ update_min_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					cptr = temp_formula;
+					cptr = comp_ref.Get_formula().c_str();
 					get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
-					free_check_null(temp_formula);
 				}
 				int l;
 				struct phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 				if (phase_ptr != NULL)
 				{
-					char* temp_formula = string_duplicate(phase_ptr->formula);
-					cptr = temp_formula;
+					cptr = phase_ptr->formula;
 					get_elts_in_species(&cptr, 1.0);
-					free_check_null(temp_formula);
 				}
 				else
 				{
@@ -3841,10 +3813,8 @@ tidy_min_surface(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(phase_ptr->formula);
-				const char* cptr = temp_formula;
+				const char* cptr = phase_ptr->formula;
 				get_elts_in_species(&cptr, 1.0);
-				free_check_null(temp_formula);
 			}
 			// Revise logic for surface related to mineral
 			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
@@ -3852,10 +3822,8 @@ tidy_min_surface(void)
 				cxxSurfaceComp *comp_jj_ptr = &(surface_ptr->Get_surface_comps()[jj]);
 				// Use formula for all types of surfaces
 				{
-					char * temp_formula = string_duplicate(comp_jj_ptr->Get_formula().c_str());
-					const char* cptr = temp_formula;
-					get_elts_in_species(&cptr,
-										-comp_jj_ptr->Get_phase_proportion());
+					const char* cptr = comp_jj_ptr->Get_formula().c_str();
+					get_elts_in_species(&cptr, -comp_jj_ptr->Get_phase_proportion());
 
 					if (surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
 					{
@@ -3868,7 +3836,6 @@ tidy_min_surface(void)
 							error_string = sformatf("Unknown element definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
 								surface_ptr->Get_n_user());
 							error_msg(error_string);
-							free_check_null(temp_formula);
 							continue;
 						}
 						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name == NULL)
@@ -3877,7 +3844,6 @@ tidy_min_surface(void)
 							error_string = sformatf("Unknown master species definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
 								surface_ptr->Get_n_user());
 							error_msg(error_string);
-							free_check_null(temp_formula);
 							continue;
 						}
 						//if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
@@ -3894,7 +3860,6 @@ tidy_min_surface(void)
 							warning_msg(error_string);
 						}	
 					}
-					free_check_null(temp_formula);
 				}
 			}
 			elt_list_combine();
@@ -4197,12 +4162,10 @@ tidy_kin_surface(void)
 
 /*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
 			{
-				char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				const char* cptr = temp_formula;
+				const char* cptr = comp_ptr->Get_formula().c_str();
 				count_elts = 0;
 				paren_count = 0;
 				get_elts_in_species(&cptr, conc);
-				free_check_null(temp_formula);
 			}
 			{
 				if (surface_ptr->Get_new_def())
@@ -4259,10 +4222,8 @@ tidy_kin_surface(void)
 				}
 				else
 				{
-					char * temp_name = string_duplicate(name.c_str());
-					const char* cptr = temp_name;
+					const char* cptr = name.c_str();
 					get_elts_in_species(&cptr, coef);
-					free_check_null(temp_name);
 				}
 			}
 			/* save kinetics formula */
@@ -4287,10 +4248,8 @@ tidy_kin_surface(void)
 					(comp_ptr->Get_rate_name().c_str(),
 					 kin_comp_ptr->Get_rate_name().c_str()) == 0)
 				{
-					char * temp_formula = string_duplicate( comp_ptr->Get_formula().c_str());
-					const char* cptr = temp_formula;
+					const char* cptr = comp_ptr->Get_formula().c_str();
 					get_elts_in_species(&cptr, -1 * comp_ptr->Get_phase_proportion());
-					free_check_null(temp_formula);
 				}
 			}
 			elt_list_combine();
@@ -4477,12 +4436,10 @@ update_kin_surface(void)
 			}
 			else /* need to generate from scratch */
 			{
-				char* temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				const char* cptr = temp_formula;
+				const char* cptr = comp_ptr->Get_formula().c_str();
 				count_elts = 0;
 				paren_count = 0;
 				get_elts_in_species(&cptr, conc);
-				free_check_null(temp_formula);
 
 				cxxNameDouble nd = elt_list_NameDouble();
 				comp_ptr->Set_totals(nd);
