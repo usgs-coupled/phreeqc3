@@ -1049,14 +1049,12 @@ read_exchange(void)
 				*   save formula for adjusting number of exchange sites
 			    */
 				cptr = formula;
-				char *name = string_duplicate(token.c_str());
-				name[0] = '\0';
+				std::string name;
 				LDBLE z;
 				int l;
 				get_token(&cptr, name, &z, &l);
 				comp_ptr->Set_formula_z(z);
 				free_check_null(formula);
-				free_check_null(name);
 				/*
 				*   Save elt_list
 			    */
@@ -1085,7 +1083,7 @@ read_exchange_master_species(void)
 	LDBLE l_z;
 	struct element *elts_ptr;
 	struct species *s_ptr;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	char token[MAX_LENGTH];
 	for (;;)
 	{
 		j = check_line("Exchange species equation", FALSE, TRUE, TRUE, TRUE);
@@ -1152,8 +1150,9 @@ read_exchange_master_species(void)
 		else
 		{
 			cptr1 = token;
+			std::string token1;
 			get_token(&cptr1, token1, &l_z, &l);
-			master[count_master]->s = s_store(token1, l_z, FALSE);
+			master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
 		}
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
@@ -3169,7 +3168,7 @@ read_master_species(void)
 	LDBLE l_z;
 	struct element *elts_ptr;
 	struct species *s_ptr;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	char token[MAX_LENGTH];
 
 	elts_ptr = NULL;
 	for (;;)
@@ -3240,8 +3239,9 @@ read_master_species(void)
 		else
 		{
 			cptr1 = token;
+			std::string token1;
 			get_token(&cptr1, token1, &l_z, &l);
-			master[count_master]->s = s_store(token1, l_z, FALSE);
+			master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
 		}
 		
 		std::string sname = token;
@@ -6848,9 +6848,7 @@ read_surface(void)
 				*/
 				cptr1 = formula;
 				int l;
-				// name is work space
-				char * name = string_duplicate(formula);
-				name[0] = '\0';
+				std::string name;
 				get_token(&cptr1, name, &dummy, &l);
 				comp_ptr->Set_formula_z(dummy);
 				cxxNameDouble nd = elt_list_NameDouble();
@@ -6861,16 +6859,18 @@ read_surface(void)
 				cptr1 = formula;
 				get_elt(&cptr1, name, &l);
 				{
-					char* ptr = strchr(name, '_');
-					if (ptr != NULL)
-						ptr[0] = '\0';
+					std::string::size_type pos = name.find('_');
+					if (pos != std::string::npos)
+					{
+						name = name.substr(0, pos);
+					}
 				}
 				charge_ptr = temp_surface.Find_charge(name);
 				formula = (char*)free_check_null(formula);
 				if (charge_ptr == NULL)
 				{
 					cxxSurfaceCharge temp_charge(this->phrq_io);
-					temp_charge.Set_name(name);
+					temp_charge.Set_name(name.c_str());
 					if (comp_ptr->Get_phase_name().size() == 0
 						&& comp_ptr->Get_rate_name().size() == 0)
 					{
@@ -6885,8 +6885,7 @@ read_surface(void)
 					temp_surface.Get_surface_charges().push_back(temp_charge);
 					charge_ptr = temp_surface.Find_charge(name);
 				}
-				comp_ptr->Set_charge_name(name);
-				name = (char*)free_check_null(name);
+				comp_ptr->Set_charge_name(name.c_str());
 				/*
 				*   Read surface area (m2/g)
 				*/
@@ -7136,8 +7135,9 @@ read_surface_master_species(void)
 			else
 			{
 				cptr1 = token;
+				std::string token1;
 				get_token(&cptr1, token1, &l_z, &l);
-				master[count_master]->s = s_store(token1, l_z, FALSE);
+				master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
 			}
 			master[count_master]->primary = TRUE;
 			strcpy(token, master[count_master]->elt->name);

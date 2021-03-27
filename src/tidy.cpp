@@ -664,7 +664,7 @@ coef_in_master(struct master * master_ptr)
 	int l;
 	LDBLE coef;
 	const char* cptr;
-	char elt_name[MAX_LENGTH];
+	std::string elt_name;
 	struct elt_list *next_elt;
 
 	coef = 0.0;
@@ -675,7 +675,7 @@ coef_in_master(struct master * master_ptr)
 	for (next_elt = master_ptr->s->next_elt; next_elt->elt != NULL;
 		 next_elt++)
 	{
-		if (strcmp(elt_name, next_elt->elt->name) == 0)
+		if (strcmp(elt_name.c_str(), next_elt->elt->name) == 0)
 		{
 			coef = next_elt->coef;
 			break;
@@ -2902,15 +2902,15 @@ phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
  */
 	int i, l;
 	const char* cptr;
-	char token[MAX_LENGTH];
 	LDBLE l_z;
 
 	trxn.token[0].name = phase_ptr->formula;
 	/* charge */
-	char * temp_formula = string_duplicate(phase_ptr->formula);
-	cptr = temp_formula;
-	get_token(&cptr, token, &l_z, &l);
-	free_check_null(temp_formula);
+	cptr = phase_ptr->formula;
+	{
+		std::string token;
+		get_token(&cptr, token, &l_z, &l);
+	}
 	trxn.token[0].z = l_z;
 	trxn.token[0].s = NULL;
 	trxn.token[0].unknown = NULL;

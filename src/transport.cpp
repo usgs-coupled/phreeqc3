@@ -1678,7 +1678,7 @@ set_initial_moles(int i)
 /* ---------------------------------------------------------------------- */
 {
 	cxxKinetics *kinetics_ptr;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	char token[MAX_LENGTH];
 	const char* cptr;
 	int j, k, l;
 	/*
@@ -1768,8 +1768,11 @@ set_initial_moles(int i)
 		get_elts_in_species(&cptr, 2e-10);
 		cptr = token;
 		LDBLE z;
-		get_token(&cptr, token1, &z, &l);
-		comp.Set_formula(token1);
+		{
+			std::string token1;
+			get_token(&cptr, token1, &z, &l);
+			comp.Set_formula(token1.c_str());
+		}
 		comp.Set_formula_z(z);
 		comp.Set_totals(elt_list_NameDouble());
 		comp.Set_charge_balance(0.0);

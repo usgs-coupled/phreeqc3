@@ -947,11 +947,14 @@ master_bsearch_primary(const char* cptr)
  *   Find element name
  */
 	cptr1 = cptr;
-	get_elt(&cptr1, elt, &l);
-/*
- *   Search master species list
- */
-	master_ptr_primary = master_bsearch(elt);
+	{
+		std::string elt;
+		get_elt(&cptr1, elt, &l);
+		/*
+		 *   Search master species list
+		 */
+		master_ptr_primary = master_bsearch(elt.c_str());
+	}
 	if (master_ptr_primary == NULL)
 	{
 		input_error++;
@@ -972,7 +975,7 @@ master_bsearch_secondary(const char* cptr)
  */
 	int l;
 	const char* cptr1;
-	char elt[MAX_LENGTH];
+	std::string elt;
 	struct master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
 	int j;
 /*
@@ -983,7 +986,7 @@ master_bsearch_secondary(const char* cptr)
 /*
  *   Search master species list
  */
-	master_ptr_primary = master_bsearch(elt);
+	master_ptr_primary = master_bsearch(elt.c_str());
 	if (master_ptr_primary == NULL)
 	{
 		input_error++;

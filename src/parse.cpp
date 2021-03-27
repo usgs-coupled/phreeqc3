@@ -485,7 +485,7 @@ get_coef(LDBLE * coef, const char **eqnaddr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_elt(const char **t_ptr, char *element, int *i)
+get_elt(const char** t_ptr, std::string& element, int* i)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads an element name out of the equation string.
@@ -501,29 +501,30 @@ get_elt(const char **t_ptr, char *element, int *i)
 {
 	char c;
 
+	element.clear();
 	c = *(*t_ptr)++;
 	if (c == '\0')
 	{
 		error_string = sformatf(
-				"Empty string in get_elt.  Expected an element name.");
+			"Empty string in get_elt.  Expected an element name.");
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-/*
- *   Load name into char array element
- */
-	element[0] = c;
+	/*
+	 *   Load name into char array element
+	 */
+	element.push_back(c);
 	*i = 1;
 	if (c == '[')
 	{
 		while ((c = (**t_ptr)) != ']')
 		{
-			element[*i] = c;
+			element.push_back(c);
 			(*i)++;
 			(*t_ptr)++;
 			if ((c = (**t_ptr)) == ']')
 			{
-				element[*i] = c;
+				element.push_back(c);
 				(*i)++;
 				(*t_ptr)++;
 				break;
@@ -535,23 +536,22 @@ get_elt(const char **t_ptr, char *element, int *i)
 				break;
 			}
 		}
-		while (islower((int) (c = (**t_ptr))) || c == '_')
+		while (islower((int)(c = (**t_ptr))) || c == '_')
 		{
-			element[*i] = c;
+			element.push_back(c);
 			(*i)++;
 			(*t_ptr)++;
 		}
 	}
 	else
 	{
-		while (islower((int) (c = (**t_ptr))) || c == '_')
+		while (islower((int)(c = (**t_ptr))) || c == '_')
 		{
-			element[*i] = c;
+			element.push_back(c);
 			(*i)++;
 			(*t_ptr)++;
 		}
 	}
-	element[*i] = '\0';
 	return (OK);
 }
 
@@ -574,7 +574,7 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
 	int i, count, l;
 	char c, c1;
 	LDBLE d;
-	char element[MAX_LENGTH];
+	std::string element;
 	const char** t_ptr_save = t_ptr;
 	while (((c = **t_ptr) != '+') && (c != '-') && (c != '\0'))
 	{
@@ -606,7 +606,7 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
 			{
 				elt_list.resize((size_t)count_elts + 1);
 			}
-			elt_list[count_elts].elt = element_store(element);
+			elt_list[count_elts].elt = element_store(element.c_str());
 			if (get_num(t_ptr, &d) == ERROR)
 			{
 				return (ERROR);
@@ -1017,7 +1017,7 @@ get_species(const char **cptr)
  *                output, points to the next character after the species charge.
  *
  */
-	char string[MAX_LENGTH];
+	std::string string;
 	int l;
 
 	if ((size_t) count_trxn + 1 > trxn.token.size()) 
@@ -1032,7 +1032,7 @@ get_species(const char **cptr)
 	{
 		return (ERROR);
 	}
-	trxn.token[count_trxn].name = string_hsave(string);
+	trxn.token[count_trxn].name = string_hsave(string.c_str());
 	/*
 	   trxn.token[count_trxn].z = 0;
 	   trxn.token[count_trxn].s = NULL;
