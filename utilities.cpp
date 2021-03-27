@@ -532,7 +532,7 @@ free_check_null(void *ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
+get_token(const char** eqnaddr, std::string& string, LDBLE* l_z, int* l)
 /* ---------------------------------------------------------------------- */
 /*
  *   Function finds next species in equation, coefficient has already
@@ -554,18 +554,20 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 	int i, j;
 	int ltoken, lcharge;
 	char c;
-	const char* cptr, *ptr1, *rest;
+	const char* cptr, * ptr1, * rest;
 	char charge[MAX_LENGTH];
 
+	string.clear();
 	rest = *eqnaddr;
 	cptr = *eqnaddr;
 	i = 0;
-/*
- *   Find end of token or begining of charge
- */
+	/*
+	 *   Find end of token or begining of charge
+	 */
 	while (((c = *cptr) != '+') && (c != '-') && (c != '=') && (c != '\0'))
 	{
-		string[i++] = c;
+		string.push_back(c);
+		i++;
 		if (c == '[')
 		{
 			cptr++;
@@ -574,48 +576,34 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 				if (c == '\0')
 				{
 					error_string = sformatf(
-							"No final bracket \"]\" for element name, %s.",
-							string);
+						"No final bracket \"]\" for element name, %s.",
+						string);
 					error_msg(error_string, CONTINUE);
 					return (ERROR);
 				}
-				string[i++] = c;
-				if (i >= MAX_LENGTH)
-				{
-					output_msg(sformatf(
-							   "Species name greater than MAX_LENGTH (%d) characters.\n%s\n",
-							   MAX_LENGTH, string));
-					return (ERROR);
-				}
+				string.push_back(c);
+				i++;
 				cptr++;
 			}
-			string[i++] = c;
+			string.push_back(c);
+			i++;
 		}
 
-		/* check for overflow of space */
-		if (i >= MAX_LENGTH)
-		{
-			output_msg(sformatf(
-					   "Species name greater than MAX_LENGTH (%d) characters.\n%s\n",
-					   MAX_LENGTH, string));
-			return (ERROR);
-		}
 		cptr++;
 	}
-	string[i] = '\0';
 	ltoken = i;
-/*
- *   Check for an empty string
- */
+	/*
+	 *   Check for an empty string
+	 */
 	if (i == 0)
 	{
-		error_string = sformatf( "NULL string detected in get_token, %s.", rest);
+		error_string = sformatf("NULL string detected in get_token, %s.", rest);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-/*
- *   End of token is = or \0, charge is zero
- */
+	/*
+	 *   End of token is = or \0, charge is zero
+	 */
 	if (c == '=' || c == '\0')
 	{
 		*eqnaddr = cptr;
@@ -624,30 +612,30 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 	}
 	else
 	{
-/*
- *   Copy characters into charge until next species or end is detected
- */
+		/*
+		 *   Copy characters into charge until next species or end is detected
+		 */
 		j = 0;
 		ptr1 = cptr;
-		while ((isalpha((int) (c = *ptr1)) == FALSE) &&
-			   (c != '(') &&
-			   (c != ')') &&
-			   (c != ']') && (c != '[') && (c != '=') && (c != '\0'))
+		while ((isalpha((int)(c = *ptr1)) == FALSE) &&
+			(c != '(') &&
+			(c != ')') &&
+			(c != ']') && (c != '[') && (c != '=') && (c != '\0'))
 		{
 			charge[j++] = c;
 			/* error if no more space */
 			if (j >= MAX_LENGTH)
 			{
 				error_msg("The charge on a species has exceeded MAX_LENGTH characters.",
-					 CONTINUE);
+					CONTINUE);
 				return (ERROR);
 			}
 			ptr1++;
 		}
-/*
- *   Go back to last + or - if not end of side,
- *   everything before the last + or - in charge is part of the charge
- */
+		/*
+		 *   Go back to last + or - if not end of side,
+		 *   everything before the last + or - in charge is part of the charge
+		 */
 		if ((c != '=') && (c != '\0'))
 		{
 			while (((c = *ptr1) != '+') && (c != '-'))
@@ -659,12 +647,12 @@ get_token(const char **eqnaddr, char *string, LDBLE * l_z, int *l)
 		charge[j] = '\0';
 		lcharge = j;
 		*eqnaddr = ptr1;
-/*
- *   Charge has been written, now need to check if charge has legal format
- */
+		/*
+		 *   Charge has been written, now need to check if charge has legal format
+		 */
 		if (get_charge(charge, l_z) == OK)
 		{
-			strcat(string, charge);
+			string.append(charge);
 		}
 		else
 		{
@@ -747,8 +735,8 @@ parse_couple(char *token)
  */
 	int e1, e2, p1, p2;
 	const char* cptr;
-	char elt1[MAX_LENGTH], elt2[MAX_LENGTH], paren1[MAX_LENGTH],
-		paren2[MAX_LENGTH];
+	std::string elt1, elt2;
+	char paren1[MAX_LENGTH], paren2[MAX_LENGTH];
 
 	if (strcmp_nocase_arg1(token, "pe") == 0)
 	{
@@ -800,7 +788,7 @@ parse_couple(char *token)
 	}
 	cptr++;
 	get_elt(&cptr, elt2, &e2);
-	if (strcmp(elt1, elt2) != 0)
+	if (strcmp(elt1.c_str(), elt2.c_str()) != 0)
 	{
 		error_string = sformatf( "Redox couple must be two redox states "
 				"of the same element, %s.", token);
@@ -840,18 +828,18 @@ parse_couple(char *token)
 	paren2[p2] = '\0';
 	if (strcmp(paren1, paren2) < 0)
 	{
-		strcpy(token, elt1);
+		strcpy(token, elt1.c_str());
 		strcat(token, paren1);
 		strcat(token, "/");
-		strcat(token, elt2);
+		strcat(token, elt2.c_str());
 		strcat(token, paren2);
 	}
 	else if (strcmp(paren1, paren2) > 0)
 	{
-		strcpy(token, elt2);
+		strcpy(token, elt2.c_str());
 		strcat(token, paren2);
 		strcat(token, "/");
-		strcat(token, elt1);
+		strcat(token, elt1.c_str());
 		strcat(token, paren1);
 	}
 	else

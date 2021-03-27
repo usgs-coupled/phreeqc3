@@ -1968,7 +1968,6 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	char c, c1;
 	const char* cptr, *ptr1;
 	LDBLE d;
-	char element[MAX_LENGTH];
 	char token[MAX_LENGTH], equal_list[MAX_LENGTH]; 
 	char token1[MAX_LENGTH], template1[MAX_LENGTH], equal_list1[MAX_LENGTH];
 	char str[2];
@@ -2008,6 +2007,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
 			/*
 			 *   Get new element and subscript
 			 */
+			std::string element;
 			if (get_elt(&cptr, element, &l) == ERROR)
 			{
 				return (ERROR);

@@ -474,7 +474,7 @@ public:
 	// parse.cpp -------------------------------
 	int check_eqn(int association);
 	int get_charge(char* charge, LDBLE* z);
-	int get_elt(const char** t_ptr, char* element, int* i);
+	int get_elt(const char** t_ptr, std::string& element, int* i);
 	int get_elts_in_species(const char** t_ptr, LDBLE coef);
 	int get_num(const char** t_ptr, LDBLE* num);
 	int get_secondary_in_species(const char** t_ptr, LDBLE coef);
@@ -1056,7 +1056,7 @@ public:
 public:
 	void* free_check_null(void* ptr);
 protected:
-	int get_token(const char** eqnaddr, char* string, LDBLE* z, int* l);
+	int get_token(const char** eqnaddr, std::string& string, LDBLE* z, int* l);
 	int islegit(const char c);
 public:
 	void malloc_error(void);
