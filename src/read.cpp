@@ -1041,20 +1041,19 @@ read_exchange(void)
 			    */
 				count_elts = 0;
 				paren_count = 0;
-				char * formula = string_duplicate(token.c_str());
-				cptr = formula;
+				std::string formula = token.c_str();
+				cptr = formula.c_str();
 				get_elts_in_species(&cptr, conc);
 				
 				/*
 				*   save formula for adjusting number of exchange sites
 			    */
-				cptr = formula;
+				cptr = formula.c_str();
 				std::string name;
 				LDBLE z;
 				int l;
 				get_token(&cptr, name, &z, &l);
 				comp_ptr->Set_formula_z(z);
-				free_check_null(formula);
 				/*
 				*   Save elt_list
 			    */
@@ -5186,8 +5185,8 @@ read_solution(void)
 				temp_isotope.Set_isotope_name(token.c_str());
 				/* read and save element name */
 				{
-					char *temp_iso_name = string_duplicate(token.c_str());
-					const char* cptr1 = temp_iso_name;
+					std::string temp_iso_name = token.c_str();
+					const char* cptr1 = temp_iso_name.c_str();
 					get_num(&cptr1, &dummy);
 					temp_isotope.Set_isotope_number(dummy);
 					if (cptr1[0] == '\0' || isupper((int) cptr1[0]) == FALSE)
@@ -5195,11 +5194,9 @@ read_solution(void)
 						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
 						input_error++;
-						temp_iso_name = (char*)free_check_null(temp_iso_name);
 						return (CParser::PARSER_ERROR);
 					}
 					temp_isotope.Set_elt_name(cptr1);
-					temp_iso_name = (char*)free_check_null(temp_iso_name);
 				}
 				/* read and store isotope ratio */
 				if (copy_token(token, &next_char) != CParser::TT_DIGIT)
@@ -6840,13 +6837,13 @@ read_surface(void)
 				*/
 				count_elts = 0;
 				paren_count = 0;
-				char * formula = string_duplicate(token.c_str());
-				cptr1 = formula;
+				std::string formula = token.c_str();
+				cptr1 = formula.c_str();
 				get_elts_in_species(&cptr1, conc);
 				/*
 				*   save formula for adjusting number of exchange sites
 				*/
-				cptr1 = formula;
+				cptr1 = formula.c_str();
 				int l;
 				std::string name;
 				get_token(&cptr1, name, &dummy, &l);
@@ -6856,7 +6853,7 @@ read_surface(void)
 				/*
 				*   Search for charge structure
 				*/
-				cptr1 = formula;
+				cptr1 = formula.c_str();
 				get_elt(&cptr1, name, &l);
 				{
 					std::string::size_type pos = name.find('_');
@@ -6866,7 +6863,6 @@ read_surface(void)
 					}
 				}
 				charge_ptr = temp_surface.Find_charge(name);
-				formula = (char*)free_check_null(formula);
 				if (charge_ptr == NULL)
 				{
 					cxxSurfaceCharge temp_charge(this->phrq_io);

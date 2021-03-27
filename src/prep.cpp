@@ -304,28 +304,6 @@ quick_setup(void)
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[i]->surface_charge);
 				x[i]->related_moles = charge_ptr->Get_grams();
 				x[i]->mass_water = charge_ptr->Get_mass_water();
-#ifdef DEBUG
-				/* test that charge and surface match */
-				cxxSurfaceComp *comp_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
-				char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				const char* ptr = temp_formula;
-				copy_token(token, &ptr, &l);
-				const char* ptr1 = token;
-				get_elt(&ptr1, name, &l);
-				ptr1 = strchr(name, '_');
-				if (ptr1 != NULL)
-					ptr1[0] = '\0';
-				if (strcmp(name, charge_ptr->Get_name().c_str()) != 0)
-				{
-					free_check_null(temp_formula);
-					error_string = sformatf(
-							"Internal error: Surface charge name %s does not match surface component name %s\nTry alphabetical order for surfaces in SURFACE",
-							charge_ptr->Get_name().c_str(),
-							comp_ptr->Get_formula().c_str());
-					error_msg(error_string, STOP);
-				}
-				free_check_null(temp_formula);
-#endif
 				/* moles picked up from master->total */
 			}
 			else if (x[i]->type == SURFACE_CB1 || x[i]->type == SURFACE_CB2)
@@ -758,10 +736,8 @@ build_ss_assemblage(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		char * token = string_duplicate(x[i]->phase->formula);
-		cptr = token;
+		cptr = x[i]->phase->formula;
 		get_elts_in_species(&cptr, 1.0);
-		free_check_null(token);
 /*
  *   Go through elements in phase
  */
@@ -1437,17 +1413,13 @@ build_pure_phases(void)
 		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp *) x[i]->pp_assemblage_comp_ptr;
 		if (comp_ptr->Get_add_formula().size() > 0)
 		{
-			char * char_name = string_duplicate(comp_ptr->Get_add_formula().c_str());
-			cptr = char_name;
+			cptr = comp_ptr->Get_add_formula().c_str();
 			get_elts_in_species(&cptr, 1.0);
-			free_check_null(char_name);
 		}
 		else
 		{
-			char * char_name = string_duplicate(x[i]->phase->formula);
-			cptr = char_name;
+			cptr = x[i]->phase->formula;
 			get_elts_in_species(&cptr, 1.0);
-			free_check_null(char_name);
 		}
 /*
  *   Go through elements in phase
@@ -1887,11 +1859,9 @@ convert_units(cxxSolution *solution_ptr)
 			}
 			else
 			{
-				char * temp_desc = string_duplicate(comp_ref.Get_description().c_str());
-				const char* cptr = temp_desc;
+				const char* cptr = comp_ref.Get_description().c_str();
 				copy_token(token, &cptr);
 				master_ptr = master_bsearch(token.c_str());
-				free_check_null(temp_desc);
 				if (master_ptr != NULL)
 				{
 					/* use gfw for element redox state */
@@ -2997,10 +2967,8 @@ add_surface_charge_balance(void)
 /*
  *   Include charge balance in list for mass-balance equations
  */
-	char * temp_name = string_duplicate(master_ptr->elt->name);
-	cptr = temp_name;
+	cptr = master_ptr->elt->name;
 	get_secondary_in_species(&cptr, 1.0);
-	free_check_null(temp_name);
 
 	return (OK);
 }
@@ -3060,10 +3028,8 @@ add_cd_music_charge_balances(int n)
 	 *   Include charge balance in list for mass-balance equations
 	 */
 	{
-		char * temp_name = string_duplicate( master_ptr->elt->name);
-		const char* cptr = temp_name;
+		const char* cptr = master_ptr->elt->name;
 		get_secondary_in_species(&cptr, s[n]->dz[0]);
-		free_check_null(temp_name);
 	}
 	/*
 	 *  Find potential unknown for plane 1
@@ -3075,10 +3041,8 @@ add_cd_music_charge_balances(int n)
 	 *   Include charge balance in list for mass-balance equations
 	 */
 	{
-		char * temp_name = string_duplicate( master_ptr->elt->name);
-		const char* cptr = temp_name;
+		const char* cptr = master_ptr->elt->name;
 		get_secondary_in_species(&cptr, s[n]->dz[1]);
-		free_check_null(temp_name);
 	}
 	/*
 	 *  Find potential unknown for plane 2
@@ -3090,10 +3054,8 @@ add_cd_music_charge_balances(int n)
 	 *   Include charge balance in list for mass-balance equations
 	 */
 	{
-		char * temp_name = string_duplicate(master_ptr->elt->name);
-		const char* cptr = temp_name;
+		const char* cptr = master_ptr->elt->name;
 		get_secondary_in_species(&cptr, s[n]->dz[2]);
-		free_check_null(temp_name);
 	}
 
 	return (OK);
@@ -4221,8 +4183,7 @@ setup_solution(void)
 			comp_it = solution_ptr->Get_initial_data()->Get_comps().find(it->first.c_str());
 			comp_ptr = &(comp_it->second);
 		}
-		char * temp_desc = string_duplicate(it->first.c_str());
-		cptr = temp_desc;
+		cptr = it->first.c_str();
 		copy_token(token, &cptr);
 		master_ptr = master_bsearch(token.c_str());
 /*
@@ -4232,7 +4193,6 @@ setup_solution(void)
 		{
 			if (strcmp(token.c_str(), "H(1)") != 0 && strcmp(token.c_str(), "E") != 0)
 			{
-				free_check_null(temp_desc);
 				continue;
 			}
 		}
@@ -4246,7 +4206,6 @@ setup_solution(void)
 					"Master species not in database for %s, skipping element.",
 					it->first.c_str());
 			warning_msg(error_string);
-			free_check_null(temp_desc);
 			continue;
 		}
 		if (master_ptr->type != AQ)
@@ -4256,7 +4215,6 @@ setup_solution(void)
 					"Only aqueous concentrations are allowed in solution data, ignoring %s.",
 					it->first.c_str());
 			warning_msg(error_string);
-			free_check_null(temp_desc);
 			continue;
 		}
 /*
@@ -4285,9 +4243,7 @@ setup_solution(void)
 /*
  *   Set pointers
  */
-		free_check_null(temp_desc);
-		temp_desc = string_duplicate(it->first.c_str());
-		cptr = temp_desc;
+		cptr = it->first.c_str();
 		copy_token(token, &cptr);
 		Utilities::str_tolower(token);
 		if (strstr(token.c_str(), "alk") != NULL)
@@ -4339,14 +4295,12 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		free_check_null(temp_desc);
 /*
  *   Charge balance unknown
  */
 		if (comp_ptr && comp_ptr->Get_equation_name().size() > 0)
 		{
-			char * temp_eq_name = string_duplicate(comp_ptr->Get_equation_name().c_str());
-			cptr = temp_eq_name;
+			cptr = comp_ptr->Get_equation_name().c_str();
 			copy_token(token, &cptr);
 			Utilities::str_tolower(token);
 			if (strstr(token.c_str(), "charge") != NULL)
@@ -4392,7 +4346,6 @@ setup_solution(void)
 					solution_phase_boundary_unknown = x[count_unknowns];
 				}
 			}
-			free_check_null(temp_eq_name);
 		}
 		count_unknowns++;
 	}
@@ -5129,10 +5082,8 @@ write_mb_eqn_x(void)
 	for (i = 1; i < count_trxn; i++)
 	{
 		j = count_elts;
-		char * temp_name = string_duplicate(trxn.token[i].s->name);
-		const char* cptr = temp_name;
+		const char* cptr = trxn.token[i].s->name;
 		get_elts_in_species(&cptr, trxn.token[i].coef);
-		free_check_null(temp_name);
 		for (k = j; k < count_elts; k++)
 		{
 			if (trxn.token[i].s->secondary != NULL)
@@ -5151,17 +5102,13 @@ write_mb_eqn_x(void)
 		}
 		if (trxn.token[i].s->secondary == NULL)
 		{
-			char * temp_name = string_duplicate(trxn.token[i].s->primary->elt->name);
-			const char* cptr = temp_name;
+			const char* cptr = trxn.token[i].s->primary->elt->name;
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
-			free_check_null(temp_name);
 		}
 		else
 		{
-			char * temp_name = string_duplicate(trxn.token[i].s->secondary->elt->name);
-			cptr = temp_name;
+			cptr = trxn.token[i].s->secondary->elt->name;
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
-			free_check_null(temp_name);
 		}
 	}
 	elt_list_combine();
@@ -5192,22 +5139,18 @@ write_mb_for_species_list(int n)
 	{
 		if (trxn.token[i].s->secondary == NULL)
 		{
-			char * temp_name = string_duplicate(trxn.token[i].s->primary->elt->name);
-			const char* cptr = temp_name;
+			const char* cptr = trxn.token[i].s->primary->elt->name;
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
-			free_check_null(temp_name);
 		}
 		else
 		{
-			char * temp_name = string_duplicate(trxn.token[i].s->secondary->elt->name);
-			const char* cptr = temp_name;
+			const char* cptr = trxn.token[i].s->secondary->elt->name;
 			if (get_secondary_in_species(&cptr, trxn.token[i].coef) == ERROR)
 			{
 				input_error++;
 				error_string = sformatf( "Error parsing %s.", trxn.token[i].s->secondary->elt->name);
 				error_msg(error_string, CONTINUE);
 			}
-			free_check_null(temp_name);
 		}
 	}
 	for (i = 0; i < count_elts; i++)
@@ -5254,17 +5197,13 @@ write_phase_sys_total(int n)
 	{
 		if (trxn.token[i].s->secondary == NULL)
 		{
-			char * temp_name = string_duplicate(trxn.token[i].s->primary->elt->name);
-			const char* cptr = temp_name;
+			const char* cptr = trxn.token[i].s->primary->elt->name;
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
-			free_check_null(temp_name);
 		}
 		else
 		{
-			char * temp_name = string_duplicate(trxn.token[i].s->secondary->elt->name);
-			const char* cptr = temp_name;
+			const char* cptr = trxn.token[i].s->secondary->elt->name;
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
-			free_check_null(temp_name);
 		}
 	}
 	for (i = 0; i < count_elts; i++)
@@ -6051,10 +5990,8 @@ build_min_exch(void)
 		count_elts = 0;
 		paren_count = 0;
 		{
-			char * formula = string_duplicate(comp_ref.Get_formula().c_str());
-			const char* cptr = formula;
+			const char* cptr = comp_ref.Get_formula().c_str();
 			get_elts_in_species(&cptr, 1.0);
-			free_check_null(formula);
 		}
 #ifdef COMBINE
 		change_hydrogen_in_elt_list(0);
@@ -6181,14 +6118,10 @@ build_min_surface(void)
 						 -comp_ptr->Get_formula_z() * comp_ptr->Get_phase_proportion());
 		count_elts = 0;
 		paren_count = 0;
-
-		//
 		{
 			/* Add specified formula for all types of surfaces */
-			char * formula = string_duplicate(comp_ptr->Get_formula().c_str());
-			const char* cptr1 = formula;
+			const char* cptr1 = comp_ptr->Get_formula().c_str();
 			get_elts_in_species(&cptr1, 1.0);
-			free_check_null(formula);
 		}
 #ifdef COMBINE
 		change_hydrogen_in_elt_list(0);
