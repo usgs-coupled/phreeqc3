@@ -535,9 +535,10 @@ open_input_stream(std::string query, std::string& default_name, std::ios_base::o
 				screen_msg(sformatf("Default: %s\n", default_name.c_str()));
 			}
 			std::getline(std::cin, name);
-			if (name.size() == 0)
+			if (name.size() == 0 && default_name.size() == 0)
 			{
-			    std::cerr << "Failed defining name." << std::endl;
+			    std::cerr << "No name defined." << std::endl;
+				continue;
 			}
 			if (name.size() == 0)
 			{
@@ -594,9 +595,9 @@ open_output_stream(std::string query, std::string& default_name, std::ios_base::
 				screen_msg(sformatf("Default: %s\n", default_name.c_str()));
 			}
 			std::getline(std::cin, name);
-			if (name.size() == 0)
+			if (name.size() == 0 && default_name.size() == 0)
 			{
-			    std::cerr << "Failed defining name." << std::endl;
+			    std::cerr << "No name defined." << std::endl;
 			}
 			if (name.size() == 0)
 			{
