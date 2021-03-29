@@ -665,7 +665,7 @@ struct phase
  struct master
  {								/* list of name and number of elements in an equation */
  	int in;						/* TRUE if in model, FALSE if out, REWRITE if other mb eq */
- 	int number;					/* sequence number in list of masters */
+ 	size_t number;					/* sequence number in list of masters */
  	int last_model;				/* saved to determine if model has changed */
  	int type;					/* AQ or EX */
  	int primary;				/* TRUE if master species is primary */
@@ -701,7 +701,7 @@ struct unknown
 	LDBLE sum;
 	LDBLE delta;
 	LDBLE la;
-	int number;
+	size_t number;
 	const char *description;
 	std::vector<struct master*> master;
 	struct phase *phase;

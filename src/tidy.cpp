@@ -1178,7 +1178,7 @@ tidy_inverse(void)
 			{
 /* use input uncertainties, fill in any missing at end */
 				value = inverse[i].elts[j].uncertainties[count_uncertainties - 1];
-				for (k = count_uncertainties; k < inverse[i].count_solns; k++)
+				for (size_t k = count_uncertainties; k < inverse[i].count_solns; k++)
 				{
 					inverse[i].elts[j].uncertainties[k] = value;
 				}
@@ -2897,7 +2897,7 @@ tidy_isotopes(void)
 	LDBLE isotope_number;
 	struct master *master_ptr, *primary_ptr;
 
-	int primary_number = 0;
+	size_t primary_number = 0;
 	primary_ptr = NULL;
 	std::map<int, cxxSolution>::iterator it;
 	for (it = Rxn_solution_map.begin(); it != Rxn_solution_map.end(); it++)
@@ -2983,7 +2983,7 @@ tidy_isotopes(void)
 				/* for primary, fill in ratio for all secondary species */
 				if (master_ptr->primary == TRUE	&& master_ptr->s->secondary != NULL)
 				{
-					for (int k = primary_number + 1; k < (int)master.size(); k++)
+					for (size_t k = primary_number + 1; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary != primary_ptr)
 							break;

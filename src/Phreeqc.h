@@ -1431,8 +1431,8 @@ protected:
 	*   Unknowns
 	*---------------------------------------------------------------------- */
 	std::vector<struct unknown*> x;
-	int count_unknowns;
-	int max_unknowns;
+	size_t count_unknowns;
+	size_t max_unknowns;
 
 	struct unknown* ah2o_unknown;
 	struct unknown* alkalinity_unknown;
@@ -1683,26 +1683,25 @@ protected:
 	LDBLE z_global, xd_global, alpha_global;
 
 	/* inverse.cpp ------------------------------- */
-	int max_row_count, max_column_count;
+	size_t max_row_count, max_column_count;
 	int carbon;
-	//const char** col_name, ** row_name;
 	std::vector<const char*> col_name, row_name;
 	size_t count_rows, count_optimize;
 	size_t col_phases, col_redox, col_epsilon, col_ph, col_water,
 		col_isotopes, col_phase_isotopes;
 	size_t row_mb, row_fract, row_charge, row_carbon, row_isotopes,
 		row_epsilon, row_isotope_epsilon, row_water;
-	LDBLE* inv_zero, * array1, * inv_res, * inv_delta1, * delta2, * delta3, * inv_cu,
-		* delta_save;
-	LDBLE* min_delta, * max_delta;
-	int* inv_iu, * inv_is;
-	int klmd, nklmd, n2d;
+	std::vector<double> inv_zero, array1, inv_res, inv_delta1, delta2, 
+		delta3, inv_cu, delta_save;
+	std::vector<double> min_delta, max_delta;
+	std::vector<int> inv_iu, inv_is;
+	size_t klmd, nklmd, n2d;
 	int kode, iter;
 	LDBLE toler, error, max_pct, scaled_error;
 	struct master* master_alk;
-	int* row_back, * col_back;
-	unsigned long* good, * bad, * minimal;
-	int max_good, max_bad, max_minimal;
+	std::vector<int> row_back, col_back;
+	std::vector<unsigned long> good, bad, minimal;
+	size_t max_good, max_bad, max_minimal;
 	int count_good, count_bad, count_minimal, count_calls;
 	unsigned long soln_bits, phase_bits, current_bits, temp_bits;
 	FILE* netpath_file;
