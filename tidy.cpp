@@ -1197,7 +1197,7 @@ tidy_inverse(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		for (j = 0; j < inverse[i].count_phases; j++)
+		for (j = 0; j < inverse[i].phases.size(); j++)
 		{
 			inverse[i].phases[j].phase =
 				phase_bsearch(inverse[i].phases[j].name, &k, FALSE);

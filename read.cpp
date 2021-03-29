@@ -1600,17 +1600,17 @@ read_inverse(void)
 /*
  *   Sort isotopes
  */
-	if (inverse[n].count_isotopes > 1)
+	if (inverse[n].isotopes.size() > 1)
 	{
-		qsort(inverse[n].isotopes,
-			  (size_t) inverse[n].count_isotopes,
+		qsort(&inverse[n].isotopes[0],
+			  inverse[n].isotopes.size(),
 			  sizeof(struct inv_isotope), inverse_isotope_compare);
 	}
 
-	if (inverse[n].count_i_u > 1)
+	if (inverse[n].i_u.size() > 1)
 	{
-		qsort(inverse[n].i_u,
-			  (size_t) inverse[n].count_i_u,
+		qsort(&inverse[n].i_u[0],
+			  inverse[n].i_u.size(),
 			  (size_t) sizeof(struct inv_isotope), inverse_isotope_compare);
 	}
 
@@ -1717,45 +1717,36 @@ read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
 /*
  *  add element name to inv_ptr->isotopes
  */
-	for (i = 0; i < inverse_ptr->count_isotopes; i++)
+	for (i = 0; i < inverse_ptr->isotopes.size(); i++)
 	{
 		if (element_name == inverse_ptr->isotopes[i].elt_name)
 			break;
 	}
-	if (i == inverse_ptr->count_isotopes)
+	if (i == inverse_ptr->isotopes.size())
 	{
-		inverse_ptr->isotopes = (struct inv_isotope *) PHRQ_realloc(inverse_ptr->isotopes,
-			((size_t)inverse_ptr->count_isotopes + 1) * sizeof(struct inv_isotope));
-		if (inverse_ptr->isotopes == NULL)
-			malloc_error();
-		inverse_ptr->isotopes[inverse_ptr->count_isotopes].isotope_number = isotope_number;
-		inverse_ptr->isotopes[inverse_ptr->count_isotopes].elt_name = element_name;
-		inverse_ptr->isotopes[inverse_ptr->count_isotopes].uncertainties =
+		size_t count_isotopes = inverse_ptr->isotopes.size();
+		inverse_ptr->isotopes.resize(count_isotopes + 1);
+		inverse_ptr->isotopes[count_isotopes].isotope_number = isotope_number;
+		inverse_ptr->isotopes[count_isotopes].elt_name = element_name;
+		inverse_ptr->isotopes[count_isotopes].uncertainties =
 			(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
-		if (inverse_ptr->isotopes[inverse_ptr->count_isotopes].
+		if (inverse_ptr->isotopes[count_isotopes].
 			uncertainties == NULL)
 			malloc_error();
-		inverse_ptr->count_isotopes++;
 	}
 /*
  *  add redox state name to inv_ptr->i_u
  */
-	inverse_ptr->i_u = (struct inv_isotope *) PHRQ_realloc(inverse_ptr->i_u,
-		((size_t)inverse_ptr->count_i_u + 1) * sizeof(struct inv_isotope));
-	if (inverse_ptr->i_u == NULL)
-	{
-		malloc_error();
-		return (OK);
-	}
-	inverse_ptr->i_u[inverse_ptr->count_i_u].elt_name = redox_name;
-	inverse_ptr->i_u[inverse_ptr->count_i_u].isotope_number = isotope_number;
+	size_t count_i_u = inverse_ptr->i_u.size();
+	inverse_ptr->i_u.resize(count_i_u + 1);
+	inverse_ptr->i_u[count_i_u].elt_name = redox_name;
+	inverse_ptr->i_u[count_i_u].isotope_number = isotope_number;
 /*
  *   Read isotope uncertainties
  */
-	inverse_ptr->i_u[inverse_ptr->count_i_u].uncertainties =
+	inverse_ptr->i_u[count_i_u].uncertainties =
 		read_list_doubles(&cptr1, &count);
-	inverse_ptr->i_u[inverse_ptr->count_i_u].count_uncertainties = count;
-	inverse_ptr->count_i_u++;
+	inverse_ptr->i_u[count_i_u].count_uncertainties = count;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1773,16 +1764,15 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 	j = copy_token(token, &cptr, &l);
 	if (j == EMPTY)
 		return (OK);
-	inverse_ptr->phases = (struct inv_phases *) PHRQ_realloc(inverse_ptr->phases,
-		((size_t)inverse_ptr->count_phases + 1) * sizeof(struct inv_phases));
-	if (inverse_ptr->phases == NULL)
-		malloc_error();
-	inverse_ptr->phases[inverse_ptr->count_phases].name = string_hsave(token);
+
+	size_t count_phases = inverse_ptr->phases.size();
+	inverse_ptr->phases.resize(count_phases + 1);
+	inverse_ptr->phases[count_phases].name = string_hsave(token);
 /*
  *   Read constraint, force, and isotopes
  */
-	inverse_ptr->phases[inverse_ptr->count_phases].constraint = EITHER;
-	inverse_ptr->phases[inverse_ptr->count_phases].force = FALSE;
+	inverse_ptr->phases[count_phases].constraint = EITHER;
+	inverse_ptr->phases[count_phases].force = FALSE;
 	for (;;)
 	{
 		cxxSolutionIsotope temp_isotope;
@@ -1793,17 +1783,15 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 		str_tolower(token1);
 		if (token1[0] == 'p')
 		{
-			inverse_ptr->phases[inverse_ptr->count_phases].constraint =
-				PRECIPITATE;
+			inverse_ptr->phases[count_phases].constraint = PRECIPITATE;
 		}
 		else if (token1[0] == 'd')
 		{
-			inverse_ptr->phases[inverse_ptr->count_phases].constraint =
-				DISSOLVE;
+			inverse_ptr->phases[count_phases].constraint = DISSOLVE;
 		}
 		else if (token[0] == 'f')
 		{
-			inverse_ptr->phases[inverse_ptr->count_phases].force = TRUE;
+			inverse_ptr->phases[count_phases].force = TRUE;
 		}
 		else if (j == DIGIT)
 		{
@@ -1864,11 +1852,11 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 	}
 	if (isotopes.size() > 0)
 	{
-		inverse_ptr->phases[inverse_ptr->count_phases].isotopes = 
+		inverse_ptr->phases[count_phases].isotopes = 
 			(struct isotope *) PHRQ_malloc(isotopes.size() * sizeof(struct isotope));
 		for (size_t i = 0; i < isotopes.size(); i++)
 		{
-			struct isotope *iso_ptr = &(inverse_ptr->phases[inverse_ptr->count_phases].isotopes[i]);
+			struct isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
 			iso_ptr->isotope_number = isotopes[i].Get_isotope_number();
 			iso_ptr->elt_name = string_hsave(isotopes[i].Get_elt_name().c_str());
 			iso_ptr->isotope_name = string_hsave(isotopes[i].Get_isotope_name().c_str());
@@ -1883,14 +1871,13 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 			iso_ptr->master = NULL;
 			iso_ptr->primary = NULL;
 		}
-		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes =	(int) isotopes.size();
+		inverse_ptr->phases[count_phases].count_isotopes =	(int) isotopes.size();
 	}
 	else
 	{
-		inverse_ptr->phases[inverse_ptr->count_phases].isotopes = NULL;
-		inverse_ptr->phases[inverse_ptr->count_phases].count_isotopes = 0;
+		inverse_ptr->phases[count_phases].isotopes = NULL;
+		inverse_ptr->phases[count_phases].count_isotopes = 0;
 	}
-	inverse_ptr->count_phases++;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

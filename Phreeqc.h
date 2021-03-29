@@ -288,8 +288,7 @@ public:
 	int carbon_derivs(struct inverse* inv_ptr);
 	int check_isotopes(struct inverse* inv_ptr);
 	int check_solns(struct inverse* inv_ptr);
-	int count_isotope_unknowns(struct inverse* inv_ptr,
-		struct isotope** isotope_unknowns);
+	bool set_isotope_unknowns(struct inverse* inv_ptrs);
 	cxxSolutionIsotope* get_isotope(cxxSolution* solution_ptr, const char* elt);
 	LDBLE get_inv_total(cxxSolution* solution_ptr, const char* elt);
 	int isotope_balance_equation(struct inverse* inv_ptr, int row, int n);

@@ -122,11 +122,9 @@ inverse_models(void)
 			setup_inverse(&(inverse[n]));
 			punch_model_heading(&inverse[n]);
 			solve_inverse(&(inverse[n]));
-			if (inverse[n].count_isotope_unknowns > 0)
+			if (inverse[n].isotope_unknowns.size() > 0)
 			{
-				inverse[n].isotope_unknowns =
-					(struct isotope *) free_check_null(inverse[n].
-													   isotope_unknowns);
+				inverse[n].isotope_unknowns.clear();
 			}
 			inverse[n].new_def = FALSE;
 			if (inverse[n].pat != NULL)
@@ -193,11 +191,9 @@ setup_inverse(struct inverse *inv_ptr)
 /* 
  *   tidy isotopes if necessary
  */
-	inv_ptr->count_isotope_unknowns = 0;
-	if (inv_ptr->count_isotopes > 0)
+	if (inv_ptr->isotopes.size() > 0)
 	{
-		inv_ptr->count_isotope_unknowns =
-			count_isotope_unknowns(inv_ptr, &inv_ptr->isotope_unknowns);
+		set_isotope_unknowns(inv_ptr);
 		if (get_input_errors() > 0)
 		{
 			error_msg("Stopping because of input errors.", STOP);
@@ -214,48 +210,48 @@ setup_inverse(struct inverse *inv_ptr)
  */
 	max_column_count = inv_ptr->elts.size() * inv_ptr->count_solns +	/* epsilons */
 		inv_ptr->count_solns +	/* solutions */
-		inv_ptr->count_phases +	/* phases */
+		inv_ptr->phases.size() +	/* phases */
 		inv_ptr->count_redox_rxns +	/* redox reactions */
 		carbon * inv_ptr->count_solns +	/* pH */
 		1 +						/* water */
-		inv_ptr->count_isotope_unknowns * inv_ptr->count_solns +	/* isotopes in solution */
-		inv_ptr->count_isotopes * inv_ptr->count_phases +	/* isotopes in phases */
+		inv_ptr->isotope_unknowns.size() * inv_ptr->count_solns +	/* isotopes in solution */
+		inv_ptr->isotopes.size() * inv_ptr->phases.size() +	/* isotopes in phases */
 		1 + 1;					/* rhs, ineq */
 	count_unknowns = max_column_count - 2;
 	col_phases = inv_ptr->count_solns;
-	col_redox = col_phases + inv_ptr->count_phases;
+	col_redox = col_phases + inv_ptr->phases.size();
 	col_epsilon = col_redox + inv_ptr->count_redox_rxns;
 	col_ph = col_epsilon + inv_ptr->elts.size() * inv_ptr->count_solns;
 	col_water = col_ph + carbon * inv_ptr->count_solns;
 	col_isotopes = col_water + 1;
 	col_phase_isotopes =
-		col_isotopes + inv_ptr->count_isotope_unknowns * inv_ptr->count_solns;
+		col_isotopes + inv_ptr->isotope_unknowns.size() * inv_ptr->count_solns;
 	max_row_count = inv_ptr->count_solns * inv_ptr->elts.size() +	/* optimize */
 		carbon * inv_ptr->count_solns +	/* optimize ph */
 		1 +						/* optimize water */
-		inv_ptr->count_solns * inv_ptr->count_isotope_unknowns +	/* optimize isotopes */
-		inv_ptr->count_isotopes * inv_ptr->count_phases +	/* optimize phase isotopes */
+		inv_ptr->count_solns * inv_ptr->isotope_unknowns.size() +	/* optimize isotopes */
+		inv_ptr->isotopes.size() * inv_ptr->phases.size() +	/* optimize phase isotopes */
 		inv_ptr->elts.size() +	/* mass balances */
 		1 + 1 +					/* fractions, init and final */
 		inv_ptr->count_solns +	/* charge balances */
 		carbon * inv_ptr->count_solns +	/* dAlk = dC + dph */
-		inv_ptr->count_isotopes +	/* isotopes */
+		inv_ptr->isotopes.size() +	/* isotopes */
 		2 * inv_ptr->count_solns * inv_ptr->elts.size() +	/* epsilon constraints */
 		2 * carbon * inv_ptr->count_solns +	/* epsilon on ph */
 		2 +						/* epsilon for water */
-		2 * inv_ptr->count_isotope_unknowns * inv_ptr->count_solns +	/* epsilon for isotopes */
-		2 * inv_ptr->count_isotopes * inv_ptr->count_phases +	/* epsilon for isotopes in phases */
+		2 * inv_ptr->isotope_unknowns.size() * inv_ptr->count_solns +	/* epsilon for isotopes */
+		2 * inv_ptr->isotopes.size() * inv_ptr->phases.size() +	/* epsilon for isotopes in phases */
 		2;						/* work space */
 
 	row_mb = inv_ptr->count_solns * inv_ptr->elts.size() +
 		carbon * inv_ptr->count_solns + 1 +
-		inv_ptr->count_solns * inv_ptr->count_isotope_unknowns +
-		inv_ptr->count_isotopes * inv_ptr->count_phases;
+		inv_ptr->count_solns * inv_ptr->isotope_unknowns.size() +
+		inv_ptr->isotopes.size() * inv_ptr->phases.size();
 	row_fract = row_mb + inv_ptr->elts.size();
 	row_charge = row_fract + 2;
 	row_carbon = row_charge + inv_ptr->count_solns;
 	row_isotopes = row_carbon + carbon * inv_ptr->count_solns;
-	row_epsilon = row_isotopes + inv_ptr->count_isotopes;
+	row_epsilon = row_isotopes + inv_ptr->isotopes.size();
 /*   The next three are not right, some rows of epsilon are deleted */
 /*
 	row_ph_epsilon = row_epsilon + 2 * inv_ptr->count_solns * inv_ptr->count_elts; 
@@ -353,8 +349,8 @@ setup_inverse(struct inverse *inv_ptr)
 	count_optimize = inv_ptr->count_solns * inv_ptr->elts.size() +	/* optimize */
 		carbon * inv_ptr->count_solns +	/* optimize ph */
 		1 +						/* optimize water */
-		inv_ptr->count_solns * inv_ptr->count_isotope_unknowns +	/* optimize isotopes */
-		inv_ptr->count_isotopes * inv_ptr->count_phases;	/* optimize phase isotopes */
+		inv_ptr->count_solns * inv_ptr->isotope_unknowns.size() +	/* optimize isotopes */
+		inv_ptr->isotopes.size() * inv_ptr->phases.size();	/* optimize phase isotopes */
 
 	for (i = 0; i < count_optimize; i++)
 	{
@@ -470,7 +466,7 @@ setup_inverse(struct inverse *inv_ptr)
 
 /*   mass_balance: phase data */
 
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		phase_ptr = inv_ptr->phases[i].phase;
 		rxn_ptr = phase_ptr->rxn_s;
@@ -619,7 +615,7 @@ setup_inverse(struct inverse *inv_ptr)
 /*   put names of isotopes in col_name */
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
-		for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
+		for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 		{
 			sprintf(token, "%d%s %d",
 					(int) inv_ptr->isotope_unknowns[j].isotope_number,
@@ -631,12 +627,12 @@ setup_inverse(struct inverse *inv_ptr)
 
 /*   put phase isotopes in col_name */
 
-	if (inv_ptr->count_isotopes > 0)
+	if (inv_ptr->isotopes.size() > 0)
 	{
 		/* isotopes of phases phases */
-		for (i = 0; i < inv_ptr->count_phases; i++)
+		for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 		{
-			for (j = 0; j < inv_ptr->count_isotopes; j++)
+			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
 				sprintf(token, "%d%s %s",
 						(int) inv_ptr->isotopes[j].isotope_number,
@@ -740,9 +736,9 @@ setup_inverse(struct inverse *inv_ptr)
 	{
 		error_msg("Stopping because of input errors.", STOP);
 	}
-	if (inv_ptr->count_isotopes != 0)
+	if (inv_ptr->isotopes.size() != 0)
 	{
-		for (j = 0; j < inv_ptr->count_isotopes; j++)
+		for (j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
 			isotope_balance_equation(inv_ptr, count_rows, j);
 			sprintf(token, "%d%s", (int) inv_ptr->isotopes[j].isotope_number,
@@ -918,15 +914,15 @@ setup_inverse(struct inverse *inv_ptr)
  *   inequalities for isotopes
  */
 	row_isotope_epsilon = count_rows;
-	if (inv_ptr->count_isotopes > 0)
+	if (inv_ptr->isotopes.size() > 0)
 	{
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
 			solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
-			for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
+			for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 			{
 				column =
-					col_isotopes + (i * inv_ptr->count_isotope_unknowns) + j;
+					col_isotopes + (i * inv_ptr->isotope_unknowns.size()) + j;
 				master_ptr = inv_ptr->isotope_unknowns[j].master;
 				isotope_number = inv_ptr->isotope_unknowns[j].isotope_number;
 				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
@@ -981,7 +977,7 @@ setup_inverse(struct inverse *inv_ptr)
  *   Set non-negativity constraints
  */
 
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (inv_ptr->phases[i].constraint == PRECIPITATE)
 		{
@@ -1130,7 +1126,7 @@ solve_inverse(struct inverse *inv_ptr)
  *   Set current bits to complete list.
  */
 	soln_bits = 0;
-	if (inv_ptr->count_solns + inv_ptr->count_phases > 32)
+	if (inv_ptr->count_solns + inv_ptr->phases.size() > 32)
 	{
 		error_msg
 			("For inverse modeling, sum of initial solutions and phases must be <= 32.\n\tFor all reasonable calculations, the sum should be much less than 32.",
@@ -1159,7 +1155,7 @@ solve_inverse(struct inverse *inv_ptr)
 /*
  *   Loop through all models of of descending size
  */
-		for (model_size = inv_ptr->count_phases; model_size >= 0;
+		for (model_size = inv_ptr->phases.size(); model_size >= 0;
 			 model_size--)
 		{
 			first_of_model_size = TRUE;
@@ -1169,7 +1165,7 @@ solve_inverse(struct inverse *inv_ptr)
 			{
 				first_of_model_size = FALSE;
 				current_bits =
-					(soln_bits << inv_ptr->count_phases) + phase_bits;
+					(soln_bits << inv_ptr->phases.size()) + phase_bits;
 
 				if (subset_bad(current_bits) == TRUE
 					|| subset_minimal(current_bits) == TRUE)
@@ -1203,7 +1199,7 @@ solve_inverse(struct inverse *inv_ptr)
  *   Model has been found, set bits 
  */
 				good_bits = current_bits;
-				for (i = 0; i < inv_ptr->count_phases; i++)
+				for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 				{
 					if (equal(inv_delta1[i + inv_ptr->count_solns], 0.0, TOL) ==
 						TRUE)
@@ -1216,7 +1212,7 @@ solve_inverse(struct inverse *inv_ptr)
 					if (equal(inv_delta1[i], 0.0, TOL) == TRUE)
 					{
 						good_bits =
-							set_bit(good_bits, i + inv_ptr->count_phases, 0);
+							set_bit(good_bits, i + inv_ptr->phases.size(), 0);
 					}
 				}
 /*
@@ -1360,9 +1356,9 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 	if (debug_inverse == TRUE)
 	{
 		output_msg(sformatf( "Beginning minimal solve: \n"));
-		bit_print(minimal_bits, inv_ptr->count_phases + inv_ptr->count_solns);
+		bit_print(minimal_bits, inv_ptr->phases.size() + inv_ptr->count_solns);
 	}
-	for (i = 0; i < inv_ptr->count_phases + inv_ptr->count_solns - 1; i++)
+	for (i = 0; i < inv_ptr->phases.size() + inv_ptr->count_solns - 1; i++)
 	{
 		if (get_bits(minimal_bits, i, 1) == 0)
 			continue;
@@ -1373,7 +1369,7 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 		{
 			output_msg(sformatf( "Solving for minimal\n"));
 			bit_print(minimal_bits,
-					  inv_ptr->count_phases + inv_ptr->count_solns);
+					  inv_ptr->phases.size() + inv_ptr->count_solns);
 		}
 
 /*
@@ -1398,7 +1394,7 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 	if (debug_inverse == TRUE)
 	{
 		output_msg(sformatf( "\n\nMINIMAL MODEL\n\n"));
-		bit_print(minimal_bits, inv_ptr->count_phases + inv_ptr->count_solns);
+		bit_print(minimal_bits, inv_ptr->phases.size() + inv_ptr->count_solns);
 	}
 
 	solve_with_mask(inv_ptr, minimal_bits);
@@ -1407,10 +1403,10 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 	{
 		if (equal(inv_delta1[i], 0.0, TOL) == FALSE)
 		{
-			actual_bits = set_bit(actual_bits, i + inv_ptr->count_phases, 1);
+			actual_bits = set_bit(actual_bits, i + inv_ptr->phases.size(), 1);
 		}
 	}
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (equal(inv_delta1[i + inv_ptr->count_solns], 0.0, TOL) == FALSE)
 		{
@@ -1858,10 +1854,10 @@ print_model(struct inverse *inv_ptr)
 				error_msg("Computing delta element/uncertainty", CONTINUE);
 			}
 		}
-		if (inv_ptr->count_isotopes > 0)
+		if (inv_ptr->isotopes.size() > 0)
 		{
 			/* adjustments to solution isotope composition */
-			for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
+			for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 			{
 				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
 				for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
@@ -1873,7 +1869,7 @@ print_model(struct inverse *inv_ptr)
 						continue;
 					d1 = kit->second.Get_ratio();
 					d2 = inv_delta1[col_isotopes +
-								i * inv_ptr->count_isotope_unknowns +
+								i * inv_ptr->isotope_unknowns.size() +
 								j] / inv_delta1[i];
 					d3 = d1 + d2;
 
@@ -1920,10 +1916,10 @@ print_model(struct inverse *inv_ptr)
  *    Adjustments to phases
  */
 	print_msg = FALSE;
-	if (inv_ptr->count_isotopes > 0)
+	if (inv_ptr->isotopes.size() > 0)
 	{
 		output_msg(sformatf( "\nIsotopic composition of phases:\n"));
-		for (i = 0; i < inv_ptr->count_phases; i++)
+		for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 		{
 			if (inv_ptr->phases[i].count_isotopes == 0)
 				continue;
@@ -1933,7 +1929,7 @@ print_model(struct inverse *inv_ptr)
 				equal(max_delta[j], 0.0, toler) == TRUE)
 				continue;
 			isotope_ptr = inv_ptr->phases[i].isotopes;
-			for (j = 0; j < inv_ptr->count_isotopes; j++)
+			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
 				for (k = 0; k < inv_ptr->phases[i].count_isotopes; k++)
 				{
@@ -1944,7 +1940,7 @@ print_model(struct inverse *inv_ptr)
 						continue;
 					d1 = isotope_ptr[k].ratio;
 					column =
-						col_phase_isotopes + i * inv_ptr->count_isotopes + j;
+						col_phase_isotopes + i * inv_ptr->isotopes.size() + j;
 					if (inv_delta1[col_phases + i] != 0.0)
 					{
 						d2 = inv_delta1[column] / inv_delta1[col_phases + i];
@@ -2372,7 +2368,7 @@ next_set_phases(struct inverse *inv_ptr,
 		{
 			min_position[i] = i;
 			now[i] = i;
-			max_position[i] = inv_ptr->count_phases - model_size + i;
+			max_position[i] = inv_ptr->phases.size() - model_size + i;
 		}
 	}
 	else
@@ -2430,9 +2426,9 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 /*
  *   Include forced solutions and phases in range calculation
  */
-	for (i = 0; i < inv_ptr->count_solns + inv_ptr->count_phases; i++)
+	for (size_t i = 0; i < inv_ptr->count_solns + inv_ptr->phases.size(); i++)
 	{
-		if (i < inv_ptr->count_phases)
+		if (i < inv_ptr->phases.size())
 		{
 			if (inv_ptr->phases[i].force == TRUE)
 			{
@@ -2441,7 +2437,7 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 		}
 		else
 		{
-			if (inv_ptr->force_solns[i - inv_ptr->count_phases] == TRUE)
+			if (inv_ptr->force_solns[i - inv_ptr->phases.size()] == TRUE)
 			{
 				cur_bits = set_bit(cur_bits, i, 1);
 			}
@@ -2456,15 +2452,15 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
  *   Switch bits so that phases are high and solutions are low
  */
 	bits =
-		get_bits(cur_bits, inv_ptr->count_phases + inv_ptr->count_solns - 1,
+		get_bits(cur_bits, inv_ptr->phases.size() + inv_ptr->count_solns - 1,
 				 inv_ptr->count_solns);
 	bits +=
-		(get_bits(cur_bits, inv_ptr->count_phases - 1, inv_ptr->count_phases)
+		(get_bits(cur_bits, inv_ptr->phases.size() - 1, inv_ptr->phases.size())
 		 << inv_ptr->count_solns);
 /*
  *   Do range calculation
  */
-	for (i = 0; i < inv_ptr->count_solns + inv_ptr->count_phases; i++)
+	for (i = 0; i < inv_ptr->count_solns + inv_ptr->phases.size(); i++)
 	{
 		if (inv_ptr->count_solns == i + 1)
 		{
@@ -2651,18 +2647,18 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 /*   
  *   Drop phases not in model
  */
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (get_bits(cur_bits, i, 1) == 0)
 		{
 			col_back_l[col_phases + i] = -1;
 			/* drop isotopes */
-			if (inv_ptr->count_isotopes > 0)
+			if (inv_ptr->isotopes.size() > 0)
 			{
-				for (j = 0; j < inv_ptr->count_isotopes; j++)
+				for (j = 0; j < inv_ptr->isotopes.size(); j++)
 				{
 					column =
-						col_phase_isotopes + i * inv_ptr->count_isotopes + j;
+						col_phase_isotopes + i * inv_ptr->isotopes.size() + j;
 					col_back_l[column] = -1;
 				}
 			}
@@ -2673,7 +2669,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
  */
 	for (i = 0; i < (inv_ptr->count_solns - 1); i++)
 	{
-		if (get_bits(cur_bits, inv_ptr->count_phases + i, 1) == 0)
+		if (get_bits(cur_bits, inv_ptr->phases.size() + i, 1) == 0)
 		{
 			col_back_l[i] = -1;
 			/* drop all epsilons for the solution */
@@ -2689,12 +2685,12 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 				col_back_l[column] = -1;
 			}
 			/* drop isotopes */
-			if (inv_ptr->count_isotopes > 0)
+			if (inv_ptr->isotopes.size() > 0)
 			{
-				for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
+				for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 				{
 					column =
-						col_isotopes + i * inv_ptr->count_isotope_unknowns +
+						col_isotopes + i * inv_ptr->isotope_unknowns.size() +
 						j;
 					col_back_l[column] = -1;
 				}
@@ -2908,7 +2904,7 @@ check_solns(struct inverse *inv_ptr)
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
 		bits = 0;
-		bits += 1 << (inv_ptr->count_phases + i);
+		bits += 1 << (inv_ptr->phases.size() + i);
 /*
  *   Check for feasibility of charge balance with given uncertainties
  */
@@ -3470,7 +3466,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 			{
 
 				/* find column of epsilon for ratio of valence */
-				for (k = 0; k < inv_ptr->count_isotope_unknowns; k++)
+				for (k = 0; k < inv_ptr->isotope_unknowns.size(); k++)
 				{
 					if (master_jit ==
 						inv_ptr->isotope_unknowns[k].master
@@ -3479,7 +3475,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 					{
 						column =
 							col_isotopes +
-							(i * inv_ptr->count_isotope_unknowns) + k;
+							(i * inv_ptr->isotope_unknowns.size()) + k;
 					}
 				}
 				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] +=
@@ -3490,7 +3486,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 /*
  *   Fill in terms for each phase
  */
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (inv_ptr->phases[i].count_isotopes <= 0)
 			continue;
@@ -3505,7 +3501,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] =
 					isotope_ptr[j].ratio * isotope_ptr[j].coef;
 				/* term for phase isotope uncertainty unknown */
-				column = col_phase_isotopes + i * inv_ptr->count_isotopes + n;
+				column = col_phase_isotopes + i * inv_ptr->isotopes.size() + n;
 				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = isotope_ptr[j].coef;
 				break;
 			}
@@ -3515,55 +3511,47 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 	return OK;
 }
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-count_isotope_unknowns(struct inverse *inv_ptr,
-					   struct isotope **isotope_unknowns)
-/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+set_isotope_unknowns(struct inverse* inv_ptr)
+	/* ---------------------------------------------------------------------- */
 {
-/*
- *  Go through elements for which isotope balances are requested
- *  and make a array of isotope structures
- *  return total number of isotope unknowns and structure array
- */
+	/*
+	 *  Go through elements for which isotope balances are requested
+	 *  and make a array of isotope structures
+	 *  return total number of isotope unknowns and structure array
+	 */
 	int i, k;
 	LDBLE isotope_number;
-	struct master *primary_ptr;
-	int count_isotopes;
-	struct isotope *isotopes;
+	struct master* primary_ptr;
+	size_t count_isotopes;
+	std::vector<struct isotope>& isotopes = inv_ptr->isotope_unknowns;
 
-	if (inv_ptr->count_isotopes == 0)
+	if (inv_ptr->isotopes.size() == 0)
 	{
-		*isotope_unknowns = NULL;
-		return (0);
-	}
-	isotopes =
-		(struct isotope *) PHRQ_malloc((size_t) sizeof(struct isotope));
-	if (isotopes == NULL)
-	{
-		malloc_error();
-		return (0);
+		isotopes.clear();
+		return true;
 	}
 	count_isotopes = 0;
 
-	for (i = 0; i < inv_ptr->count_isotopes; i++)
+	for (i = 0; i < inv_ptr->isotopes.size(); i++)
 	{
 		primary_ptr = master_bsearch(inv_ptr->isotopes[i].elt_name);
 		isotope_number = inv_ptr->isotopes[i].isotope_number;
 		if (primary_ptr == NULL)
 		{
 			error_string = sformatf(
-					"Element not found for isotope calculation: %s.",
-					inv_ptr->isotopes[i].elt_name);
+				"Element not found for isotope calculation: %s.",
+				inv_ptr->isotopes[i].elt_name);
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
 		}
 		if (primary_ptr->primary != TRUE)
 		{
-			error_string = sformatf( "Isotope mass-balance may only be used"
-					" for total element concentrations.\n"
-					"Secondary species not allowed: %s.",
-					inv_ptr->isotopes[i].elt_name);
+			error_string = sformatf("Isotope mass-balance may only be used"
+				" for total element concentrations.\n"
+				"Secondary species not allowed: %s.",
+				inv_ptr->isotopes[i].elt_name);
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
@@ -3572,13 +3560,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 		/* nonredox element */
 		if (primary_ptr->s->secondary == NULL)
 		{
-			isotopes = (struct isotope *) PHRQ_realloc(isotopes,
-				((size_t)count_isotopes + 1) * sizeof(struct isotope));
-			if (isotopes == NULL)
-			{
-				malloc_error();
-				return (0);
-			}
+			isotopes.resize(count_isotopes + 1);
 			isotopes[count_isotopes].primary = primary_ptr;
 			isotopes[count_isotopes].master = primary_ptr;
 			isotopes[count_isotopes].isotope_number = isotope_number;
@@ -3601,15 +3583,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 			k++;
 			for (; k < (int)master.size(); k++)
 			{
-				if (master[k]->elt->primary != primary_ptr)
-					break;
-				isotopes = (struct isotope *) PHRQ_realloc(isotopes,
-					((size_t)count_isotopes + 1) * sizeof(struct isotope));
-				if (isotopes == NULL)
-				{
-					malloc_error();
-					return (0);
-				}
+				isotopes.resize(count_isotopes + 1);
 				isotopes[count_isotopes].primary = primary_ptr;
 				isotopes[count_isotopes].master = master[k];
 				isotopes[count_isotopes].isotope_number = isotope_number;
@@ -3618,8 +3592,7 @@ count_isotope_unknowns(struct inverse *inv_ptr,
 			}
 		}
 	}
-	*isotope_unknowns = isotopes;
-	return (count_isotopes);
+	return true;
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -3650,7 +3623,7 @@ check_isotopes(struct inverse *inv_ptr)
  *   Go through inverse isotopes and make sure isotope data for each solution
  *   inv_ptr->isotopes has elements; inv_ptr->i_u has redox states and uncertainties
  */
-		for (i = 0; i < inv_ptr->count_isotopes; i++)
+		for (i = 0; i < inv_ptr->isotopes.size(); i++)
 		{
 			err = FALSE;
 			primary_ptr = master_bsearch(inv_ptr->isotopes[i].elt_name);
@@ -3705,7 +3678,7 @@ check_isotopes(struct inverse *inv_ptr)
  *  Search for secondary or primary master in inverse uncertainties
  */
 			ii = -1;
-			for (i = 0; i < inv_ptr->count_i_u; i++)
+			for (i = 0; i < inv_ptr->i_u.size(); i++)
 			{
 				master_ptr = master_bsearch(inv_ptr->i_u[i].elt_name);
 				if (master_ptr == master_kit)
@@ -3799,9 +3772,9 @@ check_isotopes(struct inverse *inv_ptr)
 /*
  *  Check phases for necessary isotope data
  */
-	for (j = 0; j < inv_ptr->count_phases; j++)
+	for (j = 0; j < inv_ptr->phases.size(); j++)
 	{
-		for (i = 0; i < inv_ptr->count_isotopes; i++)
+		for (i = 0; i < inv_ptr->isotopes.size(); i++)
 		{
 			primary_ptr = master_bsearch(inv_ptr->isotopes[i].elt_name);
 			isotope_number = inv_ptr->isotopes[i].isotope_number;
@@ -3857,9 +3830,9 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 	int i, j, k;
 	int column;
 	char token[MAX_LENGTH];
-	if (inv_ptr->count_isotopes <= 0)
+	if (inv_ptr->isotopes.size() <= 0)
 		return OK;
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (inv_ptr->phases[i].count_isotopes <= 0)
 			continue;
@@ -3867,7 +3840,7 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 		for (j = 0; j < inv_ptr->phases[i].count_isotopes; j++)
 		{
 			/* find index number */
-			for (k = 0; k < inv_ptr->count_isotopes; k++)
+			for (k = 0; k < inv_ptr->isotopes.size(); k++)
 			{
 				if (inv_ptr->phases[i].isotopes[j].elt_name ==
 					inv_ptr->isotopes[k].elt_name
@@ -3877,9 +3850,9 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 					break;
 				}
 			}
-			if (k >= inv_ptr->count_isotopes)
+			if (k >= inv_ptr->isotopes.size())
 				break;
-			column = col_phase_isotopes + i * inv_ptr->count_isotopes + k;
+			column = col_phase_isotopes + i * inv_ptr->isotopes.size() + k;
 /*
  *   zero column if uncertainty is zero
  */
@@ -4000,7 +3973,7 @@ write_optimize_names(struct inverse *inv_ptr)
  */
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
-		for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
+		for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 		{
 			sprintf(token, "%s %d%s %d", "optimize",
 					(int) inv_ptr->isotope_unknowns[j].isotope_number,
@@ -4013,9 +3986,9 @@ write_optimize_names(struct inverse *inv_ptr)
  *   phase isotopes
  */
 
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		for (j = 0; j < inv_ptr->count_isotopes; j++)
+		for (j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
 			sprintf(token, "%s %s %d%s", "optimize",
 					inv_ptr->phases[i].phase->name,
@@ -4464,10 +4437,10 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		solution_ptr->Set_totals(nd);
 
 		/* update isotopes in solution */
-		if (inv_ptr->count_isotopes > 0)
+		if (inv_ptr->isotopes.size() > 0)
 		{
 			/* adjustments to solution isotope composition */
-			for (j = 0; j < inv_ptr->count_isotope_unknowns; j++)
+			for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 			{
 				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
 				for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
@@ -4479,7 +4452,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 						continue;
 					d1 = kit->second.Get_ratio();
 					d2 = inv_delta1[col_isotopes +
-								i * inv_ptr->count_isotope_unknowns +
+								i * inv_ptr->isotope_unknowns.size() +
 								j] / inv_delta1[i];
 					d3 = d1 + d2;
 					kit->second.Set_ratio(d3);
@@ -4912,7 +4885,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 /*
  * Add isotope mole balance
  */
-	for (j = 0; j < inv_ptr->count_isotopes; j++)
+	for (j = 0; j < inv_ptr->isotopes.size(); j++)
 	{
 		string = sformatf("%d%s", (int) inv_ptr->isotopes[j].isotope_number,
 				inv_ptr->isotopes[j].elt_name);
@@ -4940,7 +4913,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 /*
  * Write phase information
  */
-	for (i = 0; i < inv_ptr->count_phases; i++)
+	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		j = col_phases + i;
 		/* skip if not in model */
@@ -5081,7 +5054,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		{
 			isotope_ptr = inv_ptr->phases[i].isotopes;
 			d1 = isotope_ptr[k].ratio;
-			for (j = 0; j < inv_ptr->count_isotopes; j++)
+			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
 				if ((inv_ptr->isotopes[j].elt_name != isotope_ptr[k].elt_name)
 					|| (inv_ptr->isotopes[j].isotope_number !=
@@ -5090,9 +5063,9 @@ dump_netpath_pat(struct inverse *inv_ptr)
 				break;
 			}
 			d2 = 0.0;
-			if (j < inv_ptr->count_isotopes)
+			if (j < inv_ptr->isotopes.size())
 			{
-				column = col_phase_isotopes + i * inv_ptr->count_isotopes + j;
+				column = col_phase_isotopes + i * inv_ptr->isotopes.size() + j;
 				if (inv_delta1[col_phases + i] != 0.0)
 				{
 					d2 = inv_delta1[column] / inv_delta1[col_phases + i];
@@ -5146,7 +5119,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	/*fprintf(model_file,"%2d", i); */ /* not written, 1, mixing, number of mixing wells -1 */
 	fprintf(model_file, "%2d", 3);	/* 2, exchange */
 	i = 0;
-	if (inv_ptr->count_isotopes > 0)
+	if (inv_ptr->isotopes.size() > 0)
 		i = 1;
 	fprintf(model_file, "%2d", i);	/* 3, Rayleigh */
 	fprintf(model_file, "%2d", 1);	/* 4, A0 model */

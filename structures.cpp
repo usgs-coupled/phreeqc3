@@ -534,42 +534,11 @@ inverse_alloc(void)
  */
 	inverse_ptr->description = NULL;
 	inverse_ptr->count_solns = 0;
-	inverse_ptr->count_isotopes = 0;
-	inverse_ptr->count_i_u = 0;
-	inverse_ptr->count_phases = 0;
 /*
  *   allocate space for pointers in structure to NULL
  */
 	inverse_ptr->count_solns = 0;
 
-	inverse_ptr->isotopes = (struct inv_isotope *) PHRQ_malloc(
-			sizeof(struct inv_isotope));
-	if (inverse_ptr->isotopes == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr->isotopes[0].isotope_name = NULL;
-	inverse_ptr->isotopes[0].isotope_number = 0;
-	inverse_ptr->isotopes[0].elt_name = NULL;
-
-	inverse_ptr->i_u = (struct inv_isotope *)PHRQ_malloc(sizeof(struct inv_isotope));
-	if (inverse_ptr->i_u == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr->i_u[0].isotope_name = NULL;
-	inverse_ptr->i_u[0].isotope_number = 0;
-	inverse_ptr->i_u[0].elt_name = NULL;
-
-	inverse_ptr->phases = (struct inv_phases *) PHRQ_malloc(
-		sizeof(struct inv_phases));
-	if (inverse_ptr->phases == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
 	return (inverse_ptr);
 }
 
@@ -641,31 +610,28 @@ inverse_free(struct inverse *inverse_ptr)
 	inverse_ptr->elts.clear();
 
 /*   Free isotopes */
-	for (i = 0; i < inverse_ptr->count_isotopes; i++)
+	for (i = 0; i < inverse_ptr->isotopes.size(); i++)
 	{
 		inverse_ptr->isotopes[i].uncertainties =
 			(LDBLE *) free_check_null(inverse_ptr->isotopes[i].uncertainties);
 	};
-	inverse_ptr->isotopes =
-		(struct inv_isotope *) free_check_null(inverse_ptr->isotopes);
+	inverse_ptr->isotopes.clear();
 
-	for (i = 0; i < inverse_ptr->count_i_u; i++)
+	for (i = 0; i < inverse_ptr->i_u.size(); i++)
 	{
 		inverse_ptr->i_u[i].uncertainties =
 			(LDBLE *) free_check_null(inverse_ptr->i_u[i].uncertainties);
 	};
-	inverse_ptr->i_u =
-		(struct inv_isotope *) free_check_null(inverse_ptr->i_u);
+	inverse_ptr->i_u.clear();
 
 /*   Free phases */
-	for (i = 0; i < inverse_ptr->count_phases; i++)
+	for (i = 0; i < inverse_ptr->phases.size(); i++)
 	{
 		inverse_ptr->phases[i].isotopes =
 			(struct isotope *) free_check_null(inverse_ptr->phases[i].
 											   isotopes);
 	}
-	inverse_ptr->phases =
-		(struct inv_phases *) free_check_null(inverse_ptr->phases);
+	inverse_ptr->phases.clear();
 
 /*   Free carbon derivatives */
 	inverse_ptr->dalk_dph.clear(); 
