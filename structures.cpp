@@ -534,7 +534,6 @@ inverse_alloc(void)
  */
 	inverse_ptr->description = NULL;
 	inverse_ptr->count_solns = 0;
-	inverse_ptr->count_elts = 0;
 	inverse_ptr->count_isotopes = 0;
 	inverse_ptr->count_i_u = 0;
 	inverse_ptr->count_phases = 0;
@@ -634,7 +633,7 @@ inverse_free(struct inverse *inverse_ptr)
 	inverse_ptr->force_solns.clear();
 
 /*   Free elts */
-	for (i = 0; i < inverse_ptr->count_elts; i++)
+	for (i = 0; i < inverse_ptr->elts.size(); i++)
 	{
 		inverse_ptr->elts[i].uncertainties =
 			(LDBLE *) free_check_null(inverse_ptr->elts[i].uncertainties);

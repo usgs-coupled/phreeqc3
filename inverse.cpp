@@ -212,7 +212,7 @@ setup_inverse(struct inverse *inv_ptr)
 /*
  *    count unknowns
  */
-	max_column_count = inv_ptr->count_elts * inv_ptr->count_solns +	/* epsilons */
+	max_column_count = inv_ptr->elts.size() * inv_ptr->count_solns +	/* epsilons */
 		inv_ptr->count_solns +	/* solutions */
 		inv_ptr->count_phases +	/* phases */
 		inv_ptr->count_redox_rxns +	/* redox reactions */
@@ -225,33 +225,33 @@ setup_inverse(struct inverse *inv_ptr)
 	col_phases = inv_ptr->count_solns;
 	col_redox = col_phases + inv_ptr->count_phases;
 	col_epsilon = col_redox + inv_ptr->count_redox_rxns;
-	col_ph = col_epsilon + inv_ptr->count_elts * inv_ptr->count_solns;
+	col_ph = col_epsilon + inv_ptr->elts.size() * inv_ptr->count_solns;
 	col_water = col_ph + carbon * inv_ptr->count_solns;
 	col_isotopes = col_water + 1;
 	col_phase_isotopes =
 		col_isotopes + inv_ptr->count_isotope_unknowns * inv_ptr->count_solns;
-	max_row_count = inv_ptr->count_solns * inv_ptr->count_elts +	/* optimize */
+	max_row_count = inv_ptr->count_solns * inv_ptr->elts.size() +	/* optimize */
 		carbon * inv_ptr->count_solns +	/* optimize ph */
 		1 +						/* optimize water */
 		inv_ptr->count_solns * inv_ptr->count_isotope_unknowns +	/* optimize isotopes */
 		inv_ptr->count_isotopes * inv_ptr->count_phases +	/* optimize phase isotopes */
-		inv_ptr->count_elts +	/* mass balances */
+		inv_ptr->elts.size() +	/* mass balances */
 		1 + 1 +					/* fractions, init and final */
 		inv_ptr->count_solns +	/* charge balances */
 		carbon * inv_ptr->count_solns +	/* dAlk = dC + dph */
 		inv_ptr->count_isotopes +	/* isotopes */
-		2 * inv_ptr->count_solns * inv_ptr->count_elts +	/* epsilon constraints */
+		2 * inv_ptr->count_solns * inv_ptr->elts.size() +	/* epsilon constraints */
 		2 * carbon * inv_ptr->count_solns +	/* epsilon on ph */
 		2 +						/* epsilon for water */
 		2 * inv_ptr->count_isotope_unknowns * inv_ptr->count_solns +	/* epsilon for isotopes */
 		2 * inv_ptr->count_isotopes * inv_ptr->count_phases +	/* epsilon for isotopes in phases */
 		2;						/* work space */
 
-	row_mb = inv_ptr->count_solns * inv_ptr->count_elts +
+	row_mb = inv_ptr->count_solns * inv_ptr->elts.size() +
 		carbon * inv_ptr->count_solns + 1 +
 		inv_ptr->count_solns * inv_ptr->count_isotope_unknowns +
 		inv_ptr->count_isotopes * inv_ptr->count_phases;
-	row_fract = row_mb + inv_ptr->count_elts;
+	row_fract = row_mb + inv_ptr->elts.size();
 	row_charge = row_fract + 2;
 	row_carbon = row_charge + inv_ptr->count_solns;
 	row_isotopes = row_carbon + carbon * inv_ptr->count_solns;
@@ -350,7 +350,7 @@ setup_inverse(struct inverse *inv_ptr)
 /*
  *   optimization
  */
-	count_optimize = inv_ptr->count_solns * inv_ptr->count_elts +	/* optimize */
+	count_optimize = inv_ptr->count_solns * inv_ptr->elts.size() +	/* optimize */
 		carbon * inv_ptr->count_solns +	/* optimize ph */
 		1 +						/* optimize water */
 		inv_ptr->count_solns * inv_ptr->count_isotope_unknowns +	/* optimize isotopes */
@@ -383,7 +383,7 @@ setup_inverse(struct inverse *inv_ptr)
 	count_rows_t = count_rows;
 	i_alk = -1;
 	i_carb = -1;
-	for (i = 0; i < inv_ptr->count_elts; i++)
+	for (i = 0; i < inv_ptr->elts.size(); i++)
 	{
 		master_ptr = inv_ptr->elts[i].master;
 		if (master_ptr == master_alk)
@@ -521,7 +521,7 @@ setup_inverse(struct inverse *inv_ptr)
 /*   mass balance: redox reaction data */
 
 	k = 0;
-	for (i = 0; i < inv_ptr->count_elts; i++)
+	for (i = 0; i < inv_ptr->elts.size(); i++)
 	{
 		if (inv_ptr->elts[i].master->s->primary == NULL)
 		{
@@ -578,7 +578,7 @@ setup_inverse(struct inverse *inv_ptr)
 /*   mass-balance: epsilons */
 
 	column = col_epsilon;
-	for (i = 0; i < inv_ptr->count_elts; i++)
+	for (i = 0; i < inv_ptr->elts.size(); i++)
 	{
 		row = inv_ptr->elts[i].master->in;
 		for (j = 0; j < inv_ptr->count_solns; j++)
@@ -600,7 +600,7 @@ setup_inverse(struct inverse *inv_ptr)
 			column++;
 		}
 	}
-	count_rows += inv_ptr->count_elts;
+	count_rows += inv_ptr->elts.size();
 
 /*   put names in col_name for ph */
 
@@ -690,7 +690,7 @@ setup_inverse(struct inverse *inv_ptr)
 	{
 /*		solution_ptr = solution_bsearch(inv_ptr->solns[i], &j, TRUE); */
 /*		array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = solution_ptr->cb; */
-		for (j = 0; j < inv_ptr->count_elts; j++)
+		for (j = 0; j < inv_ptr->elts.size(); j++)
 		{
 			column = col_epsilon + j * inv_ptr->count_solns + i;
 			coef =
@@ -757,7 +757,7 @@ setup_inverse(struct inverse *inv_ptr)
 	row_epsilon = count_rows;
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
-		for (j = 0; j < inv_ptr->count_elts; j++)
+		for (j = 0; j < inv_ptr->elts.size(); j++)
 		{
 			if (inv_ptr->elts[j].master->s == s_eminus)
 				continue;
@@ -1811,7 +1811,7 @@ print_model(struct inverse *inv_ptr)
 				error_msg("Computing delta pH/uncertainty", CONTINUE);
 			}
 		}
-		for (j = 0; j < inv_ptr->count_elts; j++)
+		for (j = 0; j < inv_ptr->elts.size(); j++)
 		{
 			if (inv_ptr->elts[j].master->s == s_eminus)
 				continue;
@@ -2677,7 +2677,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 		{
 			col_back_l[i] = -1;
 			/* drop all epsilons for the solution */
-			for (j = 0; j < inv_ptr->count_elts; j++)
+			for (j = 0; j < inv_ptr->elts.size(); j++)
 			{
 				column = col_epsilon + j * inv_ptr->count_solns + i;
 				col_back_l[column] = -1;
@@ -3246,7 +3246,7 @@ carbon_derivs(struct inverse *inv_ptr)
  */
 		c_uncertainty = 0;
 		d_carbon = 0;
-		for (j = 0; j < inv_ptr->count_elts; j++)
+		for (j = 0; j < inv_ptr->elts.size(); j++)
 		{
 			if (inv_ptr->elts[j].master == s_co3->secondary)
 			{
@@ -3448,7 +3448,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 				jit->second.Get_isotope_number() == isotope_number)
 			{
 				/* find column of master for solution i */
-				for (k = 0; k < inv_ptr->count_elts; k++)
+				for (k = 0; k < inv_ptr->elts.size(); k++)
 				{
 					if (master_jit == inv_ptr->elts[k].master)
 						break;
@@ -3967,7 +3967,7 @@ write_optimize_names(struct inverse *inv_ptr)
 /*
  *   epsilons for analytical data
  */
-	for (j = 0; j < inv_ptr->count_elts; j++)
+	for (j = 0; j < inv_ptr->elts.size(); j++)
 	{
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
@@ -4442,7 +4442,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		/*master_alk->total = solution_ptr->total_alkalinity; */
 
 		/* update total in master */
-		for (j = 0; j < inv_ptr->count_elts; j++)
+		for (j = 0; j < inv_ptr->elts.size(); j++)
 		{
 			if (inv_ptr->elts[j].master->s == s_eminus)
 				continue;
@@ -4883,7 +4883,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	{
 		master[j]->in = FALSE;
 	}
-	for (j = 0; j < inv_ptr->count_elts; j++)
+	for (j = 0; j < inv_ptr->elts.size(); j++)
 	{
 		master_ptr = inv_ptr->elts[j].master;
 		master_ptr = master_ptr->elt->primary;

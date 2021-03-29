@@ -1651,7 +1651,6 @@ read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
 			read_list_doubles(&cptr, &count);
 		inverse_ptr->elts[count_elts].count_uncertainties =
 			count;
-		inverse_ptr->count_elts++;
 	}
 	else if (strcmp_nocase_arg1(token, "ph") == 0)
 	{

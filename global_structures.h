@@ -328,7 +328,6 @@ struct inverse
 	size_t count_solns;
 	std::vector<int> solns;
 	std::vector<bool> force_solns;
-	int count_elts;
 	std::vector<struct inv_elts> elts;
 	int count_phases;
 	struct inv_phases *phases;
