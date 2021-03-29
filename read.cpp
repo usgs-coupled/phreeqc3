@@ -1622,7 +1622,7 @@ int Phreeqc::
 read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
-	int j, l, count;
+	int j, l;
 	char token[MAX_LENGTH];
 /*
  *   Read element name
@@ -1647,10 +1647,7 @@ read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
 /*
  *   Read element uncertainties
  */
-		inverse_ptr->elts[count_elts].uncertainties =
-			read_list_doubles(&cptr, &count);
-		inverse_ptr->elts[count_elts].count_uncertainties =
-			count;
+		read_vector_doubles(&cptr, inverse_ptr->elts[count_elts].uncertainties);
 	}
 	else if (strcmp_nocase_arg1(token, "ph") == 0)
 	{
@@ -1665,7 +1662,7 @@ int Phreeqc::
 read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, l, l1, l2, count;
+	int i, j, l, l1, l2;
 	LDBLE isotope_number;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	const char* cptr1, *ptr2;
@@ -1728,11 +1725,7 @@ read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
 		inverse_ptr->isotopes.resize(count_isotopes + 1);
 		inverse_ptr->isotopes[count_isotopes].isotope_number = isotope_number;
 		inverse_ptr->isotopes[count_isotopes].elt_name = element_name;
-		inverse_ptr->isotopes[count_isotopes].uncertainties =
-			(LDBLE *) PHRQ_malloc((size_t) sizeof(LDBLE));
-		if (inverse_ptr->isotopes[count_isotopes].
-			uncertainties == NULL)
-			malloc_error();
+		inverse_ptr->isotopes[count_isotopes].uncertainties.clear();
 	}
 /*
  *  add redox state name to inv_ptr->i_u
@@ -1744,9 +1737,7 @@ read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
 /*
  *   Read isotope uncertainties
  */
-	inverse_ptr->i_u[count_i_u].uncertainties =
-		read_list_doubles(&cptr1, &count);
-	inverse_ptr->i_u[count_i_u].count_uncertainties = count;
+	read_vector_doubles(&cptr1, inverse_ptr->i_u[count_i_u].uncertainties);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1852,8 +1843,7 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 	}
 	if (isotopes.size() > 0)
 	{
-		inverse_ptr->phases[count_phases].isotopes = 
-			(struct isotope *) PHRQ_malloc(isotopes.size() * sizeof(struct isotope));
+		inverse_ptr->phases[count_phases].isotopes.resize(isotopes.size());
 		for (size_t i = 0; i < isotopes.size(); i++)
 		{
 			struct isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
@@ -1871,12 +1861,10 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 			iso_ptr->master = NULL;
 			iso_ptr->primary = NULL;
 		}
-		inverse_ptr->phases[count_phases].count_isotopes =	(int) isotopes.size();
 	}
 	else
 	{
-		inverse_ptr->phases[count_phases].isotopes = NULL;
-		inverse_ptr->phases[count_phases].count_isotopes = 0;
+		inverse_ptr->phases[count_phases].isotopes.clear();
 	}
 	return (OK);
 }
@@ -2394,59 +2382,6 @@ read_kinetics(void)
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
-LDBLE * Phreeqc::
-read_list_doubles(const char **cptr, int *count_doubles)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Reads a list of LDBLE numbers until end of line is reached or
- *   a LDBLE cannot be read from a token.
- *
- *      Arguments:
- *	 cptr    entry: points to line to read from
- *		exit:  points to next non-LDBLE token or end of line
- *
- *	 count_doubles exit: number of LDBLEs read
- *
- *      Returns:
- *	 pointer to a list of count_doubles LDBLEs.
- */
-
-	LDBLE *LDBLE_list;
-	char token[MAX_LENGTH];
-	LDBLE value;
-	const char* cptr_save;
-	int l;
-
-	LDBLE_list = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (LDBLE_list == NULL)
-		malloc_error();
-	*count_doubles = 0;
-
-	cptr_save = *cptr;
-	while (copy_token(token, cptr, &l) != EMPTY)
-	{
-		if (sscanf(token, SCANFORMAT, &value) == 1)
-		{
-			*count_doubles = *count_doubles + 1;
-			LDBLE_list =
-				(LDBLE *) PHRQ_realloc(LDBLE_list,
-									   (size_t) (*count_doubles) *
-									   sizeof(LDBLE));
-			if (LDBLE_list == NULL)
-				malloc_error();
-			LDBLE_list[(*count_doubles) - 1] = value;
-			cptr_save = *cptr;
-		}
-		else
-		{
-			*cptr = cptr_save;
-			break;
-		}
-	}
-	return (LDBLE_list);
-}
-/* ---------------------------------------------------------------------- */
 bool Phreeqc::
 read_vector_doubles(const char** cptr, std::vector<double>& v)
 /* ---------------------------------------------------------------------- */
@@ -2462,68 +2397,6 @@ read_vector_doubles(const char** cptr, std::vector<double>& v)
 		v.push_back(value);
 	}
 	return true;
-}
-/* ---------------------------------------------------------------------- */
-int * Phreeqc::
-read_list_ints(const char **cptr, int *count_ints, int positive)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Reads a list of int numbers until end of line is reached or
- *   an int cannot be read from a token.
- *
- *      Arguments:
- *	 cptr    entry: points to line to read from
- *		exit:  points to next non-int token or end of line
- *
- *	 count_ints exit: number of LDBLEs read
- *
- *	 positive  entry: if TRUE, expects to read only positive integers
- *
- *      Returns:
- *	 pointer to a list of count_ints ints.
- */
-	int *int_list;
-	char token[MAX_LENGTH];
-	int value;
-	int l;
-	const char* cptr_save;
-
-	int_list = (int *) PHRQ_malloc(sizeof(int));
-	if (int_list == NULL)
-		malloc_error();
-	*count_ints = 0;
-
-	cptr_save = *cptr;
-	while (copy_token(token, cptr, &l) != EMPTY)
-	{
-		if (sscanf(token, "%d", &value) == 1)
-		{
-			(*count_ints)++;
-			int_list =
-				(int *) PHRQ_realloc(int_list,
-									 (size_t) (*count_ints) * sizeof(int));
-			if (int_list == NULL)
-			{
-				malloc_error();
-				return (NULL);
-			}
-			int_list[(*count_ints) - 1] = value;
-			if (value <= 0 && positive == TRUE)
-			{
-				error_msg("Expected an integer greater than zero.", CONTINUE);
-				error_msg(line_save, CONTINUE);
-				input_error++;
-			}
-			cptr_save = *cptr;
-		}
-		else
-		{
-			*cptr = cptr_save;
-			break;
-		}
-	}
-	return (int_list);
 }
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
@@ -2655,65 +2528,6 @@ read_list_ints_range(const char **cptr, int *count_ints, int positive, int *int_
 			*cptr = cptr_save;
 			break;
 		}
-	}
-	return (int_list);
-}
-
-/* ---------------------------------------------------------------------- */
-int * Phreeqc::
-read_list_t_f(const char **cptr, int *count_ints)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Reads a list of true and false until end of line is reached or
- *   until non- t or f is found
- *
- *      Arguments:
- *	 cptr    entry: points to line to read from
- *		exit:  points to next non-int token or end of line
- *
- *	 count_ints exit: number of LDBLEs read
- *
- *	 positive  entry: if TRUE, expects to read only positive integers
- *
- *      Returns:
- *	 pointer to a list of count_ints ints.
- */
-	int *int_list;
-	char token[MAX_LENGTH];
-	int value;
-	int l;
-
-	int_list = (int *) PHRQ_malloc(sizeof(int));
-	if (int_list == NULL)
-		malloc_error();
-	*count_ints = 0;
-
-	while (copy_token(token, cptr, &l) != EMPTY)
-	{
-		str_tolower(token);
-		if (token[0] == 't')
-		{
-			value = TRUE;
-		}
-		else if (token[0] == 'f')
-		{
-			value = FALSE;
-		}
-		else
-		{
-			error_msg("Expected TRUE or FALSE.", CONTINUE);
-			error_msg(line_save, CONTINUE);
-			input_error++;
-			break;
-		}
-		(*count_ints)++;
-		int_list =
-			(int *) PHRQ_realloc(int_list,
-								 (size_t) (*count_ints) * sizeof(int));
-		if (int_list == NULL)
-			malloc_error();
-		int_list[(*count_ints) - 1] = value;
 	}
 	return (int_list);
 }

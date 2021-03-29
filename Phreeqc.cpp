@@ -930,8 +930,6 @@ void Phreeqc::init(void)
 	max_row_count           = 50;
 	max_column_count        = 50;
 	carbon                  = FALSE;
-	col_name                = NULL;
-	row_name                = NULL;
 	count_rows              = 0;
 	count_optimize          = 0;
 	col_phases              = 0;

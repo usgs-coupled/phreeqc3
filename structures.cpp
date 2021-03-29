@@ -604,32 +604,27 @@ inverse_free(struct inverse *inverse_ptr)
 /*   Free elts */
 	for (i = 0; i < inverse_ptr->elts.size(); i++)
 	{
-		inverse_ptr->elts[i].uncertainties =
-			(LDBLE *) free_check_null(inverse_ptr->elts[i].uncertainties);
+		inverse_ptr->elts[i].uncertainties.clear();
 	};
 	inverse_ptr->elts.clear();
 
 /*   Free isotopes */
 	for (i = 0; i < inverse_ptr->isotopes.size(); i++)
 	{
-		inverse_ptr->isotopes[i].uncertainties =
-			(LDBLE *) free_check_null(inverse_ptr->isotopes[i].uncertainties);
+		inverse_ptr->isotopes[i].uncertainties.clear();
 	};
 	inverse_ptr->isotopes.clear();
 
 	for (i = 0; i < inverse_ptr->i_u.size(); i++)
 	{
-		inverse_ptr->i_u[i].uncertainties =
-			(LDBLE *) free_check_null(inverse_ptr->i_u[i].uncertainties);
+		inverse_ptr->i_u[i].uncertainties.clear();
 	};
 	inverse_ptr->i_u.clear();
 
 /*   Free phases */
 	for (i = 0; i < inverse_ptr->phases.size(); i++)
 	{
-		inverse_ptr->phases[i].isotopes =
-			(struct isotope *) free_check_null(inverse_ptr->phases[i].
-											   isotopes);
+		inverse_ptr->phases[i].isotopes.clear();
 	}
 	inverse_ptr->phases.clear();
 

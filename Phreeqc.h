@@ -689,12 +689,9 @@ public:
 	int read_inv_isotopes(struct inverse* inverse_ptr, const char* cptr);
 	int read_inv_phases(struct inverse* inverse_ptr, const char* next_char);
 	int read_kinetics(void);
-	LDBLE* read_list_doubles(const char** ptr, int* count_doubles);
 	bool read_vector_doubles(const char** ptr, std::vector<double>& v);
 	bool read_vector_ints(const char** cptr, std::vector<int>& v, int positive);
 	bool read_vector_t_f(const char** ptr, std::vector<bool>& v);
-	int* read_list_ints(const char** ptr, int* count_ints, int positive);
-	int* read_list_t_f(const char** ptr, int* count_ints);
 	int read_master_species(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
@@ -1688,11 +1685,12 @@ protected:
 	/* inverse.cpp ------------------------------- */
 	int max_row_count, max_column_count;
 	int carbon;
-	const char** col_name, ** row_name;
-	int count_rows, count_optimize;
-	int col_phases, col_redox, col_epsilon, col_ph, col_water,
+	//const char** col_name, ** row_name;
+	std::vector<const char*> col_name, row_name;
+	size_t count_rows, count_optimize;
+	size_t col_phases, col_redox, col_epsilon, col_ph, col_water,
 		col_isotopes, col_phase_isotopes;
-	int row_mb, row_fract, row_charge, row_carbon, row_isotopes,
+	size_t row_mb, row_fract, row_charge, row_carbon, row_isotopes,
 		row_epsilon, row_isotope_epsilon, row_water;
 	LDBLE* inv_zero, * array1, * inv_res, * inv_delta1, * delta2, * delta3, * inv_cu,
 		* delta_save;

@@ -1163,13 +1163,9 @@ tidy_inverse(void)
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
-			inverse[i].elts[j].uncertainties =
-				(LDBLE *) PHRQ_realloc(inverse[i].elts[j].uncertainties,
-									   (size_t) inverse[i].count_solns *
-									   sizeof(LDBLE));
-			if (inverse[i].elts[j].uncertainties == NULL)
-				malloc_error();
-			if (inverse[i].elts[j].count_uncertainties == 0)
+			size_t count_uncertainties = inverse[i].elts[j].uncertainties.size();
+			inverse[i].elts[j].uncertainties.resize((size_t)inverse[i].count_solns);
+			if (count_uncertainties == 0)
 			{
 /* use default uncertainties for element */
 				for (k = 0; k < inverse[i].count_solns; k++)
@@ -1178,15 +1174,11 @@ tidy_inverse(void)
 						inverse[i].uncertainties[k];
 				}
 			}
-			else if (inverse[i].elts[j].count_uncertainties <
-					 inverse[i].count_solns)
+			else if (count_uncertainties < inverse[i].count_solns)
 			{
 /* use input uncertainties, fill in any missing at end */
-				value =
-					inverse[i].elts[j].uncertainties[inverse[i].elts[j].
-													 count_uncertainties - 1];
-				for (k = inverse[i].elts[j].count_uncertainties;
-					 k < inverse[i].count_solns; k++)
+				value = inverse[i].elts[j].uncertainties[count_uncertainties - 1];
+				for (k = count_uncertainties; k < inverse[i].count_solns; k++)
 				{
 					inverse[i].elts[j].uncertainties[k] = value;
 				}
@@ -1212,9 +1204,9 @@ tidy_inverse(void)
 /*
  *   Find isotope elements
  */
-			if (inverse[i].phases[j].count_isotopes > 0)
+			if (inverse[i].phases[j].isotopes.size() > 0)
 			{
-				for (k = 0; k < inverse[i].phases[j].count_isotopes; k++)
+				for (k = 0; k < inverse[i].phases[j].isotopes.size(); k++)
 				{
 					inverse[i].phases[j].isotopes[k].primary = NULL;
 					inverse[i].phases[j].isotopes[k].master = NULL;
@@ -1265,9 +1257,9 @@ tidy_inverse(void)
 						continue;
 					}
 				}
-				qsort(inverse[i].phases[j].isotopes,
-					  (size_t) inverse[i].phases[j].count_isotopes,
-					  (size_t) sizeof(struct isotope), isotope_compare);
+				qsort(&inverse[i].phases[j].isotopes[0],
+					  inverse[i].phases[j].isotopes.size(),
+					  sizeof(struct isotope), isotope_compare);
 			}
 			add_elt_list(inverse[i].phases[j].phase->next_elt, 1.0);
 
@@ -1357,11 +1349,7 @@ tidy_inverse(void)
 				/* set master */
 				inv_elts[count_in].master = master[j];
 				/* alloc uncertainties and set default */
-				inv_elts[count_in].uncertainties =
-					(LDBLE *) PHRQ_malloc((size_t) inverse[i].count_solns *
-										  sizeof(LDBLE));
-				if (inv_elts[count_in].uncertainties == NULL)
-					malloc_error();
+				inv_elts[count_in].uncertainties.resize((size_t)inverse[i].count_solns);
 				for (k = 0; k < inverse[i].count_solns; k++)
 				{
 					inv_elts[count_in].uncertainties[k] =
@@ -1407,8 +1395,7 @@ tidy_inverse(void)
 					}
 				}
 			}
-			inverse[i].elts[j].uncertainties =
-				(LDBLE *) free_check_null(inverse[i].elts[j].uncertainties);
+			inverse[i].elts[j].uncertainties.clear();
 		}
 		/* copy masters that are not primary redox */
 		for (j = 0; j < inverse[i].elts.size(); j++)
@@ -1437,8 +1424,7 @@ tidy_inverse(void)
 					break;
 				}
 			}
-			inverse[i].elts[j].uncertainties =
-				(LDBLE *) free_check_null(inverse[i].elts[j].uncertainties);
+			inverse[i].elts[j].uncertainties.clear();
 		}
 /*
  *   replace elts in inverse struct

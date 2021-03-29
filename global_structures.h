@@ -341,17 +341,15 @@ struct inv_elts
 {
 	const char *name;
 	struct master *master;
-	int row;
-	int count_uncertainties;
-	LDBLE *uncertainties;
+	size_t row;
+	std::vector<double> uncertainties;
 };
 struct inv_isotope
 {
 	const char *isotope_name;
 	LDBLE isotope_number;
 	const char *elt_name;
-	int count_uncertainties;
-	LDBLE *uncertainties;
+	std::vector<double> uncertainties;
 };
 struct inv_phases
 {
@@ -360,8 +358,7 @@ struct inv_phases
 	int column;
 	int constraint;
 	int force;
-	int count_isotopes;
-	struct isotope *isotopes;
+	std::vector<struct isotope> isotopes;
 };
 struct name_coef
 {
