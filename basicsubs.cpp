@@ -2484,7 +2484,7 @@ total(const char *total_name)
 		else
 		{
 			t = 0;
-			for (i = master_ptr->number + 1;
+			for (size_t i = master_ptr->number + 1;
 				 (i < (int)master.size() && master[i]->elt->primary == master_ptr);
 				 i++)
 			{

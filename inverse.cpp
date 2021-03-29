@@ -26,28 +26,6 @@ inverse_models(void)
 	if (count_inverse <= 0) return OK;
 	// Revert to previous headings after inverse modeling
 	std::vector<std::string> old_headings;
-	//int i;
-
-	//for (i = 0; i < user_punch_count_headings; i++)
-	//{
-	//	old_headings.push_back(user_punch_headings[i]);
-	//}
-
-	array1 = NULL;
-	inv_zero = NULL;
-	inv_res = NULL;
-	inv_delta1 = NULL;
-	delta2 = NULL;
-	delta3 = NULL;
-	delta_save = NULL;
-	inv_cu = NULL;
-	inv_iu = NULL;
-	inv_is = NULL;
-	min_delta = NULL;
-	max_delta = NULL;
-	good = NULL;
-	bad = NULL;
-	minimal = NULL;
 
 	state = INVERSE;
 	dl_type_x = cxxSurface::NO_DL;
@@ -154,9 +132,9 @@ setup_inverse(struct inverse *inv_ptr)
  *   Fill in array for an inverse problem
  */
 	int i, j, k, i_alk, i_carb;
-	int max;
-	int count_rows_t;
-	int column, row;
+	size_t max;
+	size_t count_rows_t;
+	size_t column, row;
 	int temp;
 	LDBLE isotope_number;
 	LDBLE f, coef, cb, conc;
@@ -260,48 +238,18 @@ setup_inverse(struct inverse *inv_ptr)
 /*
  *   Malloc space for arrays
  */
-	my_array.resize((size_t)max_column_count * (size_t)max_row_count);
-
-	array1 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * max_row_count *
-							  sizeof(LDBLE));
-	if (array1 == NULL)
-		malloc_error();
-
+	my_array.resize(max_column_count * max_row_count);
+	array1.resize(max_column_count * max_row_count);
 	col_name.resize(max_column_count);
 	row_name.resize(max_row_count);
-
-	delta.resize((size_t)max_column_count);
-
-	inv_delta1 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (inv_delta1 == NULL)
-		malloc_error();
-
-	delta2 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (delta2 == NULL)
-		malloc_error();
-
-	delta3 = (LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (delta3 == NULL)
-		malloc_error();
-
-	delta_save =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (delta_save == NULL)
-		malloc_error();
-
-	min_delta =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (min_delta == NULL)
-		malloc_error();
-
-	max_delta =
-		(LDBLE *) PHRQ_malloc((size_t) max_column_count * sizeof(LDBLE));
-	if (max_delta == NULL)
-		malloc_error();
-
-	inv_res = (LDBLE *) PHRQ_malloc((size_t) max_row_count * sizeof(LDBLE));
-	if (inv_res == NULL)
-		malloc_error();
+	delta.resize(max_column_count);
+	inv_delta1.resize(max_column_count);
+	delta2.resize(max_column_count);
+	delta3.resize(max_column_count);
+	delta_save.resize(max_column_count);
+	min_delta.resize(max_column_count);
+	max_delta.resize(max_column_count);
+	inv_res.resize(max_row_count);
 
 	if (max_column_count < max_row_count)
 	{
@@ -311,9 +259,7 @@ setup_inverse(struct inverse *inv_ptr)
 	{
 		max = max_column_count;
 	}
-	inv_zero = (LDBLE *) PHRQ_malloc((size_t) max * sizeof(LDBLE));
-	if (inv_zero == NULL)
-		malloc_error();
+	inv_zero.resize((size_t) max);
 /*
  *   Define inv_zero and inv_zero array, delta
  */
@@ -1066,48 +1012,25 @@ solve_inverse(struct inverse *inv_ptr)
 	max_bad = MAX_MODELS;
 	max_minimal = MAX_MODELS;
 
-	good =
-		(unsigned long *) PHRQ_malloc((size_t) max_good *
-									  sizeof(unsigned long));
-	if (good == NULL)
-		malloc_error();
+	good.resize(max_good);
 	count_good = 0;
 
-	bad =
-		(unsigned long *) PHRQ_malloc((size_t) max_bad *
-									  sizeof(unsigned long));
-	if (bad == NULL)
-		malloc_error();
+	bad.resize(max_bad);
 	count_bad = 0;
 
-	minimal =
-		(unsigned long *) PHRQ_malloc((size_t) max_minimal *
-									  sizeof(unsigned long));
-	if (minimal == NULL)
-		malloc_error();
+	minimal.resize(max_minimal);
 	count_minimal = 0;
 
-	col_back = (int *) PHRQ_malloc((size_t) max_column_count * sizeof(int));
-	if (col_back == NULL)
-		malloc_error();
-
-	row_back = (int *) PHRQ_malloc((size_t) max_row_count * sizeof(int));
-	if (row_back == NULL)
-		malloc_error();
+	col_back.resize(max_column_count);
+	row_back.resize(max_row_count);
 
 /*
  *   Allocate space for arrays
  */
-	inv_cu = (LDBLE *) PHRQ_malloc((size_t) 2 * nklmd * sizeof(LDBLE));
-	if (inv_cu == NULL)
-		malloc_error();
-	memset(inv_cu, 0, ((2 * (size_t)nklmd * sizeof(LDBLE))));
-	inv_iu = (int *) PHRQ_malloc(2 * (size_t)nklmd * sizeof(int));
-	if (inv_iu == NULL)
-		malloc_error();
-	inv_is = (int *) PHRQ_malloc((size_t) klmd * sizeof(int));
-	if (inv_is == NULL)
-		malloc_error();
+	inv_cu.resize( 2 * (size_t)nklmd);
+	memset(&inv_cu[0], 0, ((2 * nklmd * sizeof(LDBLE))));
+	inv_iu.resize(2 * nklmd);
+	inv_is.resize(klmd);
 
 	for (i = 0; i < 79; i++)
 		token[i] = '=';
@@ -1124,7 +1047,7 @@ solve_inverse(struct inverse *inv_ptr)
 			("For inverse modeling, sum of initial solutions and phases must be <= 32.\n\tFor all reasonable calculations, the sum should be much less than 32.",
 			 STOP);
 	}
-	for (i = inv_ptr->count_solns; i > 0; i--)
+	for (size_t i = inv_ptr->count_solns; i > 0; i--)
 	{
 		temp_bits = 1 << (i - 1);
 		soln_bits += temp_bits;
@@ -1140,9 +1063,8 @@ solve_inverse(struct inverse *inv_ptr)
  *   All combinations of solutions 
  */
 	first = TRUE;
-	for (;
-		 get_bits(soln_bits, inv_ptr->count_solns - 2,
-				  inv_ptr->count_solns - 1) > 0; soln_bits--)
+	for (; get_bits(soln_bits, inv_ptr->count_solns - 2,
+		 inv_ptr->count_solns - 1) > 0; soln_bits--)
 	{
 /*
  *   Loop through all models of of descending size
@@ -1311,25 +1233,25 @@ solve_inverse(struct inverse *inv_ptr)
 	}
 	my_array.clear();
 	delta.clear();
-	array1 = (LDBLE *) free_check_null(array1);
-	inv_zero = (LDBLE *) free_check_null(inv_zero);
-	inv_res = (LDBLE *) free_check_null(inv_res);
-	inv_delta1 = (LDBLE *) free_check_null(inv_delta1);
-	delta2 = (LDBLE *) free_check_null(delta2);
-	delta3 = (LDBLE *) free_check_null(delta3);
-	delta_save = (LDBLE *) free_check_null(delta_save);
-	inv_cu = (LDBLE *) free_check_null(inv_cu);
-	inv_iu = (int *) free_check_null(inv_iu);
-	inv_is = (int *) free_check_null(inv_is);
+	array1.clear();
+	inv_zero.clear();
+	inv_res.clear();
+	inv_delta1.clear();
+	delta2.clear();
+	delta3.clear();
+	delta_save.clear();
+	inv_cu.clear();
+	inv_iu.clear();
+	inv_is.clear();
 	col_name.clear();
 	row_name.clear();
-	col_back = (int *) free_check_null(col_back);
-	row_back = (int *) free_check_null(row_back);
-	min_delta = (LDBLE *) free_check_null(min_delta);
-	max_delta = (LDBLE *) free_check_null(max_delta);
-	good = (unsigned long *) free_check_null(good);
-	bad = (unsigned long *) free_check_null(bad);
-	minimal = (unsigned long *) free_check_null(minimal);
+	col_back.clear();
+	row_back.clear();
+	min_delta.clear();
+	max_delta.clear();
+	good.clear();
+	bad.clear();
+	minimal.clear();
 
 	return (OK);
 }
@@ -1439,8 +1361,8 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 	memcpy((void *) &(delta_save[0]), (void *) &(inv_zero[0]),
 		   (size_t) max_column_count * sizeof(LDBLE));
 
-	shrink(inv_ptr, &my_array[0], array1,
-		   &k, &l, &m, &n, cur_bits, delta2, col_back, row_back);
+	shrink(inv_ptr, &my_array[0], &array1[0],
+		   &k, &l, &m, &n, cur_bits, &delta2[0], &col_back[0], &row_back[0]);
 	/*
 	 *  Save delta constraints
 	 */
@@ -1467,7 +1389,7 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 		}
 
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
-		array_print(array1, k + l + m, n + 1, max_column_count);
+		array_print(&array1[0], k + l + m, n + 1, max_column_count);
 
 		output_msg(sformatf( "\nInput delta vector:\n"));
 		for (i = 0; i < n; i++)
@@ -1518,8 +1440,8 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 	}
 #else
 	cl1(k, l, m, n,
-		nklmd, n2d, array1,
-		&kode, toler, &iter, delta2, inv_res, &error, inv_cu, inv_iu, inv_is, TRUE);
+		nklmd, n2d, &array1[0],
+		&kode, toler, &iter, &delta2[0], &inv_res[0], &error, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 #endif
 	if (kode == 3)
 	{
@@ -1591,12 +1513,7 @@ save_minimal(unsigned long bits)
 	if (count_minimal >= max_minimal)
 	{
 		max_minimal *= 2;
-		minimal =
-			(unsigned long *) PHRQ_realloc(minimal,
-										   (size_t) max_minimal *
-										   sizeof(unsigned long));
-		if (minimal == NULL)
-			malloc_error();
+		minimal.resize(max_minimal);
 	}
 	return (TRUE);
 }
@@ -1614,12 +1531,7 @@ save_good(unsigned long bits)
 	if (count_good >= max_good)
 	{
 		max_good *= 2;
-		good =
-			(unsigned long *) PHRQ_realloc(good,
-										   (size_t) max_good *
-										   sizeof(unsigned long));
-		if (good == NULL)
-			malloc_error();
+		good.resize(max_good);
 	}
 	return (TRUE);
 }
@@ -1637,12 +1549,7 @@ save_bad(unsigned long bits)
 	if (count_bad >= max_bad)
 	{
 		max_bad *= 2;
-		bad =
-			(unsigned long *) PHRQ_realloc(bad,
-										   (size_t) max_bad *
-										   sizeof(unsigned long));
-		if (bad == NULL)
-			malloc_error();
+		bad.resize(max_bad);
 	}
 	return (TRUE);
 }
@@ -2502,8 +2409,8 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 			{
 				array1[n] = fabs(inv_ptr->range_max);
 			}
-			shrink(inv_ptr, array1, array1,
-				   &k, &l, &m, &n, cur_bits, delta2, col_back, row_back);
+			shrink(inv_ptr, &array1[0], &array1[0],
+				   &k, &l, &m, &n, cur_bits, &delta2[0], &col_back[0], &row_back[0]);
 			/*
 			 *  Save delta constraints
 			 */
@@ -2520,7 +2427,7 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 							   col_name[col_back[j]], (double) delta2[j]));
 				}
 				output_msg(sformatf( "\nA and B arrays:\n\n"));
-				array_print(array1, k + l + m, n + 1, max_column_count);
+				array_print(&array1[0], k + l + m, n + 1, max_column_count);
 			}
 			kode = 1;
 			iter = 200;
@@ -2543,8 +2450,8 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 			}
 #else
 			cl1(k, l, m, n,
-				nklmd, n2d, array1,
-				&kode, toler, &iter, delta2, inv_res, &error2, inv_cu, inv_iu, inv_is, TRUE);
+				nklmd, n2d, &array1[0],
+				&kode, toler, &iter, &delta2[0], &inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 #endif
 			if (kode != 0)
 			{
@@ -2982,8 +2889,8 @@ check_solns(struct inverse *inv_ptr)
  *   are which
  */
 
-		shrink(inv_ptr, array1, array1,
-			   &k, &l, &m, &n, bits, delta2, col_back, row_back);
+		shrink(inv_ptr, &array1[0], &array1[0],
+			   &k, &l, &m, &n, bits, &delta2[0], &col_back[0], &row_back[0]);
 /* Debug
 
 		output_msg(sformatf( "\nColumns\n"));
@@ -3011,8 +2918,8 @@ check_solns(struct inverse *inv_ptr)
 		iter = 200;
 		count_calls++;
 		cl1(k, l, m, n,
-			nklmd, n2d, array1,
-			&kode, toler, &iter, delta2, inv_res, &error2, inv_cu, inv_iu, inv_is, TRUE);
+			nklmd, n2d, &array1[0],
+			&kode, toler, &iter, &delta2[0], &inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 
 		if (kode != 0)
 		{
