@@ -43,8 +43,6 @@ inverse_models(void)
 	inv_cu = NULL;
 	inv_iu = NULL;
 	inv_is = NULL;
-	col_name = NULL;
-	row_name = NULL;
 	min_delta = NULL;
 	max_delta = NULL;
 	good = NULL;
@@ -269,14 +267,8 @@ setup_inverse(struct inverse *inv_ptr)
 	if (array1 == NULL)
 		malloc_error();
 
-	col_name =
-		(const char **) PHRQ_malloc((size_t) max_column_count * sizeof(char *));
-	if (col_name == NULL)
-		malloc_error();
-
-	row_name = (const char **) PHRQ_malloc((size_t) max_row_count * sizeof(char *));
-	if (row_name == NULL)
-		malloc_error();
+	col_name.resize(max_column_count);
+	row_name.resize(max_row_count);
 
 	delta.resize((size_t)max_column_count);
 
@@ -1329,8 +1321,8 @@ solve_inverse(struct inverse *inv_ptr)
 	inv_cu = (LDBLE *) free_check_null(inv_cu);
 	inv_iu = (int *) free_check_null(inv_iu);
 	inv_is = (int *) free_check_null(inv_is);
-	col_name = (const char **) free_check_null(col_name);
-	row_name = (const char **) free_check_null(row_name);
+	col_name.clear();
+	row_name.clear();
 	col_back = (int *) free_check_null(col_back);
 	row_back = (int *) free_check_null(row_back);
 	min_delta = (LDBLE *) free_check_null(min_delta);
@@ -1748,7 +1740,6 @@ print_model(struct inverse *inv_ptr)
 	int print_msg;
 	cxxSolution *solution_ptr;
 	struct master *master_ptr;
-	struct isotope *isotope_ptr;
 	LDBLE d1, d2, d3, d4;
 	char token[MAX_LENGTH];
 /*
@@ -1921,24 +1912,24 @@ print_model(struct inverse *inv_ptr)
 		output_msg(sformatf( "\nIsotopic composition of phases:\n"));
 		for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 		{
-			if (inv_ptr->phases[i].count_isotopes == 0)
+			if (inv_ptr->phases[i].isotopes.size() == 0)
 				continue;
 			j = col_phases + i;
 			if (equal(inv_delta1[j], 0.0, toler) == TRUE &&
 				equal(min_delta[j], 0.0, toler) == TRUE &&
 				equal(max_delta[j], 0.0, toler) == TRUE)
 				continue;
-			isotope_ptr = inv_ptr->phases[i].isotopes;
+			std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
 			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
-				for (k = 0; k < inv_ptr->phases[i].count_isotopes; k++)
+				for (k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
 				{
 					if (inv_ptr->isotopes[j].elt_name !=
-						isotope_ptr[k].elt_name ||
+						isotope_ref[k].elt_name ||
 						inv_ptr->isotopes[j].isotope_number !=
-						isotope_ptr[k].isotope_number)
+						isotope_ref[k].isotope_number)
 						continue;
-					d1 = isotope_ptr[k].ratio;
+					d1 = isotope_ref[k].ratio;
 					column =
 						col_phase_isotopes + i * inv_ptr->isotopes.size() + j;
 					if (inv_delta1[col_phases + i] != 0.0)
@@ -1963,16 +1954,16 @@ print_model(struct inverse *inv_ptr)
 					output_msg(sformatf(
 							   "%15.15s   %12g  +%12g  =%12g", token,
 							   (double) d1, (double) d2, (double) d3));
-					if (fabs(d2) > (isotope_ptr[k].ratio_uncertainty + toler))
+					if (fabs(d2) > (isotope_ref[k].ratio_uncertainty + toler))
 					{
 						output_msg(sformatf( " **"));
 						print_msg = TRUE;
 					}
 					output_msg(sformatf( "\n"));
-					if (isotope_ptr[k].ratio_uncertainty > 0)
+					if (isotope_ref[k].ratio_uncertainty > 0)
 					{
 						scaled_error +=
-							fabs(d2) / isotope_ptr[k].ratio_uncertainty;
+							fabs(d2) / isotope_ref[k].ratio_uncertainty;
 /* debug
 						output_msg(sformatf( "%e\t%e\t%e\n", fabs(d2) / isotope_ptr[k].ratio_uncertainty, fabs(d2), isotope_ptr[k].ratio_uncertainty));
  */
@@ -3488,21 +3479,21 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
  */
 	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		if (inv_ptr->phases[i].count_isotopes <= 0)
+		if (inv_ptr->phases[i].isotopes.size() == 0)
 			continue;
-		struct isotope *isotope_ptr = inv_ptr->phases[i].isotopes;
-		for (j = 0; j < inv_ptr->phases[i].count_isotopes; j++)
+		std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+		for (j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
 		{
-			if (isotope_ptr[j].primary == primary_ptr &&
-				isotope_ptr[j].isotope_number == isotope_number)
+			if (isotope_ref[j].primary == primary_ptr &&
+				isotope_ref[j].isotope_number == isotope_number)
 			{
 				/* term for alpha phase unknowns */
 				column = col_phases + i;
 				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] =
-					isotope_ptr[j].ratio * isotope_ptr[j].coef;
+					isotope_ref[j].ratio * isotope_ref[j].coef;
 				/* term for phase isotope uncertainty unknown */
 				column = col_phase_isotopes + i * inv_ptr->isotopes.size() + n;
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = isotope_ptr[j].coef;
+				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = isotope_ref[j].coef;
 				break;
 			}
 		}
@@ -3698,10 +3689,10 @@ check_isotopes(struct inverse *inv_ptr)
 			i = ii;
 			/* use inverse-defined uncertainties first */
 #ifdef NPP
-			if (j < inv_ptr->i_u[i].count_uncertainties
+			if (j < inv_ptr->i_u[i].uncertainties.size()
 				&& !isnan(inv_ptr->i_u[i].uncertainties[j]))
 #else
-			if (j < inv_ptr->i_u[i].count_uncertainties
+			if (j < inv_ptr->i_u[i].uncertainties.size()
 				&& inv_ptr->i_u[i].uncertainties[j] != NAN)
 #endif
 			{
@@ -3711,13 +3702,13 @@ check_isotopes(struct inverse *inv_ptr)
 			}
 #ifdef NPP
 			else if (inv_ptr->i_u[i].count_uncertainties > 0
-				&& !isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].count_uncertainties - 1]))
+				&& !isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
 #else
-			else if (inv_ptr->i_u[i].count_uncertainties > 0
-				&& inv_ptr->i_u[i].uncertainties[(size_t)inv_ptr->i_u[i].count_uncertainties - 1] != NAN)
+			else if (inv_ptr->i_u[i].uncertainties.size() > 0
+				&& inv_ptr->i_u[i].uncertainties[(size_t)inv_ptr->i_u[i].uncertainties.size() - 1] != NAN)
 #endif
 			{
-				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].count_uncertainties - 1]);
+				kit->second.Set_x_ratio_uncertainty(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]);
 
 				/* use solution-defined uncertainties second */
 			}
@@ -3779,7 +3770,7 @@ check_isotopes(struct inverse *inv_ptr)
 			primary_ptr = master_bsearch(inv_ptr->isotopes[i].elt_name);
 			isotope_number = inv_ptr->isotopes[i].isotope_number;
 			found_isotope = FALSE;
-			for (k = 0; k < inv_ptr->phases[j].count_isotopes; k++)
+			for (k = 0; k < inv_ptr->phases[j].isotopes.size(); k++)
 			{
 				if (inv_ptr->phases[j].isotopes[k].primary == primary_ptr &&
 					inv_ptr->phases[j].isotopes[k].isotope_number ==
@@ -3834,10 +3825,10 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 		return OK;
 	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		if (inv_ptr->phases[i].count_isotopes <= 0)
+		if (inv_ptr->phases[i].isotopes.size() == 0)
 			continue;
 
-		for (j = 0; j < inv_ptr->phases[i].count_isotopes; j++)
+		for (j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
 		{
 			/* find index number */
 			for (k = 0; k < inv_ptr->isotopes.size(); k++)
@@ -4360,7 +4351,6 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	int count_unknowns_save, max_row_count_save, max_column_count_save, temp,
 		count_current_solutions, temp_punch;
 	int solnmap[10][2];
-	struct isotope *isotope_ptr;
 	FILE *model_file;
 	struct elt_list *next_elt;
 	int exch, column;
@@ -5050,15 +5040,15 @@ dump_netpath_pat(struct inverse *inv_ptr)
  * Add isotopes
  */
 
-		for (k = 0; k < inv_ptr->phases[i].count_isotopes; k++)
+		for (k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
 		{
-			isotope_ptr = inv_ptr->phases[i].isotopes;
-			d1 = isotope_ptr[k].ratio;
+			std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+			d1 = isotope_ref[k].ratio;
 			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
-				if ((inv_ptr->isotopes[j].elt_name != isotope_ptr[k].elt_name)
+				if ((inv_ptr->isotopes[j].elt_name != isotope_ref[k].elt_name)
 					|| (inv_ptr->isotopes[j].isotope_number !=
-						isotope_ptr[k].isotope_number))
+						isotope_ref[k].isotope_number))
 					continue;
 				break;
 			}
@@ -5072,8 +5062,8 @@ dump_netpath_pat(struct inverse *inv_ptr)
 				}
 			}
 			d3 = d1 + d2;
-			string = sformatf("%d%s", (int) isotope_ptr[k].isotope_number,
-					isotope_ptr[k].elt_name);
+			string = sformatf("%d%s", (int)isotope_ref[k].isotope_number,
+				isotope_ref[k].elt_name);
 			if (strcmp(string.c_str(), "13C") == 0)
 				fprintf(model_file, " %-2s%12.7f", "I1", (double) d3);
 			if (strcmp(string.c_str(), "14C") == 0)
