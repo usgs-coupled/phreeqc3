@@ -1433,10 +1433,6 @@ read_inverse(void)
 	inverse[n].tolerance = 1e-10;
 	inverse[n].minimal = FALSE;
 	inverse[n].description = description;
-	inverse[n].count_uncertainties = 1;
-	inverse[n].uncertainties[0] = 0.05;
-	inverse[n].count_ph_uncertainties = 1;
-	inverse[n].ph_uncertainties[0] = 0.05;
 	inverse[n].water_uncertainty = 0.0;
 	inverse[n].mineral_water = TRUE;
 	inverse[n].mp = FALSE;
@@ -1473,17 +1469,13 @@ read_inverse(void)
 			break;
 		case 0:				/* solutions */
 		case 10:				/* solution */
-			inverse[n].solns =
-				read_list_ints(&next_char, &inverse[n].count_solns, TRUE);
+			read_vector_ints(&next_char, inverse[n].solns, TRUE);
+			inverse[n].count_solns = (int)inverse[n].solns.size();
 			opt_save = OPTION_ERROR;
 			break;
 		case 1:				/* uncertainty */
 		case 2:				/* uncertainties */
-			inverse[n].uncertainties =
-				(LDBLE*)free_check_null(inverse[n].uncertainties);
-			inverse[n].uncertainties =
-				read_list_doubles(&next_char,
-					&inverse[n].count_uncertainties);
+			read_vector_doubles(&next_char, inverse[n].uncertainties);
 			opt_save = OPTION_ERROR;
 			break;
 		case 3:				/* balances */
@@ -1531,10 +1523,8 @@ read_inverse(void)
 		case 16:				/* force */
 		case 17:				/* force_solution */
 		case 18:				/* force_solutions */
-			inverse[n].force_solns =
-				(int*)free_check_null(inverse[n].force_solns);
-			inverse[n].force_solns =
-				read_list_t_f(&next_char, &inverse[n].count_force_solns);
+			inverse[n].force_solns.clear();
+			read_vector_t_f(&next_char, inverse[n].force_solns);
 			opt_save = OPTION_ERROR;
 			break;
 		case 19:				/* isotope values */
@@ -1603,11 +1593,8 @@ read_inverse(void)
  */
 	if (inverse[n].count_solns == 0)
 	{
-		inverse[n].solns = (int *) PHRQ_malloc(2 * sizeof(int));
-		if (inverse[n].solns == NULL)
-			malloc_error();
-		inverse[n].solns[0] = 1;
-		inverse[n].solns[1] = 2;
+		inverse[n].solns.push_back(1);
+		inverse[n].solns.push_back(2);
 		inverse[n].count_solns = 2;
 	}
 /*
@@ -1653,27 +1640,23 @@ read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
 	}
 	else if (strcmp_nocase_arg1(token, "ph") != 0)
 	{
-		inverse_ptr->elts = (struct inv_elts *) PHRQ_realloc(inverse_ptr->elts,
-			((size_t)inverse_ptr->count_elts + 1) * sizeof(struct inv_elts));
-		if (inverse_ptr->elts == NULL)
-			malloc_error();
+		size_t count_elts = inverse_ptr->elts.size();
+		inverse_ptr->elts.resize(count_elts + 1);
 		replace("(+", "(", token);
-		inverse_ptr->elts[inverse_ptr->count_elts].name = string_hsave(token);
+		inverse_ptr->elts[count_elts].name = string_hsave(token);
 /*
  *   Read element uncertainties
  */
-		inverse_ptr->elts[inverse_ptr->count_elts].uncertainties =
+		inverse_ptr->elts[count_elts].uncertainties =
 			read_list_doubles(&cptr, &count);
-		inverse_ptr->elts[inverse_ptr->count_elts].count_uncertainties =
+		inverse_ptr->elts[count_elts].count_uncertainties =
 			count;
 		inverse_ptr->count_elts++;
 	}
 	else if (strcmp_nocase_arg1(token, "ph") == 0)
 	{
-		inverse_ptr->ph_uncertainties =
-			(LDBLE *) free_check_null(inverse_ptr->ph_uncertainties);
-		inverse_ptr->ph_uncertainties = read_list_doubles(&cptr, &count);
-		inverse_ptr->count_ph_uncertainties = count;
+		inverse_ptr->ph_uncertainties.clear();
+		read_vector_doubles(&cptr, inverse_ptr->ph_uncertainties);
 	}
 	return (OK);
 }
@@ -2477,7 +2460,23 @@ read_list_doubles(const char **cptr, int *count_doubles)
 	}
 	return (LDBLE_list);
 }
-
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+read_vector_doubles(const char** cptr, std::vector<double>& v)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Reads a list of LDBLE numbers until end of line is reached or
+	 *   a LDBLE cannot be read from a token.
+	 */
+	double value;
+	std::istringstream iss(*cptr);
+	while (iss >> value)
+	{
+		v.push_back(value);
+	}
+	return true;
+}
 /* ---------------------------------------------------------------------- */
 int * Phreeqc::
 read_list_ints(const char **cptr, int *count_ints, int positive)
@@ -2539,6 +2538,30 @@ read_list_ints(const char **cptr, int *count_ints, int positive)
 		}
 	}
 	return (int_list);
+}
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+read_vector_ints(const char** cptr, std::vector<int>& v, int positive)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Reads a list of int numbers until end of line is reached or
+	 *   an int cannot be read from a token.
+	 */
+	int value;
+	std::istringstream iss(*cptr);
+	while (iss >> value)
+	{
+		v.push_back(value);
+		if (value <= 0 && positive == TRUE)
+		{
+			error_msg("Expected an integer greater than zero.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			input_error++;
+			return false;
+		}
+	}
+	return true;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -2708,6 +2731,40 @@ read_list_t_f(const char **cptr, int *count_ints)
 	}
 	return (int_list);
 }
+
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+read_vector_t_f(const char** cptr, std::vector<bool>& v)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Reads a list of true and false until end of line is reached or
+	 *   until non- t or f is found
+	 */
+	std::string token;
+	while (copy_token(token, cptr) != EMPTY)
+	{
+		str_tolower(token);
+		if (token[0] == 't')
+		{
+			v.push_back(true);
+		}
+		else if (token[0] == 'f')
+		{
+			v.push_back(false);
+		}
+		else
+		{
+			error_msg("Expected TRUE or FALSE.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			input_error++;
+			return false;
+		}
+
+	}
+	return true;
+}
+
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

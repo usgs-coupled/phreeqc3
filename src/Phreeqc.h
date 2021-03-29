@@ -691,6 +691,9 @@ public:
 	int read_inv_phases(struct inverse* inverse_ptr, const char* next_char);
 	int read_kinetics(void);
 	LDBLE* read_list_doubles(const char** ptr, int* count_doubles);
+	bool read_vector_doubles(const char** ptr, std::vector<double>& v);
+	bool read_vector_ints(const char** cptr, std::vector<int>& v, int positive);
+	bool read_vector_t_f(const char** ptr, std::vector<bool>& v);
 	int* read_list_ints(const char** ptr, int* count_ints, int positive);
 	int* read_list_t_f(const char** ptr, int* count_ints);
 	int read_master_species(void);

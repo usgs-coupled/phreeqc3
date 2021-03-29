@@ -3229,17 +3229,8 @@ carbon_derivs(struct inverse *inv_ptr)
 	LDBLE c_uncertainty, d_carbon, alk_plus, alk_minus;
 	cxxSolution *solution_ptr_orig, *solution_ptr;
 
-	inv_ptr->dalk_dph = (LDBLE *) free_check_null(inv_ptr->dalk_dph);
-	inv_ptr->dalk_dph =
-		(LDBLE *) PHRQ_malloc((size_t) inv_ptr->count_solns * sizeof(LDBLE));
-	if (inv_ptr->dalk_dph == NULL)
-		malloc_error();
-
-	inv_ptr->dalk_dc = (LDBLE *) free_check_null(inv_ptr->dalk_dc);
-	inv_ptr->dalk_dc =
-		(LDBLE *) PHRQ_malloc((size_t) inv_ptr->count_solns * sizeof(LDBLE));
-	if (inv_ptr->dalk_dc == NULL)
-		malloc_error();
+	inv_ptr->dalk_dph.resize(inv_ptr->count_solns);
+	inv_ptr->dalk_dc.resize(inv_ptr->count_solns);
 
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{

@@ -533,48 +533,15 @@ inverse_alloc(void)
  *   Initialize variables
  */
 	inverse_ptr->description = NULL;
-	inverse_ptr->count_uncertainties = 0;
 	inverse_ptr->count_solns = 0;
 	inverse_ptr->count_elts = 0;
 	inverse_ptr->count_isotopes = 0;
 	inverse_ptr->count_i_u = 0;
 	inverse_ptr->count_phases = 0;
-	inverse_ptr->count_force_solns = 0;
 /*
  *   allocate space for pointers in structure to NULL
  */
-
-	inverse_ptr->uncertainties = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (inverse_ptr->uncertainties == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr->ph_uncertainties = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (inverse_ptr->ph_uncertainties == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr->force_solns = (int *) PHRQ_malloc(sizeof(int));
-	if (inverse_ptr->force_solns == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr->dalk_dph = NULL;
-	inverse_ptr->dalk_dc = NULL;
-
-	inverse_ptr->solns = NULL;
-
-	inverse_ptr->elts =	(struct inv_elts *) PHRQ_malloc(sizeof(struct inv_elts));
-	if (inverse_ptr->elts == NULL)
-	{
-		malloc_error();
-		return inverse_ptr;
-	}
-	inverse_ptr->elts[0].name = NULL;
-	inverse_ptr->elts[0].uncertainties = NULL;
+	inverse_ptr->count_solns = 0;
 
 	inverse_ptr->isotopes = (struct inv_isotope *) PHRQ_malloc(
 			sizeof(struct inv_isotope));
@@ -657,17 +624,14 @@ inverse_free(struct inverse *inverse_ptr)
 	inverse_ptr->description =
 		(char *) free_check_null(inverse_ptr->description);
 /*   Free solns */
-	inverse_ptr->solns = (int *) free_check_null(inverse_ptr->solns);
+	inverse_ptr->solns.clear();
 
 /*   Free uncertainties */
-	inverse_ptr->uncertainties =
-		(LDBLE *) free_check_null(inverse_ptr->uncertainties);
-	inverse_ptr->ph_uncertainties =
-		(LDBLE *) free_check_null(inverse_ptr->ph_uncertainties);
+	inverse_ptr->uncertainties.clear();
+	inverse_ptr->ph_uncertainties.clear();
 
 /*   Free force_solns */
-	inverse_ptr->force_solns =
-		(int *) free_check_null(inverse_ptr->force_solns);
+	inverse_ptr->force_solns.clear();
 
 /*   Free elts */
 	for (i = 0; i < inverse_ptr->count_elts; i++)
@@ -675,8 +639,7 @@ inverse_free(struct inverse *inverse_ptr)
 		inverse_ptr->elts[i].uncertainties =
 			(LDBLE *) free_check_null(inverse_ptr->elts[i].uncertainties);
 	};
-	inverse_ptr->elts =
-		(struct inv_elts *) free_check_null(inverse_ptr->elts);
+	inverse_ptr->elts.clear();
 
 /*   Free isotopes */
 	for (i = 0; i < inverse_ptr->count_isotopes; i++)
@@ -706,8 +669,8 @@ inverse_free(struct inverse *inverse_ptr)
 		(struct inv_phases *) free_check_null(inverse_ptr->phases);
 
 /*   Free carbon derivatives */
-	inverse_ptr->dalk_dph = (LDBLE *) free_check_null(inverse_ptr->dalk_dph);
-	inverse_ptr->dalk_dc = (LDBLE *) free_check_null(inverse_ptr->dalk_dc);
+	inverse_ptr->dalk_dph.clear(); 
+	inverse_ptr->dalk_dc.clear();
 
 	return (OK);
 }

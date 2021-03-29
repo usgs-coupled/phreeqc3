@@ -1102,7 +1102,6 @@ tidy_inverse(void)
 	int i, j, k, l;
 	int count_in;
 	LDBLE value;
-	struct inv_elts *inv_elts;
 	struct master *master_ptr;
 	struct master *master_alk_ptr;
 	struct elt_list *elt_list_ptr;
@@ -1114,56 +1113,39 @@ tidy_inverse(void)
 /*
  *   Set default uncertainties for all solutions, if necessary
  */
-		if (inverse[i].count_uncertainties < inverse[i].count_solns)
+		if (inverse[i].uncertainties.size() < inverse[i].count_solns)
 		{
-			inverse[i].uncertainties =
-				(LDBLE *) PHRQ_realloc(inverse[i].uncertainties,
-									   (size_t) inverse[i].count_solns *
-									   sizeof(LDBLE));
-			if (inverse[i].uncertainties == NULL)
-				malloc_error();
-			for (j = inverse[i].count_uncertainties;
-				 j < inverse[i].count_solns; j++)
+			size_t count = inverse[i].uncertainties.size();
+			double value = (count > 0) ? inverse[i].uncertainties.back() : 0.05;
+			inverse[i].uncertainties.resize(inverse[i].count_solns);
+			for (size_t j = count; j < inverse[i].count_solns; j++)
 			{
-				inverse[i].uncertainties[j] =
-					inverse[i].uncertainties[inverse[i].count_uncertainties -
-											 1];
+				inverse[i].uncertainties[j] = value;
 			}
 		}
 /*
  *   Set default ph uncertainties for all solutions, if necessary
  */
-		if (inverse[i].count_ph_uncertainties < inverse[i].count_solns)
+		if (inverse[i].ph_uncertainties.size() < inverse[i].count_solns)
 		{
-			inverse[i].ph_uncertainties =
-				(LDBLE *) PHRQ_realloc(inverse[i].ph_uncertainties,
-									   (size_t) inverse[i].count_solns *
-									   sizeof(LDBLE));
-			if (inverse[i].ph_uncertainties == NULL)
-				malloc_error();
-			for (j = inverse[i].count_ph_uncertainties;
-				 j < inverse[i].count_solns; j++)
+			size_t count = inverse[i].ph_uncertainties.size();
+			double value = (count > 0) ? inverse[i].ph_uncertainties.back() : 0.05;
+			inverse[i].ph_uncertainties.resize(inverse[i].count_solns);
+			for (size_t j = count; j < inverse[i].count_solns; j++)
 			{
-				inverse[i].ph_uncertainties[j] =
-					inverse[i].ph_uncertainties[inverse[i].
-												count_ph_uncertainties - 1];
+				inverse[i].ph_uncertainties[j] = value;
 			}
 		}
 /*
  *   Set default force for all solutions
  */
-		if (inverse[i].count_force_solns < inverse[i].count_solns)
+		if (inverse[i].force_solns.size() < inverse[i].count_solns)
 		{
-			inverse[i].force_solns =
-				(int *) PHRQ_realloc(inverse[i].force_solns,
-									 (size_t) inverse[i].count_solns *
-									 sizeof(int));
-			if (inverse[i].force_solns == NULL)
-				malloc_error();
-			for (j = inverse[i].count_force_solns; j < inverse[i].count_solns;
-				 j++)
+			size_t count = inverse[i].force_solns.size();
+			inverse[i].force_solns.resize(inverse[i].count_solns);
+			for (size_t j = count; j < inverse[i].count_solns; j++)
 			{
-				inverse[i].force_solns[j] = FALSE;
+				inverse[i].force_solns[j] = false;
 			}
 		}
 /*
@@ -1362,11 +1344,8 @@ tidy_inverse(void)
 /*
  *   Save list of master species in inv_elts structure
  */
-		inv_elts =
-			(struct inv_elts *) PHRQ_malloc((size_t) (count_in) *
-											sizeof(struct inv_elts));
-		if (inv_elts == NULL)
-			malloc_error();
+		std::vector<struct inv_elts> inv_elts;
+		inv_elts.resize((size_t)count_in);
 		count_in = 0;
 		for (j = 0; j < (int)master.size(); j++)
 		{
@@ -1464,8 +1443,7 @@ tidy_inverse(void)
 /*
  *   replace elts in inverse struct
  */
-		inverse[i].elts =
-			(struct inv_elts *) free_check_null(inverse[i].elts);
+		inverse[i].elts.clear();
 		inverse[i].elts = inv_elts;
 		inverse[i].count_elts = count_in;
 		for (j = 0; j < inverse[i].count_elts; j++)
