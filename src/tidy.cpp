@@ -1151,7 +1151,7 @@ tidy_inverse(void)
 /*
  *   Find master species for element, set uncertainties
  */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			inverse[i].elts[j].master =
 				master_bsearch_primary(inverse[i].elts[j].name);
@@ -1288,7 +1288,7 @@ tidy_inverse(void)
 			elt_list[j].elt->master->in = TRUE;
 		}
 		/* Include all input elements */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			inverse[i].elts[j].master->in = TRUE;
 		}
@@ -1382,7 +1382,7 @@ tidy_inverse(void)
  *   copy in input uncertainties 
  */
 		/* copy primary redox to all secondary redox */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			master_ptr = master_bsearch(inverse[i].elts[j].name);
 			if (master_ptr == NULL)
@@ -1411,7 +1411,7 @@ tidy_inverse(void)
 				(LDBLE *) free_check_null(inverse[i].elts[j].uncertainties);
 		}
 		/* copy masters that are not primary redox */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			master_ptr = master_bsearch(inverse[i].elts[j].name);
 			if (master_ptr == NULL)
@@ -1445,8 +1445,8 @@ tidy_inverse(void)
  */
 		inverse[i].elts.clear();
 		inverse[i].elts = inv_elts;
-		inverse[i].count_elts = count_in;
-		for (j = 0; j < inverse[i].count_elts; j++)
+		inverse[i].elts.resize(count_in);
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 /* debug
 			output_msg(sformatf( "\t%d\t%s", j, inverse[i].elts[j].master->elt->name));
