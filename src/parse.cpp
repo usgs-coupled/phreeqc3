@@ -145,7 +145,7 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 /*
  *   Malloc space and store element data for return
  */
-	*elt_ptr = (struct elt_list *) PHRQ_malloc(((size_t)count_elts + 1) *
+	*elt_ptr = (struct elt_list *) PHRQ_malloc((count_elts + 1) *
 		sizeof(struct elt_list));
 	if (*elt_ptr == NULL)
 	{
@@ -604,7 +604,7 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
 			}
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_store(element.c_str());
 			if (get_num(t_ptr, &d) == ERROR)
@@ -618,7 +618,7 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
  */
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			continue;
 		}
@@ -870,7 +870,7 @@ get_secondary_in_species(const char **t_ptr, LDBLE coef)
  */
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			continue;
 		}
@@ -1021,7 +1021,7 @@ get_species(const char **cptr)
 	int l;
 
 	if ((size_t) count_trxn + 1 > trxn.token.size()) 
-		trxn.token.resize((size_t)count_trxn + 1);
+		trxn.token.resize(count_trxn + 1);
 	/* coefficient */
 	if (get_coef(&(trxn.token[count_trxn].coef), cptr) == ERROR)
 	{

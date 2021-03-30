@@ -77,9 +77,9 @@ prep(void)
 /*
  *   Allocate space for array
  */
-		my_array.resize(((size_t)max_unknowns + 1) * (size_t)max_unknowns);
-		delta.resize((size_t)max_unknowns);
-		residual.resize((size_t)max_unknowns);
+		my_array.resize((max_unknowns + 1) * max_unknowns);
+		delta.resize(max_unknowns);
+		residual.resize(max_unknowns);
 		for (int j = 0; j < max_unknowns; j++)
 		{
 		  residual[j] = 0;
@@ -881,7 +881,7 @@ build_jacobian_sums(int k)
 				/* term for water, sum of all surfaces */
 				source = &s[k]->tot_dh2o_moles;
 				target = &(my_array[(size_t)mb_unknowns[i].unknown->number * 
-					((size_t)count_unknowns + 1) + (size_t)mass_oxygen_unknown->number]);
+					(count_unknowns + 1) + (size_t)mass_oxygen_unknown->number]);
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
@@ -901,7 +901,7 @@ build_jacobian_sums(int k)
 				cxxSurfaceCharge *charge_ptr = use.Get_surface_ptr()->Find_charge(x[j]->surface_charge);
 				source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
 				target = &(my_array[(size_t)mb_unknowns[i].unknown->number *
-								 ((size_t)count_unknowns + 1) + (size_t)x[j]->number]);
+								 (count_unknowns + 1) + (size_t)x[j]->number]);
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
@@ -940,7 +940,7 @@ build_jacobian_sums(int k)
 				{
 					source = s_diff_layer[k][charge_ptr->Get_name()].Get_drelated_moles_address();
 					target = &(my_array[(size_t)mb_unknowns[i].unknown->number *
-									 ((size_t)count_unknowns + 1) + (size_t)x[kk]->number]);
+									 (count_unknowns + 1) + (size_t)x[kk]->number]);
 					if (debug_prep == TRUE)
 					{
 						output_msg(sformatf(
@@ -969,7 +969,7 @@ build_jacobian_sums(int k)
 				{
 					source = s_diff_layer[k][charge_ptr->Get_name()].Get_dx_moles_address();
 					target = &(my_array[(size_t)mb_unknowns[i].unknown->number *
-						((size_t)count_unknowns + 1) + (size_t)x[j]->number]);
+						(count_unknowns + 1) + (size_t)x[j]->number]);
 					if (debug_prep == TRUE)
 					{
 						output_msg(sformatf("\t\t%-24s%10.3f\t%d\t%d", "dg/dlny",
@@ -997,7 +997,7 @@ build_jacobian_sums(int k)
 						{
 							source = s_diff_layer[k][charge_ptr->Get_name()].Get_drelated_moles_address();
 							target = &(my_array[(size_t)(size_t)mb_unknowns[i].unknown->number *
-								   ((size_t)count_unknowns + 1) + (size_t)x[kk]->number]);
+								   (count_unknowns + 1) + (size_t)x[kk]->number]);
 							if (debug_prep == TRUE)
 							{
 								output_msg(sformatf(
@@ -1015,7 +1015,7 @@ build_jacobian_sums(int k)
 						/* term for water, for same surfaces */
 						source = s_diff_layer[k][charge_ptr->Get_name()].Get_dh2o_moles_address();
 						target = &(my_array[(size_t)mb_unknowns[i].unknown->number *
-							((size_t)count_unknowns + 1) +
+							(count_unknowns + 1) +
 							(size_t)mass_oxygen_unknown->number]);
 						if (debug_prep == TRUE)
 						{
@@ -2757,8 +2757,8 @@ add_potential_factor(void)
 /*
  *   Make sure there is space
  */
-	if ((size_t)count_trxn + 1 > trxn.token.size())
-		trxn.token.resize((size_t)count_trxn + 1);
+	if (count_trxn + 1 > trxn.token.size())
+		trxn.token.resize(count_trxn + 1);
 /*
  *   Include psi in mass action equation
  */
@@ -2851,8 +2851,8 @@ add_cd_music_factors(int n)
 	/*
 	 *   Make sure there is space
 	 */
-	if ((size_t)count_trxn + 3 > trxn.token.size())
-		trxn.token.resize((size_t)count_trxn + 3);
+	if (count_trxn + 3 > trxn.token.size())
+		trxn.token.resize(count_trxn + 3);
 	/*
 	 *   Include psi in mass action equation
 	 */
@@ -3354,7 +3354,7 @@ setup_surface(void)
 				struct unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
 				if (unknown_ptr != NULL)
 				{
-					x[(size_t)count_unknowns - 1]->potential_unknown = unknown_ptr;
+					x[count_unknowns - 1]->potential_unknown = unknown_ptr;
 				}
 				else
 				{
@@ -3386,8 +3386,8 @@ setup_surface(void)
 					x[count_unknowns]->master = master_ptr_list;
 					x[count_unknowns]->master[0]->unknown = x[count_unknowns];
 					x[count_unknowns]->moles = 0.0;
-					x[(size_t)count_unknowns - 1]->potential_unknown = x[count_unknowns];
-					x[count_unknowns]->surface_comp = x[(size_t)count_unknowns - 1]->surface_comp;
+					x[count_unknowns - 1]->potential_unknown = x[count_unknowns];
+					x[count_unknowns]->surface_comp = x[count_unknowns - 1]->surface_comp;
 					count_unknowns++;
 				}
 			}
@@ -4652,7 +4652,7 @@ setup_unknowns(void)
 /*
  *   Allocate space for pointer array and structures
  */
-	x.resize((size_t)max_unknowns);
+	x.resize(max_unknowns);
 	for (i = 0; i < max_unknowns; i++)
 	{
 		x[i] = (struct unknown *) unknown_alloc();
@@ -4792,7 +4792,7 @@ store_jacob0(int row, int column, LDBLE coef)
 	size_t count_sum_jacob0 = sum_jacob0.size();
 	sum_jacob0.resize(count_sum_jacob0 + 1);
 	sum_jacob0[count_sum_jacob0].target =
-		&(my_array[(size_t)row * ((size_t)count_unknowns + 1) + (size_t)column]);
+		&(my_array[(size_t)row * (count_unknowns + 1) + (size_t)column]);
 	sum_jacob0[count_sum_jacob0].coef = coef;
 	return (OK);
 }
@@ -5159,7 +5159,7 @@ write_mb_for_species_list(int n)
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_h_one;
 			elt_list[count_elts].coef = elt_list[i].coef * 2;
@@ -5212,7 +5212,7 @@ write_phase_sys_total(int n)
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			elt_list[count_elts].elt = element_h_one;
 			elt_list[count_elts].coef = elt_list[i].coef * 2;

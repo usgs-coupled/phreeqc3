@@ -7332,7 +7332,7 @@ read_advection(void)
 /*
  *   Fill in data for punch
  */
-	advection_punch.resize((size_t)count_ad_cells + 1);
+	advection_punch.resize(count_ad_cells + 1);
 	if (punch_temp.size() != 0)
 	{
 		for (i = 0; i < count_ad_cells; i++)
@@ -7361,7 +7361,7 @@ read_advection(void)
 /*
  *   Fill in data for print
  */
-	advection_print.resize((size_t)count_ad_cells + 1);
+	advection_print.resize(count_ad_cells + 1);
 	if (print_temp.size() != 0)
 	{
 		for (i = 0; i < count_ad_cells; i++)

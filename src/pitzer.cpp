@@ -2063,9 +2063,9 @@ Restart:
 		residuals();
 		for (j = 0; j < count_unknowns; j++)
 		{
-			my_array[(size_t)j * ((size_t)count_unknowns + 1) + (size_t)i] = -(residual[j] - base[j]) / d2;
+			my_array[(size_t)j * (count_unknowns + 1) + (size_t)i] = -(residual[j] - base[j]) / d2;
 			if (x[i]->type == MH2O) // DL_pitz
-				my_array[(size_t)j * ((size_t)count_unknowns + 1) + (size_t)i] *= mass_water_aq_x;
+				my_array[(size_t)j * (count_unknowns + 1) + (size_t)i] *= mass_water_aq_x;
 		}
 		switch (x[i]->type)
 		{
@@ -2083,9 +2083,9 @@ Restart:
 			break;
 		case MH:
 			s_eminus->la -= d;
-			if (my_array[(size_t)i * ((size_t)count_unknowns + 1) + (size_t)i] == 0)
+			if (my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] == 0)
 			{
-				my_array[(size_t)i * ((size_t)count_unknowns + 1) + (size_t)i] =
+				my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] =
 					exp(s_h2->lm * LOG_10) * 2;
 			}
 			break;

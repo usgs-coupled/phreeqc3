@@ -248,7 +248,7 @@ transport(void)
 					warning_msg(error_string);
 				}
 				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc(
-					((size_t)count_cells + 1) * sizeof(struct CURRENT_CELLS));
+					(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 				if (current_cells == NULL)
 					malloc_error();
 				for (int i = 0; i < count_cells + 1; i++)
@@ -289,7 +289,7 @@ transport(void)
 		if (implicit && current_cells == NULL)
 		{
 			current_cells = (struct CURRENT_CELLS *) PHRQ_malloc(
-				((size_t)count_cells + 1) * sizeof(struct CURRENT_CELLS));
+				(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 			if (current_cells == NULL)
 				malloc_error();
 			for (int i = 0; i < count_cells + 1; i++)
@@ -1102,10 +1102,10 @@ init_mix(void)
 	bool warning = false;
 	int i, l_nmix;
 	LDBLE *m, *m1;
-	m = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 1) * sizeof(LDBLE));
+	m = (LDBLE *)PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
 	if (m == NULL)
 		malloc_error();
-	m1 = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 1) * sizeof(LDBLE));
+	m1 = (LDBLE *)PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
 	if (m1 == NULL)
 		malloc_error();
 	for (i = 0; i < count_cells + 1; i++)
@@ -1554,15 +1554,15 @@ init_heat_mix(int l_nmix)
 	/*
 	* Initialize arrays...
 	*/
-	heat_mix_array = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE));
+	heat_mix_array = (LDBLE *)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE));
 	if (heat_mix_array == NULL)
 		malloc_error();
 
-	temp1 = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE));
+	temp1 = (LDBLE *)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE));
 	if (temp1 == NULL)
 		malloc_error();
 
-	temp2 = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE));
+	temp2 = (LDBLE *)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE));
 	if (temp2 == NULL)
 		malloc_error();
 	/*
@@ -2026,7 +2026,7 @@ fill_spec(int l_cell_no, int ref_cell)
 						if (i3 + count_spec + 1 > sol_D[l_cell_no].spec_size)
 						{
 							sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-								((size_t)i3 + (size_t)count_spec + 1 + (size_t)size_xt) * sizeof(struct spec));
+								((size_t)i3 + count_spec + 1 + (size_t)size_xt) * sizeof(struct spec));
 							if (sol_D[l_cell_no].spec == NULL)
 								malloc_error();
 							sol_D[l_cell_no].spec_size = i3 + count_spec + 1 + size_xt;
@@ -2048,7 +2048,7 @@ fill_spec(int l_cell_no, int ref_cell)
 			if (count_spec >= sol_D[l_cell_no].spec_size)
 			{
 				sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-					((size_t)count_spec + (size_t)size_xt) * sizeof(struct spec));
+					(count_spec + (size_t)size_xt) * sizeof(struct spec));
 				if (sol_D[l_cell_no].spec == NULL)
 					malloc_error();
 				sol_D[l_cell_no].spec_size = count_spec + size_xt;
@@ -2220,20 +2220,20 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		comp += 1;
 
 	if (Ct2 == NULL)
-		Ct2 = (LDBLE *) PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE));
+		Ct2 = (LDBLE *) PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE));
 	if (Ct2 == NULL) malloc_error();
 	if (l_tk_x2 == NULL)
-		l_tk_x2 = (LDBLE *) PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE));
+		l_tk_x2 = (LDBLE *) PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE));
 	if (l_tk_x2 == NULL) malloc_error();
 
 	if (A == NULL)
 	{
-		A = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE *));
+		A = (LDBLE **)PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE *));
 		if (A == NULL) malloc_error();
 		for (i = 0; i < count_cells + 2 + stagnant * count_cells; i++)
 		{
 			if (stagnant)
-				A[i] = (LDBLE *)PHRQ_calloc((2 * (size_t)count_cells + 2), sizeof(LDBLE));
+				A[i] = (LDBLE *)PHRQ_calloc((2 * count_cells + 2), sizeof(LDBLE));
 			else 
 				A[i] = (LDBLE *)PHRQ_malloc(3 * sizeof(LDBLE));
 			if (A[i] == NULL) malloc_error();
@@ -2241,12 +2241,12 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	}
 	if (LU == NULL)
 	{
-		LU = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE *));
+		LU = (LDBLE **)PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE *));
 		if (LU == NULL) malloc_error();
 		for (i = 0; i < count_cells + 2 + stagnant * count_cells; i++)
 		{
 			if (stagnant)
-				LU[i] = (LDBLE *)PHRQ_calloc((2 * (size_t)count_cells + 2), sizeof(LDBLE));
+				LU[i] = (LDBLE *)PHRQ_calloc((2 * count_cells + 2), sizeof(LDBLE));
 			else 
 				LU[i] = (LDBLE *)PHRQ_malloc(3 * sizeof(LDBLE));
 			if (LU[i] == NULL) malloc_error();
@@ -2254,7 +2254,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	}
 	if (mixf == NULL)
 	{
-		mixf = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE *));
+		mixf = (LDBLE **)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE *));
 		if (mixf == NULL) malloc_error();
 		for (i = 0; i < count_cells + 2; i++)
 		{
@@ -2265,7 +2265,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	{
 		if (mixf_stag == NULL)
 		{
-			mixf_stag = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE *));
+			mixf_stag = (LDBLE **)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE *));
 			if (mixf_stag == NULL) malloc_error();
 			for (i = 0; i < count_cells + 2; i++)
 			{
@@ -2806,7 +2806,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			((dV_dcell > 0) && ((cell_data[i].potV + dVc) > cell_data[count_cells + 1].potV)) ||
 			((dV_dcell < 0) && ((cell_data[i].potV + dVc) < cell_data[count_cells + 1].potV)))
 		{
-			dVc = (cell_data[(size_t)count_cells + 1].potV - cell_data[i].potV) / ((double)count_cells + 1 - (double)i);
+			dVc = (cell_data[count_cells + 1].potV - cell_data[i].potV) / ((double)count_cells + 1 - (double)i);
 		}
 		cell_data[i + 1].potV = cell_data[i].potV + dVc;
 	}
@@ -2849,12 +2849,12 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			ct[i].m_s = (struct M_S *) free_check_null(ct[i].m_s);
 		if (ct[i].m_s == NULL)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_malloc(((size_t)count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s = (struct M_S *) PHRQ_malloc((count_m_s + 5) * sizeof(struct M_S));
 			ct[i].m_s_size = count_m_s + 5;
 		}
 		else if (count_m_s > ct[i].m_s_size)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, ((size_t)count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, (count_m_s + 5) * sizeof(struct M_S));
 			ct[i].m_s_size = count_m_s + 5;
 		}
 		if (ct[i].m_s == NULL)
