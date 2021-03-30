@@ -1083,7 +1083,7 @@ string_to_spread_row(char *string)
 		{
 			input_error++;
 			error_msg("Unknown input in string_to_spread_row keyword.", CONTINUE);
-			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, token);
+			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, token.c_str());
 			error_msg(error_string, CONTINUE);
 			error_msg(line_save, CONTINUE);
 		}

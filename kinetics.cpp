@@ -212,7 +212,7 @@ RESTART:   // if limiting rates, jump to here
 						const char* ptr = formula.c_str();
 						if (get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion()) == ERROR)
 						{
-							error_string = sformatf("Error in -formula: %s", formula);
+							error_string = sformatf("Error in -formula: %s", formula.c_str());
 							error_msg(error_string, CONTINUE);
 						}
 					}
@@ -249,7 +249,7 @@ RESTART:   // if limiting rates, jump to here
 						{
 							if (get_elts_in_species(&cptr, -coef * surface_comp_ptr->Get_phase_proportion()) == ERROR)
 							{
-								error_string = sformatf("Error in -formula: %s", temp_formula);
+								error_string = sformatf("Error in -formula: %s", temp_formula.c_str());
 								error_msg(error_string, CONTINUE);
 							}
 						}
