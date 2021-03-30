@@ -260,8 +260,7 @@ struct Charge_Group
 struct save_values
 {
 	LDBLE value;
-	int count_subscripts;
-	int *subscripts;
+	std::vector<int> subscripts;
 };
 
 struct save

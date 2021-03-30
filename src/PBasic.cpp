@@ -2039,9 +2039,6 @@ factor(struct LOC_exec * LINK)
 	facttok = LINK->t;
 	LINK->t = LINK->t->next;
 	n.stringval = false;
-	s_v.count_subscripts = 0;
-	/*s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc (sizeof (int)); */
-	s_v.subscripts = NULL;
 	switch (facttok->kind)
 	{
 
@@ -2563,28 +2560,14 @@ factor(struct LOC_exec * LINK)
 	{
 		require(toklp, LINK);
 
-		s_v.count_subscripts = 0;
+		s_v.subscripts.clear();
 		/* get first subscript */
 		if (LINK->t != NULL && LINK->t->kind != tokrp)
 		{
 			i = intexpr(LINK);
-			if (s_v.subscripts == NULL)
-			{
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-			}
-			s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-				((size_t)s_v.count_subscripts + 1) * sizeof(int));
-			if (s_v.subscripts == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-			}
-			else
-			{
-				s_v.subscripts[s_v.count_subscripts] = i;
-				s_v.count_subscripts++;
-			}
+			size_t count_subscripts = s_v.subscripts.size();
+			s_v.subscripts.resize(count_subscripts + 1);
+			s_v.subscripts[count_subscripts] = i;
 		}
 
 		/* get other subscripts */
@@ -2594,23 +2577,10 @@ factor(struct LOC_exec * LINK)
 			{
 				LINK->t = LINK->t->next;
 				j = intexpr(LINK);
-				if (s_v.subscripts == NULL)
-				{
-					s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-					if (s_v.subscripts == NULL)
-						PhreeqcPtr->malloc_error();
-				}
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-					((size_t)s_v.count_subscripts + 1) * sizeof(int));
-				if (s_v.subscripts == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-				}
-				else
-				{
-					s_v.subscripts[s_v.count_subscripts] = j;
-					s_v.count_subscripts++;
-				}
+
+				size_t count_subscripts = s_v.subscripts.size();
+				s_v.subscripts.resize(count_subscripts + 1);
+				s_v.subscripts[count_subscripts] = j;
 			}
 			else
 			{
@@ -2674,23 +2644,15 @@ factor(struct LOC_exec * LINK)
 	{
 		require(toklp, LINK);
 
-		s_v.count_subscripts = 0;
+		s_v.subscripts.clear();
 		/* get first subscript */
 		if (LINK->t != NULL && LINK->t->kind != tokrp)
 		{
 			i = intexpr(LINK);
-			if (s_v.subscripts == NULL)
-			{
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-			}
-			s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-				((size_t)s_v.count_subscripts + 1) * sizeof(int));
-			if (s_v.subscripts == NULL)
-				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts] = i;
-			s_v.count_subscripts++;
+
+			size_t count_subscripts = s_v.subscripts.size();
+			s_v.subscripts.resize(count_subscripts + 1);
+			s_v.subscripts[count_subscripts] = i;
 		}
 
 		/* get other subscripts */
@@ -2700,18 +2662,9 @@ factor(struct LOC_exec * LINK)
 			{
 				LINK->t = LINK->t->next;
 				j = intexpr(LINK);
-				if (s_v.subscripts == NULL)
-				{
-					s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-					if (s_v.subscripts == NULL)
-						PhreeqcPtr->malloc_error();
-				}
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-					((size_t)s_v.count_subscripts + 1) * sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-				s_v.subscripts[s_v.count_subscripts] = j;
-				s_v.count_subscripts++;
+				size_t count_subscripts = s_v.subscripts.size();
+				s_v.subscripts.resize(count_subscripts + 1);
+				s_v.subscripts[count_subscripts] = j;
 			}
 			else
 			{
@@ -4312,7 +4265,7 @@ factor(struct LOC_exec * LINK)
 		snerr(": missing \" or (");
 		break;
 	}
-	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
+	s_v.subscripts.clear();
 	return n;
 }
 
@@ -4878,9 +4831,6 @@ cmdput(struct LOC_exec *LINK)
 	int j;
 	struct save_values s_v;
 
-	s_v.count_subscripts = 0;
-	s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
-
 	/* get parentheses */
 	require(toklp, LINK);
 
@@ -4893,14 +4843,9 @@ cmdput(struct LOC_exec *LINK)
 		{
 			LINK->t = LINK->t->next;
 			j = intexpr(LINK);
-			s_v.count_subscripts++;
-			s_v.subscripts =
-				(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-									 (size_t) s_v.count_subscripts *
-									 sizeof(int));
-			if (s_v.subscripts == NULL)
-				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts - 1] = j;
+			size_t count_subscripts = s_v.subscripts.size();
+			s_v.subscripts.resize(count_subscripts + 1);
+			s_v.subscripts[count_subscripts] = j;
 		}
 		else
 		{
@@ -4913,7 +4858,7 @@ cmdput(struct LOC_exec *LINK)
 	{
 		PhreeqcPtr->save_values_store(&s_v);
 	}
-	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
+	s_v.subscripts.clear();
 }
 
 void PBasic::

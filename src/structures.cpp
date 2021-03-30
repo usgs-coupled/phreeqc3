@@ -132,10 +132,9 @@ clean_up(void)
 	}
 	logk.clear();
 	/* save_values */
-	for (j = 0; j < (int)save_values.size(); j++)
+	for (size_t j = 0; j < save_values.size(); j++)
 	{
-		save_values[j].subscripts =
-			(int*)free_check_null(save_values[j].subscripts);
+		save_values[j].subscripts.clear();
 	}
 	save_values.clear();
 	/* working pe*/
@@ -899,7 +898,6 @@ master_bsearch_secondary(const char* cptr)
 	const char* cptr1;
 	std::string elt;
 	struct master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
-	int j;
 /*
  *   Find element name
  */
@@ -930,7 +928,7 @@ master_bsearch_secondary(const char* cptr)
 		*  Find secondary master with same species as primary
 		*/
 		master_ptr = NULL;
-		for (j = master_ptr_primary->number + 1; j < (int)master.size(); j++)
+		for (size_t j = master_ptr_primary->number + 1; j < master.size(); j++)
 		{
 			if (master[j]->s == master_ptr_primary->s)
 			{
@@ -1922,19 +1920,19 @@ save_values_compare(const void *ptr1, const void *ptr2)
 	const struct save_values *save_values_ptr1, *save_values_ptr2;
 	save_values_ptr1 = (const struct save_values *) ptr1;
 	save_values_ptr2 = (const struct save_values *) ptr2;
-	if (save_values_ptr1->count_subscripts <
-		save_values_ptr2->count_subscripts)
+	if (save_values_ptr1->subscripts.size() <
+		save_values_ptr2->subscripts.size())
 	{
 		return (-1);
 	}
-	else if (save_values_ptr1->count_subscripts >
-			 save_values_ptr2->count_subscripts)
+	else if (save_values_ptr1->subscripts.size() >
+			 save_values_ptr2->subscripts.size())
 	{
 		return (1);
 	}
 	else
 	{
-		for (i = 0; i < save_values_ptr1->count_subscripts; i++)
+		for (i = 0; i < save_values_ptr1->subscripts.size(); i++)
 		{
 			if (save_values_ptr1->subscripts[i] <
 				save_values_ptr2->subscripts[i])
@@ -1975,7 +1973,7 @@ save_values_store(struct save_values *s_v)
 /*
  *   Look for subscripts
  */
-	int n, i;
+	int n;
 	struct save_values *s_v_ptr;
 
 	s_v_ptr = save_values_bsearch(s_v, &n);
@@ -1985,29 +1983,10 @@ save_values_store(struct save_values *s_v)
 	}
 	else
 	{
-		size_t count_save_values = save_values.size();
-		save_values.resize(count_save_values + 1);
-		save_values[count_save_values].value = s_v->value;
-		save_values[count_save_values].count_subscripts =
-			s_v->count_subscripts;
-		i = s_v->count_subscripts;
-		if (i == 0)
-			i = 1;
-		save_values[count_save_values].subscripts =
-			(int *) PHRQ_malloc((size_t) i * sizeof(int));
-		if (save_values[count_save_values].subscripts == NULL)
-			malloc_error();
-		save_values[count_save_values].subscripts =
-			(int *) memcpy(save_values[count_save_values].subscripts,
-						   s_v->subscripts, (size_t) i * sizeof(int));
+		save_values.push_back(*s_v);
 		save_values_sort();
 	}
 
-	if (save_values.size() > 1)
-	{
-		qsort(&save_values[0], save_values.size(),
-			sizeof(struct save_values), save_values_compare);
-	}
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
