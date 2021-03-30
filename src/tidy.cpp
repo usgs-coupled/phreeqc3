@@ -569,7 +569,7 @@ add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 			input_error++;
 			error_string = sformatf(
 					"Could not find named temperature expression, %s\n",
-					token);
+					token.c_str());
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -634,7 +634,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 			input_error++;
 			error_string = sformatf(
 					"Could not find named temperature expression, %s\n",
-					token);
+					token.c_str());
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}

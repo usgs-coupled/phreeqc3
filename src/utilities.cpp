@@ -577,7 +577,7 @@ get_token(const char** eqnaddr, std::string& string, LDBLE* l_z, int* l)
 				{
 					error_string = sformatf(
 						"No final bracket \"]\" for element name, %s.",
-						string);
+						string.c_str());
 					error_msg(error_string, CONTINUE);
 					return (ERROR);
 				}

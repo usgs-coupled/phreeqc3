@@ -1629,7 +1629,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	count_master            = 0;
 	max_master              = MAX_MASTER;
 	*/
-	int count_master = (int)pSrc->master.size();
 	for (size_t i = 0; i < master.size(); i++)
 	{
 		master.resize(i + 1); 

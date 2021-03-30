@@ -2232,9 +2232,9 @@ do_status(void)
 			screen_msg("\n");
 		}
 		//pr.headings = TRUE; // set in class_main; not set for IPhreeqc
-		LDBLE ext = (double) clock() / CLOCKS_PER_SEC;
 #define TESTING
 #ifndef TESTING
+		LDBLE ext = (double)clock() / CLOCKS_PER_SEC;
 		dup_print(sformatf("End of Run after %g Seconds.", ext), TRUE);
 		screen_msg(sformatf("\nEnd of Run after %g Seconds.\n", ext));
 #endif

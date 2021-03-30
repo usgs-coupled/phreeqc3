@@ -1955,9 +1955,7 @@ print_model(struct inverse *inv_ptr)
 		{
 			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
 				continue;
-
-				reaction_ptr = phases[i1]->rxn_s;
-
+			reaction_ptr = phases[i1]->rxn_s;
 			for (i2 = 0; i2 < inv_ptr->count_solns; i2++)
 			{
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
