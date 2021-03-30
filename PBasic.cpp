@@ -2415,7 +2415,7 @@ factor(struct LOC_exec * LINK)
 			//PhreeqcPtr->count_sys = 1000;
 			//int count_sys = PhreeqcPtr->count_sys;
 			int count_sys = 1000;
-			names_arg = (char**)PhreeqcPtr->PHRQ_calloc(((size_t)count_sys + 1), sizeof(char*));
+			names_arg = (char**)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(char*));
 			if (names_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2423,7 +2423,7 @@ factor(struct LOC_exec * LINK)
 				exit(4);
 #endif
 			}
-			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc(((size_t)count_sys + 1), sizeof(LDBLE));
+			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(LDBLE));
 			if (moles_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -3642,7 +3642,7 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc(((size_t)max_length + 1), sizeof(char));
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
 		if (token == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
@@ -3685,7 +3685,7 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc(((size_t)max_length + 1), sizeof(char));
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
 		if (token == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;

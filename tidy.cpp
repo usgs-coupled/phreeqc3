@@ -1337,7 +1337,7 @@ tidy_inverse(void)
  *   Save list of master species in inv_elts structure
  */
 		std::vector<struct inv_elts> inv_elts;
-		inv_elts.resize((size_t)count_in);
+		inv_elts.resize(count_in);
 		count_in = 0;
 		for (j = 0; j < (int)master.size(); j++)
 		{
@@ -2841,8 +2841,8 @@ species_rxn_to_trxn(struct species *s_ptr)
 		trxn.token[i].unknown = NULL;
 		trxn.token[i].coef = s_ptr->rxn->token[i].coef;
 		count_trxn = i + 1;
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
 	}
 	return (OK);
 }
@@ -2881,8 +2881,8 @@ phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
 		trxn.token[i].unknown = NULL;
 		trxn.token[i].coef = rxn_ptr->token[i].coef;
 		count_trxn = i + 1;
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
 	}
 	return (OK);
 }

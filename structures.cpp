@@ -342,7 +342,7 @@ elt_list_combine(void)
 	{
 		return (OK);
 	}
-	qsort(&elt_list[0], (size_t)count_elts,
+	qsort(&elt_list[0], count_elts,
 		sizeof(struct elt_list), Phreeqc::elt_list_compare);
 	j = 0;
 	for (i = 1; i < count_elts; i++)
@@ -398,11 +398,11 @@ elt_list_dup(struct elt_list *elt_list_ptr_old)
  *   Malloc space and store element data
  */
 	elt_list_ptr_new = (struct elt_list *) PHRQ_malloc(
-		((size_t)count_totals + 1) * sizeof(struct elt_list));
+		(count_totals + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr_new == NULL)
 		malloc_error();
 	memcpy(elt_list_ptr_new, elt_list_ptr_old,
-		   ((size_t)count_totals + 1) * sizeof(struct elt_list));
+		   (count_totals + 1) * sizeof(struct elt_list));
 	return (elt_list_ptr_new);
 }
 
@@ -463,7 +463,7 @@ elt_list_save(void)
  *   Malloc space and store element data
  */
 	elt_list_ptr = (struct elt_list*)PHRQ_malloc(
-		((size_t)count_elts + 1) * sizeof(struct elt_list));
+		(count_elts + 1) * sizeof(struct elt_list));
 	if (elt_list_ptr == NULL)
 	{
 		malloc_error();
@@ -527,7 +527,7 @@ inverse_alloc(void)
  */
 {
 	struct inverse *inverse_ptr = NULL;
-	inverse.resize((size_t)count_inverse + 1);
+	inverse.resize(count_inverse + 1);
 	inverse_ptr = &(inverse[count_inverse++]);
 /*
  *   Initialize variables
@@ -2329,8 +2329,8 @@ trxn_add(cxxChemRxn &r_ptr, LDBLE coef, int combine)
  */
 	for (size_t j = 0; j < r_ptr.Get_tokens().size(); j++)
 	{
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
 		trxn.token[count_trxn].name = r_ptr.Get_tokens()[j].name;
 		trxn.token[count_trxn].s = r_ptr.Get_tokens()[j].s;
 		trxn.token[count_trxn].coef = coef * r_ptr.Get_tokens()[j].coef;
@@ -2391,8 +2391,8 @@ trxn_add(struct reaction *r_ptr, LDBLE coef, int combine)
 	next_token = r_ptr->token;
 	while (next_token->s != NULL)
 	{
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
 		trxn.token[count_trxn].name = next_token->s->name;
 		trxn.token[count_trxn].s = next_token->s;
 		trxn.token[count_trxn].coef = coef * next_token->coef;
@@ -2446,8 +2446,8 @@ trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine)
 	next_token = r_ptr->token;
 	while (next_token->s != NULL || next_token->name != NULL)
 	{
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
 		if (next_token->s != NULL)
 		{
 			trxn.token[count_trxn].name = next_token->s->name;

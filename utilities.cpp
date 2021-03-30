@@ -21,7 +21,7 @@ add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)
 	{
 		if (count_elts >= (int)elt_list.size())
 		{
-			elt_list.resize((size_t)count_elts + 1);
+			elt_list.resize(count_elts + 1);
 		}
 		elt_list[count_elts].elt = elt_list_ptr1->elt;
 		elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
@@ -66,7 +66,7 @@ add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct elemen
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			if (elt_list_ptr1->elt == surf_elt_ptr)
 			{
@@ -93,7 +93,7 @@ add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct elemen
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
-				elt_list.resize((size_t)count_elts + 1);
+				elt_list.resize(count_elts + 1);
 			}
 			if (elt_list_ptr1->elt == surf_elt_ptr)
 			{
@@ -114,7 +114,7 @@ add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 	{
 		if (count_elts >= (int)elt_list.size())
 		{
-			elt_list.resize((size_t)count_elts + 1);
+			elt_list.resize(count_elts + 1);
 		}
 		elt_list[count_elts].elt = element_store(cit->first.c_str());
 		elt_list[count_elts].coef = cit->second * coef;
@@ -1517,7 +1517,7 @@ string_pad(const char *str, int i)
 	max = l;
 	if (l < i)
 		max = i;
-	str_ptr = (char *) PHRQ_malloc((((size_t)max + 1) * sizeof(char)));
+	str_ptr = (char *) PHRQ_malloc(((max + 1) * sizeof(char)));
 	if (str_ptr == NULL)
 		malloc_error();
 	strcpy(str_ptr, str);

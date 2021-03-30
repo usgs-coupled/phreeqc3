@@ -274,8 +274,8 @@ setup_inverse(struct inverse *inv_ptr)
 		   (size_t) max_column_count * sizeof(LDBLE));
 	for (i = 0; i < max_row_count; i++)
 	{
-		memcpy((void *) &(my_array[(size_t)i * (size_t)max_column_count]), (void *) &(inv_zero[0]),
-			   (size_t)max_column_count * sizeof(LDBLE));
+		memcpy((void *) &(my_array[(size_t)i * max_column_count]), (void *) &(inv_zero[0]),
+			   max_column_count * sizeof(LDBLE));
 	}
 /*
  *   begin filling array
@@ -368,11 +368,11 @@ setup_inverse(struct inverse *inv_ptr)
 		{
 			if (master[j]->in >= 0)
 			{
-				my_array[(size_t)master[j]->in * (size_t)max_column_count + (size_t)i] =
+				my_array[(size_t)master[j]->in * max_column_count + (size_t)i] =
 					f * master[j]->total;
 				if (master[j]->s == s_eminus)
 				{
-					my_array[(size_t)master[j]->in * (size_t)max_column_count + (size_t)i] = 0.0;
+					my_array[(size_t)master[j]->in * max_column_count + (size_t)i] = 0.0;
 				}
 			}
 		}
@@ -399,7 +399,7 @@ setup_inverse(struct inverse *inv_ptr)
 		}
 		if (fabs(cb) < toler)
 			cb = 0.0;
-		my_array[((size_t)row_charge + (size_t)i) * (size_t)max_column_count + (size_t)i] = cb;
+		my_array[((size_t)row_charge + (size_t)i) * max_column_count + (size_t)i] = cb;
 	}
 
 /*   mass_balance: phase data */
@@ -445,11 +445,11 @@ setup_inverse(struct inverse *inv_ptr)
 			coef = master_ptr->coef;
 			if (coef <= 0)
 				coef = 1.0;
-			my_array[(size_t)row * (size_t)max_column_count + (size_t)column] =
+			my_array[(size_t)row * max_column_count + (size_t)column] =
 				rxn_ptr->token[j].coef * coef;
 		}
 		row = master_alk->in;	/* include alkalinity for phase */
-		my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = calc_alk(rxn_ptr);
+		my_array[(size_t)row * max_column_count + (size_t)column] = calc_alk(rxn_ptr);
 	}
 
 /*   mass balance: redox reaction data */
@@ -497,14 +497,14 @@ setup_inverse(struct inverse *inv_ptr)
 				assert(row * max_column_count + column < max_column_count * max_row_count);
 				assert(row >= 0);
 				assert(column >= 0);
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] =
+				my_array[(size_t)row * max_column_count + (size_t)column] =
 					rxn_ptr->token[j].coef;
 				/* if coefficient of element is not 1.0 in master species */
 				if (j != 0)
-					my_array[(size_t)row * (size_t)max_column_count + (size_t)column] /= coef;
+					my_array[(size_t)row * max_column_count + (size_t)column] /= coef;
 			}
 			row = master_alk->in;	/* include alkalinity for redox reaction */
-			my_array[(size_t)row * (size_t)max_column_count + (size_t)column] =
+			my_array[(size_t)row * max_column_count + (size_t)column] =
 				(calc_alk(rxn_ptr) - inv_ptr->elts[i].master->s->alk) / coef;
 		}
 	}
@@ -519,15 +519,15 @@ setup_inverse(struct inverse *inv_ptr)
 		{
 			if (j < (inv_ptr->count_solns - 1))
 			{
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = 1.0;
+				my_array[(size_t)row * max_column_count + (size_t)column] = 1.0;
 			}
 			else
 			{
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = -1.0;
+				my_array[(size_t)row * max_column_count + (size_t)column] = -1.0;
 			}
 			if (inv_ptr->elts[i].master->s == s_eminus)
 			{
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = 0.0;
+				my_array[(size_t)row * max_column_count + (size_t)column] = 0.0;
 			}
 			sprintf(token, "%s %d", row_name[row], j);
 			col_name[column] = string_hsave(token);
@@ -589,19 +589,19 @@ setup_inverse(struct inverse *inv_ptr)
 		solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i]);
 		if (i < inv_ptr->count_solns - 1)
 		{
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] =
+			my_array[count_rows * max_column_count + (size_t)i] =
 				1.0 / gfw_water * solution_ptr->Get_mass_water();
 		}
 		else
 		{
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)inv_ptr->count_solns - 1] =
+			my_array[count_rows * max_column_count + (size_t)inv_ptr->count_solns - 1] =
 				-1.0 / gfw_water * solution_ptr->Get_mass_water();
 		}
 	}
 	/* coefficient for water uncertainty */
 	if (inv_ptr->water_uncertainty > 0)
 	{
-		my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)col_water] = 1.0;
+		my_array[count_rows * max_column_count + (size_t)col_water] = 1.0;
 	}
 	row_name[count_rows] = string_hsave("H2O");
 	row_water = count_rows;
@@ -611,8 +611,8 @@ setup_inverse(struct inverse *inv_ptr)
  *   Final solution fraction equals 1.0
  */
 
-	my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)inv_ptr->count_solns - 1] = 1.0;
-	my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)count_unknowns] = 1.0;
+	my_array[count_rows * max_column_count + (size_t)inv_ptr->count_solns - 1] = 1.0;
+	my_array[count_rows * max_column_count + count_unknowns] = 1.0;
 	row_name[count_rows] = string_hsave("fract, final");
 	count_rows++;
 
@@ -623,7 +623,7 @@ setup_inverse(struct inverse *inv_ptr)
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
 /*		solution_ptr = solution_bsearch(inv_ptr->solns[i], &j, TRUE); */
-/*		array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = solution_ptr->cb; */
+/*		array[count_rows * max_column_count + (size_t)i] = solution_ptr->cb; */
 		for (j = 0; j < inv_ptr->elts.size(); j++)
 		{
 			column = col_epsilon + j * inv_ptr->count_solns + i;
@@ -634,10 +634,10 @@ setup_inverse(struct inverse *inv_ptr)
 			{
 				coef = -1.0;
 			}
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = coef;
+			my_array[count_rows * max_column_count + (size_t)column] = coef;
 			if (inv_ptr->elts[j].master->s == s_eminus)
 			{
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 0.0;
+				my_array[count_rows * max_column_count + (size_t)column] = 0.0;
 			}
 		}
 		sprintf(token, "%s %d", "charge", i);
@@ -655,12 +655,12 @@ setup_inverse(struct inverse *inv_ptr)
 		if (inv_ptr->dalk_dph[i] != 0 || inv_ptr->dalk_dc[i] != 0)
 		{
 			column = col_ph + i;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] =
+			my_array[count_rows * max_column_count + (size_t)column] =
 				inv_ptr->dalk_dph[i];
 			column = col_epsilon + i_alk * inv_ptr->count_solns + i;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0;
+			my_array[count_rows * max_column_count + (size_t)column] = -1.0;
 			column = col_epsilon + i_carb * inv_ptr->count_solns + i;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] =
+			my_array[count_rows * max_column_count + (size_t)column] =
 				inv_ptr->dalk_dc[i];
 		}
 		sprintf(token, "%s %d", "dAlk", i);
@@ -707,7 +707,7 @@ setup_inverse(struct inverse *inv_ptr)
 			else
 			{
 				coef = my_array[(size_t)inv_ptr->elts[j].master->in * 
-					(size_t)max_column_count + (size_t)i] * coef;
+					max_column_count + (size_t)i] * coef;
 				coef = fabs(coef);
 			}
 
@@ -719,7 +719,7 @@ setup_inverse(struct inverse *inv_ptr)
 			{
 				for (k = 0; k < count_rows; k++)
 				{
-					my_array[(size_t)k * (size_t)max_column_count + (size_t)column] = 0.0;
+					my_array[(size_t)k * max_column_count + (size_t)column] = 0.0;
 				}
 				continue;
 			}
@@ -731,12 +731,12 @@ setup_inverse(struct inverse *inv_ptr)
 
 			if (coef < toler)
 			{
-				my_array[((size_t)column - (size_t)col_epsilon) * (size_t)max_column_count + (size_t)column] =
+				my_array[((size_t)column - (size_t)col_epsilon) * max_column_count + (size_t)column] =
 					SCALE_EPSILON / toler;
 			}
 			else
 			{
-				my_array[((size_t)column - (size_t)col_epsilon) * (size_t)max_column_count + (size_t)column] =
+				my_array[((size_t)column - (size_t)col_epsilon) * max_column_count + (size_t)column] =
 					SCALE_EPSILON / coef;
 			}
 
@@ -750,14 +750,14 @@ setup_inverse(struct inverse *inv_ptr)
 			{
 				f = 1.0;
 			}
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 1.0 * f;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = -coef * f;
+			my_array[count_rows * max_column_count + (size_t)column] = 1.0 * f;
+			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
 			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name, "eps+");
 			row_name[count_rows] = string_hsave(token);
 			count_rows++;
 
 /* set lower limit of change in negative direction */
-			conc = my_array[(size_t)inv_ptr->elts[j].master->in * (size_t)max_column_count + (size_t)i];
+			conc = my_array[(size_t)inv_ptr->elts[j].master->in * max_column_count + (size_t)i];
 
 			/* if concentration is zero, only positive direction allowed */
 			if (conc == 0.0)
@@ -784,8 +784,8 @@ setup_inverse(struct inverse *inv_ptr)
 				 inv_ptr->elts[j].master->elt->name))
 				coef = fabs(conc) + toler;
 
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = -coef * f;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0 * f;
+			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
+			my_array[count_rows * max_column_count + (size_t)column] = -1.0 * f;
 			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name,
 					"eps-");
 			row_name[count_rows] = string_hsave(token);
@@ -805,21 +805,21 @@ setup_inverse(struct inverse *inv_ptr)
 
 /* scale epsilon in optimization equation */
 
-			my_array[((size_t)column - (size_t)col_epsilon) * (size_t)max_column_count + (size_t)column] =
+			my_array[((size_t)column - (size_t)col_epsilon) * max_column_count + (size_t)column] =
 				SCALE_EPSILON / coef;
 
 /* set upper limit of change in positive direction */
 
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 1.0;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = -coef;
+			my_array[count_rows * max_column_count + (size_t)column] = 1.0;
+			my_array[count_rows * max_column_count + (size_t)i] = -coef;
 			sprintf(token, "%s %s", "pH", "eps+");
 			row_name[count_rows] = string_hsave(token);
 			count_rows++;
 
 /* set lower limit of change in negative direction */
 
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0;
-			my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = -coef;
+			my_array[count_rows * max_column_count + (size_t)column] = -1.0;
+			my_array[count_rows * max_column_count + (size_t)i] = -coef;
 			sprintf(token, "%s %s", "pH", "eps-");
 			row_name[count_rows] = string_hsave(token);
 			count_rows++;
@@ -834,16 +834,16 @@ setup_inverse(struct inverse *inv_ptr)
 	if (coef > 0.0)
 	{
 /* set upper limit of change in positive direction */
-		my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 1.0;
-		my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)count_unknowns] = coef;
+		my_array[count_rows * max_column_count + (size_t)column] = 1.0;
+		my_array[count_rows * max_column_count + count_unknowns] = coef;
 		sprintf(token, "%s %s", "water", "eps+");
 		row_name[count_rows] = string_hsave(token);
 		count_rows++;
 
 /* set lower limit of change in negative direction */
 
-		my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0;
-		my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)count_unknowns] = coef;
+		my_array[count_rows * max_column_count + (size_t)column] = -1.0;
+		my_array[count_rows * max_column_count + count_unknowns] = coef;
 		sprintf(token, "%s %s", "water", "eps-");
 		row_name[count_rows] = string_hsave(token);
 		count_rows++;
@@ -875,12 +875,12 @@ setup_inverse(struct inverse *inv_ptr)
 
 /* scale epsilon in optimization equation */
 
-						my_array[((size_t)column - (size_t)col_epsilon) * (size_t)max_column_count +
+						my_array[((size_t)column - (size_t)col_epsilon) * max_column_count +
 							(size_t)column] = SCALE_EPSILON / coef;
 
 /* set upper limit of change in positive direction */
-						my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 1.0;
-						my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = -coef;
+						my_array[count_rows * max_column_count + (size_t)column] = 1.0;
+						my_array[count_rows * max_column_count + (size_t)i] = -coef;
 						sprintf(token, "%d%s %s",
 								(int) kit->second.Get_isotope_number(),
 								kit->second.Get_elt_name().c_str(), "eps+");
@@ -889,8 +889,8 @@ setup_inverse(struct inverse *inv_ptr)
 
 /* set lower limit of change in negative direction */
 
-						my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0;
-						my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)i] = -coef;
+						my_array[count_rows * max_column_count + (size_t)column] = -1.0;
+						my_array[count_rows * max_column_count + (size_t)i] = -coef;
 						sprintf(token, "%d%s %s",
 								(int) kit->second.Get_isotope_number(),
 								kit->second.Get_elt_name().c_str(), "eps-");
@@ -935,7 +935,7 @@ setup_inverse(struct inverse *inv_ptr)
  */
 	for (i = 0; i < max_column_count; i++)
 	{
-		my_array[(size_t)row_water * (size_t)max_column_count + (size_t)i] *= SCALE_WATER;
+		my_array[(size_t)row_water * max_column_count + (size_t)i] *= SCALE_WATER;
 	}
 /*
  *   Arrays are complete
@@ -958,7 +958,7 @@ setup_inverse(struct inverse *inv_ptr)
 					k = 0;
 				}
 				output_msg(sformatf("%11.2e",
-					(double)my_array[(size_t)i * (size_t)max_column_count + (size_t)j]));
+					(double)my_array[(size_t)i * max_column_count + (size_t)j]));
 				k++;
 			}
 			if (k != 0)
@@ -2661,7 +2661,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 
 
 			memcpy(&(array_out[row * max_column_count]),
-				&(array_out[(size_t)i * (size_t)max_column_count]),
+				&(array_out[(size_t)i * max_column_count]),
 				((size_t)*n + 1) * sizeof(LDBLE));
 		}
 		row_back_l[row] = i;
@@ -2705,7 +2705,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 				assert(false);
 			}
 			memcpy(&(array_out[row * max_column_count]),
-				&(array_out[(size_t)i * (size_t)max_column_count]),
+				&(array_out[(size_t)i * max_column_count]),
 				((size_t)*n + 1) * sizeof(LDBLE));
 		}
 		row_back_l[row] = i;
@@ -2747,8 +2747,8 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 			{
 				assert(false);
 			}
-			memcpy(&(array_out[(size_t)row * (size_t)max_column_count]),
-				&(array_out[(size_t)i * (size_t)max_column_count]),
+			memcpy(&(array_out[(size_t)row * max_column_count]),
+				&(array_out[(size_t)i * max_column_count]),
 				((size_t)*n + 1) * sizeof(LDBLE));
 		}
 		row_back_l[row] = i;
@@ -2971,16 +2971,16 @@ post_mortem(void)
 		sum = 0;
 		for (j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * (size_t)max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
 		}
 
-		if (equal(sum, my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns], toler)
+		if (equal(sum, my_array[((size_t)i * max_column_count) + count_unknowns], toler)
 			== FALSE)
 		{
 			output_msg(sformatf(
 					   "\tERROR: equality not satisfied for %s, %e.\n",
 					   row_name[i],
-				   (double) (sum - my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns])));
+				   (double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
 		}
 	}
 /*
@@ -2991,15 +2991,15 @@ post_mortem(void)
 		sum = 0;
 		for (j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * (size_t)max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
 		}
 
-		if (sum > my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns] + toler)
+		if (sum > my_array[((size_t)i * max_column_count) + count_unknowns] + toler)
 		{
 			output_msg(sformatf(
 					   "\tERROR: inequality not satisfied for %s, %e\n",
 					   row_name[i],
-				   (double) (sum - my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns])));
+				   (double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
 		}
 	}
 /*
@@ -3048,15 +3048,15 @@ test_cl1_solution(void)
 		sum = 0;
 		for (j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * (size_t)max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
 		}
 
-		if (equal(sum, my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns], toler) == FALSE)
+		if (equal(sum, my_array[((size_t)i * max_column_count) + count_unknowns], toler) == FALSE)
 		{
 			if (debug_inverse)
 			{
 				output_msg(sformatf("\tERROR: equality not satisfied for %s, %e.\n", row_name[i],
-				   (double) (sum - my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns])));
+				   (double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
 			}
 			rv = false;
 		}
@@ -3069,17 +3069,17 @@ test_cl1_solution(void)
 		sum = 0;
 		for (j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * (size_t)max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
 		}
 
-		if (sum > my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns] + toler)
+		if (sum > my_array[((size_t)i * max_column_count) + count_unknowns] + toler)
 		{
 			if (debug_inverse)
 			{
 				output_msg(sformatf(
 					"\tERROR: inequality not satisfied for %s, %e\n",
 					row_name[i],
-					(double) (sum - my_array[((size_t)i * (size_t)max_column_count) + (size_t)count_unknowns])));
+					(double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
 			}
 			rv = false;
 		}
@@ -3323,7 +3323,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 			if (primary_jit == primary_ptr &&
 				jit->second.Get_isotope_number() == isotope_number)
 			{
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)i] +=
+				my_array[(size_t)row * max_column_count + (size_t)i] +=
 					f * jit->second.Get_total() * jit->second.Get_ratio();
 			}
 		}
@@ -3348,7 +3348,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 						break;
 				}
 				column = col_epsilon + (k * inv_ptr->count_solns) + i;
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] +=
+				my_array[(size_t)row * max_column_count + (size_t)column] +=
 					f * jit->second.Get_ratio();
 			}
 		}
@@ -3376,7 +3376,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 							(i * inv_ptr->isotope_unknowns.size()) + k;
 					}
 				}
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] +=
+				my_array[(size_t)row * max_column_count + (size_t)column] +=
 					f * jit->second.Get_total();
 			}
 		}
@@ -3396,11 +3396,11 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 			{
 				/* term for alpha phase unknowns */
 				column = col_phases + i;
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] =
+				my_array[(size_t)row * max_column_count + (size_t)column] =
 					isotope_ref[j].ratio * isotope_ref[j].coef;
 				/* term for phase isotope uncertainty unknown */
 				column = col_phase_isotopes + i * inv_ptr->isotopes.size() + n;
-				my_array[(size_t)row * (size_t)max_column_count + (size_t)column] = isotope_ref[j].coef;
+				my_array[(size_t)row * max_column_count + (size_t)column] = isotope_ref[j].coef;
 				break;
 			}
 		}
@@ -3758,7 +3758,7 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 			{
 				for (k = 0; k < count_rows; k++)
 				{
-					my_array[(size_t)k * (size_t)max_column_count + (size_t)column] = 0.0;
+					my_array[(size_t)k * max_column_count + (size_t)column] = 0.0;
 				}
 				continue;
 			}
@@ -3766,7 +3766,7 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 /* 
  *   optimization
  */
-			my_array[((size_t)column - (size_t)col_epsilon) * (size_t)max_column_count + (size_t)column] =
+			my_array[((size_t)column - (size_t)col_epsilon) * max_column_count + (size_t)column] =
 				SCALE_EPSILON / inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 /*
  *   two inequalities to account for absolute value
@@ -3774,17 +3774,17 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 			/* for phases constrained to precipitate */
 			if (inv_ptr->phases[i].constraint == PRECIPITATE)
 			{
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)col_phases + (size_t)i] =
+				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 1.0;
+				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
 				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
 						"iso pos");
 				row_name[count_rows] = string_hsave(token);
 				count_rows++;
 
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)col_phases + (size_t)i] =
+				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0;
+				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
 				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
 						"iso neg");
 				row_name[count_rows] = string_hsave(token);
@@ -3794,17 +3794,17 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 			}
 			else if (inv_ptr->phases[i].constraint == DISSOLVE)
 			{
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)col_phases + (size_t)i] =
+				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = -1.0;
+				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
 				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
 						"iso pos");
 				row_name[count_rows] = string_hsave(token);
 				count_rows++;
 
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)col_phases + (size_t)i] =
+				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
-				my_array[(size_t)count_rows * (size_t)max_column_count + (size_t)column] = 1.0;
+				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
 				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
 						"iso neg");
 				row_name[count_rows] = string_hsave(token);
