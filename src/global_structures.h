@@ -817,9 +817,9 @@ struct spread_row
 {
 	int count;
 	int empty, string, number;
-	char **char_vector;
-	LDBLE *d_vector;
-	int *type_vector;
+	std::vector<char*> char_vector;
+	std::vector<double> d_vector;
+	std::vector<int> type_vector;
 };
 struct defaults
 {
@@ -831,8 +831,7 @@ struct defaults
 	LDBLE ph;
 	LDBLE pe;
 	LDBLE water;
-	int count_iso;
-	struct iso *iso;
+	std::vector<struct iso> iso;
 	LDBLE pressure;	/* pressure in atm */
 };
 struct spread_sheet

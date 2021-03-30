@@ -2438,7 +2438,6 @@ total(const char *total_name)
 {
 	struct master *master_ptr;
 	LDBLE t;
-	int i;
 
 	if (strcmp(total_name, "H") == 0)
 	{

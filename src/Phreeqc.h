@@ -773,7 +773,7 @@ public:
 
 	// spread.cpp -------------------------------
 	int read_solution_spread(void);
-	int copy_token_tab(char* token_ptr, const char** ptr, int* length);
+	int copy_token_tab(std::string& token, const char** cptr);
 	int get_option_string(const char** opt_list, int count_opt_list,
 		const char** next_char);
 	int spread_row_free(struct spread_row* spread_row_ptr);
