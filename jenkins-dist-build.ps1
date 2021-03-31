@@ -38,6 +38,15 @@ if ([string]::IsNullOrEmpty($v[0]) -or [string]::IsNullOrEmpty($v[1]) -or [strin
   throw "Bad VER"
 }
 
+#
+# set REL
+#
+Invoke-WebRequest https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/ver.py -OutFile ver.py -UseBasicParsing
+[string]$HEAD=$(python ver.py)
+if ([string]::IsNullOrEmpty($Env:REL)) {
+  $Env:REL = $HEAD
+}
+
 $Env:VER_TAG="r$Env:REL"
 $Env:VER_NUMTAG="-$Env:REL"
 $Env:VERSION_LONG="$Env:ver_major.$Env:ver_minor.$Env:ver_patch.$Env:REL"
