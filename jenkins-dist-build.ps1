@@ -1,18 +1,24 @@
-###$Env:ver_major=$Env:MAJOR
-###$Env:ver_minor=$Env:MINOR
-###$Env:ver_patch=$Env:PATCH
+#
+# To get the Invoke-WebRequest to work under the 'nt authority\system' account, the DOIRootCA2.cer
+# CA needs to be installed by running internet explorer as system using 'psexec -sid cmd' from
+# Sysinternals.  The -UseBasicParsing flag may also be required.
+#
 
-###{{
-# set date
+#
+# set DATE
+#
 if ([string]::IsNullOrEmpty($Env:DATE)) {
   $Env:DATE = date +%x
 }
+$Env:DATE = date -d $Env:DATE +%x
 $Env:RELEASE_DATE = date -d $Env:DATE "+%B %e, %G"
-# set ver
+
+#
+# set VER
+#
 if ([string]::IsNullOrEmpty($Env:VER)) {
-  $SRC_FILE=(plink -i C:\Users\Public\rsa-key-20151119.ppk charlton@parkplace `
-            "cd ftp/phast; ls -t phast-*-*.tar.gz | awk '{if (NR == 1) {print}}'")
-  $v = ($SRC_FILE -replace "^phast-", "" -replace "-.*tar.gz$", "") -split "\."
+  $request = Invoke-WebRequest https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/phreeqc-version.txt -UseBasicParsing
+  $v = ($request.Content) -split "\."
   if ([string]::IsNullOrEmpty($v[2])) {
     $v[2] = 0
   }
@@ -28,10 +34,8 @@ else {
   $Env:ver_minor = $v[1]
   $Env:ver_patch = $v[2]
 }
-# set HEAD
-[string]$HEAD=(-split (svn --config-dir C:\Users\jenkins\svn-jenkins st -v configure.ac))[0]
-if ([string]::IsNullOrEmpty($Env:REL) -or $Env:REL.CompareTo('HEAD') -eq 0) {
-  $Env:REL = $HEAD
+if ([string]::IsNullOrEmpty($v[0]) -or [string]::IsNullOrEmpty($v[1]) -or [string]::IsNullOrEmpty($v[2])) {
+  throw "Bad VER"
 }
 
 $Env:VER_TAG="r$Env:REL"
