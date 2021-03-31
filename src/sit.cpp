@@ -800,7 +800,7 @@ jacobian_sit(void)
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
-	int pz_max_unknowns = max_unknowns;
+	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{

@@ -6163,7 +6163,7 @@ build_min_surface(void)
 				}
 			}
 			LDBLE coef = elt_list[jj].coef;
-			int row;
+			size_t row;
 			struct unknown *unknown_ptr;
 			if (master_ptr->s == s_hplus)
 			{
@@ -6180,7 +6180,7 @@ build_min_surface(void)
 				row = master_ptr->unknown->number;
 				unknown_ptr = master_ptr->unknown;
 			}
-			store_jacob0(row, x[k]->number,
+			store_jacob0((int)row, (int)x[k]->number,
 						 coef * comp_ptr->Get_phase_proportion());
 			store_sum_deltas(&delta[k], &unknown_ptr->delta,
 							 -coef * comp_ptr->Get_phase_proportion());
@@ -6210,7 +6210,7 @@ setup_related_surface(void)
 			if (comp_ptr->Get_phase_name().size() > 0)
 			{
 				int k;
-				for (k = count_unknowns - 1; k >= 0; k--)
+				for (k = (int)count_unknowns - 1; k >= 0; k--)
 				{
 					if (x[k]->type != PP)
 						continue;
@@ -6234,7 +6234,7 @@ setup_related_surface(void)
 			{
 				cxxSurfaceComp *comp_i_ptr = use.Get_surface_ptr()->Find_comp(x[i]->surface_comp);
 				int k;
-				for (k = count_unknowns - 1; k >= 0; k--)
+				for (k = (int)count_unknowns - 1; k >= 0; k--)
 				{
 					if (x[k]->type != PP)
 						continue;

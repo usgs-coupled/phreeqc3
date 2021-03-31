@@ -191,53 +191,6 @@ typedef struct PHRQMemHeader
 #endif
 } PHRQMemHeader;
 
-struct model
-{
-	bool force_prep;
-	//LDBLE temperaturex;        // not used
-	//LDBLE pressure;            // not used
-
-	//int count_exchange;
-	//struct master **exchange;  // not used
-
-	//int count_kinetics;
-	//struct kinetics *kinetics; // not used
-
-	bool numerical_fixed_volume;
-	cxxGasPhase::GP_TYPE gas_phase_type;
-	std::vector<struct phase*> gas_phase;
-
-	std::vector<const char*> ss_assemblage;
-
-	std::vector<struct phase*> pp_assemblage;
-	std::vector<double> si;
-	std::vector<const char*> add_formula;
-
-	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
-	cxxSurface::SURFACE_TYPE surface_type;
-	//bool only_counter_ions;    // not used
-
-	//LDBLE thickness;           // not used
-	std::vector<const char*> surface_comp;
-	std::vector<const char*> surface_charge;
-};
-
-struct name_master
-{
-	const char *name;
-	struct master *master;
-};
-struct name_species
-{
-	const char *name;
-	struct species *s;
-};
-struct name_phase
-{
-	const char *name;
-	struct phase *phase;
-};
-
 struct Change_Surf
 {
 	const char *comp_name;
@@ -246,21 +199,6 @@ struct Change_Surf
 	LDBLE new_Dw;
 	int cell_no;
 	int next;
-};
-
-struct Charge_Group
-{
-	LDBLE z;
-	LDBLE eq;
-};
-
-/*----------------------------------------------------------------------
- *   Save
- *---------------------------------------------------------------------- */
-struct save_values
-{
-	LDBLE value;
-	std::vector<int> subscripts;
 };
 
 struct save

@@ -1946,7 +1946,7 @@ jacobian_pz(void)
 
 	calculating_deriv = 1;
 Restart:
-	int pz_max_unknowns = max_unknowns;
+	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{

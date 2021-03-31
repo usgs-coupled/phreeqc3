@@ -70,7 +70,6 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 }
 PBasic::~PBasic(void)
 {
-	
 }
 
 int PBasic::
@@ -2021,8 +2020,6 @@ factor(struct LOC_exec * LINK)
 		long i;
 		char *c;
 	} trick;
-	struct save_values s_v, *s_v_ptr;
-	int k;
 	LDBLE TEMP;
 	std::string STR1, STR2;
 	const char *elt_name, *surface_name, *mytemplate, *name;
@@ -2518,11 +2515,6 @@ factor(struct LOC_exec * LINK)
 		LINK->t = LINK->t->next;
 		require(tokrp, LINK);
 
-		// Make work space
-		//int max_length = length < 256 ? 256 : length;
-		//char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
-		//if (token == NULL) PhreeqcPtr->malloc_error();
-
 		// set function value
 		LDBLE eq;
 		std::string elt_name;
@@ -2558,16 +2550,14 @@ factor(struct LOC_exec * LINK)
 
 	case tokexists:
 	{
+		std::ostringstream oss;
 		require(toklp, LINK);
 
-		s_v.subscripts.clear();
 		/* get first subscript */
 		if (LINK->t != NULL && LINK->t->kind != tokrp)
 		{
 			i = intexpr(LINK);
-			size_t count_subscripts = s_v.subscripts.size();
-			s_v.subscripts.resize(count_subscripts + 1);
-			s_v.subscripts[count_subscripts] = i;
+			oss << i << ",";
 		}
 
 		/* get other subscripts */
@@ -2577,10 +2567,7 @@ factor(struct LOC_exec * LINK)
 			{
 				LINK->t = LINK->t->next;
 				j = intexpr(LINK);
-
-				size_t count_subscripts = s_v.subscripts.size();
-				s_v.subscripts.resize(count_subscripts + 1);
-				s_v.subscripts[count_subscripts] = j;
+				oss << j << ",";
 			}
 			else
 			{
@@ -2595,15 +2582,8 @@ factor(struct LOC_exec * LINK)
 		}
 		else
 		{
-			s_v_ptr = PhreeqcPtr->save_values_bsearch(&s_v, &k);
-			if (s_v_ptr == NULL)
-			{
-				n.UU.val = 0;
-			}
-			else
-			{
-				n.UU.val = 1;
-			}
+			std::map<std::string, double>::iterator it = PhreeqcPtr->save_values.find(oss.str());
+			n.UU.val = (it == PhreeqcPtr->save_values.end()) ? 0 : 1;
 		}
 	}
 	break;
@@ -2642,17 +2622,14 @@ factor(struct LOC_exec * LINK)
 
 	case tokget:
 	{
+		std::ostringstream oss;
 		require(toklp, LINK);
 
-		s_v.subscripts.clear();
 		/* get first subscript */
 		if (LINK->t != NULL && LINK->t->kind != tokrp)
 		{
 			i = intexpr(LINK);
-
-			size_t count_subscripts = s_v.subscripts.size();
-			s_v.subscripts.resize(count_subscripts + 1);
-			s_v.subscripts[count_subscripts] = i;
+			oss << i << ",";
 		}
 
 		/* get other subscripts */
@@ -2662,9 +2639,7 @@ factor(struct LOC_exec * LINK)
 			{
 				LINK->t = LINK->t->next;
 				j = intexpr(LINK);
-				size_t count_subscripts = s_v.subscripts.size();
-				s_v.subscripts.resize(count_subscripts + 1);
-				s_v.subscripts[count_subscripts] = j;
+				oss << j << ",";
 			}
 			else
 			{
@@ -2673,14 +2648,14 @@ factor(struct LOC_exec * LINK)
 				break;
 			}
 		}
-		s_v_ptr = (parse_all) ? NULL : PhreeqcPtr->save_values_bsearch(&s_v, &k);
-		if (s_v_ptr == NULL)
+		if (parse_all)
 		{
-			n.UU.val = (parse_all) ? 1 : 0;
+			n.UU.val = 1;
 		}
 		else
 		{
-			n.UU.val = s_v_ptr->value;
+			std::map<std::string, double>::iterator it = PhreeqcPtr->save_values.find(oss.str());
+			n.UU.val = (it == PhreeqcPtr->save_values.end()) ? 0 : it->second;
 		}
 		break;
 	}
@@ -4265,7 +4240,6 @@ factor(struct LOC_exec * LINK)
 		snerr(": missing \" or (");
 		break;
 	}
-	s_v.subscripts.clear();
 	return n;
 }
 
@@ -4829,13 +4803,13 @@ void PBasic::
 cmdput(struct LOC_exec *LINK)
 {
 	int j;
-	struct save_values s_v;
+	std::ostringstream oss;
 
 	/* get parentheses */
 	require(toklp, LINK);
 
 	/* get first argumen */
-	s_v.value = realexpr(LINK);
+	double value = realexpr(LINK);
 
 	for (;;)
 	{
@@ -4843,9 +4817,7 @@ cmdput(struct LOC_exec *LINK)
 		{
 			LINK->t = LINK->t->next;
 			j = intexpr(LINK);
-			size_t count_subscripts = s_v.subscripts.size();
-			s_v.subscripts.resize(count_subscripts + 1);
-			s_v.subscripts[count_subscripts] = j;
+			oss << j << ",";
 		}
 		else
 		{
@@ -4856,9 +4828,8 @@ cmdput(struct LOC_exec *LINK)
 	}
 	if (!parse_all)
 	{
-		PhreeqcPtr->save_values_store(&s_v);
+		PhreeqcPtr->save_values[oss.str()] = value;
 	}
-	s_v.subscripts.clear();
 }
 
 void PBasic::

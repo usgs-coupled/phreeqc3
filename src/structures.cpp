@@ -131,11 +131,6 @@ clean_up(void)
 		delete logk[j];
 	}
 	logk.clear();
-	/* save_values */
-	for (size_t j = 0; j < save_values.size(); j++)
-	{
-		save_values[j].subscripts.clear();
-	}
 	save_values.clear();
 	/* working pe*/
 	pe_x.clear();
@@ -1875,119 +1870,6 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
  */
 	species_map[name] = s_ptr;
 	return (s_ptr);
-}
-/* **********************************************************************
- *
- *   Routines related to structure "save_values"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-struct save_values * Phreeqc::
-save_values_bsearch(struct save_values *k, int *n)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Binary search save_values to find if one exists with given coefficients
- *   Save_Values is assumed to be in sort order by count_subscripts and
- *   values of subscripts
- */
-	void *void_ptr;
-	if (save_values.size() == 0)
-	{
-		*n = -999;
-		return (NULL);
-	}
-	void_ptr = (void *)
-		bsearch((char *) k,
-				(char *) &save_values[0],
-				save_values.size(),
-				(size_t) sizeof(struct save_values), save_values_compare);
-	if (void_ptr == NULL)
-	{
-		*n = -999;
-		return (NULL);
-	}
-	*n = (int) ((struct save_values *) void_ptr - &save_values[0]);
-	return ((struct save_values *) void_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-save_values_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	const struct save_values *save_values_ptr1, *save_values_ptr2;
-	save_values_ptr1 = (const struct save_values *) ptr1;
-	save_values_ptr2 = (const struct save_values *) ptr2;
-	if (save_values_ptr1->subscripts.size() <
-		save_values_ptr2->subscripts.size())
-	{
-		return (-1);
-	}
-	else if (save_values_ptr1->subscripts.size() >
-			 save_values_ptr2->subscripts.size())
-	{
-		return (1);
-	}
-	else
-	{
-		for (i = 0; i < save_values_ptr1->subscripts.size(); i++)
-		{
-			if (save_values_ptr1->subscripts[i] <
-				save_values_ptr2->subscripts[i])
-			{
-				return (-1);
-			}
-			else if (save_values_ptr1->subscripts[i] >
-					 save_values_ptr2->subscripts[i])
-			{
-				return (1);
-			}
-		}
-	}
-	return (0);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-save_values_sort(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Sort array of save_values structures
- */
-	if (save_values.size() > 1)
-	{
-		qsort(&save_values[0], save_values.size(),
-			  sizeof(struct save_values), save_values_compare);
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-save_values_store(struct save_values *s_v)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Look for subscripts
- */
-	int n;
-	struct save_values *s_v_ptr;
-
-	s_v_ptr = save_values_bsearch(s_v, &n);
-	if (s_v_ptr != NULL)
-	{
-		s_v_ptr->value = s_v->value;
-	}
-	else
-	{
-		save_values.push_back(*s_v);
-		save_values_sort();
-	}
-
-	return (OK);
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

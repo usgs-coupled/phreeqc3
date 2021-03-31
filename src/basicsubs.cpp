@@ -2507,7 +2507,6 @@ total_mole(const char *total_name)
 {
 	struct master *master_ptr;
 	LDBLE t;
-	int i;
 
 	if (strcmp(total_name, "H") == 0)
 	{
@@ -2553,8 +2552,8 @@ total_mole(const char *total_name)
 		else
 		{
 			t = 0;
-			for (i = master_ptr->number + 1;
-				 (i < (int)master.size() && master[i]->elt->primary == master_ptr);
+			for (size_t i = master_ptr->number + 1;
+				 (i < master.size() && master[i]->elt->primary == master_ptr);
 				 i++)
 			{
 				t += master[i]->total;
@@ -2737,7 +2736,7 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	else if (sys.size() > 1)
 	{
 		qsort(&sys[0], sys.size(),
-			(size_t)sizeof(struct system_species), system_species_compare_name);
+			sizeof(struct system_species), system_species_compare_name);
 	}
 	/*
 	 * malloc space
@@ -2895,7 +2894,7 @@ int Phreeqc::
 system_total_elements(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j;
+	int i;
 	LDBLE t;
 	char name[MAX_LENGTH];
 	struct master *master_ptr;
@@ -2970,7 +2969,7 @@ system_total_elements(void)
 			else
 			{
 				t = 0;
-				for (j = master_ptr->number + 1;
+				for (size_t j = master_ptr->number + 1;
 					 master[j]->elt->primary == master_ptr; j++)
 				{
 					t += master[j]->total;
