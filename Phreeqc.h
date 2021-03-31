@@ -60,6 +60,8 @@ class cxxSSassemblage;
 class cxxSS;
 class cxxStorageBin;
 
+
+#include "classes.h"
 #include "global_structures.h"
 class PBasic;
 
@@ -875,10 +877,6 @@ public:
 	struct species* s_search(const char* name);
 	struct species* s_store(const char* name, LDBLE z, int replace_if_found);
 protected:
-	struct save_values* save_values_bsearch(struct save_values* k, int* n);
-	static int save_values_compare(const void* ptr1, const void* ptr2);
-	int save_values_sort(void);
-	int save_values_store(struct save_values* s_v);
 	static int isotope_compare(const void* ptr1, const void* ptr2);
 	static int species_list_compare_alk(const void* ptr1, const void* ptr2);
 	static int species_list_compare_master(const void* ptr1, const void* ptr2);
@@ -1140,7 +1138,7 @@ protected:
 	*   STRUCTURES
 	* ---------------------------------------------------------------------- */
 
-	struct model last_model;
+	Model last_model;
 	//struct punch punch;
 	bool high_precision;
 
@@ -1180,7 +1178,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Save
 	*---------------------------------------------------------------------- */
-	std::vector<struct save_values> save_values;
+	std::map<std::string, double> save_values;
 	struct save save;
 
 	/*----------------------------------------------------------------------
@@ -1657,6 +1655,7 @@ protected:
 
 	/* Basic */
 	PBasic* basic_interpreter;
+
 	double (*basic_callback_ptr) (double x1, double x2, const char* str, void* cookie);
 	void* basic_callback_cookie;
 #ifdef IPHREEQC_NO_FORTRAN_MODULE
