@@ -380,7 +380,7 @@ build_gas_phase(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		if (phase_ptr->rxn_x == NULL)
+		if (phase_ptr->rxn_x.token.size() == 0)
 			continue;
 		add_elt_list(phase_ptr->next_elt, 1.0);
 #ifdef COMBINE
@@ -477,7 +477,7 @@ build_gas_phase(void)
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
-			for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1;
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 
@@ -549,7 +549,7 @@ build_gas_phase(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
 			{
@@ -654,10 +654,10 @@ build_ss_assemblage(void)
 /*
  *   Calculate function value (inverse saturation index)
  */
-		if (x[i]->phase->rxn_x == NULL)
+		if (x[i]->phase->rxn_x.token.size() == 0)
 			continue;
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
-		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
@@ -671,7 +671,7 @@ build_ss_assemblage(void)
  *   Put coefficients into mass action equations
  */
 		/* first IAP terms */
-		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s->secondary != NULL
@@ -1143,12 +1143,12 @@ build_model(void)
 				add_potential_factor();
 				add_cd_music_factors(i);
 			}
-			rxn_free(s[i]->rxn_x);
-			s[i]->rxn_x = rxn_alloc(count_trxn + 1);
+			//rxn_free(s[i]->rxn_x);
+			//s[i]->rxn_x = rxn_alloc(count_trxn + 1);
 			trxn_copy(s[i]->rxn_x);
 			for (j = 0; j < 3; j++)
 			{
-				s[i]->dz[j] = s[i]->rxn_x->dz[j];
+				s[i]->dz[j] = s[i]->rxn_x.dz[j];
 			}
 			if (debug_mass_action == TRUE)
 			{
@@ -1304,13 +1304,13 @@ build_model(void)
  */
 			write_mass_action_eqn_x(STOP);
 			trxn_reverse_k();
-			rxn_free(phases[i]->rxn_x);
+			//rxn_free(phases[i]->rxn_x);
 			//if (debug_prep == TRUE)
 			//{
 			//	output_msg(sformatf( "\nPhase: %s\n", phases[i]->name));
 			//	trxn_print();
 			//}
-			phases[i]->rxn_x = rxn_alloc(count_trxn + 1);
+			//phases[i]->rxn_x = rxn_alloc(count_trxn + 1);
 			trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);
 		}
@@ -1363,7 +1363,7 @@ build_pure_phases(void)
  */
 	for (int i = 0; i < count_unknowns; i++)
 	{
-		if (x[i]->type != PP || x[i]->phase->rxn_x == NULL)
+		if (x[i]->type != PP || x[i]->phase->rxn_x.token.size() == 0)
 			continue;
 		if (pure_phase_unknown == NULL)
 			pure_phase_unknown = x[i];
@@ -1371,7 +1371,7 @@ build_pure_phases(void)
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
 		store_mb(&(x[i]->si), &(x[i]->f), 1.0);
 
-		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1382,12 +1382,12 @@ build_pure_phases(void)
 /*
  *  rxn_x is null if an element in phase is not in solution
  */
-		if (x[i]->type != PP || x[i]->phase->rxn_x == NULL)
+		if (x[i]->type != PP || x[i]->phase->rxn_x.token.size() == 0)
 			continue;
 /*
  *   Put coefficients into IAP equations
  */
-		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s->secondary != NULL
@@ -1554,7 +1554,7 @@ build_solution_phase_boundaries(void)
 			input_error++;
 			break;
 		}
-		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1569,7 +1569,7 @@ build_solution_phase_boundaries(void)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
-		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s->secondary != NULL
@@ -1741,8 +1741,8 @@ clear(void)
 /*
  *   copy primary reaction to secondary reaction
  */
-		rxn_free(master[i]->rxn_secondary);
-		master[i]->rxn_secondary = rxn_dup(master[i]->rxn_primary);
+		//rxn_free(master[i]->rxn_secondary);
+		master[i]->rxn_secondary = master[i]->rxn_primary;
 	}
 
 	if (state == INITIAL_SOLUTION)
@@ -2083,7 +2083,7 @@ is_special(struct species *l_spec)
 	struct rxn_token *token_ptr;
 
 	special = TRUE;
-	for (token_ptr = &l_spec->rxn_s->token[0] + 1; token_ptr->s != NULL;
+	for (token_ptr = &l_spec->rxn_s.token[0] + 1; token_ptr->s != NULL;
 		 token_ptr++)
 	{
 		if (token_ptr->s != s_hplus &&
@@ -2518,8 +2518,8 @@ reprep(void)
 	{
 		if (master[i]->in == FALSE)
 			continue;
-		rxn_free(master[i]->rxn_secondary);
-		master[i]->rxn_secondary = rxn_dup(master[i]->rxn_primary);
+		//rxn_free(master[i]->rxn_secondary);
+		master[i]->rxn_secondary = master[i]->rxn_primary;
 	}
 	resetup_master();
 /*
@@ -2578,8 +2578,8 @@ resetup_master(void)
 			{
 				if (master_ptr->s->primary == NULL)
 				{
-					rxn_free(master_ptr->rxn_secondary);
-					master_ptr->rxn_secondary = rxn_dup(master_ptr->s->rxn_s);
+					//rxn_free(master_ptr->rxn_secondary);
+					master_ptr->rxn_secondary = master_ptr->s->rxn_s;
 				}
 			}
 			else
@@ -2587,8 +2587,8 @@ resetup_master(void)
 				if (master_ptr0->s->primary == NULL)
 				{
 					rewrite_master_to_secondary(master_ptr, master_ptr0);
-					rxn_free(master_ptr->rxn_secondary);
-					master_ptr->rxn_secondary = rxn_alloc(count_trxn + 1);
+					//rxn_free(master_ptr->rxn_secondary);
+					//master_ptr->rxn_secondary = rxn_alloc(count_trxn + 1);
 					trxn_copy(master_ptr->rxn_secondary);
 				}
 			}
@@ -3704,8 +3704,8 @@ setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std:
 			master_ptr->in = TRUE;
 			if (master_ptr->s->primary == NULL)
 			{
-				rxn_free(master_ptr->rxn_secondary);
-				master_ptr->rxn_secondary = rxn_dup(master_ptr->s->rxn_s);
+				//rxn_free(master_ptr->rxn_secondary);
+				master_ptr->rxn_secondary = master_ptr->s->rxn_s;
 /* debug
                                 trxn_print ();
  */
@@ -3717,8 +3717,8 @@ setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std:
 			if (master_ptr0->s->primary == NULL)
 			{
 				rewrite_master_to_secondary(master_ptr, master_ptr0);
-				rxn_free(master_ptr->rxn_secondary);
-				master_ptr->rxn_secondary = rxn_alloc(count_trxn + 1);
+				//rxn_free(master_ptr->rxn_secondary);
+				//master_ptr->rxn_secondary = rxn_alloc(count_trxn + 1);
 				trxn_copy(master_ptr->rxn_secondary);
 /* debug
 					trxn_print ();
@@ -4715,7 +4715,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 	}
 	if (s[k] == s_h2o)
 		return (OK);
-	for (rxn_ptr = &s[k]->rxn_x->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+	for (rxn_ptr = &s[k]->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 	{
 		if (rxn_ptr->s->secondary != NULL
 			&& rxn_ptr->s->secondary->in == TRUE)
@@ -4988,11 +4988,12 @@ tidy_redox(void)
 			}
 			else
 			{
-				struct reaction *rxn = rxn_alloc(count_trxn + 1);
+				//CReaction rxn = rxn_alloc(count_trxn + 1);
+				CReaction rxn(count_trxn + 1);
 				trxn_copy(rxn);
 				cxxChemRxn temp_rxn(rxn);
 				it->second = temp_rxn;
-				rxn_free(rxn);
+				//rxn_free(rxn);
 			}
 		}
 	}
@@ -5017,11 +5018,11 @@ tidy_redox(void)
 		}
 		else
 		{
-			struct reaction *rxn = rxn_alloc(count_trxn + 1);
+			CReaction rxn(count_trxn + 1);
 			trxn_copy(rxn);
 			cxxChemRxn temp_rxn(rxn);
 			it->second = temp_rxn;
-			rxn_free(rxn);
+			//rxn_free(rxn);
 		}
 	}
 
@@ -5228,7 +5229,7 @@ write_phase_sys_total(int n)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_delta_v(reaction *r_ptr, bool phase)
+calc_delta_v(struct reaction *r_ptr, bool phase)
 /* ---------------------------------------------------------------------- */
 {
 /* calculate delta_v from molar volumes */
@@ -5276,8 +5277,8 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
  * see calc_vm (below) for details.
  */
 
-	reaction *r_ptr = (p_ptr->rxn_x ? p_ptr->rxn_x :\
-		(p_ptr->rxn_s ? p_ptr->rxn_s : NULL));
+	CReaction *r_ptr = (p_ptr->rxn_x.size() ? &p_ptr->rxn_x :\
+		(p_ptr->rxn_s.size() ? &p_ptr->rxn_s : NULL));
 	if (!r_ptr)
 		return 0.0;
 	if (!r_ptr->logk[vm0]) // in case Vm of the phase is 0...
@@ -5393,7 +5394,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 		if (s_x[i]->logk[vma1])
 		{
 		/* supcrt volume at I = 0... */
-			s_x[i]->rxn_x->logk[vm_tc] = s_x[i]->logk[vma1] + s_x[i]->logk[vma2] / pb_s +
+			s_x[i]->rxn_x.logk[vm_tc] = s_x[i]->logk[vma1] + s_x[i]->logk[vma2] / pb_s +
 				(s_x[i]->logk[vma3] + s_x[i]->logk[vma4] / pb_s) / TK_s -
 				s_x[i]->logk[wref] * QBrn;
 			/* A (small) correction by Shock et al., 1992, for 155 < tc < 255, P_sat < P < 1e3.
@@ -5403,21 +5404,21 @@ calc_vm(LDBLE tc, LDBLE pa)
 			//{
 			//	LDBLE re = s_x[i]->z * s_x[i]->z / (s_x[i]->logk[wref] / 1.66027e5 + s_x[i]->z / 3.082);
 			//	LDBLE Z3 = fabs(pow(s_x[i]->z, 3)) / re / re - s_x[i]->z / 9.498724;
-			//	s_x[i]->rxn_x->logk[vm_tc] += ZBrn * 1.66027e5 * Z3 * dgdP;
+			//	s_x[i]->rxn_x.logk[vm_tc] += ZBrn * 1.66027e5 * Z3 * dgdP;
 			//}
 			if (s_x[i]->z)
 			{
 			/* the ionic strength term * I^0.5... */
 				if (s_x[i]->logk[b_Av] < 1e-5)
-					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
+					s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
 					/* pitzer... */
-					//s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
+					//s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
 					//	log(1 + s_x[i]->logk[b_Av] * sqrt(mu_x)) / s_x[i]->logk[b_Av];
 					/* extended DH... */
-					s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
+					s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
 						sqrt_mu / (1 + s_x[i]->logk[b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
@@ -5425,20 +5426,20 @@ calc_vm(LDBLE tc, LDBLE pa)
 				{
 					LDBLE bi = s_x[i]->logk[vmi1] + s_x[i]->logk[vmi2] / TK_s + s_x[i]->logk[vmi3] * TK_s;
 					if (s_x[i]->logk[vmi4] == 1.0)
-						s_x[i]->rxn_x->logk[vm_tc] += bi * mu_x;
+						s_x[i]->rxn_x.logk[vm_tc] += bi * mu_x;
 					else
-						s_x[i]->rxn_x->logk[vm_tc] += bi * pow(mu_x, s_x[i]->logk[vmi4]);
+						s_x[i]->rxn_x.logk[vm_tc] += bi * pow(mu_x, s_x[i]->logk[vmi4]);
 				}
 			}
 		}
 		else if (s_x[i]->millero[0])
 		{
 		/* Millero volume at I = 0... */
-			s_x[i]->rxn_x->logk[vm_tc] = s_x[i]->millero[0] + tc * (s_x[i]->millero[1] + tc * s_x[i]->millero[2]);
+			s_x[i]->rxn_x.logk[vm_tc] = s_x[i]->millero[0] + tc * (s_x[i]->millero[1] + tc * s_x[i]->millero[2]);
 			if (s_x[i]->z)
 			{
 			/* the ionic strength terms... */
-				s_x[i]->rxn_x->logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
+				s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
 					(s_x[i]->millero[3] + tc * (s_x[i]->millero[4] + tc * s_x[i]->millero[5])) * mu_x;
 			}
 		}
@@ -5446,7 +5447,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 			continue;
 
 		/* for calculating delta_v of the reaction... */
-		s_x[i]->logk[vm_tc] = s_x[i]->rxn_x->logk[vm_tc];
+		s_x[i]->logk[vm_tc] = s_x[i]->rxn_x.logk[vm_tc];
 	}
 	return OK;
 }
@@ -5479,13 +5480,13 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	mu_terms_in_logk = false;
 	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
-		//if (s_x[i]->rxn_x->logk[vm_tc])
+		//if (s_x[i]->rxn_x.logk[vm_tc])
 		/* calculate delta_v for the reaction... */
-			s_x[i]->rxn_x->logk[delta_v] = calc_delta_v(s_x[i]->rxn_x, false);
-		if (tc == current_tc && s_x[i]->rxn_x->logk[delta_v] == 0)
+			s_x[i]->rxn_x.logk[delta_v] = calc_delta_v(*&s_x[i]->rxn_x, false);
+		if (tc == current_tc && s_x[i]->rxn_x.logk[delta_v] == 0)
 			continue;
 		mu_terms_in_logk = true;
-		s_x[i]->lk = k_calc(s_x[i]->rxn_x->logk, tempk, pa * PASCAL_PER_ATM);
+		s_x[i]->lk = k_calc(s_x[i]->rxn_x.logk, tempk, pa * PASCAL_PER_ATM);
 	}
 /*
  *    Calculate log k for all pure phases
@@ -5495,11 +5496,11 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 		if (phases[i]->in == TRUE)  
 		{
 
-			phases[i]->rxn_x->logk[delta_v] = calc_delta_v(phases[i]->rxn_x, true) -
+			phases[i]->rxn_x.logk[delta_v] = calc_delta_v(*&phases[i]->rxn_x, true) -
 				phases[i]->logk[vm0];
-			if (phases[i]->rxn_x->logk[delta_v])
+			if (phases[i]->rxn_x.logk[delta_v])
 				mu_terms_in_logk = true;
-			phases[i]->lk = k_calc(phases[i]->rxn_x->logk, tempk, pa * PASCAL_PER_ATM);
+			phases[i]->lk = k_calc(phases[i]->rxn_x.logk, tempk, pa * PASCAL_PER_ATM);
 
 		}
 	}

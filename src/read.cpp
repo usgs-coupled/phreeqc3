@@ -753,17 +753,18 @@ read_exchange_species(void)
 /*
  *   Malloc space for species reaction
  */
-			trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
+			//trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
 /*
  *   Copy reaction to reaction for species
  */
-			token_ptr = &trxn.token[0].s->rxn->token[0];
-			for (i = 0; i < count_trxn; i++)
-			{
-				token_ptr[i].s = trxn.token[i].s;
-				token_ptr[i].coef = trxn.token[i].coef;
-			}
-			token_ptr[i].s = NULL;
+			trxn_copy(trxn.token[0].s->rxn);
+			//token_ptr = &trxn.token[0].s->rxn.token[0];
+			//for (i = 0; i < count_trxn; i++)
+			//{
+			//	token_ptr[i].s = trxn.token[i].s;
+			//	token_ptr[i].coef = trxn.token[i].coef;
+			//}
+			//token_ptr[i].s = NULL;
 /*
  *   Set type for species
  */
@@ -793,7 +794,7 @@ read_exchange_species(void)
 				phase_ptr->check_equation = FALSE;
 				phase_ptr->type = EX;
 				phase_ptr->next_elt = elt_list_dup(s_ptr->next_elt);
-				phase_ptr->rxn = rxn_dup(s_ptr->rxn);
+				phase_ptr->rxn = s_ptr->rxn;
 			}
 			break;
 		}
@@ -3711,25 +3712,26 @@ read_phases(void)
 /*
  *   Malloc space for phase reaction
  */
-			phase_ptr->rxn = rxn_alloc(count_trxn + 1);
+			//phase_ptr->rxn = rxn_alloc(count_trxn + 1);
 /*
  *   Copy reaction to reaction for phase, first token (token[0]) is not used
  *   except to check that coef of phase formula = 1.0
  */
-			token_ptr = &phase_ptr->rxn->token[0];
-			/* token_ptr[0].coef=0; */
-			token_ptr[0].coef = trxn.token[0].coef;
-			token_ptr[0].s = trxn.token[1].s;
-			for (i = 1; i < count_trxn; i++)
-			{
-				token_ptr[i].name = NULL;
-				token_ptr[i].s = trxn.token[i].s;
-				token_ptr[i].coef = trxn.token[i].coef;
-				if (token_ptr[i].s == NULL)
-				{
-					token_ptr[i].name = trxn.token[i].name;
-				}
-			}
+			trxn_copy(phase_ptr->rxn);
+			token_ptr = &phase_ptr->rxn.token[0];
+			///* token_ptr[0].coef=0; */
+			//token_ptr[0].coef = trxn.token[0].coef;
+			//token_ptr[0].s = trxn.token[1].s;
+			//for (i = 1; i < count_trxn; i++)
+			//{
+			//	token_ptr[i].name = NULL;
+			//	token_ptr[i].s = trxn.token[i].s;
+			//	token_ptr[i].coef = trxn.token[i].coef;
+			//	if (token_ptr[i].s == NULL)
+			//	{
+			//		token_ptr[i].name = trxn.token[i].name;
+			//	}
+			//}
 			token_ptr[0].name = trxn.token[1].name;
 			/*
 			   token_ptr[0].name=phase_ptr->name;
@@ -5627,7 +5629,7 @@ read_species(void)
 /*
  *   Malloc space for species reaction
  */
-			trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
+			//trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
 /*
  *   Copy reaction to reaction for species
  */
@@ -6188,7 +6190,7 @@ read_surface_species(void)
 			s_ptr->dz[2] = s_ptr->cd_music[2];
 			for (j = 0; j < 3; j++)
 			{
-				s_ptr->rxn->dz[j] = s_ptr->dz[j];
+				s_ptr->rxn.dz[j] = s_ptr->dz[j];
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -6250,17 +6252,18 @@ read_surface_species(void)
 			/*
 			 *   Malloc space for species reaction
 			 */
-			trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
+			//trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			token_ptr = &trxn.token[0].s->rxn->token[0];
-			for (i = 0; i < count_trxn; i++)
-			{
-				token_ptr[i].s = trxn.token[i].s;
-				token_ptr[i].coef = trxn.token[i].coef;
-			}
-			token_ptr[i].s = NULL;
+			trxn_copy(trxn.token[0].s->rxn);
+			//token_ptr = &trxn.token[0].s->rxn.token[0];
+			//for (i = 0; i < count_trxn; i++)
+			//{
+			//	token_ptr[i].s = trxn.token[i].s;
+			//	token_ptr[i].coef = trxn.token[i].coef;
+			//}
+			//token_ptr[i].s = NULL;
 			/*
 			 *   Set type for species
 			 */
@@ -7063,21 +7066,22 @@ add_psi_master_species(char *token)
 			master[count_master]->s->next_elt = elt_list_save();
 			master[count_master]->s->type = plane;
 			master[count_master]->primary = TRUE;
-			master[count_master]->s->rxn = rxn_alloc(3);
+
+			master[count_master]->s->rxn.token.resize(3);
 			/*
 			 *   Define reaction for psi
 			 */
 			for (i = 0; i < MAX_LOG_K_INDICES; i++)
 			{
-				master[count_master]->s->rxn->logk[i] = 0.0;
+				master[count_master]->s->rxn.logk[i] = 0.0;
 			}
-			master[count_master]->s->rxn->token[0].s =
+			master[count_master]->s->rxn.token[0].s =
 				master[count_master]->s;
-			master[count_master]->s->rxn->token[0].coef = -1.0;
-			master[count_master]->s->rxn->token[1].s =
+			master[count_master]->s->rxn.token[0].coef = -1.0;
+			master[count_master]->s->rxn.token[1].s =
 				master[count_master]->s;
-			master[count_master]->s->rxn->token[1].coef = 1.0;
-			master[count_master]->s->rxn->token[2].s = NULL;
+			master[count_master]->s->rxn.token[1].coef = 1.0;
+			master[count_master]->s->rxn.token[2].s = NULL;
 			count_master++;
 		}
 	}

@@ -648,7 +648,7 @@ print_gas_phase(void)
 		{
 			lp = -phase_ptr->lk;
 			for (rxn_ptr =
-				 &phase_ptr->rxn_x->token[0] + 1;
+				 &phase_ptr->rxn_x.token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				lp += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1073,7 +1073,7 @@ print_master_reactions(void)
 	{
 		output_msg(sformatf("%s\t%s\n\tPrimary reaction\n",
 				   master[i]->elt->name, master[i]->s->name));
-		next_token = master[i]->rxn_primary->token;
+		next_token = master[i]->rxn_primary.token;
 		for (; next_token->s != NULL; next_token++)
 		{
 			output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
@@ -1082,7 +1082,7 @@ print_master_reactions(void)
 		output_msg(sformatf("\n\tSecondary reaction:\n"));
 		if (master[i]->rxn_secondary != NULL)
 		{
-			next_token = master[i]->rxn_secondary->token;
+			next_token = master[i]->rxn_secondary.token;
 			for (; next_token->s != NULL; next_token++)
 			{
 				output_msg(sformatf("\t\t%s\t%f\n",
@@ -1165,37 +1165,37 @@ print_mix(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-print_reaction(struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Debugging print of individual chemical reactions for
- *   species or phases
- */
-	int j;
-	struct rxn_token *next_token;
-
-	if (pr.use == FALSE || pr.all == FALSE)
-		return (OK);
-
-	output_msg(sformatf("%s\t\n", rxn_ptr->token[0].s->name));
-	output_msg(sformatf("\n\tlog k:\n"));
-	for (j = 0; j < MAX_LOG_K_INDICES; j++)
-	{
-		output_msg(sformatf("\t%f", (double) rxn_ptr->logk[j]));
-	}
-	output_msg(sformatf("\n\nReaction:\n"));
-	for (next_token = &rxn_ptr->token[0]; next_token->s != NULL; next_token++)
-	{
-		output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
-				   (double) next_token->coef));
-	}
-	output_msg(sformatf("\n"));
-	return (OK);
-}
+//
+///* ---------------------------------------------------------------------- */
+//int Phreeqc::
+//print_reaction(struct reaction *rxn_ptr)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Debugging print of individual chemical reactions for
+// *   species or phases
+// */
+//	int j;
+//	struct rxn_token *next_token;
+//
+//	if (pr.use == FALSE || pr.all == FALSE)
+//		return (OK);
+//
+//	output_msg(sformatf("%s\t\n", rxn_ptr->token[0].s->name));
+//	output_msg(sformatf("\n\tlog k:\n"));
+//	for (j = 0; j < MAX_LOG_K_INDICES; j++)
+//	{
+//		output_msg(sformatf("\t%f", (double) rxn_ptr->logk[j]));
+//	}
+//	output_msg(sformatf("\n\nReaction:\n"));
+//	for (next_token = &rxn_ptr->token[0]; next_token->s != NULL; next_token++)
+//	{
+//		output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
+//				   (double) next_token->coef));
+//	}
+//	output_msg(sformatf("\n"));
+//	return (OK);
+//}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_saturation_indices(void)
@@ -1209,7 +1209,7 @@ print_saturation_indices(void)
 	LDBLE lk;
 	LDBLE la_eminus;
 	struct rxn_token *rxn_ptr;
-	struct reaction *reaction_ptr;
+	CReaction *reaction_ptr;
 	bool gas = true;
 
 	if (pr.saturation_indices == FALSE || pr.all == FALSE)
@@ -1254,13 +1254,13 @@ print_saturation_indices(void)
 			continue;
 		/* check for solids and gases in equation */
 		if (phases[i]->replaced)
-			reaction_ptr = phases[i]->rxn_s;
+			reaction_ptr = &phases[i]->rxn_s;
 		else
-			reaction_ptr = phases[i]->rxn;
+			reaction_ptr = &phases[i]->rxn;
 /*
  *   Print saturation index
  */
-		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
 			 phases[i]->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 				mu_terms_in_logk = true;
@@ -1356,7 +1356,7 @@ print_pp_assemblage(void)
  */
 		iap = 0.0;
 		phase_ptr = x[j]->phase;
-		if (x[j]->phase->rxn_x == NULL || phase_ptr->in == FALSE)
+		if (x[j]->phase->rxn_x.token.size() == 0 || phase_ptr->in == FALSE)
 		{
 			output_msg(sformatf("%-18s%23s", x[j]->phase->name,
 					   "Element not present."));
@@ -1364,12 +1364,12 @@ print_pp_assemblage(void)
 		else
 		{
 			phase_ptr = x[j]->phase;
-			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+			phase_ptr->rxn.logk[delta_v] = calc_delta_v(*&phase_ptr->rxn, true) -
 				phase_ptr->logk[vm0];
-			if (phase_ptr->rxn->logk[delta_v])
+			if (phase_ptr->rxn.logk[delta_v])
 				mu_terms_in_logk = true;
-			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
-			for (rxn_ptr = &phase_ptr->rxn->token[0] + 1; rxn_ptr->s != NULL;
+			lk = k_calc(phase_ptr->rxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
+			for (rxn_ptr = &phase_ptr->rxn.token[0] + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
 				if (rxn_ptr->s != s_eminus)
@@ -1383,7 +1383,7 @@ print_pp_assemblage(void)
 			}
 			si = -lk + iap;
 			/*
-			   for (rxn_ptr = x[j]->phase->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++) {
+			   for (rxn_ptr = x[j]->phase->rxn_x.token + 1; rxn_ptr->s != NULL; rxn_ptr++) {
 			   iap += rxn_ptr->s->la * rxn_ptr->coef;
 			   }
 			   si = -x[j]->phase->lk + iap;
@@ -3239,7 +3239,7 @@ punch_saturation_indices(void)
  *   Print saturation index
  */
 			iap = 0.0;
-			for (rxn_ptr = &(((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x->token[0]) + 1;
+			for (rxn_ptr = &(((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x.token[0]) + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				iap += rxn_ptr->s->la * rxn_ptr->coef;

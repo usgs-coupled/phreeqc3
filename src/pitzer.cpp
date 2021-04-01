@@ -2440,12 +2440,12 @@ gammas_pz(bool exch_a_f)
  *   Find moles of sites. 
  *   s_x[i]->equiv is stoichiometric coefficient of sites in species
  */
-			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+			for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 			{
-				if (s_x[i]->rxn_x->token[j].s->type == SURF)
+				if (s_x[i]->rxn_x.token[j].s->type == SURF)
 				{
 					s_x[i]->alk =
-						s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
+						s_x[i]->rxn_x.token[j].s->primary->unknown->moles;
 					break;
 				}
 			}
@@ -2512,11 +2512,11 @@ gammas_pz(bool exch_a_f)
 				 *   Find CEC
 				 *   z contains valence of cation for exchange species, alk contains cec
 				 */
-				for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+				for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 				{
-					if (s_x[i]->rxn_x->token[j].s->type == EX)
+					if (s_x[i]->rxn_x.token[j].s->type == EX)
 					{
-						s_x[i]->alk = s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
+						s_x[i]->alk = s_x[i]->rxn_x.token[j].s->primary->unknown->moles;
 						break;
 					}
 				}
@@ -2540,12 +2540,12 @@ gammas_pz(bool exch_a_f)
 				if (use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
 					/* Assume equal gamma's of solute and exchangeable species...  */
-					for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+					for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 					{
-						if (s_x[i]->rxn_x->token[j].s->type == EX)
+						if (s_x[i]->rxn_x.token[j].s->type == EX)
 							continue;
-						coef = s_x[i]->rxn_x->token[j].coef;
-						s_x[i]->lg += coef * s_x[i]->rxn_x->token[j].s->lg;
+						coef = s_x[i]->rxn_x.token[j].coef;
+						s_x[i]->lg += coef * s_x[i]->rxn_x.token[j].s->lg;
 					}
 				}
 				if (s_x[i]->a_f && s_x[i]->primary == NULL && s_x[i]->moles)

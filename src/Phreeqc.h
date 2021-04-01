@@ -59,6 +59,7 @@ class cxxSolutionIsotope;
 class cxxSSassemblage;
 class cxxSS;
 class cxxStorageBin;
+class CReaction;
 
 
 #include "classes.h"
@@ -553,7 +554,8 @@ public:
 	int build_species_list(int n);
 	int build_min_surface(void);
 	LDBLE calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa);
-	LDBLE calc_delta_v(reaction* r_ptr, bool phase);
+	LDBLE calc_delta_v(struct reaction* r_ptr, bool phase);
+	double calc_delta_v(CReaction& r_ref, bool phase);
 	LDBLE calc_PR(std::vector<struct phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
@@ -615,7 +617,7 @@ public:
 	int print_exchange(void);
 	int print_gas_phase(void);
 	int print_master_reactions(void);
-	int print_reaction(struct reaction* rxn_ptr);
+	//int print_reaction(struct reaction* rxn_ptr);
 	int print_species(void);
 	int print_surface(void);
 	int print_user_print(void);
@@ -866,9 +868,9 @@ public:
 	struct rate* rate_copy(struct rate* rate_ptr);
 	struct rate* rate_search(const char* name, int* n);
 	int rate_sort(void);
-	struct reaction* rxn_alloc(int ntokens);
-	struct reaction* rxn_dup(struct reaction* rxn_ptr_old);
-	struct reaction* cxxChemRxn2rxn(cxxChemRxn& cr);
+	struct reaction rxn_alloc(int ntokens);
+	struct reaction rxn_dup(struct reaction& rxn_ptr_old);
+	struct reaction cxxChemRxn2rxn(cxxChemRxn& cr);
 	LDBLE rxn_find_coef(struct reaction* r_ptr, const char* str);
 	int rxn_free(struct reaction* rxn_ptr);
 	int rxn_print(struct reaction* rxn_ptr);
@@ -895,6 +897,12 @@ public:
 	int trxn_reverse_k(void);
 	int trxn_sort(void);
 	int trxn_swap(const char* token);
+	bool trxn_add(CReaction& r_ptr, double coef, bool combine);
+	bool trxn_add_phase(CReaction& r_ref, double coef, bool combine);
+	bool trxn_copy(CReaction& rxn_ref);
+	double rxn_find_coef(CReaction& r_ptr, const char* str);
+	bool phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ptr);
+	double calc_alk(CReaction& rxn_ptr);
 	struct unknown* unknown_alloc(void);
 	int unknown_delete(int i);
 	int unknown_free(struct unknown* unknown_ptr);
@@ -1455,7 +1463,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	struct reaction_temp trxn;	/* structure array of working space while reading equations
 								species names are in "temp_strings" */
-	int count_trxn;		        /* number of reactants in trxn = position of next */
+	size_t count_trxn;		        /* number of reactants in trxn = position of next */
 
 	std::vector<struct unknown_list> mb_unknowns;
 
