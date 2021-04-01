@@ -757,7 +757,7 @@ read_exchange_species(void)
 /*
  *   Copy reaction to reaction for species
  */
-			token_ptr = trxn.token[0].s->rxn->token;
+			token_ptr = &trxn.token[0].s->rxn->token[0];
 			for (i = 0; i < count_trxn; i++)
 			{
 				token_ptr[i].s = trxn.token[i].s;
@@ -3716,7 +3716,7 @@ read_phases(void)
  *   Copy reaction to reaction for phase, first token (token[0]) is not used
  *   except to check that coef of phase formula = 1.0
  */
-			token_ptr = phase_ptr->rxn->token;
+			token_ptr = &phase_ptr->rxn->token[0];
 			/* token_ptr[0].coef=0; */
 			token_ptr[0].coef = trxn.token[0].coef;
 			token_ptr[0].s = trxn.token[1].s;
@@ -6254,7 +6254,7 @@ read_surface_species(void)
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			token_ptr = trxn.token[0].s->rxn->token;
+			token_ptr = &trxn.token[0].s->rxn->token[0];
 			for (i = 0; i < count_trxn; i++)
 			{
 				token_ptr[i].s = trxn.token[i].s;

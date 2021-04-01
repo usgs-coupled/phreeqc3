@@ -415,7 +415,7 @@ struct reaction
 {
 	LDBLE logk[MAX_LOG_K_INDICES];
 	LDBLE dz[3];
-	struct rxn_token *token;
+	std::vector<struct rxn_token> token;
 };
 struct rxn_token
 {
@@ -450,7 +450,7 @@ public:
 			dz[i] = rxn->dz[i];
 		}
 		struct rxn_token *next_token;
-		next_token = rxn->token;
+		next_token = &rxn->token[0];
 		this->tokens.push_back(*next_token++);
 		while (next_token->s != NULL || next_token->name != NULL)
 		{

@@ -1966,7 +1966,7 @@ print_model(struct inverse *inv_ptr)
 				lk = k_calc(reaction_ptr->logk, t_i, p_i);
 
 				iap = 0.0;
-				for (rxn_ptr = reaction_ptr->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+				for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 				{
 					t = 0;
 					if (rxn_ptr->s == s_eminus)
@@ -4905,7 +4905,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
  */
 		std::string token;
 		sum = 0;
-		for (rxn_ptr = inv_ptr->phases[i].phase->rxn_s->token + 1;
+		for (rxn_ptr = &inv_ptr->phases[i].phase->rxn_s->token[0] + 1;
 			 rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s == s_hplus)
