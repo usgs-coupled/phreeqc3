@@ -2214,7 +2214,7 @@ mb_ss(void)
 			if (phase0_ptr->in == TRUE && phase0_ptr->rxn_x != NULL)
 			{
 				log10_iap = 0;
-				for (rxn_ptr = phase0_ptr->rxn_x->token + 1;
+				for (rxn_ptr = &phase0_ptr->rxn_x->token[0] + 1;
 					 rxn_ptr->s != NULL; rxn_ptr++)
 				{
 					log10_iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -2228,7 +2228,7 @@ mb_ss(void)
 			if (phase1_ptr->in == TRUE && phase1_ptr->rxn_x != NULL)
 			{
 				log10_iap = 0;
-				for (rxn_ptr = phase1_ptr->rxn_x->token + 1;
+				for (rxn_ptr = &phase1_ptr->rxn_x->token[0] + 1;
 					 rxn_ptr->s != NULL; rxn_ptr++)
 				{
 					log10_iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -2293,7 +2293,7 @@ mb_ss(void)
 				if (phase_ptr->in == TRUE)
 				{
 					lp = -phase_ptr->lk;
-					for (rxn_ptr = phase_ptr->rxn_x->token + 1;
+					for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1;
 						 rxn_ptr->s != NULL; rxn_ptr++)
 					{
 						lp += rxn_ptr->s->la * rxn_ptr->coef;
@@ -2367,7 +2367,7 @@ molalities(int allow_overflow)
  *   lm and moles for all aqueous species
  */
 		s_x[i]->lm = s_x[i]->lk - s_x[i]->lg;
-		for (rxn_ptr = s_x[i]->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &s_x[i]->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			s_x[i]->lm += rxn_ptr->s->la * rxn_ptr->coef;
@@ -2639,7 +2639,7 @@ calc_gas_pressures(void)
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
-			for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+			for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
 				lp += rxn_ptr->s->la * rxn_ptr->coef;

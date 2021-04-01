@@ -648,7 +648,7 @@ print_gas_phase(void)
 		{
 			lp = -phase_ptr->lk;
 			for (rxn_ptr =
-				 phase_ptr->rxn_x->token + 1;
+				 &phase_ptr->rxn_x->token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				lp += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1188,7 +1188,7 @@ print_reaction(struct reaction *rxn_ptr)
 		output_msg(sformatf("\t%f", (double) rxn_ptr->logk[j]));
 	}
 	output_msg(sformatf("\n\nReaction:\n"));
-	for (next_token = rxn_ptr->token; next_token->s != NULL; next_token++)
+	for (next_token = &rxn_ptr->token[0]; next_token->s != NULL; next_token++)
 	{
 		output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
 				   (double) next_token->coef));
@@ -1266,7 +1266,7 @@ print_saturation_indices(void)
 				mu_terms_in_logk = true;
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		iap = 0.0;
-		for (rxn_ptr = reaction_ptr->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus)
@@ -1369,7 +1369,7 @@ print_pp_assemblage(void)
 			if (phase_ptr->rxn->logk[delta_v])
 				mu_terms_in_logk = true;
 			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
-			for (rxn_ptr = phase_ptr->rxn->token + 1; rxn_ptr->s != NULL;
+			for (rxn_ptr = &phase_ptr->rxn->token[0] + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
 				if (rxn_ptr->s != s_eminus)
@@ -3239,7 +3239,7 @@ punch_saturation_indices(void)
  *   Print saturation index
  */
 			iap = 0.0;
-			for (rxn_ptr = ((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x->token + 1;
+			for (rxn_ptr = &(((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x->token[0]) + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				iap += rxn_ptr->s->la * rxn_ptr->coef;

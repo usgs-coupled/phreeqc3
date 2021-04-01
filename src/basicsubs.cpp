@@ -1735,7 +1735,7 @@ saturation_ratio(const char *phase_name)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1767,7 +1767,7 @@ saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			*iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -2293,7 +2293,7 @@ surf_total(const char *total_name, const char *surface_name)
 		struct rxn_token *rxn_ptr;
 		if (s_x[j]->mole_balance == NULL)
 		{
-			for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+			for (rxn_ptr = &s_x[j]->rxn_s->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				if (redox && rxn_ptr->s->secondary)
 				{
@@ -3024,7 +3024,7 @@ system_total_si(void)
  *   Print saturation index
  */
 		iap = 0.0;
-		for (rxn_ptr = phases[i]->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phases[i]->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			iap += rxn_ptr->s->la * rxn_ptr->coef;

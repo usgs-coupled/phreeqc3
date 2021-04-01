@@ -1421,9 +1421,7 @@ rxn_alloc(int ntokens)
 /*
  *   Malloc reaction structure
  */
-	rxn_ptr = (struct reaction *) PHRQ_malloc(sizeof(struct reaction));
-	if (rxn_ptr == NULL)
-		malloc_error();
+	rxn_ptr = new struct reaction;
 /*
  *   zero log k data
  */
@@ -1441,17 +1439,14 @@ rxn_alloc(int ntokens)
 /*
  *   Malloc rxn_token structure
  */
-	rxn_ptr->token = (struct rxn_token *) PHRQ_malloc(
-		(size_t) ntokens * sizeof(struct rxn_token));
+	rxn_ptr->token.clear();
+	rxn_ptr->token.resize((size_t)ntokens);
 	for (i = 0; i < ntokens; i++)
 	{
 		rxn_ptr->token[i].s = NULL;
 		rxn_ptr->token[i].name = NULL;
 		rxn_ptr->token[i].coef = 0.0;
 	}
-
-	if (rxn_ptr->token == NULL)
-		malloc_error();
 	return (rxn_ptr);
 }
 
@@ -1485,7 +1480,7 @@ rxn_dup(struct reaction *rxn_ptr_old)
 /*
  *   Copy tokens
  */
-	memcpy(rxn_ptr_new->token, rxn_ptr_old->token,
+	memcpy(&rxn_ptr_new->token[0], &rxn_ptr_old->token[0],
 		   ((size_t)i + 1) * sizeof(struct rxn_token));
 
 	return (rxn_ptr_new);
@@ -1555,7 +1550,7 @@ rxn_find_coef(struct reaction * r_ptr, const char *str)
 	struct rxn_token *r_token;
 	LDBLE coef;
 
-	r_token = r_ptr->token + 1;
+	r_token = &r_ptr->token[0] + 1;
 	coef = 0.0;
 	while (r_token->s != NULL)
 	{
@@ -1582,8 +1577,8 @@ rxn_free(struct reaction *rxn_ptr)
  */
 	if (rxn_ptr == NULL)
 		return (ERROR);
-	rxn_ptr->token = (struct rxn_token *) free_check_null(rxn_ptr->token);
-	rxn_ptr = (struct reaction *) free_check_null(rxn_ptr);
+	rxn_ptr->token.clear();
+	delete rxn_ptr;
 	return (OK);
 }
 
@@ -1602,7 +1597,7 @@ rxn_print(struct reaction *rxn_ptr)
 	int i;
 	if (rxn_ptr == NULL)
 		return (ERROR);
-	next_token = rxn_ptr->token;
+	next_token = &rxn_ptr->token[0];
 	output_msg(sformatf( "log k data:\n"));
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
@@ -2249,7 +2244,7 @@ trxn_add(struct reaction *r_ptr, LDBLE coef, int combine)
 /*
  *   Copy  equation into work space
  */
-	next_token = r_ptr->token;
+	next_token = &r_ptr->token[0];
 	while (next_token->s != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())
@@ -2304,7 +2299,7 @@ trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine)
 /*
  *   Copy  equation into work space
  */
-	next_token = r_ptr->token;
+	next_token = &r_ptr->token[0];
 	while (next_token->s != NULL || next_token->name != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())

@@ -477,7 +477,7 @@ build_gas_phase(void)
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
-			for (rxn_ptr = phase_ptr->rxn_x->token + 1;
+			for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 
@@ -549,7 +549,7 @@ build_gas_phase(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
 			{
@@ -657,7 +657,7 @@ build_ss_assemblage(void)
 		if (x[i]->phase->rxn_x == NULL)
 			continue;
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
-		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
@@ -671,7 +671,7 @@ build_ss_assemblage(void)
  *   Put coefficients into mass action equations
  */
 		/* first IAP terms */
-		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s->secondary != NULL
@@ -1371,7 +1371,7 @@ build_pure_phases(void)
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
 		store_mb(&(x[i]->si), &(x[i]->f), 1.0);
 
-		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1387,7 +1387,7 @@ build_pure_phases(void)
 /*
  *   Put coefficients into IAP equations
  */
-		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s->secondary != NULL
@@ -1554,7 +1554,7 @@ build_solution_phase_boundaries(void)
 			input_error++;
 			break;
 		}
-		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1569,7 +1569,7 @@ build_solution_phase_boundaries(void)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
-		for (rxn_ptr = x[i]->phase->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s->secondary != NULL
@@ -2083,7 +2083,7 @@ is_special(struct species *l_spec)
 	struct rxn_token *token_ptr;
 
 	special = TRUE;
-	for (token_ptr = l_spec->rxn_s->token + 1; token_ptr->s != NULL;
+	for (token_ptr = &l_spec->rxn_s->token[0] + 1; token_ptr->s != NULL;
 		 token_ptr++)
 	{
 		if (token_ptr->s != s_hplus &&
@@ -4715,7 +4715,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 	}
 	if (s[k] == s_h2o)
 		return (OK);
-	for (rxn_ptr = s[k]->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+	for (rxn_ptr = &s[k]->rxn_x->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 	{
 		if (rxn_ptr->s->secondary != NULL
 			&& rxn_ptr->s->secondary->in == TRUE)
@@ -6078,7 +6078,7 @@ build_min_surface(void)
 		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
 		/* find unknown number */
 		int j;
-		for (j = count_unknowns - 1; j >= 0; j--)
+		for (j = (int)count_unknowns - 1; j >= 0; j--)
 		{
 			if (x[j]->type != SURFACE)
 				continue;
@@ -6086,7 +6086,7 @@ build_min_surface(void)
 				break;
 		}
 		int k;
-		for (k = count_unknowns - 1; k >= 0; k--)
+		for (k = (int)count_unknowns - 1; k >= 0; k--)
 		{
 			if (x[k]->type != PP)
 				continue;
@@ -6112,7 +6112,7 @@ build_min_surface(void)
 		}
 
 		/* charge balance */
-		store_jacob0(charge_balance_unknown->number, x[k]->number,
+		store_jacob0((int)charge_balance_unknown->number, (int)x[k]->number,
 					 comp_ptr->Get_formula_z() * comp_ptr->Get_phase_proportion());
 		store_sum_deltas(&delta[k], &charge_balance_unknown->delta,
 						 -comp_ptr->Get_formula_z() * comp_ptr->Get_phase_proportion());
