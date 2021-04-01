@@ -2,6 +2,7 @@
 #define _INC_GLOBAL_STRUCTURES_H
 #include "Surface.h"
 #include "GasPhase.h"
+#include "CReaction.h"
 /* ----------------------------------------------------------------------
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
@@ -438,19 +439,38 @@ public:
 			dz[i] =0.0;
 		}
 	}
-	cxxChemRxn(struct reaction *rxn)
+	cxxChemRxn(struct reaction* rxn_ptr)
 	{
 		logk[0] = dz[0] = 0.0;
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
-			logk[i] = rxn->logk[i];
+			logk[i] = rxn_ptr->logk[i];
 		}
 		for (size_t i = 0; i < 3; i++)
 		{
-			dz[i] = rxn->dz[i];
+			dz[i] = rxn_ptr->dz[i];
 		}
 		struct rxn_token *next_token;
-		next_token = &rxn->token[0];
+		next_token = &rxn_ptr->token[0];
+		this->tokens.push_back(*next_token++);
+		while (next_token->s != NULL || next_token->name != NULL)
+		{
+			this->tokens.push_back(*next_token++);
+		}
+	}
+	cxxChemRxn(CReaction& rxn_ref)
+	{
+		logk[0] = dz[0] = 0.0;
+		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
+		{
+			logk[i] = rxn_ref.logk[i];
+		}
+		for (size_t i = 0; i < 3; i++)
+		{
+			dz[i] = rxn_ref.dz[i];
+		}
+		struct rxn_token* next_token;
+		next_token = &rxn_ref.token[0];
 		this->tokens.push_back(*next_token++);
 		while (next_token->s != NULL || next_token->name != NULL)
 		{
@@ -533,10 +553,10 @@ struct species
 	struct elt_list *next_secondary;
 	struct elt_list *next_sys_total;
 	int check_equation;			/* switch to check equation for charge and element balance */
-	struct reaction *rxn;		/* pointer to data base reaction */
-	struct reaction *rxn_s;		/* pointer to reaction converted to secondary and primary
+	CReaction rxn;		/* pointer to data base reaction */
+	CReaction rxn_s;		/* pointer to reaction converted to secondary and primary
 								   master species */
-	struct reaction *rxn_x;		/* reaction to be used in model */
+	CReaction rxn_x;		/* reaction to be used in model */
 	LDBLE tot_g_moles;			/* (1 + sum(g)) * moles */
 	LDBLE tot_dh2o_moles;		/* sum(moles*g*Ws/Waq) */
 	LDBLE cd_music[5];
@@ -589,10 +609,10 @@ struct phase
 	struct elt_list *next_elt;	/* pointer to list of elements in phase */
 	struct elt_list *next_sys_total;
 	int check_equation;			/* switch to check equation for charge and element balance */
-	struct reaction *rxn;		/* pointer to data base reaction */
-	struct reaction *rxn_s;		/* pointer to reaction converted to secondary and primary
+	CReaction rxn;		/* pointer to data base reaction */
+	CReaction rxn_s;		/* pointer to reaction converted to secondary and primary
 								   master species */
-	struct reaction *rxn_x;		/* reaction to be used in model */
+	CReaction rxn_x;		/* reaction to be used in model */
 	int replaced;               /* equation contains solids or gases */
 	int in_system;
 };
@@ -619,9 +639,9 @@ struct phase
  	const char *gfw_formula;			/* formula from which to calcuate gfw */
  	struct unknown *unknown;	/* pointer to unknown structure */
  	struct species *s;			/* pointer to species structure */
- 	struct reaction *rxn_primary;	/* reaction writes master species in terms of primary
+	CReaction rxn_primary;	/* reaction writes master species in terms of primary
  									   master species */
- 	struct reaction *rxn_secondary;	/* reaction writes master species in terms of secondary
+	CReaction rxn_secondary;	/* reaction writes master species in terms of secondary
  									   master species */
 	const char * pe_rxn;
  	int minor_isotope;

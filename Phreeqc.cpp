@@ -1538,28 +1538,29 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			cxxNameDouble next_sys_total(pSrc->s[i]->next_sys_total);
 			s_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
 		}
-		//rxn
-		s_ptr->rxn = NULL;
-		if (pSrc->s[i]->rxn != NULL)
-		{
-			cxxChemRxn rxn(pSrc->s[i]->rxn);
-			s_ptr->rxn = cxxChemRxn2rxn(rxn);
-			//s_ptr->rxn = rxn_copy_operator(pSrc->s[i]->rxn);
-		}
-		//rxn_s	
-		s_ptr->rxn_s = NULL;
-		if (pSrc->s[i]->rxn_s != NULL)
-		{
-			cxxChemRxn rxn_s(pSrc->s[i]->rxn_s);
-			s_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
-		}
-		//rxn_x
-		s_ptr->rxn_x = NULL;
-		if (pSrc->s[i]->rxn_x != NULL)
-		{
-			cxxChemRxn rxn_x(pSrc->s[i]->rxn_x);
-			s_ptr->rxn_x = cxxChemRxn2rxn(rxn_x);
-		}
+// NEEDS REVISION
+		////rxn
+		//s_ptr->rxn = NULL;
+		//if (pSrc->s[i]->rxn != NULL)
+		//{
+		//	cxxChemRxn rxn(pSrc->s[i]->rxn);
+		//	s_ptr->rxn = cxxChemRxn2rxn(rxn);
+		//	//s_ptr->rxn = rxn_copy_operator(pSrc->s[i]->rxn);
+		//}
+		////rxn_s	
+		//s_ptr->rxn_s = NULL;
+		//if (pSrc->s[i]->rxn_s != NULL)
+		//{
+		//	cxxChemRxn rxn_s(pSrc->s[i]->rxn_s);
+		//	s_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
+		//}
+		////rxn_x
+		//s_ptr->rxn_x = NULL;
+		//if (pSrc->s[i]->rxn_x != NULL)
+		//{
+		//	cxxChemRxn rxn_x(pSrc->s[i]->rxn_x);
+		//	s_ptr->rxn_x = cxxChemRxn2rxn(rxn_x);
+		//}
 	}
 	s_h2o					= s_search("H2O");
 	s_hplus					= s_search("H+");
@@ -1598,27 +1599,28 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			cxxNameDouble next_sys_total(pSrc->phases[i]->next_sys_total);
 			phase_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
 		}
+// NEEDS REVISION
 		//rxn
-		phase_ptr->rxn = NULL;
-		if (pSrc->phases[i]->rxn != NULL)
-		{
-			cxxChemRxn rxn(pSrc->phases[i]->rxn);
-			phase_ptr->rxn = cxxChemRxn2rxn(rxn);
-		}
-		//rxn_s
-		//phase_ptr->rxn_s = NULL;
-		if (pSrc->phases[i]->rxn_s != NULL)
-		{
-			cxxChemRxn rxn_s(pSrc->phases[i]->rxn_s);
-			phase_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
-		}
-		//rxn_x
-		//phase_ptr->rxn_x = NULL;
-		if (pSrc->phases[i]->rxn_x != NULL)
-		{
-			cxxChemRxn rxn_x(pSrc->phases[i]->rxn_x);
-			phase_ptr->rxn_x = cxxChemRxn2rxn(rxn_x);	
-		}
+		//phase_ptr->rxn = NULL;
+		//if (pSrc->phases[i]->rxn != NULL)
+		//{
+		//	cxxChemRxn rxn(pSrc->phases[i]->rxn);
+		//	phase_ptr->rxn = cxxChemRxn2rxn(rxn);
+		//}
+		////rxn_s
+		////phase_ptr->rxn_s = NULL;
+		//if (pSrc->phases[i]->rxn_s != NULL)
+		//{
+		//	cxxChemRxn rxn_s(pSrc->phases[i]->rxn_s);
+		//	phase_ptr->rxn_s = cxxChemRxn2rxn(rxn_s);
+		//}
+		////rxn_x
+		////phase_ptr->rxn_x = NULL;
+		//if (pSrc->phases[i]->rxn_x != NULL)
+		//{
+		//	cxxChemRxn rxn_x(pSrc->phases[i]->rxn_x);
+		//	phase_ptr->rxn_x = cxxChemRxn2rxn(rxn_x);	
+		//}
 	}
 	/*----------------------------------------------------------------------
 	*   Master species
@@ -1643,20 +1645,21 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		master[i]->elt = element_store(pSrc->master[i]->elt->name);
 		master[i]->unknown = NULL;
 		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, false);
-		//rxn_primary
-		master[i]->rxn_primary = NULL;
-		if (pSrc->master[i]->rxn_primary != NULL)
-		{
-			cxxChemRxn rxn_primary(pSrc->master[i]->rxn_primary);
-			master[i]->rxn_primary = cxxChemRxn2rxn(rxn_primary);
-		}
-		//rxn_secondary
-		master[i]->rxn_secondary = NULL;
-		if (pSrc->master[i]->rxn_secondary != NULL)
-		{
-			cxxChemRxn rxn_secondary(pSrc->master[i]->rxn_secondary);
-			master[i]->rxn_secondary = cxxChemRxn2rxn(rxn_secondary);	
-		}
+// NEEDS REVISION
+		////rxn_primary
+		//master[i]->rxn_primary = NULL;
+		//if (pSrc->master[i]->rxn_primary != NULL)
+		//{
+		//	cxxChemRxn rxn_primary(pSrc->master[i]->rxn_primary);
+		//	master[i]->rxn_primary = cxxChemRxn2rxn(rxn_primary);
+		//}
+		////rxn_secondary
+		//master[i]->rxn_secondary = NULL;
+		//if (pSrc->master[i]->rxn_secondary != NULL)
+		//{
+		//	cxxChemRxn rxn_secondary(pSrc->master[i]->rxn_secondary);
+		//	master[i]->rxn_secondary = cxxChemRxn2rxn(rxn_secondary);	
+		//}
 	}
 	/*----------------------------------------------------------------------
 	*   Unknowns

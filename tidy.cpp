@@ -464,7 +464,7 @@ check_species_input(void)
 					s[i]->name);
 			error_msg(error_string, CONTINUE);
 		}
-		if (s[i]->rxn == NULL)
+		if (s[i]->rxn.token.size() == 0)
 		{
 			input_error++;
 			return_value = ERROR;
@@ -475,8 +475,8 @@ check_species_input(void)
 		}
 		else
 		{
-			select_log_k_expression(s[i]->logk, s[i]->rxn->logk);
-			add_other_logk(s[i]->rxn->logk, s[i]->add_logk);
+			select_log_k_expression(s[i]->logk, s[i]->rxn.logk);
+			add_other_logk(s[i]->rxn.logk, s[i]->add_logk);
 		}
 	}
 	return (return_value);
@@ -814,9 +814,9 @@ replace_solids_gases(void)
 				trxn_add_phase(phase_ptr->rxn, coef, FALSE);
 
 				/* remove solid/gas from trxn list */
-				trxn.token[i].name = phase_ptr->rxn->token[0].name;
-				trxn.token[i].s = phase_ptr->rxn->token[0].s;
-				trxn.token[i].coef = -coef * phase_ptr->rxn->token[0].coef;
+				trxn.token[i].name = phase_ptr->rxn.token[0].name;
+				trxn.token[i].s = phase_ptr->rxn.token[0].s;
+				trxn.token[i].coef = -coef * phase_ptr->rxn.token[0].coef;
 				repeat = TRUE;
 				replaced = TRUE;
 				/* debug
@@ -1458,10 +1458,10 @@ tidy_phases(void)
 	 */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
-		select_log_k_expression(phases[i]->logk, phases[i]->rxn->logk);
-		add_other_logk(phases[i]->rxn->logk, phases[i]->add_logk);
-		phases[i]->rxn->token[0].name = phases[i]->name;
-		phases[i]->rxn->token[0].s = NULL;
+		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
+		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
+		phases[i]->rxn.token[0].name = phases[i]->name;
+		phases[i]->rxn.token[0].s = NULL;
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -1490,8 +1490,8 @@ tidy_phases(void)
 		trxn_reverse_k();
 		rewrite_eqn_to_secondary();
 		trxn_reverse_k();
-		rxn_free(phases[i]->rxn_s);
-		phases[i]->rxn_s = rxn_alloc(count_trxn + 1);
+		//rxn_free(phases[i].rxn_s);
+		//phases[i]->rxn_s(count_trxn + 1);
 		trxn_copy(phases[i]->rxn_s);
 		/*
 		 *   Check equation
@@ -2353,8 +2353,8 @@ tidy_species(void)
 			trxn_add(master[i]->s->rxn, 1.0, FALSE);
 			rewrite_eqn_to_primary();
 		}
-		rxn_free(master[i]->rxn_primary);
-		master[i]->rxn_primary = rxn_alloc(count_trxn + 1);
+		//rxn_free(master[i]->rxn_primary);
+		//master[i]->rxn_primary = rxn_alloc(count_trxn + 1);
 		trxn_copy(master[i]->rxn_primary);
 		master[i]->coef = coef_in_master(master[i]);
 	}
@@ -2374,8 +2374,8 @@ tidy_species(void)
 			trxn_add(s[i]->rxn, 1.0, FALSE);
 			rewrite_eqn_to_secondary();
 		}
-		rxn_free(s[i]->rxn_s);
-		s[i]->rxn_s = rxn_alloc(count_trxn + 1);
+		//rxn_free(s[i].rxn_s);
+		//s[i].rxn_s = rxn_alloc(count_trxn + 1);
 		trxn_copy(s[i]->rxn_s);
 		/* calculate alkalinity */
 		s[i]->alk = calc_alk(s[i]->rxn_s);
@@ -2516,11 +2516,11 @@ tidy_species(void)
  *   Changed to be coefficient of exchanger
  */
 			LDBLE exchange_coef = 0.0;
-			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
+			for (j = 1; s[i]->rxn_s.token[j].s != NULL; j++)
 			{
-				if (s[i]->rxn_s->token[j].s->type == EX)
+				if (s[i]->rxn_s.token[j].s->type == EX)
 				{
-					exchange_coef = s[i]->rxn_s->token[j].coef;
+					exchange_coef = s[i]->rxn_s.token[j].coef;
 					break;
 				}
 			}
@@ -2540,11 +2540,11 @@ tidy_species(void)
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
-			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
+			for (j = 1; s[i]->rxn_s.token[j].s != NULL; j++)
 			{
-				if (s[i]->rxn_s->token[j].s->type == SURF)
+				if (s[i]->rxn_s.token[j].s->type == SURF)
 				{
-					surface_coef = s[i]->rxn_s->token[j].coef;
+					surface_coef = s[i]->rxn_s.token[j].coef;
 					break;
 				}
 			}
@@ -2833,13 +2833,13 @@ species_rxn_to_trxn(struct species *s_ptr)
  */
 	int i;
 
-	for (i = 0; s_ptr->rxn->token[i].s != NULL; i++)
+	for (i = 0; s_ptr->rxn.token[i].s != NULL; i++)
 	{
-		trxn.token[i].name = s_ptr->rxn->token[i].s->name;
-		trxn.token[i].z = s_ptr->rxn->token[i].s->z;
-		trxn.token[i].s = s_ptr->rxn->token[i].s;
+		trxn.token[i].name = s_ptr->rxn.token[i].s->name;
+		trxn.token[i].z = s_ptr->rxn.token[i].s->z;
+		trxn.token[i].s = s_ptr->rxn.token[i].s;
 		trxn.token[i].unknown = NULL;
-		trxn.token[i].coef = s_ptr->rxn->token[i].coef;
+		trxn.token[i].coef = s_ptr->rxn.token[i].coef;
 		count_trxn = i + 1;
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
@@ -2872,7 +2872,7 @@ phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
 	trxn.token[0].unknown = NULL;
 	/*trxn.token[0].coef = -1.0; */
 	/* check for leading coefficient of 1.0 for phase did not work */
-	trxn.token[0].coef = phase_ptr->rxn->token[0].coef;
+	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
 	for (i = 1; rxn_ptr->token[i].s != NULL; i++)
 	{
 		trxn.token[i].name = rxn_ptr->token[i].s->name;
@@ -4452,8 +4452,8 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
 	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
-	kc = exp(k_calc(phase0_ptr->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
-	kb = exp(k_calc(phase1_ptr->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
+	kc = exp(k_calc(phase0_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
+	kb = exp(k_calc(phase1_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
 	crit_pt = fabs(a0) + fabs(a1);
 /*
  *   Default, no miscibility or spinodal gaps
@@ -5072,9 +5072,9 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	l_kc = exp(k_calc(phase0_ptr->rxn->logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kc = exp(k_calc(phase0_ptr->rxn.logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 			 LOG_10);
-	l_kb = exp(k_calc(phase1_ptr->rxn->logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kb = exp(k_calc(phase1_ptr->rxn.logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 			 LOG_10);
 
 	p = ss_ptr->Get_p();

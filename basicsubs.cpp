@@ -644,15 +644,15 @@ calc_logk_p(const char *name)
 
 	if (phase_ptr != NULL)
 	{		
-		struct reaction *reaction_ptr;
+		CReaction* reaction_ptr;
 		if (phase_ptr->replaced)
-			reaction_ptr = phase_ptr->rxn_s;
+			reaction_ptr = &phase_ptr->rxn_s;
 		else
-			reaction_ptr = phase_ptr->rxn;
+			reaction_ptr = &phase_ptr->rxn;
 		/*
 		*   Print saturation index
 		*/
-		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
 			phase_ptr->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 			mu_terms_in_logk = true;
@@ -684,7 +684,7 @@ calc_logk_s(const char *name)
 	{
 		//if (s_ptr->logk[vm_tc])
 		/* calculate delta_v for the reaction... */
-			s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
+			s_ptr->logk[delta_v] = calc_delta_v(*&s_ptr->rxn, false);
 		for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
@@ -753,15 +753,15 @@ calc_deltah_p(const char* name)
 
 	if (phase_ptr != NULL)
 	{
-		struct reaction* reaction_ptr;
+		CReaction* reaction_ptr;
 		if (phase_ptr->replaced)
-			reaction_ptr = phase_ptr->rxn_s;
+			reaction_ptr = &phase_ptr->rxn_s;
 		else
-			reaction_ptr = phase_ptr->rxn;
+			reaction_ptr = &phase_ptr->rxn;
 		/*
 		*   Print saturation index
 		*/
-		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
 			phase_ptr->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 			mu_terms_in_logk = true;
@@ -793,7 +793,7 @@ calc_deltah_s(const char* name)
 	if (s_ptr != NULL)
 	{
 		/* calculate delta_v for the reaction... */
-		s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
+		s_ptr->logk[delta_v] = calc_delta_v(*&s_ptr->rxn, false);
 		for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
@@ -1735,7 +1735,7 @@ saturation_ratio(const char *phase_name)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1767,7 +1767,7 @@ saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = &phase_ptr->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			*iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -2293,7 +2293,7 @@ surf_total(const char *total_name, const char *surface_name)
 		struct rxn_token *rxn_ptr;
 		if (s_x[j]->mole_balance == NULL)
 		{
-			for (rxn_ptr = &s_x[j]->rxn_s->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+			for (rxn_ptr = &s_x[j]->rxn_s.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				if (redox && rxn_ptr->s->secondary)
 				{
@@ -3024,7 +3024,7 @@ system_total_si(void)
  *   Print saturation index
  */
 		iap = 0.0;
-		for (rxn_ptr = &phases[i]->rxn_x->token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phases[i]->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			iap += rxn_ptr->s->la * rxn_ptr->coef;

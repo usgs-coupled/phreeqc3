@@ -141,7 +141,7 @@ setup_inverse(struct inverse *inv_ptr)
 	char token[MAX_LENGTH];
 	struct phase *phase_ptr;
 	cxxSolution *solution_ptr;
-	struct reaction *rxn_ptr;
+	CReaction *rxn_ptr;
 	struct master *master_ptr;
 /*
  *   Determine array sizes, row and column positions
@@ -407,7 +407,7 @@ setup_inverse(struct inverse *inv_ptr)
 	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		phase_ptr = inv_ptr->phases[i].phase;
-		rxn_ptr = phase_ptr->rxn_s;
+		rxn_ptr = &phase_ptr->rxn_s;
 		column = col_phases + i;
 		col_name[column] = phase_ptr->name;
 		for (j = 1; rxn_ptr->token[j].s != NULL; j++)
@@ -449,7 +449,7 @@ setup_inverse(struct inverse *inv_ptr)
 				rxn_ptr->token[j].coef * coef;
 		}
 		row = master_alk->in;	/* include alkalinity for phase */
-		my_array[(size_t)row * max_column_count + (size_t)column] = calc_alk(rxn_ptr);
+		my_array[(size_t)row * max_column_count + (size_t)column] = calc_alk(*rxn_ptr);
 	}
 
 /*   mass balance: redox reaction data */
@@ -460,7 +460,7 @@ setup_inverse(struct inverse *inv_ptr)
 		if (inv_ptr->elts[i].master->s->primary == NULL)
 		{
 			coef = inv_ptr->elts[i].master->coef;
-			rxn_ptr = inv_ptr->elts[i].master->rxn_primary;
+			rxn_ptr = &inv_ptr->elts[i].master->rxn_primary;
 			column = col_redox + k;
 			col_name[column] = inv_ptr->elts[i].master->elt->name;
 			k++;
@@ -505,7 +505,7 @@ setup_inverse(struct inverse *inv_ptr)
 			}
 			row = master_alk->in;	/* include alkalinity for redox reaction */
 			my_array[(size_t)row * max_column_count + (size_t)column] =
-				(calc_alk(rxn_ptr) - inv_ptr->elts[i].master->s->alk) / coef;
+				(calc_alk(*rxn_ptr) - inv_ptr->elts[i].master->s->alk) / coef;
 		}
 	}
 
@@ -1917,7 +1917,7 @@ print_model(struct inverse *inv_ptr)
 	LDBLE  t_i, p_i, iap, lk, t;
 	const char *name;
 	struct rxn_token *rxn_ptr;
-	struct reaction *reaction_ptr;
+	CReaction *reaction_ptr;
 
 	output_msg(sformatf( "\n%-25.25s   %2s   %12.12s   %12.12s   %-18.18s  (Approximate SI in solution ",
 			   "Phase mole transfers:", " ", "Minimum", "Maximum", "Formula"));
@@ -1955,12 +1955,12 @@ print_model(struct inverse *inv_ptr)
 		{
 			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
 				continue;
-			reaction_ptr = phases[i1]->rxn_s;
+			reaction_ptr = &phases[i1]->rxn_s;
 			for (i2 = 0; i2 < inv_ptr->count_solns; i2++)
 			{
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
 
-				reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) - phases[i1]->logk[vm0];
+				reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) - phases[i1]->logk[vm0];
 				if (reaction_ptr->logk[delta_v])
 					mu_terms_in_logk = true;
 				lk = k_calc(reaction_ptr->logk, t_i, p_i);
@@ -4905,7 +4905,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
  */
 		std::string token;
 		sum = 0;
-		for (rxn_ptr = &inv_ptr->phases[i].phase->rxn_s->token[0] + 1;
+		for (rxn_ptr = &inv_ptr->phases[i].phase->rxn_s.token[0] + 1;
 			 rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s == s_hplus)
