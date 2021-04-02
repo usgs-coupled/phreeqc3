@@ -4949,7 +4949,7 @@ read_solution(void)
 				const char * str = string_hsave(token.c_str());
 				//isoln_ptr->Set_default_pe(token);
 				isoln_ptr->Set_default_pe(str);
-				cxxChemRxn temp_chem_reaction;
+				CReaction temp_chem_reaction;
 				isoln_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}
 			else
@@ -5121,7 +5121,7 @@ read_solution(void)
 				isoln_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
 				if (temp_comp.Get_pe_reaction().size() > 0)
 				{
-					cxxChemRxn temp_chem_reaction;
+					CReaction temp_chem_reaction;
 					isoln_ptr->Get_pe_reactions()[temp_comp.Get_pe_reaction()] = temp_chem_reaction;
 				}
 			}

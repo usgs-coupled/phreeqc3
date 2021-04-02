@@ -879,7 +879,6 @@ protected:
 public:
 	struct master* surface_get_psi_master(const char* name, int plane);
 	int system_duplicate(int i, int save_old);
-	int trxn_add(cxxChemRxn& r_ptr, LDBLE coef, int combine);
 	int trxn_combine(void);
 	LDBLE trxn_find_coef(const char* str, int start);
 	int trxn_print(void);
@@ -892,6 +891,7 @@ public:
 	double rxn_find_coef(CReaction& r_ptr, const char* str);
 	bool phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ptr);
 	double calc_alk(CReaction& rxn_ptr);
+	CReaction CReaction_internal_copy(CReaction& rxn_ref);
 	struct unknown* unknown_alloc(void);
 	int unknown_delete(int i);
 	int unknown_free(struct unknown* unknown_ptr);
@@ -1300,7 +1300,7 @@ protected:
 	LDBLE mass_water_surfaces_x;
 	LDBLE mass_water_bulk_x;
 	std::string units_x;
-	std::map < std::string, cxxChemRxn > pe_x;
+	std::map < std::string, CReaction > pe_x;
 	std::map<std::string, cxxSolutionIsotope> isotopes_x;
 	std::string default_pe_x;
 	cxxSurface::DIFFUSE_LAYER_TYPE dl_type_x;

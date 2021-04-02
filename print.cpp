@@ -1186,7 +1186,7 @@ print_saturation_indices(void)
 	if (state == INITIAL_SOLUTION)
 	{
 		iap = 0;
-		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size(); tok++)
+		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size() - 1; tok++)
 		{
 			iap += pe_x[default_pe_x].Get_tokens()[tok].coef * pe_x[default_pe_x].Get_tokens()[tok].s->la;
 			/* fprintf(output,"\t%s\t%f\t%f\n", rxn_ptr->s->name, rxn_ptr->coef, rxn_ptr->s->la ); */

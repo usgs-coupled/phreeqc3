@@ -23,7 +23,7 @@ cxxISolution::cxxISolution(PHRQ_io *io)
 units("mMol/kgw")
 {
 	default_pe = "pe";
-	cxxChemRxn temp_pe_reactions;
+	CReaction temp_pe_reactions;
 	pe_reactions[default_pe] = temp_pe_reactions;
 	this->calc_density = false;
 

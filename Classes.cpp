@@ -277,3 +277,20 @@ calc_alk(CReaction& rxn_ref)
 	}
 	return (return_value);
 }
+CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
+{
+	CReaction rxn;
+	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) rxn.logk[i] = rxn_ref.logk[i];
+	for (size_t i = 0; i < 3; i++) rxn.dz[i] = rxn_ref.dz[i];
+	rxn.Get_tokens().resize(rxn_ref.Get_tokens().size());
+	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
+	{
+		rxn.token[i].s = (rxn_ref.token[i].s == NULL) ? NULL :
+			s_search(rxn_ref.token[i].s->name);
+		rxn.token[i].coef = rxn_ref.token[i].coef;
+		rxn.token[i].name = (rxn_ref.token[i].s == NULL) ? NULL :
+			string_hsave(rxn_ref.token[i].name);
+	}
+	return rxn;
+}
+	

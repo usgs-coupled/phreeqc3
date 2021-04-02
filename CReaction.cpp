@@ -1,5 +1,4 @@
 #include "global_structures.h"
-#include "Phreeqc.h"
 #include "CReaction.h"
 CReaction::CReaction(void)
 {
