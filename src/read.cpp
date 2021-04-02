@@ -396,7 +396,6 @@ read_exchange_species(void)
 
 	struct species *s_ptr;
 	struct elt_list *next_elt;
-	struct rxn_token *token_ptr;
 	//LDBLE exchange_coef;
 	LDBLE offset;
 
@@ -5905,7 +5904,6 @@ read_surface_species(void)
 
 	struct species *s_ptr;
 	struct elt_list *next_elt;
-	struct rxn_token *token_ptr;
 
 	int return_value, opt, opt_save;
 	const char* next_char;

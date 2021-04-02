@@ -685,8 +685,8 @@ build_ss_assemblage(void)
 			}
 			if (master_ptr == NULL || master_ptr->unknown == NULL)
 				continue;
-			store_jacob0(x[i]->number, master_ptr->unknown->number,
-						 rxn_ptr->coef);
+			store_jacob0((int)x[i]->number, (int)master_ptr->unknown->number,
+				rxn_ptr->coef);
 		}
 
 		if (ss_ptr->Get_a0() != 0.0 || ss_ptr->Get_a1() != 0.0)
@@ -750,19 +750,19 @@ build_ss_assemblage(void)
 			if (strcmp(elt_list[j].elt->name, "H") == 0
 				&& mass_hydrogen_unknown != NULL)
 			{
-				store_jacob0(mass_hydrogen_unknown->number, x[i]->number,
-							 -elt_list[j].coef);
+				store_jacob0((int)mass_hydrogen_unknown->number, (int)x[i]->number,
+					-elt_list[j].coef);
 				store_sum_deltas(&(delta[i]), &mass_hydrogen_unknown->delta,
-								 elt_list[j].coef);
+					elt_list[j].coef);
 
 			}
 			else if (strcmp(elt_list[j].elt->name, "O") == 0
 					 && mass_oxygen_unknown != NULL)
 			{
-				store_jacob0(mass_oxygen_unknown->number, x[i]->number,
-							 -elt_list[j].coef);
+				store_jacob0((int)mass_oxygen_unknown->number, (int)x[i]->number,
+					-elt_list[j].coef);
 				store_sum_deltas(&(delta[i]), &mass_oxygen_unknown->delta,
-								 elt_list[j].coef);
+					elt_list[j].coef);
 
 			}
 			else
@@ -792,10 +792,10 @@ build_ss_assemblage(void)
 				}
 				else if (master_ptr->in == TRUE)
 				{
-					store_jacob0(master_ptr->unknown->number, x[i]->number,
-								 -elt_list[j].coef);
+					store_jacob0((int)master_ptr->unknown->number, (int)x[i]->number,
+						-elt_list[j].coef);
 					store_sum_deltas(&delta[i], &master_ptr->unknown->delta,
-									 elt_list[j].coef);
+						elt_list[j].coef);
 /*
  *   Master species in equation needs to be rewritten
  */
@@ -811,12 +811,11 @@ build_ss_assemblage(void)
 						{
 							if (x[k]->master[l] == master_ptr)
 							{
-								store_jacob0(x[k]->master[0]->unknown->
-											 number, x[i]->number,
-											 -elt_list[j].coef);
+								store_jacob0((int)x[k]->master[0]->unknown->number,
+									(int)x[i]->number, -elt_list[j].coef);
 								store_sum_deltas(&delta[i],
-												 &x[k]->master[0]->unknown->
-												 delta, elt_list[j].coef);
+									&x[k]->master[0]->unknown->
+									delta, elt_list[j].coef);
 								stop = TRUE;
 								break;
 							}
@@ -861,10 +860,10 @@ build_jacobian_sums(int k)
 		}
 		coef = mb_unknowns[i].coef;
 		if (debug_prep == TRUE)
-			output_msg(sformatf( "\n\tMass balance eq:  %-13s\t%f\trow\tcol\n",
-					   mb_unknowns[i].unknown->description, (double) coef));
-		store_dn(k, mb_unknowns[i].source, mb_unknowns[i].unknown->number,
-				 coef, mb_unknowns[i].gamma_source);
+			output_msg(sformatf("\n\tMass balance eq:  %-13s\t%f\trow\tcol\n",
+				mb_unknowns[i].unknown->description, (double)coef));
+		store_dn(k, mb_unknowns[i].source, (int)mb_unknowns[i].unknown->number,
+			coef, mb_unknowns[i].gamma_source);
 /*
  *   Add extra terms for change in dg/dx in diffuse layer model
  */
@@ -1392,8 +1391,8 @@ build_pure_phases(void)
 			}
 			if (master_ptr == NULL || master_ptr->unknown == NULL)
 				continue;
-			store_jacob0(x[i]->number, master_ptr->unknown->number,
-						 rxn_ptr->coef);
+			store_jacob0((int)x[i]->number, (int)master_ptr->unknown->number,
+				rxn_ptr->coef);
 		}
 /*
  *   Put coefficients into mass balance equations
@@ -1425,19 +1424,19 @@ build_pure_phases(void)
 			if (strcmp(elt_list[j].elt->name, "H") == 0
 				&& mass_hydrogen_unknown != NULL)
 			{
-				store_jacob0(mass_hydrogen_unknown->number, x[i]->number,
-							 -elt_list[j].coef);
+				store_jacob0((int)mass_hydrogen_unknown->number, (int)x[i]->number,
+					-elt_list[j].coef);
 				store_sum_deltas(&(delta[i]), &mass_hydrogen_unknown->delta,
-								 elt_list[j].coef);
+					elt_list[j].coef);
 
 			}
 			else if (strcmp(elt_list[j].elt->name, "O") == 0
 					 && mass_oxygen_unknown != NULL)
 			{
-				store_jacob0(mass_oxygen_unknown->number, x[i]->number,
-							 -elt_list[j].coef);
+				store_jacob0((int)mass_oxygen_unknown->number, (int)x[i]->number,
+					-elt_list[j].coef);
 				store_sum_deltas(&(delta[i]), &mass_oxygen_unknown->delta,
-								 elt_list[j].coef);
+					elt_list[j].coef);
 
 			}
 			else
@@ -1474,10 +1473,10 @@ build_pure_phases(void)
 				}
 				else if (master_ptr->in == TRUE)
 				{
-					store_jacob0(master_ptr->unknown->number, x[i]->number,
-								 -elt_list[j].coef);
+					store_jacob0((int)master_ptr->unknown->number, (int)x[i]->number,
+						-elt_list[j].coef);
 					store_sum_deltas(&delta[i], &master_ptr->unknown->delta,
-									 elt_list[j].coef);
+						elt_list[j].coef);
 /*
  *   Master species in equation needs to be rewritten
  */
@@ -1493,12 +1492,11 @@ build_pure_phases(void)
 						{
 							if (x[k]->master[l] == master_ptr)
 							{
-								store_jacob0(x[k]->master[0]->unknown->
-											 number, x[i]->number,
-											 -elt_list[j].coef);
+								store_jacob0((int)x[k]->master[0]->unknown->number,
+									(int)x[i]->number, -elt_list[j].coef);
 								store_sum_deltas(&delta[i],
-												 &x[k]->master[0]->unknown->
-												 delta, elt_list[j].coef);
+									&x[k]->master[0]->unknown->
+									delta, elt_list[j].coef);
 								stop = TRUE;
 								break;
 							}
@@ -1574,7 +1572,7 @@ build_solution_phase_boundaries(void)
 			}
 			if (master_ptr->unknown == NULL)
 				continue;
-			store_jacob0(x[i]->number, master_ptr->unknown->number,
+			store_jacob0((int)x[i]->number, (int)master_ptr->unknown->number,
 						 rxn_ptr->coef);
 		}
 	}
@@ -5914,7 +5912,7 @@ build_min_exch(void)
  */
 
 		/* charge balance */
-		store_jacob0(charge_balance_unknown->number, x[k]->number,
+		store_jacob0((int)charge_balance_unknown->number, (int)x[k]->number,
 					 comp_ref.Get_formula_z() * comp_ref.Get_phase_proportion());
 		store_sum_deltas(&delta[k], &charge_balance_unknown->delta,
 						 -comp_ref.Get_formula_z() * comp_ref.Get_phase_proportion());
@@ -5982,7 +5980,7 @@ build_min_exch(void)
 				row = master_ptr->unknown->number;
 				unknown_ptr = master_ptr->unknown;
 			}
-			store_jacob0(row, x[k]->number,
+			store_jacob0(row, (int)x[k]->number,
 						 coef * comp_ref.Get_phase_proportion());
 			store_sum_deltas(&delta[k], &unknown_ptr->delta,
 							 -coef * comp_ref.Get_phase_proportion());
