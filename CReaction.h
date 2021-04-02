@@ -29,8 +29,8 @@ public:
 };
 struct rxn_token
 {
-	struct species* s;
-	LDBLE coef;
-	const char* name;
+	struct species* s = NULL;
+	LDBLE coef = 0.0;
+	const char* name = NULL;
 };
 #endif // !defined(CREACTION_H_INCLUDED)

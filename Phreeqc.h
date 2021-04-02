@@ -554,7 +554,6 @@ public:
 	int build_species_list(int n);
 	int build_min_surface(void);
 	LDBLE calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa);
-	double calc_delta_v(CReaction& r_ref, bool phase);
 	LDBLE calc_PR(std::vector<struct phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
@@ -814,81 +813,93 @@ public:
 	// structures.cpp -------------------------------
 	int clean_up(void);
 	int reinitialize(void);
+
 	int copier_add(struct copier* copier_ptr, int n_user, int start, int end);
 	int copier_clear(struct copier* copier_ptr);
+	//
+	CReaction CReaction_internal_copy(CReaction& rxn_ref);
+	double rxn_find_coef(CReaction& r_ptr, const char* str);
+	//
 	static int element_compare(const void* ptr1, const void* ptr2);
-
-public:
+	struct element* element_store(const char* element);
+	//
+	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
+	int add_elt_list(const std::vector<struct elt_list>& el, double coef);
+	int change_hydrogen_in_elt_list(LDBLE charge);
+	int elt_list_combine(void);
+	static int elt_list_compare(const void* ptr1, const void* ptr2);
+	std::vector<struct elt_list> elt_list_internal_copy(const std::vector<struct elt_list>& el);
+	std::vector<struct elt_list> elt_list_vsave(void);
+	cxxNameDouble elt_list_NameDouble(void);
+	//
 	enum entity_type get_entity_enum(char* name);
+	//
 	struct inverse* inverse_alloc(void);
 	int inverse_delete(int i);
 	static int inverse_isotope_compare(const void* ptr1, const void* ptr2);
 	struct inverse* inverse_search(int n_user, int* n);
 	int inverse_sort(void);
-protected:
+	//
 	struct logk* logk_alloc(void);
 	int logk_copy2orig(struct logk* logk_ptr);
 	struct logk* logk_store(const char* name, int replace_if_found);
 	struct logk* logk_search(const char* name);
+	//
 	struct master* master_alloc(void);
 	static int master_compare(const void* ptr1, const void* ptr2);
 	int master_delete(const char* cptr);
-public:
 	struct master* master_bsearch(const char* cptr);
 	struct master* master_bsearch_primary(const char* cptr);
 	struct master* master_bsearch_secondary(const char* cptr);
 	struct master* master_search(const char* cptr, int* n);
-	struct pe_data* pe_data_alloc(void);
-public:
-	struct pe_data* pe_data_dup(struct pe_data* pe_ptr_old);
-	struct pe_data* pe_data_free(struct pe_data* pe_data_ptr);
-protected:
-	int pe_data_store(struct pe_data** pe, const char* token);
-public:
+	struct master* surface_get_psi_master(const char* name, int plane);
+	//
 	struct phase* phase_bsearch(const char* cptr, int* j, int print);
-protected:
 	static int phase_compare(const void* ptr1, const void* ptr2);
 	int phase_delete(int i);
 	struct phase* phase_store(const char* name);
-public:
+	//
 	struct rate* rate_bsearch(const char* cptr, int* j);
 	int rate_free(struct rate* rate_ptr);
 	struct rate* rate_copy(struct rate* rate_ptr);
 	struct rate* rate_search(const char* name, int* n);
 	int rate_sort(void);
+	//
 	static int s_compare(const void* ptr1, const void* ptr2);
 	int s_delete(int i);
 	struct species* s_search(const char* name);
 	struct species* s_store(const char* name, LDBLE z, int replace_if_found);
-protected:
+	//
 	static int isotope_compare(const void* ptr1, const void* ptr2);
+	//
 	static int species_list_compare_alk(const void* ptr1, const void* ptr2);
 	static int species_list_compare_master(const void* ptr1, const void* ptr2);
 	int species_list_sort(void);
+	//
 	struct Change_Surf* change_surf_alloc(int count);
-public:
-	struct master* surface_get_psi_master(const char* name, int plane);
+	//
 	int system_duplicate(int i, int save_old);
+	//
+	//
+	bool phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ptr);
+	bool trxn_add(CReaction& r_ptr, double coef, bool combine);
+	bool trxn_add_phase(CReaction& r_ref, double coef, bool combine);
 	int trxn_combine(void);
+	static int trxn_compare(const void* ptr1, const void* ptr2);
+	bool trxn_copy(CReaction& rxn_ref);
 	LDBLE trxn_find_coef(const char* str, int start);
+	int trxn_multiply(LDBLE coef);
 	int trxn_print(void);
 	int trxn_reverse_k(void);
 	int trxn_sort(void);
 	int trxn_swap(const char* token);
-	bool trxn_add(CReaction& r_ptr, double coef, bool combine);
-	bool trxn_add_phase(CReaction& r_ref, double coef, bool combine);
-	bool trxn_copy(CReaction& rxn_ref);
-	double rxn_find_coef(CReaction& r_ptr, const char* str);
-	bool phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ptr);
-	double calc_alk(CReaction& rxn_ptr);
-	CReaction CReaction_internal_copy(CReaction& rxn_ref);
+
 	struct unknown* unknown_alloc(void);
 	int unknown_delete(int i);
 	int unknown_free(struct unknown* unknown_ptr);
 	int entity_exists(const char* name, int n_user);
 	static int inverse_compare(const void* ptr1, const void* ptr2);
 	int inverse_free(struct inverse* inverse_ptr);
-	static int kinetics_compare_int(const void* ptr1, const void* ptr2);
 	int logk_init(struct logk* logk_ptr);
 	static int master_compare_string(const void* ptr1, const void* ptr2);
 	int master_free(struct master* master_ptr);
@@ -902,8 +913,6 @@ public:
 	int s_free(struct species* s_ptr);
 	int s_init(struct species* s_ptr);
 	static int species_list_compare(const void* ptr1, const void* ptr2);
-	static int rxn_token_temp_compare(const void* ptr1, const void* ptr2);
-	int trxn_multiply(LDBLE coef);
 
 	void Use2cxxStorageBin(cxxStorageBin& sb);
 	void phreeqc2cxxStorageBin(cxxStorageBin& sb);
@@ -1011,51 +1020,34 @@ public:
 	int mix_stag(int i, LDBLE stagkin_time, int punch,
 		LDBLE step_fraction_kin);
 
-	// elt_list
-	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
-	int add_elt_list(const std::vector<struct elt_list>& el, double coef);
-	std::vector<struct elt_list> elt_list_internal_copy(const std::vector<struct elt_list>& el);
-	int change_hydrogen_in_elt_list(LDBLE charge);
-	struct element* element_store(const char* element);
-	int elt_list_combine(void);
-	static int elt_list_compare(const void* ptr1, const void* ptr2);
-	std::vector<struct elt_list> elt_list_vsave(void);
-	cxxNameDouble elt_list_NameDouble(void);
-
 	// utilities.cpp -------------------------------
 public:
-
-	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
+	double calc_alk(CReaction& rxn_ptr);
+	double calc_delta_v(CReaction& r_ref, bool phase);
 	LDBLE calc_dielectrics(LDBLE tc, LDBLE pa);
+	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
 	int compute_gfw(const char* string, LDBLE* gfw);
 	static int copy_token(char* token_ptr, const char** ptr, int* length);
 	static int copy_token(std::string& token, const char** ptr);
 	int dup_print(const char* cptr, int emphasis);
 	int equal(LDBLE a, LDBLE b, LDBLE eps);
-public:
 	void* free_check_null(void* ptr);
-protected:
 	int get_token(const char** eqnaddr, std::string& string, LDBLE* z, int* l);
 	int islegit(const char c);
-public:
 	void malloc_error(void);
-protected:
 	int parse_couple(char* token);
 	int print_centered(const char* string);
-public:
 	static int replace(const char* str1, const char* str2, char* str);
 	static void replace(std::string &stds, const char* str1, const char* str2);
 	static bool replace(const char* str1, const char* str2, std::string& str);
 	static int strcmp_nocase(const char* str1, const char* str2);
 	static int strcmp_nocase_arg1(const char* str1, const char* str2);
 	static void str_tolower(std::string& name);
-protected:
 	void space(void** ptr, int i, int* max, int struct_size);
 	void squeeze_white(char* s_l);
 	int status(int count, const char* str, bool kinetics = false);
 	void str_tolower(char* str);
 	void str_toupper(char* str);
-public:
 #if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 	char* _string_duplicate(const char* token, const char* szFileName, int nLine);
 #else

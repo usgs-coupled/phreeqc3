@@ -19,3 +19,4 @@ void   CReaction::Set_dz(double* d)
 {
 	for (size_t i = 0; i < 3; i++) dz[i] = d[i];
 }
+
