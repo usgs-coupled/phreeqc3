@@ -201,7 +201,36 @@ struct Change_Surf
 	int cell_no;
 	int next;
 };
+/*----------------------------------------------------------------------
+ *   CReaction
+ *---------------------------------------------------------------------- */
 
+class CReaction
+{
+public:
+	CReaction(void);
+	CReaction(size_t ntoken);
+	~CReaction(void) {}
+	double* Get_logk(void) { return this->logk; }
+	void   Set_logk(double* d);
+	double* Get_dz(void) { return this->dz; }
+	void   Set_dz(double* d);
+	size_t size() { return token.size(); }
+	std::vector<struct rxn_token>& Get_tokens(void) { return this->token; }
+	void Set_tokens(const std::vector<struct rxn_token>& t) { this->token = t; }
+
+public:
+	double logk[21];   //LOG_K_INDICES::MAX_LOG_K_INDICES
+	//LDBLE logk[LOG_K_INDICES::MAX_LOG_K_INDICES];
+	double dz[3];
+	std::vector<struct rxn_token> token;
+};
+struct rxn_token
+{
+	struct species* s = NULL;
+	LDBLE coef = 0.0;
+	const char* name = NULL;
+};
 struct save
 {
 	int solution;
@@ -298,9 +327,42 @@ struct inv_phases
 	int force;
 	std::vector<struct isotope> isotopes;
 };
+/*----------------------------------------------------------------------
+ *   Jacobian and Mass balance lists
+ *---------------------------------------------------------------------- */
+
+class Model
+{
+public:
+	Model()
+	{
+		force_prep = true;
+		gas_phase_type = cxxGasPhase::GP_UNKNOWN;
+		numerical_fixed_volume = false;
+		dl_type = cxxSurface::NO_DL;
+		surface_type = cxxSurface::UNKNOWN_DL;
+	};
+	~Model()
+	{
+	};
+
+	bool force_prep;
+	bool numerical_fixed_volume;
+	cxxGasPhase::GP_TYPE gas_phase_type;
+	std::vector<struct phase*> gas_phase;
+	std::vector<const char*> ss_assemblage;
+	std::vector<struct phase*> pp_assemblage;
+	std::vector<double> si;
+	std::vector<const char*> add_formula;
+	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
+	cxxSurface::SURFACE_TYPE surface_type;
+	std::vector<const char*> surface_comp;
+	std::vector<const char*> surface_charge;
+};
+
 struct name_coef
 {
-	const char *name;
+	const char* name;
 	LDBLE coef;
 };
 /*----------------------------------------------------------------------
