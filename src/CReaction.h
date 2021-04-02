@@ -27,4 +27,10 @@ public:
 	double dz[3];
 	std::vector<struct rxn_token> token;
 };
+struct rxn_token
+{
+	struct species* s;
+	LDBLE coef;
+	const char* name;
+};
 #endif // !defined(CREACTION_H_INCLUDED)
