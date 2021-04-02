@@ -629,7 +629,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 	initial_data_ptr->Set_units(defaults.units);
 	initial_data_ptr->Set_default_pe(defaults.redox);
 	{
-		cxxChemRxn temp_chem_reaction;
+		CReaction temp_chem_reaction;
 		initial_data_ptr->Get_pe_reactions()[defaults.redox] = temp_chem_reaction;
 	}
 /*
@@ -741,7 +741,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			{
 				const char * pe_str = string_hsave(token.c_str());
 				initial_data_ptr->Set_default_pe(pe_str);
-				cxxChemRxn temp_chem_reaction;
+				CReaction temp_chem_reaction;
 				initial_data_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}
 			else
@@ -979,7 +979,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 				initial_data_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
 				if (temp_comp.Get_pe_reaction().size() > 0)
 				{
-					cxxChemRxn temp_chem_reaction;
+					CReaction temp_chem_reaction;
 					initial_data_ptr->Get_pe_reactions()[temp_comp.Get_pe_reaction()] = temp_chem_reaction;
 				}
 			}

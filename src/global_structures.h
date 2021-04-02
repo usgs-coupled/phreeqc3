@@ -415,66 +415,7 @@ struct rxn_token
 	LDBLE coef;
 	const char *name;
 };
-class cxxChemRxn
-{
-public:
-	cxxChemRxn(void)
-	{
-		logk[0] = dz[0] = 0.0;
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			logk[i] = 0.0;
-		}
-		for (size_t i = 0; i < 3; i++)
-		{
-			dz[i] =0.0;
-		}
-	}
-	cxxChemRxn(CReaction& rxn_ref)
-	{
-		logk[0] = dz[0] = 0.0;
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			logk[i] = rxn_ref.logk[i];
-		}
-		for (size_t i = 0; i < 3; i++)
-		{
-			dz[i] = rxn_ref.dz[i];
-		}
-		struct rxn_token* next_token;
-		next_token = &rxn_ref.token[0];
-		this->tokens.push_back(*next_token++);
-		while (next_token->s != NULL || next_token->name != NULL)
-		{
-			this->tokens.push_back(*next_token++);
-		}
-	}
-	~cxxChemRxn(void) {}
-	LDBLE *Get_logk(void) {return this->logk;}
-	void   Set_logk(LDBLE *d)
-	{
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			logk[i] = d[i];
-		}
 
-	}
-	LDBLE *Get_dz(void) {return this->dz;}
-	void   Set_dz(LDBLE *d)
-	{
-		for (size_t i = 0; i < 3; i++)
-		{
-			dz[i] = d[i];
-		}
-	}
-	std::vector<struct rxn_token> &Get_tokens(void) {return this->tokens;}
-	void Set_tokens(const std::vector<struct rxn_token> &t) {this->tokens = t;}
-
-protected:
-	LDBLE logk[MAX_LOG_K_INDICES];
-	LDBLE dz[3];
-	std::vector<struct rxn_token> tokens;
-};
 /*----------------------------------------------------------------------
  *   Species
  *---------------------------------------------------------------------- */

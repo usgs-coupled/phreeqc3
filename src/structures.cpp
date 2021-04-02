@@ -1897,66 +1897,6 @@ rxn_token_temp_compare(const void *ptr1, const void *ptr2)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-trxn_add(cxxChemRxn &r_ptr, LDBLE coef, int combine)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Adds reactions together.
- *
- *   Global variable count_trxn determines which position in trxn is used.
- *      If count_trxn=0, then the equation effectively is copied into trxn.
- *      If count_trxn>0, then new equation is added to existing equation.
- *
- *   Arguments:
- *      *r_ptr	 points to rxn structure to add.
- *
- *       coef	  added equation is multiplied by coef.
- *       combine       if TRUE, reaction is reaction is sorted and
- *		     like terms combined.
- */
-/*
- *   Accumulate log k for reaction
- */
-	if (count_trxn == 0)
-	{
-		for (int i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			trxn.logk[i] = r_ptr.Get_logk()[i];
-		}
-		for (int i = 0; i < 3; i++)
-		{
-			trxn.dz[i] = r_ptr.Get_dz()[i];
-		}
-	}
-	else
-	{
-		for (int i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			trxn.logk[i] += coef * (r_ptr.Get_logk()[i]);
-		}
-		for (int i = 0; i < 3; i++)
-		{
-			trxn.dz[i] += coef * r_ptr.Get_dz()[i];
-		}
-	}
-/*
- *   Copy  equation into work space
- */
-	for (size_t j = 0; j < r_ptr.Get_tokens().size(); j++)
-	{
-		if (count_trxn + 1 > trxn.token.size())
-			trxn.token.resize(count_trxn + 1);
-		trxn.token[count_trxn].name = r_ptr.Get_tokens()[j].name;
-		trxn.token[count_trxn].s = r_ptr.Get_tokens()[j].s;
-		trxn.token[count_trxn].coef = coef * r_ptr.Get_tokens()[j].coef;
-		count_trxn++;
-	}
-	if (combine == TRUE)
-		trxn_combine();
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
 trxn_combine(void)
 /* ---------------------------------------------------------------------- */
 {

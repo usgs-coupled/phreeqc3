@@ -1709,7 +1709,7 @@ clear(void)
 	else
 	{
 		default_pe_x = "pe";
-		cxxChemRxn chem_rxn;
+		CReaction chem_rxn;
 		pe_x[default_pe_x] = chem_rxn;
 	}
 
@@ -2642,13 +2642,13 @@ write_mass_action_eqn_x(int stop)
 						 trxn.token[i].coef, false);
 				if (equal(coef_e, 0.0, TOL) == FALSE)
 				{
-					std::map < std::string, cxxChemRxn >::iterator chemRxnIt = pe_x.find(trxn.token[i].s->secondary->pe_rxn);
+					std::map < std::string, CReaction >::iterator chemRxnIt = pe_x.find(trxn.token[i].s->secondary->pe_rxn);
 					if ( chemRxnIt == pe_x.end() )
 					{
-						cxxChemRxn &rxn_ref = pe_x[trxn.token[i].s->secondary->pe_rxn];
+						CReaction& rxn_ref = pe_x[trxn.token[i].s->secondary->pe_rxn];
 						trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
 						// Create temporary rxn object and add reactions together
-						cxxChemRxn rxn;
+						CReaction rxn;
 						trxn_add(rxn, trxn.token[i].coef * coef_e, FALSE);
 					}
 					else
@@ -4914,12 +4914,12 @@ tidy_redox(void)
 /*
  *   Writes equations for e- for each redox couple used in solution n
  */
-	std::map<std::string, cxxChemRxn>::iterator it;
+	std::map < std::string, CReaction >::iterator it;
 	for (it = pe_x.begin(); it != pe_x.end(); it++)
 	{
 		if (strcmp_nocase(it->first.c_str(), "pe") == 0)
 		{
-			cxxChemRxn temp_rxn(s_eminus->rxn);
+			CReaction temp_rxn(s_eminus->rxn);
 			it->second = temp_rxn;
 		}
 		else
@@ -4960,14 +4960,14 @@ tidy_redox(void)
 						"Analytical data missing for redox couple, %s\n\t Using pe instead.",
 						it->first.c_str());
 				warning_msg(error_string);
-				cxxChemRxn temp_rxn(s_eminus->rxn);
+				CReaction temp_rxn(s_eminus->rxn);
 				it->second = temp_rxn;
 			}
 			else
 			{
 				CReaction rxn(count_trxn + 1);
 				trxn_copy(rxn);
-				cxxChemRxn temp_rxn(rxn);
+				CReaction temp_rxn(rxn);
 				it->second = temp_rxn;
 			}
 		}
@@ -4988,16 +4988,15 @@ tidy_redox(void)
 			error_string = sformatf( "Using pe instead of %s.",
 					it->first.c_str());
 			warning_msg(error_string);
-			cxxChemRxn temp_rxn(s_eminus->rxn);
+			CReaction temp_rxn(s_eminus->rxn);
 			it->second = temp_rxn;
 		}
 		else
 		{
 			CReaction rxn(count_trxn + 1);
 			trxn_copy(rxn);
-			cxxChemRxn temp_rxn(rxn);
+			CReaction temp_rxn(rxn);
 			it->second = temp_rxn;
-			//rxn_free(rxn);
 		}
 	}
 
