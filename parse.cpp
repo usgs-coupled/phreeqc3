@@ -1,10 +1,9 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
+parse_eq(char* eqn, std::vector<struct elt_list>& new_elt_list, int association)
 /* ---------------------------------------------------------------------- */
 /*
  *   function to break equation up into component species
@@ -30,27 +29,27 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 	char token[MAX_LENGTH];
 
 	paren_count = 0;
-/*
- *   Remove white space
- */
+	/*
+	 *   Remove white space
+	 */
 	squeeze_white(eqn);
-/*
- *   Check for illegal characters
- */
+	/*
+	 *   Check for illegal characters
+	 */
 	for (i = 0; (c = eqn[i]) != '\0'; i++)
 	{
 		if (islegit(c) == FALSE)
 		{
-			error_string = sformatf( "Character is not allowed,\
+			error_string = sformatf("Character is not allowed,\
  %c (octal: %o).", c, c);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
 	}
 
-/*
- *   Find coefficients, name, and charge for each species for lhs
- */
+	/*
+	 *   Find coefficients, name, and charge for each species for lhs
+	 */
 	count_trxn = 0;
 	trxn.dz[0] = trxn.dz[1] = trxn.dz[2] = 0.0;
 	cptr = eqn;
@@ -61,7 +60,7 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 			break;
 		if (c == '\0')
 		{
-			error_string = sformatf( "Equation has no equal sign.\n\t%s", eqn);
+			error_string = sformatf("Equation has no equal sign.\n\t%s", eqn);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -76,9 +75,9 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 		}
 		count_trxn++;
 	}
-/*
- *   Get coefficient, name, and charge of species for dissociation reaction
- */
+	/*
+	 *   Get coefficient, name, and charge of species for dissociation reaction
+	 */
 	cptr++;
 	if (association == TRUE)
 	{
@@ -88,7 +87,7 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 		}
 		trxn.token[count_trxn].coef *= -1.0;
 		/*   Swap species into first structure position */
-		const char * char_ptr = trxn.token[0].name;
+		const char* char_ptr = trxn.token[0].name;
 		coef = trxn.token[0].coef;
 		l_z = trxn.token[0].z;
 		trxn.token[0].name = trxn.token[count_trxn].name;
@@ -99,9 +98,9 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 		trxn.token[count_trxn].z = l_z;
 		count_trxn++;
 	}
-/*
- *   Get reaction species from rhs of equation
- */
+	/*
+	 *   Get reaction species from rhs of equation
+	 */
 	c = cptr[0];
 	for (;;)
 	{
@@ -118,55 +117,47 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 		}
 		count_trxn++;
 	}
-/*
- *   Sort list of reaction species
- */
+	/*
+	 *   Sort list of reaction species
+	 */
 	trxn_sort();
-/*
- *   Get elements in species or mineral formula
- */
+	/*
+	 *   Get elements in species or mineral formula
+	 */
 	count_elts = 0;
 	strcpy(token, trxn.token[0].name);
 	replace("(s)", "", token);
 	replace("(S)", "", token);
 	replace("(g)", "", token);
 	replace("(G)", "", token);
-	const char *char_ptr = token;
+	const char* char_ptr = token;
 
 	if (get_elts_in_species(&char_ptr, trxn.token[0].coef) == ERROR)
 	{
 		return (ERROR);
 	}
-/*
- *   Sort elements in reaction and combine
- */
+	/*
+	 *   Sort elements in reaction and combine
+	 */
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
-/*
- *   Malloc space and store element data for return
- */
-	*elt_ptr = (struct elt_list *) PHRQ_malloc((count_elts + 1) *
-		sizeof(struct elt_list));
-	if (*elt_ptr == NULL)
+	/*
+	 *   Malloc space and store element data for return
+	 */
+	new_elt_list.resize(count_elts + 1);
+	for (i = 0; i < count_elts; i++)
 	{
-		malloc_error();
+		new_elt_list[i].elt = elt_list[i].elt;
+		new_elt_list[i].coef = -elt_list[i].coef;
 	}
-	else
-	{
-		for (i = 0; i < count_elts; i++)
-		{
-			(*elt_ptr)[i].elt = elt_list[i].elt;
-			(*elt_ptr)[i].coef = -elt_list[i].coef;
-		}
-		(*elt_ptr)[count_elts].elt = NULL;
-	}
-/*
- *   Debugging print of parsed equation
-	trxn_print();
- */
+	new_elt_list[count_elts].elt = NULL;
+
+	/*
+	 *   Debugging print of parsed equation
+		trxn_print();
+	 */
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 check_eqn(int association)
@@ -571,7 +562,8 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
  *                  output, is next position to start looking
  *         coef     input, coefficient to multiply subscripts by
  */
-	int i, count, l;
+	int l;
+	size_t count;
 	char c, c1;
 	LDBLE d;
 	std::string element;
@@ -643,7 +635,7 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -664,7 +656,7 @@ get_elts_in_species(const char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -826,7 +818,8 @@ get_secondary_in_species(const char **t_ptr, LDBLE coef)
  *                  output, is next position to start looking
  *         coef     input, coefficient to multiply subscripts by
  */
-	int i, count, l;
+	int l;
+	size_t count;
 	char c, c1;
 	LDBLE d;
 	char element[MAX_LENGTH];
@@ -895,7 +888,7 @@ get_secondary_in_species(const char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -916,7 +909,7 @@ get_secondary_in_species(const char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}

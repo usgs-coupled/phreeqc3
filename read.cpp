@@ -395,7 +395,7 @@ read_exchange_species(void)
 	struct phase *phase_ptr;
 
 	struct species *s_ptr;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 	//LDBLE exchange_coef;
 	LDBLE offset;
 
@@ -495,9 +495,8 @@ read_exchange_species(void)
 			s_ptr->mole_balance = string_hsave(token);
 			cptr = token;
 			get_secondary_in_species(&cptr, 1.0);
-			s_ptr->next_secondary =
-				(struct elt_list *) free_check_null(s_ptr->next_secondary);
-			s_ptr->next_secondary = elt_list_save();
+			s_ptr->next_secondary.clear();
+			s_ptr->next_secondary = elt_list_vsave();
 /* debug
 			for (i = 0; i < count_elts; i++) {
 				output_msg(sformatf("%s\t%f\n", elt_list[i].elt->name,
@@ -709,31 +708,32 @@ read_exchange_species(void)
 			break;
 
 		case OPTION_DEFAULT:
-/*
- *   Get exchange species information and parse equation
- */
+			/*
+			 *   Get exchange species information and parse equation
+			 */
+		{
 			s_ptr = NULL;
-			if (parse_eq(line, &next_elt, association) == ERROR)
+			std::vector<struct elt_list> new_elt_list;
+			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
-				parse_error++;
-				error_msg("Parsing equation.", CONTINUE);
-				error_msg(line_save, CONTINUE);
-				break;
-			}
-/*
- *   Get pointer to each species in the reaction, store new species if necessary
- */
-			trxn.token[0].s =
-				s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
+					parse_error++;
+					error_msg("Parsing equation.", CONTINUE);
+					error_msg(line_save, CONTINUE);
+					break;
+				}
+			/*
+			 *   Get pointer to each species in the reaction, store new species if necessary
+			 */
+			trxn.token[0].s = s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
 			for (i = 1; i < count_trxn; i++)
 			{
-				trxn.token[i].s =
-					s_store(trxn.token[i].name, trxn.token[i].z, FALSE);
+				trxn.token[i].s = s_store(trxn.token[i].name, trxn.token[i].z, FALSE);
 			}
-/*
- *   Save element list and carbon, hydrogen, and oxygen in species
- */
-			trxn.token[0].s->next_elt = next_elt;
+			/*
+			 *   Save element list and carbon, hydrogen, and oxygen in species
+			 */
+			trxn.token[0].s->next_elt = new_elt_list;
+			next_elt = &trxn.token[0].s->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
 				if (strcmp(next_elt->elt->name, "C") == 0)
@@ -749,31 +749,31 @@ read_exchange_species(void)
 					trxn.token[0].s->o = next_elt->coef;
 				}
 			}
-/*
- *   Copy reaction to reaction for species
- */
+			/*
+			 *   Copy reaction to reaction for species
+			 */
 			trxn_copy(trxn.token[0].s->rxn);
-/*
- *   Set type for species
- */
+			/*
+			 *   Set type for species
+			 */
 			trxn.token[0].s->type = EX;
 			s_ptr = trxn.token[0].s;
-/*
- *   Set gamma data
- */
+			/*
+			 *   Set gamma data
+			 */
 			s_ptr->gflag = 4;
 			s_ptr->exch_gflag = 3;
 			s_ptr->dha = 0.0;
 			s_ptr->dhb = 0.0;
 			opt_save = OPTION_DEFAULT;
-/*
- *  Save as a phase for inverse modeling only
- */
+			/*
+			 *  Save as a phase for inverse modeling only
+			 */
 			phase_ptr = phase_store(s_ptr->name);
 			if (phase_ptr == NULL)
 			{
 				input_error++;
-				error_string = sformatf( "Copying exchange to phases.");
+				error_string = sformatf("Copying exchange to phases.");
 				error_msg(error_string, CONTINUE);
 			}
 			else
@@ -781,10 +781,11 @@ read_exchange_species(void)
 				phase_ptr->formula = s_ptr->name;
 				phase_ptr->check_equation = FALSE;
 				phase_ptr->type = EX;
-				phase_ptr->next_elt = elt_list_dup(s_ptr->next_elt);
+				phase_ptr->next_elt = s_ptr->next_elt;
 				phase_ptr->rxn = s_ptr->rxn;
 			}
-			break;
+		}
+		break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -3471,7 +3472,6 @@ read_phases(void)
 	char token[MAX_LENGTH];
 	char token1[MAX_LENGTH];
 	struct phase *phase_ptr;
-	struct elt_list *next_elt;
 	struct rxn_token *token_ptr;
 
 	int return_value, opt, opt_save;
@@ -3633,15 +3633,16 @@ read_phases(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
-/*
- *   Get element name and save pointer to character string
- */
+		{
+			/*
+			 *   Get element name and save pointer to character string
+			 */
 			phase_ptr = NULL;
 			cptr = line;
 			copy_token(token, &cptr, &l);
-/*
- *   Get and parse equation
- */
+			/*
+			 *   Get and parse equation
+			 */
 			j = check_line("Phase equation", FALSE, TRUE, TRUE, TRUE);
 			if (j == EOF || j == KEYWORD)
 			{
@@ -3657,7 +3658,8 @@ read_phases(void)
 				error_msg(line_save, CONTINUE);
 				break;
 			}
-			if (parse_eq(line, &next_elt, association) == ERROR)
+			std::vector<struct elt_list> new_elt_list;
+			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 				parse_error++;
 				error_msg("Parsing equation.", CONTINUE);
@@ -3665,9 +3667,9 @@ read_phases(void)
 				break;
 			}
 			phase_ptr = phase_store(token);
-/*
- *   Get pointer to each species in the reaction, store new species if necessary
- */
+			/*
+			 *   Get pointer to each species in the reaction, store new species if necessary
+			 */
 			strcpy(token1, trxn.token[0].name);
 			replace("(g)", "", token1);
 			replace("(s)", "", token1);
@@ -3693,29 +3695,26 @@ read_phases(void)
 					trxn.token[i].s = NULL;
 				}
 			}
-/*
- *   Save element list
- */
-			phase_ptr->next_elt = next_elt;
-/*
- *   Malloc space for phase reaction
- */
-			//phase_ptr->rxn = rxn_alloc(count_trxn + 1);
-/*
- *   Copy reaction to reaction for phase, first token (token[0]) is not used
- *   except to check that coef of phase formula = 1.0
- */
+			/*
+			 *   Save element list
+			 */
+			phase_ptr->next_elt = new_elt_list;
+ /*
+  *   Copy reaction to reaction for phase, first token (token[0]) is not used
+  *   except to check that coef of phase formula = 1.0
+  */
 			trxn_copy(phase_ptr->rxn);
 			token_ptr = &phase_ptr->rxn.token[0];
 			token_ptr[0].name = trxn.token[1].name;
 			token_ptr[i].s = NULL;
 			token_ptr[i].name = NULL;
-/*
- *   Set type for phase
- */
+			/*
+			 *   Set type for phase
+			 */
 			phase_ptr->type = SOLID;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -5176,7 +5175,7 @@ read_species(void)
 	int i;
 	int association;
 	struct species *s_ptr;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 	const char* cptr;
 	char token[MAX_LENGTH];
 	//bool vm_read = false;
@@ -5302,10 +5301,9 @@ read_species(void)
 			copy_token(token, &next_char, &i);
 			s_ptr->mole_balance = string_hsave(token);
 			cptr = token;
-			s_ptr->next_secondary =
-				(struct elt_list *) free_check_null(s_ptr->next_secondary);
+			s_ptr->next_secondary.clear();
 			get_secondary_in_species(&cptr, 1.0);
-			s_ptr->next_secondary = elt_list_save();
+			s_ptr->next_secondary = elt_list_vsave();
 /* debug
 			for (i = 0; i < count_elts; i++) {
 				output_msg(sformatf("%s\t%f\n", elt_list[i].elt->name,
@@ -5556,20 +5554,22 @@ read_species(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
-/*
- *   Get space for species information and parse equation
- */
+		{
+			/*
+			 *   Get space for species information and parse equation
+			 */
 			s_ptr = NULL;
-			if (parse_eq(line, &next_elt, association) == ERROR)
+			std::vector<struct elt_list> new_elt_list;
+			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 				parse_error++;
 				error_msg("Parsing equation.", CONTINUE);
 				error_msg(line_save, CONTINUE);
 				break;
 			}
-/*
- *   Get pointer to each species in the reaction, store new species if necessary
- */
+			/*
+			 *   Get pointer to each species in the reaction, store new species if necessary
+			 */
 			trxn.token[0].s =
 				s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
 			for (i = 1; i < count_trxn; i++)
@@ -5577,11 +5577,12 @@ read_species(void)
 				trxn.token[i].s =
 					s_store(trxn.token[i].name, trxn.token[i].z, FALSE);
 			}
-/*
- *   Save element list and carbon, hydrogen, and oxygen in species
- */
-			trxn.token[0].s->next_elt = next_elt;
-			trxn.token[0].s->next_secondary = NULL;
+			/*
+			 *   Save element list and carbon, hydrogen, and oxygen in species
+			 */
+			trxn.token[0].s->next_elt = new_elt_list;
+			trxn.token[0].s->next_secondary.clear();
+			next_elt = &trxn.token[0].s->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
 				if (strcmp(next_elt->elt->name, "C") == 0)
@@ -5597,14 +5598,14 @@ read_species(void)
 					trxn.token[0].s->o = next_elt->coef;
 				}
 			}
-/*
- *   Copy reaction to reaction for species
- */
+			/*
+			 *   Copy reaction to reaction for species
+			 */
 			trxn_copy(trxn.token[0].s->rxn);
 			s_ptr = trxn.token[0].s;
-/*
- *   Default gamma data
- */
+			/*
+			 *   Default gamma data
+			 */
 			s_ptr->dha = 0.0;
 			s_ptr->dhb = 0.0;
 			if (equal(s_ptr->z, 0.0, TOL) == TRUE)
@@ -5616,9 +5617,9 @@ read_species(void)
 			{
 				s_ptr->gflag = 1;	/* Davies */
 			}
-/*
- *   Set type for species
- */
+			/*
+			 *   Set type for species
+			 */
 			if (strcmp(trxn.token[0].s->name, "H+") == 0)
 			{
 				s_hplus = trxn.token[0].s;
@@ -5660,7 +5661,8 @@ read_species(void)
 				trxn.token[0].s->type = AQ;
 			}
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -5903,7 +5905,7 @@ read_surface_species(void)
 	LDBLE offset;
 
 	struct species *s_ptr;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	int return_value, opt, opt_save;
 	const char* next_char;
@@ -5998,10 +6000,9 @@ read_surface_species(void)
 			copy_token(token, &next_char, &i);
 			s_ptr->mole_balance = string_hsave(token);
 			cptr = token;
-			s_ptr->next_secondary =
-				(struct elt_list *) free_check_null(s_ptr->next_secondary);
+			s_ptr->next_secondary.clear();
 			get_secondary_in_species(&cptr, 1.0);
-			s_ptr->next_secondary = elt_list_save();
+			s_ptr->next_secondary = elt_list_vsave();
 			/* debug
 			   for (i = 0; i < count_elts; i++) {
 			   output_msg(sformatf("%s\t%f\n", elt_list[i].elt->name,
@@ -6175,11 +6176,13 @@ read_surface_species(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
+		{
 			/*
 			 *   Get surface species information and parse equation
 			 */
 			s_ptr = NULL;
-			if (parse_eq(line, &next_elt, association) == ERROR)
+			std::vector<struct elt_list> new_elt_list;
+			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 				parse_error++;
 				error_msg("Parsing equation.", CONTINUE);
@@ -6189,8 +6192,7 @@ read_surface_species(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			trxn.token[0].s =
-				s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
+			trxn.token[0].s = s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
 			for (i = 1; i < count_trxn; i++)
 			{
 				trxn.token[i].s =
@@ -6199,7 +6201,8 @@ read_surface_species(void)
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species
 			 */
-			trxn.token[0].s->next_elt = next_elt;
+			trxn.token[0].s->next_elt = new_elt_list;
+			next_elt = &trxn.token[0].s->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
 				if (strcmp(next_elt->elt->name, "C") == 0)
@@ -6231,7 +6234,8 @@ read_surface_species(void)
 			s_ptr->dha = 0.0;
 			s_ptr->dhb = 0.0;
 			opt_save = OPTION_DEFAULT;
-			break;
+		}
+		break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
@@ -7018,7 +7022,7 @@ add_psi_master_species(char *token)
 			paren_count = 0;
 			cptr = token;
 			get_elts_in_species(&cptr, 1.0);
-			master[count_master]->s->next_elt = elt_list_save();
+			master[count_master]->s->next_elt = elt_list_vsave();
 			master[count_master]->s->type = plane;
 			master[count_master]->primary = TRUE;
 

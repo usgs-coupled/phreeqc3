@@ -1158,7 +1158,7 @@ build_model(void)
  */
 			count_trxn = 0;
 			trxn_add(s[i]->rxn_s, 1.0, false);
-			if (s[i]->next_secondary == NULL)
+			if (s[i]->next_secondary.size() == 0)
 			{
 				write_mb_eqn_x();
 			}
@@ -1217,7 +1217,7 @@ build_model(void)
 /*
  *    Build list of species for summing and printing
  */
-			if (s[i]->next_secondary == NULL)
+			if (s[i]->next_secondary.size() == 0)
 			{
 				write_mb_for_species_list(i);
 			}
@@ -5140,9 +5140,8 @@ write_mb_for_species_list(int n)
 		}
 	}
 	elt_list_combine();
-	s[n]->next_sys_total =
-		(struct elt_list *) free_check_null(s[n]->next_sys_total);
-	s[n]->next_sys_total = elt_list_save();
+	s[n]->next_sys_total.clear();
+	s[n]->next_sys_total = elt_list_vsave();
 	return (OK);
 }
 
@@ -5193,9 +5192,8 @@ write_phase_sys_total(int n)
 		}
 	}
 	elt_list_combine();
-	phases[n]->next_sys_total =
-		(struct elt_list *) free_check_null(phases[n]->next_sys_total);
-	phases[n]->next_sys_total = elt_list_save();
+	phases[n]->next_sys_total.clear();
+	phases[n]->next_sys_total = elt_list_vsave();
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

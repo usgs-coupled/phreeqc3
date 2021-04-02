@@ -480,7 +480,7 @@ public:
 	int get_elts_in_species(const char** t_ptr, LDBLE coef);
 	int get_num(const char** t_ptr, LDBLE* num);
 	int get_secondary_in_species(const char** t_ptr, LDBLE coef);
-	int parse_eq(char* eqn, struct elt_list** elt_ptr, int association);
+	int parse_eq(char* eqn, std::vector<struct elt_list>& new_elt_list, int association);
 	int get_coef(LDBLE* coef, const char** eqnaddr);
 	int get_secondary(const char** t_ptr, char* element, int* i);
 	int get_species(const char** ptr);
@@ -558,7 +558,6 @@ public:
 	LDBLE calc_PR(std::vector<struct phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
-	int change_hydrogen_in_elt_list(LDBLE charge);
 	int clear(void);
 	int convert_units(cxxSolution* solution_ptr);
 	struct unknown* find_surface_charge_unknown(std::string& str_ptr, int plane);
@@ -818,16 +817,7 @@ public:
 	int copier_add(struct copier* copier_ptr, int n_user, int start, int end);
 	int copier_clear(struct copier* copier_ptr);
 	static int element_compare(const void* ptr1, const void* ptr2);
-public:
-	struct element* element_store(const char* element);
-	int elt_list_combine(void);
-	static int elt_list_compare(const void* ptr1, const void* ptr2);
-protected:
-	struct elt_list* elt_list_dup(struct elt_list* elt_list_ptr_old);
-	int elt_list_print(struct elt_list* elt_list_ptr);
-	struct elt_list* elt_list_save(void);
-	cxxNameDouble elt_list_NameDouble(void);
-	struct elt_list* NameDouble2elt_list(const cxxNameDouble& nd);
+
 public:
 	enum entity_type get_entity_enum(char* name);
 	struct inverse* inverse_alloc(void);
@@ -911,18 +901,9 @@ public:
 	struct species* s_alloc(void);
 	int s_free(struct species* s_ptr);
 	int s_init(struct species* s_ptr);
-	static int ss_assemblage_compare_int(const void* ptr1, const void* ptr2);
-	static int solution_compare(const void* ptr1, const void* ptr2);
-	static int solution_compare_int(const void* ptr1, const void* ptr2);
 	static int species_list_compare(const void* ptr1, const void* ptr2);
-	static int surface_compare_int(const void* ptr1, const void* ptr2);
 	static int rxn_token_temp_compare(const void* ptr1, const void* ptr2);
 	int trxn_multiply(LDBLE coef);
-
-	struct elt_list* cxxNameDouble2elt_list(const cxxNameDouble* nd);
-	struct name_coef* cxxNameDouble2name_coef(const cxxNameDouble* nd);
-	struct master_activity* cxxNameDouble2master_activity(const cxxNameDouble* nd);
-	struct master* cxxNameDouble2surface_master(const cxxNameDouble* totals);
 
 	void Use2cxxStorageBin(cxxStorageBin& sb);
 	void phreeqc2cxxStorageBin(cxxStorageBin& sb);
@@ -1030,11 +1011,20 @@ public:
 	int mix_stag(int i, LDBLE stagkin_time, int punch,
 		LDBLE step_fraction_kin);
 
+	// elt_list
+	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
+	int add_elt_list(const std::vector<struct elt_list>& el, double coef);
+	std::vector<struct elt_list> elt_list_internal_copy(const std::vector<struct elt_list>& el);
+	int change_hydrogen_in_elt_list(LDBLE charge);
+	struct element* element_store(const char* element);
+	int elt_list_combine(void);
+	static int elt_list_compare(const void* ptr1, const void* ptr2);
+	std::vector<struct elt_list> elt_list_vsave(void);
+	cxxNameDouble elt_list_NameDouble(void);
+
 	// utilities.cpp -------------------------------
 public:
-	int add_elt_list(struct elt_list* elt_list_ptr, LDBLE coef);
-	int add_elt_list_multi_surf(struct elt_list* elt_list_ptr, LDBLE coef, struct element* surf_elt_ptr);
-	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
+
 	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
 	LDBLE calc_dielectrics(LDBLE tc, LDBLE pa);
 	int compute_gfw(const char* string, LDBLE* gfw);
@@ -1383,7 +1373,7 @@ protected:
 	*   Element List
 	*---------------------------------------------------------------------- */
 	std::vector<struct elt_list> elt_list;
-	int count_elts;		/* number of elements in elt_list = position of next */
+	size_t count_elts = 0;		/* number of elements in elt_list = position of next */
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */

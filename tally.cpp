@@ -316,14 +316,12 @@ free_tally_table(void)
 		return (OK);
 	for (i = 0; i < count_tally_table_columns; i++)
 	{
-		if (tally_table[i].formula != NULL)
-			tally_table[i].formula =
-				(struct elt_list *) free_check_null(tally_table[i].formula);
+		if (tally_table[i].formula.size() != 0)
+			tally_table[i].formula.clear();
 		for (k = 0; k < 3; k++)
 		{
-			tally_table[i].total[k] =
-				(struct tally_buffer *) free_check_null(tally_table[i].
-														total[k]);
+			tally_table[i].total[k] = (struct tally_buffer *) free_check_null(
+				tally_table[i].total[k]);
 		}
 	}
 	tally_table = (struct tally *) free_check_null(tally_table);
@@ -915,7 +913,7 @@ build_tally_table(void)
 					add_elt_list(phase_ptr->next_elt, 1.0);
 				}
 				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
+				tally_table[n].formula = elt_list_vsave();
 			}
 		}
 	}
@@ -965,7 +963,7 @@ build_tally_table(void)
 					strcpy(token, phase_ptr->formula);
 					add_elt_list(phase_ptr->next_elt, 1.0);
 					elt_list_combine();
-					tally_table[n].formula = elt_list_save();
+					tally_table[n].formula = elt_list_vsave();
 				}
 			}
 		}
@@ -1029,7 +1027,7 @@ build_tally_table(void)
 					}
 				}
 				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
+				tally_table[n].formula = elt_list_vsave();
 			}
 		}
 	}
@@ -1228,7 +1226,6 @@ extend_tally_table(void)
 	tally_table[count_tally_table_columns].type = UnKnown;
 	tally_table[count_tally_table_columns].add_formula = NULL;
 	tally_table[count_tally_table_columns].moles = 0.0;
-	tally_table[count_tally_table_columns].formula = NULL;
 	count_tally_table_columns++;
 	return (OK);
 }

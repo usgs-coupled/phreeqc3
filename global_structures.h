@@ -406,8 +406,8 @@ struct element
  *---------------------------------------------------------------------- */
 struct elt_list
 {								/* list of name and number of elements in an equation */
-	struct element *elt;		/* pointer to element structure */
-	LDBLE coef;					/* number of element e's in eqn */
+	struct element *elt = NULL;	/* pointer to element structure */
+	LDBLE coef = 0.0;			/* number of element e's in eqn */
 };
 
 /*----------------------------------------------------------------------
@@ -456,9 +456,9 @@ struct species
 	int type;					/* flag indicating presence in model and types of equations */
 	int gflag;					/* flag for preferred activity coef eqn */
 	int exch_gflag;				/* flag for preferred activity coef eqn */
-	struct elt_list *next_elt;	/* pointer to next element */
-	struct elt_list *next_secondary;
-	struct elt_list *next_sys_total;
+	std::vector<struct elt_list> next_elt; // vector of elements
+	std::vector<struct elt_list> next_secondary;
+	std::vector<struct elt_list> next_sys_total;
 	int check_equation;			/* switch to check equation for charge and element balance */
 	CReaction rxn;		/* pointer to data base reaction */
 	CReaction rxn_s;		/* pointer to reaction converted to secondary and primary
@@ -513,8 +513,8 @@ struct phase
 	bool pr_in;					/* Peng-Robinson in the calc's, or not */
 
 	int type;					/* flag indicating presence in model and types of equations */
-	struct elt_list *next_elt;	/* pointer to list of elements in phase */
-	struct elt_list *next_sys_total;
+	std::vector<struct elt_list> next_elt;	/* pointer to list of elements in phase */
+	std::vector<struct elt_list> next_sys_total;
 	int check_equation;			/* switch to check equation for charge and element balance */
 	CReaction rxn;		/* pointer to data base reaction */
 	CReaction rxn_s;		/* pointer to reaction converted to secondary and primary
@@ -766,7 +766,7 @@ struct tally
 	enum entity_type type;
 	const char *add_formula;
 	LDBLE moles;
-	struct elt_list *formula;
+	std::vector<struct elt_list> formula;
 	/*
 	 * first total is initial
 	 * second total is final

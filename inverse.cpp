@@ -4253,7 +4253,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 		count_current_solutions, temp_punch;
 	int solnmap[10][2];
 	FILE *model_file;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 	int exch, column;
 	LDBLE f;
 	struct rxn_token *rxn_ptr;
@@ -4817,7 +4817,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
  * Determine if exchange reaction
  */
 		exch = FALSE;
-		for (next_elt = inv_ptr->phases[i].phase->next_elt;
+		for (next_elt = &inv_ptr->phases[i].phase->next_elt[0];
 			 next_elt->elt != NULL; next_elt++)
 		{
 			if (strcmp(next_elt->elt->name, "X") == 0)
@@ -4870,7 +4870,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 /*
  *  Write stoichiometry
  */
-		for (next_elt = inv_ptr->phases[i].phase->next_elt;
+		for (next_elt = &inv_ptr->phases[i].phase->next_elt[0];
 			 next_elt->elt != NULL; next_elt++)
 		{
 			f = 1.0;

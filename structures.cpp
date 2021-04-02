@@ -370,58 +370,6 @@ elt_list_compare(const void *ptr1, const void *ptr2)
 	b = (const struct elt_list *) ptr2;
 	return (strncmp(a->elt->name, b->elt->name, MAX_LENGTH));
 }
-
-/* ---------------------------------------------------------------------- */
-struct elt_list * Phreeqc::
-elt_list_dup(struct elt_list *elt_list_ptr_old)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *  Duplicates the elt_list structure pointed to by elt_list_ptr_old.
- */
-	int i, count_totals;
-	struct elt_list *elt_list_ptr_new;
-/*
- *   Count totals data and copy
- */
-	if (elt_list_ptr_old == NULL)
-		return (NULL);
-	for (i = 0; elt_list_ptr_old[i].elt != NULL; i++);
-	count_totals = i;
-/*
- *   Malloc space and store element data
- */
-	elt_list_ptr_new = (struct elt_list *) PHRQ_malloc(
-		(count_totals + 1) * sizeof(struct elt_list));
-	if (elt_list_ptr_new == NULL)
-		malloc_error();
-	memcpy(elt_list_ptr_new, elt_list_ptr_old,
-		   (count_totals + 1) * sizeof(struct elt_list));
-	return (elt_list_ptr_new);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-elt_list_print(struct elt_list *elt_list_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *  Duplicates the elt_list structure pointed to by elt_list_ptr_old.
- */
-	int i;
-/*
- *   Debug print for element list
- */
-	if (elt_list_ptr == NULL)
-		return (ERROR);
-	output_msg(sformatf( "Elt_list\n"));
-	for (i = 0; elt_list_ptr[i].elt != NULL; i++)
-	{
-		output_msg(sformatf( "\t%s\t%e\n", elt_list_ptr[i].elt->name,
-				   (double) elt_list_ptr[i].coef));
-	}
-	return (OK);
-}
 /* ---------------------------------------------------------------------- */
 cxxNameDouble Phreeqc::
 elt_list_NameDouble(void)
@@ -438,69 +386,32 @@ elt_list_NameDouble(void)
 	return (nd);
 }
 /* ---------------------------------------------------------------------- */
-struct elt_list * Phreeqc::
-elt_list_save(void)
-/* ---------------------------------------------------------------------- */
+std::vector<struct elt_list> Phreeqc::
+	elt_list_vsave(void)
+	/* ---------------------------------------------------------------------- */
 {
-/*
- *   Takes data from work space elt_list, allocates a new elt_list structure,
- *   copies data from work space to new structure, and returns pointer to
- *   new structure.
- */
-	int j;
-	struct elt_list *elt_list_ptr;
-/*
- *   Sort elements in reaction and combine
- */
+	/*
+	 *   Takes data from work space elt_list, allocates a new elt_list structure,
+	 *   copies data from work space to new structure, and returns pointer to
+	 *   new structure.
+	 */
+	size_t j;
+	std::vector<struct elt_list> new_elt_list;
+	/*
+	 *   Sort elements in reaction and combine
+	 */
 	elt_list_combine();
-/*
- *   Malloc space and store element data
- */
-	elt_list_ptr = (struct elt_list*)PHRQ_malloc(
-		(count_elts + 1) * sizeof(struct elt_list));
-	if (elt_list_ptr == NULL)
+	/*
+	 *   Malloc space and store element data
+	 */
+	new_elt_list.resize(count_elts + 1);
+	for (j = 0; j < count_elts; j++)
 	{
-		malloc_error();
+		new_elt_list[j].elt = elt_list[j].elt;
+		new_elt_list[j].coef = elt_list[j].coef;
 	}
-	else
-	{
-		for (j = 0; j < count_elts; j++)
-		{
-			elt_list_ptr[j].elt = elt_list[j].elt;
-			elt_list_ptr[j].coef = elt_list[j].coef;
-		}
-		elt_list_ptr[count_elts].elt = NULL;
-	}
-	return (elt_list_ptr);
-}
-/* ---------------------------------------------------------------------- */
-struct elt_list * Phreeqc::
-NameDouble2elt_list(const cxxNameDouble &nd)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Takes NameDouble allocates space and fills new elt_list struct
- */
-	struct elt_list *elt_list_ptr = (struct elt_list *) PHRQ_malloc(
-		(nd.size() + 1) * sizeof(struct elt_list));
-	if (elt_list_ptr == NULL)
-	{
-		malloc_error();
-	}
-	else
-	{
-		cxxNameDouble::const_iterator it = nd.begin();
-		int i = 0;
-		for( ; it != nd.end(); it++)
-		{
-			elt_list_ptr[i].elt = element_store(it->first.c_str());
-			elt_list_ptr[i].coef = it->second;
-			i++;
-		}
-		elt_list_ptr[i].elt = NULL;
-		elt_list_ptr[i].coef = 0;
-	}
-	return (elt_list_ptr);
+	new_elt_list[count_elts].elt = NULL;
+	return new_elt_list;
 }
 /* **********************************************************************
  *
@@ -1053,10 +964,8 @@ phase_free(struct phase *phase_ptr)
  */
 	if (phase_ptr == NULL)
 		return (ERROR);
-	phase_ptr->next_elt =
-		(struct elt_list *) free_check_null(phase_ptr->next_elt);
-	phase_ptr->next_sys_total =
-		(struct elt_list *) free_check_null(phase_ptr->next_sys_total);
+	phase_ptr->next_elt.clear();
+	phase_ptr->next_sys_total.clear();;
 	phase_ptr->add_logk.clear(); 
 	return (OK);
 }
@@ -1149,8 +1058,6 @@ phase_init(struct phase *phase_ptr)
 	phase_ptr->pr_si_f = 0;
 	phase_ptr->pr_in = false;
 	phase_ptr->type = SOLID;
-	phase_ptr->next_elt = NULL;
-	phase_ptr->next_sys_total = NULL;
 	phase_ptr->check_equation = TRUE;
 	phase_ptr->replaced = 0;
 	phase_ptr->in_system = 1;
@@ -1451,15 +1358,10 @@ s_free(struct species *s_ptr)
  */
 	if (s_ptr == NULL)
 		return (ERROR);
-	s_ptr->next_elt = (struct elt_list *) free_check_null(s_ptr->next_elt);
-	s_ptr->next_secondary =
-		(struct elt_list *) free_check_null(s_ptr->next_secondary);
-	s_ptr->next_sys_total =
-		(struct elt_list *) free_check_null(s_ptr->next_sys_total);
+	s_ptr->next_elt.clear();
+	s_ptr->next_secondary.clear();
+	s_ptr->next_sys_total.clear();
 	s_ptr->add_logk.clear();
-	//rxn_free(s_ptr->rxn);
-	//rxn_free(s_ptr->rxn_s);
-	//rxn_free(s_ptr->rxn_x);
 	return (OK);
 }
 
@@ -1524,9 +1426,6 @@ s_init(struct species *s_ptr)
 	s_ptr->type = 0;
 	s_ptr->gflag = 0;
 	s_ptr->exch_gflag = 0;
-	s_ptr->next_elt = NULL;
-	s_ptr->next_secondary = NULL;
-	s_ptr->next_sys_total = NULL;
 	s_ptr->check_equation = TRUE;
 	s_ptr->tot_g_moles = 0;
 	s_ptr->tot_dh2o_moles = 0;
@@ -1654,7 +1553,7 @@ isotope_compare(const void *ptr1, const void *ptr2)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
- int Phreeqc::
+int Phreeqc::
 species_list_compare(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
