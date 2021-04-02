@@ -44,7 +44,6 @@ typedef unsigned char boolean;
 
 class cxxNameDouble;
 class cxxKinetics;
-//class cxxMix;
 class cxxKineticsComp;
 class cxxExchange;
 class cxxExchComp;
@@ -59,12 +58,9 @@ class cxxSolutionIsotope;
 class cxxSSassemblage;
 class cxxSS;
 class cxxStorageBin;
-class CReaction;
-
-
-#include "classes.h"
-#include "global_structures.h"
 class PBasic;
+
+#include "global_structures.h"
 
 class Phreeqc
 {
