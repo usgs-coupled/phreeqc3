@@ -1369,10 +1369,6 @@ ineq(int in_kode)
 				{
 
 					/*   Pure phase is present, force Mass transfer to be <= amount of mineral remaining */
-					//memcpy((void *)
-					//	   &(ineq_array[(size_t)l_count_rows * max_column_count]),
-					//	   (void *) &(zero[0]),
-					//	   ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 					memset(&ineq_array[(size_t)l_count_rows * max_column_count], 0, ((size_t) count_unknowns + 1) * sizeof(LDBLE));
 					ineq_array[(size_t)l_count_rows * max_column_count + i] = 1.0;
 					ineq_array[(size_t)l_count_rows * max_column_count + count_unknowns] = x[i]->moles;

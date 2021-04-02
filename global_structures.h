@@ -409,12 +409,6 @@ struct elt_list
 	struct element *elt;		/* pointer to element structure */
 	LDBLE coef;					/* number of element e's in eqn */
 };
-struct rxn_token
-{
-	struct species *s;
-	LDBLE coef;
-	const char *name;
-};
 
 /*----------------------------------------------------------------------
  *   Species
