@@ -8,6 +8,142 @@
 
 
 /* ---------------------------------------------------------------------- */
+double Phreeqc::
+calc_alk(CReaction& rxn_ref)
+/* ---------------------------------------------------------------------- */
+{
+	LDBLE return_value;
+	struct master* master_ptr;
+
+	return_value = 0.0;
+	struct rxn_token* r_token = &rxn_ref.token[1];
+	while (r_token->s != NULL)
+	{
+		master_ptr = r_token->s->secondary;
+		if (master_ptr == NULL)
+		{
+			master_ptr = r_token->s->primary;
+		}
+		if (master_ptr == NULL)
+		{
+			error_string = sformatf(
+				"Non-master species in secondary reaction, %s.",
+				rxn_ref.token[0].s->name);
+			error_msg(error_string, CONTINUE);
+			input_error++;
+			break;
+		}
+		return_value += r_token->coef * master_ptr->alk;
+		r_token++;
+	}
+	return (return_value);
+}/* ---------------------------------------------------------------------- */
+double Phreeqc::
+calc_delta_v(CReaction& r_ref, bool phase)
+/* ---------------------------------------------------------------------- */
+{
+	/* calculate delta_v from molar volumes */
+	double d_v = 0.0;
+	if (phase)
+	{
+		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
+		for (size_t i = 1; r_ref.Get_tokens()[i].s; i++)
+		{
+			if (!r_ref.Get_tokens()[i].s)
+				continue;
+			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].s->logk[vm_tc];
+		}
+	}
+	else
+	{
+		for (size_t i = 0; r_ref.token[i].name /*|| r_ptr->token[i].s*/; i++)
+		{
+			if (!r_ref.Get_tokens()[i].s)
+				continue;
+			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].s->logk[vm_tc];
+		}
+	}
+	return d_v;
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_dielectrics(LDBLE tc, LDBLE pa)
+/* ---------------------------------------------------------------------- */
+{
+	/* Relative dielectric constant of pure water, eps as a function of (P, T)
+	   Bradley and Pitzer, 1979, JPC 83, 1599.
+	   (newer data in Fernandez et al., 1995, JPCRD 24, 33,
+				  and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
+	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
+	*/
+	if (llnl_temp.size() > 0) return OK;
+	if (tc > 350.)
+	{
+		tc = 350.;
+	}
+	LDBLE T = tc + 273.15;
+	LDBLE u1 = 3.4279e2, u2 = -5.0866e-3, u3 = 9.469e-7, u4 = -2.0525,
+		u5 = 3.1159e3, u6 = -1.8289e2, u7 = -8.0325e3, u8 = 4.2142e6,
+		u9 = 2.1417;
+	LDBLE d1000 = u1 * exp(T * (u2 + T * u3)); // relative dielectric constant at 1000 bar
+	LDBLE c = u4 + u5 / (u6 + T);
+	LDBLE b = u7 + u8 / T + u9 * T;
+	LDBLE pb = pa * 1.01325; // pa in bar
+	eps_r = d1000 + c * log((b + pb) / (b + 1e3)); // relative dielectric constant
+	if (eps_r <= 0)
+	{
+		eps_r = 10.;
+		warning_msg("Relative dielectric constant is negative.\nTemperature is out of range of parameterization.");
+	}
+
+	/* qe^2 / (eps_r * kB * T) = 4.803204e-10**2 / 1.38065e-16 / (eps_r * T)
+							   = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
+	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
+
+	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length parameter, 1/cm(mol/kg)^-0.5
+
+	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
+
+	/* A0 in pitzer */
+	if (pitzer_model || sit_model)
+	{
+		A0 = DH_B * e2_DkT / 6.0;
+		if (pitzer_model && aphi != NULL)
+		{
+			calc_pitz_param(aphi, T, 298.15);
+			A0 = aphi->p;
+		}
+	}
+
+	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
+	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pb) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
+
+	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
+
+	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
+	ZBrn = (-1 / eps_r + 1.0) * 41.84004;
+	QBrn = c / (b + pb) / eps_r / eps_r * 41.84004;
+	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at tc < 300)...
+	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
+	dgdP = 0;
+	//if (tc > 150 && rho_0 < 1.0)
+	//{
+	//	LDBLE sc[7] = {1, -0.2037662e+01,  0.5747000e-02, -0.6557892e-05,
+	//				0.6107361e+01, -0.1074377e-01,  0.1268348e-04};
+	//	LDBLE csc[4] = {1, 0.3666666e+02, -0.1504956e-9,   0.5017997e-13};
+	//	LDBLE sa = sc[1] + tc * (sc[2] + tc * sc[3]);
+	//	LDBLE sb = sc[4] + tc * (sc[5] + tc * sc[6]);
+
+	//	dgdP = - sa * sb * pow(1.0 - rho_0, sb - 1.0) * rho_0 * kappa_0 / 1.01325;
+
+	//	LDBLE ft = pow((tc - 155.0)/300.0, 4.8) + csc[1] * pow((tc - 155.0)/300.0, 16.0);
+	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pb, 2) - 4.0 * csc[3] * pow(1000.0 - pb, 3)); 
+	//	dgdP -= dfdP;
+	//}
+
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_rho_0(LDBLE tc, LDBLE pa)
 /* ---------------------------------------------------------------------- */
@@ -65,85 +201,6 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 
 	return (rho_0 / 1e3);
 }
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_dielectrics(LDBLE tc, LDBLE pa)
-/* ---------------------------------------------------------------------- */
-{
-	/* Relative dielectric constant of pure water, eps as a function of (P, T)
-       Bradley and Pitzer, 1979, JPC 83, 1599.
-	   (newer data in Fernandez et al., 1995, JPCRD 24, 33,
-	              and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
-	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
-    */
-	if (llnl_temp.size() > 0) return OK;
-	if (tc > 350.)
-	{
-		tc = 350.;
-	}
-	LDBLE T = tc + 273.15; 
-    LDBLE u1 = 3.4279e2, u2 = -5.0866e-3, u3 = 9.469e-7, u4 = -2.0525,
-		u5 = 3.1159e3, u6 = -1.8289e2,  u7 = -8.0325e3, u8 = 4.2142e6,
-		u9 = 2.1417;
-    LDBLE d1000 = u1 * exp(T * (u2 + T * u3)); // relative dielectric constant at 1000 bar
-    LDBLE c = u4 + u5 / (u6 + T);
-    LDBLE b = u7 + u8 / T + u9 * T;
-	LDBLE pb = pa * 1.01325; // pa in bar
-    eps_r = d1000 + c * log((b + pb) / (b + 1e3)); // relative dielectric constant
-	if (eps_r <= 0)
-	{
-		eps_r = 10.;
-		warning_msg("Relative dielectric constant is negative.\nTemperature is out of range of parameterization.");
-	}
-
-	/* qe^2 / (eps_r * kB * T) = 4.803204e-10**2 / 1.38065e-16 / (eps_r * T)
-	                           = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
-	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
-
-	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length parameter, 1/cm(mol/kg)^-0.5
-
-	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
-
-	/* A0 in pitzer */
-	if (pitzer_model || sit_model)
-	{
-		A0 = DH_B * e2_DkT / 6.0;
-		if (pitzer_model && aphi != NULL)
-		{
-			calc_pitz_param(aphi, T, 298.15);
-			A0 = aphi->p;
-		}
-	}
-
-	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
-	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pb) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
-
-	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
-
-	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
-	ZBrn = (- 1 / eps_r + 1.0) * 41.84004;
-	QBrn = c / (b + pb) / eps_r / eps_r * 41.84004;
-	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at tc < 300)...
-	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
-	dgdP = 0;
-	//if (tc > 150 && rho_0 < 1.0)
-	//{
-	//	LDBLE sc[7] = {1, -0.2037662e+01,  0.5747000e-02, -0.6557892e-05,
-	//				0.6107361e+01, -0.1074377e-01,  0.1268348e-04};
-	//	LDBLE csc[4] = {1, 0.3666666e+02, -0.1504956e-9,   0.5017997e-13};
-	//	LDBLE sa = sc[1] + tc * (sc[2] + tc * sc[3]);
-	//	LDBLE sb = sc[4] + tc * (sc[5] + tc * sc[6]);
-
-	//	dgdP = - sa * sb * pow(1.0 - rho_0, sb - 1.0) * rho_0 * kappa_0 / 1.01325;
-
-	//	LDBLE ft = pow((tc - 155.0)/300.0, 4.8) + csc[1] * pow((tc - 155.0)/300.0, 16.0);
-	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pb, 2) - 4.0 * csc[3] * pow(1000.0 - pb, 3)); 
-	//	dgdP -= dfdP;
-	//}
-
-	return (OK);
-}
-
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

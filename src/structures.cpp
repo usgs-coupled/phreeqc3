@@ -249,7 +249,56 @@ reinitialize(void)
 	Rxn_pressure_map.clear();
 	return (OK);
 }
+/* **********************************************************************
+ *
+ *   Routines related to CReaction
+ *
+ * ********************************************************************** */
+CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
+{
+	CReaction rxn;
+	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) rxn.logk[i] = rxn_ref.logk[i];
+	for (size_t i = 0; i < 3; i++) rxn.dz[i] = rxn_ref.dz[i];
+	rxn.Get_tokens().resize(rxn_ref.Get_tokens().size());
+	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
+	{
+		rxn.token[i].s = (rxn_ref.token[i].s == NULL) ? NULL :
+			s_search(rxn_ref.token[i].s->name);
+		rxn.token[i].coef = rxn_ref.token[i].coef;
+		rxn.token[i].name = (rxn_ref.token[i].s == NULL) ? NULL :
+			string_hsave(rxn_ref.token[i].name);
+	}
+	return rxn;
+}
+/* ---------------------------------------------------------------------- */
+double Phreeqc::
+rxn_find_coef(CReaction& r_ref, const char* str)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Finds coefficient of token in reaction.
+	 *   input: r_ptr, pointer to a reaction structure
+	 *	  str, string to find as reaction token
+	 *
+	 *   Return: 0.0, if token not found
+	 *	   coefficient of token, if found.
+	 */
+	struct rxn_token* r_token;
+	LDBLE coef;
 
+	r_token = &r_ref.token[1];
+	coef = 0.0;
+	while (r_token->s != NULL)
+	{
+		if (strcmp(r_token->s->name, str) == 0)
+		{
+			coef = r_token->coef;
+			break;
+		}
+		r_token++;
+	}
+	return (coef);
+}
 /* **********************************************************************
  *
  *   Routines related to structure "element"
@@ -309,12 +358,89 @@ element_store(const char * element)
 	elements_map[element] = elt_ptr;
 	return (elt_ptr);
 }
-
 /* **********************************************************************
  *
  *   Routines related to structure "elt_list"
  *
  * ********************************************************************** */
+ /* ---------------------------------------------------------------------- */
+int Phreeqc::
+add_elt_list(const cxxNameDouble& nd, LDBLE coef)
+/* ---------------------------------------------------------------------- */
+{
+	cxxNameDouble::const_iterator cit = nd.begin();
+	for (; cit != nd.end(); cit++)
+	{
+		if (count_elts >= (int)elt_list.size())
+		{
+			elt_list.resize(count_elts + 1);
+		}
+		elt_list[count_elts].elt = element_store(cit->first.c_str());
+		elt_list[count_elts].coef = cit->second * coef;
+		count_elts++;
+	}
+	return (OK);
+}
+int Phreeqc::
+add_elt_list(const std::vector<struct elt_list>& el, double coef)
+/* ---------------------------------------------------------------------- */
+{
+	const struct elt_list* elt_list_ptr = &el[0];
+
+	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
+	{
+		if (count_elts >= elt_list.size())
+		{
+			elt_list.resize(count_elts + 1);
+		}
+		elt_list[count_elts].elt = elt_list_ptr->elt;
+		elt_list[count_elts].coef = elt_list_ptr->coef * coef;
+		count_elts++;
+	}
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+change_hydrogen_in_elt_list(LDBLE charge)
+/* ---------------------------------------------------------------------- */
+{
+	int j;
+	int found_h, found_o;
+	LDBLE coef_h, coef_o, coef;
+	found_h = -1;
+	found_o = -1;
+	coef_h = 0.0;
+	coef_o = 0.0;
+	elt_list_combine();
+	for (j = 0; j < count_elts; j++)
+	{
+		if (strcmp(elt_list[j].elt->name, "H") == 0)
+		{
+			found_h = j;
+			coef_h = elt_list[j].coef;
+		}
+		else if (strcmp(elt_list[j].elt->name, "O") == 0)
+		{
+			found_o = j;
+			coef_o = elt_list[j].coef;
+		}
+	}
+	coef = coef_h - 2 * coef_o - charge;
+	if (found_h < 0 && found_o < 0)
+		return (OK);
+	if (found_h >= 0 && found_o < 0)
+		return (OK);
+	if (found_h < 0 && found_o >= 0)
+	{
+		elt_list[count_elts].elt = s_hplus->primary->elt;
+		elt_list[count_elts].coef = coef;
+		count_elts++;
+		elt_list_combine();
+		return (OK);
+	}
+	elt_list[found_h].coef = coef;
+	return (OK);
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 elt_list_combine(void)
@@ -358,37 +484,40 @@ elt_list_combine(void)
 	count_elts = j + 1;
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-elt_list_compare(const void *ptr1, const void *ptr2)
+elt_list_compare(const void* ptr1, const void* ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct elt_list *a, *b;
+	const struct elt_list* a, * b;
 
-	a = (const struct elt_list *) ptr1;
-	b = (const struct elt_list *) ptr2;
+	a = (const struct elt_list*)ptr1;
+	b = (const struct elt_list*)ptr2;
 	return (strncmp(a->elt->name, b->elt->name, MAX_LENGTH));
 }
 /* ---------------------------------------------------------------------- */
-cxxNameDouble Phreeqc::
-elt_list_NameDouble(void)
+std::vector<struct elt_list> Phreeqc::
+elt_list_internal_copy(const std::vector<struct elt_list>& el)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Takes data from work space elt_list, makes NameDouble
- */
-	cxxNameDouble nd;
-	for(int i = 0; i < count_elts; i++)
+	std::vector<struct elt_list> new_elt_list;
+	const struct elt_list* elt_list_ptr = &el[0];
+
+	new_elt_list.resize(el.size());
+	size_t count = 0;
+	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
 	{
-		nd.add(elt_list[i].elt->name, elt_list[i].coef);
+		new_elt_list[count].elt = element_store(elt_list_ptr->elt->name);
+		new_elt_list[count].coef = elt_list_ptr->coef;
+		count++;
 	}
-	return (nd);
+	new_elt_list[count].elt = NULL;
+	return new_elt_list;
 }
 /* ---------------------------------------------------------------------- */
 std::vector<struct elt_list> Phreeqc::
-	elt_list_vsave(void)
-	/* ---------------------------------------------------------------------- */
+elt_list_vsave(void)
+/* ---------------------------------------------------------------------- */
 {
 	/*
 	 *   Takes data from work space elt_list, allocates a new elt_list structure,
@@ -412,6 +541,22 @@ std::vector<struct elt_list> Phreeqc::
 	}
 	new_elt_list[count_elts].elt = NULL;
 	return new_elt_list;
+}
+
+/* ---------------------------------------------------------------------- */
+cxxNameDouble Phreeqc::
+elt_list_NameDouble(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Takes data from work space elt_list, makes NameDouble
+	 */
+	cxxNameDouble nd;
+	for (int i = 0; i < count_elts; i++)
+	{
+		nd.add(elt_list[i].elt->name, elt_list[i].coef);
+	}
+	return (nd);
 }
 /* **********************************************************************
  *
@@ -1784,16 +1929,154 @@ surface_get_psi_master(const char *name, int plane)
  *   Routines related to structure "trxn"
  *
  * ********************************************************************** */
+
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-rxn_token_temp_compare(const void *ptr1, const void *ptr2)
+bool Phreeqc::
+phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ref)
 /* ---------------------------------------------------------------------- */
 {
-	const struct rxn_token_temp *rxn_token_temp_ptr1, *rxn_token_temp_ptr2;
-	rxn_token_temp_ptr1 = (const struct rxn_token_temp *) ptr1;
-	rxn_token_temp_ptr2 = (const struct rxn_token_temp *) ptr2;
-	return (strcmp(rxn_token_temp_ptr1->name, rxn_token_temp_ptr2->name));
+	/*
+	 *   Copy reaction from reaction structure to
+	 *   temp reaction structure.
+	 */
+	int l;
+	const char* cptr;
+	LDBLE l_z;
+	trxn.token.resize(rxn_ref.size());
+	trxn.token[0].name = phase_ptr->formula;
+	/* charge */
+	cptr = phase_ptr->formula;
+	{
+		std::string token;
+		get_token(&cptr, token, &l_z, &l);
+	}
+	trxn.token[0].z = l_z;
+	trxn.token[0].s = NULL;
+	trxn.token[0].unknown = NULL;
+	/*trxn.token[0].coef = -1.0; */
+	/* check for leading coefficient of 1.0 for phase did not work */
+	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
+	for (size_t i = 1; rxn_ref.token[i].s != NULL; i++)
+	{
+		trxn.token[i].name = rxn_ref.token[i].s->name;
+		trxn.token[i].z = rxn_ref.token[i].s->z;
+		trxn.token[i].s = NULL;
+		trxn.token[i].unknown = NULL;
+		trxn.token[i].coef = rxn_ref.token[i].coef;
+		count_trxn = i + 1;
+	}
+	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+trxn_add(CReaction& r_ref, double coef, bool combine)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Adds reactions together.
+	 *
+	 *   Global variable count_trxn determines which position in trxn is used.
+	 *      If count_trxn=0, then the equation effectively is copied into trxn.
+	 *      If count_trxn>0, then new equation is added to existing equation.
+	 *
+	 *   Arguments:
+	 *      *r_ptr	 points to rxn structure to add.
+	 *
+	 *       coef	  added equation is multiplied by coef.
+	 *       combine       if TRUE, reaction is reaction is sorted and
+	 *		     like terms combined.
+	 */
+	 /*
+	  *   Accumulate log k for reaction
+	  */
+	if (count_trxn == 0)
+	{
+		for (int i = 0; i < MAX_LOG_K_INDICES; i++) trxn.logk[i] = r_ref.Get_logk()[i];
+		for (int i = 0; i < 3; i++)	trxn.dz[i] = r_ref.Get_dz()[i];
+	}
+	else
+	{
+		for (int i = 0; i < MAX_LOG_K_INDICES; i++) trxn.logk[i] += coef * r_ref.Get_logk()[i];
+		for (int i = 0; i < 3; i++) trxn.dz[i] += coef * r_ref.Get_dz()[i];
+	}
+	/*
+	 *   Copy  equation into work space
+	 */
+	struct rxn_token* next_token = &r_ref.token[0];
+	while (next_token->s != NULL)
+	{
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
+		trxn.token[count_trxn].name = next_token->s->name;
+		trxn.token[count_trxn].s = next_token->s;
+		trxn.token[count_trxn].coef = coef * next_token->coef;
+		count_trxn++;
+		next_token++;
+	}
+	if (combine == TRUE)
+		trxn_combine();
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+trxn_add_phase(CReaction& r_ref, double coef, bool combine)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Adds reactions together.
+	 *
+	 *   Global variable count_trxn determines which position in trxn is used.
+	 *      If count_trxn=0, then the equation effectively is copied into trxn.
+	 *      If count_trxn>0, then new equation is added to existing equation.
+	 *
+	 *   Arguments:
+	 *      *r_ptr	 points to rxn structure to add.
+	 *
+	 *       coef	  added equation is multiplied by coef.
+	 *       combine       if TRUE, reaction is reaction is sorted and
+	 *		     like terms combined.
+	 */
+	int i;
+	struct rxn_token* next_token;
+	/*
+	 *   Accumulate log k for reaction
+	 */
+	if (count_trxn == 0)
+	{
+		memcpy((void*)trxn.logk, (void*)r_ref.Get_logk(),
+			(size_t)MAX_LOG_K_INDICES * sizeof(double));
+	}
+	else
+	{
+		for (i = 0; i < MAX_LOG_K_INDICES; i++)	trxn.logk[i] += coef * r_ref.Get_logk()[i];
+	}
+	/*
+	 *   Copy  equation into work space
+	 */
+	next_token = &r_ref.token[0];
+	while (next_token->s != NULL || next_token->name != NULL)
+	{
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
+		if (next_token->s != NULL)
+		{
+			trxn.token[count_trxn].name = next_token->s->name;
+			trxn.token[count_trxn].s = next_token->s;
+		}
+		else
+		{
+			trxn.token[count_trxn].name = next_token->name;
+			trxn.token[count_trxn].s = NULL;
+		}
+		trxn.token[count_trxn].coef = coef * next_token->coef;
+		count_trxn++;
+		next_token++;
+	}
+	if (combine)
+		trxn_combine();
+	return (OK);
+}
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 trxn_combine(void)
@@ -1855,6 +2138,56 @@ trxn_combine(void)
 		}
 	}
 	count_trxn = j + 1;			/* number excluding final NULL */
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+trxn_compare(const void* ptr1, const void* ptr2)
+/* ---------------------------------------------------------------------- */
+{
+	const struct rxn_token_temp* rxn_token_temp_ptr1, * rxn_token_temp_ptr2;
+	rxn_token_temp_ptr1 = (const struct rxn_token_temp*)ptr1;
+	rxn_token_temp_ptr2 = (const struct rxn_token_temp*)ptr2;
+	return (strcmp(rxn_token_temp_ptr1->name, rxn_token_temp_ptr2->name));
+}
+/* ---------------------------------------------------------------------- */
+bool Phreeqc::
+trxn_copy(CReaction& rxn_ref)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Copies trxn to a reaction structure.
+	 *
+	 *   Input: rxn_ptr, pointer to reaction structure to copy trxn to.
+	 *
+	 */
+	int i;
+	/*
+	 *   Copy logk data
+	 */
+	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	{
+		rxn_ref.logk[i] = trxn.logk[i];
+	}
+	/*
+	 *   Copy dz data
+	 */
+	for (i = 0; i < 3; i++)
+	{
+		rxn_ref.dz[i] = trxn.dz[i];
+	}
+	/*
+	 *   Copy tokens
+	 */
+	rxn_ref.Get_tokens().resize(count_trxn + 1);
+	for (size_t i = 0; i < count_trxn; i++)
+	{
+		rxn_ref.Get_tokens()[i].s = trxn.token[i].s;
+		rxn_ref.Get_tokens()[i].name = trxn.token[i].name;
+		rxn_ref.Get_tokens()[i].coef = trxn.token[i].coef;
+	}
+	rxn_ref.token[count_trxn].s = NULL;
+	rxn_ref.token[count_trxn].name = NULL;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1996,7 +2329,7 @@ trxn_sort(void)
 		qsort(&trxn.token[1],
 			(size_t)count_trxn - 1,
 			sizeof(struct rxn_token_temp),
-			rxn_token_temp_compare);
+			trxn_compare);
 	}
 	return (OK);
 }
