@@ -125,37 +125,6 @@ add_elt_list(const cxxNameDouble & nd, LDBLE coef)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_alk(struct reaction * rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	LDBLE return_value;
-	struct master *master_ptr;
-
-	return_value = 0.0;
-	for (i = 1; rxn_ptr->token[i].s != NULL; i++)
-	{
-		master_ptr = rxn_ptr->token[i].s->secondary;
-		if (master_ptr == NULL)
-		{
-			master_ptr = rxn_ptr->token[i].s->primary;
-		}
-		if (master_ptr == NULL)
-		{
-			error_string = sformatf(
-					"Non-master species in secondary reaction, %s.",
-					rxn_ptr->token[0].s->name);
-			error_msg(error_string, CONTINUE);
-			input_error++;
-			break;
-		}
-		return_value += rxn_ptr->token[i].coef * master_ptr->alk;
-	}
-	return (return_value);
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
 calc_rho_0(LDBLE tc, LDBLE pa)
 /* ---------------------------------------------------------------------- */
 {

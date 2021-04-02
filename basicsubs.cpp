@@ -831,7 +831,7 @@ calc_surface_charge(const char *surface_name)
 		 *   Match surface_name
 		 */
 		count_trxn = 0;
-		trxn_add(s_x[k]->rxn_s, 1.0, FALSE);	/* rxn_s is set in tidy_model */
+		trxn_add(s_x[k]->rxn_s, 1.0, false);	/* rxn_s is set in tidy_model */
 		for (i = 1; i < count_trxn; i++)
 		{
 			token_ptr = &(trxn.token[i]);

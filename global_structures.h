@@ -409,15 +409,6 @@ struct elt_list
 	struct element *elt;		/* pointer to element structure */
 	LDBLE coef;					/* number of element e's in eqn */
 };
-/*----------------------------------------------------------------------
- *   Reaction
- *---------------------------------------------------------------------- */
-struct reaction
-{
-	LDBLE logk[MAX_LOG_K_INDICES];
-	LDBLE dz[3];
-	std::vector<struct rxn_token> token;
-};
 struct rxn_token
 {
 	struct species *s;
@@ -437,25 +428,6 @@ public:
 		for (size_t i = 0; i < 3; i++)
 		{
 			dz[i] =0.0;
-		}
-	}
-	cxxChemRxn(struct reaction* rxn_ptr)
-	{
-		logk[0] = dz[0] = 0.0;
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			logk[i] = rxn_ptr->logk[i];
-		}
-		for (size_t i = 0; i < 3; i++)
-		{
-			dz[i] = rxn_ptr->dz[i];
-		}
-		struct rxn_token *next_token;
-		next_token = &rxn_ptr->token[0];
-		this->tokens.push_back(*next_token++);
-		while (next_token->s != NULL || next_token->name != NULL)
-		{
-			this->tokens.push_back(*next_token++);
 		}
 	}
 	cxxChemRxn(CReaction& rxn_ref)

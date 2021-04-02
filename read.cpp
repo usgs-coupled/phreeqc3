@@ -751,20 +751,9 @@ read_exchange_species(void)
 				}
 			}
 /*
- *   Malloc space for species reaction
- */
-			//trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
-/*
  *   Copy reaction to reaction for species
  */
 			trxn_copy(trxn.token[0].s->rxn);
-			//token_ptr = &trxn.token[0].s->rxn.token[0];
-			//for (i = 0; i < count_trxn; i++)
-			//{
-			//	token_ptr[i].s = trxn.token[i].s;
-			//	token_ptr[i].coef = trxn.token[i].coef;
-			//}
-			//token_ptr[i].s = NULL;
 /*
  *   Set type for species
  */
@@ -3719,24 +3708,7 @@ read_phases(void)
  */
 			trxn_copy(phase_ptr->rxn);
 			token_ptr = &phase_ptr->rxn.token[0];
-			///* token_ptr[0].coef=0; */
-			//token_ptr[0].coef = trxn.token[0].coef;
-			//token_ptr[0].s = trxn.token[1].s;
-			//for (i = 1; i < count_trxn; i++)
-			//{
-			//	token_ptr[i].name = NULL;
-			//	token_ptr[i].s = trxn.token[i].s;
-			//	token_ptr[i].coef = trxn.token[i].coef;
-			//	if (token_ptr[i].s == NULL)
-			//	{
-			//		token_ptr[i].name = trxn.token[i].name;
-			//	}
-			//}
 			token_ptr[0].name = trxn.token[1].name;
-			/*
-			   token_ptr[0].name=phase_ptr->name;
-			   token_ptr[0].s=NULL;
-			 */
 			token_ptr[i].s = NULL;
 			token_ptr[i].name = NULL;
 /*
@@ -5627,10 +5599,6 @@ read_species(void)
 				}
 			}
 /*
- *   Malloc space for species reaction
- */
-			//trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
-/*
  *   Copy reaction to reaction for species
  */
 			trxn_copy(trxn.token[0].s->rxn);
@@ -6250,20 +6218,9 @@ read_surface_species(void)
 				}
 			}
 			/*
-			 *   Malloc space for species reaction
-			 */
-			//trxn.token[0].s->rxn = rxn_alloc(count_trxn + 1);
-			/*
 			 *   Copy reaction to reaction for species
 			 */
 			trxn_copy(trxn.token[0].s->rxn);
-			//token_ptr = &trxn.token[0].s->rxn.token[0];
-			//for (i = 0; i < count_trxn; i++)
-			//{
-			//	token_ptr[i].s = trxn.token[i].s;
-			//	token_ptr[i].coef = trxn.token[i].coef;
-			//}
-			//token_ptr[i].s = NULL;
 			/*
 			 *   Set type for species
 			 */

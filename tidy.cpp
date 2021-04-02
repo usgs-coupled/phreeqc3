@@ -732,7 +732,7 @@ rewrite_eqn_to_secondary(void)
 				&& token_ptr->s->primary == NULL)
 			{
 				coef = token_ptr->coef;
-				trxn_add(token_ptr->s->rxn, coef, TRUE);
+				trxn_add(token_ptr->s->rxn, coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -811,7 +811,7 @@ replace_solids_gases(void)
 				   output_msg(sformatf( "Reaction to add.\n"));
 				   rxn_print(phase_ptr->rxn);
 				 */
-				trxn_add_phase(phase_ptr->rxn, coef, FALSE);
+				trxn_add_phase(phase_ptr->rxn, coef, false);
 
 				/* remove solid/gas from trxn list */
 				trxn.token[i].name = phase_ptr->rxn.token[0].name;
@@ -881,7 +881,7 @@ rewrite_eqn_to_primary(void)
 		{
 			if (trxn.token[j].s->primary == NULL)
 			{
-				trxn_add(trxn.token[j].s->rxn, trxn.token[j].coef, TRUE);
+				trxn_add(trxn.token[j].s->rxn, trxn.token[j].coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -1472,7 +1472,7 @@ tidy_phases(void)
 		 *   Rewrite equation
 		 */
 		count_trxn = 0;
-		trxn_add_phase(phases[i]->rxn, 1.0, FALSE);
+		trxn_add_phase(phases[i]->rxn, 1.0, false);
 		trxn.token[0].name = phases[i]->name;
 		/* debug 
 		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name));
@@ -1480,18 +1480,10 @@ tidy_phases(void)
 		 */
 		replaced = replace_solids_gases();
 		phases[i]->replaced = replaced;
-		/*  save rxn */
-		/*
-		rxn_free(phases[i]->rxn);
-		phases[i]->rxn = rxn_alloc(count_trxn + 1);
-		trxn_copy(phases[i]->rxn);
-		*/
 		/*  save rxn_s */
 		trxn_reverse_k();
 		rewrite_eqn_to_secondary();
 		trxn_reverse_k();
-		//rxn_free(phases[i].rxn_s);
-		//phases[i]->rxn_s(count_trxn + 1);
 		trxn_copy(phases[i]->rxn_s);
 		/*
 		 *   Check equation
@@ -2230,14 +2222,6 @@ tidy_punch(void)
 			}
 		}
 		fpunchf_heading("\n");
-		//if (punch.user_punch == TRUE)
-		//{
-		//	for (i = 0; i < user_punch_count_headings; i++)
-		//	{
-		//		fpunchf_heading(sformatf("%*s\t", l, user_punch_headings[i]));
-		//	}
-		//}
-		//fpunchf_heading("\n");
 
 		current_selected_output->Set_new_def(false);
 		pr.punch = punch_save;
@@ -2345,16 +2329,14 @@ tidy_species(void)
 		count_trxn = 0;
 		if (master[i]->s->primary != NULL)
 		{
-			trxn_add(master[i]->s->rxn, 1.0, FALSE);
-			trxn_add(master[i]->s->rxn, -1.0, TRUE);
+			trxn_add(master[i]->s->rxn, 1.0, false);
+			trxn_add(master[i]->s->rxn, -1.0, true);
 		}
 		else
 		{
-			trxn_add(master[i]->s->rxn, 1.0, FALSE);
+			trxn_add(master[i]->s->rxn, 1.0, false);
 			rewrite_eqn_to_primary();
 		}
-		//rxn_free(master[i]->rxn_primary);
-		//master[i]->rxn_primary = rxn_alloc(count_trxn + 1);
 		trxn_copy(master[i]->rxn_primary);
 		master[i]->coef = coef_in_master(master[i]);
 	}
@@ -2366,12 +2348,12 @@ tidy_species(void)
 		count_trxn = 0;
 		if (s[i]->primary != NULL || s[i]->secondary != NULL)
 		{
-			trxn_add(s[i]->rxn, 1.0, FALSE);
-			trxn_add(s[i]->rxn, -1.0, TRUE);
+			trxn_add(s[i]->rxn, 1.0, false);
+			trxn_add(s[i]->rxn, -1.0, true);
 		}
 		else
 		{
-			trxn_add(s[i]->rxn, 1.0, FALSE);
+			trxn_add(s[i]->rxn, 1.0, false);
 			rewrite_eqn_to_secondary();
 		}
 		//rxn_free(s[i].rxn_s);
@@ -2847,45 +2829,6 @@ species_rxn_to_trxn(struct species *s_ptr)
 	return (OK);
 }
 
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copy reaction from reaction structure to 
- *   temp reaction structure.
- */
-	int i, l;
-	const char* cptr;
-	LDBLE l_z;
-
-	trxn.token[0].name = phase_ptr->formula;
-	/* charge */
-	cptr = phase_ptr->formula;
-	{
-		std::string token;
-		get_token(&cptr, token, &l_z, &l);
-	}
-	trxn.token[0].z = l_z;
-	trxn.token[0].s = NULL;
-	trxn.token[0].unknown = NULL;
-	/*trxn.token[0].coef = -1.0; */
-	/* check for leading coefficient of 1.0 for phase did not work */
-	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
-	for (i = 1; rxn_ptr->token[i].s != NULL; i++)
-	{
-		trxn.token[i].name = rxn_ptr->token[i].s->name;
-		trxn.token[i].z = rxn_ptr->token[i].s->z;
-		trxn.token[i].s = NULL;
-		trxn.token[i].unknown = NULL;
-		trxn.token[i].coef = rxn_ptr->token[i].coef;
-		count_trxn = i + 1;
-		if (count_trxn + 1 > trxn.token.size())
-			trxn.token.resize(count_trxn + 1);
-	}
-	return (OK);
-}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_isotopes(void)
