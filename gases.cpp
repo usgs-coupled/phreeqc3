@@ -56,7 +56,7 @@ build_fixed_volume_gas(void)
  *      sum of partial pressures equation and
  *      mass balance equations for elements contained in gases
  */
-	int row, col;
+	size_t row, col;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
 	struct unknown *unknown_ptr;

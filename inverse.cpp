@@ -2441,15 +2441,12 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 			}
 			else
 			{
-				cl1(k, l, m, n,
-					nklmd, n2d, array1,
-					&kode, toler, &iter, delta2, inv_res, &error2, inv_cu, inv_iu, inv_is,
-					TRUE);
+				cl1(k, l, m, n, nklmd, n2d, array1, &kode, toler, &iter, delta2, 
+					inv_res, &error2, inv_cu, inv_iu, inv_is, TRUE);
 			}
 #else
-			cl1(k, l, m, n,
-				nklmd, n2d, &array1[0],
-				&kode, toler, &iter, &delta2[0], &inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
+			cl1(k, l, m, n, nklmd, n2d, &array1[0], &kode, toler, &iter, &delta2[0], 
+				&inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 #endif
 			if (kode != 0)
 			{
@@ -2915,9 +2912,8 @@ check_solns(struct inverse *inv_ptr)
 		kode = 1;
 		iter = 200;
 		count_calls++;
-		cl1(k, l, m, n,
-			nklmd, n2d, &array1[0],
-			&kode, toler, &iter, &delta2[0], &inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
+		cl1(k, l, m, n, nklmd, n2d, &array1[0], &kode, toler, &iter, 
+			&delta2[0], &inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 
 		if (kode != 0)
 		{

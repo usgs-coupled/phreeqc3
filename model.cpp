@@ -1315,7 +1315,7 @@ ineq(int in_kode)
 			back_eq[l_count_rows] = i;
 			if (mass_water_switch == TRUE && x[i] == mass_hydrogen_unknown)
 			{
-				k = mass_oxygen_unknown->number;
+				k = (int)mass_oxygen_unknown->number;
 				for (j = 0; j < count_unknowns; j++)
 				{
 					ineq_array[(size_t)l_count_rows * max_column_count + (size_t)j] -=
@@ -1563,7 +1563,7 @@ ineq(int in_kode)
  */
 	if (gas_in == TRUE)
 	{
-		for (i = gas_unknown->number; i < count_unknowns; i++)
+		for (i = (int)gas_unknown->number; i < (int)count_unknowns; i++)
 		{
 			if (x[i]->type == GAS_MOLES)
 			{
@@ -1592,7 +1592,7 @@ ineq(int in_kode)
 /*
  *   Moles of gas small and sum p < ptotal
  */
-		i = gas_unknown->number;
+		i = (int)gas_unknown->number;
 		for (j = 0; j < l_count_rows; j++)
 		{
 			ineq_array[(size_t)j * max_column_count + (size_t)i] = 0.0;
@@ -1604,7 +1604,7 @@ ineq(int in_kode)
 
 	if (ss_unknown != NULL)
 	{
-		for (i = ss_unknown->number; i < count_unknowns; i++)
+		for (i = (int)ss_unknown->number; i < (int)count_unknowns; i++)
 		{
 			if (x[i]->type != SS_MOLES)
 				break;
@@ -1659,7 +1659,7 @@ ineq(int in_kode)
  */
 	if (mass_oxygen_unknown != NULL && mass_water_switch == TRUE)
 	{
-		k = mass_oxygen_unknown->number;
+		k = (int)mass_oxygen_unknown->number;
 		for (j = 0; j < l_count_rows + 1; j++)
 		{
 			ineq_array[(size_t)j * max_column_count + (size_t)k] = 0;
@@ -1684,8 +1684,8 @@ ineq(int in_kode)
 	if (debug_model == TRUE)
 	{
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
-		array_print(&ineq_array[0], l_count_rows, count_unknowns + 1,
-					max_column_count);
+		array_print(&ineq_array[0], (int)l_count_rows, (int)count_unknowns + 1,
+			(int)max_column_count);
 	}
 /*
  *   Calculate dimensions
@@ -1704,7 +1704,7 @@ ineq(int in_kode)
 #ifdef SHRINK_ARRAY
 	if ((sit_model || pitzer_model) && full_pitzer == FALSE)
 	{
-		n = count_unknowns - (int) s_list.size();
+		n = (int)count_unknowns - (int)s_list.size();
 		for (int i = 0; i < l_count_rows; i++)
 		{
 			for (int j = 0; j < n; j++)
@@ -1720,12 +1720,12 @@ ineq(int in_kode)
 	}
 	else
 	{
-		n = count_unknowns;			/* columns in A, C, E */
+		n = (int)count_unknowns;			/* columns in A, C, E */
 	}
 #else
 	n = count_unknowns;			/* columns in A, C, E */
 #endif
-	l_klmd = max_row_count - 2;
+	l_klmd = (int)max_row_count - 2;
 	l_nklmd = n + l_klmd;
 	l_n2d = n + 2;
 /*
@@ -2311,7 +2311,7 @@ mb_ss(void)
 			}
 		}
 	}
-	for (int i = ss_unknown->number; i < count_unknowns; i++)
+	for (int i = (int)ss_unknown->number; i < (int)count_unknowns; i++)
 	{
 		if (x[i]->type != SS_MOLES)
 			break;
