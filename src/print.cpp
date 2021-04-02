@@ -1165,37 +1165,6 @@ print_mix(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-//
-///* ---------------------------------------------------------------------- */
-//int Phreeqc::
-//print_reaction(struct reaction *rxn_ptr)
-///* ---------------------------------------------------------------------- */
-//{
-///*
-// *   Debugging print of individual chemical reactions for
-// *   species or phases
-// */
-//	int j;
-//	struct rxn_token *next_token;
-//
-//	if (pr.use == FALSE || pr.all == FALSE)
-//		return (OK);
-//
-//	output_msg(sformatf("%s\t\n", rxn_ptr->token[0].s->name));
-//	output_msg(sformatf("\n\tlog k:\n"));
-//	for (j = 0; j < MAX_LOG_K_INDICES; j++)
-//	{
-//		output_msg(sformatf("\t%f", (double) rxn_ptr->logk[j]));
-//	}
-//	output_msg(sformatf("\n\nReaction:\n"));
-//	for (next_token = &rxn_ptr->token[0]; next_token->s != NULL; next_token++)
-//	{
-//		output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
-//				   (double) next_token->coef));
-//	}
-//	output_msg(sformatf("\n"));
-//	return (OK);
-//}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_saturation_indices(void)

@@ -1114,7 +1114,7 @@ build_model(void)
 			continue;
 		s[i]->in = FALSE;
 		count_trxn = 0;
-		trxn_add(s[i]->rxn_s, 1.0, FALSE);	/* rxn_s is set in tidy_model */
+		trxn_add(s[i]->rxn_s, 1.0, false);	/* rxn_s is set in tidy_model */
 /*
  *   Check if species is in model
  */
@@ -1143,8 +1143,6 @@ build_model(void)
 				add_potential_factor();
 				add_cd_music_factors(i);
 			}
-			//rxn_free(s[i]->rxn_x);
-			//s[i]->rxn_x = rxn_alloc(count_trxn + 1);
 			trxn_copy(s[i]->rxn_x);
 			for (j = 0; j < 3; j++)
 			{
@@ -1160,7 +1158,7 @@ build_model(void)
  *   Determine mass balance equations, build sums for mass balance, build sums for jacobian
  */
 			count_trxn = 0;
-			trxn_add(s[i]->rxn_s, 1.0, FALSE);
+			trxn_add(s[i]->rxn_s, 1.0, false);
 			if (s[i]->next_secondary == NULL)
 			{
 				write_mb_eqn_x();
@@ -1286,7 +1284,7 @@ build_model(void)
 	for (i = 0; i < (int)phases.size(); i++)
 	{
 		count_trxn = 0;
-		trxn_add_phase(phases[i]->rxn_s, 1.0, FALSE);
+		trxn_add_phase(phases[i]->rxn_s, 1.0, false);
 		trxn_reverse_k();
 		phases[i]->in = inout();
 		if (phases[i]->in == TRUE)
@@ -1304,13 +1302,6 @@ build_model(void)
  */
 			write_mass_action_eqn_x(STOP);
 			trxn_reverse_k();
-			//rxn_free(phases[i]->rxn_x);
-			//if (debug_prep == TRUE)
-			//{
-			//	output_msg(sformatf( "\nPhase: %s\n", phases[i]->name));
-			//	trxn_print();
-			//}
-			//phases[i]->rxn_x = rxn_alloc(count_trxn + 1);
 			trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);
 		}
@@ -1741,7 +1732,6 @@ clear(void)
 /*
  *   copy primary reaction to secondary reaction
  */
-		//rxn_free(master[i]->rxn_secondary);
 		master[i]->rxn_secondary = master[i]->rxn_primary;
 	}
 
@@ -2518,7 +2508,6 @@ reprep(void)
 	{
 		if (master[i]->in == FALSE)
 			continue;
-		//rxn_free(master[i]->rxn_secondary);
 		master[i]->rxn_secondary = master[i]->rxn_primary;
 	}
 	resetup_master();
@@ -2578,7 +2567,6 @@ resetup_master(void)
 			{
 				if (master_ptr->s->primary == NULL)
 				{
-					//rxn_free(master_ptr->rxn_secondary);
 					master_ptr->rxn_secondary = master_ptr->s->rxn_s;
 				}
 			}
@@ -2587,8 +2575,6 @@ resetup_master(void)
 				if (master_ptr0->s->primary == NULL)
 				{
 					rewrite_master_to_secondary(master_ptr, master_ptr0);
-					//rxn_free(master_ptr->rxn_secondary);
-					//master_ptr->rxn_secondary = rxn_alloc(count_trxn + 1);
 					trxn_copy(master_ptr->rxn_secondary);
 				}
 			}
@@ -2653,7 +2639,7 @@ write_mass_action_eqn_x(int stop)
 					rxn_find_coef(trxn.token[i].s->secondary->rxn_secondary,
 								  "e-");
 				trxn_add(trxn.token[i].s->secondary->rxn_secondary,
-						 trxn.token[i].coef, FALSE);
+						 trxn.token[i].coef, false);
 				if (equal(coef_e, 0.0, TOL) == FALSE)
 				{
 					std::map < std::string, cxxChemRxn >::iterator chemRxnIt = pe_x.find(trxn.token[i].s->secondary->pe_rxn);
@@ -3105,8 +3091,8 @@ rewrite_master_to_secondary(struct master *master_ptr1,
  *   Rewrite equation to secondary master species
  */
 	count_trxn = 0;
-	trxn_add(master_ptr1->rxn_primary, 1.0, FALSE);
-	trxn_add(master_ptr2->rxn_primary, -coef1 / coef2, TRUE);
+	trxn_add(master_ptr1->rxn_primary, 1.0, false);
+	trxn_add(master_ptr2->rxn_primary, -coef1 / coef2, true);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -3704,11 +3690,7 @@ setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std:
 			master_ptr->in = TRUE;
 			if (master_ptr->s->primary == NULL)
 			{
-				//rxn_free(master_ptr->rxn_secondary);
 				master_ptr->rxn_secondary = master_ptr->s->rxn_s;
-/* debug
-                                trxn_print ();
- */
 			}
 		}
 		else
@@ -3717,12 +3699,7 @@ setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std:
 			if (master_ptr0->s->primary == NULL)
 			{
 				rewrite_master_to_secondary(master_ptr, master_ptr0);
-				//rxn_free(master_ptr->rxn_secondary);
-				//master_ptr->rxn_secondary = rxn_alloc(count_trxn + 1);
 				trxn_copy(master_ptr->rxn_secondary);
-/* debug
-					trxn_print ();
- */
 			}
 		}
 		master_ptr->pe_rxn = string_hsave(pe_rxn.c_str());
@@ -4988,12 +4965,10 @@ tidy_redox(void)
 			}
 			else
 			{
-				//CReaction rxn = rxn_alloc(count_trxn + 1);
 				CReaction rxn(count_trxn + 1);
 				trxn_copy(rxn);
 				cxxChemRxn temp_rxn(rxn);
 				it->second = temp_rxn;
-				//rxn_free(rxn);
 			}
 		}
 	}
@@ -5070,7 +5045,7 @@ write_mb_eqn_x(void)
 			{
 				repeat = TRUE;
 				trxn_add(trxn.token[i].s->secondary->rxn_secondary,
-						 trxn.token[i].coef, FALSE);
+						 trxn.token[i].coef, false);
 			}
 		}
 		trxn_combine();
@@ -5130,7 +5105,7 @@ write_mb_for_species_list(int n)
  *   Start with secondary reaction
  */
 	count_trxn = 0;
-	trxn_add(s[n]->rxn_s, 1.0, FALSE);
+	trxn_add(s[n]->rxn_s, 1.0, false);
 /*
  *   Copy to elt_list
  */
@@ -5188,7 +5163,7 @@ write_phase_sys_total(int n)
  *   Start with secondary reaction
  */
 	count_trxn = 0;
-	trxn_add_phase(phases[n]->rxn_s, 1.0, FALSE);
+	trxn_add_phase(phases[n]->rxn_s, 1.0, false);
 /*
  *   Copy to elt_list
  */
@@ -5225,47 +5200,6 @@ write_phase_sys_total(int n)
 		(struct elt_list *) free_check_null(phases[n]->next_sys_total);
 	phases[n]->next_sys_total = elt_list_save();
 	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_delta_v(struct reaction *r_ptr, bool phase)
-/* ---------------------------------------------------------------------- */
-{
-/* calculate delta_v from molar volumes */
-//dlp
-	LDBLE d_v = 0.0;
-
-	if (phase)
-	{
-		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
-		for (size_t i = 1; r_ptr->token[i].s /*|| r_ptr->token[i].s*/ ; i++)
-		{
-			//if (!r_ptr->token[i].s)
-			//	continue;
-			//if (!strcmp(r_ptr->token[i].s->name, "H+"))
-			//	continue;
-			//if (!strcmp(r_ptr->token[i].s->name, "e-"))
-			//	continue;
-			//else if (r_ptr->token[i].s->logk[vm_tc])
-			d_v += r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
-		}
-	}
-	else
-	{	
-		for (size_t i = 0; r_ptr->token[i].name /*|| r_ptr->token[i].s*/ ; i++)
-		{
-			if (!r_ptr->token[i].s)
-				continue;
-			//if (!strcmp(r_ptr->token[i].s->name, "H+"))
-			//	continue;
-			//if (!strcmp(r_ptr->token[i].s->name, "e-"))
-			//	continue;
-			//else if (r_ptr->token[i].s->logk[vm_tc])
-			d_v -= r_ptr->token[i].coef * r_ptr->token[i].s->logk[vm_tc];
-		}
-	}
-	return d_v;
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::

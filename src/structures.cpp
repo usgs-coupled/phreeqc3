@@ -736,8 +736,6 @@ master_alloc(void)
 	ptr->gfw_formula = NULL;
 	ptr->unknown = NULL;
 	ptr->s = NULL;
-	//ptr->rxn_primary = NULL;
-	//ptr->rxn_secondary = NULL;
 	ptr->pe_rxn = NULL;
 	ptr->minor_isotope = FALSE;
 	return (ptr);
@@ -778,8 +776,6 @@ master_free(struct master *master_ptr)
  */
 	if (master_ptr == NULL)
 		return (ERROR);
-	//rxn_free(master_ptr->rxn_primary);
-	//rxn_free(master_ptr->rxn_secondary);
 	delete master_ptr;
 	return (OK);
 }
@@ -1061,9 +1057,6 @@ phase_free(struct phase *phase_ptr)
 		(struct elt_list *) free_check_null(phase_ptr->next_elt);
 	phase_ptr->next_sys_total =
 		(struct elt_list *) free_check_null(phase_ptr->next_sys_total);
-	//rxn_free(phase_ptr->rxn);
-	//rxn_free(phase_ptr->rxn_s);
-	//rxn_free(phase_ptr->rxn_x);
 	phase_ptr->add_logk.clear(); 
 	return (OK);
 }
@@ -1159,9 +1152,6 @@ phase_init(struct phase *phase_ptr)
 	phase_ptr->next_elt = NULL;
 	phase_ptr->next_sys_total = NULL;
 	phase_ptr->check_equation = TRUE;
-	//phase_ptr->rxn = NULL;
-	//phase_ptr->rxn_s = NULL;
-	//phase_ptr->rxn_x = NULL;
 	phase_ptr->replaced = 0;
 	phase_ptr->in_system = 1;
 	phase_ptr->original_deltav_units = cm3_per_mol;
@@ -1400,234 +1390,6 @@ rate_sort(void)
 	}
 	return (OK);
 }
-
-/* **********************************************************************
- *
- *   Routines related to structure "reaction", balanced chemical reactions
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-struct reaction Phreeqc::
-rxn_alloc(int ntokens)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-/*
- *   Allocates space to a rxn structure
- *      input: ntokens, number of tokens in reaction
- *      return: pointer to a species structure
- */
-	struct reaction rxn, * rxn_ptr;
-/*
- *   Malloc reaction structure
- */
-	rxn_ptr = &rxn;
-/*
- *   zero log k data
- */
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
-	{
-		rxn_ptr->logk[i] = 0.0;
-	}
-/*
- *   zero dz data
- */
-	for (i = 0; i < 3; i++)
-	{
-		rxn_ptr->dz[i] = 0.0;
-	}
-/*
- *   Malloc rxn_token structure
- */
-	rxn_ptr->token.clear();
-	rxn_ptr->token.resize((size_t)ntokens);
-	for (i = 0; i < ntokens; i++)
-	{
-		rxn_ptr->token[i].s = NULL;
-		rxn_ptr->token[i].name = NULL;
-		rxn_ptr->token[i].coef = 0.0;
-	}
-	return (rxn);
-}
-
-/* ---------------------------------------------------------------------- */
-struct reaction Phreeqc::
-rxn_dup(struct reaction& rxn_ptr_old)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   mallocs space for a reaction and copies the reaction
- *   input: rxn_ptr_old, pointer to a reaction structure to copy
- *
- *   Return: rxn_ptr_new,  pointer to duplicated structure to copy
- */
-	struct reaction rxn_ptr_new;
-
-	//if (rxn_ptr_old == NULL)
-	//	return (NULL);
-	//for (i = 0; rxn_ptr_old.token[i].s != NULL; i++);
-
-	//rxn_ptr_new = rxn_alloc(i + 1);
-/*
- *   Copy logk data
- */
-	//memcpy(rxn_ptr_new->logk, rxn_ptr_old->logk, (size_t) MAX_LOG_K_INDICES * sizeof(LDBLE));
-/*
- *   Copy dz data
- */
-	//memcpy(rxn_ptr_new->dz, rxn_ptr_old->dz, (size_t) (3 * sizeof(LDBLE)));
-/*
- *   Copy tokens
- */
-	//memcpy(&rxn_ptr_new->token[0], &rxn_ptr_old->token[0],
-	//	   ((size_t)i + 1) * sizeof(struct rxn_token));
-
-	return (rxn_ptr_old);
-}
-/* ---------------------------------------------------------------------- */
-struct reaction Phreeqc::
-cxxChemRxn2rxn(cxxChemRxn &cr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   mallocs space for a reaction and copies the cxxChemRxn to a struct reaction
- *
- *   Return: rxn_ptr_new,  pointer to new structure 
- */
-	for (int i = 0; i < (int) cr.Get_tokens().size(); i++)
-	{
-		if (cr.Get_tokens()[i].s != NULL)
-		{
-			cr.Get_tokens()[i].s = s_store(cr.Get_tokens()[i].s->name, cr.Get_tokens()[i].s->z, FALSE);
-		}
-		if (cr.Get_tokens()[i].name != NULL)
-		{
-			cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].name);
-		}
-		else
-		{
-			if (cr.Get_tokens()[i].s != NULL)
-			{
-				cr.Get_tokens()[i].name = string_hsave(cr.Get_tokens()[i].s->name);
-			}
-			else
-			{
-				cr.Get_tokens()[i].name=NULL;
-			}
-		}
-	}
-
-	count_trxn = 0;
-	trxn_add(cr, 1.0, 1);
-
-	struct reaction rxn_new = rxn_alloc(count_trxn + 1);
-	struct reaction* rxn_ptr_new = &rxn_new;
-	trxn_copy(rxn_ptr_new);
-
-	// cleanup pointers for copy operator name, and s may point into another instance
-
-	for (int i = 0; rxn_ptr_new->token[i].s != NULL; i++)
-	{
-		rxn_ptr_new->token[i].name = string_hsave(rxn_ptr_new->token[i].name);
-		LDBLE  z = rxn_ptr_new->token[i].s->z;
-		rxn_ptr_new->token[i].s = s_store(rxn_ptr_new->token[i].name, z, false);
-	}
-	return (rxn_new);
-}
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-rxn_find_coef(struct reaction * r_ptr, const char *str)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Finds coefficient of token in reaction.
- *   input: r_ptr, pointer to a reaction structure
- *	  str, string to find as reaction token
- *
- *   Return: 0.0, if token not found
- *	   coefficient of token, if found.
- */
-	struct rxn_token *r_token;
-	LDBLE coef;
-
-	r_token = &r_ptr->token[0] + 1;
-	coef = 0.0;
-	while (r_token->s != NULL)
-	{
-		if (strcmp(r_token->s->name, str) == 0)
-		{
-			coef = r_token->coef;
-			break;
-		}
-		r_token++;
-	}
-	return (coef);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rxn_free(struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Frees space allocated for a reaction structure
- *      input: rxn_ptr, pointer to reaction structure
- *      return: ERROR, if pointer is NULL
- *	      OK, otherwise.
- */
-	if (rxn_ptr == NULL)
-		return (ERROR);
-	rxn_ptr->token.clear();
-	delete rxn_ptr;
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rxn_print(struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Frees space allocated for a reaction structure
- *      input: rxn_ptr, pointer to reaction structure
- *      return: ERROR, if pointer is NULL
- *	      OK, otherwise.
- */
-	struct rxn_token *next_token;
-	int i;
-	if (rxn_ptr == NULL)
-		return (ERROR);
-	next_token = &rxn_ptr->token[0];
-	output_msg(sformatf( "log k data:\n"));
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
-	{
-		output_msg(sformatf( "\t%f\n", (double) rxn_ptr->logk[i]));
-	}
-	output_msg(sformatf( "Reaction definition\n"));
-	while (next_token->s != NULL || next_token->name != NULL)
-	{
-		output_msg(sformatf( "\tcoef %f ", next_token->coef));
-		if (next_token->s != NULL)
-		{
-			output_msg(sformatf( "\tspecies token: %s ",
-					   next_token->s->name));
-		}
-		if (next_token->name != NULL)
-		{
-			output_msg(sformatf( "\tname token: %s", next_token->name));
-		}
-		output_msg(sformatf( "\n"));
-		next_token++;
-	}
-	output_msg(sformatf( "dz data\n"));
-	for (i = 0; i < 3; i++)
-	  {
-	    output_msg(sformatf( "\t%d %e\n", i, (double) rxn_ptr->dz[i]));
-	    
-	  }
-	return (OK);
-}
-
 /* **********************************************************************
  *
  *   Routines related to structure "species"
@@ -1766,9 +1528,6 @@ s_init(struct species *s_ptr)
 	s_ptr->next_secondary = NULL;
 	s_ptr->next_sys_total = NULL;
 	s_ptr->check_equation = TRUE;
-	//s_ptr->rxn = NULL;
-	//s_ptr->rxn_s = NULL;
-	//s_ptr->rxn_x = NULL;
 	s_ptr->tot_g_moles = 0;
 	s_ptr->tot_dh2o_moles = 0;
 	for (i = 0; i < 5; i++)
@@ -2196,133 +1955,6 @@ trxn_add(cxxChemRxn &r_ptr, LDBLE coef, int combine)
 		trxn_combine();
 	return (OK);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-trxn_add(struct reaction *r_ptr, LDBLE coef, int combine)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Adds reactions together.
- *
- *   Global variable count_trxn determines which position in trxn is used.
- *      If count_trxn=0, then the equation effectively is copied into trxn.
- *      If count_trxn>0, then new equation is added to existing equation.
- *
- *   Arguments:
- *      *r_ptr	 points to rxn structure to add.
- *
- *       coef	  added equation is multiplied by coef.
- *       combine       if TRUE, reaction is reaction is sorted and
- *		     like terms combined.
- */
-	int i;
-	struct rxn_token *next_token;
-/*
- *   Accumulate log k for reaction
- */
-	if (count_trxn == 0)
-	{
-		memcpy((void *) trxn.logk, (void *) r_ptr->logk,
-			(size_t) MAX_LOG_K_INDICES * sizeof(LDBLE));
-		for (i = 0; i < 3; i++)
-		{
-			trxn.dz[i] = r_ptr->dz[i];
-		}
-	}
-	else
-	{
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			trxn.logk[i] += coef * (r_ptr->logk[i]);
-		}
-		for (i = 0; i < 3; i++)
-		{
-			trxn.dz[i] += coef * r_ptr->dz[i];
-		}
-	}
-/*
- *   Copy  equation into work space
- */
-	next_token = &r_ptr->token[0];
-	while (next_token->s != NULL)
-	{
-		if (count_trxn + 1 > trxn.token.size())
-			trxn.token.resize(count_trxn + 1);
-		trxn.token[count_trxn].name = next_token->s->name;
-		trxn.token[count_trxn].s = next_token->s;
-		trxn.token[count_trxn].coef = coef * next_token->coef;
-		count_trxn++;
-		next_token++;
-	}
-	if (combine == TRUE)
-		trxn_combine();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-trxn_add_phase(struct reaction *r_ptr, LDBLE coef, int combine)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Adds reactions together.
- *
- *   Global variable count_trxn determines which position in trxn is used.
- *      If count_trxn=0, then the equation effectively is copied into trxn.
- *      If count_trxn>0, then new equation is added to existing equation.
- *
- *   Arguments:
- *      *r_ptr	 points to rxn structure to add.
- *
- *       coef	  added equation is multiplied by coef.
- *       combine       if TRUE, reaction is reaction is sorted and
- *		     like terms combined.
- */
-	int i;
-	struct rxn_token *next_token;
-/*
- *   Accumulate log k for reaction
- */
-	if (count_trxn == 0)
-	{
-		memcpy((void *) trxn.logk, (void *) r_ptr->logk,
-			(size_t) MAX_LOG_K_INDICES * sizeof(LDBLE));
-	}
-	else
-	{
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)
-		{
-			trxn.logk[i] += coef * (r_ptr->logk[i]);
-		}
-	}
-/*
- *   Copy  equation into work space
- */
-	next_token = &r_ptr->token[0];
-	while (next_token->s != NULL || next_token->name != NULL)
-	{
-		if (count_trxn + 1 > trxn.token.size())
-			trxn.token.resize(count_trxn + 1);
-		if (next_token->s != NULL)
-		{
-			trxn.token[count_trxn].name = next_token->s->name;
-			trxn.token[count_trxn].s = next_token->s;
-		}
-		else
-		{
-			trxn.token[count_trxn].name = next_token->name;
-			trxn.token[count_trxn].s = NULL;
-		}
-		trxn.token[count_trxn].coef = coef * next_token->coef;
-		count_trxn++;
-		next_token++;
-	}
-	if (combine == TRUE)
-		trxn_combine();
-	return (OK);
-}
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 trxn_combine(void)
@@ -2386,48 +2018,6 @@ trxn_combine(void)
 	count_trxn = j + 1;			/* number excluding final NULL */
 	return (OK);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-trxn_copy(struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies trxn to a reaction structure.
- *
- *   Input: rxn_ptr, pointer to reaction structure to copy trxn to.
- *
- */
-	int i;
-/*
- *   Copy logk data
- */
-	rxn_ptr->token.resize(count_trxn + 1);
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
-	{
-		rxn_ptr->logk[i] = trxn.logk[i];
-	}
-/*
- *   Copy dz data
- */
-	for (i = 0; i < 3; i++)
-	{
-		rxn_ptr->dz[i] = trxn.dz[i];
-	}
-/*
- *   Copy tokens
- */
-	for (i = 0; i < count_trxn; i++)
-	{
-		rxn_ptr->token[i].s = trxn.token[i].s;
-		rxn_ptr->token[i].name = trxn.token[i].name;
-		rxn_ptr->token[i].coef = trxn.token[i].coef;
-	}
-	rxn_ptr->token[count_trxn].s = NULL;
-
-	return (OK);
-}
-
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 trxn_find_coef(const char *str, int start)

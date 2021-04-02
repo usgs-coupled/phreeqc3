@@ -554,7 +554,6 @@ public:
 	int build_species_list(int n);
 	int build_min_surface(void);
 	LDBLE calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa);
-	LDBLE calc_delta_v(struct reaction* r_ptr, bool phase);
 	double calc_delta_v(CReaction& r_ref, bool phase);
 	LDBLE calc_PR(std::vector<struct phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
@@ -617,7 +616,6 @@ public:
 	int print_exchange(void);
 	int print_gas_phase(void);
 	int print_master_reactions(void);
-	//int print_reaction(struct reaction* rxn_ptr);
 	int print_species(void);
 	int print_surface(void);
 	int print_user_print(void);
@@ -868,12 +866,6 @@ public:
 	struct rate* rate_copy(struct rate* rate_ptr);
 	struct rate* rate_search(const char* name, int* n);
 	int rate_sort(void);
-	struct reaction rxn_alloc(int ntokens);
-	struct reaction rxn_dup(struct reaction& rxn_ptr_old);
-	struct reaction cxxChemRxn2rxn(cxxChemRxn& cr);
-	LDBLE rxn_find_coef(struct reaction* r_ptr, const char* str);
-	int rxn_free(struct reaction* rxn_ptr);
-	int rxn_print(struct reaction* rxn_ptr);
 	static int s_compare(const void* ptr1, const void* ptr2);
 	int s_delete(int i);
 	struct species* s_search(const char* name);
@@ -887,11 +879,8 @@ protected:
 public:
 	struct master* surface_get_psi_master(const char* name, int plane);
 	int system_duplicate(int i, int save_old);
-	int trxn_add(struct reaction* r_ptr, LDBLE coef, int combine);
 	int trxn_add(cxxChemRxn& r_ptr, LDBLE coef, int combine);
-	int trxn_add_phase(struct reaction* r_ptr, LDBLE coef, int combine);
 	int trxn_combine(void);
-	int trxn_copy(struct reaction* rxn_ptr);
 	LDBLE trxn_find_coef(const char* str, int start);
 	int trxn_print(void);
 	int trxn_reverse_k(void);
@@ -976,8 +965,6 @@ public:
 	int tidy_model(void);
 	int check_species_input(void);
 	LDBLE coef_in_master(struct master* master_ptr);
-	int phase_rxn_to_trxn(struct phase* phase_ptr,
-		struct reaction* rxn_ptr);
 	int reset_last_model(void);
 	int rewrite_eqn_to_primary(void);
 	int rewrite_eqn_to_secondary(void);
@@ -1048,9 +1035,6 @@ public:
 	int add_elt_list(struct elt_list* elt_list_ptr, LDBLE coef);
 	int add_elt_list_multi_surf(struct elt_list* elt_list_ptr, LDBLE coef, struct element* surf_elt_ptr);
 	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
-protected:
-	LDBLE calc_alk(struct reaction* rxn_ptr);
-public:
 	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
 	LDBLE calc_dielectrics(LDBLE tc, LDBLE pa);
 	int compute_gfw(const char* string, LDBLE* gfw);
