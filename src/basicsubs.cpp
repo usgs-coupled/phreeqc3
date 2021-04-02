@@ -1288,9 +1288,9 @@ equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name)
 	if (s_ptr != NULL && (s_ptr->type == EX || s_ptr->type == SURF))
 	{
 		*eq = s_ptr->equiv;
-		struct elt_list *next_elt;
+		const struct elt_list *next_elt;
 		LDBLE tot=0.0;
-		for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;	next_elt++)
+		for (next_elt = &s_ptr->next_elt[0]; next_elt->elt != NULL;	next_elt++)
 		{
 			if (next_elt->elt->master->s->type == SURF ||
 				next_elt->elt->master->s->type == EX)
@@ -1787,7 +1787,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 {
 	int i;
 	LDBLE tot;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
@@ -1805,7 +1805,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 			}
 			else
 			{
-				for (next_elt = phase_ptr->next_elt;
+				for (next_elt = &phase_ptr->next_elt[0];
 					 next_elt->elt != NULL; next_elt++)
 				{
 					if (strcmp(next_elt->elt->name, name) == 0)
@@ -1827,7 +1827,7 @@ sum_match_species(const char *mytemplate, const char *name)
 {
 	int i;
 	LDBLE tot;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	count_elts = 0;
 	paren_count = 0;
@@ -1856,7 +1856,7 @@ sum_match_species(const char *mytemplate, const char *name)
 		}
 		else
 		{
-			for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;
+			for (next_elt = &s_ptr->next_elt[0]; next_elt->elt != NULL;
 					next_elt++)
 			{
 				if (strcmp(next_elt->elt->name, name) == 0)
@@ -1878,7 +1878,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE tot;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
 		return (0);
@@ -1905,7 +1905,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 				{
 					int l;
 					struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
-					for (next_elt = phase_ptr->next_elt; next_elt->elt != NULL; next_elt++)
+					for (next_elt = &phase_ptr->next_elt[0]; next_elt->elt != NULL; next_elt++)
 					{
 						if (strcmp(next_elt->elt->name, name) == 0)
 						{
@@ -3493,7 +3493,7 @@ system_total_elt_secondary(const char *total_name)
 	{
 		count_elts = 0;
 		paren_count = 0;
-		if (s_x[i]->next_secondary != NULL)
+		if (s_x[i]->next_secondary.size() != 0)
 		{
 			add_elt_list(s_x[i]->next_secondary, s_x[i]->moles);
 		}
@@ -3566,7 +3566,7 @@ system_total_elt_secondary(const char *total_name)
 			{
 				count_elts = 0;
 				paren_count = 0;
-				if (s_x[i]->next_secondary != NULL)
+				if (s_x[i]->next_secondary.size() != 0)
 				{
 					add_elt_list(s_x[i]->next_secondary, 1);
 				}
@@ -3779,7 +3779,7 @@ solution_sum_secondary(const char *total_name)
 			continue;
 		count_elts = 0;
 		paren_count = 0;
-		if (s_x[i]->next_secondary != NULL)
+		if (s_x[i]->next_secondary.size() != 0)
 		{
 			add_elt_list(s_x[i]->next_secondary, s_x[i]->moles);
 		}

@@ -293,4 +293,56 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 	}
 	return rxn;
 }
-	
+int Phreeqc::
+add_elt_list(const cxxNameDouble& nd, LDBLE coef)
+/* ---------------------------------------------------------------------- */
+{
+	cxxNameDouble::const_iterator cit = nd.begin();
+	for (; cit != nd.end(); cit++)
+	{
+		if (count_elts >= (int)elt_list.size())
+		{
+			elt_list.resize(count_elts + 1);
+		}
+		elt_list[count_elts].elt = element_store(cit->first.c_str());
+		elt_list[count_elts].coef = cit->second * coef;
+		count_elts++;
+	}
+	return (OK);
+}
+int Phreeqc::
+add_elt_list(const std::vector<struct elt_list>& el, double coef)
+/* ---------------------------------------------------------------------- */
+{
+	const struct elt_list* elt_list_ptr = &el[0];
+
+	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
+	{
+		if (count_elts >= elt_list.size())
+		{
+			elt_list.resize(count_elts + 1);
+		}
+		elt_list[count_elts].elt = elt_list_ptr->elt;
+		elt_list[count_elts].coef = elt_list_ptr->coef * coef;
+		count_elts++;
+	}
+	return (OK);
+}
+std::vector<struct elt_list> Phreeqc::
+elt_list_internal_copy(const std::vector<struct elt_list>& el)
+/* ---------------------------------------------------------------------- */
+{
+	std::vector<struct elt_list> new_elt_list;
+	const struct elt_list* elt_list_ptr = &el[0];
+
+	new_elt_list.resize(el.size());
+	size_t count = 0;
+	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
+	{
+		new_elt_list[count].elt = element_store(elt_list_ptr->elt->name);
+		new_elt_list[count].coef = elt_list_ptr->coef;
+		count++;
+	}
+	new_elt_list[count].elt = NULL;
+	return new_elt_list;
+}

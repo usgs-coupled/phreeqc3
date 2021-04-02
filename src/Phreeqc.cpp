@@ -1515,29 +1515,11 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			s_ptr->add_logk[j].name = string_hsave(pSrc->s[i]->add_logk[j].name);
 		}
 		//next_elt
-		s_ptr->next_elt = NULL;
-		if (pSrc->s[i]->next_elt)
-		{
-			cxxNameDouble next_elt(pSrc->s[i]->next_elt);
-			s_ptr->next_elt = NameDouble2elt_list(next_elt);
-		}
+		s_ptr->next_elt = elt_list_internal_copy(pSrc->s[i]->next_elt);
+
 		//next_secondary
-		s_ptr->next_secondary = NULL;
-		if (pSrc->s[i]->next_secondary && pSrc->s[i]->mole_balance)
-		{
-			count_elts = 0;
-			paren_count = 0;
-			const char* cptr = s_ptr->mole_balance;
-			get_secondary_in_species(&cptr, 1.0);
-			s_ptr->next_secondary = elt_list_save();
-		}
-		//next_sys_total
-		s_ptr->next_sys_total = NULL;
-		if (pSrc->s[i]->next_sys_total)
-		{
-			cxxNameDouble next_sys_total(pSrc->s[i]->next_sys_total);
-			s_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
-		}
+		s_ptr->next_secondary = elt_list_internal_copy(pSrc->s[i]->next_secondary);
+		s_ptr->next_sys_total = elt_list_internal_copy(pSrc->s[i]->next_sys_total);
 		//rxn
 		s_ptr->rxn = CReaction_internal_copy(pSrc->s[i]->rxn);
 		s_ptr->rxn_s = CReaction_internal_copy(pSrc->s[i]->rxn_s);
@@ -1567,19 +1549,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 			phase_ptr->add_logk[j].name = string_hsave(pSrc->phases[i]->add_logk[j].name);
 		}
 		//next_elt
-		phase_ptr->next_elt = NULL;
-		if (pSrc->phases[i]->next_elt)
-		{
-			cxxNameDouble next_elt(pSrc->phases[i]->next_elt);
-			phase_ptr->next_elt = NameDouble2elt_list(next_elt);
-		}
-		//next_sys_total
-		phase_ptr->next_sys_total = NULL;
-		if (pSrc->phases[i]->next_sys_total)
-		{
-			cxxNameDouble next_sys_total(pSrc->phases[i]->next_sys_total);
-			phase_ptr->next_sys_total = NameDouble2elt_list(next_sys_total);
-		}
+		phase_ptr->next_elt = elt_list_internal_copy(pSrc->phases[i]->next_elt);
+		phase_ptr->next_sys_total = elt_list_internal_copy(pSrc->phases[i]->next_sys_total);
 		//rxn
 		phase_ptr->rxn = CReaction_internal_copy(pSrc->phases[i]->rxn);
 		phase_ptr->rxn_s = CReaction_internal_copy(pSrc->phases[i]->rxn_s);

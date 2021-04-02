@@ -238,9 +238,9 @@ step(LDBLE step_fraction)
 			{
 				int n;
 				struct phase *p_ptr = phase_bsearch((it->first).c_str(), &n, FALSE);
-				struct elt_list *e_ptr;
+				const struct elt_list *e_ptr;
 				LDBLE min = 1e10;
-				for (e_ptr = p_ptr->next_elt; e_ptr->elt != NULL; e_ptr++)
+				for (e_ptr = &p_ptr->next_elt[0]; e_ptr->elt != NULL; e_ptr++)
 				{
 					std::string e(e_ptr->elt->primary->elt->name);
 					cxxNameDouble::iterator st = sys_tots.find(e.c_str());
@@ -266,9 +266,9 @@ step(LDBLE step_fraction)
 					int n;
 					struct phase *p_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &n, FALSE);
 
-					struct elt_list *e_ptr;
+					const struct elt_list *e_ptr;
 					LDBLE min = 1e10;
-					for (e_ptr = p_ptr->next_elt; e_ptr->elt != NULL; e_ptr++)
+					for (e_ptr = &p_ptr->next_elt[0]; e_ptr->elt != NULL; e_ptr++)
 					{
 						std::string e(e_ptr->elt->primary->elt->name);
 						cxxNameDouble::iterator st = sys_tots.find(e.c_str());

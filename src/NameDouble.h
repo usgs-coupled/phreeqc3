@@ -28,8 +28,7 @@ class IPQ_DLL_EXPORT cxxNameDouble:public
 	};
 
 	cxxNameDouble();
-	cxxNameDouble(struct elt_list *);
-	cxxNameDouble(struct elt_list *, int count);
+	cxxNameDouble(const std::vector<struct elt_list>& el);
 	cxxNameDouble(std::map < std::string, cxxISolutionComp > &comps);
 
 	cxxNameDouble(struct name_coef *nc, int count);

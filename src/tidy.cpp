@@ -455,7 +455,7 @@ check_species_input(void)
 	return_value = OK;
 	for (i = 0; i < (int)s.size(); i++)
 	{
-		if (s[i]->next_elt == NULL)
+		if (s[i]->next_elt.size() == 0)
 		{
 			input_error++;
 			return_value = ERROR;
@@ -665,12 +665,12 @@ coef_in_master(struct master * master_ptr)
 	LDBLE coef;
 	const char* cptr;
 	std::string elt_name;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	coef = 0.0;
 	cptr = master_ptr->elt->name;
 	get_elt(&cptr, elt_name, &l);
-	for (next_elt = master_ptr->s->next_elt; next_elt->elt != NULL;
+	for (next_elt = &master_ptr->s->next_elt[0]; next_elt->elt != NULL;
 		 next_elt++)
 	{
 		if (strcmp(elt_name.c_str(), next_elt->elt->name) == 0)
@@ -1104,7 +1104,7 @@ tidy_inverse(void)
 	LDBLE value;
 	struct master *master_ptr;
 	struct master *master_alk_ptr;
-	struct elt_list *elt_list_ptr;
+	const struct elt_list *elt_list_ptr;
 	master_alk_ptr = master_bsearch("Alkalinity");
 	for (i = 0; i < count_inverse; i++)
 	{
@@ -1236,7 +1236,7 @@ tidy_inverse(void)
 					inverse[i].phases[j].isotopes[k].primary = master_ptr;
 					inverse[i].phases[j].isotopes[k].master = master_ptr;
 					/* find coefficient for element */
-					for (elt_list_ptr = inverse[i].phases[j].phase->next_elt;
+					for (elt_list_ptr = &inverse[i].phases[j].phase->next_elt[0];
 						 elt_list_ptr->elt != NULL; elt_list_ptr++)
 					{
 						if (elt_list_ptr->elt == master_ptr->elt)
@@ -1562,7 +1562,7 @@ tidy_pp_assemblage(void)
 			}
 			if (it->second.Get_add_formula().size() > 0)
 			{
-				int first = count_elts;
+				size_t first = count_elts;
 				phase_ptr =	phase_bsearch(it->second.Get_add_formula().c_str(), &k, FALSE);
 				if (phase_ptr != NULL)
 				{
@@ -1573,7 +1573,7 @@ tidy_pp_assemblage(void)
 					get_elts_in_species(&cptr, coef);
 				}
 				/* check that all elements are in the database */
-				for (int l = first; l < count_elts; l++)
+				for (size_t l = first; l < count_elts; l++)
 				{
 					if (elt_list[l].elt->master == NULL)
 					{
@@ -2436,7 +2436,7 @@ tidy_species(void)
  */
 	for (i = 0; i < (int)s.size(); i++)
 	{
-		if (s[i]->next_secondary != NULL)
+		if (s[i]->next_secondary.size() != 0)
 		{
 			s[i]->h = 0.0;
 			s[i]->o = 0.0;
@@ -3970,8 +3970,8 @@ tidy_kin_surface(void)
 {
 	cxxKinetics *kinetics_ptr;
 	struct phase *phase_ptr;
-	struct elt_list *elt_list_kinetics;
-	int count_elts_kinetics;
+	std::vector<struct elt_list> elt_list_kinetics;
+	size_t count_elts_kinetics;
 
 	//std::map<int, cxxSurface>::iterator it;
 	//for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
@@ -4138,7 +4138,7 @@ tidy_kin_surface(void)
 			{
 				elt_list_combine();
 			}
-			elt_list_kinetics = elt_list_save();
+			elt_list_kinetics = elt_list_vsave();
 			count_elts_kinetics = count_elts;
 
 			/* get surface formulas */
@@ -4223,8 +4223,7 @@ tidy_kin_surface(void)
 					}
 				}
 			}
-			elt_list_kinetics =
-				(struct elt_list *) free_check_null(elt_list_kinetics);
+			elt_list_kinetics.clear();
 		}
 	}
 	return (OK);
