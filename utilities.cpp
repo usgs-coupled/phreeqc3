@@ -1427,10 +1427,11 @@ string_pad(const char *str, int i)
 	max = l;
 	if (l < i)
 		max = i;
-	str_ptr = (char *) PHRQ_malloc(((max + 1) * sizeof(char)));
+	str_ptr = (char *) PHRQ_malloc((((size_t)max + 1) * sizeof(char)));
 	if (str_ptr == NULL)
 		malloc_error();
-	strcpy(str_ptr, str);
+	else
+		strcpy(str_ptr, str);
 	if (i > l)
 	{
 		for (j = l; j < i; j++)

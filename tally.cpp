@@ -221,9 +221,9 @@ store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_facto
 	/*
 	 * Add row for total moles of reactant
 	 */
-	for (i = 0; i < count_tally_table_columns; i++)
+	for (size_t i = 0; i < count_tally_table_columns; i++)
 	{
-		l_array[i * row_dim + count_tally_table_rows] =
+		l_array[i * (size_t)row_dim + count_tally_table_rows] =
 				tally_table[i].moles / fill_factor;
 	}
 	return (OK);
@@ -243,8 +243,8 @@ get_tally_table_rows_columns(int *rows, int *columns)
 				  CONTINUE);
 		return (ERROR);
 	}
-	*rows = count_tally_table_rows;
-	*columns = count_tally_table_columns;
+	*rows = (int)count_tally_table_rows;
+	*columns = (int)count_tally_table_columns;
 	return (OK);
 }
 
@@ -786,7 +786,8 @@ build_tally_table(void)
  *   Also calculates a number greater than all user numbers and
  *   stores in global variable first_user_number.
  */
-	int j, k, l, n, p, save_print_use;
+	int j, k, l, p, save_print_use;
+	size_t n;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	struct phase *phase_ptr;
 	char token[MAX_LENGTH];

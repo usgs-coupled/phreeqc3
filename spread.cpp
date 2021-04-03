@@ -121,7 +121,7 @@ read_solution_spread(void)
 			if (j == DIGIT)
 			{
 				char* ptr;
-				strtod(token.c_str(), &ptr);
+				(void)strtod(token.c_str(), &ptr);
 				cptr = ptr;
 				int j1 = copy_token(token1, &cptr);
 				if (j1 != EMPTY)

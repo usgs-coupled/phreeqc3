@@ -1770,10 +1770,10 @@ protected:
 
 	/* tally.cpp ------------------------------- */
 	struct tally_buffer* t_buffer;
-	int tally_count_component;
+	size_t tally_count_component;
 	struct tally* tally_table;
-	int count_tally_table_columns;
-	int count_tally_table_rows;
+	size_t count_tally_table_columns;
+	size_t count_tally_table_rows;
 
 	/* transport.cpp ------------------------------- */
 	struct sol_D* sol_D;
