@@ -40,8 +40,6 @@ read_transport(void)
 	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
 	char token[MAX_LENGTH];
-	char *description;
-	int n_user, n_user_end;
 	LDBLE *length, *disp, *pors;
 	int *punch_temp, *print_temp, *same_model_temp;
 	int return_value, opt, opt_save;
@@ -142,12 +140,6 @@ read_transport(void)
 
 	count_length_alloc = count_disp_alloc = count_por_alloc = 1;
 	transport_start = 1;
-	/*
-	*   Read transport number (not currently used)
-	*/
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	description = (char *)free_check_null(description);
 	/*
 	*   Set use data to last read
 	*/

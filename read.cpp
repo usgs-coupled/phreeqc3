@@ -810,11 +810,9 @@ read_exchange(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	int n_user, n_user_end;
+	int n_user;
 	LDBLE conc;
 	const char* cptr;
-	char *description;
-
 	int return_value, opt;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -833,21 +831,14 @@ read_exchange(void)
  *    ^Name     ^equi or kinetic mineral ^switch		  ^prop.factor
  */
 /*
- *   Read exchange number and description
- */
-
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-/*
  *   Default values + n_user, description
  */
 	cxxExchange temp_exchange;
+	cptr = line;
+	temp_exchange.read_number_description(cptr);
+	n_user = temp_exchange.Get_n_user();
 	cxxExchComp *comp_ptr = NULL;
 	temp_exchange.Set_new_def(true);
-	temp_exchange.Set_n_user(n_user);
-	temp_exchange.Set_n_user_end(n_user_end);
-	temp_exchange.Set_description(description);
-	free_check_null(description);
 /*
  *   Set use data
  */
@@ -1174,9 +1165,8 @@ read_gas_phase(void)
  *
  */
 	int i, j, l;
-	int n_user, n_user_end;
+	int n_user;
 	const char* cptr;
-	char *description;
 	char token[MAX_LENGTH];
 	cxxGasPhase temp_gas_phase(this->phrq_io);
 	int return_value, opt;
@@ -1193,17 +1183,11 @@ read_gas_phase(void)
 		"equil"					/* 8 */
 	};
 	int count_opt_list = 9;
-/*
- *   Read gas_phase number
- */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
 
-	temp_gas_phase.Set_n_user(n_user);
-	temp_gas_phase.Set_n_user_end(n_user_end);
-	temp_gas_phase.Set_description(description);
+	cptr = line;
+	temp_gas_phase.read_number_description(cptr);
+	n_user = temp_gas_phase.Get_n_user();
 	temp_gas_phase.Set_new_def(true);
-	free_check_null(description);
 /*
  *   Set use data to first read
  */
@@ -1880,9 +1864,8 @@ read_kinetics(void)
  *   Read kinetics
  */
 	const char* cptr;
-	char *description;
 	std::string token;
-	int n_user, n_user_end;
+	int n_user;
 	LDBLE step;
 
 	int return_value, opt;
@@ -1907,16 +1890,10 @@ read_kinetics(void)
 	};
 	int count_opt_list = 16;
 
-/*
- *   Read kinetics number
- */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
 	cxxKinetics temp_kinetics(this->phrq_io);
-	temp_kinetics.Set_n_user(n_user);
-	temp_kinetics.Set_n_user_end(n_user_end);
-	temp_kinetics.Set_description(description);
-	description = (char *) free_check_null(description);
+	cptr = line;
+	temp_kinetics.read_number_description(cptr);
+	n_user = temp_kinetics.Get_n_user();
 	cxxKineticsComp *kinetics_comp_ptr = NULL;
 	std::string stdunits;
 /*
@@ -3205,27 +3182,18 @@ read_mix(void)
 /*
  *   Reads mixing fractions
  */
-	int n_user, n_user_end;
+	int n_user;
 	int return_value;
 	int n_solution;
 	LDBLE fraction;
 	int j, i, l;
 	const char* cptr;
 	char token[MAX_LENGTH];
-	char *description;
 	cxxMix temp_mix;
 
-/*
- *   Read mix number
- */
 	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-
-	temp_mix.Set_n_user(n_user);
-	temp_mix.Set_n_user_end(n_user);
-	temp_mix.Set_description(description);
-	free_check_null(description);
-
+	temp_mix.read_number_description(cptr);
+	n_user = temp_mix.Get_n_user();
 /*
  *   Set use data to first read
  */
@@ -3289,10 +3257,10 @@ read_mix(void)
 	Rxn_mix_map[n_user] = temp_mix;
 
 	// copy if needed
-	if (n_user_end > n_user)
+	if (temp_mix.Get_n_user_end() > n_user)
 	{
 		int i;
-		for (i = n_user + 1; i <= n_user_end; i++)
+		for (i = n_user + 1; i <= temp_mix.Get_n_user_end(); i++)
 		{
 			Utilities::Rxn_copy(Rxn_mix_map, n_user, i);
 		}
@@ -3741,9 +3709,8 @@ read_pp_assemblage(void)
  */
 	int j;
 	int return_value;
-	int n_user, n_user_end;
+	int n_user;
 	const char* cptr;
-	char *description;
 	std::string token;
 	int opt, opt_save;
 	const char* next_char;
@@ -3751,23 +3718,16 @@ read_pp_assemblage(void)
 		"force_equality"		/* 0 */
 	};
 	int count_opt_list = 1;
-
-	cptr = line;
-	/*
-	 *   Read pp_assemblage number
-	 */
-	read_number_description(cptr, &n_user, &n_user_end, &description);
 	/*
 	 *   Find pp_assemblage or realloc space for pp_assemblage
 	 */
 	cxxPPassemblage temp_pp_assemblage;
+	cptr = line;
+	temp_pp_assemblage.read_number_description(cptr);
+	n_user = temp_pp_assemblage.Get_n_user();
 	cxxPPassemblageComp *comp = NULL;
 	std::map<std::string, cxxPPassemblageComp> comps;
 	temp_pp_assemblage.Set_new_def(true);
-	temp_pp_assemblage.Set_n_user(n_user);
-	temp_pp_assemblage.Set_n_user_end(n_user_end);
-	temp_pp_assemblage.Set_description(description);
-	free_check_null(description);
 	/*
 	 *   Set use data to first read
 	 */
@@ -3937,17 +3897,16 @@ read_reaction(void)
  */
 	int l;
 	const char* cptr;
-	char *description;
 	char token[MAX_LENGTH];
 	int return_value;
-	int n_user, n_user_end;
-	
+	int n_user;
 /*
- *   Read reaction number
+ *   Defaults
  */
+	cxxReaction temp_reaction;
 	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-
+	temp_reaction.read_number_description(cptr);
+	n_user = temp_reaction.Get_n_user();
 /*
  *   Set use data to first read
  */
@@ -3956,14 +3915,6 @@ read_reaction(void)
 		use.Set_reaction_in(true);
 		use.Set_n_reaction_user(n_user);
 	}
-/*
- *   Defaults
- */
-	cxxReaction temp_reaction;
-	temp_reaction.Set_n_user(n_user);
-	temp_reaction.Set_n_user_end(n_user_end);
-	temp_reaction.Set_description(description);
-	free_check_null(description);
 /*
  *   Read reaction data
  */
@@ -4013,7 +3964,7 @@ read_reaction(void)
 	}
 	Rxn_reaction_map[n_user] = temp_reaction;
 	// copy if needed
-	Utilities::Rxn_copies(Rxn_reaction_map, n_user, n_user_end);
+	Utilities::Rxn_copies(Rxn_reaction_map, n_user, temp_reaction.Get_n_user_end());
 
 	return (return_value);
 }
@@ -4364,21 +4315,15 @@ read_selected_output(void)
 	int i, l;
 	char token[MAX_LENGTH];
 	std::string file_name;
-
 	const char* cptr;
-	cptr = line;
-	int n_user, n_user_end;
-	char *description;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
+	int n_user;
 
 	SelectedOutput temp_selected_output;
+	cptr = line;
+	temp_selected_output.read_number_description(cptr);
+	n_user = temp_selected_output.Get_n_user();
 	temp_selected_output.Set_new_def(false);
 	temp_selected_output.Set_file_name(n_user);
-	temp_selected_output.Set_n_user(n_user);
-	temp_selected_output.Set_n_user_end(n_user_end);
-	temp_selected_output.Set_description(description);
-	free_check_null(description);
-
 	// find if it exists
 	std::map< int, SelectedOutput >::iterator so = SelectedOutput_map.find(n_user);
 	if (n_user == 1 && so != SelectedOutput_map.end())
@@ -4812,9 +4757,7 @@ read_solution(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	int n_user, n_user_end;
-	char *description;
-
+	int n_user;
 	int return_value, opt;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -4834,23 +4777,15 @@ read_solution(void)
 		"potential"				/* 13 */
 	};
 	int count_opt_list = 14;
-/*
- *   Read solution number and description
- */
-	const char* cptr;
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
 
 	cxxSolution temp_solution;
+	const char* cptr = line;
+	temp_solution.read_number_description(cptr);
+	n_user = temp_solution.Get_n_user();
 	temp_solution.Set_new_def(true);
 	temp_solution.Create_initial_data();
 	cxxISolution *isoln_ptr = temp_solution.Get_initial_data();
 	CParser parser(this->phrq_io);
-
-	temp_solution.Set_n_user(n_user);
-	temp_solution.Set_n_user_end(n_user_end);
-	temp_solution.Set_description(description);
-	free_check_null(description);
 
 	if (!use.Get_solution_in())
 	{
@@ -6260,12 +6195,10 @@ read_surface(void)
 	 *   ERROR   if error occurred reading data
 	 *
 	 */
-	int n_user, n_user_end;
+	int n_user;
 	LDBLE conc;
 	const char* cptr, *cptr1;
-	char *description;
 	std::string token, token1, name;
-
 	int return_value, opt;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -6294,19 +6227,13 @@ read_surface(void)
 	 *    Surf_wOH  Manganite  [equilibrium_phases or kinetics]      0.25    4000
 	 *    ^Name     mineral    ^switch		 ^prop.factor ^m2/mol
 	 */
-	/*
-	 *   Read surface number and description
-	 */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
 	cxxSurface temp_surface;
+	cptr = line;
+	temp_surface.read_number_description(cptr);
+	n_user = temp_surface.Get_n_user();
 	cxxSurfaceComp *comp_ptr = NULL;
 	cxxSurfaceCharge *charge_ptr = NULL;
 	temp_surface.Set_new_def(true);
-	temp_surface.Set_n_user(n_user);
-	temp_surface.Set_n_user_end(n_user_end);
-	temp_surface.Set_description(description);
-	free_check_null(description);
 
 	if (use.Get_surface_in() == FALSE)
 	{
@@ -7126,10 +7053,6 @@ read_advection(void)
  *	number of cells;
  *	number of shifts;
  */
-	const char* cptr;
-	char *description;
-	int n_user, n_user_end, i;
-
 	std::vector<int> punch_temp, print_temp;
 	int return_value, opt, opt_save;
 	const char* next_char;
@@ -7154,12 +7077,6 @@ read_advection(void)
 		"warnings"				/* 17 */
 	};
 	int count_opt_list = 18;
-/*
- *   Read advection number (not currently used)
- */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 /*
  *   Set use data
  */
@@ -7298,7 +7215,7 @@ read_advection(void)
 	advection_punch.resize(count_ad_cells + 1);
 	if (punch_temp.size() != 0)
 	{
-		for (i = 0; i < count_ad_cells; i++)
+		for (size_t i = 0; i < count_ad_cells; i++)
 			advection_punch[i] = FALSE;
 		for (size_t i = 0; i < punch_temp.size(); i++)
 		{
@@ -7317,7 +7234,7 @@ read_advection(void)
 	}
 	else
 	{
-		for (i = 0; i < count_ad_cells; i++)
+		for (size_t i = 0; i < count_ad_cells; i++)
 			advection_punch[i] = TRUE;
 	}
 	punch_temp.clear();
@@ -7327,9 +7244,9 @@ read_advection(void)
 	advection_print.resize(count_ad_cells + 1);
 	if (print_temp.size() != 0)
 	{
-		for (i = 0; i < count_ad_cells; i++)
+		for (size_t i = 0; i < count_ad_cells; i++)
 			advection_print[i] = FALSE;
-		for (i = 0; i < print_temp.size(); i++)
+		for (size_t i = 0; i < print_temp.size(); i++)
 		{
 			if (print_temp[i] > count_ad_cells || print_temp[i] < 1)
 			{
@@ -7346,7 +7263,7 @@ read_advection(void)
 	}
 	else
 	{
-		for (i = 0; i < count_ad_cells; i++)
+		for (size_t i = 0; i < count_ad_cells; i++)
 			advection_print[i] = TRUE;
 	}
 	print_temp.clear();
@@ -8141,21 +8058,14 @@ read_rates(void)
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct rate *rate_ptr;
-	char *description;
-	int n_user, n_user_end;
 	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
-/*
- *   Read advection number (not currently used)
- */
+
 	n = -1;
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -8348,18 +8258,13 @@ read_user_punch(void)
  *   Read lines
  */
 
-	int n_user, n_user_end;
-	char *description;
-	const char* cptr;
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
+	int n_user;
 
 	UserPunch temp_user_punch;
+	const char* cptr = line;
+	temp_user_punch.read_number_description(cptr);
+	n_user = temp_user_punch.Get_n_user();
 	temp_user_punch.Set_PhreeqcPtr(this);
-	temp_user_punch.Set_n_user(n_user);
-	temp_user_punch.Set_n_user_end(n_user_end);
-	temp_user_punch.Set_description(description);
-	free_check_null(description);
 
 	//std::map < int, UserPunch >::iterator up = UserPunch_map.find(n_user);
 	//if (up != UserPunch_map.end())
@@ -8448,9 +8353,7 @@ read_solid_solutions(void)
  *	 ERROR   if error occurred reading data
  *
  */
-	int n_user, n_user_end;
-	const char* cptr;
-	char *description;
+	int n_user;
 	std::string token;
 
 	int return_value, opt;
@@ -8479,13 +8382,11 @@ read_solid_solutions(void)
 /*
  *   Read ss_assemblage number
  */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
 	cxxSSassemblage temp_ss_assemblage;
-	temp_ss_assemblage.Set_n_user(n_user);
-	temp_ss_assemblage.Set_n_user_end(n_user_end);
-	temp_ss_assemblage.Set_description(description);
-	free_check_null(description);
+
+	const char* cptr = line;
+	temp_ss_assemblage.read_number_description(cptr);
+	n_user = temp_ss_assemblage.Get_n_user();
 	temp_ss_assemblage.Set_new_def(true);
 
 	std::vector<cxxSScomp> comps;
@@ -9627,14 +9528,9 @@ read_reaction_pressure(void)
 	// Make instance, set n_user, n_user_end, description
 	cxxPressure atm(this->phrq_io);
 	const char* cptr = line;
-	char *description;
-	int n_user, n_user_end;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	atm.Set_n_user(n_user);
-	atm.Set_n_user_end(n_user);
-	atm.Set_description(description);
-	free_check_null(description);
 
+	atm.read_number_description(cptr);
+	int n_user = atm.Get_n_user();
 	/*
 	 *  Make parser
 	 */
@@ -9653,10 +9549,10 @@ read_reaction_pressure(void)
 	}
 
 	// Make copies if necessary
-	if (n_user_end > n_user)
+	if (atm.Get_n_user_end() > n_user)
 	{
 		int i;
-		for (i = n_user + 1; i <= n_user_end; i++)
+		for (i = n_user + 1; i <= atm.Get_n_user_end(); i++)
 		{
 			Utilities::Rxn_copy(Rxn_pressure_map, n_user, i);
 		}
@@ -9761,14 +9657,8 @@ read_temperature(void)
 	// Make instance, set n_user, n_user_end, description
 	cxxTemperature t_react(this->phrq_io);
 	const char* cptr = line;
-	char *description;
-	int n_user, n_user_end;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	t_react.Set_n_user(n_user);
-	t_react.Set_n_user_end(n_user);
-	t_react.Set_description(description);
-	free_check_null(description);
-
+	t_react.read_number_description(cptr);
+	int n_user = t_react.Get_n_user();
 	/*
 	 *  Make parser
 	 */
@@ -9787,10 +9677,10 @@ read_temperature(void)
 	}
 
 	// Make copies if necessary
-	if (n_user_end > n_user)
+	if (t_react.Get_n_user_end() > n_user)
 	{
 		int i;
-		for (i = n_user + 1; i <= n_user_end; i++)
+		for (i = n_user + 1; i <= t_react.Get_n_user_end(); i++)
 		{
 			Utilities::Rxn_copy(Rxn_temperature_map, n_user, i);
 		}
