@@ -137,7 +137,6 @@ clean_up(void)
 	/*species_list*/
 	species_list.clear();
 	/* transport data */
-	stag_data = (struct stag_data*)free_check_null(stag_data);
 	cell_data = (struct cell_data*)free_check_null(cell_data);
 	/* advection */
 	advection_punch.clear();

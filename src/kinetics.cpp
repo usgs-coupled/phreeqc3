@@ -319,7 +319,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 /*
  *  Save kinetics i and solution i, if necessary
  */
-	save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
+	save_old = -2 - (count_cells * (1 + stag_data.count_stag) + 2);
 	Utilities::Rxn_copy(Rxn_kinetics_map, i, save_old);
 	if (nsaver != i)
 	{
@@ -2064,7 +2064,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 		}
 		else
 		{
-			save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
+			save_old = -2 - (count_cells * (1 + stag_data.count_stag) + 2);
 			if (nsaver != i)
 			{
 				Utilities::Rxn_copy(Rxn_solution_map, i, save_old);

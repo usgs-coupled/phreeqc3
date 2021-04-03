@@ -191,7 +191,7 @@ transport(void)
 		/*
 		*   Initialize temperature in stagnant cells ...
 		*/
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			for (i = 1; i <= count_cells; i++)
 			{
@@ -280,7 +280,7 @@ transport(void)
 			warning_msg(error_string);
 			timest = 1;
 		}
-		//if (implicit && stag_data->count_stag > 1)
+		//if (implicit && stag_data.count_stag > 1)
 		//{
 		//	error_string = sformatf(
 		//		"Sorry, implicit diffusion can handle only 1 stagnant layer for now. Please remove -implicit true, or set -stagnant 1.");
@@ -333,7 +333,7 @@ transport(void)
 		/*
 		* Also stagnant cells
 		*/
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			for (i = 1; i <= count_cells; i++)
 			{
@@ -358,7 +358,7 @@ transport(void)
 		*/
 		if (multi_Dflag)
 			diffc_tr = diffc_max;
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
 			/* multi_D calc's are OK if all cells have the same amount of water */
 			 if (multi_Dflag == TRUE)
@@ -421,12 +421,12 @@ transport(void)
 		* structure stag_data.
 		* MIX 'cell_no' in input file can be an alternative for the calculation here.
 		*/
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
-			b = stag_data->th_m / (stag_data->th_m + stag_data->th_im);
-			f = exp(-stag_data->exch_f * stagkin_time / (b * stag_data->th_im));
+			b = stag_data.th_m / (stag_data.th_m + stag_data.th_im);
+			f = exp(-stag_data.exch_f * stagkin_time / (b * stag_data.th_im));
 			mix_f_imm = b - b * f;
-			mix_f_m = mix_f_imm * stag_data->th_im / stag_data->th_m;
+			mix_f_m = mix_f_imm * stag_data.th_im / stag_data.th_m;
 			for (j = 1; j <= count_cells; j++)
 			{
 				j_imm = j + (1 + count_cells);
@@ -470,11 +470,11 @@ transport(void)
 				/*
 				* Assumption: D_e used for calculating exch_f in input file equals diffc
 				*/
-				f = stag_data->exch_f * (heat_diffc - diffc) / diffc / tempr;
-				f = exp(-f * stagkin_time / (b * stag_data->th_im));
+				f = stag_data.exch_f * (heat_diffc - diffc) / diffc / tempr;
+				f = exp(-f * stagkin_time / (b * stag_data.th_im));
 				heat_mix_f_imm = b - b * f;
 				heat_mix_f_m =
-					heat_mix_f_imm * stag_data->th_im / stag_data->th_m;
+					heat_mix_f_imm * stag_data.th_im / stag_data.th_m;
 			}
 		}
 		/*
@@ -510,7 +510,7 @@ transport(void)
 			/*
 			* Also stagnant cells
 			*/
-			for (n = 1; n <= stag_data->count_stag; n++)
+			for (n = 1; n <= stag_data.count_stag; n++)
 			{
 				for (i = 1; i <= count_cells; i++)
 				{
@@ -568,7 +568,7 @@ transport(void)
 								STOP);
 					}
 					if (implicit)
-						diffuse_implicit(stagkin_time, stag_data->count_stag);
+						diffuse_implicit(stagkin_time, stag_data.count_stag);
 					else if (multi_Dflag)
 						multi_D(stagkin_time, 1, FALSE);
 
@@ -576,7 +576,7 @@ transport(void)
 					{
 						if (!dV_dcell && (i == 0 || i == count_cells + 1) && !implicit)
 						{
-							if (j == nmix && stag_data->count_stag == 0 &&
+							if (j == nmix && stag_data.count_stag == 0 &&
 								(cell_data[0].print || cell_data[0].punch ||
 									cell_data[count_cells + 1].print || cell_data[count_cells + 1].punch))
 								print_punch(i, false);
@@ -607,7 +607,7 @@ transport(void)
 							fill_spec(i, 0);
 
 						/* punch and output file */
-						if (ishift == 0 && j == nmix && (stag_data->count_stag == 0 || (implicit && stag_data->count_stag == 1)))
+						if (ishift == 0 && j == nmix && (stag_data.count_stag == 0 || (implicit && stag_data.count_stag == 1)))
 							print_punch(i, true);
 						if (i > 1)
 							Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
@@ -622,7 +622,7 @@ transport(void)
 						timest + ((double)j - 1) * stagkin_time;
 					rate_sim_time = rate_sim_time_start + stagkin_time;
 
-					if (stag_data->count_stag > 0)
+					if (stag_data.count_stag > 0)
 					{
 						if (ishift == 0 && j == nmix)
 							punch_boolean = TRUE;
@@ -633,9 +633,9 @@ transport(void)
 							mix_stag(i, stagkin_time, punch_boolean, step_fraction);
 						}
 					}
-					if (ishift == 0 && j == nmix && stag_data->count_stag > 0)
+					if (ishift == 0 && j == nmix && stag_data.count_stag > 0)
 					{
-						for (n = 1; n <= stag_data->count_stag; n++)
+						for (n = 1; n <= stag_data.count_stag; n++)
 						{
 							for (i = 1; i <= count_cells; i++)
 							{
@@ -759,21 +759,21 @@ transport(void)
 						fill_spec(i, i - 1);
 					if (overall_iterations > max_iter)
 						max_iter = overall_iterations;
-					if (nmix == 0 && stag_data->count_stag == 0)
+					if (nmix == 0 && stag_data.count_stag == 0)
 						print_punch(i, true);
 					if (i == first_c && count_cells > 1)
 						kin_time = kin_time_save;
 					saver();
 
 					/* If nmix is zero, stagnant zone mixing after advective step ... */
-					if ((nmix == 0) && (stag_data->count_stag > 0))
+					if ((nmix == 0) && (stag_data.count_stag > 0))
 					{
 						mix_stag(i, stagkin_time, TRUE, step_fraction);
 					}
 				}
-				if (nmix == 0 && stag_data->count_stag > 0)
+				if (nmix == 0 && stag_data.count_stag > 0)
 				{
-					for (n = 1; n <= stag_data->count_stag; n++)
+					for (n = 1; n <= stag_data.count_stag; n++)
 					{
 						for (i = 1; i <= count_cells; i++)
 						{
@@ -831,7 +831,7 @@ transport(void)
 						error_msg("Error in surface transport, stopping.", STOP);
 				}
 				if (implicit)
-					diffuse_implicit(stagkin_time, stag_data->count_stag);
+					diffuse_implicit(stagkin_time, stag_data.count_stag);
 				else if (multi_Dflag)
 					multi_D(stagkin_time, 1, FALSE);
 
@@ -840,7 +840,7 @@ transport(void)
 				{
 					if (!dV_dcell && (i == 0 || i == count_cells + 1) && !implicit)
 					{
-						if (j == nmix && stag_data->count_stag == 0 &&
+						if (j == nmix && stag_data.count_stag == 0 &&
 							(cell_data[0].print || cell_data[0].punch ||
 								cell_data[count_cells + 1].print || cell_data[count_cells + 1].punch))
 							print_punch(i, false);
@@ -867,7 +867,7 @@ transport(void)
 					}
 					if (multi_Dflag == TRUE)
 						fill_spec(i, 0);
-					if (j == nmix && (stag_data->count_stag == 0 || (implicit && stag_data->count_stag == 1)))
+					if (j == nmix && (stag_data.count_stag == 0 || (implicit && stag_data.count_stag == 1)))
 						print_punch(i, true);
 					if (i > 1)
 						Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
@@ -880,7 +880,7 @@ transport(void)
 					timest + ((double)j - 1) * stagkin_time;
 				rate_sim_time = rate_sim_time_start + stagkin_time;
 
-				if (stag_data->count_stag > 0)
+				if (stag_data.count_stag > 0)
 				{
 					if (j == nmix)
 						punch_boolean = TRUE;
@@ -891,9 +891,9 @@ transport(void)
 						mix_stag(i, stagkin_time, punch_boolean, step_fraction);
 					}
 				}
-				if (j == nmix && ((stag_data->count_stag > 0/* && !implicit) || (implicit && stag_data->count_stag == 1*/)))
+				if (j == nmix && ((stag_data.count_stag > 0/* && !implicit) || (implicit && stag_data.count_stag == 1*/)))
 				{
-					for (n = 1; n <= stag_data->count_stag; n++)
+					for (n = 1; n <= stag_data.count_stag; n++)
 					{
 						for (i = 1; i <= count_cells; i++)
 						{
@@ -979,7 +979,7 @@ transport_cleanup(void)
 	* free mix structures
 	*/
 	Dispersion_mix_map.clear();
-	if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+	if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 	{
 		Rxn_mix_map.clear();
 	}
@@ -1014,7 +1014,7 @@ transport_cleanup(void)
 	}
 	if (implicit)
 	{
-		int l_stag = (stag_data->count_stag < 2 ? stag_data->count_stag : 0);
+		int l_stag = (stag_data.count_stag < 2 ? stag_data.count_stag : 0);
 		Ct2 = (LDBLE *)free_check_null(Ct2);
 		l_tk_x2 = (LDBLE *)free_check_null(l_tk_x2);
 		if (A)
@@ -1202,7 +1202,7 @@ init_mix(void)
 		if (maxmix == 0)
 		{
 			l_nmix = 0;
-			if (mcd_substeps > 1 && stag_data->count_stag > 0)
+			if (mcd_substeps > 1 && stag_data.count_stag > 0)
 				l_nmix = (int) ceil(mcd_substeps);
 		}
 		else if (implicit)
@@ -1393,7 +1393,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 	/*
 	* Kinetics in transport cell is done while transporting
 	*/
-	for (n = 1; n <= stag_data->count_stag; n++)
+	for (n = 1; n <= stag_data.count_stag; n++)
 	{
 		if (i == 0 || i == count_cells + 1)
 		{
@@ -1424,7 +1424,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 		{
 			if (n == 1)
 			{
-				if (heat_nmix > 0 && (!implicit || (implicit && stag_data->count_stag > 1)))
+				if (heat_nmix > 0 && (!implicit || (implicit && stag_data.count_stag > 1)))
 				{
 					ptr_m = Utilities::Rxn_find(Rxn_solution_map, i);
 					t_imm =
@@ -1454,7 +1454,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 						error_msg("Error in surface transport, stopping.",
 						STOP);
 				}
-				if (!implicit || (implicit && stag_data->count_stag > 1))
+				if (!implicit || (implicit && stag_data.count_stag > 1))
 				{
 					if (multi_Dflag == TRUE)
 						multi_D(1.0, i, 2);
@@ -1484,7 +1484,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 
 	if (done_mixing) // after all mixing is done, the temporal solution becomes the original for the next timestep
 	{
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			k = i + 1 + n * count_cells;
 			if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
@@ -1533,7 +1533,7 @@ init_heat_mix(int l_nmix)
 	{
 		if (fabs(Utilities::Rxn_find(Rxn_solution_map, count_cells + 1)->Get_tc() - t0) > 1.0)
 			l_heat_nmix = 1;
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			for (i = 1; i < count_cells; i++)
 			{
@@ -3272,7 +3272,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	for (int f_c = 0; f_c <= loop_f_c; f_c++)
 	{
-		for (n = 0; n <= (stagnant ? stag_data->count_stag : 0); n++) // allow for stagnant cell mixing with higher cells in the layer
+		for (n = 0; n <= (stagnant ? stag_data.count_stag : 0); n++) // allow for stagnant cell mixing with higher cells in the layer
 			{
 			icell = mobile_cell + 1 + n * count_cells;
 			if (stagnant)
@@ -5115,7 +5115,7 @@ Step (from cell 1 to count_cells + 1):
 		{
 			continue;
 		}
-		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
+		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data.count_stag))
 		{
 			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
 			if (surface_ptr1 != NULL)
@@ -5443,7 +5443,7 @@ diff_stag_surf(int mobile_cell)
 	cxxSurface *surface_n2_ptr;
 	std::map<int, cxxSurface> Rxn_temp_surface_map;
 
-	for (ns = 0; ns < stag_data->count_stag; ns++)
+	for (ns = 0; ns < stag_data.count_stag; ns++)
 	{
 
 		i1 = mobile_cell + 1 + ns * count_cells;
@@ -5707,7 +5707,7 @@ diff_stag_surf(int mobile_cell)
 		{
 			continue;
 		}
-		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
+		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data.count_stag))
 		{
 			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
 			//if (surface_ptr1 != NULL)

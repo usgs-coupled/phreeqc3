@@ -49,14 +49,7 @@ initialize(void)
 
 	space((void **) ((void *) &line_save), INIT, &max_line, sizeof(char));
 
-	// one stag_data
-	stag_data = (struct stag_data *) PHRQ_calloc(1, sizeof(struct stag_data));
-	if (stag_data == NULL)
-		malloc_error();
-	stag_data->count_stag = 0;
-	stag_data->exch_f = 0;
-	stag_data->th_m = 0;
-	stag_data->th_im = 0;
+	// one stag_data in phreeqc.h, initialized in global_structures
 
 	// user_print
 	user_print = new struct rate;

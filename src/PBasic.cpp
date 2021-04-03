@@ -2671,7 +2671,7 @@ factor(struct LOC_exec * LINK)
 		{
 			if (PhreeqcPtr->phast != TRUE)
 			{
-				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
+				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data.count_stag) + 1
 					|| i == PhreeqcPtr->count_cells + 1)
 				{
 					/*		warning_msg("Note... no porosity for boundary solutions."); */
@@ -4844,7 +4844,7 @@ cmdchange_por(struct LOC_exec *LINK)
 	/* get cell_no */
 	j = intexpr(LINK);
 	require(tokrp, LINK);
-	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
+	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data.count_stag) + 1
 		&& j != PhreeqcPtr->count_cells + 1)
 		PhreeqcPtr->cell_data[j].por = TEMP;
 }

@@ -1306,7 +1306,7 @@ protected:
 	LDBLE heat_diffc;
 	int cell;
 	LDBLE mcd_substeps;
-	struct stag_data* stag_data;
+	struct stag_data stag_data;
 	int print_modulus;
 	int punch_modulus;
 	int dump_in;
