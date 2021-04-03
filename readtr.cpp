@@ -774,10 +774,8 @@ read_transport(void)
 	*   Allocate space for cell_data
 	*/
 	int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
-	space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells,
-		sizeof(struct cell_data));
-
-	// initialize new cells
+	cell_data.resize(all_cells_now); // initialized by global_structures.h
+	// But first two previously allocated
 	if (all_cells_now > all_cells)
 	{
 		for (int i = all_cells; i < all_cells_now; i++)

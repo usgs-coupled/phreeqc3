@@ -89,7 +89,7 @@ advection(void)
 /*
  *  Equilibrate and (or) mix
  */
-		for (size_t i = 1; i <= count_ad_cells; i++)
+		for (int i = 1; i <= count_ad_cells; i++)
 		{
 			set_initial_moles(i);
 			cell_no = i;
@@ -102,17 +102,17 @@ advection(void)
 			log_msg(sformatf( "\nCell %d.\n\n", i));
 			if (pr.use == TRUE && pr.all == TRUE &&
 				advection_step % print_ad_modulus == 0 &&
-				advection_print[i - 1] == TRUE)
+				advection_print[(size_t)i - 1] == TRUE)
 			{
 				output_msg(sformatf( "\nCell %d.\n\n", i));
 			}
 			if (advection_step % punch_ad_modulus == 0 &&
-				advection_punch[i - 1] == TRUE)
+				advection_punch[(size_t)i - 1] == TRUE)
 			{
 				punch_all();
 			}
 			if (advection_step % print_ad_modulus == 0 &&
-				advection_print[i - 1] == TRUE)
+				advection_print[(size_t)i - 1] == TRUE)
 			{
 				print_all();
 			}
