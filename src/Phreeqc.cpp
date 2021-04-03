@@ -575,7 +575,6 @@ void Phreeqc::init(void)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = 1;
-	cell_data_max_cells      = 1; // count_cells;
 	count_shifts             = 1;
 	ishift                   = 1;
 	bcon_first = bcon_last   = 3;
@@ -592,7 +591,6 @@ void Phreeqc::init(void)
 	dump_in                  = FALSE;
 	dump_modulus             = 0;
 	transport_warnings       = TRUE;
-	cell_data                = NULL;
 	old_cells                = 0;
 	max_cells                = 0;
 	all_cells                = 0;
@@ -1340,7 +1338,6 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	count_cells              = pSrc->count_cells;
-	cell_data_max_cells      = 1; //pSrc->cell_data_max_cells;
 	count_shifts             = pSrc->count_shifts;
 	ishift                   = pSrc->ishift;
 	bcon_first				 = pSrc->bcon_first;
@@ -1371,17 +1368,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	}
 	
 	all_cells = pSrc->all_cells;
-	cell_data_max_cells = 1;
-	if (count_cells > 0)
-	{
-		//cell_data = (struct cell_data *) free_check_null(cell_data);
-		//cell_data = (struct cell_data *) PHRQ_malloc((size_t) ((count_cells + 2) * sizeof(struct cell_data)));
-		//if (cell_data == NULL) malloc_error();
-		//memcpy(cell_data, pSrc->cell_data, ((size_t) ((count_cells + 2) * sizeof(struct cell_data
-		int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
-		space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells, sizeof(struct cell_data));
-		memcpy(cell_data, pSrc->cell_data, ((size_t)(all_cells_now * sizeof(struct cell_data))));
-	}
+	cell_data = pSrc->cell_data;
 	max_cells = pSrc->max_cells;
 	multi_Dflag              = pSrc->multi_Dflag;
 	interlayer_Dflag         = pSrc->interlayer_Dflag;

@@ -29,21 +29,8 @@ initialize(void)
 /*
  *   Allocate space
  */
-	cell_data_max_cells = count_cells + 2;
-	space((void **) ((void *) &cell_data), INIT, &cell_data_max_cells,
-		  sizeof(struct cell_data));
-	for (int i = 0; i < cell_data_max_cells; i++)
-	{
-		cell_data[i].length = 1.0;
-		cell_data[i].mid_cell_x = 1.0;
-		cell_data[i].disp = 1.0;
-		cell_data[i].temp = 25.0;
-		cell_data[i].por = 0.1;
-		cell_data[i].por_il = 0.01;
-		cell_data[i].potV = 0;
-		cell_data[i].punch = FALSE;
-		cell_data[i].print = FALSE;
-	}
+	cell_data.resize((size_t)count_cells + 2); // initialized by global_structures.h
+
 	count_inverse = 0;
 	space((void **) ((void *) &line), INIT, &max_line, sizeof(char));
 

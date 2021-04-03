@@ -1293,7 +1293,6 @@ protected:
 	*   Transport data
 	*---------------------------------------------------------------------- */
 	int count_cells;
-	int cell_data_max_cells;
 	int count_shifts;
 	int ishift;
 	int bcon_first;
@@ -1312,7 +1311,7 @@ protected:
 	int dump_in;
 	int dump_modulus;
 	int transport_warnings;
-	struct cell_data* cell_data;
+	std::vector<struct cell_data> cell_data;
 	int old_cells, max_cells, all_cells;
 	int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
