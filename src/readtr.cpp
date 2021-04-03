@@ -35,7 +35,6 @@ read_transport(void)
 	*         ERROR   if error occurred reading data
 	*
 	*/
-	const char* cptr;
 	int i, j, l;
 	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
