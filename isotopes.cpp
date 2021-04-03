@@ -160,7 +160,6 @@ read_calculate_values(void)
  *         ERROR   if error occurred reading data
  *
  */
-	const char* cptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
@@ -268,7 +267,6 @@ read_isotope_ratios(void)
  *         ERROR   if error occurred reading data
  *
  */
-	const char* cptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
@@ -359,7 +357,6 @@ read_isotope_alphas(void)
  *         ERROR   if error occurred reading data
  *
  */
-	const char* cptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
