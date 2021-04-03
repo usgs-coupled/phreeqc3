@@ -376,7 +376,7 @@ read_transport(void)
 			if (copy_token(token, &next_char, &l) != EMPTY)
 			{
 				/* exchange factor */
-				if (sscanf(token, "%d", &(stag_data->count_stag)) != 1)
+				if (sscanf(token, "%d", &(stag_data.count_stag)) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -389,7 +389,7 @@ read_transport(void)
 				j = copy_token(token, &next_char, &l);
 				if (j != EMPTY)
 				{
-					if (sscanf(token, SCANFORMAT, &(stag_data->exch_f)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.exch_f)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -398,7 +398,7 @@ read_transport(void)
 						break;
 					}
 					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data->th_m)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.th_m)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -407,7 +407,7 @@ read_transport(void)
 						break;
 					}
 					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data->th_im)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.th_im)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -744,8 +744,8 @@ read_transport(void)
 		max_cells = count_length;
 	if (count_disp > max_cells)
 		max_cells = count_disp;
-	if (count_por > max_cells * (1 + stag_data->count_stag))
-		max_cells = (int)ceil(((double)count_por / (1 + (double)stag_data->count_stag)));
+	if (count_por > max_cells * (1 + stag_data.count_stag))
+		max_cells = (int)ceil(((double)count_por / (1 + (double)stag_data.count_stag)));
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -766,14 +766,14 @@ read_transport(void)
 		{
 			sprintf(token,
 				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
-				(int) ceil(((double)count_por / (1 + (double)stag_data->count_stag))));
+				(int) ceil(((double)count_por / (1 + (double)stag_data.count_stag))));
 			warning_msg(token);
 		}
 	}
 	/*
 	*   Allocate space for cell_data
 	*/
-	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
+	int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
 	space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells,
 		sizeof(struct cell_data));
 
@@ -888,15 +888,15 @@ read_transport(void)
 	}
 	else
 	{
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
 			error_string = sformatf(
 				"Mobile porosities were read, but mobile/immobile porosity was also defined in -stagnant. Using the values from -stagnant for mobile/immobile exchange and tortuosity factors.");
 			warning_msg(error_string);
 			for (i = 1; i <= max_cells; i++)
-				cell_data[i].por = stag_data->th_m;
+				cell_data[i].por = stag_data.th_m;
 			for (i++; i <= 2 * max_cells + 1; i++)
-				cell_data[i].por = stag_data->th_im;
+				cell_data[i].por = stag_data.th_im;
 		}
 		else
 		{
@@ -908,7 +908,7 @@ read_transport(void)
 			}
 			if (all_cells - 2 > count_por)
 			{
-				int st = stag_data->count_stag ? 1 : 0;
+				int st = stag_data.count_stag ? 1 : 0;
 				error_string = sformatf(
 					"Porosities were read for %d cells. Last value is used till cell %d.",
 					count_por, all_cells - st);
@@ -943,12 +943,12 @@ read_transport(void)
 	/*
 	*  Account for stagnant cells
 	*/
-	if (stag_data->count_stag > 0)
+	if (stag_data.count_stag > 0)
 	{
-		max_cells = count_cells * (1 + stag_data->count_stag) + 2;
+		max_cells = count_cells * (1 + stag_data.count_stag) + 2;
 		for (i = 1; i <= count_cells; i++)
 		{
-			for (l = 1; l <= stag_data->count_stag; l++)
+			for (l = 1; l <= stag_data.count_stag; l++)
 				cell_data[i + 1 + l * count_cells].mid_cell_x =
 				cell_data[i].mid_cell_x;
 		}
@@ -1093,9 +1093,9 @@ read_transport(void)
 	*/
 	if (heat_diffc < 0)
 		heat_diffc = diffc;
-	else if (stag_data->count_stag == 1)
+	else if (stag_data.count_stag == 1)
 	{
-		if (stag_data->exch_f > 0)
+		if (stag_data.exch_f > 0)
 		{
 			if (diffc <= 0 && heat_diffc > 0)
 			{
@@ -1123,7 +1123,7 @@ read_transport(void)
 			}
 		}
 	}
-	else if (stag_data->count_stag > 1 && heat_diffc > diffc)
+	else if (stag_data.count_stag > 1 && heat_diffc > diffc)
 	{
 		input_error++;
 		error_string = sformatf(

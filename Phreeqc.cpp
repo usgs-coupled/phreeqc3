@@ -587,7 +587,6 @@ void Phreeqc::init(void)
 	heat_diffc               = -0.1;
 	cell                     = 0;
 	mcd_substeps             = 1.0;
-	stag_data                = NULL;
 	print_modulus            = 1;
 	punch_modulus            = 1;
 	dump_in                  = FALSE;
@@ -1355,9 +1354,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	cell                     = pSrc->cell;
 	mcd_substeps             = pSrc->mcd_substeps;
 	/* stag_data */
-	stag_data = (struct stag_data *) free_check_null(stag_data);
-	stag_data = (struct stag_data *) PHRQ_malloc(sizeof(struct stag_data));
-	memcpy(stag_data, pSrc->stag_data, sizeof(struct stag_data));
+	stag_data = pSrc->stag_data;
+
 	print_modulus            = pSrc->print_modulus;
 	punch_modulus            = pSrc->punch_modulus;
 	dump_in                  = pSrc->dump_in;
@@ -1367,9 +1365,9 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	old_cells = pSrc->old_cells;
 	max_cells = pSrc->max_cells;
 
-	if (stag_data->count_stag > 0)
+	if (stag_data.count_stag > 0)
 	{
-		max_cells = (max_cells - 2) / (1 + stag_data->count_stag);
+		max_cells = (max_cells - 2) / (1 + stag_data.count_stag);
 	}
 	
 	all_cells = pSrc->all_cells;
@@ -1380,7 +1378,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 		//cell_data = (struct cell_data *) PHRQ_malloc((size_t) ((count_cells + 2) * sizeof(struct cell_data)));
 		//if (cell_data == NULL) malloc_error();
 		//memcpy(cell_data, pSrc->cell_data, ((size_t) ((count_cells + 2) * sizeof(struct cell_data
-		int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
+		int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
 		space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells, sizeof(struct cell_data));
 		memcpy(cell_data, pSrc->cell_data, ((size_t)(all_cells_now * sizeof(struct cell_data))));
 	}
