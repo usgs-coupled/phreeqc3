@@ -89,7 +89,7 @@ advection(void)
 /*
  *  Equilibrate and (or) mix
  */
-		for (i = 1; i <= count_ad_cells; i++)
+		for (size_t i = 1; i <= count_ad_cells; i++)
 		{
 			set_initial_moles(i);
 			cell_no = i;

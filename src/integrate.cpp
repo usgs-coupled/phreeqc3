@@ -338,7 +338,7 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 		}
 		if (2 * ns < (n - m))
 		{
-			*dy = c[ns + 1];
+			*dy = c[(size_t)ns + 1];
 		}
 		else
 		{

@@ -324,7 +324,7 @@ setup_inverse(struct inverse *inv_ptr)
 			i_alk = i;
 		if (strcmp(master_ptr->elt->name, "C(4)") == 0)
 			i_carb = i;
-		inv_ptr->elts[i].master->in = count_rows_t;
+		inv_ptr->elts[i].master->in = (int)count_rows_t;
 		row_name[count_rows_t] = inv_ptr->elts[i].master->elt->name;
 		count_rows_t++;
 	}
@@ -676,9 +676,9 @@ setup_inverse(struct inverse *inv_ptr)
 	}
 	if (inv_ptr->isotopes.size() != 0)
 	{
-		for (j = 0; j < inv_ptr->isotopes.size(); j++)
+		for (size_t j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
-			isotope_balance_equation(inv_ptr, count_rows, j);
+			isotope_balance_equation(inv_ptr, (int)count_rows, (int)j);
 			sprintf(token, "%d%s", (int) inv_ptr->isotopes[j].isotope_number,
 					inv_ptr->isotopes[j].elt_name);
 			row_name[count_rows] = string_hsave(token);
@@ -1003,10 +1003,10 @@ solve_inverse(struct inverse *inv_ptr)
 	unsigned long minimal_bits, good_bits;
 	char token[MAX_LENGTH];
 
-	n = count_unknowns;			/* columns in A, C, E */
-	klmd = max_row_count - 2;
-	nklmd = n + klmd;
-	n2d = n + 2;
+	n = (int)count_unknowns;			/* columns in A, C, E */
+	klmd = (max_row_count - 2);
+	nklmd = (n + klmd);
+	n2d = (size_t)n + 2;
 
 	max_good = MAX_MODELS;
 	max_bad = MAX_MODELS;
@@ -1063,23 +1063,20 @@ solve_inverse(struct inverse *inv_ptr)
  *   All combinations of solutions 
  */
 	first = TRUE;
-	for (; get_bits(soln_bits, inv_ptr->count_solns - 2,
-		 inv_ptr->count_solns - 1) > 0; soln_bits--)
+	for (; get_bits(soln_bits, (int)(inv_ptr->count_solns - 2),
+		 (int)(inv_ptr->count_solns - 1)) > 0; soln_bits--)
 	{
 /*
  *   Loop through all models of of descending size
  */
-		for (model_size = inv_ptr->phases.size(); model_size >= 0;
-			 model_size--)
+		for (model_size = (int)inv_ptr->phases.size(); model_size >= 0; model_size--)
 		{
 			first_of_model_size = TRUE;
 			quit = TRUE;
-			while (next_set_phases(inv_ptr, first_of_model_size, model_size)
-				   == TRUE)
+			while (next_set_phases(inv_ptr, first_of_model_size, model_size) == TRUE)
 			{
 				first_of_model_size = FALSE;
-				current_bits =
-					(soln_bits << inv_ptr->phases.size()) + phase_bits;
+				current_bits = (soln_bits << inv_ptr->phases.size()) + phase_bits;
 
 				if (subset_bad(current_bits) == TRUE
 					|| subset_minimal(current_bits) == TRUE)
@@ -1115,18 +1112,16 @@ solve_inverse(struct inverse *inv_ptr)
 				good_bits = current_bits;
 				for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 				{
-					if (equal(inv_delta1[i + inv_ptr->count_solns], 0.0, TOL) ==
-						TRUE)
+					if (equal(inv_delta1[i + inv_ptr->count_solns], 0.0, TOL) == TRUE)
 					{
-						good_bits = set_bit(good_bits, i, 0);
+						good_bits = set_bit(good_bits, (int)i, 0);
 					}
 				}
-				for (i = 0; i < inv_ptr->count_solns; i++)
+				for (size_t i = 0; i < inv_ptr->count_solns; i++)
 				{
 					if (equal(inv_delta1[i], 0.0, TOL) == TRUE)
 					{
-						good_bits =
-							set_bit(good_bits, i + inv_ptr->phases.size(), 0);
+						good_bits = set_bit(good_bits, (int)(i + inv_ptr->phases.size()), 0);
 					}
 				}
 /*
@@ -1265,25 +1260,23 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
  *   Starting with phases indicated in minimal bits, sequentially
  *   remove phases to find minimal solution
  */
-	int i;
 	unsigned long temp_bits_l;
 	if (debug_inverse == TRUE)
 	{
 		output_msg(sformatf( "Beginning minimal solve: \n"));
-		bit_print(minimal_bits, inv_ptr->phases.size() + inv_ptr->count_solns);
+		bit_print(minimal_bits, (int)(inv_ptr->phases.size() + inv_ptr->count_solns));
 	}
-	for (i = 0; i < inv_ptr->phases.size() + inv_ptr->count_solns - 1; i++)
+	for (size_t i = 0; i < inv_ptr->phases.size() + inv_ptr->count_solns - 1; i++)
 	{
-		if (get_bits(minimal_bits, i, 1) == 0)
+		if (get_bits(minimal_bits, (int)i, 1) == 0)
 			continue;
-		temp_bits_l = 1 << i;	/* 0's and one 1 */
+		temp_bits_l = 1 << (int)i;	/* 0's and one 1 */
 		temp_bits_l = ~temp_bits_l;	/* 1's and one 0 */
 		minimal_bits = minimal_bits & temp_bits_l;
 		if (debug_inverse == TRUE)
 		{
 			output_msg(sformatf( "Solving for minimal\n"));
-			bit_print(minimal_bits,
-					  inv_ptr->phases.size() + inv_ptr->count_solns);
+			bit_print(minimal_bits, (int)(inv_ptr->phases.size() + inv_ptr->count_solns));
 		}
 
 /*
@@ -1308,23 +1301,23 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 	if (debug_inverse == TRUE)
 	{
 		output_msg(sformatf( "\n\nMINIMAL MODEL\n\n"));
-		bit_print(minimal_bits, inv_ptr->phases.size() + inv_ptr->count_solns);
+		bit_print(minimal_bits, (int)(inv_ptr->phases.size() + inv_ptr->count_solns));
 	}
 
 	solve_with_mask(inv_ptr, minimal_bits);
 	unsigned long actual_bits = 0;
-	for (i = 0; i < inv_ptr->count_solns; i++)
+	for (size_t i = 0; i < inv_ptr->count_solns; i++)
 	{
 		if (equal(inv_delta1[i], 0.0, TOL) == FALSE)
 		{
-			actual_bits = set_bit(actual_bits, i + inv_ptr->phases.size(), 1);
+			actual_bits = set_bit(actual_bits, (int)(i + inv_ptr->phases.size()), 1);
 		}
 	}
 	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (equal(inv_delta1[i + inv_ptr->count_solns], 0.0, TOL) == FALSE)
 		{
-			actual_bits = set_bit(actual_bits, i, 1);
+			actual_bits = set_bit(actual_bits, (int)i, 1);
 		}
 	}
 	if (actual_bits != minimal_bits)
@@ -1347,10 +1340,10 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 /*
  *   Calculate dimensions
  */
-	k = row_mb;					/* rows in A */
-	l = row_epsilon - row_mb;	/* rows in C */
-	m = count_rows - row_epsilon;	/* rows in E */
-	n = count_unknowns;
+	k = (int)row_mb;					/* rows in A */
+	l = (int)(row_epsilon - row_mb);	/* rows in C */
+	m = (int)(count_rows - row_epsilon);	/* rows in E */
+	n = (int)count_unknowns;
 
 
 
@@ -1389,7 +1382,7 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 		}
 
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
-		array_print(&array1[0], k + l + m, n + 1, max_column_count);
+		array_print(&array1[0], k + l + m, n + 1, (int)max_column_count);
 
 		output_msg(sformatf( "\nInput delta vector:\n"));
 		for (i = 0; i < n; i++)
@@ -1439,9 +1432,9 @@ solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
 			&kode, toler, &iter, delta2, inv_res, &error, inv_cu, inv_iu, inv_is, TRUE);
 	}
 #else
-	cl1(k, l, m, n,
-		nklmd, n2d, &array1[0],
-		&kode, toler, &iter, &delta2[0], &inv_res[0], &error, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
+	cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0],
+		&kode, toler, &iter, &delta2[0], &inv_res[0], 
+		&error, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 #endif
 	if (kode == 3)
 	{
@@ -1642,8 +1635,8 @@ print_model(struct inverse *inv_ptr)
 /*
  *   Prints model
  */
-	int i, j, k;
-	int column;
+	int i, j;
+	size_t column;
 	int print_msg;
 	cxxSolution *solution_ptr;
 	struct master *master_ptr;
@@ -1821,15 +1814,15 @@ print_model(struct inverse *inv_ptr)
 		{
 			if (inv_ptr->phases[i].isotopes.size() == 0)
 				continue;
-			j = col_phases + i;
+			size_t j = col_phases + i;
 			if (equal(inv_delta1[j], 0.0, toler) == TRUE &&
 				equal(min_delta[j], 0.0, toler) == TRUE &&
 				equal(max_delta[j], 0.0, toler) == TRUE)
 				continue;
 			std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
-			for (j = 0; j < inv_ptr->isotopes.size(); j++)
+			for (size_t j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
-				for (k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
+				for (size_t k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
 				{
 					if (inv_ptr->isotopes[j].elt_name !=
 						isotope_ref[k].elt_name ||
@@ -1837,8 +1830,7 @@ print_model(struct inverse *inv_ptr)
 						isotope_ref[k].isotope_number)
 						continue;
 					d1 = isotope_ref[k].ratio;
-					column =
-						col_phase_isotopes + i * inv_ptr->isotopes.size() + j;
+					column = col_phase_isotopes + i * inv_ptr->isotopes.size() + j;
 					if (inv_delta1[col_phases + i] != 0.0)
 					{
 						d2 = inv_delta1[column] / inv_delta1[col_phases + i];
@@ -1913,7 +1905,6 @@ print_model(struct inverse *inv_ptr)
 	}
 
 	// appt, calculate and print SI's
-	int i1, i2;
 	LDBLE  t_i, p_i, iap, lk, t;
 	const char *name;
 	struct rxn_token *rxn_ptr;
@@ -1930,7 +1921,7 @@ print_model(struct inverse *inv_ptr)
 	output_msg(sformatf("%d at %3d K, %3d atm)\n", inv_ptr->solns[i], int(t_i), int(floor(p_i + 0.5))));
 	p_i *= PASCAL_PER_ATM;
 
-	for (i = col_phases; i < col_redox; i++)
+	for (size_t i = col_phases; i < col_redox; i++)
 	{
 		if (equal(inv_delta1[i], 0.0, toler) == TRUE &&
 			equal(min_delta[i], 0.0, toler) == TRUE &&
@@ -1950,13 +1941,13 @@ print_model(struct inverse *inv_ptr)
 			"%15.15s   %12.3e   %12.3e   %12.3e   %-25.25s  (", col_name[i],
 			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula));
 
-		i1 = 0;
-		for (; i1 < (int)phases.size(); i1++)
+		size_t i1 = 0;
+		for (; i1 < phases.size(); i1++)
 		{
 			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
 				continue;
 			reaction_ptr = &phases[i1]->rxn_s;
-			for (i2 = 0; i2 < inv_ptr->count_solns; i2++)
+			for (size_t i2 = 0; i2 < inv_ptr->count_solns; i2++)
 			{
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
 
@@ -2002,7 +1993,7 @@ print_model(struct inverse *inv_ptr)
 		output_msg(sformatf(")\n"));
 	}
 	output_msg(sformatf( "\n%-25.25s\n", "Redox mole transfers:"));
-	for (i = col_redox; i < col_epsilon; i++)
+	for (size_t i = col_redox; i < col_epsilon; i++)
 	{
 		if (equal(inv_delta1[i], 0.0, toler) == TRUE)
 			continue;
@@ -2075,7 +2066,7 @@ punch_model_heading(struct inverse *inv_ptr)
 		/*
 		*   Print phase names
 		*/
-		for (i = col_phases; i < col_redox; i++)
+		for (size_t i = col_phases; i < col_redox; i++)
 		{
 
 			std::string tok1(col_name[i]);
@@ -2087,9 +2078,7 @@ punch_model_heading(struct inverse *inv_ptr)
 			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
 			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
 		}
-
-		size_t j;
-		for (j = 0; j < inverse_heading_names.size(); j++)
+		for (size_t j = 0; j < inverse_heading_names.size(); j++)
 		{
 			fpunchf_heading(inverse_heading_names[j].c_str());
 			//user_punch_headings[j] = string_hsave(heading_names[j].c_str());
@@ -2178,7 +2167,7 @@ punch_model(struct inverse *inv_ptr)
 		/*
 		*   write phase transfers
 		*/
-		for (i = col_phases; i < col_redox; i++)
+		for (size_t i = col_phases; i < col_redox; i++)
 		{
 			d1 = inv_delta1[i];
 			d2 = min_delta[i];
@@ -2264,7 +2253,7 @@ next_set_phases(struct inverse *inv_ptr,
 		{
 			min_position[i] = i;
 			now[i] = i;
-			max_position[i] = inv_ptr->phases.size() - model_size + i;
+			max_position[i] = (int)inv_ptr->phases.size() - model_size + i;
 		}
 	}
 	else
@@ -2328,14 +2317,14 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 		{
 			if (inv_ptr->phases[i].force == TRUE)
 			{
-				cur_bits = set_bit(cur_bits, i, 1);
+				cur_bits = set_bit(cur_bits, (int)i, 1);
 			}
 		}
 		else
 		{
 			if (inv_ptr->force_solns[i - inv_ptr->phases.size()] == TRUE)
 			{
-				cur_bits = set_bit(cur_bits, i, 1);
+				cur_bits = set_bit(cur_bits, (int)i, 1);
 			}
 		}
 	}
@@ -2348,11 +2337,11 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
  *   Switch bits so that phases are high and solutions are low
  */
 	bits =
-		get_bits(cur_bits, inv_ptr->phases.size() + inv_ptr->count_solns - 1,
-				 inv_ptr->count_solns);
+		get_bits(cur_bits, (int)(inv_ptr->phases.size() + inv_ptr->count_solns) - 1,
+				 (int)inv_ptr->count_solns);
 	bits +=
-		(get_bits(cur_bits, inv_ptr->phases.size() - 1, inv_ptr->phases.size())
-		 << inv_ptr->count_solns);
+		(get_bits(cur_bits, (int)inv_ptr->phases.size() - 1, (int)inv_ptr->phases.size())
+		 << (int)inv_ptr->count_solns);
 /*
  *   Do range calculation
  */
@@ -2371,10 +2360,10 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
  */
 		for (f = -1; f < 2; f += 2)
 		{
-			k = row_mb;			/* rows in A */
-			l = row_epsilon - row_mb;	/* rows in C */
-			m = count_rows - row_epsilon;	/* rows in E */
-			n = count_unknowns;	/* number of variables */
+			k = (int)row_mb;			/* rows in A */
+			l = (int)(row_epsilon - row_mb);	/* rows in C */
+			m = (int)(count_rows - row_epsilon);	/* rows in E */
+			n = (int)count_unknowns;	/* number of variables */
 /*
  *   Copy equations
  */
@@ -2425,7 +2414,7 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 							   col_name[col_back[j]], (double) delta2[j]));
 				}
 				output_msg(sformatf( "\nA and B arrays:\n\n"));
-				array_print(&array1[0], k + l + m, n + 1, max_column_count);
+				array_print(&array1[0], k + l + m, n + 1, (int)max_column_count);
 			}
 			kode = 1;
 			iter = 200;
@@ -2445,7 +2434,7 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 					inv_res, &error2, inv_cu, inv_iu, inv_is, TRUE);
 			}
 #else
-			cl1(k, l, m, n, nklmd, n2d, &array1[0], &kode, toler, &iter, &delta2[0], 
+			cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0], &kode, toler, &iter, &delta2[0], 
 				&inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 #endif
 			if (kode != 0)
@@ -2517,7 +2506,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
  */
 	int i, j, row;
 	int k1, l1, m1;
-	int cur_col, column;
+	size_t cur_col, column;
 	int nonzero;
 /*
  *   Copy array_in to array_out
@@ -2562,7 +2551,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
  */
 	for (i = 0; i < (inv_ptr->count_solns - 1); i++)
 	{
-		if (get_bits(cur_bits, inv_ptr->phases.size() + i, 1) == 0)
+		if (get_bits(cur_bits, (int)inv_ptr->phases.size() + i, 1) == 0)
 		{
 			col_back_l[i] = -1;
 			/* drop all epsilons for the solution */
@@ -2580,11 +2569,10 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 			/* drop isotopes */
 			if (inv_ptr->isotopes.size() > 0)
 			{
-				for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
+				for (size_t j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 				{
-					column =
-						col_isotopes + i * inv_ptr->isotope_unknowns.size() +
-						j;
+					column = col_isotopes + 
+						i * inv_ptr->isotope_unknowns.size() + j;
 					col_back_l[column] = -1;
 				}
 			}
@@ -2594,13 +2582,13 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 /*   
  *   Drop epsilons not used
  */
-	for (i = col_epsilon; i < *n; i++)
+	for (i = (int)col_epsilon; i < *n; i++)
 	{
 		if (col_back_l[i] < 0)
 			continue;
 		for (j = 0; j < (*k + *l + *m); j++)
 		{
-			if (array_out[j * max_column_count + i] != 0)
+			if (array_out[(size_t)j * max_column_count + (size_t)i] != 0)
 				break;
 		}
 		if (j == (*k + *l + *m))
@@ -2630,7 +2618,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 		delta_l[cur_col] = delta_l[i];
 		cur_col++;
 	}
-	*n = cur_col - 1;
+	*n = (int)cur_col - 1;
 /* 
  *   Eliminate unnecessary optimization eqns
  */
@@ -2801,10 +2789,10 @@ check_solns(struct inverse *inv_ptr)
 /*
  *   Check for feasibility of charge balance with given uncertainties
  */
-		k = row_mb;				/* rows in A */
-		l = row_epsilon - row_mb;	/* rows in C */
-		m = count_rows - row_epsilon;	/* rows in E */
-		n = count_unknowns;		/* number of variables */
+		k = (int)row_mb;				/* rows in A */
+		l = (int)(row_epsilon - row_mb);	/* rows in C */
+		m = (int)(count_rows - row_epsilon);	/* rows in E */
+		n = (int)count_unknowns;		/* number of variables */
 /* debug
 	output_msg(sformatf( "\nColumns\n"));
 	for (j = 0; j < n; j++) {
@@ -2836,11 +2824,11 @@ check_solns(struct inverse *inv_ptr)
 /*
  *   Zero out mass balance rows and fraction rows
  */
-		for (j = row_mb; j < row_charge; j++)
+		for (size_t j = row_mb; j < row_charge; j++)
 		{
 			memcpy((void *) &(array1[j * max_column_count]),
 				   (void *) &(inv_zero[0]),
-				   (size_t) max_column_count * sizeof(LDBLE));
+				   max_column_count * sizeof(LDBLE));
 		}
 /*
  *   Set fraction of solution to 1.0
@@ -2863,21 +2851,21 @@ check_solns(struct inverse *inv_ptr)
 /*
  *   Zero out isotope mole balance
  */
-		for (j = row_isotopes; j < row_epsilon; j++)
+		for (size_t j = row_isotopes; j < row_epsilon; j++)
 		{
 			memcpy((void *) &(array1[j * max_column_count]),
 				   (void *) &(inv_zero[0]),
-				   (size_t) max_column_count * sizeof(LDBLE));
+				   max_column_count * sizeof(LDBLE));
 		}
 
 /*
  *   Zero out isotope uncertainties
  */
-		for (j = row_isotope_epsilon; j < count_rows; j++)
+		for (size_t j = row_isotope_epsilon; j < count_rows; j++)
 		{
 			memcpy((void *) &(array1[j * max_column_count]),
 				   (void *) &(inv_zero[0]),
-				   (size_t) max_column_count * sizeof(LDBLE));
+				   max_column_count * sizeof(LDBLE));
 		}
 /*
  *   Can`t Zero out epsilon constraint rows for other solutions because not sure which
@@ -2912,7 +2900,7 @@ check_solns(struct inverse *inv_ptr)
 		kode = 1;
 		iter = 200;
 		count_calls++;
-		cl1(k, l, m, n, nklmd, n2d, &array1[0], &kode, toler, &iter, 
+		cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0], &kode, toler, &iter, 
 			&delta2[0], &inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 
 		if (kode != 0)
@@ -2953,53 +2941,52 @@ post_mortem(void)
  *   array have not been satisfied. 
  *
  */
-	int i, j;
 	LDBLE sum;
 /*
  *   Check equalities
  */
 	output_msg(sformatf(
 			   "\nPost_mortem examination of inverse modeling:\n\n"));
-	for (i = row_mb; i < row_epsilon; i++)
+	for (size_t i = row_mb; i < row_epsilon; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (size_t j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[i * max_column_count + j];
 		}
 
-		if (equal(sum, my_array[((size_t)i * max_column_count) + count_unknowns], toler)
+		if (equal(sum, my_array[(i * max_column_count) + count_unknowns], toler)
 			== FALSE)
 		{
 			output_msg(sformatf(
 					   "\tERROR: equality not satisfied for %s, %e.\n",
 					   row_name[i],
-				   (double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
+				   (double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 		}
 	}
 /*
  *   Check inequalities
  */
-	for (i = row_epsilon; i < count_rows; i++)
+	for (size_t i = row_epsilon; i < count_rows; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (size_t j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[i * max_column_count + j];
 		}
 
-		if (sum > my_array[((size_t)i * max_column_count) + count_unknowns] + toler)
+		if (sum > my_array[(i * max_column_count) + count_unknowns] + toler)
 		{
 			output_msg(sformatf(
 					   "\tERROR: inequality not satisfied for %s, %e\n",
 					   row_name[i],
-				   (double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
+				   (double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 		}
 	}
 /*
  *   Check dissolution/precipitation constraints
  */
-	for (i = 0; i < count_unknowns; i++)
+	for (size_t i = 0; i < count_unknowns; i++)
 	{
 		if (delta_save[i] > 0.5 && inv_delta1[i] < -toler)
 		{
@@ -3026,7 +3013,7 @@ test_cl1_solution(void)
  *   checks that equality and inequalities are satisfied
  *
  */
-	int i, j;
+	int i;
 	LDBLE sum;
 /*
  *   Check equalities
@@ -3037,20 +3024,20 @@ test_cl1_solution(void)
 		output_msg(sformatf(
 			"\nTesting cl1 inverse modeling:\n\n"));
 	}
-	for (i = row_mb; i < row_epsilon; i++)
+	for (size_t i = row_mb; i < row_epsilon; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (size_t j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[i * max_column_count + j];
 		}
 
-		if (equal(sum, my_array[((size_t)i * max_column_count) + count_unknowns], toler) == FALSE)
+		if (equal(sum, my_array[(i * max_column_count) + count_unknowns], toler) == FALSE)
 		{
 			if (debug_inverse)
 			{
 				output_msg(sformatf("\tERROR: equality not satisfied for %s, %e.\n", row_name[i],
-				   (double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
+				   (double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 			}
 			rv = false;
 		}
@@ -3058,22 +3045,22 @@ test_cl1_solution(void)
 /*
  *   Check inequalities
  */
-	for (i = row_epsilon; i < count_rows; i++)
+	for (size_t i = row_epsilon; i < count_rows; i++)
 	{
 		sum = 0;
-		for (j = 0; j < count_unknowns; j++)
+		for (size_t j = 0; j < count_unknowns; j++)
 		{
-			sum += inv_delta1[j] * my_array[(size_t)i * max_column_count + (size_t)j];
+			sum += inv_delta1[j] * my_array[i * max_column_count + j];
 		}
 
-		if (sum > my_array[((size_t)i * max_column_count) + count_unknowns] + toler)
+		if (sum > my_array[(i * max_column_count) + count_unknowns] + toler)
 		{
 			if (debug_inverse)
 			{
 				output_msg(sformatf(
 					"\tERROR: inequality not satisfied for %s, %e\n",
 					row_name[i],
-					(double) (sum - my_array[((size_t)i * max_column_count) + count_unknowns])));
+					(double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 			}
 			rv = false;
 		}
@@ -3262,7 +3249,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 {
 	int i, j, k;
 	LDBLE isotope_number;
-	int column;
+	size_t column;
 	LDBLE f;
 	struct master *primary_ptr;
 	cxxSolution *solution_ptr;
@@ -3393,8 +3380,8 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 				my_array[(size_t)row * max_column_count + (size_t)column] =
 					isotope_ref[j].ratio * isotope_ref[j].coef;
 				/* term for phase isotope uncertainty unknown */
-				column = col_phase_isotopes + i * inv_ptr->isotopes.size() + n;
-				my_array[(size_t)row * max_column_count + (size_t)column] = isotope_ref[j].coef;
+				column = col_phase_isotopes + i * inv_ptr->isotopes.size() + (size_t)n;
+				my_array[(size_t)row * max_column_count + column] = isotope_ref[j].coef;
 				break;
 			}
 		}
@@ -3719,19 +3706,19 @@ int Phreeqc::
 phase_isotope_inequalities(struct inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, k;
-	int column;
+	size_t column;
 	char token[MAX_LENGTH];
 	if (inv_ptr->isotopes.size() <= 0)
 		return OK;
-	for (i = 0; i < inv_ptr->phases.size(); i++)
+	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
 		if (inv_ptr->phases[i].isotopes.size() == 0)
 			continue;
 
-		for (j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
+		for (size_t j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
 		{
 			/* find index number */
+			size_t k = 0;
 			for (k = 0; k < inv_ptr->isotopes.size(); k++)
 			{
 				if (inv_ptr->phases[i].isotopes[j].elt_name ==
@@ -4249,12 +4236,14 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	LDBLE d1, d2, d3;
 	LDBLE sum, sum1, sum_iso, d;
 	std::vector<double> array_save, l_delta_save;
-	int count_unknowns_save, max_row_count_save, max_column_count_save, temp,
-		count_current_solutions, temp_punch;
+	size_t count_unknowns_save, max_row_count_save,
+		max_column_count_save, count_current_solutions;
+	int temp, temp_punch;
 	int solnmap[10][2];
 	FILE *model_file;
 	const struct elt_list *next_elt;
-	int exch, column;
+	int exch;
+	size_t column;
 	LDBLE f;
 	struct rxn_token *rxn_ptr;
 /*
@@ -4804,9 +4793,9 @@ dump_netpath_pat(struct inverse *inv_ptr)
 /*
  * Write phase information
  */
-	for (i = 0; i < inv_ptr->phases.size(); i++)
+	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		j = col_phases + i;
+		size_t j = col_phases + i;
 		/* skip if not in model */
 /*    if (equal (inv_delta1[j], 0.0, toler) == TRUE) continue;*/
 

@@ -354,7 +354,7 @@ build_gas_phase(void)
  *      sum of partial pressures equation and
  *      mass balance equations for elements contained in gases
  */
-	int row, col;
+	size_t row, col;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
 	struct unknown *unknown_ptr;
@@ -630,7 +630,7 @@ build_ss_assemblage(void)
  *      mass balance equations for elements contained in solid solutions
  */
 	bool stop;
-	int row, col;
+	size_t row, col;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
 	const char* cptr;
@@ -926,7 +926,7 @@ build_jacobian_sums(int k)
 					continue;
 
 				/* now find the related phase */
-				for (kk = count_unknowns - 1; kk >= 0; kk--)
+				for (kk = (int)count_unknowns - 1; kk >= 0; kk--)
 				{
 					if (x[kk]->type != PP)
 						continue;
@@ -984,7 +984,7 @@ build_jacobian_sums(int k)
 					if (comp_ptr->Get_phase_name().size() > 0)
 					{
 						/* now find the related phase */
-						for (kk = count_unknowns - 1; kk >= 0; kk--)
+						for (kk = (int)count_unknowns - 1; kk >= 0; kk--)
 						{
 							if (x[kk]->type != PP)
 								continue;
@@ -1079,7 +1079,7 @@ build_model(void)
  *    Guts of prep. Determines species in model, rewrites equations,
  *    builds lists for mass balance and jacobian sums.
  */
-	int i, j, j0, k;
+	int i, j;
 	LDBLE coef_e;
 
 	if (s_hplus == NULL || s_eminus == NULL || s_h2o == NULL)
@@ -1260,19 +1260,19 @@ build_model(void)
  */
 	if (pitzer_model == TRUE || sit_model == TRUE)
 	{
-		j0 = count_unknowns;
-		j = count_unknowns + (int)this->s_x.size();
-		k = j0;
-		for (i = j0; i < j; i++)
+		size_t j0 = count_unknowns;
+		size_t j = count_unknowns + this->s_x.size();
+		size_t k = j0;
+		for (size_t i = j0; i < j; i++)
 		{
-			if (s_x[(size_t)i - (size_t)j0]->type == EX)
+			if (s_x[i - j0]->type == EX)
 				continue;
-			if (s_x[(size_t)i - (size_t)j0]->type == SURF)
+			if (s_x[i - j0]->type == SURF)
 				continue;
 			x[k]->number = k;
 			x[k]->type = PITZER_GAMMA;
-			x[k]->s = s_x[(size_t)i - (size_t)j0];
-			x[k]->description = s_x[(size_t)i - (size_t)j0]->name;
+			x[k]->s = s_x[i - j0];
+			x[k]->description = s_x[i - j0]->name;
 			k++;
 			count_unknowns++;
 		}
@@ -2591,7 +2591,8 @@ write_mass_action_eqn_x(int stop)
  */
 	LDBLE coef_e;
 	int count, repeat;
-	int i, count_rxn_orig;
+	int i;
+	size_t count_rxn_orig;
 /*
  *   Rewrite any secondary master species flagged REWRITE
  *   Replace pe if necessary
@@ -3270,7 +3271,7 @@ setup_surface(void)
 	 *   Fill in data for surface assemblage in unknown structure
 	 */
 	std::vector<struct master*> master_ptr_list;
-	int mb_unknown_number;
+	size_t mb_unknown_number;
 
 	if (use.Get_surface_ptr() == NULL)
 		return (OK);
@@ -4645,7 +4646,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
  *   Stores the terms for d moles of species k in solution into row, multiplied
  *   by coef_in
  */
-	int col;
+	size_t col;
 	LDBLE coef;
 	struct rxn_token *rxn_ptr;
 	struct master *master_ptr;
@@ -4657,7 +4658,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 /*   Gamma term for d molality of species */
 /*   Note dg includes molality as a factor */
 
-	row = row * (count_unknowns + 1);
+	row = row * ((int)count_unknowns + 1);
 	if (s[k]->type != SURF && s[k] != s_h2o)
 	{
 		if (debug_prep == TRUE)
@@ -5006,8 +5007,8 @@ write_mb_eqn_x(void)
 /* ---------------------------------------------------------------------- */
 {
 	int count, repeat;
-	int i, count_rxn_orig;
-	int j, k;
+	int i;
+	size_t count_rxn_orig;
 	struct master *master_ptr;
 /*
  *   Rewrite any secondary master species flagged REWRITE
@@ -5052,12 +5053,12 @@ write_mb_eqn_x(void)
  */
 	count_elts = 0;
 	paren_count = 0;
-	for (i = 1; i < count_trxn; i++)
+	for (size_t i = 1; i < count_trxn; i++)
 	{
-		j = count_elts;
+		size_t j = count_elts;
 		const char* cptr = trxn.token[i].s->name;
 		get_elts_in_species(&cptr, trxn.token[i].coef);
-		for (k = j; k < count_elts; k++)
+		for (size_t k = j; k < count_elts; k++)
 		{
 			if (trxn.token[i].s->secondary != NULL)
 			{
@@ -5831,7 +5832,7 @@ build_min_exch(void)
  *   jacob0
  */
 	int j, k, jj;
-	int row;
+	size_t row;
 	struct master *master_ptr;
 	struct unknown *unknown_ptr;
 	LDBLE coef;
@@ -5880,14 +5881,14 @@ build_min_exch(void)
 			continue;
 		}
 		/* find unknown number */
-		for (j = count_unknowns - 1; j >= 0; j--)
+		for (j = (int)count_unknowns - 1; j >= 0; j--)
 		{
 			if (x[j]->type != EXCH)
 				continue;
 			if (x[j]->master[0] == exchange_master)
 				break;
 		}
-		for (k = count_unknowns - 1; k >= 0; k--)
+		for (k = (int)count_unknowns - 1; k >= 0; k--)
 		{
 			if (x[k]->type != PP)
 				continue;
@@ -5978,7 +5979,7 @@ build_min_exch(void)
 				row = master_ptr->unknown->number;
 				unknown_ptr = master_ptr->unknown;
 			}
-			store_jacob0(row, (int)x[k]->number,
+			store_jacob0((int)row, (int)x[k]->number,
 						 coef * comp_ref.Get_phase_proportion());
 			store_sum_deltas(&delta[k], &unknown_ptr->delta,
 							 -coef * comp_ref.Get_phase_proportion());
