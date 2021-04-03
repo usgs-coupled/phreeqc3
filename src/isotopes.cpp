@@ -165,20 +165,12 @@ read_calculate_values(void)
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct calculate_value *calculate_value_ptr;
-	char *description;
-	int n_user, n_user_end;
 	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
-/*
- *   Read advection number (not currently used)
- */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -281,19 +273,11 @@ read_isotope_ratios(void)
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_ratio *isotope_ratio_ptr;
-	char *description;
-	int n_user, n_user_end;
 	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
 	int count_opt_list = 0;
-/*
- *   Read number (not currently used)
- */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -380,19 +364,11 @@ read_isotope_alphas(void)
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_alpha *isotope_alpha_ptr;
-	char *description;
-	int n_user, n_user_end;
 	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
 	int count_opt_list = 0;
-/*
- *   Read number (not currently used)
- */
-	cptr = line;
-	read_number_description(cptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
