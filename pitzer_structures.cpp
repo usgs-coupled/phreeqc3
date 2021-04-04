@@ -48,7 +48,6 @@ pitz_param_init(struct pitz_param *pitz_param_ptr)
 		pitz_param_ptr->a[i] = 0.0;
 	}
 	pitz_param_ptr->alpha = 0.0;
-	pitz_param_ptr->thetas = NULL;
 	pitz_param_ptr->os_coef = 0.;
 	for (i = 0; i < 3; i++)
 	{
@@ -210,7 +209,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 				}
 			}
 			// thetas
-			pitz_params[count_pitz_param]->thetas = NULL;
+			pitz_params[count_pitz_param]->theta_params_index = -1;
 			pitz_param_map[key] = count_pitz_param;
 		}
 		else
@@ -287,7 +286,7 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 				}
 			}
 			// thetas
-			sit_params[count_sit_param]->thetas = NULL;
+			sit_params[count_sit_param]->theta_params_index = -1;
 			sit_param_map[key] = count_sit_param;
 		}
 		else
@@ -337,7 +336,7 @@ theta_param_init(struct theta_param *theta_param_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct theta_param * Phreeqc::
+int Phreeqc::
 theta_param_search(LDBLE zj, LDBLE zk)
 /* ---------------------------------------------------------------------- */
 {
@@ -348,11 +347,11 @@ theta_param_search(LDBLE zj, LDBLE zk)
 	int i;
 	for (i = 0; i < (int)theta_params.size(); i++)
 	{
-		if ((theta_params[i]->zj == zj && theta_params[i]->zk == zk) ||
-			(theta_params[i]->zj == zk && theta_params[i]->zk == zj))
+		if ((theta_params[i].zj == zj && theta_params[i].zk == zk) ||
+			(theta_params[i].zj == zk && theta_params[i].zk == zj))
 		{
-			return theta_params[i];
+			return i;
 		}
 	}
-	return NULL;
+	return -1;
 }

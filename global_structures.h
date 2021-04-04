@@ -979,7 +979,7 @@ struct pitz_param
 	LDBLE alpha = 0;
 	LDBLE os_coef = 0;
 	LDBLE ln_coef[3] = { 0,0,0 };
-	struct theta_param *thetas = NULL;
+	int theta_params_index = -1;
 };
 
 struct theta_param

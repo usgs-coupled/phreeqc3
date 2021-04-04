@@ -1919,13 +1919,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	}
 	pitz_param_map          = pSrc->pitz_param_map;
 	// auto pitz_param_map
-	for (int i = 0; i < (int)pSrc->theta_params.size(); i++)
-	{
-		size_t count_theta_params = theta_params.size();
-		theta_params.resize(count_theta_params + 1);
-		theta_params[count_theta_params] = theta_param_alloc();
-		memcpy(theta_params[count_theta_params], pSrc->theta_params[i], sizeof(struct theta_param));
-	}
+	theta_params = pSrc->theta_params;
 	use_etheta              = pSrc->use_etheta;
 	/*
 	OTEMP					= -100.0;

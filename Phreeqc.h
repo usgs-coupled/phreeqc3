@@ -501,7 +501,7 @@ public:
 	struct pitz_param* pitz_param_read(char* string, int n);
 	void pitz_param_store(struct pitz_param* pzp_ptr, bool force_copy);
 	void sit_param_store(struct pitz_param* pzp_ptr, bool force_copy);
-	struct theta_param* theta_param_search(LDBLE zj, LDBLE zk);
+	int theta_param_search(LDBLE zj, LDBLE zk);
 	struct theta_param* theta_param_alloc(void);
 	int theta_param_init(struct theta_param* theta_param_ptr);
 	void pitzer_make_lists(void);
@@ -1720,7 +1720,7 @@ protected:
 	LDBLE VP, DW0;
 	std::vector<struct pitz_param*> pitz_params;
 	std::map< std::string, size_t > pitz_param_map;
-	std::vector<struct theta_param*> theta_params;
+	std::vector<struct theta_param> theta_params;
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
