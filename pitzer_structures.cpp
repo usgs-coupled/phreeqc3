@@ -224,7 +224,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
+sit_param_store(struct pitz_param& pzp, bool force_copy)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -232,19 +232,19 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
  *  Returns -1 if not found, index number in pitz_params if found
  */
 	int i;
-	if (pzp_ptr == NULL)
-		return;
-	if (pzp_ptr->type == TYPE_Other)
+	//if (pzp_ptr == NULL)
+	//	return;
+	if (pzp.type == TYPE_Other || pzp.type == TYPE_Other)
 		return;
 
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
-		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
+		if (pzp.species[i] != NULL) header.insert(pzp.species[i]);
 	}
 
 	std::ostringstream key_str;
-	key_str << pzp_ptr->type << " ";
+	key_str << pzp.type << " ";
 	std::set< std::string >::iterator it = header.begin();
 	for(; it != header.end(); ++it)
 	{
@@ -255,19 +255,19 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 	std::map< std::string, size_t>::iterator jit = sit_param_map.find(key);
 	if (jit != sit_param_map.end())
 	{
-		if (pzp_ptr->species[2] != NULL)
+		if (pzp.species[2] != NULL)
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
-			pzp_ptr->species[0], pzp_ptr->species[1], pzp_ptr->species[2]);
+			pzp.species[0], pzp.species[1], pzp.species[2]);
 		}
 		else
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s\n", 
-			pzp_ptr->species[0], pzp_ptr->species[1]);
+			pzp.species[0], pzp.species[1]);
 		}
 	    warning_msg(error_string);
-		sit_params[(*jit).second] = (struct pitz_param *) free_check_null(sit_params[(*jit).second]);
-		sit_params[(*jit).second] = pzp_ptr;
+		//sit_params[(*jit).second] = (struct pitz_param *) free_check_null(sit_params[(*jit).second]);
+		sit_params[(*jit).second] = pzp;
 	}
 	else
 	{
@@ -275,25 +275,25 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		{
 			size_t count_sit_param = sit_params.size();
 			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pitz_param_duplicate(pzp_ptr);
+			sit_params[count_sit_param] = pzp;
 			// clean up pointers
 			// species 
 			for (i = 0; i < 3; i++)
 			{
-				if (pzp_ptr->species[i] != NULL) 
+				if (pzp.species[i] != NULL) 
 				{
-					sit_params[count_sit_param]->species[i] = string_hsave(pzp_ptr->species[i]);
+					sit_params[count_sit_param].species[i] = string_hsave(pzp.species[i]);
 				}
 			}
 			// thetas
-			sit_params[count_sit_param]->theta_params_index = -1;
+			sit_params[count_sit_param].theta_params_index = -1;
 			sit_param_map[key] = count_sit_param;
 		}
 		else
 		{
 			size_t count_sit_param = sit_params.size();
 			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pzp_ptr;
+			sit_params[count_sit_param] = pzp;
 			sit_param_map[key] = count_sit_param;
 		}
 	}
