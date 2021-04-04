@@ -496,14 +496,14 @@ sit_clean_up(void)
 
 	for (i = 0; i < (int)sit_params.size(); i++)
 	{
-		sit_params[i] =	(struct pitz_param *) free_check_null(sit_params[i]);
+		delete sit_params[i]; 
 	}
 	sit_params.clear();
 	sit_param_map.clear();
 	sit_LGAMMA.clear();
 	sit_IPRSNT.clear();
 	spec.clear();
-	aphi = (struct pitz_param *) free_check_null(aphi);
+	delete aphi; 
 	sit_M.clear(); 
 
 	return OK;

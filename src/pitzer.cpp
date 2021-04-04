@@ -110,7 +110,7 @@ pitzer_tidy(void)
 	{
 		if (pitz_params_temp[i]->type == TYPE_ETHETA)
 		{
-			pitz_params_temp[i] = (struct pitz_param*)free_check_null(pitz_params_temp[i]);
+			delete pitz_params_temp[i]; 
 		}
 		else
 		{
@@ -624,7 +624,7 @@ read_pitzer(void)
 				pzp_ptr->type = pzp_type;
 				if (pzp_type == TYPE_APHI)
 				{
-					aphi = (struct pitz_param *) free_check_null(aphi);
+					delete aphi; 
 					aphi = pzp_ptr;
 				}
 				else
@@ -1630,8 +1630,7 @@ pitzer_clean_up(void)
 	int i;
 	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
-		pitz_params[i] =
-			(struct pitz_param *) free_check_null(pitz_params[i]);
+		delete pitz_params[i];
 	}
 	pitz_param_map.clear();
 	pitz_params.clear();
@@ -1644,7 +1643,7 @@ pitzer_clean_up(void)
 	LGAMMA.clear();
 	IPRSNT.clear();
 	spec.clear();
-	aphi = (struct pitz_param *) free_check_null(aphi);
+	delete aphi; 
 	M.clear();
 
 	return OK;

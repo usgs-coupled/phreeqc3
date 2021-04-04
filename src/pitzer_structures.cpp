@@ -9,53 +9,6 @@
  *   Routines related to structure "pitz_param"
  *
  * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-struct pitz_param * Phreeqc::
-pitz_param_alloc(void)
-/* ---------------------------------------------------------------------- */
-{
-	struct pitz_param *pitz_param_ptr;
-	pitz_param_ptr =
-		(struct pitz_param *) PHRQ_malloc(sizeof(struct pitz_param));
-	if (pitz_param_ptr == NULL)
-		malloc_error();
-	return (pitz_param_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-pitz_param_init(struct pitz_param *pitz_param_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-/*
- *   Frees all data associated with pitz_param structure.
- */
-
-	if (pitz_param_ptr == NULL)
-		return (ERROR);
-	pitz_param_ptr->species[0] = NULL;
-	pitz_param_ptr->species[1] = NULL;
-	pitz_param_ptr->species[2] = NULL;
-	pitz_param_ptr->ispec[0] = -1;
-	pitz_param_ptr->ispec[1] = -1;
-	pitz_param_ptr->ispec[2] = -1;
-	pitz_param_ptr->type = TYPE_Other;
-	pitz_param_ptr->p = 0.0;
-	pitz_param_ptr->U.b0 = 0.0;
-	for (i = 0; i < 6; i++)
-	{
-		pitz_param_ptr->a[i] = 0.0;
-	}
-	pitz_param_ptr->alpha = 0.0;
-	pitz_param_ptr->thetas = NULL;
-	pitz_param_ptr->os_coef = 0.;
-	for (i = 0; i < 3; i++)
-	{
-		pitz_param_ptr->ln_coef[i] = 0.0;
-	}
-	return (OK);
-}
 
 /* ---------------------------------------------------------------------- */
 struct pitz_param * Phreeqc::
@@ -77,7 +30,6 @@ pitz_param_read(char *string, int n)
 	if (string == NULL)
 		return (NULL);
 
-	pitz_param_init(&pzp);
 	cptr = string;
 	if (copy_token(token, &cptr, &l) == EMPTY)
 		return (NULL);
@@ -108,45 +60,10 @@ pitz_param_read(char *string, int n)
 	}
 	if (k <= 0)
 		return (NULL);
-	pzp_ptr = pitz_param_duplicate(&pzp);
+	pzp_ptr = new struct pitz_param;
+	*pzp_ptr = pzp;
 	return (pzp_ptr);
 }
-
-/* ---------------------------------------------------------------------- */
-struct pitz_param * Phreeqc::
-pitz_param_duplicate(struct pitz_param *old_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Allocates space and makes duplicate copy of pitz_param structure
- */
-	struct pitz_param *new_ptr;
-
-	new_ptr = pitz_param_alloc();
-	pitz_param_init(new_ptr);
-/*
- *   Copy data
- */
-	pitz_param_copy(old_ptr, new_ptr);
-	return (new_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-pitz_param_copy(struct pitz_param *old_ptr, struct pitz_param *new_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies pitz_param data from old_ptr to new location, new_ptr.
- *   Space for the new_ptr structure must already be malloced.
- */
-/*
- *   Store data for structure pitz_param
- */
-	memcpy(new_ptr, old_ptr, sizeof(struct pitz_param));
-	return (OK);
-}
-
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
@@ -190,7 +107,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 			pzp_ptr->species[0], pzp_ptr->species[1]);
 		}
 	    warning_msg(error_string);
-		pitz_params[(*jit).second] = (struct pitz_param *) free_check_null(pitz_params[(*jit).second]);
+		delete pitz_params[(*jit).second]; 
 		pitz_params[(*jit).second] = pzp_ptr;
 	}
 	else
@@ -199,7 +116,8 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		{
 			size_t count_pitz_param = pitz_params.size();
 			pitz_params.resize(count_pitz_param + 1);
-			pitz_params[count_pitz_param] = pitz_param_duplicate(pzp_ptr);
+			pitz_params[count_pitz_param] = new struct pitz_param;
+			*pitz_params[count_pitz_param] = *pzp_ptr;
 			// clean up pointers
 			// species 
 			for (i = 0; i < 3; i++)
@@ -267,7 +185,7 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 			pzp_ptr->species[0], pzp_ptr->species[1]);
 		}
 	    warning_msg(error_string);
-		sit_params[(*jit).second] = (struct pitz_param *) free_check_null(sit_params[(*jit).second]);
+		delete sit_params[(*jit).second]; 
 		sit_params[(*jit).second] = pzp_ptr;
 	}
 	else
@@ -276,7 +194,8 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		{
 			size_t count_sit_param = sit_params.size();
 			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pitz_param_duplicate(pzp_ptr);
+			sit_params[count_sit_param] = new struct pitz_param;
+			*sit_params[count_sit_param] = *pzp_ptr;
 			// clean up pointers
 			// species 
 			for (i = 0; i < 3; i++)
