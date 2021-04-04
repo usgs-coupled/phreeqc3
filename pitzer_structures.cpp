@@ -48,6 +48,7 @@ pitz_param_init(struct pitz_param *pitz_param_ptr)
 		pitz_param_ptr->a[i] = 0.0;
 	}
 	pitz_param_ptr->alpha = 0.0;
+	pitz_param_ptr->thetas = NULL;
 	pitz_param_ptr->os_coef = 0.;
 	for (i = 0; i < 3; i++)
 	{
@@ -209,7 +210,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 				}
 			}
 			// thetas
-			pitz_params[count_pitz_param]->theta_params_index = -1;
+			pitz_params[count_pitz_param]->thetas = NULL;
 			pitz_param_map[key] = count_pitz_param;
 		}
 		else
@@ -224,7 +225,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-sit_param_store(struct pitz_param& pzp, bool force_copy)
+sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -232,19 +233,19 @@ sit_param_store(struct pitz_param& pzp, bool force_copy)
  *  Returns -1 if not found, index number in pitz_params if found
  */
 	int i;
-	//if (pzp_ptr == NULL)
-	//	return;
-	if (pzp.type == TYPE_Other || pzp.type == TYPE_Other)
+	if (pzp_ptr == NULL)
+		return;
+	if (pzp_ptr->type == TYPE_Other)
 		return;
 
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
-		if (pzp.species[i] != NULL) header.insert(pzp.species[i]);
+		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
 	}
 
 	std::ostringstream key_str;
-	key_str << pzp.type << " ";
+	key_str << pzp_ptr->type << " ";
 	std::set< std::string >::iterator it = header.begin();
 	for(; it != header.end(); ++it)
 	{
@@ -255,19 +256,19 @@ sit_param_store(struct pitz_param& pzp, bool force_copy)
 	std::map< std::string, size_t>::iterator jit = sit_param_map.find(key);
 	if (jit != sit_param_map.end())
 	{
-		if (pzp.species[2] != NULL)
+		if (pzp_ptr->species[2] != NULL)
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
-			pzp.species[0], pzp.species[1], pzp.species[2]);
+			pzp_ptr->species[0], pzp_ptr->species[1], pzp_ptr->species[2]);
 		}
 		else
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s\n", 
-			pzp.species[0], pzp.species[1]);
+			pzp_ptr->species[0], pzp_ptr->species[1]);
 		}
 	    warning_msg(error_string);
-		//sit_params[(*jit).second] = (struct pitz_param *) free_check_null(sit_params[(*jit).second]);
-		sit_params[(*jit).second] = pzp;
+		sit_params[(*jit).second] = (struct pitz_param *) free_check_null(sit_params[(*jit).second]);
+		sit_params[(*jit).second] = pzp_ptr;
 	}
 	else
 	{
@@ -275,25 +276,25 @@ sit_param_store(struct pitz_param& pzp, bool force_copy)
 		{
 			size_t count_sit_param = sit_params.size();
 			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pzp;
+			sit_params[count_sit_param] = pitz_param_duplicate(pzp_ptr);
 			// clean up pointers
 			// species 
 			for (i = 0; i < 3; i++)
 			{
-				if (pzp.species[i] != NULL) 
+				if (pzp_ptr->species[i] != NULL) 
 				{
-					sit_params[count_sit_param].species[i] = string_hsave(pzp.species[i]);
+					sit_params[count_sit_param]->species[i] = string_hsave(pzp_ptr->species[i]);
 				}
 			}
 			// thetas
-			sit_params[count_sit_param].theta_params_index = -1;
+			sit_params[count_sit_param]->thetas = NULL;
 			sit_param_map[key] = count_sit_param;
 		}
 		else
 		{
 			size_t count_sit_param = sit_params.size();
 			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pzp;
+			sit_params[count_sit_param] = pzp_ptr;
 			sit_param_map[key] = count_sit_param;
 		}
 	}
@@ -336,7 +337,7 @@ theta_param_init(struct theta_param *theta_param_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
+struct theta_param * Phreeqc::
 theta_param_search(LDBLE zj, LDBLE zk)
 /* ---------------------------------------------------------------------- */
 {
@@ -347,11 +348,11 @@ theta_param_search(LDBLE zj, LDBLE zk)
 	int i;
 	for (i = 0; i < (int)theta_params.size(); i++)
 	{
-		if ((theta_params[i].zj == zj && theta_params[i].zk == zk) ||
-			(theta_params[i].zj == zk && theta_params[i].zk == zj))
+		if ((theta_params[i]->zj == zj && theta_params[i]->zk == zk) ||
+			(theta_params[i]->zj == zk && theta_params[i]->zk == zj))
 		{
-			return i;
+			return theta_params[i];
 		}
 	}
-	return -1;
+	return NULL;
 }

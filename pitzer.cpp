@@ -47,6 +47,7 @@ pitzer_tidy(void)
 	int count_pos, count_neg, count_neut, count[3], jj;
 	LDBLE z0, z1;
 	struct pitz_param *pzp_ptr;
+	struct theta_param *theta_param_ptr;
 	/*
 	* Ensure new parameters are calculated
 	*/
@@ -294,6 +295,11 @@ pitzer_tidy(void)
 	/*
 	 *   Add thetas pointer to etheta pitzer parameters
 	 */
+
+	for (i = 0; i < (int)theta_params.size(); i++)
+	{
+		theta_params[i] = (struct theta_param *) free_check_null(theta_params[i]);
+	}
 	theta_params.clear();
 	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
@@ -301,16 +307,18 @@ pitzer_tidy(void)
 		{
 			z0 = spec[pitz_params[i]->ispec[0]]->z;
 			z1 = spec[pitz_params[i]->ispec[1]]->z;
-			int index = theta_param_search(z0, z1);
-			pitz_params[i]->theta_params_index = index;
-			if (index < 0)
+			theta_param_ptr = theta_param_search(z0, z1);
+			if (theta_param_ptr == NULL)
 			{
 				size_t count_theta_param = theta_params.size();
 				theta_params.resize(count_theta_param + 1);
-				theta_params[count_theta_param].zj = z0;
-				theta_params[count_theta_param].zk = z1;
-				pitz_params[i]->theta_params_index = (int)count_theta_param;
+				theta_params[count_theta_param] = theta_param_alloc();
+				theta_param_init(theta_params[count_theta_param]);
+				theta_params[count_theta_param]->zj = z0;
+				theta_params[count_theta_param]->zk = z1;
+				theta_param_ptr = theta_params[count_theta_param];
 			}
+			pitz_params[i]->thetas = theta_param_ptr;
 		}
 	}
 	/*
@@ -1283,11 +1291,11 @@ pitzer(void)
 	{
 		for (i = 0; i < (int)theta_params.size(); i++)
 		{
-			z0 = theta_params[i].zj;
-			z1 = theta_params[i].zk;
+			z0 = theta_params[i]->zj;
+			z1 = theta_params[i]->zk;
 			ETHETAS(z0, z1, I, &etheta, &ethetap);
-			theta_params[i].etheta = etheta;
-			theta_params[i].ethetap = ethetap;
+			theta_params[i]->etheta = etheta;
+			theta_params[i]->ethetap = ethetap;
 		}
 	}
 	/*
@@ -1348,16 +1356,12 @@ pitzer(void)
 			 */
 			if (use_etheta == TRUE)
 			{
-				int index = pitz_params[i]->theta_params_index;
-				if (index >= 0)
-				{
-					etheta = theta_params[index].etheta;
-					ethetap = theta_params[index].ethetap;
-					F_var = M[i0] * M[i1] * ethetap;
-					LGAMMA[i0] += 2.0 * M[i1] * etheta;
-					LGAMMA[i1] += 2.0 * M[i0] * etheta;
-					OSMOT += M[i0] * M[i1] * (etheta + I * ethetap);
-				}
+				etheta = pitz_params[i]->thetas->etheta;
+				ethetap = pitz_params[i]->thetas->ethetap;
+				F_var = M[i0] * M[i1] * ethetap;
+				LGAMMA[i0] += 2.0 * M[i1] * etheta;
+				LGAMMA[i1] += 2.0 * M[i0] * etheta;
+				OSMOT += M[i0] * M[i1] * (etheta + I * ethetap);
 			}
 			break;
 		case TYPE_PSI:
@@ -1631,11 +1635,11 @@ pitzer_clean_up(void)
 	}
 	pitz_param_map.clear();
 	pitz_params.clear();
-	//for (i = 0; i < (int)theta_params.size(); i++)
-	//{
-	//	theta_params[i] =
-	//		(struct theta_param *) free_check_null(theta_params[i]);
-	//}
+	for (i = 0; i < (int)theta_params.size(); i++)
+	{
+		theta_params[i] =
+			(struct theta_param *) free_check_null(theta_params[i]);
+	}
 	theta_params.clear();
 	LGAMMA.clear();
 	IPRSNT.clear();

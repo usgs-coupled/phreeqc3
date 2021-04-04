@@ -949,7 +949,7 @@ struct M_S
 typedef enum
 { TYPE_B0, TYPE_B1, TYPE_B2, TYPE_C0, TYPE_THETA, TYPE_LAMDA, TYPE_ZETA,
   TYPE_PSI, TYPE_ETHETA, TYPE_ALPHAS, TYPE_MU, TYPE_ETA, TYPE_Other,
-  TYPE_SIT_EPSILON, TYPE_SIT_EPSILON_MU, TYPE_APHI, TYPE_FAIL
+  TYPE_SIT_EPSILON, TYPE_SIT_EPSILON_MU, TYPE_APHI
 } pitz_param_type;
 
 struct pitz_param
@@ -979,7 +979,7 @@ struct pitz_param
 	LDBLE alpha = 0;
 	LDBLE os_coef = 0;
 	LDBLE ln_coef[3] = { 0,0,0 };
-	int theta_params_index = -1;
+	struct theta_param *thetas = NULL;
 };
 
 struct theta_param
