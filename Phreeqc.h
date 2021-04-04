@@ -526,13 +526,6 @@ public:
 	int PTEMP(LDBLE TK);
 	int jacobian_pz(void);
 
-	// pitzer_structures.cpp -------------------------------
-	struct pitz_param* pitz_param_alloc(void);
-	int pitz_param_init(struct pitz_param* pitz_param_ptr);
-	struct pitz_param* pitz_param_duplicate(struct pitz_param* old_ptr);
-	int pitz_param_copy(struct pitz_param* old_ptr,
-		struct pitz_param* new_ptr);
-
 	// prep.cpp -------------------------------
 	int add_potential_factor(void);
 	int add_cd_music_factors(int n);

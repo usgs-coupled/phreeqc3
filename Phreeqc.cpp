@@ -1935,7 +1935,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	*/
 	if (pSrc->aphi != NULL)
 	{
-		aphi = (struct pitz_param*)malloc(sizeof(struct pitz_param));
+		aphi = new struct pitz_param; 
 		memcpy(aphi, pSrc->aphi, sizeof(struct pitz_param));
 	}
 	/*
