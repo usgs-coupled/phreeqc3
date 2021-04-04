@@ -298,7 +298,7 @@ pitzer_tidy(void)
 
 	for (i = 0; i < (int)theta_params.size(); i++)
 	{
-		theta_params[i] = (struct theta_param *) free_check_null(theta_params[i]);
+		delete theta_params[i];
 	}
 	theta_params.clear();
 	for (i = 0; i < (int)pitz_params.size(); i++)
@@ -312,8 +312,7 @@ pitzer_tidy(void)
 			{
 				size_t count_theta_param = theta_params.size();
 				theta_params.resize(count_theta_param + 1);
-				theta_params[count_theta_param] = theta_param_alloc();
-				theta_param_init(theta_params[count_theta_param]);
+				theta_params[count_theta_param] = new struct theta_param;
 				theta_params[count_theta_param]->zj = z0;
 				theta_params[count_theta_param]->zk = z1;
 				theta_param_ptr = theta_params[count_theta_param];
@@ -1636,8 +1635,7 @@ pitzer_clean_up(void)
 	pitz_params.clear();
 	for (i = 0; i < (int)theta_params.size(); i++)
 	{
-		theta_params[i] =
-			(struct theta_param *) free_check_null(theta_params[i]);
+		delete theta_params[i];
 	}
 	theta_params.clear();
 	LGAMMA.clear();

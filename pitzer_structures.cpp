@@ -116,19 +116,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		{
 			size_t count_pitz_param = pitz_params.size();
 			pitz_params.resize(count_pitz_param + 1);
-			pitz_params[count_pitz_param] = new struct pitz_param;
-			*pitz_params[count_pitz_param] = *pzp_ptr;
-			// clean up pointers
-			// species 
-			for (i = 0; i < 3; i++)
-			{
-				if (pzp_ptr->species[i] != NULL) 
-				{
-					pitz_params[count_pitz_param]->species[i] = string_hsave(pzp_ptr->species[i]);
-				}
-			}
-			// thetas
-			pitz_params[count_pitz_param]->thetas = NULL;
+			pitz_params[count_pitz_param] = pitz_param_copy(pzp_ptr);
 			pitz_param_map[key] = count_pitz_param;
 		}
 		else
@@ -194,19 +182,7 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		{
 			size_t count_sit_param = sit_params.size();
 			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = new struct pitz_param;
-			*sit_params[count_sit_param] = *pzp_ptr;
-			// clean up pointers
-			// species 
-			for (i = 0; i < 3; i++)
-			{
-				if (pzp_ptr->species[i] != NULL) 
-				{
-					sit_params[count_sit_param]->species[i] = string_hsave(pzp_ptr->species[i]);
-				}
-			}
-			// thetas
-			sit_params[count_sit_param]->thetas = NULL;
+			sit_params[count_sit_param] = pitz_param_copy(pzp_ptr);
 			sit_param_map[key] = count_sit_param;
 		}
 		else
@@ -218,43 +194,28 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		}
 	}
 }
+struct pitz_param* Phreeqc::
+pitz_param_copy(const struct pitz_param* src)
+{
+	if (src == NULL) return NULL;
+	struct pitz_param* dest = new struct pitz_param;
+	*dest = *src;
+	for (size_t i = 1; i < 3; i++)
+	{
+		if (src->species[i] != NULL)
+		{
+			dest->species[i] = string_hsave(src->species[i]);
+		}
+	}
+	dest->thetas = NULL;
+	return dest;
+}
 
 /* **********************************************************************
  *
  *   Routines related to structure "theta_parm"
  *
  * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-struct theta_param * Phreeqc::
-theta_param_alloc(void)
-/* ---------------------------------------------------------------------- */
-{
-	struct theta_param *theta_param_ptr;
-	theta_param_ptr =
-		(struct theta_param *) PHRQ_malloc(sizeof(struct theta_param));
-	if (theta_param_ptr == NULL)
-		malloc_error();
-	return (theta_param_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-theta_param_init(struct theta_param *theta_param_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Frees all data associated with theta_param structure.
- */
-
-	if (theta_param_ptr == NULL)
-		return (ERROR);
-	theta_param_ptr->zj = 0;
-	theta_param_ptr->zk = 0;
-	theta_param_ptr->etheta = 0;
-	theta_param_ptr->ethetap = 0;
-	return (OK);
-}
-
 /* ---------------------------------------------------------------------- */
 struct theta_param * Phreeqc::
 theta_param_search(LDBLE zj, LDBLE zk)

@@ -955,8 +955,8 @@ typedef enum
 struct pitz_param
 {
 	const char* species[3] = { NULL,NULL,NULL };
-	int ispec[3] = { 0,0,0 };
-	pitz_param_type type = TYPE_B0;
+	int ispec[3] = { -1,-1,-1 };
+	pitz_param_type type = TYPE_Other;
 	LDBLE p = 0;
 	union
 	{
