@@ -1923,8 +1923,8 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	{
 		size_t count_theta_params = theta_params.size();
 		theta_params.resize(count_theta_params + 1);
-		theta_params[count_theta_params] = theta_param_alloc();
-		memcpy(theta_params[count_theta_params], pSrc->theta_params[i], sizeof(struct theta_param));
+		theta_params[count_theta_params] = new struct theta_param; 
+		*theta_params[count_theta_params] = *pSrc->theta_params[i];
 	}
 	use_etheta              = pSrc->use_etheta;
 	/*
@@ -1933,11 +1933,7 @@ Phreeqc::InternalCopy(const Phreeqc *pSrc)
 	A0                      = 0;
 	aphi
 	*/
-	if (pSrc->aphi != NULL)
-	{
-		aphi = new struct pitz_param; 
-		memcpy(aphi, pSrc->aphi, sizeof(struct pitz_param));
-	}
+	aphi = pitz_param_copy(pSrc->aphi);
 	/*
 	spec                    = NULL;
 	cations                 = NULL;
