@@ -86,19 +86,19 @@ sit_tidy(void)
 	{
 		for (j = 0; j < 3; j++)
 		{
-			if (sit_params[i]->species[j] == NULL)
+			if (sit_params[i].species[j] == NULL)
 				continue;
-			sit_params[i]->ispec[j] = sit_ISPEC(sit_params[i]->species[j]);
-			if ((j < 2 && sit_params[i]->ispec[j] == -1) ||
+			sit_params[i].ispec[j] = sit_ISPEC(sit_params[i].species[j]);
+			if ((j < 2 && sit_params[i].ispec[j] == -1) ||
 				(j == 3
-				 && (sit_params[i]->type == TYPE_PSI
-					 || sit_params[i]->type == TYPE_ZETA)
-				 && sit_params[i]->ispec[j] == -1))
+				 && (sit_params[i].type == TYPE_PSI
+					 || sit_params[i].type == TYPE_ZETA)
+				 && sit_params[i].ispec[j] == -1))
 			{
 				input_error++;
 				error_string = sformatf(
 						"Species for Pitzer parameter not defined in SOLUTION_SPECIES, %s",
-						sit_params[i]->species[j]);
+						sit_params[i].species[j]);
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -110,10 +110,10 @@ sit_tidy(void)
 			std::set< std::string > header;
 			for (int i = 0; i < 3; i++)
 			{
-				if (sit_params[j]->species[i] != NULL) header.insert(sit_params[j]->species[i]);
+				if (sit_params[j].species[i] != NULL) header.insert(sit_params[j].species[i]);
 			}
 			std::ostringstream key_str;
-			key_str << sit_params[j]->type << " ";
+			key_str << sit_params[j].type << " ";
 			std::set< std::string >::iterator it = header.begin();
 			for(; it != header.end(); ++it)
 			{
@@ -211,7 +211,7 @@ read_sit(void)
 	  if (pzp_ptr != NULL)
 	  {
 		  pzp_ptr->type = pzp_type;
-		  sit_param_store(pzp_ptr, false);
+		  sit_param_store(*pzp_ptr, false);
       }
       break;
     case OPTION_ERROR:
@@ -394,13 +394,13 @@ sit(void)
 	for (size_t j = 0; j < param_list.size(); j++)
 	{
 		int i = param_list[j];
-		i0 = sit_params[i]->ispec[0];
-		i1 = sit_params[i]->ispec[1];
+		i0 = sit_params[i].ispec[0];
+		i1 = sit_params[i].ispec[1];
 		//if (sit_IPRSNT[i0] == FALSE || sit_IPRSNT[i1] == FALSE) continue;
 		z0 = spec[i0]->z;
 		z1 = spec[i1]->z;
-		param = sit_params[i]->p;
-		switch (sit_params[i]->type)
+		param = sit_params[i].p;
+		switch (sit_params[i].type)
 		{
 		case TYPE_SIT_EPSILON:
 			sit_LGAMMA[i0] += sit_M[i1] * param;
@@ -494,10 +494,10 @@ sit_clean_up(void)
  */
 	int i;
 
-	for (i = 0; i < (int)sit_params.size(); i++)
-	{
-		sit_params[i] =	(struct pitz_param *) free_check_null(sit_params[i]);
-	}
+	//for (i = 0; i < (int)sit_params.size(); i++)
+	//{
+	//	sit_params[i] =	(struct pitz_param *) free_check_null(sit_params[i]);
+	//}
 	sit_params.clear();
 	sit_param_map.clear();
 	sit_LGAMMA.clear();
@@ -1389,7 +1389,7 @@ C     Set DW0
 	for (size_t j = 0; j < param_list.size(); j++)
 	{
 		int i = param_list[j];
-		calc_sit_param(sit_params[i], TK, TR);
+		calc_sit_param(&sit_params[i], TK, TR);
 	}
 	calc_dielectrics(TK - 273.15, patm_x);
 	sit_A0 = A0;
@@ -1465,8 +1465,8 @@ sit_make_lists(void)
 	}
 	for (int i = 0; i < (int)sit_params.size(); i++)
 	{
-		int i0 = sit_params[i]->ispec[0];
-		int i1 = sit_params[i]->ispec[1];
+		int i0 = sit_params[i].ispec[0];
+		int i1 = sit_params[i].ispec[1];
 		if (sit_IPRSNT[i0] == FALSE || sit_IPRSNT[i1] == FALSE) continue;
 		param_list.push_back(i);
 	}
