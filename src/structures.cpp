@@ -1379,7 +1379,7 @@ rate_free(struct rate *rate_ptr)
 
 /* ---------------------------------------------------------------------- */
 struct rate * Phreeqc::
-rate_copy(struct rate *rate_ptr)
+rate_copy(const struct rate *rate_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -1388,6 +1388,7 @@ rate_copy(struct rate *rate_ptr)
 	if (rate_ptr == NULL)
 		return (NULL);
 	struct rate* rate_new = new struct rate;
+	rate_new->name = string_hsave(rate_ptr->name);
 	rate_new->commands = rate_ptr->commands;
 	rate_new->new_def = TRUE;
 	rate_new->linebase = NULL;
