@@ -849,7 +849,7 @@ public:
 	//
 	struct rate* rate_bsearch(const char* cptr, int* j);
 	int rate_free(struct rate* rate_ptr);
-	struct rate* rate_copy(struct rate* rate_ptr);
+	struct rate* rate_copy(const struct rate* rate_ptr);
 	struct rate* rate_search(const char* name, int* n);
 	int rate_sort(void);
 	//

@@ -1060,6 +1060,7 @@ string_hsave(const char *str)
  *      Returns:
  *         starting address of saved string (str)
  */
+	if (str == NULL) return (NULL);
 	std::map<std::string, std::string *>::const_iterator it;
 	it = strings_map.find(str);
 	if (it != strings_map.end())

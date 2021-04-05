@@ -4,7 +4,6 @@
 #include "cxxKinetics.h"
 #include "Solution.h"
 
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 advection(void)
