@@ -117,9 +117,8 @@ get_all_components(void)
  *   Buffer contains an entry for every primary master
  *   species that can be used in the transport problem.
  */
-	t_buffer =
-		(struct tally_buffer *) PHRQ_malloc((size_t) tally_count_component *
-											sizeof(struct tally_buffer));
+	t_buffer = (struct tally_buffer *) PHRQ_malloc(
+		(size_t)tally_count_component * sizeof(struct tally_buffer));
 
 	// store alkalinity
 	j = 0;
@@ -222,9 +221,9 @@ store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_facto
 	/*
 	 * Add row for total moles of reactant
 	 */
-	for (i = 0; i < count_tally_table_columns; i++)
+	for (size_t i = 0; i < count_tally_table_columns; i++)
 	{
-		l_array[i * row_dim + count_tally_table_rows] =
+		l_array[i * (size_t)row_dim + count_tally_table_rows] =
 				tally_table[i].moles / fill_factor;
 	}
 	return (OK);
@@ -244,8 +243,8 @@ get_tally_table_rows_columns(int *rows, int *columns)
 				  CONTINUE);
 		return (ERROR);
 	}
-	*rows = count_tally_table_rows;
-	*columns = count_tally_table_columns;
+	*rows = (int)count_tally_table_rows;
+	*columns = (int)count_tally_table_columns;
 	return (OK);
 }
 
@@ -317,14 +316,12 @@ free_tally_table(void)
 		return (OK);
 	for (i = 0; i < count_tally_table_columns; i++)
 	{
-		if (tally_table[i].formula != NULL)
-			tally_table[i].formula =
-				(struct elt_list *) free_check_null(tally_table[i].formula);
+		if (tally_table[i].formula.size() != 0)
+			tally_table[i].formula.clear();
 		for (k = 0; k < 3; k++)
 		{
-			tally_table[i].total[k] =
-				(struct tally_buffer *) free_check_null(tally_table[i].
-														total[k]);
+			tally_table[i].total[k] = (struct tally_buffer *) free_check_null(
+				tally_table[i].total[k]);
 		}
 	}
 	tally_table = (struct tally *) free_check_null(tally_table);
@@ -417,7 +414,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
  */
 	int found;
 	LDBLE moles;
-	//char *ptr;
+	//const char* cptr;
 	/*
 	 *  Cycle through tally table columns
 	 */
@@ -789,11 +786,12 @@ build_tally_table(void)
  *   Also calculates a number greater than all user numbers and
  *   stores in global variable first_user_number.
  */
-	int j, k, l, n, p, save_print_use;
+	int j, k, l, p, save_print_use;
+	size_t n;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	struct phase *phase_ptr;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 /*
  *  make list of all elements in all entitites
  *  defines the number of rows in the table
@@ -907,8 +905,8 @@ build_tally_table(void)
 				if (comp_ptr->Get_add_formula().size() > 0)
 				{
 					strcpy(token, comp_ptr->Get_add_formula().c_str());
-					ptr = &(token[0]);
-					get_elts_in_species(&ptr, 1.0);
+					cptr = &(token[0]);
+					get_elts_in_species(&cptr, 1.0);
 				}
 				else
 				{
@@ -916,7 +914,7 @@ build_tally_table(void)
 					add_elt_list(phase_ptr->next_elt, 1.0);
 				}
 				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
+				tally_table[n].formula = elt_list_vsave();
 			}
 		}
 	}
@@ -966,7 +964,7 @@ build_tally_table(void)
 					strcpy(token, phase_ptr->formula);
 					add_elt_list(phase_ptr->next_elt, 1.0);
 					elt_list_combine();
-					tally_table[n].formula = elt_list_save();
+					tally_table[n].formula = elt_list_vsave();
 				}
 			}
 		}
@@ -1025,14 +1023,12 @@ build_tally_table(void)
 					{
 						std::string name = it->first;
 						LDBLE coef = it->second;
-						char * temp_name = string_duplicate(name.c_str());
-						ptr = temp_name;
-						get_elts_in_species(&ptr, 1.0 * coef);
-						free_check_null(temp_name);
+						cptr = name.c_str();
+						get_elts_in_species(&cptr, 1.0 * coef);
 					}
 				}
 				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
+				tally_table[n].formula = elt_list_vsave();
 			}
 		}
 	}
@@ -1158,7 +1154,7 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
  *    Go through kinetic components and add positive amount of each reactant
  */
 	LDBLE coef;
-	char *ptr;
+	const char* cptr;
 	struct phase *phase_ptr;
 /*
  *   Go through list and generate list of elements and
@@ -1190,11 +1186,8 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
 			cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
 			for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
 			{
-				std::string name = it->first;
-				char * temp_name = string_duplicate(name.c_str());
-				ptr = temp_name;
-				get_elts_in_species(&ptr, coef);
-				free_check_null(temp_name);
+				cptr = it->first.c_str();
+				get_elts_in_species(&cptr, coef);
 			}
 		}
 	}
@@ -1213,15 +1206,13 @@ extend_tally_table(void)
 	 * increments number of columns
 	 */
 	tally_table = (struct tally *) PHRQ_realloc((void *) tally_table,
-		((size_t)count_tally_table_columns + 1) * sizeof(struct tally));
+		(count_tally_table_columns + 1) * sizeof(struct tally));
 	if (tally_table == NULL)
 		malloc_error();
 	for (i = 0; i < 3; i++)
 	{
-		tally_table[count_tally_table_columns].total[i] =
-			(struct tally_buffer *)
-			PHRQ_malloc((size_t) (count_tally_table_rows) *
-						sizeof(struct tally_buffer));
+		tally_table[count_tally_table_columns].total[i] = (struct tally_buffer *)
+			PHRQ_malloc(count_tally_table_rows * sizeof(struct tally_buffer));
 		if (tally_table[count_tally_table_columns].total[i] == NULL)
 			malloc_error();
 		for (j = 0; j < count_tally_table_rows; j++)
@@ -1236,7 +1227,6 @@ extend_tally_table(void)
 	tally_table[count_tally_table_columns].type = UnKnown;
 	tally_table[count_tally_table_columns].add_formula = NULL;
 	tally_table[count_tally_table_columns].moles = 0.0;
-	tally_table[count_tally_table_columns].formula = NULL;
 	count_tally_table_columns++;
 	return (OK);
 }

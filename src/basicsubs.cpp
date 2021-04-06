@@ -644,15 +644,15 @@ calc_logk_p(const char *name)
 
 	if (phase_ptr != NULL)
 	{		
-		struct reaction *reaction_ptr;
+		CReaction* reaction_ptr;
 		if (phase_ptr->replaced)
-			reaction_ptr = phase_ptr->rxn_s;
+			reaction_ptr = &phase_ptr->rxn_s;
 		else
-			reaction_ptr = phase_ptr->rxn;
+			reaction_ptr = &phase_ptr->rxn;
 		/*
 		*   Print saturation index
 		*/
-		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
 			phase_ptr->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 			mu_terms_in_logk = true;
@@ -684,7 +684,7 @@ calc_logk_s(const char *name)
 	{
 		//if (s_ptr->logk[vm_tc])
 		/* calculate delta_v for the reaction... */
-			s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
+			s_ptr->logk[delta_v] = calc_delta_v(*&s_ptr->rxn, false);
 		for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
@@ -722,7 +722,7 @@ dh_bdot(const char* name)
 	char token[MAX_LENGTH];
 	struct species* s_ptr;
 	double b = -999.99;
-	if (llnl_count_temp > 0)
+	if (llnl_temp.size() > 0)
 	{
 		b = bdot_llnl;
 	}
@@ -753,15 +753,15 @@ calc_deltah_p(const char* name)
 
 	if (phase_ptr != NULL)
 	{
-		struct reaction* reaction_ptr;
+		CReaction* reaction_ptr;
 		if (phase_ptr->replaced)
-			reaction_ptr = phase_ptr->rxn_s;
+			reaction_ptr = &phase_ptr->rxn_s;
 		else
-			reaction_ptr = phase_ptr->rxn;
+			reaction_ptr = &phase_ptr->rxn;
 		/*
 		*   Print saturation index
 		*/
-		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
 			phase_ptr->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 			mu_terms_in_logk = true;
@@ -793,7 +793,7 @@ calc_deltah_s(const char* name)
 	if (s_ptr != NULL)
 	{
 		/* calculate delta_v for the reaction... */
-		s_ptr->logk[delta_v] = calc_delta_v(s_ptr->rxn, false);
+		s_ptr->logk[delta_v] = calc_delta_v(*&s_ptr->rxn, false);
 		for (i = 0; i < MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
@@ -814,7 +814,7 @@ calc_surface_charge(const char *surface_name)
 /* ---------------------------------------------------------------------- */
 {
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 	int i, j, k;
 	LDBLE charge;
 	struct rxn_token_temp *token_ptr;
@@ -831,7 +831,7 @@ calc_surface_charge(const char *surface_name)
 		 *   Match surface_name
 		 */
 		count_trxn = 0;
-		trxn_add(s_x[k]->rxn_s, 1.0, FALSE);	/* rxn_s is set in tidy_model */
+		trxn_add(s_x[k]->rxn_s, 1.0, false);	/* rxn_s is set in tidy_model */
 		for (i = 1; i < count_trxn; i++)
 		{
 			token_ptr = &(trxn.token[i]);
@@ -840,8 +840,8 @@ calc_surface_charge(const char *surface_name)
 			master_ptr = trxn.token[i].s->primary;
 			strcpy(token, master_ptr->elt->name);
 			replace("_", " ", token);
-			ptr = token;
-			copy_token(token1, &ptr, &j);
+			cptr = token;
+			copy_token(token1, &cptr, &j);
 			if (strcmp(surface_name, token1) == 0)
 			{
 				charge += s_x[k]->moles * s_x[k]->z;
@@ -1288,9 +1288,9 @@ equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name)
 	if (s_ptr != NULL && (s_ptr->type == EX || s_ptr->type == SURF))
 	{
 		*eq = s_ptr->equiv;
-		struct elt_list *next_elt;
+		const struct elt_list *next_elt;
 		LDBLE tot=0.0;
-		for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;	next_elt++)
+		for (next_elt = &s_ptr->next_elt[0]; next_elt->elt != NULL;	next_elt++)
 		{
 			if (next_elt->elt->master->s->type == SURF ||
 				next_elt->elt->master->s->type == EX)
@@ -1486,7 +1486,7 @@ get_calculate_value(const char *name)
 	if (calculate_value_ptr->new_def == TRUE)
 	{
 		if (interp.basic_compile
-			(calculate_value_ptr->commands, 
+			(calculate_value_ptr->commands.c_str(), 
 			&calculate_value_ptr->linebase,
 			&calculate_value_ptr->varbase,
 			&calculate_value_ptr->loopbase) != 0)
@@ -1735,7 +1735,7 @@ saturation_ratio(const char *phase_name)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1767,7 +1767,7 @@ saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			*iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1787,7 +1787,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 {
 	int i;
 	LDBLE tot;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
@@ -1805,7 +1805,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 			}
 			else
 			{
-				for (next_elt = phase_ptr->next_elt;
+				for (next_elt = &phase_ptr->next_elt[0];
 					 next_elt->elt != NULL; next_elt++)
 				{
 					if (strcmp(next_elt->elt->name, name) == 0)
@@ -1827,7 +1827,7 @@ sum_match_species(const char *mytemplate, const char *name)
 {
 	int i;
 	LDBLE tot;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	count_elts = 0;
 	paren_count = 0;
@@ -1856,7 +1856,7 @@ sum_match_species(const char *mytemplate, const char *name)
 		}
 		else
 		{
-			for (next_elt = s_ptr->next_elt; next_elt->elt != NULL;
+			for (next_elt = &s_ptr->next_elt[0]; next_elt->elt != NULL;
 					next_elt++)
 			{
 				if (strcmp(next_elt->elt->name, name) == 0)
@@ -1878,7 +1878,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE tot;
-	struct elt_list *next_elt;
+	const struct elt_list *next_elt;
 
 	if (use.Get_ss_assemblage_in() == FALSE || use.Get_ss_assemblage_ptr() == NULL)
 		return (0);
@@ -1905,7 +1905,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 				{
 					int l;
 					struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
-					for (next_elt = phase_ptr->next_elt; next_elt->elt != NULL; next_elt++)
+					for (next_elt = &phase_ptr->next_elt[0]; next_elt->elt != NULL; next_elt++)
 					{
 						if (strcmp(next_elt->elt->name, name) == 0)
 						{
@@ -1966,9 +1966,8 @@ match_elts_in_species(const char *name, const char *mytemplate)
  */
 	int i, i1, l, case_no, match;
 	char c, c1;
-	char *ptr, *ptr1;
+	const char* cptr, *ptr1;
 	LDBLE d;
-	char element[MAX_LENGTH];
 	char token[MAX_LENGTH], equal_list[MAX_LENGTH]; 
 	char token1[MAX_LENGTH], template1[MAX_LENGTH], equal_list1[MAX_LENGTH];
 	char str[2];
@@ -1993,11 +1992,11 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		replace("--", "-2", token);
 	}
 
-	ptr = token;
+	cptr = token;
 	std::vector< std::pair<std::string, LDBLE> > match_vector;
-	while ((c = *ptr) != '\0')
+	while ((c = *cptr) != '\0')
 	{
-		c1 = *(ptr + 1);
+		c1 = *(cptr + 1);
 		str[0] = c;
 		str[1] = '\0';
 /*
@@ -2008,11 +2007,12 @@ match_elts_in_species(const char *name, const char *mytemplate)
 			/*
 			 *   Get new element and subscript
 			 */
-			if (get_elt(&ptr, element, &l) == ERROR)
+			std::string element;
+			if (get_elt(&cptr, element, &l) == ERROR)
 			{
 				return (ERROR);
 			}
-			if (get_num(&ptr, &d) == ERROR)
+			if (get_num(&cptr, &d) == ERROR)
 			{
 				return (ERROR);
 			}
@@ -2023,7 +2023,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		{
 			std::pair<std::string, LDBLE> pr(str, 1.0);
 			match_vector.push_back(pr);		
-			ptr += 1;
+			cptr += 1;
 		}
 	}
 	/*
@@ -2031,8 +2031,8 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	 */
 	strcpy(template1, mytemplate);
 	squeeze_white(template1);
-	ptr = template1;
-	while (extract_bracket(&ptr, equal_list) == TRUE)
+	cptr = template1;
+	while (extract_bracket(&cptr, equal_list) == TRUE)
 	{
 		replace("{", "", equal_list);
 		replace("}", "", equal_list);
@@ -2102,8 +2102,8 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	 */
 	strcpy(template1, mytemplate);
 	squeeze_white(template1);
-	ptr = template1;
-	while (extract_bracket(&ptr, equal_list) == TRUE)
+	cptr = template1;
+	while (extract_bracket(&cptr, equal_list) == TRUE)
 	{
 		strcpy(equal_list1, equal_list);
 		replace("{", "", equal_list);
@@ -2124,7 +2124,7 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		}
 		replace(equal_list1, elt_name.c_str(), template1);
 		squeeze_white(template1);
-		ptr = template1;
+		cptr = template1;
 	}
 	/*
 	 *   Compare string
@@ -2160,13 +2160,13 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		break;
 	case 1:
 		/* leading wild card */
-		if ((ptr = strstr(token, template1)) == NULL)
+		if ((cptr = strstr(token, template1)) == NULL)
 		{
 			match = FALSE;
 		}
 		else
 		{
-			if (strcmp(ptr, template1) == 0)
+			if (strcmp(cptr, template1) == 0)
 				match = TRUE;
 		}
 		break;
@@ -2186,14 +2186,15 @@ match_elts_in_species(const char *name, const char *mytemplate)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-extract_bracket(char **string, char *bracket_string)
+extract_bracket(const char **string, char *bracket_string)
 /* ---------------------------------------------------------------------- */
 {
-	char *ptr, *ptr1;
+	const char* cptr;
+	char *ptr1;
 
-	if ((ptr = strstr(*string, "{")) == NULL)
+	if ((cptr = strstr(*string, "{")) == NULL)
 		return (FALSE);
-	strcpy(bracket_string, ptr);
+	strcpy(bracket_string, cptr);
 	if ((ptr1 = strstr(bracket_string, "}")) == NULL)
 	{
 		error_string = sformatf(
@@ -2272,8 +2273,8 @@ surf_total(const char *total_name, const char *surface_name)
 
 			//strcpy(token, s_x[j]->next_elt[i].elt->name);
 			//replace("_", " ", token);
-			//ptr = token;
-			//copy_token(name, &ptr, &k);
+			//cptr = token;
+			//copy_token(name, &cptr, &k);
 			token = s_x[j]->next_elt[i].elt->name;
 			replace("_", " ", token);
 			std::string::iterator b = token.begin();
@@ -2292,7 +2293,7 @@ surf_total(const char *total_name, const char *surface_name)
 		struct rxn_token *rxn_ptr;
 		if (s_x[j]->mole_balance == NULL)
 		{
-			for (rxn_ptr = s_x[j]->rxn_s->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+			for (rxn_ptr = &s_x[j]->rxn_s.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				if (redox && rxn_ptr->s->secondary)
 				{
@@ -2360,7 +2361,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 	int i, j, k;
 	char name[MAX_LENGTH], token[MAX_LENGTH];
 	char surface_name_local[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 
 	if (use.Get_surface_ptr() == NULL)
 		return (0);
@@ -2374,8 +2375,8 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 			continue;
 		strcpy(token, x[j]->master[0]->elt->name);
 		replace("_", " ", token);
-		ptr = token;
-		copy_token(name, &ptr, &k);
+		cptr = token;
+		copy_token(name, &cptr, &k);
 		if (surface_name != NULL)
 		{
 			if (strcmp(name, surface_name) == 0)
@@ -2404,8 +2405,8 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 
 			strcpy(token, s_x[j]->next_elt[i].elt->name);
 			replace("_", " ", token);
-			ptr = token;
-			copy_token(name, &ptr, &k);
+			cptr = token;
+			copy_token(name, &cptr, &k);
 			if (strcmp(name, surface_name_local) == 0)
 			{
 /*
@@ -2437,7 +2438,6 @@ total(const char *total_name)
 {
 	struct master *master_ptr;
 	LDBLE t;
-	int i;
 
 	if (strcmp(total_name, "H") == 0)
 	{
@@ -2483,7 +2483,7 @@ total(const char *total_name)
 		else
 		{
 			t = 0;
-			for (i = master_ptr->number + 1;
+			for (size_t i = master_ptr->number + 1;
 				 (i < (int)master.size() && master[i]->elt->primary == master_ptr);
 				 i++)
 			{
@@ -2507,7 +2507,6 @@ total_mole(const char *total_name)
 {
 	struct master *master_ptr;
 	LDBLE t;
-	int i;
 
 	if (strcmp(total_name, "H") == 0)
 	{
@@ -2553,8 +2552,8 @@ total_mole(const char *total_name)
 		else
 		{
 			t = 0;
-			for (i = master_ptr->number + 1;
-				 (i < (int)master.size() && master[i]->elt->primary == master_ptr);
+			for (size_t i = master_ptr->number + 1;
+				 (i < master.size() && master[i]->elt->primary == master_ptr);
 				 i++)
 			{
 				t += master[i]->total;
@@ -2737,7 +2736,7 @@ system_total(const char *total_name, LDBLE * count, char ***names,
 	else if (sys.size() > 1)
 	{
 		qsort(&sys[0], sys.size(),
-			(size_t)sizeof(struct system_species), system_species_compare_name);
+			sizeof(struct system_species), system_species_compare_name);
 	}
 	/*
 	 * malloc space
@@ -2820,10 +2819,8 @@ kinetics_formula(std::string kin_name, cxxNameDouble &stoichiometry)
 						// add formula
 						std::string name = it->first;
 						LDBLE coef = it->second;
-						char * temp_name = string_duplicate(name.c_str());
-						char *ptr = temp_name;
-						get_elts_in_species(&ptr, coef);
-						free_check_null(temp_name);
+						const char* cptr = &name[0];
+						get_elts_in_species(&cptr, coef);
 					}
 				}
 				formula.append(kin_name);
@@ -2897,7 +2894,7 @@ int Phreeqc::
 system_total_elements(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j;
+	int i;
 	LDBLE t;
 	char name[MAX_LENGTH];
 	struct master *master_ptr;
@@ -2972,7 +2969,7 @@ system_total_elements(void)
 			else
 			{
 				t = 0;
-				for (j = master_ptr->number + 1;
+				for (size_t j = master_ptr->number + 1;
 					 master[j]->elt->primary == master_ptr; j++)
 				{
 					t += master[j]->total;
@@ -3027,7 +3024,7 @@ system_total_si(void)
  *   Print saturation index
  */
 		iap = 0.0;
-		for (rxn_ptr = phases[i]->rxn_x->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phases[i]->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -3496,7 +3493,7 @@ system_total_elt_secondary(const char *total_name)
 	{
 		count_elts = 0;
 		paren_count = 0;
-		if (s_x[i]->next_secondary != NULL)
+		if (s_x[i]->next_secondary.size() != 0)
 		{
 			add_elt_list(s_x[i]->next_secondary, s_x[i]->moles);
 		}
@@ -3569,7 +3566,7 @@ system_total_elt_secondary(const char *total_name)
 			{
 				count_elts = 0;
 				paren_count = 0;
-				if (s_x[i]->next_secondary != NULL)
+				if (s_x[i]->next_secondary.size() != 0)
 				{
 					add_elt_list(s_x[i]->next_secondary, 1);
 				}
@@ -3782,7 +3779,7 @@ solution_sum_secondary(const char *total_name)
 			continue;
 		count_elts = 0;
 		paren_count = 0;
-		if (s_x[i]->next_secondary != NULL)
+		if (s_x[i]->next_secondary.size() != 0)
 		{
 			add_elt_list(s_x[i]->next_secondary, s_x[i]->moles);
 		}
@@ -3986,7 +3983,7 @@ iso_unit(const char *total_name)
 }
 
 int Phreeqc::
-basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
+basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase)
 {
 	return this->basic_interpreter->basic_compile(commands, lnbase, vbase, lpbase);
 }
@@ -4001,6 +3998,7 @@ void Phreeqc::
 basic_free(void)
 {
 	delete this->basic_interpreter;
+	this->basic_interpreter = NULL;
 }
 
 #if defined(SWIG) || defined(SWIG_IPHREEQC)

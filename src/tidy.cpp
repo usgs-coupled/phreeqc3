@@ -455,7 +455,7 @@ check_species_input(void)
 	return_value = OK;
 	for (i = 0; i < (int)s.size(); i++)
 	{
-		if (s[i]->next_elt == NULL)
+		if (s[i]->next_elt.size() == 0)
 		{
 			input_error++;
 			return_value = ERROR;
@@ -464,7 +464,7 @@ check_species_input(void)
 					s[i]->name);
 			error_msg(error_string, CONTINUE);
 		}
-		if (s[i]->rxn == NULL)
+		if (s[i]->rxn.token.size() == 0)
 		{
 			input_error++;
 			return_value = ERROR;
@@ -475,8 +475,8 @@ check_species_input(void)
 		}
 		else
 		{
-			select_log_k_expression(s[i]->logk, s[i]->rxn->logk);
-			add_other_logk(s[i]->rxn->logk, s[i]->add_logk);
+			select_log_k_expression(s[i]->logk, s[i]->rxn.logk);
+			add_other_logk(s[i]->rxn.logk, s[i]->add_logk);
 		}
 	}
 	return (return_value);
@@ -569,7 +569,7 @@ add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 			input_error++;
 			error_string = sformatf(
 					"Could not find named temperature expression, %s\n",
-					token);
+					token.c_str());
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -634,7 +634,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 			input_error++;
 			error_string = sformatf(
 					"Could not find named temperature expression, %s\n",
-					token);
+					token.c_str());
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -663,19 +663,17 @@ coef_in_master(struct master * master_ptr)
 {
 	int l;
 	LDBLE coef;
-	char *ptr;
-	char elt_name[MAX_LENGTH];
-	struct elt_list *next_elt;
+	const char* cptr;
+	std::string elt_name;
+	const struct elt_list *next_elt;
 
 	coef = 0.0;
-	char * temp_name = string_duplicate(master_ptr->elt->name);
-	ptr = temp_name;
-	get_elt(&ptr, elt_name, &l);
-	free_check_null(temp_name);
-	for (next_elt = master_ptr->s->next_elt; next_elt->elt != NULL;
+	cptr = master_ptr->elt->name;
+	get_elt(&cptr, elt_name, &l);
+	for (next_elt = &master_ptr->s->next_elt[0]; next_elt->elt != NULL;
 		 next_elt++)
 	{
-		if (strcmp(elt_name, next_elt->elt->name) == 0)
+		if (strcmp(elt_name.c_str(), next_elt->elt->name) == 0)
 		{
 			coef = next_elt->coef;
 			break;
@@ -734,7 +732,7 @@ rewrite_eqn_to_secondary(void)
 				&& token_ptr->s->primary == NULL)
 			{
 				coef = token_ptr->coef;
-				trxn_add(token_ptr->s->rxn, coef, TRUE);
+				trxn_add(token_ptr->s->rxn, coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -813,12 +811,12 @@ replace_solids_gases(void)
 				   output_msg(sformatf( "Reaction to add.\n"));
 				   rxn_print(phase_ptr->rxn);
 				 */
-				trxn_add_phase(phase_ptr->rxn, coef, FALSE);
+				trxn_add_phase(phase_ptr->rxn, coef, false);
 
 				/* remove solid/gas from trxn list */
-				trxn.token[i].name = phase_ptr->rxn->token[0].name;
-				trxn.token[i].s = phase_ptr->rxn->token[0].s;
-				trxn.token[i].coef = -coef * phase_ptr->rxn->token[0].coef;
+				trxn.token[i].name = phase_ptr->rxn.token[0].name;
+				trxn.token[i].s = phase_ptr->rxn.token[0].s;
+				trxn.token[i].coef = -coef * phase_ptr->rxn.token[0].coef;
 				repeat = TRUE;
 				replaced = TRUE;
 				/* debug
@@ -883,7 +881,7 @@ rewrite_eqn_to_primary(void)
 		{
 			if (trxn.token[j].s->primary == NULL)
 			{
-				trxn_add(trxn.token[j].s->rxn, trxn.token[j].coef, TRUE);
+				trxn_add(trxn.token[j].s->rxn, trxn.token[j].coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -1104,10 +1102,9 @@ tidy_inverse(void)
 	int i, j, k, l;
 	int count_in;
 	LDBLE value;
-	struct inv_elts *inv_elts;
 	struct master *master_ptr;
 	struct master *master_alk_ptr;
-	struct elt_list *elt_list_ptr;
+	const struct elt_list *elt_list_ptr;
 	master_alk_ptr = master_bsearch("Alkalinity");
 	for (i = 0; i < count_inverse; i++)
 	{
@@ -1116,62 +1113,45 @@ tidy_inverse(void)
 /*
  *   Set default uncertainties for all solutions, if necessary
  */
-		if (inverse[i].count_uncertainties < inverse[i].count_solns)
+		if (inverse[i].uncertainties.size() < inverse[i].count_solns)
 		{
-			inverse[i].uncertainties =
-				(LDBLE *) PHRQ_realloc(inverse[i].uncertainties,
-									   (size_t) inverse[i].count_solns *
-									   sizeof(LDBLE));
-			if (inverse[i].uncertainties == NULL)
-				malloc_error();
-			for (j = inverse[i].count_uncertainties;
-				 j < inverse[i].count_solns; j++)
+			size_t count = inverse[i].uncertainties.size();
+			double value = (count > 0) ? inverse[i].uncertainties.back() : 0.05;
+			inverse[i].uncertainties.resize(inverse[i].count_solns);
+			for (size_t j = count; j < inverse[i].count_solns; j++)
 			{
-				inverse[i].uncertainties[j] =
-					inverse[i].uncertainties[inverse[i].count_uncertainties -
-											 1];
+				inverse[i].uncertainties[j] = value;
 			}
 		}
 /*
  *   Set default ph uncertainties for all solutions, if necessary
  */
-		if (inverse[i].count_ph_uncertainties < inverse[i].count_solns)
+		if (inverse[i].ph_uncertainties.size() < inverse[i].count_solns)
 		{
-			inverse[i].ph_uncertainties =
-				(LDBLE *) PHRQ_realloc(inverse[i].ph_uncertainties,
-									   (size_t) inverse[i].count_solns *
-									   sizeof(LDBLE));
-			if (inverse[i].ph_uncertainties == NULL)
-				malloc_error();
-			for (j = inverse[i].count_ph_uncertainties;
-				 j < inverse[i].count_solns; j++)
+			size_t count = inverse[i].ph_uncertainties.size();
+			double value = (count > 0) ? inverse[i].ph_uncertainties.back() : 0.05;
+			inverse[i].ph_uncertainties.resize(inverse[i].count_solns);
+			for (size_t j = count; j < inverse[i].count_solns; j++)
 			{
-				inverse[i].ph_uncertainties[j] =
-					inverse[i].ph_uncertainties[inverse[i].
-												count_ph_uncertainties - 1];
+				inverse[i].ph_uncertainties[j] = value;
 			}
 		}
 /*
  *   Set default force for all solutions
  */
-		if (inverse[i].count_force_solns < inverse[i].count_solns)
+		if (inverse[i].force_solns.size() < inverse[i].count_solns)
 		{
-			inverse[i].force_solns =
-				(int *) PHRQ_realloc(inverse[i].force_solns,
-									 (size_t) inverse[i].count_solns *
-									 sizeof(int));
-			if (inverse[i].force_solns == NULL)
-				malloc_error();
-			for (j = inverse[i].count_force_solns; j < inverse[i].count_solns;
-				 j++)
+			size_t count = inverse[i].force_solns.size();
+			inverse[i].force_solns.resize(inverse[i].count_solns);
+			for (size_t j = count; j < inverse[i].count_solns; j++)
 			{
-				inverse[i].force_solns[j] = FALSE;
+				inverse[i].force_solns[j] = false;
 			}
 		}
 /*
  *   Find master species for element, set uncertainties
  */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			inverse[i].elts[j].master =
 				master_bsearch_primary(inverse[i].elts[j].name);
@@ -1183,13 +1163,9 @@ tidy_inverse(void)
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
-			inverse[i].elts[j].uncertainties =
-				(LDBLE *) PHRQ_realloc(inverse[i].elts[j].uncertainties,
-									   (size_t) inverse[i].count_solns *
-									   sizeof(LDBLE));
-			if (inverse[i].elts[j].uncertainties == NULL)
-				malloc_error();
-			if (inverse[i].elts[j].count_uncertainties == 0)
+			size_t count_uncertainties = inverse[i].elts[j].uncertainties.size();
+			inverse[i].elts[j].uncertainties.resize((size_t)inverse[i].count_solns);
+			if (count_uncertainties == 0)
 			{
 /* use default uncertainties for element */
 				for (k = 0; k < inverse[i].count_solns; k++)
@@ -1198,15 +1174,11 @@ tidy_inverse(void)
 						inverse[i].uncertainties[k];
 				}
 			}
-			else if (inverse[i].elts[j].count_uncertainties <
-					 inverse[i].count_solns)
+			else if (count_uncertainties < inverse[i].count_solns)
 			{
 /* use input uncertainties, fill in any missing at end */
-				value =
-					inverse[i].elts[j].uncertainties[inverse[i].elts[j].
-													 count_uncertainties - 1];
-				for (k = inverse[i].elts[j].count_uncertainties;
-					 k < inverse[i].count_solns; k++)
+				value = inverse[i].elts[j].uncertainties[count_uncertainties - 1];
+				for (size_t k = count_uncertainties; k < inverse[i].count_solns; k++)
 				{
 					inverse[i].elts[j].uncertainties[k] = value;
 				}
@@ -1217,7 +1189,7 @@ tidy_inverse(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		for (j = 0; j < inverse[i].count_phases; j++)
+		for (j = 0; j < inverse[i].phases.size(); j++)
 		{
 			inverse[i].phases[j].phase =
 				phase_bsearch(inverse[i].phases[j].name, &k, FALSE);
@@ -1232,9 +1204,9 @@ tidy_inverse(void)
 /*
  *   Find isotope elements
  */
-			if (inverse[i].phases[j].count_isotopes > 0)
+			if (inverse[i].phases[j].isotopes.size() > 0)
 			{
-				for (k = 0; k < inverse[i].phases[j].count_isotopes; k++)
+				for (k = 0; k < inverse[i].phases[j].isotopes.size(); k++)
 				{
 					inverse[i].phases[j].isotopes[k].primary = NULL;
 					inverse[i].phases[j].isotopes[k].master = NULL;
@@ -1264,7 +1236,7 @@ tidy_inverse(void)
 					inverse[i].phases[j].isotopes[k].primary = master_ptr;
 					inverse[i].phases[j].isotopes[k].master = master_ptr;
 					/* find coefficient for element */
-					for (elt_list_ptr = inverse[i].phases[j].phase->next_elt;
+					for (elt_list_ptr = &inverse[i].phases[j].phase->next_elt[0];
 						 elt_list_ptr->elt != NULL; elt_list_ptr++)
 					{
 						if (elt_list_ptr->elt == master_ptr->elt)
@@ -1285,9 +1257,9 @@ tidy_inverse(void)
 						continue;
 					}
 				}
-				qsort(inverse[i].phases[j].isotopes,
-					  (size_t) inverse[i].phases[j].count_isotopes,
-					  (size_t) sizeof(struct isotope), isotope_compare);
+				qsort(&inverse[i].phases[j].isotopes[0],
+					  inverse[i].phases[j].isotopes.size(),
+					  sizeof(struct isotope), isotope_compare);
 			}
 			add_elt_list(inverse[i].phases[j].phase->next_elt, 1.0);
 
@@ -1308,7 +1280,7 @@ tidy_inverse(void)
 			elt_list[j].elt->master->in = TRUE;
 		}
 		/* Include all input elements */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			inverse[i].elts[j].master->in = TRUE;
 		}
@@ -1364,11 +1336,8 @@ tidy_inverse(void)
 /*
  *   Save list of master species in inv_elts structure
  */
-		inv_elts =
-			(struct inv_elts *) PHRQ_malloc((size_t) (count_in) *
-											sizeof(struct inv_elts));
-		if (inv_elts == NULL)
-			malloc_error();
+		std::vector<struct inv_elts> inv_elts;
+		inv_elts.resize(count_in);
 		count_in = 0;
 		for (j = 0; j < (int)master.size(); j++)
 		{
@@ -1380,11 +1349,7 @@ tidy_inverse(void)
 				/* set master */
 				inv_elts[count_in].master = master[j];
 				/* alloc uncertainties and set default */
-				inv_elts[count_in].uncertainties =
-					(LDBLE *) PHRQ_malloc((size_t) inverse[i].count_solns *
-										  sizeof(LDBLE));
-				if (inv_elts[count_in].uncertainties == NULL)
-					malloc_error();
+				inv_elts[count_in].uncertainties.resize((size_t)inverse[i].count_solns);
 				for (k = 0; k < inverse[i].count_solns; k++)
 				{
 					inv_elts[count_in].uncertainties[k] =
@@ -1405,7 +1370,7 @@ tidy_inverse(void)
  *   copy in input uncertainties 
  */
 		/* copy primary redox to all secondary redox */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			master_ptr = master_bsearch(inverse[i].elts[j].name);
 			if (master_ptr == NULL)
@@ -1430,11 +1395,10 @@ tidy_inverse(void)
 					}
 				}
 			}
-			inverse[i].elts[j].uncertainties =
-				(LDBLE *) free_check_null(inverse[i].elts[j].uncertainties);
+			inverse[i].elts[j].uncertainties.clear();
 		}
 		/* copy masters that are not primary redox */
-		for (j = 0; j < inverse[i].count_elts; j++)
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 			master_ptr = master_bsearch(inverse[i].elts[j].name);
 			if (master_ptr == NULL)
@@ -1460,17 +1424,15 @@ tidy_inverse(void)
 					break;
 				}
 			}
-			inverse[i].elts[j].uncertainties =
-				(LDBLE *) free_check_null(inverse[i].elts[j].uncertainties);
+			inverse[i].elts[j].uncertainties.clear();
 		}
 /*
  *   replace elts in inverse struct
  */
-		inverse[i].elts =
-			(struct inv_elts *) free_check_null(inverse[i].elts);
+		inverse[i].elts.clear();
 		inverse[i].elts = inv_elts;
-		inverse[i].count_elts = count_in;
-		for (j = 0; j < inverse[i].count_elts; j++)
+		inverse[i].elts.resize(count_in);
+		for (j = 0; j < inverse[i].elts.size(); j++)
 		{
 /* debug
 			output_msg(sformatf( "\t%d\t%s", j, inverse[i].elts[j].master->elt->name));
@@ -1496,10 +1458,10 @@ tidy_phases(void)
 	 */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
-		select_log_k_expression(phases[i]->logk, phases[i]->rxn->logk);
-		add_other_logk(phases[i]->rxn->logk, phases[i]->add_logk);
-		phases[i]->rxn->token[0].name = phases[i]->name;
-		phases[i]->rxn->token[0].s = NULL;
+		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
+		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
+		phases[i]->rxn.token[0].name = phases[i]->name;
+		phases[i]->rxn.token[0].s = NULL;
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -1510,7 +1472,7 @@ tidy_phases(void)
 		 *   Rewrite equation
 		 */
 		count_trxn = 0;
-		trxn_add_phase(phases[i]->rxn, 1.0, FALSE);
+		trxn_add_phase(phases[i]->rxn, 1.0, false);
 		trxn.token[0].name = phases[i]->name;
 		/* debug 
 		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name));
@@ -1518,18 +1480,10 @@ tidy_phases(void)
 		 */
 		replaced = replace_solids_gases();
 		phases[i]->replaced = replaced;
-		/*  save rxn */
-		/*
-		rxn_free(phases[i]->rxn);
-		phases[i]->rxn = rxn_alloc(count_trxn + 1);
-		trxn_copy(phases[i]->rxn);
-		*/
 		/*  save rxn_s */
 		trxn_reverse_k();
 		rewrite_eqn_to_secondary();
 		trxn_reverse_k();
-		rxn_free(phases[i]->rxn_s);
-		phases[i]->rxn_s = rxn_alloc(count_trxn + 1);
 		trxn_copy(phases[i]->rxn_s);
 		/*
 		 *   Check equation
@@ -1563,7 +1517,7 @@ tidy_pp_assemblage(void)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE coef;
-	char *ptr;
+	const char* cptr;
 /*
  *   Find pointers for pure phases
  */
@@ -1608,20 +1562,18 @@ tidy_pp_assemblage(void)
 			}
 			if (it->second.Get_add_formula().size() > 0)
 			{
-				int first = count_elts;
+				size_t first = count_elts;
 				phase_ptr =	phase_bsearch(it->second.Get_add_formula().c_str(), &k, FALSE);
 				if (phase_ptr != NULL)
 				{
 					it->second.Set_add_formula(phase_ptr->formula);
 				}
 				{
-					char * temp_add = string_duplicate(it->second.Get_add_formula().c_str());
-					ptr = temp_add;
-					get_elts_in_species(&ptr, coef);
-					free_check_null(temp_add);
+					cptr = it->second.Get_add_formula().c_str();
+					get_elts_in_species(&cptr, coef);
 				}
 				/* check that all elements are in the database */
-				for (int l = first; l < count_elts; l++)
+				for (size_t l = first; l < count_elts; l++)
 				{
 					if (elt_list[l].elt->master == NULL)
 					{
@@ -2270,14 +2222,6 @@ tidy_punch(void)
 			}
 		}
 		fpunchf_heading("\n");
-		//if (punch.user_punch == TRUE)
-		//{
-		//	for (i = 0; i < user_punch_count_headings; i++)
-		//	{
-		//		fpunchf_heading(sformatf("%*s\t", l, user_punch_headings[i]));
-		//	}
-		//}
-		//fpunchf_heading("\n");
 
 		current_selected_output->Set_new_def(false);
 		pr.punch = punch_save;
@@ -2299,7 +2243,8 @@ tidy_species(void)
 {
 	int i, j;
 	struct master *master_ptr;
-	char c, *ptr;
+	char c;
+	const char* cptr;
 /*
  *   Make sure species pointers are ok
  */
@@ -2330,11 +2275,10 @@ tidy_species(void)
 	}
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		char * temp_name = string_duplicate(master[i]->elt->name);
-		ptr = temp_name;
-		if (ptr[0] != '[')
+		cptr = master[i]->elt->name;
+		if (cptr[0] != '[')
 		{
-			while ((c = (int) *(++ptr)) != '\0')
+			while ((c = (int) *(++cptr)) != '\0')
 			{
 				if (isupper((int) c))
 				{
@@ -2347,7 +2291,6 @@ tidy_species(void)
 				}
 			}
 		}
-		free_check_null(temp_name);
 		/* store sequence number in master structure */
 		master[i]->number = i;
 		if (strcmp(master[i]->elt->name, "Alkalinity") != 0)
@@ -2386,16 +2329,14 @@ tidy_species(void)
 		count_trxn = 0;
 		if (master[i]->s->primary != NULL)
 		{
-			trxn_add(master[i]->s->rxn, 1.0, FALSE);
-			trxn_add(master[i]->s->rxn, -1.0, TRUE);
+			trxn_add(master[i]->s->rxn, 1.0, false);
+			trxn_add(master[i]->s->rxn, -1.0, true);
 		}
 		else
 		{
-			trxn_add(master[i]->s->rxn, 1.0, FALSE);
+			trxn_add(master[i]->s->rxn, 1.0, false);
 			rewrite_eqn_to_primary();
 		}
-		rxn_free(master[i]->rxn_primary);
-		master[i]->rxn_primary = rxn_alloc(count_trxn + 1);
 		trxn_copy(master[i]->rxn_primary);
 		master[i]->coef = coef_in_master(master[i]);
 	}
@@ -2407,16 +2348,16 @@ tidy_species(void)
 		count_trxn = 0;
 		if (s[i]->primary != NULL || s[i]->secondary != NULL)
 		{
-			trxn_add(s[i]->rxn, 1.0, FALSE);
-			trxn_add(s[i]->rxn, -1.0, TRUE);
+			trxn_add(s[i]->rxn, 1.0, false);
+			trxn_add(s[i]->rxn, -1.0, true);
 		}
 		else
 		{
-			trxn_add(s[i]->rxn, 1.0, FALSE);
+			trxn_add(s[i]->rxn, 1.0, false);
 			rewrite_eqn_to_secondary();
 		}
-		rxn_free(s[i]->rxn_s);
-		s[i]->rxn_s = rxn_alloc(count_trxn + 1);
+		//rxn_free(s[i].rxn_s);
+		//s[i].rxn_s = rxn_alloc(count_trxn + 1);
 		trxn_copy(s[i]->rxn_s);
 		/* calculate alkalinity */
 		s[i]->alk = calc_alk(s[i]->rxn_s);
@@ -2495,7 +2436,7 @@ tidy_species(void)
  */
 	for (i = 0; i < (int)s.size(); i++)
 	{
-		if (s[i]->next_secondary != NULL)
+		if (s[i]->next_secondary.size() != 0)
 		{
 			s[i]->h = 0.0;
 			s[i]->o = 0.0;
@@ -2557,11 +2498,11 @@ tidy_species(void)
  *   Changed to be coefficient of exchanger
  */
 			LDBLE exchange_coef = 0.0;
-			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
+			for (j = 1; s[i]->rxn_s.token[j].s != NULL; j++)
 			{
-				if (s[i]->rxn_s->token[j].s->type == EX)
+				if (s[i]->rxn_s.token[j].s->type == EX)
 				{
-					exchange_coef = s[i]->rxn_s->token[j].coef;
+					exchange_coef = s[i]->rxn_s.token[j].coef;
 					break;
 				}
 			}
@@ -2581,11 +2522,11 @@ tidy_species(void)
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
-			for (j = 1; s[i]->rxn_s->token[j].s != NULL; j++)
+			for (j = 1; s[i]->rxn_s.token[j].s != NULL; j++)
 			{
-				if (s[i]->rxn_s->token[j].s->type == SURF)
+				if (s[i]->rxn_s.token[j].s->type == SURF)
 				{
-					surface_coef = s[i]->rxn_s->token[j].coef;
+					surface_coef = s[i]->rxn_s.token[j].coef;
 					break;
 				}
 			}
@@ -2630,7 +2571,7 @@ tidy_surface(void)
  *   After all of data are read, fill in master species for surface comps
  *   Sort surface
  */
-	char *ptr1;
+	const char* cptr1;
 	cxxSurface *surface_ptr;
 	//std::map<int, cxxSurface>::iterator kit;
 	//for (kit = Rxn_surface_map.begin(); kit != Rxn_surface_map.end(); kit++)
@@ -2714,10 +2655,8 @@ tidy_surface(void)
 					count_elts = 0;
 					paren_count = 0;
 					{
-						char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-						ptr1 = temp_formula;
-						get_elts_in_species(&ptr1, comp_ptr->Get_moles());
-						free_check_null(temp_formula);
+						cptr1 = comp_ptr->Get_formula().c_str();
+						get_elts_in_species(&cptr1, comp_ptr->Get_moles());
 					}
 					{
 						cxxNameDouble nd = elt_list_NameDouble();
@@ -2874,61 +2813,25 @@ species_rxn_to_trxn(struct species *s_ptr)
  *   Copy reaction from reaction structure to 
  *   temp reaction structure.
  */
-	int i;
-
-	for (i = 0; s_ptr->rxn->token[i].s != NULL; i++)
+	if (trxn.token.size() <= s_ptr->rxn.token.size())
 	{
-		trxn.token[i].name = s_ptr->rxn->token[i].s->name;
-		trxn.token[i].z = s_ptr->rxn->token[i].s->z;
-		trxn.token[i].s = s_ptr->rxn->token[i].s;
+		trxn.token.resize(s_ptr->rxn.token.size());
+	}
+	count_trxn = 0;
+	for (size_t i = 0; s_ptr->rxn.token[i].s != NULL; i++)
+	{
+		trxn.token[i].name = s_ptr->rxn.token[i].s->name;
+		trxn.token[i].z = s_ptr->rxn.token[i].s->z;
+		trxn.token[i].s = s_ptr->rxn.token[i].s;
 		trxn.token[i].unknown = NULL;
-		trxn.token[i].coef = s_ptr->rxn->token[i].coef;
+		trxn.token[i].coef = s_ptr->rxn.token[i].coef;
 		count_trxn = i + 1;
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
+		if (count_trxn + 1 > trxn.token.size())
+			trxn.token.resize(count_trxn + 1);
 	}
 	return (OK);
 }
 
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-phase_rxn_to_trxn(struct phase *phase_ptr, struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copy reaction from reaction structure to 
- *   temp reaction structure.
- */
-	int i, l;
-	char *ptr;
-	char token[MAX_LENGTH];
-	LDBLE l_z;
-
-	trxn.token[0].name = phase_ptr->formula;
-	/* charge */
-	char * temp_formula = string_duplicate(phase_ptr->formula);
-	ptr = temp_formula;
-	get_token(&ptr, token, &l_z, &l);
-	free_check_null(temp_formula);
-	trxn.token[0].z = l_z;
-	trxn.token[0].s = NULL;
-	trxn.token[0].unknown = NULL;
-	/*trxn.token[0].coef = -1.0; */
-	/* check for leading coefficient of 1.0 for phase did not work */
-	trxn.token[0].coef = phase_ptr->rxn->token[0].coef;
-	for (i = 1; rxn_ptr->token[i].s != NULL; i++)
-	{
-		trxn.token[i].name = rxn_ptr->token[i].s->name;
-		trxn.token[i].z = rxn_ptr->token[i].s->z;
-		trxn.token[i].s = NULL;
-		trxn.token[i].unknown = NULL;
-		trxn.token[i].coef = rxn_ptr->token[i].coef;
-		count_trxn = i + 1;
-		if ((size_t)count_trxn + 1 > trxn.token.size())
-			trxn.token.resize((size_t)count_trxn + 1);
-	}
-	return (OK);
-}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_isotopes(void)
@@ -2940,7 +2843,7 @@ tidy_isotopes(void)
 	LDBLE isotope_number;
 	struct master *master_ptr, *primary_ptr;
 
-	int primary_number = 0;
+	size_t primary_number = 0;
 	primary_ptr = NULL;
 	std::map<int, cxxSolution>::iterator it;
 	for (it = Rxn_solution_map.begin(); it != Rxn_solution_map.end(); it++)
@@ -3026,7 +2929,7 @@ tidy_isotopes(void)
 				/* for primary, fill in ratio for all secondary species */
 				if (master_ptr->primary == TRUE	&& master_ptr->s->secondary != NULL)
 				{
-					for (int k = primary_number + 1; k < (int)master.size(); k++)
+					for (size_t k = primary_number + 1; k < (int)master.size(); k++)
 					{
 						if (master[k]->elt->primary != primary_ptr)
 							break;
@@ -3113,7 +3016,7 @@ tidy_kin_exchange(void)
  */
 {
 	cxxKinetics *kinetics_ptr;
-	char *ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3208,10 +3111,8 @@ tidy_kin_exchange(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, conc);
-				free_check_null(temp_formula);
+				cptr = comp_ref.Get_formula().c_str();
+				get_elts_in_species(&cptr, conc);
 			}
 			comp_ref.Set_totals(elt_list_NameDouble());
 /*
@@ -3233,7 +3134,7 @@ update_kin_exchange(void)
  */
 {
 	cxxKinetics* kinetics_ptr;
-	char* ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3321,10 +3222,8 @@ update_kin_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, 1.0);
-					free_check_null(temp_formula);
+					cptr = comp_ref.Get_formula().c_str();
+					get_elts_in_species(&cptr, 1.0);
 				}
 				cxxNameDouble nd_formula = elt_list_NameDouble();
 				double comp_coef = 0;
@@ -3344,10 +3243,8 @@ update_kin_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, conc);
-					free_check_null(temp_formula);
+					cptr = comp_ref.Get_formula().c_str();
+					get_elts_in_species(&cptr, conc);
 				}
 				comp_ref.Set_totals(elt_list_NameDouble());
 			}
@@ -3365,7 +3262,7 @@ tidy_min_exchange(void)
  */
 {
 	int n, jj;
-	char *ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	//std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3460,10 +3357,8 @@ tidy_min_exchange(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, conc);
-				free_check_null(temp_formula);
+				cptr = comp_ref.Get_formula().c_str();
+				get_elts_in_species(&cptr, conc);
 			}
 			comp_ref.Set_totals(elt_list_NameDouble());
 /*
@@ -3472,19 +3367,15 @@ tidy_min_exchange(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, -comp_ref.Get_phase_proportion());
-				free_check_null(temp_formula);
+				cptr = comp_ref.Get_formula().c_str();
+				get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
 			}
 			int l;
 			struct phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 			if (phase_ptr != NULL)
 			{
-				char * temp_formula = string_duplicate(phase_ptr->formula);
-				ptr = temp_formula;
-				get_elts_in_species(&ptr, 1.0);
-				free_check_null(temp_formula);
+				cptr = phase_ptr->formula;
+				get_elts_in_species(&cptr, 1.0);
 			}
 			else
 			{
@@ -3527,7 +3418,7 @@ update_min_exchange(void)
  */
 {
 	int n, jj;
-	char* ptr;
+	const char* cptr;
 	LDBLE conc;
 
 	std::map<int, cxxExchange>::iterator it = Rxn_exchange_map.begin();
@@ -3615,10 +3506,8 @@ update_min_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, 1.0);
-					free_check_null(temp_formula);
+					cptr = comp_ref.Get_formula().c_str();
+					get_elts_in_species(&cptr, 1.0);
 				}
 				cxxNameDouble nd_formula = elt_list_NameDouble();
 				double comp_coef = 0;
@@ -3638,10 +3527,8 @@ update_min_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, conc);
-					free_check_null(temp_formula);
+					cptr = comp_ref.Get_formula().c_str();
+					get_elts_in_species(&cptr, conc);
 				}
 				comp_ref.Set_totals(elt_list_NameDouble());
 				/*
@@ -3650,19 +3537,15 @@ update_min_exchange(void)
 				count_elts = 0;
 				paren_count = 0;
 				{
-					char* temp_formula = string_duplicate(comp_ref.Get_formula().c_str());
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, -comp_ref.Get_phase_proportion());
-					free_check_null(temp_formula);
+					cptr = comp_ref.Get_formula().c_str();
+					get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
 				}
 				int l;
 				struct phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 				if (phase_ptr != NULL)
 				{
-					char* temp_formula = string_duplicate(phase_ptr->formula);
-					ptr = temp_formula;
-					get_elts_in_species(&ptr, 1.0);
-					free_check_null(temp_formula);
+					cptr = phase_ptr->formula;
+					get_elts_in_species(&cptr, 1.0);
 				}
 				else
 				{
@@ -3810,10 +3693,10 @@ tidy_min_surface(void)
 /*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
 			{
 				char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-				char *ptr = temp_formula;
+				const char* cptr = temp_formula;
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 			}
 			{
@@ -3840,10 +3723,8 @@ tidy_min_surface(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				char * temp_formula = string_duplicate(phase_ptr->formula);
-				char * ptr = temp_formula;
-				get_elts_in_species(&ptr, 1.0);
-				free_check_null(temp_formula);
+				const char* cptr = phase_ptr->formula;
+				get_elts_in_species(&cptr, 1.0);
 			}
 			// Revise logic for surface related to mineral
 			for (size_t jj = 0; jj < surface_ptr->Get_surface_comps().size(); jj++)
@@ -3851,10 +3732,8 @@ tidy_min_surface(void)
 				cxxSurfaceComp *comp_jj_ptr = &(surface_ptr->Get_surface_comps()[jj]);
 				// Use formula for all types of surfaces
 				{
-					char * temp_formula = string_duplicate(comp_jj_ptr->Get_formula().c_str());
-					char *ptr = temp_formula;
-					get_elts_in_species(&ptr,
-										-comp_jj_ptr->Get_phase_proportion());
+					const char* cptr = comp_jj_ptr->Get_formula().c_str();
+					get_elts_in_species(&cptr, -comp_jj_ptr->Get_phase_proportion());
 
 					if (surface_ptr->Get_type() != cxxSurface::CD_MUSIC)
 					{
@@ -3867,7 +3746,6 @@ tidy_min_surface(void)
 							error_string = sformatf("Unknown element definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
 								surface_ptr->Get_n_user());
 							error_msg(error_string);
-							free_check_null(temp_formula);
 							continue;
 						}
 						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name == NULL)
@@ -3876,7 +3754,6 @@ tidy_min_surface(void)
 							error_string = sformatf("Unknown master species definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
 								surface_ptr->Get_n_user());
 							error_msg(error_string);
-							free_check_null(temp_formula);
 							continue;
 						}
 						//if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
@@ -3893,7 +3770,6 @@ tidy_min_surface(void)
 							warning_msg(error_string);
 						}	
 					}
-					free_check_null(temp_formula);
 				}
 			}
 			elt_list_combine();
@@ -4064,10 +3940,10 @@ update_min_surface(void)
 			else /* need to generate from scratch */
 			{
 				char* temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-				char* ptr = temp_formula;
+				const char* cptr = temp_formula;
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
+				get_elts_in_species(&cptr, conc);
 				free_check_null(temp_formula);
 
 				cxxNameDouble nd = elt_list_NameDouble();
@@ -4097,8 +3973,8 @@ tidy_kin_surface(void)
 {
 	cxxKinetics *kinetics_ptr;
 	struct phase *phase_ptr;
-	struct elt_list *elt_list_kinetics;
-	int count_elts_kinetics;
+	std::vector<struct elt_list> elt_list_kinetics;
+	size_t count_elts_kinetics;
 
 	//std::map<int, cxxSurface>::iterator it;
 	//for (it = Rxn_surface_map.begin(); it != Rxn_surface_map.end(); it++)
@@ -4196,12 +4072,10 @@ tidy_kin_surface(void)
 
 /*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
 			{
-				char * temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				char *ptr = temp_formula;
+				const char* cptr = comp_ptr->Get_formula().c_str();
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
-				free_check_null(temp_formula);
+				get_elts_in_species(&cptr, conc);
 			}
 			{
 				if (surface_ptr->Get_new_def())
@@ -4258,10 +4132,8 @@ tidy_kin_surface(void)
 				}
 				else
 				{
-					char * temp_name = string_duplicate(name.c_str());
-					char * ptr = temp_name;
-					get_elts_in_species(&ptr, coef);
-					free_check_null(temp_name);
+					const char* cptr = name.c_str();
+					get_elts_in_species(&cptr, coef);
 				}
 			}
 			/* save kinetics formula */
@@ -4269,7 +4141,7 @@ tidy_kin_surface(void)
 			{
 				elt_list_combine();
 			}
-			elt_list_kinetics = elt_list_save();
+			elt_list_kinetics = elt_list_vsave();
 			count_elts_kinetics = count_elts;
 
 			/* get surface formulas */
@@ -4286,10 +4158,8 @@ tidy_kin_surface(void)
 					(comp_ptr->Get_rate_name().c_str(),
 					 kin_comp_ptr->Get_rate_name().c_str()) == 0)
 				{
-					char * temp_formula = string_duplicate( comp_ptr->Get_formula().c_str());
-					char *ptr = temp_formula;
-					get_elts_in_species(&ptr, -1 * comp_ptr->Get_phase_proportion());
-					free_check_null(temp_formula);
+					const char* cptr = comp_ptr->Get_formula().c_str();
+					get_elts_in_species(&cptr, -1 * comp_ptr->Get_phase_proportion());
 				}
 			}
 			elt_list_combine();
@@ -4356,8 +4226,7 @@ tidy_kin_surface(void)
 					}
 				}
 			}
-			elt_list_kinetics =
-				(struct elt_list *) free_check_null(elt_list_kinetics);
+			elt_list_kinetics.clear();
 		}
 	}
 	return (OK);
@@ -4476,12 +4345,10 @@ update_kin_surface(void)
 			}
 			else /* need to generate from scratch */
 			{
-				char* temp_formula = string_duplicate(comp_ptr->Get_formula().c_str());
-				char* ptr = temp_formula;
+				const char* cptr = comp_ptr->Get_formula().c_str();
 				count_elts = 0;
 				paren_count = 0;
-				get_elts_in_species(&ptr, conc);
-				free_check_null(temp_formula);
+				get_elts_in_species(&cptr, conc);
 
 				cxxNameDouble nd = elt_list_NameDouble();
 				comp_ptr->Set_totals(nd);
@@ -4530,8 +4397,8 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
 	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
-	kc = exp(k_calc(phase0_ptr->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
-	kb = exp(k_calc(phase1_ptr->rxn->logk, t, REF_PRES_PASCAL) * LOG_10);
+	kc = exp(k_calc(phase0_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
+	kb = exp(k_calc(phase1_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
 	crit_pt = fabs(a0) + fabs(a1);
 /*
  *   Default, no miscibility or spinodal gaps
@@ -5150,9 +5017,9 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	l_kc = exp(k_calc(phase0_ptr->rxn->logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kc = exp(k_calc(phase0_ptr->rxn.logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 			 LOG_10);
-	l_kb = exp(k_calc(phase1_ptr->rxn->logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kb = exp(k_calc(phase1_ptr->rxn.logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 			 LOG_10);
 
 	p = ss_ptr->Get_p();
@@ -5613,30 +5480,15 @@ reset_last_model(void)
 /*
  *   Initialize model
  */
-	last_model.force_prep = TRUE;
-	last_model.count_exchange = 0;
-	last_model.exchange =
-		(struct master **) free_check_null(last_model.exchange);
-	last_model.count_gas_phase = 0;
-	last_model.gas_phase_type = cxxGasPhase::GP_UNKNOWN;
-	last_model.gas_phase =
-		(struct phase **) free_check_null(last_model.gas_phase);
-	last_model.count_ss_assemblage = 0;
-	last_model.ss_assemblage =
-		(const char **) free_check_null(last_model.ss_assemblage);
-	last_model.count_pp_assemblage = 0;
-	last_model.pp_assemblage =
-		(struct phase **) free_check_null(last_model.pp_assemblage);
-	last_model.add_formula =
-		(const char **) free_check_null(last_model.add_formula);
-	last_model.si = (LDBLE *) free_check_null(last_model.si);
+	last_model.force_prep = true;
+	last_model.gas_phase.clear();
+	last_model.ss_assemblage.clear();
+	last_model.pp_assemblage.clear();
+	last_model.add_formula.clear();
+	last_model.si.clear();
 	last_model.dl_type = cxxSurface::NO_DL;
-	last_model.count_surface_comp = 0;
-	last_model.surface_comp =
-		(const char **) free_check_null(last_model.surface_comp);
-	last_model.count_surface_charge = 0;
-	last_model.surface_charge =
-		(const char **) free_check_null(last_model.surface_charge);
+	last_model.surface_comp.clear();
+	last_model.surface_charge.clear();
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

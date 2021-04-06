@@ -298,21 +298,15 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 {
 	int i, m, ns;
 	LDBLE den, dif, dift, ho, hp, w;
-	LDBLE *c, *d;
 
 	ns = 1;
 	dif = fabs(xv - xa[1]);
 /*
  *   Malloc work space
  */
-	c = (LDBLE *) PHRQ_malloc(((size_t)n + 1) * sizeof(LDBLE));
-	if (c == NULL)
-		malloc_error();
-	d = (LDBLE *) PHRQ_malloc(((size_t)n + 1) * sizeof(LDBLE));
-	if (d == NULL)
-		malloc_error();
-
-
+	std::vector<double> c, d;
+	c.resize((size_t)n + 1);
+	d.resize((size_t)n + 1);
 
 	for (i = 1; i <= n; i++)
 	{
@@ -329,7 +323,7 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 	*yv = ya[ns--];
 	for (m = 1; m < n; m++)
 	{
-		for (i = 1; i <= n - m; i++)
+		for (size_t i = 1; i <= n - m; i++)
 		{
 			ho = xa[i] - xv;
 			hp = xa[i + m] - xv;
@@ -344,7 +338,7 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 		}
 		if (2 * ns < (n - m))
 		{
-			*dy = c[ns + 1];
+			*dy = c[(size_t)ns + 1];
 		}
 		else
 		{
@@ -354,8 +348,6 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 
 /*		*yv += (*dy = (2 * ns < (n-m) ? c[ns+1] : d[ns--])); */
 	}
-	c = (LDBLE *) free_check_null(c);
-	d = (LDBLE *) free_check_null(d);
 	return;
 }
 

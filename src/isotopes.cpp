@@ -28,7 +28,7 @@ read_isotopes(void)
 	struct element *elt_ptr;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"isotope",				/* 0 */
 		"total_is_major"		/* 1 */
@@ -160,25 +160,16 @@ read_calculate_values(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
-	int l, length, line_length;
+	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct calculate_value *calculate_value_ptr;
-	char *description;
-	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
-/*
- *   Read advection number (not currently used)
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -226,35 +217,19 @@ read_calculate_values(void)
 			}
 			calculate_value_ptr = calculate_value_store(token, TRUE);
 			calculate_value_ptr->new_def = TRUE;
-			calculate_value_ptr->commands =
-				(char *) PHRQ_malloc(sizeof(char));
-			if (calculate_value_ptr->commands == NULL)
-			{
-				malloc_error();
-			}
-			else
-			{
-				calculate_value_ptr->commands[0] = '\0';
-				calculate_value_ptr->linebase = NULL;
-				calculate_value_ptr->varbase = NULL;
-				calculate_value_ptr->loopbase = NULL;
-			}
+			calculate_value_ptr->commands.clear();
+			calculate_value_ptr->linebase = NULL;
+			calculate_value_ptr->varbase = NULL;
+			calculate_value_ptr->loopbase = NULL;
 			opt_save = OPT_1;
 			break;
 
 		case OPT_1:			/* read command */
 			if (calculate_value_ptr)
 			{
-			length = (int) strlen(calculate_value_ptr->commands);
-			line_length = (int) strlen(line);
-			calculate_value_ptr->commands = (char *)PHRQ_realloc(calculate_value_ptr->commands,
-				((size_t)length + (size_t)line_length + 2) * sizeof(char));
-			if (calculate_value_ptr->commands == NULL)
-				malloc_error();
-			calculate_value_ptr->commands[length] = ';';
-			calculate_value_ptr->commands[length + 1] = '\0';
-			strcat((calculate_value_ptr->commands), line);
-			opt_save = OPT_1;
+				calculate_value_ptr->commands.append(";\0");
+				calculate_value_ptr->commands.append(line);
+				opt_save = OPT_1;
 			}
 			else
 			{				
@@ -292,24 +267,15 @@ read_isotope_ratios(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_ratio *isotope_ratio_ptr;
-	char *description;
-	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
 	int count_opt_list = 0;
-/*
- *   Read number (not currently used)
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -391,24 +357,15 @@ read_isotope_alphas(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
 	struct isotope_alpha *isotope_alpha_ptr;
-	char *description;
-	int n_user, n_user_end;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
 	int count_opt_list = 0;
-/*
- *   Read number (not currently used)
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -913,7 +870,7 @@ punch_calculate_values(void)
 			if (calculate_value_ptr->new_def == TRUE)
 			{
 				if (basic_compile
-					(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+					(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 					&calculate_value_ptr->varbase,
 					&calculate_value_ptr->loopbase) != 0)
 				{
@@ -1146,7 +1103,7 @@ calculate_values(void)
 				if (calculate_value_ptr->new_def == TRUE)
 				{
 					if (basic_compile
-						(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+						(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 						&calculate_value_ptr->varbase,
 						&calculate_value_ptr->loopbase) != 0)
 					{
@@ -1213,7 +1170,7 @@ calculate_values(void)
 				if (calculate_value_ptr->new_def == TRUE)
 				{
 					if (basic_compile
-						(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+						(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 						&calculate_value_ptr->varbase,
 						&calculate_value_ptr->loopbase) != 0)
 					{
@@ -1304,11 +1261,11 @@ master_isotope_store(const char *name, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for master_isotope.
+ *   Function locates the string "name" in the map for master_isotope.
  *
  *   Pointer to a master_isotope structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old master_isotope structure
  *      are freed and replaced with additional input.
@@ -1532,7 +1489,7 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 	{
 		calculate_value_ptr->name = NULL;
 		calculate_value_ptr->value = 0.0;
-		calculate_value_ptr->commands = NULL;
+		calculate_value_ptr->commands.clear();
 		calculate_value_ptr->new_def = TRUE;
 		calculate_value_ptr->calculated = FALSE;
 		calculate_value_ptr->linebase = NULL;
@@ -1583,8 +1540,7 @@ calculate_value_free(struct calculate_value *calculate_value_ptr)
 
 	if (calculate_value_ptr == NULL)
 		return (ERROR);
-	calculate_value_ptr->commands =
-		(char *) free_check_null(calculate_value_ptr->commands);
+	calculate_value_ptr->commands.clear();
 	basic_run(cmd, calculate_value_ptr->linebase,
 			  calculate_value_ptr->varbase, calculate_value_ptr->loopbase);
 	calculate_value_ptr->linebase = NULL;
@@ -1607,7 +1563,7 @@ isotope_ratio_store(const char *name_in, int replace_if_found)
  *
  *   Pointer to a isotope_ratio structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old isotope_ratio structure
  *      are freed and replaced with additional input.

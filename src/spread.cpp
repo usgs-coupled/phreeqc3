@@ -37,10 +37,10 @@ read_solution_spread(void)
 	struct spread_row *heading, *row_ptr, *units;
 	int count, strings, numbers;
 	int spread_lines;
-	char *ptr;
+	const char* cptr;
 	struct defaults soln_defaults;
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"temp",					/* 0 */
 		"temperature",			/* 1 */
@@ -79,14 +79,11 @@ read_solution_spread(void)
 
 
 	/* fill in soln_defaults.iso */
-	soln_defaults.count_iso = count_iso_defaults;
-	soln_defaults.iso =	(struct iso *) PHRQ_malloc((size_t) soln_defaults.count_iso *
-								   sizeof(struct iso));
-	if (soln_defaults.iso == NULL)
-		malloc_error();
+	soln_defaults.iso.resize(count_iso_defaults);
+
 	/* all iso[i].name is hsave'd, so no conflicts */
-	memcpy(soln_defaults.iso, iso_defaults,
-		   (size_t) soln_defaults.count_iso * sizeof(struct iso));
+	memcpy(&soln_defaults.iso[0], iso_defaults,
+		   soln_defaults.iso.size() * sizeof(struct iso));
 
 	heading = NULL;
 	units = NULL;
@@ -103,10 +100,10 @@ read_solution_spread(void)
 		if (spread_lines == 0 && opt != OPTION_DEFAULT)
 		{
 			row_ptr = string_to_spread_row(line);
-			ptr = line;
+			cptr = line;
 			count = numbers = strings = 0;
 			int j;
-			while (((j = copy_token(token, &ptr)) != EMPTY))
+			while (((j = copy_token(token, &cptr)) != EMPTY))
 			{
 				count++;
 				if (j == UPPER || j == LOWER)
@@ -117,14 +114,16 @@ read_solution_spread(void)
 			/*
 			 * Is 2nd token all number
 			 */
-			ptr = line;
-			copy_token(token, &ptr);
-			j = copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
+			j = copy_token(token, &cptr);
 			bool num = false;
 			if (j == DIGIT)
 			{
-				strtod(token.c_str(), &ptr);
-				int j1 = copy_token(token1, &ptr);
+				char* ptr;
+				(void)strtod(token.c_str(), &ptr);
+				cptr = ptr;
+				int j1 = copy_token(token1, &cptr);
 				if (j1 != EMPTY)
 				{
 					num = FALSE;
@@ -134,12 +133,11 @@ read_solution_spread(void)
 					num = TRUE;
 				}
 			}
-
 			/*
 			 *   Starts with hyphen
 			 */
-			ptr = line;
-			copy_token(token, &ptr);
+			cptr = line;
+			copy_token(token, &cptr);
 			if (token[0] == '-')
 			{
 				/* opt = opt; */
@@ -367,29 +365,20 @@ read_solution_spread(void)
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
-				int i;
-				for (i = 0; i < soln_defaults.count_iso; i++)
+				size_t i;
+				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
 					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
 					{
 						break;
 					}
 				}
-				if (i == soln_defaults.count_iso)
+				if (i == soln_defaults.iso.size())
 				{
-					soln_defaults.iso = (struct iso *) PHRQ_realloc(soln_defaults.iso,
-						((size_t)i + 1) * sizeof(struct iso));
-					if (soln_defaults.iso == NULL)
-					{
-						malloc_error();
-					}
-					else
-					{
-						soln_defaults.iso[i].name = string_hsave(token.c_str());
-						soln_defaults.iso[i].value = NAN;
-						soln_defaults.iso[i].uncertainty = NAN;
-						soln_defaults.count_iso++;
-					}
+					soln_defaults.iso.resize((size_t)i + 1);
+					soln_defaults.iso[i].name = string_hsave(token.c_str());
+					soln_defaults.iso[i].value = NAN;
+					soln_defaults.iso[i].uncertainty = NAN;
 				}
 
 				/* read and store isotope ratio uncertainty */
@@ -451,28 +440,19 @@ read_solution_spread(void)
 					continue;
 				}
 				int i;
-				for (i = 0; i < soln_defaults.count_iso; i++)
+				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
 					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
 					{
 						break;
 					}
 				}
-				if (i == soln_defaults.count_iso)
+				if (i == soln_defaults.iso.size())
 				{
-					soln_defaults.iso = (struct iso *) PHRQ_realloc(soln_defaults.iso,
-						((size_t)i + 1) * sizeof(struct iso));
-					if (soln_defaults.iso == NULL)
-					{
-						malloc_error();
-					}
-					else
-					{
-						soln_defaults.iso[i].name = string_hsave(token.c_str());
-						soln_defaults.iso[i].value = NAN;
-						soln_defaults.iso[i].uncertainty = NAN;
-						soln_defaults.count_iso++;
-					}
+					soln_defaults.iso.resize((size_t)i + 1);
+					soln_defaults.iso[i].name = string_hsave(token.c_str());
+					soln_defaults.iso[i].value = NAN;
+					soln_defaults.iso[i].uncertainty = NAN;
 				}
 				/* read and store isotope ratio */
 				if (copy_token(token, &next_char) != DIGIT)
@@ -538,7 +518,7 @@ read_solution_spread(void)
 	spread_row_free(heading);
 	spread_row_free(units);
 
-	soln_defaults.iso = (struct iso *) free_check_null(soln_defaults.iso);
+	soln_defaults.iso.clear();
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
@@ -554,7 +534,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 	CParser parser(this->phrq_io);
 
 	int return_value, opt;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"temp",					/* 0 */
 		"temperature",			/* 1 */
@@ -649,7 +629,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 	initial_data_ptr->Set_units(defaults.units);
 	initial_data_ptr->Set_default_pe(defaults.redox);
 	{
-		cxxChemRxn temp_chem_reaction;
+		CReaction temp_chem_reaction;
 		initial_data_ptr->Get_pe_reactions()[defaults.redox] = temp_chem_reaction;
 	}
 /*
@@ -761,7 +741,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			{
 				const char * pe_str = string_hsave(token.c_str());
 				initial_data_ptr->Set_default_pe(pe_str);
-				cxxChemRxn temp_chem_reaction;
+				CReaction temp_chem_reaction;
 				initial_data_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}
 			else
@@ -884,10 +864,10 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 				/* read and save element name */
 				{
 					char *temp_iso_name = string_duplicate(token.c_str());
-					char *ptr1 = temp_iso_name;
-					get_num(&ptr1, &dummy);
+					const char* cptr1 = temp_iso_name;
+					get_num(&cptr1, &dummy);
 					temp_isotope.Set_isotope_number(dummy);
-					if (ptr1[0] == '\0' || isupper((int) ptr1[0]) == FALSE)
+					if (cptr1[0] == '\0' || isupper((int)cptr1[0]) == FALSE)
 					{
 						error_msg("Expecting element name.", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
@@ -896,7 +876,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 						char_string = (char*)free_check_null(char_string);
 						return (CParser::PARSER_ERROR);
 					}
-					temp_isotope.Set_elt_name(ptr1);
+					temp_isotope.Set_elt_name(cptr1);
 					temp_iso_name = (char*)free_check_null(temp_iso_name);
 				}
 				/* read and store isotope ratio */
@@ -934,8 +914,6 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 			break;
 		case 10:				/* water */
 			{
-				//next_char = char_string;
-				//int j = copy_token(token, &next_char); // read identifier "water"
 				int j = copy_token(token, &next_char);
 				if (j == EMPTY)
 				{
@@ -1001,7 +979,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 				initial_data_ptr->Get_comps()[temp_comp.Get_description()] = temp_comp;
 				if (temp_comp.Get_pe_reaction().size() > 0)
 				{
-					cxxChemRxn temp_chem_reaction;
+					CReaction temp_chem_reaction;
 					initial_data_ptr->Get_pe_reactions()[temp_comp.Get_pe_reaction()] = temp_chem_reaction;
 				}
 			}
@@ -1058,44 +1036,14 @@ struct spread_row * Phreeqc::
 string_to_spread_row(char *string)
 /* ---------------------------------------------------------------------- */
 {
-	int j, l;
-	/* possible memory error if length of line is smaller than previous line */
-	char *token;
-	char *ptr;
-	struct spread_row *spread_row_ptr = NULL;
+	int j;
+	std::string token;
+	const char* cptr;
 /*
  *   Allocate space
  */
-	token = (char *) PHRQ_malloc(strlen(line) + 1);
-	if (token == NULL)
-	{
-		malloc_error();
-		return spread_row_ptr;
-	}
-	spread_row_ptr =
-		(struct spread_row *) PHRQ_malloc((size_t) sizeof(struct spread_row));
+	struct spread_row* spread_row_ptr = new struct spread_row;
 	if (spread_row_ptr == NULL)
-	{
-		malloc_error();
-		return spread_row_ptr;
-	}
-	spread_row_ptr->char_vector =
-		(char **) PHRQ_malloc((size_t) spread_length * sizeof(char *));
-	if (spread_row_ptr->char_vector == NULL)
-	{
-		malloc_error();
-		return spread_row_ptr;
-	}
-	spread_row_ptr->d_vector =
-		(LDBLE *) PHRQ_malloc((size_t) spread_length * sizeof(LDBLE));
-	if (spread_row_ptr->d_vector == NULL)
-	{
-		malloc_error();
-		return spread_row_ptr;
-	}
-	spread_row_ptr->type_vector =
-		(int *) PHRQ_malloc((size_t) spread_length * sizeof(int));
-	if (spread_row_ptr->type_vector == NULL)
 	{
 		malloc_error();
 		return spread_row_ptr;
@@ -1104,112 +1052,43 @@ string_to_spread_row(char *string)
 	spread_row_ptr->empty = 0;
 	spread_row_ptr->string = 0;
 	spread_row_ptr->number = 0;
-	ptr = string;
+	cptr = string;
 /*
  *   Split by tabs, reallocate space
  */
 	for (;;)
 	{
-		if (spread_row_ptr->count + 1 > spread_length)
-		{
-			spread_length *= 2;
-
-			spread_row_ptr->char_vector =
-				(char **) PHRQ_realloc(spread_row_ptr->char_vector,
-									   (size_t) spread_length * sizeof(char *));
-			if (spread_row_ptr->char_vector == NULL)
-			{
-				malloc_error();
-				return spread_row_ptr;
-			}
-
-			spread_row_ptr->d_vector =
-				(LDBLE *) PHRQ_realloc(spread_row_ptr->d_vector,
-									   (size_t) spread_length * sizeof(LDBLE));
-			if (spread_row_ptr->d_vector == NULL)
-			{
-				malloc_error();
-				return spread_row_ptr;
-			}
-
-			spread_row_ptr->type_vector =
-				(int *) PHRQ_realloc(spread_row_ptr->type_vector,
-									 (size_t) spread_length * sizeof(int));
-			if (spread_row_ptr->type_vector == NULL)
-			{
-				malloc_error();
-				return spread_row_ptr;
-			}
-		}
-		j = copy_token_tab(token, &ptr, &l);
+		j = copy_token_tab(token, &cptr);
 		if (j == EOL)
 			break;
-		spread_row_ptr->char_vector[spread_row_ptr->count] =
-			string_duplicate(token);
-		spread_row_ptr->d_vector[spread_row_ptr->count] = NAN;
-		if (j == EMPTY || l == 0)
+		spread_row_ptr->char_vector.push_back(string_duplicate(token.c_str()));
+		spread_row_ptr->d_vector.push_back(NAN);
+		if (j == EMPTY || token.size() == 0)
 		{
 			spread_row_ptr->empty++;
-			spread_row_ptr->type_vector[spread_row_ptr->count] = EMPTY;
+			spread_row_ptr->type_vector.push_back(EMPTY);
 		}
 		else if (j == UPPER || j == LOWER)
 		{
 			spread_row_ptr->string++;
-			spread_row_ptr->type_vector[spread_row_ptr->count] = STRING;
+			spread_row_ptr->type_vector.push_back(STRING);
 		}
 		else if (j == DIGIT)
 		{
 			spread_row_ptr->number++;
-			spread_row_ptr->d_vector[spread_row_ptr->count] =
-				strtod(token, NULL);
-			spread_row_ptr->type_vector[spread_row_ptr->count] = NUMBER;
+			spread_row_ptr->d_vector.push_back(strtod(token.c_str(), NULL));
+			spread_row_ptr->type_vector.push_back(NUMBER);
 		}
 		else
 		{
 			input_error++;
 			error_msg("Unknown input in string_to_spread_row keyword.", CONTINUE);
-			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, token);
+			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, token.c_str());
 			error_msg(error_string, CONTINUE);
 			error_msg(line_save, CONTINUE);
 		}
 		spread_row_ptr->count++;
 	}
-/*
- *   Clean up and return
- */
-	if (spread_row_ptr->count == 0)
-	{
-		spread_row_ptr->char_vector =
-			(char **) free_check_null(spread_row_ptr->char_vector);
-		spread_row_ptr->d_vector =
-			(LDBLE *) free_check_null(spread_row_ptr->d_vector);
-		spread_row_ptr->type_vector =
-			(int *) free_check_null(spread_row_ptr->type_vector);
-	}
-	else
-	{
-/*  Do not realloc to smaller size, memory error */
-/*
-    spread_row_ptr->char_vector =
-      (char **) PHRQ_realloc (spread_row_ptr->char_vector,
-			      (size_t) spread_row_ptr->count *
-			      sizeof (char *));
-    if (spread_row_ptr->char_vector == NULL)
-      malloc_error ();
-    spread_row_ptr->d_vector =
-      (LDBLE *) PHRQ_realloc (spread_row_ptr->d_vector,
-			      (size_t) spread_row_ptr->count *
-			      sizeof (LDBLE));
-    if (spread_row_ptr->d_vector == NULL)
-      malloc_error ();
-    spread_row_ptr->type_vector =
-      (int *) PHRQ_realloc (spread_row_ptr->type_vector,
-			    (size_t) spread_row_ptr->count * sizeof (int));
-    if (spread_row_ptr->type_vector == NULL)
-      malloc_error ();
-*/
-	}
-	token = (char *) free_check_null(token);
 	return (spread_row_ptr);
 }
 
@@ -1228,32 +1107,26 @@ spread_row_free(struct spread_row *spread_row_ptr)
 			(char *) free_check_null(spread_row_ptr->char_vector[i]);
 	}
 
-	spread_row_ptr->char_vector =
-		(char **) free_check_null(spread_row_ptr->char_vector);
-	spread_row_ptr->d_vector =
-		(LDBLE *) free_check_null(spread_row_ptr->d_vector);
-	spread_row_ptr->type_vector =
-		(int *) free_check_null(spread_row_ptr->type_vector);
-	spread_row_ptr = (struct spread_row *) free_check_null(spread_row_ptr);
+	spread_row_ptr->char_vector.clear();
+	spread_row_ptr->d_vector.clear();
+	spread_row_ptr->type_vector.clear();
+	delete spread_row_ptr;
 	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token_tab(char *token_ptr, char **ptr, int *length)
+copy_token_tab(std::string& token, const char **cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Copies from **ptr to *token_ptr until first tab is encountered.
+ *   Copies from **cptr to *token until first tab is encountered.
  *
  *   Arguments:
- *      *token_ptr  output, place to store token
+ *      *token       output, place to store token
  *
- *     **ptr        input, character string to read token from
- *                  output, next position after token
- *
- *       length     output, length of token
- *
+ *     **cptr        input, character string to read token from
+ *                   output, next position after token
  *   Returns:
  *      UPPER,
  *      LOWER,
@@ -1267,8 +1140,9 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 /*
  *   Strip leading spaces
  */
-	while ((c = **ptr) == ' ')
-		(*ptr)++;
+	token.clear();
+	while ((c = **cptr) == ' ')
+		(*cptr)++;
 /*
  *   Check what we have
  */
@@ -1303,10 +1177,10 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 	i = 0;
 	for (;;)
 	{
-		c = **ptr;
+		c = **cptr;
 		if (c == '\t')
 		{
-			(*ptr)++;
+			(*cptr)++;
 			break;
 		}
 		else if (c == '\0')
@@ -1315,13 +1189,11 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 		}
 		else
 		{
-			token_ptr[i] = c;
-			(*ptr)++;
+			token.push_back(c);
+			(*cptr)++;
 			i++;
 		}
 	}
-	token_ptr[i] = '\0';
-	*length = i;
 /*
  *   Strip trailing spaces
  */
@@ -1330,17 +1202,12 @@ copy_token_tab(char *token_ptr, char **ptr, int *length)
 		if (j != ' ')
 			break;
 	}
-	if (j != i - 1)
-	{
-		token_ptr[j + 1] = '\0';
-		*length = j + 1;
-	}
 	return (return_value);
 }
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-get_option_string(const char **opt_list, int count_opt_list, char **next_char)
+get_option_string(const char **opt_list, int count_opt_list, const char **next_char)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1348,7 +1215,7 @@ get_option_string(const char **opt_list, int count_opt_list, char **next_char)
  */
 	int j;
 	int opt_l, opt;
-	char *opt_ptr;
+	const char *opt_ptr;
 	char option[MAX_LENGTH];
 
 	opt_ptr = *next_char;
