@@ -146,7 +146,6 @@ clean_up(void)
 	/*  user_print and user_punch */
 	UserPunch_map.clear();
 	rate_free(user_print);
-	delete user_print;
 	/*
 	   Clear llnl aqueous model parameters
 	 */
@@ -281,9 +280,9 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
 	{
 		rxn.token[i].s = (rxn_ref.token[i].s == NULL) ? NULL :
-			s_search(rxn_ref.token[i].s->name);
+			s_store(rxn_ref.token[i].s->name, rxn_ref.token[i].s->z, false);
 		rxn.token[i].coef = rxn_ref.token[i].coef;
-		rxn.token[i].name = (rxn_ref.token[i].s == NULL) ? NULL :
+		rxn.token[i].name = (rxn_ref.token[i].name == NULL) ? NULL :
 			string_hsave(rxn_ref.token[i].name);
 	}
 	return rxn;
@@ -519,6 +518,7 @@ elt_list_internal_copy(const std::vector<struct elt_list>& el)
 /* ---------------------------------------------------------------------- */
 {
 	std::vector<struct elt_list> new_elt_list;
+	if (el.size() == 0) return new_elt_list;
 	const struct elt_list* elt_list_ptr = &el[0];
 
 	new_elt_list.resize(el.size());

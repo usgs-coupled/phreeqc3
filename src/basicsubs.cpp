@@ -3998,6 +3998,7 @@ void Phreeqc::
 basic_free(void)
 {
 	delete this->basic_interpreter;
+	this->basic_interpreter = NULL;
 }
 
 #if defined(SWIG) || defined(SWIG_IPHREEQC)

@@ -2813,6 +2813,11 @@ species_rxn_to_trxn(struct species *s_ptr)
  *   Copy reaction from reaction structure to 
  *   temp reaction structure.
  */
+	if (trxn.token.size() <= s_ptr->rxn.token.size())
+	{
+		trxn.token.resize(s_ptr->rxn.token.size());
+	}
+	count_trxn = 0;
 	for (size_t i = 0; s_ptr->rxn.token[i].s != NULL; i++)
 	{
 		trxn.token[i].name = s_ptr->rxn.token[i].s->name;

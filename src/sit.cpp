@@ -211,7 +211,7 @@ read_sit(void)
 	  if (pzp_ptr != NULL)
 	  {
 		  pzp_ptr->type = pzp_type;
-		  sit_param_store(pzp_ptr, false);
+		  sit_param_store(pzp_ptr);
       }
       break;
     case OPTION_ERROR:
@@ -503,7 +503,7 @@ sit_clean_up(void)
 	sit_LGAMMA.clear();
 	sit_IPRSNT.clear();
 	spec.clear();
-	delete aphi; 
+	//delete aphi; 
 	sit_M.clear(); 
 
 	return OK;

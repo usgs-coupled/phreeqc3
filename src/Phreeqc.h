@@ -499,8 +499,8 @@ public:
 
 	// pitzer.cpp -------------------------------
 	struct pitz_param* pitz_param_read(char* string, int n);
-	void pitz_param_store(struct pitz_param* pzp_ptr, bool force_copy);
-	void sit_param_store(struct pitz_param* pzp_ptr, bool force_copy);
+	void pitz_param_store(const struct pitz_param* pzp_ptr);
+	void sit_param_store(const struct pitz_param* pzp_ptr);
 	struct pitz_param* pitz_param_copy(const struct pitz_param* src);
 	struct theta_param* theta_param_search(LDBLE zj, LDBLE zk);
 	void pitzer_make_lists(void);
@@ -1442,7 +1442,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
-	struct rate* user_print;
+	struct rate* user_print = 0;
 	int n_user_punch_index;
 
 	int fpunchf_user_s_warning;
@@ -1615,7 +1615,7 @@ protected:
 	PHRQMemHeader* s_pTail;
 
 	/* Basic */
-	PBasic* basic_interpreter;
+	PBasic* basic_interpreter = NULL;
 
 	double (*basic_callback_ptr) (double x1, double x2, const char* str, void* cookie);
 	void* basic_callback_cookie;
@@ -1716,7 +1716,7 @@ protected:
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
-	struct pitz_param* aphi;
+	struct pitz_param* aphi = NULL;
 	std::vector<struct species*> spec;
 	struct species** cations, ** anions, ** neutrals; // pointers to spec
 	int count_cations, count_anions, count_neutrals;
@@ -1740,8 +1740,8 @@ protected:
 	dumper dump_info;
 	StorageBinList delete_info;
 	runner run_info;
-	char* sformatf_buffer;
-	size_t sformatf_buffer_size;
+	char* sformatf_buffer = NULL;
+	size_t sformatf_buffer_size = 0;
 
 	/* readtr.cpp */
 	std::string dump_file_name_cpp;
