@@ -811,7 +811,7 @@ read_transport(void)
 				"Cell-lengths were read for %d cells. Last value is used till cell %d.",
 				count_length, max_cells);
 			warning_msg(error_string);
-			for (i = count_length; i <= max_cells; i++)
+			for (size_t i = count_length; i <= max_cells; i++)
 				cell_data[i + 1].length = length[count_length - 1];
 		}
 	}

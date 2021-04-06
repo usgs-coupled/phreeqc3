@@ -2408,7 +2408,7 @@ factor(struct LOC_exec * LINK)
 			PhreeqcPtr->sys_tot = 0;
 			//PhreeqcPtr->count_sys = 1000;
 			//int count_sys = PhreeqcPtr->count_sys;
-			int count_sys = 1000;
+			size_t count_sys = 1000;
 			names_arg = (char**)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(char*));
 			if (names_arg == NULL)
 			{

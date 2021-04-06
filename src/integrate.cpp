@@ -323,7 +323,7 @@ polint(LDBLE * xa, LDBLE * ya, int n, LDBLE xv, LDBLE * yv, LDBLE * dy)
 	*yv = ya[ns--];
 	for (m = 1; m < n; m++)
 	{
-		for (i = 1; i <= n - m; i++)
+		for (size_t i = 1; i <= n - m; i++)
 		{
 			ho = xa[i] - xv;
 			hp = xa[i + m] - xv;
