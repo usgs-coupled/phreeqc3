@@ -411,6 +411,9 @@ size_t Phreeqc::list_Exchangers(std::list<std::string> &list_exname)
 }
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
+	//user_print = NULL;
+	//sformatf_buffer = NULL;
+	//basic_interpreter = NULL;
 	// phrq_io
 	if (io)
 	{
@@ -760,7 +763,7 @@ void Phreeqc::init(void)
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
-	user_print				= NULL;
+	//user_print				= NULL;
 	n_user_punch_index      = 0;
 	fpunchf_user_s_warning  = 0;
 	fpunchf_user_buffer[0]  = 0;
@@ -884,7 +887,7 @@ void Phreeqc::init(void)
 	/* phqalloc.cpp ------------------------------- */
 	s_pTail                 = NULL;
 	/* Basic */
-	basic_interpreter       = NULL;
+	//basic_interpreter       = NULL;
 	basic_callback_ptr      = NULL;
 	basic_callback_cookie   = NULL;
 	basic_fortran_callback_ptr  = NULL;
@@ -1024,7 +1027,6 @@ void Phreeqc::init(void)
 	OTEMP					= -100.;
 	OPRESS					= -100.;
 	A0                      = 0;
-	aphi                    = NULL;
 	cations                 = NULL;
 	anions                  = NULL;
 	neutrals                = NULL;
@@ -1044,10 +1046,14 @@ void Phreeqc::init(void)
 	}
 	dummy                   = 0;
 	/* print.cpp ------------------------------- */
-	sformatf_buffer = (char *) PHRQ_malloc(256 * sizeof(char));
+	if (sformatf_buffer != NULL)
+	{
+		sformatf_buffer = (char*)free_check_null(sformatf_buffer);
+	}
+	sformatf_buffer = (char *) PHRQ_calloc(256 , sizeof(char));
 	if (sformatf_buffer == NULL) 
 			malloc_error();
-		sformatf_buffer_size = 256;
+	sformatf_buffer_size = 256;
 	/* read.cpp */
 	prev_next_char          = NULL;
 #if defined PHREEQ98 
@@ -1119,7 +1125,11 @@ void Phreeqc::init(void)
 /*-----------------------------------------------------*/
 Phreeqc::Phreeqc(const Phreeqc &src)
 {
-	this->phrq_io = src.phrq_io;
+	//user_print = NULL;
+	//sformatf_buffer = NULL;
+	//basic_interpreter = NULL;
+	//this->phrq_io = src.phrq_io;
+	this->phrq_io = &this->ioInstance;
 	this->init();
 	this->initialize();
 	InternalCopy(&src);
@@ -1128,7 +1138,7 @@ void
 Phreeqc::InternalCopy(const Phreeqc* pSrc)
 {
 	// phrq_io
-
+	//this->phrq_io = new PHRQ_io;
 	same_model = FALSE;
 	current_tc = pSrc->current_tc;
 	current_pa = pSrc->current_pa;
@@ -1334,43 +1344,21 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	count_elts = 0;
 	// Reaction
 	run_cells_one_step = pSrc->run_cells_one_step;
-	// logk
-	logk.clear();
-	for (size_t i = 0; i < pSrc->logk.size(); i++)
-	{
-		struct logk* tlk = new struct logk;
-		*tlk = *pSrc->logk[i];
-		tlk->name = string_hsave(logk[i]->name);
-		logk.push_back(tlk);
-	}
-	/*----------------------------------------------------------------------
-	*   Species
-	*---------------------------------------------------------------------- */
-	/*
-	logk                     = NULL;
-	count_logk               = 0;
-	max_logk                 = MAX_S;
-	s                        = NULL;
-	count_s                  = 0;
-	max_s                    = MAX_S;
-	// auto s_diff_layer;
-	s_x                      = NULL;
-	count_s_x                = 0;
-	max_s_x                  = 0;
-	s_h2o					= NULL;
-	s_hplus					= NULL;
-	s_h3oplus				= NULL;
-	s_eminus				= NULL;
-	s_co3					= NULL;
-	s_h2					= NULL;
-	s_o2					= NULL;
-	*/
-	// logk
-
+	//// logk
+	//logk.clear();
+	//for (size_t i = 0; i < pSrc->logk.size(); i++)
+	//{
+	//	struct logk* tlk = new struct logk;
+	//	*tlk = *pSrc->logk[i];
+	//	tlk->name = string_hsave(pSrc->logk[i]->name);
+	//	logk.push_back(tlk);
+	//}
 	for (int i = 0; i < (int)pSrc->logk.size(); i++)
 	{
 		struct logk* logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
-		memcpy(logk_ptr, pSrc->logk[i], sizeof(struct logk));
+		//memcpy(logk_ptr, pSrc->logk[i], sizeof(struct logk));
+		*logk_ptr = *pSrc->logk[i];
+		logk_ptr->name = string_hsave(pSrc->logk[i]->name);
 		logk_ptr->add_logk.resize(pSrc->logk[i]->add_logk.size());
 		for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
 		{
@@ -1382,8 +1370,10 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (int i = 0; i < (int)pSrc->s.size(); i++)
 	{
 		struct species* s_ptr = s_store(pSrc->s[i]->name, pSrc->s[i]->z, FALSE);
-		memcpy(s_ptr, pSrc->s[i], sizeof(struct species));
+		//memcpy(s_ptr, pSrc->s[i], sizeof(struct species));
+		*s_ptr = *pSrc->s[i];
 		// fix up all pointers
+		s_ptr->name = string_hsave(pSrc->s[i]->name);
 		s_ptr->mole_balance = NULL;
 		if (pSrc->s[i]->mole_balance != NULL)
 		{
@@ -1421,8 +1411,10 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (int i = 0; i < (int)pSrc->phases.size(); i++)
 	{
 		struct phase* phase_ptr = phase_store(pSrc->phases[i]->name);
-		memcpy(phase_ptr, pSrc->phases[i], sizeof(struct phase));
+		//memcpy(phase_ptr, pSrc->phases[i], sizeof(struct phase));
+		*phase_ptr = *pSrc->phases[i];
 		// clean up pointers
+		phase_ptr->name = string_hsave(pSrc->phases[i]->name);
 		phase_ptr->formula = string_hsave(pSrc->phases[i]->formula);
 		//add_logk
 		phase_ptr->add_logk.resize(pSrc->phases[i]->add_logk.size());
@@ -1440,16 +1432,17 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		phase_ptr->rxn_x = CReaction_internal_copy(pSrc->phases[i]->rxn_x);
 	}
 	// Master species
-	for (size_t i = 0; i < master.size(); i++)
+	for (size_t i = 0; i < pSrc->master.size(); i++)
 	{
 		master.resize(i + 1);
 		master[i] = new struct master;
-		memcpy(master[i], pSrc->master[i], sizeof(struct master));
+		//memcpy(master[i], pSrc->master[i], sizeof(struct master));
+		*master[i] = *pSrc->master[i];
 		// clean up pointers
 		master[i]->gfw_formula = string_hsave(pSrc->master[i]->gfw_formula);
 		master[i]->elt = element_store(pSrc->master[i]->elt->name);
 		master[i]->unknown = NULL;
-		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, false);
+		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, FALSE);
 		//rxn_primary
 		master[i]->rxn_primary = CReaction_internal_copy(pSrc->master[i]->rxn_primary);
 		master[i]->rxn_secondary = CReaction_internal_copy(pSrc->master[i]->rxn_secondary);
@@ -1487,7 +1480,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	status_string.clear();
 	count_warnings = 0;
 	// RATES
-	rates = pSrc->rates;
+	//rates = pSrc->rates;
 	for (size_t i = 0; i < pSrc->rates.size(); i++)
 	{
 		rates.push_back(*rate_copy(&pSrc->rates[i]));
@@ -1603,7 +1596,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 			it->second.Set_punch_ostream(NULL);
 		}
 	}
-	//SelectedOutput_map.clear();
+	SelectedOutput_map.clear();
 
 	UserPunch_map = pSrc->UserPunch_map;
 	std::map<int, UserPunch>::iterator it = UserPunch_map.begin();
@@ -1715,7 +1708,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	solution_mass = pSrc->solution_mass;
 	solution_volume = pSrc->solution_volume;
 	s_pTail = NULL;
-	basic_interpreter = NULL;
+	//basic_interpreter = NULL;
 	/* cl1.cpp ------------------------------- */
 	//std::vector<double> x_arg, res_arg, scratch;
 	// gases.cpp 
@@ -1837,8 +1830,9 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	DW0 = pSrc->DW0;
 	for (int i = 0; i < (int)pSrc->pitz_params.size(); i++)
 	{
-		pitz_param_store(pSrc->pitz_params[i], true);
+		pitz_param_store(pSrc->pitz_params[i]);
 	}
+
 	//pitz_param_map = pSrc->pitz_param_map; created by store
 	for (int i = 0; i < (int)pSrc->theta_params.size(); i++)
 	{
@@ -1899,7 +1893,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	/* sit.cpp ------------------------------- */
 	for (int i = 0; i < (int)pSrc->sit_params.size(); i++)
 	{
-		sit_param_store(pSrc->sit_params[i], true);
+		sit_param_store(pSrc->sit_params[i]);
 	}
 	//sit_param_map = pSrc->sit_param_map; // filled by store
 	sit_A0 = pSrc->sit_A0;
@@ -1970,7 +1964,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//}
 	spinner = pSrc->spinner;
 	gfw_map = pSrc->gfw_map;
-	rates_map = pSrc->rates_map;
+	//rates_map = pSrc->rates_map;
 	sum_species_map = pSrc->sum_species_map;
 	sum_species_map_db = pSrc->sum_species_map_db;
 

@@ -66,7 +66,7 @@ pitz_param_read(char *string, int n)
 }
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
+pitz_param_store(const struct pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -78,7 +78,7 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		return;
 	if (pzp_ptr->type == TYPE_Other)
 		return;
-
+	struct pitz_param* dest = pitz_param_copy(pzp_ptr);
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
@@ -108,30 +108,20 @@ pitz_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		}
 	    warning_msg(error_string);
 		delete pitz_params[(*jit).second]; 
-		pitz_params[(*jit).second] = pzp_ptr;
+		pitz_params[(*jit).second] = dest;
 	}
 	else
 	{
-		if (force_copy)
-		{
-			size_t count_pitz_param = pitz_params.size();
-			pitz_params.resize(count_pitz_param + 1);
-			pitz_params[count_pitz_param] = pitz_param_copy(pzp_ptr);
-			pitz_param_map[key] = count_pitz_param;
-		}
-		else
-		{
-			size_t count_pitz_param = pitz_params.size();
-			pitz_params.resize(count_pitz_param + 1);
-			pitz_params[count_pitz_param] = pzp_ptr;
-			pitz_param_map[key] = count_pitz_param;
-		}
+		size_t count_pitz_param = pitz_params.size();
+		pitz_params.resize(count_pitz_param + 1);
+		pitz_params[count_pitz_param] = pitz_param_copy(pzp_ptr);
+		pitz_param_map[key] = count_pitz_param;
 	}
 }
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
+sit_param_store(const struct pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -143,6 +133,7 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		return;
 	if (pzp_ptr->type == TYPE_Other)
 		return;
+	struct pitz_param* dest = pitz_param_copy(pzp_ptr);
 
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
@@ -174,24 +165,14 @@ sit_param_store(struct pitz_param *pzp_ptr, bool force_copy)
 		}
 	    warning_msg(error_string);
 		delete sit_params[(*jit).second]; 
-		sit_params[(*jit).second] = pzp_ptr;
+		sit_params[(*jit).second] = dest;
 	}
 	else
 	{
-		if (force_copy)
-		{
-			size_t count_sit_param = sit_params.size();
-			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pitz_param_copy(pzp_ptr);
-			sit_param_map[key] = count_sit_param;
-		}
-		else
-		{
-			size_t count_sit_param = sit_params.size();
-			sit_params.resize(count_sit_param + 1);
-			sit_params[count_sit_param] = pzp_ptr;
-			sit_param_map[key] = count_sit_param;
-		}
+		size_t count_sit_param = sit_params.size();
+		sit_params.resize(count_sit_param + 1);
+		sit_params[count_sit_param] = dest;
+		sit_param_map[key] = count_sit_param;
 	}
 }
 struct pitz_param* Phreeqc::
@@ -200,7 +181,7 @@ pitz_param_copy(const struct pitz_param* src)
 	if (src == NULL) return NULL;
 	struct pitz_param* dest = new struct pitz_param;
 	*dest = *src;
-	for (size_t i = 1; i < 3; i++)
+	for (size_t i = 0; i < 3; i++)
 	{
 		if (src->species[i] != NULL)
 		{

@@ -135,11 +135,10 @@ main_method(int argc, char *argv[])
 	{
 		return errors;
 	}
-	Phreeqc MyCopy;
-	MyCopy = *this;
+	Phreeqc MyCopy = *this;
 	this->clean_up();
-	this->init();
-	this->initialize();
+	//this->init();
+	//this->initialize();
 /*
  *   Read input data for simulation
  */
@@ -158,7 +157,7 @@ main_method(int argc, char *argv[])
  *   Display successful status
  */
 	pr.headings = TRUE;
-	errors = do_status();
+	//errors = do_status();
 	if (errors != 0)
 	{
 		return errors;

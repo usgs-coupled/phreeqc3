@@ -40,6 +40,7 @@ initialize(void)
 
 	// user_print
 	user_print = new struct rate;
+	user_print->name = string_hsave("User_print");
 	user_print->commands.clear();
 	user_print->linebase = NULL;
 	user_print->varbase = NULL;
@@ -49,6 +50,10 @@ initialize(void)
 	 */
 	a_llnl = b_llnl = 0.0;
     // new PBasic
+	if (basic_interpreter != NULL)
+	{
+		basic_free();
+	}
 	basic_interpreter = new PBasic(this, phrq_io);
 	// allocate one change_surf
 	change_surf =

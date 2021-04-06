@@ -152,9 +152,7 @@ pitzer_tidy(void)
 				continue;
 			pitz_params[i]->ispec[j] = ISPEC(pitz_params[i]->species[j]);
 			if ((j < 2 && pitz_params[i]->ispec[j] == -1) ||
-				(j == 2
-				 && (pitz_params[i]->type == TYPE_PSI
-					 || pitz_params[i]->type == TYPE_ZETA)
+				(j == 2 && (pitz_params[i]->type == TYPE_PSI || pitz_params[i]->type == TYPE_ZETA)
 				 && pitz_params[i]->ispec[j] == -1))
 			{
 				input_error++;
@@ -628,7 +626,7 @@ read_pitzer(void)
 				}
 				else
 				{
-					pitz_param_store(pzp_ptr, false);
+					pitz_param_store(pzp_ptr);
 				}
 			}
 			break;
@@ -1641,7 +1639,11 @@ pitzer_clean_up(void)
 	LGAMMA.clear();
 	IPRSNT.clear();
 	spec.clear();
-	delete aphi; 
+	if (aphi != NULL)
+	{
+		delete aphi;
+		aphi = NULL;
+	}
 	M.clear();
 
 	return OK;
