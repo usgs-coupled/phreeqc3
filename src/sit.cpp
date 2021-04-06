@@ -35,12 +35,10 @@ sit_tidy(void)
 	/*
 	 *  allocate pointers to species structures
 	 */
-	if (spec != NULL) spec = (struct species **) free_check_null(spec);
-	spec = (struct species **) PHRQ_malloc((size_t) (3 * s.size() * sizeof(struct species *)));
-	if (spec == NULL) malloc_error();
-	for (i = 0; i < 3 * (int)s.size(); i++) spec[i] = NULL;
+	spec.clear();
+	spec.resize(3 * s.size(), NULL);
 
-	cations = spec;
+	cations = &spec[0];
 	neutrals = &(spec[s.size()]);
 	anions = &(spec[2 * s.size()]);
 	sit_MAXCATIONS = (int)s.size();
@@ -53,16 +51,9 @@ sit_tidy(void)
 	/*
 	 *  allocate other arrays for SIT
 	 */
-	if (sit_IPRSNT != NULL) sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	sit_IPRSNT = (int *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(int)));
-	if (sit_IPRSNT == NULL) malloc_error();
-	if (sit_M != NULL) sit_M = (LDBLE *) free_check_null(sit_M);
-	sit_M = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
-	if (sit_M == NULL) malloc_error();
-	if (sit_LGAMMA != NULL) sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * s.size() * sizeof(LDBLE)));
-	if (sit_LGAMMA == NULL) malloc_error();
-
+	sit_IPRSNT.resize(3 * s.size());
+	sit_M.resize(3 * s.size());
+	sit_LGAMMA.resize(3 * s.size());
 
 	for (i = 0; i < (int)s.size(); i++)
 	{
@@ -186,7 +177,7 @@ read_sit(void)
   pitz_param_type pzp_type;
 
   int return_value, opt, opt_save;
-  char *next_char;
+  const char* next_char;
   const char *opt_list[] = {
     "epsilon",					/* 0 */
     "epsilon1"					/* 1 */
@@ -220,7 +211,7 @@ read_sit(void)
 	  if (pzp_ptr != NULL)
 	  {
 		  pzp_ptr->type = pzp_type;
-		  sit_param_store(pzp_ptr, false);
+		  sit_param_store(pzp_ptr);
       }
       break;
     case OPTION_ERROR:
@@ -505,15 +496,15 @@ sit_clean_up(void)
 
 	for (i = 0; i < (int)sit_params.size(); i++)
 	{
-		sit_params[i] =	(struct pitz_param *) free_check_null(sit_params[i]);
+		delete sit_params[i]; 
 	}
 	sit_params.clear();
 	sit_param_map.clear();
-	sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	spec = (struct species **) free_check_null(spec);
-	aphi = (struct pitz_param *) free_check_null(aphi);
-	sit_M = (LDBLE *) free_check_null(sit_M);
+	sit_LGAMMA.clear();
+	sit_IPRSNT.clear();
+	spec.clear();
+	//delete aphi; 
+	sit_M.clear(); 
 
 	return OK;
 }
@@ -805,11 +796,11 @@ int Phreeqc::
 jacobian_sit(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE *base;
+	std::vector<double> base;
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
-	int pz_max_unknowns = max_unknowns;
+	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
@@ -817,16 +808,7 @@ Restart:
 		sit();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-	if (base == NULL)
-	{
-		malloc_error();
-		return OK;
-	}
-	for (i = 0; i < count_unknowns; i++)
-	{
-		base[i] = residual[i];
-	}
+	base = residual; // std::vectors
 	d = 0.0001;
 	d1 = d * LOG_10;
 	d2 = 0;
@@ -900,7 +882,6 @@ Restart:
 		molalities(TRUE);
 		if (max_unknowns > pz_max_unknowns) 
 		{
-			base = (LDBLE *) free_check_null(base);
 			gammas_sit();
 			jacobian_sums();
 			goto Restart;
@@ -911,7 +892,7 @@ Restart:
 		residuals();
 		for (j = 0; j < count_unknowns; j++)
 		{
-			my_array[(size_t)j * ((size_t)count_unknowns + 1) + (size_t)i] =
+			my_array[(size_t)j * (count_unknowns + 1) + (size_t)i] =
 				-(residual[j] - base[j]) / d2;
 		}
 		switch (x[i]->type)
@@ -930,9 +911,9 @@ Restart:
 			break;
 		case MH:
 			s_eminus->la -= d;
-			if (my_array[(size_t)i * ((size_t)count_unknowns + 1) + (size_t)i] == 0)
+			if (my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] == 0)
 			{
-				my_array[(size_t)i * ((size_t)count_unknowns + 1) + (size_t)i] =
+				my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] =
 					exp(s_h2->lm * LOG_10) * 2;
 			}
 			break;
@@ -960,7 +941,6 @@ Restart:
 		sit();
 	mb_sums();
 	residuals();
-	free_check_null(base);
 	return OK;
 }
 
@@ -1276,12 +1256,12 @@ gammas_sit()
  *   Find moles of sites. 
  *   s_x[i]->equiv is stoichiometric coefficient of sites in species
  */
-			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+			for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 			{
-				if (s_x[i]->rxn_x->token[j].s->type == SURF)
+				if (s_x[i]->rxn_x.token[j].s->type == SURF)
 				{
 					s_x[i]->alk =
-						s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
+						s_x[i]->rxn_x.token[j].s->primary->unknown->moles;
 					break;
 				}
 			}
@@ -1341,12 +1321,12 @@ gammas_sit()
 				 *   z contains valence of cation for exchange species, alk contains cec
 				 */
 				/* !!!!! */
-				for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+				for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 				{
-					if (s_x[i]->rxn_x->token[j].s->type == EX)
+					if (s_x[i]->rxn_x.token[j].s->type == EX)
 					{
 						s_x[i]->alk =
-							s_x[i]->rxn_x->token[j].s->primary->unknown->
+							s_x[i]->rxn_x.token[j].s->primary->unknown->
 							moles;
 						break;
 					}
@@ -1372,13 +1352,13 @@ gammas_sit()
 				if (use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
 					/* Assume equal gamma's of solute and exchangeable species...  */
-					for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+					for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 					{
-						if (s_x[i]->rxn_x->token[j].s->type == EX)
+						if (s_x[i]->rxn_x.token[j].s->type == EX)
 							continue;
-						coef = s_x[i]->rxn_x->token[j].coef;
-						s_x[i]->lg += coef * s_x[i]->rxn_x->token[j].s->lg;
-						s_x[i]->dg += coef * s_x[i]->rxn_x->token[j].s->dg;
+						coef = s_x[i]->rxn_x.token[j].coef;
+						s_x[i]->lg += coef * s_x[i]->rxn_x.token[j].s->lg;
+						s_x[i]->dg += coef * s_x[i]->rxn_x.token[j].s->dg;
 					}
 				}
 			}

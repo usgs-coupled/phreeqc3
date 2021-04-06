@@ -56,7 +56,7 @@ build_fixed_volume_gas(void)
  *      sum of partial pressures equation and
  *      mass balance equations for elements contained in gases
  */
-	int row, col;
+	size_t row, col;
 	struct master *master_ptr;
 	struct rxn_token *rxn_ptr;
 	struct unknown *unknown_ptr;
@@ -75,7 +75,7 @@ build_fixed_volume_gas(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		if (phase_ptr->rxn_x == NULL)
+		if (phase_ptr->rxn_x.token.size() == 0)
 			continue;
 		add_elt_list(phase_ptr->next_elt, 1.0);
 #define COMBINE
@@ -174,7 +174,7 @@ build_fixed_volume_gas(void)
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
-			for (rxn_ptr = phase_ptr->rxn_x->token + 1;
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 
@@ -246,7 +246,7 @@ build_fixed_volume_gas(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
 			{
@@ -648,8 +648,8 @@ calc_fixed_volume_gas_pressures(void)
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
-			//lp = -k_calc(phase_ptr->rxn_x->logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
-			for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+			//lp = -k_calc(phase_ptr->rxn_x.logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
 				lp += rxn_ptr->s->la * rxn_ptr->coef;

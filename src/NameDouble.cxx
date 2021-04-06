@@ -29,39 +29,17 @@ cxxNameDouble::cxxNameDouble()
 {
 	this->type = ND_ELT_MOLES;
 }
-
-cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr)
-		//
-		// constructor for cxxNameDouble from list of elt_list
-		//
+cxxNameDouble::cxxNameDouble(const std::vector<struct elt_list>& el)
+// constructor for cxxNameDouble from vector of elt_list
 {
-	int i;
-	if (elt_list_ptr != NULL)
+	size_t i;
+	const struct elt_list* elt_list_ptr = &el[0];
+	for (i = 0; elt_list_ptr[i].elt != NULL; i++)
 	{
-		for (i = 0; elt_list_ptr[i].elt != NULL; i++)
-		{
-			(*this)[elt_list_ptr[i].elt->name] = elt_list_ptr[i].coef;
-		}
+		(*this)[elt_list_ptr[i].elt->name] = elt_list_ptr[i].coef;
 	}
 	this->type = ND_ELT_MOLES;
 }
-
-cxxNameDouble::cxxNameDouble(struct elt_list *elt_list_ptr, int count)
-		//
-		// constructor for cxxNameDouble from list of elt_list with known count
-		//
-{
-	int i;
-	if (elt_list_ptr != NULL)
-	{
-		for (i = 0; i < count; i++)
-		{
-			(*this)[elt_list_ptr[i].elt->name] = elt_list_ptr[i].coef;
-		}
-	}
-	this->type = ND_ELT_MOLES;
-}
-
 cxxNameDouble::cxxNameDouble(const cxxNameDouble & old, LDBLE factor)
 		//
 		// constructor for cxxNameDouble from list of elt_list

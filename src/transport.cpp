@@ -191,7 +191,7 @@ transport(void)
 		/*
 		*   Initialize temperature in stagnant cells ...
 		*/
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			for (i = 1; i <= count_cells; i++)
 			{
@@ -248,7 +248,7 @@ transport(void)
 					warning_msg(error_string);
 				}
 				current_cells = (struct CURRENT_CELLS *) PHRQ_malloc(
-					((size_t)count_cells + 1) * sizeof(struct CURRENT_CELLS));
+					(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 				if (current_cells == NULL)
 					malloc_error();
 				for (int i = 0; i < count_cells + 1; i++)
@@ -280,7 +280,7 @@ transport(void)
 			warning_msg(error_string);
 			timest = 1;
 		}
-		//if (implicit && stag_data->count_stag > 1)
+		//if (implicit && stag_data.count_stag > 1)
 		//{
 		//	error_string = sformatf(
 		//		"Sorry, implicit diffusion can handle only 1 stagnant layer for now. Please remove -implicit true, or set -stagnant 1.");
@@ -289,7 +289,7 @@ transport(void)
 		if (implicit && current_cells == NULL)
 		{
 			current_cells = (struct CURRENT_CELLS *) PHRQ_malloc(
-				((size_t)count_cells + 1) * sizeof(struct CURRENT_CELLS));
+				(count_cells + 1) * sizeof(struct CURRENT_CELLS));
 			if (current_cells == NULL)
 				malloc_error();
 			for (int i = 0; i < count_cells + 1; i++)
@@ -333,7 +333,7 @@ transport(void)
 		/*
 		* Also stagnant cells
 		*/
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			for (i = 1; i <= count_cells; i++)
 			{
@@ -358,7 +358,7 @@ transport(void)
 		*/
 		if (multi_Dflag)
 			diffc_tr = diffc_max;
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
 			/* multi_D calc's are OK if all cells have the same amount of water */
 			 if (multi_Dflag == TRUE)
@@ -397,7 +397,7 @@ transport(void)
 		/*
 		*   Set boundary conditions, transport direction
 		*/
-		last_model.force_prep = TRUE;
+		last_model.force_prep = true;
 		if ((ishift == 0) || (bcon_first == 1) || (bcon_last == 1))
 			b_c = 1;
 		else
@@ -421,12 +421,12 @@ transport(void)
 		* structure stag_data.
 		* MIX 'cell_no' in input file can be an alternative for the calculation here.
 		*/
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
-			b = stag_data->th_m / (stag_data->th_m + stag_data->th_im);
-			f = exp(-stag_data->exch_f * stagkin_time / (b * stag_data->th_im));
+			b = stag_data.th_m / (stag_data.th_m + stag_data.th_im);
+			f = exp(-stag_data.exch_f * stagkin_time / (b * stag_data.th_im));
 			mix_f_imm = b - b * f;
-			mix_f_m = mix_f_imm * stag_data->th_im / stag_data->th_m;
+			mix_f_m = mix_f_imm * stag_data.th_im / stag_data.th_m;
 			for (j = 1; j <= count_cells; j++)
 			{
 				j_imm = j + (1 + count_cells);
@@ -470,11 +470,11 @@ transport(void)
 				/*
 				* Assumption: D_e used for calculating exch_f in input file equals diffc
 				*/
-				f = stag_data->exch_f * (heat_diffc - diffc) / diffc / tempr;
-				f = exp(-f * stagkin_time / (b * stag_data->th_im));
+				f = stag_data.exch_f * (heat_diffc - diffc) / diffc / tempr;
+				f = exp(-f * stagkin_time / (b * stag_data.th_im));
 				heat_mix_f_imm = b - b * f;
 				heat_mix_f_m =
-					heat_mix_f_imm * stag_data->th_im / stag_data->th_m;
+					heat_mix_f_imm * stag_data.th_im / stag_data.th_m;
 			}
 		}
 		/*
@@ -510,7 +510,7 @@ transport(void)
 			/*
 			* Also stagnant cells
 			*/
-			for (n = 1; n <= stag_data->count_stag; n++)
+			for (n = 1; n <= stag_data.count_stag; n++)
 			{
 				for (i = 1; i <= count_cells; i++)
 				{
@@ -568,7 +568,7 @@ transport(void)
 								STOP);
 					}
 					if (implicit)
-						diffuse_implicit(stagkin_time, stag_data->count_stag);
+						diffuse_implicit(stagkin_time, stag_data.count_stag);
 					else if (multi_Dflag)
 						multi_D(stagkin_time, 1, FALSE);
 
@@ -576,7 +576,7 @@ transport(void)
 					{
 						if (!dV_dcell && (i == 0 || i == count_cells + 1) && !implicit)
 						{
-							if (j == nmix && stag_data->count_stag == 0 &&
+							if (j == nmix && stag_data.count_stag == 0 &&
 								(cell_data[0].print || cell_data[0].punch ||
 									cell_data[count_cells + 1].print || cell_data[count_cells + 1].punch))
 								print_punch(i, false);
@@ -607,7 +607,7 @@ transport(void)
 							fill_spec(i, 0);
 
 						/* punch and output file */
-						if (ishift == 0 && j == nmix && (stag_data->count_stag == 0 || (implicit && stag_data->count_stag == 1)))
+						if (ishift == 0 && j == nmix && (stag_data.count_stag == 0 || (implicit && stag_data.count_stag == 1)))
 							print_punch(i, true);
 						if (i > 1)
 							Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
@@ -622,7 +622,7 @@ transport(void)
 						timest + ((double)j - 1) * stagkin_time;
 					rate_sim_time = rate_sim_time_start + stagkin_time;
 
-					if (stag_data->count_stag > 0)
+					if (stag_data.count_stag > 0)
 					{
 						if (ishift == 0 && j == nmix)
 							punch_boolean = TRUE;
@@ -633,9 +633,9 @@ transport(void)
 							mix_stag(i, stagkin_time, punch_boolean, step_fraction);
 						}
 					}
-					if (ishift == 0 && j == nmix && stag_data->count_stag > 0)
+					if (ishift == 0 && j == nmix && stag_data.count_stag > 0)
 					{
-						for (n = 1; n <= stag_data->count_stag; n++)
+						for (n = 1; n <= stag_data.count_stag; n++)
 						{
 							for (i = 1; i <= count_cells; i++)
 							{
@@ -759,21 +759,21 @@ transport(void)
 						fill_spec(i, i - 1);
 					if (overall_iterations > max_iter)
 						max_iter = overall_iterations;
-					if (nmix == 0 && stag_data->count_stag == 0)
+					if (nmix == 0 && stag_data.count_stag == 0)
 						print_punch(i, true);
 					if (i == first_c && count_cells > 1)
 						kin_time = kin_time_save;
 					saver();
 
 					/* If nmix is zero, stagnant zone mixing after advective step ... */
-					if ((nmix == 0) && (stag_data->count_stag > 0))
+					if ((nmix == 0) && (stag_data.count_stag > 0))
 					{
 						mix_stag(i, stagkin_time, TRUE, step_fraction);
 					}
 				}
-				if (nmix == 0 && stag_data->count_stag > 0)
+				if (nmix == 0 && stag_data.count_stag > 0)
 				{
-					for (n = 1; n <= stag_data->count_stag; n++)
+					for (n = 1; n <= stag_data.count_stag; n++)
 					{
 						for (i = 1; i <= count_cells; i++)
 						{
@@ -831,7 +831,7 @@ transport(void)
 						error_msg("Error in surface transport, stopping.", STOP);
 				}
 				if (implicit)
-					diffuse_implicit(stagkin_time, stag_data->count_stag);
+					diffuse_implicit(stagkin_time, stag_data.count_stag);
 				else if (multi_Dflag)
 					multi_D(stagkin_time, 1, FALSE);
 
@@ -840,7 +840,7 @@ transport(void)
 				{
 					if (!dV_dcell && (i == 0 || i == count_cells + 1) && !implicit)
 					{
-						if (j == nmix && stag_data->count_stag == 0 &&
+						if (j == nmix && stag_data.count_stag == 0 &&
 							(cell_data[0].print || cell_data[0].punch ||
 								cell_data[count_cells + 1].print || cell_data[count_cells + 1].punch))
 							print_punch(i, false);
@@ -867,7 +867,7 @@ transport(void)
 					}
 					if (multi_Dflag == TRUE)
 						fill_spec(i, 0);
-					if (j == nmix && (stag_data->count_stag == 0 || (implicit && stag_data->count_stag == 1)))
+					if (j == nmix && (stag_data.count_stag == 0 || (implicit && stag_data.count_stag == 1)))
 						print_punch(i, true);
 					if (i > 1)
 						Utilities::Rxn_copy(Rxn_solution_map, -2, i - 1);
@@ -880,7 +880,7 @@ transport(void)
 					timest + ((double)j - 1) * stagkin_time;
 				rate_sim_time = rate_sim_time_start + stagkin_time;
 
-				if (stag_data->count_stag > 0)
+				if (stag_data.count_stag > 0)
 				{
 					if (j == nmix)
 						punch_boolean = TRUE;
@@ -891,9 +891,9 @@ transport(void)
 						mix_stag(i, stagkin_time, punch_boolean, step_fraction);
 					}
 				}
-				if (j == nmix && ((stag_data->count_stag > 0/* && !implicit) || (implicit && stag_data->count_stag == 1*/)))
+				if (j == nmix && ((stag_data.count_stag > 0/* && !implicit) || (implicit && stag_data.count_stag == 1*/)))
 				{
-					for (n = 1; n <= stag_data->count_stag; n++)
+					for (n = 1; n <= stag_data.count_stag; n++)
 					{
 						for (i = 1; i <= count_cells; i++)
 						{
@@ -979,7 +979,7 @@ transport_cleanup(void)
 	* free mix structures
 	*/
 	Dispersion_mix_map.clear();
-	if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+	if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 	{
 		Rxn_mix_map.clear();
 	}
@@ -1014,7 +1014,7 @@ transport_cleanup(void)
 	}
 	if (implicit)
 	{
-		int l_stag = (stag_data->count_stag < 2 ? stag_data->count_stag : 0);
+		int l_stag = (stag_data.count_stag < 2 ? stag_data.count_stag : 0);
 		Ct2 = (LDBLE *)free_check_null(Ct2);
 		l_tk_x2 = (LDBLE *)free_check_null(l_tk_x2);
 		if (A)
@@ -1102,10 +1102,10 @@ init_mix(void)
 	bool warning = false;
 	int i, l_nmix;
 	LDBLE *m, *m1;
-	m = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 1) * sizeof(LDBLE));
+	m = (LDBLE *)PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
 	if (m == NULL)
 		malloc_error();
-	m1 = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 1) * sizeof(LDBLE));
+	m1 = (LDBLE *)PHRQ_malloc((count_cells + 1) * sizeof(LDBLE));
 	if (m1 == NULL)
 		malloc_error();
 	for (i = 0; i < count_cells + 1; i++)
@@ -1202,7 +1202,7 @@ init_mix(void)
 		if (maxmix == 0)
 		{
 			l_nmix = 0;
-			if (mcd_substeps > 1 && stag_data->count_stag > 0)
+			if (mcd_substeps > 1 && stag_data.count_stag > 0)
 				l_nmix = (int) ceil(mcd_substeps);
 		}
 		else if (implicit)
@@ -1393,7 +1393,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 	/*
 	* Kinetics in transport cell is done while transporting
 	*/
-	for (n = 1; n <= stag_data->count_stag; n++)
+	for (n = 1; n <= stag_data.count_stag; n++)
 	{
 		if (i == 0 || i == count_cells + 1)
 		{
@@ -1424,7 +1424,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 		{
 			if (n == 1)
 			{
-				if (heat_nmix > 0 && (!implicit || (implicit && stag_data->count_stag > 1)))
+				if (heat_nmix > 0 && (!implicit || (implicit && stag_data.count_stag > 1)))
 				{
 					ptr_m = Utilities::Rxn_find(Rxn_solution_map, i);
 					t_imm =
@@ -1454,7 +1454,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 						error_msg("Error in surface transport, stopping.",
 						STOP);
 				}
-				if (!implicit || (implicit && stag_data->count_stag > 1))
+				if (!implicit || (implicit && stag_data.count_stag > 1))
 				{
 					if (multi_Dflag == TRUE)
 						multi_D(1.0, i, 2);
@@ -1484,7 +1484,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 
 	if (done_mixing) // after all mixing is done, the temporal solution becomes the original for the next timestep
 	{
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			k = i + 1 + n * count_cells;
 			if (Utilities::Rxn_find(Rxn_solution_map, k) != 0)
@@ -1533,7 +1533,7 @@ init_heat_mix(int l_nmix)
 	{
 		if (fabs(Utilities::Rxn_find(Rxn_solution_map, count_cells + 1)->Get_tc() - t0) > 1.0)
 			l_heat_nmix = 1;
-		for (n = 1; n <= stag_data->count_stag; n++)
+		for (n = 1; n <= stag_data.count_stag; n++)
 		{
 			for (i = 1; i < count_cells; i++)
 			{
@@ -1554,15 +1554,15 @@ init_heat_mix(int l_nmix)
 	/*
 	* Initialize arrays...
 	*/
-	heat_mix_array = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE));
+	heat_mix_array = (LDBLE *)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE));
 	if (heat_mix_array == NULL)
 		malloc_error();
 
-	temp1 = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE));
+	temp1 = (LDBLE *)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE));
 	if (temp1 == NULL)
 		malloc_error();
 
-	temp2 = (LDBLE *)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE));
+	temp2 = (LDBLE *)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE));
 	if (temp2 == NULL)
 		malloc_error();
 	/*
@@ -1678,7 +1678,8 @@ set_initial_moles(int i)
 /* ---------------------------------------------------------------------- */
 {
 	cxxKinetics *kinetics_ptr;
-	char token[MAX_LENGTH], token1[MAX_LENGTH], *ptr;
+	char token[MAX_LENGTH];
+	const char* cptr;
 	int j, k, l;
 	/*
 	*   Pure phase assemblage
@@ -1763,12 +1764,15 @@ set_initial_moles(int i)
 		count_elts = 0;
 		paren_count = 0;
 		strcpy(token, "X");
-		ptr = token;
-		get_elts_in_species(&ptr, 2e-10);
-		ptr = token;
+		cptr = token;
+		get_elts_in_species(&cptr, 2e-10);
+		cptr = token;
 		LDBLE z;
-		get_token(&ptr, token1, &z, &l);
-		comp.Set_formula(token1);
+		{
+			std::string token1;
+			get_token(&cptr, token1, &z, &l);
+			comp.Set_formula(token1.c_str());
+		}
 		comp.Set_formula_z(z);
 		comp.Set_totals(elt_list_NameDouble());
 		comp.Set_charge_balance(0.0);
@@ -1949,9 +1953,9 @@ fill_spec(int l_cell_no, int ref_cell)
 				}
 
 				/* find the aqueous species in the exchange reaction... */
-				for (i2 = 0; (s_ptr->rxn->token[i2].s != NULL); i2++)
+				for (i2 = 0; (s_ptr->rxn.token[i2].s != NULL); i2++)
 				{
-					if ((s_ptr2 = s_ptr->rxn->token[i2].s)->type == AQ)
+					if ((s_ptr2 = s_ptr->rxn.token[i2].s)->type == AQ)
 						break;
 				}
 				/* copy its name and Dw and charge... */
@@ -2022,7 +2026,7 @@ fill_spec(int l_cell_no, int ref_cell)
 						if (i3 + count_spec + 1 > sol_D[l_cell_no].spec_size)
 						{
 							sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-								((size_t)i3 + (size_t)count_spec + 1 + (size_t)size_xt) * sizeof(struct spec));
+								((size_t)i3 + count_spec + 1 + (size_t)size_xt) * sizeof(struct spec));
 							if (sol_D[l_cell_no].spec == NULL)
 								malloc_error();
 							sol_D[l_cell_no].spec_size = i3 + count_spec + 1 + size_xt;
@@ -2044,7 +2048,7 @@ fill_spec(int l_cell_no, int ref_cell)
 			if (count_spec >= sol_D[l_cell_no].spec_size)
 			{
 				sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-					((size_t)count_spec + (size_t)size_xt) * sizeof(struct spec));
+					(count_spec + (size_t)size_xt) * sizeof(struct spec));
 				if (sol_D[l_cell_no].spec == NULL)
 					malloc_error();
 				sol_D[l_cell_no].spec_size = count_spec + size_xt;
@@ -2216,20 +2220,20 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		comp += 1;
 
 	if (Ct2 == NULL)
-		Ct2 = (LDBLE *) PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE));
+		Ct2 = (LDBLE *) PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE));
 	if (Ct2 == NULL) malloc_error();
 	if (l_tk_x2 == NULL)
-		l_tk_x2 = (LDBLE *) PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE));
+		l_tk_x2 = (LDBLE *) PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE));
 	if (l_tk_x2 == NULL) malloc_error();
 
 	if (A == NULL)
 	{
-		A = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE *));
+		A = (LDBLE **)PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE *));
 		if (A == NULL) malloc_error();
 		for (i = 0; i < count_cells + 2 + stagnant * count_cells; i++)
 		{
 			if (stagnant)
-				A[i] = (LDBLE *)PHRQ_calloc((2 * (size_t)count_cells + 2), sizeof(LDBLE));
+				A[i] = (LDBLE *)PHRQ_calloc((2 * count_cells + 2), sizeof(LDBLE));
 			else 
 				A[i] = (LDBLE *)PHRQ_malloc(3 * sizeof(LDBLE));
 			if (A[i] == NULL) malloc_error();
@@ -2237,12 +2241,12 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	}
 	if (LU == NULL)
 	{
-		LU = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2 + (size_t)stagnant * (size_t)count_cells) * sizeof(LDBLE *));
+		LU = (LDBLE **)PHRQ_malloc((count_cells + 2 + (size_t)stagnant * count_cells) * sizeof(LDBLE *));
 		if (LU == NULL) malloc_error();
 		for (i = 0; i < count_cells + 2 + stagnant * count_cells; i++)
 		{
 			if (stagnant)
-				LU[i] = (LDBLE *)PHRQ_calloc((2 * (size_t)count_cells + 2), sizeof(LDBLE));
+				LU[i] = (LDBLE *)PHRQ_calloc((2 * count_cells + 2), sizeof(LDBLE));
 			else 
 				LU[i] = (LDBLE *)PHRQ_malloc(3 * sizeof(LDBLE));
 			if (LU[i] == NULL) malloc_error();
@@ -2250,7 +2254,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	}
 	if (mixf == NULL)
 	{
-		mixf = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE *));
+		mixf = (LDBLE **)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE *));
 		if (mixf == NULL) malloc_error();
 		for (i = 0; i < count_cells + 2; i++)
 		{
@@ -2261,7 +2265,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	{
 		if (mixf_stag == NULL)
 		{
-			mixf_stag = (LDBLE **)PHRQ_malloc(((size_t)count_cells + 2) * sizeof(LDBLE *));
+			mixf_stag = (LDBLE **)PHRQ_malloc((count_cells + 2) * sizeof(LDBLE *));
 			if (mixf_stag == NULL) malloc_error();
 			for (i = 0; i < count_cells + 2; i++)
 			{
@@ -2747,9 +2751,9 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			break;
 		}
 		char * temp_name = string_duplicate(ct[1].J_ij[cp].name);
-		char * ptr = temp_name;
+		const char* cptr = temp_name;
 		count_elts = 0;
-		get_elts_in_species(&ptr, 1);
+		get_elts_in_species(&cptr, 1);
 		free_check_null(temp_name);
 		for (int k = 0; k < count_elts; k++)
 		{
@@ -2802,7 +2806,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			((dV_dcell > 0) && ((cell_data[i].potV + dVc) > cell_data[count_cells + 1].potV)) ||
 			((dV_dcell < 0) && ((cell_data[i].potV + dVc) < cell_data[count_cells + 1].potV)))
 		{
-			dVc = (cell_data[(size_t)count_cells + 1].potV - cell_data[i].potV) / ((double)count_cells + 1 - (double)i);
+			dVc = (cell_data[count_cells + 1].potV - cell_data[i].potV) / ((double)count_cells + 1 - (double)i);
 		}
 		cell_data[i + 1].potV = cell_data[i].potV + dVc;
 	}
@@ -2845,12 +2849,12 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			ct[i].m_s = (struct M_S *) free_check_null(ct[i].m_s);
 		if (ct[i].m_s == NULL)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_malloc(((size_t)count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s = (struct M_S *) PHRQ_malloc((count_m_s + 5) * sizeof(struct M_S));
 			ct[i].m_s_size = count_m_s + 5;
 		}
 		else if (count_m_s > ct[i].m_s_size)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, ((size_t)count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, (count_m_s + 5) * sizeof(struct M_S));
 			ct[i].m_s_size = count_m_s + 5;
 		}
 		if (ct[i].m_s == NULL)
@@ -3268,7 +3272,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 	for (int f_c = 0; f_c <= loop_f_c; f_c++)
 	{
-		for (n = 0; n <= (stagnant ? stag_data->count_stag : 0); n++) // allow for stagnant cell mixing with higher cells in the layer
+		for (n = 0; n <= (stagnant ? stag_data.count_stag : 0); n++) // allow for stagnant cell mixing with higher cells in the layer
 			{
 			icell = mobile_cell + 1 + n * count_cells;
 			if (stagnant)
@@ -3589,15 +3593,15 @@ fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 	*/
 	int j, k, l;
 	LDBLE fraction;
-	char *ptr;
+	const char* cptr;
 
 	for (j = 0; j < l_J_ij_count_spec; j++)
 	{
 		{
 			char * temp_name = string_duplicate(l_J_ij[j].name);
-			ptr = temp_name;
+			cptr = temp_name;
 			count_elts = 0;
-			get_elts_in_species(&ptr, 1);
+			get_elts_in_species(&cptr, 1);
 			free_check_null(temp_name);
 		}
 		if (implicit && stagnant < 2)
@@ -5111,7 +5115,7 @@ Step (from cell 1 to count_cells + 1):
 		{
 			continue;
 		}
-		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
+		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data.count_stag))
 		{
 			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
 			if (surface_ptr1 != NULL)
@@ -5439,7 +5443,7 @@ diff_stag_surf(int mobile_cell)
 	cxxSurface *surface_n2_ptr;
 	std::map<int, cxxSurface> Rxn_temp_surface_map;
 
-	for (ns = 0; ns < stag_data->count_stag; ns++)
+	for (ns = 0; ns < stag_data.count_stag; ns++)
 	{
 
 		i1 = mobile_cell + 1 + ns * count_cells;
@@ -5703,7 +5707,7 @@ diff_stag_surf(int mobile_cell)
 		{
 			continue;
 		}
-		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data->count_stag))
+		if (i >= 0 && i <= 1 + count_cells * (1 + stag_data.count_stag))
 		{
 			surface_ptr1 = Utilities::Rxn_find(Rxn_surface_map, i);
 			//if (surface_ptr1 != NULL)
@@ -6048,7 +6052,7 @@ calc_vm_Cl(void)
 		{
 			/* limit the Debye-Hueckel slope by b... */
 			/* pitzer... */
-			//s_ptr->rxn_x->logk[vm_tc] += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
+			//s_ptr->rxn_x.logk[vm_tc] += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
 			//	log(1 + s_ptr->logk[b_Av] * sqrt(mu_x)) / s_ptr->logk[b_Av];
 			/* extended DH... */
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av *

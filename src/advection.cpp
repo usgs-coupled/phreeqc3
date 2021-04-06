@@ -4,7 +4,6 @@
 #include "cxxKinetics.h"
 #include "Solution.h"
 
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 advection(void)
@@ -60,7 +59,7 @@ advection(void)
 /*
  *   Equilibrate solutions with phases, exchangers, surfaces
  */
-	last_model.force_prep = TRUE;
+	last_model.force_prep = true;
 	rate_sim_time_start = 0;
 	for (advection_step = 1; advection_step <= count_ad_shifts;
 		 advection_step++)
@@ -89,7 +88,7 @@ advection(void)
 /*
  *  Equilibrate and (or) mix
  */
-		for (i = 1; i <= count_ad_cells; i++)
+		for (int i = 1; i <= count_ad_cells; i++)
 		{
 			set_initial_moles(i);
 			cell_no = i;
@@ -102,17 +101,17 @@ advection(void)
 			log_msg(sformatf( "\nCell %d.\n\n", i));
 			if (pr.use == TRUE && pr.all == TRUE &&
 				advection_step % print_ad_modulus == 0 &&
-				advection_print[i - 1] == TRUE)
+				advection_print[(size_t)i - 1] == TRUE)
 			{
 				output_msg(sformatf( "\nCell %d.\n\n", i));
 			}
 			if (advection_step % punch_ad_modulus == 0 &&
-				advection_punch[i - 1] == TRUE)
+				advection_punch[(size_t)i - 1] == TRUE)
 			{
 				punch_all();
 			}
 			if (advection_step % print_ad_modulus == 0 &&
-				advection_print[i - 1] == TRUE)
+				advection_print[(size_t)i - 1] == TRUE)
 			{
 				print_all();
 			}

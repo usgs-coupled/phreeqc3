@@ -188,13 +188,7 @@ cl1(int k, int l, int m, int n,
 	output_msg(sformatf( "Set up phase 1 costs\n"));
 #endif
 /* Zero first row of cu and iu */
-	//memcpy((void *) &(l_cu[0]), (void *) &(scratch[0]),
-	//	   (size_t) nklm * sizeof(LDBLE));
 	memset(&l_cu[0], 0, (size_t)nklm * sizeof(LDBLE));
-	//for (j = 0; j < nklm; ++j)
-	//{
-	//	l_iu[j] = 0;
-	//}
 	memset(&l_iu[0], 0, (size_t)nklm * sizeof(int));
 /* L40: */
 #ifdef DEBUG_CL1

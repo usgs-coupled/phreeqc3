@@ -70,14 +70,13 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 }
 PBasic::~PBasic(void)
 {
-	
 }
 
 int PBasic::
-basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
+basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -164,7 +163,7 @@ int PBasic::
 basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l, i;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -245,7 +244,7 @@ int PBasic::
 basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 	P_escapecode = 0;
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
@@ -317,10 +316,10 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 }
 
 int PBasic::
-basic_main(char *commands)
+basic_main(const char *commands)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -379,7 +378,7 @@ basic_main(char *commands)
 
 /* ---------------------------------------------------------------------- */
 int PBasic::
-sget_logical_line(char **ptr, int *l, char *return_line)
+sget_logical_line(const char **ptr, int *l, char *return_line)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -723,7 +722,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
  * Note: Modification of string length may translate incorrectly [146] */
 
 /*
- *   Search hash list
+ *   Search list
  */
 					PhreeqcPtr->str_tolower(token);
 					std::map<const std::string, BASIC_TOKEN>::const_iterator item;
@@ -2021,8 +2020,6 @@ factor(struct LOC_exec * LINK)
 		long i;
 		char *c;
 	} trick;
-	struct save_values s_v, *s_v_ptr;
-	int k;
 	LDBLE TEMP;
 	std::string STR1, STR2;
 	const char *elt_name, *surface_name, *mytemplate, *name;
@@ -2039,9 +2036,6 @@ factor(struct LOC_exec * LINK)
 	facttok = LINK->t;
 	LINK->t = LINK->t->next;
 	n.stringval = false;
-	s_v.count_subscripts = 0;
-	/*s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc (sizeof (int)); */
-	s_v.subscripts = NULL;
 	switch (facttok->kind)
 	{
 
@@ -2267,7 +2261,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokdh_a:
 	{
-		if (PhreeqcPtr->llnl_count_temp > 0)
+		if (PhreeqcPtr->llnl_temp.size() > 0)
 		{
 			n.UU.val = PhreeqcPtr->a_llnl;
 		}
@@ -2293,7 +2287,7 @@ factor(struct LOC_exec * LINK)
 
 	case tokdh_b:
 	{
-		if (PhreeqcPtr->llnl_count_temp > 0)
+		if (PhreeqcPtr->llnl_temp.size() > 0)
 		{
 			n.UU.val = PhreeqcPtr->b_llnl;
 		}
@@ -2414,8 +2408,8 @@ factor(struct LOC_exec * LINK)
 			PhreeqcPtr->sys_tot = 0;
 			//PhreeqcPtr->count_sys = 1000;
 			//int count_sys = PhreeqcPtr->count_sys;
-			int count_sys = 1000;
-			names_arg = (char**)PhreeqcPtr->PHRQ_calloc(((size_t)count_sys + 1), sizeof(char*));
+			size_t count_sys = 1000;
+			names_arg = (char**)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(char*));
 			if (names_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2423,7 +2417,7 @@ factor(struct LOC_exec * LINK)
 				exit(4);
 #endif
 			}
-			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc(((size_t)count_sys + 1), sizeof(LDBLE));
+			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(LDBLE));
 			if (moles_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2521,11 +2515,6 @@ factor(struct LOC_exec * LINK)
 		LINK->t = LINK->t->next;
 		require(tokrp, LINK);
 
-		// Make work space
-		//int max_length = length < 256 ? 256 : length;
-		//char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
-		//if (token == NULL) PhreeqcPtr->malloc_error();
-
 		// set function value
 		LDBLE eq;
 		std::string elt_name;
@@ -2561,30 +2550,14 @@ factor(struct LOC_exec * LINK)
 
 	case tokexists:
 	{
+		std::ostringstream oss;
 		require(toklp, LINK);
 
-		s_v.count_subscripts = 0;
 		/* get first subscript */
 		if (LINK->t != NULL && LINK->t->kind != tokrp)
 		{
 			i = intexpr(LINK);
-			if (s_v.subscripts == NULL)
-			{
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-			}
-			s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-				((size_t)s_v.count_subscripts + 1) * sizeof(int));
-			if (s_v.subscripts == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-			}
-			else
-			{
-				s_v.subscripts[s_v.count_subscripts] = i;
-				s_v.count_subscripts++;
-			}
+			oss << i << ",";
 		}
 
 		/* get other subscripts */
@@ -2594,23 +2567,7 @@ factor(struct LOC_exec * LINK)
 			{
 				LINK->t = LINK->t->next;
 				j = intexpr(LINK);
-				if (s_v.subscripts == NULL)
-				{
-					s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-					if (s_v.subscripts == NULL)
-						PhreeqcPtr->malloc_error();
-				}
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-					((size_t)s_v.count_subscripts + 1) * sizeof(int));
-				if (s_v.subscripts == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-				}
-				else
-				{
-					s_v.subscripts[s_v.count_subscripts] = j;
-					s_v.count_subscripts++;
-				}
+				oss << j << ",";
 			}
 			else
 			{
@@ -2625,15 +2582,8 @@ factor(struct LOC_exec * LINK)
 		}
 		else
 		{
-			s_v_ptr = PhreeqcPtr->save_values_bsearch(&s_v, &k);
-			if (s_v_ptr == NULL)
-			{
-				n.UU.val = 0;
-			}
-			else
-			{
-				n.UU.val = 1;
-			}
+			std::map<std::string, double>::iterator it = PhreeqcPtr->save_values.find(oss.str());
+			n.UU.val = (it == PhreeqcPtr->save_values.end()) ? 0 : 1;
 		}
 	}
 	break;
@@ -2672,25 +2622,14 @@ factor(struct LOC_exec * LINK)
 
 	case tokget:
 	{
+		std::ostringstream oss;
 		require(toklp, LINK);
 
-		s_v.count_subscripts = 0;
 		/* get first subscript */
 		if (LINK->t != NULL && LINK->t->kind != tokrp)
 		{
 			i = intexpr(LINK);
-			if (s_v.subscripts == NULL)
-			{
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-			}
-			s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-				((size_t)s_v.count_subscripts + 1) * sizeof(int));
-			if (s_v.subscripts == NULL)
-				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts] = i;
-			s_v.count_subscripts++;
+			oss << i << ",";
 		}
 
 		/* get other subscripts */
@@ -2700,18 +2639,7 @@ factor(struct LOC_exec * LINK)
 			{
 				LINK->t = LINK->t->next;
 				j = intexpr(LINK);
-				if (s_v.subscripts == NULL)
-				{
-					s_v.subscripts = (int*)PhreeqcPtr->PHRQ_malloc(sizeof(int));
-					if (s_v.subscripts == NULL)
-						PhreeqcPtr->malloc_error();
-				}
-				s_v.subscripts = (int*)PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-					((size_t)s_v.count_subscripts + 1) * sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-				s_v.subscripts[s_v.count_subscripts] = j;
-				s_v.count_subscripts++;
+				oss << j << ",";
 			}
 			else
 			{
@@ -2720,14 +2648,14 @@ factor(struct LOC_exec * LINK)
 				break;
 			}
 		}
-		s_v_ptr = (parse_all) ? NULL : PhreeqcPtr->save_values_bsearch(&s_v, &k);
-		if (s_v_ptr == NULL)
+		if (parse_all)
 		{
-			n.UU.val = (parse_all) ? 1 : 0;
+			n.UU.val = 1;
 		}
 		else
 		{
-			n.UU.val = s_v_ptr->value;
+			std::map<std::string, double>::iterator it = PhreeqcPtr->save_values.find(oss.str());
+			n.UU.val = (it == PhreeqcPtr->save_values.end()) ? 0 : it->second;
 		}
 		break;
 	}
@@ -2743,7 +2671,7 @@ factor(struct LOC_exec * LINK)
 		{
 			if (PhreeqcPtr->phast != TRUE)
 			{
-				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
+				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data.count_stag) + 1
 					|| i == PhreeqcPtr->count_cells + 1)
 				{
 					/*		warning_msg("Note... no porosity for boundary solutions."); */
@@ -3642,7 +3570,7 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc(((size_t)max_length + 1), sizeof(char));
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
 		if (token == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
@@ -3685,7 +3613,7 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc(((size_t)max_length + 1), sizeof(char));
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
 		if (token == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
@@ -4312,7 +4240,6 @@ factor(struct LOC_exec * LINK)
 		snerr(": missing \" or (");
 		break;
 	}
-	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
 	return n;
 }
 
@@ -4876,16 +4803,13 @@ void PBasic::
 cmdput(struct LOC_exec *LINK)
 {
 	int j;
-	struct save_values s_v;
-
-	s_v.count_subscripts = 0;
-	s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
+	std::ostringstream oss;
 
 	/* get parentheses */
 	require(toklp, LINK);
 
 	/* get first argumen */
-	s_v.value = realexpr(LINK);
+	double value = realexpr(LINK);
 
 	for (;;)
 	{
@@ -4893,14 +4817,7 @@ cmdput(struct LOC_exec *LINK)
 		{
 			LINK->t = LINK->t->next;
 			j = intexpr(LINK);
-			s_v.count_subscripts++;
-			s_v.subscripts =
-				(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-									 (size_t) s_v.count_subscripts *
-									 sizeof(int));
-			if (s_v.subscripts == NULL)
-				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts - 1] = j;
+			oss << j << ",";
 		}
 		else
 		{
@@ -4911,9 +4828,8 @@ cmdput(struct LOC_exec *LINK)
 	}
 	if (!parse_all)
 	{
-		PhreeqcPtr->save_values_store(&s_v);
+		PhreeqcPtr->save_values[oss.str()] = value;
 	}
-	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
 }
 
 void PBasic::
@@ -4928,7 +4844,7 @@ cmdchange_por(struct LOC_exec *LINK)
 	/* get cell_no */
 	j = intexpr(LINK);
 	require(tokrp, LINK);
-	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
+	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data.count_stag) + 1
 		&& j != PhreeqcPtr->count_cells + 1)
 		PhreeqcPtr->cell_data[j].por = TEMP;
 }

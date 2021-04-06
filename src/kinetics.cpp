@@ -88,7 +88,7 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 			if (rate_ptr->new_def == TRUE)
 			{
 				if (basic_compile
-					(rates[j].commands, &rates[j].linebase, &rates[j].varbase,
+					(rates[j].commands.c_str(), &rates[j].linebase, &rates[j].varbase,
 					 &rates[j].loopbase) != 0)
 				{
 					error_string = sformatf( "Fatal Basic error in rate %s.",
@@ -186,14 +186,12 @@ RESTART:   // if limiting rates, jump to here
 			}
 			else
 			{
-				char * temp_name = string_duplicate(name.c_str());
-				char * ptr = temp_name;
+				const char* ptr = name.c_str();
 				if (get_elts_in_species(&ptr, coef * coef1) == ERROR)
 				{
-					error_string = sformatf("Error in -formula: %s", temp_name);
+					error_string = sformatf("Error in -formula: %s", name.c_str());
 					error_msg(error_string, CONTINUE);
 				}
-				free_check_null(temp_name);
 			}
 		}
 		if (use.Get_exchange_ptr() != NULL
@@ -210,14 +208,13 @@ RESTART:   // if limiting rates, jump to here
 						name.c_str()) == 0)
 					{
 						/* found kinetics component */
-						char * formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
-						char * ptr = formula;
+						std::string formula = exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str();
+						const char* ptr = formula.c_str();
 						if (get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion()) == ERROR)
 						{
-							error_string = sformatf("Error in -formula: %s", formula);
+							error_string = sformatf("Error in -formula: %s", formula.c_str());
 							error_msg(error_string, CONTINUE);
 						}
-						free_check_null(formula);
 					}
 				}
 			}
@@ -235,14 +232,13 @@ RESTART:   // if limiting rates, jump to here
 						surface_comp_ptr->Get_rate_name().c_str()) == 0)
 					{
 						/* found kinetics component */
-						char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-						char *ptr = temp_formula;
+						std::string temp_formula = surface_comp_ptr->Get_formula().c_str();
+						const char* cptr = temp_formula.c_str();
 						/* Surface = 0 when m becomes low ...
 						*/
 						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
 							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
 						{
-							//master_ptr = master_bsearch(ptr);
 							master_ptr = master_bsearch(surface_comp_ptr->Get_master_element().c_str());
 							if (master_ptr != NULL) 
 							{
@@ -251,13 +247,12 @@ RESTART:   // if limiting rates, jump to here
 						}
 						else
 						{
-							if (get_elts_in_species(&ptr, -coef * surface_comp_ptr->Get_phase_proportion()) == ERROR)
+							if (get_elts_in_species(&cptr, -coef * surface_comp_ptr->Get_phase_proportion()) == ERROR)
 							{
-								error_string = sformatf("Error in -formula: %s", temp_formula);
+								error_string = sformatf("Error in -formula: %s", temp_formula.c_str());
 								error_msg(error_string, CONTINUE);
 							}
 						}
-						free_check_null(temp_formula);
 					}
 				}
 			}
@@ -324,7 +319,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 /*
  *  Save kinetics i and solution i, if necessary
  */
-	save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
+	save_old = -2 - (count_cells * (1 + stag_data.count_stag) + 2);
 	Utilities::Rxn_copy(Rxn_kinetics_map, i, save_old);
 	if (nsaver != i)
 	{
@@ -338,9 +333,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	if (kinetics_ptr == NULL)
 		return (OK);
 	n_reactions = (int) kinetics_ptr->Get_kinetics_comps().size();
-	rk_moles = (LDBLE *) free_check_null(rk_moles);
-	rk_moles = (LDBLE *) PHRQ_malloc((size_t) 6 * n_reactions * sizeof(LDBLE));
-	if (rk_moles == NULL) malloc_error();
+	rk_moles.resize(6 * (size_t)n_reactions);
 
 	/*if (use_mix != NOMIX) last_model.force_prep = TRUE; */
 	set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
@@ -1112,7 +1105,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	{
 		Utilities::Rxn_copy(Rxn_solution_map, save_old, i);
 	}
-	rk_moles = (LDBLE *) free_check_null(rk_moles);
+	rk_moles.clear();
 
 	rate_sim_time = rate_sim_time_start + kin_time;
 	use.Set_kinetics_in(true);
@@ -2040,14 +2033,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  *   Save moles of kinetic reactants for printout...
  */
 		size_t count_comps = kinetics_ptr->Get_kinetics_comps().size();
-		m_temp = (LDBLE *) PHRQ_malloc(count_comps * sizeof(LDBLE));
-		if (m_temp == NULL)
-			malloc_error();
-
-		m_original =
-			(LDBLE *) PHRQ_malloc(count_comps * sizeof(LDBLE));
-		if (m_original == NULL)
-			malloc_error();
+		m_temp.resize(count_comps); 
+		m_original.resize(count_comps);
 
 		for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
 		{
@@ -2077,7 +2064,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 		}
 		else
 		{
-			save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
+			save_old = -2 - (count_cells * (1 + stag_data.count_stag) + 2);
 			if (nsaver != i)
 			{
 				Utilities::Rxn_copy(Rxn_solution_map, i, save_old);
@@ -2244,8 +2231,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				cvode_last_good_time = 0;
 				if (++m_iter >= kinetics_ptr->Get_bad_step_max())
 				{
-					m_temp = (LDBLE *) free_check_null(m_temp);
-					m_original = (LDBLE *) free_check_null(m_original);
+					m_temp.clear();
+					m_original.clear();
 					error_string = sformatf(
 						"CVode is at maximum calls: %d. Cell: %d. Time: %8.2e s\nERROR: Please increase the maximum calls with -bad_step_max.",
 						m_iter, cell_no, (double)sum_t);
@@ -2349,8 +2336,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			kinetics_comp_ptr->Set_moles(m_original[j] - kinetics_comp_ptr->Get_m());
 /*						if (kinetics_ptr->comps[j].moles < 1.e-15) kinetics_ptr->comps[j].moles = 0.0;
  */ }
-		m_temp = (LDBLE *) free_check_null(m_temp);
-		m_original = (LDBLE *) free_check_null(m_original);
+		m_temp.clear();
+		m_original.clear();
 	}
 	iterations = run_reactions_iterations;
 	if (cvode_pp_assemblage_save != NULL)
@@ -2651,13 +2638,8 @@ store_get_equi_reactants(int l, int kin_end)
 		
 		if (k == 0)
 			return (OK);
-		x0_moles = (LDBLE *) free_check_null(x0_moles);
-		x0_moles = (LDBLE *) PHRQ_malloc((size_t) k * sizeof(LDBLE));
-		if (x0_moles == NULL) malloc_error();
-		for (i = 0; i < k; i++)
-		{
-		  x0_moles[i] = 0.0;
-		}
+		x0_moles.resize(k);
+		for (i = 0; i < k; i++) x0_moles[i] = 0.0;
 		k = -1;
 		if (pp_assemblage_ptr)
 		{
@@ -2740,7 +2722,7 @@ store_get_equi_reactants(int l, int kin_end)
  *   This condition makes output equal for incremental_reactions TRUE/FALSE...
  *		if (incremental_reactions == FALSE || reaction_step == count_total_steps)
  */
-		x0_moles = (LDBLE *) free_check_null(x0_moles);
+		x0_moles.clear();
 	}
 	return (OK);
 }
@@ -2849,7 +2831,8 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 {
 	int count_cvode_errors;
 	int n_reactions, n_user;
-	LDBLE *initial_rates, del;
+	LDBLE del;
+	std::vector<double> initial_rates;
 	cxxKinetics *kinetics_ptr;
 	LDBLE step_fraction;
 
@@ -2862,10 +2845,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 	step_fraction = pThis->cvode_step_fraction;
 	pThis->rate_sim_time = pThis->cvode_rate_sim_time;
 
-	initial_rates =
-		(LDBLE *) pThis->PHRQ_malloc ((size_t) n_reactions * sizeof(LDBLE));
-	if (initial_rates == NULL)
-		pThis->malloc_error();
+	initial_rates.resize(n_reactions); 
 
 	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
 	{
@@ -2907,7 +2887,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 		/*
 		   error_msg("Mass balance error in jacobian", CONTINUE);
 		 */
-		initial_rates = (LDBLE *) pThis->free_check_null(initial_rates);
+		initial_rates.clear();
 		return;
 	}
 	pThis->run_reactions_iterations += pThis->iterations;
@@ -2979,7 +2959,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 				pThis->cvode_error = TRUE;
 				if (count_cvode_errors > 30)
 				{
-					initial_rates = (LDBLE *) pThis->free_check_null(initial_rates);
+					initial_rates.clear();
 					return;
 				}
 				pThis->run_reactions_iterations += pThis->iterations;
@@ -3010,7 +2990,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
 		kinetics_comp_ptr->Set_moles(0);
 	}
-	initial_rates = (LDBLE *) pThis->free_check_null(initial_rates);
+	initial_rates.clear();
 	return;
 }
 

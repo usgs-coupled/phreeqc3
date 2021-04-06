@@ -597,7 +597,7 @@ print_gas_phase(void)
 	print_centered("Gas phase");
 	output_msg(sformatf("Total pressure: %5.2f      atmospheres",
 			   (double) gas_phase_ptr->Get_total_p()));
-	if (gas_phase_ptr->Get_total_p() >= MAX_P_NONLLNL && llnl_count_temp <= 0)
+	if (gas_phase_ptr->Get_total_p() >= MAX_P_NONLLNL && llnl_temp.size() == 0)
 		output_msg(" WARNING: Program limit.\n");
 	else if (PR)
 		output_msg("          (Peng-Robinson calculation)\n");
@@ -648,7 +648,7 @@ print_gas_phase(void)
 		{
 			lp = -phase_ptr->lk;
 			for (rxn_ptr =
-				 phase_ptr->rxn_x->token + 1;
+				 &phase_ptr->rxn_x.token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				lp += rxn_ptr->s->la * rxn_ptr->coef;
@@ -1073,7 +1073,7 @@ print_master_reactions(void)
 	{
 		output_msg(sformatf("%s\t%s\n\tPrimary reaction\n",
 				   master[i]->elt->name, master[i]->s->name));
-		next_token = master[i]->rxn_primary->token;
+		next_token = master[i]->rxn_primary.token;
 		for (; next_token->s != NULL; next_token++)
 		{
 			output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
@@ -1082,7 +1082,7 @@ print_master_reactions(void)
 		output_msg(sformatf("\n\tSecondary reaction:\n"));
 		if (master[i]->rxn_secondary != NULL)
 		{
-			next_token = master[i]->rxn_secondary->token;
+			next_token = master[i]->rxn_secondary.token;
 			for (; next_token->s != NULL; next_token++)
 			{
 				output_msg(sformatf("\t\t%s\t%f\n",
@@ -1165,37 +1165,6 @@ print_mix(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-print_reaction(struct reaction *rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Debugging print of individual chemical reactions for
- *   species or phases
- */
-	int j;
-	struct rxn_token *next_token;
-
-	if (pr.use == FALSE || pr.all == FALSE)
-		return (OK);
-
-	output_msg(sformatf("%s\t\n", rxn_ptr->token[0].s->name));
-	output_msg(sformatf("\n\tlog k:\n"));
-	for (j = 0; j < MAX_LOG_K_INDICES; j++)
-	{
-		output_msg(sformatf("\t%f", (double) rxn_ptr->logk[j]));
-	}
-	output_msg(sformatf("\n\nReaction:\n"));
-	for (next_token = rxn_ptr->token; next_token->s != NULL; next_token++)
-	{
-		output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
-				   (double) next_token->coef));
-	}
-	output_msg(sformatf("\n"));
-	return (OK);
-}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_saturation_indices(void)
@@ -1209,7 +1178,7 @@ print_saturation_indices(void)
 	LDBLE lk;
 	LDBLE la_eminus;
 	struct rxn_token *rxn_ptr;
-	struct reaction *reaction_ptr;
+	CReaction *reaction_ptr;
 	bool gas = true;
 
 	if (pr.saturation_indices == FALSE || pr.all == FALSE)
@@ -1217,7 +1186,7 @@ print_saturation_indices(void)
 	if (state == INITIAL_SOLUTION)
 	{
 		iap = 0;
-		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size(); tok++)
+		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size() - 1; tok++)
 		{
 			iap += pe_x[default_pe_x].Get_tokens()[tok].coef * pe_x[default_pe_x].Get_tokens()[tok].s->la;
 			/* fprintf(output,"\t%s\t%f\t%f\n", rxn_ptr->s->name, rxn_ptr->coef, rxn_ptr->s->la ); */
@@ -1254,19 +1223,19 @@ print_saturation_indices(void)
 			continue;
 		/* check for solids and gases in equation */
 		if (phases[i]->replaced)
-			reaction_ptr = phases[i]->rxn_s;
+			reaction_ptr = &phases[i]->rxn_s;
 		else
-			reaction_ptr = phases[i]->rxn;
+			reaction_ptr = &phases[i]->rxn;
 /*
  *   Print saturation index
  */
-		reaction_ptr->logk[delta_v] = calc_delta_v(reaction_ptr, true) -
+		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
 			 phases[i]->logk[vm0];
 		if (reaction_ptr->logk[delta_v])
 				mu_terms_in_logk = true;
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		iap = 0.0;
-		for (rxn_ptr = reaction_ptr->token + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->s != NULL;
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus)
@@ -1356,7 +1325,7 @@ print_pp_assemblage(void)
  */
 		iap = 0.0;
 		phase_ptr = x[j]->phase;
-		if (x[j]->phase->rxn_x == NULL || phase_ptr->in == FALSE)
+		if (x[j]->phase->rxn_x.token.size() == 0 || phase_ptr->in == FALSE)
 		{
 			output_msg(sformatf("%-18s%23s", x[j]->phase->name,
 					   "Element not present."));
@@ -1364,12 +1333,12 @@ print_pp_assemblage(void)
 		else
 		{
 			phase_ptr = x[j]->phase;
-			phase_ptr->rxn->logk[delta_v] = calc_delta_v(phase_ptr->rxn, true) -
+			phase_ptr->rxn.logk[delta_v] = calc_delta_v(*&phase_ptr->rxn, true) -
 				phase_ptr->logk[vm0];
-			if (phase_ptr->rxn->logk[delta_v])
+			if (phase_ptr->rxn.logk[delta_v])
 				mu_terms_in_logk = true;
-			lk = k_calc(phase_ptr->rxn->logk, tk_x, patm_x * PASCAL_PER_ATM);
-			for (rxn_ptr = phase_ptr->rxn->token + 1; rxn_ptr->s != NULL;
+			lk = k_calc(phase_ptr->rxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
+			for (rxn_ptr = &phase_ptr->rxn.token[0] + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
 				if (rxn_ptr->s != s_eminus)
@@ -1383,7 +1352,7 @@ print_pp_assemblage(void)
 			}
 			si = -lk + iap;
 			/*
-			   for (rxn_ptr = x[j]->phase->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++) {
+			   for (rxn_ptr = x[j]->phase->rxn_x.token + 1; rxn_ptr->s != NULL; rxn_ptr++) {
 			   iap += rxn_ptr->s->la * rxn_ptr->coef;
 			   }
 			   si = -x[j]->phase->lk + iap;
@@ -1919,7 +1888,7 @@ print_surface_cd_music(void)
 			charge2 = unknown_ptr2->f;
 		}
 		sum = 0;
-		for (int k = 0; k < x[j]->count_comp_unknowns; k++)
+		for (size_t k = 0; k < x[j]->comp_unknowns.size(); k++)
 		{
 			sum +=
 				x[j]->comp_unknowns[k]->moles *
@@ -2360,7 +2329,7 @@ print_user_print(void)
 
 	if (pr.user_print == FALSE || pr.all == FALSE)
 		return (OK);
-	if (user_print->commands == NULL)
+	if (user_print->commands.size() == 0)
 		return (OK);
 	kinetics_ptr = NULL;
 	if (use.Get_kinetics_in() == TRUE)
@@ -2380,7 +2349,7 @@ print_user_print(void)
 	{
 		/*      basic_renumber(user_print->commands, &user_print->linebase, &user_print->varbase, &user_print->loopbase); */
 		if (basic_compile
-			(user_print->commands, &user_print->linebase,
+			(user_print->commands.c_str(), &user_print->linebase,
 			 &user_print->varbase, &user_print->loopbase) != 0)
 		{
 			error_msg("Fatal Basic error in USER_PRINT.", STOP);
@@ -3239,7 +3208,7 @@ punch_saturation_indices(void)
  *   Print saturation index
  */
 			iap = 0.0;
-			for (rxn_ptr = ((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x->token + 1;
+			for (rxn_ptr = &(((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x.token[0]) + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				iap += rxn_ptr->s->la * rxn_ptr->coef;
@@ -3345,12 +3314,12 @@ punch_user_punch(void)
 
 	struct rate * user_punch = current_user_punch->Get_rate();
 
-	if (user_punch->commands == NULL)
+	if (user_punch->commands.c_str() == 0)
 		return (OK);
 	if (user_punch->new_def == TRUE)
 	{
 		if (basic_compile
-			(user_punch->commands, &user_punch->linebase,
+			(user_punch->commands.c_str(), &user_punch->linebase,
 			 &user_punch->varbase, &user_punch->loopbase) != 0)
 		{
 			error_msg("Fatal Basic error in USER_PUNCH.", STOP);
@@ -3539,7 +3508,7 @@ punch_user_graph(void)
 	if (chart->Get_rate_new_def())
 	{
 		if (basic_compile
-			(chart->Get_user_graph()->commands, &chart->Get_user_graph()->linebase,
+			(chart->Get_user_graph()->commands.c_str(), &chart->Get_user_graph()->linebase,
 			 &chart->Get_user_graph()->varbase, &chart->Get_user_graph()->loopbase) != 0)
 		{
 			error_msg("Fatal Basic error in USER_GRAPH.", STOP);
@@ -3606,46 +3575,38 @@ print_alkalinity(void)
  *   Prints description of solution, uses array species_list for
  *   order of aqueous species.
  */
-	int i, j;
-	struct species_list *alk_list;
-	int count_alk_list;
+	int j;
+	std::vector<struct species_list> alk_list;
 	LDBLE min;
 
 	if (pr.alkalinity == FALSE || pr.all == FALSE)
 		return (OK);
 	print_centered("Distribution of alkalinity");
-	alk_list = (struct species_list *)
-		PHRQ_malloc((s_x.size() * sizeof(struct species_list)));
-	if (alk_list == NULL)
-	{
-		malloc_error();
-		return (OK);
-	}
+	alk_list.clear();
 	j = 0;
-	for (i = 0; i < (int)this->s_x.size(); i++)
+	for (size_t i = 0; i < this->s_x.size(); i++)
 	{
 		if (s_x[i]->alk == 0.0)
 			continue;
+		alk_list.resize(alk_list.size() + 1);
 		alk_list[j].master_s = s_hplus;
 		alk_list[j].s = s_x[i];
 		alk_list[j].coef = s_x[i]->alk;
 		j++;
 	}
-	count_alk_list = j;
 	min = fabs(censor * total_alkalinity / mass_water_aq_x);
-	if (count_alk_list > 0)
+	if (alk_list.size() > 0)
 	{
 		output_msg(sformatf("\t%26s%11.3e\n\n",
 				   "Total alkalinity (eq/kgw)  = ",
 				   (double) (total_alkalinity / mass_water_aq_x)));
 		output_msg(sformatf("\t%-15s%12s%12s%10s\n\n", "Species",
 				   "Alkalinity", "Molality", "Alk/Mol"));
-		if (count_alk_list > 1) qsort(&alk_list[0], (size_t) count_alk_list,
+		if (alk_list.size() > 1) qsort(&alk_list[0], alk_list.size(),
 			  (size_t) sizeof(struct species_list), species_list_compare_alk);
-		for (i = 0; i < count_alk_list; i++)
+		for (size_t i = 0; i < alk_list.size(); i++)
 		{
-			if (fabs
-				(alk_list[i].s->alk * (alk_list[i].s->moles) /
+			if (fabs(alk_list[i].s->alk * (alk_list[i].s->moles) /
 				 mass_water_aq_x) < min)
 				continue;
 			output_msg(sformatf("\t%-15s%12.3e%12.3e%10.2f\n",
@@ -3658,7 +3619,6 @@ print_alkalinity(void)
 	}
 
 	output_msg(sformatf("\n"));
-	alk_list = (struct species_list *) free_check_null(alk_list);
 	return (OK);
 }
 

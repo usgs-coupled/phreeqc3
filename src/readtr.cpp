@@ -35,18 +35,16 @@ read_transport(void)
 	*         ERROR   if error occurred reading data
 	*
 	*/
-	char *ptr;
 	int i, j, l;
 	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
 	char token[MAX_LENGTH];
-	char *description;
-	int n_user, n_user_end;
 	LDBLE *length, *disp, *pors;
 	int *punch_temp, *print_temp, *same_model_temp;
 	int return_value, opt, opt_save;
-	char *next_char, *next_char_save;
-	char file_name[MAX_LENGTH];
+	const char* next_char;
+	//char file_name[MAX_LENGTH];
+	std::string file_name("phreeqc.dmp");
 
 	const char *opt_list[] = {
 		"cells",				/* 0 */
@@ -100,7 +98,6 @@ read_transport(void)
 	};
 	int count_opt_list = 48;
 
-	strcpy(file_name, "phreeqc.dmp");
 	/*
 	*   Initialize
 	*/
@@ -142,12 +139,6 @@ read_transport(void)
 
 	count_length_alloc = count_disp_alloc = count_por_alloc = 1;
 	transport_start = 1;
-	/*
-	*   Read transport number (not currently used)
-	*/
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *)free_check_null(description);
 	/*
 	*   Set use data to last read
 	*/
@@ -376,7 +367,7 @@ read_transport(void)
 			if (copy_token(token, &next_char, &l) != EMPTY)
 			{
 				/* exchange factor */
-				if (sscanf(token, "%d", &(stag_data->count_stag)) != 1)
+				if (sscanf(token, "%d", &(stag_data.count_stag)) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -389,7 +380,7 @@ read_transport(void)
 				j = copy_token(token, &next_char, &l);
 				if (j != EMPTY)
 				{
-					if (sscanf(token, SCANFORMAT, &(stag_data->exch_f)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.exch_f)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -398,7 +389,7 @@ read_transport(void)
 						break;
 					}
 					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data->th_m)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.th_m)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -407,7 +398,7 @@ read_transport(void)
 						break;
 					}
 					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data->th_im)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.th_im)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -442,17 +433,17 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 26:				/* dump */
+		{
 			dump_in = TRUE;
-			next_char_save = next_char;
-			if (copy_token(file_name, &next_char, &l) == EMPTY)
-				strcpy(file_name, "phreeqc.dmp");
-			else
+			std::string temp_name(next_char);
+			string_trim(temp_name);
+			if (temp_name.size() > 0)
 			{
-				string_trim(next_char_save);
-				strcpy(file_name, next_char_save);
+				file_name = temp_name;
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
+		}
 		case 27:				/* output */
 		case 28:				/* output_frequency */
 		case 34:				/* print_frequency */
@@ -744,8 +735,8 @@ read_transport(void)
 		max_cells = count_length;
 	if (count_disp > max_cells)
 		max_cells = count_disp;
-	if (count_por > max_cells * (1 + stag_data->count_stag))
-		max_cells = (int)ceil(((double)count_por / (1 + (double)stag_data->count_stag)));
+	if (count_por > max_cells * (1 + stag_data.count_stag))
+		max_cells = (int)ceil(((double)count_por / (1 + (double)stag_data.count_stag)));
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -766,18 +757,16 @@ read_transport(void)
 		{
 			sprintf(token,
 				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
-				(int) ceil(((double)count_por / (1 + (double)stag_data->count_stag))));
+				(int) ceil(((double)count_por / (1 + (double)stag_data.count_stag))));
 			warning_msg(token);
 		}
 	}
 	/*
 	*   Allocate space for cell_data
 	*/
-	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
-	space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells,
-		sizeof(struct cell_data));
-
-	// initialize new cells
+	int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
+	cell_data.resize(all_cells_now); // initialized by global_structures.h
+	// But first two previously allocated
 	if (all_cells_now > all_cells)
 	{
 		for (int i = all_cells; i < all_cells_now; i++)
@@ -822,7 +811,7 @@ read_transport(void)
 				"Cell-lengths were read for %d cells. Last value is used till cell %d.",
 				count_length, max_cells);
 			warning_msg(error_string);
-			for (i = count_length; i <= max_cells; i++)
+			for (size_t i = count_length; i <= max_cells; i++)
 				cell_data[i + 1].length = length[count_length - 1];
 		}
 	}
@@ -888,15 +877,15 @@ read_transport(void)
 	}
 	else
 	{
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
 			error_string = sformatf(
 				"Mobile porosities were read, but mobile/immobile porosity was also defined in -stagnant. Using the values from -stagnant for mobile/immobile exchange and tortuosity factors.");
 			warning_msg(error_string);
 			for (i = 1; i <= max_cells; i++)
-				cell_data[i].por = stag_data->th_m;
+				cell_data[i].por = stag_data.th_m;
 			for (i++; i <= 2 * max_cells + 1; i++)
-				cell_data[i].por = stag_data->th_im;
+				cell_data[i].por = stag_data.th_im;
 		}
 		else
 		{
@@ -908,7 +897,7 @@ read_transport(void)
 			}
 			if (all_cells - 2 > count_por)
 			{
-				int st = stag_data->count_stag ? 1 : 0;
+				int st = stag_data.count_stag ? 1 : 0;
 				error_string = sformatf(
 					"Porosities were read for %d cells. Last value is used till cell %d.",
 					count_por, all_cells - st);
@@ -943,12 +932,12 @@ read_transport(void)
 	/*
 	*  Account for stagnant cells
 	*/
-	if (stag_data->count_stag > 0)
+	if (stag_data.count_stag > 0)
 	{
-		max_cells = count_cells * (1 + stag_data->count_stag) + 2;
+		max_cells = count_cells * (1 + stag_data.count_stag) + 2;
 		for (i = 1; i <= count_cells; i++)
 		{
-			for (l = 1; l <= stag_data->count_stag; l++)
+			for (l = 1; l <= stag_data.count_stag; l++)
 				cell_data[i + 1 + l * count_cells].mid_cell_x =
 				cell_data[i].mid_cell_x;
 		}
@@ -1093,9 +1082,9 @@ read_transport(void)
 	*/
 	if (heat_diffc < 0)
 		heat_diffc = diffc;
-	else if (stag_data->count_stag == 1)
+	else if (stag_data.count_stag == 1)
 	{
-		if (stag_data->exch_f > 0)
+		if (stag_data.exch_f > 0)
 		{
 			if (diffc <= 0 && heat_diffc > 0)
 			{
@@ -1123,7 +1112,7 @@ read_transport(void)
 			}
 		}
 	}
-	else if (stag_data->count_stag > 1 && heat_diffc > diffc)
+	else if (stag_data.count_stag > 1 && heat_diffc > diffc)
 	{
 		input_error++;
 		error_string = sformatf(
@@ -1150,7 +1139,7 @@ read_transport(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
+read_line_LDBLEs(const char* next_char, LDBLE ** d, int *count_d, int *count_alloc)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l, n;

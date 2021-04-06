@@ -25,45 +25,23 @@ initialize(void)
 /*
  *   Initialize global variables
  */
-	moles_per_kilogram_string = string_duplicate("Mol/kgw");
-	pe_string = string_duplicate("pe");
+	moles_per_kilogram_string = "Mol/kgw";
 /*
  *   Allocate space
  */
-	cell_data_max_cells = count_cells + 2;
-	space((void **) ((void *) &cell_data), INIT, &cell_data_max_cells,
-		  sizeof(struct cell_data));
-	for (int i = 0; i < cell_data_max_cells; i++)
-	{
-		cell_data[i].length = 1.0;
-		cell_data[i].mid_cell_x = 1.0;
-		cell_data[i].disp = 1.0;
-		cell_data[i].temp = 25.0;
-		cell_data[i].por = 0.1;
-		cell_data[i].por_il = 0.01;
-		cell_data[i].potV = 0;
-		cell_data[i].punch = FALSE;
-		cell_data[i].print = FALSE;
-	}
+	cell_data.resize((size_t)count_cells + 2); // initialized by global_structures.h
+
 	count_inverse = 0;
 	space((void **) ((void *) &line), INIT, &max_line, sizeof(char));
 
 	space((void **) ((void *) &line_save), INIT, &max_line, sizeof(char));
 
-	// one stag_data
-	stag_data = (struct stag_data *) PHRQ_calloc(1, sizeof(struct stag_data));
-	if (stag_data == NULL)
-		malloc_error();
-	stag_data->count_stag = 0;
-	stag_data->exch_f = 0;
-	stag_data->th_m = 0;
-	stag_data->th_im = 0;
+	// one stag_data in phreeqc.h, initialized in global_structures
 
 	// user_print
-	user_print = (struct rate *) PHRQ_malloc((size_t) sizeof(struct rate));
-	if (user_print == NULL)
-		malloc_error();
-	user_print->commands = NULL;
+	user_print = new struct rate;
+	user_print->name = string_hsave("User_print");
+	user_print->commands.clear();
 	user_print->linebase = NULL;
 	user_print->varbase = NULL;
 	user_print->loopbase = NULL;
@@ -71,27 +49,11 @@ initialize(void)
 	   Initialize llnl aqueous model parameters
 	 */
 	a_llnl = b_llnl = 0.0;
-	llnl_temp = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_temp == NULL)
-		malloc_error();
-	llnl_count_temp = 0;
-	llnl_adh = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_adh == NULL)
-		malloc_error();
-	llnl_count_adh = 0;
-	llnl_bdh = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_bdh == NULL)
-		malloc_error();
-	llnl_count_bdh = 0;
-	llnl_bdot = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_bdot == NULL)
-		malloc_error();
-	llnl_count_bdot = 0;
-	llnl_co2_coefs = (LDBLE *) PHRQ_malloc(sizeof(LDBLE));
-	if (llnl_co2_coefs == NULL)
-		malloc_error();
-	llnl_count_co2_coefs = 0;
     // new PBasic
+	if (basic_interpreter != NULL)
+	{
+		basic_free();
+	}
 	basic_interpreter = new PBasic(this, phrq_io);
 	// allocate one change_surf
 	change_surf =
@@ -114,18 +76,6 @@ initialize(void)
 	g_spread_sheet.defaults.iso       = NULL;
 	g_spread_sheet.defaults.redox     = NULL;
 #endif
-	// allocate space for copier
-	copier_init(&copy_solution);
-	copier_init(&copy_pp_assemblage);
-	copier_init(&copy_exchange);
-	copier_init(&copy_surface);
-	copier_init(&copy_ss_assemblage);
-	copier_init(&copy_gas_phase);
-	copier_init(&copy_kinetics);
-	copier_init(&copy_mix);
-	copier_init(&copy_reaction);
-	copier_init(&copy_temperature);
-	copier_init(&copy_pressure);
 
 	// Initialize cvode
 	cvode_init();
@@ -675,7 +625,7 @@ initial_gas_phases(int print)
 				if (phase_ptr->in == TRUE)
 				{
 					lp = -phase_ptr->lk;
-					for (rxn_ptr = phase_ptr->rxn_x->token + 1;
+					for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
 						 rxn_ptr->s != NULL; rxn_ptr++)
 					{
 						lp += rxn_ptr->s->la * rxn_ptr->coef;
@@ -969,8 +919,7 @@ saver(void)
 	if (save.solution == TRUE)
 	{
 		sprintf(token, "Solution after simulation %d.", simulation);
-		description_x = (char *) free_check_null(description_x);
-		description_x = string_duplicate(token);
+		description_x = token;
 		n = save.n_solution_user;
 		xsolution_save(n);
 		for (i = save.n_solution_user + 1; i <= save.n_solution_user_end; i++)
@@ -1884,286 +1833,164 @@ int Phreeqc::
 copy_entities(void)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j, return_value;
-	int verbose;
-
-	verbose = FALSE;
+	int return_value;
 	return_value = OK;
-	if (copy_solution.count > 0)
+	for (size_t j = 0; j < copy_solution.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_solution.count; j++)
+		if (Utilities::Rxn_find(Rxn_solution_map, copy_solution.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_solution_map, copy_solution.n_user[j]) != NULL)
+			for (size_t i = copy_solution.start[j]; i <= copy_solution.end[j]; i++)
 			{
-				for (i = copy_solution.start[j]; i <= copy_solution.end[j];
-					i++)
-				{
-					if (i == copy_solution.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_solution_map, copy_solution.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("SOLUTION to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_solution.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_solution_map, copy_solution.n_user[j], (int)i);
 			}
 		}
 	}
-	if (copy_pp_assemblage.count > 0)
-	{
-		for (j = 0; j < copy_pp_assemblage.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j]) != NULL)
-			{
-				for (i = copy_pp_assemblage.start[j];
-					i <= copy_pp_assemblage.end[j]; i++)
-				{
-					if (i == copy_pp_assemblage.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("EQUILIBRIUM_PHASES to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
-	if (copy_reaction.count > 0)
-	{
-		for (j = 0; j < copy_reaction.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_reaction_map, copy_reaction.n_user[j]) != NULL)
-			{
-				for (i = copy_reaction.start[j]; i <= copy_reaction.end[j]; i++)
-				{
-					if (i == copy_reaction.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_reaction_map, copy_reaction.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("REACTION to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
-	if (copy_mix.count > 0)
-	{
-		for (j = 0; j < copy_mix.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_mix_map, copy_mix.n_user[j]) != NULL)
-			{
-				for (i = copy_mix.start[j]; i <= copy_mix.end[j]; i++)
-				{
-					if (i != copy_mix.n_user[j])
-					{
-						Utilities::Rxn_copy(Rxn_mix_map, copy_mix.n_user[j], i);
-					}
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("Mix to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
+	copier_clear(&copy_solution);
 
-	if (copy_exchange.count > 0)
+	for (size_t j = 0; j < copy_pp_assemblage.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_exchange.count; j++)
+		if (Utilities::Rxn_find(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_exchange_map, copy_exchange.n_user[j]) != NULL)
+			for (size_t i = copy_pp_assemblage.start[j]; i <= copy_pp_assemblage.end[j]; i++)
 			{
-				for (i = copy_exchange.start[j]; i <= copy_exchange.end[j];
-					i++)
-				{
-					if (i == copy_exchange.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_exchange_map, copy_exchange.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("EXCHANGE to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_pp_assemblage.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_pp_assemblage_map, copy_pp_assemblage.n_user[j], (int)i);
 			}
 		}
 	}
-	if (copy_surface.count > 0)
-	{
-		for (j = 0; j < copy_surface.count; j++)
-		{
-			if (Utilities::Rxn_find(Rxn_surface_map, copy_surface.n_user[j]) != NULL)
-			{
-				for (i = copy_surface.start[j]; i <= copy_surface.end[j]; i++)
-				{
-					if (i == copy_surface.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_surface_map, copy_surface.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("SURFACE to copy not found.");
-					return_value = ERROR;
-				}
-			}
-		}
-	}
+	copier_clear(&copy_pp_assemblage);
 
-	if (copy_temperature.count > 0)
+	for (size_t j = 0; j < copy_reaction.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_temperature.count; j++)
+		if (Utilities::Rxn_find(Rxn_reaction_map, copy_reaction.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_temperature_map, copy_temperature.n_user[j]) != NULL)
+			for (size_t i = copy_reaction.start[j]; i <= copy_reaction.end[j]; i++)
 			{
-				for (i = copy_temperature.start[j]; i <= copy_temperature.end[j]; i++)
-				{
-					if (i != copy_temperature.n_user[j])
-					{
-						Utilities::Rxn_copy(Rxn_temperature_map, copy_temperature.n_user[j], i);
-					}
-				}
+				if (i == copy_reaction.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_reaction_map, copy_reaction.n_user[j], (int)i);
 			}
-			else
+		}
+	}
+	copier_clear(&copy_reaction);
+
+	for (size_t j = 0; j < copy_mix.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_mix_map, copy_mix.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_mix.start[j]; i <= copy_mix.end[j]; i++)
 			{
-				if (verbose == TRUE)
+				if (i != copy_mix.n_user[j])
 				{
-					warning_msg("temperature to copy not found.");
-					return_value = ERROR;
+					Utilities::Rxn_copy(Rxn_mix_map, copy_mix.n_user[j], (int)i);
 				}
 			}
 		}
 	}
-	if (copy_pressure.count > 0)
+	copier_clear(&copy_mix);
+
+	for (size_t j = 0; j < copy_exchange.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_pressure.count; j++)
+		if (Utilities::Rxn_find(Rxn_exchange_map, copy_exchange.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_pressure_map, copy_pressure.n_user[j]) != NULL)
+			for (size_t i = copy_exchange.start[j]; i <= copy_exchange.end[j]; i++)
 			{
-				for (i = copy_pressure.start[j]; i <= copy_pressure.end[j]; i++)
-				{
-					if (i != copy_pressure.n_user[j])
-					{
-						Utilities::Rxn_copy(Rxn_pressure_map, copy_pressure.n_user[j], i);
-					}
-				}
+				if (i == copy_exchange.n_user[j]) continue;
+				Utilities::Rxn_copy(Rxn_exchange_map, copy_exchange.n_user[j], (int)i);
 			}
-			else
+		}
+	}
+	copier_clear(&copy_exchange);
+
+	for (size_t j = 0; j < copy_surface.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_surface_map, copy_surface.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_surface.start[j]; i <= copy_surface.end[j]; i++)
 			{
-				if (verbose == TRUE)
+				if (i == copy_surface.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_surface_map, copy_surface.n_user[j], (int)i);
+			}
+		}
+	}
+	copier_clear(&copy_surface);
+
+	for (size_t j = 0; j < copy_temperature.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_temperature_map, copy_temperature.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_temperature.start[j]; i <= copy_temperature.end[j]; i++)
+			{
+				if (i != copy_temperature.n_user[j])
 				{
-					warning_msg("pressure to copy not found.");
-					return_value = ERROR;
+					Utilities::Rxn_copy(Rxn_temperature_map, copy_temperature.n_user[j], (int)i);
 				}
 			}
 		}
 	}
-	if (copy_gas_phase.count > 0)
+	copier_clear(&copy_temperature);
+
+	for (size_t j = 0; j < copy_pressure.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_gas_phase.count; j++)
+		if (Utilities::Rxn_find(Rxn_pressure_map, copy_pressure.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_gas_phase_map, copy_gas_phase.n_user[j]) != NULL)
+			for (size_t i = copy_pressure.start[j]; i <= copy_pressure.end[j]; i++)
 			{
-				for (i = copy_gas_phase.start[j]; i <= copy_gas_phase.end[j];
-					i++)
+				if (i != copy_pressure.n_user[j])
 				{
-					if (i == copy_gas_phase.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_gas_phase_map, copy_gas_phase.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("EXCHANGE to copy not found.");
-					return_value = ERROR;
+					Utilities::Rxn_copy(Rxn_pressure_map, copy_pressure.n_user[j], (int)i);
 				}
 			}
 		}
 	}
-	if (copy_kinetics.count > 0)
+	copier_clear(&copy_pressure);
+
+	for (size_t j = 0; j < copy_gas_phase.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_kinetics.count; j++)
+		if (Utilities::Rxn_find(Rxn_gas_phase_map, copy_gas_phase.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_kinetics_map, copy_kinetics.n_user[j]) != NULL)
+			for (size_t i = copy_gas_phase.start[j]; i <= copy_gas_phase.end[j]; i++)
 			{
-				for (i = copy_kinetics.start[j]; i <= copy_kinetics.end[j];
-					i++)
-				{
-					if (i == copy_kinetics.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_kinetics_map, copy_kinetics.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("KINETICS to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_gas_phase.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_gas_phase_map, copy_gas_phase.n_user[j], (int)i);
 			}
 		}
 	}
-	if (copy_ss_assemblage.count > 0)
+	copier_clear(&copy_gas_phase);
+
+	for (size_t j = 0; j < copy_kinetics.n_user.size(); j++)
 	{
-		for (j = 0; j < copy_ss_assemblage.count; j++)
+		if (Utilities::Rxn_find(Rxn_kinetics_map, copy_kinetics.n_user[j]) != NULL)
 		{
-			if (Utilities::Rxn_find(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j]) != NULL)
+			for (size_t i = copy_kinetics.start[j]; i <= copy_kinetics.end[j]; i++)
 			{
-				for (i = copy_ss_assemblage.start[j];
-					i <= copy_ss_assemblage.end[j]; i++)
-				{
-					if (i == copy_ss_assemblage.n_user[j])
-						continue;
-					Utilities::Rxn_copy(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j], i);
-				}
-			}
-			else
-			{
-				if (verbose == TRUE)
-				{
-					warning_msg("SOLID_SOLUTIONS to copy not found.");
-					return_value = ERROR;
-				}
+				if (i == copy_kinetics.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_kinetics_map, copy_kinetics.n_user[j], (int)i);
 			}
 		}
 	}
-	copy_solution.count = 0;
-	copy_pp_assemblage.count = 0;
-	copy_exchange.count = 0;
-	copy_surface.count = 0;
-	copy_ss_assemblage.count = 0;
-	copy_gas_phase.count = 0;
-	copy_kinetics.count = 0;
-	copy_mix.count = 0;
-	copy_reaction.count = 0;
-	copy_temperature.count = 0;
-	copy_pressure.count = 0;
+	copier_clear(&copy_kinetics);
+
+	for (size_t j = 0; j < copy_ss_assemblage.n_user.size(); j++)
+	{
+		if (Utilities::Rxn_find(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j]) != NULL)
+		{
+			for (size_t i = copy_ss_assemblage.start[j]; i <= copy_ss_assemblage.end[j]; i++)
+			{
+				if (i == copy_ss_assemblage.n_user[j])
+					continue;
+				Utilities::Rxn_copy(Rxn_ss_assemblage_map, copy_ss_assemblage.n_user[j], (int)i);
+			}
+		}
+	}
+	copier_clear(&copy_ss_assemblage);
+
 	new_copy = FALSE;
 	return return_value;
 }
@@ -2260,12 +2087,14 @@ run_simulations(void)
 			if (read_input() == EOF)
 				break;
 
-			if (title_x != NULL)
+			if (title_x.size() > 0)
 			{
 				sprintf(token, "TITLE");
 				dup_print(token, TRUE);
 				if (pr.headings == TRUE)
-					output_msg(sformatf( "%s\n\n", title_x));
+				{
+					output_msg(sformatf("%s\n\n", title_x.c_str()));
+				}
 			}
 			tidy_model();
 /*
@@ -2388,9 +2217,12 @@ do_status(void)
 			screen_msg("\n");
 		}
 		//pr.headings = TRUE; // set in class_main; not set for IPhreeqc
-		LDBLE ext = (double) clock() / CLOCKS_PER_SEC;
+#define TESTING
+#ifndef TESTING
+		LDBLE ext = (double)clock() / CLOCKS_PER_SEC;
 		dup_print(sformatf("End of Run after %g Seconds.", ext), TRUE);
 		screen_msg(sformatf("\nEnd of Run after %g Seconds.\n", ext));
+#endif
 // appt this gives output when the charts are active...
 		phrq_io->output_flush();
 		phrq_io->error_flush();
