@@ -427,9 +427,10 @@ size_t Phreeqc::list_Exchangers(std::list<std::string> &list_exname)
 }
 Phreeqc::Phreeqc(PHRQ_io *io)
 {
-	//user_print = NULL;
-	//sformatf_buffer = NULL;
-	//basic_interpreter = NULL;
+	user_print = NULL;
+	sformatf_buffer = NULL;
+	basic_interpreter = NULL;
+	count_elts = 0;
 	// phrq_io
 	if (io)
 	{
@@ -1141,9 +1142,10 @@ void Phreeqc::init(void)
 /*-----------------------------------------------------*/
 Phreeqc::Phreeqc(const Phreeqc &src)
 {
-	//user_print = NULL;
-	//sformatf_buffer = NULL;
-	//basic_interpreter = NULL;
+	user_print = NULL;
+	sformatf_buffer = NULL;
+	basic_interpreter = NULL;
+	count_elts = 0;
 	//this->phrq_io = src.phrq_io;
 	this->phrq_io = &this->ioInstance;
 	this->init();
