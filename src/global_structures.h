@@ -448,16 +448,16 @@ public:
 	~Model()
 	{
 	};
-	bool force_prep = false;
-	bool numerical_fixed_volume = false;
-	cxxGasPhase::GP_TYPE gas_phase_type = cxxGasPhase::GP_UNKNOWN;
+	bool force_prep;
+	bool numerical_fixed_volume;
+	cxxGasPhase::GP_TYPE gas_phase_type;
 	std::vector<class phase*> gas_phase;
 	std::vector<const char*> ss_assemblage;
 	std::vector<class phase*> pp_assemblage;
 	std::vector<double> si;
 	std::vector<const char*> add_formula;
-	cxxSurface::DIFFUSE_LAYER_TYPE dl_type = cxxSurface::NO_DL;
-	cxxSurface::SURFACE_TYPE surface_type = cxxSurface::UNKNOWN_DL;
+	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
+	cxxSurface::SURFACE_TYPE surface_type;
 	std::vector<const char*> surface_comp;
 	std::vector<const char*> surface_charge;
 };
@@ -763,7 +763,7 @@ public:
 	}
 	const char* name;
 	const char* mole_balance; 
-	int in = FALSE;
+	int in;
 	int number;
 	class master* primary;
 	class master* secondary;
@@ -926,15 +926,15 @@ public:
 	LDBLE delta_v[9];
 	LDBLE pr_si_f;
 	bool pr_in;
-	int type = SOLID;	
+	int type;	
 	std::vector<class elt_list> next_elt;
 	std::vector<class elt_list> next_sys_total;
 	int check_equation;
 	CReaction rxn;
 	CReaction rxn_s;
 	CReaction rxn_x;
-	int replaced = FALSE;
-	int in_system = FALSE;
+	int replaced;
+	int in_system;
 };
 /*----------------------------------------------------------------------
  *   Master species
@@ -995,7 +995,7 @@ public:
 	LDBLE total_primary;
 	class element* elt;
 	LDBLE alk;
-	LDBLE gfw = 1;
+	LDBLE gfw;
 	const char* gfw_formula;
 	class unknown* unknown;
 	class species* s;
@@ -1075,7 +1075,7 @@ public:
 	const char* ss_comp_name;
 	void* ss_comp_ptr;
 	int ss_comp_number;
-	int ss_in = FALSE;
+	int ss_in;
 	const char* surface_comp;
 	const char* surface_charge;
 	LDBLE related_moles;
@@ -1085,7 +1085,7 @@ public:
 	std::vector<class unknown*> comp_unknowns;
 	class unknown* phase_unknown;
 	LDBLE mass_water;
-	int dissolve_only = FALSE;
+	int dissolve_only;
 	LDBLE inert_moles;
 	LDBLE V_m;
 	LDBLE pressure;
@@ -1122,10 +1122,10 @@ public:
 		coef = 0;			// coefficient of species name 
 	}
 	const char* name;
-	LDBLE z = 0;
+	LDBLE z;
 	class species* s;
 	class unknown* unknown;
-	LDBLE coef = 0;
+	LDBLE coef;
 };
 class unknown_list
 {
@@ -1236,7 +1236,7 @@ public:
 		varbase = NULL;
 		loopbase = NULL;
 	}
-	const char* name = NULL;
+	const char* name;
 	std::string commands;
 	int new_def;
 	void* linebase;
@@ -1306,7 +1306,7 @@ public:
 	}
 	class spread_row* heading;
 	class spread_row* units;
-	int count_rows = 0;
+	int count_rows;
 	class spread_row** rows;
 	class defaults defaults;
 };
@@ -1535,7 +1535,7 @@ public:
 		tot_stag = 0;
 		charge = 0;
 	}
-	const char* name = NULL;
+	const char* name;
 	LDBLE tot1, tot2, tot_stag, charge;
 };
 class M_S
@@ -1580,7 +1580,7 @@ public:
 	const char* species[3];
 	int ispec[3];
 	pitz_param_type type;
-	LDBLE p = 0;
+	LDBLE p;
 	union
 	{
 		LDBLE b0;
