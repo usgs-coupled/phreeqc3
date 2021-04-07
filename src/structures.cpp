@@ -300,7 +300,7 @@ rxn_find_coef(CReaction& r_ref, const char* str)
 	 *   Return: 0.0, if token not found
 	 *	   coefficient of token, if found.
 	 */
-	struct rxn_token* r_token;
+	class rxn_token* r_token;
 	LDBLE coef;
 
 	r_token = &r_ref.token[1];
@@ -326,16 +326,16 @@ int Phreeqc::
 element_compare(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct element *element_ptr1, *element_ptr2;
-	element_ptr1 = *(const struct element **) ptr1;
-	element_ptr2 = *(const struct element **) ptr2;
+	const class element *element_ptr1, *element_ptr2;
+	element_ptr1 = *(const class element **) ptr1;
+	element_ptr2 = *(const class element **) ptr2;
 /*      return(strcmp_nocase(element_ptr1->name, element_ptr2->name)); */
 	return (strcmp(element_ptr1->name, element_ptr2->name));
 
 }
 
 /* ---------------------------------------------------------------------- */
-struct element* Phreeqc::
+class element* Phreeqc::
 element_store(const char * element)
 /* ---------------------------------------------------------------------- */
 {
@@ -357,7 +357,7 @@ element_store(const char * element)
 	/*
 	 *   Search list
 	 */
-	std::map<std::string, struct element *>::const_iterator it;
+	std::map<std::string, class element *>::const_iterator it;
 	it = elements_map.find(element);
 	if (it != elements_map.end())
 	{
@@ -366,7 +366,7 @@ element_store(const char * element)
 	/*
 	 *   Save new element structure and return pointer to it
 	 */
-	struct element *elt_ptr = new struct element;
+	class element *elt_ptr = new class element;
 	elt_ptr->name = string_hsave(element);
 	elt_ptr->master = NULL;
 	elt_ptr->primary = NULL;
@@ -399,10 +399,10 @@ add_elt_list(const cxxNameDouble& nd, LDBLE coef)
 	return (OK);
 }
 int Phreeqc::
-add_elt_list(const std::vector<struct elt_list>& el, double coef)
+add_elt_list(const std::vector<class elt_list>& el, double coef)
 /* ---------------------------------------------------------------------- */
 {
-	const struct elt_list* elt_list_ptr = &el[0];
+	const class elt_list* elt_list_ptr = &el[0];
 
 	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
 	{
@@ -480,7 +480,7 @@ elt_list_combine(void)
 		return (OK);
 	}
 	qsort(&elt_list[0], count_elts,
-		sizeof(struct elt_list), Phreeqc::elt_list_compare);
+		sizeof(class elt_list), Phreeqc::elt_list_compare);
 	j = 0;
 	for (i = 1; i < count_elts; i++)
 	{
@@ -506,20 +506,20 @@ int Phreeqc::
 elt_list_compare(const void* ptr1, const void* ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct elt_list* a, * b;
+	const class elt_list* a, * b;
 
-	a = (const struct elt_list*)ptr1;
-	b = (const struct elt_list*)ptr2;
+	a = (const class elt_list*)ptr1;
+	b = (const class elt_list*)ptr2;
 	return (strncmp(a->elt->name, b->elt->name, MAX_LENGTH));
 }
 /* ---------------------------------------------------------------------- */
-std::vector<struct elt_list> Phreeqc::
-elt_list_internal_copy(const std::vector<struct elt_list>& el)
+std::vector<class elt_list> Phreeqc::
+elt_list_internal_copy(const std::vector<class elt_list>& el)
 /* ---------------------------------------------------------------------- */
 {
-	std::vector<struct elt_list> new_elt_list;
+	std::vector<class elt_list> new_elt_list;
 	if (el.size() == 0) return new_elt_list;
-	const struct elt_list* elt_list_ptr = &el[0];
+	const class elt_list* elt_list_ptr = &el[0];
 
 	new_elt_list.resize(el.size());
 	size_t count = 0;
@@ -533,7 +533,7 @@ elt_list_internal_copy(const std::vector<struct elt_list>& el)
 	return new_elt_list;
 }
 /* ---------------------------------------------------------------------- */
-std::vector<struct elt_list> Phreeqc::
+std::vector<class elt_list> Phreeqc::
 elt_list_vsave(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -543,7 +543,7 @@ elt_list_vsave(void)
 	 *   new structure.
 	 */
 	size_t j;
-	std::vector<struct elt_list> new_elt_list;
+	std::vector<class elt_list> new_elt_list;
 	/*
 	 *   Sort elements in reaction and combine
 	 */
@@ -582,7 +582,7 @@ elt_list_NameDouble(void)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct inverse * Phreeqc::
+class inverse * Phreeqc::
 inverse_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -594,7 +594,7 @@ inverse_alloc(void)
  *      return: OK
  */
 {
-	struct inverse *inverse_ptr = NULL;
+	class inverse *inverse_ptr = NULL;
 	inverse.resize(count_inverse + 1);
 	inverse_ptr = &(inverse[count_inverse++]);
 /*
@@ -618,11 +618,11 @@ inverse_compare(const void *ptr1, const void *ptr2)
 /*
  *   Compare inverse values for n_user
  */
-	const struct inverse *nptr1;
-	const struct inverse *nptr2;
+	const class inverse *nptr1;
+	const class inverse *nptr2;
 
-	nptr1 = (const struct inverse *) ptr1;
-	nptr2 = (const struct inverse *) ptr2;
+	nptr1 = (const class inverse *) ptr1;
+	nptr2 = (const class inverse *) ptr2;
 	if (nptr1->n_user > nptr2->n_user)
 		return (1);
 	if (nptr1->n_user < nptr2->n_user)
@@ -649,7 +649,7 @@ inverse_delete(int i)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-inverse_free(struct inverse *inverse_ptr)
+inverse_free(class inverse *inverse_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -709,10 +709,10 @@ inverse_isotope_compare(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	const struct inv_isotope *iso_ptr1, *iso_ptr2;
+	const class inv_isotope *iso_ptr1, *iso_ptr2;
 
-	iso_ptr1 = (const struct inv_isotope *) ptr1;
-	iso_ptr2 = (const struct inv_isotope *) ptr2;
+	iso_ptr1 = (const class inv_isotope *) ptr1;
+	iso_ptr2 = (const class inv_isotope *) ptr2;
 	i = strcmp_nocase(iso_ptr1->elt_name, iso_ptr2->elt_name);
 	if (i != 0)
 		return (i);
@@ -728,7 +728,7 @@ inverse_isotope_compare(const void *ptr1, const void *ptr2)
 }
 
 /* ---------------------------------------------------------------------- */
-struct inverse * Phreeqc::
+class inverse * Phreeqc::
 inverse_search(int n_user, int *n)
 /* ---------------------------------------------------------------------- */
 {
@@ -769,7 +769,7 @@ inverse_sort(void)
 	if (count_inverse > 1)
 	{
 		qsort(&inverse[0], (size_t) count_inverse,
-			  sizeof(struct inverse), inverse_compare);
+			  sizeof(class inverse), inverse_compare);
 	}
 	return (OK);
 }
@@ -780,7 +780,7 @@ inverse_sort(void)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct master * Phreeqc::
+class master * Phreeqc::
 master_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -789,7 +789,7 @@ master_alloc(void)
  *      return: pointer to a master structure
  */
 {
-	struct master *ptr = new struct master;
+	class master *ptr = new class master;
 /*
  *   set pointers in structure to NULL
  */
@@ -841,7 +841,7 @@ master_delete(const char* cptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-master_free(struct master *master_ptr)
+master_free(class master *master_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -855,7 +855,7 @@ master_free(struct master *master_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct master * Phreeqc::
+class master * Phreeqc::
 master_bsearch(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
@@ -875,13 +875,13 @@ master_bsearch(const char* cptr)
 	void_ptr = bsearch((const char *) cptr,
 					   (char *) &master[0],
 					   master.size(),
-					   sizeof(struct master *), master_compare_string);
+					   sizeof(class master *), master_compare_string);
 	if (void_ptr == NULL)
 	{
 		void_ptr = bsearch(cptr,
 			(char*)&master[0],
 			master.size(),
-			sizeof(struct master*), master_compare_string);
+			sizeof(class master*), master_compare_string);
 	}
 	if (void_ptr == NULL)
 	{
@@ -889,7 +889,7 @@ master_bsearch(const char* cptr)
 	}
 	else
 	{
-		return (*(struct master **) void_ptr);
+		return (*(class master **) void_ptr);
 	}
 }
 
@@ -899,10 +899,10 @@ master_compare_string(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	const char *string_ptr;
-	const struct master *master_ptr;
+	const class master *master_ptr;
 
 	string_ptr = (const char *) ptr1;
-	master_ptr = *(const struct master **) ptr2;
+	master_ptr = *(const class master **) ptr2;
 	return (strcmp_nocase(string_ptr, master_ptr->elt->name));
 }
 
@@ -911,14 +911,14 @@ int Phreeqc::
 master_compare(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct master *master_ptr1, *master_ptr2;
-	master_ptr1 = *(const struct master **) ptr1;
-	master_ptr2 = *(const struct master **) ptr2;
+	const class master *master_ptr1, *master_ptr2;
+	master_ptr1 = *(const class master **) ptr1;
+	master_ptr2 = *(const class master **) ptr2;
 	return (strcmp_nocase(master_ptr1->elt->name, master_ptr2->elt->name));
 }
 
 /* ---------------------------------------------------------------------- */
-struct master * Phreeqc::
+class master * Phreeqc::
 master_bsearch_primary(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
@@ -928,7 +928,7 @@ master_bsearch_primary(const char* cptr)
  */
 	int l;
 	const char* cptr1;
-	struct master *master_ptr_primary;
+	class master *master_ptr_primary;
 /*
  *   Find element name
  */
@@ -951,7 +951,7 @@ master_bsearch_primary(const char* cptr)
 	return (master_ptr_primary);
 }
 /* ---------------------------------------------------------------------- */
-struct master * Phreeqc::
+class master * Phreeqc::
 master_bsearch_secondary(const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
@@ -962,7 +962,7 @@ master_bsearch_secondary(const char* cptr)
 	int l;
 	const char* cptr1;
 	std::string elt;
-	struct master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
+	class master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
 /*
  *   Find element name
  */
@@ -1020,7 +1020,7 @@ master_bsearch_secondary(const char* cptr)
 	return (master_ptr_secondary);
 }
 /* ---------------------------------------------------------------------- */
-struct master * Phreeqc::
+class master * Phreeqc::
 master_search(const char* cptr, int *n)
 /* ---------------------------------------------------------------------- */
 {
@@ -1030,7 +1030,7 @@ master_search(const char* cptr, int *n)
  *   Returns NULL if not found.
  */
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 /*
  *   Search master species list
  */
@@ -1052,7 +1052,7 @@ master_search(const char* cptr, int *n)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct phase * Phreeqc::
+class phase * Phreeqc::
 phase_alloc(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -1061,11 +1061,11 @@ phase_alloc(void)
  *      arguments: void
  *      return: pointer to new phase structure
  */
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 /*
  *   Allocate space
  */
-	phase_ptr = new struct phase;
+	phase_ptr = new class phase;
 /*
  *   Initialize space
  */
@@ -1081,9 +1081,9 @@ phase_compare(const void *ptr1, const void *ptr2)
 /*
  *   Compares names of phases for sort
  */
-	const struct phase *phase_ptr1, *phase_ptr2;
-	phase_ptr1 = *(const struct phase **) ptr1;
-	phase_ptr2 = *(const struct phase **) ptr2;
+	const class phase *phase_ptr1, *phase_ptr2;
+	phase_ptr1 = *(const class phase **) ptr1;
+	phase_ptr2 = *(const class phase **) ptr2;
 	return (strcmp_nocase(phase_ptr1->name, phase_ptr2->name));
 }
 
@@ -1093,9 +1093,9 @@ phase_compare_string(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	const char *char_ptr;
-	const struct phase *phase_ptr;
+	const class phase *phase_ptr;
 	char_ptr = (const char *) ptr1;
-	phase_ptr = *(const struct phase **) ptr2;
+	phase_ptr = *(const class phase **) ptr2;
 	return (strcmp_nocase(char_ptr, phase_ptr->name));
 }
 
@@ -1117,7 +1117,7 @@ phase_delete(int i)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-phase_free(struct phase *phase_ptr)
+phase_free(class phase *phase_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1134,7 +1134,7 @@ phase_free(struct phase *phase_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct phase * Phreeqc::
+class phase * Phreeqc::
 phase_bsearch(const char* cptr, int *j, int print)
 /* ---------------------------------------------------------------------- */
 {
@@ -1159,7 +1159,7 @@ phase_bsearch(const char* cptr, int *j, int print)
 			bsearch((char *) cptr,
 					(char *) &phases[0],
 					phases.size(),
-					sizeof(struct phase *), phase_compare_string);
+					sizeof(class phase *), phase_compare_string);
 	}
 	if (void_ptr == NULL && print == TRUE)
 	{
@@ -1173,13 +1173,13 @@ phase_bsearch(const char* cptr, int *j, int print)
 		return (NULL);
 	}
 
-	*j = (int) ((struct phase **) void_ptr - &phases[0]);
-	return (*(struct phase **) void_ptr);
+	*j = (int) ((class phase **) void_ptr - &phases[0]);
+	return (*(class phase **) void_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-phase_init(struct phase *phase_ptr)
+phase_init(class phase *phase_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *   set pointers in phase structure to NULL
@@ -1229,7 +1229,7 @@ phase_init(struct phase *phase_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct phase * Phreeqc::
+class phase * Phreeqc::
 phase_store(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
@@ -1250,13 +1250,13 @@ phase_store(const char *name_in)
  *      If phase existed, it is reinitialized. The structure returned
  *      contains only the name of the phase.
  */
-	struct phase *phase_ptr = NULL;
+	class phase *phase_ptr = NULL;
 /*
  *   Search list
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct phase*>::iterator p_it =
+	std::map<std::string, class phase*>::iterator p_it =
 		phases_map.find(name);
 	if (p_it != phases_map.end())
 	{
@@ -1286,7 +1286,7 @@ phase_store(const char *name_in)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct rate * Phreeqc::
+class rate * Phreeqc::
 rate_bsearch(const char* cptr, int *j)
 /* ---------------------------------------------------------------------- */
 {
@@ -1313,7 +1313,7 @@ rate_bsearch(const char* cptr, int *j)
 		bsearch((char *) cptr,
 				(char *) &rates[0],
 				rates.size(),
-				sizeof(struct rate *), rate_compare_string);
+				sizeof(class rate *), rate_compare_string);
 
 	if (void_ptr == NULL)
 	{
@@ -1321,8 +1321,8 @@ rate_bsearch(const char* cptr, int *j)
 		return (NULL);
 	}
 
-	*j = (int) ((struct rate *) void_ptr - &rates[0]);
-	return ((struct rate *) void_ptr);
+	*j = (int) ((class rate *) void_ptr - &rates[0]);
+	return ((class rate *) void_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1333,9 +1333,9 @@ rate_compare(const void *ptr1, const void *ptr2)
 /*
  *   Compares names of rates for sort
  */
-	const struct rate *rate_ptr1, *rate_ptr2;
-	rate_ptr1 = *(const struct rate **) ptr1;
-	rate_ptr2 = *(const struct rate **) ptr2;
+	const class rate *rate_ptr1, *rate_ptr2;
+	rate_ptr1 = *(const class rate **) ptr1;
+	rate_ptr2 = *(const class rate **) ptr2;
 	return (strcmp_nocase(rate_ptr1->name, rate_ptr2->name));
 }
 
@@ -1345,15 +1345,15 @@ rate_compare_string(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	const char *char_ptr;
-	const struct rate *rate_ptr;
+	const class rate *rate_ptr;
 	char_ptr = (const char *) ptr1;
-	rate_ptr = *(const struct rate **) ptr2;
+	rate_ptr = *(const class rate **) ptr2;
 	return (strcmp_nocase(char_ptr, rate_ptr->name));
 }
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-rate_free(struct rate *rate_ptr)
+rate_free(class rate *rate_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1378,8 +1378,8 @@ rate_free(struct rate *rate_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct rate * Phreeqc::
-rate_copy(const struct rate *rate_ptr)
+class rate * Phreeqc::
+rate_copy(const class rate *rate_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -1387,7 +1387,7 @@ rate_copy(const struct rate *rate_ptr)
 	*/
 	if (rate_ptr == NULL)
 		return (NULL);
-	struct rate* rate_new = new struct rate;
+	class rate* rate_new = new class rate;
 	rate_new->name = string_hsave(rate_ptr->name);
 	rate_new->commands = rate_ptr->commands;
 	rate_new->new_def = TRUE;
@@ -1398,7 +1398,7 @@ rate_copy(const struct rate *rate_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct rate * Phreeqc::
+class rate * Phreeqc::
 rate_search(const char *name_in, int *n)
 /* ---------------------------------------------------------------------- */
 {
@@ -1456,7 +1456,7 @@ rate_sort(void)
  */
 	if (rates.size() > 1)
 	{
-		qsort(&rates[0], rates.size(), sizeof(struct rate),
+		qsort(&rates[0], rates.size(), sizeof(class rate),
 			  rate_compare);
 	}
 	return (OK);
@@ -1467,7 +1467,7 @@ rate_sort(void)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct species * Phreeqc::
+class species * Phreeqc::
 s_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1476,8 +1476,8 @@ s_alloc(void)
  *      return: pointer to a species structure
  */
 {
-	struct species *s_ptr;
-	s_ptr = new struct species;
+	class species *s_ptr;
+	s_ptr = new class species;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1491,9 +1491,9 @@ int Phreeqc::
 s_compare(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct species *s_ptr1, *s_ptr2;
-	s_ptr1 = *(const struct species **) ptr1;
-	s_ptr2 = *(const struct species **) ptr2;
+	const class species *s_ptr1, *s_ptr2;
+	s_ptr1 = *(const class species **) ptr1;
+	s_ptr2 = *(const class species **) ptr2;
 	return (strcmp(s_ptr1->name, s_ptr2->name));
 
 }
@@ -1507,14 +1507,14 @@ s_delete(int i)
  *   Delete species i: free memory and renumber array of pointers, s.
  */
 	s_free(s[i]);
-	s[i] = (struct species *) free_check_null(s[i]);
+	s[i] = (class species *) free_check_null(s[i]);
 	s.erase(s.begin() + i);
 	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-s_free(struct species *s_ptr)
+s_free(class species *s_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1531,7 +1531,7 @@ s_free(struct species *s_ptr)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-s_init(struct species *s_ptr)
+s_init(class species *s_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a species structure
@@ -1605,7 +1605,7 @@ s_init(struct species *s_ptr)
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
-struct species* Phreeqc::
+class species* Phreeqc::
 s_search(const char* name)
 /* ---------------------------------------------------------------------- */
 {
@@ -1619,8 +1619,8 @@ s_search(const char* name)
 	 *   If found, pointer to the appropriate species structure is returned.
 	 *       else, NULL pointer is returned.
 	 */
-	struct species* s_ptr = NULL;
-	std::map<std::string, struct species*>::iterator s_it = 
+	class species* s_ptr = NULL;
+	std::map<std::string, class species*>::iterator s_it = 
 		species_map.find(name);
 	if (s_it != species_map.end())
 	{
@@ -1629,7 +1629,7 @@ s_search(const char* name)
 	return (s_ptr);
 }
 /* ---------------------------------------------------------------------- */
-struct species * Phreeqc::
+class species * Phreeqc::
 s_store(const char *name, LDBLE l_z, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
@@ -1660,7 +1660,7 @@ s_store(const char *name, LDBLE l_z, int replace_if_found)
 /*
  *   Search list
  */
-	struct species* s_ptr = NULL;
+	class species* s_ptr = NULL;
 	s_ptr = s_search(name);
 	if (s_ptr != NULL && replace_if_found == FALSE)
 	{
@@ -1694,10 +1694,10 @@ isotope_compare(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	const struct isotope *iso_ptr1, *iso_ptr2;
+	const class isotope *iso_ptr1, *iso_ptr2;
 
-	iso_ptr1 = (const struct isotope *) ptr1;
-	iso_ptr2 = (const struct isotope *) ptr2;
+	iso_ptr1 = (const class isotope *) ptr1;
+	iso_ptr2 = (const class isotope *) ptr2;
 	i = strcmp_nocase(iso_ptr1->elt_name, iso_ptr2->elt_name);
 	if (i != 0)
 		return (i);
@@ -1723,10 +1723,10 @@ species_list_compare(const void *ptr1, const void *ptr2)
 {
 	int j;
 	const char *name1, *name2;
-	const struct species_list *nptr1, *nptr2;
+	const class species_list *nptr1, *nptr2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const class species_list *) ptr1;
+	nptr2 = (const class species_list *) ptr2;
 
 /*
  *   Put H+ first
@@ -1797,11 +1797,11 @@ int Phreeqc::
 species_list_compare_alk(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct species_list *nptr1, *nptr2;
+	const class species_list *nptr1, *nptr2;
 	LDBLE alk1, alk2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const class species_list *) ptr1;
+	nptr2 = (const class species_list *) ptr2;
 /*
  *   Else, descending order by log molality
  */
@@ -1827,10 +1827,10 @@ species_list_compare_master(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
 	const char *name1, *name2;
-	const struct species_list *nptr1, *nptr2;
+	const class species_list *nptr1, *nptr2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const class species_list *) ptr1;
+	nptr2 = (const class species_list *) ptr2;
 
 /*
  *   Put H+ first
@@ -1886,7 +1886,7 @@ species_list_sort(void)
 	if (species_list.size() > 1)
 	{
 		qsort(&species_list[0], species_list.size(),
-			  sizeof(struct species_list), species_list_compare);
+			  sizeof(class species_list), species_list_compare);
 	}
 	return (OK);
 }
@@ -1916,11 +1916,11 @@ change_surf_alloc(int count)
 	return (change_surf);
 }
 /* ---------------------------------------------------------------------- */
-struct master * Phreeqc::
+class master * Phreeqc::
 surface_get_psi_master(const char *name, int plane)
 /* ---------------------------------------------------------------------- */
 {
-	struct master *master_ptr;
+	class master *master_ptr;
 	std::string token;
 
 	if (name == NULL)
@@ -1951,7 +1951,7 @@ surface_get_psi_master(const char *name, int plane)
 
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
-phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ref)
+phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -2021,7 +2021,7 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	/*
 	 *   Copy  equation into work space
 	 */
-	struct rxn_token* next_token = &r_ref.token[0];
+	class rxn_token* next_token = &r_ref.token[0];
 	while (next_token->s != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())
@@ -2056,7 +2056,7 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 *		     like terms combined.
 	 */
 	int i;
-	struct rxn_token* next_token;
+	class rxn_token* next_token;
 	/*
 	 *   Accumulate log k for reaction
 	 */
@@ -2164,9 +2164,9 @@ int Phreeqc::
 trxn_compare(const void* ptr1, const void* ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct rxn_token_temp* rxn_token_temp_ptr1, * rxn_token_temp_ptr2;
-	rxn_token_temp_ptr1 = (const struct rxn_token_temp*)ptr1;
-	rxn_token_temp_ptr2 = (const struct rxn_token_temp*)ptr2;
+	const class rxn_token_temp* rxn_token_temp_ptr1, * rxn_token_temp_ptr2;
+	rxn_token_temp_ptr1 = (const class rxn_token_temp*)ptr1;
+	rxn_token_temp_ptr2 = (const class rxn_token_temp*)ptr2;
 	return (strcmp(rxn_token_temp_ptr1->name, rxn_token_temp_ptr2->name));
 }
 /* ---------------------------------------------------------------------- */
@@ -2347,7 +2347,7 @@ trxn_sort(void)
 	{
 		qsort(&trxn.token[1],
 			(size_t)count_trxn - 1,
-			sizeof(struct rxn_token_temp),
+			sizeof(class rxn_token_temp),
 			trxn_compare);
 	}
 	return (OK);
@@ -2416,7 +2416,7 @@ trxn_swap(const char *token)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct unknown * Phreeqc::
+class unknown * Phreeqc::
 unknown_alloc(void)
 /* ---------------------------------------------------------------------- */
 {
@@ -2425,11 +2425,11 @@ unknown_alloc(void)
  *      arguments: void
  *      return: pointer to an "unknown" structure
  */
-	struct unknown *unknown_ptr;
+	class unknown *unknown_ptr;
 /*
  *   Allocate space
  */
-	unknown_ptr = new struct unknown;
+	unknown_ptr = new class unknown;
 /*
  *   set pointers in structure to NULL
  */
@@ -2488,7 +2488,7 @@ unknown_delete(int i)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-unknown_free(struct unknown *unknown_ptr)
+unknown_free(class unknown *unknown_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2532,7 +2532,7 @@ system_duplicate(int i, int save_old)
 }
 
 /* ---------------------------------------------------------------------- */
-struct logk * Phreeqc::
+class logk * Phreeqc::
 logk_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
@@ -2559,10 +2559,10 @@ logk_store(const char *name_in, int replace_if_found)
 /*
  *   Search list
  */
-	struct logk* logk_ptr = NULL;
+	class logk* logk_ptr = NULL;
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct logk*>::iterator it =
+	std::map<std::string, class logk*>::iterator it =
 		logk_map.find(name);
 
 	if (it != logk_map.end() && replace_if_found == FALSE)
@@ -2593,7 +2593,7 @@ logk_store(const char *name_in, int replace_if_found)
 }
 
 /* ---------------------------------------------------------------------- */
-struct logk * Phreeqc::
+class logk * Phreeqc::
 logk_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -2602,8 +2602,8 @@ logk_alloc(void)
  *      return: pointer to a logk structure
  */
 {
-	struct logk *logk_ptr;
-	logk_ptr = new struct logk;
+	class logk *logk_ptr;
+	logk_ptr = new class logk;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -2614,7 +2614,7 @@ logk_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-logk_init(struct logk *logk_ptr)
+logk_init(class logk *logk_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a logk structure
@@ -2640,7 +2640,7 @@ logk_init(struct logk *logk_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-logk_copy2orig(struct logk *logk_ptr)
+logk_copy2orig(class logk *logk_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *   Copies log k data to logk_original
@@ -2655,7 +2655,7 @@ logk_copy2orig(struct logk *logk_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct logk * Phreeqc::
+class logk * Phreeqc::
 logk_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
@@ -2669,13 +2669,13 @@ logk_search(const char *name_in)
  *      pointer to logk structure "logk" where "name" can be found.
  *      or NULL if not found.
  */
-	struct logk *logk_ptr;
+	class logk *logk_ptr;
 /*
  *   Search list
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct logk*>::iterator l_it =
+	std::map<std::string, class logk*>::iterator l_it =
 		logk_map.find(name);
 	if (l_it != logk_map.end())
 	{
@@ -2866,7 +2866,7 @@ get_entity_enum(char *name)
  */
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copier_add(struct copier *copier_ptr, int n_user, int start, int end)
+copier_add(class copier *copier_ptr, int n_user, int start, int end)
 /* ---------------------------------------------------------------------- */
 /*
  *   add new set of copy instructions
@@ -2879,7 +2879,7 @@ copier_add(struct copier *copier_ptr, int n_user, int start, int end)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copier_clear(struct copier* copier_ptr)
+copier_clear(class copier* copier_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *   clear copier

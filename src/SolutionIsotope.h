@@ -11,7 +11,7 @@ class cxxSolutionIsotope: public PHRQ_base
 {
   public:
 	cxxSolutionIsotope(PHRQ_io *io=NULL);
-	cxxSolutionIsotope(struct isotope *isotope_ptr, PHRQ_io *io=NULL);
+	cxxSolutionIsotope(class isotope *isotope_ptr, PHRQ_io *io=NULL);
 	virtual ~cxxSolutionIsotope(void);
 
 	void dump_xml(std::ostream & os, unsigned int indent) const;

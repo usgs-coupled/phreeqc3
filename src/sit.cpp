@@ -173,7 +173,7 @@ read_sit(void)
    *        number of shifts;
    */
   int n;
-  struct pitz_param *pzp_ptr;
+  class pitz_param *pzp_ptr;
   pitz_param_type pzp_type;
 
   int return_value, opt, opt_save;
@@ -239,7 +239,7 @@ read_sit(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calc_sit_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
+calc_sit_param(class pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE param;

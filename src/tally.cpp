@@ -117,8 +117,8 @@ get_all_components(void)
  *   Buffer contains an entry for every primary master
  *   species that can be used in the transport problem.
  */
-	t_buffer = (struct tally_buffer *) PHRQ_malloc(
-		(size_t)tally_count_component * sizeof(struct tally_buffer));
+	t_buffer = (class tally_buffer *) PHRQ_malloc(
+		(size_t)tally_count_component * sizeof(class tally_buffer));
 
 	// store alkalinity
 	j = 0;
@@ -320,12 +320,12 @@ free_tally_table(void)
 			tally_table[i].formula.clear();
 		for (k = 0; k < 3; k++)
 		{
-			tally_table[i].total[k] = (struct tally_buffer *) free_check_null(
+			tally_table[i].total[k] = (class tally_buffer *) free_check_null(
 				tally_table[i].total[k]);
 		}
 	}
-	tally_table = (struct tally *) free_check_null(tally_table);
-	t_buffer = (struct tally_buffer *) free_check_null(t_buffer);
+	tally_table = (class tally *) free_check_null(tally_table);
+	t_buffer = (class tally_buffer *) free_check_null(t_buffer);
 	return (OK);
 }
 
@@ -458,7 +458,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
 				for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 				{
-					struct master *master_ptr = master_bsearch(jit->first.c_str());
+					class master *master_ptr = master_bsearch(jit->first.c_str());
 					master_ptr->total = jit->second;
 				}
 
@@ -594,7 +594,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 					{
 						comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 						int l;
-						struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+						class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 						if (phase_ptr->name == tally_table[i].name)
 							break;
 						if (strcmp_nocase(phase_ptr->name, tally_table[i].name) == 0)
@@ -632,7 +632,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				for (size_t l = 0; l < gc->size(); l++)
 				{
 					int k;
-					struct phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
+					class phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
 
 					add_elt_list(phase_ptr->next_elt, (*gc)[l].Get_moles());
 				}
@@ -690,7 +690,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-elt_list_to_tally_table(struct tally_buffer *buffer_ptr)
+elt_list_to_tally_table(class tally_buffer *buffer_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
@@ -735,7 +735,7 @@ elt_list_to_tally_table(struct tally_buffer *buffer_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-master_to_tally_table(struct tally_buffer *buffer_ptr)
+master_to_tally_table(class tally_buffer *buffer_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
@@ -789,7 +789,7 @@ build_tally_table(void)
 	int j, k, l, p, save_print_use;
 	size_t n;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	char token[MAX_LENGTH];
 	const char* cptr;
 /*
@@ -877,7 +877,7 @@ build_tally_table(void)
 			{
 				cxxPPassemblageComp * comp_ptr = &(jit->second);
 				int l;
-				struct phase * phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+				class phase * phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 				/* 
 				 * check if already in tally_table
 				 */
@@ -939,7 +939,7 @@ build_tally_table(void)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 					int l;
-					struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 					/* 
 					 * check if already in tally_table
 					 */
@@ -1155,7 +1155,7 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
  */
 	LDBLE coef;
 	const char* cptr;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
@@ -1205,14 +1205,14 @@ extend_tally_table(void)
 	 * adds another column to tally_table
 	 * increments number of columns
 	 */
-	tally_table = (struct tally *) PHRQ_realloc((void *) tally_table,
-		(count_tally_table_columns + 1) * sizeof(struct tally));
+	tally_table = (class tally *) PHRQ_realloc((void *) tally_table,
+		(count_tally_table_columns + 1) * sizeof(class tally));
 	if (tally_table == NULL)
 		malloc_error();
 	for (i = 0; i < 3; i++)
 	{
-		tally_table[count_tally_table_columns].total[i] = (struct tally_buffer *)
-			PHRQ_malloc(count_tally_table_rows * sizeof(struct tally_buffer));
+		tally_table[count_tally_table_columns].total[i] = (class tally_buffer *)
+			PHRQ_malloc(count_tally_table_rows * sizeof(class tally_buffer));
 		if (tally_table[count_tally_table_columns].total[i] == NULL)
 			malloc_error();
 		for (j = 0; j < count_tally_table_rows; j++)

@@ -39,9 +39,9 @@ struct CT /* summed parts of V_M and mcd transfer in a timestep for all cells, f
 	LDBLE A_ij_il, Dz2c_il, mixf_il;
 	int J_ij_count_spec, J_ij_il_count_spec;
 	struct V_M *v_m, *v_m_il;
-	struct J_ij *J_ij, *J_ij_il;
+	class J_ij *J_ij, *J_ij_il;
 	int count_m_s;
-	struct M_S *m_s;
+	class M_S *m_s;
 	int v_m_size, J_ij_size, m_s_size;
 } *ct = NULL;
 struct MOLES_ADDED /* total moles added to balance negative conc's */
@@ -97,7 +97,7 @@ transport(void)
 
 	if (multi_Dflag)
 	{
-		sol_D = (struct sol_D *) PHRQ_malloc((size_t) (all_cells)* sizeof(struct sol_D));
+		sol_D = (class sol_D *) PHRQ_malloc((size_t) (all_cells)* sizeof(class sol_D));
 		if (sol_D == NULL)
 			malloc_error();
 		for (i = 0; i < all_cells; i++)
@@ -994,16 +994,16 @@ transport_cleanup(void)
 	{
 		for (i = 0; i < all_cells; i++)
 		{
-			sol_D[i].spec = (struct spec *) free_check_null(sol_D[i].spec);
+			sol_D[i].spec = (class spec *) free_check_null(sol_D[i].spec);
 		}
-		sol_D = (struct sol_D *) free_check_null(sol_D);
+		sol_D = (class sol_D *) free_check_null(sol_D);
 		for (int i = 0; i < all_cells; i++)
 		{
 			ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
 			ct[i].v_m_il = (struct V_M *) free_check_null(ct[i].v_m_il);
-			ct[i].J_ij = (struct J_ij *) free_check_null(ct[i].J_ij);
-			ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
-			ct[i].m_s = (struct M_S *) free_check_null(ct[i].m_s);
+			ct[i].J_ij = (class J_ij *) free_check_null(ct[i].J_ij);
+			ct[i].J_ij_il = (class J_ij *) free_check_null(ct[i].J_ij_il);
+			ct[i].m_s = (class M_S *) free_check_null(ct[i].m_s);
 		}
 		ct = (struct CT *) free_check_null(ct);
 		for (int i = 0; i < count_moles_added; i++)
@@ -1796,8 +1796,8 @@ fill_spec(int l_cell_no, int ref_cell)
 	int i, i1, i2, i3, count_spec, count_exch_spec, size_xt;
 	char token[MAX_LENGTH];
 	const char * name;
-	struct species *s_ptr, *s_ptr2;
-	struct master *master_ptr;
+	class species *s_ptr, *s_ptr2;
+	class master *master_ptr;
 	LDBLE dum, dum2;
 	LDBLE lm;
 	LDBLE por, por_il, viscos_f, viscos_il_f, viscos;
@@ -1813,15 +1813,15 @@ fill_spec(int l_cell_no, int ref_cell)
 		dif_spec_names.clear();
 	size_xt = 5;
 
-	//sol_D[l_cell_no].spec = (struct spec *) free_check_null(sol_D[l_cell_no].spec);
+	//sol_D[l_cell_no].spec = (class spec *) free_check_null(sol_D[l_cell_no].spec);
 	if (sol_D[l_cell_no].spec == NULL)
 	{
-		sol_D[l_cell_no].spec = (struct spec *) PHRQ_malloc((species_list.size() + (size_t)size_xt) * sizeof(struct spec));
+		sol_D[l_cell_no].spec = (class spec *) PHRQ_malloc((species_list.size() + (size_t)size_xt) * sizeof(class spec));
 		sol_D[l_cell_no].spec_size = (int)species_list.size() + size_xt;
 	}
 	else if ((int)species_list.size() + size_xt > sol_D[l_cell_no].spec_size)
 	{
-		sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, (species_list.size() + (size_t)size_xt) * sizeof(struct spec));
+		sol_D[l_cell_no].spec = (class spec *) PHRQ_realloc(sol_D[l_cell_no].spec, (species_list.size() + (size_t)size_xt) * sizeof(class spec));
 		sol_D[l_cell_no].spec_size = (int)species_list.size() + size_xt;
 	}
 	if (sol_D[l_cell_no].spec == NULL)
@@ -1885,7 +1885,7 @@ fill_spec(int l_cell_no, int ref_cell)
 	if (species_list.size() > 1)
 	{
 		qsort(&species_list[0], species_list.size(),
-			sizeof(struct species_list), sort_species_name);
+			sizeof(class species_list), sort_species_name);
 	}
 
 	for (i = 0; i < (int)species_list.size(); i++)
@@ -2025,15 +2025,15 @@ fill_spec(int l_cell_no, int ref_cell)
 						i3 = i2 - i1;
 						if (i3 + count_spec + 1 > sol_D[l_cell_no].spec_size)
 						{
-							sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-								((size_t)i3 + count_spec + 1 + (size_t)size_xt) * sizeof(struct spec));
+							sol_D[l_cell_no].spec = (class spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
+								((size_t)i3 + count_spec + 1 + (size_t)size_xt) * sizeof(class spec));
 							if (sol_D[l_cell_no].spec == NULL)
 								malloc_error();
 							sol_D[l_cell_no].spec_size = i3 + count_spec + 1 + size_xt;
 						}
 						for (; i1 < i2; i1++) // i1 is loop variable 
 						{
-							memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(struct spec));
+							memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(class spec));
 							sol_D[l_cell_no].spec[i1].c = 0.0;
 							sol_D[l_cell_no].spec[i1].a = 0.0;
 							sol_D[l_cell_no].spec[i1].lm = min_dif_LM;
@@ -2047,8 +2047,8 @@ fill_spec(int l_cell_no, int ref_cell)
 			}
 			if (count_spec >= sol_D[l_cell_no].spec_size)
 			{
-				sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-					(count_spec + (size_t)size_xt) * sizeof(struct spec));
+				sol_D[l_cell_no].spec = (class spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
+					(count_spec + (size_t)size_xt) * sizeof(class spec));
 				if (sol_D[l_cell_no].spec == NULL)
 					malloc_error();
 				sol_D[l_cell_no].spec_size = count_spec + size_xt;
@@ -2099,8 +2099,8 @@ fill_spec(int l_cell_no, int ref_cell)
 						i2 = sol_D[i1].count_spec + 1;
 						if (i2 > sol_D[i1].spec_size)
 						{
-							sol_D[i1].spec = (struct spec *) PHRQ_realloc(sol_D[i1].spec, 
-								((size_t)i2 + (size_t)size_xt) * sizeof(struct spec));
+							sol_D[i1].spec = (class spec *) PHRQ_realloc(sol_D[i1].spec, 
+								((size_t)i2 + (size_t)size_xt) * sizeof(class spec));
 							if (sol_D[i1].spec == NULL)
 								malloc_error();
 							sol_D[i1].spec_size = i2 + size_xt;
@@ -2109,7 +2109,7 @@ fill_spec(int l_cell_no, int ref_cell)
 						for (; i2 > i3; i2--) // i2 is loop variable
 							sol_D[i1].spec[i2] = sol_D[i1].spec[i2 - 1];
 
-						memmove(&sol_D[i1].spec[i2], &sol_D[l_cell_no].spec[i2], sizeof(struct spec));
+						memmove(&sol_D[i1].spec[i2], &sol_D[l_cell_no].spec[i2], sizeof(class spec));
 						sol_D[i1].spec[i2].a = 0.0;
 						sol_D[i1].spec[i2].lm = min_dif_LM;
 						sol_D[i1].spec[i2].lg = -0.04;
@@ -2128,15 +2128,15 @@ fill_spec(int l_cell_no, int ref_cell)
 		i3 = (int) dif_spec_names.size();
 		if (i3 > sol_D[l_cell_no].spec_size)
 		{
-			sol_D[l_cell_no].spec = (struct spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
-				((size_t)i3 + (size_t)size_xt) * sizeof(struct spec));
+			sol_D[l_cell_no].spec = (class spec *) PHRQ_realloc(sol_D[l_cell_no].spec, 
+				((size_t)i3 + (size_t)size_xt) * sizeof(class spec));
 			if (sol_D[l_cell_no].spec == NULL)
 				malloc_error();
 			sol_D[l_cell_no].spec_size = i3 + size_xt;
 		}
 		for (i1 = count_spec; i1 < i3; i1++)
 		{
-			memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(struct spec));
+			memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(class spec));
 			sol_D[l_cell_no].spec[i1].c = 0.0;
 			sol_D[l_cell_no].spec[i1].a = 0.0;
 			sol_D[l_cell_no].spec[i1].lm = min_dif_LM;
@@ -2176,10 +2176,10 @@ int Phreeqc::
 sort_species_name(const void *ptr1, const void *ptr2)
 /* ---------------------------------------------------------------------- */
 {
-	const struct species_list *nptr1, *nptr2;
+	const class species_list *nptr1, *nptr2;
 
-	nptr1 = (const struct species_list *) ptr1;
-	nptr2 = (const struct species_list *) ptr2;
+	nptr1 = (const class species_list *) ptr1;
+	nptr2 = (const class species_list *) ptr2;
 
 	return (strcmp(nptr1->s->name, nptr2->s->name));
 }
@@ -2846,15 +2846,15 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		// Translate transport of the solute species into master species...
 		ct[i].count_m_s = count_m_s;
 		if (ct[i].m_s_size == 0 && ct[i].m_s != NULL)
-			ct[i].m_s = (struct M_S *) free_check_null(ct[i].m_s);
+			ct[i].m_s = (class M_S *) free_check_null(ct[i].m_s);
 		if (ct[i].m_s == NULL)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_malloc((count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s = (class M_S *) PHRQ_malloc((count_m_s + 5) * sizeof(class M_S));
 			ct[i].m_s_size = count_m_s + 5;
 		}
 		else if (count_m_s > ct[i].m_s_size)
 		{
-			ct[i].m_s = (struct M_S *) PHRQ_realloc(ct[i].m_s, (count_m_s + 5) * sizeof(struct M_S));
+			ct[i].m_s = (class M_S *) PHRQ_realloc(ct[i].m_s, (count_m_s + 5) * sizeof(class M_S));
 			ct[i].m_s_size = count_m_s + 5;
 		}
 		if (ct[i].m_s == NULL)
@@ -3385,11 +3385,11 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				if (!il_calcs)
 				{
 					tot1_h = tot1_o = tot2_h = tot2_o = 0.0;
-					m_s = (struct M_S *) free_check_null(m_s);
+					m_s = (class M_S *) free_check_null(m_s);
 					count_m_s = (ct[icell].J_ij_count_spec < count_moles_added ?
 						ct[icell].J_ij_count_spec : count_moles_added);
-					m_s = (struct M_S *) PHRQ_malloc((size_t) count_m_s *
-						sizeof(struct M_S));
+					m_s = (class M_S *) PHRQ_malloc((size_t) count_m_s *
+						sizeof(class M_S));
 					if (m_s == NULL)
 						malloc_error();
 					for (i1 = 0; i1 < count_m_s; i1++)
@@ -3564,15 +3564,15 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		}
 	}
 
-	m_s = (struct M_S *) free_check_null(m_s);
+	m_s = (class M_S *) free_check_null(m_s);
 
 	for (i = first_c; i < last_c2; i++)
 	{
 		if (stagnant && i > first_c && i <= count_cells + first_c)
 			continue;
-		ct[i].J_ij = (struct J_ij *) free_check_null(ct[i].J_ij);
+		ct[i].J_ij = (class J_ij *) free_check_null(ct[i].J_ij);
 		if (il_calcs)
-			ct[i].J_ij_il = (struct J_ij *) free_check_null(ct[i].J_ij_il);
+			ct[i].J_ij_il = (class J_ij *) free_check_null(ct[i].J_ij_il);
 		ct[i].v_m = (struct V_M *) free_check_null(ct[i].v_m);
 	}
 	if (dVtemp && stagnant)
@@ -3585,7 +3585,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-fill_m_s(struct J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
+fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 /* ---------------------------------------------------------------------- */
 {
 	/*  sum up the primary or secondary master_species from solute species
@@ -4042,12 +4042,12 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 
 	if (ct[icell].J_ij == NULL)
 	{
-		ct[icell].J_ij = (struct J_ij *) PHRQ_malloc((size_t)(k) * sizeof(struct J_ij));
+		ct[icell].J_ij = (class J_ij *) PHRQ_malloc((size_t)(k) * sizeof(class J_ij));
 		ct[icell].J_ij_size = k;
 	}
 	else if (k > ct[icell].J_ij_size)
 	{
-		ct[icell].J_ij = (struct J_ij *) PHRQ_realloc(ct[icell].J_ij, (size_t)(k) * sizeof(struct J_ij));
+		ct[icell].J_ij = (class J_ij *) PHRQ_realloc(ct[icell].J_ij, (size_t)(k) * sizeof(class J_ij));
 		ct[icell].J_ij_size = k;
 	}
 	if (ct[icell].J_ij == NULL)
@@ -4085,8 +4085,8 @@ find_J(int icell, int jcell, LDBLE mixf, LDBLE DDt, int stagnant)
 		/* also for interlayer cations */
 		k = sol_D[icell].count_exch_spec + sol_D[jcell].count_exch_spec;
 
-		ct[icell].J_ij_il = (struct J_ij *) free_check_null(ct[icell].J_ij_il);
-		ct[icell].J_ij_il = (struct J_ij *) PHRQ_malloc((size_t) k * sizeof(struct J_ij));
+		ct[icell].J_ij_il = (class J_ij *) free_check_null(ct[icell].J_ij_il);
+		ct[icell].J_ij_il = (class J_ij *) PHRQ_malloc((size_t) k * sizeof(class J_ij));
 		if (ct[icell].J_ij_il == NULL)
 			malloc_error();
 
@@ -4539,9 +4539,9 @@ dV_dcell2:
 
 		/* express the transfer in elemental moles... */
 		tot1_h = tot1_o = tot2_h = tot2_o = 0.0;
-		m_s = (struct M_S *) free_check_null(m_s);
-		m_s = (struct M_S *) PHRQ_malloc((size_t) count_moles_added *
-			sizeof(struct M_S));
+		m_s = (class M_S *) free_check_null(m_s);
+		m_s = (class M_S *) PHRQ_malloc((size_t) count_moles_added *
+			sizeof(class M_S));
 		if (m_s == NULL)
 			malloc_error();
 		for (i1 = 0; i1 < count_moles_added; i1++)
@@ -4580,7 +4580,7 @@ dV_dcell2:
 				/* transfer O and H... */
 				for (; it != nd.end(); it++)
 				{
-					struct element *elt_ptr = element_store(it->first.c_str());
+					class element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
 					if (strcmp("H", elt_ptr->name) == 0)
 					{
@@ -4620,7 +4620,7 @@ dV_dcell2:
 					cxxNameDouble::iterator it = nd.begin();
 					for (; it != nd.end(); it++)
 					{
-						struct element *elt_ptr = element_store(it->first.c_str());
+						class element *elt_ptr = element_store(it->first.c_str());
 						LDBLE coef = it->second;
 						if (strcmp(m_s[j].name, elt_ptr->name) != 0)
 							continue;
@@ -4665,7 +4665,7 @@ dV_dcell2:
 				/* transfer O and H... */
 				for (; it != nd.end(); it++)
 				{
-					struct element *elt_ptr = element_store(it->first.c_str());
+					class element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
 
 					if (strcmp("H", elt_ptr->name) == 0)
@@ -4705,7 +4705,7 @@ dV_dcell2:
 					cxxNameDouble::iterator it = nd.begin();
 					for (; it != nd.end(); it++)
 					{
-						struct element *elt_ptr = element_store(it->first.c_str());
+						class element *elt_ptr = element_store(it->first.c_str());
 						LDBLE coef = it->second;
 						if (strcmp(m_s[j].name, elt_ptr->name) != 0)
 							continue;
@@ -6033,7 +6033,7 @@ calc_vm_Cl(void)
 	*/
 	LDBLE V_Cl = 0;
 	LDBLE pb_s = 2600. + patm_x * 1.01325, TK_s = tc_x + 45.15, sqrt_mu = sqrt(mu_x);
-	struct species *s_ptr;
+	class species *s_ptr;
 
 	s_ptr = s_search("Cl-");
 	if (!s_ptr)
