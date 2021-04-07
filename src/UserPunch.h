@@ -26,14 +26,14 @@ public:
 
 	// rate
 	//
-	struct rate * Get_rate() {return this->rate;}
-	const struct rate * Get_rate()const {return this->rate;}
+	class rate * Get_rate() {return this->rate;}
+	const class rate * Get_rate()const {return this->rate;}
 
-	void Set_rate(struct rate * r) {this->rate = r;}
+	void Set_rate(class rate * r) {this->rate = r;}
 
 protected:
 	std::vector <std::string> headings;
-	struct rate *             rate;
+	class rate *             rate;
 	Phreeqc *                 PhreeqcPtr;
 };
 #endif // !defined(USERPUNCH_H_INCLUDED)

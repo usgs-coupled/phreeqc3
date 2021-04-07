@@ -15,24 +15,40 @@
 #include "Temperature.h"
 #include "SSassemblage.h"
 
-const struct const_iso Phreeqc::iso_defaults[] = {
-	{"13C", -10, 1},
-	{"13C(4)", -10, 1},
-	{"13C(-4)", -50, 5},
-	{"34S", 10, 1},
-	{"34S(6)", 10, 1},
-	{"34S(-2)", -30, 5},
-	{"2H", -28, 1},
-	{"2H(1)", -28, 1},
-	{"2H(0)", -28, 1},
-	{"18O", -5, .1},
-	{"18O(-2)", -5, .1},
-	{"18O(0)", -5, .1},
-	{"87Sr", .71, .01},
-	{"11B", 20, 5}
+//const const_iso Phreeqc::iso_defaults[] = {
+//	{"13C", -10, 1},
+//	{"13C(4)", -10, 1},
+//	{"13C(-4)", -50, 5},
+//	{"34S", 10, 1},
+//	{"34S(6)", 10, 1},
+//	{"34S(-2)", -30, 5},
+//	{"2H", -28, 1},
+//	{"2H(1)", -28, 1},
+//	{"2H(0)", -28, 1},
+//	{"18O", -5, .1},
+//	{"18O(-2)", -5, .1},
+//	{"18O(0)", -5, .1},
+//	{"87Sr", .71, .01},
+//	{"11B", 20, 5}
+//};
+const const_iso Phreeqc::iso_defaults[] = {
+	const_iso("13C", -10, 1),
+	const_iso("13C(4)", -10, 1),
+	const_iso("13C(-4)", -50, 5),
+	const_iso("34S", 10, 1),
+	const_iso("34S(6)", 10, 1),
+	const_iso("34S(-2)", -30, 5),
+	const_iso("2H", -28, 1),
+	const_iso("2H(1)", -28, 1),
+	const_iso("2H(0)", -28, 1),
+	const_iso("18O", -5, .1),
+	const_iso("18O(-2)", -5, .1),
+	const_iso("18O(0)", -5, .1),
+	const_iso("87Sr", .71, .01),
+	const_iso("11B", 20, 5)
 };
 
-const int Phreeqc::count_iso_defaults = (sizeof(iso_defaults) / sizeof(struct const_iso));
+const int Phreeqc::count_iso_defaults = (sizeof(iso_defaults) / sizeof(class const_iso));
 
 Phreeqc::~Phreeqc(void)
 {
@@ -150,7 +166,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 		if (it->first == "Charge") continue;
 		char string[MAX_LENGTH];
 		strcpy(string, it->first.c_str());
-		struct master *master_ptr = master_bsearch_primary(string);
+		class master *master_ptr = master_bsearch_primary(string);
 		if (master_ptr == NULL) continue;
 		if (master_ptr->type != AQ) continue;
 		accumulator.add(master_ptr->elt->name, 1);
@@ -158,7 +174,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 	// print list
 	for (it = accumulator.begin(); it != accumulator.end(); it++)
 	{
-		struct master *master_ptr = master_bsearch(it->first.c_str());
+		class master *master_ptr = master_bsearch(it->first.c_str());
 		if (master_ptr == NULL) continue;
 		if (master_ptr->type != AQ) continue;
 		if (master_ptr->primary == 0) continue;
@@ -385,7 +401,7 @@ size_t Phreeqc::list_Exchangers(std::list<std::string> &list_exname)
 			cxxNameDouble::iterator it = nd.begin();
 			for (; it != nd.end(); it++)
 			{
-				struct master *m = master_bsearch(it->first.c_str());
+				class master *m = master_bsearch(it->first.c_str());
 				if (m != NULL)
 				{
 					if (m->type == EX)
@@ -769,7 +785,7 @@ void Phreeqc::init(void)
 	fpunchf_user_buffer[0]  = 0;
 
 #if defined PHREEQ98 
-	struct rate *user_graph;
+	class rate *user_graph;
 	char **user_graph_headings;
 	int user_graph_count_headings;
 #endif
@@ -1172,19 +1188,19 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	use_kinetics_limiter = pSrc->use_kinetics_limiter;
 	save_values = pSrc->save_values;
 	save = pSrc->save;
-	//struct copier copy_solution;
-	//struct copier copy_pp_assemblage;
-	//struct copier copy_exchange;
-	//struct copier copy_surface;
-	//struct copier copy_ss_assemblage;
-	//struct copier copy_gas_phase;
-	//struct copier copy_kinetics;
-	//struct copier copy_mix;
-	//struct copier copy_reaction;
-	//struct copier copy_temperature;
-	//struct copier copy_pressure;
+	//class copier copy_solution;
+	//class copier copy_pp_assemblage;
+	//class copier copy_exchange;
+	//class copier copy_surface;
+	//class copier copy_ss_assemblage;
+	//class copier copy_gas_phase;
+	//class copier copy_kinetics;
+	//class copier copy_mix;
+	//class copier copy_reaction;
+	//class copier copy_temperature;
+	//class copier copy_pressure;
 	//	Inverse not implemented
-	//std::vector<struct inverse> inverse;
+	//std::vector<class inverse> inverse;
 	count_inverse = 0;
 	//   Mix
 	Rxn_mix_map = pSrc->Rxn_mix_map;
@@ -1213,14 +1229,14 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	Rxn_ss_assemblage_map = pSrc->Rxn_ss_assemblage_map;
 	Rxn_pp_assemblage_map = pSrc->Rxn_pp_assemblage_map;
 
-	std::vector<struct species_list> species_list;
+	std::vector<class species_list> species_list;
 	// will be rebuilt
-	//std::vector<struct list0> sum_jacob0;	
-	//std::vector<struct list1> sum_mb1; 
-	//std::vector<struct list1> sum_jacob1;	
-	//std::vector<struct list2> sum_mb2; 
-	//std::vector<struct list2> sum_jacob2; 
-	//std::vector<struct list2> sum_delta; 
+	//std::vector<class list0> sum_jacob0;	
+	//std::vector<class list1> sum_mb1; 
+	//std::vector<class list1> sum_jacob1;	
+	//std::vector<class list2> sum_mb2; 
+	//std::vector<class list2> sum_jacob2; 
+	//std::vector<class list2> sum_delta; 
 	// Solution
 	Rxn_solution_map = pSrc->Rxn_solution_map;
 	unnumbered_solutions = pSrc->unnumbered_solutions;
@@ -1336,7 +1352,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (int i = 0; i < (int)pSrc->elements.size(); i++)
 	{
 		const char* ptr = string_hsave(pSrc->elements[i]->name);
-		struct element* elt_ptr = element_store(ptr);
+		class element* elt_ptr = element_store(ptr);
 		elt_ptr->gfw = pSrc->elements[i]->gfw;
 	}
 	element_h_one = element_store("H(1)");
@@ -1348,15 +1364,15 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//logk.clear();
 	//for (size_t i = 0; i < pSrc->logk.size(); i++)
 	//{
-	//	struct logk* tlk = new struct logk;
+	//	class logk* tlk = new class logk;
 	//	*tlk = *pSrc->logk[i];
 	//	tlk->name = string_hsave(pSrc->logk[i]->name);
 	//	logk.push_back(tlk);
 	//}
 	for (int i = 0; i < (int)pSrc->logk.size(); i++)
 	{
-		struct logk* logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
-		//memcpy(logk_ptr, pSrc->logk[i], sizeof(struct logk));
+		class logk* logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
+		//memcpy(logk_ptr, pSrc->logk[i], sizeof(class logk));
 		*logk_ptr = *pSrc->logk[i];
 		logk_ptr->name = string_hsave(pSrc->logk[i]->name);
 		logk_ptr->add_logk.resize(pSrc->logk[i]->add_logk.size());
@@ -1369,8 +1385,8 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	// s, species
 	for (int i = 0; i < (int)pSrc->s.size(); i++)
 	{
-		struct species* s_ptr = s_store(pSrc->s[i]->name, pSrc->s[i]->z, FALSE);
-		//memcpy(s_ptr, pSrc->s[i], sizeof(struct species));
+		class species* s_ptr = s_store(pSrc->s[i]->name, pSrc->s[i]->z, FALSE);
+		//memcpy(s_ptr, pSrc->s[i], sizeof(class species));
 		*s_ptr = *pSrc->s[i];
 		// fix up all pointers
 		s_ptr->name = string_hsave(pSrc->s[i]->name);
@@ -1410,8 +1426,8 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	*---------------------------------------------------------------------- */
 	for (int i = 0; i < (int)pSrc->phases.size(); i++)
 	{
-		struct phase* phase_ptr = phase_store(pSrc->phases[i]->name);
-		//memcpy(phase_ptr, pSrc->phases[i], sizeof(struct phase));
+		class phase* phase_ptr = phase_store(pSrc->phases[i]->name);
+		//memcpy(phase_ptr, pSrc->phases[i], sizeof(class phase));
 		*phase_ptr = *pSrc->phases[i];
 		// clean up pointers
 		phase_ptr->name = string_hsave(pSrc->phases[i]->name);
@@ -1435,8 +1451,8 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (size_t i = 0; i < pSrc->master.size(); i++)
 	{
 		master.resize(i + 1);
-		master[i] = new struct master;
-		//memcpy(master[i], pSrc->master[i], sizeof(struct master));
+		master[i] = new class master;
+		//memcpy(master[i], pSrc->master[i], sizeof(class master));
 		*master[i] = *pSrc->master[i];
 		// clean up pointers
 		master[i]->gfw_formula = string_hsave(pSrc->master[i]->gfw_formula);
@@ -1470,7 +1486,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//gas_unknowns;
 	//mb_unknowns
 	//   Reaction work space
-	// struct reaction_temp trxn;
+	// class reaction_temp trxn;
 	count_trxn = 0;
 	// Print
 	pr = pSrc->pr;
@@ -1530,7 +1546,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//delta, 
 	//residual
 	input_error = 0;
-	Keywords::KEYWORDS next_keyword = Keywords::KEY_NONE;
+	next_keyword = Keywords::KEY_NONE;
 	parse_error = 0;
 	paren_count = 0;
 	iterations = 0;
@@ -1602,7 +1618,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	std::map<int, UserPunch>::iterator it = UserPunch_map.begin();
 	for (; it != UserPunch_map.end(); it++)
 	{
-		struct rate* rate_new = new struct rate;
+		class rate* rate_new = new class rate;
 		rate_new = rate_copy(it->second.Get_rate());
 		it->second.Set_rate(rate_new);
 		it->second.Set_PhreeqcPtr(this);
@@ -1613,18 +1629,18 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	spread_length = pSrc->spread_length;
 	//maps set by store below
 	//std::map<std::string, std::string*> strings_map;
-	//std::map<std::string, struct element*> elements_map;
-	//std::map<std::string, struct species*> species_map;
-	//std::map<std::string, struct phase*> phases_map;
-	//std::map<std::string, struct logk*> logk_map;
-	//std::map<std::string, struct master_isotope*> master_isotope_map;
+	//std::map<std::string, class element*> elements_map;
+	//std::map<std::string, class species*> species_map;
+	//std::map<std::string, class phase*> phases_map;
+	//std::map<std::string, class logk*> logk_map;
+	//std::map<std::string, class master_isotope*> master_isotope_map;
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
 	for (int i = 0; i < (int)pSrc->master_isotope.size(); i++)
 	{
-		struct master_isotope* master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
-		memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(struct master_isotope));
+		class master_isotope* master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
+		memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(class master_isotope));
 		master_isotope_ptr->name = string_hsave(pSrc->master_isotope[i]->name);
 		int n;
 		master_isotope_ptr->master = NULL;
@@ -1651,27 +1667,27 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	// Calculate values
 	for (int i = 0; i < pSrc->calculate_value.size(); i++)
 	{
-		struct calculate_value* calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
+		class calculate_value* calculate_value_ptr = calculate_value_store(pSrc->calculate_value[i]->name, FALSE);
 		calculate_value_ptr->value = pSrc->calculate_value[i]->value;
 		calculate_value[i]->commands = pSrc->calculate_value[i]->commands;
 	}
 	// More isotopes
 	for (int i = 0; i < (int)pSrc->isotope_ratio.size(); i++)
 	{
-		struct isotope_ratio* isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);
+		class isotope_ratio* isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);
 		isotope_ratio_ptr->name = string_hsave(pSrc->isotope_ratio[i]->name);
 		isotope_ratio_ptr->isotope_name = string_hsave(pSrc->isotope_ratio[i]->isotope_name);
 		isotope_ratio_ptr->ratio = pSrc->isotope_ratio[i]->ratio;
 		isotope_ratio_ptr->converted_ratio = pSrc->isotope_ratio[i]->converted_ratio;
 	}
-	//std::map<std::string, struct isotope_ratio*> isotope_ratio_map;
+	//std::map<std::string, class isotope_ratio*> isotope_ratio_map;
 	for (int i = 0; i < (int)pSrc->isotope_alpha.size(); i++)
 	{
-		struct isotope_alpha* isotope_alpha_ptr = isotope_alpha_store(pSrc->isotope_alpha[i]->name, FALSE);
+		class isotope_alpha* isotope_alpha_ptr = isotope_alpha_store(pSrc->isotope_alpha[i]->name, FALSE);
 		isotope_alpha_ptr->named_logk = string_hsave(pSrc->isotope_alpha[i]->named_logk);
 		isotope_alpha_ptr->value = pSrc->isotope_alpha[i]->value;
 	}
-	//std::map<std::string, struct isotope_alpha*> isotope_alpha_map;
+	//std::map<std::string, class isotope_alpha*> isotope_alpha_map;
 	// Misc
 	phreeqc_mpi_myself = 0;
 	first_read_input = pSrc->first_read_input;
@@ -1838,7 +1854,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	{
 		size_t count_theta_params = theta_params.size();
 		theta_params.resize(count_theta_params + 1);
-		theta_params[count_theta_params] = new struct theta_param;
+		theta_params[count_theta_params] = new class theta_param;
 		*theta_params[count_theta_params] = *pSrc->theta_params[i];
 	}
 	use_etheta = pSrc->use_etheta;

@@ -392,10 +392,10 @@ read_exchange_species(void)
 	int association;
 	char token[MAX_LENGTH];
 	const char* cptr;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 
-	struct species *s_ptr;
-	const struct elt_list *next_elt;
+	class species *s_ptr;
+	const class elt_list *next_elt;
 	//LDBLE exchange_coef;
 	LDBLE offset;
 
@@ -713,7 +713,7 @@ read_exchange_species(void)
 			 */
 		{
 			s_ptr = NULL;
-			std::vector<struct elt_list> new_elt_list;
+			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 					parse_error++;
@@ -1061,8 +1061,8 @@ read_exchange_master_species(void)
 	int j, l;
 	const char* cptr, *cptr1;
 	LDBLE l_z;
-	struct element *elts_ptr;
-	struct species *s_ptr;
+	class element *elts_ptr;
+	class species *s_ptr;
 	char token[MAX_LENGTH];
 	for (;;)
 	{
@@ -1578,14 +1578,14 @@ read_inverse(void)
 	{
 		qsort(&inverse[n].isotopes[0],
 			  inverse[n].isotopes.size(),
-			  sizeof(struct inv_isotope), inverse_isotope_compare);
+			  sizeof(class inv_isotope), inverse_isotope_compare);
 	}
 
 	if (inverse[n].i_u.size() > 1)
 	{
 		qsort(&inverse[n].i_u[0],
 			  inverse[n].i_u.size(),
-			  (size_t) sizeof(struct inv_isotope), inverse_isotope_compare);
+			  (size_t) sizeof(class inv_isotope), inverse_isotope_compare);
 	}
 
 	return (return_value);
@@ -1593,7 +1593,7 @@ read_inverse(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
+read_inv_balances(class inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -1633,7 +1633,7 @@ read_inv_balances(struct inverse *inverse_ptr, const char* cptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
+read_inv_isotopes(class inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l, l1, l2;
@@ -1716,7 +1716,7 @@ read_inv_isotopes(struct inverse *inverse_ptr, const char* cptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
+read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -1820,7 +1820,7 @@ read_inv_phases(struct inverse *inverse_ptr, const char* cptr)
 		inverse_ptr->phases[count_phases].isotopes.resize(isotopes.size());
 		for (size_t i = 0; i < isotopes.size(); i++)
 		{
-			struct isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
+			class isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
 			iso_ptr->isotope_number = isotopes[i].Get_isotope_number();
 			iso_ptr->elt_name = string_hsave(isotopes[i].Get_elt_name().c_str());
 			iso_ptr->isotope_name = string_hsave(isotopes[i].Get_isotope_name().c_str());
@@ -2989,8 +2989,8 @@ read_master_species(void)
 	int j, i, l;
 	const char* cptr, *cptr1;
 	LDBLE l_z;
-	struct element *elts_ptr;
-	struct species *s_ptr;
+	class element *elts_ptr;
+	class species *s_ptr;
 	char token[MAX_LENGTH];
 
 	elts_ptr = NULL;
@@ -3439,8 +3439,8 @@ read_phases(void)
 	const char* cptr;
 	char token[MAX_LENGTH];
 	char token1[MAX_LENGTH];
-	struct phase *phase_ptr;
-	struct rxn_token *token_ptr;
+	class phase *phase_ptr;
+	class rxn_token *token_ptr;
 
 	int return_value, opt, opt_save;
 	const char* next_char;
@@ -3626,7 +3626,7 @@ read_phases(void)
 				error_msg(line_save, CONTINUE);
 				break;
 			}
-			std::vector<struct elt_list> new_elt_list;
+			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 				parse_error++;
@@ -5109,8 +5109,8 @@ read_species(void)
  */
 	int i;
 	int association;
-	struct species *s_ptr;
-	const struct elt_list *next_elt;
+	class species *s_ptr;
+	const class elt_list *next_elt;
 	const char* cptr;
 	char token[MAX_LENGTH];
 	//bool vm_read = false;
@@ -5494,7 +5494,7 @@ read_species(void)
 			 *   Get space for species information and parse equation
 			 */
 			s_ptr = NULL;
-			std::vector<struct elt_list> new_elt_list;
+			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 				parse_error++;
@@ -5839,8 +5839,8 @@ read_surface_species(void)
 	const char* cptr;
 	LDBLE offset;
 
-	struct species *s_ptr;
-	const struct elt_list *next_elt;
+	class species *s_ptr;
+	const class elt_list *next_elt;
 
 	int return_value, opt, opt_save;
 	const char* next_char;
@@ -6116,7 +6116,7 @@ read_surface_species(void)
 			 *   Get surface species information and parse equation
 			 */
 			s_ptr = NULL;
-			std::vector<struct elt_list> new_elt_list;
+			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
 			{
 				parse_error++;
@@ -6802,7 +6802,7 @@ read_surface_master_species(void)
 	int l, return_value;
 	const char* cptr, *cptr1;
 	LDBLE l_z;
-	struct species *s_ptr;
+	class species *s_ptr;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	int opt, opt_save;
 	const char* next_char;
@@ -6907,8 +6907,8 @@ int Phreeqc::
 add_psi_master_species(char *token)
 /* ---------------------------------------------------------------------- */
 {
-	struct species *s_ptr;
-	struct master *master_ptr;
+	class species *s_ptr;
+	class master *master_ptr;
 	const char* cptr;
 	char token1[MAX_LENGTH];
 	int i, n, plane;
@@ -8057,7 +8057,7 @@ read_rates(void)
 	int l, n;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct rate *rate_ptr;
+	class rate *rate_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
@@ -8273,7 +8273,7 @@ read_user_punch(void)
 	//}
 	
 	// Malloc rate structure
-	struct rate* r = new struct rate;
+	class rate* r = new class rate;
 	r->commands.clear();
 	r->new_def = TRUE;
 	r->linebase = NULL;
@@ -9128,7 +9128,7 @@ read_named_logk(void)
 
 	int l;
 	int i, empty;
-	struct logk *logk_ptr;
+	class logk *logk_ptr;
 	char token[MAX_LENGTH];
 
 	int return_value, opt, opt_save;

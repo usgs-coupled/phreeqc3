@@ -459,7 +459,7 @@ int Phreeqc::
 run_as_cells(void)
 /* ---------------------------------------------------------------------- */
 {
-	struct save save_data;
+	class save save_data;
 	LDBLE kin_time;
 	int count_steps, use_mix;
 	char token[2 * MAX_LENGTH];
@@ -534,7 +534,7 @@ run_as_cells(void)
 			/*
 			*  save data for saving solutions
 			*/
-			memcpy(&save_data, &save, sizeof(struct save));
+			memcpy(&save_data, &save, sizeof(class save));
 			/* 
 			*Copy everything to -2
 			*/
@@ -611,7 +611,7 @@ run_as_cells(void)
 			/*
 			*   save end of reaction
 			*/
-			memcpy(&save, &save_data, sizeof(struct save));
+			memcpy(&save, &save_data, sizeof(class save));
 			if (use.Get_kinetics_in() == TRUE)
 			{
 				Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());
@@ -669,7 +669,7 @@ int Phreeqc::
 run_as_cells(void)
 /* ---------------------------------------------------------------------- */
 {
-	struct save save_data;
+	class save save_data;
 	LDBLE kin_time;
 	int count_steps, use_mix;
 	char token[2 * MAX_LENGTH];
@@ -745,7 +745,7 @@ run_as_cells(void)
 		/*
 		*  save data for saving solutions
 		*/
-		memcpy(&save_data, &save, sizeof(struct save));
+		memcpy(&save_data, &save, sizeof(class save));
 		/* 
 		*Copy everything to -2
 		*/
@@ -825,7 +825,7 @@ run_as_cells(void)
 		/*
 		*   save end of reaction
 		*/
-		memcpy(&save, &save_data, sizeof(struct save));
+		memcpy(&save, &save_data, sizeof(class save));
 		if (use.Get_kinetics_in() == TRUE)
 		{
 			Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());

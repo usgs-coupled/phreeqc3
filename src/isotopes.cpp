@@ -23,9 +23,9 @@ read_isotopes(void)
  */
 
 	int l;
-	struct master_isotope *master_isotope_ptr;
+	class master_isotope *master_isotope_ptr;
 	char token[MAX_LENGTH];
-	struct element *elt_ptr;
+	class element *elt_ptr;
 
 	int return_value, opt, opt_save;
 	const char* next_char;
@@ -163,7 +163,7 @@ read_calculate_values(void)
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct calculate_value *calculate_value_ptr;
+	class calculate_value *calculate_value_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
@@ -270,7 +270,7 @@ read_isotope_ratios(void)
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct isotope_ratio *isotope_ratio_ptr;
+	class isotope_ratio *isotope_ratio_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
@@ -360,7 +360,7 @@ read_isotope_alphas(void)
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct isotope_alpha *isotope_alpha_ptr;
+	class isotope_alpha *isotope_alpha_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
@@ -428,7 +428,7 @@ add_isotopes(cxxSolution &solution_ref)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct master_isotope *master_isotope_ptr;
+	class master_isotope *master_isotope_ptr;
 	LDBLE total_moles;
 	/*
 	 * zero out isotopes
@@ -481,14 +481,14 @@ add_isotopes(cxxSolution &solution_ref)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calculate_isotope_moles(struct element *elt_ptr,
+calculate_isotope_moles(class element *elt_ptr,
 						cxxSolution *solution_ptr, LDBLE total_moles)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l_iter;
 	int count_isotopes, total_is_major;
-	struct master_isotope *master_isotope_ptr, *master_isotope_ptr1;
-	struct master_isotope list[MAX_ELTS];
+	class master_isotope *master_isotope_ptr, *master_isotope_ptr1;
+	class master_isotope list[MAX_ELTS];
 	LDBLE m_major, tot;
 	/*
 	 *  Get total concentration of elt_ptr
@@ -511,7 +511,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 	if ((master_isotope_ptr != NULL) && (master_isotope_ptr->elt == elt_ptr))
 	{
 		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(struct master_isotope));
+			   sizeof(class master_isotope));
 		list[count_isotopes].ratio = 1.0;
 		if (list[count_isotopes].minor_isotope == FALSE)
 		{
@@ -523,7 +523,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 	if ((master_isotope_ptr != NULL) && (master_isotope_ptr->elt == elt_ptr))
 	{
 		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(struct master_isotope));
+			   sizeof(class master_isotope));
 		list[count_isotopes].ratio = 1.0;
 		if (list[count_isotopes].minor_isotope == FALSE)
 		{
@@ -542,7 +542,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 			if (master_isotope_ptr->elt != elt_ptr)
 				continue;
 			memcpy(&(list[count_isotopes]), master_isotope_ptr,
-				sizeof(struct master_isotope));
+				sizeof(class master_isotope));
 			if (list[count_isotopes].minor_isotope == FALSE)
 			{
 				total_is_major = list[count_isotopes].total_is_major;
@@ -624,7 +624,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 			if (list[i].name == master_isotope[j]->name)
 			{
 				memcpy(master_isotope[j], &(list[i]),
-					   sizeof(struct master_isotope));
+					   sizeof(class master_isotope));
 			}
 		}
 	}
@@ -658,7 +658,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_permil(struct master_isotope *master_isotope_ptr, LDBLE major_total)
+from_permil(class master_isotope *master_isotope_ptr, LDBLE major_total)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE r;
@@ -671,7 +671,7 @@ from_permil(struct master_isotope *master_isotope_ptr, LDBLE major_total)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_pct(struct master_isotope *master_isotope_ptr, LDBLE total_moles)
+from_pct(class master_isotope *master_isotope_ptr, LDBLE total_moles)
 /* ---------------------------------------------------------------------- */
 {
 	master_isotope_ptr->moles =
@@ -682,7 +682,7 @@ from_pct(struct master_isotope *master_isotope_ptr, LDBLE total_moles)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_tu(struct master_isotope *master_isotope_ptr)
+from_tu(class master_isotope *master_isotope_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	master_isotope_ptr->moles =
@@ -693,7 +693,7 @@ from_tu(struct master_isotope *master_isotope_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_pcil(struct master_isotope *master_isotope_ptr)
+from_pcil(class master_isotope *master_isotope_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	master_isotope_ptr->moles =
@@ -782,8 +782,8 @@ punch_isotopes(void)
  */
 	//int i;
 	LDBLE iso;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct master_isotope *master_isotope_ptr;
+	class isotope_ratio *isotope_ratio_ptr;
+	class master_isotope *master_isotope_ptr;
 
 	//if (punch.in == FALSE || punch.isotopes == FALSE)
 	//	return (OK);
@@ -842,7 +842,7 @@ punch_calculate_values(void)
  */
 	//int i;
 	LDBLE result;
-	struct calculate_value *calculate_value_ptr;
+	class calculate_value *calculate_value_ptr;
 	char l_command[] = "run";
 
 	if (current_selected_output->Get_calculate_values().size() == 0)
@@ -933,8 +933,8 @@ print_isotope_ratios(void)
  */
 	int i, j;
 	int print_isotope;
-	struct master *master_ptr;
-	struct master_isotope *master_isotope_ptr;
+	class master *master_ptr;
+	class master_isotope *master_isotope_ptr;
 	char token[MAX_LENGTH];
 
 
@@ -996,7 +996,7 @@ print_isotope_alphas(void)
  */
 	int i, j;
 	int print_isotope;
-	struct master *master_ptr;
+	class master *master_ptr;
 	char token[MAX_LENGTH];
 	LDBLE log_alpha;
 
@@ -1073,10 +1073,10 @@ calculate_values(void)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
-	struct calculate_value *calculate_value_ptr;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct isotope_alpha *isotope_alpha_ptr;
-	struct master_isotope *master_isotope_ptr;
+	class calculate_value *calculate_value_ptr;
+	class isotope_ratio *isotope_ratio_ptr;
+	class isotope_alpha *isotope_alpha_ptr;
+	class master_isotope *master_isotope_ptr;
 	char l_command[] = "run";
 
 
@@ -1219,7 +1219,7 @@ calculate_values(void)
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-convert_isotope(struct master_isotope * master_isotope_ptr, LDBLE ratio)
+convert_isotope(class master_isotope * master_isotope_ptr, LDBLE ratio)
 /* ---------------------------------------------------------------------- */
 {
 	const char *units;
@@ -1256,7 +1256,7 @@ convert_isotope(struct master_isotope * master_isotope_ptr, LDBLE ratio)
  */
 
 /* ---------------------------------------------------------------------- */
-struct master_isotope * Phreeqc::
+class master_isotope * Phreeqc::
 master_isotope_store(const char *name, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
@@ -1281,11 +1281,11 @@ master_isotope_store(const char *name, int replace_if_found)
  *      pointer to master_isotope structure "master_isotope" where "name" can be found.
  */
 	int n;
-	struct master_isotope *master_isotope_ptr;
+	class master_isotope *master_isotope_ptr;
 /*
  *   Search list
  */
-	std::map<std::string, struct master_isotope*>::iterator mi_it =
+	std::map<std::string, class master_isotope*>::iterator mi_it =
 		master_isotope_map.find(name);
 	if (mi_it != master_isotope_map.end() && replace_if_found == FALSE)
 	{
@@ -1315,7 +1315,7 @@ master_isotope_store(const char *name, int replace_if_found)
 }
 
 /* ---------------------------------------------------------------------- */
-struct master_isotope * Phreeqc::
+class master_isotope * Phreeqc::
 master_isotope_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1324,7 +1324,7 @@ master_isotope_alloc(void)
  *      return: pointer to a master_isotope structure
  */
 {
-	struct master_isotope *master_isotope_ptr = new struct master_isotope;
+	class master_isotope *master_isotope_ptr = new class master_isotope;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1335,7 +1335,7 @@ master_isotope_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-master_isotope_init(struct master_isotope *master_isotope_ptr)
+master_isotope_init(class master_isotope *master_isotope_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a master_isotope structure
@@ -1361,7 +1361,7 @@ master_isotope_init(struct master_isotope *master_isotope_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct master_isotope * Phreeqc::
+class master_isotope * Phreeqc::
 master_isotope_search(const char *name)
 /* ---------------------------------------------------------------------- */
 {
@@ -1375,11 +1375,11 @@ master_isotope_search(const char *name)
  *      pointer to master_isotope structure "master_isotope" where "name" can be found.
  *      or NULL if not found.
  */
-	struct master_isotope* master_isotope_ptr = NULL;
+	class master_isotope* master_isotope_ptr = NULL;
 /*
  *   Search list
  */
-	std::map<std::string, struct master_isotope*>::iterator mi_it =
+	std::map<std::string, class master_isotope*>::iterator mi_it =
 		master_isotope_map.find(name);
 	if (mi_it != master_isotope_map.end())
 	{
@@ -1394,7 +1394,7 @@ master_isotope_search(const char *name)
  */
 
 /* ---------------------------------------------------------------------- */
-struct calculate_value * Phreeqc::
+class calculate_value * Phreeqc::
 calculate_value_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
@@ -1418,13 +1418,13 @@ calculate_value_store(const char *name_in, int replace_if_found)
  *   Returns:
  *      pointer to calculate_value structure "calculate_value" where "name" can be found.
  */
-	struct calculate_value *calculate_value_ptr=NULL;
+	class calculate_value *calculate_value_ptr=NULL;
 /*
  *   Search list
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct calculate_value*>::iterator cv_it =
+	std::map<std::string, class calculate_value*>::iterator cv_it =
 		calculate_value_map.find(name);
 	if (cv_it != calculate_value_map.end() && replace_if_found == FALSE)
 	{
@@ -1455,7 +1455,7 @@ calculate_value_store(const char *name_in, int replace_if_found)
 }
 
 /* ---------------------------------------------------------------------- */
-struct calculate_value * Phreeqc::
+class calculate_value * Phreeqc::
 calculate_value_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1464,8 +1464,8 @@ calculate_value_alloc(void)
  *      return: pointer to a calculate_value structure
  */
 {
-	struct calculate_value *calculate_value_ptr =
-		new struct calculate_value;
+	class calculate_value *calculate_value_ptr =
+		new class calculate_value;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1476,7 +1476,7 @@ calculate_value_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-calculate_value_init(struct calculate_value *calculate_value_ptr)
+calculate_value_init(class calculate_value *calculate_value_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a calculate_value structure
@@ -1501,7 +1501,7 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct calculate_value * Phreeqc::
+class calculate_value * Phreeqc::
 calculate_value_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
@@ -1517,7 +1517,7 @@ calculate_value_search(const char *name_in)
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct calculate_value*>::iterator cv_it =
+	std::map<std::string, class calculate_value*>::iterator cv_it =
 		calculate_value_map.find(name);
 	if (cv_it != calculate_value_map.end())
 	{
@@ -1528,7 +1528,7 @@ calculate_value_search(const char *name_in)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calculate_value_free(struct calculate_value *calculate_value_ptr)
+calculate_value_free(class calculate_value *calculate_value_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1554,7 +1554,7 @@ calculate_value_free(struct calculate_value *calculate_value_ptr)
  */
 
 /* ---------------------------------------------------------------------- */
-struct isotope_ratio * Phreeqc::
+class isotope_ratio * Phreeqc::
 isotope_ratio_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
@@ -1578,13 +1578,13 @@ isotope_ratio_store(const char *name_in, int replace_if_found)
  *   Returns:
  *      pointer to isotope_ratio structure "isotope_ratio" where "name" can be found.
  */
-	struct isotope_ratio *isotope_ratio_ptr;
+	class isotope_ratio *isotope_ratio_ptr;
 /*
  *   Search list
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct isotope_ratio*>::iterator it =
+	std::map<std::string, class isotope_ratio*>::iterator it =
 		isotope_ratio_map.find(name);
 
 	if (it != isotope_ratio_map.end() && replace_if_found == FALSE)
@@ -1615,7 +1615,7 @@ isotope_ratio_store(const char *name_in, int replace_if_found)
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_ratio * Phreeqc::
+class isotope_ratio * Phreeqc::
 isotope_ratio_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1624,8 +1624,8 @@ isotope_ratio_alloc(void)
  *      return: pointer to a isotope_ratio structure
  */
 {
-	struct isotope_ratio* isotope_ratio_ptr =
-		new struct isotope_ratio;
+	class isotope_ratio* isotope_ratio_ptr =
+		new class isotope_ratio;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1636,7 +1636,7 @@ isotope_ratio_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr)
+isotope_ratio_init(class isotope_ratio *isotope_ratio_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a isotope_ratio structure
@@ -1657,7 +1657,7 @@ isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_ratio * Phreeqc::
+class isotope_ratio * Phreeqc::
 isotope_ratio_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
@@ -1673,7 +1673,7 @@ isotope_ratio_search(const char *name_in)
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct isotope_ratio*>::iterator it =
+	std::map<std::string, class isotope_ratio*>::iterator it =
 		isotope_ratio_map.find(name);
 
 	if (it != isotope_ratio_map.end())
@@ -1688,7 +1688,7 @@ isotope_ratio_search(const char *name_in)
  */
 
 /* ---------------------------------------------------------------------- */
-struct isotope_alpha * Phreeqc::
+class isotope_alpha * Phreeqc::
 isotope_alpha_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
@@ -1712,10 +1712,10 @@ isotope_alpha_store(const char *name_in, int replace_if_found)
  *   Returns:
  *      pointer to isotope_alpha structure "isotope_alpha" where "name" can be found.
  */
-	struct isotope_alpha *isotope_alpha_ptr;
+	class isotope_alpha *isotope_alpha_ptr;
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct isotope_alpha*>::iterator it =
+	std::map<std::string, class isotope_alpha*>::iterator it =
 		isotope_alpha_map.find(name);
 
 	if (it != isotope_alpha_map.end() && replace_if_found == FALSE)
@@ -1745,7 +1745,7 @@ isotope_alpha_store(const char *name_in, int replace_if_found)
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_alpha * Phreeqc::
+class isotope_alpha * Phreeqc::
 isotope_alpha_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1754,8 +1754,8 @@ isotope_alpha_alloc(void)
  *      return: pointer to a isotope_alpha structure
  */
 {
-	struct isotope_alpha* isotope_alpha_ptr =
-		new struct isotope_alpha;
+	class isotope_alpha* isotope_alpha_ptr =
+		new class isotope_alpha;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1766,7 +1766,7 @@ isotope_alpha_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr)
+isotope_alpha_init(class isotope_alpha *isotope_alpha_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a isotope_alpha structure
@@ -1786,7 +1786,7 @@ isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_alpha * Phreeqc::
+class isotope_alpha * Phreeqc::
 isotope_alpha_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
@@ -1802,7 +1802,7 @@ isotope_alpha_search(const char *name_in)
  */
 	std::string name = name_in;
 	str_tolower(name);
-	std::map<std::string, struct isotope_alpha*>::iterator it =
+	std::map<std::string, class isotope_alpha*>::iterator it =
 		isotope_alpha_map.find(name);
 
 	if (it != isotope_alpha_map.end())

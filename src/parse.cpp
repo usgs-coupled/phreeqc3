@@ -3,7 +3,7 @@
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-parse_eq(char* eqn, std::vector<struct elt_list>& new_elt_list, int association)
+parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 /* ---------------------------------------------------------------------- */
 /*
  *   function to break equation up into component species

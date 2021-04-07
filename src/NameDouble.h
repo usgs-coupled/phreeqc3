@@ -28,10 +28,10 @@ class IPQ_DLL_EXPORT cxxNameDouble:public
 	};
 
 	cxxNameDouble();
-	cxxNameDouble(const std::vector<struct elt_list>& el);
+	cxxNameDouble(const std::vector<class elt_list>& el);
 	cxxNameDouble(std::map < std::string, cxxISolutionComp > &comps);
 
-	cxxNameDouble(struct name_coef *nc, int count);
+	cxxNameDouble(class name_coef *nc, int count);
 	cxxNameDouble(const cxxNameDouble & old, LDBLE factor);
 	 ~cxxNameDouble();
 

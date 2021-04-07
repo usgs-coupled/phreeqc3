@@ -237,8 +237,8 @@ step(LDBLE step_fraction)
 			for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 			{
 				int n;
-				struct phase *p_ptr = phase_bsearch((it->first).c_str(), &n, FALSE);
-				const struct elt_list *e_ptr;
+				class phase *p_ptr = phase_bsearch((it->first).c_str(), &n, FALSE);
+				const class elt_list *e_ptr;
 				LDBLE min = 1e10;
 				for (e_ptr = &p_ptr->next_elt[0]; e_ptr->elt != NULL; e_ptr++)
 				{
@@ -264,9 +264,9 @@ step(LDBLE step_fraction)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 					int n;
-					struct phase *p_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &n, FALSE);
+					class phase *p_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &n, FALSE);
 
-					const struct elt_list *e_ptr;
+					const class elt_list *e_ptr;
 					LDBLE min = 1e10;
 					for (e_ptr = &p_ptr->next_elt[0]; e_ptr->elt != NULL; e_ptr++)
 					{
@@ -351,8 +351,8 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
  *   extensive is multiplication factor for solution
  *   intensive is fraction of all multiplication factors for all solutions
  */
-	struct master *master_ptr;
-	struct species *species_ptr;
+	class master *master_ptr;
+	class species *species_ptr;
 /*
  *   Add solution to global variables
  */
@@ -425,7 +425,7 @@ add_exchange(cxxExchange *exchange_ptr)
 /*
  *   Accumulate exchange data in master->totals and _x variables.
  */
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	if (exchange_ptr == NULL)
 		return (OK);
@@ -439,7 +439,7 @@ add_exchange(cxxExchange *exchange_ptr)
 		cxxNameDouble::iterator it = nd.begin();
 		for ( ; it != nd.end(); it++)
 		{
-			struct element *elt_ptr = element_store(it->first.c_str());
+			class element *elt_ptr = element_store(it->first.c_str());
 			LDBLE coef = it->second;
 			assert(elt_ptr != NULL && elt_ptr->primary != NULL);
 			master_ptr = elt_ptr->primary;
@@ -476,7 +476,7 @@ add_exchange(cxxExchange *exchange_ptr)
 			cxxNameDouble::iterator it = nd.begin();
 			for ( ; it != nd.end(); it++)
 			{	
-				struct element *elt_ptr = element_store(it->first.c_str());
+				class element *elt_ptr = element_store(it->first.c_str());
 				assert(elt_ptr->master);
 				if (elt_ptr->master->type == EX)
 				{
@@ -505,12 +505,12 @@ add_surface(cxxSurface *surface_ptr)
 	for (size_t i = 0; i < surface_ptr->Get_surface_comps().size(); i++)
 	{
 		cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
-		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
+		class element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
 		if (elt_ptr->master == NULL)
 		{
 			error_msg(sformatf("Data not defined for master in SURFACE, %s\n", comp_ptr->Get_formula().c_str()), STOP);
 		}
-		struct master *master_i_ptr = elt_ptr->master;
+		class master *master_i_ptr = elt_ptr->master;
 
 		if (surface_ptr->Get_type() == cxxSurface::NO_EDL)
 		{
@@ -527,8 +527,8 @@ add_surface(cxxSurface *surface_ptr)
 		for (jit = comp_ptr->Get_totals().begin(); jit != comp_ptr->Get_totals().end(); jit++)
 		{
 			LDBLE coef = jit->second;
-			struct element *elt_j_ptr = element_store(jit->first.c_str());
-			struct master *master_j_ptr = elt_j_ptr->primary; 
+			class element *elt_j_ptr = element_store(jit->first.c_str());
+			class master *master_j_ptr = elt_j_ptr->primary; 
 			if (master_j_ptr == NULL)
 			{
 				input_error++;
@@ -561,7 +561,7 @@ add_surface(cxxSurface *surface_ptr)
 		}
 		if (!surface_ptr->Get_new_def())
 		{
-			struct master *master_ptr = surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI);
+			class master *master_ptr = surface_get_psi_master(charge_ptr->Get_name().c_str(), SURF_PSI);
 			master_ptr->s->la = charge_ptr->Get_la_psi();
 		}
 /*
@@ -573,8 +573,8 @@ add_surface(cxxSurface *surface_ptr)
 			for (jit = charge_ptr->Get_diffuse_layer_totals().begin(); jit != charge_ptr->Get_diffuse_layer_totals().end(); jit++)
 			{
 				LDBLE coef = jit->second;
-				struct element *elt_j_ptr = element_store(jit->first.c_str());
-				struct master * master_j_ptr = elt_j_ptr->master;
+				class element *elt_j_ptr = element_store(jit->first.c_str());
+				class master * master_j_ptr = elt_j_ptr->master;
 				if (master_j_ptr->s == s_hplus)
 				{
 					total_h_x += coef;
@@ -664,7 +664,7 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 	LDBLE amount_to_add, total;
 	char token[MAX_LENGTH];
 	const char* cptr;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	if (check_pp_assemblage(pp_assemblage_ptr) == OK)
 		return (OK);
@@ -684,7 +684,7 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 		cxxPPassemblageComp * comp_ptr = &(it->second);
 		if (comp_ptr->Get_precipitate_only()) continue;
 		int l;
-		struct phase * phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
 		count_elts = 0;
 		paren_count = 0;
 		amount_to_add = 0.0;
@@ -768,13 +768,13 @@ check_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
  *   if all are in model. Return true if all are present,
  *   Return false if one or more is missing.
  */
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	cxxNameDouble nd = pp_assemblage_ptr->Get_eltList();
 	cxxNameDouble::iterator it;
 	for (it = nd.begin(); it != nd.end(); it++)
 	{
-		struct element *elt_ptr = element_store(it->first.c_str());
+		class element *elt_ptr = element_store(it->first.c_str());
 		if (elt_ptr == NULL || elt_ptr->primary == NULL)
 		{
 			return FALSE;
@@ -798,7 +798,7 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
  *   Add irreversible reaction
  */
 	char c;
-	struct master *master_ptr;
+	class master *master_ptr;
 /*
  *   Calculate and save reaction
  */
@@ -896,7 +896,7 @@ add_reaction(cxxReaction *reaction_ptr, int step_number, LDBLE step_fraction)
 	cxxNameDouble::const_iterator it = reaction_ptr->Get_elementList().begin();
 	for ( ; it != reaction_ptr->Get_elementList().end(); it++)
 	{
-		struct element * elt_ptr = element_store(it->first.c_str());
+		class element * elt_ptr = element_store(it->first.c_str());
 		LDBLE coef = it->second;
 		if (elt_ptr == NULL)
 		{
@@ -939,7 +939,7 @@ reaction_calc(cxxReaction *reaction_ptr)
 	int return_value;
 	LDBLE coef;
 	const char* cptr;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
@@ -996,7 +996,7 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
  *   Accumulate gas data in master->totals and _x variables.
  */
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	if (gas_phase_ptr == NULL)
 		return (OK);
@@ -1009,7 +1009,7 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 	{
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int k;
-		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 		if (phase_ptr == NULL)
 		{
 			input_error++;
@@ -1061,7 +1061,7 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
  */
 	int i, j, k;
 	LDBLE amount_to_add, total;
-	struct master *master_ptr;
+	class master *master_ptr;
 	const char* cptr;
 
 	if (ss_assemblage_ptr == NULL)
@@ -1081,7 +1081,7 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
 			int l;
-			struct phase * phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase * phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 
 			amount_to_add = 0.0;
 			comp_ptr->Set_delta(0.0);
@@ -1156,7 +1156,7 @@ add_kinetics(cxxKinetics *kinetics_ptr)
 /*
  *   Add kinetic reaction
  */
-	struct master *master_ptr = NULL;
+	class master *master_ptr = NULL;
 /*
  *   Add reaction to totals
  */
@@ -1166,7 +1166,7 @@ add_kinetics(cxxKinetics *kinetics_ptr)
 	for (; it != kinetics_ptr->Get_totals().end(); it++)
 	{
 		LDBLE coef = it->second;
-		struct element *elt_ptr = element_store(it->first.c_str());
+		class element *elt_ptr = element_store(it->first.c_str());
 		if (elt_ptr == NULL || (master_ptr = elt_ptr->primary) == NULL)
 		{
 			input_error++;
@@ -1201,7 +1201,7 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 /*
  *   Check for missing elements
  */
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	if (gas_phase_ptr == NULL)
 		return (OK);
@@ -1219,7 +1219,7 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 	{
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int k;
-		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 		count_elts = 0;
 		paren_count = 0;
 		if (gc_ptr->Get_moles() <= 0.0)
@@ -1267,7 +1267,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
  */
 	std::string token;
 	const char* cptr;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	if (check_pp_assemblage(pp_assemblage_ptr) == OK)
 		return (OK);
@@ -1280,7 +1280,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 	{
 		cxxPPassemblageComp * comp_ptr = &(it->second);
 		int l;
-		struct phase * phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
 		count_elts = 0;
 		paren_count = 0;
 		if (comp_ptr->Get_moles() <= 0.0)
@@ -1350,7 +1350,7 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
  *   Check for missing elements
  */
 	int j, k;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	if (ss_assemblage_ptr == NULL)
 		return (OK);
@@ -1365,7 +1365,7 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 			int l;
-			struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 			count_elts = 0;
 			paren_count = 0;
 			if (comp_ptr->Get_moles() <= 0.0)
@@ -1425,7 +1425,7 @@ solution_check(void)
  *   Check for missing elements
  */
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 /*
  *   Check that all elements are in solution for phases with zero mass

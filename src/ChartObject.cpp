@@ -1318,7 +1318,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 	oss << indent1 << "-end" << "\n";
 
 	/*
-	struct rate *user_graph;
+	class rate *user_graph;
 	// C++ for rate struct
 	std::string rate_name;
 	std::list<std::string> rate_command_list;

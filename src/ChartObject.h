@@ -230,11 +230,11 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->point_added;
 	}
-	struct rate *Get_user_graph()
+	class rate *Get_user_graph()
 	{
 		return this->user_graph;
 	}
-	const struct rate *Get_user_graph()const
+	const class rate *Get_user_graph()const
 	{
 		return this->user_graph;
 	}
@@ -399,8 +399,8 @@ class ChartObject:public cxxNumKeyword
 	bool curve_added;
 	bool point_added;
 	
-	struct rate *user_graph;
-	// C++ for rate struct
+	class rate *user_graph;
+	// C++ for rate class
 	std::string rate_name;
 	std::list<std::string> rate_command_list;
 	std::list<std::string> rate_command_list_original;

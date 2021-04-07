@@ -869,7 +869,7 @@ int Phreeqc::gammas_a_f(int i1)
 	LDBLE d2, d3, sum = 0;
 	//char name[MAX_LENGTH];
 	std::string name;
-	//struct master *m_ptr;
+	//class master *m_ptr;
 
 	i = i1;
 	for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
@@ -2171,7 +2171,7 @@ mb_ss(void)
 	LDBLE iapc, iapb, l_kc, l_kb, lc, lb, xcaq, xbaq, xb, xc;
 	LDBLE sigmapi_aq, sigmapi_solid;
 	LDBLE total_p;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 /*
  *   Determines whether solid solution equation is needed
  */
@@ -2186,7 +2186,7 @@ mb_ss(void)
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{
 			int l;
-			struct phase *phase_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[j].Get_name().c_str(), &l, FALSE);
+			class phase *phase_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[j].Get_name().c_str(), &l, FALSE);
 			if (phase_ptr->in == FALSE)
 			{
 				continue;
@@ -2202,8 +2202,8 @@ mb_ss(void)
 		else if (ss_ptr->Get_a0() != 0.0 || ss_ptr->Get_a1() != 0.0)
 		{
 			int l;
-			struct phase *phase0_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[0].Get_name().c_str(), &l, FALSE);
-			struct phase *phase1_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[1].Get_name().c_str(), &l, FALSE);
+			class phase *phase0_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[0].Get_name().c_str(), &l, FALSE);
+			class phase *phase1_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[1].Get_name().c_str(), &l, FALSE);
 			/*
 			 *  Calculate IAPc and IAPb
 			 */
@@ -2285,7 +2285,7 @@ mb_ss(void)
 			{
 				cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
 				int l;
-				struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+				class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 				if (phase_ptr->in == TRUE)
 				{
 					lp = -phase_ptr->lk;
@@ -2332,7 +2332,7 @@ molalities(int allow_overflow)
  */
 	int i, j;
 	LDBLE total_g;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 /*
  *   la for master species
  */
@@ -2413,7 +2413,7 @@ molalities(int allow_overflow)
 		calc_all_donnan();
 	}
 
-	struct species *s_ptr = NULL;
+	class species *s_ptr = NULL;
 	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		s_ptr = s_x[i];
@@ -2537,8 +2537,8 @@ calc_gas_pressures(void)
 {
 	int n_g = 0;
 	LDBLE lp, V_m = 0;
-	struct rxn_token *rxn_ptr;
-	std::vector<struct phase *> phase_ptrs;
+	class rxn_token *rxn_ptr;
+	std::vector<class phase *> phase_ptrs;
 	bool PR = false, pr_done = false;
 /*
  *   moles and partial pressures for gases
@@ -2562,7 +2562,7 @@ calc_gas_pressures(void)
 	{
 		const cxxGasComp * gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		struct phase *phase_ptr = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 		if (phase_ptr->in == TRUE)
 		{
 			phase_ptrs.push_back(phase_ptr);
@@ -2631,7 +2631,7 @@ calc_gas_pressures(void)
 	{
 		const cxxGasComp *gas_comp = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		struct phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
@@ -2693,7 +2693,7 @@ calc_gas_pressures(void)
 			{
 				const cxxGasComp *gas_comp = &(gas_phase_ptr->Get_gas_comps()[i]);
 				int j;
-				struct phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
+				class phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
 				if (phase_ptr->in == TRUE)
 				{
 					phase_ptr->moles_x *= MAX_P_NONLLNL / gas_phase_ptr->Get_total_p();
@@ -2744,7 +2744,7 @@ calc_ss_fractions(void)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 			int l;
-			struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 			moles = comp_ptr->Get_moles();
 			if (moles < 0)
 			{
@@ -2789,8 +2789,8 @@ ss_binary(cxxSS *ss_ptr)
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	int l;
-	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &l, FALSE);
-	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &l, FALSE);
+	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &l, FALSE);
+	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &l, FALSE);
 
 	nc = comp0_ptr->Get_moles();
 	xc = nc / n_tot;
@@ -2920,7 +2920,7 @@ ss_ideal(cxxSS *ss_ptr)
 	{
 		cxxSScomp *compk_ptr = &(ss_ptr->Get_ss_comps()[k]);
 		int l;
-		struct phase *phasek_ptr = phase_bsearch(compk_ptr->Get_name().c_str(), &l, FALSE);
+		class phase *phasek_ptr = phase_bsearch(compk_ptr->Get_name().c_str(), &l, FALSE);
 		n_tot1 = 0;
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{
@@ -3774,7 +3774,7 @@ residuals(void)
 	LDBLE sum_residual;
 	LDBLE sinh_constant;
 	LDBLE sum, sum1;
-	struct master *master_ptr, *master_ptr1, *master_ptr2;
+	class master *master_ptr, *master_ptr1, *master_ptr2;
 	LDBLE sigmaddl, negfpsirt;
 	int print_fail;
 	std::vector<LDBLE> cd_psi;
@@ -4877,7 +4877,7 @@ sum_species(void)
  *   Sums total valence states and stores in master[i]->total.
  */
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 /*
  *   Set global variables
  */
