@@ -31,7 +31,7 @@
 //	{"87Sr", .71, .01},
 //	{"11B", 20, 5}
 //};
-const class const_iso Phreeqc::iso_defaults[] = {
+const const_iso Phreeqc::iso_defaults[] = {
 	const_iso("13C", -10, 1),
 	const_iso("13C(4)", -10, 1),
 	const_iso("13C(-4)", -50, 5),
@@ -1546,7 +1546,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//delta, 
 	//residual
 	input_error = 0;
-	Keywords::KEYWORDS next_keyword = Keywords::KEY_NONE;
+	next_keyword = Keywords::KEY_NONE;
 	parse_error = 0;
 	paren_count = 0;
 	iterations = 0;

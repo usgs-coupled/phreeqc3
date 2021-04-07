@@ -226,7 +226,7 @@ class rxn_token
 {
 public:
 	~rxn_token() {};
-	rxn_token::rxn_token()
+	rxn_token()
 	{
 		s = NULL;
 		coef = 0.0;
@@ -240,7 +240,7 @@ class save
 {
 public:
 	~save() {};
-	save::save()
+	save()
 	{
 		solution = 0;
 		n_solution_user = 0;
@@ -306,7 +306,7 @@ class copier
 {
 public:
 	~copier() {};
-	copier::copier()
+	copier()
 	{}
 	std::vector<int> n_user;
 	std::vector<int> start;
@@ -319,7 +319,7 @@ class inverse
 {
 public:
 	~inverse() {};
-	inverse::inverse()
+	inverse()
 	{
 		n_user = -1;
 		description = NULL;
@@ -331,22 +331,22 @@ public:
 		range_max = 1000.0;
 		tolerance = 1e-10;
 		mp_tolerance = 1e-12;
-		uncertainties.clear();
-		ph_uncertainties.clear();
+		//uncertainties.clear();
+		//ph_uncertainties.clear();
 		water_uncertainty = 0.0;
 		mineral_water = TRUE;
 		carbon = TRUE;
-		dalk_dph.clear();
-		dalk_dc.clear();
-		size_t count_solns = 0;
-		solns.clear();
-		force_solns.clear();
-		elts.clear();
-		phases.clear();
-		size_t count_redox_rxns = 0;
-		isotopes.clear();
-		i_u.clear();
-		isotope_unknowns.clear();
+		//dalk_dph.clear();
+		//dalk_dc.clear();
+		count_solns = 0;
+		//solns.clear();
+		//force_solns.clear();
+		//elts.clear();
+		//phases.clear();
+		count_redox_rxns = 0;
+		//isotopes.clear();
+		//i_u.clear();
+		//isotope_unknowns.clear();
 		netpath = NULL;
 		pat = NULL;
 	}
@@ -383,12 +383,12 @@ class inv_elts
 {
 public:
 	~inv_elts() {};
-	inv_elts::inv_elts()
+	inv_elts()
 	{
 		name = NULL;
 		master = NULL;
 		row = 0;
-		uncertainties.clear();
+		//uncertainties.clear();
 	}
 	const char* name;
 	class master* master;
@@ -399,12 +399,12 @@ class inv_isotope
 {
 public:
 	~inv_isotope() {};
-	inv_isotope::inv_isotope()
+	inv_isotope()
 	{
 		isotope_name = NULL;
 		isotope_number = 0;
 		elt_name = NULL;
-		uncertainties.clear();
+		//uncertainties.clear();
 	}
 	const char* isotope_name;
 	LDBLE isotope_number;
@@ -415,14 +415,14 @@ class inv_phases
 {
 public:
 	~inv_phases() {};
-	inv_phases::inv_phases()
+	inv_phases()
 	{
 		name = NULL;
 		phase = NULL;
 		column = 0;
 		constraint = EITHER;
 		force = FALSE;
-		isotopes.clear();
+		//isotopes.clear();
 	}
 	const char* name;
 	class phase* phase;
@@ -465,7 +465,7 @@ class name_coef
 {
 public:
 	~name_coef() {};
-	name_coef::name_coef()
+	name_coef()
 	{
 		name = NULL;
 		coef = 0;
@@ -480,7 +480,7 @@ class species_list
 {
 public:
 	~species_list() {};
-	species_list::species_list()
+	species_list()
 	{
 		master_s = NULL;
 		s = NULL;
@@ -497,7 +497,7 @@ class list0
 {
 public:
 	~list0() {};
-	list0::list0()
+	list0()
 	{
 		target = NULL;
 		coef = 0;
@@ -509,7 +509,7 @@ class list1
 {
 public:
 	~list1() {};
-	list1::list1()
+	list1()
 	{
 		source = NULL;
 		target = NULL;
@@ -521,7 +521,7 @@ class list2
 {
 public:
 	~list2() {};
-	list2::list2()
+	list2()
 	{
 		source = NULL;
 		target = NULL;
@@ -535,7 +535,7 @@ class isotope
 {
 public:
 	~isotope() {};
-	isotope::isotope()
+	isotope()
 	{
 		isotope_number = 0;
 		elt_name = NULL;
@@ -563,7 +563,7 @@ class iso
 {
 public:
 	~iso() {};
-	iso::iso()
+	iso()
 	{
 		name = NULL;
 		value = 0;
@@ -580,7 +580,7 @@ class stag_data
 {
 public:
 	~stag_data() {};
-	stag_data::stag_data()
+	stag_data()
 	{
 		count_stag = 0;
 		exch_f = 0;
@@ -596,7 +596,7 @@ class cell_data
 {
 public:
 	~cell_data() {};
-	cell_data::cell_data()
+	cell_data()
 	{
 		length = 1;
 		mid_cell_x = 1.;
@@ -630,7 +630,7 @@ public:
 //{
 //public:
 //	~key() {};
-//	key::key()
+//	key()
 //	{
 //		name = NULL;
 //		keycount = 0;
@@ -642,7 +642,7 @@ public:
 //{
 //public:
 //	~const_key() {};
-//	const_key::const_key()
+//	const_key()
 //	{
 //		name = NULL;
 //		keycount = 0;
@@ -657,7 +657,7 @@ class element
 {
 public:
 	~element() {};
-	element::element()
+	element()
 	{
 		// element name
 		name = NULL;
@@ -678,7 +678,7 @@ class elt_list
 {
 public:
 	~elt_list() {};
-	elt_list::elt_list()
+	elt_list()
 	{	/* list of name and number of elements in an equation */
 		elt = NULL;	/* pointer to element structure */
 		coef = 0.0;			/* number of element e's in eqn */
@@ -693,7 +693,7 @@ class species
 {
 public:
 	~species() {};
-	species::species()
+	species()
 	{	/* all data pertinent to an aqueous species */
 		name = NULL;          // name of species 
 		mole_balance = NULL;  // formula for mole balance 
@@ -733,7 +733,7 @@ public:
 		// regression coefficients to calculate temperature dependent phi_0and b_v of Millero density model
 		for (size_t i = 0; i < 7; i++) millero[i] = 0;
 		original_units = kjoules;  // enum with original delta H units
-		add_logk.clear();
+		//add_logk.clear();
 		lg = 0;            // log10 activity coefficient, gamma
 		lg_pitzer = 0;     // log10 activity coefficient, from pitzer calculation
 		lm = 0;            // log10 molality
@@ -745,9 +745,9 @@ public:
 		gflag = 0;		   // flag for preferred activity coef eqn
 		exch_gflag = 0;    // flag for preferred activity coef eqn
 		// vector of elements
-		next_elt.clear();
-		next_secondary.clear();
-		next_sys_total.clear();
+		//next_elt.clear();
+		//next_secondary.clear();
+		//next_sys_total.clear();
 		// switch to check equation for charge and element balance
 		check_equation = TRUE;
 		//CReaction rxn;   // data base reaction
@@ -817,7 +817,7 @@ class logk
 {
 public:
 	~logk() {};
-	logk::logk()
+	logk()
 	{	/* Named log K's */
 		name = NULL;		 // name of species 
 		lk = 0.0;	         // log10 k at working temperature                   
@@ -826,7 +826,7 @@ public:
 		// enum with original delta H units 
 		original_units = kjoules;	   
 		done = FALSE;
-		add_logk.clear();
+		//add_logk.clear();
 		// log kt0, delh, 5 coefficients analalytical expression 
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) log_k_original[i] = 0;
 		original_deltav_units = cm3_per_mol;
@@ -847,7 +847,7 @@ class phase
 {
 public:
 	~phase() {};
-	phase::phase()
+	phase()
 	{	/* all data pertinent to a pure solid phase */
 		name = NULL;                //name of species 
 		formula = NULL;				// chemical formula 
@@ -858,7 +858,7 @@ public:
 		// enum with original delta H units 
 		original_units = kjoules;	
 		original_deltav_units = cm3_per_mol;
-		add_logk.clear();
+		//add_logk.clear();
 		moles_x = 0;
 		delta_max = 0;
 		p_soln_x = 0;
@@ -879,7 +879,7 @@ public:
 		// for calculating multicomponent phi 
 		pr_aa_sum2 = 0;
 		// delta_v[0] = [1] + [2]*T + [3]/T + [4]*log10(T) + [5]/T^2 + [6]*T^2 + [7]*P
-		for (size_t i = 0; i < 9; i++) delta_v[9] = 0;
+		for (size_t i = 0; i < 9; i++) delta_v[i] = 0;
 		// si adapter: log10(phi) - delta_v[0] * (P - 1) /RT
 		pr_si_f = 0;	
 		// Peng-Robinson in the calc's, or not
@@ -887,8 +887,8 @@ public:
 		// flag indicating presence in model and types of equations
 		type = SOLID;	
 		// list of elements in phase 
-		next_elt.clear();	    
-		next_sys_total.clear();
+		//next_elt.clear();	    
+		//next_sys_total.clear();
 		// switch to check equation for charge and element balance
 		check_equation = TRUE;
 		// data base reaction
@@ -943,7 +943,7 @@ class master
 {
 public:
 	~master() {};
-	master::master()
+	master()
 	{	
 		// TRUE if in model, FALSE if out, REWRITE if other mb eq
 		in = 0;
@@ -1011,7 +1011,7 @@ class unknown
 {
 public:
 	~unknown() {};
-	unknown::unknown()
+	unknown()
 	{
 		type = 0;
 		moles = 0;
@@ -1022,7 +1022,7 @@ public:
 		la = 0;
 		number = 0;
 		description = NULL;
-		master.clear();
+		//master.clear();
 		phase = NULL;
 		si = 0;
 		n_gas_phase_user = 0;
@@ -1043,7 +1043,7 @@ public:
 		potential_unknown1 = NULL;
 		potential_unknown2 = NULL;
 		// list for CD_MUSIC of comps that contribute to 0 plane mass-balance term
-		comp_unknowns.clear();
+		//comp_unknowns.clear();
 		phase_unknown = NULL;
 		mass_water = 1;
 		dissolve_only = FALSE;
@@ -1099,11 +1099,11 @@ class reaction_temp
 {
 public:
 	~reaction_temp() {};
-	reaction_temp::reaction_temp()
+	reaction_temp()
 	{
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
 		for (size_t i = 0; i < 3; i++) dz[i] = 0;
-		token.clear();
+		//token.clear();
 	}
 	LDBLE logk[MAX_LOG_K_INDICES];
 	LDBLE dz[3];
@@ -1113,10 +1113,10 @@ class rxn_token_temp
 {
 public:
 	~rxn_token_temp() {};
-	rxn_token_temp::rxn_token_temp()
+	rxn_token_temp()
 	{	// data for equations, aq. species or minerals
 		name = NULL;		// pointer to a species name (formula)
-		LDBLE z = 0;		// charge on species 
+		z = 0;		// charge on species 
 		s = NULL;
 		unknown = NULL;
 		coef = 0;			// coefficient of species name 
@@ -1131,7 +1131,7 @@ class unknown_list
 {
 public:
 	~unknown_list() {};
-	unknown_list::unknown_list()
+	unknown_list()
 	{
 		unknown = NULL;
 		source = NULL;
@@ -1150,7 +1150,7 @@ class prints
 {
 public:
 	~prints() {};
-	prints::prints()
+	prints()
 	{
 		all = 0;
 		initial_solutions = 0;
@@ -1227,7 +1227,7 @@ class rate
 {
 public:
 	~rate() {};
-	rate::rate()
+	rate()
 	{
 		name = NULL;
 		//std::string commands;
@@ -1250,13 +1250,13 @@ class spread_row
 {
 public:
 	~spread_row() {};
-	spread_row::spread_row()
+	spread_row()
 	{
 		count = 0;
 		empty = 0, string = 0, number = 0;
-		char_vector.clear();
-		d_vector.clear();
-		type_vector.clear();
+		//char_vector.clear();
+		//d_vector.clear();
+		//type_vector.clear();
 	}
 	int count;
 	int empty, string, number;
@@ -1268,7 +1268,7 @@ class defaults
 {
 public:
 	~defaults() {};
-	defaults::defaults()
+	defaults()
 	{
 		temp = 25;
 		density = 1;
@@ -1278,7 +1278,7 @@ public:
 		ph = 7;
 		pe = 4;
 		water = 1;
-		iso.clear();
+		//iso.clear();
 		pressure = 1;	/* pressure in atm */
 	}
 	LDBLE temp;
@@ -1296,7 +1296,7 @@ class spread_sheet
 {
 public:
 	~spread_sheet() {};
-	spread_sheet::spread_sheet()
+	spread_sheet()
 	{
 		heading = NULL;
 		units = NULL;
@@ -1317,7 +1317,7 @@ class master_isotope
 {
 public:
 	~master_isotope() {};
-	master_isotope::master_isotope()
+	master_isotope()
 	{
 		name = NULL;
 		master = NULL;
@@ -1343,11 +1343,11 @@ class calculate_value
 {
 public:
 	~calculate_value() {};
-	calculate_value::calculate_value()
+	calculate_value()
 	{
 		name = NULL;
 		value = 0;
-		commands.clear();
+		//commands.clear();
 		new_def = 0;
 		calculated = 0;
 		linebase = NULL;
@@ -1366,7 +1366,7 @@ public:
 class isotope_ratio
 {
 public:
-	isotope_ratio::isotope_ratio()
+	isotope_ratio()
 	{
 		name = NULL;
 		isotope_name = NULL;
@@ -1383,7 +1383,7 @@ public:
 class isotope_alpha
 {
 public:
-	isotope_alpha::isotope_alpha()
+	isotope_alpha()
 	{
 		name = NULL;
 		named_logk = NULL;
@@ -1398,7 +1398,7 @@ class system_species
 {
 public:
 	~system_species() {};
-	system_species::system_species()
+	system_species()
 	{
 		name = NULL;
 		type = NULL;
@@ -1413,7 +1413,7 @@ class tally_buffer
 {
 public:
 	~tally_buffer() {};
-	tally_buffer::tally_buffer()
+	tally_buffer()
 	{
 		name = NULL;
 		master = NULL;
@@ -1429,19 +1429,19 @@ class tally
 {
 public:
 	~tally() {};
-	tally::tally()
+	tally()
 	{
 		name = NULL;
 		type = UnKnown;
 		add_formula = NULL;
 		moles = 0;
-		formula.clear();
+		//formula.clear();
 		/*
 		 * first total is initial
 		 * second total is final
 		 * third total is difference (final - initial)
 		 */
-		//class tally_buffer* total[3];
+		for(size_t i = 0; i < 3; i++) total[i]= NULL;
 	}
 	const char* name;
 	enum entity_type type;
@@ -1460,7 +1460,7 @@ class spec
 {
 public:
 	~spec() {};
-	spec::spec()
+	spec()
 	{
 		// name of species
 		name = NULL;
@@ -1502,7 +1502,7 @@ class sol_D
 {
 public:
 	~sol_D() {};
-	sol_D::sol_D()
+	sol_D()
 	{
 		// number of aqueous + exchange species
 		count_spec = 0;
@@ -1526,7 +1526,7 @@ class J_ij
 {
 public:
 	~J_ij() {};
-	J_ij::J_ij()
+	J_ij()
 	{
 		name = NULL;
 		// species change in cells i and j
@@ -1542,7 +1542,7 @@ class M_S
 {
 public:
 	~M_S() {};
-	M_S::M_S()
+	M_S()
 	{
 		name = NULL;
 		// master species transport in cells i and j 
@@ -1564,7 +1564,7 @@ class pitz_param
 {
 public:
 	~pitz_param() {};
-	pitz_param::pitz_param()
+	pitz_param()
 	{
 		for(size_t i = 0; i < 3; i++) species[i] = NULL;
 		for (size_t i = 0; i < 3; i++) ispec[i] = -1;
@@ -1608,7 +1608,7 @@ class theta_param
 {
 public:
 	~theta_param() {};
-	theta_param::theta_param()
+	theta_param()
 	{
 		zj = 0;
 		zk = 0;
@@ -1624,13 +1624,13 @@ class const_iso
 {
 public:
 	~const_iso() {};
-	const_iso::const_iso()
+	const_iso()
 	{
 		name = NULL;
 		value = 0;
 		uncertainty = 0;
 	}
-	const_iso::const_iso(const char *n, LDBLE v, LDBLE u)
+	const_iso(const char *n, LDBLE v, LDBLE u)
 	{
 		name = n;
 		value = v;

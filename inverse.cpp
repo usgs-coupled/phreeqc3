@@ -2767,7 +2767,8 @@ check_solns(class inverse *inv_ptr)
  *   the given constraints. If not, it is an error and the program will
  *   terminate.
  */
-	int i, j;
+	int i;
+	size_t j;
 	int k, l, m, n;
 	int return_value;
 	unsigned long bits;
@@ -2824,7 +2825,7 @@ check_solns(class inverse *inv_ptr)
 /*
  *   Zero out mass balance rows and fraction rows
  */
-		for (size_t j = row_mb; j < row_charge; j++)
+		for (j = row_mb; j < row_charge; j++)
 		{
 			memcpy((void *) &(array1[j * max_column_count]),
 				   (void *) &(inv_zero[0]),
