@@ -46,8 +46,8 @@ pitzer_tidy(void)
 	int i0, i1, i2;
 	int count_pos, count_neg, count_neut, count[3], jj;
 	LDBLE z0, z1;
-	struct pitz_param *pzp_ptr;
-	struct theta_param *theta_param_ptr;
+	class pitz_param *pzp_ptr;
+	class theta_param *theta_param_ptr;
 	/*
 	* Ensure new parameters are calculated
 	*/
@@ -310,7 +310,7 @@ pitzer_tidy(void)
 			{
 				size_t count_theta_param = theta_params.size();
 				theta_params.resize(count_theta_param + 1);
-				theta_params[count_theta_param] = new struct theta_param;
+				theta_params[count_theta_param] = new class theta_param;
 				theta_params[count_theta_param]->zj = z0;
 				theta_params[count_theta_param]->zk = z1;
 				theta_param_ptr = theta_params[count_theta_param];
@@ -564,7 +564,7 @@ read_pitzer(void)
 	 *        number of shifts;
 	 */
 	int n;
-	struct pitz_param *pzp_ptr;
+	class pitz_param *pzp_ptr;
 	pitz_param_type pzp_type;
 
 	int return_value, opt, opt_save;
@@ -773,7 +773,7 @@ C
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calc_pitz_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
+calc_pitz_param(class pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE param;

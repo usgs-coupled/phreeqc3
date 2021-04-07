@@ -87,7 +87,7 @@ public:
 	cxxPressure * Get_pressure_ptr(void) const               {return this->pressure_ptr;}
 	cxxTemperature * Get_temperature_ptr(void) const         {return this->temperature_ptr;}
 	cxxGasPhase * Get_gas_phase_ptr(void) const              {return this->gas_phase_ptr;}
-	struct inverse * Get_inverse_ptr(void) const             {return this->inverse_ptr;}
+	class inverse * Get_inverse_ptr(void) const             {return this->inverse_ptr;}
 	cxxSSassemblage * Get_ss_assemblage_ptr(void)            {return this->ss_assemblage_ptr;}
 
 	void Set_solution_ptr(cxxSolution * p)                   {this->solution_ptr = p;}
@@ -100,7 +100,7 @@ public:
 	void Set_pressure_ptr(cxxPressure * p)                   {this->pressure_ptr = p;}
 	void Set_temperature_ptr(cxxTemperature * p)             {this->temperature_ptr = p;}
 	void Set_gas_phase_ptr(cxxGasPhase * p)                  {this->gas_phase_ptr = p;}
-	void Set_inverse_ptr(struct inverse * p)                 {this->inverse_ptr = p;}
+	void Set_inverse_ptr(class inverse * p)                 {this->inverse_ptr = p;}
 	void Set_ss_assemblage_ptr(cxxSSassemblage * p)     {this->ss_assemblage_ptr = p;}
 
 protected:
@@ -143,7 +143,7 @@ protected:
 
 	bool inverse_in;
 	int n_inverse_user;
-	struct inverse *inverse_ptr;
+	class inverse *inverse_ptr;
 
 	bool gas_phase_in;
 	int n_gas_phase_user;

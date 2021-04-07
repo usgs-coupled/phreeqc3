@@ -22,7 +22,7 @@ setup_fixed_volume_gas(void)
 	{
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 		x[count_unknowns]->type = GAS_MOLES;
 		x[count_unknowns]->description = phase_ptr->name;
 		x[count_unknowns]->phase = phase_ptr;
@@ -57,9 +57,9 @@ build_fixed_volume_gas(void)
  *      mass balance equations for elements contained in gases
  */
 	size_t row, col;
-	struct master *master_ptr;
-	struct rxn_token *rxn_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class rxn_token *rxn_ptr;
+	class unknown *unknown_ptr;
 	LDBLE coef, coef_elt;
 
 	if (gas_unknown == NULL)
@@ -69,7 +69,7 @@ build_fixed_volume_gas(void)
 	{
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 /*
  *   Determine elements in gas component
  */
@@ -351,7 +351,7 @@ calc_PR(void)
 	LDBLE r3[4], r3_12, rp, rp3, rq, rz, ri, ri1, one_3 = 0.33333333333333333;
 	LDBLE disct, vinit, v1, ddp, dp_dv, dp_dv2;
 	int it;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	LDBLE V_m = 0, P = 0;
 
 	LDBLE TK = tk_x;
@@ -413,7 +413,7 @@ calc_PR(void)
 		//	continue;
 		b_sum += phase_ptr->fraction_x * phase_ptr->pr_b;
 		size_t i1;
-		struct phase *phase_ptr1;
+		class phase *phase_ptr1;
 		for (i1 = 0; i1 <  gas_unknowns.size(); i1++)
 		{
 			phase_ptr1 = gas_unknowns[i1]->phase;
@@ -609,8 +609,8 @@ calc_fixed_volume_gas_pressures(void)
 {
 	int n_g = 0;
 	LDBLE lp;
-	struct rxn_token *rxn_ptr;
-	struct phase *phase_ptr;
+	class rxn_token *rxn_ptr;
+	class phase *phase_ptr;
 	bool PR = false, pr_done = false;
 	size_t i;
 /*

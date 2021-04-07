@@ -39,7 +39,7 @@ initialize(void)
 	// one stag_data in phreeqc.h, initialized in global_structures
 
 	// user_print
-	user_print = new struct rate;
+	user_print = new class rate;
 	user_print->name = string_hsave("User_print");
 	user_print->commands.clear();
 	user_print->linebase = NULL;
@@ -556,8 +556,8 @@ initial_gas_phases(int print)
 	int converge, converge1;
 	int last, n_user, print1;
 	char token[2 * MAX_LENGTH];
-	struct phase *phase_ptr;
-	struct rxn_token *rxn_ptr;
+	class phase *phase_ptr;
+	class rxn_token *rxn_ptr;
 	LDBLE lp;
 	bool PR = false;
 
@@ -759,7 +759,7 @@ reactions(void)
  */
 	int count_steps, use_mix;
 	char token[2 * MAX_LENGTH];
-	struct save save_data;
+	class save save_data;
 	LDBLE kin_time;
 	cxxKinetics *kinetics_ptr;
 
@@ -803,7 +803,7 @@ reactions(void)
 /*
  *  save data for saving solutions
  */
-	memcpy(&save_data, &save, sizeof(struct save));
+	memcpy(&save_data, &save, sizeof(class save));
 	/*
 	 *Copy everything to -2
 	 */
@@ -866,7 +866,7 @@ reactions(void)
 /*
  *   save end of reaction
  */
-	memcpy(&save, &save_data, sizeof(struct save));
+	memcpy(&save, &save_data, sizeof(class save));
 	if (use.Get_kinetics_in() == TRUE)
 	{
 		Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());
@@ -890,7 +890,7 @@ reactions(void)
 //		{	
 //			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 //			int k;
-//			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+//			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 //			assert(phase_ptr);
 //			phase_ptr->pr_in = false;
 //		}
@@ -1106,7 +1106,7 @@ xgas_save(int n_user)
 	{
 		cxxGasComp* gc_ptr = &(temp_gas_phase.Get_gas_comps()[i]);
 		int k;
-		struct phase* phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+		class phase* phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 		assert(phase_ptr);
 		if (PR)
 		{
@@ -1224,7 +1224,7 @@ xsolution_save(int n_user)
  *
  *   input:  n_user is user solution number of target
  */
-	struct master *master_i_ptr, *master_ptr;
+	class master *master_i_ptr, *master_ptr;
 /*
  *   Malloc space for solution data
  */
@@ -1341,7 +1341,7 @@ xsolution_save(int n_user)
 	std::map< std::string, cxxSolutionIsotope >::iterator it;
 	for (it = temp_solution.Get_isotopes().begin(); it != temp_solution.Get_isotopes().end(); it++)
 	{
-		struct master *iso_master_ptr = master_bsearch(it->second.Get_elt_name().c_str());
+		class master *iso_master_ptr = master_bsearch(it->second.Get_elt_name().c_str());
 		if (iso_master_ptr != NULL)
 		{
 			it->second.Set_total(iso_master_ptr->total);

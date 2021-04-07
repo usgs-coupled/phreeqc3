@@ -29,11 +29,11 @@ cxxNameDouble::cxxNameDouble()
 {
 	this->type = ND_ELT_MOLES;
 }
-cxxNameDouble::cxxNameDouble(const std::vector<struct elt_list>& el)
+cxxNameDouble::cxxNameDouble(const std::vector<class elt_list>& el)
 // constructor for cxxNameDouble from vector of elt_list
 {
 	size_t i;
-	const struct elt_list* elt_list_ptr = &el[0];
+	const class elt_list* elt_list_ptr = &el[0];
 	for (i = 0; elt_list_ptr[i].elt != NULL; i++)
 	{
 		(*this)[elt_list_ptr[i].elt->name] = elt_list_ptr[i].coef;
@@ -74,7 +74,7 @@ cxxNameDouble::cxxNameDouble(std::map < std::string, cxxISolutionComp > &comps)
 	}
 	this->type = ND_ELT_MOLES;
 }
-cxxNameDouble::cxxNameDouble(struct name_coef *nc, int count)
+cxxNameDouble::cxxNameDouble(class name_coef *nc, int count)
 		//
 		// constructor for cxxNameDouble from list of elt_list
 		//

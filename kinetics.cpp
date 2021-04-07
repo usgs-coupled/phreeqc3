@@ -53,7 +53,7 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 	int j, return_value;
 	LDBLE coef;
 	char l_command[] = "run";
-	struct rate *rate_ptr;
+	class rate *rate_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
@@ -145,8 +145,8 @@ calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
  *	stored in moles in run_kinetics
  */
 	LDBLE coef;
-	struct phase *phase_ptr;
-	struct master *master_ptr;
+	class phase *phase_ptr;
+	class master *master_ptr;
 	int count= 0;
 /*
  *   Go through list and generate list of elements and

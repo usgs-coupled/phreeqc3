@@ -19,7 +19,7 @@ prep(void)
  *   Input is model defined by the structure use.
  *   Most of routine is skipped if model, as defined by master.total
  *      plus use.pure_phases, is same as previous calculation.
- *   Routine sets up struct unknown for each unknown.
+ *   Routine sets up class unknown for each unknown.
  *   Determines elements, species, and phases that are in the model.
  *   Calculates mass-action equations for each species and phase.
  *   Routine builds a set of lists for calculating mass balance and
@@ -322,8 +322,8 @@ quick_setup(void)
 					cxxNameDouble::iterator lit;
 					for (lit = comp_ptr->Get_totals().begin(); lit != comp_ptr->Get_totals().end(); lit++)
 					{
-						struct element *elt_ptr = element_store(lit->first.c_str());
-						struct master *master_ptr = elt_ptr->master;
+						class element *elt_ptr = element_store(lit->first.c_str());
+						class master *master_ptr = elt_ptr->master;
 						if (master_ptr->type != SURF)
 							continue;
 						if (strcmp_nocase(x[i]->description, lit->first.c_str()) == 0)
@@ -355,9 +355,9 @@ build_gas_phase(void)
  *      mass balance equations for elements contained in gases
  */
 	size_t row, col;
-	struct master *master_ptr;
-	struct rxn_token *rxn_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class rxn_token *rxn_ptr;
+	class unknown *unknown_ptr;
 	LDBLE coef, coef_elt;
 
 	if (gas_unknown == NULL)
@@ -373,7 +373,7 @@ build_gas_phase(void)
 	{	
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int k;
-		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 		assert(phase_ptr);
 /*
  *   Determine elements in gas component
@@ -631,8 +631,8 @@ build_ss_assemblage(void)
  */
 	bool stop;
 	size_t row, col;
-	struct master *master_ptr;
-	struct rxn_token *rxn_ptr;
+	class master *master_ptr;
+	class rxn_token *rxn_ptr;
 	const char* cptr;
 
 	if (ss_unknown == NULL)
@@ -1315,7 +1315,7 @@ build_model(void)
  *   Sort species list, by master only
  */
 	if (species_list.size() > 1) qsort(&species_list[0], species_list.size(),
-		  sizeof(struct species_list), species_list_compare_master);
+		  sizeof(class species_list), species_list_compare_master);
 /*
  *   Save model description
  */
@@ -1339,8 +1339,8 @@ build_pure_phases(void)
 	bool stop;
 	std::string token;
 	const char* cptr;
-	struct master *master_ptr;
-	struct rxn_token *rxn_ptr;
+	class master *master_ptr;
+	class rxn_token *rxn_ptr;
 /*
  *   Build into sums the logic to calculate inverse saturation indices for
  *   pure phases
@@ -1516,8 +1516,8 @@ build_solution_phase_boundaries(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct master *master_ptr;
-	struct rxn_token *rxn_ptr;
+	class master *master_ptr;
+	class rxn_token *rxn_ptr;
 /*
  *   Build into sums the logic to calculate inverse saturation indices for
  *   solution phase boundaries
@@ -1590,7 +1590,7 @@ build_species_list(int n)
  *   printing results.
  */
 	int j;
-	struct master *master_ptr;
+	class master *master_ptr;
 /*
  *   Treat species made only with H+, e-, and H2O specially
  */
@@ -1779,7 +1779,7 @@ convert_units(cxxSolution *solution_ptr)
  *   Uses totals.input conc to calculate totals.moles.
  */
 	LDBLE sum_solutes;
-	struct master *master_ptr;
+	class master *master_ptr;
 	std::string token;
 	if (!solution_ptr->Get_new_def() || !solution_ptr->Get_initial_data())
    {
@@ -1944,8 +1944,8 @@ convert_units(cxxSolution *solution_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-std::vector<struct master *> Phreeqc::
-get_list_master_ptrs(const char* cptr, struct master *master_ptr)
+std::vector<class master *> Phreeqc::
+get_list_master_ptrs(const char* cptr, class master *master_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1955,8 +1955,8 @@ get_list_master_ptrs(const char* cptr, struct master *master_ptr)
  */
 	int j, l, count_list;
 	char token[MAX_LENGTH];
-	std::vector<struct master*> master_ptr_list;
-	struct master *master_ptr0;
+	std::vector<class master*> master_ptr_list;
+	class master *master_ptr0;
 /*
  *   Make list of master species pointers
  */
@@ -2029,7 +2029,7 @@ inout(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct rxn_token_temp *token_ptr;
+	class rxn_token_temp *token_ptr;
 /*
  *   Routine goes through trxn to determine if each master species is
  *   in this model.
@@ -2059,7 +2059,7 @@ inout(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-is_special(struct species *l_spec)
+is_special(class species *l_spec)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2068,7 +2068,7 @@ is_special(struct species *l_spec)
  *           FALSE if not
  */
 	int special;
-	struct rxn_token *token_ptr;
+	class rxn_token *token_ptr;
 
 	special = TRUE;
 	for (token_ptr = &l_spec->rxn_s.token[0] + 1; token_ptr->s != NULL;
@@ -2086,7 +2086,7 @@ is_special(struct species *l_spec)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-store_mb_unknowns(struct unknown *unknown_ptr, LDBLE * LDBLE_ptr, LDBLE coef,
+store_mb_unknowns(class unknown *unknown_ptr, LDBLE * LDBLE_ptr, LDBLE coef,
 				  LDBLE * gamma_ptr)
 /* ---------------------------------------------------------------------- */
 /*
@@ -2121,8 +2121,8 @@ mb_for_species_aq(int n)
  *        mb_unknowns.coef - coefficient of s[n] in equation or relation
  */
 	int i, j;
-	struct master *master_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class unknown *unknown_ptr;
 
 	mb_unknowns.clear();
 /*
@@ -2286,7 +2286,7 @@ mb_for_species_ex(int n)
  *        mb_unknowns.coef - coefficient of s[n] in equation or relation
  */
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	mb_unknowns.clear();
 /*
@@ -2376,7 +2376,7 @@ mb_for_species_surf(int n)
  *        mb_unknowns.coef - coefficient of s[n] in equation or relation
  */
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	mb_unknowns.clear();
 /*
@@ -2548,7 +2548,7 @@ resetup_master(void)
  *       and special cases for alkalinity, carbon, and pH.
  */
 	int i, j;
-	struct master *master_ptr, *master_ptr0;
+	class master *master_ptr, *master_ptr0;
 
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -2676,8 +2676,8 @@ add_potential_factor(void)
 	int i;
 	std::string token;
 	LDBLE sum_z;
-	struct master *master_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class unknown *unknown_ptr;
 
 	if (use.Get_surface_ptr() == NULL)
 	{
@@ -2776,8 +2776,8 @@ add_cd_music_factors(int n)
  */
 	int i;
 	std::string token;
-	struct master *master_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class unknown *unknown_ptr;
 	if (use.Get_surface_ptr() == NULL)
 	{
 		input_error++;
@@ -2904,8 +2904,8 @@ add_surface_charge_balance(void)
 	const char* cptr;
 	std::string token;
 
-	struct master *master_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class unknown *unknown_ptr;
 	if (use.Get_surface_ptr() == NULL)
 	{
 		input_error++;
@@ -2971,8 +2971,8 @@ add_cd_music_charge_balances(int n)
 	int i;
 	std::string token;
 
-	struct master *master_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class unknown *unknown_ptr;
 	if (use.Get_surface_ptr() == NULL)
 	{
 		input_error++;
@@ -3048,8 +3048,8 @@ add_cd_music_charge_balances(int n)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-rewrite_master_to_secondary(struct master *master_ptr1,
-							struct master *master_ptr2)
+rewrite_master_to_secondary(class master *master_ptr1,
+							class master *master_ptr2)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3057,7 +3057,7 @@ rewrite_master_to_secondary(struct master *master_ptr1,
  *   Store result in rxn_secondary of master_ptr.
  */
 	LDBLE coef1, coef2;
-	struct master *master_ptr_p1, *master_ptr_p2;
+	class master *master_ptr_p1, *master_ptr_p2;
 /*
  *   Check that the two master species have the same primary master species
  */
@@ -3102,8 +3102,8 @@ setup_exchange(void)
 /*
  *   Fill in data for exchanger in unknowns structures
  */
-	struct master *master_ptr;
-	std::vector<struct master*> master_ptr_list;
+	class master *master_ptr;
+	std::vector<class master*> master_ptr_list;
 
 	if (use.Get_exchange_ptr() == NULL)
 		return (OK);
@@ -3232,7 +3232,7 @@ setup_ss_assemblage(void)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[i]);
 			int l;
-			struct phase* phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase* phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 			x[count_unknowns]->type = SS_MOLES;
 			x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
 			x[count_unknowns]->moles = 0.0;
@@ -3270,7 +3270,7 @@ setup_surface(void)
 	/*
 	 *   Fill in data for surface assemblage in unknown structure
 	 */
-	std::vector<struct master*> master_ptr_list;
+	std::vector<class master*> master_ptr_list;
 	size_t mb_unknown_number;
 
 	if (use.Get_surface_ptr() == NULL)
@@ -3285,8 +3285,8 @@ setup_surface(void)
 		cxxNameDouble::iterator jit;
 		for (jit = comp_ptr->Get_totals().begin(); jit != comp_ptr->Get_totals().end(); jit++)
 		{
-			struct element *elt_ptr = element_store(jit->first.c_str());
-			struct master *master_ptr = elt_ptr->master;
+			class element *elt_ptr = element_store(jit->first.c_str());
+			class master *master_ptr = elt_ptr->master;
 			if (master_ptr == NULL)
 			{
 				error_string = sformatf(
@@ -3336,7 +3336,7 @@ setup_surface(void)
 				 *   Setup surface-potential unknown
 				 */
 				std::string token = master_ptr->elt->name;
-				struct unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+				class unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
 				if (unknown_ptr != NULL)
 				{
 					x[count_unknowns - 1]->potential_unknown = unknown_ptr;
@@ -3389,7 +3389,7 @@ setup_surface(void)
 				{
 					std::string cb_suffix("_CB");
 					std::string psi_suffix("_psi");
-					struct unknown **unknown_target;
+					class unknown **unknown_target;
 					unknown_target = NULL;
 					int type = SURFACE_CB;
 					switch (plane)
@@ -3412,7 +3412,7 @@ setup_surface(void)
 						unknown_target = &(x[mb_unknown_number]->potential_unknown2);
 						break;
 					}
-					struct unknown *unknown_ptr = find_surface_charge_unknown(token, plane);
+					class unknown *unknown_ptr = find_surface_charge_unknown(token, plane);
 					if (unknown_ptr != NULL)
 					{
 						*unknown_target = unknown_ptr;
@@ -3469,7 +3469,7 @@ setup_surface(void)
 					}
 				}
 				/* Add SURFACE unknown to a list for SURF_PSI */
-				struct unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+				class unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
 				unknown_ptr->comp_unknowns.push_back(x[mb_unknown_number]);
 
 			}
@@ -3604,7 +3604,7 @@ setup_surface(void)
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
-struct unknown * Phreeqc::
+class unknown * Phreeqc::
 find_surface_charge_unknown(std::string &str, int plane)
 /* ---------------------------------------------------------------------- */
 {
@@ -3642,14 +3642,14 @@ find_surface_charge_unknown(std::string &str, int plane)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std::string &pe_rxn)
+setup_master_rxn(const std::vector<class master *> &master_ptr_list, const std::string &pe_rxn)
 /* ---------------------------------------------------------------------- */
 {
 /*
  *   Rewrites rxn_secondary for all redox states in list
  *   First, in = TRUE; others, in = REWRITE 
  */
-	struct master *master_ptr, *master_ptr0;
+	class master *master_ptr, *master_ptr0;
 /*
  *   Set master_ptr->in, master_ptr->rxn
  */
@@ -3707,7 +3707,7 @@ setup_master_rxn(const std::vector<struct master *> &master_ptr_list, const std:
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
+calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 /* ---------------------------------------------------------------------- */
 /*  Calculate fugacity and fugacity coefficient for gas pressures if critical T and P
     are defined.
@@ -3741,7 +3741,7 @@ calc_PR(std::vector<struct phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 	LDBLE r3[4], r3_12, rp, rp3, rq, rz, ri, ri1, one_3 = 0.33333333333333333;
 	LDBLE disct, vinit, v1, ddp, dp_dv, dp_dv2;
 	int it;
-	struct phase *phase_ptr, *phase_ptr1;
+	class phase *phase_ptr, *phase_ptr1;
 	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
 	bool halved;
 	R_TK = R * TK;
@@ -4045,7 +4045,7 @@ setup_pure_phases(void)
 	{
 		cxxPPassemblageComp * comp_ptr = &(it->second);
 		int j;
-		struct phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
+		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
 		assert(phase_ptr);
 		x[count_unknowns]->type = PP;
 		x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
@@ -4072,7 +4072,7 @@ adjust_setup_pure_phases(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	LDBLE si_org, p, t;
 /*
  *   Fills in data for pure_phase assemglage in unknown structure
@@ -4085,7 +4085,7 @@ adjust_setup_pure_phases(void)
  */
 	for (i = 0; i < count_unknowns; i++)
 	{
-		std::vector<struct phase *> phase_ptrs;
+		std::vector<class phase *> phase_ptrs;
 		if (x[i]->type == PP)
 		{
 			phase_ptr = x[i]->phase;
@@ -4118,12 +4118,12 @@ setup_solution(void)
 /*
  *   Fills in data in unknown structure for the solution
  */
-	struct master *master_ptr;
+	class master *master_ptr;
 	cxxSolution *solution_ptr;
 	const char* cptr;
 	std::string token;
-	struct master_isotope *master_isotope_ptr;
-	struct phase *phase_ptr;
+	class master_isotope *master_isotope_ptr;
+	class phase *phase_ptr;
 
 	solution_ptr = use.Get_solution_ptr();
 	count_unknowns = 0;
@@ -4476,12 +4476,12 @@ adjust_setup_solution(void)
  *   Fills in data in unknown structure for the solution
  */
 	int i;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	LDBLE p, t;
 
 	for (i = 0; i < count_unknowns; i++)
 	{
-		std::vector<struct phase *> phase_ptrs;
+		std::vector<class phase *> phase_ptrs;
 		if (x[i]->type == SOLUTION_PHASE_BOUNDARY)
 		{
 			x[count_unknowns]->type = SOLUTION_PHASE_BOUNDARY;
@@ -4631,7 +4631,7 @@ setup_unknowns(void)
 	x.resize(max_unknowns);
 	for (i = 0; i < max_unknowns; i++)
 	{
-		x[i] = (struct unknown *) unknown_alloc();
+		x[i] = (class unknown *) unknown_alloc();
 		x[i]->number = i;
 	}
 	return (OK);
@@ -4648,8 +4648,8 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
  */
 	size_t col;
 	LDBLE coef;
-	struct rxn_token *rxn_ptr;
-	struct master *master_ptr;
+	class rxn_token *rxn_ptr;
+	class master *master_ptr;
 
 	if (equal(coef_in, 0.0, TOL) == TRUE)
 	{
@@ -4833,7 +4833,7 @@ switch_bases(void)
 	int first;
 	int return_value;
 	LDBLE la, la1;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	return_value = FALSE;
 	for (i = 0; i < count_unknowns; i++)
@@ -4889,7 +4889,7 @@ tidy_redox(void)
  *   
  */
 	std::string token, tok1, tok2;
-	struct master *master_ptr1, *master_ptr2;
+	class master *master_ptr1, *master_ptr2;
 /*
  *   Keep valences of oxygen and hydrogen in model, if not already in
  */
@@ -5009,7 +5009,7 @@ write_mb_eqn_x(void)
 	int count, repeat;
 	int i;
 	size_t count_rxn_orig;
-	struct master *master_ptr;
+	class master *master_ptr;
 /*
  *   Rewrite any secondary master species flagged REWRITE
  *   Don`t add in any pe reactions
@@ -5527,7 +5527,7 @@ save_model(void)
 		{	
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			int k;
-			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 			assert(phase_ptr);
 			last_model.gas_phase[i] = phase_ptr;
 		}
@@ -5568,7 +5568,7 @@ save_model(void)
 		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 		{
 			int j;
-			struct phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, false);
+			class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, false);
 			assert(phase_ptr);
 			last_model.pp_assemblage[i] = phase_ptr;
 			last_model.add_formula[i] = string_hsave(it->second.Get_add_formula().c_str());
@@ -5682,7 +5682,7 @@ check_same_model(void)
 		{
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			int k;
-			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 			assert(phase_ptr);
 			if (last_model.gas_phase[i] != phase_ptr)
 			{
@@ -5731,7 +5731,7 @@ check_same_model(void)
 		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 		{
 			int j;
-			struct phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
+			class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
 			assert(phase_ptr); 
 			if (last_model.pp_assemblage[i] != phase_ptr)
 			{
@@ -5833,8 +5833,8 @@ build_min_exch(void)
  */
 	int j, k, jj;
 	size_t row;
-	struct master *master_ptr;
-	struct unknown *unknown_ptr;
+	class master *master_ptr;
+	class unknown *unknown_ptr;
 	LDBLE coef;
 
 	if (use.Get_exchange_ptr() == NULL)
@@ -5861,7 +5861,7 @@ build_min_exch(void)
 		// Find exchange master
 		cxxNameDouble nd(comp_ref.Get_totals());
 		cxxNameDouble::iterator it = nd.begin();
-		struct master *exchange_master = NULL;
+		class master *exchange_master = NULL;
 		for ( ; it != nd.end(); it++)
 		{
 			element * elt_ptr = element_store(it->first.c_str());
@@ -6006,7 +6006,7 @@ build_min_surface(void)
 		cxxSurfaceComp *comp_ptr = &(surface_ptr->Get_surface_comps()[i]);
 		if (comp_ptr->Get_phase_name().size() == 0)
 			continue;
-		struct element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
+		class element *elt_ptr = element_store(comp_ptr->Get_master_element().c_str());
 		/* find unknown number */
 		int j;
 		for (j = (int)count_unknowns - 1; j >= 0; j--)
@@ -6059,7 +6059,7 @@ build_min_surface(void)
 #endif
 		for (int jj = 0; jj < count_elts; jj++)
 		{
-			struct master * master_ptr = elt_list[jj].elt->primary;
+			class master * master_ptr = elt_list[jj].elt->primary;
 			if (master_ptr->in == FALSE)
 			{
 				master_ptr = master_ptr->s->secondary;
@@ -6095,7 +6095,7 @@ build_min_surface(void)
 			}
 			LDBLE coef = elt_list[jj].coef;
 			size_t row;
-			struct unknown *unknown_ptr;
+			class unknown *unknown_ptr;
 			if (master_ptr->s == s_hplus)
 			{
 				row = mass_hydrogen_unknown->number;

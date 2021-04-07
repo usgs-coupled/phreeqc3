@@ -67,7 +67,7 @@ set_pr_in_false(void)
 		{
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			int k;
-			struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 			if (phase_ptr)
 				phase_ptr->pr_in = false;
 		}
@@ -357,7 +357,7 @@ print_eh(void)
  */
 	int i, j, k, first;
 	LDBLE pe, eh;
-	struct master *master_ptr0, *master_ptr1;
+	class master *master_ptr0, *master_ptr1;
 	char token[MAX_LENGTH];
 
 	if (pr.eh == FALSE || pr.all == FALSE)
@@ -436,7 +436,7 @@ print_exchange(void)
 	int i;
 	cxxExchange * exchange_ptr;
 	const char *name, *name1;
-	struct master *master_ptr;
+	class master *master_ptr;
 	LDBLE dum, dum2;
 /*
  *  Print exchange data
@@ -562,7 +562,7 @@ print_gas_phase(void)
  *   Prints gas phase composition if present
  */
 	LDBLE lp, moles, initial_moles, delta_moles;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 	char info[MAX_LENGTH];
 	bool PR = false;
 
@@ -643,7 +643,7 @@ print_gas_phase(void)
  */
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
 		int k;
-		struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
@@ -876,7 +876,7 @@ print_reaction(void)
 	cit = reaction_ptr->Get_elementList().begin();
 	for ( ; cit != reaction_ptr->Get_elementList().end(); cit++)
 	{
-		struct element * elt_ptr = element_store(cit->first.c_str());
+		class element * elt_ptr = element_store(cit->first.c_str());
 		assert(elt_ptr);
 		output_msg(sformatf("\t%-15s%13.5f\n",
 				   elt_ptr->name,
@@ -1067,7 +1067,7 @@ print_master_reactions(void)
  *   Debugging print routine to test primary and secondary reactions
  */
 	int i;
-	struct rxn_token *next_token;
+	class rxn_token *next_token;
 
 	for (i = 0; i < (int)master.size(); i++)
 	{
@@ -1177,7 +1177,7 @@ print_saturation_indices(void)
 	LDBLE si, iap;
 	LDBLE lk;
 	LDBLE la_eminus;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 	CReaction *reaction_ptr;
 	bool gas = true;
 
@@ -1295,8 +1295,8 @@ print_pp_assemblage(void)
 	int j, k;
 	LDBLE si, iap, lk;
 	char token[MAX_LENGTH];
-	struct rxn_token *rxn_ptr;
-	struct phase *phase_ptr;
+	class rxn_token *rxn_ptr;
+	class phase *phase_ptr;
 
 	if (pr.pp_assemblage == FALSE || pr.all == FALSE)
 		return (OK);
@@ -1413,7 +1413,7 @@ print_species(void)
  */
 	int i;
 	const char *name, *name1;
-	struct master *master_ptr;
+	class master *master_ptr;
 	LDBLE min;
 	LDBLE lm;
 
@@ -1538,7 +1538,7 @@ print_surface(void)
  */
 	cxxSurface *surface_ptr;
 	std::string name, token;
-	struct master *master_ptr;
+	class master *master_ptr;
 	LDBLE molfrac, charge;
 /*
  *  Print surface speciation
@@ -1829,8 +1829,8 @@ print_surface_cd_music(void)
  */
 	cxxSurface *surface_ptr;
 	std::string name;
-	struct master *master_ptr, *master_ptr0, *master_ptr1, *master_ptr2;
-	struct unknown *unknown_ptr0, *unknown_ptr1, *unknown_ptr2;
+	class master *master_ptr, *master_ptr0, *master_ptr1, *master_ptr2;
+	class unknown *unknown_ptr0, *unknown_ptr1, *unknown_ptr2;
 	LDBLE molfrac, charge0, charge1, charge2, sum;
 /*
  *  Print surface speciation
@@ -2574,7 +2574,7 @@ punch_gas_phase(void)
 			{
 				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
 				int k;
-				struct phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+				class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 				if (phase_ptr != current_selected_output->Get_gases()[i].second)
 					continue;
 				moles = phase_ptr->moles_x;
@@ -2684,19 +2684,19 @@ punch_totals(void)
 		{
 			molality = 0.0;
 		}
-		else if (((struct master *) current_selected_output->Get_totals()[j].second)->primary == TRUE)
+		else if (((class master *) current_selected_output->Get_totals()[j].second)->primary == TRUE)
 		{
 			if (strncmp(current_selected_output->Get_totals()[j].first.c_str(), "Alkalinity", 20) == 0)
 			{
 				molality = total_alkalinity / mass_water_aq_x;
 			} else
 			{
-				molality = ((struct master *) current_selected_output->Get_totals()[j].second)->total_primary / mass_water_aq_x;
+				molality = ((class master *) current_selected_output->Get_totals()[j].second)->total_primary / mass_water_aq_x;
 			}
 		}
 		else
 		{
-			molality = ((struct master *) current_selected_output->Get_totals()[j].second)->total / mass_water_aq_x;
+			molality = ((class master *) current_selected_output->Get_totals()[j].second)->total / mass_water_aq_x;
 		}
 		if (!current_selected_output->Get_high_precision())
 		{
@@ -2727,9 +2727,9 @@ punch_molalities(void)
 	{
 		molality = 0.0;
 		if (current_selected_output->Get_molalities()[j].second != NULL
-			&& ((struct species *) current_selected_output->Get_molalities()[j].second)->in == TRUE)
+			&& ((class species *) current_selected_output->Get_molalities()[j].second)->in == TRUE)
 		{
-			molality = ((struct species *) current_selected_output->Get_molalities()[j].second)->moles / mass_water_aq_x;
+			molality = ((class species *) current_selected_output->Get_molalities()[j].second)->moles / mass_water_aq_x;
 		}
 		if (!current_selected_output->Get_high_precision())
 		{
@@ -2760,7 +2760,7 @@ punch_activities(void)
 	{
 		la = -999.999;
 		if (current_selected_output->Get_activities()[j].second != NULL
-			&& ((struct species *) current_selected_output->Get_activities()[j].second)->in == TRUE)
+			&& ((class species *) current_selected_output->Get_activities()[j].second)->in == TRUE)
 		{
 			/*la = punch.activities[j].s->lm + punch.activities[j].s->lg; */
 			la = log_activity(current_selected_output->Get_activities()[j].first.c_str());
@@ -3194,11 +3194,11 @@ punch_saturation_indices(void)
  */
 	//int i;
 	LDBLE si, iap;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 
 	for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
 	{
-		if (current_selected_output->Get_si()[i].second == NULL || ((struct phase *) current_selected_output->Get_si()[i].second)->in == FALSE)
+		if (current_selected_output->Get_si()[i].second == NULL || ((class phase *) current_selected_output->Get_si()[i].second)->in == FALSE)
 		{
 			si = -999.999;
 		}
@@ -3208,12 +3208,12 @@ punch_saturation_indices(void)
  *   Print saturation index
  */
 			iap = 0.0;
-			for (rxn_ptr = &(((struct phase *) current_selected_output->Get_si()[i].second)->rxn_x.token[0]) + 1;
+			for (rxn_ptr = &(((class phase *) current_selected_output->Get_si()[i].second)->rxn_x.token[0]) + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 				iap += rxn_ptr->s->la * rxn_ptr->coef;
 			}
-			si = -((struct phase *) current_selected_output->Get_si()[i].second)->lk + iap;
+			si = -((class phase *) current_selected_output->Get_si()[i].second)->lk + iap;
 		}
 		if (!current_selected_output->Get_high_precision())
 		{
@@ -3312,7 +3312,7 @@ punch_user_punch(void)
 	if (current_user_punch == NULL || !current_selected_output->Get_user_punch())
 		return OK;
 
-	struct rate * user_punch = current_user_punch->Get_rate();
+	class rate * user_punch = current_user_punch->Get_rate();
 
 	if (user_punch->commands.c_str() == 0)
 		return (OK);
@@ -3576,7 +3576,7 @@ print_alkalinity(void)
  *   order of aqueous species.
  */
 	int j;
-	std::vector<struct species_list> alk_list;
+	std::vector<class species_list> alk_list;
 	LDBLE min;
 
 	if (pr.alkalinity == FALSE || pr.all == FALSE)
@@ -3603,7 +3603,7 @@ print_alkalinity(void)
 		output_msg(sformatf("\t%-15s%12s%12s%10s\n\n", "Species",
 				   "Alkalinity", "Molality", "Alk/Mol"));
 		if (alk_list.size() > 1) qsort(&alk_list[0], alk_list.size(),
-			  (size_t) sizeof(struct species_list), species_list_compare_alk);
+			  (size_t) sizeof(class species_list), species_list_compare_alk);
 		for (size_t i = 0; i < alk_list.size(); i++)
 		{
 			if (fabs(alk_list[i].s->alk * (alk_list[i].s->moles) /

@@ -13,10 +13,10 @@ calc_alk(CReaction& rxn_ref)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE return_value;
-	struct master* master_ptr;
+	class master* master_ptr;
 
 	return_value = 0.0;
-	struct rxn_token* r_token = &rxn_ref.token[1];
+	class rxn_token* r_token = &rxn_ref.token[1];
 	while (r_token->s != NULL)
 	{
 		master_ptr = r_token->s->secondary;

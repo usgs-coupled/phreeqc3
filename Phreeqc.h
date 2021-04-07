@@ -284,26 +284,26 @@ public:
 	int inverse_models(void);
 	int add_to_file(const char* filename, const char* string);
 	int bit_print(unsigned long bits, int l);
-	int carbon_derivs(struct inverse* inv_ptr);
-	int check_isotopes(struct inverse* inv_ptr);
-	int check_solns(struct inverse* inv_ptr);
-	bool set_isotope_unknowns(struct inverse* inv_ptrs);
+	int carbon_derivs(class inverse* inv_ptr);
+	int check_isotopes(class inverse* inv_ptr);
+	int check_solns(class inverse* inv_ptr);
+	bool set_isotope_unknowns(class inverse* inv_ptrs);
 	cxxSolutionIsotope* get_isotope(cxxSolution* solution_ptr, const char* elt);
 	LDBLE get_inv_total(cxxSolution* solution_ptr, const char* elt);
-	int isotope_balance_equation(struct inverse* inv_ptr, int row, int n);
+	int isotope_balance_equation(class inverse* inv_ptr, int row, int n);
 	int post_mortem(void);
 	bool test_cl1_solution(void);
 	unsigned long get_bits(unsigned long bits, int position, int number);
-	unsigned long minimal_solve(struct inverse* inv_ptr,
+	unsigned long minimal_solve(class inverse* inv_ptr,
 		unsigned long minimal_bits);
-	void dump_netpath(struct inverse* inv_ptr);
-	int dump_netpath_pat(struct inverse* inv_ptr);
-	int next_set_phases(struct inverse* inv_ptr, int first_of_model_size,
+	void dump_netpath(class inverse* inv_ptr);
+	int dump_netpath_pat(class inverse* inv_ptr);
+	int next_set_phases(class inverse* inv_ptr, int first_of_model_size,
 		int model_size);
-	int phase_isotope_inequalities(struct inverse* inv_ptr);
-	int print_model(struct inverse* inv_ptr);
-	int punch_model_heading(struct inverse* inv_ptr);
-	int punch_model(struct inverse* inv_ptr);
+	int phase_isotope_inequalities(class inverse* inv_ptr);
+	int print_model(class inverse* inv_ptr);
+	int punch_model_heading(class inverse* inv_ptr);
+	int punch_model(class inverse* inv_ptr);
 	void print_isotope(FILE* netpath_file, cxxSolution* solution_ptr,
 		const char* elt, const char* string);
 	void print_total(FILE* netpath_file, cxxSolution* solution_ptr,
@@ -315,54 +315,54 @@ public:
 
 	void print_total_pat(FILE* netpath_file, const char* elt,
 		const char* string);
-	int range(struct inverse* inv_ptr, unsigned long cur_bits);
+	int range(class inverse* inv_ptr, unsigned long cur_bits);
 	int save_bad(unsigned long bits);
 	int save_good(unsigned long bits);
 	int save_minimal(unsigned long bits);
 	unsigned long set_bit(unsigned long bits, int position, int value);
-	int setup_inverse(struct inverse* inv_ptr);
+	int setup_inverse(class inverse* inv_ptr);
 	int set_initial_solution(int n_user_old, int n_user_new);
-	int set_ph_c(struct inverse* inv_ptr,
+	int set_ph_c(class inverse* inv_ptr,
 		int i, cxxSolution* soln_ptr_orig, int n_user_new,
 		LDBLE d_alk, LDBLE ph_factor, LDBLE alk_factor);
-	int shrink(struct inverse* inv_ptr, LDBLE* array_in,
+	int shrink(class inverse* inv_ptr, LDBLE* array_in,
 		LDBLE* array_out, int* k, int* l, int* m, int* n,
 		unsigned long cur_bits, LDBLE* delta_l, int* col_back_l,
 		int* row_back_l);
-	int solve_inverse(struct inverse* inv_ptr);
-	int solve_with_mask(struct inverse* inv_ptr, unsigned long cur_bits);
+	int solve_inverse(class inverse* inv_ptr);
+	int solve_with_mask(class inverse* inv_ptr, unsigned long cur_bits);
 	int subset_bad(unsigned long bits);
 	int subset_minimal(unsigned long bits);
 	int superset_minimal(unsigned long bits);
-	int write_optimize_names(struct inverse* inv_ptr);
+	int write_optimize_names(class inverse* inv_ptr);
 
 	// isotopes.cpp -------------------------------
 	int add_isotopes(cxxSolution& solution_ptr);
 	int calculate_values(void);
-	int calculate_isotope_moles(struct element* elt_ptr,
+	int calculate_isotope_moles(class element* elt_ptr,
 		cxxSolution* solution_ptr, LDBLE total_moles);
-	LDBLE convert_isotope(struct master_isotope* master_isotope_ptr, LDBLE ratio);
-	int from_pcil(struct master_isotope* master_isotope_ptr);
-	int from_permil(struct master_isotope* master_isotope_ptr, LDBLE major_total);
-	int from_pct(struct master_isotope* master_isotope_ptr, LDBLE major_total);
-	int from_tu(struct master_isotope* master_isotope_ptr);
-	struct calculate_value* calculate_value_alloc(void);
-	int calculate_value_free(struct calculate_value* calculate_value_ptr);
-	struct calculate_value* calculate_value_search(const char* name);
-	struct calculate_value* calculate_value_store(const char* name,
+	LDBLE convert_isotope(class master_isotope* master_isotope_ptr, LDBLE ratio);
+	int from_pcil(class master_isotope* master_isotope_ptr);
+	int from_permil(class master_isotope* master_isotope_ptr, LDBLE major_total);
+	int from_pct(class master_isotope* master_isotope_ptr, LDBLE major_total);
+	int from_tu(class master_isotope* master_isotope_ptr);
+	class calculate_value* calculate_value_alloc(void);
+	int calculate_value_free(class calculate_value* calculate_value_ptr);
+	class calculate_value* calculate_value_search(const char* name);
+	class calculate_value* calculate_value_store(const char* name,
 		int replace_if_found);
-	struct isotope_alpha* isotope_alpha_alloc(void);
-	struct isotope_alpha* isotope_alpha_search(const char* name);
-	struct isotope_alpha* isotope_alpha_store(const char* name,
+	class isotope_alpha* isotope_alpha_alloc(void);
+	class isotope_alpha* isotope_alpha_search(const char* name);
+	class isotope_alpha* isotope_alpha_store(const char* name,
 		int replace_if_found);
-	struct isotope_ratio* isotope_ratio_alloc(void);
-	struct isotope_ratio* isotope_ratio_search(const char* name);
-	struct isotope_ratio* isotope_ratio_store(const char* name,
+	class isotope_ratio* isotope_ratio_alloc(void);
+	class isotope_ratio* isotope_ratio_search(const char* name);
+	class isotope_ratio* isotope_ratio_store(const char* name,
 		int replace_if_found);
-	struct master_isotope* master_isotope_store(const char* name,
+	class master_isotope* master_isotope_store(const char* name,
 		int replace_if_found);
-	struct master_isotope* master_isotope_alloc(void);
-	struct master_isotope* master_isotope_search(const char* name);
+	class master_isotope* master_isotope_alloc(void);
+	class master_isotope* master_isotope_search(const char* name);
 	int print_initial_solution_isotopes(void);
 	int print_isotope_ratios(void);
 	int print_isotope_alphas(void);
@@ -372,10 +372,10 @@ public:
 	int read_isotopes(void);
 	int read_isotope_ratios(void);
 	int read_isotope_alphas(void);
-	int calculate_value_init(struct calculate_value* calculate_value_ptr);
-	int isotope_alpha_init(struct isotope_alpha* isotope_alpha_ptr);
-	int isotope_ratio_init(struct isotope_ratio* isotope_ratio_ptr);
-	int master_isotope_init(struct master_isotope* master_isotope_ptr);
+	int calculate_value_init(class calculate_value* calculate_value_ptr);
+	int isotope_alpha_init(class isotope_alpha* isotope_alpha_ptr);
+	int isotope_ratio_init(class isotope_ratio* isotope_ratio_ptr);
+	int master_isotope_init(class master_isotope* master_isotope_ptr);
 
 	// kinetics.cpp -------------------------------
 	void cvode_init(void);
@@ -476,7 +476,7 @@ public:
 	int get_elts_in_species(const char** t_ptr, LDBLE coef);
 	int get_num(const char** t_ptr, LDBLE* num);
 	int get_secondary_in_species(const char** t_ptr, LDBLE coef);
-	int parse_eq(char* eqn, std::vector<struct elt_list>& new_elt_list, int association);
+	int parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association);
 	int get_coef(LDBLE* coef, const char** eqnaddr);
 	int get_secondary(const char** t_ptr, char* element, int* i);
 	int get_species(const char** ptr);
@@ -498,11 +498,11 @@ public:
 public:
 
 	// pitzer.cpp -------------------------------
-	struct pitz_param* pitz_param_read(char* string, int n);
-	void pitz_param_store(const struct pitz_param* pzp_ptr);
-	void sit_param_store(const struct pitz_param* pzp_ptr);
-	struct pitz_param* pitz_param_copy(const struct pitz_param* src);
-	struct theta_param* theta_param_search(LDBLE zj, LDBLE zk);
+	class pitz_param* pitz_param_read(char* string, int n);
+	void pitz_param_store(const class pitz_param* pzp_ptr);
+	void sit_param_store(const class pitz_param* pzp_ptr);
+	class pitz_param* pitz_param_copy(const class pitz_param* src);
+	class theta_param* theta_param_search(LDBLE zj, LDBLE zk);
 	void pitzer_make_lists(void);
 	int gammas_pz(bool exch_a_f);
 	int model_pz(void);
@@ -512,7 +512,7 @@ public:
 	int pitzer_tidy(void);
 	int read_pitzer(void);
 	int set_pz(int initial);
-	int calc_pitz_param(struct pitz_param* pz_ptr, LDBLE TK, LDBLE TR);
+	int calc_pitz_param(class pitz_param* pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);
 	int ISPEC(const char* name);
 	LDBLE G(LDBLE Y);
@@ -542,15 +542,15 @@ public:
 	int build_species_list(int n);
 	int build_min_surface(void);
 	LDBLE calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa);
-	LDBLE calc_PR(std::vector<struct phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
+	LDBLE calc_PR(std::vector<class phase*> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m);
 	LDBLE calc_PR();
 	int calc_vm(LDBLE tc, LDBLE pa);
 	int clear(void);
 	int convert_units(cxxSolution* solution_ptr);
-	struct unknown* find_surface_charge_unknown(std::string& str_ptr, int plane);
-	std::vector<struct master*> get_list_master_ptrs(const char* cptr, struct master* master_ptr);
+	class unknown* find_surface_charge_unknown(std::string& str_ptr, int plane);
+	std::vector<class master*> get_list_master_ptrs(const char* cptr, class master* master_ptr);
 	int inout(void);
-	int is_special(struct species* spec);
+	int is_special(class species* spec);
 	int mb_for_species_aq(int n);
 	int mb_for_species_ex(int n);
 	int mb_for_species_surf(int n);
@@ -560,7 +560,7 @@ public:
 	int setup_exchange(void);
 	int setup_gas_phase(void);
 	int setup_fixed_volume_gas(void);
-	int setup_master_rxn(const std::vector<struct master*>& master_ptr_list,
+	int setup_master_rxn(const std::vector<class master*>& master_ptr_list,
 		const std::string& pe_rxn);
 	int setup_pure_phases(void);
 	int adjust_setup_pure_phases(void);
@@ -575,7 +575,7 @@ public:
 	int store_jacob(LDBLE* source, LDBLE* target, LDBLE coef);
 	int store_jacob0(int row, int column, LDBLE coef);
 	int store_mb(LDBLE* source, LDBLE* target, LDBLE coef);
-	int store_mb_unknowns(struct unknown* unknown_ptr, LDBLE* LDBLE_ptr,
+	int store_mb_unknowns(class unknown* unknown_ptr, LDBLE* LDBLE_ptr,
 		LDBLE coef, LDBLE* gamma_ptr);
 	int store_sum_deltas(LDBLE* source, LDBLE* target, LDBLE coef);
 	int tidy_redox(void);
@@ -588,8 +588,8 @@ public:
 	LDBLE k_calc(LDBLE* logk, LDBLE tempk, LDBLE presPa);
 	int prep(void);
 	int reprep(void);
-	int rewrite_master_to_secondary(struct master* master_ptr1,
-		struct master* master_ptr2);
+	int rewrite_master_to_secondary(class master* master_ptr1,
+		class master* master_ptr2);
 	int switch_bases(void);
 	int write_phase_sys_total(int n);
 
@@ -673,9 +673,9 @@ public:
 	int read_gas_phase(void);
 	int read_incremental_reactions(void);
 	int read_inverse(void);
-	int read_inv_balances(struct inverse* inverse_ptr, const char* next_char);
-	int read_inv_isotopes(struct inverse* inverse_ptr, const char* cptr);
-	int read_inv_phases(struct inverse* inverse_ptr, const char* next_char);
+	int read_inv_balances(class inverse* inverse_ptr, const char* next_char);
+	int read_inv_isotopes(class inverse* inverse_ptr, const char* cptr);
+	int read_inv_phases(class inverse* inverse_ptr, const char* next_char);
 	int read_kinetics(void);
 	bool read_vector_doubles(const char** ptr, std::vector<double>& v);
 	bool read_vector_ints(const char** cptr, std::vector<int>& v, int positive);
@@ -749,7 +749,7 @@ public:
 	int sit_tidy(void);
 	int read_sit(void);
 	int set_sit(int initial);
-	int calc_sit_param(struct pitz_param* pz_ptr, LDBLE TK, LDBLE TR);
+	int calc_sit_param(class pitz_param* pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_sit(void);
 	int sit_ISPEC(const char* name);
 	/*int DH_AB (LDBLE TK, LDBLE *A, LDBLE *B);*/
@@ -764,18 +764,18 @@ public:
 	int copy_token_tab(std::string& token, const char** cptr);
 	int get_option_string(const char** opt_list, int count_opt_list,
 		const char** next_char);
-	int spread_row_free(struct spread_row* spread_row_ptr);
-	int spread_row_to_solution(struct spread_row* heading,
-		struct spread_row* units,
-		struct spread_row* data,
-		struct defaults defaults);
-	struct spread_row* string_to_spread_row(char* string);
+	int spread_row_free(class spread_row* spread_row_ptr);
+	int spread_row_to_solution(class spread_row* heading,
+		class spread_row* units,
+		class spread_row* data,
+		class defaults defaults);
+	class spread_row* string_to_spread_row(char* string);
 #ifdef PHREEQCI_GUI
-	void add_row(struct spread_row* spread_row_ptr);
-	void copy_defaults(struct defaults* dest_ptr,
-		struct defaults* src_ptr);
+	void add_row(class spread_row* spread_row_ptr);
+	void copy_defaults(class defaults* dest_ptr,
+		class defaults* src_ptr);
 	void free_spread(void);
-	struct spread_row* copy_row(struct spread_row* spread_row_ptr);
+	class spread_row* copy_row(class spread_row* spread_row_ptr);
 #endif
 
 	// step.cpp -------------------------------
@@ -802,61 +802,61 @@ public:
 	int clean_up(void);
 	int reinitialize(void);
 
-	int copier_add(struct copier* copier_ptr, int n_user, int start, int end);
-	int copier_clear(struct copier* copier_ptr);
+	int copier_add(class copier* copier_ptr, int n_user, int start, int end);
+	int copier_clear(class copier* copier_ptr);
 	//
 	CReaction CReaction_internal_copy(CReaction& rxn_ref);
 	double rxn_find_coef(CReaction& r_ptr, const char* str);
 	//
 	static int element_compare(const void* ptr1, const void* ptr2);
-	struct element* element_store(const char* element);
+	class element* element_store(const char* element);
 	//
 	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
-	int add_elt_list(const std::vector<struct elt_list>& el, double coef);
+	int add_elt_list(const std::vector<class elt_list>& el, double coef);
 	int change_hydrogen_in_elt_list(LDBLE charge);
 	int elt_list_combine(void);
 	static int elt_list_compare(const void* ptr1, const void* ptr2);
-	std::vector<struct elt_list> elt_list_internal_copy(const std::vector<struct elt_list>& el);
-	std::vector<struct elt_list> elt_list_vsave(void);
+	std::vector<class elt_list> elt_list_internal_copy(const std::vector<class elt_list>& el);
+	std::vector<class elt_list> elt_list_vsave(void);
 	cxxNameDouble elt_list_NameDouble(void);
 	//
 	enum entity_type get_entity_enum(char* name);
 	//
-	struct inverse* inverse_alloc(void);
+	class inverse* inverse_alloc(void);
 	int inverse_delete(int i);
 	static int inverse_isotope_compare(const void* ptr1, const void* ptr2);
-	struct inverse* inverse_search(int n_user, int* n);
+	class inverse* inverse_search(int n_user, int* n);
 	int inverse_sort(void);
 	//
-	struct logk* logk_alloc(void);
-	int logk_copy2orig(struct logk* logk_ptr);
-	struct logk* logk_store(const char* name, int replace_if_found);
-	struct logk* logk_search(const char* name);
+	class logk* logk_alloc(void);
+	int logk_copy2orig(class logk* logk_ptr);
+	class logk* logk_store(const char* name, int replace_if_found);
+	class logk* logk_search(const char* name);
 	//
-	struct master* master_alloc(void);
+	class master* master_alloc(void);
 	static int master_compare(const void* ptr1, const void* ptr2);
 	int master_delete(const char* cptr);
-	struct master* master_bsearch(const char* cptr);
-	struct master* master_bsearch_primary(const char* cptr);
-	struct master* master_bsearch_secondary(const char* cptr);
-	struct master* master_search(const char* cptr, int* n);
-	struct master* surface_get_psi_master(const char* name, int plane);
+	class master* master_bsearch(const char* cptr);
+	class master* master_bsearch_primary(const char* cptr);
+	class master* master_bsearch_secondary(const char* cptr);
+	class master* master_search(const char* cptr, int* n);
+	class master* surface_get_psi_master(const char* name, int plane);
 	//
-	struct phase* phase_bsearch(const char* cptr, int* j, int print);
+	class phase* phase_bsearch(const char* cptr, int* j, int print);
 	static int phase_compare(const void* ptr1, const void* ptr2);
 	int phase_delete(int i);
-	struct phase* phase_store(const char* name);
+	class phase* phase_store(const char* name);
 	//
-	struct rate* rate_bsearch(const char* cptr, int* j);
-	int rate_free(struct rate* rate_ptr);
-	struct rate* rate_copy(const struct rate* rate_ptr);
-	struct rate* rate_search(const char* name, int* n);
+	class rate* rate_bsearch(const char* cptr, int* j);
+	int rate_free(class rate* rate_ptr);
+	class rate* rate_copy(const class rate* rate_ptr);
+	class rate* rate_search(const char* name, int* n);
 	int rate_sort(void);
 	//
 	static int s_compare(const void* ptr1, const void* ptr2);
 	int s_delete(int i);
-	struct species* s_search(const char* name);
-	struct species* s_store(const char* name, LDBLE z, int replace_if_found);
+	class species* s_search(const char* name);
+	class species* s_store(const char* name, LDBLE z, int replace_if_found);
 	//
 	static int isotope_compare(const void* ptr1, const void* ptr2);
 	//
@@ -869,7 +869,7 @@ public:
 	int system_duplicate(int i, int save_old);
 	//
 	//
-	bool phase_rxn_to_trxn(struct phase* phase_ptr, CReaction& rxn_ptr);
+	bool phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ptr);
 	bool trxn_add(CReaction& r_ptr, double coef, bool combine);
 	bool trxn_add_phase(CReaction& r_ref, double coef, bool combine);
 	int trxn_combine(void);
@@ -882,24 +882,24 @@ public:
 	int trxn_sort(void);
 	int trxn_swap(const char* token);
 
-	struct unknown* unknown_alloc(void);
+	class unknown* unknown_alloc(void);
 	int unknown_delete(int i);
-	int unknown_free(struct unknown* unknown_ptr);
+	int unknown_free(class unknown* unknown_ptr);
 	int entity_exists(const char* name, int n_user);
 	static int inverse_compare(const void* ptr1, const void* ptr2);
-	int inverse_free(struct inverse* inverse_ptr);
-	int logk_init(struct logk* logk_ptr);
+	int inverse_free(class inverse* inverse_ptr);
+	int logk_init(class logk* logk_ptr);
 	static int master_compare_string(const void* ptr1, const void* ptr2);
-	int master_free(struct master* master_ptr);
-	struct phase* phase_alloc(void);
+	int master_free(class master* master_ptr);
+	class phase* phase_alloc(void);
 	static int phase_compare_string(const void* ptr1, const void* ptr2);
-	int phase_free(struct phase* phase_ptr);
-	int phase_init(struct phase* phase_ptr);
+	int phase_free(class phase* phase_ptr);
+	int phase_init(class phase* phase_ptr);
 	static int rate_compare(const void* ptr1, const void* ptr2);
 	static int rate_compare_string(const void* ptr1, const void* ptr2);
-	struct species* s_alloc(void);
-	int s_free(struct species* s_ptr);
-	int s_init(struct species* s_ptr);
+	class species* s_alloc(void);
+	int s_free(class species* s_ptr);
+	int s_init(class species* s_ptr);
 	static int species_list_compare(const void* ptr1, const void* ptr2);
 
 	void Use2cxxStorageBin(cxxStorageBin& sb);
@@ -922,8 +922,8 @@ public:
 	int store_tally_table(LDBLE* array, int row_dim, int col_dim,
 		LDBLE fill_factor);
 	int zero_tally_table(void);
-	int elt_list_to_tally_table(struct tally_buffer* buffer_ptr);
-	int master_to_tally_table(struct tally_buffer* buffer_ptr);
+	int elt_list_to_tally_table(class tally_buffer* buffer_ptr);
+	int master_to_tally_table(class tally_buffer* buffer_ptr);
 	int get_all_components(void);
 	int print_tally_table(void);
 	int set_reaction_moles(int n_user, LDBLE moles);
@@ -931,8 +931,8 @@ public:
 	int set_kinetics_time(int n_user, LDBLE step);
 
 	// tidy.cpp -------------------------------
-	int add_other_logk(LDBLE* source_k, std::vector<struct name_coef>& add_logk);
-	int add_logks(struct logk* logk_ptr, int repeats);
+	int add_other_logk(LDBLE* source_k, std::vector<class name_coef>& add_logk);
+	int add_logks(class logk* logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void*), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
 	int ss_prep(LDBLE t, cxxSS* ss_ptr, int print);
@@ -942,11 +942,11 @@ public:
 	int tidy_punch(void);
 	int tidy_model(void);
 	int check_species_input(void);
-	LDBLE coef_in_master(struct master* master_ptr);
+	LDBLE coef_in_master(class master* master_ptr);
 	int reset_last_model(void);
 	int rewrite_eqn_to_primary(void);
 	int rewrite_eqn_to_secondary(void);
-	int species_rxn_to_trxn(struct species* s_ptr);
+	int species_rxn_to_trxn(class species* s_ptr);
 	int tidy_logk(void);
 	int tidy_exchange(void);
 	int tidy_min_exchange(void);
@@ -993,7 +993,7 @@ public:
 	LDBLE moles_from_redox_states(cxxSolution* sptr, const char* name);
 	LDBLE moles_from_donnan_layer(cxxSurface* sptr, const char* name, LDBLE moles_needed);
 	LDBLE add_MCD_moles(LDBLE moles, LDBLE min_mol, int i, cxxSolution* sptr, const char* name);
-	int fill_m_s(struct J_ij* J_ij, int J_ij_count_spec, int i, int stagnant);
+	int fill_m_s(class J_ij* J_ij, int J_ij_count_spec, int i, int stagnant);
 	static int sort_species_name(const void* ptr1, const void* ptr2);
 	int disp_surf(LDBLE stagkin_time);
 	int diff_stag_surf(int mobile_cell);
@@ -1141,7 +1141,7 @@ protected:
 	*   Save
 	*---------------------------------------------------------------------- */
 	std::map<std::string, double> save_values;
-	struct save save;
+	class save save;
 
 	/*----------------------------------------------------------------------
 	*   Use
@@ -1151,22 +1151,22 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Copy
 	*---------------------------------------------------------------------- */
-	struct copier copy_solution;
-	struct copier copy_pp_assemblage;
-	struct copier copy_exchange;
-	struct copier copy_surface;
-	struct copier copy_ss_assemblage;
-	struct copier copy_gas_phase;
-	struct copier copy_kinetics;
-	struct copier copy_mix;
-	struct copier copy_reaction;
-	struct copier copy_temperature;
-	struct copier copy_pressure;
+	class copier copy_solution;
+	class copier copy_pp_assemblage;
+	class copier copy_exchange;
+	class copier copy_surface;
+	class copier copy_ss_assemblage;
+	class copier copy_gas_phase;
+	class copier copy_kinetics;
+	class copier copy_mix;
+	class copier copy_reaction;
+	class copier copy_temperature;
+	class copier copy_pressure;
 
 	/*----------------------------------------------------------------------
 	*   Inverse
 	*---------------------------------------------------------------------- */
-	std::vector<struct inverse> inverse;
+	std::vector<class inverse> inverse;
 	int count_inverse;
 
 	/*----------------------------------------------------------------------
@@ -1218,22 +1218,22 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species_list
 	*---------------------------------------------------------------------- */
-	std::vector<struct species_list> species_list;
+	std::vector<class species_list> species_list;
 
 	/*----------------------------------------------------------------------
 	*   Jacobian and Mass balance lists
 	*---------------------------------------------------------------------- */
-	std::vector<struct list0> sum_jacob0;	/* array of pointers to targets and coefficients for array */
+	std::vector<class list0> sum_jacob0;	/* array of pointers to targets and coefficients for array */
 
-	std::vector<struct list1> sum_mb1; /* array of pointers to sources and targets for mass
+	std::vector<class list1> sum_mb1; /* array of pointers to sources and targets for mass
 										balance summations with coef = 1.0 */
-	std::vector<struct list1> sum_jacob1;	/* array of pointers to sources and targets for array
+	std::vector<class list1> sum_jacob1;	/* array of pointers to sources and targets for array
 											equations with coef = 1.0 */
-	std::vector<struct list2> sum_mb2; /* array of coefficients and pointers to sources and
+	std::vector<class list2> sum_mb2; /* array of coefficients and pointers to sources and
 									   targets for mass balance summations with coef != 1.0 */
-	std::vector<struct list2> sum_jacob2; /* array of coefficients and pointers to sources and
+	std::vector<class list2> sum_jacob2; /* array of coefficients and pointers to sources and
 										  targets, coef != 1.0 */
-	std::vector<struct list2> sum_delta; /* array of pointers to sources, targets and coefficients for
+	std::vector<class list2> sum_delta; /* array of pointers to sources, targets and coefficients for
 										 summing deltas for mass balance equations */
 										 /*----------------------------------------------------------------------
 										 *   Solution
@@ -1297,13 +1297,13 @@ protected:
 	LDBLE heat_diffc;
 	int cell;
 	LDBLE mcd_substeps;
-	struct stag_data stag_data;
+	class stag_data stag_data;
 	int print_modulus;
 	int punch_modulus;
 	int dump_in;
 	int dump_modulus;
 	int transport_warnings;
-	std::vector<struct cell_data> cell_data;
+	std::vector<class cell_data> cell_data;
 	int old_cells, max_cells, all_cells;
 	int multi_Dflag;		/* signals calc'n of multicomponent diffusion */
 	int interlayer_Dflag;	/* multicomponent diffusion and diffusion through interlayer porosity */
@@ -1345,13 +1345,13 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Elements
 	*---------------------------------------------------------------------- */
-	std::vector<struct element*> elements;
-	struct element* element_h_one;
+	std::vector<class element*> elements;
+	class element* element_h_one;
 
 	/*----------------------------------------------------------------------
 	*   Element List
 	*---------------------------------------------------------------------- */
-	std::vector<struct elt_list> elt_list;
+	std::vector<class elt_list> elt_list;
 	size_t count_elts = 0;		/* number of elements in elt_list = position of next */
 	/*----------------------------------------------------------------------
 	*   Reaction
@@ -1360,70 +1360,70 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-	std::vector<struct logk*> logk;
+	std::vector<class logk*> logk;
 
 	std::string moles_per_kilogram_string;
 
-	std::vector<struct species*> s;
+	std::vector<class species*> s;
 	std::vector< std::map < std::string, cxxSpeciesDL > > s_diff_layer;
-	std::vector<struct species*> s_x;
+	std::vector<class species*> s_x;
 
-	struct species* s_h2o;
-	struct species* s_hplus;
-	struct species* s_h3oplus;
-	struct species* s_eminus;
-	struct species* s_co3;
-	struct species* s_h2;
-	struct species* s_o2;
+	class species* s_h2o;
+	class species* s_hplus;
+	class species* s_h3oplus;
+	class species* s_eminus;
+	class species* s_co3;
+	class species* s_h2;
+	class species* s_o2;
 
 	/*----------------------------------------------------------------------
 	*   Phases
 	*---------------------------------------------------------------------- */
-	std::vector<struct phase*> phases;
+	std::vector<class phase*> phases;
 
 	/*----------------------------------------------------------------------
 	*   Master species
 	*---------------------------------------------------------------------- */
-	std::vector<struct master*> master;
+	std::vector<class master*> master;
 
 	/*----------------------------------------------------------------------
 	*   Unknowns
 	*---------------------------------------------------------------------- */
-	std::vector<struct unknown*> x;
+	std::vector<class unknown*> x;
 	size_t count_unknowns;
 	size_t max_unknowns;
 
-	struct unknown* ah2o_unknown;
-	struct unknown* alkalinity_unknown;
-	struct unknown* carbon_unknown;
-	struct unknown* charge_balance_unknown;
-	struct unknown* exchange_unknown;
-	struct unknown* mass_hydrogen_unknown;
-	struct unknown* mass_oxygen_unknown;
-	struct unknown* mb_unknown;
-	struct unknown* mu_unknown;
-	struct unknown* pe_unknown;
-	struct unknown* ph_unknown;
-	struct unknown* pure_phase_unknown;
-	struct unknown* solution_phase_boundary_unknown;
-	struct unknown* surface_unknown;
-	struct unknown* gas_unknown;
-	struct unknown* ss_unknown;
-	std::vector<struct unknown*> gas_unknowns;
+	class unknown* ah2o_unknown;
+	class unknown* alkalinity_unknown;
+	class unknown* carbon_unknown;
+	class unknown* charge_balance_unknown;
+	class unknown* exchange_unknown;
+	class unknown* mass_hydrogen_unknown;
+	class unknown* mass_oxygen_unknown;
+	class unknown* mb_unknown;
+	class unknown* mu_unknown;
+	class unknown* pe_unknown;
+	class unknown* ph_unknown;
+	class unknown* pure_phase_unknown;
+	class unknown* solution_phase_boundary_unknown;
+	class unknown* surface_unknown;
+	class unknown* gas_unknown;
+	class unknown* ss_unknown;
+	std::vector<class unknown*> gas_unknowns;
 
 	/*----------------------------------------------------------------------
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
-	struct reaction_temp trxn;	/* structure array of working space while reading equations
+	class reaction_temp trxn;	/* structure array of working space while reading equations
 								species names are in "temp_strings" */
 	size_t count_trxn;		        /* number of reactants in trxn = position of next */
 
-	std::vector<struct unknown_list> mb_unknowns;
+	std::vector<class unknown_list> mb_unknowns;
 
 	/* ----------------------------------------------------------------------
 	*   Print
 	* ---------------------------------------------------------------------- */
-	struct prints pr;
+	class prints pr;
 	bool status_on;
 	clock_t status_interval;
 	clock_t status_timer;
@@ -1433,7 +1433,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   RATES
 	* ---------------------------------------------------------------------- */
-	std::vector<struct rate> rates;
+	std::vector<class rate> rates;
 	LDBLE rate_m, rate_m0, rate_time, rate_kin_time, rate_sim_time_start,
 		rate_sim_time_end, rate_sim_time, rate_moles, initial_total_time;
 	std::vector<LDBLE> rate_p;
@@ -1442,7 +1442,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
-	struct rate* user_print = 0;
+	class rate* user_print = 0;
 	int n_user_punch_index;
 
 	int fpunchf_user_s_warning;
@@ -1552,7 +1552,7 @@ protected:
 	int remove_unstable_phases;
 	std::string screen_string;
 #ifdef PHREEQCI_GUI
-	struct spread_sheet g_spread_sheet;
+	class spread_sheet g_spread_sheet;
 #endif
 	int spread_length;
 
@@ -1562,11 +1562,11 @@ protected:
 	*/
 
 	std::map<std::string, std::string*> strings_map;
-	std::map<std::string, struct element*> elements_map;
-	std::map<std::string, struct species*> species_map;
-	std::map<std::string, struct phase*> phases_map;
-	std::map<std::string, struct logk*> logk_map;
-	std::map<std::string, struct master_isotope*> master_isotope_map;
+	std::map<std::string, class element*> elements_map;
+	std::map<std::string, class species*> species_map;
+	std::map<std::string, class phase*> phases_map;
+	std::map<std::string, class logk*> logk_map;
+	std::map<std::string, class master_isotope*> master_isotope_map;
 
 #if defined(PHREEQCI_GUI)
 #include "../../phreeqci_gui.h"
@@ -1574,14 +1574,14 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   ISOTOPES
 	* ---------------------------------------------------------------------- */
-	std::vector<struct master_isotope*> master_isotope;
+	std::vector<class master_isotope*> master_isotope;
 	int initial_solution_isotopes;
-	std::vector<struct calculate_value*> calculate_value;
-	std::map<std::string, struct calculate_value*> calculate_value_map;
-	std::vector<struct isotope_ratio*> isotope_ratio;
-	std::map<std::string, struct isotope_ratio*> isotope_ratio_map;
-	std::vector<struct isotope_alpha*> isotope_alpha;
-	std::map<std::string, struct isotope_alpha*> isotope_alpha_map;
+	std::vector<class calculate_value*> calculate_value;
+	std::map<std::string, class calculate_value*> calculate_value_map;
+	std::vector<class isotope_ratio*> isotope_ratio;
+	std::map<std::string, class isotope_ratio*> isotope_ratio_map;
+	std::vector<class isotope_alpha*> isotope_alpha;
+	std::map<std::string, class isotope_alpha*> isotope_alpha_map;
 	int phreeqc_mpi_myself;
 	int first_read_input;
 	std::string user_database;
@@ -1597,7 +1597,7 @@ protected:
 	LDBLE cell_porosity;
 	LDBLE cell_volume;
 	LDBLE cell_saturation;
-	std::vector<struct system_species> sys;
+	std::vector<class system_species> sys;
 	LDBLE sys_tot;
 
 	LDBLE V_solutes, rho_0, rho_0_sat, kappa_0, p_sat/*, ah2o_x0*/;
@@ -1658,7 +1658,7 @@ protected:
 	size_t klmd, nklmd, n2d;
 	int kode, iter;
 	LDBLE toler, error, max_pct, scaled_error;
-	struct master* master_alk;
+	class master* master_alk;
 	std::vector<int> row_back, col_back;
 	std::vector<unsigned long> good, bad, minimal;
 	size_t max_good, max_bad, max_minimal;
@@ -1710,18 +1710,18 @@ protected:
 	LDBLE COSMOT;
 	LDBLE AW;
 	LDBLE VP, DW0;
-	std::vector<struct pitz_param*> pitz_params;
+	std::vector<class pitz_param*> pitz_params;
 	std::map< std::string, size_t > pitz_param_map;
-	std::vector<struct theta_param*> theta_params;
+	std::vector<class theta_param*> theta_params;
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
-	struct pitz_param* aphi = NULL;
-	std::vector<struct species*> spec;
-	struct species** cations, ** anions, ** neutrals; // pointers to spec
+	class pitz_param* aphi = NULL;
+	std::vector<class species*> spec;
+	class species** cations, ** anions, ** neutrals; // pointers to spec
 	int count_cations, count_anions, count_neutrals;
 	int MAXCATIONS, FIRSTANION, MAXNEUTRAL;
-	struct pitz_param* mcb0, * mcb1, * mcc0;
+	class pitz_param* mcb0, * mcb1, * mcc0;
 	std::vector<int> IPRSNT;
 	std::vector<double> M, LGAMMA;
 	LDBLE BK[23], DK[23];
@@ -1747,7 +1747,7 @@ protected:
 	std::string dump_file_name_cpp;
 
 	/* sit.cpp ------------------------------- */
-	std::vector<struct pitz_param*> sit_params;
+	std::vector<class pitz_param*> sit_params;
 	std::map< std::string, size_t > sit_param_map;
 	LDBLE sit_A0;
 	int sit_count_cations, sit_count_anions, sit_count_neutrals;
@@ -1760,19 +1760,19 @@ protected:
 	LDBLE a0, a1, kc, kb;
 
 	/* tally.cpp ------------------------------- */
-	struct tally_buffer* t_buffer;
+	class tally_buffer* t_buffer;
 	size_t tally_count_component;
-	struct tally* tally_table;
+	class tally* tally_table;
 	size_t count_tally_table_columns;
 	size_t count_tally_table_rows;
 
 	/* transport.cpp ------------------------------- */
-	struct sol_D* sol_D;
-	struct sol_D* sol_D_dbg;
-	struct J_ij* J_ij, * J_ij_il;
+	class sol_D* sol_D;
+	class sol_D* sol_D_dbg;
+	class J_ij* J_ij, * J_ij_il;
 	int J_ij_count_spec;
 
-	struct M_S* m_s;
+	class M_S* m_s;
 	int count_m_s;
 	LDBLE tot1_h, tot1_o, tot2_h, tot2_o;
 	LDBLE diffc_max, diffc_tr, J_ij_sum;
@@ -1805,7 +1805,7 @@ protected:
 	std::vector<int> keycount;  // used to mark keywords that have been read 
 
 public:
-	static const struct const_iso iso_defaults[];
+	static const class const_iso iso_defaults[];
 	static const int count_iso_defaults;
 };
 #endif /* _INC_PHREEQC_H */

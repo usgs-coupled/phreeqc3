@@ -150,14 +150,14 @@ tidy_model(void)
 /* species */
 	if (new_model == TRUE)
 	{
-		if (s.size() > 1) qsort(&s[0], s.size(), sizeof(struct species *), s_compare);
+		if (s.size() > 1) qsort(&s[0], s.size(), sizeof(class species *), s_compare);
 
 /* master species */
-		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(struct master *), master_compare);
+		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(class master *), master_compare);
 /* elements */
-		if (elements.size() > 1) qsort(&elements[0], elements.size(), sizeof(struct element *), element_compare);
+		if (elements.size() > 1) qsort(&elements[0], elements.size(), sizeof(class element *), element_compare);
 /* phases */
-		if (phases.size() > 1) qsort(&phases[0], phases.size(), sizeof(struct phase *), phase_compare);
+		if (phases.size() > 1) qsort(&phases[0], phases.size(), sizeof(class phase *), phase_compare);
 
 	}
 
@@ -550,12 +550,12 @@ tidy_logk(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
+add_other_logk(LDBLE * source_k, std::vector<class name_coef> &add_logk)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
 	bool analytic;
-	struct logk *logk_ptr;
+	class logk *logk_ptr;
 	LDBLE coef;
 
 	for (size_t i = 0; i < add_logk.size(); i++)
@@ -563,7 +563,7 @@ add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 		coef = add_logk[i].coef;
 		std::string token = add_logk[i].name;
 		str_tolower(token);
-		std::map<std::string, struct logk *>::iterator l_it = logk_map.find(token);
+		std::map<std::string, class logk *>::iterator l_it = logk_map.find(token);
 		if (l_it == logk_map.end())
 		{
 			input_error++;
@@ -605,11 +605,11 @@ add_other_logk(LDBLE * source_k, std::vector<struct name_coef> &add_logk)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_logks(struct logk *logk_ptr, int repeats)
+add_logks(class logk *logk_ptr, int repeats)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
-	struct logk *next_logk_ptr;
+	class logk *next_logk_ptr;
 	LDBLE coef;
 	/*
 	 *  Adds in other named_expressions to get complete log K
@@ -628,7 +628,7 @@ add_logks(struct logk *logk_ptr, int repeats)
 		coef = logk_ptr->add_logk[i].coef;
 		std::string token = logk_ptr->add_logk[i].name;
 		str_tolower(token);
-		std::map<std::string, struct logk*>::iterator l_it = logk_map.find(token);
+		std::map<std::string, class logk*>::iterator l_it = logk_map.find(token);
 		if (l_it == logk_map.end())
 		{
 			input_error++;
@@ -658,14 +658,14 @@ add_logks(struct logk *logk_ptr, int repeats)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-coef_in_master(struct master * master_ptr)
+coef_in_master(class master * master_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int l;
 	LDBLE coef;
 	const char* cptr;
 	std::string elt_name;
-	const struct elt_list *next_elt;
+	const class elt_list *next_elt;
 
 	coef = 0.0;
 	cptr = master_ptr->elt->name;
@@ -693,7 +693,7 @@ rewrite_eqn_to_secondary(void)
  */
 	LDBLE coef;
 	int repeat, i, add_count;
-	struct rxn_token_temp *token_ptr;
+	class rxn_token_temp *token_ptr;
 /*
  *
  */
@@ -754,8 +754,8 @@ replace_solids_gases(void)
 	LDBLE coef;
 	int n;
 	int repeat, i, add_count;
-	struct rxn_token_temp *token_ptr;
-	struct phase *phase_ptr;
+	class rxn_token_temp *token_ptr;
+	class phase *phase_ptr;
 	int replaced;
 	char token[MAX_LENGTH];
 /*
@@ -914,7 +914,7 @@ tidy_gas_phase(void)
 		for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 		{
 			int k;
-			struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &k, FALSE);
+			class phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &k, FALSE);
 			if (phase_ptr == NULL)
 			{
 				input_error++;
@@ -1016,13 +1016,13 @@ tidy_gas_phase(void)
 
 			if (PR && P > 0)
 			{
-				std::vector<struct phase *> phase_ptrs;
+				std::vector<class phase *> phase_ptrs;
 				size_t j_PR;
 				std::vector<cxxGasComp> &gc = gas_phase_ptr->Get_gas_comps();
 				for (j_PR = 0; j_PR < gas_phase_ptr->Get_gas_comps().size(); j_PR++)
 				{
 					int k;
-					struct phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j_PR].Get_phase_name().c_str(), &k, FALSE);
+					class phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j_PR].Get_phase_name().c_str(), &k, FALSE);
 					if (gc[j_PR].Get_p_read() == 0)
 					{
 						gc[j_PR].Set_moles(0.0);
@@ -1046,7 +1046,7 @@ tidy_gas_phase(void)
 				for (j_PR = 0; j_PR < gas_phase_ptr->Get_gas_comps().size(); j_PR++)
 				{
 					int k;
-					struct phase *phase_ptr = phase_bsearch(gc[j_PR].Get_phase_name().c_str(), &k, FALSE);
+					class phase *phase_ptr = phase_bsearch(gc[j_PR].Get_phase_name().c_str(), &k, FALSE);
 					if (gc[j_PR].Get_p_read() == 0)
 					{
 						gc[j_PR].Set_moles(0.0);
@@ -1102,9 +1102,9 @@ tidy_inverse(void)
 	int i, j, k, l;
 	int count_in;
 	LDBLE value;
-	struct master *master_ptr;
-	struct master *master_alk_ptr;
-	const struct elt_list *elt_list_ptr;
+	class master *master_ptr;
+	class master *master_alk_ptr;
+	const class elt_list *elt_list_ptr;
 	master_alk_ptr = master_bsearch("Alkalinity");
 	for (i = 0; i < count_inverse; i++)
 	{
@@ -1259,7 +1259,7 @@ tidy_inverse(void)
 				}
 				qsort(&inverse[i].phases[j].isotopes[0],
 					  inverse[i].phases[j].isotopes.size(),
-					  sizeof(struct isotope), isotope_compare);
+					  sizeof(class isotope), isotope_compare);
 			}
 			add_elt_list(inverse[i].phases[j].phase->next_elt, 1.0);
 
@@ -1336,7 +1336,7 @@ tidy_inverse(void)
 /*
  *   Save list of master species in inv_elts structure
  */
-		std::vector<struct inv_elts> inv_elts;
+		std::vector<class inv_elts> inv_elts;
 		inv_elts.resize(count_in);
 		count_in = 0;
 		for (j = 0; j < (int)master.size(); j++)
@@ -1547,7 +1547,7 @@ tidy_pp_assemblage(void)
 		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 		{
 			int k;
-			struct phase *phase_ptr = phase_bsearch(it->first.c_str(), &k, FALSE);
+			class phase *phase_ptr = phase_bsearch(it->first.c_str(), &k, FALSE);
 			if (phase_ptr == NULL)
 			{
 				input_error++;
@@ -1610,7 +1610,7 @@ int Phreeqc::
 tidy_ss_assemblage(void)
 /* ---------------------------------------------------------------------- */
 {
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	LDBLE nb, nc, n_tot, xb, xc, dnb, dnc, l_a0, l_a1;
 	LDBLE xb2, xb3, xb4, xc2, xc3;
 	LDBLE moles;
@@ -2242,7 +2242,7 @@ tidy_species(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
-	struct master *master_ptr;
+	class master *master_ptr;
 	char c;
 	const char* cptr;
 /*
@@ -2610,8 +2610,8 @@ tidy_surface(void)
 			cxxNameDouble::iterator jit = comp_ptr->Get_totals().begin();
 			for ( ; jit != comp_ptr->Get_totals().end(); jit++ )
 			{
-				struct element *elt_ptr = element_store(jit->first.c_str());
-				struct master *master_ptr = elt_ptr->master;
+				class element *elt_ptr = element_store(jit->first.c_str());
+				class master *master_ptr = elt_ptr->master;
 				if (master_ptr == NULL)
 				{
 					input_error++;
@@ -2713,7 +2713,7 @@ tidy_solutions(void)
  *   Define n_user for any solutions read by solution_spread that
  *   don`t have n_user defined
  */
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	/*
 	 *  Calculate solution numbers
@@ -2806,7 +2806,7 @@ tidy_solutions(void)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-species_rxn_to_trxn(struct species *s_ptr)
+species_rxn_to_trxn(class species *s_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2841,7 +2841,7 @@ tidy_isotopes(void)
  *   Isotope ratios for each element or element valence state
  */
 	LDBLE isotope_number;
-	struct master *master_ptr, *primary_ptr;
+	class master *master_ptr, *primary_ptr;
 
 	size_t primary_number = 0;
 	primary_ptr = NULL;
@@ -3049,7 +3049,7 @@ tidy_kin_exchange(void)
 			for (; kit != nd.end(); kit++)
 			{
 				/* Find master species */
-				struct element *elt_ptr = element_store(kit->first.c_str());
+				class element *elt_ptr = element_store(kit->first.c_str());
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
@@ -3155,7 +3155,7 @@ update_kin_exchange(void)
 			for (; kit != nd.end(); kit++)
 			{
 				/* Find master species */
-				struct element* elt_ptr = element_store(kit->first.c_str());
+				class element* elt_ptr = element_store(kit->first.c_str());
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
@@ -3230,7 +3230,7 @@ update_kin_exchange(void)
 				for (kit = nd_formula.begin(); kit != nd_formula.end(); kit++)
 				{
 					/* Find master species */
-					struct element* elt_ptr = element_store(kit->first.c_str());
+					class element* elt_ptr = element_store(kit->first.c_str());
 					if (elt_ptr->master->type == EX)
 					{
 						comp_coef = kit->second;
@@ -3297,7 +3297,7 @@ tidy_min_exchange(void)
 			for (; kit != nd.end(); kit++)
 			{
 				/* Find master species */
-				struct element *elt_ptr = element_store(kit->first.c_str());
+				class element *elt_ptr = element_store(kit->first.c_str());
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
@@ -3371,7 +3371,7 @@ tidy_min_exchange(void)
 				get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
 			}
 			int l;
-			struct phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+			class phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 			if (phase_ptr != NULL)
 			{
 				cptr = phase_ptr->formula;
@@ -3440,7 +3440,7 @@ update_min_exchange(void)
 			for (; kit != nd.end(); kit++)
 			{
 				/* Find master species */
-				struct element* elt_ptr = element_store(kit->first.c_str());
+				class element* elt_ptr = element_store(kit->first.c_str());
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;
@@ -3514,7 +3514,7 @@ update_min_exchange(void)
 				for (kit = nd_formula.begin(); kit != nd_formula.end(); kit++)
 				{
 					/* Find master species */
-					struct element* elt_ptr = element_store(kit->first.c_str());
+					class element* elt_ptr = element_store(kit->first.c_str());
 					if (elt_ptr->master->type == EX)
 					{
 						comp_coef = kit->second;
@@ -3541,7 +3541,7 @@ update_min_exchange(void)
 					get_elts_in_species(&cptr, -comp_ref.Get_phase_proportion());
 				}
 				int l;
-				struct phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+				class phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 				if (phase_ptr != NULL)
 				{
 					cptr = phase_ptr->formula;
@@ -3619,8 +3619,8 @@ tidy_min_surface(void)
 			for (it = surface_comp_ptr->Get_totals().begin(); it != surface_comp_ptr->Get_totals().end(); it++)
 			{
 				/* Find master species */
-				struct element *elt_ptr = element_store(it->first.c_str());
-				struct master *master_ptr = elt_ptr->master;
+				class element *elt_ptr = element_store(it->first.c_str());
+				class master *master_ptr = elt_ptr->master;
 				if (master_ptr == NULL)
 				{
 					input_error++;
@@ -3676,7 +3676,7 @@ tidy_min_surface(void)
 				continue;
 			}
 			int l;
-			struct phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+			class phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 			if (phase_ptr == NULL)
 			{
 				input_error++;
@@ -3739,7 +3739,7 @@ tidy_min_surface(void)
 					{
 
 						// Warn if not master species and charge balanced
-						struct element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
+						class element *elt_ptr = element_store(comp_jj_ptr->Get_master_element().c_str());
 						if (elt_ptr->master == NULL)
 						{
 							input_error++;
@@ -3798,7 +3798,7 @@ tidy_min_surface(void)
 					//&& elt_list[jj].elt->primary->s != s_h2o
 					)
 				{
-					struct element *elt_ptr = element_store(surface_comp_ptr->Get_master_element().c_str());
+					class element *elt_ptr = element_store(surface_comp_ptr->Get_master_element().c_str());
 					error_string = sformatf(
 							"Element %s in sum of surface sites,\n"
 							"\t including %s * %g mol sites/mol phase,\n"
@@ -3857,8 +3857,8 @@ update_min_surface(void)
 			for (it = surface_comp_ptr->Get_totals().begin(); it != surface_comp_ptr->Get_totals().end(); it++)
 			{
 				/* Find master species */
-				struct element* elt_ptr = element_store(it->first.c_str());
-				struct master* master_ptr = elt_ptr->master;
+				class element* elt_ptr = element_store(it->first.c_str());
+				class master* master_ptr = elt_ptr->master;
 				if (master_ptr == NULL)
 				{
 					input_error++;
@@ -3914,7 +3914,7 @@ update_min_surface(void)
 				continue;
 			}
 			int l;
-			struct phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+			class phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 			if (phase_ptr == NULL)
 			{
 				input_error++;
@@ -3972,8 +3972,8 @@ tidy_kin_surface(void)
  */
 {
 	cxxKinetics *kinetics_ptr;
-	struct phase *phase_ptr;
-	std::vector<struct elt_list> elt_list_kinetics;
+	class phase *phase_ptr;
+	std::vector<class elt_list> elt_list_kinetics;
 	size_t count_elts_kinetics;
 
 	//std::map<int, cxxSurface>::iterator it;
@@ -4008,8 +4008,8 @@ tidy_kin_surface(void)
 			for (kit = comp_ptr->Get_totals().begin(); kit != comp_ptr->Get_totals().end(); kit++)
 			{
 				/* Find master species */
-				struct element *elt_ptr = element_store(kit->first.c_str());
-				struct master *master_ptr = elt_ptr->master;
+				class element *elt_ptr = element_store(kit->first.c_str());
+				class master *master_ptr = elt_ptr->master;
 				if (master_ptr == NULL)
 				{
 					input_error++;
@@ -4262,8 +4262,8 @@ update_kin_surface(void)
 			for (kit = comp_ptr->Get_totals().begin(); kit != comp_ptr->Get_totals().end(); kit++)
 			{
 				/* Find master species */
-				struct element* elt_ptr = element_store(kit->first.c_str());
-				struct master* master_ptr = elt_ptr->master;
+				class element* elt_ptr = element_store(kit->first.c_str());
+				class master* master_ptr = elt_ptr->master;
 				if (master_ptr == NULL)
 				{
 					input_error++;
@@ -4395,8 +4395,8 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	ag1 = a1 * rt;
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
-	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
-	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
+	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
 	kc = exp(k_calc(phase0_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
 	kb = exp(k_calc(phase1_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
 	crit_pt = fabs(a0) + fabs(a1);
@@ -5006,8 +5006,8 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	int k;
-	struct phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
-	struct phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
+	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
 	if (phase0_ptr == NULL || phase1_ptr == NULL)
 	{
 		input_error++;
@@ -5356,7 +5356,7 @@ tidy_master_isotope(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct master *master_ptr;
+	class master *master_ptr;
 
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
@@ -5392,9 +5392,9 @@ tidy_isotope_ratios(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct master *master_ptr;
-	struct master_isotope *master_isotope_ptr;
-	struct calculate_value *calculate_value_ptr;
+	class master *master_ptr;
+	class master_isotope *master_isotope_ptr;
+	class calculate_value *calculate_value_ptr;
 
 	for (i = 0; i < (int)isotope_ratio.size(); i++)
 	{
@@ -5439,8 +5439,8 @@ tidy_isotope_alphas(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct calculate_value *calculate_value_ptr;
-	struct logk *logk_ptr;
+	class calculate_value *calculate_value_ptr;
+	class logk *logk_ptr;
 
 	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
@@ -5533,7 +5533,7 @@ tidy_exchange(void)
 			for (; kit != nd.end(); kit++)
 			{
 				/* Find master species */
-				struct element *elt_ptr = element_store(kit->first.c_str());
+				class element *elt_ptr = element_store(kit->first.c_str());
 				if (elt_ptr == NULL || elt_ptr->master == NULL)
 				{
 					input_error++;

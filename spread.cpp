@@ -34,11 +34,11 @@ read_solution_spread(void)
  *         ERROR   if error occurred reading data
  *
  */
-	struct spread_row *heading, *row_ptr, *units;
+	class spread_row *heading, *row_ptr, *units;
 	int count, strings, numbers;
 	int spread_lines;
 	const char* cptr;
-	struct defaults soln_defaults;
+	class defaults soln_defaults;
 	int return_value, opt;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -83,7 +83,7 @@ read_solution_spread(void)
 
 	/* all iso[i].name is hsave'd, so no conflicts */
 	memcpy(&soln_defaults.iso[0], iso_defaults,
-		   soln_defaults.iso.size() * sizeof(struct iso));
+		   soln_defaults.iso.size() * sizeof(class iso));
 
 	heading = NULL;
 	units = NULL;
@@ -523,8 +523,8 @@ read_solution_spread(void)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
-					   struct spread_row *data, struct defaults defaults)
+spread_row_to_solution(class spread_row *heading, class spread_row *units,
+					   class spread_row *data, class defaults defaults)
 /* ---------------------------------------------------------------------- */
 {
 	Keywords::KEYWORDS next_keyword_save;
@@ -805,7 +805,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					error_string = sformatf( "\t%s\t%s\n", "line_save:   ", line_save);
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-//struct spread_row
+//class spread_row
 //{
 //	int count;
 //	int empty, string, number;
@@ -1032,7 +1032,7 @@ spread_row_to_solution(struct spread_row *heading, struct spread_row *units,
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
-struct spread_row * Phreeqc::
+class spread_row * Phreeqc::
 string_to_spread_row(char *string)
 /* ---------------------------------------------------------------------- */
 {
@@ -1042,7 +1042,7 @@ string_to_spread_row(char *string)
 /*
  *   Allocate space
  */
-	struct spread_row* spread_row_ptr = new struct spread_row;
+	class spread_row* spread_row_ptr = new class spread_row;
 	if (spread_row_ptr == NULL)
 	{
 		malloc_error();
@@ -1094,7 +1094,7 @@ string_to_spread_row(char *string)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-spread_row_free(struct spread_row *spread_row_ptr)
+spread_row_free(class spread_row *spread_row_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
@@ -1275,7 +1275,7 @@ free_spread(void)
 			(const char *)free_check_null((void*)g_spread_sheet.defaults.iso[i].name);
 	}
 	g_spread_sheet.defaults.iso =
-		(struct iso*)free_check_null(g_spread_sheet.defaults.iso);
+		(class iso*)free_check_null(g_spread_sheet.defaults.iso);
 
 	g_spread_sheet.defaults.redox =
 		(const char *)free_check_null((void*)g_spread_sheet.defaults.redox);
@@ -1290,12 +1290,12 @@ free_spread(void)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-add_row(struct spread_row *spread_row_ptr)
+add_row(class spread_row *spread_row_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	g_spread_sheet.rows =
-		(struct spread_row **) PHRQ_realloc(g_spread_sheet.rows,
-											sizeof(struct spread_row *) *
+		(class spread_row **) PHRQ_realloc(g_spread_sheet.rows,
+											sizeof(class spread_row *) *
 											(g_spread_sheet.count_rows + 1));
 	if (g_spread_sheet.rows == NULL)
 	{
@@ -1309,17 +1309,17 @@ add_row(struct spread_row *spread_row_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct spread_row * Phreeqc::
-copy_row(struct spread_row *spread_row_ptr)
+class spread_row * Phreeqc::
+copy_row(class spread_row *spread_row_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct spread_row *new_spread_row_ptr;
+	class spread_row *new_spread_row_ptr;
 /*
  *   Allocate space
  */
 	new_spread_row_ptr =
-		(struct spread_row *) PHRQ_malloc((size_t) sizeof(struct spread_row));
+		(class spread_row *) PHRQ_malloc((size_t) sizeof(class spread_row));
 	if (new_spread_row_ptr == NULL)
 		malloc_error();
 	new_spread_row_ptr->char_vector =
@@ -1353,14 +1353,14 @@ copy_row(struct spread_row *spread_row_ptr)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-copy_defaults(struct defaults *dest_ptr, struct defaults *src_ptr)
+copy_defaults(class defaults *dest_ptr, class defaults *src_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
 	dest_ptr->count_iso = src_ptr->count_iso;
 	dest_ptr->density = src_ptr->density;
 	dest_ptr->iso =
-		(struct iso *) PHRQ_malloc(sizeof(struct iso) * src_ptr->count_iso);
+		(class iso *) PHRQ_malloc(sizeof(class iso) * src_ptr->count_iso);
 	if (dest_ptr->iso == NULL)
 	{
 		malloc_error();

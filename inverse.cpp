@@ -125,7 +125,7 @@ inverse_models(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-setup_inverse(struct inverse *inv_ptr)
+setup_inverse(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -139,10 +139,10 @@ setup_inverse(struct inverse *inv_ptr)
 	LDBLE isotope_number;
 	LDBLE f, coef, cb, conc;
 	char token[MAX_LENGTH];
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	cxxSolution *solution_ptr;
 	CReaction *rxn_ptr;
-	struct master *master_ptr;
+	class master *master_ptr;
 /*
  *   Determine array sizes, row and column positions
  */
@@ -866,7 +866,7 @@ setup_inverse(struct inverse *inv_ptr)
 				std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
 				for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 				{
-					struct master *master_kit = master_bsearch(kit->second.Get_elt_name().c_str());
+					class master *master_kit = master_bsearch(kit->second.Get_elt_name().c_str());
 					if (master_kit == master_ptr &&
 						kit->second.Get_isotope_number() ==
 						isotope_number)
@@ -988,7 +988,7 @@ setup_inverse(struct inverse *inv_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-solve_inverse(struct inverse *inv_ptr)
+solve_inverse(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1253,7 +1253,7 @@ solve_inverse(struct inverse *inv_ptr)
 
 /* ---------------------------------------------------------------------- */
 unsigned long Phreeqc::
-minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
+minimal_solve(class inverse *inv_ptr, unsigned long minimal_bits)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1329,7 +1329,7 @@ minimal_solve(struct inverse *inv_ptr, unsigned long minimal_bits)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-solve_with_mask(struct inverse *inv_ptr, unsigned long cur_bits)
+solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1629,7 +1629,7 @@ bit_print(unsigned long bits, int l)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-print_model(struct inverse *inv_ptr)
+print_model(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1639,7 +1639,7 @@ print_model(struct inverse *inv_ptr)
 	size_t column;
 	int print_msg;
 	cxxSolution *solution_ptr;
-	struct master *master_ptr;
+	class master *master_ptr;
 	LDBLE d1, d2, d3, d4;
 	char token[MAX_LENGTH];
 /*
@@ -1819,7 +1819,7 @@ print_model(struct inverse *inv_ptr)
 				equal(min_delta[j], 0.0, toler) == TRUE &&
 				equal(max_delta[j], 0.0, toler) == TRUE)
 				continue;
-			std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+			std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
 			for (size_t j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
 				for (size_t k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
@@ -1907,7 +1907,7 @@ print_model(struct inverse *inv_ptr)
 	// appt, calculate and print SI's
 	LDBLE  t_i, p_i, iap, lk, t;
 	const char *name;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 	CReaction *reaction_ptr;
 
 	output_msg(sformatf( "\n%-25.25s   %2s   %12.12s   %12.12s   %-18.18s  (Approximate SI in solution ",
@@ -2018,7 +2018,7 @@ print_model(struct inverse *inv_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-punch_model_heading(struct inverse *inv_ptr)
+punch_model_heading(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -2095,7 +2095,7 @@ punch_model_heading(struct inverse *inv_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-punch_model(struct inverse *inv_ptr)
+punch_model(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2228,7 +2228,7 @@ set_bit(unsigned long bits, int position, int value)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-next_set_phases(struct inverse *inv_ptr,
+next_set_phases(class inverse *inv_ptr,
 				int first_of_model_size, int model_size)
 /* ---------------------------------------------------------------------- */
 {
@@ -2295,7 +2295,7 @@ next_set_phases(struct inverse *inv_ptr,
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-range(struct inverse *inv_ptr, unsigned long cur_bits)
+range(class inverse *inv_ptr, unsigned long cur_bits)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2489,7 +2489,7 @@ range(struct inverse *inv_ptr, unsigned long cur_bits)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
+shrink(class inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 	   int *k, int *l, int *m, int *n,
 	   unsigned long cur_bits,
 	   LDBLE * delta_l, int *col_back_l, int *row_back_l)
@@ -2759,7 +2759,7 @@ shrink(struct inverse *inv_ptr, LDBLE * array_in, LDBLE * array_out,
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-check_solns(struct inverse *inv_ptr)
+check_solns(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3097,7 +3097,7 @@ test_cl1_solution(void)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-carbon_derivs(struct inverse *inv_ptr)
+carbon_derivs(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, temp;
@@ -3199,7 +3199,7 @@ carbon_derivs(struct inverse *inv_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-set_ph_c(struct inverse *inv_ptr,
+set_ph_c(class inverse *inv_ptr,
 		 int i,
 		 cxxSolution *solution_ptr_orig,
 		 int n_user_new, LDBLE d_carbon, LDBLE ph_factor, LDBLE c_factor)
@@ -3238,7 +3238,7 @@ set_ph_c(struct inverse *inv_ptr,
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
+isotope_balance_equation(class inverse *inv_ptr, int row, int n)
 /* ---------------------------------------------------------------------- */
 /*
  *   routine fills in an isotope balance equation
@@ -3251,7 +3251,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 	LDBLE isotope_number;
 	size_t column;
 	LDBLE f;
-	struct master *primary_ptr;
+	class master *primary_ptr;
 	cxxSolution *solution_ptr;
 /*
  *   Determine primary master species and isotope number for
@@ -3300,7 +3300,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 		std::map < std::string, cxxSolutionIsotope >::iterator jit = solution_ptr->Get_isotopes().begin();
 		for ( ; jit != solution_ptr->Get_isotopes().end(); jit++)
 		{
-			struct master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
+			class master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
 			if (primary_jit == primary_ptr &&
 				jit->second.Get_isotope_number() == isotope_number)
 			{
@@ -3317,8 +3317,8 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 			if (primary_ptr == s_hplus->primary
 				|| primary_ptr == s_h2o->primary)
 				continue;
-			struct master *master_jit = master_bsearch(jit->second.Get_elt_name().c_str());
-			struct master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
+			class master *master_jit = master_bsearch(jit->second.Get_elt_name().c_str());
+			class master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
 			if (primary_jit == primary_ptr &&
 				jit->second.Get_isotope_number() == isotope_number)
 			{
@@ -3338,8 +3338,8 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 		jit = solution_ptr->Get_isotopes().begin();
 		for ( ; jit != solution_ptr->Get_isotopes().end(); jit++)
 		{
-			struct master *master_jit = master_bsearch(jit->second.Get_elt_name().c_str());
-			struct master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
+			class master *master_jit = master_bsearch(jit->second.Get_elt_name().c_str());
+			class master *primary_jit = master_bsearch_primary(jit->second.Get_elt_name().c_str());
 			if (primary_jit == primary_ptr &&
 				jit->second.Get_isotope_number() == isotope_number)
 			{
@@ -3369,7 +3369,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 	{
 		if (inv_ptr->phases[i].isotopes.size() == 0)
 			continue;
-		std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+		std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
 		for (j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
 		{
 			if (isotope_ref[j].primary == primary_ptr &&
@@ -3391,7 +3391,7 @@ isotope_balance_equation(struct inverse *inv_ptr, int row, int n)
 }
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
-set_isotope_unknowns(struct inverse* inv_ptr)
+set_isotope_unknowns(class inverse* inv_ptr)
 	/* ---------------------------------------------------------------------- */
 {
 	/*
@@ -3401,9 +3401,9 @@ set_isotope_unknowns(struct inverse* inv_ptr)
 	 */
 	int i, k;
 	LDBLE isotope_number;
-	struct master* primary_ptr;
+	class master* primary_ptr;
 	size_t count_isotopes;
-	std::vector<struct isotope>& isotopes = inv_ptr->isotope_unknowns;
+	std::vector<class isotope>& isotopes = inv_ptr->isotope_unknowns;
 
 	if (inv_ptr->isotopes.size() == 0)
 	{
@@ -3475,7 +3475,7 @@ set_isotope_unknowns(struct inverse* inv_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-check_isotopes(struct inverse *inv_ptr)
+check_isotopes(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -3485,9 +3485,9 @@ check_isotopes(struct inverse *inv_ptr)
 	int i, ii, j, k, l;
 	int err, found_isotope;
 	LDBLE isotope_number;
-	struct master *master_ptr, *primary_ptr;
+	class master *master_ptr, *primary_ptr;
 	cxxSolution *solution_ptr;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	char token[MAX_LENGTH];
 
 /*
@@ -3511,7 +3511,7 @@ check_isotopes(struct inverse *inv_ptr)
 			std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
 			for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 			{
-				struct master *primary_kit = master_bsearch_primary(kit->second.Get_elt_name().c_str());
+				class master *primary_kit = master_bsearch_primary(kit->second.Get_elt_name().c_str());
 				if (primary_kit == primary_ptr &&
 					kit->second.Get_isotope_number() ==
 					isotope_number)
@@ -3550,8 +3550,8 @@ check_isotopes(struct inverse *inv_ptr)
 		std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			struct master *master_kit = master_bsearch(kit->second.Get_elt_name().c_str());
-			struct master *primary_kit = master_bsearch_primary(kit->second.Get_elt_name().c_str());
+			class master *master_kit = master_bsearch(kit->second.Get_elt_name().c_str());
+			class master *primary_kit = master_bsearch_primary(kit->second.Get_elt_name().c_str());
 			kit->second.Set_x_ratio_uncertainty(NAN);
 /*
  *  Search for secondary or primary master in inverse uncertainties
@@ -3703,7 +3703,7 @@ check_isotopes(struct inverse *inv_ptr)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-phase_isotope_inequalities(struct inverse *inv_ptr)
+phase_isotope_inequalities(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	size_t column;
@@ -3810,7 +3810,7 @@ phase_isotope_inequalities(struct inverse *inv_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-write_optimize_names(struct inverse *inv_ptr)
+write_optimize_names(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, row;
@@ -3882,7 +3882,7 @@ write_optimize_names(struct inverse *inv_ptr)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-dump_netpath(struct inverse *inverse_ptr)
+dump_netpath(class inverse *inverse_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	std::string string;
@@ -4224,7 +4224,7 @@ print_total_multi(FILE * l_netpath_file, cxxSolution *solution_ptr,
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-dump_netpath_pat(struct inverse *inv_ptr)
+dump_netpath_pat(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -4232,7 +4232,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
  */
 	int i, j, k;
 	cxxSolution *solution_ptr, *solution_ptr_orig;
-	struct master *master_ptr;
+	class master *master_ptr;
 	LDBLE d1, d2, d3;
 	LDBLE sum, sum1, sum_iso, d;
 	std::vector<double> array_save, l_delta_save;
@@ -4241,11 +4241,11 @@ dump_netpath_pat(struct inverse *inv_ptr)
 	int temp, temp_punch;
 	int solnmap[10][2];
 	FILE *model_file;
-	const struct elt_list *next_elt;
+	const class elt_list *next_elt;
 	int exch;
 	size_t column;
 	LDBLE f;
-	struct rxn_token *rxn_ptr;
+	class rxn_token *rxn_ptr;
 /*
  *   print solution data, epsilons, and revised data
  */
@@ -4932,7 +4932,7 @@ dump_netpath_pat(struct inverse *inv_ptr)
 
 		for (k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
 		{
-			std::vector<struct isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+			std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
 			d1 = isotope_ref[k].ratio;
 			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{

@@ -11,7 +11,7 @@
  * ********************************************************************** */
 
 /* ---------------------------------------------------------------------- */
-struct pitz_param * Phreeqc::
+class pitz_param * Phreeqc::
 pitz_param_read(char *string, int n)
 /* ---------------------------------------------------------------------- */
 {
@@ -23,7 +23,7 @@ pitz_param_read(char *string, int n)
 	int l, i, j, k;
 	const char* cptr;
 	char token[2 * MAX_LENGTH];
-	struct pitz_param pzp, *pzp_ptr;
+	class pitz_param pzp, *pzp_ptr;
 
 	if (n != 2 && n != 3 && n != 0)
 		return (NULL);
@@ -60,13 +60,13 @@ pitz_param_read(char *string, int n)
 	}
 	if (k <= 0)
 		return (NULL);
-	pzp_ptr = new struct pitz_param;
+	pzp_ptr = new class pitz_param;
 	*pzp_ptr = pzp;
 	return (pzp_ptr);
 }
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-pitz_param_store(const struct pitz_param *pzp_ptr)
+pitz_param_store(const class pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -78,7 +78,7 @@ pitz_param_store(const struct pitz_param *pzp_ptr)
 		return;
 	if (pzp_ptr->type == TYPE_Other)
 		return;
-	struct pitz_param* dest = pitz_param_copy(pzp_ptr);
+	class pitz_param* dest = pitz_param_copy(pzp_ptr);
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
@@ -121,7 +121,7 @@ pitz_param_store(const struct pitz_param *pzp_ptr)
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-sit_param_store(const struct pitz_param *pzp_ptr)
+sit_param_store(const class pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -133,7 +133,7 @@ sit_param_store(const struct pitz_param *pzp_ptr)
 		return;
 	if (pzp_ptr->type == TYPE_Other)
 		return;
-	struct pitz_param* dest = pitz_param_copy(pzp_ptr);
+	class pitz_param* dest = pitz_param_copy(pzp_ptr);
 
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
@@ -175,11 +175,11 @@ sit_param_store(const struct pitz_param *pzp_ptr)
 		sit_param_map[key] = count_sit_param;
 	}
 }
-struct pitz_param* Phreeqc::
-pitz_param_copy(const struct pitz_param* src)
+class pitz_param* Phreeqc::
+pitz_param_copy(const class pitz_param* src)
 {
 	if (src == NULL) return NULL;
-	struct pitz_param* dest = new struct pitz_param;
+	class pitz_param* dest = new class pitz_param;
 	*dest = *src;
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -198,7 +198,7 @@ pitz_param_copy(const struct pitz_param* src)
  *
  * ********************************************************************** */
 /* ---------------------------------------------------------------------- */
-struct theta_param * Phreeqc::
+class theta_param * Phreeqc::
 theta_param_search(LDBLE zj, LDBLE zk)
 /* ---------------------------------------------------------------------- */
 {
