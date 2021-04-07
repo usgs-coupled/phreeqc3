@@ -431,6 +431,7 @@ Phreeqc::Phreeqc(PHRQ_io *io)
 	sformatf_buffer = NULL;
 	basic_interpreter = NULL;
 	count_elts = 0;
+	aphi = NULL;
 	// phrq_io
 	if (io)
 	{
@@ -1146,6 +1147,7 @@ Phreeqc::Phreeqc(const Phreeqc &src)
 	sformatf_buffer = NULL;
 	basic_interpreter = NULL;
 	count_elts = 0;
+	aphi = NULL;
 	//this->phrq_io = src.phrq_io;
 	this->phrq_io = &this->ioInstance;
 	this->init();
