@@ -1352,7 +1352,7 @@ protected:
 	*   Element List
 	*---------------------------------------------------------------------- */
 	std::vector<class elt_list> elt_list;
-	size_t count_elts = 0;		/* number of elements in elt_list = position of next */
+	size_t count_elts;		/* number of elements in elt_list = position of next */
 	/*----------------------------------------------------------------------
 	*   Reaction
 	*---------------------------------------------------------------------- */
@@ -1442,7 +1442,7 @@ protected:
 	/* ----------------------------------------------------------------------
 	*   USER PRINT COMMANDS
 	* ---------------------------------------------------------------------- */
-	class rate* user_print = 0;
+	class rate* user_print;
 	int n_user_punch_index;
 
 	int fpunchf_user_s_warning;
@@ -1615,7 +1615,7 @@ protected:
 	PHRQMemHeader* s_pTail;
 
 	/* Basic */
-	PBasic* basic_interpreter = NULL;
+	PBasic* basic_interpreter;
 
 	double (*basic_callback_ptr) (double x1, double x2, const char* str, void* cookie);
 	void* basic_callback_cookie;
@@ -1716,7 +1716,7 @@ protected:
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
-	class pitz_param* aphi = NULL;
+	class pitz_param* aphi/* = NULL*/;
 	std::vector<class species*> spec;
 	class species** cations, ** anions, ** neutrals; // pointers to spec
 	int count_cations, count_anions, count_neutrals;
@@ -1740,8 +1740,8 @@ protected:
 	dumper dump_info;
 	StorageBinList delete_info;
 	runner run_info;
-	char* sformatf_buffer = NULL;
-	size_t sformatf_buffer_size = 0;
+	char* sformatf_buffer;
+	size_t sformatf_buffer_size;
 
 	/* readtr.cpp */
 	std::string dump_file_name_cpp;

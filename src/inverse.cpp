@@ -1416,20 +1416,18 @@ solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 	kode = 1;
 	iter = 100000;
 	count_calls++;
-
 #ifdef INVERSE_CL1MP
 	if (inv_ptr->mp == TRUE)
 	{
-		cl1mp(k, l, m, n,
-			  nklmd, n2d, array1,
-			  &kode, inv_ptr->mp_tolerance, &iter,
-			  delta2, inv_res, &error, inv_cu, inv_iu, inv_is, TRUE, inv_ptr->mp_censor);
+		cl1mp(k, l, m, n, (int)nklmd, (int)n2d, &array1[0],
+			  &kode, inv_ptr->mp_tolerance, &iter, &delta2[0], &inv_res[0],
+			  &error, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE, inv_ptr->mp_censor);
 	}
 	else
 	{
-		cl1(k, l, m, n,
-			nklmd, n2d, array1,
-			&kode, toler, &iter, delta2, inv_res, &error, inv_cu, inv_iu, inv_is, TRUE);
+		cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0],
+			&kode, toler, &iter, &delta2[0], &inv_res[0],
+			&error, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 	}
 #else
 	cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0],
@@ -2422,16 +2420,14 @@ range(class inverse *inv_ptr, unsigned long cur_bits)
 #ifdef INVERSE_CL1MP
 			if (inv_ptr->mp == TRUE)
 			{
-				cl1mp(k, l, m, n,
-					  nklmd, n2d, array1,
-					  &kode, inv_ptr->mp_tolerance, &iter,
-					  delta2, inv_res, &error2, inv_cu, inv_iu, inv_is, TRUE,
-					  inv_ptr->mp_censor);
+				cl1mp(k, l, m, n, (int)nklmd, (int)n2d, &array1[0],
+					&kode, inv_ptr->mp_tolerance, &iter, &delta2[0], &inv_res[0],
+					&error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE, inv_ptr->mp_censor);
 			}
 			else
 			{
-				cl1(k, l, m, n, nklmd, n2d, array1, &kode, toler, &iter, delta2, 
-					inv_res, &error2, inv_cu, inv_iu, inv_is, TRUE);
+				cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0], &kode, toler, &iter, &delta2[0],
+					&inv_res[0], &error2, &inv_cu[0], &inv_iu[0], &inv_is[0], TRUE);
 			}
 #else
 			cl1(k, l, m, n, (int)nklmd, (int)n2d, &array1[0], &kode, toler, &iter, &delta2[0], 

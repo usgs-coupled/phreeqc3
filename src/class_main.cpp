@@ -501,8 +501,8 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 
-		*db_cookie = new std::ifstream(db_file, std::ios_base::in);
-		*input_cookie = new std::ifstream(in_file, std::ios_base::in);
+		*db_cookie = new std::ifstream(db_file.c_str(), std::ios_base::in);
+		*input_cookie = new std::ifstream(in_file.c_str(), std::ios_base::in);
 	}
 	catch (const PhreeqcStop&)
 	{
@@ -547,7 +547,7 @@ open_input_stream(std::string query, std::string& default_name, std::ios_base::o
 /*
  *   Open existing file to read
  */
-		new_stream = new std::ifstream(name, mode);
+		new_stream = new std::ifstream(name.c_str(), mode);
 		if (new_stream == NULL || !new_stream->is_open())
 		{
 			phrq_io->Set_error_ostream(&std::cerr);
@@ -606,7 +606,7 @@ open_output_stream(std::string query, std::string& default_name, std::ios_base::
 /*
  *   Open existing file to read
  */
-		new_stream = new std::ofstream(name, mode);
+		new_stream = new std::ofstream(name.c_str(), mode);
 		if (new_stream == NULL || !new_stream->is_open())
 		{
 			phrq_io->Set_error_ostream(&std::cerr);
