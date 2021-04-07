@@ -1615,7 +1615,7 @@ protected:
 	PHRQMemHeader* s_pTail;
 
 	/* Basic */
-	PBasic* basic_interpreter = NULL;
+	PBasic* basic_interpreter;
 
 	double (*basic_callback_ptr) (double x1, double x2, const char* str, void* cookie);
 	void* basic_callback_cookie;
@@ -1716,7 +1716,7 @@ protected:
 	int use_etheta;
 	LDBLE OTEMP, OPRESS;
 	LDBLE A0;
-	class pitz_param* aphi = NULL;
+	class pitz_param* aphi/* = NULL*/;
 	std::vector<class species*> spec;
 	class species** cations, ** anions, ** neutrals; // pointers to spec
 	int count_cations, count_anions, count_neutrals;

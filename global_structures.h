@@ -763,7 +763,7 @@ public:
 	}
 	const char* name;
 	const char* mole_balance; 
-	int in = FALSE;
+	int in;
 	int number;
 	class master* primary;
 	class master* secondary;
@@ -1236,7 +1236,7 @@ public:
 		varbase = NULL;
 		loopbase = NULL;
 	}
-	const char* name = NULL;
+	const char* name;
 	std::string commands;
 	int new_def;
 	void* linebase;
@@ -1535,7 +1535,7 @@ public:
 		tot_stag = 0;
 		charge = 0;
 	}
-	const char* name = NULL;
+	const char* name;
 	LDBLE tot1, tot2, tot_stag, charge;
 };
 class M_S
