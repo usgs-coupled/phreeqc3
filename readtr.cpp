@@ -782,8 +782,8 @@ read_transport(void)
 			cell_data[i].print = FALSE;
 			cell_data[i].same_model = FALSE;
 		}
-		all_cells = all_cells_now;
 	}
+	all_cells = all_cells_now;
 
 	/*
 	*   Fill in data for lengths
