@@ -765,8 +765,9 @@ read_transport(void)
 	*   Allocate space for cell_data
 	*/
 	int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
-	cell_data.resize(all_cells_now); // initialized by global_structures.h
-	// But first two previously allocated
+	cell_data.resize(all_cells_now); // new classes initialized by global_structures.h
+	// But first two previously allocated for Change_Surf, so may
+	// need to reinitialize
 	if (all_cells_now > all_cells)
 	{
 		for (int i = all_cells; i < all_cells_now; i++)
