@@ -404,6 +404,7 @@ set(TESTS
   sys_sort
   kinetic_rates
   delta_h
+  uphill_NPa
 )
 
 # these take more than 1000 seconds
@@ -435,6 +436,36 @@ set(FAILS
   IllitisationCEC
 )
 
+# mytest misc files
+set(mytest_MISC
+  eco.dat
+  eq_phase_mod.dat
+  ex15.dat
+  gas_no_redox.dat
+  include2
+  include3
+  include4
+  jm_trans.dat
+  kinetic_rates.dat
+  LangmuirAs_wateq4f.dat
+  mahoney.dat
+  Nardi.dat
+  Pabalan.dat
+  pfw.dat
+  Phmaster14.dat
+  Phreeqc_master_NEA_Ra_Mo_V_MCJ.dat
+  pitzer-04.dat
+  sar.dat
+  THEREDA_PIT_PHRC_r04.dat
+  Tipping&Hurley.dat
+)
+
+# for mytest tests
+foreach(misc ${mytest_MISC})
+  configure_file(${misc} ${misc} COPYONLY)
+endforeach()
+
+# add tests
 foreach(test ${TESTS})
   if (NOT ${test} IN_LIST SKIP)
     add_test(NAME mytest.${test}
