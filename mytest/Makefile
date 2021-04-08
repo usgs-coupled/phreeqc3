@@ -412,7 +412,8 @@ succeed: \
 	zeta.out \
 	sys_sort.out \
 	kinetic_rates.out \
-	delta_h.out
+	delta_h.out \
+	uphill_NP.out
 
 # NaX.out
 	
