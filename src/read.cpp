@@ -1412,8 +1412,8 @@ read_inverse(void)
 	inverse[n].mp = FALSE;
 	inverse[n].mp_tolerance = 1e-12;
 	inverse[n].mp_censor = 1e-20;
-	inverse[n].netpath = NULL;
-	inverse[n].pat = NULL;
+	inverse[n].netpath.clear();
+	inverse[n].pat.clear();
 /*
  *   Read data for inverse modeling
  */
@@ -1549,11 +1549,11 @@ read_inverse(void)
 			string_trim(temp_name);
 			if (temp_name.size() > 0)
 			{
-				inverse[n].pat = string_hsave(temp_name.c_str());
+				inverse[n].pat = temp_name;
 			}
 			else
 			{
-				inverse[n].pat = string_hsave("netpath");
+				inverse[n].pat = "netpath";
 			}
 			opt_save = OPTION_ERROR;
 		}

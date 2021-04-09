@@ -37,15 +37,15 @@ inverse_models(void)
 /*
  * dump .lon file
  */
-			if (inverse[n].netpath != NULL)
+			if (inverse[n].netpath.size() > 0)
 				dump_netpath(&inverse[n]);
 
 /*
  * open .pat file
  */
-			if (inverse[n].pat != NULL)
+			if (inverse[n].pat.size() > 0)
 			{
-				strcpy(string, inverse[n].pat);
+				strcpy(string, inverse[n].pat.c_str());
 				if (replace(".pat", ".pat", string) != TRUE)
 				{
 					strcat(string, ".pat");
@@ -103,7 +103,7 @@ inverse_models(void)
 				inverse[n].isotope_unknowns.clear();
 			}
 			inverse[n].new_def = FALSE;
-			if (inverse[n].pat != NULL)
+			if (inverse[n].pat.size() > 0)
 			{
 				fclose(netpath_file);
 				netpath_file = NULL;
@@ -3885,7 +3885,7 @@ dump_netpath(class inverse *inverse_ptr)
 	std::string string;
 	//const char* cptr;
 
-	if (inverse_ptr->netpath == NULL)
+	if (inverse_ptr->netpath.size() == 0)
 		return;
 
 	/* open file */
@@ -3897,13 +3897,13 @@ dump_netpath(class inverse *inverse_ptr)
 	netpath_file = fopen(string.c_str(), "w");
 	if (netpath_file == NULL)
 	{
-		error_string = sformatf( "Can`t open file, %s.", inverse_ptr->netpath);
+		error_string = sformatf( "Can`t open file, %s.", inverse_ptr->netpath.c_str());
 		error_msg(error_string, STOP);
 #if !defined(R_SO)
 		exit(4);
 #endif
 	}
-	add_to_file("netpath.fil", inverse_ptr->netpath);
+	add_to_file("netpath.fil", inverse_ptr->netpath.c_str());
 
 	/* Header */
 	fprintf(netpath_file,
@@ -4246,7 +4246,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 /*
  *   print solution data, epsilons, and revised data
  */
-	if (inv_ptr->pat == NULL)
+	if (inv_ptr->pat.size() == 0)
 		return (OK);
 
 	array_save = my_array;

@@ -347,8 +347,8 @@ public:
 		//isotopes.clear();
 		//i_u.clear();
 		//isotope_unknowns.clear();
-		netpath = NULL;
-		pat = NULL;
+		//netpath.clear();
+		//pat.clear();
 	}
 	int n_user;
 	char* description;
@@ -376,8 +376,8 @@ public:
 	std::vector<class inv_isotope> isotopes;
 	std::vector<class inv_isotope> i_u;
 	std::vector<class isotope> isotope_unknowns;
-	const char* netpath;
-	const char* pat;
+	std::string netpath;
+	std::string pat;
 };
 class inv_elts
 {
@@ -979,7 +979,7 @@ public:
 		//CReaction rxn_primary;
 		// reaction writes master species in terms of secondary master species
 		//CReaction rxn_secondary;
-		pe_rxn = NULL;
+		//pe_rxn.clear();
 		minor_isotope = FALSE;
 	}
 	int in;
@@ -1001,7 +1001,7 @@ public:
 	class species* s;
 	CReaction rxn_primary;
 	CReaction rxn_secondary;
-	const char* pe_rxn;
+	std::string pe_rxn;
 	int minor_isotope;
 };
 /*----------------------------------------------------------------------

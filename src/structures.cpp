@@ -810,7 +810,7 @@ master_alloc(void)
 	ptr->gfw_formula = NULL;
 	ptr->unknown = NULL;
 	ptr->s = NULL;
-	ptr->pe_rxn = NULL;
+	ptr->pe_rxn.clear();
 	ptr->minor_isotope = FALSE;
 	return (ptr);
 }
