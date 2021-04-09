@@ -1569,7 +1569,7 @@ public:
 	~pitz_param() {};
 	pitz_param()
 	{
-		for(size_t i = 0; i < 3; i++) species[i] = NULL;
+		//for(size_t i = 0; i < 3; i++) species[i].clear();
 		for (size_t i = 0; i < 3; i++) ispec[i] = -1;
 		type = TYPE_Other;
 		p = 0;
@@ -1580,7 +1580,7 @@ public:
 		for (size_t i = 0; i < 3; i++) ln_coef[i] = 0;
 		thetas = NULL;
 	}
-	const char* species[3];
+	std::string species[3];
 	int ispec[3];
 	pitz_param_type type;
 	LDBLE p;
@@ -1605,7 +1605,7 @@ public:
 	LDBLE alpha;
 	LDBLE os_coef;
 	LDBLE ln_coef[3];
-	class theta_param* thetas;
+	const class theta_param* thetas;
 };
 class theta_param
 {

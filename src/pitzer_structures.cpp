@@ -82,7 +82,7 @@ pitz_param_store(const class pitz_param *pzp_ptr)
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
-		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
+		if (pzp_ptr->species[i].size() > 0) header.insert(pzp_ptr->species[i]);
 	}
 
 	std::ostringstream key_str;
@@ -96,15 +96,15 @@ pitz_param_store(const class pitz_param *pzp_ptr)
 	std::map< std::string, size_t>::iterator jit = pitz_param_map.find(key);
 	if (jit != pitz_param_map.end())
 	{
-		if (pzp_ptr->species[2] != NULL)
+		if (pzp_ptr->species[2].size() > 0)
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
-			pzp_ptr->species[0], pzp_ptr->species[1], pzp_ptr->species[2]);
+			pzp_ptr->species[0].c_str(), pzp_ptr->species[1].c_str(), pzp_ptr->species[2].c_str());
 		}
 		else
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s\n", 
-			pzp_ptr->species[0], pzp_ptr->species[1]);
+			pzp_ptr->species[0].c_str(), pzp_ptr->species[1].c_str());
 		}
 	    warning_msg(error_string);
 		delete pitz_params[(*jit).second]; 
@@ -138,7 +138,7 @@ sit_param_store(const class pitz_param *pzp_ptr)
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
-		if (pzp_ptr->species[i] != NULL) header.insert(pzp_ptr->species[i]);
+		if (pzp_ptr->species[i].size() > 0) header.insert(pzp_ptr->species[i]);
 	}
 
 	std::ostringstream key_str;
@@ -153,15 +153,15 @@ sit_param_store(const class pitz_param *pzp_ptr)
 	std::map< std::string, size_t>::iterator jit = sit_param_map.find(key);
 	if (jit != sit_param_map.end())
 	{
-		if (pzp_ptr->species[2] != NULL)
+		if (pzp_ptr->species[2].size() > 0)
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s %s\n", 
-			pzp_ptr->species[0], pzp_ptr->species[1], pzp_ptr->species[2]);
+			pzp_ptr->species[0].c_str(), pzp_ptr->species[1].c_str(), pzp_ptr->species[2].c_str());
 		}
 		else
 		{
 			error_string = sformatf( "Redefinition of parameter, %s %s\n", 
-			pzp_ptr->species[0], pzp_ptr->species[1]);
+			pzp_ptr->species[0].c_str(), pzp_ptr->species[1].c_str());
 		}
 	    warning_msg(error_string);
 		delete sit_params[(*jit).second]; 
@@ -183,9 +183,9 @@ pitz_param_copy(const class pitz_param* src)
 	*dest = *src;
 	for (size_t i = 0; i < 3; i++)
 	{
-		if (src->species[i] != NULL)
+		if (src->species[i].size() > 0)
 		{
-			dest->species[i] = string_hsave(src->species[i]);
+			dest->species[i] = src->species[i];
 		}
 	}
 	dest->thetas = NULL;

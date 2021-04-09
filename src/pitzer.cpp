@@ -148,9 +148,9 @@ pitzer_tidy(void)
 	{
 		for (j = 0; j < 3; j++)
 		{
-			if (pitz_params[i]->species[j] == NULL)
+			if (pitz_params[i]->species[j].size() == 0)
 				continue;
-			pitz_params[i]->ispec[j] = ISPEC(pitz_params[i]->species[j]);
+			pitz_params[i]->ispec[j] = ISPEC(pitz_params[i]->species[j].c_str());
 			if ((j < 2 && pitz_params[i]->ispec[j] == -1) ||
 				(j == 2 && (pitz_params[i]->type == TYPE_PSI || pitz_params[i]->type == TYPE_ZETA)
 				 && pitz_params[i]->ispec[j] == -1))
@@ -158,7 +158,7 @@ pitzer_tidy(void)
 				input_error++;
 				error_string = sformatf(
 						"Species for Pitzer parameter not defined in SOLUTION_SPECIES, %s",
-						pitz_params[i]->species[j]);
+						pitz_params[i]->species[j].c_str());
 				error_msg(error_string, CONTINUE);
 				return (ERROR);
 			}
@@ -502,7 +502,7 @@ pitzer_tidy(void)
 			std::set< std::string > header;
 			for (int i = 0; i < 3; i++)
 			{
-				if (pitz_params[j]->species[i] != NULL) header.insert(pitz_params[j]->species[i]);
+				if (pitz_params[j]->species[i].size() > 0) header.insert(pitz_params[j]->species[i]);
 			}
 			std::ostringstream key_str;
 			key_str << pitz_params[j]->type << " ";
@@ -532,7 +532,8 @@ ISPEC(const char *name)
 	{
 		if (spec[i] == NULL)
 			continue;
-		if (name == spec[i]->name)
+		//if (name == spec[i]->name)
+		if (strcmp(name, spec[i]->name) == 0)
 		{
 			return (i);
 		}
