@@ -819,7 +819,7 @@ public:
 	~logk() {};
 	logk()
 	{	/* Named log K's */
-		name = NULL;		 // name of species 
+		//name.clear();		 // name of log_k 
 		lk = 0.0;	         // log10 k at working temperature                   
 		// log kt0, delh, 6 coefficients analalytical expression 
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) log_k[i] = 0;
@@ -831,7 +831,7 @@ public:
 		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) log_k_original[i] = 0;
 		original_deltav_units = cm3_per_mol;
 	}
-	const char* name;
+	std::string name;
 	LDBLE lk;
 	LDBLE log_k[MAX_LOG_K_INDICES];
 	DELTA_H_UNIT original_units;
@@ -1319,7 +1319,7 @@ public:
 	~master_isotope() {};
 	master_isotope()
 	{
-		name = NULL;
+		//name.clear();
 		master = NULL;
 		elt = NULL;
 		units = NULL;
@@ -1329,7 +1329,7 @@ public:
 		total_is_major = 0;
 		minor_isotope = 0;
 	}
-	const char* name;
+	std::string name;
 	class master* master;
 	class element* elt;
 	const char* units;
@@ -1345,7 +1345,7 @@ public:
 	~calculate_value() {};
 	calculate_value()
 	{
-		name = NULL;
+		//name.clear();
 		value = 0;
 		//commands.clear();
 		new_def = 0;
@@ -1354,7 +1354,7 @@ public:
 		varbase = NULL;
 		loopbase = NULL;
 	}
-	const char* name;
+	std::string name;
 	LDBLE value;
 	std::string commands;
 	int new_def;
@@ -1368,14 +1368,14 @@ class isotope_ratio
 public:
 	isotope_ratio()
 	{
-		name = NULL;
+		//name.clear();
 		//isotope_name.clear();
 		ratio = 0;
 		converted_ratio = 0;
 	}
 	~isotope_ratio() {};
 
-	const char* name;
+	std::string name;
 	std::string isotope_name;
 	LDBLE ratio;
 	LDBLE converted_ratio;
@@ -1385,13 +1385,13 @@ class isotope_alpha
 public:
 	isotope_alpha()
 	{
-		name = NULL;
-		named_logk = NULL;
+		//name.clear();
+		//named_logk.clear();
 		value = 0;
 	}
 	~isotope_alpha() {};
-	const char* name;
-	const char* named_logk;
+	std::string name;
+	std::string named_logk;
 	LDBLE value;
 };
 class system_species

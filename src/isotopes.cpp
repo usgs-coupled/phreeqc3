@@ -459,7 +459,7 @@ add_isotopes(cxxSolution &solution_ref)
 			continue;
 		if (master_isotope_ptr->minor_isotope == FALSE)
 		{
-			total_moles = total(master_isotope_ptr->name) * mass_water_aq_x;
+			total_moles = total(master_isotope_ptr->name.c_str()) * mass_water_aq_x;
 			calculate_isotope_moles(master_isotope_ptr->elt, &solution_ref,
 									total_moles);
 		}
@@ -746,7 +746,7 @@ print_initial_solution_isotopes(void)
 			 *  Print isotope values
 			 */
 			output_msg(sformatf( "%10s\t%12.5e\t%12.5e\n",
-					   master_isotope[i]->name,
+					   master_isotope[i]->name.c_str(),
 					   (double) (master_isotope[i]->moles / mass_water_aq_x),
 					   (double) master_isotope[i]->moles));
 			for (j = 0; j < (int)master_isotope.size(); j++)
@@ -758,7 +758,7 @@ print_initial_solution_isotopes(void)
 				{
 					output_msg(sformatf(
 							   "%10s\t%12.5e\t%12.5e\t%12.5e\t%12s\n",
-							   master_isotope[j]->name,
+							   master_isotope[j]->name.c_str(),
 							   (double) (master_isotope[j]->moles /
 										 mass_water_aq_x),
 							   (double) master_isotope[j]->moles,
@@ -876,7 +876,7 @@ punch_calculate_values(void)
 				{
 					error_string = sformatf(
 						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value_ptr->name);
+						calculate_value_ptr->name.c_str());
 					error_msg(error_string, STOP);
 				}
 				calculate_value_ptr->new_def = FALSE;
@@ -886,7 +886,7 @@ punch_calculate_values(void)
 				calculate_value_ptr->varbase, calculate_value_ptr->loopbase) != 0)
 			{
 				error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value_ptr->name);
+					calculate_value_ptr->name.c_str());
 				error_msg(error_string, STOP);
 			}
 #ifdef NPP
@@ -896,7 +896,7 @@ punch_calculate_values(void)
 #endif
 			{
 				error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value_ptr->name);
+					calculate_value_ptr->name.c_str());
 				error_msg(error_string, STOP);
 			}
 			else
@@ -975,7 +975,7 @@ print_isotope_ratios(void)
 		/*
 		 *  Print isotope ratio
 		 */
-		strcpy(token, isotope_ratio[j]->name);
+		strcpy(token, isotope_ratio[j]->name.c_str());
 		while (replace("_", " ", token) == TRUE);
 		output_msg(sformatf( "     %-20s\t%12.5e\t%15.5g  %-10s\n",
 				   token, (double) isotope_ratio[j]->ratio,
@@ -1038,9 +1038,9 @@ print_isotope_alphas(void)
 		/*
 		 *  Print isotope ratio
 		 */
-		strcpy(token, isotope_alpha[j]->name);
+		strcpy(token, isotope_alpha[j]->name.c_str());
 		while (replace("_", " ", token) == TRUE);
-		if (isotope_alpha[j]->named_logk != NULL)
+		if (isotope_alpha[j]->named_logk.size() > 0)
 		{
 			if (isotope_alpha[j]->value <= 0)
 			{
@@ -1109,7 +1109,7 @@ calculate_values(void)
 					{
 						error_string = sformatf(
 							"Fatal Basic error in CALCULATE_VALUES %s.",
-							calculate_value_ptr->name);
+							calculate_value_ptr->name.c_str());
 						error_msg(error_string, STOP);
 					}
 					calculate_value_ptr->new_def = FALSE;
@@ -1119,7 +1119,7 @@ calculate_values(void)
 					calculate_value_ptr->varbase, calculate_value_ptr->loopbase) != 0)
 				{
 					error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-						calculate_value_ptr->name);
+						calculate_value_ptr->name.c_str());
 					error_msg(error_string, STOP);
 				}
 #ifdef NPP
@@ -1129,7 +1129,7 @@ calculate_values(void)
 #endif
 				{
 					error_string = sformatf( "Calculated value not SAVEed for %s.",
-						calculate_value_ptr->name);
+						calculate_value_ptr->name.c_str());
 					error_msg(error_string, STOP);
 				}
 				else
@@ -1176,7 +1176,7 @@ calculate_values(void)
 					{
 						error_string = sformatf(
 							"Fatal Basic error in CALCULATE_VALUES %s.",
-							calculate_value_ptr->name);
+							calculate_value_ptr->name.c_str());
 						error_msg(error_string, STOP);
 					}
 					calculate_value_ptr->new_def = FALSE;
@@ -1186,7 +1186,7 @@ calculate_values(void)
 					calculate_value_ptr->varbase, calculate_value_ptr->loopbase) != 0)
 				{
 					error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-						calculate_value_ptr->name);
+						calculate_value_ptr->name.c_str());
 					error_msg(error_string, STOP);
 				}
 #ifdef NPP
@@ -1196,7 +1196,7 @@ calculate_values(void)
 #endif
 				{
 					error_string = sformatf( "Calculated value not SAVEed for %s.",
-						calculate_value_ptr->name);
+						calculate_value_ptr->name.c_str());
 					error_msg(error_string, STOP);
 				}
 				else
@@ -1257,7 +1257,7 @@ convert_isotope(class master_isotope * master_isotope_ptr, LDBLE ratio)
 
 /* ---------------------------------------------------------------------- */
 class master_isotope * Phreeqc::
-master_isotope_store(const char *name, int replace_if_found)
+master_isotope_store(const std::string& name, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1306,7 +1306,7 @@ master_isotope_store(const char *name, int replace_if_found)
 		master_isotope_ptr = master_isotope[n];
 	}
 	/* set name and z in pointer in master_isotope structure */
-	master_isotope_ptr->name = string_hsave(name);
+	master_isotope_ptr->name = name;
 /*
  *   Update map
  */
@@ -1346,7 +1346,7 @@ master_isotope_init(class master_isotope *master_isotope_ptr)
  */
 	if (master_isotope_ptr)
 	{
-		master_isotope_ptr->name = NULL;
+		master_isotope_ptr->name.clear();
 		master_isotope_ptr->master = NULL;
 		master_isotope_ptr->elt = NULL;
 		master_isotope_ptr->units = NULL;
@@ -1395,7 +1395,7 @@ master_isotope_search(const std::string& name)
 
 /* ---------------------------------------------------------------------- */
 class calculate_value * Phreeqc::
-calculate_value_store(const char *name_in, int replace_if_found)
+calculate_value_store(const std::string& name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1446,9 +1446,9 @@ calculate_value_store(const char *name_in, int replace_if_found)
 		calculate_value_ptr = calculate_value[n];
 	}
 	/* set name in calculate_value structure */
-	calculate_value_ptr->name = string_hsave(name_in);
+	calculate_value_ptr->name = name_in;
 /*
- *   Update map
+ *   Update mapname_in
  */
 	calculate_value_map[name] = calculate_value_ptr;
 	return (calculate_value_ptr);
@@ -1487,7 +1487,7 @@ calculate_value_init(class calculate_value *calculate_value_ptr)
  */
 	if (calculate_value_ptr)
 	{
-		calculate_value_ptr->name = NULL;
+		calculate_value_ptr->name.clear();
 		calculate_value_ptr->value = 0.0;
 		calculate_value_ptr->commands.clear();
 		calculate_value_ptr->new_def = TRUE;
@@ -1502,7 +1502,7 @@ calculate_value_init(class calculate_value *calculate_value_ptr)
 
 /* ---------------------------------------------------------------------- */
 class calculate_value * Phreeqc::
-calculate_value_search(const char *name_in)
+calculate_value_search(const std::string& name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1555,7 +1555,7 @@ calculate_value_free(class calculate_value *calculate_value_ptr)
 
 /* ---------------------------------------------------------------------- */
 class isotope_ratio * Phreeqc::
-isotope_ratio_store(const char *name_in, int replace_if_found)
+isotope_ratio_store(const std::string& name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1606,7 +1606,7 @@ isotope_ratio_store(const char *name_in, int replace_if_found)
 		isotope_ratio_ptr = isotope_ratio[n];
 	}
 	/* set name and z in pointer in isotope_ratio structure */
-	isotope_ratio_ptr->name = string_hsave(name_in);
+	isotope_ratio_ptr->name = name_in;
 /*
  *   Update map
  */
@@ -1647,7 +1647,7 @@ isotope_ratio_init(class isotope_ratio *isotope_ratio_ptr)
  */
 	if (isotope_ratio_ptr)
 	{
-		isotope_ratio_ptr->name = NULL;
+		isotope_ratio_ptr->name.clear();
 		isotope_ratio_ptr->isotope_name.clear();
 		isotope_ratio_ptr->ratio = MISSING;
 		isotope_ratio_ptr->converted_ratio = MISSING;
@@ -1658,7 +1658,7 @@ isotope_ratio_init(class isotope_ratio *isotope_ratio_ptr)
 
 /* ---------------------------------------------------------------------- */
 class isotope_ratio * Phreeqc::
-isotope_ratio_search(const char *name_in)
+isotope_ratio_search(const std::string& name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1689,7 +1689,7 @@ isotope_ratio_search(const char *name_in)
 
 /* ---------------------------------------------------------------------- */
 class isotope_alpha * Phreeqc::
-isotope_alpha_store(const char *name_in, int replace_if_found)
+isotope_alpha_store(const std::string& name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1736,7 +1736,7 @@ isotope_alpha_store(const char *name_in, int replace_if_found)
 		isotope_alpha_ptr = isotope_alpha[n];
 	}
 	/* set name and z in pointer in isotope_alpha structure */
-	isotope_alpha_ptr->name = string_hsave(name_in);
+	isotope_alpha_ptr->name = name_in;
 /*
  *   Update map
  */
@@ -1777,8 +1777,8 @@ isotope_alpha_init(class isotope_alpha *isotope_alpha_ptr)
  */
 	if (isotope_alpha_ptr)
 	{
-		isotope_alpha_ptr->name = NULL;
-		isotope_alpha_ptr->named_logk = NULL;
+		isotope_alpha_ptr->name.clear();
+		isotope_alpha_ptr->named_logk.clear();
 		isotope_alpha_ptr->value = MISSING;
 	}
 
@@ -1787,7 +1787,7 @@ isotope_alpha_init(class isotope_alpha *isotope_alpha_ptr)
 
 /* ---------------------------------------------------------------------- */
 class isotope_alpha * Phreeqc::
-isotope_alpha_search(const char *name_in)
+isotope_alpha_search(const std::string& name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*

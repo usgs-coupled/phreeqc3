@@ -107,11 +107,11 @@ public:
 	/* VP: Density Start */
 	LDBLE calc_dens(void);
 	/* VP: Density End */
-	LDBLE calc_logk_n(const char* name);
-	LDBLE calc_logk_p(const char* name);
-	LDBLE calc_logk_s(const char* name);
-	LDBLE calc_deltah_s(const char* name);
-	LDBLE calc_deltah_p(const char* name);
+	LDBLE calc_logk_n(const std::string& name);
+	LDBLE calc_logk_p(const std::string& name);
+	LDBLE calc_logk_s(const std::string& name);
+	LDBLE calc_deltah_s(const std::string& name);
+	LDBLE calc_deltah_p(const std::string& name);
 	LDBLE dh_a0(const char* name);
 	LDBLE dh_bdot(const char* name);
 	LDBLE calc_surface_charge(const char* surface_name);
@@ -348,18 +348,18 @@ public:
 	int from_tu(class master_isotope* master_isotope_ptr);
 	class calculate_value* calculate_value_alloc(void);
 	int calculate_value_free(class calculate_value* calculate_value_ptr);
-	class calculate_value* calculate_value_search(const char* name);
-	class calculate_value* calculate_value_store(const char* name,
+	class calculate_value* calculate_value_search(const std::string& name);
+	class calculate_value* calculate_value_store(const std::string& name,
 		int replace_if_found);
 	class isotope_alpha* isotope_alpha_alloc(void);
-	class isotope_alpha* isotope_alpha_search(const char* name);
-	class isotope_alpha* isotope_alpha_store(const char* name,
+	class isotope_alpha* isotope_alpha_search(const std::string& name);
+	class isotope_alpha* isotope_alpha_store(const std::string& name,
 		int replace_if_found);
 	class isotope_ratio* isotope_ratio_alloc(void);
-	class isotope_ratio* isotope_ratio_search(const char* name);
-	class isotope_ratio* isotope_ratio_store(const char* name,
+	class isotope_ratio* isotope_ratio_search(const std::string& name);
+	class isotope_ratio* isotope_ratio_store(const std::string& name,
 		int replace_if_found);
-	class master_isotope* master_isotope_store(const char* name,
+	class master_isotope* master_isotope_store(const std::string& name,
 		int replace_if_found);
 	class master_isotope* master_isotope_alloc(void);
 	class master_isotope* master_isotope_search(const std::string& name);
@@ -830,13 +830,13 @@ public:
 	//
 	class logk* logk_alloc(void);
 	int logk_copy2orig(class logk* logk_ptr);
-	class logk* logk_store(const char* name, int replace_if_found);
-	class logk* logk_search(const char* name);
+	class logk* logk_store(const std::string& name, int replace_if_found);
+	class logk* logk_search(const std::string& name);
 	//
 	class master* master_alloc(void);
 	static int master_compare(const void* ptr1, const void* ptr2);
 	int master_delete(const char* cptr);
-	class master* master_bsearch(const char* cptr);
+	class master* master_bsearch(const std::string& cptr);
 	class master* master_bsearch_primary(const char* cptr);
 	class master* master_bsearch_secondary(const char* cptr);
 	class master* master_search(const char* cptr, int* n);

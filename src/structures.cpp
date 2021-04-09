@@ -157,7 +157,7 @@ clean_up(void)
 	/* master_isotope */
 	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
-		delete master_isotope[i];
+		//delete master_isotope[i];
 	}
 	master_isotope.clear();
 	master_isotope_map.clear();
@@ -856,7 +856,7 @@ master_free(class master *master_ptr)
 
 /* ---------------------------------------------------------------------- */
 class master * Phreeqc::
-master_bsearch(const char* cptr)
+master_bsearch(const std::string& cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -872,13 +872,13 @@ master_bsearch(const char* cptr)
 	{
 		return (NULL);
 	}
-	void_ptr = bsearch((const char *) cptr,
+	void_ptr = bsearch((const char *) cptr.c_str(),
 					   (char *) &master[0],
 					   master.size(),
 					   sizeof(class master *), master_compare_string);
 	if (void_ptr == NULL)
 	{
-		void_ptr = bsearch(cptr,
+		void_ptr = bsearch(cptr.c_str(),
 			(char*)&master[0],
 			master.size(),
 			sizeof(class master*), master_compare_string);
@@ -2533,7 +2533,7 @@ system_duplicate(int i, int save_old)
 
 /* ---------------------------------------------------------------------- */
 class logk * Phreeqc::
-logk_store(const char *name_in, int replace_if_found)
+logk_store(const std::string& name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -2584,7 +2584,7 @@ logk_store(const char *name_in, int replace_if_found)
 		logk_ptr = logk[n];
 	}
 	/* set name and z in pointer in logk structure */
-	logk_ptr->name = string_hsave(name_in);
+	logk_ptr->name = name_in;
 /*
  *   Update map
  */
@@ -2624,7 +2624,7 @@ logk_init(class logk *logk_ptr)
 /*
  *   set pointers in structure to NULL
  */
-	logk_ptr->name = NULL;
+	logk_ptr->name.clear();
 /*
  *   set varibles = 0
  */
@@ -2656,7 +2656,7 @@ logk_copy2orig(class logk *logk_ptr)
 
 /* ---------------------------------------------------------------------- */
 class logk * Phreeqc::
-logk_search(const char *name_in)
+logk_search(const std::string& name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*

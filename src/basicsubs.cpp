@@ -599,7 +599,7 @@ calc_solution_volume(void)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_logk_n(const char *name)
+calc_logk_n(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
 	char token[MAX_LENGTH];
@@ -614,7 +614,7 @@ calc_logk_n(const char *name)
 	{
 		l_logk[i] = 0.0;
 	}
-	strcpy(token, name);
+	strcpy(token, name.c_str());
 	logk_ptr = logk_search(token);
 	if (logk_ptr != NULL)
 	{
@@ -630,7 +630,7 @@ calc_logk_n(const char *name)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_logk_p(const char *name)
+calc_logk_p(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
@@ -639,7 +639,7 @@ calc_logk_p(const char *name)
 	LDBLE lk=-999.9;
 	LDBLE l_logk[MAX_LOG_K_INDICES];
 
-	strcpy(token, name);
+	strcpy(token, name.c_str());
 	phase_ptr = phase_bsearch(token, &j, FALSE);
 
 	if (phase_ptr != NULL)
@@ -670,7 +670,7 @@ calc_logk_p(const char *name)
 
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_logk_s(const char *name)
+calc_logk_s(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
@@ -678,7 +678,7 @@ calc_logk_s(const char *name)
 	class species *s_ptr;
 	LDBLE lk, l_logk[MAX_LOG_K_INDICES];
 
-	strcpy(token, name);
+	strcpy(token, name.c_str());
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
@@ -739,7 +739,7 @@ dh_bdot(const char* name)
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_deltah_p(const char* name)
+calc_deltah_p(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
@@ -748,7 +748,7 @@ calc_deltah_p(const char* name)
 	LDBLE lkm, lkp;
 	LDBLE l_logk[MAX_LOG_K_INDICES];
 	double dh = -999.99;
-	strcpy(token, name);
+	strcpy(token, name.c_str());
 	phase_ptr = phase_bsearch(token, &j, FALSE);
 
 	if (phase_ptr != NULL)
@@ -780,7 +780,7 @@ calc_deltah_p(const char* name)
 }
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-calc_deltah_s(const char* name)
+calc_deltah_s(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
@@ -788,7 +788,7 @@ calc_deltah_s(const char* name)
 	class species* s_ptr;
 	LDBLE lkm, lkp, l_logk[MAX_LOG_K_INDICES];
 	double dh = -999.99;
-	strcpy(token, name);
+	strcpy(token, name.c_str());
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
@@ -1493,7 +1493,7 @@ get_calculate_value(const char *name)
 		{
 			error_string = sformatf(
 					"Fatal Basic error in CALCULATE_VALUES %s.",
-					calculate_value_ptr->name);
+					calculate_value_ptr->name.c_str());
 			error_msg(error_string, STOP);
 		}
 		calculate_value_ptr->new_def = FALSE;
@@ -1505,7 +1505,7 @@ get_calculate_value(const char *name)
 		calculate_value_ptr->loopbase) != 0)
 	{
 		error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-				calculate_value_ptr->name);
+				calculate_value_ptr->name.c_str());
 		error_msg(error_string, STOP);
 	}
 #ifdef NPP
@@ -1515,7 +1515,7 @@ get_calculate_value(const char *name)
 #endif
 	{
 		error_string = sformatf( "Calculated value not SAVEed for %s.",
-				calculate_value_ptr->name);
+				calculate_value_ptr->name.c_str());
 		error_msg(error_string, STOP);
 	}
 	else
@@ -3915,7 +3915,7 @@ iso_value(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(my_total_name, isotope_ratio[j]->name) != 0)
+		if (strcmp(my_total_name, isotope_ratio[j]->name.c_str()) != 0)
 			continue;
 		return (isotope_ratio[j]->converted_ratio);
 	}
@@ -3929,7 +3929,7 @@ iso_value(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(token, isotope_ratio[j]->name) != 0)
+		if (strcmp(token, isotope_ratio[j]->name.c_str()) != 0)
 			continue;
 		return (isotope_ratio[j]->converted_ratio);
 	}
@@ -3951,7 +3951,7 @@ iso_unit(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(my_total_name, isotope_ratio[j]->name) != 0)
+		if (strcmp(my_total_name, isotope_ratio[j]->name.c_str()) != 0)
 			continue;
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)
@@ -3970,7 +3970,7 @@ iso_unit(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(token, isotope_ratio[j]->name) != 0)
+		if (strcmp(token, isotope_ratio[j]->name.c_str()) != 0)
 			continue;
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)

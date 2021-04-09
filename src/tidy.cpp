@@ -619,7 +619,7 @@ add_logks(class logk *logk_ptr, int repeats)
 	{
 		input_error++;
 		error_string = sformatf( "Circular definition of named_logk? %s\n",
-				logk_ptr->name);
+				logk_ptr->name.c_str());
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -5371,7 +5371,7 @@ tidy_master_isotope(void)
 				input_error++;
 				error_string = sformatf(
 						"Did not find master species for isotope, %s",
-						master_isotope[i]->name);
+						master_isotope[i]->name.c_str());
 				error_msg(error_string, CONTINUE);
 				master_isotope[i]->master = NULL;
 				continue;
@@ -5426,7 +5426,7 @@ tidy_isotope_ratios(void)
 			input_error++;
 			error_string = sformatf(
 					"For ISOTOPE_RATIOS %s, did not find corresponding CALCULATE_VALUE definition",
-					isotope_ratio[i]->name);
+					isotope_ratio[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 	}
@@ -5453,10 +5453,10 @@ tidy_isotope_alphas(void)
 			input_error++;
 			error_string = sformatf(
 					"For ISOTOPE_ALPHAS %s, did not find corresponding CALCULATE_VALUE definition",
-					isotope_alpha[i]->name);
+					isotope_alpha[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
-		if (isotope_alpha[i]->named_logk != NULL)
+		if (isotope_alpha[i]->named_logk.size() > 0)
 		{
 			logk_ptr = logk_search(isotope_alpha[i]->named_logk);
 			if (logk_ptr == NULL)
@@ -5464,7 +5464,7 @@ tidy_isotope_alphas(void)
 				input_error++;
 				error_string = sformatf(
 						"For ISOTOPE_ALPHAS %s, did not find corresponding NAMED_EXPRESSION definition %s.",
-						isotope_alpha[i]->name, isotope_alpha[i]->named_logk);
+						isotope_alpha[i]->name, isotope_alpha[i]->named_logk.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}

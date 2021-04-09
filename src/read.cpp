@@ -9244,7 +9244,7 @@ read_named_logk(void)
 			{
 				error_string = sformatf(
 						"Analytical expression previously defined for %s in NAMED_EXPRESSIONS\nAnalytical expression will be overwritten.",
-						logk_ptr->name);
+						logk_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			read_analytical_expression_only(next_char, &(logk_ptr->log_k[T_A1]));

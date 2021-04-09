@@ -1378,7 +1378,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		class logk* logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
 		//memcpy(logk_ptr, pSrc->logk[i], sizeof(class logk));
 		*logk_ptr = *pSrc->logk[i];
-		logk_ptr->name = string_hsave(pSrc->logk[i]->name);
+		logk_ptr->name = pSrc->logk[i]->name;
 		logk_ptr->add_logk.resize(pSrc->logk[i]->add_logk.size());
 		for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
 		{
@@ -1645,7 +1645,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	{
 		class master_isotope* master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
 		memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(class master_isotope));
-		master_isotope_ptr->name = string_hsave(pSrc->master_isotope[i]->name);
+		master_isotope_ptr->name = pSrc->master_isotope[i]->name;
 		int n;
 		master_isotope_ptr->master = NULL;
 		if (pSrc->master_isotope[i]->master)
@@ -1679,7 +1679,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (int i = 0; i < (int)pSrc->isotope_ratio.size(); i++)
 	{
 		class isotope_ratio* isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);
-		isotope_ratio_ptr->name = string_hsave(pSrc->isotope_ratio[i]->name);
+		isotope_ratio_ptr->name = pSrc->isotope_ratio[i]->name;
 		isotope_ratio_ptr->isotope_name = pSrc->isotope_ratio[i]->isotope_name;
 		isotope_ratio_ptr->ratio = pSrc->isotope_ratio[i]->ratio;
 		isotope_ratio_ptr->converted_ratio = pSrc->isotope_ratio[i]->converted_ratio;
@@ -1688,7 +1688,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (int i = 0; i < (int)pSrc->isotope_alpha.size(); i++)
 	{
 		class isotope_alpha* isotope_alpha_ptr = isotope_alpha_store(pSrc->isotope_alpha[i]->name, FALSE);
-		isotope_alpha_ptr->named_logk = string_hsave(pSrc->isotope_alpha[i]->named_logk);
+		isotope_alpha_ptr->named_logk = pSrc->isotope_alpha[i]->named_logk;
 		isotope_alpha_ptr->value = pSrc->isotope_alpha[i]->value;
 	}
 	//std::map<std::string, class isotope_alpha*> isotope_alpha_map;
