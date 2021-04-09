@@ -272,7 +272,7 @@ get_tally_table_row_heading(int row, char *string)
 			 CONTINUE);
 		return (ERROR);
 	}
-	strcpy(string, t_buffer[row].name);
+	strcpy(string, t_buffer[row].name.c_str());
 	return (OK);
 }
 
@@ -301,7 +301,7 @@ get_tally_table_column_heading(int column, int *type, char *string)
 			 CONTINUE);
 		return (ERROR);
 	}
-	strcpy(string, tally_table[column].name);
+	strcpy(string, tally_table[column].name.c_str());
 	*type = tally_table[column].type;
 	return (OK);
 }
@@ -518,7 +518,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 						tally_table[i].name)
 						break;
 					if (strcmp_nocase(it->second.Get_name().c_str(),
-						tally_table[i].name) == 0)
+						tally_table[i].name.c_str()) == 0)
 						break;
 				}
 				if (it == pp_assemblage_ptr->Get_pp_assemblage_comps().end())
@@ -597,7 +597,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 						class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 						if (phase_ptr->name == tally_table[i].name)
 							break;
-						if (strcmp_nocase(phase_ptr->name.c_str(), tally_table[i].name) == 0)
+						if (strcmp_nocase(phase_ptr->name.c_str(), tally_table[i].name.c_str()) == 0)
 							break;
 					}
 					if (k < ss_ptr->Get_ss_comps().size() && comp_ptr)
@@ -658,7 +658,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 					if (string_hsave(kinetics_comp_ptr->Get_rate_name().c_str()) == tally_table[i].name)
 						break;
 					if (strcmp_nocase
-						(kinetics_comp_ptr->Get_rate_name().c_str(), tally_table[i].name) == 0)
+						(kinetics_comp_ptr->Get_rate_name().c_str(), tally_table[i].name.c_str()) == 0)
 						break;
 				}
 				if (j >= kinetics_ptr->Get_kinetics_comps().size())
@@ -1223,9 +1223,9 @@ extend_tally_table(void)
 				t_buffer[j].master;
 		}
 	}
-	tally_table[count_tally_table_columns].name = NULL;
+	tally_table[count_tally_table_columns].name.clear();
 	tally_table[count_tally_table_columns].type = UnKnown;
-	tally_table[count_tally_table_columns].add_formula = NULL;
+	tally_table[count_tally_table_columns].add_formula.clear();
 	tally_table[count_tally_table_columns].moles = 0.0;
 	count_tally_table_columns++;
 	return (OK);

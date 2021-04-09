@@ -1415,12 +1415,13 @@ public:
 	~tally_buffer() {};
 	tally_buffer()
 	{
-		name = NULL;
+		//name.clear();
 		master = NULL;
 		moles = 0;
 		gfw = 0;
 	}
-	const char* name;
+	//const char* name;
+	std::string name;
 	class master* master;
 	LDBLE moles;
 	LDBLE gfw;
@@ -1431,9 +1432,9 @@ public:
 	~tally() {};
 	tally()
 	{
-		name = NULL;
+		//name.clear();
 		type = UnKnown;
-		add_formula = NULL;
+		//add_formula.clear();
 		moles = 0;
 		//formula.clear();
 		/*
@@ -1443,9 +1444,11 @@ public:
 		 */
 		for(size_t i = 0; i < 3; i++) total[i]= NULL;
 	}
-	const char* name;
+	//const char* name;
+	std::string name;
 	enum entity_type type;
-	const char* add_formula;
+	//const char* add_formula;
+	std::string add_formula;
 	LDBLE moles;
 	std::vector<class elt_list> formula;
 	/*
