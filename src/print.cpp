@@ -683,7 +683,7 @@ print_gas_phase(void)
 		if (PR)
 		{
 			output_msg(sformatf("%-11s%12.2f%12.3e%7.3f%12.3e%12.3e%12.3e\n",
-				   phase_ptr->name,
+				   phase_ptr->name.c_str(),
 				   (double) lp,
 				   (double) phase_ptr->p_soln_x,
 				   (double) phase_ptr->pr_phi,
@@ -693,13 +693,13 @@ print_gas_phase(void)
 		}
 		else
 			output_msg(sformatf("%-18s%12.2f%12.3e%12.3e%12.3e%12.3e\n",
-				   phase_ptr->name,
+				   phase_ptr->name.c_str(),
 				   (double) lp,
 				   (double) phase_ptr->p_soln_x,
 				   (double) initial_moles,
 				   (double) moles,
 				   (double) delta_moles));
-		if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x == 90)
+		if ((phase_ptr->name == "H2O(g)") && phase_ptr->p_soln_x == 90)
 			output_msg("       WARNING: The pressure of H2O(g) is above the program limit: use the polynomial for log_k.\n");
 
 	}
@@ -1250,7 +1250,7 @@ print_saturation_indices(void)
 		si = -lk + iap;
 
 		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
-				   phases[i]->name, (double) si, (double) iap, (double) lk,
+				   phases[i]->name.c_str(), (double) si, (double) iap, (double) lk,
 				   phases[i]->formula));
 		if (gas && phases[i]->pr_in && phases[i]->pr_p)
 		{
@@ -1264,7 +1264,7 @@ print_saturation_indices(void)
 				{
 					if (x[j]->type != PP)
 						continue;
-					if (!strcmp(x[j]->phase->name, phases[i]->name))
+					if ((x[j]->phase->name == phases[i]->name))
 					{
 						if (x[j]->moles)
 							output_msg(sformatf("\t%s%5.1f%s%5.3f",
@@ -1327,7 +1327,7 @@ print_pp_assemblage(void)
 		phase_ptr = x[j]->phase;
 		if (x[j]->phase->rxn_x.token.size() == 0 || phase_ptr->in == FALSE)
 		{
-			output_msg(sformatf("%-18s%23s", x[j]->phase->name,
+			output_msg(sformatf("%-18s%23s", x[j]->phase->name.c_str(),
 					   "Element not present."));
 		}
 		else
@@ -1359,7 +1359,7 @@ print_pp_assemblage(void)
 			   output_msg(OUTPUT_MESSAGE,"\t%-15s%7.2f%8.2f%8.2f", x[j]->phase->name, (double) si, (double) iap, (double) x[j]->phase->lk);
 			 */
 			output_msg(sformatf("%-14s%8.2f  %7.2f  %8.2f",
-					   x[j]->phase->name, (double) si, (double) iap, (double) lk));
+					   x[j]->phase->name.c_str(), (double) si, (double) iap, (double) lk));
 		}
 /*
  *   Print pure phase assemblage data
@@ -2122,7 +2122,7 @@ print_totals(void)
 					   (double) (x[i]->sum / mass_water_aq_x),
 					   (double) x[i]->sum));
 			output_msg(sformatf("  Equilibrium with %s\n",
-					   x[i]->phase->name));
+					   x[i]->phase->name.c_str()));
 			pure_water = FALSE;
 			continue;
 		}
@@ -2161,7 +2161,7 @@ print_totals(void)
 	else if (ph_unknown->type == SOLUTION_PHASE_BOUNDARY)
 	{
 		output_msg(sformatf("  Equilibrium with %s\n",
-				   ph_unknown->phase->name));
+				   ph_unknown->phase->name.c_str()));
 	}
 	else if (ph_unknown->type == ALK)
 	{
@@ -2183,7 +2183,7 @@ print_totals(void)
 	else if (pe_unknown->type == SOLUTION_PHASE_BOUNDARY)
 	{
 		output_msg(sformatf("  Equilibrium with %s\n",
-				   pe_unknown->phase->name));
+				   pe_unknown->phase->name.c_str()));
 	}
 	else if (pe_unknown->type == MH)
 	{

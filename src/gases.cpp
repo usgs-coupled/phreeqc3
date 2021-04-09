@@ -24,7 +24,7 @@ setup_fixed_volume_gas(void)
 		int j;
 		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 		x[count_unknowns]->type = GAS_MOLES;
-		x[count_unknowns]->description = phase_ptr->name;
+		x[count_unknowns]->description = string_hsave(phase_ptr->name.c_str());
 		x[count_unknowns]->phase = phase_ptr;
 		x[count_unknowns]->moles = comp_ptr->Get_moles();
 		if (x[count_unknowns]->moles <= 0)
@@ -88,7 +88,7 @@ build_fixed_volume_gas(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\n\tMass balance summations %s.\n",
-					   phase_ptr->name));
+					   phase_ptr->name.c_str()));
 		}
 
 		/* All elements in gas */
@@ -138,7 +138,7 @@ build_fixed_volume_gas(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\n\tJacobian summations %s.\n\n",
-					   phase_ptr->name));
+					   phase_ptr->name.c_str()));
 		}
 		for (j = 0; j < count_elts; j++)
 		{
@@ -205,7 +205,7 @@ build_fixed_volume_gas(void)
 				{
 					error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name);
+							master_ptr->elt->name, phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -242,7 +242,7 @@ build_fixed_volume_gas(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\n\tPartial pressure eqn %s.\n\n",
-					   phase_ptr->name));
+					   phase_ptr->name.c_str()));
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
@@ -252,7 +252,7 @@ build_fixed_volume_gas(void)
 			{
 				error_string = sformatf(
 					"Element in species, %s, in phase, %s, is not in model.",
-					rxn_ptr->s->name, phase_ptr->name);
+					rxn_ptr->s->name, phase_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			else
@@ -279,7 +279,7 @@ build_fixed_volume_gas(void)
 				{
 					error_string = sformatf(
 						"Master species for %s, in phase, %s, is not in model.",
-						rxn_ptr->s->name, phase_ptr->name);
+						rxn_ptr->s->name, phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -298,7 +298,7 @@ build_fixed_volume_gas(void)
 					{
 						error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name);
+							master_ptr->elt->name, phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
 					col = master_ptr->unknown->number;
@@ -423,26 +423,26 @@ calc_PR(void)
 				continue;
 			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
 				        phase_ptr1->pr_a * phase_ptr1->pr_alpha);
-			if (!strcmp(phase_ptr->name, "H2O(g)"))
+			if ((phase_ptr->name == "H2O(g)"))
 			{
-				if (!strcmp(phase_ptr1->name, "CO2(g)"))
+				if ((phase_ptr1->name == "CO2(g)"))
 					a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
-				else if (!strcmp(phase_ptr1->name, "H2S(g)"))
+				else if ((phase_ptr1->name == "H2S(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr1->name, "CH4(g)"))
+				else if ((phase_ptr1->name == "CH4(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "N2(g)"))
+				else if ((phase_ptr1->name == "N2(g)"))
 					a_aa *= 0.51;
 			}
-			if (!strcmp(phase_ptr1->name, "H2O(g)"))
+			if ((phase_ptr1->name == "H2O(g)"))
 			{
-				if (!strcmp(phase_ptr->name, "CO2(g)"))
+				if ((phase_ptr->name == "CO2(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "H2S(g)"))
+				else if ((phase_ptr->name == "H2S(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "CH4(g)"))
+				else if ((phase_ptr->name == "CH4(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "N2(g)"))
+				else if ((phase_ptr->name == "N2(g)"))
 					a_aa *= 0.51;
 			}
 			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;

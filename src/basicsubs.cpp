@@ -3013,7 +3013,7 @@ system_total_si(void)
 	int i;
 	LDBLE si, iap;
 	class rxn_token *rxn_ptr;
-	char name[MAX_LENGTH];
+	std::string name;
 
 	sys_tot = -999.9;
 	for (i = 0; i < (int)phases.size(); i++)
@@ -3030,10 +3030,10 @@ system_total_si(void)
 			iap += rxn_ptr->s->la * rxn_ptr->coef;
 		}
 		si = -phases[i]->lk + iap;
-		strcpy(name, phases[i]->name);
+		name = phases[i]->name;
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
-		sys[count_sys].name = string_duplicate(name);
+		sys[count_sys].name = string_duplicate(name.c_str());
 		sys[count_sys].moles = si;
 		if (si > sys_tot)
 			sys_tot = si;
@@ -3145,7 +3145,7 @@ system_total_gas(void)
 		assert(phase_ptr);
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
-		sys[count_sys].name = string_duplicate(phase_ptr->name);
+		sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
 		sys[count_sys].moles = phase_ptr->moles_x;
 		sys_tot += sys[count_sys].moles;
 		sys[count_sys].type = string_duplicate("gas");
@@ -3171,7 +3171,7 @@ system_total_equi(void)
 			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 			size_t count_sys = sys.size();
 			sys.resize(count_sys + 1);
-			sys[count_sys].name = string_duplicate(phase_ptr->name);
+			sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
 			sys[count_sys].moles = equi_phase(sys[count_sys].name);
 			sys_tot += sys[count_sys].moles;
 			sys[count_sys].type = string_duplicate("equi");
@@ -3226,7 +3226,7 @@ system_total_ss(void)
 			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 			size_t count_sys = sys.size();
 			sys.resize(count_sys + 1);
-			sys[count_sys].name = string_duplicate(phase_ptr->name);
+			sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
 			sys[count_sys].moles = comp_ptr->Get_moles();
 			sys_tot += sys[count_sys].moles;
 			sys[count_sys].type = string_duplicate("s_s");
@@ -3387,7 +3387,7 @@ system_total_elt(const char *total_name)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
-					sys[count_sys].name = string_duplicate(phase_ptr->name);
+					sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
 					sys[count_sys].moles = elt_list[j].coef;
 					sys_tot += sys[count_sys].moles;
 					sys[count_sys].type = string_duplicate("equi");
@@ -3424,7 +3424,7 @@ system_total_elt(const char *total_name)
 							size_t count_sys = sys.size();
 							sys.resize(count_sys + 1);
 							sys[count_sys].name =
-								string_duplicate(phase_ptr->name);
+								string_duplicate(phase_ptr->name.c_str());
 							sys[count_sys].moles = elt_list[j].coef;
 							sys_tot += sys[count_sys].moles;
 							sys[count_sys].type = string_duplicate("s_s");
@@ -3461,7 +3461,7 @@ system_total_elt(const char *total_name)
 					{
 						size_t count_sys = sys.size();
 						sys.resize(count_sys + 1);
-						sys[count_sys].name = string_duplicate(phase_ptr->name);
+						sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
 						sys[count_sys].moles = elt_list[j].coef;
 						sys_tot += sys[count_sys].moles;
 						sys[count_sys].type = string_duplicate("gas");
@@ -3634,7 +3634,7 @@ system_total_elt_secondary(const char *total_name)
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
 					sys[count_sys].name =
-						string_duplicate(phase_ptr->name);
+						string_duplicate(phase_ptr->name.c_str());
 					sys[count_sys].moles = elt_list[j].coef;
 					sys_tot += sys[count_sys].moles;
 					sys[count_sys].type = string_duplicate("equi");
@@ -3671,7 +3671,7 @@ system_total_elt_secondary(const char *total_name)
 							size_t count_sys = sys.size();
 							sys.resize(count_sys + 1);
 							sys[count_sys].name =
-								string_duplicate(phase_ptr->name);
+								string_duplicate(phase_ptr->name.c_str());
 							sys[count_sys].moles = elt_list[j].coef;
 							sys_tot += sys[count_sys].moles;
 							sys[count_sys].type = string_duplicate("s_s");
@@ -3711,7 +3711,7 @@ system_total_elt_secondary(const char *total_name)
 						size_t count_sys = sys.size();
 						sys.resize(count_sys + 1);
 						sys[count_sys].name =
-							string_duplicate(phase_ptr->name);
+							string_duplicate(phase_ptr->name.c_str());
 						sys[count_sys].moles = elt_list[j1].coef;
 						sys_tot += sys[count_sys].moles;
 						sys[count_sys].type = string_duplicate("gas");

@@ -392,7 +392,7 @@ build_gas_phase(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\n\tMass balance summations. %s.\n",
-					   phase_ptr->name));
+					   phase_ptr->name.c_str()));
 		}
 
 		/* All elements in gas */
@@ -441,7 +441,7 @@ build_gas_phase(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\n\tJacobian summations %s.\n\n",
-					   phase_ptr->name));
+					   phase_ptr->name.c_str()));
 		}
 		for (int j = 0; j < count_elts; j++)
 		{
@@ -508,7 +508,7 @@ build_gas_phase(void)
 				{
 					error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name);
+							master_ptr->elt->name, phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -545,7 +545,7 @@ build_gas_phase(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\n\tPartial pressure eqn %s.\n\n",
-					   phase_ptr->name));
+					   phase_ptr->name.c_str()));
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
@@ -555,7 +555,7 @@ build_gas_phase(void)
 			{
 				error_string = sformatf(
 					"Element in species, %s, in phase, %s, is not in model.",
-					rxn_ptr->s->name, phase_ptr->name);
+					rxn_ptr->s->name, phase_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			else
@@ -581,7 +581,7 @@ build_gas_phase(void)
 				{
 					error_string = sformatf(
 						"Master species for %s, in phase, %s, is not in model.",
-						rxn_ptr->s->name, phase_ptr->name);
+						rxn_ptr->s->name, phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -600,7 +600,7 @@ build_gas_phase(void)
 					{
 						error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name);
+							master_ptr->elt->name, phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
 					col = master_ptr->unknown->number;
@@ -779,7 +779,7 @@ build_ss_assemblage(void)
 					{
 						error_string = sformatf(
 								"Element in phase, %s, is not in model.",
-								x[i]->phase->name);
+								x[i]->phase->name.c_str());
 						warning_msg(error_string);
 					}
 					if (master_ptr != NULL)
@@ -931,7 +931,7 @@ build_jacobian_sums(int k)
 					if (x[kk]->type != PP)
 						continue;
 					//if (x[kk]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
-					if (strcmp_nocase(x[kk]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
+					if (strcmp_nocase(x[kk]->phase->name.c_str(), comp_ptr->Get_phase_name().c_str()) == 0)
 						break;
 				}
 
@@ -989,7 +989,7 @@ build_jacobian_sums(int k)
 							if (x[kk]->type != PP)
 								continue;
 							//if (x[kk]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
-							if (strcmp_nocase(x[kk]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
+							if (strcmp_nocase(x[kk]->phase->name.c_str(), comp_ptr->Get_phase_name().c_str()) == 0)
 								break;
 						}
 						if (kk >= 0)
@@ -1460,7 +1460,7 @@ build_pure_phases(void)
 					{
 						error_string = sformatf(
 								"Element in phase, %s, is not in model.",
-								x[i]->phase->name);
+								x[i]->phase->name.c_str());
 						warning_msg(error_string);
 					}
 					if (master_ptr != NULL)
@@ -1538,7 +1538,7 @@ build_solution_phase_boundaries(void)
 		{
 			error_string = sformatf(
 					"Solution does not contain all elements for phase-boundary mineral, %s.",
-					x[i]->phase->name);
+					x[i]->phase->name.c_str());
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
@@ -3810,42 +3810,42 @@ calc_PR(std::vector<class phase *> phase_ptrs, LDBLE P, LDBLE TK, LDBLE V_m)
 				continue;
 			a_aa = sqrt(phase_ptr->pr_a * phase_ptr->pr_alpha *
 				        phase_ptr1->pr_a * phase_ptr1->pr_alpha);
-			if (!strcmp(phase_ptr->name, "H2O(g)"))
+			if ((phase_ptr->name == "H2O(g)"))
 			{
-				if (!strcmp(phase_ptr1->name, "CO2(g)"))
+				if ((phase_ptr1->name == "CO2(g)"))
 					a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
-				else if (!strcmp(phase_ptr1->name, "H2S(g)"))
+				else if ((phase_ptr1->name == "H2S(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr1->name, "CH4(g)"))
+				else if ((phase_ptr1->name == "CH4(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Mtg(g)"))
+				else if ((phase_ptr1->name == "Mtg(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Methane(g)"))
+				else if ((phase_ptr1->name == "Methane(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "N2(g)"))
+				else if ((phase_ptr1->name == "N2(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
+				else if ((phase_ptr1->name == "Ethane(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "Propane(g)"))
+				else if ((phase_ptr1->name == "Propane(g)"))
 					a_aa *= 0.45;
 			}
-			if (!strcmp(phase_ptr1->name, "H2O(g)"))
+			if ((phase_ptr1->name == "H2O(g)"))
 			{
-				if (!strcmp(phase_ptr->name, "CO2(g)"))
+				if ((phase_ptr->name == "CO2(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "H2S(g)"))
+				else if ((phase_ptr->name == "H2S(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "CH4(g)"))
+				else if ((phase_ptr->name == "CH4(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Mtg(g)"))
+				else if ((phase_ptr->name == "Mtg(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Methane(g)"))
+				else if ((phase_ptr->name == "Methane(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "N2(g)"))
+				else if ((phase_ptr->name == "N2(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Ethane(g)"))
+				else if ((phase_ptr->name == "Ethane(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "Propane(g)"))
+				else if ((phase_ptr->name == "Propane(g)"))
 					a_aa *= 0.45;
 			}
 			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;
@@ -5893,7 +5893,7 @@ build_min_exch(void)
 			if (x[k]->type != PP)
 				continue;
 			//if (x[k]->phase->name == string_hsave(comp_ref.Get_phase_name().c_str()))
-			if (strcmp_nocase(x[k]->phase->name, comp_ref.Get_phase_name().c_str()) == 0)
+			if (strcmp_nocase(x[k]->phase->name.c_str(), comp_ref.Get_phase_name().c_str()) == 0)
 				break;
 		}
 		if (j == -1)
@@ -6022,7 +6022,7 @@ build_min_surface(void)
 			if (x[k]->type != PP)
 				continue;
 			//if (x[k]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
-			if (strcmp_nocase(x[k]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
+			if (strcmp_nocase(x[k]->phase->name.c_str(), comp_ptr->Get_phase_name().c_str()) == 0)
 				break;
 		}
 		if (j == -1)
@@ -6146,7 +6146,7 @@ setup_related_surface(void)
 					if (x[k]->type != PP)
 						continue;
 					//if (x[k]->phase->name == string_hsave(comp_ptr->Get_phase_name().c_str()))
-					if (strcmp_nocase(x[k]->phase->name, comp_ptr->Get_phase_name().c_str()) == 0)
+					if (strcmp_nocase(x[k]->phase->name.c_str(), comp_ptr->Get_phase_name().c_str()) == 0)
 						break;
 				}
 				if (k == -1)
@@ -6170,7 +6170,7 @@ setup_related_surface(void)
 					if (x[k]->type != PP)
 						continue;
 					//if (x[k]->phase->name == string_hsave(comp_i_ptr->Get_phase_name().c_str()))
-					if (strcmp_nocase(x[k]->phase->name, comp_i_ptr->Get_phase_name().c_str()) == 0)
+					if (strcmp_nocase(x[k]->phase->name.c_str(), comp_i_ptr->Get_phase_name().c_str()) == 0)
 						break;
 				}
 				if (k == -1)

@@ -842,10 +842,10 @@ public:
 	class master* master_search(const char* cptr, int* n);
 	class master* surface_get_psi_master(const char* name, int plane);
 	//
-	class phase* phase_bsearch(const char* cptr, int* j, int print);
+	class phase* phase_bsearch(const std::string& name, int* j, int print);
 	static int phase_compare(const void* ptr1, const void* ptr2);
 	int phase_delete(int i);
-	class phase* phase_store(const char* name);
+	class phase* phase_store(const std::string& name);
 	//
 	class rate* rate_bsearch(const char* cptr, int* j);
 	int rate_free(class rate* rate_ptr);

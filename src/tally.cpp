@@ -597,7 +597,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 						class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 						if (phase_ptr->name == tally_table[i].name)
 							break;
-						if (strcmp_nocase(phase_ptr->name, tally_table[i].name) == 0)
+						if (strcmp_nocase(phase_ptr->name.c_str(), tally_table[i].name) == 0)
 							break;
 					}
 					if (k < ss_ptr->Get_ss_comps().size() && comp_ptr)
@@ -897,7 +897,7 @@ build_tally_table(void)
 				count_tt_pure_phase++;
 				n = count_tally_table_columns;
 				extend_tally_table();
-				tally_table[n].name = phase_ptr->name;
+				tally_table[n].name = string_hsave(phase_ptr->name.c_str());
 				tally_table[n].type = Pure_phase;
 				tally_table[n].add_formula = string_hsave(comp_ptr->Get_add_formula().c_str());
 				count_elts = 0;
@@ -957,7 +957,7 @@ build_tally_table(void)
 					count_tt_ss_phase++;
 					n = count_tally_table_columns;
 					extend_tally_table();
-					tally_table[n].name = phase_ptr->name;
+					tally_table[n].name = string_hsave(phase_ptr->name.c_str());
 					tally_table[n].type = Ss_phase;
 					count_elts = 0;
 					paren_count = 0;

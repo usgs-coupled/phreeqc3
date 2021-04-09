@@ -1084,7 +1084,7 @@ phase_compare(const void *ptr1, const void *ptr2)
 	const class phase *phase_ptr1, *phase_ptr2;
 	phase_ptr1 = *(const class phase **) ptr1;
 	phase_ptr2 = *(const class phase **) ptr2;
-	return (strcmp_nocase(phase_ptr1->name, phase_ptr2->name));
+	return (strcmp_nocase(phase_ptr1->name.c_str(), phase_ptr2->name.c_str()));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1096,7 +1096,7 @@ phase_compare_string(const void *ptr1, const void *ptr2)
 	const class phase *phase_ptr;
 	char_ptr = (const char *) ptr1;
 	phase_ptr = *(const class phase **) ptr2;
-	return (strcmp_nocase(char_ptr, phase_ptr->name));
+	return (strcmp_nocase(char_ptr, phase_ptr->name.c_str()));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1135,7 +1135,7 @@ phase_free(class phase *phase_ptr)
 
 /* ---------------------------------------------------------------------- */
 class phase * Phreeqc::
-phase_bsearch(const char* cptr, int *j, int print)
+phase_bsearch(const std::string& name, int *j, int print)
 /* ---------------------------------------------------------------------- */
 {
 /*   Binary search the structure array "phases" for a name that is equal to
@@ -1156,14 +1156,14 @@ phase_bsearch(const char* cptr, int *j, int print)
 	if ((int)phases.size() > 0)
 	{
 		void_ptr = (void *)
-			bsearch((char *) cptr,
-					(char *) &phases[0],
+			bsearch((void *) &name[0],
+					(void *) &phases[0],
 					phases.size(),
 					sizeof(class phase *), phase_compare_string);
 	}
 	if (void_ptr == NULL && print == TRUE)
 	{
-		error_string = sformatf( "Could not find phase in list, %s.", cptr);
+		error_string = sformatf( "Could not find phase in list, %s.", name.c_str());
 		error_msg(error_string, CONTINUE);
 	}
 
@@ -1187,7 +1187,7 @@ phase_init(class phase *phase_ptr)
 {
 	int i;
 
-	phase_ptr->name = NULL;
+	//phase_ptr->name = NULL;
 	phase_ptr->formula = NULL;
 	phase_ptr->in = FALSE;
 	phase_ptr->lk = 0.0;
@@ -1230,7 +1230,7 @@ phase_init(class phase *phase_ptr)
 
 /* ---------------------------------------------------------------------- */
 class phase * Phreeqc::
-phase_store(const char *name_in)
+phase_store(const std::string& name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1263,7 +1263,7 @@ phase_store(const char *name_in)
 		phase_ptr = p_it->second;
 		phase_free(phase_ptr);
 		phase_init(phase_ptr);
-		phase_ptr->name = string_hsave(name_in);
+		phase_ptr->name = name_in;
 		return (phase_ptr);
 	}
 /*
@@ -1273,7 +1273,7 @@ phase_store(const char *name_in)
 	phases.resize(n + 1);
 	phases[n] = phase_alloc();
 	/* set name in phase structure */
-	phases[n]->name = string_hsave(name_in);
+	phases[n]->name = name_in;
 /*
  *   Update map
  */

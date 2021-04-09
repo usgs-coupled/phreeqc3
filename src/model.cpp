@@ -2641,7 +2641,7 @@ calc_gas_pressures(void)
 				lp += rxn_ptr->s->la * rxn_ptr->coef;
 			}
 			phase_ptr->p_soln_x = exp(LOG_10 * (lp - phase_ptr->pr_si_f));
-			if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x > 90)
+			if ((phase_ptr->name == "H2O(g)") && phase_ptr->p_soln_x > 90)
 					phase_ptr->p_soln_x = 90;
 
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)

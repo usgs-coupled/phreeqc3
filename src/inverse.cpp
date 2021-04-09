@@ -424,7 +424,7 @@ setup_inverse(class inverse *inv_ptr)
 			{
 				error_string = sformatf(
 						"Setup_inverse, reaction for phase, %s.",
-						phase_ptr->name);
+						phase_ptr->name.c_str());
 				error_msg(error_string, STOP);
 			}
 			if (master_ptr->s == s_hplus)
@@ -575,7 +575,7 @@ setup_inverse(class inverse *inv_ptr)
 				sprintf(token, "%d%s %s",
 						(int) inv_ptr->isotopes[j].isotope_number,
 						inv_ptr->isotopes[j].elt_name,
-						inv_ptr->phases[i].phase->name);
+						inv_ptr->phases[i].phase->name.c_str());
 				col_name[column] = string_hsave(token);
 				column++;
 			}
@@ -1847,7 +1847,7 @@ print_model(class inverse *inv_ptr)
 					sprintf(token, "%d%s %s",
 							(int) inv_ptr->isotopes[j].isotope_number,
 							inv_ptr->isotopes[j].elt_name,
-							inv_ptr->phases[i].phase->name);
+							inv_ptr->phases[i].phase->name.c_str());
 					output_msg(sformatf(
 							   "%15.15s   %12g  +%12g  =%12g", token,
 							   (double) d1, (double) d2, (double) d3));
@@ -1942,7 +1942,7 @@ print_model(class inverse *inv_ptr)
 		size_t i1 = 0;
 		for (; i1 < phases.size(); i1++)
 		{
-			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i].c_str()))
+			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
 				continue;
 			reaction_ptr = &phases[i1]->rxn_s;
 			for (size_t i2 = 0; i2 < inv_ptr->count_solns; i2++)
@@ -3685,7 +3685,7 @@ check_isotopes(class inverse *inv_ptr)
 					{
 						error_string = sformatf(
 								"In phase %s, isotope ratio(s) are needed for element: %g%s.",
-								phase_ptr->name, (double) isotope_number,
+								phase_ptr->name.c_str(), (double) isotope_number,
 								primary_ptr->elt->name);
 						error_msg(error_string, CONTINUE);
 						input_error++;
@@ -3755,7 +3755,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
+				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name.c_str(),
 						"iso pos");
 				row_name[count_rows] = string_hsave(token);
 				count_rows++;
@@ -3763,7 +3763,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
+				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name.c_str(),
 						"iso neg");
 				row_name[count_rows] = string_hsave(token);
 				count_rows++;
@@ -3775,7 +3775,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
+				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name.c_str(),
 						"iso pos");
 				row_name[count_rows] = string_hsave(token);
 				count_rows++;
@@ -3783,7 +3783,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name,
+				sprintf(token, "%s %s", inv_ptr->phases[i].phase->name.c_str(),
 						"iso neg");
 				row_name[count_rows] = string_hsave(token);
 				count_rows++;
@@ -3795,7 +3795,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				error_string = sformatf(
 						"In isotope calculations, all phases containing isotopes must be"
 						" constrained.\nPhase %s is not constrained.\n",
-						inv_ptr->phases[i].phase->name);
+						inv_ptr->phases[i].phase->name.c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				continue;
@@ -3867,7 +3867,7 @@ write_optimize_names(class inverse *inv_ptr)
 		for (j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
 			sprintf(token, "%s %s %d%s", "optimize",
-					inv_ptr->phases[i].phase->name,
+					inv_ptr->phases[i].phase->name.c_str(),
 					(int) inv_ptr->isotopes[j].isotope_number,
 					inv_ptr->isotopes[j].elt_name);
 			row_name[row] = string_hsave(token);

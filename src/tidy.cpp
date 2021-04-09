@@ -1252,7 +1252,7 @@ tidy_inverse(void)
 						error_string = sformatf(
 								"Element, %s,for which isotope ratio was defined is not found in phase, %s",
 								master_ptr->elt->name,
-								inverse[i].phases[j].phase->name);
+								inverse[i].phases[j].phase->name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
@@ -1460,7 +1460,7 @@ tidy_phases(void)
 	{
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
 		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
-		phases[i]->rxn.token[0].name = phases[i]->name;
+		phases[i]->rxn.token[0].name = string_hsave(phases[i]->name.c_str());
 		phases[i]->rxn.token[0].s = NULL;
 	}
 	/*
@@ -1473,9 +1473,9 @@ tidy_phases(void)
 		 */
 		count_trxn = 0;
 		trxn_add_phase(phases[i]->rxn, 1.0, false);
-		trxn.token[0].name = phases[i]->name;
+		trxn.token[0].name = string_hsave(phases[i]->name.c_str());
 		/* debug 
-		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name));
+		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
 		   trxn_print();
 		 */
 		replaced = replace_solids_gases();
@@ -1503,7 +1503,7 @@ tidy_phases(void)
 				input_error++;
 				error_string = sformatf(
 						"Equation for phase %s does not balance.",
-						phases[i]->name);
+						phases[i]->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -3397,7 +3397,7 @@ tidy_min_exchange(void)
 							"Stoichiometry of exchanger, %s * %g mol sites/mol phase,\n\tmust be a subset of the related phase %s, %s.",
 							comp_ref.Get_formula().c_str(),
 							(double) comp_ref.Get_phase_proportion(),
-							phase_ptr->name,
+							phase_ptr->name.c_str(),
 							phase_ptr->formula);
 					error_msg(error_string, CONTINUE);
 					break;
@@ -3567,7 +3567,7 @@ update_min_exchange(void)
 							"Stoichiometry of exchanger, %s * %g mol sites/mol phase,\n\tmust be a subset of the related phase %s, %s.",
 							comp_ref.Get_formula().c_str(),
 							(double)comp_ref.Get_phase_proportion(),
-							phase_ptr->name,
+							phase_ptr->name.c_str(),
 							phase_ptr->formula);
 						error_msg(error_string, CONTINUE);
 						break;
@@ -3687,7 +3687,7 @@ tidy_min_surface(void)
 				continue;
 			}
 			/* use database name for phase */
-			surface_comp_ptr->Set_phase_name(phase_ptr->name);
+			surface_comp_ptr->Set_phase_name(phase_ptr->name.c_str());
 			/* make surface concentration proportional to mineral ... */
 			LDBLE conc = jit->second.Get_moles() * surface_comp_ptr->Get_phase_proportion();
 /*			if (conc < MIN_RELATED_SURFACE) conc = 0.0; */
@@ -3806,7 +3806,7 @@ tidy_min_surface(void)
 							elt_list[jj].elt->name,
 							elt_ptr->master->s->name,
 							(double) surface_comp_ptr->Get_phase_proportion(),
-							phase_ptr->name,
+							phase_ptr->name.c_str(),
 							phase_ptr->formula);
 					warning_msg(error_string);
 					warning_msg("The mismatch in stoichiometry may cause mass-balance errors or unwanted redox reactions.");
@@ -3925,7 +3925,7 @@ update_min_surface(void)
 				continue;
 			}
 			/* use database name for phase */
-			surface_comp_ptr->Set_phase_name(phase_ptr->name);
+			surface_comp_ptr->Set_phase_name(phase_ptr->name.c_str());
 			/* make surface concentration proportional to mineral ... */
 			LDBLE conc = jit->second.Get_moles() * surface_comp_ptr->Get_phase_proportion();
 			double grams = 0.0;

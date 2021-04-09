@@ -13,7 +13,7 @@ namespace Utilities
 	const char INDENT[] = "  ";
 
 	int strcmp_nocase(const char *str1, const char *str2);
-
+	int strcmp_nocase(const std::string& str1, const std::string& str2);
 	int strcmp_nocase_arg1(const char *str1, const char *str2);
 
 	void str_tolower(std::string & str);

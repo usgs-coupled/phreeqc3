@@ -849,7 +849,7 @@ public:
 	~phase() {};
 	phase()
 	{	/* all data pertinent to a pure solid phase */
-		name = NULL;                //name of species 
+		//name.clear()              //name of phase
 		formula = NULL;				// chemical formula 
 		in = FALSE;					// species used in model if TRUE 
 		lk = 0;					    // log10 k at working temperature 
@@ -901,7 +901,7 @@ public:
 		replaced = FALSE;                       
 		in_system = FALSE;
 	}
-	const char* name;
+	std::string name;
 	const char* formula;
 	int in;
 	LDBLE lk;

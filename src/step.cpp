@@ -1248,7 +1248,7 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 						error_string = sformatf(
 								"Element %s is contained in gas %s (which has 0.0 mass),\nbut is not in solution or other phases.",
 								elt_list[j].elt->name,
-								phase_ptr->name);
+								phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
 				}
@@ -1321,7 +1321,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 								"Element %s is contained in %s (which has 0.0 mass),"
 								"\t\nbut is not in solution or other phases.",
 								elt_list[i].elt->name,
-								phase_ptr->name);
+								phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
 /*
@@ -1394,7 +1394,7 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
 							error_string = sformatf(
 									"Element %s is contained in solid solution %s (which has 0.0 mass),\nbut is not in solution or other phases.",
 									elt_list[l].elt->name,
-									phase_ptr->name);
+									phase_ptr->name.c_str());
 							warning_msg(error_string);
 						}
 					}
