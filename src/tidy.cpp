@@ -1159,7 +1159,7 @@ tidy_inverse(void)
 			{
 				input_error++;
 				error_string = sformatf( "No master species for element, %s.",
-						inverse[i].elts[j].name);
+						inverse[i].elts[j].name.c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
@@ -1377,7 +1377,7 @@ tidy_inverse(void)
 			{
 				input_error++;
 				error_string = sformatf( "Element not found, %s.",
-						inverse[i].elts[j].name);
+						inverse[i].elts[j].name.c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
@@ -1405,7 +1405,7 @@ tidy_inverse(void)
 			{
 				input_error++;
 				error_string = sformatf( "Element not found, %s.",
-						inverse[i].elts[j].name);
+						inverse[i].elts[j].name.c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
 			}

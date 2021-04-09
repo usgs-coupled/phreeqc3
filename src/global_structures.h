@@ -385,12 +385,12 @@ public:
 	~inv_elts() {};
 	inv_elts()
 	{
-		name = NULL;
+		//name.clear();
 		master = NULL;
 		row = 0;
 		//uncertainties.clear();
 	}
-	const char* name;
+	std::string name;
 	class master* master;
 	size_t row;
 	std::vector<double> uncertainties;
@@ -403,12 +403,12 @@ public:
 	{
 		//isotope_name.clear();
 		isotope_number = 0;
-		elt_name = NULL;
+		//elt_name.clear();
 		//uncertainties.clear();
 	}
 	std::string isotope_name;
 	LDBLE isotope_number;
-	const char* elt_name;
+	std::string elt_name;
 	std::vector<double> uncertainties;
 };
 class inv_phases

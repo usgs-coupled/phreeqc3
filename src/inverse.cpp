@@ -574,7 +574,7 @@ setup_inverse(class inverse *inv_ptr)
 			{
 				sprintf(token, "%d%s %s",
 						(int) inv_ptr->isotopes[j].isotope_number,
-						inv_ptr->isotopes[j].elt_name,
+						inv_ptr->isotopes[j].elt_name.c_str(),
 						inv_ptr->phases[i].phase->name.c_str());
 				col_name[column] = string_hsave(token);
 				column++;
@@ -680,7 +680,7 @@ setup_inverse(class inverse *inv_ptr)
 		{
 			isotope_balance_equation(inv_ptr, (int)count_rows, (int)j);
 			sprintf(token, "%d%s", (int) inv_ptr->isotopes[j].isotope_number,
-					inv_ptr->isotopes[j].elt_name);
+					inv_ptr->isotopes[j].elt_name.c_str());
 			row_name[count_rows] = string_hsave(token);
 			count_rows++;
 		}
@@ -1846,7 +1846,7 @@ print_model(class inverse *inv_ptr)
 						d3 = 0.0;
 					sprintf(token, "%d%s %s",
 							(int) inv_ptr->isotopes[j].isotope_number,
-							inv_ptr->isotopes[j].elt_name,
+							inv_ptr->isotopes[j].elt_name.c_str(),
 							inv_ptr->phases[i].phase->name.c_str());
 					output_msg(sformatf(
 							   "%15.15s   %12g  +%12g  =%12g", token,
@@ -3262,7 +3262,7 @@ isotope_balance_equation(class inverse *inv_ptr, int row, int n)
 	{
 		error_string = sformatf(
 				"In isotope calculation: element not defined: %s.",
-				inv_ptr->isotopes[n].elt_name);
+				inv_ptr->isotopes[n].elt_name.c_str());
 		error_msg(error_string, CONTINUE);
 		input_error++;
 	}
@@ -3273,7 +3273,7 @@ isotope_balance_equation(class inverse *inv_ptr, int row, int n)
 		error_string = sformatf( "Isotope mass-balance may only be used"
 				" for total element concentrations.\n"
 				"Secondary species not allowed: %s.",
-				inv_ptr->isotopes[n].elt_name);
+				inv_ptr->isotopes[n].elt_name.c_str());
 		error_msg(error_string, CONTINUE);
 		input_error++;
 	}
@@ -3417,7 +3417,7 @@ set_isotope_unknowns(class inverse* inv_ptr)
 		{
 			error_string = sformatf(
 				"Element not found for isotope calculation: %s.",
-				inv_ptr->isotopes[i].elt_name);
+				inv_ptr->isotopes[i].elt_name.c_str());
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
@@ -3427,7 +3427,7 @@ set_isotope_unknowns(class inverse* inv_ptr)
 			error_string = sformatf("Isotope mass-balance may only be used"
 				" for total element concentrations.\n"
 				"Secondary species not allowed: %s.",
-				inv_ptr->isotopes[i].elt_name);
+				inv_ptr->isotopes[i].elt_name.c_str());
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
@@ -3869,7 +3869,7 @@ write_optimize_names(class inverse *inv_ptr)
 			sprintf(token, "%s %s %d%s", "optimize",
 					inv_ptr->phases[i].phase->name.c_str(),
 					(int) inv_ptr->isotopes[j].isotope_number,
-					inv_ptr->isotopes[j].elt_name);
+					inv_ptr->isotopes[j].elt_name.c_str());
 			row_name[row] = string_hsave(token);
 			row++;
 		}
@@ -4765,7 +4765,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 	for (j = 0; j < inv_ptr->isotopes.size(); j++)
 	{
 		string = sformatf("%d%s", (int) inv_ptr->isotopes[j].isotope_number,
-				inv_ptr->isotopes[j].elt_name);
+				inv_ptr->isotopes[j].elt_name.c_str());
 		if (strcmp(string.c_str(), "13C") == 0)
 			fprintf(model_file, " %-2s", "I1");
 		if (strcmp(string.c_str(), "14C") == 0)

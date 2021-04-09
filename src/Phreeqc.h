@@ -838,6 +838,7 @@ public:
 	int master_delete(const char* cptr);
 	class master* master_bsearch(const std::string& cptr);
 	class master* master_bsearch_primary(const char* cptr);
+	class master* master_bsearch_primary(const std::string& cstring);
 	class master* master_bsearch_secondary(const char* cptr);
 	class master* master_search(const char* cptr, int* n);
 	class master* surface_get_psi_master(const char* name, int plane);

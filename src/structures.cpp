@@ -713,7 +713,7 @@ inverse_isotope_compare(const void *ptr1, const void *ptr2)
 
 	iso_ptr1 = (const class inv_isotope *) ptr1;
 	iso_ptr2 = (const class inv_isotope *) ptr2;
-	i = strcmp_nocase(iso_ptr1->elt_name, iso_ptr2->elt_name);
+	i = strcmp_nocase(iso_ptr1->elt_name.c_str(), iso_ptr2->elt_name.c_str());
 	if (i != 0)
 		return (i);
 	if (iso_ptr1->isotope_number < iso_ptr2->isotope_number)
@@ -916,7 +916,11 @@ master_compare(const void *ptr1, const void *ptr2)
 	master_ptr2 = *(const class master **) ptr2;
 	return (strcmp_nocase(master_ptr1->elt->name, master_ptr2->elt->name));
 }
-
+class master* Phreeqc::
+master_bsearch_primary(const std::string& cstring)
+{
+	return master_bsearch_primary(cstring.c_str());
+}
 /* ---------------------------------------------------------------------- */
 class master * Phreeqc::
 master_bsearch_primary(const char* cptr)
