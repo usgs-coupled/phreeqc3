@@ -1645,7 +1645,7 @@ protected:
 	/* inverse.cpp ------------------------------- */
 	size_t max_row_count, max_column_count;
 	int carbon;
-	std::vector<const char*> col_name, row_name;
+	std::vector<std::string> col_name, row_name;
 	size_t count_rows, count_optimize;
 	size_t col_phases, col_redox, col_epsilon, col_ph, col_water,
 		col_isotopes, col_phase_isotopes;

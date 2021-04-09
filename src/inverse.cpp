@@ -529,7 +529,7 @@ setup_inverse(class inverse *inv_ptr)
 			{
 				my_array[(size_t)row * max_column_count + (size_t)column] = 0.0;
 			}
-			sprintf(token, "%s %d", row_name[row], j);
+			sprintf(token, "%s %d", row_name[row].c_str(), j);
 			col_name[column] = string_hsave(token);
 			column++;
 		}
@@ -1936,13 +1936,13 @@ print_model(class inverse *inv_ptr)
 		if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
 			d3 = 0.0;
 		output_msg(sformatf(
-			"%15.15s   %12.3e   %12.3e   %12.3e   %-25.25s  (", col_name[i],
+			"%15.15s   %12.3e   %12.3e   %12.3e   %-25.25s  (", col_name[i].c_str(),
 			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula));
 
 		size_t i1 = 0;
 		for (; i1 < phases.size(); i1++)
 		{
-			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i]))
+			if (Utilities::strcmp_nocase(phases[i1]->name, col_name[i].c_str()))
 				continue;
 			reaction_ptr = &phases[i1]->rxn_s;
 			for (size_t i2 = 0; i2 < inv_ptr->count_solns; i2++)

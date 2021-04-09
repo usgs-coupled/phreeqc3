@@ -5529,7 +5529,7 @@ save_model(void)
 			int k;
 			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 			assert(phase_ptr);
-			last_model.gas_phase[i] = phase_ptr;
+			last_model.gas_phase[i] = phase_ptr->name;
 		}
 	}
 	else
@@ -5684,7 +5684,7 @@ check_same_model(void)
 			int k;
 			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
 			assert(phase_ptr);
-			if (last_model.gas_phase[i] != phase_ptr)
+			if (last_model.gas_phase[i] != phase_ptr->name)
 			{
 				return (FALSE);
 			}

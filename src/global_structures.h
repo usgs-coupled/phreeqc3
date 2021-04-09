@@ -451,15 +451,15 @@ public:
 	bool force_prep;
 	bool numerical_fixed_volume;
 	cxxGasPhase::GP_TYPE gas_phase_type;
-	std::vector<class phase*> gas_phase;
-	std::vector<const char*> ss_assemblage;
+	std::vector<std::string> gas_phase;
+	std::vector<std::string> ss_assemblage;
 	std::vector<class phase*> pp_assemblage;
 	std::vector<double> si;
-	std::vector<const char*> add_formula;
+	std::vector<std::string> add_formula;
 	cxxSurface::DIFFUSE_LAYER_TYPE dl_type;
 	cxxSurface::SURFACE_TYPE surface_type;
-	std::vector<const char*> surface_comp;
-	std::vector<const char*> surface_charge;
+	std::vector<std::string> surface_comp;
+	std::vector<std::string> surface_charge;
 };
 class name_coef
 {
