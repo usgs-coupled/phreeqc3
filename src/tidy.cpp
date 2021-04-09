@@ -2882,7 +2882,7 @@ tidy_isotopes(void)
 			if (jit == primary_isotopes.end())
 			{
 				cxxSolutionIsotope temp_isotope;
-				temp_isotope.Set_isotope_name(iso_name_str.str().c_str());
+				temp_isotope.Set_isotope_name(iso_name_str.str());
 				temp_isotope.Set_elt_name(master_ptr->elt->name);
 				temp_isotope.Set_isotope_number(isotope_number);
 				primary_isotopes[iso_name_str.str().c_str()] = temp_isotope;
@@ -2997,7 +2997,7 @@ tidy_isotopes(void)
 				}
 				std::string token = sformatf("%d%s", (int) isotope_number,
 						master[k]->elt->name);
-				temp_iso.Set_isotope_name(token.c_str());
+				temp_iso.Set_isotope_name(token);
 				new_isotopes[token] = temp_iso;
 			}
 		}
@@ -5408,16 +5408,16 @@ tidy_isotope_ratios(void)
 			input_error++;
 			error_string = sformatf(
 					"For ISOTOPE_RATIO %s, did not find ISOTOPE definition for this isotope, %s",
-					isotope_ratio[i]->name, isotope_ratio[i]->isotope_name);
+					isotope_ratio[i]->name, isotope_ratio[i]->isotope_name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
-		master_ptr = master_bsearch(isotope_ratio[i]->isotope_name);
+		master_ptr = master_bsearch(isotope_ratio[i]->isotope_name.c_str());
 		if (master_ptr == NULL)
 		{
 			input_error++;
 			error_string = sformatf(
 					"For ISOTOPE_RATIO %s, did not find SOLUTION_MASTER_SPECIES for isotope, %s",
-					isotope_ratio[i]->name, isotope_ratio[i]->isotope_name);
+					isotope_ratio[i]->name, isotope_ratio[i]->isotope_name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		calculate_value_ptr = calculate_value_search(isotope_ratio[i]->name);

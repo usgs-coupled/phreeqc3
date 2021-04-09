@@ -1823,7 +1823,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 			class isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
 			iso_ptr->isotope_number = isotopes[i].Get_isotope_number();
 			iso_ptr->elt_name = string_hsave(isotopes[i].Get_elt_name().c_str());
-			iso_ptr->isotope_name = string_hsave(isotopes[i].Get_isotope_name().c_str());
+			iso_ptr->isotope_name = isotopes[i].Get_isotope_name().c_str();
 			iso_ptr->total = isotopes[i].Get_total();
 			iso_ptr->ratio = isotopes[i].Get_ratio();
 			if (isotopes[i].Get_ratio_uncertainty_defined())
@@ -4946,7 +4946,7 @@ read_solution(void)
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
-				temp_isotope.Set_isotope_name(token.c_str());
+				temp_isotope.Set_isotope_name(token);
 				/* read and save element name */
 				{
 					std::string temp_iso_name = token.c_str();

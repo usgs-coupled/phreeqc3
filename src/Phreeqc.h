@@ -362,7 +362,7 @@ public:
 	class master_isotope* master_isotope_store(const char* name,
 		int replace_if_found);
 	class master_isotope* master_isotope_alloc(void);
-	class master_isotope* master_isotope_search(const char* name);
+	class master_isotope* master_isotope_search(const std::string& name);
 	int print_initial_solution_isotopes(void);
 	int print_isotope_ratios(void);
 	int print_isotope_alphas(void);

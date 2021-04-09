@@ -796,7 +796,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 				else
 				{
 					cxxSolutionIsotope iso(this->Get_io());
-					iso.Set_isotope_name(name.c_str());
+					iso.Set_isotope_name(name);
 					iso.read_raw(parser, check);
 					this->isotopes[name] = iso;
 				}

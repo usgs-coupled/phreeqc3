@@ -1680,7 +1680,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	{
 		class isotope_ratio* isotope_ratio_ptr = isotope_ratio_store(pSrc->isotope_ratio[i]->name, FALSE);
 		isotope_ratio_ptr->name = string_hsave(pSrc->isotope_ratio[i]->name);
-		isotope_ratio_ptr->isotope_name = string_hsave(pSrc->isotope_ratio[i]->isotope_name);
+		isotope_ratio_ptr->isotope_name = pSrc->isotope_ratio[i]->isotope_name;
 		isotope_ratio_ptr->ratio = pSrc->isotope_ratio[i]->ratio;
 		isotope_ratio_ptr->converted_ratio = pSrc->isotope_ratio[i]->converted_ratio;
 	}

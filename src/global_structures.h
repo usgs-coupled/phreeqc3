@@ -401,12 +401,12 @@ public:
 	~inv_isotope() {};
 	inv_isotope()
 	{
-		isotope_name = NULL;
+		//isotope_name.clear();
 		isotope_number = 0;
 		elt_name = NULL;
 		//uncertainties.clear();
 	}
-	const char* isotope_name;
+	std::string isotope_name;
 	LDBLE isotope_number;
 	const char* elt_name;
 	std::vector<double> uncertainties;
@@ -539,7 +539,7 @@ public:
 	{
 		isotope_number = 0;
 		elt_name = NULL;
-		isotope_name = NULL;
+		//isotope_name.clear();
 		total = 0;
 		ratio = 0;
 		ratio_uncertainty = 0;
@@ -550,7 +550,7 @@ public:
 	}
 	LDBLE isotope_number;
 	const char* elt_name;
-	const char* isotope_name;
+	std::string isotope_name;
 	LDBLE total;
 	LDBLE ratio;
 	LDBLE ratio_uncertainty;
@@ -1369,14 +1369,14 @@ public:
 	isotope_ratio()
 	{
 		name = NULL;
-		isotope_name = NULL;
+		//isotope_name.clear();
 		ratio = 0;
 		converted_ratio = 0;
 	}
 	~isotope_ratio() {};
 
 	const char* name;
-	const char* isotope_name;
+	std::string isotope_name;
 	LDBLE ratio;
 	LDBLE converted_ratio;
 };

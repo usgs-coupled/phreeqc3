@@ -328,7 +328,7 @@ read_isotope_ratios(void)
 				input_error++;
 				break;
 			}
-			isotope_ratio_ptr->isotope_name = string_hsave(token);
+			isotope_ratio_ptr->isotope_name = token;
 			opt_save = OPTION_DEFAULT;
 			break;
 		}
@@ -1362,7 +1362,7 @@ master_isotope_init(class master_isotope *master_isotope_ptr)
 
 /* ---------------------------------------------------------------------- */
 class master_isotope * Phreeqc::
-master_isotope_search(const char *name)
+master_isotope_search(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1648,7 +1648,7 @@ isotope_ratio_init(class isotope_ratio *isotope_ratio_ptr)
 	if (isotope_ratio_ptr)
 	{
 		isotope_ratio_ptr->name = NULL;
-		isotope_ratio_ptr->isotope_name = NULL;
+		isotope_ratio_ptr->isotope_name.clear();
 		isotope_ratio_ptr->ratio = MISSING;
 		isotope_ratio_ptr->converted_ratio = MISSING;
 	}

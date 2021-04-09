@@ -859,7 +859,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					free_check_null(char_string);
 					continue;
 				}
-				temp_isotope.Set_isotope_name(token.c_str());
+				temp_isotope.Set_isotope_name(token);
 
 				/* read and save element name */
 				{
