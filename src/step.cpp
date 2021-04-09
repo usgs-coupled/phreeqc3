@@ -697,7 +697,7 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 		}
 		else
 		{
-			strcpy(token, phase_ptr->formula);
+			strcpy(token, phase_ptr->formula.c_str());
 			add_elt_list(phase_ptr->next_elt, 1.0);
 		}
 		if (comp_ptr->Get_moles() > 0.0)
@@ -1087,7 +1087,7 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 			comp_ptr->Set_delta(0.0);
 			if (comp_ptr->Get_moles() > 0.0)
 			{
-				cptr = phase_ptr->formula;
+				cptr = phase_ptr->formula.c_str();
 				count_elts = 0; // appt
 				get_elts_in_species(&cptr, 1.0);
 				for (k = 0; k < count_elts; k++)

@@ -1797,7 +1797,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 	{
 		class phase * phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(),
 			&i, FALSE);
-		if (match_elts_in_species(phase_ptr->formula, mytemplate) == TRUE)
+		if (match_elts_in_species(phase_ptr->formula.c_str(), mytemplate) == TRUE)
 		{
 			if (name == NULL)
 			{

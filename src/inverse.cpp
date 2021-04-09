@@ -1937,7 +1937,7 @@ print_model(class inverse *inv_ptr)
 			d3 = 0.0;
 		output_msg(sformatf(
 			"%15.15s   %12.3e   %12.3e   %12.3e   %-25.25s  (", col_name[i].c_str(),
-			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula));
+			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase->formula.c_str()));
 
 		size_t i1 = 0;
 		for (; i1 < phases.size(); i1++)

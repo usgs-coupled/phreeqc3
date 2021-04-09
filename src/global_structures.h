@@ -850,7 +850,7 @@ public:
 	phase()
 	{	/* all data pertinent to a pure solid phase */
 		//name.clear()              //name of phase
-		formula = NULL;				// chemical formula 
+		//formula.clear();			// chemical formula 
 		in = FALSE;					// species used in model if TRUE 
 		lk = 0;					    // log10 k at working temperature 
 		// log kt0, delh, 6 coefficients analalytical expression
@@ -902,7 +902,7 @@ public:
 		in_system = FALSE;
 	}
 	std::string name;
-	const char* formula;
+	std::string formula;
 	int in;
 	LDBLE lk;
 	LDBLE logk[MAX_LOG_K_INDICES];

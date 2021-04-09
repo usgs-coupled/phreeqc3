@@ -1188,7 +1188,7 @@ phase_init(class phase *phase_ptr)
 	int i;
 
 	//phase_ptr->name = NULL;
-	phase_ptr->formula = NULL;
+	//phase_ptr->formula = NULL;
 	phase_ptr->in = FALSE;
 	phase_ptr->lk = 0.0;
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
@@ -1962,9 +1962,9 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 	const char* cptr;
 	LDBLE l_z;
 	trxn.token.resize(rxn_ref.size());
-	trxn.token[0].name = phase_ptr->formula;
+	trxn.token[0].name = string_hsave(phase_ptr->formula.c_str());
 	/* charge */
-	cptr = phase_ptr->formula;
+	cptr = phase_ptr->formula.c_str();
 	{
 		std::string token;
 		get_token(&cptr, token, &l_z, &l);

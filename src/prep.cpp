@@ -736,7 +736,7 @@ build_ss_assemblage(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		cptr = x[i]->phase->formula;
+		cptr = x[i]->phase->formula.c_str();
 		get_elts_in_species(&cptr, 1.0);
 /*
  *   Go through elements in phase
@@ -1408,7 +1408,7 @@ build_pure_phases(void)
 		}
 		else
 		{
-			cptr = x[i]->phase->formula;
+			cptr = x[i]->phase->formula.c_str();
 			get_elts_in_species(&cptr, 1.0);
 		}
 /*

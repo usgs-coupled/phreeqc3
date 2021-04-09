@@ -1566,7 +1566,7 @@ tidy_pp_assemblage(void)
 				phase_ptr =	phase_bsearch(it->second.Get_add_formula().c_str(), &k, FALSE);
 				if (phase_ptr != NULL)
 				{
-					it->second.Set_add_formula(phase_ptr->formula);
+					it->second.Set_add_formula(string_hsave(phase_ptr->formula.c_str()));
 				}
 				{
 					cptr = it->second.Get_add_formula().c_str();
@@ -3374,7 +3374,7 @@ tidy_min_exchange(void)
 			class phase *phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 			if (phase_ptr != NULL)
 			{
-				cptr = phase_ptr->formula;
+				cptr = phase_ptr->formula.c_str();
 				get_elts_in_species(&cptr, 1.0);
 			}
 			else
@@ -3398,7 +3398,7 @@ tidy_min_exchange(void)
 							comp_ref.Get_formula().c_str(),
 							(double) comp_ref.Get_phase_proportion(),
 							phase_ptr->name.c_str(),
-							phase_ptr->formula);
+							phase_ptr->formula.c_str());
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -3544,7 +3544,7 @@ update_min_exchange(void)
 				class phase* phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 				if (phase_ptr != NULL)
 				{
-					cptr = phase_ptr->formula;
+					cptr = phase_ptr->formula.c_str();
 					get_elts_in_species(&cptr, 1.0);
 				}
 				else
@@ -3568,7 +3568,7 @@ update_min_exchange(void)
 							comp_ref.Get_formula().c_str(),
 							(double)comp_ref.Get_phase_proportion(),
 							phase_ptr->name.c_str(),
-							phase_ptr->formula);
+							phase_ptr->formula.c_str());
 						error_msg(error_string, CONTINUE);
 						break;
 					}
@@ -3723,7 +3723,7 @@ tidy_min_surface(void)
 			count_elts = 0;
 			paren_count = 0;
 			{
-				const char* cptr = phase_ptr->formula;
+				const char* cptr = phase_ptr->formula.c_str();
 				get_elts_in_species(&cptr, 1.0);
 			}
 			// Revise logic for surface related to mineral
@@ -3807,7 +3807,7 @@ tidy_min_surface(void)
 							elt_ptr->master->s->name,
 							(double) surface_comp_ptr->Get_phase_proportion(),
 							phase_ptr->name.c_str(),
-							phase_ptr->formula);
+							phase_ptr->formula.c_str());
 					warning_msg(error_string);
 					warning_msg("The mismatch in stoichiometry may cause mass-balance errors or unwanted redox reactions.");
 					break;

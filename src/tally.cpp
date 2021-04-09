@@ -910,7 +910,7 @@ build_tally_table(void)
 				}
 				else
 				{
-					strcpy(token, phase_ptr->formula);
+					strcpy(token, phase_ptr->formula.c_str());
 					add_elt_list(phase_ptr->next_elt, 1.0);
 				}
 				elt_list_combine();
@@ -961,7 +961,7 @@ build_tally_table(void)
 					tally_table[n].type = Ss_phase;
 					count_elts = 0;
 					paren_count = 0;
-					strcpy(token, phase_ptr->formula);
+					strcpy(token, phase_ptr->formula.c_str());
 					add_elt_list(phase_ptr->next_elt, 1.0);
 					elt_list_combine();
 					tally_table[n].formula = elt_list_vsave();

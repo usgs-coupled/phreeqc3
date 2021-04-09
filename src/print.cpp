@@ -1251,7 +1251,7 @@ print_saturation_indices(void)
 
 		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
 				   phases[i]->name.c_str(), (double) si, (double) iap, (double) lk,
-				   phases[i]->formula));
+				   phases[i]->formula.c_str()));
 		if (gas && phases[i]->pr_in && phases[i]->pr_p)
 		{
 			if (phases[i]->moles_x || state == INITIAL_SOLUTION)

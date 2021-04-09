@@ -1435,7 +1435,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		*phase_ptr = *pSrc->phases[i];
 		// clean up pointers
 		phase_ptr->name = pSrc->phases[i]->name;
-		phase_ptr->formula = string_hsave(pSrc->phases[i]->formula);
+		phase_ptr->formula = string_hsave(pSrc->phases[i]->formula.c_str());
 		//add_logk
 		phase_ptr->add_logk.resize(pSrc->phases[i]->add_logk.size());
 		for (size_t j = 0; j < phase_ptr->add_logk.size(); j++)
