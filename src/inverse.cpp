@@ -944,12 +944,12 @@ setup_inverse(class inverse *inv_ptr)
 	{
 		for (i = 0; i < count_unknowns; i++)
 		{
-			output_msg(sformatf( "%d\t%s\n", i, col_name[i]));
+			output_msg(sformatf( "%d\t%s\n", i, col_name[i].c_str()));
 		}
 		for (i = 0; i < count_rows; i++)
 		{
 			k = 0;
-			output_msg(sformatf( "%d\t%s\n", i, row_name[i]));
+			output_msg(sformatf( "%d\t%s\n", i, row_name[i].c_str()));
 			for (j = 0; j < count_unknowns + 1; j++)
 			{
 				if (k > 7)
@@ -1371,14 +1371,14 @@ solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 		for (i = 0; i < n; i++)
 		{
 			output_msg(sformatf( "\t%d\t%s\n", i,
-					   col_name[col_back[i]]));
+					   col_name[col_back[i]].c_str()));
 		}
 
 		output_msg(sformatf( "\nRows\n"));
 		for (i = 0; i < k + l + m; i++)
 		{
 			output_msg(sformatf( "\t%d\t%s\n", i,
-					   row_name[row_back[i]]));
+					   row_name[row_back[i]].c_str()));
 		}
 
 		output_msg(sformatf( "\nA and B arrays:\n\n"));
@@ -1388,7 +1388,7 @@ solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 		for (i = 0; i < n; i++)
 		{
 			output_msg(sformatf( "%6d  %-12.12s %10.2e", i,
-					   col_name[col_back[i]], (double) delta2[i]));
+					   col_name[col_back[i]].c_str(), (double) delta2[i]));
 			output_msg(sformatf( "\n"));
 		}
 
@@ -1398,7 +1398,7 @@ solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 				continue;
 			output_msg(sformatf( "\nInput inv_res is non zero:\n"));
 			output_msg(sformatf( "%6d  %-12.12s %10.2e", i,
-					   row_name[row_back[i]], (double) inv_res[i]));
+					   row_name[row_back[i]].c_str(), (double) inv_res[i]));
 			output_msg(sformatf( "\n"));
 		}
 	}
@@ -1460,7 +1460,7 @@ solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 		for (i = 0; i < n; i++)
 		{
 			output_msg(sformatf( "%6d  %-12.12s %10.2e", i,
-					   col_name[col_back[i]], (double) delta2[i]));
+					   col_name[col_back[i]].c_str(), (double) delta2[i]));
 			output_msg(sformatf( "\n"));
 		}
 
@@ -1468,7 +1468,7 @@ solve_with_mask(class inverse *inv_ptr, unsigned long cur_bits)
 		for (i = 0; i < (k + l + m); i++)
 		{
 			output_msg(sformatf( "%6d  %-12.12s %10.2e\n", i,
-					   row_name[row_back[i]], (double) inv_res[i]));
+					   row_name[row_back[i]].c_str(), (double) inv_res[i]));
 		}
 	}
 
@@ -1995,7 +1995,7 @@ print_model(class inverse *inv_ptr)
 	{
 		if (equal(inv_delta1[i], 0.0, toler) == TRUE)
 			continue;
-		output_msg(sformatf( "%15.15s   %12.3e\n", col_name[i],
+		output_msg(sformatf( "%15.15s   %12.3e\n", col_name[i].c_str(),
 				   (double) inv_delta1[i]));
 	}
 
@@ -2072,7 +2072,7 @@ punch_model_heading(class inverse *inv_ptr)
 			std::string tok2(col_name[i]);
 			tok2.append("_max");
 
-			inverse_heading_names.push_back(sformatf("%*s\t", l, col_name[i]));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, col_name[i].c_str()));
 			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
 			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
 		}
@@ -2409,7 +2409,7 @@ range(class inverse *inv_ptr, unsigned long cur_bits)
 				for (j = 0; j < n; j++)
 				{
 					output_msg(sformatf( "\t%d %s\t%g\n", j,
-							   col_name[col_back[j]], (double) delta2[j]));
+							   col_name[col_back[j]].c_str(), (double) delta2[j]));
 				}
 				output_msg(sformatf( "\nA and B arrays:\n\n"));
 				array_print(&array1[0], k + l + m, n + 1, (int)max_column_count);
@@ -2446,11 +2446,11 @@ range(class inverse *inv_ptr, unsigned long cur_bits)
 				output_msg(sformatf( "k, l, m, n: %d\t%d\t%d\t%d\n", k,
 						   l, m, n));
 				output_msg(sformatf( "\nsolution vector %s\n",
-						   col_name[i]));
+						   col_name[i].c_str()));
 				for (j = 0; j < n; j++)
 				{
 					output_msg(sformatf( "%6d  %-12.12s %10.2e", j,
-							   col_name[col_back[j]], (double) delta2[j]));
+							   col_name[col_back[j]].c_str(), (double) delta2[j]));
 					output_msg(sformatf( "\n"));
 				}
 
@@ -2458,7 +2458,7 @@ range(class inverse *inv_ptr, unsigned long cur_bits)
 				for (j = 0; j < (k + l + m); j++)
 				{
 					output_msg(sformatf( "%6d  %-12.12s %10.2e\n", j,
-							   row_name[row_back[j]], (double) inv_res[j]));
+							   row_name[row_back[j]].c_str(), (double) inv_res[j]));
 				}
 			}
 			for (j = 0; j < n; j++)
@@ -2957,7 +2957,7 @@ post_mortem(void)
 		{
 			output_msg(sformatf(
 					   "\tERROR: equality not satisfied for %s, %e.\n",
-					   row_name[i],
+					   row_name[i].c_str(),
 				   (double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 		}
 	}
@@ -2976,7 +2976,7 @@ post_mortem(void)
 		{
 			output_msg(sformatf(
 					   "\tERROR: inequality not satisfied for %s, %e\n",
-					   row_name[i],
+					   row_name[i].c_str(),
 				   (double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 		}
 	}
@@ -2989,13 +2989,13 @@ post_mortem(void)
 		{
 			output_msg(sformatf(
 					   "\tERROR: Dissolution/precipitation constraint not satisfied for column %d, %s, %e.\n",
-				   i, col_name[i], (double) inv_delta1[i]));
+				   i, col_name[i].c_str(), (double) inv_delta1[i]));
 		}
 		else if (delta_save[i] < -0.5 && inv_delta1[i] > toler)
 		{
 			output_msg(sformatf(
 					   "\tERROR: Dissolution/precipitation constraint not satisfied for column %d, %s, %e.\n",
-				   i, col_name[i], (double) inv_delta1[i]));
+				   i, col_name[i].c_str(), (double) inv_delta1[i]));
 		}
 	}
 
@@ -3033,7 +3033,7 @@ test_cl1_solution(void)
 		{
 			if (debug_inverse)
 			{
-				output_msg(sformatf("\tERROR: equality not satisfied for %s, %e.\n", row_name[i],
+				output_msg(sformatf("\tERROR: equality not satisfied for %s, %e.\n", row_name[i].c_str(),
 				   (double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 			}
 			rv = false;
@@ -3056,7 +3056,7 @@ test_cl1_solution(void)
 			{
 				output_msg(sformatf(
 					"\tERROR: inequality not satisfied for %s, %e\n",
-					row_name[i],
+					row_name[i].c_str(),
 					(double) (sum - my_array[(i * max_column_count) + count_unknowns])));
 			}
 			rv = false;
@@ -3073,7 +3073,7 @@ test_cl1_solution(void)
 			{
 				output_msg(sformatf(
 					"\tERROR: Dissolution/precipitation constraint not satisfied for column %d, %s, %e.\n",
-					i, col_name[i], (double) inv_delta1[i]));
+					i, col_name[i].c_str(), (double) inv_delta1[i]));
 			}
 			rv = false;
 
@@ -3084,7 +3084,7 @@ test_cl1_solution(void)
 			{
 				output_msg(sformatf(
 					"\tERROR: Dissolution/precipitation constraint not satisfied for column %d, %s, %e.\n",
-					i, col_name[i], (double) inv_delta1[i]));
+					i, col_name[i].c_str(), (double) inv_delta1[i]));
 			}
 			rv = false;
 		}

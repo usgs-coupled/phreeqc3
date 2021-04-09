@@ -5408,7 +5408,7 @@ tidy_isotope_ratios(void)
 			input_error++;
 			error_string = sformatf(
 					"For ISOTOPE_RATIO %s, did not find ISOTOPE definition for this isotope, %s",
-					isotope_ratio[i]->name, isotope_ratio[i]->isotope_name.c_str());
+					isotope_ratio[i]->name.c_str(), isotope_ratio[i]->isotope_name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		master_ptr = master_bsearch(isotope_ratio[i]->isotope_name.c_str());
@@ -5417,7 +5417,7 @@ tidy_isotope_ratios(void)
 			input_error++;
 			error_string = sformatf(
 					"For ISOTOPE_RATIO %s, did not find SOLUTION_MASTER_SPECIES for isotope, %s",
-					isotope_ratio[i]->name, isotope_ratio[i]->isotope_name.c_str());
+					isotope_ratio[i]->name.c_str(), isotope_ratio[i]->isotope_name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		calculate_value_ptr = calculate_value_search(isotope_ratio[i]->name);
@@ -5464,7 +5464,7 @@ tidy_isotope_alphas(void)
 				input_error++;
 				error_string = sformatf(
 						"For ISOTOPE_ALPHAS %s, did not find corresponding NAMED_EXPRESSION definition %s.",
-						isotope_alpha[i]->name, isotope_alpha[i]->named_logk.c_str());
+						isotope_alpha[i]->name.c_str(), isotope_alpha[i]->named_logk.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}

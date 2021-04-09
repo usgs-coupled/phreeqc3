@@ -386,7 +386,7 @@ print_tally_table(void)
 	output_msg(sformatf( "Tally_table\n\n"));
 	for (i = 0; i < count_tally_table_columns; i++)
 	{
-		output_msg(sformatf( "%s\tType: %d\n", tally_table[i].name,
+		output_msg(sformatf( "%s\tType: %d\n", tally_table[i].name.c_str(),
 				   tally_table[i].type));
 		output_msg(sformatf( "\n"));
 		output_msg(sformatf( "\t%15s\t%15s\t%15s\n", "Initial",
@@ -394,7 +394,7 @@ print_tally_table(void)
 		for (j = 0; j < count_tally_table_rows; j++)
 		{
 			output_msg(sformatf( "%5s\t%15g\t%15g\t%15g\n",
-					   t_buffer[j].name, tally_table[i].total[0][j].moles,
+					   t_buffer[j].name.c_str(), tally_table[i].total[0][j].moles,
 					   tally_table[i].total[1][j].moles,
 					   tally_table[i].total[2][j].moles));
 		}
