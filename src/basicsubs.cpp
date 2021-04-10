@@ -3956,7 +3956,7 @@ iso_unit(const char *total_name)
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)
 		{
-			strcpy(unit, master_isotope_ptr->units);
+			strcpy(unit, master_isotope_ptr->units.c_str());
 		}
 		return string_duplicate(unit);
 	}
@@ -3975,7 +3975,7 @@ iso_unit(const char *total_name)
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)
 		{
-			strcpy(unit, master_isotope_ptr->units);
+			strcpy(unit, master_isotope_ptr->units.c_str());
 		}
 		return string_duplicate(unit);
 	}

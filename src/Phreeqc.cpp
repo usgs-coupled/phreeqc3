@@ -1657,11 +1657,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		{
 			master_isotope_ptr->elt = element_store(pSrc->master_isotope[i]->elt->name);
 		}
-		master_isotope_ptr->units = NULL;
-		if (pSrc->master_isotope[i]->units)
-		{
-			master_isotope_ptr->units = string_hsave(pSrc->master_isotope[i]->units);
-		}
+		master_isotope_ptr->units = pSrc->master_isotope[i]->units;
 	}
 	initial_solution_isotopes = pSrc->initial_solution_isotopes;
 	// Calculate values

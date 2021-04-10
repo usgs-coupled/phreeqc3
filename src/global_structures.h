@@ -1330,7 +1330,7 @@ public:
 		//name.clear();
 		master = NULL;
 		elt = NULL;
-		units = NULL;
+		//units.clear();
 		standard = 0;
 		ratio = 0;
 		moles = 0;
@@ -1340,7 +1340,7 @@ public:
 	std::string name;
 	class master* master;
 	class element* elt;
-	const char* units;
+	std::string units;
 	LDBLE standard;
 	LDBLE ratio;
 	LDBLE moles;

@@ -564,38 +564,38 @@ calculate_isotope_moles(class element *elt_ptr,
 				tot += m_major;
 				continue;
 			}
-			if (strcmp_nocase(list[i].units, "permil") == 0)
+			if (list[i].units == "permil")
 			{
 				from_permil(&(list[i]), m_major);
 				tot += list[i].moles;
 				continue;
 			}
-			if (strcmp_nocase(list[i].units, "pct") == 0)
+			if (strcmp_nocase(list[i].units.c_str(), "pct") == 0)
 			{
 				from_pct(&(list[i]), total_moles);
 				tot += list[i].moles;
 				continue;
 			}
-			if (strcmp_nocase(list[i].units, "pmc") == 0)
+			if (strcmp_nocase(list[i].units.c_str(), "pmc") == 0)
 			{
 				from_pct(&(list[i]), total_moles);
 				tot += list[i].moles;
 				continue;
 			}
-			if (strcmp_nocase(list[i].units, "tu") == 0)
+			if (strcmp_nocase(list[i].units.c_str(), "tu") == 0)
 			{
 				from_tu(&(list[i]));
 				tot += list[i].moles;
 				continue;
 			}
-			if (strcmp_nocase(list[i].units, "pci/l") == 0)
+			if (strcmp_nocase(list[i].units.c_str(), "pci/l") == 0)
 			{
 				from_pcil(&(list[i]));
 				tot += list[i].moles;
 				continue;
 			}
 			error_string = sformatf( "Isotope units not recognized, %s",
-					list[i].units);
+					list[i].units.c_str());
 			input_error++;
 			error_msg(error_string, CONTINUE);
 		}
@@ -763,7 +763,7 @@ print_initial_solution_isotopes(void)
 										 mass_water_aq_x),
 							   (double) master_isotope[j]->moles,
 							   (double) master_isotope[j]->ratio,
-							   master_isotope[j]->units));
+							   master_isotope[j]->units.c_str()));
 				}
 			}
 			output_msg(sformatf( "\n"));
@@ -980,7 +980,7 @@ print_isotope_ratios(void)
 		output_msg(sformatf( "     %-20s\t%12.5e\t%15.5g  %-10s\n",
 				   token, (double) isotope_ratio[j]->ratio,
 				   (double) isotope_ratio[j]->converted_ratio,
-				   master_isotope_ptr->units));
+				   master_isotope_ptr->units.c_str()));
 	}
 	output_msg(sformatf( "\n"));
 	return (OK);
@@ -1222,31 +1222,31 @@ LDBLE Phreeqc::
 convert_isotope(class master_isotope * master_isotope_ptr, LDBLE ratio)
 /* ---------------------------------------------------------------------- */
 {
-	const char *units;
+	std::string units;
 	units = master_isotope_ptr->units;
 
-	if (strcmp_nocase(units, "permil") == 0)
+	if (strcmp_nocase(units.c_str(), "permil") == 0)
 	{
 		return ((ratio / master_isotope_ptr->standard - 1) * 1000);
 	}
-	if (strcmp_nocase(units, "pct") == 0)
+	if (strcmp_nocase(units.c_str(), "pct") == 0)
 	{
 		return (ratio / master_isotope_ptr->standard * 100.);
 	}
-	if (strcmp_nocase(units, "pmc") == 0)
+	if (strcmp_nocase(units.c_str(), "pmc") == 0)
 	{
 		return (ratio / master_isotope_ptr->standard * 100.);
 	}
-	if (strcmp_nocase(units, "tu") == 0)
+	if (strcmp_nocase(units.c_str(), "tu") == 0)
 	{
 		return (ratio / master_isotope_ptr->standard);
 	}
-	if (strcmp_nocase(units, "pci/l") == 0)
+	if (strcmp_nocase(units.c_str(), "pci/l") == 0)
 	{
 		return (ratio / master_isotope_ptr->standard);
 	}
 	error_string = sformatf(
-			"Did not recognize isotope units in convert_isotope, %s", units);
+			"Did not recognize isotope units in convert_isotope, %s", units.c_str());
 	error_msg(error_string, STOP);
 	return (-99.0);
 }
@@ -1349,7 +1349,7 @@ master_isotope_init(class master_isotope *master_isotope_ptr)
 		master_isotope_ptr->name.clear();
 		master_isotope_ptr->master = NULL;
 		master_isotope_ptr->elt = NULL;
-		master_isotope_ptr->units = NULL;
+		//master_isotope_ptr->units.clear();
 		master_isotope_ptr->standard = 0;
 		master_isotope_ptr->ratio = 0;
 		master_isotope_ptr->moles = 0;
