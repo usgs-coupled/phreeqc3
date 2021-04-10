@@ -1191,16 +1191,16 @@ tidy_inverse(void)
 		paren_count = 0;
 		for (j = 0; j < inverse[i].phases.size(); j++)
 		{
-			inverse[i].phases[j].phase =
-				phase_bsearch(inverse[i].phases[j].name, &k, FALSE);
-			if (inverse[i].phases[j].phase == NULL)
-			{
-				input_error++;
-				error_string = sformatf( "Could not find phase, %s.",
-						inverse[i].phases[j].name);
-				error_msg(error_string, CONTINUE);
-				continue;
-			}
+			//inverse[i].phases[j].phase = 
+			//	phase_bsearch(inverse[i].phases[j].name, &k, FALSE);
+			//if (inverse[i].phases[j].phase == NULL)
+			//{
+			//	input_error++;
+			//	error_string = sformatf( "Could not find phase, %s.",
+			//			inverse[i].phases[j].name);
+			//	error_msg(error_string, CONTINUE);
+			//	continue;
+			//}
 /*
  *   Find isotope elements
  */
@@ -1236,8 +1236,10 @@ tidy_inverse(void)
 					inverse[i].phases[j].isotopes[k].primary = master_ptr;
 					inverse[i].phases[j].isotopes[k].master = master_ptr;
 					/* find coefficient for element */
-					for (elt_list_ptr = &inverse[i].phases[j].phase->next_elt[0];
-						 elt_list_ptr->elt != NULL; elt_list_ptr++)
+					//for (elt_list_ptr = &inverse[i].phases[j].phase->next_elt[0];
+					//	 elt_list_ptr->elt != NULL; elt_list_ptr++)
+					for (elt_list_ptr = &inverse[i].phases[j].phase(this)->next_elt[0];
+						elt_list_ptr->elt != NULL; elt_list_ptr++)
 					{
 						if (elt_list_ptr->elt == master_ptr->elt)
 						{
@@ -1252,7 +1254,7 @@ tidy_inverse(void)
 						error_string = sformatf(
 								"Element, %s,for which isotope ratio was defined is not found in phase, %s",
 								master_ptr->elt->name,
-								inverse[i].phases[j].phase->name.c_str());
+								inverse[i].phases[j].phase(this)->name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
@@ -1261,7 +1263,7 @@ tidy_inverse(void)
 					  inverse[i].phases[j].isotopes.size(),
 					  sizeof(class isotope), isotope_compare);
 			}
-			add_elt_list(inverse[i].phases[j].phase->next_elt, 1.0);
+			add_elt_list(inverse[i].phases[j].phase(this)->next_elt, 1.0);
 
 		}
 		if (get_input_errors() > 0)

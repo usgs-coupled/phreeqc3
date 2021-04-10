@@ -417,15 +417,16 @@ public:
 	~inv_phases() {};
 	inv_phases()
 	{
-		name = NULL;
-		phase = NULL;
+		//name.clear();
+		//phase = NULL;
 		column = 0;
 		constraint = EITHER;
 		force = FALSE;
 		//isotopes.clear();
 	}
-	const char* name;
-	class phase* phase;
+	class phase* phase(Phreeqc* php);
+	std::string name;
+	//class phase* phase; // workspace only
 	int column;
 	int constraint;
 	int force;
