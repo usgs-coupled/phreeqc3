@@ -66,7 +66,7 @@ pitz_param_read(char *string, int n)
 }
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-pitz_param_store(const class pitz_param *pzp_ptr)
+pitz_param_store(class pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -78,7 +78,6 @@ pitz_param_store(const class pitz_param *pzp_ptr)
 		return;
 	if (pzp_ptr->type == TYPE_Other)
 		return;
-	class pitz_param* dest = pitz_param_copy(pzp_ptr);
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
 	{
@@ -108,20 +107,20 @@ pitz_param_store(const class pitz_param *pzp_ptr)
 		}
 	    warning_msg(error_string);
 		delete pitz_params[(*jit).second]; 
-		pitz_params[(*jit).second] = dest;
+		pitz_params[(*jit).second] = pzp_ptr;
 	}
 	else
 	{
 		size_t count_pitz_param = pitz_params.size();
 		pitz_params.resize(count_pitz_param + 1);
-		pitz_params[count_pitz_param] = pitz_param_copy(pzp_ptr);
+		pitz_params[count_pitz_param] = pzp_ptr;
 		pitz_param_map[key] = count_pitz_param;
 	}
 }
 
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
-sit_param_store(const class pitz_param *pzp_ptr)
+sit_param_store(class pitz_param *pzp_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -133,7 +132,6 @@ sit_param_store(const class pitz_param *pzp_ptr)
 		return;
 	if (pzp_ptr->type == TYPE_Other)
 		return;
-	class pitz_param* dest = pitz_param_copy(pzp_ptr);
 
 	std::set< std::string > header;
 	for (i = 0; i < 3; i++)
@@ -165,13 +163,13 @@ sit_param_store(const class pitz_param *pzp_ptr)
 		}
 	    warning_msg(error_string);
 		delete sit_params[(*jit).second]; 
-		sit_params[(*jit).second] = dest;
+		sit_params[(*jit).second] = pzp_ptr;
 	}
 	else
 	{
 		size_t count_sit_param = sit_params.size();
 		sit_params.resize(count_sit_param + 1);
-		sit_params[count_sit_param] = dest;
+		sit_params[count_sit_param] = pzp_ptr;
 		sit_param_map[key] = count_sit_param;
 	}
 }
