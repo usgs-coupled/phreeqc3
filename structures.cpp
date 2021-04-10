@@ -146,6 +146,7 @@ clean_up(void)
 	/*  user_print and user_punch */
 	UserPunch_map.clear();
 	rate_free(user_print);
+	delete user_print;
 	/*
 	   Clear llnl aqueous model parameters
 	 */
