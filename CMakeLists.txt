@@ -101,6 +101,7 @@ src/advection.cpp
 src/basicsubs.cpp
 src/cl1.cpp
 src/class_main.cpp
+src/Classes.cpp
 src/common/PHRQ_base.cxx
 src/common/PHRQ_base.h
 src/common/PHRQ_io.cpp
