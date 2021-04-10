@@ -566,11 +566,11 @@ public:
 	~iso() {};
 	iso()
 	{
-		name = NULL;
+		//name.clear();
 		value = 0;
 		uncertainty = 0.05;
 	}
-	const char* name;
+	std::string name;
 	LDBLE value;
 	LDBLE uncertainty;
 };
@@ -1274,8 +1274,8 @@ public:
 		temp = 25;
 		density = 1;
 		calc_density = false;
-		units = NULL;
-		redox = NULL;
+		//units.clear();
+		//redox.clear();
 		ph = 7;
 		pe = 4;
 		water = 1;
@@ -1285,8 +1285,8 @@ public:
 	LDBLE temp;
 	LDBLE density;
 	bool calc_density;
-	const char* units;
-	const char* redox;
+	std::string units;
+	std::string redox;
 	LDBLE ph;
 	LDBLE pe;
 	LDBLE water;

@@ -82,9 +82,14 @@ read_solution_spread(void)
 	soln_defaults.iso.resize(count_iso_defaults);
 
 	/* all iso[i].name is hsave'd, so no conflicts */
-	memcpy(&soln_defaults.iso[0], iso_defaults,
-		   soln_defaults.iso.size() * sizeof(class iso));
-
+	//memcpy(&soln_defaults.iso[0], iso_defaults,
+	//	   soln_defaults.iso.size() * sizeof(class iso));
+	for (size_t i = 0; i < soln_defaults.iso.size(); i++)
+	{
+		soln_defaults.iso[i].name = iso_defaults[i].name;
+		soln_defaults.iso[i].value= iso_defaults[i].value;
+		soln_defaults.iso[i].uncertainty = iso_defaults[i].uncertainty;
+	}
 	heading = NULL;
 	units = NULL;
 	return_value = UNKNOWN;
@@ -368,7 +373,7 @@ read_solution_spread(void)
 				size_t i;
 				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
-					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
+					if (token == soln_defaults.iso[i].name)
 					{
 						break;
 					}
@@ -376,7 +381,7 @@ read_solution_spread(void)
 				if (i == soln_defaults.iso.size())
 				{
 					soln_defaults.iso.resize((size_t)i + 1);
-					soln_defaults.iso[i].name = string_hsave(token.c_str());
+					soln_defaults.iso[i].name = token;
 					soln_defaults.iso[i].value = NAN;
 					soln_defaults.iso[i].uncertainty = NAN;
 				}
@@ -442,7 +447,7 @@ read_solution_spread(void)
 				int i;
 				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
-					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
+					if (strcmp(token.c_str(), soln_defaults.iso[i].name.c_str()) == 0)
 					{
 						break;
 					}
