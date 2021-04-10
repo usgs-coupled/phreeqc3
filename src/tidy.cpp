@@ -1218,7 +1218,7 @@ tidy_inverse(void)
 						input_error++;
 						error_string = sformatf(
 								"Element not found for isotope calculation: %s.",
-								inverse[i].phases[j].isotopes[k].elt_name);
+								inverse[i].phases[j].isotopes[k].elt_name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}

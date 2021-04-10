@@ -1383,7 +1383,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
 		{
 			logk_ptr->add_logk[j].coef = pSrc->logk[i]->add_logk[j].coef;
-			logk_ptr->add_logk[j].name = string_hsave(pSrc->logk[i]->add_logk[j].name);
+			logk_ptr->add_logk[j].name = pSrc->logk[i]->add_logk[j].name;
 		}
 	}
 	// s, species
@@ -1405,7 +1405,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		for (size_t j = 0; j < s_ptr->add_logk.size(); j++)
 		{
 			s_ptr->add_logk[j].coef = pSrc->s[i]->add_logk[j].coef;
-			s_ptr->add_logk[j].name = string_hsave(pSrc->s[i]->add_logk[j].name);
+			s_ptr->add_logk[j].name = pSrc->s[i]->add_logk[j].name;
 		}
 		//next_elt
 		s_ptr->next_elt = elt_list_internal_copy(pSrc->s[i]->next_elt);
@@ -1441,7 +1441,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		for (size_t j = 0; j < phase_ptr->add_logk.size(); j++)
 		{
 			phase_ptr->add_logk[j].coef = pSrc->phases[i]->add_logk[j].coef;
-			phase_ptr->add_logk[j].name = string_hsave(pSrc->phases[i]->add_logk[j].name);
+			phase_ptr->add_logk[j].name = pSrc->phases[i]->add_logk[j].name;
 		}
 		//next_elt
 		phase_ptr->next_elt = elt_list_internal_copy(pSrc->phases[i]->next_elt);

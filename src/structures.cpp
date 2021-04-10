@@ -1702,7 +1702,7 @@ isotope_compare(const void *ptr1, const void *ptr2)
 
 	iso_ptr1 = (const class isotope *) ptr1;
 	iso_ptr2 = (const class isotope *) ptr2;
-	i = strcmp_nocase(iso_ptr1->elt_name, iso_ptr2->elt_name);
+	i = strcmp_nocase(iso_ptr1->elt_name.c_str(), iso_ptr2->elt_name.c_str());
 	if (i != 0)
 		return (i);
 	if (iso_ptr1->isotope_number < iso_ptr2->isotope_number)

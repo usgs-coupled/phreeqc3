@@ -426,7 +426,7 @@ public:
 	}
 	class phase* phase(Phreeqc* php);
 	std::string name;
-	//class phase* phase; // workspace only
+	//class phase* phase; // always lookup
 	int column;
 	int constraint;
 	int force;
@@ -468,10 +468,10 @@ public:
 	~name_coef() {};
 	name_coef()
 	{
-		name = NULL;
+		//name.clear();
 		coef = 0;
 	}
-	const char* name;
+	std::string name;
 	LDBLE coef;
 };
 /*----------------------------------------------------------------------
@@ -539,7 +539,7 @@ public:
 	isotope()
 	{
 		isotope_number = 0;
-		elt_name = NULL;
+		//elt_name.clear();
 		//isotope_name.clear();
 		total = 0;
 		ratio = 0;
@@ -550,7 +550,7 @@ public:
 		coef = 0;					/* coefficient of element in phase */
 	}
 	LDBLE isotope_number;
-	const char* elt_name;
+	std::string elt_name;
 	std::string isotope_name;
 	LDBLE total;
 	LDBLE ratio;

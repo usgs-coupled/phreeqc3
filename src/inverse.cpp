@@ -557,7 +557,7 @@ setup_inverse(class inverse *inv_ptr)
 		{
 			sprintf(token, "%d%s %d",
 					(int) inv_ptr->isotope_unknowns[j].isotope_number,
-					inv_ptr->isotope_unknowns[j].elt_name, i);
+					inv_ptr->isotope_unknowns[j].elt_name.c_str(), i);
 			col_name[column] = string_hsave(token);
 			column++;
 		}
@@ -1771,7 +1771,7 @@ print_model(class inverse *inv_ptr)
 					sprintf(token, "%d%s",
 							(int) inv_ptr->isotope_unknowns[j].
 							isotope_number,
-							inv_ptr->isotope_unknowns[j].elt_name);
+							inv_ptr->isotope_unknowns[j].elt_name.c_str());
 					output_msg(sformatf(
 							   "%15.15s   %12g  +%12g  =%12g\n", token,
 							   (double) d1, (double) d2, (double) d3));
@@ -3853,7 +3853,7 @@ write_optimize_names(class inverse *inv_ptr)
 		{
 			sprintf(token, "%s %d%s %d", "optimize",
 					(int) inv_ptr->isotope_unknowns[j].isotope_number,
-					inv_ptr->isotope_unknowns[j].elt_name, inv_ptr->solns[i]);
+					inv_ptr->isotope_unknowns[j].elt_name.c_str(), inv_ptr->solns[i]);
 			row_name[row] = string_hsave(token);
 			row++;
 		}
@@ -4950,7 +4950,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 			}
 			d3 = d1 + d2;
 			string = sformatf("%d%s", (int)isotope_ref[k].isotope_number,
-				isotope_ref[k].elt_name);
+				isotope_ref[k].elt_name.c_str());
 			if (strcmp(string.c_str(), "13C") == 0)
 				fprintf(model_file, " %-2s%12.7f", "I1", (double) d3);
 			if (strcmp(string.c_str(), "14C") == 0)

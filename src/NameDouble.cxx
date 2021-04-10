@@ -82,7 +82,7 @@ cxxNameDouble::cxxNameDouble(class name_coef *nc, int count)
 	int i;
 	for (i = 0; i < count; i++)
 	{
-		if (nc[i].name == NULL)
+		if (nc[i].name.size() == 0)
 			continue;
 
 		if ((*this).find(nc[i].name) == (*this).end())
