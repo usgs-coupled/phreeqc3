@@ -23,6 +23,7 @@ main(int argc, char *argv[])
 
   // check for floating point exceptions on Linux
   // feenableexcept(FE_DIVBYZERO|FE_INVALID|FE_OVERFLOW|FE_UNDERFLOW);
+//#define WIN32_MEMORY_DEBUG
 #if defined(WIN32_MEMORY_DEBUG)
 	int tmpDbgFlag;
 
