@@ -3059,7 +3059,7 @@ reset(void)
 					}
 					delta[i] = 0.0;
 				}
-				else if (x[i]->ss_comp_name != NULL && delta[i] < -x[i]->phase->delta_max)
+				else if (x[i]->ss_comp_name.size() > 0 && delta[i] < -x[i]->phase->delta_max)
 					// Uses delta_max computed in step
 					// delta_max is the maximum amount of the mineral that could form based
 					// on the limiting element in the system
@@ -3076,7 +3076,7 @@ reset(void)
 						factor = f0;
 					}
 				}
-				else if (x[i]->ss_comp_name != NULL && delta[i] < -pe_step_size*x[i]->moles)
+				else if (x[i]->ss_comp_name.size() > 0 && delta[i] < -pe_step_size*x[i]->moles)
 				{
 					f0 = (-delta[i]) / (pe_step_size*x[i]->moles);
 					if (f0 > factor)
@@ -3090,7 +3090,7 @@ reset(void)
 						factor = f0;
 					}
 				}
-				else if (x[i]->ss_comp_name != NULL && delta[i] > x[i]->moles/ pe_step_size)
+				else if (x[i]->ss_comp_name.size() > 0 && delta[i] > x[i]->moles/ pe_step_size)
 				{
 					f0 = (delta[i]) / (x[i]->moles/ pe_step_size);
 					if (f0 > factor)

@@ -1174,7 +1174,7 @@ equi_phase(const char *phase_name)
 	{
 		if (x[j]->type != PP)
 			continue;
-		if (strcmp_nocase(x[j]->pp_assemblage_comp_name, phase_name) == 0)
+		if (strcmp_nocase(x[j]->pp_assemblage_comp_name.c_str(), phase_name) == 0)
 		{
 			break;
 		}
@@ -1219,7 +1219,7 @@ equi_phase_delta(const char *phase_name)
 	{
 		if (x[j]->type != PP)
 			continue;
-		if (strcmp_nocase(x[j]->pp_assemblage_comp_name, phase_name) == 0)
+		if (strcmp_nocase(x[j]->pp_assemblage_comp_name.c_str(), phase_name) == 0)
 		{
 			break;
 		}
