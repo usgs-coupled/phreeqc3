@@ -3614,7 +3614,7 @@ check_isotopes(class inverse *inv_ptr)
 						kit->second.Get_elt_name().c_str());
 				for (l = 0; l < count_iso_defaults; l++)
 				{
-					if (strcmp(token, iso_defaults[l].name) == 0)
+					if (strcmp(token, iso_defaults[l].name.c_str()) == 0)
 					{
 						kit->second.Set_x_ratio_uncertainty(
 							iso_defaults[l].uncertainty);

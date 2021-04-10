@@ -76,19 +76,10 @@ read_solution_spread(void)
 #ifdef PHREEQCI_GUI
 	free_spread();
 #endif
-
-
-	/* fill in soln_defaults.iso */
-	soln_defaults.iso.resize(count_iso_defaults);
-
-	/* all iso[i].name is hsave'd, so no conflicts */
-	//memcpy(&soln_defaults.iso[0], iso_defaults,
-	//	   soln_defaults.iso.size() * sizeof(class iso));
+	// fill in default isotopes
 	for (size_t i = 0; i < soln_defaults.iso.size(); i++)
 	{
-		soln_defaults.iso[i].name = iso_defaults[i].name;
-		soln_defaults.iso[i].value= iso_defaults[i].value;
-		soln_defaults.iso[i].uncertainty = iso_defaults[i].uncertainty;
+		soln_defaults.iso.push_back(class iso(iso_defaults[i]));
 	}
 	heading = NULL;
 	units = NULL;

@@ -560,6 +560,26 @@ public:
 	class master* primary;
 	LDBLE coef;
 };
+class const_iso
+{
+public:
+	~const_iso() {};
+	const_iso()
+	{
+		//name.clear();
+		value = 0;
+		uncertainty = 0;
+	}
+	const_iso(const std::string n, LDBLE v, LDBLE u)
+	{
+		name = n;
+		value = v;
+		uncertainty = u;
+	}
+	std::string name;
+	LDBLE value;
+	LDBLE uncertainty;
+};
 class iso
 {
 public:
@@ -569,6 +589,12 @@ public:
 		//name.clear();
 		value = 0;
 		uncertainty = 0.05;
+	}
+	iso(const class const_iso& ci)
+	{
+		name = ci.name;
+		value = ci.value;
+		uncertainty = ci.uncertainty;
 	}
 	std::string name;
 	LDBLE value;
@@ -1624,25 +1650,6 @@ public:
 	LDBLE etheta;
 	LDBLE ethetap;
 };
-class const_iso
-{
-public:
-	~const_iso() {};
-	const_iso()
-	{
-		name = NULL;
-		value = 0;
-		uncertainty = 0;
-	}
-	const_iso(const char *n, LDBLE v, LDBLE u)
-	{
-		name = n;
-		value = v;
-		uncertainty = u;
-	}
-	const char* name;
-	LDBLE value;
-	LDBLE uncertainty;
-};
+
 
 #endif /* _INC_GLOBAL_STRUCTURES_H  */
