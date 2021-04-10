@@ -5062,7 +5062,7 @@ cmdprint(struct LOC_exec *LINK)
 				/*      fputs(n.UU.sval, stdout); */
 				output_msg(PhreeqcPtr->sformatf("%s ", n.UU.sval));
 			}
-			PhreeqcPtr->PHRQ_free(n.UU.sval);
+			n.UU.sval = (char*)PhreeqcPtr->free_check_null(n.UU.sval);
 		}
 		else
 /*      printf("%s ", numtostr(STR1, n.UU.val)); */
@@ -5146,7 +5146,7 @@ cmdpunch(struct LOC_exec *LINK)
 						}
 					}
 				}
-				PhreeqcPtr->PHRQ_free(n.UU.sval);
+				n.UU.sval = (char*)PhreeqcPtr->free_check_null(n.UU.sval);
 			}
 			else if (!temp_high_precision)
 			{
@@ -5158,6 +5158,10 @@ cmdpunch(struct LOC_exec *LINK)
 			}
 			punch_tab = true;
 			++PhreeqcPtr->n_user_punch_index;
+		}
+		else
+		{
+			n.UU.sval = (char*)PhreeqcPtr->free_check_null(n.UU.sval);
 		}
 		this->skip_punch = false;
 	}
