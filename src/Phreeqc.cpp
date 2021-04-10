@@ -1455,7 +1455,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		//memcpy(master[i], pSrc->master[i], sizeof(class master));
 		*master[i] = *pSrc->master[i];
 		// clean up pointers
-		master[i]->gfw_formula = string_hsave(pSrc->master[i]->gfw_formula);
+		master[i]->gfw_formula = pSrc->master[i]->gfw_formula;
 		master[i]->elt = element_store(pSrc->master[i]->elt->name);
 		master[i]->unknown = NULL;
 		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, FALSE);

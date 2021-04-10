@@ -1857,7 +1857,7 @@ pitzer_revise_guesses(void)
 				{
 					output_msg(sformatf(
 							   "\n\t%5s  at beginning of set %d: %e\t%e\t%e\n",
-							   x[i]->description, l_iter, (double) x[i]->sum,
+							   x[i]->description.c_str(), l_iter, (double) x[i]->sum,
 							   (double) x[i]->moles,
 							   (double) x[i]->master[0]->s->la));
 				}
@@ -1894,7 +1894,7 @@ pitzer_revise_guesses(void)
 					{
 						output_msg(sformatf(
 								   "\t%5s not converged in set %d: %e\t%e\t%e\n",
-								   x[i]->description, l_iter,
+								   x[i]->description.c_str(), l_iter,
 								   (double) x[i]->sum, (double) x[i]->moles,
 								   (double) x[i]->master[0]->s->la));
 					}
@@ -1918,7 +1918,7 @@ pitzer_revise_guesses(void)
 					{
 						output_msg(sformatf(
 								   "%s not converged in set. %e\t%e\t%e\n",
-								   x[i]->description, (double) x[i]->sum,
+								   x[i]->description.c_str(), (double) x[i]->sum,
 								   (double) x[i]->moles,
 								   (double) x[i]->master[0]->s->la));
 					}

@@ -485,7 +485,7 @@ print_exchange(void)
 			{		
 				error_string = sformatf("Exchange unknown has no exchange component for exchanger %s."
 					"\nIs the same name used for a SURFACE and an EXCHANGER?",
-					master_ptr->unknown->description);
+					master_ptr->unknown->description.c_str());
 				error_msg(error_string, STOP);
 			}
 			const cxxExchComp *exchange_comp_ptr = exchange_ptr->Find_comp(master_ptr->unknown->exch_comp);
@@ -2108,7 +2108,7 @@ print_totals(void)
 		if (x[i] == charge_balance_unknown)
 		{
 			output_msg(sformatf("\t%-15s%12.3e%12.3e",
-					   x[i]->description,
+					   x[i]->description.c_str(),
 					   (double) (x[i]->sum / mass_water_aq_x),
 					   (double) x[i]->sum));
 			output_msg(sformatf("  Charge balance\n"));
@@ -2118,7 +2118,7 @@ print_totals(void)
 		if (x[i]->type == SOLUTION_PHASE_BOUNDARY)
 		{
 			output_msg(sformatf("\t%-15s%12.3e%12.3e",
-					   x[i]->description,
+					   x[i]->description.c_str(),
 					   (double) (x[i]->sum / mass_water_aq_x),
 					   (double) x[i]->sum));
 			output_msg(sformatf("  Equilibrium with %s\n",
@@ -2129,7 +2129,7 @@ print_totals(void)
 		if (x[i]->type == MB)
 		{
 			output_msg(sformatf("\t%-15s%12.3e%12.3e\n",
-					   x[i]->description,
+					   x[i]->description.c_str(),
 					   (double) (x[i]->sum / mass_water_aq_x),
 					   (double) x[i]->sum));
 			pure_water = FALSE;

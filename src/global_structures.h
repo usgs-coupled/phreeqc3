@@ -978,7 +978,7 @@ public:
 		// default gfw for species
 		gfw = 1;
 		// formula from which to calcuate gfw
-		gfw_formula = NULL;
+		//gfw_formula.clear();
 		// pointer to unknown structure
 		unknown = NULL;
 		// pointer to species structure
@@ -1004,7 +1004,7 @@ public:
 	class element* elt;
 	LDBLE alk;
 	LDBLE gfw;
-	const char* gfw_formula;
+	std::string gfw_formula;
 	class unknown* unknown;
 	class species* s;
 	CReaction rxn_primary;
@@ -1029,7 +1029,7 @@ public:
 		delta = 0;
 		la = 0;
 		number = 0;
-		description = NULL;
+		//description.clear();
 		//master.clear();
 		phase = NULL;
 		si = 0;
@@ -1069,7 +1069,7 @@ public:
 	LDBLE delta;
 	LDBLE la;
 	size_t number;
-	const char* description;
+	std::string description;
 	std::vector<class master*> master;
 	class phase* phase;
 	LDBLE si;
@@ -1237,14 +1237,14 @@ public:
 	~rate() {};
 	rate()
 	{
-		name = NULL;
+		//name.clear();
 		//std::string commands;
 		new_def = 0;
 		linebase = NULL;
 		varbase = NULL;
 		loopbase = NULL;
 	}
-	const char* name;
+	std::string name;
 	std::string commands;
 	int new_def;
 	void* linebase;

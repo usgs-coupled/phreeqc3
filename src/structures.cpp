@@ -807,7 +807,7 @@ master_alloc(void)
 	ptr->elt = NULL;
 	ptr->alk = 0.0;
 	ptr->gfw = 0.0;
-	ptr->gfw_formula = NULL;
+	//ptr->gfw_formula.clear();
 	ptr->unknown = NULL;
 	ptr->s = NULL;
 	ptr->pe_rxn.clear();
@@ -1340,7 +1340,7 @@ rate_compare(const void *ptr1, const void *ptr2)
 	const class rate *rate_ptr1, *rate_ptr2;
 	rate_ptr1 = *(const class rate **) ptr1;
 	rate_ptr2 = *(const class rate **) ptr2;
-	return (strcmp_nocase(rate_ptr1->name, rate_ptr2->name));
+	return (strcmp_nocase(rate_ptr1->name.c_str(), rate_ptr2->name.c_str()));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1352,7 +1352,7 @@ rate_compare_string(const void *ptr1, const void *ptr2)
 	const class rate *rate_ptr;
 	char_ptr = (const char *) ptr1;
 	rate_ptr = *(const class rate **) ptr2;
-	return (strcmp_nocase(char_ptr, rate_ptr->name));
+	return (strcmp_nocase(char_ptr, rate_ptr->name.c_str()));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1392,7 +1392,7 @@ rate_copy(const class rate *rate_ptr)
 	if (rate_ptr == NULL)
 		return (NULL);
 	class rate* rate_new = new class rate;
-	rate_new->name = string_hsave(rate_ptr->name);
+	rate_new->name = rate_ptr->name;
 	rate_new->commands = rate_ptr->commands;
 	rate_new->new_def = TRUE;
 	rate_new->linebase = NULL;
@@ -1436,7 +1436,7 @@ rate_search(const char *name_in, int *n)
 	*n = -1;
 	for (i = 0; i < (int)rates.size(); i++)
 	{
-		if (strcmp_nocase(rates[i].name, name) == 0)
+		if (strcmp_nocase(rates[i].name.c_str(), name) == 0)
 		{
 			*n = i;
 			rates_map[name] = i;
@@ -2445,7 +2445,7 @@ unknown_alloc(void)
 	unknown_ptr->delta = 0.0;
 	unknown_ptr->la = 0.0;
 	unknown_ptr->number = 0;
-	unknown_ptr->description = NULL;
+	//unknown_ptr->description.clear();
 	unknown_ptr->phase = NULL;
 	unknown_ptr->si = 0.0;
 	unknown_ptr->s = NULL;

@@ -122,7 +122,7 @@ build_fixed_volume_gas(void)
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\n",
-							   unknown_ptr->description, (double) coef));
+							   unknown_ptr->description.c_str(), (double) coef));
 				}
 			}
 		}
@@ -170,7 +170,7 @@ build_fixed_volume_gas(void)
 			if (debug_prep == TRUE)
 			{
 				output_msg(sformatf( "\n\t%s.\n",
-						   unknown_ptr->description));
+						   unknown_ptr->description.c_str()));
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;

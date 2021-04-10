@@ -2310,14 +2310,14 @@ tidy_species(void)
 		{
 			s_co3 = master[i]->s;
 		}
-		if (master[i]->gfw_formula != NULL)
+		if (master[i]->gfw_formula.size() > 0)
 		{
-			if (compute_gfw(master[i]->gfw_formula, &master[i]->gfw) == ERROR)
+			if (compute_gfw(master[i]->gfw_formula.c_str(), &master[i]->gfw) == ERROR)
 			{
 				input_error++;
 				error_string = sformatf(
 						"Calculating gfw for master species, %s, formula %s.",
-						master[i]->elt->name, master[i]->gfw_formula);
+						master[i]->elt->name, master[i]->gfw_formula.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}

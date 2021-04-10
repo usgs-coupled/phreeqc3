@@ -108,7 +108,7 @@ prep(void)
 			if (x[i]->type == PITZER_GAMMA)
 				continue;
 			output_msg(sformatf("\t%3d\t%-17s%2d    %15.6e\n",
-				x[i]->number, x[i]->description, (int)x[i]->type, (double)x[i]->moles));
+				x[i]->number, x[i]->description.c_str(), (int)x[i]->type, (double)x[i]->moles));
 		}
 		output_msg(sformatf("\n\n"));
 	}
@@ -326,7 +326,7 @@ quick_setup(void)
 						class master *master_ptr = elt_ptr->master;
 						if (master_ptr->type != SURF)
 							continue;
-						if (strcmp_nocase(x[i]->description, lit->first.c_str()) == 0)
+						if (strcmp_nocase(x[i]->description.c_str(), lit->first.c_str()) == 0)
 						{
 							x[i]->moles = lit->second;
 						}
@@ -426,7 +426,7 @@ build_gas_phase(void)
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\n",
-							   unknown_ptr->description, (double) coef));
+							   unknown_ptr->description.c_str(), (double) coef));
 				}
 			}
 		}
@@ -473,7 +473,7 @@ build_gas_phase(void)
 			if (debug_prep == TRUE)
 			{
 				output_msg(sformatf( "\n\t%s.\n",
-						   unknown_ptr->description));
+						   unknown_ptr->description.c_str()));
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
@@ -861,7 +861,7 @@ build_jacobian_sums(int k)
 		coef = mb_unknowns[i].coef;
 		if (debug_prep == TRUE)
 			output_msg(sformatf("\n\tMass balance eq:  %-13s\t%f\trow\tcol\n",
-				mb_unknowns[i].unknown->description, (double)coef));
+				mb_unknowns[i].unknown->description.c_str(), (double)coef));
 		store_dn(k, mb_unknowns[i].source, (int)mb_unknowns[i].unknown->number,
 			coef, mb_unknowns[i].gamma_source);
 /*
@@ -1063,7 +1063,7 @@ build_mb_sums(void)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\t\t%-24s%10.3f\n",
-					   mb_unknowns[i].unknown->description,
+					   mb_unknowns[i].unknown->description.c_str(),
 					   (double) mb_unknowns[i].coef));
 		}
 	}
@@ -3633,7 +3633,7 @@ find_surface_charge_unknown(std::string &str, int plane)
 	str = token;
 	for (int i = 0; i < count_unknowns; i++)
 	{
-		if (strcmp(str.c_str(), x[i]->description) == 0)
+		if (str == x[i]->description)
 		{
 			return (x[i]);
 		}
@@ -4048,8 +4048,8 @@ setup_pure_phases(void)
 		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
 		assert(phase_ptr);
 		x[count_unknowns]->type = PP;
-		x[count_unknowns]->description = string_hsave(comp_ptr->Get_name().c_str());
-		x[count_unknowns]->pp_assemblage_comp_name = x[count_unknowns]->description;
+		x[count_unknowns]->description = comp_ptr->Get_name();
+		x[count_unknowns]->pp_assemblage_comp_name = string_hsave(x[count_unknowns]->description.c_str());
 		x[count_unknowns]->pp_assemblage_comp_ptr = comp_ptr;
 		x[count_unknowns]->moles = comp_ptr->Get_moles();
 		x[count_unknowns]->phase = phase_ptr;

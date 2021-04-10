@@ -289,7 +289,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s has not converged. Total: %e\tCalculated: "
-						"%e\tResidual: %e\n", x[i]->description,
+						"%e\tResidual: %e\n", x[i]->description.c_str(),
 						(double) x[i]->moles, (double) x[i]->f,
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
@@ -307,7 +307,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s solution phase boundary has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -320,7 +320,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Charge balance has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -333,7 +333,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Ionic strength has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -344,7 +344,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Activity of water has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -370,7 +370,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Mass of hydrogen has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -384,7 +384,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Mass of oxygen has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -405,7 +405,7 @@ check_residuals(void)
 					{
 						log_msg(sformatf(
 								   "%20s Dissolve_only pure phase has not converged. \tResidual: %e\n",
-								   x[i]->description, (double) residual[i]));
+								   x[i]->description.c_str(), (double) residual[i]));
 					}
 				}
 				else
@@ -416,13 +416,13 @@ check_residuals(void)
 						remove_unstable_phases = TRUE;
 						log_msg(sformatf(
 								   "%20s Pure phase has not converged. \tResidual: %e\n",
-								   x[i]->description, (double) residual[i]));
+								   x[i]->description.c_str(), (double) residual[i]));
 					}
 					else if (residual[i] <= -epsilon)
 					{
 						error_string = sformatf(
 								"%20s Pure phase has not converged. "
-								"\tResidual: %e\n", x[i]->description,
+								"\tResidual: %e\n", x[i]->description.c_str(),
 								(double) residual[i]);
 						error_msg(error_string, CONTINUE);
 					}
@@ -435,10 +435,10 @@ check_residuals(void)
 				{
 					log_msg(sformatf(
 							   "%s, Pure phase has not converged. \tResidual: %e\n",
-							   x[i]->description, (double) residual[i]));
+							   x[i]->description.c_str(), (double) residual[i]));
 					error_string = sformatf(
 							"%s, Pure phase with add formula has not converged.\n\t SI may be a local minimum."
-							"\tResidual: %e\n", x[i]->description,
+							"\tResidual: %e\n", x[i]->description.c_str(),
 							(double) residual[i]);
 					warning_msg(error_string);
 				}
@@ -454,7 +454,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Exchanger mass balance has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -470,7 +470,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Surface mass balance has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -485,7 +485,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Surface charge/potential has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -499,7 +499,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Total moles in gas phase has not converged. "
-						"\tResidual: %e\n", x[i]->description,
+						"\tResidual: %e\n", x[i]->description.c_str(),
 						(double) residual[i]);
 				error_msg(error_string, CONTINUE);
 			}
@@ -510,7 +510,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s log gamma not converged.\tResidual: %e\n",
-						x[i]->description, (double) residual[i]);
+						x[i]->description.c_str(), (double) residual[i]);
 			}
 		}
 		else if (x[i]->type == SS_MOLES)
@@ -524,7 +524,7 @@ check_residuals(void)
 			{
 				error_string = sformatf(
 						"%20s Total moles in solid solution has not converged. "
-						"\tResidual: %e  %e\n", x[i]->description,
+						"\tResidual: %e  %e\n", x[i]->description.c_str(),
 						(double) residual[i], x[i]->moles);
 				error_msg(error_string, CONTINUE);
 			}
@@ -987,7 +987,7 @@ ineq(int in_kode)
 				if (debug_model == TRUE)
 				{
 					output_msg(sformatf( "%6d  %-12.12s %10.2e\n", i,
-						x[i]->description, (double) delta[i]));
+						x[i]->description.c_str(), (double) delta[i]));
 				}
 			}
 		}
@@ -1099,7 +1099,7 @@ ineq(int in_kode)
 			{
 				output_msg(sformatf(
 						   "Scaling column for %s, max= %e\n",
-						   x[i]->description, (double) max));
+						   x[i]->description.c_str(), (double) max));
 			}
 			for (j = 0; j < count_unknowns; j++)
 			{
@@ -1885,7 +1885,7 @@ ineq(int in_kode)
 		for (i = 0; i < count_unknowns; i++)
 		{
 			output_msg(sformatf( "%6d  %-12.12s %10.2e", i,
-					   x[i]->description, (double) delta[i]));
+					   x[i]->description.c_str(), (double) delta[i]));
 			if (x[i]->type == PP)
 			{
 				output_msg(sformatf( "   -SI %10.2e   Moles %10.2e",
@@ -1902,7 +1902,7 @@ ineq(int in_kode)
 		for (i = 0; i < l_count_rows; i++)
 		{
 			output_msg(sformatf( "%6d  %-12.12s %10.2e\n", i,
-					   x[back_eq[i]]->description, (double) res[i]));
+					   x[back_eq[i]]->description.c_str(), (double) res[i]));
 		}
 	}
 #ifdef SLNQ
@@ -3011,7 +3011,7 @@ reset(void)
 								{
 									output_msg(sformatf(
 										"%-10.10s, Precipitating too much dissolve_only mineral.\tDelta %e\tCurrent %e\tInitial %e\n",
-										x[i]->description,
+										x[i]->description.c_str(),
 											   (double) delta[i],
 											   (double) x[i]->moles,
 											   (double) comp_ptr->Get_initial_moles()));
@@ -3025,7 +3025,7 @@ reset(void)
 							{
 								output_msg(sformatf(
 									"%-10.10s, Precipitating dissolve_only mineral.\tDelta %e\n",
-									x[i]->description,
+									x[i]->description.c_str(),
 								    (double) delta[i]));
 							}
 							delta[i] = 0;
@@ -3042,7 +3042,7 @@ reset(void)
 						{
 							output_msg(sformatf(
 								"%-10.10s, Removing more than total mineral.\t%f\n",
-									   x[i]->description, (double) f0));
+									   x[i]->description.c_str(), (double) f0));
 						}
 						factor = f0;
 					}
@@ -3054,7 +3054,7 @@ reset(void)
 						output_msg(sformatf(
 							"%-10.10s\tDelta: %e\tMass: %e   "
 							"Dissolving mineral with 0.0 mass.\n ",
-								   x[i]->description, (double) delta[i],
+								   x[i]->description.c_str(), (double) delta[i],
 								   (double) x[i]->moles));
 					}
 					delta[i] = 0.0;
@@ -3071,7 +3071,7 @@ reset(void)
 						{
 							output_msg(sformatf(
 								"%-10.10s, Precipitating too much mineral.\t%f\n",
-									   x[i]->description, (double) f0));
+									   x[i]->description.c_str(), (double) f0));
 						}
 						factor = f0;
 					}
@@ -3085,7 +3085,7 @@ reset(void)
 						{
 							output_msg(sformatf(
 								"%-10.10s, Precipitating too much mineral.\t%f\n",
-								x[i]->description, (double)f0));
+								x[i]->description.c_str(), (double)f0));
 						}
 						factor = f0;
 					}
@@ -3099,7 +3099,7 @@ reset(void)
 						{
 							output_msg(sformatf(
 								"%-10.10s, Precipitating too much mineral.\t%f\n",
-								x[i]->description, (double)f0));
+								x[i]->description.c_str(), (double)f0));
 						}
 						factor = f0;
 					}
@@ -3268,7 +3268,7 @@ reset(void)
 					if (debug_model == TRUE)
 					{
 						output_msg(sformatf( "%-10.10s\t%f\n",
-								   x[i]->description, (double) f0));
+								   x[i]->description.c_str(), (double) f0));
 					}
 					factor = f0;
 				}
@@ -3281,7 +3281,7 @@ reset(void)
 					if (debug_model == TRUE)
 					{
 						output_msg(sformatf( "%-10.10s\t%f\n",
-								   x[i]->description, (double) f0));
+								   x[i]->description.c_str(), (double) f0));
 					}
 					factor = f0;
 				}
@@ -3383,7 +3383,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e   "
-						   "%-8s%10.2e\n", x[i]->description, "old la",
+						   "%-8s%10.2e\n", x[i]->description.c_str(), "old la",
 						   (double) x[i]->master[0]->s->la, "new la",
 						   (double) x[i]->master[0]->s->la + (double) d,
 						   "delta", (double) delta[i], "delta/c", (double) d));
@@ -3421,7 +3421,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e\n",
-						   x[i]->description, "old f*psi",
+						   x[i]->description.c_str(), "old f*psi",
 						   (double) x[i]->master[0]->s->la, "new f*psi",
 						   (double) x[i]->master[0]->s->la + (double) d,
 						   "delta", (double) d));
@@ -3480,7 +3480,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e   %-8s%10.2e\n",
-						   x[i]->description, "old la",
+						   x[i]->description.c_str(), "old la",
 						   (double) x[i]->master[0]->s->la, "new la",
 						   (double) (x[i]->master[0]->s->la + d), "delta",
 						   (double) delta[i], "delta/c", (double) d));
@@ -3496,7 +3496,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e   %-8s%10.2e\n",
-						   x[i]->description, "old la",
+						   x[i]->description.c_str(), "old la",
 						   (double) x[i]->master[0]->s->la, "new la",
 						   (double) (x[i]->master[0]->s->la + d), "delta",
 						   (double) delta[i], "delta/c", (double) d));
@@ -3516,7 +3516,7 @@ reset(void)
 						   (double) mu_calc));
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e\n",
-						   x[i]->description, "old mu", (double) mu_x,
+						   x[i]->description.c_str(), "old mu", (double) mu_x,
 						   "new mu", (double) (mu_x + delta[i]), "delta",
 						   (double) delta[i]));
 			}
@@ -3545,7 +3545,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e   %-8s%10.2e\n",
-						   x[i]->description, "old la",
+						   x[i]->description.c_str(), "old la",
 						   (double) x[i]->master[0]->s->la, "new la",
 						   (double) (x[i]->master[0]->s->la + d), "delta",
 						   (double) delta[i], "delta/c", (double) d));
@@ -3562,7 +3562,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e   %-8s%10.2e\n",
-						   x[i]->description, "old pe",
+						   x[i]->description.c_str(), "old pe",
 						   (double) x[i]->master[0]->s->la, "new pe",
 						   (double) (x[i]->master[0]->s->la + d), "delta",
 						   (double) delta[i], "delta/c", (double) d));
@@ -3583,7 +3583,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.2e   %-9s%10.2e   %-6s%10.2e   %-8s%10.2e\n",
-						   x[i]->description, "old MH2O",
+						   x[i]->description.c_str(), "old MH2O",
 						   (double) mass_water_aq_x, "new MH2O",
 						   (double) (mass_water_aq_x * d), "delta",
 						   (double) delta[i], "10**d/c", (double) d));
@@ -3626,7 +3626,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.2e   %-9s%10.2e   %-6s%10.2e\n",
-						   x[i]->description, "old mass",
+						   x[i]->description.c_str(), "old mass",
 						   (double) x[i]->moles, "new mass",
 						   (double) (x[i]->moles - delta[i]), "delta",
 						   (double) delta[i]));
@@ -3657,7 +3657,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.2e   %-9s%10.2e   %-6s%10.2e\n",
-						   x[i]->description, "old mol",
+						   x[i]->description.c_str(), "old mol",
 						   (double) x[i]->moles, "new mol",
 						   (double) (x[i]->moles + delta[i]), "delta",
 						   (double) delta[i]));
@@ -3699,7 +3699,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.2e   %-9s%10.2e   %-6s%10.2e\n",
-						   x[i]->description, "old mol",
+						   x[i]->description.c_str(), "old mol",
 						   (double) x[i]->moles, "new mol",
 						   (double) (x[i]->moles - delta[i]), "delta",
 						   (double) delta[i]));
@@ -3720,7 +3720,7 @@ reset(void)
 			{
 				output_msg(sformatf(
 						   "%-10.10s %-9s%10.5f   %-9s%10.5f   %-6s%10.2e   %-8s%10.2e\n",
-						   x[i]->description, "old lg", (double) x[i]->s->lg,
+						   x[i]->description.c_str(), "old lg", (double) x[i]->s->lg,
 						   "new lg", (double) (x[i]->s->lg + d), "delta",
 						   (double) delta[i], "delta", (double) d));
 			}
@@ -3747,7 +3747,7 @@ reset(void)
 				{
 					output_msg(sformatf(
 							   "%-10.10s %-9s%10.2e   %-9s%10.2e   %-6s%10.2e\n",
-							   x[i]->description, "old mole",
+							   x[i]->description.c_str(), "old mole",
 							   (double) x[i]->moles, "new mole",
 							   (double) (x[i]->moles + x[i]->delta), "delta",
 							   (double) x[i]->delta));
@@ -3802,7 +3802,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3814,7 +3814,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3826,7 +3826,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3842,7 +3842,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3857,7 +3857,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3895,7 +3895,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3921,7 +3921,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 #else
@@ -3932,7 +3932,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 #endif
@@ -3942,7 +3942,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 #endif
@@ -3962,7 +3962,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -3983,7 +3983,7 @@ residuals(void)
 						if (print_fail)
 							output_msg(sformatf(
 									   "Failed Residual %d: %s %d %e\n",
-									   iterations, x[i]->description, i,
+									   iterations, x[i]->description.c_str(), i,
 									   residual[i]));
 						converge = FALSE;
 					}
@@ -3995,7 +3995,7 @@ residuals(void)
 						if (print_fail)
 							output_msg(sformatf(
 									   "Failed Residual %d: %s %d %e\n",
-									   iterations, x[i]->description, i,
+									   iterations, x[i]->description.c_str(), i,
 									   residual[i]));
 						converge = FALSE;
 					}
@@ -4009,7 +4009,7 @@ residuals(void)
 					if (print_fail)
 						output_msg(sformatf(
 								   "Failed Residual %d: %s %d %e\n",
-								   iterations, x[i]->description, i,
+								   iterations, x[i]->description.c_str(), i,
 								   residual[i]));
 					converge = FALSE;
 				}
@@ -4033,7 +4033,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_VOLUME &&
@@ -4056,7 +4056,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4070,7 +4070,7 @@ residuals(void)
 					if (print_fail)
 						output_msg(sformatf(
 								   "Failed Residual %d: %s %d %e\n",
-								   iterations, x[i]->description, i,
+								   iterations, x[i]->description.c_str(), i,
 								   residual[i]));
 					converge = FALSE;
 				}
@@ -4080,7 +4080,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4094,7 +4094,7 @@ residuals(void)
 					if (print_fail)
 						output_msg(sformatf(
 								   "Failed Residual %d: %s %d %e\n",
-								   iterations, x[i]->description, i,
+								   iterations, x[i]->description.c_str(), i,
 								   residual[i]));
 					converge = FALSE;
 				}
@@ -4107,7 +4107,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4124,7 +4124,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4192,7 +4192,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4254,7 +4254,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual A %d: %s %d %e\n",
-							   iterations, x[i]->description, i, residual[i]));
+							   iterations, x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}		
@@ -4311,7 +4311,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual %d: %s %d %e\n", iterations,
-							   x[i]->description, i, residual[i]));
+							   x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4341,7 +4341,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual B %d: %s %d %e\n",
-							   iterations, x[i]->description, i, residual[i]));
+							   iterations, x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4431,7 +4431,7 @@ residuals(void)
 						if (print_fail)
 							output_msg(sformatf(
 									   "Failed Residual C %d: %s %d %e %e\n",
-									   iterations, x[i]->description, i, sum,
+									   iterations, x[i]->description.c_str(), i, sum,
 									   l_toler));
 						converge = FALSE;
 					}
@@ -4515,7 +4515,7 @@ residuals(void)
 				if (print_fail)
 					output_msg(sformatf(
 							   "Failed Residual D %d: %s %d %e\n",
-							   iterations, x[i]->description, i, residual[i]));
+							   iterations, x[i]->description.c_str(), i, residual[i]));
 				converge = FALSE;
 			}
 		}
@@ -4735,7 +4735,7 @@ revise_guesses(void)
 				{
 					output_msg(sformatf(
 							   "\n\t%5s  at beginning of set %d: %e\t%e\t%e\n",
-							   x[i]->description, l_iter, (double) x[i]->sum,
+							   x[i]->description.c_str(), l_iter, (double) x[i]->sum,
 							   (double) x[i]->moles,
 							   (double) x[i]->master[0]->s->la));
 				}
@@ -4820,7 +4820,7 @@ revise_guesses(void)
 					{
 						output_msg(sformatf(
 								   "\t%5s not converged in set %d: %e\t%e\t%e\n",
-								   x[i]->description, l_iter,
+								   x[i]->description.c_str(), l_iter,
 								   (double) x[i]->sum, (double) x[i]->moles,
 								   (double) x[i]->master[0]->s->la));
 					}
@@ -4844,7 +4844,7 @@ revise_guesses(void)
 					{
 						output_msg(sformatf(
 								   "%s not converged in set. %e\t%e\t%e\n",
-								   x[i]->description, (double) x[i]->sum,
+								   x[i]->description.c_str(), (double) x[i]->sum,
 								   (double) x[i]->moles,
 								   (double) x[i]->master[0]->s->la));
 					}
