@@ -1546,7 +1546,7 @@ s_init(class species *s_ptr)
  *   set pointers in structure to NULL
  */
 	s_ptr->name = NULL;
-	s_ptr->mole_balance = NULL;
+	//s_ptr->mole_balance.clear();
 	s_ptr->in = FALSE;
 	s_ptr->number = 0;
 	s_ptr->primary = NULL;

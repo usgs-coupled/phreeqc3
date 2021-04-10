@@ -2454,7 +2454,7 @@ tidy_species(void)
 				{
 					s[i]->o += s[i]->next_secondary[j].coef;
 				}
-				else if (s[i]->mole_balance != NULL)
+				else if (s[i]->mole_balance.size() > 0)
 				{
 					master_ptr = s[i]->next_secondary[j].elt->master;
 					if (master_ptr != NULL)
@@ -2471,7 +2471,7 @@ tidy_species(void)
 					{
 						input_error++;
 						error_string = sformatf(
-							"Element in -mole_balance %s not defined for species %s.\n", s[i]->mole_balance, s[i]->name);
+							"Element in -mole_balance %s not defined for species %s.\n", s[i]->mole_balance.c_str(), s[i]->name);
 						error_msg(error_string, CONTINUE);
 						continue;
 					}

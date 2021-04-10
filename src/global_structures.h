@@ -411,22 +411,30 @@ public:
 	std::string elt_name;
 	std::vector<double> uncertainties;
 };
-class inv_phases
+class phase_name_wrapper
+{
+public:
+	~phase_name_wrapper() {};
+	phase_name_wrapper() {};
+	class phase* phase(Phreeqc* php);
+	std::string& Get_phase_name() { return this->phase_name; }
+	void Set_phase_name(const std::string& name) { this->phase_name = name; }
+protected:
+	std::string phase_name;
+};
+class inv_phases: public phase_name_wrapper
 {
 public:
 	~inv_phases() {};
 	inv_phases()
 	{
-		//name.clear();
+		//phase_name.clear(); // from phase_name_wrapper
 		//phase = NULL;
 		column = 0;
 		constraint = EITHER;
 		force = FALSE;
 		//isotopes.clear();
 	}
-	class phase* phase(Phreeqc* php);
-	std::string name;
-	//class phase* phase; // always lookup
 	int column;
 	int constraint;
 	int force;
@@ -651,33 +659,6 @@ public:
 	int same_model;
 };
 /*----------------------------------------------------------------------
- *   Keywords
- *---------------------------------------------------------------------- */
-//class key
-//{
-//public:
-//	~key() {};
-//	key()
-//	{
-//		name = NULL;
-//		keycount = 0;
-//	}
-//	char* name;
-//	int keycount = 0;
-// };
-//class const_key
-//{
-//public:
-//	~const_key() {};
-//	const_key()
-//	{
-//		name = NULL;
-//		keycount = 0;
-//	}
-//	const char* name;
-//	int keycount;
-//};
-/*----------------------------------------------------------------------
  *   Elements
  *---------------------------------------------------------------------- */
 class element
@@ -723,7 +704,7 @@ public:
 	species()
 	{	/* all data pertinent to an aqueous species */
 		name = NULL;          // name of species 
-		mole_balance = NULL;  // formula for mole balance 
+		//mole_balance.clear();  // formula for mole balance 
 		in = FALSE;           // set internally if species in model
 		number = 0;
 		// points to master species list, NULL if not primary master
@@ -789,7 +770,7 @@ public:
 		original_deltav_units = cm3_per_mol;
 	}
 	const char* name;
-	const char* mole_balance; 
+	std::string mole_balance; 
 	int in;
 	int number;
 	class master* primary;

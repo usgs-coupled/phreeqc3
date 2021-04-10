@@ -79,7 +79,8 @@ read_solution_spread(void)
 	// fill in default isotopes
 	for (size_t i = 0; i < soln_defaults.iso.size(); i++)
 	{
-		soln_defaults.iso.push_back(class iso(iso_defaults[i]));
+		class iso is(iso_defaults[i]);
+		soln_defaults.iso.push_back(is);
 	}
 	heading = NULL;
 	units = NULL;

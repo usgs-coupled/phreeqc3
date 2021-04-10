@@ -1394,11 +1394,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		*s_ptr = *pSrc->s[i];
 		// fix up all pointers
 		s_ptr->name = string_hsave(pSrc->s[i]->name);
-		s_ptr->mole_balance = NULL;
-		if (pSrc->s[i]->mole_balance != NULL)
-		{
-			s_ptr->mole_balance = string_hsave(pSrc->s[i]->mole_balance);
-		}
+		s_ptr->mole_balance = pSrc->s[i]->mole_balance;
 		s_ptr->primary = NULL;
 		s_ptr->secondary = NULL;
 		s_ptr->add_logk.resize(pSrc->s[i]->add_logk.size());

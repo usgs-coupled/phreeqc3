@@ -2291,7 +2291,7 @@ surf_total(const char *total_name, const char *surface_name)
 
 		// surface matches, now match element or redox state
 		class rxn_token *rxn_ptr;
-		if (s_x[j]->mole_balance == NULL)
+		if (s_x[j]->mole_balance.size() == 0)
 		{
 			for (rxn_ptr = &s_x[j]->rxn_s.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 			{

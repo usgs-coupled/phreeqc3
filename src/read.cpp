@@ -1719,20 +1719,21 @@ int Phreeqc::
 read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 /* ---------------------------------------------------------------------- */
 {
-	int j, l;
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	int j;
+	//char token[MAX_LENGTH], token1[MAX_LENGTH];
+	std::string token, token1;
 	const char* cptr1;
 	std::vector <cxxSolutionIsotope> isotopes;
 /*
  *   Read phase name
  */
-	j = copy_token(token, &cptr, &l);
+	j = copy_token(token, &cptr);
 	if (j == EMPTY)
 		return (OK);
 
 	size_t count_phases = inverse_ptr->phases.size();
 	inverse_ptr->phases.resize(count_phases + 1);
-	inverse_ptr->phases[count_phases].name = string_hsave(token);
+	inverse_ptr->phases[count_phases].Set_phase_name(token);
 /*
  *   Read constraint, force, and isotopes
  */
@@ -1741,10 +1742,11 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 	for (;;)
 	{
 		cxxSolutionIsotope temp_isotope;
-		j = copy_token(token, &cptr, &l);
+		j = copy_token(token, &cptr);
 		if (j == EMPTY)
 			break;
-		strcpy(token1, token);
+		//strcpy(token1, token
+		token1 = token;
 		str_tolower(token1);
 		if (token1[0] == 'p')
 		{
@@ -1763,7 +1765,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 /*
  *   read isotope data
  */
-			cptr1 = token;
+			cptr1 = token.c_str();
 
 			/* isotope number */
 			get_num(&cptr1, &dummy);
@@ -1781,7 +1783,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 			temp_isotope.Set_elt_name(cptr1);
 
 			/* ratio */
-			j = copy_token(token, &cptr, &l);
+			j = copy_token(token, &cptr);
 			if (j != DIGIT)
 			{
 				error_msg("Expecting isotope ratio for phase.", CONTINUE);
@@ -1789,12 +1791,12 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 				input_error++;
 				break;
 			}
-			(void)sscanf(token, SCANFORMAT, &dummy);
+			(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 			temp_isotope.Set_ratio(dummy);
 
 			/* read and store isotope ratio uncertainty */
 			prev_next_char = cptr;
-			if (copy_token(token, &cptr, &l) != DIGIT)
+			if (copy_token(token, &cptr) != DIGIT)
 			{
 				input_error++;
 				error_string = sformatf(
@@ -1803,7 +1805,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
-			(void)sscanf(token, SCANFORMAT, &dummy);
+			(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
 			temp_isotope.Set_ratio_uncertainty(dummy);
 			temp_isotope.Set_ratio_uncertainty_defined(true);
 			isotopes.push_back(temp_isotope);

@@ -4797,7 +4797,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 /*    if (equal (inv_delta1[j], 0.0, toler) == TRUE) continue;*/
 
 		/* Do not include Na exchange phase */
-		if (strcmp_nocase(inv_ptr->phases[i].name.c_str(), "NaX") == 0)
+		if (strcmp_nocase(inv_ptr->phases[i].Get_phase_name().c_str(), "NaX") == 0)
 			continue;
 /*
  * Determine if exchange reaction
@@ -4815,7 +4815,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 /*
  * Write phase name and constraints
  */
-		string = inv_ptr->phases[i].name;
+		string = inv_ptr->phases[i].Get_phase_name();
 		string = string.substr(0,8);
 		string = Utilities::pad_right(string, 8);
 		if (inv_ptr->phases[i].force == TRUE)
