@@ -499,8 +499,8 @@ public:
 
 	// pitzer.cpp -------------------------------
 	class pitz_param* pitz_param_read(char* string, int n);
-	void pitz_param_store(const class pitz_param* pzp_ptr);
-	void sit_param_store(const class pitz_param* pzp_ptr);
+	void pitz_param_store(class pitz_param* pzp_ptr);
+	void sit_param_store(class pitz_param* pzp_ptr);
 	class pitz_param* pitz_param_copy(const class pitz_param* src);
 	class theta_param* theta_param_search(LDBLE zj, LDBLE zk);
 	void pitzer_make_lists(void);
