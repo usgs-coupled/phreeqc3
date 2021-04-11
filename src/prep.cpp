@@ -399,11 +399,11 @@ build_gas_phase(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name, "H") == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name, "O") == 0)
+			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -446,11 +446,11 @@ build_gas_phase(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name, "H") == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name, "O") == 0)
+			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -508,7 +508,7 @@ build_gas_phase(void)
 				{
 					error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name.c_str());
+							master_ptr->elt->name.c_str(), phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -600,7 +600,7 @@ build_gas_phase(void)
 					{
 						error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name.c_str());
+							master_ptr->elt->name.c_str(), phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
 					col = master_ptr->unknown->number;
@@ -747,7 +747,7 @@ build_ss_assemblage(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 
-			if (strcmp(elt_list[j].elt->name, "H") == 0
+			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0
 				&& mass_hydrogen_unknown != NULL)
 			{
 				store_jacob0((int)mass_hydrogen_unknown->number, (int)x[i]->number,
@@ -756,7 +756,7 @@ build_ss_assemblage(void)
 					elt_list[j].coef);
 
 			}
-			else if (strcmp(elt_list[j].elt->name, "O") == 0
+			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0
 					 && mass_oxygen_unknown != NULL)
 			{
 				store_jacob0((int)mass_oxygen_unknown->number, (int)x[i]->number,
@@ -1181,7 +1181,7 @@ build_model(void)
 				for (j = 0; j < count_elts; j++)
 				{
 					output_msg(sformatf( "\t\t%-20s\t%10.2f\n",
-							   elt_list[j].elt->name,
+							   elt_list[j].elt->name.c_str(),
 							   (double) elt_list[j].coef));
 				}
 			}
@@ -1421,7 +1421,7 @@ build_pure_phases(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 
-			if (strcmp(elt_list[j].elt->name, "H") == 0
+			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0
 				&& mass_hydrogen_unknown != NULL)
 			{
 				store_jacob0((int)mass_hydrogen_unknown->number, (int)x[i]->number,
@@ -1430,7 +1430,7 @@ build_pure_phases(void)
 					elt_list[j].coef);
 
 			}
-			else if (strcmp(elt_list[j].elt->name, "O") == 0
+			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0
 					 && mass_oxygen_unknown != NULL)
 			{
 				store_jacob0((int)mass_oxygen_unknown->number, (int)x[i]->number,
@@ -1446,7 +1446,7 @@ build_pure_phases(void)
 				{
 						error_string = sformatf(
 								"Element undefined, %s.",
-								elt_list[j].elt->name);
+								elt_list[j].elt->name.c_str());
 						error_msg(error_string, STOP);					
 				}
 				if (master_ptr->in == FALSE)
@@ -1990,7 +1990,7 @@ get_list_master_ptrs(const char* cptr, class master *master_ptr)
 			{
 				error_string = sformatf(
 						"Master species for valence states of element %s are not correct.\n\tPossibly related to master species for %s.",
-						master_ptr0->elt->name, master[j]->elt->name);
+						master_ptr0->elt->name.c_str(), master[j]->elt->name.c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 			}
@@ -2952,7 +2952,7 @@ add_surface_charge_balance(void)
 /*
  *   Include charge balance in list for mass-balance equations
  */
-	cptr = master_ptr->elt->name;
+	cptr = master_ptr->elt->name.c_str();
 	get_secondary_in_species(&cptr, 1.0);
 
 	return (OK);
@@ -3013,7 +3013,7 @@ add_cd_music_charge_balances(int n)
 	 *   Include charge balance in list for mass-balance equations
 	 */
 	{
-		const char* cptr = master_ptr->elt->name;
+		const char* cptr = master_ptr->elt->name.c_str();
 		get_secondary_in_species(&cptr, s[n]->dz[0]);
 	}
 	/*
@@ -3026,7 +3026,7 @@ add_cd_music_charge_balances(int n)
 	 *   Include charge balance in list for mass-balance equations
 	 */
 	{
-		const char* cptr = master_ptr->elt->name;
+		const char* cptr = master_ptr->elt->name.c_str();
 		get_secondary_in_species(&cptr, s[n]->dz[1]);
 	}
 	/*
@@ -3039,7 +3039,7 @@ add_cd_music_charge_balances(int n)
 	 *   Include charge balance in list for mass-balance equations
 	 */
 	{
-		const char* cptr = master_ptr->elt->name;
+		const char* cptr = master_ptr->elt->name.c_str();
 		get_secondary_in_species(&cptr, s[n]->dz[2]);
 	}
 
@@ -3067,7 +3067,7 @@ rewrite_master_to_secondary(class master *master_ptr1,
 	{
 		error_string = sformatf(
 				"All redox states must be for the same element. %s\t%s.",
-				master_ptr1->elt->name, master_ptr2->elt->name);
+				master_ptr1->elt->name.c_str(), master_ptr2->elt->name.c_str());
 		error_msg(error_string, CONTINUE);
 		input_error++;
 		return (ERROR);
@@ -3291,7 +3291,7 @@ setup_surface(void)
 			{
 				error_string = sformatf(
 						"Master species not in database for %s, skipping element.",
-						elt_ptr->name);
+						elt_ptr->name.c_str());
 				warning_msg(error_string);
 				continue;
 			}
@@ -5076,12 +5076,12 @@ write_mb_eqn_x(void)
 		}
 		if (trxn.token[i].s->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].s->primary->elt->name;
+			const char* cptr = trxn.token[i].s->primary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 		else
 		{
-			cptr = trxn.token[i].s->secondary->elt->name;
+			cptr = trxn.token[i].s->secondary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 	}
@@ -5113,23 +5113,23 @@ write_mb_for_species_list(int n)
 	{
 		if (trxn.token[i].s->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].s->primary->elt->name;
+			const char* cptr = trxn.token[i].s->primary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 		else
 		{
-			const char* cptr = trxn.token[i].s->secondary->elt->name;
+			const char* cptr = trxn.token[i].s->secondary->elt->name.c_str();
 			if (get_secondary_in_species(&cptr, trxn.token[i].coef) == ERROR)
 			{
 				input_error++;
-				error_string = sformatf( "Error parsing %s.", trxn.token[i].s->secondary->elt->name);
+				error_string = sformatf( "Error parsing %s.", trxn.token[i].s->secondary->elt->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
 	}
 	for (i = 0; i < count_elts; i++)
 	{
-		if (strcmp(elt_list[i].elt->name, "O(-2)") == 0)
+		if (strcmp(elt_list[i].elt->name.c_str(), "O(-2)") == 0)
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
@@ -5170,18 +5170,18 @@ write_phase_sys_total(int n)
 	{
 		if (trxn.token[i].s->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].s->primary->elt->name;
+			const char* cptr = trxn.token[i].s->primary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 		else
 		{
-			const char* cptr = trxn.token[i].s->secondary->elt->name;
+			const char* cptr = trxn.token[i].s->secondary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 	}
 	for (i = 0; i < count_elts; i++)
 	{
-		if (strcmp(elt_list[i].elt->name, "O(-2)") == 0)
+		if (strcmp(elt_list[i].elt->name.c_str(), "O(-2)") == 0)
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
@@ -5935,7 +5935,7 @@ build_min_exch(void)
 				input_error++;
 				error_string = sformatf(
 						"Did not find unknown for %s, exchange related to mineral %s",
-						elt_list[jj].elt->primary->elt->name, comp_ref.Get_phase_name().c_str());
+						elt_list[jj].elt->primary->elt->name.c_str(), comp_ref.Get_phase_name().c_str());
 				error_msg(error_string, STOP);
 			}
 			if (master_ptr->in == FALSE)
@@ -6069,7 +6069,7 @@ build_min_surface(void)
 				input_error++;
 				error_string = sformatf(
 						"Did not find unknown for %s, surface related to mineral %s",
-						elt_list[jj].elt->primary->elt->name, comp_ptr->Get_phase_name().c_str());
+						elt_list[jj].elt->primary->elt->name.c_str(), comp_ptr->Get_phase_name().c_str());
 				error_msg(error_string, STOP);
 			}
 			if (master_ptr->s->type == SURF)

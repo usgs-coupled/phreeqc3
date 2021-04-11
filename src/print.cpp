@@ -339,7 +339,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		for (j = 0; j < count_elts; j++)
 		{
 			output_msg(sformatf("\t%-14s\t%12.4e\n",
-				elt_list[j].elt->name, (double)elt_list[j].coef));
+				elt_list[j].elt->name.c_str(), (double)elt_list[j].coef));
 		}
 	}
 	return (OK);
@@ -414,9 +414,9 @@ print_eh(void)
 /*
  *   Print result
  */
-			strcpy(token, master[i]->elt->name);
+			strcpy(token, master[i]->elt->name.c_str());
 			strcat(token, "/");
-			strcat(token, master[k]->elt->name);
+			strcat(token, master[k]->elt->name.c_str());
 			output_msg(sformatf("\t%-15s%12.4f%12.4f\n", token,
 					   (double) pe, (double) eh));
 		}
@@ -454,7 +454,7 @@ print_exchange(void)
  */
 
 	s_h2o->lm = s_h2o->la;
-	name = s_hplus->secondary->elt->name;
+	name = s_hplus->secondary->elt->name.c_str();
 	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
@@ -465,12 +465,12 @@ print_exchange(void)
 		if (species_list[i].master_s->secondary != NULL)
 		{
 			master_ptr = species_list[i].master_s->secondary;
-			name1 = species_list[i].master_s->secondary->elt->name;
+			name1 = species_list[i].master_s->secondary->elt->name.c_str();
 		}
 		else
 		{
 			master_ptr = species_list[i].master_s->primary;
-			name1 = species_list[i].master_s->primary->elt->name;
+			name1 = species_list[i].master_s->primary->elt->name.c_str();
 		}
 /*
  *   Check if new master species, print total molality
@@ -879,7 +879,7 @@ print_reaction(void)
 		class element * elt_ptr = element_store(cit->first.c_str());
 		assert(elt_ptr);
 		output_msg(sformatf("\t%-15s%13.5f\n",
-				   elt_ptr->name,
+				   elt_ptr->name.c_str(),
 				   (double) cit->second));
 	}
 	output_msg(sformatf("\n"));
@@ -1454,7 +1454,7 @@ print_species(void)
  *   Print list of species
  */
 	s_h2o->lm = s_h2o->la;
-	name = s_hplus->secondary->elt->name;
+	name = s_hplus->secondary->elt->name.c_str();
 	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
@@ -1467,12 +1467,12 @@ print_species(void)
 		if (species_list[i].master_s->secondary != NULL)
 		{
 			master_ptr = species_list[i].master_s->secondary;
-			name1 = species_list[i].master_s->secondary->elt->name;
+			name1 = species_list[i].master_s->secondary->elt->name.c_str();
 		}
 		else
 		{
 			master_ptr = species_list[i].master_s->primary;
-			name1 = species_list[i].master_s->primary->elt->name;
+			name1 = species_list[i].master_s->primary->elt->name.c_str();
 		}
 /*
  *   Check if new master species, print total molality
@@ -1717,7 +1717,7 @@ print_surface(void)
 					continue;
 				master_ptr = x[k]->master[0];
 				output_msg(sformatf("%-14s\n",
-						   x[k]->master[0]->elt->name));
+						   x[k]->master[0]->elt->name.c_str()));
 				output_msg(sformatf("\t%11.3e  moles",
 						   (double) x[k]->moles));
 				cxxSurfaceComp * comp_k_ptr = surface_ptr->Find_comp(x[k]->surface_comp);
@@ -1777,7 +1777,7 @@ print_surface(void)
 		{
 			int k = j;
 			master_ptr = x[k]->master[0];
-			output_msg(sformatf("%-14s\n", x[k]->master[0]->elt->name));
+			output_msg(sformatf("%-14s\n", x[k]->master[0]->elt->name.c_str()));
 			output_msg(sformatf("\t%11.3e  moles\n",
 					   (double) x[k]->moles));
 			output_msg(sformatf("\t%-15s%12s%12s%12s%12s\n", " ", " ",
@@ -2014,7 +2014,7 @@ print_surface_cd_music(void)
 					continue;
 				master_ptr = x[k]->master[0];
 				output_msg(sformatf("%-14s\n",
-						   x[k]->master[0]->elt->name));
+						   x[k]->master[0]->elt->name.c_str()));
 				output_msg(sformatf("\t%11.3e  moles",
 						   (double) x[k]->moles));
 				cxxSurfaceComp * comp_k_ptr = surface_ptr->Find_comp(x[k]->surface_comp);

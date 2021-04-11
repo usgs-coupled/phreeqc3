@@ -331,7 +331,7 @@ element_compare(const void *ptr1, const void *ptr2)
 	element_ptr1 = *(const class element **) ptr1;
 	element_ptr2 = *(const class element **) ptr2;
 /*      return(strcmp_nocase(element_ptr1->name, element_ptr2->name)); */
-	return (strcmp(element_ptr1->name, element_ptr2->name));
+	return (strcmp(element_ptr1->name.c_str(), element_ptr2->name.c_str()));
 
 }
 
@@ -432,12 +432,12 @@ change_hydrogen_in_elt_list(LDBLE charge)
 	elt_list_combine();
 	for (j = 0; j < count_elts; j++)
 	{
-		if (strcmp(elt_list[j].elt->name, "H") == 0)
+		if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
 		{
 			found_h = j;
 			coef_h = elt_list[j].coef;
 		}
-		else if (strcmp(elt_list[j].elt->name, "O") == 0)
+		else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
 		{
 			found_o = j;
 			coef_o = elt_list[j].coef;
@@ -511,7 +511,7 @@ elt_list_compare(const void* ptr1, const void* ptr2)
 
 	a = (const class elt_list*)ptr1;
 	b = (const class elt_list*)ptr2;
-	return (strncmp(a->elt->name, b->elt->name, MAX_LENGTH));
+	return (strncmp(a->elt->name.c_str(), b->elt->name.c_str(), MAX_LENGTH));
 }
 /* ---------------------------------------------------------------------- */
 std::vector<class elt_list> Phreeqc::
@@ -526,7 +526,7 @@ elt_list_internal_copy(const std::vector<class elt_list>& el)
 	size_t count = 0;
 	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
 	{
-		new_elt_list[count].elt = element_store(elt_list_ptr->elt->name);
+		new_elt_list[count].elt = element_store(elt_list_ptr->elt->name.c_str());
 		new_elt_list[count].coef = elt_list_ptr->coef;
 		count++;
 	}
@@ -573,7 +573,7 @@ elt_list_NameDouble(void)
 	cxxNameDouble nd;
 	for (int i = 0; i < count_elts; i++)
 	{
-		nd.add(elt_list[i].elt->name, elt_list[i].coef);
+		nd.add(elt_list[i].elt->name.c_str(), elt_list[i].coef);
 	}
 	return (nd);
 }
@@ -904,7 +904,7 @@ master_compare_string(const void *ptr1, const void *ptr2)
 
 	string_ptr = (const char *) ptr1;
 	master_ptr = *(const class master **) ptr2;
-	return (strcmp_nocase(string_ptr, master_ptr->elt->name));
+	return (strcmp_nocase(string_ptr, master_ptr->elt->name.c_str()));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -915,7 +915,7 @@ master_compare(const void *ptr1, const void *ptr2)
 	const class master *master_ptr1, *master_ptr2;
 	master_ptr1 = *(const class master **) ptr1;
 	master_ptr2 = *(const class master **) ptr2;
-	return (strcmp_nocase(master_ptr1->elt->name, master_ptr2->elt->name));
+	return (strcmp_nocase(master_ptr1->elt->name.c_str(), master_ptr2->elt->name.c_str()));
 }
 class master* Phreeqc::
 master_bsearch_primary(const std::string& cstring)
@@ -1042,7 +1042,7 @@ master_search(const char* cptr, int *n)
 	*n = -999;
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		if (strcmp(cptr, master[i]->elt->name) == 0)
+		if (strcmp(cptr, master[i]->elt->name.c_str()) == 0)
 		{
 			*n = i;
 			master_ptr = master[i];
@@ -1754,19 +1754,19 @@ species_list_compare(const void *ptr1, const void *ptr2)
  */
 	if (nptr1->master_s->secondary != NULL)
 	{
-		name1 = nptr1->master_s->secondary->elt->name;
+		name1 = nptr1->master_s->secondary->elt->name.c_str();
 	}
 	else
 	{
-		name1 = nptr1->master_s->primary->elt->name;
+		name1 = nptr1->master_s->primary->elt->name.c_str();
 	}
 	if (nptr2->master_s->secondary != NULL)
 	{
-		name2 = nptr2->master_s->secondary->elt->name;
+		name2 = nptr2->master_s->secondary->elt->name.c_str();
 	}
 	else
 	{
-		name2 = nptr2->master_s->primary->elt->name;
+		name2 = nptr2->master_s->primary->elt->name.c_str();
 	}
 /*
  *   Compare name of primary or secondary master species; log molality
@@ -1858,19 +1858,19 @@ species_list_compare_master(const void *ptr1, const void *ptr2)
  */
 	if (nptr1->master_s->secondary != NULL)
 	{
-		name1 = nptr1->master_s->secondary->elt->name;
+		name1 = nptr1->master_s->secondary->elt->name.c_str();
 	}
 	else
 	{
-		name1 = nptr1->master_s->primary->elt->name;
+		name1 = nptr1->master_s->primary->elt->name.c_str();
 	}
 	if (nptr2->master_s->secondary != NULL)
 	{
-		name2 = nptr2->master_s->secondary->elt->name;
+		name2 = nptr2->master_s->secondary->elt->name.c_str();
 	}
 	else
 	{
-		name2 = nptr2->master_s->primary->elt->name;
+		name2 = nptr2->master_s->primary->elt->name.c_str();
 	}
 /*
  *   Compare name of primary or secondary master species; log molality

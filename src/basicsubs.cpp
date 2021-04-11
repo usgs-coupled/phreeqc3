@@ -587,7 +587,7 @@ calc_solution_volume(void)
 	{
 		if (master[i]->s->type != AQ) continue;
 		class master *master_ptr = master[i];
-		if (master_ptr->primary == TRUE && strcmp(master_ptr->elt->name, "Alkalinity"))
+		if (master_ptr->primary == TRUE && strcmp(master_ptr->elt->name.c_str(), "Alkalinity"))
 		{
 			total_mass += master_ptr->total_primary * master_ptr->elt->gfw; 
 		}
@@ -838,7 +838,7 @@ calc_surface_charge(const char *surface_name)
 			if (token_ptr->s->type != SURF)
 				continue;
 			master_ptr = trxn.token[i].s->primary;
-			strcpy(token, master_ptr->elt->name);
+			strcpy(token, master_ptr->elt->name.c_str());
 			replace("_", " ", token);
 			cptr = token;
 			copy_token(token1, &cptr, &j);
@@ -1130,7 +1130,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
  */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name, total_name) == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 			{
 				return ((LDBLE) elt_list[j].coef);
 			}
@@ -1295,7 +1295,7 @@ equivalent_fraction(const char *name, LDBLE *eq, std::string &elt_name)
 			if (next_elt->elt->master->s->type == SURF ||
 				next_elt->elt->master->s->type == EX)
 			{
-				tot = total_mole(next_elt->elt->name);
+				tot = total_mole(next_elt->elt->name.c_str());
 				elt_name = next_elt->elt->name;
 			}
 		}
@@ -1808,7 +1808,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 				for (next_elt = &phase_ptr->next_elt[0];
 					 next_elt->elt != NULL; next_elt++)
 				{
-					if (strcmp(next_elt->elt->name, name) == 0)
+					if (strcmp(next_elt->elt->name.c_str(), name) == 0)
 					{
 						tot += next_elt->coef * phase_ptr->moles_x;
 						break;
@@ -1859,7 +1859,7 @@ sum_match_species(const char *mytemplate, const char *name)
 			for (next_elt = &s_ptr->next_elt[0]; next_elt->elt != NULL;
 					next_elt++)
 			{
-				if (strcmp(next_elt->elt->name, name) == 0)
+				if (strcmp(next_elt->elt->name.c_str(), name) == 0)
 				{
 					tot += next_elt->coef * s_ptr->moles;
 					break;
@@ -1907,7 +1907,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 					for (next_elt = &phase_ptr->next_elt[0]; next_elt->elt != NULL; next_elt++)
 					{
-						if (strcmp(next_elt->elt->name, name) == 0)
+						if (strcmp(next_elt->elt->name.c_str(), name) == 0)
 						{
 							tot += next_elt->coef *	comp_ptr->Get_moles();
 							break;
@@ -2373,7 +2373,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 	{
 		if (x[j]->type != SURFACE)
 			continue;
-		strcpy(token, x[j]->master[0]->elt->name);
+		strcpy(token, x[j]->master[0]->elt->name.c_str());
 		replace("_", " ", token);
 		cptr = token;
 		copy_token(name, &cptr, &k);
@@ -2403,7 +2403,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 		{
 			if (s_x[j]->next_elt[i].elt->master->type != SURF) continue;
 
-			strcpy(token, s_x[j]->next_elt[i].elt->name);
+			strcpy(token, s_x[j]->next_elt[i].elt->name.c_str());
 			replace("_", " ", token);
 			cptr = token;
 			copy_token(name, &cptr, &k);
@@ -2424,7 +2424,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
  */
 	for (j = 0; j < count_elts; j++)
 	{
-		if (strcmp(elt_list[j].elt->name, total_name) == 0)
+		if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 		{
 			return ((LDBLE) elt_list[j].coef);
 		}
@@ -2983,7 +2983,7 @@ system_total_elements(void)
 		{
 			t = master_ptr->total;
 		}
-		strcpy(name, master[i]->elt->name);			
+		strcpy(name, master[i]->elt->name.c_str());
 		count_sys = sys.size();
 		sys.resize(count_sys + 1);
 		sys[count_sys].name = string_duplicate(name);
@@ -3261,7 +3261,7 @@ system_total_elt(const char *total_name)
 		 */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name, total_name) == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 			{
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
@@ -3344,11 +3344,11 @@ system_total_elt(const char *total_name)
 			 */
 			for (j = 0; j < count_elts; j++)
 			{
-				if (strcmp(elt_list[j].elt->name, total_name) == 0)
+				if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
-					strcpy(name, x[k]->master[0]->elt->name);
+					strcpy(name, x[k]->master[0]->elt->name.c_str());
 					replace("_psi", "", name);
 					sys[count_sys].name = string_duplicate(name);
 					sys[count_sys].moles = elt_list[j].coef;
@@ -3383,7 +3383,7 @@ system_total_elt(const char *total_name)
 			elt_list_combine();
 			for (j = 0; j < count_elts; j++)
 			{
-				if (strcmp(elt_list[j].elt->name, total_name) == 0)
+				if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
@@ -3419,7 +3419,7 @@ system_total_elt(const char *total_name)
 					elt_list_combine();
 					for (j = 0; j < count_elts; j++)
 					{
-						if (strcmp(elt_list[j].elt->name, total_name) == 0)
+						if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 						{
 							size_t count_sys = sys.size();
 							sys.resize(count_sys + 1);
@@ -3457,7 +3457,7 @@ system_total_elt(const char *total_name)
 				 */
 				for (j = 0; j < count_elts; j++)
 				{
-					if (strcmp(elt_list[j].elt->name, total_name) == 0)
+					if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 					{
 						size_t count_sys = sys.size();
 						sys.resize(count_sys + 1);
@@ -3507,7 +3507,7 @@ system_total_elt_secondary(const char *total_name)
 		 */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name, total_name) == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 			{
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
@@ -3576,7 +3576,7 @@ system_total_elt_secondary(const char *total_name)
 				}
 				for (l = 0; l < count_elts; l++)
 				{
-					if (strcmp(elt_list[l].elt->name, total_name) == 0)
+					if (strcmp(elt_list[l].elt->name.c_str(), total_name) == 0)
 					{
 						coef = elt_list[l].coef;
 						if (s_x[j]->type > H2O)
@@ -3593,7 +3593,7 @@ system_total_elt_secondary(const char *total_name)
 				}
 				if (l >= count_elts)
 					continue;
-				strcpy(name, x[k]->master[0]->elt->name);
+				strcpy(name, x[k]->master[0]->elt->name.c_str());
 				replace("_psi", "", name);
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
@@ -3629,7 +3629,7 @@ system_total_elt_secondary(const char *total_name)
 			elt_list_combine();
 			for (j = 0; j < count_elts; j++)
 			{
-				if (strcmp(elt_list[j].elt->name, total_name) == 0)
+				if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
@@ -3666,7 +3666,7 @@ system_total_elt_secondary(const char *total_name)
 					elt_list_combine();
 					for (j = 0; j < count_elts; j++)
 					{
-						if (strcmp(elt_list[j].elt->name, total_name) == 0)
+						if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 						{
 							size_t count_sys = sys.size();
 							sys.resize(count_sys + 1);
@@ -3706,7 +3706,7 @@ system_total_elt_secondary(const char *total_name)
 				 */
 				for (size_t j1 = 0; j1 < (size_t) count_elts; j1++)
 				{
-					if (strcmp(elt_list[j1].elt->name, total_name) == 0)
+					if (strcmp(elt_list[j1].elt->name.c_str(), total_name) == 0)
 					{
 						size_t count_sys = sys.size();
 						sys.resize(count_sys + 1);
@@ -3793,7 +3793,7 @@ solution_sum_secondary(const char *total_name)
 		 */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name, total_name) == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
 			{
 				sum += elt_list[j].coef;
 				break;

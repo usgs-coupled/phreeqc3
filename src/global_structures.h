@@ -668,13 +668,13 @@ public:
 	element()
 	{
 		// element name
-		name = NULL;
+		//name.clear();
 		/*    int in; */
 		master = NULL;
 		primary = NULL;
 		gfw = 0;
 	}
-	const char* name;
+	std::string name;
 	class master* master;
 	class master* primary;
 	LDBLE gfw;

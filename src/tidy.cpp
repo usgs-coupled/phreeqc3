@@ -668,12 +668,12 @@ coef_in_master(class master * master_ptr)
 	const class elt_list *next_elt;
 
 	coef = 0.0;
-	cptr = master_ptr->elt->name;
+	cptr = master_ptr->elt->name.c_str();
 	get_elt(&cptr, elt_name, &l);
 	for (next_elt = &master_ptr->s->next_elt[0]; next_elt->elt != NULL;
 		 next_elt++)
 	{
-		if (strcmp(elt_name.c_str(), next_elt->elt->name) == 0)
+		if (strcmp(elt_name.c_str(), next_elt->elt->name.c_str()) == 0)
 		{
 			coef = next_elt->coef;
 			break;
@@ -1229,7 +1229,7 @@ tidy_inverse(void)
 								"Isotope ratio may only be used"
 								" for total element in phase.\n"
 								"Secondary species not allowed: %s.",
-								master_ptr->elt->name);
+								master_ptr->elt->name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
@@ -1253,7 +1253,7 @@ tidy_inverse(void)
 						input_error++;
 						error_string = sformatf(
 								"Element, %s,for which isotope ratio was defined is not found in phase, %s",
-								master_ptr->elt->name,
+								master_ptr->elt->name.c_str(),
 								inverse[i].phases[j].phase(this)->name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
@@ -1582,7 +1582,7 @@ tidy_pp_assemblage(void)
 						input_error++;
 						error_string = sformatf(
 								"Element \"%s\" in alternative phase for \"%s\" in EQUILIBRIUM_PHASES not found in database.",
-								elt_list[l].elt->name,
+								elt_list[l].elt->name.c_str(),
 								it->first.c_str());
 						error_msg(error_string, CONTINUE);
 					}
@@ -2277,7 +2277,7 @@ tidy_species(void)
 	}
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		cptr = master[i]->elt->name;
+		cptr = master[i]->elt->name.c_str();
 		if (cptr[0] != '[')
 		{
 			while ((c = (int) *(++cptr)) != '\0')
@@ -2287,7 +2287,7 @@ tidy_species(void)
 					input_error++;
 					error_string = sformatf(
 							"Element or valence name in SOLUTION_MASTER_SPECIES should include only one element, %s.",
-							master[i]->elt->name);
+							master[i]->elt->name.c_str());
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -2295,7 +2295,7 @@ tidy_species(void)
 		}
 		/* store sequence number in master structure */
 		master[i]->number = i;
-		if (strcmp(master[i]->elt->name, "Alkalinity") != 0)
+		if (strcmp(master[i]->elt->name.c_str(), "Alkalinity") != 0)
 		{
 			if (master[i]->primary == TRUE)
 			{
@@ -2306,7 +2306,7 @@ tidy_species(void)
 				master[i]->s->secondary = master[i];
 			}
 		}
-		if (strcmp(master[i]->elt->name, "C") == 0)
+		if (strcmp(master[i]->elt->name.c_str(), "C") == 0)
 		{
 			s_co3 = master[i]->s;
 		}
@@ -2317,7 +2317,7 @@ tidy_species(void)
 				input_error++;
 				error_string = sformatf(
 						"Calculating gfw for master species, %s, formula %s.",
-						master[i]->elt->name, master[i]->gfw_formula.c_str());
+						master[i]->elt->name.c_str(), master[i]->gfw_formula.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -2384,15 +2384,15 @@ tidy_species(void)
 		{
 			input_error++;
 			error_string = sformatf( "No master species for element %s.",
-					elements[i]->name);
+					elements[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
-		elements[i]->primary = master_bsearch_primary(elements[i]->name);
+		elements[i]->primary = master_bsearch_primary(elements[i]->name.c_str());
 		if (elements[i]->primary == NULL)
 		{
 			input_error++;
 			error_string = sformatf( "No master species for element %s.",
-					elements[i]->name);
+					elements[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 	}
@@ -2426,8 +2426,8 @@ tidy_species(void)
 						"\tAnother entry in SOLUTION_MASTER_SPECIES is needed.\n"
 						"\tDefine species %s as a secondary master species for a valence state.\n"
 						"\tFor example: \n" "\t%s(0)\t%s alk gfw",
-						master_ptr->s->name, master_ptr->elt->name,
-						master_ptr->s->name, master_ptr->elt->name,
+						master_ptr->s->name, master_ptr->elt->name.c_str(),
+						master_ptr->s->name, master_ptr->elt->name.c_str(),
 						master_ptr->s->name);
 				error_msg(error_string, CONTINUE);
 			}
@@ -2549,15 +2549,15 @@ tidy_species(void)
 		if (master[i]->gfw <= 0.0)
 		{
 			if (master[i]->type >= EMINUS) continue;
-			if ((strcmp(master[i]->elt->name, "E") != 0) && 
-			    (strcmp(master[i]->elt->name, "e") != 0) &&
-			    (strcmp(master[i]->elt->name, "H(1)") != 0) &&
-			    (strcmp(master[i]->elt->name, "O(-2)") != 0)
+			if ((strcmp(master[i]->elt->name.c_str(), "E") != 0) &&
+			    (strcmp(master[i]->elt->name.c_str(), "e") != 0) &&
+			    (strcmp(master[i]->elt->name.c_str(), "H(1)") != 0) &&
+			    (strcmp(master[i]->elt->name.c_str(), "O(-2)") != 0)
 			    )
 			{
 				input_error++;
 				error_string = sformatf(
-					"Gram formula wt in SOLUTION_MASTER_SPECIES should not be <= 0.0, %s.\n", master[i]->elt->name);
+					"Gram formula wt in SOLUTION_MASTER_SPECIES should not be <= 0.0, %s.\n", master[i]->elt->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -2620,13 +2620,13 @@ tidy_surface(void)
 					error_string = sformatf(
 							"Master species not in database for %s, "
 							"skipping element.",
-							elt_ptr->name);
+							elt_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
 				if (master_ptr->type != SURF)
 					continue;
-				comp_ptr->Set_master_element(elt_ptr->name);
+				comp_ptr->Set_master_element(elt_ptr->name.c_str());
 /*
  *   Set flags
  */
@@ -2885,7 +2885,7 @@ tidy_isotopes(void)
 			{
 				cxxSolutionIsotope temp_isotope;
 				temp_isotope.Set_isotope_name(iso_name_str.str());
-				temp_isotope.Set_elt_name(master_ptr->elt->name);
+				temp_isotope.Set_elt_name(master_ptr->elt->name.c_str());
 				temp_isotope.Set_isotope_number(isotope_number);
 				primary_isotopes[iso_name_str.str().c_str()] = temp_isotope;
 			}
@@ -2975,7 +2975,7 @@ tidy_isotopes(void)
 					input_error++;
 					error_string = sformatf(
 							"Isotopic ratio not defined for element or valence state %g%s, using 0.",
-							(double) isotope_number, master[k]->elt->name);
+							(double) isotope_number, master[k]->elt->name.c_str());
 					warning_msg(error_string);
 					master[k]->isotope = TRUE;
 					master[k]->isotope_ratio = 0.0;
@@ -2985,7 +2985,7 @@ tidy_isotopes(void)
 					continue;
 				cxxSolutionIsotope temp_iso;
 				temp_iso.Set_isotope_number(isotope_number);
-				temp_iso.Set_elt_name(master[k]->elt->name);
+				temp_iso.Set_elt_name(master[k]->elt->name.c_str());
 				temp_iso.Set_total(0);
 				temp_iso.Set_ratio(master[k]->isotope_ratio);
 				temp_iso.Set_ratio_uncertainty(master[k]->isotope_ratio_uncertainty);
@@ -2998,7 +2998,7 @@ tidy_isotopes(void)
 					temp_iso.Set_ratio_uncertainty_defined(true);
 				}
 				std::string token = sformatf("%d%s", (int) isotope_number,
-						master[k]->elt->name);
+						master[k]->elt->name.c_str());
 				temp_iso.Set_isotope_name(token);
 				new_isotopes[token] = temp_iso;
 			}
@@ -3628,13 +3628,13 @@ tidy_min_surface(void)
 					input_error++;
 					error_string = sformatf( "Master species not in database "
 							"for %s, skipping element.",
-							elt_ptr->name);
+							elt_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
 				if (master_ptr->type != SURF)
 					continue;
-				surface_comp_ptr->Set_master_element(elt_ptr->name);
+				surface_comp_ptr->Set_master_element(elt_ptr->name.c_str());
 				break;
 			}
 			if (surface_comp_ptr->Get_master_element().size() == 0)
@@ -3805,7 +3805,7 @@ tidy_min_surface(void)
 							"Element %s in sum of surface sites,\n"
 							"\t including %s * %g mol sites/mol phase,\n"
 							"\t exceeds stoichiometry in the related phase %s, %s.",
-							elt_list[jj].elt->name,
+							elt_list[jj].elt->name.c_str(),
 							elt_ptr->master->s->name,
 							(double) surface_comp_ptr->Get_phase_proportion(),
 							phase_ptr->name.c_str(),
@@ -3866,13 +3866,13 @@ update_min_surface(void)
 					input_error++;
 					error_string = sformatf("Master species not in database "
 						"for %s, skipping element.",
-						elt_ptr->name);
+						elt_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
 				if (master_ptr->type != SURF) continue;
 				comp_moles = it->second;
-				surface_comp_ptr->Set_master_element(elt_ptr->name);
+				surface_comp_ptr->Set_master_element(elt_ptr->name.c_str());
 				break;
 			}
 			//if (surface_comp_ptr->Get_master_element().size() == 0)
@@ -4017,13 +4017,13 @@ tidy_kin_surface(void)
 					input_error++;
 					error_string = sformatf( "Master species not in database "
 							"for %s, skipping element.",
-							elt_ptr->name);
+							elt_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
 				if (master_ptr->type != SURF)
 					continue;
-				comp_ptr->Set_master_element(elt_ptr->name);
+				comp_ptr->Set_master_element(elt_ptr->name.c_str());
 				break;
 			}
 			if (comp_ptr->Get_master_element().size() == 0)
@@ -4212,7 +4212,7 @@ tidy_kin_surface(void)
 								"Stoichiometry of surface, %s * %g mol sites/mol reactant,\n\tmust be a subset of the formula defined for the related reactant %s.\n\tElement %s is not present in reactant formula.",
 								comp_ptr_save->Get_formula().c_str(),
 								(double) comp_ptr_save->Get_phase_proportion(),
-								comp_ptr_save->Get_rate_name().c_str(), elt_list[j].elt->name);
+								comp_ptr_save->Get_rate_name().c_str(), elt_list[j].elt->name.c_str());
 						error_msg(error_string, CONTINUE);
 					}
 					else if (fabs(elt_list[j].coef) >
@@ -4223,7 +4223,7 @@ tidy_kin_surface(void)
 								"Stoichiometry of surface, %s * %g mol sites/mol reactant,\n\tmust be a subset of the formula defined for the related reactant %s.\n\tCoefficient of element %s in surface exceeds amount present in reactant formula.",
 								comp_ptr_save->Get_formula().c_str(),
 								(double) comp_ptr_save->Get_phase_proportion(),
-								comp_ptr_save->Get_rate_name().c_str(), elt_list[j].elt->name);
+								comp_ptr_save->Get_rate_name().c_str(), elt_list[j].elt->name.c_str());
 						error_msg(error_string, CONTINUE);
 					}
 				}
@@ -4271,12 +4271,12 @@ update_kin_surface(void)
 					input_error++;
 					error_string = sformatf("Master species not in database "
 						"for %s, skipping element.",
-						elt_ptr->name);
+						elt_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					continue;
 				}
 				if (master_ptr->type != SURF) continue;
-				comp_ptr->Set_master_element(elt_ptr->name);
+				comp_ptr->Set_master_element(elt_ptr->name.c_str());
 				comp_moles = kit->second;
 				break;
 			}

@@ -533,7 +533,7 @@ add_surface(cxxSurface *surface_ptr)
 			{
 				input_error++;
 				error_string = sformatf( "Element not defined in database, %s.",
-						elt_j_ptr->name);
+						elt_j_ptr->name.c_str());
 				error_msg(error_string, STOP);
 			}
 			if (master_j_ptr->s == s_hplus)
@@ -977,7 +977,7 @@ reaction_calc(cxxReaction *reaction_ptr)
 		{
 			error_string = sformatf(
 					"Element or phase not defined in database, %s.",
-					elt_list[i].elt->name);
+					elt_list[i].elt->name.c_str());
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			return_value = ERROR;
@@ -1247,7 +1247,7 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 					{
 						error_string = sformatf(
 								"Element %s is contained in gas %s (which has 0.0 mass),\nbut is not in solution or other phases.",
-								elt_list[j].elt->name,
+								elt_list[j].elt->name.c_str(),
 								phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
@@ -1320,7 +1320,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 						error_string = sformatf(
 								"Element %s is contained in %s (which has 0.0 mass),"
 								"\t\nbut is not in solution or other phases.",
-								elt_list[i].elt->name,
+								elt_list[i].elt->name.c_str(),
 								phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
@@ -1393,7 +1393,7 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
 						{
 							error_string = sformatf(
 									"Element %s is contained in solid solution %s (which has 0.0 mass),\nbut is not in solution or other phases.",
-									elt_list[l].elt->name,
+									elt_list[l].elt->name.c_str(),
 									phase_ptr->name.c_str());
 							warning_msg(error_string);
 						}
@@ -1460,7 +1460,7 @@ solution_check(void)
 		{
 			error_string = sformatf(
 				"Negative moles in solution %d for %s, %e. Recovering...",
-				cell_no, master_ptr->elt->name, (double)master_ptr->total);
+				cell_no, master_ptr->elt->name.c_str(), (double)master_ptr->total);
 			warning_msg(error_string);
 		}
 		return (MASS_BALANCE);

@@ -736,15 +736,15 @@ read_exchange_species(void)
 			next_elt = &trxn.token[0].s->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
-				if (strcmp(next_elt->elt->name, "C") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
 				{
 					trxn.token[0].s->carbon = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name, "H") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
 				{
 					trxn.token[0].s->h = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name, "O") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
 				{
 					trxn.token[0].s->o = next_elt->coef;
 				}
@@ -1138,9 +1138,9 @@ read_exchange_master_species(void)
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
 		master[count_master]->primary = TRUE;
-		if (strcmp(master[count_master]->elt->name, "E") != 0)
+		if (strcmp(master[count_master]->elt->name.c_str(), "E") != 0)
 		{
-			elts_ptr = element_store(master[count_master]->elt->name);
+			elts_ptr = element_store(master[count_master]->elt->name.c_str());
 			elts_ptr->gfw = 0.0;
 		}
 	}
@@ -3094,7 +3094,7 @@ read_master_species(void)
 			{
 				error_string = sformatf(
 						"Expected alkalinity for master species, %s, in master species input.",
-						elts_ptr->name);
+						elts_ptr->name.c_str());
 			}
 			else
 			{
@@ -3123,7 +3123,7 @@ read_master_species(void)
 			{
 				error_string = sformatf(
 						"Expected gram formula weight for master species, %s, in master species input.",
-						elts_ptr->name);
+						elts_ptr->name.c_str());
 			}
 			else
 			{
@@ -3136,11 +3136,11 @@ read_master_species(void)
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
-		if (strchr(master[count_master]->elt->name, '(') == NULL)
+		if (strchr(master[count_master]->elt->name.c_str(), '(') == NULL)
 		{
 			master[count_master]->primary = TRUE;
 			/* Read gram formula weight for primary */
-			if (strcmp(master[count_master]->elt->name, "E") != 0)
+			if (strcmp(master[count_master]->elt->name.c_str(), "E") != 0)
 			{
 				elts_ptr = master[count_master]->elt;
 				i = copy_token(token, &cptr, &l);
@@ -3155,7 +3155,7 @@ read_master_species(void)
 					{
 						error_string = sformatf(
 								"Expected gram formula weight for element, %s.",
-								elts_ptr->name);
+								elts_ptr->name.c_str());
 					}
 					else
 					{
@@ -5522,15 +5522,15 @@ read_species(void)
 			next_elt = &trxn.token[0].s->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
-				if (strcmp(next_elt->elt->name, "C") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
 				{
 					trxn.token[0].s->carbon = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name, "H") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
 				{
 					trxn.token[0].s->h = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name, "O") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
 				{
 					trxn.token[0].s->o = next_elt->coef;
 				}
@@ -6142,15 +6142,15 @@ read_surface_species(void)
 			next_elt = &trxn.token[0].s->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
-				if (strcmp(next_elt->elt->name, "C") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
 				{
 					trxn.token[0].s->carbon = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name, "H") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
 				{
 					trxn.token[0].s->h = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name, "O") == 0)
+				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
 				{
 					trxn.token[0].s->o = next_elt->coef;
 				}
@@ -6884,7 +6884,7 @@ read_surface_master_species(void)
 				master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
 			}
 			master[count_master]->primary = TRUE;
-			strcpy(token, master[count_master]->elt->name);
+			strcpy(token, master[count_master]->elt->name.c_str());
 			count_master++;
 			/*
 			 *   Save values in master and species structure for surface psi

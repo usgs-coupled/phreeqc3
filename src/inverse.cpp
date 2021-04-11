@@ -308,7 +308,7 @@ setup_inverse(class inverse *inv_ptr)
 	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->in = -1;
-		if (strstr(master[i]->elt->name, "Alk") == master[i]->elt->name)
+		if (strstr(master[i]->elt->name.c_str(), "Alk") == master[i]->elt->name.c_str())
 		{
 			master_alk = master[i];
 		}
@@ -322,7 +322,7 @@ setup_inverse(class inverse *inv_ptr)
 		master_ptr = inv_ptr->elts[i].master;
 		if (master_ptr == master_alk)
 			i_alk = i;
-		if (strcmp(master_ptr->elt->name, "C(4)") == 0)
+		if (strcmp(master_ptr->elt->name.c_str(), "C(4)") == 0)
 			i_carb = i;
 		inv_ptr->elts[i].master->in = (int)count_rows_t;
 		row_name[count_rows_t] = inv_ptr->elts[i].master->elt->name;
@@ -752,7 +752,7 @@ setup_inverse(class inverse *inv_ptr)
 			}
 			my_array[count_rows * max_column_count + (size_t)column] = 1.0 * f;
 			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
-			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name, "eps+");
+			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name.c_str(), "eps+");
 			row_name[count_rows] = string_hsave(token);
 			count_rows++;
 
@@ -780,13 +780,13 @@ setup_inverse(class inverse *inv_ptr)
 			   maximum negative is equal to concentrations,
 			   except alkalinity */
 			if (coef > fabs(conc) &&
-				(strstr(inv_ptr->elts[j].master->elt->name, "Alkalinity") !=
-				 inv_ptr->elts[j].master->elt->name))
+				(strstr(inv_ptr->elts[j].master->elt->name.c_str(), "Alkalinity") !=
+				 inv_ptr->elts[j].master->elt->name.c_str()))
 				coef = fabs(conc) + toler;
 
 			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
 			my_array[count_rows * max_column_count + (size_t)column] = -1.0 * f;
-			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name,
+			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name.c_str(),
 					"eps-");
 			row_name[count_rows] = string_hsave(token);
 			count_rows++;
@@ -1714,7 +1714,7 @@ print_model(class inverse *inv_ptr)
 
 			output_msg(sformatf(
 					   "%15.15s   %12.3e  +%12.3e  =%12.3e\n",
-					   inv_ptr->elts[j].master->elt->name, (double) d1,
+					   inv_ptr->elts[j].master->elt->name.c_str(), (double) d1,
 					   (double) d2, (double) d3));
 			if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == FALSE)
 			{
@@ -1967,9 +1967,9 @@ print_model(class inverse *inv_ptr)
 					else
 					{
 						if (rxn_ptr->s->secondary)
-							name = rxn_ptr->s->secondary->elt->name;
+							name = rxn_ptr->s->secondary->elt->name.c_str();
 						else
-							name = rxn_ptr->s->primary->elt->name;
+							name = rxn_ptr->s->primary->elt->name.c_str();
 						t = solution_ptr->Get_master_activity()[name];
 					}
 					if (t)
@@ -3535,7 +3535,7 @@ check_isotopes(class inverse *inv_ptr)
 				error_string = sformatf(
 						"In solution %d, isotope ratio(s) are needed for element: %g%s.",
 						solution_ptr->Get_n_user(), (double) isotope_number,
-						primary_ptr->elt->name);
+						primary_ptr->elt->name.c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				continue;
@@ -3686,7 +3686,7 @@ check_isotopes(class inverse *inv_ptr)
 						error_string = sformatf(
 								"In phase %s, isotope ratio(s) are needed for element: %g%s.",
 								phase_ptr->name.c_str(), (double) isotope_number,
-								primary_ptr->elt->name);
+								primary_ptr->elt->name.c_str());
 						error_msg(error_string, CONTINUE);
 						input_error++;
 						break;
@@ -3821,7 +3821,7 @@ write_optimize_names(class inverse *inv_ptr)
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
 			sprintf(token, "%s %s %d", "optimize",
-					inv_ptr->elts[j].master->elt->name, inv_ptr->solns[i]);
+					inv_ptr->elts[j].master->elt->name.c_str(), inv_ptr->solns[i]);
 			row_name[row] = string_hsave(token);
 			row++;
 		}
@@ -4737,15 +4737,15 @@ dump_netpath_pat(class inverse *inv_ptr)
 	{
 		master_ptr = inv_ptr->elts[j].master;
 		master_ptr = master_ptr->elt->primary;
-		if (strcmp(master_ptr->elt->name, "Alkalinity") == 0)
+		if (strcmp(master_ptr->elt->name.c_str(), "Alkalinity") == 0)
 			continue;
-		if (strcmp(master_ptr->elt->name, "H") == 0)
+		if (strcmp(master_ptr->elt->name.c_str(), "H") == 0)
 			continue;
-		if (strcmp(master_ptr->elt->name, "O") == 0)
+		if (strcmp(master_ptr->elt->name.c_str(), "O") == 0)
 			continue;
-		if (strcmp(master_ptr->elt->name, "X") == 0)
+		if (strcmp(master_ptr->elt->name.c_str(), "X") == 0)
 			continue;
-		if (strcmp(master_ptr->elt->name, "E") == 0)
+		if (strcmp(master_ptr->elt->name.c_str(), "E") == 0)
 			continue;
 		master_ptr->in = TRUE;
 	}
@@ -4806,7 +4806,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		for (next_elt = &inv_ptr->phases[i].phase(this)->next_elt[0];
 			 next_elt->elt != NULL; next_elt++)
 		{
-			if (strcmp(next_elt->elt->name, "X") == 0)
+			if (strcmp(next_elt->elt->name.c_str(), "X") == 0)
 			{
 				exch = TRUE;
 				break;
@@ -4863,17 +4863,17 @@ dump_netpath_pat(class inverse *inv_ptr)
 			if (exch == TRUE)
 				f = -1.0;
 			master_ptr = next_elt->elt->primary;
-			if (strcmp(master_ptr->elt->name, "Alkalinity") == 0)
+			if (strcmp(master_ptr->elt->name.c_str(), "Alkalinity") == 0)
 				continue;
-			if (strcmp(master_ptr->elt->name, "H") == 0)
+			if (strcmp(master_ptr->elt->name.c_str(), "H") == 0)
 				continue;
-			if (strcmp(master_ptr->elt->name, "O") == 0)
+			if (strcmp(master_ptr->elt->name.c_str(), "O") == 0)
 				continue;
-			if (strcmp(master_ptr->elt->name, "E") == 0)
+			if (strcmp(master_ptr->elt->name.c_str(), "E") == 0)
 				continue;
 			string = master_ptr->elt->name;
 
-			if (strcmp(master_ptr->elt->name, "X") == 0)
+			if (strcmp(master_ptr->elt->name.c_str(), "X") == 0)
 			{
 				string = "Na";
 				f = 1.0;

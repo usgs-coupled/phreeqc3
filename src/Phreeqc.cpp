@@ -169,7 +169,7 @@ size_t Phreeqc::list_components(std::list<std::string> &list_c)
 		class master *master_ptr = master_bsearch_primary(string);
 		if (master_ptr == NULL) continue;
 		if (master_ptr->type != AQ) continue;
-		accumulator.add(master_ptr->elt->name, 1);
+		accumulator.add(master_ptr->elt->name.c_str(), 1);
 	}
 	// print list
 	for (it = accumulator.begin(); it != accumulator.end(); it++)
@@ -1355,7 +1355,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	// Elements
 	for (int i = 0; i < (int)pSrc->elements.size(); i++)
 	{
-		const char* ptr = string_hsave(pSrc->elements[i]->name);
+		const char* ptr = pSrc->elements[i]->name.c_str();
 		class element* elt_ptr = element_store(ptr);
 		elt_ptr->gfw = pSrc->elements[i]->gfw;
 	}
@@ -1456,7 +1456,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		*master[i] = *pSrc->master[i];
 		// clean up pointers
 		master[i]->gfw_formula = pSrc->master[i]->gfw_formula;
-		master[i]->elt = element_store(pSrc->master[i]->elt->name);
+		master[i]->elt = element_store(pSrc->master[i]->elt->name.c_str());
 		master[i]->unknown = NULL;
 		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, FALSE);
 		//rxn_primary
@@ -1646,7 +1646,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		master_isotope_ptr->master = NULL;
 		if (pSrc->master_isotope[i]->master)
 		{
-			master_isotope_ptr->master = master_search(pSrc->master_isotope[i]->master->elt->name, &n);
+			master_isotope_ptr->master = master_search(pSrc->master_isotope[i]->master->elt->name.c_str(), &n);
 		}
 		if (master_isotope_ptr->master == NULL)
 		{
@@ -1655,7 +1655,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		master_isotope_ptr->elt = NULL;
 		if (pSrc->master_isotope[i]->elt)
 		{
-			master_isotope_ptr->elt = element_store(pSrc->master_isotope[i]->elt->name);
+			master_isotope_ptr->elt = element_store(pSrc->master_isotope[i]->elt->name.c_str());
 		}
 		master_isotope_ptr->units = pSrc->master_isotope[i]->units;
 	}

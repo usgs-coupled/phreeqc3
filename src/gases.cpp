@@ -95,11 +95,11 @@ build_fixed_volume_gas(void)
 		for (j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name, "H") == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name, "O") == 0)
+			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -143,11 +143,11 @@ build_fixed_volume_gas(void)
 		for (j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name, "H") == 0)
+			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name, "O") == 0)
+			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -205,7 +205,7 @@ build_fixed_volume_gas(void)
 				{
 					error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name.c_str());
+							master_ptr->elt->name.c_str(), phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -298,7 +298,7 @@ build_fixed_volume_gas(void)
 					{
 						error_string = sformatf(
 							"Element, %s, in phase, %s, is not in model.",
-							master_ptr->elt->name, phase_ptr->name.c_str());
+							master_ptr->elt->name.c_str(), phase_ptr->name.c_str());
 						warning_msg(error_string);
 					}
 					col = master_ptr->unknown->number;

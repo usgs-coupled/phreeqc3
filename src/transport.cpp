@@ -1924,7 +1924,7 @@ fill_spec(int l_cell_no, int ref_cell)
 					else
 						dum = 1;
 				}
-				name = master_ptr->elt->name;
+				name = string_hsave(master_ptr->elt->name.c_str());
 				if (strcmp(name, "X") != 0)
 				{
 					if (!warn_MCD_X)
@@ -2757,7 +2757,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		free_check_null(temp_name);
 		for (int k = 0; k < count_elts; k++)
 		{
-			if (!strcmp(elt_list[k].elt->name, "X")) continue;
+			if (!strcmp(elt_list[k].elt->name.c_str(), "X")) continue;
 			dif_els_names.insert(elt_list[k].elt->name);
 		}
 	}
@@ -3610,7 +3610,7 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 			{
 				for (l = 0; l < count_m_s; l++)
 				{
-					if (strcmp(ct[icell].m_s[l].name, elt_list[k].elt->name) == 0)
+					if (strcmp(ct[icell].m_s[l].name, elt_list[k].elt->name.c_str()) == 0)
 					{
 						fraction = fabs((double)elt_list[k].coef * l_J_ij[j].tot1) + fabs(ct[icell].m_s[l].tot1);
 						if (fraction)
@@ -3631,14 +3631,14 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 		{
 			for (k = 0; k < count_elts; k++)
 			{
-				if (strcmp(elt_list[k].elt->name, "X") == 0)
+				if (strcmp(elt_list[k].elt->name.c_str(), "X") == 0)
 					continue;
-				if (strcmp(elt_list[k].elt->name, "H") == 0)
+				if (strcmp(elt_list[k].elt->name.c_str(), "H") == 0)
 				{
 					tot1_h += elt_list[k].coef * l_J_ij[j].tot1;
 					tot2_h += elt_list[k].coef * l_J_ij[j].tot2;
 				}
-				else if (strcmp(elt_list[k].elt->name, "O") == 0)
+				else if (strcmp(elt_list[k].elt->name.c_str(), "O") == 0)
 				{
 					tot1_o += elt_list[k].coef * l_J_ij[j].tot1;
 					tot2_o += elt_list[k].coef * l_J_ij[j].tot2;
@@ -3647,7 +3647,7 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 				{
 					for (l = 0; l < count_m_s; l++)
 					{
-						if (strcmp(m_s[l].name, elt_list[k].elt->name) == 0)
+						if (strcmp(m_s[l].name, elt_list[k].elt->name.c_str()) == 0)
 						{
 							m_s[l].tot1 += elt_list[k].coef * l_J_ij[j].tot1;
 							m_s[l].tot2 += elt_list[k].coef * l_J_ij[j].tot2;
@@ -3656,7 +3656,7 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 					}
 					if (l == count_m_s)
 					{
-						m_s[l].name = elt_list[k].elt->name;
+						m_s[l].name = string_hsave(elt_list[k].elt->name.c_str());
 						m_s[l].tot1 = elt_list[k].coef * l_J_ij[j].tot1;
 						m_s[l].tot2 = elt_list[k].coef * l_J_ij[j].tot2;
 						count_m_s++;
@@ -4582,7 +4582,7 @@ dV_dcell2:
 				{
 					class element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
-					if (strcmp("H", elt_ptr->name) == 0)
+					if (strcmp("H", elt_ptr->name.c_str()) == 0)
 					{
 						if (coef < rc1 * tot1_h)
 						{
@@ -4595,7 +4595,7 @@ dV_dcell2:
 							tot1_h *= (1 - rc1);
 						}
 					}
-					else if (strcmp("O", elt_ptr->name) == 0)
+					else if (strcmp("O", elt_ptr->name.c_str()) == 0)
 					{
 						if (coef < rc1 * tot1_o)
 						{
@@ -4622,7 +4622,7 @@ dV_dcell2:
 					{
 						class element *elt_ptr = element_store(it->first.c_str());
 						LDBLE coef = it->second;
-						if (strcmp(m_s[j].name, elt_ptr->name) != 0)
+						if (strcmp(m_s[j].name, elt_ptr->name.c_str()) != 0)
 							continue;
 
 						/* rc1 part goes to exchange species... */
@@ -4668,7 +4668,7 @@ dV_dcell2:
 					class element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
 
-					if (strcmp("H", elt_ptr->name) == 0)
+					if (strcmp("H", elt_ptr->name.c_str()) == 0)
 					{
 						if (coef < -rc2 * tot2_h)
 						{
@@ -4681,7 +4681,7 @@ dV_dcell2:
 							tot2_h *= (1 - rc2);
 						}
 					}
-					else if (strcmp("O", elt_ptr->name) == 0)
+					else if (strcmp("O", elt_ptr->name.c_str()) == 0)
 					{
 						if (coef < -rc2 * tot2_o)
 						{
@@ -4707,7 +4707,7 @@ dV_dcell2:
 					{
 						class element *elt_ptr = element_store(it->first.c_str());
 						LDBLE coef = it->second;
-						if (strcmp(m_s[j].name, elt_ptr->name) != 0)
+						if (strcmp(m_s[j].name, elt_ptr->name.c_str()) != 0)
 							continue;
 
 						/* rc2 part goes to exchange species... */
