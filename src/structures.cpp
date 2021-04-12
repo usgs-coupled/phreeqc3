@@ -1976,7 +1976,6 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 	}
 	trxn.token[0].z = l_z;
 	trxn.token[0].s = NULL;
-	trxn.token[0].unknown = NULL;
 	/*trxn.token[0].coef = -1.0; */
 	/* check for leading coefficient of 1.0 for phase did not work */
 	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
@@ -1985,7 +1984,6 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 		trxn.token[i].name = rxn_ref.token[i].s->name;
 		trxn.token[i].z = rxn_ref.token[i].s->z;
 		trxn.token[i].s = NULL;
-		trxn.token[i].unknown = NULL;
 		trxn.token[i].coef = rxn_ref.token[i].coef;
 		count_trxn = i + 1;
 	}

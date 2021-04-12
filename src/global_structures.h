@@ -1124,15 +1124,13 @@ public:
 	rxn_token_temp()
 	{	// data for equations, aq. species or minerals
 		name = NULL;		// pointer to a species name (formula)
-		z = 0;		// charge on species 
+		z = 0;		        // charge on species 
 		s = NULL;
-		unknown = NULL;
 		coef = 0;			// coefficient of species name 
 	}
 	const char* name;
 	LDBLE z;
 	class species* s;
-	class unknown* unknown;
 	LDBLE coef;
 };
 class unknown_list

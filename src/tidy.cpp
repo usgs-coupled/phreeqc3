@@ -2825,7 +2825,6 @@ species_rxn_to_trxn(class species *s_ptr)
 		trxn.token[i].name = s_ptr->rxn.token[i].s->name;
 		trxn.token[i].z = s_ptr->rxn.token[i].s->z;
 		trxn.token[i].s = s_ptr->rxn.token[i].s;
-		trxn.token[i].unknown = NULL;
 		trxn.token[i].coef = s_ptr->rxn.token[i].coef;
 		count_trxn = i + 1;
 		if (count_trxn + 1 > trxn.token.size())
