@@ -2139,6 +2139,7 @@ factor(struct LOC_exec * LINK)
 		else {
 			n.UU.val = 0;
 		}
+		name = (char*)PhreeqcPtr->free_check_null((void*) name);
 	}
 	break;
 
