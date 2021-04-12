@@ -175,21 +175,21 @@ build_fixed_volume_gas(void)
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
 			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-				 rxn_ptr->s != NULL; rxn_ptr++)
+				 rxn_ptr->Get_s() != NULL; rxn_ptr++)
 			{
 
-				if (rxn_ptr->s->secondary != NULL
-					&& rxn_ptr->s->secondary->in == TRUE)
+				if (rxn_ptr->Get_s()->secondary != NULL
+					&& rxn_ptr->Get_s()->secondary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->secondary;
+					master_ptr = rxn_ptr->Get_s()->secondary;
 				}
-				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
+				else if (rxn_ptr->Get_s()->primary != NULL && rxn_ptr->Get_s()->primary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->primary;
+					master_ptr = rxn_ptr->Get_s()->primary;
 				}
 				else
 				{
-					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr = master_bsearch_primary(rxn_ptr->Get_s()->name);
 					master_ptr->s->la = -999.0;
 				}
 				if (debug_prep == TRUE)
@@ -246,29 +246,29 @@ build_fixed_volume_gas(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
 		{
-			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
+			if (rxn_ptr->Get_s() != s_eminus && rxn_ptr->Get_s()->in == FALSE)
 			{
 				error_string = sformatf(
 					"Element in species, %s, in phase, %s, is not in model.",
-					rxn_ptr->s->name, phase_ptr->name.c_str());
+					rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			else
 			{
-				if (rxn_ptr->s->secondary != NULL
-					&& rxn_ptr->s->secondary->in == TRUE)
+				if (rxn_ptr->Get_s()->secondary != NULL
+					&& rxn_ptr->Get_s()->secondary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->secondary;
+					master_ptr = rxn_ptr->Get_s()->secondary;
 				}
-				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
+				else if (rxn_ptr->Get_s()->primary != NULL && rxn_ptr->Get_s()->primary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->primary;
+					master_ptr = rxn_ptr->Get_s()->primary;
 				}
 				else
 				{
-					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr = master_bsearch_primary(rxn_ptr->Get_s()->name);
 					if (master_ptr && master_ptr->s)
 					{
 						master_ptr->s->la = -999.0;
@@ -279,7 +279,7 @@ build_fixed_volume_gas(void)
 				{
 					error_string = sformatf(
 						"Master species for %s, in phase, %s, is not in model.",
-						rxn_ptr->s->name, phase_ptr->name.c_str());
+						rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -649,10 +649,10 @@ calc_fixed_volume_gas_pressures(void)
 		{
 			lp = -phase_ptr->lk;
 			//lp = -k_calc(phase_ptr->rxn_x.logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 				 rxn_ptr++)
 			{
-				lp += rxn_ptr->s->la * rxn_ptr->coef;
+				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 			}
 			phase_ptr->p_soln_x = exp(LOG_10 * (lp - phase_ptr->pr_si_f));
 

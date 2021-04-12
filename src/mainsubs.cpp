@@ -626,9 +626,9 @@ initial_gas_phases(int print)
 				{
 					lp = -phase_ptr->lk;
 					for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-						 rxn_ptr->s != NULL; rxn_ptr++)
+						 rxn_ptr->Get_s() != NULL; rxn_ptr++)
 					{
-						lp += rxn_ptr->s->la * rxn_ptr->coef;
+						lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 					}
 					phase_ptr->p_soln_x = exp(lp * LOG_10);
 					gas_phase_ptr->Set_total_p(gas_phase_ptr->Get_total_p() + phase_ptr->p_soln_x);

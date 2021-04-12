@@ -1953,9 +1953,9 @@ fill_spec(int l_cell_no, int ref_cell)
 				}
 
 				/* find the aqueous species in the exchange reaction... */
-				for (i2 = 0; (s_ptr->rxn.token[i2].s != NULL); i2++)
+				for (i2 = 0; (s_ptr->rxn.token[i2].Get_s() != NULL); i2++)
 				{
-					if ((s_ptr2 = s_ptr->rxn.token[i2].s)->type == AQ)
+					if ((s_ptr2 = s_ptr->rxn.token[i2].Get_s())->type == AQ)
 						break;
 				}
 				/* copy its name and Dw and charge... */

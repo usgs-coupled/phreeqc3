@@ -410,15 +410,15 @@ setup_inverse(class inverse *inv_ptr)
 		rxn_ptr = &phase_ptr->rxn_s;
 		column = col_phases + i;
 		col_name[column] = phase_ptr->name;
-		for (j = 1; rxn_ptr->token[j].s != NULL; j++)
+		for (j = 1; rxn_ptr->token[j].Get_s() != NULL; j++)
 		{
-			if (rxn_ptr->token[j].s->secondary != NULL)
+			if (rxn_ptr->token[j].Get_s()->secondary != NULL)
 			{
-				master_ptr = rxn_ptr->token[j].s->secondary;
+				master_ptr = rxn_ptr->token[j].Get_s()->secondary;
 			}
 			else
 			{
-				master_ptr = rxn_ptr->token[j].s->primary;
+				master_ptr = rxn_ptr->token[j].Get_s()->primary;
 			}
 			if (master_ptr == NULL)
 			{
@@ -464,21 +464,21 @@ setup_inverse(class inverse *inv_ptr)
 			column = col_redox + k;
 			col_name[column] = inv_ptr->elts[i].master->elt->name;
 			k++;
-			for (j = 0; rxn_ptr->token[j].s != NULL; j++)
+			for (j = 0; rxn_ptr->token[j].Get_s() != NULL; j++)
 			{
-				if (rxn_ptr->token[j].s->secondary != NULL)
+				if (rxn_ptr->token[j].Get_s()->secondary != NULL)
 				{
-					master_ptr = rxn_ptr->token[j].s->secondary;
+					master_ptr = rxn_ptr->token[j].Get_s()->secondary;
 				}
 				else
 				{
-					master_ptr = rxn_ptr->token[j].s->primary;
+					master_ptr = rxn_ptr->token[j].Get_s()->primary;
 				}
 				if (master_ptr == NULL)
 				{
 					error_string = sformatf(
 							"Subroutine setup_inverse, element not found, %s.",
-							rxn_ptr->token[j].s->name);
+							rxn_ptr->token[j].Get_s()->name);
 					error_msg(error_string, STOP);
 				}
 				if (master_ptr->s == s_hplus)
@@ -1955,21 +1955,21 @@ print_model(class inverse *inv_ptr)
 				lk = k_calc(reaction_ptr->logk, t_i, p_i);
 
 				iap = 0.0;
-				for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+				for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
 				{
 					t = 0;
-					if (rxn_ptr->s == s_eminus)
+					if (rxn_ptr->Get_s() == s_eminus)
 						t = -solution_ptr->Get_pe();
-					else if (!Utilities::strcmp_nocase(rxn_ptr->s->name, "H2O"))
+					else if (!Utilities::strcmp_nocase(rxn_ptr->Get_s()->name, "H2O"))
 						t = log10(solution_ptr->Get_ah2o());
-					else if (!Utilities::strcmp_nocase(rxn_ptr->s->name, "H+"))
+					else if (!Utilities::strcmp_nocase(rxn_ptr->Get_s()->name, "H+"))
 						t = -solution_ptr->Get_ph();
 					else
 					{
-						if (rxn_ptr->s->secondary)
-							name = rxn_ptr->s->secondary->elt->name.c_str();
+						if (rxn_ptr->Get_s()->secondary)
+							name = rxn_ptr->Get_s()->secondary->elt->name.c_str();
 						else
-							name = rxn_ptr->s->primary->elt->name.c_str();
+							name = rxn_ptr->Get_s()->primary->elt->name.c_str();
 						t = solution_ptr->Get_master_activity()[name];
 					}
 					if (t)
@@ -4888,29 +4888,29 @@ dump_netpath_pat(class inverse *inv_ptr)
 		std::string token;
 		sum = 0;
 		for (rxn_ptr = &inv_ptr->phases[i].phase(this)->rxn_s.token[0] + 1;
-			 rxn_ptr->s != NULL; rxn_ptr++)
+			 rxn_ptr->Get_s() != NULL; rxn_ptr++)
 		{
-			if (rxn_ptr->s == s_hplus)
+			if (rxn_ptr->Get_s() == s_hplus)
 				continue;
-			if (rxn_ptr->s == s_h2o)
+			if (rxn_ptr->Get_s() == s_h2o)
 				continue;
-			if (rxn_ptr->s->secondary == NULL && rxn_ptr->s != s_eminus)
+			if (rxn_ptr->Get_s()->secondary == NULL && rxn_ptr->Get_s() != s_eminus)
 				continue;
-			if (rxn_ptr->s == s_o2)
+			if (rxn_ptr->Get_s() == s_o2)
 			{
 				sum += 4 * rxn_ptr->coef;
 			}
-			else if (rxn_ptr->s == s_h2)
+			else if (rxn_ptr->Get_s() == s_h2)
 			{
 				sum += -2 * rxn_ptr->coef;
 			}
-			else if (rxn_ptr->s == s_eminus)
+			else if (rxn_ptr->Get_s() == s_eminus)
 			{
 				sum += -1 * rxn_ptr->coef;
 			}
 			else
 			{
-				string = rxn_ptr->s->secondary->elt->name;
+				string = rxn_ptr->Get_s()->secondary->elt->name;
 				replace("(", " ", string);
 				replace(")", " ", string);
 				std::string::iterator b = string.begin();

@@ -478,21 +478,21 @@ build_gas_phase(void)
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
 			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-				 rxn_ptr->s != NULL; rxn_ptr++)
+				 rxn_ptr->Get_s() != NULL; rxn_ptr++)
 			{
 
-				if (rxn_ptr->s->secondary != NULL
-					&& rxn_ptr->s->secondary->in == TRUE)
+				if (rxn_ptr->Get_s()->secondary != NULL
+					&& rxn_ptr->Get_s()->secondary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->secondary;
+					master_ptr = rxn_ptr->Get_s()->secondary;
 				}
-				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
+				else if (rxn_ptr->Get_s()->primary != NULL && rxn_ptr->Get_s()->primary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->primary;
+					master_ptr = rxn_ptr->Get_s()->primary;
 				}
 				else
 				{
-					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr = master_bsearch_primary(rxn_ptr->Get_s()->name);
 					master_ptr->s->la = -999.0;
 				}
 				if (debug_prep == TRUE)
@@ -549,29 +549,29 @@ build_gas_phase(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
 		{
-			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
+			if (rxn_ptr->Get_s() != s_eminus && rxn_ptr->Get_s()->in == FALSE)
 			{
 				error_string = sformatf(
 					"Element in species, %s, in phase, %s, is not in model.",
-					rxn_ptr->s->name, phase_ptr->name.c_str());
+					rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			else
 			{
-				if (rxn_ptr->s->secondary != NULL
-					&& rxn_ptr->s->secondary->in == TRUE)
+				if (rxn_ptr->Get_s()->secondary != NULL
+					&& rxn_ptr->Get_s()->secondary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->secondary;
+					master_ptr = rxn_ptr->Get_s()->secondary;
 				}
-				else if (rxn_ptr->s->primary != NULL && rxn_ptr->s->primary->in == TRUE)
+				else if (rxn_ptr->Get_s()->primary != NULL && rxn_ptr->Get_s()->primary->in == TRUE)
 				{
-					master_ptr = rxn_ptr->s->primary;
+					master_ptr = rxn_ptr->Get_s()->primary;
 				}
 				else
 				{
-					master_ptr = master_bsearch_primary(rxn_ptr->s->name);
+					master_ptr = master_bsearch_primary(rxn_ptr->Get_s()->name);
 					if (master_ptr && master_ptr->s)
 					{
 						master_ptr->s->la = -999.0;
@@ -581,7 +581,7 @@ build_gas_phase(void)
 				{
 					error_string = sformatf(
 						"Master species for %s, in phase, %s, is not in model.",
-						rxn_ptr->s->name, phase_ptr->name.c_str());
+						rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -657,10 +657,10 @@ build_ss_assemblage(void)
 		if (x[i]->phase->rxn_x.token.size() == 0)
 			continue;
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
+			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
 		}
 		/* include mole fraction */
 		store_mb(&(x[i]->phase->log10_fraction_x), &(x[i]->f), 1.0);
@@ -671,17 +671,17 @@ build_ss_assemblage(void)
  *   Put coefficients into mass action equations
  */
 		/* first IAP terms */
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			if (rxn_ptr->s->secondary != NULL
-				&& rxn_ptr->s->secondary->in == TRUE)
+			if (rxn_ptr->Get_s()->secondary != NULL
+				&& rxn_ptr->Get_s()->secondary->in == TRUE)
 			{
-				master_ptr = rxn_ptr->s->secondary;
+				master_ptr = rxn_ptr->Get_s()->secondary;
 			}
 			else
 			{
-				master_ptr = rxn_ptr->s->primary;
+				master_ptr = rxn_ptr->Get_s()->primary;
 			}
 			if (master_ptr == NULL || master_ptr->unknown == NULL)
 				continue;
@@ -1361,10 +1361,10 @@ build_pure_phases(void)
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
 		store_mb(&(x[i]->si), &(x[i]->f), 1.0);
 
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
+			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
 		}
 	}
 	for (int i = 0; i < count_unknowns; i++)
@@ -1377,17 +1377,17 @@ build_pure_phases(void)
 /*
  *   Put coefficients into IAP equations
  */
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			if (rxn_ptr->s->secondary != NULL
-				&& rxn_ptr->s->secondary->in == TRUE)
+			if (rxn_ptr->Get_s()->secondary != NULL
+				&& rxn_ptr->Get_s()->secondary->in == TRUE)
 			{
-				master_ptr = rxn_ptr->s->secondary;
+				master_ptr = rxn_ptr->Get_s()->secondary;
 			}
 			else
 			{
-				master_ptr = rxn_ptr->s->primary;
+				master_ptr = rxn_ptr->Get_s()->primary;
 			}
 			if (master_ptr == NULL || master_ptr->unknown == NULL)
 				continue;
@@ -1543,10 +1543,10 @@ build_solution_phase_boundaries(void)
 			input_error++;
 			break;
 		}
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			store_mb(&(rxn_ptr->s->la), &(x[i]->f), -rxn_ptr->coef);
+			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
 		}
 	}
 	if (get_input_errors() > 0)
@@ -1558,17 +1558,17 @@ build_solution_phase_boundaries(void)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			if (rxn_ptr->s->secondary != NULL
-				&& rxn_ptr->s->secondary->in == TRUE)
+			if (rxn_ptr->Get_s()->secondary != NULL
+				&& rxn_ptr->Get_s()->secondary->in == TRUE)
 			{
-				master_ptr = rxn_ptr->s->secondary;
+				master_ptr = rxn_ptr->Get_s()->secondary;
 			}
 			else
 			{
-				master_ptr = rxn_ptr->s->primary;
+				master_ptr = rxn_ptr->Get_s()->primary;
 			}
 			if (master_ptr->unknown == NULL)
 				continue;
@@ -2071,11 +2071,11 @@ is_special(class species *l_spec)
 	class rxn_token *token_ptr;
 
 	special = TRUE;
-	for (token_ptr = &l_spec->rxn_s.token[0] + 1; token_ptr->s != NULL;
+	for (token_ptr = &l_spec->rxn_s.token[0] + 1; token_ptr->Get_s() != NULL;
 		 token_ptr++)
 	{
-		if (token_ptr->s != s_hplus &&
-			token_ptr->s != s_h2o && token_ptr->s != s_eminus)
+		if (token_ptr->Get_s() != s_hplus &&
+			token_ptr->Get_s() != s_h2o && token_ptr->Get_s() != s_eminus)
 		{
 			special = FALSE;
 			break;
@@ -4691,16 +4691,16 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 	}
 	if (s[k] == s_h2o)
 		return (OK);
-	for (rxn_ptr = &s[k]->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+	for (rxn_ptr = &s[k]->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
 	{
-		if (rxn_ptr->s->secondary != NULL
-			&& rxn_ptr->s->secondary->in == TRUE)
+		if (rxn_ptr->Get_s()->secondary != NULL
+			&& rxn_ptr->Get_s()->secondary->in == TRUE)
 		{
-			master_ptr = rxn_ptr->s->secondary;
+			master_ptr = rxn_ptr->Get_s()->secondary;
 		}
 		else
 		{
-			master_ptr = rxn_ptr->s->primary;
+			master_ptr = rxn_ptr->Get_s()->primary;
 		}
 		//if (debug_prep == TRUE)
 		//{
@@ -5221,9 +5221,9 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 
 	for (size_t i = 0; r_ptr->token[i].name; i++)
 	{
-		if (!r_ptr->token[i].s)
+		if (!r_ptr->token[i].Get_s())
 			continue;
-		s_ptr = r_ptr->token[i].s;
+		s_ptr = r_ptr->token[i].Get_s();
 		//if (!strcmp(s_ptr->name, "H+"))
 		if (s_ptr == s_hplus)
 			continue;

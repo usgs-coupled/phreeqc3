@@ -232,9 +232,12 @@ public:
 		coef = 0.0;
 		name = NULL;
 	}
-	class species* s;
+	class species* Get_s() { return this->s; }
+	void Set_s(class species* sp) { this->s = sp; }
 	LDBLE coef;
 	const char* name;
+protected:
+	class species* s;
 };
 class save
 {

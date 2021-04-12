@@ -815,7 +815,7 @@ replace_solids_gases(void)
 
 				/* remove solid/gas from trxn list */
 				trxn.token[i].name = phase_ptr->rxn.token[0].name;
-				trxn.token[i].s = phase_ptr->rxn.token[0].s;
+				trxn.token[i].s = phase_ptr->rxn.token[0].Get_s();
 				trxn.token[i].coef = -coef * phase_ptr->rxn.token[0].coef;
 				repeat = TRUE;
 				replaced = TRUE;
@@ -1463,7 +1463,7 @@ tidy_phases(void)
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
 		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
 		phases[i]->rxn.token[0].name = string_hsave(phases[i]->name.c_str());
-		phases[i]->rxn.token[0].s = NULL;
+		phases[i]->rxn.token[0].Set_s(NULL);
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -2500,9 +2500,9 @@ tidy_species(void)
  *   Changed to be coefficient of exchanger
  */
 			LDBLE exchange_coef = 0.0;
-			for (j = 1; s[i]->rxn_s.token[j].s != NULL; j++)
+			for (j = 1; s[i]->rxn_s.token[j].Get_s() != NULL; j++)
 			{
-				if (s[i]->rxn_s.token[j].s->type == EX)
+				if (s[i]->rxn_s.token[j].Get_s()->type == EX)
 				{
 					exchange_coef = s[i]->rxn_s.token[j].coef;
 					break;
@@ -2524,9 +2524,9 @@ tidy_species(void)
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
-			for (j = 1; s[i]->rxn_s.token[j].s != NULL; j++)
+			for (j = 1; s[i]->rxn_s.token[j].Get_s() != NULL; j++)
 			{
-				if (s[i]->rxn_s.token[j].s->type == SURF)
+				if (s[i]->rxn_s.token[j].Get_s()->type == SURF)
 				{
 					surface_coef = s[i]->rxn_s.token[j].coef;
 					break;
@@ -2820,11 +2820,11 @@ species_rxn_to_trxn(class species *s_ptr)
 		trxn.token.resize(s_ptr->rxn.token.size());
 	}
 	count_trxn = 0;
-	for (size_t i = 0; s_ptr->rxn.token[i].s != NULL; i++)
+	for (size_t i = 0; s_ptr->rxn.token[i].Get_s() != NULL; i++)
 	{
-		trxn.token[i].name = s_ptr->rxn.token[i].s->name;
-		trxn.token[i].z = s_ptr->rxn.token[i].s->z;
-		trxn.token[i].s = s_ptr->rxn.token[i].s;
+		trxn.token[i].name = s_ptr->rxn.token[i].Get_s()->name;
+		trxn.token[i].z = s_ptr->rxn.token[i].Get_s()->z;
+		trxn.token[i].s = s_ptr->rxn.token[i].Get_s();
 		trxn.token[i].coef = s_ptr->rxn.token[i].coef;
 		count_trxn = i + 1;
 		if (count_trxn + 1 > trxn.token.size())

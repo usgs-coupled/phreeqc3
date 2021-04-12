@@ -1735,10 +1735,10 @@ saturation_ratio(const char *phase_name)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			iap += rxn_ptr->s->la * rxn_ptr->coef;
+			iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 		}
 		si = iap - phase_ptr->lk;
 		return (pow((LDBLE) 10.0, si));
@@ -1767,10 +1767,10 @@ saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si)
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			*iap += rxn_ptr->s->la * rxn_ptr->coef;
+			*iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 		}
 		*si = *iap - phase_ptr->lk;
 	}
@@ -2293,19 +2293,19 @@ surf_total(const char *total_name, const char *surface_name)
 		class rxn_token *rxn_ptr;
 		if (s_x[j]->mole_balance.size() == 0)
 		{
-			for (rxn_ptr = &s_x[j]->rxn_s.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
+			for (rxn_ptr = &s_x[j]->rxn_s.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
 			{
-				if (redox && rxn_ptr->s->secondary)
+				if (redox && rxn_ptr->Get_s()->secondary)
 				{
-					token = rxn_ptr->s->secondary->elt->name;
+					token = rxn_ptr->Get_s()->secondary->elt->name;
 				}
-				else if (!redox && rxn_ptr->s->secondary)
+				else if (!redox && rxn_ptr->Get_s()->secondary)
 				{
-					token = rxn_ptr->s->secondary->elt->primary->elt->name;
+					token = rxn_ptr->Get_s()->secondary->elt->primary->elt->name;
 				}
-				else if (!redox && rxn_ptr->s->primary)
+				else if (!redox && rxn_ptr->Get_s()->primary)
 				{
-					token = rxn_ptr->s->primary->elt->name;
+					token = rxn_ptr->Get_s()->primary->elt->name;
 				}
 				else
 				{
@@ -2319,7 +2319,7 @@ surf_total(const char *total_name, const char *surface_name)
 				else
 					// sum all sites in case total_name is a surface name without underscore surf ("Hfo_w", "Hfo")
 				{
-					if (rxn_ptr->s->type == SURF)
+					if (rxn_ptr->Get_s()->type == SURF)
 					{
 						if (token.find("_") != std::string::npos)
 						{
@@ -3024,10 +3024,10 @@ system_total_si(void)
  *   Print saturation index
  */
 		iap = 0.0;
-		for (rxn_ptr = &phases[i]->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
+		for (rxn_ptr = &phases[i]->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
 			 rxn_ptr++)
 		{
-			iap += rxn_ptr->s->la * rxn_ptr->coef;
+			iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 		}
 		si = -phases[i]->lk + iap;
 		name = phases[i]->name;

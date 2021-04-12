@@ -17,18 +17,18 @@ calc_alk(CReaction& rxn_ref)
 
 	return_value = 0.0;
 	class rxn_token* r_token = &rxn_ref.token[1];
-	while (r_token->s != NULL)
+	while (r_token->Get_s() != NULL)
 	{
-		master_ptr = r_token->s->secondary;
+		master_ptr = r_token->Get_s()->secondary;
 		if (master_ptr == NULL)
 		{
-			master_ptr = r_token->s->primary;
+			master_ptr = r_token->Get_s()->primary;
 		}
 		if (master_ptr == NULL)
 		{
 			error_string = sformatf(
 				"Non-master species in secondary reaction, %s.",
-				rxn_ref.token[0].s->name);
+				rxn_ref.token[0].Get_s()->name);
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
@@ -47,20 +47,20 @@ calc_delta_v(CReaction& r_ref, bool phase)
 	if (phase)
 	{
 		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
-		for (size_t i = 1; r_ref.Get_tokens()[i].s; i++)
+		for (size_t i = 1; r_ref.Get_tokens()[i].Get_s(); i++)
 		{
-			if (!r_ref.Get_tokens()[i].s)
+			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].s->logk[vm_tc];
+			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[vm_tc];
 		}
 	}
 	else
 	{
 		for (size_t i = 0; r_ref.token[i].name /*|| r_ptr->token[i].s*/; i++)
 		{
-			if (!r_ref.Get_tokens()[i].s)
+			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].s->logk[vm_tc];
+			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[vm_tc];
 		}
 	}
 	return d_v;

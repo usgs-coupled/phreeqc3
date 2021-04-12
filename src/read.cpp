@@ -3676,7 +3676,7 @@ read_phases(void)
 			trxn_copy(phase_ptr->rxn);
 			token_ptr = &phase_ptr->rxn.token[0];
 			token_ptr[0].name = trxn.token[1].name;
-			token_ptr[i].s = NULL;
+			token_ptr[i].Set_s(NULL);
 			token_ptr[i].name = NULL;
 			/*
 			 *   Set type for phase
@@ -6963,13 +6963,13 @@ add_psi_master_species(char *token)
 			{
 				master[count_master]->s->rxn.logk[i] = 0.0;
 			}
-			master[count_master]->s->rxn.token[0].s =
-				master[count_master]->s;
+			master[count_master]->s->rxn.token[0].Set_s(
+				master[count_master]->s);
 			master[count_master]->s->rxn.token[0].coef = -1.0;
-			master[count_master]->s->rxn.token[1].s =
-				master[count_master]->s;
+			master[count_master]->s->rxn.token[1].Set_s(
+				master[count_master]->s);
 			master[count_master]->s->rxn.token[1].coef = 1.0;
-			master[count_master]->s->rxn.token[2].s = NULL;
+			master[count_master]->s->rxn.token[2].Set_s(NULL);
 			count_master++;
 		}
 	}

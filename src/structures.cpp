@@ -280,8 +280,8 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 	rxn.Get_tokens().resize(rxn_ref.Get_tokens().size());
 	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
 	{
-		rxn.token[i].s = (rxn_ref.token[i].s == NULL) ? NULL :
-			s_store(rxn_ref.token[i].s->name, rxn_ref.token[i].s->z, false);
+		rxn.token[i].Set_s((rxn_ref.token[i].Get_s() == NULL) ? NULL :
+			s_store(rxn_ref.token[i].Get_s()->name, rxn_ref.token[i].Get_s()->z, false));
 		rxn.token[i].coef = rxn_ref.token[i].coef;
 		rxn.token[i].name = (rxn_ref.token[i].name == NULL) ? NULL :
 			string_hsave(rxn_ref.token[i].name);
@@ -306,9 +306,9 @@ rxn_find_coef(CReaction& r_ref, const char* str)
 
 	r_token = &r_ref.token[1];
 	coef = 0.0;
-	while (r_token->s != NULL)
+	while (r_token->Get_s() != NULL)
 	{
-		if (strcmp(r_token->s->name, str) == 0)
+		if (strcmp(r_token->Get_s()->name, str) == 0)
 		{
 			coef = r_token->coef;
 			break;
@@ -1979,10 +1979,10 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 	/*trxn.token[0].coef = -1.0; */
 	/* check for leading coefficient of 1.0 for phase did not work */
 	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
-	for (size_t i = 1; rxn_ref.token[i].s != NULL; i++)
+	for (size_t i = 1; rxn_ref.token[i].Get_s() != NULL; i++)
 	{
-		trxn.token[i].name = rxn_ref.token[i].s->name;
-		trxn.token[i].z = rxn_ref.token[i].s->z;
+		trxn.token[i].name = rxn_ref.token[i].Get_s()->name;
+		trxn.token[i].z = rxn_ref.token[i].Get_s()->z;
 		trxn.token[i].s = NULL;
 		trxn.token[i].coef = rxn_ref.token[i].coef;
 		count_trxn = i + 1;
@@ -2025,12 +2025,12 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	 *   Copy  equation into work space
 	 */
 	class rxn_token* next_token = &r_ref.token[0];
-	while (next_token->s != NULL)
+	while (next_token->Get_s() != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
-		trxn.token[count_trxn].name = next_token->s->name;
-		trxn.token[count_trxn].s = next_token->s;
+		trxn.token[count_trxn].name = next_token->Get_s()->name;
+		trxn.token[count_trxn].s = next_token->Get_s();
 		trxn.token[count_trxn].coef = coef * next_token->coef;
 		count_trxn++;
 		next_token++;
@@ -2076,14 +2076,14 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 *   Copy  equation into work space
 	 */
 	next_token = &r_ref.token[0];
-	while (next_token->s != NULL || next_token->name != NULL)
+	while (next_token->Get_s() != NULL || next_token->name != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
-		if (next_token->s != NULL)
+		if (next_token->Get_s() != NULL)
 		{
-			trxn.token[count_trxn].name = next_token->s->name;
-			trxn.token[count_trxn].s = next_token->s;
+			trxn.token[count_trxn].name = next_token->Get_s()->name;
+			trxn.token[count_trxn].s = next_token->Get_s();
 		}
 		else
 		{
@@ -2204,11 +2204,11 @@ trxn_copy(CReaction& rxn_ref)
 	rxn_ref.Get_tokens().resize(count_trxn + 1);
 	for (size_t i = 0; i < count_trxn; i++)
 	{
-		rxn_ref.Get_tokens()[i].s = trxn.token[i].s;
+		rxn_ref.Get_tokens()[i].Set_s(trxn.token[i].s);
 		rxn_ref.Get_tokens()[i].name = trxn.token[i].name;
 		rxn_ref.Get_tokens()[i].coef = trxn.token[i].coef;
 	}
-	rxn_ref.token[count_trxn].s = NULL;
+	rxn_ref.token[count_trxn].Set_s(NULL);
 	rxn_ref.token[count_trxn].name = NULL;
 	return (OK);
 }
