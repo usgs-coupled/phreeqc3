@@ -803,7 +803,9 @@ reactions(void)
 /*
  *  save data for saving solutions
  */
-	memcpy(&save_data, &save, sizeof(class save));
+	//memcpy(&save_data, &save, sizeof(class save));
+	save_data = save;
+
 	/*
 	 *Copy everything to -2
 	 */
@@ -866,7 +868,8 @@ reactions(void)
 /*
  *   save end of reaction
  */
-	memcpy(&save, &save_data, sizeof(class save));
+	//memcpy(&save, &save_data, sizeof(class save));
+	save = save_data;
 	if (use.Get_kinetics_in() == TRUE)
 	{
 		Utilities::Rxn_copy(Rxn_kinetics_map, -2, use.Get_n_kinetics_user());

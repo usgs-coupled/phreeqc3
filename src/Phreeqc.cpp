@@ -1640,7 +1640,8 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	for (int i = 0; i < (int)pSrc->master_isotope.size(); i++)
 	{
 		class master_isotope* master_isotope_ptr = master_isotope_store(pSrc->master_isotope[i]->name, FALSE);
-		memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(class master_isotope));
+		//memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(class master_isotope));
+		*master_isotope_ptr = *pSrc->master_isotope[i];
 		master_isotope_ptr->name = pSrc->master_isotope[i]->name;
 		int n;
 		master_isotope_ptr->master = NULL;
