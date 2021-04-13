@@ -5219,7 +5219,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	LDBLE d_v = 0.0;
 	species * s_ptr;
 
-	for (size_t i = 0; r_ptr->token[i].name; i++)
+	for (size_t i = 0; r_ptr->token[i].Get_name(); i++)
 	{
 		if (!r_ptr->token[i].Get_s())
 			continue;
@@ -5288,7 +5288,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	}
 	d_v -= p_ptr->logk[vm0];
 	r_ptr->logk[delta_v] = d_v;
-	if (r_ptr->token[0].name && !strcmp(r_ptr->token[0].name, "H2O(g)"))
+	if (r_ptr->token[0].Get_name() && !strcmp(r_ptr->token[0].Get_name(), "H2O(g)"))
 		r_ptr->logk[delta_v] = 0.0;
 
 	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);

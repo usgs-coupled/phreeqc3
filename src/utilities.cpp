@@ -56,7 +56,7 @@ calc_delta_v(CReaction& r_ref, bool phase)
 	}
 	else
 	{
-		for (size_t i = 0; r_ref.token[i].name /*|| r_ptr->token[i].s*/; i++)
+		for (size_t i = 0; r_ref.token[i].Get_name() /*|| r_ptr->token[i].s*/; i++)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;

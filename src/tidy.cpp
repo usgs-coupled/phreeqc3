@@ -814,7 +814,7 @@ replace_solids_gases(void)
 				trxn_add_phase(phase_ptr->rxn, coef, false);
 
 				/* remove solid/gas from trxn list */
-				trxn.token[i].name = phase_ptr->rxn.token[0].name;
+				trxn.token[i].name = phase_ptr->rxn.token[0].Get_name();
 				trxn.token[i].s = phase_ptr->rxn.token[0].Get_s();
 				trxn.token[i].coef = -coef * phase_ptr->rxn.token[0].coef;
 				repeat = TRUE;
@@ -1462,7 +1462,7 @@ tidy_phases(void)
 	{
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
 		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
-		phases[i]->rxn.token[0].name = string_hsave(phases[i]->name.c_str());
+		phases[i]->rxn.token[0].Set_name(string_hsave(phases[i]->name.c_str()));
 		phases[i]->rxn.token[0].Set_s(NULL);
 	}
 	/*

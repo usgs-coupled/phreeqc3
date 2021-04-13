@@ -283,8 +283,8 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 		rxn.token[i].Set_s((rxn_ref.token[i].Get_s() == NULL) ? NULL :
 			s_store(rxn_ref.token[i].Get_s()->name, rxn_ref.token[i].Get_s()->z, false));
 		rxn.token[i].coef = rxn_ref.token[i].coef;
-		rxn.token[i].name = (rxn_ref.token[i].name == NULL) ? NULL :
-			string_hsave(rxn_ref.token[i].name);
+		rxn.token[i].Set_name((rxn_ref.token[i].Get_name() == NULL) ? NULL :
+			string_hsave(rxn_ref.token[i].Get_name()));
 	}
 	return rxn;
 }
@@ -2076,7 +2076,7 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 *   Copy  equation into work space
 	 */
 	next_token = &r_ref.token[0];
-	while (next_token->Get_s() != NULL || next_token->name != NULL)
+	while (next_token->Get_s() != NULL || next_token->Get_name() != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
@@ -2087,7 +2087,7 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 		}
 		else
 		{
-			trxn.token[count_trxn].name = next_token->name;
+			trxn.token[count_trxn].name = next_token->Get_name();
 			trxn.token[count_trxn].s = NULL;
 		}
 		trxn.token[count_trxn].coef = coef * next_token->coef;
@@ -2205,11 +2205,11 @@ trxn_copy(CReaction& rxn_ref)
 	for (size_t i = 0; i < count_trxn; i++)
 	{
 		rxn_ref.Get_tokens()[i].Set_s(trxn.token[i].s);
-		rxn_ref.Get_tokens()[i].name = trxn.token[i].name;
+		rxn_ref.Get_tokens()[i].Set_name(trxn.token[i].name);
 		rxn_ref.Get_tokens()[i].coef = trxn.token[i].coef;
 	}
 	rxn_ref.token[count_trxn].Set_s(NULL);
-	rxn_ref.token[count_trxn].name = NULL;
+	rxn_ref.token[count_trxn].Set_name(NULL);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

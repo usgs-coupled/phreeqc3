@@ -3675,9 +3675,9 @@ read_phases(void)
   */
 			trxn_copy(phase_ptr->rxn);
 			token_ptr = &phase_ptr->rxn.token[0];
-			token_ptr[0].name = trxn.token[1].name;
+			token_ptr[0].Set_name(trxn.token[1].name);
 			token_ptr[i].Set_s(NULL);
-			token_ptr[i].name = NULL;
+			token_ptr[i].Set_name(NULL);
 			/*
 			 *   Set type for phase
 			 */
