@@ -2440,7 +2440,7 @@ gammas_pz(bool exch_a_f)
  *   Find moles of sites. 
  *   s_x[i]->equiv is stoichiometric coefficient of sites in species
  */
-			for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+			for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 			{
 				if (s_x[i]->rxn_x.token[j].Get_s()->type == SURF)
 				{
@@ -2512,7 +2512,7 @@ gammas_pz(bool exch_a_f)
 				 *   Find CEC
 				 *   z contains valence of cation for exchange species, alk contains cec
 				 */
-				for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+				for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 				{
 					if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
 					{
@@ -2540,7 +2540,7 @@ gammas_pz(bool exch_a_f)
 				if (use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
 					/* Assume equal gamma's of solute and exchangeable species...  */
-					for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+					for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 					{
 						if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
 							continue;

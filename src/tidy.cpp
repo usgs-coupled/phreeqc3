@@ -2500,7 +2500,7 @@ tidy_species(void)
  *   Changed to be coefficient of exchanger
  */
 			LDBLE exchange_coef = 0.0;
-			for (j = 1; s[i]->rxn_s.token[j].Get_s() != NULL; j++)
+			for (j = 1; !s[i]->rxn_s.token[j].Get_end(); j++)
 			{
 				if (s[i]->rxn_s.token[j].Get_s()->type == EX)
 				{
@@ -2524,7 +2524,7 @@ tidy_species(void)
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
-			for (j = 1; s[i]->rxn_s.token[j].Get_s() != NULL; j++)
+			for (j = 1; !s[i]->rxn_s.token[j].Get_end(); j++)
 			{
 				if (s[i]->rxn_s.token[j].Get_s()->type == SURF)
 				{
@@ -2820,7 +2820,7 @@ species_rxn_to_trxn(class species *s_ptr)
 		trxn.token.resize(s_ptr->rxn.token.size());
 	}
 	count_trxn = 0;
-	for (size_t i = 0; s_ptr->rxn.token[i].Get_s() != NULL; i++)
+	for (size_t i = 0; !s_ptr->rxn.token[i].Get_end(); i++)
 	{
 		trxn.token[i].name = s_ptr->rxn.token[i].Get_s()->name;
 		trxn.token[i].z = s_ptr->rxn.token[i].Get_s()->z;

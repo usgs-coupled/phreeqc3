@@ -231,7 +231,10 @@ public:
 		s = NULL;
 		coef = 0.0;
 		name = NULL;
+		end = false;
 	}
+	void Set_end(bool b) { end = b; }
+	bool Get_end() { return (s == NULL) ? true : false; }
 	class species* Get_s() { return this->s; }
 	void Set_s(class species* sp) { this->s = sp; }
 	const char* Get_name() { return this->name; }
@@ -240,6 +243,7 @@ public:
 protected:
 	const char* name;
 	class species* s;
+	bool end;
 };
 class save
 {

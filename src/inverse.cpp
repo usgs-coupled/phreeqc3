@@ -410,7 +410,7 @@ setup_inverse(class inverse *inv_ptr)
 		rxn_ptr = &phase_ptr->rxn_s;
 		column = col_phases + i;
 		col_name[column] = phase_ptr->name;
-		for (j = 1; rxn_ptr->token[j].Get_s() != NULL; j++)
+		for (j = 1; !rxn_ptr->token[j].Get_end(); j++)
 		{
 			if (rxn_ptr->token[j].Get_s()->secondary != NULL)
 			{
@@ -464,7 +464,7 @@ setup_inverse(class inverse *inv_ptr)
 			column = col_redox + k;
 			col_name[column] = inv_ptr->elts[i].master->elt->name;
 			k++;
-			for (j = 0; rxn_ptr->token[j].Get_s() != NULL; j++)
+			for (j = 0; !rxn_ptr->token[j].Get_end(); j++)
 			{
 				if (rxn_ptr->token[j].Get_s()->secondary != NULL)
 				{
@@ -1955,7 +1955,7 @@ print_model(class inverse *inv_ptr)
 				lk = k_calc(reaction_ptr->logk, t_i, p_i);
 
 				iap = 0.0;
-				for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
+				for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 				{
 					t = 0;
 					if (rxn_ptr->Get_s() == s_eminus)
@@ -4888,7 +4888,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		std::string token;
 		sum = 0;
 		for (rxn_ptr = &inv_ptr->phases[i].phase(this)->rxn_s.token[0] + 1;
-			 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+			 !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() == s_hplus)
 				continue;

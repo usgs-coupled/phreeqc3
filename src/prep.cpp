@@ -478,7 +478,7 @@ build_gas_phase(void)
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
 			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-				 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 
 				if (rxn_ptr->Get_s()->secondary != NULL
@@ -549,7 +549,7 @@ build_gas_phase(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() != s_eminus && rxn_ptr->Get_s()->in == FALSE)
 			{
@@ -657,7 +657,7 @@ build_ss_assemblage(void)
 		if (x[i]->phase->rxn_x.token.size() == 0)
 			continue;
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
@@ -671,7 +671,7 @@ build_ss_assemblage(void)
  *   Put coefficients into mass action equations
  */
 		/* first IAP terms */
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s()->secondary != NULL
@@ -1361,7 +1361,7 @@ build_pure_phases(void)
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
 		store_mb(&(x[i]->si), &(x[i]->f), 1.0);
 
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1377,7 +1377,7 @@ build_pure_phases(void)
 /*
  *   Put coefficients into IAP equations
  */
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s()->secondary != NULL
@@ -1543,7 +1543,7 @@ build_solution_phase_boundaries(void)
 			input_error++;
 			break;
 		}
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1558,7 +1558,7 @@ build_solution_phase_boundaries(void)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s()->secondary != NULL
@@ -2071,7 +2071,7 @@ is_special(class species *l_spec)
 	class rxn_token *token_ptr;
 
 	special = TRUE;
-	for (token_ptr = &l_spec->rxn_s.token[0] + 1; token_ptr->Get_s() != NULL;
+	for (token_ptr = &l_spec->rxn_s.token[0] + 1; !token_ptr->Get_end();
 		 token_ptr++)
 	{
 		if (token_ptr->Get_s() != s_hplus &&
@@ -4691,7 +4691,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 	}
 	if (s[k] == s_h2o)
 		return (OK);
-	for (rxn_ptr = &s[k]->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
+	for (rxn_ptr = &s[k]->rxn_x.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 	{
 		if (rxn_ptr->Get_s()->secondary != NULL
 			&& rxn_ptr->Get_s()->secondary->in == TRUE)

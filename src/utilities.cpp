@@ -17,7 +17,7 @@ calc_alk(CReaction& rxn_ref)
 
 	return_value = 0.0;
 	class rxn_token* r_token = &rxn_ref.token[1];
-	while (r_token->Get_s() != NULL)
+	while (!r_token->Get_end())
 	{
 		master_ptr = r_token->Get_s()->secondary;
 		if (master_ptr == NULL)

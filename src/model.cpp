@@ -674,7 +674,7 @@ gammas(LDBLE mu)
 				continue;
 			{
 				LDBLE coef = 0, z = 0;
-				for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+				for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 				{
 					if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
 					{
@@ -775,7 +775,7 @@ gammas(LDBLE mu)
  *   Find moles of sites.
  *   s_x[i]->equiv is stoichiometric coefficient of sites in species
  */
-			for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+			for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 			{
 				if (s_x[i]->rxn_x.token[j].Get_s()->type == SURF)
 				{
@@ -872,7 +872,7 @@ int Phreeqc::gammas_a_f(int i1)
 	//class master *m_ptr;
 
 	i = i1;
-	for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+	for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 	{
 		if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
 		{
@@ -887,7 +887,7 @@ int Phreeqc::gammas_a_f(int i1)
 	{
 		if (s_x[i]->gflag != 4 || s_x[i]->primary)
 			continue;
-		for (j = 1; s_x[i]->rxn_x.token[j].Get_s() != NULL; j++)
+		for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
 		{
 			if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
 			{
@@ -2211,7 +2211,7 @@ mb_ss(void)
 			{
 				log10_iap = 0;
 				for (rxn_ptr = &phase0_ptr->rxn_x.token[0] + 1;
-					 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+					 !rxn_ptr->Get_end(); rxn_ptr++)
 				{
 					log10_iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 				}
@@ -2225,7 +2225,7 @@ mb_ss(void)
 			{
 				log10_iap = 0;
 				for (rxn_ptr = &phase1_ptr->rxn_x.token[0] + 1;
-					 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+					 !rxn_ptr->Get_end(); rxn_ptr++)
 				{
 					log10_iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 				}
@@ -2290,7 +2290,7 @@ mb_ss(void)
 				{
 					lp = -phase_ptr->lk;
 					for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-						 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+						 !rxn_ptr->Get_end(); rxn_ptr++)
 					{
 						lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 					}
@@ -2363,7 +2363,7 @@ molalities(int allow_overflow)
  *   lm and moles for all aqueous species
  */
 		s_x[i]->lm = s_x[i]->lk - s_x[i]->lg;
-		for (rxn_ptr = &s_x[i]->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &s_x[i]->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			s_x[i]->lm += rxn_ptr->Get_s()->la * rxn_ptr->coef;
@@ -2635,7 +2635,7 @@ calc_gas_pressures(void)
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 				 rxn_ptr++)
 			{
 				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;

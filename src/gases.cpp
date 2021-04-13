@@ -175,7 +175,7 @@ build_fixed_volume_gas(void)
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
 			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-				 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 
 				if (rxn_ptr->Get_s()->secondary != NULL
@@ -246,7 +246,7 @@ build_fixed_volume_gas(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() != s_eminus && rxn_ptr->Get_s()->in == FALSE)
 			{
@@ -649,7 +649,7 @@ calc_fixed_volume_gas_pressures(void)
 		{
 			lp = -phase_ptr->lk;
 			//lp = -k_calc(phase_ptr->rxn_x.logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->Get_s() != NULL;
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
 				 rxn_ptr++)
 			{
 				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;

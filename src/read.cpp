@@ -3678,6 +3678,8 @@ read_phases(void)
 			token_ptr[0].Set_name(trxn.token[1].name);
 			token_ptr[i].Set_s(NULL);
 			token_ptr[i].Set_name(NULL);
+			token_ptr[i].Set_end(true);
+
 			/*
 			 *   Set type for phase
 			 */
@@ -6970,6 +6972,7 @@ add_psi_master_species(char *token)
 				master[count_master]->s);
 			master[count_master]->s->rxn.token[1].coef = 1.0;
 			master[count_master]->s->rxn.token[2].Set_s(NULL);
+			master[count_master]->s->rxn.token[2].Set_end(true);
 			count_master++;
 		}
 	}

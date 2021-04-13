@@ -306,7 +306,7 @@ rxn_find_coef(CReaction& r_ref, const char* str)
 
 	r_token = &r_ref.token[1];
 	coef = 0.0;
-	while (r_token->Get_s() != NULL)
+	while (!r_token->Get_end())
 	{
 		if (strcmp(r_token->Get_s()->name, str) == 0)
 		{
@@ -1979,7 +1979,7 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 	/*trxn.token[0].coef = -1.0; */
 	/* check for leading coefficient of 1.0 for phase did not work */
 	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
-	for (size_t i = 1; rxn_ref.token[i].Get_s() != NULL; i++)
+	for (size_t i = 1; !rxn_ref.token[i].Get_end(); i++)
 	{
 		trxn.token[i].name = rxn_ref.token[i].Get_s()->name;
 		trxn.token[i].z = rxn_ref.token[i].Get_s()->z;
@@ -2025,7 +2025,7 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	 *   Copy  equation into work space
 	 */
 	class rxn_token* next_token = &r_ref.token[0];
-	while (next_token->Get_s() != NULL)
+	while (!next_token->Get_end())
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
@@ -2076,11 +2076,11 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 *   Copy  equation into work space
 	 */
 	next_token = &r_ref.token[0];
-	while (next_token->Get_s() != NULL || next_token->Get_name() != NULL)
+	while (!next_token->Get_end() || next_token->Get_name() != NULL)
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
-		if (next_token->Get_s() != NULL)
+		if (!next_token->Get_end())
 		{
 			trxn.token[count_trxn].name = next_token->Get_s()->name;
 			trxn.token[count_trxn].s = next_token->Get_s();
@@ -2210,6 +2210,7 @@ trxn_copy(CReaction& rxn_ref)
 	}
 	rxn_ref.token[count_trxn].Set_s(NULL);
 	rxn_ref.token[count_trxn].Set_name(NULL);
+	rxn_ref.token[count_trxn].Set_end(true);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

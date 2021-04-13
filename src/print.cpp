@@ -649,7 +649,7 @@ print_gas_phase(void)
 			lp = -phase_ptr->lk;
 			for (rxn_ptr =
 				 &phase_ptr->rxn_x.token[0] + 1;
-				 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 			}
@@ -1235,7 +1235,7 @@ print_saturation_indices(void)
 				mu_terms_in_logk = true;
 		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
 		iap = 0.0;
-		for (rxn_ptr = &reaction_ptr->token[0] + 1; rxn_ptr->Get_s() != NULL;
+		for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() != s_eminus)
@@ -1338,7 +1338,7 @@ print_pp_assemblage(void)
 			if (phase_ptr->rxn.logk[delta_v])
 				mu_terms_in_logk = true;
 			lk = k_calc(phase_ptr->rxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
-			for (rxn_ptr = &phase_ptr->rxn.token[0] + 1; rxn_ptr->Get_s() != NULL;
+			for (rxn_ptr = &phase_ptr->rxn.token[0] + 1; !rxn_ptr->Get_end();
 				 rxn_ptr++)
 			{
 				if (rxn_ptr->Get_s() != s_eminus)
@@ -3209,7 +3209,7 @@ punch_saturation_indices(void)
  */
 			iap = 0.0;
 			for (rxn_ptr = &(((class phase *) current_selected_output->Get_si()[i].second)->rxn_x.token[0]) + 1;
-				 rxn_ptr->Get_s() != NULL; rxn_ptr++)
+				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 				iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 			}
