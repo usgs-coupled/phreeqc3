@@ -283,8 +283,8 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 		rxn.token[i].Set_s((rxn_ref.token[i].Get_s() == NULL) ? NULL :
 			s_store(rxn_ref.token[i].Get_s()->name, rxn_ref.token[i].Get_s()->z, false));
 		rxn.token[i].coef = rxn_ref.token[i].coef;
-		rxn.token[i].Set_name((rxn_ref.token[i].Get_name() == NULL) ? NULL :
-			string_hsave(rxn_ref.token[i].Get_name()));
+		rxn.token[i].Set_name((rxn_ref.token[i].Get_name().size() == 0) ? "" :
+			rxn_ref.token[i].Get_name());
 	}
 	return rxn;
 }
@@ -2076,7 +2076,7 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 *   Copy  equation into work space
 	 */
 	next_token = &r_ref.token[0];
-	while (!next_token->Get_end() || next_token->Get_name() != NULL)
+	while (!next_token->Get_end() || next_token->Get_name().size() != 0)
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
@@ -2170,7 +2170,7 @@ trxn_compare(const void* ptr1, const void* ptr2)
 	const class rxn_token_temp* rxn_token_temp_ptr1, * rxn_token_temp_ptr2;
 	rxn_token_temp_ptr1 = (const class rxn_token_temp*)ptr1;
 	rxn_token_temp_ptr2 = (const class rxn_token_temp*)ptr2;
-	return (strcmp(rxn_token_temp_ptr1->name, rxn_token_temp_ptr2->name));
+	return (strcmp(rxn_token_temp_ptr1->name.c_str(), rxn_token_temp_ptr2->name.c_str()));
 }
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
@@ -2209,7 +2209,7 @@ trxn_copy(CReaction& rxn_ref)
 		rxn_ref.Get_tokens()[i].coef = trxn.token[i].coef;
 	}
 	rxn_ref.token[count_trxn].Set_s(NULL);
-	rxn_ref.token[count_trxn].Set_name(NULL);
+	rxn_ref.token[count_trxn].Set_name("");
 	rxn_ref.token[count_trxn].Set_end(true);
 	return (OK);
 }

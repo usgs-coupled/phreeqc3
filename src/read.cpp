@@ -724,10 +724,10 @@ read_exchange_species(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			trxn.token[0].s = s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
+			trxn.token[0].s = s_store(trxn.token[0].name.c_str(), trxn.token[0].z, TRUE);
 			for (i = 1; i < count_trxn; i++)
 			{
-				trxn.token[i].s = s_store(trxn.token[i].name, trxn.token[i].z, FALSE);
+				trxn.token[i].s = s_store(trxn.token[i].name.c_str(), trxn.token[i].z, FALSE);
 			}
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species
@@ -3640,7 +3640,7 @@ read_phases(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			strcpy(token1, trxn.token[0].name);
+			strcpy(token1, trxn.token[0].name.c_str());
 			replace("(g)", "", token1);
 			replace("(s)", "", token1);
 			replace("(G)", "", token1);
@@ -3648,12 +3648,12 @@ read_phases(void)
 			phase_ptr->formula = string_hsave(token1);
 			for (i = 1; i < count_trxn; i++)
 			{
-				if ((strstr(trxn.token[i].name, "(s)") == NULL) &&
-					(strstr(trxn.token[i].name, "(g)") == NULL) &&
-					(strstr(trxn.token[i].name, "(S)") == NULL) &&
-					(strstr(trxn.token[i].name, "(G)") == NULL))
+				if ((strstr(trxn.token[i].name.c_str(), "(s)") == NULL) &&
+					(strstr(trxn.token[i].name.c_str(), "(g)") == NULL) &&
+					(strstr(trxn.token[i].name.c_str(), "(S)") == NULL) &&
+					(strstr(trxn.token[i].name.c_str(), "(G)") == NULL))
 				{
-					strcpy(token1, trxn.token[i].name);
+					strcpy(token1, trxn.token[i].name.c_str());
 					replace("(aq)", "", token1);
 					replace("(AQ)", "", token1);
 					replace("H2O(l)", "H2O", token1);
@@ -3677,7 +3677,7 @@ read_phases(void)
 			token_ptr = &phase_ptr->rxn.token[0];
 			token_ptr[0].Set_name(trxn.token[1].name);
 			token_ptr[i].Set_s(NULL);
-			token_ptr[i].Set_name(NULL);
+			token_ptr[i].Set_name("");
 			token_ptr[i].Set_end(true);
 
 			/*
@@ -5510,11 +5510,11 @@ read_species(void)
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
 			trxn.token[0].s =
-				s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
+				s_store(trxn.token[0].name.c_str(), trxn.token[0].z, TRUE);
 			for (i = 1; i < count_trxn; i++)
 			{
 				trxn.token[i].s =
-					s_store(trxn.token[i].name, trxn.token[i].z, FALSE);
+					s_store(trxn.token[i].name.c_str(), trxn.token[i].z, FALSE);
 			}
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species
@@ -6131,11 +6131,11 @@ read_surface_species(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			trxn.token[0].s = s_store(trxn.token[0].name, trxn.token[0].z, TRUE);
+			trxn.token[0].s = s_store(trxn.token[0].name.c_str(), trxn.token[0].z, TRUE);
 			for (i = 1; i < count_trxn; i++)
 			{
 				trxn.token[i].s =
-					s_store(trxn.token[i].name, trxn.token[i].z, FALSE);
+					s_store(trxn.token[i].name.c_str(), trxn.token[i].z, FALSE);
 			}
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species

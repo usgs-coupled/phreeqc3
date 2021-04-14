@@ -711,7 +711,7 @@ rewrite_eqn_to_secondary(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not reduce equation to secondary master species, %s.",
-					trxn.token[0].name);
+					trxn.token[0].name.c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
@@ -790,7 +790,7 @@ replace_solids_gases(void)
 				/* try phase name without (g) or  (s) */
 				if (phase_ptr == NULL)
 				{
-					strcpy(token, token_ptr->name);
+					strcpy(token, token_ptr->name.c_str());
 					replace("(g)", "", token);
 					replace("(s)", "", token);
 					replace("(G)", "", token);

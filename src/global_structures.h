@@ -230,18 +230,18 @@ public:
 	{
 		s = NULL;
 		coef = 0.0;
-		name = NULL;
+		//name.clear();
 		end = false;
 	}
 	void Set_end(bool b) { end = b; }
 	bool Get_end() { return (s == NULL) ? true : false; }
 	class species* Get_s() { return this->s; }
 	void Set_s(class species* sp) { this->s = sp; }
-	const char* Get_name() { return this->name; }
-	void Set_name(const char* str) { this->name = str; }
+	const std::string& Get_name() { return this->name; }
+	void Set_name(const std::string& str) { this->name = str; }
 	LDBLE coef;
 protected:
-	const char* name;
+	std::string name;
 	class species* s;
 	bool end;
 };
@@ -1132,12 +1132,12 @@ public:
 	~rxn_token_temp() {};
 	rxn_token_temp()
 	{	// data for equations, aq. species or minerals
-		name = NULL;		// pointer to a species name (formula)
+		//name.clear();		// pointer to a species name (formula)
 		z = 0;		        // charge on species 
 		s = NULL;
 		coef = 0;			// coefficient of species name 
 	}
-	const char* name;
+	std::string name;
 	LDBLE z;
 	class species* s;
 	LDBLE coef;

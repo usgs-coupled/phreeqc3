@@ -2684,7 +2684,7 @@ add_potential_factor(void)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name);
+				trxn.token[0].name.c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2714,14 +2714,14 @@ add_potential_factor(void)
 	{
 		error_string = sformatf(
 				"Did not find a surface species in equation defining %s",
-				trxn.token[0].name);
+				trxn.token[0].name.c_str());
 		error_msg(error_string, CONTINUE);
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
 		for (i = 1; i < count_trxn; i++)
 		{
-			error_string = sformatf( "     %s", trxn.token[i].name);
+			error_string = sformatf( "     %s", trxn.token[i].name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		input_error++;
@@ -2783,7 +2783,7 @@ add_cd_music_factors(int n)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name);
+				trxn.token[0].name.c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2807,14 +2807,14 @@ add_cd_music_factors(int n)
 	{
 		error_string = sformatf(
 				"Did not find a surface species in equation defining %s",
-				trxn.token[0].name);
+				trxn.token[0].name.c_str());
 		error_msg(error_string, CONTINUE);
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
 		for (i = 1; i < count_trxn; i++)
 		{
-			error_string = sformatf( "     %s", trxn.token[i].name);
+			error_string = sformatf( "     %s", trxn.token[i].name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		input_error++;
@@ -2911,7 +2911,7 @@ add_surface_charge_balance(void)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name);
+				trxn.token[0].name.c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2978,7 +2978,7 @@ add_cd_music_charge_balances(int n)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name);
+				trxn.token[0].name.c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -5219,7 +5219,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	LDBLE d_v = 0.0;
 	species * s_ptr;
 
-	for (size_t i = 0; r_ptr->token[i].Get_name(); i++)
+	for (size_t i = 0; r_ptr->token[i].Get_name().size() > 0; i++)
 	{
 		if (!r_ptr->token[i].Get_s())
 			continue;
@@ -5288,7 +5288,7 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	}
 	d_v -= p_ptr->logk[vm0];
 	r_ptr->logk[delta_v] = d_v;
-	if (r_ptr->token[0].Get_name() && !strcmp(r_ptr->token[0].Get_name(), "H2O(g)"))
+	if ((r_ptr->token[0].Get_name().size() > 0) && !strcmp(r_ptr->token[0].Get_name().c_str(), "H2O(g)"))
 		r_ptr->logk[delta_v] = 0.0;
 
 	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
