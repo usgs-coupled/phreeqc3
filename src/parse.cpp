@@ -88,13 +88,13 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		trxn.token[count_trxn].coef *= -1.0;
 		/*   Swap species into first structure position */
 		//const char* char_ptr = trxn.token[0].name.c_str();
-		std::string char_ptr = trxn.token[0].name;
+		std::string char_ptr = trxn.token[0].Get_name();
 		coef = trxn.token[0].coef;
 		l_z = trxn.token[0].z;
-		trxn.token[0].name = trxn.token[count_trxn].name;
+		trxn.token[0].Set_name(trxn.token[count_trxn].Get_name());
 		trxn.token[0].coef = trxn.token[count_trxn].coef;
 		trxn.token[0].z = trxn.token[count_trxn].z;
-		trxn.token[count_trxn].name = char_ptr;
+		trxn.token[count_trxn].Set_name(char_ptr);
 		trxn.token[count_trxn].coef = coef;
 		trxn.token[count_trxn].z = l_z;
 		count_trxn++;
@@ -126,7 +126,7 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 	 *   Get elements in species or mineral formula
 	 */
 	count_elts = 0;
-	strcpy(token, trxn.token[0].name.c_str());
+	strcpy(token, trxn.token[0].Get_name().c_str());
 	replace("(s)", "", token);
 	replace("(S)", "", token);
 	replace("(g)", "", token);
@@ -205,7 +205,7 @@ check_eqn(int association)
 	for (i = 0; i < count_trxn; i++)
 	{
 		sumcharge += (trxn.token[i].coef) * (trxn.token[i].z);
-		const char* t_ptr = trxn.token[i].name.c_str();
+		const char* t_ptr = trxn.token[i].Get_name().c_str();
 		if (get_elts_in_species(&t_ptr, trxn.token[i].coef) == ERROR)
 		{
 			return (ERROR);
@@ -1026,7 +1026,7 @@ get_species(const char **cptr)
 	{
 		return (ERROR);
 	}
-	trxn.token[count_trxn].name = string_hsave(string.c_str());
+	trxn.token[count_trxn].Set_name(string_hsave(string.c_str()));
 	/*
 	   trxn.token[count_trxn].z = 0;
 	   trxn.token[count_trxn].s = NULL;

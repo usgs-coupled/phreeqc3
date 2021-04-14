@@ -1177,7 +1177,7 @@ build_model(void)
 			if (debug_prep == TRUE)
 			{
 				output_msg(sformatf( "\n%s, Element composition:\n",
-						   trxn.token[0].s->name));
+						   trxn.token[0].Get_s()->name));
 				for (j = 0; j < count_elts; j++)
 				{
 					output_msg(sformatf( "\t\t%-20s\t%10.2f\n",
@@ -2042,12 +2042,12 @@ inout(void)
 	{
 		token_ptr = &(trxn.token[i]);
 		/*   Check primary master species in */
-		if (token_ptr->s->primary != NULL
-			&& (token_ptr->s->primary->in == TRUE))
+		if (token_ptr->Get_s()->primary != NULL
+			&& (token_ptr->Get_s()->primary->in == TRUE))
 			continue;
 		/*   Check secondary master species */
-		if ((token_ptr->s->secondary != NULL)
-			&& (token_ptr->s->secondary->in != FALSE))
+		if ((token_ptr->Get_s()->secondary != NULL)
+			&& (token_ptr->Get_s()->secondary->in != FALSE))
 		{
 			continue;
 		}
@@ -2606,9 +2606,9 @@ write_mass_action_eqn_x(int stop)
 		{
 			std::string name;
 			name = "Unknown";
-			if (trxn.token[0].s != NULL)
+			if (trxn.token[0].Get_s() != NULL)
 			{
-				name = trxn.token[0].s->name;
+				name = trxn.token[0].Get_s()->name;
 			}
 			
 			input_error++;
@@ -2629,22 +2629,22 @@ write_mass_action_eqn_x(int stop)
 		count_rxn_orig = count_trxn;
 		for (i = 1; i < count_rxn_orig; i++)
 		{
-			if (trxn.token[i].s->secondary == NULL)
+			if (trxn.token[i].Get_s()->secondary == NULL)
 				continue;
-			if (trxn.token[i].s->secondary->in == REWRITE)
+			if (trxn.token[i].Get_s()->secondary->in == REWRITE)
 			{
 				repeat = TRUE;
 				coef_e =
-					rxn_find_coef(trxn.token[i].s->secondary->rxn_secondary,
+					rxn_find_coef(trxn.token[i].Get_s()->secondary->rxn_secondary,
 								  "e-");
-				trxn_add(trxn.token[i].s->secondary->rxn_secondary,
+				trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
 						 trxn.token[i].coef, false);
 				if (equal(coef_e, 0.0, TOL) == FALSE)
 				{
-					std::map < std::string, CReaction >::iterator chemRxnIt = pe_x.find(trxn.token[i].s->secondary->pe_rxn);
+					std::map < std::string, CReaction >::iterator chemRxnIt = pe_x.find(trxn.token[i].Get_s()->secondary->pe_rxn);
 					if ( chemRxnIt == pe_x.end() )
 					{
-						CReaction& rxn_ref = pe_x[trxn.token[i].s->secondary->pe_rxn];
+						CReaction& rxn_ref = pe_x[trxn.token[i].Get_s()->secondary->pe_rxn];
 						trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
 						// Create temporary rxn object and add reactions together
 						CReaction rxn;
@@ -2684,7 +2684,7 @@ add_potential_factor(void)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name.c_str());
+				trxn.token[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2697,14 +2697,14 @@ add_potential_factor(void)
  */
 	for (i = 1; i < count_trxn; i++)
 	{
-		if (trxn.token[i].s->type == AQ || trxn.token[i].s == s_hplus ||
-			trxn.token[i].s == s_eminus)
+		if (trxn.token[i].Get_s()->type == AQ || trxn.token[i].Get_s() == s_hplus ||
+			trxn.token[i].Get_s() == s_eminus)
 		{
-			sum_z += trxn.token[i].s->z * trxn.token[i].coef;
+			sum_z += trxn.token[i].Get_s()->z * trxn.token[i].coef;
 		}
-		if (trxn.token[i].s->type == SURF)
+		if (trxn.token[i].Get_s()->type == SURF)
 		{
-			master_ptr = trxn.token[i].s->primary;
+			master_ptr = trxn.token[i].Get_s()->primary;
 		}
 	}
 /*
@@ -2714,14 +2714,14 @@ add_potential_factor(void)
 	{
 		error_string = sformatf(
 				"Did not find a surface species in equation defining %s",
-				trxn.token[0].name.c_str());
+				trxn.token[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
 		for (i = 1; i < count_trxn; i++)
 		{
-			error_string = sformatf( "     %s", trxn.token[i].name.c_str());
+			error_string = sformatf( "     %s", trxn.token[i].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		input_error++;
@@ -2749,8 +2749,8 @@ add_potential_factor(void)
  */
 	if (master_ptr != NULL)
 	{
-		trxn.token[count_trxn].name = master_ptr->s->name;
-		trxn.token[count_trxn].s = master_ptr->s;
+		trxn.token[count_trxn].Set_name(master_ptr->s->name);
+		trxn.token[count_trxn].Set_s(master_ptr->s);
 		trxn.token[count_trxn].coef = -2.0 * sum_z;
 		count_trxn++;
 	}
@@ -2783,7 +2783,7 @@ add_cd_music_factors(int n)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name.c_str());
+				trxn.token[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2795,9 +2795,9 @@ add_cd_music_factors(int n)
  */
 	for (i = 1; i < count_trxn; i++)
 	{
-		if (trxn.token[i].s->type == SURF)
+		if (trxn.token[i].Get_s()->type == SURF)
 		{
-			master_ptr = trxn.token[i].s->primary;
+			master_ptr = trxn.token[i].Get_s()->primary;
 		}
 	}
 /*
@@ -2807,14 +2807,14 @@ add_cd_music_factors(int n)
 	{
 		error_string = sformatf(
 				"Did not find a surface species in equation defining %s",
-				trxn.token[0].name.c_str());
+				trxn.token[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
 		for (i = 1; i < count_trxn; i++)
 		{
-			error_string = sformatf( "     %s", trxn.token[i].name.c_str());
+			error_string = sformatf( "     %s", trxn.token[i].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		input_error++;
@@ -2841,8 +2841,8 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[count_trxn].name = master_ptr->s->name;
-	trxn.token[count_trxn].s = master_ptr->s;
+	trxn.token[count_trxn].Set_name(master_ptr->s->name);
+	trxn.token[count_trxn].Set_s(master_ptr->s);
 	/*trxn.token[count_trxn].coef = s[n]->dz[0];*/
 	trxn.token[count_trxn].coef = trxn.dz[0];
 
@@ -2863,8 +2863,8 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[count_trxn].name = master_ptr->s->name;
-	trxn.token[count_trxn].s = master_ptr->s;
+	trxn.token[count_trxn].Set_name(master_ptr->s->name);
+	trxn.token[count_trxn].Set_s(master_ptr->s);
 	/*trxn.token[count_trxn].coef = s[n]->dz[1];*/
 	trxn.token[count_trxn].coef = trxn.dz[1];
 	count_trxn++;
@@ -2883,8 +2883,8 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[count_trxn].name = master_ptr->s->name;
-	trxn.token[count_trxn].s = master_ptr->s;
+	trxn.token[count_trxn].Set_name(master_ptr->s->name);
+	trxn.token[count_trxn].Set_s(master_ptr->s);
 	/*trxn.token[count_trxn].coef = s[n]->dz[2];*/
 	trxn.token[count_trxn].coef = trxn.dz[2];
 	count_trxn++;
@@ -2911,7 +2911,7 @@ add_surface_charge_balance(void)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name.c_str());
+				trxn.token[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2978,7 +2978,7 @@ add_cd_music_charge_balances(int n)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].name.c_str());
+				trxn.token[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -5023,9 +5023,9 @@ write_mb_eqn_x(void)
 		{
 			std::string name;
 			name = "Unknown";
-			if (trxn.token[0].s != NULL)
+			if (trxn.token[0].Get_s() != NULL)
 			{
-				name = trxn.token[0].s->name;
+				name = trxn.token[0].Get_s()->name;
 			}
 			error_string = sformatf( "Could not reduce equation "
 					"to primary and secondary species that are "
@@ -5037,12 +5037,12 @@ write_mb_eqn_x(void)
 		count_rxn_orig = count_trxn;
 		for (i = 1; i < count_rxn_orig; i++)
 		{
-			if (trxn.token[i].s->secondary == NULL)
+			if (trxn.token[i].Get_s()->secondary == NULL)
 				continue;
-			if (trxn.token[i].s->secondary->in == REWRITE)
+			if (trxn.token[i].Get_s()->secondary->in == REWRITE)
 			{
 				repeat = TRUE;
-				trxn_add(trxn.token[i].s->secondary->rxn_secondary,
+				trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
 						 trxn.token[i].coef, false);
 			}
 		}
@@ -5056,17 +5056,17 @@ write_mb_eqn_x(void)
 	for (size_t i = 1; i < count_trxn; i++)
 	{
 		size_t j = count_elts;
-		const char* cptr = trxn.token[i].s->name;
+		const char* cptr = trxn.token[i].Get_s()->name;
 		get_elts_in_species(&cptr, trxn.token[i].coef);
 		for (size_t k = j; k < count_elts; k++)
 		{
-			if (trxn.token[i].s->secondary != NULL)
+			if (trxn.token[i].Get_s()->secondary != NULL)
 			{
-				master_ptr = trxn.token[i].s->secondary->elt->primary;
+				master_ptr = trxn.token[i].Get_s()->secondary->elt->primary;
 			}
 			else
 			{
-				master_ptr = trxn.token[i].s->primary;
+				master_ptr = trxn.token[i].Get_s()->primary;
 			}
 			if (elt_list[k].elt == master_ptr->elt)
 			{
@@ -5074,14 +5074,14 @@ write_mb_eqn_x(void)
 				break;
 			}
 		}
-		if (trxn.token[i].s->secondary == NULL)
+		if (trxn.token[i].Get_s()->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].s->primary->elt->name.c_str();
+			const char* cptr = trxn.token[i].Get_s()->primary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 		else
 		{
-			cptr = trxn.token[i].s->secondary->elt->name.c_str();
+			cptr = trxn.token[i].Get_s()->secondary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 	}
@@ -5111,18 +5111,18 @@ write_mb_for_species_list(int n)
 	paren_count = 0;
 	for (i = 1; i < count_trxn; i++)
 	{
-		if (trxn.token[i].s->secondary == NULL)
+		if (trxn.token[i].Get_s()->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].s->primary->elt->name.c_str();
+			const char* cptr = trxn.token[i].Get_s()->primary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 		else
 		{
-			const char* cptr = trxn.token[i].s->secondary->elt->name.c_str();
+			const char* cptr = trxn.token[i].Get_s()->secondary->elt->name.c_str();
 			if (get_secondary_in_species(&cptr, trxn.token[i].coef) == ERROR)
 			{
 				input_error++;
-				error_string = sformatf( "Error parsing %s.", trxn.token[i].s->secondary->elt->name.c_str());
+				error_string = sformatf( "Error parsing %s.", trxn.token[i].Get_s()->secondary->elt->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -5168,14 +5168,14 @@ write_phase_sys_total(int n)
 	paren_count = 0;
 	for (i = 1; i < count_trxn; i++)
 	{
-		if (trxn.token[i].s->secondary == NULL)
+		if (trxn.token[i].Get_s()->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].s->primary->elt->name.c_str();
+			const char* cptr = trxn.token[i].Get_s()->primary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 		else
 		{
-			const char* cptr = trxn.token[i].s->secondary->elt->name.c_str();
+			const char* cptr = trxn.token[i].Get_s()->secondary->elt->name.c_str();
 			get_secondary_in_species(&cptr, trxn.token[i].coef);
 		}
 	}

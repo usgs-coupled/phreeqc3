@@ -711,7 +711,7 @@ rewrite_eqn_to_secondary(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not reduce equation to secondary master species, %s.",
-					trxn.token[0].name.c_str());
+					trxn.token[0].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
@@ -719,20 +719,20 @@ rewrite_eqn_to_secondary(void)
 		for (i = 1; i < count_trxn; i++)
 		{
 			token_ptr = &(trxn.token[i]);
-			if (token_ptr->s == NULL)
+			if (token_ptr->Get_s() == NULL)
 			{
 				error_string = sformatf(
 						"NULL species pointer for species, %s.",
-						token_ptr->name);
+						token_ptr->Get_name().c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				break;
 			}
-			if (token_ptr->s->secondary == NULL
-				&& token_ptr->s->primary == NULL)
+			if (token_ptr->Get_s()->secondary == NULL
+				&& token_ptr->Get_s()->primary == NULL)
 			{
 				coef = token_ptr->coef;
-				trxn_add(token_ptr->s->rxn, coef, true);
+				trxn_add(token_ptr->Get_s()->rxn, coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -776,7 +776,7 @@ replace_solids_gases(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not remove all solids and gases from equation, %s.",
-					trxn.token[0].name);
+					trxn.token[0].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
@@ -784,13 +784,13 @@ replace_solids_gases(void)
 		for (i = 1; i < count_trxn; i++)
 		{
 			token_ptr = &(trxn.token[i]);
-			if (token_ptr->s == NULL)
+			if (token_ptr->Get_s() == NULL)
 			{
-				phase_ptr = phase_bsearch(token_ptr->name, &n, FALSE);
+				phase_ptr = phase_bsearch(token_ptr->Get_name(), &n, FALSE);
 				/* try phase name without (g) or  (s) */
 				if (phase_ptr == NULL)
 				{
-					strcpy(token, token_ptr->name.c_str());
+					strcpy(token, token_ptr->Get_name().c_str());
 					replace("(g)", "", token);
 					replace("(s)", "", token);
 					replace("(G)", "", token);
@@ -801,7 +801,7 @@ replace_solids_gases(void)
 				{
 					input_error++;
 					error_string = sformatf( "Phase not found, %s.",
-							token_ptr->name);
+							token_ptr->Get_name().c_str());
 					error_msg(error_string, CONTINUE);
 					break;
 				}
@@ -814,8 +814,8 @@ replace_solids_gases(void)
 				trxn_add_phase(phase_ptr->rxn, coef, false);
 
 				/* remove solid/gas from trxn list */
-				trxn.token[i].name = phase_ptr->rxn.token[0].Get_name();
-				trxn.token[i].s = phase_ptr->rxn.token[0].Get_s();
+				trxn.token[i].Set_name(phase_ptr->rxn.token[0].Get_name());
+				trxn.token[i].Set_s(phase_ptr->rxn.token[0].Get_s());
 				trxn.token[i].coef = -coef * phase_ptr->rxn.token[0].coef;
 				repeat = TRUE;
 				replaced = TRUE;
@@ -869,7 +869,7 @@ rewrite_eqn_to_primary(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not reduce equation to primary master species, %s.",
-					trxn.token[0].s->name);
+					trxn.token[0].Get_s()->name);
 			error_msg(error_string, CONTINUE);
 			break;
 		}
@@ -879,9 +879,9 @@ rewrite_eqn_to_primary(void)
  */
 		for (j = 1; j < count_trxn; j++)
 		{
-			if (trxn.token[j].s->primary == NULL)
+			if (trxn.token[j].Get_s()->primary == NULL)
 			{
-				trxn_add(trxn.token[j].s->rxn, trxn.token[j].coef, true);
+				trxn_add(trxn.token[j].Get_s()->rxn, trxn.token[j].coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -1462,7 +1462,9 @@ tidy_phases(void)
 	{
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
 		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
-		phases[i]->rxn.token[0].Set_name(string_hsave(phases[i]->name.c_str()));
+		//phases[i]->rxn.token[0].Set_name(string_hsave(phases[i]->name.c_str()));
+		phases[i]->rxn.token[0].Set_name(phases[i]->name);
+
 		phases[i]->rxn.token[0].Set_s(NULL);
 	}
 	/*
@@ -1475,7 +1477,7 @@ tidy_phases(void)
 		 */
 		count_trxn = 0;
 		trxn_add_phase(phases[i]->rxn, 1.0, false);
-		trxn.token[0].name = string_hsave(phases[i]->name.c_str());
+		trxn.token[0].Set_name(string_hsave(phases[i]->name.c_str()));
 		/* debug 
 		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
 		   trxn_print();
@@ -2367,7 +2369,7 @@ tidy_species(void)
 		s[i]->co2 = 0.0;
 		for (j = 1; j < count_trxn; j++)
 		{
-			if (trxn.token[j].s == s_co3)
+			if (trxn.token[j].Get_s() == s_co3)
 			{
 				s[i]->co2 = trxn.token[j].coef;
 				break;
@@ -2822,9 +2824,9 @@ species_rxn_to_trxn(class species *s_ptr)
 	count_trxn = 0;
 	for (size_t i = 0; !s_ptr->rxn.token[i].Get_end(); i++)
 	{
-		trxn.token[i].name = s_ptr->rxn.token[i].Get_s()->name;
+		trxn.token[i].Set_name(s_ptr->rxn.token[i].Get_s()->name);
 		trxn.token[i].z = s_ptr->rxn.token[i].Get_s()->z;
-		trxn.token[i].s = s_ptr->rxn.token[i].Get_s();
+		trxn.token[i].Set_s(s_ptr->rxn.token[i].Get_s());
 		trxn.token[i].coef = s_ptr->rxn.token[i].coef;
 		count_trxn = i + 1;
 		if (count_trxn + 1 > trxn.token.size())

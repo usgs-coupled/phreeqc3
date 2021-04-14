@@ -398,7 +398,7 @@ print_eh(void)
 			pe = -k_calc(trxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
 			for (j = 1; j < count_trxn; j++)
 			{
-				pe -= trxn.token[j].s->la * trxn.token[j].coef;
+				pe -= trxn.token[j].Get_s()->la * trxn.token[j].coef;
 			}
 			eh = ((LOG_10 * R_KJ_DEG_MOL * tk_x) / F_KJ_V_EQ) * pe;
 /*

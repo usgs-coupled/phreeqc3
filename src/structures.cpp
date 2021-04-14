@@ -1967,7 +1967,7 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 	const char* cptr;
 	LDBLE l_z;
 	trxn.token.resize(rxn_ref.size());
-	trxn.token[0].name = string_hsave(phase_ptr->formula.c_str());
+	trxn.token[0].Set_name(string_hsave(phase_ptr->formula.c_str()));
 	/* charge */
 	cptr = phase_ptr->formula.c_str();
 	{
@@ -1975,15 +1975,15 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 		get_token(&cptr, token, &l_z, &l);
 	}
 	trxn.token[0].z = l_z;
-	trxn.token[0].s = NULL;
+	trxn.token[0].Set_s(NULL);
 	/*trxn.token[0].coef = -1.0; */
 	/* check for leading coefficient of 1.0 for phase did not work */
 	trxn.token[0].coef = phase_ptr->rxn.token[0].coef;
 	for (size_t i = 1; !rxn_ref.token[i].Get_end(); i++)
 	{
-		trxn.token[i].name = rxn_ref.token[i].Get_s()->name;
+		trxn.token[i].Set_name(rxn_ref.token[i].Get_s()->name);
 		trxn.token[i].z = rxn_ref.token[i].Get_s()->z;
-		trxn.token[i].s = NULL;
+		trxn.token[i].Set_s(NULL);
 		trxn.token[i].coef = rxn_ref.token[i].coef;
 		count_trxn = i + 1;
 	}
@@ -2029,8 +2029,8 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	{
 		if (count_trxn + 1 > trxn.token.size())
 			trxn.token.resize(count_trxn + 1);
-		trxn.token[count_trxn].name = next_token->Get_s()->name;
-		trxn.token[count_trxn].s = next_token->Get_s();
+		trxn.token[count_trxn].Set_name(next_token->Get_s()->name);
+		trxn.token[count_trxn].Set_s(next_token->Get_s());
 		trxn.token[count_trxn].coef = coef * next_token->coef;
 		count_trxn++;
 		next_token++;
@@ -2082,13 +2082,13 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 			trxn.token.resize(count_trxn + 1);
 		if (!next_token->Get_end())
 		{
-			trxn.token[count_trxn].name = next_token->Get_s()->name;
-			trxn.token[count_trxn].s = next_token->Get_s();
+			trxn.token[count_trxn].Set_name(next_token->Get_s()->name);
+			trxn.token[count_trxn].Set_s(next_token->Get_s());
 		}
 		else
 		{
-			trxn.token[count_trxn].name = next_token->Get_name();
-			trxn.token[count_trxn].s = NULL;
+			trxn.token[count_trxn].Set_name(next_token->Get_name());
+			trxn.token[count_trxn].Set_s(NULL);
 		}
 		trxn.token[count_trxn].coef = coef * next_token->coef;
 		count_trxn++;
@@ -2119,9 +2119,9 @@ trxn_combine(void)
 	j = 1;
 	for (k = 2; k < count_trxn; k++)
 	{
-		if (trxn.token[k].s != NULL)
+		if (trxn.token[k].Get_s() != NULL)
 		{
-			if ((j > 0) && (trxn.token[k].s == trxn.token[j].s))
+			if ((j > 0) && (trxn.token[k].Get_s() == trxn.token[j].Get_s()))
 			{
 				trxn.token[j].coef += trxn.token[k].coef;
 				if (equal(trxn.token[j].coef, 0.0, 1e-5))
@@ -2132,16 +2132,16 @@ trxn_combine(void)
 				j++;
 				if (k != j)
 				{
-					trxn.token[j].name = trxn.token[k].name;
-					trxn.token[j].s = trxn.token[k].s;
+					trxn.token[j].Set_name(trxn.token[k].Get_name());
+					trxn.token[j].Set_s(trxn.token[k].Get_s());
 					trxn.token[j].coef = trxn.token[k].coef;
 				}
 			}
 		}
 		else
 		{
-			if ((j > 0) && (trxn.token[k].s == trxn.token[j].s)
-				&& (trxn.token[k].name == trxn.token[j].name))
+			if ((j > 0) && (trxn.token[k].Get_s() == trxn.token[j].Get_s())
+				&& (trxn.token[k].Get_name() == trxn.token[j].Get_name()))
 			{
 				trxn.token[j].coef += trxn.token[k].coef;
 				if (equal(trxn.token[j].coef, 0.0, 1e-5))
@@ -2152,8 +2152,8 @@ trxn_combine(void)
 				j++;
 				if (k != j)
 				{
-					trxn.token[j].name = trxn.token[k].name;
-					trxn.token[j].s = trxn.token[k].s;
+					trxn.token[j].Set_name(trxn.token[k].Get_name());
+					trxn.token[j].Set_s(trxn.token[k].Get_s());
 					trxn.token[j].coef = trxn.token[k].coef;
 				}
 			}
@@ -2170,7 +2170,8 @@ trxn_compare(const void* ptr1, const void* ptr2)
 	const class rxn_token_temp* rxn_token_temp_ptr1, * rxn_token_temp_ptr2;
 	rxn_token_temp_ptr1 = (const class rxn_token_temp*)ptr1;
 	rxn_token_temp_ptr2 = (const class rxn_token_temp*)ptr2;
-	return (strcmp(rxn_token_temp_ptr1->name.c_str(), rxn_token_temp_ptr2->name.c_str()));
+	return (strcmp(rxn_token_temp_ptr1->Get_name().c_str(), 
+		rxn_token_temp_ptr2->Get_name().c_str()));
 }
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
@@ -2204,8 +2205,8 @@ trxn_copy(CReaction& rxn_ref)
 	rxn_ref.Get_tokens().resize(count_trxn + 1);
 	for (size_t i = 0; i < count_trxn; i++)
 	{
-		rxn_ref.Get_tokens()[i].Set_s(trxn.token[i].s);
-		rxn_ref.Get_tokens()[i].Set_name(trxn.token[i].name);
+		rxn_ref.Get_tokens()[i].Set_s(trxn.token[i].Get_s());
+		rxn_ref.Get_tokens()[i].Set_name(trxn.token[i].Get_name());
 		rxn_ref.Get_tokens()[i].coef = trxn.token[i].coef;
 	}
 	rxn_ref.token[count_trxn].Set_s(NULL);
@@ -2231,7 +2232,7 @@ trxn_find_coef(const char *str, int start)
 	coef = 0.0;
 	for (i = start; i < count_trxn; i++)
 	{
-		if (strcmp(trxn.token[i].s->name, str) == 0)
+		if (strcmp(trxn.token[i].Get_s()->name, str) == 0)
 		{
 			coef = trxn.token[i].coef;
 			break;
@@ -2309,7 +2310,7 @@ trxn_print(void)
 	output_msg(sformatf( "\tReaction stoichiometry\n"));
 	for (i = 0; i < count_trxn; i++)
 	{
-		output_msg(sformatf( "\t\t%-20s\t%10.2f\n", trxn.token[i].name,
+		output_msg(sformatf( "\t\t%-20s\t%10.2f\n", trxn.token[i].Get_name().c_str(),
 				   (double) trxn.token[i].coef));
 	}
 	output_msg(sformatf( "\n"));
@@ -2376,7 +2377,7 @@ trxn_swap(const char *token)
  */
 	for (j = 0; j < count_trxn; j++)
 	{
-		if (strcmp(trxn.token[j].s->name, token) == 0)
+		if (strcmp(trxn.token[j].Get_s()->name, token) == 0)
 			break;
 	}
 	if (j >= count_trxn)
@@ -2387,7 +2388,7 @@ trxn_swap(const char *token)
 		for (i = 0; i < count_trxn; i++)
 		{
 			output_msg(sformatf( "%f\t%s\t",
-					   (double) trxn.token[i].coef, trxn.token[i].name));
+					   (double) trxn.token[i].coef, trxn.token[i].Get_name().c_str()));
 		}
 		output_msg(sformatf( "\n"));
 		return (ERROR);
@@ -2395,16 +2396,16 @@ trxn_swap(const char *token)
 /*
  *   Swap token to first position
  */
-	trxn.token[count_trxn].name = trxn.token[0].name;
-	trxn.token[count_trxn].s = trxn.token[0].s;
+	trxn.token[count_trxn].Set_name(trxn.token[0].Get_name());
+	trxn.token[count_trxn].Set_s(trxn.token[0].Get_s());
 	trxn.token[count_trxn].coef = trxn.token[0].coef;
 
-	trxn.token[0].name = trxn.token[j].name;
-	trxn.token[0].s = trxn.token[j].s;
+	trxn.token[0].Set_name(trxn.token[j].Get_name());
+	trxn.token[0].Set_s(trxn.token[j].Get_s());
 	trxn.token[0].coef = trxn.token[j].coef;
 
-	trxn.token[j].name = trxn.token[count_trxn].name;
-	trxn.token[j].s = trxn.token[count_trxn].s;
+	trxn.token[j].Set_name(trxn.token[count_trxn].Get_name());
+	trxn.token[j].Set_s(trxn.token[count_trxn].Get_s());
 	trxn.token[j].coef = trxn.token[count_trxn].coef;
 /*
  *   Make coefficient of token -1.0

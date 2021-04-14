@@ -835,9 +835,9 @@ calc_surface_charge(const char *surface_name)
 		for (i = 1; i < count_trxn; i++)
 		{
 			token_ptr = &(trxn.token[i]);
-			if (token_ptr->s->type != SURF)
+			if (token_ptr->Get_s()->type != SURF)
 				continue;
-			master_ptr = trxn.token[i].s->primary;
+			master_ptr = trxn.token[i].Get_s()->primary;
 			strcpy(token, master_ptr->elt->name.c_str());
 			replace("_", " ", token);
 			cptr = token;

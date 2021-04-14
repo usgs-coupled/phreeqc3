@@ -1137,10 +1137,15 @@ public:
 		s = NULL;
 		coef = 0;			// coefficient of species name 
 	}
-	std::string name;
+	class species* Get_s() { return this->s; }
+	void Set_s(class species* sp) { this->s = sp; }
+	const std::string& Get_name()const { return this->name; }
+	void Set_name(const std::string& str) { this->name = str; }
 	LDBLE z;
-	class species* s;
 	LDBLE coef;
+protected:
+	class species* s;
+	std::string name;
 };
 class unknown_list
 {

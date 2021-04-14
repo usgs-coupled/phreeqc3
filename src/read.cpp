@@ -724,40 +724,41 @@ read_exchange_species(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			trxn.token[0].s = s_store(trxn.token[0].name.c_str(), trxn.token[0].z, TRUE);
+			trxn.token[0].Set_s(
+				s_store(trxn.token[0].Get_name().c_str(), trxn.token[0].z, TRUE));
 			for (i = 1; i < count_trxn; i++)
 			{
-				trxn.token[i].s = s_store(trxn.token[i].name.c_str(), trxn.token[i].z, FALSE);
+				trxn.token[i].Set_s(s_store(trxn.token[i].Get_name().c_str(), trxn.token[i].z, FALSE));
 			}
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species
 			 */
-			trxn.token[0].s->next_elt = new_elt_list;
-			next_elt = &trxn.token[0].s->next_elt[0];
+			trxn.token[0].Get_s()->next_elt = new_elt_list;
+			next_elt = &trxn.token[0].Get_s()->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
 				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
 				{
-					trxn.token[0].s->carbon = next_elt->coef;
+					trxn.token[0].Get_s()->carbon = next_elt->coef;
 				}
 				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
 				{
-					trxn.token[0].s->h = next_elt->coef;
+					trxn.token[0].Get_s()->h = next_elt->coef;
 				}
 				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
 				{
-					trxn.token[0].s->o = next_elt->coef;
+					trxn.token[0].Get_s()->o = next_elt->coef;
 				}
 			}
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			trxn_copy(trxn.token[0].s->rxn);
+			trxn_copy(trxn.token[0].Get_s()->rxn);
 			/*
 			 *   Set type for species
 			 */
-			trxn.token[0].s->type = EX;
-			s_ptr = trxn.token[0].s;
+			trxn.token[0].Get_s()->type = EX;
+			s_ptr = trxn.token[0].Get_s();
 			/*
 			 *   Set gamma data
 			 */
@@ -3640,7 +3641,7 @@ read_phases(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			strcpy(token1, trxn.token[0].name.c_str());
+			strcpy(token1, trxn.token[0].Get_name().c_str());
 			replace("(g)", "", token1);
 			replace("(s)", "", token1);
 			replace("(G)", "", token1);
@@ -3648,21 +3649,21 @@ read_phases(void)
 			phase_ptr->formula = string_hsave(token1);
 			for (i = 1; i < count_trxn; i++)
 			{
-				if ((strstr(trxn.token[i].name.c_str(), "(s)") == NULL) &&
-					(strstr(trxn.token[i].name.c_str(), "(g)") == NULL) &&
-					(strstr(trxn.token[i].name.c_str(), "(S)") == NULL) &&
-					(strstr(trxn.token[i].name.c_str(), "(G)") == NULL))
+				if ((strstr(trxn.token[i].Get_name().c_str(), "(s)") == NULL) &&
+					(strstr(trxn.token[i].Get_name().c_str(), "(g)") == NULL) &&
+					(strstr(trxn.token[i].Get_name().c_str(), "(S)") == NULL) &&
+					(strstr(trxn.token[i].Get_name().c_str(), "(G)") == NULL))
 				{
-					strcpy(token1, trxn.token[i].name.c_str());
+					strcpy(token1, trxn.token[i].Get_name().c_str());
 					replace("(aq)", "", token1);
 					replace("(AQ)", "", token1);
 					replace("H2O(l)", "H2O", token1);
 					replace("(H2O(L)", "H2O", token1);
-					trxn.token[i].s = s_store(token1, trxn.token[i].z, FALSE);
+					trxn.token[i].Set_s(s_store(token1, trxn.token[i].z, FALSE));
 				}
 				else
 				{
-					trxn.token[i].s = NULL;
+					trxn.token[i].Set_s(NULL);
 				}
 			}
 			/*
@@ -3675,7 +3676,7 @@ read_phases(void)
   */
 			trxn_copy(phase_ptr->rxn);
 			token_ptr = &phase_ptr->rxn.token[0];
-			token_ptr[0].Set_name(trxn.token[1].name);
+			token_ptr[0].Set_name(trxn.token[1].Get_name());
 			token_ptr[i].Set_s(NULL);
 			token_ptr[i].Set_name("");
 			token_ptr[i].Set_end(true);
@@ -5509,39 +5510,39 @@ read_species(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			trxn.token[0].s =
-				s_store(trxn.token[0].name.c_str(), trxn.token[0].z, TRUE);
+			trxn.token[0].Set_s(
+				s_store(trxn.token[0].Get_name().c_str(), trxn.token[0].z, TRUE));
 			for (i = 1; i < count_trxn; i++)
 			{
-				trxn.token[i].s =
-					s_store(trxn.token[i].name.c_str(), trxn.token[i].z, FALSE);
+				trxn.token[i].Set_s(
+					s_store(trxn.token[i].Get_name().c_str(), trxn.token[i].z, FALSE));
 			}
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species
 			 */
-			trxn.token[0].s->next_elt = new_elt_list;
-			trxn.token[0].s->next_secondary.clear();
-			next_elt = &trxn.token[0].s->next_elt[0];
+			trxn.token[0].Get_s()->next_elt = new_elt_list;
+			trxn.token[0].Get_s()->next_secondary.clear();
+			next_elt = &trxn.token[0].Get_s()->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
 				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
 				{
-					trxn.token[0].s->carbon = next_elt->coef;
+					trxn.token[0].Get_s()->carbon = next_elt->coef;
 				}
 				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
 				{
-					trxn.token[0].s->h = next_elt->coef;
+					trxn.token[0].Get_s()->h = next_elt->coef;
 				}
 				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
 				{
-					trxn.token[0].s->o = next_elt->coef;
+					trxn.token[0].Get_s()->o = next_elt->coef;
 				}
 			}
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			trxn_copy(trxn.token[0].s->rxn);
-			s_ptr = trxn.token[0].s;
+			trxn_copy(trxn.token[0].Get_s()->rxn);
+			s_ptr = trxn.token[0].Get_s();
 			/*
 			 *   Default gamma data
 			 */
@@ -5559,45 +5560,45 @@ read_species(void)
 			/*
 			 *   Set type for species
 			 */
-			if (strcmp(trxn.token[0].s->name, "H+") == 0)
+			if (strcmp(trxn.token[0].Get_s()->name, "H+") == 0)
 			{
-				s_hplus = trxn.token[0].s;
+				s_hplus = trxn.token[0].Get_s();
 				s_hplus->type = HPLUS;
 			}
-			else if (strcmp(trxn.token[0].s->name, "H3O+") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name, "H3O+") == 0)
 			{
-				s_h3oplus = trxn.token[0].s;
+				s_h3oplus = trxn.token[0].Get_s();
 				s_h3oplus->type = HPLUS;
 			}
-			else if (strcmp(trxn.token[0].s->name, "e-") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name, "e-") == 0)
 			{
-				s_eminus = trxn.token[0].s;
+				s_eminus = trxn.token[0].Get_s();
 				s_eminus->type = EMINUS;
 				s_eminus->gflag = 3;	/* Always 1 */
 			}
-			else if (strcmp(trxn.token[0].s->name, "H2O") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name, "H2O") == 0)
 			{
-				s_h2o = trxn.token[0].s;
+				s_h2o = trxn.token[0].Get_s();
 				s_h2o->type = H2O;
 				s_h2o->gflag = 3;	/* Always 1 */
 			}
-			else if (strstr(trxn.token[0].s->name, "(s)") != NULL)
+			else if (strstr(trxn.token[0].Get_s()->name, "(s)") != NULL)
 			{
-				trxn.token[0].s->type = SOLID;
+				trxn.token[0].Get_s()->type = SOLID;
 			}
-			else if (strcmp(trxn.token[0].s->name, "H2") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name, "H2") == 0)
 			{
-				trxn.token[0].s->type = AQ;
-				s_h2 = trxn.token[0].s;
+				trxn.token[0].Get_s()->type = AQ;
+				s_h2 = trxn.token[0].Get_s();
 			}
-			else if (strcmp(trxn.token[0].s->name, "O2") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name, "O2") == 0)
 			{
-				trxn.token[0].s->type = AQ;
-				s_o2 = trxn.token[0].s;
+				trxn.token[0].Get_s()->type = AQ;
+				s_o2 = trxn.token[0].Get_s();
 			}
 			else
 			{
-				trxn.token[0].s->type = AQ;
+				trxn.token[0].Get_s()->type = AQ;
 			}
 			opt_save = OPTION_DEFAULT;
 		}
@@ -6131,41 +6132,41 @@ read_surface_species(void)
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
-			trxn.token[0].s = s_store(trxn.token[0].name.c_str(), trxn.token[0].z, TRUE);
+			trxn.token[0].Set_s(s_store(trxn.token[0].Get_name().c_str(), trxn.token[0].z, TRUE));
 			for (i = 1; i < count_trxn; i++)
 			{
-				trxn.token[i].s =
-					s_store(trxn.token[i].name.c_str(), trxn.token[i].z, FALSE);
+				trxn.token[i].Set_s(
+					s_store(trxn.token[i].Get_name().c_str(), trxn.token[i].z, FALSE));
 			}
 			/*
 			 *   Save element list and carbon, hydrogen, and oxygen in species
 			 */
-			trxn.token[0].s->next_elt = new_elt_list;
-			next_elt = &trxn.token[0].s->next_elt[0];
+			trxn.token[0].Get_s()->next_elt = new_elt_list;
+			next_elt = &trxn.token[0].Get_s()->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
 				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
 				{
-					trxn.token[0].s->carbon = next_elt->coef;
+					trxn.token[0].Get_s()->carbon = next_elt->coef;
 				}
 				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
 				{
-					trxn.token[0].s->h = next_elt->coef;
+					trxn.token[0].Get_s()->h = next_elt->coef;
 				}
 				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
 				{
-					trxn.token[0].s->o = next_elt->coef;
+					trxn.token[0].Get_s()->o = next_elt->coef;
 				}
 			}
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			trxn_copy(trxn.token[0].s->rxn);
+			trxn_copy(trxn.token[0].Get_s()->rxn);
 			/*
 			 *   Set type for species
 			 */
-			trxn.token[0].s->type = SURF;
-			s_ptr = trxn.token[0].s;
+			trxn.token[0].Get_s()->type = SURF;
+			s_ptr = trxn.token[0].Get_s();
 			/*
 			 *   Read gamma data
 			 */
