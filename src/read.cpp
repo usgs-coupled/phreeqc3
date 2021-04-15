@@ -726,7 +726,7 @@ read_exchange_species(void)
 			 */
 			trxn.token[0].Set_s(
 				s_store(trxn.token[0].Get_name().c_str(), trxn.token[0].z, TRUE));
-			for (i = 1; i < count_trxn; i++)
+			for (i = 1; i < trxn.Get_count_trxn(); i++)
 			{
 				trxn.token[i].Set_s(s_store(trxn.token[i].Get_name().c_str(), trxn.token[i].z, FALSE));
 			}
@@ -753,7 +753,7 @@ read_exchange_species(void)
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			trxn_copy(trxn.token[0].Get_s()->rxn);
+			trxn.trxn_copy(trxn.token[0].Get_s()->rxn);
 			/*
 			 *   Set type for species
 			 */
@@ -3647,7 +3647,7 @@ read_phases(void)
 			replace("(G)", "", token1);
 			replace("(S)", "", token1);
 			phase_ptr->formula = string_hsave(token1);
-			for (i = 1; i < count_trxn; i++)
+			for (i = 1; i < trxn.Get_count_trxn(); i++)
 			{
 				if ((strstr(trxn.token[i].Get_name().c_str(), "(s)") == NULL) &&
 					(strstr(trxn.token[i].Get_name().c_str(), "(g)") == NULL) &&
@@ -3674,7 +3674,7 @@ read_phases(void)
   *   Copy reaction to reaction for phase, first token (token[0]) is not used
   *   except to check that coef of phase formula = 1.0
   */
-			trxn_copy(phase_ptr->rxn);
+			trxn.trxn_copy(phase_ptr->rxn);
 			token_ptr = &phase_ptr->rxn.token[0];
 			token_ptr[0].Set_name(trxn.token[1].Get_name());
 			token_ptr[i].Set_s(NULL);
@@ -5512,7 +5512,7 @@ read_species(void)
 			 */
 			trxn.token[0].Set_s(
 				s_store(trxn.token[0].Get_name().c_str(), trxn.token[0].z, TRUE));
-			for (i = 1; i < count_trxn; i++)
+			for (i = 1; i < trxn.Get_count_trxn(); i++)
 			{
 				trxn.token[i].Set_s(
 					s_store(trxn.token[i].Get_name().c_str(), trxn.token[i].z, FALSE));
@@ -5541,7 +5541,7 @@ read_species(void)
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			trxn_copy(trxn.token[0].Get_s()->rxn);
+			trxn.trxn_copy(trxn.token[0].Get_s()->rxn);
 			s_ptr = trxn.token[0].Get_s();
 			/*
 			 *   Default gamma data
@@ -6133,7 +6133,7 @@ read_surface_species(void)
 			 *   Get pointer to each species in the reaction, store new species if necessary
 			 */
 			trxn.token[0].Set_s(s_store(trxn.token[0].Get_name().c_str(), trxn.token[0].z, TRUE));
-			for (i = 1; i < count_trxn; i++)
+			for (i = 1; i < trxn.Get_count_trxn(); i++)
 			{
 				trxn.token[i].Set_s(
 					s_store(trxn.token[i].Get_name().c_str(), trxn.token[i].z, FALSE));
@@ -6161,7 +6161,7 @@ read_surface_species(void)
 			/*
 			 *   Copy reaction to reaction for species
 			 */
-			trxn_copy(trxn.token[0].Get_s()->rxn);
+			trxn.trxn_copy(trxn.token[0].Get_s()->rxn);
 			/*
 			 *   Set type for species
 			 */

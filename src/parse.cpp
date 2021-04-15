@@ -50,7 +50,7 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 	/*
 	 *   Find coefficients, name, and charge for each species for lhs
 	 */
-	count_trxn = 0;
+	trxn.Set_count_trxn(0);
 	trxn.dz[0] = trxn.dz[1] = trxn.dz[2] = 0.0;
 	cptr = eqn;
 	c = cptr[0];
@@ -71,9 +71,9 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		c = cptr[0];
 		if (association == FALSE)
 		{
-			trxn.token[count_trxn].coef *= -1.0;
+			trxn.token[trxn.Get_count_trxn()].coef *= -1.0;
 		}
-		count_trxn++;
+		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	}
 	/*
 	 *   Get coefficient, name, and charge of species for dissociation reaction
@@ -85,19 +85,19 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		{
 			return (ERROR);
 		}
-		trxn.token[count_trxn].coef *= -1.0;
+		trxn.token[trxn.Get_count_trxn()].coef *= -1.0;
 		/*   Swap species into first structure position */
-		//const char* char_ptr = trxn.token[0].name.c_str();
 		std::string char_ptr = trxn.token[0].Get_name();
 		coef = trxn.token[0].coef;
 		l_z = trxn.token[0].z;
-		trxn.token[0].Set_name(trxn.token[count_trxn].Get_name());
-		trxn.token[0].coef = trxn.token[count_trxn].coef;
-		trxn.token[0].z = trxn.token[count_trxn].z;
-		trxn.token[count_trxn].Set_name(char_ptr);
-		trxn.token[count_trxn].coef = coef;
-		trxn.token[count_trxn].z = l_z;
-		count_trxn++;
+		trxn.token[0].Set_name(trxn.token[trxn.Get_count_trxn()].Get_name());
+		trxn.token[0].coef = trxn.token[trxn.Get_count_trxn()].coef;
+		trxn.token[0].z = trxn.token[trxn.Get_count_trxn()].z;
+		trxn.token[trxn.Get_count_trxn()].Set_name(char_ptr);
+		trxn.token[trxn.Get_count_trxn()].coef = coef;
+		trxn.token[trxn.Get_count_trxn()].z = l_z;
+		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
+
 	}
 	/*
 	 *   Get reaction species from rhs of equation
@@ -114,14 +114,14 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		c = cptr[0];
 		if (association == TRUE)
 		{
-			trxn.token[count_trxn].coef *= -1.0;
+			trxn.token[trxn.Get_count_trxn()].coef *= -1.0;
 		}
-		count_trxn++;
+		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	}
 	/*
 	 *   Sort list of reaction species
 	 */
-	trxn_sort();
+	trxn.trxn_sort();
 	/*
 	 *   Get elements in species or mineral formula
 	 */
@@ -202,7 +202,7 @@ check_eqn(int association)
  *   Go through all species in the reaction; sum the charge and store elements
  */
 	sumcharge = 0.0;
-	for (i = 0; i < count_trxn; i++)
+	for (i = 0; i < trxn.Get_count_trxn(); i++)
 	{
 		sumcharge += (trxn.token[i].coef) * (trxn.token[i].z);
 		const char* t_ptr = trxn.token[i].Get_name().c_str();
@@ -1014,19 +1014,19 @@ get_species(const char **cptr)
 	std::string string;
 	int l;
 
-	if ((size_t) count_trxn + 1 > trxn.token.size()) 
-		trxn.token.resize(count_trxn + 1);
+	if (trxn.Get_count_trxn() + 1 > trxn.token.size()) 
+		trxn.token.resize(trxn.Get_count_trxn() + 1);
 	/* coefficient */
-	if (get_coef(&(trxn.token[count_trxn].coef), cptr) == ERROR)
+	if (get_coef(&(trxn.token[trxn.Get_count_trxn()].coef), cptr) == ERROR)
 	{
 		return (ERROR);
 	}
 	/* name and charge */
-	if (get_token(cptr, string, &trxn.token[count_trxn].z, &l) == ERROR)
+	if (get_token(cptr, string, &trxn.token[trxn.Get_count_trxn()].z, &l) == ERROR)
 	{
 		return (ERROR);
 	}
-	trxn.token[count_trxn].Set_name(string_hsave(string.c_str()));
+	trxn.token[trxn.Get_count_trxn()].Set_name(string);
 	/*
 	   trxn.token[count_trxn].z = 0;
 	   trxn.token[count_trxn].s = NULL;

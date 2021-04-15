@@ -1112,41 +1112,7 @@ public:
 /*----------------------------------------------------------------------
  *   Reaction work space
  *---------------------------------------------------------------------- */
-class reaction_temp
-{
-public:
-	~reaction_temp() {};
-	reaction_temp()
-	{
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
-		for (size_t i = 0; i < 3; i++) dz[i] = 0;
-		//token.clear();
-	}
-	LDBLE logk[MAX_LOG_K_INDICES];
-	LDBLE dz[3];
-	std::vector<class rxn_token_temp> token;
-};
-class rxn_token_temp
-{
-public:
-	~rxn_token_temp() {};
-	rxn_token_temp()
-	{	// data for equations, aq. species or minerals
-		//name.clear();		// pointer to a species name (formula)
-		z = 0;		        // charge on species 
-		s = NULL;
-		coef = 0;			// coefficient of species name 
-	}
-	class species* Get_s() { return this->s; }
-	void Set_s(class species* sp) { this->s = sp; }
-	const std::string& Get_name()const { return this->name; }
-	void Set_name(const std::string& str) { this->name = str; }
-	LDBLE z;
-	LDBLE coef;
-protected:
-	class species* s;
-	std::string name;
-};
+
 class unknown_list
 {
 public:

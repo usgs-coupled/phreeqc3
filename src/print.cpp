@@ -387,8 +387,8 @@ print_eh(void)
  *  Another secondary master species of same element has mass balance equation
  *  Rewrite equations to calculate pe
  */
-			rewrite_master_to_secondary(master[k], master[i]);
-			trxn_swap("e-");
+			trxn.rewrite_master_to_secondary(master[k], master[i]);
+			trxn.trxn_swap("e-");
 /* debug
 			trxn_print();
  */
@@ -396,7 +396,7 @@ print_eh(void)
  *   Calculate pe, eh
  */
 			pe = -k_calc(trxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
-			for (j = 1; j < count_trxn; j++)
+			for (j = 1; j < trxn.Get_count_trxn(); j++)
 			{
 				pe -= trxn.token[j].Get_s()->la * trxn.token[j].coef;
 			}

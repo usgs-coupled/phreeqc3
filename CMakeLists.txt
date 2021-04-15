@@ -93,6 +93,7 @@ src/System.cxx
 src/System.h
 src/Temperature.cxx
 src/Temperature.h
+src/trxn.h
 src/Use.cpp
 src/Use.h
 src/UserPunch.cpp
@@ -159,6 +160,7 @@ src/sundialstypes.h
 src/tally.cpp
 src/tidy.cpp
 src/transport.cpp
+src/trxn.cpp
 src/utilities.cpp
 )
 

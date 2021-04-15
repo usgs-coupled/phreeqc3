@@ -1112,8 +1112,8 @@ build_model(void)
 		if (s[i]->type > H2O && s[i]->type != EX && s[i]->type != SURF)
 			continue;
 		s[i]->in = FALSE;
-		count_trxn = 0;
-		trxn_add(s[i]->rxn_s, 1.0, false);	/* rxn_s is set in tidy_model */
+		trxn.Set_count_trxn(0);
+		trxn.trxn_add(s[i]->rxn_s, 1.0, false);	/* rxn_s is set in tidy_model */
 /*
  *   Check if species is in model
  */
@@ -1142,7 +1142,7 @@ build_model(void)
 				add_potential_factor();
 				add_cd_music_factors(i);
 			}
-			trxn_copy(s[i]->rxn_x);
+			trxn.trxn_copy(s[i]->rxn_x);
 			for (j = 0; j < 3; j++)
 			{
 				s[i]->dz[j] = s[i]->rxn_x.dz[j];
@@ -1151,13 +1151,13 @@ build_model(void)
 			{
 				output_msg(sformatf( "\n%s\n\tMass-action equation\n",
 						   s[i]->name));
-				trxn_print();
+				trxn.trxn_print();
 			}
 /*
  *   Determine mass balance equations, build sums for mass balance, build sums for jacobian
  */
-			count_trxn = 0;
-			trxn_add(s[i]->rxn_s, 1.0, false);
+			trxn.Set_count_trxn(0);
+			trxn.trxn_add(s[i]->rxn_s, 1.0, false);
 			if (s[i]->next_secondary.size() == 0)
 			{
 				write_mb_eqn_x();
@@ -1282,26 +1282,26 @@ build_model(void)
  */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
-		count_trxn = 0;
-		trxn_add_phase(phases[i]->rxn_s, 1.0, false);
-		trxn_reverse_k();
+		trxn.Set_count_trxn(0);
+		trxn.trxn_add_phase(phases[i]->rxn_s, 1.0, false);
+		trxn.trxn_reverse_k();
 		phases[i]->in = inout();
 		if (phases[i]->in == TRUE)
 		{
 /*
  *   Replace e- in original equation with default redox reaction
  */
-			coef_e = trxn_find_coef("e-", 1);
+			coef_e = trxn.trxn_find_coef("e-", 1);
 			if (equal(coef_e, 0.0, TOL) == FALSE)
 			{
-				trxn_add(pe_x[default_pe_x.c_str()], coef_e, TRUE);
+				trxn.trxn_add(pe_x[default_pe_x.c_str()], coef_e, TRUE);
 			}
 /*
  *   Rewrite reaction to current master species
  */
 			write_mass_action_eqn_x(STOP);
-			trxn_reverse_k();
-			trxn_copy(phases[i]->rxn_x);
+			trxn.trxn_reverse_k();
+			trxn.trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);
 		}
 	}
@@ -2038,7 +2038,7 @@ inout(void)
  *   Returns TRUE if in model
  *           FALSE if not
  */
-	for (i = 1; i < count_trxn; i++)
+	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		token_ptr = &(trxn.token[i]);
 		/*   Check primary master species in */
@@ -2572,8 +2572,8 @@ resetup_master(void)
 			{
 				if (master_ptr0->s->primary == NULL)
 				{
-					rewrite_master_to_secondary(master_ptr, master_ptr0);
-					trxn_copy(master_ptr->rxn_secondary);
+					trxn.rewrite_master_to_secondary(master_ptr, master_ptr0);
+					trxn.trxn_copy(master_ptr->rxn_secondary);
 				}
 			}
 		}
@@ -2626,7 +2626,7 @@ write_mass_action_eqn_x(int stop)
 			return (ERROR);
 		}
 		repeat = FALSE;
-		count_rxn_orig = count_trxn;
+		count_rxn_orig = trxn.Get_count_trxn();
 		for (i = 1; i < count_rxn_orig; i++)
 		{
 			if (trxn.token[i].Get_s()->secondary == NULL)
@@ -2637,7 +2637,7 @@ write_mass_action_eqn_x(int stop)
 				coef_e =
 					rxn_find_coef(trxn.token[i].Get_s()->secondary->rxn_secondary,
 								  "e-");
-				trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
+				trxn.trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
 						 trxn.token[i].coef, false);
 				if (equal(coef_e, 0.0, TOL) == FALSE)
 				{
@@ -2645,20 +2645,20 @@ write_mass_action_eqn_x(int stop)
 					if ( chemRxnIt == pe_x.end() )
 					{
 						CReaction& rxn_ref = pe_x[trxn.token[i].Get_s()->secondary->pe_rxn];
-						trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
+						trxn.trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
 						// Create temporary rxn object and add reactions together
 						CReaction rxn;
-						trxn_add(rxn, trxn.token[i].coef * coef_e, FALSE);
+						trxn.trxn_add(rxn, trxn.token[i].coef * coef_e, FALSE);
 					}
 					else
 					{
 						// Get reaction referred to by iterator and add reactions together
-						trxn_add(chemRxnIt->second, trxn.token[i].coef * coef_e, FALSE);
+						trxn.trxn_add(chemRxnIt->second, trxn.token[i].coef * coef_e, FALSE);
 					}
 				}
 			}
 		}
-		trxn_combine();
+		trxn.trxn_combine();
 	}
 	return (OK);
 }
@@ -2695,7 +2695,7 @@ add_potential_factor(void)
 /*
  *   Find sum of charge of aqueous species and surface master species
  */
-	for (i = 1; i < count_trxn; i++)
+	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		if (trxn.token[i].Get_s()->type == AQ || trxn.token[i].Get_s() == s_hplus ||
 			trxn.token[i].Get_s() == s_eminus)
@@ -2719,7 +2719,7 @@ add_potential_factor(void)
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
-		for (i = 1; i < count_trxn; i++)
+		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
 			error_string = sformatf( "     %s", trxn.token[i].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
@@ -2742,17 +2742,17 @@ add_potential_factor(void)
 /*
  *   Make sure there is space
  */
-	if (count_trxn + 1 > trxn.token.size())
-		trxn.token.resize(count_trxn + 1);
+	if (trxn.Get_count_trxn() + 1 > trxn.token.size())
+		trxn.token.resize(trxn.Get_count_trxn() + 1);
 /*
  *   Include psi in mass action equation
  */
 	if (master_ptr != NULL)
 	{
-		trxn.token[count_trxn].Set_name(master_ptr->s->name);
-		trxn.token[count_trxn].Set_s(master_ptr->s);
-		trxn.token[count_trxn].coef = -2.0 * sum_z;
-		count_trxn++;
+		trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+		trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+		trxn.token[trxn.Get_count_trxn()].coef = -2.0 * sum_z;
+		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	}
 	else
 	{
@@ -2793,7 +2793,7 @@ add_cd_music_factors(int n)
 /*
  *   Find sum of charge of aqueous species and surface master species
  */
-	for (i = 1; i < count_trxn; i++)
+	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		if (trxn.token[i].Get_s()->type == SURF)
 		{
@@ -2812,7 +2812,7 @@ add_cd_music_factors(int n)
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
-		for (i = 1; i < count_trxn; i++)
+		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
 			error_string = sformatf( "     %s", trxn.token[i].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
@@ -2836,17 +2836,15 @@ add_cd_music_factors(int n)
 	/*
 	 *   Make sure there is space
 	 */
-	if (count_trxn + 3 > trxn.token.size())
-		trxn.token.resize(count_trxn + 3);
+	if (trxn.Get_count_trxn() + 3 > trxn.token.size())
+		trxn.token.resize(trxn.Get_count_trxn() + 3);
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[count_trxn].Set_name(master_ptr->s->name);
-	trxn.token[count_trxn].Set_s(master_ptr->s);
-	/*trxn.token[count_trxn].coef = s[n]->dz[0];*/
-	trxn.token[count_trxn].coef = trxn.dz[0];
-
-	count_trxn++;
+	trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+	trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+	trxn.token[trxn.Get_count_trxn()].coef = trxn.dz[0];
+	trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 
 	/*
 	 *  Plane 1
@@ -2863,11 +2861,10 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[count_trxn].Set_name(master_ptr->s->name);
-	trxn.token[count_trxn].Set_s(master_ptr->s);
-	/*trxn.token[count_trxn].coef = s[n]->dz[1];*/
-	trxn.token[count_trxn].coef = trxn.dz[1];
-	count_trxn++;
+	trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+	trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+	trxn.token[trxn.Get_count_trxn()].coef = trxn.dz[1];
+	trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	/*
 	 *  Plane 2
 	 */
@@ -2883,11 +2880,10 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[count_trxn].Set_name(master_ptr->s->name);
-	trxn.token[count_trxn].Set_s(master_ptr->s);
-	/*trxn.token[count_trxn].coef = s[n]->dz[2];*/
-	trxn.token[count_trxn].coef = trxn.dz[2];
-	count_trxn++;
+	trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+	trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+	trxn.token[trxn.Get_count_trxn()].coef = trxn.dz[2];
+	trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 
 	return (OK);
 }
@@ -3043,55 +3039,6 @@ add_cd_music_charge_balances(int n)
 		get_secondary_in_species(&cptr, s[n]->dz[2]);
 	}
 
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rewrite_master_to_secondary(class master *master_ptr1,
-							class master *master_ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Write equation for secondary master species in terms of another secondary master species
- *   Store result in rxn_secondary of master_ptr.
- */
-	LDBLE coef1, coef2;
-	class master *master_ptr_p1, *master_ptr_p2;
-/*
- *   Check that the two master species have the same primary master species
- */
-	master_ptr_p1 = master_ptr1->elt->primary;
-	master_ptr_p2 = master_ptr2->elt->primary;
-	if (master_ptr_p1 != master_ptr_p2 || master_ptr_p1 == NULL)
-	{
-		error_string = sformatf(
-				"All redox states must be for the same element. %s\t%s.",
-				master_ptr1->elt->name.c_str(), master_ptr2->elt->name.c_str());
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-/*
- *   Find coefficient of primary master in reaction
- */
-	coef1 = rxn_find_coef(master_ptr1->rxn_primary, master_ptr_p1->s->name);
-	coef2 = rxn_find_coef(master_ptr2->rxn_primary, master_ptr_p1->s->name);
-	if (equal(coef1, 0.0, TOL) == TRUE || equal(coef2, 0.0, TOL) == TRUE)
-	{
-		error_string = sformatf(
-				"One of these equations does not contain master species for element, %s or %s.",
-				master_ptr1->s->name, master_ptr2->s->name);
-		error_msg(error_string, CONTINUE);
-		input_error++;
-		return (ERROR);
-	}
-/*
- *   Rewrite equation to secondary master species
- */
-	count_trxn = 0;
-	trxn_add(master_ptr1->rxn_primary, 1.0, false);
-	trxn_add(master_ptr2->rxn_primary, -coef1 / coef2, true);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -3697,8 +3644,8 @@ setup_master_rxn(const std::vector<class master *> &master_ptr_list, const std::
 			master_ptr->in = REWRITE;
 			if (master_ptr0->s->primary == NULL)
 			{
-				rewrite_master_to_secondary(master_ptr, master_ptr0);
-				trxn_copy(master_ptr->rxn_secondary);
+				trxn.rewrite_master_to_secondary(master_ptr, master_ptr0);
+				trxn.trxn_copy(master_ptr->rxn_secondary);
 			}
 		}
 		master_ptr->pe_rxn = string_hsave(pe_rxn.c_str());
@@ -4940,11 +4887,11 @@ tidy_redox(void)
 			master_ptr2 = master_bsearch(tok2.c_str());
 			if (master_ptr1 != NULL && master_ptr2 != NULL)
 			{
-				rewrite_master_to_secondary(master_ptr1, master_ptr2);
+				trxn.rewrite_master_to_secondary(master_ptr1, master_ptr2);
 /*
  *   Rewrite equation to e-
  */
-				trxn_swap("e-");
+				trxn.trxn_swap("e-");
 			}
 			else
 			{
@@ -4964,8 +4911,8 @@ tidy_redox(void)
 			}
 			else
 			{
-				CReaction rxn(count_trxn + 1);
-				trxn_copy(rxn);
+				CReaction rxn(trxn.Get_count_trxn() + 1);
+				trxn.trxn_copy(rxn);
 				CReaction temp_rxn(rxn);
 				it->second = temp_rxn;
 			}
@@ -4976,8 +4923,8 @@ tidy_redox(void)
  */
 	for (it = pe_x.begin(); it != pe_x.end(); it++)
 	{
-		count_trxn = 0;
-		trxn_add(it->second, 1.0, FALSE);
+		trxn.Set_count_trxn(0);
+		trxn.trxn_add(it->second, 1.0, FALSE);
 		if (write_mass_action_eqn_x(CONTINUE) == FALSE)
 		{
 			error_string = sformatf( "Could not rewrite redox "
@@ -4992,8 +4939,8 @@ tidy_redox(void)
 		}
 		else
 		{
-			CReaction rxn(count_trxn + 1);
-			trxn_copy(rxn);
+			CReaction rxn(trxn.Get_count_trxn() + 1);
+			trxn.trxn_copy(rxn);
 			CReaction temp_rxn(rxn);
 			it->second = temp_rxn;
 		}
@@ -5034,7 +4981,7 @@ write_mb_eqn_x(void)
 			return (ERROR);
 		}
 		repeat = FALSE;
-		count_rxn_orig = count_trxn;
+		count_rxn_orig = trxn.Get_count_trxn();
 		for (i = 1; i < count_rxn_orig; i++)
 		{
 			if (trxn.token[i].Get_s()->secondary == NULL)
@@ -5042,18 +4989,18 @@ write_mb_eqn_x(void)
 			if (trxn.token[i].Get_s()->secondary->in == REWRITE)
 			{
 				repeat = TRUE;
-				trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
+				trxn.trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
 						 trxn.token[i].coef, false);
 			}
 		}
-		trxn_combine();
+		trxn.trxn_combine();
 	}
 /*
  *  
  */
 	count_elts = 0;
 	paren_count = 0;
-	for (size_t i = 1; i < count_trxn; i++)
+	for (size_t i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		size_t j = count_elts;
 		const char* cptr = trxn.token[i].Get_s()->name;
@@ -5102,14 +5049,14 @@ write_mb_for_species_list(int n)
 /*
  *   Start with secondary reaction
  */
-	count_trxn = 0;
-	trxn_add(s[n]->rxn_s, 1.0, false);
+	trxn.Set_count_trxn(0);
+	trxn.trxn_add(s[n]->rxn_s, 1.0, false);
 /*
  *   Copy to elt_list
  */
 	count_elts = 0;
 	paren_count = 0;
-	for (i = 1; i < count_trxn; i++)
+	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		if (trxn.token[i].Get_s()->secondary == NULL)
 		{
@@ -5159,14 +5106,14 @@ write_phase_sys_total(int n)
 /*
  *   Start with secondary reaction
  */
-	count_trxn = 0;
-	trxn_add_phase(phases[n]->rxn_s, 1.0, false);
+	trxn.Set_count_trxn(0);
+	trxn.trxn_add_phase(phases[n]->rxn_s, 1.0, false);
 /*
  *   Copy to elt_list
  */
 	count_elts = 0;
 	paren_count = 0;
-	for (i = 1; i < count_trxn; i++)
+	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		if (trxn.token[i].Get_s()->secondary == NULL)
 		{
@@ -5571,7 +5518,7 @@ save_model(void)
 			class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, false);
 			assert(phase_ptr);
 			last_model.pp_assemblage[i] = phase_ptr;
-			last_model.add_formula[i] = string_hsave(it->second.Get_add_formula().c_str());
+			last_model.add_formula[i] = it->second.Get_add_formula();
 			last_model.si[i] = it->second.Get_si();
 			i++;
 		}

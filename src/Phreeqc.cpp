@@ -709,17 +709,7 @@ void Phreeqc::init(void)
 	/*----------------------------------------------------------------------
 	*   Reaction work space
 	*---------------------------------------------------------------------- */
-	// struct trxn;	
-	for (int i = 0; i < MAX_LOG_K_INDICES; i++)
-	{
-		trxn.logk[i] = 0;
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		trxn.dz[i] = 0;
-	}
-	count_trxn              = 0;
-
+	trxn.Set_phrq_ptr(this);
 	/* ----------------------------------------------------------------------
 	*   Print
 	* ---------------------------------------------------------------------- */
@@ -1487,7 +1477,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	//mb_unknowns
 	//   Reaction work space
 	// class reaction_temp trxn;
-	count_trxn = 0;
+	//trxn.Set_count_trxn(0);
 	// Print
 	pr = pSrc->pr;
 	status_on = pSrc->status_on;

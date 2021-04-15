@@ -38,6 +38,7 @@ typedef unsigned char boolean;
 #include "cxxMix.h"
 #include "Use.h"
 #include "Surface.h"
+#include "trxn.h"
 #ifdef SWIG_SHARED_OBJ
 #include "thread.h"
 #endif
@@ -588,8 +589,6 @@ public:
 	LDBLE k_calc(LDBLE* logk, LDBLE tempk, LDBLE presPa);
 	int prep(void);
 	int reprep(void);
-	int rewrite_master_to_secondary(class master* master_ptr1,
-		class master* master_ptr2);
 	int switch_bases(void);
 	int write_phase_sys_total(int n);
 
@@ -868,20 +867,6 @@ public:
 	struct Change_Surf* change_surf_alloc(int count);
 	//
 	int system_duplicate(int i, int save_old);
-	//
-	//
-	bool phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ptr);
-	bool trxn_add(CReaction& r_ptr, double coef, bool combine);
-	bool trxn_add_phase(CReaction& r_ref, double coef, bool combine);
-	int trxn_combine(void);
-	static int trxn_compare(const void* ptr1, const void* ptr2);
-	bool trxn_copy(CReaction& rxn_ref);
-	LDBLE trxn_find_coef(const char* str, int start);
-	int trxn_multiply(LDBLE coef);
-	int trxn_print(void);
-	int trxn_reverse_k(void);
-	int trxn_sort(void);
-	int trxn_swap(const char* token);
 
 	class unknown* unknown_alloc(void);
 	int unknown_delete(int i);
@@ -947,7 +932,6 @@ public:
 	int reset_last_model(void);
 	int rewrite_eqn_to_primary(void);
 	int rewrite_eqn_to_secondary(void);
-	int species_rxn_to_trxn(class species* s_ptr);
 	int tidy_logk(void);
 	int tidy_exchange(void);
 	int tidy_min_exchange(void);
@@ -1417,8 +1401,6 @@ protected:
 	*---------------------------------------------------------------------- */
 	class reaction_temp trxn;	/* structure array of working space while reading equations
 								species names are in "temp_strings" */
-	size_t count_trxn;		        /* number of reactants in trxn = position of next */
-
 	std::vector<class unknown_list> mb_unknowns;
 
 	/* ----------------------------------------------------------------------
@@ -1733,9 +1715,6 @@ protected:
 
 	/* read.cpp */
 	const char* prev_next_char;
-#if defined PHREEQ98 
-	int shifts_as_points;
-#endif
 
 	/* read_class.cxx */
 	dumper dump_info;

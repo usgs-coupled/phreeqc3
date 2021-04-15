@@ -716,7 +716,7 @@ rewrite_eqn_to_secondary(void)
 			break;
 		}
 
-		for (i = 1; i < count_trxn; i++)
+		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
 			token_ptr = &(trxn.token[i]);
 			if (token_ptr->Get_s() == NULL)
@@ -732,13 +732,13 @@ rewrite_eqn_to_secondary(void)
 				&& token_ptr->Get_s()->primary == NULL)
 			{
 				coef = token_ptr->coef;
-				trxn_add(token_ptr->Get_s()->rxn, coef, true);
+				trxn.trxn_add(token_ptr->Get_s()->rxn, coef, true);
 				repeat = TRUE;
 				break;
 			}
 		}
 	}
-	trxn_combine();
+	trxn.trxn_combine();
 	return (OK);
 }
 
@@ -781,7 +781,7 @@ replace_solids_gases(void)
 			break;
 		}
 
-		for (i = 1; i < count_trxn; i++)
+		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
 			token_ptr = &(trxn.token[i]);
 			if (token_ptr->Get_s() == NULL)
@@ -811,7 +811,7 @@ replace_solids_gases(void)
 				   output_msg(sformatf( "Reaction to add.\n"));
 				   rxn_print(phase_ptr->rxn);
 				 */
-				trxn_add_phase(phase_ptr->rxn, coef, false);
+				trxn.trxn_add_phase(phase_ptr->rxn, coef, false);
 
 				/* remove solid/gas from trxn list */
 				trxn.token[i].Set_name(phase_ptr->rxn.token[0].Get_name());
@@ -824,7 +824,7 @@ replace_solids_gases(void)
 				   trxn_print();
 				 */
 				/* combine */
-				trxn_combine();
+				trxn.trxn_combine();
 				/* debug
 				   output_msg(sformatf( "Combined.\n"));
 				   trxn_print();
@@ -833,7 +833,7 @@ replace_solids_gases(void)
 			}
 		}
 	}
-	trxn_combine();
+	trxn.trxn_combine();
 	return (replaced);
 }
 
@@ -877,17 +877,17 @@ rewrite_eqn_to_primary(void)
  *   Go through species in reaction for secondary master species, look for non-primary
  *   species as reactants, rewrite
  */
-		for (j = 1; j < count_trxn; j++)
+		for (j = 1; j < trxn.Get_count_trxn(); j++)
 		{
 			if (trxn.token[j].Get_s()->primary == NULL)
 			{
-				trxn_add(trxn.token[j].Get_s()->rxn, trxn.token[j].coef, true);
+				trxn.trxn_add(trxn.token[j].Get_s()->rxn, trxn.token[j].coef, true);
 				repeat = TRUE;
 				break;
 			}
 		}
 	}
-	trxn_combine();
+	trxn.trxn_combine();
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1462,7 +1462,6 @@ tidy_phases(void)
 	{
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
 		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
-		//phases[i]->rxn.token[0].Set_name(string_hsave(phases[i]->name.c_str()));
 		phases[i]->rxn.token[0].Set_name(phases[i]->name);
 
 		phases[i]->rxn.token[0].Set_s(NULL);
@@ -1475,9 +1474,9 @@ tidy_phases(void)
 		/*
 		 *   Rewrite equation
 		 */
-		count_trxn = 0;
-		trxn_add_phase(phases[i]->rxn, 1.0, false);
-		trxn.token[0].Set_name(string_hsave(phases[i]->name.c_str()));
+		trxn.Set_count_trxn(0);
+		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
+		trxn.token[0].Set_name(phases[i]->name);
 		/* debug 
 		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
 		   trxn_print();
@@ -1485,10 +1484,10 @@ tidy_phases(void)
 		replaced = replace_solids_gases();
 		phases[i]->replaced = replaced;
 		/*  save rxn_s */
-		trxn_reverse_k();
+		trxn.trxn_reverse_k();
 		rewrite_eqn_to_secondary();
-		trxn_reverse_k();
-		trxn_copy(phases[i]->rxn_s);
+		trxn.trxn_reverse_k();
+		trxn.trxn_copy(phases[i]->rxn_s);
 		/*
 		 *   Check equation
 		 */
@@ -1496,11 +1495,11 @@ tidy_phases(void)
 		{
 			if (replaced == FALSE)
 			{
-				phase_rxn_to_trxn(phases[i], phases[i]->rxn);
+				trxn.phase_rxn_to_trxn(phases[i], phases[i]->rxn);
 			}
 			else
 			{
-				phase_rxn_to_trxn(phases[i], phases[i]->rxn_s);
+				trxn.phase_rxn_to_trxn(phases[i], phases[i]->rxn_s);
 			}
 			if (check_eqn(FALSE) == ERROR)
 			{
@@ -2266,7 +2265,7 @@ tidy_species(void)
 		s[i]->secondary = NULL;
 		if (s[i]->check_equation == TRUE)
 		{
-			species_rxn_to_trxn(s[i]);
+			trxn.species_rxn_to_trxn(s[i]);
 			if (check_eqn(TRUE) == ERROR)
 			{
 				input_error++;
@@ -2330,18 +2329,18 @@ tidy_species(void)
  */
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		count_trxn = 0;
+		trxn.Set_count_trxn(0);
 		if (master[i]->s->primary != NULL)
 		{
-			trxn_add(master[i]->s->rxn, 1.0, false);
-			trxn_add(master[i]->s->rxn, -1.0, true);
+			trxn.trxn_add(master[i]->s->rxn, 1.0, false);
+			trxn.trxn_add(master[i]->s->rxn, -1.0, true);
 		}
 		else
 		{
-			trxn_add(master[i]->s->rxn, 1.0, false);
+			trxn.trxn_add(master[i]->s->rxn, 1.0, false);
 			rewrite_eqn_to_primary();
 		}
-		trxn_copy(master[i]->rxn_primary);
+		trxn.trxn_copy(master[i]->rxn_primary);
 		master[i]->coef = coef_in_master(master[i]);
 	}
 /*
@@ -2349,25 +2348,25 @@ tidy_species(void)
  */
 	for (i = 0; i < (int)s.size(); i++)
 	{
-		count_trxn = 0;
+		trxn.Set_count_trxn(0);
 		if (s[i]->primary != NULL || s[i]->secondary != NULL)
 		{
-			trxn_add(s[i]->rxn, 1.0, false);
-			trxn_add(s[i]->rxn, -1.0, true);
+			trxn.trxn_add(s[i]->rxn, 1.0, false);
+			trxn.trxn_add(s[i]->rxn, -1.0, true);
 		}
 		else
 		{
-			trxn_add(s[i]->rxn, 1.0, false);
+			trxn.trxn_add(s[i]->rxn, 1.0, false);
 			rewrite_eqn_to_secondary();
 		}
 		//rxn_free(s[i].rxn_s);
 		//s[i].rxn_s = rxn_alloc(count_trxn + 1);
-		trxn_copy(s[i]->rxn_s);
+		trxn.trxn_copy(s[i]->rxn_s);
 		/* calculate alkalinity */
 		s[i]->alk = calc_alk(s[i]->rxn_s);
 		/* set co2 coefficient */
 		s[i]->co2 = 0.0;
-		for (j = 1; j < count_trxn; j++)
+		for (j = 1; j < trxn.Get_count_trxn(); j++)
 		{
 			if (trxn.token[j].Get_s() == s_co3)
 			{
@@ -2808,32 +2807,7 @@ tidy_solutions(void)
 	
 	return (OK);
 }
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-species_rxn_to_trxn(class species *s_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copy reaction from reaction structure to 
- *   temp reaction structure.
- */
-	if (trxn.token.size() <= s_ptr->rxn.token.size())
-	{
-		trxn.token.resize(s_ptr->rxn.token.size());
-	}
-	count_trxn = 0;
-	for (size_t i = 0; !s_ptr->rxn.token[i].Get_end(); i++)
-	{
-		trxn.token[i].Set_name(s_ptr->rxn.token[i].Get_s()->name);
-		trxn.token[i].z = s_ptr->rxn.token[i].Get_s()->z;
-		trxn.token[i].Set_s(s_ptr->rxn.token[i].Get_s());
-		trxn.token[i].coef = s_ptr->rxn.token[i].coef;
-		count_trxn = i + 1;
-		if (count_trxn + 1 > trxn.token.size())
-			trxn.token.resize(count_trxn + 1);
-	}
-	return (OK);
-}
+
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
