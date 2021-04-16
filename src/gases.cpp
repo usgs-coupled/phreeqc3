@@ -95,11 +95,11 @@ build_fixed_volume_gas(void)
 		for (j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
+			if (elt_list[j].elt->name == "H")
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
+			else if (elt_list[j].elt->name == "O")
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -143,11 +143,11 @@ build_fixed_volume_gas(void)
 		for (j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
+			if (elt_list[j].elt->name == "H")
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
+			else if (elt_list[j].elt->name == "O")
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}

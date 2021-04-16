@@ -587,7 +587,7 @@ calc_solution_volume(void)
 	{
 		if (master[i]->s->type != AQ) continue;
 		class master *master_ptr = master[i];
-		if (master_ptr->primary == TRUE && strcmp(master_ptr->elt->name.c_str(), "Alkalinity"))
+		if (master_ptr->primary == TRUE && master_ptr->elt->name != "Alkalinity")
 		{
 			total_mass += master_ptr->total_primary * master_ptr->elt->gfw; 
 		}
@@ -914,7 +914,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
 		}
 		if (surface_name != NULL)
 		{
-			if (strcmp(name.c_str(), surface_name) == 0)
+			if (name == surface_name)
 				break;
 		}
 		else
@@ -1130,7 +1130,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
  */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+			if (elt_list[j].elt->name == total_name)
 			{
 				return ((LDBLE) elt_list[j].coef);
 			}
@@ -1808,7 +1808,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 				for (next_elt = &phase_ptr->next_elt[0];
 					 next_elt->elt != NULL; next_elt++)
 				{
-					if (strcmp(next_elt->elt->name.c_str(), name) == 0)
+					if (next_elt->elt->name == name)
 					{
 						tot += next_elt->coef * phase_ptr->moles_x;
 						break;
@@ -1859,7 +1859,7 @@ sum_match_species(const char *mytemplate, const char *name)
 			for (next_elt = &s_ptr->next_elt[0]; next_elt->elt != NULL;
 					next_elt++)
 			{
-				if (strcmp(next_elt->elt->name.c_str(), name) == 0)
+				if (next_elt->elt->name == name)
 				{
 					tot += next_elt->coef * s_ptr->moles;
 					break;
@@ -1907,7 +1907,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 					for (next_elt = &phase_ptr->next_elt[0]; next_elt->elt != NULL; next_elt++)
 					{
-						if (strcmp(next_elt->elt->name.c_str(), name) == 0)
+						if (next_elt->elt->name == name)
 						{
 							tot += next_elt->coef *	comp_ptr->Get_moles();
 							break;
@@ -2249,7 +2249,7 @@ surf_total(const char *total_name, const char *surface_name)
 		std::string::iterator e = token.end();
 		std::string name;
 		CParser::copy_token(name, b, e);
-		if (strcmp(name.c_str(), surface_name) == 0)
+		if (name == surface_name)
 				break;
 	}
 	if (j >= count_unknowns)
@@ -2281,7 +2281,7 @@ surf_total(const char *total_name, const char *surface_name)
 			std::string::iterator e = token.end();
 			std::string name;
 			CParser::copy_token(name, b, e);
-			if (strcmp(name.c_str(), surface_name) == 0)
+			if (name == surface_name)
 			{
 				match = true;
 				break;
@@ -2311,7 +2311,7 @@ surf_total(const char *total_name, const char *surface_name)
 				{
 					continue;
 				}
-				if (strcmp(token.c_str(), total_name) == 0)
+				if (token == total_name)
 				{
 					t += rxn_ptr->coef * s_x[j]->moles;
 					break;
@@ -2325,7 +2325,7 @@ surf_total(const char *total_name, const char *surface_name)
 						{
 							token = token.substr(0, token.find("_"));
 						}
-						if (strcmp(token.c_str(), total_name) == 0)
+						if (token == total_name)
 						{
 							t += rxn_ptr->coef * s_x[j]->moles;
 							break;
@@ -2339,7 +2339,7 @@ surf_total(const char *total_name, const char *surface_name)
 			for (int i = 0; s_x[j]->next_secondary[i].elt != NULL; i++)
 			{
 				token = s_x[j]->next_secondary[i].elt->name;
-				if (strcmp(token.c_str(), total_name) == 0)
+				if (token == total_name)
 				{
 					t += s_x[j]->next_secondary[i].coef * s_x[j]->moles;
 					break;
@@ -2424,7 +2424,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
  */
 	for (j = 0; j < count_elts; j++)
 	{
-		if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+		if (elt_list[j].elt->name == total_name)
 		{
 			return ((LDBLE) elt_list[j].coef);
 		}
@@ -2625,7 +2625,7 @@ edl_species(const char *surf_name, LDBLE * count, char ***names, LDBLE ** moles,
 		for (size_t i = 0; i < surface_ptr->Get_surface_charges().size(); i++)
 		{
 			cxxSurfaceCharge & charge_ref = surface_ptr->Get_surface_charges()[i];
-			if (strcmp(charge_ref.Get_name().c_str(), surf_name) == 0)
+			if (charge_ref.Get_name() == surf_name)
 			{	
 				get_edl_species(charge_ref);
 				*area = charge_ref.Get_specific_area() * charge_ref.Get_grams();
@@ -3261,7 +3261,7 @@ system_total_elt(const char *total_name)
 		 */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+			if (elt_list[j].elt->name == total_name)
 			{
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
@@ -3344,7 +3344,7 @@ system_total_elt(const char *total_name)
 			 */
 			for (j = 0; j < count_elts; j++)
 			{
-				if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+				if (elt_list[j].elt->name == total_name)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
@@ -3383,7 +3383,7 @@ system_total_elt(const char *total_name)
 			elt_list_combine();
 			for (j = 0; j < count_elts; j++)
 			{
-				if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+				if (elt_list[j].elt->name == total_name)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
@@ -3419,7 +3419,7 @@ system_total_elt(const char *total_name)
 					elt_list_combine();
 					for (j = 0; j < count_elts; j++)
 					{
-						if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+						if (elt_list[j].elt->name == total_name)
 						{
 							size_t count_sys = sys.size();
 							sys.resize(count_sys + 1);
@@ -3457,7 +3457,7 @@ system_total_elt(const char *total_name)
 				 */
 				for (j = 0; j < count_elts; j++)
 				{
-					if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+					if (elt_list[j].elt->name == total_name)
 					{
 						size_t count_sys = sys.size();
 						sys.resize(count_sys + 1);
@@ -3507,7 +3507,7 @@ system_total_elt_secondary(const char *total_name)
 		 */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+			if (elt_list[j].elt->name == total_name)
 			{
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
@@ -3576,7 +3576,7 @@ system_total_elt_secondary(const char *total_name)
 				}
 				for (l = 0; l < count_elts; l++)
 				{
-					if (strcmp(elt_list[l].elt->name.c_str(), total_name) == 0)
+					if (elt_list[l].elt->name == total_name)
 					{
 						coef = elt_list[l].coef;
 						if (s_x[j]->type > H2O)
@@ -3629,7 +3629,7 @@ system_total_elt_secondary(const char *total_name)
 			elt_list_combine();
 			for (j = 0; j < count_elts; j++)
 			{
-				if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+				if (elt_list[j].elt->name == total_name)
 				{
 					size_t count_sys = sys.size();
 					sys.resize(count_sys + 1);
@@ -3666,7 +3666,7 @@ system_total_elt_secondary(const char *total_name)
 					elt_list_combine();
 					for (j = 0; j < count_elts; j++)
 					{
-						if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+						if (elt_list[j].elt->name == total_name)
 						{
 							size_t count_sys = sys.size();
 							sys.resize(count_sys + 1);
@@ -3706,7 +3706,7 @@ system_total_elt_secondary(const char *total_name)
 				 */
 				for (size_t j1 = 0; j1 < (size_t) count_elts; j1++)
 				{
-					if (strcmp(elt_list[j1].elt->name.c_str(), total_name) == 0)
+					if (elt_list[j1].elt->name == total_name)
 					{
 						size_t count_sys = sys.size();
 						sys.resize(count_sys + 1);
@@ -3793,7 +3793,7 @@ solution_sum_secondary(const char *total_name)
 		 */
 		for (j = 0; j < count_elts; j++)
 		{
-			if (strcmp(elt_list[j].elt->name.c_str(), total_name) == 0)
+			if (elt_list[j].elt->name == total_name)
 			{
 				sum += elt_list[j].coef;
 				break;
@@ -3915,7 +3915,7 @@ iso_value(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(my_total_name, isotope_ratio[j]->name.c_str()) != 0)
+		if (my_total_name != isotope_ratio[j]->name)
 			continue;
 		return (isotope_ratio[j]->converted_ratio);
 	}
@@ -3929,7 +3929,7 @@ iso_value(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(token, isotope_ratio[j]->name.c_str()) != 0)
+		if (token!= isotope_ratio[j]->name)
 			continue;
 		return (isotope_ratio[j]->converted_ratio);
 	}
@@ -3951,7 +3951,7 @@ iso_unit(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(my_total_name, isotope_ratio[j]->name.c_str()) != 0)
+		if (my_total_name != isotope_ratio[j]->name)
 			continue;
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)
@@ -3970,7 +3970,7 @@ iso_unit(const char *total_name)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (strcmp(token, isotope_ratio[j]->name.c_str()) != 0)
+		if (token != isotope_ratio[j]->name)
 			continue;
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)

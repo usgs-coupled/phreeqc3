@@ -66,7 +66,7 @@ read(const char *line_in, cxxSolution *solution_ptr)
  */
 	bool alk;
 	Utilities::str_tolower(master_list);
-	if (strstr(master_list.c_str(), "alk") == master_list.c_str())
+	if (master_list.find("alk") == 0)
 	{
 		alk = true;
 	}
@@ -125,7 +125,7 @@ read(const char *line_in, cxxSolution *solution_ptr)
  */
 	token1 = token;
 	Utilities::str_tolower(token1);
-	if (strcmp(token1.c_str(), "as") == 0)
+	if (token1 == "as")
 	{
 		CParser::copy_token(token, b, e);
 		this->as = token;
@@ -135,7 +135,7 @@ read(const char *line_in, cxxSolution *solution_ptr)
  *   Check for "gfw" followed by gram formula weight
  */
 	}
-	else if (strcmp(token1.c_str(), "gfw") == 0 || strcmp(token1.c_str(), "gfm") == 0)
+	else if (token1 == "gfw" || token1 == "gfm")
 	{
 		if (CParser::copy_token(token, b, e) != DIGIT)
 		{
@@ -158,7 +158,7 @@ read(const char *line_in, cxxSolution *solution_ptr)
 		if ((CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
 			return (CParser::PARSER_OK);
 	}
-	else if (strstr(token.c_str(), "/") != NULL)
+	else if (token.find("/") != std::string::npos)
 	{
 		if (parser.parse_couple(token) == CParser::PARSER_OK)
 		{

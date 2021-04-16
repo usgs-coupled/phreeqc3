@@ -1923,7 +1923,7 @@ fill_spec(int l_cell_no, int ref_cell)
 					else
 						dum = 1;
 				}
-				if (strcmp(master_ptr->elt->name.c_str(), "X") != 0)
+				if (master_ptr->elt->name != "X")
 				{
 					if (!warn_MCD_X)
 					{
@@ -2753,7 +2753,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		free_check_null(temp_name);
 		for (int k = 0; k < count_elts; k++)
 		{
-			if (!strcmp(elt_list[k].elt->name.c_str(), "X")) continue;
+			if (elt_list[k].elt->name == "X") continue;
 			dif_els_names.insert(elt_list[k].elt->name);
 		}
 	}
@@ -3204,9 +3204,9 @@ moles_from_donnan_layer(cxxSurface *sptr, const char *name, LDBLE moles_needed)
 			charge_ptr = &(sptr->Get_surface_charges()[j]);
 			for (kit = charge_ptr->Get_diffuse_layer_totals().begin(); kit != charge_ptr->Get_diffuse_layer_totals().end(); kit++)
 			{
-				if (strcmp(kit->first.c_str(), "H") == 0 || strcmp(kit->first.c_str(), "O") == 0)
+				if (kit->first == "H" || kit->first == "O")
 					continue;
-				if (strcmp(kit->first.c_str(), name) == 0)
+				if (kit->first == name)
 				{
 					if (kit->second > moles_needed)
 					{
@@ -3480,9 +3480,9 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		for (it = use.Get_solution_ptr()->Get_totals().begin();
 			it != use.Get_solution_ptr()->Get_totals().end(); it++)
 		{
-			if (strcmp(it->first.c_str(), "H(0)") == 0)
+			if (it->first.c_str() == "H(0)")
 				continue;
-			if (strcmp(it->first.c_str(), "O(0)") == 0)
+			if (it->first.c_str() == "O(0)")
 				continue;
 			LDBLE moles = it->second;
 			if (moles < 0 && ct[i].dl_s)
@@ -3498,9 +3498,9 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 						charge_ptr = &(s_ptr->Get_surface_charges()[j]);
 						for (jit = charge_ptr->Get_diffuse_layer_totals().begin(); jit != charge_ptr->Get_diffuse_layer_totals().end(); jit++)
 						{
-							if (strcmp(jit->first.c_str(), "H") == 0 || strcmp(jit->first.c_str(), "O") == 0)
+							if (jit->first == "H" || jit->first == "O")
 								continue;
-							if (strcmp(jit->first.c_str(), it->first.c_str()) == 0)
+							if (jit->first == it->first)
 							{
 								moles += jit->second;
 								it->second += jit->second;
@@ -3606,7 +3606,7 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 			{
 				for (l = 0; l < count_m_s; l++)
 				{
-					if (strcmp(ct[icell].m_s[l].name, elt_list[k].elt->name.c_str()) == 0)
+					if (ct[icell].m_s[l].name == elt_list[k].elt->name)
 					{
 						fraction = fabs((double)elt_list[k].coef * l_J_ij[j].tot1) + fabs(ct[icell].m_s[l].tot1);
 						if (fraction)
@@ -3627,14 +3627,14 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 		{
 			for (k = 0; k < count_elts; k++)
 			{
-				if (strcmp(elt_list[k].elt->name.c_str(), "X") == 0)
+				if (elt_list[k].elt->name == "X")
 					continue;
-				if (strcmp(elt_list[k].elt->name.c_str(), "H") == 0)
+				if (elt_list[k].elt->name == "H")
 				{
 					tot1_h += elt_list[k].coef * l_J_ij[j].tot1;
 					tot2_h += elt_list[k].coef * l_J_ij[j].tot2;
 				}
-				else if (strcmp(elt_list[k].elt->name.c_str(), "O") == 0)
+				else if (elt_list[k].elt->name == "O")
 				{
 					tot1_o += elt_list[k].coef * l_J_ij[j].tot1;
 					tot2_o += elt_list[k].coef * l_J_ij[j].tot2;
@@ -3643,7 +3643,7 @@ fill_m_s(class J_ij *l_J_ij, int l_J_ij_count_spec, int icell, int stagnant)
 				{
 					for (l = 0; l < count_m_s; l++)
 					{
-						if (strcmp(m_s[l].name, elt_list[k].elt->name.c_str()) == 0)
+						if (m_s[l].name == elt_list[k].elt->name)
 						{
 							m_s[l].tot1 += elt_list[k].coef * l_J_ij[j].tot1;
 							m_s[l].tot2 += elt_list[k].coef * l_J_ij[j].tot2;
@@ -4561,7 +4561,7 @@ dV_dcell2:
 				i_max = 0;
 				for (; it != nd.end(); it++)
 				{
-					if (strcmp("X", it->first.c_str()) == 0)
+					if ("X" == it->first)
 						i_max = 1;
 				}
 				if (i_max)
@@ -4578,7 +4578,7 @@ dV_dcell2:
 				{
 					class element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
-					if (strcmp("H", elt_ptr->name.c_str()) == 0)
+					if ("H" == elt_ptr->name)
 					{
 						if (coef < rc1 * tot1_h)
 						{
@@ -4591,7 +4591,7 @@ dV_dcell2:
 							tot1_h *= (1 - rc1);
 						}
 					}
-					else if (strcmp("O", elt_ptr->name.c_str()) == 0)
+					else if ("O" == elt_ptr->name)
 					{
 						if (coef < rc1 * tot1_o)
 						{
@@ -4618,7 +4618,7 @@ dV_dcell2:
 					{
 						class element *elt_ptr = element_store(it->first.c_str());
 						LDBLE coef = it->second;
-						if (strcmp(m_s[j].name, elt_ptr->name.c_str()) != 0)
+						if (m_s[j].name != elt_ptr->name)
 							continue;
 
 						/* rc1 part goes to exchange species... */
@@ -4647,7 +4647,7 @@ dV_dcell2:
 				i_max = 0;
 				for (; it != nd.end(); it++)
 				{
-					if (strcmp("X", it->first.c_str()) == 0)
+					if ("X" == it->first)
 						i_max = 1;
 				}
 				if (i_max)
@@ -4664,7 +4664,7 @@ dV_dcell2:
 					class element *elt_ptr = element_store(it->first.c_str());
 					LDBLE coef = it->second;
 
-					if (strcmp("H", elt_ptr->name.c_str()) == 0)
+					if ("H" == elt_ptr->name)
 					{
 						if (coef < -rc2 * tot2_h)
 						{
@@ -4677,7 +4677,7 @@ dV_dcell2:
 							tot2_h *= (1 - rc2);
 						}
 					}
-					else if (strcmp("O", elt_ptr->name.c_str()) == 0)
+					else if ("O" == elt_ptr->name.c_str())
 					{
 						if (coef < -rc2 * tot2_o)
 						{
@@ -4703,7 +4703,7 @@ dV_dcell2:
 					{
 						class element *elt_ptr = element_store(it->first.c_str());
 						LDBLE coef = it->second;
-						if (strcmp(m_s[j].name, elt_ptr->name.c_str()) != 0)
+						if (m_s[j].name != elt_ptr->name)
 							continue;
 
 						/* rc2 part goes to exchange species... */
@@ -4958,8 +4958,8 @@ Step (from cell 1 to count_cells + 1):
 							for (k1 = 0; k1 < (int) surface_ptr1->Get_surface_comps().size(); k1++)
 							{
 								cxxSurfaceComp *comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
-								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
-									comp_k_ptr->Get_formula().c_str()) != 0)
+								if (comp_k1_ptr->Get_formula() !=
+									comp_k_ptr->Get_formula())
 									continue;
 								Dp1 =
 									comp_k1_ptr->Get_Dw() *
@@ -5036,8 +5036,8 @@ Step (from cell 1 to count_cells + 1):
 							for (k1 = 0; k1 < (int) surface_ptr2->Get_surface_comps().size(); k1++)
 							{
 								cxxSurfaceComp * comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
-								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
-									comp_k_ptr->Get_formula().c_str()) != 0)
+								if (comp_k1_ptr->Get_formula() !=
+									comp_k_ptr->Get_formula())
 									continue;
 								Dp2 = comp_k1_ptr->Get_Dw() * pow(por, multi_Dn);
 								break;
@@ -5587,8 +5587,8 @@ diff_stag_surf(int mobile_cell)
 							for (k1 = 0; k1 < (int) surface_ptr1->Get_surface_comps().size(); k1++)
 							{
 								cxxSurfaceComp *comp_k1_ptr = &(surface_ptr1->Get_surface_comps()[k1]);
-								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
-									comp_k_ptr->Get_formula().c_str()) != 0)
+								if (comp_k1_ptr->Get_formula() !=
+									comp_k_ptr->Get_formula())
 									continue;
 								Dp1 = comp_k1_ptr->Get_Dw() * pow(cell_data[i1].por, multi_Dn) * viscos_f;
 								break;
@@ -5647,8 +5647,8 @@ diff_stag_surf(int mobile_cell)
 							for (k1 = 0; k1 < (int) surface_ptr2->Get_surface_comps().size(); k1++)
 							{
 								cxxSurfaceComp *comp_k1_ptr = &(surface_ptr2->Get_surface_comps()[k1]);
-								if (strcmp(comp_k1_ptr->Get_formula().c_str(),
-									comp_k_ptr->Get_formula().c_str()) != 0)
+								if (comp_k1_ptr->Get_formula() !=
+									comp_k_ptr->Get_formula())
 									continue;
 								Dp2 = comp_k1_ptr->Get_Dw() * pow(cell_data[i2].por, multi_Dn) * viscos_f;
 								break;

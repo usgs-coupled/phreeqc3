@@ -771,8 +771,8 @@ get_line(void)
 		std::string::iterator end = m_line.end();
 		CParser::copy_token(stdtoken, beg, end);
 		std::transform(stdtoken.begin(), stdtoken.end(), stdtoken.begin(), ::tolower);
-		if ((strstr(stdtoken.c_str(),"include$") == stdtoken.c_str()) ||
-			(strstr(stdtoken.c_str(),"include_file") == stdtoken.c_str()))
+		if ((stdtoken.find("include$") == 0) ||
+			(stdtoken.find("include_file") == 0))
 		{
 			std::string file_name;
 			file_name.assign(beg, end);

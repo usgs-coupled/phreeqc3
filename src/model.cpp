@@ -891,7 +891,7 @@ int Phreeqc::gammas_a_f(int i1)
 		{
 			if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
 			{
-				if (!strcmp(name.c_str(), s_x[i]->rxn_x.token[j].Get_s()->name))
+				if (name == s_x[i]->rxn_x.token[j].Get_s()->name)
 					sum += s_x[i]->moles * s_x[i]->equiv;
 				break;
 			}

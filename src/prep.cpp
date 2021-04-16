@@ -399,11 +399,11 @@ build_gas_phase(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
+			if (elt_list[j].elt->name == "H")
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
+			else if (elt_list[j].elt->name == "O")
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -446,11 +446,11 @@ build_gas_phase(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 			unknown_ptr = NULL;
-			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
+			if (elt_list[j].elt->name == "H")
 			{
 				unknown_ptr = mass_hydrogen_unknown;
 			}
-			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
+			else if (elt_list[j].elt->name == "O")
 			{
 				unknown_ptr = mass_oxygen_unknown;
 			}
@@ -747,8 +747,7 @@ build_ss_assemblage(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 
-			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0
-				&& mass_hydrogen_unknown != NULL)
+			if (elt_list[j].elt->name == "H" && mass_hydrogen_unknown != NULL)
 			{
 				store_jacob0((int)mass_hydrogen_unknown->number, (int)x[i]->number,
 					-elt_list[j].coef);
@@ -756,8 +755,8 @@ build_ss_assemblage(void)
 					elt_list[j].coef);
 
 			}
-			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0
-					 && mass_oxygen_unknown != NULL)
+			else if (elt_list[j].elt->name == "O"
+				&& mass_oxygen_unknown != NULL)
 			{
 				store_jacob0((int)mass_oxygen_unknown->number, (int)x[i]->number,
 					-elt_list[j].coef);
@@ -1419,8 +1418,8 @@ build_pure_phases(void)
 		for (int j = 0; j < count_elts; j++)
 		{
 
-			if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0
-				&& mass_hydrogen_unknown != NULL)
+			if (elt_list[j].elt->name == "H" && 
+				mass_hydrogen_unknown != NULL)
 			{
 				store_jacob0((int)mass_hydrogen_unknown->number, (int)x[i]->number,
 					-elt_list[j].coef);
@@ -1428,8 +1427,8 @@ build_pure_phases(void)
 					elt_list[j].coef);
 
 			}
-			else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0
-					 && mass_oxygen_unknown != NULL)
+			else if (elt_list[j].elt->name == "O"
+				&& mass_oxygen_unknown != NULL)
 			{
 				store_jacob0((int)mass_oxygen_unknown->number, (int)x[i]->number,
 					-elt_list[j].coef);
@@ -1804,8 +1803,8 @@ convert_units(cxxSolution *solution_ptr)
 		// initially store 0.0 for totals
 		solution_ptr->Get_totals()[comp_ref.Get_description()] = 0.0;
 
-		if (strcmp(comp_ref.Get_description().c_str(), "H(1)") == 0 ||
-			strcmp(comp_ref.Get_description().c_str(), "E") == 0)
+		if ((comp_ref.Get_description() == "H(1)") ||
+			(comp_ref.Get_description() == "E"))
 		{
 			continue;
 		}
@@ -1832,8 +1831,8 @@ convert_units(cxxSolution *solution_ptr)
 				{
 					comp_ref.Set_gfw(dummy);
 				}
-				if (strcmp(comp_ref.Get_description().c_str(), "Alkalinity") == 0 &&
-					strcmp(comp_ref.Get_as().c_str(), "CaCO3") == 0)
+				if ((comp_ref.Get_description() == "Alkalinity") &&
+					(comp_ref.Get_as() == "CaCO3"))
 				{
 					comp_ref.Set_gfw(comp_ref.Get_gfw() / 2.0);
 					error_string = sformatf(
@@ -1867,7 +1866,7 @@ convert_units(cxxSolution *solution_ptr)
  *   Convert liters to kg solution
  */
 		moles = comp_ref.Get_input_conc();
-		if (strstr(initial_data_ptr->Get_units().c_str(), "/l") != NULL)
+		if (initial_data_ptr->Get_units().find("/l") != std::string::npos)
 		{
 			moles *= 1.0 / (solution_ptr->Get_density());
 		}
@@ -1886,21 +1885,22 @@ convert_units(cxxSolution *solution_ptr)
 /*
  *   Sum grams of solute, convert from moles necessary
  */
-		if (strstr(comp_ref.Get_units().c_str(), "g/kgs") != NULL ||
-			strstr(comp_ref.Get_units().c_str(), "g/l") != NULL)
+		if (comp_ref.Get_units().find("g/kgs") != std::string::npos ||
+			comp_ref.Get_units().find("g/l") != std::string::npos)
 		{
 			sum_solutes += moles;
 		}
-		else if (strstr(comp_ref.Get_units().c_str(), "Mol/kgs") != NULL ||
-				 strstr(comp_ref.Get_units().c_str(), "Mol/l") != NULL ||
-				 strstr(comp_ref.Get_units().c_str(), "eq/l") != NULL)
+		else if (comp_ref.Get_units().find("Mol/kgs") != std::string::npos ||
+				 comp_ref.Get_units().find("Mol/l") != std::string::npos ||
+				 comp_ref.Get_units().find("eq/l") != std::string::npos)
 		{
 			sum_solutes += moles * comp_ref.Get_gfw();
 		}
 /*
  *   Convert grams to moles, if necessary
  */
-		if (strstr(comp_ref.Get_units().c_str(), "g/") != NULL && comp_ref.Get_gfw() != 0.0)
+		if (comp_ref.Get_units().find("g/") != std::string::npos && 
+			comp_ref.Get_gfw() != 0.0)
 		{
 			moles /= comp_ref.Get_gfw();
 		}
@@ -1909,8 +1909,8 @@ convert_units(cxxSolution *solution_ptr)
 /*
  *   Convert /kgs to /kgw
  */
-	if (strstr(initial_data_ptr->Get_units().c_str(), "kgs") != NULL ||
-		strstr(initial_data_ptr->Get_units().c_str(), "/l") != NULL)
+	if (initial_data_ptr->Get_units().find("kgs") != std::string::npos ||
+		initial_data_ptr->Get_units().find("/l") != std::string::npos)
 	{
 		mass_water_aq_x = 1.0 - 1e-3 * sum_solutes;
 		if (mass_water_aq_x <= 0)
@@ -4112,7 +4112,7 @@ setup_solution(void)
  */
 		if (it->second <= 0.0)
 		{
-			if (strcmp(token.c_str(), "H(1)") != 0 && strcmp(token.c_str(), "E") != 0)
+			if (token != "H(1)" && token != "E")
 			{
 				continue;
 			}
@@ -4167,7 +4167,7 @@ setup_solution(void)
 		cptr = it->first.c_str();
 		copy_token(token, &cptr);
 		Utilities::str_tolower(token);
-		if (strstr(token.c_str(), "alk") != NULL)
+		if (token.find("alk") != std::string::npos)
 		{
 			if (alkalinity_unknown == NULL)
 			{
@@ -4180,7 +4180,7 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		else if (strcmp(token.c_str(), "c") == 0 || strcmp(token.c_str(), "c(4)") == 0)
+		else if (token == "c" || token == "c(4)")
 		{
 			if (carbon_unknown == NULL)
 			{
@@ -4192,7 +4192,7 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		else if (strcmp(token.c_str(), "h(1)") == 0)
+		else if (token == "h(1)")
 		{
 			if (ph_unknown == NULL)
 			{
@@ -4204,7 +4204,7 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		else if (strcmp(token.c_str(), "e") == 0)
+		else if (token == "e")
 		{
 			if (pe_unknown == NULL)
 			{
@@ -4224,7 +4224,7 @@ setup_solution(void)
 			cptr = comp_ptr->Get_equation_name().c_str();
 			copy_token(token, &cptr);
 			Utilities::str_tolower(token);
-			if (strstr(token.c_str(), "charge") != NULL)
+			if (token.find("charge") != std::string::npos)
 			{
 				if (charge_balance_unknown == NULL)
 				{
@@ -5074,7 +5074,7 @@ write_mb_for_species_list(int n)
 	}
 	for (i = 0; i < count_elts; i++)
 	{
-		if (strcmp(elt_list[i].elt->name.c_str(), "O(-2)") == 0)
+		if (elt_list[i].elt->name == "O(-2)")
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
@@ -5126,7 +5126,7 @@ write_phase_sys_total(int n)
 	}
 	for (i = 0; i < count_elts; i++)
 	{
-		if (strcmp(elt_list[i].elt->name.c_str(), "O(-2)") == 0)
+		if (elt_list[i].elt->name == "O(-2)")
 		{
 			if (count_elts >= (int)elt_list.size())
 			{
@@ -5169,13 +5169,10 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 		if (!r_ptr->token[i].Get_s())
 			continue;
 		s_ptr = r_ptr->token[i].Get_s();
-		//if (!strcmp(s_ptr->name, "H+"))
 		if (s_ptr == s_hplus)
 			continue;
-		//if (!strcmp(s_ptr->name, "e-"))
 		if (s_ptr == s_eminus)
 			continue;
-		//if (!strcmp(s_ptr->name, "H2O"))
 		if (s_ptr == s_h2o)
 		{
 			d_v += r_ptr->token[i].coef * 18.016 / calc_rho_0(tc, pa);
@@ -5233,7 +5230,8 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 	}
 	d_v -= p_ptr->logk[vm0];
 	r_ptr->logk[delta_v] = d_v;
-	if ((r_ptr->token[0].Get_name().size() > 0) && !strcmp(r_ptr->token[0].Get_name().c_str(), "H2O(g)"))
+	if ((r_ptr->token[0].Get_name().size() > 0) && 
+		(r_ptr->token[0].Get_name() == "H2O(g)"))
 		r_ptr->logk[delta_v] = 0.0;
 
 	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
@@ -5260,7 +5258,6 @@ calc_vm(LDBLE tc, LDBLE pa)
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
 	for (int i = 0; i < (int)this->s_x.size(); i++)
 	{
-		//if (!strcmp(s_x[i]->name, "H2O"))
 		if (s_x[i] == s_h2o)
 		{
 			s_x[i]->logk[vm_tc] = 18.016 / rho_0;

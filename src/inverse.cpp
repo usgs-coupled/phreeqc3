@@ -298,7 +298,7 @@ setup_inverse(class inverse *inv_ptr)
 	for (i = 0; i < (int)master.size(); i++)
 	{
 		master[i]->in = -1;
-		if (strstr(master[i]->elt->name.c_str(), "Alk") == master[i]->elt->name.c_str())
+		if (master[i]->elt->name.find("Alk") == 0)
 		{
 			master_alk = master[i];
 		}
@@ -312,7 +312,7 @@ setup_inverse(class inverse *inv_ptr)
 		master_ptr = inv_ptr->elts[i].master;
 		if (master_ptr == master_alk)
 			i_alk = i;
-		if (strcmp(master_ptr->elt->name.c_str(), "C(4)") == 0)
+		if (master_ptr->elt->name == "C(4)")
 			i_carb = i;
 		inv_ptr->elts[i].master->in = (int)count_rows_t;
 		row_name[count_rows_t] = inv_ptr->elts[i].master->elt->name;
@@ -770,8 +770,7 @@ setup_inverse(class inverse *inv_ptr)
 			   maximum negative is equal to concentrations,
 			   except alkalinity */
 			if (coef > fabs(conc) &&
-				(strstr(inv_ptr->elts[j].master->elt->name.c_str(), "Alkalinity") !=
-				 inv_ptr->elts[j].master->elt->name.c_str()))
+				(inv_ptr->elts[j].master->elt->name.find("Alkalinity") != 0))
 				coef = fabs(conc) + toler;
 
 			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
@@ -3124,7 +3123,7 @@ carbon_derivs(class inverse *inv_ptr)
 			cxxNameDouble::iterator kit = solution_ptr_orig->Get_totals().begin();
 			for ( ; kit != solution_ptr_orig->Get_totals().end(); kit++)
 			{
-				if (strcmp(kit->first.c_str(), "C(4)") == 0)
+				if (kit->first == "C(4)")
 				{
 					d_carbon = kit->second /
 						solution_ptr_orig->Get_mass_water() * c_uncertainty;
@@ -3211,7 +3210,7 @@ set_ph_c(class inverse *inv_ptr,
 		temp_comp.Set_description(jit->first.c_str());
 		temp_comp.Set_input_conc(jit->second / solution_ptr_orig->Get_mass_water());
 		temp_comp.Set_units("Mol/kgw");
-		if (strcmp(jit->first.c_str(), "C(4)") == 0)
+		if (jit->first == "C(4)")
 		{
 			LDBLE c = temp_comp.Get_input_conc();
 			c += d_carbon * c_factor;
@@ -3603,7 +3602,7 @@ check_isotopes(class inverse *inv_ptr)
 						kit->second.Get_elt_name().c_str());
 				for (l = 0; l < count_iso_defaults; l++)
 				{
-					if (strcmp(token, iso_defaults[l].name.c_str()) == 0)
+					if (token == iso_defaults[l].name)
 					{
 						kit->second.Set_x_ratio_uncertainty(
 							iso_defaults[l].uncertainty);
@@ -4099,7 +4098,7 @@ get_inv_total(cxxSolution *solution_ptr, const char *elt)
 	cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
 	for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 	{
-		if (strcmp(elt, jit->first.c_str()) == 0)
+		if (elt == jit->first)
 			return jit->second;
 	}
 	return (0);
@@ -4387,7 +4386,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		std::map < std::string, cxxSolutionIsotope >::iterator kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "15N") != NULL)
+			if (kit->second.Get_isotope_name().find("15N") != std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4484,7 +4483,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "13C") != NULL)
+			if (kit->second.Get_isotope_name().find("13C") != std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4507,7 +4506,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "14C") != NULL)
+			if (kit->second.Get_isotope_name().find("14C") != std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4530,8 +4529,8 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "87Sr") !=
-				NULL)
+			if (kit->second.Get_isotope_name().find("87Sr") !=
+				std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4553,7 +4552,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "2H") != NULL)
+			if (kit->second.Get_isotope_name().find("2H") != std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4575,14 +4574,13 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "18O") != NULL)
+			if (kit->second.Get_isotope_name().find("18O") != std::string::npos)
 			{
-				if (strcmp(kit->second.Get_elt_name().c_str(), "O(-2)") == 0)
+				if (kit->second.Get_elt_name() == "O(-2)")
 				{
 					d = solution_ptr->Get_total_o() - total("O(0)");
 				}
-				else if (strcmp(kit->second.Get_elt_name().c_str(), "H(1)")
-						 == 0)
+				else if (kit->second.Get_elt_name() == "H(1)")
 				{
 					d = solution_ptr->Get_total_h() - total("H(0)");
 				}
@@ -4609,7 +4607,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "3H") != NULL)
+			if (kit->second.Get_isotope_name().find("3H") != std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4632,8 +4630,8 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "34S(6)") !=
-				NULL)
+			if (kit->second.Get_isotope_name().find("34S(6)") !=
+				std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4656,8 +4654,8 @@ dump_netpath_pat(class inverse *inv_ptr)
 		kit = solution_ptr->Get_isotopes().begin();
 		for ( ; kit != solution_ptr->Get_isotopes().end(); kit++)
 		{
-			if (strstr(kit->second.Get_isotope_name().c_str(), "34S(-2)") !=
-				NULL)
+			if (kit->second.Get_isotope_name().find("34S(-2)") !=
+				std::string::npos)
 			{
 				d = total(kit->second.Get_elt_name().c_str());
 				sum_iso += kit->second.Get_ratio() * d;
@@ -4726,15 +4724,15 @@ dump_netpath_pat(class inverse *inv_ptr)
 	{
 		master_ptr = inv_ptr->elts[j].master;
 		master_ptr = master_ptr->elt->primary;
-		if (strcmp(master_ptr->elt->name.c_str(), "Alkalinity") == 0)
+		if (master_ptr->elt->name == "Alkalinity")
 			continue;
-		if (strcmp(master_ptr->elt->name.c_str(), "H") == 0)
+		if (master_ptr->elt->name == "H")
 			continue;
-		if (strcmp(master_ptr->elt->name.c_str(), "O") == 0)
+		if (master_ptr->elt->name == "O")
 			continue;
-		if (strcmp(master_ptr->elt->name.c_str(), "X") == 0)
+		if (master_ptr->elt->name == "X")
 			continue;
-		if (strcmp(master_ptr->elt->name.c_str(), "E") == 0)
+		if (master_ptr->elt->name == "E")
 			continue;
 		master_ptr->in = TRUE;
 	}
@@ -4755,21 +4753,21 @@ dump_netpath_pat(class inverse *inv_ptr)
 	{
 		string = sformatf("%d%s", (int) inv_ptr->isotopes[j].isotope_number,
 				inv_ptr->isotopes[j].elt_name.c_str());
-		if (strcmp(string.c_str(), "13C") == 0)
+		if (string == "13C")
 			fprintf(model_file, " %-2s", "I1");
-		if (strcmp(string.c_str(), "14C") == 0)
+		if (string == "14C")
 			fprintf(model_file, " %-2s", "I2");
-		if (strcmp(string.c_str(), "34S") == 0)
+		if (string == "34S")
 			fprintf(model_file, " %-2s", "I3");
-		if (strcmp(string.c_str(), "87Sr") == 0)
+		if (string == "87Sr")
 			fprintf(model_file, " %-2s", "I4");
-		if (strcmp(string.c_str(), "15N") == 0)
+		if (string == "15N")
 			fprintf(model_file, " %-2s", "I9");
-		if (strcmp(string.c_str(), "2H") == 0)
+		if (string == "2H")
 			fprintf(model_file, " %-2s", "D ");
-		if (strcmp(string.c_str(), "3H") == 0)
+		if (string == "3H")
 			fprintf(model_file, " %-2s", "TR");
-		if (strcmp(string.c_str(), "18O") == 0)
+		if (string == "18O")
 			fprintf(model_file, " %-2s", "18");
 	}
 
@@ -4795,7 +4793,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		for (next_elt = &inv_ptr->phases[i].phase(this)->next_elt[0];
 			 next_elt->elt != NULL; next_elt++)
 		{
-			if (strcmp(next_elt->elt->name.c_str(), "X") == 0)
+			if (next_elt->elt->name == "X")
 			{
 				exch = TRUE;
 				break;
@@ -4852,17 +4850,17 @@ dump_netpath_pat(class inverse *inv_ptr)
 			if (exch == TRUE)
 				f = -1.0;
 			master_ptr = next_elt->elt->primary;
-			if (strcmp(master_ptr->elt->name.c_str(), "Alkalinity") == 0)
+			if (master_ptr->elt->name == "Alkalinity")
 				continue;
-			if (strcmp(master_ptr->elt->name.c_str(), "H") == 0)
+			if (master_ptr->elt->name == "H")
 				continue;
-			if (strcmp(master_ptr->elt->name.c_str(), "O") == 0)
+			if (master_ptr->elt->name == "O")
 				continue;
-			if (strcmp(master_ptr->elt->name.c_str(), "E") == 0)
+			if (master_ptr->elt->name == "E")
 				continue;
 			string = master_ptr->elt->name;
 
-			if (strcmp(master_ptr->elt->name.c_str(), "X") == 0)
+			if (master_ptr->elt->name == "X")
 			{
 				string = "Na";
 				f = 1.0;
@@ -4940,24 +4938,24 @@ dump_netpath_pat(class inverse *inv_ptr)
 			d3 = d1 + d2;
 			string = sformatf("%d%s", (int)isotope_ref[k].isotope_number,
 				isotope_ref[k].elt_name.c_str());
-			if (strcmp(string.c_str(), "13C") == 0)
+			if (string == "13C")
 				fprintf(model_file, " %-2s%12.7f", "I1", (double) d3);
-			if (strcmp(string.c_str(), "14C") == 0)
+			if (string == "14C")
 				fprintf(model_file, " %-2s%12.7f", "I2", (double) d3);
-			if (strcmp(string.c_str(), "34S") == 0)
+			if (string == "34S")
 			{
 				fprintf(model_file, " %-2s%12.7f", "I3", (double) d3);
 				fprintf(model_file, " %-2s%12.7f", "I7", 0.0);
 			}
-			if (strcmp(string.c_str(), "87Sr") == 0)
+			if (string == "87Sr")
 				fprintf(model_file, " %-2s%12.7f", "I4", (double) d3);
-			if (strcmp(string.c_str(), "15N") == 0)
+			if (string == "15N")
 				fprintf(model_file, " %-2s%12.7f", "I9", (double) d3);
-			if (strcmp(string.c_str(), "2H") == 0)
+			if (string == "2H")
 				fprintf(model_file, " %-2s%12.7f", "D ", (double) d3);
-			if (strcmp(string.c_str(), "3H") == 0)
+			if (string == "3H")
 				fprintf(model_file, " %-2s%12.7f", "TR", (double) d3);
-			if (strcmp(string.c_str(), "18O") == 0)
+			if (string == "18O")
 				fprintf(model_file, " %-2s%12.7f", "18", (double) d3);
 		}
 /*

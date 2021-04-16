@@ -361,7 +361,7 @@ cxxNameDouble::Multiply_activities_redox(std::string str, LDBLE f)
 		else 
 		{
 			// no exact match, current is element name, need to find all valences
-			if (strstr(it->first.c_str(), redox_name.c_str()) == it->first.c_str())
+			if (it->first.find(redox_name) == 0)
 			{
 				it->second += lg_f;
 			}

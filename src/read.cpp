@@ -736,15 +736,15 @@ read_exchange_species(void)
 			next_elt = &trxn.token[0].Get_s()->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
-				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
+				if (next_elt->elt->name == "C")
 				{
 					trxn.token[0].Get_s()->carbon = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
+				if (next_elt->elt->name == "H")
 				{
 					trxn.token[0].Get_s()->h = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
+				if (next_elt->elt->name == "O")
 				{
 					trxn.token[0].Get_s()->o = next_elt->coef;
 				}
@@ -1138,7 +1138,7 @@ read_exchange_master_species(void)
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
 		master[count_master]->primary = TRUE;
-		if (strcmp(master[count_master]->elt->name.c_str(), "E") != 0)
+		if (master[count_master]->elt->name != "E")
 		{
 			elts_ptr = element_store(master[count_master]->elt->name.c_str());
 			elts_ptr->gfw = 0.0;
@@ -3141,7 +3141,7 @@ read_master_species(void)
 		{
 			master[count_master]->primary = TRUE;
 			/* Read gram formula weight for primary */
-			if (strcmp(master[count_master]->elt->name.c_str(), "E") != 0)
+			if (master[count_master]->elt->name != "E")
 			{
 				elts_ptr = master[count_master]->elt;
 				i = copy_token(token, &cptr, &l);
@@ -3647,10 +3647,10 @@ read_phases(void)
 			phase_ptr->formula = token1;
 			for (i = 1; i < trxn.Get_count_trxn(); i++)
 			{
-				if ((strstr(trxn.token[i].Get_name().c_str(), "(s)") == NULL) &&
-					(strstr(trxn.token[i].Get_name().c_str(), "(g)") == NULL) &&
-					(strstr(trxn.token[i].Get_name().c_str(), "(S)") == NULL) &&
-					(strstr(trxn.token[i].Get_name().c_str(), "(G)") == NULL))
+				if ((trxn.token[i].Get_name().find("(s)") == std::string::npos) &&
+					(trxn.token[i].Get_name().find("(g)") == std::string::npos) &&
+					(trxn.token[i].Get_name().find("(S)") == std::string::npos) &&
+					(trxn.token[i].Get_name().find("(G)") == std::string::npos))
 				{
 					strcpy(token1, trxn.token[i].Get_name().c_str());
 					replace("(aq)", "", token1);
@@ -3844,11 +3844,11 @@ read_pp_assemblage(void)
 			if ((j = copy_token(token, &cptr)) == EMPTY)
 				continue;
 			Utilities::str_tolower(token);
-			if (strstr(token.c_str(), "d") == token.c_str())
+			if (token.find("d") == 0)
 			{
 				comp->Set_dissolve_only(true);
 				comp->Set_precipitate_only(false);
-			} else if (strstr(token.c_str(), "p") == token.c_str())
+			} else if (token.find("p") == 0)
 			{
 				comp->Set_precipitate_only(true);
 				comp->Set_dissolve_only(false);
@@ -4098,7 +4098,7 @@ read_reaction_steps(cxxReaction *reaction_ptr)
 	if (check_units(t1, false, false, NULL, false) == OK)
 	{
 		replace("/l", "", t1);
-		if (strstr(t1.c_str(), "Mol") == NULL)
+		if (t1.find("Mol") == std::string::npos)
 		{
 			error_string = sformatf( "Units of steps not in moles, %s.", token.c_str());
 			error_msg(error_string, CONTINUE);
@@ -5079,7 +5079,7 @@ read_solution(void)
 		else
 		{
 			bool alk = false;
-			if (strstr(token.c_str(), "alk") == token.c_str())
+			if (token.find("alk") == 0)
 				alk = true;
 			std::string token1 = it->second.Get_units();
 			if (check_units(token1, alk, true, isoln_ptr->Get_units().c_str(), true) ==	CParser::PARSER_ERROR)
@@ -5520,15 +5520,15 @@ read_species(void)
 			next_elt = &trxn.token[0].Get_s()->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
-				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
+				if (next_elt->elt->name == "C")
 				{
 					trxn.token[0].Get_s()->carbon = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
+				if (next_elt->elt->name == "H")
 				{
 					trxn.token[0].Get_s()->h = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
+				if (next_elt->elt->name == "O")
 				{
 					trxn.token[0].Get_s()->o = next_elt->coef;
 				}
@@ -6139,15 +6139,15 @@ read_surface_species(void)
 			next_elt = &trxn.token[0].Get_s()->next_elt[0];
 			for (; next_elt->elt != NULL; next_elt++)
 			{
-				if (strcmp(next_elt->elt->name.c_str(), "C") == 0)
+				if (next_elt->elt->name == "C")
 				{
 					trxn.token[0].Get_s()->carbon = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name.c_str(), "H") == 0)
+				if (next_elt->elt->name == "H")
 				{
 					trxn.token[0].Get_s()->h = next_elt->coef;
 				}
-				if (strcmp(next_elt->elt->name.c_str(), "O") == 0)
+				if (next_elt->elt->name == "O")
 				{
 					trxn.token[0].Get_s()->o = next_elt->coef;
 				}
@@ -6650,7 +6650,7 @@ read_surface(void)
 				/* read Dw */
 				copy_token(token1, &cptr);
 				Utilities::str_tolower(token1);
-				if (strcmp(token1.c_str(), "dw") == 0)
+				if (token1 == "dw")
 				{
 					int j = copy_token(token1, &cptr);
 					if (j != DIGIT)
@@ -7812,7 +7812,7 @@ check_units(std::string &tot_units, bool alkalinity, bool check_compatibility,
 	size_t i;
 	for (i = 0; i < NUNITS; i++)
 	{
-		if (strcmp(tot_units.c_str(), units[i]) == 0)
+		if (tot_units == units[i])
 		{
 			found = true;
 			break;
@@ -7836,7 +7836,7 @@ check_units(std::string &tot_units, bool alkalinity, bool check_compatibility,
 /*
  *   Special cases for alkalinity
  */
-	if (alkalinity && strstr(tot_units.c_str(), "Mol") != NULL)
+	if (alkalinity && tot_units.find("Mol") != std::string::npos)
 	{
 		if (print == TRUE)
 		{
@@ -7846,7 +7846,7 @@ check_units(std::string &tot_units, bool alkalinity, bool check_compatibility,
 		}
 		replace("Mol", "eq", tot_units);
 	}
-	if (!alkalinity && strstr(tot_units.c_str(), "eq") != NULL)
+	if (!alkalinity && tot_units.find("eq") != std::string::npos)
 	{
 		if (print)
 		{
@@ -7858,11 +7858,11 @@ check_units(std::string &tot_units, bool alkalinity, bool check_compatibility,
 /*
  *   See if default_units are compatible with tot_units
  */
-	if (strstr(default_units, "/l") && strstr(tot_units.c_str(), "/l"))
+	if (strstr(default_units, "/l") && tot_units.find("/l") != std::string::npos)
 		return (OK);
-	if (strstr(default_units, "/kgs") && strstr(tot_units.c_str(), "/kgs"))
+	if (strstr(default_units, "/kgs") && tot_units.find("/kgs") != std::string::npos)
 		return (OK);
-	if (strstr(default_units, "/kgw") && strstr(tot_units.c_str(), "/kgw"))
+	if (strstr(default_units, "/kgw") && tot_units.find("/kgw") != std::string::npos)
 		return (OK);
 
 	std::string string = default_units;
@@ -7912,7 +7912,7 @@ find_option(const char *item, int *n, const char **list, int count_list, int exa
 	{
 		if (exact == TRUE)
 		{
-			if (strcmp(list[i], stdtoken.c_str()) == 0)
+			if (list[i] == stdtoken)
 			{
 				*n = i;
 				return (OK);
@@ -9390,23 +9390,6 @@ read_copy(void)
 	if (i == DIGIT)
 	{
 		(void)sscanf(token, "%d", &n_user);
-		//if (n_user < 0)
-		//{
-		//	error_msg("Source index number must be a positive integer.",
-		//			  CONTINUE);
-		//	error_msg(line_save, CONTINUE);
-		//	input_error++;
-		//	return (ERROR);
-		//}
-		//if (strstr(token, "-") != NULL)
-		//{
-		//	error_msg
-		//		("COPY does not accept a range of numbers for source index",
-		//		 CONTINUE);
-		//	error_msg(line_save, CONTINUE);
-		//	input_error++;
-		//	return (ERROR);
-		//}
 	}
 	else
 	{

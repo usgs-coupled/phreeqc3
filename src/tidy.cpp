@@ -673,7 +673,7 @@ coef_in_master(class master * master_ptr)
 	for (next_elt = &master_ptr->s->next_elt[0]; next_elt->elt != NULL;
 		 next_elt++)
 	{
-		if (strcmp(elt_name.c_str(), next_elt->elt->name.c_str()) == 0)
+		if (elt_name == next_elt->elt->name)
 		{
 			coef = next_elt->coef;
 			break;
@@ -2296,7 +2296,7 @@ tidy_species(void)
 		}
 		/* store sequence number in master structure */
 		master[i]->number = i;
-		if (strcmp(master[i]->elt->name.c_str(), "Alkalinity") != 0)
+		if (master[i]->elt->name != "Alkalinity")
 		{
 			if (master[i]->primary == TRUE)
 			{
@@ -2307,7 +2307,7 @@ tidy_species(void)
 				master[i]->s->secondary = master[i];
 			}
 		}
-		if (strcmp(master[i]->elt->name.c_str(), "C") == 0)
+		if (master[i]->elt->name == "C")
 		{
 			s_co3 = master[i]->s;
 		}
@@ -2550,10 +2550,10 @@ tidy_species(void)
 		if (master[i]->gfw <= 0.0)
 		{
 			if (master[i]->type >= EMINUS) continue;
-			if ((strcmp(master[i]->elt->name.c_str(), "E") != 0) &&
-			    (strcmp(master[i]->elt->name.c_str(), "e") != 0) &&
-			    (strcmp(master[i]->elt->name.c_str(), "H(1)") != 0) &&
-			    (strcmp(master[i]->elt->name.c_str(), "O(-2)") != 0)
+			if ((master[i]->elt->name != "E") &&
+			    (master[i]->elt->name != "e") &&
+			    (master[i]->elt->name != "H(1)") &&
+			    (master[i]->elt->name != "O(-2)")
 			    )
 			{
 				input_error++;
@@ -2778,8 +2778,8 @@ tidy_solutions(void)
 				for ( ; iit != initial_data_ptr->Get_comps().end(); iit++)
 				{
 					cxxISolutionComp &comp_ref = iit->second;
-					if (strcmp(comp_ref.Get_description().c_str(), "H(1)") == 0 ||
-						strcmp(comp_ref.Get_description().c_str(), "E") == 0)
+					if (comp_ref.Get_description() == "H(1)" ||
+						comp_ref.Get_description() == "E")
 					{
 						comp_ref.Set_moles(0.0);
 						continue;
@@ -3733,12 +3733,6 @@ tidy_min_surface(void)
 							error_msg(error_string);
 							continue;
 						}
-						//if (strcmp(elt_ptr->master->s->name, temp_formula) != 0)
-						//{
-						//	error_string = sformatf("Suggest using master species formula in SURFACE \n\t for surface related to equilibrium_phase: %s.", 
-						//		elt_ptr->master->s->name);
-						//	warning_msg(error_string);
-						//}
 						if (elt_ptr->master->s->z != 0.0 && surface_ptr->Get_dl_type() != cxxSurface::DONNAN_DL)
 						{
 							error_string = sformatf(

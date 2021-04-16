@@ -120,7 +120,7 @@ class cxxISolutionComp: public PHRQ_base
 
 	bool operator<(const cxxISolutionComp & conc) const
 	{
-		return ::strcmp(this->description.c_str(), conc.description.c_str()) < 0;
+		return this->description < conc.description;
 	}
 
   protected:

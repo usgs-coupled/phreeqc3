@@ -432,12 +432,12 @@ change_hydrogen_in_elt_list(LDBLE charge)
 	elt_list_combine();
 	for (j = 0; j < count_elts; j++)
 	{
-		if (strcmp(elt_list[j].elt->name.c_str(), "H") == 0)
+		if (elt_list[j].elt->name == "H")
 		{
 			found_h = j;
 			coef_h = elt_list[j].coef;
 		}
-		else if (strcmp(elt_list[j].elt->name.c_str(), "O") == 0)
+		else if (elt_list[j].elt->name == "O")
 		{
 			found_o = j;
 			coef_o = elt_list[j].coef;
@@ -1042,7 +1042,7 @@ master_search(const char* cptr, int *n)
 	*n = -999;
 	for (i = 0; i < (int)master.size(); i++)
 	{
-		if (strcmp(cptr, master[i]->elt->name.c_str()) == 0)
+		if (cptr == master[i]->elt->name)
 		{
 			*n = i;
 			master_ptr = master[i];

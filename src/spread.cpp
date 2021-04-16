@@ -439,7 +439,7 @@ read_solution_spread(void)
 				int i;
 				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
-					if (strcmp(token.c_str(), soln_defaults.iso[i].name.c_str()) == 0)
+					if (token == soln_defaults.iso[i].name)
 					{
 						break;
 					}
@@ -1000,7 +1000,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 		else
 		{
 			bool alk = false;
-			if (strstr(token.c_str(), "alk") == token.c_str())
+			if (token.find("alk") == 0)
 				alk = true;
 			std::string token1 = it->second.Get_units();
 			if (check_units(token1, alk, true, initial_data_ptr->Get_units().c_str(), true) ==	CParser::PARSER_ERROR)

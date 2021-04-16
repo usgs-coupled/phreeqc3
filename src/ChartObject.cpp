@@ -610,8 +610,8 @@ ChartObject::OpenCSVFile(std::string file_name)
 				{
 					csv_curves[i]->Set_color(tok2);
 				}
-				else if (!strncmp(tok1.c_str(), "symbol", 5) && (strstr(tok1.c_str(), "_si") == NULL)
-					&& (strstr(tok1.c_str(), "-si") == NULL))
+				else if ((tok1 == "symbol") && (tok1.find("_si") == std::string::npos)
+					&& (tok1.find("-si") == std::string::npos))
 				{
 					csv_curves[i]->Set_symbol(tok2);
 				}
@@ -722,8 +722,8 @@ ChartObject::ExtractCurveInfo(std::string & cmd_line)
 		{
 			sel = 0;
 		}
-		else if (!strncmp(tok1.c_str(), "symbol", 5) && (strstr(tok1.c_str(), "_si") == NULL)
-			&& (strstr(tok1.c_str(), "-si") == NULL))
+		else if ((tok1 == "symbol") && (tok1.find("_si") == std::string::npos)
+			&& (tok1.find("-si") == std::string::npos))
 		{
 			sel = 1;
 		}

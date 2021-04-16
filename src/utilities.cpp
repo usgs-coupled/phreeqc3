@@ -698,7 +698,7 @@ parse_couple(char *token)
 	}
 	cptr++;
 	get_elt(&cptr, elt2, &e2);
-	if (strcmp(elt1.c_str(), elt2.c_str()) != 0)
+	if (elt1 != elt2)
 	{
 		error_string = sformatf( "Redox couple must be two redox states "
 				"of the same element, %s.", token);
