@@ -368,7 +368,7 @@ element_store(const char * element)
 	 *   Save new element structure and return pointer to it
 	 */
 	class element *elt_ptr = new class element;
-	elt_ptr->name = string_hsave(element);
+	elt_ptr->name = element;
 	elt_ptr->master = NULL;
 	elt_ptr->primary = NULL;
 	elt_ptr->gfw = 0.0;
@@ -1404,7 +1404,7 @@ rate_copy(const class rate *rate_ptr)
 
 /* ---------------------------------------------------------------------- */
 class rate * Phreeqc::
-rate_search(const char *name_in, int *n)
+rate_search(std::string name, int *n)
 /* ---------------------------------------------------------------------- */
 {
 /*   Linear search of the structure array "rates" for name.
@@ -1417,10 +1417,7 @@ rate_search(const char *name_in, int *n)
  *      if found, the address of the pp_assemblage element
  *      if not found, NULL
  */
-	std::map<const char *, int>::iterator it;
-
-	const char * name;
-	name = string_hsave(name_in);
+	std::map<std::string, int>::iterator it;
 
 	it = rates_map.find(name);
 	if (it != rates_map.end())
@@ -1437,7 +1434,7 @@ rate_search(const char *name_in, int *n)
 	*n = -1;
 	for (i = 0; i < (int)rates.size(); i++)
 	{
-		if (strcmp_nocase(rates[i].name.c_str(), name) == 0)
+		if (strcmp_nocase(rates[i].name.c_str(), name.c_str()) == 0)
 		{
 			*n = i;
 			rates_map[name] = i;

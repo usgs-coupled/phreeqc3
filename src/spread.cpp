@@ -66,8 +66,8 @@ read_solution_spread(void)
 	soln_defaults.temp = 25;
 	soln_defaults.density = 1.0;
 	soln_defaults.calc_density = false;
-	soln_defaults.units = string_hsave("mmol/kgw");
-	soln_defaults.redox = string_hsave("pe");
+	soln_defaults.units = "mmol/kgw";
+	soln_defaults.redox = "pe";
 	soln_defaults.ph = 7.0;
 	soln_defaults.pe = 4.0;
 	soln_defaults.water = 1.0;
@@ -304,7 +304,7 @@ read_solution_spread(void)
 			{
 				if (check_units(token, FALSE, FALSE, NULL, TRUE) == OK)
 				{
-					soln_defaults.units = string_hsave(token.c_str());
+					soln_defaults.units = token;
 				}
 				else
 				{
@@ -317,7 +317,7 @@ read_solution_spread(void)
 				break;
 			if (parser.parse_couple(token) == OK)
 			{
-				soln_defaults.redox = string_hsave(token.c_str());
+				soln_defaults.redox = token;
 			}
 			else
 			{
@@ -447,7 +447,7 @@ read_solution_spread(void)
 				if (i == soln_defaults.iso.size())
 				{
 					soln_defaults.iso.resize((size_t)i + 1);
-					soln_defaults.iso[i].name = string_hsave(token.c_str());
+					soln_defaults.iso[i].name = token;
 					soln_defaults.iso[i].value = NAN;
 					soln_defaults.iso[i].uncertainty = NAN;
 				}
@@ -736,8 +736,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 				break;
 			if (parser.parse_couple(token) == OK)
 			{
-				const char * pe_str = string_hsave(token.c_str());
-				initial_data_ptr->Set_default_pe(pe_str);
+				initial_data_ptr->Set_default_pe(token);
 				CReaction temp_chem_reaction;
 				initial_data_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}

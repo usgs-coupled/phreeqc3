@@ -122,19 +122,19 @@ get_all_components(void)
 
 	// store alkalinity
 	j = 0;
-	t_buffer[j].name = string_hsave("Alkalinity");
+	t_buffer[j].name = "Alkalinity";
 	t_buffer[j].master = master_bsearch("Alkalinity");
 	t_buffer[j].gfw = t_buffer[j].master->elt->gfw;
 	j++;		
 
 	// store total_h
-	t_buffer[j].name = string_hsave("Total_H");
+	t_buffer[j].name = "Total_H";
 	t_buffer[j].master = NULL;
 	compute_gfw("H", &(t_buffer[j].gfw));
 	j++;
 
 	// store total_o
-	t_buffer[j].name = string_hsave("Total_O");
+	t_buffer[j].name = "Total_O";
 	t_buffer[j].master = NULL;
 	compute_gfw("O", &(t_buffer[j].gfw));
 	j++;
@@ -514,8 +514,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
 				for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 				{
-					if (string_hsave(it->second.Get_name().c_str()) ==
-						tally_table[i].name)
+					if (it->second.Get_name() == tally_table[i].name)
 						break;
 					if (strcmp_nocase(it->second.Get_name().c_str(),
 						tally_table[i].name.c_str()) == 0)
@@ -655,7 +654,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				for (j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
 				{
 					kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
-					if (string_hsave(kinetics_comp_ptr->Get_rate_name().c_str()) == tally_table[i].name)
+					if (kinetics_comp_ptr->Get_rate_name() == tally_table[i].name)
 						break;
 					if (strcmp_nocase
 						(kinetics_comp_ptr->Get_rate_name().c_str(), tally_table[i].name.c_str()) == 0)
@@ -809,14 +808,14 @@ build_tally_table(void)
  */
 	n = count_tally_table_columns;
 	extend_tally_table();
-	tally_table[n].name = string_hsave("Solution_conservative");
+	tally_table[n].name = "Solution_conservative";
 	tally_table[n].type = Solution;
 /*
  *   add one for mixing plus reaction
  */
 	n = count_tally_table_columns;
 	extend_tally_table();
-	tally_table[n].name = string_hsave("Solution_reaction");
+	tally_table[n].name = "Solution_reaction";
 	tally_table[n].type = Solution;
 /*
  *   add one for reactions
@@ -825,7 +824,7 @@ build_tally_table(void)
 	{
 		n = count_tally_table_columns;
 		extend_tally_table();
-		tally_table[n].name = string_hsave("Reaction");
+		tally_table[n].name = "Reaction";
 		tally_table[n].type = Reaction;
 	}
 /*
@@ -835,7 +834,7 @@ build_tally_table(void)
 	{
 		n = count_tally_table_columns;
 		extend_tally_table();
-		tally_table[n].name = string_hsave("Exchange");
+		tally_table[n].name = "Exchange";
 		tally_table[n].type = Exchange;
 	}
 /*
@@ -845,7 +844,7 @@ build_tally_table(void)
 	{
 		n = count_tally_table_columns;
 		extend_tally_table();
-		tally_table[n].name = string_hsave("Surface");
+		tally_table[n].name = "Surface";
 		tally_table[n].type = Surface;
 	}
 /*
@@ -855,7 +854,7 @@ build_tally_table(void)
 	{
 		n = count_tally_table_columns;
 		extend_tally_table();
-		tally_table[n].name = string_hsave("Gas_phase");
+		tally_table[n].name = "Gas_phase";
 		tally_table[n].type = Gas_phase;
 	}
 /*
@@ -885,8 +884,7 @@ build_tally_table(void)
 				{
 					if (tally_table[k].type == Pure_phase &&
 						tally_table[k].name == phase_ptr->name &&
-						tally_table[k].add_formula ==
-						string_hsave(comp_ptr->Get_add_formula().c_str()))
+						tally_table[k].add_formula == comp_ptr->Get_add_formula())
 						break;
 				}
 				if (k < count_tally_table_columns)
@@ -897,9 +895,9 @@ build_tally_table(void)
 				count_tt_pure_phase++;
 				n = count_tally_table_columns;
 				extend_tally_table();
-				tally_table[n].name = string_hsave(phase_ptr->name.c_str());
+				tally_table[n].name = phase_ptr->name;
 				tally_table[n].type = Pure_phase;
-				tally_table[n].add_formula = string_hsave(comp_ptr->Get_add_formula().c_str());
+				tally_table[n].add_formula = comp_ptr->Get_add_formula();
 				count_elts = 0;
 				paren_count = 0;
 				if (comp_ptr->Get_add_formula().size() > 0)
@@ -957,7 +955,7 @@ build_tally_table(void)
 					count_tt_ss_phase++;
 					n = count_tally_table_columns;
 					extend_tally_table();
-					tally_table[n].name = string_hsave(phase_ptr->name.c_str());
+					tally_table[n].name = phase_ptr->name;
 					tally_table[n].type = Ss_phase;
 					count_elts = 0;
 					paren_count = 0;
@@ -988,7 +986,7 @@ build_tally_table(void)
 				for (l = 1; l < count_tally_table_columns; l++)
 				{
 					if (tally_table[l].type == Kinetics &&
-						tally_table[l].name == string_hsave(kinetics_comp_ptr->Get_rate_name().c_str()))
+						tally_table[l].name == kinetics_comp_ptr->Get_rate_name())
 						break;
 				}
 				if (l < count_tally_table_columns)
@@ -999,7 +997,7 @@ build_tally_table(void)
 				count_tt_kinetics++;
 				n = count_tally_table_columns;
 				extend_tally_table();
-				tally_table[n].name = string_hsave(kinetics_comp_ptr->Get_rate_name().c_str());
+				tally_table[n].name = kinetics_comp_ptr->Get_rate_name();
 				tally_table[n].type = Kinetics;
 				/*
 				 * get formula for kinetic component

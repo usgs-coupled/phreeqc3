@@ -1795,7 +1795,6 @@ fill_spec(int l_cell_no, int ref_cell)
 
 	int i, i1, i2, i3, count_spec, count_exch_spec, size_xt;
 	char token[MAX_LENGTH];
-	const char * name;
 	class species *s_ptr, *s_ptr2;
 	class master *master_ptr;
 	LDBLE dum, dum2;
@@ -1924,8 +1923,7 @@ fill_spec(int l_cell_no, int ref_cell)
 					else
 						dum = 1;
 				}
-				name = string_hsave(master_ptr->elt->name.c_str());
-				if (strcmp(name, "X") != 0)
+				if (strcmp(master_ptr->elt->name.c_str(), "X") != 0)
 				{
 					if (!warn_MCD_X)
 					{
@@ -1938,7 +1936,6 @@ fill_spec(int l_cell_no, int ref_cell)
 				}
 				dum2 = s_ptr->moles * dum;	/* equivalent fraction */
 				sol_D[l_cell_no].spec[count_spec].name = s_ptr->name;
-				//string_hsave(s_ptr->name);
 				sol_D[l_cell_no].spec[count_spec].type = EX;
 				sol_D[l_cell_no].spec[count_spec].c = dum2;
 				sol_D[l_cell_no].spec[count_spec].lg = s_ptr->lg - log10(dum);
@@ -1960,7 +1957,6 @@ fill_spec(int l_cell_no, int ref_cell)
 				}
 				/* copy its name and Dw and charge... */
 				sol_D[l_cell_no].spec[count_spec].aq_name = s_ptr2->name;
-				//string_hsave(s_ptr2->name);
 				sol_D[l_cell_no].spec[count_spec].z = s_ptr2->z;
 				if (s_ptr2->dw == 0)
 					sol_D[l_cell_no].spec[count_spec].Dwt = default_Dw * viscos_il_f;

@@ -24,7 +24,7 @@ setup_fixed_volume_gas(void)
 		int j;
 		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 		x[count_unknowns]->type = GAS_MOLES;
-		x[count_unknowns]->description = string_hsave(phase_ptr->name.c_str());
+		x[count_unknowns]->description = phase_ptr->name;
 		x[count_unknowns]->phase = phase_ptr;
 		x[count_unknowns]->moles = comp_ptr->Get_moles();
 		if (x[count_unknowns]->moles <= 0)

@@ -850,7 +850,7 @@ public:
 	class rate* rate_bsearch(const char* cptr, int* j);
 	int rate_free(class rate* rate_ptr);
 	class rate* rate_copy(const class rate* rate_ptr);
-	class rate* rate_search(const char* name, int* n);
+	class rate* rate_search(std::string name, int* n);
 	int rate_sort(void);
 	//
 	static int s_compare(const void* ptr1, const void* ptr2);
@@ -1767,7 +1767,7 @@ protected:
 	/* utilities.cpp ------------------------------- */
 	int spinner;
 	std::map<std::string, double> gfw_map;
-	std::map<const char*, int> rates_map;
+	std::map<std::string, int> rates_map;
 
 	/* new after release of Version 3 */
 	std::map<std::string, std::vector < std::string> > sum_species_map;

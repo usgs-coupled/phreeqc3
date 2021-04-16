@@ -46,7 +46,7 @@ pitz_param_read(char *string, int n)
 			err << "Wrong number of species for a Pitzer parameter.\n"  << line;
 			error_msg(err.str().c_str(), CONTINUE);
 		}
-		pzp.species[i] = string_hsave(token);
+		pzp.species[i] = token;
 	}
 	k = 0;
 	for (i = 0; i < 6; i++)

@@ -93,7 +93,7 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			master_isotope_ptr->units = string_hsave(token);
+			master_isotope_ptr->units = token;
 			/*
 			 *  Read standard 
 			 */
@@ -406,10 +406,10 @@ read_isotope_alphas(void)
 				break;
 			}
 			isotope_alpha_ptr = isotope_alpha_store(token, TRUE);
-			isotope_alpha_ptr->name = string_hsave(token);
+			isotope_alpha_ptr->name = token;
 			if (copy_token(token, &next_char, &l) != EMPTY)
 			{
-				isotope_alpha_ptr->named_logk = string_hsave(token);
+				isotope_alpha_ptr->named_logk = token;
 			}
 
 

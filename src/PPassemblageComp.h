@@ -28,18 +28,11 @@ class cxxPPassemblageComp: public PHRQ_base
 		else
 			this->name.clear();
 	}
-	const std::string &Get_add_formula() const {return this->add_formula;}
-	void Set_add_formula(const char * s)
-	{
-		if(s != NULL)
-			this->add_formula = std::string(s);
-		else
-			this->add_formula.clear();
-	}
-
-	void totalize(Phreeqc * phreeqc_ptr);
-	const cxxNameDouble & Get_totals() const {return (this->totals);}
-	void Get_totals(cxxNameDouble & nd) {this->totals = nd;}
+	const std::string& Get_add_formula() const { return this->add_formula; }
+	void Set_add_formula(std::string s) { this->add_formula = s; }
+	void totalize(Phreeqc* phreeqc_ptr);
+	const cxxNameDouble& Get_totals() const { return (this->totals); }
+	void Get_totals(cxxNameDouble& nd) { this->totals = nd; }
 	LDBLE Get_si() const {return this->si;}
 	void Set_si(LDBLE t) {this->si = t;}
 	LDBLE Get_si_org() const {return this->si_org;}

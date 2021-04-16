@@ -492,7 +492,7 @@ read_exchange_species(void)
 			count_elts = 0;
 			paren_count = 0;
 			copy_token(token, &next_char, &i);
-			s_ptr->mole_balance = string_hsave(token);
+			s_ptr->mole_balance = token;
 			cptr = token;
 			get_secondary_in_species(&cptr, 1.0);
 			s_ptr->next_secondary.clear();
@@ -651,7 +651,7 @@ read_exchange_species(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->add_logk[count_add_logk].name = string_hsave(token);
+			s_ptr->add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
 				&s_ptr->add_logk[count_add_logk].coef);
@@ -686,8 +686,7 @@ read_exchange_species(void)
 				break;
 			}
 			/* set name */
-			s_ptr->add_logk[count_add_logk].name =
-				string_hsave("XconstantX");
+			s_ptr->add_logk[count_add_logk].name = "XconstantX";
 			/* read coef */
 			opt_save = OPTION_DEFAULT;
 		}
@@ -1535,11 +1534,11 @@ read_inverse(void)
 			string_trim(temp_name);
 			if (temp_name.size() > 0)
 			{
-				inverse[n].netpath = string_hsave(temp_name.c_str());
+				inverse[n].netpath = temp_name;
 			}
 			else
 			{
-				inverse[n].netpath = string_hsave("netpath");
+				inverse[n].netpath = "netpath";
 			}
 			opt_save = OPTION_ERROR;
 		}
@@ -1618,7 +1617,7 @@ read_inv_balances(class inverse *inverse_ptr, const char* cptr)
 		size_t count_elts = inverse_ptr->elts.size();
 		inverse_ptr->elts.resize(count_elts + 1);
 		replace("(+", "(", token);
-		inverse_ptr->elts[count_elts].name = string_hsave(token);
+		inverse_ptr->elts[count_elts].name = token;
 /*
  *   Read element uncertainties
  */
@@ -1641,7 +1640,8 @@ read_inv_isotopes(class inverse *inverse_ptr, const char* cptr)
 	LDBLE isotope_number;
 	char token[MAX_LENGTH], token1[MAX_LENGTH];
 	const char* cptr1, *ptr2;
-	const char * redox_name, *element_name;
+	std::string redox_name;
+	const char *element_name;
 /*
  *   Read element name
  */
@@ -1676,7 +1676,7 @@ read_inv_isotopes(class inverse *inverse_ptr, const char* cptr)
 	}
 
 	/* redox state name with parentheses */
-	redox_name = string_hsave(ptr2);
+	redox_name = ptr2;
 
 	copy_token(token, &ptr2, &l1);
 	replace("(", " ", token);
@@ -1684,7 +1684,7 @@ read_inv_isotopes(class inverse *inverse_ptr, const char* cptr)
 
 	/* element name, without parentheses */
 	copy_token(token1, &ptr2, &l2);
-	element_name = string_hsave(token1);
+	element_name = token1;
 
 /*
  *  add element name to inv_ptr->isotopes
@@ -1825,7 +1825,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 		{
 			class isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
 			iso_ptr->isotope_number = isotopes[i].Get_isotope_number();
-			iso_ptr->elt_name = string_hsave(isotopes[i].Get_elt_name().c_str());
+			iso_ptr->elt_name = isotopes[i].Get_elt_name();
 			iso_ptr->isotope_name = isotopes[i].Get_isotope_name().c_str();
 			iso_ptr->total = isotopes[i].Get_total();
 			iso_ptr->ratio = isotopes[i].Get_ratio();
@@ -3115,7 +3115,7 @@ read_master_species(void)
 		}
 		else if (i == UPPER)
 		{
-			master[count_master]->gfw_formula = string_hsave(token);
+			master[count_master]->gfw_formula = token;
 		}
 		else
 		{
@@ -3543,8 +3543,7 @@ read_phases(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			phase_ptr->add_logk[count_add_logk].name =
-				string_hsave(token);
+			phase_ptr->add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
 				&phase_ptr->add_logk[count_add_logk].coef);
@@ -3572,8 +3571,7 @@ read_phases(void)
 				break;
 			}
 			/* set name */
-			phase_ptr->add_logk[count_add_logk].name =
-				string_hsave("XconstantX");
+			phase_ptr->add_logk[count_add_logk].name = "XconstantX";
 			opt_save = OPTION_DEFAULT;
 		}
 		break;
@@ -3646,7 +3644,7 @@ read_phases(void)
 			replace("(s)", "", token1);
 			replace("(G)", "", token1);
 			replace("(S)", "", token1);
-			phase_ptr->formula = string_hsave(token1);
+			phase_ptr->formula = token1;
 			for (i = 1; i < trxn.Get_count_trxn(); i++)
 			{
 				if ((strstr(trxn.token[i].Get_name().c_str(), "(s)") == NULL) &&
@@ -4884,9 +4882,7 @@ read_solution(void)
 				break;
 			if (parser.parse_couple(token) == CParser::PARSER_OK)
 			{
-				const char * str = string_hsave(token.c_str());
-				//isoln_ptr->Set_default_pe(token);
-				isoln_ptr->Set_default_pe(str);
+				isoln_ptr->Set_default_pe(token);
 				CReaction temp_chem_reaction;
 				isoln_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
 			}
@@ -5239,7 +5235,7 @@ read_species(void)
 			count_elts = 0;
 			paren_count = 0;
 			copy_token(token, &next_char, &i);
-			s_ptr->mole_balance = string_hsave(token);
+			s_ptr->mole_balance = token;
 			cptr = token;
 			s_ptr->next_secondary.clear();
 			get_secondary_in_species(&cptr, 1.0);
@@ -5365,7 +5361,7 @@ read_species(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->add_logk[count_add_logk].name = string_hsave(token);
+			s_ptr->add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
 				&s_ptr->add_logk[count_add_logk].coef);
@@ -5400,8 +5396,7 @@ read_species(void)
 				break;
 			}
 			/* set name */
-			s_ptr->add_logk[count_add_logk].name =
-				string_hsave("XconstantX");
+			s_ptr->add_logk[count_add_logk].name = "XconstantX";
 			/* read coef */
 			opt_save = OPTION_DEFAULT;
 		}
@@ -5938,7 +5933,7 @@ read_surface_species(void)
 			count_elts = 0;
 			paren_count = 0;
 			copy_token(token, &next_char, &i);
-			s_ptr->mole_balance = string_hsave(token);
+			s_ptr->mole_balance = token;
 			cptr = token;
 			s_ptr->next_secondary.clear();
 			get_secondary_in_species(&cptr, 1.0);
@@ -6035,7 +6030,7 @@ read_surface_species(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->add_logk[count_add_logk].name = string_hsave(token);
+			s_ptr->add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
 				&s_ptr->add_logk[count_add_logk].coef);
@@ -6069,8 +6064,7 @@ read_surface_species(void)
 				break;
 			}
 			/* set name */
-			s_ptr->add_logk[count_add_logk].name =
-				string_hsave("XconstantX");
+			s_ptr->add_logk[count_add_logk].name = "XconstantX";
 			opt_save = OPTION_DEFAULT;
 		}
 		break;
@@ -8109,8 +8103,7 @@ read_rates(void)
 			cptr = line;
 			copy_token(token, &cptr, &l);
 			{
-				const char *name = string_hsave(token);
-				rate_ptr = rate_search(name, &n);
+				rate_ptr = rate_search(token, &n);
 			}
 			if (rate_ptr == NULL)
 			{
@@ -8124,7 +8117,7 @@ read_rates(void)
 			}
 			rate_ptr->new_def = TRUE;
 			rate_ptr->commands.clear();
-			rate_ptr->name = string_hsave(token);
+			rate_ptr->name = token;
 			rate_ptr->linebase = NULL;
 			rate_ptr->varbase = NULL;
 			rate_ptr->loopbase = NULL;
@@ -8217,8 +8210,7 @@ read_user_print(void)
 			user_print->linebase = NULL;
 			user_print->varbase = NULL;
 			user_print->loopbase = NULL;
-			user_print->name =
-				string_hsave("user defined Basic print routine");
+			user_print->name = "user defined Basic print routine";
 		case OPT_1:			/* read command */
 			user_print->commands.append(";\0");
 			user_print->commands.append(line);
@@ -8285,7 +8277,7 @@ read_user_punch(void)
 	r->linebase = NULL;
 	r->varbase = NULL;
 	r->loopbase = NULL;
-	r->name = string_hsave("user defined Basic punch routine");
+	r->name = "user defined Basic punch routine";
 
 	return_value = UNKNOWN;
 	for (;;)
@@ -9285,7 +9277,7 @@ read_named_logk(void)
 				break;
 			}
 			logk_ptr->add_logk[count_add_logk].name =
-				string_hsave(token);
+				token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
 				&logk_ptr->add_logk[count_add_logk].coef);

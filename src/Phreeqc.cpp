@@ -1354,15 +1354,6 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	count_elts = 0;
 	// Reaction
 	run_cells_one_step = pSrc->run_cells_one_step;
-	//// logk
-	//logk.clear();
-	//for (size_t i = 0; i < pSrc->logk.size(); i++)
-	//{
-	//	class logk* tlk = new class logk;
-	//	*tlk = *pSrc->logk[i];
-	//	tlk->name = string_hsave(pSrc->logk[i]->name);
-	//	logk.push_back(tlk);
-	//}
 	for (int i = 0; i < (int)pSrc->logk.size(); i++)
 	{
 		class logk* logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
@@ -1421,7 +1412,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		*phase_ptr = *pSrc->phases[i];
 		// clean up pointers
 		phase_ptr->name = pSrc->phases[i]->name;
-		phase_ptr->formula = string_hsave(pSrc->phases[i]->formula.c_str());
+		phase_ptr->formula = pSrc->phases[i]->formula;
 		//add_logk
 		phase_ptr->add_logk.resize(pSrc->phases[i]->add_logk.size());
 		for (size_t j = 0; j < phase_ptr->add_logk.size(); j++)

@@ -40,7 +40,7 @@ initialize(void)
 
 	// user_print
 	user_print = new class rate;
-	user_print->name = string_hsave("User_print");
+	user_print->name = "User_print";
 	user_print->commands.clear();
 	user_print->linebase = NULL;
 	user_print->varbase = NULL;

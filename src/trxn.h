@@ -28,7 +28,7 @@ public:
 	int trxn_compare(const void* ptr1, const void* ptr2);
 	bool trxn_copy(CReaction& rxn_ref);
 	double trxn_find_coef(const char* str, int start);
-	int trxn_multiply(LDBLE coef);
+	int trxn_multiply(double coef);
 	int trxn_print(void);
 	int trxn_reverse_k(void);
 	int trxn_sort(void);
