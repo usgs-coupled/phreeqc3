@@ -523,7 +523,6 @@ select_log_k_expression(LDBLE * source_k, LDBLE * target_k)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_logk(void)
@@ -544,6 +543,11 @@ tidy_logk(void)
 		{
 			add_logks(logk[i], 0);
 		}
+	}
+	std::map < std::string, class Logk >::iterator it = Logk_map.begin();
+	for (; it != Logk_map.end(); it++)
+	{
+		it->second.tidy_logk(this);
 	}
 	return (OK);
 }
@@ -602,7 +606,6 @@ add_other_logk(LDBLE * source_k, std::vector<class name_coef> &add_logk)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 add_logks(class logk *logk_ptr, int repeats)
@@ -655,7 +658,6 @@ add_logks(class logk *logk_ptr, int repeats)
 	logk_ptr->done = TRUE;
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 coef_in_master(class master * master_ptr)
@@ -5430,6 +5432,9 @@ tidy_isotope_alphas(void)
 		if (isotope_alpha[i]->named_logk.size() > 0)
 		{
 			logk_ptr = logk_search(isotope_alpha[i]->named_logk);
+			//std::map<std::string, class Logk>::iterator it;
+			//it = Logk_search(isotope_alpha[i]->named_logk);
+			//if (it == Logk_map.end())
 			if (logk_ptr == NULL)
 			{
 				input_error++;

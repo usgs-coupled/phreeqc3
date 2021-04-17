@@ -30,6 +30,7 @@ typedef unsigned char boolean;
 #include "PHRQ_io.h"
 #include "SelectedOutput.h"
 #include "UserPunch.h"
+#include "Logk.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -130,6 +131,8 @@ public:
 	LDBLE find_misc2(const char* ss_name);
 	LDBLE find_ss_comp(const char* ss_comp_name);
 	LDBLE get_calculate_value(const char* name);
+	std::map<std::string, class logk*>& Get_logk_map() { return this->logk_map; };
+	std::map<std::string, class Logk>& Get_Logk_map() { return this->Logk_map; };
 	char* iso_unit(const char* total_name);
 	LDBLE iso_value(const char* total_name);
 	LDBLE kinetics_moles(const char* kinetics_name);
@@ -636,6 +639,7 @@ public:
 	int* read_list_ints_range(const char** ptr, int* count_ints, int positive,
 		int* int_list);
 	int read_log_k_only(const char* cptr, LDBLE* log_k);
+	void read_log_k_only(class Logk& lk, const char* cptr_in);
 	int read_t_c_only(const char* cptr, LDBLE* t_c);
 	int read_p_c_only(const char* cptr, LDBLE* p_c);
 	int read_omega_only(const char* cptr, LDBLE* omega);
@@ -652,6 +656,8 @@ public:
 	int add_psi_master_species(char* token);
 	int read_advection(void);
 	int read_analytical_expression_only(const char* cptr, LDBLE* log_k);
+	void read_analytical_expression_only(class Logk& lk, const char* cptr);
+	void read_ln_alpha_only(class Logk& lk, const char* cptr);
 	/* VP: Density Start */
 	int read_millero_abcdef(const char* cptr, LDBLE* abcdef);
 	/* VP: Density End */
@@ -660,9 +666,11 @@ public:
 	int read_debug(void);
 	int read_delta_h_only(const char* cptr, LDBLE* delta_h,
 		DELTA_H_UNIT* units);
+	void read_delta_h_only(class Logk& lk, const char* cptr_in);
 	int read_aq_species_vm_parms(const char* cptr, LDBLE* delta_v);
 	int read_vm_only(const char* cptr, LDBLE* delta_v,
 		DELTA_V_UNIT* units);
+	void read_vm_only(class Logk& lk, const char* cptr);
 	int read_phase_vm(const char* cptr, LDBLE* delta_v,
 		DELTA_V_UNIT* units);
 	int read_llnl_aqueous_model_parameters(void);
@@ -682,8 +690,8 @@ public:
 	int read_master_species(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
-	//int read_solution_mix(void);
 	int read_named_logk(void);
+	int read_named_Logk(void);
 	int read_phases(void);
 	int read_print(void);
 	int read_pp_assemblage(void);
@@ -830,7 +838,10 @@ public:
 	class logk* logk_alloc(void);
 	int logk_copy2orig(class logk* logk_ptr);
 	class logk* logk_store(const std::string& name, int replace_if_found);
+	void Logk_store(const std::string& name_in, class Logk& lk);
 	class logk* logk_search(const std::string& name);
+	std::map<std::string, class Logk>::iterator 
+		Logk_search(const std::string& name_in);
 	//
 	class master* master_alloc(void);
 	static int master_compare(const void* ptr1, const void* ptr2);
@@ -1099,11 +1110,9 @@ protected:
 	*   Pressures
 	* ---------------------------------------------------------------------- */
 	std::map<int, cxxPressure> Rxn_pressure_map;
-
 	/* ----------------------------------------------------------------------
 	*   Surface
 	* --------------------------------------------------------------------- */
-
 	int g_iterations;
 	LDBLE G_TOL;
 	std::map <int, cxxSurface> Rxn_surface_map;
@@ -1346,7 +1355,6 @@ protected:
 	*   Species
 	*---------------------------------------------------------------------- */
 	std::vector<class logk*> logk;
-
 	std::string moles_per_kilogram_string;
 
 	std::vector<class species*> s;
@@ -1549,6 +1557,10 @@ protected:
 	std::map<std::string, class species*> species_map;
 	std::map<std::string, class phase*> phases_map;
 	std::map<std::string, class logk*> logk_map;
+
+	//std::vector<class Logk*> Logk;
+	std::map<std::string, class Logk> Logk_map;
+
 	std::map<std::string, class master_isotope*> master_isotope_map;
 
 #if defined(PHREEQCI_GUI)

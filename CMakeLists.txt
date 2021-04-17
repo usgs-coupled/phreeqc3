@@ -44,6 +44,8 @@ src/ISolutionComp.cxx
 src/ISolutionComp.h
 src/KineticsComp.cxx
 src/KineticsComp.h
+src/Logk.cpp
+src/Logk.h
 src/NA.h
 src/NameDouble.cxx
 src/NameDouble.h

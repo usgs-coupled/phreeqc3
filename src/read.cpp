@@ -270,7 +270,8 @@ read_input(void)
 			j = check_line("Reading after DATABASE", FALSE, TRUE, TRUE, TRUE);
 			break;
 		case Keywords::KEY_NAMED_EXPRESSIONS:
-			read_named_logk();
+			read_named_Logk();
+			//read_named_logk();
 			break;
 		case Keywords::KEY_ISOTOPES:
 			read_isotopes();
@@ -2556,6 +2557,25 @@ read_log_k_only(const char* cptr_in, LDBLE * log_k)
 	}
 	return (OK);
 }
+
+/* ---------------------------------------------------------------------- */
+void Phreeqc::read_log_k_only(class Logk& lk, const char* cptr_in)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Read log k
+	 */
+	std::string stds(cptr_in);
+	replace(stds, "=", " ");
+	std::istringstream iss(stds);
+	if (!(iss >> lk.logk_original[0]))
+	{
+		input_error++;
+		error_msg("Expecting log k.", CONTINUE);
+	}
+	lk.Set_selected();
+	return;
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_t_c_only(const char* cptr_in, LDBLE *t_c)
@@ -2716,7 +2736,69 @@ read_vm_only(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	}
 	return (OK);
 }
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+read_vm_only(class Logk& lk, const char* cptr)
+/* ---------------------------------------------------------------------- */
+{
+	//int j, l;
+	//char token[MAX_LENGTH];
+	/*
+	*   Read analytical expression
+	*/
+	for (size_t j = vm0; j < vm0 + 8; j++)
+	{
+		lk.logk[j] = 0.0;
+	}
+	std::istringstream iss(cptr);
+	size_t j = vm0;
+	bool read_ok = false;
+	while (isdigit(iss.peek()))
+	{
+		iss >> lk.logk[j++];
+		read_ok = true;
+		if (j >= vm0 + 8) break;
+	}
+	if (!read_ok)
+	{
+		input_error++;
+		error_msg("Expecting numeric value for the phase's molar volume, vm.",
+			CONTINUE);
+		return;
+	}
+	/*
+	*   Read delta V units
+	*/
+	lk.original_deltav_units = cm3_per_mol;
+	std::string token;
+	while (isdigit(iss.peek()))
+	{
+		iss >> token; 
+	} 
+	iss >> token;
 
+	LDBLE factor = 1.0;
+	str_tolower(token);
+	if (token.find("dm3") != std::string::npos)
+	{
+		/* Convert dm3/mol to cm3/mol */
+		factor = 1e3;
+		lk.original_deltav_units = dm3_per_mol;
+	}
+	else if (token.find("m3") != std::string::npos)
+	{
+		/* Convert m3/mol to cm3/mol */
+		factor = 1e6;
+		lk.original_deltav_units = m3_per_mol;
+	}
+
+	for (size_t i = vm0; i < vm0 + 8; i++)
+	{
+		lk.logk[i] *= factor;
+	}
+	lk.Set_selected();
+	return;
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_phase_vm(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
@@ -2857,6 +2939,65 @@ read_delta_h_only(const char* cptr_in, LDBLE * delta_h, DELTA_H_UNIT * units)
 	}
 	return (OK);
 }
+
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+read_delta_h_only(class Logk& lk, const char* cptr_in)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Read delta H
+	 */
+	std::string stds(cptr_in);
+	replace(stds, "=", " ");
+	const char* cptr = stds.c_str();
+	std::istringstream iss(cptr);
+	if (!(iss >> lk.logk_original[1]))
+	{
+		input_error++;
+		error_msg("Expecting numeric value for delta H.", CONTINUE);
+		return;
+	}
+	/*
+	 *   Read delta H units
+	 */
+	std::string token;
+	iss >> token;
+	lk.original_units = kjoules;
+	int kilo = TRUE;
+	int joul = TRUE;
+	if (token.size() == 0)
+	{
+		return;
+	}
+	str_tolower(token);
+	if (token[0] != 'k') 
+	{
+		/* convert to kilo */
+		kilo = FALSE;
+		lk.logk[1] /= 1000.;
+	}
+	if (token.find("c") != std::string::npos)
+	{
+		/* convert to joules */
+		lk.logk[1] *= JOULES_PER_CALORIE;
+		joul = FALSE;
+	}
+	if (kilo == FALSE && joul == TRUE)
+	{
+		lk.original_units = joules;
+	}
+	else if (kilo == TRUE && joul == FALSE)
+	{
+		lk.original_units = kcal;
+	}
+	else if (kilo == FALSE && joul == FALSE)
+	{
+		lk.original_units = cal;
+	}
+	lk.Set_selected();
+	return;
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_analytical_expression_only(const char* cptr, LDBLE * log_k)
@@ -2883,7 +3024,68 @@ read_analytical_expression_only(const char* cptr, LDBLE * log_k)
 	}
 	return (OK);
 }
-
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+read_analytical_expression_only(class Logk& lk, const char* cptr)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Read analytical expression
+	 */
+	for(size_t i = T_A1; i <= T_A6; i++)
+	{ 
+		lk.logk[i] = 0.0;
+	}
+	std::istringstream iss(cptr);
+	size_t j = T_A1;
+	bool read_ok = false;
+	while (iss >> lk.logk_original[j++])
+	{
+		read_ok = true;
+		if (j > T_A6) break;
+	}
+	if (!read_ok)
+	{
+		input_error++;
+		error_msg("Expecting numeric values for analytical expression.",
+			CONTINUE);
+	}
+	lk.Set_selected();
+	return;
+}
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+read_ln_alpha_only(class Logk& lk, const char* cptr)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Read analytical expression
+	 */
+	 bool empty = TRUE;
+	 for (size_t i = T_A1; i <= T_A6; i++)
+	 {
+		if(lk.logk[i] != 0.0)
+	 	{
+	 		empty = FALSE;
+			break;
+	 	}
+	 }
+	 if (empty == FALSE)
+	 {
+	 	error_string = sformatf(
+	 		"Analytical expression previously defined for %s in NAMED_EXPRESSIONS\n"
+			"Analytical expression will be overwritten.",
+	 		lk.name.c_str());
+	 	warning_msg(error_string);
+	 }
+	read_analytical_expression_only(lk, cptr);
+	for (size_t i = T_A1; i < T_A6; i++)
+	{
+		lk.logk_original[i] /= 1000. * LOG_10;
+	}
+	lk.Set_selected();
+	return;
+}
 /* VP: Density Start */
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -9104,7 +9306,6 @@ next_keyword_or_option(const char **opt_list, int count_opt_list)
 	}
 	return (opt);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_named_logk(void)
@@ -9276,8 +9477,7 @@ read_named_logk(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			logk_ptr->add_logk[count_add_logk].name =
-				token;
+			logk_ptr->add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
 				&logk_ptr->add_logk[count_add_logk].coef);
@@ -9309,7 +9509,6 @@ read_named_logk(void)
  */
 			logk_ptr = NULL;
 			copy_token(token, &next_char, &l);
-
 			logk_ptr = logk_store(token, TRUE);
 /*
  *   Get pointer to each species in the reaction, store new species if necessary
@@ -9322,7 +9521,158 @@ read_named_logk(void)
 	}
 	return (return_value);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_named_Logk(void)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *      Reads K's that can be used to calculate K's for species
+	 *
+	 *      Arguments:
+	 *	 none
+	 *
+	 *      Returns:
+	 *	 KEYWORD if keyword encountered, input_error may be incremented if
+	 *		    a keyword is encountered in an unexpected position
+	 *	 EOF     if eof encountered while reading mass balance concentrations
+	 *	 ERROR   if error occurred reading data
+	 *
+	 */
 
+	//int l;
+	//int i, empty;
+	class Logk Logk_temp;
+	//char token[MAX_LENGTH];
+	std::string token;
+
+	int return_value, opt, opt_save;
+	const char* next_char;
+	const char* opt_list[] = {
+		"log_k",				/* 0 */
+		"logk",					/* 1 */
+		"delta_h",				/* 2 */
+		"deltah",				/* 3 */
+		"analytical_expression",	/* 4 */
+		"a_e",					/* 5 */
+		"ae",					/* 6 */
+		"ln_alpha1000",			/* 7 */
+		"add_logk",				/* 8 */
+		"add_log_k",			/* 9 */
+		"vm"					/* 10 */
+	};
+	int count_opt_list = 11;
+	/*
+	 *   Read name followed by options
+	 */
+	opt_save = OPTION_DEFAULT;
+	return_value = UNKNOWN;
+	for (;;)
+	{
+		opt = get_option(opt_list, count_opt_list, &next_char);
+		if (opt == OPTION_DEFAULT)
+		{
+			opt = opt_save;
+		}
+		opt_save = OPTION_DEFAULT;
+		switch (opt)
+		{
+		case OPTION_EOF:		/* end of file */
+			return_value = EOF;
+			break;
+		case OPTION_KEYWORD:	/* keyword */
+			return_value = KEYWORD;
+			break;
+		case OPTION_ERROR:
+			input_error++;
+			error_msg("Unknown input in NAMED_LOGK keyword.", CONTINUE);
+			error_msg(line_save, CONTINUE);
+			break;
+		case 0:				/* log_k */
+		case 1:				/* logk */
+			read_log_k_only(Logk_temp, next_char);
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 2:				/* delta_h */
+		case 3:				/* deltah */
+			read_delta_h_only(Logk_temp, next_char);
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 4:				/* analytical_expression */
+		case 5:				/* a_e */
+		case 6:				/* ae */
+			read_analytical_expression_only(Logk_temp, next_char);
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 7:				/* ln_alpha1000 */
+			read_ln_alpha_only(Logk_temp, next_char);
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 8:				/* add_logk */
+		case 9:				/* add_log_k */
+		{
+			size_t count_add_logk = Logk_temp.add_logk.size();
+			Logk_temp.add_logk.resize(count_add_logk + 1);
+			/* read name */
+			if (copy_token(token, &next_char) == EMPTY)
+			{
+				input_error++;
+				error_string = sformatf(
+					"Expected the name of a NAMED_EXPRESSION.");
+				error_msg(error_string, CONTINUE);
+				break;
+			}
+			Logk_temp.add_logk[count_add_logk].name = token;
+			/* read coef */
+			int i = sscanf(next_char, SCANFORMAT,
+				&Logk_temp.add_logk[count_add_logk].coef);
+			if (i <= 0)
+			{
+				Logk_temp.add_logk[count_add_logk].coef = 1;
+			}
+			opt_save = OPTION_DEFAULT;
+		}
+		break;
+		case 10:            /* vm, molar volume */
+			read_vm_only(Logk_temp, next_char);;
+			opt_save = OPTION_DEFAULT;
+			break;
+		case OPTION_DEFAULT:
+		/*
+		*   Store last, initialize
+		*/
+		{
+			if (Logk_temp.Get_name().size() > 0)
+			{
+				Logk_store(Logk_temp.name, Logk_temp);
+				std::string name = Logk_temp.name;
+				str_tolower(name);
+				//class logk* lk_ptr = logk_store(Logk_temp.name, TRUE);
+				class logk* Lk_ptr = Logk_temp.Newlogk();
+				logk.push_back(Lk_ptr);
+				logk_map[name] = Lk_ptr;
+			}
+			class Logk init;
+			Logk_temp = init;
+			copy_token(token, &next_char);
+			Logk_temp.Set_name(token);
+			opt_save = OPTION_DEFAULT;
+			break;
+		}
+		}
+		if (return_value == EOF || return_value == KEYWORD)
+			break;
+	}
+	// Save last
+	if (Logk_temp.Get_name().size() > 0)
+	{
+		Logk_store(Logk_temp.name, Logk_temp);
+		std::string name = Logk_temp.name;
+		str_tolower(name);
+		logk_map[name] = Logk_temp.Newlogk();
+	}
+	return (return_value);
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_copy(void)

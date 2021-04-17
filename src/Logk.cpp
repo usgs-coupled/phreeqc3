@@ -1,0 +1,158 @@
+#include "Logk.h"
+#include "Phreeqc.h"
+/* ---------------------------------------------------------------------- */
+void Logk::
+Set_logk(const std::vector<double>& k)
+/* ---------------------------------------------------------------------- */
+{
+	this->logk_original = k;
+	this->logk_original.resize(MAX_LOG_K_INDICES, 0);
+	this->Set_selected();
+	return;
+}
+/* ---------------------------------------------------------------------- */
+void Logk::
+Set_selected()
+/* ---------------------------------------------------------------------- */
+{
+	this->logk_selected = logk_original;
+	bool analytic = false;
+	for (size_t j = T_A1; j <= T_A6; j++)
+	{
+		if (logk_original[j] != 0.0)
+		{
+			analytic = true;
+			break;
+		}
+	}
+	if (analytic)
+	{
+		logk_selected[logK_T0] = 0.0;
+		logk_selected[delta_h] = 0.0;
+	}
+	return;
+}
+void Logk::
+tidy_logk(Phreeqc* phrq_ptr)
+{
+	logk.clear();
+	logk.resize(MAX_LOG_K_INDICES, 0.0);
+	add_logks(logk, *this, 1.0, 0, phrq_ptr);
+}
+/* ---------------------------------------------------------------------- */
+double Logk::
+k_calc(double tempk, double presPa, Phreeqc* phrq_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Calculates log k at specified temperature and pressure
+	 *   Returns calculated log k.
+	 *
+	 *   delta_v is in cm3/mol.
+	 */
+	//logk = logk_selected;
+	//this->add_other_logk(phrq_ptr);
+	double LOG_10 = log(10.0);
+	 /* Molar energy */
+	LDBLE me = tempk * R_KJ_DEG_MOL;
+
+	/* Pressure difference */
+	LDBLE delta_p = presPa - REF_PRES_PASCAL;
+
+	/* Calculate new log k value for this temperature and pressure */
+	LDBLE lk = logk[logK_T0]
+		- logk[delta_h] * (298.15 - tempk) / (LOG_10 * me * 298.15)
+		+ logk[T_A1]
+		+ logk[T_A2] * tempk
+		+ logk[T_A3] / tempk
+		+ logk[T_A4] * log10(tempk)
+		+ logk[T_A5] / (tempk * tempk)
+		+ logk[T_A6] * tempk * tempk;
+	if (delta_p > 0)
+		/* cm3 * J /mol = 1e-9 m3 * kJ /mol */
+		lk -= logk[delta_v] * 1E-9 * delta_p / (LOG_10 * me);
+	return lk;
+}
+
+///* ---------------------------------------------------------------------- */
+//void Logk::
+//add_other_logk(Phreeqc* phrq_ptr)
+///* ---------------------------------------------------------------------- */
+//{
+//	for (size_t i = 0; i < add_logk.size(); i++)
+//	{
+//		double coef = this->add_logk[i].coef;
+//		std::string token = add_logk[i].name;
+//		std::map<std::string, class Logk>::iterator it = phrq_ptr->Logk_search(token);
+//		if (it == phrq_ptr->Get_Logk_map().end())
+//		{
+//			std::ostringstream oss;
+//			oss << "Could not find named logk expression,"
+//				<< token << ".\n";
+//			phrq_ptr->error_msg(oss.str().c_str(), CONTINUE);
+//		}
+//		class Logk& add_lk = it->second;
+//		for(size_t i = 0; i < MAX_LOG_K_INDICES; i++)
+//		{
+//			logk[i] += add_lk.logk_selected[i] * coef;
+//		}
+//	}
+//	return;
+//}
+/* ---------------------------------------------------------------------- */
+void Logk::
+add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t repeats, Phreeqc* phrq_ptr)
+/* ---------------------------------------------------------------------- */
+{
+	if (repeats > 15)
+	{
+		std::ostringstream oss;
+		oss << "Circular definition of named_logk? " << this->name;
+		phrq_ptr->error_msg(oss.str().c_str(), CONTINUE);
+		return;
+	}
+	for (size_t j = 0; j < MAX_LOG_K_INDICES; j++)
+	{
+		lk[j] += next_Logk.logk_selected[j] * coef;
+	}
+	for (size_t i = 0; i < next_Logk.add_logk.size(); i++)
+	{
+		double coef_add = next_Logk.add_logk[i].coef * coef;
+		std::string token = next_Logk.add_logk[i].name;
+		phrq_ptr->str_tolower(token);
+		std::map<std::string, class Logk>::iterator it = 
+			phrq_ptr->Get_Logk_map().find(token);
+		if (it == phrq_ptr->Get_Logk_map().end())
+		{
+			std::ostringstream oss;
+			oss << "Could not find named temperature expression, " << next_Logk.name;
+			phrq_ptr->error_msg(oss.str().c_str(), CONTINUE);
+			return;
+		}
+		for (size_t j = 0; j < MAX_LOG_K_INDICES; j++)
+		{
+			lk[j] += next_Logk.logk_selected[j] * coef_add;
+		}
+		add_logks(lk, it->second, coef_add, ++repeats, phrq_ptr);
+	}
+}
+
+/* ---------------------------------------------------------------------- */
+class logk* Logk::
+Newlogk()
+/* ---------------------------------------------------------------------- */
+{
+	class logk* logk_ptr = new class logk;
+	logk_ptr->name = this->name;
+	logk_ptr->lk;
+	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)
+	{
+		logk_ptr->log_k[i] = this->logk_original[i];
+		logk_ptr->log_k_original[i] = this->logk_original[i];
+	}
+	logk_ptr->original_units = this->original_units;
+	logk_ptr->done = FALSE;
+	logk_ptr->add_logk = this->add_logk;
+	logk_ptr->original_deltav_units = this->original_deltav_units;
+	return logk_ptr;
+}

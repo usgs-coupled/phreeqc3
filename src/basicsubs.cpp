@@ -596,7 +596,7 @@ calc_solution_volume(void)
 	LDBLE vol = 1e-3 * total_mass / rho;
 	return (vol);
 }
-
+#ifdef SKIP_LOGK
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_n(const std::string& name)
@@ -610,6 +610,21 @@ calc_logk_n(const std::string& name)
 	class name_coef add_logk;
 	std::vector<class name_coef> add_logk_v;
 
+
+	if (name == "Log_alpha_13C_HCO3-/CO2(aq)")
+	{
+		std::cerr << "check it out\n";
+	}
+
+	double Lk = -999.99;
+	std::map<std::string, class Logk>::iterator it =
+		Logk_search(name);
+	if (it != Logk_map.end())
+	{
+		Lk = it->second.k_calc(tk_x, patm_x * PASCAL_PER_ATM, this);
+	}
+
+
 	for (i = 0; i < MAX_LOG_K_INDICES; i++)
 	{
 		l_logk[i] = 0.0;
@@ -622,12 +637,35 @@ calc_logk_n(const std::string& name)
 		add_logk.coef = 1.0;
 		add_logk_v.push_back(add_logk);
 		add_other_logk(l_logk, add_logk_v);
-	lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
-		return (lk);
+		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+		if (lk != Lk)
+		{
+			std::cerr << "Check this\n";
+		}
+		return (Lk);
 	}
 	return (-999.99);
 }
-
+#else
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_logk_n(const std::string& name)
+/* ---------------------------------------------------------------------- */
+{
+	if (name == "Log_alpha_13C_HCO3-/CO2(aq)")
+	{
+		std::cerr << "check it out\n";
+	}
+	double Lk = -999.99;
+	std::map<std::string, class Logk>::iterator it =
+		Logk_search(name);
+	if (it != Logk_map.end())
+	{
+		Lk = it->second.k_calc(tk_x, patm_x * PASCAL_PER_ATM, this);
+	}
+	return Lk;
+}
+#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_p(const std::string& name)

@@ -197,6 +197,7 @@ clean_up(void)
 	species_map.clear();
 	phases_map.clear();
 	logk_map.clear();
+	Logk_map.clear();
 	/* strings */
 	strings_map_clear();
 	/* delete basic interpreter */
@@ -2074,7 +2075,6 @@ system_duplicate(int i, int save_old)
 
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 class logk * Phreeqc::
 logk_store(const std::string& name_in, int replace_if_found)
@@ -2135,7 +2135,20 @@ logk_store(const std::string& name_in, int replace_if_found)
 	logk_map[name] = logk_ptr;
 	return (logk_ptr);
 }
-
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+Logk_store(const std::string& name_in, class Logk& lk)
+	/* ---------------------------------------------------------------------- */
+{
+	 /*
+	  *   Search list
+	  */
+	class logk* logk_ptr = NULL;
+	std::string name = name_in;
+	str_tolower(name);
+	Logk_map[name] = lk;
+	return;
+}
 /* ---------------------------------------------------------------------- */
 class logk * Phreeqc::
 logk_alloc(void)
@@ -2227,6 +2240,18 @@ logk_search(const std::string& name_in)
 		return (logk_ptr);
 	}
 	return (NULL);
+}
+/* ---------------------------------------------------------------------- */
+std::map<std::string, class Logk>::iterator Phreeqc::
+Logk_search(const std::string& name_in)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Search map
+	 */
+	std::string name = name_in;
+	str_tolower(name);
+	return	Logk_map.find(name);
 }
 
 /* ---------------------------------------------------------------------- */
