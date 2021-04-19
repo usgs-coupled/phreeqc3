@@ -272,7 +272,7 @@ g_function(LDBLE x_value)
 				sum += s_x[i]->moles * (pow(x_value, s_x[i]->z) - 1.0);
 				sum1 += s_x[i]->moles * s_x[i]->z;
 				output_msg(sformatf( "%s\t%e\t%e\t%e\t%e\n",
-						   s_x[i]->name, (double) s_x[i]->moles,
+						   s_x[i]->name.c_str(), (double) s_x[i]->moles,
 						   (double) (pow((LDBLE) x_value, (LDBLE) s_x[i]->z) -
 									 1.0), (double) sum, (double) sum1));
 			}

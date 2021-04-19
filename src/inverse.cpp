@@ -468,7 +468,7 @@ setup_inverse(class inverse *inv_ptr)
 				{
 					error_string = sformatf(
 							"Subroutine setup_inverse, element not found, %s.",
-							rxn_ptr->token[j].Get_s()->name);
+							rxn_ptr->token[j].Get_s()->name.c_str());
 					error_msg(error_string, STOP);
 				}
 				if (master_ptr->s == s_hplus)

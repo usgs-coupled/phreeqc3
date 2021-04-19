@@ -121,7 +121,7 @@ pitzer_tidy(void)
 	{
 		for (j = i + 1; j < count_cations; j++)
 		{
-			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
+			sprintf(line, "%s %s 1", spec[i]->name.c_str(), spec[j]->name.c_str());
 			pzp_ptr = pitz_param_read(line, 2);
 			pzp_ptr->type = TYPE_ETHETA;
 			size_t count_pitz_param = pitz_params.size();
@@ -133,7 +133,7 @@ pitzer_tidy(void)
 	{
 		for (j = i + 1; j < 2 * (int)s.size() + count_anions; j++)
 		{
-			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
+			sprintf(line, "%s %s 1", spec[i]->name.c_str(), spec[j]->name.c_str());
 			pzp_ptr = pitz_param_read(line, 2);
 			pzp_ptr->type = TYPE_ETHETA;
 			size_t count_pitz_param = pitz_params.size();
@@ -533,7 +533,7 @@ ISPEC(const char *name)
 		if (spec[i] == NULL)
 			continue;
 		//if (name == spec[i]->name)
-		if (strcmp(name, spec[i]->name) == 0)
+		if (strcmp(name, spec[i]->name.c_str()) == 0)
 		{
 			return (i);
 		}

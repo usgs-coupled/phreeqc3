@@ -142,7 +142,7 @@ sit_ISPEC(const char *name)
 		if (spec[i] == NULL)
 			continue;
 		//if (name == spec[i]->name)
-		if (strcmp(name,spec[i]->name) == 0)
+		if (strcmp(name,spec[i]->name.c_str()) == 0)
 		{
 			return (i);
 		}

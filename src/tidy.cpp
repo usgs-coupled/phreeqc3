@@ -150,8 +150,15 @@ tidy_model(void)
 /* species */
 	if (new_model == TRUE)
 	{
-		if (s.size() > 1) qsort(&s[0], s.size(), sizeof(class species*), s_compare);
-
+		//if (s.size() > 1) qsort(&s[0], s.size(), sizeof(class species*), s_compare);
+		{
+			s.clear();
+			std::map<std::string, species*>::iterator it;
+			for (it = species_map.begin(); it != species_map.end(); it++)
+			{
+				s.push_back(it->second);
+			}
+		}
 		/* master species */
 		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(class master*), master_compare);
 		/* elements */
@@ -467,7 +474,7 @@ check_species_input(void)
 			return_value = ERROR;
 			error_string = sformatf(
 					"Elements in species have not been tabulated, %s.",
-					s[i]->name);
+					s[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		if (s[i]->rxn.token.size() == 0)
@@ -476,7 +483,7 @@ check_species_input(void)
 			return_value = ERROR;
 			error_string = sformatf(
 					"Reaction for species has not been defined, %s.",
-					s[i]->name);
+					s[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		else
@@ -831,7 +838,7 @@ rewrite_eqn_to_primary(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not reduce equation to primary master species, %s.",
-					trxn.token[0].Get_s()->name);
+					trxn.token[0].Get_s()->name.c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
@@ -2233,7 +2240,7 @@ tidy_species(void)
 				input_error++;
 				error_string = sformatf(
 						"Equation for species %s does not balance.",
-						s[i]->name);
+						s[i]->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -2375,7 +2382,7 @@ tidy_species(void)
 						"Every primary master species for a redox element\n"
 						"\tmust also be a secondary master species.\n"
 						"\tError in definitions related to %s .\n",
-						master[i]->s->name);
+						master[i]->s->name.c_str());
 				error_msg(error_string, CONTINUE);
 
 			}
@@ -2389,9 +2396,9 @@ tidy_species(void)
 						"\tAnother entry in SOLUTION_MASTER_SPECIES is needed.\n"
 						"\tDefine species %s as a secondary master species for a valence state.\n"
 						"\tFor example: \n" "\t%s(0)\t%s alk gfw",
-						master_ptr->s->name, master_ptr->elt->name.c_str(),
-						master_ptr->s->name, master_ptr->elt->name.c_str(),
-						master_ptr->s->name);
+						master_ptr->s->name.c_str(), master_ptr->elt->name.c_str(),
+						master_ptr->s->name.c_str(), master_ptr->elt->name.c_str(),
+						master_ptr->s->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -2434,7 +2441,8 @@ tidy_species(void)
 					{
 						input_error++;
 						error_string = sformatf(
-							"Element in -mole_balance %s not defined for species %s.\n", s[i]->mole_balance.c_str(), s[i]->name);
+							"Element in -mole_balance %s not defined for species %s.\n", 
+							s[i]->mole_balance.c_str(), s[i]->name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
@@ -2475,7 +2483,7 @@ tidy_species(void)
 			{
 				input_error++;
 				error_string = sformatf(
-					"No exchange species found in equation for %s.\n", s[i]->name);
+					"No exchange species found in equation for %s.\n", s[i]->name.c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
@@ -2499,7 +2507,7 @@ tidy_species(void)
 			{
 				input_error++;
 				error_string = sformatf(
-					"No surface species found in equation for %s.\n", s[i]->name);
+					"No surface species found in equation for %s.\n", s[i]->name.c_str());
 				error_msg(error_string, CONTINUE);
 				continue;
 			}
@@ -3687,7 +3695,7 @@ tidy_min_surface(void)
 							error_msg(error_string);
 							continue;
 						}
-						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name == NULL)
+						if (elt_ptr->master->s == NULL || elt_ptr->master->s->name.size() == 0)
 						{
 							input_error++;
 							error_string = sformatf("Unknown master species definition in SURFACE \n\t for surface related to equilibrium_phase: SURFACE %d.", 
@@ -3699,7 +3707,7 @@ tidy_min_surface(void)
 						{
 							error_string = sformatf(
 								"Use the -donnan option when coupling surface %s to an equilibrium_phase, \n\t and note to give the equilibrium_phase the surface charge.",
-								elt_ptr->master->s->name);
+								elt_ptr->master->s->name.c_str());
 							warning_msg(error_string);
 						}	
 					}
@@ -3737,7 +3745,7 @@ tidy_min_surface(void)
 							"\t including %s * %g mol sites/mol phase,\n"
 							"\t exceeds stoichiometry in the related phase %s, %s.",
 							elt_list[jj].elt->name.c_str(),
-							elt_ptr->master->s->name,
+							elt_ptr->master->s->name.c_str(),
 							(double) surface_comp_ptr->Get_phase_proportion(),
 							phase_ptr->name.c_str(),
 							phase_ptr->formula.c_str());

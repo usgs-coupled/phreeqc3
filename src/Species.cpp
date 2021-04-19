@@ -1,152 +1,82 @@
 #include "Species.h"
 #include "Phreeqc.h"
-/* **********************************************************************
- *
- *   Routines related to structure "species"
- *
- * ********************************************************************** */
- /* ---------------------------------------------------------------------- */
-class species* Phreeqc::
-	s_alloc(void)
-	/* ---------------------------------------------------------------------- */
-	/*
-	 *   Allocates space to a species structure, initializes
-	 *      arguments: void
-	 *      return: pointer to a species structure
-	 */
+/* ---------------------------------------------------------------------- */
+void species::Initialize()
 {
-	class species* s_ptr;
-	s_ptr = new class species;
-	/*
-	 *   set pointers in structure to NULL, variables to zero
-	 */
-	s_init(s_ptr);
-
-	return (s_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_compare(const void* ptr1, const void* ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const class species* s_ptr1, * s_ptr2;
-	s_ptr1 = *(const class species**)ptr1;
-	s_ptr2 = *(const class species**)ptr2;
-	return (strcmp(s_ptr1->name, s_ptr2->name));
-
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_delete(int i)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Delete species i: free memory and renumber array of pointers, s.
-	 */
-	s_free(s[i]);
-	s[i] = (class species*)free_check_null(s[i]);
-	s.erase(s.begin() + i);
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_free(class species* s_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Free space allocated for species structure, s_ptr. Does not free s_ptr.
-	 */
-	if (s_ptr == NULL)
-		return (ERROR);
-	s_ptr->next_elt.clear();
-	s_ptr->next_secondary.clear();
-	s_ptr->next_sys_total.clear();
-	s_ptr->add_logk.clear();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_init(class species* s_ptr)
-/* ---------------------------------------------------------------------- */
-/*
- *      return: pointer to a species structure
- */
-{
-	int i;
-	/*
-	 *   set pointers in structure to NULL
-	 */
-	s_ptr->name = NULL;
-	//s_ptr->mole_balance.clear();
-	s_ptr->in = FALSE;
-	s_ptr->number = 0;
-	s_ptr->primary = NULL;
-	s_ptr->secondary = NULL;
-	s_ptr->gfw = 0.0;
-	s_ptr->z = 0.0;
-	s_ptr->dw = 0.0;
-	s_ptr->dw_t = 0.0;
-	s_ptr->dw_a = 0.0;
-	s_ptr->dw_a2 = 0.0;
-	s_ptr->erm_ddl = 1.0;
-	s_ptr->equiv = 0;
-	s_ptr->alk = 0.0;
-	s_ptr->carbon = 0.0;
-	s_ptr->co2 = 0.0;
-	s_ptr->h = 0.0;
-	s_ptr->o = 0.0;
-	s_ptr->dha = 0.0;
-	s_ptr->dhb = 0.0;
-	s_ptr->a_f = 0.0;
-	s_ptr->lk = 0.0;
-	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-	{
-		s_ptr->logk[i] = 0.0;
-	}
-	for (i = 0; i < 10; i++)
-	{
-		s_ptr->Jones_Dole[i] = 0.0;
-	}
-	/* VP: Density Start */
-	for (i = 0; i < 6; i++)
-	{
-		s_ptr->millero[i] = 0.0;
-	}
-	/* VP: Density End */
-	s_ptr->original_units = Logk::kjoules;
-	s_ptr->add_logk.clear();
-	s_ptr->lg = 0.0;
-	s_ptr->lg_pitzer = 0.0;
-	s_ptr->lm = 0.0;
-	s_ptr->la = 0.0;
-	s_ptr->dg = 0.0;
-	s_ptr->dg_total_g = 0;
-	s_ptr->moles = 0.0;
-	s_ptr->type = 0;
-	s_ptr->gflag = 0;
-	s_ptr->exch_gflag = 0;
-	s_ptr->check_equation = TRUE;
-	s_ptr->tot_g_moles = 0;
-	s_ptr->tot_dh2o_moles = 0;
-	for (i = 0; i < 5; i++)
-	{
-		s_ptr->cd_music[i] = 0.0;
-	}
-	for (i = 0; i < 3; i++)
-	{
-		s_ptr->dz[i] = 0.0;
-	}
-	s_ptr->original_deltav_units = Logk::cm3_per_mol;
-	return (OK);
+		name.clear();          // name of species 
+		mole_balance.clear();  // formula for mole balance 
+		in = FALSE;            // set internally if species in model
+		number = 0;
+		// points to master species list, NULL if not primary master
+		primary = NULL;
+		// points to master species list, NULL if not secondary master
+		secondary = NULL;
+		gfw = 0;              // gram formula wt of species
+		z = 0;                // charge of species
+		// tracer diffusion coefficient in water at 25oC, m2/s
+		dw = 0;
+		// correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15)
+		dw_t = 0;
+		// parms for calc'ng SC = SC0 * exp(-dw_a * z * mu^0.5 / (1 + DH_B * dw_a2 * mu^0.5))
+		dw_a = 0;
+		dw_a2 = 0;
+		dw_a_visc = 0;   // viscosity correction of SC
+		dw_t_SC = 0;     // contribution to SC, for calc'ng transport number with BASIC
+		dw_corr = 0;	 // dw corrected for TK and mu
+		erm_ddl = 1.0;     // enrichment factor in DDL
+		equiv = 0;       // equivalents in exchange species
+		alk = 0;	     // alkalinity of species, used for cec in exchange
+		carbon = 0;      // stoichiometric coefficient of carbon in species
+		co2 = 0;         // stoichiometric coefficient of C(4) in species
+		h = 0;           // stoichiometric coefficient of H in species
+		// stoichiometric coefficient of O in species
+		o = 0;
+		// WATEQ Debye Huckel a and b-dot; active_fraction coef for exchange species
+		dha = 0, dhb = 0, a_f = 0;
+		lk = 0;           // log10 k at working temperature
+		// log kt0, delh, 6 coefficients analytical expression + volume terms
+		//for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) logk[i] = 0;
+		logk.clear();
+		logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
+		// 7 coefficients analytical expression for B, D, anion terms and pressure in Jones_Dole viscosity eqn
+		for (size_t i = 0; i < 10; i++) Jones_Dole[i] = 0;
+		// regression coefficients to calculate temperature dependent phi_0and b_v of Millero density model
+		for (size_t i = 0; i < 7; i++) millero[i] = 0;
+		original_units = Logk::kjoules;  // enum with original delta H units
+		add_logk.clear();
+		lg = 0;            // log10 activity coefficient, gamma
+		lg_pitzer = 0;     // log10 activity coefficient, from pitzer calculation
+		lm = 0;            // log10 molality
+		la = 0;		       // log10 activity
+		dg = 0;		       // gamma term for jacobian
+		dg_total_g = 0;
+		moles = 0;		   // moles in solution; moles/mass_water = molality
+		type = 0;          // flag indicating presence in model and types of equations
+		gflag = 0;		   // flag for preferred activity coef eqn
+		exch_gflag = 0;    // flag for preferred activity coef eqn
+		// vector of elements
+		next_elt.clear();
+		next_secondary.clear();
+		next_sys_total.clear();
+		// switch to check equation for charge and element balance
+		check_equation = TRUE;
+		rxn.Initialize();   // data base reaction
+		rxn_s.Initialize(); // reaction converted to secondary and primary master species
+		rxn_x.Initialize(); // reaction to be used in model
+		// (1 + sum(g)) * moles
+		tot_g_moles = 0;
+		// sum(moles*g*Ws/Waq)
+		tot_dh2o_moles = 0;
+		for (size_t i = 0; i < 5; i++) cd_music[i] = 0;
+		//for (size_t i = 0; i < 3; i++) dz[i] = 0;
+		dz.clear();
+		dz.resize(3, 0.0);
+		original_deltav_units = Logk::cm3_per_mol;
 }
 /* ---------------------------------------------------------------------- */
 class species* Phreeqc::
-	s_search(const char* name)
-	/* ---------------------------------------------------------------------- */
+s_search(const std::string& name)
+/* ---------------------------------------------------------------------- */
 {
 	/*
 	 *   Function locates the string "name" in the species_map.
@@ -169,36 +99,10 @@ class species* Phreeqc::
 }
 /* ---------------------------------------------------------------------- */
 class species* Phreeqc::
-	s_store(const char* name, LDBLE l_z, int replace_if_found)
-	/* ---------------------------------------------------------------------- */
+s_store(const std::string& name, LDBLE l_z, int replace_if_found)
+/* ---------------------------------------------------------------------- */
 {
-	/*
-	 *   Function locates the string "name" in the map for species.
-	 *
-	 *   Pointer to a species structure is always returned.
-	 *
-	 *   If the string is not found, a new entry is made at the end of
-	 *      the elements array (position count_elements) and count_elements is
-	 *      incremented. A new entry is made in the map. Pointer to
-	 *      the new structure is returned.
-	 *   If "name" is found and replace is true, pointers in old species structure
-	 *      are freed and replaced with additional input.
-	 *   If "name" is found and replace is false, the old species structure is not
-	 *      modified and a pointer to it is returned.
-	 *
-	 *   Arguments:
-	 *      name    input, character string to be found in "species".
-	 *      l_z      input, charge on "name"
-	 *      replace_if_found input, TRUE means reinitialize species if found
-	 *		     FALSE means just return pointer if found.
-	 *
-	 *   Returns:
-	 *      pointer to species structure "s" where "name" can be found.
-	 */
-
-	 /*
-	  *   Search list
-	  */
+	//   Search list and save
 	class species* s_ptr = NULL;
 	s_ptr = s_search(name);
 	if (s_ptr != NULL && replace_if_found == FALSE)
@@ -207,23 +111,19 @@ class species* Phreeqc::
 	}
 	else if (s_ptr != NULL && replace_if_found == TRUE)
 	{
-		s_free(s_ptr);
-		s_init(s_ptr);
+		s_ptr->Initialize();
 	}
 	else
 	{
 		size_t n = s.size();
 		s.resize(n + 1);
-		/* Make new species structure */
-		s[n] = s_alloc();
+		s[n] = new species;
 		s_ptr = s[n];
 	}
-	/* set name and z in pointer in species structure */
-	s_ptr->name = string_hsave(name);
+	// set name and z in pointer in species structure
+	s_ptr->name = name;
 	s_ptr->z = l_z;
-	/*
-	 *   Update map
-	 */
+	//   Update map
 	species_map[name] = s_ptr;
 	return (s_ptr);
 }

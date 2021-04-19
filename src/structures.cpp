@@ -53,7 +53,7 @@ clean_up(void)
 
 	for (j = 0; j < (int)s.size(); j++)
 	{
-		s_free(s[j]);
+		//s_free(s[j]);
 		delete s[j];
 	}
 	s.clear();
@@ -276,7 +276,7 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
 	{
 		rxn.token[i].Set_s((rxn_ref.token[i].Get_s() == NULL) ? NULL :
-			s_store(rxn_ref.token[i].Get_s()->name, rxn_ref.token[i].Get_s()->z, false));
+			s_store(rxn_ref.token[i].Get_s()->name.c_str(), rxn_ref.token[i].Get_s()->z, false));
 		rxn.token[i].coef = rxn_ref.token[i].coef;
 		rxn.token[i].Set_name((rxn_ref.token[i].Get_name().size() == 0) ? "" :
 			rxn_ref.token[i].Get_name());
@@ -303,7 +303,7 @@ rxn_find_coef(CReaction& r_ref, const char* str)
 	coef = 0.0;
 	while (!r_token->Get_end())
 	{
-		if (strcmp(r_token->Get_s()->name, str) == 0)
+		if (strcmp(r_token->Get_s()->name.c_str(), str) == 0)
 		{
 			coef = r_token->coef;
 			break;
@@ -838,9 +838,9 @@ species_list_compare(const void *ptr1, const void *ptr2)
 		if (nptr2->master_s == s_hplus)
 			return (1);
 		*/
-		if ((strcmp(nptr1->master_s->name,"H+") == 0) || (strcmp(nptr1->master_s->name,"H3O+") == 0))
+		if ((strcmp(nptr1->master_s->name.c_str(),"H+") == 0) || (strcmp(nptr1->master_s->name.c_str(),"H3O+") == 0))
 			return (-1);
-		if ((strcmp(nptr2->master_s->name,"H+") == 0) || (strcmp(nptr2->master_s->name,"H3O+") == 0))
+		if ((strcmp(nptr2->master_s->name.c_str(),"H+") == 0) || (strcmp(nptr2->master_s->name.c_str(),"H3O+") == 0))
 			return (1);
 	}
 /*
@@ -942,9 +942,9 @@ species_list_compare_master(const void *ptr1, const void *ptr2)
 		if (nptr2->master_s == s_hplus)
 			return (1);
 		*/
-		if ((strcmp(nptr1->master_s->name,"H+") == 0) || (strcmp(nptr1->master_s->name,"H3O+") == 0))
+		if ((strcmp(nptr1->master_s->name.c_str(),"H+") == 0) || (strcmp(nptr1->master_s->name.c_str(),"H3O+") == 0))
 			return (-1);
-		if ((strcmp(nptr2->master_s->name,"H+") == 0) || (strcmp(nptr2->master_s->name,"H3O+") == 0))
+		if ((strcmp(nptr2->master_s->name.c_str(),"H+") == 0) || (strcmp(nptr2->master_s->name.c_str(),"H3O+") == 0))
 			return (1);
 	}
 /*

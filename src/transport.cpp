@@ -1900,7 +1900,7 @@ fill_spec(int l_cell_no, int ref_cell)
 		//	continue;
 		//if (s_ptr->type == SURF)
 		//	continue;
-		if (i > 0 && strcmp(s_ptr->name, species_list[(size_t)i - 1].s->name) == 0)
+		if (i > 0 && strcmp(s_ptr->name.c_str(), species_list[(size_t)i - 1].s->name.c_str()) == 0)
 			continue;
 		//if (s_ptr == s_h2o)
 		//	continue;
@@ -1935,7 +1935,7 @@ fill_spec(int l_cell_no, int ref_cell)
 					continue;
 				}
 				dum2 = s_ptr->moles * dum;	/* equivalent fraction */
-				sol_D[l_cell_no].spec[count_spec].name = s_ptr->name;
+				sol_D[l_cell_no].spec[count_spec].name = string_hsave(s_ptr->name.c_str());
 				sol_D[l_cell_no].spec[count_spec].type = EX;
 				sol_D[l_cell_no].spec[count_spec].c = dum2;
 				sol_D[l_cell_no].spec[count_spec].lg = s_ptr->lg - log10(dum);
@@ -1956,7 +1956,7 @@ fill_spec(int l_cell_no, int ref_cell)
 						break;
 				}
 				/* copy its name and Dw and charge... */
-				sol_D[l_cell_no].spec[count_spec].aq_name = s_ptr2->name;
+				sol_D[l_cell_no].spec[count_spec].aq_name = string_hsave(s_ptr2->name.c_str());
 				sol_D[l_cell_no].spec[count_spec].z = s_ptr2->z;
 				if (s_ptr2->dw == 0)
 					sol_D[l_cell_no].spec[count_spec].Dwt = default_Dw * viscos_il_f;
@@ -2049,7 +2049,7 @@ fill_spec(int l_cell_no, int ref_cell)
 					malloc_error();
 				sol_D[l_cell_no].spec_size = count_spec + size_xt;
 			}
-			sol_D[l_cell_no].spec[count_spec].name = s_ptr->name;
+			sol_D[l_cell_no].spec[count_spec].name = string_hsave(s_ptr->name.c_str());
 			sol_D[l_cell_no].spec[count_spec].type = AQ;
 			sol_D[l_cell_no].spec[count_spec].c = s_ptr->moles / mass_water_aq_x;
 			sol_D[l_cell_no].spec[count_spec].a = under(lm + s_ptr->lg);
@@ -2177,7 +2177,7 @@ sort_species_name(const void *ptr1, const void *ptr2)
 	nptr1 = (const class species_list *) ptr1;
 	nptr2 = (const class species_list *) ptr2;
 
-	return (strcmp(nptr1->s->name, nptr2->s->name));
+	return (strcmp(nptr1->s->name.c_str(), nptr2->s->name.c_str()));
 }
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
@@ -3480,9 +3480,9 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		for (it = use.Get_solution_ptr()->Get_totals().begin();
 			it != use.Get_solution_ptr()->Get_totals().end(); it++)
 		{
-			if (it->first.c_str() == "H(0)")
+			if (it->first == "H(0)")
 				continue;
-			if (it->first.c_str() == "O(0)")
+			if (it->first == "O(0)")
 				continue;
 			LDBLE moles = it->second;
 			if (moles < 0 && ct[i].dl_s)
@@ -4677,7 +4677,7 @@ dV_dcell2:
 							tot2_h *= (1 - rc2);
 						}
 					}
-					else if ("O" == elt_ptr->name.c_str())
+					else if ("O" == elt_ptr->name)
 					{
 						if (coef < -rc2 * tot2_o)
 						{
@@ -5946,7 +5946,7 @@ viscosity(void)
 		}
 		if (l_z < 0)
 		{
-			if (!strcmp(s_x[i]->name, "Cl-"))
+			if (!strcmp(s_x[i]->name.c_str(), "Cl-"))
 				// volumina for f_an...
 			{
 				V_Cl = s_x[i]->logk[Logk::vm_tc];

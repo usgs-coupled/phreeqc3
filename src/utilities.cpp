@@ -28,7 +28,7 @@ calc_alk(CReaction& rxn_ref)
 		{
 			error_string = sformatf(
 				"Non-master species in secondary reaction, %s.",
-				rxn_ref.token[0].Get_s()->name);
+				rxn_ref.token[0].Get_s()->name.c_str());
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;

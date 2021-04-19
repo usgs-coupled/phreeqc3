@@ -690,7 +690,6 @@ public:
 	int read_master_species(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
-	//int read_named_logk(void);
 	int read_named_Logk(void);
 	int read_phases(void);
 	int read_print(void);
@@ -858,10 +857,8 @@ public:
 	class rate* rate_search(std::string name, int* n);
 	int rate_sort(void);
 	//
-	static int s_compare(const void* ptr1, const void* ptr2);
-	int s_delete(int i);
-	class species* s_search(const char* name);
-	class species* s_store(const char* name, LDBLE z, int replace_if_found);
+	class species* s_search(const std::string& name);
+	class species* s_store(const std::string& name, LDBLE z, int replace_if_found);
 	//
 	static int isotope_compare(const void* ptr1, const void* ptr2);
 	//
@@ -883,9 +880,6 @@ public:
 	int master_free(class master* master_ptr);
 	static int rate_compare(const void* ptr1, const void* ptr2);
 	static int rate_compare_string(const void* ptr1, const void* ptr2);
-	class species* s_alloc(void);
-	int s_free(class species* s_ptr);
-	int s_init(class species* s_ptr);
 	static int species_list_compare(const void* ptr1, const void* ptr2);
 
 	void Use2cxxStorageBin(cxxStorageBin& sb);

@@ -280,7 +280,7 @@ trxn_find_coef(const char* str, int start)
 	coef = 0.0;
 	for (i = start; i < count_trxn; i++)
 	{
-		if (strcmp(this->token[i].Get_s()->name, str) == 0)
+		if (strcmp(this->token[i].Get_s()->name.c_str(), str) == 0)
 		{
 			coef = this->token[i].coef;
 			break;
@@ -430,7 +430,7 @@ trxn_swap(const char* token)
 	 */
 	for (j = 0; j < count_trxn; j++)
 	{
-		if (strcmp(this->token[j].Get_s()->name, token) == 0)
+		if (strcmp(this->token[j].Get_s()->name.c_str(), token) == 0)
 			break;
 	}
 	if (j >= count_trxn)
@@ -498,8 +498,8 @@ rewrite_master_to_secondary(class master* master_ptr1,
 	/*
 	 *   Find coefficient of primary master in reaction
 	 */
-	coef1 = phrq_ptr->rxn_find_coef(master_ptr1->rxn_primary, master_ptr_p1->s->name);
-	coef2 = phrq_ptr->rxn_find_coef(master_ptr2->rxn_primary, master_ptr_p1->s->name);
+	coef1 = phrq_ptr->rxn_find_coef(master_ptr1->rxn_primary, master_ptr_p1->s->name.c_str());
+	coef2 = phrq_ptr->rxn_find_coef(master_ptr2->rxn_primary, master_ptr_p1->s->name.c_str());
 	if (phrq_ptr->equal(coef1, 0.0, TOL) == TRUE || phrq_ptr->equal(coef2, 0.0, TOL) == TRUE)
 	{
 		std::ostringstream oss;

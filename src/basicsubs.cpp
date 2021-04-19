@@ -1825,7 +1825,7 @@ sum_match_species(const char *mytemplate, const char *name)
 		for (i = 0; i < (int)this->s_x.size(); i++)
 		{
 			class species *s_ptr = s_x[i];
-			if (match_elts_in_species(s_ptr->name, mytemplate) == TRUE)
+			if (match_elts_in_species(s_ptr->name.c_str(), mytemplate) == TRUE)
 			{
 				species_list.push_back(s_ptr->name);
 			}
@@ -2571,7 +2571,7 @@ get_edl_species(cxxSurfaceCharge & charge_ref)
 		{
 			size_t count_sys = sys.size();
 			sys.resize(count_sys + 1);
-			sys[count_sys].name = string_duplicate(s_x[j]->name);
+			sys[count_sys].name = string_duplicate(s_x[j]->name.c_str());
 			sys[count_sys].moles = mass_water_surface / gfw_water;
 			sys_tot += sys[count_sys].moles;
 			count_sys++;
@@ -2583,7 +2583,7 @@ get_edl_species(cxxSurfaceCharge & charge_ref)
 			double molality = under(s_x[j]->lm);
 			double moles_excess = mass_water_aq_x * molality * charge_ref.Get_g_map()[s_x[j]->z].Get_g();
 			double moles_surface = mass_water_surface * molality + moles_excess;
-			sys[count_sys].name = string_duplicate(s_x[j]->name);
+			sys[count_sys].name = string_duplicate(s_x[j]->name.c_str());
 			sys[count_sys].moles = moles_surface;
 			sys_tot += sys[count_sys].moles;
 			count_sys++;
@@ -3048,7 +3048,7 @@ system_total_aq(void)
 			continue;
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
-		sys[count_sys].name = string_duplicate(s_x[i]->name);
+		sys[count_sys].name = string_duplicate(s_x[i]->name.c_str());
 		sys[count_sys].moles = s_x[i]->moles;
 		sys_tot += sys[count_sys].moles;
 		sys[count_sys].type = string_duplicate("aq");
@@ -3076,7 +3076,7 @@ system_total_ex(void)
 			continue;
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
-		sys[count_sys].name = string_duplicate(s_x[i]->name);
+		sys[count_sys].name = string_duplicate(s_x[i]->name.c_str());
 		sys[count_sys].moles = s_x[i]->moles;
 		sys_tot += sys[count_sys].moles;
 		sys[count_sys].type = string_duplicate("ex");
@@ -3102,7 +3102,7 @@ system_total_surf(void)
 			continue;
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
-		sys[count_sys].name = string_duplicate(s_x[i]->name);
+		sys[count_sys].name = string_duplicate(s_x[i]->name.c_str());
 		sys[count_sys].moles = s_x[i]->moles;
 		sys_tot += sys[count_sys].moles;
 		sys[count_sys].type = string_duplicate("surf");
@@ -3252,7 +3252,7 @@ system_total_elt(const char *total_name)
 			{
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
-				sys[count_sys].name = string_duplicate(s_x[i]->name);
+				sys[count_sys].name = string_duplicate(s_x[i]->name.c_str());
 				sys[count_sys].moles = elt_list[j].coef;
 				sys_tot += sys[count_sys].moles;
 				if (s_x[i]->type == AQ)
@@ -3498,7 +3498,7 @@ system_total_elt_secondary(const char *total_name)
 			{
 				size_t count_sys = sys.size();
 				sys.resize(count_sys + 1);
-				sys[count_sys].name = string_duplicate(s_x[i]->name);
+				sys[count_sys].name = string_duplicate(s_x[i]->name.c_str());
 				sys[count_sys].moles = elt_list[j].coef;
 				sys_tot += sys[count_sys].moles;
 				if (s_x[i]->type == AQ)

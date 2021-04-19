@@ -5757,38 +5757,38 @@ read_species(void)
 			/*
 			 *   Set type for species
 			 */
-			if (strcmp(trxn.token[0].Get_s()->name, "H+") == 0)
+			if (strcmp(trxn.token[0].Get_s()->name.c_str(), "H+") == 0)
 			{
 				s_hplus = trxn.token[0].Get_s();
 				s_hplus->type = HPLUS;
 			}
-			else if (strcmp(trxn.token[0].Get_s()->name, "H3O+") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name.c_str(), "H3O+") == 0)
 			{
 				s_h3oplus = trxn.token[0].Get_s();
 				s_h3oplus->type = HPLUS;
 			}
-			else if (strcmp(trxn.token[0].Get_s()->name, "e-") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name.c_str(), "e-") == 0)
 			{
 				s_eminus = trxn.token[0].Get_s();
 				s_eminus->type = EMINUS;
 				s_eminus->gflag = 3;	/* Always 1 */
 			}
-			else if (strcmp(trxn.token[0].Get_s()->name, "H2O") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name.c_str(), "H2O") == 0)
 			{
 				s_h2o = trxn.token[0].Get_s();
 				s_h2o->type = H2O;
 				s_h2o->gflag = 3;	/* Always 1 */
 			}
-			else if (strstr(trxn.token[0].Get_s()->name, "(s)") != NULL)
+			else if (strstr(trxn.token[0].Get_s()->name.c_str(), "(s)") != NULL)
 			{
 				trxn.token[0].Get_s()->type = SOLID;
 			}
-			else if (strcmp(trxn.token[0].Get_s()->name, "H2") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name.c_str(), "H2") == 0)
 			{
 				trxn.token[0].Get_s()->type = AQ;
 				s_h2 = trxn.token[0].Get_s();
 			}
-			else if (strcmp(trxn.token[0].Get_s()->name, "O2") == 0)
+			else if (strcmp(trxn.token[0].Get_s()->name.c_str(), "O2") == 0)
 			{
 				trxn.token[0].Get_s()->type = AQ;
 				s_o2 = trxn.token[0].Get_s();

@@ -195,7 +195,7 @@ build_fixed_volume_gas(void)
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%s\n",
-							   master_ptr->s->name));
+							   master_ptr->s->name.c_str()));
 				}
 				if (master_ptr->unknown == NULL)
 				{
@@ -214,7 +214,7 @@ build_fixed_volume_gas(void)
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
-							   master_ptr->s->name, (double) coef,
+							   master_ptr->s->name.c_str(), (double) coef,
 							   row / (count_unknowns + 1), col));
 				}
 				store_jacob(&(gas_unknowns[i]->moles),
@@ -252,7 +252,7 @@ build_fixed_volume_gas(void)
 			{
 				error_string = sformatf(
 					"Element in species, %s, in phase, %s, is not in model.",
-					rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
+					rxn_ptr->Get_s()->name.c_str(), phase_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			else
@@ -279,7 +279,7 @@ build_fixed_volume_gas(void)
 				{
 					error_string = sformatf(
 						"Master species for %s, in phase, %s, is not in model.",
-						rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
+						rxn_ptr->Get_s()->name.c_str(), phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -287,7 +287,7 @@ build_fixed_volume_gas(void)
 				{
 					if (debug_prep == TRUE)
 					{
-						output_msg(sformatf( "\t\t%s\n", master_ptr->s->name));
+						output_msg(sformatf( "\t\t%s\n", master_ptr->s->name.c_str()));
 					}
 					if (master_ptr->unknown == NULL)
 					{
@@ -306,7 +306,7 @@ build_fixed_volume_gas(void)
 					if (debug_prep == TRUE)
 					{
 						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
-							master_ptr->s->name, (double) coef,
+							master_ptr->s->name.c_str(), (double) coef,
 							row / (count_unknowns + 1), col));
 					}
 					store_jacob(&(phase_ptr->p_soln_x), &(my_array[(size_t)row + (size_t)col]), coef);

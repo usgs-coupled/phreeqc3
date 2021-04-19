@@ -2390,7 +2390,7 @@ molalities(int allow_overflow)
 			if (s_x[i]->moles / mass_water_aq_x > 100)
 			{
 				log_msg(sformatf( "Overflow: %s\t%e\t%e\t%d\n",
-						   s_x[i]->name,
+						   s_x[i]->name.c_str(),
 						   (double) (s_x[i]->moles / mass_water_aq_x),
 						   (double) s_x[i]->lm, iterations));
 
@@ -2478,7 +2478,7 @@ molalities(int allow_overflow)
 			}
 			if (debug_diffuse_layer == TRUE)
 			{
-				output_msg(sformatf( "%s\t%e\t%e\n", s_ptr->name,
+				output_msg(sformatf( "%s\t%e\t%e\n", s_ptr->name.c_str(),
 						   (double) s_ptr->moles,
 						   (double) s_ptr->tot_g_moles));
 				output_msg(sformatf( "\tg\n"));

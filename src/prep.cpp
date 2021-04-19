@@ -498,7 +498,7 @@ build_gas_phase(void)
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%s\n",
-							   master_ptr->s->name));
+							   master_ptr->s->name.c_str()));
 				}
 				if (master_ptr->unknown == NULL)
 				{
@@ -517,7 +517,7 @@ build_gas_phase(void)
 				if (debug_prep == TRUE)
 				{
 					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
-							   master_ptr->s->name, (double) coef,
+							   master_ptr->s->name.c_str(), (double) coef,
 							   row / (count_unknowns + 1), col));
 				}
 				store_jacob(&(phase_ptr->moles_x),
@@ -555,7 +555,7 @@ build_gas_phase(void)
 			{
 				error_string = sformatf(
 					"Element in species, %s, in phase, %s, is not in model.",
-					rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
+					rxn_ptr->Get_s()->name.c_str(), phase_ptr->name.c_str());
 				warning_msg(error_string);
 			}
 			else
@@ -581,7 +581,7 @@ build_gas_phase(void)
 				{
 					error_string = sformatf(
 						"Master species for %s, in phase, %s, is not in model.",
-						rxn_ptr->Get_s()->name, phase_ptr->name.c_str());
+						rxn_ptr->Get_s()->name.c_str(), phase_ptr->name.c_str());
 					error_msg(error_string, CONTINUE);
 					input_error++;
 				}
@@ -589,7 +589,7 @@ build_gas_phase(void)
 				{
 					if (debug_prep == TRUE)
 					{
-						output_msg(sformatf( "\t\t%s\n", master_ptr->s->name));
+						output_msg(sformatf( "\t\t%s\n", master_ptr->s->name.c_str()));
 					}
 					if (master_ptr->unknown == NULL)
 					{
@@ -608,7 +608,7 @@ build_gas_phase(void)
 					if (debug_prep == TRUE)
 					{
 						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
-							master_ptr->s->name, (double) coef,
+							master_ptr->s->name.c_str(), (double) coef,
 							row / (count_unknowns + 1), col));
 					}
 					store_jacob(&(phase_ptr->p_soln_x), &(my_array[(size_t)row + (size_t)col]), coef);
@@ -1124,7 +1124,7 @@ build_model(void)
 			}
 			if (pitzer_model == FALSE && sit_model == FALSE)
 				s[i]->lg = 0.0;
-			compute_gfw(s[i]->name, &s[i]->gfw);
+			compute_gfw(s[i]->name.c_str(), &s[i]->gfw);
 			size_t count_s_x = s_x.size();
 			s_x.resize(count_s_x + 1);
 			s_x[count_s_x] = s[i];
@@ -1147,7 +1147,7 @@ build_model(void)
 			if (debug_mass_action == TRUE)
 			{
 				output_msg(sformatf( "\n%s\n\tMass-action equation\n",
-						   s[i]->name));
+						   s[i]->name.c_str()));
 				trxn.trxn_print();
 			}
 /*
@@ -1174,7 +1174,7 @@ build_model(void)
 			if (debug_prep == TRUE)
 			{
 				output_msg(sformatf( "\n%s, Element composition:\n",
-						   trxn.token[0].Get_s()->name));
+						   trxn.token[0].Get_s()->name.c_str()));
 				for (j = 0; j < count_elts; j++)
 				{
 					output_msg(sformatf( "\t\t%-20s\t%10.2f\n",
@@ -3249,7 +3249,7 @@ setup_surface(void)
 			{
 				error_string = sformatf(
 						"Analytical data entered twice for %s.",
-						master_ptr->s->name);
+						master_ptr->s->name.c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				continue;
@@ -3620,7 +3620,7 @@ setup_master_rxn(const std::vector<class master *> &master_ptr_list, const std::
 			{
 				error_string = sformatf(
 						"Analytical data entered twice for %s.",
-						master_ptr->s->name);
+						master_ptr->s->name.c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				continue;
@@ -4627,7 +4627,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
-					   mass_oxygen_unknown->master[0]->s->name,
+					   mass_oxygen_unknown->master[0]->s->name.c_str(),
 					   (double) coef_in, row / (count_unknowns + 1),
 					   mass_oxygen_unknown->number));
 		}
@@ -4658,7 +4658,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 		if (debug_prep == TRUE)
 		{
 			output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
-					   master_ptr->s->name, (double) coef,
+					   master_ptr->s->name.c_str(), (double) coef,
 					   row / (count_unknowns + 1), col));
 		}
 		store_jacob(source, &(my_array[(size_t)row + (size_t)col]), coef);
@@ -4817,7 +4817,7 @@ switch_bases(void)
 			x[i]->master[0]->s->la = la;
 			x[i]->la = la;
 			log_msg(sformatf( "Switching bases to %s.\tIteration %d\n",
-					   x[i]->master[0]->s->name, iterations));
+					   x[i]->master[0]->s->name.c_str(), iterations));
 			return_value = TRUE;
 		}
 	}
@@ -5001,7 +5001,7 @@ write_mb_eqn_x(void)
 	for (size_t i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		size_t j = count_elts;
-		const char* cptr = trxn.token[i].Get_s()->name;
+		const char* cptr = trxn.token[i].Get_s()->name.c_str();
 		get_elts_in_species(&cptr, trxn.token[i].coef);
 		for (size_t k = j; k < count_elts; k++)
 		{
@@ -5872,7 +5872,7 @@ build_min_exch(void)
 			input_error++;
 			error_string = sformatf(
 					"Did not find unknown for master exchange species %s",
-					exchange_master->s->name);
+					exchange_master->s->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		if (j == -1 || k == -1)
@@ -5923,7 +5923,7 @@ build_min_exch(void)
 				{
 					error_string = sformatf(
 							"Resetting number of sites in exchanger %s (=%e) to be consistent with moles of phase %s (=%e).\n%s",
-							master_ptr->s->name, (double) x[j]->moles,
+							master_ptr->s->name.c_str(), (double) x[j]->moles,
 							comp_ref.Get_phase_name().c_str(),
 							(double) (x[k]->moles * elt_list[jj].coef *
 									  comp_ref.Get_phase_proportion()),
@@ -6000,7 +6000,7 @@ build_min_surface(void)
 			input_error++;
 			error_string = sformatf(
 					"Did not find unknown for master surface species %s",
-					elt_ptr->master->s->name);
+					elt_ptr->master->s->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		if (j == -1 || k == -1)
@@ -6052,7 +6052,7 @@ build_min_surface(void)
 				{
 					error_string = sformatf(
 							"Resetting number of sites in surface %s (=%e) to be consistent with moles of phase %s (=%e).\n%s",
-							master_ptr->s->name, (double) x[j]->moles,
+							master_ptr->s->name.c_str(), (double) x[j]->moles,
 							comp_ptr->Get_phase_name().c_str(),
 							(double) (x[k]->moles * elt_list[jj].coef *
 									  comp_ptr->Get_phase_proportion()),

@@ -303,7 +303,7 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 			if (debug_diffuse_layer == TRUE)
 			{
 				output_msg(sformatf("\t%-12s\t%12.3e\t%12.3e\t%12.3e\n",
-					s_x[j]->name, moles_surface, moles_excess,
+					s_x[j]->name.c_str(), moles_surface, moles_excess,
 					charge_ptr->Get_g_map()[s_x[j]->z].Get_g()));
 			}
 			/*
@@ -435,7 +435,7 @@ print_exchange(void)
  */
 	int i;
 	cxxExchange * exchange_ptr;
-	const char *name, *name1;
+	std::string name, name1;
 	class master *master_ptr;
 	LDBLE dum, dum2;
 /*
@@ -478,7 +478,7 @@ print_exchange(void)
 		if (name1 != name)
 		{
 			name = name1;
-			output_msg(sformatf("%-14s%12.3e mol", name,
+			output_msg(sformatf("%-14s%12.3e mol", name.c_str(),
 					   (double) master_ptr->unknown->moles));
 			cxxExchange *exchange_ptr = (cxxExchange *) (use.Get_exchange_ptr());
 			if (master_ptr->unknown->exch_comp.size() == 0)
@@ -541,7 +541,7 @@ print_exchange(void)
 				dum2 = 1;
 			}
 			output_msg(sformatf("\t%-15s%12.3e%12.3e%12.3e%10.3f\n",
-					   species_list[i].s->name,
+					   species_list[i].s->name.c_str(),
 					   (double) species_list[i].s->moles,
 					   (double) (species_list[i].s->moles * dum2 *
 								 species_list[i].s->equiv),
@@ -1412,7 +1412,8 @@ print_species(void)
  *   order of aqueous species.
  */
 	int i;
-	const char *name, *name1;
+	//const char* name, *name1;
+	std::string name, name1;
 	class master *master_ptr;
 	LDBLE min;
 	LDBLE lm;
@@ -1454,7 +1455,7 @@ print_species(void)
  *   Print list of species
  */
 	s_h2o->lm = s_h2o->la;
-	name = s_hplus->secondary->elt->name.c_str();
+	name = s_hplus->secondary->elt->name;
 	for (i = 0; i < (int)species_list.size(); i++)
 	{
 /*
@@ -1480,7 +1481,7 @@ print_species(void)
 		if (name1 != name)
 		{
 			name = name1;
-			output_msg(sformatf("%-11s%12.3e\n", name,
+			output_msg(sformatf("%-11s%12.3e\n", name.c_str(),
 					   (double) (master_ptr->total / mass_water_aq_x)));
 			min = censor * master_ptr->total / mass_water_aq_x;
 			if (min > 0)
@@ -1507,7 +1508,7 @@ print_species(void)
 			}
 			output_msg(sformatf(
 					   "   %-13s%12.3e%12.3e%10.3f%10.3f%10.3f",
-					   species_list[i].s->name,
+					   species_list[i].s->name.c_str(),
 					   (double) ((species_list[i].s->moles) /
 								 mass_water_aq_x),
 					   (double) under(species_list[i].s->lm +
@@ -1762,7 +1763,7 @@ print_surface(void)
 					}
 					output_msg(sformatf(
 							   "\t%-15s%12.3e%12.3f%12.3e%12.3f\n",
-							   species_list[i].s->name,
+							   species_list[i].s->name.c_str(),
 							   (double) species_list[i].s->moles,
 							   (double) molfrac,
 							   (double) (species_list[i].s->moles /
@@ -1804,7 +1805,7 @@ print_surface(void)
 				}
 				output_msg(sformatf(
 						   "\t%-15s%12.3e%12.3f%12.3e%12.3f\n",
-						   species_list[i].s->name,
+						   species_list[i].s->name.c_str(),
 						   (double) species_list[i].s->moles,
 						   (double) molfrac,
 						   (double) (species_list[i].s->moles /
@@ -2059,7 +2060,7 @@ print_surface_cd_music(void)
 					}
 					output_msg(sformatf(
 							   "\t%-20s%12.3e%12.3f%12.3e%12.3f\n",
-							   species_list[i].s->name,
+							   species_list[i].s->name.c_str(),
 							   (double) species_list[i].s->moles,
 							   (double) molfrac,
 							   (double) (species_list[i].s->moles /
@@ -3610,7 +3611,7 @@ print_alkalinity(void)
 				 mass_water_aq_x) < min)
 				continue;
 			output_msg(sformatf("\t%-15s%12.3e%12.3e%10.2f\n",
-					   alk_list[i].s->name,
+					   alk_list[i].s->name.c_str(),
 					   (double) (alk_list[i].s->alk *
 								 (alk_list[i].s->moles) / mass_water_aq_x),
 					   (double) ((alk_list[i].s->moles) / mass_water_aq_x),

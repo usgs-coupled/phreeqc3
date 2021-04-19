@@ -1372,11 +1372,11 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	// s, species
 	for (int i = 0; i < (int)pSrc->s.size(); i++)
 	{
-		class species* s_ptr = s_store(pSrc->s[i]->name, pSrc->s[i]->z, FALSE);
+		class species* s_ptr = s_store(pSrc->s[i]->name.c_str(), pSrc->s[i]->z, FALSE);
 		//memcpy(s_ptr, pSrc->s[i], sizeof(class species));
 		*s_ptr = *pSrc->s[i];
 		// fix up all pointers
-		s_ptr->name = string_hsave(pSrc->s[i]->name);
+		s_ptr->name = string_hsave(pSrc->s[i]->name.c_str());
 		s_ptr->mole_balance = pSrc->s[i]->mole_balance;
 		s_ptr->primary = NULL;
 		s_ptr->secondary = NULL;
@@ -1441,7 +1441,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		master[i]->gfw_formula = pSrc->master[i]->gfw_formula;
 		master[i]->elt = element_store(pSrc->master[i]->elt->name.c_str());
 		master[i]->unknown = NULL;
-		master[i]->s = s_store(pSrc->master[i]->s->name, pSrc->master[i]->s->z, FALSE);
+		master[i]->s = s_store(pSrc->master[i]->s->name.c_str(), pSrc->master[i]->s->z, FALSE);
 		//rxn_primary
 		master[i]->rxn_primary = CReaction_internal_copy(pSrc->master[i]->rxn_primary);
 		master[i]->rxn_secondary = CReaction_internal_copy(pSrc->master[i]->rxn_secondary);
