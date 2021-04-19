@@ -100,7 +100,7 @@ clean_up(void)
 	/* phases */
 	for (j = 0; j < (int)phases.size(); j++)
 	{
-		phase_free(phases[j]);
+		//phase_free(phases[j]);
 		delete phases[j];
 	}
 	phases.clear();

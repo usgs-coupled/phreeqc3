@@ -690,7 +690,7 @@ public:
 	int read_master_species(void);
 	int read_mix(void);
 	int read_entity_mix(std::map<int, cxxMix>& mix_map);
-	int read_named_logk(void);
+	//int read_named_logk(void);
 	int read_named_Logk(void);
 	int read_phases(void);
 	int read_print(void);
@@ -850,8 +850,6 @@ public:
 	class master* surface_get_psi_master(const char* name, int plane);
 	//
 	class phase* phase_bsearch(const std::string& name, int* j, int print);
-	static int phase_compare(const void* ptr1, const void* ptr2);
-	int phase_delete(int i);
 	class phase* phase_store(const std::string& name);
 	//
 	class rate* rate_bsearch(const char* cptr, int* j);
@@ -883,10 +881,6 @@ public:
 	int inverse_free(class inverse* inverse_ptr);
 	static int master_compare_string(const void* ptr1, const void* ptr2);
 	int master_free(class master* master_ptr);
-	class phase* phase_alloc(void);
-	static int phase_compare_string(const void* ptr1, const void* ptr2);
-	int phase_free(class phase* phase_ptr);
-	int phase_init(class phase* phase_ptr);
 	static int rate_compare(const void* ptr1, const void* ptr2);
 	static int rate_compare_string(const void* ptr1, const void* ptr2);
 	class species* s_alloc(void);

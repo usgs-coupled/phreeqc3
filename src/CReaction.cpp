@@ -1,7 +1,14 @@
 #include "CReaction.h"
 //#include "Species.h"
 #include "Element.h"
-
+void CReaction::Initialize()
+{
+	logk_cr.clear();
+	logk_cr.resize(Logk::MAX_LOG_K_INDICES, 0.0);
+	dz.clear();
+	dz.resize(3, 0.0);
+	token.clear();
+}
 //double CReaction::
 //Calc_delta_v(bool phase)
 ///* ---------------------------------------------------------------------- */

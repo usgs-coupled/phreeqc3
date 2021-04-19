@@ -18,7 +18,7 @@ public:
 	size_t size() { return token.size(); }
 	std::vector<class rxn_token>& Get_tokens(void) { return this->token; }
 	void Set_tokens(const std::vector<class rxn_token>& t) { this->token = t; }
-
+	void Initialize();
 public:
 	std::vector<double> logk_cr;
 	std::vector<double> dz;

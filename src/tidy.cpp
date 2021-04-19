@@ -150,17 +150,23 @@ tidy_model(void)
 /* species */
 	if (new_model == TRUE)
 	{
-		if (s.size() > 1) qsort(&s[0], s.size(), sizeof(class species *), s_compare);
+		if (s.size() > 1) qsort(&s[0], s.size(), sizeof(class species*), s_compare);
 
-/* master species */
-		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(class master *), master_compare);
-/* elements */
-		if (elements.size() > 1) qsort(&elements[0], elements.size(), sizeof(class element *), element_compare);
-/* phases */
-		if (phases.size() > 1) qsort(&phases[0], phases.size(), sizeof(class phase *), phase_compare);
-
+		/* master species */
+		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(class master*), master_compare);
+		/* elements */
+		if (elements.size() > 1) qsort(&elements[0], elements.size(), sizeof(class element*), element_compare);
+		/* phases */
+				//if (phases.size() > 1) qsort(&phases[0], phases.size(), sizeof(class phase *), phase_compare);
+		{
+			phases.clear();
+			std::map<std::string, phase*>::iterator it;
+			for (it = phases_map.begin(); it != phases_map.end(); it++)
+			{
+				phases.push_back(it->second);
+			}
+		}
 	}
-
 /* named_log_k */
 	if (new_named_logk)
 	{
