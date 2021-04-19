@@ -9,6 +9,15 @@
 #include "Solution.h"
 #include "phqalloc.h"
 
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 cxxISolutionComp::cxxISolutionComp(PHRQ_io *io):
 PHRQ_base(io),
 moles(0.0), 

@@ -4,6 +4,16 @@
 #include "cxxKinetics.h"
 #include "Solution.h"
 
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 advection(void)

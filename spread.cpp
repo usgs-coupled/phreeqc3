@@ -16,6 +16,15 @@ typedef unsigned char boolean;
 #define OPTION_ERROR -3
 #define OPTION_DEFAULT -4
 #define OPT_1 -5
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 read_solution_spread(void)

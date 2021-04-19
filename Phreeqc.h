@@ -1,7 +1,16 @@
 #ifndef _INC_PHREEQC_H
 #define _INC_PHREEQC_H
 #if defined(WIN32)
-#include <windows.h>
+#  if defined(PHREEQCI_GUI)
+#    ifndef WINVER
+#      define WINVER 0x0400
+#    endif
+#    include <afx.h>
+#  endif
+#  include <windows.h>
+#  if defined(PHREEQCI_GUI)
+#    include "../../resource.h"
+#  endif
 #endif
 #if defined(WIN32_MEMORY_DEBUG)
 #define _CRTDBG_MAP_ALLOC

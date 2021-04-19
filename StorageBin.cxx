@@ -28,6 +28,12 @@
 #include "phqalloc.h"
 #include "Use.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#undef THIS_FILE
+static char BASED_CODE THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

@@ -59,6 +59,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  *
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   *
  **************************************************************************/
+#include "Phreeqc.h"
 #include "nvector_serial.h"
 #define Ith(v,i)	NV_Ith_S(v,i-1)
 /************************************************************/
@@ -71,7 +72,6 @@
 #include "nvector.h"
 #include "sundialsmath.h"
 
-#include "Phreeqc.h"
 
 #if !defined(WIN32_MEMORY_DEBUG)
 #define malloc MACHENV_MALLOC PHRQ_malloc
@@ -543,6 +543,15 @@ static int CVHandleFailure(CVodeMem cv_mem, int kflag);
 /********* BEGIN Exported Functions Implementation *************/
 /***************************************************************/
 
+
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /******************** CVodeMalloc *******************************
 

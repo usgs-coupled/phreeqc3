@@ -1,4 +1,5 @@
 #include <assert.h>
+#include "Phreeqc.h"
 #include "PHRQ_io.h"
 #include "Parser.h"
 
@@ -12,6 +13,15 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
+
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 PHRQ_io::
 PHRQ_io(void)

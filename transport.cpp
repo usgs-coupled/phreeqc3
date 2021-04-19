@@ -51,6 +51,15 @@ struct MOLES_ADDED /* total moles added to balance negative conc's */
 } *moles_added;
 int count_moles_added;
 
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 transport(void)

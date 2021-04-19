@@ -8,10 +8,19 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "Parser.h"
 #include "Phreeqc.h"
+#include "Parser.h"
 #include "Pressure.h"
 #include "phqalloc.h"
+
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
