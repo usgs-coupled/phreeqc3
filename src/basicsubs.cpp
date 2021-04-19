@@ -596,46 +596,6 @@ calc_solution_volume(void)
 	LDBLE vol = 1e-3 * total_mass / rho;
 	return (vol);
 }
-#ifdef SKIP_LOGK
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_logk_n(const std::string& name)
-/* ---------------------------------------------------------------------- */
-{
-	char token[MAX_LENGTH];
-	int i;
-	LDBLE lk;
-	class logk *logk_ptr;
-	LDBLE l_logk[Logk::MAX_LOG_K_INDICES];
-	class name_coef add_logk;
-	std::vector<class name_coef> add_logk_v;
-
-	//double Lk = -999.99;
-	//std::map<std::string, class Logk>::iterator it =
-	//	Logk_search(name);
-	//if (it != Logk_map.end())
-	//{
-	//	Lk = it->second.k_calc(tk_x, patm_x * PASCAL_PER_ATM, this);
-	//}
-
-	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-	{
-		l_logk[i] = 0.0;
-	}
-	strcpy(token, name.c_str());
-	logk_ptr = logk_search(token);
-	if (logk_ptr != NULL)
-	{
-		add_logk.name = token;
-		add_logk.coef = 1.0;
-		add_logk_v.push_back(add_logk);
-		add_other_logk(l_logk, add_logk_v);
-		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
-		return (lk);
-	}
-	return (-999.99);
-}
-#else
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_n(const std::string& name)
@@ -650,7 +610,6 @@ calc_logk_n(const std::string& name)
 	}
 	return Lk;
 }
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_p(const std::string& name)

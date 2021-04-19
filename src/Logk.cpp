@@ -73,32 +73,6 @@ k_calc(double tempk, double presPa, Phreeqc* phrq_ptr)
 		lk -= logk_x[Logk::delta_v] * 1E-9 * delta_p / (LOG_10 * me);
 	return lk;
 }
-
-///* ---------------------------------------------------------------------- */
-//void Logk::
-//add_other_logk(Phreeqc* phrq_ptr)
-///* ---------------------------------------------------------------------- */
-//{
-//	for (size_t i = 0; i < add_logk.size(); i++)
-//	{
-//		double coef = this->add_logk[i].coef;
-//		std::string token = add_logk[i].name;
-//		std::map<std::string, class Logk>::iterator it = phrq_ptr->Logk_search(token);
-//		if (it == phrq_ptr->Get_Logk_map().end())
-//		{
-//			std::ostringstream oss;
-//			oss << "Could not find named logk expression,"
-//				<< token << ".\n";
-//			phrq_ptr->error_msg(oss.str().c_str(), CONTINUE);
-//		}
-//		class Logk& add_lk = it->second;
-//		for(size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-//		{
-//			logk[i] += add_lk.logk_selected[i] * coef;
-//		}
-//	}
-//	return;
-//}
 /* ---------------------------------------------------------------------- */
 void Logk::
 add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t repeats, Phreeqc* phrq_ptr)
@@ -135,24 +109,4 @@ add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t re
 		}
 		add_logks(lk, it->second, coef_add, ++repeats, phrq_ptr);
 	}
-}
-
-/* ---------------------------------------------------------------------- */
-class logk* Logk::
-Newlogk()
-/* ---------------------------------------------------------------------- */
-{
-	class logk* logk_ptr = new class logk;
-	logk_ptr->name = this->name;
-	logk_ptr->lk;
-	for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-	{
-		logk_ptr->log_k[i] = this->logk_original[i];
-		logk_ptr->log_k_original[i] = this->logk_original[i];
-	}
-	logk_ptr->original_units = this->original_units;
-	logk_ptr->done = FALSE;
-	logk_ptr->add_logk = this->add_logk;
-	logk_ptr->original_deltav_units = this->original_deltav_units;
-	return logk_ptr;
 }

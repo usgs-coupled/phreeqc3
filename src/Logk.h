@@ -54,7 +54,6 @@ public:
 	const std::vector<double>& Get_logk_selected() { return this->logk_selected; }
 
 	double k_calc(double tempk, double presPa, Phreeqc* phrq_ptr);
-	class logk* Newlogk();
 	void tidy_logk(Phreeqc* phrq_ptr);
 	std::string name;
 	double lk;

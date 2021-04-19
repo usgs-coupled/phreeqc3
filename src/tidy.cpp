@@ -573,19 +573,6 @@ tidy_logk(void)
  *  Picks log k expression
  */
 {
-	int i;
-	for (i = 0; i < (int)logk_vector.size(); i++)
-	{
-		select_log_k_expression(logk_vector[i]->log_k_original, logk_vector[i]->log_k);
-		logk_vector[i]->done = FALSE;
-	}
-	for (i = 0; i < (int)logk_vector.size(); i++)
-	{
-		if (logk_vector[i]->done == FALSE)
-		{
-			add_logks(logk_vector[i], 0);
-		}
-	}
 	std::map < std::string, class Logk >::iterator it = Logk_map.begin();
 	for (; it != Logk_map.end(); it++)
 	{
@@ -593,80 +580,21 @@ tidy_logk(void)
 	}
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-add_other_logk(LDBLE * source_k, std::vector<class name_coef> &add_logk)
-/* ---------------------------------------------------------------------- */
+add_other_logk(std::vector<double>& source_k,
+	std::vector < class name_coef >& add_logk)
+	/* ---------------------------------------------------------------------- */
 {
-	int j;
-	bool analytic;
-	class logk *logk_ptr;
-	LDBLE coef;
+	double coef;
 
 	for (size_t i = 0; i < add_logk.size(); i++)
 	{
 		coef = add_logk[i].coef;
 		std::string token = add_logk[i].name;
 		str_tolower(token);
-		std::map<std::string, class logk *>::iterator l_it = logk_map.find(token);
-		if (l_it == logk_map.end())
-		{
-			input_error++;
-			error_string = sformatf(
-					"Could not find named temperature expression, %s\n",
-					token.c_str());
-			error_msg(error_string, CONTINUE);
-			return (ERROR);
-		}
-		logk_ptr = l_it->second;
-		analytic = false;
-		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
-		{
-			if (logk_ptr->log_k[j] != 0.0)
-			{
-				analytic = true;
-				break;
-			}
-		}
-		if (analytic)
-		{
-			for (j = Logk::T_A1; j <= Logk::T_A6; j++)
-			{
-				source_k[j] += logk_ptr->log_k[j] * coef;
-			}
-		}
-		else
-		{
-			source_k[Logk::logK_T0] += logk_ptr->log_k[Logk::logK_T0] * coef;
-			source_k[Logk::delta_h] += logk_ptr->log_k[Logk::delta_h] * coef;
-		}
-		for (j = Logk::delta_v; j < Logk::MAX_LOG_K_INDICES; j++)
-		{
-			source_k[j] += logk_ptr->log_k[j] * coef;
-		}
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-add_other_logk(std::vector<double>& source_k, 
-	std::vector<class name_coef>& add_logk)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-	bool analytic;
-	class logk* logk_ptr;
-	LDBLE coef;
-
-	for (size_t i = 0; i < add_logk.size(); i++)
-	{
-		coef = add_logk[i].coef;
-		std::string token = add_logk[i].name;
-		str_tolower(token);
-		std::map<std::string, class logk*>::iterator l_it = logk_map.find(token);
-		if (l_it == logk_map.end())
+		std::map<std::string, class Logk>::iterator it = Logk_map.find(token);
+		if (it == Logk_map.end())
 		{
 			input_error++;
 			error_string = sformatf(
@@ -675,87 +603,15 @@ add_other_logk(std::vector<double>& source_k,
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		logk_ptr = l_it->second;
-		analytic = false;
-		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
+		Logk& logk_ref = it->second;
+		for (size_t j = 0; j < Logk::MAX_LOG_K_INDICES; j++)
 		{
-			if (logk_ptr->log_k[j] != 0.0)
-			{
-				analytic = true;
-				break;
-			}
-		}
-		if (analytic)
-		{
-			for (j = Logk::T_A1; j <= Logk::T_A6; j++)
-			{
-				source_k[j] += logk_ptr->log_k[j] * coef;
-			}
-		}
-		else
-		{
-			source_k[Logk::logK_T0] += logk_ptr->log_k[Logk::logK_T0] * coef;
-			source_k[Logk::delta_h] += logk_ptr->log_k[Logk::delta_h] * coef;
-		}
-		for (j = Logk::delta_v; j < Logk::MAX_LOG_K_INDICES; j++)
-		{
-			source_k[j] += logk_ptr->log_k[j] * coef;
+			source_k[j] += logk_ref.logk_x[j] * coef;
 		}
 	}
 	return (OK);
 }
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-add_logks(class logk *logk_ptr, int repeats)
-/* ---------------------------------------------------------------------- */
-{
-	int i, j;
-	class logk *next_logk_ptr;
-	LDBLE coef;
-	/*
-	 *  Adds in other named_expressions to get complete log K
-	 *  Evaluates others recursively if necessary
-	 */
-	if (repeats > 15)
-	{
-		input_error++;
-		error_string = sformatf( "Circular definition of named_logk? %s\n",
-				logk_ptr->name.c_str());
-		error_msg(error_string, CONTINUE);
-		return (ERROR);
-	}
-	for (i = 0; i < (int)logk_ptr->add_logk.size(); i++)
-	{
-		coef = logk_ptr->add_logk[i].coef;
-		std::string token = logk_ptr->add_logk[i].name;
-		str_tolower(token);
-		std::map<std::string, class logk*>::iterator l_it = logk_map.find(token);
-		if (l_it == logk_map.end())
-		{
-			input_error++;
-			error_string = sformatf(
-					"Could not find named temperature expression, %s\n",
-					token.c_str());
-			error_msg(error_string, CONTINUE);
-			return (ERROR);
-		}
-		next_logk_ptr = l_it->second;
-		if (next_logk_ptr->done == FALSE)
-		{
-			/*output_msg(sformatf( "Done == FALSE\n", token)); */
-			if (add_logks(next_logk_ptr, repeats + 1) == ERROR)
-			{
-				return (ERROR);
-			}
-		}
-		for (j = 0; j < Logk::MAX_LOG_K_INDICES; j++)
-		{
-			logk_ptr->log_k[j] += next_logk_ptr->log_k[j] * coef;
-		}
-	}
-	logk_ptr->done = TRUE;
-	return (OK);
-}
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 coef_in_master(class master * master_ptr)
@@ -5511,8 +5367,6 @@ tidy_isotope_alphas(void)
 {
 	int i;
 	class calculate_value *calculate_value_ptr;
-	class logk *logk_ptr;
-
 	for (i = 0; i < (int)isotope_alpha.size(); i++)
 	{
 		/*
@@ -5529,11 +5383,9 @@ tidy_isotope_alphas(void)
 		}
 		if (isotope_alpha[i]->named_logk.size() > 0)
 		{
-			logk_ptr = logk_search(isotope_alpha[i]->named_logk);
-			//std::map<std::string, class Logk>::iterator it;
-			//it = Logk_search(isotope_alpha[i]->named_logk);
-			//if (it == Logk_map.end())
-			if (logk_ptr == NULL)
+			std::map<std::string, class Logk>::iterator it;
+			it = Logk_search(isotope_alpha[i]->named_logk);
+			if (it == Logk_map.end())
 			{
 				input_error++;
 				error_string = sformatf(

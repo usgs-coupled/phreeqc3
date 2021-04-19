@@ -125,12 +125,7 @@ clean_up(void)
 	}
 	rates.clear();
 	/* logk table */
-	for (j = 0; j < (int)logk_vector.size(); j++)
-	{
-		logk_vector[j]->add_logk.clear();
-		delete logk_vector[j];
-	}
-	logk_vector.clear();
+	Logk_map.clear();
 	save_values.clear();
 	/* working pe*/
 	pe_x.clear();
@@ -196,7 +191,6 @@ clean_up(void)
 	elements_map.clear();
 	species_map.clear();
 	phases_map.clear();
-	logk_map.clear();
 	Logk_map.clear();
 	/* strings */
 	strings_map_clear();
@@ -1178,170 +1172,14 @@ system_duplicate(int i, int save_old)
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
-class logk * Phreeqc::
-logk_store(const std::string& name_in, int replace_if_found)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Function locates the string "name" in the map for logk.
- *
- *   Pointer to a logk structure is always returned.
- *
- *   If the string is not found, a new entry is made in the map. Pointer to
- *      the new structure is returned.
- *   If "name" is found and replace is true, pointers in old logk structure
- *      are freed and replaced with additional input.
- *   If "name" is found and replace is false, the old logk structure is not
- *      modified and a pointer to it is returned.
- *
- *   Arguments:
- *      name    input, character string to be found in "logk".
- *      replace_if_found input, TRUE means reinitialize logk structure if found
- *		     FALSE means just return pointer if found.
- *
- *   Returns:
- *      pointer to logk structure "logk" where "name" can be found.
- */
-/*
- *   Search list
- */
-	class logk* logk_ptr = NULL;
-	std::string name = name_in;
-	str_tolower(name);
-	std::map<std::string, class logk*>::iterator it =
-		logk_map.find(name);
-
-	if (it != logk_map.end() && replace_if_found == FALSE)
-	{
-		logk_ptr = it->second;
-		return (logk_ptr);
-	}
-	else if (it != logk_map.end() && replace_if_found == TRUE)
-	{
-		logk_ptr = it->second;
-		logk_init(logk_ptr);
-	}
-	else
-	{
-		/* Make new logk structure */
-		size_t n = logk_vector.size();
-		logk_vector.resize(n + 1);
-		logk_vector[n] = logk_alloc();
-		logk_ptr = logk_vector[n];
-	}
-	/* set name and z in pointer in logk structure */
-	logk_ptr->name = name_in;
-/*
- *   Update map
- */
-	logk_map[name] = logk_ptr;
-	return (logk_ptr);
-}
-/* ---------------------------------------------------------------------- */
 void Phreeqc::
 Logk_store(const std::string& name_in, class Logk& lk)
 	/* ---------------------------------------------------------------------- */
 {
-	 /*
-	  *   Search list
-	  */
-	class logk* logk_ptr = NULL;
 	std::string name = name_in;
 	str_tolower(name);
 	Logk_map[name] = lk;
 	return;
-}
-/* ---------------------------------------------------------------------- */
-class logk * Phreeqc::
-logk_alloc(void)
-/* ---------------------------------------------------------------------- */
-/*
- *   Allocates space to a logk structure, initializes
- *      arguments: void
- *      return: pointer to a logk structure
- */
-{
-	class logk *logk_ptr;
-	logk_ptr = new class logk;
-/*
- *   set pointers in structure to NULL, variables to zero
- */
-	logk_init(logk_ptr);
-
-	return (logk_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-logk_init(class logk *logk_ptr)
-/* ---------------------------------------------------------------------- */
-/*
- *      return: pointer to a logk structure
- */
-{
-	int i;
-/*
- *   set pointers in structure to NULL
- */
-	logk_ptr->name.clear();
-/*
- *   set varibles = 0
- */
-	logk_ptr->lk = 0.0;
-	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-	{
-		logk_ptr->log_k[i] = 0.0;
-		logk_ptr->log_k_original[i] = 0.0;
-	}
-	logk_ptr->add_logk.clear(); 
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-logk_copy2orig(class logk *logk_ptr)
-/* ---------------------------------------------------------------------- */
-/*
- *   Copies log k data to logk_original
- */
-{
-	int i;
-	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-	{
-		logk_ptr->log_k_original[i] = logk_ptr->log_k[i];
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-class logk * Phreeqc::
-logk_search(const std::string& name_in)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Function locates the string "name" in the map for logk.
- *
- *   Arguments:
- *      name    input, character string to be found in "logk".
- *
- *   Returns:
- *      pointer to logk structure "logk" where "name" can be found.
- *      or NULL if not found.
- */
-	class logk *logk_ptr;
-/*
- *   Search list
- */
-	std::string name = name_in;
-	str_tolower(name);
-	std::map<std::string, class logk*>::iterator l_it =
-		logk_map.find(name);
-	if (l_it != logk_map.end())
-	{
-		logk_ptr = l_it->second;
-		return (logk_ptr);
-	}
-	return (NULL);
 }
 /* ---------------------------------------------------------------------- */
 std::map<std::string, class Logk>::iterator Phreeqc::

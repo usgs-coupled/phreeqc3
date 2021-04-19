@@ -1355,19 +1355,20 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	count_elts = 0;
 	// Reaction
 	run_cells_one_step = pSrc->run_cells_one_step;
-	for (int i = 0; i < (int)pSrc->logk_vector.size(); i++)
-	{
-		class logk* logk_ptr = logk_store(pSrc->logk_vector[i]->name, FALSE);
-		//memcpy(logk_ptr, pSrc->logk[i], sizeof(class logk));
-		*logk_ptr = *pSrc->logk_vector[i];
-		logk_ptr->name = pSrc->logk_vector[i]->name;
-		logk_ptr->add_logk.resize(pSrc->logk_vector[i]->add_logk.size());
-		for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
-		{
-			logk_ptr->add_logk[j].coef = pSrc->logk_vector[i]->add_logk[j].coef;
-			logk_ptr->add_logk[j].name = pSrc->logk_vector[i]->add_logk[j].name;
-		}
-	}
+	// NEEDS REWRITE with class Logk
+	//for (int i = 0; i < (int)pSrc->logk_vector.size(); i++)
+	//{
+	//	class logk* logk_ptr = logk_store(pSrc->logk_vector[i]->name, FALSE);
+	//	//memcpy(logk_ptr, pSrc->logk[i], sizeof(class logk));
+	//	*logk_ptr = *pSrc->logk_vector[i];
+	//	logk_ptr->name = pSrc->logk_vector[i]->name;
+	//	logk_ptr->add_logk.resize(pSrc->logk_vector[i]->add_logk.size());
+	//	for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
+	//	{
+	//		logk_ptr->add_logk[j].coef = pSrc->logk_vector[i]->add_logk[j].coef;
+	//		logk_ptr->add_logk[j].name = pSrc->logk_vector[i]->add_logk[j].name;
+	//	}
+	//}
 	// s, species
 	for (int i = 0; i < (int)pSrc->s.size(); i++)
 	{

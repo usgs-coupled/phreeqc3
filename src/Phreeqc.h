@@ -131,7 +131,6 @@ public:
 	LDBLE find_misc2(const char* ss_name);
 	LDBLE find_ss_comp(const char* ss_comp_name);
 	LDBLE get_calculate_value(const char* name);
-	std::map<std::string, class logk*>& Get_logk_map() { return this->logk_map; };
 	std::map<std::string, class Logk>& Get_Logk_map() { return this->Logk_map; };
 	char* iso_unit(const char* total_name);
 	LDBLE iso_value(const char* total_name);
@@ -836,11 +835,7 @@ public:
 	class inverse* inverse_search(int n_user, int* n);
 	int inverse_sort(void);
 	//
-	class logk* logk_alloc(void);
-	int logk_copy2orig(class logk* logk_ptr);
-	class logk* logk_store(const std::string& name, int replace_if_found);
 	void Logk_store(const std::string& name_in, class Logk& lk);
-	class logk* logk_search(const std::string& name);
 	std::map<std::string, class Logk>::iterator 
 		Logk_search(const std::string& name_in);
 	//
@@ -886,7 +881,6 @@ public:
 	int entity_exists(const char* name, int n_user);
 	static int inverse_compare(const void* ptr1, const void* ptr2);
 	int inverse_free(class inverse* inverse_ptr);
-	int logk_init(class logk* logk_ptr);
 	static int master_compare_string(const void* ptr1, const void* ptr2);
 	int master_free(class master* master_ptr);
 	class phase* phase_alloc(void);
@@ -929,10 +923,8 @@ public:
 	int set_kinetics_time(int n_user, LDBLE step);
 
 	// tidy.cpp -------------------------------
-	int add_other_logk(LDBLE* source_k, std::vector<class name_coef>& add_logk);
 	int add_other_logk(std::vector<double>& source_k,
 		std::vector<class name_coef>& add_logk);
-	int add_logks(class logk* logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void*), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
 	int ss_prep(LDBLE t, cxxSS* ss_ptr, int print);
@@ -1358,7 +1350,6 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-	std::vector<class logk*> logk_vector;
 	std::string moles_per_kilogram_string;
 
 	std::vector<class species*> s;
@@ -1560,7 +1551,6 @@ protected:
 	std::map<std::string, class element*> elements_map;
 	std::map<std::string, class species*> species_map;
 	std::map<std::string, class phase*> phases_map;
-	std::map<std::string, class logk*> logk_map;
 
 	//std::vector<class Logk*> Logk;
 	std::map<std::string, class Logk> Logk_map;
