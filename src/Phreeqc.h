@@ -590,6 +590,7 @@ public:
 	int check_same_model(void);
 	int k_temp(LDBLE tc, LDBLE pa);
 	LDBLE k_calc(LDBLE* logk, LDBLE tempk, LDBLE presPa);
+	double k_calc(std::vector<double>& l_logk, double tempk, double presPa);
 	int prep(void);
 	int reprep(void);
 	int switch_bases(void);
@@ -665,14 +666,14 @@ public:
 	int read_copy(void);
 	int read_debug(void);
 	int read_delta_h_only(const char* cptr, LDBLE* delta_h,
-		DELTA_H_UNIT* units);
+		Logk::DELTA_H_UNIT* units);
 	void read_delta_h_only(class Logk& lk, const char* cptr_in);
 	int read_aq_species_vm_parms(const char* cptr, LDBLE* delta_v);
 	int read_vm_only(const char* cptr, LDBLE* delta_v,
-		DELTA_V_UNIT* units);
+		Logk::DELTA_V_UNIT* units);
 	void read_vm_only(class Logk& lk, const char* cptr);
 	int read_phase_vm(const char* cptr, LDBLE* delta_v,
-		DELTA_V_UNIT* units);
+		Logk::DELTA_V_UNIT* units);
 	int read_llnl_aqueous_model_parameters(void);
 	int read_exchange(void);
 	int read_exchange_master_species(void);
@@ -929,11 +930,14 @@ public:
 
 	// tidy.cpp -------------------------------
 	int add_other_logk(LDBLE* source_k, std::vector<class name_coef>& add_logk);
+	int add_other_logk(std::vector<double>& source_k,
+		std::vector<class name_coef>& add_logk);
 	int add_logks(class logk* logk_ptr, int repeats);
 	LDBLE halve(LDBLE f(LDBLE x, void*), LDBLE x0, LDBLE x1, LDBLE tol);
 	int replace_solids_gases(void);
 	int ss_prep(LDBLE t, cxxSS* ss_ptr, int print);
 	int select_log_k_expression(LDBLE* source_k, LDBLE* target_k);
+	int select_log_k_expression(std::vector<double>& source_k, std::vector<double>& target_k);
 	int slnq(int n, LDBLE* a, LDBLE* delta, int ncols, int print);
 public:
 	int tidy_punch(void);
@@ -1354,7 +1358,7 @@ protected:
 	/*----------------------------------------------------------------------
 	*   Species
 	*---------------------------------------------------------------------- */
-	std::vector<class logk*> logk;
+	std::vector<class logk*> logk_vector;
 	std::string moles_per_kilogram_string;
 
 	std::vector<class species*> s;

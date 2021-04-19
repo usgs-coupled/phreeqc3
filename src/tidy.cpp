@@ -475,8 +475,8 @@ check_species_input(void)
 		}
 		else
 		{
-			select_log_k_expression(s[i]->logk, s[i]->rxn.logk);
-			add_other_logk(s[i]->rxn.logk, s[i]->add_logk);
+			select_log_k_expression(s[i]->logk, s[i]->rxn.logk_cr);
+			add_other_logk(s[i]->rxn.logk_cr, s[i]->add_logk);
 		}
 	}
 	return (return_value);
@@ -491,7 +491,7 @@ select_log_k_expression(LDBLE * source_k, LDBLE * target_k)
 	bool analytic;
 
 	analytic = false;
-	for (j = T_A1; j <= T_A6; j++)
+	for (j = Logk::T_A1; j <= Logk::T_A6; j++)
 	{
 		if (source_k[j] != 0.0)
 		{
@@ -501,23 +501,65 @@ select_log_k_expression(LDBLE * source_k, LDBLE * target_k)
 	}
 	if (analytic)
 	{
-		target_k[logK_T0] = 0.0;
-		target_k[delta_h] = 0.0;
-		for (j = T_A1; j <= T_A6; j++)
+		target_k[Logk::logK_T0] = 0.0;
+		target_k[Logk::delta_h] = 0.0;
+		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
 		{
 			target_k[j] = source_k[j];
 		}
 	}
 	else
 	{
-		target_k[logK_T0] = source_k[logK_T0];
-		target_k[delta_h] = source_k[delta_h];
-		for (j = T_A1; j <= T_A6; j++)
+		target_k[Logk::logK_T0] = source_k[Logk::logK_T0];
+		target_k[Logk::delta_h] = source_k[Logk::delta_h];
+		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
 		{
 			target_k[j] = 0.0;
 		}
 	}
-	for (j = delta_v; j < MAX_LOG_K_INDICES; j++)
+	for (j = Logk::delta_v; j < Logk::MAX_LOG_K_INDICES; j++)
+	{
+		target_k[j] = source_k[j];
+	}
+	return (OK);
+}
+
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+select_log_k_expression(std::vector<double>& source_k, std::vector<double>& target_k)
+/* ---------------------------------------------------------------------- */
+{
+	int j;
+	bool analytic;
+
+	analytic = false;
+	for (j = Logk::T_A1; j <= Logk::T_A6; j++)
+	{
+		if (source_k[j] != 0.0)
+		{
+			analytic = true;
+			break;
+		}
+	}
+	if (analytic)
+	{
+		target_k[Logk::logK_T0] = 0.0;
+		target_k[Logk::delta_h] = 0.0;
+		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
+		{
+			target_k[j] = source_k[j];
+		}
+	}
+	else
+	{
+		target_k[Logk::logK_T0] = source_k[Logk::logK_T0];
+		target_k[Logk::delta_h] = source_k[Logk::delta_h];
+		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
+		{
+			target_k[j] = 0.0;
+		}
+	}
+	for (j = Logk::delta_v; j < Logk::MAX_LOG_K_INDICES; j++)
 	{
 		target_k[j] = source_k[j];
 	}
@@ -532,16 +574,16 @@ tidy_logk(void)
  */
 {
 	int i;
-	for (i = 0; i < (int)logk.size(); i++)
+	for (i = 0; i < (int)logk_vector.size(); i++)
 	{
-		select_log_k_expression(logk[i]->log_k_original, logk[i]->log_k);
-		logk[i]->done = FALSE;
+		select_log_k_expression(logk_vector[i]->log_k_original, logk_vector[i]->log_k);
+		logk_vector[i]->done = FALSE;
 	}
-	for (i = 0; i < (int)logk.size(); i++)
+	for (i = 0; i < (int)logk_vector.size(); i++)
 	{
-		if (logk[i]->done == FALSE)
+		if (logk_vector[i]->done == FALSE)
 		{
-			add_logks(logk[i], 0);
+			add_logks(logk_vector[i], 0);
 		}
 	}
 	std::map < std::string, class Logk >::iterator it = Logk_map.begin();
@@ -579,7 +621,7 @@ add_other_logk(LDBLE * source_k, std::vector<class name_coef> &add_logk)
 		}
 		logk_ptr = l_it->second;
 		analytic = false;
-		for (j = T_A1; j <= T_A6; j++)
+		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
 		{
 			if (logk_ptr->log_k[j] != 0.0)
 			{
@@ -589,17 +631,73 @@ add_other_logk(LDBLE * source_k, std::vector<class name_coef> &add_logk)
 		}
 		if (analytic)
 		{
-			for (j = T_A1; j <= T_A6; j++)
+			for (j = Logk::T_A1; j <= Logk::T_A6; j++)
 			{
 				source_k[j] += logk_ptr->log_k[j] * coef;
 			}
 		}
 		else
 		{
-			source_k[logK_T0] += logk_ptr->log_k[logK_T0] * coef;
-			source_k[delta_h] += logk_ptr->log_k[delta_h] * coef;
+			source_k[Logk::logK_T0] += logk_ptr->log_k[Logk::logK_T0] * coef;
+			source_k[Logk::delta_h] += logk_ptr->log_k[Logk::delta_h] * coef;
 		}
-		for (j = delta_v; j < MAX_LOG_K_INDICES; j++)
+		for (j = Logk::delta_v; j < Logk::MAX_LOG_K_INDICES; j++)
+		{
+			source_k[j] += logk_ptr->log_k[j] * coef;
+		}
+	}
+	return (OK);
+}
+
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+add_other_logk(std::vector<double>& source_k, 
+	std::vector<class name_coef>& add_logk)
+/* ---------------------------------------------------------------------- */
+{
+	int j;
+	bool analytic;
+	class logk* logk_ptr;
+	LDBLE coef;
+
+	for (size_t i = 0; i < add_logk.size(); i++)
+	{
+		coef = add_logk[i].coef;
+		std::string token = add_logk[i].name;
+		str_tolower(token);
+		std::map<std::string, class logk*>::iterator l_it = logk_map.find(token);
+		if (l_it == logk_map.end())
+		{
+			input_error++;
+			error_string = sformatf(
+				"Could not find named temperature expression, %s\n",
+				token.c_str());
+			error_msg(error_string, CONTINUE);
+			return (ERROR);
+		}
+		logk_ptr = l_it->second;
+		analytic = false;
+		for (j = Logk::T_A1; j <= Logk::T_A6; j++)
+		{
+			if (logk_ptr->log_k[j] != 0.0)
+			{
+				analytic = true;
+				break;
+			}
+		}
+		if (analytic)
+		{
+			for (j = Logk::T_A1; j <= Logk::T_A6; j++)
+			{
+				source_k[j] += logk_ptr->log_k[j] * coef;
+			}
+		}
+		else
+		{
+			source_k[Logk::logK_T0] += logk_ptr->log_k[Logk::logK_T0] * coef;
+			source_k[Logk::delta_h] += logk_ptr->log_k[Logk::delta_h] * coef;
+		}
+		for (j = Logk::delta_v; j < Logk::MAX_LOG_K_INDICES; j++)
 		{
 			source_k[j] += logk_ptr->log_k[j] * coef;
 		}
@@ -650,7 +748,7 @@ add_logks(class logk *logk_ptr, int repeats)
 				return (ERROR);
 			}
 		}
-		for (j = 0; j < MAX_LOG_K_INDICES; j++)
+		for (j = 0; j < Logk::MAX_LOG_K_INDICES; j++)
 		{
 			logk_ptr->log_k[j] += next_logk_ptr->log_k[j] * coef;
 		}
@@ -1462,8 +1560,8 @@ tidy_phases(void)
 	 */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
-		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk);
-		add_other_logk(phases[i]->rxn.logk, phases[i]->add_logk);
+		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk_cr);
+		add_other_logk(phases[i]->rxn.logk_cr, phases[i]->add_logk);
 		phases[i]->rxn.token[0].Set_name(phases[i]->name);
 
 		phases[i]->rxn.token[0].Set_s(NULL);
@@ -4370,8 +4468,8 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
 	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
-	kc = exp(k_calc(phase0_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
-	kb = exp(k_calc(phase1_ptr->rxn.logk, t, REF_PRES_PASCAL) * LOG_10);
+	kc = exp(k_calc(phase0_ptr->rxn.logk_cr, t, REF_PRES_PASCAL) * LOG_10);
+	kb = exp(k_calc(phase1_ptr->rxn.logk_cr, t, REF_PRES_PASCAL) * LOG_10);
 	crit_pt = fabs(a0) + fabs(a1);
 /*
  *   Default, no miscibility or spinodal gaps
@@ -4990,9 +5088,9 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	l_kc = exp(k_calc(phase0_ptr->rxn.logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kc = exp(k_calc(phase0_ptr->rxn.logk_cr, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 			 LOG_10);
-	l_kb = exp(k_calc(phase1_ptr->rxn.logk, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kb = exp(k_calc(phase1_ptr->rxn.logk_cr, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 			 LOG_10);
 
 	p = ss_ptr->Get_p();

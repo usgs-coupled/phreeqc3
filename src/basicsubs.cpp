@@ -94,7 +94,7 @@ aqueous_vm(const char *species_name)
 	s_ptr = s_search(species_name);
 	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
 	{
-		g = s_ptr->logk[vm_tc];
+		g = s_ptr->logk[Logk::vm_tc];
 	}
 	else
 	{
@@ -118,7 +118,7 @@ phase_vm(const char *phase_name)
 	}
 	else
 	{
-		g = phase_ptr->logk[vm0];
+		g = phase_ptr->logk[Logk::vm0];
 	}
 	return (g);
 }
@@ -486,7 +486,7 @@ calc_dens(void)
 	//	/* OH-... */
 	//	if (!strcmp(species_list[i].s->name, "OH-"))
 	//		s_ptr = s_search("OH-");
-	//	else if (species_list[i].s->logk[vm_tc] == 0)
+	//	else if (species_list[i].s->logk[Logk::vm_tc] == 0)
 	//	{
 	//		s_ptr = species_list[i].master_s;
 	//		if (s_ptr->secondary)
@@ -515,7 +515,7 @@ calc_dens(void)
 	//		compute_gfw(species_list[i].s->name, &gfw);
 
 	//	M_T += (species_list[i].s->moles * gfw);
-	//	V_solutes += species_list[i].s->moles * s_ptr->logk[vm_tc];
+	//	V_solutes += species_list[i].s->moles * s_ptr->logk[Logk::vm_tc];
 	//}
 
 	/* 2nd option, use species_x, vm = 0 for complexes with undefined volume... */
@@ -528,7 +528,7 @@ calc_dens(void)
 		//compute_gfw(s_x[i]->name, &gfw);
 		gfw = s_x[i]->gfw;
 		M_T += s_x[i]->moles * gfw;
-		V_solutes += s_x[i]->moles * s_x[i]->logk[vm_tc];
+		V_solutes += s_x[i]->moles * s_x[i]->logk[Logk::vm_tc];
 	}
 	/* If pure water then return rho_0 */
 	if (M_T == 0)
@@ -606,26 +606,19 @@ calc_logk_n(const std::string& name)
 	int i;
 	LDBLE lk;
 	class logk *logk_ptr;
-	LDBLE l_logk[MAX_LOG_K_INDICES];
+	LDBLE l_logk[Logk::MAX_LOG_K_INDICES];
 	class name_coef add_logk;
 	std::vector<class name_coef> add_logk_v;
 
+	//double Lk = -999.99;
+	//std::map<std::string, class Logk>::iterator it =
+	//	Logk_search(name);
+	//if (it != Logk_map.end())
+	//{
+	//	Lk = it->second.k_calc(tk_x, patm_x * PASCAL_PER_ATM, this);
+	//}
 
-	if (name == "Log_alpha_13C_HCO3-/CO2(aq)")
-	{
-		std::cerr << "check it out\n";
-	}
-
-	double Lk = -999.99;
-	std::map<std::string, class Logk>::iterator it =
-		Logk_search(name);
-	if (it != Logk_map.end())
-	{
-		Lk = it->second.k_calc(tk_x, patm_x * PASCAL_PER_ATM, this);
-	}
-
-
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		l_logk[i] = 0.0;
 	}
@@ -638,11 +631,7 @@ calc_logk_n(const std::string& name)
 		add_logk_v.push_back(add_logk);
 		add_other_logk(l_logk, add_logk_v);
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
-		if (lk != Lk)
-		{
-			std::cerr << "Check this\n";
-		}
-		return (Lk);
+		return (lk);
 	}
 	return (-999.99);
 }
@@ -652,10 +641,6 @@ LDBLE Phreeqc::
 calc_logk_n(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
-	if (name == "Log_alpha_13C_HCO3-/CO2(aq)")
-	{
-		std::cerr << "check it out\n";
-	}
 	double Lk = -999.99;
 	std::map<std::string, class Logk>::iterator it =
 		Logk_search(name);
@@ -675,8 +660,9 @@ calc_logk_p(const std::string& name)
 	char token[MAX_LENGTH];
 	class phase *phase_ptr;
 	LDBLE lk=-999.9;
-	LDBLE l_logk[MAX_LOG_K_INDICES];
+	std::vector<double> l_logk;
 
+	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 	strcpy(token, name.c_str());
 	phase_ptr = phase_bsearch(token, &j, FALSE);
 
@@ -690,16 +676,16 @@ calc_logk_p(const std::string& name)
 		/*
 		*   Print saturation index
 		*/
-		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
-			phase_ptr->logk[vm0];
-		if (reaction_ptr->logk[delta_v])
+		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
+			phase_ptr->logk[Logk::vm0];
+		if (reaction_ptr->logk_cr[Logk::delta_v])
 			mu_terms_in_logk = true;
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
 		}
 		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
-		select_log_k_expression(reaction_ptr->logk, l_logk);
+		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
 		add_other_logk(l_logk, phase_ptr->add_logk); 
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
 	}
@@ -714,16 +700,18 @@ calc_logk_s(const std::string& name)
 	int i;
 	char token[MAX_LENGTH];
 	class species *s_ptr;
-	LDBLE lk, l_logk[MAX_LOG_K_INDICES];
+	LDBLE lk;
+	std::vector<double> l_logk;
+	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 
 	strcpy(token, name.c_str());
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
-		//if (s_ptr->logk[vm_tc])
-		/* calculate delta_v for the reaction... */
-			s_ptr->logk[delta_v] = calc_delta_v(*&s_ptr->rxn, false);
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		//if (s_ptr->logk[Logk::vm_tc])
+		/* calculate Logk::delta_v for the reaction... */
+			s_ptr->logk[Logk::delta_v] = calc_delta_v(*&s_ptr->rxn, false);
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
 		}
@@ -784,11 +772,11 @@ calc_deltah_p(const std::string& name)
 	char token[MAX_LENGTH];
 	class phase* phase_ptr;
 	LDBLE lkm, lkp;
-	LDBLE l_logk[MAX_LOG_K_INDICES];
+	std::vector<double> l_logk;
 	double dh = -999.99;
+	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 	strcpy(token, name.c_str());
 	phase_ptr = phase_bsearch(token, &j, FALSE);
-
 	if (phase_ptr != NULL)
 	{
 		CReaction* reaction_ptr;
@@ -799,16 +787,16 @@ calc_deltah_p(const std::string& name)
 		/*
 		*   Print saturation index
 		*/
-		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
-			phase_ptr->logk[vm0];
-		if (reaction_ptr->logk[delta_v])
+		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
+			phase_ptr->logk[Logk::vm0];
+		if (reaction_ptr->logk_cr[Logk::delta_v])
 			mu_terms_in_logk = true;
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
 		}
 		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
-		select_log_k_expression(reaction_ptr->logk, l_logk);
+		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
 		add_other_logk(l_logk, phase_ptr->add_logk);
 		lkm = k_calc(l_logk, tk_x - 1.0, patm_x * PASCAL_PER_ATM);
 		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
@@ -824,15 +812,17 @@ calc_deltah_s(const std::string& name)
 	int i;
 	char token[MAX_LENGTH];
 	class species* s_ptr;
-	LDBLE lkm, lkp, l_logk[MAX_LOG_K_INDICES];
+	LDBLE lkm, lkp;
+	std::vector<double> l_logk;
 	double dh = -999.99;
+	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 	strcpy(token, name.c_str());
 	s_ptr = s_search(token);
 	if (s_ptr != NULL)
 	{
-		/* calculate delta_v for the reaction... */
-		s_ptr->logk[delta_v] = calc_delta_v(*&s_ptr->rxn, false);
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)
+		/* calculate Logk::delta_v for the reaction... */
+		s_ptr->logk[Logk::delta_v] = calc_delta_v(*&s_ptr->rxn, false);
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
 			l_logk[i] = 0.0;
 		}

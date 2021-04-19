@@ -15,6 +15,7 @@
 #include "Temperature.h"
 #include "SSassemblage.h"
 
+
 //const const_iso Phreeqc::iso_defaults[] = {
 //	{"13C", -10, 1},
 //	{"13C(4)", -10, 1},
@@ -1354,17 +1355,17 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	count_elts = 0;
 	// Reaction
 	run_cells_one_step = pSrc->run_cells_one_step;
-	for (int i = 0; i < (int)pSrc->logk.size(); i++)
+	for (int i = 0; i < (int)pSrc->logk_vector.size(); i++)
 	{
-		class logk* logk_ptr = logk_store(pSrc->logk[i]->name, FALSE);
+		class logk* logk_ptr = logk_store(pSrc->logk_vector[i]->name, FALSE);
 		//memcpy(logk_ptr, pSrc->logk[i], sizeof(class logk));
-		*logk_ptr = *pSrc->logk[i];
-		logk_ptr->name = pSrc->logk[i]->name;
-		logk_ptr->add_logk.resize(pSrc->logk[i]->add_logk.size());
+		*logk_ptr = *pSrc->logk_vector[i];
+		logk_ptr->name = pSrc->logk_vector[i]->name;
+		logk_ptr->add_logk.resize(pSrc->logk_vector[i]->add_logk.size());
 		for (size_t j = 0; j < logk_ptr->add_logk.size(); j++)
 		{
-			logk_ptr->add_logk[j].coef = pSrc->logk[i]->add_logk[j].coef;
-			logk_ptr->add_logk[j].name = pSrc->logk[i]->add_logk[j].name;
+			logk_ptr->add_logk[j].coef = pSrc->logk_vector[i]->add_logk[j].coef;
+			logk_ptr->add_logk[j].name = pSrc->logk_vector[i]->add_logk[j].name;
 		}
 	}
 	// s, species

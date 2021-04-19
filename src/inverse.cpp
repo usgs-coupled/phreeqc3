@@ -1938,10 +1938,10 @@ print_model(class inverse *inv_ptr)
 			{
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
 
-				reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) - phases[i1]->logk[vm0];
-				if (reaction_ptr->logk[delta_v])
+				reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) - phases[i1]->logk[Logk::vm0];
+				if (reaction_ptr->logk_cr[Logk::delta_v])
 					mu_terms_in_logk = true;
-				lk = k_calc(reaction_ptr->logk, t_i, p_i);
+				lk = k_calc(reaction_ptr->logk_cr, t_i, p_i);
 
 				iap = 0.0;
 				for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)

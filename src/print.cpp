@@ -1191,7 +1191,7 @@ print_saturation_indices(void)
 			iap += pe_x[default_pe_x].Get_tokens()[tok].coef * pe_x[default_pe_x].Get_tokens()[tok].Get_s()->la;
 			/* fprintf(output,"\t%s\t%f\t%f\n", rxn_ptr->s->name, rxn_ptr->coef, rxn_ptr->s->la ); */
 		}
-		lk = k_calc(pe_x[default_pe_x].Get_logk(), tk_x, patm_x * PASCAL_PER_ATM);
+		lk = k_calc(pe_x[default_pe_x].Get_logk_cr(), tk_x, patm_x * PASCAL_PER_ATM);
 		la_eminus = lk + iap;
 		/* fprintf(output,"\t%s\t%f\n", "pe", si ); */
 	}
@@ -1229,11 +1229,11 @@ print_saturation_indices(void)
 /*
  *   Print saturation index
  */
-		reaction_ptr->logk[delta_v] = calc_delta_v(*reaction_ptr, true) -
-			 phases[i]->logk[vm0];
-		if (reaction_ptr->logk[delta_v])
+		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
+			 phases[i]->logk[Logk::vm0];
+		if (reaction_ptr->logk_cr[Logk::delta_v])
 				mu_terms_in_logk = true;
-		lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
+		lk = k_calc(reaction_ptr->logk_cr, tk_x, patm_x * PASCAL_PER_ATM);
 		iap = 0.0;
 		for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
@@ -1333,11 +1333,11 @@ print_pp_assemblage(void)
 		else
 		{
 			phase_ptr = x[j]->phase;
-			phase_ptr->rxn.logk[delta_v] = calc_delta_v(*&phase_ptr->rxn, true) -
-				phase_ptr->logk[vm0];
-			if (phase_ptr->rxn.logk[delta_v])
+			phase_ptr->rxn.logk_cr[Logk::delta_v] = calc_delta_v(*&phase_ptr->rxn, true) -
+				phase_ptr->logk[Logk::vm0];
+			if (phase_ptr->rxn.logk_cr[Logk::delta_v])
 				mu_terms_in_logk = true;
-			lk = k_calc(phase_ptr->rxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
+			lk = k_calc(phase_ptr->rxn.logk_cr, tk_x, patm_x * PASCAL_PER_ATM);
 			for (rxn_ptr = &phase_ptr->rxn.token[0] + 1; !rxn_ptr->Get_end();
 				 rxn_ptr++)
 			{
@@ -1515,10 +1515,10 @@ print_species(void)
 					   (double) (species_list[i].s->lm +
 								 species_list[i].s->lg),
 					   (double) species_list[i].s->lg));
-			//if (species_list[i].s->logk[vm_tc] || !strcmp(species_list[i].s->name, "H+"))
-			if (species_list[i].s->logk[vm_tc] || species_list[i].s == s_hplus)
+			//if (species_list[i].s->logk[Logk::vm_tc] || !strcmp(species_list[i].s->name, "H+"))
+			if (species_list[i].s->logk[Logk::vm_tc] || species_list[i].s == s_hplus)
 				output_msg(sformatf("%10.2f\n",
-					   (double) species_list[i].s->logk[vm_tc]));
+					   (double) species_list[i].s->logk[Logk::vm_tc]));
 			else
 				output_msg(sformatf("     (0)  \n"));
 		}

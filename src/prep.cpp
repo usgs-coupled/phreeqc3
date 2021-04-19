@@ -5156,8 +5156,8 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 		(p_ptr->rxn_s.size() ? &p_ptr->rxn_s : NULL));
 	if (!r_ptr)
 		return 0.0;
-	if (!r_ptr->logk[vm0]) // in case Vm of the phase is 0...
-		return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
+	if (!r_ptr->logk_cr[Logk::vm0]) // in case Vm of the phase is 0...
+		return k_calc(r_ptr->logk_cr, TK, pa * PASCAL_PER_ATM);
 
 	LDBLE tc = TK - 273.15;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x); 
@@ -5178,38 +5178,38 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 			d_v += r_ptr->token[i].coef * 18.016 / calc_rho_0(tc, pa);
 			continue;
 		}
-		else if (s_ptr->logk[vma1])
+		else if (s_ptr->logk[Logk::vma1])
 		{
 		/* supcrt volume at I = 0... */
 			d_v += r_ptr->token[i].coef *
-				(s_ptr->logk[vma1] + s_ptr->logk[vma2] / pb_s +
-				(s_ptr->logk[vma3] + s_ptr->logk[vma4] / pb_s) / TK_s -
-				s_ptr->logk[wref] * QBrn);
+				(s_ptr->logk[Logk::vma1] + s_ptr->logk[Logk::vma2] / pb_s +
+				(s_ptr->logk[Logk::vma3] + s_ptr->logk[Logk::vma4] / pb_s) / TK_s -
+				s_ptr->logk[Logk::wref] * QBrn);
 			//if (dgdP && s_ptr->z)
 			//{
-			//	LDBLE re = s_ptr->z * s_ptr->z / (s_ptr->logk[wref] / 1.66027e5 + s_ptr->z / 3.082);
+			//	LDBLE re = s_ptr->z * s_ptr->z / (s_ptr->logk[Logk::wref] / 1.66027e5 + s_ptr->z / 3.082);
 			//	LDBLE Z3 = fabs(pow(s_ptr->z, 3)) / re / re - s_ptr->z / 9.498724;
 			//	d_v += r_ptr->token[i].coef * ZBrn * 1.66027e5 * Z3 * dgdP;
 			//}
 			if (s_ptr->z)
 				{
 			/* the ionic strength term * I^0.5... */
-				if (s_ptr->logk[b_Av] < 1e-5)
+				if (s_ptr->logk[Logk::b_Av] < 1e-5)
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-						sqrt_mu / (1 + s_ptr->logk[b_Av] * DH_B * sqrt_mu);
+						sqrt_mu / (1 + s_ptr->logk[Logk::b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				if (s_ptr->logk[vmi1] != 0.0 || s_ptr->logk[vmi2] != 0.0 || s_ptr->logk[vmi3] != 0.0)
+				if (s_ptr->logk[Logk::vmi1] != 0.0 || s_ptr->logk[Logk::vmi2] != 0.0 || s_ptr->logk[Logk::vmi3] != 0.0)
 				{
-					LDBLE bi = s_ptr->logk[vmi1] + s_ptr->logk[vmi2] / TK_s + s_ptr->logk[vmi3] * TK_s;
-					if (s_ptr->logk[vmi4] == 1.0)
+					LDBLE bi = s_ptr->logk[Logk::vmi1] + s_ptr->logk[Logk::vmi2] / TK_s + s_ptr->logk[Logk::vmi3] * TK_s;
+					if (s_ptr->logk[Logk::vmi4] == 1.0)
 						d_v += bi * mu_x;
 					else
-						d_v +=  bi * pow(mu_x, s_ptr->logk[vmi4]);
+						d_v +=  bi * pow(mu_x, s_ptr->logk[Logk::vmi4]);
 				}
 			}
 		}
@@ -5228,13 +5228,13 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 		else
 			continue;
 	}
-	d_v -= p_ptr->logk[vm0];
-	r_ptr->logk[delta_v] = d_v;
+	d_v -= p_ptr->logk[Logk::vm0];
+	r_ptr->logk_cr[Logk::delta_v] = d_v;
 	if ((r_ptr->token[0].Get_name().size() > 0) && 
 		(r_ptr->token[0].Get_name() == "H2O(g)"))
-		r_ptr->logk[delta_v] = 0.0;
+		r_ptr->logk_cr[Logk::delta_v] = 0.0;
 
-	return k_calc(r_ptr->logk, TK, pa * PASCAL_PER_ATM);
+	return k_calc(r_ptr->logk_cr, TK, pa * PASCAL_PER_ATM);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -5248,10 +5248,10 @@ calc_vm(LDBLE tc, LDBLE pa)
  *    Vm0(tc) is calc'd using supcrt parms, or from millero[0] + millero[1] * tc + millero[2] * tc^2
  *    for Av * z^2 * I^0.5, see Redlich and Meyer, Chem. Rev. 64, 221.
           Av is in (cm3/mol)(mol/kg)^-0.5, = DH_Av.
-		  If b_Av != 0, the extended DH formula is used: I^0.5 /(1 + b_Av * DH_B * I^0.5).
+		  If Logk::b_Av != 0, the extended DH formula is used: I^0.5 /(1 + Logk::b_Av * DH_B * I^0.5).
 		  DH_Av and DH_B are from calc_dielectrics(tc, pa).
- *	  coef(tc) = logk[vmi1] + logk[vmi2] / (TK - 228) + logk[vmi3] * (TK - 228).
- *    b4 = logk[vmi4], or
+ *	  coef(tc) = logk[Logk::vmi1] + logk[Logk::vmi2] / (TK - 228) + logk[Logk::vmi3] * (TK - 228).
+ *    b4 = logk[Logk::vmi4], or
  *	  coef(tc) = millero[3] + millero[4] * tc + millero[5] * tc^2
  */
 	if (llnl_temp.size() > 0) return OK;
@@ -5260,66 +5260,66 @@ calc_vm(LDBLE tc, LDBLE pa)
 	{
 		if (s_x[i] == s_h2o)
 		{
-			s_x[i]->logk[vm_tc] = 18.016 / rho_0;
+			s_x[i]->logk[Logk::vm_tc] = 18.016 / rho_0;
 			continue;
 		}
-		if (s_x[i]->logk[vma1])
+		if (s_x[i]->logk[Logk::vma1])
 		{
 		/* supcrt volume at I = 0... */
-			s_x[i]->rxn_x.logk[vm_tc] = s_x[i]->logk[vma1] + s_x[i]->logk[vma2] / pb_s +
-				(s_x[i]->logk[vma3] + s_x[i]->logk[vma4] / pb_s) / TK_s -
-				s_x[i]->logk[wref] * QBrn;
+			s_x[i]->rxn_x.logk_cr[Logk::vm_tc] = s_x[i]->logk[Logk::vma1] + s_x[i]->logk[Logk::vma2] / pb_s +
+				(s_x[i]->logk[Logk::vma3] + s_x[i]->logk[Logk::vma4] / pb_s) / TK_s -
+				s_x[i]->logk[Logk::wref] * QBrn;
 			/* A (small) correction by Shock et al., 1992, for 155 < tc < 255, P_sat < P < 1e3.
-			   The vma1..a4 and wref numbers are refitted for major cations and anions on xpts,
+			   The Logk::vma1..a4 and Logk::wref numbers are refitted for major cations and anions on xpts,
 			   probably invalidates the correction. */
 			//if (dgdP && s_x[i]->z)
 			//{
-			//	LDBLE re = s_x[i]->z * s_x[i]->z / (s_x[i]->logk[wref] / 1.66027e5 + s_x[i]->z / 3.082);
+			//	LDBLE re = s_x[i]->z * s_x[i]->z / (s_x[i]->logk[Logk::wref] / 1.66027e5 + s_x[i]->z / 3.082);
 			//	LDBLE Z3 = fabs(pow(s_x[i]->z, 3)) / re / re - s_x[i]->z / 9.498724;
-			//	s_x[i]->rxn_x.logk[vm_tc] += ZBrn * 1.66027e5 * Z3 * dgdP;
+			//	s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += ZBrn * 1.66027e5 * Z3 * dgdP;
 			//}
 			if (s_x[i]->z)
 			{
 			/* the ionic strength term * I^0.5... */
-				if (s_x[i]->logk[b_Av] < 1e-5)
-					s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
+				if (s_x[i]->logk[Logk::b_Av] < 1e-5)
+					s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
 					/* pitzer... */
-					//s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
-					//	log(1 + s_x[i]->logk[b_Av] * sqrt(mu_x)) / s_x[i]->logk[b_Av];
+					//s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
+					//	log(1 + s_x[i]->logk[Logk::b_Av] * sqrt(mu_x)) / s_x[i]->logk[Logk::b_Av];
 					/* extended DH... */
-					s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
-						sqrt_mu / (1 + s_x[i]->logk[b_Av] * DH_B * sqrt_mu);
+					s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
+						sqrt_mu / (1 + s_x[i]->logk[Logk::b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				if (s_x[i]->logk[vmi1] != 0.0 || s_x[i]->logk[vmi2] != 0.0 || s_x[i]->logk[vmi3] != 0.0)
+				if (s_x[i]->logk[Logk::vmi1] != 0.0 || s_x[i]->logk[Logk::vmi2] != 0.0 || s_x[i]->logk[Logk::vmi3] != 0.0)
 				{
-					LDBLE bi = s_x[i]->logk[vmi1] + s_x[i]->logk[vmi2] / TK_s + s_x[i]->logk[vmi3] * TK_s;
-					if (s_x[i]->logk[vmi4] == 1.0)
-						s_x[i]->rxn_x.logk[vm_tc] += bi * mu_x;
+					LDBLE bi = s_x[i]->logk[Logk::vmi1] + s_x[i]->logk[Logk::vmi2] / TK_s + s_x[i]->logk[Logk::vmi3] * TK_s;
+					if (s_x[i]->logk[Logk::vmi4] == 1.0)
+						s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += bi * mu_x;
 					else
-						s_x[i]->rxn_x.logk[vm_tc] += bi * pow(mu_x, s_x[i]->logk[vmi4]);
+						s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += bi * pow(mu_x, s_x[i]->logk[Logk::vmi4]);
 				}
 			}
 		}
 		else if (s_x[i]->millero[0])
 		{
 		/* Millero volume at I = 0... */
-			s_x[i]->rxn_x.logk[vm_tc] = s_x[i]->millero[0] + tc * (s_x[i]->millero[1] + tc * s_x[i]->millero[2]);
+			s_x[i]->rxn_x.logk_cr[Logk::vm_tc] = s_x[i]->millero[0] + tc * (s_x[i]->millero[1] + tc * s_x[i]->millero[2]);
 			if (s_x[i]->z)
 			{
 			/* the ionic strength terms... */
-				s_x[i]->rxn_x.logk[vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
+				s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
 					(s_x[i]->millero[3] + tc * (s_x[i]->millero[4] + tc * s_x[i]->millero[5])) * mu_x;
 			}
 		}
 		else
 			continue;
 
-		/* for calculating delta_v of the reaction... */
-		s_x[i]->logk[vm_tc] = s_x[i]->rxn_x.logk[vm_tc];
+		/* for calculating Logk::delta_v of the reaction... */
+		s_x[i]->logk[Logk::vm_tc] = s_x[i]->rxn_x.logk_cr[Logk::vm_tc];
 	}
 	return OK;
 }
@@ -5352,13 +5352,13 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	mu_terms_in_logk = false;
 	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
-		//if (s_x[i]->rxn_x.logk[vm_tc])
-		/* calculate delta_v for the reaction... */
-			s_x[i]->rxn_x.logk[delta_v] = calc_delta_v(*&s_x[i]->rxn_x, false);
-		if (tc == current_tc && s_x[i]->rxn_x.logk[delta_v] == 0)
+		//if (s_x[i]->rxn_x.logk_cr[Logk::vm_tc])
+		/* calculate Logk::delta_v for the reaction... */
+			s_x[i]->rxn_x.logk_cr[Logk::delta_v] = calc_delta_v(*&s_x[i]->rxn_x, false);
+		if (tc == current_tc && s_x[i]->rxn_x.logk_cr[Logk::delta_v] == 0)
 			continue;
 		mu_terms_in_logk = true;
-		s_x[i]->lk = k_calc(s_x[i]->rxn_x.logk, tempk, pa * PASCAL_PER_ATM);
+		s_x[i]->lk = k_calc(s_x[i]->rxn_x.logk_cr, tempk, pa * PASCAL_PER_ATM);
 	}
 /*
  *    Calculate log k for all pure phases
@@ -5368,11 +5368,11 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 		if (phases[i]->in == TRUE)  
 		{
 
-			phases[i]->rxn_x.logk[delta_v] = calc_delta_v(*&phases[i]->rxn_x, true) -
-				phases[i]->logk[vm0];
-			if (phases[i]->rxn_x.logk[delta_v])
+			phases[i]->rxn_x.logk_cr[Logk::delta_v] = calc_delta_v(*&phases[i]->rxn_x, true) -
+				phases[i]->logk[Logk::vm0];
+			if (phases[i]->rxn_x.logk_cr[Logk::delta_v])
 				mu_terms_in_logk = true;
-			phases[i]->lk = k_calc(phases[i]->rxn_x.logk, tempk, pa * PASCAL_PER_ATM);
+			phases[i]->lk = k_calc(phases[i]->rxn_x.logk_cr, tempk, pa * PASCAL_PER_ATM);
 
 		}
 	}
@@ -5407,7 +5407,7 @@ k_calc(LDBLE * l_logk, LDBLE tempk, LDBLE presPa)
 	 *   Calculates log k at specified temperature and pressure
 	 *   Returns calculated log k.
 	 *
-	 *   delta_v is in cm3/mol.
+	 *   Logk::delta_v is in cm3/mol.
 	 */
 
 	/* Molar energy */
@@ -5417,20 +5417,51 @@ k_calc(LDBLE * l_logk, LDBLE tempk, LDBLE presPa)
 	LDBLE delta_p = presPa - REF_PRES_PASCAL;
 
 	/* Calculate new log k value for this temperature and pressure */
-	LDBLE lk = l_logk[logK_T0] 
-		- l_logk[delta_h] * (298.15 - tempk) / (LOG_10 * me * 298.15)
-		+ l_logk[T_A1]
-		+ l_logk[T_A2] * tempk
-		+ l_logk[T_A3] / tempk
-		+ l_logk[T_A4] * log10(tempk)
-		+ l_logk[T_A5] / (tempk * tempk)
-		+ l_logk[T_A6] * tempk * tempk;
+	LDBLE lk = l_logk[Logk::logK_T0] 
+		- l_logk[Logk::delta_h] * (298.15 - tempk) / (LOG_10 * me * 298.15)
+		+ l_logk[Logk::T_A1]
+		+ l_logk[Logk::T_A2] * tempk
+		+ l_logk[Logk::T_A3] / tempk
+		+ l_logk[Logk::T_A4] * log10(tempk)
+		+ l_logk[Logk::T_A5] / (tempk * tempk)
+		+ l_logk[Logk::T_A6] * tempk * tempk;
 	if (delta_p > 0)
 		/* cm3 * J /mol = 1e-9 m3 * kJ /mol */
-		lk -= l_logk[delta_v] * 1E-9 * delta_p / (LOG_10 * me);
+		lk -= l_logk[Logk::delta_v] * 1E-9 * delta_p / (LOG_10 * me);
 	return lk;
 }
+/* ---------------------------------------------------------------------- */
+double Phreeqc::
+k_calc(std::vector<double>& l_logk, double tempk, double presPa)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Calculates log k at specified temperature and pressure
+	 *   Returns calculated log k.
+	 *
+	 *   Logk::delta_v is in cm3/mol.
+	 */
 
+	 /* Molar energy */
+	LDBLE me = tempk * R_KJ_DEG_MOL;
+
+	/* Pressure difference */
+	LDBLE delta_p = presPa - REF_PRES_PASCAL;
+
+	/* Calculate new log k value for this temperature and pressure */
+	LDBLE lk = l_logk[Logk::logK_T0]
+		- l_logk[Logk::delta_h] * (298.15 - tempk) / (LOG_10 * me * 298.15)
+		+ l_logk[Logk::T_A1]
+		+ l_logk[Logk::T_A2] * tempk
+		+ l_logk[Logk::T_A3] / tempk
+		+ l_logk[Logk::T_A4] * log10(tempk)
+		+ l_logk[Logk::T_A5] / (tempk * tempk)
+		+ l_logk[Logk::T_A6] * tempk * tempk;
+	if (delta_p > 0)
+		/* cm3 * J /mol = 1e-9 m3 * kJ /mol */
+		lk -= l_logk[Logk::delta_v] * 1E-9 * delta_p / (LOG_10 * me);
+	return lk;
+}
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::

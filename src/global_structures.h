@@ -2,6 +2,14 @@
 #define _INC_GLOBAL_STRUCTURES_H
 #include "Surface.h"
 #include "GasPhase.h"
+#include "Logk.h"
+#include "CReaction.h"
+#include "Name_coef.h"
+#include "Species.h"
+#include "Element.h"
+#include "Phase.h"
+#include "Rate.h"
+#include "Master.h"
 /* ----------------------------------------------------------------------
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
@@ -13,9 +21,9 @@
 
 #define F_C_MOL 96493.5			/* C/mol or joule/volt-eq */
 #define F_KJ_V_EQ  96.4935		/* kJ/volt-eq */
-#define F_KCAL_V_EQ 23.0623		/* kcal/volt-eq */
+#define F_KCAL_V_EQ 23.0623		/* Logk::kcal/volt-eq */
 #define R_LITER_ATM 0.0820597	/* L-atm/deg-mol */
-#define R_KCAL_DEG_MOL 0.00198726	/* kcal/deg-mol */
+#define R_KCAL_DEG_MOL 0.00198726	/* Logk::kcal/deg-mol */
 #define R_KJ_DEG_MOL 0.00831470	/* kJ/deg-mol */
 #define EPSILON 78.5			/* dialectric constant, dimensionless. Is calculated as eps_r(P, T) in calc_dielectrics. Update the code?? */
 #define EPSILON_ZERO 8.854e-12	/* permittivity of free space, C/V-m = C**2/m-J */
@@ -150,34 +158,10 @@
 #define REF_PRES_PASCAL 1.01325E5   /* Reference pressure: 1 atm */
 #define MAX_P_NONLLNL 1500.0
 
-//
-// Typedefs and structure definitions
-//
-typedef enum { kcal, cal, kjoules, joules } DELTA_H_UNIT;
-typedef enum { cm3_per_mol, dm3_per_mol, m3_per_mol } DELTA_V_UNIT;
 enum entity_type
 { Solution, Reaction, Exchange, Surface, Gas_phase, Pure_phase, Ss_phase,
 	Kinetics, Mix, Temperature, Pressure, UnKnown
 };
-
-typedef enum {
-	logK_T0,
-	delta_h,
-	T_A1,
-	T_A2,
-	T_A3,
-	T_A4,
-	T_A5,
-	T_A6,
-	delta_v,	/* set in calc_delta_v: calculated molar volume-change of the reaction */
-	vm_tc,		/* set in calc_vm: calculated molal volume of the species at tc */
-	vm0,		/* read: molar volume of a phase */
-	vma1, vma2, vma3, vma4, /* read: a1..a4 from supcrt, see calc_vm */
-	wref,       /* from supcrt */
-	b_Av,		/* b in z^2 * A_v * log(1 + b * I^0.5) / (2 * b) */
-	vmi1, vmi2, vmi3, vmi4, /* ionic strength terms: (i1 + i2/(TK - 228) + i3 * (TK - 228) ) * I^i4 */
-	MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
-} LOG_K_INDICES;
 
 typedef struct PHRQMemHeader
 {
@@ -200,51 +184,7 @@ struct Change_Surf
 	int cell_no;
 	int next;
 };
-/*----------------------------------------------------------------------
- *   CReaction
- *---------------------------------------------------------------------- */
-class CReaction
-{
-public:
-	CReaction(void);
-	CReaction(size_t ntoken);
-	~CReaction(void) {}
-	double* Get_logk(void) { return this->logk; }
-	void   Set_logk(double* d);
-	double* Get_dz(void) { return this->dz; }
-	void   Set_dz(double* d);
-	size_t size() { return token.size(); }
-	std::vector<class rxn_token>& Get_tokens(void) { return this->token; }
-	void Set_tokens(const std::vector<class rxn_token>& t) { this->token = t; }
 
-public:
-	double logk[MAX_LOG_K_INDICES];
-	double dz[3];
-	std::vector<class rxn_token> token;
-};
-class rxn_token
-{
-public:
-	~rxn_token() {};
-	rxn_token()
-	{
-		s = NULL;
-		coef = 0.0;
-		//name.clear();
-		end = false;
-	}
-	void Set_end(bool b) { end = b; }
-	bool Get_end() { return (s == NULL) ? true : false; }
-	class species* Get_s() { return this->s; }
-	void Set_s(class species* sp) { this->s = sp; }
-	const std::string& Get_name() { return this->name; }
-	void Set_name(const std::string& str) { this->name = str; }
-	LDBLE coef;
-protected:
-	std::string name;
-	class species* s;
-	bool end;
-};
 class save
 {
 public:
@@ -479,18 +419,18 @@ public:
 	std::vector<std::string> surface_comp;
 	std::vector<std::string> surface_charge;
 };
-class name_coef
-{
-public:
-	~name_coef() {};
-	name_coef()
-	{
-		//name.clear();
-		coef = 0;
-	}
-	std::string name;
-	LDBLE coef;
-};
+//class name_coef
+//{
+//public:
+//	~name_coef() {};
+//	name_coef()
+//	{
+//		//name.clear();
+//		coef = 0;
+//	}
+//	std::string name;
+//	LDBLE coef;
+//};
 /*----------------------------------------------------------------------
  *   Species_list
  *---------------------------------------------------------------------- */
@@ -667,169 +607,7 @@ public:
 	int print;
 	int same_model;
 };
-/*----------------------------------------------------------------------
- *   Elements
- *---------------------------------------------------------------------- */
-class element
-{
-public:
-	~element() {};
-	element()
-	{
-		// element name
-		//name.clear();
-		/*    int in; */
-		master = NULL;
-		primary = NULL;
-		gfw = 0;
-	}
-	std::string name;
-	class master* master;
-	class master* primary;
-	LDBLE gfw;
-};
-/*----------------------------------------------------------------------
- *   Element List
- *---------------------------------------------------------------------- */
-class elt_list
-{
-public:
-	~elt_list() {};
-	elt_list()
-	{	/* list of name and number of elements in an equation */
-		elt = NULL;	/* pointer to element structure */
-		coef = 0.0;			/* number of element e's in eqn */
-	}
-	class element* elt;
-	LDBLE coef;
-};
-/*----------------------------------------------------------------------
- *   Species
- *---------------------------------------------------------------------- */
-class species
-{
-public:
-	~species() {};
-	species()
-	{	/* all data pertinent to an aqueous species */
-		name = NULL;          // name of species 
-		//mole_balance.clear();  // formula for mole balance 
-		in = FALSE;           // set internally if species in model
-		number = 0;
-		// points to master species list, NULL if not primary master
-		primary = NULL;
-		// points to master species list, NULL if not secondary master
-		secondary = NULL;
-		gfw = 0;              // gram formula wt of species
-		z = 0;                // charge of species
-		// tracer diffusion coefficient in water at 25oC, m2/s
-		dw = 0;
-		// correct Dw for temperature: Dw(TK) = Dw(298.15) * exp(dw_t / TK - dw_t / 298.15)
-		dw_t = 0;
-		// parms for calc'ng SC = SC0 * exp(-dw_a * z * mu^0.5 / (1 + DH_B * dw_a2 * mu^0.5))
-		dw_a = 0;
-		dw_a2 = 0;
-		dw_a_visc = 0;   // viscosity correction of SC
-		dw_t_SC = 0;     // contribution to SC, for calc'ng transport number with BASIC
-		dw_corr = 0;	 // dw corrected for TK and mu
-		erm_ddl = 0;     // enrichment factor in DDL
-		equiv = 0;       // equivalents in exchange species
-		alk = 0;	     // alkalinity of species, used for cec in exchange
-		carbon = 0;      // stoichiometric coefficient of carbon in species
-		co2 = 0;         // stoichiometric coefficient of C(4) in species
-		h = 0;           // stoichiometric coefficient of H in species
-		// stoichiometric coefficient of O in species
-		o = 0;
-		// WATEQ Debye Huckel a and b-dot; active_fraction coef for exchange species
-		dha = 0, dhb = 0, a_f = 0;
-		lk = 0;           // log10 k at working temperature
-		// log kt0, delh, 6 coefficients analytical expression + volume terms
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
-		// 7 coefficients analytical expression for B, D, anion terms and pressure in Jones_Dole viscosity eqn
-		for (size_t i = 0; i < 10; i++) Jones_Dole[i] = 0;
-		// regression coefficients to calculate temperature dependent phi_0and b_v of Millero density model
-		for (size_t i = 0; i < 7; i++) millero[i] = 0;
-		original_units = kjoules;  // enum with original delta H units
-		//add_logk.clear();
-		lg = 0;            // log10 activity coefficient, gamma
-		lg_pitzer = 0;     // log10 activity coefficient, from pitzer calculation
-		lm = 0;            // log10 molality
-		la = 0;		       // log10 activity
-		dg = 0;		       // gamma term for jacobian
-		dg_total_g = 0;
-		moles = 0;		   // moles in solution; moles/mass_water = molality
-		type = 0;          // flag indicating presence in model and types of equations
-		gflag = 0;		   // flag for preferred activity coef eqn
-		exch_gflag = 0;    // flag for preferred activity coef eqn
-		// vector of elements
-		//next_elt.clear();
-		//next_secondary.clear();
-		//next_sys_total.clear();
-		// switch to check equation for charge and element balance
-		check_equation = TRUE;
-		//CReaction rxn;   // data base reaction
-		//CReaction rxn_s; // reaction converted to secondary and primary master species
-		//CReaction rxn_x; // reaction to be used in model
-		// (1 + sum(g)) * moles
-		tot_g_moles = 0;
-		// sum(moles*g*Ws/Waq)
-		tot_dh2o_moles = 0;
-		for (size_t i = 0; i < 5; i++) cd_music[i] = 0;
-		for (size_t i = 0; i < 3; i++) dz[i] = 0;
-		original_deltav_units = cm3_per_mol;
-	}
-	const char* name;
-	std::string mole_balance; 
-	int in;
-	int number;
-	class master* primary;
-	class master* secondary;
-	LDBLE gfw;
-	LDBLE z;
-	LDBLE dw;
-	LDBLE dw_t;
-	LDBLE dw_a;
-	LDBLE dw_a2;
-	LDBLE dw_a_visc;
-	LDBLE dw_t_SC;
-	LDBLE dw_corr;
-	LDBLE erm_ddl;
-	LDBLE equiv;
-	LDBLE alk;
-	LDBLE carbon;
-	LDBLE co2;
-	LDBLE h;
-	LDBLE o;	
-	LDBLE dha, dhb, a_f;
-	LDBLE lk;
-	LDBLE logk[MAX_LOG_K_INDICES];
-	LDBLE Jones_Dole[10];
-	LDBLE millero[7];
-	DELTA_H_UNIT original_units;
-	std::vector<class name_coef> add_logk;
-	LDBLE lg;
-	LDBLE lg_pitzer;
-	LDBLE lm;
-	LDBLE la;
-	LDBLE dg;
-	LDBLE dg_total_g;
-	LDBLE moles;
-	int type;
-	int gflag;
-	int exch_gflag;
-	std::vector<class elt_list> next_elt;
-	std::vector<class elt_list> next_secondary;
-	std::vector<class elt_list> next_sys_total;
-	int check_equation;
-	CReaction rxn;
-	CReaction rxn_s;
-	CReaction rxn_x;
-	LDBLE tot_g_moles;
-	LDBLE tot_dh2o_moles;
-	LDBLE cd_music[5];
-	LDBLE dz[3];
-	DELTA_V_UNIT original_deltav_units;
-};
+
 class logk
 {
 public:
@@ -839,188 +617,93 @@ public:
 		//name.clear();		 // name of log_k 
 		lk = 0.0;	         // log10 k at working temperature                   
 		// log kt0, delh, 6 coefficients analalytical expression 
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) log_k[i] = 0;
+		for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) log_k[i] = 0;
 		// enum with original delta H units 
-		original_units = kjoules;	   
+		original_units = Logk::kjoules;	   
 		done = FALSE;
 		//add_logk.clear();
 		// log kt0, delh, 5 coefficients analalytical expression 
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) log_k_original[i] = 0;
-		original_deltav_units = cm3_per_mol;
+		for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) log_k_original[i] = 0;
+		original_deltav_units = Logk::cm3_per_mol;
 	}
 	std::string name;
 	LDBLE lk;
-	LDBLE log_k[MAX_LOG_K_INDICES];
-	DELTA_H_UNIT original_units;
+	LDBLE log_k[Logk::MAX_LOG_K_INDICES];
+	Logk::DELTA_H_UNIT original_units;
 	int done;
 	std::vector<class name_coef> add_logk;
-	LDBLE log_k_original[MAX_LOG_K_INDICES];
-	DELTA_V_UNIT original_deltav_units;
+	LDBLE log_k_original[Logk::MAX_LOG_K_INDICES];
+	Logk::DELTA_V_UNIT original_deltav_units;
 };
-/*----------------------------------------------------------------------
- *   Phases
- *---------------------------------------------------------------------- */
-class phase
-{
-public:
-	~phase() {};
-	phase()
-	{	/* all data pertinent to a pure solid phase */
-		//name.clear()              //name of phase
-		//formula.clear();			// chemical formula 
-		in = FALSE;					// species used in model if TRUE 
-		lk = 0;					    // log10 k at working temperature 
-		// log kt0, delh, 6 coefficients analalytical expression
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
-		// enum with original delta H units 
-		original_units = kjoules;	
-		original_deltav_units = cm3_per_mol;
-		//add_logk.clear();
-		moles_x = 0;
-		delta_max = 0;
-		p_soln_x = 0;
-		fraction_x = 0;
-		log10_lambda = 0;
-		log10_fraction_x = 0;
-		dn = 0, dnb = 0, dnc = 0;
-		gn = 0, gntot = 0;
-		gn_n = 0, gntot_n = 0;
-		// gas: critical TK, critical P(atm), Pitzer acentric coeff 
-		t_c = 0, p_c = 0, omega = 0;  
-		// Peng-Robinson parm's
-		pr_a = 0, pr_b = 0, pr_alpha = 0;	
-		// Temperature (K), Pressure (atm)
-		pr_tk = 0, pr_p = 0;
-		// fugacity coefficient (-) 
-		pr_phi = 0;		
-		// for calculating multicomponent phi 
-		pr_aa_sum2 = 0;
-		// delta_v[0] = [1] + [2]*T + [3]/T + [4]*log10(T) + [5]/T^2 + [6]*T^2 + [7]*P
-		for (size_t i = 0; i < 9; i++) delta_v[i] = 0;
-		// si adapter: log10(phi) - delta_v[0] * (P - 1) /RT
-		pr_si_f = 0;	
-		// Peng-Robinson in the calc's, or not
-		pr_in = false;
-		// flag indicating presence in model and types of equations
-		type = SOLID;	
-		// list of elements in phase 
-		//next_elt.clear();	    
-		//next_sys_total.clear();
-		// switch to check equation for charge and element balance
-		check_equation = TRUE;
-		// data base reaction
-		//CReaction rxn;
-		// reaction converted to secondary and primary master species
-		//CReaction rxn_s;
-		// reaction to be used in model
-		//CReaction rxn_x;
-		// equation contains solids or gases                    
-		replaced = FALSE;                       
-		in_system = FALSE;
-	}
-	std::string name;
-	std::string formula;
-	int in;
-	LDBLE lk;
-	LDBLE logk[MAX_LOG_K_INDICES];
-	DELTA_H_UNIT original_units;
-	DELTA_V_UNIT original_deltav_units;
-	std::vector<class name_coef> add_logk;
-	LDBLE moles_x;
-	LDBLE delta_max;
-	LDBLE p_soln_x;
-	LDBLE fraction_x;
-	LDBLE log10_lambda;
-	LDBLE log10_fraction_x;
-	LDBLE dn, dnb, dnc;
-	LDBLE gn, gntot;
-	LDBLE gn_n, gntot_n;
-	LDBLE t_c, p_c, omega; 
-	LDBLE pr_a, pr_b, pr_alpha;
-	LDBLE pr_tk, pr_p;
-	LDBLE pr_phi;
-	LDBLE pr_aa_sum2;
-	LDBLE delta_v[9];
-	LDBLE pr_si_f;
-	bool pr_in;
-	int type;	
-	std::vector<class elt_list> next_elt;
-	std::vector<class elt_list> next_sys_total;
-	int check_equation;
-	CReaction rxn;
-	CReaction rxn_s;
-	CReaction rxn_x;
-	int replaced;
-	int in_system;
-};
-/*----------------------------------------------------------------------
- *   Master species
- *---------------------------------------------------------------------- */
-class master
-{
-public:
-	~master() {};
-	master()
-	{	
-		// TRUE if in model, FALSE if out, REWRITE if other mb eq
-		in = 0;
-		// sequence number in list of masters
-		number = 0;
-		// saved to determine if model has changed
-		last_model = FALSE;
-		// AQ or EX
-		type = 0;
-		// TRUE if master species is primary
-		primary = FALSE;
-		// coefficient of element in master species
-		coef = 0;
-		// total concentration for element or valence state
-		total = 0;
-		isotope_ratio = 0;
-		isotope_ratio_uncertainty = 0;
-		isotope = 0;
-		total_primary = 0;
-		// element structure
-		elt = NULL;
-		// alkalinity of species
-		alk = 0;
-		// default gfw for species
-		gfw = 1;
-		// formula from which to calcuate gfw
-		//gfw_formula.clear();
-		// pointer to unknown structure
-		unknown = NULL;
-		// pointer to species structure
-		s = NULL;
-		// reaction writes master species in terms of primary  master species
-		//CReaction rxn_primary;
-		// reaction writes master species in terms of secondary master species
-		//CReaction rxn_secondary;
-		//pe_rxn.clear();
-		minor_isotope = FALSE;
-	}
-	int in;
-	size_t number;
-	int last_model;
-	int type;
-	int primary;
-	LDBLE coef;
-	LDBLE total;
-	LDBLE isotope_ratio;
-	LDBLE isotope_ratio_uncertainty;
-	int isotope;
-	LDBLE total_primary;
-	class element* elt;
-	LDBLE alk;
-	LDBLE gfw;
-	std::string gfw_formula;
-	class unknown* unknown;
-	class species* s;
-	CReaction rxn_primary;
-	CReaction rxn_secondary;
-	std::string pe_rxn;
-	int minor_isotope;
-};
+
+///*----------------------------------------------------------------------
+// *   Master species
+// *---------------------------------------------------------------------- */
+//class master
+//{
+//public:
+//	~master() {};
+//	master()
+//	{	
+//		// TRUE if in model, FALSE if out, REWRITE if other mb eq
+//		in = 0;
+//		// sequence number in list of masters
+//		number = 0;
+//		// saved to determine if model has changed
+//		last_model = FALSE;
+//		// AQ or EX
+//		type = 0;
+//		// TRUE if master species is primary
+//		primary = FALSE;
+//		// coefficient of element in master species
+//		coef = 0;
+//		// total concentration for element or valence state
+//		total = 0;
+//		isotope_ratio = 0;
+//		isotope_ratio_uncertainty = 0;
+//		isotope = 0;
+//		total_primary = 0;
+//		// element structure
+//		elt = NULL;
+//		// alkalinity of species
+//		alk = 0;
+//		// default gfw for species
+//		gfw = 1;
+//		// formula from which to calcuate gfw
+//		//gfw_formula.clear();
+//		// pointer to unknown structure
+//		unknown = NULL;
+//		// pointer to species structure
+//		s = NULL;
+//		// reaction writes master species in terms of primary  master species
+//		//CReaction rxn_primary;
+//		// reaction writes master species in terms of secondary master species
+//		//CReaction rxn_secondary;
+//		//pe_rxn.clear();
+//		minor_isotope = FALSE;
+//	}
+//	int in;
+//	size_t number;
+//	int last_model;
+//	int type;
+//	int primary;
+//	LDBLE coef;
+//	LDBLE total;
+//	LDBLE isotope_ratio;
+//	LDBLE isotope_ratio_uncertainty;
+//	int isotope;
+//	LDBLE total_primary;
+//	class element* elt;
+//	LDBLE alk;
+//	LDBLE gfw;
+//	std::string gfw_formula;
+//	class unknown* unknown;
+//	class species* s;
+//	CReaction rxn_primary;
+//	CReaction rxn_secondary;
+//	std::string pe_rxn;
+//	int minor_isotope;
+//};
 /*----------------------------------------------------------------------
  *   Unknowns
  *---------------------------------------------------------------------- */
@@ -1205,29 +888,6 @@ public:
 	int isotope_alphas;
 	int hdf;
 	int alkalinity;
-};
-/* ----------------------------------------------------------------------
- *   RATES
- * ---------------------------------------------------------------------- */
-class rate
-{
-public:
-	~rate() {};
-	rate()
-	{
-		//name.clear();
-		//std::string commands;
-		new_def = 0;
-		linebase = NULL;
-		varbase = NULL;
-		loopbase = NULL;
-	}
-	std::string name;
-	std::string commands;
-	int new_def;
-	void* linebase;
-	void* varbase;
-	void* loopbase;
 };
 /* ----------------------------------------------------------------------
  *   GLOBAL DECLARATIONS

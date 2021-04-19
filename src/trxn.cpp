@@ -58,12 +58,12 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	  */
 	if (count_trxn == 0)
 	{
-		for (int i = 0; i < MAX_LOG_K_INDICES; i++) this->logk[i] = r_ref.Get_logk()[i];
+		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++) this->logk[i] = r_ref.Get_logk_cr()[i];
 		for (int i = 0; i < 3; i++)	this->dz[i] = r_ref.Get_dz()[i];
 	}
 	else
 	{
-		for (int i = 0; i < MAX_LOG_K_INDICES; i++) this->logk[i] += coef * r_ref.Get_logk()[i];
+		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++) this->logk[i] += coef * r_ref.Get_logk_cr()[i];
 		for (int i = 0; i < 3; i++) this->dz[i] += coef * r_ref.Get_dz()[i];
 	}
 	/*
@@ -110,12 +110,13 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 */
 	if (count_trxn == 0)
 	{
-		memcpy((void*)this->logk, (void*)r_ref.Get_logk(),
-			(size_t)MAX_LOG_K_INDICES * sizeof(double));
+		//memcpy((void*)this->logk, (void*)r_ref.Get_logk_cr(),
+		//	(size_t)Logk::MAX_LOG_K_INDICES * sizeof(double));
+		this->logk = r_ref.Get_logk_cr();
 	}
 	else
 	{
-		for (i = 0; i < MAX_LOG_K_INDICES; i++)	this->logk[i] += coef * r_ref.Get_logk()[i];
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)	this->logk[i] += coef * r_ref.Get_logk_cr()[i];
 	}
 	/*
 	 *   Copy  equation into work space
@@ -235,9 +236,9 @@ trxn_copy(CReaction& rxn_ref)
 	/*
 	 *   Copy logk data
 	 */
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
-		rxn_ref.logk[i] = this->logk[i];
+		rxn_ref.logk_cr[i] = this->logk[i];
 	}
 	/*
 	 *   Copy dz data
@@ -303,7 +304,7 @@ trxn_multiply(double coef)
 	/*
 	 *   Multiply log k for reaction
 	 */
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		this->logk[i] *= coef;
 	}
@@ -339,7 +340,7 @@ trxn_print(void)
 	std::ostringstream oss;
 	oss << "\tlog k data:\n";
 	//output_msg(sformatf("\tlog k data:\n"));
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		oss << "\t\t" << this->logk[i] << "\n";
 		//output_msg(sformatf("\t\t%f\n", (double)this->logk[i]));
@@ -384,7 +385,7 @@ trxn_reverse_k(void)
 	/*
 	 *   Accumulate log k for reaction
 	 */
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		this->logk[i] = -this->logk[i];
 	}

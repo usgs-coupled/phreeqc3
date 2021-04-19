@@ -422,7 +422,7 @@ read_exchange_species(void)
 		"add_logk",				/* 16 */
 		"add_log_k",			/* 17 */
 		"add_constant",			/* 18 */
-		"vm"	/* 19, molar volume, must replace delta_v */
+		"vm"	/* 19, molar volume, must replace Logk::delta_v */
 	};
 	int count_opt_list = 20;
 
@@ -547,7 +547,7 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(s_ptr->logk[T_A1]));
+			read_analytical_expression_only(next_char, &(s_ptr->logk[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 12:				/* gamma */
@@ -702,7 +702,7 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_vm_only(next_char, &s_ptr->logk[vm0],
+			read_vm_only(next_char, &s_ptr->logk[Logk::vm0],
 				&s_ptr->original_deltav_units);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -2640,8 +2640,8 @@ read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 	}
 	delta_v[9] = 1.0;
 /* Vmax, dmax...
-	delta_v[10] = 999.0;
-	delta_v[11] = 1.0; */
+	Logk::delta_v[10] = 999.0;
+	Logk::delta_v[11] = 1.0; */
 	j = sscanf(cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT /*SCANFORMAT SCANFORMAT */,
 		/* a1..a4 */
 		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
@@ -2660,8 +2660,8 @@ read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 			CONTINUE);
 		return (ERROR);
 	}
-	/* multiply with factors. a1 is in cal/mol/bar. a2 in  cal/mol, a3, a4 in cal K/mol
-	  41.84004 converts cal/mol/bar to cm3/mol. */
+	/* multiply with factors. a1 is in Logk::cal/mol/bar. a2 in  Logk::cal/mol, a3, a4 in Logk::cal K/mol
+	  41.84004 converts Logk::cal/mol/bar to cm3/mol. */
 	delta_v[0] *= 41.84004e-1;
 	delta_v[1] *= 41.84004e2;
 	delta_v[2] *= 41.84004;
@@ -2673,7 +2673,7 @@ read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_vm_only(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
+read_vm_only(const char* cptr, LDBLE * delta_v, Logk::DELTA_V_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -2698,7 +2698,7 @@ read_vm_only(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	/*
 	*   Read delta V units
 	*/
-	*units = cm3_per_mol;
+	*units = Logk::cm3_per_mol;
 	do
 	{
 		j = copy_token(token, &cptr, &l);
@@ -2746,18 +2746,18 @@ read_vm_only(class Logk& lk, const char* cptr)
 	/*
 	*   Read analytical expression
 	*/
-	for (size_t j = vm0; j < vm0 + 8; j++)
+	for (size_t j = Logk::vm0; j < Logk::vm0 + 8; j++)
 	{
-		lk.logk[j] = 0.0;
+		lk.logk_x[j] = 0.0;
 	}
 	std::istringstream iss(cptr);
-	size_t j = vm0;
+	size_t j = Logk::vm0;
 	bool read_ok = false;
 	while (isdigit(iss.peek()))
 	{
-		iss >> lk.logk[j++];
+		iss >> lk.logk_x[j++];
 		read_ok = true;
-		if (j >= vm0 + 8) break;
+		if (j >= Logk::vm0 + 8) break;
 	}
 	if (!read_ok)
 	{
@@ -2769,7 +2769,7 @@ read_vm_only(class Logk& lk, const char* cptr)
 	/*
 	*   Read delta V units
 	*/
-	lk.original_deltav_units = cm3_per_mol;
+	lk.original_deltav_units = Logk::cm3_per_mol;
 	std::string token;
 	while (isdigit(iss.peek()))
 	{
@@ -2783,25 +2783,25 @@ read_vm_only(class Logk& lk, const char* cptr)
 	{
 		/* Convert dm3/mol to cm3/mol */
 		factor = 1e3;
-		lk.original_deltav_units = dm3_per_mol;
+		lk.original_deltav_units = Logk::dm3_per_mol;
 	}
 	else if (token.find("m3") != std::string::npos)
 	{
 		/* Convert m3/mol to cm3/mol */
 		factor = 1e6;
-		lk.original_deltav_units = m3_per_mol;
+		lk.original_deltav_units = Logk::m3_per_mol;
 	}
 
-	for (size_t i = vm0; i < vm0 + 8; i++)
+	for (size_t i = Logk::vm0; i < Logk::vm0 + 8; i++)
 	{
-		lk.logk[i] *= factor;
+		lk.logk_x[i] *= factor;
 	}
 	lk.Set_selected();
 	return;
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_phase_vm(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
+read_phase_vm(const char* cptr, LDBLE * delta_v, Logk::DELTA_V_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l;
@@ -2826,7 +2826,7 @@ read_phase_vm(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	/*
 	*   Read delta V units
 	*/
-	*units = cm3_per_mol;
+	*units = Logk::cm3_per_mol;
 	do
 	{
 		j = copy_token(token, &cptr, &l);
@@ -2850,13 +2850,13 @@ read_phase_vm(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 		{
 			/* Convert dm3/mol to cm3/mol */
 			factor = 1e3;
-			*units = dm3_per_mol;
+			*units = Logk::dm3_per_mol;
 		}
 		else if (strstr(token, "m3") != NULL)
 		{
 			/* Convert m3/mol to cm3/mol */
 			factor = 1e6;
-			*units = m3_per_mol;
+			*units = Logk::m3_per_mol;
 		}
 
 		for (int i = 0; i < 1; i++)
@@ -2869,7 +2869,7 @@ read_phase_vm(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_delta_h_only(const char* cptr_in, LDBLE * delta_h, DELTA_H_UNIT * units)
+read_delta_h_only(const char* cptr_in, LDBLE * delta_h, Logk::DELTA_H_UNIT * units)
 /* ---------------------------------------------------------------------- */
 {
 	int j, l, kilo, joul;
@@ -2898,7 +2898,7 @@ read_delta_h_only(const char* cptr_in, LDBLE * delta_h, DELTA_H_UNIT * units)
  *   Read delta H units
  */
 	j = copy_token(token, &cptr, &l);
-	*units = kjoules;
+	*units = Logk::kjoules;
 	kilo = TRUE;
 	joul = TRUE;
 	if (j == EMPTY)
@@ -2916,26 +2916,26 @@ read_delta_h_only(const char* cptr_in, LDBLE * delta_h, DELTA_H_UNIT * units)
 		}
 		if (strstr(token, "c") != NULL)
 		{
-			/* convert to joules */
+			/* convert to Logk::joules */
 			*delta_h *= JOULES_PER_CALORIE;
 			joul = FALSE;
 		}
 	}
 	if (kilo == TRUE && joul == TRUE)
 	{
-		*units = kjoules;
+		*units = Logk::kjoules;
 	}
 	else if (kilo == FALSE && joul == TRUE)
 	{
-		*units = joules;
+		*units = Logk::joules;
 	}
 	else if (kilo == TRUE && joul == FALSE)
 	{
-		*units = kcal;
+		*units = Logk::kcal;
 	}
 	else if (kilo == FALSE && joul == FALSE)
 	{
-		*units = cal;
+		*units = Logk::cal;
 	}
 	return (OK);
 }
@@ -2963,7 +2963,7 @@ read_delta_h_only(class Logk& lk, const char* cptr_in)
 	 */
 	std::string token;
 	iss >> token;
-	lk.original_units = kjoules;
+	lk.original_units = Logk::kjoules;
 	int kilo = TRUE;
 	int joul = TRUE;
 	if (token.size() == 0)
@@ -2975,25 +2975,25 @@ read_delta_h_only(class Logk& lk, const char* cptr_in)
 	{
 		/* convert to kilo */
 		kilo = FALSE;
-		lk.logk[1] /= 1000.;
+		lk.logk_x[1] /= 1000.;
 	}
 	if (token.find("c") != std::string::npos)
 	{
-		/* convert to joules */
-		lk.logk[1] *= JOULES_PER_CALORIE;
+		/* convert to Logk::joules */
+		lk.logk_x[1] *= JOULES_PER_CALORIE;
 		joul = FALSE;
 	}
 	if (kilo == FALSE && joul == TRUE)
 	{
-		lk.original_units = joules;
+		lk.original_units = Logk::joules;
 	}
 	else if (kilo == TRUE && joul == FALSE)
 	{
-		lk.original_units = kcal;
+		lk.original_units = Logk::kcal;
 	}
 	else if (kilo == FALSE && joul == FALSE)
 	{
-		lk.original_units = cal;
+		lk.original_units = Logk::cal;
 	}
 	lk.Set_selected();
 	return;
@@ -3004,7 +3004,7 @@ read_analytical_expression_only(const char* cptr, LDBLE * log_k)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
-	int num_terms = T_A6 - T_A1 + 1;
+	int num_terms = Logk::T_A6 - Logk::T_A1 + 1;
 /*
  *   Read analytical expression
  */
@@ -3032,17 +3032,17 @@ read_analytical_expression_only(class Logk& lk, const char* cptr)
 	/*
 	 *   Read analytical expression
 	 */
-	for(size_t i = T_A1; i <= T_A6; i++)
+	for(size_t i = Logk::T_A1; i <= Logk::T_A6; i++)
 	{ 
-		lk.logk[i] = 0.0;
+		lk.logk_x[i] = 0.0;
 	}
 	std::istringstream iss(cptr);
-	size_t j = T_A1;
+	size_t j = Logk::T_A1;
 	bool read_ok = false;
 	while (iss >> lk.logk_original[j++])
 	{
 		read_ok = true;
-		if (j > T_A6) break;
+		if (j > Logk::T_A6) break;
 	}
 	if (!read_ok)
 	{
@@ -3062,9 +3062,9 @@ read_ln_alpha_only(class Logk& lk, const char* cptr)
 	 *   Read analytical expression
 	 */
 	 bool empty = TRUE;
-	 for (size_t i = T_A1; i <= T_A6; i++)
+	 for (size_t i = Logk::T_A1; i <= Logk::T_A6; i++)
 	 {
-		if(lk.logk[i] != 0.0)
+		if(lk.logk_x[i] != 0.0)
 	 	{
 	 		empty = FALSE;
 			break;
@@ -3079,7 +3079,7 @@ read_ln_alpha_only(class Logk& lk, const char* cptr)
 	 	warning_msg(error_string);
 	 }
 	read_analytical_expression_only(lk, cptr);
-	for (size_t i = T_A1; i < T_A6; i++)
+	for (size_t i = Logk::T_A1; i < Logk::T_A6; i++)
 	{
 		lk.logk_original[i] /= 1000. * LOG_10;
 	}
@@ -3665,7 +3665,7 @@ read_phases(void)
 		"t_c",					/* 12 */
 		"p_c",					/* 13 */
 		"omega",				/* 14 */
-		"vm"	/* 15, molar volume, must replace delta_v */
+		"vm"	/* 15, molar volume, must replace Logk::delta_v */
 	};
 	int count_opt_list = 16;
 	association = FALSE;
@@ -3726,7 +3726,7 @@ read_phases(void)
 		case 8:				/* ae */
 			if (phase_ptr == NULL)
 				break;
-			read_analytical_expression_only(next_char, &(phase_ptr->logk[T_A1]));
+			read_analytical_expression_only(next_char, &(phase_ptr->logk[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 9:				/* add_logk */
@@ -3798,9 +3798,9 @@ read_phases(void)
 		case 15:            /* vm, molar volume */
 			if (phase_ptr == NULL)
 				break;
-			read_phase_vm(next_char, &(phase_ptr->logk[vm0]),
+			read_phase_vm(next_char, &(phase_ptr->logk[Logk::vm0]),
 				&phase_ptr->original_deltav_units);
-			phase_ptr->delta_v[1] = phase_ptr->logk[vm0];
+			phase_ptr->delta_v[1] = phase_ptr->logk[Logk::vm0];
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
@@ -5491,7 +5491,7 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(s_ptr->logk[T_A1]));
+			read_analytical_expression_only(next_char, &(s_ptr->logk[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 13:				/* llnl_gamma */
@@ -5655,8 +5655,8 @@ read_species(void)
 			//{
 			///* copy millero parms into logk, for calculating pressure dependency... */
 			//	for (i = 0; i < 7; i++)
-			//		s_ptr->logk[vm0 + i] = s_ptr->millero[i];
-			//	s_ptr->logk[vm0 + i] = 0;
+			//		s_ptr->logk[Logk::vm0 + i] = s_ptr->millero[i];
+			//	s_ptr->logk[Logk::vm0 + i] = 0;
 			//}
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -5671,7 +5671,7 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_aq_species_vm_parms(next_char, &s_ptr->logk[vma1]);
+			read_aq_species_vm_parms(next_char, &s_ptr->logk[Logk::vma1]);
 			//vm_read = true;
 			print_density = OK;
 			opt_save = OPTION_DEFAULT;
@@ -6189,7 +6189,7 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(s_ptr->logk[T_A1]));
+			read_analytical_expression_only(next_char, &(s_ptr->logk[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 12:				/* offset */
@@ -6307,7 +6307,7 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			read_vm_only(next_char, &s_ptr->logk[vm0],
+			read_vm_only(next_char, &s_ptr->logk[Logk::vm0],
 				&s_ptr->original_deltav_units);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -7158,9 +7158,9 @@ add_psi_master_species(char *token)
 			/*
 			 *   Define reaction for psi
 			 */
-			for (i = 0; i < MAX_LOG_K_INDICES; i++)
+			for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 			{
-				master[count_master]->s->rxn.logk[i] = 0.0;
+				master[count_master]->s->rxn.logk_cr[i] = 0.0;
 			}
 			master[count_master]->s->rxn.token[0].Set_s(
 				master[count_master]->s);
@@ -9416,7 +9416,7 @@ read_named_logk(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(logk_ptr->log_k[T_A1]));
+			read_analytical_expression_only(next_char, &(logk_ptr->log_k[Logk::T_A1]));
 			logk_copy2orig(logk_ptr);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -9431,7 +9431,7 @@ read_named_logk(void)
 				break;
 			}
 			empty = TRUE;
-			for (i = T_A1; i <= T_A6; i++)
+			for (i = Logk::T_A1; i <= Logk::T_A6; i++)
 			{
 				if (logk_ptr->log_k[i] != 0.0)
 				{
@@ -9446,8 +9446,8 @@ read_named_logk(void)
 						logk_ptr->name.c_str());
 				warning_msg(error_string);
 			}
-			read_analytical_expression_only(next_char, &(logk_ptr->log_k[T_A1]));
-			for (i = T_A1; i < T_A6; i++)
+			read_analytical_expression_only(next_char, &(logk_ptr->log_k[Logk::T_A1]));
+			for (i = Logk::T_A1; i < Logk::T_A6; i++)
 			{
 				logk_ptr->log_k[i] /= 1000. * LOG_10;
 			}
@@ -9498,7 +9498,7 @@ read_named_logk(void)
 				input_error++;
 				break;
 			}
-			read_vm_only(next_char, &logk_ptr->log_k[vm0],
+			read_vm_only(next_char, &logk_ptr->log_k[Logk::vm0],
 				&logk_ptr->original_deltav_units);
 			logk_copy2orig(logk_ptr);
 			opt_save = OPTION_DEFAULT;
@@ -9649,7 +9649,7 @@ read_named_Logk(void)
 				str_tolower(name);
 				//class logk* lk_ptr = logk_store(Logk_temp.name, TRUE);
 				class logk* Lk_ptr = Logk_temp.Newlogk();
-				logk.push_back(Lk_ptr);
+				logk_vector.push_back(Lk_ptr);
 				logk_map[name] = Lk_ptr;
 			}
 			class Logk init;

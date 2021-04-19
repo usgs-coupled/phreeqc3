@@ -125,12 +125,12 @@ clean_up(void)
 	}
 	rates.clear();
 	/* logk table */
-	for (j = 0; j < (int)logk.size(); j++)
+	for (j = 0; j < (int)logk_vector.size(); j++)
 	{
-		logk[j]->add_logk.clear();
-		delete logk[j];
+		logk_vector[j]->add_logk.clear();
+		delete logk_vector[j];
 	}
-	logk.clear();
+	logk_vector.clear();
 	save_values.clear();
 	/* working pe*/
 	pe_x.clear();
@@ -256,18 +256,18 @@ reinitialize(void)
  * ********************************************************************** */
 CReaction::CReaction(void)
 {
-	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) this->logk[i] = 0.0;
-	for (size_t i = 0; i < 3; i++) this->dz[i] = 0.0;
+	this->logk_cr.resize(Logk::MAX_LOG_K_INDICES, 0.0);
+	this->dz.resize(3, 0.0);
 }
 CReaction::CReaction(size_t ntoken)
 {
-	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) this->logk[i] = 0.0;
-	for (size_t i = 0; i < 3; i++) this->dz[i] = 0.0;
+	this->logk_cr.resize(Logk::MAX_LOG_K_INDICES, 0.0);
+	this->dz.resize(3, 0.0);
 	this->token.resize(ntoken);
 }
-void  CReaction::Set_logk(double* d)
+void  CReaction::Set_logk_cr(double* d)
 {
-	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++)logk[i] = d[i];
+	for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++)logk_cr[i] = d[i];
 }
 void   CReaction::Set_dz(double* d)
 {
@@ -276,7 +276,7 @@ void   CReaction::Set_dz(double* d)
 CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 {
 	CReaction rxn;
-	for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) rxn.logk[i] = rxn_ref.logk[i];
+	for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) rxn.logk_cr[i] = rxn_ref.logk_cr[i];
 	for (size_t i = 0; i < 3; i++) rxn.dz[i] = rxn_ref.dz[i];
 	rxn.Get_tokens().resize(rxn_ref.Get_tokens().size());
 	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
@@ -318,266 +318,7 @@ rxn_find_coef(CReaction& r_ref, const char* str)
 	}
 	return (coef);
 }
-/* **********************************************************************
- *
- *   Routines related to structure "element"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-element_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const class element *element_ptr1, *element_ptr2;
-	element_ptr1 = *(const class element **) ptr1;
-	element_ptr2 = *(const class element **) ptr2;
-/*      return(strcmp_nocase(element_ptr1->name, element_ptr2->name)); */
-	return (strcmp(element_ptr1->name.c_str(), element_ptr2->name.c_str()));
 
-}
-
-/* ---------------------------------------------------------------------- */
-class element* Phreeqc::
-element_store(const char * element)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Function locates the string "element" in the map for elements.
-	 *
-	 *   If found, pointer to the appropriate element structure is returned.
-	 *
-	 *   If the string is not found, a new entry is made at the end of
-	 *   the elements array (position count_elements) and count_elements is
-	 *   incremented. Pointer to the new structure is returned.
-	 *
-	 *   Arguments:
-	 *      element    input, std::string to be located or stored.
-	 *
-	 *   Returns:
-	 *      The address of an elt structure that contains the element data.
-	 */
-	/*
-	 *   Search list
-	 */
-	std::map<std::string, class element *>::const_iterator it;
-	it = elements_map.find(element);
-	if (it != elements_map.end())
-	{
-		return (it->second);
-	}
-	/*
-	 *   Save new element structure and return pointer to it
-	 */
-	class element *elt_ptr = new class element;
-	elt_ptr->name = element;
-	elt_ptr->master = NULL;
-	elt_ptr->primary = NULL;
-	elt_ptr->gfw = 0.0;
-	elements.push_back(elt_ptr);
-	elements_map[element] = elt_ptr;
-	return (elt_ptr);
-}
-/* **********************************************************************
- *
- *   Routines related to structure "elt_list"
- *
- * ********************************************************************** */
- /* ---------------------------------------------------------------------- */
-int Phreeqc::
-add_elt_list(const cxxNameDouble& nd, LDBLE coef)
-/* ---------------------------------------------------------------------- */
-{
-	cxxNameDouble::const_iterator cit = nd.begin();
-	for (; cit != nd.end(); cit++)
-	{
-		if (count_elts >= (int)elt_list.size())
-		{
-			elt_list.resize(count_elts + 1);
-		}
-		elt_list[count_elts].elt = element_store(cit->first.c_str());
-		elt_list[count_elts].coef = cit->second * coef;
-		count_elts++;
-	}
-	return (OK);
-}
-int Phreeqc::
-add_elt_list(const std::vector<class elt_list>& el, double coef)
-/* ---------------------------------------------------------------------- */
-{
-	const class elt_list* elt_list_ptr = &el[0];
-
-	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
-	{
-		if (count_elts >= elt_list.size())
-		{
-			elt_list.resize(count_elts + 1);
-		}
-		elt_list[count_elts].elt = elt_list_ptr->elt;
-		elt_list[count_elts].coef = elt_list_ptr->coef * coef;
-		count_elts++;
-	}
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-change_hydrogen_in_elt_list(LDBLE charge)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-	int found_h, found_o;
-	LDBLE coef_h, coef_o, coef;
-	found_h = -1;
-	found_o = -1;
-	coef_h = 0.0;
-	coef_o = 0.0;
-	elt_list_combine();
-	for (j = 0; j < count_elts; j++)
-	{
-		if (elt_list[j].elt->name == "H")
-		{
-			found_h = j;
-			coef_h = elt_list[j].coef;
-		}
-		else if (elt_list[j].elt->name == "O")
-		{
-			found_o = j;
-			coef_o = elt_list[j].coef;
-		}
-	}
-	coef = coef_h - 2 * coef_o - charge;
-	if (found_h < 0 && found_o < 0)
-		return (OK);
-	if (found_h >= 0 && found_o < 0)
-		return (OK);
-	if (found_h < 0 && found_o >= 0)
-	{
-		elt_list[count_elts].elt = s_hplus->primary->elt;
-		elt_list[count_elts].coef = coef;
-		count_elts++;
-		elt_list_combine();
-		return (OK);
-	}
-	elt_list[found_h].coef = coef;
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-elt_list_combine(void)
-/* ---------------------------------------------------------------------- */
-/*
- *      Function goes through the list of elements pointed to by elt_list
- *      and combines the coefficients of elements that are the same.
- *      Assumes elt_list has been sorted by element name.
- */
-{
-	int i, j;
-
-	//if (count_elts < 1)
-	//{
-	//	output_msg("elt_list_combine: How did this happen?\n");
-	//	return (ERROR);
-	//}
-	if (count_elts <= 1)
-	{
-		return (OK);
-	}
-	qsort(&elt_list[0], count_elts,
-		sizeof(class elt_list), Phreeqc::elt_list_compare);
-	j = 0;
-	for (i = 1; i < count_elts; i++)
-	{
-		if (elt_list[i].elt == elt_list[j].elt)
-		{
-			elt_list[j].coef += elt_list[i].coef;
-		}
-		else
-		{
-			j++;
-			if (i != j)
-			{
-				elt_list[j].elt = elt_list[i].elt;
-				elt_list[j].coef = elt_list[i].coef;
-			}
-		}
-	}
-	count_elts = j + 1;
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-elt_list_compare(const void* ptr1, const void* ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const class elt_list* a, * b;
-
-	a = (const class elt_list*)ptr1;
-	b = (const class elt_list*)ptr2;
-	return (strncmp(a->elt->name.c_str(), b->elt->name.c_str(), MAX_LENGTH));
-}
-/* ---------------------------------------------------------------------- */
-std::vector<class elt_list> Phreeqc::
-elt_list_internal_copy(const std::vector<class elt_list>& el)
-/* ---------------------------------------------------------------------- */
-{
-	std::vector<class elt_list> new_elt_list;
-	if (el.size() == 0) return new_elt_list;
-	const class elt_list* elt_list_ptr = &el[0];
-
-	new_elt_list.resize(el.size());
-	size_t count = 0;
-	for (; elt_list_ptr->elt != NULL; elt_list_ptr++)
-	{
-		new_elt_list[count].elt = element_store(elt_list_ptr->elt->name.c_str());
-		new_elt_list[count].coef = elt_list_ptr->coef;
-		count++;
-	}
-	new_elt_list[count].elt = NULL;
-	return new_elt_list;
-}
-/* ---------------------------------------------------------------------- */
-std::vector<class elt_list> Phreeqc::
-elt_list_vsave(void)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Takes data from work space elt_list, allocates a new elt_list structure,
-	 *   copies data from work space to new structure, and returns pointer to
-	 *   new structure.
-	 */
-	size_t j;
-	std::vector<class elt_list> new_elt_list;
-	/*
-	 *   Sort elements in reaction and combine
-	 */
-	elt_list_combine();
-	/*
-	 *   Malloc space and store element data
-	 */
-	new_elt_list.resize(count_elts + 1);
-	for (j = 0; j < count_elts; j++)
-	{
-		new_elt_list[j].elt = elt_list[j].elt;
-		new_elt_list[j].coef = elt_list[j].coef;
-	}
-	new_elt_list[count_elts].elt = NULL;
-	return new_elt_list;
-}
-
-/* ---------------------------------------------------------------------- */
-cxxNameDouble Phreeqc::
-elt_list_NameDouble(void)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Takes data from work space elt_list, makes NameDouble
-	 */
-	cxxNameDouble nd;
-	for (int i = 0; i < count_elts; i++)
-	{
-		nd.add(elt_list[i].elt->name.c_str(), elt_list[i].coef);
-	}
-	return (nd);
-}
 /* **********************************************************************
  *
  *   Routines related to structure "inverse"
@@ -776,921 +517,282 @@ inverse_sort(void)
 	return (OK);
 }
 
-/* **********************************************************************
- *
- *   Routines related to structure "master"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-class master * Phreeqc::
-master_alloc(void)
-/* ---------------------------------------------------------------------- */
-/*
- *   Allocates space to a master structure and initializes the space.
- *      arguments: void
- *      return: pointer to a master structure
- */
-{
-	class master *ptr = new class master;
-/*
- *   set pointers in structure to NULL
- */
-	ptr->in = FALSE;
-	ptr->number = -1;
-	ptr->last_model = -1;
-	ptr->type = 0;
-	ptr->primary = FALSE;
-	ptr->coef = 0.0;
-	ptr->total = 0.0;
-	ptr->isotope_ratio = 0;
-	ptr->isotope_ratio_uncertainty = 0;
-	ptr->isotope = 0;
-	ptr->total_primary = 0;
-	ptr->elt = NULL;
-	ptr->alk = 0.0;
-	ptr->gfw = 0.0;
-	//ptr->gfw_formula.clear();
-	ptr->unknown = NULL;
-	ptr->s = NULL;
-	ptr->pe_rxn.clear();
-	ptr->minor_isotope = FALSE;
-	return (ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-master_delete(const char* cptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Delete master species:  Free memory of master species structure, free
- *   the structure, and remove from array master.
- *
- *   Input
- *	ptr  character string with name of element or valence state
- *   Returns
- *	TRUE if master species was deleted.
- *	FALSE if master species was not found.
- */
-	int n;
-
-	if (master_search(cptr, &n) == NULL)
-		return (FALSE);
-	master_free(master[n]);
-	master.erase(master.begin() + n);
-	return (TRUE);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-master_free(class master *master_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Free memory pointed to by master species pointer, master_ptr.
- *   Frees master_ptr itself.
- */
-	if (master_ptr == NULL)
-		return (ERROR);
-	delete master_ptr;
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-class master * Phreeqc::
-master_bsearch(const std::string& cptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Uses binary search. Assumes master is in sort order.
- *   Find master species for string (*cptr) containing name of element or valence state.
- *
- *   Input: cptr    pointer to string containing element name
- *
- *   Return: pointer to master structure containing name cptr or NULL.
- */
-	void *void_ptr;
-	if (master.size() == 0)
-	{
-		return (NULL);
-	}
-	void_ptr = bsearch((const char *) cptr.c_str(),
-					   (char *) &master[0],
-					   master.size(),
-					   sizeof(class master *), master_compare_string);
-	if (void_ptr == NULL)
-	{
-		void_ptr = bsearch(cptr.c_str(),
-			(char*)&master[0],
-			master.size(),
-			sizeof(class master*), master_compare_string);
-	}
-	if (void_ptr == NULL)
-	{
-		return (NULL);
-	}
-	else
-	{
-		return (*(class master **) void_ptr);
-	}
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-master_compare_string(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const char *string_ptr;
-	const class master *master_ptr;
-
-	string_ptr = (const char *) ptr1;
-	master_ptr = *(const class master **) ptr2;
-	return (strcmp_nocase(string_ptr, master_ptr->elt->name.c_str()));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-master_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const class master *master_ptr1, *master_ptr2;
-	master_ptr1 = *(const class master **) ptr1;
-	master_ptr2 = *(const class master **) ptr2;
-	return (strcmp_nocase(master_ptr1->elt->name.c_str(), master_ptr2->elt->name.c_str()));
-}
-class master* Phreeqc::
-master_bsearch_primary(const std::string& cstring)
-{
-	return master_bsearch_primary(cstring.c_str());
-}
-/* ---------------------------------------------------------------------- */
-class master * Phreeqc::
-master_bsearch_primary(const char* cptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Find primary master species for first element in the string, cptr.
- *   Uses binary search. Assumes master is in sort order.
- */
-	int l;
-	const char* cptr1;
-	class master *master_ptr_primary;
-/*
- *   Find element name
- */
-	cptr1 = cptr;
-	{
-		std::string elt;
-		get_elt(&cptr1, elt, &l);
-		/*
-		 *   Search master species list
-		 */
-		master_ptr_primary = master_bsearch(elt.c_str());
-	}
-	if (master_ptr_primary == NULL)
-	{
-		input_error++;
-		error_string = sformatf(
-				"Could not find primary master species for %s.", cptr);
-		error_msg(error_string, CONTINUE);
-	}
-	return (master_ptr_primary);
-}
-/* ---------------------------------------------------------------------- */
-class master * Phreeqc::
-master_bsearch_secondary(const char* cptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Find secondary master species that corresponds to the primary master species.
- *   i.e. S(6) for S.
- */
-	int l;
-	const char* cptr1;
-	std::string elt;
-	class master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
-/*
- *   Find element name
- */
-	cptr1 = cptr;
-	get_elt(&cptr1, elt, &l);
-/*
- *   Search master species list
- */
-	master_ptr_primary = master_bsearch(elt.c_str());
-	if (master_ptr_primary == NULL)
-	{
-		input_error++;
-		error_string = sformatf(
-				"Could not find primary master species for %s.", cptr);
-		error_msg(error_string, CONTINUE);
-	}
-/*
- *  If last in list or not redox
-*/
-	if (master_ptr_primary)
-	{
-		if ((master_ptr_primary->number >= (int)master.size() - 1) || 
-			(master[(size_t)master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
-		{
-			return(master_ptr_primary);
-		}
-		/*
-		*  Find secondary master with same species as primary
-		*/
-		master_ptr = NULL;
-		for (size_t j = master_ptr_primary->number + 1; j < master.size(); j++)
-		{
-			if (master[j]->s == master_ptr_primary->s)
-			{
-				master_ptr = master[j];
-			}
-		}
-	}
-/*
- *
- */
-	if (master_ptr != NULL && master_ptr->elt != NULL && (master_ptr->elt->primary == master_ptr_primary))
-	{
-		master_ptr_secondary = master_ptr;
-	}
-	else
-	{		
-		input_error++;
-		error_string = sformatf(
-				"Could not find secondary master species for %s.", cptr);
-		error_msg(error_string, STOP);
-	}
-
-
-	return (master_ptr_secondary);
-}
-/* ---------------------------------------------------------------------- */
-class master * Phreeqc::
-master_search(const char* cptr, int *n)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Linear search of master to find master species in string, cptr.
- *   Returns pointer if found. n contains position in array master.
- *   Returns NULL if not found.
- */
-	int i;
-	class master *master_ptr;
-/*
- *   Search master species list
- */
-	*n = -999;
-	for (i = 0; i < (int)master.size(); i++)
-	{
-		if (cptr == master[i]->elt->name)
-		{
-			*n = i;
-			master_ptr = master[i];
-			return (master_ptr);
-		}
-	}
-	return (NULL);
-}
-/* **********************************************************************
- *
- *   Routines related to structure "phases"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-class phase * Phreeqc::
-phase_alloc(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Allocates space to a phase structure and initializes
- *      arguments: void
- *      return: pointer to new phase structure
- */
-	class phase *phase_ptr;
-/*
- *   Allocate space
- */
-	phase_ptr = new class phase;
-/*
- *   Initialize space
- */
-	phase_init(phase_ptr);
-	return (phase_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-phase_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Compares names of phases for sort
- */
-	const class phase *phase_ptr1, *phase_ptr2;
-	phase_ptr1 = *(const class phase **) ptr1;
-	phase_ptr2 = *(const class phase **) ptr2;
-	return (strcmp_nocase(phase_ptr1->name.c_str(), phase_ptr2->name.c_str()));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-phase_compare_string(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const char *char_ptr;
-	const class phase *phase_ptr;
-	char_ptr = (const char *) ptr1;
-	phase_ptr = *(const class phase **) ptr2;
-	return (strcmp_nocase(char_ptr, phase_ptr->name.c_str()));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-phase_delete(int i)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Deletes phase i from list, phases
- *   Frees memory allocated to phase[i] and renumbers phases to remove number i.
- *   Input: i, number of phase
- *   Return: OK
- */
-	phase_free(phases[i]);
-	phases.erase(phases.begin() + (size_t)i);
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-phase_free(class phase *phase_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Frees memory allocated within phase[i], does not free phase structure
- *   Input: i, number of phase
- *   Return: OK
- */
-	if (phase_ptr == NULL)
-		return (ERROR);
-	phase_ptr->next_elt.clear();
-	phase_ptr->next_sys_total.clear();;
-	phase_ptr->add_logk.clear(); 
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-class phase * Phreeqc::
-phase_bsearch(const std::string& name, int *j, int print)
-/* ---------------------------------------------------------------------- */
-{
-/*   Binary search the structure array "phases" for a name that is equal to
- *   cptr. Assumes array phases is in sort order.
- *
- *   Arguments:
- *      name  input, a character string to be located in phases.
- *      j	    index number in array phases.
- *
- *   Returns:
- *      if found, pointer to phase structure.
- *      if not found, NULL
- *
- */
-	void *void_ptr;
-
-	void_ptr = NULL;
-	if ((int)phases.size() > 0)
-	{
-		void_ptr = (void *)
-			bsearch((void *) &name[0],
-					(void *) &phases[0],
-					phases.size(),
-					sizeof(class phase *), phase_compare_string);
-	}
-	if (void_ptr == NULL && print == TRUE)
-	{
-		error_string = sformatf( "Could not find phase in list, %s.", name.c_str());
-		error_msg(error_string, CONTINUE);
-	}
-
-	if (void_ptr == NULL)
-	{
-		*j = -1;
-		return (NULL);
-	}
-
-	*j = (int) ((class phase **) void_ptr - &phases[0]);
-	return (*(class phase **) void_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-phase_init(class phase *phase_ptr)
-/* ---------------------------------------------------------------------- */
-/*
- *   set pointers in phase structure to NULL
- */
-{
-	int i;
-
-	//phase_ptr->name = NULL;
-	//phase_ptr->formula = NULL;
-	phase_ptr->in = FALSE;
-	phase_ptr->lk = 0.0;
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
-		phase_ptr->logk[i] = 0.0;
-	phase_ptr->original_units = kjoules;
-	phase_ptr->add_logk.clear();
-	phase_ptr->moles_x = 0;
-	phase_ptr->delta_max = 0;
-	phase_ptr->p_soln_x = 0;
-	phase_ptr->fraction_x = 0;
-	phase_ptr->log10_lambda = 0;
-	phase_ptr->log10_fraction_x = 0;
-	phase_ptr->dn = 0;
-	phase_ptr->dnb = 0;
-	phase_ptr->dnc = 0;
-	phase_ptr->gn = 0;
-	phase_ptr->gntot = 0;
-	phase_ptr->t_c = 0.0;
-	phase_ptr->p_c = 0.0;
-	phase_ptr->omega = 0.0;
-	phase_ptr->pr_a = 0.0;
-	phase_ptr->pr_b = 0.0;
-	phase_ptr->pr_alpha = 0.0;
-	phase_ptr->pr_tk = 0;
-	phase_ptr->pr_p = 0;
-	phase_ptr->pr_phi = 1.0;
-	phase_ptr->pr_aa_sum2 = 0;
-	for (i = 0; i < 9; i++)
-		phase_ptr->delta_v[i] = 0.0;
-	phase_ptr->pr_si_f = 0;
-	phase_ptr->pr_in = false;
-	phase_ptr->type = SOLID;
-	phase_ptr->check_equation = TRUE;
-	phase_ptr->replaced = 0;
-	phase_ptr->in_system = 1;
-	phase_ptr->original_deltav_units = cm3_per_mol;
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-class phase * Phreeqc::
-phase_store(const std::string& name_in)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Function locates the string "name" in the map for phases.
- *
- *   If found, pointer to the appropriate phase structure is returned.
- *
- *   If the string is not found, a new entry is made at the end of
- *   the phases array (position count_phases), it is added to the map,
- *   and the new structure is returned.
- *
- *   Arguments:
- *      name    input, character string to be located or stored.
- *
- *   Returns:
- *      The address of a phase structure that contains the phase data.
- *      If phase existed, it is reinitialized. The structure returned
- *      contains only the name of the phase.
- */
-	class phase *phase_ptr = NULL;
-/*
- *   Search list
- */
-	std::string name = name_in;
-	str_tolower(name);
-	std::map<std::string, class phase*>::iterator p_it =
-		phases_map.find(name);
-	if (p_it != phases_map.end())
-	{
-		phase_ptr = p_it->second;
-		phase_free(phase_ptr);
-		phase_init(phase_ptr);
-		phase_ptr->name = name_in;
-		return (phase_ptr);
-	}
-/*
- *   Make new phase structure and return pointer to it
- */
-	size_t n = phases.size();
-	phases.resize(n + 1);
-	phases[n] = phase_alloc();
-	/* set name in phase structure */
-	phases[n]->name = name_in;
-/*
- *   Update map
- */
-	phases_map[name] = phases[n];
-	return (phases[n]);
-}
-/* **********************************************************************
- *
- *   Routines related to structure "rates"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-class rate * Phreeqc::
-rate_bsearch(const char* cptr, int *j)
-/* ---------------------------------------------------------------------- */
-{
-/*   Binary search the structure array "rates" for a name that is equal to
- *   cptr. Assumes array rates is in sort order.
- *
- *   Arguments:
- *      name  input, a character string to be located in rates.
- *      j	    index number in array rates.
- *
- *   Returns:
- *      if found, pointer to rate structure.
- *      if not found, NULL
- *
- */
-	void *void_ptr;
-
-	if (rates.size() == 0)
-	{
-		*j = -1;
-		return (NULL);
-	}
-	void_ptr = (void *)
-		bsearch((char *) cptr,
-				(char *) &rates[0],
-				rates.size(),
-				sizeof(class rate *), rate_compare_string);
-
-	if (void_ptr == NULL)
-	{
-		*j = -1;
-		return (NULL);
-	}
-
-	*j = (int) ((class rate *) void_ptr - &rates[0]);
-	return ((class rate *) void_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rate_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Compares names of rates for sort
- */
-	const class rate *rate_ptr1, *rate_ptr2;
-	rate_ptr1 = *(const class rate **) ptr1;
-	rate_ptr2 = *(const class rate **) ptr2;
-	return (strcmp_nocase(rate_ptr1->name.c_str(), rate_ptr2->name.c_str()));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rate_compare_string(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const char *char_ptr;
-	const class rate *rate_ptr;
-	char_ptr = (const char *) ptr1;
-	rate_ptr = *(const class rate **) ptr2;
-	return (strcmp_nocase(char_ptr, rate_ptr->name.c_str()));
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rate_free(class rate *rate_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Frees memory allocated within rate[i], does not free rate structure
- *   Input: i, number of rate
- *   Return: OK
- */
-	
-
-	if (rate_ptr == NULL)
-		return (ERROR);
-	rate_ptr->commands.clear();
-	if (rate_ptr->linebase != NULL)
-	{
-		char cmd[] = "new; quit";
-		basic_run(cmd, rate_ptr->linebase, rate_ptr->varbase, rate_ptr->loopbase);
-		rate_ptr->linebase = NULL;
-		rate_ptr->varbase = NULL;
-		rate_ptr->loopbase = NULL;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-class rate * Phreeqc::
-rate_copy(const class rate *rate_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	*   Copies a rate to new allocated space
-	*/
-	if (rate_ptr == NULL)
-		return (NULL);
-	class rate* rate_new = new class rate;
-	rate_new->name = rate_ptr->name;
-	rate_new->commands = rate_ptr->commands;
-	rate_new->new_def = TRUE;
-	rate_new->linebase = NULL;
-	rate_new->varbase = NULL;
-	rate_new->loopbase = NULL;
-	return (rate_new);
-}
-
-/* ---------------------------------------------------------------------- */
-class rate * Phreeqc::
-rate_search(std::string name, int *n)
-/* ---------------------------------------------------------------------- */
-{
-/*   Linear search of the structure array "rates" for name.
- *
- *   Arguments:
- *     name     input, name of rate
- *      n       output, position in rates
- *
- *   Returns:
- *      if found, the address of the pp_assemblage element
- *      if not found, NULL
- */
-	std::map<std::string, int>::iterator it;
-
-	it = rates_map.find(name);
-	if (it != rates_map.end())
-	{
-		*n = it->second;
-		if (*n >= 0)
-		{
-			return &(rates[it->second]);
-		}
-		return NULL;
-	}
-
-	int i;
-	*n = -1;
-	for (i = 0; i < (int)rates.size(); i++)
-	{
-		if (strcmp_nocase(rates[i].name.c_str(), name.c_str()) == 0)
-		{
-			*n = i;
-			rates_map[name] = i;
-			return (&(rates[i]));
-		}
-	}
-/*
- *   rate name not found
- */
-	rates_map[name] = *n;
-	return (NULL);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-rate_sort(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Sort array of rate structures
- */
-	if (rates.size() > 1)
-	{
-		qsort(&rates[0], rates.size(), sizeof(class rate),
-			  rate_compare);
-	}
-	return (OK);
-}
-/* **********************************************************************
- *
- *   Routines related to structure "species"
- *
- * ********************************************************************** */
-/* ---------------------------------------------------------------------- */
-class species * Phreeqc::
-s_alloc(void)
-/* ---------------------------------------------------------------------- */
-/*
- *   Allocates space to a species structure, initializes
- *      arguments: void
- *      return: pointer to a species structure
- */
-{
-	class species *s_ptr;
-	s_ptr = new class species;
-/*
- *   set pointers in structure to NULL, variables to zero
- */
-	s_init(s_ptr);
-
-	return (s_ptr);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_compare(const void *ptr1, const void *ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const class species *s_ptr1, *s_ptr2;
-	s_ptr1 = *(const class species **) ptr1;
-	s_ptr2 = *(const class species **) ptr2;
-	return (strcmp(s_ptr1->name, s_ptr2->name));
-
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_delete(int i)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Delete species i: free memory and renumber array of pointers, s.
- */
-	s_free(s[i]);
-	s[i] = (class species *) free_check_null(s[i]);
-	s.erase(s.begin() + i);
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-s_free(class species *s_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Free space allocated for species structure, s_ptr. Does not free s_ptr.
- */
-	if (s_ptr == NULL)
-		return (ERROR);
-	s_ptr->next_elt.clear();
-	s_ptr->next_secondary.clear();
-	s_ptr->next_sys_total.clear();
-	s_ptr->add_logk.clear();
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
- int Phreeqc::
-s_init(class species *s_ptr)
-/* ---------------------------------------------------------------------- */
-/*
- *      return: pointer to a species structure
- */
-{
-	int i;
-/*
- *   set pointers in structure to NULL
- */
-	s_ptr->name = NULL;
-	//s_ptr->mole_balance.clear();
-	s_ptr->in = FALSE;
-	s_ptr->number = 0;
-	s_ptr->primary = NULL;
-	s_ptr->secondary = NULL;
-	s_ptr->gfw = 0.0;
-	s_ptr->z = 0.0;
-	s_ptr->dw = 0.0;
-	s_ptr->dw_t = 0.0;
-	s_ptr->dw_a = 0.0;
-	s_ptr->dw_a2 = 0.0;
-	s_ptr->erm_ddl = 1.0;
-	s_ptr->equiv = 0;
-	s_ptr->alk = 0.0;
-	s_ptr->carbon = 0.0;
-	s_ptr->co2 = 0.0;
-	s_ptr->h = 0.0;
-	s_ptr->o = 0.0;
-	s_ptr->dha = 0.0;
-	s_ptr->dhb = 0.0;
-	s_ptr->a_f = 0.0;
-	s_ptr->lk = 0.0;
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
-	{
-		s_ptr->logk[i] = 0.0;
-	}
-	for (i = 0; i < 10; i++)
-	{
-		s_ptr->Jones_Dole[i] = 0.0;
-	}
-/* VP: Density Start */
-	for (i = 0; i < 6; i++)
-	{
-		s_ptr->millero[i] = 0.0;
-	}
-/* VP: Density End */
-	s_ptr->original_units = kjoules;
-	s_ptr->add_logk.clear();
-	s_ptr->lg = 0.0;
-	s_ptr->lg_pitzer = 0.0;
-	s_ptr->lm = 0.0;
-	s_ptr->la = 0.0;
-	s_ptr->dg = 0.0;
-	s_ptr->dg_total_g = 0;
-	s_ptr->moles = 0.0;
-	s_ptr->type = 0;
-	s_ptr->gflag = 0;
-	s_ptr->exch_gflag = 0;
-	s_ptr->check_equation = TRUE;
-	s_ptr->tot_g_moles = 0;
-	s_ptr->tot_dh2o_moles = 0;
-	for (i = 0; i < 5; i++)
-	{
-		s_ptr->cd_music[i] = 0.0;
-	}
-	for (i = 0; i < 3; i++)
-	{
-		s_ptr->dz[i] = 0.0;
-	}
-	s_ptr->original_deltav_units = cm3_per_mol;
-	return (OK);
-}
-/* ---------------------------------------------------------------------- */
-class species* Phreeqc::
-s_search(const char* name)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Function locates the string "name" in the species_map.
-	 *
-	 *   Arguments:
-	 *      name  input, a character string to be located in species.
-	 *
-	 *   Returns:
-	 *   If found, pointer to the appropriate species structure is returned.
-	 *       else, NULL pointer is returned.
-	 */
-	class species* s_ptr = NULL;
-	std::map<std::string, class species*>::iterator s_it = 
-		species_map.find(name);
-	if (s_it != species_map.end())
-	{
-		s_ptr = s_it->second;
-	}
-	return (s_ptr);
-}
-/* ---------------------------------------------------------------------- */
-class species * Phreeqc::
-s_store(const char *name, LDBLE l_z, int replace_if_found)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Function locates the string "name" in the map for species.
- *
- *   Pointer to a species structure is always returned.
- *
- *   If the string is not found, a new entry is made at the end of
- *      the elements array (position count_elements) and count_elements is
- *      incremented. A new entry is made in the map. Pointer to
- *      the new structure is returned.
- *   If "name" is found and replace is true, pointers in old species structure
- *      are freed and replaced with additional input.
- *   If "name" is found and replace is false, the old species structure is not
- *      modified and a pointer to it is returned.
- *
- *   Arguments:
- *      name    input, character string to be found in "species".
- *      l_z      input, charge on "name"
- *      replace_if_found input, TRUE means reinitialize species if found
- *		     FALSE means just return pointer if found.
- *
- *   Returns:
- *      pointer to species structure "s" where "name" can be found.
- */
-
-/*
- *   Search list
- */
-	class species* s_ptr = NULL;
-	s_ptr = s_search(name);
-	if (s_ptr != NULL && replace_if_found == FALSE)
-	{
-		return (s_ptr);
-	}
-	else if (s_ptr != NULL && replace_if_found == TRUE)
-	{
-		s_free(s_ptr);
-		s_init(s_ptr);
-	}
-	else
-	{
-		size_t n = s.size();
-		s.resize(n + 1);
-		/* Make new species structure */
-		s[n] = s_alloc();
-		s_ptr = s[n];
-	}
-	/* set name and z in pointer in species structure */
-	s_ptr->name = string_hsave(name);
-	s_ptr->z = l_z;
-/*
- *   Update map
- */
-	species_map[name] = s_ptr;
-	return (s_ptr);
-}
+///* **********************************************************************
+// *
+// *   Routines related to structure "master"
+// *
+// * ********************************************************************** */
+///* ---------------------------------------------------------------------- */
+//class master * Phreeqc::
+//master_alloc(void)
+///* ---------------------------------------------------------------------- */
+///*
+// *   Allocates space to a master structure and initializes the space.
+// *      arguments: void
+// *      return: pointer to a master structure
+// */
+//{
+//	class master *ptr = new class master;
+///*
+// *   set pointers in structure to NULL
+// */
+//	ptr->in = FALSE;
+//	ptr->number = -1;
+//	ptr->last_model = -1;
+//	ptr->type = 0;
+//	ptr->primary = FALSE;
+//	ptr->coef = 0.0;
+//	ptr->total = 0.0;
+//	ptr->isotope_ratio = 0;
+//	ptr->isotope_ratio_uncertainty = 0;
+//	ptr->isotope = 0;
+//	ptr->total_primary = 0;
+//	ptr->elt = NULL;
+//	ptr->alk = 0.0;
+//	ptr->gfw = 0.0;
+//	//ptr->gfw_formula.clear();
+//	ptr->unknown = NULL;
+//	ptr->s = NULL;
+//	ptr->pe_rxn.clear();
+//	ptr->minor_isotope = FALSE;
+//	return (ptr);
+//}
+//
+///* ---------------------------------------------------------------------- */
+//int Phreeqc::
+//master_delete(const char* cptr)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Delete master species:  Free memory of master species structure, free
+// *   the structure, and remove from array master.
+// *
+// *   Input
+// *	ptr  character string with name of element or valence state
+// *   Returns
+// *	TRUE if master species was deleted.
+// *	FALSE if master species was not found.
+// */
+//	int n;
+//
+//	if (master_search(cptr, &n) == NULL)
+//		return (FALSE);
+//	master_free(master[n]);
+//	master.erase(master.begin() + n);
+//	return (TRUE);
+//}
+//
+///* ---------------------------------------------------------------------- */
+//int Phreeqc::
+//master_free(class master *master_ptr)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Free memory pointed to by master species pointer, master_ptr.
+// *   Frees master_ptr itself.
+// */
+//	if (master_ptr == NULL)
+//		return (ERROR);
+//	delete master_ptr;
+//	return (OK);
+//}
+//
+///* ---------------------------------------------------------------------- */
+//class master * Phreeqc::
+//master_bsearch(const std::string& cptr)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Uses binary search. Assumes master is in sort order.
+// *   Find master species for string (*cptr) containing name of element or valence state.
+// *
+// *   Input: cptr    pointer to string containing element name
+// *
+// *   Return: pointer to master structure containing name cptr or NULL.
+// */
+//	void *void_ptr;
+//	if (master.size() == 0)
+//	{
+//		return (NULL);
+//	}
+//	void_ptr = bsearch((const char *) cptr.c_str(),
+//					   (char *) &master[0],
+//					   master.size(),
+//					   sizeof(class master *), master_compare_string);
+//	if (void_ptr == NULL)
+//	{
+//		void_ptr = bsearch(cptr.c_str(),
+//			(char*)&master[0],
+//			master.size(),
+//			sizeof(class master*), master_compare_string);
+//	}
+//	if (void_ptr == NULL)
+//	{
+//		return (NULL);
+//	}
+//	else
+//	{
+//		return (*(class master **) void_ptr);
+//	}
+//}
+//
+///* ---------------------------------------------------------------------- */
+//int Phreeqc::
+//master_compare_string(const void *ptr1, const void *ptr2)
+///* ---------------------------------------------------------------------- */
+//{
+//	const char *string_ptr;
+//	const class master *master_ptr;
+//
+//	string_ptr = (const char *) ptr1;
+//	master_ptr = *(const class master **) ptr2;
+//	return (strcmp_nocase(string_ptr, master_ptr->elt->name.c_str()));
+//}
+//
+///* ---------------------------------------------------------------------- */
+//int Phreeqc::
+//master_compare(const void *ptr1, const void *ptr2)
+///* ---------------------------------------------------------------------- */
+//{
+//	const class master *master_ptr1, *master_ptr2;
+//	master_ptr1 = *(const class master **) ptr1;
+//	master_ptr2 = *(const class master **) ptr2;
+//	return (strcmp_nocase(master_ptr1->elt->name.c_str(), master_ptr2->elt->name.c_str()));
+//}
+//class master* Phreeqc::
+//master_bsearch_primary(const std::string& cstring)
+//{
+//	return master_bsearch_primary(cstring.c_str());
+//}
+///* ---------------------------------------------------------------------- */
+//class master * Phreeqc::
+//master_bsearch_primary(const char* cptr)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Find primary master species for first element in the string, cptr.
+// *   Uses binary search. Assumes master is in sort order.
+// */
+//	int l;
+//	const char* cptr1;
+//	class master *master_ptr_primary;
+///*
+// *   Find element name
+// */
+//	cptr1 = cptr;
+//	{
+//		std::string elt;
+//		get_elt(&cptr1, elt, &l);
+//		/*
+//		 *   Search master species list
+//		 */
+//		master_ptr_primary = master_bsearch(elt.c_str());
+//	}
+//	if (master_ptr_primary == NULL)
+//	{
+//		input_error++;
+//		error_string = sformatf(
+//				"Could not find primary master species for %s.", cptr);
+//		error_msg(error_string, CONTINUE);
+//	}
+//	return (master_ptr_primary);
+//}
+///* ---------------------------------------------------------------------- */
+//class master * Phreeqc::
+//master_bsearch_secondary(const char* cptr)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Find secondary master species that corresponds to the primary master species.
+// *   i.e. S(6) for S.
+// */
+//	int l;
+//	const char* cptr1;
+//	std::string elt;
+//	class master *master_ptr_primary, *master_ptr=NULL, *master_ptr_secondary=NULL;
+///*
+// *   Find element name
+// */
+//	cptr1 = cptr;
+//	get_elt(&cptr1, elt, &l);
+///*
+// *   Search master species list
+// */
+//	master_ptr_primary = master_bsearch(elt.c_str());
+//	if (master_ptr_primary == NULL)
+//	{
+//		input_error++;
+//		error_string = sformatf(
+//				"Could not find primary master species for %s.", cptr);
+//		error_msg(error_string, CONTINUE);
+//	}
+///*
+// *  If last in list or not redox
+//*/
+//	if (master_ptr_primary)
+//	{
+//		if ((master_ptr_primary->number >= (int)master.size() - 1) || 
+//			(master[(size_t)master_ptr_primary->number + 1]->elt->primary != master_ptr_primary))
+//		{
+//			return(master_ptr_primary);
+//		}
+//		/*
+//		*  Find secondary master with same species as primary
+//		*/
+//		master_ptr = NULL;
+//		for (size_t j = master_ptr_primary->number + 1; j < master.size(); j++)
+//		{
+//			if (master[j]->s == master_ptr_primary->s)
+//			{
+//				master_ptr = master[j];
+//			}
+//		}
+//	}
+///*
+// *
+// */
+//	if (master_ptr != NULL && master_ptr->elt != NULL && (master_ptr->elt->primary == master_ptr_primary))
+//	{
+//		master_ptr_secondary = master_ptr;
+//	}
+//	else
+//	{		
+//		input_error++;
+//		error_string = sformatf(
+//				"Could not find secondary master species for %s.", cptr);
+//		error_msg(error_string, STOP);
+//	}
+//
+//
+//	return (master_ptr_secondary);
+//}
+///* ---------------------------------------------------------------------- */
+//class master * Phreeqc::
+//master_search(const char* cptr, int *n)
+///* ---------------------------------------------------------------------- */
+//{
+///*
+// *   Linear search of master to find master species in string, cptr.
+// *   Returns pointer if found. n contains position in array master.
+// *   Returns NULL if not found.
+// */
+//	int i;
+//	class master *master_ptr;
+///*
+// *   Search master species list
+// */
+//	*n = -999;
+//	for (i = 0; i < (int)master.size(); i++)
+//	{
+//		if (cptr == master[i]->elt->name)
+//		{
+//			*n = i;
+//			master_ptr = master[i];
+//			return (master_ptr);
+//		}
+//	}
+//	return (NULL);
+//}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 isotope_compare(const void *ptr1, const void *ptr2)
@@ -2122,10 +1224,10 @@ logk_store(const std::string& name_in, int replace_if_found)
 	else
 	{
 		/* Make new logk structure */
-		size_t n = logk.size();
-		logk.resize(n + 1);
-		logk[n] = logk_alloc();
-		logk_ptr = logk[n];
+		size_t n = logk_vector.size();
+		logk_vector.resize(n + 1);
+		logk_vector[n] = logk_alloc();
+		logk_ptr = logk_vector[n];
 	}
 	/* set name and z in pointer in logk structure */
 	logk_ptr->name = name_in;
@@ -2186,7 +1288,7 @@ logk_init(class logk *logk_ptr)
  *   set varibles = 0
  */
 	logk_ptr->lk = 0.0;
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		logk_ptr->log_k[i] = 0.0;
 		logk_ptr->log_k_original[i] = 0.0;
@@ -2204,7 +1306,7 @@ logk_copy2orig(class logk *logk_ptr)
  */
 {
 	int i;
-	for (i = 0; i < MAX_LOG_K_INDICES; i++)
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		logk_ptr->log_k_original[i] = logk_ptr->log_k[i];
 	}

@@ -12,7 +12,8 @@ public:
 	~reaction_temp() {};
 	reaction_temp()
 	{
-		for (size_t i = 0; i < MAX_LOG_K_INDICES; i++) logk[i] = 0;
+		//for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) logk[i] = 0;
+		logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 		for (size_t i = 0; i < 3; i++) dz[i] = 0;
 		//token.clear();
 		count_trxn = 0;
@@ -37,7 +38,7 @@ public:
 	void Set_count_trxn(size_t count) { this->count_trxn = count; }
 	size_t Get_count_trxn(void) { return this->count_trxn; }
 
-	double logk[MAX_LOG_K_INDICES];
+	std::vector<double> logk;
 	double dz[3];
 	std::vector<class rxn_token_temp> token;
 	size_t count_trxn;

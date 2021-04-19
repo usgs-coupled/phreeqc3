@@ -571,7 +571,7 @@ calc_PR(void)
 			phase_ptr->pr_p = 0;
 			phase_ptr->pr_phi = 1;
 			phase_ptr->pr_si_f = 0.0;
-			//phase_ptr->logk[vm0] = 0.0; // ***
+			//phase_ptr->logk[Logk::vm0] = 0.0; // ***
 			continue;
 		}	
 		phase_ptr->pr_p = phase_ptr->fraction_x * P;
@@ -596,7 +596,7 @@ calc_PR(void)
 		phase_ptr->pr_phi = exp(phi);
 		phase_ptr->pr_si_f = phi / LOG_10;										// pr_si_f updated
 		// ****
-		//phase_ptr->logk[vm0] = V_m * 1e3 * phase_ptr->fraction_x;
+		//phase_ptr->logk[Logk::vm0] = V_m * 1e3 * phase_ptr->fraction_x;
 		phase_ptr->pr_in = true;
 	}
 	return (V_m);

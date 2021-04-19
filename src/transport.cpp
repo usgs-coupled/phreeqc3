@@ -5949,14 +5949,14 @@ viscosity(void)
 			if (!strcmp(s_x[i]->name, "Cl-"))
 				// volumina for f_an...
 			{
-				V_Cl = s_x[i]->logk[vm_tc];
+				V_Cl = s_x[i]->logk[Logk::vm_tc];
 				V_an += V_Cl * s_x[i]->moles;
 				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
 			else// if (s_x[i]->Jones_Dole[6])
 			{
-				V_an += s_x[i]->logk[vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
+				V_an += s_x[i]->logk[Logk::vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
 				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
@@ -6021,10 +6021,10 @@ calc_vm_Cl(void)
 	*    Vm0(tc) is calc'd using supcrt parms, or from millero[0] + millero[1] * tc + millero[2] * tc^2
 	*    for Av * z^2 * I^0.5, see Redlich and Meyer, Chem. Rev. 64, 221.
 	Av is in (cm3/mol)(mol/kg)^-0.5, = DH_Av.
-	If b_Av != 0, the extended DH formula is used: I^0.5 /(1 + b_Av * DH_B * I^0.5).
+	If Logk::b_Av != 0, the extended DH formula is used: I^0.5 /(1 + Logk::b_Av * DH_B * I^0.5).
 	DH_Av and DH_B are from calc_dielectrics(tc, pa).
-	*	  coef(tc) = logk[vmi1] + logk[vmi2] / (TK - 228) + logk[vmi3] * (TK - 228).
-	*    b4 = logk[vmi4], or
+	*	  coef(tc) = logk[Logk::vmi1] + logk[Logk::vmi2] / (TK - 228) + logk[Logk::vmi3] * (TK - 228).
+	*    b4 = logk[Logk::vmi4], or
 	*	  coef(tc) = millero[3] + millero[4] * tc + millero[5] * tc^2
 	*/
 	LDBLE V_Cl = 0;
@@ -6035,33 +6035,33 @@ calc_vm_Cl(void)
 	if (!s_ptr)
 		return V_Cl;
 
-	if (s_ptr->logk[vma1])
+	if (s_ptr->logk[Logk::vma1])
 	{
 		/* supcrt volume at I = 0... */
-		V_Cl = s_ptr->logk[vma1] + s_ptr->logk[vma2] / pb_s +
-			(s_ptr->logk[vma3] + s_ptr->logk[vma4] / pb_s) / TK_s -
-			s_ptr->logk[wref] * QBrn;
+		V_Cl = s_ptr->logk[Logk::vma1] + s_ptr->logk[Logk::vma2] / pb_s +
+			(s_ptr->logk[Logk::vma3] + s_ptr->logk[Logk::vma4] / pb_s) / TK_s -
+			s_ptr->logk[Logk::wref] * QBrn;
 		/* the ionic strength term * I^0.5... */
-		if (s_ptr->logk[b_Av] < 1e-5)
+		if (s_ptr->logk[Logk::b_Av] < 1e-5)
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 		else
 		{
 			/* limit the Debye-Hueckel slope by b... */
 			/* pitzer... */
-			//s_ptr->rxn_x.logk[vm_tc] += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-			//	log(1 + s_ptr->logk[b_Av] * sqrt(mu_x)) / s_ptr->logk[b_Av];
+			//s_ptr->rxn_x.logk[Logk::vm_tc] += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
+			//	log(1 + s_ptr->logk[Logk::b_Av] * sqrt(mu_x)) / s_ptr->logk[Logk::b_Av];
 			/* extended DH... */
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-				sqrt_mu / (1 + s_ptr->logk[b_Av] * DH_B * sqrt_mu);
+				sqrt_mu / (1 + s_ptr->logk[Logk::b_Av] * DH_B * sqrt_mu);
 		}
 		/* plus the volume terms * I... */
-		if (s_ptr->logk[vmi1] != 0.0 || s_ptr->logk[vmi2] != 0.0 || s_ptr->logk[vmi3] != 0.0)
+		if (s_ptr->logk[Logk::vmi1] != 0.0 || s_ptr->logk[Logk::vmi2] != 0.0 || s_ptr->logk[Logk::vmi3] != 0.0)
 		{
-			LDBLE bi = s_ptr->logk[vmi1] + s_ptr->logk[vmi2] / TK_s + s_ptr->logk[vmi3] * TK_s;
-			if (s_ptr->logk[vmi4] == 1.0)
+			LDBLE bi = s_ptr->logk[Logk::vmi1] + s_ptr->logk[Logk::vmi2] / TK_s + s_ptr->logk[Logk::vmi3] * TK_s;
+			if (s_ptr->logk[Logk::vmi4] == 1.0)
 				V_Cl += bi * mu_x;
 			else
-				V_Cl += bi * pow(mu_x, s_ptr->logk[vmi4]);
+				V_Cl += bi * pow(mu_x, s_ptr->logk[Logk::vmi4]);
 		}
 	}
 	else if (s_ptr->millero[0])

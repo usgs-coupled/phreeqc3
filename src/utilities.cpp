@@ -42,7 +42,7 @@ double Phreeqc::
 calc_delta_v(CReaction& r_ref, bool phase)
 /* ---------------------------------------------------------------------- */
 {
-	/* calculate delta_v from molar volumes */
+	/* calculate Logk::delta_v from molar volumes */
 	double d_v = 0.0;
 	if (phase)
 	{
@@ -51,7 +51,7 @@ calc_delta_v(CReaction& r_ref, bool phase)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[vm_tc];
+			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[Logk::vm_tc];
 		}
 	}
 	else
@@ -60,7 +60,7 @@ calc_delta_v(CReaction& r_ref, bool phase)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[vm_tc];
+			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[Logk::vm_tc];
 		}
 	}
 	return d_v;
