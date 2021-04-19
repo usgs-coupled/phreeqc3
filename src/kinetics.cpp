@@ -39,6 +39,15 @@
 
 #define MAX_DIVIDE 2
 #define KINETICS_TOL 1e-8;
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)

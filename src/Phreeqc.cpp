@@ -15,6 +15,14 @@
 #include "Temperature.h"
 #include "SSassemblage.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //const const_iso Phreeqc::iso_defaults[] = {
 //	{"13C", -10, 1},
 //	{"13C(4)", -10, 1},

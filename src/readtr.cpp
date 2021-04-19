@@ -1,12 +1,12 @@
 #include <iostream>				/* std::cout std::cerr */
 #include <sstream>
 #include <fstream>
+#include "Phreeqc.h"
 #include "StorageBin.h"
 #include "SS.h"
 #ifndef boolean
 typedef unsigned char boolean;
 #endif
-#include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Utils.h"
 
@@ -16,6 +16,15 @@ typedef unsigned char boolean;
 #define OPTION_ERROR -3
 #define OPTION_DEFAULT -4
 #define OPTION_DEFAULT2 -5
+
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::

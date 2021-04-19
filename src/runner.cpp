@@ -2,6 +2,15 @@
 #include "Parser.h"
 #include "NA.h"
 #include "Utils.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 runner::runner(PHRQ_io *io)
 :
 PHRQ_base(io)

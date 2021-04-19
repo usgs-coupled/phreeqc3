@@ -1,6 +1,16 @@
+#include "Phreeqc.h"
 #include "PHRQ_base.h"
 #include <iostream>
 #include "PHRQ_io.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 PHRQ_base::
 PHRQ_base(void)
 {

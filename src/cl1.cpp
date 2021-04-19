@@ -10,6 +10,15 @@
 #define CHECK_ERRORS
  */
 
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 int Phreeqc::
 cl1(int k, int l, int m, int n,
 	int l_nklmd, int l_n2d,

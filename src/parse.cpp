@@ -1,6 +1,15 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
