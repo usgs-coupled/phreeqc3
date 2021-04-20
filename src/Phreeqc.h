@@ -837,7 +837,6 @@ public:
 	std::map<std::string, class Logk>::iterator 
 		Logk_search(const std::string& name_in);
 	//
-	static int master_compare(const void* ptr1, const void* ptr2);
 	int master_delete(const std::string& cptr);
 	class master* master_bsearch(const std::string& cptr);
 	class master* master_bsearch_primary(const std::string& cptr);
@@ -875,7 +874,6 @@ public:
 	int entity_exists(const char* name, int n_user);
 	static int inverse_compare(const void* ptr1, const void* ptr2);
 	int inverse_free(class inverse* inverse_ptr);
-	static int master_compare_string(const void* ptr1, const void* ptr2);
 	static int rate_compare(const void* ptr1, const void* ptr2);
 	static int rate_compare_string(const void* ptr1, const void* ptr2);
 	static int species_list_compare(const void* ptr1, const void* ptr2);
@@ -1360,6 +1358,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::vector<class master*> master;
 	std::map<std::string, class master*> master_map;
+	std::map<std::string, class master*> master_map_lc;
 
 	/*----------------------------------------------------------------------
 	*   Unknowns

@@ -160,7 +160,15 @@ tidy_model(void)
 			}
 		}
 		/* master species */
-		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(class master*), master_compare);
+		if (master.size() > 1) //qsort(&master[0], master.size(), sizeof(class master*), master_compare);
+		{
+			master.clear();
+			std::map<std::string, class master*>::iterator it;
+			for (it = master_map_lc.begin(); it != master_map_lc.end(); it++)
+			{
+				master.push_back(it->second);
+			}
+		}
 		/* elements */
 		if (elements.size() > 1) //qsort(&elements[0], elements.size(), sizeof(class element*), element_compare);
 		{
