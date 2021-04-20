@@ -814,8 +814,7 @@ public:
 	CReaction CReaction_internal_copy(CReaction& rxn_ref);
 	double rxn_find_coef(CReaction& r_ptr, const char* str);
 	//
-	static int element_compare(const void* ptr1, const void* ptr2);
-	class element* element_store(const char* element);
+	class element* element_store(const std::string& element);
 	//
 	int add_elt_list(const cxxNameDouble& nd, LDBLE coef);
 	int add_elt_list(const std::vector<class elt_list>& el, double coef);

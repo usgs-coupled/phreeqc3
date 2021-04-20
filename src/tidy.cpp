@@ -150,7 +150,7 @@ tidy_model(void)
 /* species */
 	if (new_model == TRUE)
 	{
-		//if (s.size() > 1) qsort(&s[0], s.size(), sizeof(class species*), s_compare);
+		if (s.size() > 1) //qsort(&s[0], s.size(), sizeof(class species*), s_compare);
 		{
 			s.clear();
 			std::map<std::string, species*>::iterator it;
@@ -162,9 +162,17 @@ tidy_model(void)
 		/* master species */
 		if (master.size() > 1) qsort(&master[0], master.size(), sizeof(class master*), master_compare);
 		/* elements */
-		if (elements.size() > 1) qsort(&elements[0], elements.size(), sizeof(class element*), element_compare);
+		if (elements.size() > 1) //qsort(&elements[0], elements.size(), sizeof(class element*), element_compare);
+		{
+			elements.clear();
+			std::map<std::string, element*>::iterator it;
+			for (it = elements_map.begin(); it != elements_map.end(); it++)
+			{
+				elements.push_back(it->second);
+			}
+		}
 		/* phases */
-				//if (phases.size() > 1) qsort(&phases[0], phases.size(), sizeof(class phase *), phase_compare);
+		if (phases.size() > 1) //qsort(&phases[0], phases.size(), sizeof(class phase *), phase_compare);
 		{
 			phases.clear();
 			std::map<std::string, phase*>::iterator it;

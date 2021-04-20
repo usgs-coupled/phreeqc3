@@ -5,23 +5,10 @@
  *   Routines related to structure "element"
  *
  * ********************************************************************** */
- /* ---------------------------------------------------------------------- */
-int Phreeqc::
-element_compare(const void* ptr1, const void* ptr2)
-/* ---------------------------------------------------------------------- */
-{
-	const class element* element_ptr1, * element_ptr2;
-	element_ptr1 = *(const class element**)ptr1;
-	element_ptr2 = *(const class element**)ptr2;
-	/*      return(strcmp_nocase(element_ptr1->name, element_ptr2->name)); */
-	return (strcmp(element_ptr1->name.c_str(), element_ptr2->name.c_str()));
-
-}
-
 /* ---------------------------------------------------------------------- */
 class element* Phreeqc::
-	element_store(const char* element)
-	/* ---------------------------------------------------------------------- */
+element_store(const std::string& element)
+/* ---------------------------------------------------------------------- */
 {
 	/*
 	 *   Function locates the string "element" in the map for elements.
@@ -52,9 +39,6 @@ class element* Phreeqc::
 	 */
 	class element* elt_ptr = new class element;
 	elt_ptr->name = element;
-	elt_ptr->master = NULL;
-	elt_ptr->primary = NULL;
-	elt_ptr->gfw = 0.0;
 	elements.push_back(elt_ptr);
 	elements_map[element] = elt_ptr;
 	return (elt_ptr);
