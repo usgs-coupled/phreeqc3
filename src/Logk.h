@@ -60,7 +60,6 @@ public:
 	std::vector<double> logk_original;
 	std::vector<double> logk_selected;
 	std::vector<double> logk_x;
-	int done;
 	std::vector<class name_coef> add_logk;
 	DELTA_H_UNIT original_units;
 	DELTA_V_UNIT original_deltav_units;

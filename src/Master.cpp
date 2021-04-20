@@ -5,45 +5,9 @@
  *   Routines related to structure "master"
  *
  * ********************************************************************** */
- /* ---------------------------------------------------------------------- */
-class master* Phreeqc::
-	master_alloc(void)
-	/* ---------------------------------------------------------------------- */
-	/*
-	 *   Allocates space to a master structure and initializes the space.
-	 *      arguments: void
-	 *      return: pointer to a master structure
-	 */
-{
-	class master* ptr = new class master;
-	/*
-	 *   set pointers in structure to NULL
-	 */
-	ptr->in = FALSE;
-	ptr->number = -1;
-	ptr->last_model = -1;
-	ptr->type = 0;
-	ptr->primary = FALSE;
-	ptr->coef = 0.0;
-	ptr->total = 0.0;
-	ptr->isotope_ratio = 0;
-	ptr->isotope_ratio_uncertainty = 0;
-	ptr->isotope = 0;
-	ptr->total_primary = 0;
-	ptr->elt = NULL;
-	ptr->alk = 0.0;
-	ptr->gfw = 0.0;
-	//ptr->gfw_formula.clear();
-	ptr->unknown = NULL;
-	ptr->s = NULL;
-	ptr->pe_rxn.clear();
-	ptr->minor_isotope = FALSE;
-	return (ptr);
-}
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-master_delete(const char* cptr)
+master_delete(const std::string& cptr)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -57,33 +21,19 @@ master_delete(const char* cptr)
 	 *	FALSE if master species was not found.
 	 */
 	int n;
-
+	if (master_find(cptr) == NULL)
+		return FALSE;
 	if (master_search(cptr, &n) == NULL)
 		return (FALSE);
-	master_free(master[n]);
+	delete master[n];
 	master.erase(master.begin() + n);
+	master_map.erase(cptr);
 	return (TRUE);
 }
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-master_free(class master* master_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	/*
-	 *   Free memory pointed to by master species pointer, master_ptr.
-	 *   Frees master_ptr itself.
-	 */
-	if (master_ptr == NULL)
-		return (ERROR);
-	delete master_ptr;
-	return (OK);
-}
-
 /* ---------------------------------------------------------------------- */
 class master* Phreeqc::
-	master_bsearch(const std::string& cptr)
-	/* ---------------------------------------------------------------------- */
+master_bsearch(const std::string& cptr)
+/* ---------------------------------------------------------------------- */
 {
 	/*
 	 *   Uses binary search. Assumes master is in sort order.
@@ -94,29 +44,18 @@ class master* Phreeqc::
 	 *   Return: pointer to master structure containing name cptr or NULL.
 	 */
 	void* void_ptr;
-	if (master.size() == 0)
+	if (master.size() > 0)
 	{
-		return (NULL);
-	}
-	void_ptr = bsearch((const char*)cptr.c_str(),
-		(char*)&master[0],
-		master.size(),
-		sizeof(class master*), master_compare_string);
-	if (void_ptr == NULL)
-	{
-		void_ptr = bsearch(cptr.c_str(),
+		void_ptr = bsearch((const char*)cptr.c_str(),
 			(char*)&master[0],
 			master.size(),
 			sizeof(class master*), master_compare_string);
+		if (void_ptr != NULL)
+		{
+			return (*(class master**)void_ptr);
+		}
 	}
-	if (void_ptr == NULL)
-	{
-		return (NULL);
-	}
-	else
-	{
-		return (*(class master**)void_ptr);
-	}
+	return NULL;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -142,15 +81,10 @@ master_compare(const void* ptr1, const void* ptr2)
 	master_ptr2 = *(const class master**)ptr2;
 	return (strcmp_nocase(master_ptr1->elt->name.c_str(), master_ptr2->elt->name.c_str()));
 }
-class master* Phreeqc::
-	master_bsearch_primary(const std::string& cstring)
-{
-	return master_bsearch_primary(cstring.c_str());
-}
 /* ---------------------------------------------------------------------- */
 class master* Phreeqc::
-	master_bsearch_primary(const char* cptr)
-	/* ---------------------------------------------------------------------- */
+master_bsearch_primary(const std::string& cptr)
+/* ---------------------------------------------------------------------- */
 {
 	/*
 	 *   Find primary master species for first element in the string, cptr.
@@ -162,7 +96,7 @@ class master* Phreeqc::
 	/*
 	 *   Find element name
 	 */
-	cptr1 = cptr;
+	cptr1 = cptr.c_str();
 	{
 		std::string elt;
 		get_elt(&cptr1, elt, &l);
@@ -175,15 +109,15 @@ class master* Phreeqc::
 	{
 		input_error++;
 		error_string = sformatf(
-			"Could not find primary master species for %s.", cptr);
+			"Could not find primary master species for %s.", cptr.c_str());
 		error_msg(error_string, CONTINUE);
 	}
 	return (master_ptr_primary);
 }
 /* ---------------------------------------------------------------------- */
 class master* Phreeqc::
-	master_bsearch_secondary(const char* cptr)
-	/* ---------------------------------------------------------------------- */
+master_bsearch_secondary(const std::string& cptr)
+/* ---------------------------------------------------------------------- */
 {
 	/*
 	 *   Find secondary master species that corresponds to the primary master species.
@@ -196,7 +130,7 @@ class master* Phreeqc::
 	/*
 	 *   Find element name
 	 */
-	cptr1 = cptr;
+	cptr1 = cptr.c_str();
 	get_elt(&cptr1, elt, &l);
 	/*
 	 *   Search master species list
@@ -206,7 +140,7 @@ class master* Phreeqc::
 	{
 		input_error++;
 		error_string = sformatf(
-			"Could not find primary master species for %s.", cptr);
+			"Could not find primary master species for %s.", cptr.c_str());
 		error_msg(error_string, CONTINUE);
 	}
 	/*
@@ -242,7 +176,7 @@ class master* Phreeqc::
 	{
 		input_error++;
 		error_string = sformatf(
-			"Could not find secondary master species for %s.", cptr);
+			"Could not find secondary master species for %s.", cptr.c_str());
 		error_msg(error_string, STOP);
 	}
 
@@ -251,8 +185,7 @@ class master* Phreeqc::
 }
 /* ---------------------------------------------------------------------- */
 class master* Phreeqc::
-	master_search(const char* cptr, int* n)
-	/* ---------------------------------------------------------------------- */
+master_search(const std::string& cptr, int* n)
 {
 	/*
 	 *   Linear search of master to find master species in string, cptr.
@@ -275,4 +208,32 @@ class master* Phreeqc::
 		}
 	}
 	return (NULL);
+}
+/* ---------------------------------------------------------------------- */
+class master* Phreeqc::
+master_find(const std::string& name)
+/* ---------------------------------------------------------------------- */
+{
+
+	std::map<std::string, class master*>::iterator it =
+		master_map.find(name);
+	if (it != master_map.end())
+	{
+		return it->second;
+	}
+	return NULL;
+}
+class master* Phreeqc::
+master_store(const std::string& name)
+/* ---------------------------------------------------------------------- */
+{
+	class master* master_ptr = master_find(name);
+	if (master_ptr != NULL)
+	{
+		return master_ptr;
+	}
+	master_ptr = new class master;
+	master.push_back(master_ptr);
+	master_map[name] = master_ptr;
+	return master_ptr;
 }

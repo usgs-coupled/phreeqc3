@@ -153,7 +153,7 @@ tidy_model(void)
 		if (s.size() > 1) //qsort(&s[0], s.size(), sizeof(class species*), s_compare);
 		{
 			s.clear();
-			std::map<std::string, species*>::iterator it;
+			std::map<std::string, class species*>::iterator it;
 			for (it = species_map.begin(); it != species_map.end(); it++)
 			{
 				s.push_back(it->second);
@@ -165,7 +165,7 @@ tidy_model(void)
 		if (elements.size() > 1) //qsort(&elements[0], elements.size(), sizeof(class element*), element_compare);
 		{
 			elements.clear();
-			std::map<std::string, element*>::iterator it;
+			std::map<std::string, class element*>::iterator it;
 			for (it = elements_map.begin(); it != elements_map.end(); it++)
 			{
 				elements.push_back(it->second);
@@ -175,7 +175,7 @@ tidy_model(void)
 		if (phases.size() > 1) //qsort(&phases[0], phases.size(), sizeof(class phase *), phase_compare);
 		{
 			phases.clear();
-			std::map<std::string, phase*>::iterator it;
+			std::map<std::string, class phase*>::iterator it;
 			for (it = phases_map.begin(); it != phases_map.end(); it++)
 			{
 				phases.push_back(it->second);

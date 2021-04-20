@@ -1626,11 +1626,10 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		//memcpy(master_isotope_ptr, pSrc->master_isotope[i], sizeof(class master_isotope));
 		*master_isotope_ptr = *pSrc->master_isotope[i];
 		master_isotope_ptr->name = pSrc->master_isotope[i]->name;
-		int n;
 		master_isotope_ptr->master = NULL;
 		if (pSrc->master_isotope[i]->master)
 		{
-			master_isotope_ptr->master = master_search(pSrc->master_isotope[i]->master->elt->name.c_str(), &n);
+			master_isotope_ptr->master = master_find(pSrc->master_isotope[i]->master->elt->name.c_str());
 		}
 		if (master_isotope_ptr->master == NULL)
 		{

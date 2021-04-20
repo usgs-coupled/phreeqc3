@@ -837,15 +837,15 @@ public:
 	std::map<std::string, class Logk>::iterator 
 		Logk_search(const std::string& name_in);
 	//
-	class master* master_alloc(void);
 	static int master_compare(const void* ptr1, const void* ptr2);
-	int master_delete(const char* cptr);
+	int master_delete(const std::string& cptr);
 	class master* master_bsearch(const std::string& cptr);
-	class master* master_bsearch_primary(const char* cptr);
-	class master* master_bsearch_primary(const std::string& cstring);
-	class master* master_bsearch_secondary(const char* cptr);
-	class master* master_search(const char* cptr, int* n);
-	class master* surface_get_psi_master(const char* name, int plane);
+	class master* master_bsearch_primary(const std::string& cptr);
+	class master* master_bsearch_secondary(const std::string& cptr);
+	class master* master_search(const std::string& cptr, int* n);
+	class master* surface_get_psi_master(const std::string& name, int plane);
+	class master* master_find(const std::string& name);
+	class master* master_store(const std::string& name);
 	//
 	class phase* phase_bsearch(const std::string& name, int* j, int print);
 	class phase* phase_store(const std::string& name);
@@ -876,7 +876,6 @@ public:
 	static int inverse_compare(const void* ptr1, const void* ptr2);
 	int inverse_free(class inverse* inverse_ptr);
 	static int master_compare_string(const void* ptr1, const void* ptr2);
-	int master_free(class master* master_ptr);
 	static int rate_compare(const void* ptr1, const void* ptr2);
 	static int rate_compare_string(const void* ptr1, const void* ptr2);
 	static int species_list_compare(const void* ptr1, const void* ptr2);
@@ -1360,6 +1359,7 @@ protected:
 	*   Master species
 	*---------------------------------------------------------------------- */
 	std::vector<class master*> master;
+	std::map<std::string, class master*> master_map;
 
 	/*----------------------------------------------------------------------
 	*   Unknowns

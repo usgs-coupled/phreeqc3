@@ -1101,17 +1101,17 @@ read_exchange_master_species(void)
 /*
  *   Increase pointer array, if necessary,  and malloc space
  */
-		size_t count_master = master.size();
-		master.resize(count_master + 1);
-		master[count_master] = master_alloc();
+		//size_t count_master = master.size();
+		//master.resize(count_master + 1);
+		class master* master_ptr = master_store(token);
 /*
  *   Set type to EX
  */
-		master[count_master]->type = EX;
+		master_ptr->type = EX;
 /*
  *   Save element name
  */
-		master[count_master]->elt = element_store(token);
+		master_ptr->elt = element_store(token);
 /*
  *   Save pointer to species data for master species
  */
@@ -1126,22 +1126,22 @@ read_exchange_master_species(void)
 		s_ptr = s_search(token);
 		if (s_ptr != NULL)
 		{
-			master[count_master]->s = s_ptr;
+			master_ptr->s = s_ptr;
 		}
 		else
 		{
 			cptr1 = token;
 			std::string token1;
 			get_token(&cptr1, token1, &l_z, &l);
-			master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
+			master_ptr->s = s_store(token1.c_str(), l_z, FALSE);
 		}
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
-		master[count_master]->primary = TRUE;
-		if (master[count_master]->elt->name != "E")
+		master_ptr->primary = TRUE;
+		if (master_ptr->elt->name != "E")
 		{
-			elts_ptr = element_store(master[count_master]->elt->name.c_str());
+			elts_ptr = element_store(master_ptr->elt->name.c_str());
 			elts_ptr->gfw = 0.0;
 		}
 	}
@@ -3235,17 +3235,19 @@ read_master_species(void)
 /*
  *   Increase pointer array, if necessary,  and malloc space
  */
-		size_t count_master = master.size();
-		master.resize(count_master + 1);
-		master[count_master] = master_alloc();
+		//size_t count_master = master.size();
+		//master.resize(count_master + 1);
+		//master[count_master] = master_alloc();
+		//master[count_master] = new class master;
+		class master* master_ptr = master_store(token);
 /*
  *   Set type to AQ
  */
-		master[count_master]->type = AQ;
+		master_ptr->type = AQ;
 /*
  *   Save element name
  */
-		master[count_master]->elt = element_store(token);
+		master_ptr->elt = element_store(token);
 		std::string ename = token;
 /*
  *   Save pointer to species data for master species
@@ -3262,14 +3264,14 @@ read_master_species(void)
 		s_ptr = s_search(token);
 		if (s_ptr != NULL)
 		{
-			master[count_master]->s = s_ptr;
+			master_ptr->s = s_ptr;
 		}
 		else
 		{
 			cptr1 = token;
 			std::string token1;
 			get_token(&cptr1, token1, &l_z, &l);
-			master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
+			master_ptr->s = s_store(token1.c_str(), l_z, FALSE);
 		}
 		
 		std::string sname = token;
@@ -3289,7 +3291,7 @@ read_master_species(void)
  *   Read alkalinity for species
  */
 		copy_token(token, &cptr, &l);
-		i = sscanf(token, SCANFORMAT, &master[count_master]->alk);
+		i = sscanf(token, SCANFORMAT, &master_ptr->alk);
 		if (i != 1)
 		{
 			input_error++;
@@ -3313,11 +3315,11 @@ read_master_species(void)
 		i = copy_token(token, &cptr, &l);
 		if (i == DIGIT)
 		{
-			(void)sscanf(token, SCANFORMAT, &master[count_master]->gfw);
+			(void)sscanf(token, SCANFORMAT, &master_ptr->gfw);
 		}
 		else if (i == UPPER)
 		{
-			master[count_master]->gfw_formula = token;
+			master_ptr->gfw_formula = token;
 		}
 		else
 		{
@@ -3339,13 +3341,13 @@ read_master_species(void)
 /*
  *   MAKE LISTS OF PRIMARY AND SECONDARY MASTER SPECIES
  */
-		if (strchr(master[count_master]->elt->name.c_str(), '(') == NULL)
+		if (strchr(master_ptr->elt->name.c_str(), '(') == NULL)
 		{
-			master[count_master]->primary = TRUE;
+			master_ptr->primary = TRUE;
 			/* Read gram formula weight for primary */
-			if (master[count_master]->elt->name != "E")
+			if (master_ptr->elt->name != "E")
 			{
-				elts_ptr = master[count_master]->elt;
+				elts_ptr = master_ptr->elt;
 				i = copy_token(token, &cptr, &l);
 				if (i == DIGIT)
 				{
@@ -3373,7 +3375,7 @@ read_master_species(void)
 		}
 		else
 		{
-			master[count_master]->primary = FALSE;
+			master_ptr->primary = FALSE;
 		}
 	}
 	gfw_map.clear();
@@ -7058,11 +7060,13 @@ read_surface_master_species(void)
 			/*
 			 *   Save values in master and species structure for surface sites
 			 */
-			size_t count_master = master.size();
-			master.resize(count_master + 1);
-			master[count_master] = master_alloc();
-			master[count_master]->type = SURF;
-			master[count_master]->elt = element_store(token);
+			//size_t count_master = master.size();
+			//master.resize(count_master + 1);
+			//master[count_master] = master_alloc();
+			//master[count_master] = new class master;
+			class master* master_ptr = master_store(token);
+			master_ptr->type = SURF;
+			master_ptr->elt = element_store(token);
 			if (copy_token(token, &cptr, &l) != UPPER && token[0] != '[')
 			{
 				parse_error++;
@@ -7073,18 +7077,17 @@ read_surface_master_species(void)
 			s_ptr = s_search(token);
 			if (s_ptr != NULL)
 			{
-				master[count_master]->s = s_ptr;
+				master_ptr->s = s_ptr;
 			}
 			else
 			{
 				cptr1 = token;
 				std::string token1;
 				get_token(&cptr1, token1, &l_z, &l);
-				master[count_master]->s = s_store(token1.c_str(), l_z, FALSE);
+				master_ptr->s = s_store(token1.c_str(), l_z, FALSE);
 			}
-			master[count_master]->primary = TRUE;
-			strcpy(token, master[count_master]->elt->name.c_str());
-			count_master++;
+			master_ptr->primary = TRUE;
+			strcpy(token, master_ptr->elt->name.c_str());
 			/*
 			 *   Save values in master and species structure for surface psi
 			 */
@@ -7112,7 +7115,7 @@ add_psi_master_species(char *token)
 	class master *master_ptr;
 	const char* cptr;
 	char token1[MAX_LENGTH];
-	int i, n, plane;
+	int i, plane;
 
 	strcpy(token1, token);
 	for (plane = SURF_PSI; plane <= SURF_PSI2; plane++)
@@ -7129,48 +7132,44 @@ add_psi_master_species(char *token)
 			strcat(token, "d");
 			break;
 		}
-		master_ptr = master_search(token, &n);
+		master_ptr = master_find(token);
 		if (master_ptr == NULL)
 		{
-			size_t count_master = master.size();
-			master.resize(count_master + 1);
-			master[count_master] = master_alloc();
-			master[count_master]->type = plane;
-			master[count_master]->elt = element_store(token);
+			master_ptr = master_store(token);
+			master_ptr->type = plane;
+			master_ptr->elt = element_store(token);
 			s_ptr = s_search(token);
 			if (s_ptr != NULL)
 			{
-				master[count_master]->s = s_ptr;
+				master_ptr->s = s_ptr;
 			}
 			else
 			{
-				master[count_master]->s = s_store(token, 0.0, FALSE);
+				master_ptr->s = s_store(token, 0.0, FALSE);
 			}
 			count_elts = 0;
 			paren_count = 0;
 			cptr = token;
 			get_elts_in_species(&cptr, 1.0);
-			master[count_master]->s->next_elt = elt_list_vsave();
-			master[count_master]->s->type = plane;
-			master[count_master]->primary = TRUE;
+			master_ptr->s->next_elt = elt_list_vsave();
+			master_ptr->s->type = plane;
+			master_ptr->primary = TRUE;
 
-			master[count_master]->s->rxn.token.resize(3);
+			master_ptr->s->rxn.token.resize(3);
 			/*
 			 *   Define reaction for psi
 			 */
 			for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 			{
-				master[count_master]->s->rxn.logk_cr[i] = 0.0;
+				master_ptr->s->rxn.logk_cr[i] = 0.0;
 			}
-			master[count_master]->s->rxn.token[0].Set_s(
-				master[count_master]->s);
-			master[count_master]->s->rxn.token[0].coef = -1.0;
-			master[count_master]->s->rxn.token[1].Set_s(
-				master[count_master]->s);
-			master[count_master]->s->rxn.token[1].coef = 1.0;
-			master[count_master]->s->rxn.token[2].Set_s(NULL);
-			master[count_master]->s->rxn.token[2].Set_end(true);
-			count_master++;
+			master_ptr->s->rxn.token[0].Set_s(
+				master_ptr->s);
+			master_ptr->s->rxn.token[0].coef = -1.0;
+			master_ptr->s->rxn.token[1].Set_s(master_ptr->s);
+			master_ptr->s->rxn.token[1].coef = 1.0;
+			master_ptr->s->rxn.token[2].Set_s(NULL);
+			master_ptr->s->rxn.token[2].Set_end(true);
 		}
 	}
 	return (OK);

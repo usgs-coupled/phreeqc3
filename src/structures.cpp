@@ -62,7 +62,8 @@ clean_up(void)
 
 	for (j = 0; j < (int)master.size(); j++)
 	{
-		master_free(master[j]);
+		//master_free(master[j]);
+		delete master[j];
 	}
 	master.clear();
 
@@ -1016,13 +1017,13 @@ change_surf_alloc(int count)
 }
 /* ---------------------------------------------------------------------- */
 class master * Phreeqc::
-surface_get_psi_master(const char *name, int plane)
+surface_get_psi_master(const std::string& name, int plane)
 /* ---------------------------------------------------------------------- */
 {
 	class master *master_ptr;
 	std::string token;
 
-	if (name == NULL)
+	if (name.size() == 0)
 		return (NULL);
 	token = name;
 	token.append("_psi");
