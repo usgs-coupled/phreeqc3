@@ -161,6 +161,7 @@ src/transport.cpp
 src/utilities.cpp
 )
 
+include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories("${PROJECT_SOURCE_DIR}/src/common")
 include_directories("${PROJECT_SOURCE_DIR}/src/PhreeqcKeywords")
 
