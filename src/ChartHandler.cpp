@@ -2,11 +2,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 #if defined MULTICHART
+#include "Phreeqc.h"
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
 #include "ChartHandler.h"
-#include "phreeqc.h"
 #include <iostream>
 
 

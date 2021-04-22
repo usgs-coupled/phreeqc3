@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 #ifdef MULTICHART
+#include "Phreeqc.h"
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
@@ -12,7 +13,6 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
-#include "Phreeqc.h"
 #include "phqalloc.h"
 
 #include "Form1.h"
