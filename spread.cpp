@@ -448,7 +448,7 @@ read_solution_spread(void)
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					continue;
 				}
-				int i;
+				size_t i;
 				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
 					if (strcmp(token.c_str(), soln_defaults.iso[i].name) == 0)
@@ -458,7 +458,7 @@ read_solution_spread(void)
 				}
 				if (i == soln_defaults.iso.size())
 				{
-					soln_defaults.iso.resize((size_t)i + 1);
+					soln_defaults.iso.resize(i + 1);
 					soln_defaults.iso[i].name = string_hsave(token.c_str());
 					soln_defaults.iso[i].value = NAN;
 					soln_defaults.iso[i].uncertainty = NAN;
@@ -502,8 +502,8 @@ read_solution_spread(void)
 				int i;
 				for (i = 0; i < heading->count; i++)
 				{
-					while (replace(" ", "", heading->char_vector[i]) == TRUE);
-					while (replace(",", "_", heading->char_vector[i]) == TRUE);
+					while (replace(" ", "", heading->str_vector[i]) == TRUE);
+					while (replace(",", "_", heading->str_vector[i]) == TRUE);
 				}
 			}
 			break;
@@ -522,7 +522,7 @@ read_solution_spread(void)
 		assert(g_spread_sheet.units == NULL);
 		g_spread_sheet.units = copy_row(units);
 	}
-	copy_defaults(&g_spread_sheet.defaults, &soln_defaults);
+	g_spread_sheet.defaults = soln_defaults;
 #endif
 	spread_row_free(heading);
 	spread_row_free(units);
@@ -573,7 +573,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 		int i; 
 		for (i = 0; i < heading->count; i++)
 		{
-			if (strcmp_nocase(heading->char_vector[i], "number") == 0)
+			if (strcmp_nocase(heading->str_vector[i].c_str(), "number") == 0)
 			{
 				break;
 			}
@@ -588,13 +588,13 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 			input_error++;
 			error_string = sformatf(
 				"Expected solution number or number range in 'number' column, found:  %s.",
-				data->char_vector[i]);
+				data->str_vector[i].c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		else
 		{
 			string = "solution_s ";
-			string.append( data->char_vector[i] );
+			string.append(data->str_vector[i]);
 			next_keyword_save = next_keyword;
 			next_keyword = Keywords::KEY_SOLUTION_SPREAD;
 			cxxNumKeyword nk;
@@ -647,13 +647,13 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 	return_value = UNKNOWN;
 	for (int i = 0; i < heading->count; i++)
 	{
-		if (strcmp_nocase(heading->char_vector[i], "number") == 0)
+		if (strcmp_nocase(heading->str_vector[i].c_str(), "number") == 0)
 			continue;
-		if (strcmp_nocase(heading->char_vector[i], "uncertainty") == 0)
+		if (strcmp_nocase(heading->str_vector[i].c_str(), "uncertainty") == 0)
 			continue;
-		if (strcmp_nocase(heading->char_vector[i], "uncertainties") == 0)
+		if (strcmp_nocase(heading->str_vector[i].c_str(), "uncertainties") == 0)
 			continue;
-		if (strcmp_nocase(heading->char_vector[i], "isotope_uncertainty") ==
+		if (strcmp_nocase(heading->str_vector[i].c_str(), "isotope_uncertainty") ==
 			0)
 			continue;
 		/*
@@ -661,14 +661,14 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 		 */
 		if (heading->type_vector[i] == EMPTY)
 			continue;
-		string = heading->char_vector[i];
+		string = heading->str_vector[i];
 		string.append(" ");
 		/*
 		 *  Copy in concentration data
 		 */
 		if (i >= data->count || data->type_vector[i] == EMPTY)
 			continue;
-		string.append(data->char_vector[i]); 
+		string.append(data->str_vector[i]);
 		string.append(" ");
 		/*
 		 *  Copy in concentration data
@@ -676,7 +676,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 		if (units != NULL && i < units->count
 			&& units->type_vector[i] != EMPTY)
 		{
-			string.append(units->char_vector[i]);
+			string.append(units->str_vector[i]);
 		}
 /*
  *   Parse string just like read_solution input 
@@ -828,7 +828,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					{
 						for (int ii = 0; ii < heading->count; ii++)
 						{
-							error_string = sformatf("%d\t%s\n",ii,heading->char_vector[ii]);
+							error_string = sformatf("%d\t%s\n",ii,heading->str_vector[ii].c_str());
 							error_msg(error_string, PHRQ_io::OT_CONTINUE);
 						}
 					}
@@ -843,7 +843,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					{
 						for (int ii = 0; ii < data->count; ii++)
 						{
-							error_string = sformatf("%d\t%s\t%d\n",ii,data->char_vector[ii],data->type_vector[ii]);
+							error_string = sformatf("%d\t%s\t%d\n",ii,data->str_vector[ii].c_str(),data->type_vector[ii]);
 							error_msg(error_string, PHRQ_io::OT_CONTINUE);
 						}
 					}
@@ -857,7 +857,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					{
 						for (int ii = 0; ii < units->count; ii++)
 						{
-							error_string = sformatf("%d\t%s\n",ii,units->char_vector[ii]);
+							error_string = sformatf("%d\t%s\n",ii,units->str_vector[ii].c_str());
 							error_msg(error_string, PHRQ_io::OT_CONTINUE);
 						}
 					}
@@ -1070,8 +1070,7 @@ string_to_spread_row(char *string)
 		j = copy_token_tab(token, &cptr);
 		if (j == EOL)
 			break;
-		spread_row_ptr->char_vector.push_back(string_duplicate(token.c_str()));
-		spread_row_ptr->d_vector.push_back(NAN);
+		spread_row_ptr->str_vector.push_back(token);
 		if (j == EMPTY || token.size() == 0)
 		{
 			spread_row_ptr->empty++;
@@ -1085,7 +1084,6 @@ string_to_spread_row(char *string)
 		else if (j == DIGIT)
 		{
 			spread_row_ptr->number++;
-			spread_row_ptr->d_vector.push_back(strtod(token.c_str(), NULL));
 			spread_row_ptr->type_vector.push_back(NUMBER);
 		}
 		else
@@ -1098,6 +1096,9 @@ string_to_spread_row(char *string)
 		}
 		spread_row_ptr->count++;
 	}
+	assert(spread_row_ptr->count == spread_row_ptr->str_vector.size());
+	assert(spread_row_ptr->count == spread_row_ptr->type_vector.size());
+	assert(spread_row_ptr->count == spread_row_ptr->empty + spread_row_ptr->string + spread_row_ptr->number);
 	return (spread_row_ptr);
 }
 
@@ -1106,18 +1107,9 @@ int Phreeqc::
 spread_row_free(class spread_row *spread_row_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
-
 	if (spread_row_ptr == NULL)
 		return (OK);
-	for (i = 0; i < spread_row_ptr->count; i++)
-	{
-		spread_row_ptr->char_vector[i] =
-			(char *) free_check_null(spread_row_ptr->char_vector[i]);
-	}
-
-	spread_row_ptr->char_vector.clear();
-	spread_row_ptr->d_vector.clear();
+	spread_row_ptr->str_vector.clear();
 	spread_row_ptr->type_vector.clear();
 	delete spread_row_ptr;
 	return (OK);
@@ -1203,14 +1195,6 @@ copy_token_tab(std::string& token, const char **cptr)
 			i++;
 		}
 	}
-/*
- *   Strip trailing spaces
- */
-	for (j = i - 1; j >= 0; j--)
-	{
-		if (j != ' ')
-			break;
-	}
 	return (return_value);
 }
 
@@ -1263,7 +1247,7 @@ get_option_string(const char **opt_list, int count_opt_list, const char **next_c
 	return (j);
 }
 
-#ifdef PHREEQCI_GUI
+#if defined(PHREEQCI_GUI)
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 free_spread(void)
@@ -1272,29 +1256,18 @@ free_spread(void)
 	int i;
 	spread_row_free(g_spread_sheet.heading);
 	spread_row_free(g_spread_sheet.units);
-	for (i = 0; i < g_spread_sheet.count_rows; i++)
+	for (i = 0; i < g_spread_sheet.rows.size(); ++i)
 	{
 		spread_row_free(g_spread_sheet.rows[i]);
 	}
-	g_spread_sheet.rows = (spread_row**)free_check_null(g_spread_sheet.rows);
+	g_spread_sheet.rows.clear();
+	g_spread_sheet.defaults.iso.clear();
+	g_spread_sheet.defaults.redox = NULL;
+	g_spread_sheet.defaults.units = NULL;
 
-	for (i = 0; i < g_spread_sheet.defaults.count_iso; i++)
-	{
-		g_spread_sheet.defaults.iso[i].name =
-			(const char *)free_check_null((void*)g_spread_sheet.defaults.iso[i].name);
-	}
-	g_spread_sheet.defaults.iso =
-		(class iso*)free_check_null(g_spread_sheet.defaults.iso);
-
-	g_spread_sheet.defaults.redox =
-		(const char *)free_check_null((void*)g_spread_sheet.defaults.redox);
-	g_spread_sheet.defaults.units =
-		(const char *)free_check_null((void*)g_spread_sheet.defaults.units);
-
-	g_spread_sheet.heading = 0;
-	g_spread_sheet.units = 0;
-	g_spread_sheet.count_rows = 0;
-	g_spread_sheet.defaults.count_iso = 0;
+	g_spread_sheet.heading = NULL;
+	g_spread_sheet.units   = NULL;
+	g_spread_sheet.defaults.iso.clear();
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1302,19 +1275,7 @@ void Phreeqc::
 add_row(class spread_row *spread_row_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	g_spread_sheet.rows =
-		(class spread_row **) PHRQ_realloc(g_spread_sheet.rows,
-											sizeof(class spread_row *) *
-											(g_spread_sheet.count_rows + 1));
-	if (g_spread_sheet.rows == NULL)
-	{
-		malloc_error();
-	}
-	else
-	{
-		g_spread_sheet.rows[g_spread_sheet.count_rows++] =
-			copy_row(spread_row_ptr);
-	}
+	g_spread_sheet.rows.push_back(copy_row(spread_row_ptr));
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1322,74 +1283,9 @@ class spread_row * Phreeqc::
 copy_row(class spread_row *spread_row_ptr)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
-	class spread_row *new_spread_row_ptr;
-/*
- *   Allocate space
- */
-	new_spread_row_ptr =
-		(class spread_row *) PHRQ_malloc((size_t) sizeof(class spread_row));
-	if (new_spread_row_ptr == NULL)
+	spread_row *copy = new spread_row(*spread_row_ptr);
+	if (copy == NULL)
 		malloc_error();
-	new_spread_row_ptr->char_vector =
-		(char **) PHRQ_malloc((size_t) spread_row_ptr->count *
-							  sizeof(char *));
-	if (new_spread_row_ptr->char_vector == NULL)
-		malloc_error();
-	new_spread_row_ptr->d_vector =
-		(LDBLE *) PHRQ_malloc((size_t) spread_row_ptr->count * sizeof(LDBLE));
-	if (new_spread_row_ptr->d_vector == NULL)
-		malloc_error();
-	new_spread_row_ptr->type_vector =
-		(int *) PHRQ_malloc((size_t) spread_row_ptr->count * sizeof(int));
-	if (new_spread_row_ptr->type_vector == NULL)
-		malloc_error();
-
-	for (i = 0; i < spread_row_ptr->count; i++)
-	{
-		new_spread_row_ptr->char_vector[i] =
-			string_duplicate(spread_row_ptr->char_vector[i]);
-		new_spread_row_ptr->d_vector[i] = spread_row_ptr->d_vector[i];
-		new_spread_row_ptr->type_vector[i] = spread_row_ptr->type_vector[i];
-	}
-	new_spread_row_ptr->count = spread_row_ptr->count;
-	new_spread_row_ptr->empty = spread_row_ptr->empty;
-	new_spread_row_ptr->number = spread_row_ptr->number;
-	new_spread_row_ptr->string = spread_row_ptr->string;
-
-	return new_spread_row_ptr;
+	return copy;
 }
-
-/* ---------------------------------------------------------------------- */
-void Phreeqc::
-copy_defaults(class defaults *dest_ptr, class defaults *src_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	dest_ptr->count_iso = src_ptr->count_iso;
-	dest_ptr->density = src_ptr->density;
-	dest_ptr->iso =
-		(class iso *) PHRQ_malloc(sizeof(class iso) * src_ptr->count_iso);
-	if (dest_ptr->iso == NULL)
-	{
-		malloc_error();
-	}
-	else
-	{
-		for (i = 0; i < src_ptr->count_iso; i++)
-		{
-			dest_ptr->iso[i] = src_ptr->iso[i];
-			dest_ptr->iso[i].name = string_duplicate(src_ptr->iso[i].name);
-		}
-	}
-
-	dest_ptr->pe = src_ptr->pe;
-	dest_ptr->ph = src_ptr->ph;
-	dest_ptr->redox = string_duplicate(src_ptr->redox);
-	dest_ptr->temp = src_ptr->temp;
-	dest_ptr->units = string_duplicate(src_ptr->units);
-	dest_ptr->water = src_ptr->water;
-	dest_ptr->pressure = src_ptr->pressure;
-}
-
 #endif

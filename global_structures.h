@@ -1258,10 +1258,9 @@ public:
 		//d_vector.clear();
 		//type_vector.clear();
 	}
-	int count;
-	int empty, string, number;
-	std::vector<char*> char_vector;
-	std::vector<double> d_vector;
+	size_t count;
+	size_t empty, string, number;
+	std::vector<std::string> str_vector;
 	std::vector<int> type_vector;
 };
 class defaults
@@ -1300,14 +1299,11 @@ public:
 	{
 		heading = NULL;
 		units = NULL;
-		count_rows = 0;
-		rows = NULL;
 		//class defaults defaults;
 	}
 	class spread_row* heading;
 	class spread_row* units;
-	int count_rows;
-	class spread_row** rows;
+	std::vector<class spread_row*> rows;
 	class defaults defaults;
 };
 /* ----------------------------------------------------------------------

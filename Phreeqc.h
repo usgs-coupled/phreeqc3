@@ -781,8 +781,6 @@ public:
 	class spread_row* string_to_spread_row(char* string);
 #ifdef PHREEQCI_GUI
 	void add_row(class spread_row* spread_row_ptr);
-	void copy_defaults(class defaults* dest_ptr,
-		class defaults* src_ptr);
 	void free_spread(void);
 	class spread_row* copy_row(class spread_row* spread_row_ptr);
 #endif
