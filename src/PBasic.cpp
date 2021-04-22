@@ -1,3 +1,7 @@
+#if !(defined(WIN32) && !defined(__GNUC__))
+#include <assert.h>
+#define _ASSERTE assert
+#endif
 #include <stdlib.h>
 #include "Phreeqc.h"
 #include "PBasic.h"
