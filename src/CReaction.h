@@ -8,21 +8,42 @@
 class CReaction : public Logk
 {
 public:
-	CReaction(void);
-	CReaction(size_t ntoken);
+	CReaction(bool is_phase = false)
+	{
+		this->Initialize(is_phase);
+	}
+	CReaction(size_t ntoken, bool is_phase = false)
+	{
+		this->Initialize(is_phase);
+		this->token.resize(ntoken);
+	}
 	~CReaction(void) {}
 	std::vector<double>& Get_logk_cr(void) { return this->logk_cr; }
-	void   Set_logk_cr(double* d);
+	void Set_logk_cr(const std::vector<double>& d);
 	const std::vector<double>& Get_dz(void) { return this->dz; }
-	void   Set_dz(double* d);
+	void Set_dz(const std::vector<double>& d);
 	size_t size() { return token.size(); }
 	std::vector<class rxn_token>& Get_tokens(void) { return this->token; }
 	void Set_tokens(const std::vector<class rxn_token>& t) { this->token = t; }
-	void Initialize();
+	void Set_phase(bool tf) { this->phase = tf; }
+	bool Get_phase() { return this->phase; }
+	void Set_mu_last(double m) { this->mu_last = m; }
+	void Initialize(bool is_phase);
+	double Calc_delta_v();
+	double Calc_iap();
+	double Calc_si(double tempk, double presPa/*, Phreeqc* phrq_ptr*/);
+	double Calc_lk(double tempk, double presPa/*, Phreeqc* phrq_ptr*/);
 public:
 	std::vector<double> logk_cr;
 	std::vector<double> dz;
 	std::vector<class rxn_token> token;
+	bool phase;
+	double tc_last;
+	double p_atm_last;
+	double mu_last;
+	double iap;
+	double lk;
+	double si;
 };
 class rxn_token
 {

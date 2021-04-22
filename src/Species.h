@@ -16,6 +16,9 @@ public:
 		this->Initialize();
 	}
 	void Initialize();
+	CReaction& Get_rxn() { return rxn; }
+	CReaction& Get_rxn_s() { return rxn_s; }
+	CReaction& Get_rxn_x() { return rxn_x; }
 
 	std::string name;
 	std::string mole_balance;

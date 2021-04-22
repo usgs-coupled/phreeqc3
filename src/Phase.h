@@ -17,12 +17,23 @@ public:
 		this->Initialize();
 	}
 	void Initialize();
+	double Calc_rxn_delta_v();
+	double Calc_rxn_iap();
+	double Calc_rxn_lk(double tk_x, double ppas_x);
+	double Calc_rxn_si(double tk_x, double ppas_x);
 
+	double Calc_rxn_x_delta_v();
+	double Calc_rxn_x_iap();
+	double Calc_rxn_x_lk(double tk_x, double ppas_x);
+	double Calc_rxn_x_si(double tk_x, double ppas_x);
+public:
 	std::string name;
 	std::string formula;
 	int in;
 	double lk;
+//protected:
 	std::vector<double> logk;
+public:
 	Logk::DELTA_H_UNIT original_units;
 	Logk::DELTA_V_UNIT original_deltav_units;
 	std::vector<class name_coef> add_logk;

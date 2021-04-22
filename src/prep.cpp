@@ -1279,28 +1279,49 @@ build_model(void)
  */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
+		trxn.x_on = false;
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn_s, 1.0, false);
 		trxn.trxn_reverse_k();
 		phases[i]->in = inout();
 		if (phases[i]->in == TRUE)
 		{
-/*
- *   Replace e- in original equation with default redox reaction
- */
 			coef_e = trxn.trxn_find_coef("e-", 1);
 			if (equal(coef_e, 0.0, TOL) == FALSE)
 			{
 				trxn.trxn_add(pe_x[default_pe_x.c_str()], coef_e, TRUE);
 			}
-/*
- *   Rewrite reaction to current master species
- */
 			write_mass_action_eqn_x(STOP);
 			trxn.trxn_reverse_k();
 			trxn.trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);
 		}
+
+		// new organization
+		trxn.x_on = true;
+		trxn.Set_count_trxn(0);
+		trxn.trxn_add_phase(phases[i]->rxn_s, 1.0, false);
+		trxn.trxn_reverse_k();
+		phases[i]->in = inout();
+		if (phases[i]->in == TRUE)
+		{
+			trxn.x_on = false;
+			coef_e = trxn.trxn_find_coef("e-", 1);
+			if (equal(coef_e, 0.0, TOL) == FALSE)
+			{
+				trxn.trxn_add(pe_x[default_pe_x.c_str()], coef_e, TRUE);
+			}
+			write_mass_action_eqn_x(STOP);
+			trxn.trxn_reverse_k();
+			trxn.x_on = true;
+			trxn.trxn_copy(phases[i]->rxn_x);
+			write_phase_sys_total(i);
+		}
+		//if (phases[i]->rxn_x.Get_logk_cr() != phases[i]->rxn_x.Get_logk_x())
+		//{
+		//	std::cerr << "We have a problem \n";
+		//}
+		trxn.x_on = false;
 	}
 	build_solution_phase_boundaries();
 	build_pure_phases();
@@ -5229,12 +5250,24 @@ calc_lk_phase(phase *p_ptr, LDBLE TK, LDBLE pa)
 			continue;
 	}
 	d_v -= p_ptr->logk[Logk::vm0];
-	r_ptr->logk_cr[Logk::delta_v] = d_v;
-	if ((r_ptr->token[0].Get_name().size() > 0) && 
-		(r_ptr->token[0].Get_name() == "H2O(g)"))
-		r_ptr->logk_cr[Logk::delta_v] = 0.0;
 
-	return k_calc(r_ptr->logk_cr, TK, pa * PASCAL_PER_ATM);
+	r_ptr->logk_cr[Logk::delta_v] = d_v;
+	r_ptr->logk_x[Logk::delta_v] = d_v;
+	if ((r_ptr->token[0].Get_name().size() > 0) &&
+		(r_ptr->token[0].Get_name() == "H2O(g)"))
+	{
+		r_ptr->logk_cr[Logk::delta_v] = 0.0;
+		r_ptr->logk_x[Logk::delta_v] = 0.0;
+	}
+
+	double lk = k_calc(r_ptr->logk_cr, TK, pa * PASCAL_PER_ATM);
+	// check here
+	double lk1 = r_ptr->Calc_Logk(TK, pa * PASCAL_PER_ATM);
+	if (lk != lk1)
+	{
+		std::cerr << "calc_lk_phase error\n";
+	}
+	return lk;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -5367,13 +5400,22 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	{
 		if (phases[i]->in == TRUE)  
 		{
-
 			phases[i]->rxn_x.logk_cr[Logk::delta_v] = calc_delta_v(*&phases[i]->rxn_x, true) -
 				phases[i]->logk[Logk::vm0];
 			if (phases[i]->rxn_x.logk_cr[Logk::delta_v])
 				mu_terms_in_logk = true;
 			phases[i]->lk = k_calc(phases[i]->rxn_x.logk_cr, tempk, pa * PASCAL_PER_ATM);
-
+			// check here
+			double lk = phases[i]->Calc_rxn_x_lk(tempk, pa * PASCAL_PER_ATM);
+			if (lk != phases[i]->lk)
+			{
+				std::cerr << "k_temp error\n";
+				double dv = phases[i]->Calc_rxn_x_delta_v();
+				phases[i]->rxn_x.logk_cr[Logk::delta_v] = calc_delta_v(*&phases[i]->rxn_x, true) -
+					phases[i]->logk[Logk::vm0];
+				phases[i]->lk = k_calc(phases[i]->rxn_x.logk_cr, tempk, pa * PASCAL_PER_ATM);
+				double lk = phases[i]->Calc_rxn_x_lk(tempk, pa * PASCAL_PER_ATM/*, this*/);
+			}
 		}
 	}
 /*

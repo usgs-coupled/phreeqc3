@@ -249,25 +249,7 @@ reinitialize(void)
  *   Routines related to CReaction
  *
  * ********************************************************************** */
-CReaction::CReaction(void)
-{
-	this->logk_cr.resize(Logk::MAX_LOG_K_INDICES, 0.0);
-	this->dz.resize(3, 0.0);
-}
-CReaction::CReaction(size_t ntoken)
-{
-	this->logk_cr.resize(Logk::MAX_LOG_K_INDICES, 0.0);
-	this->dz.resize(3, 0.0);
-	this->token.resize(ntoken);
-}
-void  CReaction::Set_logk_cr(double* d)
-{
-	for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++)logk_cr[i] = d[i];
-}
-void   CReaction::Set_dz(double* d)
-{
-	for (size_t i = 0; i < 3; i++) dz[i] = d[i];
-}
+#ifdef SKIP
 CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 {
 	CReaction rxn;
@@ -284,6 +266,7 @@ CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 	}
 	return rxn;
 }
+#endif
 /* ---------------------------------------------------------------------- */
 double Phreeqc::
 rxn_find_coef(CReaction& r_ref, const char* str)

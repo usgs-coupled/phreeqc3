@@ -3,7 +3,7 @@
 #include "Surface.h"
 #include "GasPhase.h"
 #include "Logk.h"
-#include "CReaction.h"
+//#include "CReaction.h"
 #include "Name_coef.h"
 #include "Species.h"
 #include "Element.h"

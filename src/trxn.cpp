@@ -56,14 +56,27 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	 /*
 	  *   Accumulate log k for reaction
 	  */
+
 	if (count_trxn == 0)
 	{
-		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++) this->logk[i] = r_ref.Get_logk_cr()[i];
+		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+		{
+			if (x_on)
+				this->logk[i] = r_ref.logk_x[i];
+			else
+				this->logk[i] = r_ref.logk_cr[i];
+		}
 		for (int i = 0; i < 3; i++)	this->dz[i] = r_ref.Get_dz()[i];
 	}
 	else
 	{
-		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++) this->logk[i] += coef * r_ref.Get_logk_cr()[i];
+		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+		{
+			if (x_on)
+				this->logk[i] += coef * r_ref.logk_x[i];
+			else
+				this->logk[i] += coef * r_ref.logk_cr[i];
+		}
 		for (int i = 0; i < 3; i++) this->dz[i] += coef * r_ref.Get_dz()[i];
 	}
 	/*
@@ -110,13 +123,23 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 */
 	if (count_trxn == 0)
 	{
-		//memcpy((void*)this->logk, (void*)r_ref.Get_logk_cr(),
-		//	(size_t)Logk::MAX_LOG_K_INDICES * sizeof(double));
-		this->logk = r_ref.Get_logk_cr();
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+		{
+			if (x_on)
+				this->logk[i] = r_ref.logk_x[i];
+			else
+				this->logk[i] = r_ref.logk_cr[i];
+		}
 	}
 	else
 	{
-		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)	this->logk[i] += coef * r_ref.Get_logk_cr()[i];
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+		{
+			if (x_on)
+				this->logk[i] += coef * r_ref.logk_x[i];
+			else
+				this->logk[i] += coef * r_ref.logk_cr[i];
+		}
 	}
 	/*
 	 *   Copy  equation into work space
@@ -233,16 +256,63 @@ trxn_copy(CReaction& rxn_ref)
 	 *
 	 */
 	int i;
+
 	/*
 	 *   Copy logk data
 	 */
 	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
-		rxn_ref.logk_cr[i] = this->logk[i];
+		if (x_on)
+			rxn_ref.logk_x[i] = this->logk[i];
+		else
+			rxn_ref.logk_cr[i] = this->logk[i];
 	}
 	/*
 	 *   Copy dz data
 	 */
+	for (i = 0; i < 3; i++)
+	{
+		rxn_ref.dz[i] = this->dz[i];
+	}
+	/*
+	 *   Copy tokens
+	 */
+	rxn_ref.Get_tokens().resize(count_trxn + 1);
+	for (size_t i = 0; i < count_trxn; i++)
+	{
+		rxn_ref.Get_tokens()[i].Set_s(this->token[i].Get_s());
+		rxn_ref.Get_tokens()[i].Set_name(this->token[i].Get_name());
+		rxn_ref.Get_tokens()[i].coef = this->token[i].coef;
+	}
+	rxn_ref.token[count_trxn].Set_s(NULL);
+	rxn_ref.token[count_trxn].Set_name("");
+	rxn_ref.token[count_trxn].Set_end(true);
+	return (OK);
+}
+/* ---------------------------------------------------------------------- */
+bool reaction_temp::
+trxn_copy(CReaction& rxn_ref, std::vector<double>& target_logk)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Copies trxn to a reaction structure.
+	 *
+	 *   Input: rxn_ptr, pointer to reaction structure to copy trxn to.
+	 *
+	 */
+	int i;
+	/*
+	 *   Copy logk data
+	 */
+	target_logk.resize(Logk::MAX_LOG_K_INDICES);
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+	{
+		target_logk[i] = this->logk[i];
+	}
+	/*
+	 *   Copy dz data
+	 */
+	rxn_ref.dz.resize(3);
 	for (i = 0; i < 3; i++)
 	{
 		rxn_ref.dz[i] = this->dz[i];
@@ -304,6 +374,7 @@ trxn_multiply(double coef)
 	/*
 	 *   Multiply log k for reaction
 	 */
+
 	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 		this->logk[i] *= coef;
@@ -517,8 +588,11 @@ rewrite_master_to_secondary(class master* master_ptr1,
 	 *   Rewrite equation to secondary master species
 	 */
 	this->Set_count_trxn(0);
+	bool x_on_save = x_on;
+	x_on = false;
 	this->trxn_add(master_ptr1->rxn_primary, 1.0, false);
 	this->trxn_add(master_ptr2->rxn_primary, -coef1 / coef2, true);
+	x_on = x_on_save;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

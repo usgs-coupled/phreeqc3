@@ -47,13 +47,13 @@ public:
 
 	void Set_name(const std::string& str) { this->name = str; }
 	const std::string& Get_name() { return this->name; }
-	void Set_logk(const std::vector<double>& k);
+	void Set_logk_original(const std::vector<double>& k);
 	void Set_selected();
-	const std::vector<double>& Get_logk_x() { return this->logk_x; }
-	const std::vector<double>& Get_logk_original() { return this->logk_original; }
-	const std::vector<double>& Get_logk_selected() { return this->logk_selected; }
+	std::vector<double>& Get_logk_x() { return this->logk_x; }
+	std::vector<double>& Get_logk_original() { return this->logk_original; }
+	std::vector<double>& Get_logk_selected() { return this->logk_selected; }
 
-	double k_calc(double tempk, double presPa, Phreeqc* phrq_ptr);
+	double Calc_Logk(double tempk, double presPa/*, Phreeqc* phrq_ptr*/);
 	void tidy_logk(Phreeqc* phrq_ptr);
 	std::string name;
 	double lk;

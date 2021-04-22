@@ -119,6 +119,14 @@ phase_vm(const char *phase_name)
 	else
 	{
 		g = phase_ptr->logk[Logk::vm0];
+		// check here
+		if (phase_ptr->logk[Logk::vm0] !=
+			phase_ptr->rxn.Get_logk_original()[Logk::vm0])
+		{
+			std::cerr << "phase_vm error\n";
+			//assert(false);
+		}
+		//std::cerr << "Done checking phase_vm\n";
 	}
 	return (g);
 }
@@ -606,7 +614,7 @@ calc_logk_n(const std::string& name)
 		Logk_search(name);
 	if (it != Logk_map.end())
 	{
-		Lk = it->second.k_calc(tk_x, patm_x * PASCAL_PER_ATM, this);
+		Lk = it->second.Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
 	}
 	return Lk;
 }
@@ -620,7 +628,6 @@ calc_logk_p(const std::string& name)
 	class phase *phase_ptr;
 	LDBLE lk=-999.9;
 	std::vector<double> l_logk;
-
 	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 	strcpy(token, name.c_str());
 	phase_ptr = phase_bsearch(token, &j, FALSE);
@@ -647,7 +654,23 @@ calc_logk_p(const std::string& name)
 		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
 		add_other_logk(l_logk, phase_ptr->add_logk); 
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+		// check here
+		(void)reaction_ptr->Calc_delta_v();
+		if (lk != reaction_ptr->Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/))
+		{
+			std::cerr << "calc_logk_p error 3\n";
+		}
 	}
+#ifdef SKIP_PHASE_LOGK
+	class phase* phase_ptr;
+	LDBLE lk = -999.9;
+	int j;
+	phase_ptr = phase_bsearch(name, &j, FALSE);
+	if (phase_ptr != NULL)
+	{
+		phase_ptr->Calc_lk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
+	}
+#endif
 	return (lk);
 }
 
@@ -748,6 +771,16 @@ calc_deltah_p(const std::string& name)
 		*/
 		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
 			phase_ptr->logk[Logk::vm0];
+		// check 
+		double d_v1 = reaction_ptr->Calc_delta_v();
+		if (reaction_ptr->logk_cr[Logk::delta_v] != d_v1)
+		{
+			std::cerr << "calc_deltah_p error\n";
+			double d_v1 = reaction_ptr->Calc_delta_v();
+			double d_v2 = calc_delta_v(*reaction_ptr, true) -
+				phase_ptr->logk[Logk::vm0];
+			std::cerr << "calc_deltah_p error\n";
+		}
 		if (reaction_ptr->logk_cr[Logk::delta_v])
 			mu_terms_in_logk = true;
 		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)

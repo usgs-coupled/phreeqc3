@@ -60,9 +60,9 @@ void species::Initialize()
 		next_sys_total.clear();
 		// switch to check equation for charge and element balance
 		check_equation = TRUE;
-		rxn.Initialize();   // data base reaction
-		rxn_s.Initialize(); // reaction converted to secondary and primary master species
-		rxn_x.Initialize(); // reaction to be used in model
+		rxn.Initialize(false);   // data base reaction
+		rxn_s.Initialize(false); // reaction converted to secondary and primary master species
+		rxn_x.Initialize(false); // reaction to be used in model
 		// (1 + sum(g)) * moles
 		tot_g_moles = 0;
 		// sum(moles*g*Ws/Waq)

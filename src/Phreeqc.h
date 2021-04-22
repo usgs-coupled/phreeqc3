@@ -31,6 +31,7 @@ typedef unsigned char boolean;
 #include "SelectedOutput.h"
 #include "UserPunch.h"
 #include "Logk.h"
+#include "CReaction.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -61,6 +62,7 @@ class cxxSSassemblage;
 class cxxSS;
 class cxxStorageBin;
 class PBasic;
+class cxxMix;
 
 #include "global_structures.h"
 
@@ -517,7 +519,7 @@ public:
 	int set_pz(int initial);
 	int calc_pitz_param(class pitz_param* pz_ptr, LDBLE TK, LDBLE TR);
 	int check_gammas_pz(void);
-	int ISPEC(const char* name);
+	int ISPEC(const std::string& name);
 	LDBLE G(LDBLE Y);
 	LDBLE GP(LDBLE Y);
 	int ETHETAS(LDBLE ZJ, LDBLE ZK, LDBLE I, LDBLE* etheta,
@@ -811,7 +813,7 @@ public:
 	int copier_add(class copier* copier_ptr, int n_user, int start, int end);
 	int copier_clear(class copier* copier_ptr);
 	//
-	CReaction CReaction_internal_copy(CReaction& rxn_ref);
+	CReaction CReaction_internal_copy(CReaction& rxn_ref) { CReaction r;return r; }
 	double rxn_find_coef(CReaction& r_ptr, const char* str);
 	//
 	class element* element_store(const std::string& element);
@@ -1041,10 +1043,12 @@ public:
 	size_t list_SolidSolutions(std::list<std::string>& list_comps, std::list<std::string>& list_names);
 	size_t list_Surfaces(std::list<std::string>& surftype, std::list<std::string>& surf);
 	size_t list_Exchangers(std::list<std::string>& ex);
+
+	// Gettters and setters
 	PHRQ_io* Get_phrq_io(void) { return this->phrq_io; }
 	void Set_run_cells_one_step(const bool tf) { this->run_cells_one_step = tf; }
-
-
+	class species* Get_s_eminus() { return s_eminus; }
+	void Set_mu_terms_in_logk(bool tf) { mu_terms_in_logk = tf; }
 	std::map<int, cxxSolution>& Get_Rxn_solution_map() { return this->Rxn_solution_map; }
 	std::map<int, cxxExchange>& Get_Rxn_exchange_map() { return this->Rxn_exchange_map; }
 	std::map<int, cxxGasPhase>& Get_Rxn_gas_phase_map() { return this->Rxn_gas_phase_map; }

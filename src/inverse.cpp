@@ -1939,6 +1939,12 @@ print_model(class inverse *inv_ptr)
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
 
 				reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) - phases[i1]->logk[Logk::vm0];
+				// check here
+				if (reaction_ptr->logk_cr[Logk::delta_v] !=
+					reaction_ptr->Calc_delta_v())
+				{
+					std::cerr << "print_model error\n";
+				}
 				if (reaction_ptr->logk_cr[Logk::delta_v])
 					mu_terms_in_logk = true;
 				lk = k_calc(reaction_ptr->logk_cr, t_i, p_i);
@@ -1968,7 +1974,6 @@ print_model(class inverse *inv_ptr)
 						iap = -999; break;
 					}
 				}
-
 				if (iap == -999)
 					output_msg(sformatf("      "));
 				else

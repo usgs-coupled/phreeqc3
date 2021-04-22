@@ -1376,7 +1376,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		//memcpy(s_ptr, pSrc->s[i], sizeof(class species));
 		*s_ptr = *pSrc->s[i];
 		// fix up all pointers
-		s_ptr->name = string_hsave(pSrc->s[i]->name.c_str());
+		s_ptr->name = pSrc->s[i]->name.c_str();
 		s_ptr->mole_balance = pSrc->s[i]->mole_balance;
 		s_ptr->primary = NULL;
 		s_ptr->secondary = NULL;

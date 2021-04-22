@@ -1231,6 +1231,7 @@ print_saturation_indices(void)
  */
 		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
 			 phases[i]->logk[Logk::vm0];
+
 		if (reaction_ptr->logk_cr[Logk::delta_v])
 				mu_terms_in_logk = true;
 		lk = k_calc(reaction_ptr->logk_cr, tk_x, patm_x * PASCAL_PER_ATM);
@@ -1247,8 +1248,29 @@ print_saturation_indices(void)
 				iap += la_eminus * rxn_ptr->coef;
 			}
 		}
-		si = -lk + iap;
 
+		si = -lk + iap;
+		{
+			// check here
+			double save_la_eminus = s_eminus->la;
+			s_eminus->la = la_eminus; // substitute alternate pe
+			double iap1 = reaction_ptr->Calc_iap();
+			if (iap != iap1)
+			{
+				std::cerr << "print_si iap error\n";
+				double iap1 = reaction_ptr->Calc_iap();
+			}
+			if (lk != reaction_ptr->Calc_lk(tk_x, patm_x * PASCAL_PER_ATM))
+			{
+				std::cerr << "print_si lk error\n";
+			}
+			double si1 = reaction_ptr->Calc_si(tk_x, patm_x * PASCAL_PER_ATM);
+			if (si != si1)
+			{
+				std::cerr << "print_si si error\n";
+			}
+			s_eminus->la = save_la_eminus;
+		}
 		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
 				   phases[i]->name.c_str(), (double) si, (double) iap, (double) lk,
 				   phases[i]->formula.c_str()));
@@ -1351,6 +1373,22 @@ print_pp_assemblage(void)
 				}
 			}
 			si = -lk + iap;
+			// check here
+			if (iap != phase_ptr->rxn.Calc_iap())
+			{
+				std::cerr << "print_pp iap\n";
+				//assert(false);
+			}
+			if (lk != phase_ptr->rxn.Calc_lk(tk_x, patm_x * PASCAL_PER_ATM))
+			{
+				std::cerr << "print_pp lk\n";
+				//assert(false);
+			}
+			if (si != phase_ptr->rxn.Calc_si(tk_x, patm_x * PASCAL_PER_ATM))
+			{
+				std::cerr << "print_pp si\n";
+				//assert(false);
+			}
 			/*
 			   for (rxn_ptr = x[j]->phase->rxn_x.token + 1; rxn_ptr->s != NULL; rxn_ptr++) {
 			   iap += rxn_ptr->s->la * rxn_ptr->coef;

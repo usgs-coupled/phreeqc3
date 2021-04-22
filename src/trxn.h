@@ -4,6 +4,7 @@
 #include <string>
 #include "global_structures.h"
 #include "PHRQ_io.h"
+#include "CReaction.h"
 class Phreeqc;
 
 class reaction_temp
@@ -18,6 +19,7 @@ public:
 		//token.clear();
 		count_trxn = 0;
 		phrq_ptr = NULL;
+		x_on = false;
 	}
 	bool phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref);
 	int rewrite_master_to_secondary(class master* master_ptr1,
@@ -28,6 +30,7 @@ public:
 	int trxn_combine(void);
 	int trxn_compare(const void* ptr1, const void* ptr2);
 	bool trxn_copy(CReaction& rxn_ref);
+	bool trxn_copy(CReaction& rxn_ref, std::vector<double>& target_logk);
 	double trxn_find_coef(const char* str, int start);
 	int trxn_multiply(double coef);
 	int trxn_print(void);
@@ -43,6 +46,7 @@ public:
 	std::vector<class rxn_token_temp> token;
 	size_t count_trxn;
 	Phreeqc* phrq_ptr;
+	bool x_on;
 };
 class rxn_token_temp
 {

@@ -44,9 +44,9 @@ public:
 		// pointer to species structure
 		s = NULL;
 		// reaction writes master species in terms of primary  master species
-		//CReaction rxn_primary;
+		rxn_primary.Initialize(false);
 		// reaction writes master species in terms of secondary master species
-		//CReaction rxn_secondary;
+		rxn_secondary.Initialize(false);
 		//pe_rxn.clear();
 		minor_isotope = FALSE;
 	}

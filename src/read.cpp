@@ -3807,6 +3807,12 @@ read_phases(void)
 			break;
 		case OPTION_DEFAULT:
 		{
+			if (phase_ptr != NULL)
+			{
+				// temporary: copy instead of read
+				phase_ptr->rxn.Set_logk_original(phase_ptr->logk);
+				phase_ptr->rxn.add_logk = phase_ptr->add_logk;
+			}
 			/*
 			 *   Get element name and save pointer to character string
 			 */
@@ -3839,6 +3845,7 @@ read_phases(void)
 				error_msg(line_save, CONTINUE);
 				break;
 			}
+
 			phase_ptr = phase_store(token);
 			/*
 			 *   Get pointer to each species in the reaction, store new species if necessary
@@ -3893,6 +3900,12 @@ read_phases(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+	}
+	if (phase_ptr != NULL)
+	{
+		// temporary: copy instead of read
+		phase_ptr->rxn.Set_logk_original(phase_ptr->logk);
+		phase_ptr->rxn.add_logk = phase_ptr->add_logk;
 	}
 	return (return_value);
 }

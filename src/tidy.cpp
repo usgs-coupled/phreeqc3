@@ -682,6 +682,8 @@ rewrite_eqn_to_secondary(void)
 /*
  *
  */
+	bool x_on_save = trxn.x_on;
+	trxn.x_on = false;
 	add_count = 0;
 	repeat = TRUE;
 /*
@@ -724,6 +726,8 @@ rewrite_eqn_to_secondary(void)
 		}
 	}
 	trxn.trxn_combine();
+
+	trxn.x_on = x_on_save;
 	return (OK);
 }
 
@@ -835,6 +839,8 @@ rewrite_eqn_to_primary(void)
  */
 	int repeat, j, add_count;
 
+	bool x_on_save = trxn.x_on;
+	trxn.x_on = false;
 /*
  *   Check secondary master species
  */
@@ -873,6 +879,7 @@ rewrite_eqn_to_primary(void)
 		}
 	}
 	trxn.trxn_combine();
+	trxn.x_on = x_on_save;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1445,11 +1452,20 @@ tidy_phases(void)
 	 */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
+		trxn.x_on = false;
 		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk_cr);
 		add_other_logk(phases[i]->rxn.logk_cr, phases[i]->add_logk);
 		phases[i]->rxn.token[0].Set_name(phases[i]->name);
-
 		phases[i]->rxn.token[0].Set_s(NULL);
+		// new organization
+		trxn.x_on = true;
+		phases[i]->rxn.tidy_logk(this);
+		// check here
+		if (phases[i]->rxn.Get_logk_x() != phases[i]->rxn.Get_logk_cr())
+		{
+			std::cerr << "tidy_phases error\n";
+			//phases[i]->rxn.tidy_logk(this);
+		}
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -1459,6 +1475,7 @@ tidy_phases(void)
 		/*
 		 *   Rewrite equation
 		 */
+		trxn.x_on = false;
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
 		trxn.token[0].Set_name(phases[i]->name);
@@ -1473,6 +1490,29 @@ tidy_phases(void)
 		rewrite_eqn_to_secondary();
 		trxn.trxn_reverse_k();
 		trxn.trxn_copy(phases[i]->rxn_s);
+		
+		// new organization
+		trxn.x_on = true;
+		trxn.Set_count_trxn(0);
+		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
+		trxn.token[0].Set_name(phases[i]->name);
+		/* debug
+		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
+		   trxn_print();
+		 */
+		replaced = replace_solids_gases();
+		phases[i]->replaced = replaced;
+		/*  save rxn_s */
+		trxn.trxn_reverse_k();
+		rewrite_eqn_to_secondary();
+		trxn.trxn_reverse_k();
+		trxn.trxn_copy(phases[i]->rxn_s);
+		// check here
+		if (phases[i]->rxn_s.Get_logk_cr() !=
+			phases[i]->rxn_s.Get_logk_x())
+		{
+			std::cerr << "tidy_phases error b\n";
+		}
 		/*
 		 *   Check equation
 		 */
@@ -1496,7 +1536,7 @@ tidy_phases(void)
 			}
 		}
 	}
-
+	trxn.x_on = false;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1551,10 +1591,10 @@ tidy_pp_assemblage(void)
 			if (it->second.Get_add_formula().size() > 0)
 			{
 				size_t first = count_elts;
-				phase_ptr =	phase_bsearch(it->second.Get_add_formula().c_str(), &k, FALSE);
+				phase_ptr =	phase_bsearch(it->second.Get_add_formula(), &k, FALSE);
 				if (phase_ptr != NULL)
 				{
-					it->second.Set_add_formula(string_hsave(phase_ptr->formula.c_str()));
+					it->second.Set_add_formula(phase_ptr->formula);
 				}
 				{
 					cptr = it->second.Get_add_formula().c_str();

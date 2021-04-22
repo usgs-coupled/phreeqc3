@@ -41,7 +41,7 @@ pitzer_tidy(void)
 	/*
 	 *      Make lists of species for cations, anions, neutral
 	 */
-	const char *string1, *string2;
+	std::string string1, string2;
 	int i, j, order;
 	int i0, i1, i2;
 	int count_pos, count_neg, count_neut, count[3], jj;
@@ -167,8 +167,8 @@ pitzer_tidy(void)
 	/*
 	 * MacInnes data
 	 */
-	string1 = string_hsave("K+");
-	string2 = string_hsave("Cl-");
+	string1 = "K+";
+	string2 = "Cl-";
 	IC = ISPEC(string2);
 	for (i = 0; i < (int)pitz_params.size(); i++)
 	{
@@ -521,7 +521,7 @@ pitzer_tidy(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-ISPEC(const char *name)
+ISPEC(const std::string& name)
 /* ---------------------------------------------------------------------- */
 /*
  *      Find species number in spec for character string species name
@@ -532,8 +532,7 @@ ISPEC(const char *name)
 	{
 		if (spec[i] == NULL)
 			continue;
-		//if (name == spec[i]->name)
-		if (strcmp(name, spec[i]->name.c_str()) == 0)
+		if (name == spec[i]->name)
 		{
 			return (i);
 		}
