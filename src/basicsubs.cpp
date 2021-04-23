@@ -118,15 +118,16 @@ phase_vm(const char *phase_name)
 	}
 	else
 	{
-		g = phase_ptr->logk[Logk::vm0];
-		// check here
-		if (phase_ptr->logk[Logk::vm0] !=
-			phase_ptr->rxn.Get_logk_original()[Logk::vm0])
-		{
-			std::cerr << "phase_vm error\n";
-			//assert(false);
-		}
+		//g = phase_ptr->logk[Logk::vm0];
+		//// check here
+		//if (phase_ptr->logk[Logk::vm0] !=
+		//	phase_ptr->rxn.Get_logk_original()[Logk::vm0])
+		//{
+		//	std::cerr << "phase_vm error\n";
+		//	//assert(false);
+		//}
 		//std::cerr << "Done checking phase_vm\n";
+		g = phase_ptr->rxn.Get_logk_original()[Logk::vm0];
 	}
 	return (g);
 }
@@ -618,59 +619,76 @@ calc_logk_n(const std::string& name)
 	}
 	return Lk;
 }
+#ifdef SKIP_PHASE_LOGK
+///* ---------------------------------------------------------------------- */
+//LDBLE Phreeqc::
+//calc_logk_p(const std::string& name)
+///* ---------------------------------------------------------------------- */
+//{
+//	int i, j;
+//	char token[MAX_LENGTH];
+//	class phase *phase_ptr;
+//	LDBLE lk=-999.9;
+//	std::vector<double> l_logk;
+//	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
+//	strcpy(token, name.c_str());
+//	phase_ptr = phase_bsearch(token, &j, FALSE);
+//
+//	if (phase_ptr != NULL)
+//	{		
+//		CReaction* reaction_ptr;
+//		if (phase_ptr->replaced)
+//			reaction_ptr = &phase_ptr->rxn_s;
+//		else
+//			reaction_ptr = &phase_ptr->rxn;
+//		/*
+//		*   Print saturation index
+//		*/
+//		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
+//			phase_ptr->logk[Logk::vm0];
+//		if (reaction_ptr->logk_cr[Logk::delta_v])
+//			mu_terms_in_logk = true;
+//		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+//		{
+//			l_logk[i] = 0.0;
+//		}
+//		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
+//		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
+//		add_other_logk(l_logk, phase_ptr->add_logk); 
+//		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+//		// check here
+//		(void)reaction_ptr->Calc_delta_v();
+//		if (lk != reaction_ptr->Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/))
+//		{
+//			std::cerr << "calc_logk_p error 3\n";
+//		}
+//	}
+//#ifdef SKIP_PHASE_LOGK
+//	class phase* phase_ptr;
+//	LDBLE lk = -999.9;
+//	int j;
+//	phase_ptr = phase_bsearch(name, &j, FALSE);
+//	if (phase_ptr != NULL)
+//	{
+//		phase_ptr->Calc_lk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
+//	}
+//#endif
+//	return (lk);
+//}
+#endif
 /* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
+double Phreeqc::
 calc_logk_p(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j;
-	char token[MAX_LENGTH];
-	class phase *phase_ptr;
-	LDBLE lk=-999.9;
-	std::vector<double> l_logk;
-	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
-	strcpy(token, name.c_str());
-	phase_ptr = phase_bsearch(token, &j, FALSE);
-
-	if (phase_ptr != NULL)
-	{		
-		CReaction* reaction_ptr;
-		if (phase_ptr->replaced)
-			reaction_ptr = &phase_ptr->rxn_s;
-		else
-			reaction_ptr = &phase_ptr->rxn;
-		/*
-		*   Print saturation index
-		*/
-		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
-			phase_ptr->logk[Logk::vm0];
-		if (reaction_ptr->logk_cr[Logk::delta_v])
-			mu_terms_in_logk = true;
-		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			l_logk[i] = 0.0;
-		}
-		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
-		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
-		add_other_logk(l_logk, phase_ptr->add_logk); 
-		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
-		// check here
-		(void)reaction_ptr->Calc_delta_v();
-		if (lk != reaction_ptr->Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/))
-		{
-			std::cerr << "calc_logk_p error 3\n";
-		}
-	}
-#ifdef SKIP_PHASE_LOGK
 	class phase* phase_ptr;
-	LDBLE lk = -999.9;
+	double lk = -999.9;
 	int j;
 	phase_ptr = phase_bsearch(name, &j, FALSE);
 	if (phase_ptr != NULL)
 	{
-		phase_ptr->Calc_lk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
+		lk = phase_ptr->Calc_rxn_lk(tk_x, patm_x * PASCAL_PER_ATM);
 	}
-#endif
 	return (lk);
 }
 

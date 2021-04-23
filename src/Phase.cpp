@@ -150,7 +150,7 @@ Calc_rxn_lk(double tk_x, double ppas_x)
 {
 	if (this->replaced)
 		return this->rxn_s.Calc_lk(tk_x, ppas_x);
-	return this->rxn_x.Calc_lk(tk_x, ppas_x);
+	return this->rxn.Calc_lk(tk_x, ppas_x);
 }
 double phase::
 Calc_rxn_si(double tk_x, double ppas_x/*, Phreeqc* phrq_ptr*/)

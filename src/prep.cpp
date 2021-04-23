@@ -5356,7 +5356,7 @@ calc_vm(LDBLE tc, LDBLE pa)
 	}
 	return OK;
 }
-
+#ifdef SKIP_PHASE_LOGK
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
@@ -5424,6 +5424,76 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	if (use.Get_ss_assemblage_ptr() != NULL)
 	{
 		std::vector<cxxSS *> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
+		for (size_t i = 0; i < ss_ptrs.size(); i++)
+		{
+			if (fabs(tempk - ss_ptrs[i]->Get_tk()) > 0.01)
+			{
+				ss_prep(tempk, ss_ptrs[i], FALSE);
+			}
+		}
+	}
+
+	current_tc = tc;
+	current_pa = pa;
+	current_mu = mu_x;
+
+	return (OK);
+}
+#endif
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *  Calculates log k's for all species and pure_phases
+	 */
+
+	if (tc == current_tc && pa == current_pa && ((fabs(mu_x - current_mu) < 1e-3 * mu_x) || !mu_terms_in_logk))
+		return OK;
+
+	int i;
+	LDBLE tempk = tc + 273.15;
+	/*
+	 *  Calculate log k for all aqueous species
+	 */
+	 /* calculate relative molar volumes for tc... */
+	rho_0 = calc_rho_0(tc, pa);
+
+	pa = patm_x;
+	calc_dielectrics(tc, pa);
+
+	calc_vm(tc, pa);
+
+	mu_terms_in_logk = false;
+	for (i = 0; i < (int)this->s_x.size(); i++)
+	{
+		//if (s_x[i]->rxn_x.logk_cr[Logk::vm_tc])
+		/* calculate Logk::delta_v for the reaction... */
+		s_x[i]->rxn_x.logk_cr[Logk::delta_v] = calc_delta_v(*&s_x[i]->rxn_x, false);
+		if (tc == current_tc && s_x[i]->rxn_x.logk_cr[Logk::delta_v] == 0)
+			continue;
+		mu_terms_in_logk = true;
+		s_x[i]->lk = k_calc(s_x[i]->rxn_x.logk_cr, tempk, pa * PASCAL_PER_ATM);
+	}
+	/*
+	 *    Calculate log k for all pure phases
+	 */
+	for (i = 0; i < (int)phases.size(); i++)
+	{
+		if (phases[i]->in == TRUE)
+		{
+			//if (phases[i]->rxn_x.logk_cr[Logk::delta_v])
+			//	mu_terms_in_logk = true;
+			phases[i]->lk = phases[i]->Calc_rxn_x_lk(tempk, pa * PASCAL_PER_ATM);
+		}
+	}
+	/*
+	 *    Calculate miscibility gaps for solid solutions
+	 */
+	if (use.Get_ss_assemblage_ptr() != NULL)
+	{
+		std::vector<cxxSS*> ss_ptrs = use.Get_ss_assemblage_ptr()->Vectorize();
 		for (size_t i = 0; i < ss_ptrs.size(); i++)
 		{
 			if (fabs(tempk - ss_ptrs[i]->Get_tk()) > 0.01)
