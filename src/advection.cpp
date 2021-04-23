@@ -13,7 +13,6 @@ static char THIS_FILE[] = __FILE__;
 #endif
 #endif
 
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 advection(void)

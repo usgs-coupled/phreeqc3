@@ -1,7 +1,13 @@
 #if !defined(PARSER_H_INCLUDED)
 #define PARSER_H_INCLUDED
 #if defined(WIN32)
-#include <windows.h>
+#  if defined(PHREEQCI_GUI)
+#    ifndef WINVER
+#      define WINVER 0x0400
+#    endif
+#    include <afx.h>
+#  endif
+#  include <windows.h>
 #endif
 #include <string>				// std::string
 #include <map>					// std::map

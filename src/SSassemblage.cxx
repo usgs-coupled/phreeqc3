@@ -16,7 +16,6 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -10,7 +10,6 @@
 
 #define ZERO_TOL 1.0e-30
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

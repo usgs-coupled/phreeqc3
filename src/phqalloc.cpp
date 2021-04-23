@@ -9,7 +9,6 @@
 #include <crtdbg.h>
 #endif
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -17,7 +16,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 #endif
-
 
 #if defined(USE_PHRQ_ALLOC)
 /* ---------------------------------------------------------------------- */

@@ -15,7 +15,6 @@
 #include "Parser.h"
 #include "PHRQ_io.h"
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

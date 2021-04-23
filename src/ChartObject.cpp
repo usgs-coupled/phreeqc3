@@ -18,7 +18,6 @@
 #include "Form1.h"
 using namespace zdg_ui2;
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

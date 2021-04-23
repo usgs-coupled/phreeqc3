@@ -24,7 +24,6 @@
 #define toklength       20
 typedef long chset[9];
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

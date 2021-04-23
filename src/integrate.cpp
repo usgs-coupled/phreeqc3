@@ -6,7 +6,6 @@
 #define MAX_QUAD 20
 #define K_POLY 5
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

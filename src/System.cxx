@@ -15,7 +15,6 @@
 #include "Reaction.h"
 #include "Temperature.h"
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

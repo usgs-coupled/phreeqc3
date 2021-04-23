@@ -63,13 +63,6 @@
 #include "smalldense.h"
 #include "sundialstypes.h"
 #include "sundialsmath.h"
-/* WARNING don`t include any headers below here */
-
-#define ZERO RCONST(0.0)
-#define ONE  RCONST(1.0)
-
-/* Implementation */
-
 
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
@@ -78,6 +71,13 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 #endif
+
+/* WARNING don`t include any headers below here */
+
+#define ZERO RCONST(0.0)
+#define ONE  RCONST(1.0)
+
+/* Implementation */
 
 realtype **
 denalloc(integertype n)
