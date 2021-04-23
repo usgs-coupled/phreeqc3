@@ -1,4 +1,3 @@
-#include "Phreeqc.h"
 #include "PHRQ_base.h"
 #include <iostream>
 #include "PHRQ_io.h"
