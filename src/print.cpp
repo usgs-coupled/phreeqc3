@@ -1165,149 +1165,6 @@ print_mix(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-#ifdef SKIP_PHASE_LOGK
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-print_saturation_indices(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Prints saturation indices of all applicable pure_phases
- */
-	int i;
-	LDBLE si, iap;
-	LDBLE lk;
-	LDBLE la_eminus;
-	class rxn_token *rxn_ptr;
-	CReaction *reaction_ptr;
-	bool gas = true;
-
-	if (pr.saturation_indices == FALSE || pr.all == FALSE)
-		return (OK);
-	if (state == INITIAL_SOLUTION)
-	{
-		iap = 0;
-		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size() - 1; tok++)
-		{
-			iap += pe_x[default_pe_x].Get_tokens()[tok].coef * pe_x[default_pe_x].Get_tokens()[tok].Get_s()->la;
-			/* fprintf(output,"\t%s\t%f\t%f\n", rxn_ptr->s->name, rxn_ptr->coef, rxn_ptr->s->la ); */
-		}
-		lk = k_calc(pe_x[default_pe_x].Get_logk_cr(), tk_x, patm_x * PASCAL_PER_ATM);
-		la_eminus = lk + iap;
-		/* fprintf(output,"\t%s\t%f\n", "pe", si ); */
-	}
-	else
-	{
-		la_eminus = s_eminus->la;
-	}
-/* If a fixed pressure gas-phase disappeared, no PR for the SI's of gases... */
-	if (use.Get_gas_phase_ptr() != NULL)
-	{
-		cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
-		if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
-		{
-			if (gas_unknown == NULL || gas_unknown->moles < 1e-12)
-				gas = false;
-		}
-	}
-
-/*
- *   Print heading
- */
-	print_centered("Saturation indices");
-	output_msg(sformatf("  %-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI**",
-			   "log IAP", "log K(", int(tk_x), " K, ", int(floor(patm_x + 0.5)), " atm)"));
-
-	for (i = 0; i < (int)phases.size(); i++)
-	{
-		if (phases[i]->in == FALSE || phases[i]->type != SOLID)
-			continue;
-		/* check for solids and gases in equation */
-		if (phases[i]->replaced)
-			reaction_ptr = &phases[i]->rxn_s;
-		else
-			reaction_ptr = &phases[i]->rxn;
-/*
- *   Print saturation index
- */
-		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
-			 phases[i]->logk[Logk::vm0];
-
-		if (reaction_ptr->logk_cr[Logk::delta_v])
-				mu_terms_in_logk = true;
-		lk = k_calc(reaction_ptr->logk_cr, tk_x, patm_x * PASCAL_PER_ATM);
-		iap = 0.0;
-		for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end();
-			 rxn_ptr++)
-		{
-			if (rxn_ptr->Get_s() != s_eminus)
-			{
-				iap += (rxn_ptr->Get_s()->lm + rxn_ptr->Get_s()->lg) * rxn_ptr->coef;
-			}
-			else
-			{
-				iap += la_eminus * rxn_ptr->coef;
-			}
-		}
-
-		si = -lk + iap;
-		{
-			// check here
-			double save_la_eminus = s_eminus->la;
-			s_eminus->la = la_eminus; // substitute alternate pe
-			double iap1 = reaction_ptr->Calc_iap();
-			if (iap != iap1)
-			{
-				std::cerr << "print_si iap error\n";
-				double iap1 = reaction_ptr->Calc_iap();
-			}
-			if (lk != reaction_ptr->Calc_lk(tk_x, patm_x * PASCAL_PER_ATM))
-			{
-				std::cerr << "print_si lk error\n";
-			}
-			double si1 = reaction_ptr->Calc_si(tk_x, patm_x * PASCAL_PER_ATM);
-			if (si != si1)
-			{
-				std::cerr << "print_si si error\n";
-			}
-			s_eminus->la = save_la_eminus;
-		}
-		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
-				   phases[i]->name.c_str(), (double) si, (double) iap, (double) lk,
-				   phases[i]->formula.c_str()));
-		if (gas && phases[i]->pr_in && phases[i]->pr_p)
-		{
-			if (phases[i]->moles_x || state == INITIAL_SOLUTION)
-			{
-				output_msg(sformatf("\t%s%5.1f%s%5.3f",
-					    " Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi));
-			} else
-			{
-				for (int j = 0; j < count_unknowns; j++)
-				{
-					if (x[j]->type != PP)
-						continue;
-					if ((x[j]->phase->name == phases[i]->name))
-					{
-						if (x[j]->moles)
-							output_msg(sformatf("\t%s%5.1f%s%5.3f",
-								" Pressure ", (double) phases[i]->pr_p, " atm, phi ", (double) phases[i]->pr_phi));
-						break;
-					}
-				}
-			}
-		}
-		phases[i]->pr_in = false;
-		output_msg("\n");
-	}
-	output_msg(sformatf("\n%s\n%s",
-		"**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.",
-		"  For ideal gases, phi = 1."));
-	output_msg("\n\n");
-
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_saturation_indices(void)
@@ -1320,7 +1177,6 @@ print_saturation_indices(void)
 	LDBLE si, iap;
 	LDBLE lk;
 	LDBLE la_eminus;
-	class rxn_token* rxn_ptr;
 	CReaction* reaction_ptr;
 	bool gas = true;
 
@@ -1328,6 +1184,7 @@ print_saturation_indices(void)
 		return (OK);
 	if (state == INITIAL_SOLUTION)
 	{
+		// check here
 		iap = 0;
 		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size() - 1; tok++)
 		{

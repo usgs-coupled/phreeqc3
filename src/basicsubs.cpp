@@ -619,63 +619,6 @@ calc_logk_n(const std::string& name)
 	}
 	return Lk;
 }
-#ifdef SKIP_PHASE_LOGK
-///* ---------------------------------------------------------------------- */
-//LDBLE Phreeqc::
-//calc_logk_p(const std::string& name)
-///* ---------------------------------------------------------------------- */
-//{
-//	int i, j;
-//	char token[MAX_LENGTH];
-//	class phase *phase_ptr;
-//	LDBLE lk=-999.9;
-//	std::vector<double> l_logk;
-//	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
-//	strcpy(token, name.c_str());
-//	phase_ptr = phase_bsearch(token, &j, FALSE);
-//
-//	if (phase_ptr != NULL)
-//	{		
-//		CReaction* reaction_ptr;
-//		if (phase_ptr->replaced)
-//			reaction_ptr = &phase_ptr->rxn_s;
-//		else
-//			reaction_ptr = &phase_ptr->rxn;
-//		/*
-//		*   Print saturation index
-//		*/
-//		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
-//			phase_ptr->logk[Logk::vm0];
-//		if (reaction_ptr->logk_cr[Logk::delta_v])
-//			mu_terms_in_logk = true;
-//		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-//		{
-//			l_logk[i] = 0.0;
-//		}
-//		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
-//		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
-//		add_other_logk(l_logk, phase_ptr->add_logk); 
-//		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
-//		// check here
-//		(void)reaction_ptr->Calc_delta_v();
-//		if (lk != reaction_ptr->Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/))
-//		{
-//			std::cerr << "calc_logk_p error 3\n";
-//		}
-//	}
-//#ifdef SKIP_PHASE_LOGK
-//	class phase* phase_ptr;
-//	LDBLE lk = -999.9;
-//	int j;
-//	phase_ptr = phase_bsearch(name, &j, FALSE);
-//	if (phase_ptr != NULL)
-//	{
-//		phase_ptr->Calc_lk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
-//	}
-//#endif
-//	return (lk);
-//}
-#endif
 /* ---------------------------------------------------------------------- */
 double Phreeqc::
 calc_logk_p(const std::string& name)
@@ -1753,13 +1696,11 @@ pr_phi(const char *phase_name)
 	}
 	return (1.0);
 }
-/* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-saturation_ratio(const char *phase_name)
+saturation_ratio(const char* phase_name)
 /* ---------------------------------------------------------------------- */
 {
-	class rxn_token *rxn_ptr;
-	class phase *phase_ptr;
+	class phase* phase_ptr;
 	int l;
 	LDBLE si, iap;
 
@@ -1767,57 +1708,42 @@ saturation_ratio(const char *phase_name)
 	phase_ptr = phase_bsearch(phase_name, &l, FALSE);
 	if (phase_ptr == NULL)
 	{
-		error_string = sformatf( "Mineral %s, not found.", phase_name);
+		error_string = sformatf("Mineral %s, not found.", phase_name);
 		warning_msg(error_string);
 		return (1e-99);
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
-			 rxn_ptr++)
-		{
-			iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-		}
+		iap = phase_ptr->rxn_x.Calc_iap_la();
 		si = iap - phase_ptr->lk;
-		return (pow((LDBLE) 10.0, si));
+		return (pow(10.0, si));
 	}
 	return (0.0);
 
 }
-
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-saturation_index(const char *phase_name, LDBLE * iap, LDBLE * si)
+double Phreeqc::
+saturation_index(const char* phase_name)
 /* ---------------------------------------------------------------------- */
 {
-	class rxn_token *rxn_ptr;
-	class phase *phase_ptr;
+	class phase* phase_ptr;
 	int l;
 
-	*si = -99.99;
-	*iap = 0.0;
+	double si = -99.99;
 	phase_ptr = phase_bsearch(phase_name, &l, FALSE);
 	if (phase_ptr == NULL)
 	{
-		error_string = sformatf( "Mineral %s, not found.", phase_name);
+		error_string = sformatf("Mineral %s, not found.", phase_name);
 		warning_msg(error_string);
-		*si = -99;
+		si = -99;
 	}
 	else if (phase_ptr->in != FALSE)
 	{
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
-			 rxn_ptr++)
-		{
-			*iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-		}
-		*si = *iap - phase_ptr->lk;
+		si = phase_ptr->rxn_x.Calc_iap_la() - phase_ptr->lk;
 	}
-	else
-	{
-		return (ERROR);
-	}
-	return (OK);
+	return si;
 }
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 sum_match_gases(const char *mytemplate, const char *name)

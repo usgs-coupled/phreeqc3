@@ -1439,7 +1439,9 @@ tidy_inverse(void)
 	}
 	return (OK);
 }
-
+#ifdef SKIP_PHASE_LOGK
+Need to keep until logk_cr is eliminated
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_phases(void)
@@ -1508,11 +1510,11 @@ tidy_phases(void)
 		trxn.trxn_reverse_k();
 		trxn.trxn_copy(phases[i]->rxn_s);
 		// check here
-		if (phases[i]->rxn_s.Get_logk_cr() !=
-			phases[i]->rxn_s.Get_logk_x())
-		{
-			std::cerr << "tidy_phases error b\n";
-		}
+		//if (phases[i]->rxn_s.Get_logk_cr() !=
+		//	phases[i]->rxn_s.Get_logk_x())
+		//{
+		//	std::cerr << "tidy_phases error b\n";
+		//}
 		/*
 		 *   Check equation
 		 */

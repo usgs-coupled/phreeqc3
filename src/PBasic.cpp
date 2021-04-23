@@ -2013,7 +2013,6 @@ factor(struct LOC_exec * LINK)
 	long i, j, m;
 	tokenrec *tok, *tok1;
 	char *l_s;
-	LDBLE l_dummy;
 	int i_rate;
 	union
 	{
@@ -3366,7 +3365,9 @@ factor(struct LOC_exec * LINK)
 		}
 		else
 		{
-			PhreeqcPtr->saturation_index(str, &l_dummy, &n.UU.val);
+			//double l_dummy;
+			//PhreeqcPtr->saturation_index(str, &l_dummy, &n.UU.val);
+			n.UU.val = PhreeqcPtr->saturation_index(str);
 		}
 	}
 	break;
