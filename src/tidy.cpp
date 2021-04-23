@@ -1462,6 +1462,11 @@ tidy_phases(void)
 		// new organization
 		trxn.x_on = true;
 		phases[i]->rxn.tidy_logk(this);
+		// all reactions have original volume terms
+		std::vector<double> temp = phases[i]->rxn.Get_logk_original();
+		phases[i]->rxn_s.Set_logk_original(temp);
+		phases[i]->rxn_x.Set_logk_original(temp);
+
 		// check here
 		if (phases[i]->rxn.Get_logk_x() != phases[i]->rxn.Get_logk_cr())
 		{
@@ -4396,8 +4401,9 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
 	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
-	kc = exp(k_calc(phase0_ptr->rxn.logk_cr, t, REF_PRES_PASCAL) * LOG_10);
-	kb = exp(k_calc(phase1_ptr->rxn.logk_cr, t, REF_PRES_PASCAL) * LOG_10);
+	kc = exp(phase0_ptr->Calc_rxn_lk(t, REF_PRES_PASCAL) * LOG_10);
+	kb = exp(phase1_ptr->Calc_rxn_lk(t, REF_PRES_PASCAL) * LOG_10);
+
 	crit_pt = fabs(a0) + fabs(a1);
 /*
  *   Default, no miscibility or spinodal gaps
@@ -5016,11 +5022,10 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	l_kc = exp(k_calc(phase0_ptr->rxn.logk_cr, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
-			 LOG_10);
-	l_kb = exp(k_calc(phase1_ptr->rxn.logk_cr, ss_ptr->Get_tk(), REF_PRES_PASCAL) *
-			 LOG_10);
-
+	l_kc = exp(phase0_ptr->Calc_rxn_lk(ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+		LOG_10);
+	l_kb = exp(phase1_ptr->Calc_rxn_lk(ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+		LOG_10);
 	p = ss_ptr->Get_p();
 
 	l_a0 = 0;

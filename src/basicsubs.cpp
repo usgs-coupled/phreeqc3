@@ -118,15 +118,6 @@ phase_vm(const char *phase_name)
 	}
 	else
 	{
-		//g = phase_ptr->logk[Logk::vm0];
-		//// check here
-		//if (phase_ptr->logk[Logk::vm0] !=
-		//	phase_ptr->rxn.Get_logk_original()[Logk::vm0])
-		//{
-		//	std::cerr << "phase_vm error\n";
-		//	//assert(false);
-		//}
-		//std::cerr << "Done checking phase_vm\n";
 		g = phase_ptr->rxn.Get_logk_original()[Logk::vm0];
 	}
 	return (g);
@@ -706,53 +697,19 @@ dh_bdot(const char* name)
 	}
 	return (b);
 }
-/* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_deltah_p(const std::string& name)
 /* ---------------------------------------------------------------------- */
 {
-	int i, j;
-	char token[MAX_LENGTH];
+	int j;
 	class phase* phase_ptr;
-	LDBLE lkm, lkp;
-	std::vector<double> l_logk;
+	double lkm, lkp;
 	double dh = -999.99;
-	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
-	strcpy(token, name.c_str());
-	phase_ptr = phase_bsearch(token, &j, FALSE);
+	phase_ptr = phase_bsearch(name, &j, FALSE);
 	if (phase_ptr != NULL)
 	{
-		CReaction* reaction_ptr;
-		if (phase_ptr->replaced)
-			reaction_ptr = &phase_ptr->rxn_s;
-		else
-			reaction_ptr = &phase_ptr->rxn;
-		/*
-		*   Print saturation index
-		*/
-		reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
-			phase_ptr->logk[Logk::vm0];
-		// check 
-		double d_v1 = reaction_ptr->Calc_delta_v();
-		if (reaction_ptr->logk_cr[Logk::delta_v] != d_v1)
-		{
-			std::cerr << "calc_deltah_p error\n";
-			double d_v1 = reaction_ptr->Calc_delta_v();
-			double d_v2 = calc_delta_v(*reaction_ptr, true) -
-				phase_ptr->logk[Logk::vm0];
-			std::cerr << "calc_deltah_p error\n";
-		}
-		if (reaction_ptr->logk_cr[Logk::delta_v])
-			mu_terms_in_logk = true;
-		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			l_logk[i] = 0.0;
-		}
-		//lk = k_calc(reaction_ptr->logk, tk_x, patm_x * PASCAL_PER_ATM);
-		select_log_k_expression(reaction_ptr->logk_cr, l_logk);
-		add_other_logk(l_logk, phase_ptr->add_logk);
-		lkm = k_calc(l_logk, tk_x - 1.0, patm_x * PASCAL_PER_ATM);
-		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		lkm = phase_ptr->Calc_rxn_lk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = phase_ptr->Calc_rxn_lk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 	}
 	return (dh);
@@ -2975,8 +2932,7 @@ system_total_si(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	LDBLE si, iap;
-	class rxn_token *rxn_ptr;
+	LDBLE si;
 	std::string name;
 
 	sys_tot = -999.9;
@@ -2984,16 +2940,8 @@ system_total_si(void)
 	{
 		if (phases[i]->in == FALSE || phases[i]->type != SOLID)
 			continue;
-/*
- *   Print saturation index
- */
-		iap = 0.0;
-		for (rxn_ptr = &phases[i]->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
-			 rxn_ptr++)
-		{
-			iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-		}
-		si = -phases[i]->lk + iap;
+
+		si = -phases[i]->lk + phases[i]->rxn_x.Calc_iap_la();
 		name = phases[i]->name;
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);

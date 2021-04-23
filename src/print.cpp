@@ -1165,6 +1165,7 @@ print_mix(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 print_saturation_indices(void)
@@ -1177,7 +1178,6 @@ print_saturation_indices(void)
 	LDBLE si, iap;
 	LDBLE lk;
 	LDBLE la_eminus;
-	CReaction* reaction_ptr;
 	bool gas = true;
 
 	if (pr.saturation_indices == FALSE || pr.all == FALSE)
@@ -1217,47 +1217,13 @@ print_saturation_indices(void)
 	output_msg(sformatf("  %-15s%9s%8s%9s%3d%4s%3d%4s\n\n", "Phase", "SI**",
 		"log IAP", "log K(", int(tk_x), " K, ", int(floor(patm_x + 0.5)), " atm)"));
 
+	double save_la_eminus = s_eminus->la;
+	s_eminus->la = la_eminus; // substitute alternate pe
 	for (i = 0; i < (int)phases.size(); i++)
 	{
 		if (phases[i]->in == FALSE || phases[i]->type != SOLID)
 			continue;
-		///* check for solids and gases in equation */
-		if (phases[i]->replaced)
-			reaction_ptr = &phases[i]->rxn_s;
-		else
-			reaction_ptr = &phases[i]->rxn;
-		///*
-		// *   Print saturation index
-		// */
-		//reaction_ptr->logk_cr[Logk::delta_v] = calc_delta_v(*reaction_ptr, true) -
-		//	phases[i]->logk[Logk::vm0];
-
-		//if (reaction_ptr->logk_cr[Logk::delta_v])
-		//	mu_terms_in_logk = true;
-		//lk = k_calc(reaction_ptr->logk_cr, tk_x, patm_x * PASCAL_PER_ATM);
-		//iap = 0.0;
-		//for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end();
-		//	rxn_ptr++)
-		//{
-		//	if (rxn_ptr->Get_s() != s_eminus)
-		//	{
-		//		iap += (rxn_ptr->Get_s()->lm + rxn_ptr->Get_s()->lg) * rxn_ptr->coef;
-		//	}
-		//	else
-		//	{
-		//		iap += la_eminus * rxn_ptr->coef;
-		//	}
-		//}
-
-		//si = -lk + iap;
-		{
-			// check here
-			double save_la_eminus = s_eminus->la;
-			s_eminus->la = la_eminus; // substitute alternate pe
-
-			si = phases[i]->Calc_rxn_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
-			s_eminus->la = save_la_eminus;
-		}
+		si = phases[i]->Calc_rxn_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
 		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
 			phases[i]->name.c_str(), (double)si, (double)iap, (double)lk,
 			phases[i]->formula.c_str()));
@@ -1287,6 +1253,7 @@ print_saturation_indices(void)
 		phases[i]->pr_in = false;
 		output_msg("\n");
 	}
+	s_eminus->la = save_la_eminus;
 	output_msg(sformatf("\n%s\n%s",
 		"**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.",
 		"  For ideal gases, phi = 1."));
@@ -1299,37 +1266,34 @@ int Phreeqc::
 print_pp_assemblage(void)
 /* ---------------------------------------------------------------------- */
 {
-/*
- *   Prints saturation indices and masses of pure_phases in pp_assemblage
- */
+	/*
+	 *   Prints saturation indices and masses of pure_phases in pp_assemblage
+	 */
 	int j, k;
 	LDBLE si, iap, lk;
 	char token[MAX_LENGTH];
-	class rxn_token *rxn_ptr;
-	class phase *phase_ptr;
+	class phase* phase_ptr;
 
 	if (pr.pp_assemblage == FALSE || pr.all == FALSE)
 		return (OK);
 	if (pure_phase_unknown == NULL)
 		return (OK);
-/*
- *   Print heading
- */
+	/*
+	 *   Print heading
+	 */
 	print_centered("Phase assemblage");
 	output_msg(sformatf("%73s\n", "Moles in assemblage"));
 	output_msg(sformatf("%-14s%8s%2s%7s  %11s", "Phase", "SI", "  ", "log IAP",
-			   "log K(T, P)"));
+		"log K(T, P)"));
 	output_msg(sformatf("  %8s%12s%12s", " Initial", " Final",
-			   " Delta"));
+		" Delta"));
 	output_msg("\n\n");
 
 	for (j = 0; j < count_unknowns; j++)
 	{
 		if (x[j]->type != PP)
 			continue;
-		//cxxPPassemblage * pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, use.Get_n_pp_assemblage_user());
-		//cxxPPassemblageComp * comp_ptr = pp_assemblage_ptr->Find(x[j]->pp_assemblage_comp_name);
-		cxxPPassemblageComp * comp_ptr = (cxxPPassemblageComp * ) x[j]->pp_assemblage_comp_ptr; // appt, is sometimes lost??
+		cxxPPassemblageComp* comp_ptr = (cxxPPassemblageComp*)x[j]->pp_assemblage_comp_ptr; // appt, is sometimes lost??
 /*
  *   Print saturation index
  */
@@ -1338,74 +1302,34 @@ print_pp_assemblage(void)
 		if (x[j]->phase->rxn_x.token.size() == 0 || phase_ptr->in == FALSE)
 		{
 			output_msg(sformatf("%-18s%23s", x[j]->phase->name.c_str(),
-					   "Element not present."));
+				"Element not present."));
 		}
 		else
 		{
 			phase_ptr = x[j]->phase;
-			phase_ptr->rxn.logk_cr[Logk::delta_v] = calc_delta_v(*&phase_ptr->rxn, true) -
-				phase_ptr->logk[Logk::vm0];
-			if (phase_ptr->rxn.logk_cr[Logk::delta_v])
-				mu_terms_in_logk = true;
-			lk = k_calc(phase_ptr->rxn.logk_cr, tk_x, patm_x * PASCAL_PER_ATM);
-			for (rxn_ptr = &phase_ptr->rxn.token[0] + 1; !rxn_ptr->Get_end();
-				 rxn_ptr++)
-			{
-				if (rxn_ptr->Get_s() != s_eminus)
-				{
-					iap += (rxn_ptr->Get_s()->lm + rxn_ptr->Get_s()->lg) * rxn_ptr->coef;
-				}
-				else
-				{
-					iap += s_eminus->la * rxn_ptr->coef;
-				}
-			}
-			si = -lk + iap;
-			// check here
-			if (iap != phase_ptr->rxn.Calc_iap())
-			{
-				std::cerr << "print_pp iap\n";
-				//assert(false);
-			}
-			if (lk != phase_ptr->rxn.Calc_lk(tk_x, patm_x * PASCAL_PER_ATM))
-			{
-				std::cerr << "print_pp lk\n";
-				//assert(false);
-			}
-			if (si != phase_ptr->rxn.Calc_si(tk_x, patm_x * PASCAL_PER_ATM))
-			{
-				std::cerr << "print_pp si\n";
-				//assert(false);
-			}
-			/*
-			   for (rxn_ptr = x[j]->phase->rxn_x.token + 1; rxn_ptr->s != NULL; rxn_ptr++) {
-			   iap += rxn_ptr->s->la * rxn_ptr->coef;
-			   }
-			   si = -x[j]->phase->lk + iap;
-			   output_msg(OUTPUT_MESSAGE,"\t%-15s%7.2f%8.2f%8.2f", x[j]->phase->name, (double) si, (double) iap, (double) x[j]->phase->lk);
-			 */
+			si = phase_ptr->Calc_rxn_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
 			output_msg(sformatf("%-14s%8.2f  %7.2f  %8.2f",
-					   x[j]->phase->name.c_str(), (double) si, (double) iap, (double) lk));
+				x[j]->phase->name.c_str(), si, iap, lk));
 		}
-/*
- *   Print pure phase assemblage data
- */
+		/*
+		 *   Print pure phase assemblage data
+		 */
 		if (x[j]->moles < 0.0)
 			x[j]->moles = 0.0;
 		if (state != TRANSPORT && state != PHAST)
 		{
 			sprintf(token, "  %11.3e %11.3e %11.3e",
-					(double) (comp_ptr->Get_moles() +
-							  comp_ptr->Get_delta()), (double) x[j]->moles,
-					(double) (x[j]->moles - comp_ptr->Get_moles() -
-							  comp_ptr->Get_delta()));
+				(double)(comp_ptr->Get_moles() +
+					comp_ptr->Get_delta()), (double)x[j]->moles,
+				(double)(x[j]->moles - comp_ptr->Get_moles() -
+					comp_ptr->Get_delta()));
 		}
 		else
 		{
 			sprintf(token, " %11.3e %11.3e %11.3e",
-					(double) comp_ptr->Get_initial_moles(),
-					(double) x[j]->moles,
-					(double) (x[j]->moles - comp_ptr->Get_initial_moles()));
+				(double)comp_ptr->Get_initial_moles(),
+				(double)x[j]->moles,
+				(double)(x[j]->moles - comp_ptr->Get_initial_moles()));
 		}
 		if (x[j]->moles <= 0.0)
 		{
@@ -1421,7 +1345,7 @@ print_pp_assemblage(void)
 		else
 		{
 			output_msg(sformatf("\n	 %-18s%-15s%36s\n",
-					   comp_ptr->Get_add_formula().c_str(), " is reactant", token));
+				comp_ptr->Get_add_formula().c_str(), " is reactant", token));
 		}
 	}
 	output_msg("\n");
