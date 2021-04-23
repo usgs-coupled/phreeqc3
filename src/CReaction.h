@@ -31,8 +31,10 @@ public:
 	void Initialize(bool is_phase);
 	double Calc_delta_v();
 	double Calc_iap();
-	double Calc_si(double tempk, double presPa/*, Phreeqc* phrq_ptr*/);
-	double Calc_lk(double tempk, double presPa/*, Phreeqc* phrq_ptr*/);
+	double Calc_iap_la();
+	double Calc_si(double tempk, double presPa);
+	double Calc_si(double tempk, double presPa, double& iap, double& lk);
+	double Calc_lk(double tempk, double presPa);
 public:
 	std::vector<double> logk_cr;
 	std::vector<double> dz;

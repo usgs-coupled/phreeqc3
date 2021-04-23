@@ -11,17 +11,7 @@ public:
 	~Logk() {};
 	Logk()
 	{	/* Named log K's */
-		//name.clear();		 // name of log_k 
-		lk = 0.0;	         // log10 k at working temperature                   
-		// log kt0, delh, 6 coefficients analalytical expression 
-		logk_original.resize(MAX_LOG_K_INDICES, 0);
-		logk_selected.resize(MAX_LOG_K_INDICES, 0);
-		logk_x.resize(MAX_LOG_K_INDICES, 0);
-		//add_logk.clear();
-		// enum with original delta H units 
-		original_units = Logk::kjoules;
-		// enum with original delta V units 
-		original_deltav_units = Logk::cm3_per_mol;
+		this->Initialize();
 	}
 	typedef enum { kcal, cal, kjoules, joules } DELTA_H_UNIT;
 	typedef enum { cm3_per_mol, dm3_per_mol, m3_per_mol } DELTA_V_UNIT;
@@ -44,7 +34,7 @@ public:
 		MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 	} LOG_K_INDICES;
 
-
+	void Initialize();
 	void Set_name(const std::string& str) { this->name = str; }
 	const std::string& Get_name() { return this->name; }
 	void Set_logk_original(const std::vector<double>& k);

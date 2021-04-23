@@ -160,6 +160,15 @@ Calc_rxn_si(double tk_x, double ppas_x/*, Phreeqc* phrq_ptr*/)
 	return this->rxn.Calc_si(tk_x, ppas_x);
 }
 double phase::
+Calc_rxn_si(double tk_x, double ppas_x, double& iap, double& lk)
+{
+	if (this->replaced)
+	{
+		return this->rxn_s.Calc_si(tk_x, ppas_x, iap, lk);
+	}
+	return this->rxn.Calc_si(tk_x, ppas_x, iap, lk);
+}
+double phase::
 Calc_rxn_x_delta_v()
 {
 	return this->rxn_x.Calc_delta_v();
@@ -178,4 +187,9 @@ double phase::
 Calc_rxn_x_si(double tk_x, double ppas_x)
 {
 	return this->rxn_x.Calc_si(tk_x, ppas_x);
+}
+double phase::
+Calc_rxn_x_si(double tk_x, double ppas_x, double& iap, double& lk)
+{
+	return this->rxn_x.Calc_si(tk_x, ppas_x, iap, lk);
 }

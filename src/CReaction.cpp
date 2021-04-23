@@ -13,6 +13,10 @@ void CReaction::Initialize(bool is_phase)
 	tc_last = -99;
 	p_atm_last = -99;
 	mu_last = -99;
+	iap = 0;
+	lk = 0;
+	si = 0;
+	Logk::Initialize();
 }
 double CReaction::
 Calc_delta_v()
@@ -46,6 +50,17 @@ Calc_delta_v()
 }
 
 double CReaction::
+Calc_iap_la()
+{
+	this->iap = 0.0;
+	for (rxn_token* rxn_ptr = &this->token[0] + 1;
+		!rxn_ptr->Get_end(); rxn_ptr++)
+	{
+		this->iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
+	}
+	return this->iap;
+}
+double CReaction::
 Calc_iap()
 {
 	this->iap = 0.0;
@@ -64,29 +79,52 @@ Calc_iap()
 	return this->iap;
 }
 double CReaction::
-Calc_si(double tempk, double presPa/*, Phreeqc* phrq_ptr*/)
+Calc_si(double tempk, double presPa)
 {
-	Calc_delta_v();
-	this->si = Calc_iap();
-	this->si -= Calc_Logk(tempk, presPa/*, phrq_ptr*/);
-	return si;
+	this->iap = Calc_iap();
+	this->lk = Calc_lk(tempk, presPa);
+	this->si = this->iap - this->lk;
+	return this->si;
 }
 double CReaction::
-Calc_lk(double tempk, double presPa/*, Phreeqc* phrq_ptr*/)
+Calc_si(double tempk, double presPa, double& iap_out, double& lk_out)
+{
+	iap_out = Calc_iap();
+	lk_out = Calc_lk(tempk, presPa);
+	si = this->iap - this->lk;
+	return this->si;
+}
+double CReaction::
+Calc_lk(double tempk, double presPa)
 {
 	Calc_delta_v();
-	return Calc_Logk(tempk, presPa/*, phrq_ptr*/);
+	this->lk = Calc_Logk(tempk, presPa);
+	return lk;
 }
 
 void CReaction::Set_logk_cr(const std::vector<double>& k)
 {
-	std::vector<double> k_copy = k;
-	k_copy.resize(Logk::MAX_LOG_K_INDICES);
-	logk_cr = k_copy;
+	if (k.size() != Logk::MAX_LOG_K_INDICES)
+	{
+		std::vector<double> k_copy = k;
+		k_copy.resize(Logk::MAX_LOG_K_INDICES);
+		logk_cr = k_copy;
+	}
+	else
+	{
+		logk_cr = k;
+	}
 }
 void   CReaction::Set_dz(const std::vector<double>& d)
 {
-	std::vector<double> d_copy;
-	d_copy.resize(3);
-	dz = d_copy;
+	if (d.size() != 3)
+	{
+		std::vector<double> d_copy;
+		d_copy.resize(3);
+		dz = d_copy;
+	}
+	else
+	{
+		dz = d;
+	}
 }
