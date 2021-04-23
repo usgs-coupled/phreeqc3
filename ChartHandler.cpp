@@ -9,8 +9,6 @@
 #include "ChartHandler.h"
 #include <iostream>
 
-
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -543,8 +543,6 @@ static int CVHandleFailure(CVodeMem cv_mem, int kflag);
 /********* BEGIN Exported Functions Implementation *************/
 /***************************************************************/
 
-
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

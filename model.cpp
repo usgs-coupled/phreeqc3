@@ -8,7 +8,6 @@
 #include "SSassemblage.h"
 #include "Solution.h"
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

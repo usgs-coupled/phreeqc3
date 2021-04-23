@@ -6,8 +6,6 @@
 #include "Solution.h"
 #include <time.h>
 
-
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

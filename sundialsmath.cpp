@@ -63,11 +63,6 @@
 #include "sundialsmath.h"
 #include "sundialstypes.h"
 
-#define ZERO RCONST(0.0)
-#define ONE  RCONST(1.0)
-#define TWO  RCONST(2.0)
-
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -75,6 +70,10 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 #endif
+
+#define ZERO RCONST(0.0)
+#define ONE  RCONST(1.0)
+#define TWO  RCONST(2.0)
 
 realtype
 UnitRoundoff(void)

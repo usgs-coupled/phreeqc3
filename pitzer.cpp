@@ -5,7 +5,6 @@
 #define PITZER_LISTS
 #define PITZER
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW

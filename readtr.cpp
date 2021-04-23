@@ -17,7 +17,6 @@ typedef unsigned char boolean;
 #define OPTION_DEFAULT -4
 #define OPTION_DEFAULT2 -5
 
-
 #if defined(PHREEQCI_GUI)
 #ifdef _DEBUG
 #define new DEBUG_NEW
