@@ -53,6 +53,7 @@ Set_selected()
 void Logk::
 tidy_logk(Phreeqc* phrq_ptr)
 {
+	this->Set_selected();
 	logk_x = logk_selected;
 	add_logks(logk_x, *this, 1.0, 0, phrq_ptr);
 }

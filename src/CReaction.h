@@ -34,7 +34,13 @@ public:
 	double Calc_iap_la();
 	double Calc_si(double tempk, double presPa);
 	double Calc_si(double tempk, double presPa, double& iap, double& lk);
+	double Calc_si_la(double tempk, double presPa);
 	double Calc_lk(double tempk, double presPa);
+	double Get_lk() { return this->lk; }
+	double Get_iap() { return this->iap; }
+	double Get_iap_la() { return this->iap_la; }
+	double Get_si() { return this->si; }
+	double Get_si_la() { return this->Get_si_la(); }
 public:
 	std::vector<double> logk_cr;
 	std::vector<double> dz;
@@ -44,8 +50,10 @@ public:
 	double p_atm_last;
 	double mu_last;
 	double iap;
+	double iap_la;
 	double lk;
 	double si;
+	double si_la;
 };
 class rxn_token
 {

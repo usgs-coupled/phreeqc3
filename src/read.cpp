@@ -712,6 +712,12 @@ read_exchange_species(void)
 			 *   Get exchange species information and parse equation
 			 */
 		{
+			if (s_ptr != NULL)
+			{
+				// temporary: copy instead of read
+				s_ptr->rxn.Set_logk_original(s_ptr->logk);
+				s_ptr->rxn.add_logk = s_ptr->add_logk;
+			}
 			s_ptr = NULL;
 			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
@@ -790,6 +796,12 @@ read_exchange_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+	}
+	if (s_ptr != NULL)
+	{
+		// temporary: copy instead of read
+		s_ptr->rxn.Set_logk_original(s_ptr->logk);
+		s_ptr->rxn.add_logk = s_ptr->add_logk;
 	}
 	return (return_value);
 }
@@ -5710,6 +5722,12 @@ read_species(void)
 			/*
 			 *   Get space for species information and parse equation
 			 */
+			if (s_ptr != NULL)
+			{
+				// temporary: copy instead of read
+				s_ptr->rxn.Set_logk_original(s_ptr->logk);
+				s_ptr->rxn.add_logk = s_ptr->add_logk;
+			}
 			s_ptr = NULL;
 			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
@@ -5818,6 +5836,12 @@ read_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+	}
+	if (s_ptr != NULL)
+	{
+		// temporary: copy instead of read
+		s_ptr->rxn.Set_logk_original(s_ptr->logk);
+		s_ptr->rxn.add_logk = s_ptr->add_logk;
 	}
 	return (return_value);
 }
@@ -6331,6 +6355,12 @@ read_surface_species(void)
 			/*
 			 *   Get surface species information and parse equation
 			 */
+			if (s_ptr != NULL)
+			{
+				// temporary: copy instead of read
+				s_ptr->rxn.Set_logk_original(s_ptr->logk);
+				s_ptr->rxn.add_logk = s_ptr->add_logk;
+			}
 			s_ptr = NULL;
 			std::vector<class elt_list> new_elt_list;
 			if (parse_eq(line, new_elt_list, association) == ERROR)
@@ -6390,6 +6420,12 @@ read_surface_species(void)
 		}
 		if (return_value == EOF || return_value == KEYWORD)
 			break;
+	}
+	if (s_ptr != NULL)
+	{
+		// temporary: copy instead of read
+		s_ptr->rxn.Set_logk_original(s_ptr->logk);
+		s_ptr->rxn.add_logk = s_ptr->add_logk;
 	}
 	return (return_value);
 }

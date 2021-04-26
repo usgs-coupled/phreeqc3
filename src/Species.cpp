@@ -127,3 +127,10 @@ s_store(const std::string& name, LDBLE l_z, int replace_if_found)
 	species_map[name] = s_ptr;
 	return (s_ptr);
 }
+//double species::
+//Calc_rxn_lk(double tk_x, double ppas_x)
+//{
+//	if (this->replaced)
+//		return this->rxn_s.Calc_lk(tk_x, ppas_x);
+//	return this->rxn.Calc_lk(tk_x, ppas_x);
+//}

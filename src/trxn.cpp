@@ -61,10 +61,14 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	{
 		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			if (x_on)
+			//if (x_on)
 				this->logk[i] = r_ref.logk_x[i];
-			else
-				this->logk[i] = r_ref.logk_cr[i];
+			//else
+			//	this->logk[i] = r_ref.logk_cr[i];
+		}
+		if (r_ref.logk_x != r_ref.logk_cr)
+		{
+			std::cerr << "trxn_add error\n";
 		}
 		for (int i = 0; i < 3; i++)	this->dz[i] = r_ref.Get_dz()[i];
 	}
@@ -72,10 +76,10 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	{
 		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			if (x_on)
+			//if (x_on)
 				this->logk[i] += coef * r_ref.logk_x[i];
-			else
-				this->logk[i] += coef * r_ref.logk_cr[i];
+			//else
+			//	this->logk[i] += coef * r_ref.logk_cr[i];
 		}
 		for (int i = 0; i < 3; i++) this->dz[i] += coef * r_ref.Get_dz()[i];
 	}
@@ -125,20 +129,20 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	{
 		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			if (x_on)
+			//if (x_on)
 				this->logk[i] = r_ref.logk_x[i];
-			else
-				this->logk[i] = r_ref.logk_cr[i];
+			//else
+			//	this->logk[i] = r_ref.logk_cr[i];
 		}
 	}
 	else
 	{
 		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			if (x_on)
+			//if (x_on)
 				this->logk[i] += coef * r_ref.logk_x[i];
-			else
-				this->logk[i] += coef * r_ref.logk_cr[i];
+			//else
+			//	this->logk[i] += coef * r_ref.logk_cr[i];
 		}
 	}
 	/*
@@ -262,9 +266,9 @@ trxn_copy(CReaction& rxn_ref)
 	 */
 	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
-		if (x_on)
+		//if (x_on)
 			rxn_ref.logk_x[i] = this->logk[i];
-		else
+		//else
 			rxn_ref.logk_cr[i] = this->logk[i];
 	}
 	/*

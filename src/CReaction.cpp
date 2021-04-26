@@ -14,6 +14,7 @@ void CReaction::Initialize(bool is_phase)
 	p_atm_last = -99;
 	mu_last = -99;
 	iap = 0;
+	iap_la = 0;
 	lk = 0;
 	si = 0;
 	Logk::Initialize();
@@ -31,10 +32,11 @@ Calc_delta_v()
 		{
 			if (this->token[i].Get_s() == NULL)
 				continue;
-			d_v += this->token[i].coef * this->token[i].Get_s()->logk[Logk::vm_tc];
+			d_v += this->token[i].coef * this->token[i].Get_s()->rxn.logk_original[Logk::vm_tc];
 		}
 		d_v = d_v - this->logk_x[Logk::vm0];
 		this->logk_x[Logk::delta_v] = d_v;
+		this->logk_original[Logk::delta_v] = d_v;
 	}
 	else
 	{
@@ -45,6 +47,8 @@ Calc_delta_v()
 			d_v -= this->token[i].Get_s()->Get_rxn().Get_logk_original()[Logk::vm_tc]
 				* this->token[i].coef;
 		}
+		this->logk_x[Logk::delta_v] = d_v;
+		//this->logk_original[Logk::delta_v] = d_v;
 	}
 	return d_v;
 }
@@ -52,13 +56,13 @@ Calc_delta_v()
 double CReaction::
 Calc_iap_la()
 {
-	this->iap = 0.0;
+	this->iap_la = 0.0;
 	for (rxn_token* rxn_ptr = &this->token[0] + 1;
 		!rxn_ptr->Get_end(); rxn_ptr++)
 	{
-		this->iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
+		this->iap_la += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 	}
-	return this->iap;
+	return this->iap_la;
 }
 double CReaction::
 Calc_iap()
@@ -87,6 +91,14 @@ Calc_si(double tempk, double presPa)
 	return this->si;
 }
 double CReaction::
+Calc_si_la(double tempk, double presPa)
+{
+	this->iap_la = Calc_iap_la();
+	this->lk = Calc_lk(tempk, presPa);
+	this->si_la = this->iap_la - this->lk;
+	return this->si_la;
+}
+double CReaction::
 Calc_si(double tempk, double presPa, double& iap_out, double& lk_out)
 {
 	iap_out = Calc_iap();
@@ -97,7 +109,7 @@ Calc_si(double tempk, double presPa, double& iap_out, double& lk_out)
 double CReaction::
 Calc_lk(double tempk, double presPa)
 {
-	Calc_delta_v();
+	double d_v = Calc_delta_v();
 	this->lk = Calc_Logk(tempk, presPa);
 	return lk;
 }

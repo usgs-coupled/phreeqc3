@@ -625,7 +625,7 @@ calc_logk_p(const std::string& name)
 	}
 	return (lk);
 }
-
+#ifdef SKIP_LOGK
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_logk_s(const std::string& name)
@@ -653,6 +653,50 @@ calc_logk_s(const std::string& name)
 		mu_terms_in_logk = true;
 		add_other_logk(l_logk, s_ptr->add_logk);
 		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+		return (lk);
+	}
+	return (-999.99);
+}
+#endif
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_logk_s(const std::string& name)
+/* ---------------------------------------------------------------------- */
+{
+	int i;
+	char token[MAX_LENGTH];
+	class species* s_ptr;
+	LDBLE lk;
+	std::vector<double> l_logk;
+	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
+
+	strcpy(token, name.c_str());
+	s_ptr = s_search(token);
+	if (s_ptr != NULL)
+	{
+		//if (s_ptr->logk[Logk::vm_tc])
+		/* calculate Logk::delta_v for the reaction... */
+		s_ptr->logk[Logk::delta_v] = calc_delta_v(*&s_ptr->rxn, false);
+		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
+		{
+			l_logk[i] = 0.0;
+		}
+		select_log_k_expression(s_ptr->logk, l_logk);
+		mu_terms_in_logk = true;
+		add_other_logk(l_logk, s_ptr->add_logk);
+		lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+		//double lk1 = s_ptr->rxn.Calc_lk(tk_x, patm_x * PASCAL_PER_ATM);
+		double lk1 = s_ptr->rxn.Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM);
+		if (lk != lk1)
+		{
+			std::cerr << "calc_logk error\n";
+			s_ptr->logk[Logk::delta_v] = calc_delta_v(*&s_ptr->rxn, false);
+			select_log_k_expression(s_ptr->logk, l_logk);
+			mu_terms_in_logk = true;
+			add_other_logk(l_logk, s_ptr->add_logk);
+			lk = k_calc(l_logk, tk_x, patm_x * PASCAL_PER_ATM);
+			lk1 = s_ptr->rxn.Calc_lk(tk_x, patm_x * PASCAL_PER_ATM);
+		}
 		return (lk);
 	}
 	return (-999.99);
@@ -708,12 +752,13 @@ calc_deltah_p(const std::string& name)
 	phase_ptr = phase_bsearch(name, &j, FALSE);
 	if (phase_ptr != NULL)
 	{
-		lkm = phase_ptr->Calc_rxn_lk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
-		lkp = phase_ptr->Calc_rxn_lk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		lkm = phase_ptr->rxn.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = phase_ptr->rxn.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 	}
 	return (dh);
 }
+#ifdef SKIP_LOGK
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_deltah_s(const std::string& name)
@@ -742,6 +787,25 @@ calc_deltah_s(const std::string& name)
 		lkm = k_calc(l_logk, tk_x-1.0, patm_x * PASCAL_PER_ATM);
 		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x,2.0);
+		return (dh);
+	}
+	return (0.0);
+}
+#endif
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_deltah_s(const std::string& name)
+/* ---------------------------------------------------------------------- */
+{
+	class species* s_ptr;
+	LDBLE lkm, lkp;
+	double dh = -999.99;
+	s_ptr = s_search(name);
+	if (s_ptr != NULL)
+	{
+		lkm = s_ptr->rxn.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = s_ptr->rxn.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 		return (dh);
 	}
 	return (0.0);
