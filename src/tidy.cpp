@@ -1467,13 +1467,6 @@ tidy_phases(void)
 		std::vector<double> temp = phases[i]->rxn.Get_logk_original();
 		phases[i]->rxn_s.Set_logk_original(temp);
 		phases[i]->rxn_x.Set_logk_original(temp);
-
-		// check here
-		if (phases[i]->rxn.Get_logk_x() != phases[i]->rxn.Get_logk_cr())
-		{
-			//std::cerr << "tidy_phases error\n";
-			//phases[i]->rxn.tidy_logk(this);
-		}
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -1515,12 +1508,6 @@ tidy_phases(void)
 		rewrite_eqn_to_secondary();
 		trxn.trxn_reverse_k();
 		trxn.trxn_copy(phases[i]->rxn_s);
-		// check here
-		//if (phases[i]->rxn_s.Get_logk_cr() !=
-		//	phases[i]->rxn_s.Get_logk_x())
-		//{
-		//	std::cerr << "tidy_phases error b\n";
-		//}
 		/*
 		 *   Check equation
 		 */
@@ -2906,18 +2893,6 @@ tidy_species(void)
 				continue;
 			}
 			s[i]->equiv = surface_coef;
-		}
-	}
-	// check here
-	for (size_t i = 0; i < s.size(); i++)
-	{
-		//if (s[i]->logk != s[i]->rxn.logk_original)
-		//{
-		//	std::cerr << "tidy_species error 1\n";
-		//}
-		if (s[i]->rxn_s.logk_cr != s[i]->rxn_s.logk_x)
-		{
-			std::cerr << "tidy_species error 2\n";
 		}
 	}
 

@@ -1184,16 +1184,9 @@ print_saturation_indices(void)
 		return (OK);
 	if (state == INITIAL_SOLUTION)
 	{
-		// check here
-		iap = 0;
-		for (size_t tok = 1; tok < pe_x[default_pe_x].Get_tokens().size() - 1; tok++)
-		{
-			iap += pe_x[default_pe_x].Get_tokens()[tok].coef * pe_x[default_pe_x].Get_tokens()[tok].Get_s()->la;
-			/* fprintf(output,"\t%s\t%f\t%f\n", rxn_ptr->s->name, rxn_ptr->coef, rxn_ptr->s->la ); */
-		}
-		lk = k_calc(pe_x[default_pe_x].Get_logk_cr(), tk_x, patm_x * PASCAL_PER_ATM);
+		iap = pe_x[default_pe_x].Calc_iap_la();
+		lk = pe_x[default_pe_x].Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM);
 		la_eminus = lk + iap;
-		/* fprintf(output,"\t%s\t%f\n", "pe", si ); */
 	}
 	else
 	{
