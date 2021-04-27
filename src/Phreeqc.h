@@ -1769,7 +1769,8 @@ protected:
 	/* tally.cpp ------------------------------- */
 	class tally_buffer* t_buffer;
 	size_t tally_count_component;
-	class tally* tally_table;
+	//class tally* tally_table;
+	std::vector<class tally> tally_table;
 	size_t count_tally_table_columns;
 	size_t count_tally_table_rows;
 
