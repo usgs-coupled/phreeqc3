@@ -5168,8 +5168,8 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 		(p_ptr->rxn_s.size() ? &p_ptr->rxn_s : NULL));
 	if (!r_ptr)
 		return 0.0;
-	if (!r_ptr->logk_x[Logk::vm0]) // in case Vm of the phase is 0...
-		return r_ptr->Calc_Logk(TK, pa * PASCAL_PER_ATM);
+	if (!r_ptr->Logk_cr.logk_x[Logk::vm0]) // in case Vm of the phase is 0...
+		return r_ptr->Logk_cr.Calc_Logk(TK, pa * PASCAL_PER_ATM);
 	LDBLE tc = TK - 273.15;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x);
 	LDBLE d_v = 0.0;
@@ -5190,14 +5190,15 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 			continue;
 		}
 		//else if (s_ptr->logk[Logk::vma1])
-		else if (s_ptr->rxn.logk_original[Logk::vma1])
+		else if (s_ptr->rxn.Logk_cr.logk_original[Logk::vma1])
 		{
 			/* supcrt volume at I = 0... */
 			d_v += r_ptr->token[i].coef *
-				(s_ptr->rxn.logk_original[Logk::vma1] + 
-				s_ptr->rxn.logk_original[Logk::vma2] / pb_s +
-				(s_ptr->rxn.logk_original[Logk::vma3] + s_ptr->rxn.logk_original[Logk::vma4] / pb_s) / TK_s -
-				s_ptr->rxn.logk_original[Logk::wref] * QBrn);
+				(s_ptr->rxn.Logk_cr.logk_original[Logk::vma1] +
+				s_ptr->rxn.Logk_cr.logk_original[Logk::vma2] / pb_s +
+				(s_ptr->rxn.Logk_cr.logk_original[Logk::vma3] + 
+				s_ptr->rxn.Logk_cr.logk_original[Logk::vma4] / pb_s) / TK_s -
+				s_ptr->rxn.Logk_cr.logk_original[Logk::wref] * QBrn);
 			//if (dgdP && s_ptr->z)
 			//{
 			//	LDBLE re = s_ptr->z * s_ptr->z / (s_ptr->logk[Logk::wref] / 1.66027e5 + s_ptr->z / 3.082);
@@ -5207,26 +5208,26 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 			if (s_ptr->z)
 			{
 				/* the ionic strength term * I^0.5... */
-				if (s_ptr->rxn.Get_logk_original()[Logk::b_Av] < 1e-5)
+				if (s_ptr->rxn.Logk_cr.Get_logk_original()[Logk::b_Av] < 1e-5)
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-						sqrt_mu / (1 + s_ptr->rxn.Get_logk_original()[Logk::b_Av] * DH_B * sqrt_mu);
+						sqrt_mu / (1 + s_ptr->rxn.Logk_cr.Get_logk_original()[Logk::b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				if (s_ptr->rxn.logk_original[Logk::vmi1] != 0.0 || 
-					s_ptr->rxn.logk_original[Logk::vmi2] != 0.0 || 
-					s_ptr->rxn.logk_original[Logk::vmi3] != 0.0)
+				if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] != 0.0 ||
+					s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] != 0.0 ||
+					s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] != 0.0)
 				{
-					LDBLE bi = s_ptr->rxn.logk_original[Logk::vmi1] + 
-						s_ptr->rxn.logk_original[Logk::vmi2] / TK_s + 
-						s_ptr->rxn.logk_original[Logk::vmi3] * TK_s;
-					if (s_ptr->rxn.logk_original[Logk::vmi4] == 1.0)
+					LDBLE bi = s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] +
+						s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] / TK_s +
+						s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] * TK_s;
+					if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4] == 1.0)
 						d_v += bi * mu_x;
 					else
-						d_v += bi * pow(mu_x, s_ptr->rxn.logk_original[Logk::vmi4]);
+						d_v += bi * pow(mu_x, s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4]);
 				}
 			}
 		}
@@ -5245,14 +5246,14 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 		else
 			continue;
 	}
-	d_v -= p_ptr->rxn.logk_original[Logk::vm0];
-	r_ptr->logk_x[Logk::delta_v] = d_v;
+	d_v -= p_ptr->rxn.Logk_cr.logk_original[Logk::vm0];
+	r_ptr->Logk_cr.logk_x[Logk::delta_v] = d_v;
 	if ((r_ptr->token[0].Get_name().size() > 0) &&
 		(r_ptr->token[0].Get_name() == "H2O(g)"))
 	{
-		r_ptr->logk_x[Logk::delta_v] = 0.0;
+		r_ptr->Logk_cr.logk_x[Logk::delta_v] = 0.0;
 	}
-	double lk = r_ptr->Calc_Logk(TK, pa * PASCAL_PER_ATM);
+	double lk = r_ptr->Logk_cr.Calc_Logk(TK, pa * PASCAL_PER_ATM);
 	return lk;
 }
 /* ---------------------------------------------------------------------- */
@@ -5278,17 +5279,18 @@ calc_vm(LDBLE tc, LDBLE pa)
 	{
 		if (s_x[i] == s_h2o)
 		{
-			s_x[i]->rxn.logk_original[Logk::vm_tc] = 18.016 / rho_0;
+			s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc] = 18.016 / rho_0;
 			continue;
 		}
-		if (s_x[i]->rxn.logk_original[Logk::vma1])
+		if (s_x[i]->rxn.Logk_cr.logk_original[Logk::vma1])
 		{
 			/* supcrt volume at I = 0... */
-			s_x[i]->rxn_x.logk_x[Logk::vm_tc] = 
-				s_x[i]->rxn.logk_original[Logk::vma1] + 
-				s_x[i]->rxn.logk_original[Logk::vma2] / pb_s +
-				(s_x[i]->rxn.logk_original[Logk::vma3] + s_x[i]->rxn.logk_original[Logk::vma4] / pb_s) / TK_s -
-				s_x[i]->rxn.logk_original[Logk::wref] * QBrn;
+			s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] =
+				s_x[i]->rxn.Logk_cr.logk_original[Logk::vma1] +
+				s_x[i]->rxn.Logk_cr.logk_original[Logk::vma2] / pb_s +
+				(s_x[i]->rxn.Logk_cr.logk_original[Logk::vma3] + 
+				s_x[i]->rxn.Logk_cr.logk_original[Logk::vma4] / pb_s) / TK_s -
+				s_x[i]->rxn.Logk_cr.logk_original[Logk::wref] * QBrn;
 			/* A (small) correction by Shock et al., 1992, for 155 < tc < 255, P_sat < P < 1e3.
 			   The Logk::vma1..a4 and Logk::wref numbers are refitted for major cations and anions on xpts,
 			   probably invalidates the correction. */
@@ -5302,8 +5304,8 @@ calc_vm(LDBLE tc, LDBLE pa)
 			if (s_x[i]->z)
 			{
 				/* the ionic strength term * I^0.5... */
-				if (s_x[i]->rxn.logk_original[Logk::b_Av] < 1e-5)
-					s_x[i]->rxn_x.logk_x[Logk::vm_tc] += 
+				if (s_x[i]->rxn.Logk_cr.logk_original[Logk::b_Av] < 1e-5)
+					s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] +=
 						s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
@@ -5312,37 +5314,37 @@ calc_vm(LDBLE tc, LDBLE pa)
 					//s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
 					//	log(1 + s_x[i]->logk[Logk::b_Av] * sqrt(mu_x)) / s_x[i]->logk[Logk::b_Av];
 					/* extended DH... */
-					s_x[i]->rxn_x.logk_x[Logk::vm_tc] += 
+					s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] +=
 						s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
-						sqrt_mu / (1 + s_x[i]->rxn.logk_original[Logk::b_Av] * DH_B * sqrt_mu);
+						sqrt_mu / (1 + s_x[i]->rxn.Logk_cr.logk_original[Logk::b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				if (s_x[i]->rxn.logk_original[Logk::vmi1] != 0.0 || 
-					s_x[i]->rxn.logk_original[Logk::vmi2] != 0.0 || 
-					s_x[i]->rxn.logk_original[Logk::vmi3] != 0.0)
+				if (s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi1] != 0.0 ||
+					s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi2] != 0.0 ||
+					s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi3] != 0.0)
 				{
 					double bi = 
-						s_x[i]->rxn.logk_original[Logk::vmi1] + 
-						s_x[i]->rxn.logk_original[Logk::vmi2] / TK_s + 
-						s_x[i]->rxn.logk_original[Logk::vmi3] * TK_s;
-					if (s_x[i]->rxn.logk_original[Logk::vmi4] == 1.0)
-						s_x[i]->rxn_x.logk_x[Logk::vm_tc] += bi * mu_x;
+						s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi1] +
+						s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi2] / TK_s +
+						s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi3] * TK_s;
+					if (s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi4] == 1.0)
+						s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] += bi * mu_x;
 					else
-						s_x[i]->rxn_x.logk_x[Logk::vm_tc] += 
-							bi * pow(mu_x, s_x[i]->rxn.logk_original[Logk::vmi4]);
+						s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] +=
+							bi * pow(mu_x, s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi4]);
 				}
 			}
 		}
 		else if (s_x[i]->millero[0])
 		{
 			/* Millero volume at I = 0... */
-			s_x[i]->rxn_x.logk_x[Logk::vm_tc] = 
+			s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] =
 				s_x[i]->millero[0] + 
 				tc * (s_x[i]->millero[1] + tc * s_x[i]->millero[2]);
 			if (s_x[i]->z)
 			{
 				/* the ionic strength terms... */
-				s_x[i]->rxn_x.logk_x[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
+				s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
 					(s_x[i]->millero[3] + tc * (s_x[i]->millero[4] + tc * s_x[i]->millero[5])) * mu_x;
 			}
 		}
@@ -5350,9 +5352,9 @@ calc_vm(LDBLE tc, LDBLE pa)
 			continue;
 
 		/* for calculating Logk::delta_v of the reaction... */
-		s_x[i]->rxn.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.logk_x[Logk::vm_tc];
-		s_x[i]->rxn_s.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.logk_x[Logk::vm_tc];
-		s_x[i]->rxn_x.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.logk_x[Logk::vm_tc];
+		s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc];
+		s_x[i]->rxn_s.Logk_cr.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc];
+		s_x[i]->rxn_x.Logk_cr.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc];
 	}
 	return OK;
 }
@@ -5386,7 +5388,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		/* calculate Logk::delta_v for the reaction... */
-		if (tc == current_tc && s_x[i]->rxn_x.logk_x[Logk::delta_v] == 0)
+		if (tc == current_tc && s_x[i]->rxn_x.Logk_cr.logk_x[Logk::delta_v] == 0)
 			continue;
 		mu_terms_in_logk = true;
 		s_x[i]->lk = s_x[i]->rxn_x.Calc_lk(tempk, pa * PASCAL_PER_ATM);

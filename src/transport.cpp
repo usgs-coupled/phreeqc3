@@ -5949,14 +5949,14 @@ viscosity(void)
 			if (!strcmp(s_x[i]->name.c_str(), "Cl-"))
 				// volumina for f_an...
 			{
-				V_Cl = s_x[i]->rxn.logk_original[Logk::vm_tc];
+				V_Cl = s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc];
 				V_an += V_Cl * s_x[i]->moles;
 				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
 			else// if (s_x[i]->Jones_Dole[6])
 			{
-				V_an += s_x[i]->rxn.logk_original[Logk::vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
+				V_an += s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
 				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
@@ -6035,14 +6035,14 @@ calc_vm_Cl(void)
 	if (!s_ptr)
 		return V_Cl;
 
-	if (s_ptr->rxn.logk_original[Logk::vma1])
+	if (s_ptr->rxn.Logk_cr.logk_original[Logk::vma1])
 	{
 		/* supcrt volume at I = 0... */
-		V_Cl = s_ptr->rxn.logk_original[Logk::vma1] + s_ptr->rxn.logk_original[Logk::vma2] / pb_s +
-			(s_ptr->rxn.logk_original[Logk::vma3] + s_ptr->rxn.logk_original[Logk::vma4] / pb_s) / TK_s -
-			s_ptr->rxn.logk_original[Logk::wref] * QBrn;
+		V_Cl = s_ptr->rxn.Logk_cr.logk_original[Logk::vma1] + s_ptr->rxn.Logk_cr.logk_original[Logk::vma2] / pb_s +
+			(s_ptr->rxn.Logk_cr.logk_original[Logk::vma3] + s_ptr->rxn.Logk_cr.logk_original[Logk::vma4] / pb_s) / TK_s -
+			s_ptr->rxn.Logk_cr.logk_original[Logk::wref] * QBrn;
 		/* the ionic strength term * I^0.5... */
-		if (s_ptr->rxn.logk_original[Logk::b_Av] < 1e-5)
+		if (s_ptr->rxn.Logk_cr.logk_original[Logk::b_Av] < 1e-5)
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 		else
 		{
@@ -6052,16 +6052,20 @@ calc_vm_Cl(void)
 			//	log(1 + s_ptr->rxn.logk_original[Logk::b_Av] * sqrt(mu_x)) / s_ptr->rxn.logk_original[Logk::b_Av];
 			/* extended DH... */
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-				sqrt_mu / (1 + s_ptr->rxn.logk_original[Logk::b_Av] * DH_B * sqrt_mu);
+				sqrt_mu / (1 + s_ptr->rxn.Logk_cr.logk_original[Logk::b_Av] * DH_B * sqrt_mu);
 		}
 		/* plus the volume terms * I... */
-		if (s_ptr->rxn.logk_original[Logk::vmi1] != 0.0 || s_ptr->rxn.logk_original[Logk::vmi2] != 0.0 || s_ptr->rxn.logk_original[Logk::vmi3] != 0.0)
+		if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] != 0.0 || 
+			s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] != 0.0 || 
+			s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] != 0.0)
 		{
-			LDBLE bi = s_ptr->rxn.logk_original[Logk::vmi1] + s_ptr->rxn.logk_original[Logk::vmi2] / TK_s + s_ptr->rxn.logk_original[Logk::vmi3] * TK_s;
-			if (s_ptr->rxn.logk_original[Logk::vmi4] == 1.0)
+			double bi = s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] + 
+				s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] / TK_s + 
+				s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] * TK_s;
+			if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4] == 1.0)
 				V_Cl += bi * mu_x;
 			else
-				V_Cl += bi * pow(mu_x, s_ptr->rxn.logk_original[Logk::vmi4]);
+				V_Cl += bi * pow(mu_x, s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4]);
 		}
 	}
 	else if (s_ptr->millero[0])

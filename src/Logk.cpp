@@ -55,7 +55,7 @@ tidy_logk(Phreeqc* phrq_ptr)
 {
 	this->Set_selected();
 	logk_x = logk_selected;
-	add_logks(logk_x, *this, 1.0, 0, phrq_ptr);
+	Add_logks(logk_x, *this, 1.0, 0, phrq_ptr);
 }
 /* ---------------------------------------------------------------------- */
 double Logk::
@@ -91,7 +91,7 @@ Calc_Logk(double tempk, double presPa)
 }
 /* ---------------------------------------------------------------------- */
 void Logk::
-add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t repeats, Phreeqc* phrq_ptr)
+Add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t repeats, Phreeqc* phrq_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	if (repeats > 15)
@@ -119,6 +119,6 @@ add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t re
 		{
 			lk[j] += it->second.logk_selected[j] * coef_add;
 		}
-		add_logks(lk, it->second, coef_add, ++repeats, phrq_ptr);
+		Add_logks(lk, it->second, coef_add, ++repeats, phrq_ptr);
 	}
 }

@@ -504,7 +504,7 @@ check_species_input(void)
 		}
 		else
 		{
-			s[i]->rxn.tidy_logk(this);
+			s[i]->rxn.Logk_cr.tidy_logk(this);
 		}
 	}
 	return (return_value);
@@ -1445,11 +1445,11 @@ tidy_phases(void)
 		// new organization
 		phases[i]->rxn.token[0].Set_name(phases[i]->name);
 		phases[i]->rxn.token[0].Set_s(NULL);
-		phases[i]->rxn.tidy_logk(this);
+		phases[i]->rxn.Logk_cr.tidy_logk(this);
 		// all reactions have original volume terms
-		std::vector<double> temp = phases[i]->rxn.Get_logk_original();
-		phases[i]->rxn_s.Set_logk_original(temp);
-		phases[i]->rxn_x.Set_logk_original(temp);
+		std::vector<double> temp = phases[i]->rxn.Logk_cr.Get_logk_original();
+		phases[i]->rxn_s.Logk_cr.Set_logk_original(temp);
+		phases[i]->rxn_x.Logk_cr.Set_logk_original(temp);
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -2262,7 +2262,7 @@ tidy_species(void)
 		s[i]->number = i;
 		s[i]->primary = NULL;
 		s[i]->secondary = NULL;
-		s[i]->rxn.Set_selected();
+		s[i]->rxn.Logk_cr.Set_selected();
 		if (s[i]->check_equation == TRUE)
 		{
 			trxn.species_rxn_to_trxn(s[i]);
@@ -2374,8 +2374,8 @@ tidy_species(void)
 				break;
 			}
 		}
-		s[i]->rxn_s.Set_logk_original(s[i]->rxn.Get_logk_original());
-		s[i]->rxn_x.Set_logk_original(s[i]->rxn.Get_logk_original());
+		s[i]->rxn_s.Logk_cr.Set_logk_original(s[i]->rxn.Logk_cr.Get_logk_original());
+		s[i]->rxn_x.Logk_cr.Set_logk_original(s[i]->rxn.Logk_cr.Get_logk_original());
 	}
 	/*
 	 *   Set pointer in element to master species

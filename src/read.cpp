@@ -517,7 +517,7 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_log_k_only(next_char, &s_ptr->rxn.logk_original[0]);
+			read_log_k_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[0]);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 6:				/* delta_h */
@@ -531,8 +531,8 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_delta_h_only(next_char, &s_ptr->rxn.logk_original[1],
-							  &s_ptr->rxn.original_units);
+			read_delta_h_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[1],
+							  &s_ptr->rxn.Logk_cr.original_units);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 8:				/* analytical_expression */
@@ -547,7 +547,7 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(s_ptr->rxn.logk_original[Logk::T_A1]));
+			read_analytical_expression_only(next_char, &(s_ptr->rxn.Logk_cr.logk_original[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 12:				/* gamma */
@@ -606,7 +606,7 @@ read_exchange_species(void)
 			{
 				error_msg("No offset for log K given", STOP);
 			}
-			s_ptr->rxn.logk_original[0] += offset;
+			s_ptr->rxn.Logk_cr.logk_original[0] += offset;
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 15:				/* llnl_gamma */
@@ -641,8 +641,8 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			size_t count_add_logk = s_ptr->rxn.add_logk.size();
-			s_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = s_ptr->rxn.Logk_cr.add_logk.size();
+			s_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
@@ -652,13 +652,13 @@ read_exchange_species(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->rxn.add_logk[count_add_logk].name = token;
+			s_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-				&s_ptr->rxn.add_logk[count_add_logk].coef);
+				&s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				s_ptr->rxn.add_logk[count_add_logk].coef = 1;
+				s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef = 1;
 			}
 			opt_save = OPTION_DEFAULT;
 		}
@@ -674,10 +674,10 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			size_t count_add_logk = s_ptr->rxn.add_logk.size();
-			s_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = s_ptr->rxn.Logk_cr.add_logk.size();
+			s_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			i = sscanf(next_char, SCANFORMAT,
-				&s_ptr->rxn.add_logk[count_add_logk].coef);
+				&s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
@@ -687,7 +687,7 @@ read_exchange_species(void)
 				break;
 			}
 			/* set name */
-			s_ptr->rxn.add_logk[count_add_logk].name = "XconstantX";
+			s_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = "XconstantX";
 			/* read coef */
 			opt_save = OPTION_DEFAULT;
 		}
@@ -702,8 +702,8 @@ read_exchange_species(void)
 				input_error++;
 				break;
 			}
-			read_vm_only(next_char, &s_ptr->rxn.logk_original[Logk::vm0],
-				&s_ptr->rxn.original_deltav_units);
+			read_vm_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[Logk::vm0],
+				&s_ptr->rxn.Logk_cr.original_deltav_units);
 			opt_save = OPTION_DEFAULT;
 			break;
 
@@ -3712,15 +3712,15 @@ read_phases(void)
 		case 3:				/* logk */
 			if (phase_ptr == NULL)
 				break;
-			read_log_k_only(next_char, &phase_ptr->rxn.logk_original[0]);
+			read_log_k_only(next_char, &phase_ptr->rxn.Logk_cr.logk_original[0]);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 4:				/* delta_h */
 		case 5:				/* deltah */
 			if (phase_ptr == NULL)
 				break;
-			read_delta_h_only(next_char, &phase_ptr->rxn.logk_original[1],
-							  &phase_ptr->rxn.original_units);
+			read_delta_h_only(next_char, &phase_ptr->rxn.Logk_cr.logk_original[1],
+							  &phase_ptr->rxn.Logk_cr.original_units);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 6:				/* analytical_expression */
@@ -3728,7 +3728,7 @@ read_phases(void)
 		case 8:				/* ae */
 			if (phase_ptr == NULL)
 				break;
-			read_analytical_expression_only(next_char, &(phase_ptr->rxn.logk_original[Logk::T_A1]));
+			read_analytical_expression_only(next_char, &(phase_ptr->rxn.Logk_cr.logk_original[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 9:				/* add_logk */
@@ -3736,8 +3736,8 @@ read_phases(void)
 		{
 			if (phase_ptr == NULL)
 				break;
-			size_t count_add_logk = phase_ptr->rxn.add_logk.size();
-			phase_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = phase_ptr->rxn.Logk_cr.add_logk.size();
+			phase_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
@@ -3747,13 +3747,13 @@ read_phases(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			phase_ptr->rxn.add_logk[count_add_logk].name = token;
+			phase_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-				&phase_ptr->rxn.add_logk[count_add_logk].coef);
+				&phase_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				phase_ptr->rxn.add_logk[count_add_logk].coef = 1;
+				phase_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef = 1;
 			}
 			opt_save = OPTION_DEFAULT;
 		}
@@ -3762,10 +3762,10 @@ read_phases(void)
 		{
 			if (phase_ptr == NULL)
 				break;
-			size_t count_add_logk = phase_ptr->rxn.add_logk.size();
-			phase_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = phase_ptr->rxn.Logk_cr.add_logk.size();
+			phase_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			i = sscanf(next_char, SCANFORMAT,
-				&phase_ptr->rxn.add_logk[count_add_logk].coef);
+				&phase_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
@@ -3775,7 +3775,7 @@ read_phases(void)
 				break;
 			}
 			/* set name */
-			phase_ptr->rxn.add_logk[count_add_logk].name = "XconstantX";
+			phase_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = "XconstantX";
 			opt_save = OPTION_DEFAULT;
 		}
 		break;
@@ -3800,9 +3800,9 @@ read_phases(void)
 		case 15:            /* vm, molar volume */
 			if (phase_ptr == NULL)
 				break;
-			read_phase_vm(next_char, &(phase_ptr->rxn.logk_original[Logk::vm0]),
-				&phase_ptr->rxn.original_deltav_units);
-			phase_ptr->delta_v[1] = phase_ptr->rxn.logk_original[Logk::vm0];
+			read_phase_vm(next_char, &(phase_ptr->rxn.Logk_cr.logk_original[Logk::vm0]),
+				&phase_ptr->rxn.Logk_cr.original_deltav_units);
+			phase_ptr->delta_v[1] = phase_ptr->rxn.Logk_cr.logk_original[Logk::vm0];
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
@@ -5464,7 +5464,7 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_log_k_only(next_char, &s_ptr->rxn.logk_original[0]);
+			read_log_k_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[0]);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 7:				/* delta_h */
@@ -5478,8 +5478,8 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_delta_h_only(next_char, &s_ptr->rxn.logk_original[1],
-							  &s_ptr->rxn.original_units);
+			read_delta_h_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[1],
+							  &s_ptr->rxn.Logk_cr.original_units);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 9:				/* analytical_expression */
@@ -5494,7 +5494,7 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(s_ptr->rxn.logk_original[Logk::T_A1]));
+			read_analytical_expression_only(next_char, &(s_ptr->rxn.Logk_cr.logk_original[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 13:				/* llnl_gamma */
@@ -5555,8 +5555,8 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			size_t count_add_logk = s_ptr->rxn.add_logk.size();
-			s_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = s_ptr->rxn.Logk_cr.add_logk.size();
+			s_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
@@ -5566,13 +5566,13 @@ read_species(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->rxn.add_logk[count_add_logk].name = token;
+			s_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-				&s_ptr->rxn.add_logk[count_add_logk].coef);
+				&s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				s_ptr->rxn.add_logk[count_add_logk].coef = 1;
+				s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef = 1;
 			}
 			opt_save = OPTION_DEFAULT;
 		}
@@ -5588,10 +5588,10 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			size_t count_add_logk = s_ptr->rxn.add_logk.size();
-			s_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = s_ptr->rxn.Logk_cr.add_logk.size();
+			s_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			i = sscanf(next_char, SCANFORMAT,
-				&s_ptr->rxn.add_logk[count_add_logk].coef);
+				&s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
@@ -5601,7 +5601,7 @@ read_species(void)
 				break;
 			}
 			/* set name */
-			s_ptr->rxn.add_logk[count_add_logk].name = "XconstantX";
+			s_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = "XconstantX";
 			/* read coef */
 			opt_save = OPTION_DEFAULT;
 		}
@@ -5674,7 +5674,7 @@ read_species(void)
 				input_error++;
 				break;
 			}
-			read_aq_species_vm_parms(next_char, &s_ptr->rxn.logk_original[Logk::vma1]);
+			read_aq_species_vm_parms(next_char, &s_ptr->rxn.Logk_cr.logk_original[Logk::vma1]);
 			//vm_read = true;
 			print_density = OK;
 			opt_save = OPTION_DEFAULT;
@@ -6162,7 +6162,7 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			read_log_k_only(next_char, &s_ptr->rxn.logk_original[0]);
+			read_log_k_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[0]);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 6:				/* delta_h */
@@ -6176,8 +6176,8 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			read_delta_h_only(next_char, &s_ptr->rxn.logk_original[1],
-							  &s_ptr->rxn.original_units);
+			read_delta_h_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[1],
+							  &s_ptr->rxn.Logk_cr.original_units);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 8:				/* analytical_expression */
@@ -6192,7 +6192,7 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			read_analytical_expression_only(next_char, &(s_ptr->rxn.logk_original[Logk::T_A1]));
+			read_analytical_expression_only(next_char, &(s_ptr->rxn.Logk_cr.logk_original[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 12:				/* offset */
@@ -6209,7 +6209,7 @@ read_surface_species(void)
 			{
 				error_msg("No offset for log K given", STOP);
 			}
-			s_ptr->rxn.logk_original[0] += offset;
+			s_ptr->rxn.Logk_cr.logk_original[0] += offset;
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 13:				/* add_logk */
@@ -6224,8 +6224,8 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			size_t count_add_logk = s_ptr->rxn.add_logk.size();
-			s_ptr->rxn.add_logk.resize(count_add_logk + 1);
+			size_t count_add_logk = s_ptr->rxn.Logk_cr.add_logk.size();
+			s_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
 			/* read name */
 			if (copy_token(token, &next_char, &i) == EMPTY)
 			{
@@ -6235,13 +6235,13 @@ read_surface_species(void)
 				error_msg(error_string, CONTINUE);
 				break;
 			}
-			s_ptr->rxn.add_logk[count_add_logk].name = token;
+			s_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = token;
 			/* read coef */
 			i = sscanf(next_char, SCANFORMAT,
-				&s_ptr->rxn.add_logk[count_add_logk].coef);
+				&s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
-				s_ptr->rxn.add_logk[count_add_logk].coef = 1;
+				s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef = 1;
 			}
 			opt_save = OPTION_DEFAULT;
 		}
@@ -6257,9 +6257,9 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			size_t count_add_logk = s_ptr->rxn.add_logk.size();
-			s_ptr->rxn.add_logk.resize(count_add_logk + 1);
-			i = sscanf(next_char, SCANFORMAT, &s_ptr->rxn.add_logk[count_add_logk].coef);
+			size_t count_add_logk = s_ptr->rxn.Logk_cr.add_logk.size();
+			s_ptr->rxn.Logk_cr.add_logk.resize(count_add_logk + 1);
+			i = sscanf(next_char, SCANFORMAT, &s_ptr->rxn.Logk_cr.add_logk[count_add_logk].coef);
 			if (i <= 0)
 			{
 				input_error++;
@@ -6269,7 +6269,7 @@ read_surface_species(void)
 				break;
 			}
 			/* set name */
-			s_ptr->rxn.add_logk[count_add_logk].name = "XconstantX";
+			s_ptr->rxn.Logk_cr.add_logk[count_add_logk].name = "XconstantX";
 			opt_save = OPTION_DEFAULT;
 		}
 		break;
@@ -6310,8 +6310,8 @@ read_surface_species(void)
 				input_error++;
 				break;
 			}
-			read_vm_only(next_char, &s_ptr->rxn.logk_original[Logk::vm0],
-				&s_ptr->rxn.original_deltav_units);
+			read_vm_only(next_char, &s_ptr->rxn.Logk_cr.logk_original[Logk::vm0],
+				&s_ptr->rxn.Logk_cr.original_deltav_units);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:

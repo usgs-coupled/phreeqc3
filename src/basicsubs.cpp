@@ -94,7 +94,7 @@ aqueous_vm(const char *species_name)
 	s_ptr = s_search(species_name);
 	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
 	{
-		g = s_ptr->rxn.logk_original[Logk::vm_tc];
+		g = s_ptr->rxn.Logk_cr.logk_original[Logk::vm_tc];
 	}
 	else
 	{
@@ -118,7 +118,7 @@ phase_vm(const char *phase_name)
 	}
 	else
 	{
-		g = phase_ptr->rxn.Get_logk_original()[Logk::vm0];
+		g = phase_ptr->rxn.Logk_cr.Get_logk_original()[Logk::vm0];
 	}
 	return (g);
 }
@@ -527,7 +527,7 @@ calc_dens(void)
 
 		gfw = s_x[i]->gfw;
 		M_T += s_x[i]->moles * gfw;
-		V_solutes += s_x[i]->moles * s_x[i]->rxn.logk_original[Logk::vm_tc];
+		V_solutes += s_x[i]->moles * s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc];
 	}
 	/* If pure water then return rho_0 */
 	if (M_T == 0)
@@ -691,8 +691,8 @@ calc_deltah_p(const std::string& name)
 	phase_ptr = phase_bsearch(name, &j, FALSE);
 	if (phase_ptr != NULL)
 	{
-		lkm = phase_ptr->rxn.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
-		lkp = phase_ptr->rxn.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		lkm = phase_ptr->rxn.Logk_cr.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = phase_ptr->rxn.Logk_cr.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 	}
 	return (dh);
@@ -742,8 +742,8 @@ calc_deltah_s(const std::string& name)
 	s_ptr = s_search(name);
 	if (s_ptr != NULL)
 	{
-		lkm = s_ptr->rxn.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
-		lkp = s_ptr->rxn.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		lkm = s_ptr->rxn.Logk_cr.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = s_ptr->rxn.Logk_cr.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 		return (dh);
 	}

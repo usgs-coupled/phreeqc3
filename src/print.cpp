@@ -1185,7 +1185,7 @@ print_saturation_indices(void)
 	if (state == INITIAL_SOLUTION)
 	{
 		iap = pe_x[default_pe_x].Calc_iap_la();
-		lk = pe_x[default_pe_x].Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM);
+		lk = pe_x[default_pe_x].Logk_cr.Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM);
 		la_eminus = lk + iap;
 	}
 	else
@@ -1460,10 +1460,10 @@ print_species(void)
 								 species_list[i].s->lg),
 					   (double) species_list[i].s->lg));
 			//if (species_list[i].s->logk[Logk::vm_tc] || !strcmp(species_list[i].s->name, "H+"))
-			if (species_list[i].s->rxn.logk_original[Logk::vm_tc] || 
+			if (species_list[i].s->rxn.Logk_cr.logk_original[Logk::vm_tc] ||
 				species_list[i].s == s_hplus)
 				output_msg(sformatf("%10.2f\n", 
-					(double) species_list[i].s->rxn.logk_original[Logk::vm_tc]));
+					(double) species_list[i].s->rxn.Logk_cr.logk_original[Logk::vm_tc]));
 			else
 				output_msg(sformatf("     (0)  \n"));
 		}

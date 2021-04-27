@@ -54,7 +54,7 @@ public:
 	DELTA_H_UNIT original_units;
 	DELTA_V_UNIT original_deltav_units;
 protected:
-	void add_logks(std::vector<double>& lk, class Logk& next_Logk,
+	void Add_logks(std::vector<double>& lk, class Logk& next_Logk,
 		double coef, size_t repeats, Phreeqc* phrq_ptr);
 };
 #endif // !defined(LOGK_H_INCLUDED)

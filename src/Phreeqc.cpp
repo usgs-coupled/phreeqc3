@@ -1380,11 +1380,11 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		s_ptr->mole_balance = pSrc->s[i]->mole_balance;
 		s_ptr->primary = NULL;
 		s_ptr->secondary = NULL;
-		s_ptr->rxn.add_logk.resize(pSrc->s[i]->rxn.add_logk.size());
-		for (size_t j = 0; j < s_ptr->rxn.add_logk.size(); j++)
+		s_ptr->rxn.Logk_cr.add_logk.resize(pSrc->s[i]->rxn.Logk_cr.add_logk.size());
+		for (size_t j = 0; j < s_ptr->rxn.Logk_cr.add_logk.size(); j++)
 		{
-			s_ptr->rxn.add_logk[j].coef = pSrc->s[i]->rxn.add_logk[j].coef;
-			s_ptr->rxn.add_logk[j].name = pSrc->s[i]->rxn.add_logk[j].name;
+			s_ptr->rxn.Logk_cr.add_logk[j].coef = pSrc->s[i]->rxn.Logk_cr.add_logk[j].coef;
+			s_ptr->rxn.Logk_cr.add_logk[j].name = pSrc->s[i]->rxn.Logk_cr.add_logk[j].name;
 		}
 		//next_elt
 		s_ptr->next_elt = elt_list_internal_copy(pSrc->s[i]->next_elt);
@@ -1416,11 +1416,11 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 		phase_ptr->name = pSrc->phases[i]->name;
 		phase_ptr->formula = pSrc->phases[i]->formula;
 		//add_logk
-		phase_ptr->rxn.add_logk.resize(pSrc->phases[i]->rxn.add_logk.size());
-		for (size_t j = 0; j < phase_ptr->rxn.add_logk.size(); j++)
+		phase_ptr->rxn.Logk_cr.add_logk.resize(pSrc->phases[i]->rxn.Logk_cr.add_logk.size());
+		for (size_t j = 0; j < phase_ptr->rxn.Logk_cr.add_logk.size(); j++)
 		{
-			phase_ptr->rxn.add_logk[j].coef = pSrc->phases[i]->rxn.add_logk[j].coef;
-			phase_ptr->rxn.add_logk[j].name = pSrc->phases[i]->rxn.add_logk[j].name;
+			phase_ptr->rxn.Logk_cr.add_logk[j].coef = pSrc->phases[i]->rxn.Logk_cr.add_logk[j].coef;
+			phase_ptr->rxn.Logk_cr.add_logk[j].name = pSrc->phases[i]->rxn.Logk_cr.add_logk[j].name;
 		}
 		//next_elt
 		phase_ptr->next_elt = elt_list_internal_copy(pSrc->phases[i]->next_elt);

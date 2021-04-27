@@ -15,7 +15,7 @@ void CReaction::Initialize(bool is_phase)
 	iap_la = 0;
 	lk = 0;
 	si = 0;
-	Logk::Initialize();
+	Logk_cr.Initialize();
 }
 double CReaction::
 Calc_delta_v()
@@ -30,11 +30,11 @@ Calc_delta_v()
 		{
 			if (this->token[i].Get_s() == NULL)
 				continue;
-			d_v += this->token[i].coef * this->token[i].Get_s()->rxn.logk_original[Logk::vm_tc];
+			d_v += this->token[i].coef * this->token[i].Get_s()->rxn.Logk_cr.logk_original[Logk::vm_tc];
 		}
-		d_v = d_v - this->logk_x[Logk::vm0];
-		this->logk_x[Logk::delta_v] = d_v;
-		this->logk_original[Logk::delta_v] = d_v;
+		d_v = d_v - this->Logk_cr.logk_x[Logk::vm0];
+		this->Logk_cr.logk_x[Logk::delta_v] = d_v;
+		this->Logk_cr.logk_original[Logk::delta_v] = d_v;
 	}
 	else
 	{
@@ -42,10 +42,10 @@ Calc_delta_v()
 		{
 			if (this->token[i].Get_s() == NULL)
 				continue;
-			d_v -= this->token[i].Get_s()->Get_rxn().Get_logk_original()[Logk::vm_tc]
+			d_v -= this->token[i].Get_s()->Get_rxn().Logk_cr.Get_logk_original()[Logk::vm_tc]
 				* this->token[i].coef;
 		}
-		this->logk_x[Logk::delta_v] = d_v;
+		this->Logk_cr.logk_x[Logk::delta_v] = d_v;
 		//this->logk_original[Logk::delta_v] = d_v;
 	}
 	return d_v;
@@ -108,7 +108,7 @@ double CReaction::
 Calc_lk(double tempk, double presPa)
 {
 	double d_v = Calc_delta_v();
-	this->lk = Calc_Logk(tempk, presPa);
+	this->lk = Logk_cr.Calc_Logk(tempk, presPa);
 	return lk;
 }
 void   CReaction::Set_dz(const std::vector<double>& d)

@@ -5,7 +5,7 @@
 /*----------------------------------------------------------------------
  *   CReaction
  *---------------------------------------------------------------------- */
-class CReaction : public Logk
+class CReaction 
 {
 public:
 	CReaction(bool is_phase = false)
@@ -40,6 +40,7 @@ public:
 	double Get_si() { return this->si; }
 	double Get_si_la() { return this->Get_si_la(); }
 public:
+	Logk Logk_cr;
 	std::vector<double> dz;
 	std::vector<class rxn_token> token;
 	bool phase;
