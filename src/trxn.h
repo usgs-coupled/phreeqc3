@@ -19,7 +19,6 @@ public:
 		//token.clear();
 		count_trxn = 0;
 		phrq_ptr = NULL;
-		x_on = false;
 	}
 	bool phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref);
 	int rewrite_master_to_secondary(class master* master_ptr1,
@@ -46,7 +45,6 @@ public:
 	std::vector<class rxn_token_temp> token;
 	size_t count_trxn;
 	Phreeqc* phrq_ptr;
-	bool x_on;
 };
 class rxn_token_temp
 {

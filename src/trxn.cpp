@@ -251,7 +251,6 @@ trxn_copy(CReaction& rxn_ref)
 	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
 			rxn_ref.logk_x[i] = this->logk[i];
-			rxn_ref.logk_cr[i] = this->logk[i];
 	}
 	/*
 	 *   Copy dz data
@@ -574,11 +573,8 @@ rewrite_master_to_secondary(class master* master_ptr1,
 	 *   Rewrite equation to secondary master species
 	 */
 	this->Set_count_trxn(0);
-	bool x_on_save = x_on;
-	x_on = false;
 	this->trxn_add(master_ptr1->rxn_primary, 1.0, false);
 	this->trxn_add(master_ptr2->rxn_primary, -coef1 / coef2, true);
-	x_on = x_on_save;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

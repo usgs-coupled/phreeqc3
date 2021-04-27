@@ -504,8 +504,6 @@ check_species_input(void)
 		}
 		else
 		{
-			select_log_k_expression(s[i]->logk, s[i]->rxn.logk_cr);
-			add_other_logk(s[i]->rxn.logk_cr, s[i]->add_logk);
 			s[i]->rxn.tidy_logk(this);
 		}
 	}
@@ -683,8 +681,6 @@ rewrite_eqn_to_secondary(void)
 /*
  *
  */
-	bool x_on_save = trxn.x_on;
-	trxn.x_on = false;
 	add_count = 0;
 	repeat = TRUE;
 /*
@@ -727,8 +723,6 @@ rewrite_eqn_to_secondary(void)
 		}
 	}
 	trxn.trxn_combine();
-
-	trxn.x_on = x_on_save;
 	return (OK);
 }
 
@@ -839,9 +833,6 @@ rewrite_eqn_to_primary(void)
  *
  */
 	int repeat, j, add_count;
-
-	bool x_on_save = trxn.x_on;
-	trxn.x_on = false;
 /*
  *   Check secondary master species
  */
@@ -880,7 +871,6 @@ rewrite_eqn_to_primary(void)
 		}
 	}
 	trxn.trxn_combine();
-	trxn.x_on = x_on_save;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -1440,9 +1430,6 @@ tidy_inverse(void)
 	}
 	return (OK);
 }
-#ifdef SKIP_PHASE_LOGK
-Need to keep until logk_cr is eliminated
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 tidy_phases(void)
@@ -1455,13 +1442,9 @@ tidy_phases(void)
 	 */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
-		trxn.x_on = false;
-		select_log_k_expression(phases[i]->logk, phases[i]->rxn.logk_cr);
-		add_other_logk(phases[i]->rxn.logk_cr, phases[i]->add_logk);
+		// new organization
 		phases[i]->rxn.token[0].Set_name(phases[i]->name);
 		phases[i]->rxn.token[0].Set_s(NULL);
-		// new organization
-		trxn.x_on = true;
 		phases[i]->rxn.tidy_logk(this);
 		// all reactions have original volume terms
 		std::vector<double> temp = phases[i]->rxn.Get_logk_original();
@@ -1476,7 +1459,6 @@ tidy_phases(void)
 		/*
 		 *   Rewrite equation
 		 */
-		trxn.x_on = false;
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
 		trxn.token[0].Set_name(phases[i]->name);
@@ -1493,7 +1475,6 @@ tidy_phases(void)
 		trxn.trxn_copy(phases[i]->rxn_s);
 		
 		// new organization
-		trxn.x_on = true;
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
 		trxn.token[0].Set_name(phases[i]->name);
@@ -1531,7 +1512,6 @@ tidy_phases(void)
 			}
 		}
 	}
-	trxn.x_on = false;
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */

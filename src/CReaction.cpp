@@ -4,8 +4,6 @@
 #include "Phreeqc.h"
 void CReaction::Initialize(bool is_phase)
 {
-	logk_cr.clear();
-	logk_cr.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 	dz.clear();
 	dz.resize(3, 0.0);
 	token.clear();
@@ -112,20 +110,6 @@ Calc_lk(double tempk, double presPa)
 	double d_v = Calc_delta_v();
 	this->lk = Calc_Logk(tempk, presPa);
 	return lk;
-}
-
-void CReaction::Set_logk_cr(const std::vector<double>& k)
-{
-	if (k.size() != Logk::MAX_LOG_K_INDICES)
-	{
-		std::vector<double> k_copy = k;
-		k_copy.resize(Logk::MAX_LOG_K_INDICES);
-		logk_cr = k_copy;
-	}
-	else
-	{
-		logk_cr = k;
-	}
 }
 void   CReaction::Set_dz(const std::vector<double>& d)
 {

@@ -18,8 +18,6 @@ public:
 		this->token.resize(ntoken);
 	}
 	~CReaction(void) {}
-	std::vector<double>& Get_logk_cr(void) { return this->logk_cr; }
-	void Set_logk_cr(const std::vector<double>& d);
 	const std::vector<double>& Get_dz(void) { return this->dz; }
 	void Set_dz(const std::vector<double>& d);
 	size_t size() { return token.size(); }
@@ -42,7 +40,6 @@ public:
 	double Get_si() { return this->si; }
 	double Get_si_la() { return this->Get_si_la(); }
 public:
-	std::vector<double> logk_cr;
 	std::vector<double> dz;
 	std::vector<class rxn_token> token;
 	bool phase;

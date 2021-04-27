@@ -94,7 +94,7 @@ aqueous_vm(const char *species_name)
 	s_ptr = s_search(species_name);
 	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
 	{
-		g = s_ptr->logk[Logk::vm_tc];
+		g = s_ptr->rxn.logk_original[Logk::vm_tc];
 	}
 	else
 	{
@@ -525,10 +525,9 @@ calc_dens(void)
 		if (s_x[i]->type != AQ && s_x[i]->type != HPLUS)
 		  continue;
 
-		//compute_gfw(s_x[i]->name, &gfw);
 		gfw = s_x[i]->gfw;
 		M_T += s_x[i]->moles * gfw;
-		V_solutes += s_x[i]->moles * s_x[i]->logk[Logk::vm_tc];
+		V_solutes += s_x[i]->moles * s_x[i]->rxn.logk_original[Logk::vm_tc];
 	}
 	/* If pure water then return rho_0 */
 	if (M_T == 0)

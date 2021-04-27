@@ -1460,9 +1460,10 @@ print_species(void)
 								 species_list[i].s->lg),
 					   (double) species_list[i].s->lg));
 			//if (species_list[i].s->logk[Logk::vm_tc] || !strcmp(species_list[i].s->name, "H+"))
-			if (species_list[i].s->logk[Logk::vm_tc] || species_list[i].s == s_hplus)
-				output_msg(sformatf("%10.2f\n",
-					   (double) species_list[i].s->logk[Logk::vm_tc]));
+			if (species_list[i].s->rxn.logk_original[Logk::vm_tc] || 
+				species_list[i].s == s_hplus)
+				output_msg(sformatf("%10.2f\n", 
+					(double) species_list[i].s->rxn.logk_original[Logk::vm_tc]));
 			else
 				output_msg(sformatf("     (0)  \n"));
 		}

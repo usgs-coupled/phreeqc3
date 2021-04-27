@@ -253,7 +253,7 @@ reinitialize(void)
 CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
 {
 	CReaction rxn;
-	for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) rxn.logk_cr[i] = rxn_ref.logk_cr[i];
+	//for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) rxn.logk_cr[i] = rxn_ref.logk_cr[i];
 	for (size_t i = 0; i < 3; i++) rxn.dz[i] = rxn_ref.dz[i];
 	rxn.Get_tokens().resize(rxn_ref.Get_tokens().size());
 	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)

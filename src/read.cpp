@@ -7164,7 +7164,7 @@ add_psi_master_species(char *token)
 	class master *master_ptr;
 	const char* cptr;
 	char token1[MAX_LENGTH];
-	int i, plane;
+	int plane;
 
 	strcpy(token1, token);
 	for (plane = SURF_PSI; plane <= SURF_PSI2; plane++)
@@ -7208,10 +7208,6 @@ add_psi_master_species(char *token)
 			/*
 			 *   Define reaction for psi
 			 */
-			for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-			{
-				master_ptr->s->rxn.logk_cr[i] = 0.0;
-			}
 			master_ptr->s->rxn.token[0].Set_s(
 				master_ptr->s);
 			master_ptr->s->rxn.token[0].coef = -1.0;

@@ -51,7 +51,7 @@ calc_delta_v(CReaction& r_ref, bool phase)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[Logk::vm_tc];
+			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->rxn.logk_original[Logk::vm_tc];
 		}
 	}
 	else
@@ -60,7 +60,7 @@ calc_delta_v(CReaction& r_ref, bool phase)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->logk[Logk::vm_tc];
+			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->rxn.logk_original[Logk::vm_tc];
 		}
 	}
 	return d_v;
