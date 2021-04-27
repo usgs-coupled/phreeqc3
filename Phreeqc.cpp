@@ -1109,7 +1109,7 @@ void Phreeqc::init(void)
 	/* tally.cpp ------------------------------- */
 	t_buffer                = NULL;
 	tally_count_component   = 0;
-	tally_table             = NULL;
+	//tally_table             = NULL;
 	count_tally_table_columns = 0;
 	count_tally_table_rows  = 0;
 	/* transport.cpp ------------------------------- */
