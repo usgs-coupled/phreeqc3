@@ -44,11 +44,10 @@ public:
 	double o;
 	double dha, dhb, a_f;
 	double lk;
-	std::vector<double> logk;
+	//std::vector<double> logk;
 	double Jones_Dole[10];
 	double millero[7];
-	Logk::DELTA_H_UNIT original_units;
-	std::vector<class name_coef> add_logk;
+	//std::vector<class name_coef> add_logk;
 	double lg;
 	double lg_pitzer;
 	double lm;
@@ -70,6 +69,5 @@ public:
 	double tot_dh2o_moles;
 	double cd_music[5];
 	std::vector<double> dz;
-	Logk::DELTA_V_UNIT original_deltav_units;
 };
 #endif // !defined(SPECIES_H_INCLUDED)

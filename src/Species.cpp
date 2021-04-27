@@ -34,16 +34,10 @@ void species::Initialize()
 		// WATEQ Debye Huckel a and b-dot; active_fraction coef for exchange species
 		dha = 0, dhb = 0, a_f = 0;
 		lk = 0;           // log10 k at working temperature
-		// log kt0, delh, 6 coefficients analytical expression + volume terms
-		//for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) logk[i] = 0;
-		logk.clear();
-		logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
 		// 7 coefficients analytical expression for B, D, anion terms and pressure in Jones_Dole viscosity eqn
 		for (size_t i = 0; i < 10; i++) Jones_Dole[i] = 0;
 		// regression coefficients to calculate temperature dependent phi_0and b_v of Millero density model
 		for (size_t i = 0; i < 7; i++) millero[i] = 0;
-		original_units = Logk::kjoules;  // enum with original delta H units
-		add_logk.clear();
 		lg = 0;            // log10 activity coefficient, gamma
 		lg_pitzer = 0;     // log10 activity coefficient, from pitzer calculation
 		lm = 0;            // log10 molality
@@ -71,7 +65,6 @@ void species::Initialize()
 		//for (size_t i = 0; i < 3; i++) dz[i] = 0;
 		dz.clear();
 		dz.resize(3, 0.0);
-		original_deltav_units = Logk::cm3_per_mol;
 }
 /* ---------------------------------------------------------------------- */
 class species* Phreeqc::

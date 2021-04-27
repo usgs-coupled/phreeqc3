@@ -33,9 +33,6 @@ public:
 	std::string formula;
 	int in;
 	double lk;
-	Logk::DELTA_H_UNIT original_units;
-	Logk::DELTA_V_UNIT original_deltav_units;
-	std::vector<class name_coef> add_logk;
 	double moles_x;
 	double delta_max;
 	double p_soln_x;

@@ -14,10 +14,6 @@ void phase::Initialize()
 	formula.clear();			// chemical formula 
 	in = FALSE;					// species used in model if TRUE 
 	lk = 0;					    // log10 k at working temperature 
-	// enum with original delta H units 
-	original_units = Logk::kjoules;
-	original_deltav_units = Logk::cm3_per_mol;
-	add_logk.clear();
 	moles_x = 0;
 	delta_max = 0;
 	p_soln_x = 0;
