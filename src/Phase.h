@@ -33,9 +33,6 @@ public:
 	std::string formula;
 	int in;
 	double lk;
-//protected:
-	std::vector<double> logk;
-public:
 	Logk::DELTA_H_UNIT original_units;
 	Logk::DELTA_V_UNIT original_deltav_units;
 	std::vector<class name_coef> add_logk;

@@ -3724,14 +3724,14 @@ read_phases(void)
 		case 3:				/* logk */
 			if (phase_ptr == NULL)
 				break;
-			read_log_k_only(next_char, &phase_ptr->logk[0]);
+			read_log_k_only(next_char, &phase_ptr->rxn.logk_original[0]);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 4:				/* delta_h */
 		case 5:				/* deltah */
 			if (phase_ptr == NULL)
 				break;
-			read_delta_h_only(next_char, &phase_ptr->logk[1],
+			read_delta_h_only(next_char, &phase_ptr->rxn.logk_original[1],
 							  &phase_ptr->original_units);
 			opt_save = OPTION_DEFAULT;
 			break;
@@ -3740,7 +3740,7 @@ read_phases(void)
 		case 8:				/* ae */
 			if (phase_ptr == NULL)
 				break;
-			read_analytical_expression_only(next_char, &(phase_ptr->logk[Logk::T_A1]));
+			read_analytical_expression_only(next_char, &(phase_ptr->rxn.logk_original[Logk::T_A1]));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 9:				/* add_logk */
@@ -3812,9 +3812,9 @@ read_phases(void)
 		case 15:            /* vm, molar volume */
 			if (phase_ptr == NULL)
 				break;
-			read_phase_vm(next_char, &(phase_ptr->logk[Logk::vm0]),
+			read_phase_vm(next_char, &(phase_ptr->rxn.logk_original[Logk::vm0]),
 				&phase_ptr->original_deltav_units);
-			phase_ptr->delta_v[1] = phase_ptr->logk[Logk::vm0];
+			phase_ptr->delta_v[1] = phase_ptr->rxn.logk_original[Logk::vm0];
 			opt_save = OPTION_DEFAULT;
 			break;
 		case OPTION_DEFAULT:
@@ -3822,7 +3822,7 @@ read_phases(void)
 			if (phase_ptr != NULL)
 			{
 				// temporary: copy instead of read
-				phase_ptr->rxn.Set_logk_original(phase_ptr->logk);
+				phase_ptr->rxn.Set_logk_original(phase_ptr->rxn.logk_original);
 				phase_ptr->rxn.add_logk = phase_ptr->add_logk;
 			}
 			/*
@@ -3916,7 +3916,7 @@ read_phases(void)
 	if (phase_ptr != NULL)
 	{
 		// temporary: copy instead of read
-		phase_ptr->rxn.Set_logk_original(phase_ptr->logk);
+		phase_ptr->rxn.Set_logk_original(phase_ptr->rxn.logk_original);
 		phase_ptr->rxn.add_logk = phase_ptr->add_logk;
 	}
 	return (return_value);
