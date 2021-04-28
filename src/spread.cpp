@@ -92,7 +92,7 @@ read_solution_spread(void)
  */
 	for (;;)
 	{
-		std::string token, token1;
+		std::string tokens, token1;
 		opt = get_option(opt_list, count_opt_list, &next_char);
 		if (spread_lines == 0 && opt != OPTION_DEFAULT)
 		{
@@ -100,7 +100,7 @@ read_solution_spread(void)
 			cptr = line;
 			count = numbers = strings = 0;
 			int j;
-			while (((j = copy_token(token, &cptr)) != EMPTY))
+			while (((j = copy_token(tokens, &cptr)) != EMPTY))
 			{
 				count++;
 				if (j == UPPER || j == LOWER)
@@ -112,13 +112,13 @@ read_solution_spread(void)
 			 * Is 2nd token all number
 			 */
 			cptr = line;
-			copy_token(token, &cptr);
-			j = copy_token(token, &cptr);
+			copy_token(tokens, &cptr);
+			j = copy_token(tokens, &cptr);
 			bool num = false;
 			if (j == DIGIT)
 			{
 				char* ptr;
-				(void)strtod(token.c_str(), &ptr);
+				(void)strtod(tokens.c_str(), &ptr);
 				cptr = ptr;
 				int j1 = copy_token(token1, &cptr);
 				if (j1 != EMPTY)
@@ -134,8 +134,8 @@ read_solution_spread(void)
 			 *   Starts with hyphen
 			 */
 			cptr = line;
-			copy_token(token, &cptr);
-			if (token[0] == '-')
+			copy_token(tokens, &cptr);
+			if (tokens[0] == '-')
 			{
 				/* opt = opt; */
 			}
@@ -270,8 +270,8 @@ read_solution_spread(void)
 		case 3:
 			//sscanf(next_char, SCANFORMAT, &(soln_defaults.density));
 			{
-				copy_token(token, &next_char);
-				if (sscanf(token.c_str(), SCANFORMAT, &dummy) != 1)
+				copy_token(tokens, &next_char);
+				if (sscanf(tokens.c_str(), SCANFORMAT, &dummy) != 1)
 				{
 						error_msg("Expecting numeric value for density.", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
@@ -281,10 +281,10 @@ read_solution_spread(void)
 				{
 					soln_defaults.density = dummy;
 				}
-				int j = copy_token(token, &next_char);
+				int j = copy_token(tokens, &next_char);
 				if (j != EMPTY)
 				{
-					if (token[0] != 'c' && token[0] != 'C')
+					if (tokens[0] != 'c' && tokens[0] != 'C')
 					{
 						error_msg("Only option following density is c[alculate].", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
@@ -299,12 +299,12 @@ read_solution_spread(void)
 			break;
 		case 4:				/* units */
 		case 8:				/* unit */
-			if (copy_token(token, &next_char) == EMPTY)
+			if (copy_token(tokens, &next_char) == EMPTY)
 				break;
 			{
-				if (check_units(token, FALSE, FALSE, NULL, TRUE) == OK)
+				if (check_units(tokens, FALSE, FALSE, NULL, TRUE) == OK)
 				{
-					soln_defaults.units = token;
+					soln_defaults.units = tokens;
 				}
 				else
 				{
@@ -313,11 +313,11 @@ read_solution_spread(void)
 			}
 			break;
 		case 5:				/* redox */
-			if (copy_token(token, &next_char) == EMPTY)
+			if (copy_token(tokens, &next_char) == EMPTY)
 				break;
-			if (parser.parse_couple(token) == OK)
+			if (parser.parse_couple(tokens) == OK)
 			{
-				soln_defaults.redox = token;
+				soln_defaults.redox = tokens;
 			}
 			else
 			{
@@ -325,18 +325,18 @@ read_solution_spread(void)
 			}
 			break;
 		case 6:				/* ph */
-			copy_token(token, &next_char);
-			(void)sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.ph));
-			if (copy_token(token, &next_char) != EMPTY)
+			copy_token(tokens, &next_char);
+			(void)sscanf(tokens.c_str(), SCANFORMAT, &(soln_defaults.ph));
+			if (copy_token(tokens, &next_char) != EMPTY)
 			{
 				warning_msg
 					("Not possible to use phase name or saturation index in definition of default pH in SOLUTION_SPREAD.");
 			}
 			break;
 		case 7:				/* pe */
-			copy_token(token, &next_char);
-			(void)sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.pe));
-			if (copy_token(token, &next_char) != EMPTY)
+			copy_token(tokens, &next_char);
+			(void)sscanf(tokens.c_str(), SCANFORMAT, &(soln_defaults.pe));
+			if (copy_token(tokens, &next_char) != EMPTY)
 			{
 				warning_msg
 					("Not possible to use phase name or saturation index in definition of default pe in SOLUTION_SPREAD.");
@@ -346,7 +346,7 @@ read_solution_spread(void)
 		case 12:				/* uncertainty */
 		case 13:				/* uncertainties */
 			{
-				if (copy_token(token, &next_char) != DIGIT)
+				if (copy_token(tokens, &next_char) != DIGIT)
 				{
 					input_error++;
 					error_string = sformatf( "Expected isotope name to"
@@ -354,7 +354,7 @@ read_solution_spread(void)
 					error_msg(error_string, CONTINUE);
 					error_string = sformatf( "In read_solution_spread isotope_uncertainty\n");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "\t%s\t%s\n", "token:     ", token.c_str());
+					error_string = sformatf( "\t%s\t%s\n", "token:     ", tokens.c_str());
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					error_string = sformatf( "\t%s\t%s\n", "next_char: ", next_char);
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
@@ -365,7 +365,7 @@ read_solution_spread(void)
 				size_t i;
 				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
-					if (token == soln_defaults.iso[i].name)
+					if (tokens == soln_defaults.iso[i].name)
 					{
 						break;
 					}
@@ -373,14 +373,14 @@ read_solution_spread(void)
 				if (i == soln_defaults.iso.size())
 				{
 					soln_defaults.iso.resize((size_t)i + 1);
-					soln_defaults.iso[i].name = token;
+					soln_defaults.iso[i].name = tokens;
 					soln_defaults.iso[i].value = NAN;
 					soln_defaults.iso[i].uncertainty = NAN;
 				}
 
 				/* read and store isotope ratio uncertainty */
 				int j;
-				if ((j = copy_token(token, &next_char)) != EMPTY)
+				if ((j = copy_token(tokens, &next_char)) != EMPTY)
 				{
 					if (j != DIGIT)
 					{
@@ -392,7 +392,7 @@ read_solution_spread(void)
 					}
 					else
 					{
-						(void)sscanf(token.c_str(), SCANFORMAT,
+						(void)sscanf(tokens.c_str(), SCANFORMAT,
 							&(soln_defaults.iso[i].uncertainty));
 					}
 				}
@@ -404,7 +404,7 @@ read_solution_spread(void)
 			break;
 		case 10:				/* water */
 			{
-				int j = copy_token(token, &next_char);
+				int j = copy_token(tokens, &next_char);
 				if (j != DIGIT)
 				{
 					input_error++;
@@ -414,13 +414,13 @@ read_solution_spread(void)
 				}
 				else
 				{
-					(void)sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.water));
+					(void)sscanf(tokens.c_str(), SCANFORMAT, &(soln_defaults.water));
 				}
 			}
 			break;
 		case 9:				/* isotope */
 			{
-				if (copy_token(token, &next_char) != DIGIT)
+				if (copy_token(tokens, &next_char) != DIGIT)
 				{
 					input_error++;
 					error_string = sformatf( "Expected isotope name to"
@@ -428,7 +428,7 @@ read_solution_spread(void)
 					error_msg(error_string, CONTINUE);
 					error_string = sformatf( "In read_solution_spread isotope\n");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "\t%s\t%s\n", "token:     ", token.c_str());
+					error_string = sformatf( "\t%s\t%s\n", "token:     ", tokens.c_str());
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					error_string = sformatf( "\t%s\t%s\n", "next_char: ", next_char);
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
@@ -439,7 +439,7 @@ read_solution_spread(void)
 				int i;
 				for (i = 0; i < soln_defaults.iso.size(); i++)
 				{
-					if (token == soln_defaults.iso[i].name)
+					if (tokens == soln_defaults.iso[i].name)
 					{
 						break;
 					}
@@ -447,12 +447,12 @@ read_solution_spread(void)
 				if (i == soln_defaults.iso.size())
 				{
 					soln_defaults.iso.resize((size_t)i + 1);
-					soln_defaults.iso[i].name = token;
+					soln_defaults.iso[i].name = tokens;
 					soln_defaults.iso[i].value = NAN;
 					soln_defaults.iso[i].uncertainty = NAN;
 				}
 				/* read and store isotope ratio */
-				if (copy_token(token, &next_char) != DIGIT)
+				if (copy_token(tokens, &next_char) != DIGIT)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -460,10 +460,10 @@ read_solution_spread(void)
 					error_msg(error_string, CONTINUE);
 					break;
 				}
-				(void)sscanf(token.c_str(), SCANFORMAT, &(soln_defaults.iso[i].value));
+				(void)sscanf(tokens.c_str(), SCANFORMAT, &(soln_defaults.iso[i].value));
 				/* read and store isotope ratio uncertainty */
 				int j;
-				if ((j = copy_token(token, &next_char)) != EMPTY)
+				if ((j = copy_token(tokens, &next_char)) != EMPTY)
 				{
 					if (j != DIGIT)
 					{
@@ -475,7 +475,7 @@ read_solution_spread(void)
 					}
 					else
 					{
-						(void)sscanf(token.c_str(), SCANFORMAT,
+						(void)sscanf(tokens.c_str(), SCANFORMAT,
 							&(soln_defaults.iso[i].uncertainty));
 					}
 				}
@@ -527,7 +527,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 	Keywords::KEYWORDS next_keyword_save;
 	int n_user, n_user_end;
 	std::string description;
-	std::string token, token1, string;
+	std::string tokens, token1, string;
 	CParser parser(this->phrq_io);
 
 	int return_value, opt;
@@ -697,13 +697,13 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 		case 2:				/* density */
 		case 3:
 			{
-				int j = copy_token(token, &next_char);
-				(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
+				int j = copy_token(tokens, &next_char);
+				(void)sscanf(tokens.c_str(), SCANFORMAT, &dummy);
 				temp_solution.Set_density(dummy);
-				j = copy_token(token, &next_char);
+				j = copy_token(tokens, &next_char);
 				if (j != EMPTY)
 				{
-					if (token[0] != 'c' && token[0] != 'C')
+					if (tokens[0] != 'c' && tokens[0] != 'C')
 					{
 						error_msg("Only option following density is c[alculate].", PHRQ_io::OT_CONTINUE);
 						error_msg(line_save, PHRQ_io::OT_CONTINUE);
@@ -718,12 +718,12 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 			break;
 		case 4:				/* units */
 		case 8:				/* unit */
-			if (copy_token(token, &next_char) == EMPTY)
+			if (copy_token(tokens, &next_char) == EMPTY)
 				break;
 			{
-				if (check_units(token, false, false, initial_data_ptr->Get_units().c_str(), true) == OK)
+				if (check_units(tokens, false, false, initial_data_ptr->Get_units().c_str(), true) == OK)
 				{
-					initial_data_ptr->Set_units(token);
+					initial_data_ptr->Set_units(tokens);
 				}
 				else
 				{
@@ -732,13 +732,13 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 			}
 			break;
 		case 5:				/* redox */
-			if (copy_token(token, &next_char) == EMPTY)
+			if (copy_token(tokens, &next_char) == EMPTY)
 				break;
-			if (parser.parse_couple(token) == OK)
+			if (parser.parse_couple(tokens) == OK)
 			{
-				initial_data_ptr->Set_default_pe(token);
+				initial_data_ptr->Set_default_pe(tokens);
 				CReaction temp_chem_reaction;
-				initial_data_ptr->Get_pe_reactions()[token] = temp_chem_reaction;
+				initial_data_ptr->Get_pe_reactions()[tokens] = temp_chem_reaction;
 			}
 			else
 			{
@@ -785,7 +785,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 			{
 				next_char = char_string;
 				cxxSolutionIsotope temp_isotope;
-				if (copy_token(token, &next_char) !=  CParser::TT_DIGIT)
+				if (copy_token(tokens, &next_char) !=  CParser::TT_DIGIT)
 				{
 					input_error++;
 					error_string = sformatf( "Expected isotope name to"
@@ -793,7 +793,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					error_string = sformatf( "In spread_row_to_solution isotope\n");
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
-					error_string = sformatf( "\t%s\t%s\n", "token:       ", token.c_str());
+					error_string = sformatf( "\t%s\t%s\n", "token:       ", tokens.c_str());
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
 					error_string = sformatf( "\t%s\t%s\n", "next_char:   ", next_char);
 					error_msg(error_string, PHRQ_io::OT_CONTINUE);
@@ -855,11 +855,11 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					free_check_null(char_string);
 					continue;
 				}
-				temp_isotope.Set_isotope_name(token);
+				temp_isotope.Set_isotope_name(tokens);
 
 				/* read and save element name */
 				{
-					char *temp_iso_name = string_duplicate(token.c_str());
+					char *temp_iso_name = string_duplicate(tokens.c_str());
 					const char* cptr1 = temp_iso_name;
 					get_num(&cptr1, &dummy);
 					temp_isotope.Set_isotope_number(dummy);
@@ -876,7 +876,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					temp_iso_name = (char*)free_check_null(temp_iso_name);
 				}
 				/* read and store isotope ratio */
-				if (copy_token(token, &next_char) != CParser::TT_DIGIT)
+				if (copy_token(tokens, &next_char) != CParser::TT_DIGIT)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -885,13 +885,13 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 					free_check_null(char_string);
 					continue;
 				}
-				(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
+				(void)sscanf(tokens.c_str(), SCANFORMAT, &dummy);
 				temp_isotope.Set_ratio(dummy);
 				temp_isotope.Set_ratio_uncertainty(NAN);
 
 				/* read and store isotope ratio uncertainty */
 				int j;
-				if ((j = copy_token(token, &next_char)) != CParser::TT_EMPTY)
+				if ((j = copy_token(tokens, &next_char)) != CParser::TT_EMPTY)
 				{
 					if (j != DIGIT)
 					{
@@ -902,7 +902,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 						free_check_null(char_string);
 						continue;
 					}
-					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
+					(void)sscanf(tokens.c_str(), SCANFORMAT, &dummy);
 					temp_isotope.Set_ratio_uncertainty(dummy);
 				}
 				temp_solution.Get_isotopes()[temp_isotope.Get_isotope_name()] = temp_isotope;
@@ -910,7 +910,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 			break;
 		case 10:				/* water */
 			{
-				int j = copy_token(token, &next_char);
+				int j = copy_token(tokens, &next_char);
 				if (j == EMPTY)
 				{
 					temp_solution.Set_mass_water(1.0);
@@ -924,7 +924,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 				}
 				else
 				{
-					(void)sscanf(token.c_str(), SCANFORMAT, &dummy);
+					(void)sscanf(tokens.c_str(), SCANFORMAT, &dummy);
 					temp_solution.Set_mass_water(dummy);
 				}
 			}
@@ -959,7 +959,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
  */
 			{
 				next_char = char_string;
-				if (copy_token(token, &next_char) == LOWER)
+				if (copy_token(tokens, &next_char) == LOWER)
 				{
 					free_check_null(char_string);
 					continue;
@@ -991,8 +991,8 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 	std::map < std::string, cxxISolutionComp >::iterator it;
 	for (it = initial_data_ptr->Get_comps().begin(); it != initial_data_ptr->Get_comps().end(); it++)
 	{
-		token = it->first;
-		Utilities::str_tolower(token);
+		tokens = it->first;
+		Utilities::str_tolower(tokens);
 		if (it->second.Get_units().size() == 0)
 		{
 			it->second.Set_units(initial_data_ptr->Get_units().c_str());
@@ -1000,7 +1000,7 @@ spread_row_to_solution(class spread_row *heading, class spread_row *units,
 		else
 		{
 			bool alk = false;
-			if (token.find("alk") == 0)
+			if (tokens.find("alk") == 0)
 				alk = true;
 			std::string token1 = it->second.Get_units();
 			if (check_units(token1, alk, true, initial_data_ptr->Get_units().c_str(), true) ==	CParser::PARSER_ERROR)
@@ -1033,7 +1033,7 @@ string_to_spread_row(char *string)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
-	std::string token;
+	std::string tokens;
 	const char* cptr;
 /*
  *   Allocate space
@@ -1054,12 +1054,12 @@ string_to_spread_row(char *string)
  */
 	for (;;)
 	{
-		j = copy_token_tab(token, &cptr);
+		j = copy_token_tab(tokens, &cptr);
 		if (j == EOL)
 			break;
-		spread_row_ptr->char_vector.push_back(string_duplicate(token.c_str()));
+		spread_row_ptr->char_vector.push_back(string_duplicate(tokens.c_str()));
 		spread_row_ptr->d_vector.push_back(NAN);
-		if (j == EMPTY || token.size() == 0)
+		if (j == EMPTY || tokens.size() == 0)
 		{
 			spread_row_ptr->empty++;
 			spread_row_ptr->type_vector.push_back(EMPTY);
@@ -1072,14 +1072,14 @@ string_to_spread_row(char *string)
 		else if (j == DIGIT)
 		{
 			spread_row_ptr->number++;
-			spread_row_ptr->d_vector.push_back(strtod(token.c_str(), NULL));
+			spread_row_ptr->d_vector.push_back(strtod(tokens.c_str(), NULL));
 			spread_row_ptr->type_vector.push_back(NUMBER);
 		}
 		else
 		{
 			input_error++;
 			error_msg("Unknown input in string_to_spread_row keyword.", CONTINUE);
-			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, token.c_str());
+			error_string = sformatf("\tcopy_token j: %d, token: %s\n", j, tokens.c_str());
 			error_msg(error_string, CONTINUE);
 			error_msg(line_save, CONTINUE);
 		}
@@ -1112,7 +1112,7 @@ spread_row_free(class spread_row *spread_row_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token_tab(std::string& token, const char **cptr)
+copy_token_tab(std::string& tokens, const char **cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1136,7 +1136,7 @@ copy_token_tab(std::string& token, const char **cptr)
 /*
  *   Strip leading spaces
  */
-	token.clear();
+	tokens.clear();
 	while ((c = **cptr) == ' ')
 		(*cptr)++;
 /*
@@ -1185,7 +1185,7 @@ copy_token_tab(std::string& token, const char **cptr)
 		}
 		else
 		{
-			token.push_back(c);
+			tokens.push_back(c);
 			(*cptr)++;
 			i++;
 		}

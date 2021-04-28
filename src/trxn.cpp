@@ -11,25 +11,25 @@ phase_rxn_to_trxn(class phase* phase_ptr, CReaction& rxn_ref)
 	int l;
 	const char* cptr;
 	double l_z;
-	this->token.resize(rxn_ref.size());
-	this->token[0].Set_name(phase_ptr->formula);
+	this->tokens.resize(rxn_ref.Size());
+	this->tokens[0].Set_name(phase_ptr->formula);
 	/* charge */
 	cptr = phase_ptr->formula.c_str();
 	{
-		std::string token;
-		phrq_ptr->get_token(&cptr, token, &l_z, &l);
+		std::string tokens;
+		phrq_ptr->get_token(&cptr, tokens, &l_z, &l);
 	}
-	this->token[0].z = l_z;
-	this->token[0].Set_s(NULL);
+	this->tokens[0].z = l_z;
+	this->tokens[0].Set_s(NULL);
 	/*this->token[0].coef = -1.0; */
 	/* check for leading coefficient of 1.0 for phase did not work */
-	this->token[0].coef = phase_ptr->rxn.token[0].coef;
-	for (size_t i = 1; !rxn_ref.token[i].Get_end(); i++)
+	this->tokens[0].coef = phase_ptr->rxn.Get_tokens()[0].coef;
+	for (size_t i = 1; !rxn_ref.Get_tokens()[i].Get_end(); i++)
 	{
-		this->token[i].Set_name(rxn_ref.token[i].Get_s()->name);
-		this->token[i].z = rxn_ref.token[i].Get_s()->z;
-		this->token[i].Set_s(NULL);
-		this->token[i].coef = rxn_ref.token[i].coef;
+		this->tokens[i].Set_name(rxn_ref.Get_tokens()[i].Get_s()->name);
+		this->tokens[i].z = rxn_ref.Get_tokens()[i].Get_s()->z;
+		this->tokens[i].Set_s(NULL);
+		this->tokens[i].coef = rxn_ref.Get_tokens()[i].coef;
 		count_trxn = i + 1;
 	}
 	return (OK);
@@ -61,7 +61,7 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	{
 		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			this->logk[i] = r_ref.Logk_cr.logk_x[i];
+			this->logk[i] = r_ref.Get_logk_x()[i];
 		}
 		for (int i = 0; i < 3; i++)	this->dz[i] = r_ref.Get_dz()[i];
 	}
@@ -69,21 +69,21 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	{
 		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			this->logk[i] += coef * r_ref.Logk_cr.logk_x[i];
+			this->logk[i] += coef * r_ref.Get_logk_x()[i];
 		}
 		for (int i = 0; i < 3; i++) this->dz[i] += coef * r_ref.Get_dz()[i];
 	}
 	/*
 	 *   Copy  equation into work space
 	 */
-	class rxn_token* next_token = &r_ref.token[0];
+	class rxn_token* next_token = &r_ref.Get_tokens()[0];
 	while (!next_token->Get_end())
 	{
-		if (count_trxn + 1 > this->token.size())
-			this->token.resize(count_trxn + 1);
-		this->token[count_trxn].Set_name(next_token->Get_s()->name);
-		this->token[count_trxn].Set_s(next_token->Get_s());
-		this->token[count_trxn].coef = coef * next_token->coef;
+		if (count_trxn + 1 > this->tokens.size())
+			this->tokens.resize(count_trxn + 1);
+		this->tokens[count_trxn].Set_name(next_token->Get_s()->name);
+		this->tokens[count_trxn].Set_s(next_token->Get_s());
+		this->tokens[count_trxn].coef = coef * next_token->coef;
 		count_trxn++;
 		next_token++;
 	}
@@ -119,35 +119,35 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	{
 		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			this->logk[i] = r_ref.Logk_cr.logk_x[i];
+			this->logk[i] = r_ref.Get_logk_x()[i];
 		}
 	}
 	else
 	{
 		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 		{
-			this->logk[i] += coef * r_ref.Logk_cr.logk_x[i];
+			this->logk[i] += coef * r_ref.Get_logk_x()[i];
 		}
 	}
 	/*
 	 *   Copy  equation into work space
 	 */
-	next_token = &r_ref.token[0];
+	next_token = &r_ref.Get_tokens()[0];
 	while (!next_token->Get_end() || next_token->Get_name().size() != 0)
 	{
-		if (count_trxn + 1 > this->token.size())
-			this->token.resize(count_trxn + 1);
+		if (count_trxn + 1 > this->tokens.size())
+			this->tokens.resize(count_trxn + 1);
 		if (!next_token->Get_end())
 		{
-			this->token[count_trxn].Set_name(next_token->Get_s()->name);
-			this->token[count_trxn].Set_s(next_token->Get_s());
+			this->tokens[count_trxn].Set_name(next_token->Get_s()->name);
+			this->tokens[count_trxn].Set_s(next_token->Get_s());
 		}
 		else
 		{
-			this->token[count_trxn].Set_name(next_token->Get_name());
-			this->token[count_trxn].Set_s(NULL);
+			this->tokens[count_trxn].Set_name(next_token->Get_name());
+			this->tokens[count_trxn].Set_s(NULL);
 		}
-		this->token[count_trxn].coef = coef * next_token->coef;
+		this->tokens[count_trxn].coef = coef * next_token->coef;
 		count_trxn++;
 		next_token++;
 	}
@@ -176,13 +176,13 @@ trxn_combine(void)
 	j = 1;
 	for (k = 2; k < count_trxn; k++)
 	{
-		if (this->token[k].Get_s() != NULL)
+		if (this->tokens[k].Get_s() != NULL)
 		{
-			if ((j > 0) && (this->token[k].Get_s() == this->token[j].Get_s()))
+			if ((j > 0) && (this->tokens[k].Get_s() == this->tokens[j].Get_s()))
 			{
-				this->token[j].coef += this->token[k].coef;
+				this->tokens[j].coef += this->tokens[k].coef;
 				//if (equal(this->token[j].coef, 0.0, 1e-5))
-				if (fabs(this->token[j].coef) <= 1e-5)
+				if (fabs(this->tokens[j].coef) <= 1e-5)
 					j--;
 			}
 			else
@@ -190,20 +190,20 @@ trxn_combine(void)
 				j++;
 				if (k != j)
 				{
-					this->token[j].Set_name(this->token[k].Get_name());
-					this->token[j].Set_s(this->token[k].Get_s());
-					this->token[j].coef = this->token[k].coef;
+					this->tokens[j].Set_name(this->tokens[k].Get_name());
+					this->tokens[j].Set_s(this->tokens[k].Get_s());
+					this->tokens[j].coef = this->tokens[k].coef;
 				}
 			}
 		}
 		else
 		{
-			if ((j > 0) && (this->token[k].Get_s() == this->token[j].Get_s())
-				&& (this->token[k].Get_name() == this->token[j].Get_name()))
+			if ((j > 0) && (this->tokens[k].Get_s() == this->tokens[j].Get_s())
+				&& (this->tokens[k].Get_name() == this->tokens[j].Get_name()))
 			{
-				this->token[j].coef += this->token[k].coef;
+				this->tokens[j].coef += this->tokens[k].coef;
 				//if (equal(this->token[j].coef, 0.0, 1e-5))
-				if (fabs(this->token[j].coef) <= 1e-5)
+				if (fabs(this->tokens[j].coef) <= 1e-5)
 					j--;
 			}
 			else
@@ -211,9 +211,9 @@ trxn_combine(void)
 				j++;
 				if (k != j)
 				{
-					this->token[j].Set_name(this->token[k].Get_name());
-					this->token[j].Set_s(this->token[k].Get_s());
-					this->token[j].coef = this->token[k].coef;
+					this->tokens[j].Set_name(this->tokens[k].Get_name());
+					this->tokens[j].Set_s(this->tokens[k].Get_s());
+					this->tokens[j].coef = this->tokens[k].coef;
 				}
 			}
 		}
@@ -250,14 +250,14 @@ trxn_copy(CReaction& rxn_ref)
 	 */
 	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
-			rxn_ref.Logk_cr.logk_x[i] = this->logk[i];
+			rxn_ref.Get_logk_x()[i] = this->logk[i];
 	}
 	/*
 	 *   Copy dz data
 	 */
 	for (i = 0; i < 3; i++)
 	{
-		rxn_ref.dz[i] = this->dz[i];
+		rxn_ref.Get_dz()[i] = this->dz[i];
 	}
 	/*
 	 *   Copy tokens
@@ -265,13 +265,13 @@ trxn_copy(CReaction& rxn_ref)
 	rxn_ref.Get_tokens().resize(count_trxn + 1);
 	for (size_t i = 0; i < count_trxn; i++)
 	{
-		rxn_ref.Get_tokens()[i].Set_s(this->token[i].Get_s());
-		rxn_ref.Get_tokens()[i].Set_name(this->token[i].Get_name());
-		rxn_ref.Get_tokens()[i].coef = this->token[i].coef;
+		rxn_ref.Get_tokens()[i].Set_s(this->tokens[i].Get_s());
+		rxn_ref.Get_tokens()[i].Set_name(this->tokens[i].Get_name());
+		rxn_ref.Get_tokens()[i].coef = this->tokens[i].coef;
 	}
-	rxn_ref.token[count_trxn].Set_s(NULL);
-	rxn_ref.token[count_trxn].Set_name("");
-	rxn_ref.token[count_trxn].Set_end(true);
+	rxn_ref.Get_tokens()[count_trxn].Set_s(NULL);
+	rxn_ref.Get_tokens()[count_trxn].Set_name("");
+	rxn_ref.Get_tokens()[count_trxn].Set_end(true);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -297,10 +297,10 @@ trxn_copy(CReaction& rxn_ref, std::vector<double>& target_logk)
 	/*
 	 *   Copy dz data
 	 */
-	rxn_ref.dz.resize(3);
+	rxn_ref.Get_dz().resize(3);
 	for (i = 0; i < 3; i++)
 	{
-		rxn_ref.dz[i] = this->dz[i];
+		rxn_ref.Get_dz()[i] = this->dz[i];
 	}
 	/*
 	 *   Copy tokens
@@ -308,13 +308,13 @@ trxn_copy(CReaction& rxn_ref, std::vector<double>& target_logk)
 	rxn_ref.Get_tokens().resize(count_trxn + 1);
 	for (size_t i = 0; i < count_trxn; i++)
 	{
-		rxn_ref.Get_tokens()[i].Set_s(this->token[i].Get_s());
-		rxn_ref.Get_tokens()[i].Set_name(this->token[i].Get_name());
-		rxn_ref.Get_tokens()[i].coef = this->token[i].coef;
+		rxn_ref.Get_tokens()[i].Set_s(this->tokens[i].Get_s());
+		rxn_ref.Get_tokens()[i].Set_name(this->tokens[i].Get_name());
+		rxn_ref.Get_tokens()[i].coef = this->tokens[i].coef;
 	}
-	rxn_ref.token[count_trxn].Set_s(NULL);
-	rxn_ref.token[count_trxn].Set_name("");
-	rxn_ref.token[count_trxn].Set_end(true);
+	rxn_ref.Get_tokens()[count_trxn].Set_s(NULL);
+	rxn_ref.Get_tokens()[count_trxn].Set_name("");
+	rxn_ref.Get_tokens()[count_trxn].Set_end(true);
 	return (OK);
 }
 /* ---------------------------------------------------------------------- */
@@ -335,9 +335,9 @@ trxn_find_coef(const char* str, int start)
 	coef = 0.0;
 	for (i = start; i < count_trxn; i++)
 	{
-		if (strcmp(this->token[i].Get_s()->name.c_str(), str) == 0)
+		if (strcmp(this->tokens[i].Get_s()->name.c_str(), str) == 0)
 		{
-			coef = this->token[i].coef;
+			coef = this->tokens[i].coef;
 			break;
 		}
 	}
@@ -376,7 +376,7 @@ trxn_multiply(double coef)
 	 */
 	for (i = 0; i < count_trxn; i++)
 	{
-		this->token[i].coef *= coef;
+		this->tokens[i].coef *= coef;
 	}
 	return (OK);
 }
@@ -419,7 +419,7 @@ trxn_print(void)
 	//output_msg(sformatf("\tReaction stoichiometry\n"));
 	for (i = 0; i < count_trxn; i++)
 	{
-		oss << "\t\t" << this->token[i].Get_name() << "\t" << this->token[i].coef << "\n";
+		oss << "\t\t" << this->tokens[i].Get_name() << "\t" << this->tokens[i].coef << "\n";
 		//output_msg(sformatf("\t\t%-20s\t%10.2f\n", this->token[i].Get_name().c_str(),
 		//	(double)this->token[i].coef));
 	}
@@ -462,14 +462,14 @@ trxn_sort(void)
 	 */
 	if (count_trxn - 1 > 1)
 	{
-		std::sort(this->token.begin() + 1, this->token.begin() + count_trxn);
+		std::sort(this->tokens.begin() + 1, this->tokens.begin() + count_trxn);
 	}
 	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
 int reaction_temp::
-trxn_swap(const char* token)
+trxn_swap(const char* tokens)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -486,17 +486,17 @@ trxn_swap(const char* token)
 	 */
 	for (j = 0; j < count_trxn; j++)
 	{
-		if (strcmp(this->token[j].Get_s()->name.c_str(), token) == 0)
+		if (strcmp(this->tokens[j].Get_s()->name.c_str(), tokens) == 0)
 			break;
 	}
 	if (j >= count_trxn)
 	{
 		std::ostringstream oss;
-		oss << "Could not find token in equation " << token << "." << std::endl;
+		oss << "Could not find token in equation " << tokens << "." << std::endl;
 
 		for (i = 0; i < count_trxn; i++)
 		{
-			oss << this->token[i].coef << "\t" << this->token[i].Get_name() << "\n";
+			oss << this->tokens[i].coef << "\t" << this->tokens[i].Get_name() << "\n";
 		}
 		phrq_ptr->error_msg(oss.str().c_str(), CONTINUE);
 		return (ERROR);
@@ -504,21 +504,21 @@ trxn_swap(const char* token)
 	/*
 	 *   Swap token to first position
 	 */
-	this->token[count_trxn].Set_name(this->token[0].Get_name());
-	this->token[count_trxn].Set_s(this->token[0].Get_s());
-	this->token[count_trxn].coef = this->token[0].coef;
+	this->tokens[count_trxn].Set_name(this->tokens[0].Get_name());
+	this->tokens[count_trxn].Set_s(this->tokens[0].Get_s());
+	this->tokens[count_trxn].coef = this->tokens[0].coef;
 
-	this->token[0].Set_name(this->token[j].Get_name());
-	this->token[0].Set_s(this->token[j].Get_s());
-	this->token[0].coef = this->token[j].coef;
+	this->tokens[0].Set_name(this->tokens[j].Get_name());
+	this->tokens[0].Set_s(this->tokens[j].Get_s());
+	this->tokens[0].coef = this->tokens[j].coef;
 
-	this->token[j].Set_name(this->token[count_trxn].Get_name());
-	this->token[j].Set_s(this->token[count_trxn].Get_s());
-	this->token[j].coef = this->token[count_trxn].coef;
+	this->tokens[j].Set_name(this->tokens[count_trxn].Get_name());
+	this->tokens[j].Set_s(this->tokens[count_trxn].Get_s());
+	this->tokens[j].coef = this->tokens[count_trxn].coef;
 	/*
 	 *   Make coefficient of token -1.0
 	 */
-	coef = -1.0 / this->token[0].coef;
+	coef = -1.0 / this->tokens[0].coef;
 	trxn_multiply(coef);
 	return (OK);
 }
@@ -586,20 +586,20 @@ species_rxn_to_trxn(class species* s_ptr)
 	 *   Copy reaction from reaction structure to
 	 *   temp reaction structure.
 	 */
-	if (this->token.size() <= s_ptr->rxn.token.size())
+	if (this->tokens.size() <= s_ptr->rxn.Get_tokens().size())
 	{
-		this->token.resize(s_ptr->rxn.token.size());
+		this->tokens.resize(s_ptr->rxn.Get_tokens().size());
 	}
 	count_trxn = 0;;
-	for (size_t i = 0; !s_ptr->rxn.token[i].Get_end(); i++)
+	for (size_t i = 0; !s_ptr->rxn.Get_tokens()[i].Get_end(); i++)
 	{
-		this->token[i].Set_name(s_ptr->rxn.token[i].Get_s()->name);
-		this->token[i].z = s_ptr->rxn.token[i].Get_s()->z;
-		this->token[i].Set_s(s_ptr->rxn.token[i].Get_s());
-		this->token[i].coef = s_ptr->rxn.token[i].coef;
+		this->tokens[i].Set_name(s_ptr->rxn.Get_tokens()[i].Get_s()->name);
+		this->tokens[i].z = s_ptr->rxn.Get_tokens()[i].Get_s()->z;
+		this->tokens[i].Set_s(s_ptr->rxn.Get_tokens()[i].Get_s());
+		this->tokens[i].coef = s_ptr->rxn.Get_tokens()[i].coef;
 		count_trxn = i + 1;
-		if (count_trxn + 1 > this->token.size())
-			this->token.resize(count_trxn + 1);
+		if (count_trxn + 1 > this->tokens.size())
+			this->tokens.resize(count_trxn + 1);
 	}
 	return (OK);
 }

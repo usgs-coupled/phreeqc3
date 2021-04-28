@@ -142,8 +142,8 @@ double phase::
 Calc_rxn_lk(double tk_x, double ppas_x)
 {
 	if (this->replaced)
-		return this->rxn_s.Calc_lk(tk_x, ppas_x);
-	return this->rxn.Calc_lk(tk_x, ppas_x);
+		return this->rxn_s.Calc_dv_lk_x(tk_x, ppas_x);
+	return this->rxn.Calc_dv_lk_x(tk_x, ppas_x);
 }
 double phase::
 Calc_rxn_si(double tk_x, double ppas_x/*, Phreeqc* phrq_ptr*/)
@@ -174,7 +174,7 @@ Calc_rxn_x_iap()
 double phase::
 Calc_rxn_x_lk(double tk_x, double ppas_x)
 {
-	return this->rxn_x.Calc_lk(tk_x, ppas_x);
+	return this->rxn_x.Calc_dv_lk_x(tk_x, ppas_x);
 }
 double phase::
 Calc_rxn_x_si(double tk_x, double ppas_x)

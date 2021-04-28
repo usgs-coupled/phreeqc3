@@ -75,7 +75,7 @@ build_fixed_volume_gas(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		if (phase_ptr->rxn_x.token.size() == 0)
+		if (phase_ptr->rxn_x.Get_tokens().size() == 0)
 			continue;
 		add_elt_list(phase_ptr->next_elt, 1.0);
 #define COMBINE
@@ -174,7 +174,7 @@ build_fixed_volume_gas(void)
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
+			for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1;
 				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 
@@ -246,7 +246,7 @@ build_fixed_volume_gas(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() != s_eminus && rxn_ptr->Get_s()->in == FALSE)
 			{
@@ -609,7 +609,6 @@ calc_fixed_volume_gas_pressures(void)
 {
 	int n_g = 0;
 	LDBLE lp;
-	class rxn_token *rxn_ptr;
 	class phase *phase_ptr;
 	bool PR = false, pr_done = false;
 	size_t i;
@@ -647,13 +646,7 @@ calc_fixed_volume_gas_pressures(void)
 		phase_ptr = gas_unknowns[i]->phase;
 		if (phase_ptr->in == TRUE)
 		{
-			lp = -phase_ptr->lk;
-			//lp = -k_calc(phase_ptr->rxn_x.logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
-				 rxn_ptr++)
-			{
-				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-			}
+			lp = phase_ptr->rxn_x.Calc_si_iap_only();
 			phase_ptr->p_soln_x = exp(LOG_10 * (lp - phase_ptr->pr_si_f));
 
 			if (pr_done)

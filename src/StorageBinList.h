@@ -15,7 +15,7 @@ public:
 	~StorageBinListItem(void);
 	void Set_defined(bool tf) { this->defined = tf; };
 	bool Get_defined(void)const { return(this->defined); };
-	void Augment(std::string token);
+	void Augment(std::string tokens);
 	void Augment(int i);
 	std::set < int > &Get_numbers(void) { return(this->numbers); };
 	const std::set < int > &Get_numbers(void)const { return(this->numbers); };

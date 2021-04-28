@@ -16,7 +16,7 @@ calc_alk(CReaction& rxn_ref)
 	class master* master_ptr;
 
 	return_value = 0.0;
-	class rxn_token* r_token = &rxn_ref.token[1];
+	class rxn_token* r_token = &rxn_ref.Get_tokens()[1];
 	while (!r_token->Get_end())
 	{
 		master_ptr = r_token->Get_s()->secondary;
@@ -28,7 +28,7 @@ calc_alk(CReaction& rxn_ref)
 		{
 			error_string = sformatf(
 				"Non-master species in secondary reaction, %s.",
-				rxn_ref.token[0].Get_s()->name.c_str());
+				rxn_ref.Get_tokens()[0].Get_s()->name.c_str());
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
@@ -51,16 +51,16 @@ calc_delta_v(CReaction& r_ref, bool phase)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->rxn.Logk_cr.logk_original[Logk::vm_tc];
+			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->rxn.Get_logk_original()[Logk::vm_tc];
 		}
 	}
 	else
 	{
-		for (size_t i = 0; r_ref.token[i].Get_name().size() > 0; i++)
+		for (size_t i = 0; r_ref.Get_tokens()[i].Get_name().size() > 0; i++)
 		{
 			if (!r_ref.Get_tokens()[i].Get_s())
 				continue;
-			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->rxn.Logk_cr.logk_original[Logk::vm_tc];
+			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].Get_s()->rxn.Get_logk_original()[Logk::vm_tc];
 		}
 	}
 	return d_v;
@@ -221,13 +221,13 @@ compute_gfw(const char *string, LDBLE * gfw)
 	}
 
 	int i;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	const char* cptr;
 
 	count_elts = 0;
 	paren_count = 0;
-	strcpy(token, string);
-	cptr = token;
+	strcpy(tokens, string);
+	cptr = tokens;
 	if (get_elts_in_species(&cptr, 1.0) == ERROR)
 	{
 		return (ERROR);
@@ -317,7 +317,7 @@ copy_token(char *token_ptr, const char **cptr, int *length)
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(std::string &token, const char **cptr)
+copy_token(std::string &tokens, const char **cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -342,7 +342,7 @@ copy_token(std::string &token, const char **cptr)
 /*
  *   Read to end of whitespace
  */
-	token.clear();
+	tokens.clear();
 	while (isspace((int) (c = **cptr)))
 		(*cptr)++;
 /*
@@ -378,7 +378,7 @@ copy_token(std::string &token, const char **cptr)
 		   c != ';' && c != '\0')
 	{
 		c_char[0] = c;
-		token.append(c_char);
+		tokens.append(c_char);
 		(*cptr)++;
 	}
 	return (return_value);
@@ -635,7 +635,7 @@ malloc_error(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-parse_couple(char *token)
+parse_couple(char *tokens)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -648,18 +648,18 @@ parse_couple(char *token)
 	std::string elt1, elt2;
 	char paren1[MAX_LENGTH], paren2[MAX_LENGTH];
 
-	if (strcmp_nocase_arg1(token, "pe") == 0)
+	if (strcmp_nocase_arg1(tokens, "pe") == 0)
 	{
-		str_tolower(token);
+		str_tolower(tokens);
 		return (OK);
 	}
-	while (replace("+", "", token) == TRUE);
-	cptr = token;
+	while (replace("+", "", tokens) == TRUE);
+	cptr = tokens;
 	get_elt(&cptr, elt1, &e1);
 	if (*cptr != '(')
 	{
 		error_string = sformatf( "Element name must be followed by "
-				"parentheses in redox couple, %s.", token);
+				"parentheses in redox couple, %s.", tokens);
 		error_msg(error_string, CONTINUE);
 		parse_error++;
 		return (ERROR);
@@ -674,7 +674,7 @@ parse_couple(char *token)
 		{
 			error_string = sformatf(
 					"End of line or  " "/"
-					" encountered before end of parentheses, %s.", token);
+					" encountered before end of parentheses, %s.", tokens);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -691,7 +691,7 @@ parse_couple(char *token)
 	if (*cptr != '/')
 	{
 		error_string = sformatf( " " "/" " must follow parentheses "
-				"ending first half of redox couple, %s.", token);
+				"ending first half of redox couple, %s.", tokens);
 		error_msg(error_string, CONTINUE);
 		parse_error++;
 		return (ERROR);
@@ -701,14 +701,14 @@ parse_couple(char *token)
 	if (elt1 != elt2)
 	{
 		error_string = sformatf( "Redox couple must be two redox states "
-				"of the same element, %s.", token);
+				"of the same element, %s.", tokens);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
 	if (*cptr != '(')
 	{
 		error_string = sformatf( "Element name must be followed by "
-				"parentheses in redox couple, %s.", token);
+				"parentheses in redox couple, %s.", tokens);
 		error_msg(error_string, CONTINUE);
 		parse_error++;
 		return (ERROR);
@@ -722,7 +722,7 @@ parse_couple(char *token)
 		if (*cptr == '/' || *cptr == '\0')
 		{
 			error_string = sformatf( "End of line or " "/" " encountered"
-					" before end of parentheses, %s.", token);
+					" before end of parentheses, %s.", tokens);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -738,24 +738,24 @@ parse_couple(char *token)
 	paren2[p2] = '\0';
 	if (strcmp(paren1, paren2) < 0)
 	{
-		strcpy(token, elt1.c_str());
-		strcat(token, paren1);
-		strcat(token, "/");
-		strcat(token, elt2.c_str());
-		strcat(token, paren2);
+		strcpy(tokens, elt1.c_str());
+		strcat(tokens, paren1);
+		strcat(tokens, "/");
+		strcat(tokens, elt2.c_str());
+		strcat(tokens, paren2);
 	}
 	else if (strcmp(paren1, paren2) > 0)
 	{
-		strcpy(token, elt2.c_str());
-		strcat(token, paren2);
-		strcat(token, "/");
-		strcat(token, elt1.c_str());
-		strcat(token, paren1);
+		strcpy(tokens, elt2.c_str());
+		strcat(tokens, paren2);
+		strcat(tokens, "/");
+		strcat(tokens, elt1.c_str());
+		strcat(tokens, paren1);
 	}
 	else
 	{
 		error_string = sformatf( "Both parts of redox couple are the same, %s.",
-				token);
+				tokens);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -768,19 +768,19 @@ print_centered(const char *string)
 /* ---------------------------------------------------------------------- */
 {
 	int i, l, l1, l2;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	l = (int) strlen(string);
 	l1 = (79 - l) / 2;
 	l2 = 79 - l - l1;
 	for (i = 0; i < l1; i++)
-		token[i] = '-';
-	token[i] = '\0';
-	strcat(token, string);
+		tokens[i] = '-';
+	tokens[i] = '\0';
+	strcat(tokens, string);
 	for (i = 0; i < l2; i++)
-		token[i + l1 + l] = '-';
-	token[79] = '\0';
-	output_msg(sformatf("%s\n\n", token));
+		tokens[i + l1 + l] = '-';
+	tokens[79] = '\0';
+	output_msg(sformatf("%s\n\n", tokens));
 	return (OK);
 }
 bool Phreeqc::
@@ -1024,16 +1024,16 @@ char * Phreeqc::
 #if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 _string_duplicate(const char *token, const char *szFileName, int nLine)
 #else
-string_duplicate(const char *token)
+string_duplicate(const char *tokens)
 #endif
 /* ---------------------------------------------------------------------- */
 {
 	int l;
 	char *str;
 
-	if (token == NULL)
+	if (tokens == NULL)
 		return NULL;
-	l = (int) strlen(token);
+	l = (int) strlen(tokens);
 #if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 	str = (char *) _malloc_dbg((size_t) (l + 1) * sizeof(char), _NORMAL_BLOCK, szFileName, nLine);
 #else
@@ -1042,7 +1042,7 @@ string_duplicate(const char *token)
 
 	if (str == NULL)
 		malloc_error();
-	strcpy(str, token);
+	strcpy(str, tokens);
 	return (str);
 }
 

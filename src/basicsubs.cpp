@@ -94,7 +94,7 @@ aqueous_vm(const char *species_name)
 	s_ptr = s_search(species_name);
 	if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
 	{
-		g = s_ptr->rxn.Logk_cr.logk_original[Logk::vm_tc];
+		g = s_ptr->rxn.Get_logk_original()[Logk::vm_tc];
 	}
 	else
 	{
@@ -118,7 +118,7 @@ phase_vm(const char *phase_name)
 	}
 	else
 	{
-		g = phase_ptr->rxn.Logk_cr.Get_logk_original()[Logk::vm0];
+		g = phase_ptr->rxn.Get_logk_original()[Logk::vm0];
 	}
 	return (g);
 }
@@ -527,7 +527,7 @@ calc_dens(void)
 
 		gfw = s_x[i]->gfw;
 		M_T += s_x[i]->moles * gfw;
-		V_solutes += s_x[i]->moles * s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc];
+		V_solutes += s_x[i]->moles * s_x[i]->rxn.Get_logk_original()[Logk::vm_tc];
 	}
 	/* If pure water then return rho_0 */
 	if (M_T == 0)
@@ -605,7 +605,7 @@ calc_logk_n(const std::string& name)
 		Logk_search(name);
 	if (it != Logk_map.end())
 	{
-		Lk = it->second.Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
+		Lk = it->second.Calc_lk_x(tk_x, patm_x * PASCAL_PER_ATM/*, this*/);
 	}
 	return Lk;
 }
@@ -635,7 +635,7 @@ calc_logk_s(const std::string& name)
 	s_ptr = s_search(name);
 	if (s_ptr != NULL)
 	{
-		lk = s_ptr->rxn.Calc_lk(tk_x, patm_x * PASCAL_PER_ATM);
+		lk = s_ptr->rxn.Calc_dv_lk_x(tk_x, patm_x * PASCAL_PER_ATM);
 		return (lk);
 	}
 	return (-999.99);
@@ -645,12 +645,12 @@ LDBLE Phreeqc::
 dh_a0(const char* name)
 /* ---------------------------------------------------------------------- */
 {
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class species* s_ptr;
 	double a = -999.99;
 
-	strcpy(token, name);
-	s_ptr = s_search(token);
+	strcpy(tokens, name);
+	s_ptr = s_search(tokens);
 	if (s_ptr != NULL)
 	{
 		a = s_ptr->dha;
@@ -662,7 +662,7 @@ LDBLE Phreeqc::
 dh_bdot(const char* name)
 /* ---------------------------------------------------------------------- */
 {
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class species* s_ptr;
 	double b = -999.99;
 	if (llnl_temp.size() > 0)
@@ -671,8 +671,8 @@ dh_bdot(const char* name)
 	}
 	else
 	{
-		strcpy(token, name);
-		s_ptr = s_search(token);
+		strcpy(tokens, name);
+		s_ptr = s_search(tokens);
 		if (s_ptr != NULL)
 		{
 			b = s_ptr->dhb;
@@ -691,8 +691,8 @@ calc_deltah_p(const std::string& name)
 	phase_ptr = phase_bsearch(name, &j, FALSE);
 	if (phase_ptr != NULL)
 	{
-		lkm = phase_ptr->rxn.Logk_cr.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
-		lkp = phase_ptr->rxn.Logk_cr.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		lkm = phase_ptr->rxn.Calc_lk_x(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = phase_ptr->rxn.Calc_lk_x(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 	}
 	return (dh);
@@ -742,8 +742,8 @@ calc_deltah_s(const std::string& name)
 	s_ptr = s_search(name);
 	if (s_ptr != NULL)
 	{
-		lkm = s_ptr->rxn.Logk_cr.Calc_Logk(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
-		lkp = s_ptr->rxn.Logk_cr.Calc_Logk(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
+		lkm = s_ptr->rxn.Calc_lk_x(tk_x - 1.0, patm_x * PASCAL_PER_ATM);
+		lkp = s_ptr->rxn.Calc_lk_x(tk_x + 1.0, patm_x * PASCAL_PER_ATM);
 		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x, 2.0);
 		return (dh);
 	}
@@ -754,7 +754,7 @@ LDBLE Phreeqc::
 calc_surface_charge(const char *surface_name)
 /* ---------------------------------------------------------------------- */
 {
-	char token[MAX_LENGTH], token1[MAX_LENGTH];
+	char tokens[MAX_LENGTH], token1[MAX_LENGTH];
 	const char* cptr;
 	int i, j, k;
 	LDBLE charge;
@@ -775,13 +775,13 @@ calc_surface_charge(const char *surface_name)
 		trxn.trxn_add(s_x[k]->rxn_s, 1.0, false);	/* rxn_s is set in tidy_model */
 		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
-			token_ptr = &(trxn.token[i]);
+			token_ptr = &(trxn.tokens[i]);
 			if (token_ptr->Get_s()->type != SURF)
 				continue;
-			master_ptr = trxn.token[i].Get_s()->primary;
-			strcpy(token, master_ptr->elt->name.c_str());
-			replace("_", " ", token);
-			cptr = token;
+			master_ptr = trxn.tokens[i].Get_s()->primary;
+			strcpy(tokens, master_ptr->elt->name.c_str());
+			replace("_", " ", tokens);
+			cptr = tokens;
 			copy_token(token1, &cptr, &j);
 			if (strcmp(surface_name, token1) == 0)
 			{
@@ -800,7 +800,7 @@ diff_layer_total(const char *total_name, const char *surface_name)
  *   Provides total moles in DDL layer
  */
 	cxxSurfaceCharge *surface_charge_ptr1;
-	std::string name, token, surface_name_local;
+	std::string name, tokens, surface_name_local;
 	class master *master_ptr;
 
 	LDBLE mass_water_surface;
@@ -847,10 +847,10 @@ diff_layer_total(const char *total_name, const char *surface_name)
 		{
 			if (x[j]->type != SURFACE)
 				continue;
-			token =  x[j]->master[0]->elt->name;
-			Utilities::replace("_", " ", token);
-			std::string::iterator b = token.begin();
-			std::string::iterator e = token.end();
+			tokens =  x[j]->master[0]->elt->name;
+			Utilities::replace("_", " ", tokens);
+			std::string::iterator b = tokens.begin();
+			std::string::iterator e = tokens.end();
 			CParser::copy_token(name, b, e);
 		}
 		if (surface_name != NULL)
@@ -1084,11 +1084,11 @@ LDBLE Phreeqc::
 calc_t_sc(const char *name)
 /* ---------------------------------------------------------------------- */
 {
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class species *s_ptr;
 
-	strcpy(token, name);
-	s_ptr = s_search(token);
+	strcpy(tokens, name);
+	s_ptr = s_search(tokens);
 	if (s_ptr != NULL)
 	{
 		if (!s_ptr->z)
@@ -1892,31 +1892,31 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	char c, c1;
 	const char* cptr, *ptr1;
 	LDBLE d;
-	char token[MAX_LENGTH], equal_list[MAX_LENGTH]; 
+	char tokens[MAX_LENGTH], equal_list[MAX_LENGTH]; 
 	char token1[MAX_LENGTH], template1[MAX_LENGTH], equal_list1[MAX_LENGTH];
 	char str[2];
 
-	strcpy(token, name);
-	squeeze_white(token);
-	replace("(+", "(", token);
+	strcpy(tokens, name);
+	squeeze_white(tokens);
+	replace("(+", "(", tokens);
 	if (strstr("token", "++") != NULL)
 	{
-		replace("++++++", "+6", token);
-		replace("+++++", "+5", token);
-		replace("++++", "+4", token);
-		replace("+++", "+3", token);
-		replace("++", "+2", token);
+		replace("++++++", "+6", tokens);
+		replace("+++++", "+5", tokens);
+		replace("++++", "+4", tokens);
+		replace("+++", "+3", tokens);
+		replace("++", "+2", tokens);
 	}
 	if (strstr("token", "--") != NULL)
 	{
-		replace("------", "-6", token);
-		replace("-----", "-5", token);
-		replace("----", "-4", token);
-		replace("---", "-3", token);
-		replace("--", "-2", token);
+		replace("------", "-6", tokens);
+		replace("-----", "-5", tokens);
+		replace("----", "-4", tokens);
+		replace("---", "-3", tokens);
+		replace("--", "-2", tokens);
 	}
 
-	cptr = token;
+	cptr = tokens;
 	std::vector< std::pair<std::string, LDBLE> > match_vector;
 	while ((c = *cptr) != '\0')
 	{
@@ -2011,14 +2011,14 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	/*
 	 * write out string
 	 */
-	token[0] = '\0';
+	tokens[0] = '\0';
 	for (i = 0; i < count_match_tokens; i++)
 	{
-		strcat(token, match_vector[i].first.c_str());
+		strcat(tokens, match_vector[i].first.c_str());
 		if (match_vector[i].second != 1.0)
 		{
 			sprintf(token1, "%g", (double) match_vector[i].second);
-			strcat(token, token1);
+			strcat(tokens, token1);
 		}
 	}
 	/*
@@ -2079,12 +2079,12 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	{
 	case 0:
 		/* exact match */
-		if (strcmp(token, template1) == 0)
+		if (strcmp(tokens, template1) == 0)
 			match = TRUE;
 		break;
 	case 1:
 		/* leading wild card */
-		if ((cptr = strstr(token, template1)) == NULL)
+		if ((cptr = strstr(tokens, template1)) == NULL)
 		{
 			match = FALSE;
 		}
@@ -2096,12 +2096,12 @@ match_elts_in_species(const char *name, const char *mytemplate)
 		break;
 	case 2:
 		/* trailing wild card */
-		if (strstr(token, template1) == token)
+		if (strstr(tokens, template1) == tokens)
 			match = TRUE;
 		break;
 	case 3:
 		/* trailing wild card */
-		if (strstr(token, template1) != NULL)
+		if (strstr(tokens, template1) != NULL)
 			match = TRUE;
 		break;
 	}
@@ -2166,11 +2166,11 @@ surf_total(const char *total_name, const char *surface_name)
 		if (x[j]->type != SURFACE)
 			continue;
 		
-		std::string token;
-		token = x[j]->master[0]->elt->name;
-		replace("_", " ", token);
-		std::string::iterator b = token.begin();
-		std::string::iterator e = token.end();
+		std::string tokens;
+		tokens = x[j]->master[0]->elt->name;
+		replace("_", " ", tokens);
+		std::string::iterator b = tokens.begin();
+		std::string::iterator e = tokens.end();
 		std::string name;
 		CParser::copy_token(name, b, e);
 		if (name == surface_name)
@@ -2187,7 +2187,7 @@ surf_total(const char *total_name, const char *surface_name)
 		if (s_x[j]->type != SURF)
 			continue;
 
-		std::string token;
+		std::string tokens;
 		bool match = false; 
 
 		// find if surface matches 
@@ -2199,10 +2199,10 @@ surf_total(const char *total_name, const char *surface_name)
 			//replace("_", " ", token);
 			//cptr = token;
 			//copy_token(name, &cptr, &k);
-			token = s_x[j]->next_elt[i].elt->name;
-			replace("_", " ", token);
-			std::string::iterator b = token.begin();
-			std::string::iterator e = token.end();
+			tokens = s_x[j]->next_elt[i].elt->name;
+			replace("_", " ", tokens);
+			std::string::iterator b = tokens.begin();
+			std::string::iterator e = tokens.end();
 			std::string name;
 			CParser::copy_token(name, b, e);
 			if (name == surface_name)
@@ -2217,25 +2217,25 @@ surf_total(const char *total_name, const char *surface_name)
 		class rxn_token *rxn_ptr;
 		if (s_x[j]->mole_balance.size() == 0)
 		{
-			for (rxn_ptr = &s_x[j]->rxn_s.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
+			for (rxn_ptr = &s_x[j]->rxn_s.Get_tokens()[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 				if (redox && rxn_ptr->Get_s()->secondary)
 				{
-					token = rxn_ptr->Get_s()->secondary->elt->name;
+					tokens = rxn_ptr->Get_s()->secondary->elt->name;
 				}
 				else if (!redox && rxn_ptr->Get_s()->secondary)
 				{
-					token = rxn_ptr->Get_s()->secondary->elt->primary->elt->name;
+					tokens = rxn_ptr->Get_s()->secondary->elt->primary->elt->name;
 				}
 				else if (!redox && rxn_ptr->Get_s()->primary)
 				{
-					token = rxn_ptr->Get_s()->primary->elt->name;
+					tokens = rxn_ptr->Get_s()->primary->elt->name;
 				}
 				else
 				{
 					continue;
 				}
-				if (token == total_name)
+				if (tokens == total_name)
 				{
 					t += rxn_ptr->coef * s_x[j]->moles;
 					break;
@@ -2245,11 +2245,11 @@ surf_total(const char *total_name, const char *surface_name)
 				{
 					if (rxn_ptr->Get_s()->type == SURF)
 					{
-						if (token.find("_") != std::string::npos)
+						if (tokens.find("_") != std::string::npos)
 						{
-							token = token.substr(0, token.find("_"));
+							tokens = tokens.substr(0, tokens.find("_"));
 						}
-						if (token == total_name)
+						if (tokens == total_name)
 						{
 							t += rxn_ptr->coef * s_x[j]->moles;
 							break;
@@ -2262,8 +2262,8 @@ surf_total(const char *total_name, const char *surface_name)
 		{
 			for (int i = 0; s_x[j]->next_secondary[i].elt != NULL; i++)
 			{
-				token = s_x[j]->next_secondary[i].elt->name;
-				if (token == total_name)
+				tokens = s_x[j]->next_secondary[i].elt->name;
+				if (tokens == total_name)
 				{
 					t += s_x[j]->next_secondary[i].coef * s_x[j]->moles;
 					break;
@@ -2283,7 +2283,7 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
  *   Provides total moles in LDBLE layer
  */
 	int i, j, k;
-	char name[MAX_LENGTH], token[MAX_LENGTH];
+	char name[MAX_LENGTH], tokens[MAX_LENGTH];
 	char surface_name_local[MAX_LENGTH];
 	const char* cptr;
 
@@ -2297,9 +2297,9 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 	{
 		if (x[j]->type != SURFACE)
 			continue;
-		strcpy(token, x[j]->master[0]->elt->name.c_str());
-		replace("_", " ", token);
-		cptr = token;
+		strcpy(tokens, x[j]->master[0]->elt->name.c_str());
+		replace("_", " ", tokens);
+		cptr = tokens;
 		copy_token(name, &cptr, &k);
 		if (surface_name != NULL)
 		{
@@ -2327,9 +2327,9 @@ surf_total_no_redox(const char *total_name, const char *surface_name)
 		{
 			if (s_x[j]->next_elt[i].elt->master->type != SURF) continue;
 
-			strcpy(token, s_x[j]->next_elt[i].elt->name.c_str());
-			replace("_", " ", token);
-			cptr = token;
+			strcpy(tokens, s_x[j]->next_elt[i].elt->name.c_str());
+			replace("_", " ", tokens);
+			cptr = tokens;
 			copy_token(name, &cptr, &k);
 			if (strcmp(name, surface_name_local) == 0)
 			{
@@ -3821,9 +3821,9 @@ LDBLE Phreeqc::
 iso_value(const char *total_name)
 {
 	int j;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	char my_total_name[MAX_LENGTH];
-	strcpy(token, "");
+	strcpy(tokens, "");
 	strcpy(my_total_name, total_name);
 	while (replace(" ","_",my_total_name));
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
@@ -3837,14 +3837,14 @@ iso_value(const char *total_name)
 	strcpy(my_total_name, total_name);
 	while (replace("[","",my_total_name));
 	while (replace("]","",my_total_name));
-	strcat(token,"R(");
-	strcat(token,my_total_name);
-	strcat(token,")");
+	strcat(tokens,"R(");
+	strcat(tokens,my_total_name);
+	strcat(tokens,")");
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (token!= isotope_ratio[j]->name)
+		if (tokens!= isotope_ratio[j]->name)
 			continue;
 		return (isotope_ratio[j]->converted_ratio);
 	}
@@ -3855,10 +3855,10 @@ char * Phreeqc::
 iso_unit(const char *total_name)
 {
 	int j;
-	char token[MAX_LENGTH], unit[MAX_LENGTH];
+	char tokens[MAX_LENGTH], unit[MAX_LENGTH];
 	class master_isotope *master_isotope_ptr;
 	char my_total_name[MAX_LENGTH];
-	strcpy(token, "");
+	strcpy(tokens, "");
 	strcpy(my_total_name, total_name);
 	while (replace(" ","_",my_total_name));
 	strcpy(unit, "unknown");
@@ -3878,14 +3878,14 @@ iso_unit(const char *total_name)
 	strcpy(my_total_name, total_name);
 	while (replace("[","",my_total_name));
 	while (replace("]","",my_total_name));
-	strcat(token,"R(");
-	strcat(token,my_total_name);
-	strcat(token,")");
+	strcat(tokens,"R(");
+	strcat(tokens,my_total_name);
+	strcat(tokens,")");
 	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
-		if (token != isotope_ratio[j]->name)
+		if (tokens != isotope_ratio[j]->name)
 			continue;
 		master_isotope_ptr = master_isotope_search(isotope_ratio[j]->isotope_name);
 		if (master_isotope_ptr != NULL)

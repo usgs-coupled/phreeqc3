@@ -31,7 +31,7 @@ bool runner::Read(CParser & parser)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 
 	this->Get_cells().Set_defined(true);
@@ -64,14 +64,14 @@ bool runner::Read(CParser & parser)
 		case 1:
 			for (;;)
 			{ 
-				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+				CParser::TOKEN_TYPE j = parser.copy_token(tokens, next_char);
 				if (j == CParser::TT_DIGIT)
 				{
-					item.Augment(token);
+					item.Augment(tokens);
 				}
 				else if (j == CParser::TT_EMPTY)
 				{
-					item.Augment(token);
+					item.Augment(tokens);
 					break;
 				}
 				else
@@ -90,11 +90,11 @@ bool runner::Read(CParser & parser)
 				break;
 			}
 			{
-				std::string token;
-				if (parser.get_iss() >> token)
+				std::string tokens;
+				if (parser.get_iss() >> tokens)
 				{
-					token = trim(token);
-					this->start_time = Utilities::convert_time(this->start_time, token, "s");
+					tokens = trim(tokens);
+					this->start_time = Utilities::convert_time(this->start_time, tokens, "s");
 				}
 			}
 			break;
@@ -110,11 +110,11 @@ bool runner::Read(CParser & parser)
 				break;
 			}
 			{
-				std::string token;
-				if (parser.get_iss() >> token)
+				std::string tokens;
+				if (parser.get_iss() >> tokens)
 				{
-					token = trim(token);
-					this->time_step = Utilities::convert_time(this->time_step, token, "s");
+					tokens = trim(tokens);
+					this->time_step = Utilities::convert_time(this->time_step, tokens, "s");
 				}
 			}
 			break;

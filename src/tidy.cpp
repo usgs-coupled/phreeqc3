@@ -493,7 +493,7 @@ check_species_input(void)
 					s[i]->name.c_str());
 			error_msg(error_string, CONTINUE);
 		}
-		if (s[i]->rxn.token.size() == 0)
+		if (s[i]->rxn.Get_tokens().size() == 0)
 		{
 			input_error++;
 			return_value = ERROR;
@@ -504,7 +504,7 @@ check_species_input(void)
 		}
 		else
 		{
-			s[i]->rxn.Logk_cr.tidy_logk(this);
+			s[i]->rxn.Tidy_logk(this);
 		}
 	}
 	return (return_value);
@@ -604,7 +604,7 @@ tidy_logk(void)
 	std::map < std::string, class Logk >::iterator it = Logk_map.begin();
 	for (; it != Logk_map.end(); it++)
 	{
-		it->second.tidy_logk(this);
+		it->second.Tidy_logk(this);
 	}
 	return (OK);
 }
@@ -619,22 +619,22 @@ add_other_logk(std::vector<double>& source_k,
 	for (size_t i = 0; i < add_logk.size(); i++)
 	{
 		coef = add_logk[i].coef;
-		std::string token = add_logk[i].name;
-		str_tolower(token);
-		std::map<std::string, class Logk>::iterator it = Logk_map.find(token);
+		std::string tokens = add_logk[i].name;
+		str_tolower(tokens);
+		std::map<std::string, class Logk>::iterator it = Logk_map.find(tokens);
 		if (it == Logk_map.end())
 		{
 			input_error++;
 			error_string = sformatf(
 				"Could not find named temperature expression, %s\n",
-				token.c_str());
+				tokens.c_str());
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
 		Logk& logk_ref = it->second;
 		for (size_t j = 0; j < Logk::MAX_LOG_K_INDICES; j++)
 		{
-			source_k[j] += logk_ref.logk_x[j] * coef;
+			source_k[j] += logk_ref.Get_logk_x()[j] * coef;
 		}
 	}
 	return (OK);
@@ -695,14 +695,14 @@ rewrite_eqn_to_secondary(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not reduce equation to secondary master species, %s.",
-					trxn.token[0].Get_name().c_str());
+					trxn.tokens[0].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
 
 		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
-			token_ptr = &(trxn.token[i]);
+			token_ptr = &(trxn.tokens[i]);
 			if (token_ptr->Get_s() == NULL)
 			{
 				error_string = sformatf(
@@ -741,7 +741,7 @@ replace_solids_gases(void)
 	class rxn_token_temp *token_ptr;
 	class phase *phase_ptr;
 	int replaced;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 /*
  *
  */
@@ -760,26 +760,26 @@ replace_solids_gases(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not remove all solids and gases from equation, %s.",
-					trxn.token[0].Get_name().c_str());
+					trxn.tokens[0].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
 
 		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
-			token_ptr = &(trxn.token[i]);
+			token_ptr = &(trxn.tokens[i]);
 			if (token_ptr->Get_s() == NULL)
 			{
 				phase_ptr = phase_bsearch(token_ptr->Get_name(), &n, FALSE);
 				/* try phase name without (g) or  (s) */
 				if (phase_ptr == NULL)
 				{
-					strcpy(token, token_ptr->Get_name().c_str());
-					replace("(g)", "", token);
-					replace("(s)", "", token);
-					replace("(G)", "", token);
-					replace("(S)", "", token);
-					phase_ptr = phase_bsearch(token, &n, FALSE);
+					strcpy(tokens, token_ptr->Get_name().c_str());
+					replace("(g)", "", tokens);
+					replace("(s)", "", tokens);
+					replace("(G)", "", tokens);
+					replace("(S)", "", tokens);
+					phase_ptr = phase_bsearch(tokens, &n, FALSE);
 				}
 				if (phase_ptr == NULL)
 				{
@@ -798,9 +798,9 @@ replace_solids_gases(void)
 				trxn.trxn_add_phase(phase_ptr->rxn, coef, false);
 
 				/* remove solid/gas from trxn list */
-				trxn.token[i].Set_name(phase_ptr->rxn.token[0].Get_name());
-				trxn.token[i].Set_s(phase_ptr->rxn.token[0].Get_s());
-				trxn.token[i].coef = -coef * phase_ptr->rxn.token[0].coef;
+				trxn.tokens[i].Set_name(phase_ptr->rxn.Get_tokens()[0].Get_name());
+				trxn.tokens[i].Set_s(phase_ptr->rxn.Get_tokens()[0].Get_s());
+				trxn.tokens[i].coef = -coef * phase_ptr->rxn.Get_tokens()[0].coef;
 				repeat = TRUE;
 				replaced = TRUE;
 				/* debug
@@ -852,7 +852,7 @@ rewrite_eqn_to_primary(void)
 			parse_error++;
 			error_string = sformatf(
 					"Could not reduce equation to primary master species, %s.",
-					trxn.token[0].Get_s()->name.c_str());
+					trxn.tokens[0].Get_s()->name.c_str());
 			error_msg(error_string, CONTINUE);
 			break;
 		}
@@ -862,9 +862,9 @@ rewrite_eqn_to_primary(void)
  */
 		for (j = 1; j < trxn.Get_count_trxn(); j++)
 		{
-			if (trxn.token[j].Get_s()->primary == NULL)
+			if (trxn.tokens[j].Get_s()->primary == NULL)
 			{
-				trxn.trxn_add(trxn.token[j].Get_s()->rxn, trxn.token[j].coef, true);
+				trxn.trxn_add(trxn.tokens[j].Get_s()->rxn, trxn.tokens[j].coef, true);
 				repeat = TRUE;
 				break;
 			}
@@ -1443,13 +1443,13 @@ tidy_phases(void)
 	for (i = 0; i < (int)phases.size(); i++)
 	{
 		// new organization
-		phases[i]->rxn.token[0].Set_name(phases[i]->name);
-		phases[i]->rxn.token[0].Set_s(NULL);
-		phases[i]->rxn.Logk_cr.tidy_logk(this);
+		phases[i]->rxn.Get_tokens()[0].Set_name(phases[i]->name);
+		phases[i]->rxn.Get_tokens()[0].Set_s(NULL);
+		phases[i]->rxn.Tidy_logk(this);
 		// all reactions have original volume terms
-		std::vector<double> temp = phases[i]->rxn.Logk_cr.Get_logk_original();
-		phases[i]->rxn_s.Logk_cr.Set_logk_original(temp);
-		phases[i]->rxn_x.Logk_cr.Set_logk_original(temp);
+		std::vector<double> temp = phases[i]->rxn.Get_logk_original();
+		phases[i]->rxn_s.Set_logk_original(temp);
+		phases[i]->rxn_x.Set_logk_original(temp);
 	}
 	/*
 	 *   Rewrite all phases to secondary species
@@ -1461,7 +1461,7 @@ tidy_phases(void)
 		 */
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
-		trxn.token[0].Set_name(phases[i]->name);
+		trxn.tokens[0].Set_name(phases[i]->name);
 		/* debug 
 		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
 		   trxn_print();
@@ -1477,7 +1477,7 @@ tidy_phases(void)
 		// new organization
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
-		trxn.token[0].Set_name(phases[i]->name);
+		trxn.tokens[0].Set_name(phases[i]->name);
 		/* debug
 		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
 		   trxn_print();
@@ -2262,7 +2262,7 @@ tidy_species(void)
 		s[i]->number = i;
 		s[i]->primary = NULL;
 		s[i]->secondary = NULL;
-		s[i]->rxn.Logk_cr.Set_selected();
+		s[i]->rxn.Set_selected();
 		if (s[i]->check_equation == TRUE)
 		{
 			trxn.species_rxn_to_trxn(s[i]);
@@ -2368,14 +2368,26 @@ tidy_species(void)
 		s[i]->co2 = 0.0;
 		for (j = 1; j < trxn.Get_count_trxn(); j++)
 		{
-			if (trxn.token[j].Get_s() == s_co3)
+			if (trxn.tokens[j].Get_s() == s_co3)
 			{
-				s[i]->co2 = trxn.token[j].coef;
+				s[i]->co2 = trxn.tokens[j].coef;
 				break;
 			}
 		}
-		s[i]->rxn_s.Logk_cr.Set_logk_original(s[i]->rxn.Logk_cr.Get_logk_original());
-		s[i]->rxn_x.Logk_cr.Set_logk_original(s[i]->rxn.Logk_cr.Get_logk_original());
+		s[i]->rxn_s.Set_logk_original(s[i]->rxn.Get_logk_original());
+		s[i]->rxn_x.Set_logk_original(s[i]->rxn.Get_logk_original());
+		if (s[i]->secondary != NULL)
+		{
+			s[i]->pick_master = s[i]->secondary;
+		}
+		else if (s[i]->primary != NULL)
+		{
+			s[i]->pick_master = s[i]->primary;
+		}
+		else
+		{
+			s[i]->pick_master = NULL;
+		}
 	}
 	/*
 	 *   Set pointer in element to master species
@@ -2504,11 +2516,11 @@ tidy_species(void)
 			 *   Changed to be coefficient of exchanger
 			 */
 			LDBLE exchange_coef = 0.0;
-			for (j = 1; !s[i]->rxn_s.token[j].Get_end(); j++)
+			for (j = 1; !s[i]->rxn_s.Get_tokens()[j].Get_end(); j++)
 			{
-				if (s[i]->rxn_s.token[j].Get_s()->type == EX)
+				if (s[i]->rxn_s.Get_tokens()[j].Get_s()->type == EX)
 				{
-					exchange_coef = s[i]->rxn_s.token[j].coef;
+					exchange_coef = s[i]->rxn_s.Get_tokens()[j].coef;
 					break;
 				}
 			}
@@ -2528,11 +2540,11 @@ tidy_species(void)
 			/*
 			 *   Find coefficient of surface in rxn, store in equiv
 			 */
-			for (j = 1; !s[i]->rxn_s.token[j].Get_end(); j++)
+			for (j = 1; !s[i]->rxn_s.Get_tokens()[j].Get_end(); j++)
 			{
-				if (s[i]->rxn_s.token[j].Get_s()->type == SURF)
+				if (s[i]->rxn_s.Get_tokens()[j].Get_s()->type == SURF)
 				{
-					surface_coef = s[i]->rxn_s.token[j].coef;
+					surface_coef = s[i]->rxn_s.Get_tokens()[j].coef;
 					break;
 				}
 			}
@@ -2787,13 +2799,13 @@ tidy_solutions(void)
 						comp_ref.Set_moles(0.0);
 						continue;
 					}
-					std::string token;
+					std::string tokens;
 					std::string description = comp_ref.Get_description();
 					std::string::iterator b = description.begin();
 					std::string::iterator e = description.end();
-					CParser::copy_token(token, b, e);
+					CParser::copy_token(tokens, b, e);
 
-					master_ptr = master_bsearch(token.c_str());
+					master_ptr = master_bsearch(tokens.c_str());
 					if (master_ptr == NULL)
 					{
 						error_string = sformatf(
@@ -2975,10 +2987,10 @@ tidy_isotopes(void)
 				{
 					temp_iso.Set_ratio_uncertainty_defined(true);
 				}
-				std::string token = sformatf("%d%s", (int) isotope_number,
+				std::string tokens = sformatf("%d%s", (int) isotope_number,
 						master[k]->elt->name.c_str());
-				temp_iso.Set_isotope_name(token);
-				new_isotopes[token] = temp_iso;
+				temp_iso.Set_isotope_name(tokens);
+				new_isotopes[tokens] = temp_iso;
 			}
 		}
 		solution_ref.Set_isotopes(new_isotopes);

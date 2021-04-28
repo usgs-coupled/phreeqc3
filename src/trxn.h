@@ -35,14 +35,14 @@ public:
 	int trxn_print(void);
 	int trxn_reverse_k(void);
 	int trxn_sort(void);
-	int trxn_swap(const char* token);
+	int trxn_swap(const char* tokens);
 	void Set_phrq_ptr(Phreeqc* p) { this->phrq_ptr = p; }
 	void Set_count_trxn(size_t count) { this->count_trxn = count; }
 	size_t Get_count_trxn(void) { return this->count_trxn; }
 
 	std::vector<double> logk;
 	double dz[3];
-	std::vector<class rxn_token_temp> token;
+	std::vector<class rxn_token_temp> tokens;
 	size_t count_trxn;
 	Phreeqc* phrq_ptr;
 };

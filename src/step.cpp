@@ -662,7 +662,7 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
  */
 	int i;
 	LDBLE amount_to_add, total;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	const char* cptr;
 	class master *master_ptr;
 
@@ -691,13 +691,13 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 		comp_ptr->Set_delta(0.0);
 		if (comp_ptr->Get_add_formula().size() > 0)
 		{
-			strcpy(token, comp_ptr->Get_add_formula().c_str());
-			cptr = &(token[0]);
+			strcpy(tokens, comp_ptr->Get_add_formula().c_str());
+			cptr = &(tokens[0]);
 			get_elts_in_species(&cptr, 1.0);
 		}
 		else
 		{
-			strcpy(token, phase_ptr->formula.c_str());
+			strcpy(tokens, phase_ptr->formula.c_str());
 			add_elt_list(phase_ptr->next_elt, 1.0);
 		}
 		if (comp_ptr->Get_moles() > 0.0)
@@ -1265,7 +1265,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 /*
  *   Check for missing elements
  */
-	std::string token;
+	std::string tokens;
 	const char* cptr;
 	class master *master_ptr;
 
@@ -1288,13 +1288,13 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 			comp_ptr->Set_delta(0.0);
 			if (comp_ptr->Get_add_formula().size() > 0)
 			{
-				token = comp_ptr->Get_add_formula();
-				cptr = &(token[0]);
+				tokens = comp_ptr->Get_add_formula();
+				cptr = &(tokens[0]);
 				get_elts_in_species(&cptr, 1.0);
 			}
 			else
 			{
-				token = phase_ptr->formula;
+				tokens = phase_ptr->formula;
 				add_elt_list(phase_ptr->next_elt, 1.0);
 			}
 			for (int i = 0; i < count_elts; i++)

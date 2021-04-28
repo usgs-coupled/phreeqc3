@@ -22,7 +22,7 @@ pitz_param_read(char *string, int n)
  */
 	int l, i, j, k;
 	const char* cptr;
-	char token[2 * MAX_LENGTH];
+	char tokens[2 * MAX_LENGTH];
 	class pitz_param pzp, *pzp_ptr;
 
 	if (n != 2 && n != 3 && n != 0)
@@ -31,29 +31,29 @@ pitz_param_read(char *string, int n)
 		return (NULL);
 
 	cptr = string;
-	if (copy_token(token, &cptr, &l) == EMPTY)
+	if (copy_token(tokens, &cptr, &l) == EMPTY)
 		return (NULL);
 	cptr = string;
 	for (i = 0; i < n; i++)
 	{
-		int j = copy_token(token, &cptr, &l);
+		int j = copy_token(tokens, &cptr, &l);
 		if (j == EMPTY)
 			return (NULL);
-		if (j != UPPER && token[0] != '(')
+		if (j != UPPER && tokens[0] != '(')
 		{
 			input_error++;
 			std::ostringstream err;
 			err << "Wrong number of species for a Pitzer parameter.\n"  << line;
 			error_msg(err.str().c_str(), CONTINUE);
 		}
-		pzp.species[i] = token;
+		pzp.species[i] = tokens;
 	}
 	k = 0;
 	for (i = 0; i < 6; i++)
 	{
-		if (copy_token(token, &cptr, &l) == EMPTY)
+		if (copy_token(tokens, &cptr, &l) == EMPTY)
 			break;
-		j = sscanf(token, SCANFORMAT, &pzp.a[i]);
+		j = sscanf(tokens, SCANFORMAT, &pzp.a[i]);
 		if (j <= 0)
 			break;
 		k++;

@@ -555,7 +555,7 @@ void PBasic::
 parse(char * l_inbuf, tokenrec ** l_buf)
 {
 	long i, j, begin, len, m, lp, q;
-	char token[toklength + 1] = {0};
+	char tokens[toklength + 1] = {0};
 	tokenrec *t, *tptr;
 	varrec *v;
 	char ch;
@@ -705,7 +705,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 				{
 					i--;
 					j = 0;
-					token[toklength] = '\0';
+					tokens[toklength] = '\0';
 					while (i <= (int) strlen(l_inbuf) &&
 						   (l_inbuf[i - 1] == '$' || l_inbuf[i - 1] == '_' ||
 							isalnum((int) l_inbuf[i - 1])))
@@ -713,20 +713,20 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 						if (j < toklength)
 						{
 							j++;
-							token[j - 1] = l_inbuf[i - 1];
+							tokens[j - 1] = l_inbuf[i - 1];
 						}
 						i++;
 					}
-					token[j] = '\0';
+					tokens[j] = '\0';
 /* p2c: basic.p, line 309:
  * Note: Modification of string length may translate incorrectly [146] */
 
 /*
  *   Search list
  */
-					PhreeqcPtr->str_tolower(token);
+					PhreeqcPtr->str_tolower(tokens);
 					std::map<const std::string, BASIC_TOKEN>::const_iterator item;
-					item = command_tokens.find(token);
+					item = command_tokens.find(tokens);
 					if (item != command_tokens.end())
 					{
 						t->kind = item->second;
@@ -753,7 +753,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 					{
 						t->kind = tokvar;
 						v = varbase;
-						while (v != NULL && strcmp(v->name, token))
+						while (v != NULL && strcmp(v->name, tokens))
 							v = v->next;
 						if (v == NULL)
 						{
@@ -768,9 +768,9 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 							v->UU.U0.arr = NULL;
 							v->next = varbase;
 							varbase = v;
-							strcpy(v->name, token);
+							strcpy(v->name, tokens);
 							v->numdims = 0;
-							if (token[strlen(token) - 1] == '$')
+							if (tokens[strlen(tokens) - 1] == '$')
 							{
 								v->stringvar = true;
 								v->UU.U1.sv = NULL;
@@ -2527,9 +2527,9 @@ factor(struct LOC_exec * LINK)
 		// set element name
 		size_t l = elt_name.size();
 		l = l < 256 ? 256 : l + 1;
-		char* token = (char*)PhreeqcPtr->PHRQ_malloc(l * sizeof(char));
-		strcpy(token, elt_name.c_str());
-		*elt_varrec->UU.U1.sval = token;
+		char* tokens = (char*)PhreeqcPtr->PHRQ_malloc(l * sizeof(char));
+		strcpy(tokens, elt_name.c_str());
+		*elt_varrec->UU.U1.sval = tokens;
 	}
 	break;
 
@@ -3571,13 +3571,13 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
-		if (token == NULL) PhreeqcPtr->malloc_error();
+		char* tokens = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
+		if (tokens == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
 		{
-			sprintf(token, "%*.*e", length, width, nmbr);
-			std_num = token;
+			sprintf(tokens, "%*.*e", length, width, nmbr);
+			std_num = tokens;
 		}
 
 		// set function value
@@ -3588,7 +3588,7 @@ factor(struct LOC_exec * LINK)
 		n.stringval = true;
 
 		// free work space
-		PhreeqcPtr->free_check_null(token);
+		PhreeqcPtr->free_check_null(tokens);
 	}
 	break;
 
@@ -3614,13 +3614,13 @@ factor(struct LOC_exec * LINK)
 
 		// Make work space
 		int max_length = length < 256 ? 256 : length;
-		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
-		if (token == NULL) PhreeqcPtr->malloc_error();
+		char* tokens = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
+		if (tokens == NULL) PhreeqcPtr->malloc_error();
 
 		std::string std_num;
 		{
-			sprintf(token, "%*.*f", length, width, nmbr);
-			std_num = token;
+			sprintf(tokens, "%*.*f", length, width, nmbr);
+			std_num = tokens;
 		}
 
 		// set function value
@@ -3631,7 +3631,7 @@ factor(struct LOC_exec * LINK)
 		n.stringval = true;
 
 		// free work space
-		PhreeqcPtr->free_check_null(token);
+		PhreeqcPtr->free_check_null(tokens);
 	}
 	break;
 

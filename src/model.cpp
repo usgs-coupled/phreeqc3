@@ -674,18 +674,18 @@ gammas(LDBLE mu)
 				continue;
 			{
 				LDBLE coef = 0, z = 0;
-				for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
+				for (j = 1; !s_x[i]->rxn_x.Get_tokens()[j].Get_end(); j++)
 				{
-					if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
+					if (s_x[i]->rxn_x.Get_tokens()[j].Get_s()->type == EX)
 					{
 						s_x[i]->alk =
-							s_x[i]->rxn_x.token[j].Get_s()->primary->unknown->moles;
+							s_x[i]->rxn_x.Get_tokens()[j].Get_s()->primary->unknown->moles;
 						//break;
 					}
-					else if (s_x[i]->rxn_x.token[j].Get_s()->type <= HPLUS)
+					else if (s_x[i]->rxn_x.Get_tokens()[j].Get_s()->type <= HPLUS)
 					{
-						coef = s_x[i]->rxn_x.token[j].coef;
-						z = s_x[i]->rxn_x.token[j].Get_s()->z;
+						coef = s_x[i]->rxn_x.Get_tokens()[j].coef;
+						z = s_x[i]->rxn_x.Get_tokens()[j].Get_s()->z;
 					}
 				}
 				if (!use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
@@ -775,12 +775,12 @@ gammas(LDBLE mu)
  *   Find moles of sites.
  *   s_x[i]->equiv is stoichiometric coefficient of sites in species
  */
-			for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
+			for (j = 1; !s_x[i]->rxn_x.Get_tokens()[j].Get_end(); j++)
 			{
-				if (s_x[i]->rxn_x.token[j].Get_s()->type == SURF)
+				if (s_x[i]->rxn_x.Get_tokens()[j].Get_s()->type == SURF)
 				{
 					s_x[i]->alk =
-						s_x[i]->rxn_x.token[j].Get_s()->primary->unknown->moles;
+						s_x[i]->rxn_x.Get_tokens()[j].Get_s()->primary->unknown->moles;
 					break;
 				}
 			}
@@ -872,12 +872,12 @@ int Phreeqc::gammas_a_f(int i1)
 	//class master *m_ptr;
 
 	i = i1;
-	for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
+	for (j = 1; !s_x[i]->rxn_x.Get_tokens()[j].Get_end(); j++)
 	{
-		if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
+		if (s_x[i]->rxn_x.Get_tokens()[j].Get_s()->type == EX)
 		{
 			//strcpy(name, s_x[i]->rxn_x.token[j].s->name);
-			name = s_x[i]->rxn_x.token[j].Get_s()->name;
+			name = s_x[i]->rxn_x.Get_tokens()[j].Get_s()->name;
 			//m_ptr = s_x[i]->rxn_x.token[j].s->primary->elt->master; // appt debug
 			break;
 		}
@@ -887,11 +887,11 @@ int Phreeqc::gammas_a_f(int i1)
 	{
 		if (s_x[i]->gflag != 4 || s_x[i]->primary)
 			continue;
-		for (j = 1; !s_x[i]->rxn_x.token[j].Get_end(); j++)
+		for (j = 1; !s_x[i]->rxn_x.Get_tokens()[j].Get_end(); j++)
 		{
-			if (s_x[i]->rxn_x.token[j].Get_s()->type == EX)
+			if (s_x[i]->rxn_x.Get_tokens()[j].Get_s()->type == EX)
 			{
-				if (name == s_x[i]->rxn_x.token[j].Get_s()->name)
+				if (name == s_x[i]->rxn_x.Get_tokens()[j].Get_s()->name)
 					sum += s_x[i]->moles * s_x[i]->equiv;
 				break;
 			}
@@ -2207,10 +2207,10 @@ mb_ss(void)
 			/*
 			 *  Calculate IAPc and IAPb
 			 */
-			if (phase0_ptr->in == TRUE && phase0_ptr->rxn_x.token.size() != 0)
+			if (phase0_ptr->in == TRUE && phase0_ptr->rxn_x.Get_tokens().size() != 0)
 			{
 				log10_iap = 0;
-				for (rxn_ptr = &phase0_ptr->rxn_x.token[0] + 1;
+				for (rxn_ptr = &phase0_ptr->rxn_x.Get_tokens()[0] + 1;
 					 !rxn_ptr->Get_end(); rxn_ptr++)
 				{
 					log10_iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
@@ -2221,10 +2221,10 @@ mb_ss(void)
 			{
 				iapc = 1e-99;
 			}
-			if (phase1_ptr->in == TRUE && phase1_ptr->rxn_x.token.size() != 0)
+			if (phase1_ptr->in == TRUE && phase1_ptr->rxn_x.Get_tokens().size() != 0)
 			{
 				log10_iap = 0;
-				for (rxn_ptr = &phase1_ptr->rxn_x.token[0] + 1;
+				for (rxn_ptr = &phase1_ptr->rxn_x.Get_tokens()[0] + 1;
 					 !rxn_ptr->Get_end(); rxn_ptr++)
 				{
 					log10_iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
@@ -2289,7 +2289,7 @@ mb_ss(void)
 				if (phase_ptr->in == TRUE)
 				{
 					lp = -phase_ptr->lk;
-					for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
+					for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1;
 						 !rxn_ptr->Get_end(); rxn_ptr++)
 					{
 						lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
@@ -2363,7 +2363,7 @@ molalities(int allow_overflow)
  *   lm and moles for all aqueous species
  */
 		s_x[i]->lm = s_x[i]->lk - s_x[i]->lg;
-		for (rxn_ptr = &s_x[i]->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &s_x[i]->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			s_x[i]->lm += rxn_ptr->Get_s()->la * rxn_ptr->coef;
@@ -2635,7 +2635,7 @@ calc_gas_pressures(void)
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+			for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 				 rxn_ptr++)
 			{
 				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;

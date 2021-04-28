@@ -201,7 +201,7 @@ clean_up(void)
 	change_surf = (struct Change_Surf *) free_check_null(change_surf);
 	/* miscellaneous work space */
 	elt_list.clear();
-	trxn.token.clear();
+	trxn.tokens.clear();
 	mb_unknowns.clear();
 	line = (char *) free_check_null(line);
 	line_save = (char *) free_check_null(line_save);
@@ -283,7 +283,7 @@ rxn_find_coef(CReaction& r_ref, const char* str)
 	class rxn_token* r_token;
 	LDBLE coef;
 
-	r_token = &r_ref.token[1];
+	r_token = &r_ref.Get_tokens()[1];
 	coef = 0.0;
 	while (!r_token->Get_end())
 	{
@@ -1004,26 +1004,26 @@ surface_get_psi_master(const std::string& name, int plane)
 /* ---------------------------------------------------------------------- */
 {
 	class master *master_ptr;
-	std::string token;
+	std::string tokens;
 
 	if (name.size() == 0)
 		return (NULL);
-	token = name;
-	token.append("_psi");
+	tokens = name;
+	tokens.append("_psi");
 	switch (plane)
 	{
 	case SURF_PSI:
 		break;
 	case SURF_PSI1:
-		token.append("b");
+		tokens.append("b");
 		break;
 	case SURF_PSI2:
-		token.append("d");
+		tokens.append("d");
 		break;
 	default:
 		error_msg("Unknown plane for surface_get_psi_master", STOP);
 	}
-	master_ptr = master_bsearch(token.c_str());
+	master_ptr = master_bsearch(tokens.c_str());
 	return (master_ptr);
 }
 /* **********************************************************************
@@ -1197,14 +1197,14 @@ entity_exists(const char *name, int n_user)
  *	 unknown		     10 UnKnown
  */
 	int return_value;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	enum entity_type type;
 /*
  *   Read keyword
  */
-	strncpy(token, name, MAX_LENGTH-1);
-	token[MAX_LENGTH-1] = '\0';
-	type = get_entity_enum(token);
+	strncpy(tokens, name, MAX_LENGTH-1);
+	tokens[MAX_LENGTH-1] = '\0';
+	type = get_entity_enum(tokens);
 	return_value = TRUE;
 	switch (type)
 	{
@@ -1303,13 +1303,13 @@ get_entity_enum(char *name)
  */
 	int i;
 	const char* cptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 /*
  *   Read keyword
  */
 	cptr = name;
-	copy_token(token, &cptr, &i);
-	check_key(token);
+	copy_token(tokens, &cptr, &i);
+	check_key(tokens);
 
 	switch (next_keyword)
 	{

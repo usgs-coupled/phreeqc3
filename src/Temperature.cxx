@@ -56,7 +56,7 @@ cxxTemperature::read(CParser & parser)
 	{
 		std::istream::pos_type ptr;
 		std::istream::pos_type next_char = 0;
-		std::string token, str;
+		std::string tokens, str;
 		lt = parser.check_line(str, false, true, true, true);
 
 		if (lt == PHRQ_io::LT_EMPTY || 
@@ -83,8 +83,8 @@ cxxTemperature::read(CParser & parser)
 		{
 			if (done) break;
 			// new token
-			std::string token;
-			CParser::TOKEN_TYPE k =	parser.copy_token(token, next_char);
+			std::string tokens;
+			CParser::TOKEN_TYPE k =	parser.copy_token(tokens, next_char);
 
 			// need new line
 			if (k == CParser::TT_EMPTY)
@@ -95,7 +95,7 @@ cxxTemperature::read(CParser & parser)
 			// read a pressure
 			if (k == CParser::TT_DIGIT)
 			{
-				std::istringstream iss(token);
+				std::istringstream iss(tokens);
 				LDBLE d;
 				if (!(iss >> d))
 				{
@@ -118,14 +118,14 @@ cxxTemperature::read(CParser & parser)
 				}
 				else
 				{
-					int i = parser.copy_token(token, next_char);
+					int i = parser.copy_token(tokens, next_char);
 					if (i == EMPTY)
 					{
 						error_msg("To define equal increments, define 'in n steps'.", CONTINUE);
 					}
 					else
 					{
-						std::istringstream iss(token);
+						std::istringstream iss(tokens);
 						if ((iss >> i) && i > 0)
 						{
 							this->equalIncrements = true;
@@ -203,7 +203,7 @@ cxxTemperature::read_raw(CParser & parser, bool check)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 	bool useLastLine(false);
 
@@ -251,9 +251,9 @@ cxxTemperature::read_raw(CParser & parser, bool check)
 				cleared_once = true;
 			}
 			while ((k =
-					parser.copy_token(token, next_char)) == CParser::TT_DIGIT)
+					parser.copy_token(tokens, next_char)) == CParser::TT_DIGIT)
 			{
-				std::istringstream iss(token);
+				std::istringstream iss(tokens);
 				if (!(iss >> d))
 				{
 					parser.incr_input_error();

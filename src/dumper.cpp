@@ -36,7 +36,7 @@ bool dumper::Read(CParser & parser)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 
 	opt_save = CParser::OPT_DEFAULT;
@@ -124,14 +124,14 @@ bool dumper::Read(CParser & parser)
 		{
 			for (;;)
 			{ 
-				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+				CParser::TOKEN_TYPE j = parser.copy_token(tokens, next_char);
 				if (item && j == CParser::TT_DIGIT)
 				{
-					item->Augment(token);
+					item->Augment(tokens);
 				}
 				else if (item && j == CParser::TT_EMPTY)
 				{
-					item->Augment(token);
+					item->Augment(tokens);
 					break;
 				}
 				else
@@ -191,10 +191,10 @@ bool dumper::Read(CParser & parser)
 			break;
 		case 1:				//append
 			{
-				parser.copy_token(token, next_char);
+				parser.copy_token(tokens, next_char);
 				//if (!(parser.get_iss() >> this->append))
 				this->append = true;
-				if (token.c_str()[0] == 'f' || token.c_str()[0] == 'F')
+				if (tokens.c_str()[0] == 'f' || tokens.c_str()[0] == 'F')
 				{
 					this->append = false;
 				}

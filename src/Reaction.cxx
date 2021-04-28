@@ -102,7 +102,7 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 	bool useLastLine(false);
 
@@ -145,10 +145,10 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 			break;
 
 		case 0:				// units
-			j = parser.copy_token(token, next_char);
+			j = parser.copy_token(tokens, next_char);
 			if (j == CParser::TT_EMPTY)
 				break;
-			this->Set_units(token.c_str());
+			this->Set_units(tokens.c_str());
 			opt_save = CParser::OPT_DEFAULT;
 			useLastLine = false;
 			units_defined = true;
@@ -185,9 +185,9 @@ cxxReaction::read_raw(CParser & parser, const bool check)
 				cleared_once = true;
 			}
 			while ((k =
-					parser.copy_token(token, next_char)) == CParser::TT_DIGIT)
+					parser.copy_token(tokens, next_char)) == CParser::TT_DIGIT)
 			{
-				std::istringstream iss(token);
+				std::istringstream iss(tokens);
 				if (!(iss >> d))
 				{
 					parser.incr_input_error();

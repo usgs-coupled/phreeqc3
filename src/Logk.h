@@ -34,27 +34,32 @@ public:
 		MAX_LOG_K_INDICES	/* Keep this definition at the end of the enum */
 	} LOG_K_INDICES;
 
-	void Initialize();
-	void Set_name(const std::string& str) { this->name = str; }
-	const std::string& Get_name() { return this->name; }
-	void Set_logk_original(const std::vector<double>& k);
-	void Set_selected();
-	std::vector<double>& Get_logk_x() { return this->logk_x; }
-	std::vector<double>& Get_logk_original() { return this->logk_original; }
-	std::vector<double>& Get_logk_selected() { return this->logk_selected; }
-
-	double Calc_Logk(double tempk, double presPa/*, Phreeqc* phrq_ptr*/);
-	void tidy_logk(Phreeqc* phrq_ptr);
-	std::string name;
-	double lk;
-	std::vector<double> logk_original;
-	std::vector<double> logk_selected;
-	std::vector<double> logk_x;
-	std::vector<class name_coef> add_logk;
-	DELTA_H_UNIT original_units;
-	DELTA_V_UNIT original_deltav_units;
-protected:
+// methods
 	void Add_logks(std::vector<double>& lk, class Logk& next_Logk,
 		double coef, size_t repeats, Phreeqc* phrq_ptr);
+	double Calc_lk_x(double tempk, double presPa);
+	std::vector<name_coef>& Get_add_logk() { return this->add_logk; }
+	DELTA_H_UNIT& Get_original_deltah_units() { return this->original_deltah_units; }
+	DELTA_V_UNIT& Get_original_deltav_units() { return this->original_deltav_units; }
+	std::vector<double>& Get_logk_original() { return this->logk_original; }
+	std::vector<double>& Get_logk_selected() { return this->logk_selected; }
+	std::vector<double>& Get_logk_x() { return this->logk_x; }
+	const std::string& Get_name() { return this->name; }
+	void Initialize();
+	void Set_name(const std::string& str) { this->name = str; }
+	void Set_logk_original(const std::vector<double>& k);
+	void Set_selected();
+	void Tidy_logk(Phreeqc* phrq_ptr);
+
+// member data
+protected:
+	DELTA_H_UNIT original_deltah_units;
+	DELTA_V_UNIT original_deltav_units;
+	std::vector<class name_coef> add_logk;
+	double lk;
+	std::vector<double> logk_selected;
+	std::vector<double> logk_x;
+	std::vector<double> logk_original;
+	std::string name;
 };
 #endif // !defined(LOGK_H_INCLUDED)

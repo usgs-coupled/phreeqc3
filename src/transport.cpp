@@ -13,7 +13,7 @@ LDBLE F_Re3 = F_C_MOL / (R_KJ_DEG_MOL * 1e3);
 LDBLE tk_x2; // average tk_x of icell and jcell
 LDBLE dV_dcell; // difference in Volt among icell and jcell
 int find_current;
-char token[MAX_LENGTH];
+char tokens[MAX_LENGTH];
 
 // implicit...
 std::set <std::string> dif_spec_names;
@@ -62,7 +62,7 @@ transport(void)
 	LDBLE water_m, water_imm;
 	int first_c, last_c, b_c;
 	int max_iter;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	LDBLE kin_time, stagkin_time, kin_time_save;
 
 	int punch_boolean = 0;
@@ -363,8 +363,8 @@ transport(void)
 			/* multi_D calc's are OK if all cells have the same amount of water */
 			 if (multi_Dflag == TRUE)
 			{
-				sprintf(token, "multi_D calc's and stagnant: define MIXing factors explicitly, or \n\t give in -multi_D the Dw used for calculating the mobile-immobile exchange factor.");
-				warning_msg(token);
+				sprintf(tokens, "multi_D calc's and stagnant: define MIXing factors explicitly, or \n\t give in -multi_D the Dw used for calculating the mobile-immobile exchange factor.");
+				warning_msg(tokens);
 			}
 			
 			Rxn_mix_map.clear();
@@ -488,12 +488,12 @@ transport(void)
 		* Now transport
 		*/
 		if (implicit)
-			sprintf(token, "\nCalculating implicit transport: %d (mobile) cells, %d shifts, %d mixruns, max. mixf = %g.\n\n",
+			sprintf(tokens, "\nCalculating implicit transport: %d (mobile) cells, %d shifts, %d mixruns, max. mixf = %g.\n\n",
 				count_cells, count_shifts - transport_start + 1, nmix, max_mixf);
 		else
-			sprintf(token, "\nCalculating transport: %d (mobile) cells, %d shifts, %d mixruns...\n\n",
+			sprintf(tokens, "\nCalculating transport: %d (mobile) cells, %d shifts, %d mixruns...\n\n",
 				count_cells, count_shifts - transport_start + 1, nmix);
-		screen_msg(token);
+		screen_msg(tokens);
 		max_iter = 0;
 		for (transport_step = transport_start; transport_step <= count_shifts;
 			transport_step++)
@@ -542,9 +542,9 @@ transport(void)
 					}
 					else if (!multi_Dflag)
 					{
-						sprintf(token, "Transport step %3d. Mixrun %3d.",
+						sprintf(tokens, "Transport step %3d. Mixrun %3d.",
 							transport_step, j);
-						dup_print(token, FALSE);
+						dup_print(tokens, FALSE);
 					}
 
 					if (heat_nmix > 0 && !implicit)
@@ -586,14 +586,14 @@ transport(void)
 							max_iter = overall_iterations;
 						cell_no = i;
 						if (multi_Dflag)
-							sprintf(token,
+							sprintf(tokens,
 								"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
 								transport_step, j, i, max_iter);
 						else
-							sprintf(token,
+							sprintf(tokens,
 								"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
 								transport_step, j, i, max_iter);
-						status(0, token);
+						status(0, tokens);
 
 						if (i == 0 || i == count_cells + 1)
 						{
@@ -653,8 +653,8 @@ transport(void)
 			*/
 			if (ishift != 0)
 			{
-				sprintf(token, "Transport step %3d.", transport_step);
-				dup_print(token, FALSE);
+				sprintf(tokens, "Transport step %3d.", transport_step);
+				dup_print(tokens, FALSE);
 				if (b_c == 1)
 					rate_sim_time_start = ((double)transport_step - 1) * 
 					timest + ((double)j - 1) * kin_time;
@@ -746,14 +746,14 @@ transport(void)
 						kin_time /= 2;
 					cell_no = i;
 					if (multi_Dflag)
-						sprintf(token,
+						sprintf(tokens,
 							"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
 							transport_step, 0, i, max_iter);
 					else
-						sprintf(token,
+						sprintf(tokens,
 							"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
 							transport_step, 0, i, max_iter);
-					status(0, token);
+					status(0, tokens);
 					run_reactions(i, kin_time, NOMIX, step_fraction);
 					if (multi_Dflag == TRUE)
 						fill_spec(i, i - 1);
@@ -795,16 +795,16 @@ transport(void)
 				mixrun = j;
 				if (multi_Dflag && j == nmix && (transport_step % print_modulus == 0))
 				{
-					sprintf(token,
+					sprintf(tokens,
 						"Transport step %3d. Multicomponent diffusion run %3d.",
 						transport_step, j);
-					dup_print(token, FALSE);
+					dup_print(tokens, FALSE);
 				}
 				else if (!multi_Dflag)
 				{
-					sprintf(token, "Transport step %3d. Mixrun %3d.",
+					sprintf(tokens, "Transport step %3d. Mixrun %3d.",
 						transport_step, j);
-					dup_print(token, FALSE);
+					dup_print(tokens, FALSE);
 				}
 				rate_sim_time_start = ((double)transport_step - 1) * 
 					timest + ((double)j - 1) * kin_time;
@@ -850,14 +850,14 @@ transport(void)
 						max_iter = overall_iterations;
 					cell_no = i;
 					if (multi_Dflag)
-						sprintf(token,
+						sprintf(tokens,
 							"Transport step %3d. MCDrun %3d. Cell %3d. (Max. iter %3d)",
 							transport_step, j, i, max_iter);
 					else
-						sprintf(token,
+						sprintf(tokens,
 							"Transport step %3d. Mixrun %3d. Cell %3d. (Max. iter %3d)",
 							transport_step, j, i, max_iter);
-					status(0, token);
+					status(0, tokens);
 
 					if (i == 0 || i == count_cells + 1)
 						run_reactions(i, kin_time, NOMIX, step_fraction);
@@ -942,19 +942,19 @@ transport(void)
 
 		if (multi_Dflag && moles_added[0].moles > 0)
 		{
-			sprintf(token,
+			sprintf(tokens,
 				"\nFor balancing negative concentrations in MCD, added in total to the system:");
 			if (phrq_io)
-				phrq_io->warning_msg(token);
+				phrq_io->warning_msg(tokens);
 			for (i = 0; i < count_moles_added; i++)
 			{
 				if (!moles_added[i].moles)
 					break;
-				sprintf(token,
+				sprintf(tokens,
 					"\t %.4e moles %s.",
 					(double)moles_added[i].moles, moles_added[i].name);
 				if (phrq_io)
-					phrq_io->warning_msg(token);
+					phrq_io->warning_msg(tokens);
 			}
 		}
 	}
@@ -1224,9 +1224,9 @@ init_mix(void)
 			{
 				m = (LDBLE *)free_check_null(m);
 				m1 = (LDBLE *)free_check_null(m1);
-				char token[MAX_LENGTH];
-				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please set implicit true, or decrease time_step, or increase cell-lengths.", 2.25 * maxmix);
-				error_msg(token, STOP);
+				char tokens[MAX_LENGTH];
+				sprintf(tokens, "Calculated number of mixes %g, is beyond program limit,\nERROR: please set implicit true, or decrease time_step, or increase cell-lengths.", 2.25 * maxmix);
+				error_msg(tokens, STOP);
 			}
 			if (bcon_first == 1 || bcon_last == 1)
 				l_nmix = 1 + (int)floor(2.25 * maxmix);
@@ -1345,9 +1345,9 @@ init_mix(void)
 			{
 				m = (LDBLE *)free_check_null(m);
 				m1 = (LDBLE *)free_check_null(m1);
-				char token[MAX_LENGTH];
-				sprintf(token, "Calculated number of mixes %g, is beyond program limit,\nERROR: please set implicit true, or decrease time_step, or increase cell-lengths.", 1.5 * maxmix);
-				error_msg(token, STOP);
+				char tokens[MAX_LENGTH];
+				sprintf(tokens, "Calculated number of mixes %g, is beyond program limit,\nERROR: please set implicit true, or decrease time_step, or increase cell-lengths.", 1.5 * maxmix);
+				error_msg(tokens, STOP);
 			}
 			l_nmix = 1 + (int) floor(1.5 * maxmix);
 
@@ -1678,7 +1678,7 @@ set_initial_moles(int i)
 /* ---------------------------------------------------------------------- */
 {
 	cxxKinetics *kinetics_ptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	const char* cptr;
 	int j, k, l;
 	/*
@@ -1763,10 +1763,10 @@ set_initial_moles(int i)
 		cxxExchComp comp;
 		count_elts = 0;
 		paren_count = 0;
-		strcpy(token, "X");
-		cptr = token;
+		strcpy(tokens, "X");
+		cptr = tokens;
 		get_elts_in_species(&cptr, 2e-10);
-		cptr = token;
+		cptr = tokens;
 		LDBLE z;
 		{
 			std::string token1;
@@ -1794,7 +1794,7 @@ fill_spec(int l_cell_no, int ref_cell)
 	/* copy species activities into sol_D.spec... */
 
 	int i, i1, i2, i3, count_spec, count_exch_spec, size_xt;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class species *s_ptr, *s_ptr2;
 	class master *master_ptr;
 	LDBLE dum, dum2;
@@ -1927,9 +1927,9 @@ fill_spec(int l_cell_no, int ref_cell)
 				{
 					if (!warn_MCD_X)
 					{
-						sprintf(token,
+						sprintf(tokens,
 							"MCD found more than 1 exchanger, uses X for interlayer diffusion.");
-						warning_msg(token);
+						warning_msg(tokens);
 						warn_MCD_X = 1;
 					}
 					continue;
@@ -1950,9 +1950,9 @@ fill_spec(int l_cell_no, int ref_cell)
 				}
 
 				/* find the aqueous species in the exchange reaction... */
-				for (i2 = 0; !s_ptr->rxn.token[i2].Get_end(); i2++)
+				for (i2 = 0; !s_ptr->rxn.Get_tokens()[i2].Get_end(); i2++)
 				{
-					if ((s_ptr2 = s_ptr->rxn.token[i2].Get_s())->type == AQ)
+					if ((s_ptr2 = s_ptr->rxn.Get_tokens()[i2].Get_s())->type == AQ)
 						break;
 				}
 				/* copy its name and Dw and charge... */
@@ -3247,7 +3247,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 	int icell, jcell, i, l, n, length, length2, il_calcs;
 	int i1, loop_f_c;
 	int first_c, last_c, last_c2 = 0;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	LDBLE mixf, temp;
 	LDBLE dVtemp = 0.0;
 	if (dV_dcell && stagnant)
@@ -3537,10 +3537,10 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 				}
 				if (temp < -1e-12)
 				{
-					sprintf(token,
+					sprintf(tokens,
 						"Negative concentration in MCD: added %.4e moles %s in cell %d",
 						(double)-temp, it->first.c_str(), i);
-					warning_msg(token);
+					warning_msg(tokens);
 					for (i1 = 0; i1 < count_moles_added; i1++)
 					{
 						if (moles_added[i1].name && !strcmp(moles_added[i1].name, it->first.c_str()))
@@ -5141,7 +5141,7 @@ std::string charge_name, LDBLE f2, LDBLE new_Dw)
 	*/
 	int new_n_user;
 	cxxSurface *surface_ptr1, *surface_ptr2;
-	std::string token;
+	std::string tokens;
 	/*
 	*   Find surfaces
 	*/
@@ -5949,14 +5949,14 @@ viscosity(void)
 			if (!strcmp(s_x[i]->name.c_str(), "Cl-"))
 				// volumina for f_an...
 			{
-				V_Cl = s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc];
+				V_Cl = s_x[i]->rxn.Get_logk_original()[Logk::vm_tc];
 				V_an += V_Cl * s_x[i]->moles;
 				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
 			else// if (s_x[i]->Jones_Dole[6])
 			{
-				V_an += s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
+				V_an += s_x[i]->rxn.Get_logk_original()[Logk::vm_tc] * s_x[i]->Jones_Dole[6] * s_x[i]->moles;
 				ta += s_x[i]->moles;
 				m_an += s_x[i]->moles;
 			}
@@ -6035,14 +6035,14 @@ calc_vm_Cl(void)
 	if (!s_ptr)
 		return V_Cl;
 
-	if (s_ptr->rxn.Logk_cr.logk_original[Logk::vma1])
+	if (s_ptr->rxn.Get_logk_original()[Logk::vma1])
 	{
 		/* supcrt volume at I = 0... */
-		V_Cl = s_ptr->rxn.Logk_cr.logk_original[Logk::vma1] + s_ptr->rxn.Logk_cr.logk_original[Logk::vma2] / pb_s +
-			(s_ptr->rxn.Logk_cr.logk_original[Logk::vma3] + s_ptr->rxn.Logk_cr.logk_original[Logk::vma4] / pb_s) / TK_s -
-			s_ptr->rxn.Logk_cr.logk_original[Logk::wref] * QBrn;
+		V_Cl = s_ptr->rxn.Get_logk_original()[Logk::vma1] + s_ptr->rxn.Get_logk_original()[Logk::vma2] / pb_s +
+			(s_ptr->rxn.Get_logk_original()[Logk::vma3] + s_ptr->rxn.Get_logk_original()[Logk::vma4] / pb_s) / TK_s -
+			s_ptr->rxn.Get_logk_original()[Logk::wref] * QBrn;
 		/* the ionic strength term * I^0.5... */
-		if (s_ptr->rxn.Logk_cr.logk_original[Logk::b_Av] < 1e-5)
+		if (s_ptr->rxn.Get_logk_original()[Logk::b_Av] < 1e-5)
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 		else
 		{
@@ -6052,20 +6052,20 @@ calc_vm_Cl(void)
 			//	log(1 + s_ptr->rxn.logk_original[Logk::b_Av] * sqrt(mu_x)) / s_ptr->rxn.logk_original[Logk::b_Av];
 			/* extended DH... */
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-				sqrt_mu / (1 + s_ptr->rxn.Logk_cr.logk_original[Logk::b_Av] * DH_B * sqrt_mu);
+				sqrt_mu / (1 + s_ptr->rxn.Get_logk_original()[Logk::b_Av] * DH_B * sqrt_mu);
 		}
 		/* plus the volume terms * I... */
-		if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] != 0.0 || 
-			s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] != 0.0 || 
-			s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] != 0.0)
+		if (s_ptr->rxn.Get_logk_original()[Logk::vmi1] != 0.0 || 
+			s_ptr->rxn.Get_logk_original()[Logk::vmi2] != 0.0 || 
+			s_ptr->rxn.Get_logk_original()[Logk::vmi3] != 0.0)
 		{
-			double bi = s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] + 
-				s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] / TK_s + 
-				s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] * TK_s;
-			if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4] == 1.0)
+			double bi = s_ptr->rxn.Get_logk_original()[Logk::vmi1] + 
+				s_ptr->rxn.Get_logk_original()[Logk::vmi2] / TK_s + 
+				s_ptr->rxn.Get_logk_original()[Logk::vmi3] * TK_s;
+			if (s_ptr->rxn.Get_logk_original()[Logk::vmi4] == 1.0)
 				V_Cl += bi * mu_x;
 			else
-				V_Cl += bi * pow(mu_x, s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4]);
+				V_Cl += bi * pow(mu_x, s_ptr->rxn.Get_logk_original()[Logk::vmi4]);
 		}
 	}
 	else if (s_ptr->millero[0])

@@ -128,7 +128,7 @@ setup_inverse(class inverse *inv_ptr)
 	int temp;
 	LDBLE isotope_number;
 	LDBLE f, coef, cb, conc;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class phase *phase_ptr;
 	cxxSolution *solution_ptr;
 	CReaction *rxn_ptr;
@@ -352,8 +352,8 @@ setup_inverse(class inverse *inv_ptr)
 			f = -1.0;
 		}
 		column = i;
-		sprintf(token, "soln %d", i);
-		col_name[column] = token;
+		sprintf(tokens, "soln %d", i);
+		col_name[column] = tokens;
 		for (j = 0; j < (int)master.size(); j++)
 		{
 			if (master[j]->in >= 0)
@@ -400,16 +400,17 @@ setup_inverse(class inverse *inv_ptr)
 		rxn_ptr = &phase_ptr->rxn_s;
 		column = col_phases + i;
 		col_name[column] = phase_ptr->name;
-		for (j = 1; !rxn_ptr->token[j].Get_end(); j++)
+		for (j = 1; !rxn_ptr->Get_tokens()[j].Get_end(); j++)
 		{
-			if (rxn_ptr->token[j].Get_s()->secondary != NULL)
-			{
-				master_ptr = rxn_ptr->token[j].Get_s()->secondary;
-			}
-			else
-			{
-				master_ptr = rxn_ptr->token[j].Get_s()->primary;
-			}
+			master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->Pick_master();
+			//if (rxn_ptr->token[j].Get_s()->secondary != NULL)
+			//{
+			//	master_ptr = rxn_ptr->token[j].Get_s()->secondary;
+			//}
+			//else
+			//{
+			//	master_ptr = rxn_ptr->token[j].Get_s()->primary;
+			//}
 			if (master_ptr == NULL)
 			{
 				error_string = sformatf(
@@ -436,7 +437,7 @@ setup_inverse(class inverse *inv_ptr)
 			if (coef <= 0)
 				coef = 1.0;
 			my_array[(size_t)row * max_column_count + (size_t)column] =
-				rxn_ptr->token[j].coef * coef;
+				rxn_ptr->Get_tokens()[j].coef * coef;
 		}
 		row = master_alk->in;	/* include alkalinity for phase */
 		my_array[(size_t)row * max_column_count + (size_t)column] = calc_alk(*rxn_ptr);
@@ -454,21 +455,14 @@ setup_inverse(class inverse *inv_ptr)
 			column = col_redox + k;
 			col_name[column] = inv_ptr->elts[i].master->elt->name;
 			k++;
-			for (j = 0; !rxn_ptr->token[j].Get_end(); j++)
+			for (j = 0; !rxn_ptr->Get_tokens()[j].Get_end(); j++)
 			{
-				if (rxn_ptr->token[j].Get_s()->secondary != NULL)
-				{
-					master_ptr = rxn_ptr->token[j].Get_s()->secondary;
-				}
-				else
-				{
-					master_ptr = rxn_ptr->token[j].Get_s()->primary;
-				}
+				master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->Pick_master();
 				if (master_ptr == NULL)
 				{
 					error_string = sformatf(
 							"Subroutine setup_inverse, element not found, %s.",
-							rxn_ptr->token[j].Get_s()->name.c_str());
+							rxn_ptr->Get_tokens()[j].Get_s()->name.c_str());
 					error_msg(error_string, STOP);
 				}
 				if (master_ptr->s == s_hplus)
@@ -488,7 +482,7 @@ setup_inverse(class inverse *inv_ptr)
 				assert(row >= 0);
 				assert(column >= 0);
 				my_array[(size_t)row * max_column_count + (size_t)column] =
-					rxn_ptr->token[j].coef;
+					rxn_ptr->Get_tokens()[j].coef;
 				/* if coefficient of element is not 1.0 in master species */
 				if (j != 0)
 					my_array[(size_t)row * max_column_count + (size_t)column] /= coef;
@@ -519,8 +513,8 @@ setup_inverse(class inverse *inv_ptr)
 			{
 				my_array[(size_t)row * max_column_count + (size_t)column] = 0.0;
 			}
-			sprintf(token, "%s %d", row_name[row].c_str(), j);
-			col_name[column] = token;
+			sprintf(tokens, "%s %d", row_name[row].c_str(), j);
+			col_name[column] = tokens;
 			column++;
 		}
 	}
@@ -530,14 +524,14 @@ setup_inverse(class inverse *inv_ptr)
 
 	for (i = 0; i < inv_ptr->count_solns; i++)
 	{
-		sprintf(token, "ph %d", i);
-		col_name[column] = token;
+		sprintf(tokens, "ph %d", i);
+		col_name[column] = tokens;
 		column++;
 	}
 /*   put names in col_name for water */
 
-	sprintf(token, "water");
-	col_name[column] = token;
+	sprintf(tokens, "water");
+	col_name[column] = tokens;
 	column++;
 
 /*   put names of isotopes in col_name */
@@ -545,10 +539,10 @@ setup_inverse(class inverse *inv_ptr)
 	{
 		for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 		{
-			sprintf(token, "%d%s %d",
+			sprintf(tokens, "%d%s %d",
 					(int) inv_ptr->isotope_unknowns[j].isotope_number,
 					inv_ptr->isotope_unknowns[j].elt_name.c_str(), i);
-			col_name[column] = token;
+			col_name[column] = tokens;
 			column++;
 		}
 	}
@@ -562,11 +556,11 @@ setup_inverse(class inverse *inv_ptr)
 		{
 			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
-				sprintf(token, "%d%s %s",
+				sprintf(tokens, "%d%s %s",
 						(int) inv_ptr->isotopes[j].isotope_number,
 						inv_ptr->isotopes[j].elt_name.c_str(),
 						inv_ptr->phases[i].phase(this)->name.c_str());
-				col_name[column] = token;
+				col_name[column] = tokens;
 				column++;
 			}
 		}
@@ -630,8 +624,8 @@ setup_inverse(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)column] = 0.0;
 			}
 		}
-		sprintf(token, "%s %d", "charge", i);
-		row_name[count_rows] = token;
+		sprintf(tokens, "%s %d", "charge", i);
+		row_name[count_rows] = tokens;
 		count_rows++;
 	}
 /*
@@ -653,8 +647,8 @@ setup_inverse(class inverse *inv_ptr)
 			my_array[count_rows * max_column_count + (size_t)column] =
 				inv_ptr->dalk_dc[i];
 		}
-		sprintf(token, "%s %d", "dAlk", i);
-		row_name[count_rows] = token;
+		sprintf(tokens, "%s %d", "dAlk", i);
+		row_name[count_rows] = tokens;
 		count_rows++;
 	}
 /*
@@ -669,9 +663,9 @@ setup_inverse(class inverse *inv_ptr)
 		for (size_t j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
 			isotope_balance_equation(inv_ptr, (int)count_rows, (int)j);
-			sprintf(token, "%d%s", (int) inv_ptr->isotopes[j].isotope_number,
+			sprintf(tokens, "%d%s", (int) inv_ptr->isotopes[j].isotope_number,
 					inv_ptr->isotopes[j].elt_name.c_str());
-			row_name[count_rows] = token;
+			row_name[count_rows] = tokens;
 			count_rows++;
 		}
 	}
@@ -742,8 +736,8 @@ setup_inverse(class inverse *inv_ptr)
 			}
 			my_array[count_rows * max_column_count + (size_t)column] = 1.0 * f;
 			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
-			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name.c_str(), "eps+");
-			row_name[count_rows] = token;
+			sprintf(tokens, "%s %s", inv_ptr->elts[j].master->elt->name.c_str(), "eps+");
+			row_name[count_rows] = tokens;
 			count_rows++;
 
 /* set lower limit of change in negative direction */
@@ -775,9 +769,9 @@ setup_inverse(class inverse *inv_ptr)
 
 			my_array[count_rows * max_column_count + (size_t)i] = -coef * f;
 			my_array[count_rows * max_column_count + (size_t)column] = -1.0 * f;
-			sprintf(token, "%s %s", inv_ptr->elts[j].master->elt->name.c_str(),
+			sprintf(tokens, "%s %s", inv_ptr->elts[j].master->elt->name.c_str(),
 					"eps-");
-			row_name[count_rows] = token;
+			row_name[count_rows] = tokens;
 			count_rows++;
 		}
 	}
@@ -801,16 +795,16 @@ setup_inverse(class inverse *inv_ptr)
 
 			my_array[count_rows * max_column_count + (size_t)column] = 1.0;
 			my_array[count_rows * max_column_count + (size_t)i] = -coef;
-			sprintf(token, "%s %s", "pH", "eps+");
-			row_name[count_rows] = token;
+			sprintf(tokens, "%s %s", "pH", "eps+");
+			row_name[count_rows] = tokens;
 			count_rows++;
 
 /* set lower limit of change in negative direction */
 
 			my_array[count_rows * max_column_count + (size_t)column] = -1.0;
 			my_array[count_rows * max_column_count + (size_t)i] = -coef;
-			sprintf(token, "%s %s", "pH", "eps-");
-			row_name[count_rows] = token;
+			sprintf(tokens, "%s %s", "pH", "eps-");
+			row_name[count_rows] = tokens;
 			count_rows++;
 		}
 	}
@@ -825,16 +819,16 @@ setup_inverse(class inverse *inv_ptr)
 /* set upper limit of change in positive direction */
 		my_array[count_rows * max_column_count + (size_t)column] = 1.0;
 		my_array[count_rows * max_column_count + count_unknowns] = coef;
-		sprintf(token, "%s %s", "water", "eps+");
-		row_name[count_rows] = token;
+		sprintf(tokens, "%s %s", "water", "eps+");
+		row_name[count_rows] = tokens;
 		count_rows++;
 
 /* set lower limit of change in negative direction */
 
 		my_array[count_rows * max_column_count + (size_t)column] = -1.0;
 		my_array[count_rows * max_column_count + count_unknowns] = coef;
-		sprintf(token, "%s %s", "water", "eps-");
-		row_name[count_rows] = token;
+		sprintf(tokens, "%s %s", "water", "eps-");
+		row_name[count_rows] = tokens;
 		count_rows++;
 	}
 /*
@@ -870,20 +864,20 @@ setup_inverse(class inverse *inv_ptr)
 /* set upper limit of change in positive direction */
 						my_array[count_rows * max_column_count + (size_t)column] = 1.0;
 						my_array[count_rows * max_column_count + (size_t)i] = -coef;
-						sprintf(token, "%d%s %s",
+						sprintf(tokens, "%d%s %s",
 								(int) kit->second.Get_isotope_number(),
 								kit->second.Get_elt_name().c_str(), "eps+");
-						row_name[count_rows] = token;
+						row_name[count_rows] = tokens;
 						count_rows++;
 
 /* set lower limit of change in negative direction */
 
 						my_array[count_rows * max_column_count + (size_t)column] = -1.0;
 						my_array[count_rows * max_column_count + (size_t)i] = -coef;
-						sprintf(token, "%d%s %s",
+						sprintf(tokens, "%d%s %s",
 								(int) kit->second.Get_isotope_number(),
 								kit->second.Get_elt_name().c_str(), "eps-");
-						row_name[count_rows] = token;
+						row_name[count_rows] = tokens;
 						count_rows++;
 						break;
 					}
@@ -990,7 +984,7 @@ solve_inverse(class inverse *inv_ptr)
 	int quit, print, first;
 	int first_of_model_size, model_size;
 	unsigned long minimal_bits, good_bits;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	n = (int)count_unknowns;			/* columns in A, C, E */
 	klmd = (max_row_count - 2);
@@ -1022,8 +1016,8 @@ solve_inverse(class inverse *inv_ptr)
 	inv_is.resize(klmd);
 
 	for (i = 0; i < 79; i++)
-		token[i] = '=';
-	token[79] = '\0';
+		tokens[i] = '=';
+	tokens[79] = '\0';
 /*
  *   Set solutions, largest bit is final solution, smallest bit is initial solution 1 
  *   Set phases, largest bit is last phase, smallest bit is first phase
@@ -1147,7 +1141,7 @@ solve_inverse(class inverse *inv_ptr)
 					{
 						if (pr.inverse == TRUE && pr.all == TRUE)
 						{
-							output_msg(sformatf( "%s\n\n", token));
+							output_msg(sformatf( "%s\n\n", tokens));
 						}
 					}
 					continue;
@@ -1168,7 +1162,7 @@ solve_inverse(class inverse *inv_ptr)
 				{
 					if (pr.inverse == TRUE && pr.all == TRUE)
 					{
-						output_msg(sformatf( "%s\n\n", token));
+						output_msg(sformatf( "%s\n\n", tokens));
 					}
 				}
 				for (j = 0; j < count_good; j++)
@@ -1188,7 +1182,7 @@ solve_inverse(class inverse *inv_ptr)
 					{
 						output_msg(sformatf(
 								   "\nModel contains minimum number of phases.\n"));
-						output_msg(sformatf( "%s\n\n", token));
+						output_msg(sformatf( "%s\n\n", tokens));
 					}
 					punch_model(inv_ptr);
 					dump_netpath_pat(inv_ptr);
@@ -1628,7 +1622,7 @@ print_model(class inverse *inv_ptr)
 	cxxSolution *solution_ptr;
 	class master *master_ptr;
 	LDBLE d1, d2, d3, d4;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 /*
  *   Update screen
  */
@@ -1757,12 +1751,12 @@ print_model(class inverse *inv_ptr)
 						d2 = 0.0;
 					if (equal(d3, 0.0, MIN_TOTAL_INVERSE) == TRUE)
 						d3 = 0.0;
-					sprintf(token, "%d%s",
+					sprintf(tokens, "%d%s",
 							(int) inv_ptr->isotope_unknowns[j].
 							isotope_number,
 							inv_ptr->isotope_unknowns[j].elt_name.c_str());
 					output_msg(sformatf(
-							   "%15.15s   %12g  +%12g  =%12g\n", token,
+							   "%15.15s   %12g  +%12g  =%12g\n", tokens,
 							   (double) d1, (double) d2, (double) d3));
 /*
 					if (equal(d1, 0.0, MIN_TOTAL_INVERSE) == FALSE ) {
@@ -1833,12 +1827,12 @@ print_model(class inverse *inv_ptr)
 						d2 = 0.0;
 					if (equal(d3, 0.0, 1e-7) == TRUE)
 						d3 = 0.0;
-					sprintf(token, "%d%s %s",
+					sprintf(tokens, "%d%s %s",
 							(int) inv_ptr->isotopes[j].isotope_number,
 							inv_ptr->isotopes[j].elt_name.c_str(),
 							inv_ptr->phases[i].phase(this)->name.c_str());
 					output_msg(sformatf(
-							   "%15.15s   %12g  +%12g  =%12g", token,
+							   "%15.15s   %12g  +%12g  =%12g", tokens,
 							   (double) d1, (double) d2, (double) d3));
 					if (fabs(d2) > (isotope_ref[k].ratio_uncertainty + toler))
 					{
@@ -1935,9 +1929,9 @@ print_model(class inverse *inv_ptr)
 			for (size_t i2 = 0; i2 < inv_ptr->count_solns; i2++)
 			{
 				solution_ptr = Utilities::Rxn_find(Rxn_solution_map, inv_ptr->solns[i2]);
-				lk = reaction_ptr->Calc_lk(t_i, p_i);
+				lk = reaction_ptr->Calc_dv_lk_x(t_i, p_i);
 				iap = 0.0;
-				for (rxn_ptr = &reaction_ptr->token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
+				for (rxn_ptr = &reaction_ptr->Get_tokens()[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 				{
 					t = 0;
 					if (rxn_ptr->Get_s() == s_eminus)
@@ -2004,7 +1998,7 @@ punch_model_heading(class inverse *inv_ptr)
 	*   Prints model headings to selected output file
 	*/
 	int i;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin(); 
 	for ( ; so_it != SelectedOutput_map.end(); so_it++)
@@ -2032,13 +2026,13 @@ punch_model_heading(class inverse *inv_ptr)
 		*/
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
-			sprintf(token, "Soln_%d", inv_ptr->solns[i]);
-			std::string tok1(token);
+			sprintf(tokens, "Soln_%d", inv_ptr->solns[i]);
+			std::string tok1(tokens);
 			tok1.append("_min");
-			std::string tok2(token);
+			std::string tok2(tokens);
 			tok2.append("_max");
 
-			inverse_heading_names.push_back(sformatf("%*s\t", l, token));
+			inverse_heading_names.push_back(sformatf("%*s\t", l, tokens));
 			inverse_heading_names.push_back(sformatf("%*s\t", l, tok1.c_str()));
 			inverse_heading_names.push_back(sformatf("%*s\t", l, tok2.c_str()));
 		}
@@ -3465,7 +3459,7 @@ check_isotopes(class inverse *inv_ptr)
 	class master *master_ptr, *primary_ptr;
 	cxxSolution *solution_ptr;
 	class phase *phase_ptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 /*
  *  Check solutions for necessary isotope data
@@ -3589,12 +3583,12 @@ check_isotopes(class inverse *inv_ptr)
 			}
 			else
 			{
-				sprintf(token, "%g%s",
+				sprintf(tokens, "%g%s",
 						(double) kit->second.Get_isotope_number(),
 						kit->second.Get_elt_name().c_str());
 				for (l = 0; l < count_iso_defaults; l++)
 				{
-					if (token == iso_defaults[l].name)
+					if (tokens == iso_defaults[l].name)
 					{
 						kit->second.Set_x_ratio_uncertainty(
 							iso_defaults[l].uncertainty);
@@ -3684,7 +3678,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	size_t column;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	if (inv_ptr->isotopes.size() <= 0)
 		return OK;
 	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
@@ -3735,17 +3729,17 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
 						"iso pos");
-				row_name[count_rows] = token;
+				row_name[count_rows] = tokens;
 				count_rows++;
 
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
 						"iso neg");
-				row_name[count_rows] = token;
+				row_name[count_rows] = tokens;
 				count_rows++;
 
 				/* for phases constrained to dissolve */
@@ -3755,17 +3749,17 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
 						"iso pos");
-				row_name[count_rows] = token;
+				row_name[count_rows] = tokens;
 				count_rows++;
 
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
 					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
-				sprintf(token, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
 						"iso neg");
-				row_name[count_rows] = token;
+				row_name[count_rows] = tokens;
 				count_rows++;
 
 				/* Error if phase is not constrained */
@@ -3791,7 +3785,7 @@ write_optimize_names(class inverse *inv_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, row;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	row = 0;
 /*
  *   epsilons for analytical data
@@ -3800,9 +3794,9 @@ write_optimize_names(class inverse *inv_ptr)
 	{
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
-			sprintf(token, "%s %s %d", "optimize",
+			sprintf(tokens, "%s %s %d", "optimize",
 					inv_ptr->elts[j].master->elt->name.c_str(), inv_ptr->solns[i]);
-			row_name[row] = token;
+			row_name[row] = tokens;
 			row++;
 		}
 	}
@@ -3813,16 +3807,16 @@ write_optimize_names(class inverse *inv_ptr)
 	{
 		for (i = 0; i < inv_ptr->count_solns; i++)
 		{
-			sprintf(token, "%s %s %d", "optimize", "pH", inv_ptr->solns[i]);
-			row_name[row] = token;
+			sprintf(tokens, "%s %s %d", "optimize", "pH", inv_ptr->solns[i]);
+			row_name[row] = tokens;
 			row++;
 		}
 	}
 /*
  *   water
  */
-	sprintf(token, "%s %s", "optimize", "water");
-	row_name[row] = token;
+	sprintf(tokens, "%s %s", "optimize", "water");
+	row_name[row] = tokens;
 	row++;
 /*
  *   solution isotopes
@@ -3831,10 +3825,10 @@ write_optimize_names(class inverse *inv_ptr)
 	{
 		for (j = 0; j < inv_ptr->isotope_unknowns.size(); j++)
 		{
-			sprintf(token, "%s %d%s %d", "optimize",
+			sprintf(tokens, "%s %d%s %d", "optimize",
 					(int) inv_ptr->isotope_unknowns[j].isotope_number,
 					inv_ptr->isotope_unknowns[j].elt_name.c_str(), inv_ptr->solns[i]);
-			row_name[row] = token;
+			row_name[row] = tokens;
 			row++;
 		}
 	}
@@ -3846,11 +3840,11 @@ write_optimize_names(class inverse *inv_ptr)
 	{
 		for (j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
-			sprintf(token, "%s %s %d%s", "optimize",
+			sprintf(tokens, "%s %s %d%s", "optimize",
 					inv_ptr->phases[i].phase(this)->name.c_str(),
 					(int) inv_ptr->isotopes[j].isotope_number,
 					inv_ptr->isotopes[j].elt_name.c_str());
-			row_name[row] = token;
+			row_name[row] = tokens;
 			row++;
 		}
 	}
@@ -4864,9 +4858,9 @@ dump_netpath_pat(class inverse *inv_ptr)
 /*
  * Calculate RS
  */
-		std::string token;
+		std::string tokens;
 		sum = 0;
-		for (rxn_ptr = &inv_ptr->phases[i].phase(this)->rxn_s.token[0] + 1;
+		for (rxn_ptr = &inv_ptr->phases[i].phase(this)->rxn_s.Get_tokens()[0] + 1;
 			 !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() == s_hplus)
@@ -4894,7 +4888,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 				replace(")", " ", string);
 				std::string::iterator b = string.begin();
 				std::string::iterator e = string.end();
-				CParser::copy_token(token, b, e);
+				CParser::copy_token(tokens, b, e);
 				CParser::copy_token(string1, b, e);
 				(void)sscanf(string1.c_str(), SCANFORMAT, &f);
 				sum += f * rxn_ptr->coef;

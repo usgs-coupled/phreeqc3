@@ -31,7 +31,7 @@ typedef unsigned char boolean;
 #include "SelectedOutput.h"
 #include "UserPunch.h"
 #include "Logk.h"
-#include "CReaction.h"
+//#include "CReaction.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
@@ -655,7 +655,7 @@ public:
 	int get_option(const char** opt_list, int count_opt_list, const char** next_char);
 	int get_true_false(const char* string, int default_value);
 
-	int add_psi_master_species(char* token);
+	int add_psi_master_species(char* tokens);
 	int read_advection(void);
 	int read_analytical_expression_only(const char* cptr, LDBLE* log_k);
 	void read_analytical_expression_only(class Logk& lk, const char* cptr);
@@ -769,7 +769,7 @@ public:
 
 	// spread.cpp -------------------------------
 	int read_solution_spread(void);
-	int copy_token_tab(std::string& token, const char** cptr);
+	int copy_token_tab(std::string& tokens, const char** cptr);
 	int get_option_string(const char** opt_list, int count_opt_list,
 		const char** next_char);
 	int spread_row_free(class spread_row* spread_row_ptr);
@@ -994,14 +994,14 @@ public:
 	LDBLE calc_rho_0(LDBLE tc, LDBLE pa);
 	int compute_gfw(const char* string, LDBLE* gfw);
 	static int copy_token(char* token_ptr, const char** ptr, int* length);
-	static int copy_token(std::string& token, const char** ptr);
+	static int copy_token(std::string& tokens, const char** ptr);
 	int dup_print(const char* cptr, int emphasis);
 	int equal(LDBLE a, LDBLE b, LDBLE eps);
 	void* free_check_null(void* ptr);
 	int get_token(const char** eqnaddr, std::string& string, LDBLE* z, int* l);
 	int islegit(const char c);
 	void malloc_error(void);
-	int parse_couple(char* token);
+	int parse_couple(char* tokens);
 	int print_centered(const char* string);
 	static int replace(const char* str1, const char* str2, char* str);
 	static void replace(std::string &stds, const char* str1, const char* str2);
@@ -1017,7 +1017,7 @@ public:
 #if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 	char* _string_duplicate(const char* token, const char* szFileName, int nLine);
 #else
-	char* string_duplicate(const char* token);
+	char* string_duplicate(const char* tokens);
 #endif
 	const char* string_hsave(const char* str);
 	void strings_map_clear();

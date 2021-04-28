@@ -24,7 +24,7 @@ read_isotopes(void)
 
 	int l;
 	class master_isotope *master_isotope_ptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class element *elt_ptr;
 
 	int return_value, opt, opt_save;
@@ -76,15 +76,15 @@ read_isotopes(void)
 			 *  Save an isotope
 			 */
 			master_isotope_ptr = NULL;
-			copy_token(token, &next_char, &l);
-			master_isotope_ptr = master_isotope_store(token, TRUE);
+			copy_token(tokens, &next_char, &l);
+			master_isotope_ptr = master_isotope_store(tokens, TRUE);
 			master_isotope_ptr->elt = elt_ptr;
 			master_isotope_ptr->minor_isotope = TRUE;
 			master_isotope_ptr->total_is_major = FALSE;
 			/*
 			 *  Read units
 			 */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting units for isotopic values, %s. ISOTOPES data block.",
@@ -93,11 +93,11 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			master_isotope_ptr->units = token;
+			master_isotope_ptr->units = tokens;
 			/*
 			 *  Read standard 
 			 */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting isotope ratio of standard, %s. ISOTOPES data block.",
@@ -106,7 +106,7 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			(void)sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
+			(void)sscanf(tokens, SCANFORMAT, &(master_isotope_ptr->standard));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* total_is_major_isotope */
@@ -119,7 +119,7 @@ read_isotopes(void)
 /*
  *   Read and element name
  */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting an element name for isotope definition, %s. ISOTOPES data block.",
@@ -128,8 +128,8 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			elt_ptr = element_store(token);
-			master_isotope_ptr = master_isotope_store(token, TRUE);
+			elt_ptr = element_store(tokens);
+			master_isotope_ptr = master_isotope_store(tokens, TRUE);
 			master_isotope_ptr->elt = elt_ptr;
 			master_isotope_ptr->minor_isotope = FALSE;
 			master_isotope_ptr->total_is_major = FALSE;
@@ -162,7 +162,7 @@ read_calculate_values(void)
  */
 	int l;
 	int return_value, opt, opt_save;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class calculate_value *calculate_value_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -206,7 +206,7 @@ read_calculate_values(void)
 /*
  *   Read calculate_value name
  */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting a name for calculate_value definition, %s. CALCULATE_VALUES data block.",
@@ -215,7 +215,7 @@ read_calculate_values(void)
 				input_error++;
 				break;
 			}
-			calculate_value_ptr = calculate_value_store(token, TRUE);
+			calculate_value_ptr = calculate_value_store(tokens, TRUE);
 			calculate_value_ptr->new_def = TRUE;
 			calculate_value_ptr->commands.clear();
 			calculate_value_ptr->linebase = NULL;
@@ -269,7 +269,7 @@ read_isotope_ratios(void)
  */
 	int l;
 	int return_value, opt, opt_save;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class isotope_ratio *isotope_ratio_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -306,7 +306,7 @@ read_isotope_ratios(void)
 /*
  *   Read isotope_ratio name
  */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting a name for isotope_ratio definition, %s. ISOTOPE_RATIOS data block.",
@@ -315,11 +315,11 @@ read_isotope_ratios(void)
 				input_error++;
 				break;
 			}
-			isotope_ratio_ptr = isotope_ratio_store(token, TRUE);
+			isotope_ratio_ptr = isotope_ratio_store(tokens, TRUE);
 			/*
 			 *  Read isotope
 			 */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting a name of isotope for an isotope_ratio definition, %s. ISOTOPE_RATIOS data block.",
@@ -328,7 +328,7 @@ read_isotope_ratios(void)
 				input_error++;
 				break;
 			}
-			isotope_ratio_ptr->isotope_name = token;
+			isotope_ratio_ptr->isotope_name = tokens;
 			opt_save = OPTION_DEFAULT;
 			break;
 		}
@@ -359,7 +359,7 @@ read_isotope_alphas(void)
  */
 	int l;
 	int return_value, opt, opt_save;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class isotope_alpha *isotope_alpha_ptr;
 	const char* next_char;
 	const char *opt_list[] = {
@@ -396,7 +396,7 @@ read_isotope_alphas(void)
 /*
  *   Read isotope_alpha name
  */
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 			{
 				error_string = sformatf(
 						"Expecting a name for isotope_alpha definition, %s. ISOTOPE_ALPHAS data block.",
@@ -405,11 +405,11 @@ read_isotope_alphas(void)
 				input_error++;
 				break;
 			}
-			isotope_alpha_ptr = isotope_alpha_store(token, TRUE);
-			isotope_alpha_ptr->name = token;
-			if (copy_token(token, &next_char, &l) != EMPTY)
+			isotope_alpha_ptr = isotope_alpha_store(tokens, TRUE);
+			isotope_alpha_ptr->name = tokens;
+			if (copy_token(tokens, &next_char, &l) != EMPTY)
 			{
-				isotope_alpha_ptr->named_logk = token;
+				isotope_alpha_ptr->named_logk = tokens;
 			}
 
 
@@ -939,7 +939,7 @@ print_isotope_ratios(void)
 	int print_isotope;
 	class master *master_ptr;
 	class master_isotope *master_isotope_ptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 
 	if (pr.isotope_ratios == FALSE || pr.all == FALSE)
@@ -979,10 +979,10 @@ print_isotope_ratios(void)
 		/*
 		 *  Print isotope ratio
 		 */
-		strcpy(token, isotope_ratio[j]->name.c_str());
-		while (replace("_", " ", token) == TRUE);
+		strcpy(tokens, isotope_ratio[j]->name.c_str());
+		while (replace("_", " ", tokens) == TRUE);
 		output_msg(sformatf( "     %-20s\t%12.5e\t%15.5g  %-10s\n",
-				   token, (double) isotope_ratio[j]->ratio,
+				   tokens, (double) isotope_ratio[j]->ratio,
 				   (double) isotope_ratio[j]->converted_ratio,
 				   master_isotope_ptr->units.c_str()));
 	}
@@ -1001,7 +1001,7 @@ print_isotope_alphas(void)
 	int i, j;
 	int print_isotope;
 	class master *master_ptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	LDBLE log_alpha;
 
 	if (pr.isotope_alphas == FALSE || pr.all == FALSE)
@@ -1042,8 +1042,8 @@ print_isotope_alphas(void)
 		/*
 		 *  Print isotope ratio
 		 */
-		strcpy(token, isotope_alpha[j]->name.c_str());
-		while (replace("_", " ", token) == TRUE);
+		strcpy(tokens, isotope_alpha[j]->name.c_str());
+		while (replace("_", " ", tokens) == TRUE);
 		if (isotope_alpha[j]->named_logk.size() > 0)
 		{
 			if (isotope_alpha[j]->value <= 0)
@@ -1054,7 +1054,7 @@ print_isotope_alphas(void)
 			{
 				log_alpha = 1000 * log(isotope_alpha[j]->value);
 			}
-			output_msg(sformatf( "%-37s%14.5g%14.5g%14.5g\n", token,
+			output_msg(sformatf( "%-37s%14.5g%14.5g%14.5g\n", tokens,
 					   (double) isotope_alpha[j]->value, (double) log_alpha,
 					   (double) (1000 *
 								 calc_logk_n(isotope_alpha[j]->named_logk) *
@@ -1062,7 +1062,7 @@ print_isotope_alphas(void)
 		}
 		else
 		{
-			output_msg(sformatf( "%-37s%14.5g%14.5g\n", token,
+			output_msg(sformatf( "%-37s%14.5g%14.5g\n", tokens,
 					   (double) isotope_alpha[j]->value,
 					   (double) (1000 * log(isotope_alpha[j]->value))));
 		}

@@ -93,7 +93,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 
 	std::vector < LDBLE > temp_d_params;
@@ -185,10 +185,10 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 			break;
 
 		case 6:				// d_params
-			while (parser.copy_token(token, next_char) == CParser::TT_DIGIT)
+			while (parser.copy_token(tokens, next_char) == CParser::TT_DIGIT)
 			{
 				double dd;
-				(void)sscanf(token.c_str(), "%lf", &dd);
+				(void)sscanf(tokens.c_str(), "%lf", &dd);
 				temp_d_params.push_back((LDBLE) dd);
 				d_params_defined = true;
 			}

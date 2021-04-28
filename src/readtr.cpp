@@ -38,7 +38,7 @@ read_transport(void)
 	int i, j, l;
 	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	LDBLE *length, *disp, *pors;
 	int *punch_temp, *print_temp, *same_model_temp;
 	int return_value, opt, opt_save;
@@ -172,19 +172,19 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* shifts */
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				(void)sscanf(token, "%d", &count_shifts);
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
+				(void)sscanf(tokens, "%d", &count_shifts);
 			else
 			{
 				warning_msg
 					("Expected the number of shifts. One shift is assumed.");
 				count_shifts = 1;
 			}
-			j = copy_token(token, &next_char, &l);
+			j = copy_token(tokens, &next_char, &l);
 			if (j != EMPTY)
 			{
 				if (j == DIGIT)
-					(void)sscanf(token, "%d", &ishift);
+					(void)sscanf(tokens, "%d", &ishift);
 				else
 				{
 					input_error++;
@@ -221,11 +221,11 @@ read_transport(void)
 		case 12:				/* bc */
 		case 13:				/* boundary_conditions */
 			/* first cell boundary condition */
-			i = copy_token(token, &next_char, &l);
-			str_tolower(token);
+			i = copy_token(tokens, &next_char, &l);
+			str_tolower(tokens);
 			if (i == DIGIT)
 			{
-				(void)sscanf(token, "%d", &bcon_first);
+				(void)sscanf(tokens, "%d", &bcon_first);
 				if (bcon_first < 1 || bcon_first > 3)
 				{
 					input_error++;
@@ -236,11 +236,11 @@ read_transport(void)
 			}
 			else if (i == EMPTY)
 				bcon_first = 3;
-			else if (strstr(token, "co") == token)
+			else if (strstr(tokens, "co") == tokens)
 				bcon_first = 1;
-			else if (strstr(token, "cl") == token)
+			else if (strstr(tokens, "cl") == tokens)
 				bcon_first = 2;
-			else if (strstr(token, "f") == token)
+			else if (strstr(tokens, "f") == tokens)
 				bcon_first = 3;
 			else
 			{
@@ -251,11 +251,11 @@ read_transport(void)
 			}
 
 			/* last cell boundary condition */
-			i = copy_token(token, &next_char, &l);
-			str_tolower(token);
+			i = copy_token(tokens, &next_char, &l);
+			str_tolower(tokens);
 			if (i == DIGIT)
 			{
-				(void)sscanf(token, "%d", &bcon_last);
+				(void)sscanf(tokens, "%d", &bcon_last);
 				if (bcon_last < 1 || bcon_last > 3)
 				{
 					input_error++;
@@ -266,11 +266,11 @@ read_transport(void)
 			}
 			else if (i == EMPTY)
 				bcon_last = 3;
-			else if (strstr(token, "co") == token)
+			else if (strstr(tokens, "co") == tokens)
 				bcon_last = 1;
-			else if (strstr(token, "cl") == token)
+			else if (strstr(tokens, "cl") == tokens)
 				bcon_last = 2;
-			else if (strstr(token, "f") == token)
+			else if (strstr(tokens, "f") == tokens)
 				bcon_last = 3;
 			else
 			{
@@ -283,8 +283,8 @@ read_transport(void)
 			break;
 		case 5:					/* timest */
 		case 14:				/* time_step */
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				(void)sscanf(token, SCANFORMAT, &timest);
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
+				(void)sscanf(tokens, SCANFORMAT, &timest);
 			{
 				std::string stdtoken;
 				j = copy_token(stdtoken, &next_char);
@@ -317,8 +317,8 @@ read_transport(void)
 		case 15:				/* temp_retardation_factor */
 		case 19:				/* temperature_retardation_factor */
 		case 39:				/* thermal_diffusion */
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				(void)sscanf(token, SCANFORMAT, &tempr);
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
+				(void)sscanf(tokens, SCANFORMAT, &tempr);
 			if (tempr < 1)
 			{
 				tempr = 1;
@@ -326,9 +326,9 @@ read_transport(void)
 					("Temperature retardation factor < 1 is not possible.\n"
 					"Temperature retardation factor = 1 assumed.");
 			}
-			j = copy_token(token, &next_char, &l);
+			j = copy_token(tokens, &next_char, &l);
 			if (j == DIGIT)
-				(void)sscanf(token, SCANFORMAT, &heat_diffc);
+				(void)sscanf(tokens, SCANFORMAT, &heat_diffc);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 8:				/* length */
@@ -364,10 +364,10 @@ read_transport(void)
 			opt_save = 10;
 			break;
 		case 11:				/* stagnant */
-			if (copy_token(token, &next_char, &l) != EMPTY)
+			if (copy_token(tokens, &next_char, &l) != EMPTY)
 			{
 				/* exchange factor */
-				if (sscanf(token, "%d", &(stag_data.count_stag)) != 1)
+				if (sscanf(tokens, "%d", &(stag_data.count_stag)) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -377,10 +377,10 @@ read_transport(void)
 				}
 
 				/* exchange factor */
-				j = copy_token(token, &next_char, &l);
+				j = copy_token(tokens, &next_char, &l);
 				if (j != EMPTY)
 				{
-					if (sscanf(token, SCANFORMAT, &(stag_data.exch_f)) != 1)
+					if (sscanf(tokens, SCANFORMAT, &(stag_data.exch_f)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -388,8 +388,8 @@ read_transport(void)
 						error_msg(error_string, CONTINUE);
 						break;
 					}
-					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data.th_m)) != 1)
+					copy_token(tokens, &next_char, &l);
+					if (sscanf(tokens, SCANFORMAT, &(stag_data.th_m)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -397,8 +397,8 @@ read_transport(void)
 						error_msg(error_string, CONTINUE);
 						break;
 					}
-					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data.th_im)) != 1)
+					copy_token(tokens, &next_char, &l);
+					if (sscanf(tokens, SCANFORMAT, &(stag_data.th_im)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -413,15 +413,15 @@ read_transport(void)
 		case 18:				/* direction */
 		case 22:				/* flow_direction */
 		case 23:				/* flow */
-			copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (strstr(token, "f") == token)
+			copy_token(tokens, &next_char, &l);
+			str_tolower(tokens);
+			if (strstr(tokens, "f") == tokens)
 				ishift = 1;
-			else if (strstr(token, "b") == token)
+			else if (strstr(tokens, "b") == tokens)
 				ishift = -1;
-			else if (strstr(token, "d") == token)
+			else if (strstr(tokens, "d") == tokens)
 				ishift = 0;
-			else if (strstr(token, "n") == token)
+			else if (strstr(tokens, "n") == tokens)
 				ishift = 0;
 			else
 			{
@@ -459,8 +459,8 @@ read_transport(void)
 			break;
 		case 31:				/* dump_frequency */
 			dump_in = TRUE;
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				(void)sscanf(token, "%d", &dump_modulus);
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
+				(void)sscanf(tokens, "%d", &dump_modulus);
 			else
 			{
 				warning_msg("Expected integer value for dump_frequency.");
@@ -470,8 +470,8 @@ read_transport(void)
 			break;
 		case 32:				/* dump_restart */
 			dump_in = TRUE;
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				(void)sscanf(token, "%d", &transport_start);
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
+				(void)sscanf(tokens, "%d", &transport_start);
 			else
 			{
 				warning_msg
@@ -485,8 +485,8 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 36:				/* initial_time */
-			if (copy_token(token, &next_char, &l) == DIGIT)
-				(void)sscanf(token, SCANFORMAT, &initial_total_time);
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
+				(void)sscanf(tokens, SCANFORMAT, &initial_total_time);
 			{
 				std::string stdtoken;
 				j = copy_token(stdtoken, &next_char);
@@ -502,11 +502,11 @@ read_transport(void)
 			transport_warnings = get_true_false(next_char, TRUE);
 			break;
 		case 40:				/* multicomponent diffusion */
-			copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (strstr(token, "f") == token)
+			copy_token(tokens, &next_char, &l);
+			str_tolower(tokens);
+			if (strstr(tokens, "f") == tokens)
 				multi_Dflag = 0;
-			else if (strstr(token, "t") == token)
+			else if (strstr(tokens, "t") == tokens)
 				multi_Dflag = 1;
 			else
 			{
@@ -520,12 +520,12 @@ read_transport(void)
 			multi_Dpor_lim = 0.0;
 			multi_Dn = 1.0;
 			correct_Dw = 0;
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
 				/* default species diffusion coeff */
-				if (sscanf(token, SCANFORMAT, &default_Dw) != 1)
+				if (sscanf(tokens, SCANFORMAT, &default_Dw) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -534,12 +534,12 @@ read_transport(void)
 					break;
 				}
 			}
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
 				/* porosity */
-				if (sscanf(token, SCANFORMAT, &multi_Dpor) != 1)
+				if (sscanf(tokens, SCANFORMAT, &multi_Dpor) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -548,12 +548,12 @@ read_transport(void)
 					break;
 				}
 			}
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
 				/* porosity */
-				if (sscanf(token, SCANFORMAT, &multi_Dpor_lim) != 1)
+				if (sscanf(tokens, SCANFORMAT, &multi_Dpor_lim) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -562,11 +562,11 @@ read_transport(void)
 					break;
 				}
 			}
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
-				if (sscanf(token, SCANFORMAT, &multi_Dn) != 1)
+				if (sscanf(tokens, SCANFORMAT, &multi_Dn) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -575,14 +575,14 @@ read_transport(void)
 					break;
 				}
 			}
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
-				str_tolower(token);
-				if (strstr(token, "f") == token)
+				str_tolower(tokens);
+				if (strstr(tokens, "f") == tokens)
 					correct_Dw = 0;
-				else if (strstr(token, "t") == token)
+				else if (strstr(tokens, "t") == tokens)
 					correct_Dw = 1;
 				else
 				{
@@ -595,11 +595,11 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 41:				/* interlayer diffusion */
-			copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (strstr(token, "f") == token)
+			copy_token(tokens, &next_char, &l);
+			str_tolower(tokens);
+			if (strstr(tokens, "f") == tokens)
 				interlayer_Dflag = 0;
-			else if (strstr(token, "t") == token)
+			else if (strstr(tokens, "t") == tokens)
 				interlayer_Dflag = 1;
 			else
 			{
@@ -611,12 +611,12 @@ read_transport(void)
 			interlayer_Dpor = 0.1;
 			interlayer_Dpor_lim = 0.0;
 			interlayer_tortf = 100.0;
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
 				/* porosity */
-				if (sscanf(token, SCANFORMAT, &interlayer_Dpor) != 1)
+				if (sscanf(tokens, SCANFORMAT, &interlayer_Dpor) != 1)
 				{
 					input_error++;
 					error_string = sformatf("Expected interlayer porosity.");
@@ -624,12 +624,12 @@ read_transport(void)
 					break;
 				}
 			}
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
 				/* porosity limit */
-				if (sscanf(token, SCANFORMAT, &interlayer_Dpor_lim) != 1)
+				if (sscanf(tokens, SCANFORMAT, &interlayer_Dpor_lim) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -638,11 +638,11 @@ read_transport(void)
 					break;
 				}
 			}
-			if (copy_token(token, &next_char, &l) == EMPTY)
+			if (copy_token(tokens, &next_char, &l) == EMPTY)
 				break;
 			else
 			{
-				if (sscanf(token, SCANFORMAT, &interlayer_tortf) != 1)
+				if (sscanf(tokens, SCANFORMAT, &interlayer_tortf) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -667,9 +667,9 @@ read_transport(void)
 			break;
 		case 44:				/* fix_current */
 		case 45:                /* current     */
-			if (copy_token(token, &next_char, &l) == DIGIT)
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
 			{
-				(void)sscanf(token, SCANFORMAT, &fix_current);
+				(void)sscanf(tokens, SCANFORMAT, &fix_current);
 //				fix_current = fabs(fix_current);
 			}
 			else
@@ -680,11 +680,11 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 46:				/* implicit diffusion */
-			copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (strstr(token, "f") == token)
+			copy_token(tokens, &next_char, &l);
+			str_tolower(tokens);
+			if (strstr(tokens, "f") == tokens)
 				implicit = FALSE;
-			else if (strstr(token, "t") == token)
+			else if (strstr(tokens, "t") == tokens)
 				implicit = TRUE;
 			else
 			{
@@ -693,9 +693,9 @@ read_transport(void)
 				("Expected flag for implicit diffusion calc`s: 'true' or 'false'.",
 					CONTINUE);
 			}
-			if (copy_token(token, &next_char, &l) == DIGIT)
+			if (copy_token(tokens, &next_char, &l) == DIGIT)
 			{
-				(void)sscanf(token, SCANFORMAT, &max_mixf);
+				(void)sscanf(tokens, SCANFORMAT, &max_mixf);
 			}
 			else
 			{
@@ -703,10 +703,10 @@ read_transport(void)
 				max_mixf = 1.0;
 			}
 			min_dif_LM = -30.0;
-			if (copy_token(token, &next_char, &l) != EMPTY)
+			if (copy_token(tokens, &next_char, &l) != EMPTY)
 			{
 				/* minimal moles for diffusion */
-				if (sscanf(token, SCANFORMAT, &min_dif_LM) != 1)
+				if (sscanf(tokens, SCANFORMAT, &min_dif_LM) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -741,24 +741,24 @@ read_transport(void)
 	{
 		if (max_cells == count_length)
 		{
-			sprintf(token,
+			sprintf(tokens,
 				"Number of cells is increased to number of 'lengths' %d.",
 				count_length);
-			warning_msg(token);
+			warning_msg(tokens);
 		}
 		else if (max_cells == count_disp)
 		{
-			sprintf(token,
+			sprintf(tokens,
 				"Number of cells is increased to number of dispersivities %d.",
 				count_disp);
-			warning_msg(token);
+			warning_msg(tokens);
 		}
 		else
 		{
-			sprintf(token,
+			sprintf(tokens,
 				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
 				(int) ceil(((double)count_por / (1 + (double)stag_data.count_stag))));
-			warning_msg(token);
+			warning_msg(tokens);
 		}
 	}
 	/*
@@ -1145,23 +1145,23 @@ read_line_LDBLEs(const char* next_char, LDBLE ** d, int *count_d, int *count_all
 {
 	int i, j, l, n;
 	LDBLE value;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	for (;;)
 	{
-		j = copy_token(token, &next_char, &l);
+		j = copy_token(tokens, &next_char, &l);
 		if (j == EMPTY)
 			break;
 		if (j != DIGIT)
 			return (ERROR);
-		if (replace("*", " ", token) == TRUE)
+		if (replace("*", " ", tokens) == TRUE)
 		{
-			if (sscanf(token, "%d" SCANFORMAT, &n, &value) != 2)
+			if (sscanf(tokens, "%d" SCANFORMAT, &n, &value) != 2)
 				return (ERROR);
 		}
 		else
 		{
-			(void)sscanf(token, SCANFORMAT, &value);
+			(void)sscanf(tokens, SCANFORMAT, &value);
 			n = 1;
 		}
 		for (;;)
@@ -1213,260 +1213,260 @@ dump_cpp(void)
 	phreeqcBin.dump_raw(fs, 0);
 	fs << "END" << "\n";
 
-	char token[MAX_LENGTH];
-	sprintf(token, "KNOBS\n");
-	fs << token;
-	sprintf(token, "\t-iter%15d\n", itmax);
-	fs << token;
-	sprintf(token, "\t-tol %15.3e\n", (double)ineq_tol);
-	fs << token;
-	sprintf(token, "\t-step%15.3e\n", (double)step_size);
-	fs << token;
-	sprintf(token, "\t-pe_s%15.3e\n", (double)pe_step_size);
-	fs << token;
-	sprintf(token, "\t-diag      ");
-	fs << token;
+	char tokens[MAX_LENGTH];
+	sprintf(tokens, "KNOBS\n");
+	fs << tokens;
+	sprintf(tokens, "\t-iter%15d\n", itmax);
+	fs << tokens;
+	sprintf(tokens, "\t-tol %15.3e\n", (double)ineq_tol);
+	fs << tokens;
+	sprintf(tokens, "\t-step%15.3e\n", (double)step_size);
+	fs << tokens;
+	sprintf(tokens, "\t-pe_s%15.3e\n", (double)pe_step_size);
+	fs << tokens;
+	sprintf(tokens, "\t-diag      ");
+	fs << tokens;
 	if (diagonal_scale == TRUE)
 	{
-		sprintf(token, "true\n");
-		fs << token;
+		sprintf(tokens, "true\n");
+		fs << tokens;
 	}
 	else
 	{
-		sprintf(token, "false\n");
-		fs << token;
+		sprintf(tokens, "false\n");
+		fs << tokens;
 	}
 	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin();
 	for (; so_it != SelectedOutput_map.end(); so_it++)
 	{
 		current_selected_output = &(so_it->second);
 
-		sprintf(token, "SELECTED_OUTPUT %d\n", current_selected_output->Get_n_user());
-		fs << token;
+		sprintf(tokens, "SELECTED_OUTPUT %d\n", current_selected_output->Get_n_user());
+		fs << tokens;
 		//sprintf(token, "\t-file  %-15s\n", "sel_o$$$.prn");
 		//fs << token;
 		fs << "\t-file  " << "sel_o$$$" << current_selected_output->Get_n_user() << ".prn\n";
 		//if (punch.count_totals != 0)
 		if (current_selected_output->Get_totals().size() > 0)
 		{
-			sprintf(token, "\t-tot ");
-			fs << token;
+			sprintf(tokens, "\t-tot ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_totals()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_totals()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_molalities().size() > 0)
 		{
-			sprintf(token, "\t-mol ");
-			fs << token;
+			sprintf(tokens, "\t-mol ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_molalities().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_molalities()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_molalities()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_activities().size() > 0)
 		{
-			sprintf(token, "\t-act ");
-			fs << token;
+			sprintf(tokens, "\t-act ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_activities().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_activities()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_activities()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_pure_phases().size() > 0)
 		{
-			sprintf(token, "\t-equ ");
-			fs << token;
+			sprintf(tokens, "\t-equ ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_pure_phases().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_pure_phases()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_pure_phases()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_si().size() > 0)
 		{
-			sprintf(token, "\t-si ");
-			fs << token;
+			sprintf(tokens, "\t-si ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_si()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_si()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_gases().size() > 0)
 		{
-			sprintf(token, "\t-gas ");
-			fs << token;
+			sprintf(tokens, "\t-gas ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_gases().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_gases()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_gases()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_s_s().size() > 0)
 		{
-			sprintf(token, "\t-solid_solutions ");
-			fs << token;
+			sprintf(tokens, "\t-solid_solutions ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_s_s().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_s_s()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_s_s()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 		if (current_selected_output->Get_kinetics().size() > 0)
 		{
-			sprintf(token, "\t-kin ");
-			fs << token;
+			sprintf(tokens, "\t-kin ");
+			fs << tokens;
 			for (size_t i = 0; i < current_selected_output->Get_kinetics().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_kinetics()[i].first.c_str());
-				fs << token;
+				sprintf(tokens, "  %s", current_selected_output->Get_kinetics()[i].first.c_str());
+				fs << tokens;
 			}
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 	}
-	sprintf(token, "TRANSPORT\n");
-	fs << token;
-	sprintf(token, "\t-cells %6d\n", count_cells);
-	fs << token;
-	sprintf(token, "\t-shifts%6d%6d\n", count_shifts, ishift);
-	fs << token;
-	sprintf(token, "\t-output_frequency %6d\n", print_modulus);
-	fs << token;
-	sprintf(token, "\t-selected_output_frequency %6d\n",
+	sprintf(tokens, "TRANSPORT\n");
+	fs << tokens;
+	sprintf(tokens, "\t-cells %6d\n", count_cells);
+	fs << tokens;
+	sprintf(tokens, "\t-shifts%6d%6d\n", count_shifts, ishift);
+	fs << tokens;
+	sprintf(tokens, "\t-output_frequency %6d\n", print_modulus);
+	fs << tokens;
+	sprintf(tokens, "\t-selected_output_frequency %6d\n",
 		punch_modulus);
-	fs << token;
-	sprintf(token, "\t-bcon  %6d%6d\n", bcon_first, bcon_last);
-	fs << token;
-	sprintf(token, "\t-timest %13.5e\n", (double)timest);
-	fs << token;
+	fs << tokens;
+	sprintf(tokens, "\t-bcon  %6d%6d\n", bcon_first, bcon_last);
+	fs << tokens;
+	sprintf(tokens, "\t-timest %13.5e\n", (double)timest);
+	fs << tokens;
 	if (!high_precision)
 	{
-		sprintf(token, "\t-diffc  %13.5e\n", (double)diffc);
-		fs << token;
+		sprintf(tokens, "\t-diffc  %13.5e\n", (double)diffc);
+		fs << tokens;
 	}
 	else
 	{
-		sprintf(token, "\t-diffc  %20.12e\n", (double)diffc);
-		fs << token;
+		sprintf(tokens, "\t-diffc  %20.12e\n", (double)diffc);
+		fs << tokens;
 	}
-	sprintf(token, "\t-tempr  %13.5e\n", (double)tempr);
-	fs << token;
+	sprintf(tokens, "\t-tempr  %13.5e\n", (double)tempr);
+	fs << tokens;
 	if (correct_disp == TRUE)
 	{
-		sprintf(token, "\t-correct_disp %s\n", "True");
-		fs << token;
+		sprintf(tokens, "\t-correct_disp %s\n", "True");
+		fs << tokens;
 	}
 	else
 	{
-		sprintf(token, "\t-correct_disp %s\n", "False");
-		fs << token;
+		sprintf(tokens, "\t-correct_disp %s\n", "False");
+		fs << tokens;
 	}
-	sprintf(token, "\t-length\n");
-	fs << token;
+	sprintf(tokens, "\t-length\n");
+	fs << tokens;
 	for (int i = 1; i <= count_cells; i++)
 	{
-		sprintf(token, "%12.3e", (double)cell_data[i].length);
-		fs << token;
+		sprintf(tokens, "%12.3e", (double)cell_data[i].length);
+		fs << tokens;
 		if (i > 0 && (i % 8) == 0)
 		{
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 	}
-	sprintf(token, "\n");
-	fs << token;
-	sprintf(token, "\t-disp\n");
-	fs << token;
+	sprintf(tokens, "\n");
+	fs << tokens;
+	sprintf(tokens, "\t-disp\n");
+	fs << tokens;
 	for (int i = 1; i <= count_cells; i++)
 	{
 		if (!high_precision)
 		{
-			sprintf(token, "%12.3e", (double)cell_data[i].disp);
-			fs << token;
+			sprintf(tokens, "%12.3e", (double)cell_data[i].disp);
+			fs << tokens;
 		}
 		else
 		{
-			sprintf(token, "%20.12e", (double)cell_data[i].disp);
-			fs << token;
+			sprintf(tokens, "%20.12e", (double)cell_data[i].disp);
+			fs << tokens;
 		}
 		if (i > 0 && (i % 8) == 0)
 		{
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 	}
-	sprintf(token, "\n");
-	fs << token;
-	sprintf(token, "\t-punch_cells");
-	fs << token;
+	sprintf(tokens, "\n");
+	fs << tokens;
+	sprintf(tokens, "\t-punch_cells");
+	fs << tokens;
 	l = 0;
 	for (int i = 0; i < all_cells; i++)
 	{
 		if (cell_data[i].punch != TRUE)
 			continue;
-		sprintf(token, "  %d", i);
-		fs << token;
+		sprintf(tokens, "  %d", i);
+		fs << tokens;
 		l++;
 		if ((l % 20) == 0)
 		{
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 	}
-	sprintf(token, "\n");
-	fs << token;
-	sprintf(token, "\t-print_cells");
-	fs << token;
+	sprintf(tokens, "\n");
+	fs << tokens;
+	sprintf(tokens, "\t-print_cells");
+	fs << tokens;
 	l = 0;
 	for (int i = 0; i < all_cells; i++)
 	{
 		if (cell_data[i].print != TRUE)
 			continue;
-		sprintf(token, "  %d", i);
-		fs << token;
+		sprintf(tokens, "  %d", i);
+		fs << tokens;
 		l++;
 		if ((l % 20) == 0)
 		{
-			sprintf(token, "\n");
-			fs << token;
+			sprintf(tokens, "\n");
+			fs << tokens;
 		}
 	}
-	sprintf(token, "\n");
-	fs << token;
-	sprintf(token, "\t-dump            $$$.dmp\n");
-	fs << token;
-	sprintf(token, "\t-dump_frequency  %d\n", dump_modulus);
-	fs << token;
-	sprintf(token, "\t-dump_restart    %d\n", transport_step + 1);
-	fs << token;
+	sprintf(tokens, "\n");
+	fs << tokens;
+	sprintf(tokens, "\t-dump            $$$.dmp\n");
+	fs << tokens;
+	sprintf(tokens, "\t-dump_frequency  %d\n", dump_modulus);
+	fs << tokens;
+	sprintf(tokens, "\t-dump_restart    %d\n", transport_step + 1);
+	fs << tokens;
 
 #if defined MULTICHART
 	// user graphs
 	chart_handler.dump(fs, 0);
 #endif
 
-	sprintf(token, "END\n");
-	fs << token;
+	sprintf(tokens, "END\n");
+	fs << tokens;
 	return (OK);
 }
 

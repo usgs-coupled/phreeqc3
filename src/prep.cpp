@@ -380,7 +380,7 @@ build_gas_phase(void)
  */
 		count_elts = 0;
 		paren_count = 0;
-		if (phase_ptr->rxn_x.token.size() == 0)
+		if (phase_ptr->rxn_x.Get_tokens().size() == 0)
 			continue;
 		add_elt_list(phase_ptr->next_elt, 1.0);
 #ifdef COMBINE
@@ -477,7 +477,7 @@ build_gas_phase(void)
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
-			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
+			for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1;
 				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 
@@ -549,7 +549,7 @@ build_gas_phase(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() != s_eminus && rxn_ptr->Get_s()->in == FALSE)
 			{
@@ -654,10 +654,10 @@ build_ss_assemblage(void)
 /*
  *   Calculate function value (inverse saturation index)
  */
-		if (x[i]->phase->rxn_x.token.size() == 0)
+		if (x[i]->phase->rxn_x.Get_tokens().size() == 0)
 			continue;
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &x[i]->phase->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
@@ -671,7 +671,7 @@ build_ss_assemblage(void)
  *   Put coefficients into mass action equations
  */
 		/* first IAP terms */
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &x[i]->phase->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s()->secondary != NULL
@@ -1142,7 +1142,7 @@ build_model(void)
 			trxn.trxn_copy(s[i]->rxn_x);
 			for (j = 0; j < 3; j++)
 			{
-				s[i]->dz[j] = s[i]->rxn_x.dz[j];
+				s[i]->dz[j] = s[i]->rxn_x.Get_dz()[j];
 			}
 			if (debug_mass_action == TRUE)
 			{
@@ -1174,7 +1174,7 @@ build_model(void)
 			if (debug_prep == TRUE)
 			{
 				output_msg(sformatf( "\n%s, Element composition:\n",
-						   trxn.token[0].Get_s()->name.c_str()));
+						   trxn.tokens[0].Get_s()->name.c_str()));
 				for (j = 0; j < count_elts; j++)
 				{
 					output_msg(sformatf( "\t\t%-20s\t%10.2f\n",
@@ -1346,7 +1346,7 @@ build_pure_phases(void)
  *   Puts coefficients in iap and mass balance equations for each phase.
  */
 	bool stop;
-	std::string token;
+	std::string tokens;
 	const char* cptr;
 	class master *master_ptr;
 	class rxn_token *rxn_ptr;
@@ -1362,7 +1362,7 @@ build_pure_phases(void)
  */
 	for (int i = 0; i < count_unknowns; i++)
 	{
-		if (x[i]->type != PP || x[i]->phase->rxn_x.token.size() == 0)
+		if (x[i]->type != PP || x[i]->phase->rxn_x.Get_tokens().size() == 0)
 			continue;
 		if (pure_phase_unknown == NULL)
 			pure_phase_unknown = x[i];
@@ -1370,7 +1370,7 @@ build_pure_phases(void)
 		store_mb(&(x[i]->phase->lk), &(x[i]->f), 1.0);
 		store_mb(&(x[i]->si), &(x[i]->f), 1.0);
 
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &x[i]->phase->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1381,12 +1381,12 @@ build_pure_phases(void)
 /*
  *  rxn_x is null if an element in phase is not in solution
  */
-		if (x[i]->type != PP || x[i]->phase->rxn_x.token.size() == 0)
+		if (x[i]->type != PP || x[i]->phase->rxn_x.Get_tokens().size() == 0)
 			continue;
 /*
  *   Put coefficients into IAP equations
  */
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &x[i]->phase->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s()->secondary != NULL
@@ -1552,7 +1552,7 @@ build_solution_phase_boundaries(void)
 			input_error++;
 			break;
 		}
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &x[i]->phase->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			store_mb(&(rxn_ptr->Get_s()->la), &(x[i]->f), -rxn_ptr->coef);
@@ -1567,7 +1567,7 @@ build_solution_phase_boundaries(void)
 	{
 		if (x[i]->type != SOLUTION_PHASE_BOUNDARY)
 			continue;
-		for (rxn_ptr = &x[i]->phase->rxn_x.token[0] + 1; !rxn_ptr->Get_end();
+		for (rxn_ptr = &x[i]->phase->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end();
 			 rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s()->secondary != NULL
@@ -1789,7 +1789,7 @@ convert_units(cxxSolution *solution_ptr)
  */
 	LDBLE sum_solutes;
 	class master *master_ptr;
-	std::string token;
+	std::string tokens;
 	if (!solution_ptr->Get_new_def() || !solution_ptr->Get_initial_data())
    {
       input_error++;
@@ -1857,8 +1857,8 @@ convert_units(cxxSolution *solution_ptr)
 			else
 			{
 				const char* cptr = comp_ref.Get_description().c_str();
-				copy_token(token, &cptr);
-				master_ptr = master_bsearch(token.c_str());
+				copy_token(tokens, &cptr);
+				master_ptr = master_bsearch(tokens.c_str());
 				if (master_ptr != NULL)
 				{
 					/* use gfw for element redox state */
@@ -1964,7 +1964,7 @@ get_list_master_ptrs(const char* cptr, class master *master_ptr)
  *           returned.
  */
 	int j, l, count_list;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	std::vector<class master*> master_ptr_list;
 	class master *master_ptr0;
 /*
@@ -2021,9 +2021,9 @@ get_list_master_ptrs(const char* cptr, class master *master_ptr)
  *   First in list is secondary species, Include all valences from input
  */
 		master_ptr_list.push_back(master_ptr0);
-		while (copy_token(token, &cptr, &l) != EMPTY)
+		while (copy_token(tokens, &cptr, &l) != EMPTY)
 		{
-			master_ptr = master_bsearch(token);
+			master_ptr = master_bsearch(tokens);
 			if (master_ptr != NULL)
 			{
 				master_ptr_list.push_back(master_ptr);
@@ -2050,7 +2050,7 @@ inout(void)
  */
 	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
-		token_ptr = &(trxn.token[i]);
+		token_ptr = &(trxn.tokens[i]);
 		/*   Check primary master species in */
 		if (token_ptr->Get_s()->primary != NULL
 			&& (token_ptr->Get_s()->primary->in == TRUE))
@@ -2081,7 +2081,7 @@ is_special(class species *l_spec)
 	class rxn_token *token_ptr;
 
 	special = TRUE;
-	for (token_ptr = &l_spec->rxn_s.token[0] + 1; !token_ptr->Get_end();
+	for (token_ptr = &l_spec->rxn_s.Get_tokens()[0] + 1; !token_ptr->Get_end();
 		 token_ptr++)
 	{
 		if (token_ptr->Get_s() != s_hplus &&
@@ -2616,9 +2616,9 @@ write_mass_action_eqn_x(int stop)
 		{
 			std::string name;
 			name = "Unknown";
-			if (trxn.token[0].Get_s() != NULL)
+			if (trxn.tokens[0].Get_s() != NULL)
 			{
-				name = trxn.token[0].Get_s()->name;
+				name = trxn.tokens[0].Get_s()->name;
 			}
 			
 			input_error++;
@@ -2639,31 +2639,31 @@ write_mass_action_eqn_x(int stop)
 		count_rxn_orig = trxn.Get_count_trxn();
 		for (i = 1; i < count_rxn_orig; i++)
 		{
-			if (trxn.token[i].Get_s()->secondary == NULL)
+			if (trxn.tokens[i].Get_s()->secondary == NULL)
 				continue;
-			if (trxn.token[i].Get_s()->secondary->in == REWRITE)
+			if (trxn.tokens[i].Get_s()->secondary->in == REWRITE)
 			{
 				repeat = TRUE;
 				coef_e =
-					rxn_find_coef(trxn.token[i].Get_s()->secondary->rxn_secondary,
+					rxn_find_coef(trxn.tokens[i].Get_s()->secondary->rxn_secondary,
 								  "e-");
-				trxn.trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
-						 trxn.token[i].coef, false);
+				trxn.trxn_add(trxn.tokens[i].Get_s()->secondary->rxn_secondary,
+						 trxn.tokens[i].coef, false);
 				if (equal(coef_e, 0.0, TOL) == FALSE)
 				{
-					std::map < std::string, CReaction >::iterator chemRxnIt = pe_x.find(trxn.token[i].Get_s()->secondary->pe_rxn);
+					std::map < std::string, CReaction >::iterator chemRxnIt = pe_x.find(trxn.tokens[i].Get_s()->secondary->pe_rxn);
 					if ( chemRxnIt == pe_x.end() )
 					{
-						CReaction& rxn_ref = pe_x[trxn.token[i].Get_s()->secondary->pe_rxn];
-						trxn.trxn_add(rxn_ref, trxn.token[i].coef * coef_e, FALSE);
+						CReaction& rxn_ref = pe_x[trxn.tokens[i].Get_s()->secondary->pe_rxn];
+						trxn.trxn_add(rxn_ref, trxn.tokens[i].coef * coef_e, FALSE);
 						// Create temporary rxn object and add reactions together
 						CReaction rxn;
-						trxn.trxn_add(rxn, trxn.token[i].coef * coef_e, FALSE);
+						trxn.trxn_add(rxn, trxn.tokens[i].coef * coef_e, FALSE);
 					}
 					else
 					{
 						// Get reaction referred to by iterator and add reactions together
-						trxn.trxn_add(chemRxnIt->second, trxn.token[i].coef * coef_e, FALSE);
+						trxn.trxn_add(chemRxnIt->second, trxn.tokens[i].coef * coef_e, FALSE);
 					}
 				}
 			}
@@ -2684,7 +2684,7 @@ add_potential_factor(void)
  *   the work required to bring charged ions to the surface
  */
 	int i;
-	std::string token;
+	std::string tokens;
 	LDBLE sum_z;
 	class master *master_ptr;
 	class unknown *unknown_ptr;
@@ -2694,7 +2694,7 @@ add_potential_factor(void)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].Get_name().c_str());
+				trxn.tokens[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2707,14 +2707,14 @@ add_potential_factor(void)
  */
 	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
-		if (trxn.token[i].Get_s()->type == AQ || trxn.token[i].Get_s() == s_hplus ||
-			trxn.token[i].Get_s() == s_eminus)
+		if (trxn.tokens[i].Get_s()->type == AQ || trxn.tokens[i].Get_s() == s_hplus ||
+			trxn.tokens[i].Get_s() == s_eminus)
 		{
-			sum_z += trxn.token[i].Get_s()->z * trxn.token[i].coef;
+			sum_z += trxn.tokens[i].Get_s()->z * trxn.tokens[i].coef;
 		}
-		if (trxn.token[i].Get_s()->type == SURF)
+		if (trxn.tokens[i].Get_s()->type == SURF)
 		{
-			master_ptr = trxn.token[i].Get_s()->primary;
+			master_ptr = trxn.tokens[i].Get_s()->primary;
 		}
 	}
 /*
@@ -2724,25 +2724,25 @@ add_potential_factor(void)
 	{
 		error_string = sformatf(
 				"Did not find a surface species in equation defining %s",
-				trxn.token[0].Get_name().c_str());
+				trxn.tokens[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
 		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
-			error_string = sformatf( "     %s", trxn.token[i].Get_name().c_str());
+			error_string = sformatf( "     %s", trxn.tokens[i].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		input_error++;
 		return (ERROR);
 	}
-	token =  master_ptr->elt->name;
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+	tokens =  master_ptr->elt->name;
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI);
 	if (unknown_ptr == NULL)
 	{
 		error_string = sformatf(
-		  "No potential unknown found for surface species %s.", token.c_str());
+		  "No potential unknown found for surface species %s.", tokens.c_str());
 		error_msg(error_string, STOP);
 	}
 	else
@@ -2752,16 +2752,16 @@ add_potential_factor(void)
 /*
  *   Make sure there is space
  */
-	if (trxn.Get_count_trxn() + 1 > trxn.token.size())
-		trxn.token.resize(trxn.Get_count_trxn() + 1);
+	if (trxn.Get_count_trxn() + 1 > trxn.tokens.size())
+		trxn.tokens.resize(trxn.Get_count_trxn() + 1);
 /*
  *   Include psi in mass action equation
  */
 	if (master_ptr != NULL)
 	{
-		trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
-		trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
-		trxn.token[trxn.Get_count_trxn()].coef = -2.0 * sum_z;
+		trxn.tokens[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+		trxn.tokens[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+		trxn.tokens[trxn.Get_count_trxn()].coef = -2.0 * sum_z;
 		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	}
 	else
@@ -2785,7 +2785,7 @@ add_cd_music_factors(int n)
  *   of the cd_music model
  */
 	int i;
-	std::string token;
+	std::string tokens;
 	class master *master_ptr;
 	class unknown *unknown_ptr;
 	if (use.Get_surface_ptr() == NULL)
@@ -2793,7 +2793,7 @@ add_cd_music_factors(int n)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].Get_name().c_str());
+				trxn.tokens[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2805,9 +2805,9 @@ add_cd_music_factors(int n)
  */
 	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
-		if (trxn.token[i].Get_s()->type == SURF)
+		if (trxn.tokens[i].Get_s()->type == SURF)
 		{
-			master_ptr = trxn.token[i].Get_s()->primary;
+			master_ptr = trxn.tokens[i].Get_s()->primary;
 		}
 	}
 /*
@@ -2817,28 +2817,28 @@ add_cd_music_factors(int n)
 	{
 		error_string = sformatf(
 				"Did not find a surface species in equation defining %s",
-				trxn.token[0].Get_name().c_str());
+				trxn.tokens[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		error_string = sformatf(
 				"One of the following must be defined with SURFACE_SPECIES:");
 		error_msg(error_string, CONTINUE);
 		for (i = 1; i < trxn.Get_count_trxn(); i++)
 		{
-			error_string = sformatf( "     %s", trxn.token[i].Get_name().c_str());
+			error_string = sformatf( "     %s", trxn.tokens[i].Get_name().c_str());
 			error_msg(error_string, CONTINUE);
 		}
 		input_error++;
 		return (ERROR);
 	}
-	token = master_ptr->elt->name;
+	tokens = master_ptr->elt->name;
 	/*
 	 *  Plane 0
 	 */
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI);
 	if (unknown_ptr == NULL)
 	{
 		error_string = sformatf(
-		  "No potential unknown found for surface species %s.", token.c_str());
+		  "No potential unknown found for surface species %s.", tokens.c_str());
 		error_msg(error_string, STOP);
 		return (ERROR);
 	}
@@ -2846,24 +2846,24 @@ add_cd_music_factors(int n)
 	/*
 	 *   Make sure there is space
 	 */
-	if (trxn.Get_count_trxn() + 3 > trxn.token.size())
-		trxn.token.resize(trxn.Get_count_trxn() + 3);
+	if (trxn.Get_count_trxn() + 3 > trxn.tokens.size())
+		trxn.tokens.resize(trxn.Get_count_trxn() + 3);
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
-	trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
-	trxn.token[trxn.Get_count_trxn()].coef = trxn.dz[0];
+	trxn.tokens[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+	trxn.tokens[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+	trxn.tokens[trxn.Get_count_trxn()].coef = trxn.dz[0];
 	trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 
 	/*
 	 *  Plane 1
 	 */
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI1);
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI1);
 	if (unknown_ptr == NULL)
 	{
 		error_string = sformatf(
-		  "No potential unknown found for surface species %s.", token.c_str());
+		  "No potential unknown found for surface species %s.", tokens.c_str());
 		error_msg(error_string, STOP);
 		return (ERROR);
 	}
@@ -2871,18 +2871,18 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
-	trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
-	trxn.token[trxn.Get_count_trxn()].coef = trxn.dz[1];
+	trxn.tokens[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+	trxn.tokens[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+	trxn.tokens[trxn.Get_count_trxn()].coef = trxn.dz[1];
 	trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	/*
 	 *  Plane 2
 	 */
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI2);
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI2);
 	if (unknown_ptr == NULL)
 	{
 		error_string = sformatf(
-		  "No potential unknown found for surface species %s.", token.c_str());
+		  "No potential unknown found for surface species %s.", tokens.c_str());
 		error_msg(error_string, STOP);
 		return (ERROR);
 	}
@@ -2890,9 +2890,9 @@ add_cd_music_factors(int n)
 	/*
 	 *   Include psi in mass action equation
 	 */
-	trxn.token[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
-	trxn.token[trxn.Get_count_trxn()].Set_s(master_ptr->s);
-	trxn.token[trxn.Get_count_trxn()].coef = trxn.dz[2];
+	trxn.tokens[trxn.Get_count_trxn()].Set_name(master_ptr->s->name);
+	trxn.tokens[trxn.Get_count_trxn()].Set_s(master_ptr->s);
+	trxn.tokens[trxn.Get_count_trxn()].coef = trxn.dz[2];
 	trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 
 	return (OK);
@@ -2908,7 +2908,7 @@ add_surface_charge_balance(void)
  */
 	int i;
 	const char* cptr;
-	std::string token;
+	std::string tokens;
 
 	class master *master_ptr;
 	class unknown *unknown_ptr;
@@ -2917,7 +2917,7 @@ add_surface_charge_balance(void)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].Get_name().c_str());
+				trxn.tokens[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -2945,12 +2945,12 @@ add_surface_charge_balance(void)
 /*
  *  Find potential unknown for surface species
  */
-	token = master_ptr->elt->name;
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+	tokens = master_ptr->elt->name;
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI);
 	if (unknown_ptr == NULL)
 	{
 		error_string = sformatf(
-		  "No potential unknown found for surface species %s.", token.c_str());
+		  "No potential unknown found for surface species %s.", tokens.c_str());
 		error_msg(error_string, STOP);
 		return(OK);
 	}
@@ -2975,7 +2975,7 @@ add_cd_music_charge_balances(int n)
  *   the work required to bring charged ions to the surface
  */
 	int i;
-	std::string token;
+	std::string tokens;
 
 	class master *master_ptr;
 	class unknown *unknown_ptr;
@@ -2984,7 +2984,7 @@ add_cd_music_charge_balances(int n)
 		input_error++;
 		error_string = sformatf(
 				"SURFACE not defined for surface species %s",
-				trxn.token[0].Get_name().c_str());
+				trxn.tokens[0].Get_name().c_str());
 		error_msg(error_string, CONTINUE);
 		return(OK);
 	}
@@ -3012,8 +3012,8 @@ add_cd_music_charge_balances(int n)
 	/*
 	 *  Find potential unknown for plane 0
 	 */
-	token = master_ptr->elt->name;
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+	tokens = master_ptr->elt->name;
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI);
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
 	 *   Include charge balance in list for mass-balance equations
@@ -3025,8 +3025,8 @@ add_cd_music_charge_balances(int n)
 	/*
 	 *  Find potential unknown for plane 1
 	 */
-	token = master_ptr->elt->name;
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI1);
+	tokens = master_ptr->elt->name;
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI1);
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
 	 *   Include charge balance in list for mass-balance equations
@@ -3038,8 +3038,8 @@ add_cd_music_charge_balances(int n)
 	/*
 	 *  Find potential unknown for plane 2
 	 */
-	token = master_ptr->elt->name;
-	unknown_ptr = find_surface_charge_unknown(token, SURF_PSI2);
+	tokens = master_ptr->elt->name;
+	unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI2);
 	master_ptr = unknown_ptr->master[0];	/* potential for surface component */
 	/*
 	 *   Include charge balance in list for mass-balance equations
@@ -3292,8 +3292,8 @@ setup_surface(void)
 				/*
 				 *   Setup surface-potential unknown
 				 */
-				std::string token = master_ptr->elt->name;
-				class unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+				std::string tokens = master_ptr->elt->name;
+				class unknown *unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI);
 				if (unknown_ptr != NULL)
 				{
 					x[count_unknowns - 1]->potential_unknown = unknown_ptr;
@@ -3303,8 +3303,8 @@ setup_surface(void)
 					/*
 					 *   Find master species
 					 */
-					replace("_CB", "_psi", token);
-					master_ptr = master_bsearch(token.c_str());
+					replace("_CB", "_psi", tokens);
+					master_ptr = master_bsearch(tokens.c_str());
 					master_ptr_list.clear();
 					master_ptr_list.push_back(master_ptr);
 					master_ptr->in = TRUE;
@@ -3323,8 +3323,8 @@ setup_surface(void)
 					x[count_unknowns]->surface_charge = charge_ptr->Get_name();
 					x[count_unknowns]->related_moles = charge_ptr->Get_grams();
 					x[count_unknowns]->mass_water = charge_ptr->Get_mass_water();
-					replace("_psi", "_CB", token);
-					x[count_unknowns]->description = token;
+					replace("_psi", "_CB", tokens);
+					x[count_unknowns]->description = tokens;
 					x[count_unknowns]->master = master_ptr_list;
 					x[count_unknowns]->master[0]->unknown = x[count_unknowns];
 					x[count_unknowns]->moles = 0.0;
@@ -3339,8 +3339,8 @@ setup_surface(void)
 				 *   Setup 3 surface-potential unknowns
 				 */
 				mb_unknown_number = count_unknowns - 1;
-				std::string token(master_ptr->elt->name);
-				std::string mass_balance_name(token);
+				std::string tokens(master_ptr->elt->name);
+				std::string mass_balance_name(tokens);
 				int plane;
 				for (plane = SURF_PSI; plane <= SURF_PSI2; plane++)
 				{
@@ -3369,7 +3369,7 @@ setup_surface(void)
 						unknown_target = &(x[mb_unknown_number]->potential_unknown2);
 						break;
 					}
-					class unknown *unknown_ptr = find_surface_charge_unknown(token, plane);
+					class unknown *unknown_ptr = find_surface_charge_unknown(tokens, plane);
 					if (unknown_ptr != NULL)
 					{
 						*unknown_target = unknown_ptr;
@@ -3379,8 +3379,8 @@ setup_surface(void)
 						/*
 						 *   Find master species
 						 */
-						replace(cb_suffix.c_str(), psi_suffix.c_str(), token);
-						master_ptr = master_bsearch(token.c_str());
+						replace(cb_suffix.c_str(), psi_suffix.c_str(), tokens);
+						master_ptr = master_bsearch(tokens.c_str());
 						master_ptr_list.clear();
 						master_ptr_list.push_back(master_ptr);
 						master_ptr->in = TRUE;
@@ -3393,8 +3393,8 @@ setup_surface(void)
 						x[count_unknowns]->surface_charge = charge_ptr->Get_name();
 						x[count_unknowns]->related_moles = charge_ptr->Get_grams();
 						x[count_unknowns]->mass_water = charge_ptr->Get_mass_water();
-						replace(psi_suffix.c_str(), cb_suffix.c_str(), token);
-						x[count_unknowns]->description = token;
+						replace(psi_suffix.c_str(), cb_suffix.c_str(), tokens);
+						x[count_unknowns]->description = tokens;
 						x[count_unknowns]->master = master_ptr_list;
 						/*
 						 *   Find surface charge structure
@@ -3426,7 +3426,7 @@ setup_surface(void)
 					}
 				}
 				/* Add SURFACE unknown to a list for SURF_PSI */
-				class unknown *unknown_ptr = find_surface_charge_unknown(token, SURF_PSI);
+				class unknown *unknown_ptr = find_surface_charge_unknown(tokens, SURF_PSI);
 				unknown_ptr->comp_unknowns.push_back(x[mb_unknown_number]);
 
 			}
@@ -3570,24 +3570,24 @@ find_surface_charge_unknown(std::string &str, int plane)
  *    Returns NULL if this unknown not in unknown list else
  *    returns a pointer to the potential unknown
  */
-	std::string token;
+	std::string tokens;
 	Utilities::replace("_", " ", str);
 	std::string::iterator b = str.begin();
 	std::string::iterator e = str.end();
-	CParser::copy_token(token, b, e);
+	CParser::copy_token(tokens, b, e);
 	if (plane == SURF_PSI)
 	{
-		token.append("_CB");
+		tokens.append("_CB");
 	}
 	else if (plane == SURF_PSI1)
 	{
-		token.append("_CBb");
+		tokens.append("_CBb");
 	}
 	else if (plane == SURF_PSI2)
 	{
-		token.append("_CBd");
+		tokens.append("_CBd");
 	}
-	str = token;
+	str = tokens;
 	for (int i = 0; i < count_unknowns; i++)
 	{
 		if (str == x[i]->description)
@@ -4078,7 +4078,7 @@ setup_solution(void)
 	class master *master_ptr;
 	cxxSolution *solution_ptr;
 	const char* cptr;
-	std::string token;
+	std::string tokens;
 	class master_isotope *master_isotope_ptr;
 	class phase *phase_ptr;
 
@@ -4117,14 +4117,14 @@ setup_solution(void)
 			comp_ptr = &(comp_it->second);
 		}
 		cptr = it->first.c_str();
-		copy_token(token, &cptr);
-		master_ptr = master_bsearch(token.c_str());
+		copy_token(tokens, &cptr);
+		master_ptr = master_bsearch(tokens.c_str());
 /*
  *   Check that total not <= zero
  */
 		if (it->second <= 0.0)
 		{
-			if (token != "H(1)" && token != "E")
+			if (tokens != "H(1)" && tokens != "E")
 			{
 				continue;
 			}
@@ -4132,7 +4132,7 @@ setup_solution(void)
 /*
  *   Find master species
  */
-		master_ptr = master_bsearch(token.c_str());
+		master_ptr = master_bsearch(tokens.c_str());
 		if (master_ptr == NULL)
 		{
 			error_string = sformatf(
@@ -4177,9 +4177,9 @@ setup_solution(void)
  *   Set pointers
  */
 		cptr = it->first.c_str();
-		copy_token(token, &cptr);
-		Utilities::str_tolower(token);
-		if (token.find("alk") != std::string::npos)
+		copy_token(tokens, &cptr);
+		Utilities::str_tolower(tokens);
+		if (tokens.find("alk") != std::string::npos)
 		{
 			if (alkalinity_unknown == NULL)
 			{
@@ -4192,7 +4192,7 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		else if (token == "c" || token == "c(4)")
+		else if (tokens == "c" || tokens == "c(4)")
 		{
 			if (carbon_unknown == NULL)
 			{
@@ -4204,7 +4204,7 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		else if (token == "h(1)")
+		else if (tokens == "h(1)")
 		{
 			if (ph_unknown == NULL)
 			{
@@ -4216,7 +4216,7 @@ setup_solution(void)
 				input_error++;
 			}
 		}
-		else if (token == "e")
+		else if (tokens == "e")
 		{
 			if (pe_unknown == NULL)
 			{
@@ -4234,9 +4234,9 @@ setup_solution(void)
 		if (comp_ptr && comp_ptr->Get_equation_name().size() > 0)
 		{
 			cptr = comp_ptr->Get_equation_name().c_str();
-			copy_token(token, &cptr);
-			Utilities::str_tolower(token);
-			if (token.find("charge") != std::string::npos)
+			copy_token(tokens, &cptr);
+			Utilities::str_tolower(tokens);
+			if (tokens.find("charge") != std::string::npos)
 			{
 				if (charge_balance_unknown == NULL)
 				{
@@ -4648,7 +4648,7 @@ store_dn(int k, LDBLE * source, int row, LDBLE coef_in, LDBLE * gamma_source)
 	}
 	if (s[k] == s_h2o)
 		return (OK);
-	for (rxn_ptr = &s[k]->rxn_x.token[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
+	for (rxn_ptr = &s[k]->rxn_x.Get_tokens()[0] + 1; !rxn_ptr->Get_end(); rxn_ptr++)
 	{
 		if (rxn_ptr->Get_s()->secondary != NULL
 			&& rxn_ptr->Get_s()->secondary->in == TRUE)
@@ -4845,7 +4845,7 @@ tidy_redox(void)
  *   defined in analytical data
  *   
  */
-	std::string token, tok1, tok2;
+	std::string tokens, tok1, tok2;
 	class master *master_ptr1, *master_ptr2;
 /*
  *   Keep valences of oxygen and hydrogen in model, if not already in
@@ -4880,10 +4880,10 @@ tidy_redox(void)
 		}
 		else
 		{
-			token = it->first;
-			replace("/", " ", token);
-			std::string::iterator b = token.begin();
-			std::string::iterator e = token.end();
+			tokens = it->first;
+			replace("/", " ", tokens);
+			std::string::iterator b = tokens.begin();
+			std::string::iterator e = tokens.end();
 
 /*
  *   Get redox states and elements from redox couple
@@ -4980,9 +4980,9 @@ write_mb_eqn_x(void)
 		{
 			std::string name;
 			name = "Unknown";
-			if (trxn.token[0].Get_s() != NULL)
+			if (trxn.tokens[0].Get_s() != NULL)
 			{
-				name = trxn.token[0].Get_s()->name;
+				name = trxn.tokens[0].Get_s()->name;
 			}
 			error_string = sformatf( "Could not reduce equation "
 					"to primary and secondary species that are "
@@ -4994,13 +4994,13 @@ write_mb_eqn_x(void)
 		count_rxn_orig = trxn.Get_count_trxn();
 		for (i = 1; i < count_rxn_orig; i++)
 		{
-			if (trxn.token[i].Get_s()->secondary == NULL)
+			if (trxn.tokens[i].Get_s()->secondary == NULL)
 				continue;
-			if (trxn.token[i].Get_s()->secondary->in == REWRITE)
+			if (trxn.tokens[i].Get_s()->secondary->in == REWRITE)
 			{
 				repeat = TRUE;
-				trxn.trxn_add(trxn.token[i].Get_s()->secondary->rxn_secondary,
-						 trxn.token[i].coef, false);
+				trxn.trxn_add(trxn.tokens[i].Get_s()->secondary->rxn_secondary,
+						 trxn.tokens[i].coef, false);
 			}
 		}
 		trxn.trxn_combine();
@@ -5013,17 +5013,17 @@ write_mb_eqn_x(void)
 	for (size_t i = 1; i < trxn.Get_count_trxn(); i++)
 	{
 		size_t j = count_elts;
-		const char* cptr = trxn.token[i].Get_s()->name.c_str();
-		get_elts_in_species(&cptr, trxn.token[i].coef);
+		const char* cptr = trxn.tokens[i].Get_s()->name.c_str();
+		get_elts_in_species(&cptr, trxn.tokens[i].coef);
 		for (size_t k = j; k < count_elts; k++)
 		{
-			if (trxn.token[i].Get_s()->secondary != NULL)
+			if (trxn.tokens[i].Get_s()->secondary != NULL)
 			{
-				master_ptr = trxn.token[i].Get_s()->secondary->elt->primary;
+				master_ptr = trxn.tokens[i].Get_s()->secondary->elt->primary;
 			}
 			else
 			{
-				master_ptr = trxn.token[i].Get_s()->primary;
+				master_ptr = trxn.tokens[i].Get_s()->primary;
 			}
 			if (elt_list[k].elt == master_ptr->elt)
 			{
@@ -5031,15 +5031,15 @@ write_mb_eqn_x(void)
 				break;
 			}
 		}
-		if (trxn.token[i].Get_s()->secondary == NULL)
+		if (trxn.tokens[i].Get_s()->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].Get_s()->primary->elt->name.c_str();
-			get_secondary_in_species(&cptr, trxn.token[i].coef);
+			const char* cptr = trxn.tokens[i].Get_s()->primary->elt->name.c_str();
+			get_secondary_in_species(&cptr, trxn.tokens[i].coef);
 		}
 		else
 		{
-			cptr = trxn.token[i].Get_s()->secondary->elt->name.c_str();
-			get_secondary_in_species(&cptr, trxn.token[i].coef);
+			cptr = trxn.tokens[i].Get_s()->secondary->elt->name.c_str();
+			get_secondary_in_species(&cptr, trxn.tokens[i].coef);
 		}
 	}
 	elt_list_combine();
@@ -5068,18 +5068,18 @@ write_mb_for_species_list(int n)
 	paren_count = 0;
 	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
-		if (trxn.token[i].Get_s()->secondary == NULL)
+		if (trxn.tokens[i].Get_s()->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].Get_s()->primary->elt->name.c_str();
-			get_secondary_in_species(&cptr, trxn.token[i].coef);
+			const char* cptr = trxn.tokens[i].Get_s()->primary->elt->name.c_str();
+			get_secondary_in_species(&cptr, trxn.tokens[i].coef);
 		}
 		else
 		{
-			const char* cptr = trxn.token[i].Get_s()->secondary->elt->name.c_str();
-			if (get_secondary_in_species(&cptr, trxn.token[i].coef) == ERROR)
+			const char* cptr = trxn.tokens[i].Get_s()->secondary->elt->name.c_str();
+			if (get_secondary_in_species(&cptr, trxn.tokens[i].coef) == ERROR)
 			{
 				input_error++;
-				error_string = sformatf( "Error parsing %s.", trxn.token[i].Get_s()->secondary->elt->name.c_str());
+				error_string = sformatf( "Error parsing %s.", trxn.tokens[i].Get_s()->secondary->elt->name.c_str());
 				error_msg(error_string, CONTINUE);
 			}
 		}
@@ -5125,15 +5125,15 @@ write_phase_sys_total(int n)
 	paren_count = 0;
 	for (i = 1; i < trxn.Get_count_trxn(); i++)
 	{
-		if (trxn.token[i].Get_s()->secondary == NULL)
+		if (trxn.tokens[i].Get_s()->secondary == NULL)
 		{
-			const char* cptr = trxn.token[i].Get_s()->primary->elt->name.c_str();
-			get_secondary_in_species(&cptr, trxn.token[i].coef);
+			const char* cptr = trxn.tokens[i].Get_s()->primary->elt->name.c_str();
+			get_secondary_in_species(&cptr, trxn.tokens[i].coef);
 		}
 		else
 		{
-			const char* cptr = trxn.token[i].Get_s()->secondary->elt->name.c_str();
-			get_secondary_in_species(&cptr, trxn.token[i].coef);
+			const char* cptr = trxn.tokens[i].Get_s()->secondary->elt->name.c_str();
+			get_secondary_in_species(&cptr, trxn.tokens[i].coef);
 		}
 	}
 	for (i = 0; i < count_elts; i++)
@@ -5164,41 +5164,41 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 	 * see calc_vm (below) for details.
 	 */
 
-	CReaction* r_ptr = (p_ptr->rxn_x.size() ? &p_ptr->rxn_x : \
-		(p_ptr->rxn_s.size() ? &p_ptr->rxn_s : NULL));
+	CReaction* r_ptr = (p_ptr->rxn_x.Size() ? &p_ptr->rxn_x : \
+		(p_ptr->rxn_s.Size() ? &p_ptr->rxn_s : NULL));
 	if (!r_ptr)
 		return 0.0;
-	if (!r_ptr->Logk_cr.logk_x[Logk::vm0]) // in case Vm of the phase is 0...
-		return r_ptr->Logk_cr.Calc_Logk(TK, pa * PASCAL_PER_ATM);
+	if (!r_ptr->Get_logk_x()[Logk::vm0]) // in case Vm of the phase is 0...
+		return r_ptr->Calc_lk_x(TK, pa * PASCAL_PER_ATM);
 	LDBLE tc = TK - 273.15;
 	LDBLE pb_s = 2600. + pa * 1.01325, TK_s = tc + 45.15, sqrt_mu = sqrt(mu_x);
 	LDBLE d_v = 0.0;
 	species* s_ptr;
 
-	for (size_t i = 0; r_ptr->token[i].Get_name().size() > 0; i++)
+	for (size_t i = 0; r_ptr->Get_tokens()[i].Get_name().size() > 0; i++)
 	{
-		if (!r_ptr->token[i].Get_s())
+		if (!r_ptr->Get_tokens()[i].Get_s())
 			continue;
-		s_ptr = r_ptr->token[i].Get_s();
+		s_ptr = r_ptr->Get_tokens()[i].Get_s();
 		if (s_ptr == s_hplus)
 			continue;
 		if (s_ptr == s_eminus)
 			continue;
 		if (s_ptr == s_h2o)
 		{
-			d_v += r_ptr->token[i].coef * 18.016 / calc_rho_0(tc, pa);
+			d_v += r_ptr->Get_tokens()[i].coef * 18.016 / calc_rho_0(tc, pa);
 			continue;
 		}
 		//else if (s_ptr->logk[Logk::vma1])
-		else if (s_ptr->rxn.Logk_cr.logk_original[Logk::vma1])
+		else if (s_ptr->rxn.Get_logk_original()[Logk::vma1])
 		{
 			/* supcrt volume at I = 0... */
-			d_v += r_ptr->token[i].coef *
-				(s_ptr->rxn.Logk_cr.logk_original[Logk::vma1] +
-				s_ptr->rxn.Logk_cr.logk_original[Logk::vma2] / pb_s +
-				(s_ptr->rxn.Logk_cr.logk_original[Logk::vma3] + 
-				s_ptr->rxn.Logk_cr.logk_original[Logk::vma4] / pb_s) / TK_s -
-				s_ptr->rxn.Logk_cr.logk_original[Logk::wref] * QBrn);
+			d_v += r_ptr->Get_tokens()[i].coef *
+				(s_ptr->rxn.Get_logk_original()[Logk::vma1] +
+				s_ptr->rxn.Get_logk_original()[Logk::vma2] / pb_s +
+				(s_ptr->rxn.Get_logk_original()[Logk::vma3] + 
+				s_ptr->rxn.Get_logk_original()[Logk::vma4] / pb_s) / TK_s -
+				s_ptr->rxn.Get_logk_original()[Logk::wref] * QBrn);
 			//if (dgdP && s_ptr->z)
 			//{
 			//	LDBLE re = s_ptr->z * s_ptr->z / (s_ptr->logk[Logk::wref] / 1.66027e5 + s_ptr->z / 3.082);
@@ -5208,26 +5208,26 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 			if (s_ptr->z)
 			{
 				/* the ionic strength term * I^0.5... */
-				if (s_ptr->rxn.Logk_cr.Get_logk_original()[Logk::b_Av] < 1e-5)
+				if (s_ptr->rxn.Get_logk_original()[Logk::b_Av] < 1e-5)
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
 					/* limit the Debye-Hueckel slope by b... */
 					d_v += s_ptr->z * s_ptr->z * 0.5 * DH_Av *
-						sqrt_mu / (1 + s_ptr->rxn.Logk_cr.Get_logk_original()[Logk::b_Av] * DH_B * sqrt_mu);
+						sqrt_mu / (1 + s_ptr->rxn.Get_logk_original()[Logk::b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] != 0.0 ||
-					s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] != 0.0 ||
-					s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] != 0.0)
+				if (s_ptr->rxn.Get_logk_original()[Logk::vmi1] != 0.0 ||
+					s_ptr->rxn.Get_logk_original()[Logk::vmi2] != 0.0 ||
+					s_ptr->rxn.Get_logk_original()[Logk::vmi3] != 0.0)
 				{
-					LDBLE bi = s_ptr->rxn.Logk_cr.logk_original[Logk::vmi1] +
-						s_ptr->rxn.Logk_cr.logk_original[Logk::vmi2] / TK_s +
-						s_ptr->rxn.Logk_cr.logk_original[Logk::vmi3] * TK_s;
-					if (s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4] == 1.0)
+					LDBLE bi = s_ptr->rxn.Get_logk_original()[Logk::vmi1] +
+						s_ptr->rxn.Get_logk_original()[Logk::vmi2] / TK_s +
+						s_ptr->rxn.Get_logk_original()[Logk::vmi3] * TK_s;
+					if (s_ptr->rxn.Get_logk_original()[Logk::vmi4] == 1.0)
 						d_v += bi * mu_x;
 					else
-						d_v += bi * pow(mu_x, s_ptr->rxn.Logk_cr.logk_original[Logk::vmi4]);
+						d_v += bi * pow(mu_x, s_ptr->rxn.Get_logk_original()[Logk::vmi4]);
 				}
 			}
 		}
@@ -5246,14 +5246,14 @@ calc_lk_phase(phase* p_ptr, LDBLE TK, LDBLE pa)
 		else
 			continue;
 	}
-	d_v -= p_ptr->rxn.Logk_cr.logk_original[Logk::vm0];
-	r_ptr->Logk_cr.logk_x[Logk::delta_v] = d_v;
-	if ((r_ptr->token[0].Get_name().size() > 0) &&
-		(r_ptr->token[0].Get_name() == "H2O(g)"))
+	d_v -= p_ptr->rxn.Get_logk_original()[Logk::vm0];
+	r_ptr->Get_logk_x()[Logk::delta_v] = d_v;
+	if ((r_ptr->Get_tokens()[0].Get_name().size() > 0) &&
+		(r_ptr->Get_tokens()[0].Get_name() == "H2O(g)"))
 	{
-		r_ptr->Logk_cr.logk_x[Logk::delta_v] = 0.0;
+		r_ptr->Get_logk_x()[Logk::delta_v] = 0.0;
 	}
-	double lk = r_ptr->Logk_cr.Calc_Logk(TK, pa * PASCAL_PER_ATM);
+	double lk = r_ptr->Calc_lk_x(TK, pa * PASCAL_PER_ATM);
 	return lk;
 }
 /* ---------------------------------------------------------------------- */
@@ -5279,18 +5279,18 @@ calc_vm(LDBLE tc, LDBLE pa)
 	{
 		if (s_x[i] == s_h2o)
 		{
-			s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc] = 18.016 / rho_0;
+			s_x[i]->rxn.Get_logk_original()[Logk::vm_tc] = 18.016 / rho_0;
 			continue;
 		}
-		if (s_x[i]->rxn.Logk_cr.logk_original[Logk::vma1])
+		if (s_x[i]->rxn.Get_logk_original()[Logk::vma1])
 		{
 			/* supcrt volume at I = 0... */
-			s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] =
-				s_x[i]->rxn.Logk_cr.logk_original[Logk::vma1] +
-				s_x[i]->rxn.Logk_cr.logk_original[Logk::vma2] / pb_s +
-				(s_x[i]->rxn.Logk_cr.logk_original[Logk::vma3] + 
-				s_x[i]->rxn.Logk_cr.logk_original[Logk::vma4] / pb_s) / TK_s -
-				s_x[i]->rxn.Logk_cr.logk_original[Logk::wref] * QBrn;
+			s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] =
+				s_x[i]->rxn.Get_logk_original()[Logk::vma1] +
+				s_x[i]->rxn.Get_logk_original()[Logk::vma2] / pb_s +
+				(s_x[i]->rxn.Get_logk_original()[Logk::vma3] + 
+				s_x[i]->rxn.Get_logk_original()[Logk::vma4] / pb_s) / TK_s -
+				s_x[i]->rxn.Get_logk_original()[Logk::wref] * QBrn;
 			/* A (small) correction by Shock et al., 1992, for 155 < tc < 255, P_sat < P < 1e3.
 			   The Logk::vma1..a4 and Logk::wref numbers are refitted for major cations and anions on xpts,
 			   probably invalidates the correction. */
@@ -5304,8 +5304,8 @@ calc_vm(LDBLE tc, LDBLE pa)
 			if (s_x[i]->z)
 			{
 				/* the ionic strength term * I^0.5... */
-				if (s_x[i]->rxn.Logk_cr.logk_original[Logk::b_Av] < 1e-5)
-					s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] +=
+				if (s_x[i]->rxn.Get_logk_original()[Logk::b_Av] < 1e-5)
+					s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] +=
 						s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu;
 				else
 				{
@@ -5314,37 +5314,37 @@ calc_vm(LDBLE tc, LDBLE pa)
 					//s_x[i]->rxn_x.logk_cr[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
 					//	log(1 + s_x[i]->logk[Logk::b_Av] * sqrt(mu_x)) / s_x[i]->logk[Logk::b_Av];
 					/* extended DH... */
-					s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] +=
+					s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] +=
 						s_x[i]->z * s_x[i]->z * 0.5 * DH_Av *
-						sqrt_mu / (1 + s_x[i]->rxn.Logk_cr.logk_original[Logk::b_Av] * DH_B * sqrt_mu);
+						sqrt_mu / (1 + s_x[i]->rxn.Get_logk_original()[Logk::b_Av] * DH_B * sqrt_mu);
 				}
 				/* plus the volume terms * I... */
-				if (s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi1] != 0.0 ||
-					s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi2] != 0.0 ||
-					s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi3] != 0.0)
+				if (s_x[i]->rxn.Get_logk_original()[Logk::vmi1] != 0.0 ||
+					s_x[i]->rxn.Get_logk_original()[Logk::vmi2] != 0.0 ||
+					s_x[i]->rxn.Get_logk_original()[Logk::vmi3] != 0.0)
 				{
 					double bi = 
-						s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi1] +
-						s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi2] / TK_s +
-						s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi3] * TK_s;
-					if (s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi4] == 1.0)
-						s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] += bi * mu_x;
+						s_x[i]->rxn.Get_logk_original()[Logk::vmi1] +
+						s_x[i]->rxn.Get_logk_original()[Logk::vmi2] / TK_s +
+						s_x[i]->rxn.Get_logk_original()[Logk::vmi3] * TK_s;
+					if (s_x[i]->rxn.Get_logk_original()[Logk::vmi4] == 1.0)
+						s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] += bi * mu_x;
 					else
-						s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] +=
-							bi * pow(mu_x, s_x[i]->rxn.Logk_cr.logk_original[Logk::vmi4]);
+						s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] +=
+							bi * pow(mu_x, s_x[i]->rxn.Get_logk_original()[Logk::vmi4]);
 				}
 			}
 		}
 		else if (s_x[i]->millero[0])
 		{
 			/* Millero volume at I = 0... */
-			s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] =
+			s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] =
 				s_x[i]->millero[0] + 
 				tc * (s_x[i]->millero[1] + tc * s_x[i]->millero[2]);
 			if (s_x[i]->z)
 			{
 				/* the ionic strength terms... */
-				s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
+				s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc] += s_x[i]->z * s_x[i]->z * 0.5 * DH_Av * sqrt_mu +
 					(s_x[i]->millero[3] + tc * (s_x[i]->millero[4] + tc * s_x[i]->millero[5])) * mu_x;
 			}
 		}
@@ -5352,9 +5352,9 @@ calc_vm(LDBLE tc, LDBLE pa)
 			continue;
 
 		/* for calculating Logk::delta_v of the reaction... */
-		s_x[i]->rxn.Logk_cr.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc];
-		s_x[i]->rxn_s.Logk_cr.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc];
-		s_x[i]->rxn_x.Logk_cr.logk_original[Logk::vm_tc] = s_x[i]->rxn_x.Logk_cr.logk_x[Logk::vm_tc];
+		s_x[i]->rxn.Get_logk_original()[Logk::vm_tc] = s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc];
+		s_x[i]->rxn_s.Get_logk_original()[Logk::vm_tc] = s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc];
+		s_x[i]->rxn_x.Get_logk_original()[Logk::vm_tc] = s_x[i]->rxn_x.Get_logk_x()[Logk::vm_tc];
 	}
 	return OK;
 }
@@ -5388,10 +5388,10 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		/* calculate Logk::delta_v for the reaction... */
-		if (tc == current_tc && s_x[i]->rxn_x.Logk_cr.logk_x[Logk::delta_v] == 0)
+		if (tc == current_tc && s_x[i]->rxn_x.Get_logk_x()[Logk::delta_v] == 0)
 			continue;
 		mu_terms_in_logk = true;
-		s_x[i]->lk = s_x[i]->rxn_x.Calc_lk(tempk, pa * PASCAL_PER_ATM);
+		s_x[i]->lk = s_x[i]->rxn_x.Calc_dv_lk_x(tempk, pa * PASCAL_PER_ATM);
 	}
 	/*
 	 *    Calculate log k for all pure phases

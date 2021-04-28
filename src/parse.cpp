@@ -26,7 +26,7 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 	LDBLE coef, l_z;
 	char c;
 	const char* cptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	paren_count = 0;
 	/*
@@ -71,7 +71,7 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		c = cptr[0];
 		if (association == FALSE)
 		{
-			trxn.token[trxn.Get_count_trxn()].coef *= -1.0;
+			trxn.tokens[trxn.Get_count_trxn()].coef *= -1.0;
 		}
 		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	}
@@ -85,17 +85,17 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		{
 			return (ERROR);
 		}
-		trxn.token[trxn.Get_count_trxn()].coef *= -1.0;
+		trxn.tokens[trxn.Get_count_trxn()].coef *= -1.0;
 		/*   Swap species into first structure position */
-		std::string char_ptr = trxn.token[0].Get_name();
-		coef = trxn.token[0].coef;
-		l_z = trxn.token[0].z;
-		trxn.token[0].Set_name(trxn.token[trxn.Get_count_trxn()].Get_name());
-		trxn.token[0].coef = trxn.token[trxn.Get_count_trxn()].coef;
-		trxn.token[0].z = trxn.token[trxn.Get_count_trxn()].z;
-		trxn.token[trxn.Get_count_trxn()].Set_name(char_ptr);
-		trxn.token[trxn.Get_count_trxn()].coef = coef;
-		trxn.token[trxn.Get_count_trxn()].z = l_z;
+		std::string char_ptr = trxn.tokens[0].Get_name();
+		coef = trxn.tokens[0].coef;
+		l_z = trxn.tokens[0].z;
+		trxn.tokens[0].Set_name(trxn.tokens[trxn.Get_count_trxn()].Get_name());
+		trxn.tokens[0].coef = trxn.tokens[trxn.Get_count_trxn()].coef;
+		trxn.tokens[0].z = trxn.tokens[trxn.Get_count_trxn()].z;
+		trxn.tokens[trxn.Get_count_trxn()].Set_name(char_ptr);
+		trxn.tokens[trxn.Get_count_trxn()].coef = coef;
+		trxn.tokens[trxn.Get_count_trxn()].z = l_z;
 		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 
 	}
@@ -114,7 +114,7 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 		c = cptr[0];
 		if (association == TRUE)
 		{
-			trxn.token[trxn.Get_count_trxn()].coef *= -1.0;
+			trxn.tokens[trxn.Get_count_trxn()].coef *= -1.0;
 		}
 		trxn.Set_count_trxn(trxn.Get_count_trxn() + 1);
 	}
@@ -126,14 +126,14 @@ parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 	 *   Get elements in species or mineral formula
 	 */
 	count_elts = 0;
-	strcpy(token, trxn.token[0].Get_name().c_str());
-	replace("(s)", "", token);
-	replace("(S)", "", token);
-	replace("(g)", "", token);
-	replace("(G)", "", token);
-	const char* char_ptr = token;
+	strcpy(tokens, trxn.tokens[0].Get_name().c_str());
+	replace("(s)", "", tokens);
+	replace("(S)", "", tokens);
+	replace("(g)", "", tokens);
+	replace("(G)", "", tokens);
+	const char* char_ptr = tokens;
 
-	if (get_elts_in_species(&char_ptr, trxn.token[0].coef) == ERROR)
+	if (get_elts_in_species(&char_ptr, trxn.tokens[0].coef) == ERROR)
 	{
 		return (ERROR);
 	}
@@ -182,7 +182,7 @@ check_eqn(int association)
 /*
  *   Check that coefficient of first species is -1.0
  */
-	if (equal(trxn.token[0].coef, -1.0, TOL) == FALSE)
+	if (equal(trxn.tokens[0].coef, -1.0, TOL) == FALSE)
 	{
 		if (association == TRUE)
 		{
@@ -204,9 +204,9 @@ check_eqn(int association)
 	sumcharge = 0.0;
 	for (i = 0; i < trxn.Get_count_trxn(); i++)
 	{
-		sumcharge += (trxn.token[i].coef) * (trxn.token[i].z);
-		const char* t_ptr = trxn.token[i].Get_name().c_str();
-		if (get_elts_in_species(&t_ptr, trxn.token[i].coef) == ERROR)
+		sumcharge += (trxn.tokens[i].coef) * (trxn.tokens[i].z);
+		const char* t_ptr = trxn.tokens[i].Get_name().c_str();
+		if (get_elts_in_species(&t_ptr, trxn.tokens[i].coef) == ERROR)
 		{
 			return (ERROR);
 		}
@@ -397,7 +397,7 @@ get_coef(LDBLE * coef, const char **eqnaddr)
 	const char* cptr;
 	const char* rest;
 	char* ptr1;
-	char token[MAX_LENGTH];;
+	char tokens[MAX_LENGTH];;
 
 	rest = *eqnaddr;
 	cptr = *eqnaddr;				/* address of a position in eqn */
@@ -443,7 +443,7 @@ get_coef(LDBLE * coef, const char **eqnaddr)
 	{
 		while (isdigit((int) c) || c == '+' || c == '-' || c == '.')
 		{
-			token[i++] = c;
+			tokens[i++] = c;
 			if (i >= MAX_LENGTH)
 			{
 				error_string = sformatf(
@@ -453,14 +453,14 @@ get_coef(LDBLE * coef, const char **eqnaddr)
 			}
 			c = *(++cptr);
 		}
-		token[i] = '\0';
+		tokens[i] = '\0';
 		*eqnaddr = cptr;
 		errno = 0;
-		*coef = strtod(token, &ptr1);
+		*coef = strtod(tokens, &ptr1);
 		if ((errno == ERANGE) || (*ptr1 != '\0'))
 		{
 			error_string = sformatf(
-					"Error converting coefficient in get_coef, %s.", token);
+					"Error converting coefficient in get_coef, %s.", tokens);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
@@ -957,7 +957,7 @@ get_num(const char **t_ptr, LDBLE * num)
 	int i, decimal;
 	char c;
 	char* ptr1;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	*num = 1.0;
 	i = 0;
@@ -971,7 +971,7 @@ get_num(const char **t_ptr, LDBLE * num)
 				decimal++;
 			if (decimal > 1)
 				break;
-			token[i++] = c;
+			tokens[i++] = c;
 			/* check number length */
 			if (i >= MAX_LENGTH)
 			{
@@ -983,12 +983,12 @@ get_num(const char **t_ptr, LDBLE * num)
 			}
 			c = *(++(*t_ptr));
 		}
-		token[i] = '\0';
+		tokens[i] = '\0';
 		errno = 0;
-		*num = strtod(token, &ptr1);
+		*num = strtod(tokens, &ptr1);
 		if (errno == ERANGE)
 		{
-			error_string = sformatf( "Converting number in get_num, %s.", token);
+			error_string = sformatf( "Converting number in get_num, %s.", tokens);
 			input_error++;
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
@@ -1014,19 +1014,19 @@ get_species(const char **cptr)
 	std::string string;
 	int l;
 
-	if (trxn.Get_count_trxn() + 1 > trxn.token.size()) 
-		trxn.token.resize(trxn.Get_count_trxn() + 1);
+	if (trxn.Get_count_trxn() + 1 > trxn.tokens.size()) 
+		trxn.tokens.resize(trxn.Get_count_trxn() + 1);
 	/* coefficient */
-	if (get_coef(&(trxn.token[trxn.Get_count_trxn()].coef), cptr) == ERROR)
+	if (get_coef(&(trxn.tokens[trxn.Get_count_trxn()].coef), cptr) == ERROR)
 	{
 		return (ERROR);
 	}
 	/* name and charge */
-	if (get_token(cptr, string, &trxn.token[trxn.Get_count_trxn()].z, &l) == ERROR)
+	if (get_token(cptr, string, &trxn.tokens[trxn.Get_count_trxn()].z, &l) == ERROR)
 	{
 		return (ERROR);
 	}
-	trxn.token[trxn.Get_count_trxn()].Set_name(string);
+	trxn.tokens[trxn.Get_count_trxn()].Set_name(string);
 	/*
 	   trxn.token[count_trxn].z = 0;
 	   trxn.token[count_trxn].s = NULL;

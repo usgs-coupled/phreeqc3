@@ -341,7 +341,7 @@ initial_solutions(int print)
  */
 	int converge, converge1;
 	int last, n_user, print1;
-	char token[2 * MAX_LENGTH];
+	char tokens[2 * MAX_LENGTH];
 
 	state = INITIAL_SOLUTION;
 	set_use();
@@ -370,9 +370,9 @@ initial_solutions(int print)
 			}
 			if (print == TRUE)
 			{
-				sprintf(token, "Initial solution %d.\t%.350s",
+				sprintf(tokens, "Initial solution %d.\t%.350s",
 						solution_ref.Get_n_user(), solution_ref.Get_description().c_str());
-				dup_print(token, FALSE);
+				dup_print(tokens, FALSE);
 			}
 			use.Set_solution_ptr(&solution_ref);
 			LDBLE d0 = solution_ref.Get_density();
@@ -468,7 +468,7 @@ initial_exchangers(int print)
  */
 	int i, converge, converge1;
 	int last, n_user, print1;
-	char token[2 * MAX_LENGTH];
+	char tokens[2 * MAX_LENGTH];
 
 	state = INITIAL_EXCHANGE;
 	set_use();
@@ -504,9 +504,9 @@ initial_exchangers(int print)
 			}
 			if (print == TRUE)
 			{
-				sprintf(token, "Exchange %d.\t%.350s",
+				sprintf(tokens, "Exchange %d.\t%.350s",
 						exchange_ptr->Get_n_user(), exchange_ptr->Get_description().c_str());
-				dup_print(token, FALSE);
+				dup_print(tokens, FALSE);
 			}
 			use.Set_exchange_ptr(exchange_ptr);
 			use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, exchange_ptr->Get_n_solution()));
@@ -555,9 +555,8 @@ initial_gas_phases(int print)
  */
 	int converge, converge1;
 	int last, n_user, print1;
-	char token[2 * MAX_LENGTH];
+	char tokens[2 * MAX_LENGTH];
 	class phase *phase_ptr;
-	class rxn_token *rxn_ptr;
 	LDBLE lp;
 	bool PR = false;
 
@@ -595,9 +594,9 @@ initial_gas_phases(int print)
 			}
 			if (print == TRUE)
 			{
-				sprintf(token, "Gas_Phase %d.\t%.350s",
+				sprintf(tokens, "Gas_Phase %d.\t%.350s",
 						gas_phase_ptr->Get_n_user(), gas_phase_ptr->Get_description().c_str());
-				dup_print(token, FALSE);
+				dup_print(tokens, FALSE);
 			}
 
 			/* Try to obtain a solution pointer */
@@ -624,12 +623,13 @@ initial_gas_phases(int print)
 				phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 				if (phase_ptr->in == TRUE)
 				{
-					lp = -phase_ptr->lk;
-					for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
-						 !rxn_ptr->Get_end(); rxn_ptr++)
-					{
-						lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-					}
+					//lp = -phase_ptr->lk;
+					//for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1;
+					//	 !rxn_ptr->Get_end(); rxn_ptr++)
+					//{
+					//	lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
+					//}
+					lp = phase_ptr->rxn_x.Calc_si_iap_only();
 					phase_ptr->p_soln_x = exp(lp * LOG_10);
 					gas_phase_ptr->Set_total_p(gas_phase_ptr->Get_total_p() + phase_ptr->p_soln_x);
 					phase_ptr->moles_x = phase_ptr->p_soln_x *
@@ -646,14 +646,14 @@ initial_gas_phases(int print)
 			}
 			if (fabs(gas_phase_ptr->Get_total_p() - use.Get_solution_ptr()->Get_patm()) > 5)
 			{
-				sprintf(token,
+				sprintf(tokens,
 					"WARNING: While initializing gas phase composition by equilibrating:\n%s (%.2f atm) %s (%.2f atm).\n%s.",
 					"         Gas phase pressure",
 					(double) gas_phase_ptr->Get_total_p(),
 					"is not equal to solution-pressure",
 					(double) use.Get_solution_ptr()->Get_patm(),
 					"         Pressure effects on solubility may be incorrect");
-					dup_print(token, FALSE);
+					dup_print(tokens, FALSE);
 			}
 
 			print_gas_phase();
@@ -758,7 +758,7 @@ reactions(void)
  *      or irreversible reaction.
  */
 	int count_steps, use_mix;
-	char token[2 * MAX_LENGTH];
+	char tokens[2 * MAX_LENGTH];
 	class save save_data;
 	LDBLE kin_time;
 	cxxKinetics *kinetics_ptr;
@@ -815,13 +815,13 @@ reactions(void)
 	for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 	{
 		overall_iterations = 0;
-		sprintf(token, "Reaction step %d.", reaction_step);
+		sprintf(tokens, "Reaction step %d.", reaction_step);
 		if (reaction_step > 1 && incremental_reactions == FALSE)
 		{
 			copy_use(-2);
 		}
 		set_initial_moles(-2);
-		dup_print(token, FALSE);
+		dup_print(tokens, FALSE);
 /*
  *  Determine time step for kinetics
  */
@@ -917,12 +917,12 @@ saver(void)
  *   slots.
  */
 	int i, n;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	if (save.solution == TRUE)
 	{
-		sprintf(token, "Solution after simulation %d.", simulation);
-		description_x = token;
+		sprintf(tokens, "Solution after simulation %d.", simulation);
+		description_x = tokens;
 		n = save.n_solution_user;
 		xsolution_save(n);
 		for (i = save.n_solution_user + 1; i <= save.n_solution_user_end; i++)
@@ -999,7 +999,7 @@ xexchange_save(int n_user)
  *   number n_user.
  */
 	int i, j;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	LDBLE charge;
 	if (use.Get_exchange_ptr() == NULL)
@@ -1012,8 +1012,8 @@ xexchange_save(int n_user)
 	temp_exchange.Set_n_user(n_user);
 	temp_exchange.Set_n_user_end(n_user);
 	temp_exchange.Set_new_def(false);
-	sprintf(token, "Exchange assemblage after simulation %d.", simulation);
-	temp_exchange.Set_description(token);
+	sprintf(tokens, "Exchange assemblage after simulation %d.", simulation);
+	temp_exchange.Set_description(tokens);
 	temp_exchange.Set_solution_equilibria(false);
 	temp_exchange.Set_n_solution(-999);
 	temp_exchange.Get_exchange_comps().clear();
@@ -1084,7 +1084,7 @@ xgas_save(int n_user)
 	 *   Save gas composition into structure gas_phase with user
 	 *   number n_user.
 	 */
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	if (use.Get_gas_phase_ptr() == NULL)
 		return (OK);
@@ -1095,8 +1095,8 @@ xgas_save(int n_user)
 	 */
 	temp_gas_phase.Set_n_user(n_user);
 	temp_gas_phase.Set_n_user_end(n_user);
-	sprintf(token, "Gas phase after simulation %d.", simulation);
-	temp_gas_phase.Set_description(token);
+	sprintf(tokens, "Gas phase after simulation %d.", simulation);
+	temp_gas_phase.Set_description(tokens);
 	temp_gas_phase.Set_new_def(false);
 	temp_gas_phase.Set_solution_equilibria(false);
 	temp_gas_phase.Set_n_solution(-99);
@@ -1184,7 +1184,7 @@ xpp_assemblage_save(int n_user)
  *   Save pure_phase assemblage into instance of cxxPPassemblage with user
  *   number n_user.
  */
-	std::string token;
+	std::string tokens;
 	cxxPPassemblage * pp_assemblage_ptr = use.Get_pp_assemblage_ptr();
 	if (use.Get_pp_assemblage_ptr() == NULL)
 		return (OK);
@@ -2029,7 +2029,7 @@ int Phreeqc::
 run_simulations(void)
 /* ---------------------------------------------------------------------- */
 {
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 #if defined(_MSC_VER) && (_MSC_VER < 1900)  // removed in vs2015
 	unsigned int old_exponent_format;
 	old_exponent_format = _set_output_format(_TWO_DIGIT_EXPONENT);
@@ -2084,16 +2084,16 @@ run_simulations(void)
 			sprintf(token, "\nSimulation %d\n", simulation);
 			screen_msg(token);
 #endif
-			sprintf(token, "Reading input data for simulation %d.", simulation);
+			sprintf(tokens, "Reading input data for simulation %d.", simulation);
 
-			dup_print(token, TRUE);
+			dup_print(tokens, TRUE);
 			if (read_input() == EOF)
 				break;
 
 			if (title_x.size() > 0)
 			{
-				sprintf(token, "TITLE");
-				dup_print(token, TRUE);
+				sprintf(tokens, "TITLE");
+				dup_print(tokens, TRUE);
 				if (pr.headings == TRUE)
 				{
 					output_msg(sformatf("%s\n\n", title_x.c_str()));

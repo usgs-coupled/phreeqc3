@@ -159,7 +159,7 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 	bool useLastLine(false);
 	std::vector < LDBLE > temp_steps;
@@ -302,9 +302,9 @@ cxxKinetics::read_raw(CParser & parser, bool check)
 			break;
 
 		case 6:				// steps
-			while (parser.copy_token(token, next_char) == CParser::TT_DIGIT)
+			while (parser.copy_token(tokens, next_char) == CParser::TT_DIGIT)
 			{
-				std::istringstream iss(token);
+				std::istringstream iss(tokens);
 				if (!(iss >> d))
 				{
 					parser.incr_input_error();

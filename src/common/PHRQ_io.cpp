@@ -756,10 +756,10 @@ get_line(void)
 			{
 				std::string::iterator beg = m_line.begin();
 				std::string::iterator end = m_line.end();
-				std::string token;
-				CParser::copy_token(token, beg, end);
+				std::string tokens;
+				CParser::copy_token(tokens, beg, end);
 
-				if (token.size() > 1 && token[0] == '-' &&::isalpha(token[1]))
+				if (tokens.size() > 1 && tokens[0] == '-' &&::isalpha(tokens[1]))
 				{
 					return_value = LT_OPTION;
 				}

@@ -326,7 +326,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				   std::istream **input_cookie, int log)
 /* ---------------------------------------------------------------------- */
 {
-	std::string token, default_name;
+	std::string tokens, default_name;
 	std::string query;
 	std::string in_file, out_file, db_file;
 	char *env_ptr;
@@ -382,25 +382,25 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
  */
 		query = "Name of output file?";
 		cptr = default_name.c_str();
-		copy_token(token, &cptr);
-		token = default_name;
-		token.append(".out");
+		copy_token(tokens, &cptr);
+		tokens = default_name;
+		tokens.append(".out");
 		std::ofstream * local_output_stream = NULL;
 		if (argc <= 1)
 		{
-			local_output_stream = open_output_stream(query, token, std::ios_base::out, false);
+			local_output_stream = open_output_stream(query, tokens, std::ios_base::out, false);
 		}
 		else if (argc == 2)
 		{
-			local_output_stream = open_output_stream(query, token, std::ios_base::out, true);
+			local_output_stream = open_output_stream(query, tokens, std::ios_base::out, true);
 		}
 		else if (argc >= 3)
 		{
-			token = argv[2];
-			local_output_stream = open_output_stream(query, token, std::ios_base::out, true);
+			tokens = argv[2];
+			local_output_stream = open_output_stream(query, tokens, std::ios_base::out, true);
 		}
-		screen_msg(sformatf("Output file: %s\n\n", token.c_str()));
-		out_file = token;
+		screen_msg(sformatf("Output file: %s\n\n", tokens.c_str()));
+		out_file = tokens;
 		phrq_io->Set_output_ostream(local_output_stream);
 /*
  *   Open log file
@@ -421,8 +421,8 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 			if (get_line() == KEYWORD)
 			{
 				cptr = line;
-				copy_token(token, &cptr);
-				if (strcmp_nocase(token.c_str(), "database") == 0)
+				copy_token(tokens, &cptr);
+				if (strcmp_nocase(tokens.c_str(), "database") == 0)
 				{
 					user_database = cptr;
 					string_trim(user_database);
@@ -448,31 +448,31 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		env_ptr = getenv("PHREEQC_DATABASE");
 		if (user_database.size() > 0)
 		{
-			token = user_database;
+			tokens = user_database;
 		}
 		else if (env_ptr != NULL)
 		{
-			token = env_ptr;
+			tokens = env_ptr;
 		}
 		else
 		{
-			token = default_data_base;
+			tokens = default_data_base;
 		}
 
 		std::ifstream * local_database_file = NULL;
 		if (argc <= 1)
 		{
-			local_database_file = open_input_stream(query, token, std::ios_base::in, false);
+			local_database_file = open_input_stream(query, tokens, std::ios_base::in, false);
 		}
 		else if (argc < 4)
 		{
-			local_database_file = open_input_stream(query, token, std::ios_base::in, true);
+			local_database_file = open_input_stream(query, tokens, std::ios_base::in, true);
 		}
 		else if (argc >= 4)
 		{
 			if (user_database.size() == 0)
 			{
-				token = argv[3];
+				tokens = argv[3];
 			}
 			else
 			{
@@ -480,19 +480,19 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 				warning_msg	("Database file from DATABASE keyword is used; command line argument ignored.");
 #endif
 			}
-			local_database_file = open_input_stream(query, token, std::ios_base::in, true);
+			local_database_file = open_input_stream(query, tokens, std::ios_base::in, true);
 		}
 		local_database_file->close();
 		delete local_database_file;
-		user_database = token;
-		screen_msg(sformatf("Database file: %s\n\n", token.c_str()));
-		db_file = token;
+		user_database = tokens;
+		screen_msg(sformatf("Database file: %s\n\n", tokens.c_str()));
+		db_file = tokens;
 		output_msg(sformatf("   Input file: %s\n", in_file.c_str()));
 		output_msg(sformatf("  Output file: %s\n", out_file.c_str()));
 #ifdef NPP
 		output_msg(sformatf("Using PHREEQC: version 3.6.5, compiled February 24, 2021\n"));
 #endif
-		output_msg(sformatf("Database file: %s\n\n", token.c_str()));
+		output_msg(sformatf("Database file: %s\n\n", tokens.c_str()));
 #ifdef NPP
 		output_flush();
 #endif

@@ -63,7 +63,7 @@ cxxMix::read_raw(CParser & parser)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 	bool useLastLine(false);
 
@@ -102,9 +102,9 @@ cxxMix::read_raw(CParser & parser)
 			break;
 
 		case CParser::OPT_DEFAULT:	// solution number, mix fraction
-			if (parser.copy_token(token, next_char) != CParser::TT_EMPTY)
+			if (parser.copy_token(tokens, next_char) != CParser::TT_EMPTY)
 			{
-				std::istringstream iss(token);
+				std::istringstream iss(tokens);
 				if (!(iss >> i))
 				{
 					parser.incr_input_error();

@@ -95,8 +95,8 @@ cxxNumKeyword::read_number_description(std::istream & is)
 	// KEYWORD [[1[-20]] [This is the description]]
 
 	// eat keyword
-	std::string token;
-	is >> token;
+	std::string tokens;
+	is >> tokens;
 
 	// skip whitespace
 	while (::isspace(is.peek()))
@@ -129,7 +129,7 @@ cxxNumKeyword::read_number_description(std::istream & is)
 void
 cxxNumKeyword::read_number_description(const std::string & line_in)
 {
-	std::string keyword, token;
+	std::string keyword, tokens;
 	//std::istream::pos_type ptr;
 
 	std::string line = line_in;
@@ -140,19 +140,19 @@ cxxNumKeyword::read_number_description(const std::string & line_in)
 	CParser::copy_token(keyword, b, e);
 
 	// read number
-	if (CParser::copy_token(token, b, e) == CParser::TT_DIGIT)
+	if (CParser::copy_token(tokens, b, e) == CParser::TT_DIGIT)
 	{
-		if (token[0] == '-') 
+		if (tokens[0] == '-') 
 		{
-			token = token.substr(1);
-			Utilities::replace("-", " ", token);
-			token = "-" + token;
+			tokens = tokens.substr(1);
+			Utilities::replace("-", " ", tokens);
+			tokens = "-" + tokens;
 		}
 		else
 		{
-			Utilities::replace("-", " ", token);
+			Utilities::replace("-", " ", tokens);
 		}
-		int j = sscanf(token.c_str(), "%d%d", &this->n_user, &this->n_user_end);
+		int j = sscanf(tokens.c_str(), "%d%d", &this->n_user, &this->n_user_end);
 		if (j == 0)
 		{
 			this->n_user = this->n_user_end = 1;
@@ -169,7 +169,7 @@ cxxNumKeyword::read_number_description(const std::string & line_in)
 	else
 	{
 		this->n_user = this->n_user_end = 1;
-		this->description = token;
+		this->description = tokens;
 	}
 
 	// skip whitespace

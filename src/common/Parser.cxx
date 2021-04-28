@@ -257,10 +257,10 @@ PHRQ_io::LINE_TYPE CParser::get_line()
 		{
 			std::string::iterator beg = m_line.begin();
 			std::string::iterator end = m_line.end();
-			std::string token;
-			copy_token(token, beg, end);
+			std::string tokens;
+			copy_token(tokens, beg, end);
 
-			if (token.size() > 1 && token[0] == '-' &&::isalpha(token[1]))
+			if (tokens.size() > 1 && tokens[0] == '-' &&::isalpha(tokens[1]))
 			{
 				return_value = PHRQ_io::LT_OPTION;
 			}
@@ -539,25 +539,25 @@ CParser::STATUS_TYPE CParser::check_units(std::string & tot_units,
 	}
 	return PARSER_ERROR;
 }
-CParser::TOKEN_TYPE CParser::token_type(const std::string & token)
+CParser::TOKEN_TYPE CParser::token_type(const std::string & tokens)
 {
-	if (!token.empty())
+	if (!tokens.empty())
 	{
-		if (::isupper(token[0]))
+		if (::isupper(tokens[0]))
 		{
 			return CParser::TT_UPPER;
 		}
-		else if (::islower(token[0]))
+		else if (::islower(tokens[0]))
 		{
 			return CParser::TT_LOWER;
 		}
-		else if (::isdigit(token[0]) || token[0] == '.' || token[0] == '-')
+		else if (::isdigit(tokens[0]) || tokens[0] == '.' || tokens[0] == '-')
 		{
 			return CParser::TT_DIGIT;
 		}
 		else
 		{
-			assert(!::isspace(token[0]));
+			assert(!::isspace(tokens[0]));
 			return CParser::TT_UNKNOWN;
 		}
 	}
@@ -570,13 +570,13 @@ CParser::TOKEN_TYPE CParser::token_type(const std::string & token)
 CParser::TOKEN_TYPE CParser::peek_token()
 {
 	std::istringstream::pos_type pos = m_line_iss.tellg();
-	std::string token;
-	m_line_iss >> token;
+	std::string tokens;
+	m_line_iss >> tokens;
 	m_line_iss.seekg(pos);
-	return token_type(token);
+	return token_type(tokens);
 }
 
-CParser::TOKEN_TYPE CParser::copy_token(std::string & token,
+CParser::TOKEN_TYPE CParser::copy_token(std::string & tokens,
 										std::string::iterator & begin,
 										std::string::iterator & end)
 {
@@ -588,46 +588,46 @@ CParser::TOKEN_TYPE CParser::copy_token(std::string & token,
 		begin = b;
 		for (; begin < end && !::isspace(*begin); ++begin);
 
-		token.assign(b, begin);
+		tokens.assign(b, begin);
 	}
 	else
 	{
-		token.resize(0);
+		tokens.resize(0);
 	}
 
-	return token_type(token);
+	return token_type(tokens);
 }
 
-CParser::TOKEN_TYPE CParser::copy_token(std::string & token,
+CParser::TOKEN_TYPE CParser::copy_token(std::string & tokens,
 										std::istream & is)
 {
-	is >> token;
-	return token_type(token);
+	is >> tokens;
+	return token_type(tokens);
 }
 
-CParser::TOKEN_TYPE CParser::copy_token(std::string & token,
+CParser::TOKEN_TYPE CParser::copy_token(std::string & tokens,
 										std::istream::pos_type & pos)
 {
 	m_line_iss.seekg(pos);
-	if (!(m_line_iss >> token))
+	if (!(m_line_iss >> tokens))
 	{
-		token.erase(token.begin(), token.end());	// token.clear();
+		tokens.erase(tokens.begin(), tokens.end());	// token.clear();
 	}
 	pos = m_line_iss.tellg();
-	return token_type(token);
+	return token_type(tokens);
 }
 
 CParser::FIND_TYPE CParser::find_option(const std::string & item, int *n,
 										const std::vector < std::string >
 										&list, bool exact)
 {
-	std::string token(item);
-	std::transform(token.begin(), token.end(), token.begin(), tolower);
+	std::string tokens(item);
+	std::transform(tokens.begin(), tokens.end(), tokens.begin(), tolower);
 	for (unsigned int i = 0; i < list.size(); i++)
 	{
 		if (exact == true)
 		{
-			if (list[i].compare(token) == 0)
+			if (list[i].compare(tokens) == 0)
 			{
 				*n = i;
 				return FT_OK;
@@ -635,7 +635,7 @@ CParser::FIND_TYPE CParser::find_option(const std::string & item, int *n,
 		}
 		else
 		{
-			if (list[i].find(token) == 0)
+			if (list[i].find(tokens) == 0)
 			{
 				*n = i;
 				return FT_OK;
@@ -879,29 +879,29 @@ CParser::STATUS_TYPE CParser::get_elt(std::string::iterator & begin,
 	return PARSER_OK;
 }
 
-CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
+CParser::STATUS_TYPE CParser::parse_couple(std::string & tokens)
 {
 	// Parse couple puts redox couples in standard form
 	// "+" is removed and couples are rewritten in sort
 	// order.
 
-	if (Utilities::strcmp_nocase_arg1(token.c_str(), "pe") == 0)
+	if (Utilities::strcmp_nocase_arg1(tokens.c_str(), "pe") == 0)
 	{
-		Utilities::str_tolower(token);
+		Utilities::str_tolower(tokens);
 		return PARSER_OK;
 	}
 
-	while (Utilities::replace("+", "", token));
+	while (Utilities::replace("+", "", tokens));
 
-	std::string::iterator ptr = token.begin();
+	std::string::iterator ptr = tokens.begin();
 	std::string elt1;
-	get_elt(ptr, token.end(), elt1);
+	get_elt(ptr, tokens.end(), elt1);
 
 	if (*ptr != '(')
 	{
 		std::ostringstream err_msg;
 		err_msg << "Element name must be followed by " <<
-			"parentheses in redox couple, " << token << ".";
+			"parentheses in redox couple, " << tokens << ".";
 		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		incr_input_error();
 		return PARSER_ERROR;
@@ -910,14 +910,14 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	int
 		paren_count = 1;
 	std::string paren1 = "(";
-	while (ptr != token.end())
+	while (ptr != tokens.end())
 	{
 		++ptr;
-		if (*ptr == '/' || ptr == token.end())
+		if (*ptr == '/' || ptr == tokens.end())
 		{
 			std::ostringstream err_msg;
 			err_msg << "End of line or  " "/"
-				" encountered before end of parentheses, " << token << ".";
+				" encountered before end of parentheses, " << tokens << ".";
 			error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 			return PARSER_ERROR;
 		}
@@ -931,22 +931,22 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	}
 
 	++ptr;
-	if (ptr == token.end() || *ptr != '/')
+	if (ptr == tokens.end() || *ptr != '/')
 	{
 		std::ostringstream err_msg;
 		err_msg << " " "/" " must follow parentheses " <<
-			"ending first half of redox couple, " << token << ".";
+			"ending first half of redox couple, " << tokens << ".";
 		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
 	++ptr;
 	std::string elt2;
-	get_elt(ptr, token.end(), elt2);
+	get_elt(ptr, tokens.end(), elt2);
 	if (elt1.compare(elt2) != 0)
 	{
 		std::ostringstream err_msg;
 		err_msg << "Redox couple must be two redox states " <<
-			"of the same element, " << token << ".";
+			"of the same element, " << tokens << ".";
 		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
@@ -954,7 +954,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	{
 		std::ostringstream err_msg;
 		err_msg << "Element name must be followed by "
-			"parentheses in redox couple, " << token << ".";
+			"parentheses in redox couple, " << tokens << ".";
 		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		incr_input_error();
 		return PARSER_ERROR;
@@ -962,14 +962,14 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	std::string paren2 = "(";
 	paren_count = 1;
 
-	while (ptr != token.end())
+	while (ptr != tokens.end())
 	{
 		++ptr;
-		if (*ptr == '/' || ptr == token.end())
+		if (*ptr == '/' || ptr == tokens.end())
 		{
 			std::ostringstream err_msg;
 			err_msg << "End of line or  " "/"
-				" encountered before end of parentheses, " << token << ".";
+				" encountered before end of parentheses, " << tokens << ".";
 			error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 			return PARSER_ERROR;
 		}
@@ -983,17 +983,17 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 	}
 	if (paren1.compare(paren2) < 0)
 	{
-		token = elt1 + paren1 + std::string("/") + elt2 + paren2;
+		tokens = elt1 + paren1 + std::string("/") + elt2 + paren2;
 	}
 	else if (paren1.compare(paren2) > 0)
 	{
-		token = elt2 + paren2 + std::string("/") + elt1 + paren1;
+		tokens = elt2 + paren2 + std::string("/") + elt1 + paren1;
 	}
 	else
 	{
 		std::ostringstream err_msg;
 		err_msg << "Both parts of redox couple are the same, " <<
-			token << ".";
+			tokens << ".";
 		error_msg(err_msg.str().c_str(), PHRQ_io::OT_CONTINUE);
 		return PARSER_ERROR;
 	}
@@ -1004,13 +1004,13 @@ template <class T>
 CParser::STATUS_TYPE CParser::addPair(std::map < std::string, T >&totals,
 									  std::istream::pos_type & pos)
 {
-	std::string token;
+	std::string tokens;
 	T d;
 	CParser::TOKEN_TYPE j;
 
 	m_line_iss.seekg(pos);
 
-	j = copy_token(token, pos);
+	j = copy_token(tokens, pos);
 
 	if (j == CParser::TT_EMPTY)
 		return PARSER_OK;
@@ -1019,7 +1019,7 @@ CParser::STATUS_TYPE CParser::addPair(std::map < std::string, T >&totals,
 	{
 		return PARSER_ERROR;
 	}
-	totals[token] = d;
+	totals[tokens] = d;
 	return PARSER_OK;
 }
 
@@ -1225,7 +1225,7 @@ incr_input_error()
 	return ++m_input_error;
 }
 
-CParser::TOKEN_TYPE CParser::copy_title(std::string & token,
+CParser::TOKEN_TYPE CParser::copy_title(std::string & tokens,
 										std::string::iterator & begin,
 										std::string::iterator & end)
 {
@@ -1260,22 +1260,22 @@ CParser::TOKEN_TYPE CParser::copy_title(std::string & token,
 			for (; begin < end && !(*begin == ',') && !(::isspace(*begin)); ++begin);
 			e = begin;
 		}
-		token.assign(b, e);
+		tokens.assign(b, e);
 	}
 	else
 	{
-		token.resize(0);
+		tokens.resize(0);
 	}
-	token = trim(token);
-	return token_type(token);
+	tokens = trim(tokens);
+	return token_type(tokens);
 }
 bool CParser::get_true_false(std::istream::pos_type & pos, bool def)
 {
-	std::string token;
-	this->copy_token(token, pos);
-	std::string::iterator b = token.begin();
-	for (; b != token.end() && (::isspace(*b)); ++b);
-	if (b != token.end())
+	std::string tokens;
+	this->copy_token(tokens, pos);
+	std::string::iterator b = tokens.begin();
+	for (; b != tokens.end() && (::isspace(*b)); ++b);
+	if (b != tokens.end())
 	{
 		if (*b == 'f' || *b == 'F')
 		{
@@ -1288,17 +1288,17 @@ bool CParser::get_true_false(std::istream::pos_type & pos, bool def)
 	}
 	return def;
 }
-CParser::TOKEN_TYPE CParser::get_rest_of_line(std::string &token)
+CParser::TOKEN_TYPE CParser::get_rest_of_line(std::string &tokens)
 {
-	token.clear();
+	tokens.clear();
 	int j;
 	while ((j = m_line_iss.get()) != std::char_traits < char >::eof())
 	{
 		char c = (char) j;
-		token += c;
+		tokens += c;
 	}
-	token = trim(token);
-	return token_type(token);
+	tokens = trim(tokens);
+	return token_type(tokens);
 }
 CParser::TOKEN_TYPE CParser::parse_delimited(std::string & source, std::string & result,
 										const std::string& t = " \t")

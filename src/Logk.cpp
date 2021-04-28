@@ -14,7 +14,7 @@ Initialize()
 	logk_x.resize(MAX_LOG_K_INDICES, 0);
 	add_logk.clear();
 	// enum with original delta H units 
-	original_units = Logk::kjoules;
+	original_deltah_units = Logk::kjoules;
 	// enum with original delta V units 
 	original_deltav_units = Logk::cm3_per_mol;
 }
@@ -51,7 +51,7 @@ Set_selected()
 	return;
 }
 void Logk::
-tidy_logk(Phreeqc* phrq_ptr)
+Tidy_logk(Phreeqc* phrq_ptr)
 {
 	this->Set_selected();
 	logk_x = logk_selected;
@@ -59,7 +59,7 @@ tidy_logk(Phreeqc* phrq_ptr)
 }
 /* ---------------------------------------------------------------------- */
 double Logk::
-Calc_Logk(double tempk, double presPa)
+Calc_lk_x(double tempk, double presPa)
 /* ---------------------------------------------------------------------- */
 {
 	/*
@@ -104,10 +104,10 @@ Add_logks(std::vector<double>& lk, class Logk& next_Logk, double coef, size_t re
 	for (size_t i = 0; i < next_Logk.add_logk.size(); i++)
 	{
 		double coef_add = next_Logk.add_logk[i].coef * coef;
-		std::string token = next_Logk.add_logk[i].name;
-		phrq_ptr->str_tolower(token);
+		std::string tokens = next_Logk.add_logk[i].name;
+		phrq_ptr->str_tolower(tokens);
 		std::map<std::string, class Logk>::iterator it =
-			phrq_ptr->Get_Logk_map().find(token);
+			phrq_ptr->Get_Logk_map().find(tokens);
 		if (it == phrq_ptr->Get_Logk_map().end())
 		{
 			std::ostringstream oss;

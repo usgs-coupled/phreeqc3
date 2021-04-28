@@ -22,11 +22,11 @@ StorageBinListItem::StorageBinListItem(CParser & parser)
 		if (l == PHRQ_io::LT_EOF) break;
 		for (;;)
 		{ 
-			std::string token;
-			CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+			std::string tokens;
+			CParser::TOKEN_TYPE j = parser.copy_token(tokens, next_char);
 			if (j == CParser::TT_DIGIT)
 			{
-				this->Augment(token);
+				this->Augment(tokens);
 			}
 			else if (j == CParser::TT_EMPTY)
 			{
@@ -35,22 +35,22 @@ StorageBinListItem::StorageBinListItem(CParser & parser)
 		}
 	}
 }
-void StorageBinListItem::Augment(std::string token)
+void StorageBinListItem::Augment(std::string tokens)
 {
 	this->defined = true;
-	if (token.size() == 0) return;
+	if (tokens.size() == 0) return;
 
 	// split string accounting for possible negative numbers
 	size_t pos;
-	if ((pos = token.find("--")) != std::string::npos)
+	if ((pos = tokens.find("--")) != std::string::npos)
 	{
-		token.replace(pos,2," &");
+		tokens.replace(pos,2," &");
 	}
-	std::replace(token.begin() + 1, token.end(), '-', ' ');
-	std::replace(token.begin() + 1, token.end(), '&', '-');
+	std::replace(tokens.begin() + 1, tokens.end(), '-', ' ');
+	std::replace(tokens.begin() + 1, tokens.end(), '&', '-');
 
 	// parse string into 1 or 2 numbers
-	std::istringstream iss(token);
+	std::istringstream iss(tokens);
 	std::set < int > temp_set;
 	int i;
 	if (iss >> i)
@@ -142,7 +142,7 @@ bool StorageBinList::Read(CParser & parser)
 	bool return_value(true);
 
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 
 	opt_save = CParser::OPT_DEFAULT;
@@ -217,16 +217,16 @@ bool StorageBinList::Read(CParser & parser)
 		{
 			for (;;)
 			{ 
-				CParser::TOKEN_TYPE j = parser.copy_token(token, next_char);
+				CParser::TOKEN_TYPE j = parser.copy_token(tokens, next_char);
 				if (item)
 				{
 					if (j == CParser::TT_DIGIT)
 					{
-						item->Augment(token);
+						item->Augment(tokens);
 					}
 					else if (j == CParser::TT_EMPTY)
 					{
-						item->Augment(token);
+						item->Augment(tokens);
 						break;
 					}
 					else

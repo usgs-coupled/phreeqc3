@@ -789,7 +789,7 @@ build_tally_table(void)
 	size_t n;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
 	class phase *phase_ptr;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	const char* cptr;
 /*
  *  make list of all elements in all entitites
@@ -902,13 +902,13 @@ build_tally_table(void)
 				paren_count = 0;
 				if (comp_ptr->Get_add_formula().size() > 0)
 				{
-					strcpy(token, comp_ptr->Get_add_formula().c_str());
-					cptr = &(token[0]);
+					strcpy(tokens, comp_ptr->Get_add_formula().c_str());
+					cptr = &(tokens[0]);
 					get_elts_in_species(&cptr, 1.0);
 				}
 				else
 				{
-					strcpy(token, phase_ptr->formula.c_str());
+					strcpy(tokens, phase_ptr->formula.c_str());
 					add_elt_list(phase_ptr->next_elt, 1.0);
 				}
 				elt_list_combine();
@@ -959,7 +959,7 @@ build_tally_table(void)
 					tally_table[n].type = Ss_phase;
 					count_elts = 0;
 					paren_count = 0;
-					strcpy(token, phase_ptr->formula.c_str());
+					strcpy(tokens, phase_ptr->formula.c_str());
 					add_elt_list(phase_ptr->next_elt, 1.0);
 					elt_list_combine();
 					tally_table[n].formula = elt_list_vsave();
@@ -1007,8 +1007,8 @@ build_tally_table(void)
 				phase_ptr = NULL;
 				if (kinetics_comp_ptr->Get_namecoef().size() == 1)
 				{
-					strcpy(token, kinetics_comp_ptr->Get_namecoef().begin()->first.c_str());
-					phase_ptr = phase_bsearch(token, &p, FALSE);
+					strcpy(tokens, kinetics_comp_ptr->Get_namecoef().begin()->first.c_str());
+					phase_ptr = phase_bsearch(tokens, &p, FALSE);
 				}
 				if (phase_ptr != NULL)
 				{

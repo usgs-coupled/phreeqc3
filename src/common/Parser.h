@@ -179,17 +179,17 @@ class CParser: public PHRQ_base
                         TT_DIGIT
                         TT_UNKNOWN
         */
-	static CParser::TOKEN_TYPE copy_token(std::string & token,
+	static CParser::TOKEN_TYPE copy_token(std::string & tokens,
 								 std::string::iterator & begin,
 								 std::string::iterator & end);
-	static CParser::TOKEN_TYPE copy_title(std::string & token,
+	static CParser::TOKEN_TYPE copy_title(std::string & tokens,
 										std::string::iterator & begin,
 										std::string::iterator & end);
-	static CParser::TOKEN_TYPE token_type(const std::string & token);
-	static CParser::TOKEN_TYPE copy_token(std::string & token, std::istream & is);
-	CParser::TOKEN_TYPE copy_token(std::string & token, std::istream::pos_type & pos);
+	static CParser::TOKEN_TYPE token_type(const std::string & tokens);
+	static CParser::TOKEN_TYPE copy_token(std::string & tokens, std::istream & is);
+	CParser::TOKEN_TYPE copy_token(std::string & tokens, std::istream::pos_type & pos);
 	bool get_true_false(std::istream::pos_type & pos, bool def);
-	CParser::TOKEN_TYPE get_rest_of_line(std::string &token);
+	CParser::TOKEN_TYPE get_rest_of_line(std::string &tokens);
 	static CParser::TOKEN_TYPE parse_delimited(std::string & source, std::string & result, const std::string& t);
 	CParser::TOKEN_TYPE peek_token();
 	PHRQ_io::LINE_TYPE get_m_line_type(void) const {return this->m_line_type;}
@@ -249,7 +249,7 @@ class CParser: public PHRQ_base
 		return this->echo_stream;
 	};
 
-	STATUS_TYPE parse_couple(std::string & token);
+	STATUS_TYPE parse_couple(std::string & tokens);
 
 	template <class T>
 	STATUS_TYPE addPair(std::map < std::string, T >&totals,

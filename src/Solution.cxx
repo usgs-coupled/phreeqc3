@@ -700,7 +700,7 @@ cxxSolution::read_raw(CParser & parser, bool check)
 
 	std::istream::pos_type ptr;
 	std::istream::pos_type next_char;
-	std::string token;
+	std::string tokens;
 	int opt_save;
 
 	// Read solution number and description

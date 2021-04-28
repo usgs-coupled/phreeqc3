@@ -6,11 +6,8 @@ void CReaction::Initialize(bool is_phase)
 {
 	dz.clear();
 	dz.resize(3, 0.0);
-	token.clear();
+	tokens.clear();
 	phase = is_phase;
-	tc_last = -99;
-	p_atm_last = -99;
-	mu_last = -99;
 	iap = 0;
 	iap_la = 0;
 	lk = 0;
@@ -26,26 +23,26 @@ Calc_delta_v()
 	if (this->phase)
 	{
 		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
-		for (size_t i = 1; this->token[i].Get_s(); i++)
+		for (size_t i = 1; this->tokens[i].Get_s(); i++)
 		{
-			if (this->token[i].Get_s() == NULL)
+			if (this->tokens[i].Get_s() == NULL)
 				continue;
-			d_v += this->token[i].coef * this->token[i].Get_s()->rxn.Logk_cr.logk_original[Logk::vm_tc];
+			d_v += this->tokens[i].coef * this->tokens[i].Get_s()->rxn.Get_logk_original()[Logk::vm_tc];
 		}
-		d_v = d_v - this->Logk_cr.logk_x[Logk::vm0];
-		this->Logk_cr.logk_x[Logk::delta_v] = d_v;
-		this->Logk_cr.logk_original[Logk::delta_v] = d_v;
+		d_v = d_v - this->Get_logk_x()[Logk::vm0];
+		this->Get_logk_x()[Logk::delta_v] = d_v;
+		this->Get_logk_original()[Logk::delta_v] = d_v;
 	}
 	else
 	{
-		for (size_t i = 0; this->token[i].Get_name().size() > 0; i++)
+		for (size_t i = 0; this->tokens[i].Get_name().size() > 0; i++)
 		{
-			if (this->token[i].Get_s() == NULL)
+			if (this->tokens[i].Get_s() == NULL)
 				continue;
-			d_v -= this->token[i].Get_s()->Get_rxn().Logk_cr.Get_logk_original()[Logk::vm_tc]
-				* this->token[i].coef;
+			d_v -= this->tokens[i].Get_s()->Get_rxn().Get_logk_original()[Logk::vm_tc]
+				* this->tokens[i].coef;
 		}
-		this->Logk_cr.logk_x[Logk::delta_v] = d_v;
+		this->Get_logk_x()[Logk::delta_v] = d_v;
 		//this->logk_original[Logk::delta_v] = d_v;
 	}
 	return d_v;
@@ -55,7 +52,7 @@ double CReaction::
 Calc_iap_la()
 {
 	this->iap_la = 0.0;
-	for (rxn_token* rxn_ptr = &this->token[0] + 1;
+	for (rxn_token* rxn_ptr = &this->tokens[0] + 1;
 		!rxn_ptr->Get_end(); rxn_ptr++)
 	{
 		this->iap_la += rxn_ptr->Get_s()->la * rxn_ptr->coef;
@@ -66,7 +63,7 @@ double CReaction::
 Calc_iap()
 {
 	this->iap = 0.0;
-	for (rxn_token* rxn_ptr = &this->token[0] + 1;
+	for (rxn_token* rxn_ptr = &this->tokens[0] + 1;
 		!rxn_ptr->Get_end(); rxn_ptr++)
 	{
 		if (rxn_ptr->Get_s()->name != "e-")
@@ -84,7 +81,7 @@ double CReaction::
 Calc_si(double tempk, double presPa)
 {
 	this->iap = Calc_iap();
-	this->lk = Calc_lk(tempk, presPa);
+	this->lk = Calc_dv_lk_x(tempk, presPa);
 	this->si = this->iap - this->lk;
 	return this->si;
 }
@@ -92,7 +89,7 @@ double CReaction::
 Calc_si_la(double tempk, double presPa)
 {
 	this->iap_la = Calc_iap_la();
-	this->lk = Calc_lk(tempk, presPa);
+	this->lk = Calc_dv_lk_x(tempk, presPa);
 	this->si_la = this->iap_la - this->lk;
 	return this->si_la;
 }
@@ -100,27 +97,31 @@ double CReaction::
 Calc_si(double tempk, double presPa, double& iap_out, double& lk_out)
 {
 	iap_out = Calc_iap();
-	lk_out = Calc_lk(tempk, presPa);
+	lk_out = Calc_dv_lk_x(tempk, presPa);
 	si = this->iap - this->lk;
 	return this->si;
 }
 double CReaction::
-Calc_lk(double tempk, double presPa)
+Calc_dv_lk_x(double tempk, double presPa)
 {
 	double d_v = Calc_delta_v();
-	this->lk = Logk_cr.Calc_Logk(tempk, presPa);
+	this->lk = Calc_lk_x(tempk, presPa);
 	return lk;
 }
-void   CReaction::Set_dz(const std::vector<double>& d)
+double CReaction::
+Calc_lk_x(double tempk, double presPa)
 {
-	if (d.size() != 3)
+	this->lk = Logk_cr.Calc_lk_x(tempk, presPa);
+	return lk;
+}
+double CReaction::
+Calc_si_iap_only()
+{
+	double si_local = -this->lk;
+	for (rxn_token* rxn_ptr = &this->tokens[0] + 1;
+		!rxn_ptr->Get_end(); rxn_ptr++)
 	{
-		std::vector<double> d_copy;
-		d_copy.resize(3);
-		dz = d_copy;
+		si_local += rxn_ptr->Get_s()->la * rxn_ptr->coef;
 	}
-	else
-	{
-		dz = d;
-	}
+	return si_local;
 }

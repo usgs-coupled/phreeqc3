@@ -172,12 +172,12 @@ cxxNameDouble::dump_raw(std::ostream & s_oss, unsigned int indent) const
 CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 											 std::istream::pos_type & pos)
 {
-	std::string token;
+	std::string tokens;
 	LDBLE
 		d;
 
 	CParser::TOKEN_TYPE j;
-	j = parser.copy_token(token, pos);
+	j = parser.copy_token(tokens, pos);
 
 	if (j == CParser::TT_EMPTY)
 		return CParser::PARSER_OK;
@@ -186,7 +186,7 @@ CParser::STATUS_TYPE cxxNameDouble::read_raw(CParser & parser,
 	{
 		return CParser::PARSER_ERROR;
 	}
-	(*this)[token.c_str()] = d;
+	(*this)[tokens.c_str()] = d;
 	return CParser::PARSER_OK;
 }
 
@@ -393,13 +393,13 @@ cxxNameDouble::Get_total_element(const char *string) const
 	return (d);
 }
 void
-cxxNameDouble::add(const char *token, LDBLE total)
+cxxNameDouble::add(const char *tokens, LDBLE total)
 //
 // add to total for a specified element
 //
 {
 	char key[MAX_LENGTH];
-	strcpy(key, token);
+	strcpy(key, tokens);
 
 	cxxNameDouble::iterator current = (*this).find(key);
 	if (current != (*this).end())

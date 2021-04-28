@@ -37,20 +37,20 @@ read(const char *line_in, cxxSolution *solution_ptr)
  *   Read master species list for mass balance equation
  */
 	std::string master_list;
-	std::string token;
+	std::string tokens;
 	std::string::iterator b = line.begin(); 
 	std::string::iterator e = line.end(); 
 	{
 		int j;
-		while (((j = CParser::copy_token(token, b, e)) == CParser::TT_UPPER) ||
-			(token[0] == '[') ||
-			(Utilities::strcmp_nocase(token.c_str(), "ph") == 0) ||
-			(Utilities::strcmp_nocase(token.c_str(), "pe") == 0))
+		while (((j = CParser::copy_token(tokens, b, e)) == CParser::TT_UPPER) ||
+			(tokens[0] == '[') ||
+			(Utilities::strcmp_nocase(tokens.c_str(), "ph") == 0) ||
+			(Utilities::strcmp_nocase(tokens.c_str(), "pe") == 0))
 		{
-			Utilities::replace("(+", "(", token);
+			Utilities::replace("(+", "(", tokens);
 			if (master_list.size() > 0)
 				master_list.append(" ");
-			master_list.append(token);
+			master_list.append(tokens);
 		}
 	}
 	if (master_list.size() == 0)
@@ -79,7 +79,7 @@ read(const char *line_in, cxxSolution *solution_ptr)
  */
 	{
 		LDBLE dummy;
-		int j = sscanf(token.c_str(), SCANFORMAT, &dummy);
+		int j = sscanf(tokens.c_str(), SCANFORMAT, &dummy);
 		if (j == 0)
 		{
 			std::ostringstream errstr;
@@ -91,13 +91,13 @@ read(const char *line_in, cxxSolution *solution_ptr)
 		{
 			this->Set_input_conc(dummy);
 		}
-		if ((j = CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
+		if ((j = CParser::copy_token(tokens, b, e)) == CParser::TT_EMPTY)
 			return (CParser::PARSER_OK);
 	}
 /*
  *   Read optional data
  */
-	std::string token1 = token;
+	std::string token1 = tokens;
 
 /*
  *   Check for units info
@@ -112,7 +112,7 @@ read(const char *line_in, cxxSolution *solution_ptr)
 		if (parser.check_units(token1, alk, false, solution_ptr->Get_initial_data()->Get_units().c_str(), true) == CParser::PARSER_OK)
 		{
 			this->units = token1;
-			if ((CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
+			if ((CParser::copy_token(tokens, b, e)) == CParser::TT_EMPTY)
 				return (CParser::PARSER_OK);
 		}
 		else
@@ -123,13 +123,13 @@ read(const char *line_in, cxxSolution *solution_ptr)
 /*
  *   Check for "as" followed by formula to be used for gfw
  */
-	token1 = token;
+	token1 = tokens;
 	Utilities::str_tolower(token1);
 	if (token1 == "as")
 	{
-		CParser::copy_token(token, b, e);
-		this->as = token;
-		if ((CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
+		CParser::copy_token(tokens, b, e);
+		this->as = tokens;
+		if ((CParser::copy_token(tokens, b, e)) == CParser::TT_EMPTY)
 			return (CParser::PARSER_OK);
 /*
  *   Check for "gfw" followed by gram formula weight
@@ -137,33 +137,33 @@ read(const char *line_in, cxxSolution *solution_ptr)
 	}
 	else if (token1 == "gfw" || token1 == "gfm")
 	{
-		if (CParser::copy_token(token, b, e) != DIGIT)
+		if (CParser::copy_token(tokens, b, e) != DIGIT)
 		{
 			error_msg("Expecting gram formula weight.",  PHRQ_io::OT_CONTINUE);
 			return (CParser::PARSER_ERROR);
 		}
 		else
 		{
-			(void)sscanf(token.c_str(), SCANFORMAT, &this->gfw);
-			if ((CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
+			(void)sscanf(tokens.c_str(), SCANFORMAT, &this->gfw);
+			if ((CParser::copy_token(tokens, b, e)) == CParser::TT_EMPTY)
 				return (CParser::PARSER_OK);
 		}
 	}
 /*
  *   Check for redox couple for pe
  */
-	if (Utilities::strcmp_nocase(token.c_str(), "pe") == 0)
+	if (Utilities::strcmp_nocase(tokens.c_str(), "pe") == 0)
 	{
-		this->pe_reaction = token;
-		if ((CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
+		this->pe_reaction = tokens;
+		if ((CParser::copy_token(tokens, b, e)) == CParser::TT_EMPTY)
 			return (CParser::PARSER_OK);
 	}
-	else if (token.find("/") != std::string::npos)
+	else if (tokens.find("/") != std::string::npos)
 	{
-		if (parser.parse_couple(token) == CParser::PARSER_OK)
+		if (parser.parse_couple(tokens) == CParser::PARSER_OK)
 		{
-			this->pe_reaction = token;
-			if ((CParser::copy_token(token, b, e)) == CParser::TT_EMPTY)
+			this->pe_reaction = tokens;
+			if ((CParser::copy_token(tokens, b, e)) == CParser::TT_EMPTY)
 				return (CParser::PARSER_OK);
 		}
 		else
@@ -174,14 +174,14 @@ read(const char *line_in, cxxSolution *solution_ptr)
 /*
  *   Must have phase
  */
-	this->equation_name = token;
-	if (CParser::copy_token(token, b, e) == CParser::TT_EMPTY)
+	this->equation_name = tokens;
+	if (CParser::copy_token(tokens, b, e) == CParser::TT_EMPTY)
 		return (CParser::PARSER_OK);
 /*
  *   Check for saturation index
  */
 	{
-		int j = sscanf(token.c_str(), SCANFORMAT,
+		int j = sscanf(tokens.c_str(), SCANFORMAT,
 			&(this->phase_si));
 		if (j != 1)
 		{

@@ -358,7 +358,7 @@ print_eh(void)
 	int i, j, k, first;
 	LDBLE pe, eh;
 	class master *master_ptr0, *master_ptr1;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	if (pr.eh == FALSE || pr.all == FALSE)
 		return (OK);
@@ -398,7 +398,7 @@ print_eh(void)
 			pe = -k_calc(trxn.logk, tk_x, patm_x * PASCAL_PER_ATM);
 			for (j = 1; j < trxn.Get_count_trxn(); j++)
 			{
-				pe -= trxn.token[j].Get_s()->la * trxn.token[j].coef;
+				pe -= trxn.tokens[j].Get_s()->la * trxn.tokens[j].coef;
 			}
 			eh = ((LOG_10 * R_KJ_DEG_MOL * tk_x) / F_KJ_V_EQ) * pe;
 /*
@@ -414,10 +414,10 @@ print_eh(void)
 /*
  *   Print result
  */
-			strcpy(token, master[i]->elt->name.c_str());
-			strcat(token, "/");
-			strcat(token, master[k]->elt->name.c_str());
-			output_msg(sformatf("\t%-15s%12.4f%12.4f\n", token,
+			strcpy(tokens, master[i]->elt->name.c_str());
+			strcat(tokens, "/");
+			strcat(tokens, master[k]->elt->name.c_str());
+			output_msg(sformatf("\t%-15s%12.4f%12.4f\n", tokens,
 					   (double) pe, (double) eh));
 		}
 	}
@@ -562,7 +562,6 @@ print_gas_phase(void)
  *   Prints gas phase composition if present
  */
 	LDBLE lp, moles, initial_moles, delta_moles;
-	class rxn_token *rxn_ptr;
 	char info[MAX_LENGTH];
 	bool PR = false;
 
@@ -646,13 +645,7 @@ print_gas_phase(void)
 		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 		if (phase_ptr->in == TRUE)
 		{
-			lp = -phase_ptr->lk;
-			for (rxn_ptr =
-				 &phase_ptr->rxn_x.token[0] + 1;
-				 !rxn_ptr->Get_end(); rxn_ptr++)
-			{
-				lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-			}
+			lp = phase_ptr->rxn_x.Calc_si_iap_only();
 			lp -= phase_ptr->pr_si_f;
 			moles = phase_ptr->moles_x;
 		}
@@ -1185,7 +1178,7 @@ print_saturation_indices(void)
 	if (state == INITIAL_SOLUTION)
 	{
 		iap = pe_x[default_pe_x].Calc_iap_la();
-		lk = pe_x[default_pe_x].Logk_cr.Calc_Logk(tk_x, patm_x * PASCAL_PER_ATM);
+		lk = pe_x[default_pe_x].Calc_lk_x(tk_x, patm_x * PASCAL_PER_ATM);
 		la_eminus = lk + iap;
 	}
 	else
@@ -1264,7 +1257,7 @@ print_pp_assemblage(void)
 	 */
 	int j, k;
 	LDBLE si, iap, lk;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 	class phase* phase_ptr;
 
 	if (pr.pp_assemblage == FALSE || pr.all == FALSE)
@@ -1292,7 +1285,7 @@ print_pp_assemblage(void)
  */
 		iap = 0.0;
 		phase_ptr = x[j]->phase;
-		if (x[j]->phase->rxn_x.token.size() == 0 || phase_ptr->in == FALSE)
+		if (x[j]->phase->rxn_x.Get_tokens().size() == 0 || phase_ptr->in == FALSE)
 		{
 			output_msg(sformatf("%-18s%23s", x[j]->phase->name.c_str(),
 				"Element not present."));
@@ -1311,7 +1304,7 @@ print_pp_assemblage(void)
 			x[j]->moles = 0.0;
 		if (state != TRANSPORT && state != PHAST)
 		{
-			sprintf(token, "  %11.3e %11.3e %11.3e",
+			sprintf(tokens, "  %11.3e %11.3e %11.3e",
 				(double)(comp_ptr->Get_moles() +
 					comp_ptr->Get_delta()), (double)x[j]->moles,
 				(double)(x[j]->moles - comp_ptr->Get_moles() -
@@ -1319,7 +1312,7 @@ print_pp_assemblage(void)
 		}
 		else
 		{
-			sprintf(token, " %11.3e %11.3e %11.3e",
+			sprintf(tokens, " %11.3e %11.3e %11.3e",
 				(double)comp_ptr->Get_initial_moles(),
 				(double)x[j]->moles,
 				(double)(x[j]->moles - comp_ptr->Get_initial_moles()));
@@ -1328,17 +1321,17 @@ print_pp_assemblage(void)
 		{
 			for (k = 0; k < 11; k++)
 			{
-				token[13 + k] = ' ';
+				tokens[13 + k] = ' ';
 			}
 		}
 		if (comp_ptr->Get_add_formula().size() == 0)
 		{
-			output_msg(sformatf("%37s\n", token));
+			output_msg(sformatf("%37s\n", tokens));
 		}
 		else
 		{
 			output_msg(sformatf("\n	 %-18s%-15s%36s\n",
-				comp_ptr->Get_add_formula().c_str(), " is reactant", token));
+				comp_ptr->Get_add_formula().c_str(), " is reactant", tokens));
 		}
 	}
 	output_msg("\n");
@@ -1460,10 +1453,10 @@ print_species(void)
 								 species_list[i].s->lg),
 					   (double) species_list[i].s->lg));
 			//if (species_list[i].s->logk[Logk::vm_tc] || !strcmp(species_list[i].s->name, "H+"))
-			if (species_list[i].s->rxn.Logk_cr.logk_original[Logk::vm_tc] ||
+			if (species_list[i].s->rxn.Get_logk_original()[Logk::vm_tc] ||
 				species_list[i].s == s_hplus)
 				output_msg(sformatf("%10.2f\n", 
-					(double) species_list[i].s->rxn.Logk_cr.logk_original[Logk::vm_tc]));
+					(double) species_list[i].s->rxn.Get_logk_original()[Logk::vm_tc]));
 			else
 				output_msg(sformatf("     (0)  \n"));
 		}
@@ -1482,7 +1475,7 @@ print_surface(void)
  *   and description of diffuse layer if applicable.
  */
 	cxxSurface *surface_ptr;
-	std::string name, token;
+	std::string name, tokens;
 	class master *master_ptr;
 	LDBLE molfrac, charge;
 /*
@@ -1525,10 +1518,10 @@ print_surface(void)
 		{
 			if (x[j]->type != SURFACE)
 				continue;
-			token = x[j]->master[0]->elt->name;
-			Utilities::replace("_", " ", token);
-			std::string::iterator b = token.begin();
-			std::string::iterator e = token.end();
+			tokens = x[j]->master[0]->elt->name;
+			Utilities::replace("_", " ", tokens);
+			std::string::iterator b = tokens.begin();
+			std::string::iterator e = tokens.end();
 			CParser::copy_token(name, b, e);
 		}
 		output_msg(sformatf("%-14s\n", name.c_str()));
@@ -2799,7 +2792,7 @@ punch_identifiers(void)
 	const char *dformat;
 	const char *gformat;
 	int i;
-	char token[MAX_LENGTH];
+	char tokens[MAX_LENGTH];
 
 	//if (punch.in == FALSE)
 	//	return (OK);
@@ -2836,37 +2829,37 @@ punch_identifiers(void)
 		switch (state)
 		{
 		case 0:
-			strcpy(token, "init");
+			strcpy(tokens, "init");
 			break;
 		case 1:
-			strcpy(token, "i_soln");
+			strcpy(tokens, "i_soln");
 			break;
 		case 2:
-			strcpy(token, "i_exch");
+			strcpy(tokens, "i_exch");
 			break;
 		case 3:
-			strcpy(token, "i_surf");
+			strcpy(tokens, "i_surf");
 			break;
 		case 4:
-			strcpy(token, "i_gas");
+			strcpy(tokens, "i_gas");
 			break;
 		case 5:
-			strcpy(token, "react");
+			strcpy(tokens, "react");
 			break;
 		case 6:
-			strcpy(token, "inverse");
+			strcpy(tokens, "inverse");
 			break;
 		case 7:
-			strcpy(token, "advect");
+			strcpy(tokens, "advect");
 			break;
 		case 8:
-			strcpy(token, "transp");
+			strcpy(tokens, "transp");
 			break;
 		default:
-			strcpy(token, "unknown");
+			strcpy(tokens, "unknown");
 			break;
 		}
-		fpunchf(PHAST_NULL("state"), sformat, token);
+		fpunchf(PHAST_NULL("state"), sformat, tokens);
 
 	}
 /*
@@ -3153,7 +3146,7 @@ punch_saturation_indices(void)
  *   Print saturation index
  */
 			iap = 0.0;
-			for (rxn_ptr = &(((class phase *) current_selected_output->Get_si()[i].second)->rxn_x.token[0]) + 1;
+			for (rxn_ptr = &(((class phase *) current_selected_output->Get_si()[i].second)->rxn_x.Get_tokens()[0]) + 1;
 				 !rxn_ptr->Get_end(); rxn_ptr++)
 			{
 				iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
