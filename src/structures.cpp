@@ -249,24 +249,7 @@ reinitialize(void)
  *   Routines related to CReaction
  *
  * ********************************************************************** */
-#ifdef SKIP
-CReaction Phreeqc::CReaction_internal_copy(CReaction& rxn_ref)
-{
-	CReaction rxn;
-	//for (size_t i = 0; i < Logk::MAX_LOG_K_INDICES; i++) rxn.logk_cr[i] = rxn_ref.logk_cr[i];
-	for (size_t i = 0; i < 3; i++) rxn.dz[i] = rxn_ref.dz[i];
-	rxn.Get_tokens().resize(rxn_ref.Get_tokens().size());
-	for (size_t i = 0; i < rxn_ref.Get_tokens().size(); i++)
-	{
-		rxn.token[i].Set_s((rxn_ref.token[i].Get_s() == NULL) ? NULL :
-			s_store(rxn_ref.token[i].Get_s()->name.c_str(), rxn_ref.token[i].Get_s()->z, false));
-		rxn.token[i].coef = rxn_ref.token[i].coef;
-		rxn.token[i].Set_name((rxn_ref.token[i].Get_name().size() == 0) ? "" :
-			rxn_ref.token[i].Get_name());
-	}
-	return rxn;
-}
-#endif
+
 /* ---------------------------------------------------------------------- */
 double Phreeqc::
 rxn_find_coef(CReaction& r_ref, const char* str)

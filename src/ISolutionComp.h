@@ -9,7 +9,7 @@
 #include "phrqtype.h"           // LDBLE
 #include "Parser.h"             // CParser
 #include "PHRQ_base.h"          // PHRQ_base
-
+#include "global_structures.h"
 // forward declarations
 class cxxSolution;
 class cxxISolution;             // reqd for read and dump_xml

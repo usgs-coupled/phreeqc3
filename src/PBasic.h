@@ -11,7 +11,6 @@
 #include <setjmp.h>
 #include "phrqtype.h"
 #include "PHRQ_base.h"
-#include "global_structures.h"
 class Phreeqc;
 
 class PBasicStop : public std::exception

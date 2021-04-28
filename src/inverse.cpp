@@ -402,15 +402,14 @@ setup_inverse(class inverse *inv_ptr)
 		col_name[column] = phase_ptr->name;
 		for (j = 1; !rxn_ptr->Get_tokens()[j].Get_end(); j++)
 		{
-			master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->Pick_master();
-			//if (rxn_ptr->token[j].Get_s()->secondary != NULL)
-			//{
-			//	master_ptr = rxn_ptr->token[j].Get_s()->secondary;
-			//}
-			//else
-			//{
-			//	master_ptr = rxn_ptr->token[j].Get_s()->primary;
-			//}
+			if (rxn_ptr->Get_tokens()[j].Get_s()->secondary != NULL)
+			{
+				master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->secondary;
+			}
+			else
+			{
+				master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->primary;
+			}
 			if (master_ptr == NULL)
 			{
 				error_string = sformatf(
@@ -457,7 +456,14 @@ setup_inverse(class inverse *inv_ptr)
 			k++;
 			for (j = 0; !rxn_ptr->Get_tokens()[j].Get_end(); j++)
 			{
-				master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->Pick_master();
+				if (rxn_ptr->Get_tokens()[j].Get_s()->secondary != NULL)
+				{
+					master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->secondary;
+				}
+				else
+				{
+					master_ptr = rxn_ptr->Get_tokens()[j].Get_s()->primary;
+				}
 				if (master_ptr == NULL)
 				{
 					error_string = sformatf(

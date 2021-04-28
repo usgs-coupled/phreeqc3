@@ -1,6 +1,5 @@
 #if !defined(LOGK_H_INCLUDED)
 #define LOGK_H_INCLUDED
-//#include "global_structures.h"
 #include <vector>
 #include <string>
 #include "Name_coef.h"

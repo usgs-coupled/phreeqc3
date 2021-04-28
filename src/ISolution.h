@@ -14,7 +14,6 @@
 #include "ISolutionComp.h"
 #include "PHRQ_base.h"
 #include "NameDouble.h"
-#include "global_structures.h"
 class cxxISolution: public PHRQ_base
 {
 

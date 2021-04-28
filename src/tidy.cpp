@@ -2376,18 +2376,6 @@ tidy_species(void)
 		}
 		s[i]->rxn_s.Set_logk_original(s[i]->rxn.Get_logk_original());
 		s[i]->rxn_x.Set_logk_original(s[i]->rxn.Get_logk_original());
-		if (s[i]->secondary != NULL)
-		{
-			s[i]->pick_master = s[i]->secondary;
-		}
-		else if (s[i]->primary != NULL)
-		{
-			s[i]->pick_master = s[i]->primary;
-		}
-		else
-		{
-			s[i]->pick_master = NULL;
-		}
 	}
 	/*
 	 *   Set pointer in element to master species

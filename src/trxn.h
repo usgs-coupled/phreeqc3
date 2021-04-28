@@ -4,7 +4,6 @@
 #include <string>
 #include "global_structures.h"
 #include "PHRQ_io.h"
-#include "CReaction.h"
 class Phreeqc;
 
 class reaction_temp

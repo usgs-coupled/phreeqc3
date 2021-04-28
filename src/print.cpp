@@ -1050,53 +1050,6 @@ print_kinetics(void)
 	output_msg(sformatf("\n"));
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-print_master_reactions(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Debugging print routine to test primary and secondary reactions
- */
-	int i;
-	class rxn_token *next_token;
-
-	for (i = 0; i < (int)master.size(); i++)
-	{
-		output_msg(sformatf("%s\t%s\n\tPrimary reaction\n",
-				   master[i]->elt->name, master[i]->s->name));
-		next_token = master[i]->rxn_primary.token;
-		for (; next_token->s != NULL; next_token++)
-		{
-			output_msg(sformatf("\t\t%s\t%f\n", next_token->s->name,
-					   (double) next_token->coef));
-		}
-		output_msg(sformatf("\n\tSecondary reaction:\n"));
-		if (master[i]->rxn_secondary != NULL)
-		{
-			next_token = master[i]->rxn_secondary.token;
-			for (; next_token->s != NULL; next_token++)
-			{
-				output_msg(sformatf("\t\t%s\t%f\n",
-						   next_token->s->name, (double) next_token->coef));
-			}
-		}
-		output_msg(sformatf("\n\tRedox reaction:\n"));
-		if (*(master[i]->pe_rxn) != NULL)
-		{
-			next_token = (*(master[i]->pe_rxn))->token;
-			for (; next_token->s != NULL; next_token++)
-			{
-				output_msg(sformatf("\t\t%s\t%f\n",
-						   next_token->s->name, (double) next_token->coef));
-			}
-		}
-		output_msg(sformatf("\n"));
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
 print_mix(void)

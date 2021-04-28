@@ -30,16 +30,12 @@ typedef unsigned char boolean;
 #include "PHRQ_io.h"
 #include "SelectedOutput.h"
 #include "UserPunch.h"
-#include "Logk.h"
-//#include "CReaction.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
-#include "Keywords.h"
 #include "Pressure.h"
 #include "cxxMix.h"
 #include "Use.h"
-#include "Surface.h"
 #include "trxn.h"
 #ifdef SWIG_SHARED_OBJ
 #include "thread.h"
@@ -63,8 +59,6 @@ class cxxSS;
 class cxxStorageBin;
 class PBasic;
 class cxxMix;
-
-#include "global_structures.h"
 
 class Phreeqc
 {

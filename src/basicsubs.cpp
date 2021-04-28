@@ -697,40 +697,6 @@ calc_deltah_p(const std::string& name)
 	}
 	return (dh);
 }
-#ifdef SKIP_LOGK
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_deltah_s(const std::string& name)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-	char token[MAX_LENGTH];
-	class species* s_ptr;
-	LDBLE lkm, lkp;
-	std::vector<double> l_logk;
-	double dh = -999.99;
-	l_logk.resize(Logk::MAX_LOG_K_INDICES, 0.0);
-	strcpy(token, name.c_str());
-	s_ptr = s_search(token);
-	if (s_ptr != NULL)
-	{
-		/* calculate Logk::delta_v for the reaction... */
-		s_ptr->logk[Logk::delta_v] = calc_delta_v(*&s_ptr->rxn, false);
-		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			l_logk[i] = 0.0;
-		}
-		select_log_k_expression(s_ptr->logk, l_logk);
-		mu_terms_in_logk = true;
-		add_other_logk(l_logk, s_ptr->add_logk);
-		lkm = k_calc(l_logk, tk_x-1.0, patm_x * PASCAL_PER_ATM);
-		lkp = k_calc(l_logk, tk_x + 1.0, patm_x * PASCAL_PER_ATM);
-		dh = (lkp - lkm) / 2.0 * LOG_10 * R_KJ_DEG_MOL * pow(tk_x,2.0);
-		return (dh);
-	}
-	return (0.0);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_deltah_s(const std::string& name)

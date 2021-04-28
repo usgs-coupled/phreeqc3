@@ -16,7 +16,6 @@ public:
 		this->Initialize();
 	}
 	void Initialize();
-	class master* Pick_master() { return pick_master; }
 	CReaction& Get_rxn() { return rxn; }
 	CReaction& Get_rxn_s() { return rxn_s; }
 	CReaction& Get_rxn_x() { return rxn_x; }
@@ -27,7 +26,6 @@ public:
 	int number;
 	class master* primary;
 	class master* secondary;
-	class master* pick_master;
 	double gfw;
 	double z;
 	double dw;
