@@ -1174,34 +1174,34 @@ tidy_inverse(void)
 		paren_count = 0;
 		for (j = 0; j < inverse[i].phases.size(); j++)
 		{
-			//inverse[i].phases[j].phase = 
-			//	phase_bsearch(inverse[i].phases[j].name, &k, FALSE);
-			//if (inverse[i].phases[j].phase == NULL)
-			//{
-			//	input_error++;
-			//	error_string = sformatf( "Could not find phase, %s.",
-			//			inverse[i].phases[j].name);
-			//	error_msg(error_string, CONTINUE);
-			//	continue;
-			//}
+			inverse[i].phases[j].Set_phase(
+				phase_bsearch(inverse[i].phases[j].Get_phase_name(), &k, FALSE));
+			if (inverse[i].phases[j].Get_phase() == NULL)
+			{
+				input_error++;
+				error_string = sformatf( "Could not find phase, %s.",
+						inverse[i].phases[j].Get_phase_name().c_str());
+				error_msg(error_string, CONTINUE);
+				continue;
+			}
 /*
  *   Find isotope elements
  */
-			if (inverse[i].phases[j].isotopes.size() > 0)
+			if (inverse[i].phases[j].Get_isotopes().size() > 0)
 			{
-				for (k = 0; k < inverse[i].phases[j].isotopes.size(); k++)
+				for (k = 0; k < inverse[i].phases[j].Get_isotopes().size(); k++)
 				{
-					inverse[i].phases[j].isotopes[k].primary = NULL;
-					inverse[i].phases[j].isotopes[k].master = NULL;
+					inverse[i].phases[j].Get_isotopes()[k].primary = NULL;
+					inverse[i].phases[j].Get_isotopes()[k].master = NULL;
 					master_ptr =
-						master_bsearch(inverse[i].phases[j].isotopes[k].
+						master_bsearch(inverse[i].phases[j].Get_isotopes()[k].
 									   elt_name);
 					if (master_ptr == NULL)
 					{
 						input_error++;
 						error_string = sformatf(
 								"Element not found for isotope calculation: %s.",
-								inverse[i].phases[j].isotopes[k].elt_name.c_str());
+								inverse[i].phases[j].Get_isotopes()[k].elt_name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
@@ -1216,17 +1216,17 @@ tidy_inverse(void)
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
-					inverse[i].phases[j].isotopes[k].primary = master_ptr;
-					inverse[i].phases[j].isotopes[k].master = master_ptr;
+					inverse[i].phases[j].Get_isotopes()[k].primary = master_ptr;
+					inverse[i].phases[j].Get_isotopes()[k].master = master_ptr;
 					/* find coefficient for element */
 					//for (elt_list_ptr = &inverse[i].phases[j].phase->next_elt[0];
 					//	 elt_list_ptr->elt != NULL; elt_list_ptr++)
-					for (elt_list_ptr = &inverse[i].phases[j].phase(this)->next_elt[0];
+					for (elt_list_ptr = &inverse[i].phases[j].Get_phase()->next_elt[0];
 						elt_list_ptr->elt != NULL; elt_list_ptr++)
 					{
 						if (elt_list_ptr->elt == master_ptr->elt)
 						{
-							inverse[i].phases[j].isotopes[k].coef =
+							inverse[i].phases[j].Get_isotopes()[k].coef =
 								elt_list_ptr->coef;
 							break;
 						}
@@ -1237,16 +1237,16 @@ tidy_inverse(void)
 						error_string = sformatf(
 								"Element, %s,for which isotope ratio was defined is not found in phase, %s",
 								master_ptr->elt->name.c_str(),
-								inverse[i].phases[j].phase(this)->name.c_str());
+								inverse[i].phases[j].Get_phase()->name.c_str());
 						error_msg(error_string, CONTINUE);
 						continue;
 					}
 				}
-				qsort(&inverse[i].phases[j].isotopes[0],
-					  inverse[i].phases[j].isotopes.size(),
+				qsort(&inverse[i].phases[j].Get_isotopes()[0],
+					  inverse[i].phases[j].Get_isotopes().size(),
 					  sizeof(class isotope), isotope_compare);
 			}
-			add_elt_list(inverse[i].phases[j].phase(this)->next_elt, 1.0);
+			add_elt_list(inverse[i].phases[j].Get_phase()->next_elt, 1.0);
 
 		}
 		if (get_input_errors() > 0)

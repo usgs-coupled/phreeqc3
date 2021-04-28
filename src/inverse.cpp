@@ -396,7 +396,7 @@ setup_inverse(class inverse *inv_ptr)
 
 	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		phase_ptr = inv_ptr->phases[i].phase(this);
+		phase_ptr = inv_ptr->phases[i].Get_phase();
 		rxn_ptr = &phase_ptr->rxn_s;
 		column = col_phases + i;
 		col_name[column] = phase_ptr->name;
@@ -565,7 +565,7 @@ setup_inverse(class inverse *inv_ptr)
 				sprintf(tokens, "%d%s %s",
 						(int) inv_ptr->isotopes[j].isotope_number,
 						inv_ptr->isotopes[j].elt_name.c_str(),
-						inv_ptr->phases[i].phase(this)->name.c_str());
+						inv_ptr->phases[i].Get_phase()->name.c_str());
 				col_name[column] = tokens;
 				column++;
 			}
@@ -906,11 +906,11 @@ setup_inverse(class inverse *inv_ptr)
 
 	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		if (inv_ptr->phases[i].constraint == PRECIPITATE)
+		if (inv_ptr->phases[i].Get_constraint() == PRECIPITATE)
 		{
 			delta[(size_t)col_phases + (size_t)i] = -1.0;
 		}
-		else if (inv_ptr->phases[i].constraint == DISSOLVE)
+		else if (inv_ptr->phases[i].Get_constraint() == DISSOLVE)
 		{
 			delta[(size_t)col_phases + (size_t)i] = 1.0;
 		}
@@ -1799,17 +1799,17 @@ print_model(class inverse *inv_ptr)
 		output_msg(sformatf( "\nIsotopic composition of phases:\n"));
 		for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 		{
-			if (inv_ptr->phases[i].isotopes.size() == 0)
+			if (inv_ptr->phases[i].Get_isotopes().size() == 0)
 				continue;
 			size_t j = col_phases + i;
 			if (equal(inv_delta1[j], 0.0, toler) == TRUE &&
 				equal(min_delta[j], 0.0, toler) == TRUE &&
 				equal(max_delta[j], 0.0, toler) == TRUE)
 				continue;
-			std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+			std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].Get_isotopes();
 			for (size_t j = 0; j < inv_ptr->isotopes.size(); j++)
 			{
-				for (size_t k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
+				for (size_t k = 0; k < inv_ptr->phases[i].Get_isotopes().size(); k++)
 				{
 					if (inv_ptr->isotopes[j].elt_name !=
 						isotope_ref[k].elt_name ||
@@ -1836,7 +1836,7 @@ print_model(class inverse *inv_ptr)
 					sprintf(tokens, "%d%s %s",
 							(int) inv_ptr->isotopes[j].isotope_number,
 							inv_ptr->isotopes[j].elt_name.c_str(),
-							inv_ptr->phases[i].phase(this)->name.c_str());
+							inv_ptr->phases[i].Get_phase()->name.c_str());
 					output_msg(sformatf(
 							   "%15.15s   %12g  +%12g  =%12g", tokens,
 							   (double) d1, (double) d2, (double) d3));
@@ -1926,7 +1926,7 @@ print_model(class inverse *inv_ptr)
 			d3 = 0.0;
 		output_msg(sformatf(
 			"%15.15s   %12.3e   %12.3e   %12.3e   %-25.25s  (", col_name[i].c_str(),
-			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].phase(this)->formula.c_str()));
+			(double)d1, (double)d2, (double)d3, inv_ptr->phases[i - col_phases].Get_phase()->formula.c_str()));
 
 		{
 			int p;
@@ -2293,7 +2293,7 @@ range(class inverse *inv_ptr, unsigned long cur_bits)
 	{
 		if (i < inv_ptr->phases.size())
 		{
-			if (inv_ptr->phases[i].force == TRUE)
+			if (inv_ptr->phases[i].Get_force() == TRUE)
 			{
 				cur_bits = set_bit(cur_bits, (int)i, 1);
 			}
@@ -3344,10 +3344,10 @@ isotope_balance_equation(class inverse *inv_ptr, int row, int n)
  */
 	for (i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		if (inv_ptr->phases[i].isotopes.size() == 0)
+		if (inv_ptr->phases[i].Get_isotopes().size() == 0)
 			continue;
-		std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
-		for (j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
+		std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].Get_isotopes();
+		for (j = 0; j < inv_ptr->phases[i].Get_isotopes().size(); j++)
 		{
 			if (isotope_ref[j].primary == primary_ptr &&
 				isotope_ref[j].isotope_number == isotope_number)
@@ -3635,10 +3635,10 @@ check_isotopes(class inverse *inv_ptr)
 			primary_ptr = master_bsearch(inv_ptr->isotopes[i].elt_name);
 			isotope_number = inv_ptr->isotopes[i].isotope_number;
 			found_isotope = FALSE;
-			for (k = 0; k < inv_ptr->phases[j].isotopes.size(); k++)
+			for (k = 0; k < inv_ptr->phases[j].Get_isotopes().size(); k++)
 			{
-				if (inv_ptr->phases[j].isotopes[k].primary == primary_ptr &&
-					inv_ptr->phases[j].isotopes[k].isotope_number ==
+				if (inv_ptr->phases[j].Get_isotopes()[k].primary == primary_ptr &&
+					inv_ptr->phases[j].Get_isotopes()[k].isotope_number ==
 					isotope_number)
 				{
 					found_isotope = TRUE;
@@ -3649,7 +3649,7 @@ check_isotopes(class inverse *inv_ptr)
 				continue;
 
 			/* did not find isotope, which is ok if element not in solution */
-			phase_ptr = inv_ptr->phases[j].phase(this);
+			phase_ptr = inv_ptr->phases[j].Get_phase();
 			k = 0;
 			while (phase_ptr->next_elt[k].elt != NULL)
 			{
@@ -3689,18 +3689,18 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 		return OK;
 	for (size_t i = 0; i < inv_ptr->phases.size(); i++)
 	{
-		if (inv_ptr->phases[i].isotopes.size() == 0)
+		if (inv_ptr->phases[i].Get_isotopes().size() == 0)
 			continue;
 
-		for (size_t j = 0; j < inv_ptr->phases[i].isotopes.size(); j++)
+		for (size_t j = 0; j < inv_ptr->phases[i].Get_isotopes().size(); j++)
 		{
 			/* find index number */
 			size_t k = 0;
 			for (k = 0; k < inv_ptr->isotopes.size(); k++)
 			{
-				if (inv_ptr->phases[i].isotopes[j].elt_name ==
+				if (inv_ptr->phases[i].Get_isotopes()[j].elt_name ==
 					inv_ptr->isotopes[k].elt_name
-					&& inv_ptr->phases[i].isotopes[j].isotope_number ==
+					&& inv_ptr->phases[i].Get_isotopes()[j].isotope_number ==
 					inv_ptr->isotopes[k].isotope_number)
 				{
 					break;
@@ -3712,7 +3712,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 /*
  *   zero column if uncertainty is zero
  */
-			if (inv_ptr->phases[i].isotopes[j].ratio_uncertainty == 0)
+			if (inv_ptr->phases[i].Get_isotopes()[j].ratio_uncertainty == 0)
 			{
 				for (k = 0; k < count_rows; k++)
 				{
@@ -3725,45 +3725,45 @@ phase_isotope_inequalities(class inverse *inv_ptr)
  *   optimization
  */
 			my_array[((size_t)column - (size_t)col_epsilon) * max_column_count + (size_t)column] =
-				SCALE_EPSILON / inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
+				SCALE_EPSILON / inv_ptr->phases[i].Get_isotopes()[j].ratio_uncertainty;
 /*
  *   two inequalities to account for absolute value
  */
 			/* for phases constrained to precipitate */
-			if (inv_ptr->phases[i].constraint == PRECIPITATE)
+			if (inv_ptr->phases[i].Get_constraint() == PRECIPITATE)
 			{
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
-					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
+					inv_ptr->phases[i].Get_isotopes()[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
-				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].Get_phase()->name.c_str(),
 						"iso pos");
 				row_name[count_rows] = tokens;
 				count_rows++;
 
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
-					inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
+					inv_ptr->phases[i].Get_isotopes()[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
-				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].Get_phase()->name.c_str(),
 						"iso neg");
 				row_name[count_rows] = tokens;
 				count_rows++;
 
 				/* for phases constrained to dissolve */
 			}
-			else if (inv_ptr->phases[i].constraint == DISSOLVE)
+			else if (inv_ptr->phases[i].Get_constraint() == DISSOLVE)
 			{
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
-					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
+					-inv_ptr->phases[i].Get_isotopes()[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = -1.0;
-				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].Get_phase()->name.c_str(),
 						"iso pos");
 				row_name[count_rows] = tokens;
 				count_rows++;
 
 				my_array[count_rows * max_column_count + (size_t)col_phases + (size_t)i] =
-					-inv_ptr->phases[i].isotopes[j].ratio_uncertainty;
+					-inv_ptr->phases[i].Get_isotopes()[j].ratio_uncertainty;
 				my_array[count_rows * max_column_count + (size_t)column] = 1.0;
-				sprintf(tokens, "%s %s", inv_ptr->phases[i].phase(this)->name.c_str(),
+				sprintf(tokens, "%s %s", inv_ptr->phases[i].Get_phase()->name.c_str(),
 						"iso neg");
 				row_name[count_rows] = tokens;
 				count_rows++;
@@ -3775,7 +3775,7 @@ phase_isotope_inequalities(class inverse *inv_ptr)
 				error_string = sformatf(
 						"In isotope calculations, all phases containing isotopes must be"
 						" constrained.\nPhase %s is not constrained.\n",
-						inv_ptr->phases[i].phase(this)->name.c_str());
+						inv_ptr->phases[i].Get_phase()->name.c_str());
 				error_msg(error_string, CONTINUE);
 				input_error++;
 				continue;
@@ -3847,7 +3847,7 @@ write_optimize_names(class inverse *inv_ptr)
 		for (j = 0; j < inv_ptr->isotopes.size(); j++)
 		{
 			sprintf(tokens, "%s %s %d%s", "optimize",
-					inv_ptr->phases[i].phase(this)->name.c_str(),
+					inv_ptr->phases[i].Get_phase()->name.c_str(),
 					(int) inv_ptr->isotopes[j].isotope_number,
 					inv_ptr->isotopes[j].elt_name.c_str());
 			row_name[row] = tokens;
@@ -4782,7 +4782,7 @@ dump_netpath_pat(class inverse *inv_ptr)
  * Determine if exchange reaction
  */
 		exch = FALSE;
-		for (next_elt = &inv_ptr->phases[i].phase(this)->next_elt[0];
+		for (next_elt = &inv_ptr->phases[i].Get_phase()->next_elt[0];
 			 next_elt->elt != NULL; next_elt++)
 		{
 			if (next_elt->elt->name == "X")
@@ -4797,7 +4797,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		string = inv_ptr->phases[i].Get_phase_name();
 		string = string.substr(0,8);
 		string = Utilities::pad_right(string, 8);
-		if (inv_ptr->phases[i].force == TRUE)
+		if (inv_ptr->phases[i].Get_force() == TRUE)
 		{
 			string += 'F';
 		}
@@ -4805,7 +4805,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 		{
 			string += ' ';
 		}
-		switch (inv_ptr->phases[i].constraint)
+		switch (inv_ptr->phases[i].Get_constraint())
 		{
 		case EITHER:
 			string += ' ';
@@ -4835,7 +4835,7 @@ dump_netpath_pat(class inverse *inv_ptr)
 /*
  *  Write stoichiometry
  */
-		for (next_elt = &inv_ptr->phases[i].phase(this)->next_elt[0];
+		for (next_elt = &inv_ptr->phases[i].Get_phase()->next_elt[0];
 			 next_elt->elt != NULL; next_elt++)
 		{
 			f = 1.0;
@@ -4866,7 +4866,7 @@ dump_netpath_pat(class inverse *inv_ptr)
  */
 		std::string tokens;
 		sum = 0;
-		for (rxn_ptr = &inv_ptr->phases[i].phase(this)->rxn_s.Get_tokens()[0] + 1;
+		for (rxn_ptr = &inv_ptr->phases[i].Get_phase()->rxn_s.Get_tokens()[0] + 1;
 			 !rxn_ptr->Get_end(); rxn_ptr++)
 		{
 			if (rxn_ptr->Get_s() == s_hplus)
@@ -4906,9 +4906,9 @@ dump_netpath_pat(class inverse *inv_ptr)
  * Add isotopes
  */
 
-		for (k = 0; k < inv_ptr->phases[i].isotopes.size(); k++)
+		for (k = 0; k < inv_ptr->phases[i].Get_isotopes().size(); k++)
 		{
-			std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].isotopes;
+			std::vector<class isotope>& isotope_ref = inv_ptr->phases[i].Get_isotopes();
 			d1 = isotope_ref[k].ratio;
 			for (j = 0; j < inv_ptr->isotopes.size(); j++)
 			{

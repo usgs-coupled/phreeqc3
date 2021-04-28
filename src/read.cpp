@@ -1739,8 +1739,8 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 /*
  *   Read constraint, force, and isotopes
  */
-	inverse_ptr->phases[count_phases].constraint = EITHER;
-	inverse_ptr->phases[count_phases].force = FALSE;
+	inverse_ptr->phases[count_phases].Get_constraint() = EITHER;
+	inverse_ptr->phases[count_phases].Get_force() = FALSE;
 	for (;;)
 	{
 		cxxSolutionIsotope temp_isotope;
@@ -1752,15 +1752,15 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 		str_tolower(token1);
 		if (token1[0] == 'p')
 		{
-			inverse_ptr->phases[count_phases].constraint = PRECIPITATE;
+			inverse_ptr->phases[count_phases].Get_constraint() = PRECIPITATE;
 		}
 		else if (token1[0] == 'd')
 		{
-			inverse_ptr->phases[count_phases].constraint = DISSOLVE;
+			inverse_ptr->phases[count_phases].Get_constraint() = DISSOLVE;
 		}
 		else if (tokens[0] == 'f')
 		{
-			inverse_ptr->phases[count_phases].force = TRUE;
+			inverse_ptr->phases[count_phases].Get_force() = TRUE;
 		}
 		else if (j == DIGIT)
 		{
@@ -1821,10 +1821,10 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 	}
 	if (isotopes.size() > 0)
 	{
-		inverse_ptr->phases[count_phases].isotopes.resize(isotopes.size());
+		inverse_ptr->phases[count_phases].Get_isotopes().resize(isotopes.size());
 		for (size_t i = 0; i < isotopes.size(); i++)
 		{
-			class isotope *iso_ptr = &(inverse_ptr->phases[count_phases].isotopes[i]);
+			class isotope *iso_ptr = &(inverse_ptr->phases[count_phases].Get_isotopes()[i]);
 			iso_ptr->isotope_number = isotopes[i].Get_isotope_number();
 			iso_ptr->elt_name = isotopes[i].Get_elt_name();
 			iso_ptr->isotope_name = isotopes[i].Get_isotope_name().c_str();
@@ -1842,7 +1842,7 @@ read_inv_phases(class inverse *inverse_ptr, const char* cptr)
 	}
 	else
 	{
-		inverse_ptr->phases[count_phases].isotopes.clear();
+		inverse_ptr->phases[count_phases].Get_isotopes().clear();
 	}
 	return (OK);
 }

@@ -396,7 +396,7 @@ inverse_free(class inverse *inverse_ptr)
 /*   Free phases */
 	for (i = 0; i < inverse_ptr->phases.size(); i++)
 	{
-		inverse_ptr->phases[i].isotopes.clear();
+		inverse_ptr->phases[i].Get_isotopes().clear();
 	}
 	inverse_ptr->phases.clear();
 

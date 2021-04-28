@@ -360,30 +360,30 @@ public:
 	std::string elt_name;
 	std::vector<double> uncertainties;
 };
-class phase_name_wrapper
-{
-public:
-	~phase_name_wrapper() {};
-	phase_name_wrapper() {};
-	class phase* phase(Phreeqc* php);
-	std::string& Get_phase_name() { return this->phase_name; }
-	void Set_phase_name(const std::string& name) { this->phase_name = name; }
-protected:
-	std::string phase_name;
-};
-class inv_phases: public phase_name_wrapper
+class inv_phases
 {
 public:
 	~inv_phases() {};
 	inv_phases()
 	{
 		//phase_name.clear(); // from phase_name_wrapper
-		//phase = NULL;
+		phase = NULL;
 		column = 0;
 		constraint = EITHER;
 		force = FALSE;
 		//isotopes.clear();
 	}
+	int& Get_constraint() { return this->constraint; }
+	int& Get_force() { return this->force; }
+	std::vector<class isotope>& Get_isotopes() { return this->isotopes; }
+	class phase* Get_phase() { return this->phase; }
+	std::string& Get_phase_name() { return this->phase_name; }
+	void Set_phase_name(const std::string& name) { this->phase_name = name; }
+	void Set_phase(class phase* p) { this->phase = p; }
+
+protected:
+	std::string phase_name;
+	class phase* phase;
 	int column;
 	int constraint;
 	int force;
