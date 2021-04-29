@@ -56,31 +56,25 @@ trxn_add(CReaction& r_ref, double coef, bool combine)
 	 /*
 	  *   Accumulate log k for reaction
 	  */
-
 	if (count_trxn == 0)
 	{
-		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			this->logk[i] = r_ref.Get_logk_x()[i];
-		}
-		for (int i = 0; i < 3; i++)	this->dz[i] = r_ref.Get_dz()[i];
+		this->logk.assign(Logk::MAX_LOG_K_INDICES, 0.0);
+		for (int i = 0; i < 3; i++) this->dz[i] = 0.0;
 	}
-	else
+	for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
-		for (int i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			this->logk[i] += coef * r_ref.Get_logk_x()[i];
-		}
-		for (int i = 0; i < 3; i++) this->dz[i] += coef * r_ref.Get_dz()[i];
+		this->logk[i] += coef * r_ref.Get_logk_x()[i];
 	}
+	for (int i = 0; i < 3; i++) this->dz[i] += coef * r_ref.Get_dz()[i];
+
 	/*
 	 *   Copy  equation into work space
 	 */
+	if (count_trxn + r_ref.Size() > this->tokens.size())
+		this->tokens.resize(count_trxn + r_ref.Size());
 	class rxn_token* next_token = &r_ref.Get_tokens()[0];
 	while (!next_token->Get_end())
 	{
-		if (count_trxn + 1 > this->tokens.size())
-			this->tokens.resize(count_trxn + 1);
 		this->tokens[count_trxn].Set_name(next_token->Get_s()->name);
 		this->tokens[count_trxn].Set_s(next_token->Get_s());
 		this->tokens[count_trxn].coef = coef * next_token->coef;
@@ -117,26 +111,20 @@ trxn_add_phase(CReaction& r_ref, double coef, bool combine)
 	 */
 	if (count_trxn == 0)
 	{
-		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			this->logk[i] = r_ref.Get_logk_x()[i];
-		}
+		this->logk.assign(Logk::MAX_LOG_K_INDICES, 0.0);
 	}
-	else
+	for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
 	{
-		for (i = 0; i < Logk::MAX_LOG_K_INDICES; i++)
-		{
-			this->logk[i] += coef * r_ref.Get_logk_x()[i];
-		}
+		this->logk[i] += coef * r_ref.Get_logk_x()[i];
 	}
 	/*
 	 *   Copy  equation into work space
 	 */
 	next_token = &r_ref.Get_tokens()[0];
+	if (count_trxn + r_ref.Size() > this->tokens.size())
+		this->tokens.resize(count_trxn + r_ref.Size());
 	while (!next_token->Get_end() || next_token->Get_name().size() != 0)
 	{
-		if (count_trxn + 1 > this->tokens.size())
-			this->tokens.resize(count_trxn + 1);
 		if (!next_token->Get_end())
 		{
 			this->tokens[count_trxn].Set_name(next_token->Get_s()->name);
