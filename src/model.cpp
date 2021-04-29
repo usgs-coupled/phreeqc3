@@ -2209,12 +2209,7 @@ mb_ss(void)
 			 */
 			if (phase0_ptr->in == TRUE && phase0_ptr->rxn_x.Get_tokens().size() != 0)
 			{
-				log10_iap = 0;
-				for (rxn_ptr = &phase0_ptr->rxn_x.Get_tokens()[0] + 1;
-					 !rxn_ptr->Get_end(); rxn_ptr++)
-				{
-					log10_iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-				}
+				log10_iap = phase0_ptr->rxn_x.Calc_iap_la();
 				iapc = exp(log10_iap * LOG_10);
 			}
 			else
@@ -2223,12 +2218,7 @@ mb_ss(void)
 			}
 			if (phase1_ptr->in == TRUE && phase1_ptr->rxn_x.Get_tokens().size() != 0)
 			{
-				log10_iap = 0;
-				for (rxn_ptr = &phase1_ptr->rxn_x.Get_tokens()[0] + 1;
-					 !rxn_ptr->Get_end(); rxn_ptr++)
-				{
-					log10_iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-				}
+				log10_iap = phase1_ptr->rxn_x.Calc_iap_la();
 				iapb = exp(log10_iap * LOG_10);
 			}
 			else

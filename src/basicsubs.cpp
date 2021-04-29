@@ -620,7 +620,7 @@ calc_logk_p(const std::string& name)
 	phase_ptr = phase_bsearch(name, &j, FALSE);
 	if (phase_ptr != NULL)
 	{
-		lk = phase_ptr->Calc_rxn_lk(tk_x, patm_x * PASCAL_PER_ATM);
+		lk = phase_ptr->Calc_rxn_dv_lk_x(tk_x, patm_x * PASCAL_PER_ATM);
 	}
 	return (lk);
 }

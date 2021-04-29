@@ -17,17 +17,8 @@ public:
 		this->Initialize();
 	}
 	void Initialize();
-	double Calc_rxn_delta_v();
-	double Calc_rxn_iap();
-	double Calc_rxn_si(double tk_x, double ppas_x, double& iap, double& lk);
-	double Calc_rxn_lk(double tk_x, double ppas_x);
-	double Calc_rxn_si(double tk_x, double ppas_x);
-
-	double Calc_rxn_x_delta_v();
-	double Calc_rxn_x_iap();
-	double Calc_rxn_x_lk(double tk_x, double ppas_x);
-	double Calc_rxn_x_si(double tk_x, double ppas_x);
-	double Calc_rxn_x_si(double tk_x, double ppas_x, double& iap, double& lk);
+	double Calc_rxn_iap_dv_lk_si(double tk_x, double ppas_x, double& iap, double& lk);
+	double Calc_rxn_dv_lk_x(double tk_x, double ppas_x);
 public:
 	std::string name;
 	std::string formula;

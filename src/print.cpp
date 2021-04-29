@@ -1162,7 +1162,7 @@ print_saturation_indices(void)
 	{
 		if (phases[i]->in == FALSE || phases[i]->type != SOLID)
 			continue;
-		si = phases[i]->Calc_rxn_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
+		si = phases[i]->Calc_rxn_iap_dv_lk_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
 		output_msg(sformatf("  %-15s%7.2f  %8.2f%8.2f  %s",
 			phases[i]->name.c_str(), (double)si, (double)iap, (double)lk,
 			phases[i]->formula.c_str()));
@@ -1246,7 +1246,7 @@ print_pp_assemblage(void)
 		else
 		{
 			phase_ptr = x[j]->phase;
-			si = phase_ptr->Calc_rxn_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
+			si = phase_ptr->Calc_rxn_iap_dv_lk_si(tk_x, patm_x * PASCAL_PER_ATM, iap, lk);
 			output_msg(sformatf("%-14s%8.2f  %7.2f  %8.2f",
 				x[j]->phase->name.c_str(), si, iap, lk));
 		}
@@ -3083,9 +3083,7 @@ punch_saturation_indices(void)
 /*
  *   Prints saturation indices of selected phases
  */
-	//int i;
 	LDBLE si, iap;
-	class rxn_token *rxn_ptr;
 
 	for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
 	{
@@ -3098,12 +3096,7 @@ punch_saturation_indices(void)
 /*
  *   Print saturation index
  */
-			iap = 0.0;
-			for (rxn_ptr = &(((class phase *) current_selected_output->Get_si()[i].second)->rxn_x.Get_tokens()[0]) + 1;
-				 !rxn_ptr->Get_end(); rxn_ptr++)
-			{
-				iap += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-			}
+			iap = ((class phase*)current_selected_output->Get_si()[i].second)->rxn_x.Calc_iap_la();
 			si = -((class phase *) current_selected_output->Get_si()[i].second)->lk + iap;
 		}
 		if (!current_selected_output->Get_high_precision())

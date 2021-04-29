@@ -78,14 +78,6 @@ Calc_iap()
 	return this->iap;
 }
 double CReaction::
-Calc_si(double tempk, double presPa)
-{
-	this->iap = Calc_iap();
-	this->lk = Calc_dv_lk_x(tempk, presPa);
-	this->si = this->iap - this->lk;
-	return this->si;
-}
-double CReaction::
 Calc_si_la(double tempk, double presPa)
 {
 	this->iap_la = Calc_iap_la();
@@ -94,7 +86,7 @@ Calc_si_la(double tempk, double presPa)
 	return this->si_la;
 }
 double CReaction::
-Calc_si(double tempk, double presPa, double& iap_out, double& lk_out)
+Calc_iap_dv_lk_si(double tempk, double presPa, double& iap_out, double& lk_out)
 {
 	iap_out = Calc_iap();
 	lk_out = Calc_dv_lk_x(tempk, presPa);

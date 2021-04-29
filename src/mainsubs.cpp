@@ -623,12 +623,6 @@ initial_gas_phases(int print)
 				phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
 				if (phase_ptr->in == TRUE)
 				{
-					//lp = -phase_ptr->lk;
-					//for (rxn_ptr = &phase_ptr->rxn_x.Get_tokens()[0] + 1;
-					//	 !rxn_ptr->Get_end(); rxn_ptr++)
-					//{
-					//	lp += rxn_ptr->Get_s()->la * rxn_ptr->coef;
-					//}
 					lp = phase_ptr->rxn_x.Calc_si_iap_only();
 					phase_ptr->p_soln_x = exp(lp * LOG_10);
 					gas_phase_ptr->Set_total_p(gas_phase_ptr->Get_total_p() + phase_ptr->p_soln_x);

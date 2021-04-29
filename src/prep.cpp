@@ -5400,7 +5400,7 @@ k_temp(LDBLE tc, LDBLE pa) /* pa - pressure in atm */
 	{
 		if (phases[i]->in == TRUE)
 		{
-			phases[i]->lk = phases[i]->Calc_rxn_x_lk(tempk, pa * PASCAL_PER_ATM);
+			phases[i]->lk = phases[i]->rxn_x.Calc_dv_lk_x(tempk, pa * PASCAL_PER_ATM);
 		}
 	}
 	/*

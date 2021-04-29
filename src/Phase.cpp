@@ -125,64 +125,18 @@ phase_store(const std::string& name_in)
 	return (phases[n]);
 }
 double phase::
-Calc_rxn_delta_v()
-{
-	if (this->replaced)
-		return this->rxn_s.Calc_delta_v();
-	return this->rxn.Calc_delta_v();
-}
-double phase::
-Calc_rxn_iap()
-{
-	if (this->replaced)
-		return this->rxn_s.Calc_iap();
-	return this->rxn.Calc_iap();
-}
-double phase::
-Calc_rxn_lk(double tk_x, double ppas_x)
+Calc_rxn_dv_lk_x(double tk_x, double ppas_x)
 {
 	if (this->replaced)
 		return this->rxn_s.Calc_dv_lk_x(tk_x, ppas_x);
 	return this->rxn.Calc_dv_lk_x(tk_x, ppas_x);
 }
 double phase::
-Calc_rxn_si(double tk_x, double ppas_x/*, Phreeqc* phrq_ptr*/)
-{
-	if (this->replaced)
-		return this->rxn_s.Calc_si(tk_x, ppas_x);
-	return this->rxn.Calc_si(tk_x, ppas_x);
-}
-double phase::
-Calc_rxn_si(double tk_x, double ppas_x, double& iap, double& lk)
+Calc_rxn_iap_dv_lk_si(double tk_x, double ppas_x, double& iap, double& lk)
 {
 	if (this->replaced)
 	{
-		return this->rxn_s.Calc_si(tk_x, ppas_x, iap, lk);
+		return this->rxn_s.Calc_iap_dv_lk_si(tk_x, ppas_x, iap, lk);
 	}
-	return this->rxn.Calc_si(tk_x, ppas_x, iap, lk);
-}
-double phase::
-Calc_rxn_x_delta_v()
-{
-	return this->rxn_x.Calc_delta_v();
-}
-double phase::
-Calc_rxn_x_iap()
-{
-	return this->rxn_x.Calc_iap();
-}
-double phase::
-Calc_rxn_x_lk(double tk_x, double ppas_x)
-{
-	return this->rxn_x.Calc_dv_lk_x(tk_x, ppas_x);
-}
-double phase::
-Calc_rxn_x_si(double tk_x, double ppas_x)
-{
-	return this->rxn_x.Calc_si(tk_x, ppas_x);
-}
-double phase::
-Calc_rxn_x_si(double tk_x, double ppas_x, double& iap, double& lk)
-{
-	return this->rxn_x.Calc_si(tk_x, ppas_x, iap, lk);
+	return this->rxn.Calc_iap_dv_lk_si(tk_x, ppas_x, iap, lk);
 }

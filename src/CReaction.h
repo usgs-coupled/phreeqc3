@@ -23,8 +23,7 @@ public:
 	double Calc_iap_la();
 	double Calc_dv_lk_x(double tempk, double presPa);
 	double Calc_lk_x(double tempk, double presPa);
-	double Calc_si(double tempk, double presPa);
-	double Calc_si(double tempk, double presPa, double& iap, double& lk);
+	double Calc_iap_dv_lk_si(double tempk, double presPa, double& iap, double& lk);
 	double Calc_si_iap_only();
 	std::vector<double>& Get_dz(void) { return this->dz; }
 	std::vector<name_coef>& Get_add_logk() { return this->Logk_cr.Get_add_logk(); }

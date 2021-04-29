@@ -4371,8 +4371,8 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
 	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
-	kc = exp(phase0_ptr->Calc_rxn_lk(t, REF_PRES_PASCAL) * LOG_10);
-	kb = exp(phase1_ptr->Calc_rxn_lk(t, REF_PRES_PASCAL) * LOG_10);
+	kc = exp(phase0_ptr->Calc_rxn_dv_lk_x(t, REF_PRES_PASCAL) * LOG_10);
+	kb = exp(phase1_ptr->Calc_rxn_dv_lk_x(t, REF_PRES_PASCAL) * LOG_10);
 
 	crit_pt = fabs(a0) + fabs(a1);
 /*
@@ -4992,9 +4992,9 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	l_kc = exp(phase0_ptr->Calc_rxn_lk(ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kc = exp(phase0_ptr->Calc_rxn_dv_lk_x(ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 		LOG_10);
-	l_kb = exp(phase1_ptr->Calc_rxn_lk(ss_ptr->Get_tk(), REF_PRES_PASCAL) *
+	l_kb = exp(phase1_ptr->Calc_rxn_dv_lk_x(ss_ptr->Get_tk(), REF_PRES_PASCAL) *
 		LOG_10);
 	p = ss_ptr->Get_p();
 
