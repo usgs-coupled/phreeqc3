@@ -2185,8 +2185,7 @@ mb_ss(void)
 		//bool ss_in = true;
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{
-			int l;
-			class phase *phase_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[j].Get_name().c_str(), &l, FALSE);
+			class phase* phase_ptr = ss_ptr->Get_ss_comps()[j].phase_ptr;
 			if (phase_ptr->in == FALSE)
 			{
 				continue;
@@ -2201,9 +2200,8 @@ mb_ss(void)
 		}
 		else if (ss_ptr->Get_a0() != 0.0 || ss_ptr->Get_a1() != 0.0)
 		{
-			int l;
-			class phase *phase0_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[0].Get_name().c_str(), &l, FALSE);
-			class phase *phase1_ptr = phase_bsearch(ss_ptr->Get_ss_comps()[1].Get_name().c_str(), &l, FALSE);
+			class phase* phase0_ptr = ss_ptr->Get_ss_comps()[0].phase_ptr;
+			class phase *phase1_ptr = ss_ptr->Get_ss_comps()[1].phase_ptr;
 			/*
 			 *  Calculate IAPc and IAPb
 			 */
@@ -2274,8 +2272,7 @@ mb_ss(void)
 			for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 			{
 				cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
-				int l;
-				class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+				class phase* phase_ptr = comp_ptr->phase_ptr;
 				if (phase_ptr->in == TRUE)
 				{
 					lp = -phase_ptr->lk;
@@ -2551,8 +2548,7 @@ calc_gas_pressures(void)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		const cxxGasComp * gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-		int j;
-		class phase *phase_ptr = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase* phase_ptr = gas_comp_ptr->phase_ptr;
 		if (phase_ptr->in == TRUE)
 		{
 			phase_ptrs.push_back(phase_ptr);
@@ -2620,8 +2616,7 @@ calc_gas_pressures(void)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		const cxxGasComp *gas_comp = &(gas_phase_ptr->Get_gas_comps()[i]);
-		int j;
-		class phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
+		class phase* phase_ptr = gas_comp->phase_ptr;
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
@@ -2682,8 +2677,7 @@ calc_gas_pressures(void)
 			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 			{
 				const cxxGasComp *gas_comp = &(gas_phase_ptr->Get_gas_comps()[i]);
-				int j;
-				class phase *phase_ptr = phase_bsearch(gas_comp->Get_phase_name().c_str(), &j, FALSE);
+				class phase* phase_ptr = gas_comp->phase_ptr;
 				if (phase_ptr->in == TRUE)
 				{
 					phase_ptr->moles_x *= MAX_P_NONLLNL / gas_phase_ptr->Get_total_p();
@@ -2733,8 +2727,7 @@ calc_ss_fractions(void)
 		for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
-			int l;
-			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase* phase_ptr = comp_ptr->phase_ptr;
 			moles = comp_ptr->Get_moles();
 			if (moles < 0)
 			{
@@ -2778,10 +2771,8 @@ ss_binary(cxxSS *ss_ptr)
 	n_tot = ss_ptr->Get_total_moles();
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
-	int l;
-	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &l, FALSE);
-	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &l, FALSE);
-
+	class phase* phase0_ptr = comp0_ptr->phase_ptr;
+	class phase* phase1_ptr = comp1_ptr->phase_ptr;
 	nc = comp0_ptr->Get_moles();
 	xc = nc / n_tot;
 	nb = comp1_ptr->Get_moles();
@@ -2909,8 +2900,7 @@ ss_ideal(cxxSS *ss_ptr)
 	for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 	{
 		cxxSScomp *compk_ptr = &(ss_ptr->Get_ss_comps()[k]);
-		int l;
-		class phase *phasek_ptr = phase_bsearch(compk_ptr->Get_name().c_str(), &l, FALSE);
+		class phase* phasek_ptr = compk_ptr->phase_ptr;
 		n_tot1 = 0;
 		for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 		{

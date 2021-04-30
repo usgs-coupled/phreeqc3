@@ -619,8 +619,7 @@ initial_gas_phases(int print)
 			for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 			{
 				cxxGasComp * gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-				int k;
-				phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+				phase_ptr = gc_ptr->phase_ptr;
 				if (phase_ptr->in == TRUE)
 				{
 					lp = phase_ptr->rxn_x.Calc_si_iap_only();
@@ -1102,8 +1101,7 @@ xgas_save(int n_user)
 	for (size_t i = 0; i < temp_gas_phase.Get_gas_comps().size(); i++)
 	{
 		cxxGasComp* gc_ptr = &(temp_gas_phase.Get_gas_comps()[i]);
-		int k;
-		class phase* phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+		class phase* phase_ptr = gc_ptr->phase_ptr;
 		assert(phase_ptr);
 		if (PR)
 		{

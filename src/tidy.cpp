@@ -898,6 +898,7 @@ tidy_gas_phase(void)
 		{
 			int k;
 			class phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &k, FALSE);
+			gas_phase_ptr->Get_gas_comps()[j].phase_ptr = phase_ptr;
 			if (phase_ptr == NULL)
 			{
 				input_error++;
@@ -1006,6 +1007,7 @@ tidy_gas_phase(void)
 				{
 					int k;
 					class phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j_PR].Get_phase_name().c_str(), &k, FALSE);
+					gas_phase_ptr->Get_gas_comps()[j_PR].phase_ptr = phase_ptr;
 					if (gc[j_PR].Get_p_read() == 0)
 					{
 						gc[j_PR].Set_moles(0.0);
@@ -1030,6 +1032,7 @@ tidy_gas_phase(void)
 				{
 					int k;
 					class phase *phase_ptr = phase_bsearch(gc[j_PR].Get_phase_name().c_str(), &k, FALSE);
+					gc[j_PR].phase_ptr = phase_ptr;
 					if (gc[j_PR].Get_p_read() == 0)
 					{
 						gc[j_PR].Set_moles(0.0);
@@ -1551,6 +1554,7 @@ tidy_pp_assemblage(void)
 		{
 			int k;
 			class phase *phase_ptr = phase_bsearch(it->first.c_str(), &k, FALSE);
+			it->second.phase_ptr = phase_ptr;
 			if (phase_ptr == NULL)
 			{
 				input_error++;
@@ -1646,6 +1650,7 @@ tidy_ss_assemblage(void)
 				cxxSScomp * comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 				int k1;
 				phase_ptr =	phase_bsearch(comp_ptr->Get_name().c_str(), &k1, FALSE);
+				comp_ptr->phase_ptr = phase_ptr;
 				if (phase_ptr == NULL)
 				{
 					input_error++;
@@ -4370,7 +4375,9 @@ ss_prep(LDBLE t, cxxSS *ss_ptr, int print)
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
 	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
+	comp0_ptr->phase_ptr = phase0_ptr;
 	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	comp1_ptr->phase_ptr = phase1_ptr;
 	kc = exp(phase0_ptr->Calc_rxn_dv_lk_x(t, REF_PRES_PASCAL) * LOG_10);
 	kb = exp(phase1_ptr->Calc_rxn_dv_lk_x(t, REF_PRES_PASCAL) * LOG_10);
 
@@ -4980,9 +4987,8 @@ ss_calc_a0_a1(cxxSS *ss_ptr)
 	}
 	cxxSScomp *comp0_ptr = &(ss_ptr->Get_ss_comps()[0]);
 	cxxSScomp *comp1_ptr = &(ss_ptr->Get_ss_comps()[1]);
-	int k;
-	class phase *phase0_ptr = phase_bsearch(comp0_ptr->Get_name().c_str(), &k, FALSE);
-	class phase *phase1_ptr = phase_bsearch(comp1_ptr->Get_name().c_str(), &k, FALSE);
+	class phase* phase0_ptr = comp0_ptr->phase_ptr;
+	class phase* phase1_ptr = comp1_ptr->phase_ptr;
 	if (phase0_ptr == NULL || phase1_ptr == NULL)
 	{
 		input_error++;

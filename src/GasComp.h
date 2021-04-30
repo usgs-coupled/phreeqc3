@@ -54,6 +54,8 @@ class cxxGasComp: public PHRQ_base
 	LDBLE phi;
 	LDBLE f;
 	const static std::vector < std::string > vopts;
+public:
+	class phase* phase_ptr;
 };
 
 #endif // !defined(GASCOMP_H_INCLUDED)

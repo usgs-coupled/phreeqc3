@@ -374,6 +374,7 @@ build_gas_phase(void)
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int k;
 		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+		gc_ptr->phase_ptr = phase_ptr;
 		assert(phase_ptr);
 /*
  *   Determine elements in gas component
@@ -3156,6 +3157,8 @@ setup_gas_phase(void)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{	
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+		int j;
+		gc_ptr->phase_ptr = phase_bsearch(gc_ptr->Get_phase_name(), &j, FALSE);
 		x[count_unknowns]->moles += gc_ptr->Get_moles();
 	}
 	if (x[count_unknowns]->moles <= 0)
@@ -3190,6 +3193,7 @@ setup_ss_assemblage(void)
 			cxxSScomp *comp_ptr = &(ss_ptrs[j]->Get_ss_comps()[i]);
 			int l;
 			class phase* phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			comp_ptr->phase_ptr = phase_ptr;
 			x[count_unknowns]->type = SS_MOLES;
 			x[count_unknowns]->description = comp_ptr->Get_name();
 			x[count_unknowns]->moles = 0.0;
@@ -4003,6 +4007,7 @@ setup_pure_phases(void)
 		cxxPPassemblageComp * comp_ptr = &(it->second);
 		int j;
 		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
+		comp_ptr->phase_ptr = phase_ptr;
 		assert(phase_ptr);
 		x[count_unknowns]->type = PP;
 		x[count_unknowns]->description = comp_ptr->Get_name();
@@ -5526,8 +5531,7 @@ save_model(void)
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{	
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-			int k;
-			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+			class phase* phase_ptr = gc_ptr->phase_ptr;
 			assert(phase_ptr);
 			last_model.gas_phase[i] = phase_ptr->name;
 		}
@@ -5567,8 +5571,7 @@ save_model(void)
 		i = 0;
 		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 		{
-			int j;
-			class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, false);
+			class phase* phase_ptr = it->second.phase_ptr;
 			assert(phase_ptr);
 			last_model.pp_assemblage[i] = phase_ptr;
 			last_model.add_formula[i] = it->second.Get_add_formula();
@@ -5681,8 +5684,7 @@ check_same_model(void)
 		for (i = 0; i < (int) gas_phase_ptr->Get_gas_comps().size(); i++)
 		{
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-			int k;
-			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+			class phase* phase_ptr = gc_ptr->phase_ptr;
 			assert(phase_ptr);
 			if (last_model.gas_phase[i] != phase_ptr->name)
 			{
@@ -5730,8 +5732,7 @@ check_same_model(void)
 		i = 0;
 		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 		{
-			int j;
-			class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
+			class phase* phase_ptr = it->second.phase_ptr;
 			assert(phase_ptr); 
 			if (last_model.pp_assemblage[i] != phase_ptr)
 			{

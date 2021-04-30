@@ -421,9 +421,7 @@ cxxSS::totalize(Phreeqc * phreeqc_ptr)
 	// component structures
 	for (size_t i = 0; i < this->ss_comps.size(); i++)
 	{
-		class phase *phase_ptr;
-		int l;
-		phase_ptr = phreeqc_ptr-> phase_bsearch(ss_comps[i].Get_name().c_str(), &l, FALSE);
+		class phase* phase_ptr = ss_comps[i].phase_ptr;
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);

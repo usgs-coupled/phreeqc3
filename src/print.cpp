@@ -66,8 +66,7 @@ set_pr_in_false(void)
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{
 			cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-			int k;
-			class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+			class phase* phase_ptr = gc_ptr->phase_ptr;
 			if (phase_ptr)
 				phase_ptr->pr_in = false;
 		}
@@ -641,8 +640,7 @@ print_gas_phase(void)
  *   Calculate partial pressure
  */
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
-		int k;
-		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str(), &k, FALSE);
+		class phase* phase_ptr = gc_ptr->phase_ptr;
 		if (phase_ptr->in == TRUE)
 		{
 			lp = phase_ptr->rxn_x.Calc_si_iap_only();
@@ -2464,8 +2462,7 @@ punch_gas_phase(void)
 			for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 			{
 				cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[j]);
-				int k;
-				class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+				class phase* phase_ptr = gc_ptr->phase_ptr;
 				if (phase_ptr != current_selected_output->Get_gases()[i].second)
 					continue;
 				moles = phase_ptr->moles_x;

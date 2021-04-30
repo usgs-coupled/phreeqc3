@@ -459,8 +459,7 @@ cxxGasPhase::totalize(Phreeqc * phreeqc_ptr)
 	for (size_t i = 0; i < this->gas_comps.size(); i++)
 	{
 		class phase *phase_ptr;
-		int l;
-		phase_ptr = phreeqc_ptr-> phase_bsearch(this->gas_comps[i].Get_phase_name().c_str(), &l, FALSE);
+		phase_ptr = this->gas_comps[i].phase_ptr;
 		if (phase_ptr != NULL)
 		{
 			cxxNameDouble phase_formula(phase_ptr->next_elt);

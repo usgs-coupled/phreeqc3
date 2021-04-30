@@ -229,8 +229,7 @@ size_t Phreeqc::list_GasComponents(std::list<std::string> &list_gc)
 			std::vector<cxxGasComp> &gc = entity.Get_gas_comps();
 			for (size_t i = 0; i < gc.size(); i++)
 			{
-				int j;
-				phase * p = phase_bsearch(gc[i].Get_phase_name().c_str(), &j, 0);
+				phase* p = gc[i].phase_ptr;
 				accumulator.insert(p->name);
 			}
 		}
@@ -296,9 +295,7 @@ size_t Phreeqc::list_SolidSolutions(std::list<std::string> &list_comps, std::lis
 			std::set<std::string> accumulator_phases;
 			for (size_t i = 0; i < ssit->second.Get_ss_comps().size(); i++)
 			{
-				std::string pname = ssit->second.Get_ss_comps()[i].Get_name();
-				int j;
-				phase * p = phase_bsearch(pname.c_str(), &j, 0);
+				phase* p = ssit->second.Get_ss_comps()[i].phase_ptr;
 				accumulator_phases.insert(p->name);
 			}
 			ss_names.push_back(ssname);

@@ -61,6 +61,8 @@ protected:
 	LDBLE log10_fraction_x;
 	LDBLE dn, dnc, dnb;
 	const static std::vector < std::string > vopts;
+public:
+	class phase* phase_ptr;
 };
 
 #endif // !defined(SSCOMP_H_INCLUDED)

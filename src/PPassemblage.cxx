@@ -257,8 +257,7 @@ cxxPPassemblage::GetPhases(Phreeqc * phreeqc_ptr)
 	for (std::map < std::string, cxxPPassemblageComp >::iterator it =
 		pp_assemblage_comps.begin(); it != pp_assemblage_comps.end(); ++it)
 	{
-		int l;
-		phase * phase_ptr = phreeqc_ptr->phase_bsearch((*it).second.Get_name().c_str(), &l, FALSE);;
+		phase* phase_ptr = (*it).second.phase_ptr;
 		if (phase_ptr != NULL)
 		{
 			phase_list.insert(phase_ptr->name);

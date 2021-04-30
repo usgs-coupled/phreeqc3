@@ -96,7 +96,7 @@ Calc_iap_dv_lk_si(double tempk, double presPa, double& iap_out, double& lk_out)
 double CReaction::
 Calc_dv_lk_x(double tempk, double presPa)
 {
-	double d_v = Calc_delta_v();
+	Calc_delta_v();
 	this->lk = Calc_lk_x(tempk, presPa);
 	return lk;
 }

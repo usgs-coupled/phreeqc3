@@ -1218,8 +1218,6 @@ LDBLE Phreeqc::
 find_gas_comp(const char *gas_comp_name)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
-
 	if (use.Get_gas_phase_in() == FALSE || use.Get_gas_phase_ptr() == NULL)
 		return (0);
 	cxxGasPhase * gas_phase_ptr = use.Get_gas_phase_ptr();
@@ -1227,7 +1225,7 @@ find_gas_comp(const char *gas_comp_name)
 	{
 		if (strcmp_nocase(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), gas_comp_name) == 0)
 		{
-			class phase *phase_ptr = phase_bsearch(gas_comp_name, &i, false);
+			class phase* phase_ptr = gas_phase_ptr->Get_gas_comps()[j].phase_ptr;
 			if (phase_ptr)
 			{
 				return (phase_ptr->moles_x);
@@ -1675,7 +1673,6 @@ LDBLE Phreeqc::
 sum_match_gases(const char *mytemplate, const char *name)
 /* ---------------------------------------------------------------------- */
 {
-	int i;
 	LDBLE tot;
 	const class elt_list *next_elt;
 
@@ -1685,8 +1682,7 @@ sum_match_gases(const char *mytemplate, const char *name)
 	tot = 0;
 	for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 	{
-		class phase * phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(),
-			&i, FALSE);
+		class phase* phase_ptr = gas_phase_ptr->Get_gas_comps()[j].phase_ptr;
 		if (match_elts_in_species(phase_ptr->formula.c_str(), mytemplate) == TRUE)
 		{
 			if (name == NULL)
@@ -1793,8 +1789,7 @@ sum_match_ss(const char *mytemplate, const char *name)
 				}
 				else
 				{
-					int l;
-					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+					class phase* phase_ptr = comp_ptr->phase_ptr;
 					for (next_elt = &phase_ptr->next_elt[0]; next_elt->elt != NULL; next_elt++)
 					{
 						if (next_elt->elt->name == name)
@@ -3011,8 +3006,6 @@ system_total_gas(void)
 /*
  *   Provides total moles in system and lists of species/phases in sort order
  */
-	int i;
-
 /*
  *   find total in gas phase
  */
@@ -3021,8 +3014,7 @@ system_total_gas(void)
 	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 	{
-		class phase *phase_ptr = phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), 
-			&i, FALSE);
+		class phase* phase_ptr = gas_phase_ptr->Get_gas_comps()[j].phase_ptr;
 		assert(phase_ptr);
 		size_t count_sys = sys.size();
 		sys.resize(count_sys + 1);
@@ -3048,8 +3040,7 @@ system_total_equi(void)
 	for  ( ; it != comps.end(); it++)
 	{
 			cxxPPassemblageComp *comp_ptr = &(it->second);
-			int l;
-			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase* phase_ptr = comp_ptr->phase_ptr;
 			size_t count_sys = sys.size();
 			sys.resize(count_sys + 1);
 			sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
@@ -3103,8 +3094,7 @@ system_total_ss(void)
 		for (size_t i = 0; i < ss_ptr->Get_ss_comps().size(); i++)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[i]);
-			int l;
-			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase* phase_ptr = comp_ptr->phase_ptr;
 			size_t count_sys = sys.size();
 			sys.resize(count_sys + 1);
 			sys[count_sys].name = string_duplicate(phase_ptr->name.c_str());
@@ -3258,7 +3248,6 @@ system_total_elt(const char *total_name)
 			count_elts = 0;
 			paren_count = 0;
 			int j;
-			//class phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
 			class phase * phase_ptr = x[i]->phase;
 			add_elt_list(phase_ptr->next_elt, x[i]->moles);
 			elt_list_combine();
@@ -3291,8 +3280,7 @@ system_total_elt(const char *total_name)
 				for (size_t i = 0; i < ss_ptr->Get_ss_comps().size(); i++)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[i]);
-					int l;
-					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+					class phase* phase_ptr = comp_ptr->phase_ptr;
 					count_elts = 0;
 					paren_count = 0;
 					add_elt_list(phase_ptr->next_elt,
@@ -3324,8 +3312,7 @@ system_total_elt(const char *total_name)
 		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{
-			class phase *phase_ptr = 
-				phase_bsearch(gas_phase_ptr->Get_gas_comps()[i].Get_phase_name().c_str(), &k, FALSE);
+			class phase* phase_ptr = gas_phase_ptr->Get_gas_comps()[i].phase_ptr;
 			assert(phase_ptr);
 			if (phase_ptr->in == TRUE)
 			{
@@ -3504,7 +3491,6 @@ system_total_elt_secondary(const char *total_name)
 			count_elts = 0;
 			paren_count = 0;
 			int j;
-			//class phase * phase_ptr = phase_bsearch(x[i]->pp_assemblage_comp_name, &j, FALSE);
 			class phase * phase_ptr = x[i]->phase;
 			add_elt_list(phase_ptr->next_sys_total,	 x[i]->moles);
 			elt_list_combine();
@@ -3538,8 +3524,7 @@ system_total_elt_secondary(const char *total_name)
 				for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
-					int l;
-					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+					class phase* phase_ptr = comp_ptr->phase_ptr;
 					count_elts = 0;
 					paren_count = 0;
 					add_elt_list(phase_ptr->next_sys_total,
@@ -3571,8 +3556,7 @@ system_total_elt_secondary(const char *total_name)
 		cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 		for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)	
 		{
-			class phase *phase_ptr = 
-				phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &i, FALSE);
+			class phase* phase_ptr = gas_phase_ptr->Get_gas_comps()[j].phase_ptr;
 			assert(phase_ptr);
 			if (phase_ptr->in == TRUE)
 			{
@@ -3750,8 +3734,7 @@ system_total_solids(cxxExchange *exchange_ptr,
 			for (size_t j = 0; j < ss_ptr->Get_ss_comps().size(); j++)
 			{
 				cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
-				int l;
-				class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+				class phase* phase_ptr = comp_ptr->phase_ptr;
 				add_elt_list(phase_ptr->next_elt,
 							 comp_ptr->Get_moles());
 			}
@@ -3761,9 +3744,7 @@ system_total_solids(cxxExchange *exchange_ptr,
 	{
 		for (size_t j = 0; j < gas_phase_ptr->Get_gas_comps().size(); j++)
 		{
-			int i;
-			class phase *phase_ptr = 
-				phase_bsearch(gas_phase_ptr->Get_gas_comps()[j].Get_phase_name().c_str(), &i, FALSE);
+			class phase* phase_ptr = gas_phase_ptr->Get_gas_comps()[j].phase_ptr;
 			add_elt_list(phase_ptr->next_elt, gas_phase_ptr->Get_gas_comps()[j].Get_moles());
 		}
 	}
@@ -3773,8 +3754,7 @@ system_total_solids(cxxExchange *exchange_ptr,
 		it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
 		for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 		{
-			int j;
-			class phase * phase_ptr = phase_bsearch(it->first.c_str(), &j, FALSE);
+			class phase* phase_ptr = it->second.phase_ptr;
 			add_elt_list(phase_ptr->next_elt,
 						 it->second.Get_moles());
 		}

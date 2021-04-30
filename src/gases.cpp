@@ -20,9 +20,10 @@ setup_fixed_volume_gas(void)
 	gas_phase_ptr->Set_total_moles(0);
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
-		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+		cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name(), &j, FALSE);
+		comp_ptr->phase_ptr = phase_ptr;
 		x[count_unknowns]->type = GAS_MOLES;
 		x[count_unknowns]->description = phase_ptr->name;
 		x[count_unknowns]->phase = phase_ptr;
@@ -67,9 +68,10 @@ build_fixed_volume_gas(void)
 	cxxGasPhase *gas_phase_ptr = use.Get_gas_phase_ptr();
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
-		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+		cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name(), &j, FALSE);
+		comp_ptr->phase_ptr = phase_ptr;
 /*
  *   Determine elements in gas component
  */

@@ -236,8 +236,7 @@ step(LDBLE step_fraction)
 			it =  pp_assemblage_ptr->Get_pp_assemblage_comps().begin();
 			for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 			{
-				int n;
-				class phase *p_ptr = phase_bsearch((it->first).c_str(), &n, FALSE);
+				class phase* p_ptr = it->second.phase_ptr;
 				const class elt_list *e_ptr;
 				LDBLE min = 1e10;
 				for (e_ptr = &p_ptr->next_elt[0]; e_ptr->elt != NULL; e_ptr++)
@@ -263,9 +262,7 @@ step(LDBLE step_fraction)
 				for (size_t k = 0; k < ss_ptr->Get_ss_comps().size(); k++)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
-					int n;
-					class phase *p_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &n, FALSE);
-
+					class phase* p_ptr = comp_ptr->phase_ptr;
 					const class elt_list *e_ptr;
 					LDBLE min = 1e10;
 					for (e_ptr = &p_ptr->next_elt[0]; e_ptr->elt != NULL; e_ptr++)
@@ -683,8 +680,7 @@ add_pp_assemblage(cxxPPassemblage *pp_assemblage_ptr)
 	{
 		cxxPPassemblageComp * comp_ptr = &(it->second);
 		if (comp_ptr->Get_precipitate_only()) continue;
-		int l;
-		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+		class phase* phase_ptr = comp_ptr->phase_ptr;
 		count_elts = 0;
 		paren_count = 0;
 		amount_to_add = 0.0;
@@ -1008,8 +1004,7 @@ add_gas_phase(cxxGasPhase *gas_phase_ptr)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-		int k;
-		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+		class phase* phase_ptr = gc_ptr->phase_ptr;
 		if (phase_ptr == NULL)
 		{
 			input_error++;
@@ -1080,9 +1075,7 @@ add_ss_assemblage(cxxSSassemblage *ss_assemblage_ptr)
 		for (j = 0; j < (int) ss_ptr->Get_ss_comps().size(); j++)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[j]);
-			int l;
-			class phase * phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
-
+			class phase* phase_ptr = comp_ptr->phase_ptr;
 			amount_to_add = 0.0;
 			comp_ptr->Set_delta(0.0);
 			if (comp_ptr->Get_moles() > 0.0)
@@ -1218,8 +1211,7 @@ gas_phase_check(cxxGasPhase *gas_phase_ptr)
 	for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 	{
 		cxxGasComp *gc_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
-		int k;
-		class phase *phase_ptr = phase_bsearch(gc_ptr->Get_phase_name().c_str() , &k, FALSE);
+		class phase* phase_ptr = gc_ptr->phase_ptr;
 		count_elts = 0;
 		paren_count = 0;
 		if (gc_ptr->Get_moles() <= 0.0)
@@ -1279,8 +1271,7 @@ pp_assemblage_check(cxxPPassemblage *pp_assemblage_ptr)
 	for ( ; it != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); it++)
 	{
 		cxxPPassemblageComp * comp_ptr = &(it->second);
-		int l;
-		class phase * phase_ptr = phase_bsearch(it->first.c_str(), &l, FALSE);
+		class phase* phase_ptr = comp_ptr->phase_ptr;
 		count_elts = 0;
 		paren_count = 0;
 		if (comp_ptr->Get_moles() <= 0.0)
@@ -1365,7 +1356,8 @@ ss_assemblage_check(cxxSSassemblage *ss_assemblage_ptr)
 		{
 			cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 			int l;
-			class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			//class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+			class phase* phase_ptr = comp_ptr->phase_ptr;
 			count_elts = 0;
 			paren_count = 0;
 			if (comp_ptr->Get_moles() <= 0.0)

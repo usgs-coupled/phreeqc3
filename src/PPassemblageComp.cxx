@@ -32,6 +32,7 @@ PHRQ_base(io)
 	force_equality = false;
 	dissolve_only = false;
 	precipitate_only = false;
+	phase_ptr = NULL;
 }
 
 cxxPPassemblageComp::~cxxPPassemblageComp()
@@ -316,8 +317,7 @@ cxxPPassemblageComp::totalize(Phreeqc * phreeqc_ptr)
 	if (this->add_formula.size() != 0)
 		return;
 	class phase *phase_ptr;
-	int l;
-	phase_ptr = phreeqc_ptr-> phase_bsearch(this->name.c_str(), &l, FALSE);
+	phase_ptr = this->phase_ptr;
 	if (phase_ptr != NULL)
 	{
 		cxxNameDouble phase_formula(phase_ptr->next_elt);

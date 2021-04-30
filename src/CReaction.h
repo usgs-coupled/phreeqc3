@@ -43,7 +43,6 @@ public:
 	double Get_lk() { return this->lk; }
 	bool Get_phase() { return this->phase; }
 	double Get_si() { return this->si; }
-	double Get_si_la() { return this->Get_si_la(); }
 	void Set_phase(bool tf) { this->phase = tf; }
 	void Set_logk_original(const std::vector<double>& k) { this->Logk_cr.Set_logk_original(k); }
 	void Set_selected() { this->Logk_cr.Set_selected(); }

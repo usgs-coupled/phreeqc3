@@ -70,7 +70,7 @@ protected:
 	cxxNameDouble totals;
 	const static std::vector < std::string > vopts;
 public:
-
+	class phase* phase_ptr;
 };
 
 #endif // !defined(PPASSEMBLAGECOMP_H_INCLUDED)

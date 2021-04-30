@@ -632,7 +632,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				{
 					int k;
 					class phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
-
 					add_elt_list(phase_ptr->next_elt, (*gc)[l].Get_moles());
 				}
 				elt_list_combine();
@@ -875,8 +874,7 @@ build_tally_table(void)
 			for ( ; jit != pp_assemblage_ptr->Get_pp_assemblage_comps().end(); jit++)
 			{
 				cxxPPassemblageComp * comp_ptr = &(jit->second);
-				int l;
-				class phase * phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+				class phase* phase_ptr = jit->second.phase_ptr;
 				/* 
 				 * check if already in tally_table
 				 */
