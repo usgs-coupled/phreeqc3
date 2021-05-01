@@ -1296,24 +1296,6 @@ build_model(void)
 			trxn.trxn_copy(phases[i]->rxn_x);
 			write_phase_sys_total(i);
 		}
-
-		// new organization
-		trxn.Set_count_trxn(0);
-		trxn.trxn_add_phase(phases[i]->rxn_s, 1.0, false);
-		trxn.trxn_reverse_k();
-		phases[i]->in = inout();
-		if (phases[i]->in == TRUE)
-		{
-			coef_e = trxn.trxn_find_coef("e-", 1);
-			if (equal(coef_e, 0.0, TOL) == FALSE)
-			{
-				trxn.trxn_add(pe_x[default_pe_x.c_str()], coef_e, TRUE);
-			}
-			write_mass_action_eqn_x(STOP);
-			trxn.trxn_reverse_k();
-			trxn.trxn_copy(phases[i]->rxn_x);
-			write_phase_sys_total(i);
-		}
 	}
 	build_solution_phase_boundaries();
 	build_pure_phases();

@@ -1445,7 +1445,6 @@ tidy_phases(void)
 	 */
 	for (i = 0; i < (int)phases.size(); i++)
 	{
-		// new organization
 		phases[i]->rxn.Get_tokens()[0].Set_name(phases[i]->name);
 		phases[i]->rxn.Get_tokens()[0].Set_s(NULL);
 		phases[i]->rxn.Tidy_logk(this);
@@ -1465,26 +1464,6 @@ tidy_phases(void)
 		trxn.Set_count_trxn(0);
 		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
 		trxn.tokens[0].Set_name(phases[i]->name);
-		/* debug 
-		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
-		   trxn_print();
-		 */
-		replaced = replace_solids_gases();
-		phases[i]->replaced = replaced;
-		/*  save rxn_s */
-		trxn.trxn_reverse_k();
-		rewrite_eqn_to_secondary();
-		trxn.trxn_reverse_k();
-		trxn.trxn_copy(phases[i]->rxn_s);
-		
-		// new organization
-		trxn.Set_count_trxn(0);
-		trxn.trxn_add_phase(phases[i]->rxn, 1.0, false);
-		trxn.tokens[0].Set_name(phases[i]->name);
-		/* debug
-		   output_msg(sformatf( "%s PHASE.\n", phases[i]->name.c_str()));
-		   trxn_print();
-		 */
 		replaced = replace_solids_gases();
 		phases[i]->replaced = replaced;
 		/*  save rxn_s */
