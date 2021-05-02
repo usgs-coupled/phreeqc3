@@ -2,7 +2,6 @@
 #include "phqalloc.h"
 #include "Utils.h"
 #include "Solution.h"
-#include "SolutionIsotope.h"
 
 
 #define MAX_MODELS 20

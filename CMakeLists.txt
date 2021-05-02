@@ -142,6 +142,7 @@ src/gases.cpp
 src/global_structures.h
 src/input.cpp
 src/integrate.cpp
+src/Inverse.h
 src/inverse.cpp
 src/isotopes.cpp
 src/kinetics.cpp

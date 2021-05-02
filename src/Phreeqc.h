@@ -32,42 +32,31 @@ typedef unsigned char boolean;
 #include <math.h>
 #include <errno.h>
 #include <float.h>
-#include "phrqtype.h"
-#include "cvdense.h"	
-#include "runner.h"
+
+#include "cvdense.h"
+#include "cxxMix.h"
 #include "dumper.h"
+#include "Inverse.h"
 #include "PHRQ_io.h"
+#include "phrqtype.h"
+#include "Pressure.h"	
+#include "runner.h"
 #include "SelectedOutput.h"
+#include "trxn.h"
+#include "Use.h"
 #include "UserPunch.h"
 #ifdef MULTICHART
 #include "ChartHandler.h"
 #endif
-#include "Pressure.h"
-#include "cxxMix.h"
-#include "Use.h"
-#include "trxn.h"
 #ifdef SWIG_SHARED_OBJ
 #include "thread.h"
 #endif
 
-class cxxNameDouble;
-class cxxKinetics;
-class cxxKineticsComp;
-class cxxExchange;
-class cxxExchComp;
-class cxxGasPhase;
-class cxxTemperature;
-class cxxPPassemblage;
-class cxxPPassemblageComp;
-class cxxReaction;
 class cxxSolution;
-class cxxISolutionComp;
 class cxxSolutionIsotope;
-class cxxSSassemblage;
 class cxxSS;
-class cxxStorageBin;
+class cxxSSassemblage;
 class PBasic;
-class cxxMix;
 
 class Phreeqc
 {
@@ -289,50 +278,48 @@ public:
 	LDBLE calc_psi_avg(cxxSurfaceCharge* charge_ptr, LDBLE surf_chrg_eq);
 
 	// inverse.cpp -------------------------------
-	int inverse_models(void);
 	int add_to_file(const char* filename, const char* string);
 	int bit_print(unsigned long bits, int l);
 	int carbon_derivs(class inverse* inv_ptr);
 	int check_isotopes(class inverse* inv_ptr);
 	int check_solns(class inverse* inv_ptr);
-	bool set_isotope_unknowns(class inverse* inv_ptrs);
-	cxxSolutionIsotope* get_isotope(cxxSolution* solution_ptr, const char* elt);
-	LDBLE get_inv_total(cxxSolution* solution_ptr, const char* elt);
-	int isotope_balance_equation(class inverse* inv_ptr, int row, int n);
-	int post_mortem(void);
-	bool test_cl1_solution(void);
-	unsigned long get_bits(unsigned long bits, int position, int number);
-	unsigned long minimal_solve(class inverse* inv_ptr,
-		unsigned long minimal_bits);
 	void dump_netpath(class inverse* inv_ptr);
 	int dump_netpath_pat(class inverse* inv_ptr);
+	unsigned long get_bits(unsigned long bits, int position, int number);
+	double get_inv_total(cxxSolution* solution_ptr, const char* elt);
+	cxxSolutionIsotope* get_isotope(cxxSolution* solution_ptr, const char* elt);
+	int inverse_models(void);
+	int isotope_balance_equation(class inverse* inv_ptr, int row, int n);
+	unsigned long minimal_solve(class inverse* inv_ptr,
+		unsigned long minimal_bits);
 	int next_set_phases(class inverse* inv_ptr, int first_of_model_size,
 		int model_size);
 	int phase_isotope_inequalities(class inverse* inv_ptr);
-	int print_model(class inverse* inv_ptr);
-	int punch_model_heading(class inverse* inv_ptr);
-	int punch_model(class inverse* inv_ptr);
+	int post_mortem(void);
 	void print_isotope(FILE* netpath_file, cxxSolution* solution_ptr,
 		const char* elt, const char* string);
+	int print_model(class inverse* inv_ptr);
 	void print_total(FILE* netpath_file, cxxSolution* solution_ptr,
 		const char* elt, const char* string);
 	void print_total_multi(FILE* netpath_file, cxxSolution* solution_ptr,
 		const char* string, const char* elt0,
 		const char* elt1, const char* elt2, const char* elt3,
 		const char* elt4);
-
 	void print_total_pat(FILE* netpath_file, const char* elt,
 		const char* string);
+	int punch_model_heading(class inverse* inv_ptr);
+	int punch_model(class inverse* inv_ptr);
 	int range(class inverse* inv_ptr, unsigned long cur_bits);
 	int save_bad(unsigned long bits);
 	int save_good(unsigned long bits);
 	int save_minimal(unsigned long bits);
 	unsigned long set_bit(unsigned long bits, int position, int value);
-	int setup_inverse(class inverse* inv_ptr);
 	int set_initial_solution(int n_user_old, int n_user_new);
+	bool set_isotope_unknowns(class inverse* inv_ptrs);
 	int set_ph_c(class inverse* inv_ptr,
 		int i, cxxSolution* soln_ptr_orig, int n_user_new,
 		LDBLE d_alk, LDBLE ph_factor, LDBLE alk_factor);
+	int setup_inverse(class inverse* inv_ptr);
 	int shrink(class inverse* inv_ptr, LDBLE* array_in,
 		LDBLE* array_out, int* k, int* l, int* m, int* n,
 		unsigned long cur_bits, LDBLE* delta_l, int* col_back_l,
@@ -342,6 +329,7 @@ public:
 	int subset_bad(unsigned long bits);
 	int subset_minimal(unsigned long bits);
 	int superset_minimal(unsigned long bits);
+	bool test_cl1_solution(void);
 	int write_optimize_names(class inverse* inv_ptr);
 
 	// isotopes.cpp -------------------------------
