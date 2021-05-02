@@ -61,6 +61,14 @@
 
 #include "nvector.h"			/* generic M_Env and N_Vector */
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 N_Vector
 N_VNew(integertype n, M_Env machEnv)
 {

@@ -2,13 +2,20 @@
 //
 //////////////////////////////////////////////////////////////////////
 #if defined MULTICHART
+#include "Phreeqc.h"
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
 #include "ChartHandler.h"
-#include "phreeqc.h"
 #include <iostream>
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

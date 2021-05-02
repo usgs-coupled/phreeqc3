@@ -9,6 +9,15 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /*   
      Calling sequence 
 
@@ -163,7 +172,8 @@ store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_facto
 {
 	int i, j;
 	int row_dim = row_dim_in + 1;
-	if (tally_table == NULL)
+	//if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("Tally table not defined, get_tally_table_rows_columns",
@@ -236,7 +246,7 @@ get_tally_table_rows_columns(int *rows, int *columns)
 {
 	*rows = 0;
 	*columns = 0;
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("tally table not defined, get_tally_table_rows_columns",
@@ -257,7 +267,7 @@ get_tally_table_row_heading(int row, char *string)
 	 *  row is C row number
 	 */
 	strcpy(string, "");
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("Tally table not defined, get_tally_table row_heading",
@@ -286,7 +296,7 @@ get_tally_table_column_heading(int column, int *type, char *string)
 	 */
 	*type = -1;
 	strcpy(string, "");
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("tally table not defined, get_tally_table_column_heading",
@@ -312,7 +322,7 @@ free_tally_table(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i, k;
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 		return (OK);
 	for (i = 0; i < count_tally_table_columns; i++)
 	{
@@ -324,7 +334,7 @@ free_tally_table(void)
 				tally_table[i].total[k]);
 		}
 	}
-	tally_table = (class tally *) free_check_null(tally_table);
+	//tally_table = (class tally *) free_check_null(tally_table);
 	t_buffer = (class tally_buffer *) free_check_null(t_buffer);
 	return (OK);
 }
@@ -1201,10 +1211,11 @@ extend_tally_table(void)
 	 * adds another column to tally_table
 	 * increments number of columns
 	 */
-	tally_table = (class tally *) PHRQ_realloc((void *) tally_table,
-		(count_tally_table_columns + 1) * sizeof(class tally));
-	if (tally_table == NULL)
-		malloc_error();
+	//tally_table = (class tally *) PHRQ_realloc((void *) tally_table,
+	//	(count_tally_table_columns + 1) * sizeof(class tally));
+	//if (tally_table == NULL)
+	//	malloc_error();
+	tally_table.resize(count_tally_table_columns + 1);
 	for (i = 0; i < 3; i++)
 	{
 		tally_table[count_tally_table_columns].total[i] = (class tally_buffer *)

@@ -98,6 +98,14 @@ static void Vaxpy_Serial(realtype a, N_Vector x, N_Vector y);
 /* x <- ax */
 static void VScaleBy_Serial(realtype a, N_Vector x);
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /********************* Exported Functions ************************/
 
 /* Serial implementation of the machine environment

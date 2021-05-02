@@ -12,6 +12,15 @@
 #define SCALE_EPSILON .0009765625
 #define SCALE_WATER   1.
 #define SCALE_ALL     1.
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 inverse_models(void)

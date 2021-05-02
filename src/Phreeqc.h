@@ -1,7 +1,16 @@
 #ifndef _INC_PHREEQC_H
 #define _INC_PHREEQC_H
 #if defined(WIN32)
-#include <windows.h>
+#  if defined(PHREEQCI_GUI)
+#    ifndef WINVER
+#      define WINVER 0x0400
+#    endif
+#    include <afx.h>
+#  endif
+#  include <windows.h>
+#  if defined(PHREEQCI_GUI)
+#    include "../../resource.h"
+#  endif
 #endif
 #if defined(WIN32_MEMORY_DEBUG)
 #define _CRTDBG_MAP_ALLOC
@@ -774,8 +783,6 @@ public:
 	class spread_row* string_to_spread_row(char* string);
 #ifdef PHREEQCI_GUI
 	void add_row(class spread_row* spread_row_ptr);
-	void copy_defaults(class defaults* dest_ptr,
-		class defaults* src_ptr);
 	void free_spread(void);
 	class spread_row* copy_row(class spread_row* spread_row_ptr);
 #endif
@@ -1732,7 +1739,8 @@ protected:
 	/* tally.cpp ------------------------------- */
 	class tally_buffer* t_buffer;
 	size_t tally_count_component;
-	class tally* tally_table;
+	//class tally* tally_table;
+	std::vector<class tally> tally_table;
 	size_t count_tally_table_columns;
 	size_t count_tally_table_rows;
 

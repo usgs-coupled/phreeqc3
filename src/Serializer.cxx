@@ -9,6 +9,15 @@
 #include "PPassemblage.h"
 #include "SSassemblage.h"
 #include "Surface.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 Serializer::Serializer(PHRQ_io *io)
 	: PHRQ_base(io)
 {

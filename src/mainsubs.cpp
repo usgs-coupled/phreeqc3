@@ -17,6 +17,14 @@
 #include <windows.h>
 #endif
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 initialize(void)
@@ -69,12 +77,10 @@ initialize(void)
 #ifdef PHREEQCI_GUI
 	g_spread_sheet.heading            = NULL;
 	g_spread_sheet.units              = NULL;
-	g_spread_sheet.count_rows         = 0;
-	g_spread_sheet.rows               = NULL;
 	g_spread_sheet.defaults.units     = NULL;
-	g_spread_sheet.defaults.count_iso = 0;
-	g_spread_sheet.defaults.iso       = NULL;
 	g_spread_sheet.defaults.redox     = NULL;
+	assert(g_spread_sheet.rows.empty());
+	assert(g_spread_sheet.defaults.iso.empty());
 #endif
 
 	// Initialize cvode
@@ -427,7 +433,7 @@ initial_solutions(int print)
 			print_all();
 			/* free_model_allocs(); */
 // remove pr_in
-			for (int i = 0; i < count_unknowns; i++)
+			for (size_t i = 0; i < count_unknowns; i++)
 			{
 				if (x[i]->type == SOLUTION_PHASE_BOUNDARY)
 					x[i]->phase->pr_in = false;
@@ -991,7 +997,7 @@ xexchange_save(int n_user)
  *   Save exchanger assemblage into structure exchange with user
  *   number n_user.
  */
-	int i, j;
+	size_t i, j;
 	char tokens[MAX_LENGTH];
 
 	LDBLE charge;
@@ -1031,7 +1037,7 @@ xexchange_save(int n_user)
 			count_elts = 0;
 			paren_count = 0;
 			charge = 0.0;
-			for (j = 0; j < (int)species_list.size(); j++)
+			for (j = 0; j < species_list.size(); j++)
 			{
 				if (species_list[j].master_s == x[i]->master[0]->s)
 				{

@@ -1,15 +1,10 @@
-#if defined(WIN32) && !defined(__GNUC__)
-#include <windows.h>
-#if defined(PHREEQCI_GUI)
-#include "../../resource.h"
-#endif
-#else
+#if !(defined(WIN32) && !defined(__GNUC__))
 #include <assert.h>
 #define _ASSERTE assert
 #endif
 #include <stdlib.h>
-#include "PBasic.h"
 #include "Phreeqc.h"
+#include "PBasic.h"
 #include "phqalloc.h"
 #include "NameDouble.h"
 #include "Utils.h"
@@ -28,6 +23,14 @@
 #define Isspace(c)  isspace(c)	/* or "((c) == ' ')" if preferred */
 #define toklength       20
 typedef long chset[9];
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /* Output from p2c, the Pascal-to-C translator */
 /* From input file "basic.p" */
@@ -2138,6 +2141,7 @@ factor(struct LOC_exec * LINK)
 		else {
 			n.UU.val = 0;
 		}
+		name = (char*)PhreeqcPtr->free_check_null((void*) name);
 	}
 	break;
 

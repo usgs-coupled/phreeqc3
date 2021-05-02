@@ -63,6 +63,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Phreeqc.h"
 #include "cvdense.h"
 #include "cvode.h"
 #include "dense.h"
@@ -71,7 +72,6 @@
 #include "sundialsmath.h"
 
 
-#include "Phreeqc.h"
 #if !defined(WIN32_MEMORY_DEBUG)
 #define malloc PHRQ_malloc
 #endif
@@ -149,6 +149,15 @@ static void CVDenseDQJac(integertype N, DenseMat J, RhsFn f, void *f_data,
 						 long int *nfePtr, N_Vector vtemp1,
 						 N_Vector vtemp2, N_Vector vtemp3);
 
+
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /*************** CVDenseDQJac ****************************************
 

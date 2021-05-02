@@ -15,6 +15,13 @@
 #include "Temperature.h"
 #include "SSassemblage.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //const const_iso Phreeqc::iso_defaults[] = {
 //	{"13C", -10, 1},
@@ -1089,7 +1096,7 @@ void Phreeqc::init(void)
 	/* tally.cpp ------------------------------- */
 	t_buffer                = NULL;
 	tally_count_component   = 0;
-	tally_table             = NULL;
+	//tally_table             = NULL;
 	count_tally_table_columns = 0;
 	count_tally_table_rows  = 0;
 	/* transport.cpp ------------------------------- */

@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 #ifdef MULTICHART
+#include "Phreeqc.h"
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
@@ -12,11 +13,18 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
-#include "Phreeqc.h"
 #include "phqalloc.h"
 
 #include "Form1.h"
 using namespace zdg_ui2;
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
