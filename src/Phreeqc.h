@@ -288,7 +288,13 @@ public:
 	unsigned long get_bits(unsigned long bits, int position, int number);
 	double get_inv_total(cxxSolution* solution_ptr, const char* elt);
 	cxxSolutionIsotope* get_isotope(cxxSolution* solution_ptr, const char* elt);
+	class inverse* inverse_alloc(void);
+	static int inverse_compare(const void* ptr1, const void* ptr2);
+	int inverse_delete(int i);
+	static int inverse_isotope_compare(const void* ptr1, const void* ptr2);
 	int inverse_models(void);
+	class inverse* inverse_search(int n_user, int* n);
+	int inverse_sort(void);
 	int isotope_balance_equation(class inverse* inv_ptr, int row, int n);
 	unsigned long minimal_solve(class inverse* inv_ptr,
 		unsigned long minimal_bits);
@@ -818,12 +824,6 @@ public:
 	//
 	enum entity_type get_entity_enum(char* name);
 	//
-	class inverse* inverse_alloc(void);
-	int inverse_delete(int i);
-	static int inverse_isotope_compare(const void* ptr1, const void* ptr2);
-	class inverse* inverse_search(int n_user, int* n);
-	int inverse_sort(void);
-	//
 	void Logk_store(const std::string& name_in, class Logk& lk);
 	std::map<std::string, class Logk>::iterator 
 		Logk_search(const std::string& name_in);
@@ -863,8 +863,6 @@ public:
 	int unknown_delete(int i);
 	int unknown_free(class unknown* unknown_ptr);
 	int entity_exists(const char* name, int n_user);
-	static int inverse_compare(const void* ptr1, const void* ptr2);
-	int inverse_free(class inverse* inverse_ptr);
 	static int rate_compare(const void* ptr1, const void* ptr2);
 	static int rate_compare_string(const void* ptr1, const void* ptr2);
 	static int species_list_compare(const void* ptr1, const void* ptr2);

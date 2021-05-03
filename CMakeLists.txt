@@ -42,6 +42,8 @@ src/GasComp.cxx
 src/GasComp.h
 src/GasPhase.cxx
 src/GasPhase.h
+src/Inverse.h
+src/Inverse.cpp
 src/ISolution.cxx
 src/ISolution.h
 src/ISolutionComp.cxx
@@ -142,8 +144,6 @@ src/gases.cpp
 src/global_structures.h
 src/input.cpp
 src/integrate.cpp
-src/Inverse.h
-src/inverse.cpp
 src/isotopes.cpp
 src/kinetics.cpp
 src/mainsubs.cpp

@@ -19,7 +19,6 @@ public:
 	inverse()
 	{
 		n_user = -1;
-		description = NULL;
 		new_def = FALSE;
 		minimal = FALSE;
 		range = FALSE;
@@ -48,7 +47,7 @@ public:
 		//pat.clear();
 	}
 	int n_user;
-	char* description;
+	std::string description;
 	int new_def;
 	int minimal;
 	int range;
