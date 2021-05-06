@@ -441,6 +441,8 @@ set(mytest_MISC
   angus.dat
   anh_nacl.csv
   anh_P_100tc.csv
+  anh_P_150tc.csv
+  anh_P_200tc.csv
   Apelbl_Na2CO3.dat
   Barite_NaCl.dat
   barite_tc.dat
@@ -452,6 +454,8 @@ set(mytest_MISC
   cc_P.dat
   cc_tc100.dat
   CH4_25C.dat
+  CH4_50C.dat
+  CH4_100C.dat
   CO2_4M_NaCl.dat
   CO2_Na2SO4.dat
   CO2_t30.dat
@@ -470,6 +474,9 @@ set(mytest_MISC
   eco.dat
   eq_phase_mod.dat
   ex15.dat
+  f_CO2_50.dat
+  f_CO2_50.dat
+  f_CO2_75.dat
   f_CO2.dat
   f_CO2.dat
   gas_no_redox.dat
@@ -486,6 +493,8 @@ set(mytest_MISC
   LangmuirAs_wateq4f.dat
   mahoney.dat
   McBride_rho.tsv
+  McBride_rho2.tsv
+  McBride_rho3.tsv
   MgSO4.csv
   mV_SO4_rho.dat
   mV1_rho.dat
