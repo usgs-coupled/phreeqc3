@@ -2,13 +2,12 @@ name: CMake
 
 on:
   push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  # Set PHREEQC_UNIT_TESTING to anything to prevent having to close the chart windows and saving the chart to USER_GRAPH.png
+  PHREEQC_UNIT_TESTING: TRUE
 
 jobs:
   build:
@@ -18,24 +17,25 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        CONFIGS: [Release, ClrRelease]
+
     steps:
     - uses: actions/checkout@v2
-
-    - name: Check space
-      run: Get-PSDrive
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.CONFIGS}}
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{matrix.CONFIGS}}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
+      run: ctest -C ${{matrix.CONFIGS}}
       

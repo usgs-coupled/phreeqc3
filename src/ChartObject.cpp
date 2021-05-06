@@ -117,6 +117,11 @@ cxxNumKeyword(io)
 	batch_background = true;
 	batch_grid = true;
 	batch = ChO_NO_BATCH;
+
+	if (::getenv("PHREEQC_UNIT_TESTING") != NULL) {
+		batch = ChO_PNG;
+		batch_fn = "USER_GRAPH.png";
+	}
 }
 
 ChartObject::~ChartObject()
