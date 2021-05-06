@@ -438,10 +438,46 @@ set(FAILS
 
 # mytest misc files
 set(mytest_MISC
+  angus.dat
+  anh_nacl.csv
+  anh_P_100tc.csv
+  Apelbl_Na2CO3.dat
+  Barite_NaCl.dat
+  barite_tc.dat
+  Ca_K2SO4.csv
+  Carnallite.csv
+  casf_na.csv
+  cc_1barCO2.dat
+  cc_p_CO2.dat
+  cc_P.dat
+  cc_tc100.dat
+  CH4_25C.dat
+  CO2_4M_NaCl.dat
+  CO2_Na2SO4.dat
+  CO2_t30.dat
+  CO2_tc.dat
+  co2_VP.dat
+  co2.dat
+  co2.dat
+  co2.dat
+  co2.dat
+  Cub_export.txt
+  Cub_Jdsb_export.txt
+  Cub_JdsbSr.txt
+  Cub_Sr.txt
+  dens.csv
+  densities.dat
   eco.dat
   eq_phase_mod.dat
   ex15.dat
+  f_CO2.dat
+  f_CO2.dat
   gas_no_redox.dat
+  gyps_Na2SO4.csv
+  gyps_NaCl.csv
+  H_K.tsv
+  halite.dat
+  Hebach.dat
   include2
   include3
   include4
@@ -449,15 +485,32 @@ set(mytest_MISC
   kinetic_rates.dat
   LangmuirAs_wateq4f.dat
   mahoney.dat
+  McBride_rho.tsv
+  MgSO4.csv
+  mV_SO4_rho.dat
+  mV1_rho.dat
+  mV2_rho.dat
+  N2_25C.dat
+  Na2SO4.csv
+  Na2SO4.csv
+  NaKCl.csv
   Nardi.dat
+  O2_27.dat
+  P_CO2_Na2SO4.dat
   Pabalan.dat
   pfw.dat
   Phmaster14.dat
   Phreeqc_master_NEA_Ra_Mo_V_MCJ.dat
   pitzer-04.dat
+  Qin_CH4.dat
+  Qin_CO2.dat
   sar.dat
+  SrSO4_P.dat
   THEREDA_PIT_PHRC_r04.dat
   Tipping&Hurley.dat
+  Vm0_tc.dat
+  y_H2O.dat
+  zeta.tsv
 )
 
 # for mytest tests
