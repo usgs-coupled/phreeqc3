@@ -1,0 +1,232 @@
+DATABASE ../database/sit.dat
+SELECTED_OUTPUT 101
+    -file                 sit_edl_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+RATES
+## By pass precipitation
+Goethite
+-start
+10 mole = 0
+20 If (m <= 0) and (SR("Goethite") < 1) Then GoTo 250
+30 S = 0.1 # average BET; suggested value in m2/g
+40 Mm = 106.847 # molar mass in g/mol
+50 If (SR("Goethite") > 1) Then GoTo 250
+########## start dissolution bloc ##########
+60 knu = 1.14815E-08  * exp((-86500 / 8.314) * ((1 / TK) - (1 / 298.15)))
+80 k = knu
+# kinetic data extracted from 92nag/las 93nag/las 08ben/pal
+90 theta = 1 # default value
+100 eta = 1 # default value
+110 rate = S * m * Mm *(m/m0)^0.67 * k * ((1 - SR("Goethite") ^ theta) ^ eta)
+120 GoTo 240
+########## end dissolution bloc ##########
+########## start precipitation bloc ##########
+130 knu = 1.14815E-08 * exp((-86500 / 8.314) * ((1 / TK) - (1 / 298.15)))
+150 kpre = (-1) * knu
+160 theta = 1
+170 eta =  1
+# kinetic data extracted from 92nag/las 93nag/las 08ben/pal
+180 If (m <= 0) then GoTo 210
+190 rate = S * m * Mm *(m/m0)^0.67 * kpre * (ABS(1 - SR("Goethite") ^ theta) ^ eta)
+200 GoTo 240
+#start nucleation
+210 rate = -1e-10
+#end nucleation
+########## end precipitation bloc ##########
+240 mole = rate * Time
+250 Save mole
+-end
+
+SOLUTION_MASTER_SPECIES
+Ntg		Ntg	0	Ntg		28.0134
+
+SOLUTION_SPECIES
+Ntg = Ntg # N2
+	-log_k  0.0
+
+PHASES
+Ntg(g)
+	Ntg = Ntg
+	-analytic -58.453 1.81800e-3  3199  17.909 -27460
+# Dolomite written with Sr and oxyanion incorporation
+CaMgSr(CO3)2
+CaMg0.97Sr0.03(MoO4)0.00011(Sb(OH)6)0.0000033(SeO3)0.00001(CO3)1.9998767 + 1.9998767H+  = 1.9998767HCO3- + 1.000Ca+2 + 0.97Mg+2 + 0.03Sr+2 + 0.00011 MoO4-2 + 0.0000033 Sb(OH)6- + 0.0000033e- + 0.00001 SeO3-2
+     log_k     2.754     
+     delta_h  -60.916    #kJ/mol        #78hel/del,92ajoh
+     -analytic -1.7923812E+3  -2.8963813E-1  9.9363286E+4  6.5115141E+2  -5.6008892E+6
+     #References = LogK/DGf: Internal calculation; DHf/DHr: 78hel/del,92ajoh; S°: 78hel/del,92ajoh; Cp: 95rob/hem; V°: 78hel/del,92ajoh;
+
+SURFACE_MASTER_SPECIES
+        Hfo_s  Hfo_sOH
+        Hfo_w  Hfo_wOH
+       
+SURFACE_SPECIES
+Hfo_wOH = Hfo_wOH
+        log_k 0.0
+Hfo_sOH = Hfo_sOH
+        log_k 0.0
+
+Hfo_sOH + H+ = Hfo_sOH2+
+	log_k	7.29
+Hfo_sOH = Hfo_sO- + H+
+	log_k	-8.93
+Hfo_wOH + H+ = Hfo_wOH2+
+	log_k	7.29
+Hfo_wOH = Hfo_wO- + H+
+	log_k	-8.93
+
+###############################
+####        CATIONS        ####
+###############################
+
+########## Calcium ##########
+#ref : phreeqc.dat
+Hfo_sOH + Ca+2 = Hfo_sOHCa+2
+	log_k	4.97
+Hfo_wOH + Ca+2 = Hfo_wOCa+ + H+
+	log_k	-5.85
+
+########## Magnesium ##########
+#ref : phreeqc.dat
+Hfo_wOH + Mg+2 = Hfo_wOMg+ + H+
+	log_k	-4.6
+
+########## Strontium ##########
+#ref : phreeqc.dat
+Hfo_sOH + Sr+2 = Hfo_sOHSr+2
+	log_k	5.01
+Hfo_wOH + Sr+2 = Hfo_wOSr+ + H+
+	log_k -6.58
+Hfo_wOH + Sr+2 + H2O = Hfo_wOSrOH + 2H+
+	log_k -17.6
+
+###############################
+####        ANIONS         ####
+###############################
+
+########## Sulfur ##########
+#ref : phreeqc.dat
+Hfo_sOH + SO4-2 + H+ = Hfo_sSO4- + H2O
+	log_k	7.78
+Hfo_wOH + SO4-2 + H+ = Hfo_wSO4- + H2O
+	log_k	7.78
+Hfo_sOH + SO4-2 = Hfo_sOHSO4-2
+	log_k	0.79
+Hfo_wOH + SO4-2 = Hfo_wOHSO4-2
+	log_k	0.79
+
+########## Antimony ##########
+#ref : Meima and Comans (1998)
+#Hfo_sOH + Sb(OH)6- + H+ = Hfo_sSb(OH)6 + H2O
+#	log_k	11.33
+#Hfo_wOH + Sb(OH)6- + H+ = Hfo_wSb(OH)6 + H2O
+#	log_k	11.33
+#	#Hfo_sOH + Sb(OH)6- = Hfo_sOHSb(OH)6-
+##	log_k	4.33
+#	#Hfo_wOH + Sb(OH)6- = Hfo_wOHSb(OH)6-
+##	log_k	4.33
+
+########## Fluor ##########
+#ref : phreeqc.dat
+Hfo_wOH + F- + H+ = Hfo_wF + H2O
+	log_k	8.7
+Hfo_wOH + F- = Hfo_wOHF-
+	log_k	1.6
+
+########## Carbonates ##########
+# ref : Van Geen et al., 1994 reoptimized for D&M model #
+Hfo_wOH + CO3-2 + H+ = Hfo_wCO3- + H2O
+	log_k	12.56
+Hfo_wOH + CO3-2 + 2H+= Hfo_wHCO3 + H2O
+	log_k	20.62
+
+########## Molybdenum ##########
+# ref : Gustafsson J.P., 2003
+Hfo_sOH + MoO4-2 = Hfo_sOHMoO4-2
+	log_k	3.14
+Hfo_wOH + MoO4-2 = Hfo_wOHMoO4-2
+	log_k	3.14
+Hfo_sOH + MoO4-2 + H2O + 2H+ = Hfo_sOMo(OH)5
+	log_k	17.8
+Hfo_wOH + MoO4-2 + H2O + 2H+ = Hfo_wOMo(OH)5
+	log_k	17.8
+
+#Sélénite (Dzombak and Morel, 1990; minteq.v4; Dijkstra et al. 2009)
+Hfo_sOH + H(SeO3)- = Hfo_sSeO3- + H2O
+     log_k	4.29
+Hfo_sOH + H(SeO3)- = Hfo_sOHSeO3-2 + H+
+     log_k	-3.23
+Hfo_wOH + H(SeO3)- = Hfo_wSeO3- + H2O
+     log_k	4.29
+Hfo_wOH + H(SeO3)- = Hfo_wOHSeO3-2 + H+
+     log_k	-3.23
+#Selenate (Verbinen et al. 2013)
+Hfo_sOH + SeO4-2 + H+ = Hfo_sOH2SeO4-
+     log_k 11.7
+Hfo_wOH + SeO4-2 + H+ = Hfo_wOH2SeO4-
+     log_k 11.7
+
+END
+
+SOLUTION 1
+	-ph 		7 charge
+	-redox	pe
+	-units	mol/kgw
+	-temp		25
+	-water 	1
+#Max. leached concentration
+Mo	5.5e-06	#pHnatural ANC
+Sb	2e-8
+Se	1.3e-6	#pH=12.9
+
+#Leached concentrations at natural pH
+Si 	4e-4
+K 	1e-4
+Al 	7e-6
+Na	1.7e-4
+S(6)	1e-4
+N(5)	1e-5
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+Calcite		0 		0.67		dissolve_only	
+CaMgSr(CO3)2	0 		0.0285	#dissolve_only
+Aragonite 		0 		0.0496	dissolve_only
+Gypsum 		0 		0.0009	#dissolve_only
+#phases autorisées à précipiter
+Strontianite	0		0
+Ferrihydrite(am)	0		0.0018
+Gibbsite		0		0
+Brucite		0		0
+O2(g)             -0.7
+CO2(g)            -3.4
+SAVE solution 1
+END
+
+KINETICS 1 
+Goethite; 
+-m0 0.001; 
+-step 259200 in 1; 
+-tol 1e-08; 
+-bad_step_max 1000;
+END
+
+SURFACE 1
+Hfo_sOH	Goethite kinetic_reactant 0.005 600
+Hfo_wOH	Goethite kinetic_reactant 0.2
+-eq 1
+#-no_edl
+-donnan
+END
+
+USE solution 1
+USE kinetics 1
+USE surface 1
+END
+

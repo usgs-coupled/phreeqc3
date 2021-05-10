@@ -1398,6 +1398,7 @@ protected:
 	*---------------------------------------------------------------------- */
 	std::vector<class unknown*> x;
 	size_t count_unknowns;
+	size_t sit_aqueous_unknowns;
 	size_t max_unknowns;
 
 	class unknown* ah2o_unknown;
