@@ -413,7 +413,8 @@ succeed: \
 	sys_sort.out \
 	kinetic_rates.out \
 	delta_h.out \
-	uphill_NPa.out
+	uphill_NPa.out \
+	sit_edl.out
 
 # NaX.out
 	

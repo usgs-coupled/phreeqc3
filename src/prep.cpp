@@ -1240,8 +1240,7 @@ build_model(void)
 	}
 	if (dl_type_x != cxxSurface::NO_DL && (/*pitzer_model == TRUE || */sit_model == TRUE)) //DL_pitz
 	{
-		error_msg("-diffuse_layer option not available for Pizer or SIT model",
-				  STOP);
+		warning_msg("-diffuse_layer option not tested for SIT model");
 	}
 /*
  *   Sum diffuse layer water into hydrogen and oxygen mass balances
@@ -1285,6 +1284,7 @@ build_model(void)
 			k++;
 			count_unknowns++;
 		}
+		sit_aqueous_unknowns = count_unknowns - j0;
 	}
 	/*
  *   Rewrite phases to current master species
