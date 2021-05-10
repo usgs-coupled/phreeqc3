@@ -1117,7 +1117,8 @@ model_sit(void)
 			{
 				
 				count_basis_change++;
-				count_unknowns -= (int)this->s_x.size();
+				//count_unknowns -= (int)this->s_x.size();
+				count_unknowns -= sit_aqueous_unknowns;
 				reprep();
 				full_pitzer = false;
 			}
