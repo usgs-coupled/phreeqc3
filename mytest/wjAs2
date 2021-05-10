@@ -1,0 +1,79 @@
+DATABASE ../database/wateq4f.dat
+SELECTED_OUTPUT 101
+    -file                 wjAs2_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+# script for calculating the predominant species for As, Fe Zn, Ca, Mn in one pass;
+PHASES;
+Fix_H+;  H+ = H+;  log_k 0.0;     
+Hydrozincite;  Zn5(OH)6(CO3)2 + 10H+ = 5Zn+2 + 2CO2 + 8H2O;  log_k 45.75 #9.15
+-delta_H -256.5 kJ                       
+#Preis  Gamsjager 2001 ;
+SELECTED_OUTPUT 1; -high_precision true; -reset false; 
+USER_PUNCH 1; # output predominant species;
+ -headings pH pe O2 TC; 
+ 10 nmain = 5 # number of predominant species to extract for each execution of the main loop;      
+ 20 DATA 'As','Fe','Zn','Ca','Mn'; 
+ 30 REM IF STEP_NO = 0 THEN 10000; 
+ 40 PUNCH -LA("H+"), -LA("e-"), SI("O2(g)"), TC;       
+ 50 FOR imain = 1 TO nmain; 
+ 60  p$ = "NA"; 
+ 70  READ main$; 71  j = GET(1); 75  if (j = 0) THEN k = ADD_HEADING(main$);     
+ 80  IF(SI("O2(g)") > -0.677) THEN 81 ELSE 90; 
+ 81  p$ = "O2(g) > 0.21 atm" ; 
+ 82  GOTO 160 # edit constraints as wanted;    
+ 90  h2g = SI("H2(g)") ; 
+ 91  ch4g = SI("CH4(g)");
+ 100  IF(h2g > 0 AND h2g > ch4g) THEN 101 ELSE 110;                        
+ 101  p$ = "H2(g) > 1 atm";
+ 102  GOTO 160;
+ 110  IF(ch4g > 0) THEN 111 ELSE 120;
+ 111  p$ = "CH4(g) > 1 atm" ;
+ 112  GOTO 160;    
+ 120  totel = SYS(main$, n, n$, t$, c);
+ 130  FOR i = 1 TO n;
+ 140    IF(c(i) <= 0) THEN 160 ELSE 141;                         
+ 141    p$ = n$(i);
+ 142    IF (INSTR(p$, "(g)") > 0) THEN 150 ELSE 160;
+ 150  NEXT i;                                         
+ 160  PUNCH p$ #: PRINT "Predominant species for", main$, "=", p$;
+ 170 NEXT imain;
+ 175 PUT(1,1);                             
+ 180 REM PUNCH any extra numeric variables (e.g. contour and carry variables) to output here, lines 181-9999;
+ 10000 REM ;   
+ END ;;
+ SOLUTION 1 WJ1                      # complex water chemistry;  
+ temp   21.6;                                        
+ pH    1.5;  pe    1.69 #100mV from other sample;
+ # redox   pe;  
+ units   mg/L;  density  1;                                 
+ # Alkalinity 12.7 as HCO3- #probably Al;  
+ C  10 as H2CO3 CO2(g) -2;  Cl  179;  F  44;                                     
+ S(6) 1390 as SO4 #reduction of this produces a lot of OH- 1390;  
+ Ca  191;  Mg  43;  Na  93;                               
+ K  12;  Al  25  #25 really;  
+ Si  11.0;  Sr  1.87;  Ba  0.052;  Li  2.7;  Fe  346;                                         
+ Mn  19.7;  As  2.1;  Zn  125;  -water  1 # kg;
+ EQUILIBRIUM_PHASES 1;                                                      
+ # CO2(g) -3.5 #0.01                  # gives CH4 and can reduce to native As;                                             
+ # -force_equality true;  Halite -6.34 10                                                                                  
+ # maintains Na in the system for functioning of Fix_H+;  
+ Fix_H+  -7 NaOH ;  -force_equality true  ;                       
+ Al(OH)3(a)	0 0;  As_native	0 0;  Ba3(AsO4)2	0 0;  Barite 	0 0;  Calcite	    0 0;                            
+ Dolomite	0 0;  Fe(OH)3(a)	0 0;  Fluorite	0 0;  Halloysite	0 0;  Hausmannite	0 0;                
+ Hydrozincite	0 0;  Jarosite(ss)	0 0;  JarositeH	0 0;  Jarosite-Na	0 0;  Manganite	0 0;                        
+ Orpiment	0 0;  Pyrite	 	0 0;  Pyrochroite	0 0;  Pyrolusite	0 0;  Realgar		0 0;        
+ Rhodochrosite	0 0;  Siderite	0 0;  Sphalerite	0 0;  Strontianite	0 0;  ZnO(a)		0 0;  ;             
+ SURFACE 1;   Hfo_sOH Fe(OH)3(a)   equilibrium_phase 0.005 53300 # standard Hfo of DM;                                    
+ Hfo_wOH Fe(OH)3(a)   equilibrium_phase 0.2;; 
+   Hao_sOH Al(OH)3(a)   equilibrium_phase 0.005 7800                         
+ # glorified guesswork only; 
+   Hao_wOH Al(OH)3(a)   equilibrium_phase 0.2;	;
+ SAVE surface 1;
+ SAVE solution 1;            
+ SAVE equilibrium_phases 1;
+ END
