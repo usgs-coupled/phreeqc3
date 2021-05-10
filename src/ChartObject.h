@@ -66,14 +66,8 @@ class ChartObject:public cxxNumKeyword
 	{
 		return this->chart_title;
 	}
-	std::string Get_batch_fn()
-	{
-		return this->batch_fn;
-	}
-	void Set_batch_fn(std::string fn)
-	{
-		this->batch_fn = fn;
-	}
+	std::string Get_batch_fn();
+	void Set_batch_fn(std::string fn);
 	std::vector<std::string> &Get_axis_titles()
 	{
 		return this->axis_titles;
@@ -354,8 +348,8 @@ class ChartObject:public cxxNumKeyword
 					   std::string color = "");
 	void dump(std::ostream & s_oss, unsigned int indent);
 
-	chart_batch_type Get_batch(void) {return this->batch;}
-	void Set_batch(chart_batch_type bt) {this->batch = bt;}
+	chart_batch_type Get_batch(void);
+	void Set_batch(chart_batch_type bt);
 	bool Get_batch_background(void) {return this->batch_background;}
 	void Set_batch_background(bool tf) {this->batch_background = tf;}
 

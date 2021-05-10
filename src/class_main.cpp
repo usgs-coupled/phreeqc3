@@ -386,6 +386,10 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		}
 		screen_msg(sformatf("Input file: %s\n\n", default_name.c_str()));
 		in_file = default_name;
+#if defined(MULTICHART)
+		set_basename(in_file);
+#endif
+
 /*
  *   Open file for output
  */

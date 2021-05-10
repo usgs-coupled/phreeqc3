@@ -117,11 +117,6 @@ cxxNumKeyword(io)
 	batch_background = true;
 	batch_grid = true;
 	batch = ChO_NO_BATCH;
-
-	if (::getenv("PHREEQC_UNIT_TESTING") != NULL) {
-		batch = ChO_PNG;
-		batch_fn = "USER_GRAPH.png";
-	}
 }
 
 ChartObject::~ChartObject()
@@ -475,7 +470,7 @@ ChartObject::Read(CParser & parser)
 					break;
 				}
 
-				this->batch_fn = rest_of_line.substr(0, last);
+				this->Set_batch_fn(rest_of_line.substr(0, last));
 				if (last+1 < rest_of_line.size())
 				{
 					token = rest_of_line.substr(last);
@@ -1359,6 +1354,70 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 	bool detach;
 	bool form_started;
 	*/
+}
+
+ChartObject::chart_batch_type
+ChartObject::Get_batch(void)
+{
+	if (char* ext = std::getenv("PHREEQC_UNIT_TESTING")) {
+		std::string lc_ext(ext);
+		Utilities::str_tolower(lc_ext);
+
+		std::map<std::string, ChartObject::chart_batch_type> ext_to_type;
+		ext_to_type[".emf"]  = ChartObject::ChO_EMF;
+		ext_to_type[".png"]  = ChartObject::ChO_PNG;
+		ext_to_type[".jpg"]  = ChartObject::ChO_JPG;
+		ext_to_type[".gif"]  = ChartObject::ChO_GIF;
+		ext_to_type[".tiff"] = ChartObject::ChO_TIFF;
+		ext_to_type[".bmp"]  = ChartObject::ChO_BMP;
+		ext_to_type[".jpeg"] = ChartObject::ChO_JPG;
+
+		std::map<std::string, ChartObject::chart_batch_type>::const_iterator it = ext_to_type.find(lc_ext);
+		if (it == ext_to_type.end()) {
+			// default to PNG
+			return ChartObject::ChO_PNG;
+		}
+		return it->second;
+	}
+	return batch;
+}
+
+void
+ChartObject::Set_batch(ChartObject::chart_batch_type bt)
+{
+	this->batch = bt;
+}
+
+std::string
+ChartObject::Get_batch_fn()
+{
+	if (std::getenv("PHREEQC_UNIT_TESTING")) {
+		std::map<ChartObject::chart_batch_type, std::string> type_to_ext;
+		type_to_ext[ChartObject::ChO_EMF]  = ".emf";
+		type_to_ext[ChartObject::ChO_PNG]  = ".png";
+		type_to_ext[ChartObject::ChO_GIF]  = ".gif";
+		type_to_ext[ChartObject::ChO_TIFF] = ".tiff";
+		type_to_ext[ChartObject::ChO_BMP]  = ".bmp";
+		type_to_ext[ChartObject::ChO_JPG]  = ".jpeg";
+
+		std::string bn = "USER_GRAPH";
+		if (Phreeqc* ptr = Get_phreeqc()) {
+			if (ptr->get_basename().size()) {
+				bn = ptr->get_basename();
+			}
+		}
+
+		std::ostringstream oss;
+		oss << bn << "." << n_user << type_to_ext[Get_batch()];
+		return oss.str();
+	}
+	return batch_fn;
+}
+
+void
+ChartObject::Set_batch_fn(std::string fn)
+{
+	batch_fn = fn;
 }
 
 const std::vector< std::string >::value_type temp_vopts[] = {

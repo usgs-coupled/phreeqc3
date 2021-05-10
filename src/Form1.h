@@ -843,10 +843,10 @@ namespace zdg_ui2 {
 						format = ImageFormat::Png;
 						break;
 					case 3:
-						format = ImageFormat::Gif;
+						format = ImageFormat::Jpeg;
 						break;
 					case 4:
-						format = ImageFormat::Jpeg;
+						format = ImageFormat::Gif;
 						break;
 					case 5:
 						format = ImageFormat::Tiff;

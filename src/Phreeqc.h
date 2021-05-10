@@ -639,6 +639,8 @@ public:
 	int punch_user_punch(void);
 #if defined MULTICHART
 	int punch_user_graph(void);
+	std::string get_basename(void);
+	void set_basename(std::string filename);
 #endif
 
 	// read.cpp -------------------------------
@@ -1467,6 +1469,7 @@ public:
 		return chart_handler;
 	}
 protected:
+	std::string basename;
 #endif
 
 	/* ----------------------------------------------------------------------

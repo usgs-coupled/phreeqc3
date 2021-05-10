@@ -3550,6 +3550,30 @@ punch_user_graph(void)
 
 	return (OK);
 }
+
+/* ---------------------------------------------------------------------- */
+std::string Phreeqc::
+get_basename(void)
+/* ---------------------------------------------------------------------- */
+{
+	return basename;
+}
+
+/* ---------------------------------------------------------------------- */
+void Phreeqc::
+set_basename(std::string filename)
+/* ---------------------------------------------------------------------- */
+{
+	using namespace System::Runtime::InteropServices;
+
+	System::String^ fn = gcnew System::String(filename.c_str());
+	System::String^ bn = System::IO::Path::GetFileName(fn)->Trim();
+
+	const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(bn)).ToPointer();
+	basename = chars;
+	Marshal::FreeHGlobal(System::IntPtr((void*)chars));
+}
+
 #endif // MULTICHART
 
 char * Phreeqc::

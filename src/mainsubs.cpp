@@ -2223,11 +2223,11 @@ do_status(void)
 			screen_msg("\n");
 		}
 		//pr.headings = TRUE; // set in class_main; not set for IPhreeqc
-#ifndef TESTING
-		LDBLE ext = (double)clock() / CLOCKS_PER_SEC;
-		dup_print(sformatf("End of Run after %g Seconds.", ext), TRUE);
-		screen_msg(sformatf("\nEnd of Run after %g Seconds.\n", ext));
-#endif
+		if (::getenv("PHREEQC_UNIT_TESTING") != NULL) {
+			LDBLE ext = (double)clock() / CLOCKS_PER_SEC;
+			dup_print(sformatf("End of Run after %g Seconds.", ext), TRUE);
+			screen_msg(sformatf("\nEnd of Run after %g Seconds.\n", ext));
+		}
 // appt this gives output when the charts are active...
 		phrq_io->output_flush();
 		phrq_io->error_flush();
