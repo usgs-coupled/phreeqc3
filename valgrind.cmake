@@ -1,0 +1,22 @@
+set(CTEST_SOURCE_DIRECTORY ".")
+set(CTEST_BINARY_DIRECTORY "_valgrind")
+
+##set(ENV{CXXFLAGS} "--coverage")
+set(CTEST_CMAKE_GENERATOR "Ninja")
+set(CTEST_USE_LAUNCHERS 1)
+
+##set(CTEST_COVERAGE_COMMAND "gcov")
+find_program(CTEST_MEMORYCHECK_COMMAND NAMES valgrind)
+#set(CTEST_MEMORYCHECK_COMMAND "/usr/bin/valgrind")
+#set(CTEST_MEMORYCHECK_TYPE "ThreadSanitizer")
+
+ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+ctest_start("Continuous")
+#ctest_configure()
+ctest_configure(OPTIONS "-DCMAKE_BUILD_TYPE=RelWithDebInfo")
+ctest_build()
+##ctest_test()
+##ctest_coverage()
+##ctest_memcheck(START 426 END 426)
+ctest_memcheck()
+##ctest_submit()
