@@ -3800,6 +3800,21 @@ tidy_min_surface(void)
 			*/
 			for (int jj = 0; jj < count_elts; jj++)
 			{
+				if (elt_list[jj].elt->primary == NULL)
+				{
+					error_string = sformatf("Primary master species missing for %s",
+						elt_list[jj].elt->name);
+					error_msg(error_string, CONTINUE);
+					break;
+				}
+				if (elt_list[jj].elt->primary->s == NULL)
+				{
+					error_string = sformatf(
+						"Species missing for %s", elt_list[jj].elt->name);
+					error_msg(error_string, CONTINUE);
+					break;
+				}
+					
 				if (elt_list[jj].elt->primary->s->type != SURF
 					&& elt_list[jj].coef < 0
 					//&& elt_list[jj].elt->primary->s != s_hplus

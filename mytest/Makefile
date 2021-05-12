@@ -414,7 +414,10 @@ succeed: \
 	kinetic_rates.out \
 	delta_h.out \
 	uphill_NPa.out \
-	sit_edl.out
+	sit_edl.out \
+	Hao.out \
+	Hao_wateq4fhao.out \
+	wjAs2.out
 
 # NaX.out
 	
