@@ -445,21 +445,20 @@ set(mytest_MISC
   anh_P_200tc.csv
   Apelbl_Na2CO3.dat
   Barite_NaCl.dat
-  barite_tc.dat
-  Ca_K2SO4.csv
+  Barite_tc.dat
   Carnallite.csv
   casf_na.csv
   cc_1barCO2.dat
   cc_p_CO2.dat
   cc_P.dat
   cc_tc100.dat
-  CH4_25C.dat
-  CH4_50C.dat
-  CH4_100C.dat
-  CO2_4M_NaCl.dat
+  ch4_25c.dat
+  ch4_50c.dat
+  ch4_100c.dat
+  co2_4m_NaCl.dat
   CO2_Na2SO4.dat
-  CO2_t30.dat
-  CO2_tc.dat
+  co2_t30.dat
+  co2_tc.dat
   co2_VP.dat
   co2.dat
   co2.dat
@@ -495,17 +494,16 @@ set(mytest_MISC
   McBride_rho.tsv
   McBride_rho2.tsv
   McBride_rho3.tsv
-  MgSO4.csv
+  mgso4.csv
   mV_SO4_rho.dat
   mV1_rho.dat
   mV2_rho.dat
-  N2_25C.dat
-  Na2SO4.csv
-  Na2SO4.csv
-  NaKCl.csv
+  n2_25C.dat
+  na2so4.csv
+  nakcl.csv
   Nardi.dat
   O2_27.dat
-  P_CO2_Na2SO4.dat
+  p_CO2_Na2SO4.dat
   Pabalan.dat
   pfw.dat
   Phmaster14.dat
@@ -514,7 +512,7 @@ set(mytest_MISC
   Qin_CH4.dat
   Qin_CO2.dat
   sar.dat
-  SrSO4_P.dat
+  srso4_P.dat
   THEREDA_PIT_PHRC_r04.dat
   Tipping&Hurley.dat
   Vm0_tc.dat
