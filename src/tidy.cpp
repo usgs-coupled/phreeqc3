@@ -1824,7 +1824,9 @@ tidy_punch(void)
 		for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
 		{
 			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_totals()[i];
-			pair_ptr.second = master_bsearch(pair_ptr.first.c_str());
+			std::string noplus = pair_ptr.first;
+			replace(noplus, "+", "");
+			pair_ptr.second = master_bsearch(noplus.c_str());
 		}
 
 		/* molalities */
