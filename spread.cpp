@@ -1136,7 +1136,7 @@ copy_token_tab(std::string& token, const char **cptr)
  *      EOL,
  *      UNKNOWN.
  */
-	int i, j, return_value;
+	int i, return_value;
 	char c;
 /*
  *   Strip leading spaces
