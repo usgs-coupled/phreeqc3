@@ -1,0 +1,22 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 TotalPlus_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+SOLUTION
+C(4) 1
+Fe(3) 1 charge
+SELECTED_OUTPUT 1
+-reset false
+-file TotalPlus.sel
+-total Fe(+3) C(+4) Fe(3) C(4)
+USER_PUNCH 1
+-headings UP_Fe+3 UP_C+4 UP_Fe3 UP_C4 UP_totmol_Fe+3 UP_totmol_C+4 UP_totmol_Fe3 UP_totmol_C4 
+10 PUNCH TOT("Fe(+3)"), TOT("C(+4)") TOT("Fe(3)"), TOT("C(4)")
+20 PUNCH TOTMOL("Fe(+3)"), TOTMOL("C(+4)") TOTMOL("Fe(3)"), TOTMOL("C(4)")
+END

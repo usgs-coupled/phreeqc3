@@ -417,7 +417,8 @@ succeed: \
 	sit_edl.out \
 	Hao.out \
 	Hao_wateq4fhao.out \
-	wjAs2.out
+	wjAs2.out \
+	TotalPlus.out
 
 # NaX.out
 	

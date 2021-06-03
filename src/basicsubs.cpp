@@ -2456,7 +2456,9 @@ total(const char *total_name)
 	{
 		return (total_o_x / mass_water_aq_x);
 	}
-	master_ptr = master_bsearch(total_name);
+	std::string noplus = total_name;
+	replace(noplus, "+", "");
+	master_ptr = master_bsearch(noplus.c_str());
 	t = 0.0;
 	if (master_ptr == NULL)
 	{
@@ -2525,7 +2527,9 @@ total_mole(const char *total_name)
 	{
 		return (total_o_x);
 	}
-	master_ptr = master_bsearch(total_name);
+	std::string noplus = total_name;
+	replace(noplus, "+", "");
+	master_ptr = master_bsearch(noplus.c_str());
 	t = 0.0;
 	if (master_ptr == NULL)
 	{

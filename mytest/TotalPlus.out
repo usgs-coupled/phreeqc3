@@ -1,0 +1,136 @@
+   Input file: TotalPlus
+  Output file: TotalPlus.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 TotalPlus_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION
+	C(4) 1
+	Fe(3) 1 charge
+	SELECTED_OUTPUT 1
+	reset false
+	file TotalPlus.sel
+	totals Fe(+3) C(+4) Fe(3) C(4)
+	USER_PUNCH 1
+	headings UP_Fe+3 UP_C+4 UP_Fe3 UP_C4 UP_totmol_Fe+3 UP_totmol_C+4 UP_totmol_Fe3 UP_totmol_C4 
+	10 PUNCH TOT("Fe(+3)"), TOT("C(+4)") TOT("Fe(3)"), TOT("C(4)")
+	20 PUNCH TOTMOL("Fe(+3)"), TOTMOL("C(+4)") TOTMOL("Fe(3)"), TOTMOL("C(4)")
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)              1.000e-03   1.000e-03
+	Fe(3)             1.877e-03   1.877e-03  Charge balance
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 35
+                          Density (g/cm³)  =   0.99726
+                               Volume (L)  =   1.00299
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   8.323e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.877e-03
+                       Total CO2 (mol/kg)  =   1.000e-03
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   4.049e-14
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.00
+                               Iterations  =   7
+                                  Total H  = 1.110181e+02
+                                  Total O  = 5.551385e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.046e-07   1.012e-07    -6.981    -6.995    -0.014     -4.11
+   H+              1.032e-07   1.000e-07    -6.986    -7.000    -0.014      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(4)          1.000e-03
+   HCO3-           8.209e-04   7.949e-04    -3.086    -3.100    -0.014     24.68
+   CO2             1.787e-04   1.787e-04    -3.748    -3.748     0.000     34.43
+   CO3-2           4.241e-07   3.728e-07    -6.373    -6.429    -0.056     -5.28
+   (CO2)2          5.862e-10   5.863e-10    -9.232    -9.232     0.000     68.87
+Fe(3)         1.877e-03
+   Fe(OH)3         1.036e-03   1.036e-03    -2.985    -2.984     0.000     (0)  
+   Fe(OH)2+        8.309e-04   8.046e-04    -3.080    -3.094    -0.014     (0)  
+   Fe(OH)4-        9.762e-06   9.452e-06    -5.010    -5.024    -0.014     (0)  
+   FeOH+2          2.766e-07   2.430e-07    -6.558    -6.614    -0.056     (0)  
+   Fe+3            4.985e-12   3.764e-12   -11.302   -11.424    -0.122     (0)  
+   Fe2(OH)2+4      2.679e-12   1.589e-12   -11.572   -11.799    -0.227     (0)  
+   Fe3(OH)4+5      6.041e-13   2.672e-13   -12.219   -12.573    -0.354     (0)  
+H(0)          1.416e-25
+   H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     28.61
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     30.40
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  CO2(g)           -2.28     -3.75   -1.47  CO2
+  Fe(OH)3(a)        4.68      9.58    4.89  Fe(OH)3
+  Goethite         10.58      9.58   -1.00  FeOOH
+  H2(g)           -22.05    -25.15   -3.10  H2
+  H2O(g)           -1.50     -0.00    1.50  H2O
+  Hematite         23.16     19.15   -4.01  Fe2O3
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 0.117 Seconds.
+-------------------------------
+
