@@ -1798,7 +1798,22 @@ convert_units(cxxSolution *solution_ptr)
 /*
  *   Convert units
  */
-	sum_solutes = exp(-solution_ptr->Get_ph() * LOG_10);
+	double g_h, g_oh;
+	compute_gfw("H", &g_h);
+	compute_gfw("OH", &g_oh);
+	if (density_iterations == 0)
+	{
+		sum_solutes = exp(-solution_ptr->Get_ph() * LOG_10) * g_h;
+		sum_solutes += exp((-14 + solution_ptr->Get_ph()) * LOG_10) * g_oh;
+	}
+	else
+	{
+		double soln_vol = calc_solution_volume();
+		sum_solutes = s_hplus->moles / soln_vol * g_h;
+		species* s_oh = s_search("OH-");
+		sum_solutes += s_oh->moles / soln_vol * g_oh;
+	}
+
 	cxxISolution *initial_data_ptr = solution_ptr->Get_initial_data();
 	std::map<std::string, cxxISolutionComp >::iterator jit = initial_data_ptr->Get_comps().begin();
 	for ( ; jit != initial_data_ptr->Get_comps().end(); jit++)

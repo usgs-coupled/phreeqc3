@@ -1,0 +1,48 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 NaOH_density_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+USER_PRINT
+10 PRINT "Na, mol/L: ", TOTMOL("Na") / SOLN_VOL
+SOLUTION 1
+-units mol/L
+pH 14 charge
+-density 1.03943 calc # generates the same density
+-units mol/L
+Na 1
+-water 0.5
+END
+SOLUTION 1
+-units mol/L
+pH 14 charge
+-density 1.0401 # generates 1 mol/L
+-units mol/L
+Na 1
+-water 0.5
+END
+USER_PRINT
+10 PRINT "Cl, mol/L: ", TOTMOL("Cl") / SOLN_VOL
+SOLUTION 2
+-units mol/L
+pH 0 charge
+-density 1 calc
+Cl 1
+-water 0.5
+END
+USER_PRINT
+10 PRINT "Cl, mol/L: ", TOTMOL("Cl") / SOLN_VOL
+20 PRINT "Na, mol/L: ", TOTMOL("Na") / SOLN_VOL
+SOLUTION 3
+-units mol/L
+pH 7 charge
+-density 1 calc
+Cl 1
+Na 1
+-water 0.5
+END

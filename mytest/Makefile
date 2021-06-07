@@ -418,7 +418,8 @@ succeed: \
 	Hao.out \
 	Hao_wateq4fhao.out \
 	wjAs2.out \
-	TotalPlus.out
+	TotalPlus.out \
+	NaOH_density.out
 
 # NaX.out
 	
