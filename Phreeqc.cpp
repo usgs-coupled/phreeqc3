@@ -822,6 +822,7 @@ void Phreeqc::init(void)
 	paren_count             = 0;
 	iterations              = 0;
 	gamma_iterations        = 0;
+	density_iterations = 0;
 	run_reactions_iterations= 0;
 	overall_iterations      = 0;
 	max_line				= MAX_LINE;
@@ -1563,6 +1564,7 @@ Phreeqc::InternalCopy(const Phreeqc* pSrc)
 	paren_count = 0;
 	iterations = 0;
 	gamma_iterations = 0;
+	density_iterations = 0;
 	run_reactions_iterations = 0;
 	overall_iterations = 0;
 	free_check_null(line);

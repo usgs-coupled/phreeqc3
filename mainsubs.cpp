@@ -392,6 +392,7 @@ initial_solutions(int print)
 			int count_iterations = 0;
 			std::string input_units = solution_ref.Get_initial_data()->Get_units();
 			cxxISolution *initial_data_ptr = solution_ref.Get_initial_data();
+			density_iterations = 0;
 			for (;;)
 			{
 				prep();
@@ -408,6 +409,7 @@ initial_solutions(int print)
 					set(TRUE);
 					converge = model();
 				}
+				density_iterations++;
 				if (solution_ref.Get_initial_data()->Get_calc_density())
 				{
 					solution_ref.Set_density(calc_dens());
@@ -436,6 +438,7 @@ initial_solutions(int print)
 			add_isotopes(solution_ref);
 			punch_all();
 			print_all();
+			density_iterations = 0;
 			/* free_model_allocs(); */
 // remove pr_in
 			for (size_t i = 0; i < count_unknowns; i++)

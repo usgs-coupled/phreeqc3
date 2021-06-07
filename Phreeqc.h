@@ -1502,6 +1502,7 @@ protected:
 	int paren_count;
 	int iterations;
 	int gamma_iterations;
+	size_t density_iterations;
 	int run_reactions_iterations;
 	int overall_iterations;
 
