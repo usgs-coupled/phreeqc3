@@ -13,7 +13,7 @@ ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
-	PHREEQC=../_build_vs/Release/phreeqc.exe
+	PHREEQC=../_build_vs_master/Release/phreeqc.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -415,9 +415,7 @@ succeed: \
 	delta_h.out \
 	uphill_NPa.out \
 	sit_edl.out \
-	Hao.out \
 	Hao_wateq4fhao.out \
-	wjAs2.out \
 	TotalPlus.out \
 	NaOH_density.out
 
@@ -437,8 +435,9 @@ fail: \
 	missing_surf_related_kin.out \
 	feedwater.out \
 	Syn1_acidbase.out \
-	IllitisationCEC.out 
-
+	IllitisationCEC.out \
+	Hao.out \
+	wjAs2.out 
 
 current: current2.out \
 	Clogging.out \

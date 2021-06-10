@@ -1798,6 +1798,9 @@ convert_units(cxxSolution *solution_ptr)
 /*
  *   Convert units
  */
+#ifdef ORIGINAL
+	sum_solutes = exp(-solution_ptr->Get_ph() * LOG_10);
+#else
 	double g_h, g_oh;
 	compute_gfw("H", &g_h);
 	compute_gfw("OH", &g_oh);
@@ -1813,7 +1816,7 @@ convert_units(cxxSolution *solution_ptr)
 		species* s_oh = s_search("OH-");
 		sum_solutes += s_oh->moles / soln_vol * g_oh;
 	}
-
+#endif
 	cxxISolution *initial_data_ptr = solution_ptr->Get_initial_data();
 	std::map<std::string, cxxISolutionComp >::iterator jit = initial_data_ptr->Get_comps().begin();
 	for ( ; jit != initial_data_ptr->Get_comps().end(); jit++)

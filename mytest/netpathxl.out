@@ -5765,19 +5765,16 @@ Model contains minimum number of phases.
 ===============================================================================
 
 
-	CL1: Roundoff errors in optimization.
-	     Try using -multiple_precision in INVERSE_MODELING
-
 Solution 33: Solution after simulation 3.
 
                          Input          Delta    Input+Delta
              pH      7.108e+00  +   0.000e+00  =   7.108e+00
              Al      0.000e+00  +   0.000e+00  =   0.000e+00
-     Alkalinity      4.836e-03  +   0.000e+00  =   4.836e-03
+     Alkalinity      4.836e-03  +  -1.000e-05  =   4.826e-03
              Br      0.000e+00  +   0.000e+00  =   0.000e+00
           C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
            C(4)      5.681e-03  +   0.000e+00  =   5.681e-03
-             Ca      2.528e-03  +   5.000e-06  =   2.533e-03
+             Ca      2.528e-03  +   0.000e+00  =   2.528e-03
              Cl      7.000e-05  +   0.000e+00  =   7.000e-05
            H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
               I      0.000e+00  +   0.000e+00  =   0.000e+00
@@ -5816,7 +5813,7 @@ Solution 15:  01S-03E-03 ABA 1        Vendome Well
      Alkalinity      5.563e-03  +  -5.563e-04  =   5.006e-03
              Br      2.607e-05  +   0.000e+00  =   2.607e-05
           C(-4)      0.000e+00  +   0.000e+00  =   0.000e+00
-           C(4)      6.364e-03  +   0.000e+00  =   6.364e-03
+           C(4)      6.364e-03  +  -6.019e-04  =   5.762e-03
              Ca      2.163e-03  +   2.163e-04  =   2.380e-03
              Cl      1.577e-02  +  -7.006e-04  =   1.507e-02
            H(0)      0.000e+00  +   0.000e+00  =   0.000e+00
@@ -5835,15 +5832,14 @@ Solution fractions:                   Minimum        Maximum
    Solution  15      1.000e+00      0.000e+00      0.000e+00
 
 Phase mole transfers:                 Minimum        Maximum   Formula             (Approximate SI in solution 34, 33, 31, 15 at 292 K,   1 atm)
-        Calcite     -2.385e-03      0.000e+00      0.000e+00   CaCO3                      (      ,  0.01,  0.20, -0.07)
+        Calcite     -2.380e-03      0.000e+00      0.000e+00   CaCO3                      (      ,  0.01,  0.20, -0.07)
        Dolomite      1.237e-03      0.000e+00      0.000e+00   CaMg(CO3)2                 (      , -1.96,  0.37, -0.17)
          Gypsum      2.356e-04      0.000e+00      0.000e+00   CaSO4:2H2O                 (      , -2.30, -2.12, -2.14)
-         CO2(g)      6.068e-04      0.000e+00      0.000e+00   CO2                        ( -4.17, -1.71, -1.48, -1.69)
 
 Redox mole transfers:    
 
-Sum of residuals (epsilons in documentation):         4.275e+00
-Sum of delta/uncertainty limit:                       9.455e+00
+Sum of residuals (epsilons in documentation):         5.222e+00
+Sum of delta/uncertainty limit:                       1.040e+01
 Maximum fractional error in element concentration:    1.000e-01
 
 Model contains minimum number of phases.
@@ -5854,8 +5850,8 @@ Summary of inverse modeling:
 
 	Number of models found: 2
 	Number of minimal models found: 2
-	Number of infeasible sets of phases saved: 13
-	Number of calls to cl1: 32
+	Number of infeasible sets of phases saved: 17
+	Number of calls to cl1: 36
 ------------------
 End of simulation.
 ------------------
@@ -5863,8 +5859,4 @@ End of simulation.
 ------------------------------------
 Reading input data for simulation 5.
 ------------------------------------
-
--------------------------------
-End of Run after 0.082 Seconds.
--------------------------------
 
