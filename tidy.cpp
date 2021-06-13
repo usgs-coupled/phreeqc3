@@ -1824,7 +1824,9 @@ tidy_punch(void)
 		for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
 		{
 			std::pair< std::string, void *> &pair_ptr = current_selected_output->Get_totals()[i];
-			pair_ptr.second = master_bsearch(pair_ptr.first.c_str());
+			std::string noplus = pair_ptr.first;
+			replace(noplus, "+", "");
+			pair_ptr.second = master_bsearch(noplus.c_str());
 		}
 
 		/* molalities */
@@ -3800,6 +3802,21 @@ tidy_min_surface(void)
 			*/
 			for (int jj = 0; jj < count_elts; jj++)
 			{
+				if (elt_list[jj].elt->primary == NULL)
+				{
+					error_string = sformatf("Primary master species missing for %s",
+						elt_list[jj].elt->name);
+					error_msg(error_string, CONTINUE);
+					break;
+				}
+				if (elt_list[jj].elt->primary->s == NULL)
+				{
+					error_string = sformatf(
+						"Species missing for %s", elt_list[jj].elt->name);
+					error_msg(error_string, CONTINUE);
+					break;
+				}
+					
 				if (elt_list[jj].elt->primary->s->type != SURF
 					&& elt_list[jj].coef < 0
 					//&& elt_list[jj].elt->primary->s != s_hplus

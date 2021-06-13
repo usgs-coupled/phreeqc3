@@ -73,6 +73,11 @@ initialize(void)
 	change_surf[0].next = TRUE;
 	change_surf[1].cell_no = -99;
 	change_surf[1].next = FALSE;
+	/*
+	* define constant named log_k
+	*/
+	class logk* logk_ptr = logk_store("XconstantX", TRUE);
+	read_log_k_only("1.0", &logk_ptr->log_k[0]);
 
 #ifdef PHREEQCI_GUI
 	g_spread_sheet.heading            = NULL;
