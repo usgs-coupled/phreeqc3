@@ -1083,6 +1083,8 @@ public:
 	std::map<int, cxxPPassemblage>& Get_Rxn_pp_assemblage_map() { return this->Rxn_pp_assemblage_map; }
 	std::map<int, cxxSSassemblage>& Get_Rxn_ss_assemblage_map() { return this->Rxn_ss_assemblage_map; }
 	std::map<int, cxxSurface>& Get_Rxn_surface_map() { return this->Rxn_surface_map; }
+	std::map<int, cxxMix>& Get_Rxn_mix_map() { return this->Rxn_mix_map; }
+	std::map<int, cxxReaction>& Get_Rxn_reaction_map() { return this->Rxn_reaction_map; }
 	std::map<int, cxxTemperature>& Get_Rxn_temperature_map() { return this->Rxn_temperature_map; }
 	std::map<int, cxxPressure>& Get_Rxn_pressure_map() { return this->Rxn_pressure_map; }
 
