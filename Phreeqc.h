@@ -1088,7 +1088,6 @@ public:
 	std::map<int, cxxTemperature>& Get_Rxn_temperature_map() { return this->Rxn_temperature_map; }
 	std::map<int, cxxPressure>& Get_Rxn_pressure_map() { return this->Rxn_pressure_map; }
 
-
 protected:
 	void init(void);
 
