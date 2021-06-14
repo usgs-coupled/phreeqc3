@@ -1,8 +1,23 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+  	-------------
+	June 14, 2021
+	-------------
+	PhreeqcRM: Added capability to save the chemical state of the module in memory to 
+	allow resetting at a later point in the calculation. The capability would be useful
+	for implementing an SIA (sequential iterative approach) for iterating the transport
+	rate terms between the transport code and the chemistry in PhreeqcRM. Three new
+	methods have been added to save, apply, and delete a chemical state.
+	
+	status = phreeqcrm.StateSave(i);
+	...
+	status = phreeqcrm.StateApply(i);
+	status = phreeqcrm.StateDelete(i);
+    
   	--------------
 	May 28, 2021
 	--------------
-	Fixed SELECTED_OUTPUT feature where Fe(+3) (and others) were not identified
+	PHREEQC: Fixed SELECTED_OUTPUT feature where Fe(+3) (and others) were not identified
 	as legitimate redox states. Absence of "+" worked as expected. Same fix
 	for Basic functions TOT and TOTMOL.
 
