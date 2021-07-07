@@ -57,11 +57,19 @@ step(LDBLE step_fraction)
  */
 	if (use.Get_mix_ptr() != NULL)
 	{
-		add_mix(use.Get_mix_ptr());
+			add_mix(use.Get_mix_ptr());
+			int n = use.Get_n_mix_user_orig();
+			if (n == 0 || n == count_cells + 1)
+			{
+				cxxSolution *solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n);
+				if (solution_ptr != NULL && !solution_ptr->Get_new_def())
+					potV_x = solution_ptr->Get_potV();
+			}
 	}
 	else if (use.Get_solution_ptr() != NULL)
 	{
 		add_solution(use.Get_solution_ptr(), 1.0, 1.0);
+		potV_x = use.Get_solution_ptr()->Get_potV();
 		cell_no = use.Get_n_solution_user();
 	}
 	else
@@ -367,7 +375,7 @@ add_solution(cxxSolution *solution_ptr, LDBLE extensive, LDBLE intensive)
 	tc_x += solution_ptr->Get_tc() * intensive;
 	ph_x += solution_ptr->Get_ph() * intensive;
 	patm_x += solution_ptr->Get_patm() * intensive;
-	potV_x += solution_ptr->Get_potV() * intensive;
+	//potV_x += solution_ptr->Get_potV() * intensive;
 	solution_pe_x += solution_ptr->Get_pe() * intensive;
 	mu_x += solution_ptr->Get_mu() * intensive;
 	ah2o_x += solution_ptr->Get_ah2o() * intensive;

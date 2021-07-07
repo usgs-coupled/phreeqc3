@@ -1595,7 +1595,7 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 /*
  *   i			--user number for soln, reaction, etc.
  *   use_mix	  --integer flag
-					state == TRANSPORT: DISP, STAG, NOMIX
+					state == TRANSPORT: DISP, STAG, NOMIX, MIX_BS
 					state == REACTION: TRUE, FALSE
  *   use_kinetics --true or false flag to calculate kinetic reactions
  *   nsaver	   --user number to store solution
@@ -1615,7 +1615,7 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 		use.Set_n_mix_user(i);
 		use.Set_n_mix_user_orig(i);
 	}
-	else if (use_mix == STAG && multi_Dflag != TRUE)
+	else if ((use_mix == STAG && multi_Dflag != TRUE) || use_mix == MIX_BS)
 	{
 		use.Set_mix_ptr(Utilities::Rxn_find(Rxn_mix_map, i));
 		if (use.Get_mix_ptr() != NULL)

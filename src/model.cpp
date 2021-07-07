@@ -2649,8 +2649,8 @@ calc_gas_pressures(void)
 				lp += rxn_ptr->s->la * rxn_ptr->coef;
 			}
 			phase_ptr->p_soln_x = exp(LOG_10 * (lp - phase_ptr->pr_si_f));
-			if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x > 90)
-					phase_ptr->p_soln_x = 90;
+			//if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x > 90)
+			//		phase_ptr->p_soln_x = 90;
 
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 			{
@@ -5425,8 +5425,7 @@ numerical_jacobian(void)
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-
-			d2 = d * x[i]->moles;
+			d2 = d * 20 * x[i]->moles;
 			if (d2 < 1e-14)
 				d2 = 1e-14;
 			x[i]->moles += d2;

@@ -2026,9 +2026,10 @@ Restart:
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-			d2 = d * x[i]->moles;
-			if (d2 < 1e-14)
-				d2 = 1e-14;
+			d2 = d * 30 * x[i]->moles;
+			d2 = (d2 < ineq_tol ? ineq_tol : d2);
+			//if (d2 < 1e-14)
+			//	d2 = 1e-14;
 			x[i]->moles += d2;
 			break;
 		case MU:

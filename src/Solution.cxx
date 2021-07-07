@@ -114,6 +114,17 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 	this->n_user = this->n_user_end = l_n_user;
 	this->new_def = false;
 	this->ah2o = 0;
+	// potV is an external variable, imposed in a given solution, not mixed.
+	std::map < int, cxxSolution >::const_iterator sol = solutions.find(mix.Get_n_user());
+	const cxxSolution *cxxsoln_ptr1;
+	if (sol != solutions.end())
+	{
+		cxxsoln_ptr1 = &(sol->second);
+		if (cxxsoln_ptr1->new_def)
+			this->potV = 0.0;
+		else
+			this->potV = cxxsoln_ptr1->potV;
+	}
 //
 //   Mix solutions
 //
@@ -121,8 +132,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
-		std::map < int, cxxSolution >::const_iterator sol =
-			solutions.find(it->first);
+		sol = solutions.find(it->first);
 		if (sol == solutions.end())
 		{
 			std::ostringstream msg;
@@ -131,7 +141,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 		}
 		else
 		{
-			const cxxSolution *cxxsoln_ptr1 = &(sol->second);
+			cxxsoln_ptr1 = &(sol->second);
 			this->add(*cxxsoln_ptr1, it->second);
 		}
 	}
@@ -1388,7 +1398,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->cb += addee.cb * extensive;
 	this->density = f1 * this->density + f2 * addee.density;
 	this->patm = f1 * this->patm + f2 * addee.patm;
-	this->potV = f1 * this->potV + f2 * addee.potV;
+	// this->potV = f1 * this->potV + f2 * addee.potV; // appt
 	this->mass_water += addee.mass_water * extensive;
 	this->soln_vol += addee.soln_vol * extensive;
 	this->total_alkalinity += addee.total_alkalinity * extensive;

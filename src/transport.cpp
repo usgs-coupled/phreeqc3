@@ -1,4 +1,4 @@
-﻿#include "Utils.h"
+#include "Utils.h"
 #include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Exchange.h"
@@ -605,7 +605,10 @@ transport(void)
 
 						if (i == 0 || i == count_cells + 1)
 						{
-							run_reactions(i, kin_time, NOMIX, step_fraction); // nsaver = i
+							if (dV_dcell)
+								run_reactions(i, kin_time, MIX_BS, step_fraction); // nsaver = i
+							else
+								run_reactions(i, kin_time, NOMIX, step_fraction); // nsaver = i
 						}
 						else
 						{
@@ -868,7 +871,12 @@ transport(void)
 					status(0, token);
 
 					if (i == 0 || i == count_cells + 1)
-						run_reactions(i, kin_time, NOMIX, step_fraction);
+					{
+						if (dV_dcell)
+							run_reactions(i, kin_time, MIX_BS, step_fraction); // nsaver = i
+						else
+							run_reactions(i, kin_time, NOMIX, step_fraction); // nsaver = i
+					}
 					else
 					{
 						run_reactions(i, kin_time, DISP, step_fraction);
@@ -1070,6 +1078,12 @@ print_punch(int i, boolean active)
 	if (!active)
 		run_reactions(i, 0, NOMIX, 0);
 	cell_no = i;
+	if (dV_dcell)
+	{
+		use.Set_n_solution_user(i);
+		use.Get_solution_ptr()->Set_potV(cell_data[i].potV);
+		potV_x = cell_data[i].potV;
+	}
 	use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, i));
 	if (use.Get_kinetics_ptr() != NULL)
 	{
@@ -1413,7 +1427,7 @@ mix_stag(int i, LDBLE kin_time, int l_punch, LDBLE step_fraction)
 				for (std::map < int, LDBLE >::const_iterator it = use.Get_mix_ptr()->Get_mixComps().begin();
 					it != use.Get_mix_ptr()->Get_mixComps().end(); it++)
 				{
-					if (it->first > i && it->first < all_cells)
+					if (it->first > i && it->first < all_cells && it->first != count_cells + 1)
 					{
 						k = it->first;
 						ptr_imm = Utilities::Rxn_find(Rxn_solution_map, k);
@@ -6053,6 +6067,7 @@ calc_vm_Cl(void)
 		V_Cl = s_ptr->logk[vma1] + s_ptr->logk[vma2] / pb_s +
 			(s_ptr->logk[vma3] + s_ptr->logk[vma4] / pb_s) / TK_s -
 			s_ptr->logk[wref] * QBrn;
+
 		/* the ionic strength term * I^0.5... */
 		if (s_ptr->logk[b_Av] < 1e-5)
 			V_Cl += s_ptr->z * s_ptr->z * 0.5 * DH_Av * sqrt_mu;
