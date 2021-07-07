@@ -870,7 +870,7 @@ Restart:
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-			d2 = d * x[i]->moles;
+			d2 = d * 20 * x[i]->moles;
 			if (d2 < 1e-14)
 				d2 = 1e-14;
 			x[i]->moles += d2;

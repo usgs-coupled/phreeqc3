@@ -147,8 +147,8 @@ main_method(int argc, char *argv[])
 	}
 	Phreeqc MyCopy = *this;
 	this->clean_up();
-	//this->init();
-	//this->initialize();
+	// this->init();
+	// this->initialize();
 /*
  *   Read input data for simulation
  */
@@ -167,7 +167,7 @@ main_method(int argc, char *argv[])
  *   Display successful status
  */
 	pr.headings = TRUE;
-	//errors = do_status();
+	// errors = do_status();
 	if (errors != 0)
 	{
 		return errors;
@@ -292,7 +292,7 @@ write_banner(void)
 
 	/* version */
 #ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.6.5");
+	len = sprintf(buffer, "* PHREEQC-%s *", "3.7.1");
 #else
 	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
 #endif
@@ -316,7 +316,7 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "February 24, 2021");
+	len = sprintf(buffer, "%s", "July 5, 2021");
 #else
 	len = sprintf(buffer, "%s", "@VER_DATE@");
 #endif
@@ -329,6 +329,7 @@ write_banner(void)
 
 	return 0;
 }
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 process_file_names(int argc, char *argv[], std::istream **db_cookie,
@@ -499,7 +500,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		output_msg(sformatf("   Input file: %s\n", in_file.c_str()));
 		output_msg(sformatf("  Output file: %s\n", out_file.c_str()));
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.6.5, compiled February 24, 2021\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.7.1, compiled July 5, 2021\n"));
 #endif
 		output_msg(sformatf("Database file: %s\n\n", token.c_str()));
 #ifdef NPP
@@ -508,6 +509,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		/*
 		*   local cleanup
 		*/
+							  
 		line = (char *) free_check_null(line);
 		line_save = (char *) free_check_null(line_save);
 

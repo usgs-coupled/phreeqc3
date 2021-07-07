@@ -41,6 +41,7 @@
 #define DISP 2
 #define STAG 3
 #define NOMIX 4
+#define MIX_BS 5 // mix boundary solutions in electromigration
 
 #define CONVERGED 2
 #define MASS_BALANCE 3

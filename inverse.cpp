@@ -272,7 +272,7 @@ setup_inverse(class inverse *inv_ptr)
 /*
  *   Define inv_zero and inv_zero array, delta
  */
-	for (i = 0; i < max; i++)
+	for (i = 0; i < (int) max; i++)
 		inv_zero[i] = 0.0;
 
 	memcpy((void *) &(delta[0]), (void *) &(inv_zero[0]),
@@ -3595,7 +3595,7 @@ check_isotopes(class inverse *inv_ptr)
 				/* use solution-defined uncertainties second */
 			}
 #ifdef NPP
-			else if (inv_ptr->i_u[i].count_uncertainties > 0
+			else if (inv_ptr->i_u[i].uncertainties.size() > 0
 				&& !isnan(inv_ptr->i_u[i].uncertainties[inv_ptr->i_u[i].uncertainties.size() - 1]))
 #else
 			else if (inv_ptr->i_u[i].uncertainties.size() > 0

@@ -708,8 +708,8 @@ print_gas_phase(void)
 				   (double) initial_moles,
 				   (double) moles,
 				   (double) delta_moles));
-		if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x == 90)
-			output_msg("       WARNING: The pressure of H2O(g) is above the program limit: use the polynomial for log_k.\n");
+		//if (!strcmp(phase_ptr->name, "H2O(g)") && phase_ptr->p_soln_x == 90)
+		//	output_msg("       WARNING: The pressure of H2O(g) is fixed to the program limit.\n");
 
 	}
 	output_msg("\n");

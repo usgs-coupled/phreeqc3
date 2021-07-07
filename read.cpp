@@ -2619,7 +2619,7 @@ read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 	/*
 	*   Read supcrt parms and Ionic strength terms
 	*/
-	for (j = 0; j < 9; j++)
+	for (j = 0; j < 11; j++)
 	{
 		delta_v[j] = 0.0;
 	}
@@ -2627,7 +2627,7 @@ read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 /* Vmax, dmax...
 	delta_v[10] = 999.0;
 	delta_v[11] = 1.0; */
-	j = sscanf(cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT /*SCANFORMAT SCANFORMAT */,
+	j = sscanf(cptr, SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT SCANFORMAT ,
 		/* a1..a4 */
 		&(delta_v[0]), &(delta_v[1]), &(delta_v[2]), &(delta_v[3]),
 		/* wref */
@@ -2635,9 +2635,9 @@ read_aq_species_vm_parms(const char* cptr, LDBLE * delta_v)
 		/* b_Av */
 		&(delta_v[5]),
 		/* c1..c4 */
-		&(delta_v[6]), &(delta_v[7]), &(delta_v[8]), &(delta_v[9]));
-		/* vmax, dmax 
-		&(delta_v[10]), &(delta_v[11])); */
+		&(delta_v[6]), &(delta_v[7]), &(delta_v[8]), &(delta_v[9]),
+		 //vmP, exP
+		&(delta_v[10]), &(delta_v[11])); 
 	if (j < 1)
 	{
 		input_error++;
@@ -2665,8 +2665,8 @@ read_vm_only(const char* cptr, LDBLE * delta_v, DELTA_V_UNIT * units)
 	char token[MAX_LENGTH];
 	/*
 	*   Read analytical expression
-	*/
-	for (j = 0; j < 8; j++)
+	*/			
+	for (j = 0; j < 9; j++)
 	{
 		delta_v[j] = 0.0;
 	}
