@@ -1,0 +1,101 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 H2S_pz_appt_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#SOLUTION_SPECIES; H2O + 0.01e- = H2O-0.01; -log_k -10 # aids convergence
+KNOBS
+#-step 5
+#-pe 2
+#-iter 500
+#-conv 1e-6
+#-tol 1e-100
+#-try 3
+#-debug_model
+GAS_PHASE 1
+ -fixed_pressure
+ -volume 0.01e0
+ H2Sg(g) 0
+ H2O(g) 0
+END
+INCREMENTAL_REACTIONS true
+SOLUTION 1; -water 1; pH 7 charge; Sg 9e3
+
+SELECTED_OUTPUT 3; -file H2S_pz_appt.pqi
+USER_PUNCH 3
+10 DATA \
+ 1.0,   0,  94, \
+29.6,  30, 210, \
+49.3,  30, 240, \
+98.7,  30, 250, \
+148.0, 30, 250, \
+197.4, 30, 250, \
+246.7, 30, 250, \
+296.1, 30, 250, \
+345.4, 30, 250, \
+394.8, 30, 250, \
+444.1, 30, 250, \
+493.5, 30, 250, \
+542.8, 30, 250, \
+592.1, 30, 250, \
+641.5, 30, 250, \
+690.8, 30, 250, \
+740.2, 30, 250, \
+789.5, 30, 250, \
+888.2, 30, 250, \
+986.9, 30, 250, \
+986.9, 30, 250
+20 RESTORE 10
+22 steps = 2
+24 steps_reaction = 45
+26 s$ = "KNOBS" + EOL$
+#28 s$ = s$ + "-debug_model" + EOL$
+30 FOR i = 1 to 21
+40 s$ = s$ +  "USER_GRAPH 1" + EOL$
+45 s$ = s$ +  "-active false" + EOL$
+50 s$ = s$ +  "USE solution 1" + EOL$
+55 s$ = s$ +  "USE gas_phase 1" + EOL$
+60 READ p, t1, t2
+70 s$ = s$ +  "REACTION_TEMPERATURE 1" + EOL$
+80 s$ = s$ +  "25 " + STR_F$(t1, 4, 0) + " in " + STR_F$(steps, 4, 0) + EOL$
+90 s$ = s$ +  "REACTION_PRESSURE 1" + EOL$
+100 s$ = s$ + "1 " + STR_F$(p, 6, 1) + " in " + STR_F$(steps, 4, 0) + EOL$
+110 s$ = s$ + "SAVE solution 2" + EOL$
+120 s$ = s$ + "SAVE gas_phase 2" + EOL$
+125 s$ = s$ + "END" + EOL$
+130 s$ = s$ + "USER_GRAPH 1" + EOL$
+135 s$ = s$ + "-active true" + EOL$
+140 s$ = s$ + "USE solution 2" + EOL$
+145 s$ = s$ + "USE gas_phase 2" + EOL$
+150 s$ = s$ + "REACTION_TEMPERATURE 1" + EOL$
+160 s$ = s$ + STR_F$(t1, 4, 0) + " " + STR_F$(t2, 4, 0) + " in " + STR_F$(steps_reaction, 4, 0) + EOL$
+170 s$ = s$ + "REACTION_PRESSURE 1" + EOL$
+180 s$ = s$ + STR_F$(p, 6, 1) + EOL$
+190 s$ = s$ + "END" + EOL$
+200 NEXT i
+210 PUNCH s$
+
+END
+SELECTED_OUTPUT 3; -active false
+
+END
+#PRINT; -reset false; -echo_input false
+USER_GRAPH
+# -headings x Pa:1
+ -plot_csv_file H2S.dat
+ -axis_titles "Temperature / Celsius" "H2S / (mol/kgw)"
+ -axis_scale x_axis 0 310
+ -axis_scale sy_axis 0 9
+ # -initial_solutions true
+ -connect_simulations false
+ 10 graph_x tc # tot("Na")
+ 20 y = TOT("Sg")
+ 30 IF PRESSURE < 2 THEN y = 10 * y
+ 40 GRAPH_SY y
+ -end
+INCLUDE$ H2S_pz_appt.pqi
+END
