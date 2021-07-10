@@ -13,7 +13,7 @@ ifeq ($(CFG), Linux)
 	PHREEQC=../src/Class_release_64/phreeqc
 #	PHREEQC=../src/Class_debug_64/phreeqc
 else
-	PHREEQC=../_build_vs_master/Release/phreeqc.exe
+	PHREEQC=../_build_vs_master/ClrRelease/phreeqc.exe
 endif
 
 %.out : % $(PHREEQC)  ../database/phreeqc.dat ../database/wateq4f.dat ../database/llnl.dat ../database/minteq.dat ../database/minteq.v4.dat ../database/iso.dat mahoney.dat ../database/pitzer.dat
@@ -417,7 +417,20 @@ succeed: \
 	sit_edl.out \
 	Hao_wateq4fhao.out \
 	TotalPlus.out \
-	NaOH_density.out
+	NaOH_density.out \
+	CO2_conc_PR_GP1.out \
+	H2S.out \
+	H2S_71C.out \
+	H2S_NaCl_Na2SO4.out \
+	H2S_pz.out
+	
+H2S_files: \
+	H2S.out \
+	H2S_71C.out \
+	H2S_NaCl_Na2SO4.out \
+	H2S_pz.out \
+	H2S_pz_appt.out \
+	CO2_conc_PR_GP1.out \
 
 # NaX.out
 	

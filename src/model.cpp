@@ -3227,12 +3227,12 @@ reset(void)
 			}
 			else if (x[i]->type == GAS_MOLES)
 			{
-				up = 1000. * x[i]->moles;
+				up = 10. * x[i]->moles;
 				if (up <= 0.0)
 					up = 1e-1;
 				if (up >= 1.0)
 					up = 1.;
-				down = x[i]->moles;
+				down = 0.3*x[i]->moles;
 			}
 			else if (x[i]->type == SS_MOLES)
 			{

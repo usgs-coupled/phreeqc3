@@ -1,0 +1,32 @@
+DATABASE ../database/Amm.dat
+SELECTED_OUTPUT 101
+    -file                 H2S_71C_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1
+ pH 7 charge
+ -water 1e0
+GAS_PHASE 1
+ -fixed_volume
+ -volume 0.01e2
+ H2S(g) 0
+ H2O(g) 0
+END
+
+USE solution 1; USE gas_phase 1; REACTION_TEMPERATURE 1; 71
+REACTION 1
+H2S 1; 0 7*2 2*4 2*1.2
+INCREMENTAL_REACTIONS true
+
+USER_GRAPH
+ -plot_csv_file H2S_71C.dat
+ -axis_titles "Pressure / atm" "H2S / (mol/kgw)" " phi_H2S"
+ 10 x = pressure
+ 20 graph_x x
+ 30 graph_y tot("S")
+ 40 graph_sy PR_phi("H2S(g)")
+END

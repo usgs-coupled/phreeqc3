@@ -1,0 +1,113 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 H2S_NaCl_Na2SO4_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION 1; pH 7 charge; Sg 1.7e3
+
+#KNOBS; -convergence_tolerance 1e-5
+#INCREMENTAL_REACTIONS true
+KNOBS
+#-numerical
+#-debug_model
+#-conv 1e-10
+#-tol 1e-30
+
+SELECTED_OUTPUT 1; -reset false; -file H2S_NaCl.pqi; -new_line false
+USER_PUNCH 1
+10 sc$ = chr$(59) : hs$ = ' ' + chr$(35) + ' '
+
+20 data 3.38, 3.59, 8.02, 10.31, 12.45, 17.34, 20.84, 24.34, 4.24, 9.62, 13.02, 25.15, 25.99, 40.07, 5.76, 5.77, 16.15, 30.00, 44.66, 59.46, 6.07, 19.30, 19.38, 40.46, 65.71, 82.19, 95.73, 2.95, 4.75, 8.16, 9.27, 16.01, 17.39, 17.51, 23.29, 26.56, 4.96, 7.42, 15.39, 17.99, 29.47, 38.02, 3.29, 10.69, 17.86, 17.95, 28.86, 38.08, 58.55, 2.45, 10.79, 22.39, 22.41, 34.60, 44.69, 73.01, 94.85,            3.27, 10.00, 16.31, 16.97, 17.33, 19.54, 27.85, 4.52, 11.70, 12.41, 23.34, 30.44, 31.14, 35.82, 38.11, 8.42, 13.87, 32.61, 39.20, 52.99, 9.26, 17.83, 35.09, 52.76, 83.54, 5.97, 6.35, 6.20, 8.14, 10.74, 11.85, 12.38, 13.79, 17.42, 20.89, 24.93, 7.55, 9.77, 10.99, 14.45, 22.31, 25.30, 26.21, 36.74, 40.47, 5.62, 18.58, 30.56, 36.83, 41.03, 45.39, 55.43, 18.32, 21.68, 22.46, 45.02, 64.29, 65.86, 90.68, 96.56
+ 
+30 no = 57 + 60 : dim p(150) : restore 20 : for i = 1 to no : read p(i) : next i
+
+40  sol$ = eol$ + 'USE solution 1' + sc$
+50  gp$ = ' GAS_PHASE 1' + sc$ + ' -fixed_pr' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + 'H2O(g) 0' + sc$ + ' -pr '
+60  gp0$ = ' GAS_PHASE 1' + sc$ + ' -fixed_vol' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + 'H2O(g) 0'
+70  r0$ = ' REACTION 1' + sc$ + ' H2Sg 1' + sc$ + ' -1.69 in 10' + sc$
+80  r4$ = ' REACTION 1' + sc$ + ' NaCl 4.007' + sc$
+90  r6$ = ' REACTION 1' + sc$ + ' NaCl 5.953' + sc$
+100 t40$ = ' REACTION_TEMPERATURE 1' + sc$ + ' 40'   + sc$
+110 t120$ = ' REACTION_TEMPERATURE 1' + sc$ + ' 120' + sc$
+120 punch hs$ + ' 0 M NaCl...' + eol$ + sol$ + t40$ + r0$ + gp0$ + eol$ + 'END' + eol$
+130 for i = 1 to 32
+140   punch eol$ + hs$ + ' i = ' + str_f$(i, 1, 0)
+150   if i > 17 then 200 REM 120.C # ==>
+160     if i < 9 then punch sol$ + t40$ + r4$ + gp$ + str_f$(p(i), 1, 2) else punch sol$ + t40$ + r6$ + gp$ + str_f$(p(i + 19), 1, 2) # 8 and 9 samples
+170     if i = 1 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Green, symbol= None' + eol$
+180     if i = 9 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Blue, symbol= None' + eol$
+190     GOTO 260 punch eol$ + ' END'  # ==> 
+200   REM 120.C # <==
+210     if i = 18 then punch hs$ + ' 0 M NaCl...' + eol$ + sol$ + t120$ + r0$ + gp0$ + eol$
+220     if i = 18 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Orange, symbol= None' + eol$ + 'END' + eol$
+230     if i < 25 then punch sol$ + t120$ + r4$ + gp$ + str_f$(p(i + 3), 1, 2) else punch sol$ + t120$ + r6$ + gp$ + str_f$(p(i + 25), 1, 2) # 7 and 8 samples
+240     if i = 18 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Magenta, symbol= None'    + eol$
+250     if i = 25 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Black , symbol= None' + eol$
+260   punch eol$ + ' END' # <==
+270 next i
+END
+
+SELECTED_OUTPUT 1; -active false
+#PRINT; -reset false; -echo_input false
+USER_GRAPH 1 H2S solubility in NaCl, data from Xia et al., 2000
+ -plot_csv_file H2S_NaCl.dat
+ -axis_titles "H2S / (mol / kgw)" "Pressure / atm"
+ -axis_scale x_axis 0 1.4
+ -axis_scale y_axis 0 100
+ 10 plot_xy tot("Sg"), pressure, symbol = None 
+INCLUDE$ H2S_NaCl.pqi
+END
+
+SOLUTION 1; pH 7 charge; Sg 2.2e3
+
+USER_GRAPH 1; -active false
+
+SELECTED_OUTPUT 2; -reset false; -file H2S_Na2SO4.pqi; -new_line false
+USER_PUNCH 2
+10 sc$ = chr$(59) : hs$ = ' ' + chr$(35) + ' '
+
+20 data 3.27, 10.00, 16.31, 16.97, 17.33, 19.54, 27.85, 4.52, 11.70, 12.41, 23.34, 30.44, 31.14, 35.82, 38.11, 8.42, 13.87, 32.61, 39.20, 52.99, 9.26, 17.83, 35.09, 52.76, 83.54,        5.97, 6.35, 6.20, 8.14, 10.74, 11.85, 12.38, 13.79, 17.42, 20.89, 24.93, 7.55, 9.77, 10.99, 14.45, 22.31, 25.30, 26.21, 36.74, 40.47, 5.62, 18.58, 30.56, 36.83, 41.03, 45.39, 55.43, 8.32, 21.68, 22.46, 45.02, 64.29, 65.86, 90.68, 96.56
+ 
+30 no = 25 + 35 : dim p(150) : restore 20 : for i = 1 to no : read p(i) : next i
+
+40  sol$ = eol$ + 'USE solution 1' + sc$
+50  gp$ = ' GAS_PHASE 1' + sc$ + ' -fixed_pr' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + 'H2O(g) 0' + sc$ + ' -pr '
+60  gp0$ = ' GAS_PHASE 1' + sc$ + ' -fixed_vol' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + 'H2O(g) 0'
+70  r0$ = ' REACTION 1' + sc$ + ' H2Sg 1' + sc$ + ' -2.19 in 10' + sc$
+80  r4$ = ' REACTION 1' + sc$ + ' Na2SO4 0.492' + sc$
+90  r6$ = ' REACTION 1' + sc$ + ' Na2SO4 0.95' + sc$
+92  r62$ = ' REACTION 1' + sc$ + ' Na2SO4 0.953' + sc$
+100 t40$ = ' REACTION_TEMPERATURE 1' + sc$ + ' 40'   + sc$
+110 t120$ = ' REACTION_TEMPERATURE 1' + sc$ + ' 120' + sc$
+120 punch hs$ + ' 0 M Na2SO4...' + eol$ + sol$ + t40$ + r0$ + gp0$ + eol$ + 'END' + eol$
+130 for i = 1 to 31
+140   punch eol$ + hs$ + ' i = ' + str_f$(i, 1, 0)
+150   if i > 18 then 200 REM 120.C # ==>
+160     if i < 8 then punch sol$ + t40$ + r4$ + gp$ + str_f$(p(i), 1, 2) else punch sol$ + t40$ + r6$ + gp$ + str_f$(p(i + 18), 1, 2) # 7 and 11 samples
+170     if i = 1 then punch eol$ + 'USER_GRAPH 2' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Green, symbol= None' + eol$
+180     if i = 8 then punch eol$ + 'USER_GRAPH 2' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Blue, symbol= None' + eol$
+190     GOTO 260 punch eol$ + ' END'  # ==> 
+200   REM 120.C # <==
+210     if i = 19 then punch hs$ + ' 0 M Na2SO4...' + eol$ + sol$ + t120$ + r0$ + gp0$ + eol$
+220     if i = 19 then punch eol$ + 'USER_GRAPH 2' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Orange, symbol= None' + eol$ + 'END' + eol$
+230     if i < 24 then punch sol$ + t120$ + r4$ + gp$ + str_f$(p(i + 2), 1, 2) else punch sol$ + t120$ + r6$ + gp$ + str_f$(p(i + 29), 1, 2) # 5 and 8 samples
+240     if i = 19 then punch eol$ + 'USER_GRAPH 2' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Magenta, symbol= None'    + eol$
+250     if i = 24 then punch eol$ + 'USER_GRAPH 2' + sc$ + ' 10 plot_xy tot("Sg"), pressure, color = Black , symbol= None' + eol$
+260   punch eol$ + ' END' # <==
+270 next i
+END
+
+SELECTED_OUTPUT 2; -active false
+PRINT; -reset false; -echo_input false
+USER_GRAPH 2 H2S solubility in Na2SO4, data from Xia et al., 2000
+ -plot_csv_file H2S_Na2SO4.dat
+ -axis_titles "H2S / (mol / kgw)" "Pressure / atm"
+ -axis_scale x_axis 0 2
+ -axis_scale y_axis 0 100
+ 10 plot_xy tot("Sg"), pressure, symbol = None 
+INCLUDE$ H2S_Na2SO4.pqi
+END

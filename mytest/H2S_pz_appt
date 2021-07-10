@@ -9,8 +9,8 @@ USER_PUNCH 101
     -end
 #SOLUTION_SPECIES; H2O + 0.01e- = H2O-0.01; -log_k -10 # aids convergence
 KNOBS
-#-step 5
-#-pe 2
+-step 5
+-pe 2
 #-iter 500
 #-conv 1e-6
 #-tol 1e-100
@@ -61,9 +61,11 @@ USER_PUNCH 3
 55 s$ = s$ +  "USE gas_phase 1" + EOL$
 60 READ p, t1, t2
 70 s$ = s$ +  "REACTION_TEMPERATURE 1" + EOL$
-80 s$ = s$ +  "25 " + STR_F$(t1, 4, 0) + " in " + STR_F$(steps, 4, 0) + EOL$
+#80 s$ = s$ +  "25 " + STR_F$(t1, 4, 0) + " in " + STR_F$(steps, 4, 0) + EOL$
+80 s$ = s$ +  STR_F$(t1, 4, 0) + EOL$
 90 s$ = s$ +  "REACTION_PRESSURE 1" + EOL$
-100 s$ = s$ + "1 " + STR_F$(p, 6, 1) + " in " + STR_F$(steps, 4, 0) + EOL$
+#100 s$ = s$ + "1 " + STR_F$(p, 6, 1) + " in " + STR_F$(steps, 4, 0) + EOL$
+100 s$ = s$ + STR_F$(p, 6, 1) + EOL$
 110 s$ = s$ + "SAVE solution 2" + EOL$
 120 s$ = s$ + "SAVE gas_phase 2" + EOL$
 125 s$ = s$ + "END" + EOL$
