@@ -422,7 +422,8 @@ succeed: \
 	H2S.out \
 	H2S_71C.out \
 	H2S_NaCl_Na2SO4.out \
-	H2S_pz.out
+	H2S_pz.out \
+	H2S_pz_appt.out 
 	
 H2S_files: \
 	H2S.out \
@@ -430,7 +431,15 @@ H2S_files: \
 	H2S_NaCl_Na2SO4.out \
 	H2S_pz.out \
 	H2S_pz_appt.out \
-	CO2_conc_PR_GP1.out \
+	CO2_conc_PR_GP1.out 
+
+H2S_clean: 
+	rm 	H2S.out \
+	H2S_71C.out \
+	H2S_NaCl_Na2SO4.out \
+	H2S_pz.out \
+	H2S_pz_appt.out \
+	CO2_conc_PR_GP1.out 
 
 # NaX.out
 	
