@@ -2613,13 +2613,12 @@ calc_gas_pressures(void)
 					V_m = (2. * gas_phase_ptr->Get_v_m() + V_m) / 3;
 				else
 					V_m = (1. * gas_phase_ptr->Get_v_m() + V_m) / 2;
-				if (iterations > 99 && numerical_fixed_volume == false)
+				if ((pitzer_model || iterations > 99) && numerical_fixed_volume == false)
 				{
 					//V_m *= 1; /* debug */
 					numerical_fixed_volume = true;
 					//switch_numerical = true;
-					warning_msg
-						("Numerical method failed, switching to numerical derivatives.");
+					if (!pitzer_model) warning_msg("Numerical method failed, switching to numerical derivatives.");
 					prep();
 					//switch_numerical = false;
 				}
@@ -3227,12 +3226,12 @@ reset(void)
 			}
 			else if (x[i]->type == GAS_MOLES)
 			{
-				up = 10. * x[i]->moles;
+				up = 1000. * x[i]->moles;
 				if (up <= 0.0)
 					up = 1e-1;
 				if (up >= 1.0)
 					up = 1.;
-				down = 0.3*x[i]->moles;
+				down = x[i]->moles;
 			}
 			else if (x[i]->type == SS_MOLES)
 			{
@@ -5425,7 +5424,8 @@ numerical_jacobian(void)
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-			d2 = d * 20 * x[i]->moles;
+			d2 = (x[i]->moles > 1 ? 1 : 20);
+			d2 *= d * x[i]->moles;
 			if (d2 < 1e-14)
 				d2 = 1e-14;
 			x[i]->moles += d2;
