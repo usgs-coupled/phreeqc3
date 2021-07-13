@@ -1955,140 +1955,35 @@ jacobian_pz(void)
 	LDBLE d, d1, d2;
 	int i, j;
 
-Restart:
-	//molalities(TRUE);
-	//if (full_pitzer == TRUE)
-	//	pitzer();
-	//mb_sums();
-	//residuals();
+	calculating_deriv = 1;
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
 		cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
-		for (size_t i = 0; i < use.Get_gas_phase_ptr()->Get_gas_comps().size(); i++)
+		base_gas_phase = *gas_phase_ptr;
+		base_phases.resize(gas_phase_ptr->Get_gas_comps().size());
+		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
 		{
 			const cxxGasComp* gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 			class phase* phase_ptr = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 			phase_ptrs.push_back(phase_ptr);
+			base_phases[i] = *phase_ptr;
 		}
-		//base_gas_moles.resize(gas_phase_ptr->Get_gas_comps().size(), 0.0);
-		base_phases.resize(gas_phase_ptr->Get_gas_comps().size());
 	}
-	// Debugging
-	//output_msg("\n\nBefore jacobian_pz===================================================\n");
-	//print_all();
-	calculating_deriv = 1;
+Restart:
 	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
-	//if (full_pitzer == TRUE)
-	//{
-	//	molalities(TRUE);
-	//	pitzer();
-	//	residuals();
-	//}
+	if (full_pitzer == TRUE)
+	{
+		molalities(TRUE);
+		pitzer();
+		residuals();
+	}
 	base.resize(count_unknowns);
-	base_x.resize(count_unknowns, 0.0);
-	for (size_t i1 = 0; i1 < count_unknowns; i1++)
+	for (i = 0; i < count_unknowns; i++)
 	{
-		//base[i1] = residual[i1];
-		switch (x[i1]->type)
-		{
-		case MB:
-		case ALK:
-		case CB:
-		case SOLUTION_PHASE_BOUNDARY:
-		case EXCH:
-		case SURFACE:
-		case SURFACE_CB:
-		case SURFACE_CB1:
-		case SURFACE_CB2:
-		case AH2O:
-			base_x[i1] = x[i1]->master[0]->s->la;
-			break;
-		case PITZER_GAMMA:
-			base_x[i1] = x[i1]->s->lg;
-			break;
-		case MH2O:
-			base_x[i1] = mass_water_aq_x;
-			base_mass_water_bulk_x = mass_water_bulk_x;
-			base_moles_h2o = x[i1]->master[0]->s->moles;
-			break;
-		case MH:
-			base_x[i1] = s_eminus->la;
-			break;
-		case GAS_MOLES:
-			base_x[i1] = x[i1]->moles;
-			for (size_t g = 0; g < use.Get_gas_phase_ptr()->Get_gas_comps().size(); g++)
-			{
-				//base_gas_moles[g] = phase_ptrs[g]->moles_x;
-				base_phases[g] = *phase_ptrs[g];
-			}
-			break;
-		case MU:
-			base_x[i1] = mu_x;
-			break;
-		case PP:
-			continue;
-			break;
-		case SS_MOLES:
-			break;
-		}
+		base[i] = residual[i];
 	}
-	//molalities(TRUE);
-	//if (full_pitzer == TRUE)
-	//	pitzer();
-	//mb_sums();
-	//residuals();
-	for (size_t i1 = 0; i1 < count_unknowns; i1++)
-	{
-		base[i1] = residual[i1];
-	}
-	for (size_t i1 = 0; i1 < count_unknowns; i1++)
-	{
-		switch (x[i1]->type)
-		{
-		case MB:
-		case ALK:
-		case CB:
-		case SOLUTION_PHASE_BOUNDARY:
-		case EXCH:
-		case SURFACE:
-		case SURFACE_CB:
-		case SURFACE_CB1:
-		case SURFACE_CB2:
-		case AH2O:
-			x[i1]->master[0]->s->la = base_x[i1];
-			break;
-		case PITZER_GAMMA:
-			x[i1]->s->lg = base_x[i1];
-			break;
-		case MH2O:
-			mass_water_aq_x = base_x[i1];
-			mass_water_bulk_x = base_mass_water_bulk_x;
-			x[i1]->master[0]->s->moles = base_moles_h2o;
-			break;
-		case MH:
-			s_eminus->la = base_x[i1];
-			break;
-		case GAS_MOLES:
-			x[i1]->moles = base_x[i1];
-			for (size_t g = 0; g < base_gas_moles.size(); g++)
-			{
-				//phase_ptrs[g]->moles_x = base_gas_moles[g];
-				*phase_ptrs[g] = base_phases[g];
-			}
-			break;
-		case MU:
-			mu_x = base_x[i1];
-			gammas_pz(false);
-			break;
-		case PP:
-			continue;
-			break;
-		case SS_MOLES:
-			break;
-		}
-	}
-	d = 0.001;
+	d = 0.0001;
 	d1 = d * LOG_10;
 	d2 = 0;
 	for (i = 0; i < count_unknowns; i++)
@@ -2148,10 +2043,9 @@ Restart:
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-			d2 = d * 30 * x[i]->moles;
-			d2 = (d2 < ineq_tol ? ineq_tol : d2);
-			//if (d2 < 1e-14)
-			//	d2 = 1e-14;
+			d2 = d * x[i]->moles;
+			if (d2 < 1e-14)
+				d2 = 1e-14;
 			x[i]->moles += d2;
 			break;
 		case MU:
@@ -2197,74 +2091,67 @@ Restart:
 			if (x[i]->type == MH2O) // DL_pitz
 				my_array[(size_t)j * (count_unknowns + 1) + (size_t)i] *= mass_water_aq_x;
 		}
-		for (size_t i1 = 0; i1 < count_unknowns; i1++)
+		switch (x[i]->type)
 		{
-			switch (x[i1]->type)
+		case MB:
+		case ALK:
+		case CB:
+		case SOLUTION_PHASE_BOUNDARY:
+		case EXCH:
+		case SURFACE:
+		case SURFACE_CB:
+		case SURFACE_CB1:
+		case SURFACE_CB2:
+		case AH2O:
+			x[i]->master[0]->s->la -= d;
+			break;
+		case MH:
+			s_eminus->la -= d;
+			if (my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] == 0)
 			{
-			case MB:
-			case ALK:
-			case CB:
-			case SOLUTION_PHASE_BOUNDARY:
-			case EXCH:
-			case SURFACE:
-			case SURFACE_CB:
-			case SURFACE_CB1:
-			case SURFACE_CB2:
-			case AH2O:
-				x[i1]->master[0]->s->la = base_x[i1];
-				break;
-			case PITZER_GAMMA:
-				x[i1]->s->lg = base_x[i1];
-				break;
-			case MH2O:
-				mass_water_aq_x = base_x[i1];
-				mass_water_bulk_x = base_mass_water_bulk_x;
-				x[i1]->master[0]->s->moles = base_moles_h2o;
-				break;
-			case MH:
-				s_eminus->la = base_x[i1];
-				break;
-			case GAS_MOLES:
-				x[i1]->moles = base_x[i1];
-				for (size_t g = 0; g < base_gas_moles.size(); g++)
-				{
-					//phase_ptrs[g]->moles_x = base_gas_moles[g];
-					*phase_ptrs[g] = base_phases[g];
-				}
-				break;
-			case MU:
-				mu_x = base_x[i1];
-				gammas_pz(false);
-				break;
-			case PP:
+				my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] =
+					exp(s_h2->lm * LOG_10) * 2;
+			}
+			break;
+		case PITZER_GAMMA:
+			x[i]->s->lg -= d;
+			break;
+		case MH2O:
+			//mass_water_aq_x /= (1 + d);
+			//x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			//break;
+			//DL_pitz
+			mass_water_aq_x -= d1;
+			if (use.Get_surface_in() && dl_type_x == cxxSurface::DONNAN_DL)
+				mass_water_bulk_x -= d1;
+			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			break;
+		case MU:
+			mu_x -= d2;
+			//k_temp(tc_x, patm_x);
+			gammas_pz(false);
+			break;
+		case GAS_MOLES:
+			if (gas_in == FALSE)
 				continue;
-				break;
-			case SS_MOLES:
-				break;
-			}
-		}
-	}
-	//molalities(TRUE);
-	//if (full_pitzer == TRUE)
-	//	pitzer();
-	//mb_sums();
-	//residuals();
-	// Debugging
-	//output_msg("\n\nAfter jacobian_pz--------------------------------------------------------\n");
-	//print_all();
-	for (i = 0; i < count_unknowns; i++)
-	{
-		if (residual[i] != base[i])
-		{
-			if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 0.1)
+			x[i]->moles -= d2;
+			*use.Get_gas_phase_ptr() = base_gas_phase;
+			for (size_t g = 0; g < base_phases.size(); g++)
 			{
-				//std::cerr << i << "  " << residual[i] << "  " << base[i] << std::endl;
-				//output_flush();
+				*phase_ptrs[g] = base_phases[g];
 			}
-			residual[i] = base[i];
-			my_array[((size_t)i + 1) * (count_unknowns + 1) - 1] = residual[i];
+			break;
+		case SS_MOLES:
+			delta[i] = -d2;
+			reset();
+			break;
 		}
 	}
+	molalities(TRUE);
+	if (full_pitzer == TRUE)
+		pitzer();
+	mb_sums();
+	residuals();
 	base.clear();
 	calculating_deriv = 0;
 	return OK;
