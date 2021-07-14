@@ -2135,16 +2135,19 @@ Restart:
 			if (gas_in == FALSE)
 				continue;
 			x[i]->moles -= d2;
-			*use.Get_gas_phase_ptr() = base_gas_phase;
-			for (size_t g = 0; g < base_phases.size(); g++)
-			{
-				*phase_ptrs[g] = base_phases[g];
-			}
 			break;
 		case SS_MOLES:
 			delta[i] = -d2;
 			reset();
 			break;
+		}
+		if (use.Get_gas_phase_ptr() != NULL)
+		{
+			*use.Get_gas_phase_ptr() = base_gas_phase;
+			for (size_t g = 0; g < base_phases.size(); g++)
+			{
+				*phase_ptrs[g] = base_phases[g];
+			}
 		}
 	}
 	molalities(TRUE);
