@@ -22,6 +22,8 @@ Reading input data for simulation 1.
 
 	DATABASE ../database/pitzer.dat
 	KNOBS
+	step_size 10
+	pe_step_size 5
 	SELECTED_OUTPUT 101
 	    file                 evap_101.sel
 	USER_PUNCH 101
@@ -234,22 +236,16 @@ WARNING: Maximum iterations exceeded, 200
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
-WARNING: Trying smaller step size, pe step size 10, 5 ... 
+WARNING: Trying reduced tolerance 1e-16 ...
 
 WARNING: Maximum iterations exceeded, 400
 
 WARNING: Numerical method failed with this set of convergence parameters.
 
-WARNING: Trying reduced tolerance 1e-16 ...
-
-WARNING: Mass of water is less than 1e-10 kilogram.
-The aqueous phase may not be stable relative to given masses of minerals.
-WARNING: Numerical method failed with this set of convergence parameters.
-
 WARNING: Trying increased tolerance 1e-14 ...
 
-WARNING: Mass of water is less than 1e-10 kilogram.
-The aqueous phase may not be stable relative to given masses of minerals.
+WARNING: Maximum iterations exceeded, 400
+
 WARNING: Numerical method failed with this set of convergence parameters.
 
 WARNING: Trying diagonal scaling ...
@@ -324,7 +320,7 @@ Sylvite          -1.07    -0.17      0.90    0.000e+00           0   0.000e+00
                          Temperature (°C)  =  25.00
                   Electrical balance (eq)  =  -3.221e-10
  Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
-                               Iterations  =  35 (997 overall)
+                               Iterations  =  35 (1038 overall)
                          Gamma iterations  =   1
                       Osmotic coefficient  =   3.60310
                          Density of water  =   0.99704

@@ -1,0 +1,220 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: Jiang_pz
+  Output file: Jiang_pz.out
+Database file: ../database/pitzer.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	PITZER
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/pitzer.dat
+	SELECTED_OUTPUT 101
+	    file                 Jiang_pz_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	INCREMENTAL_REACTIONS true
+	REACTION_TEMPERATURE 15
+	0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 94
+	REACTION_TEMPERATURE 5
+	30 240 in 50 steps #, 60, 90, 120, 150
+	REACTION_TEMPERATURE 51
+	30, 60, 90, 120
+	REACTION_TEMPERATURE 6
+	30, 60, 90, 120, 150, 180
+	REACTION_TEMPERATURE 61
+	30, 60, 90, 120
+	REACTION_TEMPERATURE 7
+	30, 60, 90, 120, 150, 180, 210
+	REACTION_TEMPERATURE 71
+	30, 60, 90, 120
+	REACTION_TEMPERATURE 8
+	30, 60, 90, 120, 150, 180, 210, 240
+	REACTION_TEMPERATURE 10
+	30, 60, 90, 120, 150, 180, 210, 240, 270, 300
+	REACTION_TEMPERATURE 101
+	30, 60, 90, 120, 150, 180, 210
+	REACTION_TEMPERATURE 102
+	30, 60, 90, 120, 150, 180, 210, 240
+	GAS_PHASE 1
+	 fixed_pressure
+	 volume 0.01e0
+	 H2Sg(g) 0
+	 H2O(g) 0
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1
+	 water 1
+	 pH 7 charge
+	 Sg 9e3
+	SELECTED_OUTPUT 2
+	 reset false
+	 file Jiang_pz.pqi
+	 new_line false
+	USER_PUNCH 2
+	10    sc$ = chr$(59) : hs$ = ' ' + chr$(35) + ' '
+	20    data '  1    ', '  29.6 ', '  49.3 ', '  98.7 ', ' 148.0  ', ' 197.4 ', ' 246.7 ', ' 296.1 ', ' 345.4 ', ' 394.8 ', ' 444.1 ', ' 493.5 ', ' 542.8 ', ' 592.1 ', ' 641.5 ', ' 690.8 ', ' 740.2 ', ' 789.5 ', ' 888.2 ', ' 986.9 '
+	30    dim p$(20) : for i = 1 to 20 : read p$(i) : next i
+	40    data 15, 7, 8, 101, 102, 102, 101, 71, 61, 61, 6, 61, 6, 6, 5, 5, 51, 5, 51, 5
+	50    dim t(20) : for i = 1 to 20 : read t(i) : next i
+	60    gp$ = 'GAS_PHASE 1' + sc$ + ' -fixed_pr' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + 'H2O(g) 0' + sc$ + ' -pr '
+	62    gp2$ = 'GAS_PHASE 1' + sc$ + ' -fixed_pr' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + ' -pr '
+	70    for i = 1 to 20
+	80      punch eol$ + 'USE solution 1' + sc$ + ' USE reaction_temperature ' + str_f$(t(i), 1, 0)
+	80      if i < 4 then punch eol$ + 'USE solution 1' + sc$ + ' USE reaction_temperature ' + str_f$(t(i), 1, 0)
+	82      if i >= 4 then punch eol$ + 'USE solution 1' + sc$ + ' USE reaction_temperature 5'
+	90      if i < 5 then punch eol$ + gp$ + p$(i) else punch eol$ + gp$ + p$(i)
+	92      if i > 1 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' -headings x' #+ p$(i)
+	100     punch eol$ + 'END'
+	110   next i
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+WARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Sg                9.000e+00   9.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   3.127      Charge balance
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  25°C)  = 341
+                          Density (g/cm³)  =   1.05302
+                               Volume (L)  =   1.25816
+                        Activity of water  =   0.876
+                 Ionic strength (mol/kgw)  =   8.304e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   9.000e+00
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -7.068e-19
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  15
+                         Gamma iterations  =   4
+                      Osmotic coefficient  =   1.00000
+                         Density of water  =   0.99704
+                                  Total H  = 1.290124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                                    MacInnes  MacInnes
+                                MacInnes       Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              8.304e-04   7.469e-04    -3.081    -3.127    -0.046      0.00
+   OH-             1.141e-11   1.188e-11   -10.943   -10.925     0.017     -4.11
+   H2O             5.551e+01   8.764e-01     1.744    -0.057     0.000     18.07
+Sg            9.000e+00
+   H2Sg            5.643e+00   5.643e+00     0.752     0.752     0.000     36.27
+   (H2Sg)2         1.678e+00   1.678e+00     0.225     0.225     0.000     30.09
+   HSg-            8.304e-04   8.641e-04    -3.081    -3.063     0.017     20.60
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2O(g)           -1.56     -0.06    1.50  H2O
+  H2Sg(g)           1.75     -6.19   -7.94  H2Sg
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	SELECTED_OUTPUT 2
+	 active false
+	PRINT
+	 reset false
+
+	Reading data from Jiang_pz.pqi ...
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 400
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 400
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-14 ...
+

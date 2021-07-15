@@ -1,0 +1,83 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                 Jiang_pz_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+#KNOBS; -step_size 20; -convergence_tolerance 8e-7; -iterations 400; -tolerance 5e-15
+#SOLUTION_SPECIES; H2O + 0.01e- = H2O-0.01; -log_k -10 # aids convergence
+INCREMENTAL_REACTIONS true
+
+REACTION_TEMPERATURE 15
+0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 94
+REACTION_TEMPERATURE 5
+30 240 in 50 steps #, 60, 90, 120, 150
+REACTION_TEMPERATURE 51
+30, 60, 90, 120
+REACTION_TEMPERATURE 6
+30, 60, 90, 120, 150, 180
+REACTION_TEMPERATURE 61
+30, 60, 90, 120
+REACTION_TEMPERATURE 7
+30, 60, 90, 120, 150, 180, 210
+REACTION_TEMPERATURE 71
+30, 60, 90, 120
+REACTION_TEMPERATURE 8
+30, 60, 90, 120, 150, 180, 210, 240
+REACTION_TEMPERATURE 10
+30, 60, 90, 120, 150, 180, 210, 240, 270, 300
+REACTION_TEMPERATURE 101
+30, 60, 90, 120, 150, 180, 210
+REACTION_TEMPERATURE 102
+30, 60, 90, 120, 150, 180, 210, 240
+ 
+GAS_PHASE 1
+ -fixed_pressure
+ -volume 0.01e0
+ H2Sg(g) 0
+ H2O(g) 0
+END
+
+SOLUTION 1; -water 1; pH 7 charge; Sg 9e3
+ 
+SELECTED_OUTPUT 2; -reset false; -file Jiang_pz.pqi; -new_line false
+USER_PUNCH 2
+10    sc$ = chr$(59) : hs$ = ' ' + chr$(35) + ' '
+20    data '  1    ', '  29.6 ', '  49.3 ', '  98.7 ', ' 148.0  ', ' 197.4 ', ' 246.7 ', ' 296.1 ', ' 345.4 ', ' 394.8 ', ' 444.1 ', ' 493.5 ', ' 542.8 ', ' 592.1 ', ' 641.5 ', ' 690.8 ', ' 740.2 ', ' 789.5 ', ' 888.2 ', ' 986.9 '
+30    dim p$(20) : for i = 1 to 20 : read p$(i) : next i
+40    data 15, 7, 8, 101, 102, 102, 101, 71, 61, 61, 6, 61, 6, 6, 5, 5, 51, 5, 51, 5
+50    dim t(20) : for i = 1 to 20 : read t(i) : next i
+60    gp$ = 'GAS_PHASE 1' + sc$ + ' -fixed_pr' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + 'H2O(g) 0' + sc$ + ' -pr '
+62    gp2$ = 'GAS_PHASE 1' + sc$ + ' -fixed_pr' + sc$ + ' -vol 0.01' + sc$ + 'H2Sg(g) 0' + sc$ + ' -pr '
+70    for i = 1 to 20
+80      punch eol$ + 'USE solution 1' + sc$ + ' USE reaction_temperature ' + str_f$(t(i), 1, 0)
+80      if i < 4 then punch eol$ + 'USE solution 1' + sc$ + ' USE reaction_temperature ' + str_f$(t(i), 1, 0)
+82      if i >= 4 then punch eol$ + 'USE solution 1' + sc$ + ' USE reaction_temperature 5'
+90      if i < 5 then punch eol$ + gp$ + p$(i) else punch eol$ + gp$ + p$(i)
+92      if i > 1 then punch eol$ + 'USER_GRAPH 1' + sc$ + ' -headings x' #+ p$(i)
+100     punch eol$ + 'END'
+110   next i
+END
+ 
+SELECTED_OUTPUT 2; -active false
+
+PRINT; -reset false; -echo_input false
+USER_GRAPH
+# -headings x Pa:1
+ -plot_csv_file H2S.dat
+ -axis_titles "Temperature / Celsius" "H2S / (mol/kgw)"
+ -axis_scale x_axis 0 310
+ -axis_scale sy_axis 0 9
+ # -initial_solutions true
+ -connect_simulations false
+ 10 graph_x tc # tot("Na")
+ 20 y = tot("Sg") : if pressure < 2 then y = y * 10 : graph_sy y : end
+ 40 data 0, 0, 0, 4, 5, 6, 7, 8, 9, 0, 0, 0, 13, 0, 0, 0, 0, 18, 0, 0, 0, 22
+ 50 if sim_no > no then no = sim_no : dim p(30) : restore 40 : for i = 1 to no : read p(i) : next i
+ 60 if no = p(no) then graph_sy y
+ -end
+INCLUDE$ Jiang_pz.pqi
+END
