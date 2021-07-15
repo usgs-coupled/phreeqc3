@@ -1977,13 +1977,6 @@ Restart:
 		}
 	}
 	size_t pz_max_unknowns = max_unknowns;
-	//k_temp(tc_x, patm_x);
-	//if (full_pitzer == TRUE)
-	//{
-	//	molalities(TRUE);
-	//	pitzer();
-	//	residuals();
-	//}
 	base.resize(count_unknowns);
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -2163,16 +2156,6 @@ Restart:
 		mb_sums();
 		residuals();
 	}
-	//molalities(TRUE);
-	//if (full_pitzer == TRUE)
-	//	pitzer();
-	//mb_sums();
-	//residuals();
-	//for (i = 0; i < count_unknowns; i++)
-	//{
-	//	residual[i] = base[i];
-	//	my_array[((size_t)i + 1) * (count_unknowns + 1) - 1] = residual[i];
-	//}
 	base.clear();
 	calculating_deriv = 0;
 	return OK;
