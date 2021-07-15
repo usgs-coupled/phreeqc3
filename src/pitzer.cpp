@@ -1954,7 +1954,14 @@ jacobian_pz(void)
 	cxxGasPhase base_gas_phase;
 	LDBLE d, d1, d2;
 	int i, j;
-
+Restart:
+	molalities(TRUE);
+	if (full_pitzer == TRUE)
+	{
+		pitzer();
+	}
+	mb_sums();
+	residuals();
 	calculating_deriv = 1;
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
@@ -1969,15 +1976,14 @@ jacobian_pz(void)
 			base_phases[i] = *phase_ptr;
 		}
 	}
-Restart:
 	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
-	if (full_pitzer == TRUE)
-	{
-		molalities(TRUE);
-		pitzer();
-		residuals();
-	}
+	//if (full_pitzer == TRUE)
+	//{
+	//	molalities(TRUE);
+	//	pitzer();
+	//	residuals();
+	//}
 	base.resize(count_unknowns);
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -2043,9 +2049,11 @@ Restart:
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-			d2 = d * x[i]->moles;
-			if (d2 < 1e-14)
-				d2 = 1e-14;
+			d2 = (x[i]->moles > 1 ? 1 : 30);
+			d2 *= d * x[i]->moles;
+			d2 = (d2 < ineq_tol ? ineq_tol : d2);
+			//if (d2 < 1e-14)
+			//	d2 = 1e-14;
 			x[i]->moles += d2;
 			break;
 		case MU:
@@ -2149,12 +2157,22 @@ Restart:
 				*phase_ptrs[g] = base_phases[g];
 			}
 		}
+		molalities(TRUE);
+		if (full_pitzer == TRUE)
+			pitzer();
+		mb_sums();
+		residuals();
 	}
-	molalities(TRUE);
-	if (full_pitzer == TRUE)
-		pitzer();
-	mb_sums();
-	residuals();
+	//molalities(TRUE);
+	//if (full_pitzer == TRUE)
+	//	pitzer();
+	//mb_sums();
+	//residuals();
+	//for (i = 0; i < count_unknowns; i++)
+	//{
+	//	residual[i] = base[i];
+	//	my_array[((size_t)i + 1) * (count_unknowns + 1) - 1] = residual[i];
+	//}
 	base.clear();
 	calculating_deriv = 0;
 	return OK;
