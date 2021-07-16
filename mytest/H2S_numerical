@@ -1,12 +1,15 @@
 DATABASE ../database/Amm.dat
 SELECTED_OUTPUT 101
-    -file                 H2S_101.sel
+    -file                 H2S_numerical_101.sel
 USER_PUNCH 101
     -headings Mu SC
     -start
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
+KNOBS
+-numerical
+INCREMENTAL_REACTIONS true
 REACTION_TEMPERATURE 15
 0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 94
 REACTION_TEMPERATURE 5
@@ -29,7 +32,7 @@ END
 
 SOLUTION 1; -water 1; pH 7 charge; Sg 9e3
 
-SELECTED_OUTPUT 2; -reset false; -file H2S.pqi; -new_line false
+SELECTED_OUTPUT 2; -reset false; -file H2S_numerical.pqi; -new_line false
 USER_PUNCH 2
 10    sc$ = chr$(59) : hs$ = ' ' + chr$(35) + ' '
 20    data '  1    ', '  29.6 ', '  49.3 ', '  98.7 ', ' 148.0  ', ' 197.4 ', ' 246.7 ', ' 296.1 ', ' 345.4 ', ' 394.8 ', ' 444.1 ', ' 493.5 ', ' 542.8 ', ' 592.1 ', ' 641.5 ', ' 690.8 ', ' 740.2 ', ' 789.5 ', ' 888.2 ', ' 986.9 '
@@ -47,7 +50,7 @@ USER_PUNCH 2
 END
 
 SELECTED_OUTPUT 2; -active false
-SELECTED_OUTPUT 1; -reset false; -file H2S.in.pqi; -new_line false
+SELECTED_OUTPUT 1; -reset false; -file H2S_numerical.in.pqi; -new_line false
 USER_PUNCH 1
 -headings dif '' number.....tc.....P_calc..m_obs..m_calc
 10  if get(1) = 0 then put(1, 1)
@@ -95,7 +98,7 @@ USER_GRAPH 1 H2S solubility in water, data from Jiang et al., 2020
  50 if sim_no > no then no = sim_no : dim p(30) : restore 40 : for i = 1 to no : read p(i) : next i
  60 if no = p(no) then graph_sy y
  -end
-INCLUDE$ H2S.pqi
+INCLUDE$ H2S_numerical.pqi
 END
 
 USE solution 2

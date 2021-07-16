@@ -1947,10 +1947,9 @@ int Phreeqc::
 jacobian_pz(void)
 /* ---------------------------------------------------------------------- */
 { // calculate the derivatives numerically
-	std::vector<double> base, base_x, base_gas_moles;
+	std::vector<double> base;
 	std::vector<class phase*> phase_ptrs;
 	std::vector<class phase> base_phases;
-	double base_mass_water_bulk_x = 0, base_moles_h2o = 0;
 	cxxGasPhase base_gas_phase;
 	LDBLE d, d1, d2;
 	int i, j;
