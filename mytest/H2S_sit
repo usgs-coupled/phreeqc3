@@ -1,15 +1,47 @@
-DATABASE ../database/Amm.dat
+DATABASE ../database/sit.dat
 SELECTED_OUTPUT 101
-    -file                 H2S_numerical_101.sel
+    -file                 H2S_sit_101.sel
 USER_PUNCH 101
     -headings Mu SC
     -start
 10 PUNCH STR_F$(MU, 20, 12)
 20 PUNCH STR_F$(SC, 20, 10)
     -end
-KNOBS
--numerical
+
+SOLUTION_MASTER_SPECIES
+Sg		H2Sg	1.0	H2Sg		34.08
+SOLUTION_SPECIES
+H2Sg = H2Sg # H2S
+	-dw	 2.1e-9
+        -Vm  1.39  28.3  0  -7.22  -0.59 # ref. 1 + Hnedkovsky et al., 1996, JCT 28, 125
+H2Sg = HSg- + H+
+	-log_k	-6.994
+	-delta_h 5.30	kcal
+	-analytical_expression  11.17  -0.02386  -3279.0
+	-gamma 3.5	0
+	-dw	 1.73e-9
+	-Vm  5.0119  4.9799  3.4765  -2.9849  1.4410 # supcrt
+2H2Sg = (H2Sg)2 # activity correction for H2S solubility at high P, T
+	-analytical_expression   10.227  -0.01384  -2200
+	-Vm   36.41  -71.95  0  0  2.58
+PHASES
+H2Sg(g)
+	H2Sg  =  H+ + HSg-
+	log_k	   -7.93
+	-delta_h   9.1
+	-analytic -45.07  -0.02418  0  17.9205 # H2S solubilities, 0 - 300°C, 1 - 987 atm, Jiang et al., 2020, CG 555, 119816
+	-T_c  373.2 ; -P_c  88.20 ; -Omega 0.1
+H2O(g)
+	H2O = H2O
+	-log_k  1.506; delta_h -44.03 kJ
+	-T_c  647.3
+	-P_c  217.60
+	-Omega 0.344
+	-analytic   -16.5066 -2.0013E-3  2710.7  3.7646  0 2.24E-6
+
+
 #INCREMENTAL_REACTIONS true
+
 REACTION_TEMPERATURE 15
 0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 94
 REACTION_TEMPERATURE 5
@@ -32,7 +64,7 @@ END
 
 SOLUTION 1; -water 1; pH 7 charge; Sg 9e3
 
-SELECTED_OUTPUT 2; -reset false; -file H2S_numerical.pqi; -new_line false
+SELECTED_OUTPUT 2; -reset false; -file H2S_sit.pqi; -new_line false
 USER_PUNCH 2
 10    sc$ = chr$(59) : hs$ = ' ' + chr$(35) + ' '
 20    data '  1    ', '  29.6 ', '  49.3 ', '  98.7 ', ' 148.0  ', ' 197.4 ', ' 246.7 ', ' 296.1 ', ' 345.4 ', ' 394.8 ', ' 444.1 ', ' 493.5 ', ' 542.8 ', ' 592.1 ', ' 641.5 ', ' 690.8 ', ' 740.2 ', ' 789.5 ', ' 888.2 ', ' 986.9 '
@@ -50,7 +82,7 @@ USER_PUNCH 2
 END
 
 SELECTED_OUTPUT 2; -active false
-SELECTED_OUTPUT 1; -reset false; -file H2S_numerical.in.pqi; -new_line false
+SELECTED_OUTPUT 1; -reset false; -file H2S_sit.in.pqi; -new_line false
 USER_PUNCH 1
 -headings dif '' number.....tc.....P_calc..m_obs..m_calc
 10  if get(1) = 0 then put(1, 1)
@@ -98,7 +130,7 @@ USER_GRAPH 1 H2S solubility in water, data from Jiang et al., 2020
  50 if sim_no > no then no = sim_no : dim p(30) : restore 40 : for i = 1 to no : read p(i) : next i
  60 if no = p(no) then graph_sy y
  -end
-INCLUDE$ H2S_numerical.pqi
+INCLUDE$ H2S_sit.pqi
 END
 
 USE solution 2

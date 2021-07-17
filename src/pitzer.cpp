@@ -1954,6 +1954,7 @@ jacobian_pz(void)
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
+	calculating_deriv = 1;
 	molalities(TRUE);
 	if (full_pitzer == TRUE)
 	{
@@ -1961,7 +1962,6 @@ Restart:
 	}
 	mb_sums();
 	residuals();
-	calculating_deriv = 1;
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
 		cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
@@ -2155,6 +2155,15 @@ Restart:
 		mb_sums();
 		residuals();
 	}
+	//for (i = 0; i < count_unknowns; i++)
+	//{
+	//	//Debugging
+	//	if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 1e-2 &&
+	//		fabs(residual[i]) + fabs(base[i]) > 1e-8)
+	//	{
+	//		std::cerr << i << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
+	//	}
+	//}
 	base.clear();
 	calculating_deriv = 0;
 	return OK;

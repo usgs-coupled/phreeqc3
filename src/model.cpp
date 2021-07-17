@@ -5304,6 +5304,7 @@ ss_f(LDBLE xb, LDBLE l_a0, LDBLE l_a1, LDBLE l_kc, LDBLE l_kb, LDBLE xcaq,
 	f = xcaq * (xb / r + xc) + xbaq * (xb + r * xc) - 1;
 	return (f);
 }
+//#define ORIGINAL
 #ifdef ORIGINAL
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -5545,7 +5546,7 @@ numerical_jacobian(void)
 	calculating_deriv = FALSE;
 	return OK;
 }
-#endif
+#else
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 numerical_jacobian(void)
@@ -5569,7 +5570,7 @@ numerical_jacobian(void)
 		return(OK);
 
 	calculating_deriv = TRUE;
-	jacobian_sums();
+	//jacobian_sums();
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
 		//cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
@@ -5583,7 +5584,7 @@ numerical_jacobian(void)
 			base_phases[i] = *phase_ptr;
 		}
 	}
-	//gammas(mu_x);
+	gammas(mu_x);
 	molalities(TRUE);
 	mb_sums();
 	//mb_gases();
@@ -5652,7 +5653,7 @@ numerical_jacobian(void)
 		case MU:
 			d2 = d * mu_x;
 			mu_x += d2;
-			gammas(mu_x);
+			//gammas(mu_x);
 			break;
 		case PP:
 			for (j = 0; j < count_unknowns; j++)
@@ -5695,7 +5696,7 @@ numerical_jacobian(void)
 			x[i]->moles += d2;
 			break;
 		}
-		//gammas(mu_x);
+		gammas(mu_x);
 		molalities(TRUE);
 		mb_sums();
 		//mb_gases();
@@ -5746,7 +5747,7 @@ numerical_jacobian(void)
 			break;
 		case MU:
 			mu_x -= d2;
-			gammas(mu_x);
+			//gammas(mu_x);
 			break;
 		case PP:
 			delta[i] = -d2;
@@ -5768,25 +5769,33 @@ numerical_jacobian(void)
 				*phase_ptrs[g] = base_phases[g];
 			}
 		}
-		gammas(mu_x);
-		molalities(TRUE);
-		mb_sums();
-		//mb_gases();
-		//mb_ss();
-		residuals();
-		//for (size_t i2 = 0; i2 < count_unknowns; i2++)
-		//{
-		//	if (fabs(2.0 * (residual[i2] - base[i2]) / (residual[i2] + base[i2])) > 1e-6)
-		//	{
-		//		//std::cerr << "iter: " << iterations << ". " << std::endl;
-		//		std::cerr << i2 << ": " << x[i2]->description << "  " << residual[i2] << "  " << base[i2] << std::endl;
-		//	}
-		//}
+		//gammas(mu_x);
+		//molalities(TRUE);
+		//mb_sums();
+		////mb_gases();
+		////mb_ss();
+		//residuals();
 	}
+	gammas(mu_x);
+	molalities(TRUE);
+	mb_sums();
+	//mb_gases();
+	//mb_ss();
+	residuals();
+	//for (i = 0; i < count_unknowns; i++)
+	//{
+	//	//Debugging
+	//	if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 1e-2 &&
+	//		fabs(residual[i]) + fabs(base[i]) > 1e-8)
+	//	{
+	//		std::cerr << i << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
+	//	}
+	//}
 	base.clear();
 	calculating_deriv = FALSE;
 	return OK;
 }
+#endif
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 set_inert_moles(void)
