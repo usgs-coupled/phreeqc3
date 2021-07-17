@@ -5570,7 +5570,6 @@ numerical_jacobian(void)
 			))
 		return(OK);
 
-	calculating_deriv = TRUE;
 	//jacobian_sums();
 	if (use.Get_surface_ptr() != NULL)
 	{
@@ -5589,6 +5588,7 @@ numerical_jacobian(void)
 			base_phases[i] = *phase_ptr;
 		}
 	}
+	calculating_deriv = TRUE;
 	gammas(mu_x);
 	molalities(TRUE);
 	mb_sums();
@@ -5768,7 +5768,7 @@ numerical_jacobian(void)
 		}
 		if (use.Get_surface_ptr() != NULL)
 		{
-			base_surface = *use.Get_surface_ptr();
+			*use.Get_surface_ptr() = base_surface;
 		}
 		if (use.Get_gas_phase_ptr() != NULL)
 		{
@@ -5797,7 +5797,7 @@ numerical_jacobian(void)
 	//	if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 1e-2 &&
 	//		fabs(residual[i]) + fabs(base[i]) > 1e-8)
 	//	{
-	//		std::cerr << i << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
+	//		std::cerr << iterations << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
 	//	}
 	//}
 	base.clear();

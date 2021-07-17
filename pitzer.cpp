@@ -1955,14 +1955,6 @@ jacobian_pz(void)
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
-	calculating_deriv = 1;
-	molalities(TRUE);
-	if (full_pitzer == TRUE)
-	{
-		pitzer();
-	}
-	mb_sums();
-	residuals();
 	if (use.Get_surface_ptr() != NULL)
 	{
 		base_surface = *use.Get_surface_ptr();
@@ -1980,6 +1972,15 @@ Restart:
 			base_phases[i] = *phase_ptr;
 		}
 	}
+	calculating_deriv = 1;
+	molalities(TRUE);
+	if (full_pitzer == TRUE)
+	{
+		pitzer();
+	}
+	mb_sums();
+	residuals();
+
 	size_t pz_max_unknowns = max_unknowns;
 	base.resize(count_unknowns);
 	for (i = 0; i < count_unknowns; i++)
@@ -2148,7 +2149,7 @@ Restart:
 		}
 		if (use.Get_surface_ptr() != NULL)
 		{
-			base_surface = *use.Get_surface_ptr();
+			*use.Get_surface_ptr() = base_surface;
 		}
 		if (use.Get_gas_phase_ptr() != NULL)
 		{
@@ -2158,21 +2159,26 @@ Restart:
 				*phase_ptrs[g] = base_phases[g];
 			}
 		}
-		molalities(TRUE);
-		if (full_pitzer == TRUE)
-			pitzer();
-		mb_sums();
-		residuals();
+		//molalities(TRUE);
+		//if (full_pitzer == TRUE)
+		//	pitzer();
+		//mb_sums();
+		//residuals();
 	}
-	for (i = 0; i < count_unknowns; i++)
-	{
-		//Debugging
-		if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 1e-2 &&
-			fabs(residual[i]) + fabs(base[i]) > 1e-6)
-		{
-			std::cerr << i << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
-		}
-	}
+	molalities(TRUE);
+	if (full_pitzer == TRUE)
+		pitzer();
+	mb_sums();
+	residuals();
+	//for (i = 0; i < count_unknowns; i++)
+	//{
+	//	//Debugging
+	//	if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 1e-2 &&
+	//		fabs(residual[i]) + fabs(base[i]) > 1e-6)
+	//	{
+	//		std::cerr << iterations << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
+	//	}
+	//}
 	base.clear();
 	calculating_deriv = 0;
 	return OK;
