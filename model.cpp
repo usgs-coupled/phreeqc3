@@ -5560,6 +5560,7 @@ numerical_jacobian(void)
 	std::vector<class phase> base_phases;
 	double base_mass_water_bulk_x = 0, base_moles_h2o = 0;
 	cxxGasPhase base_gas_phase;
+	cxxSurface base_surface;
 
 	if (!
 		(numerical_deriv ||
@@ -5571,6 +5572,10 @@ numerical_jacobian(void)
 
 	calculating_deriv = TRUE;
 	//jacobian_sums();
+	if (use.Get_surface_ptr() != NULL)
+	{
+		base_surface = *use.Get_surface_ptr();
+	}
 	if (use.Get_gas_phase_ptr() != NULL)
 	{
 		//cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
@@ -5760,6 +5765,10 @@ numerical_jacobian(void)
 		case GAS_MOLES:
 			x[i]->moles -= d2;
 			break;
+		}
+		if (use.Get_surface_ptr() != NULL)
+		{
+			base_surface = *use.Get_surface_ptr();
 		}
 		if (use.Get_gas_phase_ptr() != NULL)
 		{
