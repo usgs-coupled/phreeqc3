@@ -986,9 +986,9 @@ Restart:
 			base_phases[i] = *phase_ptr;
 		}
 	}
+	calculating_deriv = 1;
 	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
-	calculating_deriv = 1;
 	molalities(TRUE);
 	if (full_pitzer == TRUE)
 	{
@@ -1127,7 +1127,7 @@ Restart:
 		}
 		if (use.Get_surface_ptr() != NULL)
 		{
-			base_surface = *use.Get_surface_ptr();
+			*use.Get_surface_ptr() = base_surface;
 		}
 		if (use.Get_gas_phase_ptr() != NULL)
 		{
