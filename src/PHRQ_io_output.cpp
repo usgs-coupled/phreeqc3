@@ -201,7 +201,9 @@ void Phreeqc::
 screen_msg(const char *err_str)
 /* ---------------------------------------------------------------------- */
 {
+#ifndef TESTING
 	if (phrq_io) phrq_io->screen_msg(err_str);
+#endif
 }
 // ---------------------------------------------------------------------- */
 // dump file methods

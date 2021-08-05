@@ -501,7 +501,7 @@ transport(void)
 		else
 			sprintf(token, "\nCalculating transport: %d (mobile) cells, %d shifts, %d mixruns...\n\n",
 				count_cells, count_shifts - transport_start + 1, nmix);
-		screen_msg(token);
+		warning_msg(token);
 		max_iter = 0;
 		for (transport_step = transport_start; transport_step <= count_shifts;
 			transport_step++)
@@ -960,8 +960,7 @@ transport(void)
 		{
 			sprintf(token,
 				"\nFor balancing negative concentrations in MCD, added in total to the system:");
-			if (phrq_io)
-				phrq_io->warning_msg(token);
+			warning_msg(token);
 			for (i = 0; i < count_moles_added; i++)
 			{
 				if (!moles_added[i].moles)
@@ -969,8 +968,7 @@ transport(void)
 				sprintf(token,
 					"\t %.4e moles %s.",
 					(double)moles_added[i].moles, moles_added[i].name);
-				if (phrq_io)
-					phrq_io->warning_msg(token);
+				warning_msg(token);
 			}
 		}
 	}
