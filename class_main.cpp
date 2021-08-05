@@ -283,6 +283,9 @@ int Phreeqc::
 write_banner(void)
 /* ---------------------------------------------------------------------- */
 {
+#ifdef TESTING
+	return OK;
+#endif
 	char buffer[80];
 	int len, indent;
 	screen_msg(
