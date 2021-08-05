@@ -846,7 +846,7 @@ Sr
 @PROJECT_DIR@\01_1D.bat
 
 * model input/output 
-@PROJECT_DIR@\compaction_definitions.phr.tpl		compaction_definitions.phr
+@PROJECT_DIR@\geochem.phr.tpl		geochem.phr
 @PROJECT_DIR@\Ba.ins					Ba.calc
 @PROJECT_DIR@\C.ins					C.calc
 @PROJECT_DIR@\Ca.ins					Ca.calc

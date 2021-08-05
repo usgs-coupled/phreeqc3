@@ -26,9 +26,9 @@ set "PHREEQC_BIN=%HOME%\bin"
 
 REM check chemistry files
 for %%i in ( 
-    %INPUT_DIR%\watercompaction.phr
+    %INPUT_DIR%\sedimentation.phr
     %INPUT_DIR%\phreeqc_Vm_llnl.dat
-	%PEST_FILES_DIR%\compaction_definitions.phr.tpl.tpl
+	%PEST_FILES_DIR%\geochem.phr.tpl.tpl
 	%PEST_FILES_DIR%\01_1D.txt.ins
     ) do (
     if NOT exist %%i (
@@ -46,8 +46,8 @@ REM setup working directory PROJECT_DIR=pest_run_dir
 if exist %PROJECT_DIR% rmdir /s/q %PROJECT_DIR%
 mkdir %PROJECT_DIR%
 
-REM Sed to make compaction_definitions.phr.tpl in PROJECT_DIR
-call :SED @phreeqcdatabase@ %INPUT_DIR%\phreeqc_Vm_llnl.dat   %PEST_FILES_DIR%\compaction_definitions.phr.tpl.tpl > %PROJECT_DIR%\compaction_definitions.phr.tpl
+REM Sed to make geochem.phr.tpl in PROJECT_DIR
+call :SED @phreeqcdatabase@ %INPUT_DIR%\phreeqc_Vm_llnl.dat   %PEST_FILES_DIR%\geochem.phr.tpl.tpl > %PROJECT_DIR%\geochem.phr.tpl
 call :SED @PHREEQC_BIN@     %PHREEQC_BIN%                     %PEST_FILES_DIR%\01_1D.bat.tpl                      > %PROJECT_DIR%\01_1D.bat1
 call :SED @INPUT_DIR@       %INPUT_DIR%     	              %PROJECT_DIR%\01_1D.bat1                            > %PROJECT_DIR%\01_1D.bat
 call :SED @PROJECT_DIR@     %PROJECT_DIR%                     %PEST_FILES_DIR%\01_1D.pst.tpl                      > %PROJECT_DIR%\01_1D.pst
@@ -58,7 +58,7 @@ REM set up master directory
 cd %PROJECT_DIR%
 
 REM Copy files to run directory
-copy %INPUT_DIR%\watercompaction.phr .
+copy %INPUT_DIR%\sedimentation.phr .
 copy %INPUT_DIR%\*.obs 
 REM copy %PEST_FILES_DIR%\01_1D.txt.ins  .
 copy %PEST_FILES_DIR%\*.ins   
