@@ -16,23 +16,23 @@ restart estimation
 phq_k        relative      1.00000E-02  0.0000    always_3     2.0000      parabolic
 
 * parameter data 
-palb		fixed	relative	-10.	-10.	-3.	phq_k	1.	0.	1
-panor		none	relative	-7.1	-10.	-2.	phq_k	1.	0.	1
-pclinop-na	fixed	relative	-20.	-20.	-3.	phq_k	1.	0.	1
-pAsh_SrBa       none	relative	-6.1	-10.	-2.	phq_k	1.	0.	1
-pFay            fixed	relative	-10.0	-10.	-3.	phq_k	1.	0.	1
-pHed            fixed	relative	-10.0	-10.	-3.	phq_k	1.	0.	1
-pQtz            fixed	relative	-20.0	-20.	-3.	phq_k	1.	0.	1
-pChlor          fixed	relative	-10.	-10.	-3.	phq_k	1.	0.	1
-pclinop-k	fixed	relative	-20.	-20.	-2.	phq_k	1.	0.	1
-pclinop-Sr      fixed	relative	-20.0	-20.	-2.	phq_k	1.	0.	1
-min_moles       fixed   factor          1e-8    1e-8    1e0     phq_k	1.	0.	1
-kBarite 	fixed	relative	10.13	6.	14.	phq_k	1.	-10.	1
-kChlor          none	relative	8.9	6.	14.	phq_k	1.	-10.	1
-kclinop-K	none	relative	10.1	6.	14.	phq_k	1.	-10.	1
-kclinop-Sr      none	relative   	8.9	4.	14.	phq_k	1.	-10.	1
-kclinop-Na	none	relative	15.5	6.	16.	phq_k	1.	-10.	1
-kclinop-Ca	fixed	relative	14.0	6.	16.	phq_k	1.	-10.	1
+palb        fixed   relative    -10.   -10.    -3.    phq_k    1.    0.    1
+panor       none    relative    -7.1   -10.    -2.    phq_k    1.    0.    1
+pclinop-na  fixed   relative    -20.   -20.    -3.    phq_k    1.    0.    1
+pAsh_SrBa   none    relative    -6.1   -10.    -2.    phq_k    1.    0.    1
+pFay        fixed   relative    -10.0  -10.    -3.    phq_k    1.    0.    1
+pHed        fixed   relative    -10.0  -10.    -3.    phq_k    1.    0.    1
+pQtz        fixed   relative    -20.0  -20.    -3.    phq_k    1.    0.    1
+pChlor      fixed   relative    -10.   -10.    -3.    phq_k    1.    0.    1
+pclinop-k   fixed   relative    -20.   -20.    -2.    phq_k    1.    0.    1
+pclinop-Sr  fixed   relative    -20.0  -20.    -2.    phq_k    1.    0.    1
+min_moles   fixed   factor      1e-8   1e-8    1e0    phq_k    1.    0.    1
+kBarite     fixed   relative    10.13  6.      14.    phq_k    1.    -10.  1
+kChlor      none    relative    8.9    6.      14.    phq_k    1.    -10.  1
+kclinop-K   none    relative    10.1   6.      14.    phq_k    1.    -10.  1
+kclinop-Sr  none    relative    8.9    4.      14.    phq_k    1.    -10.  1
+kclinop-Na  none    relative    15.5   6.      16.    phq_k    1.    -10.  1
+kclinop-Ca  fixed   relative    14.0   6.      16.    phq_k    1.    -10.  1
 
 * observation groups 
 Ba
