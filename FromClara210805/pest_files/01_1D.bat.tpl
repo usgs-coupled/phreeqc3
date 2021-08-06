@@ -5,8 +5,10 @@ if exist 01_1D.txt (
 @PHREEQC_BIN@\TsvData
 del all.pst
 del *.ins
-if errorlevel 1 goto failure
-if errorlevel 0 goto end
-:failure
-del 01_1D.txt
-:end
+REM if errorlevel 1 goto failure
+REM if errorlevel 0 goto end
+REM :failure
+REM del 01_1D.txt
+REM :end
+ECHO "Done with 01_1d.bat"
+EXIT
