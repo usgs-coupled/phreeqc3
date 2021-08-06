@@ -22,7 +22,8 @@ set PROJECT_DIR_SED=%PROJECT_DIR:\=/%
 set "PEST_BIN_DIR=%HOME%\bin" 
 set PEST_BIN_DIR_SED=%PEST_BIN_DIR:\=/%
 set "PHREEQC_BIN=%HOME%\bin"
-
+REM set BEOPEST64=%PEST_BIN_DIR%\beopest64.exe
+set BEOPEST64=C:\3rdParty\Pest\pestpp-5.0.0\bin\pestpp-glm.exe
 
 REM check chemistry files
 for %%i in ( 
@@ -71,6 +72,7 @@ for /l %%X in (1, 1, %NODES%) do (
 	if exist %PROJECT_DIR%\tmpest%%X rmdir /s/q %PROJECT_DIR%\tmpest%%X 
 	mkdir %PROJECT_DIR%\tmpest%%X
 	cd %PROJECT_DIR%\tmpest%%X
+        copy %INPUT_DIR%\sedimentation.phr
         copy %INPUT_DIR%\*.obs
         copy %PEST_FILES_DIR%\*.rmf
         copy %PEST_FILES_DIR%\interpolator.control
