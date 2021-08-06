@@ -1,5 +1,5 @@
 REM tidy up
-set PEST_BIN_DIR=C:\CapeCod\PEST\bin
+set PEST_BIN_DIR=C:\GitPrograms\phreeqc3-usgs-coupled\FromClara210805\bin
 set ROOT=01_1D
 REM Plot residuals and correlation
     %PEST_BIN_DIR%\pest_plot %ROOT%.rei fit.pdf none
