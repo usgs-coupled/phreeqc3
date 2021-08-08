@@ -121,7 +121,7 @@ SELECTED_OUTPUT 1
 -alkalinity
 -totals	Na	Mg	K	Ca	N(-3)	C C(4)	S S(6)	Cl	Si	Sr	Ba	Mn	Al	Fe # input SOLUTION data for 1D models
 END
-SOLUTION 1001 B1H4
+SOLUTION 1000 B1H4
  -units	mol/kgw
 pH	7.220
 pe  6.502
@@ -146,32 +146,8 @@ END
 SELECTED_OUTPUT 1
 -active false
 END
-SOLUTION 1002 B1H4 w/ tracer
- -units	mol/kgw
-pH	7.220
-pe  6.502
-temp	1.70
-pressure	467.00
-density	1.05001
-	Al                3.690e-05
-	Ba                5.810e-07
-	C(4)              3.060e-03
-	Ca                1.170e-02
-	Cl                5.640e-01
-	Fe                1.690e-05
-	K                 2.430e-02
-	Mg                5.320e-02
-	Mn                1.890e-04
-	N(-3)             2.940e-04
-	Na                4.850e-01
-	S(6)              2.900e-02
-	Si                4.890e-04
-	Sr                9.170e-05
-Tr      0.001
 
-END
-
-EQUILIBRIUM_PHASES 1001
+EQUILIBRIUM_PHASES 1000
   Barite		% kBarite       % 	0 # prec # SI at B1H4
 #  Gypsum		0	0 # prec
   Anhydrite		0	0 # prec
@@ -184,6 +160,7 @@ EQUILIBRIUM_PHASES 1001
 #  Strontianite          0       0
   Calcite		0	0
   Gibbsite		0	0 # prec
+  Kaolinite     0   0
 #  Quartz                0       0
   Clinop-Sr             % kclinop-Sr    %       0
   Clinop-K              % kclinop-K     %       0
@@ -220,7 +197,7 @@ Anorthite
 -start
 10 REM Palandri and Kharaka rate
 11 REM p & q adjusted with PEST
-12 if (SI("Anorthite") > 0 ) then goto 300 # only allowed to dissolve
+12 #if (SI("Anorthite") > 0 ) then goto 300 # only allowed to dissolve
 20 area = (10^PARM(1)) * M
 30 aH = act("H+")
 40 dif_temp = 1/TK - 1/298.15
@@ -231,12 +208,14 @@ Anorthite
 70 neut = ( k_neut ) * EXP((-17.8/R)*dif_temp)
 71 p = 1 # 10^ -9.3
 72 q = 1 # since it can be the power of a neg number, it has to be integer
-90   rate = area * (acid + neut) * (1- (SR("Anorthite")^p) )^q
+90   rate = area * (acid + neut) * (1- (SR("Anorthite")^p) )^q 
+100 z = 10 * SI("Anorthite")
+110 f = (-(exp(z) - exp(-z)) / (exp(z) + exp(-z)) + 1) / 2
+120 rate = rate * f
 160  moles = rate * TIME
 300 SAVE moles
 -end
- 
- 
+
 Clinop-Na
 -start
 10 REM only neutral mechanism
@@ -319,7 +298,7 @@ Ash_SrBa
 10 REM only neutral mechanism
 11 REM k_neut, p & q adjusted with PEST
 12 REM Ea adjusted with PEST
-13 If (SI("SiO2(a)") > 0) then goto 300 # only allowed to dissolve
+13 #If (SI("SiO2(a)") > 0) then goto 300 # only allowed to dissolve
 20 area = (10^PARM(1)) * M
 40 dif_temp = 1/TK - 1/298.15
 50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
@@ -328,7 +307,10 @@ Ash_SrBa
 65 q = 1 # PEST. since it can be the power of a neg number, it has to be integer
 68 Ea = 65 # PEST. Minerals that dissolve very fast, 21 kJ/mol (Lasaga, 1984)
 70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
-90   rate = area * ( neut ) * (1- SR("SiO2(a)")^p )^q
+90  rate = area * ( neut ) * (1- SR("SiO2(a)")^p )^q
+100 z = 10 * SI("SiO2(a)")
+110 f = (-(exp(z) - exp(-z)) / (exp(z) + exp(-z)) + 1) / 2
+120 rate = rate * f
 160  moles = rate * TIME
 300 SAVE moles
 -end
