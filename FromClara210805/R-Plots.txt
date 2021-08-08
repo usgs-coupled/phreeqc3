@@ -1,0 +1,114 @@
+library(ggplot2)
+library(gtable)
+library(grid)
+library(gridExtra)
+library(cowplot)
+
+#
+# Concentration profiles
+#
+cbPalette = c("green", "#E31A1C", "green4", "#6A3D9A", "#FF7F00", "black", "gold1", "skyblue2", "palegreen2", "#FDBF6F", "gray70", "maroon", "orchid1", "darkturquoise", "darkorange4", "brown")
+
+#filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir/01_1D.txt"
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir/tmpest1/01_1D.txt"
+#filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir_base/tmpest1/01_1D.txt"
+all <- read.csv(filename,sep='\t')
+all <- subset(all, all$time == 1.53683e+15)
+
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Ba.obs"
+Ba_obs <- read.csv(filename,sep='\t')
+Ba_obs <- setNames(Ba_obs,c("obs_name","dist_x", "Ba_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Ba, y = dist_x,  color='green')) +
+	geom_point(data=Ba_obs, aes(x=Ba_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/C.obs"
+C_obs <- read.csv(filename,sep='\t')
+C_obs <- setNames(C_obs,c("obs_name","dist_x", "C_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = C, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=C_obs, aes(x=C_obs, y=dist_x), color='blue') +
+	scale_y_reverse()
+
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Ca.obs"
+Ca_obs <- read.csv(filename,sep='\t')
+Ca_obs <- setNames(Ca_obs,c("obs_name","dist_x", "Ca_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Ca, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Ca_obs, aes(x=Ca_obs, y=dist_x), color='blue') +
+	scale_y_reverse()
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Cl.obs"
+Cl_obs <- read.csv(filename,sep='\t')
+Cl_obs <- setNames(Cl_obs,c("obs_name","dist_x", "Cl_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Cl, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Cl_obs, aes(x=Cl_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Fe.obs"
+Fe_obs <- read.csv(filename,sep='\t')
+Fe_obs <- setNames(Fe_obs,c("obs_name","dist_x", "Fe_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Fe, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Fe_obs, aes(x=Fe_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/K.obs"
+K_obs <- read.csv(filename,sep='\t')
+K_obs <- setNames(K_obs,c("obs_name","dist_x", "K_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = K, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=K_obs, aes(x=K_obs, y=dist_x), color='blue') +
+	scale_y_reverse()		
+		
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Mg.obs"
+Mg_obs <- read.csv(filename,sep='\t')
+Mg_obs <- setNames(Mg_obs,c("obs_name","dist_x", "Mg_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Mg, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Mg_obs, aes(x=Mg_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Na.obs"
+Na_obs <- read.csv(filename,sep='\t')
+Na_obs <- setNames(Na_obs,c("obs_name","dist_x", "Na_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Na, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Na_obs, aes(x=Na_obs, y=dist_x), color='blue') +
+	scale_y_reverse()
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/pH.obs"
+pH_obs <- read.csv(filename,sep='\t')
+pH_obs <- setNames(pH_obs,c("obs_name","dist_x", "pH_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = pH, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=pH_obs, aes(x=pH_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/S.obs"
+S_obs <- read.csv(filename,sep='\t')
+S_obs <- setNames(S_obs,c("obs_name","dist_x", "S_obs"))
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = S, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=S_obs, aes(x=S_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Si.obs"
+Si_obs <- read.csv(filename,sep='\t')
+Si_obs <- setNames(Si_obs,c("obs_name","dist_x", "Si_obs"))
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Si, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Si_obs, aes(x=Si_obs, y=dist_x), color='blue') +
+	scale_y_reverse()
+	
+filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Sr.obs"
+Sr_obs <- read.csv(filename,sep='\t')
+Sr_obs <- setNames(Sr_obs,c("obs_name","dist_x", "Sr_obs"))	
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = Sr, y = dist_x,  color=cbPalette[1])) +
+	geom_point(data=Sr_obs, aes(x=Sr_obs, y=dist_x), color='blue') +
+	scale_y_reverse()	
+
