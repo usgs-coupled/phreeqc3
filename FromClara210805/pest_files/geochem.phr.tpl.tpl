@@ -1,6 +1,94 @@
 ptf %
 DATABASE @phreeqcdatabase@
+PHASES
 
+Clinop-Ca	## Zeolite, Secondary Mineral
+    #    Ca1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Ca++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
+        Ca1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+ + 29.0660 H2O =  + 0.0170 Fe+++ + 1.7335 Ca++ + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
+	  log_k           -7.0095
+	-delta_H	-74.6745	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Ca
+#	Enthalpy of formation:	-4919.84 kcal/mol
+        -analytic -4.4820e+001 5.3696e-002 5.4878e+004 -3.1459e+001 -7.5491e+006
+		-add_constant % kclinop-Ca %
+#       -Range:  0-300
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
+ 
+ 
+Clinop-K	## Zeolite, Secondary Mineral
+   #     K3.467Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 3.4500 Al+++ + 3.4670 K+ + 14.5330 SiO2 + 17.8560 H2O
+        K3.467Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 3.4500 Al+++ + 3.4670 K+ + 14.5330 H4SiO4 + 17.8560 H2O
+       log_k           -10.9485
+	-delta_H	67.4862	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-K
+#	Enthalpy of formation:	-4937.77 kcal/mol
+        -analytic 1.1697e+001 6.9480e-002 4.7718e+004 -4.7442e+001 -7.6907e+006
+		-add_constant % kclinop-K %
+#       -Range:  0-300
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
+ 
+Clinop-NH4	## Zeolite, Secondary Mineral
+   #     (NH4)3.467Al3.45Fe.017Si14.533O36:10.922H2O +10.4010 H+  =  + 0.0170 Fe+++ + 3.4500 Al+++ + 3.4670 NH3 + 14.5330 SiO2 + 17.8560 H2O
+        (NH4)3.467Al3.45Fe.017Si14.533O36:10.922H2O +10.4010 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 3.4500 Al+++ + 3.4670 NH3 + 14.5330 H4SiO4 + 17.8560 H2O
+        log_k           -42.4791
+	-delta_H	0	      	# Not possible to calculate enthalpy of reaction	Clinoptilolite-NH4
+#	Enthalpy of formation:	0 kcal/mol
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
+ 
+ 
+Clinop-Na	## Zeolite, Secondary Mineral
+   #     Na3.467Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 3.4500 Al+++ + 3.4670 Na+ + 14.5330 SiO2 + 17.8560 H2O
+        Na3.467Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 3.4500 Al+++ + 3.4670 Na+ + 14.5330 H4SiO4 + 17.8560 H2O
+        log_k           -7.1363
+	-delta_H	2.32824	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Na
+#	Enthalpy of formation:	-4912.36 kcal/mol
+        -analytic -3.4572e+001 6.8377e-002 5.1962e+004 -3.3426e+001 -7.5586e+006
+		-add_constant % kclinop-Na %
+#       -Range:  0-300
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
+ 
+Clinop-Sr	## Zeolite, Secondary Mineral
+ #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
+        Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
+       log_k           -7.1491
+	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
+#	Enthalpy of formation:	-4925.1 kcal/mol
+        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
+		-add_constant % kclinop-Sr %
+#       -Range:  0-300
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
+
+Clinop-Mg	## Zeolite, Secondary Mineral
+ #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
+        Mg1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.7335 Mg++ + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
+       log_k           -7.1491
+	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
+#	Enthalpy of formation:	-4925.1 kcal/mol
+        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
+		-add_constant % kclinop-Mg %
+#       -Range:  0-300
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite		
+ 
+#Clinop-Fe2	## Zeolite, Secondary Mineral
+# #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
+#        Fe1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.7335 Fe++ + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
+#       log_k           -7.1491
+#	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
+##	Enthalpy of formation:	-4925.1 kcal/mol
+#        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
+##       -Range:  0-300
+#	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite	
+#	
+#Clinop-Fe3	## Zeolite, Secondary Mineral
+# #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
+#        Fe1.15566666667Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.15566666667Fe+3 + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
+#       log_k           -7.1491
+#	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
+##	Enthalpy of formation:	-4925.1 kcal/mol
+#        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
+##       -Range:  0-300
+#	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
+
+
+END
 SOLUTION_SPECIES
 H+ = H+; -Dw 1e-9; -gamma       9.0     0
 H2O = OH- + H+
@@ -32,6 +120,14 @@ Tr = Tr
 	-delta_h -312.130	kcal
 	-dw	 1.96e-9
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
+	
+SO4-2 + 9 H+ + 8 e- = HS- + 4 H2O
+	-log_k	33.65
+#	-log_k	-100
+	-delta_h -60.140 kcal
+	-gamma	3.5	0
+	-dw	 1.73e-9
+	-Vm  5.0119  4.9799  3.4765  -2.9849  1.4410 # supcrt	
 END
  
  
@@ -57,7 +153,10 @@ Ash_SrBa	### Same as Ash_B13H1, but w/ Sr & Ba. O balances all cations, Na is ba
 ##### 0.0004 Sr & Ba
 (SiO2)0.259(AlO1.5)0.0533(Na0.0274O0.01300)(MgO)0.0006Cl0.0014(KO0.5)0.0149(CaO)0.0054(MnO)0.0003(FeO)0.0055(BaO)0.0004(SrO)0.0004   + 0.405800 H2O + 0.2244 H+ + 0.0008 H+ = \
     0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+2 + 0.0004Ba+2 + 0.0004Sr+2 + 0.0008OH-
- 
+
+#(SiO2)0.259(AlO1.5)0.0533(Na0.0274O0.01300)(MgO)0.0006Cl0.0014(KO0.5)0.0149(CaO)0.0054(MnO)0.0003(Fe2O3)0.00275(BaO)0.0004(SrO)0.0004   + 0.405800 H2O + 0.2244 H+ + 0.0008 H+ + 0.00275H2O = \
+#    0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+3 + 0.0004Ba+2 + 0.0004Sr+2 + 0.0008OH- + 0.0055OH- 
+
         log_k           -2.7136
 	-delta_H	20.0539	kJ/mol	# Calculated enthalpy of reaction	SiO2(am)
 #	Enthalpy of formation:	-214.568 kcal/mol
@@ -88,7 +187,7 @@ Olivine_B13H1 #### MOLAR RATIOS according to Ash_B13H1
         -analytic 1.3853e+001 -3.5501e-003 7.1496e+003 -6.8710e+000 -6.3310e+004
 #       -Range:  0-300
 	-Vm	46.42 # calculated from webmineral molecular weight & density data
- 
+	
 END
 
 
@@ -120,6 +219,9 @@ SELECTED_OUTPUT 1
 -percent_error
 -alkalinity
 -totals	Na	Mg	K	Ca	N(-3)	C C(4)	S S(6)	Cl	Si	Sr	Ba	Mn	Al	Fe # input SOLUTION data for 1D models
+USER_PUNCH 1
+-heading S6
+10 PUNCH TOT("S(6)")
 END
 SOLUTION 1000 B1H4
  -units	mol/kgw
@@ -132,41 +234,58 @@ density	1.05001
 	Ba                5.810e-07
 	C(4)              3.060e-03
 	Ca                1.170e-02
-	Cl                5.640e-01
+	Cl                5.640e-01 
 	Fe                1.690e-05
 	K                 2.430e-02
 	Mg                5.320e-02
 	Mn                1.890e-04
-	N(-3)             2.940e-04
-	Na                4.850e-01
+	#N(-3)             2.940e-04
+	Na                4.850e-01 charge
 	S(6)              2.900e-02
 	Si                4.890e-04
 	Sr                9.170e-05
+#	O(0)              10 mg/kgw
 END
 SELECTED_OUTPUT 1
 -active false
 END
+KNOBS
+-step 10
+-pe    5
+SOLID_SOLUTION 1000
+#Clinop_ss
+#  -comp Clinop-Sr      1e-4
+#  -comp Clinop-K       1e-4
+#  -comp Clinop-Na      1e-4
+#  -comp Clinop-Ca      1e-4
+#  -comp Clinop-Mg      1e-4
+
+END
+
 
 EQUILIBRIUM_PHASES 1000
-  Barite		% kBarite       % 	0 # prec # SI at B1H4
-#  Gypsum		0	0 # prec
-  Anhydrite		0	0 # prec
-  Goethite  		0     	0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
-  Pyrite    		0     	0 # prec
-#  Pyrolusite    	0       0
-#  Pyrochroite   	0       0
-#  Rhodochrosite    	0	0
-#  Manganite     	0       0
-#  Strontianite          0       0
-  Calcite		0	0
-  Gibbsite		0	0 # prec
-  Kaolinite     0   0
-#  Quartz                0       0
-  Clinop-Sr             % kclinop-Sr    %       0
-  Clinop-K              % kclinop-K     %       0
-  Clinop-Na             % kclinop-Na    %       0
-#  Clinop-Ca             % kclinop-Ca    %       0
-  Chlorite(14A)	        % kChlor        %       0
+  Barite         % kBarite %             0 # prec # SI at B1H4
+  Anhydrite      0                       0 # prec
+  Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
+  Pyrite         0                       0 # prec
+  Siderite       0                       0
+  Pyrolusite     0                       0
+  Pyrochroite    0                       0
+  Rhodochrosite  0                       0
+  Manganite      0                       0
+  Hausmannite    0                       0
+# Strontianite   0                       0
+  Calcite        0                       0
+  Gibbsite       0                       0 # prec
+  Kaolinite      0                       0
+  Quartz        0                       0
+  Clinop-Sr      % kclinop-Sr    %       0
+#  Clinop-K       % kclinop-K     %       0
+  Clinop-Na      % kclinop-Na    %       0
+#  Clinop-Ca      % kclinop-Ca    %       0
+#  Clinop-Mg      % kclinop-Mg    %       0
+  Chlorite(14A)  % kChlor        %       0
+  Illite         % kIllite       %       0
 END
 
 
@@ -197,7 +316,7 @@ Anorthite
 -start
 10 REM Palandri and Kharaka rate
 11 REM p & q adjusted with PEST
-12 #if (SI("Anorthite") > 0 ) then goto 300 # only allowed to dissolve
+12 if (SI("Anorthite") > 0 ) then goto 300 # only allowed to dissolve
 20 area = (10^PARM(1)) * M
 30 aH = act("H+")
 40 dif_temp = 1/TK - 1/298.15
@@ -209,9 +328,6 @@ Anorthite
 71 p = 1 # 10^ -9.3
 72 q = 1 # since it can be the power of a neg number, it has to be integer
 90   rate = area * (acid + neut) * (1- (SR("Anorthite")^p) )^q 
-100 z = 10 * SI("Anorthite")
-110 f = (-(exp(z) - exp(-z)) / (exp(z) + exp(-z)) + 1) / 2
-120 rate = rate * f
 160  moles = rate * TIME
 300 SAVE moles
 -end
@@ -298,7 +414,7 @@ Ash_SrBa
 10 REM only neutral mechanism
 11 REM k_neut, p & q adjusted with PEST
 12 REM Ea adjusted with PEST
-13 #If (SI("SiO2(a)") > 0) then goto 300 # only allowed to dissolve
+13 If (SI("SiO2(a)") > 0) then goto 300 # only allowed to dissolve
 20 area = (10^PARM(1)) * M
 40 dif_temp = 1/TK - 1/298.15
 50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
@@ -308,9 +424,7 @@ Ash_SrBa
 68 Ea = 65 # PEST. Minerals that dissolve very fast, 21 kJ/mol (Lasaga, 1984)
 70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
 90  rate = area * ( neut ) * (1- SR("SiO2(a)")^p )^q
-100 z = 10 * SI("SiO2(a)")
-110 f = (-(exp(z) - exp(-z)) / (exp(z) + exp(-z)) + 1) / 2
-120 rate = rate * f
+
 160  moles = rate * TIME
 300 SAVE moles
 -end

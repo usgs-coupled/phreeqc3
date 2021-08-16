@@ -1,25 +1,25 @@
 pcf 
 * control data 
 restart estimation 
-     17   792      1      0     12 
+     19   792      1      0     12 
      1     12   double   point   1   0   0 
 10.0  -3.0    0.3    0.03     15  0  LAMFORGIVE DERFORGIVE 
 0.1   2.0   1.0e-3 
 0.1  noaui 
-10   .005  4   4  .005   4 
+3   .005  4   4  .005   4 
 1    1    1  
 * singular value decomposition 
 1 
 15 5e-7 
 1 
 * parameter groups 
-phq_k        relative      1.00000E-02  0.0000    always_3     2.0000      parabolic
+phq_k        relative      1.00000E-02  0.0000    always_2     2.0000      parabolic
 
 * parameter data 
 palb        fixed   relative    -10.   -10.    -3.    phq_k    1.    0.    1
-panor       none    relative    -7.1   -10.    -2.    phq_k    1.    0.    1
+panor       none    relative    -7.07  -10.    -2.    phq_k    1.    0.    1
 pclinop-na  fixed   relative    -20.   -20.    -3.    phq_k    1.    0.    1
-pAsh_SrBa   none    relative    -6.1   -10.    -2.    phq_k    1.    0.    1
+pAsh_SrBa   none    relative    -6.15  -10.    -2.    phq_k    1.    0.    1
 pFay        fixed   relative    -10.0  -10.    -3.    phq_k    1.    0.    1
 pHed        fixed   relative    -10.0  -10.    -3.    phq_k    1.    0.    1
 pQtz        fixed   relative    -20.0  -20.    -3.    phq_k    1.    0.    1
@@ -28,11 +28,13 @@ pclinop-k   fixed   relative    -20.   -20.    -2.    phq_k    1.    0.    1
 pclinop-Sr  fixed   relative    -20.0  -20.    -2.    phq_k    1.    0.    1
 min_moles   fixed   factor      1e-8   1e-8    1e0    phq_k    1.    0.    1
 kBarite     fixed   relative    10.13  6.      14.    phq_k    1.    -10.  1
-kChlor      none    relative    8.9    6.      14.    phq_k    1.    -10.  1
-kclinop-K   none    relative    10.1   6.      14.    phq_k    1.    -10.  1
-kclinop-Sr  none    relative    8.9    4.      14.    phq_k    1.    -10.  1
-kclinop-Na  none    relative    15.5   6.      16.    phq_k    1.    -10.  1
-kclinop-Ca  fixed   relative    14.0   6.      16.    phq_k    1.    -10.  1
+kChlor      none    relative    16.94  6.      20.    phq_k    1.    -10.  1
+kclinop-K   fixed   relative    5.65   0.      14.    phq_k    1.    -10.  1
+kclinop-Sr  none    relative    5.88   0.      14.    phq_k    1.    -10.  1
+kclinop-Na  none    relative    8.93   0.      16.    phq_k    1.    -10.  1
+kclinop-Ca  fixed   relative    14.00  6.      20.    phq_k    1.    -10.  1
+kclinop-Mg  fixed   relative    14.00  0.      20.    phq_k    1.    -10.  1
+kIllite     none    relative    10.0   0       20     phq_k    1.    -19.  1
 
 * observation groups 
 Ba
@@ -44,7 +46,7 @@ K
 Mg
 Na
 pH
-S
+S6
 Si
 Sr
 
@@ -643,72 +645,72 @@ Sr
      pH_64               8.52457           0.1  pH
      pH_65               8.31356           0.1  pH
      pH_66                8.3118           0.1  pH
-       S_1              0.029031           20  S
-       S_2              0.029012           20  S
-       S_3               0.02875           20  S
-       S_4              0.028621           20  S
-       S_5              0.028788           20  S
-       S_6              0.028154           20  S
-       S_7              0.027984           20  S
-       S_8              0.027698           20  S
-       S_9              0.027464           20  S
-      S_10                0.0272           20  S
-      S_11              0.026785           20  S
-      S_12              0.026681           20  S
-      S_13              0.026643           20  S
-      S_14              0.026313           20  S
-      S_15              0.025651           20  S
-      S_16              0.025478           20  S
-      S_17              0.025113           20  S
-      S_18              0.025534           20  S
-      S_19              0.025783           20  S
-      S_20              0.025843           20  S
-      S_21              0.026146           20  S
-      S_22              0.025661           20  S
-      S_23               0.02562           20  S
-      S_24              0.025373           20  S
-      S_25              0.025939           20  S
-      S_26              0.025396           20  S
-      S_27              0.025325           20  S
-      S_28              0.025112           20  S
-      S_29              0.025372           20  S
-      S_30              0.025138           20  S
-      S_31              0.025151           20  S
-      S_32               0.02512           20  S
-      S_33              0.024339           20  S
-      S_34              0.022457           20  S
-      S_35              0.029094           20  S
-      S_36              0.020782           20  S
-      S_37              0.021617           20  S
-      S_38              0.021239           20  S
-      S_39              0.020869           20  S
-      S_40                0.0208           20  S
-      S_41              0.020531           20  S
-      S_42               0.02029           20  S
-      S_43              0.020079           20  S
-      S_44              0.021092           20  S
-      S_45              0.020218           20  S
-      S_46              0.020365           20  S
-      S_47              0.021013           20  S
-      S_48              0.019812           20  S
-      S_49              0.020013           20  S
-      S_50              0.020038           20  S
-      S_51              0.019517           20  S
-      S_52              0.019382           20  S
-      S_53              0.019978           20  S
-      S_54              0.020232           20  S
-      S_55               0.01895           20  S
-      S_56              0.018331           20  S
-      S_57              0.018807           20  S
-      S_58              0.018191           20  S
-      S_59              0.017683           20  S
-      S_60              0.016224           20  S
-      S_61              0.016944           20  S
-      S_62              0.017777           20  S
-      S_63              0.015744           20  S
-      S_64              0.015074           20  S
-      S_65              0.016582           20  S
-      S_66              0.014522           20  S
+       S6_1              0.029031           20  S6
+       S6_2              0.029012           20  S6
+       S6_3               0.02875           20  S6
+       S6_4              0.028621           20  S6
+       S6_5              0.028788           20  S6
+       S6_6              0.028154           20  S6
+       S6_7              0.027984           20  S6
+       S6_8              0.027698           20  S6
+       S6_9              0.027464           20  S6
+      S6_10                0.0272           20  S6
+      S6_11              0.026785           20  S6
+      S6_12              0.026681           20  S6
+      S6_13              0.026643           20  S6
+      S6_14              0.026313           20  S6
+      S6_15              0.025651           20  S6
+      S6_16              0.025478           20  S6
+      S6_17              0.025113           20  S6
+      S6_18              0.025534           20  S6
+      S6_19              0.025783           20  S6
+      S6_20              0.025843           20  S6
+      S6_21              0.026146           20  S6
+      S6_22              0.025661           20  S6
+      S6_23               0.02562           20  S6
+      S6_24              0.025373           20  S6
+      S6_25              0.025939           20  S6
+      S6_26              0.025396           20  S6
+      S6_27              0.025325           20  S6
+      S6_28              0.025112           20  S6
+      S6_29              0.025372           20  S6
+      S6_30              0.025138           20  S6
+      S6_31              0.025151           20  S6
+      S6_32               0.02512           20  S6
+      S6_33              0.024339           20  S6
+      S6_34              0.022457           20  S6
+      S6_35              0.029094           20  S6
+      S6_36              0.020782           20  S6
+      S6_37              0.021617           20  S6
+      S6_38              0.021239           20  S6
+      S6_39              0.020869           20  S6
+      S6_40                0.0208           20  S6
+      S6_41              0.020531           20  S6
+      S6_42               0.02029           20  S6
+      S6_43              0.020079           20  S6
+      S6_44              0.021092           20  S6
+      S6_45              0.020218           20  S6
+      S6_46              0.020365           20  S6
+      S6_47              0.021013           20  S6
+      S6_48              0.019812           20  S6
+      S6_49              0.020013           20  S6
+      S6_50              0.020038           20  S6
+      S6_51              0.019517           20  S6
+      S6_52              0.019382           20  S6
+      S6_53              0.019978           20  S6
+      S6_54              0.020232           20  S6
+      S6_55               0.01895           20  S6
+      S6_56              0.018331           20  S6
+      S6_57              0.018807           20  S6
+      S6_58              0.018191           20  S6
+      S6_59              0.017683           20  S6
+      S6_60              0.016224           20  S6
+      S6_61              0.016944           20  S6
+      S6_62              0.017777           20  S6
+      S6_63              0.015744           20  S6
+      S6_64              0.015074           20  S6
+      S6_65              0.016582           20  S6
+      S6_66              0.014522           20  S6
       Si_1            0.00048908           15  Si
       Si_2            0.00044338           15  Si
       Si_3            0.00044957           15  Si
@@ -848,15 +850,15 @@ Sr
 * model input/output 
 @PROJECT_DIR@\geochem.phr.tpl		geochem.phr
 @PROJECT_DIR@\Ba.ins					Ba.calc
-@PROJECT_DIR@\C.ins					C.calc
+@PROJECT_DIR@\C.ins						C.calc
 @PROJECT_DIR@\Ca.ins					Ca.calc
 @PROJECT_DIR@\Cl.ins					Cl.calc
 @PROJECT_DIR@\Fe.ins					Fe.calc
-@PROJECT_DIR@\K.ins					K.calc
+@PROJECT_DIR@\K.ins						K.calc
 @PROJECT_DIR@\Mg.ins					Mg.calc
 @PROJECT_DIR@\Na.ins					Na.calc
 @PROJECT_DIR@\pH.ins					pH.calc
-@PROJECT_DIR@\S.ins					S.calc
+@PROJECT_DIR@\S6.ins					S6.calc
 @PROJECT_DIR@\Si.ins					Si.calc
 @PROJECT_DIR@\Sr.ins					Sr.calc
 
