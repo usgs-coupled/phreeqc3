@@ -67,16 +67,17 @@ Clinop-Mg	## Zeolite, Secondary Mineral
 #       -Range:  0-300
 	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite		
  
-#Clinop-Fe2	## Zeolite, Secondary Mineral
-# #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
-#        Fe1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.7335 Fe++ + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
-#       log_k           -7.1491
-#	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
-##	Enthalpy of formation:	-4925.1 kcal/mol
-#        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
-##       -Range:  0-300
-#	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite	
-#	
+Clinop-Fe2	## Zeolite, Secondary Mineral
+#       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
+        Fe1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.7335 Fe++ + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
+        log_k           -7.1491
+	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
+#	Enthalpy of formation:	-4925.1 kcal/mol
+        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
+		-add_constant % kclinop-Fe2 %
+#       -Range:  0-300
+	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite	
+	
 #Clinop-Fe3	## Zeolite, Secondary Mineral
 # #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
 #        Fe1.15566666667Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.15566666667Fe+3 + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
@@ -98,14 +99,8 @@ H2O = OH- + H+
         -Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # ref. 1
         
 SOLUTION_MASTER_SPECIES
-Tr            Tr               0     Tr              1 
 Mn(+6)   MnO4-2		0	Mn
 SOLUTION_SPECIES
-Tr = Tr
-	 log_k     0
-	 # data from H4SiO4
-	-dw	 1.10e-9
-	-Vm  10.5  1.7  20  -2.7  0.1291 # supcrt + 2*H2O in a1
 
 2.0000 H2O + 1.0000 O2 + 1.0000 Mn++  =  MnO4-2 +4.0000 H+
         -gamma  5.0     0.0
@@ -121,13 +116,6 @@ Tr = Tr
 	-dw	 1.96e-9
 	-Vm 7 # Pray et al., 1952, IEC 44. 1146
 	
-SO4-2 + 9 H+ + 8 e- = HS- + 4 H2O
-	-log_k	33.65
-#	-log_k	-100
-	-delta_h -60.140 kcal
-	-gamma	3.5	0
-	-dw	 1.73e-9
-	-Vm  5.0119  4.9799  3.4765  -2.9849  1.4410 # supcrt	
 END
  
  
@@ -220,8 +208,13 @@ SELECTED_OUTPUT 1
 -alkalinity
 -totals	Na	Mg	K	Ca	N(-3)	C C(4)	S S(6)	Cl	Si	Sr	Ba	Mn	Al	Fe # input SOLUTION data for 1D models
 USER_PUNCH 1
--heading S6
-10 PUNCH TOT("S(6)")
+-heading S6 J_tot_Cl- J_conc_Cl- J_psi_Cl- Uphill
+10 j_tot = MCD_Jtot("Cl-")
+20 j_conc = MCD_Jconc("Cl-")
+30 j_psi = j_tot - j_conc
+40 uphill$ = "No"
+50 if j_tot * j_conc < 0 then uphill$ = "UPHILL"
+60 PUNCH TOT("S(6)"), MCD_Jtot("Cl-"), MCD_Jconc("Cl-"), j_psi, uphill$
 END
 SOLUTION 1000 B1H4
  -units	mol/kgw
@@ -250,13 +243,15 @@ SELECTED_OUTPUT 1
 -active false
 END
 KNOBS
--step 10
--pe    5
+-step 2
+-pe   1.5
+-iter 200
+#-tol 1e-16
 SOLID_SOLUTION 1000
 #Clinop_ss
 #  -comp Clinop-Sr      1e-4
 #  -comp Clinop-K       1e-4
-#  -comp Clinop-Na      1e-4
+#   -comp Clinop-Na      1e-4
 #  -comp Clinop-Ca      1e-4
 #  -comp Clinop-Mg      1e-4
 
@@ -266,7 +261,8 @@ END
 EQUILIBRIUM_PHASES 1000
   Barite         % kBarite %             0 # prec # SI at B1H4
   Anhydrite      0                       0 # prec
-  Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
+ # Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
+  Hematite       0                       0
   Pyrite         0                       0 # prec
   Siderite       0                       0
   Pyrolusite     0                       0
@@ -277,13 +273,19 @@ EQUILIBRIUM_PHASES 1000
 # Strontianite   0                       0
   Calcite        0                       0
   Gibbsite       0                       0 # prec
-  Kaolinite      0                       0
-  Quartz        0                       0
-  Clinop-Sr      % kclinop-Sr    %       0
+#  Kaolinite      0                       0
+#   Quartz        0                       0
+#  Clinop-Sr      % kclinop-Sr    %       0
+   Clinop-Sr      0       0
 #  Clinop-K       % kclinop-K     %       0
-  Clinop-Na      % kclinop-Na    %       0
+   Clinop-K       0       0
+#   Clinop-Na      % kclinop-Na    %       0
+  Clinop-Na       0       0
 #  Clinop-Ca      % kclinop-Ca    %       0
+#   Clinop-Ca      0       0
 #  Clinop-Mg      % kclinop-Mg    %       0
+#  Clinop-Mg      0       0
+#  Clinop-Fe2      0       0
   Chlorite(14A)  % kChlor        %       0
   Illite         % kIllite       %       0
 END
@@ -291,27 +293,6 @@ END
 
 RATES
 
-Albite
--start
-10 REM Palandri and Kharaka rate
-11 REM p & q adjusted with PEST
-20 area = (10^PARM(1)) * M
-30 aH = act("H+")
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_acid = 10^-10.16
-60 acid = ( k_acid ) * EXP((-65/R)*dif_temp) * aH^0.457
-65 k_neut = 10^-12.56
-70 neut = ( k_neut ) * EXP((-69.8/R)*dif_temp)
-75 k_basic = 10^-15.60
-80 basic = ( k_basic ) * EXP((-71/R)*dif_temp) * aH^-0.572
-81 p = 1 #  10^ -8.3
-82 q = 1 # since it can be the power of a neg number, it has to be integer
-90   rate = area * (acid + neut + basic) * (1- (SR("Albite")^p) )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
- 
 Anorthite
 -start
 10 REM Palandri and Kharaka rate
@@ -332,83 +313,6 @@ Anorthite
 300 SAVE moles
 -end
 
-Clinop-Na
--start
-10 REM only neutral mechanism
-11 REM k_neut, p & q adjusted with PEST
-12 REM Ea adjusted with PEST
-14 if (SI("Clinop-Na") < 0 ) then goto 300 # only allowed to precipitate
-20 area = (10^PARM(1)) # * M
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_neut = 10^-10 # PEST
-60 p = 1 # 10^ -4.8
-65 q = 1 # since it can be the power of a neg number, it has to be integer
-68 Ea = 60 # PEST. 1st guess 60 kJ/mol (Lasaga, 1984)
-70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
-90   rate = area * ( neut ) * (1- SR("Clinop-Na")^p )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
- 
-Clinop-K
--start
-10 REM only neutral mechanism
-11 REM k_neut, p & q adjusted with PEST
-12 REM Ea adjusted with PEST
-14 if (SI("Clinop-K") < 0 ) then goto 300 # only allowed to precipitate
-20 area = (10^PARM(1)) # * M
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_neut = 10^-10 # PEST
-60 p = 1 # 10^ -4.0
-65 q = 1 # since it can be the power of a neg number, it has to be integer
-68 Ea = 60 # PEST. 1st guess 60 kJ/mol (Lasaga, 1984)
-70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
-90   rate = area * ( neut ) * (1- SR("Clinop-K")^p )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
- 
-Clinop-Sr
--start
-10 REM only neutral mechanism
-11 REM k_neut, p & q adjusted with PEST
-12 REM Ea adjusted with PEST
-14 if (SI("Clinop-Sr") < 0 ) then goto 300 # only allowed to precipitate
-20 area = (10^PARM(1)) # * M
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_neut = 10^-10 # PEST
-60 p = 1 # 10^ -4.0
-65 q = 1 # since it can be the power of a neg number, it has to be integer
-68 Ea = 60 # PEST. 1st guess 60 kJ/mol (Lasaga, 1984)
-70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
-90   rate = area * ( neut ) * (1- SR("Clinop-Sr")^p )^q * TOT("Sr") / (1e-8 + TOT("Sr"))
-160  moles = rate * TIME
-300 SAVE moles
--end
- 
-Clinoptilolite
--start
-10 REM only neutral mechanism
-11 REM k_neut, p & q adjusted with PEST
-12 REM Ea adjusted with PEST
-14 if (SI("Clinoptilolite") < 0 ) then goto 300 # only allowed to precipitate
-20 area = (10^PARM(1)) * M
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_neut = 10^-10 # PEST
-60 p = 1 # 1 # 10^ -7.3
-65 q = 1 # 1 # since it can be the power of a neg number, it has to be integer
-68 Ea = 60 # PEST. 1st guess 60 kJ/mol (Lasaga, 1984)
-70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
-90   rate = area * ( neut ) * (1- SR("Clinoptilolite")^p )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
-
- 
 Ash_SrBa
 -start
 10 REM only neutral mechanism
@@ -424,97 +328,21 @@ Ash_SrBa
 68 Ea = 65 # PEST. Minerals that dissolve very fast, 21 kJ/mol (Lasaga, 1984)
 70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
 90  rate = area * ( neut ) * (1- SR("SiO2(a)")^p )^q
-
 160  moles = rate * TIME
 300 SAVE moles
 -end
 
- 
-Fayalite
+H2_gas
 -start
-10 REM Palandri and Kharaka rate for Fayalite
-11 REM p & q adjusted with PEST
-15 if (SI("Fayalite") > 0 ) then goto 300 # only allowed to dissolve
-20 area = (10^PARM(1)) * M
-30 aH = act("H+")
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_acid = 10^-4.8
-60 acid = ( k_acid ) * EXP((-94.4/R)*dif_temp) * aH^0.47
-65 k_neut = 10^-12.8
-70 neut = ( k_neut ) * EXP((-94.4/R)*dif_temp)
-81 p = 1 # 10^(  -7.8806472E+00)
-82 q = 1 # since it can be the power of a neg number, it has to be integer
-90   rate = area * (acid + neut) * (1- (SR("Fayalite")^p) )^q
-160  moles = rate * TIME
-300 SAVE moles
+10 k = 10^parm(1)
+20 moles = k * TIME
+30 SAVE moles
 -end
- 
- 
-Hedenbergite
--start
-10 REM Palandri and Kharaka rate for Diopside
-11 REM p & q adjusted with PEST
-12 if (SI("Hedenbergite") > 0 ) then goto 300 # only allowed to dissolve
-20 area = (10^PARM(1)) * M
-30 aH = act("H+")
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_acid = 10^-6.36
-60 acid = ( k_acid ) * EXP((-96.1/R)*dif_temp) * aH^0.71
-65 k_neut = 10^-11.11
-70 neut = ( k_neut ) * EXP((-40.6/R)*dif_temp)
-71 p = 1 # 10^(  -6.0314393E+00)
-72 q = 1 # since it can be the power of a neg number, it has to be integer
-90   rate = area * (acid + neut) * (1- (SR("Hedenbergite")^p) )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
-
- 
-Quartz
--start
-10 REM Palandri and Kharaka rate for Quartz
-11 REM p & q adjusted with PEST
-20 area = (10^PARM(1)) * M
-30 aH = act("H+")
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_basic = 10^-16.29
-60 basic = ( k_basic ) * EXP((-87.7/R)*dif_temp) * aH^-0.5
-65 k_neut = 10^-13.99
-70 neut = ( k_neut ) * EXP((-87.7/R)*dif_temp)
-71 p = 1 # 10^(-5.4)
-72 q = 1 # since it can be the power of a neg number, it has to be integer
-90   rate = area * (basic + neut) * (1- (SR("Quartz")^p) )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
- 
-Chlorite(14A)
--start
-10 REM Palandri and Kharaka rate
-11 REM p & q adjusted with PEST
-20 area = (10^PARM(1)) # * M
-30 aH = act("H+")
-40 dif_temp = 1/TK - 1/298.15
-50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
-55 k_acid = 10^-11.11
-60 acid = ( k_acid ) * EXP((-88.0/R)*dif_temp) * aH^0.5
-65 k_neut = 10^-12.52
-70 neut = ( k_neut ) * EXP((-88.0/R)*dif_temp)
-71 p = 1 # 0.07 # 10^ -5.3
-72 q = 1 # since it can be the power of a neg number, it has to be integer
-90   rate = area * (acid + neut) * (1- (SR("Chlorite(14A)")^p) )^q
-160  moles = rate * TIME
-300 SAVE moles
--end
-
 
 END
 
 KINETICS 1000
--cvode
+#-cvode
 
 #Albite
 #-m0 1.04E+00 # mol/L-sedim. Generic andesitic comp. 10wtperc Ab. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
@@ -573,9 +401,25 @@ Ash_SrBa
 
 END
 
-# KINETICS 1000
-# END
+KINETICS 1001
+#-cvode
 
+Anorthite
+-m0 9.88E-01 # mol/L-sedim. Generic andesitic comp. 10wtperc An. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
+-formula Anorthite
+-parm	%    panor      % # -7 # PEST. specific-surf-area (m2/mol-of-min)
+
+Ash_SrBa
+-m0 4.23E+01 # mol/L-sedim. Generic andesitic comp. 25wtperc Ash. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
+-formula Ash_SrBa
+-parm	%    pAsh_SrBa  % #  -7.5 # -7 # PEST. specific-surf-area (m2/mol-of-min)
+
+H2_gas
+-m0 10
+-formula H2
+-parm % h2_rate %
+
+END
 PRINT
 -user_graph false
 END
