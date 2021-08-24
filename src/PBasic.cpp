@@ -1418,6 +1418,12 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokm0:
 			output_msg("M0");
 			break;
+		case tokmcd_jtot:
+			output_msg("MCD_JTOT");
+			break;
+		case tokmcd_jconc:
+			output_msg("MCD_JCONC");
+			break;
 		case tokmisc1:
 			output_msg("MISC1");
 			break;
@@ -2595,6 +2601,29 @@ factor(struct LOC_exec * LINK)
 	case tokfloor:
 	{
 		n.UU.val = floor(realfactor(LINK));
+	}
+	break;
+
+	case tokmcd_jtot:
+	{
+		double f = 0.0;
+		const char* str = stringfactor(STR1, LINK);
+		if (PhreeqcPtr->state == TRANSPORT && PhreeqcPtr->multi_Dflag)
+		{
+			f = PhreeqcPtr->flux_mcd(str, 1);
+		}
+		n.UU.val = (parse_all) ? 1 : f;
+	}
+	break;
+	case tokmcd_jconc:
+	{	
+		double f = 0.0;
+		const char* str = stringfactor(STR1, LINK);
+		if (PhreeqcPtr->state == TRANSPORT && PhreeqcPtr->multi_Dflag)
+		{
+			f = PhreeqcPtr->flux_mcd(str, 2);
+		}
+		n.UU.val = (parse_all) ? 1 : f;
 	}
 	break;
 
@@ -7436,6 +7465,8 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ltrim",              PBasic::tokltrim),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m0",                 PBasic::tokm0),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m",                  PBasic::tokm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mcd_jtot",           PBasic::tokmcd_jtot),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mcd_jconc",          PBasic::tokmcd_jconc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc1",              PBasic::tokmisc1),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc2",              PBasic::tokmisc2),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mol",                PBasic::tokmol),

@@ -226,6 +226,7 @@ setdiff_c(const char *species_name, double d)
 	}
 	return (g);
 }
+
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_SC(void)
