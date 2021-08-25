@@ -12,6 +12,17 @@ SOLUTION 0
 #PRINT; -reset false; -status false
 SOLUTION 1-10
  pH 4 charge; N(5) 0.1; Na 0.1; Cl 0.1
+END
+USER_PRINT
+#10 if cell_no <> 2 then goto 1000
+20 t = SYS("aq", count , name$ , type$ , moles )
+30 for i = 1 to count
+40   t = MCD_JTOT(name$(i))
+50   c = MCD_JCONC(name$(i))
+60   if t*c < 0 THEN s$ = "UPHILL" ELSE s$ = ""
+70   PRINT PAD(name$(i), 10), STR_E$(t, 10, 2), STR_E$(c, 10, 2), s$
+80 next i
+1000 end
 TRANSPORT
  -cells 10
  -lengths 1e-3
@@ -19,6 +30,7 @@ TRANSPORT
  -shifts 1
  -flow_direction diffusion_only
  -time 0.3 hour 1
+ -implicit true 0.3 -30
  -multi_d true 1e-9 1 0.0 1.0 # Default D_w m2/s, porosity, porosity limit, exponent
 USER_GRAPH 1
  -headings  dist H+ NO3- Na+ Cl-
