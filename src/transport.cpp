@@ -1047,7 +1047,7 @@ transport_cleanup(void)
 				mixf[i] = (LDBLE *)free_check_null(mixf[i]);
 				if (l_stag)
 					mixf_stag[i] = (LDBLE *)free_check_null(mixf_stag[i]);
-				if (!dV_dcell)
+				if (!dV_dcell && !fix_current)
 				{
 					cell_data[i].potV = 0.0;
 					use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, i));
@@ -1077,7 +1077,7 @@ print_punch(int i, boolean active)
 	if (!active)
 		run_reactions(i, 0, NOMIX, 0);
 	cell_no = i;
-	if (dV_dcell)
+	if (dV_dcell || fix_current)
 	{
 		use.Set_n_solution_user(i);
 		use.Get_solution_ptr()->Set_potV(cell_data[i].potV);
@@ -2235,7 +2235,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	std::map<std::string, double> ::iterator it2;
 	// c= count_cells, c1=(c+1)= end boundary-cell, c_1=(c-1), c2=(c+2)= first stagnant cell, cc1=(c+c+1)= last stagnant cell
 	int c = count_cells, c1 = c + 1, c2 = c + 2, c_1 = c - 1, cc = c + stagnant * c, cc1 = cc + 1;
-
+	cell_J_ij.clear();
 	comp = sol_D[1].count_spec - sol_D[1].count_exch_spec;
 	cell_J_ij.clear();
 	for (i = 0; i <= count_cells; i++)
@@ -2332,7 +2332,6 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 		find_current = 1;
 	// obtain b_ij...
 	dummy = default_Dw * pow(multi_Dpor, multi_Dn) * multi_Dpor;
-
 	for (i = 0; i <= count_cells + 1; i++)
 	{
 		if (!heat_nmix)
@@ -2816,7 +2815,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				sum_Rd += (current_cells[0].dif - current_cells[i].dif) * current_cells[i].R;
 		}
 	}
-	if (dV_dcell)
+	if (dV_dcell || fix_current)
 	{
 		if (fix_current)
 		{
