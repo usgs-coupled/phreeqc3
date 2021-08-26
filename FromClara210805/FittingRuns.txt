@@ -40,14 +40,436 @@ Pest_run_dir_9
 	phi = 65
 	
 Pest_run_dir_10
-	Fe(2) Ash, gibb, illite, chlorite, eq clinop, pyrite, no O2
-	phi = 75	
+    Adjusted weights
+	Fe(2) Ash, anorthite, illite, chlorite, eq Sr, Na clinop
+	No Qtz, Kaolinite
+	phi = 683	
 	
 Pest_run_dir_11
     Picking up from run 6.
 	Fitting 6 parameters: an, ash, chlor, clin-k, clin-na, clin-sr
     Fe(2) ash. Fitting S6.
 	Increased weight on Sr, Ca, Cl, S
-	Looks pretty good, phi = 40
+	Looks pretty good, phi = 40_12
 	
+Pest_run_dir_12
+    Solid_solution K, Sr, Na, Mg
+	Fixed anorthite and Fe(2) ash
+	No chlorite, illite
+	phi 78
+	
+Pest_run_dir_13
+    Run 6 with different weights
+	  palb           -10.0000    
+*  panor          -6.77736    
+  pclinop-na     -20.0000    
+*  pash_srba      -6.34019    
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+*  kchlor          13.7541    
+*  kclinop-k       9.60375    
+*  kclinop-sr      7.15531    
+*  kclinop-na      13.0821    
+  kclinop-ca      14.0000    
+  kclinop-mg      14.0000    
+  killite         10.0000    
+	phi 93.2	, good fit except Ba, S, Si
+	
+Pest_run_dir_14
+    Run 13 + illite
+  palb           -10.0000    
+  panor          -6.77096   * 
+  pclinop-na     -20.0000    
+  pash_srba      -6.36347   * 
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          14.1810  *  
+  kclinop-k       7.60269  *  
+  kclinop-sr      5.23959  *  
+  kclinop-na      11.1007  *  
+  kclinop-ca      14.0000    
+  kclinop-mg      14.0000    
+  killite         13.1551 *     
+	phi 93.2	, good fit except Ba, S, Si	
+	
+****Error in S6 observations in 01_1D.pst.tpl
+
+Pest_run_dir_15
+    Best to date because it has chlorite, illite clinoptilite
+	Does not fit Ba, Si, S6 too well. pH is adequate.
+	Mg-clino could be removed.
+	Not quite converged completely.
+    Illite, Chlorite equilibrium, K-, Sr-, Na-, Mg- Clinoptilite, Anorth, Fe(2) Ash
+ Parameter      Estimated value
+  palb           -10.0000   * 
+  panor          -6.97659    
+  pclinop-na     -20.0000    
+  pash_srba      -6.32450   * 
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000   eq 
+  kclinop-k       5.82962   * 
+  kclinop-sr      3.38215   * 
+  kclinop-na      9.28157   * 
+  kclinop-ca      14.0000    
+  kclinop-mg      15.8009   * 
+  kclinop-fe2     10.0000    
+  killite         10.0000    eq
+  h2_rate         14.0000  
+
+   Sum of squared weighted residuals (ie phi)                =   42.438    
+   Contribution to phi from observation group "ba"           =  1.91102E-05
+   Contribution to phi from observation group "c"            =  2.58234E-03
+   Contribution to phi from observation group "ca"           =   3.6758    
+   Contribution to phi from observation group "cl"           =   7.5762    
+   Contribution to phi from observation group "fe"           =  1.83063E-02
+   Contribution to phi from observation group "k"            =   4.2769    
+   Contribution to phi from observation group "mg"           =   3.5107    
+   Contribution to phi from observation group "na"           =   3.5312    
+   Contribution to phi from observation group "ph"           =  0.51915    
+   Contribution to phi from observation group "s6"           =   6.1395    
+   Contribution to phi from observation group "si"           =   8.5407    
+   Contribution to phi from observation group "sr"           =   4.6471    
+
+Pest_run_dir_16
+    Illite, Chlorite equilibrium, K-, Sr-, Na-, Fe2- Clinoptilite, Anorth, Fe(2) Ash
+	Does not fit Ba, Si, S6 too well. pH is adequate.
+	Lowered S6 a bit, cl sr mg increase
+
+ Parameter      Estimated value
+  palb           -10.0000    
+  panor          -7.04995    *
+  pclinop-na     -20.0000    
+  pash_srba      -6.52536    *
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000    eq
+  kclinop-k       4.34748    *
+  kclinop-sr      3.75580    *
+  kclinop-na      9.80841    *
+  kclinop-ca      14.0000    
+  kclinop-mg      16.0000    
+  kclinop-fe2     4.58378    *
+  killite         10.0000    eq
+  h2_rate         14.0000   
+	
+   Sum of squared weighted residuals (ie phi)                =   47.240    
+   Contribution to phi from observation group "ba"           =  2.46687E-05
+   Contribution to phi from observation group "c"            =  1.96709E-03
+   Contribution to phi from observation group "ca"           =   3.3697    
+   Contribution to phi from observation group "cl"           =   15.647    
+   Contribution to phi from observation group "fe"           =  1.82972E-02
+   Contribution to phi from observation group "k"            =   3.4351    
+   Contribution to phi from observation group "mg"           =   5.5280    
+   Contribution to phi from observation group "na"           =   1.8554    
+   Contribution to phi from observation group "ph"           =  0.49992    
+   Contribution to phi from observation group "s6"           =   4.1227    
+   Contribution to phi from observation group "si"           =   7.5786    
+   Contribution to phi from observation group "sr"           =   5.1828    
+   
+***** Added 1/mean weight for  C   
+
+Pest_run_dir_17
+    Illite, Chlorite equilibrium, K-, Sr-, Na- Clinoptilite, Anorth, Fe(3) Ash
+
+ Parameter      Estimated value
+  palb           -10.0000    
+  panor          -6.93177   * 
+  pclinop-na     -20.0000    
+  pash_srba      -6.48510   * 
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000   eq 
+  kclinop-k       3.43304   * 
+  kclinop-sr      3.31819   * 
+  kclinop-na      9.56257   * 
+  kclinop-ca      14.0000    
+  kclinop-mg      16.0000    
+  kclinop-fe2     5.00000    
+  killite         10.0000  eq  
+  h2_rate         14.0000  
+  
+   Sum of squared weighted residuals (ie phi)                =   42.354    
+   Contribution to phi from observation group "ba"           =  6.76250E-07
+   Contribution to phi from observation group "c"            =   5.5967    
+   Contribution to phi from observation group "ca"           =   3.0414    
+   Contribution to phi from observation group "cl"           =   13.315    
+   Contribution to phi from observation group "fe"           =  1.83273E-02
+   Contribution to phi from observation group "k"            =   3.7883    
+   Contribution to phi from observation group "mg"           =   1.9409    
+   Contribution to phi from observation group "na"           =   2.1641    
+   Contribution to phi from observation group "ph"           =  0.44578    
+   Contribution to phi from observation group "s6"           =   2.1167    
+   Contribution to phi from observation group "si"           =   4.2962    
+   Contribution to phi from observation group "sr"           =   5.6304    
+  
+Pest_run_dir_18
+    Qtz, Illite, Chlorite equilibrium, K-, Sr-, Na-, Ca- Clinoptilite, Anorth, Fe(3) Ash  
+	Cl is not as good.
+	
+	 Parameter      Estimated value
+  palb           -10.0000    
+  panor          -6.97503    *
+  pclinop-na     -20.0000    
+  pash_srba      -6.79450    *
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000  eq  
+  kclinop-k       3.48205  *  
+  kclinop-sr      3.09385  *  
+  kclinop-na      9.32539  *  
+  kclinop-ca      11.4979  *  
+  kclinop-mg      14.0000    
+  kclinop-fe2     5.00000    
+  killite         10.0000   eq 
+  h2_rate         14.0000 
+  
+   Sum of squared weighted residuals (ie phi)                =   55.792    
+   Contribution to phi from observation group "ba"           =  3.71725E-07
+   Contribution to phi from observation group "c"            =   4.4395    
+   Contribution to phi from observation group "ca"           =   6.0182    
+   Contribution to phi from observation group "cl"           =   31.010    
+   Contribution to phi from observation group "fe"           =  1.83304E-02
+   Contribution to phi from observation group "k"            =   3.3059    
+   Contribution to phi from observation group "mg"           =   2.2302    
+   Contribution to phi from observation group "na"           =   1.7411    
+   Contribution to phi from observation group "ph"           =  0.57659    
+   Contribution to phi from observation group "s6"           =   1.7464    
+   Contribution to phi from observation group "si"           =   1.0792    
+   Contribution to phi from observation group "sr"           =   3.6257    
+	
+Pest_run_dir_19
+    Qtz, Illite, Chlorite equilibrium, K-, Sr-, Na-, Ca- Clinoptilite, Anorth, Fe(2) Ash  
+	Cl is not as good.	
+	
+ Parameter      Estimated value
+  palb           -10.0000    
+  panor          -7.53057    
+  pclinop-na     -20.0000    
+  pash_srba      -6.80599    
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000    
+  kclinop-k       2.12576    
+  kclinop-sr      3.18638    
+  kclinop-na      14.6855    
+  kclinop-ca      10.0000    
+  kclinop-mg      14.0000    
+  kclinop-fe2     5.00000    
+  killite         10.0000    
+  h2_rate         14.0000   	
+	
+   Sum of squared weighted residuals (ie phi)                =   204.29    
+   Contribution to phi from observation group "ba"           =   1.7316    
+   Contribution to phi from observation group "c"            =   70.832    
+   Contribution to phi from observation group "ca"           =   18.574    
+   Contribution to phi from observation group "cl"           =   35.665    
+   Contribution to phi from observation group "fe"           =  1.79128E-02
+   Contribution to phi from observation group "k"            =   3.9050    
+   Contribution to phi from observation group "mg"           =   21.618    
+   Contribution to phi from observation group "na"           =   3.5065    
+   Contribution to phi from observation group "ph"           =  0.73827    
+   Contribution to phi from observation group "s6"           =   7.5106    
+   Contribution to phi from observation group "si"           =   32.892    
+   Contribution to phi from observation group "sr"           =   7.2956    	
+	
+Pest_run_dir_20
+    No Qtz, Illite, Chlorite equilibrium, K-, Sr-, Na-, Clinoptilite, Anorth, Fe(2) Ash  
+	Better fit without quartz.		
+	
+ Parameter      Estimated value
+  palb           -10.0000    
+  panor          -6.95847    *
+  pclinop-na     -20.0000    
+  pash_srba      -6.45668    *
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000    eq
+  kclinop-k       2.69427    *
+  kclinop-sr      3.30953    *
+  kclinop-na      11.6529    *
+  kclinop-ca      10.0000    
+  kclinop-mg      14.0000    
+  kclinop-fe2     5.00000    
+  killite         10.0000    eq
+  h2_rate         14.0000    	
+	
+   Sum of squared weighted residuals (ie phi)                =   45.981    
+   Contribution to phi from observation group "ba"           =  3.13105E-05
+   Contribution to phi from observation group "c"            =   5.4559    
+   Contribution to phi from observation group "ca"           =   2.6405    
+   Contribution to phi from observation group "cl"           =   12.849    
+   Contribution to phi from observation group "fe"           =  1.83301E-02
+   Contribution to phi from observation group "k"            =   4.2424    
+   Contribution to phi from observation group "mg"           =   2.4498    
+   Contribution to phi from observation group "na"           =   2.1625    
+   Contribution to phi from observation group "ph"           =  0.37619    
+   Contribution to phi from observation group "s6"           =   4.7582    
+   Contribution to phi from observation group "si"           =   3.9173    
+   Contribution to phi from observation group "sr"           =   7.1109 	
+
+Pest_run_dir_21
+    No Qtz, Illite, Chlorite equilibrium, K-, Sr-, Na-, Clinoptilite Solid Solution, Anorth, Fe(2) Ash  
+	Solid solution
+
+ Parameter      Estimated value
+  palb           -10.0000    
+  panor          -6.95125    *
+  pclinop-na     -20.0000    
+  pash_srba      -6.49746    *
+  pfay           -10.0000    
+  phed           -10.0000    
+  pqtz           -20.0000    
+  pchlor         -10.0000    
+  pclinop-k      -20.0000    
+  pclinop-sr     -20.0000    
+  min_moles      1.000000E-08
+  kbarite         10.1300    
+  kchlor          10.0000    
+  kclinop-k       3.09550    *
+  kclinop-sr      6.81626    *
+  kclinop-na      11.6677    *
+  kclinop-ca      10.0000    
+  kclinop-mg      14.0000    
+  kclinop-fe2     5.00000    
+  killite         10.0000    eq
+  h2_rate         14.0000    
+
+   Sum of squared weighted residuals (ie phi)                =   44.883    
+   Contribution to phi from observation group "ba"           =  3.39536E-05
+   Contribution to phi from observation group "c"            =   5.2467    
+   Contribution to phi from observation group "ca"           =   2.6746    
+   Contribution to phi from observation group "cl"           =   14.399    
+   Contribution to phi from observation group "fe"           =  1.83313E-02
+   Contribution to phi from observation group "k"            =   3.9763    
+   Contribution to phi from observation group "mg"           =   2.1653    
+   Contribution to phi from observation group "na"           =   1.9660    
+   Contribution to phi from observation group "ph"           =  0.38063    
+   Contribution to phi from observation group "s6"           =   4.4751    
+   Contribution to phi from observation group "si"           =   3.3837    
+   Contribution to phi from observation group "sr"           =   6.1970  
+
+Pest_run_dir_22
+    No Qtz, Illite, Chlorite equilibrium, K-, Sr-, Na-, Clinoptilite Solid Solution, Anorth, Fe(2) Ash  
+	Fit ksio2
+	Solid solution
+	Ba scale 0.1 * 1/
+	pretty damn good
+	
+ Parameter      Estimated value
+  r_anor         -6.91750   * 
+  r_ash_srba     -5.75539   *
+  ksio2           8.90887   * 
+  kbarite         10.0000   eq 
+  kchlor          10.0000   eq 
+  kclinop-k       6.44204   * 
+  kclinop-sr      6.30081   * 
+  kclinop-na      10.5502   * 
+  kclinop-ca      15.0000    
+  kclinop-mg      15.0000    
+  kclinop-fe2     10.0000    
+  killite         10.0000   eq
+kaolinite eq, (first two cells)
+
+   Sum of squared weighted residuals (ie phi)                =   30.988    
+   Contribution to phi from observation group "ba"           =  0.43035    
+   Contribution to phi from observation group "c"            =   6.3404    
+   Contribution to phi from observation group "ca"           =  0.88444    
+   Contribution to phi from observation group "cl"           =   8.6074    
+   Contribution to phi from observation group "fe"           =  1.19261E-02
+   Contribution to phi from observation group "k"            =   2.7139    
+   Contribution to phi from observation group "mg"           =   1.4018    
+   Contribution to phi from observation group "na"           =  0.67657    
+   Contribution to phi from observation group "ph"           =  0.56808    
+   Contribution to phi from observation group "s6"           =   3.5026    
+   Contribution to phi from observation group "si"           =   1.5571    
+   Contribution to phi from observation group "sr"           =   4.2938   
+
+Pest_run_dir_23
+    No Qtz, kaolinite, Illite, Chlorite equilibrium, K-, Sr-, Na-, Clinoptilite Solid Solution, Anorth, Fe(2) Ash  
+	Fit ksio2
+	Solid solution
+	All 1/mean
+	pretty damn good
+	
+ Parameter      Estimated value
+  r_anor         -6.92931    
+  r_ash_srba     -5.12627    
+  ksio2           8.47822    
+  pash            11.0000    
+  kbarite         10.0000    
+  kchlor          10.0000    
+  kclinop-k       4.04106    
+  kclinop-sr      3.36555    
+  kclinop-na      7.32624    
+  kclinop-ca      15.0000    
+  kclinop-mg      15.0000    
+  kclinop-fe2     10.0000    
+  killite         10.0000   
+  
+   Sum of squared weighted residuals (ie phi)                =   125.53    
+   Contribution to phi from observation group "ba"           =   8.6871    
+   Contribution to phi from observation group "c"            =   6.5683    
+   Contribution to phi from observation group "ca"           =   5.8005    
+   Contribution to phi from observation group "cl"           =  0.14994    
+   Contribution to phi from observation group "fe"           =  1.20569E-02
+   Contribution to phi from observation group "k"            =   4.2875    
+   Contribution to phi from observation group "mg"           =   1.5587    
+   Contribution to phi from observation group "na"           =   1.7241    
+   Contribution to phi from observation group "ph"           =  0.45108    
+   Contribution to phi from observation group "s6"           =   2.0406    
+   Contribution to phi from observation group "si"           =   90.461    
+   Contribution to phi from observation group "sr"           =   3.7890 
+===========================
+Scaling: 1/mean, adjusted Si 0.1, Cl 10.0, Ba, 0.1
+    Fe2-Clinoptilite did not improve fit
+
 	

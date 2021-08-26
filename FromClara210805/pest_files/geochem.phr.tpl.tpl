@@ -175,7 +175,13 @@ Olivine_B13H1 #### MOLAR RATIOS according to Ash_B13H1
         -analytic 1.3853e+001 -3.5501e-003 7.1496e+003 -6.8710e+000 -6.3310e+004
 #       -Range:  0-300
 	-Vm	46.42 # calculated from webmineral molecular weight & density data
-	
+
+SiO2(a)
+	SiO2 + 2 H2O = H4SiO4
+	-log_k	-2.71
+	-delta_h  3.340 kcal
+	-analytic	-0.26	0.0	-731.0	
+	-add_constant % kSiO2 %
 END
 
 
@@ -248,20 +254,20 @@ KNOBS
 -iter 200
 #-tol 1e-16
 SOLID_SOLUTION 1000
-#Clinop_ss
-#  -comp Clinop-Sr      1e-4
-#  -comp Clinop-K       1e-4
-#   -comp Clinop-Na      1e-4
-#  -comp Clinop-Ca      1e-4
-#  -comp Clinop-Mg      1e-4
-
+Clinop_ss
+  -comp Clinop-Sr      1e-4
+  -comp Clinop-K       1e-4
+  -comp Clinop-Na      1e-4
+# -comp Clinop-Ca      1e-4
+# -comp Clinop-Mg      1e-4
+# -comp Clinop-Fe2     1e-4
 END
 
 
 EQUILIBRIUM_PHASES 1000
   Barite         % kBarite %             0 # prec # SI at B1H4
   Anhydrite      0                       0 # prec
- # Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
+#  Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
   Hematite       0                       0
   Pyrite         0                       0 # prec
   Siderite       0                       0
@@ -273,14 +279,14 @@ EQUILIBRIUM_PHASES 1000
 # Strontianite   0                       0
   Calcite        0                       0
   Gibbsite       0                       0 # prec
-#  Kaolinite      0                       0
+  Kaolinite      0                       0
 #   Quartz        0                       0
 #  Clinop-Sr      % kclinop-Sr    %       0
-   Clinop-Sr      0       0
+#!   Clinop-Sr      0       0
 #  Clinop-K       % kclinop-K     %       0
-   Clinop-K       0       0
+#!   Clinop-K       0       0
 #   Clinop-Na      % kclinop-Na    %       0
-  Clinop-Na       0       0
+#!  Clinop-Na       0       0
 #  Clinop-Ca      % kclinop-Ca    %       0
 #   Clinop-Ca      0       0
 #  Clinop-Mg      % kclinop-Mg    %       0
@@ -323,8 +329,10 @@ Ash_SrBa
 40 dif_temp = 1/TK - 1/298.15
 50 R = 8.3144598 * 1E-3 # kJ*K-1*mol-1
 55 k_neut = 10^-10 # PEST
-60 p = 1 # 0.08 # 10^(  -7.4190486E+00)
+60 p = 1
+60 p = % pAsh % # 1 # 0.08 # 10^(  -7.4190486E+00)
 65 q = 1 # PEST. since it can be the power of a neg number, it has to be integer
+65 q = % qAsh %
 68 Ea = 65 # PEST. Minerals that dissolve very fast, 21 kJ/mol (Lasaga, 1984)
 70 neut = ( k_neut ) * EXP((-Ea/R)*dif_temp)
 90  rate = area * ( neut ) * (1- SR("SiO2(a)")^p )^q
@@ -344,61 +352,16 @@ END
 KINETICS 1000
 #-cvode
 
-#Albite
-#-m0 1.04E+00 # mol/L-sedim. Generic andesitic comp. 10wtperc Ab. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
-#-formula Albite
-#-parm	  %    palb       % # -8 # PEST. specific-surf-area (m2/mol-of-min)
- 
 Anorthite
 -m0 9.88E-01 # mol/L-sedim. Generic andesitic comp. 10wtperc An. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
 -formula Anorthite
--parm	%    panor      % # -7 # PEST. specific-surf-area (m2/mol-of-min)
- 
-#Clinop-Na
-#-m0 % min_moles     % # assumed almost zero
-#-formula Clinop-Na
-#-parm	 %    pclinop-na % # -8 # -7 # PEST. specific-surf-area (m2/mol-of-min)
-# 
-#Clinoptilolite
-#-m0 % min_moles     % # 1e-20 # assumed almost zero
-#-formula 	Clinoptilolite
-#-parm	  -9 # PEST. specific-surf-area (m2/mol-of-min)
- 
+-parm	%    r_anor      % # -7 # PEST. specific-surf-area (m2/mol-of-min)
+
 Ash_SrBa
 -m0 4.23E+01 # mol/L-sedim. Generic andesitic comp. 25wtperc Ash. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
 -formula Ash_SrBa
--parm	%    pAsh_SrBa  % #  -7.5 # -7 # PEST. specific-surf-area (m2/mol-of-min)
+-parm	%    r_Ash_SrBa  % #  -7.5 # -7 # PEST. specific-surf-area (m2/mol-of-min)
  
-#Fayalite
-#-m0 1.43E-01 # mol/L-sedim. Generic andesitic comp. 1.1wtperc Fayalite. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
-#-formula Fayalite
-#-parm	%    pFay       % #  -9 # PEST. specific-surf-area (m2/mol-of-min)
-# 
-#Hedenbergite
-#-m0 1.10E+00 # mol/L-sedim. Generic andesitic comp. 10wtperc Hedenb. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
-#-formula Hedenbergite
-#-parm	%    pHed       % #  -7 # PEST. specific-surf-area (m2/mol-of-min)
-# 
-#Quartz
-#-m0 2.43E+00 # mol/L-sedim. Generic andesitic comp. 5.3wtperc Qz. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
-#-formula Quartz
-#-parm	%    pQtz       % #  -8 # PEST. specific-surf-area (m2/mol-of-min)
- 
-#Chlorite(14A)
-#-m0 % min_moles     % # assumed almost zero
-#-formula Chlorite(14A)
-#-parm	%    pChlor     % #  -20 # -4.8# PEST. specific-surf-area (m2/mol-of-min)
- 
-#Clinop-K
-#-m0 % min_moles     % # assumed almost zero
-#-formula Clinop-K
-#-parm	 %    pclinop-k % # -6 # PEST. specific-surf-area (m2/mol-of-min)
- 
-#Clinop-Sr
-#-m0 % min_moles     % # assumed almost zero
-#-formula Clinop-Sr
-#-parm	%    pclinop-Sr % # -8 # PEST. specific-surf-area (m2/mol-of-min)
-
 END
 
 KINETICS 1001
@@ -407,17 +370,17 @@ KINETICS 1001
 Anorthite
 -m0 9.88E-01 # mol/L-sedim. Generic andesitic comp. 10wtperc An. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
 -formula Anorthite
--parm	%    panor      % # -7 # PEST. specific-surf-area (m2/mol-of-min)
+-parm	%    r_anor      % # -7 # PEST. specific-surf-area (m2/mol-of-min)
 
 Ash_SrBa
 -m0 4.23E+01 # mol/L-sedim. Generic andesitic comp. 25wtperc Ash. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
 -formula Ash_SrBa
--parm	%    pAsh_SrBa  % #  -7.5 # -7 # PEST. specific-surf-area (m2/mol-of-min)
+-parm	%    r_Ash_SrBa  % #  -7.5 # -7 # PEST. specific-surf-area (m2/mol-of-min)
 
-H2_gas
--m0 10
--formula H2
--parm % h2_rate %
+#H2_gas
+#-m0 10
+#-formula H2
+#-parm h2_rate 
 
 END
 PRINT
