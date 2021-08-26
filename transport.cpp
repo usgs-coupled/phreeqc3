@@ -44,6 +44,7 @@ struct CT /* summed parts of V_M and mcd transfer in a timestep for all cells, f
 	class M_S *m_s;
 	int v_m_size, J_ij_size, m_s_size;
 } *ct = NULL;
+std::map<int, std::map<std::string, J_ij_save> > cell_J_ij;
 struct MOLES_ADDED /* total moles added to balance negative conc's */
 {
 	char *name;
@@ -1046,7 +1047,7 @@ transport_cleanup(void)
 				mixf[i] = (LDBLE *)free_check_null(mixf[i]);
 				if (l_stag)
 					mixf_stag[i] = (LDBLE *)free_check_null(mixf_stag[i]);
-				if (!dV_dcell)
+				if (!dV_dcell && !fix_current)
 				{
 					cell_data[i].potV = 0.0;
 					use.Set_solution_ptr(Utilities::Rxn_find(Rxn_solution_map, i));
@@ -1076,7 +1077,7 @@ print_punch(int i, boolean active)
 	if (!active)
 		run_reactions(i, 0, NOMIX, 0);
 	cell_no = i;
-	if (dV_dcell)
+	if (dV_dcell || fix_current)
 	{
 		use.Set_n_solution_user(i);
 		use.Get_solution_ptr()->Set_potV(cell_data[i].potV);
@@ -2236,6 +2237,17 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 	int c = count_cells, c1 = c + 1, c2 = c + 2, c_1 = c - 1, cc = c + stagnant * c, cc1 = cc + 1;
 
 	comp = sol_D[1].count_spec - sol_D[1].count_exch_spec;
+	cell_J_ij.clear();
+	for (i = 0; i <= count_cells; i++)
+	{
+		std::map<std::string, class J_ij_save> J_map;
+		for (cp = 0; cp < comp; cp++)
+		{
+			class J_ij_save J_save;
+			J_map[sol_D[1].spec[cp].name] = J_save;
+		}
+		cell_J_ij[i] = J_map;
+	}
 	if (heat_nmix)
 		comp += 1;
 
@@ -2731,7 +2743,16 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				ct[i].J_ij[cp].charge = ct[i].v_m[cp].z;
 				grad = (Ct2[i1] - Ct2[i])/* * ct[i].v_m[cp].D*/; // .D has the d{lg(gamma)} / d{lg(molal)} correction
 				if (!i0)
+				{
 					ct[i].J_ij[cp].tot1 = -mixf[i][cp] * grad;
+
+					std::map<int, std::map<std::string, class J_ij_save> >::iterator
+						cell_iter = cell_J_ij.find(i);
+					std::map< std::string, class J_ij_save >::iterator
+						s_iter = cell_iter->second.find(sol_D[1].spec[cp].name);
+					s_iter->second.flux_c = ct[i].J_ij[cp].tot1;
+					s_iter->second.flux_t = ct[i].J_ij[cp].tot1;
+				}
 				else
 					ct[i].J_ij[cp].tot_stag = -mixf_stag[i][cp] * grad;
 				if (ct[i].v_m[cp].z)
@@ -2794,7 +2815,7 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 				sum_Rd += (current_cells[0].dif - current_cells[i].dif) * current_cells[i].R;
 		}
 	}
-	if (dV_dcell)
+	if (dV_dcell || fix_current)
 	{
 		if (fix_current)
 		{
@@ -2846,6 +2867,12 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 			{
 				dVc = (cell_data[i + 1].potV - cell_data[i].potV) * F_Re3 / l_tk_x2[i];
 				ct[i].J_ij[cp].tot1 -= mixf[i][cp] * dVc;
+
+				std::map<int, std::map<std::string, class J_ij_save> >::iterator
+					cell_iter = cell_J_ij.find(i);
+				std::map< std::string, class J_ij_save >::iterator
+					s_iter = cell_iter->second.find(sol_D[1].spec[cp].name);
+				s_iter->second.flux_t = ct[i].J_ij[cp].tot1;
 			}
 			if (stagnant && ct[i].Dz2c_stag)
 			{
@@ -3279,7 +3306,7 @@ multi_D(LDBLE DDt, int mobile_cell, int stagnant)
 		dVtemp = dV_dcell;
 		dV_dcell = 0;
 	}
-
+	cell_J_ij.clear();
 	icell = jcell = -1;
 	first_c = last_c = -1;
 	il_calcs = -1;
@@ -4483,21 +4510,35 @@ dV_dcell2:
 		if (ct[icell].v_m[i].z)
 			Sum_zM += ct[icell].v_m[i].b_ij * ct[icell].v_m[i].z * ct[icell].v_m[i].grad;
 	}
+	std::map<std::string, class J_ij_save> J_map;
 	for (i = 0; i < ct[icell].J_ij_count_spec; i++)
 	{
+		class J_ij_save J_save;
 		ct[icell].J_ij[i].tot1 = -ct[icell].v_m[i].grad;
+		J_save.flux_c = ct[icell].J_ij[i].tot1;
 		ct[icell].J_ij[i].charge = ct[icell].v_m[i].z;
 		if (!dV_dcell && ct[icell].v_m[i].z && ct[icell].Dz2c > 0)
 		{
 			ct[icell].J_ij[i].tot1 += Sum_zM * ct[icell].v_m[i].zc / ct[icell].Dz2c;
 		}
+		J_save.flux_t = ct[icell].J_ij[i].tot1;
 		if (stagnant)
+		{
 			ct[icell].J_ij[i].tot1 *= ct[icell].v_m[i].b_ij * 2 * mixf;
+			J_save.flux_c *= ct[icell].v_m[i].b_ij * 2 * mixf;
+			J_save.flux_t *= ct[icell].v_m[i].b_ij * 2 * mixf;
+		}
 		else
+		{
 			ct[icell].J_ij[i].tot1 *= ct[icell].v_m[i].b_ij * DDt;
+			J_save.flux_c *= ct[icell].v_m[i].b_ij * DDt;
+			J_save.flux_t *= ct[icell].v_m[i].b_ij * DDt;
+		}
+		J_map[ct[icell].J_ij[i].name] = J_save;
 		ct[icell].J_ij[i].tot2 = ct[icell].J_ij[i].tot1;
 		//ct[icell].J_ij_sum += ct[icell].v_m[i].z * ct[icell].J_ij[i].tot1;
 	}
+	cell_J_ij[icell] = J_map;
 	// assure that icell and jcell have dl water when checking negative conc's in MCD
 	ct[icell].dl_s = dl_aq1;
 	ct[jcell].dl_s = dl_aq2;
@@ -6101,4 +6142,39 @@ calc_vm_Cl(void)
 		}
 	}
 	return V_Cl;
+}
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+flux_mcd(const char* species_name, int option)
+/* ---------------------------------------------------------------------- */
+{
+	class species* s_ptr;
+	double f = 0.0, dum = 0.0;
+	if (state == TRANSPORT && multi_Dflag)
+	{
+		s_ptr = s_search(species_name);
+		if (s_ptr != NULL && s_ptr->in != FALSE && s_ptr->type < EMINUS)
+		{
+			int n = cell_no;
+			std::map<int, std::map<std::string, class J_ij_save> >::iterator
+				j_map_iter = cell_J_ij.find(n);
+			if (j_map_iter != cell_J_ij.end())
+			{
+				std::map<std::string, class J_ij_save>::iterator
+					j_save_iter = j_map_iter->second.find(species_name);
+				if (j_save_iter != j_map_iter->second.end())
+				{
+					if (option == 1)
+					{
+						f = j_save_iter->second.flux_t;
+					}
+					else if (option == 2)
+					{
+						f = j_save_iter->second.flux_c;
+					}
+				}
+			}
+		}
+	}
+	return (f);
 }

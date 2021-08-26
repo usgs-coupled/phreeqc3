@@ -278,6 +278,8 @@ public:
 		tokltrim,
 		tokm,
 		tokm0,
+		tokmcd_jtot,
+		tokmcd_jconc,
 		tokmisc1,
 		tokmisc2,
 		tokmol,

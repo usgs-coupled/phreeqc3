@@ -1535,6 +1535,18 @@ public:
 	const char* name;
 	LDBLE tot1, tot2, tot_stag, charge;
 };
+class J_ij_save
+{
+public:
+	~J_ij_save() {};
+	J_ij_save()
+	{
+		// species change in cells i and j
+		flux_t = 0;
+		flux_c = 0;
+	}
+	double flux_t, flux_c;
+};
 class M_S
 {
 public:
