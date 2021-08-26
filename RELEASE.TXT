@@ -1,4 +1,17 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+  	--------------
+	August 25, 2021
+	--------------
+	PHREEQC: Added new Basic functions MCD_JTOT and MCD_JCONC that return
+    multicomponent diffusion fluxes. MCD_JTOT returns the value of equation
+    10 in the description of the TRANSPORT keyword in the PHREEQC 3 manual
+    for an aqueous species. MCD_JCONC returns the flux calculated by the
+    first term of equation 10. The functions ignore interlayer diffusion
+	and only apply to multicomponent diffusion. Here are Basic examples.
+	Uphill diffusion occurs when the two functions have opposite signs.
+
+	10 jtot = MCD_JTOT("Cl-")
+	20 jconc = MCD_JCONC("Cl-")
 
   	--------------
 	July 30, 2021
