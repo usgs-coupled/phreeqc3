@@ -286,6 +286,7 @@ write_banner(void)
 #ifdef TESTING
 	return OK;
 #endif
+#ifndef NO_UTF8_ENCODING
 	char buffer[80];
 	int len, indent;
 	screen_msg(
@@ -329,7 +330,7 @@ write_banner(void)
 
 	screen_msg(
 		"              █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n\n");
-
+#endif
 	return 0;
 }
 
