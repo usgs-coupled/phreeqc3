@@ -9,14 +9,16 @@ library(cowplot)
 #
 cbPalette = c("green", "#E31A1C", "green4", "#6A3D9A", "#FF7F00", "black", "gold1", "skyblue2", "palegreen2", "#FDBF6F", "gray70", "maroon", "orchid1", "darkturquoise", "darkorange4", "brown")
 
-filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir/01_1D.txt"
-#filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir/tmpest1/01_1D.txt"
-#filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir_base/tmpest1/01_1D.txt"
-filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir_11/01_1D.txt"
 
+dir = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir_29Final/"
+#dir = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir/tmpest1/"
+#dir = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir_29/"
 
-all <- read.csv(filename,sep='\t')
+calc_filename = paste(dir,"01_1D.txt",sep="")
+all <- read.csv(calc_filename,sep='\t')
 all <- subset(all, all$time == 1.53683e+15)
+
+
 
 filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Ba.obs"
 Ba_obs <- read.csv(filename,sep='\t')
@@ -50,6 +52,8 @@ ggplot() + theme_bw() +
 	geom_point(data = all, aes(x = Cl, y = dist_x,  color=cbPalette[1])) +
 	geom_point(data=Cl_obs, aes(x=Cl_obs, y=dist_x), color='blue') +
 	scale_y_reverse()	
+
+#    coord_cartesian(xlim = c(0, 0.7)) +	
 	
 filename = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/input/Fe.obs"
 Fe_obs <- read.csv(filename,sep='\t')
@@ -114,4 +118,29 @@ ggplot() + theme_bw() +
 	geom_point(data = all, aes(x = Sr, y = dist_x,  color=cbPalette[1])) +
 	geom_point(data=Sr_obs, aes(x=Sr_obs, y=dist_x), color='blue') +
 	scale_y_reverse()	
+	
+	
 
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = H2O_kg, y = dist_x,  color='H2O')) +
+	geom_point(data = all, aes(x = Cl_mol, y = dist_x,  color='Cl_moles')) +
+	geom_point(data = all, aes(x = Cl, y = dist_x,  color='Cl_molality')) +
+	scale_y_reverse()		
+
+ggplot() + theme_bw() +
+	geom_point(data = all, aes(x = J_tot_Cl., y = dist_x,  color='Jtot')) +
+	geom_point(data = all, aes(x = J_conc_Cl., y = dist_x,  color='Jconc')) +
+	geom_point(data = all, aes(x = J_psi_Cl., y = dist_x,  color='Jpsi')) +
+	scale_y_reverse()		
+
+
+#other_dir = "C:/GitPrograms/phreeqc3-usgs-coupled/FromClara210805/pest_run_dir/"
+other_filename = paste(dir,"other_outputs.txt", sep="")
+other <- read.csv(other_filename,sep='\t')
+other <- subset(other, other$time == 1.53683e+15)
+
+ggplot() + theme_bw() +
+	geom_point(data = other, aes(x = s_Clinop.Na, y = dist_x,  color='s_s_Clinop-Na')) +   
+	geom_point(data = other, aes(x = s_Clinop.K, y = dist_x,  color='s_s_Clinop-K')) +
+	geom_point(data = other, aes(x = s_Clinop.Sr, y = dist_x,  color='s_s_Clinop-Sr')) +
+	scale_y_reverse()	

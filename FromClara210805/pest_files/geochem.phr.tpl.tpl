@@ -78,17 +78,6 @@ Clinop-Fe2	## Zeolite, Secondary Mineral
 #       -Range:  0-300
 	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite	
 	
-#Clinop-Fe3	## Zeolite, Secondary Mineral
-# #       Sr1.7335Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  =  + 0.0170 Fe+++ + 1.7335 Sr++ + 3.4500 Al+++ + 14.5330 SiO2 + 17.8560 H2O
-#        Fe1.15566666667Al3.45Fe.017Si14.533O36:10.922H2O +13.8680 H+  + 29.0660 H2O =  + 0.0170 Fe+++ + 1.15566666667Fe+3 + 3.4500 Al+++ + 14.5330 H4SiO4 + 17.8560 H2O
-#       log_k           -7.1491
-#	-delta_H	-66.2129	kJ/mol	# Calculated enthalpy of reaction	Clinoptilolite-Sr
-##	Enthalpy of formation:	-4925.1 kcal/mol
-#        -analytic 3.2274e+001 6.7050e-002 5.0880e+004 -5.9597e+001 -7.3876e+006
-##       -Range:  0-300
-#	-Vm	633.1 # Gaucher et al. 2004 (App Geoch), Na, K & Ca Clinoptilolite
-
-
 END
 SOLUTION_SPECIES
 H+ = H+; -Dw 1e-9; -gamma       9.0     0
@@ -97,6 +86,9 @@ H2O = OH- + H+
         -gamma  3.5     0
         -dw      1e-9  470
         -Vm  -9.66  28.5  80.0 -22.9 1.89 0 1.09 0 0 1 # ref. 1
+		
+H2O + 0.01e- = H2O-0.01
+log_k -8
         
 SOLUTION_MASTER_SPECIES
 Mn(+6)   MnO4-2		0	Mn
@@ -118,7 +110,6 @@ SOLUTION_SPECIES
 	
 END
  
- 
 PHASES
 ##### Remineralization of l-alpha-Serine (as a solid phase): biological production of NH4+ ### MLever #####
 Serine
@@ -139,11 +130,11 @@ Ash_SrBa	### Same as Ash_B13H1, but w/ Sr & Ba. O balances all cations, Na is ba
 #    0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+2 + 0.0055Ba+2 + 0.0055Sr+2 + 0.011OH-
  
 ##### 0.0004 Sr & Ba
-(SiO2)0.259(AlO1.5)0.0533(Na0.0274O0.01300)(MgO)0.0006Cl0.0014(KO0.5)0.0149(CaO)0.0054(MnO)0.0003(FeO)0.0055(BaO)0.0004(SrO)0.0004   + 0.405800 H2O + 0.2244 H+ + 0.0008 H+ = \
-    0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+2 + 0.0004Ba+2 + 0.0004Sr+2 + 0.0008OH-
+#(SiO2)0.259(AlO1.5)0.0533(Na0.0274O0.01300)(MgO)0.0006Cl0.0014(KO0.5)0.0149(CaO)0.0054(MnO)0.0003(FeO)0.0055(BaO)0.0004(SrO)0.0004   + 0.405800 H2O + 0.2244 H+ + 0.0008 H+ = \
+#    0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+2 + 0.0004Ba+2 + 0.0004Sr+2 + 0.0008OH-
 
-#(SiO2)0.259(AlO1.5)0.0533(Na0.0274O0.01300)(MgO)0.0006Cl0.0014(KO0.5)0.0149(CaO)0.0054(MnO)0.0003(Fe2O3)0.00275(BaO)0.0004(SrO)0.0004   + 0.405800 H2O + 0.2244 H+ + 0.0008 H+ + 0.00275H2O = \
-#    0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+3 + 0.0004Ba+2 + 0.0004Sr+2 + 0.0008OH- + 0.0055OH- 
+(SiO2)0.259(AlO1.5)0.0533(Na0.0274O0.01300)(MgO)0.0006Cl0.0014(KO0.5)0.0149(CaO)0.0054(MnO)0.0003(Fe2O3)0.00275(BaO)0.0004(SrO)0.0004   + 0.405800 H2O + 0.2244 H+ + 0.0008 H+ + 0.00275H2O = \
+    0.259H4SiO4 + 0.0533Al+3 + 0.0274Na+ + 0.0006Mg+2 + 0.0014Cl- + 0.0149K+ + 0.0054Ca+2 + 0.0003Mn+2 + 0.0055Fe+3 + 0.0004Ba+2 + 0.0004Sr+2 + 0.0008OH- + 0.0055OH- 
 
         log_k           -2.7136
 	-delta_H	20.0539	kJ/mol	# Calculated enthalpy of reaction	SiO2(am)
@@ -182,6 +173,7 @@ SiO2(a)
 	-delta_h  3.340 kcal
 	-analytic	-0.26	0.0	-731.0	
 	-add_constant % kSiO2 %
+	
 END
 
 
@@ -214,13 +206,13 @@ SELECTED_OUTPUT 1
 -alkalinity
 -totals	Na	Mg	K	Ca	N(-3)	C C(4)	S S(6)	Cl	Si	Sr	Ba	Mn	Al	Fe # input SOLUTION data for 1D models
 USER_PUNCH 1
--heading S6 J_tot_Cl- J_conc_Cl- J_psi_Cl- Uphill
+-heading S6 J_tot_Cl- J_conc_Cl- J_psi_Cl- Uphill H2O_kg Cl_mol
 10 j_tot = MCD_Jtot("Cl-")
 20 j_conc = MCD_Jconc("Cl-")
 30 j_psi = j_tot - j_conc
 40 uphill$ = "No"
 50 if j_tot * j_conc < 0 then uphill$ = "UPHILL"
-60 PUNCH TOT("S(6)"), MCD_Jtot("Cl-"), MCD_Jconc("Cl-"), j_psi, uphill$
+60 PUNCH TOT("S(6)"), MCD_Jtot("Cl-"), MCD_Jconc("Cl-"), j_psi, uphill$, TOT("water"), TOTMOL("Cl")
 END
 SOLUTION 1000 B1H4
  -units	mol/kgw
@@ -243,7 +235,6 @@ density	1.05001
 	S(6)              2.900e-02
 	Si                4.890e-04
 	Sr                9.170e-05
-#	O(0)              10 mg/kgw
 END
 SELECTED_OUTPUT 1
 -active false
@@ -252,7 +243,8 @@ KNOBS
 -step 2
 -pe   1.5
 -iter 200
-#-tol 1e-16
+-diagonal
+#-tol 1e-17
 SOLID_SOLUTION 1000
 Clinop_ss
   -comp Clinop-Sr      1e-4
@@ -267,7 +259,7 @@ END
 EQUILIBRIUM_PHASES 1000
   Barite         % kBarite %             0 # prec # SI at B1H4
   Anhydrite      0                       0 # prec
-#  Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
+# Goethite       0                       0 # SI=4 <=> [Fe(aq)] = 0.5*LOD. Limit Of Detection. All samples are below LOD
   Hematite       0                       0
   Pyrite         0                       0 # prec
   Siderite       0                       0
@@ -278,24 +270,19 @@ EQUILIBRIUM_PHASES 1000
   Hausmannite    0                       0
 # Strontianite   0                       0
   Calcite        0                       0
-  Gibbsite       0                       0 # prec
-  Kaolinite      0                       0
-#   Quartz        0                       0
-#  Clinop-Sr      % kclinop-Sr    %       0
-#!   Clinop-Sr      0       0
-#  Clinop-K       % kclinop-K     %       0
-#!   Clinop-K       0       0
-#   Clinop-Na      % kclinop-Na    %       0
-#!  Clinop-Na       0       0
-#  Clinop-Ca      % kclinop-Ca    %       0
-#   Clinop-Ca      0       0
-#  Clinop-Mg      % kclinop-Mg    %       0
-#  Clinop-Mg      0       0
-#  Clinop-Fe2      0       0
-  Chlorite(14A)  % kChlor        %       0
-  Illite         % kIllite       %       0
+#  Gibbsite      0                       0 # prec
+#  Kaolinite     0                       0
+#  Quartz        0                       0
+#  SiO2(a)       0                       0
+#  Clinop-Sr     0                       0
+#  Clinop-K      0                       0
+#  Clinop-Na     0                       0
+#  Clinop-Ca     0                       0
+#  Clinop-Mg     0                       0
+#  Clinop-Fe2    0                       0
+  Chlorite(14A)  % kChlor %              0
+  Illite         % kIllite %             0
 END
-
 
 RATES
 
@@ -340,13 +327,6 @@ Ash_SrBa
 300 SAVE moles
 -end
 
-H2_gas
--start
-10 k = 10^parm(1)
-20 moles = k * TIME
-30 SAVE moles
--end
-
 END
 
 KINETICS 1000
@@ -364,25 +344,6 @@ Ash_SrBa
  
 END
 
-KINETICS 1001
-#-cvode
-
-Anorthite
--m0 9.88E-01 # mol/L-sedim. Generic andesitic comp. 10wtperc An. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
--formula Anorthite
--parm	%    r_anor      % # -7 # PEST. specific-surf-area (m2/mol-of-min)
-
-Ash_SrBa
--m0 4.23E+01 # mol/L-sedim. Generic andesitic comp. 25wtperc Ash. 0 to 45mbsf: Poros= .74; Grain Dens=2.74kg/L;Porewater Dens=1.050kg/L
--formula Ash_SrBa
--parm	%    r_Ash_SrBa  % #  -7.5 # -7 # PEST. specific-surf-area (m2/mol-of-min)
-
-#H2_gas
-#-m0 10
-#-formula H2
-#-parm h2_rate 
-
-END
 PRINT
 -user_graph false
 END
@@ -415,4 +376,6 @@ Pyrolusite	Pyrochroite	Goethite Gibbsite
  
 -kinetic_reactants	Albite Anorthite Ash_SrBa	Fayalite	Hedenbergite Quartz
 				Clinop-Na	Clinoptilolite	Chlorite(14A) Clinop-K	Clinop-Sr
+				
+-solid_solutions 	Clinop-Na	Clinop-K	Clinop-Sr	Clinop-Ca Clinop-Mg	
 END
