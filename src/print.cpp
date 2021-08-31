@@ -2210,7 +2210,7 @@ print_totals(void)
 		output_msg(sformatf("%35s%3.0f%7s%i\n",
 				   "Specific Conductance (uS/cm, ", tc_x, "oC)  = ", (int) SC));
 #else
-		output_msg(sformatf("%36s%3.0f%7s%i\n",
+		output_msg(sformatf("%35s%3.0f%7s%i\n",
 				   "Specific Conductance (µS/cm, ", tc_x, "°C)  = ", (int) SC));
 #endif
 	}
@@ -2221,7 +2221,7 @@ print_totals(void)
 #ifdef NO_UTF8_ENCODING
 		output_msg(sformatf("%45s%9.5f", "Density (g/cm3)  = ",
 #else
-		output_msg(sformatf("%46s%9.5f", "Density (g/cm³)  = ",
+		output_msg(sformatf("%45s%9.5f", "Density (g/cm³)  = ",
 #endif
 			   (double) dens));
 		if (state == INITIAL_SOLUTION && use.Get_solution_ptr()->Get_initial_data()->Get_calc_density())
@@ -2245,7 +2245,7 @@ print_totals(void)
 			output_msg(sformatf("%18s\n",
 				   " (solute contributions limited to 200 oC)"));
 #else
-			output_msg(sformatf("%19s\n",
+			output_msg(sformatf("%18s\n",
 				   " (solute contributions limited to 200 °C)"));
 #endif
 		}
@@ -2276,7 +2276,7 @@ print_totals(void)
 #ifdef NO_UTF8_ENCODING
 	output_msg(sformatf("%45s%6.2f\n", "Temperature (oC)  = ",
 #else
-	output_msg(sformatf("%46s%6.2f\n", "Temperature (°C)  = ",
+	output_msg(sformatf("%45s%6.2f\n", "Temperature (°C)  = ",
 #endif
 			   (double) tc_x));
 
