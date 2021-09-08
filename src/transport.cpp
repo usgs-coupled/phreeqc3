@@ -2054,7 +2054,8 @@ fill_spec(int l_cell_no, int ref_cell)
 						}
 						for (; i1 < i2; i1++) // i1 is loop variable 
 						{
-							memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(class spec));
+							// memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(class spec));
+							sol_D[l_cell_no].spec[i1] = sol_D[ref_cell].spec[i1];
 							sol_D[l_cell_no].spec[i1].c = 0.0;
 							sol_D[l_cell_no].spec[i1].a = 0.0;
 							sol_D[l_cell_no].spec[i1].lm = min_dif_LM;
@@ -2130,7 +2131,8 @@ fill_spec(int l_cell_no, int ref_cell)
 						for (; i2 > i3; i2--) // i2 is loop variable
 							sol_D[i1].spec[i2] = sol_D[i1].spec[i2 - 1];
 
-						memmove(&sol_D[i1].spec[i2], &sol_D[l_cell_no].spec[i2], sizeof(class spec));
+						// memmove(&sol_D[i1].spec[i2], &sol_D[l_cell_no].spec[i2], sizeof(class spec));
+						sol_D[i1].spec[i2] = sol_D[l_cell_no].spec[i2];
 						sol_D[i1].spec[i2].a = 0.0;
 						sol_D[i1].spec[i2].lm = min_dif_LM;
 						sol_D[i1].spec[i2].lg = -0.04;
@@ -2157,7 +2159,8 @@ fill_spec(int l_cell_no, int ref_cell)
 		}
 		for (i1 = count_spec; i1 < i3; i1++)
 		{
-			memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(class spec));
+			// memmove(&sol_D[l_cell_no].spec[i1], &sol_D[ref_cell].spec[i1], sizeof(class spec));
+			sol_D[l_cell_no].spec[i1] = sol_D[ref_cell].spec[i1];
 			sol_D[l_cell_no].spec[i1].c = 0.0;
 			sol_D[l_cell_no].spec[i1].a = 0.0;
 			sol_D[l_cell_no].spec[i1].lm = min_dif_LM;
