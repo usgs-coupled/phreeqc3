@@ -91,8 +91,13 @@ read_solution_spread(void)
 	soln_defaults.iso.resize(count_iso_defaults);
 
 	/* all iso[i].name is hsave'd, so no conflicts */
-	memcpy(&soln_defaults.iso[0], iso_defaults,
-		   soln_defaults.iso.size() * sizeof(class iso));
+	// memcpy(&soln_defaults.iso[0], iso_defaults,
+	// 	   soln_defaults.iso.size() * sizeof(class iso));
+	for (size_t i = 0; i < count_iso_defaults; ++i) {
+		soln_defaults.iso[i].name        = iso_defaults[i].name;
+		soln_defaults.iso[i].value       = iso_defaults[i].value;
+		soln_defaults.iso[i].uncertainty = iso_defaults[i].uncertainty;
+	}
 
 	heading = NULL;
 	units = NULL;

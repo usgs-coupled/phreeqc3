@@ -517,8 +517,9 @@ calculate_isotope_moles(class element *elt_ptr,
 	master_isotope_ptr = master_isotope_search("H");
 	if ((master_isotope_ptr != NULL) && (master_isotope_ptr->elt == elt_ptr))
 	{
-		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(class master_isotope));
+		// memcpy(&(list[count_isotopes]), master_isotope_ptr,
+		// 	   sizeof(class master_isotope));
+		list[count_isotopes] = *master_isotope_ptr;
 		list[count_isotopes].ratio = 1.0;
 		if (list[count_isotopes].minor_isotope == FALSE)
 		{
@@ -529,8 +530,9 @@ calculate_isotope_moles(class element *elt_ptr,
 	master_isotope_ptr = master_isotope_search("O");
 	if ((master_isotope_ptr != NULL) && (master_isotope_ptr->elt == elt_ptr))
 	{
-		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(class master_isotope));
+		// memcpy(&(list[count_isotopes]), master_isotope_ptr,
+		// 	   sizeof(class master_isotope));
+		list[count_isotopes] = *master_isotope_ptr;
 		list[count_isotopes].ratio = 1.0;
 		if (list[count_isotopes].minor_isotope == FALSE)
 		{
@@ -548,8 +550,9 @@ calculate_isotope_moles(class element *elt_ptr,
 				continue;
 			if (master_isotope_ptr->elt != elt_ptr)
 				continue;
-			memcpy(&(list[count_isotopes]), master_isotope_ptr,
-				sizeof(class master_isotope));
+			// memcpy(&(list[count_isotopes]), master_isotope_ptr,
+			// 	sizeof(class master_isotope));
+			list[count_isotopes] = *master_isotope_ptr;
 			if (list[count_isotopes].minor_isotope == FALSE)
 			{
 				total_is_major = list[count_isotopes].total_is_major;
@@ -630,8 +633,9 @@ calculate_isotope_moles(class element *elt_ptr,
 		{
 			if (list[i].name == master_isotope[j]->name)
 			{
-				memcpy(master_isotope[j], &(list[i]),
-					   sizeof(class master_isotope));
+				// memcpy(master_isotope[j], &(list[i]),
+				// 	   sizeof(class master_isotope));
+				*master_isotope[j] = list[i];
 			}
 		}
 	}
