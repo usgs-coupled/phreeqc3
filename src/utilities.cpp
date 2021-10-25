@@ -660,7 +660,7 @@ parse_couple(char *token)
 		str_tolower(token);
 		return (OK);
 	}
-	while (replace("+", "", token) == TRUE);
+	while (replace("(+", "(", token) == TRUE);
 	cptr = token;
 	get_elt(&cptr, elt1, &e1);
 	if (*cptr != '(')
@@ -848,9 +848,10 @@ replace(const char *str1, const char *str2, char *str)
 void Phreeqc::
 replace(std::string &stds, const char* str1, const char* str2)
 {
-	size_t pos;
+	size_t pos, l;
+	l = strlen(str1);
 	while ((pos = stds.find(str1)) != std::string::npos) {
-		stds.replace(pos, 1, str2);
+		stds.replace(pos, l, str2);
 	}
 }
 /* ---------------------------------------------------------------------- */

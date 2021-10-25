@@ -899,7 +899,7 @@ CParser::STATUS_TYPE CParser::parse_couple(std::string & token)
 		return PARSER_OK;
 	}
 
-	while (Utilities::replace("+", "", token));
+	while (Utilities::replace("(+", "(", token));
 
 	std::string::iterator ptr = token.begin();
 	std::string elt1;
