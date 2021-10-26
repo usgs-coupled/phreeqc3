@@ -426,7 +426,8 @@ succeed: \
 	H2S_pz.out \
 	H2S_pz_appt.out \
 	H2S_numerical.out \
-	H2S_sit.out
+	H2S_sit.out \
+	Fe+2.out
 	
 H2S_files: \
 	H2S_Amm.out \
@@ -437,8 +438,7 @@ H2S_files: \
 	Jiang_pz.out \
 	CO2_conc_PR_GP1.out \
 	H2S_numerical.out \
-	H2S_sit.out \
-	Fe+2.out
+	H2S_sit.out
 
 H2S_clean: 
 	rm 	H2S_Amm.out \
