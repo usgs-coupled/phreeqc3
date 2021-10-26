@@ -1,4 +1,36 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+
+  	----------------
+	October 25, 2021
+	----------------
+	PHREEQC: The Basic function DIFF_C returned an incorrect value at 
+	temperatures other than 25 C. The value returned was missing a 
+	factor TK/298.15, where TK is the current temperature in Kelvin. The 
+	factor has now been added and the function returns the correct 
+	value. Note that previous documentation indicated the returned 
+	value was for 25 C, but the value returned is actually for the 
+	current temperature of the system. 
+	
+	The return value for SETDIFF_C was also missing the factor TK/298.15.
+	This Basic function now returns the correct value for the current 
+	temperature of the system (TK). 
+	
+	The Basic functions are provided only for user output, so all TRANSPORT 
+	calculations used the correct temperature-dependent diffusion coefficients.
+	
+  	----------------
+	October 25, 2021
+	----------------
+	PHREEQC: Revised a bug fix from May 28, 2021 making Fe(+3) and Fe(3) 
+	equivalent names in SELECTED_OUTPUT and Basic functions TOT and TOTMOL.
+	The previous fix had unintended consequences for element names like [Fe+3], 
+	causing this definition to fail. The revised bug fix should eliminate the
+	unintended problem.
+	
+---------------------------------------------------------------------------------------------
+Version 3.7.1: September 21, 2021	
+---------------------------------------------------------------------------------------------
+
   	--------------
 	August 25, 2021
 	--------------

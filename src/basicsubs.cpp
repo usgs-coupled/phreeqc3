@@ -195,7 +195,7 @@ diff_c(const char *species_name)
 		g = s_ptr->dw;
 		if (s_ptr->dw_t)
 				g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
-		g *= viscos_0_25 / viscos;
+		g *= viscos_0_25 / viscos * tk_x / 298.15;
 	}
 	else
 	{
@@ -218,7 +218,7 @@ setdiff_c(const char *species_name, double d)
 		g = s_ptr->dw;
 		if (s_ptr->dw_t)
 				g *= exp(s_ptr->dw_t / tk_x - s_ptr->dw_t / 298.15);
-		g *= viscos_0_25 / viscos;
+		g *= viscos_0_25 / viscos * tk_x / 298.15;;
 	}
 	else
 	{
