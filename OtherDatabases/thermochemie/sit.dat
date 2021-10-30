@@ -39,12 +39,16 @@ B             B(OH)4-        1            B             10.811
 Ba            Ba+2           0            Ba            137.327
 Br            Br-            0            Br            79.904
 C             CO3-2          2            CO3           12.011
+C(2)          CO             0            CO   
 C(+4)         CO3-2          2            CO3           12.011
 C(-4)         CH4            0            CH4           12.011
 Ca            Ca+2           0            Ca            40.078
 Cd            Cd+2           0            Cd            112.411
 Cit           Cit-3          0            Cit           189.1013
 Cl            Cl-            0            Cl            35.4527
+Cl(-1)        Cl-            0            Cl
+Cl(0)         Cl2            0            Cl
+Cl(7)         ClO4-          0            Cl
 Cm            Cm+3           0            Cm            247
 Cn            Cn-            0            Cn            26.018
 Co            Co+2           0            Co            58.9332
@@ -82,7 +86,14 @@ Li            Li+            0            Li            6.941
 Malonate      Malonate-2     0            Malonate      63.99
 Mg            Mg+2           0            Mg            24.305
 Mn            Mn+2           0            Mn            54.938
+Mn(+2)        Mn+2           0.0          Mn
+Mn(+3)        Mn+3           0.0          Mn
+Mn(+5)        MnO4-3         0            Mn
+Mn(+6)        MnO4-2         0            Mn
+Mn(+7)        MnO4-          0            Mn
 Mo            MoO4-2         0            Mo            95.94
+Mo(3)         Mo+3           0            Mo
+Mo(6)         MoO4-2         0            Mo            
 N             NO3-           0            N             14.0067
 N(+5)         NO3-           0            N             14.0067
 N(-3)         NH3            1            N             14.0067
@@ -115,11 +126,16 @@ Pyrophos      Pyrophos-4     0            Pyrophos      173.95
 Ra            Ra+2           0            Ra            226.025
 Rb            Rb+            0            Rb            85.4678
 S             SO4-2          0            SO4           32.066
-S(+2)         S2O3-2         0            S             32.066
-S(+3)         S2O4-2         0            S2O4-2        128.128
-S(+4)         SO3-2          0            S             32.066
-S(+6)         SO4-2          0            SO4           32.066
-S(-2)         HS-            1            S             32.066
+S(-2)         HS-            1            S             
+S(+2)         S2O3-2         0            S  
+#S(2.01)       S5O6-2         0            S
+S(2.5)        S4O6-2         0            S             
+S(+3)         S2O4-2         0            S
+S(3.3)        S3O6-2         0            S         
+S(+4)         SO3-2          0            S          
+S(+6)         SO4-2          0            SO4           
+S(+7)         S2O8-2         0.0          S
+S(+8)         HSO5-          0.0          S
 Sb            Sb(OH)3        0            Sb            121.76
 Sb(+3)        Sb(OH)3        0            Sb            121.76
 Sb(+5)        Sb(OH)5        0            Sb            121.76
@@ -7357,6 +7373,7 @@ SOLUTION_SPECIES
      delta_h -212.123    #kJ/mol        
      # Enthalpy of formation:           35.04        #kJ/mol        #04CHI
      -analytic -4.7123E+0 0E+0 1.10799E+4 0E+0 0E+0
+	 -mass_balance	S(-2)2
 
 2.000H+     + 2.000SO3-2     - 1.000H2O     = S2O5-2
      log_k    12.850     #85GOL/PAR
@@ -7375,6 +7392,7 @@ SOLUTION_SPECIES
      delta_h -484.686    #kJ/mol        
      # Enthalpy of formation:           25.94        #kJ/mol        #74NAU/RYZ
      -analytic -5.44322E+0 0E+0 2.53169E+4 0E+0 0E+0
+	 -mass_balance	S(-2)3
 
 4.000H+     + 3.000SO3-2     - 2.000H2O     - 0.500O2     = S3O6-2
      log_k    -6.170     
@@ -7387,6 +7405,7 @@ SOLUTION_SPECIES
      delta_h -751.079    #kJ/mol        
      # Enthalpy of formation:           23.01        #kJ/mol        #74NAU/RYZ
      -analytic -6.1932E+0 0E+0 3.92315E+4 0E+0 0E+0
+	 -mass_balance	S(-2)4
 
 6.000H+     + 4.000SO3-2     - 3.000H2O     - 1.500O2     = S4O6-2
      log_k   -38.170     
@@ -7399,12 +7418,14 @@ SOLUTION_SPECIES
      delta_h -1016.212   #kJ/mol        
      # Enthalpy of formation:           21.34        #kJ/mol        #74NAU/RYZ
      -analytic -6.94244E+0 0E+0 5.30804E+4 0E+0 0E+0
+	 -mass_balance	S(-2)5
 
 8.000H+     + 5.000SO3-2     - 4.000H2O     - 2.500O2     = S5O6-2
      log_k   -99.570     
      delta_h  805.941    #kJ/mol        
      # Enthalpy of formation:           -1175.704        #kJ/mol        #04CHI
      -analytic 4.16246E+1 0E+0 -4.20972E+4 0E+0 0E+0
+	 -mass_balance S(2)5
 
 2.000H+     + 1.000SO3-2     - 1.000H2O     = SO2
      log_k     9.030     
