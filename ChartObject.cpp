@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 #ifdef MULTICHART
+#include "Phreeqc.h"
 #ifdef _DEBUG
 #pragma warning(disable : 4786)	// disable truncation warning (Only used by debugger)
 #endif
@@ -12,11 +13,18 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
-#include "Phreeqc.h"
 #include "phqalloc.h"
 
 #include "Form1.h"
 using namespace zdg_ui2;
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -87,7 +95,7 @@ cxxNumKeyword(io)
 	point_added = false;
 
 	user_graph = new rate;
-	user_graph->commands = NULL;
+	user_graph->commands.clear();
 	user_graph->name = NULL;
 	user_graph->new_def = 0;
 	user_graph->linebase = user_graph->loopbase = user_graph->varbase = NULL;
@@ -368,18 +376,6 @@ ChartObject::Read(CParser & parser)
 				this->chart_type = 1;
 			break;
 		case 10: /* grid_offset */
-#ifdef PHREEQ98
-			/*
-			i = copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (i == DIGIT)
-				sscanf(token, "%d", &RowOffset);
-			i = copy_token(token, &next_char, &l);
-			str_tolower(token);
-			if (i == DIGIT)
-				sscanf(token, "%d", &ColumnOffset);
-			*/
-#endif
 			break;
 		case 11: /* connect_simulations */
 			this->connect_simulations = parser.get_true_false(next_char, true);
@@ -849,11 +845,7 @@ ChartObject::Set_rate_struct(void)
 		oss << *it << "\n";
 	}
 	this->Rate_free();
-	if (this->phreeqc_ptr)
-	{
-		this->user_graph->commands = (char *) phreeqc_ptr-> PHRQ_malloc((oss.str().size()) + 100 * sizeof(char));
-	}
-	::strcpy(this->user_graph->commands, oss.str().c_str());
+	this->user_graph->commands = oss.str().c_str();
 	this->user_graph->new_def = this->rate_new_def;
 	this->user_graph->loopbase = NULL;
 	this->user_graph->varbase = NULL;
@@ -1086,7 +1078,7 @@ ChartObject::Rate_free(void)
 	
 	if (this->phreeqc_ptr)
 	{
-		user_graph->commands = (char *) phreeqc_ptr-> free_check_null(user_graph->commands);
+		user_graph->commands.clear();
 	}
 	if (user_graph->linebase != NULL)
 	{
@@ -1334,7 +1326,7 @@ ChartObject::dump(std::ostream & oss, unsigned int indent)
 	oss << indent1 << "-end" << "\n";
 
 	/*
-	struct rate *user_graph;
+	class rate *user_graph;
 	// C++ for rate struct
 	std::string rate_name;
 	std::list<std::string> rate_command_list;

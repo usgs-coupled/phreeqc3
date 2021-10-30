@@ -14,6 +14,14 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -36,51 +44,6 @@ cxxKineticsComp::~cxxKineticsComp()
 {
 }
 
-#ifdef SKIP
-void
-cxxKineticsComp::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Kinetics_Comp element and attributes
-
-	s_oss << indent0 << "formula=\"" << this->formula << "\"" << "\n";
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
-	s_oss << indent0 << "la=\"" << this->la << "\"" << "\n";
-	s_oss << indent0 << "charge_balance=\"" << this->
-		charge_balance << "\"" << "\n";
-	if (this->phase_name != NULL)
-	{
-		s_oss << indent0 << "phase_name=\"" << this->
-			phase_name << "\"" << "\n";
-	}
-	if (this->rate_name != NULL)
-	{
-		s_oss << indent0 << "rate_name=\"" << this->
-			rate_name << "\"" << "\n";
-	}
-	s_oss << indent0 << "phase_proportion=\"" << this->
-		phase_proportion << "\"" << "\n";
-
-	// totals
-	s_oss << indent0;
-	s_oss << "<totals " << "\n";
-	this->totals.dump_xml(s_oss, indent + 1);
-
-	// formula_totals
-	s_oss << indent0;
-	s_oss << "<formula_totals " << "\n";
-	this->formula_totals.dump_xml(s_oss, indent + 1);
-}
-#endif
 void
 cxxKineticsComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
@@ -233,7 +196,7 @@ cxxKineticsComp::read_raw(CParser & parser, bool check)
 			while (parser.copy_token(token, next_char) == CParser::TT_DIGIT)
 			{
 				double dd;
-				sscanf(token.c_str(), "%lf", &dd);
+				(void)sscanf(token.c_str(), "%lf", &dd);
 				temp_d_params.push_back((LDBLE) dd);
 				d_params_defined = true;
 			}

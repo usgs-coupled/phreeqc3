@@ -8,10 +8,18 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "Parser.h"
 #include "Phreeqc.h"
+#include "Parser.h"
 #include "cxxMix.h"
 #include "phqalloc.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -28,41 +36,6 @@ cxxMix::cxxMix(PHRQ_io *io)
 cxxMix::~cxxMix()
 {
 }
-
-#ifdef SKIP
-void
-cxxMix::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Mix element and attributes
-	s_oss << indent0;
-	s_oss << "<mix " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_mix_gammas=\"" << this->
-		pitzer_mix_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxMixComp >::const_iterator it = mixComps.begin();
-		 it != mixComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 
 void
 cxxMix::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const

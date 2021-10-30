@@ -3,6 +3,14 @@
 #include "Exchange.h"
 #include "Solution.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 sit_init(void)
@@ -12,10 +20,7 @@ sit_init(void)
  *      Initialization for SIT
  */
 	sit_model = FALSE;
-	max_sit_param = 100;
-	count_sit_param = 0;
-	space((void **) ((void *) &sit_params), INIT, &max_sit_param,
-		  sizeof(struct pitz_param *));
+	sit_params.clear();
 	OTEMP = -100.;
 	OPRESS = -100.;
 	return OK;
@@ -38,17 +43,15 @@ sit_tidy(void)
 	/*
 	 *  allocate pointers to species structures
 	 */
-	if (spec != NULL) spec = (struct species **) free_check_null(spec);
-	spec = (struct species **) PHRQ_malloc((size_t) (3 * count_s * sizeof(struct species *)));
-	if (spec == NULL) malloc_error();
-	for (i = 0; i < 3 * count_s; i++) spec[i] = NULL;
+	spec.clear();
+	spec.resize(3 * s.size(), NULL);
 
-	cations = spec;
-	neutrals = &(spec[count_s]);
-	anions = &(spec[2 * count_s]);
-	sit_MAXCATIONS = count_s;
-	sit_FIRSTANION = 2 * count_s;
-	sit_MAXNEUTRAL = count_s;
+	cations = &spec[0];
+	neutrals = &(spec[s.size()]);
+	anions = &(spec[2 * s.size()]);
+	sit_MAXCATIONS = (int)s.size();
+	sit_FIRSTANION = 2 * (int)s.size();
+	sit_MAXNEUTRAL = (int)s.size();
 	sit_count_cations = 0;
 	sit_count_anions = 0;
 	sit_count_neutrals = 0;
@@ -56,18 +59,11 @@ sit_tidy(void)
 	/*
 	 *  allocate other arrays for SIT
 	 */
-	if (sit_IPRSNT != NULL) sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	sit_IPRSNT = (int *) PHRQ_malloc((size_t) (3 * count_s * sizeof(int)));
-	if (sit_IPRSNT == NULL) malloc_error();
-	if (sit_M != NULL) sit_M = (LDBLE *) free_check_null(sit_M);
-	sit_M = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
-	if (sit_M == NULL) malloc_error();
-	if (sit_LGAMMA != NULL) sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_LGAMMA = (LDBLE *) PHRQ_malloc((size_t) (3 * count_s * sizeof(LDBLE)));
-	if (sit_LGAMMA == NULL) malloc_error();
+	sit_IPRSNT.resize(3 * s.size());
+	sit_M.resize(3 * s.size());
+	sit_LGAMMA.resize(3 * s.size());
 
-
-	for (i = 0; i < count_s; i++)
+	for (i = 0; i < (int)s.size(); i++)
 	{
 		if (s[i] == s_eminus)
 			continue;
@@ -94,7 +90,7 @@ sit_tidy(void)
 	/*
 	 *  put species numbers in sit_params
 	 */
-	for (i = 0; i < count_sit_param; i++)
+	for (i = 0; i < (int)sit_params.size(); i++)
 	{
 		for (j = 0; j < 3; j++)
 		{
@@ -117,7 +113,7 @@ sit_tidy(void)
 	}	/* remake map */
 	{
 		sit_param_map.clear();
-		for (int j = 0; j < count_sit_param; j++)
+		for (int j = 0; j < (int)sit_params.size(); j++)
 		{	
 			std::set< std::string > header;
 			for (int i = 0; i < 3; i++)
@@ -134,7 +130,7 @@ sit_tidy(void)
 			std::string key = key_str.str().c_str();
 			sit_param_map[key] = j;
 		}
-		assert ((int) sit_param_map.size() == count_sit_param);
+		assert ((int) sit_param_map.size() == (int)sit_params.size());
 	}
 	if (get_input_errors() > 0) return (ERROR);
 	return OK;
@@ -149,7 +145,7 @@ sit_ISPEC(const char *name)
  */
 {
 	int i;
-	for (i = 0; i < 3 * count_s; i++)
+	for (i = 0; i < 3 * (int)s.size(); i++)
 	{
 		if (spec[i] == NULL)
 			continue;
@@ -185,11 +181,11 @@ read_sit(void)
    *        number of shifts;
    */
   int n;
-  struct pitz_param *pzp_ptr;
+  class pitz_param *pzp_ptr;
   pitz_param_type pzp_type;
 
   int return_value, opt, opt_save;
-  char *next_char;
+  const char* next_char;
   const char *opt_list[] = {
     "epsilon",					/* 0 */
     "epsilon1"					/* 1 */
@@ -223,7 +219,7 @@ read_sit(void)
 	  if (pzp_ptr != NULL)
 	  {
 		  pzp_ptr->type = pzp_type;
-		  sit_param_store(pzp_ptr, false);
+		  sit_param_store(pzp_ptr);
       }
       break;
     case OPTION_ERROR:
@@ -251,7 +247,7 @@ read_sit(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calc_sit_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
+calc_sit_param(class pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE param;
@@ -287,7 +283,6 @@ calc_sit_param(struct pitz_param *pz_ptr, LDBLE TK, LDBLE TR)
 	}
 	return OK;
 }
-#ifdef SKIP
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 sit(void)
@@ -312,185 +307,7 @@ sit(void)
 	   C     INITIALIZE
 	   C
 	 */
-	//CONV = 1.0 / log(10.0);
-	XI = 0.0e0;
-	XX = 0.0e0;
-	OSUM = 0.0e0;
-	/*n
-	   I = *I_X;
-	   TK = *TK_X;
-	 */
-	I = mu_x;
-	TK = tk_x;
-	/*      DH_AB(TK, &A, &B); */
-	/*
-	   C
-	   C     TRANSFER DATA FROM TO sit_M
-	   C
-	 */
-	for (i = 0; i < 3 * count_s; i++)
-	{
-		sit_IPRSNT[i] = FALSE;
-		sit_M[i] = 0.0;
-		if (spec[i] != NULL && spec[i]->in == TRUE)
-		{
-			if (spec[i]->type == EX ||
-				spec[i]->type == SURF || spec[i]->type == SURF_PSI)
-				continue;
-			sit_M[i] = under(spec[i]->lm);
-			if (sit_M[i] > MIN_TOTAL)
-				sit_IPRSNT[i] = TRUE;
-		}
-	}
-	/*
-	   C
-	   C     COMPUTE SIT COEFFICIENTS' TEMPERATURE DEPENDENCE
-	   C
-	 */
-	PTEMP_SIT(TK);
-	for (i = 0; i < 2 * count_s + sit_count_anions; i++)
-	{
-		sit_LGAMMA[i] = 0.0;
-		if (sit_IPRSNT[i] == TRUE)
-		{
-			XX = XX + sit_M[i] * fabs(spec[i]->z);
-			XI = XI + sit_M[i] * spec[i]->z * spec[i]->z;
-			OSUM = OSUM + sit_M[i];
-		}
-	}
-	I = XI / 2.0e0;
-	I = mu_x;   // Added equation for MU
-	DI = sqrt(I);
-	/*
-	   C
-	   C     CALCULATE F & GAMCLM
-	   C
-	 */
-	AGAMMA = 3*sit_A0; /* Grenthe p 379 */
-	A = AGAMMA / log(10.0);
-	/*
-	*  F is now for log10 gamma
-	*/
-
-	B = 1.5;
-	F = -A * (DI / (1.0e0 + B * DI));
-
-
-	/*OSMOT = -(sit_A0) * pow(I, 1.5e0) / (1.0e0 + B * DI);*/
-	T = 1.0 + B*DI;
-	OSMOT = -2.0*A/(B*B*B)*(T - 2.0*log(T) - 1.0/T);
-	/*
-	 *  Sums for sit_LGAMMA, and OSMOT
-	 *  epsilons are tabulated for log10 gamma (not ln gamma)
-	 */
-	for (i = 0; i < count_sit_param; i++)
-	{
-		i0 = sit_params[i]->ispec[0];
-		i1 = sit_params[i]->ispec[1];
-		if (sit_IPRSNT[i0] == FALSE || sit_IPRSNT[i1] == FALSE) continue;
-		z0 = spec[i0]->z;
-		z1 = spec[i1]->z;
-		param = sit_params[i]->p;
-		switch (sit_params[i]->type)
-		{
-		case TYPE_SIT_EPSILON:
-			sit_LGAMMA[i0] += sit_M[i1] * param;
-			sit_LGAMMA[i1] += sit_M[i0] * param;
-			if (z0 == 0.0 && z1 == 0.0)
-			{
-				OSMOT += sit_M[i0] * sit_M[i1] * param / 2.0;
-			}
-			else
-			{
-				OSMOT += sit_M[i0] * sit_M[i1] * param;
-			}
-			break;
-		case TYPE_SIT_EPSILON_MU:
-			sit_LGAMMA[i0] += sit_M[i1] * I * param;
-			sit_LGAMMA[i1] += sit_M[i0] * I * param;
-			OSMOT += sit_M[i0] * sit_M[i1] * param;
-			if (z0 == 0.0 && z1 == 0.0)
-			{
-				OSMOT += sit_M[i0] * sit_M[i1] * param * I / 2.0;
-			}
-			else
-			{
-				OSMOT += sit_M[i0] * sit_M[i1] * param * I;
-			}
-			break;
-		default:
-		case TYPE_Other:
-			error_msg("TYPE_Other in pitz_param list.", STOP);
-			break;
-		}
-	}
-
-	/*
-	 *  Add F and CSUM terms to sit_LGAMMA
-	 */
-
-	for (i = 0; i < sit_count_cations; i++)
-	{
-		z0 = spec[i]->z;
-		sit_LGAMMA[i] += z0 * z0 * F;
-	}
-	for (i = 2 * count_s; i < 2 * count_s + sit_count_anions; i++)
-	{
-		z0 = spec[i]->z;
-		sit_LGAMMA[i] += z0 * z0 * F;
-	}
-	/*
-	   C
-	   C     CONVERT TO MACINNES CONVENTION
-	   C
-	 */
-	/*COSMOT = 1.0e0 + 2.0e0 * OSMOT / OSUM;*/
-	COSMOT = 1.0e0 + OSMOT*log(10.0) / OSUM;
-	/*
-	   C
-	   C     CALCULATE THE ACTIVITY OF WATER
-	   C
-	 */
-	AW = exp(-OSUM * COSMOT / 55.50837e0);
-	/*if (AW > 1.0) AW = 1.0;*/
-	/*s_h2o->la=log10(AW); */
-	mu_x = I;
-	for (i = 0; i < 2 * count_s + sit_count_anions; i++)
-	{
-		if (sit_IPRSNT[i] == FALSE)	continue;
-		spec[i]->lg_pitzer = sit_LGAMMA[i];
-/*
-		   output_msg(sformatf( "%d %s:\t%e\t%e\t%e\t%e \n", i, spec[i]->name, sit_M[i], spec[i]->la, spec[i]->lg_pitzer, spec[i]->lg));
-*/
-	}
-	return (OK);
-}
-#endif
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-sit(void)
-/* ---------------------------------------------------------------------- */
-{
-  int i, i0, i1;
-  LDBLE param, z0, z1;
-  LDBLE A, AGAMMA, T;
-	/*
-	   LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, 
-	   CSUM, PHIMAC, OSMOT, BMXP, ETHEAP, CMX, BMX, PHI,
-	   BMXPHI, PHIPHI, AW, A, B;
-	 */
-/*
-	LDBLE CONV, XI, XX, OSUM, BIGZ, DI, F, XXX, GAMCLM, CSUM, PHIMAC, OSMOT,
-		B;
-*/
-	LDBLE XI, XX, OSUM, DI, F, OSMOT, B;
-	LDBLE I, TK;
-	/*
-	   C
-	   C     INITIALIZE
-	   C
-	 */
-	//CONV = 1.0 / log(10.0);
+	//CONV = 1.0 / LOG_10;
 	XI = 0.0e0;
 	XX = 0.0e0;
 	OSUM = 0.0e0;
@@ -519,7 +336,7 @@ sit(void)
 			sit_M[i] = 0.0;
 		}
 	}
-	//for (i = 0; i < 3 * count_s; i++)
+	//for (i = 0; i < 3 * (int)s.size(); i++)
 	//{
 	//	sit_IPRSNT[i] = FALSE;
 	//	sit_M[i] = 0.0;
@@ -547,7 +364,7 @@ sit(void)
 		XI = XI + sit_M[i] * spec[i]->z * spec[i]->z;
 		OSUM = OSUM + sit_M[i];
 	}
-	//for (i = 0; i < 2 * count_s + sit_count_anions; i++)
+	//for (i = 0; i < 2 * (int)s.size() + sit_count_anions; i++)
 	//{
 	//	sit_LGAMMA[i] = 0.0;
 	//	if (sit_IPRSNT[i] == TRUE)
@@ -566,7 +383,7 @@ sit(void)
 	   C
 	 */
 	AGAMMA = 3*sit_A0; /* Grenthe p 379 */
-	A = AGAMMA / log(10.0);
+	A = AGAMMA / LOG_10;
 	/*
 	*  F is now for log10 gamma
 	*/
@@ -582,8 +399,6 @@ sit(void)
 	 *  Sums for sit_LGAMMA, and OSMOT
 	 *  epsilons are tabulated for log10 gamma (not ln gamma)
 	 */
-	//for (i = 0; i < count_sit_param; i++)
-	//{
 	for (size_t j = 0; j < param_list.size(); j++)
 	{
 		int i = param_list[j];
@@ -641,7 +456,7 @@ sit(void)
 	//	z0 = spec[i]->z;
 	//	sit_LGAMMA[i] += z0 * z0 * F;
 	//}
-	//for (i = 2 * count_s; i < 2 * count_s + sit_count_anions; i++)
+	//for (i = 2 * (int)s.size(); i < 2 * (int)s.size() + sit_count_anions; i++)
 	//{
 	//	z0 = spec[i]->z;
 	//	sit_LGAMMA[i] += z0 * z0 * F;
@@ -652,7 +467,7 @@ sit(void)
 	   C
 	 */
 	/*COSMOT = 1.0e0 + 2.0e0 * OSMOT / OSUM;*/
-	COSMOT = 1.0e0 + OSMOT*log(10.0) / OSUM;
+	COSMOT = 1.0e0 + OSMOT*LOG_10 / OSUM;
 	/*
 	   C
 	   C     CALCULATE THE ACTIVITY OF WATER
@@ -667,7 +482,7 @@ sit(void)
 		int i = s_list[j];
 		spec[i]->lg_pitzer = sit_LGAMMA[i];
 	}
-//	for (i = 0; i < 2 * count_s + sit_count_anions; i++)
+//	for (i = 0; i < 2 * (int)s.size() + sit_count_anions; i++)
 //	{
 //		if (sit_IPRSNT[i] == FALSE)	continue;
 //		spec[i]->lg_pitzer = sit_LGAMMA[i];
@@ -687,18 +502,17 @@ sit_clean_up(void)
  */
 	int i;
 
-	for (i = 0; i < count_sit_param; i++)
+	for (i = 0; i < (int)sit_params.size(); i++)
 	{
-		sit_params[i] =	(struct pitz_param *) free_check_null(sit_params[i]);
+		delete sit_params[i]; 
 	}
-	count_sit_param = 0;
-	sit_params = (struct pitz_param **) free_check_null(sit_params);
+	sit_params.clear();
 	sit_param_map.clear();
-	sit_LGAMMA = (LDBLE *) free_check_null(sit_LGAMMA);
-	sit_IPRSNT = (int *) free_check_null(sit_IPRSNT);
-	spec = (struct species **) free_check_null(spec);
-	aphi = (struct pitz_param *) free_check_null(aphi);
-	sit_M = (LDBLE *) free_check_null(sit_M);
+	sit_LGAMMA.clear();
+	sit_IPRSNT.clear();
+	spec.clear();
+	//delete aphi; 
+	sit_M.clear(); 
 
 	return OK;
 }
@@ -719,14 +533,14 @@ set_sit(int initial)
  */
 	iterations = -1;
 	solution_ptr = use.Get_solution_ptr();
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		s_x[i]->lm = LOG_ZERO_MOLALITY;
 		s_x[i]->lg_pitzer = 0.0;
 	}
 	if (initial == TRUE || set_and_run_attempt > 0)
 	{
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int)this->s_x.size(); i++)
 		{
 			s_x[i]->lg = 0.0;
 		}
@@ -984,17 +798,18 @@ sit_revise_guesses(void)
 	/*gammas(mu_x); */
 	return (OK);
 }
-
+//#define ORIGINAL
+#ifdef ORIGINAL
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 jacobian_sit(void)
 /* ---------------------------------------------------------------------- */
 {
-	LDBLE *base;
+	std::vector<double> base;
 	LDBLE d, d1, d2;
 	int i, j;
 Restart:
-	int pz_max_unknowns = max_unknowns;
+	size_t pz_max_unknowns = max_unknowns;
 	//k_temp(tc_x, patm_x);
 	if (full_pitzer == TRUE)
 	{
@@ -1002,18 +817,9 @@ Restart:
 		sit();
 		residuals();
 	}
-	base = (LDBLE *) PHRQ_malloc((size_t) count_unknowns * sizeof(LDBLE));
-	if (base == NULL)
-	{
-		malloc_error();
-		return OK;
-	}
-	for (i = 0; i < count_unknowns; i++)
-	{
-		base[i] = residual[i];
-	}
+	base = residual; // std::vectors
 	d = 0.0001;
-	d1 = d * log(10.0);
+	d1 = d * LOG_10;
 	d2 = 0;
 	for (i = 0; i < count_unknowns; i++)
 	{
@@ -1065,7 +871,8 @@ Restart:
 		case GAS_MOLES:
 			if (gas_in == FALSE)
 				continue;
-			d2 = d * x[i]->moles;
+			d2 = (x[i]->moles > 1 ? 1 : 20);
+			d2 *= d * x[i]->moles;
 			if (d2 < 1e-14)
 				d2 = 1e-14;
 			x[i]->moles += d2;
@@ -1085,7 +892,6 @@ Restart:
 		molalities(TRUE);
 		if (max_unknowns > pz_max_unknowns) 
 		{
-			base = (LDBLE *) free_check_null(base);
 			gammas_sit();
 			jacobian_sums();
 			goto Restart;
@@ -1096,7 +902,7 @@ Restart:
 		residuals();
 		for (j = 0; j < count_unknowns; j++)
 		{
-			array[j * (count_unknowns + 1) + i] =
+			my_array[(size_t)j * (count_unknowns + 1) + (size_t)i] =
 				-(residual[j] - base[j]) / d2;
 		}
 		switch (x[i]->type)
@@ -1115,9 +921,9 @@ Restart:
 			break;
 		case MH:
 			s_eminus->la -= d;
-			if (array[i * (count_unknowns + 1) + i] == 0)
+			if (my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] == 0)
 			{
-				array[i * (count_unknowns + 1) + i] =
+				my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] =
 					exp(s_h2->lm * LOG_10) * 2;
 			}
 			break;
@@ -1145,10 +951,211 @@ Restart:
 		sit();
 	mb_sums();
 	residuals();
-	free_check_null(base);
 	return OK;
 }
-
+#else
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+jacobian_sit(void)
+/* ---------------------------------------------------------------------- */
+{
+	std::vector<double> base;
+	LDBLE d, d1, d2;
+	int i, j;
+	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
+	std::vector<class phase*> phase_ptrs;
+	std::vector<class phase> base_phases;
+	double base_mass_water_bulk_x = 0, base_moles_h2o = 0;
+	cxxGasPhase base_gas_phase;
+	cxxSurface base_surface;
+Restart:
+	if (use.Get_surface_ptr() != NULL)
+	{
+		base_surface = *use.Get_surface_ptr();
+	}
+	if (use.Get_gas_phase_ptr() != NULL)
+	{
+		cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
+		base_gas_phase = *gas_phase_ptr;
+		base_phases.resize(gas_phase_ptr->Get_gas_comps().size());
+		for (size_t i = 0; i < gas_phase_ptr->Get_gas_comps().size(); i++)
+		{
+			const cxxGasComp* gas_comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
+			class phase* phase_ptr = phase_bsearch(gas_comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+			phase_ptrs.push_back(phase_ptr);
+			base_phases[i] = *phase_ptr;
+		}
+	}
+	calculating_deriv = 1;
+	size_t pz_max_unknowns = max_unknowns;
+	//k_temp(tc_x, patm_x);
+	molalities(TRUE);
+	if (full_pitzer == TRUE)
+	{
+		
+		sit();
+	}
+	mb_sums();
+	residuals();
+	base = residual; // std::vectors
+	d = 0.0001;
+	d1 = d * LOG_10;
+	d2 = 0;
+	for (i = 0; i < count_unknowns; i++)
+	{
+		switch (x[i]->type)
+		{
+		case MB:
+		case ALK:
+		case CB:
+		case SOLUTION_PHASE_BOUNDARY:
+		case EXCH:
+		case SURFACE:
+		case SURFACE_CB:
+		case SURFACE_CB1:
+		case SURFACE_CB2:
+			x[i]->master[0]->s->la += d;
+			d2 = d1;
+			break;
+		case AH2O:
+			x[i]->master[0]->s->la += d;
+			d2 = d1;
+			break;
+		case PITZER_GAMMA:
+			if (!full_pitzer)
+				continue;
+			x[i]->s->lg += d;
+			d2 = d;
+			break;
+		case MH2O:
+			mass_water_aq_x *= (1.0 + d);
+			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			d2 = log(1.0 + d);
+			break;
+		case MH:
+			s_eminus->la += d;
+			d2 = d1;
+			break;
+			/*
+			if (pitzer_pe == TRUE)
+			{
+				s_eminus->la += d;
+				d2 = d1;
+				break;
+			}
+			else
+			{
+				continue;
+			}
+			*/
+		case GAS_MOLES:
+			if (gas_in == FALSE)
+				continue;
+			d2 = (x[i]->moles > 1 ? 1 : 20);
+			d2 *= d * x[i]->moles;
+			if (d2 < 1e-14)
+				d2 = 1e-14;
+			x[i]->moles += d2;
+			break;
+		case MU:
+			//continue;
+			d2 = d * mu_x;
+			mu_x += d2;
+			//k_temp(tc_x, patm_x);
+			gammas_sit();
+			break;
+		case PP:
+		case SS_MOLES:
+			continue;
+			break;
+		}
+		molalities(TRUE);
+		if (max_unknowns > pz_max_unknowns)
+		{
+			gammas_sit();
+			jacobian_sums();
+			goto Restart;
+		}
+		if (full_pitzer == TRUE)
+			sit();
+		mb_sums();
+		residuals();
+		for (j = 0; j < count_unknowns; j++)
+		{
+			my_array[(size_t)j * (count_unknowns + 1) + (size_t)i] =
+				-(residual[j] - base[j]) / d2;
+		}
+		switch (x[i]->type)
+		{
+		case MB:
+		case ALK:
+		case CB:
+		case SOLUTION_PHASE_BOUNDARY:
+		case EXCH:
+		case SURFACE:
+		case SURFACE_CB:
+		case SURFACE_CB1:
+		case SURFACE_CB2:
+		case AH2O:
+			x[i]->master[0]->s->la -= d;
+			break;
+		case MH:
+			s_eminus->la -= d;
+			if (my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] == 0)
+			{
+				my_array[(size_t)i * (count_unknowns + 1) + (size_t)i] =
+					exp(s_h2->lm * LOG_10) * 2;
+			}
+			break;
+		case PITZER_GAMMA:
+			x[i]->s->lg -= d;
+			break;
+		case MH2O:
+			mass_water_aq_x /= (1 + d);
+			x[i]->master[0]->s->moles = mass_water_aq_x / gfw_water;
+			break;
+		case MU:
+			mu_x -= d2;
+			//k_temp(tc_x, patm_x);
+			gammas_sit();
+			break;
+		case GAS_MOLES:
+			if (gas_in == FALSE)
+				continue;
+			x[i]->moles -= d2;
+			break;
+		}
+		if (use.Get_surface_ptr() != NULL)
+		{
+			*use.Get_surface_ptr() = base_surface;
+		}
+		if (use.Get_gas_phase_ptr() != NULL)
+		{
+			*use.Get_gas_phase_ptr() = base_gas_phase;
+			for (size_t g = 0; g < base_phases.size(); g++)
+			{
+				*phase_ptrs[g] = base_phases[g];
+			}
+		}
+	}
+	molalities(TRUE);
+	if (full_pitzer == TRUE)
+		sit();
+	mb_sums();
+	residuals();
+	//for (i = 0; i < count_unknowns; i++)
+	//{
+	//	//Debugging
+	//	if (fabs(2.0 * (residual[i] - base[i]) / (residual[i] + base[i])) > 1e-2 &&
+	//		fabs(residual[i]) + fabs(base[i]) > 1e-8)
+	//	{
+	//		std::cerr << i << ": " << x[i]->description << "  " << residual[i] << "  " << base[i] << std::endl;
+	//	}
+	//}
+	calculating_deriv = 0;
+	return OK;
+}
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 model_sit(void)
@@ -1227,6 +1234,7 @@ model_sit(void)
 			PhreeqcIWait(this);
 #endif
 			iterations++;
+			overall_iterations++;
 			if (iterations > itmax - 1 && debug_model == FALSE
 				&& pr.logfile == TRUE)
 			{
@@ -1313,7 +1321,8 @@ model_sit(void)
 			{
 				
 				count_basis_change++;
-				count_unknowns -= count_s_x;
+				//count_unknowns -= (int)this->s_x.size();
+				count_unknowns -= sit_aqueous_unknowns;
 				reprep();
 				full_pitzer = false;
 			}
@@ -1441,7 +1450,7 @@ gammas_sit()
 /*
  *   Calculate activity coefficients
  */
-	for (i = 0; i < count_s_x; i++)
+	for (i = 0; i < (int)this->s_x.size(); i++)
 	{
 		switch (s_x[i]->gflag)
 		{
@@ -1460,12 +1469,12 @@ gammas_sit()
  *   Find moles of sites. 
  *   s_x[i]->equiv is stoichiometric coefficient of sites in species
  */
-			for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+			for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 			{
-				if (s_x[i]->rxn_x->token[j].s->type == SURF)
+				if (s_x[i]->rxn_x.token[j].s->type == SURF)
 				{
 					s_x[i]->alk =
-						s_x[i]->rxn_x->token[j].s->primary->unknown->moles;
+						s_x[i]->rxn_x.token[j].s->primary->unknown->moles;
 					break;
 				}
 			}
@@ -1504,7 +1513,7 @@ gammas_sit()
 
 	if (use.Get_exchange_ptr() != NULL)
 	{
-		for (i = 0; i < count_s_x; i++)
+		for (i = 0; i < (int)this->s_x.size(); i++)
 		{
 			switch (s_x[i]->gflag)
 			{
@@ -1525,12 +1534,12 @@ gammas_sit()
 				 *   z contains valence of cation for exchange species, alk contains cec
 				 */
 				/* !!!!! */
-				for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+				for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 				{
-					if (s_x[i]->rxn_x->token[j].s->type == EX)
+					if (s_x[i]->rxn_x.token[j].s->type == EX)
 					{
 						s_x[i]->alk =
-							s_x[i]->rxn_x->token[j].s->primary->unknown->
+							s_x[i]->rxn_x.token[j].s->primary->unknown->
 							moles;
 						break;
 					}
@@ -1556,13 +1565,13 @@ gammas_sit()
 				if (use.Get_exchange_ptr()->Get_pitzer_exchange_gammas())
 				{
 					/* Assume equal gamma's of solute and exchangeable species...  */
-					for (j = 1; s_x[i]->rxn_x->token[j].s != NULL; j++)
+					for (j = 1; s_x[i]->rxn_x.token[j].s != NULL; j++)
 					{
-						if (s_x[i]->rxn_x->token[j].s->type == EX)
+						if (s_x[i]->rxn_x.token[j].s->type == EX)
 							continue;
-						coef = s_x[i]->rxn_x->token[j].coef;
-						s_x[i]->lg += coef * s_x[i]->rxn_x->token[j].s->lg;
-						s_x[i]->dg += coef * s_x[i]->rxn_x->token[j].s->dg;
+						coef = s_x[i]->rxn_x.token[j].coef;
+						s_x[i]->lg += coef * s_x[i]->rxn_x.token[j].s->lg;
+						s_x[i]->dg += coef * s_x[i]->rxn_x.token[j].s->dg;
 					}
 				}
 			}
@@ -1572,37 +1581,6 @@ gammas_sit()
 
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-PTEMP_SIT(LDBLE TK)
-/* ---------------------------------------------------------------------- */
-{
-/*
-C
-C     SUBROUTINE TO CALUCLATE TEMPERATURE DEPENDENCE OF PITZER PARAMETER
-C
-*/
-	int i;
-	LDBLE TR = 298.15;
-
-	if (fabs(TK - OTEMP) < 0.001 && fabs(patm_x - OPRESS) < 0.1)	return OK; 
-/*
-C     Set DW0
-*/
-	DW0 = rho_0 = calc_rho_0(TK - 273.15, patm_x);
-	VP = patm_x;
-	for (i = 0; i < count_sit_param; i++)
-	{
-		calc_sit_param(sit_params[i], TK, TR);
-	}
-	calc_dielectrics(TK - 273.15, patm_x);
-	sit_A0 = A0;
-	OTEMP = TK;
-	OPRESS = patm_x;
-	return OK;
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 PTEMP_SIT(LDBLE TK)
@@ -1656,12 +1634,12 @@ sit_make_lists(void)
 			max = sit_count_cations;
 			break;
 		case 1:
-			min = count_s;
-			max = count_s + sit_count_neutrals;
+			min = (int)s.size();
+			max = (int)s.size() + sit_count_neutrals;
 			break;
 		case 2:
-			min = 2*count_s;
-			max = 2*count_s + sit_count_anions;
+			min = 2*(int)s.size();
+			max = 2*(int)s.size() + sit_count_anions;
 			break;
 		}
 		for (int i = min; i < max; i++)
@@ -1675,19 +1653,19 @@ sit_make_lists(void)
 					continue;	
 				sit_IPRSNT[i] = TRUE;	
 				s_list.push_back(i);	
-				if (i < count_s)
+				if (i < (int)s.size())
 				{
 					cation_list.push_back(i);
 				}
-				if (i >= count_s && i < 2*count_s)
+				if (i >= (int)s.size() && i < 2*(int)s.size())
 				{
 					neutral_list.push_back(i);
 				}
-				if (i >= 2*count_s)
+				if (i >= 2*(int)s.size())
 				{
 					anion_list.push_back(i);
 				}
-				if (i < count_s || i >= 2*count_s)
+				if (i < (int)s.size() || i >= 2*(int)s.size())
 				{
 					ion_list.push_back(i);
 				}
@@ -1698,7 +1676,7 @@ sit_make_lists(void)
 			}
 		}
 	}
-	for (int i = 0; i < count_sit_param; i++)
+	for (int i = 0; i < (int)sit_params.size(); i++)
 	{
 		int i0 = sit_params[i]->ispec[0];
 		int i1 = sit_params[i]->ispec[1];

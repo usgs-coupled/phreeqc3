@@ -1,7 +1,13 @@
 #if !defined(PARSER_H_INCLUDED)
 #define PARSER_H_INCLUDED
 #if defined(WIN32)
-#include <windows.h>
+#  if defined(PHREEQCI_GUI)
+#    ifndef WINVER
+#      define WINVER 0x0400
+#    endif
+#    include <afx.h>
+#  endif
+#  include <windows.h>
 #endif
 #include <string>				// std::string
 #include <map>					// std::map
@@ -280,13 +286,21 @@ class CParser: public PHRQ_base
 // Global functions
 static inline std::string &trim_left(std::string &s)
 { 
-	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace)))); 
+#if (__GNUC__ && (__cplusplus >= 201103L)) || (_MSC_VER >= 1600)
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) {return !std::isspace(c);}));
+#else
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+#endif
 	return s; 
 } 
 static inline std::string &trim_right(std::string &s)
 { 
-	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end()); 
-	return s; 
+#if (__GNUC__ && (__cplusplus >= 201103L)) || (_MSC_VER >= 1600)
+	s.erase(std::find_if(s.rbegin(), s.rend(), [](int c) {return !std::isspace(c);}).base(), s.end());
+#else
+	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+#endif
+	return s;
 } 
 static inline std::string &trim(std::string &s)
 { 

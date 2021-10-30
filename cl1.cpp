@@ -10,6 +10,14 @@
 #define CHECK_ERRORS
  */
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 int Phreeqc::
 cl1(int k, int l, int m, int n,
 	int l_nklmd, int l_n2d,
@@ -30,8 +38,8 @@ cl1(int k, int l, int m, int n,
 	LDBLE xmin, xmax;
 	int iout = 0;
 	// static i runs faster on windows
-	register int i, j;
-	register LDBLE l_z;
+	int i, j;
+	LDBLE l_z;
 	int maxit, n1, n2;
 	LDBLE pivot;
 	int ia, ii, kk, nk, js;
@@ -188,12 +196,8 @@ cl1(int k, int l, int m, int n,
 	output_msg(sformatf( "Set up phase 1 costs\n"));
 #endif
 /* Zero first row of cu and iu */
-	memcpy((void *) &(l_cu[0]), (void *) &(scratch[0]),
-		   (size_t) nklm * sizeof(LDBLE));
-	for (j = 0; j < nklm; ++j)
-	{
-		l_iu[j] = 0;
-	}
+	memset(&l_cu[0], 0, (size_t)nklm * sizeof(LDBLE));
+	memset(&l_iu[0], 0, (size_t)nklm * sizeof(int));
 /* L40: */
 #ifdef DEBUG_CL1
 	output_msg(sformatf( "L40\n"));
@@ -849,48 +853,29 @@ cl1_space(int check, int l_n2d, int klm, int l_nklmd)
 {
 	if (check == 1)
 	{
-		if (x_arg == NULL)
+		if ((size_t)l_n2d > x_arg.size())
 		{
-			x_arg = (LDBLE *) PHRQ_malloc((size_t) (l_n2d * sizeof(LDBLE)));
+			x_arg.resize((size_t)l_n2d);
 		}
-		else if (l_n2d > x_arg_max)
-		{
-			x_arg =
-				(LDBLE *) PHRQ_realloc(x_arg, (size_t) (l_n2d * sizeof(LDBLE)));
-			x_arg_max = l_n2d;
-		}
-		if (x_arg == NULL)
-			malloc_error();
-		zero_double(x_arg, l_n2d);
+		memset(&x_arg[0], 0, sizeof(double) * (size_t)l_n2d);
 
-		if (res_arg == NULL)
+		if ((size_t)klm > res_arg.size())
 		{
-			res_arg = (LDBLE *) PHRQ_malloc((size_t) ((klm) * sizeof(LDBLE)));
+			res_arg.resize((size_t)klm);
 		}
-		else if (klm > res_arg_max)
+		memset(&res_arg[0], 0, sizeof(double) * (size_t)klm);
+	}
+	if (l_nklmd > 0)
+	{
+		if ((size_t)l_nklmd > scratch.size())
 		{
-			res_arg =
-				(LDBLE *) PHRQ_realloc(res_arg,
-									   (size_t) ((klm) * sizeof(LDBLE)));
-			res_arg_max = klm;
+			scratch.resize(l_nklmd);
 		}
-		if (res_arg == NULL)
-			malloc_error();
-		zero_double(res_arg, klm);
+		memset(&scratch[0], 0, sizeof(double) * (size_t)l_nklmd);
 	}
-
-/* Make scratch space */
-	if (scratch == NULL)
+	else if (scratch.size() == 0)
 	{
-		scratch = (LDBLE *) PHRQ_malloc((size_t) l_nklmd * sizeof(LDBLE));
+		scratch.resize(1);
+		memset(&scratch[0], 0, sizeof(double));
 	}
-	else if (l_nklmd > scratch_max)
-	{
-		scratch =
-			(LDBLE *) PHRQ_realloc(scratch, (size_t) l_nklmd * sizeof(LDBLE));
-		scratch_max = l_nklmd;
-	}
-	if (scratch == NULL)
-		malloc_error();
-	zero_double(scratch, l_nklmd);
 }

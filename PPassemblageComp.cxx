@@ -13,6 +13,14 @@
 #include "Dictionary.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -315,7 +323,7 @@ cxxPPassemblageComp::totalize(Phreeqc * phreeqc_ptr)
 	// component structures
 	if (this->add_formula.size() != 0)
 		return;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	int l;
 	phase_ptr = phreeqc_ptr-> phase_bsearch(this->name.c_str(), &l, FALSE);
 	if (phase_ptr != NULL)

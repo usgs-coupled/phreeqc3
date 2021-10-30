@@ -39,6 +39,15 @@
 
 #define MAX_DIVIDE 2
 #define KINETICS_TOL 1e-8;
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
@@ -53,7 +62,7 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 	int j, return_value;
 	LDBLE coef;
 	char l_command[] = "run";
-	struct rate *rate_ptr;
+	class rate *rate_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
@@ -88,7 +97,7 @@ calc_kinetic_reaction(cxxKinetics *kinetics_ptr, LDBLE time_step)
 			if (rate_ptr->new_def == TRUE)
 			{
 				if (basic_compile
-					(rates[j].commands, &rates[j].linebase, &rates[j].varbase,
+					(rates[j].commands.c_str(), &rates[j].linebase, &rates[j].varbase,
 					 &rates[j].loopbase) != 0)
 				{
 					error_string = sformatf( "Fatal Basic error in rate %s.",
@@ -145,8 +154,8 @@ calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
  *	stored in moles in run_kinetics
  */
 	LDBLE coef;
-	struct phase *phase_ptr;
-	struct master *master_ptr;
+	class phase *phase_ptr;
+	class master *master_ptr;
 	int count= 0;
 /*
  *   Go through list and generate list of elements and
@@ -186,10 +195,12 @@ RESTART:   // if limiting rates, jump to here
 			}
 			else
 			{
-				char * temp_name = string_duplicate(name.c_str());
-				char * ptr = temp_name;
-				get_elts_in_species(&ptr, coef * coef1);
-				free_check_null(temp_name);
+				const char* ptr = name.c_str();
+				if (get_elts_in_species(&ptr, coef * coef1) == ERROR)
+				{
+					error_string = sformatf("Error in -formula: %s", name.c_str());
+					error_msg(error_string, CONTINUE);
+				}
 			}
 		}
 		if (use.Get_exchange_ptr() != NULL
@@ -206,10 +217,13 @@ RESTART:   // if limiting rates, jump to here
 						name.c_str()) == 0)
 					{
 						/* found kinetics component */
-						char * formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
-						char * ptr = formula;
-						get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion());
-						free_check_null(formula);
+						std::string formula = exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str();
+						const char* ptr = formula.c_str();
+						if (get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion()) == ERROR)
+						{
+							error_string = sformatf("Error in -formula: %s", formula.c_str());
+							error_msg(error_string, CONTINUE);
+						}
 					}
 				}
 			}
@@ -227,14 +241,13 @@ RESTART:   // if limiting rates, jump to here
 						surface_comp_ptr->Get_rate_name().c_str()) == 0)
 					{
 						/* found kinetics component */
-						char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-						char *ptr = temp_formula;
+						std::string temp_formula = surface_comp_ptr->Get_formula().c_str();
+						const char* cptr = temp_formula.c_str();
 						/* Surface = 0 when m becomes low ...
 						*/
 						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
 							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
 						{
-							//master_ptr = master_bsearch(ptr);
 							master_ptr = master_bsearch(surface_comp_ptr->Get_master_element().c_str());
 							if (master_ptr != NULL) 
 							{
@@ -243,9 +256,12 @@ RESTART:   // if limiting rates, jump to here
 						}
 						else
 						{
-							get_elts_in_species(&ptr, -coef * surface_comp_ptr->Get_phase_proportion());
+							if (get_elts_in_species(&cptr, -coef * surface_comp_ptr->Get_phase_proportion()) == ERROR)
+							{
+								error_string = sformatf("Error in -formula: %s", temp_formula.c_str());
+								error_msg(error_string, CONTINUE);
+							}
 						}
-						free_check_null(temp_formula);
 					}
 				}
 			}
@@ -276,121 +292,7 @@ RESTART:   // if limiting rates, jump to here
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calc_final_kinetic_reaction(cxxKinetics *kinetics_ptr)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *	Go through kinetic components to
- *	using extrapolated values, which were
- *	stored in moles in run_kinetics
- */
-	LDBLE coef;
-	struct phase *phase_ptr;
-	struct master *master_ptr;
-/*
- *   Go through list and generate list of elements and
- *   coefficient of elements in reaction
- */
-	kinetics_ptr->Get_totals().clear();
-	count_elts = 0;
-	paren_count = 0;
-	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
-	{
-		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
-		if (kinetics_comp_ptr->Get_moles() > m_temp[i])
-		{
-			kinetics_comp_ptr->Set_moles(m_temp[i]);
-			kinetics_comp_ptr->Set_m(0);
-		}
-		coef = kinetics_comp_ptr->Get_moles();
-		if (coef == 0.0)
-			continue;
-/*
- *   Reactant is a pure phase, copy formula into token
- */
-		cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
-		for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)	
-		{
-			std::string name = it->first;
-			LDBLE coef1 = it->second;
-			phase_ptr = NULL;
-			int k;
-			phase_ptr = phase_bsearch(name.c_str(), &k, FALSE);
-			if (phase_ptr != NULL)
-			{
-				add_elt_list(phase_ptr->next_elt,
-							 coef *coef1);
-			}
-			else
-			{
-				char * temp_name = string_duplicate(name.c_str());
-				char * ptr = temp_name;
-				get_elts_in_species(&ptr, coef * coef1);
-				free_check_null(temp_name);
-			}
-		}
-		if (use.Get_exchange_ptr() != NULL
-			&& use.Get_exchange_ptr()->Get_related_rate())
-		{
-			cxxExchange * exchange_ptr = use.Get_exchange_ptr();
-			for(size_t j = 0; j < exchange_ptr->Get_exchange_comps().size(); j++)
-			{
-				std::string name(exchange_ptr->Get_exchange_comps()[j].Get_rate_name());
-				if (name.size() > 0)
-				{
-					if (strcmp_nocase
-						(kinetics_comp_ptr->Get_rate_name().c_str(),
-						 name.c_str()) == 0)
-					{
-						/* found kinetics component */
-						char * formula = string_duplicate(exchange_ptr->Get_exchange_comps()[j].Get_formula().c_str());
-						char * ptr = formula;
-						get_elts_in_species(&ptr, -coef*exchange_ptr->Get_exchange_comps()[j].Get_phase_proportion());
-						free_check_null(formula);
-					}
-				}
-			}
 
-		}
-		if (use.Get_surface_ptr() != NULL && use.Get_surface_ptr()->Get_related_rate())
-		{
-			for (size_t j = 0; j < use.Get_surface_ptr()->Get_surface_comps().size(); j++)
-			{
-				cxxSurfaceComp *surface_comp_ptr = &(use.Get_surface_ptr()->Get_surface_comps()[j]);
-				if (surface_comp_ptr->Get_rate_name().size() > 0)
-				{
-					if (strcmp_nocase
-						(kinetics_comp_ptr->Get_rate_name().c_str(),
-						surface_comp_ptr->Get_rate_name().c_str()) == 0)
-					{
-						/* found kinetics component */
-						char * temp_formula = string_duplicate(surface_comp_ptr->Get_formula().c_str());
-						char *ptr = temp_formula;
-/* Surface = 0 when m becomes low ...
- */
-						if (0.9 * surface_comp_ptr->Get_phase_proportion() *
-							(kinetics_comp_ptr->Get_m()) < MIN_RELATED_SURFACE)
-						{
-							master_ptr = master_bsearch(ptr);
-							master_ptr->total = 0.0;
-						}
-						else
-						{
-							get_elts_in_species(&ptr, -coef * surface_comp_ptr->Get_phase_proportion());
-						}
-						free_check_null(temp_formula);
-					}
-				}
-			}
-		}
-	}
-	kinetics_ptr->Set_totals(elt_list_NameDouble());
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
@@ -426,7 +328,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 /*
  *  Save kinetics i and solution i, if necessary
  */
-	save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
+	save_old = -2 - (count_cells * (1 + stag_data.count_stag) + 2);
 	Utilities::Rxn_copy(Rxn_kinetics_map, i, save_old);
 	if (nsaver != i)
 	{
@@ -440,9 +342,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	if (kinetics_ptr == NULL)
 		return (OK);
 	n_reactions = (int) kinetics_ptr->Get_kinetics_comps().size();
-	rk_moles = (LDBLE *) free_check_null(rk_moles);
-	rk_moles = (LDBLE *) PHRQ_malloc((size_t) 6 * n_reactions * sizeof(LDBLE));
-	if (rk_moles == NULL) malloc_error();
+	rk_moles.resize(6 * (size_t)n_reactions);
 
 	/*if (use_mix != NOMIX) last_model.force_prep = TRUE; */
 	set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
@@ -500,8 +400,8 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		if (step_bad > kinetics_ptr->Get_bad_step_max())
 		{
 			error_string = sformatf(
-					"Bad RK steps > %d. Please decrease (time)step or increase -bad_step_max.",
-					kinetics_ptr->Get_bad_step_max());
+					"Bad RK steps > %d in cell %d. Please decrease (time)step or increase -bad_step_max.",
+					kinetics_ptr->Get_bad_step_max(), cell_no);
 			error_msg(error_string, STOP);
 		}
 
@@ -960,8 +860,9 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			/*  define reaction for calculating k5 */
 			rk_moles[k + j] = kinetics_comp_ptr->Get_moles();
 			kinetics_comp_ptr->Set_moles(b51 * rk_moles[j]
-				+ 2.5 * rk_moles[n_reactions + j]
-				+ b53 * rk_moles[2 * n_reactions + j] + b54 * rk_moles[k + j]);
+				+ 2.5 * rk_moles[(size_t)n_reactions + j]
+				+ b53 * rk_moles[2 * (size_t)n_reactions + j]
+				+ b54 * rk_moles[(size_t)k + (size_t)j]);
 		}
 		if (moles_reduction > 1.0)
 			goto MOLES_TOO_LARGE;
@@ -1012,9 +913,10 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			/*  define reaction for calculating k6 */
 			rk_moles[k + j] = kinetics_comp_ptr->Get_moles();
 			kinetics_comp_ptr->Set_moles(b61 * rk_moles[j]
-				+ b62 * rk_moles[n_reactions + j]
-				+ b63 * rk_moles[2 * n_reactions + j]
-				+ b64 * rk_moles[3 * n_reactions + j] + b65 * rk_moles[k + j]);
+				+ b62 * rk_moles[(size_t)n_reactions + j]
+				+ b63 * rk_moles[2 * (size_t)n_reactions + j]
+				+ b64 * rk_moles[3 * (size_t)n_reactions + j]
+				+ b65 * rk_moles[(size_t)k + (size_t)j]);
 		}
 		if (moles_reduction > 1.0)
 			goto MOLES_TOO_LARGE;
@@ -1066,10 +968,10 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 		{
 			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 			l_error = fabs(dc1 * rk_moles[j]
-						 + dc3 * rk_moles[2 * n_reactions + j]
-						 + dc4 * rk_moles[3 * n_reactions + j]
-						 + dc5 * rk_moles[4 * n_reactions + j]
-						 + dc6 * rk_moles[5 * n_reactions + j]);
+						 + dc3 * rk_moles[2 * (size_t)n_reactions + (size_t)j]
+						 + dc4 * rk_moles[3 * (size_t)n_reactions + (size_t)j]
+						 + dc5 * rk_moles[4 * (size_t)n_reactions + (size_t)j]
+						 + dc6 * rk_moles[5 * (size_t)n_reactions + (size_t)j]);
 
 			/* tol is in moles/l */
 			l_error /= kinetics_comp_ptr->Get_tol();
@@ -1100,9 +1002,9 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 			{
 				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
 				kinetics_comp_ptr->Set_moles(c1 * rk_moles[j]
-					+ c3 * rk_moles[2 * n_reactions + j]
-					+ c4 * rk_moles[3 * n_reactions + j]
-					+ c6 * rk_moles[5 * n_reactions + j]);
+					+ c3 * rk_moles[2 * (size_t)n_reactions + (size_t)j]
+					+ c4 * rk_moles[3 * (size_t)n_reactions + (size_t)j]
+					+ c6 * rk_moles[5 * (size_t)n_reactions + (size_t)j]);
 			}
 			calc_final_kinetic_reaction(kinetics_ptr);
 			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
@@ -1177,21 +1079,6 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 					step_ok, (int) (100 * h_sum / kin_time));
 			status(0, str, true);
 		}
-#ifdef SKIP
-#if !defined(PHREEQCI_GUI)
-#ifndef PHREEQ98
-		if (pr.status == TRUE && status_on == TRUE
-			&& (int) (1e3 / CLOCKS_PER_SEC * ((float) clock() - status_timer)) > status_interval)
-		{
-			char str[MAX_LENGTH];
-			backspace_screen(37);
-			sprintf(str, "RK-steps: Bad%4d. OK%5d. Time %3d%%", step_bad,
-					step_ok, (int) (100 * h_sum / kin_time));
-			screen_msg(sformatf("%-37s", str));
-		}
-#endif
-#endif
-#endif
 	}
 
   EQUAL_RATE_OUT:
@@ -1227,7 +1114,7 @@ rk_kinetics(int i, LDBLE kin_time, int use_mix, int nsaver,
 	{
 		Utilities::Rxn_copy(Rxn_solution_map, save_old, i);
 	}
-	rk_moles = (LDBLE *) free_check_null(rk_moles);
+	rk_moles.clear();
 
 	rate_sim_time = rate_sim_time_start + kin_time;
 	use.Set_kinetics_in(true);
@@ -1266,7 +1153,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	std::auto_ptr<cxxSSassemblage> ss_assemblage_save(NULL);
 	std::auto_ptr<cxxKinetics> kinetics_save(NULL);
 #endif
-
+	int restart = 0;
 	
 	small_pe_step = 5.;
 	small_step = 10.;
@@ -1312,7 +1199,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	{
 		diagonal_scale = TRUE;
 		always_full_pitzer = FALSE;
-		max_try = 13;
+		max_try = 14;
 	}
 	else
 	{
@@ -1320,6 +1207,8 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 	}
 	max_try = (max_tries < max_try) ? max_tries : max_try;
 	/*max_try = 1; */
+
+restart:
 	for (j = 0; j < max_try; j++)
 	{
 		if (j == 1)
@@ -1468,6 +1357,26 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 			error_string = sformatf( "Trying reduced tolerance %g ...\n",
 					(double) ineq_tol);
 			warning_msg(error_string);
+		} 
+		else if (j == 14 && use.Get_ss_assemblage_in())
+		{
+			//cxxStorageBin error_bin;
+			//Use2cxxStorageBin(error_bin);
+			//std::ostringstream error_input;
+			//error_bin.dump_raw(error_input, 0);
+			//cxxStorageBin reread;
+			//std::istringstream is(error_input.str());
+			//CParser cp(is);
+			//cp.set_echo_stream(CParser::EO_NONE);
+			//reread.read_raw(cp);
+			//cxxStorageBin2phreeqc(reread);
+			//error_string = sformatf("Trying restarting ...\n");
+			//warning_msg(error_string);
+			//if (restart < 2)
+			//{
+			//	restart++;
+			//	goto restart;
+			//}
 		}
 		if (j > 0)
 		{
@@ -1485,6 +1394,30 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
 			{
 				Rxn_kinetics_map[kinetics_save->Get_n_user()] = *kinetics_save;
 				use.Set_kinetics_ptr(Utilities::Rxn_find(Rxn_kinetics_map, kinetics_save->Get_n_user()));
+			}
+		}
+		if (j == 14)
+		{
+			cxxStorageBin error_bin(this->Get_phrq_io());
+			Use2cxxStorageBin(error_bin);
+			std::ostringstream error_input;
+			error_bin.dump_raw(error_input, 0);
+			cxxStorageBin reread(this->Get_phrq_io());
+			std::istringstream is(error_input.str());
+			CParser cp(is);
+			cp.set_echo_stream(CParser::EO_NONE);
+			cp.set_echo_file(CParser::EO_NONE);
+			reread.read_raw(cp);
+			cxxStorageBin2phreeqc(reread);
+			error_string = sformatf("Trying restarting ...\n");
+			warning_msg(error_string);
+
+			step_size = 1.0 + (small_step - 1.0)/((double) restart + 1.0);
+			pe_step_size = 1.0 + (small_pe_step - 1)/ ((double)restart + 1.0);
+			if (restart < 2)
+			{
+				restart++;
+				goto restart;
 			}
 		}
 		set_and_run_attempt = j;
@@ -1528,7 +1461,7 @@ set_and_run_wrapper(int i, int use_mix, int use_kinetics, int nsaver,
  *   write to error.inp what failed to converge.
  */
 		std::ofstream error_input("error.inp");
-		cxxStorageBin error_bin;
+		cxxStorageBin error_bin(this->Get_phrq_io());
 		Use2cxxStorageBin(error_bin);
 		error_bin.dump_raw(error_input, 0);
 		error_input.close();
@@ -1662,7 +1595,7 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 /*
  *   i			--user number for soln, reaction, etc.
  *   use_mix	  --integer flag
-					state == TRANSPORT: DISP, STAG, NOMIX
+					state == TRANSPORT: DISP, STAG, NOMIX, MIX_BS
 					state == REACTION: TRUE, FALSE
  *   use_kinetics --true or false flag to calculate kinetic reactions
  *   nsaver	   --user number to store solution
@@ -1682,7 +1615,7 @@ set_transport(int i, int use_mix, int use_kinetics, int nsaver)
 		use.Set_n_mix_user(i);
 		use.Set_n_mix_user_orig(i);
 	}
-	else if (use_mix == STAG && multi_Dflag != TRUE)
+	else if ((use_mix == STAG && multi_Dflag != TRUE) || use_mix == MIX_BS)
 	{
 		use.Set_mix_ptr(Utilities::Rxn_find(Rxn_mix_map, i));
 		if (use.Get_mix_ptr() != NULL)
@@ -1947,7 +1880,13 @@ set_reaction(int i, int use_mix, int use_kinetics)
 /*
  *   Find surface
  */
-	dl_type_x = cxxSurface::NO_DL;
+	if (use.Get_surface_in() && use.Get_kinetics_in() && use.Get_kinetics_ptr() && !use.Get_kinetics_ptr()->Get_use_cvode() && reaction_step > 1)
+	{
+		// use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
+		// appt: we may come here with zero kinetic reaction, but surface may have to keep DONNAN_DL
+	}
+	else
+		dl_type_x = cxxSurface::NO_DL;
 	if (use.Get_surface_in() == TRUE)
 	{
 		use.Set_surface_ptr(Utilities::Rxn_find(Rxn_surface_map, i));
@@ -2030,8 +1969,6 @@ set_reaction(int i, int use_mix, int use_kinetics)
 	*/
 	return (OK);
 }
-//#define REVISED_CVODE
-#ifdef REVISED_CVODE
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
@@ -2042,7 +1979,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  * Rates and moles of each reaction are calculated in calc_kinetic_reaction
  * Total number of moles in reaction is stored in kinetics[i].totals
  */
-
+	//int increase_tol = 0; // appt
 	int converge, m_iter;
 	int pr_all_save;
 	int nsaver;
@@ -2060,6 +1997,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  *   Set nsaver
  */
 	run_reactions_iterations = 0;
+	overall_iterations = 0;
 	kin_time_x = kin_time;
 	rate_kin_time = kin_time;
 	nsaver = i;
@@ -2083,396 +2021,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  */
 	kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
 	if (kin_time <= 0 ||
-		(state == REACTION && use.Get_kinetics_in() == FALSE) ||
-		(state == TRANSPORT && kinetics_ptr == NULL) ||
-		(state == PHAST && kinetics_ptr == NULL) ||
-		(state == ADVECTION && kinetics_ptr == NULL))
-	{
-		converge = set_and_run_wrapper(i, use_mix, FALSE, nsaver, step_fraction);
-		if (converge == MASS_BALANCE)
-		{
-			error_msg("Negative concentration in system. Stopping calculation.", STOP);
-		}
-		run_reactions_iterations += iterations;
-	}
-	else
-	{
-/*
- *   Save moles of kinetic reactants for printout...
- */
-		size_t count_comps = kinetics_ptr->Get_kinetics_comps().size();
-		m_temp = (LDBLE *) PHRQ_malloc(count_comps * sizeof(LDBLE));
-		if (m_temp == NULL)
-			malloc_error();
-
-		m_original = (LDBLE *) PHRQ_malloc(count_comps * sizeof(LDBLE));
-		if (m_original == NULL)
-			malloc_error();
-
-		for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-		{
-			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);	
-			m_original[j] = kinetics_comp_ptr->Get_m();
-			m_temp[j] = kinetics_comp_ptr->Get_m();
-		}
-/*
-*   Start the loop for timestepping ...
- *   Use either Runge-Kutta-Fehlberg, or final result extrapolation
- */
-		pr_all_save = pr.all;
-		pr.all = FALSE;
-/*
- *   This condition makes output equal for incremental_reactions TRUE/FALSE...
- *		(if (incremental_reactions == FALSE || reaction_step == 1)
- */
-		store_get_equi_reactants(i, FALSE);
-		if (!kinetics_ptr->Get_use_cvode())
-		{
-			rk_kinetics(i, kin_time, use_mix, nsaver, step_fraction);
-
-			// finish up
-			rate_sim_time = rate_sim_time_start + kin_time;
-			store_get_equi_reactants(i, TRUE);
-			pr.all = pr_all_save;
-
-			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
-			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-			{
-				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);	
-				kinetics_comp_ptr->Set_moles(m_original[j] - kinetics_comp_ptr->Get_m());
-			}
-			m_temp = (LDBLE *) free_check_null(m_temp);
-			m_original = (LDBLE *) free_check_null(m_original);
-		}
-		else
-		{
-			// save initial reactants
-			// cxxStorageBin save_bin(use); // if needed
-			
-			save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
-			if (nsaver != i)
-			{
-				Utilities::Rxn_copy(Rxn_solution_map, i, save_old);
-			}
-			for (int j = 0; j < OPT_SIZE; j++)
-			{
-				iopt[j] = 0;
-				ropt[j] = 0;
-			}
-
-/*
- *	Do mix first
- */
-			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
-			n_reactions = (int) kinetics_ptr->Get_kinetics_comps().size();
-			cvode_n_user = i;
-			cvode_kinetics_ptr = (void *) kinetics_ptr;
-			cvode_n_reactions = n_reactions;
-			cvode_rate_sim_time_start = rate_sim_time_start;
-			cvode_rate_sim_time = rate_sim_time;
-
-			if (multi_Dflag)
-				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
-			else
-				converge = set_and_run_wrapper(i, use_mix, FALSE, i, 0.0);
-			if (converge == MASS_BALANCE)
-				error_msg
-					("Negative concentration in system. Stopping calculation.",
-					 STOP);
-			saver();
-			pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, i);
-			ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, i);
-			if (pp_assemblage_ptr != NULL)
-			{
-				cvode_pp_assemblage_save = new cxxPPassemblage(*pp_assemblage_ptr);
-			}
-			if (ss_assemblage_ptr != NULL)
-			{
-				cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
-			}
-
-			/* allocate space for CVODE */
-			kinetics_machEnv = M_EnvInit_Serial(n_reactions);
-			kinetics_machEnv->phreeqc_ptr = this;
-			kinetics_y = N_VNew(n_reactions, kinetics_machEnv);	/* Allocate y, abstol vectors */
-			if (kinetics_y == NULL)
-				malloc_error();
-			cvode_last_good_y = N_VNew(n_reactions, kinetics_machEnv);	/* Allocate y, abstol vectors */
-			if (cvode_last_good_y == NULL)
-				malloc_error();
-			cvode_prev_good_y = N_VNew(n_reactions, kinetics_machEnv);	/* Allocate y, abstol vectors */
-			if (cvode_prev_good_y == NULL)
-				malloc_error();
-			kinetics_abstol = N_VNew(n_reactions, kinetics_machEnv);
-			if (kinetics_abstol == NULL)
-				malloc_error();
-			for (int j = 0; j < n_reactions; j++)
-			{
-				Ith(cvode_last_good_y, j + 1) = 0.0;
-				Ith(cvode_prev_good_y, j + 1) = 0.0;
-				Ith(kinetics_abstol, j + 1) = 0.0;
-			}
-/*
- *	Set y to 0.0
- */
-			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-			{
-				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
-				kinetics_comp_ptr->Set_moles(0.0);
-				Ith(kinetics_y, j + 1) = 0.0;
-				Ith(kinetics_abstol, j + 1) = kinetics_comp_ptr->Get_tol();
-			}
-			reltol = 0.0;
-
-			/* Call CVodeMalloc to initialize CVODE:
-
-			   NEQ   is the problem size = number of equations
-			   f       is the user's right hand side function in y'=f(t,y)
-			   T0     is the initial time
-			   y       is the initial dependent variable vector
-			   BDF   specifies the Backward Differentiation Formula
-			   NEWTON  specifies a Newton iteration
-			   SV     specifies scalar relative and vector absolute tolerances
-			   &reltol is a pointer to the scalar relative tolerance
-			   abstol  is the absolute tolerance vector
-			   FALSE   indicates there are no optional inputs in iopt and ropt
-			   iopt is an array used to communicate optional integer input and output
-			   ropt is an array used to communicate optional real input and output
-
-			   A pointer to CVODE problem memory is returned and stored in cvode_mem. */
-			/* Don`t know what this does */
-			/*
-			   iopt[SLDET] = TRUE;
-			   cvode_mem = CVodeMalloc(n_reactions, f, 0.0, y, BDF, NEWTON, SV, &reltol, abstol, NULL, NULL, TRUE, iopt, ropt, machEnv);
-			   cvode_mem = CVodeMalloc(n_reactions, f, 0.0, y, ADAMS, FUNCTIONAL, SV, &reltol, abstol, NULL, NULL, FALSE, iopt, ropt, machEnv);
-			   iopt[MXSTEP] is maximum number of steps that CVODE tries.
-			 */
-			iopt[MXSTEP] = kinetics_ptr->Get_cvode_steps();
-			iopt[MAXORD] = kinetics_ptr->Get_cvode_order();
-			kinetics_cvode_mem =
-				CVodeMalloc(n_reactions, f, 0.0, kinetics_y, BDF, NEWTON, SV,
-							&reltol, kinetics_abstol, this, NULL, TRUE, iopt,
-							ropt, kinetics_machEnv);
-			if (kinetics_cvode_mem == NULL)
-				malloc_error();
-
-			/* Call CVDense to specify the CVODE dense linear solver with the
-			   user-supplied Jacobian routine Jac. */
-			flag = CVDense(kinetics_cvode_mem, Jac, this);
-			if (flag != SUCCESS)
-			{
-				error_msg("CVDense failed.", STOP);
-			}
-			t = 0;
-			tout = kin_time;
-			/*ropt[HMAX] = tout/10.; */
-			/*ropt[HMIN] = 1e-17; */
-			use_save = use;
-			flag = CVode(kinetics_cvode_mem, tout, kinetics_y, &t, NORMAL);
-			rate_sim_time = rate_sim_time_start + t;
-			/*
-			   printf("At t = %0.4e   y =%14.6e  %14.6e  %14.6e\n",
-			   t, Ith(y,1), Ith(y,2), Ith(y,3));
-			 */
-			m_iter = 0;
-			sum_t = 0;
-RESTART:
-			while (flag != SUCCESS)
-			{
-				sum_t += cvode_last_good_time;
-				error_string = sformatf(
-						"CVode incomplete at cvode_steps %d. Cell: %d\tTime: %e\tCvode calls: %d, continuing...\n",
-						(int) iopt[NST], cell_no, (double) sum_t, m_iter + 1);
-				warning_msg(error_string);
-
-				// run with last good y, update reactants
-				cvode_update_reactants(i, nsaver, true);
-
-				cvode_last_good_time = 0;
-				if (++m_iter >= kinetics_ptr->Get_bad_step_max())
-				{
-					m_temp = (LDBLE *) free_check_null(m_temp);
-					m_original = (LDBLE *) free_check_null(m_original);
-					error_msg("Repeated restart of integration.", STOP);
-				}
-				tout1 = tout - sum_t;
-				t = 0;
-				N_VScale(1.0, cvode_last_good_y, kinetics_y);
-				for (int j = 0; j < OPT_SIZE; j++)
-				{
-					iopt[j] = 0;
-					ropt[j] = 0;
-				}
-				CVodeFree(kinetics_cvode_mem);	/* Free the CVODE problem memory */
-				iopt[MXSTEP] = kinetics_ptr->Get_cvode_steps();
-				iopt[MAXORD] = kinetics_ptr->Get_cvode_order();
-				kinetics_cvode_mem =
-					CVodeMalloc(n_reactions, f, 0.0, kinetics_y, BDF, NEWTON,
-								SV, &reltol, kinetics_abstol, this, NULL,
-								TRUE, iopt, ropt, kinetics_machEnv);
-				if (kinetics_cvode_mem == NULL)
-					malloc_error();
-
-				/* Call CVDense to specify the CVODE dense linear solver with the
-				   user-supplied Jacobian routine Jac. */
-				flag = CVDense(kinetics_cvode_mem, Jac, this);
-				if (flag != SUCCESS)
-				{
-					error_msg("CVDense failed.", STOP);
-				}
-				flag = CVode(kinetics_cvode_mem, tout1, kinetics_y, &t, NORMAL);
-			} 
-			// end cvode integration
-
-			// update 
-#ifdef SKIP
-			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-			{
-				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);	
-				kinetics_comp_ptr->Set_moles(Ith(kinetics_y, j + 1));
-				kinetics_comp_ptr->Set_m(m_original[j] - kinetics_comp_ptr->Get_moles());
-				if (kinetics_comp_ptr->Get_m() < 0)
-				{
-					kinetics_comp_ptr->Set_moles(m_original[j]);
-					kinetics_comp_ptr->Set_m(0.0);
-				}
-			}
-			if (use.Get_pp_assemblage_ptr() != NULL)
-			{
-				Rxn_pp_assemblage_map[cvode_pp_assemblage_save->Get_n_user()] = *cvode_pp_assemblage_save;
-				use.Set_pp_assemblage_ptr(Utilities::Rxn_find(Rxn_pp_assemblage_map, cvode_pp_assemblage_save->Get_n_user()));
-			}
-			if (use.Get_ss_assemblage_ptr() != NULL)
-			{
-				Rxn_ss_assemblage_map[cvode_ss_assemblage_save->Get_n_user()] = *cvode_ss_assemblage_save;
-				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
-			}
-#endif
-			
-			// put remaining kinetic reaction in last_good_y for update
-			N_VScale(1.0, kinetics_y, cvode_last_good_y);
-			if (!cvode_update_reactants(i, nsaver, false))
-			{
-				warning_msg("FAIL 2 after successful integration in CVode");
-				flag = -1;
-				goto RESTART;
-			}
-#ifdef SKIP
-			calc_final_kinetic_reaction(kinetics_ptr);
-			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==	MASS_BALANCE)
-			{
-				warning_msg("FAIL 2 after successful integration in CVode");
-				flag = -1;
-				goto RESTART;
-			}
-			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-			{
-				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
-				kinetics_comp_ptr->Set_m(m_original[j] - kinetics_comp_ptr->Get_moles());
-			}
-#endif
-/*
- *  Restore solution i, if necessary
- */
-			if (nsaver != i)
-			{
-				Utilities::Rxn_copy(Rxn_solution_map, save_old, i);
-			}
-			free_cvode();
-			use.Set_mix_in(use_save.Get_mix_in());
-			use.Set_mix_ptr(use_save.Get_mix_ptr());
-
-			// finish up
-			rate_sim_time = rate_sim_time_start + kin_time;
-			store_get_equi_reactants(i, TRUE);
-			pr.all = pr_all_save;
-
-#ifdef SKIP
-			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
-			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-			{
-				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);	
-				kinetics_comp_ptr->Set_moles(m_original[j] - kinetics_comp_ptr->Get_m());
-			}
-#else
-			kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
-			cxxKinetics *kinetics_original_ptr = Utilities::Rxn_find(Rxn_kinetics_map, use.Get_n_kinetics_user());
-			for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
-			{
-				cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);	
-				cxxKineticsComp * kinetics_original_comp_ptr = &(kinetics_original_ptr->Get_kinetics_comps()[j]);	
-				kinetics_comp_ptr->Set_moles(kinetics_original_comp_ptr->Get_m() - kinetics_comp_ptr->Get_m());
-			}
-#endif
-			m_temp = (LDBLE *) free_check_null(m_temp);
-			m_original = (LDBLE *) free_check_null(m_original);
-		} // end cvode
-	}
-	iterations = run_reactions_iterations;
-	if (cvode_pp_assemblage_save != NULL)
-	{
-		delete cvode_pp_assemblage_save;
-		cvode_pp_assemblage_save = NULL;
-	}
-	if (cvode_ss_assemblage_save != NULL)
-	{
-		delete cvode_ss_assemblage_save;
-		cvode_ss_assemblage_save = NULL;
-	}
-	return (OK);
-}
-#else
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
-/* ---------------------------------------------------------------------- */
-{
-/*
- * Kinetics calculations
- * Rates and moles of each reaction are calculated in calc_kinetic_reaction
- * Total number of moles in reaction is stored in kinetics[i].totals
- */
-
-	int converge, m_iter;
-	int pr_all_save;
-	int nsaver;
-	cxxKinetics *kinetics_ptr;
-	cxxPPassemblage *pp_assemblage_ptr;
-	cxxSSassemblage *ss_assemblage_ptr;
-	cxxUse use_save;
-	int save_old, n_reactions /*, nok, nbad */ ;
-
-	/* CVODE definitions */
-	realtype ropt[OPT_SIZE], reltol, t, tout, tout1, sum_t;
-	long int iopt[OPT_SIZE];
-	int flag;
-/*
- *   Set nsaver
- */
-	run_reactions_iterations = 0;
-	kin_time_x = kin_time;
-	rate_kin_time = kin_time;
-	nsaver = i;
-	if (state == TRANSPORT || state == PHAST)
-	{
-		if (use_mix == DISP)
-		{
-			nsaver = -2;
-		}
-		else if (use_mix == STAG)
-		{
-			nsaver = -2 - i;
-		}
-	}
-	if (state == ADVECTION)
-	{
-		nsaver = -2;
-	}
-/*
- * Check that reaction exists for this cell ..
- */
-	kinetics_ptr = Utilities::Rxn_find(Rxn_kinetics_map, i);
-	if (kin_time <= 0 ||
+		(kinetics_ptr && kinetics_ptr->Get_kinetics_comps().size() == 0) ||
 		(state == REACTION && use.Get_kinetics_in() == FALSE) ||
 		(state == TRANSPORT && kinetics_ptr == NULL) ||
 		(state == PHAST && kinetics_ptr == NULL) ||
@@ -2481,9 +2030,10 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 		converge =
 			set_and_run_wrapper(i, use_mix, FALSE, nsaver, step_fraction);
 		if (converge == MASS_BALANCE)
-			error_msg
-				("Negative concentration in system. Stopping calculation.",
-				 STOP);
+		{
+			error_string = sformatf("Negative concentration in solution %d. Stopping calculation.", cell_no);
+			error_msg(error_string, STOP);
+		}
 		run_reactions_iterations += iterations;
 	}
 	else
@@ -2492,14 +2042,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
  *   Save moles of kinetic reactants for printout...
  */
 		size_t count_comps = kinetics_ptr->Get_kinetics_comps().size();
-		m_temp = (LDBLE *) PHRQ_malloc(count_comps * sizeof(LDBLE));
-		if (m_temp == NULL)
-			malloc_error();
-
-		m_original =
-			(LDBLE *) PHRQ_malloc(count_comps * sizeof(LDBLE));
-		if (m_original == NULL)
-			malloc_error();
+		m_temp.resize(count_comps); 
+		m_original.resize(count_comps);
 
 		for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
 		{
@@ -2529,7 +2073,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 		}
 		else
 		{
-			save_old = -2 - (count_cells * (1 + stag_data->count_stag) + 2);
+			save_old = -2 - (count_cells * (1 + stag_data.count_stag) + 2);
 			if (nsaver != i)
 			{
 				Utilities::Rxn_copy(Rxn_solution_map, i, save_old);
@@ -2539,7 +2083,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				iopt[j] = 0;
 				ropt[j] = 0;
 			}
-
 /*
  *	Do mix first
  */
@@ -2552,13 +2095,14 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			cvode_rate_sim_time = rate_sim_time;
 
 			if (multi_Dflag)
-				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, 0.0);
+				converge = set_and_run_wrapper(i, NOMIX, FALSE, i, step_fraction);
 			else
-				converge = set_and_run_wrapper(i, use_mix, FALSE, i, 0.0);
+				converge = set_and_run_wrapper(i, use_mix, FALSE, i, step_fraction);
 			if (converge == MASS_BALANCE)
-				error_msg
-					("Negative concentration in system. Stopping calculation.",
-					 STOP);
+			{
+				error_string = sformatf("Negative concentration in solution %d. Stopping calculation.", cell_no);
+				error_msg(error_string, STOP);
+			}
 			saver();
 			pp_assemblage_ptr = Utilities::Rxn_find(Rxn_pp_assemblage_map, i);
 			ss_assemblage_ptr = Utilities::Rxn_find(Rxn_ss_assemblage_map, i);
@@ -2570,7 +2114,6 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			{
 				cvode_ss_assemblage_save = new cxxSSassemblage(*ss_assemblage_ptr);
 			}
-
 			/* allocate space for CVODE */
 			kinetics_machEnv = M_EnvInit_Serial(n_reactions);
 			kinetics_machEnv->phreeqc_ptr = this;
@@ -2629,6 +2172,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			   cvode_mem = CVodeMalloc(n_reactions, f, 0.0, y, ADAMS, FUNCTIONAL, SV, &reltol, abstol, NULL, NULL, FALSE, iopt, ropt, machEnv);
 			   iopt[MXSTEP] is maximum number of steps that CVODE tries.
 			 */
+			//iopt[SLDET] = TRUE; // appt
 			iopt[MXSTEP] = kinetics_ptr->Get_cvode_steps();
 			iopt[MAXORD] = kinetics_ptr->Get_cvode_order();
 			kinetics_cvode_mem =
@@ -2658,25 +2202,50 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			 */
 			m_iter = 0;
 			sum_t = 0;
-		  RESTART:
+		RESTART:
 			while (flag != SUCCESS)
 			{
 				sum_t += cvode_last_good_time;
-				error_string = sformatf(
-						"CVode incomplete at cvode_steps %d. Cell: %d\tTime: %e\tCvode calls: %d, continuing...\n",
-						(int) iopt[NST], cell_no, (double) sum_t, m_iter + 1);
-				warning_msg(error_string);
+				{
+					error_string = sformatf("CV_ODE: Time: %8.2e s. Delta t: %8.2e s. Calls: %d.", (double)(sum_t), (double) cvode_last_good_time, m_iter);
+					status(0, error_string, true);
+				}
+				//if (state != TRANSPORT)
+				//{
+				//	error_string = sformatf(
+				//		"CVode incomplete at cvode_steps %d. Cell: %d. Time: %8.2e s. Cvode calls: %d, continuing...\n",
+				//		(int)iopt[NST], cell_no, (double)sum_t, m_iter + 1);
+				//	warning_msg(error_string);
+				//}
 #ifdef DEBUG_KINETICS
 				if (m_iter > 5)
 					dump_kinetics_stderr(cell_no);
 #endif
 
+				//if (m_iter > 0.5 * kinetics_ptr->Get_bad_step_max() &&
+				//	(cvode_last_good_time < 1e-6 || cvode_last_good_time < 1e-6 * tout)) // appt
+				//{
+				//	if (increase_tol < 3)
+				//	{
+				//		increase_tol += 1;
+				//		for (size_t j = 0; j < kinetics_ptr->Get_kinetics_comps().size(); j++)
+				//		{
+				//			cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[j]);
+				//			LDBLE tr = kinetics_comp_ptr->Get_tol() * 10.0;
+				//			kinetics_comp_ptr->Set_tol(tr);
+				//			tr += 0;
+				//		}
+				//	}
+				//}
 				cvode_last_good_time = 0;
 				if (++m_iter >= kinetics_ptr->Get_bad_step_max())
 				{
-					m_temp = (LDBLE *) free_check_null(m_temp);
-					m_original = (LDBLE *) free_check_null(m_original);
-					error_msg("Repeated restart of integration.", STOP);
+					m_temp.clear();
+					m_original.clear();
+					error_string = sformatf(
+						"CVode is at maximum calls: %d. Cell: %d. Time: %8.2e s\nERROR: Please increase the maximum calls with -bad_step_max.",
+						m_iter, cell_no, (double)sum_t);
+					error_msg(error_string, STOP);
 				}
 				tout1 = tout - sum_t;
 				t = 0;
@@ -2735,8 +2304,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 				use.Set_ss_assemblage_ptr(Utilities::Rxn_find(Rxn_ss_assemblage_map, cvode_ss_assemblage_save->Get_n_user()));
 			}
 			calc_final_kinetic_reaction(kinetics_ptr);
-			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 1.0) ==
-				MASS_BALANCE)
+			if (set_and_run_wrapper(i, NOMIX, TRUE, nsaver, 0) ==
+					MASS_BALANCE)
 			{
 				/*error_msg("FAIL 2 after successful integration in CVode", CONTINUE); */
 				warning_msg("FAIL 2 after successful integration in CVode");
@@ -2758,6 +2327,11 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			free_cvode();
 			use.Set_mix_in(use_save.Get_mix_in());
 			use.Set_mix_ptr(use_save.Get_mix_ptr());
+
+			error_string = sformatf("CV_ODE: Final Delta t: %8.2e s. Calls: %d.             ", (double)cvode_last_good_time, m_iter);
+			status(0, error_string, true);
+
+			//status(0, NULL);
 		}
 
 		rate_sim_time = rate_sim_time_start + kin_time;
@@ -2771,8 +2345,8 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 			kinetics_comp_ptr->Set_moles(m_original[j] - kinetics_comp_ptr->Get_m());
 /*						if (kinetics_ptr->comps[j].moles < 1.e-15) kinetics_ptr->comps[j].moles = 0.0;
  */ }
-		m_temp = (LDBLE *) free_check_null(m_temp);
-		m_original = (LDBLE *) free_check_null(m_original);
+		m_temp.clear();
+		m_original.clear();
 	}
 	iterations = run_reactions_iterations;
 	if (cvode_pp_assemblage_save != NULL)
@@ -2787,7 +2361,7 @@ run_reactions(int i, LDBLE kin_time, int use_mix, LDBLE step_fraction)
 	}
 	return (OK);
 }
-#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 free_cvode(void)
@@ -3073,13 +2647,8 @@ store_get_equi_reactants(int l, int kin_end)
 		
 		if (k == 0)
 			return (OK);
-		x0_moles = (LDBLE *) free_check_null(x0_moles);
-		x0_moles = (LDBLE *) PHRQ_malloc((size_t) k * sizeof(LDBLE));
-		if (x0_moles == NULL) malloc_error();
-		for (i = 0; i < k; i++)
-		{
-		  x0_moles[i] = 0.0;
-		}
+		x0_moles.resize(k);
+		for (i = 0; i < k; i++) x0_moles[i] = 0.0;
 		k = -1;
 		if (pp_assemblage_ptr)
 		{
@@ -3162,7 +2731,7 @@ store_get_equi_reactants(int l, int kin_end)
  *   This condition makes output equal for incremental_reactions TRUE/FALSE...
  *		if (incremental_reactions == FALSE || reaction_step == count_total_steps)
  */
-		x0_moles = (LDBLE *) free_check_null(x0_moles);
+		x0_moles.clear();
 	}
 	return (OK);
 }
@@ -3271,7 +2840,8 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 {
 	int count_cvode_errors;
 	int n_reactions, n_user;
-	LDBLE *initial_rates, del;
+	LDBLE del;
+	std::vector<double> initial_rates;
 	cxxKinetics *kinetics_ptr;
 	LDBLE step_fraction;
 
@@ -3284,10 +2854,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 	step_fraction = pThis->cvode_step_fraction;
 	pThis->rate_sim_time = pThis->cvode_rate_sim_time;
 
-	initial_rates =
-		(LDBLE *) pThis->PHRQ_malloc ((size_t) n_reactions * sizeof(LDBLE));
-	if (initial_rates == NULL)
-		pThis->malloc_error();
+	initial_rates.resize(n_reactions); 
 
 	for (size_t i = 0; i < kinetics_ptr->Get_kinetics_comps().size(); i++)
 	{
@@ -3329,7 +2896,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 		/*
 		   error_msg("Mass balance error in jacobian", CONTINUE);
 		 */
-		initial_rates = (LDBLE *) pThis->free_check_null(initial_rates);
+		initial_rates.clear();
 		return;
 	}
 	pThis->run_reactions_iterations += pThis->iterations;
@@ -3401,7 +2968,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 				pThis->cvode_error = TRUE;
 				if (count_cvode_errors > 30)
 				{
-					initial_rates = (LDBLE *) pThis->free_check_null(initial_rates);
+					initial_rates.clear();
 					return;
 				}
 				pThis->run_reactions_iterations += pThis->iterations;
@@ -3432,7 +2999,7 @@ Jac(integertype N, DenseMat J, RhsFn f, void *f_data,
 		cxxKineticsComp * kinetics_comp_ptr = &(kinetics_ptr->Get_kinetics_comps()[i]);
 		kinetics_comp_ptr->Set_moles(0);
 	}
-	initial_rates = (LDBLE *) pThis->free_check_null(initial_rates);
+	initial_rates.clear();
 	return;
 }
 

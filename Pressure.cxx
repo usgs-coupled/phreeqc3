@@ -8,10 +8,18 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "Parser.h"
 #include "Phreeqc.h"
+#include "Parser.h"
 #include "Pressure.h"
 #include "phqalloc.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -310,40 +318,6 @@ cxxPressure::read_raw(CParser & parser, bool check)
 		}
 	}
 }
-#ifdef SKIP
-void
-cxxPressure::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Temperature element and attributes
-	s_oss << indent0;
-	s_oss << "<temperature " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_temperature_gammas=\"" << this->
-		pitzer_temperature_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxPressureComp >::const_iterator it =
-		 temperatureComps.begin(); it != temperatureComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE cxxPressure::
 Pressure_for_step(int step_number)
@@ -370,9 +344,9 @@ Pressure_for_step(int step_number)
 		else
 		{
 			LDBLE denom;
-			denom = (this->count <= 1) ? 1 : (LDBLE) (this->count - 1);
+			denom = (this->count <= 1) ? 1 : ((LDBLE)this->count - 1);
 			p_temp =  this->pressures[0] + ( this->pressures[1] - this->pressures[0]) *
-				((LDBLE) (step_number - 1)) / (denom);
+				(((LDBLE)step_number - 1)) / (denom);
 		}
 	}
 	else 
@@ -383,7 +357,7 @@ Pressure_for_step(int step_number)
 		}
 		else
 		{
-			p_temp = this->pressures[step_number - 1];
+			p_temp = this->pressures[(size_t)step_number - 1];
 		}
 
 	}

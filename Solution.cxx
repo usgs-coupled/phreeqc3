@@ -15,6 +15,13 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -83,6 +90,7 @@ cxxSolution::operator =(const cxxSolution &rhs)
 		this->isotopes                   = rhs.isotopes;
 		this->species_map                = rhs.species_map;
 		this->log_gamma_map              = rhs.log_gamma_map;
+		this->log_molalities_map         = rhs.log_molalities_map;
 		if (this->initial_data)
 			delete initial_data;
 		if (rhs.initial_data != NULL)
@@ -106,6 +114,17 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 	this->n_user = this->n_user_end = l_n_user;
 	this->new_def = false;
 	this->ah2o = 0;
+	// potV is an external variable, imposed in a given solution, not mixed.
+	std::map < int, cxxSolution >::const_iterator sol = solutions.find(mix.Get_n_user());
+	const cxxSolution *cxxsoln_ptr1;
+	if (sol != solutions.end())
+	{
+		cxxsoln_ptr1 = &(sol->second);
+		if (cxxsoln_ptr1->new_def)
+			this->potV = 0.0;
+		else
+			this->potV = cxxsoln_ptr1->potV;
+	}
 //
 //   Mix solutions
 //
@@ -113,8 +132,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 	std::map < int, LDBLE >::const_iterator it;
 	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
 	{
-		std::map < int, cxxSolution >::const_iterator sol =
-			solutions.find(it->first);
+		sol = solutions.find(it->first);
 		if (sol == solutions.end())
 		{
 			std::ostringstream msg;
@@ -123,7 +141,7 @@ cxxSolution::cxxSolution(std::map < int, cxxSolution > &solutions,
 		}
 		else
 		{
-			const cxxSolution *cxxsoln_ptr1 = &(sol->second);
+			cxxsoln_ptr1 = &(sol->second);
 			this->add(*cxxsoln_ptr1, it->second);
 		}
 	}
@@ -322,6 +340,19 @@ cxxSolution::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) con
 		s_oss << "-log_gamma_map" << "\n";
 		std::map<int, double>::const_iterator it = this->log_gamma_map.begin();
 		for ( ; it != log_gamma_map.end(); it++)
+		{
+			s_oss << indent2;
+			s_oss << it->first << " " << it->second << "\n";
+		}
+	}
+
+	// log_molalities_map
+	if (log_molalities_map.size() > 0)
+	{
+		s_oss << indent1;
+		s_oss << "-log_molalities_map" << "\n";
+		std::map<int, double>::const_iterator it = this->log_molalities_map.begin();
+		for (; it != log_molalities_map.end(); it++)
 		{
 			s_oss << indent2;
 			s_oss << it->first << " " << it->second << "\n";
@@ -1013,7 +1044,32 @@ cxxSolution::read_raw(CParser & parser, bool check)
 			}
 			opt_save = CParser::OPT_DEFAULT;
 			break;
-			
+		case 27:				// log_molalities_map
+		{
+			int s_num;
+			if (parser.peek_token() != CParser::TT_EMPTY)
+			{
+				if (!(parser.get_iss() >> s_num))
+				{
+					parser.incr_input_error();
+					parser.error_msg("Expected integer for species number.",
+						PHRQ_io::OT_CONTINUE);
+				}
+				else
+				{
+					double d;
+					if (!(parser.get_iss() >> d))
+					{
+						parser.incr_input_error();
+						parser.error_msg("Expected double for species molality.",
+							PHRQ_io::OT_CONTINUE);
+					}
+					this->log_molalities_map[s_num] = d;
+				}
+			}
+			opt_save = 27;
+		}
+		break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -1128,7 +1184,7 @@ cxxSolution::Update(LDBLE h_tot, LDBLE o_tot, LDBLE charge, const cxxNameDouble 
 	cxxNameDouble::iterator it;
 	for (it = this->totals.begin(); it != this->totals.end(); it++)
 	{
-		if (it->second < 1e-18)
+		if (it->second < 1e-25)
 		{
 			it->second = 0.0;
 		}
@@ -1297,44 +1353,6 @@ cxxSolution::Update(const cxxNameDouble &const_nd)
 	// update totals
 	this->totals = simple_new;
 }
-#ifdef SKIP
-void
-cxxSolution::Update(const cxxNameDouble &const_nd)
-{
-	// const_nd is updated totals
-	cxxNameDouble simple_original_totals = this->totals.Simplify_redox();
-	cxxNameDouble original_activities(this->master_activity);
-
-	this->master_activity.clear();
-
-	// Update activities
-	if (original_activities.size() > 0)
-	{
-		cxxNameDouble nd = const_nd;
-		cxxNameDouble simple_this_totals = nd.Simplify_redox();
-		cxxNameDouble::iterator it = simple_original_totals.begin();
-		for ( ; it != simple_original_totals.end(); it++)
-		{
-			cxxNameDouble::iterator jit = simple_this_totals.find(it->first);
-			if (jit != simple_this_totals.end())
-			{
-				if (it->second != 0)
-				{
-					LDBLE f = jit->second / it->second;
-					if (f != 1)
-					{
-						original_activities.Multiply_activities_redox(it->first, f);
-					}
-				}
-			}
-		}
-		original_activities.merge_redox(this->master_activity);
-		this->master_activity = original_activities;
-	}
-
-	return;
-}
-#endif
 void
 cxxSolution::zero()
 {
@@ -1380,7 +1398,7 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 	this->cb += addee.cb * extensive;
 	this->density = f1 * this->density + f2 * addee.density;
 	this->patm = f1 * this->patm + f2 * addee.patm;
-	this->potV = f1 * this->potV + f2 * addee.potV;
+	// this->potV = f1 * this->potV + f2 * addee.potV; // appt
 	this->mass_water += addee.mass_water * extensive;
 	this->soln_vol += addee.soln_vol * extensive;
 	this->total_alkalinity += addee.total_alkalinity * extensive;
@@ -1413,6 +1431,19 @@ cxxSolution::add(const cxxSolution & addee, LDBLE extensive)
 			else
 			{
 				this->log_gamma_map[git->first] = git->second;
+			}
+		}
+		// Add molalities
+		std::map<int, double>::const_iterator mit = addee.log_molalities_map.begin();
+		for (; mit != addee.log_molalities_map.end(); mit++)
+		{
+			if (this->log_molalities_map.find(mit->first) != this->log_molalities_map.end())
+			{
+				this->log_molalities_map[mit->first] = this->log_molalities_map[mit->first] * f1 + mit->second * f2;
+			}
+			else
+			{
+				this->log_molalities_map[mit->first] = mit->second;
 			}
 		}
 	}
@@ -1449,31 +1480,6 @@ cxxSolution::Get_total(const char *string) const
 		return (it->second);
 	}
 }
-#ifdef SKIP
-LDBLE
-cxxSolution::Get_total_element(const char *string) const
-{
-	cxxNameDouble::const_iterator it;
-	LDBLE d = 0.0;
-	for (it = this->totals.begin(); it != this->totals.end(); ++it)
-	{
-		// C++ way to do it
-		std::string ename(string);
-		std::string current_ename(it->first);
-		std::basic_string < char >::size_type indexCh;
-		indexCh = current_ename.find("(");
-		if (indexCh != std::string::npos)
-		{
-			current_ename = current_ename.substr(0, indexCh);
-		}
-		if (current_ename == ename)
-		{
-			d += it->second;
-		}
-	}
-	return (d);
-}
-#endif
 
 void
 cxxSolution::Set_total(char *string, LDBLE d)
@@ -1618,6 +1624,18 @@ cxxSolution::Serialize(Dictionary & dictionary, std::vector < int >&ints,
 			doubles.push_back(it->second);
 		}
 	}
+	/*
+	 *  log_molalities_map
+	 */
+	ints.push_back((int)log_molalities_map.size());
+	{
+		std::map < int, double >::iterator it;
+		for (it = log_molalities_map.begin(); it != log_molalities_map.end(); it++)
+		{
+			ints.push_back(it->first);
+			doubles.push_back(it->second);
+		}
+	}
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1692,6 +1710,17 @@ cxxSolution::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std:
 			log_gamma_map[ints[ii++]] = doubles[dd++];
 		}
 	}
+	/*
+	 *  log_molalities_map
+	 */
+	{
+		log_molalities_map.clear();
+		int n = ints[ii++];
+		for (int i = 0; i < n; i++)
+		{
+			log_molalities_map[ints[ii++]] = doubles[dd++];
+		}
+	}
 }
 
 
@@ -1722,6 +1751,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("soln_vol"),	                            // 23
 	std::vector< std::string >::value_type("species_map"), 	                        // 24
 	std::vector< std::string >::value_type("log_gamma_map"), 	                    // 25
-	std::vector< std::string >::value_type("potential") 	                        // 26
+	std::vector< std::string >::value_type("potential"), 	                        // 26
+	std::vector< std::string >::value_type("log_molalities_map")                    // 27
 };									   
 const std::vector< std::string > cxxSolution::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

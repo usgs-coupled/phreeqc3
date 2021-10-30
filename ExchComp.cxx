@@ -15,6 +15,14 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -31,68 +39,6 @@ cxxExchComp::cxxExchComp(PHRQ_io *io)
 	phase_proportion = 0.0;
 	formula_z = 0.0;
 }
-#ifdef SKIP
-cxxExchComp::cxxExchComp(std::vector < cxxExchComp > &ec_vector,
-						 std::vector < LDBLE >&f_vector)
-		//
-		// constructor for cxxExchComp from mixing 
-		//
-{
-	if (ec_vector.size() <= 0)
-		return;
-	//
-	//  check consistency
-	//
-	std::vector < LDBLE >::iterator it_f;
-	std::vector < cxxExchComp >::iterator it_ec;
-	// set fixed variables
-	it_ec = ec_vector.begin();
-	this->formula = it_ec->formula;
-	this->formula_totals = it_ec->formula_totals;
-	this->formula_z = it_ec->formula_z;
-	this->phase_name = it_ec->phase_name;
-	this->rate_name = it_ec->rate_name;
-	it_ec++;
-	for (; it_ec != ec_vector.end(); it_ec++)
-	{
-		if (it_ec->formula != this->formula ||
-			it_ec->formula_z != this->formula_z ||
-			it_ec->phase_name != this->phase_name ||
-			this->rate_name != this->rate_name)
-		{
-			error_msg
-				("Mixing exchange components. Formula, z, phase_name, or rate_name did not match",
-				 STOP);
-		}
-	}
-	// calculate sum of extensive factors
-	LDBLE sum_extensive = 0;
-	for (it_f = f_vector.begin(); it_f != f_vector.end(); it_f++)
-	{
-		sum_extensive += *it_f;
-	}
-	this->moles = 0;
-	this->la = 0;
-	this->charge_balance = 0;
-	this->phase_proportion = 0;
-	this->totals.clear();
-	this->totals.type = cxxNameDouble::ND_ELT_MOLES;
-	it_ec = ec_vector.begin();
-	it_f = f_vector.begin();
-	for (; it_ec != ec_vector.end();)
-	{
-		LDBLE extensive = *it_f;
-		LDBLE intensive = extensive / sum_extensive;
-		this->moles += it_ec->moles * extensive;
-		this->la += it_ec->la * intensive;
-		this->charge_balance += it_ec->charge_balance * extensive;
-		this->phase_proportion += it_ec->phase_proportion * intensive;
-		this->totals.add_extensive(it_ec->totals, extensive);
-		it_ec++;
-		it_f++;
-	}
-}
-#endif
 cxxExchComp::~cxxExchComp()
 {
 }
@@ -360,7 +306,8 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 	this->la = f1 * this->la + f2 * addee.la;
 	this->charge_balance += addee.charge_balance * extensive;
 
-	if (this->phase_name != addee.phase_name)
+	//if (this->phase_name != addee.phase_name)
+	if (Phreeqc::strcmp_nocase(this->phase_name.c_str(), addee.phase_name.c_str()) != 0)
 	{
 		std::ostringstream oss;
 		oss <<
@@ -374,7 +321,8 @@ cxxExchComp::add(const cxxExchComp & addee, LDBLE extensive)
 		this->phase_proportion =
 			this->phase_proportion * f1 + addee.phase_proportion * f2;
 	}
-	if (this->rate_name != addee.rate_name)
+	//if (this->rate_name != addee.rate_name)
+	if (Phreeqc::strcmp_nocase(this->rate_name.c_str(), addee.rate_name.c_str()) != 0)
 	{
 		std::ostringstream oss;
 		oss <<
@@ -404,7 +352,7 @@ cxxExchComp::multiply(LDBLE extensive)
 { 
 	this->totals.multiply(extensive);
 	this->charge_balance *= extensive;  
-	this->phase_proportion *= extensive;
+	//this->phase_proportion *= extensive;
 }
 
 void

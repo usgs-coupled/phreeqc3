@@ -2,6 +2,13 @@
 #include "phqalloc.h"
 #include "Solution.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -23,12 +30,12 @@ read_isotopes(void)
  */
 
 	int l;
-	struct master_isotope *master_isotope_ptr;
+	class master_isotope *master_isotope_ptr;
 	char token[MAX_LENGTH];
-	struct element *elt_ptr;
+	class element *elt_ptr;
 
 	int return_value, opt, opt_save;
-	char *next_char;
+	const char* next_char;
 	const char *opt_list[] = {
 		"isotope",				/* 0 */
 		"total_is_major"		/* 1 */
@@ -106,7 +113,7 @@ read_isotopes(void)
 				input_error++;
 				break;
 			}
-			sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
+			(void)sscanf(token, SCANFORMAT, &(master_isotope_ptr->standard));
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* total_is_major_isotope */
@@ -160,25 +167,16 @@ read_calculate_values(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
-	int l, length, line_length;
+	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct calculate_value *calculate_value_ptr;
-	char *description;
-	int n_user, n_user_end;
-	char *next_char;
+	class calculate_value *calculate_value_ptr;
+	const char* next_char;
 	const char *opt_list[] = {
 		"start",				/* 0 */
 		"end"					/* 1 */
 	};
 	int count_opt_list = 2;
-/*
- *   Read advection number (not currently used)
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -226,37 +224,19 @@ read_calculate_values(void)
 			}
 			calculate_value_ptr = calculate_value_store(token, TRUE);
 			calculate_value_ptr->new_def = TRUE;
-			calculate_value_ptr->commands =
-				(char *) PHRQ_malloc(sizeof(char));
-			if (calculate_value_ptr->commands == NULL)
-			{
-				malloc_error();
-			}
-			else
-			{
-				calculate_value_ptr->commands[0] = '\0';
-				calculate_value_ptr->linebase = NULL;
-				calculate_value_ptr->varbase = NULL;
-				calculate_value_ptr->loopbase = NULL;
-			}
+			calculate_value_ptr->commands.clear();
+			calculate_value_ptr->linebase = NULL;
+			calculate_value_ptr->varbase = NULL;
+			calculate_value_ptr->loopbase = NULL;
 			opt_save = OPT_1;
 			break;
 
 		case OPT_1:			/* read command */
 			if (calculate_value_ptr)
 			{
-			length = (int) strlen(calculate_value_ptr->commands);
-			line_length = (int) strlen(line);
-			calculate_value_ptr->commands =
-				(char *) PHRQ_realloc(calculate_value_ptr->commands,
-									  (size_t) (length + line_length +
-												2) * sizeof(char));
-			if (calculate_value_ptr->commands == NULL)
-				malloc_error();
-			calculate_value_ptr->commands[length] = ';';
-			calculate_value_ptr->commands[length + 1] = '\0';
-			strcat((calculate_value_ptr->commands), line);
-			opt_save = OPT_1;
+				calculate_value_ptr->commands.append(";\0");
+				calculate_value_ptr->commands.append(line);
+				opt_save = OPT_1;
 			}
 			else
 			{				
@@ -294,24 +274,15 @@ read_isotope_ratios(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct isotope_ratio *isotope_ratio_ptr;
-	char *description;
-	int n_user, n_user_end;
-	char *next_char;
+	class isotope_ratio *isotope_ratio_ptr;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
 	int count_opt_list = 0;
-/*
- *   Read number (not currently used)
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -393,24 +364,15 @@ read_isotope_alphas(void)
  *         ERROR   if error occurred reading data
  *
  */
-	char *ptr;
 	int l;
 	int return_value, opt, opt_save;
 	char token[MAX_LENGTH];
-	struct isotope_alpha *isotope_alpha_ptr;
-	char *description;
-	int n_user, n_user_end;
-	char *next_char;
+	class isotope_alpha *isotope_alpha_ptr;
+	const char* next_char;
 	const char *opt_list[] = {
 		"no_options"			/* 0 */
 	};
 	int count_opt_list = 0;
-/*
- *   Read number (not currently used)
- */
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *) free_check_null(description);
 	opt_save = OPTION_DEFAULT;
 /*
  *   Read lines
@@ -473,12 +435,12 @@ add_isotopes(cxxSolution &solution_ref)
 /* ---------------------------------------------------------------------- */
 {
 	int i;
-	struct master_isotope *master_isotope_ptr;
+	class master_isotope *master_isotope_ptr;
 	LDBLE total_moles;
 	/*
 	 * zero out isotopes
 	 */
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		master_isotope[i]->moles = 0;
 	}
@@ -513,7 +475,7 @@ add_isotopes(cxxSolution &solution_ref)
 	 * Set isotopes flag
 	 */
 	initial_solution_isotopes = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == TRUE
 			&& master_isotope[i]->moles > 0)
@@ -526,14 +488,14 @@ add_isotopes(cxxSolution &solution_ref)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calculate_isotope_moles(struct element *elt_ptr,
+calculate_isotope_moles(class element *elt_ptr,
 						cxxSolution *solution_ptr, LDBLE total_moles)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l_iter;
 	int count_isotopes, total_is_major;
-	struct master_isotope *master_isotope_ptr, *master_isotope_ptr1;
-	struct master_isotope list[MAX_ELTS];
+	class master_isotope *master_isotope_ptr, *master_isotope_ptr1;
+	class master_isotope list[MAX_ELTS];
 	LDBLE m_major, tot;
 	/*
 	 *  Get total concentration of elt_ptr
@@ -555,8 +517,9 @@ calculate_isotope_moles(struct element *elt_ptr,
 	master_isotope_ptr = master_isotope_search("H");
 	if ((master_isotope_ptr != NULL) && (master_isotope_ptr->elt == elt_ptr))
 	{
-		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(struct master_isotope));
+		// memcpy(&(list[count_isotopes]), master_isotope_ptr,
+		// 	   sizeof(class master_isotope));
+		list[count_isotopes] = *master_isotope_ptr;
 		list[count_isotopes].ratio = 1.0;
 		if (list[count_isotopes].minor_isotope == FALSE)
 		{
@@ -567,8 +530,9 @@ calculate_isotope_moles(struct element *elt_ptr,
 	master_isotope_ptr = master_isotope_search("O");
 	if ((master_isotope_ptr != NULL) && (master_isotope_ptr->elt == elt_ptr))
 	{
-		memcpy(&(list[count_isotopes]), master_isotope_ptr,
-			   sizeof(struct master_isotope));
+		// memcpy(&(list[count_isotopes]), master_isotope_ptr,
+		// 	   sizeof(class master_isotope));
+		list[count_isotopes] = *master_isotope_ptr;
 		list[count_isotopes].ratio = 1.0;
 		if (list[count_isotopes].minor_isotope == FALSE)
 		{
@@ -586,8 +550,9 @@ calculate_isotope_moles(struct element *elt_ptr,
 				continue;
 			if (master_isotope_ptr->elt != elt_ptr)
 				continue;
-			memcpy(&(list[count_isotopes]), master_isotope_ptr,
-				sizeof(struct master_isotope));
+			// memcpy(&(list[count_isotopes]), master_isotope_ptr,
+			// 	sizeof(class master_isotope));
+			list[count_isotopes] = *master_isotope_ptr;
 			if (list[count_isotopes].minor_isotope == FALSE)
 			{
 				total_is_major = list[count_isotopes].total_is_major;
@@ -662,14 +627,15 @@ calculate_isotope_moles(struct element *elt_ptr,
 	/*
 	 *  Update master_isotope
 	 */
-	for (j = 0; j < count_master_isotope; j++)
+	for (j = 0; j < (int)master_isotope.size(); j++)
 	{
 		for (i = 0; i < count_isotopes; i++)
 		{
 			if (list[i].name == master_isotope[j]->name)
 			{
-				memcpy(master_isotope[j], &(list[i]),
-					   sizeof(struct master_isotope));
+				// memcpy(master_isotope[j], &(list[i]),
+				// 	   sizeof(class master_isotope));
+				*master_isotope[j] = list[i];
 			}
 		}
 	}
@@ -703,7 +669,7 @@ calculate_isotope_moles(struct element *elt_ptr,
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_permil(struct master_isotope *master_isotope_ptr, LDBLE major_total)
+from_permil(class master_isotope *master_isotope_ptr, LDBLE major_total)
 /* ---------------------------------------------------------------------- */
 {
 	LDBLE r;
@@ -716,7 +682,7 @@ from_permil(struct master_isotope *master_isotope_ptr, LDBLE major_total)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_pct(struct master_isotope *master_isotope_ptr, LDBLE total_moles)
+from_pct(class master_isotope *master_isotope_ptr, LDBLE total_moles)
 /* ---------------------------------------------------------------------- */
 {
 	master_isotope_ptr->moles =
@@ -727,7 +693,7 @@ from_pct(struct master_isotope *master_isotope_ptr, LDBLE total_moles)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_tu(struct master_isotope *master_isotope_ptr)
+from_tu(class master_isotope *master_isotope_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	master_isotope_ptr->moles =
@@ -738,7 +704,7 @@ from_tu(struct master_isotope *master_isotope_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-from_pcil(struct master_isotope *master_isotope_ptr)
+from_pcil(class master_isotope *master_isotope_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	master_isotope_ptr->moles =
@@ -770,12 +736,12 @@ print_initial_solution_isotopes(void)
 	print_centered("Isotopes");
 	output_msg(sformatf( "%10s\t%12s\t%12s\t%12s\t%12s\n\n", "Isotope",
 			   "Molality", "Moles", "Ratio", "Units"));
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 		{
 			print_isotope = FALSE;
-			for (j = 0; j < count_master_isotope; j++)
+			for (j = 0; j < (int)master_isotope.size(); j++)
 			{
 				if ((master_isotope[j]->elt == master_isotope[i]->elt) &&
 					(master_isotope[j]->minor_isotope == TRUE) &&
@@ -794,7 +760,7 @@ print_initial_solution_isotopes(void)
 					   master_isotope[i]->name,
 					   (double) (master_isotope[i]->moles / mass_water_aq_x),
 					   (double) master_isotope[i]->moles));
-			for (j = 0; j < count_master_isotope; j++)
+			for (j = 0; j < (int)master_isotope.size(); j++)
 			{
 				if (i == j)
 					continue;
@@ -827,8 +793,8 @@ punch_isotopes(void)
  */
 	//int i;
 	LDBLE iso;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct master_isotope *master_isotope_ptr;
+	class isotope_ratio *isotope_ratio_ptr;
+	class master_isotope *master_isotope_ptr;
 
 	//if (punch.in == FALSE || punch.isotopes == FALSE)
 	//	return (OK);
@@ -887,16 +853,12 @@ punch_calculate_values(void)
  */
 	//int i;
 	LDBLE result;
-	struct calculate_value *calculate_value_ptr;
+	class calculate_value *calculate_value_ptr;
 	char l_command[] = "run";
 
 	if (current_selected_output->Get_calculate_values().size() == 0)
 		return OK;
-	//if (punch.in == FALSE || punch.calculate_values == FALSE)
-	//	return (OK);
-	//if (punch.count_calculate_values == 0)
-	//	return (OK);
-	//for (i = 0; i < punch.count_calculate_values; i++)
+
 	for (size_t i = 0; i < current_selected_output->Get_calculate_values().size(); i++)
 	{
 		result = MISSING;
@@ -919,7 +881,7 @@ punch_calculate_values(void)
 			if (calculate_value_ptr->new_def == TRUE)
 			{
 				if (basic_compile
-					(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+					(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 					&calculate_value_ptr->varbase,
 					&calculate_value_ptr->loopbase) != 0)
 				{
@@ -982,8 +944,8 @@ print_isotope_ratios(void)
  */
 	int i, j;
 	int print_isotope;
-	struct master *master_ptr;
-	struct master_isotope *master_isotope_ptr;
+	class master *master_ptr;
+	class master_isotope *master_isotope_ptr;
 	char token[MAX_LENGTH];
 
 
@@ -995,7 +957,7 @@ print_isotope_ratios(void)
  *   Print heading
  */
 	print_isotope = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 			continue;
@@ -1015,7 +977,7 @@ print_isotope_ratios(void)
 	output_msg(sformatf( "%25s\t%12s\t%15s\n\n", "Isotope Ratio",
 			   "Ratio", "Input Units"));
 
-	for (j = 0; j < count_isotope_ratio; j++)
+	for (j = 0; j < (int)isotope_ratio.size(); j++)
 	{
 		if (isotope_ratio[j]->ratio == MISSING)
 			continue;
@@ -1045,7 +1007,7 @@ print_isotope_alphas(void)
  */
 	int i, j;
 	int print_isotope;
-	struct master *master_ptr;
+	class master *master_ptr;
 	char token[MAX_LENGTH];
 	LDBLE log_alpha;
 
@@ -1057,7 +1019,7 @@ print_isotope_alphas(void)
  *   Print heading
  */
 	print_isotope = FALSE;
-	for (i = 0; i < count_master_isotope; i++)
+	for (i = 0; i < (int)master_isotope.size(); i++)
 	{
 		if (master_isotope[i]->minor_isotope == FALSE)
 			continue;
@@ -1080,7 +1042,7 @@ print_isotope_alphas(void)
 			   "     Isotope Ratio", "Solution alpha", "Solution",
 			   (double) tc_x));
 
-	for (j = 0; j < count_isotope_alpha; j++)
+	for (j = 0; j < (int)isotope_alpha.size(); j++)
 	{
 		if (isotope_alpha[j]->value == MISSING)
 			continue;
@@ -1122,64 +1084,24 @@ calculate_values(void)
 /* ---------------------------------------------------------------------- */
 {
 	int j;
-	struct calculate_value *calculate_value_ptr;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct isotope_alpha *isotope_alpha_ptr;
-	struct master_isotope *master_isotope_ptr;
+	class calculate_value *calculate_value_ptr;
+	class isotope_ratio *isotope_ratio_ptr;
+	class isotope_alpha *isotope_alpha_ptr;
+	class master_isotope *master_isotope_ptr;
 	char l_command[] = "run";
 
 
 	/*
 	 * initialize ratios as missing
 	 */
-	for (j = 0; j < count_calculate_value; j++)
+	for (j = 0; j < calculate_value.size(); j++)
 	{
 		calculate_value[j]->calculated = FALSE;
 		calculate_value[j]->value = MISSING;
 	}
-#ifdef SKIP
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value_ptr = calculate_value[j];
-		rate_moles = NAN;
-		if (calculate_value_ptr->new_def == TRUE)
-		{
-			if (basic_compile
-				(calculate_value[j]->commands, &calculate_value[j]->linebase,
-				 &calculate_value[j]->varbase,
-				 &calculate_value[j]->loopbase) != 0)
-			{
-				error_string = sformatf(
-						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value[j]->name);
-				error_msg(error_string, STOP);
-			}
-			calculate_value_ptr->new_def = FALSE;
-		}
-		if (basic_run
-			(l_command, calculate_value[j]->linebase,
-			 calculate_value[j]->varbase, calculate_value[j]->loopbase) != 0)
-		{
-			error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		if (rate_moles == NAN)
-		{
-			error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		else
-		{
-			calculate_value[j]->calculated = TRUE;
-			calculate_value[j]->value = rate_moles;
-		}
-	}
-#endif
 	if (pr.isotope_ratios == TRUE)
 	{
-		for (j = 0; j < count_isotope_ratio; j++)
+		for (j = 0; j < (int)isotope_ratio.size(); j++)
 		{
 			isotope_ratio_ptr = isotope_ratio[j];
 			master_isotope_ptr =
@@ -1192,7 +1114,7 @@ calculate_values(void)
 				if (calculate_value_ptr->new_def == TRUE)
 				{
 					if (basic_compile
-						(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+						(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 						&calculate_value_ptr->varbase,
 						&calculate_value_ptr->loopbase) != 0)
 					{
@@ -1246,7 +1168,7 @@ calculate_values(void)
 	}
 	if (pr.isotope_alphas == TRUE)
 	{
-		for (j = 0; j < count_isotope_alpha; j++)
+		for (j = 0; j < (int)isotope_alpha.size(); j++)
 		{
 			isotope_alpha_ptr = isotope_alpha[j];
 			calculate_value_ptr = calculate_value_search(isotope_alpha_ptr->name);
@@ -1259,7 +1181,7 @@ calculate_values(void)
 				if (calculate_value_ptr->new_def == TRUE)
 				{
 					if (basic_compile
-						(calculate_value_ptr->commands, &calculate_value_ptr->linebase,
+						(calculate_value_ptr->commands.c_str(), &calculate_value_ptr->linebase,
 						&calculate_value_ptr->varbase,
 						&calculate_value_ptr->loopbase) != 0)
 					{
@@ -1306,110 +1228,9 @@ calculate_values(void)
 	}
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-calculate_values(void)
-/* ---------------------------------------------------------------------- */
-{
-	int j;
-	struct calculate_value *calculate_value_ptr;
-	struct isotope_ratio *isotope_ratio_ptr;
-	struct isotope_alpha *isotope_alpha_ptr;
-	struct master_isotope *master_isotope_ptr;
-	char l_command[] = "run";
-
-
-	/*
-	 * initialize ratios as missing
-	 */
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value[j]->calculated = FALSE;
-		calculate_value[j]->value = MISSING;
-	}
-	for (j = 0; j < count_calculate_value; j++)
-	{
-		calculate_value_ptr = calculate_value[j];
-		rate_moles = NAN;
-		if (calculate_value_ptr->new_def == TRUE)
-		{
-			if (basic_compile
-				(calculate_value[j]->commands, &calculate_value[j]->linebase,
-				 &calculate_value[j]->varbase,
-				 &calculate_value[j]->loopbase) != 0)
-			{
-				error_string = sformatf(
-						"Fatal Basic error in CALCULATE_VALUES %s.",
-						calculate_value[j]->name);
-				error_msg(error_string, STOP);
-			}
-			calculate_value_ptr->new_def = FALSE;
-		}
-		if (basic_run
-			(l_command, calculate_value[j]->linebase,
-			 calculate_value[j]->varbase, calculate_value[j]->loopbase) != 0)
-		{
-			error_string = sformatf( "Fatal Basic error in calculate_value %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		if (rate_moles == NAN)
-		{
-			error_string = sformatf( "Calculated value not SAVEed for %s.",
-					calculate_value[j]->name);
-			error_msg(error_string, STOP);
-		}
-		else
-		{
-			calculate_value[j]->calculated = TRUE;
-			calculate_value[j]->value = rate_moles;
-		}
-	}
-	for (j = 0; j < count_isotope_ratio; j++)
-	{
-		isotope_ratio_ptr = isotope_ratio[j];
-		master_isotope_ptr =
-			master_isotope_search(isotope_ratio_ptr->isotope_name);
-		calculate_value_ptr = calculate_value_search(isotope_ratio_ptr->name);
-		/*
-		 *  Calculate converted isotope ratio
-		 */
-		if (calculate_value_ptr->value == MISSING)
-		{
-			isotope_ratio_ptr->ratio = MISSING;
-			isotope_ratio_ptr->converted_ratio = MISSING;
-		}
-		else
-		{
-			isotope_ratio_ptr->ratio = calculate_value_ptr->value;
-			isotope_ratio_ptr->converted_ratio =
-				convert_isotope(master_isotope_ptr,
-								calculate_value_ptr->value);
-		}
-	}
-	for (j = 0; j < count_isotope_alpha; j++)
-	{
-		isotope_alpha_ptr = isotope_alpha[j];
-		calculate_value_ptr = calculate_value_search(isotope_alpha_ptr->name);
-		/*
-		 *  Calculate converted isotope ratio
-		 */
-		if (calculate_value_ptr->value == MISSING)
-		{
-			isotope_alpha_ptr->value = MISSING;
-		}
-		else
-		{
-			isotope_alpha_ptr->value = calculate_value_ptr->value;
-		}
-	}
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
-convert_isotope(struct master_isotope * master_isotope_ptr, LDBLE ratio)
+convert_isotope(class master_isotope * master_isotope_ptr, LDBLE ratio)
 /* ---------------------------------------------------------------------- */
 {
 	const char *units;
@@ -1446,16 +1267,16 @@ convert_isotope(struct master_isotope * master_isotope_ptr, LDBLE ratio)
  */
 
 /* ---------------------------------------------------------------------- */
-struct master_isotope * Phreeqc::
+class master_isotope * Phreeqc::
 master_isotope_store(const char *name, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for master_isotope.
+ *   Function locates the string "name" in the map for master_isotope.
  *
  *   Pointer to a master_isotope structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old master_isotope structure
  *      are freed and replaced with additional input.
@@ -1471,60 +1292,41 @@ master_isotope_store(const char *name, int replace_if_found)
  *      pointer to master_isotope structure "master_isotope" where "name" can be found.
  */
 	int n;
-	struct master_isotope *master_isotope_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
+	class master_isotope *master_isotope_ptr;
 /*
  *   Search list
  */
-	strcpy(token, name);
-
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(master_isotope_hash_table, item, FIND);
-
-	if (found_item != NULL && replace_if_found == FALSE)
+	std::map<std::string, class master_isotope*>::iterator mi_it =
+		master_isotope_map.find(name);
+	if (mi_it != master_isotope_map.end() && replace_if_found == FALSE)
 	{
-		master_isotope_ptr = (struct master_isotope *) (found_item->data);
+		master_isotope_ptr = mi_it->second;
 		return (master_isotope_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (mi_it != master_isotope_map.end() && replace_if_found == TRUE)
 	{
-		master_isotope_ptr = (struct master_isotope *) (found_item->data);
+		master_isotope_ptr = mi_it->second;
 		master_isotope_init(master_isotope_ptr);
 	}
 	else
 	{
-		n = count_master_isotope++;
-		/* make sure there is space in s */
-		if (count_master_isotope >= max_master_isotope)
-		{
-			space((void **) ((void *) &master_isotope), count_master_isotope,
-				  &max_master_isotope, sizeof(struct master_isotope *));
-		}
+		n = (int)master_isotope.size();
+		master_isotope.resize((size_t)n + 1);
 		/* Make new master_isotope structure */
 		master_isotope[n] = master_isotope_alloc();
 		master_isotope_ptr = master_isotope[n];
 	}
 	/* set name and z in pointer in master_isotope structure */
-	master_isotope_ptr->name = string_hsave(token);
+	master_isotope_ptr->name = string_hsave(name);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = master_isotope_ptr->name;
-	item.data = (void *) master_isotope_ptr;
-	found_item = hsearch_multi(master_isotope_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in master_isotope_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	master_isotope_map[name] = master_isotope_ptr;
 	return (master_isotope_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
-struct master_isotope * Phreeqc::
+class master_isotope * Phreeqc::
 master_isotope_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1533,11 +1335,7 @@ master_isotope_alloc(void)
  *      return: pointer to a master_isotope structure
  */
 {
-	struct master_isotope *master_isotope_ptr;
-	master_isotope_ptr =
-		(struct master_isotope *) PHRQ_malloc(sizeof(struct master_isotope));
-	if (master_isotope_ptr == NULL)
-		malloc_error();
+	class master_isotope *master_isotope_ptr = new class master_isotope;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1548,7 +1346,7 @@ master_isotope_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-master_isotope_init(struct master_isotope *master_isotope_ptr)
+master_isotope_init(class master_isotope *master_isotope_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a master_isotope structure
@@ -1574,12 +1372,12 @@ master_isotope_init(struct master_isotope *master_isotope_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct master_isotope * Phreeqc::
+class master_isotope * Phreeqc::
 master_isotope_search(const char *name)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for master_isotope.
+ *   Function locates the string "name" in the map for master_isotope.
  *
  *   Arguments:
  *      name    input, character string to be found in "master_isotope".
@@ -1588,21 +1386,15 @@ master_isotope_search(const char *name)
  *      pointer to master_isotope structure "master_isotope" where "name" can be found.
  *      or NULL if not found.
  */
-	struct master_isotope *master_isotope_ptr;
-	ENTRY item, *found_item;
-	char token[MAX_LENGTH];
+	class master_isotope* master_isotope_ptr = NULL;
 /*
  *   Search list
  */
-	strcpy(token, name);
-
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(master_isotope_hash_table, item, FIND);
-
-	if (found_item != NULL)
+	std::map<std::string, class master_isotope*>::iterator mi_it =
+		master_isotope_map.find(name);
+	if (mi_it != master_isotope_map.end())
 	{
-		master_isotope_ptr = (struct master_isotope *) (found_item->data);
+		master_isotope_ptr = mi_it->second;
 		return (master_isotope_ptr);
 	}
 	return (NULL);
@@ -1613,16 +1405,16 @@ master_isotope_search(const char *name)
  */
 
 /* ---------------------------------------------------------------------- */
-struct calculate_value * Phreeqc::
-calculate_value_store(const char *name, int replace_if_found)
+class calculate_value * Phreeqc::
+calculate_value_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for calculate_value.
+ *   Function locates the string "name" in the map for calculate_value.
  *
  *   Pointer to a calculate_value structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old calculate_value structure
  *      are freed and replaced with additional input.
@@ -1637,63 +1429,44 @@ calculate_value_store(const char *name, int replace_if_found)
  *   Returns:
  *      pointer to calculate_value structure "calculate_value" where "name" can be found.
  */
-	int n;
-	struct calculate_value *calculate_value_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
+	class calculate_value *calculate_value_ptr=NULL;
 /*
  *   Search list
  */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(calculate_value_hash_table, item, FIND);
-
-	if (found_item != NULL && replace_if_found == FALSE)
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, class calculate_value*>::iterator cv_it =
+		calculate_value_map.find(name);
+	if (cv_it != calculate_value_map.end() && replace_if_found == FALSE)
 	{
-		calculate_value_ptr = (struct calculate_value *) (found_item->data);
+		calculate_value_ptr = cv_it->second;
 		return (calculate_value_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (cv_it != calculate_value_map.end() && replace_if_found == TRUE)
 	{
-		calculate_value_ptr = (struct calculate_value *) (found_item->data);
+		calculate_value_ptr = cv_it->second;
 		calculate_value_free(calculate_value_ptr);
 		calculate_value_init(calculate_value_ptr);
 	}
 	else
 	{
-		n = count_calculate_value++;
-		/* make sure there is space in s */
-		if (count_calculate_value >= max_calculate_value)
-		{
-			space((void **) ((void *) &calculate_value),
-				  count_calculate_value, &max_calculate_value,
-				  sizeof(struct calculate_value *));
-		}
+		size_t n = calculate_value.size();
+		calculate_value.resize(n+1);
 		/* Make new calculate_value structure */
 		calculate_value[n] = calculate_value_alloc();
 		calculate_value_ptr = calculate_value[n];
 	}
-	/* set name and z in pointer in calculate_value structure */
-	calculate_value_ptr->name = string_hsave(name);
+	/* set name in calculate_value structure */
+	calculate_value_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = string_hsave(token);
-	item.data = (void *) calculate_value_ptr;
-	found_item = hsearch_multi(calculate_value_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in calculate_value_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	calculate_value_map[name] = calculate_value_ptr;
 	return (calculate_value_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
-struct calculate_value * Phreeqc::
+class calculate_value * Phreeqc::
 calculate_value_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1702,12 +1475,8 @@ calculate_value_alloc(void)
  *      return: pointer to a calculate_value structure
  */
 {
-	struct calculate_value *calculate_value_ptr;
-	calculate_value_ptr =
-		(struct calculate_value *)
-		PHRQ_malloc(sizeof(struct calculate_value));
-	if (calculate_value_ptr == NULL)
-		malloc_error();
+	class calculate_value *calculate_value_ptr =
+		new class calculate_value;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1718,7 +1487,7 @@ calculate_value_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-calculate_value_init(struct calculate_value *calculate_value_ptr)
+calculate_value_init(class calculate_value *calculate_value_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a calculate_value structure
@@ -1730,7 +1499,10 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 	if (calculate_value_ptr)
 	{
 		calculate_value_ptr->name = NULL;
-		calculate_value_ptr->commands = NULL;
+		calculate_value_ptr->value = 0.0;
+		calculate_value_ptr->commands.clear();
+		calculate_value_ptr->new_def = TRUE;
+		calculate_value_ptr->calculated = FALSE;
 		calculate_value_ptr->linebase = NULL;
 		calculate_value_ptr->varbase = NULL;
 		calculate_value_ptr->loopbase = NULL;
@@ -1740,12 +1512,12 @@ calculate_value_init(struct calculate_value *calculate_value_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct calculate_value * Phreeqc::
-calculate_value_search(const char *name)
+class calculate_value * Phreeqc::
+calculate_value_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for calculate_value.
+ *   Function locates the string "name" in the map for calculate_value.
  *
  *   Arguments:
  *      name    input, character string to be found in "calculate_value".
@@ -1754,29 +1526,20 @@ calculate_value_search(const char *name)
  *      pointer to calculate_value structure "calculate_value" where "name" can be found.
  *      or NULL if not found.
  */
-	struct calculate_value *calculate_value_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(calculate_value_hash_table, item, FIND);
-
-	if (found_item != NULL)
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, class calculate_value*>::iterator cv_it =
+		calculate_value_map.find(name);
+	if (cv_it != calculate_value_map.end())
 	{
-		calculate_value_ptr = (struct calculate_value *) (found_item->data);
-		return (calculate_value_ptr);
+		return (cv_it->second);
 	}
 	return (NULL);
 }
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-calculate_value_free(struct calculate_value *calculate_value_ptr)
+calculate_value_free(class calculate_value *calculate_value_ptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -1788,8 +1551,7 @@ calculate_value_free(struct calculate_value *calculate_value_ptr)
 
 	if (calculate_value_ptr == NULL)
 		return (ERROR);
-	calculate_value_ptr->commands =
-		(char *) free_check_null(calculate_value_ptr->commands);
+	calculate_value_ptr->commands.clear();
 	basic_run(cmd, calculate_value_ptr->linebase,
 			  calculate_value_ptr->varbase, calculate_value_ptr->loopbase);
 	calculate_value_ptr->linebase = NULL;
@@ -1803,16 +1565,16 @@ calculate_value_free(struct calculate_value *calculate_value_ptr)
  */
 
 /* ---------------------------------------------------------------------- */
-struct isotope_ratio * Phreeqc::
-isotope_ratio_store(const char *name, int replace_if_found)
+class isotope_ratio * Phreeqc::
+isotope_ratio_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_ratio.
+ *   Function locates the string "name" in the map for isotope_ratio.
  *
  *   Pointer to a isotope_ratio structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old isotope_ratio structure
  *      are freed and replaced with additional input.
@@ -1827,61 +1589,44 @@ isotope_ratio_store(const char *name, int replace_if_found)
  *   Returns:
  *      pointer to isotope_ratio structure "isotope_ratio" where "name" can be found.
  */
-	int n;
-	struct isotope_ratio *isotope_ratio_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
+	class isotope_ratio *isotope_ratio_ptr;
 /*
  *   Search list
  */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_ratio_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, class isotope_ratio*>::iterator it =
+		isotope_ratio_map.find(name);
 
-	if (found_item != NULL && replace_if_found == FALSE)
+	if (it != isotope_ratio_map.end() && replace_if_found == FALSE)
 	{
-		isotope_ratio_ptr = (struct isotope_ratio *) (found_item->data);
+		isotope_ratio_ptr = it->second;
 		return (isotope_ratio_ptr);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (it != isotope_ratio_map.end() && replace_if_found == TRUE)
 	{
-		isotope_ratio_ptr = (struct isotope_ratio *) (found_item->data);
+		isotope_ratio_ptr = it->second;
 		isotope_ratio_init(isotope_ratio_ptr);
 	}
 	else
 	{
-		n = count_isotope_ratio++;
-		/* make sure there is space in s */
-		if (count_isotope_ratio >= max_isotope_ratio)
-		{
-			space((void **) ((void *) &isotope_ratio), count_isotope_ratio,
-				  &max_isotope_ratio, sizeof(struct isotope_ratio *));
-		}
+		size_t n = isotope_ratio.size();
+		isotope_ratio.resize(n + 1);
 		/* Make new isotope_ratio structure */
 		isotope_ratio[n] = isotope_ratio_alloc();
 		isotope_ratio_ptr = isotope_ratio[n];
 	}
 	/* set name and z in pointer in isotope_ratio structure */
-	isotope_ratio_ptr->name = string_hsave(name);
+	isotope_ratio_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = string_hsave(token);
-	item.data = (void *) isotope_ratio_ptr;
-	found_item = hsearch_multi(isotope_ratio_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in isotope_ratio_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	isotope_ratio_map[name] = isotope_ratio_ptr;
 	return (isotope_ratio_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_ratio * Phreeqc::
+class isotope_ratio * Phreeqc::
 isotope_ratio_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -1890,11 +1635,8 @@ isotope_ratio_alloc(void)
  *      return: pointer to a isotope_ratio structure
  */
 {
-	struct isotope_ratio *isotope_ratio_ptr;
-	isotope_ratio_ptr =
-		(struct isotope_ratio *) PHRQ_malloc(sizeof(struct isotope_ratio));
-	if (isotope_ratio_ptr == NULL)
-		malloc_error();
+	class isotope_ratio* isotope_ratio_ptr =
+		new class isotope_ratio;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -1905,7 +1647,7 @@ isotope_ratio_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr)
+isotope_ratio_init(class isotope_ratio *isotope_ratio_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a isotope_ratio structure
@@ -1926,12 +1668,12 @@ isotope_ratio_init(struct isotope_ratio *isotope_ratio_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_ratio * Phreeqc::
-isotope_ratio_search(const char *name)
+class isotope_ratio * Phreeqc::
+isotope_ratio_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_ratio.
+ *   Function locates the string "name" in the map for isotope_ratio.
  *
  *   Arguments:
  *      name    input, character string to be found in "isotope_ratio".
@@ -1940,22 +1682,14 @@ isotope_ratio_search(const char *name)
  *      pointer to isotope_ratio structure "isotope_ratio" where "name" can be found.
  *      or NULL if not found.
  */
-	struct isotope_ratio *isotope_ratio_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_ratio_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, class isotope_ratio*>::iterator it =
+		isotope_ratio_map.find(name);
 
-	if (found_item != NULL)
+	if (it != isotope_ratio_map.end())
 	{
-		isotope_ratio_ptr = (struct isotope_ratio *) (found_item->data);
-		return (isotope_ratio_ptr);
+		return (it->second);
 	}
 	return (NULL);
 }
@@ -1965,16 +1699,16 @@ isotope_ratio_search(const char *name)
  */
 
 /* ---------------------------------------------------------------------- */
-struct isotope_alpha * Phreeqc::
-isotope_alpha_store(const char *name, int replace_if_found)
+class isotope_alpha * Phreeqc::
+isotope_alpha_store(const char *name_in, int replace_if_found)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_alpha.
+ *   Function locates the string "name" in the map for isotope_alpha.
  *
  *   Pointer to a isotope_alpha structure is always returned.
  *
- *   If the string is not found, a new entry is made in the hash table. Pointer to 
+ *   If the string is not found, a new entry is made in the map. Pointer to 
  *      the new structure is returned.
  *   If "name" is found and replace is true, pointers in old isotope_alpha structure
  *      are freed and replaced with additional input.
@@ -1989,61 +1723,40 @@ isotope_alpha_store(const char *name, int replace_if_found)
  *   Returns:
  *      pointer to isotope_alpha structure "isotope_alpha" where "name" can be found.
  */
-	int n;
-	struct isotope_alpha *isotope_alpha_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_alpha_hash_table, item, FIND);
+	class isotope_alpha *isotope_alpha_ptr;
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, class isotope_alpha*>::iterator it =
+		isotope_alpha_map.find(name);
 
-	if (found_item != NULL && replace_if_found == FALSE)
+	if (it != isotope_alpha_map.end() && replace_if_found == FALSE)
 	{
-		isotope_alpha_ptr = (struct isotope_alpha *) (found_item->data);
-		return (isotope_alpha_ptr);
+		return (it->second);
 	}
-	else if (found_item != NULL && replace_if_found == TRUE)
+	else if (it != isotope_alpha_map.end() && replace_if_found == TRUE)
 	{
-		isotope_alpha_ptr = (struct isotope_alpha *) (found_item->data);
+		isotope_alpha_ptr = it->second;
 		isotope_alpha_init(isotope_alpha_ptr);
 	}
 	else
 	{
-		n = count_isotope_alpha++;
-		/* make sure there is space in s */
-		if (count_isotope_alpha >= max_isotope_alpha)
-		{
-			space((void **) ((void *) &isotope_alpha), count_isotope_alpha,
-				  &max_isotope_alpha, sizeof(struct isotope_alpha *));
-		}
+		size_t n = isotope_alpha.size();
+		isotope_alpha.resize(n + 1);
 		/* Make new isotope_alpha structure */
 		isotope_alpha[n] = isotope_alpha_alloc();
 		isotope_alpha_ptr = isotope_alpha[n];
 	}
 	/* set name and z in pointer in isotope_alpha structure */
-	isotope_alpha_ptr->name = string_hsave(name);
+	isotope_alpha_ptr->name = string_hsave(name_in);
 /*
- *   Update hash table
+ *   Update map
  */
-	item.key = string_hsave(token);
-	item.data = (void *) isotope_alpha_ptr;
-	found_item = hsearch_multi(isotope_alpha_hash_table, item, ENTER);
-	if (found_item == NULL)
-	{
-		error_string = sformatf( "Hash table error in isotope_alpha_store.");
-		error_msg(error_string, CONTINUE);
-	}
-
+	isotope_alpha_map[name] = isotope_alpha_ptr;
 	return (isotope_alpha_ptr);
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_alpha * Phreeqc::
+class isotope_alpha * Phreeqc::
 isotope_alpha_alloc(void)
 /* ---------------------------------------------------------------------- */
 /*
@@ -2052,11 +1765,8 @@ isotope_alpha_alloc(void)
  *      return: pointer to a isotope_alpha structure
  */
 {
-	struct isotope_alpha *isotope_alpha_ptr;
-	isotope_alpha_ptr =
-		(struct isotope_alpha *) PHRQ_malloc(sizeof(struct isotope_alpha));
-	if (isotope_alpha_ptr == NULL)
-		malloc_error();
+	class isotope_alpha* isotope_alpha_ptr =
+		new class isotope_alpha;
 /*
  *   set pointers in structure to NULL, variables to zero
  */
@@ -2067,7 +1777,7 @@ isotope_alpha_alloc(void)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr)
+isotope_alpha_init(class isotope_alpha *isotope_alpha_ptr)
 /* ---------------------------------------------------------------------- */
 /*
  *      return: pointer to a isotope_alpha structure
@@ -2087,12 +1797,12 @@ isotope_alpha_init(struct isotope_alpha *isotope_alpha_ptr)
 }
 
 /* ---------------------------------------------------------------------- */
-struct isotope_alpha * Phreeqc::
-isotope_alpha_search(const char *name)
+class isotope_alpha * Phreeqc::
+isotope_alpha_search(const char *name_in)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Function locates the string "name" in the hash table for isotope_alpha.
+ *   Function locates the string "name" in the map for isotope_alpha.
  *
  *   Arguments:
  *      name    input, character string to be found in "isotope_alpha".
@@ -2101,22 +1811,14 @@ isotope_alpha_search(const char *name)
  *      pointer to isotope_alpha structure "isotope_alpha" where "name" can be found.
  *      or NULL if not found.
  */
-	struct isotope_alpha *isotope_alpha_ptr;
-	char token[MAX_LENGTH];
-	ENTRY item, *found_item;
-/*
- *   Search list
- */
-	strcpy(token, name);
-	str_tolower(token);
-	item.key = token;
-	item.data = NULL;
-	found_item = hsearch_multi(isotope_alpha_hash_table, item, FIND);
+	std::string name = name_in;
+	str_tolower(name);
+	std::map<std::string, class isotope_alpha*>::iterator it =
+		isotope_alpha_map.find(name);
 
-	if (found_item != NULL)
+	if (it != isotope_alpha_map.end())
 	{
-		isotope_alpha_ptr = (struct isotope_alpha *) (found_item->data);
-		return (isotope_alpha_ptr);
+		return (it->second);
 	}
 	return (NULL);
 }

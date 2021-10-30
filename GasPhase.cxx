@@ -14,6 +14,13 @@
 #include "cxxMix.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -36,7 +43,6 @@ cxxGasPhase::cxxGasPhase(PHRQ_io * io)
 	pr_in = false;
 	temperature = 298.15;
 }
-#ifdef SKIP
 cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 		cxxMix & mx, int l_n_user, PHRQ_io * io)
 : cxxNumKeyword(io)
@@ -47,87 +53,13 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 	v_m = 0;
 	pr_in = false;
 	bool first = true;
-//
-//   Mix
-//
-	// accumulate in map
-	std::map<std::string, cxxGasComp> comp_map;
-	std::map<std::string, cxxGasComp>::iterator comp_it;
+	new_def = false;
+	solution_equilibria = false;
+	n_solution = -999;
+	type = cxxGasPhase::GP_PRESSURE;
+	total_moles = 0.0;
+	temperature = 298.15;
 
-	const std::map < int, LDBLE > & mixcomps = mx.Get_mixComps();
-	std::map < int, LDBLE >::const_iterator it;
-	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
-	{
-		const cxxGasPhase *entity_ptr =	&(entity_map.find(it->first)->second);
-		if (first)
-		{
-			this->new_def = entity_ptr->new_def;
-			this->solution_equilibria = entity_ptr->solution_equilibria;
-			this->n_solution = entity_ptr->n_solution;
-			this->type = entity_ptr->type;
-			this->total_p = entity_ptr->total_p * it->second;
-			this->total_moles = entity_ptr->total_moles * it->second;
-			this->volume = entity_ptr->volume * it->second;
-			this->v_m = entity_ptr->v_m * it->second;
-			this->pr_in = entity_ptr->pr_in;
-			this->temperature = entity_ptr->temperature;
-			first = false;
-		}
-		else
-		{
-			if (this->type != entity_ptr->type)
-			{
-				std::ostringstream oss;
-				oss << "Cannot mix two gas_phases with differing types.";
-				error_msg(oss.str().c_str(), CONTINUE);
-				return;
-			}
-
-			this->total_p += entity_ptr->total_p * it->second;
-			this->volume += entity_ptr->volume * it->second;
-			this->v_m += entity_ptr->v_m * it->second;
-		}
-		cxxGasPhase *gas_phase_ptr = Utilities::Rxn_find(entity_map, it->first);
-		if (gas_phase_ptr)
-		{
-			std::vector<cxxGasComp> add_comps = gas_phase_ptr->Get_gas_comps();
-			for (size_t i = 0; i < add_comps.size(); i++)
-			{
-				comp_it = comp_map.find(add_comps[i].Get_phase_name());
-				if (comp_it != comp_map.end())
-				{
-					comp_it->second.add(add_comps[i], it->second);
-				}
-				else
-				{
-					cxxGasComp gc(add_comps[i]);
-					gc.multiply(it->second);
-					comp_map[add_comps[i].Get_phase_name()] = gc;
-				}
-			}
-
-		}
-	}
-
-	// put map into vector
-	this->gas_comps.clear();
-	std::vector<cxxGasComp> gc;
-	for (comp_it = comp_map.begin(); comp_it != comp_map.end(); comp_it++)
-	{
-		this->gas_comps.push_back(comp_it->second);
-	}
-}
-#endif
-cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
-		cxxMix & mx, int l_n_user, PHRQ_io * io)
-: cxxNumKeyword(io)
-{
-	this->n_user = this->n_user_end = l_n_user;
-	total_p = 0;
-	volume = 0;
-	v_m = 0;
-	pr_in = false;
-	bool first = true;
 //
 //   Mix
 //
@@ -169,9 +101,9 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 				this->pr_in = entity_ptr->pr_in;
 				this->temperature = entity_ptr->temperature;
 				first = false;
-				}
-				else
-				{
+			}
+			else
+			{
 				if (this->type != entity_ptr->type)
 				{
 					std::ostringstream oss;
@@ -180,9 +112,13 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 					return;
 				}
 
-				this->total_p += entity_ptr->total_p * it->second;
+				this->total_moles += entity_ptr->total_moles * it->second;
 				this->volume += entity_ptr->volume * it->second;
-				this->v_m += entity_ptr->v_m * it->second;
+				if (sum_fractions > 0.0)
+				{
+					this->v_m += entity_ptr->v_m * it->second / sum_fractions;
+					this->total_p += entity_ptr->total_p  * it->second / sum_fractions;
+				}
 			}
 		}
 		cxxGasPhase *gas_phase_ptr = Utilities::Rxn_find(entity_map, it->first);
@@ -215,101 +151,9 @@ cxxGasPhase::cxxGasPhase(std::map < int, cxxGasPhase > &entity_map,
 		this->gas_comps.push_back(comp_it->second);
 	}
 }
-#ifdef SKIP
-cxxGasPhase::cxxGasPhase(const std::map < int, cxxGasPhase > &entities,
-						 cxxMix & mix, int l_n_user, PHRQ_io * io):
-cxxNumKeyword(io)
-{
-	this->n_user = this->n_user_end = l_n_user;
-	gasPhaseComps.type = cxxNameDouble::ND_NAME_COEF;
-	total_p = 0;
-	volume = 0;
-	v_m = 0;
-	pr_in = false;
-	bool first = true;
-//
-//   Mix
-//
-	//cxxNameDouble gasPhaseComps;
-	const std::map < int, LDBLE > & mixcomps = mix.Get_mixComps();
-	std::map < int, LDBLE >::const_iterator it;
-	for (it = mixcomps.begin(); it != mixcomps.end(); it++)
-	{
-		if (entities.find(it->first) != entities.end())
-		{
-			const cxxGasPhase *entity_ptr =
-				&(entities.find(it->first)->second);
-			this->gasPhaseComps.add_extensive(entity_ptr->gasPhaseComps,
-											  it->second);
-			//GP_TYPE type;
-			//LDBLE total_p;
-			//LDBLE volume;
-			if (first)
-			{
-				this->type = entity_ptr->type;
-				this->total_p = entity_ptr->total_p * it->second;
-				this->volume = entity_ptr->volume * it->second;
-				this->v_m = entity_ptr->v_m * it->second;
-				this->pr_in = entity_ptr->pr_in;
-				first = false;
-			}
-			else
-			{
-				if (this->type != entity_ptr->type)
-				{
-					std::ostringstream oss;
-					oss << "Cannot mix two gas_phases with differing types.";
-					error_msg(oss.str().c_str(), CONTINUE);
-					//input_error++;
-					return;
-				}
-
-				this->total_p += entity_ptr->total_p * it->second;
-				this->volume += entity_ptr->volume * it->second;
-				this->v_m += entity_ptr->v_m * it->second;
-			}
-		}
-	}
-}
-#endif
 cxxGasPhase::~cxxGasPhase()
 {
 }
-
-#ifdef SKIP
-void
-cxxGasPhase::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// GasPhase element and attributes
-	s_oss << indent0;
-	s_oss << "<gas_phase " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_gas_phase_gammas=\"" << this->
-		pitzer_gas_phase_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxGasPhaseComp >::const_iterator it =
-		 gas_phaseComps.begin(); it != gas_phaseComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 
 void
 cxxGasPhase::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
@@ -621,7 +465,7 @@ cxxGasPhase::totalize(Phreeqc * phreeqc_ptr)
 	// component structures
 	for (size_t i = 0; i < this->gas_comps.size(); i++)
 	{
-		struct phase *phase_ptr;
+		class phase *phase_ptr;
 		int l;
 		phase_ptr = phreeqc_ptr-> phase_bsearch(this->gas_comps[i].Get_phase_name().c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
@@ -645,6 +489,92 @@ LDBLE cxxGasPhase::Calc_total_moles(void)const
 	}
 	return tot;
 }
+void cxxGasPhase::Delete_component(const std::string comp_name)
+{
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			this->gas_comps.erase(this->gas_comps.begin() + i); // To delete the ith element
+			break;
+		}
+	}
+}
+void cxxGasPhase::Set_component_moles(const std::string comp_name, const double moles)
+{
+	if (moles < 0.0)
+	{
+		this->Delete_component(comp_name);
+	}
+	else
+	{
+		cxxGasComp* ptr = this->Find_comp(comp_name.c_str());
+		if (ptr != NULL)
+		{
+			ptr->Set_moles(moles);
+		}
+		else
+		{
+			cxxGasComp temp_comp;
+			temp_comp.Set_phase_name(comp_name);
+			temp_comp.Set_moles(moles);
+			this->gas_comps.push_back(temp_comp);
+		}
+	}
+}
+double cxxGasPhase::Get_component_moles(const std::string comp_name)
+{
+	double moles = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			moles = this->gas_comps[i].Get_moles();
+			break;
+		}
+	}
+	return moles;
+}
+double cxxGasPhase::Get_component_p(const std::string comp_name)
+{
+	double p = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			p = this->gas_comps[i].Get_p();
+			break;
+		}
+	}
+	return p;
+}
+double cxxGasPhase::Get_component_phi(const std::string comp_name)
+{
+	double phi = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			phi = this->gas_comps[i].Get_phi();
+			break;
+		}
+	}
+	return phi;
+}
+double cxxGasPhase::Get_component_f(const std::string comp_name)
+{
+	double f = -1.0;
+	for (size_t i = 0; i < this->gas_comps.size(); i++)
+	{
+		if (Utilities::strcmp_nocase(this->gas_comps[i].Get_phase_name().c_str(), comp_name.c_str()) == 0)
+		{
+			f = this->gas_comps[i].Get_f();
+			break;
+		}
+	}
+	return f;
+}
+
 cxxGasComp *
 cxxGasPhase::Find_comp(const char * comp_name)
 {

@@ -10,6 +10,14 @@
 #include "Parser.h"
 #include "Utils.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -135,6 +143,7 @@ cxxNumKeyword::read_number_description(const std::string & line_in)
 	std::string line = line_in;
 	std::string::iterator b = line.begin();
 	std::string::iterator e = line.end();
+	this->description.clear();
 	// skip keyword
 	CParser::copy_token(keyword, b, e);
 
@@ -168,11 +177,11 @@ cxxNumKeyword::read_number_description(const std::string & line_in)
 	else
 	{
 		this->n_user = this->n_user_end = 1;
+		this->description = token;
 	}
 
 	// skip whitespace
 	std::string::iterator ic;
-	this->description.clear();
 	for (ic = b; ic != e; ic++)
 	{
 		this->description += *ic;

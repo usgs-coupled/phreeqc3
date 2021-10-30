@@ -15,6 +15,13 @@
 #include "Exchange.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -39,6 +46,7 @@ cxxNumKeyword(io)
 	this->pitzer_exchange_gammas = true;
 	this->new_def = false;
 	this->n_solution = -999;
+	this->solution_equilibria = false;
 //
 //   Mix exchangers
 //
@@ -117,40 +125,6 @@ cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
 
 	return;
 }
-#ifdef SKIP
-void
-cxxExchange::dump_xml(std::ostream & s_oss, unsigned int indent) const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Exchange element and attributes
-	s_oss << indent0;
-	s_oss << "<exchange " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_exchange_gammas=\"" << this->
-		pitzer_exchange_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::map < std::string, cxxExchComp >::const_iterator it = exchComps.begin();
-		 it != exchComps.end(); ++it)
-	{
-		(*it).second.dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 void
 cxxExchange::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
@@ -467,7 +441,7 @@ cxxExchange::Deserialize(Dictionary & dictionary, std::vector < int >&ints, std:
 	this->exchange_comps.clear();
 	for (int n = 0; n < count; n++)
 	{
-		cxxExchComp ec;
+		cxxExchComp ec(this->io);
 		ec.Deserialize(dictionary, ints, doubles, ii, dd);
 		this->exchange_comps.push_back(ec);
 	}

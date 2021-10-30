@@ -12,6 +12,14 @@
 #include "float.h"
 #include "math.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 ////////////////////////////////////////////////////////////////////////////
 int
 Utilities::strcmp_nocase_arg1(const char *str1, const char *str2)

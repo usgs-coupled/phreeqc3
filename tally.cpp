@@ -9,6 +9,15 @@
 #include "SSassemblage.h"
 #include "cxxKinetics.h"
 #include "Solution.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /*   
      Calling sequence 
 
@@ -82,11 +91,11 @@ get_all_components(void)
 	add_all_components_tally();
 
 	// add secondary master species
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ && master[i]->primary == TRUE)
 		{
-			for (int j = i + 1; j < count_master; j++)
+			for (int j = i + 1; j < (int)master.size(); j++)
 			{
 				if (master[j]->elt->primary == master[i])
 				{
@@ -105,7 +114,7 @@ get_all_components(void)
  *   Count components + Alkalinity + total_h + total_o
  */
 	tally_count_component = 3;
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
 		{
@@ -117,9 +126,8 @@ get_all_components(void)
  *   Buffer contains an entry for every primary master
  *   species that can be used in the transport problem.
  */
-	t_buffer =
-		(struct tally_buffer *) PHRQ_malloc((size_t) tally_count_component *
-											sizeof(struct tally_buffer));
+	t_buffer = (class tally_buffer *) PHRQ_malloc(
+		(size_t)tally_count_component * sizeof(class tally_buffer));
 
 	// store alkalinity
 	j = 0;
@@ -140,7 +148,7 @@ get_all_components(void)
 	compute_gfw("O", &(t_buffer[j].gfw));
 	j++;
 
-	for (i = 0; i < count_master; i++)
+	for (i = 0; i < (int)master.size(); i++)
 	{
 		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
 		{
@@ -157,63 +165,6 @@ get_all_components(void)
 	count_tally_table_rows = tally_count_component;
 	return (OK);
 }
-#ifdef SKIP
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-get_all_components(void)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Counts components in any defined solution, gas_phase, exchanger,
- *   surface, or pure_phase_assemblage
- *
- *   Returns n_comp, which is total, including H, O, elements, and Charge
- *           names contains character strings with names of components
- */
-	int i, j;
-/*
- *   Accumulate all aqueous components
- */
-	add_all_components_tally();
-/*
- *   Count components, 2 for hydrogen, oxygen,  + others,
- */
-	tally_count_component = 0;
-	for (i = 0; i < count_master; i++)
-	{
-		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
-		{
-			tally_count_component++;
-		}
-	}
-/*
- *   Put information in buffer.
- *   Buffer contains an entry for every primary master
- *   species that can be used in the transport problem.
- *   Each entry in buffer is sent to HST for transort.
- */
-	t_buffer =
-		(struct tally_buffer *) PHRQ_malloc((size_t) tally_count_component *
-											sizeof(struct tally_buffer));
-	j = 0;
-	for (i = 0; i < count_master; i++)
-	{
-		if (master[i]->total > 0.0 && master[i]->s->type == AQ)
-		{
-			t_buffer[j].name = master[i]->elt->name;
-			t_buffer[j].master = master[i];
-			t_buffer[j].gfw = master[i]->elt->gfw;
-			j++;
-		}
-	}
-	/*
-	 *  Return value
-	 */
-	/**n_comp = count_component;*/
-	count_tally_table_rows = tally_count_component;
-	return (OK);
-}
-#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_factor)
@@ -221,7 +172,8 @@ store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_facto
 {
 	int i, j;
 	int row_dim = row_dim_in + 1;
-	if (tally_table == NULL)
+	//if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("Tally table not defined, get_tally_table_rows_columns",
@@ -279,9 +231,9 @@ store_tally_table(LDBLE * l_array, int row_dim_in, int col_dim, LDBLE fill_facto
 	/*
 	 * Add row for total moles of reactant
 	 */
-	for (i = 0; i < count_tally_table_columns; i++)
+	for (size_t i = 0; i < count_tally_table_columns; i++)
 	{
-		l_array[i * row_dim + count_tally_table_rows] =
+		l_array[i * (size_t)row_dim + count_tally_table_rows] =
 				tally_table[i].moles / fill_factor;
 	}
 	return (OK);
@@ -294,15 +246,15 @@ get_tally_table_rows_columns(int *rows, int *columns)
 {
 	*rows = 0;
 	*columns = 0;
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("tally table not defined, get_tally_table_rows_columns",
 				  CONTINUE);
 		return (ERROR);
 	}
-	*rows = count_tally_table_rows;
-	*columns = count_tally_table_columns;
+	*rows = (int)count_tally_table_rows;
+	*columns = (int)count_tally_table_columns;
 	return (OK);
 }
 
@@ -315,7 +267,7 @@ get_tally_table_row_heading(int row, char *string)
 	 *  row is C row number
 	 */
 	strcpy(string, "");
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("Tally table not defined, get_tally_table row_heading",
@@ -344,7 +296,7 @@ get_tally_table_column_heading(int column, int *type, char *string)
 	 */
 	*type = -1;
 	strcpy(string, "");
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 	{
 		input_error++;
 		error_msg("tally table not defined, get_tally_table_column_heading",
@@ -370,22 +322,20 @@ free_tally_table(void)
 /* ---------------------------------------------------------------------- */
 {
 	int i, k;
-	if (tally_table == NULL)
+	if (tally_table.size() == 0)
 		return (OK);
 	for (i = 0; i < count_tally_table_columns; i++)
 	{
-		if (tally_table[i].formula != NULL)
-			tally_table[i].formula =
-				(struct elt_list *) free_check_null(tally_table[i].formula);
+		if (tally_table[i].formula.size() != 0)
+			tally_table[i].formula.clear();
 		for (k = 0; k < 3; k++)
 		{
-			tally_table[i].total[k] =
-				(struct tally_buffer *) free_check_null(tally_table[i].
-														total[k]);
+			tally_table[i].total[k] = (class tally_buffer *) free_check_null(
+				tally_table[i].total[k]);
 		}
 	}
-	tally_table = (struct tally *) free_check_null(tally_table);
-	t_buffer = (struct tally_buffer *) free_check_null(t_buffer);
+	//tally_table = (class tally *) free_check_null(tally_table);
+	t_buffer = (class tally_buffer *) free_check_null(t_buffer);
 	return (OK);
 }
 
@@ -474,7 +424,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
  */
 	int found;
 	LDBLE moles;
-	//char *ptr;
+	//const char* cptr;
 	/*
 	 *  Cycle through tally table columns
 	 */
@@ -518,7 +468,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				cxxNameDouble::iterator jit = solution_ptr->Get_totals().begin();
 				for ( ; jit != solution_ptr->Get_totals().end(); jit++)
 				{
-					struct master *master_ptr = master_bsearch(jit->first.c_str());
+					class master *master_ptr = master_bsearch(jit->first.c_str());
 					master_ptr->total = jit->second;
 				}
 
@@ -535,53 +485,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				tally_table[i].total[n_buffer][2].moles = solution_ptr->Get_total_o();
 			}
 			break;
-#ifdef SKIP
-		case Solution:
-/*
- *   fill solution
- */
-			if (n_user[Solution] < 0 || n_buffer == 0)
-				break;
-			{
-				cxxSolution *solution_ptr;
-				if (i == 0)
-				{
-					solution_ptr = Utilities::Rxn_find(Rxn_solution_map, index_conservative);
-				}
-				else if (i == 1)
-				{
-					solution_ptr = Utilities::Rxn_find(Rxn_solution_map, n_user[Solution]);
-				}
-				else
-				{
-					solution_ptr = NULL;
-					error_msg
-						("Solution is not in first two columns of tally_table",
-						STOP);
-				}
-				if (solution_ptr == NULL)
-					break;
-				xsolution_zero();
-				add_solution(solution_ptr, 1.0, 1.0);
-				count_elts = 0;
-				paren_count = 0;
-				for (int j = 0; j < count_master; j++)
-				{
-					if (master[j]->total > 0.0)
-					{
-						char * temp_name = string_duplicate(master[j]->elt->primary->elt->name);
-						ptr = temp_name;
-						get_elts_in_species(&ptr, master[j]->total);
-						free_check_null(temp_name);
-					}
-				}
-				qsort(elt_list, (size_t) count_elts,
-					(size_t) sizeof(struct elt_list), elt_list_compare);
-				elt_list_combine();
-				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
-			}
-			break;
-#endif
 		case Reaction:
 			/*
 			 *   fill reaction
@@ -654,8 +557,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				{
 					add_elt_list(exchange_ptr->Get_exchange_comps()[j].Get_totals(), 1.0);
 				}
-				qsort(elt_list, (size_t) count_elts,
-					(size_t) sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
@@ -676,8 +577,6 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				{
 					add_elt_list(surface_ptr->Get_surface_comps()[j].Get_totals(), 1.0);
 				}
-				qsort(elt_list, (size_t) count_elts,
-					(size_t) sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 			}
@@ -705,7 +604,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 					{
 						comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 						int l;
-						struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+						class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 						if (phase_ptr->name == tally_table[i].name)
 							break;
 						if (strcmp_nocase(phase_ptr->name, tally_table[i].name) == 0)
@@ -743,12 +642,10 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 				for (size_t l = 0; l < gc->size(); l++)
 				{
 					int k;
-					struct phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
+					class phase *phase_ptr = phase_bsearch((*gc)[l].Get_phase_name().c_str(), &k, FALSE);
 
 					add_elt_list(phase_ptr->next_elt, (*gc)[l].Get_moles());
 				}
-				qsort(elt_list, (size_t) count_elts,
-					(size_t) sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
 				elt_list_to_tally_table(tally_table[i].total[n_buffer]);
 				break;
@@ -803,7 +700,7 @@ fill_tally_table(int *n_user, int index_conservative, int n_buffer)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-elt_list_to_tally_table(struct tally_buffer *buffer_ptr)
+elt_list_to_tally_table(class tally_buffer *buffer_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
@@ -848,7 +745,7 @@ elt_list_to_tally_table(struct tally_buffer *buffer_ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-master_to_tally_table(struct tally_buffer *buffer_ptr)
+master_to_tally_table(class tally_buffer *buffer_ptr)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j;
@@ -860,7 +757,7 @@ master_to_tally_table(struct tally_buffer *buffer_ptr)
 	 * copy element list amounts to buffer in tally table
 	 * for column number
 	 */
-	for (j  = 0; j < count_master; j++)
+	for (j  = 0; j < (int)master.size(); j++)
 	{
 		if (master[j]->total <= 0)
 			continue;
@@ -899,11 +796,12 @@ build_tally_table(void)
  *   Also calculates a number greater than all user numbers and
  *   stores in global variable first_user_number.
  */
-	int j, k, l, n, p, save_print_use;
+	int j, k, l, p, save_print_use;
+	size_t n;
 	int count_tt_pure_phase, count_tt_ss_phase, count_tt_kinetics;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 /*
  *  make list of all elements in all entitites
  *  defines the number of rows in the table
@@ -989,7 +887,7 @@ build_tally_table(void)
 			{
 				cxxPPassemblageComp * comp_ptr = &(jit->second);
 				int l;
-				struct phase * phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
+				class phase * phase_ptr = phase_bsearch(jit->first.c_str(), &l, FALSE);
 				/* 
 				 * check if already in tally_table
 				 */
@@ -1017,18 +915,16 @@ build_tally_table(void)
 				if (comp_ptr->Get_add_formula().size() > 0)
 				{
 					strcpy(token, comp_ptr->Get_add_formula().c_str());
-					ptr = &(token[0]);
-					get_elts_in_species(&ptr, 1.0);
+					cptr = &(token[0]);
+					get_elts_in_species(&cptr, 1.0);
 				}
 				else
 				{
 					strcpy(token, phase_ptr->formula);
 					add_elt_list(phase_ptr->next_elt, 1.0);
 				}
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
+				tally_table[n].formula = elt_list_vsave();
 			}
 		}
 	}
@@ -1053,7 +949,7 @@ build_tally_table(void)
 				{
 					cxxSScomp *comp_ptr = &(ss_ptr->Get_ss_comps()[k]);
 					int l;
-					struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
+					class phase *phase_ptr = phase_bsearch(comp_ptr->Get_name().c_str(), &l, FALSE);
 					/* 
 					 * check if already in tally_table
 					 */
@@ -1077,10 +973,8 @@ build_tally_table(void)
 					paren_count = 0;
 					strcpy(token, phase_ptr->formula);
 					add_elt_list(phase_ptr->next_elt, 1.0);
-					qsort(elt_list, (size_t) count_elts,
-						  (size_t) sizeof(struct elt_list), elt_list_compare);
 					elt_list_combine();
-					tally_table[n].formula = elt_list_save();
+					tally_table[n].formula = elt_list_vsave();
 				}
 			}
 		}
@@ -1139,45 +1033,16 @@ build_tally_table(void)
 					{
 						std::string name = it->first;
 						LDBLE coef = it->second;
-						char * temp_name = string_duplicate(name.c_str());
-						ptr = temp_name;
-						get_elts_in_species(&ptr, 1.0 * coef);
-						free_check_null(temp_name);
+						cptr = name.c_str();
+						get_elts_in_species(&cptr, 1.0 * coef);
 					}
 				}
-				qsort(elt_list, (size_t) count_elts,
-					  (size_t) sizeof(struct elt_list), elt_list_compare);
 				elt_list_combine();
-				tally_table[n].formula = elt_list_save();
+				tally_table[n].formula = elt_list_vsave();
 			}
 		}
 	}
 
-#ifdef SKIP
-	/*
-	 *  Debug print for table definition
-	 */
-	output_msg(sformatf( "List of rows for tally table\n"));
-	for (i = 0; i < count_tally_table_rows; i++)
-	{
-		output_msg(sformatf( "\t%-s\n", buffer[i].name));
-	}
-	output_msg(sformatf( "\nList of columns for tally table\n"));
-	for (i = 0; i < count_tally_table_columns; i++)
-	{
-		output_msg(sformatf( "\t%-20s\tType: %d\n",
-				   tally_table[i].name, tally_table[i].type));
-		if (tally_table[i].formula != NULL)
-		{
-			for (j = 0; tally_table[i].formula[j].elt != NULL; j++)
-			{
-				output_msg(sformatf( "\t\t%-10s\t%f\n",
-						   tally_table[i].formula[j].elt->name,
-						   (double) tally_table[i].formula[j].coef));
-			}
-		}
-	}
-#endif
 	pr.use = save_print_use;
 	return (OK);
 }
@@ -1299,8 +1164,8 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
  *    Go through kinetic components and add positive amount of each reactant
  */
 	LDBLE coef;
-	char *ptr;
-	struct phase *phase_ptr;
+	const char* cptr;
+	class phase *phase_ptr;
 /*
  *   Go through list and generate list of elements and
  *   coefficient of elements in reaction
@@ -1331,11 +1196,8 @@ calc_dummy_kinetic_reaction_tally(cxxKinetics *kinetics_ptr)
 			cxxNameDouble::iterator it = kinetics_comp_ptr->Get_namecoef().begin();
 			for ( ; it != kinetics_comp_ptr->Get_namecoef().end(); it++)
 			{
-				std::string name = it->first;
-				char * temp_name = string_duplicate(name.c_str());
-				ptr = temp_name;
-				get_elts_in_species(&ptr, coef);
-				free_check_null(temp_name);
+				cptr = it->first.c_str();
+				get_elts_in_species(&cptr, coef);
 			}
 		}
 	}
@@ -1353,18 +1215,15 @@ extend_tally_table(void)
 	 * adds another column to tally_table
 	 * increments number of columns
 	 */
-	tally_table =
-		(struct tally *) PHRQ_realloc((void *) tally_table,
-									  (size_t) (count_tally_table_columns +
-												1) * sizeof(struct tally));
-	if (tally_table == NULL)
-		malloc_error();
+	//tally_table = (class tally *) PHRQ_realloc((void *) tally_table,
+	//	(count_tally_table_columns + 1) * sizeof(class tally));
+	//if (tally_table == NULL)
+	//	malloc_error();
+	tally_table.resize(count_tally_table_columns + 1);
 	for (i = 0; i < 3; i++)
 	{
-		tally_table[count_tally_table_columns].total[i] =
-			(struct tally_buffer *)
-			PHRQ_malloc((size_t) (count_tally_table_rows) *
-						sizeof(struct tally_buffer));
+		tally_table[count_tally_table_columns].total[i] = (class tally_buffer *)
+			PHRQ_malloc(count_tally_table_rows * sizeof(class tally_buffer));
 		if (tally_table[count_tally_table_columns].total[i] == NULL)
 			malloc_error();
 		for (j = 0; j < count_tally_table_rows; j++)
@@ -1379,7 +1238,6 @@ extend_tally_table(void)
 	tally_table[count_tally_table_columns].type = UnKnown;
 	tally_table[count_tally_table_columns].add_formula = NULL;
 	tally_table[count_tally_table_columns].moles = 0.0;
-	tally_table[count_tally_table_columns].formula = NULL;
 	count_tally_table_columns++;
 	return (OK);
 }

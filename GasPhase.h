@@ -24,7 +24,8 @@ class cxxGasPhase:public cxxNumKeyword
 	enum GP_TYPE
 	{
 		GP_PRESSURE = 0,
-		GP_VOLUME = 1
+		GP_VOLUME = 1,
+		GP_UNKNOWN = 2
 	};
 
 	//void dump_xml(std::ostream& os, unsigned int indent = 0)const;
@@ -69,7 +70,12 @@ class cxxGasPhase:public cxxNumKeyword
 	cxxGasComp *Find_comp(const char * comp_name);
 	void Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles);
 	void Deserialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles, int &ii, int &dd);
-
+	void Delete_component(const std::string comp_name);
+	void Set_component_moles(const std::string comp_name, const double moles);
+	double Get_component_moles(const std::string comp_name);
+	double Get_component_p(const std::string comp_name);
+	double Get_component_phi(const std::string comp_name);
+	double Get_component_f(const std::string comp_name);
 protected:
 	void add(const cxxGasPhase & addee, LDBLE extensive);
 

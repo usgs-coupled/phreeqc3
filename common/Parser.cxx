@@ -15,6 +15,14 @@
 #include "Parser.h"
 #include "PHRQ_io.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -27,6 +35,11 @@ m_next_keyword(Keywords::KEY_NONE)
 	if (!io)
 	{
 		error_msg("This parser constructor requires non-null phrq_io", PHRQ_io::OT_STOP);
+		echo_file = EO_ALL;
+		echo_stream = EO_NONE;
+		accumulate = false;
+		phrq_io_only = true;
+		m_line_type = PHRQ_io::LT_EMPTY;
 	}
 	else
 	{
@@ -55,6 +68,7 @@ m_next_keyword(Keywords::KEY_NONE)
 	echo_stream = EO_NONE;
 	accumulate = false;
 	phrq_io_only = false;
+	m_line_type = PHRQ_io::LT_EMPTY;
 }
 
 CParser::~CParser()
@@ -326,7 +340,7 @@ PHRQ_io::LINE_TYPE CParser::get_logical_line()
 					// remove '\\'
 					for (; pos < m_line_save.size(); pos++)
 					{
-						m_line_save[pos] = m_line_save[pos + 1];
+						m_line_save[pos] = m_line_save[(size_t) pos + 1];
 					}
 					m_line_save.erase(m_line_save.size() - 1, 1);
 					break;

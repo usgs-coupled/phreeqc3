@@ -170,6 +170,7 @@ public:
 		toktan,
 		tokarctan,
 		toklog,
+		toklog10,
 		tokexp,
 		tokabs,
 		toksgn,
@@ -182,7 +183,6 @@ public:
 		tokpeek,
 		tokrem,
 		toklet,
-		tokprint,
 		tokinput,
 		tokgoto,
 		tokif,
@@ -206,7 +206,6 @@ public:
 		toknew,
 		tokload,
 		tokmerge,
-		toksave,
 		tokbye,
 		tokdel,
 		tokrenum,
@@ -214,129 +213,144 @@ public:
 		tokelse,
 		tokto,
 		tokstep,
-		toktc,
-		tokm0,
-		tokm,
-		tokparm,
+		/* start phreeqc */
 		tokact,
-		tokmol,
-		tokla,
-		toklm,
-		toksr,
-		toksi,
-		toktot,
-		toktk,
-		toktime,
-		toklog10,
-		toksim_time,
-		tokequi,
-		tokgas,
-		tokpunch,
-		tokkin,
-		toks_s,
-		tokmu,
+		tokadd_heading,
 		tokalk,
-		tokrxn,
-		tokdist,
-		tokmisc1,
-		tokmisc2,
-		tokedl,
-		tokstep_no,
-		toksim_no,
-		toktotal_time,
-		tokput,
-		tokget,
+		tokaphi,
+		tokcalc_value,
+		tokceil,
+		tokcell_no,
+		tokchange_por,
+		tokchange_surf,
 		tokcharge_balance,
-		tokpercent_error,
-#if defined (PHREEQ98) || defined (MULTICHART)
+		tokcurrent_a,
+		tokdebye_length,
+		tokdelta_h_phase,
+		tokdelta_h_species,
+		tokdescription,
+		tokdh_a,
+		tokdh_a0,
+		tokdh_av,
+		tokdh_b,
+		tokdh_bdot,
+		tokdiff_c,
+		tokdist,
+		tokedl,
+		tokedl_species,
+		tokeol_,
+		tokeol_notab_,
+		tokeps_r,
+		tokeq_frac,
+		tokequiv_frac,
+		tokequi,
+		tokequi_delta,
+		tokerase,
+		tokexists,
+		tokfloor,
+		tokgamma,
+		tokgas,
+		tokgas_p,
+		tokgas_vm,
+		tokget,
+		tokget_por,
+		tokgfw,
 		tokgraph_x,
 		tokgraph_y,
 		tokgraph_sy,
-#endif
-		tokcell_no,
-		tokexists,
-		toksurf,
-		toklk_species,
-		toklk_named,
-		toklk_phase,
-		toksum_species,
-		toksum_gas,
-		toksum_s_s,
-		tokcalc_value,
-		tokdescription,
-		toktitle,
-		toksys,
 		tokinstr,
-		tokltrim,
-		tokrtrim,
-		toktrim,
-		tokpad,
-		tokchange_por,
-		tokget_por,
-		tokosmotic,
-		tokchange_surf,
-		tokporevolume,
-		toksc,
-		tokgamma,
-		toklg,
-		tokrho,
-		tokrho_0,
-		tokcell_volume,
-		tokcell_pore_volume,
-		tokcell_porosity,
-		tokcell_saturation,
-#if defined MULTICHART
-		tokplot_xy,
-#endif
-		toktotmole,
 		tokiso,
 		tokiso_unit,
-		toktotmol,
-		toktotmoles,
-		tokeol_,
-		tokceil,
-		tokfloor,
-		tokkinetics_formula,
-		tokkinetics_formula_,
-		tokphase_formula,
-		tokphase_formula_,
-		tokspecies_formula,
-		tokspecies_formula_,
-		toklist_s_s,
-		tokpr_p,
-		tokpr_phi,
-		tokgas_p,
-		tokgas_vm,
-		tokpressure,
-		tokerase,
-		tokeps_r,
-		tokvm,
-		tokphase_vm,
-		tokdh_a,
-		tokdh_b,
-		tokdh_av,
-		tokqbrn,
+		tokiterations,
 		tokkappa,
-		tokgfw,
-		toksoln_vol,
-		tokequi_delta,
+		tokkin,
 		tokkin_delta,
 		tokkin_time,
-		tokstr_f_,
-		tokstr_e_,
-		tokeq_frac,
-		tokequiv_frac,
-		tokcallback,
-		tokdiff_c,
+		tokkinetics_formula,
+		tokkinetics_formula_,
+		tokla,
+		toklg,
+		toklist_s_s,
+		toklk_named,
+		toklk_phase,
+		toklk_species,
+		toklm,
+		tokltrim,
+		tokm,
+		tokm0,
+		tokmcd_jtot,
+		tokmcd_jconc,
+		tokmisc1,
+		tokmisc2,
+		tokmol,
+		tokmu,
+		tokno_newline_,
+		tokosmotic,
+		tokpad_,
+		tokpad,
+		tokparm,
+		tokpercent_error,
+		tokphase_formula,
+		tokphase_formula_,
+		tokphase_vm,
+		tokplot_xy,
+		tokpot_v,
+		tokpr_p,
+		tokpr_phi,
+		tokpressure,
+		tokprint,
+		tokpunch,
+		tokput,
+		tokqbrn,
+		tokrho,
+		tokrho_0,
+		tokrtrim,
+		tokrxn,
+		toks_s,
+		toksave,
+		toksc,
 		toksetdiff_c,
-		toksa_declercq,
-		tokedl_species,
+		toksi,
+		toksim_no,
+		toksim_time,
+		toksoln_vol,
+		tokspecies_formula,
+		tokspecies_formula_,
+		toksr,
+		tokstep_no,
+		tokstr_e_,
+		tokstr_f_,
+		toksum_gas,
+		toksum_s_s,
+		toksum_species,
+		toksurf,
+		toksys,
+		tokt_sc,
+		toktc,
+		toktime,
+		toktitle,
+		toktk,
+		toktot,
+		toktotal_time,
+		toktotmole,
+		toktotmol,
+		toktotmoles,
+		toktrim,
 		tokviscos,
 		tokviscos_0,
-		tokcurrent_a,
-		tokpot_v,
-		tokt_sc,
-		tokaphi
+		tokvm,
+		/* end phreeqc */
+		toksa_declercq,			// Undocumented function
+		tokcallback,			// PHAST function
+		tokcell_pore_volume,	// PHAST function
+		tokporevolume,			// PHAST function
+		tokcell_porosity,		// PHAST function
+		tokcell_saturation,		// PHAST function
+		tokcell_volume,			// PHAST function
+		toktransport_cell_no,	// PHAST function
+		tokvelocity_x,			// PHAST function
+		tokvelocity_y,			// PHAST function
+		tokvelocity_z			// PHAST function
 	};
 
 #if !defined(PHREEQCI_GUI)
@@ -461,14 +475,11 @@ public:
 	void cmddim(struct LOC_exec *LINK);
 	void cmderase(struct LOC_exec *LINK);
 	void cmdpoke(struct LOC_exec *LINK);
-	int basic_main(char *commands);
-	int basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase);
+	int basic_main(const char *commands);
+	int basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase);
 	int basic_run(char *commands, void *lnbase, void *vbase, void *lpbase);
 	int basic_init(void);
-#ifdef PHREEQ98
-	void GridChar(char *s, char *a);
-#endif
-	int sget_logical_line(char **ptr, int *l, char *return_line);
+	int sget_logical_line(const char **ptr, int *l, char *return_line);
 	long my_labs(long x);
 	void * my_memmove(void * d, Const void * s, size_t n);
 	void * my_memcpy(void * d, Const void * s, size_t n);
@@ -477,36 +488,36 @@ public:
 	int my_toupper(int c);
 	int my_tolower(int c);
 	long ipow(long a, long b);
-	char * strsub(register char *ret, register char *s, register int pos,
-		register int len);
-	int strpos2(char *s, register char *pat, register int pos);
-	int strcicmp(register char *s1, register char *s2);
-	char * strltrim(register char *s);
-	char * strrtrim(register char *s);
-	void strmove(register int len, register char *s, register int spos,
-		register char *d, register int dpos);
-	void strinsert(register char *src, register char *dst, register int pos);
+	char * strsub(char *ret, char *s, int pos,
+		int len);
+	int strpos2(char *s, char *pat, int pos);
+	int strcicmp(char *s1, char *s2);
+	char * strltrim(char *s);
+	char * strrtrim(char *s);
+	void strmove(int len, char *s, int spos,
+		char *d, int dpos);
+	void strinsert(char *src, char *dst, int pos);
 	int P_peek(FILE * f);
 	int P_eof(void);
 	int P_eoln(FILE * f);
 	void P_readpaoc(FILE * f, char *s, int len);
 	void P_readlnpaoc(FILE * f, char *s, int len);
 	long P_maxpos(FILE * f);
-	char * P_trimname(register char * fn, register int len);
+	char * P_trimname(char * fn, int len);
 	long memavail(void);
 	long maxavail(void);
-	long * P_setunion(register long *d, register long *s1, register long *s2);
-	long * P_setint(register long *d, register long *s1, register long *s2);
-	long * P_setdiff(register long *d, register long *s1, register long *s2);
-	long * P_setxor(register long *d, register long *s1, register long *s2);
-	long * P_addset(register long *s, register unsigned val);
-	long * P_addsetr(register long *s, register unsigned v1, register unsigned v2);
-	long * P_remset(register long *s, register unsigned val);
-	int P_setequal(register long *s1, register long *s2);
-	int P_subset(register long *s1, register long *s2);
-	long * P_setcpy(register long *d, register long *s);
-	long * P_expset(register long *d, register long s);
-	long P_packset(register long *s);	
+	long * P_setunion(long *d, long *s1, long *s2);
+	long * P_setint(long *d, long *s1, long *s2);
+	long * P_setdiff(long *d, long *s1, long *s2);
+	long * P_setxor(long *d, long *s1, long *s2);
+	long * P_addset(long *s, unsigned val);
+//	long * P_addsetr(long *s, unsigned v1, unsigned v2);
+	long * P_remset(long *s, unsigned val);
+	int P_setequal(long *s1, long *s2);
+	int P_subset(long *s1, long *s2);
+	long * P_setcpy(long *d, long *s);
+	long * P_expset(long *d, long s);
+	long P_packset(long *s);	
 	int _OutMem(void);
 	int _CaseCheck(void);
 	int _NilCheck(void);
@@ -541,6 +552,8 @@ protected:
 	IDErr nIDErrPrompt;
 #endif
 	int nErrLineNumber;
+	bool punch_tab;
+	bool skip_punch;
 };
 
 #endif /* _INC_PBasic_H */

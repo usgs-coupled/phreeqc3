@@ -1,5 +1,14 @@
 #include "Phreeqc.h"
 #include "GasPhase.h"
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 setup_fixed_volume_gas(void)
@@ -22,7 +31,7 @@ setup_fixed_volume_gas(void)
 	{
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 		x[count_unknowns]->type = GAS_MOLES;
 		x[count_unknowns]->description = phase_ptr->name;
 		x[count_unknowns]->phase = phase_ptr;
@@ -56,10 +65,10 @@ build_fixed_volume_gas(void)
  *      sum of partial pressures equation and
  *      mass balance equations for elements contained in gases
  */
-	int row, col;
-	struct master *master_ptr;
-	struct rxn_token *rxn_ptr;
-	struct unknown *unknown_ptr;
+	size_t row, col;
+	class master *master_ptr;
+	class rxn_token *rxn_ptr;
+	class unknown *unknown_ptr;
 	LDBLE coef, coef_elt;
 
 	if (gas_unknown == NULL)
@@ -69,13 +78,13 @@ build_fixed_volume_gas(void)
 	{
 		const cxxGasComp *comp_ptr = &(gas_phase_ptr->Get_gas_comps()[i]);
 		int j;
-		struct phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
+		class phase *phase_ptr = phase_bsearch(comp_ptr->Get_phase_name().c_str(), &j, FALSE);
 /*
  *   Determine elements in gas component
  */
 		count_elts = 0;
 		paren_count = 0;
-		if (phase_ptr->rxn_x == NULL)
+		if (phase_ptr->rxn_x.token.size() == 0)
 			continue;
 		add_elt_list(phase_ptr->next_elt, 1.0);
 #define COMBINE
@@ -87,12 +96,12 @@ build_fixed_volume_gas(void)
  */
 		if (debug_prep == TRUE)
 		{
-			output_msg(sformatf( "\n\tMass balance summations %s.\n\n",
+			output_msg(sformatf( "\n\tMass balance summations %s.\n",
 					   phase_ptr->name));
 		}
 
 		/* All elements in gas */
-		for (j = 0; j < count_elts; j++)
+		for (j = 0; j < (int) count_elts; j++)
 		{
 			unknown_ptr = NULL;
 			if (strcmp(elt_list[j].elt->name, "H") == 0)
@@ -140,7 +149,7 @@ build_fixed_volume_gas(void)
 			output_msg(sformatf( "\n\tJacobian summations %s.\n\n",
 					   phase_ptr->name));
 		}
-		for (j = 0; j < count_elts; j++)
+		for (j = 0; j < (int) count_elts; j++)
 		{
 			unknown_ptr = NULL;
 			if (strcmp(elt_list[j].elt->name, "H") == 0)
@@ -174,7 +183,7 @@ build_fixed_volume_gas(void)
 			}
 			row = unknown_ptr->number * (count_unknowns + 1);
 			coef_elt = elt_list[j].coef;
-			for (rxn_ptr = phase_ptr->rxn_x->token + 1;
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1;
 				 rxn_ptr->s != NULL; rxn_ptr++)
 			{
 
@@ -211,27 +220,27 @@ build_fixed_volume_gas(void)
 				}
 				col = master_ptr->unknown->number;
 				coef = coef_elt * rxn_ptr->coef;
-				store_jacob(&(gas_unknowns[i]->moles),
-							&(array[row + col]), coef);
 				if (debug_prep == TRUE)
 				{
-					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
+					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
 							   master_ptr->s->name, (double) coef,
 							   row / (count_unknowns + 1), col));
 				}
+				store_jacob(&(gas_unknowns[i]->moles),
+					&(my_array[(size_t)row + (size_t)col]), coef);
 			}
 			if (gas_phase_ptr->Get_type() == cxxGasPhase::GP_PRESSURE)
 			{
 				/* derivative wrt total moles of gas */
-				store_jacob(&(phase_ptr->fraction_x),
-							&(array[row + gas_unknown->number]), coef_elt);
 				if (debug_prep == TRUE)
 				{
-					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
+					output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
 							   "gas moles", (double) elt_list[j].coef,
 							   row / (count_unknowns + 1),
 							   gas_unknown->number));
 				}
+				store_jacob(&(phase_ptr->fraction_x),
+					&(my_array[(size_t)row + (size_t)gas_unknown->number]), coef_elt);
 			}
 		}
 /*
@@ -246,7 +255,7 @@ build_fixed_volume_gas(void)
 		}
 		unknown_ptr = gas_unknown;
 		row = unknown_ptr->number * (count_unknowns + 1);
-		for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL; rxn_ptr++)
+		for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL; rxn_ptr++)
 		{
 			if (rxn_ptr->s != s_eminus && rxn_ptr->s->in == FALSE)
 			{
@@ -303,13 +312,13 @@ build_fixed_volume_gas(void)
 					}
 					col = master_ptr->unknown->number;
 					coef = rxn_ptr->coef;
-					store_jacob(&(phase_ptr->p_soln_x), &(array[row + col]), coef);
 					if (debug_prep == TRUE)
 					{
-						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d\n",
+						output_msg(sformatf( "\t\t%-24s%10.3f\t%d\t%d",
 							master_ptr->s->name, (double) coef,
 							row / (count_unknowns + 1), col));
 					}
+					store_jacob(&(phase_ptr->p_soln_x), &(my_array[(size_t)row + (size_t)col]), coef);
 				}
 			}
 		}
@@ -351,7 +360,7 @@ calc_PR(void)
 	LDBLE r3[4], r3_12, rp, rp3, rq, rz, ri, ri1, one_3 = 0.33333333333333333;
 	LDBLE disct, vinit, v1, ddp, dp_dv, dp_dv2;
 	int it;
-	struct phase *phase_ptr;
+	class phase *phase_ptr;
 	LDBLE V_m = 0, P = 0;
 
 	LDBLE TK = tk_x;
@@ -413,7 +422,7 @@ calc_PR(void)
 		//	continue;
 		b_sum += phase_ptr->fraction_x * phase_ptr->pr_b;
 		size_t i1;
-		struct phase *phase_ptr1;
+		class phase *phase_ptr1;
 		for (i1 = 0; i1 <  gas_unknowns.size(); i1++)
 		{
 			phase_ptr1 = gas_unknowns[i1]->phase;
@@ -427,23 +436,31 @@ calc_PR(void)
 			{
 				if (!strcmp(phase_ptr1->name, "CO2(g)"))
 					a_aa *= 0.81; // Soreide and Whitson, 1992, FPE 77, 217
-				else if (!strcmp(phase_ptr1->name, "H2S(g)"))
+				else if (!strcmp(phase_ptr1->name, "H2S(g)") || !strcmp(phase_ptr1->name, "H2Sg(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr1->name, "CH4(g)"))
+				else if (!strcmp(phase_ptr1->name, "CH4(g)") || !strcmp(phase_ptr1->name, "Mtg(g)") || !strcmp(phase_ptr1->name, "Methane(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr1->name, "N2(g)"))
+				else if (!strcmp(phase_ptr1->name, "N2(g)") || !strcmp(phase_ptr1->name, "Ntg(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr1->name, "Ethane(g)"))
+					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr1->name, "Propane(g)"))
+					a_aa *= 0.45;
 			}
 			if (!strcmp(phase_ptr1->name, "H2O(g)"))
 			{
 				if (!strcmp(phase_ptr->name, "CO2(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "H2S(g)"))
+				else if (!strcmp(phase_ptr->name, "H2S(g)") || !strcmp(phase_ptr->name, "H2Sg(g)"))
 					a_aa *= 0.81;
-				else if (!strcmp(phase_ptr->name, "CH4(g)"))
+				else if (!strcmp(phase_ptr->name, "CH4(g)") || !strcmp(phase_ptr->name, "Mtg(g)") || !strcmp(phase_ptr->name, "Methane(g)"))
 					a_aa *= 0.51;
-				else if (!strcmp(phase_ptr->name, "N2(g)"))
+				else if (!strcmp(phase_ptr->name, "N2(g)") || !strcmp(phase_ptr->name, "Ntg(g)"))
 					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Ethane(g)"))
+					a_aa *= 0.51;
+				else if (!strcmp(phase_ptr->name, "Propane(g)"))
+					a_aa *= 0.45;
 			}
 			a_aa_sum += phase_ptr->fraction_x * phase_ptr1->fraction_x * a_aa;
 			a_aa_sum2 += phase_ptr1->fraction_x * a_aa;
@@ -589,10 +606,10 @@ calc_PR(void)
 		{
 			phi = B_r * (rz - 1) - log(rz - B) + A / (2.828427 * B) * (B_r - 2.0 * phase_ptr->pr_aa_sum2 / a_aa_sum) *
 				  log((rz + 2.41421356 * B) / (rz - 0.41421356 * B));
-			phi = (phi > 4.44 ? 4.44 : (phi < -3 ? -3 : phi));
+			//phi = (phi > 4.44 ? 4.44 : (phi < -3 ? -3 : phi));
 		}
 		else
-			phi = -3.0; // fugacity coefficient > 0.05
+			phi = -3.0; // fugacity coefficient = 0.05
 		phase_ptr->pr_phi = exp(phi);
 		phase_ptr->pr_si_f = phi / LOG_10;										// pr_si_f updated
 		// ****
@@ -609,8 +626,8 @@ calc_fixed_volume_gas_pressures(void)
 {
 	int n_g = 0;
 	LDBLE lp;
-	struct rxn_token *rxn_ptr;
-	struct phase *phase_ptr;
+	class rxn_token *rxn_ptr;
+	class phase *phase_ptr;
 	bool PR = false, pr_done = false;
 	size_t i;
 /*
@@ -648,8 +665,8 @@ calc_fixed_volume_gas_pressures(void)
 		if (phase_ptr->in == TRUE)
 		{
 			lp = -phase_ptr->lk;
-			//lp = -k_calc(phase_ptr->rxn_x->logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
-			for (rxn_ptr = phase_ptr->rxn_x->token + 1; rxn_ptr->s != NULL;
+			//lp = -k_calc(phase_ptr->rxn_x.logk, tk_x, use.Get_gas_phase_ptr()->total_p * PASCAL_PER_ATM);
+			for (rxn_ptr = &phase_ptr->rxn_x.token[0] + 1; rxn_ptr->s != NULL;
 				 rxn_ptr++)
 			{
 				lp += rxn_ptr->s->la * rxn_ptr->coef;

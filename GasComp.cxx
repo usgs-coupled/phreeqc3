@@ -15,7 +15,13 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
-
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -30,6 +36,9 @@ cxxGasComp::cxxGasComp(PHRQ_io *io)
 	p_read = 0.0;
 	moles = 0.0;
 	initial_moles = 0.0;
+	p = 0.0;
+	phi = 0.0;
+	f = 0.0;
 }
 
 cxxGasComp::~cxxGasComp()
@@ -56,6 +65,9 @@ cxxGasComp::dump_raw(std::ostream & s_oss, unsigned int indent) const
 
 	s_oss << indent0 << "# GasComp workspace variables #\n";
 	s_oss << indent0 << "-initial_moles           " << this->initial_moles << "\n";
+	s_oss << indent0 << "-p                       " << this->p << "\n";
+	s_oss << indent0 << "-phi                     " << this->phi << "\n";
+	s_oss << indent0 << "-f                       " << this->f << "\n";
 }
 
 bool
@@ -125,6 +137,37 @@ cxxGasComp::read_raw(CParser & parser, bool check)
 								 PHRQ_io::OT_CONTINUE);
 			}
 			break;
+
+		case 5:				// p
+			if (!(parser.get_iss() >> this->p))
+			{
+				this->p = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for pressure.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+
+		case 6:				// phi
+			if (!(parser.get_iss() >> this->phi))
+			{
+				this->phi = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for phi.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+
+		case 7:				// f
+			if (!(parser.get_iss() >> this->f))
+			{
+				this->f = 0;
+				parser.incr_input_error();
+				parser.error_msg("Expected numeric value for f.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
+
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -150,9 +193,9 @@ cxxGasComp::add(const cxxGasComp & addee, LDBLE extensive)
 	if (addee.phase_name.size() == 0)
 		return;
 
-	/*
-	ext1 = this->moles;
-	ext2 = addee.moles * extensive;
+	double f1, f2;
+	double ext1 = this->moles;
+	double ext2 = addee.moles * extensive;
 	if (ext1 + ext2 != 0)
 	{
 		f1 = ext1 / (ext1 + ext2);
@@ -163,13 +206,15 @@ cxxGasComp::add(const cxxGasComp & addee, LDBLE extensive)
 		f1 = 0.5;
 		f2 = 0.5;
 	}
-	*/
 
 	assert(this->phase_name == addee.phase_name);
 
-	this->p_read += addee.p_read * extensive;
+	this->p_read = this->p_read*f1 + addee.p_read * f2;
 	this->moles += addee.moles * extensive;
 	this->initial_moles += addee.initial_moles * extensive;
+	this->p = this->p * f1 + addee.p * f2;
+	this->phi = this->phi * f1 + addee.phi * f2;
+	this->f = this->f * f1 + addee.f * f2;
 }
 
 void
@@ -178,6 +223,9 @@ cxxGasComp::multiply(LDBLE extensive)
 	this->p_read *= extensive;
 	this->moles *= extensive;
 	this->initial_moles *= extensive;
+	this->p *= 1.0;
+	this->phi *= 1.0;
+	this->f *= 1.0;
 }
 void
 cxxGasComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::vector < double >&doubles)
@@ -186,6 +234,9 @@ cxxGasComp::Serialize(Dictionary & dictionary, std::vector < int >&ints, std::ve
 	doubles.push_back(this->moles);
 	doubles.push_back(this->p_read);
 	doubles.push_back(this->initial_moles);
+	doubles.push_back(this->p);
+	doubles.push_back(this->phi);
+	doubles.push_back(this->f);
 }
 
 void
@@ -196,13 +247,19 @@ cxxGasComp::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 	this->moles = doubles[dd++];
 	this->p_read = doubles[dd++];
 	this->initial_moles = doubles[dd++];
+	this->p = doubles[dd++];
+	this->phi = doubles[dd++];
+	this->f = doubles[dd++];
 }
 
 const std::vector< std::string >::value_type temp_vopts[] = {
-	std::vector< std::string >::value_type("phase_name"),	// 0 
-	std::vector< std::string >::value_type("name"),	        // 1
-	std::vector< std::string >::value_type("p_read"),	    // 2 
-	std::vector< std::string >::value_type("moles"),	    // 3 
-	std::vector< std::string >::value_type("initial_moles")	// 4 
+	std::vector< std::string >::value_type("phase_name"),	 // 0 
+	std::vector< std::string >::value_type("name"),	         // 1
+	std::vector< std::string >::value_type("p_read"),	     // 2 
+	std::vector< std::string >::value_type("moles"),	     // 3 
+	std::vector< std::string >::value_type("initial_moles"), // 4 
+	std::vector< std::string >::value_type("p"),             // 5 
+	std::vector< std::string >::value_type("phi"),           // 6 
+	std::vector< std::string >::value_type("f")              // 7 
 };									   
 const std::vector< std::string > cxxGasComp::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

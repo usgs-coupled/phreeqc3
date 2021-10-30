@@ -1,12 +1,12 @@
 #include <iostream>				/* std::cout std::cerr */
 #include <sstream>
 #include <fstream>
+#include "Phreeqc.h"
 #include "StorageBin.h"
 #include "SS.h"
 #ifndef boolean
 typedef unsigned char boolean;
 #endif
-#include "Phreeqc.h"
 #include "phqalloc.h"
 #include "Utils.h"
 
@@ -16,6 +16,14 @@ typedef unsigned char boolean;
 #define OPTION_ERROR -3
 #define OPTION_DEFAULT -4
 #define OPTION_DEFAULT2 -5
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -35,18 +43,16 @@ read_transport(void)
 	*         ERROR   if error occurred reading data
 	*
 	*/
-	char *ptr;
 	int i, j, l;
-	int count_length, count_disp, count_punch, count_print, count_por;
+	int count_length, count_disp, count_punch, count_print, count_por, count_same_model;
 	int count_length_alloc, count_disp_alloc, count_por_alloc;
 	char token[MAX_LENGTH];
-	char *description;
-	int n_user, n_user_end;
 	LDBLE *length, *disp, *pors;
-	int *punch_temp, *print_temp;
+	int *punch_temp, *print_temp, *same_model_temp;
 	int return_value, opt, opt_save;
-	char *next_char, *next_char_save;
-	char file_name[MAX_LENGTH];
+	const char* next_char;
+	//char file_name[MAX_LENGTH];
+	std::string file_name("phreeqc.dmp");
 
 	const char *opt_list[] = {
 		"cells",				/* 0 */
@@ -94,11 +100,12 @@ read_transport(void)
 		"porosities",			/* 42 */
 		"porosity",				/* 43 */
 		"fix_current",			/* 44 */
-		"current"			    /* 45 */
+		"current",			    /* 45 */
+		"implicit",			    /* 46 */
+		"same_model"			/* 47 */
 	};
-	int count_opt_list = 46;
+	int count_opt_list = 48;
 
-	strcpy(file_name, "phreeqc.dmp");
 	/*
 	*   Initialize
 	*/
@@ -112,7 +119,7 @@ read_transport(void)
 	}
 	else
 		old_cells = count_cells;
-	count_length = count_disp = count_punch = count_print = count_por = 0;
+	count_length = count_disp = count_punch = count_print = count_por = count_same_model = 0;
 
 	length = (LDBLE *)PHRQ_malloc(sizeof(LDBLE));
 	if (length == NULL)
@@ -134,14 +141,12 @@ read_transport(void)
 	if (print_temp == NULL)
 		malloc_error();
 
+	same_model_temp = (int *)PHRQ_malloc(sizeof(int));
+	if (same_model_temp == NULL)
+		malloc_error();
+
 	count_length_alloc = count_disp_alloc = count_por_alloc = 1;
 	transport_start = 1;
-	/*
-	*   Read transport number (not currently used)
-	*/
-	ptr = line;
-	read_number_description(ptr, &n_user, &n_user_end, &description);
-	description = (char *)free_check_null(description);
 	/*
 	*   Set use data to last read
 	*/
@@ -171,12 +176,12 @@ read_transport(void)
 			error_msg(line_save, CONTINUE);
 			break;
 		case 0:				/* cells */
-			sscanf(next_char, "%d", &count_cells);
+			(void)sscanf(next_char, "%d", &count_cells);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 1:				/* shifts */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, "%d", &count_shifts);
+				(void)sscanf(token, "%d", &count_shifts);
 			else
 			{
 				warning_msg
@@ -187,7 +192,7 @@ read_transport(void)
 			if (j != EMPTY)
 			{
 				if (j == DIGIT)
-					sscanf(token, "%d", &ishift);
+					(void)sscanf(token, "%d", &ishift);
 				else
 				{
 					input_error++;
@@ -209,7 +214,7 @@ read_transport(void)
 		case 3:				/* selected_output */
 		case 29:				/* selected_output_frequency */
 		case 33:				/* punch_frequency */
-			sscanf(next_char, "%d", &punch_modulus);
+			(void)sscanf(next_char, "%d", &punch_modulus);
 			opt_save = OPTION_DEFAULT;
 			if (punch_modulus <= 0)
 			{
@@ -228,7 +233,7 @@ read_transport(void)
 			str_tolower(token);
 			if (i == DIGIT)
 			{
-				sscanf(token, "%d", &bcon_first);
+				(void)sscanf(token, "%d", &bcon_first);
 				if (bcon_first < 1 || bcon_first > 3)
 				{
 					input_error++;
@@ -258,7 +263,7 @@ read_transport(void)
 			str_tolower(token);
 			if (i == DIGIT)
 			{
-				sscanf(token, "%d", &bcon_last);
+				(void)sscanf(token, "%d", &bcon_last);
 				if (bcon_last < 1 || bcon_last > 3)
 				{
 					input_error++;
@@ -287,7 +292,7 @@ read_transport(void)
 		case 5:					/* timest */
 		case 14:				/* time_step */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &timest);
+				(void)sscanf(token, SCANFORMAT, &timest);
 			{
 				std::string stdtoken;
 				j = copy_token(stdtoken, &next_char);
@@ -298,7 +303,7 @@ read_transport(void)
 				}
 				if (j == DIGIT)
 				{
-					sscanf(stdtoken.c_str(), SCANFORMAT, &mcd_substeps);
+					(void)sscanf(stdtoken.c_str(), SCANFORMAT, &mcd_substeps);
 				}
 			}
 			//if (copy_token(token, &next_char, &l) == DIGIT)
@@ -313,7 +318,7 @@ read_transport(void)
 			break;
 		case 6:				/* diffc */
 		case 16:				/* diffusion_coefficient */
-			sscanf(next_char, SCANFORMAT, &diffc);
+			(void)sscanf(next_char, SCANFORMAT, &diffc);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 7:				/* tempr */
@@ -321,7 +326,7 @@ read_transport(void)
 		case 19:				/* temperature_retardation_factor */
 		case 39:				/* thermal_diffusion */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &tempr);
+				(void)sscanf(token, SCANFORMAT, &tempr);
 			if (tempr < 1)
 			{
 				tempr = 1;
@@ -331,7 +336,7 @@ read_transport(void)
 			}
 			j = copy_token(token, &next_char, &l);
 			if (j == DIGIT)
-				sscanf(token, SCANFORMAT, &heat_diffc);
+				(void)sscanf(token, SCANFORMAT, &heat_diffc);
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 8:				/* length */
@@ -370,7 +375,7 @@ read_transport(void)
 			if (copy_token(token, &next_char, &l) != EMPTY)
 			{
 				/* exchange factor */
-				if (sscanf(token, "%d", &(stag_data->count_stag)) != 1)
+				if (sscanf(token, "%d", &(stag_data.count_stag)) != 1)
 				{
 					input_error++;
 					error_string = sformatf(
@@ -383,7 +388,7 @@ read_transport(void)
 				j = copy_token(token, &next_char, &l);
 				if (j != EMPTY)
 				{
-					if (sscanf(token, SCANFORMAT, &(stag_data->exch_f)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.exch_f)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -392,7 +397,7 @@ read_transport(void)
 						break;
 					}
 					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data->th_m)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.th_m)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -401,7 +406,7 @@ read_transport(void)
 						break;
 					}
 					copy_token(token, &next_char, &l);
-					if (sscanf(token, SCANFORMAT, &(stag_data->th_im)) != 1)
+					if (sscanf(token, SCANFORMAT, &(stag_data.th_im)) != 1)
 					{
 						input_error++;
 						error_string = sformatf(
@@ -436,21 +441,21 @@ read_transport(void)
 			opt_save = OPTION_DEFAULT;
 			break;
 		case 26:				/* dump */
+		{
 			dump_in = TRUE;
-			next_char_save = next_char;
-			if (copy_token(file_name, &next_char, &l) == EMPTY)
-				strcpy(file_name, "phreeqc.dmp");
-			else
+			std::string temp_name(next_char);
+			string_trim(temp_name);
+			if (temp_name.size() > 0)
 			{
-				string_trim(next_char_save);
-				strcpy(file_name, next_char_save);
+				file_name = temp_name;
 			}
 			opt_save = OPTION_DEFAULT;
 			break;
+		}
 		case 27:				/* output */
 		case 28:				/* output_frequency */
 		case 34:				/* print_frequency */
-			sscanf(next_char, "%d", &print_modulus);
+			(void)sscanf(next_char, "%d", &print_modulus);
 			opt_save = OPTION_DEFAULT;
 			if (print_modulus <= 0)
 			{
@@ -463,7 +468,7 @@ read_transport(void)
 		case 31:				/* dump_frequency */
 			dump_in = TRUE;
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, "%d", &dump_modulus);
+				(void)sscanf(token, "%d", &dump_modulus);
 			else
 			{
 				warning_msg("Expected integer value for dump_frequency.");
@@ -474,7 +479,7 @@ read_transport(void)
 		case 32:				/* dump_restart */
 			dump_in = TRUE;
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, "%d", &transport_start);
+				(void)sscanf(token, "%d", &transport_start);
 			else
 			{
 				warning_msg
@@ -489,7 +494,7 @@ read_transport(void)
 			break;
 		case 36:				/* initial_time */
 			if (copy_token(token, &next_char, &l) == DIGIT)
-				sscanf(token, SCANFORMAT, &initial_total_time);
+				(void)sscanf(token, SCANFORMAT, &initial_total_time);
 			{
 				std::string stdtoken;
 				j = copy_token(stdtoken, &next_char);
@@ -672,7 +677,7 @@ read_transport(void)
 		case 45:                /* current     */
 			if (copy_token(token, &next_char, &l) == DIGIT)
 			{
-				sscanf(token, SCANFORMAT, &fix_current);
+				(void)sscanf(token, SCANFORMAT, &fix_current);
 //				fix_current = fabs(fix_current);
 			}
 			else
@@ -681,6 +686,50 @@ read_transport(void)
 				fix_current = 0.0;
 			}
 			opt_save = OPTION_DEFAULT;
+			break;
+		case 46:				/* implicit diffusion */
+			copy_token(token, &next_char, &l);
+			str_tolower(token);
+			if (strstr(token, "f") == token)
+				implicit = FALSE;
+			else if (strstr(token, "t") == token)
+				implicit = TRUE;
+			else
+			{
+				input_error++;
+				error_msg
+				("Expected flag for implicit diffusion calc`s: 'true' or 'false'.",
+					CONTINUE);
+			}
+			if (copy_token(token, &next_char, &l) == DIGIT)
+			{
+				(void)sscanf(token, SCANFORMAT, &max_mixf);
+			}
+			else
+			{
+				//warning_msg("Expected the maximal value for the mixfactor (= D * Dt / Dx^2) in implicit calc`s of diffusion.");
+				max_mixf = 1.0;
+			}
+			min_dif_LM = -30.0;
+			if (copy_token(token, &next_char, &l) != EMPTY)
+			{
+				/* minimal moles for diffusion */
+				if (sscanf(token, SCANFORMAT, &min_dif_LM) != 1)
+				{
+					input_error++;
+					error_string = sformatf(
+						"Expected the minimal log10(molality) for including a species in multicomponent diffusion,\n   taking -30.0");
+					warning_msg(error_string);
+					break;
+				}
+			}
+			opt_save = OPTION_DEFAULT;
+			break;
+		case 47:				/* same_model */
+			same_model_temp =
+				read_list_ints_range(&next_char, &count_same_model, FALSE,
+					same_model_temp);
+			opt_save = 47;
 			break;
 		}
 		if (return_value == EOF || return_value == KEYWORD)
@@ -694,8 +743,8 @@ read_transport(void)
 		max_cells = count_length;
 	if (count_disp > max_cells)
 		max_cells = count_disp;
-	//if (count_por > max_cells)
-	//	max_cells = count_por;
+	if (count_por > max_cells * (1 + stag_data.count_stag))
+		max_cells = (int)ceil(((double)count_por / (1 + (double)stag_data.count_stag)));
 	if (max_cells > count_cells)
 	{
 		if (max_cells == count_length)
@@ -712,22 +761,21 @@ read_transport(void)
 				count_disp);
 			warning_msg(token);
 		}
-		//else
-		//{
-		//	sprintf(token,
-		//		"Number of cells is increased to number of porosities %d.",
-		//		count_por);
-		//	warning_msg(token);
-		//}
+		else
+		{
+			sprintf(token,
+				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
+				(int) ceil(((double)count_por / (1 + (double)stag_data.count_stag))));
+			warning_msg(token);
+		}
 	}
 	/*
 	*   Allocate space for cell_data
 	*/
-	int all_cells_now = max_cells * (1 + stag_data->count_stag) + 2;
-	space((void **)((void *)&cell_data), all_cells_now, &cell_data_max_cells,
-		sizeof(struct cell_data));
-
-	// initialize new cells
+	int all_cells_now = max_cells * (1 + stag_data.count_stag) + 2;
+	cell_data.resize(all_cells_now); // new classes initialized by global_structures.h
+	// But first two previously allocated for Change_Surf, so may
+	// need to reinitialize
 	if (all_cells_now > all_cells)
 	{
 		for (int i = all_cells; i < all_cells_now; i++)
@@ -741,9 +789,10 @@ read_transport(void)
 			cell_data[i].potV = 0;
 			cell_data[i].punch = FALSE;
 			cell_data[i].print = FALSE;
+			cell_data[i].same_model = FALSE;
 		}
-		all_cells = all_cells_now;
 	}
+	all_cells = all_cells_now;
 
 	/*
 	*   Fill in data for lengths
@@ -771,7 +820,7 @@ read_transport(void)
 				"Cell-lengths were read for %d cells. Last value is used till cell %d.",
 				count_length, max_cells);
 			warning_msg(error_string);
-			for (i = count_length; i <= max_cells; i++)
+			for (size_t i = count_length; i <= max_cells; i++)
 				cell_data[i + 1].length = length[count_length - 1];
 		}
 	}
@@ -817,7 +866,7 @@ read_transport(void)
 	*/
 	if (count_por == 0)
 	{
-		if (old_cells < all_cells && multi_Dflag && simul_tr == 1)
+		if (old_cells < all_cells && multi_Dflag /*&& simul_tr == 1*/)
 		{
 			multi_Dpor = (multi_Dpor < 1e-10 ? 1e-10 : multi_Dpor);
 			if (multi_Dpor > 1e-10)
@@ -827,34 +876,51 @@ read_transport(void)
 				error_string = sformatf(
 				"No porosities were read; set to minimal value of 1e-10 for -multi_D.");
 			warning_msg(error_string);
-			for (i = 1; i < all_cells; i++)
+			if (simul_tr == 1)
+				j = 1;
+			else
+				j = old_cells + 1;
+			for (i = j; i < all_cells; i++)
 				cell_data[i].por = multi_Dpor;
 		}
 	}
 	else
 	{
-		if ((stag_data->exch_f > 0) && (stag_data->count_stag == 1))
+		if ((stag_data.exch_f > 0) && (stag_data.count_stag == 1))
 		{
 			error_string = sformatf(
 				"Mobile porosities were read, but mobile/immobile porosity was also defined in -stagnant. Using the values from -stagnant for mobile/immobile exchange and tortuosity factors.");
 			warning_msg(error_string);
 			for (i = 1; i <= max_cells; i++)
-				cell_data[i].por = stag_data->th_m;
+				cell_data[i].por = stag_data.th_m;
 			for (i++; i <= 2 * max_cells + 1; i++)
-				cell_data[i].por = stag_data->th_im;
+				cell_data[i].por = stag_data.th_im;
 		}
 		else
 		{
 			for (i = 1; i <= count_por; i++)
-				cell_data[i].por = pors[i - 1];
-			if (max_cells > count_por)
 			{
+				if (i == max_cells + 1)
+					continue;
+				cell_data[i].por = pors[i - 1];
+			}
+			if (all_cells - 2 > count_por)
+			{
+				int st = stag_data.count_stag ? 1 : 0;
 				error_string = sformatf(
 					"Porosities were read for %d cells. Last value is used till cell %d.",
-					count_por, all_cells - 1);
+					count_por, all_cells - st);
 				warning_msg(error_string);
-				for (i = count_por; i < all_cells; i++)
-					cell_data[i + 1].por = pors[count_por - 1];
+				for (i = count_por; i < all_cells - st; i++)
+				{
+					//if (i == max_cells)
+					//	continue;
+					//assert((i+1) < all_cells);
+					if ((i+1) < all_cells)
+					{
+						cell_data[i + 1].por = pors[count_por - 1];
+					}
+				}
 			}
 		}
 	}
@@ -875,12 +941,12 @@ read_transport(void)
 	/*
 	*  Account for stagnant cells
 	*/
-	if (stag_data->count_stag > 0)
+	if (stag_data.count_stag > 0)
 	{
-		max_cells = count_cells * (1 + stag_data->count_stag) + 2;
+		max_cells = count_cells * (1 + stag_data.count_stag) + 2;
 		for (i = 1; i <= count_cells; i++)
 		{
-			for (l = 1; l <= stag_data->count_stag; l++)
+			for (l = 1; l <= stag_data.count_stag; l++)
 				cell_data[i + 1 + l * count_cells].mid_cell_x =
 				cell_data[i].mid_cell_x;
 		}
@@ -905,7 +971,7 @@ read_transport(void)
 				cell_data[punch_temp[i]].punch = TRUE;
 		}
 	}
-	else if (simul_tr == 1)
+	else if (simul_tr == 1 || old_cells != count_cells)
 		for (i = 0; i < all_cells; i++)
 			cell_data[i].punch = TRUE;
 	/*
@@ -928,9 +994,32 @@ read_transport(void)
 				cell_data[print_temp[i]].print = TRUE;
 		}
 	}
-	else if (simul_tr == 1)
+	else if (simul_tr == 1 || old_cells != count_cells)
 		for (i = 0; i < all_cells; i++)
 			cell_data[i].print = TRUE;
+	/*
+	*   Fill in data for same_model
+	*/
+	if (count_same_model != 0)
+	{
+		for (i = 0; i < all_cells; i++)
+			cell_data[i].same_model = FALSE;
+		for (i = 0; i < count_same_model; i++)
+		{
+			if (same_model_temp[i] > all_cells - 1 || same_model_temp[i] < 0)
+			{
+				error_string = sformatf(
+					"Cell number for same_model is out of range, %d. Request ignored.",
+					same_model_temp[i]);
+				warning_msg(error_string);
+			}
+			else
+				cell_data[same_model_temp[i]].same_model = TRUE;
+		}
+	}
+	else if (simul_tr == 1 || old_cells != count_cells)
+		for (i = 0; i < all_cells; i++)
+			cell_data[i].same_model = FALSE;
 //#define OLD_POROSITY
 #if defined(OLD_POROSITY)
 	/*
@@ -1002,9 +1091,9 @@ read_transport(void)
 	*/
 	if (heat_diffc < 0)
 		heat_diffc = diffc;
-	else if (stag_data->count_stag == 1)
+	else if (stag_data.count_stag == 1)
 	{
-		if (stag_data->exch_f > 0)
+		if (stag_data.exch_f > 0)
 		{
 			if (diffc <= 0 && heat_diffc > 0)
 			{
@@ -1013,7 +1102,7 @@ read_transport(void)
 					"Must enter diffusion coefficient (-diffc) when modeling thermal diffusion.");
 				error_msg(error_string, CONTINUE);
 			}
-			else if (heat_diffc > diffc)
+			else if (heat_diffc > diffc && !implicit)
 			{
 				error_string = sformatf(
 					"Thermal diffusion is calculated assuming exchange factor was for\n\t effective (non-thermal) diffusion coefficient = %e.",
@@ -1023,7 +1112,7 @@ read_transport(void)
 		}
 		else
 		{
-			if (heat_diffc > diffc)
+			if (heat_diffc > diffc && !implicit)
 			{
 				input_error++;
 				error_string = sformatf(
@@ -1032,7 +1121,7 @@ read_transport(void)
 			}
 		}
 	}
-	else if (stag_data->count_stag > 1 && heat_diffc > diffc)
+	else if (stag_data.count_stag > 1 && heat_diffc > diffc)
 	{
 		input_error++;
 		error_string = sformatf(
@@ -1047,6 +1136,7 @@ read_transport(void)
 	pors = (LDBLE *)free_check_null(pors);
 	punch_temp = (int *)free_check_null(punch_temp);
 	print_temp = (int *)free_check_null(print_temp);
+	same_model_temp = (int *)free_check_null(same_model_temp);
 
 	if (dump_in == TRUE)
 	{
@@ -1058,7 +1148,7 @@ read_transport(void)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
+read_line_LDBLEs(const char* next_char, LDBLE ** d, int *count_d, int *count_alloc)
 /* ---------------------------------------------------------------------- */
 {
 	int i, j, l, n;
@@ -1079,7 +1169,7 @@ read_line_LDBLEs(char *next_char, LDBLE ** d, int *count_d, int *count_alloc)
 		}
 		else
 		{
-			sscanf(token, SCANFORMAT, &value);
+			(void)sscanf(token, SCANFORMAT, &value);
 			n = 1;
 		}
 		for (;;)

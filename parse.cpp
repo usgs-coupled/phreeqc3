@@ -1,10 +1,17 @@
 #include "Phreeqc.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
+parse_eq(char* eqn, std::vector<class elt_list>& new_elt_list, int association)
 /* ---------------------------------------------------------------------- */
 /*
  *   function to break equation up into component species
@@ -26,69 +33,69 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 	int i;
 	LDBLE coef, l_z;
 	char c;
-	char *ptr;
+	const char* cptr;
 	char token[MAX_LENGTH];
 
 	paren_count = 0;
-/*
- *   Remove white space
- */
+	/*
+	 *   Remove white space
+	 */
 	squeeze_white(eqn);
-/*
- *   Check for illegal characters
- */
+	/*
+	 *   Check for illegal characters
+	 */
 	for (i = 0; (c = eqn[i]) != '\0'; i++)
 	{
 		if (islegit(c) == FALSE)
 		{
-			error_string = sformatf( "Character is not allowed,\
+			error_string = sformatf("Character is not allowed,\
  %c (octal: %o).", c, c);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
 	}
 
-/*
- *   Find coefficients, name, and charge for each species for lhs
- */
+	/*
+	 *   Find coefficients, name, and charge for each species for lhs
+	 */
 	count_trxn = 0;
 	trxn.dz[0] = trxn.dz[1] = trxn.dz[2] = 0.0;
-	ptr = eqn;
-	c = ptr[0];
+	cptr = eqn;
+	c = cptr[0];
 	for (;;)
 	{
 		if (c == '=')
 			break;
 		if (c == '\0')
 		{
-			error_string = sformatf( "Equation has no equal sign.\n\t%s", eqn);
+			error_string = sformatf("Equation has no equal sign.\n\t%s", eqn);
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		if (get_species(&ptr) == ERROR)
+		if (get_species(&cptr) == ERROR)
 		{
 			return (ERROR);
 		}
-		c = ptr[0];
+		c = cptr[0];
 		if (association == FALSE)
 		{
 			trxn.token[count_trxn].coef *= -1.0;
 		}
 		count_trxn++;
 	}
-/*
- *   Get coefficient, name, and charge of species for dissociation reaction
- */
-	ptr++;
+	/*
+	 *   Get coefficient, name, and charge of species for dissociation reaction
+	 */
+	cptr++;
 	if (association == TRUE)
 	{
-		if (get_species(&ptr) == ERROR)
+		if (get_species(&cptr) == ERROR)
 		{
 			return (ERROR);
 		}
 		trxn.token[count_trxn].coef *= -1.0;
 		/*   Swap species into first structure position */
-		const char * char_ptr = trxn.token[0].name;
+		const char* char_ptr = trxn.token[0].name;
 		coef = trxn.token[0].coef;
 		l_z = trxn.token[0].z;
 		trxn.token[0].name = trxn.token[count_trxn].name;
@@ -99,77 +106,66 @@ parse_eq(char *eqn, struct elt_list **elt_ptr, int association)
 		trxn.token[count_trxn].z = l_z;
 		count_trxn++;
 	}
-/*
- *   Get reaction species from rhs of equation
- */
-	c = ptr[0];
+	/*
+	 *   Get reaction species from rhs of equation
+	 */
+	c = cptr[0];
 	for (;;)
 	{
 		if (c == '\0')
 			break;
-		if (get_species(&ptr) == ERROR)
+		if (get_species(&cptr) == ERROR)
 		{
 			return (ERROR);
 		}
-		c = ptr[0];
+		c = cptr[0];
 		if (association == TRUE)
 		{
 			trxn.token[count_trxn].coef *= -1.0;
 		}
 		count_trxn++;
 	}
-/*
- *   Sort list of reaction species
- */
+	/*
+	 *   Sort list of reaction species
+	 */
 	trxn_sort();
-/*
- *   Get elements in species or mineral formula
- */
+	/*
+	 *   Get elements in species or mineral formula
+	 */
 	count_elts = 0;
 	strcpy(token, trxn.token[0].name);
 	replace("(s)", "", token);
 	replace("(S)", "", token);
 	replace("(g)", "", token);
 	replace("(G)", "", token);
-	char *char_ptr = token;
+	const char* char_ptr = token;
 
 	if (get_elts_in_species(&char_ptr, trxn.token[0].coef) == ERROR)
 	{
 		return (ERROR);
 	}
-/*
- *   Sort elements in reaction and combine
- */
-	qsort(elt_list, (size_t) count_elts, (size_t) sizeof(struct elt_list),
-		  elt_list_compare);
+	/*
+	 *   Sort elements in reaction and combine
+	 */
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
-/*
- *   Malloc space and store element data for return
- */
-	*elt_ptr =
-		(struct elt_list *) PHRQ_malloc((size_t) (count_elts + 1) *
-										sizeof(struct elt_list));
-	if (*elt_ptr == NULL)
+	/*
+	 *   Malloc space and store element data for return
+	 */
+	new_elt_list.resize(count_elts + 1);
+	for (i = 0; i < count_elts; i++)
 	{
-		malloc_error();
+		new_elt_list[i].elt = elt_list[i].elt;
+		new_elt_list[i].coef = -elt_list[i].coef;
 	}
-	else
-	{
-		for (i = 0; i < count_elts; i++)
-		{
-			(*elt_ptr)[i].elt = elt_list[i].elt;
-			(*elt_ptr)[i].coef = -elt_list[i].coef;
-		}
-		(*elt_ptr)[count_elts].elt = NULL;
-	}
-/*
- *   Debugging print of parsed equation
-	trxn_print();
- */
+	new_elt_list[count_elts].elt = NULL;
+
+	/*
+	 *   Debugging print of parsed equation
+		trxn_print();
+	 */
 	return (OK);
 }
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 check_eqn(int association)
@@ -216,20 +212,15 @@ check_eqn(int association)
 	for (i = 0; i < count_trxn; i++)
 	{
 		sumcharge += (trxn.token[i].coef) * (trxn.token[i].z);
-		char * temp_name = string_duplicate(trxn.token[i].name);
-		char *t_ptr = temp_name;
+		const char* t_ptr = trxn.token[i].name;
 		if (get_elts_in_species(&t_ptr, trxn.token[i].coef) == ERROR)
 		{
-			free_check_null(temp_name);
 			return (ERROR);
 		}
-		free_check_null(temp_name);
 	}
 /*
  *   Sort elements in reaction and combine
  */
-	qsort(elt_list, (size_t) count_elts, (size_t) sizeof(struct elt_list),
-		  elt_list_compare);
 	if (elt_list_combine() == ERROR)
 		return (ERROR);
 /*
@@ -288,7 +279,7 @@ get_charge(char *charge, LDBLE * l_z)
  */
 {
 	int i;
-	char *ptr;
+	char* ptr;
 	char c, c1;
 /*
  *   Charge is zero
@@ -338,6 +329,7 @@ get_charge(char *charge, LDBLE * l_z)
 				{
 					if (*ptr != '0')
 					{
+						char* ptr;
 						*l_z = strtod(charge, &ptr);
 						return (OK);
 					}
@@ -390,7 +382,7 @@ get_charge(char *charge, LDBLE * l_z)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_coef(LDBLE * coef, char **eqnaddr)
+get_coef(LDBLE * coef, const char **eqnaddr)
 /* ---------------------------------------------------------------------- */
 /*
  *   Function reads through eqn and determines the coefficient of the next
@@ -409,12 +401,14 @@ get_coef(LDBLE * coef, char **eqnaddr)
 {
 	int i;
 	char c, c1;
-	char *ptr, *ptr1, *rest;
+	const char* cptr;
+	const char* rest;
+	char* ptr1;
 	char token[MAX_LENGTH];;
 
 	rest = *eqnaddr;
-	ptr = *eqnaddr;				/* address of a position in eqn */
-	c = *ptr;					/* character in eqn */
+	cptr = *eqnaddr;				/* address of a position in eqn */
+	c = *cptr;					/* character in eqn */
 	*coef = 0.0;
 /*
  *   No leading sign or number
@@ -428,12 +422,12 @@ get_coef(LDBLE * coef, char **eqnaddr)
 /*
  *   Leading +, no digits
  */
-	c1 = *(ptr + 1);
+	c1 = *(cptr + 1);
 	if (c == '+' &&
 		(isalpha((int) c1) ||
 		 (c1 == '(') || (c1 == ')') || (c1 == '[') || (c1 == ']')))
 	{
-		*eqnaddr = ++ptr;
+		*eqnaddr = ++cptr;
 		*coef = 1.0;
 		return (OK);
 	}
@@ -444,7 +438,7 @@ get_coef(LDBLE * coef, char **eqnaddr)
 		(isalpha((int) c1) ||
 		 (c1 == '(') || (c1 == ')') || (c1 == '[') || (c1 == ']')))
 	{
-		*eqnaddr = ++ptr;
+		*eqnaddr = ++cptr;
 		*coef = -1.0;
 		return (OK);
 	}
@@ -464,10 +458,10 @@ get_coef(LDBLE * coef, char **eqnaddr)
 				error_msg(error_string, CONTINUE);
 				return (ERROR);
 			}
-			c = *(++ptr);
+			c = *(++cptr);
 		}
 		token[i] = '\0';
-		*eqnaddr = ptr;
+		*eqnaddr = cptr;
 		errno = 0;
 		*coef = strtod(token, &ptr1);
 		if ((errno == ERANGE) || (*ptr1 != '\0'))
@@ -490,7 +484,7 @@ get_coef(LDBLE * coef, char **eqnaddr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_elt(char **t_ptr, char *element, int *i)
+get_elt(const char** t_ptr, std::string& element, int* i)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads an element name out of the equation string.
@@ -506,29 +500,30 @@ get_elt(char **t_ptr, char *element, int *i)
 {
 	char c;
 
+	element.clear();
 	c = *(*t_ptr)++;
 	if (c == '\0')
 	{
 		error_string = sformatf(
-				"Empty string in get_elt.  Expected an element name.");
+			"Empty string in get_elt.  Expected an element name.");
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-/*
- *   Load name into char array element
- */
-	element[0] = c;
+	/*
+	 *   Load name into char array element
+	 */
+	element.push_back(c);
 	*i = 1;
 	if (c == '[')
 	{
 		while ((c = (**t_ptr)) != ']')
 		{
-			element[*i] = c;
+			element.push_back(c);
 			(*i)++;
 			(*t_ptr)++;
 			if ((c = (**t_ptr)) == ']')
 			{
-				element[*i] = c;
+				element.push_back(c);
 				(*i)++;
 				(*t_ptr)++;
 				break;
@@ -540,29 +535,28 @@ get_elt(char **t_ptr, char *element, int *i)
 				break;
 			}
 		}
-		while (islower((int) (c = (**t_ptr))) || c == '_')
+		while (islower((int)(c = (**t_ptr))) || c == '_')
 		{
-			element[*i] = c;
+			element.push_back(c);
 			(*i)++;
 			(*t_ptr)++;
 		}
 	}
 	else
 	{
-		while (islower((int) (c = (**t_ptr))) || c == '_')
+		while (islower((int)(c = (**t_ptr))) || c == '_')
 		{
-			element[*i] = c;
+			element.push_back(c);
 			(*i)++;
 			(*t_ptr)++;
 		}
 	}
-	element[*i] = '\0';
 	return (OK);
 }
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_elts_in_species(char **t_ptr, LDBLE coef)
+get_elts_in_species(const char **t_ptr, LDBLE coef)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -576,11 +570,12 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
  *                  output, is next position to start looking
  *         coef     input, coefficient to multiply subscripts by
  */
-	int i, count, l;
+	int l;
+	size_t count;
 	char c, c1;
 	LDBLE d;
-	char element[MAX_LENGTH];
-
+	std::string element;
+	const char** t_ptr_save = t_ptr;
 	while (((c = **t_ptr) != '+') && (c != '-') && (c != '\0'))
 	{
 		/* close parenthesis */
@@ -607,12 +602,11 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize(count_elts + 1);
 			}
-			elt_list[count_elts].elt = element_store(element);
+			elt_list[count_elts].elt = element_store(element.c_str());
 			if (get_num(t_ptr, &d) == ERROR)
 			{
 				return (ERROR);
@@ -622,10 +616,9 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 /*
  *   Expand working space for elements if necessary
  */
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize(count_elts + 1);
 			}
 			continue;
 		}
@@ -650,7 +643,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -671,7 +664,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -689,7 +682,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 	}
 	if (paren_count != 0)
 	{
-		error_string = sformatf( "Unbalanced parentheses.");
+		error_string = sformatf( "Unbalanced parentheses: %s", *t_ptr_save);
 		error_msg(error_string, CONTINUE);
 		input_error++;
 		return (ERROR);
@@ -699,7 +692,7 @@ get_elts_in_species(char **t_ptr, LDBLE coef)
 
 /* ---------------------------------------------------------------------- */
  int Phreeqc::
-get_secondary(char **t_ptr, char *element, int *i)
+get_secondary(const char **t_ptr, char *element, int *i)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads an element name out of the equation string.
@@ -715,7 +708,7 @@ get_secondary(char **t_ptr, char *element, int *i)
 {
 	int j;
 	char c;
-	char *ptr;
+	const char* cptr;
 
 	c = *(*t_ptr)++;
 	if (c == '\0')
@@ -773,7 +766,7 @@ get_secondary(char **t_ptr, char *element, int *i)
  *   Check if secondary master species element
  */
 	j = *i;
-	ptr = *t_ptr;
+	cptr = *t_ptr;
 	if (c == '(')
 	{
 		/* copy parenthesis */
@@ -803,7 +796,7 @@ get_secondary(char **t_ptr, char *element, int *i)
 		if (c != ')')
 		{
 			*i = j;
-			*t_ptr = ptr;
+			*t_ptr = cptr;
 			/* put in closing parenthesis */
 		}
 		else
@@ -819,7 +812,7 @@ get_secondary(char **t_ptr, char *element, int *i)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_secondary_in_species(char **t_ptr, LDBLE coef)
+get_secondary_in_species(const char **t_ptr, LDBLE coef)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -833,11 +826,12 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
  *                  output, is next position to start looking
  *         coef     input, coefficient to multiply subscripts by
  */
-	int i, count, l;
+	int l;
+	size_t count;
 	char c, c1;
 	LDBLE d;
 	char element[MAX_LENGTH];
-
+	const char** t_ptr_save = t_ptr;
 	while (((c = **t_ptr) != '+') && (c != '-') && (c != '\0'))
 	{
 		/* close parenthesis */
@@ -875,10 +869,9 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 /*
  *   Expand working space for elements if necessary
  */
-			if (count_elts >= max_elts)
+			if (count_elts >= (int)elt_list.size())
 			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					  sizeof(struct elt_list));
+				elt_list.resize(count_elts + 1);
 			}
 			continue;
 		}
@@ -903,7 +896,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -924,7 +917,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 			{
 				return (ERROR);
 			}
-			for (i = count; i < count_elts; i++)
+			for (size_t i = count; i < count_elts; i++)
 			{
 				elt_list[i].coef *= d;
 			}
@@ -941,7 +934,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 	}
 	if (paren_count != 0)
 	{
-		error_string = sformatf( "Unbalanced parentheses.");
+		error_string = sformatf("Unbalanced parentheses: %s", *t_ptr_save);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
@@ -950,7 +943,7 @@ get_secondary_in_species(char **t_ptr, LDBLE coef)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_num(char **t_ptr, LDBLE * num)
+get_num(const char **t_ptr, LDBLE * num)
 /* ---------------------------------------------------------------------- */
 /*
  *      Function reads through a string looking for leading numeric field
@@ -970,7 +963,7 @@ get_num(char **t_ptr, LDBLE * num)
 {
 	int i, decimal;
 	char c;
-	char *ptr1;
+	char* ptr1;
 	char token[MAX_LENGTH];
 
 	*num = 1.0;
@@ -1013,7 +1006,7 @@ get_num(char **t_ptr, LDBLE * num)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_species(char **ptr)
+get_species(const char **cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*   Function reads next species out of the equation, including optional
@@ -1021,29 +1014,26 @@ get_species(char **ptr)
  *   store in trxn.token[count].
  *
  *   Arguments:
- *    **ptr       input, points to the position in the equation to pick up the species.
+ *    **cptr       input, points to the position in the equation to pick up the species.
  *                output, points to the next character after the species charge.
  *
  */
-	char string[MAX_LENGTH];
+	std::string string;
 	int l;
 
-	if (count_trxn + 1 >= max_trxn)
-	{
-		space((void **) ((void *) &(trxn.token)), count_trxn + 1, &max_trxn,
-			  sizeof(struct rxn_token_temp));
-	}
+	if ((size_t) count_trxn + 1 > trxn.token.size()) 
+		trxn.token.resize(count_trxn + 1);
 	/* coefficient */
-	if (get_coef(&(trxn.token[count_trxn].coef), ptr) == ERROR)
+	if (get_coef(&(trxn.token[count_trxn].coef), cptr) == ERROR)
 	{
 		return (ERROR);
 	}
 	/* name and charge */
-	if (get_token(ptr, string, &trxn.token[count_trxn].z, &l) == ERROR)
+	if (get_token(cptr, string, &trxn.token[count_trxn].z, &l) == ERROR)
 	{
 		return (ERROR);
 	}
-	trxn.token[count_trxn].name = string_hsave(string);
+	trxn.token[count_trxn].name = string_hsave(string.c_str());
 	/*
 	   trxn.token[count_trxn].z = 0;
 	   trxn.token[count_trxn].s = NULL;

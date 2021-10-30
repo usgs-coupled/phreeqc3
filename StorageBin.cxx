@@ -28,6 +28,13 @@
 #include "phqalloc.h"
 #include "Use.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -184,6 +191,155 @@ cxxStorageBin::Add(cxxStorageBin &src, int n)
 	{
 		this->Set_Pressure(n, src.Get_Pressure(n));
 	}
+}
+void
+cxxStorageBin::Add_uz(cxxStorageBin &uzbin)
+{
+	cxxMix mx;
+	mx.Add(0, 1.0);
+	mx.Add(1, 1.0);
+
+	// Solution
+
+	// Exchange
+	{
+		std::map<int, cxxExchange>::iterator it_uz = uzbin.Get_Exchangers().begin();
+		std::map<int, cxxExchange> temp_map;
+		for (; it_uz != uzbin.Get_Exchangers().end(); it_uz++)
+		{
+			int n_user = it_uz->second.Get_n_user();
+			std::map < int, cxxExchange >::iterator it_sz = this->Exchangers.find(n_user);
+			if (it_sz == this->Exchangers.end())
+			{
+				this->Exchangers[n_user] = it_uz->second;
+			}
+			else
+			{
+				temp_map[0] = it_uz->second;
+				temp_map[1] = it_sz->second;
+				cxxExchange temp_entity(temp_map, mx, n_user);
+				this->Exchangers[n_user] = temp_entity;
+			}
+		}
+	}
+
+	// gas_phase
+	{
+		std::map<int, cxxGasPhase>::iterator it_uz = uzbin.Get_GasPhases().begin();
+		std::map<int, cxxGasPhase> temp_map;
+		for (; it_uz != uzbin.Get_GasPhases().end(); it_uz++)
+		{
+			int n_user = it_uz->second.Get_n_user();
+			std::map < int, cxxGasPhase >::iterator it_sz = this->GasPhases.find(n_user);
+			if (it_sz == this->GasPhases.end())
+			{
+				this->GasPhases[n_user] = it_uz->second;
+			}
+			else
+			{
+				temp_map[0] = it_uz->second;
+				temp_map[1] = it_sz->second;
+				cxxGasPhase temp_entity(temp_map, mx, n_user);
+				this->GasPhases[n_user] = temp_entity;
+			}
+		}
+	}
+
+	// kinetics
+	{
+		std::map<int, cxxKinetics>::iterator it_uz = uzbin.Get_Kinetics().begin();
+		std::map<int, cxxKinetics> temp_map;
+		for (; it_uz != uzbin.Get_Kinetics().end(); it_uz++)
+		{
+			int n_user = it_uz->second.Get_n_user();
+			std::map < int, cxxKinetics >::iterator it_sz = this->Kinetics.find(n_user);
+			if (it_sz == this->Kinetics.end())
+			{
+				this->Kinetics[n_user] = it_uz->second;
+			}
+			else
+			{
+				temp_map[0] = it_uz->second;
+				temp_map[1] = it_sz->second;
+				cxxKinetics temp_entity(temp_map, mx, n_user);
+				this->Kinetics[n_user] = temp_entity;
+			}
+		}
+	}
+
+	// pp_assemblage
+	{
+		std::map<int, cxxPPassemblage>::iterator it_uz = uzbin.Get_PPassemblages().begin();
+		std::map<int, cxxPPassemblage> temp_map;
+		for (; it_uz != uzbin.Get_PPassemblages().end(); it_uz++)
+		{
+			int n_user = it_uz->second.Get_n_user();
+			std::map < int, cxxPPassemblage >::iterator it_sz = this->PPassemblages.find(n_user);
+			if (it_sz == this->PPassemblages.end())
+			{
+				this->PPassemblages[n_user] = it_uz->second;
+			}
+			else
+			{
+				temp_map[0] = it_uz->second;
+				temp_map[1] = it_sz->second;
+				cxxPPassemblage temp_entity(temp_map, mx, n_user);
+				this->PPassemblages[n_user] = temp_entity;
+			}
+		}
+	}
+
+	// ss_assemblage
+	{
+		std::map<int, cxxSSassemblage>::iterator it_uz = uzbin.Get_SSassemblages().begin();
+		std::map<int, cxxSSassemblage> temp_map;
+		for (; it_uz != uzbin.Get_SSassemblages().end(); it_uz++)
+		{
+			int n_user = it_uz->second.Get_n_user();
+			std::map < int, cxxSSassemblage >::iterator it_sz = this->SSassemblages.find(n_user);
+			if (it_sz == this->SSassemblages.end())
+			{
+				this->SSassemblages[n_user] = it_uz->second;
+			}
+			else
+			{
+				temp_map[0] = it_uz->second;
+				temp_map[1] = it_sz->second;
+				cxxSSassemblage temp_entity(temp_map, mx, n_user);
+				this->SSassemblages[n_user] = temp_entity;
+			}
+		}
+	}
+
+	// surface
+	{
+		std::map<int, cxxSurface>::iterator it_uz = uzbin.Get_Surfaces().begin();
+		std::map<int, cxxSurface> temp_map;
+		for (; it_uz != uzbin.Get_Surfaces().end(); it_uz++)
+		{
+			int n_user = it_uz->second.Get_n_user();
+			std::map < int, cxxSurface >::iterator it_sz = this->Surfaces.find(n_user);
+			if (it_sz == this->Surfaces.end())
+			{
+				this->Surfaces[n_user] = it_uz->second;
+			}
+			else
+			{
+				temp_map[0] = it_uz->second;
+				temp_map[1] = it_sz->second;
+				cxxSurface temp_entity(temp_map, mx, n_user);
+				this->Surfaces[n_user] = temp_entity;
+			}
+		}
+	}
+
+	// mix
+
+	// reaction
+
+	// reaction temperature
+
+	// reaction pressure
 }
 void
 cxxStorageBin::Copy(int destination, int source)
@@ -653,41 +809,6 @@ cxxStorageBin::Get_Pressures()
 {
 	return this->Pressures;
 }
-#ifdef SKIP
-void
-cxxStorageBin::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// StorageBin element and attributes
-	s_oss << indent0;
-	s_oss << "<mix " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_mix_gammas=\"" << this->
-		pitzer_mix_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxStorageBinComp >::const_iterator it =
-		 mixComps.begin(); it != mixComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
-
 void
 cxxStorageBin::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
@@ -794,6 +915,43 @@ cxxStorageBin::dump_raw(std::ostream & s_oss, int n, unsigned int indent, int *n
 }
 
 void
+cxxStorageBin::dump_raw_range(std::ostream & s_oss, int start, int end, unsigned int indent) const
+{
+	// Dump all data
+	s_oss.precision(DBL_DIG - 1);
+
+	// Solutions
+	Utilities::Rxn_dump_raw_range(Solutions, s_oss, start, end, indent);
+
+	// Exchange
+	Utilities::Rxn_dump_raw_range(Exchangers, s_oss, start, end, indent);
+
+	// Gas Phases
+	Utilities::Rxn_dump_raw_range(GasPhases, s_oss, start, end, indent);
+
+	// Kinetics
+	Utilities::Rxn_dump_raw_range(Kinetics, s_oss, start, end, indent);
+
+	// PPassemblage
+	Utilities::Rxn_dump_raw_range(PPassemblages, s_oss, start, end, indent);
+
+	// SSassemblage
+	Utilities::Rxn_dump_raw_range(SSassemblages, s_oss, start, end, indent);
+
+	// Surface
+	Utilities::Rxn_dump_raw_range(Surfaces, s_oss, start, end, indent);
+
+	// Mix
+	Utilities::Rxn_dump_raw_range(Mixes, s_oss, start, end, indent);
+
+	// Reactions
+	Utilities::Rxn_dump_raw_range(Reactions, s_oss, start, end, indent);
+
+	// Temperature
+	Utilities::Rxn_dump_raw_range(Temperatures, s_oss, start, end, indent);
+}
+
+void
 cxxStorageBin::read_raw(CParser & parser)
 {
 	PHRQ_io::LINE_TYPE i;
@@ -820,11 +978,21 @@ cxxStorageBin::read_raw(CParser & parser)
 				Solutions[entity.Get_n_user()] = entity;
 			}
 			break;
+		case Keywords::KEY_SOLUTION_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Solutions, parser);
+			}
+			break;
 		case Keywords::KEY_EXCHANGE_RAW:
 			{
 				cxxExchange entity(this->Get_io());
 				entity.read_raw(parser);
 				Exchangers[entity.Get_n_user()] = entity;
+			}
+			break;
+		case Keywords::KEY_EXCHANGE_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Exchangers, parser);
 			}
 			break;
 		case Keywords::KEY_GAS_PHASE_RAW:
@@ -834,6 +1002,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				GasPhases[entity.Get_n_user()] = entity;
 			}
 			break;
+		case Keywords::KEY_GAS_PHASE_MODIFY:
+			{
+				Utilities::SB_read_modify(this->GasPhases, parser);
+			}
+			break;
 		case Keywords::KEY_KINETICS_RAW:
 			{
 				cxxKinetics entity(this->Get_io());
@@ -841,7 +1014,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				Kinetics[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_KINETICS_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Kinetics, parser);
+			}
+			break;
 		case Keywords::KEY_EQUILIBRIUM_PHASES_RAW:
 			{
 				cxxPPassemblage entity(this->Get_io());
@@ -849,15 +1026,23 @@ cxxStorageBin::read_raw(CParser & parser)
 				PPassemblages[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_EQUILIBRIUM_PHASES_MODIFY:
+			{
+				Utilities::SB_read_modify(this->PPassemblages, parser);
+			}
+			break;
 		case Keywords::KEY_SOLID_SOLUTIONS_RAW:
 			{
-				cxxSSassemblage entity;
+				cxxSSassemblage entity(this->Get_io());
 				entity.read_raw(parser);
 				SSassemblages[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_SOLID_SOLUTIONS_MODIFY:
+			{
+				Utilities::SB_read_modify(this->SSassemblages, parser);
+			}
+			break;
 		case Keywords::KEY_SURFACE_RAW:
 			{
 				cxxSurface entity(this->Get_io());
@@ -865,7 +1050,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				Surfaces[entity.Get_n_user()] = entity;
 			}
 			break;
-
+		case Keywords::KEY_SURFACE_MODIFY:
+			{
+				Utilities::SB_read_modify(this->Surfaces, parser);
+			}
+			break;
 		case Keywords::KEY_REACTION_TEMPERATURE_RAW:
 			{
 				cxxTemperature entity(this->Get_io());
@@ -873,7 +1062,6 @@ cxxStorageBin::read_raw(CParser & parser)
 				Temperatures[entity.Get_n_user()] = entity;
 			}
 			break;
-
 		case Keywords::KEY_REACTION_RAW:
 			{
 				cxxReaction entity;
@@ -881,6 +1069,11 @@ cxxStorageBin::read_raw(CParser & parser)
 				Reactions[entity.Get_n_user()] = entity;
 			}
 			break;
+		case Keywords::KEY_REACTION_MODIFY:
+		{
+			Utilities::SB_read_modify(this->Reactions, parser);
+		}
+		break;
 		case Keywords::KEY_MIX_RAW:
 			{
 				cxxMix entity;
@@ -974,7 +1167,7 @@ cxxStorageBin::read_raw_keyword(CParser & parser)
 
 	case Keywords::KEY_SOLID_SOLUTIONS_RAW:
 		{
-			cxxSSassemblage entity;
+			cxxSSassemblage entity(this->Get_io());
 			entity.read_raw(parser);
 			SSassemblages[entity.Get_n_user()] = entity;
 			entity_number = entity.Get_n_user();
@@ -1097,258 +1290,6 @@ cxxStorageBin::Clear(void)
 	// Pressure
 	this->Pressures.clear();
 }
-#ifdef SKIP
-cxxSolution *
-cxxStorageBin::mix_cxxSolutions(cxxMix & mixmap)
-{
-/*
- *   mixes solutions based on cxxMix structure, returns new solution
- *   return solution must be freed by calling method
- */
-	LDBLE intensive, extensive;
-	cxxSolution *cxxsoln_ptr, *cxxsoln_ptr1;
-/*
- *   Zero out global solution data
- */
-	cxxsoln_ptr = new cxxSolution(0.0);
-/*
- *   Determine sum of mixing fractions
- */
-	extensive = 0.0;
-
-	std::map < int, LDBLE >*mixcomps = mixmap.comps();
-
-	std::map < int, LDBLE >::const_iterator it;
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
-	{
-		extensive += it->second;
-	}
-/*
- *   Add solutions 
- */
-	for (it = mixcomps->begin(); it != mixcomps->end(); it++)
-	{
-		cxxsoln_ptr1 = &((this->Solutions.find(it->first))->second);
-		if (cxxsoln_ptr1 == NULL)
-		{
-			error_string = sformatf(
-					"Solution %d not found in mix_cxxSolutions.", it->first);
-			error_msg(error_string, CONTINUE);
-			phreeqc_ptr-> input_error++;
-			return (NULL);
-		}
-		intensive = it->second / extensive;
-		cxxsoln_ptr->add(*cxxsoln_ptr1, intensive, it->second);
-	}
-	return (cxxsoln_ptr);
-}
-#endif
-
-#ifdef SKIP_OR_MOVE_TO_STRUCTURES
-struct system *
-cxxStorageBin::cxxStorageBin2system(Phreeqc * phreeqc_ptr, int n)
-		//
-		// make a system from storagebin
-		//
-{
-	struct system *system_ptr =
-		(struct system *) phreeqc_ptr-> PHRQ_malloc(sizeof(struct system));
-	if (system_ptr == NULL)
-		phreeqc_ptr-> malloc_error();
-
-	// Solutions
-
-	if (this->getSolution(n) != NULL)
-	{
-		//system_ptr->solution = (this->getSolution(n))->cxxSolution2solution(phreeqc_ptr);
-		system_ptr->solution = phreeqc_ptr-> cxxSolution2solution(this->getSolution(n));
-	}
-	else
-	{
-		system_ptr->solution = NULL;
-	}
-
-	// Exchangers
-	if (this->getExchange(n) != NULL)
-	{
-		//system_ptr->exchange = (this->getExchange(n))->cxxExchange2exchange(phreeqc_ptr);
-		system_ptr->exchange = phreeqc_ptr-> cxxExchange2exchange(this->getExchange(n));
-	}
-	else
-	{
-		system_ptr->exchange = NULL;
-	}
-
-	// GasPhases
-	if (this->getGasPhase(n) != NULL)
-	{
-		//system_ptr->gas_phase = (this->getGasPhase(n))->cxxGasPhase2gas_phase(phreeqc_ptr);
-		system_ptr->gas_phase = phreeqc_ptr-> cxxGasPhase2gas_phase(this->getGasPhase(n));
-	}
-	else
-	{
-		system_ptr->gas_phase = NULL;
-	}
-
-	// Kinetics
-	if (this->getKinetics(n) != NULL)
-	{
-		//system_ptr->kinetics = (this->getKinetics(n))->cxxKinetics2kinetics(phreeqc_ptr);
-		system_ptr->kinetics = phreeqc_ptr-> cxxKinetics2kinetics(this->getKinetics(n));
-		
-	}
-	else
-	{
-		system_ptr->kinetics = NULL;
-	}
-
-	// PPassemblages
-	if (this->getPPassemblage(n) != NULL)
-	{
-		//system_ptr->pp_assemblage =
-		//	(this->getPPassemblage(n))->cxxPPassemblage2pp_assemblage(phreeqc_ptr);
-		system_ptr->pp_assemblage =
-			phreeqc_ptr-> cxxPPassemblage2pp_assemblage(this->getPPassemblage(n));
-	}
-	else
-	{
-		system_ptr->pp_assemblage = NULL;
-	}
-
-	// SSassemblages
-	if (this->getSSassemblage(n) != NULL)
-	{
-		//system_ptr->ss_assemblage =
-		//	(this->getSSassemblage(n))->cxxSSassemblage2ss_assemblage(phreeqc_ptr);
-		system_ptr->ss_assemblage =
-			phreeqc_ptr-> cxxSSassemblage2ss_assemblage((this->getSSassemblage(n)));
-	}
-	else
-	{
-		system_ptr->ss_assemblage = NULL;
-	}
-
-	// Surfaces
-	if (this->getSurface(n) != NULL)
-	{
-		//system_ptr->surface = (this->getSurface(n))->cxxSurface2surface(phreeqc_ptr);
-		system_ptr->surface = phreeqc_ptr-> cxxSurface2surface((this->getSurface(n)));
-	}
-	else
-	{
-		system_ptr->surface = NULL;
-	}
-	return system_ptr;
-}
-#endif
-
-#ifdef SKIP
-cxxExchange *
-cxxStorageBin::mix_cxxExchange(cxxMix & mixmap)
-{
-/*
- *   mixes exchangers based on cxxMix structure, returns new exchanger
- *   return exchanger must be freed by calling method
- */
-	cxxExchange *new_exch_ptr, *old_exch_ptr;
-/*
- *   Zero out global solution data
- */
-	new_exch_ptr = new cxxExchange();
-
-	std::map < int, LDBLE >::const_iterator it_mix;
-	std::map < int, LDBLE >*mixcomps = mixmap.comps();
-
-	// Pitzer_exchange_gammas
-	it_mix = mixcomps->begin();
-	old_exch_ptr = &((this->Exchangers.find(it_mix->first))->second);
-	if (old_exch_ptr == NULL)
-	{
-		error_string = sformatf( "Exchange %d not found in mix_cxxExchange.",
-				it_mix->first);
-		error_msg(error_string, CONTINUE);
-		phreeqc_ptr-> input_error++;
-		return (NULL);
-	}
-	new_exch_ptr->set_pitzer_exchange_gammas(old_exch_ptr->
-											 get_pitzer_exchange_gammas());
-/*
- *   Make list of ExchComps
- */
-	std::vector < cxxExchComp > ec_vector;
-	std::vector < LDBLE >f_vector;
-	//
-	// make list of all exchange components and their mix fractions
-	//
-	for (it_mix = mixcomps->begin(); it_mix != mixcomps->end(); it_mix++)
-	{
-		old_exch_ptr = &((this->Exchangers.find(it_mix->first))->second);
-		if (old_exch_ptr == NULL)
-		{
-			error_string = sformatf( "Exchange %d not found in mix_cxxExchange.",
-					it_mix->first);
-			error_msg(error_string, CONTINUE);
-			phreeqc_ptr-> input_error++;
-			return (NULL);
-		}
-		//  Add exchange components to vector ec_vector
-		std::list < cxxExchComp >::const_iterator it_ec;
-		std::list < cxxExchComp > &eclist = old_exch_ptr->get_exchComps();
-		for (it_ec = eclist.begin(); it_ec != eclist.end(); it_ec++)
-		{
-			f_vector.push_back(it_mix->second);
-			//cxxExchComp ec = *it_ec;
-			//ec_vector.push_back(ec);
-			ec_vector.push_back(*it_ec);
-		}
-	}
-	//
-	// Process list to make mixture
-	//
-	char *current_formula = ec_vector.begin()->get_formula();
-	while (current_formula != NULL)
-	{
-
-		std::vector < cxxExchComp > ec_subvector;
-		std::vector < LDBLE >f_subvector;
-		std::vector < cxxExchComp >::iterator it_ec = ec_vector.begin();
-		std::vector < LDBLE >::iterator it_f = f_vector.begin();
-		current_formula = NULL;
-		for (; it_ec != ec_vector.end(); it_ec++)
-		{
-			if (*it_f != 0)
-			{
-				if (current_formula == NULL)
-					current_formula = it_ec->get_formula();
-				if (it_ec->get_formula() == current_formula)
-				{
-					ec_subvector.push_back(*it_ec);
-					f_subvector.push_back(*it_f);
-					*it_f = 0;
-					//ec_vector.erase(it_ec);
-					//f_vector.erase(it_f);
-				}
-			}
-			it_f++;
-		}
-		//
-		//  mix ec_subvector to make
-		// one exchange component
-		//
-		if (current_formula != NULL)
-		{
-			cxxExchComp new_comp(ec_subvector, f_subvector);
-			new_exch_ptr->get_exchComps().push_back(new_comp);
-		}
-	}
-	/*
-	   std::ostringstream oss;
-	   new_exch_ptr->dump_raw(oss, 0);
-	   std::cerr << oss.str();
-	 */
-	return (new_exch_ptr);
-}
-#endif
 
 cxxSystem &
 cxxStorageBin::Get_System(void)

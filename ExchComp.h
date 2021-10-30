@@ -87,14 +87,6 @@ class cxxExchComp: public PHRQ_base
 	{
 		this->formula_z = d;
 	}
-	void Set_totals(struct elt_list *e_l, int count)
-	{
-		this->totals = cxxNameDouble(e_l, count);
-	}
-	void Set_totals(struct elt_list *e_l)
-	{
-		this->totals = cxxNameDouble(e_l);
-	}
 	void Set_totals(cxxNameDouble nd)
 	{
 		this->totals = nd;

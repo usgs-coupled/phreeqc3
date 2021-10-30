@@ -1,15 +1,10 @@
-#if defined(WIN32) && !defined(__GNUC__)
-#include <windows.h>
-#if defined(PHREEQCI_GUI)
-#include "../../resource.h"
-#endif
-#else
+#if !(defined(WIN32) && !defined(__GNUC__))
 #include <assert.h>
 #define _ASSERTE assert
 #endif
 #include <stdlib.h>
-#include "PBasic.h"
 #include "Phreeqc.h"
+#include "PBasic.h"
 #include "phqalloc.h"
 #include "NameDouble.h"
 #include "Utils.h"
@@ -28,6 +23,14 @@
 #define Isspace(c)  isspace(c)	/* or "((c) == ' ')" if preferred */
 #define toklength       20
 typedef long chset[9];
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 /* Output from p2c, the Pascal-to-C translator */
 /* From input file "basic.p" */
@@ -64,18 +67,19 @@ PBasic::PBasic(Phreeqc * ptr, PHRQ_io *phrq_io)
 	nIDErrPrompt = (PBasic::IDErr)0;
 #endif
 	nErrLineNumber = 0;
+	punch_tab = true;
+	skip_punch = false;
 	// Basic commands initialized at bottom of file
 }
 PBasic::~PBasic(void)
 {
-	
 }
 
 int PBasic::
-basic_compile(char *commands, void **lnbase, void **vbase, void **lpbase)
+basic_compile(const char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -162,7 +166,7 @@ int PBasic::
 basic_renumber(char *commands, void **lnbase, void **vbase, void **lpbase)
 {								/*main */
 	int l, i;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -243,7 +247,7 @@ int PBasic::
 basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 	P_escapecode = 0;
 	P_ioresult = 0;
 	inbuf = (char *) PhreeqcPtr->PHRQ_calloc(PhreeqcPtr->max_line, sizeof(char));
@@ -315,10 +319,10 @@ basic_run(char *commands, void *lnbase, void *vbase, void *lpbase)
 }
 
 int PBasic::
-basic_main(char *commands)
+basic_main(const char *commands)
 {								/*main */
 	int l;
-	char *ptr;
+	const char *ptr;
 
 	P_escapecode = 0;
 	P_ioresult = 0;
@@ -377,7 +381,7 @@ basic_main(char *commands)
 
 /* ---------------------------------------------------------------------- */
 int PBasic::
-sget_logical_line(char **ptr, int *l, char *return_line)
+sget_logical_line(const char **ptr, int *l, char *return_line)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -721,7 +725,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
  * Note: Modification of string length may translate incorrectly [146] */
 
 /*
- *   Search hash list
+ *   Search list
  */
 					PhreeqcPtr->str_tolower(token);
 					std::map<const std::string, BASIC_TOKEN>::const_iterator item;
@@ -1035,14 +1039,6 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("SQRT");
 			break;
 
-		case tokceil:
-			output_msg("CEIL");
-			break;
-
-		case tokfloor:
-			output_msg("FLOOR");
-			break;
-
 		case toksin:
 			output_msg("SIN");
 			break;
@@ -1087,10 +1083,6 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("CHR$");
 			break;
 
-		case tokeol_:
-			output_msg("EOL$");
-			break;
-
 		case tokasc:
 			output_msg("ASC");
 			break;
@@ -1113,10 +1105,6 @@ listtokens(FILE * f, tokenrec * l_buf)
 
 		case toklet:
 			output_msg("LET");
-			break;
-
-		case tokprint:
-			output_msg("PRINT");
 			break;
 
 		case tokinput:
@@ -1187,10 +1175,6 @@ listtokens(FILE * f, tokenrec * l_buf)
 			output_msg("DIM");
 			break;
 
-		case tokerase:
-			output_msg("ERASE");
-			break;
-
 		case tokpoke:
 			output_msg("POKE");
 			break;
@@ -1213,10 +1197,6 @@ listtokens(FILE * f, tokenrec * l_buf)
 
 		case tokmerge:
 			output_msg("MERGE");
-			break;
-
-		case toksave:
-			output_msg("SAVE");
 			break;
 
 		case tokbye:
@@ -1242,312 +1222,146 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokto:
 			output_msg(" TO ");
 			break;
-
 		case tokstep:
 			output_msg(" STEP ");
 			break;
-
-		case toktc:
-			output_msg("TC");
-			break;
-
-		case tokm0:
-			output_msg("M0");
-			break;
-
-		case tokm:
-			output_msg("M");
-			break;
-
-		case tokparm:
-			output_msg("PARM");
-			break;
-
+/*
+* PHREEQC functions
+*/
 		case tokact:
 			output_msg("ACT");
 			break;
-
-		case tokchange_por:
-			output_msg("CHANGE_POR");
+		case tokadd_heading:
+			output_msg("ADD_HEADING");
 			break;
-
-		case tokget_por:
-			output_msg("GET_POR");
-			break;
-
-		case tokchange_surf:
-			output_msg("CHANGE_SURF");
-			break;
-
-		case tokporevolume:
-			output_msg("POREVOLUME");
-			break;
-
-		case tokmol:
-			output_msg("MOL");
-			break;
-
-		case tokla:
-			output_msg("LA");
-			break;
-
-		case toklm:
-			output_msg("LM");
-			break;
-
-		case toksr:
-			output_msg("SR");
-			break;
-
-		case toksi:
-			output_msg("SI");
-			break;
-
-		case toktot:
-			output_msg("TOT");
-			break;
-
-		case toktotmole:
-		case toktotmol:
-		case toktotmoles:
-			output_msg("TOTMOLE");
-			break;
-
-		case toktk:
-			output_msg("TK");
-			break;
-
-		case toktime:
-			output_msg("TIME");
-			break;
-
-		case toklog10:
-			output_msg("LOG10");
-			break;
-
-		case toksim_time:
-			output_msg("SIM_TIME");
-			break;
-
-		case tokequi:
-			output_msg("EQUI");
-			break;
-
-		case tokequi_delta:
-			output_msg("EQUI_DELTA");
-			break;
-
-		case tokgas:
-			output_msg("GAS");
-			break;
-
-		case tokpunch:
-			output_msg("PUNCH");
-			break;
-
-		case tokkin:
-			output_msg("KIN");
-			break;
-
-		case tokkin_delta:
-			output_msg("KIN_DELTA");
-			break;
-
-		case tokkin_time:
-			output_msg("KIN_TIME");
-			break;
-
-		case toks_s:
-			output_msg("S_S");
-			break;
-
-		case tokmu:
-			output_msg("MU");
-			break;
-
-		case tokosmotic:
-			output_msg("OSMOTIC");
-			break;
-
 		case tokalk:
 			output_msg("ALK");
 			break;
-
-		case toklk_species:
-			output_msg("LK_SPECIES");
+		case tokaphi:
+			output_msg("APHI"); // mole volume of a phase 
 			break;
-
-		case toklk_named:
-			output_msg("LK_NAMED");
-			break;
-
-		case toklk_phase:
-			output_msg("LK_PHASE");
-			break;
-
-		case toksum_species:
-			output_msg("SUM_SPECIES");
-			break;
-
-		case toksum_gas:
-			output_msg("SUM_GAS");
-			break;
-
-		case toksum_s_s:
-			output_msg("SUM_s_s");
-			break;
-
 		case tokcalc_value:
 			output_msg("CALC_VALUE");
 			break;
-
-		case tokdescription:
-			output_msg("DESCRIPTION");
+		case tokceil:
+			output_msg("CEIL");
 			break;
-
-		case toktitle:
-			output_msg("TITLE");
+		case tokcell_no:
+			output_msg("CELL_NO");
 			break;
-
-		case toksys:
-			output_msg("SYS");
+		case tokchange_por:
+			output_msg("CHANGE_POR");
 			break;
-
-		case tokinstr:
-			output_msg("INSTR");
+		case tokchange_surf:
+			output_msg("CHANGE_SURF");
 			break;
-
-		case tokltrim:
-			output_msg("LTRIM");
-			break;
-
-		case tokrtrim:
-			output_msg("RTRIM");
-			break;
-
-		case toktrim:
-			output_msg("TRIM");
-			break;
-
-		case tokpad:
-			output_msg("PAD");
-			break;
-
-		case tokrxn:
-			output_msg("RXN");
-			break;
-
-		case tokdist:
-			output_msg("DIST");
-			break;
-
-		case tokmisc1:
-			output_msg("MISC1");
-			break;
-
-		case tokmisc2:
-			output_msg("MISC2");
-			break;
-
-		case tokedl:
-			output_msg("EDL");
-			break;
-
-		case toksurf:
-			output_msg("SURF");
-			break;
-
-		case tokedl_species:
-			output_msg("EDL_SPECIES");
-			break;
-
-		case tokstep_no:
-			output_msg("STEP_NO");
-			break;
-
-		case toksim_no:
-			output_msg("SIM_NO");
-			break;
-
-		case toktotal_time:
-			output_msg("TOTAL_TIME");
-			break;
-
-		case tokput:
-			output_msg("PUT");
-			break;
-
-		case tokget:
-			output_msg("GET");
-			break;
-
 		case tokcharge_balance:
 			output_msg("CHARGE_BALANCE");
 			break;
-
-		case tokpercent_error:
-			output_msg("PERCENT_ERROR");
+		case tokcurrent_a:
+			output_msg("CURRENT_A");
 			break;
-
-#if defined PHREEQ98 || defined MULTICHART
+		case tokdebye_length:
+			output_msg("DEBYE_LENGTH"); // Debye-Hueckel length
+			break;
+		case tokdelta_h_phase:
+			output_msg("DELTA_H_PHASE");
+			break;
+		case tokdelta_h_species:
+			output_msg("DELTA_H_SPECIES");
+			break;
+		case tokdescription:
+			output_msg("DESCRIPTION");
+			break;
+		case tokdh_a:
+			output_msg("DH_A"); // Debye-Hueckel A
+			break;
+		case tokdh_a0:
+			output_msg("DH_A0");
+			break;
+		case tokdh_av:
+			output_msg("DH_Av"); // Debye-Hueckel Av
+			break;
+		case tokdh_b:
+			output_msg("DH_B"); // Debye-Hueckel B
+			break;
+		case tokdh_bdot:
+			output_msg("DH_BDOT");
+			break;
+		case tokdiff_c:
+			output_msg("DIFF_C");
+			break;
+		case tokdist:
+			output_msg("DIST");
+			break;
+		case tokedl:
+			output_msg("EDL");
+			break;
+		case tokedl_species:
+			output_msg("EDL_SPECIES");
+			break;
+		case tokeol_:
+			output_msg("EOL$");
+			break;
+		case tokeol_notab_:
+			output_msg("EOL_NOTAB$");
+			break;
+		case tokeps_r:
+			output_msg("EPS_R"); // dielectric constant
+			break;
+		case tokeq_frac:
+		case tokequiv_frac:
+			output_msg("EQ_FRAC");
+			break;
+		case tokequi:
+			output_msg("EQUI");
+			break;
+		case tokequi_delta:
+			output_msg("EQUI_DELTA");
+			break;
+		case tokerase:
+			output_msg("ERASE");
+			break;
+		case tokexists:
+			output_msg("EXISTS");
+			break;
+		case tokfloor:
+			output_msg("FLOOR");
+			break;
+		case tokgamma:
+			output_msg("GAMMA");
+			break;
+		case tokgas:
+			output_msg("GAS");
+			break;
+		case tokgas_p:
+			output_msg("GAS_P");
+			break;
+		case tokgas_vm:
+			output_msg("GAS_VM");
+			break;
+		case tokget:
+			output_msg("GET");
+			break;
+		case tokget_por:
+			output_msg("GET_POR");
+			break;
+		case tokgfw:
+			output_msg("GFW"); // gram formula weight of a formula
+			break;
+#if defined MULTICHART
 		case tokgraph_x:
 			output_msg("GRAPH_X");
 			break;
-
 		case tokgraph_y:
 			output_msg("GRAPH_Y");
 			break;
-
 		case tokgraph_sy:
 			output_msg("GRAPH_SY");
 			break;
 #endif
-
-#if defined MULTICHART
-		case tokplot_xy:
-			output_msg("PLOT_XY");
-			break;
-#endif
-
-		case tokcell_no:
-			output_msg("CELL_NO");
-			break;
-
-		case tokexists:
-			output_msg("EXISTS");
-			break;
-
-		case toksc:
-			output_msg("SC");
-			break;
-
-		case tokgamma:
-			output_msg("GAMMA");
-			break;
-
-		case toklg:
-			output_msg("LG");
-			break;
-
-/* VP: Density Start */
-		case tokrho:
-			output_msg("RHO");
-			break;
-		case tokrho_0:
-			output_msg("RHO_0");
-			break;
-/* VP: Density End */
-		case tokcell_volume:
-			output_msg("CELL_VOLUME");
-			break;
-		case tokcell_pore_volume:
-			output_msg("CELL_PORE_VOLUME");
-			break;
-		case tokcell_porosity:
-			output_msg("CELL_POROSITY");
-			break;
-		case tokcell_saturation:
-			output_msg("CELL_SATURATION");
+		case tokinstr:
+			output_msg("INSTR");
 			break;
 		case tokiso:
 			output_msg("ISO");
@@ -1555,20 +1369,103 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokiso_unit:
 			output_msg("ISO_UNIT");
 			break;
+		case tokiterations:
+			output_msg("ITERATIONS");
+			break;
+		case tokkappa:
+			output_msg("KAPPA"); // compressibility of pure water, d(rho)/d(P) / rho
+			break;
+		case tokkin:
+			output_msg("KIN");
+			break;
+		case tokkin_delta:
+			output_msg("KIN_DELTA");
+			break;
+		case tokkin_time:
+			output_msg("KIN_TIME");
+			break;
 		case tokkinetics_formula:
 		case tokkinetics_formula_:
 			output_msg("KINETICS_FORMULA$");
+			break;
+		case tokla:
+			output_msg("LA");
+			break;
+		case toklg:
+			output_msg("LG");
+			break;
+		case toklist_s_s:
+			output_msg("LIST_S_S");
+			break;
+		case toklk_named:
+			output_msg("LK_NAMED");
+			break;
+		case toklk_phase:
+			output_msg("LK_PHASE");
+			break;
+		case toklk_species:
+			output_msg("LK_SPECIES");
+			break;
+		case toklm:
+			output_msg("LM");
+			break;
+		case tokltrim:
+			output_msg("LTRIM");
+			break;
+		case tokm:
+			output_msg("M");
+			break;
+		case tokm0:
+			output_msg("M0");
+			break;
+		case tokmcd_jtot:
+			output_msg("MCD_JTOT");
+			break;
+		case tokmcd_jconc:
+			output_msg("MCD_JCONC");
+			break;
+		case tokmisc1:
+			output_msg("MISC1");
+			break;
+		case tokmisc2:
+			output_msg("MISC2");
+			break;
+		case tokmol:
+			output_msg("MOL");
+			break;
+		case tokmu:
+			output_msg("MU");
+			break;
+		case tokno_newline_:
+			output_msg("NO_NEWLINE$");
+			break;
+		case tokosmotic:
+			output_msg("OSMOTIC");
+			break;
+		case tokpad_:
+		case tokpad:
+			output_msg("PAD");
+			break;
+		case tokparm:
+			output_msg("PARM");
+			break;
+		case tokpercent_error:
+			output_msg("PERCENT_ERROR");
 			break;
 		case tokphase_formula:
 		case tokphase_formula_:
 			output_msg("PHASE_FORMULA$");
 			break;
-		case tokspecies_formula:
-		case tokspecies_formula_:
-			output_msg("SPECIES_FORMULA$");
-			break;			
-		case toklist_s_s:
-			output_msg("LIST_S_S");
+		case tokphase_vm:
+			output_msg("PHASE_VM"); // mole volume of a phase 
+			break;
+#if defined MULTICHART
+		case tokplot_xy:
+			output_msg("PLOT_XY");
+			break;
+#endif
+		case tokpot_v:
+			output_msg("POT_V");
 			break;
 		case tokpr_p:
 			output_msg("PR_P");
@@ -1576,69 +1473,114 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokpr_phi:
 			output_msg("PR_PHI");
 			break;
- 		case tokgas_p:
- 			output_msg("GAS_P");
- 			break;
- 		case tokgas_vm:
- 			output_msg("GAS_VM");
- 			break;
-  		case tokpressure:
-  			output_msg("PRESSURE");
-  			break;
-		case tokeps_r:
-			output_msg("EPS_R"); // dielectric constant
+		case tokpressure:
+			output_msg("PRESSURE");
 			break;
- 		case tokvm:
- 			output_msg("VM"); // mole volume of aqueous solute
- 			break;
- 		case tokphase_vm:
- 			output_msg("PHASE_VM"); // mole volume of a phase 
- 			break;
- 		case tokaphi:
- 			output_msg("APHI"); // mole volume of a phase 
- 			break;
- 		case tokdh_a:
- 			output_msg("DH_A"); // Debye-Hueckel A
- 			break;
- 		case tokdh_b:
- 			output_msg("DH_B"); // Debye-Hueckel B
- 			break;
- 		case tokdh_av:
- 			output_msg("DH_Av"); // Debye-Hueckel Av
- 			break;
- 		case tokqbrn:
- 			output_msg("QBrn"); // Q_Born, d(eps_r)/d(P)/(eps_r^2)
- 			break;
- 		case tokkappa:
- 			output_msg("KAPPA"); // compressibility of pure water, d(rho)/d(P) / rho
- 			break;
- 		case tokgfw:
- 			output_msg("GFW"); // gram formula weight of a formula
- 			break;
- 		case toksoln_vol:
- 			output_msg("SOLN_VOL"); // volume of solution
- 			break;		
-		case tokstr_f_:
-			output_msg("STR_F$");
+		case tokprint:
+			output_msg("PRINT");
 			break;
-		case tokstr_e_:
-			output_msg("STR_E$");
+		case tokpunch:
+			output_msg("PUNCH");
 			break;
-		case tokeq_frac:
-		case tokequiv_frac:
-			output_msg("EQ_FRAC");
+		case tokput:
+			output_msg("PUT");
 			break;
-		case tokcallback:
-			output_msg("CALLBACK");
+		case tokqbrn:
+			output_msg("QBrn"); // Q_Born, d(eps_r)/d(P)/(eps_r^2)
 			break;
-		case tokdiff_c:
-			output_msg("DIFF_C");
+		case tokrho:
+			output_msg("RHO");
+			break;
+		case tokrho_0:
+			output_msg("RHO_0");
+			break;
+		case tokrtrim:
+			output_msg("RTRIM");
+			break;
+		case tokrxn:
+			output_msg("RXN");
+			break;
+		case toks_s:
+			output_msg("S_S");
+			break;
+		case toksave:
+			output_msg("SAVE");
+			break;
+		case toksc:
+			output_msg("SC");
 			break;
 		case toksetdiff_c:
 			output_msg("SETDIFF_C");
 			break;
-		case toksa_declercq:
-			output_msg("SA_DECLERCQ");
+		case toksi:
+			output_msg("SI");
+		case toksim_no:
+			output_msg("SIM_NO");
+			break;
+		case toksim_time:
+			output_msg("SIM_TIME");
+			break;
+		case toksoln_vol:
+			output_msg("SOLN_VOL"); // volume of solution
+			break;
+		case tokspecies_formula:
+		case tokspecies_formula_:
+			output_msg("SPECIES_FORMULA$");
+			break;
+		case toksr:
+			output_msg("SR");
+			break;
+		case tokstep_no:
+			output_msg("STEP_NO");
+			break;
+		case tokstr_e_:
+			output_msg("STR_E$");
+			break;
+		case tokstr_f_:
+			output_msg("STR_F$");
+			break;
+		case toksum_gas:
+			output_msg("SUM_GAS");
+			break;
+		case toksum_s_s:
+			output_msg("SUM_s_s");
+			break;
+		case toksum_species:
+			output_msg("SUM_SPECIES");
+		case toksurf:
+			output_msg("SURF");
+			break;
+		case toksys:
+			output_msg("SYS");
+			break;
+		case tokt_sc:
+			output_msg("T_SC");
+			break;
+		case toktc:
+			output_msg("TC");
+			break;
+		case toktime:
+			output_msg("TIME");
+			break;
+		case toktitle:
+			output_msg("TITLE");
+			break;
+		case toktk:
+			output_msg("TK");
+			break;
+		case toktot:
+			output_msg("TOT");
+			break;
+		case toktotal_time:
+			output_msg("TOTAL_TIME");
+			break;
+		case toktotmole:
+		case toktotmol:
+		case toktotmoles:
+			output_msg("TOTMOLE");
+			break;
+		case toktrim:
+			output_msg("TRIM");
 			break;
 		case tokviscos:
 			output_msg("VISCOS");
@@ -1646,15 +1588,46 @@ listtokens(FILE * f, tokenrec * l_buf)
 		case tokviscos_0:
 			output_msg("VISCOS_0");
 			break;
-		case tokcurrent_a:
-			output_msg("CURRENT_A");
+		case tokvm:
+			output_msg("VM"); // mole volume of aqueous solute
 			break;
-		case tokpot_v:
-			output_msg("POT_V");
+/*
+* End PHREEQC functions
+*/	
+		case toksa_declercq: // Undocumented function
+			output_msg("SA_DECLERCQ");
 			break;
-		case tokt_sc:
-			output_msg("T_SC");
+		case tokcallback: // PHAST function
+			output_msg("CALLBACK");
 			break;
+		case tokcell_pore_volume: // PHAST function
+		case tokporevolume:
+			output_msg("POREVOLUME");
+			break;
+		case tokcell_porosity: // PHAST function
+			output_msg("CELL_POROSITY");
+			break;
+		case tokcell_saturation: // PHAST function
+			output_msg("CELL_SATURATION");
+			break;
+		case tokcell_volume: // PHAST function
+			output_msg("CELL_VOLUME");
+			break;
+		case toktransport_cell_no: // PHAST function
+			output_msg("TRANSPORT_CELL_NO");
+			break;
+		case tokvelocity_x: // PHAST function
+			output_msg("VELOCITY_X");
+			break;
+		case tokvelocity_y: // PHAST function
+			output_msg("VELOCITY_Y");
+			break;
+		case tokvelocity_z: // PHAST function
+			output_msg("VELOCITY_Z");
+			break;
+		case toklog10:
+			output_msg("LOG10");
+			break;;
 		}
 		l_buf = l_buf->next;
 	}
@@ -1774,7 +1747,11 @@ void PBasic::
 		_ASSERTE(nIDErrPrompt == 0);
 		nIDErrPrompt = IDS_ERR_SYNTAX;
 	}
-	errormsg(strcat(str, l_s));
+	strcat(str, l_s);
+	strcat(str, " in line: ");
+	if (strcmp(inbuf, "run"))
+		strcat(str, inbuf);
+	errormsg(str);
 }
 
 void PBasic::
@@ -1787,7 +1764,11 @@ void PBasic::
 		_ASSERTE(nIDErrPrompt == 0);
 		nIDErrPrompt = IDS_ERR_MISMATCH;
 	}
-	errormsg(strcat(str, l_s));
+	strcat(str, l_s);
+	strcat(str, " in line: ");
+	if (strcmp(inbuf, "run"))
+		strcat(str, inbuf);
+	errormsg(str);
 }
 
 void PBasic::
@@ -2048,8 +2029,6 @@ factor(struct LOC_exec * LINK)
 		long i;
 		char *c;
 	} trick;
-	struct save_values s_v, *s_v_ptr;
-	int k;
 	LDBLE TEMP;
 	std::string STR1, STR2;
 	const char *elt_name, *surface_name, *mytemplate, *name;
@@ -2066,9 +2045,6 @@ factor(struct LOC_exec * LINK)
 	facttok = LINK->t;
 	LINK->t = LINK->t->next;
 	n.stringval = false;
-	s_v.count_subscripts = 0;
-	/*s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc (sizeof (int)); */
-	s_v.subscripts = NULL;
 	switch (facttok->kind)
 	{
 
@@ -2078,10 +2054,10 @@ factor(struct LOC_exec * LINK)
 
 	case tokstr:
 		n.stringval = true;
-		m = (int) strlen(facttok->UU.sp) + 1;
+		m = (int)strlen(facttok->UU.sp) + 1;
 		if (m < 256)
 			m = 256;
-		n.UU.sval = (char *) PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
+		n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
 		if (n.UU.sval == NULL)
 			PhreeqcPtr->malloc_error();
 		strcpy(n.UU.sval, facttok->UU.sp);
@@ -2095,7 +2071,7 @@ factor(struct LOC_exec * LINK)
 		{
 			if (*v->UU.U1.sval != NULL)
 			{
-				m = (int) strlen(*v->UU.U1.sval) + 1;
+				m = (int)strlen(*v->UU.U1.sval) + 1;
 				if (m < 256)
 					m = 256;
 			}
@@ -2103,7 +2079,7 @@ factor(struct LOC_exec * LINK)
 			{
 				m = 256;
 			}
-			n.UU.sval = (char *) PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
+			n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
 			if (n.UU.sval == NULL)
 				PhreeqcPtr->malloc_error();
 			if (*v->UU.U1.sval != NULL)
@@ -2126,43 +2102,1316 @@ factor(struct LOC_exec * LINK)
 		break;
 
 	case tokplus:
+	{
 		n.UU.val = realfactor(LINK);
-		break;
+	}
+	break;
 
 	case toknot:
+	{
 		n.UU.val = ~intfactor(LINK);
-		break;
+	}
+	break;
 
 	case toksqr:
+	{
 		TEMP = realfactor(LINK);
 		n.UU.val = TEMP * TEMP;
-		break;
+	}
+	break;
 
 	case toksqrt:
+	{
 		n.UU.val = sqrt(realfactor(LINK));
-		break;
+	}
+	break;
+	/*
+	* PHREEQC functions=============================================
+	*/
+	case tokact:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity(str);
+	}
+	break;
+
+	case tokadd_heading:
+	{
+		require(toklp, LINK);
+		name = strexpr(LINK);
+		require(tokrp, LINK);
+		if (PhreeqcPtr->current_user_punch != NULL)
+		{
+			PhreeqcPtr->current_user_punch->Get_headings().push_back(name);
+			n.UU.val = (parse_all) ? 1 : (double)PhreeqcPtr->current_user_punch->Get_headings().size();
+		}
+		else {
+			n.UU.val = 0;
+		}
+		name = (char*)PhreeqcPtr->free_check_null((void*) name);
+	}
+	break;
+
+	case tokalk:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_alkalinity / PhreeqcPtr->mass_water_aq_x;
+	}
+	break;
+
+	case tokaphi:
+	{
+		n.UU.val = PhreeqcPtr->A0;
+	}
+	break;
+
+	case tokcalc_value:
+	{
+		require(toklp, LINK);
+		name = stringfactor(STR1, LINK);
+		require(tokrp, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->get_calculate_value(name);
+	}
+	break;
 
 	case tokceil:
+	{
 		n.UU.val = ceil(realfactor(LINK));
-		break;
+	}
+	break;
+
+	case tokcell_no:
+	{
+		if (parse_all)
+		{
+			n.UU.val = 1;
+			break;
+		}
+		n.UU.val = PhreeqcPtr->solution_number();
+	}
+	break;
+
+	case tokcharge_balance:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cb_x;
+	}
+	break;
+
+	case tokcurrent_a:
+	{
+		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_x;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_A;
+	}
+	break;
+
+	case tokdebye_length:
+	{
+		double debye_length = (PhreeqcPtr->eps_r * EPSILON_ZERO * R_KJ_DEG_MOL * 1000.0 * PhreeqcPtr->tk_x)
+			/ (2. * F_C_MOL * F_C_MOL * PhreeqcPtr->mu_x * 1000.);
+		n.UU.val = sqrt(debye_length);
+	}
+	break;
+
+	case tokdelta_h_phase:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_deltah_p(str);
+	}
+	break;
+
+	case tokdelta_h_species:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_deltah_s(str);
+	}
+	break;
+
+	case tokdescription:
+	{
+		n.stringval = true;
+		if (PhreeqcPtr->state == REACTION)
+		{
+			if (PhreeqcPtr->use.Get_mix_in())
+			{
+				sprintf(string, "Mix %d", PhreeqcPtr->use.Get_n_mix_user());
+				n.UU.sval = PhreeqcPtr->string_duplicate(string);
+			}
+			else
+			{
+				soln_ptr = Utilities::Rxn_find(PhreeqcPtr->Rxn_solution_map,
+					PhreeqcPtr->use.Get_n_solution_user());
+				if (soln_ptr != NULL)
+				{
+					n.UU.sval = PhreeqcPtr->string_duplicate(soln_ptr->Get_description().c_str());
+				}
+				else
+				{
+					n.UU.sval = PhreeqcPtr->string_duplicate("Unknown");
+				}
+			}
+		}
+		else if (PhreeqcPtr->state == ADVECTION || PhreeqcPtr->state == TRANSPORT || PhreeqcPtr->state == PHAST)
+		{
+			sprintf(string, "Cell %d", PhreeqcPtr->cell_no);
+			n.UU.sval = PhreeqcPtr->string_duplicate(string);
+		}
+		else
+		{
+			if (PhreeqcPtr->use.Get_solution_ptr() != NULL)
+			{
+				n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->use.Get_solution_ptr()->Get_description().c_str());
+			}
+			else
+			{
+				n.UU.sval = PhreeqcPtr->string_duplicate("Unknown");
+			}
+		}
+		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
+	}
+	break;
+
+	case tokdh_a:
+	{
+		if (PhreeqcPtr->llnl_temp.size() > 0)
+		{
+			n.UU.val = PhreeqcPtr->a_llnl;
+		}
+		else
+		{
+			n.UU.val = PhreeqcPtr->DH_A;
+		}
+	}
+	break;
+
+	case tokdh_a0:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->dh_a0(str);
+	}
+	break;
+
+	case tokdh_av:
+	{
+		n.UU.val = PhreeqcPtr->DH_Av;
+	}
+	break;
+
+	case tokdh_b:
+	{
+		if (PhreeqcPtr->llnl_temp.size() > 0)
+		{
+			n.UU.val = PhreeqcPtr->b_llnl;
+		}
+		else
+		{
+			n.UU.val = PhreeqcPtr->DH_B;
+		}
+	}
+	break;
+	
+	case tokdh_bdot:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->dh_bdot(str);
+	}
+	break;
+
+	case tokdiff_c:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_c(str);
+	}
+	break;
+
+	case tokdist:
+	{
+		if (PhreeqcPtr->state == PHAST)
+		{
+			n.UU.val = 0;
+		}
+		else if (PhreeqcPtr->state == TRANSPORT)
+		{
+			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell].mid_cell_x;
+		}
+		else if (PhreeqcPtr->state == ADVECTION)
+		{
+			n.UU.val = (parse_all) ? 1 : (LDBLE)PhreeqcPtr->use.Get_n_solution_user();
+		}
+		else
+		{
+			n.UU.val = 0;
+		}
+	}
+	break;
+
+	case tokedl:
+	{
+		require(toklp, LINK);
+		elt_name = stringfactor(STR1, LINK);
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			LINK->t = LINK->t->next;
+			surface_name = stringfactor(STR2, LINK);
+		}
+		else
+		{
+			surface_name = NULL;
+		}
+		require(tokrp, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_layer_total(elt_name, surface_name);
+	}
+	break;
+
+	case tokedl_species:
+	{
+		double area = 0.0, thickness = 0.0;
+		require(toklp, LINK);
+		const char* surf_name = stringfactor(STR1, LINK);
+		require(tokcomma, LINK);
+		// variable for number of species
+		count_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
+		{
+			snerr(": Missing or wrong type count variable.");
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+		// variable for species names
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		names_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
+		{
+			snerr(": Missing or wrong type name variable.");
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+		// variable for species concentrations
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		moles_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
+			snerr(": Missing or wrong type moles variable.");
+		// variable for area
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		varrec* area_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || area_varrec->stringvar != 0)
+			snerr(": Missing or wrong type area varaiable.");
+		// varaiable for thickness
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		varrec* thickness_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || thickness_varrec->stringvar != 0)
+			snerr(": Missing or wrong type thickness variable.");
+		LINK->t = LINK->t->next;
+		require(tokrp, LINK);
+
+		free_dim_stringvar(names_varrec);
+		PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
+		moles_varrec->UU.U0.arr = NULL;
+
+		// Call subroutine
+		if (parse_all)
+		{
+			PhreeqcPtr->sys_tot = 0;
+			//PhreeqcPtr->count_sys = 1000;
+			//int count_sys = PhreeqcPtr->count_sys;
+			size_t count_sys = 1000;
+			names_arg = (char**)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(char*));
+			if (names_arg == NULL)
+			{
+				PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+				exit(4);
+#endif
+			}
+			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc((count_sys + 1), sizeof(LDBLE));
+			if (moles_arg == NULL)
+			{
+				PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+				exit(4);
+#endif
+			}
+			names_arg[0] = NULL;
+			moles_arg[0] = 0;
+			count_species = (LDBLE)count_sys;
+			n.UU.val = 0;
+		}
+		else
+		{
+			//n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
+			//	&(types_arg), &(moles_arg));
+			n.UU.val = PhreeqcPtr->edl_species(surf_name, &count_species, &(names_arg), &(moles_arg), &area, &thickness);
+		}
+		/*
+		*  fill in varrec structures
+		*/
+		*count_varrec->UU.U0.val = count_species;
+		names_varrec->UU.U1.sarr = names_arg;
+		moles_varrec->UU.U0.arr = moles_arg;
+		*area_varrec->UU.U0.val = area;
+		*thickness_varrec->UU.U0.val = thickness;
+
+		for (i = 0; i < maxdims; i++)
+		{
+			names_varrec->dims[i] = 0;
+			moles_varrec->dims[i] = 0;
+		}
+		names_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+		moles_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+		names_varrec->numdims = 1;
+		moles_varrec->numdims = 1;
+	}
+	break;
+
+	case tokeol_:
+	{
+		n.stringval = true;
+		n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+		if (n.UU.sval == NULL)
+			PhreeqcPtr->malloc_error();
+		strcpy(n.UU.sval, "\n");
+	}
+	break;
+
+	case tokeol_notab_:
+	{
+		n.stringval = true;
+		n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
+		if (n.UU.sval == NULL)
+			PhreeqcPtr->malloc_error();
+		strcpy(n.UU.sval, "\n");
+		punch_tab = false;
+	}
+	break;
+
+	case tokeps_r:
+	{
+		n.UU.val = PhreeqcPtr->eps_r;
+	}
+	break;
+
+	case tokeq_frac:
+	case tokequiv_frac:
+	{
+		// left parenthesis
+		require(toklp, LINK);
+
+		// species name
+		std::string species_name(stringfactor(STR1, LINK));
+
+		require(tokcomma, LINK);
+
+		// equivalents
+		count_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+			snerr(": Cannot find equivalents variable");
+
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+
+		// exchange or surface element 
+		varrec* elt_varrec = NULL;
+		elt_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || elt_varrec->stringvar != 1)
+			snerr(": Cannot find element string variable");
+		free_dim_stringvar(elt_varrec);
+		*elt_varrec->UU.U1.sval = (char*)PhreeqcPtr->free_check_null(*elt_varrec->UU.U1.sval);
+
+		// right parenthesis
+		LINK->t = LINK->t->next;
+		require(tokrp, LINK);
+
+		// set function value
+		LDBLE eq;
+		std::string elt_name;
+
+		// return equivalent fraction
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equivalent_fraction(species_name.c_str(), &eq, elt_name);
+
+		// set equivalents
+		*count_varrec->UU.U0.val = (parse_all) ? 1 : eq;
+
+		// set element name
+		size_t l = elt_name.size();
+		l = l < 256 ? 256 : l + 1;
+		char* token = (char*)PhreeqcPtr->PHRQ_malloc(l * sizeof(char));
+		strcpy(token, elt_name.c_str());
+		*elt_varrec->UU.U1.sval = token;
+	}
+	break;
+
+	case tokequi:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase(str);
+	}
+	break;
+
+	case tokequi_delta:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase_delta(str);
+	}
+	break;
+
+	case tokexists:
+	{
+		std::ostringstream oss;
+		require(toklp, LINK);
+
+		/* get first subscript */
+		if (LINK->t != NULL && LINK->t->kind != tokrp)
+		{
+			i = intexpr(LINK);
+			oss << i << ",";
+		}
+
+		/* get other subscripts */
+		for (;;)
+		{
+			if (LINK->t != NULL && LINK->t->kind == tokcomma)
+			{
+				LINK->t = LINK->t->next;
+				j = intexpr(LINK);
+				oss << j << ",";
+			}
+			else
+			{
+				/* get right parentheses */
+				require(tokrp, LINK);
+				break;
+			}
+		}
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			std::map<std::string, double>::iterator it = PhreeqcPtr->save_values.find(oss.str());
+			n.UU.val = (it == PhreeqcPtr->save_values.end()) ? 0 : 1;
+		}
+	}
+	break;
 
 	case tokfloor:
+	{
 		n.UU.val = floor(realfactor(LINK));
-		break;
+	}
+	break;
 
-	case toktc:
-		n.UU.val = PhreeqcPtr->tc_x;
-		break;
+	case tokmcd_jtot:
+	{
+		double f = 0.0;
+		const char* str = stringfactor(STR1, LINK);
+		if (PhreeqcPtr->state == TRANSPORT && PhreeqcPtr->multi_Dflag)
+		{
+			f = PhreeqcPtr->flux_mcd(str, 1);
+		}
+		n.UU.val = (parse_all) ? 1 : f;
+	}
+	break;
+	case tokmcd_jconc:
+	{	
+		double f = 0.0;
+		const char* str = stringfactor(STR1, LINK);
+		if (PhreeqcPtr->state == TRANSPORT && PhreeqcPtr->multi_Dflag)
+		{
+			f = PhreeqcPtr->flux_mcd(str, 2);
+		}
+		n.UU.val = (parse_all) ? 1 : f;
+	}
+	break;
 
-	case toktk:
-		n.UU.val = PhreeqcPtr->tc_x + 273.15;
-		break;
+	case tokgamma:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity_coefficient(str);
+	}
+	break;
 
-	case toktime:
-		n.UU.val = PhreeqcPtr->rate_time;
+	case tokgas:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_comp(str);
+	}
+	break;
+
+	case tokgas_p:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_p();
+	}
+	break;
+
+	case tokgas_vm:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_vm();
+	}
+	break;
+
+	case tokget:
+	{
+		std::ostringstream oss;
+		require(toklp, LINK);
+
+		/* get first subscript */
+		if (LINK->t != NULL && LINK->t->kind != tokrp)
+		{
+			i = intexpr(LINK);
+			oss << i << ",";
+		}
+
+		/* get other subscripts */
+		for (;;)
+		{
+			if (LINK->t != NULL && LINK->t->kind == tokcomma)
+			{
+				LINK->t = LINK->t->next;
+				j = intexpr(LINK);
+				oss << j << ",";
+			}
+			else
+			{
+				/* get right parentheses */
+				require(tokrp, LINK);
+				break;
+			}
+		}
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			std::map<std::string, double>::iterator it = PhreeqcPtr->save_values.find(oss.str());
+			n.UU.val = (it == PhreeqcPtr->save_values.end()) ? 0 : it->second;
+		}
 		break;
+	}
+
+	case tokget_por:
+	{
+		i = intfactor(LINK);
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			if (PhreeqcPtr->phast != TRUE)
+			{
+				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data.count_stag) + 1
+					|| i == PhreeqcPtr->count_cells + 1)
+				{
+					/*		warning_msg("Note... no porosity for boundary solutions."); */
+					n.UU.val = 0;
+					break;
+				}
+				else
+					n.UU.val = PhreeqcPtr->cell_data[i].por;
+				break;
+			}
+			else
+			{
+				n.UU.val = PhreeqcPtr->cell_porosity;
+				break;
+			}
+		}
+	}
+	break;
+
+	case tokgfw:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		LDBLE gfw;
+		PhreeqcPtr->compute_gfw(str, &gfw);
+		n.UU.val = (parse_all) ? 1 : gfw;
+	}
+	break;
+
+	case tokinstr:
+	{
+		require(toklp, LINK);
+		string1 = stringfactor(STR1, LINK);
+		require(tokcomma, LINK);
+		string2 = stringfactor(STR2, LINK);
+		require(tokrp, LINK);
+		{
+			const char* cptr = strstr(string1, string2);
+			if (cptr == NULL)
+			{
+				n.UU.val = 0;
+			}
+			else
+			{
+				n.UU.val = ((LDBLE)(cptr - string1)) + 1;
+			}
+		}
+	}
+	break;
+
+	case tokiso:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->iso_value(str);
+	}
+	break;
+
+	case tokiso_unit:
+	{
+		n.stringval = true;
+		require(toklp, LINK);
+		string1 = stringfactor(STR1, LINK);
+		require(tokrp, LINK);
+		trim(STR1);
+		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(STR1.c_str());
+	}
+	break;
+
+	case tokiterations:
+	{
+		n.UU.val = (parse_all) ? 0 : PhreeqcPtr->overall_iterations;
+	}
+	break;
+
+	case tokkappa:
+	{
+		n.UU.val = PhreeqcPtr->kappa_0;
+	}
+	break;
+
+	case tokkin:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles(str);
+	}
+	break;
+
+	case tokkin_delta:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles_delta(str);
+	}
+	break;
+
+	case tokkin_time:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rate_kin_time;
+	}
+	break;
+
+	case tokkinetics_formula:
+	case tokkinetics_formula_:
+	{
+		require(toklp, LINK);
+		std::string kinetics_name(stringfactor(STR1, LINK));
+		varrec* elts_varrec = NULL, * coef_varrec = NULL;
+		cxxNameDouble stoichiometry;
+		/*
+		*  Parse arguments
+		*/
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			/* kinetics_formula("calcite", count, elt, coef) */
+			/* return formula */
+			/*int c; */
+			/*  struct varrec *count_varrec, *names_varrec, *types_varrec, *moles_varrec; */
+			/*  struct varrec *count_varrec, *elt_varrec, *coef_varrec; */
+			/* return number of species */
+			LINK->t = LINK->t->next;
+			count_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+				snerr(": Cannot find count variable");
+
+			/* return number of names of elements */
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			elts_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
+				snerr(": Cannot find element string variable");
+
+			/* return coefficients of species */
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			coef_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
+				snerr(": Cannot find coefficient variable");
+			LINK->t = LINK->t->next;
+			arg_num = 4;
+		}
+		else
+		{
+			arg_num = 1;
+		}
+		require(tokrp, LINK);
+
+		if (arg_num > 1)
+		{
+			free_dim_stringvar(elts_varrec);
+			PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
+			coef_varrec->UU.U0.arr = NULL;
+		}
+		/*
+		*  Call subroutine
+		*/
+		std::string form = PhreeqcPtr->kinetics_formula(kinetics_name, stoichiometry);
+
+		// put formula as return value
+		n.stringval = true;
+		n.UU.sval = PhreeqcPtr->string_duplicate(form.c_str());
+
+		/*
+		*  fill in varrec structure
+		*/
+
+		if (arg_num > 1)
+		{
+			size_t count = stoichiometry.size();
+			*count_varrec->UU.U0.val = (LDBLE)count;
+			/*
+			* malloc space
+			*/
+			elts_varrec->UU.U1.sarr = (char**)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char*));
+			if (elts_varrec->UU.U1.sarr == NULL)
+				PhreeqcPtr->malloc_error();
+			coef_varrec->UU.U0.arr = (LDBLE*)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
+			if (coef_varrec->UU.U0.arr == NULL)
+				PhreeqcPtr->malloc_error();
+
+			// first position not used
+			elts_varrec->UU.U1.sarr[0] = NULL;
+			coef_varrec->UU.U0.arr[0] = 0;
+
+			// set dims for Basic array
+			for (i = 0; i < maxdims; i++)
+			{
+				elts_varrec->dims[i] = 0;
+				coef_varrec->dims[i] = 0;
+			}
+			// set dims for first dimension and number of dims
+			elts_varrec->dims[0] = (long)(count + 1);
+			coef_varrec->dims[0] = (long)(count + 1);
+			elts_varrec->numdims = 1;
+			coef_varrec->numdims = 1;
+
+			// fill in arrays
+			i = 1;
+			for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
+			{
+				elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
+				coef_varrec->UU.U0.arr[i] = it->second;
+				i++;
+			}
+		}
+	}
+	break;
+
+	case tokla:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity(str);
+	}
+	break;
+
+	case toklg:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity_coefficient(str);
+	}
+	break;
+
+	case toklist_s_s:
+	{
+		/* list_s_s("calcite", count, name$, moles) */
+		/* return total moles */
+		require(toklp, LINK);
+		std::string s_s_name(stringfactor(STR1, LINK));
+		cxxNameDouble composition;
+		/*
+		*  Parse arguments
+		*/
+		arg_num = -1;
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			LINK->t = LINK->t->next;
+			count_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+				snerr(": Cannot find count variable");
+
+			/* return number of names of components */
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			names_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || names_varrec->stringvar != 1)
+				snerr(": Cannot find component string variable");
+
+			/* return number of moles  of components */
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			moles_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
+				snerr(": Cannot find moles of component variable");
+			LINK->t = LINK->t->next;
+			arg_num = 4;
+		}
+		else
+		{
+			snerr(": Expected 4 arguments for list_s_s");
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+		require(tokrp, LINK);
+
+		if (arg_num > 1)
+		{
+			free_dim_stringvar(names_varrec);
+			if (moles_varrec)
+			{
+				PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
+				moles_varrec->UU.U0.arr = NULL;
+			}
+		}
+		/*
+		*  Call subroutine
+		*/
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->list_ss(s_s_name, composition);
+
+		/*
+		*  fill in varrec structure
+		*/
+
+		if (arg_num > 1)
+		{
+			size_t count = composition.size();
+			*count_varrec->UU.U0.val = (LDBLE)count;
+			/*
+			* malloc space
+			*/
+			names_varrec->UU.U1.sarr = (char**)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char*));
+			if (names_varrec->UU.U1.sarr == NULL)
+			{
+				PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+				exit(4);
+#endif
+			}
+			moles_varrec->UU.U0.arr = (LDBLE*)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
+			if (moles_varrec->UU.U0.arr == NULL)
+			{
+				PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+				exit(4);
+#endif
+			}
+
+			// first position not used
+			names_varrec->UU.U1.sarr[0] = NULL;
+			moles_varrec->UU.U0.arr[0] = 0;
+
+			// set dims for Basic array
+			for (i = 0; i < maxdims; i++)
+			{
+				names_varrec->dims[i] = 0;
+				moles_varrec->dims[i] = 0;
+			}
+			// set dims for first dimension and number of dims
+			names_varrec->dims[0] = (long)(count + 1);
+			moles_varrec->dims[0] = (long)(count + 1);
+			names_varrec->numdims = 1;
+			moles_varrec->numdims = 1;
+
+			// fill in arrays
+			i = 1;
+			std::vector< std::pair<std::string, LDBLE> > sort_comp = composition.sort_second();
+			size_t j;
+			for (j = 0; j != sort_comp.size(); j++)
+			{
+				names_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate(sort_comp[j].first.c_str());
+				moles_varrec->UU.U0.arr[i] = sort_comp[j].second;
+				i++;
+			}
+
+		}
+	}
+	break;
+
+	case toklk_named:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_n(str);
+	}
+	break;
+
+	case toklk_phase:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_p(str);
+	}
+	break;
+
+	case toklk_species:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_s(str);
+	}
+	break;
+
+	case toklm:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_molality(str);
+	}
+	break;
+
+	case tokltrim:
+	{
+		n.stringval = true;
+		require(toklp, LINK);
+		string1 = stringfactor(STR1, LINK);
+		require(tokrp, LINK);
+		trim_left(STR1);
+		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
+	}
+	break;
+
+	case tokm:
+	{
+		n.UU.val = PhreeqcPtr->rate_m;
+	}
+	break;
+
+	case tokm0:
+	{
+		n.UU.val = PhreeqcPtr->rate_m0;
+	}
+	break;
+
+	case tokmisc1:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc1(str);
+	}
+	break;
+
+	case tokmisc2:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc2(str);
+	}
+	break;
+
+	case tokmol:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->molality(str);
+	}
+	break;
+
+	case tokmu:
+	{
+		n.UU.val = PhreeqcPtr->mu_x;
+	}
+	break;
+
+	case tokno_newline_:
+	{
+		n.stringval = true;
+		PhreeqcPtr->Set_output_newline(false);
+		this->skip_punch = true;
+	}
+	break;
+
+	case tokosmotic:
+	{
+		if (PhreeqcPtr->pitzer_model == TRUE || PhreeqcPtr->sit_model == TRUE)
+		{
+			n.UU.val = PhreeqcPtr->COSMOT;
+		}
+		else
+		{
+			n.UU.val = 0.0;
+		}
+	}
+	break;
+
+	case tokpad_:
+	case tokpad:
+	{
+		n.stringval = true;
+		require(toklp, LINK);
+		string1 = stringfactor(STR1, LINK);
+		require(tokcomma, LINK);
+		i = intexpr(LINK);
+		require(tokrp, LINK);
+		n.UU.sval = PhreeqcPtr->string_pad(string1, i);
+	}
+	break;
+
+	case tokparm:
+	{
+		i_rate = intfactor(LINK);
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			if (i_rate > PhreeqcPtr->count_rate_p || i_rate == 0)
+			{
+				errormsg("Parameter subscript out of range.");
+			}
+			n.UU.val = PhreeqcPtr->rate_p[(size_t)i_rate - 1];
+		}
+	}
+	break;
+
+	case tokpercent_error:
+	{
+		n.UU.val = (parse_all) ? 1 : 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
+	}
+	break;
+
+	case tokphase_formula:
+	case tokphase_formula_:
+	{
+		require(toklp, LINK);
+		std::string phase_name(stringfactor(STR1, LINK));
+		varrec* elts_varrec = NULL, * coef_varrec = NULL;
+		cxxNameDouble stoichiometry;
+		/*
+		*  Parse arguments
+		*/
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		{
+			/* phase_formula("calcite", count, elt, coef) */
+			/* return formula */
+			/*int c; */
+			/*  struct varrec *count_varrec, *names_varrec, *types_varrec, *moles_varrec; */
+			/*  struct varrec *count_varrec, *elt_varrec, *coef_varrec; */
+			/* return number of species */
+			LINK->t = LINK->t->next;
+			count_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+				snerr(": Cannot find count variable");
+
+			/* return number of names of species */
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			elts_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
+				snerr(": Cannot find element string variable");
+
+			/* return coefficients of species */
+			LINK->t = LINK->t->next;
+			require(tokcomma, LINK);
+			coef_varrec = LINK->t->UU.vp;
+			if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
+				snerr(": Cannot find coefficient variable");
+			LINK->t = LINK->t->next;
+			arg_num = 4;
+		}
+		else
+		{
+			arg_num = 1;
+		}
+		require(tokrp, LINK);
+
+		if (arg_num > 1)
+		{
+			free_dim_stringvar(elts_varrec);
+			PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
+			coef_varrec->UU.U0.arr = NULL;
+		}
+		/*
+		*  Call subroutine
+		*/
+		std::string form = PhreeqcPtr->phase_formula(phase_name, stoichiometry);
+
+		// put formula as return value
+		n.stringval = true;
+		n.UU.sval = PhreeqcPtr->string_duplicate(form.c_str());
+
+		/*
+		*  fill in varrec structure
+		*/
+
+		if (arg_num > 1)
+		{
+			size_t count = stoichiometry.size();
+			*count_varrec->UU.U0.val = (LDBLE)count;
+			/*
+			* malloc space
+			*/
+			elts_varrec->UU.U1.sarr = (char**)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char*));
+			if (elts_varrec->UU.U1.sarr == NULL)
+				PhreeqcPtr->malloc_error();
+			coef_varrec->UU.U0.arr = (LDBLE*)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
+			if (coef_varrec->UU.U0.arr == NULL)
+				PhreeqcPtr->malloc_error();
+
+			// first position not used
+			elts_varrec->UU.U1.sarr[0] = NULL;
+			coef_varrec->UU.U0.arr[0] = 0;
+
+			// set dims for Basic array
+			for (i = 0; i < maxdims; i++)
+			{
+				elts_varrec->dims[i] = 0;
+				coef_varrec->dims[i] = 0;
+			}
+			// set dims for first dimension and number of dims
+			elts_varrec->dims[0] = (long)(count + 1);
+			coef_varrec->dims[0] = (long)(count + 1);
+			elts_varrec->numdims = 1;
+			coef_varrec->numdims = 1;
+
+			// fill in arrays
+			i = 1;
+			for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
+			{
+				elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
+				coef_varrec->UU.U0.arr[i] = it->second;
+				i++;
+			}
+
+		}
+	}
+	break;
+
+	case tokphase_vm:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
+	}
+	break;
+
+	case tokpot_v:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->use.Get_solution_ptr()->Get_potV();
+	}
+	break;
+
+	case tokpr_p:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
+	}
+	break;
+
+	case tokpr_phi:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
+	}
+	break;
+
+	case tokpressure:
+	{
+		n.UU.val = PhreeqcPtr->pressure();
+	}
+	break;
+
+	case tokqbrn:
+	{
+		n.UU.val = PhreeqcPtr->QBrn;
+	}
+	break;
+
+	case tokrho:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_dens();
+	}
+	break;
+
+	case tokrho_0:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rho_0;
+	}
+	break;
+
+	case tokrtrim:
+	{
+		n.stringval = true;
+		require(toklp, LINK);
+		string1 = stringfactor(STR1, LINK);
+		require(tokrp, LINK);
+		trim_right(STR1);
+		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
+	}
+	break;
+
+	case tokrxn:
+	{
+		if (PhreeqcPtr->state == REACTION ||
+			PhreeqcPtr->state == ADVECTION ||
+			PhreeqcPtr->state == TRANSPORT)
+		{
+			n.UU.val = PhreeqcPtr->step_x;
+		}
+		else
+		{
+			n.UU.val = 0.0;
+		}
+	}
+	break;
+
+	case toks_s:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_ss_comp(str);
+	}
+	break;
+
+	case toksc:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_SC();
+	}
+	break;
+
+	case toksetdiff_c:
+	{
+		double d;
+
+		require(toklp, LINK);
+
+		const char* str = stringfactor(STR1, LINK);
+		require(tokcomma, LINK);
+
+		// double arugument
+		d = realexpr(LINK);
+		require(tokrp, LINK);
+
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->setdiff_c(str, d);
+
+		//PhreeqcPtr->PHRQ_free((void *) str);
+	}
+	break;
+
+	case toksi:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		if (parse_all)
+		{
+			n.UU.val = 1;
+		}
+		else
+		{
+			PhreeqcPtr->saturation_index(str, &l_dummy, &n.UU.val);
+		}
+	}
+	break;
+
+	case toksim_no:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->simulation;
+	}
+	break;
 
 	case toksim_time:
+	{
 		if (!PhreeqcPtr->use.Get_kinetics_in())
 		{
 			if (PhreeqcPtr->state == PHAST)
@@ -2193,260 +3442,233 @@ factor(struct LOC_exec * LINK)
 		{
 			n.UU.val = PhreeqcPtr->rate_sim_time;
 		}
-		break;
+	}
+	break;
 
-	case toktotal_time:
-		if (!PhreeqcPtr->use.Get_kinetics_in())
-		{
-			if (PhreeqcPtr->state == PHAST)
-			{
-				n.UU.val = PhreeqcPtr->rate_sim_time_end;
-			}
-			else if (PhreeqcPtr->state == TRANSPORT)
-			{
-				n.UU.val = PhreeqcPtr->initial_total_time + PhreeqcPtr->transport_step * PhreeqcPtr->timest;
-			}
-			else if (PhreeqcPtr->state == ADVECTION)
-			{
-				n.UU.val =
-					PhreeqcPtr->initial_total_time + PhreeqcPtr->advection_step * PhreeqcPtr->advection_kin_time;
-			}
-			else
-			{
-				n.UU.val = 0;
-			}
-		}
-		else
-		{
-			n.UU.val = PhreeqcPtr->initial_total_time + PhreeqcPtr->rate_sim_time;
-		}
-		break;
+	case toksoln_vol:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_solution_volume();
+	}
+	break;
 
-	case tokm0:
-		n.UU.val = PhreeqcPtr->rate_m0;
-		break;
-
-	case tokm:
-		n.UU.val = PhreeqcPtr->rate_m;
-		break;
-
-	case tokparm:
-		i_rate = intfactor(LINK);
-		if (parse_all)
-		{
-			n.UU.val = 1;
-		}
-		else
-		{
-			if (i_rate > PhreeqcPtr->count_rate_p || i_rate == 0)
-			{
-				errormsg("Parameter subscript out of range.");
-			}
-			n.UU.val = PhreeqcPtr->rate_p[i_rate - 1];
-		}
-
-		break;
-
-	case tokact:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity(str);
-		}
-		break;
-
-	case tokgamma:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->activity_coefficient(str);
-		}
-		break;
-
-	case toklg:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity_coefficient(str);
-		}
-		break;
-
-	case tokget_por:
-		i = intfactor(LINK);
-		if (parse_all)
-		{
-			n.UU.val = 1;
-		}
-		else
-		{
-			if (PhreeqcPtr->phast != TRUE)
-			{
-				if (i <= 0 || i > PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
-					|| i == PhreeqcPtr->count_cells + 1)
-				{
-					/*		warning_msg("Note... no porosity for boundary solutions."); */
-					n.UU.val = 0;
-					break;
-				}
-				else
-					n.UU.val = PhreeqcPtr->cell_data[i].por;
-				break;
-			}
-			else
-			{
-				n.UU.val = PhreeqcPtr->cell_porosity;
-				break;
-			}
-		}
-		break;
-	case tokedl:
+	case tokspecies_formula:
+	case tokspecies_formula_:
+	{
 		require(toklp, LINK);
-		elt_name = stringfactor(STR1, LINK);
-		if (LINK->t != NULL && LINK->t->kind == tokcomma)
+		std::string species_name(stringfactor(STR1, LINK));
+		varrec* elts_varrec = NULL, * coef_varrec = NULL;
+		cxxNameDouble stoichiometry;
+		/*
+		*  Parse arguments
+		*/
+		require(tokcomma, LINK);
+
+		count_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
+			snerr(": Cannot find count variable");
+
+		/* return number of names of species */
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		elts_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
+			snerr(": Cannot find element string variable");
+
+		/* return coefficients of species */
+		LINK->t = LINK->t->next;
+		require(tokcomma, LINK);
+		coef_varrec = LINK->t->UU.vp;
+		if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
+			snerr(": Cannot find coefficient variable");
+		LINK->t = LINK->t->next;
+
+		require(tokrp, LINK);
+
+		free_dim_stringvar(elts_varrec);
+		PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
+		coef_varrec->UU.U0.arr = NULL;
+		/*
+		*  Call subroutine
+		*/
+		std::string type = PhreeqcPtr->species_formula(species_name, stoichiometry);
+
+		// put type as return value
+		n.stringval = true;
+		n.UU.sval = PhreeqcPtr->string_duplicate(type.c_str());
+
+		/*
+		*  fill in varrec structure
+		*/
+
+		size_t count = stoichiometry.size();
+		*count_varrec->UU.U0.val = (LDBLE)count;
+		/*
+		* malloc space
+		*/
+		elts_varrec->UU.U1.sarr = (char**)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char*));
+		if (elts_varrec->UU.U1.sarr == NULL)
 		{
-			LINK->t = LINK->t->next;
-			surface_name = stringfactor(STR2, LINK);
+			PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+		coef_varrec->UU.U0.arr = (LDBLE*)PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
+		if (coef_varrec->UU.U0.arr == NULL)
+		{
+			PhreeqcPtr->malloc_error();
+#if !defined(R_SO)
+			exit(4);
+#endif
+		}
+
+		// first position not used
+		elts_varrec->UU.U1.sarr[0] = NULL;
+		coef_varrec->UU.U0.arr[0] = 0;
+
+		// set dims for Basic array
+		for (i = 0; i < maxdims; i++)
+		{
+			elts_varrec->dims[i] = 0;
+			coef_varrec->dims[i] = 0;
+		}
+		// set dims for first dimension and number of dims
+		elts_varrec->dims[0] = (long)(count + 1);
+		coef_varrec->dims[0] = (long)(count + 1);
+		elts_varrec->numdims = 1;
+		coef_varrec->numdims = 1;
+
+		// fill in arrays
+		i = 1;
+		for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
+		{
+			elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
+			coef_varrec->UU.U0.arr[i] = it->second;
+			i++;
+		}
+	}
+	break;
+
+	case toksr:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->saturation_ratio(str);
+	}
+	break;
+
+	case tokstep_no:
+	{
+		if (PhreeqcPtr->state == PHAST)
+		{
+			n.UU.val = 0;
+		}
+		else if (PhreeqcPtr->state == TRANSPORT)
+		{
+			n.UU.val = PhreeqcPtr->transport_step;
+		}
+		else if (PhreeqcPtr->state == ADVECTION)
+		{
+			n.UU.val = PhreeqcPtr->advection_step;
+		}
+		else if (PhreeqcPtr->state == REACTION)
+		{
+			n.UU.val = PhreeqcPtr->reaction_step;
 		}
 		else
 		{
-			surface_name = NULL;
+			n.UU.val = 0;
 		}
-		require(tokrp, LINK);
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_layer_total(elt_name, surface_name);
-		break;
+	}
+	break;
 
-	case toksurf:
+	case tokstr_e_:
+	{
+		// left parenthesis
 		require(toklp, LINK);
-		elt_name = stringfactor(STR1, LINK);
-		if (LINK->t != NULL && LINK->t->kind == tokcomma)
-		{
-			LINK->t = LINK->t->next;
-			surface_name = stringfactor(STR2, LINK);
-		}
-		else
-		{
-			surface_name = NULL;
-		}
+
+		// set number
+		LDBLE nmbr;
+		nmbr = realexpr(LINK);
+
+		// set total length
+		require(tokcomma, LINK);
+		int length = (int)realexpr(LINK);
+
+		// set total length
+		require(tokcomma, LINK);
+		int width = (int)realexpr(LINK);
+
+		// right parenthesis
 		require(tokrp, LINK);
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->surf_total(elt_name, surface_name);
-		break;
 
-	case tokequi:
+		// Make work space
+		int max_length = length < 256 ? 256 : length;
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
+		if (token == NULL) PhreeqcPtr->malloc_error();
+
+		std::string std_num;
 		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase(str);
+			sprintf(token, "%*.*e", length, width, nmbr);
+			std_num = token;
 		}
-		break;
 
-	case tokequi_delta:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equi_phase_delta(str);
-		}
-		break;
+		// set function value
+		n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(std_num.size() + 2, sizeof(char));
+		if (n.UU.sval == NULL)
+			PhreeqcPtr->malloc_error();
+		strcpy(n.UU.sval, std_num.c_str());
+		n.stringval = true;
 
-	case tokkin:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles(str);
-		}
-		break;
+		// free work space
+		PhreeqcPtr->free_check_null(token);
+	}
+	break;
 
-	case tokkin_delta:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->kinetics_moles_delta(str);
-		}
-		break;
-
-	case tokkin_time:
-		{
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rate_kin_time;
-		}
-		break;
-
-	case tokgas:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_comp(str);
-		}
-		break;
-
-	case toks_s:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_ss_comp(str);
-		}
-		break;
-
-	case tokmisc1:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc1(str);
-		}
-		break;
-
-	case tokmisc2:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_misc2(str);
-		}
-		break;
-
-	case tokmu:
-		n.UU.val = PhreeqcPtr->mu_x;
-		break;
-
-	case tokosmotic:
-		if (PhreeqcPtr->pitzer_model == TRUE || PhreeqcPtr->sit_model == TRUE)
-		{
-			n.UU.val = PhreeqcPtr->COSMOT;
-		}
-		else
-		{
-			n.UU.val = 0.0;
-		}
-		break;
-
-	case tokalk:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_alkalinity / PhreeqcPtr->mass_water_aq_x;
-		break;
-
-	case toklk_species:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_s(str);
-		}
-		break;
-
-	case toklk_named:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_n(str);
-		}
-		break;
-
-	case toklk_phase:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_logk_p(str);
-		}
-		break;
-
-	case toksum_species:
+	case tokstr_f_:
+	{
+		// left parenthesis
 		require(toklp, LINK);
-		mytemplate = stringfactor(STR1, LINK);
-		if (LINK->t != NULL && LINK->t->kind == tokcomma)
-		{
-			LINK->t = LINK->t->next;
-			elt_name = stringfactor(STR2, LINK);
-		}
-		else
-		{
-			elt_name = NULL;
-		}
+
+		// set number
+		LDBLE nmbr;
+		nmbr = realexpr(LINK);
+
+		// set total length
+		require(tokcomma, LINK);
+		int length = (int)realexpr(LINK);
+
+		// set total length
+		require(tokcomma, LINK);
+		int width = (int)realexpr(LINK);
+
+		// right parenthesis
 		require(tokrp, LINK);
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_species(mytemplate, elt_name);
-		break;
+
+		// Make work space
+		int max_length = length < 256 ? 256 : length;
+		char* token = (char*)PhreeqcPtr->PHRQ_calloc((max_length + 1), sizeof(char));
+		if (token == NULL) PhreeqcPtr->malloc_error();
+
+		std::string std_num;
+		{
+			sprintf(token, "%*.*f", length, width, nmbr);
+			std_num = token;
+		}
+
+		// set function value
+		n.UU.sval = (char*)PhreeqcPtr->PHRQ_calloc(std_num.size() + 2, sizeof(char));
+		if (n.UU.sval == NULL)
+			PhreeqcPtr->malloc_error();
+		strcpy(n.UU.sval, std_num.c_str());
+		n.stringval = true;
+
+		// free work space
+		PhreeqcPtr->free_check_null(token);
+	}
+	break;
 
 	case toksum_gas:
+	{
 		require(toklp, LINK);
 		mytemplate = stringfactor(STR1, LINK);
 		if (LINK->t != NULL && LINK->t->kind == tokcomma)
@@ -2460,9 +3682,11 @@ factor(struct LOC_exec * LINK)
 		}
 		require(tokrp, LINK);
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_gases(mytemplate, elt_name);
-		break;
+	}
+	break;
 
 	case toksum_s_s:
+	{
 		require(toklp, LINK);
 		mytemplate = stringfactor(STR1, LINK);
 		if (LINK->t != NULL && LINK->t->kind == tokcomma)
@@ -2476,140 +3700,48 @@ factor(struct LOC_exec * LINK)
 		}
 		require(tokrp, LINK);
 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_ss(mytemplate, elt_name);
-		break;
+	}
+	break;
 
-	case tokcalc_value:
+	case toksum_species:
+	{
 		require(toklp, LINK);
-		name = stringfactor(STR1, LINK);
-		require(tokrp, LINK);
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->get_calculate_value(name);
-		break;
-
-	case tokdescription:
-		n.stringval = true;
-		if (PhreeqcPtr->state == REACTION)
+		mytemplate = stringfactor(STR1, LINK);
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
 		{
-			if (PhreeqcPtr->use.Get_mix_in())
-			{
-				sprintf(string, "Mix %d", PhreeqcPtr->use.Get_n_mix_user());
-				n.UU.sval = PhreeqcPtr->string_duplicate(string);
-			}
-			else
-			{
-				soln_ptr = Utilities::Rxn_find(PhreeqcPtr->Rxn_solution_map, 
-					PhreeqcPtr->use.Get_n_solution_user());
-				if (soln_ptr != NULL)
-				{
-					n.UU.sval = PhreeqcPtr->string_duplicate(soln_ptr->Get_description().c_str());
-				}
-				else
-				{
-					n.UU.sval = PhreeqcPtr->string_duplicate("Unknown");
-				}
-			}
-		}
-		else if (PhreeqcPtr->state == ADVECTION || PhreeqcPtr->state == TRANSPORT || PhreeqcPtr->state == PHAST)
-		{
-			sprintf(string, "Cell %d", PhreeqcPtr->cell_no);
-			n.UU.sval = PhreeqcPtr->string_duplicate(string);
+			LINK->t = LINK->t->next;
+			elt_name = stringfactor(STR2, LINK);
 		}
 		else
 		{
-			if (PhreeqcPtr->use.Get_solution_ptr() != NULL)
-			{
-				n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->use.Get_solution_ptr()->Get_description().c_str());
-			}
-			else
-			{
-				n.UU.sval = PhreeqcPtr->string_duplicate("Unknown");
-			}
+			elt_name = NULL;
 		}
-		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
-		break;
+		require(tokrp, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sum_match_species(mytemplate, elt_name);
+	}
+	break;
 
-	case toktitle:
-		n.stringval = true;
-		if (strlen(PhreeqcPtr->last_title_x.c_str()) == 0)
+	case toksurf:
+	{
+		require(toklp, LINK);
+		elt_name = stringfactor(STR1, LINK);
+		if (LINK->t != NULL && LINK->t->kind == tokcomma)
 		{
-			PhreeqcPtr->last_title_x = " ";
+			LINK->t = LINK->t->next;
+			surface_name = stringfactor(STR2, LINK);
 		}
-		n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->last_title_x.c_str());
-		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
-		break;
-
-	case tokinstr:
-		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
-		require(tokcomma, LINK);
-		string2 = stringfactor(STR2, LINK);
-		require(tokrp, LINK);
+		else
 		{
-			const char * cptr = strstr(string1, string2);
-			if (cptr == NULL)
-			{
-				n.UU.val = 0;
-			}
-			else
-			{
-				n.UU.val = ((LDBLE) (cptr - string1)) + 1;
-			}
+			surface_name = NULL;
 		}
-		break;
-
-	case tokltrim:
-		n.stringval = true;
-		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
 		require(tokrp, LINK);
-		trim_left(STR1);
-		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
-		break;
-
-	case tokrtrim:
-		n.stringval = true;
-		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
-		require(tokrp, LINK);
-		trim_right(STR1);
-		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
-		break;
-
-	case toktrim:
-		n.stringval = true;
-		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
-		require(tokrp, LINK);
-		STR1 = trim(STR1);
-		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
-		break;
-
-	case tokiso:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->iso_value(str);
-		}
-		break;
-
-	case tokiso_unit:
-		n.stringval = true;
-		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
-		require(tokrp, LINK);
-		trim(STR1);
-		n.UU.sval = (parse_all) ? PhreeqcPtr->string_duplicate("unknown") : PhreeqcPtr->iso_unit(STR1.c_str());
-		break;
-
-	case tokpad:
-		n.stringval = true;
-		require(toklp, LINK);
-		string1 = stringfactor(STR1, LINK);
-		require(tokcomma, LINK);
-		i = intexpr(LINK);
-		require(tokrp, LINK);
-		n.UU.sval = PhreeqcPtr->string_pad(string1, i);
-		break;
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->surf_total(elt_name, surface_name);
+	}
+	break;
 
 	case toksys:
+	{
+		int isort = 0;
 		require(toklp, LINK);
 		elt_name = stringfactor(STR1, LINK);
 		/*
@@ -2654,7 +3786,16 @@ factor(struct LOC_exec * LINK)
 			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
 				snerr(": can`t find moles of species");
 			LINK->t = LINK->t->next;
-			arg_num = 4;
+			if (LINK->t != NULL && LINK->t->kind == tokcomma)
+			{
+				LINK->t = LINK->t->next;
+				isort = intexpr(LINK);
+				arg_num = 5;
+			}
+			else
+			{
+				arg_num = 4;
+			}
 		}
 		else
 		{
@@ -2672,15 +3813,16 @@ factor(struct LOC_exec * LINK)
 		/*
 		 *  Call subroutine
 		 */
-		/*
-		   n.UU.val = system_total(elt_name, count_varrec->UU.U0.val, &(names_varrec->UU.U1.sarr), &(types_varrec->UU.U1.sarr), &(moles_varrec->UU.U0.arr));
-		 */
+		 /*
+			n.UU.val = system_total(elt_name, count_varrec->UU.U0.val, &(names_varrec->UU.U1.sarr), &(types_varrec->UU.U1.sarr), &(moles_varrec->UU.U0.arr));
+		  */
 		if (parse_all)
 		{
 			PhreeqcPtr->sys_tot = 0;
-			PhreeqcPtr->count_sys = 1000;
-			int count_sys = PhreeqcPtr->count_sys;
-			names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
+			//PhreeqcPtr->count_sys = 1000;
+			//int count_sys = PhreeqcPtr->count_sys;
+			size_t count_sys = 1000;
+			names_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
 			if (names_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2688,7 +3830,7 @@ factor(struct LOC_exec * LINK)
 				exit(4);
 #endif
 			}
-			types_arg = (char **)PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
+			types_arg = (char**)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(char*));
 			if (types_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2696,7 +3838,7 @@ factor(struct LOC_exec * LINK)
 				exit(4);
 #endif
 			}
-			moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
+			moles_arg = (LDBLE*)PhreeqcPtr->PHRQ_calloc((size_t)(count_sys + 1), sizeof(LDBLE));
 			if (moles_arg == NULL)
 			{
 				PhreeqcPtr->malloc_error();
@@ -2707,13 +3849,13 @@ factor(struct LOC_exec * LINK)
 			names_arg[0] = NULL;
 			types_arg[0] = NULL;
 			moles_arg[0] = 0;
-			count_species = (LDBLE) count_sys;
+			count_species = (LDBLE)count_sys;
 			n.UU.val = 0;
 		}
 		else
 		{
 			n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
-				&(types_arg), &(moles_arg));
+				&(types_arg), &(moles_arg), isort);
 		}
 
 		/*
@@ -2732,9 +3874,9 @@ factor(struct LOC_exec * LINK)
 				types_varrec->dims[i] = 0;
 				moles_varrec->dims[i] = 0;
 			}
-			names_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			types_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			moles_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
+			names_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+			types_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
+			moles_varrec->dims[0] = (long)(*count_varrec->UU.U0.val) + 1;
 			names_varrec->numdims = 1;
 			types_varrec->numdims = 1;
 			moles_varrec->numdims = 1;
@@ -2750,1013 +3892,301 @@ factor(struct LOC_exec * LINK)
 			PhreeqcPtr->free_check_null(types_arg);
 			PhreeqcPtr->free_check_null(moles_arg);
 		}
-		break;
+	}
+	break;
 
-	case tokedl_species:
+	case tokt_sc:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_t_sc(str);
+	}
+	break;
+
+	case toktc:
+	{
+		n.UU.val = PhreeqcPtr->tc_x;
+	}
+	break;
+
+	case toktime:
+	{
+		n.UU.val = PhreeqcPtr->rate_time;
+	}
+	break;
+
+	case toktitle:
+	{
+		n.stringval = true;
+		if (strlen(PhreeqcPtr->last_title_x.c_str()) == 0)
 		{
-			double area, thickness;
-			require(toklp, LINK);
-			const char *surf_name = stringfactor(STR1, LINK);
-			require(tokcomma, LINK);
-			// variable for number of species
-			count_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || !count_varrec || count_varrec->stringvar != 0)
-			{
-				snerr(": Missing or wrong type count variable.");
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
-			// variable for species names
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			names_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || !names_varrec || names_varrec->stringvar != 1)
-			{
-				snerr(": Missing or wrong type name variable.");
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
-			// variable for species concentrations
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			moles_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
-				snerr(": Missing or wrong type moles variable.");
-			// variable for area
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			varrec *area_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || area_varrec->stringvar != 0)
-				snerr(": Missing or wrong type area varaiable.");
-			// varaiable for thickness
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			varrec *thickness_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || thickness_varrec->stringvar != 0)
-				snerr(": Missing or wrong type thickness variable.");
-			LINK->t = LINK->t->next;
-			require(tokrp, LINK);
-
-			free_dim_stringvar(names_varrec);
-			PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
-			moles_varrec->UU.U0.arr = NULL;
-
-			// Call subroutine
-			if (parse_all)
-			{
-				PhreeqcPtr->sys_tot = 0;
-				PhreeqcPtr->count_sys = 1000;
-				int count_sys = PhreeqcPtr->count_sys;
-				names_arg = (char **) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(char *));
-				if (names_arg == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-					exit(4);
-#endif
-				}
-				moles_arg = (LDBLE *) PhreeqcPtr->PHRQ_calloc((size_t) (count_sys + 1), sizeof(LDBLE));
-				if (moles_arg == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-					exit(4);
-#endif
-				}
-				names_arg[0] = NULL;
-				moles_arg[0] = 0;
-				count_species = (LDBLE) count_sys;
-				n.UU.val = 0;
-			}
-			else
-			{
-				//n.UU.val = PhreeqcPtr->system_total(elt_name, &count_species, &(names_arg),
-				//	&(types_arg), &(moles_arg));
-				n.UU.val = PhreeqcPtr->edl_species(surf_name, &count_species, &(names_arg), &(moles_arg), &area, &thickness);
-			}
-			/*
-			*  fill in varrec structures
-			*/
-			*count_varrec->UU.U0.val = count_species;
-			names_varrec->UU.U1.sarr = names_arg;
-			moles_varrec->UU.U0.arr = moles_arg;
-			*area_varrec->UU.U0.val = area;
-			*thickness_varrec->UU.U0.val = thickness;
-
-			for (i = 0; i < maxdims; i++)
-			{
-				names_varrec->dims[i] = 0;
-				moles_varrec->dims[i] = 0;
-			}
-			names_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			moles_varrec->dims[0] = (long) (*count_varrec->UU.U0.val) + 1;
-			names_varrec->numdims = 1;
-			moles_varrec->numdims = 1;
+			PhreeqcPtr->last_title_x = " ";
 		}
-		break;
+		n.UU.sval = PhreeqcPtr->string_duplicate(PhreeqcPtr->last_title_x.c_str());
+		while (PhreeqcPtr->replace("\t", " ", n.UU.sval));
+	}
+	break;
 
-	case toklist_s_s:
-		{
-			/* list_s_s("calcite", count, name$, moles) */
-			/* return total moles */
-			require(toklp, LINK);
-			std::string s_s_name(stringfactor(STR1, LINK));
-			cxxNameDouble composition;
-			/*
-			*  Parse arguments
-			*/
-			arg_num = -1;
-			if (LINK->t != NULL && LINK->t->kind == tokcomma)
-			{
-				LINK->t = LINK->t->next;
-				count_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
-					snerr(": Cannot find count variable");
-
-				/* return number of names of components */
-				LINK->t = LINK->t->next;
-				require(tokcomma, LINK);
-				names_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || names_varrec->stringvar != 1)
-					snerr(": Cannot find component string variable");
-
-				/* return number of moles  of components */
-				LINK->t = LINK->t->next;
-				require(tokcomma, LINK);
-				moles_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || moles_varrec->stringvar != 0)
-					snerr(": Cannot find moles of component variable");
-				LINK->t = LINK->t->next;
-				arg_num = 4;
-			}
-			else
-			{
-				snerr(": Expected 4 arguments for list_s_s");
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
-			require(tokrp, LINK);
-
-			if (arg_num > 1)
-			{
-				free_dim_stringvar(names_varrec);
-				if (moles_varrec)
-				{
-					PhreeqcPtr->free_check_null(moles_varrec->UU.U0.arr);
-					moles_varrec->UU.U0.arr = NULL;
-				}
-			}
-			/*
-			*  Call subroutine
-			*/
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->list_ss(s_s_name, composition);
-
-			/*
-			*  fill in varrec structure
-			*/
-
-			if (arg_num > 1)
-			{
-				size_t count = composition.size();
-				*count_varrec->UU.U0.val = (LDBLE) count;
-				/*
-				* malloc space
-				*/
-				names_varrec->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char *));
-				if (names_varrec->UU.U1.sarr == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-					exit(4);
-#endif
-				}
-				moles_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
-				if (moles_varrec->UU.U0.arr == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-					exit(4);
-#endif
-				}
-
-				// first position not used
-				names_varrec->UU.U1.sarr[0] = NULL;
-				moles_varrec->UU.U0.arr[0] = 0;
-
-				// set dims for Basic array
-				for (i = 0; i < maxdims; i++)
-				{
-					names_varrec->dims[i] = 0;
-					moles_varrec->dims[i] = 0;
-				}
-				// set dims for first dimension and number of dims
-				names_varrec->dims[0] = (long) (count + 1);
-				moles_varrec->dims[0] = (long) (count + 1);
-				names_varrec->numdims = 1;
-				moles_varrec->numdims = 1;
-
-				// fill in arrays
-				i = 1;
-				std::vector< std::pair<std::string, LDBLE> > sort_comp = composition.sort_second();
-				size_t j;
-				for (j = 0; j != sort_comp.size(); j++)
-				{
-					names_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate(sort_comp[j].first.c_str());
-					moles_varrec->UU.U0.arr[i] = sort_comp[j].second;
-					i++;
-				}
-
-			}
-			break;
-		}
-
-	case tokkinetics_formula:
-	case tokkinetics_formula_:
-		{
-			require(toklp, LINK);
-			std::string kinetics_name(stringfactor(STR1, LINK));
-			varrec *elts_varrec = NULL, *coef_varrec = NULL;
-			cxxNameDouble stoichiometry;
-			/*
-			*  Parse arguments
-			*/
-			if (LINK->t != NULL && LINK->t->kind == tokcomma)
-			{
-				/* kinetics_formula("calcite", count, elt, coef) */
-				/* return formula */
-				/*int c; */
-				/*  struct varrec *count_varrec, *names_varrec, *types_varrec, *moles_varrec; */
-				/*  struct varrec *count_varrec, *elt_varrec, *coef_varrec; */
-				/* return number of species */
-				LINK->t = LINK->t->next;
-				count_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
-					snerr(": Cannot find count variable");
-
-				/* return number of names of elements */
-				LINK->t = LINK->t->next;
-				require(tokcomma, LINK);
-				elts_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
-					snerr(": Cannot find element string variable");
-
-				/* return coefficients of species */
-				LINK->t = LINK->t->next;
-				require(tokcomma, LINK);
-				coef_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
-					snerr(": Cannot find coefficient variable");
-				LINK->t = LINK->t->next;
-				arg_num = 4;
-			}
-			else
-			{
-				arg_num = 1;
-			}
-			require(tokrp, LINK);
-
-			if (arg_num > 1)
-			{
-				free_dim_stringvar(elts_varrec);
-				PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
-				coef_varrec->UU.U0.arr = NULL;
-			}
-			/*
-			*  Call subroutine
-			*/
-			std::string form = PhreeqcPtr->kinetics_formula(kinetics_name, stoichiometry);
-
-			// put formula as return value
-			n.stringval = true;
-			n.UU.sval = PhreeqcPtr->string_duplicate(form.c_str());
-
-			/*
-			*  fill in varrec structure
-			*/
-
-			if (arg_num > 1)
-			{
-				size_t count = stoichiometry.size();
-				*count_varrec->UU.U0.val = (LDBLE) count;
-				/*
-				* malloc space
-				*/
-				elts_varrec->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char *));
-				if (elts_varrec->UU.U1.sarr == NULL)
-					PhreeqcPtr->malloc_error();
-				coef_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
-				if (coef_varrec->UU.U0.arr == NULL)
-					PhreeqcPtr->malloc_error();
-
-				// first position not used
-				elts_varrec->UU.U1.sarr[0] = NULL;
-				coef_varrec->UU.U0.arr[0] = 0;
-
-				// set dims for Basic array
-				for (i = 0; i < maxdims; i++)
-				{
-					elts_varrec->dims[i] = 0;
-					coef_varrec->dims[i] = 0;
-				}
-				// set dims for first dimension and number of dims
-				elts_varrec->dims[0] = (long) (count + 1);
-				coef_varrec->dims[0] = (long) (count + 1);
-				elts_varrec->numdims = 1;
-				coef_varrec->numdims = 1;
-
-				// fill in arrays
-				i = 1;
-				for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
-				{
-					elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
-					coef_varrec->UU.U0.arr[i] = it->second;
-					i++;
-				}
-
-			}
-			break;
-		}
-	case tokphase_formula:
-	case tokphase_formula_:
-		{
-			require(toklp, LINK);
-			std::string phase_name(stringfactor(STR1, LINK));
-			varrec *elts_varrec = NULL, *coef_varrec = NULL;
-			cxxNameDouble stoichiometry;
-			/*
-			*  Parse arguments
-			*/
-			if (LINK->t != NULL && LINK->t->kind == tokcomma)
-			{
-				/* phase_formula("calcite", count, elt, coef) */
-				/* return formula */
-				/*int c; */
-				/*  struct varrec *count_varrec, *names_varrec, *types_varrec, *moles_varrec; */
-				/*  struct varrec *count_varrec, *elt_varrec, *coef_varrec; */
-				/* return number of species */
-				LINK->t = LINK->t->next;
-				count_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
-					snerr(": Cannot find count variable");
-
-				/* return number of names of species */
-				LINK->t = LINK->t->next;
-				require(tokcomma, LINK);
-				elts_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
-					snerr(": Cannot find element string variable");
-
-				/* return coefficients of species */
-				LINK->t = LINK->t->next;
-				require(tokcomma, LINK);
-				coef_varrec = LINK->t->UU.vp;
-				if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
-					snerr(": Cannot find coefficient variable");
-				LINK->t = LINK->t->next;
-				arg_num = 4;
-			}
-			else
-			{
-				arg_num = 1;
-			}
-			require(tokrp, LINK);
-
-			if (arg_num > 1)
-			{
-				free_dim_stringvar(elts_varrec);
-				PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
-				coef_varrec->UU.U0.arr = NULL;
-			}
-			/*
-			*  Call subroutine
-			*/
-			std::string form = PhreeqcPtr->phase_formula(phase_name, stoichiometry);
-
-			// put formula as return value
-			n.stringval = true;
-			n.UU.sval = PhreeqcPtr->string_duplicate(form.c_str());
-
-			/*
-			*  fill in varrec structure
-			*/
-
-			if (arg_num > 1)
-			{
-				size_t count = stoichiometry.size();
-				*count_varrec->UU.U0.val = (LDBLE) count;
-				/*
-				* malloc space
-				*/
-				elts_varrec->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char *));
-				if (elts_varrec->UU.U1.sarr == NULL)
-					PhreeqcPtr->malloc_error();
-				coef_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
-				if (coef_varrec->UU.U0.arr == NULL)
-					PhreeqcPtr->malloc_error();
-
-				// first position not used
-				elts_varrec->UU.U1.sarr[0] = NULL;
-				coef_varrec->UU.U0.arr[0] = 0;
-
-				// set dims for Basic array
-				for (i = 0; i < maxdims; i++)
-				{
-					elts_varrec->dims[i] = 0;
-					coef_varrec->dims[i] = 0;
-				}
-				// set dims for first dimension and number of dims
-				elts_varrec->dims[0] = (long) (count + 1);
-				coef_varrec->dims[0] = (long) (count + 1);
-				elts_varrec->numdims = 1;
-				coef_varrec->numdims = 1;
-
-				// fill in arrays
-				i = 1;
-				for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
-				{
-					elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
-					coef_varrec->UU.U0.arr[i] = it->second;
-					i++;
-				}
-
-			}
-			break;
-		}
-	case tokspecies_formula:
-	case tokspecies_formula_:
-		{
-			require(toklp, LINK);
-			std::string species_name(stringfactor(STR1, LINK));
-			varrec *elts_varrec = NULL, *coef_varrec = NULL;
-			cxxNameDouble stoichiometry;
-			/*
-			*  Parse arguments
-			*/
-			require(tokcomma, LINK);
-
-			count_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
-				snerr(": Cannot find count variable");
-
-			/* return number of names of species */
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			elts_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || elts_varrec->stringvar != 1)
-				snerr(": Cannot find element string variable");
-
-			/* return coefficients of species */
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-			coef_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || coef_varrec->stringvar != 0)
-				snerr(": Cannot find coefficient variable");
-			LINK->t = LINK->t->next;
-
-			require(tokrp, LINK);
-
-			free_dim_stringvar(elts_varrec);
-			PhreeqcPtr->free_check_null(coef_varrec->UU.U0.arr);
-			coef_varrec->UU.U0.arr = NULL;
-			/*
-			*  Call subroutine
-			*/
-			std::string type = PhreeqcPtr->species_formula(species_name, stoichiometry);
-
-			// put type as return value
-			n.stringval = true;
-			n.UU.sval = PhreeqcPtr->string_duplicate(type.c_str());
-
-			/*
-			*  fill in varrec structure
-			*/
-
-			size_t count = stoichiometry.size();
-			*count_varrec->UU.U0.val = (LDBLE) count;
-			/*
-			* malloc space
-			*/
-			elts_varrec->UU.U1.sarr = (char **) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(char *));
-			if (elts_varrec->UU.U1.sarr == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
-			coef_varrec->UU.U0.arr = (LDBLE *) PhreeqcPtr->PHRQ_malloc((count + 1) * sizeof(LDBLE));
-			if (coef_varrec->UU.U0.arr == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-#if !defined(R_SO)
-				exit(4);
-#endif
-			}
-
-			// first position not used
-			elts_varrec->UU.U1.sarr[0] = NULL;
-			coef_varrec->UU.U0.arr[0] = 0;
-
-			// set dims for Basic array
-			for (i = 0; i < maxdims; i++)
-			{
-				elts_varrec->dims[i] = 0;
-				coef_varrec->dims[i] = 0;
-			}
-			// set dims for first dimension and number of dims
-			elts_varrec->dims[0] = (long) (count + 1);
-			coef_varrec->dims[0] = (long) (count + 1);
-			elts_varrec->numdims = 1;
-			coef_varrec->numdims = 1;
-
-			// fill in arrays
-			i = 1;
-			for (cxxNameDouble::iterator it = stoichiometry.begin(); it != stoichiometry.end(); it++)
-			{
-				elts_varrec->UU.U1.sarr[i] = PhreeqcPtr->string_duplicate((it->first).c_str());
-				coef_varrec->UU.U0.arr[i] = it->second;
-				i++;
-			}
-
-			break;
-		}
-	case tokrxn:
-		if (PhreeqcPtr->state == REACTION || 
-			PhreeqcPtr->state == ADVECTION ||
-			PhreeqcPtr->state == TRANSPORT)
-		{
-			n.UU.val = PhreeqcPtr->step_x;
-		}
-		else
-		{
-			n.UU.val = 0.0;
-		}
-		break;
-
-	case tokdist:
-		if (PhreeqcPtr->state == PHAST)
-		{
-			n.UU.val = 0;
-		}
-		else if (PhreeqcPtr->state == TRANSPORT)
-		{
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cell_data[PhreeqcPtr->cell].mid_cell_x;
-		}
-		else if (PhreeqcPtr->state == ADVECTION)
-		{
-			n.UU.val = (parse_all) ? 1 : (LDBLE) PhreeqcPtr->use.Get_n_solution_user();
-		}
-		else
-		{
-			n.UU.val = 0;
-		}
-		break;
-
-	case tokmol:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->molality(str);
-		}
-		break;
-
-	case tokla:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_activity(str);
-		}
-		break;
-
-	case toklm:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->log_molality(str);
-		}
-		break;
-
-	case toksr:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->saturation_ratio(str);
-		}
-		break;
-
-	case tokstep_no:
-		if (PhreeqcPtr->state == PHAST)
-		{
-			n.UU.val = 0;
-		}
-		else if (PhreeqcPtr->state == TRANSPORT)
-		{
-			n.UU.val = PhreeqcPtr->transport_step;
-		}
-		else if (PhreeqcPtr->state == ADVECTION)
-		{
-			n.UU.val = PhreeqcPtr->advection_step;
-		}
-		else if (PhreeqcPtr->state == REACTION)
-		{
-			n.UU.val = PhreeqcPtr->reaction_step;
-		}
-		else
-		{
-			n.UU.val = 0;
-		}
-		break;
-
-	case tokcell_no:
-		if (parse_all)
-		{
-			n.UU.val = 1;
-			break;
-		}
-		n.UU.val = PhreeqcPtr->solution_number();
-#ifdef SKIP
-		if (PhreeqcPtr->state == TRANSPORT)
-		{
-			n.UU.val = PhreeqcPtr->cell_no;
-		}
-		else if (PhreeqcPtr->state == PHAST)
-		{
-			n.UU.val = PhreeqcPtr->cell_no;
-		}
-		else if (PhreeqcPtr->state == ADVECTION)
-		{
-			n.UU.val = PhreeqcPtr->cell_no;
-		}
-		else if (PhreeqcPtr->state < REACTION)
-		{
-			n.UU.val = PhreeqcPtr->use.Get_solution_ptr()->Get_n_user();
-		}
-		else
-		{
-			if (PhreeqcPtr->use.Get_mix_in())
-			{
-				n.UU.val = PhreeqcPtr->use.Get_n_mix_user();
-			}
-			else
-			{
-				n.UU.val = PhreeqcPtr->use.Get_n_solution_user();
-			}
-		}
-#endif
-		break;
-
-	case toksim_no:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->simulation;
-		break;
-
-	case tokget:
-		require(toklp, LINK);
-
-		s_v.count_subscripts = 0;
-		/* get first subscript */
-		if (LINK->t != NULL && LINK->t->kind != tokrp)
-		{
-			i = intexpr(LINK);
-			if (s_v.subscripts == NULL)
-			{
-				s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-			}
-			s_v.subscripts =
-				(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-									 (size_t) (s_v.count_subscripts +
-											   1) * sizeof(int));
-			if (s_v.subscripts == NULL)
-				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts] = i;
-			s_v.count_subscripts++;
-		}
-
-		/* get other subscripts */
-		for (;;)
-		{
-			if (LINK->t != NULL && LINK->t->kind == tokcomma)
-			{
-				LINK->t = LINK->t->next;
-				j = intexpr(LINK);
-				if (s_v.subscripts == NULL)
-				{
-					s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
-					if (s_v.subscripts == NULL)
-						PhreeqcPtr->malloc_error();
-				}
-				s_v.subscripts =
-					(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-										 (size_t) (s_v.count_subscripts +
-												   1) * sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-				s_v.subscripts[s_v.count_subscripts] = j;
-				s_v.count_subscripts++;
-			}
-			else
-			{
-				/* get right parentheses */
-				require(tokrp, LINK);
-				break;
-			}
-		}
-		s_v_ptr = (parse_all) ? NULL : PhreeqcPtr->save_values_bsearch(&s_v, &k);
-		if (s_v_ptr == NULL)
-		{
-			n.UU.val = (parse_all) ? 1 : 0;
-		}
-		else
-		{
-			n.UU.val = s_v_ptr->value;
-		}
-		break;
-
-	case tokexists:
-		require(toklp, LINK);
-
-		s_v.count_subscripts = 0;
-		/* get first subscript */
-		if (LINK->t != NULL && LINK->t->kind != tokrp)
-		{
-			i = intexpr(LINK);
-			if (s_v.subscripts == NULL)
-			{
-				s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
-				if (s_v.subscripts == NULL)
-					PhreeqcPtr->malloc_error();
-			}
-			s_v.subscripts =
-				(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-									 (size_t) (s_v.count_subscripts +
-											   1) * sizeof(int));
-			if (s_v.subscripts == NULL)
-			{
-				PhreeqcPtr->malloc_error();
-			}
-			else
-			{
-				s_v.subscripts[s_v.count_subscripts] = i;
-				s_v.count_subscripts++;
-			}
-		}
-
-		/* get other subscripts */
-		for (;;)
-		{
-			if (LINK->t != NULL && LINK->t->kind == tokcomma)
-			{
-				LINK->t = LINK->t->next;
-				j = intexpr(LINK);
-				if (s_v.subscripts == NULL)
-				{
-					s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
-					if (s_v.subscripts == NULL)
-						PhreeqcPtr->malloc_error();
-				}
-				s_v.subscripts =
-					(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-										 (size_t) (s_v.count_subscripts +
-												   1) * sizeof(int));
-				if (s_v.subscripts == NULL)
-				{
-					PhreeqcPtr->malloc_error();
-				}
-				else
-				{
-					s_v.subscripts[s_v.count_subscripts] = j;
-					s_v.count_subscripts++;
-				}
-			}
-			else
-			{
-				/* get right parentheses */
-				require(tokrp, LINK);
-				break;
-			}
-		}
-		if (parse_all)
-		{
-			n.UU.val = 1;
-		}
-		else
-		{
-			s_v_ptr = PhreeqcPtr->save_values_bsearch(&s_v, &k);
-			if (s_v_ptr == NULL)
-			{
-				n.UU.val = 0;
-			}
-			else
-			{
-				n.UU.val = 1;
-			}
-		}
-		break;
-
-	case tokcharge_balance:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->cb_x;
-		break;
-
-	case tokpercent_error:
-		n.UU.val = (parse_all) ? 1 : 100 * PhreeqcPtr->cb_x / PhreeqcPtr->total_ions_x;
-		break;
-
-	case toksi:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			if (parse_all)
-			{
-				n.UU.val = 1;
-			}
-			else
-			{
-				PhreeqcPtr->saturation_index(str, &l_dummy, &n.UU.val);
-			}
-		}
-		break;
+	case toktk:
+	{
+		n.UU.val = PhreeqcPtr->tc_x + 273.15;
+	}
+	break;
 
 	case toktot:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total(str);
+	}
+	break;
+
+	case toktotal_time:
+	{
+		if (!PhreeqcPtr->use.Get_kinetics_in())
 		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total(str);
+			if (PhreeqcPtr->state == PHAST)
+			{
+				n.UU.val = PhreeqcPtr->rate_sim_time_end;
+			}
+			else if (PhreeqcPtr->state == TRANSPORT)
+			{
+				n.UU.val = PhreeqcPtr->initial_total_time + PhreeqcPtr->transport_step * PhreeqcPtr->timest;
+			}
+			else if (PhreeqcPtr->state == ADVECTION)
+			{
+				n.UU.val =
+					PhreeqcPtr->initial_total_time + PhreeqcPtr->advection_step * PhreeqcPtr->advection_kin_time;
+			}
+			else
+			{
+				n.UU.val = 0;
+			}
 		}
-		break;
+		else
+		{
+			n.UU.val = PhreeqcPtr->initial_total_time + PhreeqcPtr->rate_sim_time;
+		}
+	}
+	break;
 
 	case toktotmole:
 	case toktotmol:
 	case toktotmoles:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_mole(str);
-		}
-		break;
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->total_mole(str);
+	}
+	break;
 
-	case tokcell_pore_volume:
+	case toktrim:
+	{
+		n.stringval = true;
+		require(toklp, LINK);
+		string1 = stringfactor(STR1, LINK);
+		require(tokrp, LINK);
+		STR1 = trim(STR1);
+		n.UU.sval = PhreeqcPtr->string_duplicate(STR1.c_str());
+	}
+	break;
+
+	case tokviscos:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
+	}
+	break;
+
+	case tokviscos_0:
+	{
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos_0;
+	}
+	break;
+
+	case tokvm:
+	{
+		const char* str = stringfactor(STR1, LINK);
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
+	}
+	break;
+	/*
+	* End of PHREEQC functions
+	*/
+	case toksa_declercq: // Undocumented function
+	{
+		double type, sa, d, m, m0, gfw;
+
+		// left parenthesis
+		require(toklp, LINK);
+
+		// first double arugument, type
+		type = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// second double arugument, Sa
+		sa = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// third double arugument, Sa
+		d = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// fourth double arugument, m
+		m = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// fifth double arugument, m0
+		m0 = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// sixth double arugument, gfw
+		gfw = realfactor(LINK);
+		require(tokrp, LINK);
+
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sa_declercq(type, sa, d, m, m0, gfw);
+	}
+	break;
+
+	case tokcallback: // PHAST function
+	{
+		double x1, x2;
+		char* str;
+
+		// left parenthesis
+		require(toklp, LINK);
+
+		// first double arugument
+		x1 = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// second double arugument
+		x2 = realfactor(LINK);
+		require(tokcomma, LINK);
+
+		// string arugument
+		str = strexpr(LINK);
+
+		require(tokrp, LINK);
+
+		// call callback Basic function
+
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x2, str);
+		PhreeqcPtr->PHRQ_free(str);
+	}
+	break;
+
+	case tokcell_pore_volume: // PHAST function
 	case tokporevolume:
-		{
-			double x1 = (double) PhreeqcPtr->solution_number();
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_pore_volume");
-		}
-		break;
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_pore_volume");
+	}
+	break;
 
-/* VP : Density Start */
-	case tokrho:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_dens();
-		break;
-	case tokrho_0:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->rho_0;
-		break;
-/* VP: Density End */
-	case tokcell_volume:
-		{
-			double x1 = (double) PhreeqcPtr->solution_number();
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_volume");
-		}
-		break;
-	case tokcell_porosity:
-		{
-			double x1 = (double) PhreeqcPtr->solution_number();
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_porosity");
-		}
-		break;
-	case tokcell_saturation:
-		{
-			double x1 = (double) PhreeqcPtr->solution_number();
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_saturation");
-		}
-		break;
-	case toksc:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_SC();
-		break;
-	case tokpr_p:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_pressure(stringfactor(STR1, LINK));
-		break;
-	case tokpressure:
-		n.UU.val = PhreeqcPtr->pressure();
-		break;
-	case tokpr_phi:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->pr_phi(stringfactor(STR1, LINK));
-		break;
- 	case tokgas_p:
- 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_p();
- 		break;
-  	case tokgas_vm:
- 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->find_gas_vm();
- 		break;
-	case tokeps_r:
-		n.UU.val = PhreeqcPtr->eps_r;
-		break;
-	case tokaphi:
-		n.UU.val = PhreeqcPtr->A0;
-		break;
-	case tokdh_a:
-		n.UU.val = PhreeqcPtr->DH_A;
-		break;
-	case tokdh_b:
-		n.UU.val = PhreeqcPtr->DH_B;
-		break;
-	case tokdh_av:
-		n.UU.val = PhreeqcPtr->DH_Av;
-		break;
-	case tokqbrn:
-		n.UU.val = PhreeqcPtr->QBrn;
-		break;
-	case tokkappa:
-		n.UU.val = PhreeqcPtr->kappa_0;
-		break;
-  	case tokgfw:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			LDBLE gfw;
-			PhreeqcPtr->compute_gfw(str, &gfw);
- 			n.UU.val = (parse_all) ? 1 : gfw;
-		}
- 		break;
-  	case toksoln_vol:
- 		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_solution_volume();
- 		break;
-  	case tokvm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->aqueous_vm(str);
-		}
- 		break;
-  	case tokphase_vm:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->phase_vm(str);
-		}
- 		break;
-  	case tokviscos:
-		{
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos;
-		}
- 		break;
-  	case tokviscos_0:
-		{
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->viscos_0;
-		}
- 		break;
-	case tokcurrent_a:
-		//n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_x;
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->current_A;
-		break;
-	case tokpot_v:
-		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->use.Get_solution_ptr()->Get_potV();
-		break;
-	case tokt_sc:
-		{
-			const char * str = stringfactor(STR1, LINK);
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->calc_t_sc(str);
-		}
-		break;
+	case tokcell_porosity: // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_porosity");
+	}
+	break;
+
+	case tokcell_saturation: // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_saturation");
+	}
+	break;
+
+	case tokcell_volume: // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "cell_volume");
+	}
+	break;
+
+	case toktransport_cell_no:  // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "transport_cell_no");
+	}
+	break;
+
+	case tokvelocity_x: // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "velocity_x");
+	}
+	break;
+
+	case tokvelocity_y: // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "velocity_y");
+	}
+	break;
+
+	case tokvelocity_z: // PHAST function
+	{
+		double x1 = (double)PhreeqcPtr->solution_number();
+		n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x1, "velocity_z");
+	}
+	break;
 
 	case toklog10:
+	{
+		LDBLE t = realfactor(LINK);
 		{
-			LDBLE t = realfactor(LINK);
-			//if (t > 0.0)
-			{
-				n.UU.val = log10(t);
-			}
-			//else
-			//{
-			//	n.UU.val = 0;
-			//}
+			n.UU.val = log10(t);
 		}
-		break;
+	}
+	break;
+
 	case toksin:
+	{
 		n.UU.val = sin(realfactor(LINK));
-		break;
+	}
+	break;
 
 	case tokcos:
+	{
 		n.UU.val = cos(realfactor(LINK));
-		break;
+	}
+	break;
 
 	case toktan:
+	{
 		n.UU.val = realfactor(LINK);
 		n.UU.val = sin(n.UU.val) / cos(n.UU.val);
-		break;
+	}
+	break;
 
 	case tokarctan:
+	{
 		n.UU.val = atan(realfactor(LINK));
-		break;
+	}
+	break;
 
 	case toklog:
+	{
 		n.UU.val = log(realfactor(LINK));
-		break;
+	}
+	break;
 
 	case tokexp:
+	{
 		n.UU.val = exp(realfactor(LINK));
-		break;
+	}
+	break;
 
 	case tokabs:
+	{
 		n.UU.val = fabs(realfactor(LINK));
-		break;
+	}
+	break;
 
 	case toksgn:
+	{
 		n.UU.val = realfactor(LINK);
-		n.UU.val = (n.UU.val > 0) - (n.UU.val < 0);
-		break;
+		n.UU.val = (double)(n.UU.val > 0) - (double)(n.UU.val < 0);
+	}
+	break;
 
 	case tokstr_:
 		n.stringval = true;
@@ -3764,234 +4194,6 @@ factor(struct LOC_exec * LINK)
 		if (n.UU.sval == NULL)
 			PhreeqcPtr->malloc_error();
 		numtostr(n.UU.sval, realfactor(LINK));
-		break;
-
-	case tokstr_f_:
-		{		
-			// left parenthesis
-			require(toklp, LINK);
-
-			// set number
-			LDBLE nmbr;
-			nmbr = realexpr(LINK);	
-
-			// set total length
-			require(tokcomma, LINK);
-			int length = (int) realexpr(LINK);
-
-			// set total length
-			require(tokcomma, LINK);
-			int width = (int) realexpr(LINK);
-
-			// right parenthesis
-			require(tokrp, LINK);
-
-			// Make work space
-			int max_length = length < 256 ? 256 : length;
-			char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
-			if (token == NULL) PhreeqcPtr->malloc_error();
-
-			std::string std_num;
-			{
-				sprintf(token, "%*.*f", length, width, nmbr);
-				std_num = token;
-			}
-
-			// set function value
-			n.UU.sval = (char *) PhreeqcPtr->PHRQ_calloc(std_num.size() + 2, sizeof(char));
-			if (n.UU.sval == NULL)
-				PhreeqcPtr->malloc_error();
-			strcpy(n.UU.sval, std_num.c_str());
-			n.stringval = true;	
-
-			// free work space
-			PhreeqcPtr->free_check_null(token);
-		}
-		break;
-
-	case tokstr_e_:
-		{		
-			// left parenthesis
-			require(toklp, LINK);
-
-			// set number
-			LDBLE nmbr;
-			nmbr = realexpr(LINK);	
-
-			// set total length
-			require(tokcomma, LINK);
-			int length = (int) realexpr(LINK);
-
-			// set total length
-			require(tokcomma, LINK);
-			int width = (int) realexpr(LINK);
-
-			// right parenthesis
-			require(tokrp, LINK);
-
-			// Make work space
-			int max_length = length < 256 ? 256 : length;
-			char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
-			if (token == NULL) PhreeqcPtr->malloc_error();
-
-			std::string std_num;
-			{
-				sprintf(token, "%*.*e", length, width, nmbr);
-				std_num = token;
-			}
-
-			// set function value
-			n.UU.sval = (char *) PhreeqcPtr->PHRQ_calloc(std_num.size() + 2, sizeof(char));
-			if (n.UU.sval == NULL)
-				PhreeqcPtr->malloc_error();
-			strcpy(n.UU.sval, std_num.c_str());
-			n.stringval = true;	
-
-			// free work space
-			PhreeqcPtr->free_check_null(token);
-		}
-		break;
-	case tokeq_frac:
-	case tokequiv_frac:
-		{			
-			// left parenthesis
-			require(toklp, LINK);
-
-			// species name
-			std::string species_name(stringfactor(STR1, LINK));
-
-			require(tokcomma, LINK);
-
-			// equivalents
-			count_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || count_varrec->stringvar != 0)
-				snerr(": Cannot find equivalents variable");
-
-			LINK->t = LINK->t->next;
-			require(tokcomma, LINK);
-
-			// exchange or surface element 
-			varrec *elt_varrec = NULL;
-			elt_varrec = LINK->t->UU.vp;
-			if (LINK->t->kind != tokvar || elt_varrec->stringvar != 1)
-				snerr(": Cannot find element string variable");
-			free_dim_stringvar(elt_varrec);
-			*elt_varrec->UU.U1.sval = (char *) PhreeqcPtr->free_check_null(*elt_varrec->UU.U1.sval);
-
-			// right parenthesis
-			LINK->t = LINK->t->next;
-			require(tokrp, LINK);
-
-			// Make work space
-			//int max_length = length < 256 ? 256 : length;
-			//char *token = (char *) PhreeqcPtr->PHRQ_calloc(size_t (max_length + 1), sizeof(char));
-			//if (token == NULL) PhreeqcPtr->malloc_error();
-
-			// set function value
-			LDBLE eq;
-			std::string elt_name;
-
-			// return equivalent fraction
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->equivalent_fraction(species_name.c_str(), &eq, elt_name);
-
-			// set equivalents
-			*count_varrec->UU.U0.val = (parse_all) ? 1 : eq;
-
-			// set element name
-			size_t l = elt_name.size();
-			l = l < 256 ? 256 : l + 1;
-			char * token = (char *) PhreeqcPtr->PHRQ_malloc( l * sizeof(char));
-			strcpy(token, elt_name.c_str());
-			*elt_varrec->UU.U1.sval = token;
-		}
-		break;
-	case tokcallback:
-		{		
-			double x1, x2;
-			char * str;
-
-			// left parenthesis
-			require(toklp, LINK);
-
-			// first double arugument
-			x1 = realfactor(LINK);
-			require(tokcomma, LINK);
-
-			// second double arugument
-			x2 = realfactor(LINK);
-			require(tokcomma, LINK);
-			
-			// string arugument
-			str = strexpr(LINK);
-
-			require(tokrp, LINK);
-
-			// call callback Basic function
-
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->basic_callback(x1, x2, str);
-
-		}
-		break;
-
-	case toksa_declercq:
-		{
-			double type, sa, d, m, m0, gfw;
-
-			// left parenthesis
-			require(toklp, LINK);
-
-			// first double arugument, type
-			type = realfactor(LINK);
-			require(tokcomma, LINK);
-
-			// second double arugument, Sa
-			sa = realfactor(LINK);
-			require(tokcomma, LINK);
-			
-			// third double arugument, Sa
-			d = realfactor(LINK);
-			require(tokcomma, LINK);
-
-			// fourth double arugument, m
-			m = realfactor(LINK);
-			require(tokcomma, LINK);
-
-			// fifth double arugument, m0
-			m0 = realfactor(LINK);
-			require(tokcomma, LINK);
-
-			// sixth double arugument, gfw
-			gfw = realfactor(LINK);
-			require(tokrp, LINK);
-
-			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->sa_declercq(type, sa, d, m, m0, gfw);
-		}
-		break;
-
-	case tokdiff_c:
-		{
-			const char * str = stringfactor(STR1, LINK);
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->diff_c(str);
-		}
-		break;
-			
-	case toksetdiff_c:
-		{
-			double d;
-
-			require(toklp, LINK);
-
-			const char * str = stringfactor(STR1, LINK);
-			require(tokcomma, LINK);
-
-			// double arugument
-			d = realexpr(LINK);
-			require(tokrp, LINK);
-
- 			n.UU.val = (parse_all) ? 1 : PhreeqcPtr->setdiff_c(str, d);
-			
-			//PhreeqcPtr->PHRQ_free((void *) str);
-		}
 		break;
 	case tokval:
 		l_s = strfactor(LINK);
@@ -4014,14 +4216,6 @@ factor(struct LOC_exec * LINK)
 			PhreeqcPtr->malloc_error();
 		strcpy(n.UU.sval, " ");
 		n.UU.sval[0] = (char) intfactor(LINK);
-		break;
-
-	case tokeol_:
-		n.stringval = true;
-		n.UU.sval = (char *) PhreeqcPtr->PHRQ_calloc(256, sizeof(char));
-		if (n.UU.sval == NULL)
-			PhreeqcPtr->malloc_error();
-		strcpy(n.UU.sval, "\n");
 		break;
 
 	case tokasc:
@@ -4049,7 +4243,7 @@ factor(struct LOC_exec * LINK)
 		}
 		{
 			std::string str = n.UU.sval;
-			str = str.substr(i - 1, j);
+			str = str.substr((size_t)i - 1, (size_t)j);
 			strcpy(n.UU.sval, str.c_str());
 		}
 		require(tokrp, LINK);
@@ -4079,7 +4273,6 @@ factor(struct LOC_exec * LINK)
 		snerr(": missing \" or (");
 		break;
 	}
-	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
 	return n;
 }
 
@@ -4388,21 +4581,6 @@ findline(long n)
 		l = l->next;
 	return l;
 }
-#ifdef SKIP
-linerec * PBasic::
-mustfindline(long n)
-{
-	linerec *l;
-
-	l = findline(n);
-	if (l == NULL) 
-	{
-		char * error_string = PhreeqcPtr->sformatf( "Undefined line %ld", n);
-		errormsg(error_string);
-	}
-	return l;
-}
-#endif
 linerec * PBasic::
 mustfindline(long n)
 {
@@ -4658,16 +4836,13 @@ void PBasic::
 cmdput(struct LOC_exec *LINK)
 {
 	int j;
-	struct save_values s_v;
-
-	s_v.count_subscripts = 0;
-	s_v.subscripts = (int *) PhreeqcPtr->PHRQ_malloc(sizeof(int));
+	std::ostringstream oss;
 
 	/* get parentheses */
 	require(toklp, LINK);
 
 	/* get first argumen */
-	s_v.value = realexpr(LINK);
+	double value = realexpr(LINK);
 
 	for (;;)
 	{
@@ -4675,14 +4850,7 @@ cmdput(struct LOC_exec *LINK)
 		{
 			LINK->t = LINK->t->next;
 			j = intexpr(LINK);
-			s_v.count_subscripts++;
-			s_v.subscripts =
-				(int *) PhreeqcPtr->PHRQ_realloc(s_v.subscripts,
-									 (size_t) s_v.count_subscripts *
-									 sizeof(int));
-			if (s_v.subscripts == NULL)
-				PhreeqcPtr->malloc_error();
-			s_v.subscripts[s_v.count_subscripts - 1] = j;
+			oss << j << ",";
 		}
 		else
 		{
@@ -4693,9 +4861,8 @@ cmdput(struct LOC_exec *LINK)
 	}
 	if (!parse_all)
 	{
-		PhreeqcPtr->save_values_store(&s_v);
+		PhreeqcPtr->save_values[oss.str()] = value;
 	}
-	s_v.subscripts = (int *) PhreeqcPtr->free_check_null(s_v.subscripts);
 }
 
 void PBasic::
@@ -4710,7 +4877,7 @@ cmdchange_por(struct LOC_exec *LINK)
 	/* get cell_no */
 	j = intexpr(LINK);
 	require(tokrp, LINK);
-	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data->count_stag) + 1
+	if (j > 0 && j <= PhreeqcPtr->count_cells * (1 + PhreeqcPtr->stag_data.count_stag) + 1
 		&& j != PhreeqcPtr->count_cells + 1)
 		PhreeqcPtr->cell_data[j].por = TEMP;
 }
@@ -4924,17 +5091,21 @@ cmdprint(struct LOC_exec *LINK)
 		n = expr(LINK);
 		if (n.stringval)
 		{
-/*      fputs(n.UU.sval, stdout); */
-			output_msg(PhreeqcPtr->sformatf("%s ", n.UU.sval));
-			PhreeqcPtr->PHRQ_free(n.UU.sval);
+			if (!skip_punch) {
+				/*      fputs(n.UU.sval, stdout); */
+				output_msg(PhreeqcPtr->sformatf("%s ", n.UU.sval));
+			}
+			n.UU.sval = (char*)PhreeqcPtr->free_check_null(n.UU.sval);
 		}
 		else
 /*      printf("%s ", numtostr(STR1, n.UU.val)); */
 			output_msg(PhreeqcPtr->sformatf("%s ", numtostr(STR1, n.UU.val)));
 	}
-	if (!semiflag)
+	if (!semiflag && PhreeqcPtr->Get_output_newline())
 /*    putchar('\n');*/
 		output_msg("\n");
+	PhreeqcPtr->Set_output_newline(true);
+	skip_punch = false;
 }
 
 void PBasic::
@@ -4954,46 +5125,78 @@ cmdpunch(struct LOC_exec *LINK)
 			continue;
 		}
 		n = expr(LINK);
-		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ? 
-			PhreeqcPtr->current_selected_output->Get_high_precision() : 
+		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ?
+			PhreeqcPtr->current_selected_output->Get_high_precision() :
 			PhreeqcPtr->high_precision;
-		if (n.stringval)
+		if (!this->skip_punch)
 		{
-/*      fputs(n.UU.sval, stdout); */
-
-			if (!temp_high_precision)
+			if (n.stringval)
 			{
-				if (strlen(n.UU.sval) <= 12)
+				/*      fputs(n.UU.sval, stdout); */
 				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12s\t", n.UU.sval);
+					if (!temp_high_precision)
+					{
+						if (strlen(n.UU.sval) <= 12)
+						{
+							if (punch_tab)
+							{
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.12s", n.UU.sval);
+							}
+						}
+						else
+						{
+							if (punch_tab)
+							{
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s", n.UU.sval);
+							}
+						}
+					}
+					else
+					{
+						if (strlen(n.UU.sval) <= 20)
+						{
+							if (punch_tab) {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.20s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.20s", n.UU.sval);
+							}
+						}
+						else
+						{
+							if (punch_tab) {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
+							}
+							else {
+								PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s", n.UU.sval);
+							}
+						}
+					}
 				}
-				else
-				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
-				}
+				n.UU.sval = (char*)PhreeqcPtr->free_check_null(n.UU.sval);
+			}
+			else if (!temp_high_precision)
+			{
+				PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.4e\t", (double)n.UU.val);
 			}
 			else
 			{
-				if (strlen(n.UU.sval) <= 20)
-				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.20s\t", n.UU.sval);
-				}
-				else
-				{
-					PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%s\t", n.UU.sval);
-				}
+				PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.12e\t", (double)n.UU.val);
 			}
-			PhreeqcPtr->PHRQ_free(n.UU.sval);
-		}
-		else if (!temp_high_precision)
-		{
-			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%12.4e\t", (double) n.UU.val);
+			punch_tab = true;
+			++PhreeqcPtr->n_user_punch_index;
 		}
 		else
 		{
-			PhreeqcPtr->fpunchf_user(PhreeqcPtr->n_user_punch_index, "%20.12e\t", (double) n.UU.val);
+			n.UU.sval = (char*)PhreeqcPtr->free_check_null(n.UU.sval);
 		}
-		++PhreeqcPtr->n_user_punch_index;
+		this->skip_punch = false;
 	}
 }
 
@@ -6025,7 +6228,10 @@ exec(void)
 							_ASSERTE(nIDErrPrompt == 0);
 							nIDErrPrompt = IDS_ERR_ILLEGAL;
 						}
-						errormsg("Illegal command");
+						strcat(STR1, "Illegal command in line: ");
+						if (strcmp(inbuf, "run"))
+							strcat(STR1, inbuf);
+						errormsg(STR1);
 						break;
 					}
 				}
@@ -6415,7 +6621,7 @@ my_labs(long l_x)
 void *  PBasic::
 my_memmove(void * d, Const void * l_s, size_t n)
 {
-	register char *dd = (char *) d, *ss = (char *) l_s;
+	char *dd = (char *) d, *ss = (char *) l_s;
 	if (dd < ss || (unsigned int) (dd - ss) >= n)
 	{
 		memcpy(dd, ss, n);
@@ -6433,7 +6639,7 @@ my_memmove(void * d, Const void * l_s, size_t n)
 void *  PBasic::
 my_memcpy(void * d, Const void * l_s, size_t n)
 {
-	register char *ss = (char *) l_s, *dd = (char *) d;
+	char *ss = (char *) l_s, *dd = (char *) d;
 	while (n-- > 0)
 		*dd++ = *ss++;
 	return d;
@@ -6442,8 +6648,8 @@ my_memcpy(void * d, Const void * l_s, size_t n)
 int PBasic::
 my_memcmp(Const void * s1, Const void * s2, size_t n)
 {
-	register char *a = (char *) s1, *b = (char *) s2;
-	register int i;
+	char *a = (char *) s1, *b = (char *) s2;
+	int i;
 	while (n-- > 0)
 		if ((i = (*a++) - (*b++)) != 0)
 			return i;
@@ -6453,7 +6659,7 @@ my_memcmp(Const void * s1, Const void * s2, size_t n)
 void * PBasic::
 my_memset(void * d, int c, size_t n)
 {
-	register char *dd = (char *) d;
+	char *dd = (char *) d;
 	while (n-- > 0)
 		*dd++ = (char) c;
 	return d;
@@ -6505,10 +6711,10 @@ ipow(long a, long b)
 /* Store in "ret" the substring of length "len" starting from "pos" (1-based).
    Store a shorter or null string if out-of-range.  Return "ret". */
 char * PBasic::
-strsub(register char *ret, register char *l_s, register int pos,
-	   register int len)
+strsub(char *ret, char *l_s, int pos,
+	   int len)
 {
-	register char *s2;
+	char *s2;
 
 	if (--pos < 0 || len <= 0)
 	{
@@ -6538,10 +6744,10 @@ strsub(register char *ret, register char *l_s, register int pos,
    starting at index "pos" (1-based).  Result is 1-based, 0 if not found. */
 
 int PBasic::
-strpos2(char *l_s, register char *pat, register int pos)
+strpos2(char *l_s, char *pat, int pos)
 {
-	register char *cp, ch;
-	register int slen;
+	char *cp, ch;
+	int slen;
 
 	if (--pos < 0)
 		return 0;
@@ -6561,9 +6767,9 @@ strpos2(char *l_s, register char *pat, register int pos)
 
 /* Case-insensitive version of strcmp. */
 int PBasic::
-strcicmp(register char *s1, register char *s2)
+strcicmp(char *s1, char *s2)
 {
-	register unsigned char c1, c2;
+	unsigned char c1, c2;
 
 	while (*s1)
 	{
@@ -6586,7 +6792,7 @@ strcicmp(register char *s1, register char *s2)
 
 /* Trim blanks at left end of string. */
 char *  PBasic::
-strltrim(register char *l_s)
+strltrim(char *l_s)
 {
 	while (Isspace((int) *l_s++));
 	return l_s - 1;
@@ -6594,9 +6800,9 @@ strltrim(register char *l_s)
 
 /* Trim blanks at right end of string. */
 char * PBasic::
-strrtrim(register char *l_s)
+strrtrim(char *l_s)
 {
-	register char *s2 = l_s;
+	char *s2 = l_s;
 
 	if (!*l_s)
 		return l_s;
@@ -6612,11 +6818,11 @@ strrtrim(register char *l_s)
    to index "dpos" of "d", lengthening "d" if necessary.  Length and
    indices must be in-range. */
 void PBasic::
-strmove(register int len, register char *l_s, register int spos,
-		register char *d, register int dpos)
+strmove(int len, char *l_s, int spos,
+		char *d, int dpos)
 {
-	l_s += spos - 1;
-	d += dpos - 1;
+	l_s += (size_t)spos - 1;
+	d += (size_t)dpos - 1;
 	while (*d && --len >= 0)
 		*d++ = *l_s++;
 	if (len > 0)
@@ -6629,9 +6835,9 @@ strmove(register int len, register char *l_s, register int spos,
 
 /* Insert string "src" at index "pos" of "dst". */
 void PBasic::
-strinsert(register char *src, register char *dst, register int pos)
+strinsert(char *src, char *dst, int pos)
 {
-	register int slen, dlen;
+	int slen, dlen;
 
 	if (--pos < 0)
 		return;
@@ -6684,7 +6890,7 @@ P_eof(void)
 int PBasic::
 P_eoln(FILE * f)
 {
-	register int ch;
+	int ch;
 
 	ch = getc(f);
 	if (ch == EOF)
@@ -6752,9 +6958,9 @@ P_maxpos(FILE * f)
 
 /* Use packed array of char for a file name. */
 char * PBasic::
-P_trimname(register char * fn, register int len)
+P_trimname(char * fn, int len)
 {
-	register char *cp = fnbuf;
+	char *cp = fnbuf;
 
 	while (--len >= 0 && *fn && !isspace((int) *fn))
 		*cp++ = *fn++;
@@ -6786,10 +6992,10 @@ maxavail(void)
 
 /* (Sets with 32 or fewer elements are normally stored as plain longs.) */
 long * PBasic::
-P_setunion(register long *d, register long *s1, register long *s2)	/* d := s1 + s2 */
+P_setunion(long *d, long *s1, long *s2)	/* d := s1 + s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (sz1 > 0 && sz2 > 0)
 	{
 		*d++ = *s1++ | *s2++;
@@ -6804,10 +7010,10 @@ P_setunion(register long *d, register long *s1, register long *s2)	/* d := s1 + 
 }
 
 long * PBasic::
-P_setint(register long *d, register long *s1, register long *s2)	/* d := s1 * s2 */
+P_setint(long *d, long *s1, long *s2)	/* d := s1 * s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (--sz1 >= 0 && --sz2 >= 0)
 		*d++ = *s1++ & *s2++;
 	while (--d > dbase && !*d);
@@ -6816,10 +7022,10 @@ P_setint(register long *d, register long *s1, register long *s2)	/* d := s1 * s2
 }
 
 long * PBasic::
-P_setdiff(register long *d, register long *s1, register long *s2)	/* d := s1 - s2 */
+P_setdiff(long *d, long *s1, long *s2)	/* d := s1 - s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (--sz1 >= 0 && --sz2 >= 0)
 		*d++ = *s1++ & ~*s2++;
 	if (sz1 >= 0)
@@ -6833,10 +7039,10 @@ P_setdiff(register long *d, register long *s1, register long *s2)	/* d := s1 - s
 }
 
 long * PBasic::
-P_setxor(register long *d, register long *s1, register long *s2)	/* d := s1 / s2 */
+P_setxor(long *d, long *s1, long *s2)	/* d := s1 / s2 */
 {
 	long *dbase = d++;
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	while (sz1 > 0 && sz2 > 0)
 	{
 		*d++ = *s1++ ^ *s2++;
@@ -6852,10 +7058,10 @@ P_setxor(register long *d, register long *s1, register long *s2)	/* d := s1 / s2
 }
 
 long * PBasic::
-P_addset(register long *l_s, register unsigned val)	/* s := s + [val] */
+P_addset(long *l_s, unsigned val)	/* s := s + [val] */
 {
-	register long *sbase = l_s;
-	register int bit, size;
+	long *sbase = l_s;
+	int bit, size;
 	bit = val % SETBITS;
 	val /= SETBITS;
 	size = *l_s;
@@ -6872,45 +7078,45 @@ P_addset(register long *l_s, register unsigned val)	/* s := s + [val] */
 	return sbase;
 }
 
-long * PBasic::
-P_addsetr(register long *l_s, register unsigned v1, register unsigned v2)	/* s := s + [v1..v2] */
-{
-	register long *sbase = l_s;
-	register int b1, b2, size;
-	if ((int) v1 > (int) v2)
-		return sbase;
-	b1 = v1 % SETBITS;
-	v1 /= SETBITS;
-	b2 = v2 % SETBITS;
-	v2 /= SETBITS;
-	size = *l_s;
-	v1++;
-	if ((int) ++v2 > size)
-	{
-		while ((int) v2 > size)
-			l_s[++size] = 0;
-		l_s[v2] = 0;
-		*l_s = v2;
-	}
-	l_s += v1;
-	if (v1 == v2)
-	{
-		*l_s |= (~((-2L) << (b2 - b1))) << b1;
-	}
-	else
-	{
-		*l_s++ |= (-1L) << b1;
-		while (++v1 < v2)
-			*l_s++ = -1;
-		*l_s |= ~((-2L) << b2);
-	}
-	return sbase;
-}
+//long * PBasic::
+//P_addsetr(long *l_s, unsigned v1, unsigned v2)	/* s := s + [v1..v2] */
+//{
+//	long *sbase = l_s;
+//	int b1, b2, size;
+//	if ((int) v1 > (int) v2)
+//		return sbase;
+//	b1 = v1 % SETBITS;
+//	v1 /= SETBITS;
+//	b2 = v2 % SETBITS;
+//	v2 /= SETBITS;
+//	size = *l_s;
+//	v1++;
+//	if ((int) ++v2 > size)
+//	{
+//		while ((int) v2 > size)
+//			l_s[++size] = 0;
+//		l_s[v2] = 0;
+//		*l_s = v2;
+//	}
+//	l_s += v1;
+//	if (v1 == v2)
+//	{
+//		*l_s |= (~((-2L) << (b2 - b1))) << b1;
+//	}
+//	else
+//	{
+//		*l_s++ |= (-1L) << b1;
+//		while (++v1 < v2)
+//			*l_s++ = -1;
+//		*l_s |= ~((-2L) << b2);
+//	}
+//	return sbase;
+//}
 
 long *  PBasic::
-P_remset(register long *l_s, register unsigned val)	/* s := s - [val] */
+P_remset(long *l_s, unsigned val)	/* s := s - [val] */
 {
-	register int bit;
+	int bit;
 	bit = val % SETBITS;
 	val /= SETBITS;
 	if ((long) ++val <= *l_s)
@@ -6923,9 +7129,9 @@ P_remset(register long *l_s, register unsigned val)	/* s := s - [val] */
 }
 
 int PBasic::
-P_setequal(register long *s1, register long *s2)	/* s1 = s2 */
+P_setequal(long *s1, long *s2)	/* s1 = s2 */
 {
-	register int size = *s1++;
+	int size = *s1++;
 	if (*s2++ != size)
 		return 0;
 	while (--size >= 0)
@@ -6937,9 +7143,9 @@ P_setequal(register long *s1, register long *s2)	/* s1 = s2 */
 }
 
 int PBasic::
-P_subset(register long *s1, register long *s2)	/* s1 <= s2 */
+P_subset(long *s1, long *s2)	/* s1 <= s2 */
 {
-	register int sz1 = *s1++, sz2 = *s2++;
+	int sz1 = *s1++, sz2 = *s2++;
 	if (sz1 > sz2)
 		return 0;
 	while (--sz1 >= 0)
@@ -6951,14 +7157,14 @@ P_subset(register long *s1, register long *s2)	/* s1 <= s2 */
 }
 
 long * PBasic::
-P_setcpy(register long *d, register long *l_s)	/* d := s */
+P_setcpy(long *d, long *l_s)	/* d := s */
 {
-	register long *save_d = d;
+	long *save_d = d;
 
 #ifdef SETCPY_MEMCPY
 	memcpy(d, l_s, (*l_s + 1) * sizeof(long));
 #else
-	register int i = *l_s + 1;
+	int i = *l_s + 1;
 	while (--i >= 0)
 		*d++ = *l_s++;
 #endif
@@ -6968,7 +7174,7 @@ P_setcpy(register long *d, register long *l_s)	/* d := s */
 /* s is a "smallset", i.e., a 32-bit or less set stored
    directly in a long. */
 long * PBasic::
-P_expset(register long *d, register long l_s)	/* d := s */
+P_expset(long *d, long l_s)	/* d := s */
 {
 	if (l_s)
 	{
@@ -6981,7 +7187,7 @@ P_expset(register long *d, register long l_s)	/* d := s */
 }
 
 long PBasic::
-P_packset(register long *l_s)		/* convert s to a small-set */
+P_packset(long *l_s)		/* convert s to a small-set */
 {
 	if (*l_s++)
 		return *l_s;
@@ -7109,27 +7315,6 @@ _Escape(int code)
 	throw PBasicStop();
 
 	// following not used
-#ifdef SKIP
-	char l_buf[100];
-	char token[200], empty[2] = { "\0" };
-	if (code == 0)
-		/*        exit(EXIT_SUCCESS); */
-		error_msg("Exit success in Basic", STOP);
-	if (code == -1)
-	{
-		error_msg("Fatal error in Basic interpreter.", CONTINUE);
-		sprintf(token, "%s",
-				_ShowEscape(l_buf, P_escapecode, P_ioresult, empty));
-		error_msg(token, STOP);
-		exit(EXIT_FAILURE);
-	}
-	/* fprintf(stderr, "%s\n", _ShowEscape(l_buf, P_escapecode, P_ioresult, "")); */
-	/* exit(EXIT_FAILURE); */
-	error_msg("Fatal error in Basic interpreter.", CONTINUE);
-	sprintf(token, "%s", _ShowEscape(l_buf, P_escapecode, P_ioresult, empty));
-	error_msg(token, STOP);
-	return (1);
-#endif
 }
 
 int PBasic::
@@ -7176,21 +7361,13 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("val",                PBasic::tokval),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("chr$",               PBasic::tokchr_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eol$",               PBasic::tokeol_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eol_notab$",         PBasic::tokeol_notab_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("no_newline$",        PBasic::tokno_newline_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("asc",                PBasic::tokasc),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("len",                PBasic::toklen),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mid$",               PBasic::tokmid_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("peek",               PBasic::tokpeek),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("let",                PBasic::toklet),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("print",              PBasic::tokprint),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("punch",              PBasic::tokpunch),
-#if defined (PHREEQ98) || defined (MULTICHART)
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_x",            PBasic::tokgraph_x),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_y",            PBasic::tokgraph_y),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_sy",           PBasic::tokgraph_sy),
-#endif
-#if defined MULTICHART
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("plot_xy",            PBasic::tokplot_xy),
-#endif
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("input",              PBasic::tokinput),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("goto",               PBasic::tokgoto),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("go to",              PBasic::tokgoto),
@@ -7225,117 +7402,143 @@ const std::map<const std::string, PBasic::BASIC_TOKEN>::value_type temp_tokens[]
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("else",               PBasic::tokelse),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("to",                 PBasic::tokto),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("step",               PBasic::tokstep),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tc",                 PBasic::toktc),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tk",                 PBasic::toktk),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("time",               PBasic::toktime),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sim_time",           PBasic::toksim_time),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("total_time",         PBasic::toktotal_time),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m0",                 PBasic::tokm0),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m",                  PBasic::tokm),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("parm",               PBasic::tokparm),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("act",                PBasic::tokact),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl",                PBasic::tokedl),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("surf",               PBasic::toksurf),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi",               PBasic::tokequi),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin",                PBasic::tokkin),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas",                PBasic::tokgas),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("s_s",                PBasic::toks_s),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc1",              PBasic::tokmisc1),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc2",              PBasic::tokmisc2),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mu",                 PBasic::tokmu),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("osmotic",            PBasic::tokosmotic),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("add_heading",        PBasic::tokadd_heading),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("alk",                PBasic::tokalk),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_species",         PBasic::toklk_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("aphi",               PBasic::tokaphi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("calc_value",         PBasic::tokcalc_value),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_no",            PBasic::tokcell_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("change_por",         PBasic::tokchange_por),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("change_surf",        PBasic::tokchange_surf),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("charge_balance",     PBasic::tokcharge_balance),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("debye_length",       PBasic::tokdebye_length),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("delta_h_phase",      PBasic::tokdelta_h_phase),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("delta_h_species",    PBasic::tokdelta_h_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("description",        PBasic::tokdescription),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a0",              PBasic::tokdh_a0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a",               PBasic::tokdh_a),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_av",              PBasic::tokdh_av),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_b",               PBasic::tokdh_b),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_bdot",            PBasic::tokdh_bdot),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dist",               PBasic::tokdist),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl",                PBasic::tokedl),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi",               PBasic::tokequi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi_delta",         PBasic::tokequi_delta),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("exists",             PBasic::tokexists),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gamma",              PBasic::tokgamma),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas",                PBasic::tokgas),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get",                PBasic::tokget),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get_por",            PBasic::tokget_por),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
+#if defined (PHREEQ98) || defined (MULTICHART)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_x", PBasic::tokgraph_x),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_y", PBasic::tokgraph_y),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("graph_sy", PBasic::tokgraph_sy),
+#endif
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("instr",              PBasic::tokinstr),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso",                PBasic::tokiso),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso_unit",           PBasic::tokiso_unit),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iterations",         PBasic::tokiterations),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kappa",              PBasic::tokkappa),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin",                PBasic::tokkin),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_time",           PBasic::tokkin_time),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula",   PBasic::tokkinetics_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula$",  PBasic::tokkinetics_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("la",                 PBasic::tokla),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lg",                 PBasic::toklg),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("list_s_s",           PBasic::toklist_s_s),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_named",           PBasic::toklk_named),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_phase",           PBasic::toklk_phase),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_species",        PBasic::toksum_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lk_species",         PBasic::toklk_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lm",                 PBasic::toklm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("log10",              PBasic::toklog10),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ltrim",              PBasic::tokltrim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m0",                 PBasic::tokm0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("m",                  PBasic::tokm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mcd_jtot",           PBasic::tokmcd_jtot),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mcd_jconc",          PBasic::tokmcd_jconc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc1",              PBasic::tokmisc1),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("misc2",              PBasic::tokmisc2),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mol",                PBasic::tokmol),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mu",                 PBasic::tokmu),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("osmotic",            PBasic::tokosmotic),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad",                PBasic::tokpad),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad$",               PBasic::tokpad_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("parm",               PBasic::tokparm),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("percent_error",      PBasic::tokpercent_error),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula",      PBasic::tokphase_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula$",     PBasic::tokphase_formula_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm),
+#if defined MULTICHART
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("plot_xy", PBasic::tokplot_xy),
+#endif
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("porevolume",         PBasic::tokporevolume),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_p",               PBasic::tokpr_p),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_phi",             PBasic::tokpr_phi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("print", PBasic::tokprint),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("punch", PBasic::tokpunch),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put",                PBasic::tokput),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rem",                PBasic::tokrem),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho",                PBasic::tokrho),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rtrim",              PBasic::tokrtrim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rxn",                PBasic::tokrxn),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("s_s",                PBasic::toks_s),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sc",                 PBasic::toksc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("si",                 PBasic::toksi),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sim_no",             PBasic::toksim_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sim_time",           PBasic::toksim_time),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula",    PBasic::tokspecies_formula),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sr",                 PBasic::toksr),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("step_no",            PBasic::tokstep_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_e$",             PBasic::tokstr_e_),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_f$",             PBasic::tokstr_f_),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_gas",            PBasic::toksum_gas),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_s_s",            PBasic::toksum_s_s),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("calc_value",         PBasic::tokcalc_value),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("description",        PBasic::tokdescription),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("title",              PBasic::toktitle),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sum_species",        PBasic::toksum_species),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("surf",               PBasic::toksurf),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sys",                PBasic::toksys),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("instr",              PBasic::tokinstr),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("ltrim",              PBasic::tokltrim),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rtrim",              PBasic::tokrtrim),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("trim",               PBasic::toktrim),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pad",                PBasic::tokpad),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rxn",                PBasic::tokrxn),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dist",               PBasic::tokdist),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("mol",                PBasic::tokmol),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("la",                 PBasic::tokla),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lm",                 PBasic::toklm),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sr",                 PBasic::toksr),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("si",                 PBasic::toksi),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("step_no",            PBasic::tokstep_no),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_no",            PBasic::tokcell_no),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sim_no",             PBasic::toksim_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",               PBasic::tokt_sc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tc",                 PBasic::toktc),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("time",               PBasic::toktime),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("title",              PBasic::toktitle),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tk",                 PBasic::toktk),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("tot",                PBasic::toktot),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("log10",              PBasic::toklog10),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("charge_balance",     PBasic::tokcharge_balance),     
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("percent_error",      PBasic::tokpercent_error),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("put",                PBasic::tokput),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get",                PBasic::tokget),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("exists",             PBasic::tokexists),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rem",                PBasic::tokrem),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("change_por",         PBasic::tokchange_por),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("get_por",            PBasic::tokget_por),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("change_surf",        PBasic::tokchange_surf),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("porevolume",         PBasic::tokporevolume),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sc",                 PBasic::toksc),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gamma",              PBasic::tokgamma),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("lg",                 PBasic::toklg),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho",                PBasic::tokrho),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_volume",        PBasic::tokcell_volume),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("total_time",         PBasic::toktotal_time),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmol",             PBasic::toktotmol),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmole",            PBasic::toktotmole),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmoles",           PBasic::toktotmoles),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("trim",               PBasic::toktrim),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos",             PBasic::tokviscos),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("vm",                 PBasic::tokvm),
+	/* PHAST */
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_pore_volume",   PBasic::tokcell_pore_volume),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_porosity",      PBasic::tokcell_porosity),
 	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_saturation",    PBasic::tokcell_saturation),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmole",            PBasic::toktotmole),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmol",             PBasic::toktotmol),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("totmoles",           PBasic::toktotmoles),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso",                PBasic::tokiso),	     
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("iso_unit",           PBasic::tokiso_unit),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula",      PBasic::tokphase_formula),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_formula$",     PBasic::tokphase_formula_),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("list_s_s",           PBasic::toklist_s_s),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_p",               PBasic::tokpr_p),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pr_phi",             PBasic::tokpr_phi),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_p",              PBasic::tokgas_p),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gas_vm",             PBasic::tokgas_vm),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pressure",           PBasic::tokpressure),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eps_r",              PBasic::tokeps_r),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("vm",                 PBasic::tokvm),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_a",               PBasic::tokdh_a),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_b",               PBasic::tokdh_b),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("dh_av",              PBasic::tokdh_av),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("qbrn",               PBasic::tokqbrn),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kappa",              PBasic::tokkappa),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("gfw",                PBasic::tokgfw),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("soln_vol",           PBasic::toksoln_vol),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equi_delta",         PBasic::tokequi_delta),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_delta",          PBasic::tokkin_delta),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kin_time",           PBasic::tokkin_time),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_f$",             PBasic::tokstr_f_),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("str_e$",             PBasic::tokstr_e_),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula",    PBasic::tokspecies_formula),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("species_formula$",   PBasic::tokspecies_formula_),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("eq_frac",            PBasic::tokeq_frac),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("equiv_frac",         PBasic::tokeq_frac),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("callback",           PBasic::tokcallback),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("diff_c",             PBasic::tokdiff_c),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("edl_species",        PBasic::tokedl_species),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos",             PBasic::tokviscos),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("viscos_0",           PBasic::tokviscos_0),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("rho_0",              PBasic::tokrho_0),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula",   PBasic::tokkinetics_formula),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("kinetics_formula$",  PBasic::tokkinetics_formula),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("phase_vm",           PBasic::tokphase_vm),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("current_a",          PBasic::tokcurrent_a),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("pot_v",              PBasic::tokpot_v),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("t_sc",              PBasic::tokt_sc),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("setdiff_c",          PBasic::toksetdiff_c),
-	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("aphi",               PBasic::tokaphi)
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("cell_volume",        PBasic::tokcell_volume),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("transport_cell_no",  PBasic::toktransport_cell_no),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("velocity_x",         PBasic::tokvelocity_x),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("velocity_y",         PBasic::tokvelocity_y),
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("velocity_z",         PBasic::tokvelocity_z),
+	/* Undocumented */
+	std::map<const std::string, PBasic::BASIC_TOKEN>::value_type("sa_declercq",        PBasic::toksa_declercq)
 };
 std::map<const std::string, PBasic::BASIC_TOKEN> PBasic::command_tokens(temp_tokens, temp_tokens + sizeof temp_tokens / sizeof temp_tokens[0]);
 

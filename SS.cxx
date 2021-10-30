@@ -13,7 +13,13 @@
 #include "Dictionary.h"
 #include "phqalloc.h"
 
-
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -49,35 +55,6 @@ cxxSS::~cxxSS()
 {
 }
 
-#ifdef SKIP
-void
-cxxSS::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// S_S element and attributes
-
-	s_oss << indent0 << "name=\"" << this->name << "\"" << "\n";
-	s_oss << indent0 << "add_formula=\"" << this->
-		add_formula << "\"" << "\n";
-	s_oss << indent0 << "si=\"" << this->si << "\"" << "\n";
-	s_oss << indent0 << "moles=\"" << this->moles << "\"" << "\n";
-	s_oss << indent0 << "delta=\"" << this->delta << "\"" << "\n";
-	s_oss << indent0 << "initial_moles=\"" << this->
-		initial_moles << "\"" << "\n";
-	s_oss << indent0 << "dissolve_only=\"" << this->
-		dissolve_only << "\"" << "\n";
-
-}
-#endif
 void
 cxxSS::dump_raw(std::ostream & s_oss, unsigned int indent) const
 {
@@ -450,7 +427,7 @@ cxxSS::totalize(Phreeqc * phreeqc_ptr)
 	// component structures
 	for (size_t i = 0; i < this->ss_comps.size(); i++)
 	{
-		struct phase *phase_ptr;
+		class phase *phase_ptr;
 		int l;
 		phase_ptr = phreeqc_ptr-> phase_bsearch(ss_comps[i].Get_name().c_str(), &l, FALSE);
 		if (phase_ptr != NULL)
@@ -580,7 +557,7 @@ cxxSS::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 		this->ss_comps.clear();
 		for (int i = 0; i < count; i++)
 		{
-			cxxSScomp ssc;
+			cxxSScomp ssc(this->io);
 			ssc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->ss_comps.push_back(ssc);
 		}

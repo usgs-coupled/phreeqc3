@@ -6,158 +6,150 @@
 #include "Solution.h"
 #include <time.h>
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* ---------------------------------------------------------------------- */
-int Phreeqc::
-add_elt_list(struct elt_list *elt_list_ptr, LDBLE coef)
+double Phreeqc::
+calc_alk(CReaction& rxn_ref)
 /* ---------------------------------------------------------------------- */
 {
-	struct elt_list *elt_list_ptr1;
-
-	if (elt_list_ptr == NULL)
-		return (OK);
-
-	for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
-		 elt_list_ptr1++)
-	{
-		if (count_elts >= max_elts)
-		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
-		}
-		elt_list[count_elts].elt = elt_list_ptr1->elt;
-		elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
-		count_elts++;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-add_elt_list_multi_surf(struct elt_list *elt_list_ptr, LDBLE coef, struct element *surf_elt_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	struct elt_list *elt_list_ptr1;
-
-	if (elt_list_ptr == NULL || surf_elt_ptr == NULL)
-		return (OK);
-
-	// determine if surf_elt_ptr is first surface
-	bool first_surface = true;
-	for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
-		elt_list_ptr1++)
-	{
-		if (elt_list_ptr1->elt->master->type == SURF)
-		{
-			if (elt_list_ptr1->elt == surf_elt_ptr)
-			{
-				first_surface = true;
-				break;
-			} 
-			else
-			{
-				first_surface = false;
-				break;
-			}
-		}
-	}
-	if (first_surface)
-	{
-		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
-			elt_list_ptr1++)
-		{
-			if (count_elts >= max_elts)
-			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					sizeof(struct elt_list));
-			}
-			if (elt_list_ptr1->elt == surf_elt_ptr)
-			{
-				elt_list[count_elts].elt = elt_list_ptr1->elt;
-				elt_list[count_elts].coef = elt_list_ptr1->coef * coef; 
-				count_elts++;
-			}
-			else if (elt_list_ptr1->elt->master->type == SURF)
-			{
-				continue;
-			}
-			else
-			{
-				elt_list[count_elts].elt = elt_list_ptr1->elt;
-				elt_list[count_elts].coef = elt_list_ptr1->coef * coef;
-				count_elts++; 
-			}
-		}
-	}
-	else
-	{
-		for (elt_list_ptr1 = elt_list_ptr; elt_list_ptr1->elt != NULL;
-			elt_list_ptr1++)
-		{
-			if (count_elts >= max_elts)
-			{
-				space((void **) ((void *) &elt_list), count_elts, &max_elts,
-					sizeof(struct elt_list));
-			}
-			if (elt_list_ptr1->elt == surf_elt_ptr)
-			{
-				elt_list[count_elts].elt = elt_list_ptr1->elt;
-				elt_list[count_elts].coef = elt_list_ptr1->coef * coef; 
-				count_elts++;
-			}
-		}
-	}
-	return (OK);
-}
-int Phreeqc::
-add_elt_list(const cxxNameDouble & nd, LDBLE coef)
-/* ---------------------------------------------------------------------- */
-{
-	cxxNameDouble::const_iterator cit = nd.begin();
-	for ( ; cit != nd.end(); cit++)
-	{
-		if (count_elts >= max_elts)
-		{
-			space((void **) ((void *) &elt_list), count_elts, &max_elts,
-				  sizeof(struct elt_list));
-		}
-		elt_list[count_elts].elt = element_store(cit->first.c_str());
-		elt_list[count_elts].coef = cit->second * coef;
-		count_elts++;
-	}
-	return (OK);
-}
-
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_alk(struct reaction * rxn_ptr)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
 	LDBLE return_value;
-	struct master *master_ptr;
+	class master* master_ptr;
 
 	return_value = 0.0;
-	for (i = 1; rxn_ptr->token[i].s != NULL; i++)
+	class rxn_token* r_token = &rxn_ref.token[1];
+	while (r_token->s != NULL)
 	{
-		master_ptr = rxn_ptr->token[i].s->secondary;
+		master_ptr = r_token->s->secondary;
 		if (master_ptr == NULL)
 		{
-			master_ptr = rxn_ptr->token[i].s->primary;
+			master_ptr = r_token->s->primary;
 		}
 		if (master_ptr == NULL)
 		{
 			error_string = sformatf(
-					"Non-master species in secondary reaction, %s.",
-					rxn_ptr->token[0].s->name);
+				"Non-master species in secondary reaction, %s.",
+				rxn_ref.token[0].s->name);
 			error_msg(error_string, CONTINUE);
 			input_error++;
 			break;
 		}
-		return_value += rxn_ptr->token[i].coef * master_ptr->alk;
+		return_value += r_token->coef * master_ptr->alk;
+		r_token++;
 	}
 	return (return_value);
+}/* ---------------------------------------------------------------------- */
+double Phreeqc::
+calc_delta_v(CReaction& r_ref, bool phase)
+/* ---------------------------------------------------------------------- */
+{
+	/* calculate delta_v from molar volumes */
+	double d_v = 0.0;
+	if (phase)
+	{
+		/* for phases: reactants have coef's < 0, products have coef's > 0, v.v. for species */
+		for (size_t i = 1; r_ref.Get_tokens()[i].s; i++)
+		{
+			if (!r_ref.Get_tokens()[i].s)
+				continue;
+			d_v += r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].s->logk[vm_tc];
+		}
+	}
+	else
+	{
+		for (size_t i = 0; r_ref.token[i].name /*|| r_ptr->token[i].s*/; i++)
+		{
+			if (!r_ref.Get_tokens()[i].s)
+				continue;
+			d_v -= r_ref.Get_tokens()[i].coef * r_ref.Get_tokens()[i].s->logk[vm_tc];
+		}
+	}
+	return d_v;
 }
+/* ---------------------------------------------------------------------- */
+LDBLE Phreeqc::
+calc_dielectrics(LDBLE tc, LDBLE pa)
+/* ---------------------------------------------------------------------- */
+{
+	/* Relative dielectric constant of pure water, eps as a function of (P, T)
+	   Bradley and Pitzer, 1979, JPC 83, 1599.
+	   (newer data in Fernandez et al., 1995, JPCRD 24, 33,
+				  and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
+	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
+	*/
+	if (llnl_temp.size() > 0) return OK;
+	if (tc > 350.)
+	{
+		tc = 350.;
+	}
+	LDBLE T = tc + 273.15;
+	LDBLE u1 = 3.4279e2, u2 = -5.0866e-3, u3 = 9.469e-7, u4 = -2.0525,
+		u5 = 3.1159e3, u6 = -1.8289e2, u7 = -8.0325e3, u8 = 4.2142e6,
+		u9 = 2.1417;
+	LDBLE d1000 = u1 * exp(T * (u2 + T * u3)); // relative dielectric constant at 1000 bar
+	LDBLE c = u4 + u5 / (u6 + T);
+	LDBLE b = u7 + u8 / T + u9 * T;
+	LDBLE pb = pa * 1.01325; // pa in bar
+	eps_r = d1000 + c * log((b + pb) / (b + 1e3)); // relative dielectric constant
+	if (eps_r <= 0)
+	{
+		eps_r = 10.;
+		warning_msg("Relative dielectric constant is negative.\nTemperature is out of range of parameterization.");
+	}
 
+	/* qe^2 / (eps_r * kB * T) = 4.803204e-10**2 / 1.38065e-16 / (eps_r * T)
+							   = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
+	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
+
+	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length parameter, 1/cm(mol/kg)^-0.5
+
+	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
+
+	/* A0 in pitzer */
+	if (pitzer_model || sit_model)
+	{
+		A0 = DH_B * e2_DkT / 6.0;
+		if (pitzer_model && aphi != NULL)
+		{
+			calc_pitz_param(aphi, T, 298.15);
+			A0 = aphi->p;
+		}
+	}
+
+	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
+	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pb) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
+
+	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
+
+	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
+	ZBrn = (-1 / eps_r + 1.0) * 41.84004;
+	QBrn = c / (b + pb) / eps_r / eps_r * 41.84004;
+	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at tc < 300)...
+	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
+	dgdP = 0;
+	//if (tc > 150 && rho_0 < 1.0)
+	//{
+	//	LDBLE sc[7] = {1, -0.2037662e+01,  0.5747000e-02, -0.6557892e-05,
+	//				0.6107361e+01, -0.1074377e-01,  0.1268348e-04};
+	//	LDBLE csc[4] = {1, 0.3666666e+02, -0.1504956e-9,   0.5017997e-13};
+	//	LDBLE sa = sc[1] + tc * (sc[2] + tc * sc[3]);
+	//	LDBLE sb = sc[4] + tc * (sc[5] + tc * sc[6]);
+
+	//	dgdP = - sa * sb * pow(1.0 - rho_0, sb - 1.0) * rho_0 * kappa_0 / 1.01325;
+
+	//	LDBLE ft = pow((tc - 155.0)/300.0, 4.8) + csc[1] * pow((tc - 155.0)/300.0, 16.0);
+	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pb, 2) - 4.0 * csc[3] * pow(1000.0 - pb, 3)); 
+	//	dgdP -= dfdP;
+	//}
+
+	return (OK);
+}
 /* ---------------------------------------------------------------------- */
 LDBLE Phreeqc::
 calc_rho_0(LDBLE tc, LDBLE pa)
@@ -167,13 +159,16 @@ calc_rho_0(LDBLE tc, LDBLE pa)
         Wagner and Pruss, 2002, JPCRD 31, 387, eqn. 2.6, along the saturation pressure line +
 		interpolation 0 - 300 oC, 0.006 - 1000 atm...
     */
+	if (llnl_temp.size() > 0) return OK;
 	if (tc > 350.)
 	{
 		if (need_temp_msg < 1)
 		{
 			std::ostringstream w_msg;
-			w_msg << "Fitting range for density of pure water is 0-300 C.\n";
-			w_msg << "Using temperature of 350 C for density and dielectric calculation.";
+			w_msg << "Fitting range for dielectric constant of pure water is 0-350 C.\n";
+			w_msg << "Fitting range for density along the saturation pressure line is 0-374 C,\n";
+			w_msg << "                         for higher pressures up to 1000 atm    0-300 C.\n";
+			w_msg << "Using temperature of 350 C for dielectric and density calculation.";
 			warning_msg(w_msg.str().c_str());
 			need_temp_msg++;
 		}
@@ -213,84 +208,6 @@ calc_rho_0(LDBLE tc, LDBLE pa)
 
 	return (rho_0 / 1e3);
 }
-/* ---------------------------------------------------------------------- */
-LDBLE Phreeqc::
-calc_dielectrics(LDBLE tc, LDBLE pa)
-/* ---------------------------------------------------------------------- */
-{
-	/* Relative dielectric constant of pure water, eps as a function of (P, T)
-       Bradley and Pitzer, 1979, JPC 83, 1599.
-	   (newer data in Fernandez et al., 1995, JPCRD 24, 33,
-	              and Fernandez et al., 1997, JPCRD 26, 1125, show its correctness)
-	   + d(eps)/d(P), Debye-Hueckel A and B, and Av (for Av, see Pitzer et al., 1984, JPCRD 13, p. 4)
-    */
-	if (tc > 350.)
-	{
-		tc = 350.;
-	}
-	LDBLE T = tc + 273.15; 
-    LDBLE u1 = 3.4279e2, u2 = -5.0866e-3, u3 = 9.469e-7, u4 = -2.0525,
-		u5 = 3.1159e3, u6 = -1.8289e2,  u7 = -8.0325e3, u8 = 4.2142e6,
-		u9 = 2.1417;
-    LDBLE d1000 = u1 * exp(T * (u2 + T * u3)); // relative dielectric constant at 1000 bar
-    LDBLE c = u4 + u5 / (u6 + T);
-    LDBLE b = u7 + u8 / T + u9 * T;
-	LDBLE pb = pa * 1.01325; // pa in bar
-    eps_r = d1000 + c * log((b + pb) / (b + 1e3)); // relative dielectric constant
-	if (eps_r <= 0)
-	{
-		eps_r = 10.;
-		warning_msg("Relative dielectric constant is negative.\nTemperature is out of range of parameterization.");
-	}
-
-	/* qe^2 / (eps_r * kB * T) = 4.803204e-10**2 / 1.38065e-16 / (eps_r * T)
-	                           = 1.671008e-3 (esu^2 / (erg/K)) / (eps_r * T) */
-	LDBLE e2_DkT = 1.671008e-3 / (eps_r * T);
-
-	DH_B = sqrt(8 * pi * AVOGADRO * e2_DkT * rho_0 / 1e3);  // Debye length parameter, 1/cm(mol/kg)^-0.5
-
-	DH_A = DH_B * e2_DkT / (2. * LOG_10); //(mol/kg)^-0.5
-
-	/* A0 in pitzer */
-	if (pitzer_model || sit_model)
-	{
-		A0 = DH_B * e2_DkT / 6.0;
-		if (pitzer_model && aphi != NULL)
-		{
-			calc_pitz_param(aphi, T, 298.15);
-			A0 = aphi->p;
-		}
-	}
-
-	/* Debye-Hueckel limiting slope = DH_B *  e2_DkT * RT * (d(ln(eps_r)) / d(P) - compressibility) */
-	DH_Av = DH_B * e2_DkT * R_LITER_ATM * 1e3 * T * (c / (b + pb) * 1.01325 / eps_r - kappa_0 / 3.); // (cm3/mol)(mol/kg)^-0.5
-
-	DH_B /= 1e8; // kappa, 1/Angstrom(mol/kg)^-0.5
-
-	/* the Born functions, * 41.84 to give molal volumes in cm3/mol... */
-	ZBrn = (- 1 / eps_r + 1.0) * 41.84004;
-	QBrn = c / (b + pb) / eps_r / eps_r * 41.84004;
-	/* dgdP from subroutine gShok2 in supcrt92, g is neglected here (at tc < 300)...
-	   and, dgdP is small. Better, adapt Wref to experimental Vm's */
-	dgdP = 0;
-	//if (tc > 150 && rho_0 < 1.0)
-	//{
-	//	LDBLE sc[7] = {1, -0.2037662e+01,  0.5747000e-02, -0.6557892e-05,
-	//				0.6107361e+01, -0.1074377e-01,  0.1268348e-04};
-	//	LDBLE csc[4] = {1, 0.3666666e+02, -0.1504956e-9,   0.5017997e-13};
-	//	LDBLE sa = sc[1] + tc * (sc[2] + tc * sc[3]);
-	//	LDBLE sb = sc[4] + tc * (sc[5] + tc * sc[6]);
-
-	//	dgdP = - sa * sb * pow(1.0 - rho_0, sb - 1.0) * rho_0 * kappa_0 / 1.01325;
-
-	//	LDBLE ft = pow((tc - 155.0)/300.0, 4.8) + csc[1] * pow((tc - 155.0)/300.0, 16.0);
-	//	LDBLE dfdP   = ft * (-3.0 * csc[2] * pow(1000.0 - pb, 2) - 4.0 * csc[3] * pow(1000.0 - pb, 3)); 
-	//	dgdP -= dfdP;
-	//}
-
-	return (OK);
-}
-
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -312,13 +229,13 @@ compute_gfw(const char *string, LDBLE * gfw)
 
 	int i;
 	char token[MAX_LENGTH];
-	char *ptr;
+	const char* cptr;
 
 	count_elts = 0;
 	paren_count = 0;
 	strcpy(token, string);
-	ptr = token;
-	if (get_elts_in_species(&ptr, 1.0) == ERROR)
+	cptr = token;
+	if (get_elts_in_species(&cptr, 1.0) == ERROR)
 	{
 		return (ERROR);
 	}
@@ -337,16 +254,16 @@ compute_gfw(const char *string, LDBLE * gfw)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(char *token_ptr, char **ptr, int *length)
+copy_token(char *token_ptr, const char **cptr, int *length)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Copies from **ptr to *token_ptr until first space is encountered.
+ *   Copies from **cptr to *token_ptr until first space is encountered.
  *
  *   Arguments:
  *      *token_ptr  output, place to store token
  *
- *     **ptr        input, character string to read token from
+ *     **cptr        input, character string to read token from
  *                  output, next position after token
  *
  *       length     output, length of token
@@ -364,8 +281,8 @@ copy_token(char *token_ptr, char **ptr, int *length)
 /*
  *   Read to end of whitespace
  */
-	while (isspace((int) (c = **ptr)))
-		(*ptr)++;
+	while (isspace((int) (c = **cptr)))
+		(*cptr)++;
 /*
  *   Check what we have
  */
@@ -393,39 +310,30 @@ copy_token(char *token_ptr, char **ptr, int *length)
  *   Begin copying to token
  */
 	i = 0;
-	while ((!isspace((int) (c = **ptr))) &&
+	while ((!isspace((int) (c = **cptr))) &&
 		   /*              c != ',' && */
 		   c != ';' && c != '\0')
 	{
 		token_ptr[i] = c;
-		(*ptr)++;
+		(*cptr)++;
 		i++;
 	}
 	token_ptr[i] = '\0';
 	*length = i;
-#ifdef PHREEQ98
-	if ((return_value == DIGIT) && (strstr(token_ptr, ",") != NULL))
-	{
-		error_string = sformatf(
-				"Commas are not allowed as decimal separator: %s.",
-				token_ptr);
-		error_msg(error_string, CONTINUE);
-	}
-#endif
 	return (return_value);
 }
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_token(std::string &token, char **ptr)
+copy_token(std::string &token, const char **cptr)
 /* ---------------------------------------------------------------------- */
 {
 /*
- *   Copies from **ptr to *token until first space is encountered.
+ *   Copies from **cptr to *token until first space is encountered.
  *
  *   Arguments:
  *      &token_ptr  output, place to store token
  *
- *     **ptr        input, character string to read token from
+ *     **cptr        input, character string to read token from
  *                  output, next position after token
  *
  *   Returns:
@@ -442,8 +350,8 @@ copy_token(std::string &token, char **ptr)
  *   Read to end of whitespace
  */
 	token.clear();
-	while (isspace((int) (c = **ptr)))
-		(*ptr)++;
+	while (isspace((int) (c = **cptr)))
+		(*cptr)++;
 /*
  *   Check what we have
  */
@@ -472,116 +380,19 @@ copy_token(std::string &token, char **ptr)
  */
 	char c_char[2];
 	c_char[1] = '\0';
-	while ((!isspace((int) (c = **ptr))) &&
+	while ((!isspace((int) (c = **cptr))) &&
 		   /*              c != ',' && */
 		   c != ';' && c != '\0')
 	{
 		c_char[0] = c;
 		token.append(c_char);
-		(*ptr)++;
+		(*cptr)++;
 	}
-#ifdef PHREEQ98
-	if ((return_value == DIGIT) && (strstr(token_ptr, ",") != NULL))
-	{
-		error_string = sformatf(
-				"Commas are not allowed as decimal separator: %s.",
-				token_ptr);
-		error_msg(error_string, CONTINUE);
-	}
-#endif
 	return (return_value);
 }
-#if defined PHREEQ98 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-copy_title(char *token_ptr, char **ptr, int *length)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *   Copies from **ptr to *token_ptr until first space or comma is encountered.
- *
- *   Arguments:
- *      *token_ptr  output, place to store token
- *
- *     **ptr        input, character string to read token from
- *                  output, next position after token
- *
- *       length     output, length of token
- *
- *   Returns:
- *      UPPER,
- *      LOWER,
- *      DIGIT,
- *      EMPTY,
- *      UNKNOWN.
- */
-	int i, return_value;
-	char c;
-	int Quote = FALSE;
-
-/*
- *   Read to end of whitespace
- */
-	while (isspace((int) (c = **ptr)) || (c == ',') || (c == '"'))
-	{
-		if (c == '"')
-			Quote = TRUE;
-		(*ptr)++;
-	}
-/*
- *   Check what we have
- */
-	if (isupper((int) c) || c == '[')
-	{
-		return_value = UPPER;
-	}
-	else if (islower((int) c))
-	{
-		return_value = LOWER;
-	}
-	else if (isdigit((int) c) || c == '.' || c == '-')
-	{
-		return_value = DIGIT;
-	}
-	else if (c == '\0')
-	{
-		return_value = EMPTY;
-	}
-	else
-	{
-		return_value = UNKNOWN;
-	}
-/*
- *   Begin copying to token
- */
-	i = 0;
-	if (Quote == TRUE)
-	{
-		while (((int) (c = **ptr) != '"') && c != '\0')
-		{
-			token_ptr[i] = c;
-			(*ptr)++;
-			i++;
-		}
-	}
-	else
-	{
-		while ((!isspace((int) (c = **ptr))) &&
-			   c != ',' && c != ';' && c != '\0')
-		{
-			token_ptr[i] = c;
-			(*ptr)++;
-			i++;
-		}
-	}
-	token_ptr[i] = '\0';
-	*length = i;
-	return (return_value);
-}
-#endif
-/* ---------------------------------------------------------------------- */
-int Phreeqc::
-dup_print(const char *ptr, int emphasis)
+dup_print(const char* cptr, int emphasis)
 /* ---------------------------------------------------------------------- */
 {
 /*
@@ -590,42 +401,24 @@ dup_print(const char *ptr, int emphasis)
  *   a row of dashes before and after the character string.
  *
  */
-	int l, i;
-	char *dash;
+	int l;
 
 	if (pr.headings == FALSE)
 		return (OK);
-#ifdef PHREEQ98
-	if ((CreateToC == TRUE) && (AutoLoadOutputFile == TRUE))
-	{
-		if (strstr(ptr, "Reading") == ptr)
-			AddToCEntry((char *) ptr, 1, outputlinenr);
-		else if (strstr(ptr, "Beginning") == ptr)
-			AddToCEntry((char *) ptr, 2, outputlinenr);
-		else if ((strstr(ptr, "TITLE") != ptr) && (strstr(ptr, "End") != ptr))
-			AddToCEntry((char *) ptr, 3, outputlinenr);
-	}
-#endif
-	std::string save_in(ptr);
-	l = (int) strlen(ptr);
-	dash = (char *) PHRQ_malloc((size_t) (l + 2) * sizeof(char));
-	if (dash == NULL)
-		malloc_error();
+	std::string save_in(cptr);
+	l = (int) strlen(cptr);
 	if (emphasis == TRUE)
 	{
-		for (i = 0; i < l; i++)
-			dash[i] = '-';
-		dash[i] = '\0';
-		output_msg(sformatf("%s\n%s\n%s\n\n", dash, save_in.c_str(), dash));
-		log_msg(sformatf("%s\n%s\n%s\n\n", dash, save_in.c_str(), dash));
+		std::string dash;
+		dash.resize(l, '-');
+		output_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash.c_str()));
+		log_msg(sformatf("%s\n%s\n%s\n\n", dash.c_str(), save_in.c_str(), dash.c_str()));
 	}
 	else
 	{
 		output_msg(sformatf("%s\n\n", save_in.c_str()));
 		log_msg(sformatf("%s\n\n", save_in.c_str()));
 	}
-	dash = (char *) free_check_null(dash);
-
 	return (OK);
 }
 
@@ -656,7 +449,7 @@ free_check_null(void *ptr)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_token(char **eqnaddr, char *string, LDBLE * l_z, int *l)
+get_token(const char** eqnaddr, std::string& string, LDBLE* l_z, int* l)
 /* ---------------------------------------------------------------------- */
 /*
  *   Function finds next species in equation, coefficient has already
@@ -678,101 +471,88 @@ get_token(char **eqnaddr, char *string, LDBLE * l_z, int *l)
 	int i, j;
 	int ltoken, lcharge;
 	char c;
-	char *ptr, *ptr1, *rest;
+	const char* cptr, * ptr1, * rest;
 	char charge[MAX_LENGTH];
 
+	string.clear();
 	rest = *eqnaddr;
-	ptr = *eqnaddr;
+	cptr = *eqnaddr;
 	i = 0;
-/*
- *   Find end of token or begining of charge
- */
-	while (((c = *ptr) != '+') && (c != '-') && (c != '=') && (c != '\0'))
+	/*
+	 *   Find end of token or begining of charge
+	 */
+	while (((c = *cptr) != '+') && (c != '-') && (c != '=') && (c != '\0'))
 	{
-		string[i++] = c;
+		string.push_back(c);
+		i++;
 		if (c == '[')
 		{
-			ptr++;
-			while ((c = *ptr) != ']')
+			cptr++;
+			while ((c = *cptr) != ']')
 			{
 				if (c == '\0')
 				{
 					error_string = sformatf(
-							"No final bracket \"]\" for element name, %s.",
-							string);
+						"No final bracket \"]\" for element name, %s.",
+						string.c_str());
 					error_msg(error_string, CONTINUE);
 					return (ERROR);
 				}
-				string[i++] = c;
-				if (i >= MAX_LENGTH)
-				{
-					output_msg(sformatf(
-							   "Species name greater than MAX_LENGTH (%d) characters.\n%s\n",
-							   MAX_LENGTH, string));
-					return (ERROR);
-				}
-				ptr++;
+				string.push_back(c);
+				i++;
+				cptr++;
 			}
-			string[i++] = c;
+			string.push_back(c);
+			i++;
 		}
 
-		/* check for overflow of space */
-		if (i >= MAX_LENGTH)
-		{
-			output_msg(sformatf(
-					   "Species name greater than MAX_LENGTH (%d) characters.\n%s\n",
-					   MAX_LENGTH, string));
-			return (ERROR);
-		}
-		ptr++;
+		cptr++;
 	}
-	string[i] = '\0';
 	ltoken = i;
-/*
- *   Check for an empty string
- */
+	/*
+	 *   Check for an empty string
+	 */
 	if (i == 0)
 	{
-		error_string = sformatf( "NULL string detected in get_token, %s.", rest);
+		error_string = sformatf("NULL string detected in get_token, %s.", rest);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-/*
- *   End of token is = or \0, charge is zero
- */
+	/*
+	 *   End of token is = or \0, charge is zero
+	 */
 	if (c == '=' || c == '\0')
 	{
-		*eqnaddr = ptr;
+		*eqnaddr = cptr;
 		lcharge = 0;
 		*l_z = 0.0;
 	}
 	else
 	{
-/*
- *   Copy characters into charge until next species or end is detected
- */
+		/*
+		 *   Copy characters into charge until next species or end is detected
+		 */
 		j = 0;
-		ptr1 = ptr;
-		while ((isalpha((int) (c = *ptr1)) == FALSE) &&
-			   (c != '(') &&
-			   (c != ')') &&
-			   (c != ']') && (c != '[') && (c != '=') && (c != '\0'))
+		ptr1 = cptr;
+		while ((isalpha((int)(c = *ptr1)) == FALSE) &&
+			(c != '(') &&
+			(c != ')') &&
+			(c != ']') && (c != '[') && (c != '=') && (c != '\0'))
 		{
 			charge[j++] = c;
 			/* error if no more space */
 			if (j >= MAX_LENGTH)
 			{
-				error_msg
-					("The charge on a species has exceeded MAX_LENGTH characters.",
-					 CONTINUE);
+				error_msg("The charge on a species has exceeded MAX_LENGTH characters.",
+					CONTINUE);
 				return (ERROR);
 			}
 			ptr1++;
 		}
-/*
- *   Go back to last + or - if not end of side,
- *   everything before the last + or - in charge is part of the charge
- */
+		/*
+		 *   Go back to last + or - if not end of side,
+		 *   everything before the last + or - in charge is part of the charge
+		 */
 		if ((c != '=') && (c != '\0'))
 		{
 			while (((c = *ptr1) != '+') && (c != '-'))
@@ -784,12 +564,12 @@ get_token(char **eqnaddr, char *string, LDBLE * l_z, int *l)
 		charge[j] = '\0';
 		lcharge = j;
 		*eqnaddr = ptr1;
-/*
- *   Charge has been written, now need to check if charge has legal format
- */
+		/*
+		 *   Charge has been written, now need to check if charge has legal format
+		 */
 		if (get_charge(charge, l_z) == OK)
 		{
-			strcat(string, charge);
+			string.append(charge);
 		}
 		else
 		{
@@ -871,9 +651,9 @@ parse_couple(char *token)
  *    order.
  */
 	int e1, e2, p1, p2;
-	char *ptr;
-	char elt1[MAX_LENGTH], elt2[MAX_LENGTH], paren1[MAX_LENGTH],
-		paren2[MAX_LENGTH];
+	const char* cptr;
+	std::string elt1, elt2;
+	char paren1[MAX_LENGTH], paren2[MAX_LENGTH];
 
 	if (strcmp_nocase_arg1(token, "pe") == 0)
 	{
@@ -881,9 +661,9 @@ parse_couple(char *token)
 		return (OK);
 	}
 	while (replace("+", "", token) == TRUE);
-	ptr = token;
-	get_elt(&ptr, elt1, &e1);
-	if (*ptr != '(')
+	cptr = token;
+	get_elt(&cptr, elt1, &e1);
+	if (*cptr != '(')
 	{
 		error_string = sformatf( "Element name must be followed by "
 				"parentheses in redox couple, %s.", token);
@@ -894,10 +674,10 @@ parse_couple(char *token)
 	paren_count = 1;
 	paren1[0] = '(';
 	p1 = 1;
-	while (*ptr != '\0')
+	while (*cptr != '\0')
 	{
-		ptr++;
-		if (*ptr == '/' || *ptr == '\0')
+		cptr++;
+		if (*cptr == '/' || *cptr == '\0')
 		{
 			error_string = sformatf(
 					"End of line or  " "/"
@@ -905,17 +685,17 @@ parse_couple(char *token)
 			error_msg(error_string, CONTINUE);
 			return (ERROR);
 		}
-		paren1[p1++] = *ptr;
-		if (*ptr == '(')
+		paren1[p1++] = *cptr;
+		if (*cptr == '(')
 			paren_count++;
-		if (*ptr == ')')
+		if (*cptr == ')')
 			paren_count--;
 		if (paren_count == 0)
 			break;
 	}
 	paren1[p1] = '\0';
-	ptr++;
-	if (*ptr != '/')
+	cptr++;
+	if (*cptr != '/')
 	{
 		error_string = sformatf( " " "/" " must follow parentheses "
 				"ending first half of redox couple, %s.", token);
@@ -923,16 +703,16 @@ parse_couple(char *token)
 		parse_error++;
 		return (ERROR);
 	}
-	ptr++;
-	get_elt(&ptr, elt2, &e2);
-	if (strcmp(elt1, elt2) != 0)
+	cptr++;
+	get_elt(&cptr, elt2, &e2);
+	if (strcmp(elt1.c_str(), elt2.c_str()) != 0)
 	{
 		error_string = sformatf( "Redox couple must be two redox states "
 				"of the same element, %s.", token);
 		error_msg(error_string, CONTINUE);
 		return (ERROR);
 	}
-	if (*ptr != '(')
+	if (*cptr != '(')
 	{
 		error_string = sformatf( "Element name must be followed by "
 				"parentheses in redox couple, %s.", token);
@@ -943,10 +723,10 @@ parse_couple(char *token)
 	paren2[0] = '(';
 	paren_count = 1;
 	p2 = 1;
-	while (*ptr != '\0')
+	while (*cptr != '\0')
 	{
-		ptr++;
-		if (*ptr == '/' || *ptr == '\0')
+		cptr++;
+		if (*cptr == '/' || *cptr == '\0')
 		{
 			error_string = sformatf( "End of line or " "/" " encountered"
 					" before end of parentheses, %s.", token);
@@ -954,10 +734,10 @@ parse_couple(char *token)
 			return (ERROR);
 		}
 
-		paren2[p2++] = *ptr;
-		if (*ptr == '(')
+		paren2[p2++] = *cptr;
+		if (*cptr == '(')
 			paren_count++;
-		if (*ptr == ')')
+		if (*cptr == ')')
 			paren_count--;
 		if (paren_count == 0)
 			break;
@@ -965,18 +745,18 @@ parse_couple(char *token)
 	paren2[p2] = '\0';
 	if (strcmp(paren1, paren2) < 0)
 	{
-		strcpy(token, elt1);
+		strcpy(token, elt1.c_str());
 		strcat(token, paren1);
 		strcat(token, "/");
-		strcat(token, elt2);
+		strcat(token, elt2.c_str());
 		strcat(token, paren2);
 	}
 	else if (strcmp(paren1, paren2) > 0)
 	{
-		strcpy(token, elt2);
+		strcpy(token, elt2.c_str());
 		strcat(token, paren2);
 		strcat(token, "/");
-		strcat(token, elt1);
+		strcat(token, elt1.c_str());
 		strcat(token, paren1);
 	}
 	else
@@ -997,10 +777,6 @@ print_centered(const char *string)
 	int i, l, l1, l2;
 	char token[MAX_LENGTH];
 
-#ifdef PHREEQ98
-	if ((CreateToC == TRUE) && (AutoLoadOutputFile == TRUE))
-		AddToCEntry((char *) string, 4, outputlinenr);
-#endif
 	l = (int) strlen(string);
 	l1 = (79 - l) / 2;
 	l2 = 79 - l - l1;
@@ -1044,7 +820,7 @@ replace(const char *str1, const char *str2, char *str)
  *      FALSE    if string was not replaced
  */
 	int l, l1, l2;
-	char *ptr_start;
+	char* ptr_start;
 
 	ptr_start = strstr(str, str1);
 /*
@@ -1069,7 +845,14 @@ replace(const char *str1, const char *str2, char *str)
 	memcpy(ptr_start, str2, l2);
 	return (TRUE);
 }
-
+void Phreeqc::
+replace(std::string &stds, const char* str1, const char* str2)
+{
+	size_t pos;
+	while ((pos = stds.find(str1)) != std::string::npos) {
+		stds.replace(pos, 1, str2);
+	}
+}
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 space(void **ptr, int i, int *max, int struct_size)
@@ -1176,7 +959,7 @@ str_tolower(char *str)
 /*
  *   Replaces string, str, with same string, lower case
  */
-	char *ptr;
+	char* ptr;
 	ptr = str;
 	while (*ptr != '\0')
 	{
@@ -1193,7 +976,7 @@ str_toupper(char *str)
 /*
  *   Replaces string, str, with same string, lower case
  */
-	char *ptr;
+	char* ptr;
 	ptr = str;
 	while (*ptr != '\0')
 	{
@@ -1220,7 +1003,10 @@ strcmp_nocase(const char *str1, const char *str2)
 		return (-1);
 	return (1);
 }
-
+void Phreeqc::str_tolower(std::string &name)
+{
+	std::transform(name.begin(), name.end(), name.begin(), tolower);
+}
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 strcmp_nocase_arg1(const char *str1, const char *str2)
@@ -1258,7 +1044,7 @@ string_duplicate(const char *token)
 #if !defined(NDEBUG) && defined(WIN32_MEMORY_DEBUG)
 	str = (char *) _malloc_dbg((size_t) (l + 1) * sizeof(char), _NORMAL_BLOCK, szFileName, nLine);
 #else
-	str = (char *) PHRQ_malloc((size_t) (l + 1) * sizeof(char));
+	str = (char *) PHRQ_malloc(((size_t)l + 1) * sizeof(char));
 #endif
 
 	if (str == NULL)
@@ -1266,54 +1052,7 @@ string_duplicate(const char *token)
 	strcpy(str, token);
 	return (str);
 }
-#ifdef HASH
-/* ---------------------------------------------------------------------- */
-const char * Phreeqc::
-string_hsave(const char *str)
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Save character string str
- *
- *      Arguments:
- *         str   input string to save.
- *
- *      Returns:
- *         starting address of saved string (str)
- */
-	std::hash_map<std::string, std::string *>::const_iterator it;
-	it = strings_hash.find(str);
-	if (it != strings_hash.end())
-	{
-		return (it->second->c_str());
-	}
 
-	std::string *stdstr = new std::string(str);
-	strings_map[*stdstr] = stdstr;
-	return(stdstr->c_str());
-}
-/* ---------------------------------------------------------------------- */
-void Phreeqc::
-strings_hash_clear()
-/* ---------------------------------------------------------------------- */
-{
-/*
- *      Save character string str
- *
- *      Arguments:
- *         str   input string to save.
- *
- *      Returns:
- *         starting address of saved string (str)
- */
-	std::hash_map<std::string, std::string *>::iterator it;
-	for (it = strings_hash.begin(); it != strings_hash.end(); it++)
-	{
-		delete it->second;
-	}
-	strings_hash.clear();
-}
-#else
 /* ---------------------------------------------------------------------- */
 const char * Phreeqc::
 string_hsave(const char *str)
@@ -1328,6 +1067,7 @@ string_hsave(const char *str)
  *      Returns:
  *         starting address of saved string (str)
  */
+	if (str == NULL) return (NULL);
 	std::map<std::string, std::string *>::const_iterator it;
 	it = strings_map.find(str);
 	if (it != strings_map.end())
@@ -1339,7 +1079,6 @@ string_hsave(const char *str)
 	strings_map[*stdstr] = stdstr;
 	return(stdstr->c_str());
 }
-#endif
 /* ---------------------------------------------------------------------- */
 void Phreeqc::
 strings_map_clear()
@@ -1393,12 +1132,6 @@ status(int count, const char *str, bool rk_string)
 	char spin_str[2];
 	clock_t t2;
 
-#ifdef PHREEQ98
-	if (ProcessMessages)
-		ApplicationProcessMessages();
-	if (stop_calculations == TRUE)
-		error_msg("Execution canceled by user.", STOP);
-#endif
 	if (pr.status == FALSE || phast == TRUE)
 		return (OK);
 
@@ -1513,7 +1246,7 @@ status(int count, const char *str, bool rk_string)
 			}
 			else
 			{
-				screen_string = sformatf("%-15s%-27s%1s%37s", sim_str, state_str, spin_str, stdstr.c_str());
+				screen_string = sformatf("%-15s%-27s%1s%45s", sim_str, state_str, spin_str, stdstr.c_str());
 				status_string = screen_string;
 			}
 		}
@@ -1533,333 +1266,7 @@ status(int count, const char *str, bool rk_string)
 	return (OK);
 }
 #endif /*PHREEQCI_GUI */
-/*
-** Dynamic hashing, after CACM April 1988 pp 446-457, by Per-Ake Larson.
-** Coded into C, with minor code improvements, and with hsearch(3) interface,
-** by ejp@ausmelb.oz, Jul 26, 1988: 13:16;
-** also, hcreate/hdestroy routines added to simulate hsearch(3).
-**
-** These routines simulate hsearch(3) and family, with the important
-** difference that the hash table is dynamic - can grow indefinitely
-** beyond its original size (as supplied to hcreate()).
-**
-** Performance appears to be comparable to that of hsearch(3).
-** The 'source-code' options referred to in hsearch(3)'s 'man' page
-** are not implemented; otherwise functionality is identical.
-**
-** Compilation controls:
-** DEBUG controls some informative traces, mainly for debugging.
-** HASH_STATISTICS causes HashAccesses and HashCollisions to be maintained;
-** when combined with DEBUG, these are displayed by hdestroy().
-**
-** Problems & fixes to ejp@ausmelb.oz. WARNING: relies on pre-processor
-** concatenation property, in probably unnecessary code 'optimisation'.
-** Esmond Pitt, Austec (Asia/Pacific) Ltd
-** ...!uunet.UU.NET!munnari!ausmelb!ejp,ejp@ausmelb.oz
-*/
-
 # include	<assert.h>
-
-/*
-** Fast arithmetic, relying on powers of 2,
-** and on pre-processor concatenation property
-*/
-
-/* rewrote to remove MUL and DIV */
-# define MOD(x,y)		((x) & ((y)-1))
-
-/*
-** Local data
-*/
-
-#ifdef HASH_STATISTICS
- long HashAccesses, HashCollisions;
-#endif
-
-/*
-** Code
-*/
-
-int Phreeqc::
-hcreate_multi(unsigned Count, HashTable ** HashTable_ptr)
-{
-	int i;
-	HashTable *Table;
-	/*
-	 ** Adjust Count to be nearest higher power of 2,
-	 ** minimum SegmentSize, then convert into segments.
-	 */
-	i = SegmentSize;
-	while (i < (int) Count)
-		i <<= 1;
-/*    Count = DIV(i,SegmentSize); */
-	Count = ((i) >> (SegmentSizeShift));
-
-	Table = (HashTable *) PHRQ_calloc(sizeof(HashTable), 1);
-	*HashTable_ptr = Table;
-
-	if (Table == NULL)
-		return (0);
-	/*
-	 ** resets are redundant - done by calloc(3)
-	 **
-	 Table->SegmentCount = Table->p = Table->KeyCount = 0;
-	 */
-	/*
-	 ** Allocate initial 'i' segments of buckets
-	 */
-	for (i = 0; i < (int) Count; i++)
-	{
-		Table->Directory[i] =
-			(Segment *) PHRQ_calloc(sizeof(Segment), SegmentSize);
-		if (Table->Directory[i] == NULL)
-		{
-			hdestroy_multi(Table);
-			return (0);
-		}
-		Table->SegmentCount++;
-	}
-/*    Table->maxp = MUL(Count,SegmentSize); */
-	Table->maxp = (short) ((Count) << (SegmentSizeShift));
-	Table->MinLoadFactor = 1;
-	Table->MaxLoadFactor = DefaultMaxLoadFactor;
-#ifdef HASH_STATISTICS
-	HashAccesses = HashCollisions = 0;
-#endif
-	return (1);
-}
-
-void Phreeqc::
-hdestroy_multi(HashTable * Table)
-{
-	int i, j;
-	Segment *seg;
-	Element *p, *q;
-
-	if (Table != NULL)
-	{
-		for (i = 0; i < Table->SegmentCount; i++)
-		{
-			/* test probably unnecessary        */
-			if ((seg = Table->Directory[i]) != NULL)
-			{
-				for (j = 0; j < SegmentSize; j++)
-				{
-					p = seg[j];
-					while (p != NULL)
-					{
-						q = p->Next;
-						PHRQ_free((void *) p);
-						p = q;
-					}
-				}
-				PHRQ_free(Table->Directory[i]);
-			}
-		}
-		PHRQ_free(Table);
-		/*      Table = NULL; */
-	}
-}
-
-ENTRY * Phreeqc::
-hsearch_multi(HashTable * Table, ENTRY item, ACTION action)
-/* ACTION       FIND/ENTER	*/
-{
-	Address h;
-	Segment *CurrentSegment;
-	int SegmentIndex;
-	int SegmentDir;
-	Segment *p, q;
-
-	assert(Table != NULL);		/* Kinder really than return(NULL);     */
-#ifdef HASH_STATISTICS
-	HashAccesses++;
-#endif
-	h = Hash_multi(Table, item.key);
-/*    SegmentDir = DIV(h,SegmentSize); */
-	SegmentDir = ((h) >> (SegmentSizeShift));
-	SegmentIndex = MOD(h, SegmentSize);
-	/*
-	 ** valid segment ensured by Hash()
-	 */
-	CurrentSegment = Table->Directory[SegmentDir];
-	assert(CurrentSegment != NULL);	/* bad failure if tripped       */
-	p = &CurrentSegment[SegmentIndex];
-	q = *p;
-	/*
-	 ** Follow collision chain
-	 */
-	while (q != NULL && strcmp(q->Key, item.key))
-	{
-		p = &q->Next;
-		q = *p;
-#ifdef HASH_STATISTICS
-		HashCollisions++;
-#endif
-	}
-	if (q != NULL				/* found        */
-		|| action == FIND		/* not found, search only       */
-		)
-	{
-		return ((ENTRY *) q);
-	}
-	else if ((q = (Element *) PHRQ_calloc(sizeof(Element), 1)) == NULL)
-	{
-		malloc_error();
-	}
-	*p = q;						/* link into chain      */
-	/*
-	 ** Initialize new element
-	 */
-	q->Key = item.key;
-	q->Data = (char *) item.data;
-	/*
-	 ** cleared by calloc(3)
-	 q->Next = NULL;
-	 */
-	/*
-	 ** Table over-full?
-	 */
-/*    if (++Table->KeyCount / MUL(Table->SegmentCount,SegmentSize) > Table->MaxLoadFactor) */
-	if (++Table->KeyCount / ((Table->SegmentCount) << (SegmentSizeShift)) >
-		Table->MaxLoadFactor)
-		ExpandTable_multi(Table);	/* doesn`t affect q     */
-	return ((ENTRY *) q);
-}
-
-/*
-** Internal routines
-*/
-
- Address Phreeqc::
-Hash_multi(HashTable * Table, const char *Key)
-{
-	Address h, address;
-	register unsigned char *k = (unsigned char *) Key;
-
-	h = 0;
-	/*
-	 ** Convert string to integer
-	 */
-	while (*k)
-		h = h * Prime1 ^ (*k++ - ' ');
-	h %= Prime2;
-	address = MOD(h, Table->maxp);
-	if (address < (unsigned long) Table->p)
-		address = MOD(h, (Table->maxp << 1));	/* h % (2*Table->maxp)  */
-	return (address);
-}
-
-void Phreeqc::
-ExpandTable_multi(HashTable * Table)
-{
-	Address NewAddress;
-	int OldSegmentIndex, NewSegmentIndex;
-	int OldSegmentDir, NewSegmentDir;
-	Segment *OldSegment, *NewSegment;
-	Element *Current, **Previous, **LastOfNew;
-
-/*    if (Table->maxp + Table->p < MUL(DirectorySize,SegmentSize)) */
-	if (Table->maxp + Table->p < ((DirectorySize) << (SegmentSizeShift)))
-	{
-		/*
-		 ** Locate the bucket to be split
-		 */
-/*	OldSegmentDir = DIV(Table->p,SegmentSize); */
-		OldSegmentDir = ((Table->p) >> (SegmentSizeShift));
-		OldSegment = Table->Directory[OldSegmentDir];
-		OldSegmentIndex = MOD(Table->p, SegmentSize);
-		/*
-		 ** Expand address space; if necessary create a new segment
-		 */
-		NewAddress = Table->maxp + Table->p;
-/*	NewSegmentDir = DIV(NewAddress,SegmentSize); */
-		NewSegmentDir = ((NewAddress) >> (SegmentSizeShift));
-		NewSegmentIndex = MOD(NewAddress, SegmentSize);
-		if (NewSegmentIndex == 0)
-		{
-			Table->Directory[NewSegmentDir] =
-				(Segment *) PHRQ_calloc(sizeof(Segment), SegmentSize);
-			if (Table->Directory[NewSegmentDir] == NULL)
-			{
-				malloc_error();
-			}
-		}
-		NewSegment = Table->Directory[NewSegmentDir];
-		/*
-		 ** Adjust state variables
-		 */
-		Table->p++;
-		if (Table->p == Table->maxp)
-		{
-			Table->maxp <<= 1;	/* Table->maxp *= 2     */
-			Table->p = 0;
-		}
-		Table->SegmentCount++;
-		/*
-		 ** Relocate records to the new bucket
-		 */
-		Previous = &OldSegment[OldSegmentIndex];
-		Current = *Previous;
-		LastOfNew = &NewSegment[NewSegmentIndex];
-		*LastOfNew = NULL;
-		while (Current != NULL)
-		{
-			if (Hash_multi(Table, Current->Key) == NewAddress)
-			{
-				/*
-				 ** Attach it to the end of the new chain
-				 */
-				*LastOfNew = Current;
-				/*
-				 ** Remove it from old chain
-				 */
-				*Previous = Current->Next;
-				LastOfNew = &Current->Next;
-				Current = Current->Next;
-				*LastOfNew = NULL;
-			}
-			else
-			{
-				/*
-				 ** leave it on the old chain
-				 */
-				Previous = &Current->Next;
-				Current = Current->Next;
-			}
-		}
-	}
-}
-
-
-void Phreeqc::
-free_hash_strings(HashTable * Table)
-{
-	int i, j;
-	Segment *seg;
-	Element *p, *q;
-
-	if (Table != NULL)
-	{
-		for (i = 0; i < Table->SegmentCount; i++)
-		{
-			/* test probably unnecessary        */
-			if ((seg = Table->Directory[i]) != NULL)
-			{
-				for (j = 0; j < SegmentSize; j++)
-				{
-					p = seg[j];
-					while (p != NULL)
-					{
-						q = p->Next;
-						p->Data = (char *) free_check_null((void *) p->Data);
-						p = q;
-					}
-				}
-			}
-		}
-	}
-}
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
@@ -1878,7 +1285,7 @@ string_trim(char *str)
  *      EMPTY    if string is all whitespace
  */
 	int i, l, start, end, length;
-	char *ptr_start;
+	char* ptr_start;
 
 	l = (int) strlen(str);
 	/*
@@ -1911,6 +1318,22 @@ string_trim(char *str)
 	str[length] = '\0';
 
 	return (TRUE);
+}
+void Phreeqc::string_trim_left(std::string& str)
+{
+	const std::string& chars = "\t\n ";
+	str.erase(0, str.find_first_not_of(chars));
+}
+void Phreeqc::string_trim_right(std::string& str)
+{
+	const std::string& chars = "\t\n ";
+	str.erase(str.find_last_not_of(chars) + 1);
+}
+void Phreeqc::string_trim(std::string& str)
+{
+	const std::string& chars = "\t\n ";
+	str.erase(0, str.find_first_not_of(chars));
+	str.erase(str.find_last_not_of(chars) + 1);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1965,7 +1388,7 @@ string_trim_left(char *str)
  *      EMPTY    if string is all whitespace
  */
 	int i, l, start, end, length;
-	char *ptr_start;
+	char* ptr_start;
 
 	l = (int) strlen(str);
 	/*
@@ -2012,10 +1435,11 @@ string_pad(const char *str, int i)
 	max = l;
 	if (l < i)
 		max = i;
-	str_ptr = (char *) PHRQ_malloc((size_t) ((max + 1) * sizeof(char)));
+	str_ptr = (char *) PHRQ_malloc((((size_t)max + 1) * sizeof(char)));
 	if (str_ptr == NULL)
 		malloc_error();
-	strcpy(str_ptr, str);
+	else
+		strcpy(str_ptr, str);
 	if (i > l)
 	{
 		for (j = l; j < i; j++)
@@ -2026,29 +1450,6 @@ string_pad(const char *str, int i)
 	}
 	return (str_ptr);
 }
-
-/* ---------------------------------------------------------------------- */
-void Phreeqc::
-zero_double(LDBLE * target, int n)
-/* ---------------------------------------------------------------------- */
-{
-	int i;
-
-	if (n > zeros_max)
-	{
-		zeros = (LDBLE *) PHRQ_realloc(zeros, (size_t) (n * sizeof(LDBLE)));
-		if (zeros == NULL)
-			malloc_error();
-		for (i = zeros_max; i < n; i++)
-		{
-			zeros[i] = 0.0;
-		}
-		zeros_max = n;
-	}
-	memcpy((void *) target, (void *) zeros, (size_t) (n * sizeof(LDBLE)));
-	return;
-}
-
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 get_input_errors()

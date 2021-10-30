@@ -1,11 +1,7 @@
 #ifndef _PHRQIO_H
 #define _PHRQIO_H
 
-#if defined(_WINDLL)
-#define IPQ_DLL_EXPORT __declspec(dllexport)
-#else
-#define IPQ_DLL_EXPORT
-#endif
+#include "PHRQ_exports.h"
 
 #include <iostream>
 #include <exception>
@@ -44,8 +40,8 @@ public:
 	static void safe_close(std::ostream **stream_ptr);
 	static void safe_close(FILE **file_ptr);
 	void close_ostreams(void);
-	void Set_io_error_count(int i)				{this->io_error_count = i;};
-	int Get_io_error_count(void)				{return this->io_error_count;};
+	void Set_io_error_count(int i)					{this->io_error_count = i;};
+	int Get_io_error_count(void)const				{return this->io_error_count;};
 
 
 	// istreams
@@ -65,7 +61,7 @@ public:
 	void Set_output_ostream(std::ostream * out)		{this->output_ostream = out;};
 	std::ostream *Get_output_ostream(void)			{return this->output_ostream;};
 	void Set_output_on(bool tf)						{this->output_on = tf;};
-	bool Get_output_on(void)						{return this->output_on;};
+	bool Get_output_on(void)const					{return this->output_on;};
 
 	// log_ostream
 	virtual bool log_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out);
@@ -75,7 +71,7 @@ public:
 	void Set_log_ostream(std::ostream * out)		{this->log_ostream = out;}
 	std::ostream *Get_log_ostream(void)				{return this->log_ostream;}
 	void Set_log_on(bool tf)						{this->log_on = tf;}
-	bool Get_log_on(void)							{return this->log_on;}
+	bool Get_log_on(void)const						{return this->log_on;}
 
 	// punch_ostream
 	virtual bool punch_open(const char *file_name, std::ios_base::openmode mode = std::ios_base::out, int n_user = 1);
@@ -94,19 +90,19 @@ public:
 	void error_close(void);
 	virtual void error_msg(const char * str, bool stop=false);
 	void Set_error_ostream(std::ostream * out)		{this->error_ostream = out;}
-	std::ostream *Get_error_ostream(void)			{return this->error_ostream;}
+	std::ostream *Get_error_ostream(void)const		{return this->error_ostream;}
 	void Set_error_on(bool tf)						{this->error_on = tf;}
-	bool Get_error_on(void)							{return this->error_on;}
+	bool Get_error_on(void)const					{return this->error_on;}
 	virtual void warning_msg(const char *err_str);
 #else
 	virtual bool error_open(const char *file_name, const char * mode = "w");
 	void error_flush(void);
 	void error_close(void);
 	virtual void error_msg(const char * str, bool stop=false);
-	void Set_error_file(FILE * out)				{this->error_file = out;}
-	FILE *Get_error_file(void)					{return this->error_file;}
+	void Set_error_file(FILE * out)					{this->error_file = out;}
+	FILE *Get_error_file(void)const					{return this->error_file;}
 	void Set_error_on(bool tf)						{this->error_on = tf;}
-	bool Get_error_on(void)							{return this->error_on;}
+	bool Get_error_on(void)const					{return this->error_on;}
 	virtual void warning_msg(const char *err_str);
 #endif
 
@@ -118,7 +114,7 @@ public:
 	void Set_dump_ostream(std::ostream * out)		{this->dump_ostream = out;};
 	std::ostream *Get_dump_ostream(void)			{return this->dump_ostream;};
 	void Set_dump_on(bool tf)						{this->dump_on = tf;};
-	bool Get_dump_on(void)							{return this->dump_on;};
+	bool Get_dump_on(void)const						{return this->dump_on;};
 
 	// fpunchf
 	virtual void fpunchf(const char *name, const char *format, double d);
@@ -130,17 +126,17 @@ public:
 
 	virtual void screen_msg(const char * str);
 	void Set_screen_on(bool tf)						{this->screen_on = tf;};
-	bool Get_screen_on(void)						{return this->screen_on;};
+	bool Get_screen_on(void)const					{return this->screen_on;};
 
 	// input methods
 	virtual int getc(void);
 	virtual LINE_TYPE get_line(void);
 	virtual LINE_TYPE get_logical_line(void);
 	bool check_key(std::string::iterator begin, std::string::iterator end);
-	std::string & Get_m_line()       {return m_line;}
-	std::string & Get_m_line_save()  {return m_line_save;}
-	std::string & Get_accumulated()	 {return accumulated;}
-	LINE_TYPE Get_m_line_type()      {return m_line_type;};
+	std::string & Get_m_line()						{return m_line;}
+	std::string & Get_m_line_save()					{return m_line_save;}
+	std::string & Get_accumulated()					{return accumulated;}
+	LINE_TYPE Get_m_line_type()const				{return m_line_type;};
 	void Set_accumulate(bool tf) 
 	{ 
 		if (tf)
@@ -149,7 +145,7 @@ public:
 		}
 		this->accumulate = tf; 
 	}
-	Keywords::KEYWORDS Get_m_next_keyword() const {return m_next_keyword;}
+	Keywords::KEYWORDS Get_m_next_keyword() const	{return m_next_keyword;}
 
 	// echo 
 	enum ECHO_OPTION
@@ -158,16 +154,16 @@ public:
 		ECHO_OUTPUT
 	};
 	virtual void echo_msg(const char * str);
-	void Set_echo_on(bool tf)					{this->echo_on = tf;};
-	bool Get_echo_on(void)						{return this->echo_on;};
-	void Set_echo_destination(ECHO_OPTION eo)   {this->echo_destination = eo;};
-	ECHO_OPTION Get_echo_destination(void)      {return this->echo_destination;};
+	void Set_echo_on(bool tf)						{this->echo_on = tf;};
+	bool Get_echo_on(void)const						{return this->echo_on;};
+	void Set_echo_destination(ECHO_OPTION eo)		{this->echo_destination = eo;};
+	ECHO_OPTION Get_echo_destination(void)const		{return this->echo_destination;};
 
 	// data
 protected:
-	std::ostream *output_ostream;	
-	std::ostream *log_ostream;		
-	std::ostream *punch_ostream;	
+	std::ostream *output_ostream;
+	std::ostream *log_ostream;
+	std::ostream *punch_ostream;
 #ifdef ERROR_OSTREAM
 	std::ostream *error_ostream;
 #else

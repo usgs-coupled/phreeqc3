@@ -8,12 +8,18 @@
 #include <algorithm>			// std::sort
 
 #include "Utils.h"				// define first
-#include "Parser.h"
 #include "Phreeqc.h"
+#include "Parser.h"
 #include "Temperature.h"
 #include "phqalloc.h"
 
-
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -31,41 +37,6 @@ cxxTemperature::cxxTemperature(PHRQ_io *io)
 cxxTemperature::~cxxTemperature()
 {
 }
-
-#ifdef SKIP
-void
-cxxTemperature::dump_xml(std::ostream & s_oss, unsigned int indent) const const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Temperature element and attributes
-	s_oss << indent0;
-	s_oss << "<temperature " << "\n";
-
-	s_oss << indent1;
-	s_oss << "pitzer_temperature_gammas=\"" << this->
-		pitzer_temperature_gammas << "\"" << "\n";
-
-	// components
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	for (std::list < cxxTemperatureComp >::const_iterator it =
-		 temperatureComps.begin(); it != temperatureComps.end(); ++it)
-	{
-		it->dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 
 int
 cxxTemperature::read(CParser & parser)
@@ -381,9 +352,9 @@ Temperature_for_step(int step_number)
 		else
 		{
 			LDBLE denom;
-			denom = (this->countTemps <= 1) ? 1 : (LDBLE) (this->countTemps - 1);
+			denom = (this->countTemps <= 1) ? 1 : (LDBLE)this->countTemps - 1;
 			t_temp =  this->temps[0] + ( this->temps[1] - this->temps[0]) *
-				((LDBLE) (step_number - 1)) / (denom);
+				((LDBLE)step_number - 1) / (denom);
 		}
 	}
 	else 
@@ -394,7 +365,7 @@ Temperature_for_step(int step_number)
 		}
 		else
 		{
-			t_temp = this->temps[step_number - 1];
+			t_temp = this->temps[(size_t)step_number - 1];
 		}
 
 	}

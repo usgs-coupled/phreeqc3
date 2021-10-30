@@ -12,6 +12,13 @@
 #include "cxxMix.h"
 #include "phqalloc.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -24,6 +31,7 @@ cxxSurface::cxxSurface(PHRQ_io *io)
 :	cxxNumKeyword(io)
 {
 	new_def = false;
+	tidied = false;
 	type = DDL;
 	dl_type = NO_DL;
 	sites_units = SITES_ABSOLUTE;
@@ -42,6 +50,7 @@ cxxNumKeyword(io)
 {
 	this->n_user = this->n_user_end = l_n_user;
 	this->new_def = false;
+	this->tidied = true;
 	type = DDL;
 	dl_type = NO_DL;
 	sites_units = SITES_ABSOLUTE;
@@ -94,74 +103,6 @@ cxxSurface::Get_related_rate() const
 	}
 	return (false);
 }
-#ifdef SKIP
-void
-cxxSurface::dump_xml(std::ostream & s_oss, unsigned int indent) const
-{
-	unsigned int i;
-	s_oss.precision(DBL_DIG - 1);
-	std::string indent0(""), indent1(""), indent2("");
-	for (i = 0; i < indent; ++i)
-		indent0.append(Utilities::INDENT);
-	for (i = 0; i < indent + 1; ++i)
-		indent1.append(Utilities::INDENT);
-	for (i = 0; i < indent + 2; ++i)
-		indent2.append(Utilities::INDENT);
-
-	// Surface element and attributes
-	s_oss << indent0;
-	s_oss << "<surface " << "\n";
-
-	s_oss << indent1;
-	s_oss << "surface_type=\"" << this->type << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "dl_type=\"" << this->dl_type << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "sites_units=\"" << this->sites_units << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "only_counter_ions=\"" << this->
-		only_counter_ions << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "thickness=\"" << this->thickness << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "debye_lengths=\"" << this->debye_lengths << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "DDL_viscosity=\"" << this->DDL_viscosity << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "DDL_limit=\"" << this->DDL_limit << "\"" << "\n";
-
-	s_oss << indent1;
-	s_oss << "transport=\"" << this->transport << "\"" << "\n";
-
-	// surface component structures
-	s_oss << indent1;
-	s_oss << "<component " << "\n";
-	{
-		for (std::map < std::string, cxxSurfaceComp >::const_iterator it =
-			 this->surfaceComps.begin(); it != this->surfaceComps.end(); ++it)
-		{
-			(*it).second.dump_xml(s_oss, indent + 2);
-		}
-	}
-	// surface charge structures
-	s_oss << indent1;
-	s_oss << "<charge_component " << "\n";
-	for (std::map < std::string, cxxSurfaceCharge >::const_iterator it =
-		 surface_charges.begin(); it != surface_charges.end(); ++it)
-	{
-		(*it).second.dump_xml(s_oss, indent + 2);
-	}
-
-	return;
-}
-#endif
 void
 cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) const
 {
@@ -215,6 +156,8 @@ cxxSurface::dump_raw(std::ostream & s_oss, unsigned int indent, int *n_out) cons
 	s_oss << indent1;
 	s_oss << "-new_def                   " << this->new_def << "\n";
 	s_oss << indent1;
+	s_oss << "-tidied                   " << this->tidied << "\n";
+	s_oss << indent1;
 	s_oss << "-sites_units               " << this->sites_units << "\n";
 	s_oss << indent1;
 	s_oss << "-solution_equilibria       " << this->solution_equilibria << "\n";
@@ -243,6 +186,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 	// Read surface number and description
 	this->read_number_description(parser);
 	this->Set_new_def(false);
+	this->Set_tidied(true);
 
 	bool only_counter_ions_defined(false);
 	bool thickness_defined(false);
@@ -515,6 +459,15 @@ cxxSurface::read_raw(CParser & parser, bool check)
 					 PHRQ_io::OT_CONTINUE);
 			}
 			break;
+		case 18:				// tidied
+			if (!(parser.get_iss() >> this->tidied))
+			{
+				this->tidied = false;
+				parser.incr_input_error();
+				parser.error_msg("Expected boolean value for tidied.",
+					PHRQ_io::OT_CONTINUE);
+			}
+			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)
 			break;
@@ -768,6 +721,7 @@ cxxSurface::Serialize(Dictionary & dictionary, std::vector < int >&ints,
 		}
 	}
 	ints.push_back(this->new_def ? 1 : 0);
+	ints.push_back(this->tidied ? 1 : 0);
 	ints.push_back((int) this->type);
 	ints.push_back((int) this->dl_type);
 	ints.push_back((int) this->sites_units);
@@ -797,7 +751,7 @@ cxxSurface::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 		this->surface_comps.clear();
 		for (int n = 0; n < count; n++)
 		{
-			cxxSurfaceComp sc;
+			cxxSurfaceComp sc(this->io);
 			sc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->surface_comps.push_back(sc);
 		}
@@ -807,12 +761,13 @@ cxxSurface::Deserialize(Dictionary & dictionary, std::vector < int >&ints,
 		this->surface_charges.clear();
 		for (int n = 0; n < count; n++)
 		{
-			cxxSurfaceCharge sc;
+			cxxSurfaceCharge sc(this->io);
 			sc.Deserialize(dictionary, ints, doubles, ii, dd);
 			this->surface_charges.push_back(sc);
 		}
 	}
 	this->new_def = (ints[ii++] != 0);
+	this->tidied = (ints[ii++] != 0);
 	this->type = (SURFACE_TYPE) ints[ii++];
 	this->dl_type = (DIFFUSE_LAYER_TYPE) ints[ii++];
 	this->sites_units = (SITES_UNITS) ints[ii++];
@@ -847,6 +802,7 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("new_def"),	            // 14
 	std::vector< std::string >::value_type("solution_equilibria"),	// 15
 	std::vector< std::string >::value_type("n_solution"),	        // 16
-	std::vector< std::string >::value_type("totals") 	            // 17
+	std::vector< std::string >::value_type("totals"), 	            // 17
+	std::vector< std::string >::value_type("tidied") 	            // 18
 };									   
 const std::vector< std::string > cxxSurface::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	

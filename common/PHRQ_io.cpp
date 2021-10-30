@@ -13,6 +13,14 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 PHRQ_io::
 PHRQ_io(void)
 {
@@ -32,7 +40,7 @@ PHRQ_io(void)
 	punch_on = true;
 	error_on = true;
 	dump_on = true;
-	echo_on = true; //**appt
+	echo_on = true;
 	screen_on = true;
 	echo_destination = ECHO_OUTPUT;
 
@@ -792,6 +800,7 @@ get_line(void)
 					continue;
 #else
 					output_msg(errstr.str().c_str());
+					output_flush();
 					error_msg(errstr.str().c_str(), OT_STOP);
 #endif
 				}
@@ -800,7 +809,7 @@ get_line(void)
 					this->push_istream(next_stream);
 					std::ostringstream errstr;
 					errstr << "\n\tReading data from " << file_name <<" ...\n";
-					output_msg(errstr.str().c_str()); // **appt
+					output_msg(errstr.str().c_str());
 				}
 				continue;
 			}

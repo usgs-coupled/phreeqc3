@@ -13,6 +13,14 @@
 #include "phqalloc.h"
 #include "Dictionary.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -36,26 +44,6 @@ PHRQ_base(io)
 	dnc = 0; 
 	dnb = 0;
 }
-#ifdef SKIP
-cxxSScomp::cxxSScomp(struct pure_phase * pure_phase_ptr, PHRQ_io *io)
-:
-PHRQ_base(io)
-	//
-	// constructor for cxxSScomp from struct pure_phase
-	//
-{
-	this->Set_name(pure_phase_ptr->name);
-	this->Set_add_formula(pure_phase_ptr->add_formula);
-	si = pure_phase_ptr->si;
-	si_org = pure_phase_ptr->si_org;
-	moles = pure_phase_ptr->moles;
-	delta = pure_phase_ptr->delta;
-	initial_moles = pure_phase_ptr->initial_moles;
-	force_equality = (pure_phase_ptr->force_equality == TRUE);
-	dissolve_only = (pure_phase_ptr->dissolve_only == TRUE);
-	precipitate_only = (pure_phase_ptr->precipitate_only == TRUE);
-}
-#endif
 cxxSScomp::~cxxSScomp()
 {
 }
@@ -248,29 +236,6 @@ cxxSScomp::read_raw(CParser & parser, bool check)
 	}
 }
 
-#ifdef SKIP
-void
-cxxSScomp::totalize(Phreeqc * phreeqc_ptr)
-{
-	this->totals.clear();
-	// component structures
-	if (this->add_formula.size() != 0)
-		return;
-	struct phase *phase_ptr;
-	int l;
-	phase_ptr = phreeqc_ptr-> phase_bsearch(this->name.c_str(), &l, FALSE);
-	if (phase_ptr != NULL)
-	{
-		cxxNameDouble phase_formula(phase_ptr->next_elt);
-		this->totals.add_extensive(phase_formula, this->moles);
-	}
-	else
-	{
-		assert(false);
-	}
-	return;
-}
-#endif
 void
 cxxSScomp::multiply(LDBLE extensive)
 {

@@ -8,6 +8,15 @@
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 #endif
+
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 #if defined(USE_PHRQ_ALLOC)
 /* ---------------------------------------------------------------------- */
 #if !defined(NDEBUG)
@@ -141,7 +150,8 @@ PHRQ_calloc(size_t num, size_t size
 
 	assert((s_pTail == NULL) || (s_pTail->pNext == NULL));
 
-	p = (PHRQMemHeader *) malloc(sizeof(PHRQMemHeader) + size * num);
+	//p = (PHRQMemHeader *) malloc(sizeof(PHRQMemHeader) + size * num);
+	p = (PHRQMemHeader *) calloc(1, sizeof(PHRQMemHeader) + size * num); // appt
 
 	if (p == NULL)
 		return NULL;

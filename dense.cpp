@@ -66,6 +66,14 @@
 #include "dense.h"
 #include "smalldense.h"
 
+#if defined(PHREEQCI_GUI)
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+#endif
+
 /* WARNING don`t include any headers below here */
 
 #define ZERO RCONST(0.0)
@@ -73,7 +81,6 @@
 
 
 /* Implementation */
-
 
 DenseMat
 DenseAllocMat(integertype N)
