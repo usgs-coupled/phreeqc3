@@ -1,5 +1,11 @@
 LFS is incompatible with subtrees!!!
 
+Note: subtree merges require the following:
+  1. Repos that require notifications must have their id set in `coupled->Settings->CI/CD->Variables`
+  2. Repos that need to be triggered need a pipeline trigger created as UPSTREAM_TRIGGER in `Settings->CI/CD->Pipeline triggers`
+  3. Each repo that is pushed to or committed must have the darth@empire.com deploy key added WITH write access `Settings->Repository->Deploy keys`
+
+
 Top-level
 
 | Project               | URL                                                     | Status                                                                                                                                                                               |
