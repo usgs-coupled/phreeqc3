@@ -1,5 +1,942 @@
-Version @PHREEQC_VER@: @PHREEQC_DATE@ 
+Version @PHREEQC_VER@: @PHREEQC_DATE@
+  	--------------
+	August 25, 2021
+	--------------
+	PHREEQC: Added new Basic functions MCD_JTOT and MCD_JCONC that return
+    multicomponent diffusion fluxes. MCD_JTOT returns the value of equation
+    10 in the description of the TRANSPORT keyword in the PHREEQC 3 manual
+    for an aqueous species. MCD_JCONC returns the flux calculated by the
+    first term of equation 10. The functions ignore interlayer diffusion
+	and only apply to multicomponent diffusion. Here are Basic examples.
+	Uphill diffusion occurs when the two functions have opposite signs.
 
+	10 jtot = MCD_JTOT("Cl-")
+	20 jconc = MCD_JCONC("Cl-")
+
+  	--------------
+	July 30, 2021
+	--------------
+	PHREEQC: Modified the numerical method for Pitzer calculations when using
+	Peng-Robinson  gases. The calculation of numerical derivatives was 
+	modified to account for the sequence of calculations, particularly that
+	the mole fractions of gases are calculated within the molalities method. 
+
+  	-------------
+	June 14, 2021
+	-------------
+	PhreeqcRM: Added capability to save the chemical state of the module in memory to 
+	allow resetting at a later point in the calculation. The capability would be useful
+	for implementing an SIA (sequential iterative approach) for iterating the transport
+	rate terms between the transport code and the chemistry in PhreeqcRM. Three new
+	methods have been added to save, apply, and delete a chemical state.
+	
+	status = phreeqcrm.StateSave(i);
+	...
+	status = phreeqcrm.StateApply(i);
+	status = phreeqcrm.StateDelete(i);
+    
+  	--------------
+	May 28, 2021
+	--------------
+	PHREEQC: Fixed SELECTED_OUTPUT feature where Fe(+3) (and others) were not identified
+	as legitimate redox states. Absence of "+" worked as expected. Same fix
+	for Basic functions TOT and TOTMOL.
+
+  	--------------
+	April 10, 2021
+	--------------
+	PHREEQC: Fixed -add_constant for phases and aqueous, exchange, surface species.
+	
+	PHREEQC: Caught NULL pointer when a SURFACE was defined with a surface not 
+	defined in SURFACE_MASTER_SPECIES or SURFACE_SPECIES.
+	
+	PHREEQC: Fixed a catastrophic error under some conditions when a surface was used 
+	with a SIT database. Also enabled EDL calculation for SIT databases; the EDL is 
+	calculated, but the results have not been tested for correctness.
+	
+---------------------------------------------------------------------------------------------
+Version 3.7.0: April 29, 2021	
+---------------------------------------------------------------------------------------------
+
+Summary of Basic functions not include in PhreeqcI help:
+
+ADD_HEADING("NewHeading")           Append a new heading to the list of -headings defined
+                                    in USER_PUNCH. Note: only useful in PhreeqcRM and takes effect 
+                                    at next RunString, RunFile, or RunCells.
+
+DEBYE_LENGTH                        Value of the Debye length.
+
+DELTA_H_PHASE("Calcite")            Delta H in KJ/mol. If an analytic expression exists,
+                                    Delta H is at reaction temperature; otherwise
+                                    Delta H at 25 C.
+
+DELTA_H_SPECIES("CaHCO3+")          Delta H in KJ/mol. If an analytic expression exists,
+                                    Delta H is at reaction temperature, otherwise
+                                    Delta H at 25C.
+
+DH_A0(Na+")                         Debye-Huckel species-specific ion size parameter.
+
+DH_BDOT("Na+")                      Debye-Huckel species-specific ionic strength coefficient.
+
+EOL_NOTAB$                          Omits the tab that is normally printed after EOL$.
+
+ITERATIONS                          Total number of iterations for the calculation.
+
+NO_NEWLINE$                         Omits the new line normally written after printing a USER_PUNCH block.
+                                    This function can be used to completely eliminate a line for a cell 
+                                    (assuming no SELECTED_OUTPUT fields are defined).
+
+SETDIFF_C("CO3-2", 1.18e-9)         Sets dw for a species (see SOLUTION_SPECIES), returns
+                                    calculated diffusion coefficient at reaction temperature.
+
+SYS("element", count , name$,       Sixth argument is new and determines the sort order,
+type$ , moles, 1)                   0 sorted by 5th argument, 1, sorted by 3rd argument.
+
+	-------------
+	April 6, 2021
+	-------------
+	PHREEQC: Code was revised to make greater use of C++ template classes (vector and map) for 
+	memory management
+	
+	PhreeqcI: More comprehensive documentation of Basic functions.
+
+	-------------
+	March 10, 2021
+	-------------
+	PHREEQC: New Basic functions return (1) delta H of species,
+	(2) delta H of a phase, (3) Debye Huckel a0 (species-specific
+	ion size), and (4) Debye Huckel bdot (species-specific ion
+	strength coefficient).
+
+DELTA_H_PHASE("Calcite")    		Delta H in KJ/mol. If an analytic expression exists,
+									Delta H is at reaction temperature; otherwise
+									Delta H at 25 C.
+
+DELTA_H_SPECIES("CaHCO3+")			Delta H in KJ/mol. If an analytic expression exists,
+									Delta H is at reaction temperature, otherwise
+									Delta H at 25C.
+
+DH_A0(Na+")         				Debye-Huckel species-specific ion size parameter. 
+
+DH_BDOT("Na+")  					Debye-Huckel species-specific ionic strength coefficient.
+
+  	-------------
+	March 10, 2021
+	-------------
+	PHREEQC: Merged changes from Tony Appelo's version.
+	
+	Bug fix of removal of Donnan layer calculations when kinetic 
+	reactions are zero in Runge-Kutta calculations.
+	
+	SIs of phases are now printed with the phase mole transfers 
+	found by INVERSE_MODELING. This is useful for checking that 
+	dissolving and precipitating phases are sub- and 
+	supersaturated, respectively.
+	
+	Modified the -analytical_expression for calcite in 
+	phreeqc.dat, with data from Ellis (1959) and Plummer and 
+	Busenberg (1982) used in pitzer.dat.
+
+	Modified the -analytical_expression for dolomite in 
+	phreeqc.dat and pitzer.dat, using data at 25°C from Hemingway 
+	and Robie (1994) and 50-175°C from Bénézeth et al. (2018), GCA 
+	224, 262-275. 
+
+  	-------------
+	March 2, 2021
+	-------------
+	PhreeqcRM: Added new methods to retrieve and set the volumes
+	of the gas phases in the cells. GetGasPhaseVolume retrieves
+	the volume of the gas phase in each cell. The value is set
+	to -1.0 for cells that do not have a gas phase.
+	
+	SetGasPhaseVolume only applies to fixed-volume gas phases.
+	An array of gas volumes is applied to the gas phases in the
+	cells. If the volume is negative for a cell, the gas volume
+	in the cell remains unchanged. If the volume is greater or
+	equal to zero, the volume is applied to the cell, and the
+	gas phase is forced to be a fixed-volume gas phase.
+
+    C++:
+	IRM_RESULT GetGasPhaseVolume(std::vector<double>& gas_pressure);
+	IRM_RESULT setGasPhaseVolume(const std::vector<double>& gas_pressure);
+	
+	Size of the vector is nxyz, the number of cells in the 
+	transport model.
+	
+    C: 
+	IRM_RESULT RM_GetGasPhaseVolume(int id, double* gas_volume);
+	IRM_RESULT RM_SetGasPhaseVolume(int id, double* gas_volume);
+	
+	Size of the array is nxyz*sizeof(double), where nxyz is the 
+	number of cells in the transport model.
+	
+    Fortran90: 
+	IRM_RESULT RM_GetGasPhaseVolume(int id, double precision gas_volume(:));
+	IRM_RESULT RM_SetGasPhaseVolume(int id, double precision gas_volume(:));
+	
+	The array is dimensioned nxyz, the number of cells in the 
+	transport model.
+	
+	See HTML documentation of PhreeqcRM in download distributions or 
+	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
+ 
+	
+  	-----------------
+	February 26, 2021
+	-----------------
+	
+	PhreeqcRM: Added new methods to retrieve values for 
+	gas components in each cell--moles, pressures, and 
+	fugacity coefficients (phi). A list of gas components is 
+	accumulated by call(s) to FindComponents, and retrieved 
+	by the method GetGasComponents. An array containing 
+	moles of components for each cell in the transport model 
+	is retrieved with GetGasCompMoles; similarly for 
+	GetGasCompPressures, and GetGasCompPhi. If GAS_PHASE is not 
+	defined for a cell or a GAS_PHASE does not contain a component, 
+	the array will contain the value -1.0 in those positions. 
+	Fugacities of gas components can be calculated as the product
+	of the pressure and fugcity coefficient.
+	
+	Moles of gas components in the chemistry cells can be set 
+	with the method SetGasCompMoles. A negative value is used to 
+	represent components that are absent from a cell.	
+
+	C++:
+	IRM_RESULT GetGasCompMoles(std::vector<double>& gas_moles);
+	IRM_RESULT GetGasCompPressures(std::vector<double>& gas_pressure);
+	IRM_RESULT GetGasCompPhi(std::vector<double>& gas_phi);
+	IRM_RESULT SetGasCompMoles(const std::vector<double>& gas_moles);
+	
+	The argument of each method is a vector of size nxyz*ngcomps, where 
+	nxyz is the number of cells in the transport model and ngcomps is
+	the number of gas components returned by GetGasComponentCount. 
+	
+	C:
+	IRM_RESULT RM_GetGasCompMoles(int id, double* gas_moles);
+	IRM_RESULT RM_GetGasCompPressures(int id, double* gas_pressure);
+	IRM_RESULT RM_GetGasCompPhi(int id, double* gas_phi);
+	IRM_RESULT RM_SetGasCompMoles(int id, double* gas_moles);
+	
+	For each function, the first argument(id) is an integer, and 
+	the second argument is an array of size nxyz*ngcomps*sizeof(double),
+	where nxyz is the number of cells in the transport model and 
+	ngcomps is the number of gas components returned by 
+	RM_GetGasComponentCount. 
+	
+	Fortran90:
+	INTEGER FUNCTION RM_GetGasCompMoles(id, gas_moles)
+	INTEGER FUNCTION RM_GetGasCompPressures(id, gas_pressures)
+	INTEGER FUNCTION RM_GetGasCompPhi(id, gas_phi)
+	INTEGER FUNCTION RM_SetGasCompMoles(id, gas_moles)
+	
+	For each function, the first argument (id) is an integer, and 
+	the second argument is a two dimensional array dimensioned 
+	(nxyz,ngcomps), where nxyz is the number of cells in the transport 
+	model and ngcomps is the number of gas components returned by 
+	RM_GetGasComponentCount. 
+
+	See HTML documentation of PhreeqcRM in download distributions or 
+	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
+ 
+  	-----------------
+	February 21, 2021
+	-----------------
+	PhreeqcRM: Added a new method to retrieve log10 molality (mol/kgw)
+	of aqueous species.
+	
+	C++:
+	IRM_RESULT  GetSpeciesLog10Molalities (std::vector< double > &species_log10molalities) 
+	
+	C:
+	IRM_RESULT RM_GetSpeciesLog10Molalities(int id, double * species_log10molalities)  
+
+    Fortran90:	
+	integer function RM_GetSpeciesLog10Molalities(id, species_log10molalities) 
+	
+	The first argument (id) is an integer, and the second argument is a 
+	two dimensional array dimensioned (nxyz,nspecies). 
+
+	See HTML documentation of PhreeqcRM in download distributions or 
+	https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqcrm/.
+ 
+  	-----------------
+	February 20, 2021
+	-----------------
+	Phreeqc: Added optional 6th argument to Basic function SYS that 
+	controls the sort order of the output. If the argument is absent or
+	equal to 0, the sort order of species is from highest to lowest
+	based on the 5th field. If the 6th argument is a nonzero integer,
+	then the sort order is alphabetically based on the 3rd field. 
+	
+	Sort by 5th field (moles):
+	SYS("element", count , name$ , type$ , moles)
+	SYS("element", count , name$ , type$ , moles, 0)
+
+	Sort by 3rd field (name$):
+    SYS("element", count , name$ , type$ , moles, 1)
+
+ 
+ 	-----------------
+	February 19, 2021
+	-----------------
+	PhreeqcRM: Fixed zero divide dumping one-cell model.
+	.
+  	----------------
+	November 24, 2020
+	----------------
+	PHREEQC: Added new Basic functions to control USER_PUNCH output.
+	
+	EOL_NOTAB$ omits the tab that is normally printed after EOL$.
+	NO_NEWLINE$ omits the new line normally written after printing 
+	            a USER_PUNCH block. This function can be used to completely
+				eliminate a line for a cell (assuming no SELECTED_OUTPUT fields
+				are defined.
+				
+				Example:
+USER_PUNCH 2
+100  IF (STEP_NO = 2 OR STEP_NO = 4) THEN GOTO 200
+110    PUNCH NO_NEWLINE$
+120    GOTO 300
+200 REM
+210   PUNCH TC, TK, EOL_NOTAB$
+220   PUNCH TK, TC
+300 END
+				
+	IPhreeqc: Added new Basic function ADD_HEADING to append a new heading to the list
+	          of -headings defined in USER_PUNCH. The function returns the total
+			  number of headings. This function is only helpful when using IPhreeqc.
+			  
+			  Example:
+ USER_PUNCH 2
+-heading A
+10  if (GET(999) > 0) THEN GOTO 100 # define only once
+20  n = ADD_HEADING("B")
+30  PUT(999,1)
+100 REM
+
+  	----------------
+	August 17, 2020
+	----------------
+	PHREEQC: Changes to implicit Nernst Planck calculations for electro-migration.
+	Concentration-oscillations in 3 cells at the column boundary are now dampened,
+	which improves the stability of the calculations.
+
+ 	----------------
+	August 17, 2020
+	----------------
+	PHREEQC: A new Basic function DEBYE_LENGTH was added to return the 
+	value of the Debye length, typically notated kappa^-1. The value is 
+	related to the decay of the surface potential with distance from the 
+	surface. Theory says that the potential at distance d from the surface 
+	is equal to psi0*exp(d/DL), where psi0 is the surface potential and DL is 
+	the Debye length. The lengh is inversely related to ionic strength.
+	Example: 
+	
+	10 DL = DEBYE_LENGTH
+
+ 	----------------
+	August 11, 2020
+	----------------
+	PHREEQC: SURFACE and EXCHANGE were not updated correctly when related
+	to a mineral and the moles of mineral were changed with EQUILIBRIUM_PHASES,
+	EQUILIBRIUM_PHASES_MODIFY, EQUILIBRIUM_PHASES_RAW, or EQUILIBRIUM_PHASES_MIX.
+	Incorrect updating also occurred when related to a kinetic reaction and 
+	the moles of kinetic reaction were changed with KINETICS, KINETICS_MODIFY,
+	KINETICS_RAW, or KINETICS_MIX. Now, the correct proportional relation should 
+	be maintained if the moles in EQUILIBRIUM_PHASES or KINETICS are changed.
+	
+	An error message will result if, for example, EQUILIBRIUM_PHASES is modified
+	to remove the phase that EXCHANGE is related to. 
+	
+ 	----------------
+	July 22, 2020
+	----------------
+	PhreeqcRM: Added new method PhreeqcRM::SetErrorOn(bool tf). This method controls
+	whether error messages are written or not. A value of true will print error 
+	messages; false will eliminate error messages. Print control (PhreeqcRM's 
+	PHRQ_io::Set_error_on) is set for the PhreeqcRM instance and for each of the 
+	IPhreeqc workers (each worker's PHRQ_io::Set_error_on). Messages include 
+	PHREEQC "ERROR" messages, and any messages written with PhreeqcRM::ErrorMessage.
+	
+ 	----------------
+	June 7, 2020
+	----------------
+	PhreeqcRM: Modified the OpenMP version to allow retrieval of strings from
+	selected output through the worker IPhreeqc instances. The PhreeqcRM
+	method GetSelectedOutput retrieves only numerical values from selected
+	output. Formerly, selected output was not available through the 
+	IPhreeqc worker instances in the case when the output file was written
+	[SetPrintChemistryOn(true)]. Now, complete selected output values (strings
+	and numeric values) are always available through IPhreeqc methods on
+	the workers. String values of selected output are not available in the
+	MPI version. 
+
+ 	----------------
+	May 24, 2020
+	----------------
+	
+	PHREEQC:  Code was revised to remove temperature and pressure limits for 
+	llnl-type databases. Previously, limits of 350 C and 1500 atm were applied to 
+	all databases. These limits were removed for databases that define 
+	LLNL_AQUEOUS_MODEL_PARAMETERS. It is assumed that for llnl-type databases all 
+	temperature and pressure effects are defined by the 
+	LLNL_AQUEOUS_MODEL_PARAMETERS data block and the temperature expressions for 
+	log10(K)s of the aqueous species and phases. Implicitly, pressure for an 
+	llnl-type database is either fixed or a function of temperature.
+	
+	In addition, the molar volume of water was set to zero for llnl-type 
+	databases. The molar volume of water was calculated as a non-zero value for 
+	all databases. Thus, there was a pressure dependence for log10(K) for 
+	reactions involving water. For llnl-type databases, all molar volumes should 
+	be zero, and all temperature and pressure dependence should be defined 
+	through LLNL_AQUEOUS_MODEL_PARAMETERS and log10 Ks.  	
+	
+	PHREEQC: Added extra information for some ERROR messages related to -formula 
+	definitions in KINETICS. Fixed some C++ 2011 compiler warnings about casts 
+	and initialization of classes. 	
+
+Version 3.6.2: January 28, 2020	
+	
+ 	----------------
+	January 28, 2020
+	----------------
+	PhreeqcRM: Documenation for Fortran RM_RunString had incorrect order for instances.
+	The order is workers, initial_phreeqc, utilities.
+	
+ 	----------------
+	January 23, 2020
+	----------------
+
+    Updated documentation in phreeqc.chm and online 
+https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqc3-html/phreeqc3.htm
+
+	PHREEQC: Added silicate sorption to Hfo_w from Swedlund, P.J. and Webster, J.G., 1999, 
+	Water Research 33, 3413-3422 for Amm.dat, phreeqc.dat, pitzer.dat, and wateq4f.dat.
+	
+	PHREEQC: Fixed memory error in TRANSPORT if number of porosities exceeded the number of cells.
+
+
+Version 3.6.1: January 7, 2020
+ 	---------------
+	January 2, 2020
+	---------------
+
+	PHREEQC: Fixed bug in TRANSPORT. The function GFW was used in a Basic program
+	on elements that were not found in the database. This led to increasing the
+	count of elements. The original number of elements was used to allocate space
+	for transport, but the incremented number was used to free space, which caused
+	a segmentation fault.
+
+ 	-----------------
+	November 20, 2019
+	-----------------
+
+	PHREEQC:
+	SURFACE 8 Constant capacitance model
+        Ha_aH		3.70E-06 1500  0.010
+        -ccm		3.196
+		
+	-ccm indicates that the surfaces in the surface assemblage use the 
+	constant-capacitance model. The single parameter is the 
+	capacitance in F/m2 (farad per square meter).	
+				
+	PHREEQC:
+	Implicit calculation of multicomponent diffusion was extended with 1 
+	stagnant layer in the column, and options were added: 
+
+	-- When the mixing factor (defined with keyword MIX) is omitted for the 
+	boundary solution and the adjacent stagnant cell, the implicit model 
+	calculates a mixing factor for the boundary stagnant cell, multiplying 
+	the mixing factor for the mobile cell (this is cell 1 or cell 'cells') 
+	with the ratio of the kgs of water in the stagnant cell and the mobile 
+	cell, see e.g. Fig. 2 of Appelo et al., 2010, GCA 74, p. 1205. Diffusion 
+	into the stagnant cell can be omitted, defining a mixing factor of 0. For 
+	example for a column with 'cells' = 4, stagnant cell = 6, boundary 
+	solution 0: MIX 0; 6 0. 
+
+	-- Thermal diffusion with the stagnant cells will be calculated when 
+	temperatures differ by more than 0.1 oC. Multicomponent diffusion 
+	coefficients decrease with the viscosity of the solution, markedly 
+	affecting the results. File ex12b.phr in c:\phreeqc\exmpls compares 
+	traditional and multicomponent diffusive transport of heat and solutes 
+	with temperatures changing from 0 to 25 oC.
+
+	TRANSPORT
+	-implicit false/true 1 -30
+
+	Added an option to define the minimal log10(molality) of a species for 
+	inclusion in multicomponent diffusion. The definition is done with option 
+	-implicit false/true 1 -30 under keyword TRANSPORT, where 1 and -30 are 
+	the default max_mixf and default minimal log10(molality) (= min_dif_LM), 
+	respectively. The value for min_dif_LM could be as large as -12.
+
+	PHREEQC:
+	Removed the limit that transported moles had to be > 1e-15 in 
+	multicomponent diffusion.
+
+	PHREEQC:
+	Bug fix where calculation of diffusion through the Donnan layer could 
+	be bypassed.
+
+	PHREEQC:
+    TRANSPORT
+	-same model 2-5 8-11
+	
+	Added an option to use the chemical model structure of the previous 
+	calculation for specific cells with option -same_model under keyword 
+	TRANSPORT. For example, -same_model 2-5 8-11 will use for cells 2-5 the 
+	model defined for cell 1, and for cells 8-11 the model defined for cell 
+	7. For cells 0 and 1, and 6 and 7, the model is set-up with the default 
+	'check_same_model' in prep.cpp.
+
+	PHREEQC:
+	Corrected memory leaks in implicit calculations of diffusive transport.
+
+	-----------------
+	October 31, 2019
+	-----------------
+
+	PhreeqcI: Fixed bug in TRANSPORT that caused lengths and dispersivities
+	to be incorrect when editing through the TRANSPORT dialog.
+
+ 	-----------------
+	May 31, 2019
+	-----------------
+	
+	PHREEQC: A new option for TRANSPORT invokes an implicit method for 
+	multicomponent diffusion-only systems. In multicomponent diffusion, 
+	each aqueous species diffuses according to its individual diffusion 
+	coefficient. The new method allows greater time steps and thus speeds 
+	the overall calculation. There is one parameter for the implicit 	
+	method, which is the maximum mixing factor (max_mixf) that is allowed, 
+	max_mixf = D * delta_t / delta_x^2. The default value of max_mixf = 1, 
+	but it can be increased often to > 4 (depending on the required 
+	accuracy and the chemistry of the system), with possible speedups of 
+	about an order of magnitude relative to the default method. If max_mixf 
+	is too large, calculations may not converge. With implicit true, 
+	electro-migration calculations are more stable and usually (possibly) 
+	avoid disturbing warnings of 'negative moles'. The implicit 
+	calculations have been implemented for a regular (equally spaced) 
+	column, not for stagnant cells, and not for interlayer diffusion. 	
+	
+	TRANSPORT
+	-implicit true 2.0
+	
+	The activity-coefficient effect for multicomponent diffusion was 
+	modified, previous versions could give an erroneously large correction.
+	
+	The column boundary cells 0 and count_cells + 1 are now 
+	print-/punched by default when the boundary conditions are not 
+	'closed'.
+
+ 	-----------------
+	May 7, 2019
+	-----------------
+	
+	PHREEQC: Added Alkalinity to iso.dat. Added error message if Alkalinity is
+	missing for inverse modeling.
+
+ 	-----------------
+	February 4, 2019
+	-----------------
+	
+	PHREEQC: Fixed bug in MIX_GAS_PHASE. Formula for mixing pressures was incorrect.
+	
+ 	-----------------
+	February 4, 2019
+	-----------------
+	PHREEQC: A series of new keyword data blocks are available to mix reactants. Input
+	is parallel to the input for the keyword MIX, which is a series of user number and
+	fraction pairs. Mixtures can be formed of solutions, exchangers, equilibrium_phases, 
+	gas phases, kinetic reactions, solid solutions, and surfaces. 	Synonyms of keywords 
+	are in parentheses.
+
+	SOLUTION_MIX           (MIX_SOLUTION)
+	EXCHANGE_MIX           (MIX_EXCHANGE)
+	EQUILIBRIUM_PHASES_MIX (MIX_EQUILIBRIUM_PHASES, EQUILIBRIUM_PHASE_MIX, MIX_EQUILIBRIUM_PHASE)
+	GAS_PHASE_MIX          (MIX_GAS_PHASE)
+	KINETICS_MIX           (MIX_KINETICS)
+	SOLID_SOLUTIONS_MIX    (MIX_SOLID_SOLUTIONS, SOLID_SOLUTIONS_MIX, MIX_SOLID_SOLUTION)
+	SURFACE_MIX            (MIX_SURFACE) 
+	
+	These _MIX keywords do not invoke any type of speciation or reaction calculation 
+	and mostly involve a summation of moles of the various reactants. Thus, MIX differs 
+	from SOLUTION_MIX in that MIX produces a reaction calculation and a distribution of 
+	species, whereas SOLUTION_MIX does not. The final events of a simulation occur in the 
+	order of RUN_CELLS, _MIX, COPY, DUMP, and DELETE. 
+	
+	Here is an example of SOLUTION_MIX, which creates a mixture of previously defined 
+	solutions: 
+	
+	SOLUTION_MIX 2-4 # new solutions 2, 3 and 4: 
+    1 0.5      # solution number, fraction 
+    4 1.5      # solution number, fraction 
+    6 0.3      # etc. 
+
+ 	-----------------
+	January 31, 2019
+	-----------------
+	
+	PHREEQC: Revised numerical method for solid solutions to respond better to
+	KNOBS -step and -pe_step convergence parameters.
+	
+ 	-----------------
+	January 28, 2019
+	-----------------
+	
+	PHREEQC: Bug fix of incorrect mass added in solid solutions with a component 
+    containing an element not present initially, but added with 
+    INCREMENTAL_REACTIONS.
+
+	PHREEQC: Enabled active_fraction factors for EXCHANGE_SPECIES in Pitzer activity 
+    models, and generally improved the convergence of exchange calculations with 
+    active_fraction factors.
+    
+	Active_fraction factors are useful for modeling non-ideal ion exchange, see 
+    https://hydrochemistry.eu/exmpls/a_f.html for an example of active 
+    fraction model for varying exchange selectivity.
+
+	The aquia example https://hydrochemistry.eu/exmpls/aquia.html </A></I> now runs 3 
+	times faster.
+	
+ 	-----------------
+	November 6, 2018
+	-----------------
+	
+	PHREEQC: The Basic function SURF returned the incorrect value under some conditions
+	when surface species used -mole_balance definition.
+
+ 	-----------------
+	November 4, 2018
+	-----------------
+
+	PHREEQC: Fixed potential integer overflow of calculated number of mixes
+	for a diffusion calculation. Now gives an error message.
+
+ 	-----------------
+	October 18, 2018
+	-----------------
+
+	PHREEQC: Fixed bug with diffusion calculation if porosity was changed.
+
+ 	-----------------
+	August 22, 2018
+	-----------------
+
+	PHREEQC: Completed an "operator =" method for the C++ class Phreeqc. In
+	C++ programming, it is now possible to set new_phreeqc = old_phreeqc, 
+	where all definitions and variables of old_phreeqc are copied to the 
+	new_phreeqc instance.
+
+ 	-----------------
+	August 22, 2018
+	-----------------
+
+	PHREEQC: Increased the number of iterations (100000) allowed for the solver in 
+	INVERSE_MODELING calculations. Should rarely need this many iterations.
+
+ 	-----------------
+	July 17, 2018
+	-----------------
+
+	PHREEQC: Fixed bug where an element name like "1W" in SOLUTION or SOLUTION_SPREAD 
+	was interpreted as an isotope, but caused a NULL pointer if the ISOTOPE definitions
+	did not exist.
+	
+ 	-----------------
+	July 8, 2018
+	-----------------
+
+	PHREEQC: Added option -ddl to SURFACE. Sets surface type to 
+	diffuse double layer, which is the default if -no_edl and -cd_music
+	are not defined.
+	
+ 	-----------------
+	June 27, 2018
+	-----------------
+
+	PhreeqcRM: Added methods to provide lists of exchange species, surface species,
+	reactants, and relevant minerals and gases defined in the reaction module. The lists
+	are derived from the SOLUTION, EXCHANGE, SURFACE, EQUILIBRIUM_PHASES, GAS_PHASES,
+	and KINETICS definitions in the "initial phreeqc" IPhreeqc object. 
+	See documentation of PhreeqcRM in download distributions.
+
+	-----------
+	C++ methods
+	-----------
+
+	EXCHANGE
+	--------
+	Number of exchange species
+	   int GetExchangeSpeciesCount(void)
+	Names of all exchange species (for example, NaX)
+	   const std::vector<std::string> & GetExchangeSpeciesNames(void)
+	Name of exchanger in exchange species (for example, X)
+	   const std::vector<std::string> & GetExchangeNames(void)
+
+	Surface
+	-------
+	Number of surface species 
+	   int                              GetSurfaceSpeciesCount(void)
+	Names of all surface species (for example Hfo_wOH)
+	   const std::vector<std::string> & GetSurfaceSpeciesNames(void)
+	Surface type for surface species (for example Hfo_w)
+	   const std::vector<std::string> & GetSurfaceTypes(void)
+	Surface name for surface species (for example Hfo)
+	   const std::vector<std::string> & GetSurfaceNames(void)
+	   
+	Equilibrium phases
+	------------------
+	Number of equilibrium phases 
+	   int                              GetEquilibriumPhasesCount(void)
+	Names of equilibrium phases; suitable for definitions of -equilibrium_phases
+	in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetEquilibriumPhases(void)
+
+	Gas phase components
+	--------------------
+	Number of gas phase components
+	   int                              GetGasComponentsCount(void)
+	Names of gas phase components; suitable for definitions of -gas
+	in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetGasComponents(void)
+
+	Kinetics
+	--------
+	Number of kinetic reactions
+	   int                              GetKineticReactionsCount(void)
+	Names of kinetic reactions; suitable for definitions of -kinetics
+	in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetKineticReactions(void)
+
+	Solid solutions
+	---------------
+	Number of solid solution components
+	   int                              GetSolidSolutionComponentsCount(void)
+	Names of solid solution components; suitable for definitions of 
+	-solid_solution in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetSolidSolutionComponents(void)
+	Solid solution name containing the solid solution component
+	   const std::vector<std::string> & GetSolidSolutionNames(void)
+	   
+	Saturation index phases
+	-----------------------
+	Number of phases appropriate for the elements defined in the reaction module
+	   int                              GetSICount(void)
+	Names of phases in the reaction module; suitable for definitions of
+	-si in SELECTED_OUTPUT
+	   const std::vector<std::string> & GetSINames(void)
+   
+	---------------
+	Fortran methods
+	---------------
+
+	Exchange
+	--------
+	Number of exchange species
+	   integer function RM_GetExchangeSpeciesCount(id)
+	Name of exchange species (for example, NaX)
+	   integer function RM_GetExchangeSpeciesName(id, i, line)
+	Name of exchanger in exchange species (for example, X)
+	   integer function RM_GetExchangeName(id, i, line1)
+
+	Surface
+	-------
+	Number of surface species 
+	   integer function RM_GetSurfaceSpeciesCount(id)
+	Name of all surface species (for example Hfo_wOH)
+	   integer function RM_GetSurfaceSpeciesName(id, i, line)
+	Surface type for surface species (for example Hfo_w)
+	   integer function RM_GetSurfaceType(id, i, line1)
+	Surface name for surface species (for example Hfo)
+	   integer function RM_GetSurfaceName(id, i, line2)
+	   
+	Equilibrium phases
+	------------------
+	Number of equilibrium phases 
+	   integer function RM_GetEquilibriumPhasesCount(id)
+	Name of equilibrium phase; suitable for definitions of -equilibrium_phases
+	in SELECTED_OUTPUT
+	   integer function RM_GetEquilibriumPhasesName(id, i, line)
+
+	Gas phase components
+	--------------------
+	Number of gas phase components
+	   integer function RM_GetGasComponentsCount(id)
+	Name of gas phase component; suitable for definitions of -gas
+	in SELECTED_OUTPUT
+	   integer function RM_GetGasComponentsName(id, i, line)
+
+	Kinetics
+	--------
+	Number of kinetic reactions
+	   integer function RM_GetKineticReactionsCount(id)
+	Name of kinetic reaction; suitable for definitions of -kinetics
+	in SELECTED_OUTPUT
+	   integer function RM_GetKineticReactionsName(id, i, line)
+
+	Solid solutions
+	---------------
+	Number of solid solution components
+	   integer function RM_GetSolidSolutionComponentsCount(id)
+	Name of solid solution component; suitable for definitions of 
+	-solid_solution in SELECTED_OUTPUT
+	   integer function RM_GetSolidSolutionComponentsName(id, i, line)
+	Solid solution name containing the solid solution component
+	   integer function RM_GetSolidSolutionName(id, i, line1)
+	   
+	Saturation index phases
+	-----------------------
+	Number of phases appropriate for the elements defined in the reaction module
+	   integer function RM_GetSICount(id)
+	Name of phase in the reaction module; suitable for definitions of
+	-si in SELECTED_OUTPUT
+	   integer function RM_GetSIName(id, i, line)
+
+	---------------
+	C methods
+	---------------
+
+	Exchange
+	--------
+	Number of exchange species
+	   int RM_GetExchangeSpeciesCount(id)
+	Name of exchange species (for example, NaX)
+	   IRM_RESULT RM_GetExchangeSpeciesName(id, i, line1, length)
+	Name of exchanger in exchange species (for example, X)
+	   IRM_RESULT RM_GetExchangeName(id, i, line1, length)
+
+	Surface
+	-------
+	Number of surface species 
+	   int RM_GetSurfaceSpeciesCount(id)
+	Name of all surface species (for example Hfo_wOH)
+	   IRM_RESULT RM_GetSurfaceSpeciesName(id, i, line, length)
+	Surface type for surface species (for example Hfo_w)
+	   IRM_RESULT RM_GetSurfaceType(id, i, line1, length)
+	Surface name for surface species (for example Hfo)
+	   IRM_RESULT RM_GetSurfaceName(id, i, line2, length)
+	   
+	Equilibrium phases
+	------------------
+	Number of equilibrium phases 
+	   int RM_GetEquilibriumPhasesCount(id)
+	Name of equilibrium phase; suitable for definitions of -equilibrium_phases
+	in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetEquilibriumPhasesName(id, i, line, length)
+
+	Gas phase components
+	--------------------
+	Number of gas phase components
+	   int RM_GetGasComponentsCount(id)
+	Name of gas phase component; suitable for definitions of -gas
+	in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetGasComponentsName(id, i, line, length)
+
+	Kinetics
+	--------
+	Number of kinetic reactions
+	   int RM_GetKineticReactionsCount(id)
+	Name of kinetic reaction; suitable for definitions of -kinetics
+	in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetKineticReactionsName(id, i, line, length)
+
+	Solid solutions
+	---------------
+	Number of solid solution components
+	   int RM_GetSolidSolutionComponentsCount(id)
+	Name of solid solution component; suitable for definitions of 
+	-solid_solution in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetSolidSolutionComponentsName(id, i, line, length)
+	Solid solution name containing the solid solution component
+	   IRM_RESULT RM_GetSolidSolutionName(id, i, line1, length)
+	   
+	Saturation index phases
+	-----------------------
+	Number of phases appropriate for the elements defined in the reaction module
+	   int RM_GetSICount(id)
+	Name of phase in the reaction module; suitable for definitions of
+	-si in SELECTED_OUTPUT
+	   IRM_RESULT RM_GetSIName(id, i, line, length)
+	   
+ 	-----------------
+	June 24, 2018
+	-----------------
+	PHREEQC:
+	Made the solid solution calculation with the Pitzer-model similar to the numerical 
+	derivatives used in ion-association calculations.
+
+	Bug-fix for porosities, which could be set incorrectly when porosities were not 
+	defined in TRANSPORT simulations with more cells than before.
+
+	Modified the diffusion properties for (possible) boundary cells in stagnant 
+	calculations with enhanced transport through a Donnan layer. In version 3.4.2, 
+	the harmonic mean of all the diffusional properties was introduced for all the 
+	stagnant cells. However, many models use cell 3 and cell [2 + stagnant cells] 
+	as outer, well-mixed reservoir solutions, and diffusion is then determined by 
+	the properties of the boundary cells in the column (similar to the regular column, 
+	where cells 0 and [cells + 1] are well-mixed). If cells 3 and [2 + stagnant cells] 
+	are without a surface with a Donnan layer, they are taken as well-mixed now. 
+
+	Thus:
+	--cell 3 without donnan layer, cell 4 with a donnan layer: diffusion is determined 
+	by the properties of cell 4.
+
+	--cell 3 without donnan layer, cell 4 without a donnan layer: diffusion is determined 
+	by the harmonic mean of the properties of cells 3 & 4.
+
+	PHREEQC's choice can be manipulated, adding a surface with a very small number of sites 
+	and a tiny Donnan layer in cell 3 and/or the cells it diffuses into, and similar 
+	for cell [2 + stagnant cells]. See example opa_col3.phr (http://www.hydrohemistry.eu).
+
+	A Donnan layer on SURFACEs can now be calculated with the Pitzer database.
+
+	Bug-fixes for option -numerical_derivatives in KNOBS, setting it true may 
+	improve convergence of donnan layer calculations 
+	(for example, try it in http://www.hydrochemistry.eu/exmpls/membrane.phr).
+	Overall iterations (this is, all the calls to CLI in a reaction step) are 
+	printed in the output file if different from the iterations in the final set. 
+	It can be USER_PRINTED/PUNCHED with the variable 'iterations'.
+
+	Streamlined the output of -debug_prep in KNOBS. Added options 
+	-debug_mass_balance (total moles of elements), and -debug_mass_action 
+	(species data: log_k, dz, reaction stoichiometry).
+
+	The numbers in the matrix for CLI can be inspected in 
+	my_array[row * (count_unknowns + 1) + col].
+
+ 	-----------------
+	May 1, 2018
+	-----------------
+	PhreeqcRM: Added new methods to retrieve log10 activity coefficients
+	of aqueous species.
+	
+	C++ method:
+	IRM_RESULT  GetSpeciesLog10Gammas (std::vector< double > &species_log10gammas) 
+	
+    Fortran method:	
+	integer function RM_GetSpeciesLog10Gammas(integer, intent(in) id,  
+       double precision, dimension(:,:), intent(out)  species_log10gammas) 
+
+	C method:
+	IRM_RESULT RM_GetSpeciesLog10Gammas(int id, double * species_log10gammas)  
+
+	See documentation of PhreeqcRM in download distributions.
+
+	-----------------
+	April 28, 2018
+	-----------------
+	PHREEQC: Fixed bugs and inconsistencies (between RK and CVODE) when using 
+	REACTION and KINETICS simultaneously.
+	
+	-----------------
+	April 28, 2018
+	-----------------
+	DATABASE: Updated to latest version of core10.dat by Marc Neveu, which fixed
+	a couple errors in the database.
+	 
 	-----------------
 	March 9, 2018
 	-----------------

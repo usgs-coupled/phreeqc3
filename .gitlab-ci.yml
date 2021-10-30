@@ -1,0 +1,52 @@
+#
+# https://code.chs.usgs.gov/coupled/subtrees/phreeqc3-doc
+# SRC 2020-12-02T18:39:55-07:00
+#
+image: ${CI_REGISTRY}/coupled/containers/buildpack-deps:bionic-scm
+
+stages:
+  - trigger
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "${SSH_PRIVATE_KEY_ENC}" | base64 --decode | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan ${CI_SERVER_HOST} >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - git config --global user.email "darth@empire.com"
+  - git config --global user.name "Darth Vader"
+ 
+trigger-downstream:
+  stage: trigger
+  ##
+  ## Only run if on the master branch and the variable GROUP is set
+  ##
+  ## change this to
+  ## only:
+  ##  - master@$GROUP/subtrees/phreeqc3-doc
+  ## and set GROUP to coupled before merge
+  only:
+    refs:
+      - master
+    variables:
+      - $GROUP
+
+  ## Downstream Projects
+  ## triggers and ids are stored at the group level
+  ## iphreeqc     https://code.chs.usgs.gov/coupled/iphreeqc
+  ## iphreeqccom  https://code.chs.usgs.gov/coupled/iphreeqccom
+  ## phast3-doc   https://code.chs.usgs.gov/coupled/subtrees/phast3-doc
+  ## phreeqc3     https://code.chs.usgs.gov/coupled/phreeqc3
+  script:
+    - echo triggering iphreeqc
+    - curl -X POST -F token=${IPHREEQC_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${IPHREEQC_ID}/trigger/pipeline
+    - echo triggering iphreeqccom
+    - curl -X POST -F token=${IPHREEQCCOM_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${IPHREEQCCOM_ID}/trigger/pipeline
+    - echo triggering phast3-doc PHAST3_DOC_TRIGGER PHAST3_DOC_ID
+    - curl -X POST -F token=${PHAST3_DOC_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${PHAST3_DOC_ID}/trigger/pipeline
+    - echo triggering phreeqc3  PHREEQC3_TRIGGER PHREEQC3_ID
+    - curl -X POST -F token=${PHREEQC3_TRIGGER} -F ref=master https://code.chs.usgs.gov/api/v4/projects/${PHREEQC3_ID}/trigger/pipeline
+
+  ## Upstream Projects
+  ## none
