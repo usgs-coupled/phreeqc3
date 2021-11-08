@@ -1,0 +1,114 @@
+DATABASE ../database/wateq4f.dat
+include$ cdmusic_hiemstra.dat
+SELECTED_OUTPUT 101
+    -file                 cdmusic_hiemstra_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+PHASES
+  Fix_H+
+  H+ = H+
+  log_k 0.
+
+SOLUTION_SPECIES
+#  H2O + 0.01e- = H2O-0.01; log_k -9.0  # can help convergence (see Phreeqc_3 manual, KNOBS p 117)
+
+SOLUTION 1                         # initial solution calculation
+    Temp      20
+    pH        1.5
+    units     mol/kgw
+    Fe(3)     2.5e-2                     # total concns
+    As        1e-3  
+    S(6)      1e-2                     # sulphide minerals can form but not adsorb
+    Na        1e-2
+    Cl        8e-2 
+END
+
+# loop on this one
+# simulation 
+EQUILIBRIUM_PHASES 1
+    Fix_H+     -3 NaOH 10
+      -force_equality true
+    O2(g)      -70  10
+      -force_equality true
+#   As_native                      0 0           # most likely minerals given the database
+#   Orpiment                       0 0           # hematite, magnetite removed to make goethite stable
+#   Realgar                        0 0
+#   As2S3(am)                      0 0
+#   Pyrite                         0 0
+#   Arsenolite                     0 0
+#   Claudetite                     0 0
+#   Mackinawite                    0 0
+#   FeS(ppt)                       0 0
+#   Sulfur                         0 0
+#   Fe(OH)3(a)                     0 0
+#   Greigite                       0 0
+    Scorodite                      0 0
+#   Mirabilite                     0 0
+#   Melanterite                    0 0
+#   Thenardite                     0 0
+#   As2O5(cr)                      0 0
+#   Jarosite-Na                    0 0
+#   JarositeH                      0 0
+    Goethite                       0 0           # common Fe oxide under oxidising conditions
+#   Magnetite                      0 0           # stable below log fO2(g) = -60 but not in cd-music database (yet) so ignore!!
+END
+USE solution 1
+USE equilibrium_phases 1
+SAVE solution 1
+SAVE equilibrium_phases 1
+END
+SURFACE 1
+  Goe_uniOH1.5  Goethite 0.049886874 8707.79   # 3.5 sites/nm2,  98 m2/g, MWt = 88.855 g/mol
+  Goe_triOH0.5  Goethite 0.039041901 8707.79   # 2.7 sites/nm2
+  -cd_music
+  -cap    0.85  0.75                          # C1  C2  (in F/m2)
+  -equil 1
+END
+# write loop
+SOLUTION 100
+SELECTED_OUTPUT 100
+-file cdmusic_hiemstra_grid.pqi
+USER_PUNCH 100
+10 semi$ = CHR$(59)
+20 FOR h = -3 TO -12 STEP -0.5 
+30   FOR o2 = -70 to 0 STEP 5 
+40     s$ = ""
+50     s$ = s$ + "COPY cell 1 1001" + semi$ + "END" + EOL$
+#60     s$ = s$ + "DELETE" + semi$ + "  -surface 1001" + semi$ + "END" + EOL$
+70     s$ = s$ + "EQUILIBRIUM_PHASES_MODIFY 1001" + EOL$
+80     s$ = s$ + "  -component Fix_H+" + EOL$
+90     s$ = s$ + "    -si " + STR_F$(h, 10, 2) + EOL$
+100    s$ = s$ + "  -component O2(g)" + EOL$
+110    s$ = s$ + "    -si " + STR_F$(o2, 10, 2) + EOL$
+120    s$ = s$ + "END" + EOL$
+
+210    s$ = s$ + "RUN_CELLS" + EOL$
+220    s$ = s$ + "  -cell 1001" + EOL$
+230    s$ = s$ + "END" + EOL$
+
+#300    s$ = s$ + "COPY surface 1 1001" + semi$ + "END" + EOL$
+#310    s$ = s$ + "RUN_CELLS" + EOL$
+#320    s$ = s$ + "  -cell 1001" + EOL$
+#330    s$ = s$ + "END" + EOL$
+
+540    PUNCH s$
+550  NEXT o2
+560 NEXT h
+END
+SELECTED_OUTPUT 100
+  -active false
+END
+# run loop
+PRINT; -status false
+KNOBS
+#-try 1
+#-debug_model
+#-iter 400
+#-diag
+-step 10
+-pe 5
+INCLUDE$ cdmusic_hiemstra_grid.pqi
