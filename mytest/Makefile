@@ -427,7 +427,8 @@ succeed: \
 	H2S_pz_appt.out \
 	H2S_numerical.out \
 	H2S_sit.out \
-	Fe+2.out
+	Fe+2.out \
+	cdmusic_hiemstra
 	
 H2S_files: \
 	H2S_Amm.out \
