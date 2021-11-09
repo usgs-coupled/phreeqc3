@@ -1080,7 +1080,7 @@ phase_alloc(void)
 	phase_init(phase_ptr);
 	return (phase_ptr);
 }
-
+#ifdef OBSOLETE
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 phase_compare(const void *ptr1, const void *ptr2)
@@ -1094,7 +1094,7 @@ phase_compare(const void *ptr1, const void *ptr2)
 	phase_ptr2 = *(const class phase **) ptr2;
 	return (strcmp_nocase(phase_ptr1->name, phase_ptr2->name));
 }
-
+#endif
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
 phase_compare_string(const void *ptr1, const void *ptr2)

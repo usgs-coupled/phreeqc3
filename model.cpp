@@ -3361,7 +3361,7 @@ reset(void)
 					}
 					if (old_moles <= 0 && x[i]->moles > 0)
 					{
-						x[i]->master[0]->s->la = log10(x[i]->moles) - 5.;
+						x[i]->master[0]->s->la = log10(x[i]->moles) - 15.;
 					}
 				}
 				else if (comp_ptr->Get_phase_name().size() > 0)

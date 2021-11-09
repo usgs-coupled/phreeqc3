@@ -851,7 +851,9 @@ public:
 	class master* surface_get_psi_master(const char* name, int plane);
 	//
 	class phase* phase_bsearch(const char* cptr, int* j, int print);
+#ifdef OBSOLETE
 	static int phase_compare(const void* ptr1, const void* ptr2);
+#endif
 	int phase_delete(int i);
 	class phase* phase_store(const char* name);
 	//
