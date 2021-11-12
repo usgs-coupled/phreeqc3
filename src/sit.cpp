@@ -962,10 +962,8 @@ jacobian_sit(void)
 	std::vector<double> base;
 	LDBLE d, d1, d2;
 	int i, j;
-	cxxGasPhase* gas_phase_ptr = use.Get_gas_phase_ptr();
 	std::vector<class phase*> phase_ptrs;
 	std::vector<class phase> base_phases;
-	double base_mass_water_bulk_x = 0, base_moles_h2o = 0;
 	cxxGasPhase base_gas_phase;
 	cxxSurface base_surface;
 Restart:

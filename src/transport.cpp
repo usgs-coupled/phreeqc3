@@ -6152,7 +6152,7 @@ flux_mcd(const char* species_name, int option)
 /* ---------------------------------------------------------------------- */
 {
 	class species* s_ptr;
-	double f = 0.0, dum = 0.0;
+	double f = 0.0;
 	if (state == TRANSPORT && multi_Dflag)
 	{
 		s_ptr = s_search(species_name);
