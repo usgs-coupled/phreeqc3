@@ -2506,6 +2506,86 @@ read_list_ints_range(const char **cptr, int *count_ints, int positive, int *int_
 	}
 	return (int_list);
 }
+/* ---------------------------------------------------------------------- */
+int Phreeqc::
+read_list_ints_range(const char** cptr, bool positive, std::vector<int> &int_list)
+/* ---------------------------------------------------------------------- */
+{
+	/*
+	 *   Reads a list of int numbers until end of line is reached or
+	 *   an int cannot be read from a token.
+	 *
+	 *      Arguments:
+	 *	 cptr    entry: points to line to read from
+	 *		exit:  points to next non-int token or end of line
+	 *
+	 *	 count_ints entry: number of ints already in list
+	 *
+	 *	 positive  entry: if TRUE, expects to read only positive integers
+	 *
+	 *      Returns:
+	 *	 pointer to a list of count_ints ints
+	 */
+	char token[MAX_LENGTH];
+	int value, value1, value2;
+	int i, l;
+	const char* cptr_save;
+	int count_start = (int)int_list.size();
+
+	cptr_save = *cptr;
+	while (copy_token(token, cptr, &l) != EMPTY)
+	{
+		if (sscanf(token, "%d", &value) == 1)
+		{
+			/* Read an integer */
+			int_list.push_back(value);
+			if (value <= 0 && positive)
+			{
+				error_msg("Expected an integer greater than zero.", CONTINUE);
+				error_msg(line_save, CONTINUE);
+				input_error++;
+			}
+			/* Read range of integers */
+			if (replace("-", " ", token) == TRUE)
+			{
+				if (sscanf(token, "%d %d", &value1, &value2) != 2)
+				{
+					error_msg("Expected an integer range n-m.", CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
+				}
+				else if (value2 < value1)
+				{
+					error_msg("Expected an integer range n-m, with n <= m.",
+						CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
+				}
+				else if (value2 <= 0 && positive == TRUE)
+				{
+					error_msg("Expected an integer greater than zero.",
+						CONTINUE);
+					error_msg(line_save, CONTINUE);
+					input_error++;
+				}
+				else
+				{
+					for (i = value1 + 1; i <= value2; i++)
+					{
+						int_list.push_back(i);
+					}
+				}
+			}
+			cptr_save = *cptr;
+		}
+		else
+		{
+			*cptr = cptr_save;
+			break;
+		}
+	}
+	return ((int )int_list.size() - count_start);
+}
 
 /* ---------------------------------------------------------------------- */
 bool Phreeqc::
@@ -7131,18 +7211,13 @@ read_advection(void)
 		case 2:				/* print */
 		case 5:				/* print_cells */
 		{
-			std::istringstream iss(next_char);
-			int idummy;
-			while (iss >> idummy)
-			{
-				print_temp.push_back(idummy);
-			}
+			(void)read_list_ints_range(&next_char, false, print_temp);
 			opt_save = 2;
 		}
 		break;
 		case 3:				/* selected_output */
-		case 11:				/* selected_output_frequency */
-		case 12:				/* punch_frequency */
+		case 11:			/* selected_output_frequency */
+		case 12:			/* punch_frequency */
 			(void)sscanf(next_char, "%d", &punch_ad_modulus);
 			opt_save = OPTION_DEFAULT;
 			if (punch_ad_modulus <= 0)
@@ -7154,15 +7229,10 @@ read_advection(void)
 			}
 			break;
 		case 4:				/* punch */
-		case 14:				/* punch_cells */
+		case 14:			/* punch_cells */
 		case 6:				/* selected_cells */
 		{
-			std::istringstream iss(next_char);
-			int idummy;
-			while (iss >> idummy)
-			{
-				punch_temp.push_back(idummy);
-			}
+			(void) read_list_ints_range(&next_char, false, punch_temp);
 			opt_save = 4;
 			break;
 		}

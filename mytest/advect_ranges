@@ -1,0 +1,72 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 advect_ranges_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+END
+SOLUTION_MASTER_SPECIES
+#element	species	  alk	gfw_formula	element_gfw
+ Org            Org       0     CH2O            30.03  
+
+SOLUTION_SPECIES
+Org = Org
+     log_k  0
+
+SOLUTION 1-10  
+units mmol/kgw
+redox pe
+Org  0.0
+Na   1.1 
+-water 1 # kg
+END
+
+SOLUTION 0   
+units mmol/kgw
+redox pe
+Org  1
+Na   2.5
+-water 1 # kg
+END
+
+ADVECTION
+-cells  10          
+-shifts 1           
+-time_step 4320      
+-punch_cells 1 2-3 
+             4 5-10 
+-punch_frequency 1
+-print_cells 1 2-3 
+			 4 5-10 
+-print_frequency 1                       
+		       
+RATES 
+Org_decay
+-start
+10 If TOT("Org")<=0 then goto 200
+20 rate = 0.4/86400*TOT("Org")             
+30 moles = rate * time
+200 Save moles
+-end
+
+KINETICS 1-10
+Org_decay
+-formula Org -1
+-m0   0.001  #   
+-steps 518400 in 50 steps # 6 days in seconds
+
+USER_GRAPH 1 
+ -chart_title ""
+ #-headings Dist Org Na 
+ -axis_titles  "Distance (km)" "Concentration (mmol/kgw)"
+ -connect_simulations false   # REQUIRED!!!
+ -plot_concentration_vs x
+ -start
+  10 GRAPH_X dist * 3   
+  20 GRAPH_Y tot("Org")*1000, tot("Na")*1000
+-end
+
+END 

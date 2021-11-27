@@ -1,4 +1,17 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
+  	-----------------
+	November 27, 2021
+	-----------------
+	PHREEQC: Fixed a recently introduced bug in the options 
+	-print_cells and -punch_cells of the ADVECTION data block. 
+	Ranges of cells using "-", such as
+	
+	ADVECTION
+	-punch_cells 1-10 11 12-20
+	
+	were not read properly. Ranges of cells are now read 
+	correctly.
+
   	----------------
 	November 7, 2021
 	----------------
