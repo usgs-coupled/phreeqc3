@@ -41,8 +41,8 @@ if ([string]::IsNullOrEmpty($v[0]) -or [string]::IsNullOrEmpty($v[1]) -or [strin
 #
 # set REL
 #
-Invoke-WebRequest https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/ver.py -OutFile ver.py -UseBasicParsing
-[string]$HEAD=$(python ver.py)
+Invoke-WebRequest https://raw.githubusercontent.com/usgs-coupled/phreeqc-version/main/rel.py -OutFile rel.py -UseBasicParsing
+[string]$HEAD=$(python rel.py)
 if ([string]::IsNullOrEmpty($Env:REL)) {
   $Env:REL = $HEAD
 }
