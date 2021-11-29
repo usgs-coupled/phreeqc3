@@ -646,6 +646,8 @@ public:
 	int read_input(void);
 	int* read_list_ints_range(const char** ptr, int* count_ints, int positive,
 		int* int_list);
+	int read_list_ints_range(const char** cptr, bool positive, std::vector<int>& int_list);
+
 	int read_log_k_only(const char* cptr, LDBLE* log_k);
 	int read_t_c_only(const char* cptr, LDBLE* t_c);
 	int read_p_c_only(const char* cptr, LDBLE* p_c);
