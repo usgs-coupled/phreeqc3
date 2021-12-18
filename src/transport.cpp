@@ -2751,6 +2751,8 @@ diffuse_implicit(LDBLE DDt, int stagnant)
 
 					std::map<int, std::map<std::string, class J_ij_save> >::iterator
 						cell_iter = cell_J_ij.find(i);
+					if (cell_iter == cell_J_ij.end())
+						continue;
 					std::map< std::string, class J_ij_save >::iterator
 						s_iter = cell_iter->second.find(sol_D[1].spec[cp].name);
 					s_iter->second.flux_c = ct[i].J_ij[cp].tot1;
