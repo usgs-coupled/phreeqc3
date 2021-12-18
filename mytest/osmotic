@@ -1,0 +1,38 @@
+# osmotic pressure and activity of water
+# ln(aw) = -(Σ mi · ϕ· Mw /1000)
+# Π=RTmTϕ
+# R = 0.082057338 L atm K-1 mol-1
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 osmotic_101.sel
+USER_PUNCH 101
+    -headings Mu SC
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+    -end
+SOLUTION
+REACTION
+NaCl 1 
+2 in 20 steps
+USER_GRAPH 1
+    -headings               rxn PI aw(os) aw
+    -axis_titles            "NaCl, moles" "Osmotic pressure, atm" "Activity of water"
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+ 10 R =  0.082057338 
+ 20 t = SYS("aq", count , name$ , type$ , moles)
+ 30 FOR i = 1 to count
+ 40   sum = sum + moles(i)
+ 50 NEXT i
+ 60 sum = sum / TOT("water")
+ 70 op = R * TK * sum * OSMOTIC
+ 80 aw = exp (-sum * OSMOTIC / 55.50837 ) # Pitzer value GFW("H2O") / 1000)
+ 90 GRAPH_X RXN
+100 GRAPH_Y op
+110 GRAPH_SY aw, ACT("H2O")
+120 PRINT aw, ACT("H2O"), aw - ACT("H2O"), 1000/GFW("H2O")
+  -end
+    -active                 true

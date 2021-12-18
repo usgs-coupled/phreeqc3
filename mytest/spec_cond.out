@@ -1,0 +1,129 @@
+   Input file: spec_cond
+  Output file: spec_cond.out
+Database file: ../database/phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../database/phreeqc.dat
+	SELECTED_OUTPUT 101
+	    file                 spec_cond_101.sel
+	USER_PUNCH 101
+	    headings Mu SC
+	    start
+	10 PUNCH STR_F$(MU, 20, 12)
+	20 PUNCH STR_F$(SC, 20, 10)
+	    end
+	SOLUTION
+	units mol/kgw
+	temp 50
+	Ca 1
+	Cl 2
+	USER_PRINT
+	start
+	10 DATA "Ca+2", 0.793e-9,  97,  3.4,  24.6, 2,         "Cl-", 2.03e-9,  194,  1.6,  6.9, -1
+	20 RESTORE 10
+	30 FOR i = 1 TO 2
+	40   READ spec$, dw, dw_t, dw_a, dw_a2, z
+	50   l_z = ABS(z)
+	60   dw = dw * exp(dw_t/TK - dw_t/298.15)
+	70   ka = DH_B * dw_a2 * MU^0.5 / (1 + MU^0.75)
+	80   ff = exp(-dw_a * DH_A * l_z * MU^0.5 / (1 + ka))
+	90   dw = dw * ff
+	100  dw_t_SC = MOL(spec$) * l_z * l_z * dw
+	110  cond = cond + dw_t_SC
+	120 NEXT i
+	130 F_C_MOL = 96493.5
+	140 R_KJ_DEG_MOL = 0.00831470
+	150 cond = cond * 1e7 * F_C_MOL * F_C_MOL / (R_KJ_DEG_MOL * 298150)
+	160 cond = cond * 0.89002 / VISCOS
+	200 PRINT cond, SC, cond - SC
+	210 END
+	end
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+----------------------------------User print-----------------------------------
+
+  1.7884e+05   1.7884e+05  -1.0098e+00 
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.000e+00   1.000e+00
+	Cl                2.000e+00   2.000e+00
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  50°C)  = 178842
+                          Density (g/cm³)  =   1.07139
+                               Volume (L)  =   1.03696
+                        Activity of water  =   0.949
+                 Ionic strength (mol/kgw)  =   3.000e+00
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.306e-06
+                         Temperature (°C)  =  50.00
+                  Electrical balance (eq)  =  -1.306e-06
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.053e-06   5.194e-07    -5.978    -6.284    -0.307      1.50
+   H+              1.412e-07   1.000e-07    -6.850    -7.000    -0.150      0.00
+   H2O             5.551e+01   9.490e-01     1.744    -0.023     0.000     18.23
+Ca            1.000e+00
+   Ca+2            1.000e+00   3.473e-01    -0.000    -0.459    -0.459    -14.97
+   CaOH+           3.942e-07   5.470e-07    -6.404    -6.262     0.142     (0)  
+Cl            2.000e+00
+   Cl-             2.000e+00   1.129e+00     0.301     0.053    -0.248     19.91
+H(0)          5.640e-26
+   H2              2.820e-26   5.627e-26   -25.550   -25.250     0.300     28.59
+O(0)          3.304e-35
+   O2              1.652e-35   3.296e-35   -34.782   -34.482     0.300     31.92
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(323 K,   1 atm)
+
+  H2(g)           -22.11    -25.25   -3.14  H2
+  H2O(g)           -0.94     -0.02    0.92  H2O
+  O2(g)           -31.45    -34.48   -3.03  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+

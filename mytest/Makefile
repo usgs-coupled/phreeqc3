@@ -429,7 +429,9 @@ succeed: \
 	H2S_sit.out \
 	Fe+2.out \
 	cdmusic_hiemstra.out \
-	advect_ranges.out
+	advect_ranges.out \
+	osmotic.out \
+	spec_cond.out
 	
 H2S_files: \
 	H2S_Amm.out \
