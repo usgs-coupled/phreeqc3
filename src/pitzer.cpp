@@ -214,7 +214,7 @@ pitzer_tidy(void)
 	if (mcb0 == NULL && mcb1 == NULL && mcc0 == NULL && ICON == TRUE)
 	{
 		error_string = sformatf(
-				"No KCl interaction parameters, turning off MacInnis scaling.");
+				"No KCl interaction parameters, turning off MacInnes scaling.");
 		warning_msg(error_string);
 		ICON = FALSE;
 	}
