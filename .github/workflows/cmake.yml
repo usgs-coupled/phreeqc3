@@ -47,11 +47,11 @@ jobs:
 
     - name: Install ninja
       if: runner.os == 'Linux'
-      run: apt-get install -y ninja-build
+      run: sudo apt-get install -y ninja-build
 
     - name: Install valgrind
       if: runner.os == 'Linux'
-      run: apt-get install -y valgrind
+      run: sudo apt-get install -y valgrind
 
     - name: Valgrind
       if: runner.os == 'Linux'
