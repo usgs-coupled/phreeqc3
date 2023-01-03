@@ -49,7 +49,7 @@ jobs:
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.config.os }}-LastTest-Fail
+        name: ${{ matrix.os }}-LastTest-Fail
         path: ${{ github.workspace }}/build/Testing/Temporary/LastTest.log
 
     - name: Install ninja
