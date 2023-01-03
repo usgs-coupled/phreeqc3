@@ -53,6 +53,17 @@ jobs:
       if: runner.os == 'Linux'
       run: sudo apt-get install -y valgrind
 
+    - name: Add obvious memory leak
+      if: runner.os == 'Linux'
+      run: git apply obvious_leak.patch
+
     - name: Valgrind
       if: runner.os == 'Linux'
       run: ctest -S valgrind.cmake -VV
+
+    - name: Upload valgrind results
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v3
+      with:
+        name: valgrind-artifact
+        path: ${{ github.workspace }}/_valgrind/Testing/Temporary/MemoryChecker.*.log
