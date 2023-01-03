@@ -45,6 +45,10 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}} -I 1,5
 
+    - name: Install valgrind
+      if: runner.os == 'Linux'
+      run: sudo apt-get install -y valgrind.cmake
+
     - name: Valgrind
       if: runner.os == 'Linux'
       run: ctest -S valgrind.cmake -V
