@@ -61,7 +61,7 @@ jobs:
     - name: Debug windows
       if: ${{ always() && runner.os == 'Windows' }}
       run: |
-        cd _cmake
+        cd _ctest
         dumpbin /IMPORTS phreeqcd.exe
         Get-Command MSVCP140D.dll
         Get-Command VCRUNTIME140D.dll
