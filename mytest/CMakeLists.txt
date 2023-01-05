@@ -548,7 +548,7 @@ foreach(test ${TESTS})
 endforeach()
 
 # numdiff tests
-set(TOLERANCE 1e-3)
+set(TOLERANCE 1e-13)
 
 find_program(NUMDIFF_COMMAND NAMES numdiff)
 

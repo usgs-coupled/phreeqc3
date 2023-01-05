@@ -202,6 +202,8 @@ main_method(int argc, char *argv[])
 #endif
 	try
 	{
+		malloc(2000);
+
 		phast = FALSE;
 		/*
 		*   Open input/output files

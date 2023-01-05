@@ -35,51 +35,6 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    # - name: Configure CMake
-    #   # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-    #   # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-    #   run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    # - name: Build
-    #   # Build your program with the given configuration
-    #   run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    # - name: Test
-    #   working-directory: ${{github.workspace}}/build
-    #   # Execute tests defined by the CMake configuration.  
-    #   # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-    #   run: ctest -C ${{env.BUILD_TYPE}} -I 1,1,1,258,338
-
-    # - name: Upload if tests fail
-    #   if: ${{ failure() }}
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: ${{ matrix.os }}-LastTest-Fail
-    #     path: ${{ github.workspace }}/build/Testing/Temporary/LastTest.log
-
-    # - name: Install ninja
-    #   if: runner.os == 'Linux'
-    #   run: sudo apt-get install -y ninja-build
-
-    # - name: Install valgrind
-    #   if: runner.os == 'Linux'
-    #   run: sudo apt-get install -y valgrind
-
-    # - name: Valgrind
-    #   if: runner.os == 'Linux'
-    #   run: ctest -S valgrind.cmake -VV
-
-    # - name: Upload valgrind results
-    #   if: runner.os == 'Linux'
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: valgrind-artifact
-    #     path: ${{ github.workspace }}/_valgrind/Testing/Temporary/MemoryChecker.*.log
-
-    # - name: Install numdiff
-    #   if: runner.os == 'Linux'
-    #   run: sudo apt install numdiff
-
   test:
     strategy:
       fail-fast: false
@@ -96,12 +51,12 @@ jobs:
       if: runner.os == 'Linux'
       run: sudo apt-get install -y ninja-build numdiff valgrind
 
-    - name: Install ninja numdiff valgrind (macOS)
+    - name: Install ninja numdiff (macOS)
       if: runner.os == 'macOS'
-      run: brew install ninja numdiff valgrind
+      run: brew install ninja numdiff
 
     - name: CTest
-      run: ctest -S ctest.cmake -V
+      run: ctest -S ctest.cmake -V --output-on-failure
 
     - name: Upload results
       uses: actions/upload-artifact@v3
