@@ -79,3 +79,26 @@ jobs:
     # - name: Install numdiff
     #   if: runner.os == 'Linux'
     #   run: sudo apt install numdiff
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    needs: [build]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install ninja and numdiff ${{ runner.os }} 
+      if: runner.os == 'Linux'
+      run: sudo apt-get install -y ninja-build numdiff
+
+    - name: Install ninja ${{ runner.os }} 
+      if: runner.os == 'macOS'
+      run: brew install ninja
+
+    - name: ctest
+      run: ctest -S ctest.cmake -V
