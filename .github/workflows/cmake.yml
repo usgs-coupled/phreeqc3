@@ -92,13 +92,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install ninja and numdiff ${{ runner.os }} 
+    - name: Install ninja numdiff valgrind (Linux)
       if: runner.os == 'Linux'
-      run: sudo apt-get install -y ninja-build numdiff
+      run: sudo apt-get install -y ninja-build numdiff valgrind
 
-    - name: Install ninja ${{ runner.os }} 
+    - name: Install ninja numdiff valgrind (macOS)
       if: runner.os == 'macOS'
-      run: brew install ninja
+      run: brew install ninja numdiff valgrind
 
-    - name: ctest
+    - name: CTest
       run: ctest -S ctest.cmake -V
+
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}-results
+        path: ${{ github.workspace }}/_ctest/Testing/
