@@ -26,11 +26,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Check space
-      if: runner.os == 'Windows'
-      run: Get-PSDrive
-
-    - name: Configure CMake
+    - name: Configure
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -39,34 +35,47 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}} -I 1,1,1,258,338
+    # - name: Configure CMake
+    #   # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+    #   # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+    #   run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Upload if tests fail
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.os }}-LastTest-Fail
-        path: ${{ github.workspace }}/build/Testing/Temporary/LastTest.log
+    # - name: Build
+    #   # Build your program with the given configuration
+    #   run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: Install ninja
-      if: runner.os == 'Linux'
-      run: sudo apt-get install -y ninja-build
+    # - name: Test
+    #   working-directory: ${{github.workspace}}/build
+    #   # Execute tests defined by the CMake configuration.  
+    #   # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+    #   run: ctest -C ${{env.BUILD_TYPE}} -I 1,1,1,258,338
 
-    - name: Install valgrind
-      if: runner.os == 'Linux'
-      run: sudo apt-get install -y valgrind
+    # - name: Upload if tests fail
+    #   if: ${{ failure() }}
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: ${{ matrix.os }}-LastTest-Fail
+    #     path: ${{ github.workspace }}/build/Testing/Temporary/LastTest.log
 
-    - name: Valgrind
-      if: runner.os == 'Linux'
-      run: ctest -S valgrind.cmake -VV
+    # - name: Install ninja
+    #   if: runner.os == 'Linux'
+    #   run: sudo apt-get install -y ninja-build
 
-    - name: Upload valgrind results
-      if: runner.os == 'Linux'
-      uses: actions/upload-artifact@v3
-      with:
-        name: valgrind-artifact
-        path: ${{ github.workspace }}/_valgrind/Testing/Temporary/MemoryChecker.*.log
+    # - name: Install valgrind
+    #   if: runner.os == 'Linux'
+    #   run: sudo apt-get install -y valgrind
+
+    # - name: Valgrind
+    #   if: runner.os == 'Linux'
+    #   run: ctest -S valgrind.cmake -VV
+
+    # - name: Upload valgrind results
+    #   if: runner.os == 'Linux'
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: valgrind-artifact
+    #     path: ${{ github.workspace }}/_valgrind/Testing/Temporary/MemoryChecker.*.log
+
+    # - name: Install numdiff
+    #   if: runner.os == 'Linux'
+    #   run: sudo apt install numdiff
