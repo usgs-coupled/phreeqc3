@@ -1,8 +1,14 @@
-set(CTEST_SOURCE_DIRECTORY ".")
-set(CTEST_BINARY_DIRECTORY "_ctest")
+include(CTestConfig.cmake)
+
+site_name(CTEST_SITE)
+set(CTEST_BUILD_NAME ${CMAKE_HOST_SYSTEM_NAME})
+
+
+set(CTEST_SOURCE_DIRECTORY "${CTEST_SCRIPT_DIRECTORY}")
+set(CTEST_BINARY_DIRECTORY "${CTEST_SCRIPT_DIRECTORY}/_ctest")
 
 ##set(ENV{CXXFLAGS} "--coverage")
-set(CTEST_CMAKE_GENERATOR "Ninja")
+set(CTEST_CMAKE_GENERATOR Ninja)
 set(CTEST_USE_LAUNCHERS 1)
 
 ##set(CTEST_COVERAGE_COMMAND "gcov")
@@ -17,4 +23,4 @@ ctest_test(INCLUDE "mytest.*.ex10$")
 if (CTEST_MEMORYCHECK_COMMAND)
   ctest_memcheck(INCLUDE "mytest.*.ex10$" EXCLUDE "numdiff")
 endif()
-#ctest_submit()
+ctest_submit()

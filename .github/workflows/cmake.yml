@@ -39,8 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: [macos-latest, ubuntu-latest, windows-latest]
-        os: [windows-2019, windows-2022]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     ##needs: [build]
     runs-on: ${{ matrix.os }}
@@ -64,30 +63,6 @@ jobs:
 
     - name: CTest
       run: ctest -S ctest.cmake -V --output-on-failure
-
-    - name: Debug windows-2019
-      if: ${{ always() && matrix.os == 'windows-2019' }}
-      run: |
-        cd _ctest
-        Get-Command KERNEL32.dll
-        Get-Command MSVCP140D.dll
-        Get-Command VCRUNTIME140D.dll
-        Get-Command VCRUNTIME140_1D.dll
-        Get-Command ucrtbased.dll
-        Get-Command dumpbin
-        dumpbin /IMPORTS phreeqcd.exe
-
-    - name: Debug windows-2022
-      if: ${{ always() && matrix.os == 'windows-2022' }}
-      run: |
-        cd _ctest
-        Get-Command KERNEL32.dll
-        Get-Command MSVCP140D.dll
-        Get-Command VCRUNTIME140D.dll
-        Get-Command VCRUNTIME140_1D.dll
-        Get-Command ucrtbased.dll
-        Get-Command dumpbin
-        dumpbin /IMPORTS phreeqcd.exe
 
     - name: Upload results
       uses: actions/upload-artifact@v3
