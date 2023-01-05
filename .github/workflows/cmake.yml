@@ -56,11 +56,11 @@ jobs:
       if: runner.os == 'macOS'
       run: brew install ninja numdiff
 
-    - name: Set up Visual Studio shell
-      if: runner.os == 'Windows'
-      uses: egor-tensin/vs-shell@v2
-      with:
-        arch: x64
+    # - name: Set up Visual Studio shell
+    #   if: runner.os == 'Windows'
+    #   uses: egor-tensin/vs-shell@v2
+    #   with:
+    #     arch: x64
 
     - name: CTest
       run: ctest -S ctest.cmake -V --output-on-failure
