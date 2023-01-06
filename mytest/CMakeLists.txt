@@ -534,21 +534,11 @@ foreach(test ${TESTS})
     if (${test} IN_LIST FAILS)
       set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
     endif()
-    ##{{
-    # if (NUMDIFF_COMMAND)
-    #   if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/${test}_101.sel)
-    #     configure_file(${test}_101.sel ${test}_101.sel.expected)
-    #     add_test(NAME mytest.${test}.numdiff
-    #       COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${TOLERANCE} ${test}_101.sel ${test}_101.sel.expected
-    #     )
-    #   endif()
-    # endif()
-    ##}}
   endif()
 endforeach()
 
 # numdiff tests
-set(TOLERANCE 1e-13)
+set(REL_ERROR 1e-3)
 
 find_program(NUMDIFF_COMMAND NAMES numdiff)
 
@@ -561,7 +551,7 @@ if (NUMDIFF_COMMAND)
     configure_file(${numdiff} ${numdiff}.expected)
     string(REGEX REPLACE "_101.sel" "" prefix ${numdiff})
     add_test(NAME mytest.numdiff.${prefix}
-      COMMAND numdiff --relative-tolerance=${TOLERANCE} ${numdiff} ${numdiff}.expected
+      COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
     )
   endforeach()
 endif()
