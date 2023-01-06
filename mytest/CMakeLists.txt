@@ -536,3 +536,22 @@ foreach(test ${TESTS})
     endif()
   endif()
 endforeach()
+
+# numdiff tests
+set(REL_ERROR 1e-3)
+
+find_program(NUMDIFF_COMMAND NAMES numdiff)
+
+if (NUMDIFF_COMMAND)
+  file(GLOB NUMDIFFS
+    RELATIVE ${CMAKE_CURRENT_LIST_DIR}
+    *_101.sel
+  )
+  foreach(numdiff ${NUMDIFFS})
+    configure_file(${numdiff} ${numdiff}.expected)
+    string(REGEX REPLACE "_101.sel" "" prefix ${numdiff})
+    add_test(NAME mytest.numdiff.${prefix}
+      COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
+    )
+  endforeach()
+endif()
