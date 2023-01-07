@@ -428,6 +428,7 @@ set(TESTS
   ##} missing from original list
   current_analytical
   current2
+  wjAs2
 )
 
 # these take more than 600 seconds
@@ -459,6 +460,8 @@ set(FAILS
   feedwater
   Syn1_acidbase
   IllitisationCEC
+  Hao
+  wjAs2
 )
 
 # mytest misc files
@@ -477,6 +480,7 @@ set(mytest_MISC
   cc_p_CO2.dat
   cc_P.dat
   cc_tc100.dat
+  cdmusic_hiemstra.dat
   ch4_25c.dat
   ch4_50c.dat
   ch4_100c.dat
@@ -541,6 +545,7 @@ set(mytest_MISC
   THEREDA_PIT_PHRC_r04.dat
   Tipping&Hurley.dat
   Vm0_tc.dat
+  wateq4fhao.dat
   y_H2O.dat
   zeta.tsv
 )
