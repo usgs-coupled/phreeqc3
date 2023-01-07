@@ -426,6 +426,8 @@ set(TESTS
   spec_cond
   TotalPlus
   ##} missing from original list
+  current_analytical
+  current2
 )
 
 # these take more than 600 seconds
