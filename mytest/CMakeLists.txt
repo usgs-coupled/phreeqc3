@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.3)
+cmake_minimum_required (VERSION 3.9)
 
 set(TESTS
   alkalinity
@@ -405,20 +405,43 @@ set(TESTS
   kinetic_rates
   delta_h
   uphill_NPa
+  ##{ missing from original list
+  advect_ranges
+  cdmusic_hiemstra
+  CO2_conc_PR_GP1
+  Fe+2
+  H2S_71C
+  H2S_Amm
+  H2S_NaCl_Na2SO4
+  H2S_numerical
+  H2S_pz
+  H2S_pz_appt
+  H2S_sit
+  Hao
+  Hao_wateq4fhao
+  Jiang_pz
+  NaOH_density
+  osmotic
+  sit_edl
+  spec_cond
+  TotalPlus
+  ##} missing from original list
 )
 
-# these take more than 1000 seconds
+# these take more than 600 seconds
 set(SKIP
   adapted_minteq
   count_database_species
-  current2
+  Cub
   current_analytical
+  current2
   membrane
   mmb2
+  TonyLitharge2a
   unequal
 )
 
-# expected fails
+# expect to fail
 set(FAILS
   high_mu
   modify_test
@@ -521,37 +544,46 @@ set(mytest_MISC
 )
 
 # for mytest tests
+# copy to build directory
 foreach(misc ${mytest_MISC})
   configure_file(${misc} ${misc} COPYONLY)
 endforeach()
 
 # add tests
 foreach(test ${TESTS})
-  if (NOT ${test} IN_LIST SKIP)
-    add_test(NAME mytest.${test}
-             COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
-    )
-    if (${test} IN_LIST FAILS)
-      set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
-    endif()
-  endif()
+  add_test(NAME mytest.${test}
+            COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
+  )
+endforeach()
+
+# expect to fail
+foreach(test ${FAILS})
+  set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
+endforeach()
+
+# disable tests that take too long
+foreach(test ${SKIP})
+  set_tests_properties(mytest.${test} PROPERTIES DISABLED TRUE)
 endforeach()
 
 # numdiff tests
 set(REL_ERROR 1e-3)
-
 find_program(NUMDIFF_COMMAND NAMES numdiff)
-
 if (NUMDIFF_COMMAND)
   file(GLOB NUMDIFFS
     RELATIVE ${CMAKE_CURRENT_LIST_DIR}
     *_101.sel
   )
   foreach(numdiff ${NUMDIFFS})
-    configure_file(${numdiff} ${numdiff}.expected)
+    configure_file(${numdiff} ${numdiff}.expected COPYONLY)
     string(REGEX REPLACE "_101.sel" "" prefix ${numdiff})
-    add_test(NAME mytest.numdiff.${prefix}
-      COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
+    set(test_name mytest.numdiff.${prefix})
+    add_test(NAME ${test_name}
+             COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
     )
+    # disable tests that take too long
+    if (${prefix} IN_LIST SKIP)
+      set_tests_properties(${test_name} PROPERTIES DISABLED TRUE)
+    endif()
   endforeach()
 endif()
