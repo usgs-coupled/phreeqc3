@@ -559,7 +559,7 @@ endforeach()
 # add tests
 foreach(test ${TESTS})
   add_test(NAME mytest.${test}
-            COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
+           COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/mytest/${test} ${test}.out xxx ${test}.log
   )
 endforeach()
 
@@ -585,9 +585,12 @@ if (NUMDIFF_COMMAND)
     configure_file(${numdiff} ${numdiff}.expected COPYONLY)
     string(REGEX REPLACE "_101.sel" "" prefix ${numdiff})
     set(test_name mytest.numdiff.${prefix})
-    add_test(NAME ${test_name}
-             COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
-    )
+    # add if not expected to fail
+    if (NOT ${prefix} IN_LIST FAILS)
+      add_test(NAME ${test_name}
+               COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
+      )
+    endif()
     # disable tests that take too long
     if (${prefix} IN_LIST SKIP)
       set_tests_properties(${test_name} PROPERTIES DISABLED TRUE)
