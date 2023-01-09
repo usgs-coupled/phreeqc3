@@ -38,8 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: [macos-latest, ubuntu-latest, windows-latest]
-        os: [windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     # needs: [build]
     runs-on: ${{ matrix.os }}
@@ -47,13 +46,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # - name: Install ninja numdiff valgrind (Linux)
-    #   if: runner.os == 'Linux'
-    #   run: sudo apt-get install -y ninja-build numdiff valgrind
+    - name: Install ninja numdiff valgrind (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get install -y ninja-build numdiff valgrind
 
-    # - name: Install ninja numdiff (macOS)
-    #   if: runner.os == 'macOS'
-    #   run: brew install ninja numdiff
+    - name: Install ninja numdiff (macOS)
+      if: runner.os == 'macOS'
+      run: brew install ninja numdiff
 
     - name: Install numdiff (Windows)
       if: runner.os == 'Windows'
@@ -61,19 +60,18 @@ jobs:
         pip install gdown
         gdown https://drive.google.com/uc?id=1daElRJphXTXSHdskLJsom_q8KCXW3RUv
         7z x .\msys64.7z
-        Get-ChildItem
 
-    # - name: Set up Visual Studio shell (Windows)
-    #   if: runner.os == 'Windows'
-    #   uses: egor-tensin/vs-shell@v2
-    #   with:
-    #     arch: x64
+    - name: Set up Visual Studio shell (Windows)
+      if: runner.os == 'Windows'
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
 
-    # - name: CTest
-    #   run: ctest -S ctest.cmake -V --output-on-failure -j 2
+    - name: CTest
+      run: ctest -S charlton.cmake -V --output-on-failure -j 2
 
-    # - name: Upload results
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: ${{ matrix.os }}-results
-    #     path: ${{ github.workspace }}/_ctest/Testing/
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}-results
+        path: ${{ github.workspace }}/_ctest/Testing/
