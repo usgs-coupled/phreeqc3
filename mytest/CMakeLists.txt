@@ -590,6 +590,8 @@ if (NUMDIFF_COMMAND)
       add_test(NAME ${test_name}
                COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
       )
+      # must run mytest.${prefix} first (to generate ${prefix}_101.sel)
+      set_tests_properties(${test_name} PROPERTIES DEPENDS mytest.${prefix})
     endif()
     # disable tests that take too long
     if (${prefix} IN_LIST SKIP)
