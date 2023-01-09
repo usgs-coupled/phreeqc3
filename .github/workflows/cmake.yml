@@ -7,32 +7,32 @@ on:
     branches: [master, develop]
 
 jobs:
-  # build:
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [macos-latest, ubuntu-latest, windows-latest]
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
-  #   # The CMake configure and build commands are platform agnostic and should work equally
-  #   # well on Windows or Mac.  You can convert this to a matrix build if you need
-  #   # cross-platform coverage.
-  #   # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-  #   runs-on: ${{ matrix.os }}
-  #   env:
-  #     # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  #     BUILD_TYPE: Release
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ${{ matrix.os }}
+    env:
+      # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+      BUILD_TYPE: Release
 
-  #   steps:
-  #   - uses: actions/checkout@v3
+    steps:
+    - uses: actions/checkout@v3
 
-  #   - name: Configure
-  #     # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-  #     # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-  #     run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: Configure
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-  #   - name: Build
-  #     # Build your program with the given configuration
-  #     run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
   test:
     strategy:
@@ -40,7 +40,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
-    # needs: [build]
+    needs: [build]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -68,7 +68,7 @@ jobs:
         arch: x64
 
     - name: CTest
-      run: ctest -S charlton.cmake -V --output-on-failure -j 2
+      run: ctest -S ctest.cmake -V --output-on-failure -j 2
 
     - name: Upload results
       uses: actions/upload-artifact@v3
