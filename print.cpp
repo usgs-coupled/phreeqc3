@@ -590,7 +590,7 @@ print_gas_phase(void)
 			return (OK);
 		if (gas_unknown->moles < 1e-12)
 		{
-			sprintf(info, "Fixed-pressure gas phase %d dissolved completely",
+			snprintf(info, sizeof(info), "Fixed-pressure gas phase %d dissolved completely",
 				   use.Get_n_gas_phase_user());
 			print_centered(info);
 			return (OK);
@@ -1378,7 +1378,7 @@ print_pp_assemblage(void)
 			x[j]->moles = 0.0;
 		if (state != TRANSPORT && state != PHAST)
 		{
-			sprintf(token, "  %11.3e %11.3e %11.3e",
+			snprintf(token, sizeof(token), "  %11.3e %11.3e %11.3e",
 					(double) (comp_ptr->Get_moles() +
 							  comp_ptr->Get_delta()), (double) x[j]->moles,
 					(double) (x[j]->moles - comp_ptr->Get_moles() -
@@ -1386,7 +1386,7 @@ print_pp_assemblage(void)
 		}
 		else
 		{
-			sprintf(token, " %11.3e %11.3e %11.3e",
+			snprintf(token, sizeof(token), " %11.3e %11.3e %11.3e",
 					(double) comp_ptr->Get_initial_moles(),
 					(double) x[j]->moles,
 					(double) (x[j]->moles - comp_ptr->Get_initial_moles()));

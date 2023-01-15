@@ -551,7 +551,7 @@ run_as_cells(void)
 			rate_sim_time = 0;
 			for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 			{
-				sprintf(token, "Reaction step %d.", reaction_step);
+				snprintf(token, sizeof(token), "Reaction step %d.", reaction_step);
 				if (reaction_step > 1 && incremental_reactions == FALSE)
 				{
 					copy_use(-2);
@@ -635,7 +635,7 @@ run_as_cells(void)
 			rate_sim_time = 0;
 			reaction_step = 1;
 
-			sprintf(token, "Reaction step %d.", reaction_step);
+			snprintf(token, sizeof(token), "Reaction step %d.", reaction_step);
 
 			dup_print(token, FALSE);
 			/*
@@ -763,7 +763,7 @@ run_as_cells(void)
 		rate_sim_time = 0;
 		for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 		{
-			sprintf(token, "Reaction step %d.", reaction_step);
+			snprintf(token, sizeof(token), "Reaction step %d.", reaction_step);
 			if (reaction_step > 1 && incremental_reactions == FALSE)
 			{
 				copy_use(-2);

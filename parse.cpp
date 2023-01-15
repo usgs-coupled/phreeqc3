@@ -259,7 +259,7 @@ check_eqn(int association)
 
 /* ---------------------------------------------------------------------- */
 int Phreeqc::
-get_charge(char *charge, LDBLE * l_z)
+get_charge(char *charge, size_t charge_size, LDBLE * l_z)
 /* ---------------------------------------------------------------------- */
 /*
  *   Function takes character string and calculates the charge on
@@ -367,7 +367,7 @@ get_charge(char *charge, LDBLE * l_z)
  */
 	if (abs(i) > 1)
 	{
-		if (sprintf(charge, "%-+d", i) == EOF)
+		if (snprintf(charge, charge_size, "%-+d", i) == EOF)
 		{
 			error_string = sformatf(
 					"Error converting charge to character string, %s.",

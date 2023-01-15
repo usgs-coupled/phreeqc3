@@ -749,21 +749,21 @@ read_transport(void)
 	{
 		if (max_cells == count_length)
 		{
-			sprintf(token,
+			snprintf(token, sizeof(token),
 				"Number of cells is increased to number of 'lengths' %d.",
 				count_length);
 			warning_msg(token);
 		}
 		else if (max_cells == count_disp)
 		{
-			sprintf(token,
+			snprintf(token, sizeof(token),
 				"Number of cells is increased to number of dispersivities %d.",
 				count_disp);
 			warning_msg(token);
 		}
 		else
 		{
-			sprintf(token,
+			snprintf(token, sizeof(token),
 				"Number of mobile cells is increased to (ceil)(number of porosities) / (1 + number of stagnant zones) = %d.",
 				(int) ceil(((double)count_por / (1 + (double)stag_data.count_stag))));
 			warning_msg(token);
@@ -1222,26 +1222,26 @@ dump_cpp(void)
 	fs << "END" << "\n";
 
 	char token[MAX_LENGTH];
-	sprintf(token, "KNOBS\n");
+	snprintf(token, sizeof(token), "KNOBS\n");
 	fs << token;
-	sprintf(token, "\t-iter%15d\n", itmax);
+	snprintf(token, sizeof(token), "\t-iter%15d\n", itmax);
 	fs << token;
-	sprintf(token, "\t-tol %15.3e\n", (double)ineq_tol);
+	snprintf(token, sizeof(token), "\t-tol %15.3e\n", (double)ineq_tol);
 	fs << token;
-	sprintf(token, "\t-step%15.3e\n", (double)step_size);
+	snprintf(token, sizeof(token), "\t-step%15.3e\n", (double)step_size);
 	fs << token;
-	sprintf(token, "\t-pe_s%15.3e\n", (double)pe_step_size);
+	snprintf(token, sizeof(token), "\t-pe_s%15.3e\n", (double)pe_step_size);
 	fs << token;
-	sprintf(token, "\t-diag      ");
+	snprintf(token, sizeof(token), "\t-diag      ");
 	fs << token;
 	if (diagonal_scale == TRUE)
 	{
-		sprintf(token, "true\n");
+		snprintf(token, sizeof(token), "true\n");
 		fs << token;
 	}
 	else
 	{
-		sprintf(token, "false\n");
+		snprintf(token, sizeof(token), "false\n");
 		fs << token;
 	}
 	std::map < int, SelectedOutput >::iterator so_it = SelectedOutput_map.begin();
@@ -1249,223 +1249,223 @@ dump_cpp(void)
 	{
 		current_selected_output = &(so_it->second);
 
-		sprintf(token, "SELECTED_OUTPUT %d\n", current_selected_output->Get_n_user());
+		snprintf(token, sizeof(token), "SELECTED_OUTPUT %d\n", current_selected_output->Get_n_user());
 		fs << token;
-		//sprintf(token, "\t-file  %-15s\n", "sel_o$$$.prn");
+		//snprintf(token, sizeof(token), "\t-file  %-15s\n", "sel_o$$$.prn");
 		//fs << token;
 		fs << "\t-file  " << "sel_o$$$" << current_selected_output->Get_n_user() << ".prn\n";
 		//if (punch.count_totals != 0)
 		if (current_selected_output->Get_totals().size() > 0)
 		{
-			sprintf(token, "\t-tot ");
+			snprintf(token, sizeof(token), "\t-tot ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_totals().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_totals()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_totals()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_molalities().size() > 0)
 		{
-			sprintf(token, "\t-mol ");
+			snprintf(token, sizeof(token), "\t-mol ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_molalities().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_molalities()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_molalities()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_activities().size() > 0)
 		{
-			sprintf(token, "\t-act ");
+			snprintf(token, sizeof(token), "\t-act ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_activities().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_activities()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_activities()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_pure_phases().size() > 0)
 		{
-			sprintf(token, "\t-equ ");
+			snprintf(token, sizeof(token), "\t-equ ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_pure_phases().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_pure_phases()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_pure_phases()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_si().size() > 0)
 		{
-			sprintf(token, "\t-si ");
+			snprintf(token, sizeof(token), "\t-si ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_si().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_si()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_si()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_gases().size() > 0)
 		{
-			sprintf(token, "\t-gas ");
+			snprintf(token, sizeof(token), "\t-gas ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_gases().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_gases()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_gases()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_s_s().size() > 0)
 		{
-			sprintf(token, "\t-solid_solutions ");
+			snprintf(token, sizeof(token), "\t-solid_solutions ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_s_s().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_s_s()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_s_s()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 		if (current_selected_output->Get_kinetics().size() > 0)
 		{
-			sprintf(token, "\t-kin ");
+			snprintf(token, sizeof(token), "\t-kin ");
 			fs << token;
 			for (size_t i = 0; i < current_selected_output->Get_kinetics().size(); i++)
 			{
-				sprintf(token, "  %s", current_selected_output->Get_kinetics()[i].first.c_str());
+				snprintf(token, sizeof(token), "  %s", current_selected_output->Get_kinetics()[i].first.c_str());
 				fs << token;
 			}
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 	}
-	sprintf(token, "TRANSPORT\n");
+	snprintf(token, sizeof(token), "TRANSPORT\n");
 	fs << token;
-	sprintf(token, "\t-cells %6d\n", count_cells);
+	snprintf(token, sizeof(token), "\t-cells %6d\n", count_cells);
 	fs << token;
-	sprintf(token, "\t-shifts%6d%6d\n", count_shifts, ishift);
+	snprintf(token, sizeof(token), "\t-shifts%6d%6d\n", count_shifts, ishift);
 	fs << token;
-	sprintf(token, "\t-output_frequency %6d\n", print_modulus);
+	snprintf(token, sizeof(token), "\t-output_frequency %6d\n", print_modulus);
 	fs << token;
-	sprintf(token, "\t-selected_output_frequency %6d\n",
+	snprintf(token, sizeof(token), "\t-selected_output_frequency %6d\n",
 		punch_modulus);
 	fs << token;
-	sprintf(token, "\t-bcon  %6d%6d\n", bcon_first, bcon_last);
+	snprintf(token, sizeof(token), "\t-bcon  %6d%6d\n", bcon_first, bcon_last);
 	fs << token;
-	sprintf(token, "\t-timest %13.5e\n", (double)timest);
+	snprintf(token, sizeof(token), "\t-timest %13.5e\n", (double)timest);
 	fs << token;
 	if (!high_precision)
 	{
-		sprintf(token, "\t-diffc  %13.5e\n", (double)diffc);
+		snprintf(token, sizeof(token), "\t-diffc  %13.5e\n", (double)diffc);
 		fs << token;
 	}
 	else
 	{
-		sprintf(token, "\t-diffc  %20.12e\n", (double)diffc);
+		snprintf(token, sizeof(token), "\t-diffc  %20.12e\n", (double)diffc);
 		fs << token;
 	}
-	sprintf(token, "\t-tempr  %13.5e\n", (double)tempr);
+	snprintf(token, sizeof(token), "\t-tempr  %13.5e\n", (double)tempr);
 	fs << token;
 	if (correct_disp == TRUE)
 	{
-		sprintf(token, "\t-correct_disp %s\n", "True");
+		snprintf(token, sizeof(token), "\t-correct_disp %s\n", "True");
 		fs << token;
 	}
 	else
 	{
-		sprintf(token, "\t-correct_disp %s\n", "False");
+		snprintf(token, sizeof(token), "\t-correct_disp %s\n", "False");
 		fs << token;
 	}
-	sprintf(token, "\t-length\n");
+	snprintf(token, sizeof(token), "\t-length\n");
 	fs << token;
 	for (int i = 1; i <= count_cells; i++)
 	{
-		sprintf(token, "%12.3e", (double)cell_data[i].length);
+		snprintf(token, sizeof(token), "%12.3e", (double)cell_data[i].length);
 		fs << token;
 		if (i > 0 && (i % 8) == 0)
 		{
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 	}
-	sprintf(token, "\n");
+	snprintf(token, sizeof(token), "\n");
 	fs << token;
-	sprintf(token, "\t-disp\n");
+	snprintf(token, sizeof(token), "\t-disp\n");
 	fs << token;
 	for (int i = 1; i <= count_cells; i++)
 	{
 		if (!high_precision)
 		{
-			sprintf(token, "%12.3e", (double)cell_data[i].disp);
+			snprintf(token, sizeof(token), "%12.3e", (double)cell_data[i].disp);
 			fs << token;
 		}
 		else
 		{
-			sprintf(token, "%20.12e", (double)cell_data[i].disp);
+			snprintf(token, sizeof(token), "%20.12e", (double)cell_data[i].disp);
 			fs << token;
 		}
 		if (i > 0 && (i % 8) == 0)
 		{
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 	}
-	sprintf(token, "\n");
+	snprintf(token, sizeof(token), "\n");
 	fs << token;
-	sprintf(token, "\t-punch_cells");
+	snprintf(token, sizeof(token), "\t-punch_cells");
 	fs << token;
 	l = 0;
 	for (int i = 0; i < all_cells; i++)
 	{
 		if (cell_data[i].punch != TRUE)
 			continue;
-		sprintf(token, "  %d", i);
+		snprintf(token, sizeof(token), "  %d", i);
 		fs << token;
 		l++;
 		if ((l % 20) == 0)
 		{
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 	}
-	sprintf(token, "\n");
+	snprintf(token, sizeof(token), "\n");
 	fs << token;
-	sprintf(token, "\t-print_cells");
+	snprintf(token, sizeof(token), "\t-print_cells");
 	fs << token;
 	l = 0;
 	for (int i = 0; i < all_cells; i++)
 	{
 		if (cell_data[i].print != TRUE)
 			continue;
-		sprintf(token, "  %d", i);
+		snprintf(token, sizeof(token), "  %d", i);
 		fs << token;
 		l++;
 		if ((l % 20) == 0)
 		{
-			sprintf(token, "\n");
+			snprintf(token, sizeof(token), "\n");
 			fs << token;
 		}
 	}
-	sprintf(token, "\n");
+	snprintf(token, sizeof(token), "\n");
 	fs << token;
-	sprintf(token, "\t-dump            $$$.dmp\n");
+	snprintf(token, sizeof(token), "\t-dump            $$$.dmp\n");
 	fs << token;
-	sprintf(token, "\t-dump_frequency  %d\n", dump_modulus);
+	snprintf(token, sizeof(token), "\t-dump_frequency  %d\n", dump_modulus);
 	fs << token;
-	sprintf(token, "\t-dump_restart    %d\n", transport_step + 1);
+	snprintf(token, sizeof(token), "\t-dump_restart    %d\n", transport_step + 1);
 	fs << token;
 
 #if defined MULTICHART
@@ -1473,7 +1473,7 @@ dump_cpp(void)
 	chart_handler.dump(fs, 0);
 #endif
 
-	sprintf(token, "END\n");
+	snprintf(token, sizeof(token), "END\n");
 	fs << token;
 	return (OK);
 }

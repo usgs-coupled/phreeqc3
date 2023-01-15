@@ -136,7 +136,7 @@ fpunchf_user(int user_index, const char *format, double d)
 			warning_msg(error_string);
 			fpunchf_user_s_warning = 1;
 		}
-		sprintf(fpunchf_user_buffer, "no_heading_%d",
+		snprintf(fpunchf_user_buffer, sizeof(fpunchf_user_buffer), "no_heading_%d",
 				(user_index - user_punch_count_headings) + 1);
 		name = fpunchf_user_buffer;
 	}
@@ -173,7 +173,7 @@ fpunchf_user(int user_index, const char *format, char * d)
 			warning_msg(error_string);
 			fpunchf_user_s_warning = 1;
 		}
-		sprintf(fpunchf_user_buffer, "no_heading_%d",
+		snprintf(fpunchf_user_buffer, sizeof(fpunchf_user_buffer), "no_heading_%d",
 				(user_index - user_punch_count_headings) + 1);
 		name = fpunchf_user_buffer;
 	}
