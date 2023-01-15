@@ -1,3 +1,6 @@
+#ifdef DOS
+#include <windows.h>
+#endif
 #include "Phreeqc.h"
 
 #include "NameDouble.h"
@@ -296,9 +299,9 @@ write_banner(void)
 
 	/* version */
 #ifdef NPP
-	len = sprintf(buffer, "* PHREEQC-%s *", "3.7.1");
+	len = snprintf(buffer, sizeof(buffer), "* PHREEQC-%s *", "3.7.1");
 #else
-	len = sprintf(buffer, "* PHREEQC-%s *", "@VERSION@");
+	len = snprintf(buffer, sizeof(buffer), "* PHREEQC-%s *", "@VERSION@");
 #endif
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14c║%*c%s%*c║\n", ' ', indent, ' ', buffer,
@@ -320,9 +323,9 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = sprintf(buffer, "%s", "July 5, 2021");
+	len = snprintf(buffer, sizeof(buffer), "%s", "July 5, 2021");
 #else
-	len = sprintf(buffer, "%s", "@VER_DATE@");
+	len = snprintf(buffer, sizeof(buffer), "%s", "@VER_DATE@");
 #endif
 	indent = (44 - len) / 2;
 	screen_msg(sformatf("%14c║%*c%s%*c║\n", ' ', indent, ' ', buffer,

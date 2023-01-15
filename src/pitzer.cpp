@@ -129,7 +129,7 @@ pitzer_tidy(void)
 	{
 		for (j = i + 1; j < count_cations; j++)
 		{
-			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
+			snprintf(line, max_line, "%s %s 1", spec[i]->name, spec[j]->name);
 			pzp_ptr = pitz_param_read(line, 2);
 			pzp_ptr->type = TYPE_ETHETA;
 			size_t count_pitz_param = pitz_params.size();
@@ -141,7 +141,7 @@ pitzer_tidy(void)
 	{
 		for (j = i + 1; j < 2 * (int)s.size() + count_anions; j++)
 		{
-			sprintf(line, "%s %s 1", spec[i]->name, spec[j]->name);
+			snprintf(line, max_line, "%s %s 1", spec[i]->name, spec[j]->name);
 			pzp_ptr = pitz_param_read(line, 2);
 			pzp_ptr->type = TYPE_ETHETA;
 			size_t count_pitz_param = pitz_params.size();

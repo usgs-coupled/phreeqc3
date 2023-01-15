@@ -499,22 +499,22 @@ numtostr(char * Result, LDBLE n)
 		//if (PhreeqcPtr->current_selected_output != NULL &&
 		//	!PhreeqcPtr->current_selected_output->Get_high_precision())
 		//{
-		//	sprintf(l_s, "%12.0f", (double) n);
+		//	snprintf(l_s, PhreeqcPtr->max_line, "%12.0f", (double) n);
 		//}
 		//else
 		//{
-		//	sprintf(l_s, "%20.0f", (double) n);
+		//	snprintf(l_s, PhreeqcPtr->max_line, "%20.0f", (double) n);
 		//}
 		bool temp_high_precision = (PhreeqcPtr->current_selected_output != NULL) ? 
 			PhreeqcPtr->current_selected_output->Get_high_precision() : 
 			PhreeqcPtr->high_precision;
 		if (!temp_high_precision)
 		{
-			sprintf(l_s, "%12.0f", (double) n);
+			snprintf(l_s, PhreeqcPtr->max_line, "%12.0f", (double) n);
 		}
 		else
 		{
-			sprintf(l_s, "%20.0f", (double) n);
+			snprintf(l_s, PhreeqcPtr->max_line, "%20.0f", (double) n);
 		}
 	}
 	else
@@ -524,11 +524,11 @@ numtostr(char * Result, LDBLE n)
 			PhreeqcPtr->high_precision;
 		if (!temp_high_precision)
 		{
-			sprintf(l_s, "%12.4e", (double) n);
+			snprintf(l_s, PhreeqcPtr->max_line, "%12.4e", (double) n);
 		}
 		else
 		{
-			sprintf(l_s, "%20.12e", (double) n);
+			snprintf(l_s, PhreeqcPtr->max_line, "%20.12e", (double) n);
 		}
 	}
 	i = (int) strlen(l_s) + 1;
@@ -539,8 +539,8 @@ numtostr(char * Result, LDBLE n)
 	PhreeqcPtr->free_check_null(l_s);
 	return (Result);
 /*  } else {
-    if (PhreeqcPtr->punch.high_precision == FALSE) sprintf(l_s, "%30.10f", n);
-      else sprintf(l_s, "%30.12f", n);
+    if (PhreeqcPtr->punch.high_precision == FALSE) snprintf(l_s, PhreeqcPtr->max_line, "%30.10f", n);
+      else snprintf(l_s, PhreeqcPtr->max_line, "%30.12f", n);
     i = strlen(l_s) + 1;
     do {
       i--;
@@ -612,6 +612,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 				if (j + 1 > m)
 					m = j + 1;
 				t->UU.sp = (char *) PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
+				t->sp_sz = m;
 				if (t->UU.sp == NULL)
 				{
 					PhreeqcPtr->malloc_error();
@@ -739,6 +740,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 							if (m < 256)
 								m = 256;
 							t->UU.sp = (char *) PhreeqcPtr->PHRQ_calloc(m, sizeof(char));
+							t->sp_sz = m;
 							if (t->UU.sp == NULL)
 							{
 								PhreeqcPtr->malloc_error();
@@ -746,7 +748,7 @@ parse(char * l_inbuf, tokenrec ** l_buf)
 								exit(4);
 #endif
 							}
-							sprintf(t->UU.sp, "%.*s",
+							snprintf(t->UU.sp, t->sp_sz, "%.*s",
 									(int) (strlen(l_inbuf) - i + 1),
 									l_inbuf + i - 1);
 							i = (int) strlen(l_inbuf) + 1;
@@ -2232,7 +2234,7 @@ factor(struct LOC_exec * LINK)
 		{
 			if (PhreeqcPtr->use.Get_mix_in())
 			{
-				sprintf(string, "Mix %d", PhreeqcPtr->use.Get_n_mix_user());
+				snprintf(string, sizeof(string), "Mix %d", PhreeqcPtr->use.Get_n_mix_user());
 				n.UU.sval = PhreeqcPtr->string_duplicate(string);
 			}
 			else
@@ -2251,7 +2253,7 @@ factor(struct LOC_exec * LINK)
 		}
 		else if (PhreeqcPtr->state == ADVECTION || PhreeqcPtr->state == TRANSPORT || PhreeqcPtr->state == PHAST)
 		{
-			sprintf(string, "Cell %d", PhreeqcPtr->cell_no);
+			snprintf(string, sizeof(string), "Cell %d", PhreeqcPtr->cell_no);
 			n.UU.sval = PhreeqcPtr->string_duplicate(string);
 		}
 		else
@@ -3608,7 +3610,7 @@ factor(struct LOC_exec * LINK)
 
 		std::string std_num;
 		{
-			sprintf(token, "%*.*e", length, width, nmbr);
+			snprintf(token, sizeof(token), "%*.*e", length, width, nmbr);
 			std_num = token;
 		}
 
@@ -3651,7 +3653,7 @@ factor(struct LOC_exec * LINK)
 
 		std::string std_num;
 		{
-			sprintf(token, "%*.*f", length, width, nmbr);
+			snprintf(token, sizeof(token), "%*.*f", length, width, nmbr);
 			std_num = token;
 		}
 
@@ -4729,12 +4731,12 @@ cmdload(bool merging, char * name, struct LOC_exec *LINK)
 		cmdnew(LINK);
 	if (f != NULL)
 	{
-		sprintf(STR1, "%s.TEXT", name);
+		snprintf(STR1, sizeof(STR1), "%s.TEXT", name);
 		f = freopen(STR1, "r", f);
 	}
 	else
 	{
-		sprintf(STR1, "%s.TEXT", name);
+		snprintf(STR1, sizeof(STR1), "%s.TEXT", name);
 		f = fopen(STR1, "r");
 	}
 	if (f == NULL)
@@ -7213,6 +7215,7 @@ _NilCheck(void)
 	return _Escape(-3);
 }
 
+#ifdef SKIP
 /* The following is suitable for the HP Pascal operating system.
    It might want to be revised when emulating another system. */
 
@@ -7233,7 +7236,7 @@ _ShowEscape(char *buf, int code, int ior, char *prefix)
 	}
 	if (code == -10)
 	{
-		sprintf(bufp, "Pascal system I/O error %d", ior);
+		snprintf(bufp, sizeof(bufp), "Pascal system I/O error %d", ior); // FIXME -- replace sizeof
 		switch (ior)
 		{
 		case 3:
@@ -7273,7 +7276,7 @@ _ShowEscape(char *buf, int code, int ior, char *prefix)
 	}
 	else
 	{
-		sprintf(bufp, "Pascal system error %d", code);
+		snprintf(bufp, sizeof(bufp), "Pascal system error %d", code); // FIXME -- replace sizeof
 		switch (code)
 		{
 		case -2:
@@ -7307,7 +7310,7 @@ _ShowEscape(char *buf, int code, int ior, char *prefix)
 	}
 	return buf;
 }
-
+#endif
 int PBasic::
 _Escape(int code)
 {

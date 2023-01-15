@@ -79,6 +79,7 @@ typedef struct tokenrec
 //#ifdef PHREEQCI_GUI
 	size_t n_sz;
 	char *sz_num;
+	size_t sp_sz;
 //#endif
 } tokenrec;
 

@@ -381,7 +381,7 @@ initial_solutions(int print)
 			}
 			if (print == TRUE)
 			{
-				sprintf(token, "Initial solution %d.\t%.350s",
+				snprintf(token, sizeof(token), "Initial solution %d.\t%.350s",
 						solution_ref.Get_n_user(), solution_ref.Get_description().c_str());
 				dup_print(token, FALSE);
 			}
@@ -518,7 +518,7 @@ initial_exchangers(int print)
 			}
 			if (print == TRUE)
 			{
-				sprintf(token, "Exchange %d.\t%.350s",
+				snprintf(token, sizeof(token), "Exchange %d.\t%.350s",
 						exchange_ptr->Get_n_user(), exchange_ptr->Get_description().c_str());
 				dup_print(token, FALSE);
 			}
@@ -609,7 +609,7 @@ initial_gas_phases(int print)
 			}
 			if (print == TRUE)
 			{
-				sprintf(token, "Gas_Phase %d.\t%.350s",
+				snprintf(token, sizeof(token), "Gas_Phase %d.\t%.350s",
 						gas_phase_ptr->Get_n_user(), gas_phase_ptr->Get_description().c_str());
 				dup_print(token, FALSE);
 			}
@@ -660,7 +660,7 @@ initial_gas_phases(int print)
 			}
 			if (fabs(gas_phase_ptr->Get_total_p() - use.Get_solution_ptr()->Get_patm()) > 5)
 			{
-				sprintf(token,
+				snprintf(token, sizeof(token),
 					"WARNING: While initializing gas phase composition by equilibrating:\n%s (%.2f atm) %s (%.2f atm).\n%s.",
 					"         Gas phase pressure",
 					(double) gas_phase_ptr->Get_total_p(),
@@ -828,7 +828,7 @@ reactions(void)
 	for (reaction_step = 1; reaction_step <= count_steps; reaction_step++)
 	{
 		overall_iterations = 0;
-		sprintf(token, "Reaction step %d.", reaction_step);
+		snprintf(token, sizeof(token), "Reaction step %d.", reaction_step);
 		if (reaction_step > 1 && incremental_reactions == FALSE)
 		{
 			copy_use(-2);
@@ -934,7 +934,7 @@ saver(void)
 
 	if (save.solution == TRUE)
 	{
-		sprintf(token, "Solution after simulation %d.", simulation);
+		snprintf(token, sizeof(token), "Solution after simulation %d.", simulation);
 		description_x = token;
 		n = save.n_solution_user;
 		xsolution_save(n);
@@ -1025,7 +1025,7 @@ xexchange_save(int n_user)
 	temp_exchange.Set_n_user(n_user);
 	temp_exchange.Set_n_user_end(n_user);
 	temp_exchange.Set_new_def(false);
-	sprintf(token, "Exchange assemblage after simulation %d.", simulation);
+	snprintf(token, sizeof(token), "Exchange assemblage after simulation %d.", simulation);
 	temp_exchange.Set_description(token);
 	temp_exchange.Set_solution_equilibria(false);
 	temp_exchange.Set_n_solution(-999);
@@ -1108,7 +1108,7 @@ xgas_save(int n_user)
 	 */
 	temp_gas_phase.Set_n_user(n_user);
 	temp_gas_phase.Set_n_user_end(n_user);
-	sprintf(token, "Gas phase after simulation %d.", simulation);
+	snprintf(token, sizeof(token), "Gas phase after simulation %d.", simulation);
 	temp_gas_phase.Set_description(token);
 	temp_gas_phase.Set_new_def(false);
 	temp_gas_phase.Set_solution_equilibria(false);
@@ -2094,10 +2094,10 @@ run_simulations(void)
 #endif
 
 #if defined PHREEQCI_GUI
-			sprintf(token, "\nSimulation %d\n", simulation);
+			snprintf(token, sizeof(token), "\nSimulation %d\n", simulation);
 			screen_msg(token);
 #endif
-			sprintf(token, "Reading input data for simulation %d.", simulation);
+			snprintf(token, sizeof(token), "Reading input data for simulation %d.", simulation);
 
 			dup_print(token, TRUE);
 			if (read_input() == EOF)
@@ -2105,7 +2105,7 @@ run_simulations(void)
 
 			if (title_x.size() > 0)
 			{
-				sprintf(token, "TITLE");
+				snprintf(token, sizeof(token), "TITLE");
 				dup_print(token, TRUE);
 				if (pr.headings == TRUE)
 				{
