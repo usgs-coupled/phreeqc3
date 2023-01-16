@@ -2097,7 +2097,6 @@ match_elts_in_species(const char *name, const char *mytemplate)
 	 * write out string
 	 */
 	token[0] = '\0';
-	assert(MAX_LENGTH == sizeof(token1));
 	for (i = 0; i < count_match_tokens; i++)
 	{
 		strcat(token, match_vector[i].first.c_str());

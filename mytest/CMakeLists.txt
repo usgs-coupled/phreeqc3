@@ -431,19 +431,6 @@ set(TESTS
   wjAs2
 )
 
-# these take more than 600 seconds
-set(SKIP
-  adapted_minteq
-  count_database_species
-  Cub
-  current_analytical
-  current2
-  membrane
-  mmb2
-  TonyLitharge2a
-  unequal
-)
-
 # expect to fail
 set(FAILS
   high_mu
@@ -466,6 +453,7 @@ set(FAILS
 
 # mytest misc files
 set(mytest_MISC
+  adapted_minteq.dat
   angus.dat
   anh_nacl.csv
   anh_P_100tc.csv
@@ -550,6 +538,29 @@ set(mytest_MISC
   zeta.tsv
 )
 
+# long_debug
+# > 600 seconds Debug
+set(LONG_DEBUG
+  mytest.adapted_minteq
+  mytest.count_database_species
+  mytest.Cub
+  mytest.current_analytical
+  mytest.current2
+  mytest.membrane
+  mytest.mmb2
+  mytest.TonyLitharge2a
+  mytest.unequal
+)
+
+# long_memcheck
+# > 600 seconds valgrind
+set(LONG_MEMCHECK
+  mytest.andra_kin_ss
+  mytest.balonis
+  mytest.opa_col3
+  mytest.current1
+)
+
 # for mytest tests
 # copy to build directory
 foreach(misc ${mytest_MISC})
@@ -568,9 +579,28 @@ foreach(test ${FAILS})
   set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
 endforeach()
 
-# disable tests that take too long
-foreach(test ${SKIP})
-  set_tests_properties(mytest.${test} PROPERTIES DISABLED TRUE)
+# # disable tests that take too long
+# foreach(test ${SKIP})
+#   set_tests_properties(mytest.${test} PROPERTIES DISABLED TRUE)
+# endforeach()
+
+# Label tests that run longer than 600 seconds
+# note that when using multiconfig generators you must specify
+# the configuration
+# ie
+# ctest --print-labels -C Debug
+# override default TIMEOUT using CTEST_TEST_TIMEOUT or
+# command line option --timeout <time>
+# ie
+# ctest --timeout 1200
+foreach(test ${LONG_DEBUG})
+  set_tests_properties(${test} PROPERTIES LABELS "long_debug;long_memcheck") 
+  ##set_tests_properties(mytest.${test} PROPERTIES TIMEOUT 1200)
+endforeach()
+
+foreach(test ${LONG_MEMCHECK})
+  set_tests_properties(${test} PROPERTIES LABELS "long_memcheck") 
+  ##set_tests_properties(mytest.${test} PROPERTIES TIMEOUT 1200)
 endforeach()
 
 # numdiff tests
