@@ -275,12 +275,18 @@ add_test(NAME examples.ex22
 COMMAND $<TARGET_FILE:phreeqc> ${PROJECT_SOURCE_DIR}/examples/ex22 ex22.out ${PROJECT_SOURCE_DIR}/database/phreeqc.dat ex22.log
 )
 
-# these take more than 600 seconds
-set(SKIP
+# Note when setting labels we can't use the following:
+#   set_tests_properties(${test} PROPERTIES LABELS "pitzer")
+# since it will overwrite any existing labels already set
+
+# long_debug
+# > 600 seconds Debug
+set(LONG_DEBUG
   examples.ex21
 )
 
-# disable tests that take too long
-foreach(test ${SKIP})
-  set_tests_properties(${test} PROPERTIES DISABLED TRUE)
+# label tests that take too long
+foreach(test ${LONG_DEBUG})
+  set_property(TEST ${test} APPEND PROPERTY LABELS "long_debug")
+  set_property(TEST ${test} APPEND PROPERTY LABELS "long_memcheck")
 endforeach()
