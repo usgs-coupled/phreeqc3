@@ -1,62 +1,183 @@
 cmake_minimum_required (VERSION 3.9)
 
 set(TESTS
-  alkalinity
+  14C_isotopes
   a_e_t2
+  adapted_minteq
+  advect_ranges
   aj1
+  alkalinity
   all_llnl
+  andra_kin_ss
+  andsurfcomplex4
+  anh_P_NaCl
+  anhy_K2SO4
+  anhy_Na2SO4
+  anhy_NaCl
+  antarcticite
+  Apelbl_Na2CO3
   aquia
   aquia2
   As
   as.ex
   asf
   ball
+  balonis
+  Barite_MCl2
+  Barite_NaCl
+  Barite_tc
   basic_test
   brown
+  Ca-As-Mahoney
+  calc_density
   calc_SC
   calc_values
-  cdmus3
-  cdmusic_related
+  calcite_rate
+  CalPortDiff
+  Carnallite
+  cc_1barCO2
+  cc_P
+  cc_P0
+  cc_P2
+  cc_P3
   cd_ddl
+  cdmus3
+  cdmusic_hiemstra
+  cdmusic_related
   cell_operations
+  CFAscmtest
+  CH4_conc_PR_IS
   ch4-valid
   co2
+  CO2_4M_NaCl
+  CO2_anal
+  CO2_conc_PR_EQ
+  CO2_conc_PR_GP
+  CO2_conc_PR_GP1
+  CO2_conc_PR_IS
+  CO2_K_H
+  CO2_Na2SO4
+  co2_pressure_bug
+  CO2_sp_IS
+  co2_t30
+  co2_tc
+  co2_VP
   colloid_U
+  colt1
+  colt2
+  colt3
+  colt3_mi
+  colt4
+  colt5
   comments
+  connect_graph
   count_database_species
+  count_database_species_core10
+  Cub
   cumulativetime
+  current_analytical
+  current1
+  current2
   DanPhuong
   ddl_flux
+  ddl_set
   ddlsurf
   de
   deb1
   deb2
   debye1
+  delta_h
   deltas
+  densities
   desc
+  diel
+  diff_c
   dissolve_only
+  dist_x
   donly
+  DonnanBug
   dump_test
   eco
+  edl_species
   eq_EC
   eq_phase_mod
+  erm
   evap
-  exch_related
-  exch_related_pz
+  evap_sea
+  ex_ild
+  ex1
+  ex10
+  ex10_pz
+  ex11
+  ex12
+  ex12b
+  ex13_impl
+  ex15.cvode
+  ex16mp
+  ex17mp
+  ex18mp
+  ex2
+  ex20_debug
+  ex3
+  ex4
+  ex5
+  ex6
+  ex6.cvode
+  ex7
+  ex7_T_P
+  ex8
+  ex8_tail_biter
+  ex9
+  ex9.cvode
   exch_kin_related
   exch_kin_related_pz
-  ex_ild
+  exch_related
+  exch_related_pz
+  ExchangeGamma
+  ExchMixRelatedKin
+  ExchMixRelatedMin
+  Fe+2
+  feb
+  febmp
+  feedwater
   ferri_surface
   fiona
+  fix_P
+  fix_V
   fixed_volume_gas
   fixed_volume_gas_pz
   fluorite
   gas
+  gas_fix_P
+  gas_fix_V
   Gas_FixVolume
   gas_mod
+  gas_phase_mix
   gas_phase_pressure
+  gas_type_switch
+  gas9
   gfw
+  gyps_Na2SO4
+  gyps_NaCl
+  gypsum
+  gypsum_P
+  gypsum_P2
+  gypsum_P5
+  H_K
+  H2S_71C
+  H2S_Amm
+  H2S_NaCl_Na2SO4
+  H2S_numerical
+  H2S_pz
+  H2S_pz_appt
+  H2S_sit
+  halite
+  Halite_P
+  Hao
+  Hao_wateq4fhao
   hard.tests
+  harm_mean
+  Hebach
   high_mu
   homo
   i2
@@ -65,73 +186,157 @@ set(TESTS
   i5
   i6
   i7
+  IL_flux
+  IllitisationCEC
   Ilulissat_diff3
-  is
+  implicit_as
   include
   initial_gas
   Int_vs_Don
+  is
   iso_example
+  iso_inverse
   iso10
   jgb2col
   jgbcol
+  Jiang_pz
+  jm_trans
   joe
+  K2SO4
+  katz
+  KCl
+  KCl-SO4
   kin_time
+  kinetic_rates
   kinex
+  KinSorbNp
   kinsurf
   krest
-  lam7
   lam10
+  lam7
   lassin
+  lk_phase
+  lkspecies
   llnl
   local_min_pz
+  low_p
   low_t
   mahoney
   MassWater
+  McBride_rho
+  McClesk
   membrane
+  MgCl-SO4
+  MgCl2
   mgcl2mgso4_pz
+  MgSO4
   millero
+  minteq
+  minteqv4
+  missing_surf_related_equi
+  missing_surf_related_kin
   mixes
   mmb
   mmb2
-  modifyact
+  mmb2_pitzer
+  modify_ignore
   modify_test
   modify_zero
+  modifyact
+  MoreExchMix
   mu
+  multi_punch
+  mV_SO4_rho
+  mV1_rho
+  mV2_rho
+  N2_conc_PR_IS
+  N2_ideal
   n3
-  netpathxl
+  Na2SO4
+  Na2SO4_phr
+  NaCl
+  NaCl_temp
+  NaCl-SO4
+  NaKCl
+  NaMgCl
+  NaOH_density
+  Nardi
+  negative_user_number
   negexp_totmol
+  netpathxl
+  no_negative_dump
+  notab
   np.test
+  np.testmp
+  num_spread
+  O2_conc_PR_IS
   opa_col2
+  opa_col3
   org_gas
+  osmotic
   oxygen
+  oxygenmp
+  P_CO2_Na2SO4
   p_dep_species
+  P_Vm
+  peng_SO2
+  PercentSC
   phantom_surface
   phase_formula
+  phase_vm
+  phi_Angus
+  phi_CO2-CH4_GP
+  phi_Duan_PR
+  phi_Duan_PR_EQ
   phreeqc.test
   phrqpitz.tst
   pitzalphas
   pitzer_fail
   pitzer_redef
+  pitzer_redef_2
   pitzgas
+  pKw
+  ppdump
+  PR_EQ
+  PR_EQ_GP
+  PR_equil
+  PR_equil2
+  pr_h2o
+  PR_initial_gas
+  PR_initial_gas_noredox
+  PR_mx_new
   precipitate_only
   pressure_si
   prob8
+  punch_stream
   pyrite_34s
+  R-04_01_PHRC
   rahn
+  Ratework
+  raw
   reaction_p
+  reaction_pressure_gas
+  rho_CaKMgNaCl
+  rho_CaNaCl
+  rho_H3PO4
+  rho_MgCaCl
+  rho_MgNaCl
+  rotter
+  run_cell_range
   run_cells
   s1
   salt_ec
   salt_ec_chart
+  salt_sc
+  salt_sc1
   samemodel
-  saver
+  sar
+  Sat_P_rho
   saunders
-  sit_redox
-  solid_solution
-  solid_solution_pz
-  solution_s
-  species_formula
-  spread_solution
+  saver
+  SC_Ohm
+  SC_Ohm1
+  SC_temp
   sc1
   sc2
   sc3
@@ -141,130 +346,67 @@ set(TESTS
   sc6a
   sc6b
   sc7
+  seaw_anhyd
+  sit_edl
+  sit_redox
+  solid_solution
+  solid_solution_pz
+  soln_vol
+  solution_s
+  spec_cond
+  species_formula
+  spread_redox
+  spread_solution
+  SrSO4_P
+  SrSO4_tc
+  ss_incr
+  ss_r
   stag_diss_only
-  surf3
+  str_f
+  stuyfz
   surf_check
-  surf3_density
-  surf_related
-  surf_related_pz
   surf_kin_related
   surf_kin_related_pz
+  surf_related
+  surf_related_pz
   surf_related_warnings
+  surf_total
   surf_transport
+  surf3
+  surf3_density
+  surface_mix
   surface_punch_all
-  ss_r
+  SurfMixRelatedKin
+  SurfMixRelatedMin
+  Syn1_acidbase
+  sys_equi
+  sys_equi_fix
   sys_ex
   sys_gas
+  sys_kin
+  sys_sort
   t2
   t922
+  ternary
   test_sit
+  toner
+  TonyLitharge2a
+  TotalPlus
   transport
   transport.dl
   trim
+  unequal
+  uphill_NP
+  uphill_NPa
   user_print
   using
-  volume-zero
-  y_H2O
-  zn.test
-  zero_modify
-  ex1
-  ex2
-  ex3
-  ex4
-  ex5
-  ex6
-  ex7
-  ex8
-  ex8_tail_biter
-  ex9
-  ex10
-  ex10_pz
-  ex11
-  ex12
-  ex20_debug
-  ex6.cvode
-  ex9.cvode
-  ex15.cvode
-  colt1
-  colt2
-  colt3
-  colt3_mi
-  colt4
-  colt5
-  minteq
-  minteqv4
-  ex16mp
-  ex17mp
-  ex18mp
-  feb
-  febmp
-  katz
-  np.testmp
-  oxygenmp
-  spread_redox
-  raw
-  ppdump
-  diel
-  H_K
-  Sat_P_rho
-  densities
-  CH4_conc_PR_IS
-  CO2_anal
-  CO2_conc_PR_EQ
-  CO2_conc_PR_GP
-  CO2_conc_PR_IS
-  CO2_K_H
-  CO2_4M_NaCl
-  CO2_Na2SO4
-  co2_t30
-  co2_tc
-  fix_P
-  fix_V
-  gas_fix_P
-  gas_fix_V
-  gypsum_P
-  gypsum_P2
-  N2_conc_PR_IS
-  N2_ideal
-  NaCl
-  O2_conc_PR_IS
-  P_CO2_Na2SO4
-  P_Vm
-  phi_Angus
-  phi_Duan_PR
-  phi_Duan_PR_EQ
-  PR_EQ
-  PR_EQ_GP
-  PR_equil
-  PR_equil2
-  PR_initial_gas
-  PR_initial_gas_noredox
-  PR_mx_new
-  ternary
-  water_vp1
-  Barite_MCl2
-  Barite_NaCl
-  Barite_tc
-  cc_P
-  cc_P0
-  cc_P2
-  cc_P3
-  evap_sea
-  halite
-  seaw_anhyd
-  SrSO4_P
-  SrSO4_tc
-  water_vp
-  Apelbl_Na2CO3
-  mV_SO4_rho
-  mV1_rho
-  mV2_rho
-  pKw
+  variable_cell_diffusion
   Vm_BaCl2_sol
   Vm_CaCl2_sol
   Vm_HCl_sol
   Vm_KCl_sol
   Vm_KHCO3_sol
+  Vm_LiCl_sol
   Vm_MgCl2_sol
   Vm_Na2CO3_sol
   Vm_Na2SO4_sol
@@ -272,182 +414,38 @@ set(TESTS
   Vm_NaHCO3_sol
   Vm_NaNO3_sol
   Vm_NH4Cl_sol
-  Vm_SrCl2_sol
-  rho_CaNaCl
-  rho_CaKMgNaCl
-  co2_VP
-  phi_CO2-CH4_GP
-  rho_MgCaCl
-  rho_MgNaCl
   Vm_salt
   Vm_salt_65
   Vm_salt_fig
+  Vm_SrCl2_sol
   Vm0_tc
-  Carnallite
-  K2SO4
-  KCl
-  KCl-SO4
-  MgCl2
-  MgCl-SO4
-  MgSO4
-  Na2SO4
-  Na2SO4_phr
-  NaCl_temp
-  NaCl-SO4
-  NaKCl
-  NaMgCl
-  14C_isotopes
-  str_f
-  anhy_K2SO4
-  anhy_Na2SO4
-  anhy_NaCl
-  gyps_NaCl
-  gyps_Na2SO4
-  gypsum
-  gas9
-  Halite_P
-  anh_P_NaCl
-  gypsum_P5
-  multi_punch
-  rho_H3PO4
-  soln_vol
-  Vm_LiCl_sol
-  negative_user_number
-  run_cell_range
-  punch_stream
-  modify_ignore
-  connect_graph
-  variable_cell_diffusion
-  no_negative_dump
-  reaction_pressure_gas
-  pitzer_redef_2
-  KinSorbNp
-  lkspecies
-  Nardi
-  jm_trans
-  andsurfcomplex4
-  diff_c
-  cc_1barCO2
-  surf_total
-  peng_SO2
-  num_spread
-  sys_equi
-  toner
-  lk_phase
-  calcite_rate
-  CFAscmtest
-  sar
-  CO2_sp_IS
-  Hebach
-  erm
-  co2_pressure_bug
-  edl_species
-  R-04_01_PHRC
-  McBride_rho
-  Ca-As-Mahoney
-  missing_surf_related_equi
-  missing_surf_related_kin
-  SC_temp
-  feedwater
-  current1
-  uphill_NP
-  SC_Ohm
-  adapted_minteq
-  sys_kin
-  harm_mean
-  unequal
-  Syn1_acidbase
-  phase_vm
-  low_p
-  calc_density
-  Ratework
-  salt_sc
-  IL_flux
-  SC_Ohm1
-  salt_sc1
-  McClesk
-  stuyfz
-  opa_col3
-  sys_equi_fix
-  pr_h2o
-  ex7_T_P
-  antarcticite
-  DonnanBug
-  IllitisationCEC
-  PercentSC
-  ExchangeGamma
-  count_database_species_core10
-  dist_x
-  balonis
-  mmb2_pitzer
-  ddl_set
-  rotter
-  gas_type_switch
-  CalPortDiff
-  ss_incr
-  gas_phase_mix
-  iso_inverse
-  TonyLitharge2a
-  implicit_as
-  surface_mix
-  andra_kin_ss
-  ex12b
-  ex13_impl
-  Cub
-  ExchMixRelatedMin
-  ExchMixRelatedKin
-  SurfMixRelatedMin
-  SurfMixRelatedKin
-  MoreExchMix
-  notab
-  zeta
-  sys_sort
-  kinetic_rates
-  delta_h
-  uphill_NPa
-  ##{ missing from original list
-  advect_ranges
-  cdmusic_hiemstra
-  CO2_conc_PR_GP1
-  Fe+2
-  H2S_71C
-  H2S_Amm
-  H2S_NaCl_Na2SO4
-  H2S_numerical
-  H2S_pz
-  H2S_pz_appt
-  H2S_sit
-  Hao
-  Hao_wateq4fhao
-  Jiang_pz
-  NaOH_density
-  osmotic
-  sit_edl
-  spec_cond
-  TotalPlus
-  ##} missing from original list
-  current_analytical
-  current2
+  volume-zero
+  water_vp
+  water_vp1
   wjAs2
+  y_H2O
+  zero_modify
+  zeta
+  zn.test
 )
 
 # expect to fail
 set(FAILS
-  high_mu
-  modify_test
-  negexp_totmol
-  pitzer_fail
-  surf_related_warnings
-  raw
-  negative_user_number
-  punch_stream
   CFAscmtest
+  feedwater
+  Hao
+  high_mu
+  IllitisationCEC
   missing_surf_related_equi
   missing_surf_related_kin
-  feedwater
+  modify_test
+  negative_user_number
+  negexp_totmol
+  pitzer_fail
+  punch_stream
+  raw
+  surf_related_warnings
   Syn1_acidbase
-  IllitisationCEC
-  Hao
   wjAs2
 )
 
@@ -469,9 +467,9 @@ set(mytest_MISC
   cc_P.dat
   cc_tc100.dat
   cdmusic_hiemstra.dat
+  ch4_100c.dat
   ch4_25c.dat
   ch4_50c.dat
-  ch4_100c.dat
   co2_4m_NaCl.dat
   CO2_Na2SO4.dat
   co2_t30.dat
@@ -538,8 +536,130 @@ set(mytest_MISC
   zeta.tsv
 )
 
+# label H2S_files
+# ctest -L H2S_files
+set(H2S_FILES
+  mytest.CO2_conc_PR_GP1
+  mytest.H2S_71C
+  mytest.H2S_Amm
+  mytest.H2S_NaCl_Na2SO4
+  mytest.H2S_numerical
+  mytest.H2S_pz
+  mytest.H2S_pz_appt
+  mytest.H2S_sit
+  mytest.Jiang_pz
+)
+
+# label current
+# ctest -L pitzer
+set(CURRENT
+  #mytest.Clogging
+  mytest.current_analytical
+  mytest.current2
+)
+
+# label pitzer
+# ctest -L pitzer
+set(PITZER
+  mytest.anh_P_NaCl
+  mytest.anhy_K2SO4
+  mytest.anhy_Na2SO4
+  mytest.anhy_NaCl
+  mytest.Barite_MCl2
+  mytest.Barite_NaCl
+  mytest.Carnallite
+  mytest.cc_1barCO2
+  mytest.CO2_4M_NaCl
+  mytest.CO2_Na2SO4
+  mytest.evap
+  mytest.evap_sea
+  mytest.ex10_pz
+  mytest.exch_kin_related_pz
+  mytest.exch_related_pz
+  #mytest.fail1
+  #mytest.fail2
+  #mytest.fail3
+  mytest.fixed_volume_gas_pz
+  mytest.gyps_Na2SO4
+  mytest.gyps_NaCl
+  mytest.gypsum
+  mytest.gypsum_P2
+  mytest.gypsum_P5
+  mytest.halite
+  mytest.Halite_P
+  mytest.K2SO4
+  mytest.KCl
+  mytest.KCl-SO4
+  mytest.local_min_pz
+  mytest.MgCl-SO4
+  mytest.MgCl2
+  mytest.mgcl2mgso4_pz
+  mytest.MgSO4
+  mytest.Na2SO4
+  mytest.NaCl
+  mytest.NaCl_temp
+  mytest.NaCl-SO4
+  mytest.NaKCl
+  mytest.NaMgCl
+)
+
+# frezchem labels
+# ctest -L frezchem
+set(FREZCHEM
+  mytest.anh_P_NaCl
+  mytest.anhy_K2SO4
+  mytest.anhy_Na2SO4
+  mytest.anhy_NaCl
+  mytest.Carnallite
+  mytest.evap_sea
+  mytest.ex10_pz
+  mytest.exch_kin_related_pz
+  mytest.exch_related_pz
+  mytest.fixed_volume_gas_pz
+  mytest.gyps_Na2SO4
+  mytest.gyps_NaCl
+  mytest.gypsum
+  mytest.gypsum_P2
+  mytest.gypsum_P5
+  mytest.halite
+  mytest.Halite_P
+  mytest.K2SO4
+  mytest.KCl-SO4
+  mytest.MgCl-SO4
+  mytest.mgcl2mgso4_pz
+  mytest.Na2SO4
+  mytest.NaCl-SO4
+  mytest.NaKCl
+  mytest.NaMgCl
+)
+
+# ss labels
+# ctest -L ss
+set(SS
+  mytest.basic_test
+  mytest.cell_operations
+  mytest.ex20_debug
+  mytest.iso_example
+  mytest.iso10
+  mytest.kin_time
+  mytest.mixes
+  mytest.modify_ignore
+  mytest.multi_punch
+  mytest.no_negative_dump
+  mytest.phase_formula
+  mytest.ppdump
+  mytest.pyrite_34s
+  mytest.solid_solution
+  mytest.solid_solution_pz
+  mytest.ss_incr
+  mytest.ss_r
+  mytest.surface_punch_all
+)
+
+
 # long_debug
 # > 600 seconds Debug
+# ctest -L long_debug
 set(LONG_DEBUG
   mytest.adapted_minteq
   mytest.count_database_species
@@ -554,11 +674,12 @@ set(LONG_DEBUG
 
 # long_memcheck
 # > 600 seconds valgrind
+# ctest -L long_memcheck
 set(LONG_MEMCHECK
   mytest.andra_kin_ss
   mytest.balonis
-  mytest.opa_col3
   mytest.current1
+  mytest.opa_col3
 )
 
 # for mytest tests
@@ -579,28 +700,56 @@ foreach(test ${FAILS})
   set_tests_properties(mytest.${test} PROPERTIES WILL_FAIL TRUE)
 endforeach()
 
-# # disable tests that take too long
-# foreach(test ${SKIP})
-#   set_tests_properties(mytest.${test} PROPERTIES DISABLED TRUE)
-# endforeach()
+# Note when setting labels we can't use the following:
+#   set_tests_properties(${test} PROPERTIES LABELS "pitzer")
+# since it will overwrite any existing labels already set
 
-# Label tests that run longer than 600 seconds
-# note that when using multiconfig generators you must specify
-# the configuration
+# H2S_files labels
+foreach(test ${H2S_FILES})
+  set_property(TEST ${test} APPEND PROPERTY LABELS "H2S_files")
+endforeach()
+
+# current labels
+foreach(test ${CURRENT})
+  set_property(TEST ${test} APPEND PROPERTY LABELS "current")
+endforeach()
+
+# pitzer labels
+foreach(test ${PITZER})
+  set_property(TEST ${test} APPEND PROPERTY LABELS "pitzer")
+endforeach()
+
+# frezchem labels
+foreach(test ${FREZCHEM})
+  set_property(TEST ${test} APPEND PROPERTY LABELS "frezchem")
+endforeach()
+
+# ss labels
+foreach(test ${SS})
+  set_property(TEST ${test} APPEND PROPERTY LABELS "ss")
+endforeach()
+
+# Label tests that run longer than 600 seconds (Debug)
+#
+# Note that when using multi-configuration generators you must specify
+# the configuration when using the --print-labels option
 # ie
-# ctest --print-labels -C Debug
-# override default TIMEOUT using CTEST_TEST_TIMEOUT or
+#   ctest --print-labels -C Debug
+#
+# Override default TIMEOUT using CTEST_TEST_TIMEOUT or
 # command line option --timeout <time>
 # ie
-# ctest --timeout 1200
+#   ctest --timeout 1200
+# or set for each test explicitly using
+#   set_tests_properties(test PROPERTIES TIMEOUT 1200)
+#
 foreach(test ${LONG_DEBUG})
-  set_tests_properties(${test} PROPERTIES LABELS "long_debug;long_memcheck") 
-  ##set_tests_properties(mytest.${test} PROPERTIES TIMEOUT 1200)
+  set_property(TEST ${test} APPEND PROPERTY LABELS "long_debug")
+  set_property(TEST ${test} APPEND PROPERTY LABELS "long_memcheck")
 endforeach()
 
 foreach(test ${LONG_MEMCHECK})
-  set_tests_properties(${test} PROPERTIES LABELS "long_memcheck") 
-  ##set_tests_properties(mytest.${test} PROPERTIES TIMEOUT 1200)
+  set_property(TEST ${test} APPEND PROPERTY LABELS "long_memcheck")
 endforeach()
 
 # numdiff tests
@@ -614,18 +763,28 @@ if (NUMDIFF_COMMAND)
   foreach(numdiff ${NUMDIFFS})
     configure_file(${numdiff} ${numdiff}.expected COPYONLY)
     string(REGEX REPLACE "_101.sel" "" prefix ${numdiff})
-    set(test_name mytest.numdiff.${prefix})
+    set(test_name mytest.${prefix}.numdiff)
     # add if not expected to fail
     if (NOT ${prefix} IN_LIST FAILS)
       add_test(NAME ${test_name}
                COMMAND ${NUMDIFF_COMMAND} --relative-tolerance=${REL_ERROR} ${numdiff} ${numdiff}.expected
       )
+      
       # must run mytest.${prefix} first (to generate ${prefix}_101.sel)
       set_tests_properties(${test_name} PROPERTIES DEPENDS mytest.${prefix})
+
+      # add corresponding labels to numdiff tests
+      get_test_property(mytest.${prefix} LABELS labels)
+      foreach(label ${labels})
+        if (label)
+          set_property(TEST ${test_name} APPEND PROPERTY LABELS ${label})
+        endif()
+      endforeach()
     endif()
-    # disable tests that take too long
-    if (${prefix} IN_LIST SKIP)
-      set_tests_properties(${test_name} PROPERTIES DISABLED TRUE)
-    endif()
+
+    # # disable tests that take too long
+    # if (${prefix} IN_LIST SKIP)
+    #   set_tests_properties(${test_name} PROPERTIES DISABLED TRUE)
+    # endif()
   endforeach()
 endif()

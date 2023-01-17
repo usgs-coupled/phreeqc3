@@ -34,7 +34,7 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-  test:
+  ctest:
     strategy:
       fail-fast: false
       matrix:
@@ -67,8 +67,17 @@ jobs:
       with:
         arch: x64
 
-    - name: CTest
+    - name: CTest (Non-macOS)
+      if: runner.os != 'macOS'
       run: ctest -S ctest.cmake -V --output-on-failure -j 2
+
+    - name: CTest (macOS)
+      if: runner.os == 'macOS'
+      run: ctest -S ctest.cmake -V --output-on-failure -j 3
+
+    - name: CMemCheck (Linux)
+      if: runner.os == 'Linux'
+      run: ctest -S cmemcheck.cmake -V --output-on-failure -j 2
 
     - name: Upload results
       uses: actions/upload-artifact@v3
