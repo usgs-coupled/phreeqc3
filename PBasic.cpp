@@ -3610,7 +3610,7 @@ factor(struct LOC_exec * LINK)
 
 		std::string std_num;
 		{
-			snprintf(token, sizeof(token), "%*.*e", length, width, nmbr);
+			snprintf(token, max_length, "%*.*e", length, width, nmbr);
 			std_num = token;
 		}
 
@@ -3653,7 +3653,7 @@ factor(struct LOC_exec * LINK)
 
 		std::string std_num;
 		{
-			snprintf(token, sizeof(token), "%*.*f", length, width, nmbr);
+			snprintf(token, max_length, "%*.*f", length, width, nmbr);
 			std_num = token;
 		}
 
