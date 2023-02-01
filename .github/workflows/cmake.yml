@@ -7,7 +7,16 @@ on:
     branches: [master, develop]
 
 jobs:
+  check_files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Check out repository
+      - run: ./check_utf8.sh
+        name: Run check_utf8.sh
+
   build:
+    needs: [check_files]
     strategy:
       fail-fast: false
       matrix:
@@ -69,11 +78,11 @@ jobs:
 
     - name: CTest (Non-macOS)
       if: runner.os != 'macOS'
-      run: ctest -S ctest.cmake -V --output-on-failure -j 2
+      run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 2
 
     - name: CTest (macOS)
       if: runner.os == 'macOS'
-      run: ctest -S ctest.cmake -V --output-on-failure -j 3
+      run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 3
 
     - name: CMemCheck (Linux)
       if: runner.os == 'Linux'
