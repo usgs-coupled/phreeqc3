@@ -1689,7 +1689,7 @@ pr_pressure(const char *phase_name)
 		warning_msg(error_string);
 		return (1e-99);
 	}
-	else if (phase_ptr->in != FALSE && phase_ptr->pr_in)
+	else if (phase_ptr->in != FALSE && phase_ptr->pr_p)
 	{
 		return phase_ptr->pr_p;
 	}
@@ -1718,7 +1718,7 @@ pr_phi(const char *phase_name)
 		warning_msg(error_string);
 		return (1e-99);
 	}
-	else if (phase_ptr->in != FALSE && phase_ptr->pr_in)
+	else if (phase_ptr->in != FALSE && phase_ptr->pr_p)
 	{
 		return phase_ptr->pr_phi;
 	}

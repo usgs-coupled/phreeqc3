@@ -1,0 +1,58 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                 PR_error_incremental_101.sel
+USER_PUNCH 101
+    -headings PR_P PR_PHI
+    -start
+10 PUNCH STR_F$(PR_P("CO2(g)"), 20, 12)
+20 PUNCH STR_F$(PR_PHI("CO2(g)"), 20, 10)
+    -end
+SOLUTION 1
+    temp      25
+    pressure 10
+    pH        7 
+ END
+
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 10
+    -volume   1
+    -temperature 25.0
+    CO2(g) 10
+END
+
+RATES
+    CO2_kinetic
+-start
+ 10   k = 3.0*(10^(-2))
+ #20  conc_co2=TOT("CO2(g)")
+ #20  if (conc_co2<= 0) then goto 200
+ 20  if (SI("CO2(g)")<= -8) then goto 200
+ 30  rateco2 = k*ACT("CO2")*ACT("H2O")
+ 40  moles = rateco2 * TIME
+ 200 SAVE moles
+-end
+
+KINETICS 1
+CO2_kinetic
+      -formula CO2 1.0
+      -m0       0.1
+      -tol      1e-08
+-steps 25 in 2 # 50 100 200 300 400 500 600 700 
+-step_divide 1e-4
+-cvode true
+
+INCREMENTAL_REACTIONS True
+
+REACTION_TEMPERATURE 1
+   25
+
+USE SOLUTION 1
+USE GAS_PHASE 1
+USE KINETICS 1
+USE REACTION_TEMPERATURE 1
+USER_PRINT
+# These were wrong on second step of INCREMENTAL_REACTIONS
+10 PRINT PR_P("CO2(g)"), PR_PHI("CO2(g)")
+
+END
