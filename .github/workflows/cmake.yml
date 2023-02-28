@@ -5,6 +5,9 @@ on:
     branches: [master, develop]
   pull_request:
     branches: [master, develop]
+  schedule:
+    - cron: '1 2 2/7 * *'
+  workflow_dispatch:
 
 jobs:
   check_files:
@@ -14,6 +17,69 @@ jobs:
         name: Check out repository
       - run: ./check_utf8.sh
         name: Run check_utf8.sh
+
+  build-numdiff:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: '⚫', sys: mingw32 }
+          # - { icon: '🟦', sys: mingw64 }
+          # - { icon: '🟨', sys: ucrt64  }
+          # - { icon: '🟧', sys: clang64 }
+    name: 🚧${{ matrix.icon }} ${{ matrix.sys }}
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v3
+      with:
+        repository: usgs-coupled/numdiff
+
+    - name: Cache numdiff
+      id: cache-numdiff
+      uses: actions/cache@v3
+      with:
+        path: ${{ runner.workspace }}/${{ matrix.sys }}
+        key: ${{ runner.workspace }}-${{ matrix.sys }}
+
+    - name: '${{ matrix.icon }} Setup MSYS2'
+      if: steps.cache-numdiff.outputs.cache-hit != 'true'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.sys }}
+        update: true
+        install: >-
+          make
+          texinfo
+          texinfo-tex
+        pacboy: >-
+          texlive-bin:p
+          texlive-core:p
+          texlive-plain-generic:p
+          texlive-fonts-recommended:p
+          toolchain:p
+
+    - name: '🚧 Build numdiff'
+      if: steps.cache-numdiff.outputs.cache-hit != 'true'
+      run: |
+        mkdir _build
+        cd _build
+        ../configure --prefix $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")
+        make -j2
+        make install
+        cp $(which libgmp-10.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
+        cp $(which libiconv-2.dll) $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
+        cp $(which libintl-8.dll)  $(cygpath "${{ runner.workspace }}/${{ matrix.sys }}/${{ matrix.sys }}")/bin/.
+
+    - name: 'Upload artifact'
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.sys }}-artifact
+        path: ${{ runner.workspace }}/${{ matrix.sys }}
 
   build:
     needs: [check_files]
@@ -49,7 +115,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
-    needs: [build]
+    needs: [build, build-numdiff]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -63,12 +129,11 @@ jobs:
       if: runner.os == 'macOS'
       run: brew install ninja numdiff
 
-    - name: Install numdiff (Windows)
+    - name: Download numdiff (Windows)
       if: runner.os == 'Windows'
-      run: |
-        pip install gdown
-        gdown https://drive.google.com/uc?id=1daElRJphXTXSHdskLJsom_q8KCXW3RUv
-        7z x .\msys64.7z
+      uses: actions/download-artifact@v3
+      with:
+        name: mingw32-artifact
 
     - name: Set up Visual Studio shell (Windows)
       if: runner.os == 'Windows'
