@@ -5,6 +5,9 @@ on:
     branches: [master, develop]
   pull_request:
     branches: [master, develop]
+  schedule:
+    - cron: '1 2 2/7 * *'
+  workflow_dispatch:
 
 jobs:
   check_files:
@@ -132,38 +135,26 @@ jobs:
       with:
         name: mingw32-artifact
 
-    - name: Check numdiff download
+    - name: Set up Visual Studio shell (Windows)
       if: runner.os == 'Windows'
-      run: |
-        Get-ChildItem -Recurse
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
 
-    # - name: Install numdiff (Windows)
-    #   if: runner.os == 'Windows'
-    #   run: |
-    #     pip install gdown
-    #     gdown https://drive.google.com/uc?id=1daElRJphXTXSHdskLJsom_q8KCXW3RUv
-    #     7z x .\msys64.7z
+    - name: CTest (Non-macOS)
+      if: runner.os != 'macOS'
+      run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 2
 
-    # - name: Set up Visual Studio shell (Windows)
-    #   if: runner.os == 'Windows'
-    #   uses: egor-tensin/vs-shell@v2
-    #   with:
-    #     arch: x64
+    - name: CTest (macOS)
+      if: runner.os == 'macOS'
+      run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 3
 
-    # - name: CTest (Non-macOS)
-    #   if: runner.os != 'macOS'
-    #   run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 2
+    - name: CMemCheck (Linux)
+      if: runner.os == 'Linux'
+      run: ctest -S cmemcheck.cmake -V --output-on-failure -j 2
 
-    # - name: CTest (macOS)
-    #   if: runner.os == 'macOS'
-    #   run: ctest -S ctest.cmake -V --output-on-failure --timeout 900 -j 3
-
-    # - name: CMemCheck (Linux)
-    #   if: runner.os == 'Linux'
-    #   run: ctest -S cmemcheck.cmake -V --output-on-failure -j 2
-
-    # - name: Upload results
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: ${{ matrix.os }}-results
-    #     path: ${{ github.workspace }}/_ctest/Testing/
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}-results
+        path: ${{ github.workspace }}/_ctest/Testing/
