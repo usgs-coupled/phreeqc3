@@ -431,7 +431,8 @@ succeed: \
 	cdmusic_hiemstra.out \
 	advect_ranges.out \
 	osmotic.out \
-	spec_cond.out
+	spec_cond.out \
+	PR_error_incremental.out
 	
 H2S_files: \
 	H2S_Amm.out \
