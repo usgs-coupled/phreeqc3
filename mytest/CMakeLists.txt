@@ -302,6 +302,7 @@ set(TESTS
   PR_equil
   PR_equil2
   pr_h2o
+  PR_error_incremental
   PR_initial_gas
   PR_initial_gas_noredox
   PR_mx_new
