@@ -2,10 +2,9 @@ DATABASE ../database/phreeqc.dat
 SELECTED_OUTPUT 101
     -file                 PR_error_incremental_101.sel
 USER_PUNCH 101
-    -headings PR_P PR_PHI
+    -headings PR_P_CO2 PR_PHI_CO2 PR_P_H2 PR_PHI_H2
     -start
-10 PUNCH STR_F$(PR_P("CO2(g)"), 20, 12)
-20 PUNCH STR_F$(PR_PHI("CO2(g)"), 20, 10)
+10 PUNCH PR_P("CO2(g)"), PR_PHI("CO2(g)"),  PR_P("H2(g)"), PR_PHI("H2(g)")
     -end
 SOLUTION 1
     temp      25
@@ -53,6 +52,31 @@ USE KINETICS 1
 USE REACTION_TEMPERATURE 1
 USER_PRINT
 # These were wrong on second step of INCREMENTAL_REACTIONS
-10 PRINT PR_P("CO2(g)"), PR_PHI("CO2(g)")
+10 PRINT "CO2(g) P, PHI: ",PR_P("CO2(g)"), PR_PHI("CO2(g)")
+20 PRINT " H2(g) P, PHI: ",PR_P("H2(g)"), PR_PHI("H2(g)")
 
 END
+PHASES
+CO2(g)    
+        CO2 = CO2                                                                   
+        log_k           -1.468
+        delta_h -4.776 kcal
+        -analytical     108.3865      0.01985076   -6919.53      -40.45154      669365.0
+H2(g)
+        H2 = H2                                                                  
+        log_k           -3.150
+        delta_h -1.759 kcal
+END	
+GAS_PHASE 1
+    -fixed_pressure
+    -pressure 10
+    -volume   1
+    -temperature 25.0
+    CO2(g) 10
+END	
+USE SOLUTION 1
+USE GAS_PHASE 1
+USE KINETICS 1
+USE REACTION_TEMPERATURE 1
+END
+

@@ -1,5 +1,171 @@
 Version @PHREEQC_VER@: @PHREEQC_DATE@
   	-----------------
+	February 28, 2023
+  	-----------------
+	PhreeqcRM: 	Revised names for PhreeqcRM test case source and output 
+	files (Tests subdirectory of distribution). Added tests SimpleAdvect_cpp  
+    and SimpleAdvect_f90, which produce the same results as Advect_cpp
+    and Advect_f90, but with a minimal set of PhreeqcRM method calls. 	
+
+  	-----------------
+	February 26, 2023
+  	-----------------
+	PhreeqcRM: 	Added method InitializeYAML to initialize a PhreeqcRM
+	instance.
+	
+	It is possible to use a YAML  file to initialize the PhreeqcRM instance. 
+	If a GUI is used to define model input, a YAML file could be used to 
+	transfer the data from the GUI to a PhreeqcRM instance. The YAML file 
+	contains names of PhreeqcRM	methods and associated data, for example:
+	
+	RunFile:
+      workers: true
+      initial_phreeqc: true
+      utility: true
+      chemistry_name: advect.pqi
+		
+	InitializeYAML can be used to process the directives defined in 
+	the YAML file. The method InitializeYAML is equivalent to BMI_Initialize.
+	
+	A C++ class named YAMLPhreeqcRM is included in the Tests subdirectory
+	of the PhreeqcRM distribution, which provides the capability to generate
+	a PhreeqcRM YAML file. The file WriteYAMLFile.cpp generates a YAML file
+	and advection_bmi_cpp.cpp reads and processes the file to initialize
+	a PhreeqcRM instance. 
+
+  	-----------------
+	February 26, 2023
+  	-----------------
+	PhreeqcRM: Added a rudimentary BMI (Basic Model Interface) for C++. 
+	The interface adds minimal capabilities to the other methods of 
+	PhreeqcRM. The only new capabilities are (1) the capability to
+	retrieve units for the variables for BMI_GetValues and BMI_SetValues,
+	and (2) the capability to use YAML (YAML ain't Markup Language)
+	to initialize a PhreeqcRM instance with the method BMI_Initialize
+	(which is equivalent to the method InitializeYAML).	The YAML 
+	capability would be especially useful if a GUI (Graphical User Interface)
+	is used to set up model initial conditions. The GUI could write a YAML file
+	that contains directives for PhreeqcRM methods that need to be run and 
+	the corresonding data needed to initialize a PhreeqcRM instance--for example, 
+	setting units; running a PHREEQC input	file to define initial and 
+	boundary conditions; distribution of initial conditions to the model cells; 
+	setting initial porosity, saturation, temperature, and pressure. 
+	When a PhreeqcRM instance is created by the simulator, it can process 
+	the YAML file with BMI_Initialize to execute the specified PhreeqcRM methods 
+	to apply the data specified in the YAML file. 
+	
+	The following is represents complete sequential, noniterative transport calculation:
+	
+	    PhreeqcRM phreeqc_rm(nxyz, nthreads);
+        phreeqc_rm.BMI_Initialize("myfile.yaml");
+        int ncomps;
+        phreeqc_rm.BMI_GetValue("ComponentCount", &ncomps);
+        int ngrid;
+        phreeqc_rm.BMI_GetValue("GridCellCount", ngrid);
+        std::vector c(ngrid*ncomps, 0.0);
+        phreeqc_rm.BMI_GetValue("Concentrations", c.data());
+        phreeqc_rm.BMI_SetValue("TimeStep", 86400);
+        for(double time = 0; time < 864000; time+=86400)
+        {
+            // Take a transport time step here and update the vector c.
+			your_transport(c);
+            phreeqc_rm.BMI_SetValue("Time", time);
+            phreeqc_rm.BMI_SetValue("Concentrations", c.data());
+            phreeqc_rm.BMI_Update();
+            phreeqc_rm.BMI_GetValue("Concentrations", c.data());
+        }
+		
+	The complete set of BMI methods is as follows:
+	
+	std::string BMI_GetComponentName()
+		Returns "PhreeqcRM".
+		
+	double BMI_GetCurrentTime()
+		Returns current time that has been set by the user.
+		
+	double BMI_GetEndTime()
+		Returns current time plus the time step.
+		
+	int BMI_GetInputItemCount()
+		Returns the number of variables that it is possible to set
+		with BMI_SetValue.
+		
+	std::vector<std::string> BMI_GetInputVarNames()
+		Returns a list of the names of variables that can be set
+		with BMI_SetValue.
+		
+	int BMI_GetOutputItemCount()
+		Returns the number of variables that it is possible to retrieve
+		with BMI_GetValue.
+		
+	std::vector<std::string> BMI_GetOutputVarNames()
+		Returns a list of the names of variables that can be retrieved
+		with BMI_GetValue.
+		
+	double BMI_GetTimeStep()
+		Returns the current time step that has been set by the user.
+		
+	std::string BMI_GetTimeUnits()
+		Returns "seconds".
+		
+	void BMI_GetValue(std::string name, void* dest)
+		Returns a value or vector of values for the variable identified by name.
+		
+	int BMI_GetVarItemsize(std::string name)
+		Returns the number of bytes needed for one element of the variable
+		identified by name.
+		
+	int BMI_GetVarNbytes(std::string name)
+		Returns the total number of bytes neded to store the value or vector
+		of values identified by name.
+		
+	std::string BMI_GetVarType(std::string name)
+		Returns the type of the variable identified by name: "int", "double", or
+		"string".
+		
+	std::string BMI_GetVarUnits(std::string name)	
+		Returns the units associated with the variable identified by name.
+		
+	void BMI_Initialize(std::string config_file)
+		Same as InitializeYAML discussed above.
+
+	void BMI_SetValue(std::string name, void* src)
+		Sets the value or vector of values for the variable identified by name.
+		
+	void BMI_Update(void)
+		Calculates chemical reactions for a time step. It is equivalent to
+		the method RunCells. Equilibrium will be calculated between the solution 
+		and all equilibrium reactants (EQUILIBRIUM_PHASES, EXCHANGE, etc), and
+		KINETICS will be integrated for the time step.
+		
+  	-----------------
+	February 26, 2023
+  	-----------------
+	PHREEQC: Fixed bug with Basic functions PR_P and PR_PHI. Values
+	were incorrect after the first step when INCREMENTAL_REACTIONS
+	was set to true.
+	
+	-----------------
+	February 25, 2023
+  	-----------------
+	ALL PROGRAMS: Added the latest version of the database Thermoddem to 
+	the distributions of PHREEQC programs. The database was downloaded
+	from https://thermoddem.brgm.fr/.
+	
+	-----------------
+	March 23, 2022
+  	-----------------
+	PHREEQC: "MacInnes" was misspelled in one of the warning messages.
+
+  	-----------------
+	December 18, 2021
+	-----------------
+	PHREEQC: Fixed transport bug where the end cell should not have
+	been processed in part of the calculation.
+
+Version 3.7.3: December  2, 2021
+
+  	-----------------
 	November 27, 2021
 	-----------------
 	PHREEQC: Fixed a recently introduced bug in the options 
