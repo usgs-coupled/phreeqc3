@@ -8,7 +8,7 @@ EXTRA_DIST=\
 	Form1.h\
 	Form1.2005.resX\
 	Form1.resX\
-	ZedGraph.dll	
+	ZedGraph.dll
 
 AM_CPPFLAGS=-I$(top_srcdir)/src -I$(top_srcdir)/src/common -I$(top_srcdir)/src/PhreeqcKeywords
 

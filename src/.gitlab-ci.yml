@@ -18,7 +18,7 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts
   - git config --global user.email "darth@empire.com"
   - git config --global user.name "Darth Vader"
- 
+
 subtree-sync:
   stage: sync
 
@@ -34,7 +34,7 @@ subtree-sync:
       - master
     variables:
       - $GROUP
-  
+
   script:
     ##
     ## Must re-clone in order for the subtree merge to work
