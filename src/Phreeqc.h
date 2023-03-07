@@ -29,9 +29,9 @@ typedef unsigned char boolean;
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <math.h>
+#include <cmath>
 #include <errno.h>
-#include <float.h>
+#include <cfloat>
 #include "phrqtype.h"
 #include "cvdense.h"	
 #include "runner.h"
