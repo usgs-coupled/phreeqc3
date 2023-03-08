@@ -1846,7 +1846,7 @@ isfinite handling
 #  if __GNUC__ && (__cplusplus >= 201103L)
 #    define PHR_ISFINITE(x) std::isfinite(x)
 #  else
-#  define PHR_ISFINITE(x) isfinite(x)
+#  define PHR_ISFINITE(x) std::isfinite(x) /* changed when <math.h> was changed to <cmath> */
 #  endif
 #elif defined(HAVE_FINITE)
 #  define PHR_ISFINITE(x) finite(x)
