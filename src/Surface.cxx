@@ -498,13 +498,13 @@ cxxSurface::read_raw(CParser & parser, bool check)
 				error_msg("Only_counter_ions not defined for SURFACE_RAW input.",
 				PHRQ_io::OT_CONTINUE);
 		}
-		if (correct_GC_defined == false)
-		{
-			parser.incr_input_error();
-			parser.
-				error_msg("correct_GC not defined for SURFACE_RAW input.",
-				PHRQ_io::OT_CONTINUE);
-		}
+		//if (correct_GC_defined == false)
+		//{
+		//	parser.incr_input_error();
+		//	parser.
+		//		error_msg("correct_GC not defined for SURFACE_RAW input.",
+		//		PHRQ_io::OT_CONTINUE);
+		//}
 		if (thickness_defined == false)
 		{
 			parser.incr_input_error();
@@ -830,6 +830,6 @@ const std::vector< std::string >::value_type temp_vopts[] = {
 	std::vector< std::string >::value_type("n_solution"),	        // 16
 	std::vector< std::string >::value_type("totals"), 	            // 17
 	std::vector< std::string >::value_type("tidied"),	            // 18
-	std::vector< std::string >::value_type("correct_GC")	        // 19
+	std::vector< std::string >::value_type("correct_gc")	        // 19
 };
 const std::vector< std::string > cxxSurface::vopts(temp_vopts, temp_vopts + sizeof temp_vopts / sizeof temp_vopts[0]);	
