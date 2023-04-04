@@ -28,7 +28,9 @@ set(TESTS
   Barite_tc
   basic_test
   brown
+  Ca_Na_K_Clmix
   Ca-As-Mahoney
+  CaCl2_P_T
   calc_density
   calc_SC
   calc_values
@@ -157,6 +159,7 @@ set(TESTS
   gas_type_switch
   gas9
   gfw
+  Goldsack
   gyps_Na2SO4
   gyps_NaCl
   gypsum
@@ -179,6 +182,7 @@ set(TESTS
   harm_mean
   Hebach
   high_mu
+  HNaK_Cl
   homo
   i2
   i3
@@ -226,9 +230,9 @@ set(TESTS
   McBride_rho
   McClesk
   membrane
-  MgCl-SO4
   MgCl2
   mgcl2mgso4_pz
+  MgCl-SO4
   MgSO4
   millero
   minteq
@@ -257,8 +261,12 @@ set(TESTS
   NaCl
   NaCl_temp
   NaCl-SO4
+  NaK_ClSO4
+  NaK_Mg_ClSO4
   NaKCl
+  NaKCl_Lang
   NaMgCl
+  NaNH4K_ClBrSO4
   NaOH_density
   Nardi
   negative_user_number
@@ -301,8 +309,8 @@ set(TESTS
   PR_EQ_GP
   PR_equil
   PR_equil2
-  pr_h2o
   PR_error_incremental
+  pr_h2o
   PR_initial_gas
   PR_initial_gas_noredox
   PR_mx_new
@@ -323,6 +331,7 @@ set(TESTS
   rho_MgCaCl
   rho_MgNaCl
   rotter
+  Ruby
   run_cell_range
   run_cells
   s1
@@ -347,7 +356,10 @@ set(TESTS
   sc6a
   sc6b
   sc7
+  seaw
+  seaw_0_200C
   seaw_anhyd
+  seaw_Fabuss
   sit_edl
   sit_redox
   solid_solution
@@ -401,7 +413,12 @@ set(TESTS
   uphill_NPa
   user_print
   using
+  v_TP_K2SO4
+  v_TP_MgSO4
+  v_TP_Na2SO4
   variable_cell_diffusion
+  visc_MgSO4
+  visc_NaK2SO4
   Vm_BaCl2_sol
   Vm_CaCl2_sol
   Vm_HCl_sol
@@ -425,8 +442,10 @@ set(TESTS
   water_vp1
   wjAs2
   y_H2O
+  Yang_mix
   zero_modify
   zeta
+  Zhang_mix
   zn.test
 )
 

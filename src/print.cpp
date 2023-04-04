@@ -2238,7 +2238,7 @@ print_totals(void)
 			   (double) calc_solution_volume()));
 	}
 /* VP: Density End */
-#ifdef NPP
+//#ifdef NPP
 	if (print_viscosity)
 	{
 		output_msg(sformatf("%45s%9.5f", "Viscosity (mPa s)  = ",
@@ -2255,7 +2255,7 @@ print_totals(void)
 		}
 		else output_msg(sformatf("\n"));
 	}
-#endif
+//#endif
 	output_msg(sformatf("%45s%7.3f\n", "Activity of water  = ",
 			   exp(s_h2o->la * LOG_10)));
 	output_msg(sformatf("%45s%11.3e\n", "Ionic strength (mol/kgw)  = ",
