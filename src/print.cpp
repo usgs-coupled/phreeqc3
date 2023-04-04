@@ -339,8 +339,12 @@ print_diffuse_layer(cxxSurfaceCharge *charge_ptr)
 		{
 			LDBLE exp_g = charge_ptr->Get_g_map()[1].Get_g() * mass_water_aq_x / mass_water_surface + 1;
 			LDBLE psi_DL = -log(exp_g) * R_KJ_DEG_MOL * tk_x / F_KJ_V_EQ;
-			output_msg(sformatf(
-				"\n\tTotal moles in diffuse layer (excluding water), Donnan calculation."));
+			if (use.Get_surface_ptr()->Get_correct_GC())
+				output_msg(sformatf(
+					"\n\tTotal moles in diffuse layer (excluding water), Donnan corrected to match Poisson-Boltzmann."));
+			else
+				output_msg(sformatf(
+					"\n\tTotal moles in diffuse layer (excluding water), Donnan calculation."));
 			output_msg(sformatf(
 				"\n\tDonnan Layer potential, psi_DL = %10.3e V.\n\tBoltzmann factor, exp(-psi_DL * F / RT) = %9.3e (= c_DL / c_free if z is +1).\n\n",
 				psi_DL, exp_g));

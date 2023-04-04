@@ -1,0 +1,178 @@
+DATABASE ../database/pitzer.dat
+SELECTED_OUTPUT 101
+    -file                v_TP_Na2SO4_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+# Abdulagatov et al., 2005, FPE 227, 57.
+SOLUTION 1
+pH 7 charge
+SAVE solution 1
+PRINT; -reset false
+END
+
+
+
+SOLUTION_MIX 2; 1 0.98796576; END
+USE solution 2	
+REACTION 1; Na2SO4 0.10560138	
+REACTION_TEMPERATURE 
+	 25.00, 50.55, 75.00, 100.65, 125.86, 149.46, 174.45, 197.55, 	
+USER_GRAPH 
+  -headings 0.107.M
+  -chart_title "Na2SO4, Abdulagatov, 25 - 200 oC, 1 - 291 atm"
+  -axis_titles "temperature / oC" "viscosity / (mPa s) "
+  -connect_simulations false
+  -axis_scale x_axis 0 225
+10 DATA 	 0.9335, 0.5741, 0.3977, 0.2947, 0.2321, 0.1927, 0.1633, 0.1432, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Red
+62 plot_xy tc, s, symbol = None, color = Red
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+# SOLUTION_MIX 2; 1 0.97296576; END
+# USE solution 2	
+# REACTION 1; Na2SO4 0.21120276	
+# REACTION_TEMPERATURE 
+	 # 25.00, 50.00, 75.20, 99.75, 125.25, 148.35, 174.66, 199.90, 	
+# USER_GRAPH; -headings 0.217.M	   
+# 10 DATA 	 0.9759, 0.5991, 0.4134, 0.3096, 0.2422, 0.2013, 0.1686, 0.1456, 	
+# 20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+# 30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+# 40 dif = 1 - v_(step_no) / s : adif = dif	
+# 44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+# 46 a = 1.00e0 : dif = dif * a	     
+# 50 REM	
+# 60 plot_xy tc, v_(step_no), line_width = 0, color = Green
+# 62 plot_xy tc, s, symbol = None 	, color = Green
+# 70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+# END	
+SOLUTION_MIX 2; 1 0.95296576; END
+USE solution 2	
+REACTION 1; Na2SO4 0.35200460	
+REACTION_TEMPERATURE 
+	 25.00, 50.65, 74.05, 98.80, 122.47, 151.52, 173.09, 197.01, 	
+USER_GRAPH; -headings 0.369.M
+10 DATA 	 1.0400, 0.6320, 0.4465, 0.3317, 0.2626, 0.2079, 0.1796, 0.1564, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Blue
+62 plot_xy tc, s, symbol = None 	, color = Blue
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+SOLUTION_MIX 2; 1 0.93296576; END
+USE solution 2	
+REACTION 1; Na2SO4 0.49280643	
+REACTION_TEMPERATURE 
+	 25.00, 50.10, 74.45, 100.75, 123.95, 152.45, 173.85, 199.05, 	
+USER_GRAPH; -headings 0.528.M
+10 DATA 	 1.1190, 0.6846, 0.4764, 0.3482, 0.2772, 0.2211, 0.1913, 0.1656, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Orange 
+62 plot_xy tc, s, symbol = None 	, color = Orange 
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+SOLUTION_MIX 2; 1 0.90296576; END
+USE solution 2	
+REACTION 1; Na2SO4 0.70400919	
+REACTION_TEMPERATURE 
+	 25.00, 49.90, 75.27, 99.25, 125.57, 148.25, 174.05, 198.16, 	
+USER_GRAPH; -headings 0.780.M
+10 DATA 	 1.2550, 0.7670, 0.5267, 0.3948, 0.3052, 0.2535, 0.2125, 0.1847, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Magenta 
+62 plot_xy tc, s, symbol = None 	, color = Magenta 
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+SOLUTION_MIX 2; 1 0.85296576; END
+USE solution 2	
+REACTION 1; Na2SO4 1.05601379	
+REACTION_TEMPERATURE 
+	 25.00, 50.25, 75.55, 99.65, 122.25, 148.15, 174.45, 199.90, 	
+USER_GRAPH; -headings 1.24.M
+10 DATA 	 1.5480, 0.9316, 0.6336, 0.4705, 0.3731, 0.2998, 0.2493, 0.2133, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Yellow 
+62 plot_xy tc, s, symbol = None 	, color = Yellow 
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+SOLUTION_MIX 2; 1 0.80296576; END
+USE solution 2	
+REACTION 1; Na2SO4 1.40801838	
+REACTION_TEMPERATURE 
+	 25.00, 50.00, 74.75, 101.35, 124.06, 147.15, 171.66, 199.15, 	
+USER_GRAPH; -headings 1.75.M
+10 DATA 	 1.9650, 1.1700, 0.7944, 0.5699, 0.4505, 0.3686, 0.3083, 0.2608, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Black 
+62 plot_xy tc, s, symbol = None 	, color = Black 
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+SOLUTION_MIX 2; 1 0.77296576; END
+USE solution 2	
+REACTION 1; Na2SO4 1.61922114	
+REACTION_TEMPERATURE 
+	 30.00, 50.00, 75.55, 97.25, 125.65, 149.36, 174.75, 198.85, 	
+USER_GRAPH; -headings 2.09.M
+10 DATA 	 1.9930, 1.3360, 0.8987, 0.6799, 0.5081, 0.4132, 0.3449, 0.2966, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Cyan 
+62 plot_xy tc, s, symbol = None 	, color = Cyan 
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	        
+END	
+SOLUTION_MIX 2; 1 0.74296576; END
+USE solution 2	
+REACTION 1; Na2SO4 1.83042390	
+REACTION_TEMPERATURE 
+	 30.00, 50.00, 75.45, 102.05, 126.25, 150.65, 174.45, 199.90, 	
+USER_GRAPH; -headings 2.46.M
+10 DATA 	 2.2450, 1.5050, 1.0170, 0.7321, 0.5695, 0.4623, 0.3901, 0.3308, 	
+20 restore 10 : erase v_ : dim v_(500) : for i = 1 to step_no : READ v_(i) : next i	
+30 s = viscos : if i = 1 and step_no = 1 then put(0, 1) : put(0, 2) : put(0, 9)	
+40 dif = 1 - v_(step_no) / s : adif = dif	
+44 dmax = 0.5e0 : if abs(dif) > dmax then dif = 0 : put(1 + get(9), 9)	
+46 a = 1.00e0 : dif = dif * a	     
+50 REM	
+60 plot_xy tc, v_(step_no), line_width = 0, color = Brown 
+62 plot_xy tc, s, symbol = None 	, color = Brown 
+70 if tc < 250 then put(dif^2 + get(1), 1) : put(1 + get(2), 2)	
+80 if step_no = 8 then print 's.d. for Na2SO4 :    ', (get(1) / (get(2) - 1))^0.5 * 100, '% (', trim(str$(get(2))), ' samples), 25 - 200 oC, Abdul, dif < ', str_f$(dmax, 0, 2) + '. ' + str_f$(get(9), 0, 0) + ' outliers.'	        
+END	

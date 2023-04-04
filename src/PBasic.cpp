@@ -7215,7 +7215,7 @@ _NilCheck(void)
 	return _Escape(-3);
 }
 
-#ifdef SKIP
+#ifdef NPP
 /* The following is suitable for the HP Pascal operating system.
    It might want to be revised when emulating another system. */
 

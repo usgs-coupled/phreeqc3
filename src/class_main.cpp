@@ -323,7 +323,7 @@ write_banner(void)
 
 	/* date */
 #ifdef NPP
-	len = snprintf(buffer, sizeof(buffer), "%s", "July 5, 2021");
+	len = snprintf(buffer, sizeof(buffer), "%s", "March 20, 2023");
 #else
 	len = snprintf(buffer, sizeof(buffer), "%s", "@VER_DATE@");
 #endif
@@ -507,7 +507,7 @@ process_file_names(int argc, char *argv[], std::istream **db_cookie,
 		output_msg(sformatf("   Input file: %s\n", in_file.c_str()));
 		output_msg(sformatf("  Output file: %s\n", out_file.c_str()));
 #ifdef NPP
-		output_msg(sformatf("Using PHREEQC: version 3.7.1, compiled July 5, 2021\n"));
+		output_msg(sformatf("Using PHREEQC: version 3.7.3, compiled March 20, 2023\n"));
 #endif
 		output_msg(sformatf("Database file: %s\n\n", token.c_str()));
 #ifdef NPP

@@ -67,6 +67,9 @@ public:
 	void Set_DDL_viscosity(LDBLE t) {DDL_viscosity = t;}
 	LDBLE Get_DDL_limit(void) const {return DDL_limit;}
 	void Set_DDL_limit(LDBLE t) {DDL_limit = t;}
+	bool Get_correct_GC(void) const { return correct_GC; }
+	void Set_correct_GC(bool tf) { correct_GC = tf; }
+	std::vector<LDBLE> Donnan_factors;
 	bool Get_transport(void) const {return transport;}
 	void Set_transport(bool tf) {transport = tf;}
 	cxxNameDouble & Get_totals() {return this->totals;}
@@ -91,6 +94,7 @@ protected:
 	LDBLE debye_lengths;
 	LDBLE DDL_viscosity;
 	LDBLE DDL_limit;
+	bool correct_GC;
 	bool transport;
 	cxxNameDouble totals;
 	bool solution_equilibria;

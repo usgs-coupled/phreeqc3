@@ -1,0 +1,113 @@
+DATABASE ../database/phreeqc.dat
+SELECTED_OUTPUT 101
+    -file                seaw_Fabuss_101.sel
+USER_PUNCH 101
+    -headings Mu SC Viscosity
+    -start
+10 PUNCH STR_F$(MU, 20, 12)
+20 PUNCH STR_F$(SC, 20, 10)
+30 PUNCH STR_F$(VISCOS, 20, 10)
+    -end
+# Fabuss et al, 1969, JCED 14, 192
+#PRINT; -reset false
+
+SOLUTION_SPREAD							
+Number	Na	K	Mg	Cl	S(6)	pH	temp
+-units mol/kgw							
+1	0.476320000	0.010070000	0.064570000	0.555950000	0.029790000	 7 charge	25
+2	0.714480000	0.015105000	0.096855000	0.833925000	0.044685000	 7 charge	25
+3	0.952640000	0.020140000	0.129140000	1.111900000	0.059580000	 7 charge	25
+4	1.190800000	0.025175000	0.161425000	1.389875000	0.074475000	 7 charge	25
+5	1.428960000	0.030210000	0.193710000	1.667850000	0.089370000	 7 charge	25
+USER_GRAPH
+-initial_solutions true
+-connect_simulations false
+-axis_scale x_axis 0.15 1.15
+-axis_scale y_axis 0.15 1.15
+-chart_title "(concentrated) Ca-free seawater"
+-axis_titles "measured viscosity / (mPa s)" calculated
+-headings 25ºC
+1 DATA 0.9580, 0.9936, 1.0314, 1.0717, 1.1149,  
+2 restore 1 : dim vr(50) : for i = 1 to cell_no : read vr(i) : next i
+10 plot_xy vr(cell_no ), viscos, line_width = 0
+14 put(abs((vr(cell_no) - viscos)^2) + get(1), 1)
+20 if sim_no > 1 or cell_no > 2 then end 
+30 if cell_no = 1 then xy = 0.15 else xy = 1.15
+40 plot_xy xy, xy, symbol = None , color = Black 
+END
+SOLUTION_SPREAD					
+Number	Na	K	Mg	Cl	S(6)	pH	temp
+-units mol/kgw					
+1	0.476320000	0.010070000	0.064570000	0.555950000	0.029790000	 7 charge	40
+2	0.714480000	0.015105000	0.096855000	0.833925000	0.044685000	 7 charge	40
+3	0.952640000	0.020140000	0.129140000	1.111900000	0.059580000	 7 charge	40
+4	1.190800000	0.025175000	0.161425000	1.389875000	0.074475000	 7 charge	40
+5	1.428960000	0.030210000	0.193710000	1.667850000	0.089370000	 7 charge	40
+USER_GRAPH
+-headings 40ºC
+1 DATA 0.7075, 0.7354, 0.7645, 0.7956, 0.8281,   
+2 restore 1 : dim vr(50) : for i = 1 to cell_no : read vr(i) : next i
+10 plot_xy vr(cell_no ), viscos, line_width = 0
+14 put(abs((vr(cell_no) - viscos)^2) + get(1), 1)
+END
+SOLUTION_SPREAD					
+Number	Na	K	Mg	Cl	S(6)	pH	temp
+-units mol/kgw					
+1	0.477225008	0.010089133	0.064692683	0.557006305	0.029846601	 7 charge	75
+2	0.715861328	0.015134203	0.097042253	0.835537255	0.044771391	 7 charge	75
+3	0.954497648	0.020179273	0.129391823	1.114068205	0.059696181	 7 charge	75
+4	1.193086336	0.025223336	0.161734936	1.392543560	0.074617992	 7 charge	75
+5	1.431722656	0.030268406	0.194084506	1.671074510	0.089542782	 7 charge	75
+USER_GRAPH
+-headings 75ºC
+1 DATA 0.4145, 0.4319, 0.4504, 0.4695, 0.4890,    
+2 restore 1 : dim vr(50) : for i = 1 to cell_no : read vr(i) : next i
+10 plot_xy vr(cell_no ), viscos, line_width = 0
+14 put(abs((vr(cell_no) - viscos)^2) + get(1), 1)
+END
+SOLUTION_SPREAD					
+Number	Na	K	Mg	Cl	S(6)	pH	temp
+-units mol/kgw					
+1	0.478606336	0.010118336	0.064879936	0.558618560	0.029932992	 7 charge	100
+2	0.717909504	0.015177504	0.097319904	0.837927840	0.044899488	 7 charge	100
+3	0.957212672	0.020236672	0.129759872	1.117237120	0.059865984	 7 charge	100
+4	1.196515840	0.025295840	0.162199840	1.396546400	0.074832480	 7 charge	100
+5	1.435819008	0.030355008	0.194639808	1.675855680	0.089798976	 7 charge	100
+USER_GRAPH
+-headings 100ºC
+1 DATA 0.3099, 0.3237, 0.3381, 0.3526, 0.3679,  
+2 restore 1 : dim vr(50) : for i = 1 to cell_no : read vr(i) : next i
+10 plot_xy vr(cell_no ), viscos, line_width = 0
+14 put(abs((vr(cell_no) - viscos)^2) + get(1), 1)
+END
+SOLUTION_SPREAD					
+Number	Na	K	Mg	Cl	S(6)	pH	temp
+-units mol/kgw					
+1	0.481273728	0.010174728	0.065241528	0.561731880	0.030099816	 7 charge	125
+2	0.721910592	0.015262092	0.097862292	0.842597820	0.045149724	 7 charge	125
+3	0.962547456	0.020349456	0.130483056	1.123463760	0.060199632	 7 charge	125
+4	1.203184320	0.025436820	0.163103820	1.404329700	0.075249540	 7 charge	125
+5	1.443821184	0.030524184	0.195724584	1.685195640	0.090299448	 7 charge	125
+USER_GRAPH
+-headings 125ºC
+1 DATA 0.2447, 0.2559, 0.2676, 0.2793, 0.2918, 
+2 restore 1 : dim vr(50) : for i = 1 to cell_no : read vr(i) : next i
+10 plot_xy vr(cell_no ), viscos, line_width = 0
+14 put(abs((vr(cell_no) - viscos)^2) + get(1), 1)
+END
+SOLUTION_SPREAD					
+Number	Na	K	Mg	Cl	S(6)	pH	temp
+-units mol/kgw					
+1	0.486179824	0.010278449	0.065906599	0.567458165	0.030406653	 7 charge	150
+2	0.729245920	0.015417170	0.098856670	0.851159450	0.045608490	 7 charge	150
+3	0.972359648	0.020556898	0.131813198	1.134916330	0.060813306	 7 charge	150
+4	1.215473376	0.025696626	0.164769726	1.418673210	0.076018122	 7 charge	150
+5	1.458539472	0.030835347	0.197719797	1.702374495	0.091219959	 7 charge	150
+USER_GRAPH
+-headings 150ºC
+1 DATA 0.2012, 0.2107, 0.2206, 0.2305, 0.2408,  
+2 restore 1 : dim vr(50) : for i = 1 to cell_no : read vr(i) : next i
+10 plot_xy vr(cell_no ), viscos, line_width = 0
+14 put(abs((vr(cell_no) - viscos)^2) + get(1), 1)
+16 if cell_no = 5 then print 'seawater viscosity', 's.d:', get(1)^0.5 / (6 * 5) * 100, '%'
+END
