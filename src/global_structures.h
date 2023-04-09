@@ -5,9 +5,9 @@
 /* ----------------------------------------------------------------------
  *   #define DEFINITIONS
  * ---------------------------------------------------------------------- */
-//#ifndef NAN
-//#   define NAN -99999999
-//#endif
+#if !defined(NAN)
+#define NAN nan("1")
+#endif
 #define MISSING -9999.999            
 #include "NA.h"   /* NA = not available */
 
