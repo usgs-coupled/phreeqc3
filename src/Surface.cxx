@@ -193,7 +193,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 	this->Set_tidied(true);
 
 	bool only_counter_ions_defined(false);
-	bool correct_GC_defined(false);
+	//bool correct_GC_defined(false);
 	bool thickness_defined(false);
 	bool type_defined(false);
 	bool dl_type_defined(false);
@@ -482,7 +482,7 @@ cxxSurface::read_raw(CParser & parser, bool check)
 					error_msg("Expected boolean value for correct_GC.",
 						PHRQ_io::OT_CONTINUE);
 			}
-			correct_GC_defined = true;
+			//correct_GC_defined = true;
 			break;
 		}
 		if (opt == CParser::OPT_EOF || opt == CParser::OPT_KEYWORD)

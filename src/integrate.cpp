@@ -815,7 +815,7 @@ calc_all_donnan(void)
 		/* find psi_avg that matches surface charge... */
 		std::vector<LDBLE> zcorr(charge_group_map.size());
 		std::vector<LDBLE> zcorr2(charge_group_map.size());
-		LDBLE fD = 0;
+		//LDBLE fD = 0;
 		psi_avg = calc_psi_avg(charge_ptr, surf_chrg_eq, nDbl, zcorr);
 		psi_avg2 = calc_psi_avg(charge_ptr, surf_chrg_eq2, nDbl, zcorr2);
 
